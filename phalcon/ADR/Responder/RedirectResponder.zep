@@ -30,13 +30,27 @@ class RedirectResponder implements Responder
         <ResponseInterface> response, 
         <Payload> payload
     ) -> <ResponseInterface> {
-        var result;
+        var result, url;
 
         let result = payload->getResult();
         if typeof result == "object" && result instanceof Redirect {
+            let url = result->url();
+
+            /**
+             * An internal redirect must not honor an absolute (scheme:) or
+             * protocol-relative (//host) target, otherwise a request-derived
+             * value such as "//evil.tld" or "http://evil.tld" becomes an open
+             * redirect (CWE-601). This mirrors Http\Response::redirect(). An
+             * explicit external redirect opts out of the gate.
+             */
+            if !result->external() &&
+                preg_match("~^(?:[a-z][a-z0-9+.\\-]*:|//)~i", url) {
+                let url = "/";
+            }
+
             response
                 ->setStatusCode(result->status())
-                ->setHeader("Location", result->url());
+                ->setHeader("Location", url);
         }
 
         return response;

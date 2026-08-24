@@ -19,13 +19,25 @@ namespace Phalcon\ADR\Responder;
  */
 class Redirect
 {
+    protected bool external = false;
     protected int status = 302;
     protected string url;
 
-    public function __construct(string url, int status = 302)
+    public function __construct(string url, int status = 302, bool external = false)
     {
-        let this->url    = url,
-            this->status = status;
+        let this->url      = url,
+            this->status   = status,
+            this->external = external;
+    }
+
+    /**
+     * Whether the target is an explicit external redirect. Internal (the
+     * default) redirects refuse an absolute or protocol-relative target so a
+     * request-derived value cannot become an open redirect (CWE-601).
+     */
+    public function external() -> bool
+    {
+        return this->external;
     }
 
     public static function permanent(string url) -> <Redirect>
