@@ -297,7 +297,12 @@ class Stream extends AbstractAdapter
      */
     private function getFilepath(string key) -> string
     {
-        return this->getDir(key) . this->getKeyWithoutPrefix(key);
+        /**
+         * Remove path separators from the key so a crafted key cannot climb
+         * out of the storage directory (CWE-22).
+         */
+        return this->getDir(key)
+            . prepare_virtual_path(this->getKeyWithoutPrefix(key), "_");
     }
 
     /**
@@ -355,8 +360,14 @@ class Stream extends AbstractAdapter
             E_NOTICE
         );
 
-        /** @var storage_stream_payload|false $payload */
-        let payload = unserialize(payload);
+        /**
+         * The payload is only ever a metadata array (the stored value is a
+         * nested serialized string). Refuse to build any object so a crafted
+         * cache file cannot fire magic methods on read (CWE-502).
+         *
+         * @var storage_stream_payload|false $payload
+         */
+        let payload = unserialize(payload, ["allowed_classes" : false]);
 
         restore_error_handler();
 
