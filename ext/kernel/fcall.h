@@ -68,21 +68,51 @@ typedef enum _zephir_call_type {
 	} \
 	else { ZEPHIR_SET_THIS_EXPLICIT_NULL(); } \
 
+/**
+ * `func` of the synthetic frame that ZEPHIR_BACKUP_SCOPE() installs for an
+ * internal (C-to-C) method call.
+ *
+ * To the engine, a frame with `func == NULL` means exactly one thing: a
+ * generator placeholder frame. zend_fetch_debug_backtrace() hands such a frame
+ * to zend_generator_check_placeholder_frame(), which only rewrites it when
+ * `This` holds a Generator, then dereferences `call->func` unconditionally
+ * (the ZEND_ASSERT that guards it is compiled out of a release build). So any
+ * backtrace capture taken while an internal method ran crashed the process --
+ * including the implicit capture in every Exception constructor, which made a
+ * plain `throw` out of an internal method a segfault (issue #2639).
+ *
+ * `function_name` stays NULL on purpose: zend_fetch_debug_backtrace() then
+ * drops the frame entirely instead of reporting it as "unknown". An internal
+ * method is a C-level inlining of a Zephir method, so it must not show up as a
+ * stack frame of its own.
+ *
+ * Read-only after load, so no MINIT plumbing and safe under ZTS.
+ */
+extern zend_internal_function zephir_internal_call_frame_func;
+
 #define ZEPHIR_BACKUP_SCOPE() \
 	const zend_class_entry *old_scope = EG(fake_scope); \
 	zend_execute_data *old_call = execute_data; \
 	zend_execute_data *old_execute_data = EG(current_execute_data), new_execute_data; \
 	if (!EG(current_execute_data)) { \
 		memset(&new_execute_data, 0, sizeof(zend_execute_data)); \
-		execute_data = EG(current_execute_data) = &new_execute_data; \
 	} else { \
 		new_execute_data = *EG(current_execute_data); \
 		new_execute_data.prev_execute_data = EG(current_execute_data); \
 		new_execute_data.call = NULL; \
 		new_execute_data.opline = NULL; \
-		new_execute_data.func = NULL; \
-		execute_data = EG(current_execute_data) = &new_execute_data; \
-	}
+	} \
+	new_execute_data.func = (zend_function *) &zephir_internal_call_frame_func; \
+	/* Drop the copied frame's call flags and argument count. ZEND_CALL_INFO() \
+	 * is Z_TYPE_INFO(This) and ZEND_CALL_NUM_ARGS() is This.u2.num_args, so a \
+	 * frame copied from the caller would claim the caller's arguments -- and \
+	 * this frame is a bare struct with no VAR/CV slots behind it, so reading \
+	 * them (debug_backtrace() does) runs off the end of it. The immediately \
+	 * following ZEPHIR_SET_THIS() writes the real `This`; neither ZVAL_OBJ nor \
+	 * ZVAL_NULL touches u2, so num_args stays 0. */ \
+	Z_TYPE_INFO(new_execute_data.This) = IS_UNDEF; \
+	ZEND_CALL_NUM_ARGS(&new_execute_data) = 0; \
+	execute_data = EG(current_execute_data) = &new_execute_data;
 
 #define ZEPHIR_RESTORE_SCOPE() \
 	EG(fake_scope) = (zend_class_entry *) old_scope; \
@@ -440,11 +470,20 @@ static inline void zephir_set_called_scope(zend_execute_data *ex, zend_class_ent
 		if (Z_TYPE(ex->This) == IS_OBJECT) {
 			Z_OBJCE(ex->This) = called_scope;
 			return;
-		}else if (ex->func) {
+		}else if (ex->func && ex->func != (zend_function *) &zephir_internal_call_frame_func) {
 			if (ex->func->type != ZEND_INTERNAL_FUNCTION || ex->func->common.scope) {
 				return;
 			}
 		} else {
+			/**
+			 * Either a frame with no function at all, or the synthetic frame
+			 * ZEPHIR_BACKUP_SCOPE() installs for a static internal call --
+			 * which is the frame the called scope belongs on. Walking past it
+			 * would land on the caller, whose `This` is a live object, and the
+			 * branch above would then write `called_scope` into that object's
+			 * class entry (#2639). Before that frame carried a function, the
+			 * `ex->func` test alone stopped here.
+			 */
 			Z_CE(ex->This) = called_scope;
 			return;
 		}

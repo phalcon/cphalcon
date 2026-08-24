@@ -24,6 +24,9 @@
 #include "kernel/backtrace.h"
 #include "kernel/variables.h"
 
+/* See the declaration in kernel/fcall.h for what this stands in for (#2639). */
+zend_internal_function zephir_internal_call_frame_func = { ZEND_INTERNAL_FUNCTION };
+
 int zephir_has_constructor_ce(const zend_class_entry *ce)
 {
 	do {
