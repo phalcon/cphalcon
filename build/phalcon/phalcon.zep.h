@@ -218,6 +218,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_AbstractHelper);
 
 static PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, __construct);
 static PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, close);
+static PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, escapeName);
 static PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, indent);
 static PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, injectAttribute);
 static PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, orderAttributes);
@@ -236,6 +237,10 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_abstracthelper_close, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, tag, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, raw, _IS_BOOL, 0, "false")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_abstracthelper_escapename, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_abstracthelper_indent, 0, 0, IS_STRING, 0)
@@ -287,6 +292,7 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_html_helper_abstracthelper_method_entry) {
 	PHP_ME(Phalcon_Html_Helper_AbstractHelper, __construct, arginfo_phalcon_html_helper_abstracthelper___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Html_Helper_AbstractHelper, close, arginfo_phalcon_html_helper_abstracthelper_close, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Html_Helper_AbstractHelper, escapeName, arginfo_phalcon_html_helper_abstracthelper_escapename, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Html_Helper_AbstractHelper, indent, arginfo_phalcon_html_helper_abstracthelper_indent, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Html_Helper_AbstractHelper, injectAttribute, arginfo_phalcon_html_helper_abstracthelper_injectattribute, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Html_Helper_AbstractHelper, orderAttributes, arginfo_phalcon_html_helper_abstracthelper_orderattributes, ZEND_ACC_PROTECTED)
@@ -6628,6 +6634,7 @@ static PHP_METHOD(Phalcon_Db_Dialect, supportsAlterTable);
 static PHP_METHOD(Phalcon_Db_Dialect, supportsMaterializedViews);
 static PHP_METHOD(Phalcon_Db_Dialect, supportsOnConflictUpdate);
 static PHP_METHOD(Phalcon_Db_Dialect, supportsReturning);
+static PHP_METHOD(Phalcon_Db_Dialect, escapeStringLiteral);
 static PHP_METHOD(Phalcon_Db_Dialect, getColumnSize);
 static PHP_METHOD(Phalcon_Db_Dialect, getColumnSizeAndScale);
 static PHP_METHOD(Phalcon_Db_Dialect, checkColumnType);
@@ -6770,6 +6777,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_supportsoncon
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_supportsreturning, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_escapestringliteral, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, value, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_getcolumnsize, 0, 1, IS_STRING, 0)
@@ -6956,6 +6967,7 @@ ZEPHIR_INIT_FUNCS(phalcon_db_dialect_method_entry) {
 	PHP_ME(Phalcon_Db_Dialect, supportsMaterializedViews, arginfo_phalcon_db_dialect_supportsmaterializedviews, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect, supportsOnConflictUpdate, arginfo_phalcon_db_dialect_supportsonconflictupdate, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect, supportsReturning, arginfo_phalcon_db_dialect_supportsreturning, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, escapeStringLiteral, arginfo_phalcon_db_dialect_escapestringliteral, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Db_Dialect, getColumnSize, arginfo_phalcon_db_dialect_getcolumnsize, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Db_Dialect, getColumnSizeAndScale, arginfo_phalcon_db_dialect_getcolumnsizeandscale, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Db_Dialect, checkColumnType, arginfo_phalcon_db_dialect_checkcolumntype, ZEND_ACC_PROTECTED)
@@ -26040,6 +26052,7 @@ static PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableExists);
 static PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableOptions);
 static PHP_METHOD(Phalcon_Db_Dialect_Mysql, truncateTable);
 static PHP_METHOD(Phalcon_Db_Dialect_Mysql, viewExists);
+static PHP_METHOD(Phalcon_Db_Dialect_Mysql, escapeStringLiteral);
 static PHP_METHOD(Phalcon_Db_Dialect_Mysql, getTableOptions);
 static PHP_METHOD(Phalcon_Db_Dialect_Mysql, checkColumnSizeAndScale);
 static PHP_METHOD(Phalcon_Db_Dialect_Mysql, checkColumnUnsigned);
@@ -26199,6 +26212,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_mysql_viewexi
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_mysql_escapestringliteral, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, value, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_mysql_gettableoptions, 0, 1, IS_STRING, 0)
 	ZEND_ARG_ARRAY_INFO(0, definition, 0)
 ZEND_END_ARG_INFO()
@@ -26244,6 +26261,7 @@ ZEPHIR_INIT_FUNCS(phalcon_db_dialect_mysql_method_entry) {
 	PHP_ME(Phalcon_Db_Dialect_Mysql, tableOptions, arginfo_phalcon_db_dialect_mysql_tableoptions, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect_Mysql, truncateTable, arginfo_phalcon_db_dialect_mysql_truncatetable, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect_Mysql, viewExists, arginfo_phalcon_db_dialect_mysql_viewexists, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect_Mysql, escapeStringLiteral, arginfo_phalcon_db_dialect_mysql_escapestringliteral, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Db_Dialect_Mysql, getTableOptions, arginfo_phalcon_db_dialect_mysql_gettableoptions, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Db_Dialect_Mysql, checkColumnSizeAndScale, arginfo_phalcon_db_dialect_mysql_checkcolumnsizeandscale, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Db_Dialect_Mysql, checkColumnUnsigned, arginfo_phalcon_db_dialect_mysql_checkcolumnunsigned, ZEND_ACC_PRIVATE)
@@ -27754,6 +27772,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_db_geometry_wkbparser_readgeometry, 0, 1, Phalcon\\Db\\Geometry\\GeometryInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, outerSrid, IS_LONG, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, depth, IS_LONG, 0, "0")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_db_geometry_wkbparser_readpoint, 0, 4, Phalcon\\Db\\Geometry\\Point, 0)
@@ -44010,6 +44029,22 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_query_exceptions_unknownphqlstatement_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Query_Exceptions_UnknownPhqlStatement, __construct, arginfo_phalcon_mvc_model_query_exceptions_unknownphqlstatement___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_mvc_model_query_exceptions_unsafeidentifier_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_Exceptions_UnsafeIdentifier);
+
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Exceptions_UnsafeIdentifier, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_exceptions_unsafeidentifier___construct, 0, 0, 2)
+	ZEND_ARG_TYPE_INFO(0, identifier, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, phql, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_mvc_model_query_exceptions_unsafeidentifier_method_entry) {
+	PHP_ME(Phalcon_Mvc_Model_Query_Exceptions_UnsafeIdentifier, __construct, arginfo_phalcon_mvc_model_query_exceptions_unsafeidentifier___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_FE_END
 };
 
