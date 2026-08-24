@@ -304,7 +304,7 @@ final class FakeRequest implements RequestInterface
 
     public function isSecure(): bool
     {
-        throw new \LogicException('not implemented in test fake');
+        return false;
     }
 
     public function isSoap(): bool

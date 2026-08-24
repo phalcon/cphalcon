@@ -20,8 +20,16 @@ use Phalcon\Http\Cookie\CookieInterface;
 
 final class FakeCookie implements CookieInterface
 {
+    private string $domain = '';
     private int $expiration = 0;
+    private bool $httpOnly = false;
     private string $name;
+    /**
+     * @var array<array-key, mixed>
+     */
+    private array $options = [];
+    private string $path = '/';
+    private bool $secure = false;
     private mixed $value;
 
     public function __construct(string $name, mixed $value = null)
@@ -36,7 +44,7 @@ final class FakeCookie implements CookieInterface
 
     public function getDomain(): string
     {
-        return '';
+        return $this->domain;
     }
 
     public function getExpiration(): int
@@ -46,7 +54,7 @@ final class FakeCookie implements CookieInterface
 
     public function getHttpOnly(): bool
     {
-        return false;
+        return $this->httpOnly;
     }
 
     public function getName(): string
@@ -56,17 +64,17 @@ final class FakeCookie implements CookieInterface
 
     public function getOptions(): array
     {
-        return [];
+        return $this->options;
     }
 
     public function getPath(): string
     {
-        return '/';
+        return $this->path;
     }
 
     public function getSecure(): bool
     {
-        return false;
+        return $this->secure;
     }
 
     public function getValue(mixed $filters = null, mixed $defaultValue = null): mixed
@@ -86,6 +94,8 @@ final class FakeCookie implements CookieInterface
 
     public function setDomain(string $domain): CookieInterface
     {
+        $this->domain = $domain;
+
         return $this;
     }
 
@@ -98,21 +108,29 @@ final class FakeCookie implements CookieInterface
 
     public function setHttpOnly(bool $httpOnly): CookieInterface
     {
+        $this->httpOnly = $httpOnly;
+
         return $this;
     }
 
     public function setOptions(array $options): CookieInterface
     {
+        $this->options = $options;
+
         return $this;
     }
 
     public function setPath(string $path): CookieInterface
     {
+        $this->path = $path;
+
         return $this;
     }
 
     public function setSecure(bool $secure): CookieInterface
     {
+        $this->secure = $secure;
+
         return $this;
     }
 
