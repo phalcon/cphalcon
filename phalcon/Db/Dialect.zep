@@ -487,17 +487,21 @@ abstract class Dialect implements DialectInterface
      */
     public function limit( string sqlQuery, var number) -> string
     {
+        /**
+         * LIMIT and OFFSET are always integers; cast them so a request-derived
+         * pagination value reaching this low-level API cannot inject SQL.
+         */
         if typeof number == "array" {
-            let sqlQuery .= " LIMIT " . number[0];
+            let sqlQuery .= " LIMIT " . (int) number[0];
 
             if isset number[1] && strlen(number[1]) {
-                let sqlQuery .= " OFFSET " . number[1];
+                let sqlQuery .= " OFFSET " . (int) number[1];
             }
 
             return sqlQuery;
         }
 
-        return sqlQuery . " LIMIT " . number;
+        return sqlQuery . " LIMIT " . (int) number;
     }
 
     /**
