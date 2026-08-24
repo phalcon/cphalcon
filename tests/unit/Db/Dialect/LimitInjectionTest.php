@@ -29,8 +29,12 @@ final class LimitInjectionTest extends AbstractUnitTestCase
     {
         $dialect = new Mysql();
 
-        // Array elements are not type-constrained; a request-derived string
-        // must be cast to int, not concatenated raw.
+        // A request-derived string must be cast to int, not concatenated raw.
+        $this->assertSame(
+            'SELECT * FROM robots LIMIT 10',
+            $dialect->limit('SELECT * FROM robots', '10; DROP TABLE robots')
+        );
+
         $this->assertSame(
             'SELECT * FROM robots LIMIT 5 OFFSET 20',
             $dialect->limit(
