@@ -32,15 +32,19 @@ final class AddColumnTest extends AbstractDatabaseTestCase
         return [
             [
                 Mysql::class,
-                'ALTER TABLE `schema`.`table` ' . 'ADD `field_primary` INT(11) NOT NULL ' . 'AUTO_INCREMENT FIRST',
+                'ALTER TABLE `schema`.`table` '
+                . 'ADD `field_primary` INT(11) NOT NULL '
+                . 'AUTO_INCREMENT FIRST',
             ],
             [
                 Postgresql::class,
-                'ALTER TABLE "schema"."table" ' . 'ADD COLUMN "field_primary" SERIAL NOT NULL',
+                'ALTER TABLE "schema"."table" '
+                . 'ADD COLUMN "field_primary" SERIAL NOT NULL',
             ],
             [
                 Sqlite::class,
-                'ALTER TABLE "schema"."table" ' . 'ADD COLUMN "field_primary" INTEGER NOT NULL ' .
+                'ALTER TABLE "schema"."table" '
+                . 'ADD COLUMN "field_primary" INTEGER NOT NULL ' .
                 'PRIMARY KEY AUTOINCREMENT',
             ],
         ];
@@ -55,7 +59,9 @@ final class AddColumnTest extends AbstractDatabaseTestCase
         return [
             [
                 Mysql::class,
-                'ALTER TABLE `schema`.`table` ' . 'ADD `field_primary` DOUBLE(10,2) NOT NULL ' . 'DEFAULT 13.34 FIRST',
+                'ALTER TABLE `schema`.`table` '
+                . 'ADD `field_primary` DOUBLE(10,2) NOT NULL '
+                . 'DEFAULT 13.34 FIRST',
 
             ],
             //            [
@@ -64,7 +70,9 @@ final class AddColumnTest extends AbstractDatabaseTestCase
             //            ],
             [
                 Sqlite::class,
-                'ALTER TABLE "schema"."table" ' . 'ADD COLUMN "field_primary" DOUBLE ' . 'DEFAULT \'13.34\' NOT NULL',
+                'ALTER TABLE "schema"."table" '
+                . 'ADD COLUMN "field_primary" DOUBLE '
+                . 'DEFAULT \'13.34\' NOT NULL',
             ],
         ];
     }
@@ -78,16 +86,22 @@ final class AddColumnTest extends AbstractDatabaseTestCase
         return [
             [
                 Mysql::class,
-                'ALTER TABLE `schema`.`table` ' . 'ADD `field_primary` INT(10) NOT NULL ' . 'DEFAULT 13 FIRST',
+                'ALTER TABLE `schema`.`table` '
+                . 'ADD `field_primary` INT(10) NOT NULL '
+                . 'DEFAULT 13 FIRST',
 
             ],
             [
                 Postgresql::class,
-                'ALTER TABLE "schema"."table" ' . 'ADD COLUMN "field_primary" INT ' . 'DEFAULT 13 NOT NULL',
+                'ALTER TABLE "schema"."table" '
+                . 'ADD COLUMN "field_primary" INT '
+                . 'DEFAULT 13 NOT NULL',
             ],
             [
                 Sqlite::class,
-                'ALTER TABLE "schema"."table" ' . 'ADD COLUMN "field_primary" INTEGER ' . 'DEFAULT \'13\' NOT NULL',
+                'ALTER TABLE "schema"."table" '
+                . 'ADD COLUMN "field_primary" INTEGER '
+                . 'DEFAULT \'13\' NOT NULL',
             ],
         ];
     }
@@ -101,17 +115,22 @@ final class AddColumnTest extends AbstractDatabaseTestCase
         return [
             [
                 Mysql::class,
-                'ALTER TABLE `schema`.`table` ' . 'ADD `field_primary` VARCHAR(10) NOT NULL ' . 'DEFAULT NULL FIRST',
+                'ALTER TABLE `schema`.`table` '
+                . 'ADD `field_primary` VARCHAR(10) NOT NULL '
+                . 'DEFAULT NULL FIRST',
 
             ],
             [
                 Postgresql::class,
-                'ALTER TABLE "schema"."table" ' . 'ADD COLUMN "field_primary" CHARACTER VARYING(10) ' .
+                'ALTER TABLE "schema"."table" '
+                . 'ADD COLUMN "field_primary" CHARACTER VARYING(10) ' .
                 'DEFAULT \'NULL\' NOT NULL',
             ],
             [
                 Sqlite::class,
-                'ALTER TABLE "schema"."table" ' . 'ADD COLUMN "field_primary" VARCHAR(10) ' . 'DEFAULT \'NULL\' NOT NULL',
+                'ALTER TABLE "schema"."table" '
+                . 'ADD COLUMN "field_primary" VARCHAR(10) '
+                . 'DEFAULT \'NULL\' NOT NULL',
             ],
         ];
     }
@@ -125,18 +144,22 @@ final class AddColumnTest extends AbstractDatabaseTestCase
         return [
             [
                 Mysql::class,
-                'ALTER TABLE `schema`.`table` ' . 'ADD `field_primary` VARCHAR(10) NOT NULL ' .
+                'ALTER TABLE `schema`.`table` '
+                . 'ADD `field_primary` VARCHAR(10) NOT NULL ' .
                 'DEFAULT \'test\' AFTER `field_first`',
 
             ],
             [
                 Postgresql::class,
-                'ALTER TABLE "schema"."table" ' . 'ADD COLUMN "field_primary" CHARACTER VARYING(10) ' .
+                'ALTER TABLE "schema"."table" '
+                . 'ADD COLUMN "field_primary" CHARACTER VARYING(10) ' .
                 'DEFAULT \'test\' NOT NULL',
             ],
             [
                 Sqlite::class,
-                'ALTER TABLE "schema"."table" ' . 'ADD COLUMN "field_primary" VARCHAR(10) DEFAULT ' . '\'test\' NOT NULL',
+                'ALTER TABLE "schema"."table" '
+                . 'ADD COLUMN "field_primary" VARCHAR(10) DEFAULT '
+                . '\'test\' NOT NULL',
             ],
         ];
     }
@@ -150,18 +173,21 @@ final class AddColumnTest extends AbstractDatabaseTestCase
         return [
             [
                 Mysql::class,
-                'ALTER TABLE `schema`.`table` ' . 'ADD `field_primary` VARCHAR(10) NOT NULL ' .
+                'ALTER TABLE `schema`.`table` '
+                . 'ADD `field_primary` VARCHAR(10) NOT NULL ' .
                 'DEFAULT CURRENT_TIMESTAMP FIRST',
 
             ],
             [
                 Postgresql::class,
-                'ALTER TABLE "schema"."table" ' . 'ADD COLUMN "field_primary" CHARACTER VARYING(10) ' .
+                'ALTER TABLE "schema"."table" '
+                . 'ADD COLUMN "field_primary" CHARACTER VARYING(10) ' .
                 'DEFAULT CURRENT_TIMESTAMP NOT NULL',
             ],
             [
                 Sqlite::class,
-                'ALTER TABLE "schema"."table" ' . 'ADD COLUMN "field_primary" VARCHAR(10) ' .
+                'ALTER TABLE "schema"."table" '
+                . 'ADD COLUMN "field_primary" VARCHAR(10) ' .
                 'DEFAULT CURRENT_TIMESTAMP NOT NULL',
             ],
         ];

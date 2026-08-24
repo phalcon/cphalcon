@@ -16,12 +16,11 @@ namespace Phalcon\Tests\Unit\Annotations\Adapter\Stream;
 use Phalcon\Annotations\Adapter\Stream;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Talon\Talon;
+use Phalcon\Tests\Unit\Annotations\Fake\AnnotationInjectionProbe;
 use Throwable;
 
 final class UnserializeAllowlistTest extends AbstractUnitTestCase
 {
-    public static bool $probeWoken = false;
-
     /**
      * A planted cache file must not instantiate an arbitrary class: the read
      * restricts unserialize to the annotation classes, so an injected object's
@@ -37,7 +36,7 @@ final class UnserializeAllowlistTest extends AbstractUnitTestCase
             mkdir($dir, 0777, true);
         }
 
-        self::$probeWoken = false;
+        AnnotationInjectionProbe::$woken = false;
 
         $payload = serialize(new AnnotationInjectionProbe());
         $path    = $dir . 'probe.php';
@@ -52,16 +51,8 @@ final class UnserializeAllowlistTest extends AbstractUnitTestCase
             // what matters is that the object was never constructed.
         }
 
-        $this->assertFalse(self::$probeWoken);
+        $this->assertFalse(AnnotationInjectionProbe::$woken);
 
         @unlink($path);
-    }
-}
-
-class AnnotationInjectionProbe
-{
-    public function __wakeup(): void
-    {
-        UnserializeAllowlistTest::$probeWoken = true;
     }
 }
