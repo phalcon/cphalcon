@@ -157,6 +157,7 @@ class BeanstalkConnection
     {
         var result;
 
+        this->assertValidTube(tube);
         this->write("ignore " . tube);
 
         let result = this->readStatus()[0] == "WATCHING";
@@ -310,6 +311,7 @@ class BeanstalkConnection
     {
         var response, body;
 
+        this->assertValidTube(tube);
         this->write("stats-tube " . tube);
 
         let response = this->readStatus();
@@ -340,6 +342,7 @@ class BeanstalkConnection
     {
         var result;
 
+        this->assertValidTube(tube);
         this->write("use " . tube);
 
         let result = this->readStatus()[0] == "USING";
@@ -358,6 +361,7 @@ class BeanstalkConnection
     {
         var result;
 
+        this->assertValidTube(tube);
         this->write("watch " . tube);
 
         let result = this->readStatus()[0] == "WATCHING";
@@ -385,6 +389,24 @@ class BeanstalkConnection
         let packet = data . "\r\n";
 
         return this->phpFwrite(connection, packet, strlen(packet));
+    }
+
+    /**
+     * Reject a tube name that could break out of the protocol command line.
+     * A Beanstalkd tube name is at most 200 bytes from a fixed character set
+     * and must not start with a hyphen; a name carrying CR/LF (or any other
+     * out-of-charset byte) would inject arbitrary Beanstalkd commands. The
+     * "$" is written as "\x24" so the Zephir lexer does not read it as the
+     * start of a variable.
+     */
+    private function assertValidTube(string tube) -> void
+    {
+        if !preg_match(
+            "%^[A-Za-z0-9+/;.\x24_()][A-Za-z0-9+/;.\x24_()-]{0,199}$%",
+            tube
+        ) {
+            throw new Exception("Invalid tube name");
+        }
     }
 
     /**
