@@ -369,7 +369,7 @@ class Mysql extends Dialect
         string sql, schemaClause;
 
         if schema {
-            let schemaClause = "'" . schema . "'";
+            let schemaClause = "'" . this->escapeStringLiteral(schema) . "'";
         } else {
             let schemaClause = "DATABASE()";
         }
@@ -392,7 +392,7 @@ class Mysql extends Dialect
                 . "GENERATION_EXPRESSION AS `GenerationExpression` "
                 . "FROM `INFORMATION_SCHEMA`.`COLUMNS` "
                 . "WHERE `TABLE_SCHEMA` = " . schemaClause . " "
-                . "AND `TABLE_NAME` = '" . table . "' "
+                . "AND `TABLE_NAME` = '" . this->escapeStringLiteral(table) . "' "
                 . "ORDER BY `ORDINAL_POSITION`";
 
         return sql;
@@ -416,9 +416,9 @@ class Mysql extends Dialect
         let sql = "SELECT DISTINCT KCU.TABLE_NAME, KCU.COLUMN_NAME, KCU.CONSTRAINT_NAME, KCU.REFERENCED_TABLE_SCHEMA, KCU.REFERENCED_TABLE_NAME, KCU.REFERENCED_COLUMN_NAME, RC.UPDATE_RULE, RC.DELETE_RULE FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS KCU LEFT JOIN INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS AS RC ON RC.CONSTRAINT_NAME = KCU.CONSTRAINT_NAME AND RC.CONSTRAINT_SCHEMA = KCU.CONSTRAINT_SCHEMA WHERE KCU.REFERENCED_TABLE_NAME IS NOT NULL AND ";
 
         if schema {
-            let sql .= "KCU.CONSTRAINT_SCHEMA = '" . schema . "' AND KCU.TABLE_NAME = '" . table . "'";
+            let sql .= "KCU.CONSTRAINT_SCHEMA = '" . this->escapeStringLiteral(schema) . "' AND KCU.TABLE_NAME = '" . this->escapeStringLiteral(table) . "'";
         } else {
-            let sql .= "KCU.CONSTRAINT_SCHEMA = DATABASE() AND KCU.TABLE_NAME = '" . table . "'";
+            let sql .= "KCU.CONSTRAINT_SCHEMA = DATABASE() AND KCU.TABLE_NAME = '" . this->escapeStringLiteral(table) . "'";
         }
 
         return sql;
@@ -829,7 +829,7 @@ class Mysql extends Dialect
     public function listTables(string schemaName = null) -> string
     {
         if schemaName {
-            return "SHOW TABLES FROM `" . schemaName . "`";
+            return "SHOW TABLES FROM " . this->escape(schemaName);
         }
 
         return "SHOW TABLES";
@@ -841,7 +841,7 @@ class Mysql extends Dialect
     public function listViews( string schemaName = null) -> string
     {
         if schemaName {
-            return "SELECT `TABLE_NAME` AS view_name FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_SCHEMA` = '" . schemaName . "' ORDER BY view_name";
+            return "SELECT `TABLE_NAME` AS view_name FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_SCHEMA` = '" . this->escapeStringLiteral(schemaName) . "' ORDER BY view_name";
         }
 
         return "SELECT `TABLE_NAME` AS view_name FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_SCHEMA` = DATABASE() ORDER BY view_name";
@@ -976,11 +976,11 @@ class Mysql extends Dialect
     {
         if schemaName {
             return "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME`= '"
-                . tableName . "' AND `TABLE_SCHEMA` = '" . schemaName . "'";
+                . this->escapeStringLiteral(tableName) . "' AND `TABLE_SCHEMA` = '" . this->escapeStringLiteral(schemaName) . "'";
         }
 
         return "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME` = '"
-            . tableName . "' AND `TABLE_SCHEMA` = DATABASE()";
+            . this->escapeStringLiteral(tableName) . "' AND `TABLE_SCHEMA` = DATABASE()";
     }
 
     /**
@@ -995,10 +995,10 @@ class Mysql extends Dialect
             . "TABLES.TABLE_COMMENT AS table_comment FROM INFORMATION_SCHEMA.TABLES WHERE ";
 
         if schema {
-            return sql . "TABLES.TABLE_SCHEMA = '" . schema . "' AND TABLES.TABLE_NAME = '" . table . "'";
+            return sql . "TABLES.TABLE_SCHEMA = '" . this->escapeStringLiteral(schema) . "' AND TABLES.TABLE_NAME = '" . this->escapeStringLiteral(table) . "'";
         }
 
-        return sql . "TABLES.TABLE_SCHEMA = DATABASE() AND TABLES.TABLE_NAME = '" . table . "'";
+        return sql . "TABLES.TABLE_SCHEMA = DATABASE() AND TABLES.TABLE_NAME = '" . this->escapeStringLiteral(table) . "'";
     }
 
     /**
@@ -1024,11 +1024,11 @@ class Mysql extends Dialect
     {
         if schemaName {
             return "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_NAME`= '"
-                . viewName . "' AND `TABLE_SCHEMA`='" . schemaName . "'";
+                . this->escapeStringLiteral(viewName) . "' AND `TABLE_SCHEMA`='" . this->escapeStringLiteral(schemaName) . "'";
         }
 
         return "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_NAME`='"
-            . viewName . "' AND `TABLE_SCHEMA` = DATABASE()";
+            . this->escapeStringLiteral(viewName) . "' AND `TABLE_SCHEMA` = DATABASE()";
     }
 
     /**

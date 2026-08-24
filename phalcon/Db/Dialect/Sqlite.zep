@@ -317,7 +317,7 @@ class Sqlite extends Dialect
          * (cphalcon issue [#14719] umbrella). The expression itself is not
          * exposed by any pragma in SQLite, so it is not reverse-engineered.
          */
-        return "PRAGMA table_xinfo('" . table . "')";
+        return "PRAGMA table_xinfo('" . this->escapeStringLiteral(table) . "')";
     }
 
     /**
@@ -325,7 +325,7 @@ class Sqlite extends Dialect
      */
     public function describeIndex( string index) -> string
     {
-        return "PRAGMA index_info('" . index . "')";
+        return "PRAGMA index_info('" . this->escapeStringLiteral(index) . "')";
     }
 
     /**
@@ -333,7 +333,7 @@ class Sqlite extends Dialect
      */
     public function describeIndexes( string table, string schema = null) -> string
     {
-        return "PRAGMA index_list('" . table . "')";
+        return "PRAGMA index_list('" . this->escapeStringLiteral(table) . "')";
     }
 
     /**
@@ -341,7 +341,7 @@ class Sqlite extends Dialect
      */
     public function describeReferences( string table, string schema = null) -> string
     {
-        return "PRAGMA foreign_key_list('" . table . "')";
+        return "PRAGMA foreign_key_list('" . this->escapeStringLiteral(table) . "')";
     }
 
     /**
@@ -718,7 +718,7 @@ class Sqlite extends Dialect
      */
     public function tableExists( string tableName, string schemaName = null) -> string
     {
-        return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM sqlite_master WHERE type='table' AND tbl_name='" . tableName . "'";
+        return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM sqlite_master WHERE type='table' AND tbl_name='" . this->escapeStringLiteral(tableName) . "'";
     }
 
     /**
@@ -750,6 +750,6 @@ class Sqlite extends Dialect
      */
     public function viewExists( string viewName, string schemaName = null) -> string
     {
-        return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM sqlite_master WHERE type='view' AND tbl_name='" . viewName . "'";
+        return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM sqlite_master WHERE type='view' AND tbl_name='" . this->escapeStringLiteral(viewName) . "'";
     }
 }

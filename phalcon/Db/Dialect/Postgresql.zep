@@ -393,8 +393,8 @@ class Postgresql extends Dialect
             . ") des ON ( des.objsubid = C.ordinal_position "
             . "AND C.table_schema = des.nspname "
             . "AND C.TABLE_NAME = des.relname ) "
-            . "WHERE c.table_schema='" . schema . "' "
-            . "AND c.table_name='" . table . "' "
+            . "WHERE c.table_schema='" . this->escapeStringLiteral(schema) . "' "
+            . "AND c.table_name='" . this->escapeStringLiteral(table) . "' "
             . "ORDER BY c.ordinal_position";
     }
 
@@ -403,7 +403,7 @@ class Postgresql extends Dialect
      */
     public function describeIndexes( string table, string schema = null) -> string
     {
-        return "SELECT 0 as c0, t.relname as table_name, i.relname as key_name, 3 as c3, a.attname as column_name FROM pg_class t, pg_class i, pg_index ix, pg_attribute a WHERE t.oid = ix.indrelid AND i.oid = ix.indexrelid AND a.attrelid = t.oid AND a.attnum = ANY(ix.indkey) AND t.relkind = 'r' AND t.relname = '" . table . "' ORDER BY t.relname, i.relname;";
+        return "SELECT 0 as c0, t.relname as table_name, i.relname as key_name, 3 as c3, a.attname as column_name FROM pg_class t, pg_class i, pg_index ix, pg_attribute a WHERE t.oid = ix.indrelid AND i.oid = ix.indexrelid AND a.attrelid = t.oid AND a.attnum = ANY(ix.indkey) AND t.relkind = 'r' AND t.relname = '" . this->escapeStringLiteral(table) . "' ORDER BY t.relname, i.relname;";
     }
 
     /**
@@ -415,7 +415,7 @@ class Postgresql extends Dialect
             let schema = "public";
         }
 
-        return "SELECT DISTINCT tc.table_name AS TABLE_NAME, kcu.column_name AS COLUMN_NAME, tc.constraint_name AS CONSTRAINT_NAME, tc.table_catalog AS REFERENCED_TABLE_SCHEMA, ccu.table_name AS REFERENCED_TABLE_NAME, ccu.column_name AS REFERENCED_COLUMN_NAME, rc.update_rule AS UPDATE_RULE, rc.delete_rule AS DELETE_RULE FROM information_schema.table_constraints AS tc JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name JOIN information_schema.referential_constraints rc ON tc.constraint_catalog = rc.constraint_catalog AND tc.constraint_schema = rc.constraint_schema AND tc.constraint_name = rc.constraint_name AND tc.constraint_type = 'FOREIGN KEY' WHERE constraint_type = 'FOREIGN KEY' AND tc.table_schema = '" . schema . "' AND tc.table_name='" . table . "'";
+        return "SELECT DISTINCT tc.table_name AS TABLE_NAME, kcu.column_name AS COLUMN_NAME, tc.constraint_name AS CONSTRAINT_NAME, tc.table_catalog AS REFERENCED_TABLE_SCHEMA, ccu.table_name AS REFERENCED_TABLE_NAME, ccu.column_name AS REFERENCED_COLUMN_NAME, rc.update_rule AS UPDATE_RULE, rc.delete_rule AS DELETE_RULE FROM information_schema.table_constraints AS tc JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name JOIN information_schema.referential_constraints rc ON tc.constraint_catalog = rc.constraint_catalog AND tc.constraint_schema = rc.constraint_schema AND tc.constraint_name = rc.constraint_name AND tc.constraint_type = 'FOREIGN KEY' WHERE constraint_type = 'FOREIGN KEY' AND tc.table_schema = '" . this->escapeStringLiteral(schema) . "' AND tc.table_name='" . this->escapeStringLiteral(table) . "'";
     }
 
     /**
@@ -827,7 +827,7 @@ class Postgresql extends Dialect
             let schemaName = "public";
         }
 
-        return "SELECT table_name FROM information_schema.tables WHERE table_schema = '" . schemaName . "' ORDER BY table_name";
+        return "SELECT table_name FROM information_schema.tables WHERE table_schema = '" . this->escapeStringLiteral(schemaName) . "' ORDER BY table_name";
     }
 
     /**
@@ -839,7 +839,7 @@ class Postgresql extends Dialect
             let schemaName = "public";
         }
 
-        return "SELECT viewname AS view_name FROM pg_views WHERE schemaname = '" . schemaName . "' ORDER BY view_name";
+        return "SELECT viewname AS view_name FROM pg_views WHERE schemaname = '" . this->escapeStringLiteral(schemaName) . "' ORDER BY view_name";
     }
 
     /**
@@ -978,7 +978,7 @@ class Postgresql extends Dialect
             let schemaName = "public";
         }
 
-        return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM information_schema.tables WHERE table_schema = '" . schemaName . "' AND table_name='" . tableName . "'";
+        return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM information_schema.tables WHERE table_schema = '" . this->escapeStringLiteral(schemaName) . "' AND table_name='" . this->escapeStringLiteral(tableName) . "'";
     }
 
     /**
@@ -988,10 +988,10 @@ class Postgresql extends Dialect
     {
         string sql;
 
-        let sql = "SELECT obj_description(c.oid, 'pg_class') AS table_comment FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE c.relname = '" . table . "' AND ";
+        let sql = "SELECT obj_description(c.oid, 'pg_class') AS table_comment FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE c.relname = '" . this->escapeStringLiteral(table) . "' AND ";
 
         if schema {
-            return sql . "n.nspname = '" . schema . "'";
+            return sql . "n.nspname = '" . this->escapeStringLiteral(schema) . "'";
         }
 
         return sql . "n.nspname = current_schema()";
@@ -1022,7 +1022,7 @@ class Postgresql extends Dialect
             let schemaName = "public";
         }
 
-        return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='" . viewName . "' AND schemaname='" . schemaName . "'";
+        return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='" . this->escapeStringLiteral(viewName) . "' AND schemaname='" . this->escapeStringLiteral(schemaName) . "'";
     }
 
     protected function castDefault(<ColumnInterface> column) -> string
