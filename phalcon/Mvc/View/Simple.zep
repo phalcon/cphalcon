@@ -423,7 +423,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      */
     final protected function internalRender( string path, params) -> void
     {
-        var eventsManager, engines, extension, engine;
+        var eventsManager, engines, extension, engine, segment, segments;
         bool notExists, mustClean;
         string viewEnginePath, viewsDirPath;
 
@@ -445,7 +445,21 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
         let notExists = true,
             mustClean = true;
 
-        let viewsDirPath =  this->viewsDir . path;
+        /**
+         * Drop "." and ".." path segments so a crafted view path cannot climb
+         * out of the views directory, while still allowing sub-directories and
+         * absolute paths (CWE-22).
+         */
+        let segments = [];
+        for segment in explode("/", path) {
+            if segment !== "." && segment !== ".." {
+                let segments[] = segment;
+            }
+        }
+
+        let path = implode("/", segments);
+
+        let viewsDirPath = this->viewsDir . path;
 
         /**
          * Load the template engines

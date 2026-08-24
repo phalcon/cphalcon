@@ -584,7 +584,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      */
     public function partial( string partialPath, var params = null)
     {
-        var viewParams;
+        var viewParams, segment, segments;
 
         /**
          * If the developer pass an array of variables we create a new virtual
@@ -610,6 +610,20 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
          * Call engine render, this checks in every registered engine for the
          * partial
          */
+        /**
+         * Drop "." and ".." path segments so a crafted partial path cannot
+         * climb out of the partials directory, while still allowing
+         * sub-directories and absolute paths (CWE-22).
+         */
+        let segments = [];
+        for segment in explode("/", partialPath) {
+            if segment !== "." && segment !== ".." {
+                let segments[] = segment;
+            }
+        }
+
+        let partialPath = implode("/", segments);
+
         this->engineRender(
             this->loadTemplateEngines(),
             this->partialsDir . partialPath,
