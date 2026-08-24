@@ -56,7 +56,7 @@ PHP_METHOD(Phalcon_Traits_Php_SerializeTrait, phpSerialize)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &value);
-	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 21, value);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 22, value);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -97,7 +97,7 @@ PHP_METHOD(Phalcon_Traits_Php_SerializeTrait, phpUnserialize)
 	} else {
 		zephir_get_arrval(&options, options_param);
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("unserialize", NULL, 26, &data_zv, &options);
+	ZEPHIR_RETURN_CALL_FUNCTION("unserialize", NULL, 27, &data_zv, &options);
 	zephir_check_call_status();
 	RETURN_MM();
 }

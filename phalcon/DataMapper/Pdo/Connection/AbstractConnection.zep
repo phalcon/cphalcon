@@ -816,14 +816,22 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
             quotes  = this->getQuoteNames();
 
         if typeof element !== "array" {
-            let element = (string) element;
+            let element = str_replace(
+                quotes["find"],
+                quotes["replace"],
+                (string) element
+            );
 
             return quotes["prefix"] . element . quotes["suffix"];
         }
 
         // quote array values, not keys, then combine with commas
         for key, element in value {
-            let element       = (string) element,
+            let element       = str_replace(
+                    quotes["find"],
+                    quotes["replace"],
+                    (string) element
+                ),
                 elements[key] = quotes["prefix"] . element . quotes["suffix"];
         }
 

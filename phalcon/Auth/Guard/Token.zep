@@ -64,6 +64,16 @@ class Token extends AbstractGuard
         );
     }
 
+    /**
+     * Returns the bearer token for the request.
+     *
+     * Security: for backward compatibility the configured input key is also
+     * read from the query string / request body, and is checked before the
+     * Authorization header. A token placed in a URL leaks through access logs,
+     * browser history and the Referer header (CWE-598) - always send it in the
+     * "Authorization: Bearer <token>" header and never as a query parameter.
+     * A header-only opt-in is planned for a future major version.
+     */
     public function getTokenForRequest() -> string | null
     {
         var bearer, header, token;

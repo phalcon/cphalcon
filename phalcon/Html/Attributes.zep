@@ -89,6 +89,10 @@ class Attributes extends Collection implements RenderInterface
                     throw new AttributeNotRenderable(key, gettype(value));
                 }
 
+                let key = escaper->escape(
+                    (string) preg_replace("~[\\s/=]~", "", key)
+                );
+
                 let result .= key . "=\""
                 . escaper->escape(value)
                 . "\" ";

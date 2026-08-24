@@ -83,7 +83,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, setDateFormat)
 		Z_PARAM_STR(format)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&format_zv, format);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 229, &format_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 230, &format_zv);
 }
 
 /**
@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, getFormattedDate)
 	zephir_fetch_params(1, 1, 0, &item);
 	ZEPHIR_CALL_METHOD(&_0, item, "getdatetime", NULL, 0);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 229, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 230, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "format", NULL, 0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -163,8 +163,8 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, getInterpolatedMessage)
 	ZVAL_STR_COPY(&message_zv, message);
 	ZEPHIR_CALL_METHOD(&_0, item, "getcontext", NULL, 0);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 230, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 231, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 231, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 232, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "tointerpolate", NULL, 0, &message_zv, &_0, &_1, &_2);
 	zephir_check_call_status();
 	RETURN_MM();

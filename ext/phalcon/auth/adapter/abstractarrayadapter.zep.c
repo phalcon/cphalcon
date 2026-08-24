@@ -17,6 +17,7 @@
 #include "kernel/operators.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
+#include "kernel/string.h"
 
 
 /**
@@ -382,26 +383,28 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, loadUsers)
  */
 PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, matchesRow)
 {
-	zval _5$$3, _6$$3, _11$$6, _12$$6;
-	zend_bool _8, _3$$3, _9$$6;
+	zval _6$$3, _7$$3, _13$$6, _14$$6;
+	zend_bool _9, _3$$3, _10$$6;
 	zend_string *_2;
 	zend_ulong _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *row_param = NULL, *credentials_param = NULL, key, value, *_0, _7, _4$$3, _10$$6;
+	zval *row_param = NULL, *credentials_param = NULL, key, value, *_0, _8, _4$$3, _5$$3, _11$$6, _12$$6;
 	zval row, credentials;
 
 	ZVAL_UNDEF(&row);
 	ZVAL_UNDEF(&credentials);
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&value);
-	ZVAL_UNDEF(&_7);
+	ZVAL_UNDEF(&_8);
 	ZVAL_UNDEF(&_4$$3);
-	ZVAL_UNDEF(&_10$$6);
 	ZVAL_UNDEF(&_5$$3);
-	ZVAL_UNDEF(&_6$$3);
 	ZVAL_UNDEF(&_11$$6);
 	ZVAL_UNDEF(&_12$$6);
+	ZVAL_UNDEF(&_6$$3);
+	ZVAL_UNDEF(&_7$$3);
+	ZVAL_UNDEF(&_13$$6);
+	ZVAL_UNDEF(&_14$$6);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		ZEPHIR_Z_PARAM_ARRAY(row, row_param)
 		ZEPHIR_Z_PARAM_ARRAY(credentials, credentials_param)
@@ -411,7 +414,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, matchesRow)
 	zephir_fetch_params(1, 2, 0, &row_param, &credentials_param);
 	zephir_get_arrval(&row, row_param);
 	zephir_get_arrval(&credentials, credentials_param);
-	zephir_is_iterable(&credentials, 0, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 163);
+	zephir_is_iterable(&credentials, 0, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 168);
 	if (Z_TYPE_P(&credentials) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&credentials), _1, _2, _0)
 		{
@@ -428,11 +431,12 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, matchesRow)
 			}
 			_3$$3 = !(zephir_array_isset_value(&row, &key));
 			if (!(_3$$3)) {
-				ZEPHIR_OBS_NVAR(&_4$$3);
-				zephir_array_fetch(&_4$$3, &row, &key, PH_NOISY, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 158);
-				zephir_cast_to_string(&_5$$3, &_4$$3);
-				zephir_cast_to_string(&_6$$3, &value);
-				_3$$3 = !ZEPHIR_IS_IDENTICAL(&_5$$3, &_6$$3);
+				ZEPHIR_INIT_NVAR(&_4$$3);
+				ZEPHIR_OBS_NVAR(&_5$$3);
+				zephir_array_fetch(&_5$$3, &row, &key, PH_NOISY, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 163);
+				zephir_cast_to_string(&_6$$3, &_5$$3);
+				zephir_cast_to_string(&_7$$3, &value);
+				_3$$3 = !(zephir_hash_equals(&_6$$3, &_7$$3));
 			}
 			if (_3$$3) {
 				RETURN_MM_BOOL(0);
@@ -441,17 +445,17 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, matchesRow)
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &credentials, "rewind", NULL, 0);
 		zephir_check_call_status();
-		_8 = 1;
+		_9 = 1;
 		while (1) {
-			if (_8) {
-				_8 = 0;
+			if (_9) {
+				_9 = 0;
 			} else {
 				ZEPHIR_CALL_METHOD(NULL, &credentials, "next", NULL, 0);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_7, &credentials, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_8, &credentials, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_7)) {
+			if (!zend_is_true(&_8)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&key, &credentials, "key", NULL, 0);
@@ -461,15 +465,16 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, matchesRow)
 				if (ZEPHIR_IS_STRING_IDENTICAL(&key, "password")) {
 					continue;
 				}
-				_9$$6 = !(zephir_array_isset_value(&row, &key));
-				if (!(_9$$6)) {
-					ZEPHIR_OBS_NVAR(&_10$$6);
-					zephir_array_fetch(&_10$$6, &row, &key, PH_NOISY, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 158);
-					zephir_cast_to_string(&_11$$6, &_10$$6);
-					zephir_cast_to_string(&_12$$6, &value);
-					_9$$6 = !ZEPHIR_IS_IDENTICAL(&_11$$6, &_12$$6);
+				_10$$6 = !(zephir_array_isset_value(&row, &key));
+				if (!(_10$$6)) {
+					ZEPHIR_INIT_NVAR(&_11$$6);
+					ZEPHIR_OBS_NVAR(&_12$$6);
+					zephir_array_fetch(&_12$$6, &row, &key, PH_NOISY, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 163);
+					zephir_cast_to_string(&_13$$6, &_12$$6);
+					zephir_cast_to_string(&_14$$6, &value);
+					_10$$6 = !(zephir_hash_equals(&_13$$6, &_14$$6));
 				}
-				if (_9$$6) {
+				if (_10$$6) {
 					RETURN_MM_BOOL(0);
 				}
 		}

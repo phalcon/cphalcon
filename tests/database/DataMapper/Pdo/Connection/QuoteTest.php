@@ -45,4 +45,23 @@ final class QuoteTest extends AbstractDatabaseTestCase
         $actual   = $connection->quote($source);
         $this->assertEquals($expected, $actual);
     }
+
+    /**
+     * quote() must double the delimiter inside the value so an embedded
+     * quote/backtick cannot break out of the identifier (CWE-89).
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     */
+    public function testDMPdoConnectionQuoteEscapesDelimiter(): void
+    {
+        /** @var Connection $connection */
+        $connection = self::getDataMapperConnection();
+        $quotes     = $connection->getQuoteNames();
+
+        $source   = 'a' . $quotes["find"] . 'b';
+        $escaped  = str_replace($quotes["find"], $quotes["replace"], $source);
+        $expected = $quotes["prefix"] . $escaped . $quotes["suffix"];
+        $actual   = $connection->quote($source);
+        $this->assertEquals($expected, $actual);
+    }
 }

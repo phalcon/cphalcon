@@ -871,7 +871,7 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
     case 86:
     case 87:
     case 88:
-#line 102 "parser.php.lemon"
+#line 108 "parser.php.lemon"
 {
 	if ((yypminor->yy0)) {
 		if ((yypminor->yy0)->free_flag) {
@@ -916,7 +916,7 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
     case 136:
     case 139:
     case 142:
-#line 115 "parser.php.lemon"
+#line 121 "parser.php.lemon"
 {
 	zval_ptr_dtor(&(yypminor->yy82));
 }
@@ -933,7 +933,7 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
     case 123:
     case 140:
     case 141:
-#line 497 "parser.php.lemon"
+#line 503 "parser.php.lemon"
 {
 	zephir_safe_zval_ptr_dtor((yypminor->yy82));
 }
@@ -1087,6 +1087,13 @@ static void yy_shift(
      while( yypParser->yyidx>=0 ) yy_pop_parser_stack(yypParser);
      /* Here code is inserted which will execute if the parser
      ** stack every overflows */
+#line 102 "parser.php.lemon"
+
+	status->status = PHQL_PARSING_FAILED;
+	status->syntax_error_len = strlen("Parsing failed, the PHQL statement is nested too deeply");
+	status->syntax_error = estrndup("Parsing failed, the PHQL statement is nested too deeply", status->syntax_error_len);
+
+#line 1097 "parser.php.c"
      phql_ARG_STORE; /* Suppress warning about unused %extra_argument var */
      return;
   }
@@ -1321,11 +1328,11 @@ static void yy_reduce(
   **     break;
   */
       case 0:
-#line 111 "parser.php.lemon"
+#line 117 "parser.php.lemon"
 {
 	ZVAL_ZVAL(&status->ret, &yymsp[0].minor.yy82, 1, 1);
 }
-#line 1329 "parser.php.c"
+#line 1336 "parser.php.c"
         break;
       case 1:
       case 2:
@@ -1347,43 +1354,43 @@ static void yy_reduce(
       case 145:
       case 150:
       case 158:
-#line 119 "parser.php.lemon"
+#line 125 "parser.php.lemon"
 {
 	yygotominor.yy82 = yymsp[0].minor.yy82;
 }
-#line 1355 "parser.php.c"
+#line 1362 "parser.php.c"
         break;
       case 5:
-#line 139 "parser.php.lemon"
+#line 145 "parser.php.lemon"
 {
 	phql_ret_select_statement(&yygotominor.yy82, &yymsp[-6].minor.yy82, &yymsp[-5].minor.yy82, &yymsp[-2].minor.yy82, &yymsp[-4].minor.yy82, &yymsp[-3].minor.yy82, &yymsp[-1].minor.yy82, &yymsp[0].minor.yy82);
 }
-#line 1362 "parser.php.c"
+#line 1369 "parser.php.c"
         break;
       case 6:
-#line 147 "parser.php.lemon"
+#line 153 "parser.php.lemon"
 {
 	phql_ret_select_clause(&yygotominor.yy82, &yymsp[-4].minor.yy82, &yymsp[-3].minor.yy82, &yymsp[-1].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(36,&yymsp[-5].minor);
   yy_destructor(37,&yymsp[-2].minor);
 }
-#line 1371 "parser.php.c"
+#line 1378 "parser.php.c"
         break;
       case 7:
-#line 155 "parser.php.lemon"
+#line 161 "parser.php.lemon"
 {
 	phql_ret_distinct_all(&yygotominor.yy82, 1);
   yy_destructor(38,&yymsp[0].minor);
 }
-#line 1379 "parser.php.c"
+#line 1386 "parser.php.c"
         break;
       case 8:
-#line 159 "parser.php.lemon"
+#line 165 "parser.php.lemon"
 {
 	phql_ret_distinct_all(&yygotominor.yy82, 0);
   yy_destructor(39,&yymsp[0].minor);
 }
-#line 1387 "parser.php.c"
+#line 1394 "parser.php.c"
         break;
       case 9:
       case 20:
@@ -1398,11 +1405,11 @@ static void yy_reduce(
       case 91:
       case 144:
       case 146:
-#line 163 "parser.php.lemon"
+#line 169 "parser.php.lemon"
 {
 	ZVAL_UNDEF(&yygotominor.yy82);
 }
-#line 1406 "parser.php.c"
+#line 1413 "parser.php.c"
         break;
       case 10:
       case 17:
@@ -1413,190 +1420,190 @@ static void yy_reduce(
       case 72:
       case 79:
       case 147:
-#line 171 "parser.php.lemon"
+#line 177 "parser.php.lemon"
 {
 	phql_ret_zval_list(&yygotominor.yy82, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(35,&yymsp[-1].minor);
 }
-#line 1422 "parser.php.c"
+#line 1429 "parser.php.c"
         break;
       case 11:
       case 42:
       case 45:
       case 138:
       case 148:
-#line 175 "parser.php.lemon"
+#line 181 "parser.php.lemon"
 {
 	phql_ret_zval_list(&yygotominor.yy82, &yymsp[0].minor.yy82, NULL);
 }
-#line 1433 "parser.php.c"
+#line 1440 "parser.php.c"
         break;
       case 12:
       case 149:
-#line 183 "parser.php.lemon"
+#line 189 "parser.php.lemon"
 {
 	phql_ret_column_item(&yygotominor.yy82, PHQL_T_STARALL, NULL, NULL, NULL);
   yy_destructor(22,&yymsp[0].minor);
 }
-#line 1442 "parser.php.c"
+#line 1449 "parser.php.c"
         break;
       case 13:
-#line 187 "parser.php.lemon"
+#line 193 "parser.php.lemon"
 {
 	phql_ret_column_item(&yygotominor.yy82, PHQL_T_DOMAINALL, NULL, yymsp[-2].minor.yy0, NULL);
   yy_destructor(41,&yymsp[-1].minor);
   yy_destructor(22,&yymsp[0].minor);
 }
-#line 1451 "parser.php.c"
+#line 1458 "parser.php.c"
         break;
       case 14:
-#line 191 "parser.php.lemon"
+#line 197 "parser.php.lemon"
 {
 	phql_ret_column_item(&yygotominor.yy82, PHQL_T_EXPR, &yymsp[-2].minor.yy82, NULL, yymsp[0].minor.yy0);
   yy_destructor(42,&yymsp[-1].minor);
 }
-#line 1459 "parser.php.c"
+#line 1466 "parser.php.c"
         break;
       case 15:
-#line 195 "parser.php.lemon"
+#line 201 "parser.php.lemon"
 {
 	phql_ret_column_item(&yygotominor.yy82, PHQL_T_EXPR, &yymsp[-1].minor.yy82, NULL, yymsp[0].minor.yy0);
 }
-#line 1466 "parser.php.c"
+#line 1473 "parser.php.c"
         break;
       case 16:
-#line 199 "parser.php.lemon"
+#line 205 "parser.php.lemon"
 {
 	phql_ret_column_item(&yygotominor.yy82, PHQL_T_EXPR, &yymsp[0].minor.yy82, NULL, NULL);
 }
-#line 1473 "parser.php.c"
+#line 1480 "parser.php.c"
         break;
       case 21:
       case 137:
-#line 227 "parser.php.lemon"
+#line 233 "parser.php.lemon"
 {
 	phql_ret_zval_list(&yygotominor.yy82, &yymsp[-1].minor.yy82, &yymsp[0].minor.yy82);
 }
-#line 1481 "parser.php.c"
+#line 1488 "parser.php.c"
         break;
       case 24:
-#line 248 "parser.php.lemon"
+#line 254 "parser.php.lemon"
 {
 	phql_ret_join_item(&yygotominor.yy82, &yymsp[-3].minor.yy82, &yymsp[-2].minor.yy82, &yymsp[-1].minor.yy82, &yymsp[0].minor.yy82);
 }
-#line 1488 "parser.php.c"
+#line 1495 "parser.php.c"
         break;
       case 25:
-#line 256 "parser.php.lemon"
+#line 262 "parser.php.lemon"
 {
 	phql_ret_qualified_name(&yygotominor.yy82, NULL, NULL, yymsp[0].minor.yy0);
   yy_destructor(42,&yymsp[-1].minor);
 }
-#line 1496 "parser.php.c"
+#line 1503 "parser.php.c"
         break;
       case 26:
       case 46:
       case 66:
       case 170:
-#line 260 "parser.php.lemon"
+#line 266 "parser.php.lemon"
 {
 	phql_ret_qualified_name(&yygotominor.yy82, NULL, NULL, yymsp[0].minor.yy0);
 }
-#line 1506 "parser.php.c"
+#line 1513 "parser.php.c"
         break;
       case 28:
-#line 272 "parser.php.lemon"
+#line 278 "parser.php.lemon"
 {
 	phql_ret_join_type(&yygotominor.yy82, PHQL_T_INNERJOIN);
   yy_destructor(43,&yymsp[-1].minor);
   yy_destructor(44,&yymsp[0].minor);
 }
-#line 1515 "parser.php.c"
+#line 1522 "parser.php.c"
         break;
       case 29:
-#line 276 "parser.php.lemon"
+#line 282 "parser.php.lemon"
 {
 	phql_ret_join_type(&yygotominor.yy82, PHQL_T_CROSSJOIN);
   yy_destructor(45,&yymsp[-1].minor);
   yy_destructor(44,&yymsp[0].minor);
 }
-#line 1524 "parser.php.c"
+#line 1531 "parser.php.c"
         break;
       case 30:
-#line 280 "parser.php.lemon"
+#line 286 "parser.php.lemon"
 {
 	phql_ret_join_type(&yygotominor.yy82, PHQL_T_LEFTJOIN);
   yy_destructor(46,&yymsp[-2].minor);
   yy_destructor(47,&yymsp[-1].minor);
   yy_destructor(44,&yymsp[0].minor);
 }
-#line 1534 "parser.php.c"
+#line 1541 "parser.php.c"
         break;
       case 31:
-#line 284 "parser.php.lemon"
+#line 290 "parser.php.lemon"
 {
 	phql_ret_join_type(&yygotominor.yy82, PHQL_T_LEFTJOIN);
   yy_destructor(46,&yymsp[-1].minor);
   yy_destructor(44,&yymsp[0].minor);
 }
-#line 1543 "parser.php.c"
+#line 1550 "parser.php.c"
         break;
       case 32:
-#line 288 "parser.php.lemon"
+#line 294 "parser.php.lemon"
 {
 	phql_ret_join_type(&yygotominor.yy82, PHQL_T_RIGHTJOIN);
   yy_destructor(48,&yymsp[-2].minor);
   yy_destructor(47,&yymsp[-1].minor);
   yy_destructor(44,&yymsp[0].minor);
 }
-#line 1553 "parser.php.c"
+#line 1560 "parser.php.c"
         break;
       case 33:
-#line 292 "parser.php.lemon"
+#line 298 "parser.php.lemon"
 {
 	phql_ret_join_type(&yygotominor.yy82, PHQL_T_RIGHTJOIN);
   yy_destructor(48,&yymsp[-1].minor);
   yy_destructor(44,&yymsp[0].minor);
 }
-#line 1562 "parser.php.c"
+#line 1569 "parser.php.c"
         break;
       case 34:
-#line 296 "parser.php.lemon"
+#line 302 "parser.php.lemon"
 {
 	phql_ret_join_type(&yygotominor.yy82, PHQL_T_FULLJOIN);
   yy_destructor(49,&yymsp[-2].minor);
   yy_destructor(47,&yymsp[-1].minor);
   yy_destructor(44,&yymsp[0].minor);
 }
-#line 1572 "parser.php.c"
+#line 1579 "parser.php.c"
         break;
       case 35:
-#line 300 "parser.php.lemon"
+#line 306 "parser.php.lemon"
 {
 	phql_ret_join_type(&yygotominor.yy82, PHQL_T_FULLJOIN);
   yy_destructor(49,&yymsp[-1].minor);
   yy_destructor(44,&yymsp[0].minor);
 }
-#line 1581 "parser.php.c"
+#line 1588 "parser.php.c"
         break;
       case 36:
-#line 304 "parser.php.lemon"
+#line 310 "parser.php.lemon"
 {
 	phql_ret_join_type(&yygotominor.yy82, PHQL_T_INNERJOIN);
   yy_destructor(44,&yymsp[0].minor);
 }
-#line 1589 "parser.php.c"
+#line 1596 "parser.php.c"
         break;
       case 37:
-#line 312 "parser.php.lemon"
+#line 318 "parser.php.lemon"
 {
 	yygotominor.yy82 = yymsp[0].minor.yy82;
   yy_destructor(50,&yymsp[-1].minor);
 }
-#line 1597 "parser.php.c"
+#line 1604 "parser.php.c"
         break;
       case 39:
-#line 325 "parser.php.lemon"
+#line 331 "parser.php.lemon"
 {
 	phql_ret_insert_statement(&yygotominor.yy82, &yymsp[-4].minor.yy82, NULL, &yymsp[-1].minor.yy82);
   yy_destructor(51,&yymsp[-6].minor);
@@ -1605,10 +1612,10 @@ static void yy_reduce(
   yy_destructor(54,&yymsp[-2].minor);
   yy_destructor(55,&yymsp[0].minor);
 }
-#line 1609 "parser.php.c"
+#line 1616 "parser.php.c"
         break;
       case 40:
-#line 329 "parser.php.lemon"
+#line 335 "parser.php.lemon"
 {
 	phql_ret_insert_statement(&yygotominor.yy82, &yymsp[-7].minor.yy82, &yymsp[-5].minor.yy82, &yymsp[-1].minor.yy82);
   yy_destructor(51,&yymsp[-9].minor);
@@ -1619,81 +1626,81 @@ static void yy_reduce(
   yy_destructor(54,&yymsp[-2].minor);
   yy_destructor(55,&yymsp[0].minor);
 }
-#line 1623 "parser.php.c"
+#line 1630 "parser.php.c"
         break;
       case 47:
-#line 375 "parser.php.lemon"
+#line 381 "parser.php.lemon"
 {
 	phql_ret_update_statement(&yygotominor.yy82, &yymsp[-2].minor.yy82, &yymsp[-1].minor.yy82, &yymsp[0].minor.yy82);
 }
-#line 1630 "parser.php.c"
+#line 1637 "parser.php.c"
         break;
       case 48:
-#line 383 "parser.php.lemon"
+#line 389 "parser.php.lemon"
 {
 	phql_ret_update_clause(&yygotominor.yy82, &yymsp[-3].minor.yy82, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(56,&yymsp[-4].minor);
   yy_destructor(57,&yymsp[-1].minor);
 }
-#line 1639 "parser.php.c"
+#line 1646 "parser.php.c"
         break;
       case 51:
-#line 403 "parser.php.lemon"
+#line 409 "parser.php.lemon"
 {
 	phql_ret_update_item(&yygotominor.yy82, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(4,&yymsp[-1].minor);
 }
-#line 1647 "parser.php.c"
+#line 1654 "parser.php.c"
         break;
       case 53:
-#line 417 "parser.php.lemon"
+#line 423 "parser.php.lemon"
 {
 	phql_ret_delete_statement(&yygotominor.yy82, &yymsp[-2].minor.yy82, &yymsp[-1].minor.yy82, &yymsp[0].minor.yy82);
 }
-#line 1654 "parser.php.c"
+#line 1661 "parser.php.c"
         break;
       case 54:
-#line 425 "parser.php.lemon"
+#line 431 "parser.php.lemon"
 {
 	phql_ret_delete_clause(&yygotominor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(58,&yymsp[-2].minor);
   yy_destructor(37,&yymsp[-1].minor);
 }
-#line 1663 "parser.php.c"
+#line 1670 "parser.php.c"
         break;
       case 55:
-#line 433 "parser.php.lemon"
+#line 439 "parser.php.lemon"
 {
 	phql_ret_assoc_name(&yygotominor.yy82, &yymsp[-2].minor.yy82, yymsp[0].minor.yy0, NULL);
   yy_destructor(42,&yymsp[-1].minor);
 }
-#line 1671 "parser.php.c"
+#line 1678 "parser.php.c"
         break;
       case 56:
-#line 437 "parser.php.lemon"
+#line 443 "parser.php.lemon"
 {
 	phql_ret_assoc_name(&yygotominor.yy82, &yymsp[-1].minor.yy82, yymsp[0].minor.yy0, NULL);
 }
-#line 1678 "parser.php.c"
+#line 1685 "parser.php.c"
         break;
       case 57:
-#line 441 "parser.php.lemon"
+#line 447 "parser.php.lemon"
 {
 	phql_ret_assoc_name(&yygotominor.yy82, &yymsp[0].minor.yy82, NULL, NULL);
 }
-#line 1685 "parser.php.c"
+#line 1692 "parser.php.c"
         break;
       case 58:
-#line 445 "parser.php.lemon"
+#line 451 "parser.php.lemon"
 {
 	phql_ret_assoc_name(&yygotominor.yy82, &yymsp[-4].minor.yy82, yymsp[-2].minor.yy0, &yymsp[0].minor.yy82);
   yy_destructor(42,&yymsp[-3].minor);
   yy_destructor(59,&yymsp[-1].minor);
 }
-#line 1694 "parser.php.c"
+#line 1701 "parser.php.c"
         break;
       case 59:
-#line 449 "parser.php.lemon"
+#line 455 "parser.php.lemon"
 {
 	phql_ret_assoc_name(&yygotominor.yy82, &yymsp[-6].minor.yy82, yymsp[-4].minor.yy0, &yymsp[-1].minor.yy82);
   yy_destructor(42,&yymsp[-5].minor);
@@ -1701,433 +1708,433 @@ static void yy_reduce(
   yy_destructor(54,&yymsp[-2].minor);
   yy_destructor(55,&yymsp[0].minor);
 }
-#line 1705 "parser.php.c"
+#line 1712 "parser.php.c"
         break;
       case 60:
-#line 453 "parser.php.lemon"
+#line 459 "parser.php.lemon"
 {
 	phql_ret_assoc_name(&yygotominor.yy82, &yymsp[-5].minor.yy82, yymsp[-4].minor.yy0, &yymsp[-1].minor.yy82);
   yy_destructor(59,&yymsp[-3].minor);
   yy_destructor(54,&yymsp[-2].minor);
   yy_destructor(55,&yymsp[0].minor);
 }
-#line 1715 "parser.php.c"
+#line 1722 "parser.php.c"
         break;
       case 61:
-#line 457 "parser.php.lemon"
+#line 463 "parser.php.lemon"
 {
 	phql_ret_assoc_name(&yygotominor.yy82, &yymsp[-3].minor.yy82, yymsp[-2].minor.yy0, &yymsp[0].minor.yy82);
   yy_destructor(59,&yymsp[-1].minor);
 }
-#line 1723 "parser.php.c"
+#line 1730 "parser.php.c"
         break;
       case 62:
-#line 461 "parser.php.lemon"
+#line 467 "parser.php.lemon"
 {
 	phql_ret_assoc_name(&yygotominor.yy82, &yymsp[-4].minor.yy82, NULL, &yymsp[-1].minor.yy82);
   yy_destructor(59,&yymsp[-3].minor);
   yy_destructor(54,&yymsp[-2].minor);
   yy_destructor(55,&yymsp[0].minor);
 }
-#line 1733 "parser.php.c"
+#line 1740 "parser.php.c"
         break;
       case 63:
-#line 465 "parser.php.lemon"
+#line 471 "parser.php.lemon"
 {
 	phql_ret_assoc_name(&yygotominor.yy82, &yymsp[-2].minor.yy82, NULL, &yymsp[0].minor.yy82);
   yy_destructor(59,&yymsp[-1].minor);
 }
-#line 1741 "parser.php.c"
+#line 1748 "parser.php.c"
         break;
       case 68:
-#line 501 "parser.php.lemon"
+#line 507 "parser.php.lemon"
 {
 	yygotominor.yy82 = yymsp[0].minor.yy82;
   yy_destructor(60,&yymsp[-1].minor);
 }
-#line 1749 "parser.php.c"
+#line 1756 "parser.php.c"
         break;
       case 70:
-#line 513 "parser.php.lemon"
+#line 519 "parser.php.lemon"
 {
 	yygotominor.yy82 = yymsp[0].minor.yy82;
   yy_destructor(61,&yymsp[-2].minor);
   yy_destructor(62,&yymsp[-1].minor);
 }
-#line 1758 "parser.php.c"
+#line 1765 "parser.php.c"
         break;
       case 74:
-#line 537 "parser.php.lemon"
+#line 543 "parser.php.lemon"
 {
 	phql_ret_order_item(&yygotominor.yy82, &yymsp[0].minor.yy82, 0);
 }
-#line 1765 "parser.php.c"
+#line 1772 "parser.php.c"
         break;
       case 75:
-#line 541 "parser.php.lemon"
+#line 547 "parser.php.lemon"
 {
 	phql_ret_order_item(&yygotominor.yy82, &yymsp[-1].minor.yy82, PHQL_T_ASC);
   yy_destructor(63,&yymsp[0].minor);
 }
-#line 1773 "parser.php.c"
+#line 1780 "parser.php.c"
         break;
       case 76:
-#line 545 "parser.php.lemon"
+#line 551 "parser.php.lemon"
 {
 	phql_ret_order_item(&yygotominor.yy82, &yymsp[-1].minor.yy82, PHQL_T_DESC);
   yy_destructor(64,&yymsp[0].minor);
 }
-#line 1781 "parser.php.c"
+#line 1788 "parser.php.c"
         break;
       case 77:
-#line 553 "parser.php.lemon"
+#line 559 "parser.php.lemon"
 {
 	yygotominor.yy82 = yymsp[0].minor.yy82;
   yy_destructor(65,&yymsp[-2].minor);
   yy_destructor(62,&yymsp[-1].minor);
 }
-#line 1790 "parser.php.c"
+#line 1797 "parser.php.c"
         break;
       case 82:
-#line 585 "parser.php.lemon"
+#line 591 "parser.php.lemon"
 {
 	yygotominor.yy82 = yymsp[0].minor.yy82;
   yy_destructor(66,&yymsp[-1].minor);
 }
-#line 1798 "parser.php.c"
+#line 1805 "parser.php.c"
         break;
       case 84:
-#line 597 "parser.php.lemon"
+#line 603 "parser.php.lemon"
 {
 	phql_ret_for_update_clause(&yygotominor.yy82);
   yy_destructor(67,&yymsp[-1].minor);
   yy_destructor(56,&yymsp[0].minor);
 }
-#line 1807 "parser.php.c"
+#line 1814 "parser.php.c"
         break;
       case 86:
       case 90:
-#line 609 "parser.php.lemon"
+#line 615 "parser.php.lemon"
 {
 	phql_ret_limit_clause(&yygotominor.yy82, &yymsp[0].minor.yy82, NULL);
   yy_destructor(68,&yymsp[-1].minor);
 }
-#line 1816 "parser.php.c"
+#line 1823 "parser.php.c"
         break;
       case 87:
-#line 613 "parser.php.lemon"
+#line 619 "parser.php.lemon"
 {
 	phql_ret_limit_clause(&yygotominor.yy82, &yymsp[0].minor.yy82, &yymsp[-2].minor.yy82);
   yy_destructor(68,&yymsp[-3].minor);
   yy_destructor(35,&yymsp[-1].minor);
 }
-#line 1825 "parser.php.c"
+#line 1832 "parser.php.c"
         break;
       case 88:
-#line 617 "parser.php.lemon"
+#line 623 "parser.php.lemon"
 {
 	phql_ret_limit_clause(&yygotominor.yy82, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(68,&yymsp[-3].minor);
   yy_destructor(69,&yymsp[-1].minor);
 }
-#line 1834 "parser.php.c"
+#line 1841 "parser.php.c"
         break;
       case 92:
       case 159:
-#line 637 "parser.php.lemon"
+#line 643 "parser.php.lemon"
 {
 	phql_ret_literal_zval(&yygotominor.yy82, PHQL_T_INTEGER, yymsp[0].minor.yy0);
 }
-#line 1842 "parser.php.c"
+#line 1849 "parser.php.c"
         break;
       case 93:
       case 160:
-#line 641 "parser.php.lemon"
+#line 647 "parser.php.lemon"
 {
 	phql_ret_literal_zval(&yygotominor.yy82, PHQL_T_HINTEGER, yymsp[0].minor.yy0);
 }
-#line 1850 "parser.php.c"
+#line 1857 "parser.php.c"
         break;
       case 94:
       case 166:
-#line 645 "parser.php.lemon"
+#line 651 "parser.php.lemon"
 {
 	phql_ret_placeholder_zval(&yygotominor.yy82, PHQL_T_NPLACEHOLDER, yymsp[0].minor.yy0);
 }
-#line 1858 "parser.php.c"
+#line 1865 "parser.php.c"
         break;
       case 95:
       case 167:
-#line 649 "parser.php.lemon"
+#line 655 "parser.php.lemon"
 {
 	phql_ret_placeholder_zval(&yygotominor.yy82, PHQL_T_SPLACEHOLDER, yymsp[0].minor.yy0);
 }
-#line 1866 "parser.php.c"
+#line 1873 "parser.php.c"
         break;
       case 96:
       case 168:
-#line 653 "parser.php.lemon"
+#line 659 "parser.php.lemon"
 {
 	phql_ret_placeholder_zval(&yygotominor.yy82, PHQL_T_BPLACEHOLDER, yymsp[0].minor.yy0);
 }
-#line 1874 "parser.php.c"
+#line 1881 "parser.php.c"
         break;
       case 97:
-#line 661 "parser.php.lemon"
+#line 667 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_MINUS, NULL, &yymsp[0].minor.yy82);
   yy_destructor(25,&yymsp[-1].minor);
 }
-#line 1882 "parser.php.c"
+#line 1889 "parser.php.c"
         break;
       case 98:
-#line 665 "parser.php.lemon"
+#line 671 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_SUB, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(25,&yymsp[-1].minor);
 }
-#line 1890 "parser.php.c"
+#line 1897 "parser.php.c"
         break;
       case 99:
-#line 669 "parser.php.lemon"
+#line 675 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_ADD, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(24,&yymsp[-1].minor);
 }
-#line 1898 "parser.php.c"
+#line 1905 "parser.php.c"
         break;
       case 100:
-#line 673 "parser.php.lemon"
+#line 679 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_MUL, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(22,&yymsp[-1].minor);
 }
-#line 1906 "parser.php.c"
+#line 1913 "parser.php.c"
         break;
       case 101:
-#line 677 "parser.php.lemon"
+#line 683 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_DIV, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(21,&yymsp[-1].minor);
 }
-#line 1914 "parser.php.c"
+#line 1921 "parser.php.c"
         break;
       case 102:
-#line 681 "parser.php.lemon"
+#line 687 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_MOD, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(23,&yymsp[-1].minor);
 }
-#line 1922 "parser.php.c"
+#line 1929 "parser.php.c"
         break;
       case 103:
-#line 685 "parser.php.lemon"
+#line 691 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_AND, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(14,&yymsp[-1].minor);
 }
-#line 1930 "parser.php.c"
+#line 1937 "parser.php.c"
         break;
       case 104:
-#line 689 "parser.php.lemon"
+#line 695 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_OR, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(15,&yymsp[-1].minor);
 }
-#line 1938 "parser.php.c"
+#line 1945 "parser.php.c"
         break;
       case 105:
-#line 693 "parser.php.lemon"
+#line 699 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_BITWISE_AND, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(18,&yymsp[-1].minor);
 }
-#line 1946 "parser.php.c"
+#line 1953 "parser.php.c"
         break;
       case 106:
-#line 697 "parser.php.lemon"
+#line 703 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_BITWISE_OR, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(19,&yymsp[-1].minor);
 }
-#line 1954 "parser.php.c"
+#line 1961 "parser.php.c"
         break;
       case 107:
-#line 701 "parser.php.lemon"
+#line 707 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_BITWISE_XOR, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(20,&yymsp[-1].minor);
 }
-#line 1962 "parser.php.c"
+#line 1969 "parser.php.c"
         break;
       case 108:
-#line 705 "parser.php.lemon"
+#line 711 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_OP_MATCHES, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(10,&yymsp[-1].minor);
 }
-#line 1970 "parser.php.c"
+#line 1977 "parser.php.c"
         break;
       case 109:
-#line 709 "parser.php.lemon"
+#line 715 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_OP_CONTAINS, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(11,&yymsp[-1].minor);
 }
-#line 1978 "parser.php.c"
+#line 1985 "parser.php.c"
         break;
       case 110:
-#line 713 "parser.php.lemon"
+#line 719 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_OP_CONTAINED, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(12,&yymsp[-1].minor);
 }
-#line 1986 "parser.php.c"
+#line 1993 "parser.php.c"
         break;
       case 111:
-#line 717 "parser.php.lemon"
+#line 723 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_OP_OVERLAPS, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(13,&yymsp[-1].minor);
 }
-#line 1994 "parser.php.c"
+#line 2001 "parser.php.c"
         break;
       case 112:
-#line 721 "parser.php.lemon"
+#line 727 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_OP_CONCAT, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(26,&yymsp[-1].minor);
 }
-#line 2002 "parser.php.c"
+#line 2009 "parser.php.c"
         break;
       case 113:
-#line 725 "parser.php.lemon"
+#line 731 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_OP_JSON_GET, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(31,&yymsp[-1].minor);
 }
-#line 2010 "parser.php.c"
+#line 2017 "parser.php.c"
         break;
       case 114:
-#line 729 "parser.php.lemon"
+#line 735 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_OP_JSON_GET_TEXT, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(32,&yymsp[-1].minor);
 }
-#line 2018 "parser.php.c"
+#line 2025 "parser.php.c"
         break;
       case 115:
-#line 733 "parser.php.lemon"
+#line 739 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_OP_JSON_PATH, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(33,&yymsp[-1].minor);
 }
-#line 2026 "parser.php.c"
+#line 2033 "parser.php.c"
         break;
       case 116:
-#line 737 "parser.php.lemon"
+#line 743 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_OP_JSON_PATH_TEXT, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(34,&yymsp[-1].minor);
 }
-#line 2034 "parser.php.c"
+#line 2041 "parser.php.c"
         break;
       case 117:
-#line 741 "parser.php.lemon"
+#line 747 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_EQUALS, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(4,&yymsp[-1].minor);
 }
-#line 2042 "parser.php.c"
+#line 2049 "parser.php.c"
         break;
       case 118:
-#line 745 "parser.php.lemon"
+#line 751 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_NOTEQUALS, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(5,&yymsp[-1].minor);
 }
-#line 2050 "parser.php.c"
+#line 2057 "parser.php.c"
         break;
       case 119:
-#line 749 "parser.php.lemon"
+#line 755 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_LESS, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(6,&yymsp[-1].minor);
 }
-#line 2058 "parser.php.c"
+#line 2065 "parser.php.c"
         break;
       case 120:
-#line 753 "parser.php.lemon"
+#line 759 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_GREATER, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(7,&yymsp[-1].minor);
 }
-#line 2066 "parser.php.c"
+#line 2073 "parser.php.c"
         break;
       case 121:
-#line 757 "parser.php.lemon"
+#line 763 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_GREATEREQUAL, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(8,&yymsp[-1].minor);
 }
-#line 2074 "parser.php.c"
+#line 2081 "parser.php.c"
         break;
       case 122:
-#line 761 "parser.php.lemon"
+#line 767 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_LESSEQUAL, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(9,&yymsp[-1].minor);
 }
-#line 2082 "parser.php.c"
+#line 2089 "parser.php.c"
         break;
       case 123:
-#line 765 "parser.php.lemon"
+#line 771 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_LIKE, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(16,&yymsp[-1].minor);
 }
-#line 2090 "parser.php.c"
+#line 2097 "parser.php.c"
         break;
       case 124:
-#line 769 "parser.php.lemon"
+#line 775 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_NLIKE, &yymsp[-3].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(29,&yymsp[-2].minor);
   yy_destructor(16,&yymsp[-1].minor);
 }
-#line 2099 "parser.php.c"
+#line 2106 "parser.php.c"
         break;
       case 125:
-#line 773 "parser.php.lemon"
+#line 779 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_ILIKE, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(17,&yymsp[-1].minor);
 }
-#line 2107 "parser.php.c"
+#line 2114 "parser.php.c"
         break;
       case 126:
-#line 777 "parser.php.lemon"
+#line 783 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_NILIKE, &yymsp[-3].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(29,&yymsp[-2].minor);
   yy_destructor(17,&yymsp[-1].minor);
 }
-#line 2116 "parser.php.c"
+#line 2123 "parser.php.c"
         break;
       case 127:
       case 130:
-#line 781 "parser.php.lemon"
+#line 787 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_IN, &yymsp[-4].minor.yy82, &yymsp[-1].minor.yy82);
   yy_destructor(28,&yymsp[-3].minor);
   yy_destructor(54,&yymsp[-2].minor);
   yy_destructor(55,&yymsp[0].minor);
 }
-#line 2127 "parser.php.c"
+#line 2134 "parser.php.c"
         break;
       case 128:
       case 131:
-#line 785 "parser.php.lemon"
+#line 791 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_NOTIN, &yymsp[-5].minor.yy82, &yymsp[-1].minor.yy82);
   yy_destructor(29,&yymsp[-4].minor);
@@ -2135,37 +2142,37 @@ static void yy_reduce(
   yy_destructor(54,&yymsp[-2].minor);
   yy_destructor(55,&yymsp[0].minor);
 }
-#line 2139 "parser.php.c"
+#line 2146 "parser.php.c"
         break;
       case 129:
-#line 789 "parser.php.lemon"
+#line 795 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_SUBQUERY, &yymsp[-1].minor.yy82, NULL);
   yy_destructor(54,&yymsp[-2].minor);
   yy_destructor(55,&yymsp[0].minor);
 }
-#line 2148 "parser.php.c"
+#line 2155 "parser.php.c"
         break;
       case 132:
-#line 801 "parser.php.lemon"
+#line 807 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_EXISTS, NULL, &yymsp[-1].minor.yy82);
   yy_destructor(75,&yymsp[-3].minor);
   yy_destructor(54,&yymsp[-2].minor);
   yy_destructor(55,&yymsp[0].minor);
 }
-#line 2158 "parser.php.c"
+#line 2165 "parser.php.c"
         break;
       case 133:
-#line 805 "parser.php.lemon"
+#line 811 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_AGAINST, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(1,&yymsp[-1].minor);
 }
-#line 2166 "parser.php.c"
+#line 2173 "parser.php.c"
         break;
       case 134:
-#line 809 "parser.php.lemon"
+#line 815 "parser.php.lemon"
 {
 	{
 		zval qualified;
@@ -2177,10 +2184,10 @@ static void yy_reduce(
   yy_destructor(42,&yymsp[-2].minor);
   yy_destructor(55,&yymsp[0].minor);
 }
-#line 2181 "parser.php.c"
+#line 2188 "parser.php.c"
         break;
       case 135:
-#line 817 "parser.php.lemon"
+#line 823 "parser.php.lemon"
 {
 	{
 		zval qualified;
@@ -2192,156 +2199,156 @@ static void yy_reduce(
   yy_destructor(78,&yymsp[-2].minor);
   yy_destructor(55,&yymsp[0].minor);
 }
-#line 2196 "parser.php.c"
+#line 2203 "parser.php.c"
         break;
       case 136:
-#line 825 "parser.php.lemon"
+#line 831 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_CASE, &yymsp[-2].minor.yy82, &yymsp[-1].minor.yy82);
   yy_destructor(79,&yymsp[-3].minor);
   yy_destructor(80,&yymsp[0].minor);
 }
-#line 2205 "parser.php.c"
+#line 2212 "parser.php.c"
         break;
       case 139:
-#line 837 "parser.php.lemon"
+#line 843 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_WHEN, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(81,&yymsp[-3].minor);
   yy_destructor(82,&yymsp[-1].minor);
 }
-#line 2214 "parser.php.c"
+#line 2221 "parser.php.c"
         break;
       case 140:
-#line 841 "parser.php.lemon"
+#line 847 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_ELSE, &yymsp[0].minor.yy82, NULL);
   yy_destructor(83,&yymsp[-1].minor);
 }
-#line 2222 "parser.php.c"
+#line 2229 "parser.php.c"
         break;
       case 142:
-#line 853 "parser.php.lemon"
+#line 859 "parser.php.lemon"
 {
 	phql_ret_func_call(&yygotominor.yy82, yymsp[-4].minor.yy0, &yymsp[-1].minor.yy82, &yymsp[-2].minor.yy82);
   yy_destructor(54,&yymsp[-3].minor);
   yy_destructor(55,&yymsp[0].minor);
 }
-#line 2231 "parser.php.c"
+#line 2238 "parser.php.c"
         break;
       case 143:
-#line 861 "parser.php.lemon"
+#line 867 "parser.php.lemon"
 {
 	phql_ret_distinct(&yygotominor.yy82);
   yy_destructor(38,&yymsp[0].minor);
 }
-#line 2239 "parser.php.c"
+#line 2246 "parser.php.c"
         break;
       case 151:
-#line 905 "parser.php.lemon"
+#line 911 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_ISNULL, &yymsp[-2].minor.yy82, NULL);
   yy_destructor(27,&yymsp[-1].minor);
   yy_destructor(84,&yymsp[0].minor);
 }
-#line 2248 "parser.php.c"
+#line 2255 "parser.php.c"
         break;
       case 152:
-#line 909 "parser.php.lemon"
+#line 915 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_ISNOTNULL, &yymsp[-3].minor.yy82, NULL);
   yy_destructor(27,&yymsp[-2].minor);
   yy_destructor(29,&yymsp[-1].minor);
   yy_destructor(84,&yymsp[0].minor);
 }
-#line 2258 "parser.php.c"
+#line 2265 "parser.php.c"
         break;
       case 153:
-#line 913 "parser.php.lemon"
+#line 919 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_BETWEEN, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(2,&yymsp[-1].minor);
 }
-#line 2266 "parser.php.c"
+#line 2273 "parser.php.c"
         break;
       case 154:
-#line 917 "parser.php.lemon"
+#line 923 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_BETWEEN_NOT, &yymsp[-2].minor.yy82, &yymsp[0].minor.yy82);
   yy_destructor(3,&yymsp[-1].minor);
 }
-#line 2274 "parser.php.c"
+#line 2281 "parser.php.c"
         break;
       case 155:
-#line 921 "parser.php.lemon"
+#line 927 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_NOT, NULL, &yymsp[0].minor.yy82);
   yy_destructor(29,&yymsp[-1].minor);
 }
-#line 2282 "parser.php.c"
+#line 2289 "parser.php.c"
         break;
       case 156:
-#line 925 "parser.php.lemon"
+#line 931 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_BITWISE_NOT, NULL, &yymsp[0].minor.yy82);
   yy_destructor(30,&yymsp[-1].minor);
 }
-#line 2290 "parser.php.c"
+#line 2297 "parser.php.c"
         break;
       case 157:
-#line 929 "parser.php.lemon"
+#line 935 "parser.php.lemon"
 {
 	phql_ret_expr(&yygotominor.yy82, PHQL_T_ENCLOSED, &yymsp[-1].minor.yy82, NULL);
   yy_destructor(54,&yymsp[-2].minor);
   yy_destructor(55,&yymsp[0].minor);
 }
-#line 2299 "parser.php.c"
+#line 2306 "parser.php.c"
         break;
       case 161:
-#line 945 "parser.php.lemon"
+#line 951 "parser.php.lemon"
 {
 	phql_ret_literal_zval(&yygotominor.yy82, PHQL_T_STRING, yymsp[0].minor.yy0);
 }
-#line 2306 "parser.php.c"
+#line 2313 "parser.php.c"
         break;
       case 162:
-#line 949 "parser.php.lemon"
+#line 955 "parser.php.lemon"
 {
 	phql_ret_literal_zval(&yygotominor.yy82, PHQL_T_DOUBLE, yymsp[0].minor.yy0);
 }
-#line 2313 "parser.php.c"
+#line 2320 "parser.php.c"
         break;
       case 163:
-#line 953 "parser.php.lemon"
+#line 959 "parser.php.lemon"
 {
 	phql_ret_literal_zval(&yygotominor.yy82, PHQL_T_NULL, NULL);
   yy_destructor(84,&yymsp[0].minor);
 }
-#line 2321 "parser.php.c"
+#line 2328 "parser.php.c"
         break;
       case 164:
-#line 957 "parser.php.lemon"
+#line 963 "parser.php.lemon"
 {
 	phql_ret_literal_zval(&yygotominor.yy82, PHQL_T_TRUE, NULL);
   yy_destructor(87,&yymsp[0].minor);
 }
-#line 2329 "parser.php.c"
+#line 2336 "parser.php.c"
         break;
       case 165:
-#line 961 "parser.php.lemon"
+#line 967 "parser.php.lemon"
 {
 	phql_ret_literal_zval(&yygotominor.yy82, PHQL_T_FALSE, NULL);
   yy_destructor(88,&yymsp[0].minor);
 }
-#line 2337 "parser.php.c"
+#line 2344 "parser.php.c"
         break;
       case 169:
-#line 984 "parser.php.lemon"
+#line 990 "parser.php.lemon"
 {
 	phql_ret_qualified_name(&yygotominor.yy82, NULL, yymsp[-2].minor.yy0, yymsp[0].minor.yy0);
   yy_destructor(41,&yymsp[-1].minor);
 }
-#line 2345 "parser.php.c"
+#line 2352 "parser.php.c"
         break;
   };
   yygoto = yyRuleInfo[yyruleno].lhs;
@@ -2450,7 +2457,7 @@ static void yy_syntax_error(
 
 	status->status = PHQL_PARSING_FAILED;
 
-#line 2454 "parser.php.c"
+#line 2461 "parser.php.c"
   phql_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 

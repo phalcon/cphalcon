@@ -2284,6 +2284,13 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
                 if !memstr(bucketPattern, "^") {
                     let this->staticByMethod[method][bucketPattern][] = bucketRoute;
+
+                    /**
+                     * A later static route for a URI overrides an earlier regex
+                     * that shadowed it, so clear any stale shadow flag - the
+                     * last-registered route must win.
+                     */
+                    unset this->staticShadowedByMethod[method][bucketPattern];
                 } else {
                     if fetch staticBucket, this->staticByMethod[method] {
                         for staticUri, staticRoutesList in staticBucket {

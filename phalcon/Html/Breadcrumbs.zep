@@ -144,8 +144,8 @@ class Breadcrumbs
                     "%link%"
                 ],
                 [
-                    element,
-                    url
+                    htmlspecialchars((string) element),
+                    htmlspecialchars((string) url)
                 ],
                 template
             );
@@ -155,7 +155,7 @@ class Breadcrumbs
          * Check if this is the "Home" element i.e. count() = 0
          */
         if !empty elements {
-            let output[] = "<dt>" . lastLabel . "</dt>";
+            let output[] = "<dt>" . htmlspecialchars((string) lastLabel) . "</dt>";
         } else {
             let output[] = str_replace(
                 [
@@ -163,8 +163,8 @@ class Breadcrumbs
                     "%link%"
                 ],
                 [
-                    lastLabel,
-                    lastUrl
+                    htmlspecialchars((string) lastLabel),
+                    htmlspecialchars((string) lastUrl)
                 ],
                 template
             );

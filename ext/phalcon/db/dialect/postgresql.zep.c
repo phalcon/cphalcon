@@ -1107,11 +1107,15 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createView)
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeColumns)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval schema;
-	zval table_zv, *schema_param = NULL;
+	zval table_zv, *schema_param = NULL, _0, _1;
 	zend_string *table = NULL;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&table_zv);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&schema);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
@@ -1135,7 +1139,11 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeColumns)
 		ZEPHIR_INIT_NVAR(&schema);
 		ZVAL_STRING(&schema, "public");
 	}
-	ZEPHIR_CONCAT_SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSVSSVSS(return_value, "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, ", "c.character_maximum_length AS Size, ", "c.numeric_precision AS NumericSize, ", "c.numeric_scale AS NumericScale, c.is_nullable AS Null, ", "CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, ", "CASE WHEN c.data_type LIKE '%int%' AND ", "c.column_default LIKE '%nextval%' THEN 'auto_increment' ", "ELSE '' END AS Extra, c.ordinal_position AS Position, ", "c.column_default, des.description, ", "c.is_generated AS IsGenerated, ", "c.generation_expression AS GenerationExpression ", "FROM information_schema.columns c ", "LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, ", "kcu.table_schema FROM information_schema.table_constraints tc ", "INNER JOIN information_schema.key_column_usage kcu on ", "(kcu.constraint_name = tc.constraint_name and ", "kcu.table_name=tc.table_name and ", "kcu.table_schema=tc.table_schema) ", "WHERE tc.constraint_type='PRIMARY KEY') pkc ", "ON (c.column_name=pkc.column_name AND ", "c.table_schema = pkc.table_schema AND ", "c.table_name=pkc.table_name) ", "LEFT JOIN ( SELECT objsubid, description, relname, nspname ", "FROM pg_description ", "JOIN pg_class ON pg_description.objoid = pg_class.oid ", "JOIN pg_namespace ON pg_class.relnamespace = pg_namespace.oid ", ") des ON ( des.objsubid = C.ordinal_position ", "AND C.table_schema = des.nspname ", "AND C.TABLE_NAME = des.relname ) ", "WHERE c.table_schema='", &schema, "' ", "AND c.table_name='", &table_zv, "' ", "ORDER BY c.ordinal_position");
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "escapestringliteral", NULL, 0, &schema);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "escapestringliteral", NULL, 0, &table_zv);
+	zephir_check_call_status();
+	ZEPHIR_CONCAT_SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSVSSVSS(return_value, "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, ", "c.character_maximum_length AS Size, ", "c.numeric_precision AS NumericSize, ", "c.numeric_scale AS NumericScale, c.is_nullable AS Null, ", "CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, ", "CASE WHEN c.data_type LIKE '%int%' AND ", "c.column_default LIKE '%nextval%' THEN 'auto_increment' ", "ELSE '' END AS Extra, c.ordinal_position AS Position, ", "c.column_default, des.description, ", "c.is_generated AS IsGenerated, ", "c.generation_expression AS GenerationExpression ", "FROM information_schema.columns c ", "LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, ", "kcu.table_schema FROM information_schema.table_constraints tc ", "INNER JOIN information_schema.key_column_usage kcu on ", "(kcu.constraint_name = tc.constraint_name and ", "kcu.table_name=tc.table_name and ", "kcu.table_schema=tc.table_schema) ", "WHERE tc.constraint_type='PRIMARY KEY') pkc ", "ON (c.column_name=pkc.column_name AND ", "c.table_schema = pkc.table_schema AND ", "c.table_name=pkc.table_name) ", "LEFT JOIN ( SELECT objsubid, description, relname, nspname ", "FROM pg_description ", "JOIN pg_class ON pg_description.objoid = pg_class.oid ", "JOIN pg_namespace ON pg_class.relnamespace = pg_namespace.oid ", ") des ON ( des.objsubid = C.ordinal_position ", "AND C.table_schema = des.nspname ", "AND C.TABLE_NAME = des.relname ) ", "WHERE c.table_schema='", &_0, "' ", "AND c.table_name='", &_1, "' ", "ORDER BY c.ordinal_position");
 	RETURN_MM();
 }
 
@@ -1145,11 +1153,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeColumns)
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeIndexes)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval table_zv, schema_zv;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval table_zv, schema_zv, _0;
 	zend_string *table = NULL, *schema = NULL;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&table_zv);
 	ZVAL_UNDEF(&schema_zv);
+	ZVAL_UNDEF(&_0);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(table)
@@ -1166,7 +1177,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeIndexes)
 		zephir_memory_observe(&schema_zv);
 	ZVAL_STR_COPY(&schema_zv, schema);
 	}
-	ZEPHIR_CONCAT_SVS(return_value, "SELECT 0 as c0, t.relname as table_name, i.relname as key_name, 3 as c3, a.attname as column_name FROM pg_class t, pg_class i, pg_index ix, pg_attribute a WHERE t.oid = ix.indrelid AND i.oid = ix.indexrelid AND a.attrelid = t.oid AND a.attnum = ANY(ix.indkey) AND t.relkind = 'r' AND t.relname = '", &table_zv, "' ORDER BY t.relname, i.relname;");
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "escapestringliteral", NULL, 0, &table_zv);
+	zephir_check_call_status();
+	ZEPHIR_CONCAT_SVS(return_value, "SELECT 0 as c0, t.relname as table_name, i.relname as key_name, 3 as c3, a.attname as column_name FROM pg_class t, pg_class i, pg_index ix, pg_attribute a WHERE t.oid = ix.indrelid AND i.oid = ix.indexrelid AND a.attrelid = t.oid AND a.attnum = ANY(ix.indkey) AND t.relkind = 'r' AND t.relname = '", &_0, "' ORDER BY t.relname, i.relname;");
 	RETURN_MM();
 }
 
@@ -1176,11 +1189,15 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeIndexes)
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeReferences)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval schema;
-	zval table_zv, *schema_param = NULL;
+	zval table_zv, *schema_param = NULL, _0, _1;
 	zend_string *table = NULL;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&table_zv);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&schema);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
@@ -1204,7 +1221,11 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeReferences)
 		ZEPHIR_INIT_NVAR(&schema);
 		ZVAL_STRING(&schema, "public");
 	}
-	ZEPHIR_CONCAT_SVSVS(return_value, "SELECT DISTINCT tc.table_name AS TABLE_NAME, kcu.column_name AS COLUMN_NAME, tc.constraint_name AS CONSTRAINT_NAME, tc.table_catalog AS REFERENCED_TABLE_SCHEMA, ccu.table_name AS REFERENCED_TABLE_NAME, ccu.column_name AS REFERENCED_COLUMN_NAME, rc.update_rule AS UPDATE_RULE, rc.delete_rule AS DELETE_RULE FROM information_schema.table_constraints AS tc JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name JOIN information_schema.referential_constraints rc ON tc.constraint_catalog = rc.constraint_catalog AND tc.constraint_schema = rc.constraint_schema AND tc.constraint_name = rc.constraint_name AND tc.constraint_type = 'FOREIGN KEY' WHERE constraint_type = 'FOREIGN KEY' AND tc.table_schema = '", &schema, "' AND tc.table_name='", &table_zv, "'");
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "escapestringliteral", NULL, 0, &schema);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "escapestringliteral", NULL, 0, &table_zv);
+	zephir_check_call_status();
+	ZEPHIR_CONCAT_SVSVS(return_value, "SELECT DISTINCT tc.table_name AS TABLE_NAME, kcu.column_name AS COLUMN_NAME, tc.constraint_name AS CONSTRAINT_NAME, tc.table_catalog AS REFERENCED_TABLE_SCHEMA, ccu.table_name AS REFERENCED_TABLE_NAME, ccu.column_name AS REFERENCED_COLUMN_NAME, rc.update_rule AS UPDATE_RULE, rc.delete_rule AS DELETE_RULE FROM information_schema.table_constraints AS tc JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name JOIN information_schema.referential_constraints rc ON tc.constraint_catalog = rc.constraint_catalog AND tc.constraint_schema = rc.constraint_schema AND tc.constraint_name = rc.constraint_name AND tc.constraint_type = 'FOREIGN KEY' WHERE constraint_type = 'FOREIGN KEY' AND tc.table_schema = '", &_0, "' AND tc.table_name='", &_1, "'");
 	RETURN_MM();
 }
 
@@ -1933,10 +1954,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition)
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, listTables)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *schemaName_param = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *schemaName_param = NULL, _0;
 	zval schemaName;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&schemaName);
+	ZVAL_UNDEF(&_0);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -1954,7 +1978,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, listTables)
 		ZEPHIR_INIT_NVAR(&schemaName);
 		ZVAL_STRING(&schemaName, "public");
 	}
-	ZEPHIR_CONCAT_SVS(return_value, "SELECT table_name FROM information_schema.tables WHERE table_schema = '", &schemaName, "' ORDER BY table_name");
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "escapestringliteral", NULL, 0, &schemaName);
+	zephir_check_call_status();
+	ZEPHIR_CONCAT_SVS(return_value, "SELECT table_name FROM information_schema.tables WHERE table_schema = '", &_0, "' ORDER BY table_name");
 	RETURN_MM();
 }
 
@@ -1964,10 +1990,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, listTables)
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, listViews)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *schemaName_param = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *schemaName_param = NULL, _0;
 	zval schemaName;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&schemaName);
+	ZVAL_UNDEF(&_0);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -1985,7 +2014,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, listViews)
 		ZEPHIR_INIT_NVAR(&schemaName);
 		ZVAL_STRING(&schemaName, "public");
 	}
-	ZEPHIR_CONCAT_SVS(return_value, "SELECT viewname AS view_name FROM pg_views WHERE schemaname = '", &schemaName, "' ORDER BY view_name");
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "escapestringliteral", NULL, 0, &schemaName);
+	zephir_check_call_status();
+	ZEPHIR_CONCAT_SVS(return_value, "SELECT viewname AS view_name FROM pg_views WHERE schemaname = '", &_0, "' ORDER BY view_name");
 	RETURN_MM();
 }
 
@@ -2317,11 +2348,15 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, sharedLock)
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, tableExists)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval schemaName;
-	zval tableName_zv, *schemaName_param = NULL;
+	zval tableName_zv, *schemaName_param = NULL, _0, _1;
 	zend_string *tableName = NULL;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&tableName_zv);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&schemaName);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
@@ -2345,7 +2380,11 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, tableExists)
 		ZEPHIR_INIT_NVAR(&schemaName);
 		ZVAL_STRING(&schemaName, "public");
 	}
-	ZEPHIR_CONCAT_SVSVS(return_value, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM information_schema.tables WHERE table_schema = '", &schemaName, "' AND table_name='", &tableName_zv, "'");
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "escapestringliteral", NULL, 0, &schemaName);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "escapestringliteral", NULL, 0, &tableName_zv);
+	zephir_check_call_status();
+	ZEPHIR_CONCAT_SVSVS(return_value, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM information_schema.tables WHERE table_schema = '", &_0, "' AND table_name='", &_1, "'");
 	RETURN_MM();
 }
 
@@ -2356,11 +2395,16 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, tableOptions)
 {
 	zval sql;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval table_zv, schema_zv;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval table_zv, schema_zv, _0, _1, _2$$3;
 	zend_string *table = NULL, *schema = NULL;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&table_zv);
 	ZVAL_UNDEF(&schema_zv);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&sql);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
@@ -2378,10 +2422,15 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, tableOptions)
 		zephir_memory_observe(&schema_zv);
 	ZVAL_STR_COPY(&schema_zv, schema);
 	}
-	ZEPHIR_INIT_VAR(&sql);
-	ZEPHIR_CONCAT_SVS(&sql, "SELECT obj_description(c.oid, 'pg_class') AS table_comment FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE c.relname = '", &table_zv, "' AND ");
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "escapestringliteral", NULL, 0, &table_zv);
+	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(&_1);
+	ZEPHIR_CONCAT_SVS(&_1, "SELECT obj_description(c.oid, 'pg_class') AS table_comment FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE c.relname = '", &_0, "' AND ");
+	zephir_get_strval(&sql, &_1);
 	if (!(ZEPHIR_IS_EMPTY(&schema_zv))) {
-		ZEPHIR_CONCAT_VSVS(return_value, &sql, "n.nspname = '", &schema_zv, "'");
+		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "escapestringliteral", NULL, 0, &schema_zv);
+		zephir_check_call_status();
+		ZEPHIR_CONCAT_VSVS(return_value, &sql, "n.nspname = '", &_2$$3, "'");
 		RETURN_MM();
 	}
 	ZEPHIR_CONCAT_VS(return_value, &sql, "n.nspname = current_schema()");
@@ -2429,11 +2478,15 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, truncateTable)
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, viewExists)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval schemaName;
-	zval viewName_zv, *schemaName_param = NULL;
+	zval viewName_zv, *schemaName_param = NULL, _0, _1;
 	zend_string *viewName = NULL;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&viewName_zv);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&schemaName);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
@@ -2457,7 +2510,11 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, viewExists)
 		ZEPHIR_INIT_NVAR(&schemaName);
 		ZVAL_STRING(&schemaName, "public");
 	}
-	ZEPHIR_CONCAT_SVSVS(return_value, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='", &viewName_zv, "' AND schemaname='", &schemaName, "'");
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "escapestringliteral", NULL, 0, &viewName_zv);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "escapestringliteral", NULL, 0, &schemaName);
+	zephir_check_call_status();
+	ZEPHIR_CONCAT_SVSVS(return_value, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='", &_0, "' AND schemaname='", &_1, "'");
 	RETURN_MM();
 }
 

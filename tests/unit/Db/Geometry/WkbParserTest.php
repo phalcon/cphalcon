@@ -35,6 +35,23 @@ final class WkbParserTest extends AbstractUnitTestCase
         (new WkbParser())->parse("zz"); // not hex, too short for MySQL prefix
     }
 
+    /**
+     * A GeometryCollection nested past the depth cap must fail loudly instead
+     * of exhausting the native C stack and crashing the worker (CWE-674).
+     */
+    public function testDeeplyNestedCollectionThrows(): void
+    {
+        // 40 nested GeometryCollections (byteorder + type 7 + count 1), then a
+        // terminal POINT - deeper than the supported nesting cap.
+        $point  = "01" . "01000000" . self::D1 . self::D2;
+        $nested = str_repeat("01" . "07000000" . "01000000", 40) . $point;
+        $raw    = hex2bin("00000000" . $nested);
+
+        $this->expectException(InvalidWkb::class);
+
+        (new WkbParser())->parse($raw);
+    }
+
     public function testMysqlGeometryCollection(): void
     {
         $point = "01" . "01000000" . self::D1 . self::D2; // POINT(1 2)

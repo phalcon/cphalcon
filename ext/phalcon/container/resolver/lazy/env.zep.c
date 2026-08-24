@@ -168,7 +168,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_Env, cast)
 	if (Z_TYPE_P(&_0) != IS_NULL) {
 		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_0, 161, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_MAKE_REF(value);
-		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 16, value, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 17, value, &_1$$3);
 		ZEPHIR_UNREF(value);
 		zephir_check_call_status();
 	}

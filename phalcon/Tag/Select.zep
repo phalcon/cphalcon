@@ -48,7 +48,7 @@ abstract class Select
         var data = null
     ) -> string {
         var params, name, id, value, useEmpty, code, emptyValue, emptyText,
-            options, using;
+            options, using, escaper;
 
         if typeof parameters != "array" {
             let params = [parameters, data];
@@ -126,10 +126,12 @@ abstract class Select
 
         if useEmpty {
             /**
-             * Create an empty value
+             * Create an empty value. Escape it the same way as the real
+             * options so a crafted emptyValue/emptyText cannot inject markup.
              */
-            let code .= self::echoOption(emptyValue)
-                . emptyText
+            let escaper = <EscaperInterface> BaseTag::getEscaperService();
+            let code .= self::echoOption(escaper->attributes(emptyValue))
+                . escaper->html(emptyText)
                 . "</option>" . PHP_EOL;
         }
 

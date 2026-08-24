@@ -115,6 +115,12 @@ class Token
      * Only claims that have a value in the validator are checked. A claim left
      * as null expresses no expectation and is skipped.
      *
+     * Security note: this method checks the claims only. It does not verify
+     * the signature. A token accepted by validate() alone is unauthenticated.
+     * Always also call verify() (or Validator::validateSignature()) and treat
+     * an empty error array as valid only after the signature check passes.
+     * A signature-aware default is planned for a future major version.
+     *
      * @param Validator $validator
      *
      * @return array

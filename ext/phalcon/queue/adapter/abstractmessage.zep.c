@@ -166,7 +166,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, getCorrelationId)
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "correlation_id");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getheaderasstring", NULL, 77, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getheaderasstring", NULL, 78, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -318,7 +318,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, getReplyTo)
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "reply_to");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getheaderasstring", NULL, 77, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getheaderasstring", NULL, 78, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

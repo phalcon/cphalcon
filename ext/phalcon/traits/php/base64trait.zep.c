@@ -74,7 +74,7 @@ PHP_METHOD(Phalcon_Traits_Php_Base64Trait, doDecodeUrl)
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "=");
 		ZVAL_LONG(&_2$$3, (4 - remainder));
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "str_repeat", NULL, 6, &_1$$3, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "str_repeat", NULL, 7, &_1$$3, &_2$$3);
 		zephir_check_call_status();
 		zephir_concat_self(&input, &_3$$3);
 	}

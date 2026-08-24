@@ -72,6 +72,11 @@ final class FakeCookies implements CookiesInterface
     ): CookiesInterface {
         $cookie = new FakeCookie($name, $value);
         $cookie->setExpiration($expire);
+        $cookie->setPath($path);
+        $cookie->setSecure($secure);
+        $cookie->setDomain($domain);
+        $cookie->setHttpOnly($httpOnly);
+        $cookie->setOptions($options);
 
         $this->store[$name] = $cookie;
 

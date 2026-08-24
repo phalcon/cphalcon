@@ -122,6 +122,32 @@ final class HandleTest extends AbstractUnitTestCase
         $this->assertSame('', $router->getActionName());
     }
 
+    /**
+     * A static route registered AFTER a regex that shadows the same URI must
+     * still win (last-registered wins), not be masked by the stale shadow
+     * flag on the fast path (CWE-863).
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     */
+    public function testMvcRouterHandleStaticOverridesEarlierRegexShadow(): void
+    {
+        Route::reset();
+
+        $router = $this->getRouter(false);
+        $router->add('/admin', ['controller' => 'public', 'action' => 'index'])
+               ->via('GET');
+        $router->add('#^/adm[a-z]+$#u', ['controller' => 'generic', 'action' => 'catchAll'])
+               ->via('GET');
+        $router->add('/admin', ['controller' => 'admin', 'action' => 'secureOverride'])
+               ->via('GET');
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $router->handle('/admin');
+
+        $this->assertSame('admin', $router->getControllerName());
+        $this->assertSame('secureOverride', $router->getActionName());
+    }
+
     #[DataProvider('groupsProvider')]
     public function testMvcRouterHandleGroups(
         string $route,

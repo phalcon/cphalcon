@@ -2,6 +2,44 @@
 
 All notable changes are documented here. The format is based on [Keep a Changelog][keep_a_changelog] and this project adheres to [Semantic Versioning][semantic_versioning].
 
+## [5.20.1](https://github.com/phalcon/cphalcon/releases/tag/v5.20.1) (2026-08-24)
+
+### Tools
+
+- Zephir 1.2.0 (32d04d5)
+
+### Changed
+
+### Added
+
+### Fixed
+
+- Attribute name and empty-option injection in the legacy Tag / Forms Select element.
+- Attribute name and tag name injection in the Html Tag helpers.
+- Attribute name splitting in the Html Escaper `attributes()` array keys.
+- Backslash breakout in the Html Escaper `js()` output.
+- Missing Secure and HttpOnly flags on the Auth "remember me" cookie.
+- Non-constant-time credential comparison in the Auth memory and stream adapters.
+- Non-cryptographic randomness in the ISO-10126 padding scheme.
+- Object injection through unrestricted `unserialize()` in the Storage Stream payload read.
+- Only the first configured trusted proxy checked when resolving the Request client address.
+- Open redirect via absolute and protocol-relative targets in the Http Response `redirect()`.
+- Path traversal in the View `partial()` and Simple `render()` paths.
+- Path traversal via the cache key in the Storage Stream adapter.
+- Reflected XSS via unescaped array keys in the Debug dump and exception renderer.
+- SQL injection in the Db Dialect schema-introspection methods.
+- Session fixation in the Auth Session guard login.
+- Unbounded recursion in the WKB geometry parser.
+- Unescaped CSS class in Flash messages.
+- Unescaped identifier quoting in the DataMapper PDO connection.
+- Unescaped label and link in the deprecated Html Breadcrumbs.
+- Unescaped label text in the Html checkbox and radio helpers.
+- Unescaped link in the Html breadcrumbs helper.
+- Wrong route dispatched by the Router fast path when a static route follows a shadowing regex.
+
+### Removed
+
+
 ## [5.20.0](https://github.com/phalcon/cphalcon/releases/tag/v5.20.0) (2026-08-22)
 
 ### Tools

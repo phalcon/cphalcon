@@ -43,7 +43,13 @@ class JsEscaper extends AbstractEscaper
             return "";
         }
 
-        let result = this->doEscapeJs(this->normalizeEncoding(input));
+        /**
+         * The C escaper keeps a backslash as is. Double it first so it cannot
+         * escape the delimiter of the surrounding JavaScript string.
+         */
+        let result = this->doEscapeJs(
+            this->normalizeEncoding(str_replace("\\", "\\\\", input))
+        );
 
         if typeof result != "string" {
             return "";

@@ -2131,7 +2131,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionCase)
 	ZEPHIR_CONCAT_SV(&_2, "CASE ", &_0);
 	zephir_get_strval(&sql, &_2);
 	zephir_array_fetch_string(&_3, &expression, SL("when-clauses"), PH_NOISY | PH_READONLY, "phalcon/Db/Dialect.zep", 979);
-	ZEPHIR_CALL_FUNCTION(&whenClauses, "array_values", NULL, 27, &_3);
+	ZEPHIR_CALL_FUNCTION(&whenClauses, "array_values", NULL, 28, &_3);
 	zephir_check_call_status();
 	zephir_is_iterable(&whenClauses, 0, "phalcon/Db/Dialect.zep", 992);
 	if (Z_TYPE_P(&whenClauses) == IS_ARRAY) {

@@ -775,7 +775,7 @@ class Tag
         let url = self::getUrlService(),
             params["href"] = url->get(action, query, local),
             code = self::renderAttributes("<a", params),
-            code .= ">" . self::toStringValue(text) . "</a>";
+            code .= ">" . htmlspecialchars(self::toStringValue(text)) . "</a>";
 
         return code;
     }
@@ -1011,6 +1011,13 @@ class Tag
                 } else {
                     let escaped = value;
                 }
+
+                /**
+                 * The key is an attribute name. Remove the characters that end
+                 * a name so a crafted key cannot add more attributes or close
+                 * the tag.
+                 */
+                let key = preg_replace("~[\\s/=<>\"']~", "", key);
 
                 let attrParts[] = key . "=\"" . escaped . "\"";
             }
@@ -1267,6 +1274,12 @@ class Tag
     {
         var params, localCode;
 
+        /**
+         * The tag name is a raw structural position. Remove the characters
+         * that end a name or the tag so a crafted name cannot inject markup.
+         */
+        let tagName = (string) preg_replace("~[\\s/=<>\"']~", "", tagName);
+
         if typeof parameters != "array" {
             let params = [parameters];
         } else {
@@ -1304,6 +1317,12 @@ class Tag
      */
     public static function tagHtmlClose(string tagName, bool useEol = false) -> string
     {
+        /**
+         * The tag name is a raw structural position. Remove the characters
+         * that end a name or the tag so a crafted name cannot inject markup.
+         */
+        let tagName = (string) preg_replace("~[\\s/=<>\"']~", "", tagName);
+
         if useEol {
             return "</" . tagName . ">" . PHP_EOL;
         }

@@ -29,7 +29,7 @@ class Iso10126 implements PadInterface
         let padding = "";
 
         for counter in range(0, paddingSize - 2) {
-            let padding .= chr(rand() % 256);
+            let padding .= random_bytes(1);
         }
 
         let padding .= chr(paddingSize);

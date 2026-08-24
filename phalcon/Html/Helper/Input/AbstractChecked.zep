@@ -82,6 +82,8 @@ abstract class AbstractChecked extends AbstractInput
 
         if !fetch text, attributes["text"] {
             let text = "";
+        } else {
+            let text = this->escaper->html(text);
         }
 
         unset attributes["text"];

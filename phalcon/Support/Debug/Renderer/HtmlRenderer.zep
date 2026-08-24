@@ -273,7 +273,7 @@ class HtmlRenderer implements Renderer
                 let varDump = value;
             }
 
-            let dump[] = "[" . key . "] =&gt; " . varDump;
+            let dump[] = "[" . this->escapeString((string) key) . "] =&gt; " . varDump;
         }
 
         return join(", ", dump);

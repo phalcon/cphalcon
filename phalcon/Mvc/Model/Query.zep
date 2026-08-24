@@ -1323,7 +1323,9 @@ class Query implements QueryInterface, InjectionAwareInterface
 
         /**
          * Embed RawValue bind params directly in the SQL instead of passing
-         * them to PDO, which would quote them as strings.
+         * them to PDO, which would quote them as strings. The value is emitted
+         * verbatim (unescaped), so a RawValue must never wrap untrusted data.
+         * See Phalcon\Db\RawValue.
          */
         for wildcard, value in processed {
             if typeof value == "object" && value instanceof RawValue {

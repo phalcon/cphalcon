@@ -21,6 +21,8 @@ use SessionHandlerInterface;
 
 final class FakeSessionManager implements ManagerInterface
 {
+    public int $regenerateIdCalls = 0;
+
     /**
      * @var array<string, mixed>
      */
@@ -103,6 +105,8 @@ final class FakeSessionManager implements ManagerInterface
 
     public function regenerateId(bool $deleteOldSession = true): ManagerInterface
     {
+        $this->regenerateIdCalls++;
+
         return $this;
     }
 

@@ -206,4 +206,25 @@ final class SelectFieldTest extends AbstractTagTestCase
 
         $this->assertStringContainsString('<option value="">1</option>', $html);
     }
+
+    public function testSelectFieldEscapesAttributeNameAndEmptyOption(): void
+    {
+        $html = Select::selectField(
+            [
+                'choices',
+                'a" onmouseover=alert(1) x' => 'y',
+                'useEmpty'   => true,
+                'emptyText'  => '</option><script>alert(1)</script>',
+                'emptyValue' => '"><svg onload=alert(1)>',
+            ],
+            ['1' => 'One']
+        );
+
+        // attacker attribute name must not break out of the <select> tag
+        $this->assertStringNotContainsString('onmouseover=alert(1)', $html);
+        // empty-option text must be escaped, not injected as markup
+        $this->assertStringNotContainsString('<script>', $html);
+        // empty-option value must not break out of the value attribute
+        $this->assertStringNotContainsString('<svg onload', $html);
+    }
 }

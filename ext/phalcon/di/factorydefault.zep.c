@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct)
 	zephir_array_update_string(&_0, SL("flashSession"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	object_init_ex(&_1, phalcon_di_service_ce);
-	ZEPHIR_CALL_METHOD(&_7, &filter, "newinstance", NULL, 252);
+	ZEPHIR_CALL_METHOD(&_7, &filter, "newinstance", NULL, 253);
 	zephir_check_call_status();
 	ZVAL_BOOL(&_3, 1);
 	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 178, &_7, &_3);
@@ -272,7 +272,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct)
 	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 178, &_2, &_3);
 	zephir_check_call_status();
 	zephir_array_update_string(&_0, SL("url"), &_1, PH_COPY | PH_SEPARATE);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 269, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 270, &_0);
 	ZEPHIR_MM_RESTORE();
 }
 

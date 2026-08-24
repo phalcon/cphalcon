@@ -5,6 +5,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_AbstractHelper);
 
 PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, __construct);
 PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, close);
+PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, escapeName);
 PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, indent);
 PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, injectAttribute);
 PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, orderAttributes);
@@ -23,6 +24,10 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_abstracthelper_close, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, tag, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, raw, _IS_BOOL, 0, "false")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_abstracthelper_escapename, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_abstracthelper_indent, 0, 0, IS_STRING, 0)
@@ -74,6 +79,7 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_html_helper_abstracthelper_method_entry) {
 	PHP_ME(Phalcon_Html_Helper_AbstractHelper, __construct, arginfo_phalcon_html_helper_abstracthelper___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Html_Helper_AbstractHelper, close, arginfo_phalcon_html_helper_abstracthelper_close, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Html_Helper_AbstractHelper, escapeName, arginfo_phalcon_html_helper_abstracthelper_escapename, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Html_Helper_AbstractHelper, indent, arginfo_phalcon_html_helper_abstracthelper_indent, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Html_Helper_AbstractHelper, injectAttribute, arginfo_phalcon_html_helper_abstracthelper_injectattribute, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Html_Helper_AbstractHelper, orderAttributes, arginfo_phalcon_html_helper_abstracthelper_orderattributes, ZEND_ACC_PROTECTED)

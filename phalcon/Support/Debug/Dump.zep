@@ -301,7 +301,7 @@ class Dump implements TemplateAware
                 let message = this->getTemplate("arrayKey");
                 let context = [
                     "style" : this->getStyle("arr"),
-                    "key"   : key
+                    "key"   : htmlspecialchars((string) key, ENT_QUOTES, "utf-8")
                 ];
                 let output  .= this->toInterpolate(message, context);
 

@@ -47,9 +47,21 @@ abstract class AbstractHelper
      */
     protected function close(string tag, bool raw = false) -> string
     {
-        let tag = raw ? tag : this->escaper->html(tag);
+        let tag = raw ? tag : this->escapeName(tag);
 
         return "</" . tag . ">";
+    }
+
+    /**
+     * Removes the characters that end a tag or attribute name (white space,
+     * "/", "=") and escapes the rest, so a crafted name cannot break out of
+     * its position.
+     */
+    protected function escapeName(string name) -> string
+    {
+        return this->escaper->html(
+            (string) preg_replace("~[\\s/=]~", "", name)
+        );
     }
 
     /**
@@ -158,6 +170,8 @@ abstract class AbstractHelper
         let result = "";
         for key, value in attributes {
             if typeof key === "string" && null !== value {
+                let key = this->escapeName(key);
+
                 if (true === value) {
                     let result .= key . " ";
                 } else {
@@ -221,7 +235,7 @@ abstract class AbstractHelper
 
         let localClose = empty(trim(close)) ? "" : " " . trim(close);
 
-        return "<" . tag . escapedAttrs . localClose . ">";
+        return "<" . this->escapeName(tag) . escapedAttrs . localClose . ">";
     }
 
     /**

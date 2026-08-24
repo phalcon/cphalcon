@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, __construct)
 	}
 	zephir_memory_observe(&annotationsDir);
 	if (zephir_array_isset_string_fetch(&annotationsDir, &options, SL("annotationsDir"), 0)) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 394, &annotationsDir);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 395, &annotationsDir);
 	}
 	ZEPHIR_MM_RESTORE();
 }
@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, read)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 394, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 395, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "_");
@@ -155,17 +155,17 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, read)
 	ZEPHIR_INIT_NVAR(&_5);
 	zephir_create_closure_ex(&_5, NULL, phalcon_6__closure_ce, SL("__invoke"));
 	ZVAL_LONG(&_6, 2);
-	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 299, &_5, &_6);
+	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 300, &_5, &_6);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_7, "unserialize", NULL, 26, &contents);
+	ZEPHIR_CALL_FUNCTION(&_7, "unserialize", NULL, 27, &contents);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&contents, &_7);
-	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 300);
+	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 301);
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_GLOBAL(warning).enable)) {
 		ZEPHIR_INIT_VAR(&_8$$5);
 		object_init_ex(&_8$$5, phalcon_annotations_exceptions_cannotreadannotationdata_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_8$$5, "__construct", NULL, 354);
+		ZEPHIR_CALL_METHOD(NULL, &_8$$5, "__construct", NULL, 355);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_8$$5, "phalcon/Annotations/Adapter/Stream.zep", 94);
 		ZEPHIR_MM_RESTORE();
@@ -210,7 +210,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, write)
 	data = ZEND_CALL_ARG(execute_data, 2);
 	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 394, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 395, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "_");
@@ -218,14 +218,14 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, write)
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_VVS(&_3, &_0, &_1, ".php");
 	zephir_get_strval(&path, &_3);
-	ZEPHIR_CALL_FUNCTION(&code, "serialize", NULL, 21, data);
+	ZEPHIR_CALL_FUNCTION(&code, "serialize", NULL, 22, data);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_4, this_ptr, "phpfileputcontents", NULL, 0, &path, &code);
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&_4))) {
 		ZEPHIR_INIT_VAR(&_5$$3);
 		object_init_ex(&_5$$3, phalcon_annotations_exceptions_annotationsdirectorynotwritable_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_5$$3, "__construct", NULL, 355);
+		ZEPHIR_CALL_METHOD(NULL, &_5$$3, "__construct", NULL, 356);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_5$$3, "phalcon/Annotations/Adapter/Stream.zep", 115);
 		ZEPHIR_MM_RESTORE();

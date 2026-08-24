@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, __construct)
 	} else {
 		zephir_get_arrval(&options, options_param);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 232, &options);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 233, &options);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions)
 		zephir_memory_observe(&eventName_zv);
 	ZVAL_STR_COPY(&eventName_zv, eventName);
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 232, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 233, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&options, &_0);
 	if (!ZEPHIR_IS_NULL(&eventName_zv)) {
 		zephir_memory_observe(&eventOptions);
@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction)
 		Z_PARAM_STR(eventName)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&eventName_zv, eventName);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 232, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 233, PH_NOISY_CC | PH_READONLY);
 	RETURN_BOOL(zephir_array_isset_value(&_0, &eventName_zv));
 }
 

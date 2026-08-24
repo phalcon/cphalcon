@@ -114,6 +114,47 @@ final class AttributesTest extends AbstractUnitTestCase
     }
 
     /**
+     * Legitimate attribute names must pass through unchanged.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-22
+     */
+    public function testEscaperAttributesKeepsValidAttributeNames(): void
+    {
+        $escaper = new Escaper();
+
+        $this->assertSame('class="ok"', $escaper->attributes(['class' => 'ok']));
+        $this->assertSame('data-x="1"', $escaper->attributes(['data-x' => '1']));
+    }
+
+    /**
+     * An attacker-controlled attribute name (array key) must not split into
+     * extra attributes and inject an event handler.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-22
+     */
+    public function testEscaperAttributesStripsNameSplittersPreventingInjection(): void
+    {
+        $escaper = new Escaper();
+
+        $attributes = $escaper->attributes(['x onclick=alert(1) y' => true]);
+        $html       = '<img src="i.png" ' . $attributes . '>';
+
+        $document = new \DOMDocument();
+        @$document->loadHTML('<div>' . $html . '</div>');
+        $image = $document->getElementsByTagName('img')->item(0);
+
+        $names = [];
+        foreach ($image->attributes as $attribute) {
+            $names[] = $attribute->name;
+        }
+
+        $this->assertNotContains('onclick', $names);
+        $this->assertContains('src', $names);
+    }
+
+    /**
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-09-09
      */

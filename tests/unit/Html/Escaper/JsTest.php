@@ -47,4 +47,30 @@ final class JsTest extends AbstractUnitTestCase
         $actual = $escaper->js($source);
         $this->assertSame($expected, $actual);
     }
+
+    /**
+     * Backslash must be neutralized so it cannot escape the delimiter of a
+     * surrounding JavaScript string literal (string breakout / XSS).
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-22
+     */
+    public function testEscaperJsNeutralizesBackslashPreventingStringBreakout(): void
+    {
+        $escaper = new Escaper();
+        $bs      = chr(92); // a single backslash
+
+        // a lone backslash must become an escaped (doubled) backslash
+        $this->assertSame($bs . $bs, $escaper->js($bs));
+
+        // a trailing backslash must not escape a following delimiter
+        $this->assertSame('x' . $bs . $bs, $escaper->js('x' . $bs));
+
+        // the classic breakout payload stays inert: backslash doubled, the
+        // quote hex-escaped
+        $this->assertSame(
+            $bs . $bs . '\x27;alert(1)//',
+            $escaper->js($bs . "';alert(1)//")
+        );
+    }
 }
