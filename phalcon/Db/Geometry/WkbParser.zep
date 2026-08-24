@@ -67,10 +67,21 @@ class WkbParser
         return this->readGeometry(srid);
     }
 
-    protected function readGeometry(int outerSrid) -> <GeometryInterface>
+    protected function readGeometry(int outerSrid, int depth = 0) -> <GeometryInterface>
     {
         var byteOrder, little, typeWord, geomCode, baseType, hasZ, hasM,
             srid, count, i, items;
+
+        /**
+         * A GeometryCollection may nest, and this parser compiles to a native
+         * C function, so unbounded nesting exhausts the process stack. Cap the
+         * depth to fail loudly instead of crashing the worker (CWE-674).
+         */
+        if depth > 32 {
+            throw new InvalidWkb(
+                "geometry nesting exceeds the maximum supported depth"
+            );
+        }
 
         let byteOrder = this->readByte(),
             little    = (byteOrder === 1),
@@ -115,7 +126,7 @@ class WkbParser
                     i     = 0;
 
                 while i < count {
-                    let items[] = this->readGeometry(srid),
+                    let items[] = this->readGeometry(srid, depth + 1),
                         i       = i + 1;
                 }
 
