@@ -220,7 +220,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         bool externalRedirect = false,
         int statusCode = 302
     ) -> <ResponseInterface> {
-        var header, url, container, matched, view;
+        var header, url, container, view;
 
         if !location {
             let location = "";
@@ -229,17 +229,19 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         if externalRedirect {
             let header = location;
         } else {
-            if typeof location == "string" && strstr(location, "://") {
-                let matched = preg_match("/^[^:\\/?#]++:/", location);
-
-                if matched {
-                    let header = location;
-                } else {
-                    let header = null;
-                }
-            } else {
-                let header = null;
+            /**
+             * A local redirect (externalRedirect = false) must not honor an
+             * absolute or protocol-relative target, otherwise a request-derived
+             * value such as "//evil.tld" or "http://evil.tld" becomes an open
+             * redirect (CWE-601). Drop such a target and route through the local
+             * url service instead.
+             */
+            if typeof location == "string" &&
+                preg_match("~^(?:[a-z][a-z0-9+.\\-]*:|//)~i", location) {
+                let location = "";
             }
+
+            let header = null;
         }
 
         let container = this->getDI();

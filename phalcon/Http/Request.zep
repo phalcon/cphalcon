@@ -2033,9 +2033,13 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
 
         for trusted in this->trustedProxies {
             if (strpos(trusted, '/') !== false) {
-                return this->isIpAddressInCIDR(ip, trusted);
+                if this->isIpAddressInCIDR(ip, trusted) {
+                    return true;
+                }
             } else {
-                return ip === trusted;
+                if ip === trusted {
+                    return true;
+                }
             }
         }
 
