@@ -55504,9 +55504,8 @@ ZEPHIR_INIT_CLASS(phalcon_91__closure);
 
 static PHP_METHOD(phalcon_91__closure, __invoke);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_91__closure___invoke, 0, 0, 2)
-	ZEND_ARG_INFO(0, a)
-	ZEND_ARG_INFO(0, b)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_91__closure___invoke, 0, 0, 1)
+	ZEND_ARG_INFO(0, matches)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_91__closure_method_entry) {
@@ -55521,7 +55520,7 @@ ZEPHIR_INIT_CLASS(phalcon_92__closure);
 static PHP_METHOD(phalcon_92__closure, __invoke);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_92__closure___invoke, 0, 0, 1)
-	ZEND_ARG_INFO(0, action)
+	ZEND_ARG_INFO(0, matches)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_92__closure_method_entry) {
@@ -55535,8 +55534,9 @@ ZEPHIR_INIT_CLASS(phalcon_93__closure);
 
 static PHP_METHOD(phalcon_93__closure, __invoke);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_93__closure___invoke, 0, 0, 1)
-	ZEND_ARG_INFO(0, matches)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_93__closure___invoke, 0, 0, 2)
+	ZEND_ARG_INFO(0, a)
+	ZEND_ARG_INFO(0, b)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_93__closure_method_entry) {
@@ -55550,8 +55550,9 @@ ZEPHIR_INIT_CLASS(phalcon_94__closure);
 
 static PHP_METHOD(phalcon_94__closure, __invoke);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_94__closure___invoke, 0, 0, 1)
-	ZEND_ARG_INFO(0, matches)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_94__closure___invoke, 0, 0, 2)
+	ZEND_ARG_INFO(0, a)
+	ZEND_ARG_INFO(0, b)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_94__closure_method_entry) {
@@ -55566,7 +55567,7 @@ ZEPHIR_INIT_CLASS(phalcon_95__closure);
 static PHP_METHOD(phalcon_95__closure, __invoke);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_95__closure___invoke, 0, 0, 1)
-	ZEND_ARG_INFO(0, matches)
+	ZEND_ARG_INFO(0, action)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_95__closure_method_entry) {
@@ -55595,11 +55596,8 @@ ZEPHIR_INIT_CLASS(phalcon_97__closure);
 
 static PHP_METHOD(phalcon_97__closure, __invoke);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_97__closure___invoke, 0, 0, 4)
-	ZEND_ARG_INFO(0, number)
-	ZEND_ARG_INFO(0, message)
-	ZEND_ARG_INFO(0, file)
-	ZEND_ARG_INFO(0, line)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_97__closure___invoke, 0, 0, 1)
+	ZEND_ARG_INFO(0, matches)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_97__closure_method_entry) {
@@ -55614,7 +55612,7 @@ ZEPHIR_INIT_CLASS(phalcon_98__closure);
 static PHP_METHOD(phalcon_98__closure, __invoke);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_98__closure___invoke, 0, 0, 1)
-	ZEND_ARG_INFO(0, element)
+	ZEND_ARG_INFO(0, matches)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_98__closure_method_entry) {
@@ -55629,7 +55627,7 @@ ZEPHIR_INIT_CLASS(phalcon_99__closure);
 static PHP_METHOD(phalcon_99__closure, __invoke);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_99__closure___invoke, 0, 0, 1)
-	ZEND_ARG_INFO(0, element)
+	ZEND_ARG_INFO(0, matches)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_99__closure_method_entry) {
@@ -55652,6 +55650,54 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_100__closure_method_entry) {
 	PHP_ME(phalcon_100__closure, __invoke, arginfo_phalcon_100__closure___invoke, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_101__closure_ce;
+
+ZEPHIR_INIT_CLASS(phalcon_101__closure);
+
+static PHP_METHOD(phalcon_101__closure, __invoke);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_101__closure___invoke, 0, 0, 1)
+	ZEND_ARG_INFO(0, element)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_101__closure_method_entry) {
+	PHP_ME(phalcon_101__closure, __invoke, arginfo_phalcon_101__closure___invoke, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_102__closure_ce;
+
+ZEPHIR_INIT_CLASS(phalcon_102__closure);
+
+static PHP_METHOD(phalcon_102__closure, __invoke);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_102__closure___invoke, 0, 0, 1)
+	ZEND_ARG_INFO(0, element)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_102__closure_method_entry) {
+	PHP_ME(phalcon_102__closure, __invoke, arginfo_phalcon_102__closure___invoke, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_103__closure_ce;
+
+ZEPHIR_INIT_CLASS(phalcon_103__closure);
+
+static PHP_METHOD(phalcon_103__closure, __invoke);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_103__closure___invoke, 0, 0, 4)
+	ZEND_ARG_INFO(0, number)
+	ZEND_ARG_INFO(0, message)
+	ZEND_ARG_INFO(0, file)
+	ZEND_ARG_INFO(0, line)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_103__closure_method_entry) {
+	PHP_ME(phalcon_103__closure, __invoke, arginfo_phalcon_103__closure___invoke, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
 	PHP_FE_END
 };
 
