@@ -155,7 +155,12 @@ abstract class AbstractArrayAdapter extends AbstractAdapter
                 continue;
             }
 
-            if (!isset(row[key]) || (string) row[key] !== (string) value) {
+            /**
+             * Compare in constant time so a non-password credential (for
+             * example a bearer token) cannot be recovered byte by byte through
+             * response timing (CWE-208).
+             */
+            if (!isset(row[key]) || !hash_equals((string) row[key], (string) value)) {
                 return false;
             }
         }
