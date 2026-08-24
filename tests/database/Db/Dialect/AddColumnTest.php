@@ -64,7 +64,7 @@ final class AddColumnTest extends AbstractDatabaseTestCase
             //            ],
             [
                 Sqlite::class,
-                'ALTER TABLE "schema"."table" ' . 'ADD COLUMN "field_primary" DOUBLE ' . 'DEFAULT "13.34" NOT NULL',
+                'ALTER TABLE "schema"."table" ' . 'ADD COLUMN "field_primary" DOUBLE ' . 'DEFAULT \'13.34\' NOT NULL',
             ],
         ];
     }
@@ -87,7 +87,7 @@ final class AddColumnTest extends AbstractDatabaseTestCase
             ],
             [
                 Sqlite::class,
-                'ALTER TABLE "schema"."table" ' . 'ADD COLUMN "field_primary" INTEGER ' . 'DEFAULT "13" NOT NULL',
+                'ALTER TABLE "schema"."table" ' . 'ADD COLUMN "field_primary" INTEGER ' . 'DEFAULT \'13\' NOT NULL',
             ],
         ];
     }
@@ -111,7 +111,7 @@ final class AddColumnTest extends AbstractDatabaseTestCase
             ],
             [
                 Sqlite::class,
-                'ALTER TABLE "schema"."table" ' . 'ADD COLUMN "field_primary" VARCHAR(10) ' . 'DEFAULT "NULL" NOT NULL',
+                'ALTER TABLE "schema"."table" ' . 'ADD COLUMN "field_primary" VARCHAR(10) ' . 'DEFAULT \'NULL\' NOT NULL',
             ],
         ];
     }
@@ -126,7 +126,7 @@ final class AddColumnTest extends AbstractDatabaseTestCase
             [
                 Mysql::class,
                 'ALTER TABLE `schema`.`table` ' . 'ADD `field_primary` VARCHAR(10) NOT NULL ' .
-                'DEFAULT "test" AFTER `field_first`',
+                'DEFAULT \'test\' AFTER `field_first`',
 
             ],
             [
@@ -136,7 +136,7 @@ final class AddColumnTest extends AbstractDatabaseTestCase
             ],
             [
                 Sqlite::class,
-                'ALTER TABLE "schema"."table" ' . 'ADD COLUMN "field_primary" VARCHAR(10) DEFAULT ' . '"test" NOT NULL',
+                'ALTER TABLE "schema"."table" ' . 'ADD COLUMN "field_primary" VARCHAR(10) DEFAULT ' . '\'test\' NOT NULL',
             ],
         ];
     }
