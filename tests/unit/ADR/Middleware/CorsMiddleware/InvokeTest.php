@@ -103,6 +103,40 @@ final class InvokeTest extends AbstractUnitTestCase
         unset($_SERVER['HTTP_ORIGIN']);
     }
 
+    /**
+     * The preflight branch applies the same guard: a wildcard-matched origin
+     * is never reflected together with credentials (CWE-942).
+     */
+    public function testAdrMiddlewareCorsMiddlewareNoWildcardOriginWithCredentialsOnPreflight(): void
+    {
+        $_SERVER['HTTP_ORIGIN']    = 'https://evil.example';
+        $_SERVER['REQUEST_METHOD'] = 'OPTIONS';
+
+        $middleware = new CorsMiddleware(
+            [
+                'origins'     => ['*'],
+                'credentials' => true,
+            ]
+        );
+        $response = $middleware(new Request(), $this->next());
+
+        // The preflight answer is still produced.
+        $this->assertSame(204, $response->getStatusCode());
+        $this->assertSame(
+            'GET, POST, PUT, PATCH, DELETE, OPTIONS',
+            $response->getHeaders()->get('Access-Control-Allow-Methods')
+        );
+
+        $this->assertFalse(
+            $response->getHeaders()->get('Access-Control-Allow-Origin')
+        );
+        $this->assertFalse(
+            $response->getHeaders()->get('Access-Control-Allow-Credentials')
+        );
+
+        unset($_SERVER['HTTP_ORIGIN'], $_SERVER['REQUEST_METHOD']);
+    }
+
     private function next(): Handler
     {
         return new class implements Handler {

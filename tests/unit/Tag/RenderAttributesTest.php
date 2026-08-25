@@ -88,6 +88,38 @@ final class RenderAttributesTest extends AbstractTagTestCase
         );
     }
 
+    /**
+     * The key is an attribute name. A crafted key must not be able to add
+     * another attribute or close the tag.
+     */
+    public function testRenderAttributesStripsTheKeySeparators(): void
+    {
+        $actual = Tag::renderAttributes(
+            '<tag',
+            ['a" onmouseover=alert(1) x' => 'one']
+        );
+
+        $this->assertSame('<tag aonmouseoveralert(1)x="one"', $actual);
+        $this->assertStringNotContainsString('onmouseover=', $actual);
+    }
+
+    /**
+     * Every helper goes through renderAttributes(), so the same key is
+     * stripped when it arrives from one of them.
+     */
+    public function testRenderAttributesStripsTheKeySeparatorsViaTextField(): void
+    {
+        $actual = Tag::textField(
+            ['field', 'a" onmouseover=alert(1) x' => 'one']
+        );
+
+        $this->assertStringContainsString(
+            'aonmouseoveralert(1)x="one"',
+            $actual
+        );
+        $this->assertStringNotContainsString('onmouseover=', $actual);
+    }
+
     public function testRenderAttributesThrowsForAnArrayValue(): void
     {
         $this->expectException(Exception::class);

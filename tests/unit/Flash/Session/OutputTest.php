@@ -59,6 +59,69 @@ final class OutputTest extends AbstractUnitTestCase
     }
 
     /**
+     * A crafted css class must not break out of the class attribute.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-25
+     */
+    public function testFlashSessionOutputEscapesCssClass(): void
+    {
+        $session = $this->container->getShared('session');
+        $session->start();
+
+        $flash = new Session();
+        $flash->setDI($this->container);
+        $flash->setCssClasses(['error' => '"><script>alert(1)</script>']);
+
+        $flash->error(uniqid('m-'));
+
+        ob_start();
+        $flash->output();
+        $actual = ob_get_contents();
+        ob_end_clean();
+
+        $this->assertStringContainsString(
+            '<div class="&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;">',
+            $actual
+        );
+        $this->assertStringNotContainsString('<script>', $actual);
+
+        $session->destroy();
+    }
+
+    /**
+     * A crafted css icon class must not break out of the class attribute of
+     * the `<i>` fragment.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-25
+     */
+    public function testFlashSessionOutputEscapesCssIconClass(): void
+    {
+        $session = $this->container->getShared('session');
+        $session->start();
+
+        $flash = new Session();
+        $flash->setDI($this->container);
+        $flash->setCssIconClasses(['error' => '" onmouseover="alert(1)']);
+
+        $flash->error(uniqid('m-'));
+
+        ob_start();
+        $flash->output();
+        $actual = ob_get_contents();
+        ob_end_clean();
+
+        $this->assertStringContainsString(
+            '<i class="&quot; onmouseover=&quot;alert(1)"></i>',
+            $actual
+        );
+        $this->assertStringNotContainsString('onmouseover="', $actual);
+
+        $session->destroy();
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

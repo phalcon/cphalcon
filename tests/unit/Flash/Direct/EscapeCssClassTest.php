@@ -36,4 +36,27 @@ final class EscapeCssClassTest extends AbstractUnitTestCase
 
         $this->assertStringNotContainsString('<script>', $html);
     }
+
+    /**
+     * A crafted css icon class must not break out of the class attribute of
+     * the `<i>` fragment.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-25
+     */
+    public function testFlashEscapesCssIconClass(): void
+    {
+        $flash = new Direct();
+        $flash->setEscaperService(new Escaper());
+        $flash->setImplicitFlush(false);
+        $flash->setCssIconClasses(['error' => '" onmouseover="alert(1)']);
+
+        $html = $flash->error('hello');
+
+        $this->assertStringContainsString(
+            '<i class="&quot; onmouseover=&quot;alert(1)"></i>',
+            $html
+        );
+        $this->assertStringNotContainsString('onmouseover="', $html);
+    }
 }

@@ -35,6 +35,8 @@ final class FakeRequest implements RequestInterface
      */
     private array $query = [];
 
+    private bool $secure = false;
+
     private string $userAgent = '';
 
     // -------------------------------------------------------------------------
@@ -304,7 +306,7 @@ final class FakeRequest implements RequestInterface
 
     public function isSecure(): bool
     {
-        return false;
+        return $this->secure;
     }
 
     public function isSoap(): bool
@@ -339,6 +341,11 @@ final class FakeRequest implements RequestInterface
     public function setQueryFake(string $key, mixed $value): void
     {
         $this->query[$key] = $value;
+    }
+
+    public function setSecureFake(bool $value): void
+    {
+        $this->secure = $value;
     }
 
     public function setUserAgentFake(string $value): void
