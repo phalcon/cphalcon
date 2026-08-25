@@ -6619,6 +6619,7 @@ static PHP_METHOD(Phalcon_Db_Dialect, getSqlColumn);
 static PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression);
 static PHP_METHOD(Phalcon_Db_Dialect, getSqlTable);
 static PHP_METHOD(Phalcon_Db_Dialect, limit);
+static PHP_METHOD(Phalcon_Db_Dialect, getLimitValue);
 static PHP_METHOD(Phalcon_Db_Dialect, registerCustomFunction);
 static PHP_METHOD(Phalcon_Db_Dialect, createMaterializedView);
 static PHP_METHOD(Phalcon_Db_Dialect, dropMaterializedView);
@@ -6713,6 +6714,10 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_limit, 0, 2, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, sqlQuery, IS_STRING, 0)
 	ZEND_ARG_INFO(0, number)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_getlimitvalue, 0, 1, IS_STRING, 0)
+	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_db_dialect_registercustomfunction, 0, 2, MAY_BE_STATIC)
@@ -6952,6 +6957,7 @@ ZEPHIR_INIT_FUNCS(phalcon_db_dialect_method_entry) {
 	PHP_ME(Phalcon_Db_Dialect, getSqlExpression, arginfo_phalcon_db_dialect_getsqlexpression, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect, getSqlTable, arginfo_phalcon_db_dialect_getsqltable, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect, limit, arginfo_phalcon_db_dialect_limit, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, getLimitValue, arginfo_phalcon_db_dialect_getlimitvalue, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Db_Dialect, registerCustomFunction, arginfo_phalcon_db_dialect_registercustomfunction, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect, createMaterializedView, arginfo_phalcon_db_dialect_creatematerializedview, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect, dropMaterializedView, arginfo_phalcon_db_dialect_dropmaterializedview, ZEND_ACC_PUBLIC)
