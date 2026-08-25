@@ -2461,16 +2461,16 @@
         },
         {
             "name": "phalcon/ide-stubs",
-            "version": "v5.20.0",
+            "version": "v5.20.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phalcon/ide-stubs.git",
-                "reference": "771147b738a34a6c72a103f021a512014a0fb5dc"
+                "reference": "4cb649aa15e767cd08a476fdd697a94fe2198e1c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phalcon/ide-stubs/zipball/771147b738a34a6c72a103f021a512014a0fb5dc",
-                "reference": "771147b738a34a6c72a103f021a512014a0fb5dc",
+                "url": "https://api.github.com/repos/phalcon/ide-stubs/zipball/4cb649aa15e767cd08a476fdd697a94fe2198e1c",
+                "reference": "4cb649aa15e767cd08a476fdd697a94fe2198e1c",
                 "shasum": ""
             },
             "require": {
@@ -2526,7 +2526,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2026-08-23T02:38:27+00:00"
+            "time": "2026-08-25T02:12:31+00:00"
         },
         {
             "name": "phalcon/quill",
@@ -2681,12 +2681,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zephir-lang/zephir.git",
-                "reference": "0dd0f2a41e80c41c3fd34dc3b2a7b2ab215a58f1"
+                "reference": "47f31e1c6e249067b12df101aeea0fecdafd77e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/0dd0f2a41e80c41c3fd34dc3b2a7b2ab215a58f1",
-                "reference": "0dd0f2a41e80c41c3fd34dc3b2a7b2ab215a58f1",
+                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/47f31e1c6e249067b12df101aeea0fecdafd77e9",
+                "reference": "47f31e1c6e249067b12df101aeea0fecdafd77e9",
                 "shasum": ""
             },
             "require": {
@@ -2763,7 +2763,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-08-23T21:54:38+00:00"
+            "time": "2026-08-25T13:09:06+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -7943,23 +7943,23 @@
         },
         {
             "name": "vlucas/phpdotenv",
-            "version": "v5.6.4",
+            "version": "v5.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vlucas/phpdotenv.git",
-                "reference": "416df702837983f8d5ff48c9c3fee4f5f57b980b"
+                "reference": "301c07936b16d88628b126b01d082ba153cf4c40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/416df702837983f8d5ff48c9c3fee4f5f57b980b",
-                "reference": "416df702837983f8d5ff48c9c3fee4f5f57b980b",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/301c07936b16d88628b126b01d082ba153cf4c40",
+                "reference": "301c07936b16d88628b126b01d082ba153cf4c40",
                 "shasum": ""
             },
             "require": {
                 "ext-pcre": "*",
-                "graham-campbell/result-type": "^1.1.4",
+                "graham-campbell/result-type": "^1.2",
                 "php": "^7.2.5 || ^8.0",
-                "phpoption/phpoption": "^1.9.5",
+                "phpoption/phpoption": "^1.10",
                 "symfony/polyfill-ctype": "^1.26",
                 "symfony/polyfill-mbstring": "^1.26",
                 "symfony/polyfill-php80": "^1.26"
@@ -8003,7 +8003,7 @@
                     "homepage": "https://github.com/vlucas"
                 }
             ],
-            "description": "Loads environment variables from `.env` to `getenv()`, `$_ENV` and `$_SERVER` automagically.",
+            "description": "Loads environment variables from `.env` to `$_ENV` and `$_SERVER` automagically, and optionally to `getenv()`.",
             "keywords": [
                 "dotenv",
                 "env",
@@ -8011,7 +8011,7 @@
             ],
             "support": {
                 "issues": "https://github.com/vlucas/phpdotenv/issues",
-                "source": "https://github.com/vlucas/phpdotenv/tree/v5.6.4"
+                "source": "https://github.com/vlucas/phpdotenv/tree/v5.7.0"
             },
             "funding": [
                 {
@@ -8023,7 +8023,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-07-06T19:11:50+00:00"
+            "time": "2026-08-24T18:07:49+00:00"
         },
         {
             "name": "webmozart/assert",
