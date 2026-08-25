@@ -438,15 +438,15 @@ PHP_METHOD(Phalcon_Cli_Router, getTaskName)
  */
 PHP_METHOD(Phalcon_Cli_Router, handle)
 {
-	zval _44$$55;
-	zend_string *_11$$12, *_29$$32;
-	zend_ulong _10$$12, _28$$32;
-	zval _8$$9, _13$$15, _15$$18, _19$$21, _21$$24, _26$$29, _31$$35, _33$$38, _37$$41, _39$$44;
-	zend_bool _0$$3, _23$$3, _17$$12, _35$$32;
+	zval _44$$56;
+	zend_string *_11$$13, *_29$$33;
+	zend_ulong _10$$13, _28$$33;
+	zval _8$$10, _13$$16, _15$$19, _19$$22, _21$$25, _26$$30, _31$$36, _33$$39, _37$$42, _39$$45;
+	zend_bool _0$$3, _23$$3, _17$$13, _35$$33;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_7 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *arguments = NULL, arguments_sub, __$true, __$false, __$null, moduleName, taskName, actionName, params, route, parts, pattern, routeFound, matches, paths, beforeMatch, converters, converter, part, position, matchPosition, strParams, _3$$3, *_4$$3, _22$$3, _1$$4, _2$$4, _5$$10, _6$$10, *_9$$12, _16$$12, _12$$15, _14$$18, _18$$21, _20$$24, _24$$30, _25$$30, *_27$$32, _34$$32, _30$$35, _32$$38, _36$$41, _38$$44, _40$$46, _41$$46, _42$$46, _43$$46, _45$$55, _46$$56, _47$$58;
+	zval *arguments = NULL, arguments_sub, __$true, __$false, __$null, moduleName, taskName, actionName, params, route, parts, pattern, routeFound, matches, paths, beforeMatch, converters, converter, part, position, matchPosition, strParams, _3$$3, *_4$$3, _22$$3, _1$$4, _2$$4, _5$$11, _6$$11, *_9$$13, _16$$13, _12$$16, _14$$19, _18$$22, _20$$25, _24$$31, _25$$31, *_27$$33, _34$$33, _30$$36, _32$$39, _36$$42, _38$$45, _40$$47, _41$$47, _42$$47, _43$$47, _45$$56, _46$$57, _47$$59;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&arguments_sub);
@@ -474,38 +474,38 @@ PHP_METHOD(Phalcon_Cli_Router, handle)
 	ZVAL_UNDEF(&_22$$3);
 	ZVAL_UNDEF(&_1$$4);
 	ZVAL_UNDEF(&_2$$4);
-	ZVAL_UNDEF(&_5$$10);
-	ZVAL_UNDEF(&_6$$10);
-	ZVAL_UNDEF(&_16$$12);
-	ZVAL_UNDEF(&_12$$15);
-	ZVAL_UNDEF(&_14$$18);
-	ZVAL_UNDEF(&_18$$21);
-	ZVAL_UNDEF(&_20$$24);
-	ZVAL_UNDEF(&_24$$30);
-	ZVAL_UNDEF(&_25$$30);
-	ZVAL_UNDEF(&_34$$32);
-	ZVAL_UNDEF(&_30$$35);
-	ZVAL_UNDEF(&_32$$38);
-	ZVAL_UNDEF(&_36$$41);
-	ZVAL_UNDEF(&_38$$44);
-	ZVAL_UNDEF(&_40$$46);
-	ZVAL_UNDEF(&_41$$46);
-	ZVAL_UNDEF(&_42$$46);
-	ZVAL_UNDEF(&_43$$46);
-	ZVAL_UNDEF(&_45$$55);
-	ZVAL_UNDEF(&_46$$56);
-	ZVAL_UNDEF(&_47$$58);
-	ZVAL_UNDEF(&_8$$9);
-	ZVAL_UNDEF(&_13$$15);
-	ZVAL_UNDEF(&_15$$18);
-	ZVAL_UNDEF(&_19$$21);
-	ZVAL_UNDEF(&_21$$24);
-	ZVAL_UNDEF(&_26$$29);
-	ZVAL_UNDEF(&_31$$35);
-	ZVAL_UNDEF(&_33$$38);
-	ZVAL_UNDEF(&_37$$41);
-	ZVAL_UNDEF(&_39$$44);
-	ZVAL_UNDEF(&_44$$55);
+	ZVAL_UNDEF(&_5$$11);
+	ZVAL_UNDEF(&_6$$11);
+	ZVAL_UNDEF(&_16$$13);
+	ZVAL_UNDEF(&_12$$16);
+	ZVAL_UNDEF(&_14$$19);
+	ZVAL_UNDEF(&_18$$22);
+	ZVAL_UNDEF(&_20$$25);
+	ZVAL_UNDEF(&_24$$31);
+	ZVAL_UNDEF(&_25$$31);
+	ZVAL_UNDEF(&_34$$33);
+	ZVAL_UNDEF(&_30$$36);
+	ZVAL_UNDEF(&_32$$39);
+	ZVAL_UNDEF(&_36$$42);
+	ZVAL_UNDEF(&_38$$45);
+	ZVAL_UNDEF(&_40$$47);
+	ZVAL_UNDEF(&_41$$47);
+	ZVAL_UNDEF(&_42$$47);
+	ZVAL_UNDEF(&_43$$47);
+	ZVAL_UNDEF(&_45$$56);
+	ZVAL_UNDEF(&_46$$57);
+	ZVAL_UNDEF(&_47$$59);
+	ZVAL_UNDEF(&_8$$10);
+	ZVAL_UNDEF(&_13$$16);
+	ZVAL_UNDEF(&_15$$19);
+	ZVAL_UNDEF(&_19$$22);
+	ZVAL_UNDEF(&_21$$25);
+	ZVAL_UNDEF(&_26$$30);
+	ZVAL_UNDEF(&_31$$36);
+	ZVAL_UNDEF(&_33$$39);
+	ZVAL_UNDEF(&_37$$42);
+	ZVAL_UNDEF(&_39$$45);
+	ZVAL_UNDEF(&_44$$56);
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	static zend_string *_zephir_prop_2 = NULL;
@@ -565,7 +565,9 @@ PHP_METHOD(Phalcon_Cli_Router, handle)
 	zephir_fetch_params(1, 0, 1, &arguments);
 	if (!arguments) {
 		arguments = &arguments_sub;
-		arguments = &__$null;
+		ZEPHIR_CPY_WRT(arguments, &__$null);
+	} else {
+		ZEPHIR_SEPARATE_PARAM(arguments);
 	}
 	ZEPHIR_INIT_VAR(&routeFound);
 	ZVAL_BOOL(&routeFound, 0);
@@ -597,8 +599,12 @@ PHP_METHOD(Phalcon_Cli_Router, handle)
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
+		if (Z_TYPE_P(arguments) == IS_NULL) {
+			ZEPHIR_INIT_NVAR(arguments);
+			ZVAL_STRING(arguments, "");
+		}
 		zephir_read_property_cached(&_3$$3, this_ptr, _zephir_prop_2, 499, PH_NOISY_CC | PH_READONLY);
-		zephir_is_iterable(&_3$$3, 0, "phalcon/Cli/Router.zep", 343);
+		zephir_is_iterable(&_3$$3, 0, "phalcon/Cli/Router.zep", 351);
 		if (Z_TYPE_P(&_3$$3) == IS_ARRAY) {
 			ZEND_HASH_REVERSE_FOREACH_VAL(Z_ARRVAL_P(&_3$$3), _4$$3)
 			{
@@ -606,7 +612,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle)
 				ZVAL_COPY(&route, _4$$3);
 				ZEPHIR_CALL_METHOD(&pattern, &route, "getcompiledpattern", NULL, 0);
 				zephir_check_call_status();
-				if (zephir_memnstr_str(&pattern, SL("^"), "phalcon/Cli/Router.zep", 248)) {
+				if (zephir_memnstr_str(&pattern, SL("^"), "phalcon/Cli/Router.zep", 256)) {
 					ZEPHIR_INIT_NVAR(&routeFound);
 					zephir_preg_match(&routeFound, &pattern, arguments, &matches, 0, 0 , 0 );
 				} else {
@@ -618,23 +624,23 @@ PHP_METHOD(Phalcon_Cli_Router, handle)
 					zephir_check_call_status();
 					if (Z_TYPE_P(&beforeMatch) != IS_NULL) {
 						if (UNEXPECTED(!(zephir_is_callable(&beforeMatch)))) {
-							ZEPHIR_INIT_NVAR(&_5$$10);
-							object_init_ex(&_5$$10, phalcon_cli_router_exceptions_beforematchnotcallable_ce);
-							ZEPHIR_CALL_METHOD(&_6$$10, &route, "getpattern", NULL, 0);
+							ZEPHIR_INIT_NVAR(&_5$$11);
+							object_init_ex(&_5$$11, phalcon_cli_router_exceptions_beforematchnotcallable_ce);
+							ZEPHIR_CALL_METHOD(&_6$$11, &route, "getpattern", NULL, 0);
 							zephir_check_call_status();
-							ZEPHIR_CALL_METHOD(NULL, &_5$$10, "__construct", &_7, 454, &_6$$10);
+							ZEPHIR_CALL_METHOD(NULL, &_5$$11, "__construct", &_7, 454, &_6$$11);
 							zephir_check_call_status();
-							zephir_throw_exception_debug(&_5$$10, "phalcon/Cli/Router.zep", 265);
+							zephir_throw_exception_debug(&_5$$11, "phalcon/Cli/Router.zep", 273);
 							ZEPHIR_MM_RESTORE();
 							return;
 						}
-						ZEPHIR_INIT_NVAR(&_8$$9);
-						zephir_create_array(&_8$$9, 3, 0);
-						zephir_array_fast_append(&_8$$9, arguments);
-						zephir_array_fast_append(&_8$$9, &route);
-						zephir_array_fast_append(&_8$$9, this_ptr);
+						ZEPHIR_INIT_NVAR(&_8$$10);
+						zephir_create_array(&_8$$10, 3, 0);
+						zephir_array_fast_append(&_8$$10, arguments);
+						zephir_array_fast_append(&_8$$10, &route);
+						zephir_array_fast_append(&_8$$10, this_ptr);
 						ZEPHIR_INIT_NVAR(&routeFound);
-						ZEPHIR_CALL_USER_FUNC_ARRAY(&routeFound, &beforeMatch, &_8$$9);
+						ZEPHIR_CALL_USER_FUNC_ARRAY(&routeFound, &beforeMatch, &_8$$10);
 						zephir_check_call_status();
 					}
 				}
@@ -645,59 +651,59 @@ PHP_METHOD(Phalcon_Cli_Router, handle)
 					if (Z_TYPE_P(&matches) == IS_ARRAY) {
 						ZEPHIR_CALL_METHOD(&converters, &route, "getconverters", NULL, 0);
 						zephir_check_call_status();
-						zephir_is_iterable(&paths, 0, "phalcon/Cli/Router.zep", 330);
+						zephir_is_iterable(&paths, 0, "phalcon/Cli/Router.zep", 338);
 						if (Z_TYPE_P(&paths) == IS_ARRAY) {
-							ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&paths), _10$$12, _11$$12, _9$$12)
+							ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&paths), _10$$13, _11$$13, _9$$13)
 							{
 								ZEPHIR_INIT_NVAR(&part);
-								if (_11$$12 != NULL) { 
-									ZVAL_STR_COPY(&part, _11$$12);
+								if (_11$$13 != NULL) { 
+									ZVAL_STR_COPY(&part, _11$$13);
 								} else {
-									ZVAL_LONG(&part, _10$$12);
+									ZVAL_LONG(&part, _10$$13);
 								}
 								ZEPHIR_INIT_NVAR(&position);
-								ZVAL_COPY(&position, _9$$12);
+								ZVAL_COPY(&position, _9$$13);
 								ZEPHIR_OBS_NVAR(&matchPosition);
 								if (zephir_array_isset_fetch(&matchPosition, &matches, &position, 0)) {
 									ZEPHIR_OBS_NVAR(&converter);
 									if (zephir_array_isset_fetch(&converter, &converters, &part, 0)) {
-										ZEPHIR_INIT_NVAR(&_12$$15);
-										ZEPHIR_INIT_NVAR(&_13$$15);
-										zephir_create_array(&_13$$15, 1, 0);
-										zephir_array_fast_append(&_13$$15, &matchPosition);
-										ZEPHIR_CALL_USER_FUNC_ARRAY(&_12$$15, &converter, &_13$$15);
+										ZEPHIR_INIT_NVAR(&_12$$16);
+										ZEPHIR_INIT_NVAR(&_13$$16);
+										zephir_create_array(&_13$$16, 1, 0);
+										zephir_array_fast_append(&_13$$16, &matchPosition);
+										ZEPHIR_CALL_USER_FUNC_ARRAY(&_12$$16, &converter, &_13$$16);
 										zephir_check_call_status();
-										zephir_array_update_zval(&parts, &part, &_12$$15, PH_COPY | PH_SEPARATE);
+										zephir_array_update_zval(&parts, &part, &_12$$16, PH_COPY | PH_SEPARATE);
 									} else {
 										zephir_array_update_zval(&parts, &part, &matchPosition, PH_COPY | PH_SEPARATE);
 									}
 								} else {
 									ZEPHIR_OBS_NVAR(&converter);
 									if (zephir_array_isset_fetch(&converter, &converters, &part, 0)) {
-										ZEPHIR_INIT_NVAR(&_14$$18);
-										ZEPHIR_INIT_NVAR(&_15$$18);
-										zephir_create_array(&_15$$18, 1, 0);
-										zephir_array_fast_append(&_15$$18, &position);
-										ZEPHIR_CALL_USER_FUNC_ARRAY(&_14$$18, &converter, &_15$$18);
+										ZEPHIR_INIT_NVAR(&_14$$19);
+										ZEPHIR_INIT_NVAR(&_15$$19);
+										zephir_create_array(&_15$$19, 1, 0);
+										zephir_array_fast_append(&_15$$19, &position);
+										ZEPHIR_CALL_USER_FUNC_ARRAY(&_14$$19, &converter, &_15$$19);
 										zephir_check_call_status();
-										zephir_array_update_zval(&parts, &part, &_14$$18, PH_COPY | PH_SEPARATE);
+										zephir_array_update_zval(&parts, &part, &_14$$19, PH_COPY | PH_SEPARATE);
 									}
 								}
 							} ZEND_HASH_FOREACH_END();
 						} else {
 							ZEPHIR_CALL_METHOD(NULL, &paths, "rewind", NULL, 0);
 							zephir_check_call_status();
-							_17$$12 = 1;
+							_17$$13 = 1;
 							while (1) {
-								if (_17$$12) {
-									_17$$12 = 0;
+								if (_17$$13) {
+									_17$$13 = 0;
 								} else {
 									ZEPHIR_CALL_METHOD(NULL, &paths, "next", NULL, 0);
 									zephir_check_call_status();
 								}
-								ZEPHIR_CALL_METHOD(&_16$$12, &paths, "valid", NULL, 0);
+								ZEPHIR_CALL_METHOD(&_16$$13, &paths, "valid", NULL, 0);
 								zephir_check_call_status();
-								if (!zend_is_true(&_16$$12)) {
+								if (!zend_is_true(&_16$$13)) {
 									break;
 								}
 								ZEPHIR_CALL_METHOD(&part, &paths, "key", NULL, 0);
@@ -708,26 +714,26 @@ PHP_METHOD(Phalcon_Cli_Router, handle)
 									if (zephir_array_isset_fetch(&matchPosition, &matches, &position, 0)) {
 										ZEPHIR_OBS_NVAR(&converter);
 										if (zephir_array_isset_fetch(&converter, &converters, &part, 0)) {
-											ZEPHIR_INIT_NVAR(&_18$$21);
-											ZEPHIR_INIT_NVAR(&_19$$21);
-											zephir_create_array(&_19$$21, 1, 0);
-											zephir_array_fast_append(&_19$$21, &matchPosition);
-											ZEPHIR_CALL_USER_FUNC_ARRAY(&_18$$21, &converter, &_19$$21);
+											ZEPHIR_INIT_NVAR(&_18$$22);
+											ZEPHIR_INIT_NVAR(&_19$$22);
+											zephir_create_array(&_19$$22, 1, 0);
+											zephir_array_fast_append(&_19$$22, &matchPosition);
+											ZEPHIR_CALL_USER_FUNC_ARRAY(&_18$$22, &converter, &_19$$22);
 											zephir_check_call_status();
-											zephir_array_update_zval(&parts, &part, &_18$$21, PH_COPY | PH_SEPARATE);
+											zephir_array_update_zval(&parts, &part, &_18$$22, PH_COPY | PH_SEPARATE);
 										} else {
 											zephir_array_update_zval(&parts, &part, &matchPosition, PH_COPY | PH_SEPARATE);
 										}
 									} else {
 										ZEPHIR_OBS_NVAR(&converter);
 										if (zephir_array_isset_fetch(&converter, &converters, &part, 0)) {
-											ZEPHIR_INIT_NVAR(&_20$$24);
-											ZEPHIR_INIT_NVAR(&_21$$24);
-											zephir_create_array(&_21$$24, 1, 0);
-											zephir_array_fast_append(&_21$$24, &position);
-											ZEPHIR_CALL_USER_FUNC_ARRAY(&_20$$24, &converter, &_21$$24);
+											ZEPHIR_INIT_NVAR(&_20$$25);
+											ZEPHIR_INIT_NVAR(&_21$$25);
+											zephir_create_array(&_21$$25, 1, 0);
+											zephir_array_fast_append(&_21$$25, &position);
+											ZEPHIR_CALL_USER_FUNC_ARRAY(&_20$$25, &converter, &_21$$25);
 											zephir_check_call_status();
-											zephir_array_update_zval(&parts, &part, &_20$$24, PH_COPY | PH_SEPARATE);
+											zephir_array_update_zval(&parts, &part, &_20$$25, PH_COPY | PH_SEPARATE);
 										}
 									}
 							}
@@ -760,7 +766,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle)
 				zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(&pattern, &route, "getcompiledpattern", NULL, 0);
 					zephir_check_call_status();
-					if (zephir_memnstr_str(&pattern, SL("^"), "phalcon/Cli/Router.zep", 248)) {
+					if (zephir_memnstr_str(&pattern, SL("^"), "phalcon/Cli/Router.zep", 256)) {
 						ZEPHIR_INIT_NVAR(&routeFound);
 						zephir_preg_match(&routeFound, &pattern, arguments, &matches, 0, 0 , 0 );
 					} else {
@@ -772,23 +778,23 @@ PHP_METHOD(Phalcon_Cli_Router, handle)
 						zephir_check_call_status();
 						if (Z_TYPE_P(&beforeMatch) != IS_NULL) {
 							if (UNEXPECTED(!(zephir_is_callable(&beforeMatch)))) {
-								ZEPHIR_INIT_NVAR(&_24$$30);
-								object_init_ex(&_24$$30, phalcon_cli_router_exceptions_beforematchnotcallable_ce);
-								ZEPHIR_CALL_METHOD(&_25$$30, &route, "getpattern", NULL, 0);
+								ZEPHIR_INIT_NVAR(&_24$$31);
+								object_init_ex(&_24$$31, phalcon_cli_router_exceptions_beforematchnotcallable_ce);
+								ZEPHIR_CALL_METHOD(&_25$$31, &route, "getpattern", NULL, 0);
 								zephir_check_call_status();
-								ZEPHIR_CALL_METHOD(NULL, &_24$$30, "__construct", &_7, 454, &_25$$30);
+								ZEPHIR_CALL_METHOD(NULL, &_24$$31, "__construct", &_7, 454, &_25$$31);
 								zephir_check_call_status();
-								zephir_throw_exception_debug(&_24$$30, "phalcon/Cli/Router.zep", 265);
+								zephir_throw_exception_debug(&_24$$31, "phalcon/Cli/Router.zep", 273);
 								ZEPHIR_MM_RESTORE();
 								return;
 							}
-							ZEPHIR_INIT_NVAR(&_26$$29);
-							zephir_create_array(&_26$$29, 3, 0);
-							zephir_array_fast_append(&_26$$29, arguments);
-							zephir_array_fast_append(&_26$$29, &route);
-							zephir_array_fast_append(&_26$$29, this_ptr);
+							ZEPHIR_INIT_NVAR(&_26$$30);
+							zephir_create_array(&_26$$30, 3, 0);
+							zephir_array_fast_append(&_26$$30, arguments);
+							zephir_array_fast_append(&_26$$30, &route);
+							zephir_array_fast_append(&_26$$30, this_ptr);
 							ZEPHIR_INIT_NVAR(&routeFound);
-							ZEPHIR_CALL_USER_FUNC_ARRAY(&routeFound, &beforeMatch, &_26$$29);
+							ZEPHIR_CALL_USER_FUNC_ARRAY(&routeFound, &beforeMatch, &_26$$30);
 							zephir_check_call_status();
 						}
 					}
@@ -799,59 +805,59 @@ PHP_METHOD(Phalcon_Cli_Router, handle)
 						if (Z_TYPE_P(&matches) == IS_ARRAY) {
 							ZEPHIR_CALL_METHOD(&converters, &route, "getconverters", NULL, 0);
 							zephir_check_call_status();
-							zephir_is_iterable(&paths, 0, "phalcon/Cli/Router.zep", 330);
+							zephir_is_iterable(&paths, 0, "phalcon/Cli/Router.zep", 338);
 							if (Z_TYPE_P(&paths) == IS_ARRAY) {
-								ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&paths), _28$$32, _29$$32, _27$$32)
+								ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&paths), _28$$33, _29$$33, _27$$33)
 								{
 									ZEPHIR_INIT_NVAR(&part);
-									if (_29$$32 != NULL) { 
-										ZVAL_STR_COPY(&part, _29$$32);
+									if (_29$$33 != NULL) { 
+										ZVAL_STR_COPY(&part, _29$$33);
 									} else {
-										ZVAL_LONG(&part, _28$$32);
+										ZVAL_LONG(&part, _28$$33);
 									}
 									ZEPHIR_INIT_NVAR(&position);
-									ZVAL_COPY(&position, _27$$32);
+									ZVAL_COPY(&position, _27$$33);
 									ZEPHIR_OBS_NVAR(&matchPosition);
 									if (zephir_array_isset_fetch(&matchPosition, &matches, &position, 0)) {
 										ZEPHIR_OBS_NVAR(&converter);
 										if (zephir_array_isset_fetch(&converter, &converters, &part, 0)) {
-											ZEPHIR_INIT_NVAR(&_30$$35);
-											ZEPHIR_INIT_NVAR(&_31$$35);
-											zephir_create_array(&_31$$35, 1, 0);
-											zephir_array_fast_append(&_31$$35, &matchPosition);
-											ZEPHIR_CALL_USER_FUNC_ARRAY(&_30$$35, &converter, &_31$$35);
+											ZEPHIR_INIT_NVAR(&_30$$36);
+											ZEPHIR_INIT_NVAR(&_31$$36);
+											zephir_create_array(&_31$$36, 1, 0);
+											zephir_array_fast_append(&_31$$36, &matchPosition);
+											ZEPHIR_CALL_USER_FUNC_ARRAY(&_30$$36, &converter, &_31$$36);
 											zephir_check_call_status();
-											zephir_array_update_zval(&parts, &part, &_30$$35, PH_COPY | PH_SEPARATE);
+											zephir_array_update_zval(&parts, &part, &_30$$36, PH_COPY | PH_SEPARATE);
 										} else {
 											zephir_array_update_zval(&parts, &part, &matchPosition, PH_COPY | PH_SEPARATE);
 										}
 									} else {
 										ZEPHIR_OBS_NVAR(&converter);
 										if (zephir_array_isset_fetch(&converter, &converters, &part, 0)) {
-											ZEPHIR_INIT_NVAR(&_32$$38);
-											ZEPHIR_INIT_NVAR(&_33$$38);
-											zephir_create_array(&_33$$38, 1, 0);
-											zephir_array_fast_append(&_33$$38, &position);
-											ZEPHIR_CALL_USER_FUNC_ARRAY(&_32$$38, &converter, &_33$$38);
+											ZEPHIR_INIT_NVAR(&_32$$39);
+											ZEPHIR_INIT_NVAR(&_33$$39);
+											zephir_create_array(&_33$$39, 1, 0);
+											zephir_array_fast_append(&_33$$39, &position);
+											ZEPHIR_CALL_USER_FUNC_ARRAY(&_32$$39, &converter, &_33$$39);
 											zephir_check_call_status();
-											zephir_array_update_zval(&parts, &part, &_32$$38, PH_COPY | PH_SEPARATE);
+											zephir_array_update_zval(&parts, &part, &_32$$39, PH_COPY | PH_SEPARATE);
 										}
 									}
 								} ZEND_HASH_FOREACH_END();
 							} else {
 								ZEPHIR_CALL_METHOD(NULL, &paths, "rewind", NULL, 0);
 								zephir_check_call_status();
-								_35$$32 = 1;
+								_35$$33 = 1;
 								while (1) {
-									if (_35$$32) {
-										_35$$32 = 0;
+									if (_35$$33) {
+										_35$$33 = 0;
 									} else {
 										ZEPHIR_CALL_METHOD(NULL, &paths, "next", NULL, 0);
 										zephir_check_call_status();
 									}
-									ZEPHIR_CALL_METHOD(&_34$$32, &paths, "valid", NULL, 0);
+									ZEPHIR_CALL_METHOD(&_34$$33, &paths, "valid", NULL, 0);
 									zephir_check_call_status();
-									if (!zend_is_true(&_34$$32)) {
+									if (!zend_is_true(&_34$$33)) {
 										break;
 									}
 									ZEPHIR_CALL_METHOD(&part, &paths, "key", NULL, 0);
@@ -862,26 +868,26 @@ PHP_METHOD(Phalcon_Cli_Router, handle)
 										if (zephir_array_isset_fetch(&matchPosition, &matches, &position, 0)) {
 											ZEPHIR_OBS_NVAR(&converter);
 											if (zephir_array_isset_fetch(&converter, &converters, &part, 0)) {
-												ZEPHIR_INIT_NVAR(&_36$$41);
-												ZEPHIR_INIT_NVAR(&_37$$41);
-												zephir_create_array(&_37$$41, 1, 0);
-												zephir_array_fast_append(&_37$$41, &matchPosition);
-												ZEPHIR_CALL_USER_FUNC_ARRAY(&_36$$41, &converter, &_37$$41);
+												ZEPHIR_INIT_NVAR(&_36$$42);
+												ZEPHIR_INIT_NVAR(&_37$$42);
+												zephir_create_array(&_37$$42, 1, 0);
+												zephir_array_fast_append(&_37$$42, &matchPosition);
+												ZEPHIR_CALL_USER_FUNC_ARRAY(&_36$$42, &converter, &_37$$42);
 												zephir_check_call_status();
-												zephir_array_update_zval(&parts, &part, &_36$$41, PH_COPY | PH_SEPARATE);
+												zephir_array_update_zval(&parts, &part, &_36$$42, PH_COPY | PH_SEPARATE);
 											} else {
 												zephir_array_update_zval(&parts, &part, &matchPosition, PH_COPY | PH_SEPARATE);
 											}
 										} else {
 											ZEPHIR_OBS_NVAR(&converter);
 											if (zephir_array_isset_fetch(&converter, &converters, &part, 0)) {
-												ZEPHIR_INIT_NVAR(&_38$$44);
-												ZEPHIR_INIT_NVAR(&_39$$44);
-												zephir_create_array(&_39$$44, 1, 0);
-												zephir_array_fast_append(&_39$$44, &position);
-												ZEPHIR_CALL_USER_FUNC_ARRAY(&_38$$44, &converter, &_39$$44);
+												ZEPHIR_INIT_NVAR(&_38$$45);
+												ZEPHIR_INIT_NVAR(&_39$$45);
+												zephir_create_array(&_39$$45, 1, 0);
+												zephir_array_fast_append(&_39$$45, &position);
+												ZEPHIR_CALL_USER_FUNC_ARRAY(&_38$$45, &converter, &_39$$45);
 												zephir_check_call_status();
-												zephir_array_update_zval(&parts, &part, &_38$$44, PH_COPY | PH_SEPARATE);
+												zephir_array_update_zval(&parts, &part, &_38$$45, PH_COPY | PH_SEPARATE);
 											}
 										}
 								}
@@ -908,14 +914,14 @@ PHP_METHOD(Phalcon_Cli_Router, handle)
 			} else {
 				zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 500, &__$false);
 			}
-			zephir_read_property_cached(&_40$$46, this_ptr, _zephir_prop_4, 503, PH_NOISY_CC | PH_READONLY);
-			zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 504, &_40$$46);
-			zephir_read_property_cached(&_41$$46, this_ptr, _zephir_prop_6, 505, PH_NOISY_CC | PH_READONLY);
-			zephir_update_property_zval_cached(this_ptr, _zephir_prop_7, 506, &_41$$46);
-			zephir_read_property_cached(&_42$$46, this_ptr, _zephir_prop_8, 507, PH_NOISY_CC | PH_READONLY);
-			zephir_update_property_zval_cached(this_ptr, _zephir_prop_9, 508, &_42$$46);
-			zephir_read_property_cached(&_43$$46, this_ptr, _zephir_prop_10, 509, PH_NOISY_CC | PH_READONLY);
-			zephir_update_property_zval_cached(this_ptr, _zephir_prop_11, 510, &_43$$46);
+			zephir_read_property_cached(&_40$$47, this_ptr, _zephir_prop_4, 503, PH_NOISY_CC | PH_READONLY);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 504, &_40$$47);
+			zephir_read_property_cached(&_41$$47, this_ptr, _zephir_prop_6, 505, PH_NOISY_CC | PH_READONLY);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_7, 506, &_41$$47);
+			zephir_read_property_cached(&_42$$47, this_ptr, _zephir_prop_8, 507, PH_NOISY_CC | PH_READONLY);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_9, 508, &_42$$47);
+			zephir_read_property_cached(&_43$$47, this_ptr, _zephir_prop_10, 509, PH_NOISY_CC | PH_READONLY);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_11, 510, &_43$$47);
 			RETURN_THIS();
 		}
 	} else {
@@ -951,15 +957,15 @@ PHP_METHOD(Phalcon_Cli_Router, handle)
 	ZEPHIR_OBS_NVAR(&params);
 	if (zephir_array_isset_string_fetch(&params, &parts, SL("params"), 0)) {
 		if (Z_TYPE_P(&params) != IS_ARRAY) {
-			zephir_cast_to_string(&_44$$55, &params);
-			ZVAL_LONG(&_45$$55, 1);
+			zephir_cast_to_string(&_44$$56, &params);
+			ZVAL_LONG(&_45$$56, 1);
 			ZEPHIR_INIT_VAR(&strParams);
-			zephir_substr(&strParams, &_44$$55, 1 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
+			zephir_substr(&strParams, &_44$$56, 1 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
 			if (zephir_is_true(&strParams)) {
-				ZEPHIR_CALL_CE_STATIC(&_46$$56, phalcon_cli_router_route_ce, "getdelimiter", NULL, 0);
+				ZEPHIR_CALL_CE_STATIC(&_46$$57, phalcon_cli_router_route_ce, "getdelimiter", NULL, 0);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&params);
-				zephir_fast_explode(&params, &_46$$56, &strParams, LONG_MAX);
+				zephir_fast_explode(&params, &_46$$57, &strParams, LONG_MAX);
 			} else {
 				ZEPHIR_INIT_NVAR(&params);
 				array_init(&params);
@@ -968,9 +974,9 @@ PHP_METHOD(Phalcon_Cli_Router, handle)
 		zephir_array_unset_string(&parts, SL("params"), PH_SEPARATE);
 	}
 	if (!(ZEPHIR_IS_EMPTY(&params))) {
-		ZEPHIR_INIT_VAR(&_47$$58);
-		zephir_fast_array_merge(&_47$$58, &params, &parts);
-		ZEPHIR_CPY_WRT(&params, &_47$$58);
+		ZEPHIR_INIT_VAR(&_47$$59);
+		zephir_fast_array_merge(&_47$$59, &params, &parts);
+		ZEPHIR_CPY_WRT(&params, &_47$$59);
 	} else {
 		ZEPHIR_CPY_WRT(&params, &parts);
 	}
