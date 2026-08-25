@@ -48,5 +48,16 @@ final class LimitInjectionTest extends AbstractUnitTestCase
             'SELECT * FROM robots LIMIT 10 OFFSET 50',
             $dialect->limit('SELECT * FROM robots', [10, 50])
         );
+
+        // Bound placeholders must pass through unchanged so PDO can bind them.
+        $this->assertSame(
+            'SELECT * FROM robots LIMIT :APL0:',
+            $dialect->limit('SELECT * FROM robots', ':APL0:')
+        );
+
+        $this->assertSame(
+            'SELECT * FROM robots LIMIT :APL0: OFFSET :APL1:',
+            $dialect->limit('SELECT * FROM robots', [':APL0:', ':APL1:'])
+        );
     }
 }
