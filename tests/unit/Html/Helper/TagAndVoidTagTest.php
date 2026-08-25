@@ -68,6 +68,16 @@ final class TagAndVoidTagTest extends AbstractUnitTestCase
         $this->assertNotContains('onclick', $names);
     }
 
+    public function testTagStripsTagNameSplittersPreventingInjection(): void
+    {
+        $tag = new Tag(new Escaper());
+
+        $this->assertSame(
+            '<xonloadalert(1)y>',
+            $tag('x onload=alert(1)/y')
+        );
+    }
+
     public function testVoidTagDefaultsToHtml5SelfClose(): void
     {
         $vt = new VoidTag(new Escaper(), new Doctype());

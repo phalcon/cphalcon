@@ -57,6 +57,33 @@ final class RenderTest extends AbstractUnitTestCase
     }
 
     /**
+     * The last label of a list of many elements goes into a `<dt>`, so it
+     * must be escaped or a crafted label injects HTML (CWE-79).
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-25
+     */
+    public function testHtmlBreadcrumbsRenderEscapesLastLabel(): void
+    {
+        $breadcrumbs = new Breadcrumbs();
+        $breadcrumbs
+            ->add('Home', '/')
+            ->add('<b>x</b>')
+        ;
+
+        $expected = '<dl>'
+            . '<dt><a href="/">Home</a></dt>'
+            . '<dt> / </dt>'
+            . '<dt>&lt;b&gt;x&lt;/b&gt;</dt>'
+            . '</dl>';
+
+        $this->assertSame(
+            $expected,
+            $breadcrumbs->render()
+        );
+    }
+
+    /**
      * The link and label are placed into the markup, so they must be escaped
      * or a crafted value injects HTML (CWE-79).
      *
@@ -74,6 +101,31 @@ final class RenderTest extends AbstractUnitTestCase
 
         $this->assertStringNotContainsString('<script>', $actual);
         $this->assertStringNotContainsString('<b>x</b>', $actual);
+    }
+
+    /**
+     * A single element goes through the template branch, so the label and the
+     * url must both be escaped or a crafted value injects HTML (CWE-79).
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-25
+     */
+    public function testHtmlBreadcrumbsRenderEscapesSingleElement(): void
+    {
+        $breadcrumbs = new Breadcrumbs();
+        $breadcrumbs
+            ->add('<b>x</b>', '/a"><script>alert(1)</script>')
+        ;
+
+        $expected = '<dl>'
+            . '<dt><a href="/a&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;">'
+            . '&lt;b&gt;x&lt;/b&gt;</a></dt>'
+            . '</dl>';
+
+        $this->assertSame(
+            $expected,
+            $breadcrumbs->render()
+        );
     }
 
     /**

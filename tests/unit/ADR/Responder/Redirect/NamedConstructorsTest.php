@@ -29,4 +29,16 @@ final class NamedConstructorsTest extends AbstractUnitTestCase
 
         $this->assertSame('/a', Redirect::permanent('/a')->url());
     }
+
+    /**
+     * Unit Tests Phalcon\ADR\Responder\Redirect :: external() defaults
+     *
+     * No named constructor opts into an external redirect (CWE-601).
+     */
+    public function testAdrResponderRedirectNamedConstructorsAreInternal(): void
+    {
+        $this->assertFalse(Redirect::permanent('/a')->external());
+        $this->assertFalse(Redirect::temporary('/a')->external());
+        $this->assertFalse(Redirect::seeOther('/a')->external());
+    }
 }

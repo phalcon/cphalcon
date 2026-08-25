@@ -87,15 +87,78 @@ final class SessionHardeningTest extends AbstractUnitTestCase
         $this->assertFalse($cookie->getSecure());
     }
 
-    private function buildGuard(
-        FakeSessionManager $session,
-        FakeCookies $cookies,
-        SessionGuardConfig $config
-    ): Session {
-        $security = new Security();
-        $clock    = new FrozenClock(new DateTimeImmutable('@1700000000'));
+    /**
+     * On a secure request the remember cookie must carry the secure flag so
+     * the bearer credential never travels over a plaintext transport
+     * (CWE-614).
+     */
+    public function testRememberCookieIsSecureOnSecureRequest(): void
+    {
+        $cookies = new FakeCookies();
+        $request = new FakeRequest();
+        $request->setSecureFake(true);
 
-        $adapter = new FakeRememberAdapter(
+        $config = new SessionGuardConfig(null, null, null, 1209600);
+        $guard  = $this->buildGuard(
+            new FakeSessionManager(),
+            $cookies,
+            $config,
+            null,
+            $request
+        );
+
+        $result = $guard->attempt(
+            ['email' => 'alice@example.com', 'password' => 'secret'],
+            true
+        );
+
+        $this->assertTrue($result);
+
+        $cookie = $cookies->get($config->getRememberName());
+        $this->assertTrue($cookie->getSecure());
+    }
+
+    /**
+     * Promotion from the remember cookie is a privilege change, so the session
+     * id must rotate there too (CWE-384).
+     */
+    public function testUserFromRecallerRegeneratesSessionId(): void
+    {
+        $security = new Security();
+        $adapter  = $this->buildAdapter($security);
+        $cookies  = new FakeCookies();
+        $config   = new SessionGuardConfig(null, null, null, 1209600);
+
+        $guard = $this->buildGuard(
+            new FakeSessionManager(),
+            $cookies,
+            $config,
+            $adapter
+        );
+
+        $this->assertTrue(
+            $guard->attempt(
+                ['email' => 'alice@example.com', 'password' => 'secret'],
+                true
+            )
+        );
+
+        // A new session with no identity: only the remember cookie remains.
+        $session = new FakeSessionManager();
+        $guard   = $this->buildGuard($session, $cookies, $config, $adapter);
+
+        $this->assertSame(0, $session->regenerateIdCalls);
+
+        $user = $guard->user();
+
+        $this->assertNotNull($user);
+        $this->assertTrue($guard->viaRemember());
+        $this->assertGreaterThanOrEqual(1, $session->regenerateIdCalls);
+    }
+
+    private function buildAdapter(Security $security): FakeRememberAdapter
+    {
+        return new FakeRememberAdapter(
             $security,
             new MemoryAdapterConfig([
                 [
@@ -105,10 +168,20 @@ final class SessionHardeningTest extends AbstractUnitTestCase
                 ],
             ])
         );
+    }
+
+    private function buildGuard(
+        FakeSessionManager $session,
+        FakeCookies $cookies,
+        SessionGuardConfig $config,
+        ?FakeRememberAdapter $adapter = null,
+        ?FakeRequest $request = null
+    ): Session {
+        $clock = new FrozenClock(new DateTimeImmutable('@1700000000'));
 
         return new Session(
-            $adapter,
-            new FakeRequest(),
+            $adapter ?? $this->buildAdapter(new Security()),
+            $request ?? new FakeRequest(),
             $cookies,
             $session,
             $config,

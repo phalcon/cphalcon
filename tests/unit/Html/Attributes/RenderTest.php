@@ -45,4 +45,25 @@ final class RenderTest extends AbstractUnitTestCase
         $actual   = $attributes->render();
         $this->assertSame($expected, $actual);
     }
+
+    /**
+     * The key becomes an attribute name, so the characters that end a name
+     * must be removed or a crafted key adds an event handler (CWE-79).
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-25
+     */
+    public function testHtmlAttributesRenderStripsAttributeNameSplitters(): void
+    {
+        $attributes = new Attributes(
+            [
+                'x onclick=alert(1) y' => 'v',
+                'class'                => 'ok',
+            ]
+        );
+
+        $expected = 'class="ok" xonclickalert(1)y="v" ';
+        $actual   = $attributes->render();
+        $this->assertSame($expected, $actual);
+    }
 }

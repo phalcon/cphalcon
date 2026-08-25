@@ -64,4 +64,35 @@ final class QuoteTest extends AbstractDatabaseTestCase
         $actual   = $connection->quote($source);
         $this->assertEquals($expected, $actual);
     }
+
+    /**
+     * The array branch of quote() must double the delimiter in every element,
+     * the same as the scalar branch (CWE-89).
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     */
+    public function testDMPdoConnectionQuoteEscapesDelimiterInArray(): void
+    {
+        /** @var Connection $connection */
+        $connection = self::getDataMapperConnection();
+        $quotes     = $connection->getQuoteNames();
+
+        $source   = [
+            'a' . $quotes["find"] . 'b',
+            'c' . $quotes["find"] . 'd',
+        ];
+        $expected = $quotes["prefix"]
+            . 'a' . $quotes["replace"] . 'b'
+            . $quotes["suffix"] . ', '
+            . $quotes["prefix"]
+            . 'c' . $quotes["replace"] . 'd'
+            . $quotes["suffix"];
+        $actual   = $connection->quote($source);
+        $this->assertEquals($expected, $actual);
+
+        $this->assertStringNotContainsString(
+            $quotes["prefix"] . 'a' . $quotes["find"] . 'b' . $quotes["suffix"],
+            $actual
+        );
+    }
 }

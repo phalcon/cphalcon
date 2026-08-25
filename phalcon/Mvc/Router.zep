@@ -2290,7 +2290,9 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                      * that shadowed it, so clear any stale shadow flag - the
                      * last-registered route must win.
                      */
-                    unset this->staticShadowedByMethod[method][bucketPattern];
+                    if isset this->staticShadowedByMethod[method][bucketPattern] {
+                        unset this->staticShadowedByMethod[method][bucketPattern];
+                    }
                 } else {
                     if fetch staticBucket, this->staticByMethod[method] {
                         for staticUri, staticRoutesList in staticBucket {
