@@ -3283,11 +3283,29 @@ PHP_METHOD(Phalcon_Http_Request, isValidHttpMethod)
 	ZVAL_STR_COPY(&method_zv, method);
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_fast_strtoupper(&_0, &method_zv);
-	do {
-		if (ZEPHIR_IS_STRING(&_0, "CONNECT") || ZEPHIR_IS_STRING(&_0, "DELETE") || ZEPHIR_IS_STRING(&_0, "GET") || ZEPHIR_IS_STRING(&_0, "HEAD") || ZEPHIR_IS_STRING(&_0, "OPTIONS") || ZEPHIR_IS_STRING(&_0, "PATCH") || ZEPHIR_IS_STRING(&_0, "POST") || ZEPHIR_IS_STRING(&_0, "PURGE") || ZEPHIR_IS_STRING(&_0, "PUT") || ZEPHIR_IS_STRING(&_0, "TRACE")) {
-			RETURN_MM_BOOL(1);
-		}
-	} while(0);
+	if (ZEPHIR_IS_STRING(&_0, "CONNECT")) { goto zephir_switch_0_clause_0; }
+	if (ZEPHIR_IS_STRING(&_0, "DELETE")) { goto zephir_switch_0_clause_1; }
+	if (ZEPHIR_IS_STRING(&_0, "GET")) { goto zephir_switch_0_clause_2; }
+	if (ZEPHIR_IS_STRING(&_0, "HEAD")) { goto zephir_switch_0_clause_3; }
+	if (ZEPHIR_IS_STRING(&_0, "OPTIONS")) { goto zephir_switch_0_clause_4; }
+	if (ZEPHIR_IS_STRING(&_0, "PATCH")) { goto zephir_switch_0_clause_5; }
+	if (ZEPHIR_IS_STRING(&_0, "POST")) { goto zephir_switch_0_clause_6; }
+	if (ZEPHIR_IS_STRING(&_0, "PURGE")) { goto zephir_switch_0_clause_7; }
+	if (ZEPHIR_IS_STRING(&_0, "PUT")) { goto zephir_switch_0_clause_8; }
+	if (ZEPHIR_IS_STRING(&_0, "TRACE")) { goto zephir_switch_0_clause_9; }
+	goto zephir_switch_0_end;
+	zephir_switch_0_clause_0: ;
+	zephir_switch_0_clause_1: ;
+	zephir_switch_0_clause_2: ;
+	zephir_switch_0_clause_3: ;
+	zephir_switch_0_clause_4: ;
+	zephir_switch_0_clause_5: ;
+	zephir_switch_0_clause_6: ;
+	zephir_switch_0_clause_7: ;
+	zephir_switch_0_clause_8: ;
+	zephir_switch_0_clause_9: ;
+		RETURN_MM_BOOL(1);
+	zephir_switch_0_end: ;
 
 	RETURN_MM_BOOL(0);
 }

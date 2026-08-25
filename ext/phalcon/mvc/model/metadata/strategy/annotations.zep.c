@@ -493,258 +493,259 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 			ZVAL_STRING(&_8$$6, "type");
 			ZEPHIR_CALL_METHOD(&feature, &columnAnnotation, "getnamedparameter", NULL, 0, &_8$$6);
 			zephir_check_call_status();
-			do {
-				if (ZEPHIR_IS_STRING(&feature, "biginteger")) {
-					ZEPHIR_INIT_NVAR(&_9$$9);
-					ZVAL_LONG(&_9$$9, 14);
-					zephir_array_update_zval(&fieldTypes, &columnName, &_9$$9, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_10$$9);
-					ZVAL_LONG(&_10$$9, 2);
-					zephir_array_update_zval(&fieldBindTypes, &columnName, &_10$$9, PH_COPY | PH_SEPARATE);
-					zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (ZEPHIR_IS_STRING(&feature, "bit")) {
-					ZEPHIR_INIT_NVAR(&_11$$10);
-					ZVAL_LONG(&_11$$10, 19);
-					zephir_array_update_zval(&fieldTypes, &columnName, &_11$$10, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_12$$10);
-					ZVAL_LONG(&_12$$10, 1);
-					zephir_array_update_zval(&fieldBindTypes, &columnName, &_12$$10, PH_COPY | PH_SEPARATE);
-					zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (ZEPHIR_IS_STRING(&feature, "blob")) {
-					ZEPHIR_INIT_NVAR(&_13$$11);
-					ZVAL_LONG(&_13$$11, 11);
-					zephir_array_update_zval(&fieldTypes, &columnName, &_13$$11, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_14$$11);
-					ZVAL_LONG(&_14$$11, 3);
-					zephir_array_update_zval(&fieldBindTypes, &columnName, &_14$$11, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (ZEPHIR_IS_STRING(&feature, "boolean")) {
-					ZEPHIR_INIT_NVAR(&_15$$12);
-					ZVAL_LONG(&_15$$12, 8);
-					zephir_array_update_zval(&fieldTypes, &columnName, &_15$$12, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_16$$12);
-					ZVAL_LONG(&_16$$12, 5);
-					zephir_array_update_zval(&fieldBindTypes, &columnName, &_16$$12, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (ZEPHIR_IS_STRING(&feature, "char")) {
-					ZEPHIR_INIT_NVAR(&_17$$13);
-					ZVAL_LONG(&_17$$13, 5);
-					zephir_array_update_zval(&fieldTypes, &columnName, &_17$$13, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_18$$13);
-					ZVAL_LONG(&_18$$13, 2);
-					zephir_array_update_zval(&fieldBindTypes, &columnName, &_18$$13, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (ZEPHIR_IS_STRING(&feature, "date")) {
-					ZEPHIR_INIT_NVAR(&_19$$14);
-					ZVAL_LONG(&_19$$14, 1);
-					zephir_array_update_zval(&fieldTypes, &columnName, &_19$$14, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_20$$14);
-					ZVAL_LONG(&_20$$14, 2);
-					zephir_array_update_zval(&fieldBindTypes, &columnName, &_20$$14, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (ZEPHIR_IS_STRING(&feature, "datetime")) {
-					ZEPHIR_INIT_NVAR(&_21$$15);
-					ZVAL_LONG(&_21$$15, 4);
-					zephir_array_update_zval(&fieldTypes, &columnName, &_21$$15, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_22$$15);
-					ZVAL_LONG(&_22$$15, 2);
-					zephir_array_update_zval(&fieldBindTypes, &columnName, &_22$$15, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (ZEPHIR_IS_STRING(&feature, "decimal")) {
-					ZEPHIR_INIT_NVAR(&_23$$16);
-					ZVAL_LONG(&_23$$16, 3);
-					zephir_array_update_zval(&fieldTypes, &columnName, &_23$$16, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_24$$16);
-					ZVAL_LONG(&_24$$16, 32);
-					zephir_array_update_zval(&fieldBindTypes, &columnName, &_24$$16, PH_COPY | PH_SEPARATE);
-					zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (ZEPHIR_IS_STRING(&feature, "double")) {
-					ZEPHIR_INIT_NVAR(&_25$$17);
-					ZVAL_LONG(&_25$$17, 9);
-					zephir_array_update_zval(&fieldTypes, &columnName, &_25$$17, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_26$$17);
-					ZVAL_LONG(&_26$$17, 32);
-					zephir_array_update_zval(&fieldBindTypes, &columnName, &_26$$17, PH_COPY | PH_SEPARATE);
-					zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (ZEPHIR_IS_STRING(&feature, "enum")) {
-					ZEPHIR_INIT_NVAR(&_27$$18);
-					ZVAL_LONG(&_27$$18, 18);
-					zephir_array_update_zval(&fieldTypes, &columnName, &_27$$18, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_28$$18);
-					ZVAL_LONG(&_28$$18, 2);
-					zephir_array_update_zval(&fieldBindTypes, &columnName, &_28$$18, PH_COPY | PH_SEPARATE);
-					zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (ZEPHIR_IS_STRING(&feature, "float")) {
-					ZEPHIR_INIT_NVAR(&_29$$19);
-					ZVAL_LONG(&_29$$19, 7);
-					zephir_array_update_zval(&fieldTypes, &columnName, &_29$$19, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_30$$19);
-					ZVAL_LONG(&_30$$19, 32);
-					zephir_array_update_zval(&fieldBindTypes, &columnName, &_30$$19, PH_COPY | PH_SEPARATE);
-					zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (ZEPHIR_IS_STRING(&feature, "integer")) {
-					ZEPHIR_INIT_NVAR(&_31$$20);
-					ZVAL_LONG(&_31$$20, 0);
-					zephir_array_update_zval(&fieldTypes, &columnName, &_31$$20, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_32$$20);
-					ZVAL_LONG(&_32$$20, 1);
-					zephir_array_update_zval(&fieldBindTypes, &columnName, &_32$$20, PH_COPY | PH_SEPARATE);
-					zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (ZEPHIR_IS_STRING(&feature, "json")) {
-					ZEPHIR_INIT_NVAR(&_33$$21);
-					ZVAL_LONG(&_33$$21, 15);
-					zephir_array_update_zval(&fieldTypes, &columnName, &_33$$21, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_34$$21);
-					ZVAL_LONG(&_34$$21, 2);
-					zephir_array_update_zval(&fieldBindTypes, &columnName, &_34$$21, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (ZEPHIR_IS_STRING(&feature, "jsonb")) {
-					ZEPHIR_INIT_NVAR(&_35$$22);
-					ZVAL_LONG(&_35$$22, 16);
-					zephir_array_update_zval(&fieldTypes, &columnName, &_35$$22, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_36$$22);
-					ZVAL_LONG(&_36$$22, 2);
-					zephir_array_update_zval(&fieldBindTypes, &columnName, &_36$$22, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (ZEPHIR_IS_STRING(&feature, "longblob")) {
-					ZEPHIR_INIT_NVAR(&_37$$23);
-					ZVAL_LONG(&_37$$23, 13);
-					zephir_array_update_zval(&fieldTypes, &columnName, &_37$$23, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_38$$23);
-					ZVAL_LONG(&_38$$23, 3);
-					zephir_array_update_zval(&fieldBindTypes, &columnName, &_38$$23, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (ZEPHIR_IS_STRING(&feature, "longtext")) {
-					ZEPHIR_INIT_NVAR(&_39$$24);
-					ZVAL_LONG(&_39$$24, 24);
-					zephir_array_update_zval(&fieldTypes, &columnName, &_39$$24, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_40$$24);
-					ZVAL_LONG(&_40$$24, 2);
-					zephir_array_update_zval(&fieldBindTypes, &columnName, &_40$$24, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (ZEPHIR_IS_STRING(&feature, "mediumblob")) {
-					ZEPHIR_INIT_NVAR(&_41$$25);
-					ZVAL_LONG(&_41$$25, 12);
-					zephir_array_update_zval(&fieldTypes, &columnName, &_41$$25, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_42$$25);
-					ZVAL_LONG(&_42$$25, 3);
-					zephir_array_update_zval(&fieldBindTypes, &columnName, &_42$$25, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (ZEPHIR_IS_STRING(&feature, "mediumint")) {
-					ZEPHIR_INIT_NVAR(&_43$$26);
-					ZVAL_LONG(&_43$$26, 21);
-					zephir_array_update_zval(&fieldTypes, &columnName, &_43$$26, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_44$$26);
-					ZVAL_LONG(&_44$$26, 1);
-					zephir_array_update_zval(&fieldBindTypes, &columnName, &_44$$26, PH_COPY | PH_SEPARATE);
-					zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (ZEPHIR_IS_STRING(&feature, "mediumtext")) {
-					ZEPHIR_INIT_NVAR(&_45$$27);
-					ZVAL_LONG(&_45$$27, 23);
-					zephir_array_update_zval(&fieldTypes, &columnName, &_45$$27, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_46$$27);
-					ZVAL_LONG(&_46$$27, 2);
-					zephir_array_update_zval(&fieldBindTypes, &columnName, &_46$$27, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (ZEPHIR_IS_STRING(&feature, "smallint")) {
-					ZEPHIR_INIT_NVAR(&_47$$28);
-					ZVAL_LONG(&_47$$28, 22);
-					zephir_array_update_zval(&fieldTypes, &columnName, &_47$$28, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_48$$28);
-					ZVAL_LONG(&_48$$28, 1);
-					zephir_array_update_zval(&fieldBindTypes, &columnName, &_48$$28, PH_COPY | PH_SEPARATE);
-					zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (ZEPHIR_IS_STRING(&feature, "text")) {
-					ZEPHIR_INIT_NVAR(&_49$$29);
-					ZVAL_LONG(&_49$$29, 6);
-					zephir_array_update_zval(&fieldTypes, &columnName, &_49$$29, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_50$$29);
-					ZVAL_LONG(&_50$$29, 2);
-					zephir_array_update_zval(&fieldBindTypes, &columnName, &_50$$29, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (ZEPHIR_IS_STRING(&feature, "time")) {
-					ZEPHIR_INIT_NVAR(&_51$$30);
-					ZVAL_LONG(&_51$$30, 20);
-					zephir_array_update_zval(&fieldTypes, &columnName, &_51$$30, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_52$$30);
-					ZVAL_LONG(&_52$$30, 2);
-					zephir_array_update_zval(&fieldBindTypes, &columnName, &_52$$30, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (ZEPHIR_IS_STRING(&feature, "timestamp")) {
-					ZEPHIR_INIT_NVAR(&_53$$31);
-					ZVAL_LONG(&_53$$31, 17);
-					zephir_array_update_zval(&fieldTypes, &columnName, &_53$$31, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_54$$31);
-					ZVAL_LONG(&_54$$31, 2);
-					zephir_array_update_zval(&fieldBindTypes, &columnName, &_54$$31, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (ZEPHIR_IS_STRING(&feature, "tinyblob")) {
-					ZEPHIR_INIT_NVAR(&_55$$32);
-					ZVAL_LONG(&_55$$32, 10);
-					zephir_array_update_zval(&fieldTypes, &columnName, &_55$$32, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_56$$32);
-					ZVAL_LONG(&_56$$32, 3);
-					zephir_array_update_zval(&fieldBindTypes, &columnName, &_56$$32, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (ZEPHIR_IS_STRING(&feature, "tinyint")) {
-					ZEPHIR_INIT_NVAR(&_57$$33);
-					ZVAL_LONG(&_57$$33, 26);
-					zephir_array_update_zval(&fieldTypes, &columnName, &_57$$33, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_58$$33);
-					ZVAL_LONG(&_58$$33, 1);
-					zephir_array_update_zval(&fieldBindTypes, &columnName, &_58$$33, PH_COPY | PH_SEPARATE);
-					zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (ZEPHIR_IS_STRING(&feature, "tinytext")) {
-					ZEPHIR_INIT_NVAR(&_59$$34);
-					ZVAL_LONG(&_59$$34, 25);
-					zephir_array_update_zval(&fieldTypes, &columnName, &_59$$34, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_60$$34);
-					ZVAL_LONG(&_60$$34, 2);
-					zephir_array_update_zval(&fieldBindTypes, &columnName, &_60$$34, PH_COPY | PH_SEPARATE);
-					break;
-				}
+			if (ZEPHIR_IS_STRING(&feature, "biginteger")) { goto zephir_switch_0_clause_0; }
+			if (ZEPHIR_IS_STRING(&feature, "bit")) { goto zephir_switch_0_clause_1; }
+			if (ZEPHIR_IS_STRING(&feature, "blob")) { goto zephir_switch_0_clause_2; }
+			if (ZEPHIR_IS_STRING(&feature, "boolean")) { goto zephir_switch_0_clause_3; }
+			if (ZEPHIR_IS_STRING(&feature, "char")) { goto zephir_switch_0_clause_4; }
+			if (ZEPHIR_IS_STRING(&feature, "date")) { goto zephir_switch_0_clause_5; }
+			if (ZEPHIR_IS_STRING(&feature, "datetime")) { goto zephir_switch_0_clause_6; }
+			if (ZEPHIR_IS_STRING(&feature, "decimal")) { goto zephir_switch_0_clause_7; }
+			if (ZEPHIR_IS_STRING(&feature, "double")) { goto zephir_switch_0_clause_8; }
+			if (ZEPHIR_IS_STRING(&feature, "enum")) { goto zephir_switch_0_clause_9; }
+			if (ZEPHIR_IS_STRING(&feature, "float")) { goto zephir_switch_0_clause_10; }
+			if (ZEPHIR_IS_STRING(&feature, "integer")) { goto zephir_switch_0_clause_11; }
+			if (ZEPHIR_IS_STRING(&feature, "json")) { goto zephir_switch_0_clause_12; }
+			if (ZEPHIR_IS_STRING(&feature, "jsonb")) { goto zephir_switch_0_clause_13; }
+			if (ZEPHIR_IS_STRING(&feature, "longblob")) { goto zephir_switch_0_clause_14; }
+			if (ZEPHIR_IS_STRING(&feature, "longtext")) { goto zephir_switch_0_clause_15; }
+			if (ZEPHIR_IS_STRING(&feature, "mediumblob")) { goto zephir_switch_0_clause_16; }
+			if (ZEPHIR_IS_STRING(&feature, "mediumint")) { goto zephir_switch_0_clause_17; }
+			if (ZEPHIR_IS_STRING(&feature, "mediumtext")) { goto zephir_switch_0_clause_18; }
+			if (ZEPHIR_IS_STRING(&feature, "smallint")) { goto zephir_switch_0_clause_19; }
+			if (ZEPHIR_IS_STRING(&feature, "text")) { goto zephir_switch_0_clause_20; }
+			if (ZEPHIR_IS_STRING(&feature, "time")) { goto zephir_switch_0_clause_21; }
+			if (ZEPHIR_IS_STRING(&feature, "timestamp")) { goto zephir_switch_0_clause_22; }
+			if (ZEPHIR_IS_STRING(&feature, "tinyblob")) { goto zephir_switch_0_clause_23; }
+			if (ZEPHIR_IS_STRING(&feature, "tinyint")) { goto zephir_switch_0_clause_24; }
+			if (ZEPHIR_IS_STRING(&feature, "tinytext")) { goto zephir_switch_0_clause_25; }
+			goto zephir_switch_0_clause_26;
+			zephir_switch_0_clause_0: ;
+				ZEPHIR_INIT_NVAR(&_9$$9);
+				ZVAL_LONG(&_9$$9, 14);
+				zephir_array_update_zval(&fieldTypes, &columnName, &_9$$9, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_10$$9);
+				ZVAL_LONG(&_10$$9, 2);
+				zephir_array_update_zval(&fieldBindTypes, &columnName, &_10$$9, PH_COPY | PH_SEPARATE);
+				zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_1: ;
+				ZEPHIR_INIT_NVAR(&_11$$10);
+				ZVAL_LONG(&_11$$10, 19);
+				zephir_array_update_zval(&fieldTypes, &columnName, &_11$$10, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_12$$10);
+				ZVAL_LONG(&_12$$10, 1);
+				zephir_array_update_zval(&fieldBindTypes, &columnName, &_12$$10, PH_COPY | PH_SEPARATE);
+				zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_2: ;
+				ZEPHIR_INIT_NVAR(&_13$$11);
+				ZVAL_LONG(&_13$$11, 11);
+				zephir_array_update_zval(&fieldTypes, &columnName, &_13$$11, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_14$$11);
+				ZVAL_LONG(&_14$$11, 3);
+				zephir_array_update_zval(&fieldBindTypes, &columnName, &_14$$11, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_3: ;
+				ZEPHIR_INIT_NVAR(&_15$$12);
+				ZVAL_LONG(&_15$$12, 8);
+				zephir_array_update_zval(&fieldTypes, &columnName, &_15$$12, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_16$$12);
+				ZVAL_LONG(&_16$$12, 5);
+				zephir_array_update_zval(&fieldBindTypes, &columnName, &_16$$12, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_4: ;
+				ZEPHIR_INIT_NVAR(&_17$$13);
+				ZVAL_LONG(&_17$$13, 5);
+				zephir_array_update_zval(&fieldTypes, &columnName, &_17$$13, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_18$$13);
+				ZVAL_LONG(&_18$$13, 2);
+				zephir_array_update_zval(&fieldBindTypes, &columnName, &_18$$13, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_5: ;
+				ZEPHIR_INIT_NVAR(&_19$$14);
+				ZVAL_LONG(&_19$$14, 1);
+				zephir_array_update_zval(&fieldTypes, &columnName, &_19$$14, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_20$$14);
+				ZVAL_LONG(&_20$$14, 2);
+				zephir_array_update_zval(&fieldBindTypes, &columnName, &_20$$14, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_6: ;
+				ZEPHIR_INIT_NVAR(&_21$$15);
+				ZVAL_LONG(&_21$$15, 4);
+				zephir_array_update_zval(&fieldTypes, &columnName, &_21$$15, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_22$$15);
+				ZVAL_LONG(&_22$$15, 2);
+				zephir_array_update_zval(&fieldBindTypes, &columnName, &_22$$15, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_7: ;
+				ZEPHIR_INIT_NVAR(&_23$$16);
+				ZVAL_LONG(&_23$$16, 3);
+				zephir_array_update_zval(&fieldTypes, &columnName, &_23$$16, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_24$$16);
+				ZVAL_LONG(&_24$$16, 32);
+				zephir_array_update_zval(&fieldBindTypes, &columnName, &_24$$16, PH_COPY | PH_SEPARATE);
+				zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_8: ;
+				ZEPHIR_INIT_NVAR(&_25$$17);
+				ZVAL_LONG(&_25$$17, 9);
+				zephir_array_update_zval(&fieldTypes, &columnName, &_25$$17, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_26$$17);
+				ZVAL_LONG(&_26$$17, 32);
+				zephir_array_update_zval(&fieldBindTypes, &columnName, &_26$$17, PH_COPY | PH_SEPARATE);
+				zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_9: ;
+				ZEPHIR_INIT_NVAR(&_27$$18);
+				ZVAL_LONG(&_27$$18, 18);
+				zephir_array_update_zval(&fieldTypes, &columnName, &_27$$18, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_28$$18);
+				ZVAL_LONG(&_28$$18, 2);
+				zephir_array_update_zval(&fieldBindTypes, &columnName, &_28$$18, PH_COPY | PH_SEPARATE);
+				zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_10: ;
+				ZEPHIR_INIT_NVAR(&_29$$19);
+				ZVAL_LONG(&_29$$19, 7);
+				zephir_array_update_zval(&fieldTypes, &columnName, &_29$$19, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_30$$19);
+				ZVAL_LONG(&_30$$19, 32);
+				zephir_array_update_zval(&fieldBindTypes, &columnName, &_30$$19, PH_COPY | PH_SEPARATE);
+				zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_11: ;
+				ZEPHIR_INIT_NVAR(&_31$$20);
+				ZVAL_LONG(&_31$$20, 0);
+				zephir_array_update_zval(&fieldTypes, &columnName, &_31$$20, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_32$$20);
+				ZVAL_LONG(&_32$$20, 1);
+				zephir_array_update_zval(&fieldBindTypes, &columnName, &_32$$20, PH_COPY | PH_SEPARATE);
+				zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_12: ;
+				ZEPHIR_INIT_NVAR(&_33$$21);
+				ZVAL_LONG(&_33$$21, 15);
+				zephir_array_update_zval(&fieldTypes, &columnName, &_33$$21, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_34$$21);
+				ZVAL_LONG(&_34$$21, 2);
+				zephir_array_update_zval(&fieldBindTypes, &columnName, &_34$$21, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_13: ;
+				ZEPHIR_INIT_NVAR(&_35$$22);
+				ZVAL_LONG(&_35$$22, 16);
+				zephir_array_update_zval(&fieldTypes, &columnName, &_35$$22, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_36$$22);
+				ZVAL_LONG(&_36$$22, 2);
+				zephir_array_update_zval(&fieldBindTypes, &columnName, &_36$$22, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_14: ;
+				ZEPHIR_INIT_NVAR(&_37$$23);
+				ZVAL_LONG(&_37$$23, 13);
+				zephir_array_update_zval(&fieldTypes, &columnName, &_37$$23, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_38$$23);
+				ZVAL_LONG(&_38$$23, 3);
+				zephir_array_update_zval(&fieldBindTypes, &columnName, &_38$$23, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_15: ;
+				ZEPHIR_INIT_NVAR(&_39$$24);
+				ZVAL_LONG(&_39$$24, 24);
+				zephir_array_update_zval(&fieldTypes, &columnName, &_39$$24, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_40$$24);
+				ZVAL_LONG(&_40$$24, 2);
+				zephir_array_update_zval(&fieldBindTypes, &columnName, &_40$$24, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_16: ;
+				ZEPHIR_INIT_NVAR(&_41$$25);
+				ZVAL_LONG(&_41$$25, 12);
+				zephir_array_update_zval(&fieldTypes, &columnName, &_41$$25, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_42$$25);
+				ZVAL_LONG(&_42$$25, 3);
+				zephir_array_update_zval(&fieldBindTypes, &columnName, &_42$$25, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_17: ;
+				ZEPHIR_INIT_NVAR(&_43$$26);
+				ZVAL_LONG(&_43$$26, 21);
+				zephir_array_update_zval(&fieldTypes, &columnName, &_43$$26, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_44$$26);
+				ZVAL_LONG(&_44$$26, 1);
+				zephir_array_update_zval(&fieldBindTypes, &columnName, &_44$$26, PH_COPY | PH_SEPARATE);
+				zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_18: ;
+				ZEPHIR_INIT_NVAR(&_45$$27);
+				ZVAL_LONG(&_45$$27, 23);
+				zephir_array_update_zval(&fieldTypes, &columnName, &_45$$27, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_46$$27);
+				ZVAL_LONG(&_46$$27, 2);
+				zephir_array_update_zval(&fieldBindTypes, &columnName, &_46$$27, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_19: ;
+				ZEPHIR_INIT_NVAR(&_47$$28);
+				ZVAL_LONG(&_47$$28, 22);
+				zephir_array_update_zval(&fieldTypes, &columnName, &_47$$28, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_48$$28);
+				ZVAL_LONG(&_48$$28, 1);
+				zephir_array_update_zval(&fieldBindTypes, &columnName, &_48$$28, PH_COPY | PH_SEPARATE);
+				zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_20: ;
+				ZEPHIR_INIT_NVAR(&_49$$29);
+				ZVAL_LONG(&_49$$29, 6);
+				zephir_array_update_zval(&fieldTypes, &columnName, &_49$$29, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_50$$29);
+				ZVAL_LONG(&_50$$29, 2);
+				zephir_array_update_zval(&fieldBindTypes, &columnName, &_50$$29, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_21: ;
+				ZEPHIR_INIT_NVAR(&_51$$30);
+				ZVAL_LONG(&_51$$30, 20);
+				zephir_array_update_zval(&fieldTypes, &columnName, &_51$$30, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_52$$30);
+				ZVAL_LONG(&_52$$30, 2);
+				zephir_array_update_zval(&fieldBindTypes, &columnName, &_52$$30, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_22: ;
+				ZEPHIR_INIT_NVAR(&_53$$31);
+				ZVAL_LONG(&_53$$31, 17);
+				zephir_array_update_zval(&fieldTypes, &columnName, &_53$$31, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_54$$31);
+				ZVAL_LONG(&_54$$31, 2);
+				zephir_array_update_zval(&fieldBindTypes, &columnName, &_54$$31, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_23: ;
+				ZEPHIR_INIT_NVAR(&_55$$32);
+				ZVAL_LONG(&_55$$32, 10);
+				zephir_array_update_zval(&fieldTypes, &columnName, &_55$$32, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_56$$32);
+				ZVAL_LONG(&_56$$32, 3);
+				zephir_array_update_zval(&fieldBindTypes, &columnName, &_56$$32, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_24: ;
+				ZEPHIR_INIT_NVAR(&_57$$33);
+				ZVAL_LONG(&_57$$33, 26);
+				zephir_array_update_zval(&fieldTypes, &columnName, &_57$$33, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_58$$33);
+				ZVAL_LONG(&_58$$33, 1);
+				zephir_array_update_zval(&fieldBindTypes, &columnName, &_58$$33, PH_COPY | PH_SEPARATE);
+				zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_25: ;
+				ZEPHIR_INIT_NVAR(&_59$$34);
+				ZVAL_LONG(&_59$$34, 25);
+				zephir_array_update_zval(&fieldTypes, &columnName, &_59$$34, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_60$$34);
+				ZVAL_LONG(&_60$$34, 2);
+				zephir_array_update_zval(&fieldBindTypes, &columnName, &_60$$34, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_26: ;
 				ZEPHIR_INIT_NVAR(&_61$$35);
 				ZVAL_LONG(&_61$$35, 2);
 				zephir_array_update_zval(&fieldTypes, &columnName, &_61$$35, PH_COPY | PH_SEPARATE);
 				ZEPHIR_INIT_NVAR(&_62$$35);
 				ZVAL_LONG(&_62$$35, 2);
 				zephir_array_update_zval(&fieldBindTypes, &columnName, &_62$$35, PH_COPY | PH_SEPARATE);
-			} while(0);
+			zephir_switch_0_end: ;
 
 			ZEPHIR_INIT_NVAR(&_8$$6);
 			ZVAL_STRING(&_8$$6, "Primary");
@@ -849,258 +850,259 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 				ZVAL_STRING(&_74$$44, "type");
 				ZEPHIR_CALL_METHOD(&feature, &columnAnnotation, "getnamedparameter", NULL, 0, &_74$$44);
 				zephir_check_call_status();
-				do {
-					if (ZEPHIR_IS_STRING(&feature, "biginteger")) {
-						ZEPHIR_INIT_NVAR(&_75$$47);
-						ZVAL_LONG(&_75$$47, 14);
-						zephir_array_update_zval(&fieldTypes, &columnName, &_75$$47, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_76$$47);
-						ZVAL_LONG(&_76$$47, 2);
-						zephir_array_update_zval(&fieldBindTypes, &columnName, &_76$$47, PH_COPY | PH_SEPARATE);
-						zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (ZEPHIR_IS_STRING(&feature, "bit")) {
-						ZEPHIR_INIT_NVAR(&_77$$48);
-						ZVAL_LONG(&_77$$48, 19);
-						zephir_array_update_zval(&fieldTypes, &columnName, &_77$$48, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_78$$48);
-						ZVAL_LONG(&_78$$48, 1);
-						zephir_array_update_zval(&fieldBindTypes, &columnName, &_78$$48, PH_COPY | PH_SEPARATE);
-						zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (ZEPHIR_IS_STRING(&feature, "blob")) {
-						ZEPHIR_INIT_NVAR(&_79$$49);
-						ZVAL_LONG(&_79$$49, 11);
-						zephir_array_update_zval(&fieldTypes, &columnName, &_79$$49, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_80$$49);
-						ZVAL_LONG(&_80$$49, 3);
-						zephir_array_update_zval(&fieldBindTypes, &columnName, &_80$$49, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (ZEPHIR_IS_STRING(&feature, "boolean")) {
-						ZEPHIR_INIT_NVAR(&_81$$50);
-						ZVAL_LONG(&_81$$50, 8);
-						zephir_array_update_zval(&fieldTypes, &columnName, &_81$$50, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_82$$50);
-						ZVAL_LONG(&_82$$50, 5);
-						zephir_array_update_zval(&fieldBindTypes, &columnName, &_82$$50, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (ZEPHIR_IS_STRING(&feature, "char")) {
-						ZEPHIR_INIT_NVAR(&_83$$51);
-						ZVAL_LONG(&_83$$51, 5);
-						zephir_array_update_zval(&fieldTypes, &columnName, &_83$$51, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_84$$51);
-						ZVAL_LONG(&_84$$51, 2);
-						zephir_array_update_zval(&fieldBindTypes, &columnName, &_84$$51, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (ZEPHIR_IS_STRING(&feature, "date")) {
-						ZEPHIR_INIT_NVAR(&_85$$52);
-						ZVAL_LONG(&_85$$52, 1);
-						zephir_array_update_zval(&fieldTypes, &columnName, &_85$$52, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_86$$52);
-						ZVAL_LONG(&_86$$52, 2);
-						zephir_array_update_zval(&fieldBindTypes, &columnName, &_86$$52, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (ZEPHIR_IS_STRING(&feature, "datetime")) {
-						ZEPHIR_INIT_NVAR(&_87$$53);
-						ZVAL_LONG(&_87$$53, 4);
-						zephir_array_update_zval(&fieldTypes, &columnName, &_87$$53, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_88$$53);
-						ZVAL_LONG(&_88$$53, 2);
-						zephir_array_update_zval(&fieldBindTypes, &columnName, &_88$$53, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (ZEPHIR_IS_STRING(&feature, "decimal")) {
-						ZEPHIR_INIT_NVAR(&_89$$54);
-						ZVAL_LONG(&_89$$54, 3);
-						zephir_array_update_zval(&fieldTypes, &columnName, &_89$$54, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_90$$54);
-						ZVAL_LONG(&_90$$54, 32);
-						zephir_array_update_zval(&fieldBindTypes, &columnName, &_90$$54, PH_COPY | PH_SEPARATE);
-						zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (ZEPHIR_IS_STRING(&feature, "double")) {
-						ZEPHIR_INIT_NVAR(&_91$$55);
-						ZVAL_LONG(&_91$$55, 9);
-						zephir_array_update_zval(&fieldTypes, &columnName, &_91$$55, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_92$$55);
-						ZVAL_LONG(&_92$$55, 32);
-						zephir_array_update_zval(&fieldBindTypes, &columnName, &_92$$55, PH_COPY | PH_SEPARATE);
-						zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (ZEPHIR_IS_STRING(&feature, "enum")) {
-						ZEPHIR_INIT_NVAR(&_93$$56);
-						ZVAL_LONG(&_93$$56, 18);
-						zephir_array_update_zval(&fieldTypes, &columnName, &_93$$56, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_94$$56);
-						ZVAL_LONG(&_94$$56, 2);
-						zephir_array_update_zval(&fieldBindTypes, &columnName, &_94$$56, PH_COPY | PH_SEPARATE);
-						zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (ZEPHIR_IS_STRING(&feature, "float")) {
-						ZEPHIR_INIT_NVAR(&_95$$57);
-						ZVAL_LONG(&_95$$57, 7);
-						zephir_array_update_zval(&fieldTypes, &columnName, &_95$$57, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_96$$57);
-						ZVAL_LONG(&_96$$57, 32);
-						zephir_array_update_zval(&fieldBindTypes, &columnName, &_96$$57, PH_COPY | PH_SEPARATE);
-						zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (ZEPHIR_IS_STRING(&feature, "integer")) {
-						ZEPHIR_INIT_NVAR(&_97$$58);
-						ZVAL_LONG(&_97$$58, 0);
-						zephir_array_update_zval(&fieldTypes, &columnName, &_97$$58, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_98$$58);
-						ZVAL_LONG(&_98$$58, 1);
-						zephir_array_update_zval(&fieldBindTypes, &columnName, &_98$$58, PH_COPY | PH_SEPARATE);
-						zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (ZEPHIR_IS_STRING(&feature, "json")) {
-						ZEPHIR_INIT_NVAR(&_99$$59);
-						ZVAL_LONG(&_99$$59, 15);
-						zephir_array_update_zval(&fieldTypes, &columnName, &_99$$59, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_100$$59);
-						ZVAL_LONG(&_100$$59, 2);
-						zephir_array_update_zval(&fieldBindTypes, &columnName, &_100$$59, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (ZEPHIR_IS_STRING(&feature, "jsonb")) {
-						ZEPHIR_INIT_NVAR(&_101$$60);
-						ZVAL_LONG(&_101$$60, 16);
-						zephir_array_update_zval(&fieldTypes, &columnName, &_101$$60, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_102$$60);
-						ZVAL_LONG(&_102$$60, 2);
-						zephir_array_update_zval(&fieldBindTypes, &columnName, &_102$$60, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (ZEPHIR_IS_STRING(&feature, "longblob")) {
-						ZEPHIR_INIT_NVAR(&_103$$61);
-						ZVAL_LONG(&_103$$61, 13);
-						zephir_array_update_zval(&fieldTypes, &columnName, &_103$$61, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_104$$61);
-						ZVAL_LONG(&_104$$61, 3);
-						zephir_array_update_zval(&fieldBindTypes, &columnName, &_104$$61, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (ZEPHIR_IS_STRING(&feature, "longtext")) {
-						ZEPHIR_INIT_NVAR(&_105$$62);
-						ZVAL_LONG(&_105$$62, 24);
-						zephir_array_update_zval(&fieldTypes, &columnName, &_105$$62, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_106$$62);
-						ZVAL_LONG(&_106$$62, 2);
-						zephir_array_update_zval(&fieldBindTypes, &columnName, &_106$$62, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (ZEPHIR_IS_STRING(&feature, "mediumblob")) {
-						ZEPHIR_INIT_NVAR(&_107$$63);
-						ZVAL_LONG(&_107$$63, 12);
-						zephir_array_update_zval(&fieldTypes, &columnName, &_107$$63, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_108$$63);
-						ZVAL_LONG(&_108$$63, 3);
-						zephir_array_update_zval(&fieldBindTypes, &columnName, &_108$$63, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (ZEPHIR_IS_STRING(&feature, "mediumint")) {
-						ZEPHIR_INIT_NVAR(&_109$$64);
-						ZVAL_LONG(&_109$$64, 21);
-						zephir_array_update_zval(&fieldTypes, &columnName, &_109$$64, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_110$$64);
-						ZVAL_LONG(&_110$$64, 1);
-						zephir_array_update_zval(&fieldBindTypes, &columnName, &_110$$64, PH_COPY | PH_SEPARATE);
-						zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (ZEPHIR_IS_STRING(&feature, "mediumtext")) {
-						ZEPHIR_INIT_NVAR(&_111$$65);
-						ZVAL_LONG(&_111$$65, 23);
-						zephir_array_update_zval(&fieldTypes, &columnName, &_111$$65, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_112$$65);
-						ZVAL_LONG(&_112$$65, 2);
-						zephir_array_update_zval(&fieldBindTypes, &columnName, &_112$$65, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (ZEPHIR_IS_STRING(&feature, "smallint")) {
-						ZEPHIR_INIT_NVAR(&_113$$66);
-						ZVAL_LONG(&_113$$66, 22);
-						zephir_array_update_zval(&fieldTypes, &columnName, &_113$$66, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_114$$66);
-						ZVAL_LONG(&_114$$66, 1);
-						zephir_array_update_zval(&fieldBindTypes, &columnName, &_114$$66, PH_COPY | PH_SEPARATE);
-						zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (ZEPHIR_IS_STRING(&feature, "text")) {
-						ZEPHIR_INIT_NVAR(&_115$$67);
-						ZVAL_LONG(&_115$$67, 6);
-						zephir_array_update_zval(&fieldTypes, &columnName, &_115$$67, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_116$$67);
-						ZVAL_LONG(&_116$$67, 2);
-						zephir_array_update_zval(&fieldBindTypes, &columnName, &_116$$67, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (ZEPHIR_IS_STRING(&feature, "time")) {
-						ZEPHIR_INIT_NVAR(&_117$$68);
-						ZVAL_LONG(&_117$$68, 20);
-						zephir_array_update_zval(&fieldTypes, &columnName, &_117$$68, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_118$$68);
-						ZVAL_LONG(&_118$$68, 2);
-						zephir_array_update_zval(&fieldBindTypes, &columnName, &_118$$68, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (ZEPHIR_IS_STRING(&feature, "timestamp")) {
-						ZEPHIR_INIT_NVAR(&_119$$69);
-						ZVAL_LONG(&_119$$69, 17);
-						zephir_array_update_zval(&fieldTypes, &columnName, &_119$$69, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_120$$69);
-						ZVAL_LONG(&_120$$69, 2);
-						zephir_array_update_zval(&fieldBindTypes, &columnName, &_120$$69, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (ZEPHIR_IS_STRING(&feature, "tinyblob")) {
-						ZEPHIR_INIT_NVAR(&_121$$70);
-						ZVAL_LONG(&_121$$70, 10);
-						zephir_array_update_zval(&fieldTypes, &columnName, &_121$$70, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_122$$70);
-						ZVAL_LONG(&_122$$70, 3);
-						zephir_array_update_zval(&fieldBindTypes, &columnName, &_122$$70, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (ZEPHIR_IS_STRING(&feature, "tinyint")) {
-						ZEPHIR_INIT_NVAR(&_123$$71);
-						ZVAL_LONG(&_123$$71, 26);
-						zephir_array_update_zval(&fieldTypes, &columnName, &_123$$71, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_124$$71);
-						ZVAL_LONG(&_124$$71, 1);
-						zephir_array_update_zval(&fieldBindTypes, &columnName, &_124$$71, PH_COPY | PH_SEPARATE);
-						zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (ZEPHIR_IS_STRING(&feature, "tinytext")) {
-						ZEPHIR_INIT_NVAR(&_125$$72);
-						ZVAL_LONG(&_125$$72, 25);
-						zephir_array_update_zval(&fieldTypes, &columnName, &_125$$72, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_126$$72);
-						ZVAL_LONG(&_126$$72, 2);
-						zephir_array_update_zval(&fieldBindTypes, &columnName, &_126$$72, PH_COPY | PH_SEPARATE);
-						break;
-					}
+				if (ZEPHIR_IS_STRING(&feature, "biginteger")) { goto zephir_switch_1_clause_0; }
+				if (ZEPHIR_IS_STRING(&feature, "bit")) { goto zephir_switch_1_clause_1; }
+				if (ZEPHIR_IS_STRING(&feature, "blob")) { goto zephir_switch_1_clause_2; }
+				if (ZEPHIR_IS_STRING(&feature, "boolean")) { goto zephir_switch_1_clause_3; }
+				if (ZEPHIR_IS_STRING(&feature, "char")) { goto zephir_switch_1_clause_4; }
+				if (ZEPHIR_IS_STRING(&feature, "date")) { goto zephir_switch_1_clause_5; }
+				if (ZEPHIR_IS_STRING(&feature, "datetime")) { goto zephir_switch_1_clause_6; }
+				if (ZEPHIR_IS_STRING(&feature, "decimal")) { goto zephir_switch_1_clause_7; }
+				if (ZEPHIR_IS_STRING(&feature, "double")) { goto zephir_switch_1_clause_8; }
+				if (ZEPHIR_IS_STRING(&feature, "enum")) { goto zephir_switch_1_clause_9; }
+				if (ZEPHIR_IS_STRING(&feature, "float")) { goto zephir_switch_1_clause_10; }
+				if (ZEPHIR_IS_STRING(&feature, "integer")) { goto zephir_switch_1_clause_11; }
+				if (ZEPHIR_IS_STRING(&feature, "json")) { goto zephir_switch_1_clause_12; }
+				if (ZEPHIR_IS_STRING(&feature, "jsonb")) { goto zephir_switch_1_clause_13; }
+				if (ZEPHIR_IS_STRING(&feature, "longblob")) { goto zephir_switch_1_clause_14; }
+				if (ZEPHIR_IS_STRING(&feature, "longtext")) { goto zephir_switch_1_clause_15; }
+				if (ZEPHIR_IS_STRING(&feature, "mediumblob")) { goto zephir_switch_1_clause_16; }
+				if (ZEPHIR_IS_STRING(&feature, "mediumint")) { goto zephir_switch_1_clause_17; }
+				if (ZEPHIR_IS_STRING(&feature, "mediumtext")) { goto zephir_switch_1_clause_18; }
+				if (ZEPHIR_IS_STRING(&feature, "smallint")) { goto zephir_switch_1_clause_19; }
+				if (ZEPHIR_IS_STRING(&feature, "text")) { goto zephir_switch_1_clause_20; }
+				if (ZEPHIR_IS_STRING(&feature, "time")) { goto zephir_switch_1_clause_21; }
+				if (ZEPHIR_IS_STRING(&feature, "timestamp")) { goto zephir_switch_1_clause_22; }
+				if (ZEPHIR_IS_STRING(&feature, "tinyblob")) { goto zephir_switch_1_clause_23; }
+				if (ZEPHIR_IS_STRING(&feature, "tinyint")) { goto zephir_switch_1_clause_24; }
+				if (ZEPHIR_IS_STRING(&feature, "tinytext")) { goto zephir_switch_1_clause_25; }
+				goto zephir_switch_1_clause_26;
+				zephir_switch_1_clause_0: ;
+					ZEPHIR_INIT_NVAR(&_75$$47);
+					ZVAL_LONG(&_75$$47, 14);
+					zephir_array_update_zval(&fieldTypes, &columnName, &_75$$47, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_76$$47);
+					ZVAL_LONG(&_76$$47, 2);
+					zephir_array_update_zval(&fieldBindTypes, &columnName, &_76$$47, PH_COPY | PH_SEPARATE);
+					zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_1: ;
+					ZEPHIR_INIT_NVAR(&_77$$48);
+					ZVAL_LONG(&_77$$48, 19);
+					zephir_array_update_zval(&fieldTypes, &columnName, &_77$$48, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_78$$48);
+					ZVAL_LONG(&_78$$48, 1);
+					zephir_array_update_zval(&fieldBindTypes, &columnName, &_78$$48, PH_COPY | PH_SEPARATE);
+					zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_2: ;
+					ZEPHIR_INIT_NVAR(&_79$$49);
+					ZVAL_LONG(&_79$$49, 11);
+					zephir_array_update_zval(&fieldTypes, &columnName, &_79$$49, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_80$$49);
+					ZVAL_LONG(&_80$$49, 3);
+					zephir_array_update_zval(&fieldBindTypes, &columnName, &_80$$49, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_3: ;
+					ZEPHIR_INIT_NVAR(&_81$$50);
+					ZVAL_LONG(&_81$$50, 8);
+					zephir_array_update_zval(&fieldTypes, &columnName, &_81$$50, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_82$$50);
+					ZVAL_LONG(&_82$$50, 5);
+					zephir_array_update_zval(&fieldBindTypes, &columnName, &_82$$50, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_4: ;
+					ZEPHIR_INIT_NVAR(&_83$$51);
+					ZVAL_LONG(&_83$$51, 5);
+					zephir_array_update_zval(&fieldTypes, &columnName, &_83$$51, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_84$$51);
+					ZVAL_LONG(&_84$$51, 2);
+					zephir_array_update_zval(&fieldBindTypes, &columnName, &_84$$51, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_5: ;
+					ZEPHIR_INIT_NVAR(&_85$$52);
+					ZVAL_LONG(&_85$$52, 1);
+					zephir_array_update_zval(&fieldTypes, &columnName, &_85$$52, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_86$$52);
+					ZVAL_LONG(&_86$$52, 2);
+					zephir_array_update_zval(&fieldBindTypes, &columnName, &_86$$52, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_6: ;
+					ZEPHIR_INIT_NVAR(&_87$$53);
+					ZVAL_LONG(&_87$$53, 4);
+					zephir_array_update_zval(&fieldTypes, &columnName, &_87$$53, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_88$$53);
+					ZVAL_LONG(&_88$$53, 2);
+					zephir_array_update_zval(&fieldBindTypes, &columnName, &_88$$53, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_7: ;
+					ZEPHIR_INIT_NVAR(&_89$$54);
+					ZVAL_LONG(&_89$$54, 3);
+					zephir_array_update_zval(&fieldTypes, &columnName, &_89$$54, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_90$$54);
+					ZVAL_LONG(&_90$$54, 32);
+					zephir_array_update_zval(&fieldBindTypes, &columnName, &_90$$54, PH_COPY | PH_SEPARATE);
+					zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_8: ;
+					ZEPHIR_INIT_NVAR(&_91$$55);
+					ZVAL_LONG(&_91$$55, 9);
+					zephir_array_update_zval(&fieldTypes, &columnName, &_91$$55, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_92$$55);
+					ZVAL_LONG(&_92$$55, 32);
+					zephir_array_update_zval(&fieldBindTypes, &columnName, &_92$$55, PH_COPY | PH_SEPARATE);
+					zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_9: ;
+					ZEPHIR_INIT_NVAR(&_93$$56);
+					ZVAL_LONG(&_93$$56, 18);
+					zephir_array_update_zval(&fieldTypes, &columnName, &_93$$56, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_94$$56);
+					ZVAL_LONG(&_94$$56, 2);
+					zephir_array_update_zval(&fieldBindTypes, &columnName, &_94$$56, PH_COPY | PH_SEPARATE);
+					zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_10: ;
+					ZEPHIR_INIT_NVAR(&_95$$57);
+					ZVAL_LONG(&_95$$57, 7);
+					zephir_array_update_zval(&fieldTypes, &columnName, &_95$$57, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_96$$57);
+					ZVAL_LONG(&_96$$57, 32);
+					zephir_array_update_zval(&fieldBindTypes, &columnName, &_96$$57, PH_COPY | PH_SEPARATE);
+					zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_11: ;
+					ZEPHIR_INIT_NVAR(&_97$$58);
+					ZVAL_LONG(&_97$$58, 0);
+					zephir_array_update_zval(&fieldTypes, &columnName, &_97$$58, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_98$$58);
+					ZVAL_LONG(&_98$$58, 1);
+					zephir_array_update_zval(&fieldBindTypes, &columnName, &_98$$58, PH_COPY | PH_SEPARATE);
+					zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_12: ;
+					ZEPHIR_INIT_NVAR(&_99$$59);
+					ZVAL_LONG(&_99$$59, 15);
+					zephir_array_update_zval(&fieldTypes, &columnName, &_99$$59, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_100$$59);
+					ZVAL_LONG(&_100$$59, 2);
+					zephir_array_update_zval(&fieldBindTypes, &columnName, &_100$$59, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_13: ;
+					ZEPHIR_INIT_NVAR(&_101$$60);
+					ZVAL_LONG(&_101$$60, 16);
+					zephir_array_update_zval(&fieldTypes, &columnName, &_101$$60, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_102$$60);
+					ZVAL_LONG(&_102$$60, 2);
+					zephir_array_update_zval(&fieldBindTypes, &columnName, &_102$$60, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_14: ;
+					ZEPHIR_INIT_NVAR(&_103$$61);
+					ZVAL_LONG(&_103$$61, 13);
+					zephir_array_update_zval(&fieldTypes, &columnName, &_103$$61, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_104$$61);
+					ZVAL_LONG(&_104$$61, 3);
+					zephir_array_update_zval(&fieldBindTypes, &columnName, &_104$$61, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_15: ;
+					ZEPHIR_INIT_NVAR(&_105$$62);
+					ZVAL_LONG(&_105$$62, 24);
+					zephir_array_update_zval(&fieldTypes, &columnName, &_105$$62, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_106$$62);
+					ZVAL_LONG(&_106$$62, 2);
+					zephir_array_update_zval(&fieldBindTypes, &columnName, &_106$$62, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_16: ;
+					ZEPHIR_INIT_NVAR(&_107$$63);
+					ZVAL_LONG(&_107$$63, 12);
+					zephir_array_update_zval(&fieldTypes, &columnName, &_107$$63, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_108$$63);
+					ZVAL_LONG(&_108$$63, 3);
+					zephir_array_update_zval(&fieldBindTypes, &columnName, &_108$$63, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_17: ;
+					ZEPHIR_INIT_NVAR(&_109$$64);
+					ZVAL_LONG(&_109$$64, 21);
+					zephir_array_update_zval(&fieldTypes, &columnName, &_109$$64, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_110$$64);
+					ZVAL_LONG(&_110$$64, 1);
+					zephir_array_update_zval(&fieldBindTypes, &columnName, &_110$$64, PH_COPY | PH_SEPARATE);
+					zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_18: ;
+					ZEPHIR_INIT_NVAR(&_111$$65);
+					ZVAL_LONG(&_111$$65, 23);
+					zephir_array_update_zval(&fieldTypes, &columnName, &_111$$65, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_112$$65);
+					ZVAL_LONG(&_112$$65, 2);
+					zephir_array_update_zval(&fieldBindTypes, &columnName, &_112$$65, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_19: ;
+					ZEPHIR_INIT_NVAR(&_113$$66);
+					ZVAL_LONG(&_113$$66, 22);
+					zephir_array_update_zval(&fieldTypes, &columnName, &_113$$66, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_114$$66);
+					ZVAL_LONG(&_114$$66, 1);
+					zephir_array_update_zval(&fieldBindTypes, &columnName, &_114$$66, PH_COPY | PH_SEPARATE);
+					zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_20: ;
+					ZEPHIR_INIT_NVAR(&_115$$67);
+					ZVAL_LONG(&_115$$67, 6);
+					zephir_array_update_zval(&fieldTypes, &columnName, &_115$$67, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_116$$67);
+					ZVAL_LONG(&_116$$67, 2);
+					zephir_array_update_zval(&fieldBindTypes, &columnName, &_116$$67, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_21: ;
+					ZEPHIR_INIT_NVAR(&_117$$68);
+					ZVAL_LONG(&_117$$68, 20);
+					zephir_array_update_zval(&fieldTypes, &columnName, &_117$$68, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_118$$68);
+					ZVAL_LONG(&_118$$68, 2);
+					zephir_array_update_zval(&fieldBindTypes, &columnName, &_118$$68, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_22: ;
+					ZEPHIR_INIT_NVAR(&_119$$69);
+					ZVAL_LONG(&_119$$69, 17);
+					zephir_array_update_zval(&fieldTypes, &columnName, &_119$$69, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_120$$69);
+					ZVAL_LONG(&_120$$69, 2);
+					zephir_array_update_zval(&fieldBindTypes, &columnName, &_120$$69, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_23: ;
+					ZEPHIR_INIT_NVAR(&_121$$70);
+					ZVAL_LONG(&_121$$70, 10);
+					zephir_array_update_zval(&fieldTypes, &columnName, &_121$$70, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_122$$70);
+					ZVAL_LONG(&_122$$70, 3);
+					zephir_array_update_zval(&fieldBindTypes, &columnName, &_122$$70, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_24: ;
+					ZEPHIR_INIT_NVAR(&_123$$71);
+					ZVAL_LONG(&_123$$71, 26);
+					zephir_array_update_zval(&fieldTypes, &columnName, &_123$$71, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_124$$71);
+					ZVAL_LONG(&_124$$71, 1);
+					zephir_array_update_zval(&fieldBindTypes, &columnName, &_124$$71, PH_COPY | PH_SEPARATE);
+					zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_25: ;
+					ZEPHIR_INIT_NVAR(&_125$$72);
+					ZVAL_LONG(&_125$$72, 25);
+					zephir_array_update_zval(&fieldTypes, &columnName, &_125$$72, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_126$$72);
+					ZVAL_LONG(&_126$$72, 2);
+					zephir_array_update_zval(&fieldBindTypes, &columnName, &_126$$72, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_26: ;
 					ZEPHIR_INIT_NVAR(&_127$$73);
 					ZVAL_LONG(&_127$$73, 2);
 					zephir_array_update_zval(&fieldTypes, &columnName, &_127$$73, PH_COPY | PH_SEPARATE);
 					ZEPHIR_INIT_NVAR(&_128$$73);
 					ZVAL_LONG(&_128$$73, 2);
 					zephir_array_update_zval(&fieldBindTypes, &columnName, &_128$$73, PH_COPY | PH_SEPARATE);
-				} while(0);
+				zephir_switch_1_end: ;
 
 				ZEPHIR_INIT_NVAR(&_74$$44);
 				ZVAL_STRING(&_74$$44, "Primary");

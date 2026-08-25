@@ -2510,20 +2510,21 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords)
 		}
 		ZEPHIR_CALL_METHOD(&_28$$3, relation, "gettype", NULL, 0);
 		zephir_check_call_status();
-		do {
-			if (ZEPHIR_IS_LONG(&_28$$3, 4)) {
-				ZEPHIR_CALL_METHOD(&records, &query, "execute", NULL, 0);
-				zephir_check_call_status();
-				break;
-			}
-			if (ZEPHIR_IS_LONG(&_28$$3, 3)) {
-				ZVAL_BOOL(&_33$$16, 1);
-				ZEPHIR_CALL_METHOD(&_32$$16, &query, "setuniquerow", NULL, 0, &_33$$16);
-				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&records, &_32$$16, "execute", NULL, 0);
-				zephir_check_call_status();
-				break;
-			}
+		if (ZEPHIR_IS_LONG(&_28$$3, 4)) { goto zephir_switch_0_clause_0; }
+		if (ZEPHIR_IS_LONG(&_28$$3, 3)) { goto zephir_switch_0_clause_1; }
+		goto zephir_switch_0_clause_2;
+		zephir_switch_0_clause_0: ;
+			ZEPHIR_CALL_METHOD(&records, &query, "execute", NULL, 0);
+			zephir_check_call_status();
+			goto zephir_switch_0_end;
+		zephir_switch_0_clause_1: ;
+			ZVAL_BOOL(&_33$$16, 1);
+			ZEPHIR_CALL_METHOD(&_32$$16, &query, "setuniquerow", NULL, 0, &_33$$16);
+			zephir_check_call_status();
+			ZEPHIR_CALL_METHOD(&records, &_32$$16, "execute", NULL, 0);
+			zephir_check_call_status();
+			goto zephir_switch_0_end;
+		zephir_switch_0_clause_2: ;
 			ZEPHIR_INIT_VAR(&_34$$17);
 			object_init_ex(&_34$$17, phalcon_mvc_model_exceptions_unknownrelationtype_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_34$$17, "__construct", NULL, 0);
@@ -2531,7 +2532,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords)
 			zephir_throw_exception_debug(&_34$$17, "phalcon/Mvc/Model/Manager.zep", 1499);
 			ZEPHIR_MM_RESTORE();
 			return;
-		} while(0);
+		zephir_switch_0_end: ;
 
 		if (reusable) {
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "setreusablerecords", NULL, 0, &referencedModel, &uniqueKey, &records);
@@ -2631,17 +2632,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords)
 	if (ZEPHIR_IS_NULL(&method_zv)) {
 		ZEPHIR_CALL_METHOD(&_55$$25, relation, "gettype", NULL, 0);
 		zephir_check_call_status();
-		do {
-			if (ZEPHIR_IS_LONG(&_55$$25, 0) || ZEPHIR_IS_LONG(&_55$$25, 1)) {
-				ZEPHIR_INIT_VAR(&retrieveMethod);
-				ZVAL_STRING(&retrieveMethod, "findFirst");
-				break;
-			}
-			if (ZEPHIR_IS_LONG(&_55$$25, 2)) {
-				ZEPHIR_INIT_NVAR(&retrieveMethod);
-				ZVAL_STRING(&retrieveMethod, "find");
-				break;
-			}
+		if (ZEPHIR_IS_LONG(&_55$$25, 0)) { goto zephir_switch_1_clause_0; }
+		if (ZEPHIR_IS_LONG(&_55$$25, 1)) { goto zephir_switch_1_clause_1; }
+		if (ZEPHIR_IS_LONG(&_55$$25, 2)) { goto zephir_switch_1_clause_2; }
+		goto zephir_switch_1_clause_3;
+		zephir_switch_1_clause_0: ;
+		zephir_switch_1_clause_1: ;
+			ZEPHIR_INIT_VAR(&retrieveMethod);
+			ZVAL_STRING(&retrieveMethod, "findFirst");
+			goto zephir_switch_1_end;
+		zephir_switch_1_clause_2: ;
+			ZEPHIR_INIT_NVAR(&retrieveMethod);
+			ZVAL_STRING(&retrieveMethod, "find");
+			goto zephir_switch_1_end;
+		zephir_switch_1_clause_3: ;
 			ZEPHIR_INIT_VAR(&_56$$28);
 			object_init_ex(&_56$$28, phalcon_mvc_model_exceptions_unknownrelationtype_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_56$$28, "__construct", NULL, 0);
@@ -2649,7 +2653,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords)
 			zephir_throw_exception_debug(&_56$$28, "phalcon/Mvc/Model/Manager.zep", 1567);
 			ZEPHIR_MM_RESTORE();
 			return;
-		} while(0);
+		zephir_switch_1_end: ;
 
 	} else {
 		ZEPHIR_CPY_WRT(&retrieveMethod, &method_zv);

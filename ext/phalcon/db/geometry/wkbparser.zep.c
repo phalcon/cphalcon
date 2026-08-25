@@ -234,117 +234,124 @@ PHP_METHOD(Phalcon_Db_Geometry_WkbParser, readGeometry)
 	} else {
 		ZEPHIR_CPY_WRT(&baseType, &geomCode);
 	}
-	do {
-		if (ZEPHIR_IS_LONG(&baseType, 1)) {
-			if (little) {
-				ZVAL_BOOL(&_2$$9, 1);
-			} else {
-				ZVAL_BOOL(&_2$$9, 0);
-			}
-			if (hasZ) {
-				ZVAL_BOOL(&_3$$9, 1);
-			} else {
-				ZVAL_BOOL(&_3$$9, 0);
-			}
-			if (hasM) {
-				ZVAL_BOOL(&_4$$9, 1);
-			} else {
-				ZVAL_BOOL(&_4$$9, 0);
-			}
-			ZEPHIR_RETURN_CALL_METHOD(this_ptr, "readpoint", NULL, 0, &_2$$9, &_3$$9, &_4$$9, &srid);
-			zephir_check_call_status();
-			RETURN_MM();
+	if (ZEPHIR_IS_LONG(&baseType, 1)) { goto zephir_switch_0_clause_0; }
+	if (ZEPHIR_IS_LONG(&baseType, 2)) { goto zephir_switch_0_clause_1; }
+	if (ZEPHIR_IS_LONG(&baseType, 3)) { goto zephir_switch_0_clause_2; }
+	if (ZEPHIR_IS_LONG(&baseType, 4)) { goto zephir_switch_0_clause_3; }
+	if (ZEPHIR_IS_LONG(&baseType, 5)) { goto zephir_switch_0_clause_4; }
+	if (ZEPHIR_IS_LONG(&baseType, 6)) { goto zephir_switch_0_clause_5; }
+	if (ZEPHIR_IS_LONG(&baseType, 7)) { goto zephir_switch_0_clause_6; }
+	goto zephir_switch_0_clause_7;
+	zephir_switch_0_clause_0: ;
+		if (little) {
+			ZVAL_BOOL(&_2$$9, 1);
+		} else {
+			ZVAL_BOOL(&_2$$9, 0);
 		}
-		if (ZEPHIR_IS_LONG(&baseType, 2)) {
-			object_init_ex(return_value, phalcon_db_geometry_linestring_ce);
-			if (little) {
-				ZVAL_BOOL(&_6$$10, 1);
-			} else {
-				ZVAL_BOOL(&_6$$10, 0);
-			}
-			if (hasZ) {
-				ZVAL_BOOL(&_7$$10, 1);
-			} else {
-				ZVAL_BOOL(&_7$$10, 0);
-			}
-			if (hasM) {
-				ZVAL_BOOL(&_8$$10, 1);
-			} else {
-				ZVAL_BOOL(&_8$$10, 0);
-			}
-			ZEPHIR_CALL_METHOD(&_5$$10, this_ptr, "readpointlist", NULL, 0, &_6$$10, &_7$$10, &_8$$10);
-			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &_5$$10, &srid);
-			zephir_check_call_status();
-			RETURN_MM();
+		if (hasZ) {
+			ZVAL_BOOL(&_3$$9, 1);
+		} else {
+			ZVAL_BOOL(&_3$$9, 0);
 		}
-		if (ZEPHIR_IS_LONG(&baseType, 3)) {
-			object_init_ex(return_value, phalcon_db_geometry_polygon_ce);
-			if (little) {
-				ZVAL_BOOL(&_10$$11, 1);
-			} else {
-				ZVAL_BOOL(&_10$$11, 0);
-			}
-			if (hasZ) {
-				ZVAL_BOOL(&_11$$11, 1);
-			} else {
-				ZVAL_BOOL(&_11$$11, 0);
-			}
-			if (hasM) {
-				ZVAL_BOOL(&_12$$11, 1);
-			} else {
-				ZVAL_BOOL(&_12$$11, 0);
-			}
-			ZEPHIR_CALL_METHOD(&_9$$11, this_ptr, "readringlist", NULL, 0, &_10$$11, &_11$$11, &_12$$11);
-			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &_9$$11, &srid);
-			zephir_check_call_status();
-			RETURN_MM();
+		if (hasM) {
+			ZVAL_BOOL(&_4$$9, 1);
+		} else {
+			ZVAL_BOOL(&_4$$9, 0);
 		}
-		if (ZEPHIR_IS_LONG(&baseType, 4) || ZEPHIR_IS_LONG(&baseType, 5) || ZEPHIR_IS_LONG(&baseType, 6) || ZEPHIR_IS_LONG(&baseType, 7)) {
-			if (little) {
-				ZVAL_BOOL(&_13$$12, 1);
-			} else {
-				ZVAL_BOOL(&_13$$12, 0);
+		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "readpoint", NULL, 0, &_2$$9, &_3$$9, &_4$$9, &srid);
+		zephir_check_call_status();
+		RETURN_MM();
+	zephir_switch_0_clause_1: ;
+		object_init_ex(return_value, phalcon_db_geometry_linestring_ce);
+		if (little) {
+			ZVAL_BOOL(&_6$$10, 1);
+		} else {
+			ZVAL_BOOL(&_6$$10, 0);
+		}
+		if (hasZ) {
+			ZVAL_BOOL(&_7$$10, 1);
+		} else {
+			ZVAL_BOOL(&_7$$10, 0);
+		}
+		if (hasM) {
+			ZVAL_BOOL(&_8$$10, 1);
+		} else {
+			ZVAL_BOOL(&_8$$10, 0);
+		}
+		ZEPHIR_CALL_METHOD(&_5$$10, this_ptr, "readpointlist", NULL, 0, &_6$$10, &_7$$10, &_8$$10);
+		zephir_check_call_status();
+		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &_5$$10, &srid);
+		zephir_check_call_status();
+		RETURN_MM();
+	zephir_switch_0_clause_2: ;
+		object_init_ex(return_value, phalcon_db_geometry_polygon_ce);
+		if (little) {
+			ZVAL_BOOL(&_10$$11, 1);
+		} else {
+			ZVAL_BOOL(&_10$$11, 0);
+		}
+		if (hasZ) {
+			ZVAL_BOOL(&_11$$11, 1);
+		} else {
+			ZVAL_BOOL(&_11$$11, 0);
+		}
+		if (hasM) {
+			ZVAL_BOOL(&_12$$11, 1);
+		} else {
+			ZVAL_BOOL(&_12$$11, 0);
+		}
+		ZEPHIR_CALL_METHOD(&_9$$11, this_ptr, "readringlist", NULL, 0, &_10$$11, &_11$$11, &_12$$11);
+		zephir_check_call_status();
+		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &_9$$11, &srid);
+		zephir_check_call_status();
+		RETURN_MM();
+	zephir_switch_0_clause_3: ;
+	zephir_switch_0_clause_4: ;
+	zephir_switch_0_clause_5: ;
+	zephir_switch_0_clause_6: ;
+		if (little) {
+			ZVAL_BOOL(&_13$$12, 1);
+		} else {
+			ZVAL_BOOL(&_13$$12, 0);
+		}
+		ZEPHIR_CALL_METHOD(&count, this_ptr, "readuint32", NULL, 0, &_13$$12);
+		zephir_check_call_status();
+		ZEPHIR_INIT_VAR(&items);
+		array_init(&items);
+		i = 0;
+		while (1) {
+			if (!(ZEPHIR_GT_LONG(&count, i))) {
+				break;
 			}
-			ZEPHIR_CALL_METHOD(&count, this_ptr, "readuint32", NULL, 0, &_13$$12);
+			ZVAL_LONG(&_15$$13, (depth + 1));
+			ZEPHIR_CALL_METHOD(&_14$$13, this_ptr, "readgeometry", &_16, 0, &srid, &_15$$13);
 			zephir_check_call_status();
-			ZEPHIR_INIT_VAR(&items);
-			array_init(&items);
-			i = 0;
-			while (1) {
-				if (!(ZEPHIR_GT_LONG(&count, i))) {
-					break;
-				}
-				ZVAL_LONG(&_15$$13, (depth + 1));
-				ZEPHIR_CALL_METHOD(&_14$$13, this_ptr, "readgeometry", &_16, 0, &srid, &_15$$13);
-				zephir_check_call_status();
-				zephir_array_append(&items, &_14$$13, PH_SEPARATE, "phalcon/Db/Geometry/WkbParser.zep", 129);
-				i = (i + 1);
-			}
-			if (ZEPHIR_IS_LONG_IDENTICAL(&baseType, 4)) {
-				object_init_ex(return_value, phalcon_db_geometry_multipoint_ce);
-				ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &items, &srid);
-				zephir_check_call_status();
-				RETURN_MM();
-			}
-			if (ZEPHIR_IS_LONG_IDENTICAL(&baseType, 5)) {
-				object_init_ex(return_value, phalcon_db_geometry_multilinestring_ce);
-				ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &items, &srid);
-				zephir_check_call_status();
-				RETURN_MM();
-			}
-			if (ZEPHIR_IS_LONG_IDENTICAL(&baseType, 6)) {
-				object_init_ex(return_value, phalcon_db_geometry_multipolygon_ce);
-				ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &items, &srid);
-				zephir_check_call_status();
-				RETURN_MM();
-			}
-			object_init_ex(return_value, phalcon_db_geometry_geometrycollection_ce);
+			zephir_array_append(&items, &_14$$13, PH_SEPARATE, "phalcon/Db/Geometry/WkbParser.zep", 129);
+			i = (i + 1);
+		}
+		if (ZEPHIR_IS_LONG_IDENTICAL(&baseType, 4)) {
+			object_init_ex(return_value, phalcon_db_geometry_multipoint_ce);
 			ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &items, &srid);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
+		if (ZEPHIR_IS_LONG_IDENTICAL(&baseType, 5)) {
+			object_init_ex(return_value, phalcon_db_geometry_multilinestring_ce);
+			ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &items, &srid);
+			zephir_check_call_status();
+			RETURN_MM();
+		}
+		if (ZEPHIR_IS_LONG_IDENTICAL(&baseType, 6)) {
+			object_init_ex(return_value, phalcon_db_geometry_multipolygon_ce);
+			ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &items, &srid);
+			zephir_check_call_status();
+			RETURN_MM();
+		}
+		object_init_ex(return_value, phalcon_db_geometry_geometrycollection_ce);
+		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &items, &srid);
+		zephir_check_call_status();
+		RETURN_MM();
+	zephir_switch_0_clause_7: ;
 		ZEPHIR_INIT_VAR(&_17$$17);
 		object_init_ex(&_17$$17, phalcon_db_exceptions_invalidwkb_ce);
 		ZEPHIR_INIT_VAR(&_18$$17);
@@ -354,7 +361,6 @@ PHP_METHOD(Phalcon_Db_Geometry_WkbParser, readGeometry)
 		zephir_throw_exception_debug(&_17$$17, "phalcon/Db/Geometry/WkbParser.zep", 148);
 		ZEPHIR_MM_RESTORE();
 		return;
-	} while(0);
 
 }
 

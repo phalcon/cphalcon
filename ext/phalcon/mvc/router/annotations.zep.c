@@ -862,18 +862,36 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation)
 	ZVAL_NULL(&methods);
 	ZEPHIR_CALL_METHOD(&name, annotation, "getname", NULL, 0);
 	zephir_check_call_status();
-	do {
-		if (ZEPHIR_IS_STRING(&name, "Route")) {
-			isRoute = 1;
-			break;
-		}
-		if (ZEPHIR_IS_STRING(&name, "Connect") || ZEPHIR_IS_STRING(&name, "Delete") || ZEPHIR_IS_STRING(&name, "Get") || ZEPHIR_IS_STRING(&name, "Head") || ZEPHIR_IS_STRING(&name, "Options") || ZEPHIR_IS_STRING(&name, "Patch") || ZEPHIR_IS_STRING(&name, "Post") || ZEPHIR_IS_STRING(&name, "Purge") || ZEPHIR_IS_STRING(&name, "Put") || ZEPHIR_IS_STRING(&name, "Trace")) {
-			isRoute = 1;
-			ZEPHIR_INIT_NVAR(&methods);
-			zephir_fast_strtoupper(&methods, &name);
-			break;
-		}
-	} while(0);
+	if (ZEPHIR_IS_STRING(&name, "Route")) { goto zephir_switch_0_clause_0; }
+	if (ZEPHIR_IS_STRING(&name, "Connect")) { goto zephir_switch_0_clause_1; }
+	if (ZEPHIR_IS_STRING(&name, "Delete")) { goto zephir_switch_0_clause_2; }
+	if (ZEPHIR_IS_STRING(&name, "Get")) { goto zephir_switch_0_clause_3; }
+	if (ZEPHIR_IS_STRING(&name, "Head")) { goto zephir_switch_0_clause_4; }
+	if (ZEPHIR_IS_STRING(&name, "Options")) { goto zephir_switch_0_clause_5; }
+	if (ZEPHIR_IS_STRING(&name, "Patch")) { goto zephir_switch_0_clause_6; }
+	if (ZEPHIR_IS_STRING(&name, "Post")) { goto zephir_switch_0_clause_7; }
+	if (ZEPHIR_IS_STRING(&name, "Purge")) { goto zephir_switch_0_clause_8; }
+	if (ZEPHIR_IS_STRING(&name, "Put")) { goto zephir_switch_0_clause_9; }
+	if (ZEPHIR_IS_STRING(&name, "Trace")) { goto zephir_switch_0_clause_10; }
+	goto zephir_switch_0_end;
+	zephir_switch_0_clause_0: ;
+		isRoute = 1;
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_1: ;
+	zephir_switch_0_clause_2: ;
+	zephir_switch_0_clause_3: ;
+	zephir_switch_0_clause_4: ;
+	zephir_switch_0_clause_5: ;
+	zephir_switch_0_clause_6: ;
+	zephir_switch_0_clause_7: ;
+	zephir_switch_0_clause_8: ;
+	zephir_switch_0_clause_9: ;
+	zephir_switch_0_clause_10: ;
+		isRoute = 1;
+		ZEPHIR_INIT_NVAR(&methods);
+		zephir_fast_strtoupper(&methods, &name);
+		goto zephir_switch_0_end;
+	zephir_switch_0_end: ;
 
 	if (!(isRoute)) {
 		RETURN_MM_NULL();

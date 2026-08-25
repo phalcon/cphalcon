@@ -697,84 +697,86 @@ PHP_METHOD(Phalcon_Tag, getDocType)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_static_property_ce(&_0, phalcon_tag_ce, SL("documentType"), PH_NOISY_CC | PH_READONLY);
-	do {
-		if (ZEPHIR_IS_LONG(&_0, 1)) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			ZEPHIR_GET_CONSTANT(&_1$$3, "PHP_EOL");
-			ZEPHIR_CONCAT_SV(return_value, "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">", &_1$$3);
-			RETURN_MM();
-		}
-		if (ZEPHIR_IS_LONG(&_0, 2)) {
-			ZEPHIR_INIT_VAR(&_2$$4);
-			ZEPHIR_GET_CONSTANT(&_2$$4, "PHP_EOL");
-			ZEPHIR_INIT_VAR(&_3$$4);
-			ZEPHIR_GET_CONSTANT(&_3$$4, "PHP_EOL");
-			ZEPHIR_CONCAT_SVSV(return_value, "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\"", &_2$$4, "\t\"http://www.w3.org/TR/html4/strict.dtd\">", &_3$$4);
-			RETURN_MM();
-		}
-		if (ZEPHIR_IS_LONG(&_0, 3)) {
-			ZEPHIR_INIT_VAR(&_4$$5);
-			ZEPHIR_GET_CONSTANT(&_4$$5, "PHP_EOL");
-			ZEPHIR_INIT_VAR(&_5$$5);
-			ZEPHIR_GET_CONSTANT(&_5$$5, "PHP_EOL");
-			ZEPHIR_CONCAT_SVSV(return_value, "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"", &_4$$5, "\t\"http://www.w3.org/TR/html4/loose.dtd\">", &_5$$5);
-			RETURN_MM();
-		}
-		if (ZEPHIR_IS_LONG(&_0, 4)) {
-			ZEPHIR_INIT_VAR(&_6$$6);
-			ZEPHIR_GET_CONSTANT(&_6$$6, "PHP_EOL");
-			ZEPHIR_INIT_VAR(&_7$$6);
-			ZEPHIR_GET_CONSTANT(&_7$$6, "PHP_EOL");
-			ZEPHIR_CONCAT_SVSV(return_value, "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\"", &_6$$6, "\t\"http://www.w3.org/TR/html4/frameset.dtd\">", &_7$$6);
-			RETURN_MM();
-		}
-		if (ZEPHIR_IS_LONG(&_0, 6)) {
-			ZEPHIR_INIT_VAR(&_8$$7);
-			ZEPHIR_GET_CONSTANT(&_8$$7, "PHP_EOL");
-			ZEPHIR_INIT_VAR(&_9$$7);
-			ZEPHIR_GET_CONSTANT(&_9$$7, "PHP_EOL");
-			ZEPHIR_CONCAT_SVSV(return_value, "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"", &_8$$7, "\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">", &_9$$7);
-			RETURN_MM();
-		}
-		if (ZEPHIR_IS_LONG(&_0, 7)) {
-			ZEPHIR_INIT_VAR(&_10$$8);
-			ZEPHIR_GET_CONSTANT(&_10$$8, "PHP_EOL");
-			ZEPHIR_INIT_VAR(&_11$$8);
-			ZEPHIR_GET_CONSTANT(&_11$$8, "PHP_EOL");
-			ZEPHIR_CONCAT_SVSV(return_value, "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"", &_10$$8, "\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">", &_11$$8);
-			RETURN_MM();
-		}
-		if (ZEPHIR_IS_LONG(&_0, 8)) {
-			ZEPHIR_INIT_VAR(&_12$$9);
-			ZEPHIR_GET_CONSTANT(&_12$$9, "PHP_EOL");
-			ZEPHIR_INIT_VAR(&_13$$9);
-			ZEPHIR_GET_CONSTANT(&_13$$9, "PHP_EOL");
-			ZEPHIR_CONCAT_SVSV(return_value, "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Frameset//EN\"", &_12$$9, "\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\">", &_13$$9);
-			RETURN_MM();
-		}
-		if (ZEPHIR_IS_LONG(&_0, 9)) {
-			ZEPHIR_INIT_VAR(&_14$$10);
-			ZEPHIR_GET_CONSTANT(&_14$$10, "PHP_EOL");
-			ZEPHIR_INIT_VAR(&_15$$10);
-			ZEPHIR_GET_CONSTANT(&_15$$10, "PHP_EOL");
-			ZEPHIR_CONCAT_SVSV(return_value, "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\"", &_14$$10, "\t\"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">", &_15$$10);
-			RETURN_MM();
-		}
-		if (ZEPHIR_IS_LONG(&_0, 10)) {
-			ZEPHIR_INIT_VAR(&_16$$11);
-			ZEPHIR_GET_CONSTANT(&_16$$11, "PHP_EOL");
-			ZEPHIR_INIT_VAR(&_17$$11);
-			ZEPHIR_GET_CONSTANT(&_17$$11, "PHP_EOL");
-			ZEPHIR_CONCAT_SVSV(return_value, "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 2.0//EN\"", &_16$$11, "\t\"http://www.w3.org/MarkUp/DTD/xhtml2.dtd\">", &_17$$11);
-			RETURN_MM();
-		}
-		if (ZEPHIR_IS_LONG(&_0, 5) || ZEPHIR_IS_LONG(&_0, 11)) {
-			ZEPHIR_INIT_VAR(&_18$$12);
-			ZEPHIR_GET_CONSTANT(&_18$$12, "PHP_EOL");
-			ZEPHIR_CONCAT_SV(return_value, "<!DOCTYPE html>", &_18$$12);
-			RETURN_MM();
-		}
-	} while(0);
+	if (ZEPHIR_IS_LONG(&_0, 1)) { goto zephir_switch_0_clause_0; }
+	if (ZEPHIR_IS_LONG(&_0, 2)) { goto zephir_switch_0_clause_1; }
+	if (ZEPHIR_IS_LONG(&_0, 3)) { goto zephir_switch_0_clause_2; }
+	if (ZEPHIR_IS_LONG(&_0, 4)) { goto zephir_switch_0_clause_3; }
+	if (ZEPHIR_IS_LONG(&_0, 6)) { goto zephir_switch_0_clause_4; }
+	if (ZEPHIR_IS_LONG(&_0, 7)) { goto zephir_switch_0_clause_5; }
+	if (ZEPHIR_IS_LONG(&_0, 8)) { goto zephir_switch_0_clause_6; }
+	if (ZEPHIR_IS_LONG(&_0, 9)) { goto zephir_switch_0_clause_7; }
+	if (ZEPHIR_IS_LONG(&_0, 10)) { goto zephir_switch_0_clause_8; }
+	if (ZEPHIR_IS_LONG(&_0, 5)) { goto zephir_switch_0_clause_9; }
+	if (ZEPHIR_IS_LONG(&_0, 11)) { goto zephir_switch_0_clause_10; }
+	goto zephir_switch_0_end;
+	zephir_switch_0_clause_0: ;
+		ZEPHIR_INIT_VAR(&_1$$3);
+		ZEPHIR_GET_CONSTANT(&_1$$3, "PHP_EOL");
+		ZEPHIR_CONCAT_SV(return_value, "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">", &_1$$3);
+		RETURN_MM();
+	zephir_switch_0_clause_1: ;
+		ZEPHIR_INIT_VAR(&_2$$4);
+		ZEPHIR_GET_CONSTANT(&_2$$4, "PHP_EOL");
+		ZEPHIR_INIT_VAR(&_3$$4);
+		ZEPHIR_GET_CONSTANT(&_3$$4, "PHP_EOL");
+		ZEPHIR_CONCAT_SVSV(return_value, "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\"", &_2$$4, "\t\"http://www.w3.org/TR/html4/strict.dtd\">", &_3$$4);
+		RETURN_MM();
+	zephir_switch_0_clause_2: ;
+		ZEPHIR_INIT_VAR(&_4$$5);
+		ZEPHIR_GET_CONSTANT(&_4$$5, "PHP_EOL");
+		ZEPHIR_INIT_VAR(&_5$$5);
+		ZEPHIR_GET_CONSTANT(&_5$$5, "PHP_EOL");
+		ZEPHIR_CONCAT_SVSV(return_value, "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"", &_4$$5, "\t\"http://www.w3.org/TR/html4/loose.dtd\">", &_5$$5);
+		RETURN_MM();
+	zephir_switch_0_clause_3: ;
+		ZEPHIR_INIT_VAR(&_6$$6);
+		ZEPHIR_GET_CONSTANT(&_6$$6, "PHP_EOL");
+		ZEPHIR_INIT_VAR(&_7$$6);
+		ZEPHIR_GET_CONSTANT(&_7$$6, "PHP_EOL");
+		ZEPHIR_CONCAT_SVSV(return_value, "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\"", &_6$$6, "\t\"http://www.w3.org/TR/html4/frameset.dtd\">", &_7$$6);
+		RETURN_MM();
+	zephir_switch_0_clause_4: ;
+		ZEPHIR_INIT_VAR(&_8$$7);
+		ZEPHIR_GET_CONSTANT(&_8$$7, "PHP_EOL");
+		ZEPHIR_INIT_VAR(&_9$$7);
+		ZEPHIR_GET_CONSTANT(&_9$$7, "PHP_EOL");
+		ZEPHIR_CONCAT_SVSV(return_value, "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"", &_8$$7, "\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">", &_9$$7);
+		RETURN_MM();
+	zephir_switch_0_clause_5: ;
+		ZEPHIR_INIT_VAR(&_10$$8);
+		ZEPHIR_GET_CONSTANT(&_10$$8, "PHP_EOL");
+		ZEPHIR_INIT_VAR(&_11$$8);
+		ZEPHIR_GET_CONSTANT(&_11$$8, "PHP_EOL");
+		ZEPHIR_CONCAT_SVSV(return_value, "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"", &_10$$8, "\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">", &_11$$8);
+		RETURN_MM();
+	zephir_switch_0_clause_6: ;
+		ZEPHIR_INIT_VAR(&_12$$9);
+		ZEPHIR_GET_CONSTANT(&_12$$9, "PHP_EOL");
+		ZEPHIR_INIT_VAR(&_13$$9);
+		ZEPHIR_GET_CONSTANT(&_13$$9, "PHP_EOL");
+		ZEPHIR_CONCAT_SVSV(return_value, "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Frameset//EN\"", &_12$$9, "\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\">", &_13$$9);
+		RETURN_MM();
+	zephir_switch_0_clause_7: ;
+		ZEPHIR_INIT_VAR(&_14$$10);
+		ZEPHIR_GET_CONSTANT(&_14$$10, "PHP_EOL");
+		ZEPHIR_INIT_VAR(&_15$$10);
+		ZEPHIR_GET_CONSTANT(&_15$$10, "PHP_EOL");
+		ZEPHIR_CONCAT_SVSV(return_value, "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\"", &_14$$10, "\t\"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">", &_15$$10);
+		RETURN_MM();
+	zephir_switch_0_clause_8: ;
+		ZEPHIR_INIT_VAR(&_16$$11);
+		ZEPHIR_GET_CONSTANT(&_16$$11, "PHP_EOL");
+		ZEPHIR_INIT_VAR(&_17$$11);
+		ZEPHIR_GET_CONSTANT(&_17$$11, "PHP_EOL");
+		ZEPHIR_CONCAT_SVSV(return_value, "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 2.0//EN\"", &_16$$11, "\t\"http://www.w3.org/MarkUp/DTD/xhtml2.dtd\">", &_17$$11);
+		RETURN_MM();
+	zephir_switch_0_clause_9: ;
+	zephir_switch_0_clause_10: ;
+		ZEPHIR_INIT_VAR(&_18$$12);
+		ZEPHIR_GET_CONSTANT(&_18$$12, "PHP_EOL");
+		ZEPHIR_CONCAT_SV(return_value, "<!DOCTYPE html>", &_18$$12);
+		RETURN_MM();
+	zephir_switch_0_end: ;
 
 	RETURN_MM_STRING("");
 }

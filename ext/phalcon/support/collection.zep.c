@@ -2171,42 +2171,43 @@ PHP_METHOD(Phalcon_Support_Collection, validateType)
 		RETURN_MM_NULL();
 	}
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 41, PH_NOISY_CC | PH_READONLY);
-	do {
-		if (ZEPHIR_IS_STRING(&_1, "int")) {
-			ZEPHIR_INIT_VAR(&ok);
-			ZVAL_BOOL(&ok, Z_TYPE_P(value) == IS_LONG);
-			break;
-		}
-		if (ZEPHIR_IS_STRING(&_1, "string")) {
-			ZEPHIR_INIT_NVAR(&ok);
-			ZVAL_BOOL(&ok, Z_TYPE_P(value) == IS_STRING);
-			break;
-		}
-		if (ZEPHIR_IS_STRING(&_1, "bool")) {
-			ZEPHIR_INIT_NVAR(&ok);
-			ZVAL_BOOL(&ok, (Z_TYPE_P(value) == IS_TRUE || Z_TYPE_P(value) == IS_FALSE));
-			break;
-		}
-		if (ZEPHIR_IS_STRING(&_1, "float")) {
-			ZEPHIR_CALL_FUNCTION(&ok, "is_float", NULL, 29, value);
-			zephir_check_call_status();
-			break;
-		}
-		if (ZEPHIR_IS_STRING(&_1, "array")) {
-			ZEPHIR_INIT_NVAR(&ok);
-			ZVAL_BOOL(&ok, Z_TYPE_P(value) == IS_ARRAY);
-			break;
-		}
-		if (ZEPHIR_IS_STRING(&_1, "object")) {
-			ZEPHIR_INIT_NVAR(&ok);
-			ZVAL_BOOL(&ok, Z_TYPE_P(value) == IS_OBJECT);
-			break;
-		}
+	if (ZEPHIR_IS_STRING(&_1, "int")) { goto zephir_switch_0_clause_0; }
+	if (ZEPHIR_IS_STRING(&_1, "string")) { goto zephir_switch_0_clause_1; }
+	if (ZEPHIR_IS_STRING(&_1, "bool")) { goto zephir_switch_0_clause_2; }
+	if (ZEPHIR_IS_STRING(&_1, "float")) { goto zephir_switch_0_clause_3; }
+	if (ZEPHIR_IS_STRING(&_1, "array")) { goto zephir_switch_0_clause_4; }
+	if (ZEPHIR_IS_STRING(&_1, "object")) { goto zephir_switch_0_clause_5; }
+	goto zephir_switch_0_clause_6;
+	zephir_switch_0_clause_0: ;
+		ZEPHIR_INIT_VAR(&ok);
+		ZVAL_BOOL(&ok, Z_TYPE_P(value) == IS_LONG);
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_1: ;
+		ZEPHIR_INIT_NVAR(&ok);
+		ZVAL_BOOL(&ok, Z_TYPE_P(value) == IS_STRING);
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_2: ;
+		ZEPHIR_INIT_NVAR(&ok);
+		ZVAL_BOOL(&ok, (Z_TYPE_P(value) == IS_TRUE || Z_TYPE_P(value) == IS_FALSE));
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_3: ;
+		ZEPHIR_CALL_FUNCTION(&ok, "is_float", NULL, 29, value);
+		zephir_check_call_status();
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_4: ;
+		ZEPHIR_INIT_NVAR(&ok);
+		ZVAL_BOOL(&ok, Z_TYPE_P(value) == IS_ARRAY);
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_5: ;
+		ZEPHIR_INIT_NVAR(&ok);
+		ZVAL_BOOL(&ok, Z_TYPE_P(value) == IS_OBJECT);
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_6: ;
 		zephir_memory_observe(&_2$$10);
 		zephir_read_property_cached(&_2$$10, this_ptr, _zephir_prop_0, 41, PH_NOISY_CC);
 		ZEPHIR_INIT_NVAR(&ok);
 		ZVAL_BOOL(&ok, zephir_is_instance_of(value, Z_STRVAL_P(&_2$$10), Z_STRLEN_P(&_2$$10)));
-	} while(0);
+	zephir_switch_0_end: ;
 
 	if (!zephir_is_true(&ok)) {
 		ZEPHIR_INIT_VAR(&_3$$11);

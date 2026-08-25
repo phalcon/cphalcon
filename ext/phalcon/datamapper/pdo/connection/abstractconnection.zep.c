@@ -1235,26 +1235,27 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, getQuoteNames)
 		ZEPHIR_CALL_METHOD(&option, this_ptr, "getdrivername", NULL, 0);
 		zephir_check_call_status();
 	}
-	do {
-		if (ZEPHIR_IS_STRING(&option, "mysql")) {
-			ZEPHIR_INIT_VAR(&quotes);
-			zephir_create_array(&quotes, 4, 0);
-			add_assoc_stringl_ex(&quotes, SL("prefix"), SL("`"));
-			add_assoc_stringl_ex(&quotes, SL("suffix"), SL("`"));
-			add_assoc_stringl_ex(&quotes, SL("find"), SL("`"));
-			add_assoc_stringl_ex(&quotes, SL("replace"), SL("``"));
-			break;
-		}
-		if (ZEPHIR_IS_STRING(&option, "sqlsrv")) {
-			ZEPHIR_INIT_VAR(&_0$$5);
-			zephir_create_array(&_0$$5, 4, 0);
-			add_assoc_stringl_ex(&_0$$5, SL("prefix"), SL("["));
-			add_assoc_stringl_ex(&_0$$5, SL("suffix"), SL("]"));
-			add_assoc_stringl_ex(&_0$$5, SL("find"), SL("]"));
-			add_assoc_stringl_ex(&_0$$5, SL("replace"), SL("]["));
-			ZEPHIR_CPY_WRT(&quotes, &_0$$5);
-			break;
-		}
+	if (ZEPHIR_IS_STRING(&option, "mysql")) { goto zephir_switch_0_clause_0; }
+	if (ZEPHIR_IS_STRING(&option, "sqlsrv")) { goto zephir_switch_0_clause_1; }
+	goto zephir_switch_0_clause_2;
+	zephir_switch_0_clause_0: ;
+		ZEPHIR_INIT_VAR(&quotes);
+		zephir_create_array(&quotes, 4, 0);
+		add_assoc_stringl_ex(&quotes, SL("prefix"), SL("`"));
+		add_assoc_stringl_ex(&quotes, SL("suffix"), SL("`"));
+		add_assoc_stringl_ex(&quotes, SL("find"), SL("`"));
+		add_assoc_stringl_ex(&quotes, SL("replace"), SL("``"));
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_1: ;
+		ZEPHIR_INIT_VAR(&_0$$5);
+		zephir_create_array(&_0$$5, 4, 0);
+		add_assoc_stringl_ex(&_0$$5, SL("prefix"), SL("["));
+		add_assoc_stringl_ex(&_0$$5, SL("suffix"), SL("]"));
+		add_assoc_stringl_ex(&_0$$5, SL("find"), SL("]"));
+		add_assoc_stringl_ex(&_0$$5, SL("replace"), SL("]["));
+		ZEPHIR_CPY_WRT(&quotes, &_0$$5);
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_2: ;
 		ZEPHIR_INIT_VAR(&_1$$6);
 		zephir_create_array(&_1$$6, 4, 0);
 		add_assoc_stringl_ex(&_1$$6, SL("prefix"), SL("\""));
@@ -1262,8 +1263,8 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, getQuoteNames)
 		add_assoc_stringl_ex(&_1$$6, SL("find"), SL("\""));
 		add_assoc_stringl_ex(&_1$$6, SL("replace"), SL("\"\""));
 		ZEPHIR_CPY_WRT(&quotes, &_1$$6);
-		break;
-	} while(0);
+		goto zephir_switch_0_end;
+	zephir_switch_0_end: ;
 
 	RETURN_CTOR(&quotes);
 }

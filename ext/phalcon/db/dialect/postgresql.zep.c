@@ -1631,226 +1631,227 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&columnType, this_ptr, "checkcolumntype", NULL, 0, column);
 	zephir_check_call_status();
-	do {
-		if (ZEPHIR_IS_LONG(&columnType, 14)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				ZEPHIR_CALL_METHOD(&_0$$4, column, "isautoincrement", NULL, 0);
-				zephir_check_call_status();
-				if (zephir_is_true(&_0$$4)) {
-					zephir_concat_self_str(&columnSql, SL("BIGSERIAL"));
-				} else {
-					zephir_concat_self_str(&columnSql, SL("BIGINT"));
-				}
-			}
-			break;
-		}
-		if (ZEPHIR_IS_LONG(&columnType, 8)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("BOOLEAN"));
-			}
-			break;
-		}
-		if (ZEPHIR_IS_LONG(&columnType, 5)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("CHARACTER"));
-			}
-			ZEPHIR_CALL_METHOD(&_1$$9, this_ptr, "getcolumnsize", NULL, 0, column);
+	if (ZEPHIR_IS_LONG(&columnType, 14)) { goto zephir_switch_0_clause_0; }
+	if (ZEPHIR_IS_LONG(&columnType, 8)) { goto zephir_switch_0_clause_1; }
+	if (ZEPHIR_IS_LONG(&columnType, 5)) { goto zephir_switch_0_clause_2; }
+	if (ZEPHIR_IS_LONG(&columnType, 1)) { goto zephir_switch_0_clause_3; }
+	if (ZEPHIR_IS_LONG(&columnType, 4)) { goto zephir_switch_0_clause_4; }
+	if (ZEPHIR_IS_LONG(&columnType, 3)) { goto zephir_switch_0_clause_5; }
+	if (ZEPHIR_IS_LONG(&columnType, 7)) { goto zephir_switch_0_clause_6; }
+	if (ZEPHIR_IS_LONG(&columnType, 0)) { goto zephir_switch_0_clause_7; }
+	if (ZEPHIR_IS_LONG(&columnType, 22)) { goto zephir_switch_0_clause_8; }
+	if (ZEPHIR_IS_LONG(&columnType, 15)) { goto zephir_switch_0_clause_9; }
+	if (ZEPHIR_IS_LONG(&columnType, 16)) { goto zephir_switch_0_clause_10; }
+	if (ZEPHIR_IS_LONG(&columnType, 17)) { goto zephir_switch_0_clause_11; }
+	if (ZEPHIR_IS_LONG(&columnType, 6)) { goto zephir_switch_0_clause_12; }
+	if (ZEPHIR_IS_LONG(&columnType, 29)) { goto zephir_switch_0_clause_13; }
+	if (ZEPHIR_IS_LONG(&columnType, 2)) { goto zephir_switch_0_clause_14; }
+	if (ZEPHIR_IS_LONG(&columnType, 30)) { goto zephir_switch_0_clause_15; }
+	if (ZEPHIR_IS_LONG(&columnType, 31)) { goto zephir_switch_0_clause_16; }
+	if (ZEPHIR_IS_LONG(&columnType, 32)) { goto zephir_switch_0_clause_17; }
+	if (ZEPHIR_IS_LONG(&columnType, 33)) { goto zephir_switch_0_clause_18; }
+	if (ZEPHIR_IS_LONG(&columnType, 34)) { goto zephir_switch_0_clause_19; }
+	if (ZEPHIR_IS_LONG(&columnType, 35)) { goto zephir_switch_0_clause_20; }
+	if (ZEPHIR_IS_LONG(&columnType, 36)) { goto zephir_switch_0_clause_21; }
+	if (ZEPHIR_IS_LONG(&columnType, 37)) { goto zephir_switch_0_clause_22; }
+	if (ZEPHIR_IS_LONG(&columnType, 38)) { goto zephir_switch_0_clause_23; }
+	if (ZEPHIR_IS_LONG(&columnType, 39)) { goto zephir_switch_0_clause_24; }
+	if (ZEPHIR_IS_LONG(&columnType, 40)) { goto zephir_switch_0_clause_25; }
+	if (ZEPHIR_IS_LONG(&columnType, 41)) { goto zephir_switch_0_clause_26; }
+	if (ZEPHIR_IS_LONG(&columnType, 42)) { goto zephir_switch_0_clause_27; }
+	if (ZEPHIR_IS_LONG(&columnType, 43)) { goto zephir_switch_0_clause_28; }
+	if (ZEPHIR_IS_LONG(&columnType, 44)) { goto zephir_switch_0_clause_29; }
+	if (ZEPHIR_IS_LONG(&columnType, 45)) { goto zephir_switch_0_clause_30; }
+	if (ZEPHIR_IS_LONG(&columnType, 46)) { goto zephir_switch_0_clause_31; }
+	if (ZEPHIR_IS_LONG(&columnType, 47)) { goto zephir_switch_0_clause_32; }
+	goto zephir_switch_0_clause_33;
+	zephir_switch_0_clause_0: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			ZEPHIR_CALL_METHOD(&_0$$4, column, "isautoincrement", NULL, 0);
 			zephir_check_call_status();
-			zephir_concat_self(&columnSql, &_1$$9);
-			break;
-		}
-		if (ZEPHIR_IS_LONG(&columnType, 1)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("DATE"));
+			if (zephir_is_true(&_0$$4)) {
+				zephir_concat_self_str(&columnSql, SL("BIGSERIAL"));
+			} else {
+				zephir_concat_self_str(&columnSql, SL("BIGINT"));
 			}
-			break;
 		}
-		if (ZEPHIR_IS_LONG(&columnType, 4)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("TIMESTAMP"));
-			}
-			break;
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_1: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			zephir_concat_self_str(&columnSql, SL("BOOLEAN"));
 		}
-		if (ZEPHIR_IS_LONG(&columnType, 3)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("NUMERIC"));
-			}
-			ZEPHIR_CALL_METHOD(&_2$$15, this_ptr, "getcolumnsizeandscale", NULL, 0, column);
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_2: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			zephir_concat_self_str(&columnSql, SL("CHARACTER"));
+		}
+		ZEPHIR_CALL_METHOD(&_1$$9, this_ptr, "getcolumnsize", NULL, 0, column);
+		zephir_check_call_status();
+		zephir_concat_self(&columnSql, &_1$$9);
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_3: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			zephir_concat_self_str(&columnSql, SL("DATE"));
+		}
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_4: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			zephir_concat_self_str(&columnSql, SL("TIMESTAMP"));
+		}
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_5: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			zephir_concat_self_str(&columnSql, SL("NUMERIC"));
+		}
+		ZEPHIR_CALL_METHOD(&_2$$15, this_ptr, "getcolumnsizeandscale", NULL, 0, column);
+		zephir_check_call_status();
+		zephir_concat_self(&columnSql, &_2$$15);
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_6: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			zephir_concat_self_str(&columnSql, SL("FLOAT"));
+		}
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_7: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			ZEPHIR_CALL_METHOD(&_3$$20, column, "isautoincrement", NULL, 0);
 			zephir_check_call_status();
-			zephir_concat_self(&columnSql, &_2$$15);
-			break;
-		}
-		if (ZEPHIR_IS_LONG(&columnType, 7)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("FLOAT"));
+			if (zephir_is_true(&_3$$20)) {
+				zephir_concat_self_str(&columnSql, SL("SERIAL"));
+			} else {
+				zephir_concat_self_str(&columnSql, SL("INT"));
 			}
-			break;
 		}
-		if (ZEPHIR_IS_LONG(&columnType, 0)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				ZEPHIR_CALL_METHOD(&_3$$20, column, "isautoincrement", NULL, 0);
-				zephir_check_call_status();
-				if (zephir_is_true(&_3$$20)) {
-					zephir_concat_self_str(&columnSql, SL("SERIAL"));
-				} else {
-					zephir_concat_self_str(&columnSql, SL("INT"));
-				}
-			}
-			break;
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_8: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			zephir_concat_self_str(&columnSql, SL("SMALLINT"));
 		}
-		if (ZEPHIR_IS_LONG(&columnType, 22)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("SMALLINT"));
-			}
-			break;
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_9: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			zephir_concat_self_str(&columnSql, SL("JSON"));
 		}
-		if (ZEPHIR_IS_LONG(&columnType, 15)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("JSON"));
-			}
-			break;
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_10: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			zephir_concat_self_str(&columnSql, SL("JSONB"));
 		}
-		if (ZEPHIR_IS_LONG(&columnType, 16)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("JSONB"));
-			}
-			break;
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_11: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			zephir_concat_self_str(&columnSql, SL("TIMESTAMP"));
 		}
-		if (ZEPHIR_IS_LONG(&columnType, 17)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("TIMESTAMP"));
-			}
-			break;
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_12: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			zephir_concat_self_str(&columnSql, SL("TEXT"));
 		}
-		if (ZEPHIR_IS_LONG(&columnType, 6)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("TEXT"));
-			}
-			break;
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_13: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			zephir_concat_self_str(&columnSql, SL("UUID"));
 		}
-		if (ZEPHIR_IS_LONG(&columnType, 29)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("UUID"));
-			}
-			break;
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_14: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			zephir_concat_self_str(&columnSql, SL("CHARACTER VARYING"));
 		}
-		if (ZEPHIR_IS_LONG(&columnType, 2)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("CHARACTER VARYING"));
-			}
-			ZEPHIR_CALL_METHOD(&_4$$35, this_ptr, "getcolumnsize", NULL, 0, column);
-			zephir_check_call_status();
-			zephir_concat_self(&columnSql, &_4$$35);
-			break;
+		ZEPHIR_CALL_METHOD(&_4$$35, this_ptr, "getcolumnsize", NULL, 0, column);
+		zephir_check_call_status();
+		zephir_concat_self(&columnSql, &_4$$35);
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_15: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			zephir_concat_self_str(&columnSql, SL("BYTEA"));
 		}
-		if (ZEPHIR_IS_LONG(&columnType, 30)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("BYTEA"));
-			}
-			break;
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_16: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			zephir_concat_self_str(&columnSql, SL("INET"));
 		}
-		if (ZEPHIR_IS_LONG(&columnType, 31)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("INET"));
-			}
-			break;
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_17: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			zephir_concat_self_str(&columnSql, SL("CIDR"));
 		}
-		if (ZEPHIR_IS_LONG(&columnType, 32)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("CIDR"));
-			}
-			break;
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_18: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			zephir_concat_self_str(&columnSql, SL("MACADDR"));
 		}
-		if (ZEPHIR_IS_LONG(&columnType, 33)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("MACADDR"));
-			}
-			break;
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_19: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			zephir_concat_self_str(&columnSql, SL("INT4RANGE"));
 		}
-		if (ZEPHIR_IS_LONG(&columnType, 34)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("INT4RANGE"));
-			}
-			break;
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_20: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			zephir_concat_self_str(&columnSql, SL("INT8RANGE"));
 		}
-		if (ZEPHIR_IS_LONG(&columnType, 35)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("INT8RANGE"));
-			}
-			break;
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_21: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			zephir_concat_self_str(&columnSql, SL("NUMRANGE"));
 		}
-		if (ZEPHIR_IS_LONG(&columnType, 36)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("NUMRANGE"));
-			}
-			break;
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_22: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			zephir_concat_self_str(&columnSql, SL("TSRANGE"));
 		}
-		if (ZEPHIR_IS_LONG(&columnType, 37)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("TSRANGE"));
-			}
-			break;
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_23: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			zephir_concat_self_str(&columnSql, SL("TSTZRANGE"));
 		}
-		if (ZEPHIR_IS_LONG(&columnType, 38)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("TSTZRANGE"));
-			}
-			break;
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_24: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			zephir_concat_self_str(&columnSql, SL("DATERANGE"));
 		}
-		if (ZEPHIR_IS_LONG(&columnType, 39)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("DATERANGE"));
-			}
-			break;
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_25: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			zephir_concat_self_str(&columnSql, SL("GEOMETRY"));
 		}
-		if (ZEPHIR_IS_LONG(&columnType, 40)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("GEOMETRY"));
-			}
-			break;
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_26: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			zephir_concat_self_str(&columnSql, SL("POINT"));
 		}
-		if (ZEPHIR_IS_LONG(&columnType, 41)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("POINT"));
-			}
-			break;
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_27: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			zephir_concat_self_str(&columnSql, SL("LINESTRING"));
 		}
-		if (ZEPHIR_IS_LONG(&columnType, 42)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("LINESTRING"));
-			}
-			break;
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_28: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			zephir_concat_self_str(&columnSql, SL("POLYGON"));
 		}
-		if (ZEPHIR_IS_LONG(&columnType, 43)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("POLYGON"));
-			}
-			break;
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_29: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			zephir_concat_self_str(&columnSql, SL("MULTIPOINT"));
 		}
-		if (ZEPHIR_IS_LONG(&columnType, 44)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("MULTIPOINT"));
-			}
-			break;
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_30: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			zephir_concat_self_str(&columnSql, SL("MULTILINESTRING"));
 		}
-		if (ZEPHIR_IS_LONG(&columnType, 45)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("MULTILINESTRING"));
-			}
-			break;
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_31: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			zephir_concat_self_str(&columnSql, SL("MULTIPOLYGON"));
 		}
-		if (ZEPHIR_IS_LONG(&columnType, 46)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("MULTIPOLYGON"));
-			}
-			break;
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_32: ;
+		if (ZEPHIR_IS_EMPTY(&columnSql)) {
+			zephir_concat_self_str(&columnSql, SL("GEOMETRYCOLLECTION"));
 		}
-		if (ZEPHIR_IS_LONG(&columnType, 47)) {
-			if (ZEPHIR_IS_EMPTY(&columnSql)) {
-				zephir_concat_self_str(&columnSql, SL("GEOMETRYCOLLECTION"));
-			}
-			break;
-		}
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_33: ;
 		if (UNEXPECTED(ZEPHIR_IS_EMPTY(&columnSql))) {
 			ZEPHIR_INIT_VAR(&_5$$74);
 			object_init_ex(&_5$$74, phalcon_db_exceptions_unrecognizeddatatype_ce);
@@ -1923,7 +1924,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition)
 				zephir_concat_self(&columnSql, &_21$$79);
 			}
 		}
-	} while(0);
+	zephir_switch_0_end: ;
 
 	ZEPHIR_CALL_METHOD(&_22, column, "isarray", NULL, 0);
 	zephir_check_call_status();

@@ -1110,21 +1110,22 @@ PHP_METHOD(Phalcon_Mvc_Router, attach)
 		position = 1;
 	} else {
 		}
-	do {
-		if (position == 1) {
-			zephir_update_property_array_append(this_ptr, SL("routes"), route);
-			break;
-		}
-		if (position == 0) {
-			ZEPHIR_INIT_VAR(&_0$$4);
-			ZEPHIR_INIT_VAR(&_1$$4);
-			zephir_create_array(&_1$$4, 1, 0);
-			zephir_array_fast_append(&_1$$4, route);
-			zephir_read_property_cached(&_2$$4, this_ptr, _zephir_prop_0, 282, PH_NOISY_CC | PH_READONLY);
-			zephir_fast_array_merge(&_0$$4, &_1$$4, &_2$$4);
-			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 282, &_0$$4);
-			break;
-		}
+	if (position == 1) { goto zephir_switch_0_clause_0; }
+	if (position == 0) { goto zephir_switch_0_clause_1; }
+	goto zephir_switch_0_clause_2;
+	zephir_switch_0_clause_0: ;
+		zephir_update_property_array_append(this_ptr, SL("routes"), route);
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_1: ;
+		ZEPHIR_INIT_VAR(&_0$$4);
+		ZEPHIR_INIT_VAR(&_1$$4);
+		zephir_create_array(&_1$$4, 1, 0);
+		zephir_array_fast_append(&_1$$4, route);
+		zephir_read_property_cached(&_2$$4, this_ptr, _zephir_prop_0, 282, PH_NOISY_CC | PH_READONLY);
+		zephir_fast_array_merge(&_0$$4, &_1$$4, &_2$$4);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 282, &_0$$4);
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_2: ;
 		ZEPHIR_INIT_VAR(&_3$$5);
 		object_init_ex(&_3$$5, phalcon_mvc_router_exceptions_invalidrouteposition_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", NULL, 264);
@@ -1132,7 +1133,7 @@ PHP_METHOD(Phalcon_Mvc_Router, attach)
 		zephir_throw_exception_debug(&_3$$5, "phalcon/Mvc/Router.zep", 672);
 		ZEPHIR_MM_RESTORE();
 		return;
-	} while(0);
+	zephir_switch_0_end: ;
 
 	if (1) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 283, &__$true);
@@ -6215,16 +6216,37 @@ PHP_METHOD(Phalcon_Mvc_Router, addRouteFromConfig)
 		ZEPHIR_INIT_NVAR(&method);
 		zephir_fast_strtolower(&method, &_3$$5);
 	}
-	do {
-		if (ZEPHIR_IS_STRING(&method, "") || ZEPHIR_IS_STRING(&method, "connect") || ZEPHIR_IS_STRING(&method, "delete") || ZEPHIR_IS_STRING(&method, "get") || ZEPHIR_IS_STRING(&method, "head") || ZEPHIR_IS_STRING(&method, "options") || ZEPHIR_IS_STRING(&method, "patch") || ZEPHIR_IS_STRING(&method, "post") || ZEPHIR_IS_STRING(&method, "purge") || ZEPHIR_IS_STRING(&method, "put") || ZEPHIR_IS_STRING(&method, "trace")) {
-			ZEPHIR_INIT_VAR(&_4$$6);
-			zephir_ucfirst(&_4$$6, &method);
-			ZEPHIR_INIT_VAR(&methodClass);
-			ZEPHIR_CONCAT_SV(&methodClass, "add", &_4$$6);
-			ZEPHIR_CALL_METHOD_ZVAL(&route, this_ptr, &methodClass, NULL, 0, &pattern, &paths);
-			zephir_check_call_status();
-			break;
-		}
+	if (ZEPHIR_IS_STRING(&method, "")) { goto zephir_switch_0_clause_0; }
+	if (ZEPHIR_IS_STRING(&method, "connect")) { goto zephir_switch_0_clause_1; }
+	if (ZEPHIR_IS_STRING(&method, "delete")) { goto zephir_switch_0_clause_2; }
+	if (ZEPHIR_IS_STRING(&method, "get")) { goto zephir_switch_0_clause_3; }
+	if (ZEPHIR_IS_STRING(&method, "head")) { goto zephir_switch_0_clause_4; }
+	if (ZEPHIR_IS_STRING(&method, "options")) { goto zephir_switch_0_clause_5; }
+	if (ZEPHIR_IS_STRING(&method, "patch")) { goto zephir_switch_0_clause_6; }
+	if (ZEPHIR_IS_STRING(&method, "post")) { goto zephir_switch_0_clause_7; }
+	if (ZEPHIR_IS_STRING(&method, "purge")) { goto zephir_switch_0_clause_8; }
+	if (ZEPHIR_IS_STRING(&method, "put")) { goto zephir_switch_0_clause_9; }
+	if (ZEPHIR_IS_STRING(&method, "trace")) { goto zephir_switch_0_clause_10; }
+	goto zephir_switch_0_clause_11;
+	zephir_switch_0_clause_0: ;
+	zephir_switch_0_clause_1: ;
+	zephir_switch_0_clause_2: ;
+	zephir_switch_0_clause_3: ;
+	zephir_switch_0_clause_4: ;
+	zephir_switch_0_clause_5: ;
+	zephir_switch_0_clause_6: ;
+	zephir_switch_0_clause_7: ;
+	zephir_switch_0_clause_8: ;
+	zephir_switch_0_clause_9: ;
+	zephir_switch_0_clause_10: ;
+		ZEPHIR_INIT_VAR(&_4$$6);
+		zephir_ucfirst(&_4$$6, &method);
+		ZEPHIR_INIT_VAR(&methodClass);
+		ZEPHIR_CONCAT_SV(&methodClass, "add", &_4$$6);
+		ZEPHIR_CALL_METHOD_ZVAL(&route, this_ptr, &methodClass, NULL, 0, &pattern, &paths);
+		zephir_check_call_status();
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_11: ;
 		ZEPHIR_INIT_VAR(&_5$$7);
 		object_init_ex(&_5$$7, phalcon_mvc_router_exceptions_unknownhttpmethod_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_5$$7, "__construct", NULL, 274, &method);
@@ -6232,7 +6254,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addRouteFromConfig)
 		zephir_throw_exception_debug(&_5$$7, "phalcon/Mvc/Router.zep", 2089);
 		ZEPHIR_MM_RESTORE();
 		return;
-	} while(0);
+	zephir_switch_0_end: ;
 
 	if (zephir_array_isset_value_string(&routeData, SL("name"))) {
 		zephir_memory_observe(&_6$$8);
@@ -6396,16 +6418,37 @@ PHP_METHOD(Phalcon_Mvc_Router, mountGroupFromConfig)
 				ZEPHIR_INIT_NVAR(&method);
 				zephir_fast_strtolower(&method, &_9$$11);
 			}
-			do {
-				if (ZEPHIR_IS_STRING(&method, "") || ZEPHIR_IS_STRING(&method, "connect") || ZEPHIR_IS_STRING(&method, "delete") || ZEPHIR_IS_STRING(&method, "get") || ZEPHIR_IS_STRING(&method, "head") || ZEPHIR_IS_STRING(&method, "options") || ZEPHIR_IS_STRING(&method, "patch") || ZEPHIR_IS_STRING(&method, "post") || ZEPHIR_IS_STRING(&method, "purge") || ZEPHIR_IS_STRING(&method, "put") || ZEPHIR_IS_STRING(&method, "trace")) {
-					ZEPHIR_INIT_NVAR(&_10$$12);
-					zephir_ucfirst(&_10$$12, &method);
-					ZEPHIR_INIT_NVAR(&methodClass);
-					ZEPHIR_CONCAT_SV(&methodClass, "add", &_10$$12);
-					ZEPHIR_CALL_METHOD_ZVAL(&route, &group, &methodClass, NULL, 0, &pattern, &routePaths);
-					zephir_check_call_status();
-					break;
-				}
+			if (ZEPHIR_IS_STRING(&method, "")) { goto zephir_switch_0_clause_0; }
+			if (ZEPHIR_IS_STRING(&method, "connect")) { goto zephir_switch_0_clause_1; }
+			if (ZEPHIR_IS_STRING(&method, "delete")) { goto zephir_switch_0_clause_2; }
+			if (ZEPHIR_IS_STRING(&method, "get")) { goto zephir_switch_0_clause_3; }
+			if (ZEPHIR_IS_STRING(&method, "head")) { goto zephir_switch_0_clause_4; }
+			if (ZEPHIR_IS_STRING(&method, "options")) { goto zephir_switch_0_clause_5; }
+			if (ZEPHIR_IS_STRING(&method, "patch")) { goto zephir_switch_0_clause_6; }
+			if (ZEPHIR_IS_STRING(&method, "post")) { goto zephir_switch_0_clause_7; }
+			if (ZEPHIR_IS_STRING(&method, "purge")) { goto zephir_switch_0_clause_8; }
+			if (ZEPHIR_IS_STRING(&method, "put")) { goto zephir_switch_0_clause_9; }
+			if (ZEPHIR_IS_STRING(&method, "trace")) { goto zephir_switch_0_clause_10; }
+			goto zephir_switch_0_clause_11;
+			zephir_switch_0_clause_0: ;
+			zephir_switch_0_clause_1: ;
+			zephir_switch_0_clause_2: ;
+			zephir_switch_0_clause_3: ;
+			zephir_switch_0_clause_4: ;
+			zephir_switch_0_clause_5: ;
+			zephir_switch_0_clause_6: ;
+			zephir_switch_0_clause_7: ;
+			zephir_switch_0_clause_8: ;
+			zephir_switch_0_clause_9: ;
+			zephir_switch_0_clause_10: ;
+				ZEPHIR_INIT_NVAR(&_10$$12);
+				zephir_ucfirst(&_10$$12, &method);
+				ZEPHIR_INIT_NVAR(&methodClass);
+				ZEPHIR_CONCAT_SV(&methodClass, "add", &_10$$12);
+				ZEPHIR_CALL_METHOD_ZVAL(&route, &group, &methodClass, NULL, 0, &pattern, &routePaths);
+				zephir_check_call_status();
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_11: ;
 				ZEPHIR_INIT_NVAR(&_11$$13);
 				object_init_ex(&_11$$13, phalcon_mvc_router_exceptions_unknownhttpmethod_ce);
 				ZEPHIR_CALL_METHOD(NULL, &_11$$13, "__construct", &_12, 274, &method);
@@ -6413,7 +6456,7 @@ PHP_METHOD(Phalcon_Mvc_Router, mountGroupFromConfig)
 				zephir_throw_exception_debug(&_11$$13, "phalcon/Mvc/Router.zep", 2173);
 				ZEPHIR_MM_RESTORE();
 				return;
-			} while(0);
+			zephir_switch_0_end: ;
 
 			if (zephir_array_isset_value_string(&routeData, SL("name"))) {
 				ZEPHIR_OBS_NVAR(&_13$$14);
@@ -6465,16 +6508,37 @@ PHP_METHOD(Phalcon_Mvc_Router, mountGroupFromConfig)
 					ZEPHIR_INIT_NVAR(&method);
 					zephir_fast_strtolower(&method, &_20$$18);
 				}
-				do {
-					if (ZEPHIR_IS_STRING(&method, "") || ZEPHIR_IS_STRING(&method, "connect") || ZEPHIR_IS_STRING(&method, "delete") || ZEPHIR_IS_STRING(&method, "get") || ZEPHIR_IS_STRING(&method, "head") || ZEPHIR_IS_STRING(&method, "options") || ZEPHIR_IS_STRING(&method, "patch") || ZEPHIR_IS_STRING(&method, "post") || ZEPHIR_IS_STRING(&method, "purge") || ZEPHIR_IS_STRING(&method, "put") || ZEPHIR_IS_STRING(&method, "trace")) {
-						ZEPHIR_INIT_NVAR(&_21$$19);
-						zephir_ucfirst(&_21$$19, &method);
-						ZEPHIR_INIT_NVAR(&methodClass);
-						ZEPHIR_CONCAT_SV(&methodClass, "add", &_21$$19);
-						ZEPHIR_CALL_METHOD_ZVAL(&route, &group, &methodClass, NULL, 0, &pattern, &routePaths);
-						zephir_check_call_status();
-						break;
-					}
+				if (ZEPHIR_IS_STRING(&method, "")) { goto zephir_switch_1_clause_0; }
+				if (ZEPHIR_IS_STRING(&method, "connect")) { goto zephir_switch_1_clause_1; }
+				if (ZEPHIR_IS_STRING(&method, "delete")) { goto zephir_switch_1_clause_2; }
+				if (ZEPHIR_IS_STRING(&method, "get")) { goto zephir_switch_1_clause_3; }
+				if (ZEPHIR_IS_STRING(&method, "head")) { goto zephir_switch_1_clause_4; }
+				if (ZEPHIR_IS_STRING(&method, "options")) { goto zephir_switch_1_clause_5; }
+				if (ZEPHIR_IS_STRING(&method, "patch")) { goto zephir_switch_1_clause_6; }
+				if (ZEPHIR_IS_STRING(&method, "post")) { goto zephir_switch_1_clause_7; }
+				if (ZEPHIR_IS_STRING(&method, "purge")) { goto zephir_switch_1_clause_8; }
+				if (ZEPHIR_IS_STRING(&method, "put")) { goto zephir_switch_1_clause_9; }
+				if (ZEPHIR_IS_STRING(&method, "trace")) { goto zephir_switch_1_clause_10; }
+				goto zephir_switch_1_clause_11;
+				zephir_switch_1_clause_0: ;
+				zephir_switch_1_clause_1: ;
+				zephir_switch_1_clause_2: ;
+				zephir_switch_1_clause_3: ;
+				zephir_switch_1_clause_4: ;
+				zephir_switch_1_clause_5: ;
+				zephir_switch_1_clause_6: ;
+				zephir_switch_1_clause_7: ;
+				zephir_switch_1_clause_8: ;
+				zephir_switch_1_clause_9: ;
+				zephir_switch_1_clause_10: ;
+					ZEPHIR_INIT_NVAR(&_21$$19);
+					zephir_ucfirst(&_21$$19, &method);
+					ZEPHIR_INIT_NVAR(&methodClass);
+					ZEPHIR_CONCAT_SV(&methodClass, "add", &_21$$19);
+					ZEPHIR_CALL_METHOD_ZVAL(&route, &group, &methodClass, NULL, 0, &pattern, &routePaths);
+					zephir_check_call_status();
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_11: ;
 					ZEPHIR_INIT_NVAR(&_22$$20);
 					object_init_ex(&_22$$20, phalcon_mvc_router_exceptions_unknownhttpmethod_ce);
 					ZEPHIR_CALL_METHOD(NULL, &_22$$20, "__construct", &_12, 274, &method);
@@ -6482,7 +6546,7 @@ PHP_METHOD(Phalcon_Mvc_Router, mountGroupFromConfig)
 					zephir_throw_exception_debug(&_22$$20, "phalcon/Mvc/Router.zep", 2173);
 					ZEPHIR_MM_RESTORE();
 					return;
-				} while(0);
+				zephir_switch_1_end: ;
 
 				if (zephir_array_isset_value_string(&routeData, SL("name"))) {
 					ZEPHIR_OBS_NVAR(&_23$$21);
