@@ -44,10 +44,12 @@ PHP_METHOD(Phalcon_Translate_Interpolator_IndexedArray, replacePlaceholders)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval placeholders;
-	zval translation_zv, *placeholders_param = NULL;
+	zval translation_zv, *placeholders_param = NULL, _0$$3, _1$$3;
 	zend_string *translation = NULL;
 
 	ZVAL_UNDEF(&translation_zv);
+	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&placeholders);
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(translation)
@@ -68,9 +70,26 @@ PHP_METHOD(Phalcon_Translate_Interpolator_IndexedArray, replacePlaceholders)
 		zephir_get_arrval(&placeholders, placeholders_param);
 	}
 	if (1 != ZEPHIR_IS_EMPTY(&placeholders)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("vsprintf", NULL, 0, &translation_zv, &placeholders);
-		zephir_check_call_status();
-		RETURN_MM();
+
+		/* try_start_1: */
+
+			ZEPHIR_RETURN_CALL_FUNCTION("vsprintf", NULL, 0, &translation_zv, &placeholders);
+			zephir_check_call_status_or_jump(try_end_1);
+			RETURN_MM();
+
+		try_end_1:
+
+		if (EG(exception)) {
+			ZEPHIR_INIT_VAR(&_0$$3);
+			ZVAL_OBJ(&_0$$3, EG(exception));
+			Z_ADDREF_P(&_0$$3);
+			ZEPHIR_INIT_VAR(&_1$$3);
+			if (zephir_is_instance_of(&_0$$3, SL("ValueError"))) {
+				zend_clear_exception();
+				ZEPHIR_CPY_WRT(&_1$$3, &_0$$3);
+				RETURN_MM_STR(zend_string_copy(translation));
+			}
+		}
 	}
 	RETURN_MM_STR(zend_string_copy(translation));
 }

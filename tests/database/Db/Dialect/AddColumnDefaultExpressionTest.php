@@ -100,7 +100,7 @@ final class AddColumnDefaultExpressionTest extends AbstractDatabaseTestCase
 
         $actual = $dialect->addColumn('table', 'schema', $column);
 
-        $this->assertStringContainsString('DEFAULT "active"', $actual);
+        $this->assertStringContainsString('DEFAULT \'active\'', $actual);
     }
 
     /**

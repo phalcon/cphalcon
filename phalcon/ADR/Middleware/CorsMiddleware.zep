@@ -118,6 +118,18 @@ class CorsMiddleware implements Middleware
 
     protected function applyHeaders(<ResponseInterface> response, string origin) -> void
     {
+        /**
+         * Credentials must never be paired with a reflected wildcard-matched
+         * origin: that lets any site read credentialed cross-origin responses
+         * (CWE-942), defeating the browser's "*" + credentials block. When
+         * credentials are enabled, only an origin that is explicitly on the
+         * allowlist may be reflected; a wildcard match emits no CORS headers.
+         */
+        if this->allowCredentials &&
+            !in_array(origin, this->allowedOrigins, true) {
+            return;
+        }
+
         response->setHeader("Access-Control-Allow-Origin", origin);
 
         if this->allowCredentials {

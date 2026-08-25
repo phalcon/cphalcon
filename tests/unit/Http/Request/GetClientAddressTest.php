@@ -171,25 +171,6 @@ final class GetClientAddressTest extends AbstractHttpBase
     }
 
     /**
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2025-07-11
-     */
-    public function testHttpRequestSetTrustedProxies(): void
-    {
-        $container = new FactoryDefault();
-
-        $request = new FakeRequest();
-        $request->setDI($container);
-        $request->setTrustedProxies([
-            '25.25.25.0/24'
-        ]);
-
-        $expected = ['25.25.25.0/24'];
-        $actual   = $request->getTrustedProxies();
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
      * Every configured trusted proxy must be checked, not only the first one
      * (the peer can match any entry) (CWE-290).
      *
@@ -212,6 +193,25 @@ final class GetClientAddressTest extends AbstractHttpBase
 
         $expected = '8.8.8.8';
         $actual   = $request->getClientAddress(true);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2025-07-11
+     */
+    public function testHttpRequestSetTrustedProxies(): void
+    {
+        $container = new FactoryDefault();
+
+        $request = new FakeRequest();
+        $request->setDI($container);
+        $request->setTrustedProxies([
+            '25.25.25.0/24'
+        ]);
+
+        $expected = ['25.25.25.0/24'];
+        $actual   = $request->getTrustedProxies();
         $this->assertSame($expected, $actual);
     }
 }

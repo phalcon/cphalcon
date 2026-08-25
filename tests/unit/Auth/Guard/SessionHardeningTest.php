@@ -46,6 +46,26 @@ final class SessionHardeningTest extends AbstractUnitTestCase
     }
 
     /**
+     * Logout rotates the session id so the id that was authenticated cannot be
+     * reused after sign-out (session fixation / reuse, CWE-384).
+     */
+    public function testLogoutRegeneratesSessionId(): void
+    {
+        $session = new FakeSessionManager();
+        $config  = new SessionGuardConfig(null, null, null, 1209600);
+        $guard   = $this->buildGuard($session, new FakeCookies(), $config);
+
+        $guard->attempt(
+            ['email' => 'alice@example.com', 'password' => 'secret']
+        );
+
+        $before = $session->regenerateIdCalls;
+        $guard->logout();
+
+        $this->assertGreaterThan($before, $session->regenerateIdCalls);
+    }
+
+    /**
      * The remember cookie is a bearer credential, so it must be httpOnly and
      * carry the request's transport security (CWE-1004 / CWE-614).
      */

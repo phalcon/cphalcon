@@ -795,12 +795,12 @@ class Postgresql extends Dialect
                         let valueSql = "";
 
                         for value in typeValues {
-                            let valueSql .= "'" . addcslashes(value, "\'") . "', ";
+                            let valueSql .= "'" . this->escapeStringLiteral(value) . "', ";
                         }
 
                         let columnSql .= "(" . substr(valueSql, 0, -2) . ")";
                     } else {
-                        let columnSql .= "('" . addcslashes(typeValues, "\'") . "')";
+                        let columnSql .= "('" . this->escapeStringLiteral(typeValues) . "')";
                     }
                 }
         }
@@ -1061,7 +1061,7 @@ class Postgresql extends Dialect
             columnType === Column::TYPE_DOUBLE {
             let preparedValue = (string) defaultValue;
         } else {
-            let preparedValue = "'" . addcslashes(defaultValue, "\'") . "'";
+            let preparedValue = "'" . this->escapeStringLiteral(defaultValue) . "'";
         }
 
         return preparedValue;

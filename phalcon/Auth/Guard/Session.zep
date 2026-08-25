@@ -227,6 +227,13 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
 
         this->session->remove(this->getName());
 
+        /**
+         * Rotate the session id on logout so the id that was authenticated
+         * cannot be reused after sign-out (session fixation / reuse). Matches
+         * the rotation done in login().
+         */
+        this->session->regenerateId();
+
         this->fireManagerEvent("auth:afterLogout", ["user" : current], false);
 
         let this->user = null;

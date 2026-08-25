@@ -68,9 +68,9 @@ PHP_METHOD(Phalcon_ADR_Middleware_RequestIdMiddleware, __invoke)
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(&id)) {
 		ZVAL_LONG(&_1$$3, 16);
-		ZEPHIR_CALL_FUNCTION(&_2$$3, "random_bytes", NULL, 324, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "random_bytes", NULL, 325, &_1$$3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&id, "bin2hex", NULL, 325, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&id, "bin2hex", NULL, 326, &_2$$3);
 		zephir_check_call_status();
 	}
 	ZEPHIR_CALL_METHOD(&_3, request, "getattributes", NULL, 0);

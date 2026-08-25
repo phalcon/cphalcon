@@ -18,17 +18,30 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - Attribute name and tag name injection in the Html Tag helpers.
 - Attribute name splitting in the Html Escaper `attributes()` array keys.
 - Backslash breakout in the Html Escaper `js()` output.
+- Broken string-literal escaping of column defaults and ENUM/SET values in the Db dialects.
+- CBC padding-oracle exposure in `Crypt::decrypt()`, where a padding failure was distinguishable from a MAC mismatch.
+- Command injection via CR/LF in Beanstalk queue tube names.
+- CORS credentials paired with a reflected wildcard origin in the ADR Cors middleware.
+- Dangerous URL scheme (`javascript:`, `data:`) passthrough in the Filter `url` sanitizer.
+- Format-string denial of service in the Translate indexed-array interpolator.
+- Log injection via unescaped control characters in the Logger line formatter.
 - Missing Secure and HttpOnly flags on the Auth "remember me" cookie.
 - Non-constant-time credential comparison in the Auth memory and stream adapters.
 - Non-cryptographic randomness in the ISO-10126 padding scheme.
+- Object injection through unrestricted `unserialize()` in the Annotations Stream adapter.
 - Object injection through unrestricted `unserialize()` in the Storage Stream payload read.
 - Only the first configured trusted proxy checked when resolving the Request client address.
+- Open redirect in the ADR redirect responder bypassing the Http Response `redirect()` gate.
 - Open redirect via absolute and protocol-relative targets in the Http Response `redirect()`.
 - Path traversal in the View `partial()` and Simple `render()` paths.
 - Path traversal via the cache key in the Storage Stream adapter.
+- Path traversal via the session id in the Session Stream adapter.
 - Reflected XSS via unescaped array keys in the Debug dump and exception renderer.
 - SQL injection in the Db Dialect schema-introspection methods.
+- SQL injection via uncast LIMIT and OFFSET values in the Db Dialect `limit()`.
 - Session fixation in the Auth Session guard login.
+- Session id not regenerated on the Auth Session guard logout.
+- Unbounded image dimensions (decompression bomb / pixel flood) in the GD and Imagick image adapters.
 - Unbounded recursion in the WKB geometry parser.
 - Unescaped CSS class in Flash messages.
 - Unescaped identifier quoting in the DataMapper PDO connection.

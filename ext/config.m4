@@ -45,8 +45,8 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/container/resolver/lazy/lazy.zep.c
 	phalcon/encryption/crypt/exception/exception.zep.c
 	phalcon/forms/exception.zep.c
-	phalcon/acl/exception.zep.c
 	phalcon/image/exception.zep.c
+	phalcon/acl/exception.zep.c
 	phalcon/contracts/dispatcher/dispatcher.zep.c
 	phalcon/mvc/micro/exception.zep.c
 	phalcon/support/collection.zep.c
@@ -983,6 +983,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/image/exceptions/compositefailed.zep.c
 	phalcon/image/exceptions/extensionnotloaded.zep.c
 	phalcon/image/exceptions/imageloadfailed.zep.c
+	phalcon/image/exceptions/imagetoolarge.zep.c
 	phalcon/image/exceptions/invalidcolor.zep.c
 	phalcon/image/exceptions/missingdimensions.zep.c
 	phalcon/image/exceptions/missingheight.zep.c
@@ -1577,7 +1578,11 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/96__closure.zep.c
 	phalcon/97__closure.zep.c
 	phalcon/98__closure.zep.c
-	phalcon/99__closure.zep.c phalcon/annotations/scanner.c
+	phalcon/99__closure.zep.c
+	phalcon/100__closure.zep.c
+	phalcon/101__closure.zep.c
+	phalcon/102__closure.zep.c
+	phalcon/103__closure.zep.c phalcon/annotations/scanner.c
 	phalcon/annotations/parser.c
 	phalcon/mvc/model/orm.c
 	phalcon/mvc/model/query/scanner.c

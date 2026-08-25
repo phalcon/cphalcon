@@ -205,7 +205,7 @@ PHP_METHOD(Phalcon_Support_HelperFactory, newInstance)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1378, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1382, PH_NOISY_CC | PH_READONLY);
 	if (1 != zephir_array_isset_value(&_0, &name_zv)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "getservice", NULL, 0, &name_zv);
@@ -214,7 +214,7 @@ PHP_METHOD(Phalcon_Support_HelperFactory, newInstance)
 		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("services"), &name_zv, &_1$$3);
 	}
-	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 1378, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 1382, PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch(&_4, &_3, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Support/HelperFactory.zep", 179);
 	RETURN_CTOR(&_4);
 }

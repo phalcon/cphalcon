@@ -1327,17 +1327,42 @@ class Query implements QueryInterface, InjectionAwareInterface
          * verbatim (unescaped), so a RawValue must never wrap untrusted data.
          * See Phalcon\Db\RawValue.
          */
+        var rawWildcards, rawValue, placeholder;
+
+        let rawWildcards = [];
         for wildcard, value in processed {
             if typeof value == "object" && value instanceof RawValue {
-                if substr(wildcard, 0, 1) === ":" {
-                    let sqlSelect = str_replace(wildcard, (string) value, sqlSelect);
-                } else {
-                    let sqlSelect = str_replace(":" . wildcard, (string) value, sqlSelect);
-                }
-
-                unset processed[wildcard];
-                unset processedTypes[wildcard];
+                let rawWildcards[] = wildcard;
             }
+        }
+
+        /**
+         * Replace the longest wildcard first and anchor the match with a word
+         * boundary, so a name that is a prefix of another (":APL0" vs
+         * ":APL01") cannot corrupt the longer one. A callback keeps the value
+         * literal, avoiding preg_replace back-reference expansion of a "$" or
+         * "\" inside the RawValue.
+         */
+        usort(
+            rawWildcards,
+            function (a, b) {
+                return strlen(b) - strlen(a);
+            }
+        );
+
+        for wildcard in rawWildcards {
+            let rawValue    = (string) processed[wildcard],
+                placeholder = substr(wildcard, 0, 1) === ":" ? substr(wildcard, 1) : wildcard,
+                sqlSelect   = preg_replace_callback(
+                    "/:" . preg_quote(placeholder, "/") . "\\b/",
+                    function (matches) use (rawValue) {
+                        return rawValue;
+                    },
+                    sqlSelect
+                );
+
+            unset processed[wildcard];
+            unset processedTypes[wildcard];
         }
 
         /**

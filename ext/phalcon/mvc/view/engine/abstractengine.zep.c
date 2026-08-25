@@ -81,8 +81,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_AbstractEngine, __construct)
 		container = &container_sub;
 		container = &__$null;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 244, view);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 245, container);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 245, view);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 246, container);
 }
 
 /**
@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_AbstractEngine, getContent)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 244, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 245, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "getcontent", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -175,7 +175,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_AbstractEngine, partial)
 		params = &params_sub;
 		params = &__$null;
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 244, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 245, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "partial", NULL, 0, &partialPath_zv, params);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -201,7 +201,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_AbstractEngine, setEventsManager)
 		Z_PARAM_OBJECT_OF_CLASS(eventsManager, phalcon_events_managerinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &eventsManager);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 246, eventsManager);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 247, eventsManager);
 }
 
 /**
@@ -258,9 +258,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_AbstractEngine, fireManagerEvent)
 		cancellable = 1;
 	} else {
 		}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 246, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 247, PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) != IS_NULL) {
-		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_0, 246, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_0, 247, PH_NOISY_CC | PH_READONLY);
 		if (cancellable) {
 			ZVAL_BOOL(&_2$$3, 1);
 		} else {

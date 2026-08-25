@@ -86,7 +86,21 @@ class Stream extends AbstractAdapter
             E_WARNING
         );
 
-        let contents = unserialize(contents);
+        /**
+         * Restrict object instantiation to the annotation classes this cache
+         * ever stores, so a planted cache file cannot trigger PHP object
+         * injection through arbitrary classes (CWE-502).
+         */
+        let contents = unserialize(
+            contents,
+            [
+                "allowed_classes": [
+                    "Phalcon\\Annotations\\Reflection",
+                    "Phalcon\\Annotations\\Collection",
+                    "Phalcon\\Annotations\\Annotation"
+                ]
+            ]
+        );
 
         restore_error_handler();
 

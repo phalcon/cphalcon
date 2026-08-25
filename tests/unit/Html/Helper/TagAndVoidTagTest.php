@@ -29,6 +29,16 @@ final class TagAndVoidTagTest extends AbstractUnitTestCase
         $this->assertSame('<section>', $factory->tag('section'));
         $this->assertSame('<input name="x">', $factory->voidTag('input', ['name' => 'x']));
     }
+
+    public function testTagNameCannotBreakOutToMarkup(): void
+    {
+        $tag = new Tag(new Escaper());
+
+        $this->assertStringNotContainsString(
+            '<script>',
+            $tag('x><script>alert(1)</script>')
+        );
+    }
     public function testTagRendersOpenTagOnly(): void
     {
         $tag = new Tag(new Escaper());
@@ -38,6 +48,24 @@ final class TagAndVoidTagTest extends AbstractUnitTestCase
             '<div class="x">',
             $tag('div', ['class' => 'x'])
         );
+    }
+
+    public function testTagStripsAttributeNameSplittersPreventingInjection(): void
+    {
+        $tag = new Tag(new Escaper());
+
+        $html = $tag('div', ['x onclick=alert(1) y' => 'v']);
+
+        $document = new \DOMDocument();
+        @$document->loadHTML('<html><body>' . $html . '</body></html>');
+        $div = $document->getElementsByTagName('div')->item(0);
+
+        $names = [];
+        foreach ($div->attributes as $attribute) {
+            $names[] = $attribute->name;
+        }
+
+        $this->assertNotContains('onclick', $names);
     }
 
     public function testVoidTagDefaultsToHtml5SelfClose(): void
@@ -66,33 +94,5 @@ final class TagAndVoidTagTest extends AbstractUnitTestCase
         $vt = new VoidTag(new Escaper(), $doctype);
 
         $this->assertSame('<br />', $vt('br'));
-    }
-
-    public function testTagStripsAttributeNameSplittersPreventingInjection(): void
-    {
-        $tag = new Tag(new Escaper());
-
-        $html = $tag('div', ['x onclick=alert(1) y' => 'v']);
-
-        $document = new \DOMDocument();
-        @$document->loadHTML('<html><body>' . $html . '</body></html>');
-        $div = $document->getElementsByTagName('div')->item(0);
-
-        $names = [];
-        foreach ($div->attributes as $attribute) {
-            $names[] = $attribute->name;
-        }
-
-        $this->assertNotContains('onclick', $names);
-    }
-
-    public function testTagNameCannotBreakOutToMarkup(): void
-    {
-        $tag = new Tag(new Escaper());
-
-        $this->assertStringNotContainsString(
-            '<script>',
-            $tag('x><script>alert(1)</script>')
-        );
     }
 }

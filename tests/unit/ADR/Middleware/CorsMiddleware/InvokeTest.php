@@ -40,6 +40,33 @@ final class InvokeTest extends AbstractUnitTestCase
 
         unset($_SERVER['HTTP_ORIGIN']);
     }
+
+    /**
+     * An explicitly allow-listed origin may still be reflected with credentials.
+     */
+    public function testAdrMiddlewareCorsMiddlewareExplicitOriginWithCredentials(): void
+    {
+        $_SERVER['HTTP_ORIGIN'] = 'https://example.com';
+
+        $middleware = new CorsMiddleware(
+            [
+                'origins'     => ['https://example.com'],
+                'credentials' => true,
+            ]
+        );
+        $response = $middleware(new Request(), $this->next());
+
+        $this->assertSame(
+            'https://example.com',
+            $response->getHeaders()->get('Access-Control-Allow-Origin')
+        );
+        $this->assertSame(
+            'true',
+            $response->getHeaders()->get('Access-Control-Allow-Credentials')
+        );
+
+        unset($_SERVER['HTTP_ORIGIN']);
+    }
     /**
      * Unit Tests Phalcon\ADR\Middleware\CorsMiddleware :: __invoke() is inert unconfigured
      */
@@ -48,6 +75,32 @@ final class InvokeTest extends AbstractUnitTestCase
         $response = (new CorsMiddleware())(new Request(), $this->next());
 
         $this->assertFalse($response->getHeaders()->get('Access-Control-Allow-Origin'));
+    }
+
+    /**
+     * A wildcard-matched origin must never be reflected together with
+     * credentials (CWE-942); no CORS headers are emitted in that case.
+     */
+    public function testAdrMiddlewareCorsMiddlewareNoWildcardOriginWithCredentials(): void
+    {
+        $_SERVER['HTTP_ORIGIN'] = 'https://evil.example';
+
+        $middleware = new CorsMiddleware(
+            [
+                'origins'     => ['*'],
+                'credentials' => true,
+            ]
+        );
+        $response = $middleware(new Request(), $this->next());
+
+        $this->assertFalse(
+            $response->getHeaders()->get('Access-Control-Allow-Origin')
+        );
+        $this->assertFalse(
+            $response->getHeaders()->get('Access-Control-Allow-Credentials')
+        );
+
+        unset($_SERVER['HTTP_ORIGIN']);
     }
 
     private function next(): Handler

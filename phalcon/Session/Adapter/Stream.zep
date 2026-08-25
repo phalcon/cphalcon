@@ -247,6 +247,12 @@ class Stream extends Noop
     {
         let name = (string) name;
 
-        return this->prefix . name;
+        /**
+         * Remove path separators from the id so a crafted id cannot climb out
+         * of the session directory (CWE-22) when a handler method is called
+         * directly, bypassing the Manager id validation. Mirrors the sibling
+         * Storage\Adapter\Stream hardening.
+         */
+        return this->prefix . str_replace(["/", "\\", ":"], "_", name);
     }
 }

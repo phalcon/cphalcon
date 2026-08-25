@@ -57,6 +57,26 @@ final class RenderTest extends AbstractUnitTestCase
     }
 
     /**
+     * The link and label are placed into the markup, so they must be escaped
+     * or a crafted value injects HTML (CWE-79).
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     */
+    public function testHtmlBreadcrumbsRenderEscapesLinkAndLabel(): void
+    {
+        $breadcrumbs = new Breadcrumbs();
+        $breadcrumbs
+            ->add('<b>x</b>', '/a"><script>alert(1)</script>')
+            ->add('Current')
+        ;
+
+        $actual = $breadcrumbs->render();
+
+        $this->assertStringNotContainsString('<script>', $actual);
+        $this->assertStringNotContainsString('<b>x</b>', $actual);
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
@@ -75,25 +95,5 @@ final class RenderTest extends AbstractUnitTestCase
             $expected,
             $breadcrumbs->render()
         );
-    }
-
-    /**
-     * The link and label are placed into the markup, so they must be escaped
-     * or a crafted value injects HTML (CWE-79).
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     */
-    public function testHtmlBreadcrumbsRenderEscapesLinkAndLabel(): void
-    {
-        $breadcrumbs = new Breadcrumbs();
-        $breadcrumbs
-            ->add('<b>x</b>', '/a"><script>alert(1)</script>')
-            ->add('Current')
-        ;
-
-        $actual = $breadcrumbs->render();
-
-        $this->assertStringNotContainsString('<script>', $actual);
-        $this->assertStringNotContainsString('<b>x</b>', $actual);
     }
 }

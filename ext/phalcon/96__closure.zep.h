@@ -5,11 +5,8 @@ ZEPHIR_INIT_CLASS(phalcon_96__closure);
 
 PHP_METHOD(phalcon_96__closure, __invoke);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_96__closure___invoke, 0, 0, 4)
-	ZEND_ARG_INFO(0, number)
-	ZEND_ARG_INFO(0, message)
-	ZEND_ARG_INFO(0, file)
-	ZEND_ARG_INFO(0, line)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_96__closure___invoke, 0, 0, 1)
+	ZEND_ARG_INFO(0, matches)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_96__closure_method_entry) {

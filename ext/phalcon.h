@@ -40,8 +40,8 @@
 #include "phalcon/container/resolver/lazy/lazy.zep.h"
 #include "phalcon/encryption/crypt/exception/exception.zep.h"
 #include "phalcon/forms/exception.zep.h"
-#include "phalcon/acl/exception.zep.h"
 #include "phalcon/image/exception.zep.h"
+#include "phalcon/acl/exception.zep.h"
 #include "phalcon/contracts/dispatcher/dispatcher.zep.h"
 #include "phalcon/mvc/micro/exception.zep.h"
 #include "phalcon/support/collection.zep.h"
@@ -978,6 +978,7 @@
 #include "phalcon/image/exceptions/compositefailed.zep.h"
 #include "phalcon/image/exceptions/extensionnotloaded.zep.h"
 #include "phalcon/image/exceptions/imageloadfailed.zep.h"
+#include "phalcon/image/exceptions/imagetoolarge.zep.h"
 #include "phalcon/image/exceptions/invalidcolor.zep.h"
 #include "phalcon/image/exceptions/missingdimensions.zep.h"
 #include "phalcon/image/exceptions/missingheight.zep.h"
@@ -1573,5 +1574,9 @@
 #include "phalcon/97__closure.zep.h"
 #include "phalcon/98__closure.zep.h"
 #include "phalcon/99__closure.zep.h"
+#include "phalcon/100__closure.zep.h"
+#include "phalcon/101__closure.zep.h"
+#include "phalcon/102__closure.zep.h"
+#include "phalcon/103__closure.zep.h"
 
 #endif

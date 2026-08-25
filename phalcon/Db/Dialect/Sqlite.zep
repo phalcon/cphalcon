@@ -67,7 +67,7 @@ class Sqlite extends Dialect
             } elseif memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
                 let sql .= " DEFAULT CURRENT_TIMESTAMP";
             } else {
-                let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+                let sql .= " DEFAULT '" . this->escapeStringLiteral(defaultValue) . "'";
             }
         }
 
@@ -209,7 +209,7 @@ class Sqlite extends Dialect
                     } elseif memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
                         let columnLine .= " DEFAULT CURRENT_TIMESTAMP";
                     } else {
-                        let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+                        let columnLine .= " DEFAULT '" . this->escapeStringLiteral(defaultValue) . "'";
                     }
                 }
             }
@@ -591,12 +591,12 @@ class Sqlite extends Dialect
                         let valueSql = "";
 
                         for value in typeValues {
-                            let valueSql .= "\"" . addcslashes(value, "\"") . "\", ";
+                            let valueSql .= "'" . this->escapeStringLiteral(value) . "', ";
                         }
 
                         let columnSql .= "(" . substr(valueSql, 0, -2) . ")";
                     } else {
-                        let columnSql .= "(\"" . addcslashes(typeValues, "\"") . "\")";
+                        let columnSql .= "('" . this->escapeStringLiteral(typeValues) . "')";
                     }
                 }
         }

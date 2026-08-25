@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, accepted)
 
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "ACCEPTED");
-	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 322, &_2);
+	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 323, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&_1, "withresult", NULL, 0, result);
 	zephir_check_call_status();
@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, authenticated)
 
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "AUTHENTICATED");
-	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 322, &_2);
+	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 323, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&_1, "withresult", NULL, 0, result);
 	zephir_check_call_status();
@@ -199,7 +199,7 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, authorized)
 
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "AUTHORIZED");
-	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 322, &_2);
+	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 323, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&_1, "withresult", NULL, 0, result);
 	zephir_check_call_status();
@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, created)
 
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "CREATED");
-	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 322, &_2);
+	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 323, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&_1, "withresult", NULL, 0, result);
 	zephir_check_call_status();
@@ -283,7 +283,7 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, deleted)
 
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "DELETED");
-	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 322, &_2);
+	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 323, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&_1, "withresult", NULL, 0, result);
 	zephir_check_call_status();
@@ -325,7 +325,7 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, error)
 
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "ERROR");
-	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 322, &_2);
+	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 323, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&_1, "withmessages", NULL, 0, messages);
 	zephir_check_call_status();
@@ -368,7 +368,7 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, forbidden)
 
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "NOT_AUTHORIZED");
-	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 322, &_2);
+	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 323, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&_1, "withmessages", NULL, 0, messages);
 	zephir_check_call_status();
@@ -410,7 +410,7 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, found)
 
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "FOUND");
-	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 322, &_2);
+	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 323, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&_1, "withresult", NULL, 0, result);
 	zephir_check_call_status();
@@ -452,7 +452,7 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, invalid)
 
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "NOT_VALID");
-	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 322, &_2);
+	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 323, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&_1, "withmessages", NULL, 0, messages);
 	zephir_check_call_status();
@@ -494,7 +494,7 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, notAccepted)
 
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "NOT_ACCEPTED");
-	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 322, &_2);
+	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 323, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&_1, "withmessages", NULL, 0, messages);
 	zephir_check_call_status();
@@ -536,7 +536,7 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, notCreated)
 
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "NOT_CREATED");
-	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 322, &_2);
+	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 323, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&_1, "withmessages", NULL, 0, messages);
 	zephir_check_call_status();
@@ -578,7 +578,7 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, notDeleted)
 
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "NOT_DELETED");
-	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 322, &_2);
+	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 323, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&_1, "withmessages", NULL, 0, messages);
 	zephir_check_call_status();
@@ -620,7 +620,7 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, notFound)
 
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "NOT_FOUND");
-	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 322, &_2);
+	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 323, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&_1, "withmessages", NULL, 0, messages);
 	zephir_check_call_status();
@@ -662,7 +662,7 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, notUpdated)
 
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "NOT_UPDATED");
-	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 322, &_2);
+	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 323, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&_1, "withmessages", NULL, 0, messages);
 	zephir_check_call_status();
@@ -704,7 +704,7 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, processing)
 
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "PROCESSING");
-	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 322, &_2);
+	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 323, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&_1, "withresult", NULL, 0, result);
 	zephir_check_call_status();
@@ -746,7 +746,7 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, success)
 
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "SUCCESS");
-	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 322, &_2);
+	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 323, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&_1, "withresult", NULL, 0, result);
 	zephir_check_call_status();
@@ -789,7 +789,7 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, unauthenticated)
 
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "NOT_AUTHENTICATED");
-	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 322, &_2);
+	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 323, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&_1, "withmessages", NULL, 0, messages);
 	zephir_check_call_status();
@@ -831,7 +831,7 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, updated)
 
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "UPDATED");
-	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 322, &_2);
+	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 323, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&_1, "withresult", NULL, 0, result);
 	zephir_check_call_status();
@@ -873,7 +873,7 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, valid)
 
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "VALID");
-	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 322, &_2);
+	ZEPHIR_CALL_METHOD(&_1, &_0, "withstatus", NULL, 323, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&_1, "withresult", NULL, 0, result);
 	zephir_check_call_status();

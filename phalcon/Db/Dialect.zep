@@ -487,17 +487,39 @@ abstract class Dialect implements DialectInterface
      */
     public function limit( string sqlQuery, var number) -> string
     {
+        /**
+         * A bound placeholder (":name" / "?N") is emitted unchanged so it can
+         * be bound by PDO; any other value is coerced to an integer, so a
+         * request-derived pagination value reaching this low-level API cannot
+         * inject SQL.
+         */
         if typeof number == "array" {
-            let sqlQuery .= " LIMIT " . number[0];
+            let sqlQuery .= " LIMIT " . this->getLimitValue(number[0]);
 
             if isset number[1] && strlen(number[1]) {
-                let sqlQuery .= " OFFSET " . number[1];
+                let sqlQuery .= " OFFSET " . this->getLimitValue(number[1]);
             }
 
             return sqlQuery;
         }
 
-        return sqlQuery . " LIMIT " . number;
+        return sqlQuery . " LIMIT " . this->getLimitValue(number);
+    }
+
+    /**
+     * Renders a LIMIT/OFFSET value: a bound placeholder passes through, any
+     * other value is coerced to an integer to prevent SQL injection.
+     */
+    protected function getLimitValue(var value) -> string
+    {
+        if (
+            typeof value == "string" &&
+            (substr(value, 0, 1) === ":" || substr(value, 0, 1) === "?")
+        ) {
+            return value;
+        }
+
+        return (string) (int) value;
     }
 
     /**
