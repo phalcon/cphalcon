@@ -171,6 +171,33 @@ final class GetClientAddressTest extends AbstractHttpBase
     }
 
     /**
+     * The plain-IP branch must also check every configured trusted proxy,
+     * not only the first one (CWE-290).
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-25
+     */
+    public function testHttpRequestGetClientAddressTrustsSecondExactProxy(): void
+    {
+        $container = new FactoryDefault();
+
+        // REMOTE_ADDR matches the SECOND trusted proxy, given as a plain IP.
+        $_SERVER['REMOTE_ADDR']          = '25.25.25.1';
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '8.8.8.8,25.25.25.1';
+
+        $request = new Request();
+        $request->setDI($container);
+        $request->setTrustedProxies([
+            '10.0.0.1',
+            '25.25.25.1',
+        ]);
+
+        $expected = '8.8.8.8';
+        $actual   = $request->getClientAddress(true);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
      * Every configured trusted proxy must be checked, not only the first one
      * (the peer can match any entry) (CWE-290).
      *

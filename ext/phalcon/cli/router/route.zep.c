@@ -844,30 +844,30 @@ PHP_METHOD(Phalcon_Cli_Router_Route, reConfigure)
 		ZVAL_NULL(&actionName);
 		ZEPHIR_INIT_VAR(&parts);
 		zephir_fast_explode_str(&parts, SL("::"), paths, LONG_MAX);
-		do {
-			_0$$4 = zephir_fast_count_int(&parts);
-			if (_0$$4 == 3) {
-				ZEPHIR_OBS_NVAR(&moduleName);
-				zephir_array_fetch_long(&moduleName, &parts, 0, PH_NOISY, "phalcon/Cli/Router/Route.zep", 427);
-				ZEPHIR_OBS_NVAR(&taskName);
-				zephir_array_fetch_long(&taskName, &parts, 1, PH_NOISY, "phalcon/Cli/Router/Route.zep", 428);
-				ZEPHIR_OBS_NVAR(&actionName);
-				zephir_array_fetch_long(&actionName, &parts, 2, PH_NOISY, "phalcon/Cli/Router/Route.zep", 429);
-				break;
-			}
-			if (_0$$4 == 2) {
-				ZEPHIR_OBS_NVAR(&taskName);
-				zephir_array_fetch_long(&taskName, &parts, 0, PH_NOISY, "phalcon/Cli/Router/Route.zep", 433);
-				ZEPHIR_OBS_NVAR(&actionName);
-				zephir_array_fetch_long(&actionName, &parts, 1, PH_NOISY, "phalcon/Cli/Router/Route.zep", 434);
-				break;
-			}
-			if (_0$$4 == 1) {
-				ZEPHIR_OBS_NVAR(&taskName);
-				zephir_array_fetch_long(&taskName, &parts, 0, PH_NOISY, "phalcon/Cli/Router/Route.zep", 438);
-				break;
-			}
-		} while(0);
+		_0$$4 = zephir_fast_count_int(&parts);
+		if (_0$$4 == 3) { goto zephir_switch_0_clause_0; }
+		if (_0$$4 == 2) { goto zephir_switch_0_clause_1; }
+		if (_0$$4 == 1) { goto zephir_switch_0_clause_2; }
+		goto zephir_switch_0_end;
+		zephir_switch_0_clause_0: ;
+			ZEPHIR_OBS_NVAR(&moduleName);
+			zephir_array_fetch_long(&moduleName, &parts, 0, PH_NOISY, "phalcon/Cli/Router/Route.zep", 427);
+			ZEPHIR_OBS_NVAR(&taskName);
+			zephir_array_fetch_long(&taskName, &parts, 1, PH_NOISY, "phalcon/Cli/Router/Route.zep", 428);
+			ZEPHIR_OBS_NVAR(&actionName);
+			zephir_array_fetch_long(&actionName, &parts, 2, PH_NOISY, "phalcon/Cli/Router/Route.zep", 429);
+			goto zephir_switch_0_end;
+		zephir_switch_0_clause_1: ;
+			ZEPHIR_OBS_NVAR(&taskName);
+			zephir_array_fetch_long(&taskName, &parts, 0, PH_NOISY, "phalcon/Cli/Router/Route.zep", 433);
+			ZEPHIR_OBS_NVAR(&actionName);
+			zephir_array_fetch_long(&actionName, &parts, 1, PH_NOISY, "phalcon/Cli/Router/Route.zep", 434);
+			goto zephir_switch_0_end;
+		zephir_switch_0_clause_2: ;
+			ZEPHIR_OBS_NVAR(&taskName);
+			zephir_array_fetch_long(&taskName, &parts, 0, PH_NOISY, "phalcon/Cli/Router/Route.zep", 438);
+			goto zephir_switch_0_end;
+		zephir_switch_0_end: ;
 
 		ZEPHIR_INIT_VAR(&routePaths);
 		array_init(&routePaths);

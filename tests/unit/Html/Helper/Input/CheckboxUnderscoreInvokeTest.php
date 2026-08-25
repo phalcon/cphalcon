@@ -262,4 +262,18 @@ final class CheckboxUnderscoreInvokeTest extends AbstractUnitTestCase
 
         $this->assertStringNotContainsString('<script>', $html);
     }
+
+    public function testRadioLabelTextIsEscaped(): void
+    {
+        $radio = new Radio(new Escaper());
+
+        $html = (string) $radio('agree', '1', [])
+            ->label(['text' => '<script>alert(1)</script>']);
+
+        $this->assertStringNotContainsString('<script>', $html);
+        $this->assertStringContainsString(
+            '&lt;script&gt;alert(1)&lt;/script&gt;',
+            $html
+        );
+    }
 }

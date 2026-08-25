@@ -202,7 +202,6 @@ PHP_METHOD(Phalcon_Queue_Adapter_Traits_SubscriptionConsumerTrait, consume)
 		ZEPHIR_CALL_FUNCTION(NULL, "usleep", &_12, 74, &_11$$4);
 		zephir_check_call_status();
 	}
-	ZEPHIR_MM_RESTORE();
 }
 
 /**

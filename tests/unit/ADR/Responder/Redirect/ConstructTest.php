@@ -30,4 +30,21 @@ final class ConstructTest extends AbstractUnitTestCase
 
         $this->assertSame(302, (new Redirect('/x'))->status());
     }
+
+    /**
+     * Unit Tests Phalcon\ADR\Responder\Redirect :: external()
+     *
+     * A redirect is internal unless the flag is passed, so a request-derived
+     * target cannot become an open redirect (CWE-601).
+     */
+    public function testAdrResponderRedirectConstructExternal(): void
+    {
+        $this->assertFalse((new Redirect('/home'))->external());
+        $this->assertFalse((new Redirect('/home', 301))->external());
+        $this->assertFalse((new Redirect('/home', 301, false))->external());
+
+        $this->assertTrue(
+            (new Redirect('https://example.com', 302, true))->external()
+        );
+    }
 }

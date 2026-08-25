@@ -975,31 +975,32 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, executePrepared)
 					zephir_check_call_status();
 					if (zephir_is_true(&_6$$9)) {
 						if (Z_TYPE_P(&value) != IS_ARRAY) {
-							do {
-								if (ZEPHIR_IS_LONG(&type, 1)) {
-									ZVAL_LONG(&_9$$12, 10);
-									ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_10, 96, &value, &_9$$12);
-									zephir_check_call_status();
-									break;
-								}
-								if (ZEPHIR_IS_LONG(&type, 2)) {
-									zephir_cast_to_string(&_11$$13, &value);
-									ZEPHIR_CPY_WRT(&castValue, &_11$$13);
-									break;
-								}
-								if (ZEPHIR_IS_LONG(&type, 0)) {
-									ZEPHIR_INIT_NVAR(&castValue);
-									ZVAL_NULL(&castValue);
-									break;
-								}
-								if (ZEPHIR_IS_LONG(&type, 5)) {
-									ZEPHIR_INIT_NVAR(&castValue);
-									ZVAL_BOOL(&castValue, zephir_get_boolval(&value));
-									break;
-								}
+							if (ZEPHIR_IS_LONG(&type, 1)) { goto zephir_switch_0_clause_0; }
+							if (ZEPHIR_IS_LONG(&type, 2)) { goto zephir_switch_0_clause_1; }
+							if (ZEPHIR_IS_LONG(&type, 0)) { goto zephir_switch_0_clause_2; }
+							if (ZEPHIR_IS_LONG(&type, 5)) { goto zephir_switch_0_clause_3; }
+							goto zephir_switch_0_clause_4;
+							zephir_switch_0_clause_0: ;
+								ZVAL_LONG(&_9$$12, 10);
+								ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_10, 96, &value, &_9$$12);
+								zephir_check_call_status();
+								goto zephir_switch_0_end;
+							zephir_switch_0_clause_1: ;
+								zephir_cast_to_string(&_11$$13, &value);
+								ZEPHIR_CPY_WRT(&castValue, &_11$$13);
+								goto zephir_switch_0_end;
+							zephir_switch_0_clause_2: ;
+								ZEPHIR_INIT_NVAR(&castValue);
+								ZVAL_NULL(&castValue);
+								goto zephir_switch_0_end;
+							zephir_switch_0_clause_3: ;
+								ZEPHIR_INIT_NVAR(&castValue);
+								ZVAL_BOOL(&castValue, zephir_get_boolval(&value));
+								goto zephir_switch_0_end;
+							zephir_switch_0_clause_4: ;
 								ZEPHIR_CPY_WRT(&castValue, &value);
-								break;
-							} while(0);
+								goto zephir_switch_0_end;
+							zephir_switch_0_end: ;
 
 						} else {
 							ZEPHIR_CPY_WRT(&castValue, &value);
@@ -1178,31 +1179,32 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, executePrepared)
 						zephir_check_call_status();
 						if (zephir_is_true(&_33$$40)) {
 							if (Z_TYPE_P(&value) != IS_ARRAY) {
-								do {
-									if (ZEPHIR_IS_LONG(&type, 1)) {
-										ZVAL_LONG(&_35$$43, 10);
-										ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_10, 96, &value, &_35$$43);
-										zephir_check_call_status();
-										break;
-									}
-									if (ZEPHIR_IS_LONG(&type, 2)) {
-										zephir_cast_to_string(&_36$$44, &value);
-										ZEPHIR_CPY_WRT(&castValue, &_36$$44);
-										break;
-									}
-									if (ZEPHIR_IS_LONG(&type, 0)) {
-										ZEPHIR_INIT_NVAR(&castValue);
-										ZVAL_NULL(&castValue);
-										break;
-									}
-									if (ZEPHIR_IS_LONG(&type, 5)) {
-										ZEPHIR_INIT_NVAR(&castValue);
-										ZVAL_BOOL(&castValue, zephir_get_boolval(&value));
-										break;
-									}
+								if (ZEPHIR_IS_LONG(&type, 1)) { goto zephir_switch_1_clause_0; }
+								if (ZEPHIR_IS_LONG(&type, 2)) { goto zephir_switch_1_clause_1; }
+								if (ZEPHIR_IS_LONG(&type, 0)) { goto zephir_switch_1_clause_2; }
+								if (ZEPHIR_IS_LONG(&type, 5)) { goto zephir_switch_1_clause_3; }
+								goto zephir_switch_1_clause_4;
+								zephir_switch_1_clause_0: ;
+									ZVAL_LONG(&_35$$43, 10);
+									ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_10, 96, &value, &_35$$43);
+									zephir_check_call_status();
+									goto zephir_switch_1_end;
+								zephir_switch_1_clause_1: ;
+									zephir_cast_to_string(&_36$$44, &value);
+									ZEPHIR_CPY_WRT(&castValue, &_36$$44);
+									goto zephir_switch_1_end;
+								zephir_switch_1_clause_2: ;
+									ZEPHIR_INIT_NVAR(&castValue);
+									ZVAL_NULL(&castValue);
+									goto zephir_switch_1_end;
+								zephir_switch_1_clause_3: ;
+									ZEPHIR_INIT_NVAR(&castValue);
+									ZVAL_BOOL(&castValue, zephir_get_boolval(&value));
+									goto zephir_switch_1_end;
+								zephir_switch_1_clause_4: ;
 									ZEPHIR_CPY_WRT(&castValue, &value);
-									break;
-								} while(0);
+									goto zephir_switch_1_end;
+								zephir_switch_1_end: ;
 
 							} else {
 								ZEPHIR_CPY_WRT(&castValue, &value);

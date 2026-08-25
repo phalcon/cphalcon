@@ -42,4 +42,21 @@ final class UnderscoreInvokeTest extends AbstractUnitTestCase
         $actual   = $factory->close("image");
         $this->assertSame($expected, $actual);
     }
+
+    /**
+     * The tag name must lose the characters that end a name, or a crafted
+     * name adds an attribute to the closing tag (CWE-79).
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-25
+     */
+    public function testHtmlHelperCloseUnderscoreInvokeStripsTagNameSplitters(): void
+    {
+        $escaper = new Escaper();
+        $helper  = new Close($escaper);
+
+        $expected = "</divonloadx>";
+        $actual   = $helper("div onload=x");
+        $this->assertSame($expected, $actual);
+    }
 }

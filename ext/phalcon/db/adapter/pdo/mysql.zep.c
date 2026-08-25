@@ -354,255 +354,256 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns)
 			ZEPHIR_CPY_WRT(&definition, &_7$$3);
 			ZEPHIR_OBS_NVAR(&columnType);
 			zephir_array_fetch_long(&columnType, &field, 1, PH_NOISY, "phalcon/Db/Adapter/Pdo/Mysql.zep", 143);
-			do {
-				_8$$3 = 1;
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("bigint"))) {
-					ZEPHIR_INIT_NVAR(&_9$$4);
-					ZVAL_LONG(&_9$$4, 14);
-					zephir_array_update_string(&definition, SL("type"), &_9$$4, PH_COPY | PH_SEPARATE);
-					zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_10$$4);
-					ZVAL_LONG(&_10$$4, 2);
-					zephir_array_update_string(&definition, SL("bindType"), &_10$$4, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("mediumint"))) {
-					ZEPHIR_INIT_NVAR(&_11$$5);
-					ZVAL_LONG(&_11$$5, 21);
-					zephir_array_update_string(&definition, SL("type"), &_11$$5, PH_COPY | PH_SEPARATE);
-					zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_12$$5);
-					ZVAL_LONG(&_12$$5, 1);
-					zephir_array_update_string(&definition, SL("bindType"), &_12$$5, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("smallint"))) {
-					ZEPHIR_INIT_NVAR(&_13$$6);
-					ZVAL_LONG(&_13$$6, 22);
-					zephir_array_update_string(&definition, SL("type"), &_13$$6, PH_COPY | PH_SEPARATE);
-					zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_14$$6);
-					ZVAL_LONG(&_14$$6, 1);
-					zephir_array_update_string(&definition, SL("bindType"), &_14$$6, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("tinyint"))) {
-					ZEPHIR_INIT_NVAR(&_15$$7);
-					ZVAL_LONG(&_15$$7, 26);
-					zephir_array_update_string(&definition, SL("type"), &_15$$7, PH_COPY | PH_SEPARATE);
-					zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_16$$7);
-					ZVAL_LONG(&_16$$7, 1);
-					zephir_array_update_string(&definition, SL("bindType"), &_16$$7, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("int"))) {
-					ZEPHIR_INIT_NVAR(&_17$$8);
-					ZVAL_LONG(&_17$$8, 0);
-					zephir_array_update_string(&definition, SL("type"), &_17$$8, PH_COPY | PH_SEPARATE);
-					zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_18$$8);
-					ZVAL_LONG(&_18$$8, 1);
-					zephir_array_update_string(&definition, SL("bindType"), &_18$$8, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("bit"))) {
-					ZEPHIR_INIT_NVAR(&_19$$9);
-					ZVAL_LONG(&_19$$9, 19);
-					zephir_array_update_string(&definition, SL("type"), &_19$$9, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_20$$9);
-					ZVAL_LONG(&_20$$9, 1);
-					zephir_array_update_string(&definition, SL("bindType"), &_20$$9, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("enum"))) {
-					ZEPHIR_INIT_NVAR(&_21$$10);
-					ZVAL_LONG(&_21$$10, 18);
-					zephir_array_update_string(&definition, SL("type"), &_21$$10, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("datetime"))) {
-					ZEPHIR_INIT_NVAR(&_22$$11);
-					ZVAL_LONG(&_22$$11, 4);
-					zephir_array_update_string(&definition, SL("type"), &_22$$11, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("date"))) {
-					ZEPHIR_INIT_NVAR(&_23$$12);
-					ZVAL_LONG(&_23$$12, 1);
-					zephir_array_update_string(&definition, SL("type"), &_23$$12, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("decimal"))) {
-					ZEPHIR_INIT_NVAR(&_24$$13);
-					ZVAL_LONG(&_24$$13, 3);
-					zephir_array_update_string(&definition, SL("type"), &_24$$13, PH_COPY | PH_SEPARATE);
-					zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("double"))) {
-					ZEPHIR_INIT_NVAR(&_25$$14);
-					ZVAL_LONG(&_25$$14, 9);
-					zephir_array_update_string(&definition, SL("type"), &_25$$14, PH_COPY | PH_SEPARATE);
-					zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_26$$14);
-					ZVAL_LONG(&_26$$14, 32);
-					zephir_array_update_string(&definition, SL("bindType"), &_26$$14, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("float"))) {
-					ZEPHIR_INIT_NVAR(&_27$$15);
-					ZVAL_LONG(&_27$$15, 7);
-					zephir_array_update_string(&definition, SL("type"), &_27$$15, PH_COPY | PH_SEPARATE);
-					zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_28$$15);
-					ZVAL_LONG(&_28$$15, 32);
-					zephir_array_update_string(&definition, SL("bindType"), &_28$$15, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("mediumblob"))) {
-					ZEPHIR_INIT_NVAR(&_29$$16);
-					ZVAL_LONG(&_29$$16, 12);
-					zephir_array_update_string(&definition, SL("type"), &_29$$16, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("longblob"))) {
-					ZEPHIR_INIT_NVAR(&_30$$17);
-					ZVAL_LONG(&_30$$17, 13);
-					zephir_array_update_string(&definition, SL("type"), &_30$$17, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("tinyblob"))) {
-					ZEPHIR_INIT_NVAR(&_31$$18);
-					ZVAL_LONG(&_31$$18, 10);
-					zephir_array_update_string(&definition, SL("type"), &_31$$18, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("blob"))) {
-					ZEPHIR_INIT_NVAR(&_32$$19);
-					ZVAL_LONG(&_32$$19, 11);
-					zephir_array_update_string(&definition, SL("type"), &_32$$19, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("timestamp"))) {
-					ZEPHIR_INIT_NVAR(&_33$$20);
-					ZVAL_LONG(&_33$$20, 17);
-					zephir_array_update_string(&definition, SL("type"), &_33$$20, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("time"))) {
-					ZEPHIR_INIT_NVAR(&_34$$21);
-					ZVAL_LONG(&_34$$21, 20);
-					zephir_array_update_string(&definition, SL("type"), &_34$$21, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("json"))) {
-					ZEPHIR_INIT_NVAR(&_35$$22);
-					ZVAL_LONG(&_35$$22, 15);
-					zephir_array_update_string(&definition, SL("type"), &_35$$22, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("longtext"))) {
-					ZEPHIR_INIT_NVAR(&_36$$23);
-					ZVAL_LONG(&_36$$23, 24);
-					zephir_array_update_string(&definition, SL("type"), &_36$$23, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("mediumtext"))) {
-					ZEPHIR_INIT_NVAR(&_37$$24);
-					ZVAL_LONG(&_37$$24, 23);
-					zephir_array_update_string(&definition, SL("type"), &_37$$24, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("tinytext"))) {
-					ZEPHIR_INIT_NVAR(&_38$$25);
-					ZVAL_LONG(&_38$$25, 25);
-					zephir_array_update_string(&definition, SL("type"), &_38$$25, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("text"))) {
-					ZEPHIR_INIT_NVAR(&_39$$26);
-					ZVAL_LONG(&_39$$26, 6);
-					zephir_array_update_string(&definition, SL("type"), &_39$$26, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("varchar"))) {
-					ZEPHIR_INIT_NVAR(&_40$$27);
-					ZVAL_LONG(&_40$$27, 2);
-					zephir_array_update_string(&definition, SL("type"), &_40$$27, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("char"))) {
-					ZEPHIR_INIT_NVAR(&_41$$28);
-					ZVAL_LONG(&_41$$28, 5);
-					zephir_array_update_string(&definition, SL("type"), &_41$$28, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("varbinary"))) {
-					ZEPHIR_INIT_NVAR(&_42$$29);
-					ZVAL_LONG(&_42$$29, 28);
-					zephir_array_update_string(&definition, SL("type"), &_42$$29, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("binary"))) {
-					ZEPHIR_INIT_NVAR(&_43$$30);
-					ZVAL_LONG(&_43$$30, 27);
-					zephir_array_update_string(&definition, SL("type"), &_43$$30, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("multipoint"))) {
-					ZEPHIR_INIT_NVAR(&_44$$31);
-					ZVAL_LONG(&_44$$31, 44);
-					zephir_array_update_string(&definition, SL("type"), &_44$$31, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("multilinestring"))) {
-					ZEPHIR_INIT_NVAR(&_45$$32);
-					ZVAL_LONG(&_45$$32, 45);
-					zephir_array_update_string(&definition, SL("type"), &_45$$32, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("multipolygon"))) {
-					ZEPHIR_INIT_NVAR(&_46$$33);
-					ZVAL_LONG(&_46$$33, 46);
-					zephir_array_update_string(&definition, SL("type"), &_46$$33, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("geometrycollection"))) {
-					ZEPHIR_INIT_NVAR(&_47$$34);
-					ZVAL_LONG(&_47$$34, 47);
-					zephir_array_update_string(&definition, SL("type"), &_47$$34, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("linestring"))) {
-					ZEPHIR_INIT_NVAR(&_48$$35);
-					ZVAL_LONG(&_48$$35, 42);
-					zephir_array_update_string(&definition, SL("type"), &_48$$35, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("polygon"))) {
-					ZEPHIR_INIT_NVAR(&_49$$36);
-					ZVAL_LONG(&_49$$36, 43);
-					zephir_array_update_string(&definition, SL("type"), &_49$$36, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("point"))) {
-					ZEPHIR_INIT_NVAR(&_50$$37);
-					ZVAL_LONG(&_50$$37, 41);
-					zephir_array_update_string(&definition, SL("type"), &_50$$37, PH_COPY | PH_SEPARATE);
-					break;
-				}
-				if (_8$$3 == zephir_start_with_str(&columnType, SL("geometry"))) {
-					ZEPHIR_INIT_NVAR(&_51$$38);
-					ZVAL_LONG(&_51$$38, 40);
-					zephir_array_update_string(&definition, SL("type"), &_51$$38, PH_COPY | PH_SEPARATE);
-					break;
-				}
+			_8$$3 = 1;
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("bigint"))) { goto zephir_switch_0_clause_0; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("mediumint"))) { goto zephir_switch_0_clause_1; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("smallint"))) { goto zephir_switch_0_clause_2; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("tinyint"))) { goto zephir_switch_0_clause_3; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("int"))) { goto zephir_switch_0_clause_4; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("bit"))) { goto zephir_switch_0_clause_5; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("enum"))) { goto zephir_switch_0_clause_6; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("datetime"))) { goto zephir_switch_0_clause_7; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("date"))) { goto zephir_switch_0_clause_8; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("decimal"))) { goto zephir_switch_0_clause_9; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("double"))) { goto zephir_switch_0_clause_10; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("float"))) { goto zephir_switch_0_clause_11; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("mediumblob"))) { goto zephir_switch_0_clause_12; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("longblob"))) { goto zephir_switch_0_clause_13; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("tinyblob"))) { goto zephir_switch_0_clause_14; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("blob"))) { goto zephir_switch_0_clause_15; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("timestamp"))) { goto zephir_switch_0_clause_16; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("time"))) { goto zephir_switch_0_clause_17; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("json"))) { goto zephir_switch_0_clause_18; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("longtext"))) { goto zephir_switch_0_clause_19; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("mediumtext"))) { goto zephir_switch_0_clause_20; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("tinytext"))) { goto zephir_switch_0_clause_21; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("text"))) { goto zephir_switch_0_clause_22; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("varchar"))) { goto zephir_switch_0_clause_23; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("char"))) { goto zephir_switch_0_clause_24; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("varbinary"))) { goto zephir_switch_0_clause_25; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("binary"))) { goto zephir_switch_0_clause_26; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("multipoint"))) { goto zephir_switch_0_clause_27; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("multilinestring"))) { goto zephir_switch_0_clause_28; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("multipolygon"))) { goto zephir_switch_0_clause_29; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("geometrycollection"))) { goto zephir_switch_0_clause_30; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("linestring"))) { goto zephir_switch_0_clause_31; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("polygon"))) { goto zephir_switch_0_clause_32; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("point"))) { goto zephir_switch_0_clause_33; }
+			if (_8$$3 == zephir_start_with_str(&columnType, SL("geometry"))) { goto zephir_switch_0_clause_34; }
+			goto zephir_switch_0_clause_35;
+			zephir_switch_0_clause_0: ;
+				ZEPHIR_INIT_NVAR(&_9$$4);
+				ZVAL_LONG(&_9$$4, 14);
+				zephir_array_update_string(&definition, SL("type"), &_9$$4, PH_COPY | PH_SEPARATE);
+				zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_10$$4);
+				ZVAL_LONG(&_10$$4, 2);
+				zephir_array_update_string(&definition, SL("bindType"), &_10$$4, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_1: ;
+				ZEPHIR_INIT_NVAR(&_11$$5);
+				ZVAL_LONG(&_11$$5, 21);
+				zephir_array_update_string(&definition, SL("type"), &_11$$5, PH_COPY | PH_SEPARATE);
+				zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_12$$5);
+				ZVAL_LONG(&_12$$5, 1);
+				zephir_array_update_string(&definition, SL("bindType"), &_12$$5, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_2: ;
+				ZEPHIR_INIT_NVAR(&_13$$6);
+				ZVAL_LONG(&_13$$6, 22);
+				zephir_array_update_string(&definition, SL("type"), &_13$$6, PH_COPY | PH_SEPARATE);
+				zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_14$$6);
+				ZVAL_LONG(&_14$$6, 1);
+				zephir_array_update_string(&definition, SL("bindType"), &_14$$6, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_3: ;
+				ZEPHIR_INIT_NVAR(&_15$$7);
+				ZVAL_LONG(&_15$$7, 26);
+				zephir_array_update_string(&definition, SL("type"), &_15$$7, PH_COPY | PH_SEPARATE);
+				zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_16$$7);
+				ZVAL_LONG(&_16$$7, 1);
+				zephir_array_update_string(&definition, SL("bindType"), &_16$$7, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_4: ;
+				ZEPHIR_INIT_NVAR(&_17$$8);
+				ZVAL_LONG(&_17$$8, 0);
+				zephir_array_update_string(&definition, SL("type"), &_17$$8, PH_COPY | PH_SEPARATE);
+				zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_18$$8);
+				ZVAL_LONG(&_18$$8, 1);
+				zephir_array_update_string(&definition, SL("bindType"), &_18$$8, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_5: ;
+				ZEPHIR_INIT_NVAR(&_19$$9);
+				ZVAL_LONG(&_19$$9, 19);
+				zephir_array_update_string(&definition, SL("type"), &_19$$9, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_20$$9);
+				ZVAL_LONG(&_20$$9, 1);
+				zephir_array_update_string(&definition, SL("bindType"), &_20$$9, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_6: ;
+				ZEPHIR_INIT_NVAR(&_21$$10);
+				ZVAL_LONG(&_21$$10, 18);
+				zephir_array_update_string(&definition, SL("type"), &_21$$10, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_7: ;
+				ZEPHIR_INIT_NVAR(&_22$$11);
+				ZVAL_LONG(&_22$$11, 4);
+				zephir_array_update_string(&definition, SL("type"), &_22$$11, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_8: ;
+				ZEPHIR_INIT_NVAR(&_23$$12);
+				ZVAL_LONG(&_23$$12, 1);
+				zephir_array_update_string(&definition, SL("type"), &_23$$12, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_9: ;
+				ZEPHIR_INIT_NVAR(&_24$$13);
+				ZVAL_LONG(&_24$$13, 3);
+				zephir_array_update_string(&definition, SL("type"), &_24$$13, PH_COPY | PH_SEPARATE);
+				zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_10: ;
+				ZEPHIR_INIT_NVAR(&_25$$14);
+				ZVAL_LONG(&_25$$14, 9);
+				zephir_array_update_string(&definition, SL("type"), &_25$$14, PH_COPY | PH_SEPARATE);
+				zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_26$$14);
+				ZVAL_LONG(&_26$$14, 32);
+				zephir_array_update_string(&definition, SL("bindType"), &_26$$14, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_11: ;
+				ZEPHIR_INIT_NVAR(&_27$$15);
+				ZVAL_LONG(&_27$$15, 7);
+				zephir_array_update_string(&definition, SL("type"), &_27$$15, PH_COPY | PH_SEPARATE);
+				zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_28$$15);
+				ZVAL_LONG(&_28$$15, 32);
+				zephir_array_update_string(&definition, SL("bindType"), &_28$$15, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_12: ;
+				ZEPHIR_INIT_NVAR(&_29$$16);
+				ZVAL_LONG(&_29$$16, 12);
+				zephir_array_update_string(&definition, SL("type"), &_29$$16, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_13: ;
+				ZEPHIR_INIT_NVAR(&_30$$17);
+				ZVAL_LONG(&_30$$17, 13);
+				zephir_array_update_string(&definition, SL("type"), &_30$$17, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_14: ;
+				ZEPHIR_INIT_NVAR(&_31$$18);
+				ZVAL_LONG(&_31$$18, 10);
+				zephir_array_update_string(&definition, SL("type"), &_31$$18, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_15: ;
+				ZEPHIR_INIT_NVAR(&_32$$19);
+				ZVAL_LONG(&_32$$19, 11);
+				zephir_array_update_string(&definition, SL("type"), &_32$$19, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_16: ;
+				ZEPHIR_INIT_NVAR(&_33$$20);
+				ZVAL_LONG(&_33$$20, 17);
+				zephir_array_update_string(&definition, SL("type"), &_33$$20, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_17: ;
+				ZEPHIR_INIT_NVAR(&_34$$21);
+				ZVAL_LONG(&_34$$21, 20);
+				zephir_array_update_string(&definition, SL("type"), &_34$$21, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_18: ;
+				ZEPHIR_INIT_NVAR(&_35$$22);
+				ZVAL_LONG(&_35$$22, 15);
+				zephir_array_update_string(&definition, SL("type"), &_35$$22, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_19: ;
+				ZEPHIR_INIT_NVAR(&_36$$23);
+				ZVAL_LONG(&_36$$23, 24);
+				zephir_array_update_string(&definition, SL("type"), &_36$$23, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_20: ;
+				ZEPHIR_INIT_NVAR(&_37$$24);
+				ZVAL_LONG(&_37$$24, 23);
+				zephir_array_update_string(&definition, SL("type"), &_37$$24, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_21: ;
+				ZEPHIR_INIT_NVAR(&_38$$25);
+				ZVAL_LONG(&_38$$25, 25);
+				zephir_array_update_string(&definition, SL("type"), &_38$$25, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_22: ;
+				ZEPHIR_INIT_NVAR(&_39$$26);
+				ZVAL_LONG(&_39$$26, 6);
+				zephir_array_update_string(&definition, SL("type"), &_39$$26, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_23: ;
+				ZEPHIR_INIT_NVAR(&_40$$27);
+				ZVAL_LONG(&_40$$27, 2);
+				zephir_array_update_string(&definition, SL("type"), &_40$$27, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_24: ;
+				ZEPHIR_INIT_NVAR(&_41$$28);
+				ZVAL_LONG(&_41$$28, 5);
+				zephir_array_update_string(&definition, SL("type"), &_41$$28, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_25: ;
+				ZEPHIR_INIT_NVAR(&_42$$29);
+				ZVAL_LONG(&_42$$29, 28);
+				zephir_array_update_string(&definition, SL("type"), &_42$$29, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_26: ;
+				ZEPHIR_INIT_NVAR(&_43$$30);
+				ZVAL_LONG(&_43$$30, 27);
+				zephir_array_update_string(&definition, SL("type"), &_43$$30, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_27: ;
+				ZEPHIR_INIT_NVAR(&_44$$31);
+				ZVAL_LONG(&_44$$31, 44);
+				zephir_array_update_string(&definition, SL("type"), &_44$$31, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_28: ;
+				ZEPHIR_INIT_NVAR(&_45$$32);
+				ZVAL_LONG(&_45$$32, 45);
+				zephir_array_update_string(&definition, SL("type"), &_45$$32, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_29: ;
+				ZEPHIR_INIT_NVAR(&_46$$33);
+				ZVAL_LONG(&_46$$33, 46);
+				zephir_array_update_string(&definition, SL("type"), &_46$$33, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_30: ;
+				ZEPHIR_INIT_NVAR(&_47$$34);
+				ZVAL_LONG(&_47$$34, 47);
+				zephir_array_update_string(&definition, SL("type"), &_47$$34, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_31: ;
+				ZEPHIR_INIT_NVAR(&_48$$35);
+				ZVAL_LONG(&_48$$35, 42);
+				zephir_array_update_string(&definition, SL("type"), &_48$$35, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_32: ;
+				ZEPHIR_INIT_NVAR(&_49$$36);
+				ZVAL_LONG(&_49$$36, 43);
+				zephir_array_update_string(&definition, SL("type"), &_49$$36, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_33: ;
+				ZEPHIR_INIT_NVAR(&_50$$37);
+				ZVAL_LONG(&_50$$37, 41);
+				zephir_array_update_string(&definition, SL("type"), &_50$$37, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_34: ;
+				ZEPHIR_INIT_NVAR(&_51$$38);
+				ZVAL_LONG(&_51$$38, 40);
+				zephir_array_update_string(&definition, SL("type"), &_51$$38, PH_COPY | PH_SEPARATE);
+				goto zephir_switch_0_end;
+			zephir_switch_0_clause_35: ;
 				ZEPHIR_INIT_NVAR(&_52$$39);
 				ZVAL_LONG(&_52$$39, 2);
 				zephir_array_update_string(&definition, SL("type"), &_52$$39, PH_COPY | PH_SEPARATE);
-				break;
-			} while(0);
+				goto zephir_switch_0_end;
+			zephir_switch_0_end: ;
 
 			if (zephir_memnstr_str(&columnType, SL("("), "phalcon/Db/Adapter/Pdo/Mysql.zep", 451)) {
 				ZEPHIR_INIT_NVAR(&matches);
@@ -748,255 +749,256 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns)
 				ZEPHIR_CPY_WRT(&definition, &_79$$63);
 				ZEPHIR_OBS_NVAR(&columnType);
 				zephir_array_fetch_long(&columnType, &field, 1, PH_NOISY, "phalcon/Db/Adapter/Pdo/Mysql.zep", 143);
-				do {
-					_80$$63 = 1;
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("bigint"))) {
-						ZEPHIR_INIT_NVAR(&_81$$64);
-						ZVAL_LONG(&_81$$64, 14);
-						zephir_array_update_string(&definition, SL("type"), &_81$$64, PH_COPY | PH_SEPARATE);
-						zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_82$$64);
-						ZVAL_LONG(&_82$$64, 2);
-						zephir_array_update_string(&definition, SL("bindType"), &_82$$64, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("mediumint"))) {
-						ZEPHIR_INIT_NVAR(&_83$$65);
-						ZVAL_LONG(&_83$$65, 21);
-						zephir_array_update_string(&definition, SL("type"), &_83$$65, PH_COPY | PH_SEPARATE);
-						zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_84$$65);
-						ZVAL_LONG(&_84$$65, 1);
-						zephir_array_update_string(&definition, SL("bindType"), &_84$$65, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("smallint"))) {
-						ZEPHIR_INIT_NVAR(&_85$$66);
-						ZVAL_LONG(&_85$$66, 22);
-						zephir_array_update_string(&definition, SL("type"), &_85$$66, PH_COPY | PH_SEPARATE);
-						zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_86$$66);
-						ZVAL_LONG(&_86$$66, 1);
-						zephir_array_update_string(&definition, SL("bindType"), &_86$$66, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("tinyint"))) {
-						ZEPHIR_INIT_NVAR(&_87$$67);
-						ZVAL_LONG(&_87$$67, 26);
-						zephir_array_update_string(&definition, SL("type"), &_87$$67, PH_COPY | PH_SEPARATE);
-						zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_88$$67);
-						ZVAL_LONG(&_88$$67, 1);
-						zephir_array_update_string(&definition, SL("bindType"), &_88$$67, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("int"))) {
-						ZEPHIR_INIT_NVAR(&_89$$68);
-						ZVAL_LONG(&_89$$68, 0);
-						zephir_array_update_string(&definition, SL("type"), &_89$$68, PH_COPY | PH_SEPARATE);
-						zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_90$$68);
-						ZVAL_LONG(&_90$$68, 1);
-						zephir_array_update_string(&definition, SL("bindType"), &_90$$68, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("bit"))) {
-						ZEPHIR_INIT_NVAR(&_91$$69);
-						ZVAL_LONG(&_91$$69, 19);
-						zephir_array_update_string(&definition, SL("type"), &_91$$69, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_92$$69);
-						ZVAL_LONG(&_92$$69, 1);
-						zephir_array_update_string(&definition, SL("bindType"), &_92$$69, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("enum"))) {
-						ZEPHIR_INIT_NVAR(&_93$$70);
-						ZVAL_LONG(&_93$$70, 18);
-						zephir_array_update_string(&definition, SL("type"), &_93$$70, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("datetime"))) {
-						ZEPHIR_INIT_NVAR(&_94$$71);
-						ZVAL_LONG(&_94$$71, 4);
-						zephir_array_update_string(&definition, SL("type"), &_94$$71, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("date"))) {
-						ZEPHIR_INIT_NVAR(&_95$$72);
-						ZVAL_LONG(&_95$$72, 1);
-						zephir_array_update_string(&definition, SL("type"), &_95$$72, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("decimal"))) {
-						ZEPHIR_INIT_NVAR(&_96$$73);
-						ZVAL_LONG(&_96$$73, 3);
-						zephir_array_update_string(&definition, SL("type"), &_96$$73, PH_COPY | PH_SEPARATE);
-						zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("double"))) {
-						ZEPHIR_INIT_NVAR(&_97$$74);
-						ZVAL_LONG(&_97$$74, 9);
-						zephir_array_update_string(&definition, SL("type"), &_97$$74, PH_COPY | PH_SEPARATE);
-						zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_98$$74);
-						ZVAL_LONG(&_98$$74, 32);
-						zephir_array_update_string(&definition, SL("bindType"), &_98$$74, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("float"))) {
-						ZEPHIR_INIT_NVAR(&_99$$75);
-						ZVAL_LONG(&_99$$75, 7);
-						zephir_array_update_string(&definition, SL("type"), &_99$$75, PH_COPY | PH_SEPARATE);
-						zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
-						ZEPHIR_INIT_NVAR(&_100$$75);
-						ZVAL_LONG(&_100$$75, 32);
-						zephir_array_update_string(&definition, SL("bindType"), &_100$$75, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("mediumblob"))) {
-						ZEPHIR_INIT_NVAR(&_101$$76);
-						ZVAL_LONG(&_101$$76, 12);
-						zephir_array_update_string(&definition, SL("type"), &_101$$76, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("longblob"))) {
-						ZEPHIR_INIT_NVAR(&_102$$77);
-						ZVAL_LONG(&_102$$77, 13);
-						zephir_array_update_string(&definition, SL("type"), &_102$$77, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("tinyblob"))) {
-						ZEPHIR_INIT_NVAR(&_103$$78);
-						ZVAL_LONG(&_103$$78, 10);
-						zephir_array_update_string(&definition, SL("type"), &_103$$78, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("blob"))) {
-						ZEPHIR_INIT_NVAR(&_104$$79);
-						ZVAL_LONG(&_104$$79, 11);
-						zephir_array_update_string(&definition, SL("type"), &_104$$79, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("timestamp"))) {
-						ZEPHIR_INIT_NVAR(&_105$$80);
-						ZVAL_LONG(&_105$$80, 17);
-						zephir_array_update_string(&definition, SL("type"), &_105$$80, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("time"))) {
-						ZEPHIR_INIT_NVAR(&_106$$81);
-						ZVAL_LONG(&_106$$81, 20);
-						zephir_array_update_string(&definition, SL("type"), &_106$$81, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("json"))) {
-						ZEPHIR_INIT_NVAR(&_107$$82);
-						ZVAL_LONG(&_107$$82, 15);
-						zephir_array_update_string(&definition, SL("type"), &_107$$82, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("longtext"))) {
-						ZEPHIR_INIT_NVAR(&_108$$83);
-						ZVAL_LONG(&_108$$83, 24);
-						zephir_array_update_string(&definition, SL("type"), &_108$$83, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("mediumtext"))) {
-						ZEPHIR_INIT_NVAR(&_109$$84);
-						ZVAL_LONG(&_109$$84, 23);
-						zephir_array_update_string(&definition, SL("type"), &_109$$84, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("tinytext"))) {
-						ZEPHIR_INIT_NVAR(&_110$$85);
-						ZVAL_LONG(&_110$$85, 25);
-						zephir_array_update_string(&definition, SL("type"), &_110$$85, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("text"))) {
-						ZEPHIR_INIT_NVAR(&_111$$86);
-						ZVAL_LONG(&_111$$86, 6);
-						zephir_array_update_string(&definition, SL("type"), &_111$$86, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("varchar"))) {
-						ZEPHIR_INIT_NVAR(&_112$$87);
-						ZVAL_LONG(&_112$$87, 2);
-						zephir_array_update_string(&definition, SL("type"), &_112$$87, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("char"))) {
-						ZEPHIR_INIT_NVAR(&_113$$88);
-						ZVAL_LONG(&_113$$88, 5);
-						zephir_array_update_string(&definition, SL("type"), &_113$$88, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("varbinary"))) {
-						ZEPHIR_INIT_NVAR(&_114$$89);
-						ZVAL_LONG(&_114$$89, 28);
-						zephir_array_update_string(&definition, SL("type"), &_114$$89, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("binary"))) {
-						ZEPHIR_INIT_NVAR(&_115$$90);
-						ZVAL_LONG(&_115$$90, 27);
-						zephir_array_update_string(&definition, SL("type"), &_115$$90, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("multipoint"))) {
-						ZEPHIR_INIT_NVAR(&_116$$91);
-						ZVAL_LONG(&_116$$91, 44);
-						zephir_array_update_string(&definition, SL("type"), &_116$$91, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("multilinestring"))) {
-						ZEPHIR_INIT_NVAR(&_117$$92);
-						ZVAL_LONG(&_117$$92, 45);
-						zephir_array_update_string(&definition, SL("type"), &_117$$92, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("multipolygon"))) {
-						ZEPHIR_INIT_NVAR(&_118$$93);
-						ZVAL_LONG(&_118$$93, 46);
-						zephir_array_update_string(&definition, SL("type"), &_118$$93, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("geometrycollection"))) {
-						ZEPHIR_INIT_NVAR(&_119$$94);
-						ZVAL_LONG(&_119$$94, 47);
-						zephir_array_update_string(&definition, SL("type"), &_119$$94, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("linestring"))) {
-						ZEPHIR_INIT_NVAR(&_120$$95);
-						ZVAL_LONG(&_120$$95, 42);
-						zephir_array_update_string(&definition, SL("type"), &_120$$95, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("polygon"))) {
-						ZEPHIR_INIT_NVAR(&_121$$96);
-						ZVAL_LONG(&_121$$96, 43);
-						zephir_array_update_string(&definition, SL("type"), &_121$$96, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("point"))) {
-						ZEPHIR_INIT_NVAR(&_122$$97);
-						ZVAL_LONG(&_122$$97, 41);
-						zephir_array_update_string(&definition, SL("type"), &_122$$97, PH_COPY | PH_SEPARATE);
-						break;
-					}
-					if (_80$$63 == zephir_start_with_str(&columnType, SL("geometry"))) {
-						ZEPHIR_INIT_NVAR(&_123$$98);
-						ZVAL_LONG(&_123$$98, 40);
-						zephir_array_update_string(&definition, SL("type"), &_123$$98, PH_COPY | PH_SEPARATE);
-						break;
-					}
+				_80$$63 = 1;
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("bigint"))) { goto zephir_switch_1_clause_0; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("mediumint"))) { goto zephir_switch_1_clause_1; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("smallint"))) { goto zephir_switch_1_clause_2; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("tinyint"))) { goto zephir_switch_1_clause_3; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("int"))) { goto zephir_switch_1_clause_4; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("bit"))) { goto zephir_switch_1_clause_5; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("enum"))) { goto zephir_switch_1_clause_6; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("datetime"))) { goto zephir_switch_1_clause_7; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("date"))) { goto zephir_switch_1_clause_8; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("decimal"))) { goto zephir_switch_1_clause_9; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("double"))) { goto zephir_switch_1_clause_10; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("float"))) { goto zephir_switch_1_clause_11; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("mediumblob"))) { goto zephir_switch_1_clause_12; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("longblob"))) { goto zephir_switch_1_clause_13; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("tinyblob"))) { goto zephir_switch_1_clause_14; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("blob"))) { goto zephir_switch_1_clause_15; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("timestamp"))) { goto zephir_switch_1_clause_16; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("time"))) { goto zephir_switch_1_clause_17; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("json"))) { goto zephir_switch_1_clause_18; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("longtext"))) { goto zephir_switch_1_clause_19; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("mediumtext"))) { goto zephir_switch_1_clause_20; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("tinytext"))) { goto zephir_switch_1_clause_21; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("text"))) { goto zephir_switch_1_clause_22; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("varchar"))) { goto zephir_switch_1_clause_23; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("char"))) { goto zephir_switch_1_clause_24; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("varbinary"))) { goto zephir_switch_1_clause_25; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("binary"))) { goto zephir_switch_1_clause_26; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("multipoint"))) { goto zephir_switch_1_clause_27; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("multilinestring"))) { goto zephir_switch_1_clause_28; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("multipolygon"))) { goto zephir_switch_1_clause_29; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("geometrycollection"))) { goto zephir_switch_1_clause_30; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("linestring"))) { goto zephir_switch_1_clause_31; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("polygon"))) { goto zephir_switch_1_clause_32; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("point"))) { goto zephir_switch_1_clause_33; }
+				if (_80$$63 == zephir_start_with_str(&columnType, SL("geometry"))) { goto zephir_switch_1_clause_34; }
+				goto zephir_switch_1_clause_35;
+				zephir_switch_1_clause_0: ;
+					ZEPHIR_INIT_NVAR(&_81$$64);
+					ZVAL_LONG(&_81$$64, 14);
+					zephir_array_update_string(&definition, SL("type"), &_81$$64, PH_COPY | PH_SEPARATE);
+					zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_82$$64);
+					ZVAL_LONG(&_82$$64, 2);
+					zephir_array_update_string(&definition, SL("bindType"), &_82$$64, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_1: ;
+					ZEPHIR_INIT_NVAR(&_83$$65);
+					ZVAL_LONG(&_83$$65, 21);
+					zephir_array_update_string(&definition, SL("type"), &_83$$65, PH_COPY | PH_SEPARATE);
+					zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_84$$65);
+					ZVAL_LONG(&_84$$65, 1);
+					zephir_array_update_string(&definition, SL("bindType"), &_84$$65, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_2: ;
+					ZEPHIR_INIT_NVAR(&_85$$66);
+					ZVAL_LONG(&_85$$66, 22);
+					zephir_array_update_string(&definition, SL("type"), &_85$$66, PH_COPY | PH_SEPARATE);
+					zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_86$$66);
+					ZVAL_LONG(&_86$$66, 1);
+					zephir_array_update_string(&definition, SL("bindType"), &_86$$66, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_3: ;
+					ZEPHIR_INIT_NVAR(&_87$$67);
+					ZVAL_LONG(&_87$$67, 26);
+					zephir_array_update_string(&definition, SL("type"), &_87$$67, PH_COPY | PH_SEPARATE);
+					zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_88$$67);
+					ZVAL_LONG(&_88$$67, 1);
+					zephir_array_update_string(&definition, SL("bindType"), &_88$$67, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_4: ;
+					ZEPHIR_INIT_NVAR(&_89$$68);
+					ZVAL_LONG(&_89$$68, 0);
+					zephir_array_update_string(&definition, SL("type"), &_89$$68, PH_COPY | PH_SEPARATE);
+					zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_90$$68);
+					ZVAL_LONG(&_90$$68, 1);
+					zephir_array_update_string(&definition, SL("bindType"), &_90$$68, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_5: ;
+					ZEPHIR_INIT_NVAR(&_91$$69);
+					ZVAL_LONG(&_91$$69, 19);
+					zephir_array_update_string(&definition, SL("type"), &_91$$69, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_92$$69);
+					ZVAL_LONG(&_92$$69, 1);
+					zephir_array_update_string(&definition, SL("bindType"), &_92$$69, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_6: ;
+					ZEPHIR_INIT_NVAR(&_93$$70);
+					ZVAL_LONG(&_93$$70, 18);
+					zephir_array_update_string(&definition, SL("type"), &_93$$70, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_7: ;
+					ZEPHIR_INIT_NVAR(&_94$$71);
+					ZVAL_LONG(&_94$$71, 4);
+					zephir_array_update_string(&definition, SL("type"), &_94$$71, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_8: ;
+					ZEPHIR_INIT_NVAR(&_95$$72);
+					ZVAL_LONG(&_95$$72, 1);
+					zephir_array_update_string(&definition, SL("type"), &_95$$72, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_9: ;
+					ZEPHIR_INIT_NVAR(&_96$$73);
+					ZVAL_LONG(&_96$$73, 3);
+					zephir_array_update_string(&definition, SL("type"), &_96$$73, PH_COPY | PH_SEPARATE);
+					zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_10: ;
+					ZEPHIR_INIT_NVAR(&_97$$74);
+					ZVAL_LONG(&_97$$74, 9);
+					zephir_array_update_string(&definition, SL("type"), &_97$$74, PH_COPY | PH_SEPARATE);
+					zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_98$$74);
+					ZVAL_LONG(&_98$$74, 32);
+					zephir_array_update_string(&definition, SL("bindType"), &_98$$74, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_11: ;
+					ZEPHIR_INIT_NVAR(&_99$$75);
+					ZVAL_LONG(&_99$$75, 7);
+					zephir_array_update_string(&definition, SL("type"), &_99$$75, PH_COPY | PH_SEPARATE);
+					zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_100$$75);
+					ZVAL_LONG(&_100$$75, 32);
+					zephir_array_update_string(&definition, SL("bindType"), &_100$$75, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_12: ;
+					ZEPHIR_INIT_NVAR(&_101$$76);
+					ZVAL_LONG(&_101$$76, 12);
+					zephir_array_update_string(&definition, SL("type"), &_101$$76, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_13: ;
+					ZEPHIR_INIT_NVAR(&_102$$77);
+					ZVAL_LONG(&_102$$77, 13);
+					zephir_array_update_string(&definition, SL("type"), &_102$$77, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_14: ;
+					ZEPHIR_INIT_NVAR(&_103$$78);
+					ZVAL_LONG(&_103$$78, 10);
+					zephir_array_update_string(&definition, SL("type"), &_103$$78, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_15: ;
+					ZEPHIR_INIT_NVAR(&_104$$79);
+					ZVAL_LONG(&_104$$79, 11);
+					zephir_array_update_string(&definition, SL("type"), &_104$$79, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_16: ;
+					ZEPHIR_INIT_NVAR(&_105$$80);
+					ZVAL_LONG(&_105$$80, 17);
+					zephir_array_update_string(&definition, SL("type"), &_105$$80, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_17: ;
+					ZEPHIR_INIT_NVAR(&_106$$81);
+					ZVAL_LONG(&_106$$81, 20);
+					zephir_array_update_string(&definition, SL("type"), &_106$$81, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_18: ;
+					ZEPHIR_INIT_NVAR(&_107$$82);
+					ZVAL_LONG(&_107$$82, 15);
+					zephir_array_update_string(&definition, SL("type"), &_107$$82, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_19: ;
+					ZEPHIR_INIT_NVAR(&_108$$83);
+					ZVAL_LONG(&_108$$83, 24);
+					zephir_array_update_string(&definition, SL("type"), &_108$$83, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_20: ;
+					ZEPHIR_INIT_NVAR(&_109$$84);
+					ZVAL_LONG(&_109$$84, 23);
+					zephir_array_update_string(&definition, SL("type"), &_109$$84, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_21: ;
+					ZEPHIR_INIT_NVAR(&_110$$85);
+					ZVAL_LONG(&_110$$85, 25);
+					zephir_array_update_string(&definition, SL("type"), &_110$$85, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_22: ;
+					ZEPHIR_INIT_NVAR(&_111$$86);
+					ZVAL_LONG(&_111$$86, 6);
+					zephir_array_update_string(&definition, SL("type"), &_111$$86, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_23: ;
+					ZEPHIR_INIT_NVAR(&_112$$87);
+					ZVAL_LONG(&_112$$87, 2);
+					zephir_array_update_string(&definition, SL("type"), &_112$$87, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_24: ;
+					ZEPHIR_INIT_NVAR(&_113$$88);
+					ZVAL_LONG(&_113$$88, 5);
+					zephir_array_update_string(&definition, SL("type"), &_113$$88, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_25: ;
+					ZEPHIR_INIT_NVAR(&_114$$89);
+					ZVAL_LONG(&_114$$89, 28);
+					zephir_array_update_string(&definition, SL("type"), &_114$$89, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_26: ;
+					ZEPHIR_INIT_NVAR(&_115$$90);
+					ZVAL_LONG(&_115$$90, 27);
+					zephir_array_update_string(&definition, SL("type"), &_115$$90, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_27: ;
+					ZEPHIR_INIT_NVAR(&_116$$91);
+					ZVAL_LONG(&_116$$91, 44);
+					zephir_array_update_string(&definition, SL("type"), &_116$$91, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_28: ;
+					ZEPHIR_INIT_NVAR(&_117$$92);
+					ZVAL_LONG(&_117$$92, 45);
+					zephir_array_update_string(&definition, SL("type"), &_117$$92, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_29: ;
+					ZEPHIR_INIT_NVAR(&_118$$93);
+					ZVAL_LONG(&_118$$93, 46);
+					zephir_array_update_string(&definition, SL("type"), &_118$$93, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_30: ;
+					ZEPHIR_INIT_NVAR(&_119$$94);
+					ZVAL_LONG(&_119$$94, 47);
+					zephir_array_update_string(&definition, SL("type"), &_119$$94, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_31: ;
+					ZEPHIR_INIT_NVAR(&_120$$95);
+					ZVAL_LONG(&_120$$95, 42);
+					zephir_array_update_string(&definition, SL("type"), &_120$$95, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_32: ;
+					ZEPHIR_INIT_NVAR(&_121$$96);
+					ZVAL_LONG(&_121$$96, 43);
+					zephir_array_update_string(&definition, SL("type"), &_121$$96, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_33: ;
+					ZEPHIR_INIT_NVAR(&_122$$97);
+					ZVAL_LONG(&_122$$97, 41);
+					zephir_array_update_string(&definition, SL("type"), &_122$$97, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_34: ;
+					ZEPHIR_INIT_NVAR(&_123$$98);
+					ZVAL_LONG(&_123$$98, 40);
+					zephir_array_update_string(&definition, SL("type"), &_123$$98, PH_COPY | PH_SEPARATE);
+					goto zephir_switch_1_end;
+				zephir_switch_1_clause_35: ;
 					ZEPHIR_INIT_NVAR(&_124$$99);
 					ZVAL_LONG(&_124$$99, 2);
 					zephir_array_update_string(&definition, SL("type"), &_124$$99, PH_COPY | PH_SEPARATE);
-					break;
-				} while(0);
+					goto zephir_switch_1_end;
+				zephir_switch_1_end: ;
 
 				if (zephir_memnstr_str(&columnType, SL("("), "phalcon/Db/Adapter/Pdo/Mysql.zep", 451)) {
 					ZEPHIR_INIT_NVAR(&matches);

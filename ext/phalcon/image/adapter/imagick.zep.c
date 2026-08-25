@@ -1482,28 +1482,30 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processRender)
 	ZEPHIR_INIT_VAR(&_4);
 	zephir_fast_strtolower(&_4, &extension);
 	zephir_get_strval(&extension, &_4);
-	do {
-		if (ZEPHIR_IS_STRING(&extension, "gif")) {
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "setframesformat", NULL, 0, &image, &extension);
-			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &image, "optimizeimagelayers", NULL, 0);
-			zephir_check_call_status();
-			ZEPHIR_RETURN_CALL_METHOD(&image, "getimagesblob", NULL, 0);
-			zephir_check_call_status();
-			RETURN_MM();
-		}
-		if (ZEPHIR_IS_STRING(&extension, "jpg") || ZEPHIR_IS_STRING(&extension, "jpeg")) {
-			ZEPHIR_INIT_VAR(&_5$$4);
-			ZVAL_STRING(&_5$$4, "Imagick::COMPRESSION_JPEG");
-			ZEPHIR_CALL_FUNCTION(&_6$$4, "constant", NULL, 149, &_5$$4);
-			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &image, "setimagecompression", NULL, 0, &_6$$4);
-			zephir_check_call_status();
-			ZVAL_LONG(&_7$$4, quality);
-			ZEPHIR_CALL_METHOD(NULL, &image, "setimagecompressionquality", NULL, 0, &_7$$4);
-			zephir_check_call_status();
-		}
-	} while(0);
+	if (ZEPHIR_IS_STRING(&extension, "gif")) { goto zephir_switch_0_clause_0; }
+	if (ZEPHIR_IS_STRING(&extension, "jpg")) { goto zephir_switch_0_clause_1; }
+	if (ZEPHIR_IS_STRING(&extension, "jpeg")) { goto zephir_switch_0_clause_2; }
+	goto zephir_switch_0_end;
+	zephir_switch_0_clause_0: ;
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setframesformat", NULL, 0, &image, &extension);
+		zephir_check_call_status();
+		ZEPHIR_CALL_METHOD(NULL, &image, "optimizeimagelayers", NULL, 0);
+		zephir_check_call_status();
+		ZEPHIR_RETURN_CALL_METHOD(&image, "getimagesblob", NULL, 0);
+		zephir_check_call_status();
+		RETURN_MM();
+	zephir_switch_0_clause_1: ;
+	zephir_switch_0_clause_2: ;
+		ZEPHIR_INIT_VAR(&_5$$4);
+		ZVAL_STRING(&_5$$4, "Imagick::COMPRESSION_JPEG");
+		ZEPHIR_CALL_FUNCTION(&_6$$4, "constant", NULL, 149, &_5$$4);
+		zephir_check_call_status();
+		ZEPHIR_CALL_METHOD(NULL, &image, "setimagecompression", NULL, 0, &_6$$4);
+		zephir_check_call_status();
+		ZVAL_LONG(&_7$$4, quality);
+		ZEPHIR_CALL_METHOD(NULL, &image, "setimagecompressionquality", NULL, 0, &_7$$4);
+		zephir_check_call_status();
+	zephir_switch_0_end: ;
 
 	ZEPHIR_RETURN_CALL_METHOD(&image, "getimageblob", NULL, 0);
 	zephir_check_call_status();
@@ -1727,31 +1729,33 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processSave)
 	ZEPHIR_INIT_VAR(&_4);
 	zephir_fast_strtolower(&_4, &extension);
 	ZEPHIR_CPY_WRT(&extension, &_4);
-	do {
-		if (ZEPHIR_IS_STRING(&extension, "gif")) {
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "setframesformat", NULL, 0, &image, &extension);
-			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &image, "optimizeimagelayers", NULL, 0);
-			zephir_check_call_status();
-			ZEPHIR_INIT_VAR(&_5$$3);
-			ZVAL_STRING(&_5$$3, "w");
-			ZEPHIR_CALL_METHOD(&fp, this_ptr, "phpfopen", NULL, 0, &file_zv, &_5$$3);
-			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &image, "writeimagesfile", NULL, 0, &fp);
-			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "phpfclose", NULL, 0, &fp);
-			zephir_check_call_status();
-			RETURN_MM_NULL();
-		}
-		if (ZEPHIR_IS_STRING(&extension, "jpg") || ZEPHIR_IS_STRING(&extension, "jpeg")) {
-			ZEPHIR_INIT_VAR(&_6$$4);
-			ZVAL_STRING(&_6$$4, "Imagick::COMPRESSION_JPEG");
-			ZEPHIR_CALL_FUNCTION(&_7$$4, "constant", NULL, 149, &_6$$4);
-			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &image, "setimagecompression", NULL, 0, &_7$$4);
-			zephir_check_call_status();
-		}
-	} while(0);
+	if (ZEPHIR_IS_STRING(&extension, "gif")) { goto zephir_switch_0_clause_0; }
+	if (ZEPHIR_IS_STRING(&extension, "jpg")) { goto zephir_switch_0_clause_1; }
+	if (ZEPHIR_IS_STRING(&extension, "jpeg")) { goto zephir_switch_0_clause_2; }
+	goto zephir_switch_0_end;
+	zephir_switch_0_clause_0: ;
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setframesformat", NULL, 0, &image, &extension);
+		zephir_check_call_status();
+		ZEPHIR_CALL_METHOD(NULL, &image, "optimizeimagelayers", NULL, 0);
+		zephir_check_call_status();
+		ZEPHIR_INIT_VAR(&_5$$3);
+		ZVAL_STRING(&_5$$3, "w");
+		ZEPHIR_CALL_METHOD(&fp, this_ptr, "phpfopen", NULL, 0, &file_zv, &_5$$3);
+		zephir_check_call_status();
+		ZEPHIR_CALL_METHOD(NULL, &image, "writeimagesfile", NULL, 0, &fp);
+		zephir_check_call_status();
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "phpfclose", NULL, 0, &fp);
+		zephir_check_call_status();
+		RETURN_MM_NULL();
+	zephir_switch_0_clause_1: ;
+	zephir_switch_0_clause_2: ;
+		ZEPHIR_INIT_VAR(&_6$$4);
+		ZVAL_STRING(&_6$$4, "Imagick::COMPRESSION_JPEG");
+		ZEPHIR_CALL_FUNCTION(&_7$$4, "constant", NULL, 149, &_6$$4);
+		zephir_check_call_status();
+		ZEPHIR_CALL_METHOD(NULL, &image, "setimagecompression", NULL, 0, &_7$$4);
+		zephir_check_call_status();
+	zephir_switch_0_end: ;
 
 	if (quality >= 0) {
 		ZVAL_LONG(&_9$$5, quality);

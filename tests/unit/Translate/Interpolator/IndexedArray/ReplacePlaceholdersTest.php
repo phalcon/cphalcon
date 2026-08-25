@@ -35,6 +35,22 @@ final class ReplacePlaceholdersTest extends AbstractUnitTestCase
     }
 
     /**
+     * A translation whose format specifiers do not match the given arguments
+     * must not raise a ValueError (CWE-134); it is returned unchanged.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-25
+     */
+    public function testTranslateInterpolatorIndexedarrayReplacePlaceholdersWithMismatchedFormat(): void
+    {
+        $interpolator = new IndexedArray();
+
+        $expected = '%9$s';
+        $actual   = $interpolator->replacePlaceholders('%9$s', ['only-one']);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

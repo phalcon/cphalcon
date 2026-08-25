@@ -841,14 +841,14 @@ PHP_METHOD(Phalcon_Session_Manager, status)
 
 	ZEPHIR_CALL_FUNCTION(&status, "session_status", NULL, 0);
 	zephir_check_call_status();
-	do {
-		if (ZEPHIR_IS_LONG(&status, 0)) {
-			RETURN_MM_LONG(0);
-		}
-		if (ZEPHIR_IS_LONG(&status, 2)) {
-			RETURN_MM_LONG(2);
-		}
-	} while(0);
+	if (ZEPHIR_IS_LONG(&status, 0)) { goto zephir_switch_0_clause_0; }
+	if (ZEPHIR_IS_LONG(&status, 2)) { goto zephir_switch_0_clause_1; }
+	goto zephir_switch_0_end;
+	zephir_switch_0_clause_0: ;
+		RETURN_MM_LONG(0);
+	zephir_switch_0_clause_1: ;
+		RETURN_MM_LONG(2);
+	zephir_switch_0_end: ;
 
 	RETURN_MM_LONG(1);
 }

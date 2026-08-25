@@ -959,42 +959,43 @@ PHP_METHOD(Phalcon_Encryption_Security, hash)
 	legacy = 1;
 	zephir_memory_observe(&_1);
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 704, PH_NOISY_CC);
-	do {
-		if (ZEPHIR_IS_LONG(&_1, 3)) {
-			ZEPHIR_INIT_NVAR(&prefix);
-			ZVAL_STRING(&prefix, "$1$");
-			bytes = 12;
-			break;
-		}
-		if (ZEPHIR_IS_LONG(&_1, 8)) {
-			ZEPHIR_INIT_NVAR(&prefix);
-			ZVAL_STRING(&prefix, "$5$");
-			bytes = 16;
-			break;
-		}
-		if (ZEPHIR_IS_LONG(&_1, 9)) {
-			ZEPHIR_INIT_NVAR(&prefix);
-			ZVAL_STRING(&prefix, "$6$");
-			bytes = 16;
-			break;
-		}
-		if (ZEPHIR_IS_LONG(&_1, 5)) {
-			ZEPHIR_INIT_VAR(&_2$$6);
-			ZVAL_STRING(&_2$$6, "$2a$%s$");
-			ZEPHIR_CALL_FUNCTION(&prefix, "sprintf", NULL, 146, &_2$$6, &formatted);
-			zephir_check_call_status();
-			break;
-		}
-		if (ZEPHIR_IS_LONG(&_1, 6)) {
-			ZEPHIR_INIT_VAR(&_3$$7);
-			ZVAL_STRING(&_3$$7, "$2x$%s$");
-			ZEPHIR_CALL_FUNCTION(&prefix, "sprintf", NULL, 146, &_3$$7, &formatted);
-			zephir_check_call_status();
-			break;
-		}
+	if (ZEPHIR_IS_LONG(&_1, 3)) { goto zephir_switch_0_clause_0; }
+	if (ZEPHIR_IS_LONG(&_1, 8)) { goto zephir_switch_0_clause_1; }
+	if (ZEPHIR_IS_LONG(&_1, 9)) { goto zephir_switch_0_clause_2; }
+	if (ZEPHIR_IS_LONG(&_1, 5)) { goto zephir_switch_0_clause_3; }
+	if (ZEPHIR_IS_LONG(&_1, 6)) { goto zephir_switch_0_clause_4; }
+	goto zephir_switch_0_clause_5;
+	zephir_switch_0_clause_0: ;
+		ZEPHIR_INIT_NVAR(&prefix);
+		ZVAL_STRING(&prefix, "$1$");
+		bytes = 12;
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_1: ;
+		ZEPHIR_INIT_NVAR(&prefix);
+		ZVAL_STRING(&prefix, "$5$");
+		bytes = 16;
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_2: ;
+		ZEPHIR_INIT_NVAR(&prefix);
+		ZVAL_STRING(&prefix, "$6$");
+		bytes = 16;
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_3: ;
+		ZEPHIR_INIT_VAR(&_2$$6);
+		ZVAL_STRING(&_2$$6, "$2a$%s$");
+		ZEPHIR_CALL_FUNCTION(&prefix, "sprintf", NULL, 146, &_2$$6, &formatted);
+		zephir_check_call_status();
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_4: ;
+		ZEPHIR_INIT_VAR(&_3$$7);
+		ZVAL_STRING(&_3$$7, "$2x$%s$");
+		ZEPHIR_CALL_FUNCTION(&prefix, "sprintf", NULL, 146, &_3$$7, &formatted);
+		zephir_check_call_status();
+		goto zephir_switch_0_end;
+	zephir_switch_0_clause_5: ;
 		legacy = 0;
-		break;
-	} while(0);
+		goto zephir_switch_0_end;
+	zephir_switch_0_end: ;
 
 	if (UNEXPECTED(legacy)) {
 		ZVAL_LONG(&_5$$9, bytes);

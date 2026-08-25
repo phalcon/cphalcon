@@ -19,12 +19,28 @@ use Phalcon\Logger\Enum;
 use Phalcon\Logger\Formatter\Line;
 use Phalcon\Logger\Item;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function date_default_timezone_get;
 use function uniqid;
 
 final class FormatTest extends AbstractUnitTestCase
 {
+    /**
+     * @return array<int, array<int, string>>
+     */
+    public static function getControlCharacterExamples(): array
+    {
+        return [
+            ["\x00", '\\x00'],
+            ["\x08", '\\x08'],
+            ["\x0B", '\\x0B'],
+            ["\x1B", '\\x1B'],
+            ["\x1F", '\\x1F'],
+            ["\x7F", '\\x7F'],
+        ];
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
@@ -146,6 +162,32 @@ final class FormatTest extends AbstractUnitTestCase
     }
 
     /**
+     * Each C0 control character, and DEL, becomes its \xNN escape.
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2026-08-25
+     */
+    #[DataProvider('getControlCharacterExamples')]
+    public function testLoggerFormatterLineFormatEscapesControlCharacterRange(
+        string $character,
+        string $escaped
+    ): void {
+        $timezone  = date_default_timezone_get();
+        $datetime  = new DateTimeImmutable('now', new DateTimeZone($timezone));
+        $formatter = new Line('%message%');
+        $item      = new Item(
+            'a' . $character . 'b',
+            'debug',
+            Enum::DEBUG,
+            $datetime
+        );
+
+        $expected = 'a' . $escaped . 'b';
+        $actual   = $formatter->format($item);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
      * A message or context value carrying CR/LF must not forge extra log
      * lines (CWE-117); control characters are escaped, tab is preserved.
      *
@@ -171,5 +213,32 @@ final class FormatTest extends AbstractUnitTestCase
         $this->assertStringNotContainsString("\r", $actual);
         // The control bytes are escaped visibly; tab is kept.
         $this->assertSame('hello\x0D\x0ACRITICAL forged' . "\t" . 'keep', $actual);
+    }
+
+    /**
+     * A control character that arrives through a context value is escaped
+     * after interpolation, not before it.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-25
+     */
+    public function testLoggerFormatterLineFormatEscapesControlCharactersFromContext(): void
+    {
+        $timezone  = date_default_timezone_get();
+        $datetime  = new DateTimeImmutable('now', new DateTimeZone($timezone));
+        $formatter = new Line('%message%');
+        $item      = new Item(
+            'user %name%',
+            'debug',
+            Enum::DEBUG,
+            $datetime,
+            ['name' => "a\x0Ab"]
+        );
+
+        $actual = $formatter->format($item);
+
+        // The context value cannot forge a second log line.
+        $this->assertStringNotContainsString("\n", $actual);
+        $this->assertSame('user a\\x0Ab', $actual);
     }
 }

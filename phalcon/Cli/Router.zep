@@ -239,6 +239,14 @@ class Router extends AbstractInjectionAware implements RouterInterface
                 throw new RouterArgumentsInvalidType(gettype(arguments));
             }
 
+            /**
+             * A null subject makes preg_match() emit a deprecation, so use an
+             * empty string.
+             */
+            if arguments === null {
+                let arguments = "";
+            }
+
             for route in reverse this->routes {
                 /**
                  * If the route has parentheses use preg_match

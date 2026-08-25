@@ -11,10 +11,10 @@
 #include "kernel/globals.h"
 
 #define PHP_PHALCON_NAME        "phalcon"
-#define PHP_PHALCON_VERSION     "5.20.1"
+#define PHP_PHALCON_VERSION     "5.20.2"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
-#define PHP_PHALCON_ZEPVERSION  "1.2.0-$Id$"
+#define PHP_PHALCON_ZEPVERSION  "1.3.0-$Id$"
 #define PHP_PHALCON_DESCRIPTION "Phalcon is a full stack PHP framework, delivered as a PHP extension, offering lower resource consumption and high performance."
 
 

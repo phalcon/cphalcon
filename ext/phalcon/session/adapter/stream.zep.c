@@ -1297,11 +1297,19 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, phpIniGetBool)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_fast_strtolower(&_0, &value);
-	do {
-		if (ZEPHIR_IS_STRING(&_0, "true") || ZEPHIR_IS_STRING(&_0, "on") || ZEPHIR_IS_STRING(&_0, "yes") || ZEPHIR_IS_STRING(&_0, "y") || ZEPHIR_IS_STRING(&_0, "1")) {
-			result = 1;
-		}
-	} while(0);
+	if (ZEPHIR_IS_STRING(&_0, "true")) { goto zephir_switch_0_clause_0; }
+	if (ZEPHIR_IS_STRING(&_0, "on")) { goto zephir_switch_0_clause_1; }
+	if (ZEPHIR_IS_STRING(&_0, "yes")) { goto zephir_switch_0_clause_2; }
+	if (ZEPHIR_IS_STRING(&_0, "y")) { goto zephir_switch_0_clause_3; }
+	if (ZEPHIR_IS_STRING(&_0, "1")) { goto zephir_switch_0_clause_4; }
+	goto zephir_switch_0_end;
+	zephir_switch_0_clause_0: ;
+	zephir_switch_0_clause_1: ;
+	zephir_switch_0_clause_2: ;
+	zephir_switch_0_clause_3: ;
+	zephir_switch_0_clause_4: ;
+		result = 1;
+	zephir_switch_0_end: ;
 
 	RETURN_MM_BOOL(result);
 }

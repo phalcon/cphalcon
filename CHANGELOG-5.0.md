@@ -2,6 +2,23 @@
 
 All notable changes are documented here. The format is based on [Keep a Changelog][keep_a_changelog] and this project adheres to [Semantic Versioning][semantic_versioning].
 
+## [5.20.2](https://github.com/phalcon/cphalcon/releases/tag/v5.20.2) (2026-08-25)
+
+### Tools
+
+- Zephir 1.3.0
+
+### Changed
+
+- The PHPUnit configuration now fails the run on notices, deprecations and PHPUnit deprecations, and prints the details of every triggering test.
+- Added regression tests for the hardening changes released in 5.20.0 and 5.20.1 that had no failing-on-revert coverage.
+
+### Added
+
+### Fixed
+
+- `Undefined index` notice emitted for every literal route when `Phalcon\Mvc\Router` rebuilds its per-method index. [#17527](https://github.com/phalcon/cphalcon/issues/17527)
+
 ## [5.20.1](https://github.com/phalcon/cphalcon/releases/tag/v5.20.1) (2026-08-24)
 
 ### Tools

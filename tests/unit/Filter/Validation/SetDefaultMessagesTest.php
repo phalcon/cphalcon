@@ -27,7 +27,6 @@ final class SetDefaultMessagesTest extends AbstractUnitTestCase
     protected function tearDown(): void
     {
         $property = new ReflectionProperty(Validation::class, 'defaultMessages');
-        $property->setAccessible(true);
         $property->setValue(null, []);
 
         parent::tearDown();

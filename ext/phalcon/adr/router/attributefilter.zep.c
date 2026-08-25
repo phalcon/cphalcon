@@ -313,19 +313,19 @@ PHP_METHOD(Phalcon_ADR_Router_AttributeFilter, cast)
 	ZVAL_STR_COPY(&value_zv, value);
 	zephir_memory_observe(&type_zv);
 	ZVAL_STR_COPY(&type_zv, type);
-	do {
-		if (ZEPHIR_IS_STRING(&type_zv, "int")) {
-			RETURN_MM_LONG(zephir_get_intval(&value_zv));
-		}
-		if (ZEPHIR_IS_STRING(&type_zv, "float")) {
-			ZEPHIR_RETURN_CALL_FUNCTION("floatval", NULL, 33, &value_zv);
-			zephir_check_call_status();
-			RETURN_MM();
-		}
+	if (ZEPHIR_IS_STRING(&type_zv, "int")) { goto zephir_switch_0_clause_0; }
+	if (ZEPHIR_IS_STRING(&type_zv, "float")) { goto zephir_switch_0_clause_1; }
+	goto zephir_switch_0_clause_2;
+	zephir_switch_0_clause_0: ;
+		RETURN_MM_LONG(zephir_get_intval(&value_zv));
+	zephir_switch_0_clause_1: ;
+		ZEPHIR_RETURN_CALL_FUNCTION("floatval", NULL, 33, &value_zv);
+		zephir_check_call_status();
+		RETURN_MM();
+	zephir_switch_0_clause_2: ;
 		ZEPHIR_RETURN_CALL_FUNCTION("strval", NULL, 337, &value_zv);
 		zephir_check_call_status();
 		RETURN_MM();
-	} while(0);
 
 }
 
