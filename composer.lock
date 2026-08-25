@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0d93ca252ecb9b95a9dda7c6b51efcb6",
+    "content-hash": "448cf5170a81942c66363099a33e9d77",
     "packages": [],
     "packages-dev": [
         {
@@ -2677,16 +2677,16 @@
         },
         {
             "name": "phalcon/zephir",
-            "version": "dev-development",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zephir-lang/zephir.git",
-                "reference": "47f31e1c6e249067b12df101aeea0fecdafd77e9"
+                "reference": "09ae1ec6f17340d6c44007331ff3d0ebc880bccd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/47f31e1c6e249067b12df101aeea0fecdafd77e9",
-                "reference": "47f31e1c6e249067b12df101aeea0fecdafd77e9",
+                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/09ae1ec6f17340d6c44007331ff3d0ebc880bccd",
+                "reference": "09ae1ec6f17340d6c44007331ff3d0ebc880bccd",
                 "shasum": ""
             },
             "require": {
@@ -2714,7 +2714,6 @@
             "suggest": {
                 "ext-zephir_parser": "Optional native parser used as a fast path; the built-in pure-PHP parser is used when it is absent"
             },
-            "default-branch": true,
             "bin": [
                 "zephir"
             ],
@@ -2763,7 +2762,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-08-25T13:09:06+00:00"
+            "time": "2026-08-25T17:52:08+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -8087,8 +8086,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "phalcon/quill": 20,
-        "phalcon/zephir": 20
+        "phalcon/quill": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

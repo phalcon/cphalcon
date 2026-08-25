@@ -50,7 +50,7 @@
     "phalcon/ide-stubs": "^5.13.0",
     "phalcon/quill": "dev-master",
     "phalcon/talon": "^1.0.0",
-    "phalcon/zephir": "dev-development",
+    "phalcon/zephir": "^1.3.0",
     "phpstan/phpstan": "^2.2",
     "phpunit/phpunit": "^10.5",
     "predis/predis": "^3.4",
