@@ -83,7 +83,6 @@ final class GetFilepathTraversalTest extends AbstractUnitTestCase
         );
 
         $method = new ReflectionMethod($adapter, 'getFilepath');
-        $method->setAccessible(true);
 
         return $method->invoke($adapter, $key);
     }

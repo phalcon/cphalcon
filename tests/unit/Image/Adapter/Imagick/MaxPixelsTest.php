@@ -103,7 +103,6 @@ final class MaxPixelsTest extends AbstractUnitTestCase
     private function getMaxPixels(Imagick $adapter): int
     {
         $property = new ReflectionProperty(Imagick::class, 'maxPixels');
-        $property->setAccessible(true);
 
         return (int) $property->getValue($adapter);
     }

@@ -98,7 +98,6 @@ final class MaxPixelsTest extends AbstractUnitTestCase
     private function getMaxPixels(Gd $adapter): int
     {
         $property = new ReflectionProperty(Gd::class, 'maxPixels');
-        $property->setAccessible(true);
 
         return (int) $property->getValue($adapter);
     }
