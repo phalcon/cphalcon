@@ -10,11 +10,23 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 ### Changed
 
+- ACL role, component and access names can no longer contain `!`, the internal key delimiter; `Phalcon\Acl\Exceptions\ForbiddenDelimiter` is thrown instead.
+
 ### Added
+
+- `Phalcon\Acl\Exceptions\ForbiddenDelimiter`, thrown when an ACL role, component or access name contains `!`.
+- `Phalcon\Http\Request\Bag\AbstractBag::clear()`, removing all elements of a request bag.
 
 ### Fixed
 
+- Cached user surviving `Phalcon\Auth\Guard\Token::setRequest()`, so a replaced request inherited the previous authentication.
+- Distinct ACL tuples colliding on the same internal key when a role, component or access name contained `!`.
 - Fixed shared memory leak of response headers into other callers
+- Namespace middleware bypass in the ADR `Router` through case-variant or separator-injected paths that PHP resolves to the canonical Action class; only the exact declared class name is a match.
+- Request attributes of the previous route surviving on a reused request in `Phalcon\ADR\Application::handle()`.
+- Scheme allow-list bypass in the Filter `url` sanitizer through HTML-entity obfuscated schemes (`java&#115;cript:`) and URLs that `parse_url()` cannot parse; the sanitizer now fails closed. Thanks to [Ilia Alshanetsky](https://ilia.ws)
+- `acl:afterCheckAccess` reporting the static rule instead of the final `isAllowed()` decision (rule callback and default action were not applied).
+- `only()` / `except()` action filters leaking between `Phalcon\Auth\Manager::access()` activations when the access gate was registered as a shared service in the legacy `Di`.
 
 ## [5.20.2](https://github.com/phalcon/cphalcon/releases/tag/v5.20.2) (2026-08-25)
 
