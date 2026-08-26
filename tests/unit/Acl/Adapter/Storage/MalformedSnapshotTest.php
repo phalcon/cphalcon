@@ -49,20 +49,6 @@ final class MalformedSnapshotTest extends AbstractUnitTestCase
         ];
     }
 
-    /**
-     * @param array<string, mixed> $snapshot
-     */
-    #[DataProvider('providerMalformed')]
-    public function testMalformedSnapshotThrows(array $snapshot): void
-    {
-        $backend = new StorageMemory(new SerializerFactory());
-        $backend->set('acl-bad', $snapshot);
-
-        $this->expectException(InvalidSnapshot::class);
-
-        new Storage($backend, 'acl-bad');
-    }
-
     public function testCyclicObjectSnapshotThrows(): void
     {
         $cyclic       = new stdClass();
@@ -75,6 +61,20 @@ final class MalformedSnapshotTest extends AbstractUnitTestCase
         $this->expectExceptionMessage('too deep');
 
         new Storage($backend, 'acl-cyclic');
+    }
+
+    /**
+     * @param array<string, mixed> $snapshot
+     */
+    #[DataProvider('providerMalformed')]
+    public function testMalformedSnapshotThrows(array $snapshot): void
+    {
+        $backend = new StorageMemory(new SerializerFactory());
+        $backend->set('acl-bad', $snapshot);
+
+        $this->expectException(InvalidSnapshot::class);
+
+        new Storage($backend, 'acl-bad');
     }
 
     public function testObjectSnapshotStillLoads(): void

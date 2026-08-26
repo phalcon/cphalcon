@@ -67,7 +67,8 @@ final class SessionHardeningTest extends AbstractUnitTestCase
 
     /**
      * The remember cookie is a bearer credential, so it must be httpOnly and
-     * carry the request's transport security (CWE-1004 / CWE-614).
+     * carry the Secure flag by default, whatever scheme the backend sees
+     * (CWE-1004 / CWE-614).
      */
     public function testRememberCookieIsHttpOnly(): void
     {
@@ -84,7 +85,7 @@ final class SessionHardeningTest extends AbstractUnitTestCase
 
         $cookie = $cookies->get($config->getRememberName());
         $this->assertTrue($cookie->getHttpOnly());
-        $this->assertFalse($cookie->getSecure());
+        $this->assertTrue($cookie->getSecure());
     }
 
     /**

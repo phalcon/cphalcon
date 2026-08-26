@@ -64,6 +64,21 @@ final class SessionFromOptionsTest extends AbstractUnitTestCase
         $this->assertSame('rmem_admin', $guard->getRememberName());
     }
 
+    public function testFromOptionsAppliesRememberSecure(): void
+    {
+        $guard = Session::fromOptions(
+            $this->adapter,
+            $this->container,
+            ['rememberSecure' => false]
+        );
+
+        $this->assertFalse($guard->getConfig()->getRememberSecure());
+
+        $guard = Session::fromOptions($this->adapter, $this->container, []);
+
+        $this->assertTrue($guard->getConfig()->getRememberSecure());
+    }
+
     public function testFromOptionsAppliesSuffix(): void
     {
         $guard = Session::fromOptions(

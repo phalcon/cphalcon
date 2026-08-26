@@ -525,6 +525,52 @@ final class SessionTest extends AbstractUnitTestCase
         $this->assertSame(1700000000 + 3600, $cookie->getExpiration());
     }
 
+    /**
+     * The Secure flag of the remember cookie comes from the configuration
+     * (default true), not from the scheme the backend sees.
+     */
+    public function testRememberCookieIsSecureByDefault(): void
+    {
+        $rememberAdapter = new FakeRememberAdapter(
+            $this->security,
+            new MemoryAdapterConfig(
+                [['id' => 1, 'email' => 'a@b']],
+                \Phalcon\Tests\Unit\Auth\Fake\FakeAuthUserModel::class
+            )
+        );
+        $user = $rememberAdapter->retrieveById(1);
+        $this->assertNotNull($user);
+
+        // Plain HTTP as seen by the backend (e.g. behind a TLS proxy).
+        $this->request->setSecureFake(false);
+
+        $guard = new Session(
+            $rememberAdapter,
+            $this->request,
+            $this->cookies,
+            $this->session
+        );
+        $guard->login($user, true);
+
+        $this->assertTrue(
+            $this->cookies->get($guard->getRememberName())->getSecure()
+        );
+
+        $plainCookies = new FakeCookies();
+        $plain        = new Session(
+            $rememberAdapter,
+            $this->request,
+            $plainCookies,
+            new FakeSessionManager(),
+            new SessionGuardConfig(rememberSecure: false)
+        );
+        $plain->login($user, true);
+
+        $this->assertFalse(
+            $plainCookies->get($plain->getRememberName())->getSecure()
+        );
+    }
+
     public function testRememberLoginPersistsCookieAndRecallsUser(): void
     {
         $rememberAdapter = new \Phalcon\Tests\Unit\Auth\Fake\FakeRememberAdapter(
