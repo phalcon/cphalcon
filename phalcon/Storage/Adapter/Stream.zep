@@ -297,14 +297,26 @@ class Stream extends AbstractAdapter
      */
     private function getFilepath(string key) -> string
     {
+        var name, plain;
+
         /**
          * Remove path separators from the key so a crafted key cannot climb
          * out of the storage directory (CWE-22). str_replace is used rather
          * than prepare_virtual_path because the latter also lower-cases the
          * key, which would no longer match the stored file name.
          */
-        return this->getDir(key)
-            . str_replace(["/", "\\", ":"], "_", this->getKeyWithoutPrefix(key));
+        let plain = this->getKeyWithoutPrefix(key),
+            name  = str_replace(["/", "\\", ":"], "_", plain);
+
+        /**
+         * A key with a path separator gets a hash suffix, so it cannot share
+         * a file with a key that spells the "_" replacement itself.
+         */
+        if memstr(plain, "/") || memstr(plain, "\\") || memstr(plain, ":") {
+            let name = name . "_" . sha1(plain);
+        }
+
+        return this->getDir(key) . name;
     }
 
     /**

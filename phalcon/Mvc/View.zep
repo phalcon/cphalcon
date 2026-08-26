@@ -613,10 +613,11 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
         /**
          * Drop "." and ".." path segments so a crafted partial path cannot
          * climb out of the partials directory, while still allowing
-         * sub-directories and absolute paths (CWE-22).
+         * sub-directories and absolute paths (CWE-22). Backslashes are
+         * separators on Windows, so they are normalized first.
          */
         let segments = [];
-        for segment in explode("/", partialPath) {
+        for segment in explode("/", str_replace("\\", "/", partialPath)) {
             if segment !== "." && segment !== ".." {
                 let segments[] = segment;
             }
