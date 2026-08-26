@@ -98,6 +98,7 @@ class Token extends AbstractGuard
     public function setRequest(<RequestInterface> request) -> <static>
     {
         let this->request = request;
+        let this->user    = null;
 
         return this;
     }
