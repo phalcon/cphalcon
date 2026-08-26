@@ -36,8 +36,8 @@ class AccessLocator extends AbstractLocator
      * Gates carry per-activation state (the only/except action filters), so
      * resolution must yield a fresh instance: new() on the Container
      * bypasses the instance cache; on the legacy Di, get() builds
-     * unregistered classes and non-shared services fresh (register gates
-     * non-shared).
+     * unregistered classes and non-shared services fresh, and a shared
+     * service is rebuilt from its definition.
      *
      * @return Access
      */

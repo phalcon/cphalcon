@@ -61,6 +61,13 @@ class Manager implements ManagerContract
 
         let this->activeAccess = <Access> this->accessFactory->newInstance(accessName);
 
+        /**
+         * The action filters belong to this activation only. Clear them in
+         * case the locator handed back a reused instance.
+         */
+        this->activeAccess->setExceptActions([]);
+        this->activeAccess->setOnlyActions([]);
+
         return this;
     }
 

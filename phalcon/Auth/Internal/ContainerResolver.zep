@@ -10,10 +10,12 @@
 
 namespace Phalcon\Auth\Internal;
 
+use Closure;
 use Phalcon\Container\Exceptions\Exception as ContainerException;
 use Phalcon\Contracts\Container\Service\Collection;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\Exception as DiException;
+use Phalcon\Di\Service;
 use TypeError;
 
 /**
@@ -100,15 +102,16 @@ final class ContainerResolver
 
     /**
      * Resolves a fresh instance: new() on the Container (bypasses the
-     * instance cache); get() on the legacy Di (fresh for unregistered or
-     * non-shared services). On Di, an unregistered but existing class is
-     * still built via the class builder.
+     * instance cache); on the legacy Di, get() for unregistered or
+     * non-shared services, and a rebuild from the definition for shared
+     * services (Di::get() would return the cached instance). On Di, an
+     * unregistered but existing class is still built via the class builder.
      *
      * @throws ContainerException
      */
     public static function resolveFresh(var container, string name) -> object
     {
-        var e;
+        var definition, e, fresh, service;
 
         self::ensureContainer(container);
 
@@ -131,6 +134,31 @@ final class ContainerResolver
         }
 
         try {
+            if (true === container->has(name)) {
+                let service = container->getService(name);
+
+                /**
+                 * A shared service is cached by the Di. Gates carry
+                 * per-activation state, so build a new instance from the same
+                 * definition. A definition that is an already built object
+                 * can never be fresh.
+                 */
+                if (true === service->isShared()) {
+                    let definition = service->getDefinition();
+
+                    if (typeof definition === "object" && !(definition instanceof Closure)) {
+                        throw new ContainerException(
+                            "Cannot resolve a fresh '" . name
+                            . "': it is registered in the Di as a shared instance"
+                        );
+                    }
+
+                    let fresh = new Service(definition, false);
+
+                    return fresh->resolve(null, container);
+                }
+            }
+
             return container->get(name);
         } catch DiException, e {
             throw new ContainerException(
