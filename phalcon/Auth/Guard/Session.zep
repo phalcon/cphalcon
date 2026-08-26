@@ -84,7 +84,8 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
             Options::stringOrNull(options, "suffix"),
             Options::stringOrNull(options, "name"),
             Options::stringOrNull(options, "rememberName"),
-            isset(options["rememberTtl"]) ? (int) options["rememberTtl"] : null
+            isset(options["rememberTtl"]) ? (int) options["rememberTtl"] : null,
+            isset(options["rememberSecure"]) ? (bool) options["rememberSecure"] : true
         );
 
         return new static(
@@ -425,15 +426,17 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
 
         /**
          * The remember cookie is a bearer credential: keep it off JavaScript
-         * (httpOnly) and, on a secure request, off plaintext transports
-         * (secure) (CWE-1004 / CWE-614).
+         * (httpOnly) and off plaintext transports (secure) (CWE-1004 /
+         * CWE-614). The Secure flag comes from the configuration, not from
+         * the request scheme, so a TLS-terminating proxy that reports plain
+         * HTTP to the backend cannot downgrade it.
          */
         this->cookies->set(
             this->getRememberName(),
             payload,
             this->clock->now()->getTimestamp() + this->config->getRememberTtl(),
             "/",
-            this->request->isSecure(),
+            this->config->getRememberSecure(),
             "",
             true
         );

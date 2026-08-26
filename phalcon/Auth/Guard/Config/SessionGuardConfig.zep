@@ -35,6 +35,7 @@ class SessionGuardConfig extends AbstractGuardConfig
 
     private string name;
     private string rememberName;
+    private bool rememberSecure;
     private int rememberTtl;
 
     /**
@@ -44,7 +45,8 @@ class SessionGuardConfig extends AbstractGuardConfig
         string suffix = null,
         string name = null,
         string rememberName = null,
-        int rememberTtl = null
+        int rememberTtl = null,
+        bool rememberSecure = true
     ) {
         this->validateNonEmpty("suffix", suffix);
         this->validateNonEmpty("name", name);
@@ -53,6 +55,7 @@ class SessionGuardConfig extends AbstractGuardConfig
         let this->name         = null !== name ? name : this->derive("auth", suffix);
         let this->rememberName = null !== rememberName ? rememberName : this->derive("remember", suffix);
         let this->rememberTtl  = null !== rememberTtl ? rememberTtl : self::DEFAULT_REMEMBER_TTL;
+        let this->rememberSecure = rememberSecure;
 
         if (this->name === this->rememberName) {
             throw new SessionNamesMustDiffer();
@@ -67,6 +70,16 @@ class SessionGuardConfig extends AbstractGuardConfig
     public function getRememberName() -> string
     {
         return this->rememberName;
+    }
+
+    /**
+     * Whether the remember-me cookie carries the Secure flag. Defaults to
+     * true: the cookie is a bearer credential. Set it to false only for a
+     * deployment that serves plain HTTP on purpose.
+     */
+    public function getRememberSecure() -> bool
+    {
+        return this->rememberSecure;
     }
 
     public function getRememberTtl() -> int
