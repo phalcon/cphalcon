@@ -2810,6 +2810,8 @@ int phql_parse_phql(zval *result, zval *phql)
 
 	if (phql_internal_parse_phql(&result, Z_STRVAL_P(phql), Z_STRLEN_P(phql), &error_msg) == FAILURE) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, Z_STRVAL_P(error_msg));
+		/* The exception holds its own copy; release the message string. */
+		zval_dtor(error_msg);
 		return FAILURE;
 	}
 
