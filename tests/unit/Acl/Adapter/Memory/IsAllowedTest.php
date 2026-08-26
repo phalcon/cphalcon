@@ -218,6 +218,33 @@ final class IsAllowedTest extends AbstractUnitTestCase
     }
 
     /**
+     * A `false` from an `acl:beforeCheckAccess` listener is final: a later
+     * listener returning `true` cannot re-open the check.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-26
+     */
+    public function testAclAdapterMemoryIsAllowedFireEventDenyIsFinal(): void
+    {
+        $manager = new EventsManager();
+        $manager->attach('acl:beforeCheckAccess', function () {
+            return false;
+        });
+        $manager->attach('acl:beforeCheckAccess', function () {
+            return true;
+        });
+
+        $acl = new Memory();
+        $acl->setEventsManager($manager);
+        $acl->setDefaultAction(Enum::ALLOW);
+        $acl->addRole('Member');
+        $acl->addComponent('Post', ['update']);
+        $acl->allow('Member', 'Post', 'update');
+
+        $this->assertFalse($acl->isAllowed('Member', 'Post', 'update'));
+    }
+
+    /**
      * @author  Phalcon Team <team@phalcon.io>
      * @since   2021-09-27
      */

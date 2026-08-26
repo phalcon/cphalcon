@@ -30,7 +30,8 @@ final class FakeMemory extends Memory
     protected function fireManagerEvent(
         string $eventName,
         mixed $data = null,
-        bool $cancellable = true
+        bool $cancellable = true,
+        bool $stopOnFalse = false
     ): mixed {
         return false;
     }
