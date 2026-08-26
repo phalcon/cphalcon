@@ -11,20 +11,32 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 ### Changed
 
 - ACL role, component and access names can no longer contain `!`, the internal key delimiter; `Phalcon\Acl\Exceptions\ForbiddenDelimiter` is thrown instead.
+- Cache file names of `Phalcon\Annotations\Adapter\Stream`, `Phalcon\Mvc\Model\MetaData\Stream` and `Phalcon\Storage\Adapter\Stream` get a hash suffix when the key contains the character that the separator replacement produces (`_` for class names; `/`, `\`, `:` for storage keys), so two different keys can no longer share one file. Names of all other keys are unchanged.
+- `Phalcon\Auth\Guard\Session` validates the "remember me" token against the user agent of the current request instead of the one stored in the cookie; a browser user-agent change now ends a remembered session.
 
 ### Added
 
 - `Phalcon\Acl\Exceptions\ForbiddenDelimiter`, thrown when an ACL role, component or access name contains `!`.
+- `Phalcon\Auth\Exceptions\InvalidCredentialKey`, thrown when a credential key passed to `Phalcon\Auth\Adapter\Model::retrieveByCredentials()` is not a plain identifier.
 - `Phalcon\Http\Request\Bag\AbstractBag::clear()`, removing all elements of a request bag.
 
 ### Fixed
 
+- "Remember me" cookie of another account surviving `Phalcon\Auth\Guard\Session::logout()` when the current user does not implement `AuthRemember`.
+- Asset output following a symbolic link at the target file and writing outside the assets directory.
+- Backslash path traversal in `Phalcon\Mvc\View::partial()` and `Phalcon\Mvc\View\Simple::render()` on Windows.
 - Cached user surviving `Phalcon\Auth\Guard\Token::setRequest()`, so a replaced request inherited the previous authentication.
+- Credential keys interpolated unvalidated into the PHQL built by `Phalcon\Auth\Adapter\Model::retrieveByCredentials()`.
 - Distinct ACL tuples colliding on the same internal key when a role, component or access name contained `!`.
 - Fixed shared memory leak of response headers into other callers
+- JWT audience validated with a loose comparison, so a numeric or boolean `aud` claim satisfied a string audience.
+- Malformed ACL snapshot loaded by `Phalcon\Acl\Adapter\Storage` raising `TypeError` or leaving the adapter half loaded, and deep or cyclic object graphs recursing without limit; `InvalidSnapshot` is now thrown before any state changes.
 - Namespace middleware bypass in the ADR `Router` through case-variant or separator-injected paths that PHP resolves to the canonical Action class; only the exact declared class name is a match.
+- Non-string elements passed to `Phalcon\Acl\Adapter\Memory::addInherit()` raising a warning and a `TypeError` instead of `InvalidRoleType`.
 - Request attributes of the previous route surviving on a reused request in `Phalcon\ADR\Application::handle()`.
 - Scheme allow-list bypass in the Filter `url` sanitizer through HTML-entity obfuscated schemes (`java&#115;cript:`) and URLs that `parse_url()` cannot parse; the sanitizer now fails closed. Thanks to [Ilia Alshanetsky](https://ilia.ws)
+- Volt extends-mode cache unserialized without a class restriction.
+- `ReflectionException` / `TypeError` from ACL rule callbacks with builtin-typed parameters, array callables or static-method strings.
 - `acl:afterCheckAccess` reporting the static rule instead of the final `isAllowed()` decision (rule callback and default action were not applied).
 - `only()` / `except()` action filters leaking between `Phalcon\Auth\Manager::access()` activations when the access gate was registered as a shared service in the legacy `Di`.
 
@@ -44,7 +56,6 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 ### Fixed
 
 - `Undefined index` notice emitted for every literal route when `Phalcon\Mvc\Router` rebuilds its per-method index. [#17527](https://github.com/phalcon/cphalcon/issues/17527)
-
 
 ## [5.20.1](https://github.com/phalcon/cphalcon/releases/tag/v5.20.1) (2026-08-24)
 
@@ -96,7 +107,6 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 ### Removed
 
-
 ## [5.20.0](https://github.com/phalcon/cphalcon/releases/tag/v5.20.0) (2026-08-22)
 
 ### Tools
@@ -114,7 +124,6 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - Fixed warnings when compiling from sources when Memcached, Redis etc. are not present [17517](https://github.com/phalcon/cphalcon/issues/17517)
 
 ### Removed
-
 
 ## [5.19.0](https://github.com/phalcon/cphalcon/releases/tag/v5.19.0) (2026-08-19)
 
@@ -147,7 +156,6 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 ### Removed
 
-
 ## [5.18.2](https://github.com/phalcon/cphalcon/releases/tag/v5.18.2) (2026-08-03)
 
 ### Tools
@@ -163,7 +171,6 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 ### Fixed
 
 ### Removed
-
 
 ## [5.18.1](https://github.com/phalcon/cphalcon/releases/tag/v5.18.1) (2026-08-02)
 
@@ -182,7 +189,6 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 17469
 
 ### Removed
-
 
 ## [5.18.0](https://github.com/phalcon/cphalcon/releases/tag/v5.18.0) (2026-07-31)
 
@@ -495,7 +501,6 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 ### Removed
 
 - Removed `Phalcon\Cache\Exception\InvalidCacheKey` and `Phalcon\Cache\Exception\CacheKeysNotIterable`. `Phalcon\Cache\AbstractCache::checkKey()` and `checkKeys()` now throw `Phalcon\Cache\Exception\InvalidArgumentException` with the same messages. [#17156](https://github.com/phalcon/cphalcon/issues/17156) [[doc]](https://docs.phalcon.io/5.15/cache/)
-
 
 ## [5.14.2](https://github.com/phalcon/cphalcon/releases/tag/v5.14.2) (2026-06-12)
 
@@ -1784,13 +1789,11 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - Set Dynamic Update by default system-wide [#16343](https://github.com/phalcon/cphalcon/issues/16343)
 - Fixed memory leak in Micro application [#16404](https://github.com/phalcon/cphalcon/pull/16404)
 
-
 ## [5.3.1](https://github.com/phalcon/cphalcon/releases/tag/v5.3.1) (xxxx-xx-xx)
 
 ### Fixed
 
 - Forced `routeId` in `Phalcon\Mvc\Router\Route` to always return a string [#16414](https://github.com/phalcon/cphalcon/pull/16414)
-
 
 ## [5.2.3](https://github.com/phalcon/cphalcon/releases/tag/v5.2.3) (2023-07-26)
 
