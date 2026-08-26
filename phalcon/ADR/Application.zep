@@ -155,6 +155,12 @@ final class Application implements ApplicationInterface
             router->setWordSeparator(this->wordSeparator);
         }
 
+        /**
+         * A reused request object (long-lived worker) keeps the attributes of
+         * the previous route. Only the current match may fill the bag.
+         */
+        request->getAttributes()->clear();
+
         events->fire(Event::APPLICATION_BEFORE_HANDLE, this, request);
 
         try {

@@ -46,6 +46,8 @@ use Phalcon\Http\RequestInterface;
  * ## Guarantees
  *
  * - One path names exactly one class; that class names exactly one path.
+ * - The derived name must equal the declared class name byte for byte. A
+ *   class that only resolves case-insensitively is not a match.
  * - `classFor()` and `pathFor()` are pure functions of their input. Neither
  *   touches the filesystem, and neither consults any Action but the one it was
  *   given, so adding or deleting an Action can never move another one's URL.
@@ -375,12 +377,23 @@ final class Router implements RouterInterface
      */
     protected function locate(string method, string path) -> array | null
     {
-        var candidate, candidates;
+        var candidate, candidates, reflection;
 
         let candidates = this->deriveCandidates(method, path);
 
         for candidate in candidates {
-            if class_exists(candidate[0]) {
+            if !class_exists(candidate[0]) {
+                continue;
+            }
+
+            /**
+             * PHP resolves class names case-insensitively, so a path with a
+             * different letter case (or an injected word separator) can load
+             * the canonical class under a name that the middleware map does
+             * not match. Only the exact declared name is a match.
+             */
+            let reflection = new \ReflectionClass(candidate[0]);
+            if reflection->getName() === candidate[0] {
                 return candidate;
             }
         }
