@@ -424,7 +424,7 @@ class Stream extends AbstractAdapter
             directory = this->getDir(key);
 
         if !is_dir(directory) {
-            mkdir(directory, 0777, true);
+            mkdir(directory, 0755, true);
         }
 
         return false !== this->phpFilePutContents(
