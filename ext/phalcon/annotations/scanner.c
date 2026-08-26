@@ -26,13 +26,18 @@ int phannot_get_token(phannot_scanner_state *s, phannot_scanner_token *token) {
 
 		if (s->mode == PHANNOT_MODE_RAW) {
 
+			/* End of input: nothing after the terminator may be read. */
+			if (*AACURSOR == '\0') {
+				return PHANNOT_SCANNER_RETCODE_EOF;
+			}
+
 			if (*AACURSOR == '\n') {
 				s->active_line++;
 			}
 
 			next = *(AACURSOR+1);
 
-			if (*AACURSOR == '\0' || *AACURSOR == '@') {
+			if (*AACURSOR == '@') {
 				if ((next >= 'A' && next <= 'Z') || (next >= 'a' && next <= 'z')) {
 					s->mode = PHANNOT_MODE_ANNOTATION;
 					continue;
@@ -470,6 +475,7 @@ aa32:
 aa33:
 			aach = *++AACURSOR;
 			switch (aach) {
+				case 0x00:
 				case '\n': goto aa31;
 				default: goto aa29;
 			}
@@ -485,6 +491,7 @@ aa35:
 aa36:
 			aach = *++AACURSOR;
 			switch (aach) {
+				case 0x00:
 				case '\n': goto aa31;
 				default: goto aa34;
 			}

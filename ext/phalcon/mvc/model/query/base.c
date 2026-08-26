@@ -107,6 +107,18 @@ static void phql_wrapper_free(void *pointer)
 	efree(pointer);
 }
 
+/**
+ * Releases a scanner token that the parser did not take over
+ */
+static void phql_token_free(phql_scanner_token *token)
+{
+	if (token->value) {
+		efree(token->value);
+		token->value = NULL;
+		token->len = 0;
+	}
+}
+
 static void phql_parse_with_token(void* phql_parser, int opcode, int parsercode, phql_scanner_token *token, phql_parser_status *parser_status)
 {
 
@@ -373,6 +385,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				if (parser_status->enable_literals) {
 					phql_parse_with_token(phql_parser, PHQL_T_INTEGER, PHQL_INTEGER, &token, parser_status);
 				} else {
+					phql_token_free(&token);
 					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements");
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
@@ -381,6 +394,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				if (parser_status->enable_literals) {
 					phql_parse_with_token(phql_parser, PHQL_T_DOUBLE, PHQL_DOUBLE, &token, parser_status);
 				} else {
+					phql_token_free(&token);
 					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements");
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
@@ -389,6 +403,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				if (parser_status->enable_literals) {
 					phql_parse_with_token(phql_parser, PHQL_T_STRING, PHQL_STRING, &token, parser_status);
 				} else {
+					phql_token_free(&token);
 					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements");
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
@@ -413,6 +428,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				if (parser_status->enable_literals) {
 					phql_parse_with_token(phql_parser, PHQL_T_HINTEGER, PHQL_HINTEGER, &token, parser_status);
 				} else {
+					phql_token_free(&token);
 					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements");
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
@@ -631,6 +647,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 		}
 	}
 
+	phql_token_free(&token);
 	efree(parser_status);
 	efree(state);
 

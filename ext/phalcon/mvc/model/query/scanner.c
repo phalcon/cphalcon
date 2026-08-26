@@ -1023,6 +1023,7 @@ pp71:
 pp72:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
+				case 0x00:
 				case '\n': goto pp70;
 				default: goto pp68;
 			}
@@ -1055,6 +1056,7 @@ pp77:
 pp78:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
+				case 0x00:
 				case '\n': goto pp70;
 				default: goto pp76;
 			}

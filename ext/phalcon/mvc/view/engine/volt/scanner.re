@@ -627,7 +627,7 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			return 0;
 		}
 
-		STRING = (["] ([\\]["]|[\\].|[\001-\377]\[\\"])* ["])|(['] ([\\][']|[\\].|[\001-\377]\[\\'])* [']);
+		STRING = (["] ([\\]["]|[\\][^\n\x00]|[\001-\377]\[\\"])* ["])|(['] ([\\][']|[\\][^\n\x00]|[\001-\377]\[\\'])* [']);
 		STRING {
 			start++;
 			token->opcode = PHVOLT_T_STRING;
