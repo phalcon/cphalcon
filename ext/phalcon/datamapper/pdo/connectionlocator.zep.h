@@ -69,6 +69,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connectio
 	ZEND_ARG_TYPE_INFO(0, eventName, IS_STRING, 0)
 	ZEND_ARG_INFO(0, data)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, cancellable, _IS_BOOL, 0, "true")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, stopOnFalse, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_pdo_connectionlocator_zephir_init_properties_phalcon_datamapper_pdo_connectionlocator, 0, 0, 0)
