@@ -20,6 +20,7 @@ use Phalcon\Acl\Component;
 use Phalcon\Acl\Enum;
 use Phalcon\Acl\Exception as AclException;
 use Phalcon\Acl\Role;
+use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Acl\Fake\Adapter\FakeMemory;
 use Phalcon\Tests\Unit\Acl\Fake\TestComponentAware;
@@ -67,6 +68,33 @@ final class IsAllowedTest extends AbstractUnitTestCase
 
         $actual = $acl->isAllowed('Guests', 'Post', 'update');
         $this->assertFalse($actual);
+    }
+
+    /**
+     * The "!" key delimiter cannot be part of a role, component or access
+     * name, so `(user, billing, invoices!read)` can never collide with a rule
+     * registered for `(user, billing!invoices, read)`.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-25
+     */
+    public function testAclAdapterMemoryIsAllowedDelimiterCannotCollide(): void
+    {
+        $acl = new Memory();
+        $acl->setDefaultAction(Enum::DENY);
+        $acl->addRole('user');
+        $acl->addComponent('billing', ['read']);
+        $acl->allow('user', 'billing', 'read');
+
+        $this->assertTrue($acl->isAllowed('user', 'billing', 'read'));
+        $this->assertFalse($acl->isAllowed('user', 'billing', 'invoices!read'));
+        $this->assertFalse($acl->isAllowed('user', 'billing!invoices', 'read'));
+        $this->assertFalse($acl->isAllowed('low', 'admin!billing', 'read'));
+
+        $this->expectException(AclException::class);
+        $this->expectExceptionMessage("The component name cannot contain '!'");
+
+        $acl->addComponent('billing!invoices', ['read']);
     }
 
     /**
@@ -203,6 +231,46 @@ final class IsAllowedTest extends AbstractUnitTestCase
         $actual = $acl->isAllowed('Member', 'Post', 'update');
 
         $this->assertFalse($actual);
+    }
+
+    /**
+     * `acl:afterCheckAccess` must report the final decision: after the rule
+     * callback and the default action are applied, not the static entry.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-25
+     */
+    public function testAclAdapterMemoryIsAllowedFireEventGrantedMatchesResult(): void
+    {
+        $seen    = [];
+        $manager = new EventsManager();
+        $manager->attach(
+            'acl:afterCheckAccess',
+            function ($event, $source, $data) use (&$seen) {
+                $seen[] = $data['granted'];
+            }
+        );
+
+        $acl = new Memory();
+        $acl->setEventsManager($manager);
+        $acl->setDefaultAction(Enum::DENY);
+        $acl->addRole('Member');
+        $acl->addComponent('Post', ['update', 'delete']);
+        $acl->allow('Member', 'Post', 'update', function () {
+            return false;
+        });
+        $acl->allow('Member', 'Post', 'delete');
+
+        // Static allow, callback denies.
+        $this->assertFalse($acl->isAllowed('Member', 'Post', 'update'));
+        // Static allow, no callback.
+        $this->assertTrue($acl->isAllowed('Member', 'Post', 'delete'));
+
+        // No rule, default action ALLOW.
+        $acl->setDefaultAction(Enum::ALLOW);
+        $this->assertTrue($acl->isAllowed('Member', 'Post', 'view'));
+
+        $this->assertSame([Enum::DENY, Enum::ALLOW, Enum::ALLOW], $seen);
     }
 
     /**

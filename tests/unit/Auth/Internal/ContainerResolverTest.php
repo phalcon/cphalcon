@@ -65,11 +65,35 @@ final class ContainerResolverTest extends AbstractUnitTestCase
         $this->assertInstanceOf(AuthGate::class, $instance);
     }
 
+    public function testResolveFreshBypassesSharedServiceOnDi(): void
+    {
+        $di = new Di();
+        $di->setShared(AuthGate::class, AuthGate::class);
+
+        $first  = ContainerResolver::resolveFresh($di, AuthGate::class);
+        $second = ContainerResolver::resolveFresh($di, AuthGate::class);
+
+        $this->assertInstanceOf(AuthGate::class, $first);
+        $this->assertNotSame($first, $second);
+        $this->assertNotSame($first, $di->getShared(AuthGate::class));
+    }
+
     public function testResolveFreshThrowsContainerExceptionForUnknownClassOnDi(): void
     {
         $this->expectException(ContainerException::class);
 
         ContainerResolver::resolveFresh(new Di(), 'NoSuch\\Class\\AtAll');
+    }
+
+    public function testResolveFreshThrowsForSharedInstanceDefinitionOnDi(): void
+    {
+        $di = new Di();
+        $di->setShared('gate', new AuthGate());
+
+        $this->expectException(ContainerException::class);
+        $this->expectExceptionMessage('registered in the Di as a shared instance');
+
+        ContainerResolver::resolveFresh($di, 'gate');
     }
 
     public function testResolveFreshYieldsFreshInstanceOnContainer(): void

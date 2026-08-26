@@ -50,6 +50,21 @@ final class AddComponentAccessTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-25
+     */
+    public function testAclAdapterMemoryAddComponentAccessWithDelimiterThrowsException(): void
+    {
+        $acl = new Memory();
+        $acl->addComponent('Post', ['update']);
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage("The access name cannot contain '!'");
+
+        $acl->addComponentAccess('Post', ['invoices!read']);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testAclAdapterMemoryAddComponentAccessWrongAccessList(): void

@@ -40,6 +40,21 @@ final class AttributeBagTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-25
+     */
+    public function testHttpRequestBagClearRemovesAllElements(): void
+    {
+        $bag = new AttributeBag(['user' => 'nikos', 0 => 'world']);
+
+        $bag->clear();
+
+        $this->assertSame([], $bag->all());
+        $this->assertCount(0, $bag);
+        $this->assertFalse($bag->has('user'));
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2026-07-16
      */
     public function testHttpRequestBagExtendsAbstractBag(): void

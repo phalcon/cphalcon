@@ -32,6 +32,18 @@ final class ConstructTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-25
+     */
+    public function testAclRoleConstructWithDelimiterThrowsException(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage("The role name cannot contain '!'");
+
+        (new Role('low!admin'));
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testAclRoleConstructWithWildcardThrowsException(): void
