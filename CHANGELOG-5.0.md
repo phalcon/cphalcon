@@ -38,6 +38,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - Malformed ACL snapshot loaded by `Phalcon\Acl\Adapter\Storage` raising `TypeError` or leaving the adapter half loaded, and deep or cyclic object graphs recursing without limit; `InvalidSnapshot` is now thrown before any state changes.
 - Memory leak in the PHQL parser for every rejected literal when `phalcon.orm.enable_literals` is off.
 - Memory leak of the error message on every failed `Phalcon\Mvc\Model\Query\Lang::parsePHQL()` call (syntax and scanner errors); the string was only released at request shutdown.
+- Memory leak of the message buffer on every Volt syntax error (`Phalcon\Mvc\View\Engine\Volt\Compiler`); the buffer was only released at request shutdown.
 - Namespace middleware bypass in the ADR `Router` through case-variant or separator-injected paths that PHP resolves to the canonical Action class; only the exact declared class name is a match.
 - Non-string elements passed to `Phalcon\Acl\Adapter\Memory::addInherit()` raising a warning and a `TypeError` instead of `InvalidRoleType`.
 - Out-of-bounds read in the Annotations scanner when a docblock ends outside an annotation (for example `@!`); the scanner now stops at the end of the input and `Reader::parseDocBlock()` returns `false` instead of an unset value for a docblock without annotations.
