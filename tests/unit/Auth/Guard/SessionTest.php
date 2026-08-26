@@ -310,6 +310,27 @@ final class SessionTest extends AbstractUnitTestCase
         $guard->login($user, true);
     }
 
+    public function testLogoutCleansRememberCookieOfOtherAccount(): void
+    {
+        // Memory adapter: the current user does not implement AuthRemember.
+        $guard = $this->buildGuard();
+        $user  = $this->adapter->retrieveById(1);
+        $this->assertNotNull($user);
+
+        $guard->login($user);
+
+        // A remember cookie left on this browser by another account.
+        $rememberName = $guard->getRememberName();
+        $this->cookies->set(
+            $rememberName,
+            json_encode(['id' => 2, 'token' => 'tok', 'user_agent' => ''])
+        );
+
+        $guard->logout();
+
+        $this->assertFalse($this->cookies->has($rememberName));
+    }
+
     public function testLogoutCleansRememberCookieWhenPresent(): void
     {
         $rememberAdapter = new \Phalcon\Tests\Unit\Auth\Fake\FakeRememberAdapter(
@@ -616,6 +637,39 @@ final class SessionTest extends AbstractUnitTestCase
         );
 
         $this->assertNull($guard->user());
+    }
+
+    public function testUserFromRecallerUsesRequestUserAgent(): void
+    {
+        $rememberAdapter = new FakeRememberAdapter(
+            $this->security,
+            new MemoryAdapterConfig(
+                [['id' => 1, 'email' => 'a@b']],
+                \Phalcon\Tests\Unit\Auth\Fake\FakeAuthUserModel::class
+            )
+        );
+
+        $user = $rememberAdapter->retrieveById(1);
+        $this->assertNotNull($user);
+        $token = $rememberAdapter->createRememberToken($user)->getToken();
+
+        $this->request->setUserAgentFake('Browser/2.0');
+
+        $guard = new Session(
+            $rememberAdapter,
+            $this->request,
+            $this->cookies,
+            $this->session
+        );
+
+        // The cookie carries a different user agent than the request.
+        $this->cookies->set(
+            $guard->getRememberName(),
+            json_encode(['id' => 1, 'token' => $token, 'user_agent' => 'Browser/1.0'])
+        );
+
+        $this->assertNotNull($guard->user());
+        $this->assertSame('Browser/2.0', $rememberAdapter->lastUserAgent);
     }
 
     public function testUserResolvesFromSessionId(): void

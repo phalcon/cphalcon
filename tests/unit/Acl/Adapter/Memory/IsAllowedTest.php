@@ -274,6 +274,40 @@ final class IsAllowedTest extends AbstractUnitTestCase
     }
 
     /**
+     * Every callable form is accepted as a rule: array callables, static
+     * method strings and closures.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-26
+     */
+    public function testAclAdapterMemoryIsAllowedFunctionArrayCallable(): void
+    {
+        $policy = new class () {
+            public function canEdit(): bool
+            {
+                return true;
+            }
+
+            public static function deny(): bool
+            {
+                return false;
+            }
+        };
+
+        $acl = new Memory();
+        $acl->setDefaultAction(Enum::DENY);
+        $acl->addRole('Member');
+        $acl->addComponent('Post', ['update', 'delete', 'view']);
+        $acl->allow('Member', 'Post', 'update', [$policy, 'canEdit']);
+        $acl->allow('Member', 'Post', 'delete', [$policy::class, 'deny']);
+        $acl->allow('Member', 'Post', 'view', $policy::class . '::deny');
+
+        $this->assertTrue($acl->isAllowed('Member', 'Post', 'update'));
+        $this->assertFalse($acl->isAllowed('Member', 'Post', 'delete'));
+        $this->assertFalse($acl->isAllowed('Member', 'Post', 'view'));
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-14
      */
@@ -438,6 +472,32 @@ final class IsAllowedTest extends AbstractUnitTestCase
         // No parameters provided; function has 0 required params → call_user_func($funcAccess)
         $actual = $acl->isAllowed('Admin', 'Post', 'update');
         $this->assertTrue($actual);
+    }
+
+    /**
+     * A rule with builtin-typed parameters (int, ?string, mixed) receives
+     * them by name; the type is not looked up as a class.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-26
+     */
+    public function testAclAdapterMemoryIsAllowedFunctionScalarParameter(): void
+    {
+        $acl = new Memory();
+        $acl->setDefaultAction(Enum::DENY);
+        $acl->addRole('Member');
+        $acl->addComponent('Post', ['update']);
+        $acl->allow(
+            'Member',
+            'Post',
+            'update',
+            function (int $id, ?string $note = null, mixed $extra = null) {
+                return $id > 0;
+            }
+        );
+
+        $this->assertTrue($acl->isAllowed('Member', 'Post', 'update', ['id' => 5]));
+        $this->assertFalse($acl->isAllowed('Member', 'Post', 'update', ['id' => 0]));
     }
 
     /**

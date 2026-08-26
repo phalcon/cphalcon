@@ -37,6 +37,8 @@ final class FakeRememberAdapter extends Memory implements RememberAdapter
      */
     private array $tokenStore = [];
 
+    public ?string $lastUserAgent = null;
+
     public function __construct(Security $hasher, MemoryAdapterConfig $config)
     {
         parent::__construct($hasher, $config);
@@ -56,6 +58,8 @@ final class FakeRememberAdapter extends Memory implements RememberAdapter
         string $token,
         ?string $userAgent = null
     ): ?AuthUser {
+        $this->lastUserAgent = $userAgent;
+
         if (!isset($this->tokenStore[$token])) {
             return null;
         }
