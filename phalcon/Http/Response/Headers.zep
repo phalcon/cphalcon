@@ -24,9 +24,9 @@ use Traversable;
 class Headers implements HeadersInterface, IteratorAggregate
 {
     /**
-     * @phpstan-var http_response_headers
+     * @var array
      */
-    protected array headers = [];
+    protected headers = [];
     protected bool isSent = false;
 
     /**
