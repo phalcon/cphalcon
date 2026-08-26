@@ -2,6 +2,20 @@
 
 All notable changes are documented here. The format is based on [Keep a Changelog][keep_a_changelog] and this project adheres to [Semantic Versioning][semantic_versioning].
 
+## [5.20.3](https://github.com/phalcon/cphalcon/releases/tag/v5.20.3) (2026-xx-xx)
+
+### Tools
+
+- Zephir 1.3.0
+
+### Changed
+
+### Added
+
+### Fixed
+
+- Fixed shared memory leak of response headers into other callers
+
 ## [5.20.2](https://github.com/phalcon/cphalcon/releases/tag/v5.20.2) (2026-08-25)
 
 ### Tools
@@ -18,6 +32,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 ### Fixed
 
 - `Undefined index` notice emitted for every literal route when `Phalcon\Mvc\Router` rebuilds its per-method index. [#17527](https://github.com/phalcon/cphalcon/issues/17527)
+
 
 ## [5.20.1](https://github.com/phalcon/cphalcon/releases/tag/v5.20.1) (2026-08-24)
 
