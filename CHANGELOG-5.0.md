@@ -15,6 +15,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - `Phalcon\Auth\Guard\Session` sets the `Secure` flag of the remember-me cookie from the new `rememberSecure` option (default `true`) instead of the request scheme, so a TLS-terminating proxy that reports plain HTTP to the backend cannot downgrade it.
 - `Phalcon\Auth\Guard\Session` validates the "remember me" token against the user agent of the current request instead of the one stored in the cookie; a browser user-agent change now ends a remembered session.
 - `Phalcon\Encryption\Security::CRYPT_MD5`, `CRYPT_SHA256` and `CRYPT_SHA512` are documented as weak legacy algorithms to be removed in a future major version; use bcrypt or Argon2 and rehash on login.
+- `Phalcon\Storage\Adapter\Stream` creates its shard directories with mode `0755` instead of `0777`. Thanks to [Ilia Alshanetsky](https://ilia.ws)
 
 ### Added
 
@@ -22,14 +23,17 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - `Phalcon\Acl\Exceptions\ForbiddenDelimiter`, thrown when an ACL role, component or access name contains `!`.
 - `Phalcon\Auth\Exceptions\InvalidCredentialKey`, thrown when a credential key passed to `Phalcon\Auth\Adapter\Model::retrieveByCredentials()` is not a plain identifier.
 - `Phalcon\Http\Request\Bag\AbstractBag::clear()`, removing all elements of a request bag.
+- `allowedClasses` option for the Storage adapters (`true`, `false` or a list of class names), forwarded to the new `Phalcon\Storage\Serializer\Php::setAllowedClasses()`: restricts the classes `unserialize()` may instantiate for stored values, including the nested content of the `Stream` adapter. A class outside the list makes the read fail instead of building an object. Thanks to [Ilia Alshanetsky](https://ilia.ws)
 - `rememberSecure` option for the session guard (`Phalcon\Auth\Guard\Config\SessionGuardConfig`, `Session::fromOptions()`).
 
 ### Fixed
 
+- "Remember me" cookie of another account surviving `Phalcon\Auth\Guard\Session::logout()` when the current user does not implement `AuthRemember`.
 - A `false` returned by a listener of `acl:beforeCheckAccess`, `dispatch:beforeDispatch`, `dispatch:beforeExecuteRoute`, `micro:beforeHandleRoute` or `micro:beforeExecuteRoute` being overwritten by a later listener that returned a non-null value; these boundaries now fire with stop-on-false, so a denial is final.
 - Asset output following a symbolic link at the target file and writing outside the assets directory.
 - Backslash path traversal in `Phalcon\Mvc\View::partial()` and `Phalcon\Mvc\View\Simple::render()` on Windows.
 - Cached user surviving `Phalcon\Auth\Guard\Token::setRequest()`, so a replaced request inherited the previous authentication.
+- Column comment concatenated unescaped into the `CREATE TABLE` / `ALTER TABLE` DDL of the MySQL dialect; it is now escaped like the DEFAULT clause. Thanks to [Ilia Alshanetsky](https://ilia.ws)
 - Credential keys interpolated unvalidated into the PHQL built by `Phalcon\Auth\Adapter\Model::retrieveByCredentials()`.
 - Distinct ACL tuples colliding on the same internal key when a role, component or access name contained `!`.
 - Fixed shared memory leak of response headers into other callers
@@ -44,13 +48,15 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - Out-of-bounds read in the Annotations scanner when a docblock ends outside an annotation (for example `@!`); the scanner now stops at the end of the input and `Reader::parseDocBlock()` returns `false` instead of an unset value for a docblock without annotations.
 - Out-of-bounds read in the Annotations, Volt and PHQL scanners when a quoted string ends with a backslash: the escape rule could consume the string terminator.
 - Quadratic list building in the Annotations, Volt and PHQL parsers; argument lists, `IN` lists and array literals with tens of thousands of items now parse in linear time.
-- "Remember me" cookie of another account surviving `Phalcon\Auth\Guard\Session::logout()` when the current user does not implement `AuthRemember`.
 - Request attributes of the previous route surviving on a reused request in `Phalcon\ADR\Application::handle()`.
 - Scheme allow-list bypass in the Filter `url` sanitizer through HTML-entity obfuscated schemes (`java&#115;cript:`) and URLs that `parse_url()` cannot parse; the sanitizer now fails closed. Thanks to [Ilia Alshanetsky](https://ilia.ws)
+- Validators `Alpha`, `Alnum`, `Confirmation`, `CreditCard`, `Digit`, `Numericality`, `Regex`, `StringLength\Min` and `StringLength\Max` cast an array value to the constant `"Array"`, so `field[]=x` passed alphabetic, alphanumeric, length and confirmation checks; a value that cannot be a string is now rejected with the validator's message. Thanks to [Ilia Alshanetsky](https://ilia.ws)
 - Volt extends-mode cache unserialized without a class restriction.
+- `ReflectionException` / `TypeError` from ACL rule callbacks with builtin-typed parameters, array callables or static-method strings.
 - `acl:afterCheckAccess` reporting the static rule instead of the final `isAllowed()` decision (rule callback and default action were not applied).
 - `only()` / `except()` action filters leaking between `Phalcon\Auth\Manager::access()` activations when the access gate was registered as a shared service in the legacy `Di`.
-- `ReflectionException` / `TypeError` from ACL rule callbacks with builtin-typed parameters, array callables or static-method strings.
+
+### Removed
 
 
 ## [5.20.2](https://github.com/phalcon/cphalcon/releases/tag/v5.20.2) (2026-08-25)
@@ -69,6 +75,8 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 ### Fixed
 
 - `Undefined index` notice emitted for every literal route when `Phalcon\Mvc\Router` rebuilds its per-method index. [#17527](https://github.com/phalcon/cphalcon/issues/17527)
+
+### Removed
 
 ## [5.20.1](https://github.com/phalcon/cphalcon/releases/tag/v5.20.1) (2026-08-24)
 
