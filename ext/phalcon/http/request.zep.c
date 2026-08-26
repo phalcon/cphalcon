@@ -98,14 +98,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Request)
 	 */
 	zend_declare_property_null(phalcon_http_request_ce, SL("postCache"), ZEND_ACC_PROTECTED);
 	/**
-	 * @phpstan-var http_parameter_filters
+	 * @var array
 	 */
-	{
-		zval _zc0;
-		array_init_size(&_zc0, 1);
-		zephir_declare_typed_property(phalcon_http_request_ce, SL("queryFilters"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
-	}
-
+	zend_declare_property_null(phalcon_http_request_ce, SL("queryFilters"), ZEND_ACC_PROTECTED);
 	{
 		zval _zc0;
 		ZVAL_STRINGL(&_zc0, "", sizeof("") - 1);
@@ -119,14 +114,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Request)
 	}
 
 	/**
-	 * @phpstan-var list<string>
+	 * @var array
 	 */
-	{
-		zval _zc0;
-		array_init_size(&_zc0, 1);
-		zephir_declare_typed_property(phalcon_http_request_ce, SL("trustedProxies"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
-	}
-
+	zend_declare_property_null(phalcon_http_request_ce, SL("trustedProxies"), ZEND_ACC_PROTECTED);
 	{
 		zval _zc0;
 		ZVAL_STRINGL(&_zc0, "", sizeof("") - 1);
@@ -138,6 +128,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Request)
 		ZVAL_NULL(&_zc0);
 		zephir_declare_typed_property(phalcon_http_request_ce, SL("eventsManager"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_NULL, SL("Phalcon\\Events\\ManagerInterface"));
 	}
+
+	phalcon_http_request_ce->create_object = zephir_init_properties_Phalcon_Http_Request;
 
 	zend_class_implements(phalcon_http_request_ce, 1, phalcon_http_requestinterface_ce);
 	zend_class_implements(phalcon_http_request_ce, 1, phalcon_http_message_requestmethodinterface_ce);
@@ -6454,5 +6446,38 @@ PHP_METHOD(Phalcon_Http_Request, phpUnlink)
 	ZEPHIR_RETURN_CALL_FUNCTION("unlink", NULL, 166, &filename_zv, context);
 	zephir_check_call_status();
 	RETURN_MM();
+}
+
+zend_object *zephir_init_properties_Phalcon_Http_Request(zend_class_entry *class_type)
+{
+		zval _0, _2, _1$$3, _3$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+		ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_3$$4);
+	
+
+		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	
+	{
+		zval local_this_ptr, *this_ptr = &local_this_ptr;
+		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
+		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("trustedProxies"), PH_NOISY_CC | PH_READONLY);
+		if (Z_TYPE_P(&_0) == IS_NULL) {
+			ZEPHIR_INIT_VAR(&_1$$3);
+			array_init(&_1$$3);
+			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("trustedProxies"), &_1$$3);
+		}
+		zephir_read_property_ex(&_2, this_ptr, ZEND_STRL("queryFilters"), PH_NOISY_CC | PH_READONLY);
+		if (Z_TYPE_P(&_2) == IS_NULL) {
+			ZEPHIR_INIT_VAR(&_3$$4);
+			array_init(&_3$$4);
+			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("queryFilters"), &_3$$4);
+		}
+		ZEPHIR_MM_RESTORE();
+		return Z_OBJ_P(this_ptr);
+	}
 }
 
