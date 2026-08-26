@@ -800,6 +800,28 @@ class CompileStringTest extends AbstractUnitTestCase
     }
 
     /**
+     * Array literals are built in linear time; 40,000 items used to take
+     * seconds.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-26
+     */
+    public function testMvcViewEngineVoltCompilerCompileStringLargeArrayLiteral(): void
+    {
+        $count    = 40000;
+        $template = '{{ [' . implode(',', array_fill(0, $count, '1')) . '] }}';
+        $volt     = new Compiler();
+
+        $start  = microtime(true);
+        $actual = $volt->compileString($template);
+        $spent  = microtime(true) - $start;
+
+        $this->assertStringStartsWith('<?= ', $actual);
+        $this->assertSame($count - 1, substr_count($actual, ', 1'));
+        $this->assertLessThan(3.0, $spent);
+    }
+
+    /**
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-01-17
      */
@@ -814,5 +836,30 @@ class CompileStringTest extends AbstractUnitTestCase
         $this->expectExceptionMessage($message);
 
         $volt->compileString($code);
+    }
+
+    /**
+     * A backslash as the last byte of a quoted string must be a scanning
+     * error, not an escape that swallows the terminator.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-26
+     */
+    public function testMvcViewEngineVoltCompilerCompileStringTrailingBackslash(): void
+    {
+        $volt = new Compiler();
+
+        foreach (['{{ "abc\\', "{{ 'abc\\"] as $template) {
+            $caught = null;
+
+            try {
+                $volt->compileString($template);
+            } catch (Exception $ex) {
+                $caught = $ex;
+            }
+
+            $this->assertNotNull($caught, $template);
+            $this->assertStringContainsString('Scanning error', $caught->getMessage());
+        }
     }
 }

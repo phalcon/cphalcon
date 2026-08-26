@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Model\Query\Lang;
 
+use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Query\Lang;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
@@ -111,5 +112,83 @@ final class ParsePHQLTest extends AbstractUnitTestCase
         $ast2 = Lang::parsePHQL($phql);
 
         $this->assertSame($ast1, $ast2);
+    }
+
+    /**
+     * The IN list is built in linear time; 40,000 items used to take
+     * seconds.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-26
+     */
+    public function testMvcModelQueryLangParsePHQLLargeInList(): void
+    {
+        $count = 40000;
+        $phql  = 'SELECT * FROM Robots WHERE id IN ('
+            . implode(',', array_fill(0, $count, '1')) . ')';
+
+        $start  = microtime(true);
+        $actual = Lang::parsePHQL($phql);
+        $spent  = microtime(true) - $start;
+
+        $this->assertIsArray($actual);
+        $this->assertLessThan(3.0, $spent);
+    }
+
+    /**
+     * With literals disabled the scanner still allocates the literal token;
+     * the parser must release it when it rejects the statement.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-26
+     */
+    public function testMvcModelQueryLangParsePHQLRejectedLiteralDoesNotLeak(): void
+    {
+        $previous = ini_get('phalcon.orm.enable_literals');
+        ini_set('phalcon.orm.enable_literals', '0');
+
+        $phql = 'SELECT * FROM Robots WHERE name = "' . str_repeat('x', 1000) . '"';
+
+        try {
+            $before = memory_get_usage();
+
+            for ($i = 0; $i < 5000; $i++) {
+                try {
+                    Lang::parsePHQL($phql);
+                } catch (Exception $ex) {
+                    // Expected: literals are disabled.
+                }
+            }
+
+            $delta = memory_get_usage() - $before;
+        } finally {
+            ini_set('phalcon.orm.enable_literals', $previous);
+        }
+
+        // 5,000 x 1 KB literals leaked ~5.5 MB before the fix.
+        $this->assertLessThan(1048576, $delta);
+    }
+
+    /**
+     * A backslash as the last byte of a quoted string must be a scanning
+     * error, not an escape that swallows the terminator.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-26
+     */
+    public function testMvcModelQueryLangParsePHQLTrailingBackslashInString(): void
+    {
+        foreach (['"abc\\', "'abc\\"] as $literal) {
+            $caught = null;
+
+            try {
+                Lang::parsePHQL('SELECT * FROM Robots WHERE name = ' . $literal);
+            } catch (Exception $ex) {
+                $caught = $ex;
+            }
+
+            $this->assertNotNull($caught, $literal);
+            $this->assertStringContainsString('Scanning error', $caught->getMessage());
+        }
     }
 }
