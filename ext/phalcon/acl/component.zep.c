@@ -83,8 +83,8 @@ PHP_METHOD(Phalcon_Acl_Component, __construct)
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exceptions_forbiddendelimiter_ce, "component", "phalcon/Acl/Component.zep", 31);
 		return;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 390, &name_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 391, &description_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 391, &name_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 392, &description_zv);
 	ZEPHIR_MM_RESTORE();
 }
 

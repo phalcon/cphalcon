@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, clear)
 
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 804, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 805, &_0);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -194,10 +194,10 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, remove)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&link_zv);
 	ZVAL_STR_COPY(&link_zv, link);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 804, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 805, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&elements, &_0);
 	zephir_array_unset(&elements, &link_zv, PH_SEPARATE);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 804, &elements);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 805, &elements);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -272,14 +272,14 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, render)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 804, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 805, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&elements, &_0);
 	if (ZEPHIR_IS_EMPTY(&elements)) {
 		RETURN_MM_STRING("");
 	}
 	ZEPHIR_INIT_VAR(&output);
 	array_init(&output);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 805, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 806, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&template, &_0);
 	ZEPHIR_INIT_VAR(&urls);
 	zephir_array_keys(&urls, &elements);
@@ -400,7 +400,7 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, render)
 		zephir_array_append(&output, &_24$$7, PH_SEPARATE, "phalcon/Html/Breadcrumbs.zep", 170);
 	}
 	ZEPHIR_INIT_VAR(&_31);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_2, 806, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_2, 807, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_32);
 	ZEPHIR_CONCAT_SVS(&_32, "<dt>", &_0, "</dt>");
 	zephir_fast_join(&_31, &_32, &output);
@@ -427,7 +427,7 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, setSeparator)
 		Z_PARAM_STR(separator)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&separator_zv, separator);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 806, &separator_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 807, &separator_zv);
 	RETURN_THISW();
 }
 

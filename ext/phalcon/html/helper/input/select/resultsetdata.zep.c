@@ -135,9 +135,9 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, __construct)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 846, resultset);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 847, &using);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 848, &attributesMap);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 847, resultset);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 848, &using);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 849, &attributesMap);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, getAttributes)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 849, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 850, PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) == IS_NULL) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "resolve", NULL, 0);
 		zephir_check_call_status();
@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, getOptions)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 850, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 851, PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) == IS_NULL) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "resolve", NULL, 0);
 		zephir_check_call_status();
@@ -303,17 +303,17 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, resolve)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 847, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 848, PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&usingZero);
 	zephir_array_fetch_long(&usingZero, &_0, 0, PH_NOISY, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 130);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 847, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 848, PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&usingOne);
 	zephir_array_fetch_long(&usingOne, &_1, 1, PH_NOISY, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 131);
 	ZEPHIR_INIT_VAR(&options);
 	array_init(&options);
 	ZEPHIR_INIT_VAR(&attrs);
 	array_init(&attrs);
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 846, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 847, PH_NOISY_CC | PH_READONLY);
 	zephir_is_iterable(&_2, 0, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 166);
 	if (Z_TYPE_P(&_2) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_2), _3)
@@ -339,11 +339,11 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, resolve)
 			zephir_check_call_status();
 			zephir_array_update_zval(&options, &optionValue, &optionText, PH_COPY | PH_SEPARATE);
 			ZEPHIR_OBS_NVAR(&_8$$3);
-			zephir_read_property_cached(&_8$$3, this_ptr, _zephir_prop_2, 848, PH_NOISY_CC);
+			zephir_read_property_cached(&_8$$3, this_ptr, _zephir_prop_2, 849, PH_NOISY_CC);
 			if (!(ZEPHIR_IS_EMPTY(&_8$$3))) {
 				ZEPHIR_INIT_NVAR(&optionAttrs);
 				array_init(&optionAttrs);
-				zephir_read_property_cached(&_9$$5, this_ptr, _zephir_prop_2, 848, PH_NOISY_CC | PH_READONLY);
+				zephir_read_property_cached(&_9$$5, this_ptr, _zephir_prop_2, 849, PH_NOISY_CC | PH_READONLY);
 				zephir_is_iterable(&_9$$5, 0, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 160);
 				if (Z_TYPE_P(&_9$$5) == IS_ARRAY) {
 					ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_9$$5), _11$$5, _12$$5, _10$$5)
@@ -451,11 +451,11 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, resolve)
 				zephir_check_call_status();
 				zephir_array_update_zval(&options, &optionValue, &optionText, PH_COPY | PH_SEPARATE);
 				ZEPHIR_OBS_NVAR(&_24$$15);
-				zephir_read_property_cached(&_24$$15, this_ptr, _zephir_prop_2, 848, PH_NOISY_CC);
+				zephir_read_property_cached(&_24$$15, this_ptr, _zephir_prop_2, 849, PH_NOISY_CC);
 				if (!(ZEPHIR_IS_EMPTY(&_24$$15))) {
 					ZEPHIR_INIT_NVAR(&optionAttrs);
 					array_init(&optionAttrs);
-					zephir_read_property_cached(&_25$$17, this_ptr, _zephir_prop_2, 848, PH_NOISY_CC | PH_READONLY);
+					zephir_read_property_cached(&_25$$17, this_ptr, _zephir_prop_2, 849, PH_NOISY_CC | PH_READONLY);
 					zephir_is_iterable(&_25$$17, 0, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 160);
 					if (Z_TYPE_P(&_25$$17) == IS_ARRAY) {
 						ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_25$$17), _27$$17, _28$$17, _26$$17)
@@ -528,8 +528,8 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, resolve)
 		}
 	}
 	ZEPHIR_INIT_NVAR(&option);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 850, &options);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 849, &attrs);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 851, &options);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 850, &attrs);
 	ZEPHIR_MM_RESTORE();
 }
 
