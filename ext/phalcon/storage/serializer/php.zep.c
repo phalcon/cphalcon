@@ -36,6 +36,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_Php)
 	 * Classes that unserialize() may instantiate: true (any class, the PHP
 	 * default), false (none) or a list of class names. Stored bytes that
 	 * try to build another class are rejected on read.
+	 *
+	 * @var mixed
 	 */
 	zend_declare_property_bool(phalcon_storage_serializer_php_ce, SL("allowedClasses"), 1, ZEND_ACC_PROTECTED);
 	return SUCCESS;
@@ -166,7 +168,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, unserialize)
 		object_init_ex(&_2$$4, phalcon_storage_serializer_exceptions_invalidunserializationinput_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$4, "phalcon/Storage/Serializer/Php.zep", 76);
+		zephir_throw_exception_debug(&_2$$4, "phalcon/Storage/Serializer/Php.zep", 78);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

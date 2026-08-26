@@ -21,6 +21,8 @@ class Php extends AbstractSerializer
      * Classes that unserialize() may instantiate: true (any class, the PHP
      * default), false (none) or a list of class names. Stored bytes that
      * try to build another class are rejected on read.
+     *
+     * @var mixed
      */
     protected allowedClasses = true;
 
