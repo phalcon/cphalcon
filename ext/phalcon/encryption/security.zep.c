@@ -1616,7 +1616,7 @@ PHP_METHOD(Phalcon_Encryption_Security, phpHash)
 	} else {
 		}
 	ZVAL_BOOL(&_0, (binary ? 1 : 0));
-	ZEPHIR_RETURN_CALL_FUNCTION("hash", NULL, 167, &algorithm_zv, &data_zv, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("hash", NULL, 168, &algorithm_zv, &data_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -1690,7 +1690,7 @@ PHP_METHOD(Phalcon_Encryption_Security, phpHashHmac)
 	} else {
 		}
 	ZVAL_BOOL(&_0, (binary ? 1 : 0));
-	ZEPHIR_RETURN_CALL_FUNCTION("hash_hmac", NULL, 168, &algorithm_zv, &data_zv, &key_zv, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("hash_hmac", NULL, 169, &algorithm_zv, &data_zv, &key_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

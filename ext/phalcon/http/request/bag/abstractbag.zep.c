@@ -116,6 +116,29 @@ PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, all)
 }
 
 /**
+ * Removes all the elements of the bag
+ */
+PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, clear)
+{
+	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("items", 5, 1);
+	}
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+
+	ZEPHIR_INIT_VAR(&_0);
+	array_init(&_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 275, &_0);
+	ZEPHIR_MM_RESTORE();
+}
+
+/**
  * Returns the number of elements in the bag
  */
 PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, count)
@@ -574,9 +597,9 @@ PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, offsetSet)
 	if (Z_TYPE_P(offset) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_http_request_exceptions_nullkeyexception_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 255);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 256);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Http/Request/Bag/AbstractBag.zep", 244);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Http/Request/Bag/AbstractBag.zep", 252);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

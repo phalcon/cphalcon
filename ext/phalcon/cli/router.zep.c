@@ -232,9 +232,9 @@ PHP_METHOD(Phalcon_Cli_Router, add)
 	}
 	ZEPHIR_INIT_VAR(&route);
 	object_init_ex(&route, phalcon_cli_router_route_ce);
-	ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 451, &pattern_zv, paths);
+	ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 455, &pattern_zv, paths);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_0, &route, "getrouteid", NULL, 452);
+	ZEPHIR_CALL_METHOD(&_0, &route, "getrouteid", NULL, 456);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("routes"), &_0, &route);
 	RETURN_CCTOR(&route);
@@ -593,7 +593,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle)
 			object_init_ex(&_1$$4, phalcon_cli_router_exceptions_routerargumentsinvalidtype_ce);
 			ZEPHIR_INIT_VAR(&_2$$4);
 			zephir_gettype(&_2$$4, arguments);
-			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 453, &_2$$4);
+			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 457, &_2$$4);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_1$$4, "phalcon/Cli/Router.zep", 239);
 			ZEPHIR_MM_RESTORE();
@@ -628,7 +628,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle)
 							object_init_ex(&_5$$11, phalcon_cli_router_exceptions_beforematchnotcallable_ce);
 							ZEPHIR_CALL_METHOD(&_6$$11, &route, "getpattern", NULL, 0);
 							zephir_check_call_status();
-							ZEPHIR_CALL_METHOD(NULL, &_5$$11, "__construct", &_7, 454, &_6$$11);
+							ZEPHIR_CALL_METHOD(NULL, &_5$$11, "__construct", &_7, 458, &_6$$11);
 							zephir_check_call_status();
 							zephir_throw_exception_debug(&_5$$11, "phalcon/Cli/Router.zep", 273);
 							ZEPHIR_MM_RESTORE();
@@ -782,7 +782,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle)
 								object_init_ex(&_24$$31, phalcon_cli_router_exceptions_beforematchnotcallable_ce);
 								ZEPHIR_CALL_METHOD(&_25$$31, &route, "getpattern", NULL, 0);
 								zephir_check_call_status();
-								ZEPHIR_CALL_METHOD(NULL, &_24$$31, "__construct", &_7, 454, &_25$$31);
+								ZEPHIR_CALL_METHOD(NULL, &_24$$31, "__construct", &_7, 458, &_25$$31);
 								zephir_check_call_status();
 								zephir_throw_exception_debug(&_24$$31, "phalcon/Cli/Router.zep", 273);
 								ZEPHIR_MM_RESTORE();

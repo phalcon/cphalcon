@@ -299,24 +299,28 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateClaim)
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateAudience)
 {
-	zend_bool _0, _10;
+	zend_bool _0, _12;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zephir_fcall_cache_entry *_9 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *audience = NULL, audience_sub, item, tokenAudience, _3, _4, _5, _6, *_7, _9, _1$$3, _2$$4, _8$$6, _11$$8;
+	zval *audience = NULL, audience_sub, __$true, item, tokenAudience, _3, _4, _5, _6, *_7, _11, _1$$3, _2$$4, _8$$5, _10$$6, _13$$7, _14$$8;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&audience_sub);
+	ZVAL_BOOL(&__$true, 1);
 	ZVAL_UNDEF(&item);
 	ZVAL_UNDEF(&tokenAudience);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_6);
-	ZVAL_UNDEF(&_9);
+	ZVAL_UNDEF(&_11);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$4);
-	ZVAL_UNDEF(&_8$$6);
-	ZVAL_UNDEF(&_11$$8);
+	ZVAL_UNDEF(&_8$$5);
+	ZVAL_UNDEF(&_10$$6);
+	ZVAL_UNDEF(&_13$$7);
+	ZVAL_UNDEF(&_14$$8);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("token", 5, 1);
@@ -363,36 +367,40 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateAudience)
 		{
 			ZEPHIR_INIT_NVAR(&item);
 			ZVAL_COPY(&item, _7);
-			if (1 != zephir_fast_in_array(&item, &tokenAudience)) {
-				ZVAL_UNDEF(&_8$$6);
-				ZEPHIR_INIT_NVAR(&_8$$6);
-				ZVAL_STRING(&_8$$6, "Validation: audience not allowed");
-				zephir_update_property_array_append(this_ptr, SL("errors"), &_8$$6);
+			ZEPHIR_CALL_FUNCTION(&_8$$5, "in_array", &_9, 89, &item, &tokenAudience, &__$true);
+			zephir_check_call_status();
+			if (!ZEPHIR_IS_TRUE_IDENTICAL(&_8$$5)) {
+				ZVAL_UNDEF(&_10$$6);
+				ZEPHIR_INIT_NVAR(&_10$$6);
+				ZVAL_STRING(&_10$$6, "Validation: audience not allowed");
+				zephir_update_property_array_append(this_ptr, SL("errors"), &_10$$6);
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, audience, "rewind", NULL, 0);
 		zephir_check_call_status();
-		_10 = 1;
+		_12 = 1;
 		while (1) {
-			if (_10) {
-				_10 = 0;
+			if (_12) {
+				_12 = 0;
 			} else {
 				ZEPHIR_CALL_METHOD(NULL, audience, "next", NULL, 0);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_9, audience, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_11, audience, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_9)) {
+			if (!zend_is_true(&_11)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&item, audience, "current", NULL, 0);
 			zephir_check_call_status();
-				if (1 != zephir_fast_in_array(&item, &tokenAudience)) {
-					ZVAL_UNDEF(&_11$$8);
-					ZEPHIR_INIT_NVAR(&_11$$8);
-					ZVAL_STRING(&_11$$8, "Validation: audience not allowed");
-					zephir_update_property_array_append(this_ptr, SL("errors"), &_11$$8);
+				ZEPHIR_CALL_FUNCTION(&_13$$7, "in_array", &_9, 89, &item, &tokenAudience, &__$true);
+				zephir_check_call_status();
+				if (!ZEPHIR_IS_TRUE_IDENTICAL(&_13$$7)) {
+					ZVAL_UNDEF(&_14$$8);
+					ZEPHIR_INIT_NVAR(&_14$$8);
+					ZVAL_STRING(&_14$$8, "Validation: audience not allowed");
+					zephir_update_property_array_append(this_ptr, SL("errors"), &_14$$8);
 				}
 		}
 	}

@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_CsEnv, resolve)
 	ZVAL_STRING(&_2, "\"");
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "\\");
-	ZEPHIR_CALL_FUNCTION(&values, "str_getcsv", NULL, 493, &_0, &_1, &_2, &_3);
+	ZEPHIR_CALL_FUNCTION(&values, "str_getcsv", NULL, 497, &_0, &_1, &_2, &_3);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 549, PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_4) != IS_NULL) {

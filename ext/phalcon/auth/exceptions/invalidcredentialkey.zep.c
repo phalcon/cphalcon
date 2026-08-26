@@ -13,8 +13,9 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
-#include "kernel/object.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 
 
 /**
@@ -26,40 +27,37 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Filter\Sanitize\LowerFirst
- *
- * Sanitizes a value to lcfirst
+ * A credential key is not a plain identifier and cannot be used as a query
+ * column
  */
-ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_LowerFirst)
+ZEPHIR_INIT_CLASS(Phalcon_Auth_Exceptions_InvalidCredentialKey)
 {
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Filter\\Sanitize, LowerFirst, phalcon, filter_sanitize_lowerfirst, phalcon_filter_sanitize_lowerfirst_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Auth\\Exceptions, InvalidCredentialKey, phalcon, auth_exceptions_invalidcredentialkey, phalcon_auth_exception_ce, phalcon_auth_exceptions_invalidcredentialkey_method_entry, 0);
 
-	zend_class_implements(phalcon_filter_sanitize_lowerfirst_ce, 1, phalcon_contracts_filter_sanitizer_ce);
 	return SUCCESS;
 }
 
-/**
- * @param string $input The text to sanitize
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Filter_Sanitize_LowerFirst, __invoke)
+PHP_METHOD(Phalcon_Auth_Exceptions_InvalidCredentialKey, __construct)
 {
+	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval input_zv;
-	zend_string *input = NULL;
+	zval key_zv;
+	zend_string *key = NULL;
 
-	ZVAL_UNDEF(&input_zv);
+	ZVAL_UNDEF(&key_zv);
+	ZVAL_UNDEF(&_0);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(input)
+		Z_PARAM_STR(key)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_memory_observe(&input_zv);
-	ZVAL_STR_COPY(&input_zv, input);
-	ZEPHIR_RETURN_CALL_FUNCTION("lcfirst", NULL, 178, &input_zv);
+	zephir_memory_observe(&key_zv);
+	ZVAL_STR_COPY(&key_zv, key);
+	ZEPHIR_INIT_VAR(&_0);
+	ZEPHIR_CONCAT_SVS(&_0, "Credential key '", &key_zv, "' is not a valid identifier");
+	ZEPHIR_CALL_PARENT(NULL, phalcon_auth_exceptions_invalidcredentialkey_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
-	RETURN_MM();
+	ZEPHIR_MM_RESTORE();
 }
 

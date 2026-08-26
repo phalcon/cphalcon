@@ -15,6 +15,7 @@
 #include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
+#include "kernel/string.h"
 #include "kernel/object.h"
 
 
@@ -75,7 +76,11 @@ PHP_METHOD(Phalcon_Acl_Component, __construct)
 	ZVAL_STR_COPY(&description_zv, description);
 	}
 	if (UNEXPECTED(ZEPHIR_IS_STRING_IDENTICAL(&name_zv, "*"))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exceptions_forbiddenwildcard_ce, "component", "phalcon/Acl/Component.zep", 26);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exceptions_forbiddenwildcard_ce, "component", "phalcon/Acl/Component.zep", 27);
+		return;
+	}
+	if (UNEXPECTED(zephir_memnstr_str(&name_zv, SL("!"), "phalcon/Acl/Component.zep", 30))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exceptions_forbiddendelimiter_ce, "component", "phalcon/Acl/Component.zep", 31);
 		return;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 390, &name_zv);

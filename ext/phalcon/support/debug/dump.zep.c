@@ -841,7 +841,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 				ZVAL_LONG(&_7$$5, 3);
 				ZEPHIR_INIT_NVAR(&_10$$5);
 				ZVAL_STRING(&_10$$5, "utf-8");
-				ZEPHIR_CALL_FUNCTION(&_12$$5, "htmlspecialchars", &_14, 196, &_13$$5, &_7$$5, &_10$$5);
+				ZEPHIR_CALL_FUNCTION(&_12$$5, "htmlspecialchars", &_14, 197, &_13$$5, &_7$$5, &_10$$5);
 				zephir_check_call_status();
 				zephir_array_update_string(&_11$$5, SL("key"), &_12$$5, PH_COPY | PH_SEPARATE);
 				ZEPHIR_CPY_WRT(&context, &_11$$5);
@@ -911,7 +911,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 					ZVAL_LONG(&_23$$7, 3);
 					ZEPHIR_INIT_NVAR(&_25$$7);
 					ZVAL_STRING(&_25$$7, "utf-8");
-					ZEPHIR_CALL_FUNCTION(&_27$$7, "htmlspecialchars", &_14, 196, &_28$$7, &_23$$7, &_25$$7);
+					ZEPHIR_CALL_FUNCTION(&_27$$7, "htmlspecialchars", &_14, 197, &_28$$7, &_23$$7, &_25$$7);
 					zephir_check_call_status();
 					zephir_array_update_string(&_26$$7, SL("key"), &_27$$7, PH_COPY | PH_SEPARATE);
 					ZEPHIR_CPY_WRT(&context, &_26$$7);
@@ -1015,7 +1015,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 				_46$$9 = zephir_is_instance_of(variable, SL("stdClass"));
 			}
 			if (_46$$9) {
-				ZEPHIR_CALL_FUNCTION(&vars, "get_object_vars", NULL, 355, variable);
+				ZEPHIR_CALL_FUNCTION(&vars, "get_object_vars", NULL, 357, variable);
 				zephir_check_call_status();
 				zephir_is_iterable(&vars, 0, "phalcon/Support/Debug/Dump.zep", 364);
 				if (Z_TYPE_P(&vars) == IS_ARRAY) {
@@ -1111,10 +1111,10 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 			} else {
 				ZEPHIR_INIT_VAR(&reflect);
 				object_init_ex(&reflect, zephir_get_internal_ce(SL("reflectionclass")));
-				ZEPHIR_CALL_METHOD(NULL, &reflect, "__construct", NULL, 248, variable);
+				ZEPHIR_CALL_METHOD(NULL, &reflect, "__construct", NULL, 249, variable);
 				zephir_check_call_status();
 				ZVAL_LONG(&_69$$15, ((1 | 2) | 4));
-				ZEPHIR_CALL_METHOD(&props, &reflect, "getproperties", NULL, 367, &_69$$15);
+				ZEPHIR_CALL_METHOD(&props, &reflect, "getproperties", NULL, 370, &_69$$15);
 				zephir_check_call_status();
 				zephir_is_iterable(&props, 0, "phalcon/Support/Debug/Dump.zep", 392);
 				if (Z_TYPE_P(&props) == IS_ARRAY) {
