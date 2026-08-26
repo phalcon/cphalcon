@@ -26,7 +26,6 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 ### Fixed
 
-- "Remember me" cookie of another account surviving `Phalcon\Auth\Guard\Session::logout()` when the current user does not implement `AuthRemember`.
 - A `false` returned by a listener of `acl:beforeCheckAccess`, `dispatch:beforeDispatch`, `dispatch:beforeExecuteRoute`, `micro:beforeHandleRoute` or `micro:beforeExecuteRoute` being overwritten by a later listener that returned a non-null value; these boundaries now fire with stop-on-false, so a denial is final.
 - Asset output following a symbolic link at the target file and writing outside the assets directory.
 - Backslash path traversal in `Phalcon\Mvc\View::partial()` and `Phalcon\Mvc\View\Simple::render()` on Windows.
@@ -37,14 +36,19 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - JWT audience validated with a loose comparison, so a numeric or boolean `aud` claim satisfied a string audience.
 - Length-dependent HMAC work on the CBC decrypt failure path of `Phalcon\Encryption\Crypt`, which could still tell a padding failure from a MAC mismatch by timing.
 - Malformed ACL snapshot loaded by `Phalcon\Acl\Adapter\Storage` raising `TypeError` or leaving the adapter half loaded, and deep or cyclic object graphs recursing without limit; `InvalidSnapshot` is now thrown before any state changes.
+- Memory leak in the PHQL parser for every rejected literal when `phalcon.orm.enable_literals` is off.
 - Namespace middleware bypass in the ADR `Router` through case-variant or separator-injected paths that PHP resolves to the canonical Action class; only the exact declared class name is a match.
 - Non-string elements passed to `Phalcon\Acl\Adapter\Memory::addInherit()` raising a warning and a `TypeError` instead of `InvalidRoleType`.
+- Out-of-bounds read in the Annotations scanner when a docblock ends outside an annotation (for example `@!`); the scanner now stops at the end of the input and `Reader::parseDocBlock()` returns `false` instead of an unset value for a docblock without annotations.
+- Out-of-bounds read in the Annotations, Volt and PHQL scanners when a quoted string ends with a backslash: the escape rule could consume the string terminator.
+- Quadratic list building in the Annotations, Volt and PHQL parsers; argument lists, `IN` lists and array literals with tens of thousands of items now parse in linear time.
+- "Remember me" cookie of another account surviving `Phalcon\Auth\Guard\Session::logout()` when the current user does not implement `AuthRemember`.
 - Request attributes of the previous route surviving on a reused request in `Phalcon\ADR\Application::handle()`.
 - Scheme allow-list bypass in the Filter `url` sanitizer through HTML-entity obfuscated schemes (`java&#115;cript:`) and URLs that `parse_url()` cannot parse; the sanitizer now fails closed. Thanks to [Ilia Alshanetsky](https://ilia.ws)
 - Volt extends-mode cache unserialized without a class restriction.
-- `ReflectionException` / `TypeError` from ACL rule callbacks with builtin-typed parameters, array callables or static-method strings.
 - `acl:afterCheckAccess` reporting the static rule instead of the final `isAllowed()` decision (rule callback and default action were not applied).
 - `only()` / `except()` action filters leaking between `Phalcon\Auth\Manager::access()` activations when the access gate was registered as a shared service in the legacy `Di`.
+- `ReflectionException` / `TypeError` from ACL rule callbacks with builtin-typed parameters, array callables or static-method strings.
 
 
 ## [5.20.2](https://github.com/phalcon/cphalcon/releases/tag/v5.20.2) (2026-08-25)
