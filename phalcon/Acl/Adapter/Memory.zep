@@ -683,7 +683,9 @@ class Memory extends AbstractAdapter
                 "role":      roleName,
                 "component": componentName,
                 "access":    access
-            ]
+            ],
+            true,
+            true
         )) {
             return false;
         }

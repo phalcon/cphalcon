@@ -18,6 +18,7 @@ use Phalcon\Di\FactoryDefault;
 use Phalcon\Di\Injectable;
 use Phalcon\Di\ServiceInterface;
 use Phalcon\Events\EventsAwareInterface;
+use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Http\ResponseInterface;
 use Phalcon\Mvc\Micro\Collection;
@@ -369,7 +370,15 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
              * Calling beforeHandle routing
              */
             if this->eventsManager !== null {
-                if this->eventsManager->fire("micro:beforeHandleRoute", this) === false {
+                /**
+                 * A denial must be final: ask the concrete Manager for
+                 * stop-on-false on this call.
+                 */
+                if this->eventsManager instanceof EventsManager {
+                    if this->eventsManager->fire("micro:beforeHandleRoute", this, null, true, true) === false {
+                        return false;
+                    }
+                } elseif this->eventsManager->fire("micro:beforeHandleRoute", this) === false {
                     return false;
                 }
             }
@@ -403,7 +412,11 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
                  * Calling beforeExecuteRoute event
                  */
                 if this->eventsManager !== null {
-                    if this->eventsManager->fire("micro:beforeExecuteRoute", this) === false {
+                    if this->eventsManager instanceof EventsManager {
+                        if this->eventsManager->fire("micro:beforeExecuteRoute", this, null, true, true) === false {
+                            return false;
+                        }
+                    } elseif this->eventsManager->fire("micro:beforeExecuteRoute", this) === false {
                         return false;
                     }
 
