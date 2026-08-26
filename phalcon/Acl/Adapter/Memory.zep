@@ -319,6 +319,10 @@ class Memory extends AbstractAdapter
                 let roleInheritName = roleToInherit;
             }
 
+            if unlikely typeof roleInheritName !== "string" && typeof roleInheritName !== "int" {
+                throw new InvalidRoleType();
+            }
+
             /**
              * Check if the role to inherit is repeat
              */
@@ -1028,7 +1032,7 @@ class Memory extends AbstractAdapter
             reflectionType, userParametersSizeShouldBe;
         bool hasComponent = false, hasRole = false;
 
-        let reflectionFunction   = new ReflectionFunction(funcAccess),
+        let reflectionFunction   = new ReflectionFunction(\Closure::fromCallable(funcAccess)),
             reflectionParameters = reflectionFunction->getParameters(),
             parameterNumber      = count(reflectionParameters);
 
@@ -1049,7 +1053,7 @@ class Memory extends AbstractAdapter
             let parameterToCheck = reflectionParameter->getName();
 
 
-            if null !== reflectionType && (reflectionType instanceof ReflectionNamedType) {
+            if null !== reflectionType && (reflectionType instanceof ReflectionNamedType) && !reflectionType->isBuiltin() {
                 let className       = reflectionType->getName();
                 let reflectionClass = new ReflectionClass(className);
                 // roleObject is this class
