@@ -75,6 +75,6 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkMessage, setJobId)
 		Z_PARAM_STR(jobId)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&jobId_zv, jobId);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1261, &jobId_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1262, &jobId_zv);
 }
 

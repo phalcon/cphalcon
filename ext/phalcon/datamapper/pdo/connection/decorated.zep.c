@@ -84,7 +84,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_Decorated, __construct)
 	} else {
 		ZEPHIR_SEPARATE_PARAM(profiler);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 567, pdo);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 568, pdo);
 	if (Z_TYPE_P(profiler) == IS_NULL) {
 		ZEPHIR_INIT_NVAR(profiler);
 		object_init_ex(profiler, phalcon_datamapper_pdo_profiler_profiler_ce);

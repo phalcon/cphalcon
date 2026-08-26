@@ -135,7 +135,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version5, __construct)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_17, this_ptr, "format", NULL, 0, &_18);
 	zephir_check_call_status();
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 726, &_17);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 727, &_17);
 	ZEPHIR_MM_RESTORE();
 }
 

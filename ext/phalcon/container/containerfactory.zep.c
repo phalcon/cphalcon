@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Container_ContainerFactory, newContainer)
 	object_init_ex(&container, phalcon_container_container_ce);
 	ZEPHIR_CALL_METHOD(NULL, &container, "__construct", NULL, 222);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 531, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 532, PH_NOISY_CC | PH_READONLY);
 	zephir_is_iterable(&_0, 0, "phalcon/Container/ContainerFactory.zep", 72);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)

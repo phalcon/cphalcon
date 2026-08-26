@@ -57,6 +57,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Auth_Guard_Config_SessionGuardConfig)
 	{
 		zval _zc0;
 		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_auth_guard_config_sessionguardconfig_ce, SL("rememberSecure"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_BOOL, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
 		zephir_declare_typed_property(phalcon_auth_guard_config_sessionguardconfig_ce, SL("rememberTtl"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_LONG, NULL, 0);
 	}
 
@@ -76,14 +82,17 @@ ZEPHIR_INIT_CLASS(Phalcon_Auth_Guard_Config_SessionGuardConfig)
 PHP_METHOD(Phalcon_Auth_Guard_Config_SessionGuardConfig, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_bool rememberSecure;
 	zend_long rememberTtl, ZEPHIR_LAST_CALL_STATUS;
-	zval suffix_zv, name_zv, rememberName_zv, *rememberTtl_param = NULL, _0, _1, _2, _3, _4, _5, _6$$3;
+	zval suffix_zv, name_zv, rememberName_zv, *rememberTtl_param = NULL, *rememberSecure_param = NULL, __$true, __$false, _0, _1, _2, _3, _4, _5, _6$$3;
 	zend_string *suffix = NULL, *name = NULL, *rememberName = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&suffix_zv);
 	ZVAL_UNDEF(&name_zv);
 	ZVAL_UNDEF(&rememberName_zv);
+	ZVAL_BOOL(&__$true, 1);
+	ZVAL_BOOL(&__$false, 0);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
@@ -94,6 +103,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Config_SessionGuardConfig, __construct)
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	static zend_string *_zephir_prop_2 = NULL;
+	static zend_string *_zephir_prop_3 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("name", 4, 1);
 	}
@@ -103,19 +113,26 @@ PHP_METHOD(Phalcon_Auth_Guard_Config_SessionGuardConfig, __construct)
 	if (UNEXPECTED(!_zephir_prop_2)) {
 		_zephir_prop_2 = zend_string_init("rememberTtl", 11, 1);
 	}
+	if (UNEXPECTED(!_zephir_prop_3)) {
+		_zephir_prop_3 = zend_string_init("rememberSecure", 14, 1);
+	}
 
 	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(0, 4)
+	ZEND_PARSE_PARAMETERS_START(0, 5)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(suffix)
 		Z_PARAM_STR_OR_NULL(name)
 		Z_PARAM_STR_OR_NULL(rememberName)
 		Z_PARAM_LONG_OR_NULL(rememberTtl, is_null_true)
+		Z_PARAM_BOOL(rememberSecure)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	if (ZEND_NUM_ARGS() > 3) {
 		rememberTtl_param = ZEND_CALL_ARG(execute_data, 4);
+	}
+	if (ZEND_NUM_ARGS() > 4) {
+		rememberSecure_param = ZEND_CALL_ARG(execute_data, 5);
 	}
 	if (!suffix) {
 		ZEPHIR_INIT_VAR(&suffix_zv);
@@ -137,6 +154,10 @@ PHP_METHOD(Phalcon_Auth_Guard_Config_SessionGuardConfig, __construct)
 	}
 	if (!rememberTtl_param) {
 		rememberTtl = 0;
+	} else {
+		}
+	if (!rememberSecure_param) {
+		rememberSecure = 1;
 	} else {
 		}
 	ZEPHIR_INIT_VAR(&_0);
@@ -180,6 +201,11 @@ PHP_METHOD(Phalcon_Auth_Guard_Config_SessionGuardConfig, __construct)
 		ZVAL_LONG(&_3, 31536000);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 443, &_3);
+	if (rememberSecure) {
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 444, &__$true);
+	} else {
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 444, &__$false);
+	}
 	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 441, PH_NOISY_CC | PH_READONLY);
 	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_1, 442, PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_IS_IDENTICAL(&_4, &_5)) {
@@ -187,7 +213,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Config_SessionGuardConfig, __construct)
 		object_init_ex(&_6$$3, phalcon_auth_exceptions_sessionnamesmustdiffer_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_6$$3, "__construct", NULL, 415);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_6$$3, "phalcon/Auth/Guard/Config/SessionGuardConfig.zep", 58);
+		zephir_throw_exception_debug(&_6$$3, "phalcon/Auth/Guard/Config/SessionGuardConfig.zep", 61);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -204,6 +230,17 @@ PHP_METHOD(Phalcon_Auth_Guard_Config_SessionGuardConfig, getRememberName)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "rememberName", IS_STRING);
+}
+
+/**
+ * Whether the remember-me cookie carries the Secure flag. Defaults to
+ * true: the cookie is a bearer credential. Set it to false only for a
+ * deployment that serves plain HTTP on purpose.
+ */
+PHP_METHOD(Phalcon_Auth_Guard_Config_SessionGuardConfig, getRememberSecure)
+{
+
+	RETURN_MEMBER(getThis(), "rememberSecure");
 }
 
 PHP_METHOD(Phalcon_Auth_Guard_Config_SessionGuardConfig, getRememberTtl)
