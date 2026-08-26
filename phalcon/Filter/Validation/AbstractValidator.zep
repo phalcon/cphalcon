@@ -377,4 +377,23 @@ abstract class AbstractValidator implements ValidatorInterface
 
         return label;
     }
+
+    /**
+     * Rejects a value that cannot be a string: an array, or an object without
+     * __toString(). A cast would turn an array into the constant "Array",
+     * which satisfies the string checks. Appends the message and returns
+     * true when the value is rejected.
+     */
+    protected function rejectNonStringable(<Validation> validation, var field, var value) -> bool
+    {
+        if typeof value === "array" || (typeof value === "object" && !method_exists(value, "__toString")) {
+            validation->appendMessage(
+                this->messageFactory(validation, field)
+            );
+
+            return true;
+        }
+
+        return false;
+    }
 }

@@ -77,6 +77,10 @@ class Alnum extends AbstractValidator
             return true;
         }
 
+        if this->rejectNonStringable(validation, field, value) {
+            return false;
+        }
+
         if !ctype_alnum((string) value) {
             validation->appendMessage(
                 this->messageFactory(validation, field)
