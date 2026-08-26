@@ -213,13 +213,20 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
         this->fireManagerEvent("auth:beforeLogout", ["user" : current], false);
 
         let recaller = this->recaller();
-        if (recaller !== null && current instanceof AuthRemember) {
-            let token    = recaller->getToken();
-            let tokenRow = current->getRememberToken(token);
-            if (typeof tokenRow === "object") {
-                tokenRow->delete();
+        if (recaller !== null) {
+            if (current instanceof AuthRemember) {
+                let token    = recaller->getToken();
+                let tokenRow = current->getRememberToken(token);
+                if (typeof tokenRow === "object") {
+                    tokenRow->delete();
+                }
             }
 
+            /**
+             * The cookie can belong to another account (account switch).
+             * Remove it whatever the current user is, so the next request
+             * cannot promote it back into a session.
+             */
             if (this->cookies->has(this->getRememberName())) {
                 this->cookies->delete(this->getRememberName());
             }
@@ -445,10 +452,14 @@ class Session extends AbstractGuard implements GuardStateful, BasicAuth
             return null;
         }
 
+        /**
+         * Compare the stored user agent with the one of the current request,
+         * not with the value carried by the cookie itself.
+         */
         let resolved = this->adapter->retrieveByToken(
             id,
             recaller->getToken(),
-            recaller->getUserAgent()
+            (string) this->request->getUserAgent()
         );
 
         let this->viaRemember = resolved !== null;
