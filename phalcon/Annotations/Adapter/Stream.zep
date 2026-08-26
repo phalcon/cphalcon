@@ -61,12 +61,12 @@ class Stream extends AbstractAdapter
     public function read(string key) -> <Reflection> | bool | int
     {
         var contents;
-        string path;
+        var path;
 
         /**
          * Paths must be normalized before be used as keys
          */
-        let path = this->annotationsDir . prepare_virtual_path(key, "_") . ".php";
+        let path = this->getFilePath(key);
 
         if !this->phpFileExists(path) {
             return false;
@@ -117,16 +117,34 @@ class Stream extends AbstractAdapter
     public function write( string key, <Reflection> data) -> void
     {
         var code;
-        string path;
+        var path;
 
         /**
          * Paths must be normalized before be used as keys
          */
-        let path = this->annotationsDir . prepare_virtual_path(key, "_") . ".php",
+        let path = this->getFilePath(key),
             code = serialize(data);
 
         if unlikely this->phpFilePutContents(path, code) === false {
             throw new AnnotationsDirectoryNotWritable();
         }
+    }
+
+    /**
+     * Builds the cache file path. Namespace separators become "_", so a
+     * name that itself contains "_" gets a hash suffix; otherwise "A\\B"
+     * and "A_B" would share one file.
+     */
+    private function getFilePath(string key) -> string
+    {
+        var name;
+
+        let name = prepare_virtual_path(key, "_");
+
+        if memstr(key, "_") {
+            let name = name . "_" . sha1(key);
+        }
+
+        return this->annotationsDir . name . ".php";
     }
 }
