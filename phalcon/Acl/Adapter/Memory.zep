@@ -17,6 +17,7 @@ use Phalcon\Acl\Enum;
 use Phalcon\Acl\Exceptions\AccessRuleNotFound;
 use Phalcon\Acl\Exceptions\CircularInheritanceError;
 use Phalcon\Acl\Exceptions\ElementNotFound;
+use Phalcon\Acl\Exceptions\ForbiddenDelimiter;
 use Phalcon\Acl\Exceptions\InvalidAccessList;
 use Phalcon\Acl\Exceptions\InvalidComponentImplementation;
 use Phalcon\Acl\Exceptions\InvalidRoleImplementation;
@@ -251,6 +252,10 @@ class Memory extends AbstractAdapter
         if typeof accessList === "array" {
             /** @var array<int|string, string> $accessList */
             for accessName in accessList {
+                if unlikely memstr(accessName, "!") {
+                    throw new ForbiddenDelimiter("access");
+                }
+
                 let accessKey = this->buildAccessKey(componentName, accessName);
 
                 if !isset this->accessList[accessKey] {
@@ -258,6 +263,10 @@ class Memory extends AbstractAdapter
                 }
             }
         } else {
+            if unlikely memstr(accessList, "!") {
+                throw new ForbiddenDelimiter("access");
+            }
+
             let accessKey = this->buildAccessKey(componentName, accessList);
 
             if !isset this->accessList[accessKey] {
@@ -308,6 +317,10 @@ class Memory extends AbstractAdapter
                 let roleInheritName = roleToInherit->getName();
             } else {
                 let roleInheritName = roleToInherit;
+            }
+
+            if unlikely typeof roleInheritName !== "string" && typeof roleInheritName !== "int" {
+                throw new InvalidRoleType();
             }
 
             /**
@@ -639,7 +652,8 @@ class Memory extends AbstractAdapter
     ) -> bool {
         var accessKey, accessList, componentObject = null,
             haveAccess = null, funcAccess = null, funcList,
-            roleObject = null;
+            roleObject = null, ruleResult;
+        bool allowed;
 
         if typeof roleName === "object" && roleName instanceof RoleAwareInterface {
             let roleObject = roleName;
@@ -657,6 +671,7 @@ class Memory extends AbstractAdapter
             this->activeAccess    = access,
             this->activeKey       = null,
             this->activeFunction  = null,
+            this->accessGranted   = Enum::DENY,
             accessList            = this->access,
             funcList              = this->functions;
 
@@ -668,7 +683,9 @@ class Memory extends AbstractAdapter
                 "role":      roleName,
                 "component": componentName,
                 "access":    access
-            ]
+            ],
+            true,
+            true
         )) {
             return false;
         }
@@ -691,10 +708,43 @@ class Memory extends AbstractAdapter
             fetch funcAccess, funcList[accessKey];
         }
 
+        let this->activeKey      = (accessKey === false) ? null : accessKey,
+            this->activeFunction = funcAccess;
+
+        if haveAccess == null {
+            /**
+             * Change activeKey to most narrow if there was no access for any
+             * patterns found
+             */
+            let this->activeKey = this->buildKey(roleName, componentName, access);
+
+            let allowed = this->defaultAccess == Enum::ALLOW;
+        } elseif is_callable(funcAccess) {
+            /**
+             * If we have funcAccess then do all the checks for it
+             */
+            let ruleResult = this->invokeRule(
+                funcAccess,
+                haveAccess,
+                parameters,
+                roleObject,
+                componentObject,
+                roleName,
+                componentName,
+                access
+            );
+
+            let allowed = ruleResult;
+        } else {
+            let allowed = haveAccess == Enum::ALLOW;
+        }
+
         /**
-         * Check in the inherits roles
+         * Report the final decision - after the default action and the rule
+         * callback are applied - so listeners see the same result as the
+         * caller.
          */
-        let this->accessGranted = (null === haveAccess) ? Enum::DENY : haveAccess;
+        let this->accessGranted = allowed ? Enum::ALLOW : Enum::DENY;
 
         this->fireManagerEvent(
             "acl:afterCheckAccess",
@@ -706,36 +756,7 @@ class Memory extends AbstractAdapter
             ]
         );
 
-        let this->activeKey      = (accessKey === false) ? null : accessKey,
-            this->activeFunction = funcAccess;
-
-        if haveAccess == null {
-            /**
-             * Change activeKey to most narrow if there was no access for any
-             * patterns found
-             */
-            let this->activeKey = this->buildKey(roleName, componentName, access);
-
-            return this->defaultAccess == Enum::ALLOW;
-        }
-
-        /**
-         * If we have funcAccess then do all the checks for it
-         */
-        if is_callable(funcAccess) {
-            return this->invokeRule(
-                funcAccess,
-                haveAccess,
-                parameters,
-                roleObject,
-                componentObject,
-                roleName,
-                componentName,
-                access
-            );
-        }
-
-        return haveAccess == Enum::ALLOW;
+        return allowed;
     }
 
     /**
@@ -1013,7 +1034,7 @@ class Memory extends AbstractAdapter
             reflectionType, userParametersSizeShouldBe;
         bool hasComponent = false, hasRole = false;
 
-        let reflectionFunction   = new ReflectionFunction(funcAccess),
+        let reflectionFunction   = new ReflectionFunction(\Closure::fromCallable(funcAccess)),
             reflectionParameters = reflectionFunction->getParameters(),
             parameterNumber      = count(reflectionParameters);
 
@@ -1034,7 +1055,7 @@ class Memory extends AbstractAdapter
             let parameterToCheck = reflectionParameter->getName();
 
 
-            if null !== reflectionType && (reflectionType instanceof ReflectionNamedType) {
+            if null !== reflectionType && (reflectionType instanceof ReflectionNamedType) && !reflectionType->isBuiltin() {
                 let className       = reflectionType->getName();
                 let reflectionClass = new ReflectionClass(className);
                 // roleObject is this class

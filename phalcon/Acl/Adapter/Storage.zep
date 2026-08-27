@@ -64,7 +64,8 @@ class Storage extends Memory implements Persistable
      */
     public function load() -> bool
     {
-        var data, version, name, description, rebuiltRoles, rebuiltComponents;
+        var data, version, name, description, rebuiltRoles, rebuiltComponents,
+            defaultAccess, noArgumentsDefaultAction, inherits, inherit, e;
 
         let data = this->storage->get(this->key);
 
@@ -101,15 +102,47 @@ class Storage extends Memory implements Persistable
             throw new InvalidSnapshot("Malformed ACL snapshot structure");
         }
 
-        /** @var acl_snapshot $data */
-        let rebuiltRoles = [];
-        for name, description in data["roles"] {
-            let rebuiltRoles[name] = new Role(name, description);
+        /**
+         * Validate everything before any state is replaced, so a bad
+         * snapshot never leaves the adapter half loaded.
+         */
+        let defaultAccess            = isset(data["defaultAccess"]) ? data["defaultAccess"] : Enum::DENY,
+            noArgumentsDefaultAction = isset(data["noArgumentsDefaultAction"]) ? data["noArgumentsDefaultAction"] : Enum::DENY;
+
+        if unlikely (
+            (defaultAccess !== Enum::ALLOW && defaultAccess !== Enum::DENY) ||
+            (noArgumentsDefaultAction !== Enum::ALLOW && noArgumentsDefaultAction !== Enum::DENY)
+        ) {
+            throw new InvalidSnapshot("Malformed ACL snapshot default action");
         }
 
-        let rebuiltComponents = [];
-        for name, description in data["components"] {
-            let rebuiltComponents[name] = new Component(name, description);
+        for name, inherits in data["roleInherits"] {
+            if unlikely typeof inherits !== "array" {
+                throw new InvalidSnapshot("Malformed ACL snapshot role inheritance");
+            }
+
+            for inherit in inherits {
+                if unlikely typeof inherit !== "string" && typeof inherit !== "int" {
+                    throw new InvalidSnapshot("Malformed ACL snapshot role inheritance");
+                }
+            }
+        }
+
+        /** @var acl_snapshot $data */
+        try {
+            let rebuiltRoles = [];
+            for name, description in data["roles"] {
+                let rebuiltRoles[name] = new Role(name, description);
+            }
+
+            let rebuiltComponents = [];
+            for name, description in data["components"] {
+                let rebuiltComponents[name] = new Component(name, description);
+            }
+        } catch \Throwable, e {
+            throw new InvalidSnapshot(
+                "Malformed ACL snapshot element: " . e->getMessage()
+            );
         }
 
         let this->access                   = data["access"],
@@ -118,8 +151,8 @@ class Storage extends Memory implements Persistable
             this->componentsNames          = data["componentsNames"],
             this->roles                    = rebuiltRoles,
             this->roleInherits             = data["roleInherits"],
-            this->defaultAccess            = isset(data["defaultAccess"]) ? data["defaultAccess"] : Enum::DENY,
-            this->noArgumentsDefaultAction = isset(data["noArgumentsDefaultAction"]) ? data["noArgumentsDefaultAction"] : Enum::DENY;
+            this->defaultAccess            = defaultAccess,
+            this->noArgumentsDefaultAction = noArgumentsDefaultAction;
 
         return true;
     }
@@ -168,11 +201,17 @@ class Storage extends Memory implements Persistable
     /**
      * Recursively converts stdClass into nested arrays so a snapshot stored
      * through an object-decoding serializer (e.g. JSON) is read back the same
-     * way as the array-decoding serializers (php, igbinary, msgpack).
+     * way as the array-decoding serializers (php, igbinary, msgpack). A
+     * snapshot is at most three levels deep; a deeper (or cyclic) graph is
+     * rejected.
      */
-    private function normalizeToArray(var value) -> var
+    private function normalizeToArray(var value, int depth = 0) -> var
     {
         var item, key, result;
+
+        if unlikely depth > 4 {
+            throw new InvalidSnapshot("ACL snapshot nesting is too deep");
+        }
 
         if typeof value === "object" {
             let value = get_object_vars(value);
@@ -184,7 +223,7 @@ class Storage extends Memory implements Persistable
 
         let result = [];
         for key, item in value {
-            let result[key] = this->normalizeToArray(item);
+            let result[key] = this->normalizeToArray(item, depth + 1);
         }
 
         return result;

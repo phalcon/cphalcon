@@ -405,17 +405,29 @@ class Manager implements ManagerInterface, Enumerable
      *
      * @param object source
      * @param mixed  data
+     * @param bool|null stopOnFalse Per-call override of setStopOnFalse():
+     *                              `true` makes a listener's `false` final
+     *                              for this fire only, `false` keeps
+     *                              last-wins, `null` uses the manager
+     *                              setting. Not part of ManagerInterface.
      * @return mixed
      */
     public function fire(
         string eventType,
         object source,
         var data = null,
-        bool cancelable = true
+        bool cancelable = true,
+        var stopOnFalse = null
     ) {
         var cached, colonPos, event, eventName, ex, fireEvents, stashed,
-            status, type, wasDepth;
+            status, stop, type, wasDepth;
         bool collect, hasFullQueue, hasTypeQueue;
+
+        if stopOnFalse === null {
+            let stop = this->stopOnFalse;
+        } else {
+            let stop = (bool) stopOnFalse;
+        }
 
         // Manager-level kill switch - halt() trips this and every fire
         // returns null without dispatching until resume() clears it.
@@ -504,14 +516,15 @@ class Manager implements ManagerInterface, Enumerable
                     source,
                     data,
                     cancelable,
-                    collect
+                    collect,
+                    stop
                 );
             }
 
             // stopOnFalse propagation: dispatch already short-circuited
             // its queue; skip the fully-qualified queue too and pin
             // the fire() return as false.
-            if !(this->stopOnFalse && cancelable && status === false)
+            if !(stop && cancelable && status === false)
                 && hasFullQueue
                 && (!cancelable || !event->isStopped())
             {
@@ -523,7 +536,8 @@ class Manager implements ManagerInterface, Enumerable
                     source,
                     data,
                     cancelable,
-                    collect
+                    collect,
+                    stop
                 );
             }
         } catch \Throwable, ex {
@@ -626,7 +640,8 @@ class Manager implements ManagerInterface, Enumerable
                     source,
                     data,
                     cancelable,
-                    true
+                    true,
+                    this->stopOnFalse
                 );
             }
 
@@ -643,7 +658,8 @@ class Manager implements ManagerInterface, Enumerable
                     source,
                     data,
                     cancelable,
-                    true
+                    true,
+                    this->stopOnFalse
                 );
             }
         } catch \Throwable, ex {
@@ -682,7 +698,8 @@ class Manager implements ManagerInterface, Enumerable
             event->getSource(),
             event->getData(),
             event->isCancelable(),
-            this->collect
+            this->collect,
+            this->stopOnFalse
         );
     }
 
@@ -1020,7 +1037,8 @@ class Manager implements ManagerInterface, Enumerable
         var source,
         var data,
         bool cancelable,
-        bool collect
+        bool collect,
+        bool stopOnFalse
     ) {
         var handler, handlerCallable, handlerClass, handlerObject, type,
             ret, status, tuple;
@@ -1068,7 +1086,7 @@ class Manager implements ManagerInterface, Enumerable
             }
 
             // Opt-in hard `false`-cancel - single-handler variant.
-            if this->stopOnFalse && cancelable && ret === false {
+            if stopOnFalse && cancelable && ret === false {
                 return false;
             }
 
@@ -1130,7 +1148,7 @@ class Manager implements ManagerInterface, Enumerable
             // been called, a listener returning false short-circuits
             // the queue and pins the dispatch return as false. fire()
             // checks the return and propagates accordingly.
-            if this->stopOnFalse && cancelable && ret === false {
+            if stopOnFalse && cancelable && ret === false {
                 return false;
             }
 

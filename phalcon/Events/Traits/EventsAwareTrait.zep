@@ -49,9 +49,23 @@ trait EventsAwareTrait
     protected function fireManagerEvent(
         string eventName,
         var data = null,
-        bool cancellable = true
+        bool cancellable = true,
+        bool stopOnFalse = false
     ) -> mixed {
         if (null !== this->eventsManager) {
+            /**
+             * A security boundary asks for stop-on-false so a listener's
+             * denial cannot be overwritten by a later listener. Only the
+             * concrete Manager knows the per-call override; a custom
+             * ManagerInterface keeps its own semantics.
+             */
+            if (stopOnFalse && this->eventsManager instanceof \Phalcon\Events\Manager) {
+                return this
+                    ->eventsManager
+                    ->fire(eventName, this, data, cancellable, true)
+                ;
+            }
+
             return this
                 ->eventsManager
                 ->fire(eventName, this, data, cancellable)

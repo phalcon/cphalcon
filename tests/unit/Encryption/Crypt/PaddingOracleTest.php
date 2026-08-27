@@ -21,6 +21,42 @@ use Phalcon\Tests\Unit\Encryption\Fake\Crypt\FakeCryptHashHmacCounter;
 final class PaddingOracleTest extends AbstractUnitTestCase
 {
     /**
+     * On a padding failure the HMAC runs over a dummy of the ciphertext
+     * length. The success path hashes the unpadded plaintext, so the two
+     * lengths differ by the padding only (at most one cipher block), not by
+     * the whole message.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-26
+     */
+    public function testEncryptionCryptCbcTamperHmacCoversSameLength(): void
+    {
+        $crypt = new FakeCryptHashHmacCounter();
+        $crypt->setCipher('aes-256-cbc');
+        $crypt->setKey('0123456789abcdef0123456789abcdef');
+
+        $encrypted = $crypt->encrypt('a secret message that spans blocks');
+
+        FakeCryptHashHmacCounter::resetHashHmacCalls();
+        $crypt->decrypt($encrypted);
+        $successLength = FakeCryptHashHmacCounter::$lastDataLength;
+
+        $tampered     = $encrypted;
+        $tampered[-1] = $tampered[-1] ^ "\xFF";
+
+        FakeCryptHashHmacCounter::resetHashHmacCalls();
+        try {
+            $crypt->decrypt($tampered);
+        } catch (Mismatch $ex) {
+        }
+        $failureLength = FakeCryptHashHmacCounter::$lastDataLength;
+
+        $this->assertGreaterThan(0, $successLength);
+        $this->assertGreaterThanOrEqual($successLength, $failureLength);
+        $this->assertLessThanOrEqual($successLength + 16, $failureLength);
+    }
+
+    /**
      * A tampered CBC ciphertext must fail with a single generic error whether
      * the tamper breaks the PKCS7 padding or the HMAC, so it cannot be used as
      * a padding oracle (CWE-649).

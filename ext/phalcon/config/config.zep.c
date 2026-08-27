@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Config_Config, path)
 	}
 	ZEPHIR_CPY_WRT(&pathDelimiter, &delimiter_zv);
 	if (1 == ZEPHIR_IS_EMPTY(&pathDelimiter)) {
-		zephir_read_property_cached(&_1$$4, this_ptr, _zephir_prop_0, 48, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_1$$4, this_ptr, _zephir_prop_0, 49, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CPY_WRT(&pathDelimiter, &_1$$4);
 	}
 	ZEPHIR_INIT_VAR(&config);
@@ -295,7 +295,7 @@ PHP_METHOD(Phalcon_Config_Config, setPathDelimiter)
 		zephir_memory_observe(&delimiter_zv);
 	ZVAL_STR_COPY(&delimiter_zv, delimiter);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 48, &delimiter_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 49, &delimiter_zv);
 	RETURN_THIS();
 }
 
@@ -609,7 +609,7 @@ PHP_METHOD(Phalcon_Config_Config, setData)
 	}
 	zephir_cast_to_string(&_0, element);
 	ZEPHIR_CPY_WRT(element, &_0);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 49, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 50, PH_NOISY_CC | PH_READONLY);
 	if (zephir_is_true(&_1)) {
 		ZEPHIR_CALL_FUNCTION(&key, "mb_strtolower", NULL, 16, element);
 		zephir_check_call_status();
@@ -620,9 +620,9 @@ PHP_METHOD(Phalcon_Config_Config, setData)
 	if (Z_TYPE_P(value) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(&_2$$4);
 		object_init_ex(&_2$$4, phalcon_config_config_ce);
-		zephir_read_property_cached(&_3$$4, this_ptr, _zephir_prop_0, 49, PH_NOISY_CC | PH_READONLY);
-		zephir_read_property_cached(&_4$$4, this_ptr, _zephir_prop_1, 50, PH_NOISY_CC | PH_READONLY);
-		zephir_read_property_cached(&_5$$4, this_ptr, _zephir_prop_2, 51, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_3$$4, this_ptr, _zephir_prop_0, 50, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_4$$4, this_ptr, _zephir_prop_1, 51, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_5$$4, this_ptr, _zephir_prop_2, 52, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 42, value, &_3$$4, &_4$$4, &_5$$4);
 		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("data"), element, &_2$$4);

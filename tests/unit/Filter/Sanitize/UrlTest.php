@@ -106,6 +106,36 @@ final class UrlTest extends AbstractUnitTestCase
     }
 
     /**
+     * The scheme check must fail closed when parse_url() cannot extract a
+     * scheme: an entity-obfuscated scheme (parse_url() sees no scheme) or an
+     * invalid URL (parse_url() returns false) must not pass through.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-25
+     */
+    public function testFilterSanitizeUrlBlocksObfuscatedScheme(): void
+    {
+        $sanitizer = new Url();
+
+        // Entity-obfuscated scheme: parse_url() extracts no scheme.
+        $this->assertSame('', $sanitizer('java&#115;cript:alert(1)'));
+        $this->assertSame('', $sanitizer('javascript&colon;alert(1)'));
+        $this->assertSame('', $sanitizer('&#106;avascript:alert(1)'));
+
+        // Invalid port makes parse_url() return false.
+        $this->assertSame('', $sanitizer('javascript://a:1x%0aalert(1)'));
+        $this->assertSame('', $sanitizer('http://example.com:99999/'));
+
+        // Relative URLs with a colon after the path or query still pass.
+        $this->assertSame('/rel?x=a:b', $sanitizer('/rel?x=a:b'));
+        $this->assertSame('page#a:b', $sanitizer('page#a:b'));
+        $this->assertSame(
+            'https://phalcon.io/a?b=1#c',
+            $sanitizer('https://phalcon.io/a?b=1#c')
+        );
+    }
+
+    /**
      * filter_var() returns false for an input it cannot sanitize. The result
      * is cast, so the sanitizer always gives back a string.
      *

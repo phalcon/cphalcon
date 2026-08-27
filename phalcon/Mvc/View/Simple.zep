@@ -448,10 +448,11 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
         /**
          * Drop "." and ".." path segments so a crafted view path cannot climb
          * out of the views directory, while still allowing sub-directories and
-         * absolute paths (CWE-22).
+         * absolute paths (CWE-22). Backslashes are separators on Windows, so
+         * they are normalized first.
          */
         let segments = [];
-        for segment in explode("/", path) {
+        for segment in explode("/", str_replace("\\", "/", path)) {
             if segment !== "." && segment !== ".." {
                 let segments[] = segment;
             }

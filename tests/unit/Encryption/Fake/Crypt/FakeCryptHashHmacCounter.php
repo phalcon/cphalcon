@@ -23,9 +23,12 @@ class FakeCryptHashHmacCounter extends Crypt
 {
     public static int $hashHmacCalls = 0;
 
+    public static int $lastDataLength = 0;
+
     public static function resetHashHmacCalls(): void
     {
-        self::$hashHmacCalls = 0;
+        self::$hashHmacCalls  = 0;
+        self::$lastDataLength = 0;
     }
 
     /**
@@ -47,6 +50,7 @@ class FakeCryptHashHmacCounter extends Crypt
         bool $binary = false
     ): string {
         self::$hashHmacCalls++;
+        self::$lastDataLength = strlen($data);
 
         return parent::phpHashHmac($algorithm, $data, $key, $binary);
     }

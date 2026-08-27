@@ -37,13 +37,14 @@ final class GetFilepathTraversalTest extends AbstractUnitTestCase
 
     /**
      * A Windows style separator must not climb out of the storage directory
-     * either (CWE-22).
+     * either (CWE-22). A key with a separator also gets a hash suffix, so it
+     * cannot share a file with a key that spells the "_" replacement itself.
      */
     public function testStorageAdapterStreamGetFilepathNeutralizesBackslash(): void
     {
         $actual = $this->getFilepath('..\..\pwned');
 
-        $this->assertSame('.._.._pwned', basename($actual));
+        $this->assertStringStartsWith('.._.._pwned_', basename($actual));
         $this->assertStringNotContainsString('\\', $actual);
         $this->assertStringStartsWith($this->getStorageDir(), $actual);
     }
@@ -56,7 +57,7 @@ final class GetFilepathTraversalTest extends AbstractUnitTestCase
     {
         $actual = $this->getFilepath('php://filter');
 
-        $this->assertSame('php___filter', basename($actual));
+        $this->assertStringStartsWith('php___filter_', basename($actual));
         $this->assertStringNotContainsString(':', $actual);
         $this->assertStringStartsWith($this->getStorageDir(), $actual);
     }

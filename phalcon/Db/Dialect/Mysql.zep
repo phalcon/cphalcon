@@ -266,7 +266,7 @@ class Mysql extends Dialect
              * Add a COMMENT clause
              */
              if column->getComment() {
-                let columnLine .= " COMMENT '" . column->getComment() . "'";
+                let columnLine .= " COMMENT '" . this->escapeStringLiteral(column->getComment()) . "'";
             }
 
             let createLines[] = columnLine;
@@ -908,7 +908,7 @@ class Mysql extends Dialect
         * Add a COMMENT clause
         */
         if column->getComment() {
-            let sql .= " COMMENT '" . column->getComment() . "'";
+            let sql .= " COMMENT '" . this->escapeStringLiteral(column->getComment()) . "'";
         }
 
         if column->isFirst() {

@@ -111,6 +111,21 @@ final class ManagerTest extends AbstractUnitTestCase
         $this->assertInstanceOf(Auth::class, $manager->getAccess());
     }
 
+    public function testAccessResolvesFreshGateFromSharedDiService(): void
+    {
+        $di = new Di();
+        $di->setShared(Auth::class, Auth::class);
+
+        $manager = new Manager(new AccessLocator($di));
+        $manager->access('auth');
+        $manager->except('admin');
+
+        $manager->access('auth');
+
+        $this->assertSame([], $manager->getAccess()->getExceptActions());
+        $this->assertSame([], $di->getShared(Auth::class)->getExceptActions());
+    }
+
     public function testAccessResolvesUnregisteredBinaryGateOnLegacyDi(): void
     {
         $manager = new Manager(new AccessLocator(new Di()));

@@ -20,6 +20,7 @@ use Phalcon\Auth\Adapter\Config\ModelAdapterConfig;
 use Phalcon\Auth\Adapter\Model;
 use Phalcon\Auth\Exception;
 use Phalcon\Auth\Exceptions\DoesNotImplement;
+use Phalcon\Auth\Exceptions\InvalidCredentialKey;
 use Phalcon\Encryption\Security;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Auth\Fake\FakeAuthUserModel;
@@ -103,6 +104,16 @@ final class ModelTest extends AbstractUnitTestCase
 
         $this->assertInstanceOf(FakeAuthUserModel::class, $user);
         $this->assertSame(1, $user->getAuthIdentifier());
+    }
+
+    public function testRetrieveByCredentialsRejectsUnsafeKey(): void
+    {
+        $this->expectException(InvalidCredentialKey::class);
+        $this->expectExceptionMessage("Credential key 'email] = :email: OR [id' is not a valid identifier");
+
+        $this->adapter->retrieveByCredentials([
+            'email] = :email: OR [id' => 'alice@example.com',
+        ]);
     }
 
     public function testRetrieveByCredentialsReturnsNullForOnlyPassword(): void

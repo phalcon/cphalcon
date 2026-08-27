@@ -53,9 +53,10 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Url, __invoke)
 	zval _2, _4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *input, input_sub, sanitized, scheme, _0, _1, _3, _6, _8;
+	zval *input, input_sub, parsed, sanitized, scheme, _0, _1, _3, _6, _8;
 
 	ZVAL_UNDEF(&input_sub);
+	ZVAL_UNDEF(&parsed);
 	ZVAL_UNDEF(&sanitized);
 	ZVAL_UNDEF(&scheme);
 	ZVAL_UNDEF(&_0);
@@ -77,10 +78,16 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Url, __invoke)
 	zephir_check_call_status();
 	zephir_cast_to_string(&_2, &_1);
 	ZEPHIR_CPY_WRT(&sanitized, &_2);
-	ZVAL_LONG(&_0, 0);
-	ZEPHIR_CALL_FUNCTION(&_3, "parse_url", NULL, 0, &sanitized, &_0);
+	ZVAL_LONG(&_0, (3 | 48));
+	ZEPHIR_CALL_FUNCTION(&_3, "html_entity_decode", NULL, 0, &sanitized, &_0);
 	zephir_check_call_status();
-	zephir_cast_to_string(&_4, &_3);
+	ZVAL_LONG(&_0, 0);
+	ZEPHIR_CALL_FUNCTION(&parsed, "parse_url", NULL, 0, &_3, &_0);
+	zephir_check_call_status();
+	if (ZEPHIR_IS_FALSE_IDENTICAL(&parsed)) {
+		RETURN_MM_STRING("");
+	}
+	zephir_cast_to_string(&_4, &parsed);
 	ZEPHIR_CPY_WRT(&scheme, &_4);
 	_5 = !ZEPHIR_IS_STRING_IDENTICAL(&scheme, "");
 	if (_5) {

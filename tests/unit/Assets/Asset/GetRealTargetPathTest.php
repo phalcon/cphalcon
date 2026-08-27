@@ -69,6 +69,32 @@ final class GetRealTargetPathTest extends AbstractUnitTestCase
     }
 
     /**
+     * A symbolic link at the target file would send the write outside the
+     * assets directory, so it is refused (empty path).
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-26
+     */
+    public function testAssetsAssetGetRealTargetPathRejectsSymlink(): void
+    {
+        $dir    = Talon::settings()->outputPath('tests/assets/');
+        $target = $dir . 'symlink-target.css';
+        $link   = $dir . 'symlink.css';
+
+        file_put_contents($target, 'a {}');
+        $this->safeDeleteFile($link);
+        symlink($target, $link);
+
+        $asset  = new Asset('css', 'symlink.css');
+        $actual = $asset->getRealTargetPath($dir);
+
+        $this->safeDeleteFile($link);
+        $this->safeDeleteFile($target);
+
+        $this->assertSame('', $actual);
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

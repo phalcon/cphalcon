@@ -945,6 +945,7 @@ vv69:
 vv70:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
+				case 0x00:
 				case '\n': goto vv68;
 				default: goto vv66;
 			}
@@ -972,6 +973,7 @@ vv73:
 vv74:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
+				case 0x00:
 				case '\n': goto vv68;
 				default: goto vv72;
 			}

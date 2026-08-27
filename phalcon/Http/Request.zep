@@ -83,15 +83,15 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      */
     protected postCache = null;
     /**
-     * @phpstan-var http_parameter_filters
+     * @var array
      */
-    protected array queryFilters = [];
+    protected queryFilters = [];
     protected string rawBody = "";
     protected bool strictHostCheck = false;
     /**
-     * @phpstan-var list<string>
+     * @var array
      */
-    protected array trustedProxies = [];
+    protected trustedProxies = [];
     protected string trustedProxyHeader = "";
 
     /**

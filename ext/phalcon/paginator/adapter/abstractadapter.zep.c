@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &config_param);
 	zephir_get_arrval(&config, config_param);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 80, &config);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 81, &config);
 	if (UNEXPECTED(!(zephir_array_isset_value_string(&config, SL("limit"))))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exceptions_missingrequiredparameter_ce, "limit", "phalcon/Paginator/Adapter/AbstractAdapter.zep", 62);
 		return;
@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, setCurrentPage)
 	zephir_fetch_params_without_memory_grow(1, 0, &page_param);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, page);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 81, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 82, &_0);
 	RETURN_THISW();
 }
 
@@ -190,7 +190,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, setLimit)
 	}
 	ZVAL_UNDEF(&_1);
 	ZVAL_LONG(&_1, limit);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 82, &_1);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 83, &_1);
 	RETURN_THIS();
 }
 
@@ -212,7 +212,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, setRepository)
 		Z_PARAM_OBJECT_OF_CLASS(repository, phalcon_paginator_repositoryinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &repository);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 83, repository);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 84, repository);
 	RETURN_THISW();
 }
 
@@ -252,7 +252,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, getRepository)
 		zephir_get_arrval(&properties, properties_param);
 	}
 	zephir_memory_observe(&_0);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 83, PH_NOISY_CC);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 84, PH_NOISY_CC);
 	if (Z_TYPE_P(&_0) != IS_OBJECT) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_paginator_repository_ce);
@@ -261,10 +261,10 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, getRepository)
 			zephir_check_call_status();
 		}
 
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 83, &_1$$3);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 84, &_1$$3);
 	}
 	if (!ZEPHIR_IS_NULL(&properties)) {
-		zephir_read_property_cached(&_2$$4, this_ptr, _zephir_prop_0, 83, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_2$$4, this_ptr, _zephir_prop_0, 84, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "setproperties", NULL, 0, &properties);
 		zephir_check_call_status();
 	}

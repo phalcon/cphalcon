@@ -32,6 +32,18 @@ final class ConstructTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-25
+     */
+    public function testAclComponentConstructWithDelimiterThrowsException(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage("The component name cannot contain '!'");
+
+        (new Component('billing!invoices'));
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function testAclComponentConstructWithWildcardThrowsException(): void

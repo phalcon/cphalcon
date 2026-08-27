@@ -78,6 +78,10 @@ class Alpha extends AbstractValidator
             return true;
         }
 
+        if this->rejectNonStringable(validation, field, value) {
+            return false;
+        }
+
         /**
          * preg_match on an empty string finds no non-alpha chars and would
          * pass, which is wrong when allowEmpty is explicitly set to false.

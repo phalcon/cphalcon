@@ -30,7 +30,7 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 	/*!re2c
 	ESCQQ           = [\\]["];
 	ESCQ            = [\\]['];
-	ESCSEQ          = [\\].;
+	ESCSEQ          = [\\][^\n\x00];
 	ANYNOEOF        = [\001-\377];
 	PRINTABLE       = [^\x00-\x1F\x7F];
 

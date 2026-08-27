@@ -125,6 +125,29 @@ class PartialTest extends AbstractUnitTestCase
     }
 
     /**
+     * Backslashes are path separators on Windows. They are normalized before
+     * the `..` filter, so `..\\partial` resolves inside the partials
+     * directory instead of one level above it.
+     */
+    public function testMvcViewPartialCannotTraverseWithBackslash(): void
+    {
+        $container = new Di();
+        $view      = new View();
+
+        $view->setViewsDir(
+            $this->getDirSeparator(Talon::settings()->supportPath('assets/views'))
+        );
+        $view->setPartialsDir('partials/');
+        $view->setDI($container);
+
+        ob_start();
+        $view->partial('..\\partial', ['cool_var' => 'abcde']);
+        $actual = ob_get_clean();
+
+        $this->assertSame('Hey, this is a partial, also abcde', $actual);
+    }
+
+    /**
      * Dropping the `.` and `..` segments must keep a legitimate sub-directory
      * partial working.
      *

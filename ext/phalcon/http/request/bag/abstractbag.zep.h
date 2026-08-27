@@ -5,6 +5,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Request_Bag_AbstractBag);
 
 PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, __construct);
 PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, all);
+PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, clear);
 PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, count);
 PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, get);
 PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, getArray);
@@ -28,6 +29,9 @@ ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, items, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_bag_abstractbag_all, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_bag_abstractbag_clear, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_bag_abstractbag_count, 0, 0, IS_LONG, 0)
@@ -111,6 +115,7 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_http_request_bag_abstractbag_method_entry) {
 	PHP_ME(Phalcon_Http_Request_Bag_AbstractBag, __construct, arginfo_phalcon_http_request_bag_abstractbag___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Http_Request_Bag_AbstractBag, all, arginfo_phalcon_http_request_bag_abstractbag_all, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request_Bag_AbstractBag, clear, arginfo_phalcon_http_request_bag_abstractbag_clear, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request_Bag_AbstractBag, count, arginfo_phalcon_http_request_bag_abstractbag_count, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request_Bag_AbstractBag, get, arginfo_phalcon_http_request_bag_abstractbag_get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request_Bag_AbstractBag, getArray, arginfo_phalcon_http_request_bag_abstractbag_getarray, ZEND_ACC_PUBLIC)

@@ -150,6 +150,9 @@
 		} else {
 			status->syntax_error = NULL;
 		}
+
+		/* The message was copied; release the builder buffer. */
+		smart_str_free(&error_str);
 	}
 
 	status->status = PHVOLT_PARSING_FAILED;

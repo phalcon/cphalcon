@@ -116,6 +116,27 @@ final class TokenTest extends AbstractUnitTestCase
         $this->assertSame('abcdef123', $guard->getTokenForRequest());
     }
 
+    public function testSetRequestClearsCachedUser(): void
+    {
+        $this->request->setQueryFake('api_token', 'abcdef123');
+
+        $guard = new Token(
+            $this->adapter,
+            $this->request,
+            new TokenGuardConfig('api_token', 'api_token')
+        );
+
+        $this->assertNotNull($guard->user());
+        $this->assertTrue($guard->check());
+        $this->assertSame(1, $guard->id());
+
+        $guard->setRequest(new FakeRequest());
+
+        $this->assertNull($guard->user());
+        $this->assertFalse($guard->check());
+        $this->assertNull($guard->id());
+    }
+
     public function testSetRequestReplacesRequest(): void
     {
         $guard = new Token(

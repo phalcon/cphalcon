@@ -1213,7 +1213,7 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
     case 86:
     case 87:
     case 88:
-#line 164 "parser.php.lemon"
+#line 167 "parser.php.lemon"
 {
 	if ((yypminor->yy0)) {
 		if ((yypminor->yy0)->free_flag) {
@@ -1225,7 +1225,7 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
 #line 1226 "parser.php.c"
       break;
     case 91:
-#line 177 "parser.php.lemon"
+#line 180 "parser.php.lemon"
 {
 	if (&(yypminor->yy186)) {
 		zval_ptr_dtor(&(yypminor->yy186));
@@ -1429,7 +1429,7 @@ static void yy_shift(
      while( yypParser->yyidx>=0 ) yy_pop_parser_stack(yypParser);
      /* Here code is inserted which will execute if the parser
      ** stack every overflows */
-#line 158 "parser.php.lemon"
+#line 161 "parser.php.lemon"
 
 	status->status = PHVOLT_PARSING_FAILED;
 	status->syntax_error_len = strlen("Parsing failed, the template expression is nested too deeply");
@@ -1658,7 +1658,7 @@ static void yy_reduce(
   **     break;
   */
       case 0:
-#line 173 "parser.php.lemon"
+#line 176 "parser.php.lemon"
 {
 	ZVAL_ZVAL(&status->ret, &yymsp[0].minor.yy186, 1, 1);
 }
@@ -1688,14 +1688,14 @@ static void yy_reduce(
       case 24:
       case 25:
       case 145:
-#line 183 "parser.php.lemon"
+#line 186 "parser.php.lemon"
 {
 	yygotominor.yy186 = yymsp[0].minor.yy186;
 }
 #line 1696 "parser.php.c"
         break;
       case 2:
-#line 187 "parser.php.lemon"
+#line 190 "parser.php.lemon"
 {
 	phvolt_ret_zval_list(&yygotominor.yy186, &yymsp[-1].minor.yy186, &yymsp[0].minor.yy186);
 }
@@ -1706,14 +1706,14 @@ static void yy_reduce(
       case 55:
       case 142:
       case 149:
-#line 191 "parser.php.lemon"
+#line 194 "parser.php.lemon"
 {
 	phvolt_ret_zval_list(&yygotominor.yy186, NULL, &yymsp[0].minor.yy186);
 }
 #line 1714 "parser.php.c"
         break;
       case 26:
-#line 284 "parser.php.lemon"
+#line 287 "parser.php.lemon"
 {
 	phvolt_ret_if_statement(&yygotominor.yy186, &yymsp[-5].minor.yy186, &yymsp[-3].minor.yy186, NULL, status->scanner_state);
   yy_destructor(1,&yymsp[-7].minor);
@@ -1726,7 +1726,7 @@ static void yy_reduce(
 #line 1727 "parser.php.c"
         break;
       case 27:
-#line 289 "parser.php.lemon"
+#line 292 "parser.php.lemon"
 {
 	phvolt_ret_if_statement(&yygotominor.yy186, &yymsp[-4].minor.yy186, NULL, NULL, status->scanner_state);
   yy_destructor(1,&yymsp[-6].minor);
@@ -1739,7 +1739,7 @@ static void yy_reduce(
 #line 1740 "parser.php.c"
         break;
       case 28:
-#line 294 "parser.php.lemon"
+#line 297 "parser.php.lemon"
 {
 	phvolt_ret_if_statement(&yygotominor.yy186, &yymsp[-9].minor.yy186, &yymsp[-7].minor.yy186, &yymsp[-3].minor.yy186, status->scanner_state);
   yy_destructor(1,&yymsp[-11].minor);
@@ -1755,7 +1755,7 @@ static void yy_reduce(
 #line 1756 "parser.php.c"
         break;
       case 29:
-#line 299 "parser.php.lemon"
+#line 302 "parser.php.lemon"
 {
 	phvolt_ret_if_statement(&yygotominor.yy186, &yymsp[-8].minor.yy186, &yymsp[-6].minor.yy186, NULL, status->scanner_state);
   yy_destructor(1,&yymsp[-10].minor);
@@ -1771,7 +1771,7 @@ static void yy_reduce(
 #line 1772 "parser.php.c"
         break;
       case 30:
-#line 304 "parser.php.lemon"
+#line 307 "parser.php.lemon"
 {
 	phvolt_ret_if_statement(&yygotominor.yy186, &yymsp[-7].minor.yy186, NULL, NULL, status->scanner_state);
   yy_destructor(1,&yymsp[-9].minor);
@@ -1787,7 +1787,7 @@ static void yy_reduce(
 #line 1788 "parser.php.c"
         break;
       case 31:
-#line 308 "parser.php.lemon"
+#line 311 "parser.php.lemon"
 {
 	phvolt_ret_elseif_statement(&yygotominor.yy186, &yymsp[-1].minor.yy186, status->scanner_state);
   yy_destructor(1,&yymsp[-3].minor);
@@ -1797,7 +1797,7 @@ static void yy_reduce(
 #line 1798 "parser.php.c"
         break;
       case 32:
-#line 312 "parser.php.lemon"
+#line 315 "parser.php.lemon"
 {
 	phvolt_ret_elsefor_statement(&yygotominor.yy186, status->scanner_state);
   yy_destructor(1,&yymsp[-2].minor);
@@ -1807,7 +1807,7 @@ static void yy_reduce(
 #line 1808 "parser.php.c"
         break;
       case 33:
-#line 316 "parser.php.lemon"
+#line 319 "parser.php.lemon"
 {
 	phvolt_ret_for_statement(&yygotominor.yy186, yymsp[-7].minor.yy0, NULL, &yymsp[-5].minor.yy186, NULL, &yymsp[-3].minor.yy186, status->scanner_state);
   yy_destructor(1,&yymsp[-9].minor);
@@ -1821,7 +1821,7 @@ static void yy_reduce(
 #line 1822 "parser.php.c"
         break;
       case 34:
-#line 320 "parser.php.lemon"
+#line 323 "parser.php.lemon"
 {
 	phvolt_ret_for_statement(&yygotominor.yy186, yymsp[-9].minor.yy0, NULL, &yymsp[-7].minor.yy186, &yymsp[-5].minor.yy186, &yymsp[-3].minor.yy186, status->scanner_state);
   yy_destructor(1,&yymsp[-11].minor);
@@ -1836,7 +1836,7 @@ static void yy_reduce(
 #line 1837 "parser.php.c"
         break;
       case 35:
-#line 324 "parser.php.lemon"
+#line 327 "parser.php.lemon"
 {
 	phvolt_ret_for_statement(&yygotominor.yy186, yymsp[-7].minor.yy0, yymsp[-9].minor.yy0, &yymsp[-5].minor.yy186, NULL, &yymsp[-3].minor.yy186, status->scanner_state);
   yy_destructor(1,&yymsp[-11].minor);
@@ -1851,7 +1851,7 @@ static void yy_reduce(
 #line 1852 "parser.php.c"
         break;
       case 36:
-#line 328 "parser.php.lemon"
+#line 331 "parser.php.lemon"
 {
 	phvolt_ret_for_statement(&yygotominor.yy186, yymsp[-9].minor.yy0, yymsp[-11].minor.yy0, &yymsp[-7].minor.yy186, &yymsp[-5].minor.yy186, &yymsp[-3].minor.yy186, status->scanner_state);
   yy_destructor(1,&yymsp[-13].minor);
@@ -1867,7 +1867,7 @@ static void yy_reduce(
 #line 1868 "parser.php.c"
         break;
       case 37:
-#line 333 "parser.php.lemon"
+#line 336 "parser.php.lemon"
 {
 	phvolt_ret_switch_statement(&yygotominor.yy186, &yymsp[-5].minor.yy186, &yymsp[-3].minor.yy186, status->scanner_state);
   yy_destructor(1,&yymsp[-7].minor);
@@ -1880,7 +1880,7 @@ static void yy_reduce(
 #line 1881 "parser.php.c"
         break;
       case 38:
-#line 338 "parser.php.lemon"
+#line 341 "parser.php.lemon"
 {
 	phvolt_ret_switch_statement(&yygotominor.yy186, &yymsp[-4].minor.yy186, NULL, status->scanner_state);
   yy_destructor(1,&yymsp[-6].minor);
@@ -1893,7 +1893,7 @@ static void yy_reduce(
 #line 1894 "parser.php.c"
         break;
       case 39:
-#line 343 "parser.php.lemon"
+#line 346 "parser.php.lemon"
 {
 	phvolt_ret_case_clause(&yygotominor.yy186, &yymsp[-1].minor.yy186, status->scanner_state);
   yy_destructor(1,&yymsp[-3].minor);
@@ -1903,7 +1903,7 @@ static void yy_reduce(
 #line 1904 "parser.php.c"
         break;
       case 40:
-#line 348 "parser.php.lemon"
+#line 351 "parser.php.lemon"
 {
 	phvolt_ret_case_clause(&yygotominor.yy186, NULL, status->scanner_state);
   yy_destructor(1,&yymsp[-2].minor);
@@ -1913,7 +1913,7 @@ static void yy_reduce(
 #line 1914 "parser.php.c"
         break;
       case 41:
-#line 352 "parser.php.lemon"
+#line 355 "parser.php.lemon"
 {
 	phvolt_ret_set_statement(&yygotominor.yy186, &yymsp[-1].minor.yy186);
   yy_destructor(1,&yymsp[-3].minor);
@@ -1926,7 +1926,7 @@ static void yy_reduce(
       case 54:
       case 141:
       case 148:
-#line 356 "parser.php.lemon"
+#line 359 "parser.php.lemon"
 {
 	phvolt_ret_zval_list(&yygotominor.yy186, &yymsp[-2].minor.yy186, &yymsp[0].minor.yy186);
   yy_destructor(2,&yymsp[-1].minor);
@@ -1934,7 +1934,7 @@ static void yy_reduce(
 #line 1935 "parser.php.c"
         break;
       case 44:
-#line 364 "parser.php.lemon"
+#line 367 "parser.php.lemon"
 {
 	phvolt_ret_set_assignment(&yygotominor.yy186, &yymsp[-2].minor.yy186, PHVOLT_T_ASSIGN, &yymsp[0].minor.yy186, status->scanner_state);
   yy_destructor(45,&yymsp[-1].minor);
@@ -1942,7 +1942,7 @@ static void yy_reduce(
 #line 1943 "parser.php.c"
         break;
       case 45:
-#line 368 "parser.php.lemon"
+#line 371 "parser.php.lemon"
 {
 	phvolt_ret_set_assignment(&yygotominor.yy186, &yymsp[-2].minor.yy186, PHVOLT_T_ADD_ASSIGN, &yymsp[0].minor.yy186, status->scanner_state);
   yy_destructor(46,&yymsp[-1].minor);
@@ -1950,7 +1950,7 @@ static void yy_reduce(
 #line 1951 "parser.php.c"
         break;
       case 46:
-#line 372 "parser.php.lemon"
+#line 375 "parser.php.lemon"
 {
 	phvolt_ret_set_assignment(&yygotominor.yy186, &yymsp[-2].minor.yy186, PHVOLT_T_SUB_ASSIGN, &yymsp[0].minor.yy186, status->scanner_state);
   yy_destructor(47,&yymsp[-1].minor);
@@ -1958,7 +1958,7 @@ static void yy_reduce(
 #line 1959 "parser.php.c"
         break;
       case 47:
-#line 376 "parser.php.lemon"
+#line 379 "parser.php.lemon"
 {
 	phvolt_ret_set_assignment(&yygotominor.yy186, &yymsp[-2].minor.yy186, PHVOLT_T_MUL_ASSIGN, &yymsp[0].minor.yy186, status->scanner_state);
   yy_destructor(48,&yymsp[-1].minor);
@@ -1966,7 +1966,7 @@ static void yy_reduce(
 #line 1967 "parser.php.c"
         break;
       case 48:
-#line 380 "parser.php.lemon"
+#line 383 "parser.php.lemon"
 {
 	phvolt_ret_set_assignment(&yygotominor.yy186, &yymsp[-2].minor.yy186, PHVOLT_T_DIV_ASSIGN, &yymsp[0].minor.yy186, status->scanner_state);
   yy_destructor(49,&yymsp[-1].minor);
@@ -1977,7 +1977,7 @@ static void yy_reduce(
       case 73:
       case 140:
       case 152:
-#line 384 "parser.php.lemon"
+#line 387 "parser.php.lemon"
 {
 	phvolt_ret_literal_zval(&yygotominor.yy186, PHVOLT_T_IDENTIFIER, yymsp[0].minor.yy0, status->scanner_state);
 }
@@ -1985,7 +1985,7 @@ static void yy_reduce(
         break;
       case 50:
       case 134:
-#line 388 "parser.php.lemon"
+#line 391 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_ARRAYACCESS, &yymsp[-3].minor.yy186, &yymsp[-1].minor.yy186, NULL, status->scanner_state);
   yy_destructor(24,&yymsp[-2].minor);
@@ -1995,7 +1995,7 @@ static void yy_reduce(
         break;
       case 51:
       case 123:
-#line 392 "parser.php.lemon"
+#line 395 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_DOT, &yymsp[-2].minor.yy186, &yymsp[0].minor.yy186, NULL, status->scanner_state);
   yy_destructor(30,&yymsp[-1].minor);
@@ -2003,7 +2003,7 @@ static void yy_reduce(
 #line 2004 "parser.php.c"
         break;
       case 52:
-#line 396 "parser.php.lemon"
+#line 399 "parser.php.lemon"
 {
 	phvolt_ret_macro_statement(&yygotominor.yy186, yymsp[-7].minor.yy0, NULL, &yymsp[-3].minor.yy186, status->scanner_state);
   yy_destructor(1,&yymsp[-9].minor);
@@ -2018,7 +2018,7 @@ static void yy_reduce(
 #line 2019 "parser.php.c"
         break;
       case 53:
-#line 400 "parser.php.lemon"
+#line 403 "parser.php.lemon"
 {
 	phvolt_ret_macro_statement(&yygotominor.yy186, yymsp[-8].minor.yy0, &yymsp[-6].minor.yy186, &yymsp[-3].minor.yy186, status->scanner_state);
   yy_destructor(1,&yymsp[-10].minor);
@@ -2033,14 +2033,14 @@ static void yy_reduce(
 #line 2034 "parser.php.c"
         break;
       case 56:
-#line 412 "parser.php.lemon"
+#line 415 "parser.php.lemon"
 {
 	phvolt_ret_macro_parameter(&yygotominor.yy186, yymsp[0].minor.yy0, NULL, status->scanner_state);
 }
 #line 2041 "parser.php.c"
         break;
       case 57:
-#line 416 "parser.php.lemon"
+#line 419 "parser.php.lemon"
 {
 	phvolt_ret_macro_parameter(&yygotominor.yy186, yymsp[-2].minor.yy0, &yymsp[0].minor.yy186, status->scanner_state);
   yy_destructor(45,&yymsp[-1].minor);
@@ -2051,7 +2051,7 @@ static void yy_reduce(
       case 72:
       case 139:
       case 153:
-#line 420 "parser.php.lemon"
+#line 423 "parser.php.lemon"
 {
 	phvolt_ret_literal_zval(&yygotominor.yy186, PHVOLT_T_INTEGER, yymsp[0].minor.yy0, status->scanner_state);
 }
@@ -2059,7 +2059,7 @@ static void yy_reduce(
         break;
       case 59:
       case 154:
-#line 424 "parser.php.lemon"
+#line 427 "parser.php.lemon"
 {
 	phvolt_ret_literal_zval(&yygotominor.yy186, PHVOLT_T_STRING, yymsp[0].minor.yy0, status->scanner_state);
 }
@@ -2067,7 +2067,7 @@ static void yy_reduce(
         break;
       case 60:
       case 155:
-#line 428 "parser.php.lemon"
+#line 431 "parser.php.lemon"
 {
 	phvolt_ret_literal_zval(&yygotominor.yy186, PHVOLT_T_DOUBLE, yymsp[0].minor.yy0, status->scanner_state);
 }
@@ -2075,7 +2075,7 @@ static void yy_reduce(
         break;
       case 61:
       case 156:
-#line 432 "parser.php.lemon"
+#line 435 "parser.php.lemon"
 {
 	phvolt_ret_literal_zval(&yygotominor.yy186, PHVOLT_T_NULL, NULL, status->scanner_state);
   yy_destructor(57,&yymsp[0].minor);
@@ -2084,7 +2084,7 @@ static void yy_reduce(
         break;
       case 62:
       case 157:
-#line 436 "parser.php.lemon"
+#line 439 "parser.php.lemon"
 {
 	phvolt_ret_literal_zval(&yygotominor.yy186, PHVOLT_T_FALSE, NULL, status->scanner_state);
   yy_destructor(58,&yymsp[0].minor);
@@ -2093,7 +2093,7 @@ static void yy_reduce(
         break;
       case 63:
       case 158:
-#line 440 "parser.php.lemon"
+#line 443 "parser.php.lemon"
 {
 	phvolt_ret_literal_zval(&yygotominor.yy186, PHVOLT_T_TRUE, NULL, status->scanner_state);
   yy_destructor(59,&yymsp[0].minor);
@@ -2101,7 +2101,7 @@ static void yy_reduce(
 #line 2102 "parser.php.c"
         break;
       case 64:
-#line 444 "parser.php.lemon"
+#line 447 "parser.php.lemon"
 {
 	phvolt_ret_macro_call_statement(&yygotominor.yy186, &yymsp[-8].minor.yy186, &yymsp[-6].minor.yy186, &yymsp[-3].minor.yy186, status->scanner_state);
   yy_destructor(1,&yymsp[-10].minor);
@@ -2116,7 +2116,7 @@ static void yy_reduce(
 #line 2117 "parser.php.c"
         break;
       case 65:
-#line 448 "parser.php.lemon"
+#line 451 "parser.php.lemon"
 {
 	phvolt_ret_macro_call_statement(&yygotominor.yy186, &yymsp[-6].minor.yy186, NULL, NULL, status->scanner_state);
   yy_destructor(1,&yymsp[-8].minor);
@@ -2131,7 +2131,7 @@ static void yy_reduce(
 #line 2132 "parser.php.c"
         break;
       case 66:
-#line 452 "parser.php.lemon"
+#line 455 "parser.php.lemon"
 {
 	phvolt_ret_empty_statement(&yygotominor.yy186, status->scanner_state);
   yy_destructor(1,&yymsp[-1].minor);
@@ -2140,7 +2140,7 @@ static void yy_reduce(
 #line 2141 "parser.php.c"
         break;
       case 67:
-#line 456 "parser.php.lemon"
+#line 459 "parser.php.lemon"
 {
 	phvolt_ret_echo_statement(&yygotominor.yy186, &yymsp[-1].minor.yy186, status->scanner_state);
   yy_destructor(62,&yymsp[-2].minor);
@@ -2149,7 +2149,7 @@ static void yy_reduce(
 #line 2150 "parser.php.c"
         break;
       case 68:
-#line 460 "parser.php.lemon"
+#line 463 "parser.php.lemon"
 {
 	phvolt_ret_block_statement(&yygotominor.yy186, yymsp[-5].minor.yy0, &yymsp[-3].minor.yy186, status->scanner_state);
   yy_destructor(1,&yymsp[-7].minor);
@@ -2162,7 +2162,7 @@ static void yy_reduce(
 #line 2163 "parser.php.c"
         break;
       case 69:
-#line 464 "parser.php.lemon"
+#line 467 "parser.php.lemon"
 {
 	phvolt_ret_block_statement(&yygotominor.yy186, yymsp[-4].minor.yy0, NULL, status->scanner_state);
   yy_destructor(1,&yymsp[-6].minor);
@@ -2175,7 +2175,7 @@ static void yy_reduce(
 #line 2176 "parser.php.c"
         break;
       case 70:
-#line 468 "parser.php.lemon"
+#line 471 "parser.php.lemon"
 {
 	phvolt_ret_cache_statement(&yygotominor.yy186, &yymsp[-5].minor.yy186, NULL, &yymsp[-3].minor.yy186, status->scanner_state);
   yy_destructor(1,&yymsp[-7].minor);
@@ -2188,7 +2188,7 @@ static void yy_reduce(
 #line 2189 "parser.php.c"
         break;
       case 71:
-#line 472 "parser.php.lemon"
+#line 475 "parser.php.lemon"
 {
 	phvolt_ret_cache_statement(&yygotominor.yy186, &yymsp[-6].minor.yy186, &yymsp[-5].minor.yy186, &yymsp[-3].minor.yy186, status->scanner_state);
   yy_destructor(1,&yymsp[-8].minor);
@@ -2201,7 +2201,7 @@ static void yy_reduce(
 #line 2202 "parser.php.c"
         break;
       case 74:
-#line 484 "parser.php.lemon"
+#line 487 "parser.php.lemon"
 {
 	yygotominor.yy186 = yymsp[-3].minor.yy186;
   yy_destructor(1,&yymsp[-6].minor);
@@ -2214,7 +2214,7 @@ static void yy_reduce(
 #line 2215 "parser.php.c"
         break;
       case 75:
-#line 488 "parser.php.lemon"
+#line 491 "parser.php.lemon"
 {
 	phvolt_ret_literal_zval(&yygotominor.yy186, PHVOLT_T_RAW_FRAGMENT, NULL, status->scanner_state);
   yy_destructor(1,&yymsp[-5].minor);
@@ -2227,7 +2227,7 @@ static void yy_reduce(
 #line 2228 "parser.php.c"
         break;
       case 76:
-#line 492 "parser.php.lemon"
+#line 495 "parser.php.lemon"
 {
 	phvolt_ret_extends_statement(&yygotominor.yy186, &yymsp[-1].minor.yy186, status->scanner_state);
   yy_destructor(1,&yymsp[-3].minor);
@@ -2237,7 +2237,7 @@ static void yy_reduce(
 #line 2238 "parser.php.c"
         break;
       case 77:
-#line 496 "parser.php.lemon"
+#line 499 "parser.php.lemon"
 {
 	phvolt_ret_include_statement(&yygotominor.yy186, &yymsp[-1].minor.yy186, NULL, status->scanner_state);
   yy_destructor(1,&yymsp[-3].minor);
@@ -2247,7 +2247,7 @@ static void yy_reduce(
 #line 2248 "parser.php.c"
         break;
       case 78:
-#line 500 "parser.php.lemon"
+#line 503 "parser.php.lemon"
 {
 	phvolt_ret_include_statement(&yygotominor.yy186, &yymsp[-3].minor.yy186, &yymsp[-1].minor.yy186, status->scanner_state);
   yy_destructor(1,&yymsp[-5].minor);
@@ -2258,7 +2258,7 @@ static void yy_reduce(
 #line 2259 "parser.php.c"
         break;
       case 79:
-#line 504 "parser.php.lemon"
+#line 507 "parser.php.lemon"
 {
 	phvolt_ret_do_statement(&yygotominor.yy186, &yymsp[-1].minor.yy186, status->scanner_state);
   yy_destructor(1,&yymsp[-3].minor);
@@ -2268,7 +2268,7 @@ static void yy_reduce(
 #line 2269 "parser.php.c"
         break;
       case 80:
-#line 508 "parser.php.lemon"
+#line 511 "parser.php.lemon"
 {
 	phvolt_ret_return_statement(&yygotominor.yy186, &yymsp[-1].minor.yy186, status->scanner_state);
   yy_destructor(1,&yymsp[-3].minor);
@@ -2278,7 +2278,7 @@ static void yy_reduce(
 #line 2279 "parser.php.c"
         break;
       case 81:
-#line 512 "parser.php.lemon"
+#line 515 "parser.php.lemon"
 {
 	phvolt_ret_autoescape_statement(&yygotominor.yy186, 0, &yymsp[-3].minor.yy186, status->scanner_state);
   yy_destructor(1,&yymsp[-7].minor);
@@ -2292,7 +2292,7 @@ static void yy_reduce(
 #line 2293 "parser.php.c"
         break;
       case 82:
-#line 516 "parser.php.lemon"
+#line 519 "parser.php.lemon"
 {
 	phvolt_ret_autoescape_statement(&yygotominor.yy186, 1, &yymsp[-3].minor.yy186, status->scanner_state);
   yy_destructor(1,&yymsp[-7].minor);
@@ -2306,7 +2306,7 @@ static void yy_reduce(
 #line 2307 "parser.php.c"
         break;
       case 83:
-#line 520 "parser.php.lemon"
+#line 523 "parser.php.lemon"
 {
 	phvolt_ret_break_statement(&yygotominor.yy186, status->scanner_state);
   yy_destructor(1,&yymsp[-2].minor);
@@ -2316,7 +2316,7 @@ static void yy_reduce(
 #line 2317 "parser.php.c"
         break;
       case 84:
-#line 524 "parser.php.lemon"
+#line 527 "parser.php.lemon"
 {
 	phvolt_ret_continue_statement(&yygotominor.yy186, status->scanner_state);
   yy_destructor(1,&yymsp[-2].minor);
@@ -2326,14 +2326,14 @@ static void yy_reduce(
 #line 2327 "parser.php.c"
         break;
       case 85:
-#line 528 "parser.php.lemon"
+#line 531 "parser.php.lemon"
 {
 	phvolt_ret_literal_zval(&yygotominor.yy186, PHVOLT_T_RAW_FRAGMENT, yymsp[0].minor.yy0, status->scanner_state);
 }
 #line 2334 "parser.php.c"
         break;
       case 86:
-#line 532 "parser.php.lemon"
+#line 535 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_MINUS, NULL, &yymsp[0].minor.yy186, NULL, status->scanner_state);
   yy_destructor(22,&yymsp[-1].minor);
@@ -2341,7 +2341,7 @@ static void yy_reduce(
 #line 2342 "parser.php.c"
         break;
       case 87:
-#line 536 "parser.php.lemon"
+#line 539 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_PLUS, NULL, &yymsp[0].minor.yy186, NULL, status->scanner_state);
   yy_destructor(21,&yymsp[-1].minor);
@@ -2349,7 +2349,7 @@ static void yy_reduce(
 #line 2350 "parser.php.c"
         break;
       case 88:
-#line 540 "parser.php.lemon"
+#line 543 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_SUB, &yymsp[-2].minor.yy186, &yymsp[0].minor.yy186, NULL, status->scanner_state);
   yy_destructor(22,&yymsp[-1].minor);
@@ -2357,7 +2357,7 @@ static void yy_reduce(
 #line 2358 "parser.php.c"
         break;
       case 89:
-#line 544 "parser.php.lemon"
+#line 547 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_ADD, &yymsp[-2].minor.yy186, &yymsp[0].minor.yy186, NULL, status->scanner_state);
   yy_destructor(21,&yymsp[-1].minor);
@@ -2365,7 +2365,7 @@ static void yy_reduce(
 #line 2366 "parser.php.c"
         break;
       case 90:
-#line 548 "parser.php.lemon"
+#line 551 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_MUL, &yymsp[-2].minor.yy186, &yymsp[0].minor.yy186, NULL, status->scanner_state);
   yy_destructor(19,&yymsp[-1].minor);
@@ -2373,7 +2373,7 @@ static void yy_reduce(
 #line 2374 "parser.php.c"
         break;
       case 91:
-#line 552 "parser.php.lemon"
+#line 555 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_POW, &yymsp[-3].minor.yy186, &yymsp[0].minor.yy186, NULL, status->scanner_state);
   yy_destructor(19,&yymsp[-2].minor);
@@ -2382,7 +2382,7 @@ static void yy_reduce(
 #line 2383 "parser.php.c"
         break;
       case 92:
-#line 556 "parser.php.lemon"
+#line 559 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_DIV, &yymsp[-2].minor.yy186, &yymsp[0].minor.yy186, NULL, status->scanner_state);
   yy_destructor(18,&yymsp[-1].minor);
@@ -2390,7 +2390,7 @@ static void yy_reduce(
 #line 2391 "parser.php.c"
         break;
       case 93:
-#line 560 "parser.php.lemon"
+#line 563 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_MOD, &yymsp[-3].minor.yy186, &yymsp[0].minor.yy186, NULL, status->scanner_state);
   yy_destructor(18,&yymsp[-2].minor);
@@ -2399,7 +2399,7 @@ static void yy_reduce(
 #line 2400 "parser.php.c"
         break;
       case 94:
-#line 564 "parser.php.lemon"
+#line 567 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_MOD, &yymsp[-2].minor.yy186, &yymsp[0].minor.yy186, NULL, status->scanner_state);
   yy_destructor(20,&yymsp[-1].minor);
@@ -2407,7 +2407,7 @@ static void yy_reduce(
 #line 2408 "parser.php.c"
         break;
       case 95:
-#line 568 "parser.php.lemon"
+#line 571 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_AND, &yymsp[-2].minor.yy186, &yymsp[0].minor.yy186, NULL, status->scanner_state);
   yy_destructor(6,&yymsp[-1].minor);
@@ -2415,7 +2415,7 @@ static void yy_reduce(
 #line 2416 "parser.php.c"
         break;
       case 96:
-#line 572 "parser.php.lemon"
+#line 575 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_OR, &yymsp[-2].minor.yy186, &yymsp[0].minor.yy186, NULL, status->scanner_state);
   yy_destructor(7,&yymsp[-1].minor);
@@ -2423,7 +2423,7 @@ static void yy_reduce(
 #line 2424 "parser.php.c"
         break;
       case 97:
-#line 576 "parser.php.lemon"
+#line 579 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_CONCAT, &yymsp[-2].minor.yy186, &yymsp[0].minor.yy186, NULL, status->scanner_state);
   yy_destructor(23,&yymsp[-1].minor);
@@ -2431,7 +2431,7 @@ static void yy_reduce(
 #line 2432 "parser.php.c"
         break;
       case 98:
-#line 580 "parser.php.lemon"
+#line 583 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_PIPE, &yymsp[-2].minor.yy186, &yymsp[0].minor.yy186, NULL, status->scanner_state);
   yy_destructor(25,&yymsp[-1].minor);
@@ -2439,7 +2439,7 @@ static void yy_reduce(
 #line 2440 "parser.php.c"
         break;
       case 99:
-#line 584 "parser.php.lemon"
+#line 587 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_RANGE, &yymsp[-2].minor.yy186, &yymsp[0].minor.yy186, NULL, status->scanner_state);
   yy_destructor(5,&yymsp[-1].minor);
@@ -2447,7 +2447,7 @@ static void yy_reduce(
 #line 2448 "parser.php.c"
         break;
       case 100:
-#line 588 "parser.php.lemon"
+#line 591 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_EQUALS, &yymsp[-2].minor.yy186, &yymsp[0].minor.yy186, NULL, status->scanner_state);
   yy_destructor(10,&yymsp[-1].minor);
@@ -2455,7 +2455,7 @@ static void yy_reduce(
 #line 2456 "parser.php.c"
         break;
       case 101:
-#line 592 "parser.php.lemon"
+#line 595 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_NOT_ISSET, &yymsp[-2].minor.yy186, NULL, NULL, status->scanner_state);
   yy_destructor(11,&yymsp[-1].minor);
@@ -2464,7 +2464,7 @@ static void yy_reduce(
 #line 2465 "parser.php.c"
         break;
       case 102:
-#line 596 "parser.php.lemon"
+#line 599 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_ISSET, &yymsp[-2].minor.yy186, NULL, NULL, status->scanner_state);
   yy_destructor(9,&yymsp[-1].minor);
@@ -2473,7 +2473,7 @@ static void yy_reduce(
 #line 2474 "parser.php.c"
         break;
       case 103:
-#line 600 "parser.php.lemon"
+#line 603 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_NOT_ISEMPTY, &yymsp[-2].minor.yy186, NULL, NULL, status->scanner_state);
   yy_destructor(11,&yymsp[-1].minor);
@@ -2482,7 +2482,7 @@ static void yy_reduce(
 #line 2483 "parser.php.c"
         break;
       case 104:
-#line 604 "parser.php.lemon"
+#line 607 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_ISEMPTY, &yymsp[-2].minor.yy186, NULL, NULL, status->scanner_state);
   yy_destructor(9,&yymsp[-1].minor);
@@ -2491,7 +2491,7 @@ static void yy_reduce(
 #line 2492 "parser.php.c"
         break;
       case 105:
-#line 608 "parser.php.lemon"
+#line 611 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_NOT_ISEVEN, &yymsp[-2].minor.yy186, NULL, NULL, status->scanner_state);
   yy_destructor(11,&yymsp[-1].minor);
@@ -2500,7 +2500,7 @@ static void yy_reduce(
 #line 2501 "parser.php.c"
         break;
       case 106:
-#line 612 "parser.php.lemon"
+#line 615 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_ISEVEN, &yymsp[-2].minor.yy186, NULL, NULL, status->scanner_state);
   yy_destructor(9,&yymsp[-1].minor);
@@ -2509,7 +2509,7 @@ static void yy_reduce(
 #line 2510 "parser.php.c"
         break;
       case 107:
-#line 616 "parser.php.lemon"
+#line 619 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_NOT_ISODD, &yymsp[-2].minor.yy186, NULL, NULL, status->scanner_state);
   yy_destructor(11,&yymsp[-1].minor);
@@ -2518,7 +2518,7 @@ static void yy_reduce(
 #line 2519 "parser.php.c"
         break;
       case 108:
-#line 620 "parser.php.lemon"
+#line 623 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_ISODD, &yymsp[-2].minor.yy186, NULL, NULL, status->scanner_state);
   yy_destructor(9,&yymsp[-1].minor);
@@ -2527,7 +2527,7 @@ static void yy_reduce(
 #line 2528 "parser.php.c"
         break;
       case 109:
-#line 624 "parser.php.lemon"
+#line 627 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_NOT_ISNUMERIC, &yymsp[-2].minor.yy186, NULL, NULL, status->scanner_state);
   yy_destructor(11,&yymsp[-1].minor);
@@ -2536,7 +2536,7 @@ static void yy_reduce(
 #line 2537 "parser.php.c"
         break;
       case 110:
-#line 628 "parser.php.lemon"
+#line 631 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_ISNUMERIC, &yymsp[-2].minor.yy186, NULL, NULL, status->scanner_state);
   yy_destructor(9,&yymsp[-1].minor);
@@ -2545,7 +2545,7 @@ static void yy_reduce(
 #line 2546 "parser.php.c"
         break;
       case 111:
-#line 632 "parser.php.lemon"
+#line 635 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_NOT_ISSCALAR, &yymsp[-2].minor.yy186, NULL, NULL, status->scanner_state);
   yy_destructor(11,&yymsp[-1].minor);
@@ -2554,7 +2554,7 @@ static void yy_reduce(
 #line 2555 "parser.php.c"
         break;
       case 112:
-#line 636 "parser.php.lemon"
+#line 639 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_ISSCALAR, &yymsp[-2].minor.yy186, NULL, NULL, status->scanner_state);
   yy_destructor(9,&yymsp[-1].minor);
@@ -2563,7 +2563,7 @@ static void yy_reduce(
 #line 2564 "parser.php.c"
         break;
       case 113:
-#line 640 "parser.php.lemon"
+#line 643 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_NOT_ISITERABLE, &yymsp[-2].minor.yy186, NULL, NULL, status->scanner_state);
   yy_destructor(11,&yymsp[-1].minor);
@@ -2572,7 +2572,7 @@ static void yy_reduce(
 #line 2573 "parser.php.c"
         break;
       case 114:
-#line 644 "parser.php.lemon"
+#line 647 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_ISITERABLE, &yymsp[-2].minor.yy186, NULL, NULL, status->scanner_state);
   yy_destructor(9,&yymsp[-1].minor);
@@ -2581,7 +2581,7 @@ static void yy_reduce(
 #line 2582 "parser.php.c"
         break;
       case 115:
-#line 648 "parser.php.lemon"
+#line 651 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_IS, &yymsp[-2].minor.yy186, &yymsp[0].minor.yy186, NULL, status->scanner_state);
   yy_destructor(9,&yymsp[-1].minor);
@@ -2589,7 +2589,7 @@ static void yy_reduce(
 #line 2590 "parser.php.c"
         break;
       case 116:
-#line 652 "parser.php.lemon"
+#line 655 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_NOTEQUALS, &yymsp[-2].minor.yy186, &yymsp[0].minor.yy186, NULL, status->scanner_state);
   yy_destructor(11,&yymsp[-1].minor);
@@ -2597,7 +2597,7 @@ static void yy_reduce(
 #line 2598 "parser.php.c"
         break;
       case 117:
-#line 656 "parser.php.lemon"
+#line 659 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_IDENTICAL, &yymsp[-2].minor.yy186, &yymsp[0].minor.yy186, NULL, status->scanner_state);
   yy_destructor(16,&yymsp[-1].minor);
@@ -2605,7 +2605,7 @@ static void yy_reduce(
 #line 2606 "parser.php.c"
         break;
       case 118:
-#line 660 "parser.php.lemon"
+#line 663 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_NOTIDENTICAL, &yymsp[-2].minor.yy186, &yymsp[0].minor.yy186, NULL, status->scanner_state);
   yy_destructor(17,&yymsp[-1].minor);
@@ -2613,7 +2613,7 @@ static void yy_reduce(
 #line 2614 "parser.php.c"
         break;
       case 119:
-#line 664 "parser.php.lemon"
+#line 667 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_LESS, &yymsp[-2].minor.yy186, &yymsp[0].minor.yy186, NULL, status->scanner_state);
   yy_destructor(12,&yymsp[-1].minor);
@@ -2621,7 +2621,7 @@ static void yy_reduce(
 #line 2622 "parser.php.c"
         break;
       case 120:
-#line 668 "parser.php.lemon"
+#line 671 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_GREATER, &yymsp[-2].minor.yy186, &yymsp[0].minor.yy186, NULL, status->scanner_state);
   yy_destructor(13,&yymsp[-1].minor);
@@ -2629,7 +2629,7 @@ static void yy_reduce(
 #line 2630 "parser.php.c"
         break;
       case 121:
-#line 672 "parser.php.lemon"
+#line 675 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_GREATEREQUAL, &yymsp[-2].minor.yy186, &yymsp[0].minor.yy186, NULL, status->scanner_state);
   yy_destructor(14,&yymsp[-1].minor);
@@ -2637,7 +2637,7 @@ static void yy_reduce(
 #line 2638 "parser.php.c"
         break;
       case 122:
-#line 676 "parser.php.lemon"
+#line 679 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_LESSEQUAL, &yymsp[-2].minor.yy186, &yymsp[0].minor.yy186, NULL, status->scanner_state);
   yy_destructor(15,&yymsp[-1].minor);
@@ -2645,7 +2645,7 @@ static void yy_reduce(
 #line 2646 "parser.php.c"
         break;
       case 124:
-#line 684 "parser.php.lemon"
+#line 687 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_IN, &yymsp[-2].minor.yy186, &yymsp[0].minor.yy186, NULL, status->scanner_state);
   yy_destructor(8,&yymsp[-1].minor);
@@ -2653,7 +2653,7 @@ static void yy_reduce(
 #line 2654 "parser.php.c"
         break;
       case 125:
-#line 688 "parser.php.lemon"
+#line 691 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_NOT_IN, &yymsp[-3].minor.yy186, &yymsp[0].minor.yy186, NULL, status->scanner_state);
   yy_destructor(26,&yymsp[-2].minor);
@@ -2662,7 +2662,7 @@ static void yy_reduce(
 #line 2663 "parser.php.c"
         break;
       case 126:
-#line 692 "parser.php.lemon"
+#line 695 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_NOT, NULL, &yymsp[0].minor.yy186, NULL, status->scanner_state);
   yy_destructor(26,&yymsp[-1].minor);
@@ -2670,7 +2670,7 @@ static void yy_reduce(
 #line 2671 "parser.php.c"
         break;
       case 127:
-#line 696 "parser.php.lemon"
+#line 699 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_INCR, &yymsp[-1].minor.yy186, NULL, NULL, status->scanner_state);
   yy_destructor(27,&yymsp[0].minor);
@@ -2678,7 +2678,7 @@ static void yy_reduce(
 #line 2679 "parser.php.c"
         break;
       case 128:
-#line 700 "parser.php.lemon"
+#line 703 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_DECR, &yymsp[-1].minor.yy186, NULL, NULL, status->scanner_state);
   yy_destructor(28,&yymsp[0].minor);
@@ -2686,7 +2686,7 @@ static void yy_reduce(
 #line 2687 "parser.php.c"
         break;
       case 129:
-#line 704 "parser.php.lemon"
+#line 707 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_ENCLOSED, &yymsp[-1].minor.yy186, NULL, NULL, status->scanner_state);
   yy_destructor(29,&yymsp[-2].minor);
@@ -2695,7 +2695,7 @@ static void yy_reduce(
 #line 2696 "parser.php.c"
         break;
       case 130:
-#line 708 "parser.php.lemon"
+#line 711 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_ARRAY, NULL, NULL, NULL, status->scanner_state);
   yy_destructor(24,&yymsp[-1].minor);
@@ -2704,7 +2704,7 @@ static void yy_reduce(
 #line 2705 "parser.php.c"
         break;
       case 131:
-#line 712 "parser.php.lemon"
+#line 715 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_ARRAY, &yymsp[-1].minor.yy186, NULL, NULL, status->scanner_state);
   yy_destructor(24,&yymsp[-2].minor);
@@ -2713,7 +2713,7 @@ static void yy_reduce(
 #line 2714 "parser.php.c"
         break;
       case 132:
-#line 716 "parser.php.lemon"
+#line 719 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_ARRAY, NULL, NULL, NULL, status->scanner_state);
   yy_destructor(87,&yymsp[-1].minor);
@@ -2722,7 +2722,7 @@ static void yy_reduce(
 #line 2723 "parser.php.c"
         break;
       case 133:
-#line 720 "parser.php.lemon"
+#line 723 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_ARRAY, &yymsp[-1].minor.yy186, NULL, NULL, status->scanner_state);
   yy_destructor(87,&yymsp[-2].minor);
@@ -2731,7 +2731,7 @@ static void yy_reduce(
 #line 2732 "parser.php.c"
         break;
       case 135:
-#line 728 "parser.php.lemon"
+#line 731 "parser.php.lemon"
 {
 	phvolt_ret_expr(&yygotominor.yy186, PHVOLT_T_TERNARY, &yymsp[-2].minor.yy186, &yymsp[0].minor.yy186, &yymsp[-4].minor.yy186, status->scanner_state);
   yy_destructor(3,&yymsp[-3].minor);
@@ -2740,7 +2740,7 @@ static void yy_reduce(
 #line 2741 "parser.php.c"
         break;
       case 136:
-#line 732 "parser.php.lemon"
+#line 735 "parser.php.lemon"
 {
 	phvolt_ret_slice(&yygotominor.yy186, &yymsp[-4].minor.yy186, NULL, &yymsp[-1].minor.yy186, status->scanner_state);
   yy_destructor(24,&yymsp[-3].minor);
@@ -2750,7 +2750,7 @@ static void yy_reduce(
 #line 2751 "parser.php.c"
         break;
       case 137:
-#line 736 "parser.php.lemon"
+#line 739 "parser.php.lemon"
 {
 	phvolt_ret_slice(&yygotominor.yy186, &yymsp[-4].minor.yy186, &yymsp[-2].minor.yy186, NULL, status->scanner_state);
   yy_destructor(24,&yymsp[-3].minor);
@@ -2760,7 +2760,7 @@ static void yy_reduce(
 #line 2761 "parser.php.c"
         break;
       case 138:
-#line 740 "parser.php.lemon"
+#line 743 "parser.php.lemon"
 {
 	phvolt_ret_slice(&yygotominor.yy186, &yymsp[-5].minor.yy186, &yymsp[-3].minor.yy186, &yymsp[-1].minor.yy186, status->scanner_state);
   yy_destructor(24,&yymsp[-4].minor);
@@ -2771,7 +2771,7 @@ static void yy_reduce(
         break;
       case 143:
       case 151:
-#line 760 "parser.php.lemon"
+#line 763 "parser.php.lemon"
 {
 	phvolt_ret_named_item(&yygotominor.yy186, yymsp[-2].minor.yy0, &yymsp[0].minor.yy186, status->scanner_state);
   yy_destructor(4,&yymsp[-1].minor);
@@ -2780,14 +2780,14 @@ static void yy_reduce(
         break;
       case 144:
       case 150:
-#line 764 "parser.php.lemon"
+#line 767 "parser.php.lemon"
 {
 	phvolt_ret_named_item(&yygotominor.yy186, NULL, &yymsp[0].minor.yy186, status->scanner_state);
 }
 #line 2788 "parser.php.c"
         break;
       case 146:
-#line 772 "parser.php.lemon"
+#line 775 "parser.php.lemon"
 {
 	phvolt_ret_func_call(&yygotominor.yy186, &yymsp[-3].minor.yy186, &yymsp[-1].minor.yy186, status->scanner_state);
   yy_destructor(29,&yymsp[-2].minor);
@@ -2796,7 +2796,7 @@ static void yy_reduce(
 #line 2797 "parser.php.c"
         break;
       case 147:
-#line 776 "parser.php.lemon"
+#line 779 "parser.php.lemon"
 {
 	phvolt_ret_func_call(&yygotominor.yy186, &yymsp[-2].minor.yy186, NULL, status->scanner_state);
   yy_destructor(29,&yymsp[-1].minor);
@@ -2944,11 +2944,14 @@ static void yy_syntax_error(
 		} else {
 			status->syntax_error = NULL;
 		}
+
+		/* The message was copied; release the builder buffer. */
+		smart_str_free(&error_str);
 	}
 
 	status->status = PHVOLT_PARSING_FAILED;
 
-#line 2952 "parser.php.c"
+#line 2955 "parser.php.c"
   phvolt_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 
