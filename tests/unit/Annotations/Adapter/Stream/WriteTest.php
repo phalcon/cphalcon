@@ -43,4 +43,34 @@ final class WriteTest extends AbstractUnitTestCase
         $this->safeDeleteFile(Talon::settings()->outputPath('tests/annotations/testwrite.php'));
         $this->safeDeleteFile(Talon::settings()->outputPath('tests/annotations/testclass.php'));
     }
+
+    /**
+     * "Test\\Write" and "Test_Write" both normalize to "test_write"; the
+     * second gets a hash suffix so the two never share a cache file.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-26
+     */
+    public function testAnnotationsAdapterStreamWriteNoCollision(): void
+    {
+        require_once Talon::settings()->supportPath('assets/Annotations/TestClass.php');
+
+        $dir     = Talon::settings()->outputPath('tests/annotations/');
+        $adapter = new Stream(['annotationsDir' => $dir]);
+
+        $classAnnotations = $adapter->get(TestClass::class);
+
+        $adapter->write('Test\\Write', $classAnnotations);
+        $adapter->write('Test_Write', $classAnnotations);
+
+        $files = glob($dir . 'test_write*.php');
+
+        $this->safeDeleteFile($dir . 'testclass.php');
+        foreach ($files as $file) {
+            $this->safeDeleteFile($file);
+        }
+
+        $this->assertCount(2, $files);
+        $this->assertContains($dir . 'test_write.php', $files);
+    }
 }

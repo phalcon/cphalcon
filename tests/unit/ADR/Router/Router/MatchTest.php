@@ -58,6 +58,29 @@ final class MatchTest extends AbstractUnitTestCase
     }
 
     /**
+     * Unit Tests Phalcon\ADR\Router\Router :: match() rejects a class whose
+     * declared name differs from the derived name
+     *
+     * `Casing/GetCasing.php` declares `CASING\GetCASING`. PHP loads it for the
+     * derived `Casing\GetCasing` because class names are case-insensitive, but
+     * a name that only matches case-insensitively would escape the namespace
+     * middleware map, so it is not a match.
+     */
+    public function testAdrRouterRouterMatchRejectsNonCanonicalClassName(): void
+    {
+        $_SERVER['REQUEST_URI']    = '/casing';
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+
+        $router = (new Router())
+            ->setBaseNamespace(self::BASE)
+            ->setActionDirectory(self::DIRECTORY)
+            ->setMiddlewareMap(['\\Casing' => [TimingMiddleware::class]]);
+
+        $this->assertTrue(class_exists(self::BASE . '\\Casing\\GetCasing'));
+        $this->assertNull($router->match(new Request()));
+    }
+
+    /**
      * Unit Tests Phalcon\ADR\Router\Router :: match() resolves a class + positional attributes
      */
     public function testAdrRouterRouterMatchResolvesByConvention(): void

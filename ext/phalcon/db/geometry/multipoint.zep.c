@@ -72,10 +72,10 @@ PHP_METHOD(Phalcon_Db_Geometry_MultiPoint, __construct)
 		srid = 0;
 	} else {
 		}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 626, &points);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 628, &points);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, srid);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 627, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 629, &_0);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Db_Geometry_MultiPoint, toWkt)
 
 	ZEPHIR_INIT_VAR(&parts);
 	array_init(&parts);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 626, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 628, PH_NOISY_CC | PH_READONLY);
 	zephir_is_iterable(&_0, 0, "phalcon/Db/Geometry/MultiPoint.zep", 46);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)

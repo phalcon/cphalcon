@@ -87,6 +87,27 @@ final class AddInheritTest extends AbstractUnitTestCase
     }
 
     /**
+     * An inheritance element must be a role name or a RoleInterface; an array
+     * or a plain object is rejected with the ACL exception, not a TypeError.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-26
+     */
+    public function testAclAdapterMemoryAddInheritInvalidType(): void
+    {
+        $acl = new Memory();
+        $acl->addRole('Administrators');
+        $acl->addRole('Guests');
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            'Role must be either a string or implement RoleInterface'
+        );
+
+        $acl->addInherit('Administrators', [['Guests']]);
+    }
+
+    /**
      * @author <jenovateurs>
      * @since  2019-12-05
      */

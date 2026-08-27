@@ -37,6 +37,14 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     protected var adapter;
 
     /**
+     * Classes the "php" serializer may instantiate: true, false or a list
+     * of class names (the "allowedClasses" option)
+     *
+     * @var bool|array<int, string>
+     */
+    protected var allowedClasses = true;
+
+    /**
      * Name of the default serializer class
      */
     protected string defaultSerializer = "php";
@@ -90,6 +98,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
          * Lets set some defaults and options here
          */
         let this->serializerFactory = serializerFactory,
+            this->allowedClasses    = this->getArrVal(options, "allowedClasses", true),
             this->defaultSerializer = mb_strtolower(defaultSerializer),
             this->lifetime          = lifetime,
             this->serializer        = serializer,
@@ -529,6 +538,15 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
         ) {
             let className        = this->defaultSerializer,
                 this->serializer = this->serializerFactory->newInstance(className);
+
+            /**
+             * Hand the class allow-list to a serializer that supports it
+             * (the "php" serializer), so stored bytes cannot build
+             * arbitrary objects on read.
+             */
+            if method_exists(this->serializer, "setAllowedClasses") {
+                this->serializer->setAllowedClasses(this->allowedClasses);
+            }
         }
     }
 }

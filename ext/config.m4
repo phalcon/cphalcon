@@ -22,10 +22,10 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/contracts/filter/sanitizer.zep.c
 	phalcon/storage/adapter/adapterinterface.zep.c
 	phalcon/di/exception.zep.c
+	phalcon/auth/exception.zep.c
 	phalcon/contracts/support/collection.zep.c
 	phalcon/factory/abstractconfigfactory.zep.c
 	phalcon/filter/validation/exception.zep.c
-	phalcon/auth/exception.zep.c
 	phalcon/support/collection/collectioninterface.zep.c
 	phalcon/di/abstractinjectionaware.zep.c
 	phalcon/mvc/router/exception.zep.c
@@ -41,12 +41,12 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/forms/element/abstractelement.zep.c
 	phalcon/storage/adapter/abstractadapter.zep.c
 	phalcon/storage/serializer/abstractserializer.zep.c
+	phalcon/acl/exception.zep.c
 	phalcon/container/exceptions/exception.zep.c
 	phalcon/container/resolver/lazy/lazy.zep.c
 	phalcon/encryption/crypt/exception/exception.zep.c
 	phalcon/forms/exception.zep.c
 	phalcon/image/exception.zep.c
-	phalcon/acl/exception.zep.c
 	phalcon/contracts/dispatcher/dispatcher.zep.c
 	phalcon/mvc/micro/exception.zep.c
 	phalcon/support/collection.zep.c
@@ -403,6 +403,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/acl/exceptions/accessrulenotfound.zep.c
 	phalcon/acl/exceptions/circularinheritanceerror.zep.c
 	phalcon/acl/exceptions/elementnotfound.zep.c
+	phalcon/acl/exceptions/forbiddendelimiter.zep.c
 	phalcon/acl/exceptions/forbiddenwildcard.zep.c
 	phalcon/acl/exceptions/invalidaccesslist.zep.c
 	phalcon/acl/exceptions/invalidcomponentimplementation.zep.c
@@ -473,6 +474,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/auth/exceptions/filedoesnotexist.zep.c
 	phalcon/auth/exceptions/filenotvalidjson.zep.c
 	phalcon/auth/exceptions/guardnotdefined.zep.c
+	phalcon/auth/exceptions/invalidcredentialkey.zep.c
 	phalcon/auth/exceptions/missinghandlercontext.zep.c
 	phalcon/auth/exceptions/optionrequiresarray.zep.c
 	phalcon/auth/exceptions/optionrequiresstring.zep.c

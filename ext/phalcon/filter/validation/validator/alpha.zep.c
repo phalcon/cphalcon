@@ -109,26 +109,27 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Alpha, __construct)
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_Alpha, validate)
 {
-	zend_bool _2;
-	zval _1, _7;
+	zend_bool _3;
+	zval _2, _8;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validation, validation_sub, *field, field_sub, value, _0, _3, _4, _6, _8, _9, _5$$4, _10$$5;
+	zval *validation, validation_sub, *field, field_sub, value, _0, _1, _4, _5, _7, _9, _10, _6$$5, _11$$6;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
 	ZVAL_UNDEF(&field_sub);
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_6);
-	ZVAL_UNDEF(&_8);
-	ZVAL_UNDEF(&_9);
-	ZVAL_UNDEF(&_5$$4);
-	ZVAL_UNDEF(&_10$$5);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_7);
+	ZVAL_UNDEF(&_9);
+	ZVAL_UNDEF(&_10);
+	ZVAL_UNDEF(&_6$$5);
+	ZVAL_UNDEF(&_11$$6);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_8);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
 		Z_PARAM_ZVAL(field)
@@ -143,34 +144,39 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Alpha, validate)
 	if (zephir_is_true(&_0)) {
 		RETURN_MM_BOOL(1);
 	}
-	zephir_cast_to_string(&_1, &value);
-	_2 = ZEPHIR_IS_STRING_IDENTICAL(&_1, "");
-	if (_2) {
-		ZEPHIR_INIT_VAR(&_4);
-		ZVAL_STRING(&_4, "allowEmpty");
-		ZEPHIR_CALL_METHOD(&_3, this_ptr, "getoption", NULL, 0, &_4);
-		zephir_check_call_status();
-		_2 = ZEPHIR_IS_FALSE_IDENTICAL(&_3);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "rejectnonstringable", NULL, 0, validation, field, &value);
+	zephir_check_call_status();
+	if (zephir_is_true(&_1)) {
+		RETURN_MM_BOOL(0);
 	}
-	if (_2) {
-		ZEPHIR_CALL_METHOD(&_5$$4, this_ptr, "messagefactory", NULL, 0, validation, field);
+	zephir_cast_to_string(&_2, &value);
+	_3 = ZEPHIR_IS_STRING_IDENTICAL(&_2, "");
+	if (_3) {
+		ZEPHIR_INIT_VAR(&_5);
+		ZVAL_STRING(&_5, "allowEmpty");
+		ZEPHIR_CALL_METHOD(&_4, this_ptr, "getoption", NULL, 0, &_5);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_5$$4);
+		_3 = ZEPHIR_IS_FALSE_IDENTICAL(&_4);
+	}
+	if (_3) {
+		ZEPHIR_CALL_METHOD(&_6$$5, this_ptr, "messagefactory", NULL, 0, validation, field);
+		zephir_check_call_status();
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_6$$5);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}
-	ZEPHIR_INIT_VAR(&_6);
-	zephir_cast_to_string(&_7, &value);
-	ZEPHIR_INIT_NVAR(&_4);
-	ZVAL_STRING(&_4, "/[^[:alpha:]]/imu");
-	ZEPHIR_INIT_VAR(&_8);
+	ZEPHIR_INIT_VAR(&_7);
+	zephir_cast_to_string(&_8, &value);
+	ZEPHIR_INIT_NVAR(&_5);
+	ZVAL_STRING(&_5, "/[^[:alpha:]]/imu");
 	ZEPHIR_INIT_VAR(&_9);
-	ZVAL_STRING(&_9, "/[^[:alpha:]]/imu");
-	zephir_preg_match(&_8, &_9, &_7, &_6, 0, 0 , 0 );
-	if (zephir_is_true(&_8)) {
-		ZEPHIR_CALL_METHOD(&_10$$5, this_ptr, "messagefactory", NULL, 0, validation, field);
+	ZEPHIR_INIT_VAR(&_10);
+	ZVAL_STRING(&_10, "/[^[:alpha:]]/imu");
+	zephir_preg_match(&_9, &_10, &_8, &_7, 0, 0 , 0 );
+	if (zephir_is_true(&_9)) {
+		ZEPHIR_CALL_METHOD(&_11$$6, this_ptr, "messagefactory", NULL, 0, validation, field);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_10$$5);
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_11$$6);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}

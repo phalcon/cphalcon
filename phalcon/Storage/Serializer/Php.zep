@@ -18,6 +18,23 @@ class Php extends AbstractSerializer
     use SerializeTrait;
 
     /**
+     * Classes that unserialize() may instantiate: true (any class, the PHP
+     * default), false (none) or a list of class names. Stored bytes that
+     * try to build another class are rejected on read.
+     *
+     * @var mixed
+     */
+    protected allowedClasses = true;
+
+    /**
+     * @return bool|array<int, string>
+     */
+    public function getAllowedClasses() -> var
+    {
+        return this->allowedClasses;
+    }
+
+    /**
      * Serializes data
      *
      * @return bool|float|int|string|null
@@ -29,6 +46,19 @@ class Php extends AbstractSerializer
         }
 
         return this->phpSerialize(this->data);
+    }
+
+    /**
+     * Restricts the classes that unserialize() may instantiate (see the
+     * "allowed_classes" option of unserialize()).
+     *
+     * @param bool|array<int, string> $allowedClasses
+     */
+    public function setAllowedClasses(var allowedClasses) -> <static>
+    {
+        let this->allowedClasses = allowedClasses;
+
+        return this;
     }
 
     /**
@@ -56,11 +86,19 @@ class Php extends AbstractSerializer
             E_NOTICE | E_WARNING
         );
 
-        let result = this->phpUnserialize(data);
+        let result = this->phpUnserialize(
+            data,
+            ["allowed_classes": this->allowedClasses]
+        );
 
         restore_error_handler();
 
-        if unlikely globals_get("warning.enable") || result === false {
+        /**
+         * A class outside the allow-list comes back as
+         * __PHP_Incomplete_Class: treat it as a failed unserialize.
+         */
+        if unlikely globals_get("warning.enable") || result === false ||
+            (typeof result === "object" && get_class(result) === "__PHP_Incomplete_Class") {
             let this->isSuccess = false,
                 result          = "";
         } else {

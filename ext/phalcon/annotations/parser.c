@@ -1367,6 +1367,7 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, int c
 	parser_status->scanner_state = state;
 	parser_status->token = &token;
 	parser_status->syntax_error = NULL;
+	ZVAL_UNDEF(&parser_status->ret);
 
 	/**
 	 * Initialize the scanner state
@@ -1512,7 +1513,16 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, int c
 
 	if (status != FAILURE) {
 		if (parser_status->status == PHANNOT_PARSING_OK) {
-			ZVAL_ZVAL(*result, &parser_status->ret, 1, 1);
+			/*
+			 * A docblock without any annotation token (for example "@!")
+			 * never runs the "program" rule, so ret is not set. Report
+			 * "no annotations" instead of copying an unset value.
+			 */
+			if (Z_TYPE(parser_status->ret) != IS_UNDEF) {
+				ZVAL_ZVAL(*result, &parser_status->ret, 1, 1);
+			} else {
+				ZVAL_BOOL(*result, 0);
+			}
 		}
 	}
 

@@ -179,7 +179,7 @@ class Validator
         let tokenAudience = this->token->getClaims()->get(Enum::AUDIENCE, []);
 
         for item in audience {
-            if (true !== in_array(item, tokenAudience)) {
+            if (true !== in_array(item, tokenAudience, true)) {
                 let this->errors[] = "Validation: audience not allowed";
             }
         }

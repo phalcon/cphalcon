@@ -219,6 +219,32 @@ class CompilerFilesTest extends AbstractUnitTestCase
     }
 
     /**
+     * The extends-mode cache holds a serialized array of blocks. A planted
+     * file with a serialized object must not instantiate anything and is
+     * treated as a cache miss (the template is compiled again).
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-26
+     */
+    public function testMvcViewEngineVoltCompileExtendsIgnoresPlantedCache(): void
+    {
+        $view = new View();
+        $view->setViewsDir(Talon::settings()->supportPath('assets/views/'));
+
+        $volt     = new Compiler($view);
+        $template = Talon::settings()->supportPath('assets/views/extends/nested/base.volt');
+        $cache    = Talon::settings()->supportPath('assets/views/extends/nested/base.volt%%e%%.php');
+
+        file_put_contents($cache, 'O:8:"stdClass":0:{}');
+        touch($cache, filemtime($template) + 10);
+
+        $compilation = $volt->compile($template, true);
+
+        $this->assertIsArray($compilation);
+        $this->assertNotEmpty($compilation);
+    }
+
+    /**
      * Volt template that extends a parent chain but overrides no blocks of its
      * own, where a block defined higher in the chain calls partial(). Compiling
      * such a template segfaulted because Compiler::compileSource passed a null

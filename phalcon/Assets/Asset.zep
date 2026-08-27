@@ -170,6 +170,15 @@ class Asset implements AssetInterface
              * exist
              */
             if (true === this->phpFileExists(completePath)) {
+                /**
+                 * A symbolic link at the target file sends the write to a
+                 * file outside the assets directory. Refuse it. Directories
+                 * in the path may still be links (deploy layouts).
+                 */
+                if (true === is_link(completePath)) {
+                    return "";
+                }
+
                 let completePath = realpath(completePath);
 
                 if (false === completePath) {

@@ -61,6 +61,14 @@ final class ServicesTest extends AbstractTagTestCase
         $this->assertNull(Tag::getEscaper(['escape' => false]));
     }
 
+    public function testGetEscaperReturnsNullWhenEscapeIsZero(): void
+    {
+        Tag::setAutoescape(true);
+
+        $this->assertNull(Tag::getEscaper(['escape' => 0]));
+        $this->assertNull(Tag::getEscaper(['escape' => '']));
+    }
+
     public function testGetEscaperReturnsTheServiceWhenAutoescapeIsOn(): void
     {
         Tag::setAutoescape(true);
@@ -76,6 +84,18 @@ final class ServicesTest extends AbstractTagTestCase
             EscaperInterface::class,
             Tag::getEscaper(['escape' => true])
         );
+    }
+
+    /**
+     * Any truthy value keeps escaping on; only a falsy value switches it off,
+     * so `1` or `"1"` cannot silently disable escaping.
+     */
+    public function testGetEscaperReturnsTheServiceWhenEscapeIsTruthy(): void
+    {
+        Tag::setAutoescape(false);
+
+        $this->assertInstanceOf(EscaperInterface::class, Tag::getEscaper(['escape' => 1]));
+        $this->assertInstanceOf(EscaperInterface::class, Tag::getEscaper(['escape' => '1']));
     }
 
     public function testGetEscaperServiceIsResolvedOnce(): void

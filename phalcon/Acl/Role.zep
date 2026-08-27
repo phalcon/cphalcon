@@ -10,6 +10,7 @@
 
 namespace Phalcon\Acl;
 
+use Phalcon\Acl\Exceptions\ForbiddenDelimiter;
 use Phalcon\Acl\Exceptions\ForbiddenWildcard;
 
 /**
@@ -24,6 +25,10 @@ class Role extends AbstractElement implements RoleInterface
     {
         if unlikely name === "*" {
             throw new ForbiddenWildcard("role");
+        }
+
+        if unlikely memstr(name, "!") {
+            throw new ForbiddenDelimiter("role");
         }
 
         let this->name = name,

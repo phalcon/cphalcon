@@ -78,6 +78,10 @@ class CreditCard extends AbstractValidator
             return true;
         }
 
+        if this->rejectNonStringable(validation, field, value) {
+            return false;
+        }
+
         let valid = this->verifyByLuhnAlgorithm((string) value);
 
         if !valid {

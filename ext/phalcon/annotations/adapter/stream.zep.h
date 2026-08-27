@@ -6,6 +6,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Stream);
 PHP_METHOD(Phalcon_Annotations_Adapter_Stream, __construct);
 PHP_METHOD(Phalcon_Annotations_Adapter_Stream, read);
 PHP_METHOD(Phalcon_Annotations_Adapter_Stream, write);
+PHP_METHOD(Phalcon_Annotations_Adapter_Stream, getFilePath);
 PHP_METHOD(Phalcon_Annotations_Adapter_Stream, phpFclose);
 PHP_METHOD(Phalcon_Annotations_Adapter_Stream, phpFgetCsv);
 PHP_METHOD(Phalcon_Annotations_Adapter_Stream, phpFileExists);
@@ -28,6 +29,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_annotations_adapter_stre
 
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 	ZEND_ARG_OBJ_INFO(0, data, Phalcon\\Annotations\\Reflection, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_annotations_adapter_stream_getfilepath, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_annotations_adapter_stream_phpfclose, 0, 1, _IS_BOOL, 0)
@@ -87,6 +92,7 @@ ZEPHIR_INIT_FUNCS(phalcon_annotations_adapter_stream_method_entry) {
 	PHP_ME(Phalcon_Annotations_Adapter_Stream, __construct, arginfo_phalcon_annotations_adapter_stream___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Annotations_Adapter_Stream, read, arginfo_phalcon_annotations_adapter_stream_read, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Annotations_Adapter_Stream, write, arginfo_phalcon_annotations_adapter_stream_write, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Annotations_Adapter_Stream, getFilePath, arginfo_phalcon_annotations_adapter_stream_getfilepath, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Annotations_Adapter_Stream, phpFclose, arginfo_phalcon_annotations_adapter_stream_phpfclose, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Annotations_Adapter_Stream, phpFgetCsv, arginfo_phalcon_annotations_adapter_stream_phpfgetcsv, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Annotations_Adapter_Stream, phpFileExists, arginfo_phalcon_annotations_adapter_stream_phpfileexists, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)

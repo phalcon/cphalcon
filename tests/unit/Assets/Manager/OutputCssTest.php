@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Assets\Manager;
 
 use Phalcon\Assets\Asset\Css;
+use Phalcon\Assets\Exceptions\InvalidAssetTargetPath;
 use Phalcon\Assets\Manager;
 use Phalcon\Html\Escaper;
 use Phalcon\Html\TagFactory;
@@ -123,5 +124,49 @@ final class OutputCssTest extends AbstractUnitTestCase
         $actual = ob_get_clean();
 
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * A symbolic link at the joined target file would send the write outside
+     * the assets directory. The manager refuses it and leaves the link
+     * destination untouched.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-26
+     */
+    public function testAssetsManagerOutputCssRefusesSymlinkTarget(): void
+    {
+        $dir     = Talon::settings()->outputPath('tests/assets/');
+        $target  = $dir . 'symlink-target.css';
+        $link    = $dir . 'symlink.css';
+        $cssFile = Talon::settings()->supportPath('assets/assets/1198.css');
+
+        file_put_contents($target, 'untouched');
+        $this->safeDeleteFile($link);
+        symlink($target, $link);
+
+        $manager = new Manager(new TagFactory(new Escaper()));
+        $manager->useImplicitOutput(false);
+
+        $manager->collection('css')
+                ->setTargetPath($link)
+                ->addCss($cssFile)
+                ->addFilter(new TrimFilter())
+                ->join(true)
+        ;
+
+        $thrown = false;
+        try {
+            $manager->outputCss('css');
+        } catch (InvalidAssetTargetPath $ex) {
+            $thrown = true;
+        }
+
+        $content = file_get_contents($target);
+        $this->safeDeleteFile($link);
+        $this->safeDeleteFile($target);
+
+        $this->assertTrue($thrown);
+        $this->assertSame('untouched', $content);
     }
 }

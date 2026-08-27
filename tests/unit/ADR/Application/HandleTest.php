@@ -48,6 +48,29 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
+     * Unit Tests Phalcon\ADR\Application :: handle() clears the attributes of a reused request
+     */
+    public function testAdrApplicationHandleClearsAttributesOfReusedRequest(): void
+    {
+        $_SERVER['REQUEST_URI']    = '/user/42';
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+
+        $app = $this->application()
+                    ->setBaseNamespace('Phalcon\\Tests\\Support\\ADR\\Action')
+                    ->setActionDirectory(self::DIRECTORY);
+
+        $request = new Request();
+
+        $app->handle($request);
+        $this->assertSame(['id' => 42], $request->getAttributes()->all());
+
+        $_SERVER['REQUEST_URI'] = '/hello/world';
+
+        $app->handle($request);
+        $this->assertSame([0 => 'world'], $request->getAttributes()->all());
+    }
+
+    /**
      * Unit Tests Phalcon\ADR\Application :: handle() dispatches the matched action with its attributes
      */
     public function testAdrApplicationHandleDispatchesMatchedAction(): void

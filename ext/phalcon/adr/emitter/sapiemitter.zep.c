@@ -57,12 +57,12 @@ PHP_METHOD(Phalcon_ADR_Emitter_SapiEmitter, emit)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &response);
-	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 224);
+	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 225);
 	zephir_check_call_status();
 	if (zephir_is_true(&_0)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_adr_exceptions_headersalreadysent_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 319);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 321);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/ADR/Emitter/SapiEmitter.zep", 29);
 		ZEPHIR_MM_RESTORE();

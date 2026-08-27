@@ -83,7 +83,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Iso10126, pad)
 			ZEPHIR_INIT_NVAR(&counter);
 			ZVAL_LONG(&counter, _1);
 			ZVAL_LONG(&_3$$3, 1);
-			ZEPHIR_CALL_FUNCTION(&_4$$3, "random_bytes", &_5, 325, &_3$$3);
+			ZEPHIR_CALL_FUNCTION(&_4$$3, "random_bytes", &_5, 327, &_3$$3);
 			zephir_check_call_status();
 			zephir_concat_self(&padding, &_4$$3);
 		}

@@ -265,8 +265,10 @@ class Crypt implements CryptInterface
              * failure and an HMAC mismatch must be indistinguishable. Tolerate
              * a decrypt failure, always compute the HMAC (over the padded
              * plaintext, before unpadding) so the timing does not leak which
-             * one happened, and report a single generic error. hash_equals()
-             * keeps the comparison constant-time.
+             * one happened, and report a single generic error. On a failure
+             * the HMAC runs over a dummy of the ciphertext length, so the
+             * amount of work is the same on both paths. hash_equals() keeps
+             * the comparison constant-time.
              */
             try {
                 let decrypted = this->decryptGcmCcmAuth(
@@ -282,7 +284,7 @@ class Crypt implements CryptInterface
             if true !== this->phpHashEquals(
                     this->phpHashHmac(
                         hashAlgorithm,
-                        false === decrypted ? "" : decrypted,
+                        false === decrypted ? str_repeat(chr(0), strlen(cipherText)) : decrypted,
                         decryptKey,
                         true
                     ),

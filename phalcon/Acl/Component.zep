@@ -10,6 +10,7 @@
 
 namespace Phalcon\Acl;
 
+use Phalcon\Acl\Exceptions\ForbiddenDelimiter;
 use Phalcon\Acl\Exceptions\ForbiddenWildcard;
 
 /**
@@ -24,6 +25,10 @@ class Component extends AbstractElement implements ComponentInterface
     {
         if unlikely name === "*" {
             throw new ForbiddenWildcard("component");
+        }
+
+        if unlikely memstr(name, "!") {
+            throw new ForbiddenDelimiter("component");
         }
 
         let this->name = name,

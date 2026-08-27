@@ -75,4 +75,19 @@ final class RenderTraversalTest extends AbstractUnitTestCase
 
         $this->assertFalse($leaked);
     }
+
+    /**
+     * Backslashes are path separators on Windows. They are normalized before
+     * the `..` filter, so `..\\view` resolves inside the views directory
+     * instead of one level above it.
+     */
+    public function testMvcViewSimpleRenderCannotTraverseWithBackslash(): void
+    {
+        $view = $this->container->get('viewSimple');
+
+        $expected = 'here';
+        $actual   = $view->render('..\\currentrender\\other');
+
+        $this->assertSame($expected, $actual);
+    }
 }

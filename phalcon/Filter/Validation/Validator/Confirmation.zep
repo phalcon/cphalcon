@@ -94,6 +94,10 @@ class Confirmation extends AbstractValidator
         let value = validation->getValue(field),
             valueWith = validation->getValue(fieldWith);
 
+        if this->rejectNonStringable(validation, field, value) || this->rejectNonStringable(validation, field, valueWith) {
+            return false;
+        }
+
         if !this->compare((string) value, (string) valueWith) {
             let labelWith = this->getOption("labelWith");
 

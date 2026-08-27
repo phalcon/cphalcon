@@ -367,4 +367,32 @@ final class CreateTableTest extends AbstractDatabaseTestCase
             ],
         ];
     }
+
+    /**
+     * A column comment is a string literal: quotes and backslashes are
+     * escaped like the DEFAULT clause, so a comment cannot end the literal.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-26
+     */
+    #[Group('mysql')]
+    public function testDbDialectCreateTableEscapesComment(): void
+    {
+        $dialect = new Mysql();
+        $column  = new Column(
+            'note',
+            [
+                'type'    => Column::TYPE_VARCHAR,
+                'size'    => 10,
+                'comment' => "O'Brien\\ \"x\"); DROP TABLE secrets;--",
+            ]
+        );
+
+        $actual = $dialect->createTable('table', 'schema', ['columns' => [$column]]);
+
+        $expected = 'CREATE TABLE `schema`.`table` (' . PHP_EOL
+            . "\t`note` VARCHAR(10) NOT NULL COMMENT 'O''Brien\\\\ \"x\"); DROP TABLE secrets;--'" . PHP_EOL
+            . ')';
+        $this->assertSame($expected, $actual);
+    }
 }
