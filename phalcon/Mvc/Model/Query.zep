@@ -1493,7 +1493,9 @@ class Query implements QueryInterface, InjectionAwareInterface
                 resultObject,
                 resultData,
                 cache,
-                isKeepingSnapshots
+                isKeepingSnapshots,
+                manager->getSessionCache(),
+                metaData
             );
         }
 
@@ -1504,7 +1506,9 @@ class Query implements QueryInterface, InjectionAwareInterface
             columns1,
             resultData,
             cache,
-            this->resultsetRowClass
+            this->resultsetRowClass,
+            manager->getSessionCache(),
+            metaData
         );
     }
 

@@ -186,6 +186,9 @@ class Settings
 
             case "orm.virtual_foreign_keys":
                 return (bool) globals_get("orm.virtual_foreign_keys");
+
+            case "orm.session_cache":
+                return (bool) globals_get("orm.session_cache");
         }
 
         return null;

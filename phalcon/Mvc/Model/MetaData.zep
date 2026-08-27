@@ -1065,4 +1065,5 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
             trigger_error(message);
         }
     }
+
 }
