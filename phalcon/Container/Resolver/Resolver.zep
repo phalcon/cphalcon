@@ -33,7 +33,9 @@ namespace Phalcon\Container\Resolver;
 use Closure;
 use Phalcon\Container\Exceptions\CannotResolveParameter;
 use Phalcon\Container\Resolver\Lazy\Lazy;
+use Phalcon\Contracts\Container\ContainerTypes;
 use Phalcon\Contracts\Container\Resolver\ResolverService;
+use Phalcon\Contracts\Container\Service\Collection;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionFunction;
@@ -42,14 +44,15 @@ use ReflectionNamedType;
 use ReflectionParameter;
 use ReflectionType;
 
+/**
+ * @phpstan-import-type container_arguments from ContainerTypes
+ * @phpstan-import-type container_reflection_parameters from ContainerTypes
+ * @phpstan-import-type container_resolved_arguments from ContainerTypes
+ */
 class Resolver implements ResolverService
 {
     /**
      * Is this a resolvable class?
-     *
-     * @param string $className
-     *
-     * @return bool
      */
     public function isResolvableClass(string className) -> bool
     {
@@ -63,9 +66,7 @@ class Resolver implements ResolverService
     /**
      * Resolve a call
      *
-     * @param object   $ioc
-     * @param callable $callable
-     * @param array    $arguments
+     * @phpstan-param container_arguments $arguments
      *
      * @return mixed
      * @throws ReflectionException
@@ -90,11 +91,9 @@ class Resolver implements ResolverService
     /**
      * Resolve a class
      *
-     * @param object $ioc
-     * @param string $className
-     * @param array  $arguments
+     * @phpstan-param class-string        $className
+     * @phpstan-param container_arguments $arguments
      *
-     * @return object
      * @throws ReflectionException
      */
     public function resolveClass(
@@ -120,11 +119,6 @@ class Resolver implements ResolverService
     /**
      * Resolve a method
      *
-     * @param object           $ioc
-     * @param ReflectionMethod $method
-     * @param object           $object
-     *
-     * @return void
      * @throws ReflectionException
      */
     public function resolveMethod(
@@ -143,10 +137,6 @@ class Resolver implements ResolverService
     /**
      * Resolve parameters
      *
-     * @param object              $ioc
-     * @param ReflectionParameter $parameter
-     *
-     * @return mixed
      * @throws CannotResolveParameter
      * @throws ReflectionException
      */
@@ -162,6 +152,7 @@ class Resolver implements ResolverService
             let typeName = type->getName();
 
             if (method_exists(ioc, "has") && ioc->has(typeName)) {
+                /** @var Collection $ioc */
                 return ioc->get(typeName);
             }
         }
@@ -183,6 +174,16 @@ class Resolver implements ResolverService
         );
     }
 
+    /**
+     * Resolve parameters
+     *
+     * @phpstan-param container_reflection_parameters $parameters
+     * @phpstan-param container_arguments             $arguments
+     *
+     * @phpstan-return container_resolved_arguments
+     * @throws CannotResolveParameter
+     * @throws ReflectionException
+     */
     public function resolveParameters(
         object ioc,
         array parameters,

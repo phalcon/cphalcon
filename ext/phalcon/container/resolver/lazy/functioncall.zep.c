@@ -46,24 +46,34 @@
  * @link    https://github.com/resolver-interop/interface/tree/1.x
  * @license https://github.com/resolver-interop/interface/blob/1.x/LICENSE.md
  */
+/**
+ * @phpstan-import-type container_arguments from ContainerTypes
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Container_Resolver_Lazy_FunctionCall)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Container\\Resolver\\Lazy, FunctionCall, phalcon, container_resolver_lazy_functioncall, phalcon_container_resolver_lazy_lazy_ce, phalcon_container_resolver_lazy_functioncall_method_entry, 0);
 
 	/**
-	 * @var array<array-key, mixed>
+	 * @phpstan-var container_arguments
 	 */
-	zend_declare_property_null(phalcon_container_resolver_lazy_functioncall_ce, SL("arguments"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_container_resolver_lazy_functioncall_ce, SL("functionName"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_container_resolver_lazy_functioncall_ce, SL("arguments"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_container_resolver_lazy_functioncall_ce, SL("functionName"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 
 /**
- * @param string                  $functionName
- * @param array<array-key, mixed> $arguments
+ * @phpstan-param callable-string     $functionName
+ * @phpstan-param container_arguments $arguments
  */
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_FunctionCall, __construct)
 {
@@ -100,10 +110,6 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_FunctionCall, __construct)
 
 /**
  * Resolve a function
- *
- * @param object $ioc
- *
- * @return mixed
  */
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_FunctionCall, resolve)
 {

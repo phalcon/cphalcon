@@ -30,20 +30,22 @@
 
 namespace Phalcon\Container\Resolver\Lazy;
 
+use Phalcon\Contracts\Container\ContainerTypes;
+
+/**
+ * @phpstan-import-type container_arguments from ContainerTypes
+ */
 class FunctionCall extends Lazy
 {
     /**
-     * @var array<array-key, mixed>
+     * @phpstan-var container_arguments
      */
-    protected arguments;
-    /**
-     * @var string
-     */
-    protected functionName;
+    protected array arguments;
+    protected string functionName;
 
     /**
-     * @param string                  $functionName
-     * @param array<array-key, mixed> $arguments
+     * @phpstan-param callable-string     $functionName
+     * @phpstan-param container_arguments $arguments
      */
     public function __construct(string functionName, array arguments)
     {
@@ -53,10 +55,6 @@ class FunctionCall extends Lazy
 
     /**
      * Resolve a function
-     *
-     * @param object $ioc
-     *
-     * @return mixed
      */
     public function resolve(object ioc) -> mixed
     {

@@ -39,6 +39,9 @@
  * @link    https://github.com/resolver-interop/interface/tree/1.x
  * @license https://github.com/resolver-interop/interface/blob/1.x/LICENSE.md
  */
+/**
+ * @phpstan-import-type container_extenders from ContainerTypes
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Container_Service_Definition)
 {
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Contracts\\Container\\Service, Definition, phalcon, contracts_container_service_definition, phalcon_contracts_container_service_definition_method_entry);
@@ -49,6 +52,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_Container_Service_Definition)
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Service_Definition, addExtender);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Service_Definition, buildService);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Service_Definition, getClass);
+/**
+ * @phpstan-return container_extenders
+ */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Service_Definition, getExtenders);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Service_Definition, getFactory);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Service_Definition, getLifetime);
@@ -58,7 +64,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Service_Definition, hasExtenders);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Service_Definition, hasFactory);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Service_Definition, setClass);
 /**
- * @param array<array-key, callable> $extenders
+ * @phpstan-param container_extenders $extenders
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Service_Definition, setExtenders);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Service_Definition, setFactory);

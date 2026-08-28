@@ -49,14 +49,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Container_Resolver_Lazy_CallableGet)
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Container\\Resolver\\Lazy, CallableGet, phalcon, container_resolver_lazy_callableget, phalcon_container_resolver_lazy_lazy_ce, phalcon_container_resolver_lazy_callableget_method_entry, 0);
 
 	/**
-	 * @var string|Lazy
+	 * @var Lazy|string
 	 */
 	zend_declare_property_null(phalcon_container_resolver_lazy_callableget_ce, SL("id"), ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
 
 /**
- * @param string|Lazy $id
+ * @param Lazy|string $id
  */
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_CallableGet, __construct)
 {
@@ -78,10 +78,6 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_CallableGet, __construct)
 
 /**
  * Resolve to a closure on a get()
- *
- * @param object $ioc
- *
- * @return mixed
  */
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_CallableGet, resolve)
 {

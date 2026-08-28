@@ -50,14 +50,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Container_Resolver_Lazy_Get)
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Container\\Resolver\\Lazy, Get, phalcon, container_resolver_lazy_get, phalcon_container_resolver_lazy_lazy_ce, phalcon_container_resolver_lazy_get_method_entry, 0);
 
 	/**
-	 * @var string|Lazy
+	 * @var Lazy|string
 	 */
 	zend_declare_property_null(phalcon_container_resolver_lazy_get_ce, SL("id"), ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
 
 /**
- * @param string|Lazy $id
+ * @param Lazy|string $id
  */
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_Get, __construct)
 {
@@ -79,10 +79,6 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_Get, __construct)
 
 /**
  * Resolve a shared instance
- *
- * @param object $ioc
- *
- * @return mixed
  */
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_Get, resolve)
 {

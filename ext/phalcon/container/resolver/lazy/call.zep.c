@@ -79,10 +79,6 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_Call, __construct)
 
 /**
  * Resolve the callable
- *
- * @param object $ioc
- *
- * @return mixed
  */
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_Call, resolve)
 {

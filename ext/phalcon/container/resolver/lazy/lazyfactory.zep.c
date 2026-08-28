@@ -46,6 +46,10 @@
  * @link    https://github.com/resolver-interop/interface/tree/1.x
  * @license https://github.com/resolver-interop/interface/blob/1.x/LICENSE.md
  */
+/**
+ * @phpstan-import-type container_arguments from ContainerTypes
+ * @phpstan-import-type container_values from ContainerTypes
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Container_Resolver_Lazy_LazyFactory)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Container\\Resolver\\Lazy, LazyFactory, phalcon, container_resolver_lazy_lazyfactory, phalcon_container_resolver_lazy_lazyfactory_method_entry, 0);
@@ -54,7 +58,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Container_Resolver_Lazy_LazyFactory)
 }
 
 /**
- * @param array<array-key, mixed> $values
+ * @phpstan-param container_values $values
  *
  * @return ArrayValues
  */
@@ -238,8 +242,8 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_LazyFactory, envDefault)
 }
 
 /**
- * @param string                  $function
- * @param array<array-key, mixed> $args
+ * @phpstan-param callable-string     $functionName
+ * @phpstan-param container_arguments $args
  *
  * @return FunctionCall
  */
@@ -291,9 +295,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_LazyFactory, get)
 }
 
 /**
- * @param string                  $id
- * @param string                  $method
- * @param array<array-key, mixed> $args
+ * @phpstan-param container_arguments $args
  *
  * @return GetCall
  */
@@ -328,9 +330,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_LazyFactory, getCall)
 }
 
 /**
- * @param string                  $id
- * @param string                  $method
- * @param array<array-key, mixed> $args
+ * @phpstan-param container_arguments $args
  *
  * @return NewCall
  */
@@ -386,9 +386,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_LazyFactory, newInstance)
 }
 
 /**
- * @param string                  $className
- * @param string                  $method
- * @param array<array-key, mixed> $args
+ * @phpstan-param container_arguments $args
  *
  * @return StaticCall
  */

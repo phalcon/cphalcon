@@ -39,6 +39,9 @@
  * @link    https://github.com/resolver-interop/interface/tree/1.x
  * @license https://github.com/resolver-interop/interface/blob/1.x/LICENSE.md
  */
+/**
+ * @phpstan-import-type container_tagged_services from ContainerTypes
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Container_Service_Collection)
 {
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Contracts\\Container\\Service, Collection, phalcon, contracts_container_service_collection, phalcon_contracts_container_service_collection_method_entry);
@@ -70,6 +73,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Service_Collection, callableGet);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Service_Collection, callableNew);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Service_Collection, extend);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Service_Collection, get);
+/**
+ * @phpstan-return container_tagged_services
+ */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Service_Collection, getByTag);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Service_Collection, getResolver);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Service_Collection, has);

@@ -46,49 +46,55 @@ use Phalcon\Container\Exceptions\ServiceNotFound;
 use Phalcon\Container\Exceptions\ServiceNotRegistered;
 use Phalcon\Container\Resolver\Lazy\Lazy;
 use Phalcon\Container\Resolver\Resolver;
+use Phalcon\Contracts\Container\ContainerTypes;
 use Phalcon\Contracts\Container\Service\Collection;
 use Phalcon\Contracts\Container\Service\Enumerable;
 use Phalcon\Di\InjectionAwareInterface;
 use ReflectionException;
 
+/**
+ * @phpstan-import-type container_aliases from ContainerTypes
+ * @phpstan-import-type container_instance_lifetimes from ContainerTypes
+ * @phpstan-import-type container_instances from ContainerTypes
+ * @phpstan-import-type container_parameters from ContainerTypes
+ * @phpstan-import-type container_processors from ContainerTypes
+ * @phpstan-import-type container_service_names from ContainerTypes
+ * @phpstan-import-type container_service_tags from ContainerTypes
+ * @phpstan-import-type container_services from ContainerTypes
+ * @phpstan-import-type container_tagged_services from ContainerTypes
+ */
 class Container implements Collection, Enumerable
 {
     /**
-     * @var array<string, string>
+     * @phpstan-var container_aliases
      */
-    protected aliases = [];
+    protected array aliases = [];
+    protected bool autowire = true;
     /**
-     * @var bool
+     * @phpstan-var container_instance_lifetimes
      */
-    protected autowire = true;
+    protected array instanceLifetimes = [];
     /**
-     * @var array<string, string>
+     * @phpstan-var container_instances
      */
-    protected instanceLifetimes = [];
+    protected array instances = [];
     /**
-     * @var array<string, object>
+     * @phpstan-var container_parameters
      */
-    protected instances = [];
+    protected array parameters = [];
     /**
-     * @var array<string, mixed>
+     * @phpstan-var container_processors
      */
-    protected parameters = [];
+    protected array processors = [];
+    protected <Resolver> resolver;
     /**
-     * @var array<string, Processor>
+     * @phpstan-var container_services
      */
-    protected processors = [];
+    protected array services = [];
     /**
-     * @var Resolver
+     * @phpstan-var container_service_tags
      */
-    protected resolver;
-    /**
-     * @var array<string, ServiceDefinition>
-     */
-    protected services = [];
-    /**
-     * @var array<string, list<string>>
-     */
-    protected tags = [];
+    protected array tags = [];
 
     public function __construct()
     {
@@ -102,11 +108,6 @@ class Container implements Collection, Enumerable
 
     /**
      * Bind an interface to a concrete class
-     *
-     * @param string $interface
-     * @param string $concrete
-     *
-     * @return ServiceDefinition
      */
     public function bind(string interfaceName, string concrete) -> <ServiceDefinition>
     {
@@ -115,10 +116,6 @@ class Container implements Collection, Enumerable
 
     /**
      * Resolve to a closure on a get()
-     *
-     * @param string $name
-     *
-     * @return Closure
      */
     public function callableGet(string name) -> <Closure>
     {
@@ -133,9 +130,6 @@ class Container implements Collection, Enumerable
 
     /**
      * Resolve to a closure on a new()
-     * @param string $name
-     *
-     * @return Closure
      */
     public function callableNew(string name) -> <Closure>
     {
@@ -151,10 +145,6 @@ class Container implements Collection, Enumerable
     /**
      * Extends the definition
      *
-     * @param string   $name
-     * @param callable $callable
-     *
-     * @return void
      * @throws CannotExtendResolved
      * @throws ServiceNotFound
      */
@@ -176,9 +166,6 @@ class Container implements Collection, Enumerable
     /**
      * Resolve and return an element registerd in the container
      *
-     * @param string $name
-     *
-     * @return mixed
      * @throws ServiceNotFound
      */
     public function get(string name) -> mixed
@@ -198,10 +185,6 @@ class Container implements Collection, Enumerable
 
     /**
      * Return an alias
-     *
-     * @param string $name
-     *
-     * @return string
      */
     public function getAlias(string name) -> string
     {
@@ -217,9 +200,7 @@ class Container implements Collection, Enumerable
     /**
      * Return services by tag
      *
-     * @param string $tag
-     *
-     * @return list<mixed>
+     * @phpstan-return container_tagged_services
      */
     public function getByTag(string tag) -> array
     {
@@ -241,9 +222,6 @@ class Container implements Collection, Enumerable
     /**
      * Return the service definition
      *
-     * @param string $name
-     *
-     * @return ServiceDefinition
      * @throws ServiceNotFound
      */
     public function getDefinition(string name) -> <ServiceDefinition>
@@ -258,9 +236,6 @@ class Container implements Collection, Enumerable
     /**
      * Return a stored instance
      *
-     * @param string $name
-     *
-     * @return object
      * @throws InstanceNotFound
      */
     public function getInstance(string name) -> object
@@ -275,9 +250,6 @@ class Container implements Collection, Enumerable
     /**
      * Return a parameter
      *
-     * @param string $name
-     *
-     * @return mixed
      * @throws ParameterNotFound
      */
     public function getParameter(string name) -> mixed
@@ -291,8 +263,6 @@ class Container implements Collection, Enumerable
 
     /**
      * Return the resolver
-     *
-     * @return Resolver
      */
     public function getResolver() -> <Resolver>
     {
@@ -302,9 +272,6 @@ class Container implements Collection, Enumerable
     /**
      * Resolve an return a service
      *
-     * @param string $serviceName
-     *
-     * @return object
      * @throws ServiceNotFound
      * @throws ServiceNotRegistered
      */
@@ -326,7 +293,7 @@ class Container implements Collection, Enumerable
      * only exist as an alias, a pre-set instance or a parameter are not
      * included.
      *
-     * @return array<int, string>
+     * @phpstan-return container_service_names
      */
     public function getServiceNames() -> array
     {
@@ -336,9 +303,6 @@ class Container implements Collection, Enumerable
     /**
      * Does the container have a particular service
      *
-     * @param string $name
-     *
-     * @return bool
      * @throws CircularAliasFound
      */
     public function has(string name) -> bool
@@ -358,10 +322,6 @@ class Container implements Collection, Enumerable
 
     /**
      * Does the service have an alias
-     *
-     * @param string $name
-     *
-     * @return bool
      */
     public function hasAlias(string name) -> bool
     {
@@ -370,10 +330,6 @@ class Container implements Collection, Enumerable
 
     /**
      * Does the service have a definition
-     *
-     * @param string $name
-     *
-     * @return bool
      */
     public function hasDefinition(string name) -> bool
     {
@@ -382,10 +338,6 @@ class Container implements Collection, Enumerable
 
     /**
      * Does the service have an instance
-     *
-     * @param string $name
-     *
-     * @return bool
      */
     public function hasInstance(string name) -> bool
     {
@@ -394,10 +346,6 @@ class Container implements Collection, Enumerable
 
     /**
      * Does the service have a parameter
-     *
-     * @param string $name
-     *
-     * @return bool
      */
     public function hasParameter(string name) -> bool
     {
@@ -407,9 +355,6 @@ class Container implements Collection, Enumerable
     /**
      * Does the container have a particular service
      *
-     * @param string $serviceName
-     *
-     * @return bool
      * @throws CircularAliasFound
      */
     public function hasService(string serviceName) -> bool
@@ -419,8 +364,6 @@ class Container implements Collection, Enumerable
 
     /**
      * Is AutoWiring enabled
-     *
-     * @return bool
      */
     public function isAutowireEnabled() -> bool
     {
@@ -430,9 +373,6 @@ class Container implements Collection, Enumerable
     /**
      * Resolve and return a new service
      *
-     * @param string $name
-     *
-     * @return mixed
      * @throws CircularAliasFound
      * @throws ReflectionException
      * @throws ServiceNotFound
@@ -446,10 +386,6 @@ class Container implements Collection, Enumerable
 
     /**
      * Return a new service definition
-     *
-     * @param string $name
-     *
-     * @return ServiceDefinition
      */
     public function newDefinition(string name) -> <ServiceDefinition>
     {
@@ -459,10 +395,6 @@ class Container implements Collection, Enumerable
     /**
      * Set a service
      *
-     * @param string $name
-     * @param mixed  $definition
-     *
-     * @return ServiceDefinition
      * @throws NoProcessorFound
      */
     public function set(string name, var definition) -> <ServiceDefinition>
@@ -481,13 +413,8 @@ class Container implements Collection, Enumerable
     /**
      * Set an alias
      *
-     * @param string $name
-     * @param string $alias
-     *
-     * @return static
      * @throws CircularAliasFound
      */
-
     public function setAlias(string name, string alias) -> <static>
     {
         this->detectCircularAlias(alias, name);
@@ -498,10 +425,6 @@ class Container implements Collection, Enumerable
 
     /**
      * Set AutoWire
-     *
-     * @param bool $enabled
-     *
-     * @return static
      */
     public function setAutowire(bool enabled) -> <static>
     {
@@ -512,11 +435,6 @@ class Container implements Collection, Enumerable
 
     /**
      * Set a definition
-     *
-     * @param string            $name
-     * @param ServiceDefinition $definition
-     *
-     * @return static
      */
     public function setDefinition(string name, <ServiceDefinition> definition) -> <static>
     {
@@ -527,12 +445,6 @@ class Container implements Collection, Enumerable
 
     /**
      * Set an instance
-     *
-     * @param string $name
-     * @param object $instance
-     * @param string $lifetime
-     *
-     * @return static
      */
     public function setInstance(string name, object instance, string lifetime) -> <static>
     {
@@ -544,11 +456,6 @@ class Container implements Collection, Enumerable
 
     /**
      * Set a parameter
-     *
-     * @param string $name
-     * @param mixed  $value
-     *
-     * @return static
      */
     public function setParameter(string name, var value) -> <static>
     {
@@ -559,11 +466,6 @@ class Container implements Collection, Enumerable
 
     /**
      * Register a tag with a service
-     *
-     * @param string $tag
-     * @param string $serviceName
-     *
-     * @return void
      */
     public function setTag(string tag, string serviceName) -> void
     {
@@ -578,10 +480,6 @@ class Container implements Collection, Enumerable
 
     /**
      * Remove an alias
-     *
-     * @param string $name
-     *
-     * @return void
      */
     public function unsetAlias(string name) -> void
     {
@@ -590,10 +488,6 @@ class Container implements Collection, Enumerable
 
     /**
      * Remove a definition
-     *
-     * @param string $name
-     *
-     * @return void
      */
     public function unsetDefinition(string name) -> void
     {
@@ -602,10 +496,6 @@ class Container implements Collection, Enumerable
 
     /**
      * Remove an instance
-     *
-     * @param string $name
-     *
-     * @return void
      */
     public function unsetInstance(string name) -> void
     {
@@ -615,10 +505,6 @@ class Container implements Collection, Enumerable
 
     /**
      * Remove instances based on lifetime
-     *
-     * @param string $lifetime
-     *
-     * @return void
      */
     public function unsetInstances(string lifetime) -> void
     {
@@ -634,10 +520,6 @@ class Container implements Collection, Enumerable
 
     /**
      * Remove a parameter
-     *
-     * @param string $name
-     *
-     * @return void
      */
     public function unsetParameter(string name) -> void
     {
@@ -647,10 +529,6 @@ class Container implements Collection, Enumerable
     /**
      * Detect circular aliases
      *
-     * @param string $alias
-     * @param string $target
-     *
-     * @return void
      * @throws CircularAliasFound
      */
     private function detectCircularAlias(string alias, string target) -> void
@@ -681,9 +559,6 @@ class Container implements Collection, Enumerable
     /**
      * Locate a processor
      *
-     * @param mixed $definition
-     *
-     * @return Processor
      * @throws NoProcessorFound
      */
     private function findProcessor(var definition) -> <Processor>
@@ -702,10 +577,6 @@ class Container implements Collection, Enumerable
     /**
      * Resolve the service
      *
-     * @param string $name
-     * @param bool   $cache
-     *
-     * @return mixed
      * @throws ServiceNotFound
      * @throws ReflectionException
      */
@@ -748,9 +619,6 @@ class Container implements Collection, Enumerable
     /**
      * Resolve an alias
      *
-     * @param string $name
-     *
-     * @return string
      * @throws CircularAliasFound
      */
     private function resolveAlias(string name) -> string
@@ -774,10 +642,6 @@ class Container implements Collection, Enumerable
 
     /**
      * Resolve a paramater
-     *
-     * @param string $name
-     *
-     * @return mixed
      */
     private function resolveParameter(string name) -> mixed
     {

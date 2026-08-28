@@ -39,6 +39,11 @@
  * @link    https://github.com/resolver-interop/interface/tree/1.x
  * @license https://github.com/resolver-interop/interface/blob/1.x/LICENSE.md
  */
+/**
+ * @phpstan-import-type container_arguments from ContainerTypes
+ * @phpstan-import-type container_reflection_parameters from ContainerTypes
+ * @phpstan-import-type container_resolved_arguments from ContainerTypes
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Container_Resolver_ResolverService)
 {
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Contracts\\Container\\Resolver, ResolverService, phalcon, contracts_container_resolver_resolverservice, phalcon_contracts_container_resolver_resolverservice_method_entry);
@@ -48,8 +53,21 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_Container_Resolver_ResolverService)
 }
 
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Resolver_ResolverService, isResolvableClass);
+/**
+ * @phpstan-param container_arguments $arguments
+ */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Resolver_ResolverService, resolveCall);
+/**
+ * @phpstan-param class-string         $className
+ * @phpstan-param container_arguments $arguments
+ */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Resolver_ResolverService, resolveClass);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Resolver_ResolverService, resolveMethod);
+/**
+ * @phpstan-param container_reflection_parameters $parameters
+ * @phpstan-param container_arguments             $arguments
+ *
+ * @phpstan-return container_resolved_arguments
+ */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Resolver_ResolverService, resolveParameters);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Resolver_ResolverService, resolveType);

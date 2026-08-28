@@ -103,10 +103,6 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_EnvDefault, __construct)
 
 /**
  * Resolve an environment variable, returning the default if not defined
- *
- * @param object $ioc
- *
- * @return mixed
  */
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_EnvDefault, resolve)
 {

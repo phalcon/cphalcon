@@ -63,6 +63,7 @@ class StringProcessor implements Processor
     ) -> <ServiceDefinition> {
         var def;
 
+        /** @var class-string $definition */
         let def = new ServiceDefinition(name, DefinitionType::STRING_TYPE, definition);
         def->setClass(definition);
         def->setIsCacheable(true);

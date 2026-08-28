@@ -48,43 +48,63 @@
  * @link    https://github.com/resolver-interop/interface/tree/1.x
  * @license https://github.com/resolver-interop/interface/blob/1.x/LICENSE.md
  */
+/**
+ * @phpstan-import-type container_arguments from ContainerTypes
+ * @phpstan-import-type container_extenders from ContainerTypes
+ * @phpstan-import-type container_tags from ContainerTypes
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Container_Definition_ServiceDefinition)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Container\\Definition, ServiceDefinition, phalcon, container_definition_servicedefinition, phalcon_container_definition_servicedefinition_method_entry, 0);
 
 	/**
-	 * @phpstan-var array<array-key, mixed>
-	 * @var array
+	 * @phpstan-var container_arguments
 	 */
 	zend_declare_property_null(phalcon_container_definition_servicedefinition_ce, SL("arguments"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_container_definition_servicedefinition_ce, SL("className"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING|MAY_BE_NULL, NULL, 0);
+	}
+
+	/**
+	 * @phpstan-var container_arguments
+	 */
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_container_definition_servicedefinition_ce, SL("constructorArgs"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
 	/**
 	 * @var object | null
 	 */
 	zend_declare_property_null(phalcon_container_definition_servicedefinition_ce, SL("container"), ZEND_ACC_PROTECTED);
 	/**
-	 * @var string | null
+	 * @phpstan-var container_extenders
 	 */
-	zend_declare_property_null(phalcon_container_definition_servicedefinition_ce, SL("className"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var array
-	 */
-	zend_declare_property_null(phalcon_container_definition_servicedefinition_ce, SL("constructorArgs"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var array<array-key, callable>
-	 */
-	zend_declare_property_null(phalcon_container_definition_servicedefinition_ce, SL("extenders"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_container_definition_servicedefinition_ce, SL("extenders"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
 	/**
 	 * @var callable | null
 	 */
 	zend_declare_property_null(phalcon_container_definition_servicedefinition_ce, SL("factory"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_bool(phalcon_container_definition_servicedefinition_ce, SL("frozen"), 0, ZEND_ACC_PROTECTED);
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_bool(phalcon_container_definition_servicedefinition_ce, SL("isCacheable"), 0, ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_BOOL(&_zc0, 0);
+		zephir_declare_typed_property(phalcon_container_definition_servicedefinition_ce, SL("frozen"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_BOOL(&_zc0, 0);
+		zephir_declare_typed_property(phalcon_container_definition_servicedefinition_ce, SL("isCacheable"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
+
 	/**
 	 * @var string
 	 */
@@ -93,19 +113,27 @@ ZEPHIR_INIT_CLASS(Phalcon_Container_Definition_ServiceDefinition)
 	 *  @var mixed
 	 */
 	zend_declare_property_null(phalcon_container_definition_servicedefinition_ce, SL("raw"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_container_definition_servicedefinition_ce, SL("serviceName"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	/**
-	 *  @var string
+	 * @phpstan-var container_tags
 	 */
-	zend_declare_property_null(phalcon_container_definition_servicedefinition_ce, SL("serviceName"), ZEND_ACC_PROTECTED);
-	/**
-	 * @phpstan-var array<array-key, string>
-	 * @var array
-	 */
-	zend_declare_property_null(phalcon_container_definition_servicedefinition_ce, SL("tags"), ZEND_ACC_PROTECTED);
-	/**
-	 *  @var string
-	 */
-	zend_declare_property_null(phalcon_container_definition_servicedefinition_ce, SL("type"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_container_definition_servicedefinition_ce, SL("tags"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_container_definition_servicedefinition_ce, SL("type"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	phalcon_container_definition_servicedefinition_ce->create_object = zephir_init_properties_Phalcon_Container_Definition_ServiceDefinition;
 
 	return SUCCESS;
@@ -158,9 +186,6 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, __construct)
 /**
  * Adds an extender
  *
- * @param callable $extender
- *
- * @return static
  * @throws FrozenDefinition
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, addExtender)
@@ -186,9 +211,6 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, addExtender)
 /**
  * Adds a tag
  *
- * @param string $tag
- *
- * @return static
  * @throws FrozenDefinition
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, addTag)
@@ -254,9 +276,6 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, addTag)
 /**
  * Builds a service and returns the instance back
  *
- * @param object $container
- *
- * @return object
  * @throws ReflectionException
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, buildService)
@@ -339,7 +358,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, buildService)
 		zephir_check_call_status();
 	}
 	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_4, 542, PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_5, 0, "phalcon/Container/Definition/ServiceDefinition.zep", 178);
+	zephir_is_iterable(&_5, 0, "phalcon/Container/Definition/ServiceDefinition.zep", 162);
 	if (Z_TYPE_P(&_5) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_5), _6)
 		{
@@ -379,9 +398,6 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, buildService)
 /**
  * Freezes the container
  *
- * @param object $container
- *
- * @return void
  * @throws ReflectionException
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, freeze)
@@ -512,7 +528,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, freeze)
 /**
  * Returns the arguments
  *
- * @return array
+ * @phpstan-return container_arguments
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getArguments)
 {
@@ -523,7 +539,6 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getArguments)
 /**
  * Returns the class
  *
- * @return string
  * @throws NoClassSet
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getClass)
@@ -554,7 +569,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getClass)
 		zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_1, 534, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 493, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Container/Definition/ServiceDefinition.zep", 240);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Container/Definition/ServiceDefinition.zep", 222);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -564,7 +579,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getClass)
 /**
  * Returns the constructor arguments
  *
- * @return array
+ * @phpstan-return container_arguments
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getConstructorArgs)
 {
@@ -575,7 +590,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getConstructorArgs)
 /**
  * Returns the extenders
  *
- * @return array<array-key, callable>
+ * @phpstan-return container_extenders
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getExtenders)
 {
@@ -586,7 +601,6 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getExtenders)
 /**
  * Returns the factory
  *
- * @return callable
  * @throws NoFactorySet
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getFactory)
@@ -617,7 +631,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getFactory)
 		zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_1, 534, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 494, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Container/Definition/ServiceDefinition.zep", 275);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Container/Definition/ServiceDefinition.zep", 256);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -626,8 +640,6 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getFactory)
 
 /**
  * Returns the lifetime
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getLifetime)
 {
@@ -637,8 +649,6 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getLifetime)
 
 /**
  * Returns the name of the service
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getServiceName)
 {
@@ -649,7 +659,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getServiceName)
 /**
  * Returns the tags
  *
- * @return array<array-key, string>
+ * @phpstan-return container_tags
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getTags)
 {
@@ -659,8 +669,6 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getTags)
 
 /**
  * Returns the type
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getType)
 {
@@ -670,8 +678,6 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, getType)
 
 /**
  * Does it have a class
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, hasClass)
 {
@@ -689,8 +695,6 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, hasClass)
 
 /**
  * Do we have extenders
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, hasExtenders)
 {
@@ -713,8 +717,6 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, hasExtenders)
 
 /**
  * Does it have a factory
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, hasFactory)
 {
@@ -732,8 +734,6 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, hasFactory)
 
 /**
  * Is it cacheable
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, isCacheable)
 {
@@ -762,8 +762,6 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, isCacheable)
 
 /**
  * Is it frozen
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, isFrozen)
 {
@@ -777,7 +775,6 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, isFrozen)
  * @param int|string $param
  * @param mixed      $value
  *
- * @return static
  * @throws FrozenDefinition
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setArgument)
@@ -803,37 +800,10 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setArgument)
 }
 
 /**
- * Set the container
- *
- * @param object $container
- *
- * @return static
- */
-PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setContainer)
-{
-	zval *container, container_sub;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&container_sub);
-	static zend_string *_zephir_prop_0 = NULL;
-	if (UNEXPECTED(!_zephir_prop_0)) {
-		_zephir_prop_0 = zend_string_init("container", 9, 1);
-	}
-
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT(container)
-	ZEND_PARSE_PARAMETERS_END();
-	zephir_fetch_params_without_memory_grow(1, 0, &container);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 538, container);
-	RETURN_THISW();
-}
-
-/**
  * Set a class
  *
  * @param string $className
  *
- * @return static
  * @throws FrozenDefinition
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setClass)
@@ -864,11 +834,32 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setClass)
 }
 
 /**
+ * Set the container
+ */
+PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setContainer)
+{
+	zval *container, container_sub;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&container_sub);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("container", 9, 1);
+	}
+
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT(container)
+	ZEND_PARSE_PARAMETERS_END();
+	zephir_fetch_params_without_memory_grow(1, 0, &container);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 538, container);
+	RETURN_THISW();
+}
+
+/**
  * Set extenders
  *
- * @param array<array-key, callable> $extenders
+ * @phpstan-param container_arguments $extenders
  *
- * @return static
  * @throws FrozenDefinition
  * @throws InvalidExtender
  */
@@ -913,7 +904,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setExtenders)
 	zephir_get_arrval(&extenders, extenders_param);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkfrozen", NULL, 0);
 	zephir_check_call_status();
-	zephir_is_iterable(&extenders, 0, "phalcon/Container/Definition/ServiceDefinition.zep", 439);
+	zephir_is_iterable(&extenders, 0, "phalcon/Container/Definition/ServiceDefinition.zep", 398);
 	if (Z_TYPE_P(&extenders) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&extenders), _1, _2, _0)
 		{
@@ -932,7 +923,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setExtenders)
 				zephir_cast_to_string(&_5$$4, &key);
 				ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", &_6, 495, &_4$$4, &_5$$4);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_3$$4, "phalcon/Container/Definition/ServiceDefinition.zep", 435);
+				zephir_throw_exception_debug(&_3$$4, "phalcon/Container/Definition/ServiceDefinition.zep", 393);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -964,7 +955,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setExtenders)
 					zephir_cast_to_string(&_11$$6, &key);
 					ZEPHIR_CALL_METHOD(NULL, &_9$$6, "__construct", &_6, 495, &_10$$6, &_11$$6);
 					zephir_check_call_status();
-					zephir_throw_exception_debug(&_9$$6, "phalcon/Container/Definition/ServiceDefinition.zep", 435);
+					zephir_throw_exception_debug(&_9$$6, "phalcon/Container/Definition/ServiceDefinition.zep", 393);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
@@ -979,9 +970,6 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setExtenders)
 /**
  * Set a factory
  *
- * @param callable $factory
- *
- * @return static
  * @throws FrozenDefinition
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setFactory)
@@ -1011,9 +999,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setFactory)
 
 /**
  * Set cachable
- * @param bool $isCacheable
  *
- * @return static
  * @throws FrozenDefinition
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setIsCacheable)
@@ -1050,9 +1036,6 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setIsCacheable)
 /**
  * Set lifetime
  *
- * @param string $lifetime
- *
- * @return static
  * @throws FrozenDefinition
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setLifetime)
@@ -1085,7 +1068,6 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setLifetime)
 /**
  * Unset class
  *
- * @return static
  * @throws FrozenDefinition
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, unsetClass)
@@ -1112,7 +1094,6 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, unsetClass)
 /**
  * Unset extenders
  *
- * @return static
  * @throws FrozenDefinition
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, unsetExtenders)
@@ -1141,7 +1122,6 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, unsetExtenders)
 /**
  * Unset the factory
  *
- * @return static
  * @throws FrozenDefinition
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, unsetFactory)
@@ -1168,7 +1148,6 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, unsetFactory)
 /**
  * Check if frozen
  *
- * @return void
  * @throws FrozenDefinition
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, checkFrozen)
@@ -1199,7 +1178,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, checkFrozen)
 		zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_1, 534, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 496, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Container/Definition/ServiceDefinition.zep", 542);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Container/Definition/ServiceDefinition.zep", 489);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -1209,10 +1188,8 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, checkFrozen)
 /**
  * Resolve arguments
  *
- * @param object $container
- * @param array  $args
- *
- * @return array
+ * @phpstan-param  container_arguments $args
+ * @phpstan-return container_arguments
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, resolveArgs)
 {
@@ -1242,7 +1219,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, resolveArgs)
 	zephir_get_arrval(&args, args_param);
 	ZEPHIR_INIT_VAR(&resolved);
 	array_init(&resolved);
-	zephir_is_iterable(&args, 0, "phalcon/Container/Definition/ServiceDefinition.zep", 575);
+	zephir_is_iterable(&args, 0, "phalcon/Container/Definition/ServiceDefinition.zep", 521);
 	if (Z_TYPE_P(&args) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&args), _1, _2, _0)
 		{
@@ -1306,16 +1283,10 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, resolveArgs)
 
 zend_object *zephir_init_properties_Phalcon_Container_Definition_ServiceDefinition(zend_class_entry *class_type)
 {
-		zval _0, _2, _4, _6, _1$$3, _3$$4, _5$$5, _7$$6;
+		zval _0, _1$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$4);
-	ZVAL_UNDEF(&_5$$5);
-	ZVAL_UNDEF(&_7$$6);
 	
 
 		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
@@ -1324,29 +1295,11 @@ zend_object *zephir_init_properties_Phalcon_Container_Definition_ServiceDefiniti
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("tags"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("arguments"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("tags"), &_1$$3);
-		}
-		zephir_read_property_ex(&_2, this_ptr, ZEND_STRL("extenders"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_2) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_3$$4);
-			array_init(&_3$$4);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("extenders"), &_3$$4);
-		}
-		zephir_read_property_ex(&_4, this_ptr, ZEND_STRL("constructorArgs"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_4) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_5$$5);
-			array_init(&_5$$5);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("constructorArgs"), &_5$$5);
-		}
-		zephir_read_property_ex(&_6, this_ptr, ZEND_STRL("arguments"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_6) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_7$$6);
-			array_init(&_7$$6);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("arguments"), &_7$$6);
+			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("arguments"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

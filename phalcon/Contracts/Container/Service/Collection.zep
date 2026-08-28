@@ -32,8 +32,12 @@ namespace Phalcon\Contracts\Container\Service;
 use Closure;
 use Phalcon\Container\Definition\ServiceDefinition;
 use Phalcon\Container\Resolver\Resolver;
+use Phalcon\Contracts\Container\ContainerTypes;
 use Phalcon\Contracts\Container\Ioc\IocContainer;
 
+/**
+ * @phpstan-import-type container_tagged_services from ContainerTypes
+ */
 interface Collection extends IocContainer
 {
     // From service-interop/ServiceCollection - alias management
@@ -68,6 +72,10 @@ interface Collection extends IocContainer
     public function callableNew(string name) -> <Closure>;
     public function extend(string name, callable callableObject) -> void;
     public function get(string name) -> mixed;
+
+    /**
+     * @phpstan-return container_tagged_services
+     */
     public function getByTag(string tag) -> array;
     public function getResolver() -> <Resolver>;
     public function has(string name) -> bool;

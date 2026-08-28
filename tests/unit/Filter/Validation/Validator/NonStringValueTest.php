@@ -60,26 +60,6 @@ final class NonStringValueTest extends AbstractUnitTestCase
     }
 
     /**
-     * @param array<string, mixed> $data
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-08-26
-     */
-    #[DataProvider('getValidators')]
-    public function testFilterValidationValidatorRejectsNonStringValue(
-        ValidatorInterface $validator,
-        array $data
-    ): void {
-        $validation = new Validation();
-        $validation->add('field', $validator);
-
-        $messages = $validation->validate($data);
-
-        $this->assertSame(1, $messages->count());
-        $this->assertSame('field', $messages->offsetGet(0)->getField());
-    }
-
-    /**
      * A Stringable object is a string for the validators.
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -99,5 +79,25 @@ final class NonStringValueTest extends AbstractUnitTestCase
         $validation->add('field', new Min(['min' => 3]));
 
         $this->assertSame(0, $validation->validate(['field' => $value])->count());
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-26
+     */
+    #[DataProvider('getValidators')]
+    public function testFilterValidationValidatorRejectsNonStringValue(
+        ValidatorInterface $validator,
+        array $data
+    ): void {
+        $validation = new Validation();
+        $validation->add('field', $validator);
+
+        $messages = $validation->validate($data);
+
+        $this->assertSame(1, $messages->count());
+        $this->assertSame('field', $messages->offsetGet(0)->getField());
     }
 }

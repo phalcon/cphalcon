@@ -43,7 +43,6 @@ PHP_METHOD(Phalcon_Container_Container, findProcessor);
 PHP_METHOD(Phalcon_Container_Container, resolve);
 PHP_METHOD(Phalcon_Container_Container, resolveAlias);
 PHP_METHOD(Phalcon_Container_Container, resolveParameter);
-zend_object *zephir_init_properties_Phalcon_Container_Container(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_container_container___construct, 0, 0, 0)
 ZEND_END_ARG_INFO()
@@ -218,9 +217,6 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_container_resolveparameter, 0, 1, IS_MIXED, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_container_container_zephir_init_properties_phalcon_container_container, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_container_container_method_entry) {

@@ -13,13 +13,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Storage\Adapter;
 
+use FilesystemIterator;
 use Phalcon\Storage\Adapter\Memory;
 use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Storage\Fake\WakeupCanary;
-use FilesystemIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
@@ -75,6 +75,30 @@ final class AllowedClassesOptionTest extends AbstractUnitTestCase
     }
 
     /**
+     * Shard directories are created with mode 0755 (before umask), not 0777.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-26
+     */
+    public function testStorageAdapterStreamCreatesDirectoriesWithoutWorldWrite(): void
+    {
+        $adapter = new Stream(
+            new SerializerFactory(),
+            ['storageDir' => Talon::settings()->outputPath() . '/']
+        );
+
+        $adapter->set('perm-key', 'value');
+
+        $file = $this->findStoredFile('perm-key');
+        $this->assertNotNull($file);
+        $directory = dirname($file);
+        $this->assertTrue(is_dir($directory));
+        $this->assertSame(0755 & ~umask(), fileperms($directory) & 0777);
+
+        $adapter->delete('perm-key');
+    }
+
+    /**
      * A crafted cache file with a valid envelope and an object in the
      * nested content must not instantiate the object on read.
      *
@@ -108,30 +132,6 @@ final class AllowedClassesOptionTest extends AbstractUnitTestCase
 
         $this->assertFalse(WakeupCanary::$fired);
         $this->assertSame('default', $actual);
-    }
-
-    /**
-     * Shard directories are created with mode 0755 (before umask), not 0777.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-08-26
-     */
-    public function testStorageAdapterStreamCreatesDirectoriesWithoutWorldWrite(): void
-    {
-        $adapter = new Stream(
-            new SerializerFactory(),
-            ['storageDir' => Talon::settings()->outputPath() . '/']
-        );
-
-        $adapter->set('perm-key', 'value');
-
-        $file = $this->findStoredFile('perm-key');
-        $this->assertNotNull($file);
-        $directory = dirname($file);
-        $this->assertTrue(is_dir($directory));
-        $this->assertSame(0755 & ~umask(), fileperms($directory) & 0777);
-
-        $adapter->delete('perm-key');
     }
 
     /**

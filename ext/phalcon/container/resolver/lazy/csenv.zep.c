@@ -47,6 +47,9 @@
  * @link    https://github.com/resolver-interop/interface/tree/1.x
  * @license https://github.com/resolver-interop/interface/blob/1.x/LICENSE.md
  */
+/**
+ * @phpstan-import-type container_csv_values from ContainerTypes
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Container_Resolver_Lazy_CsEnv)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Container\\Resolver\\Lazy, CsEnv, phalcon, container_resolver_lazy_csenv, phalcon_container_resolver_lazy_env_ce, phalcon_container_resolver_lazy_csenv_method_entry, 0);
@@ -57,9 +60,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Container_Resolver_Lazy_CsEnv)
 /**
  * Resolve the getEnv() from keys as a comma separated list
  *
- * @param object $ioc
- *
- * @return array
+ * @phpstan-return container_csv_values
  * @throws EnvNotDefined
  */
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_CsEnv, resolve)
@@ -111,7 +112,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_CsEnv, resolve)
 	if (Z_TYPE_P(&_4) != IS_NULL) {
 		ZEPHIR_INIT_VAR(&result);
 		array_init(&result);
-		zephir_is_iterable(&values, 0, "phalcon/Container/Resolver/Lazy/CsEnv.zep", 60);
+		zephir_is_iterable(&values, 0, "phalcon/Container/Resolver/Lazy/CsEnv.zep", 62);
 		if (Z_TYPE_P(&values) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&values), _6$$3, _7$$3, _5$$3)
 			{
