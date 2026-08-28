@@ -64,6 +64,7 @@ class ClosureProcessor implements Processor
     ) -> <ServiceDefinition> {
         var def;
 
+        /** @var Closure $definition */
         let def = new ServiceDefinition(name, DefinitionType::CLOSURE_TYPE, definition);
         def->setFactory(definition);
 

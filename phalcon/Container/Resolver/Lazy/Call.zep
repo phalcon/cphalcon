@@ -47,10 +47,6 @@ class Call extends Lazy
 
     /**
      * Resolve the callable
-     *
-     * @param object $ioc
-     *
-     * @return mixed
      */
     public function resolve(object ioc) -> mixed
     {

@@ -30,6 +30,8 @@
 
 namespace Phalcon\Container\Resolver\Lazy;
 
+use Phalcon\Contracts\Container\Service\Collection;
+
 class NewInstance extends Lazy
 {
     /**
@@ -47,17 +49,15 @@ class NewInstance extends Lazy
 
     /**
      * Resolve a new instance
-     *
-     * @param object $ioc
-     *
-     * @return mixed
      */
     public function resolve(object ioc) -> mixed
     {
         var id;
 
+        /** @var string $id */
         let id = this->resolveArgument(ioc, this->id);
 
+        /** @var Collection $ioc */
         return ioc->$new(id);
     }
 }

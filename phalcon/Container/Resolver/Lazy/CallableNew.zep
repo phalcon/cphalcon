@@ -30,15 +30,17 @@
 
 namespace Phalcon\Container\Resolver\Lazy;
 
+use Phalcon\Contracts\Container\Service\Collection;
+
 class CallableNew extends Lazy
 {
     /**
-     * @var string|Lazy
+     * @var Lazy|string
      */
     protected id;
 
     /**
-     * @param string|Lazy $id
+     * @param Lazy|string $id
      */
     public function __construct(var id)
     {
@@ -47,10 +49,6 @@ class CallableNew extends Lazy
 
     /**
      * Resolve to a closure on a new()
-     *
-     * @param object $ioc
-     *
-     * @return mixed
      */
     public function resolve(object ioc) -> mixed
     {
@@ -59,8 +57,10 @@ class CallableNew extends Lazy
         let instance = function () use (ioc) {
             var id;
 
+            /** @var string $id */
             let id = this->resolveArgument(ioc, this->id);
 
+            /** @var Collection $ioc */
             return ioc->$new(id);
         };
 

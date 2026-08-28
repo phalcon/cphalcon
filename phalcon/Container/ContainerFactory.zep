@@ -30,22 +30,22 @@
 
 namespace Phalcon\Container;
 
+use Phalcon\Contracts\Container\ContainerTypes;
 use Phalcon\Contracts\Container\Ioc\IocContainerFactory;
 use Phalcon\Contracts\Container\Service\Provider;
 
+/**
+ * @phpstan-import-type container_providers from ContainerTypes
+ */
 class ContainerFactory implements IocContainerFactory
 {
     /**
-     * @var array<array-key, Provider>
+     * @phpstan-var container_providers
      */
-    protected providers = [];
+    protected array providers = [];
 
     /**
      * Adds a provider
-     *
-     * @param Provider $provider
-     *
-     * @return static
      */
     public function addProvider(<Provider> provider) -> <static>
     {
@@ -56,8 +56,6 @@ class ContainerFactory implements IocContainerFactory
 
     /**
      * Returns a new container
-     *
-     * @return Container
      */
     public function newContainer() -> <Container>
     {
