@@ -49,14 +49,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Container_Resolver_Lazy_CallableNew)
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Container\\Resolver\\Lazy, CallableNew, phalcon, container_resolver_lazy_callablenew, phalcon_container_resolver_lazy_lazy_ce, phalcon_container_resolver_lazy_callablenew_method_entry, 0);
 
 	/**
-	 * @var string|Lazy
+	 * @var Lazy|string
 	 */
 	zend_declare_property_null(phalcon_container_resolver_lazy_callablenew_ce, SL("id"), ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
 
 /**
- * @param string|Lazy $id
+ * @param Lazy|string $id
  */
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_CallableNew, __construct)
 {
@@ -78,10 +78,6 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_CallableNew, __construct)
 
 /**
  * Resolve to a closure on a new()
- *
- * @param object $ioc
- *
- * @return mixed
  */
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_CallableNew, resolve)
 {

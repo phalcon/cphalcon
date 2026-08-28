@@ -79,10 +79,6 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_NewInstance, __construct)
 
 /**
  * Resolve a new instance
- *
- * @param object $ioc
- *
- * @return mixed
  */
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_NewInstance, resolve)
 {

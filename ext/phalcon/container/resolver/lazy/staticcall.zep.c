@@ -47,29 +47,38 @@
  * @link    https://github.com/resolver-interop/interface/tree/1.x
  * @license https://github.com/resolver-interop/interface/blob/1.x/LICENSE.md
  */
+/**
+ * @phpstan-import-type container_arguments from ContainerTypes
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Container_Resolver_Lazy_StaticCall)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Container\\Resolver\\Lazy, StaticCall, phalcon, container_resolver_lazy_staticcall, phalcon_container_resolver_lazy_lazy_ce, phalcon_container_resolver_lazy_staticcall_method_entry, 0);
 
 	/**
-	 * @var array<array-key, mixed>
+	 * @phpstan-var container_arguments
 	 */
-	zend_declare_property_null(phalcon_container_resolver_lazy_staticcall_ce, SL("arguments"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_container_resolver_lazy_staticcall_ce, SL("arguments"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
 	/**
 	 * @var string|Lazy
 	 */
 	zend_declare_property_null(phalcon_container_resolver_lazy_staticcall_ce, SL("className"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_container_resolver_lazy_staticcall_ce, SL("method"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_container_resolver_lazy_staticcall_ce, SL("method"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 
 /**
- * @param string|Lazy             $className
- * @param string                  $method
- * @param array<array-key, mixed> $arguments
+ * @phpstan-param string|Lazy         $className
+ * @phpstan-param container_arguments $arguments
  */
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_StaticCall, __construct)
 {
@@ -114,25 +123,20 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_StaticCall, __construct)
 
 /**
  * Resolve a static method call
- *
- * @param object $ioc
- *
- * @return mixed
  */
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_StaticCall, resolve)
 {
-	zval _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *ioc, ioc_sub, className, arguments, _0, _1, _3;
+	zval *ioc, ioc_sub, className, arguments, callback, _0, _1, _2;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&ioc_sub);
 	ZVAL_UNDEF(&className);
 	ZVAL_UNDEF(&arguments);
+	ZVAL_UNDEF(&callback);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_2);
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
@@ -159,13 +163,13 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_StaticCall, resolve)
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 565, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&arguments, this_ptr, "resolvearguments", NULL, 0, ioc, &_1);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_2);
-	zephir_create_array(&_2, 2, 0);
-	zephir_array_fast_append(&_2, &className);
-	zephir_memory_observe(&_3);
-	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_2, 564, PH_NOISY_CC);
-	zephir_array_fast_append(&_2, &_3);
-	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_2, &arguments);
+	ZEPHIR_INIT_VAR(&callback);
+	zephir_create_array(&callback, 2, 0);
+	zephir_array_fast_append(&callback, &className);
+	zephir_memory_observe(&_2);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 564, PH_NOISY_CC);
+	zephir_array_fast_append(&callback, &_2);
+	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &callback, &arguments);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -575,6 +575,7 @@
 #include "phalcon/contracts/autoload/autoloadtypes.zep.h"
 #include "phalcon/contracts/cli/clitypes.zep.h"
 #include "phalcon/contracts/config/configtypes.zep.h"
+#include "phalcon/contracts/container/containertypes.zep.h"
 #include "phalcon/contracts/container/ioc/ioctypealiases.zep.h"
 #include "phalcon/contracts/container/resolver/reflectionmethodresolver.zep.h"
 #include "phalcon/contracts/container/service/definition.zep.h"
