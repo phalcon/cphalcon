@@ -114,19 +114,7 @@ abstract class AbstractElement implements ElementInterface
      */
     public function addFilter(string filter) -> <ElementInterface>
     {
-        var filters;
-
-        let filters = this->filters;
-
-        if typeof filters == "array" {
-            let this->filters[] = filter;
-        } else {
-            if typeof filters == "string" {
-                let this->filters = [filters, filter];
-            } else {
-                let this->filters = [filter];
-            }
-        }
+        let this->filters[] = filter;
 
         return this;
     }

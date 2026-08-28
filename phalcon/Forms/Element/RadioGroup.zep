@@ -25,7 +25,7 @@ class RadioGroup extends AbstractElement
     /**
      * @var array
      */
-    protected options = [];
+    protected optionsValues = [];
 
     /**
      * Constructor
@@ -39,7 +39,7 @@ class RadioGroup extends AbstractElement
         array options = [],
         array attributes = []
     ) {
-        let this->options = options;
+        let this->optionsValues = options;
 
         parent::__construct(name, attributes);
     }
@@ -51,7 +51,7 @@ class RadioGroup extends AbstractElement
      */
     public function getOptions() -> array
     {
-        return this->options;
+        return this->optionsValues;
     }
 
     /**
@@ -69,7 +69,7 @@ class RadioGroup extends AbstractElement
             merged = array_merge(this->attributes, attributes),
             helper = this->getLocalTagFactory()->newInstance("inputRadioGroup");
 
-        return (string) helper->__invoke(this->name, this->options, value, merged);
+        return (string) helper->__invoke(this->name, this->optionsValues, value, merged);
     }
 
     /**
@@ -81,7 +81,7 @@ class RadioGroup extends AbstractElement
      */
     public function setOptions(array options) -> <ElementInterface>
     {
-        let this->options = options;
+        let this->optionsValues = options;
 
         return this;
     }
