@@ -145,6 +145,33 @@ final class ModifyColumnTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * A column comment is a string literal: quotes and backslashes are
+     * escaped like the DEFAULT clause, so a comment cannot end the literal.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-26
+     */
+    #[Group('mysql')]
+    public function testDbDialectModifyColumnEscapesComment(): void
+    {
+        $dialect = new Mysql();
+        $column  = new Column(
+            'note',
+            [
+                'type'    => Column::TYPE_VARCHAR,
+                'size'    => 10,
+                'comment' => "O'Brien\\ \"x\"); DROP TABLE secrets;--",
+            ]
+        );
+
+        $actual = $dialect->modifyColumn('table', 'schema', $column);
+
+        $expected = 'ALTER TABLE `schema`.`table` MODIFY `note` VARCHAR(10) NOT NULL '
+            . "COMMENT 'O''Brien\\\\ \"x\"); DROP TABLE secrets;--'";
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
      * Tests Phalcon\Db\Dialect :: modifyColumn
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -227,32 +254,5 @@ final class ModifyColumnTest extends AbstractDatabaseTestCase
             'ALTER TABLE "psn"."test_table" ALTER COLUMN "bool_col" SET DEFAULT ' . $expectedLiteral,
             $actual
         );
-    }
-
-    /**
-     * A column comment is a string literal: quotes and backslashes are
-     * escaped like the DEFAULT clause, so a comment cannot end the literal.
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-08-26
-     */
-    #[Group('mysql')]
-    public function testDbDialectModifyColumnEscapesComment(): void
-    {
-        $dialect = new Mysql();
-        $column  = new Column(
-            'note',
-            [
-                'type'    => Column::TYPE_VARCHAR,
-                'size'    => 10,
-                'comment' => "O'Brien\\ \"x\"); DROP TABLE secrets;--",
-            ]
-        );
-
-        $actual = $dialect->modifyColumn('table', 'schema', $column);
-
-        $expected = 'ALTER TABLE `schema`.`table` MODIFY `note` VARCHAR(10) NOT NULL '
-            . "COMMENT 'O''Brien\\\\ \"x\"); DROP TABLE secrets;--'";
-        $this->assertSame($expected, $actual);
     }
 }
