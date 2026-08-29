@@ -47,7 +47,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_CheckGroup)
 	/**
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_forms_element_checkgroup_ce, SL("options"), ZEND_ACC_PROTECTED);
+	zend_declare_property_null(phalcon_forms_element_checkgroup_ce, SL("optionsValues"), ZEND_ACC_PROTECTED);
 	phalcon_forms_element_checkgroup_ce->create_object = zephir_init_properties_Phalcon_Forms_Element_CheckGroup;
 
 	return SUCCESS;
@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Forms_Element_CheckGroup, __construct)
 	ZVAL_UNDEF(&attributes);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
-		_zephir_prop_0 = zend_string_init("options", 7, 1);
+		_zephir_prop_0 = zend_string_init("optionsValues", 13, 1);
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 3)
@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Forms_Element_CheckGroup, __construct)
 PHP_METHOD(Phalcon_Forms_Element_CheckGroup, getOptions)
 {
 
-	RETURN_MEMBER_TYPED(getThis(), "options", IS_ARRAY);
+	RETURN_MEMBER_TYPED(getThis(), "optionsValues", IS_ARRAY);
 }
 
 /**
@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_Forms_Element_CheckGroup, render)
 		_zephir_prop_1 = zend_string_init("name", 4, 1);
 	}
 	if (UNEXPECTED(!_zephir_prop_2)) {
-		_zephir_prop_2 = zend_string_init("options", 7, 1);
+		_zephir_prop_2 = zend_string_init("optionsValues", 13, 1);
 	}
 
 	ZEND_PARSE_PARAMETERS_START(0, 1)
@@ -211,7 +211,7 @@ PHP_METHOD(Phalcon_Forms_Element_CheckGroup, setOptions)
 	ZVAL_UNDEF(&options);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
-		_zephir_prop_0 = zend_string_init("options", 7, 1);
+		_zephir_prop_0 = zend_string_init("optionsValues", 13, 1);
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
@@ -227,16 +227,18 @@ PHP_METHOD(Phalcon_Forms_Element_CheckGroup, setOptions)
 
 zend_object *zephir_init_properties_Phalcon_Forms_Element_CheckGroup(zend_class_entry *class_type)
 {
-		zval _0, _2, _4, _6, _1$$3, _3$$4, _5$$5, _7$$6;
+		zval _0, _2, _4, _6, _8, _1$$3, _3$$4, _5$$5, _7$$6, _9$$7;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_8);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$4);
 	ZVAL_UNDEF(&_5$$5);
 	ZVAL_UNDEF(&_7$$6);
+	ZVAL_UNDEF(&_9$$7);
 	
 
 		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
@@ -251,23 +253,29 @@ zend_object *zephir_init_properties_Phalcon_Forms_Element_CheckGroup(zend_class_
 			array_init(&_1$$3);
 			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("validators"), &_1$$3);
 		}
-		zephir_read_property_ex(&_2, this_ptr, ZEND_STRL("filters"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_ex(&_2, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_2) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_3$$4);
 			array_init(&_3$$4);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("filters"), &_3$$4);
+			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("options"), &_3$$4);
 		}
-		zephir_read_property_ex(&_4, this_ptr, ZEND_STRL("attributes"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_ex(&_4, this_ptr, ZEND_STRL("filters"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_4) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_5$$5);
 			array_init(&_5$$5);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("attributes"), &_5$$5);
+			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("filters"), &_5$$5);
 		}
-		zephir_read_property_ex(&_6, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_ex(&_6, this_ptr, ZEND_STRL("attributes"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_6) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_7$$6);
 			array_init(&_7$$6);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("options"), &_7$$6);
+			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("attributes"), &_7$$6);
+		}
+		zephir_read_property_ex(&_8, this_ptr, ZEND_STRL("optionsValues"), PH_NOISY_CC | PH_READONLY);
+		if (Z_TYPE_P(&_8) == IS_NULL) {
+			ZEPHIR_INIT_VAR(&_9$$7);
+			array_init(&_9$$7);
+			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("optionsValues"), &_9$$7);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);
