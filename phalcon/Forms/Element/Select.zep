@@ -45,12 +45,18 @@ class Select extends AbstractElement
     {
         var key, value;
 
-        if typeof option == "array" {
-            for key, value in option {
-                let this->optionsValues[key] = value;
+        if this->optionsValues === null {
+            let this->optionsValues = [];
+        }
+
+        if typeof this->optionsValues == "array" {
+            if typeof option == "array" {
+                for key, value in option {
+                    let this->optionsValues[key] = value;
+                }
+            } else {
+                let this->optionsValues[] = option;
             }
-        } else {
-            let this->optionsValues[] = option;
         }
 
         return this;

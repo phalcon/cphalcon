@@ -2,6 +2,24 @@
 
 All notable changes are documented here. The format is based on [Keep a Changelog][keep_a_changelog] and this project adheres to [Semantic Versioning][semantic_versioning].
 
+## [5.20.4](https://github.com/phalcon/cphalcon/releases/tag/v5.20.4) (2026-xx-xx)
+
+### Tools
+
+- Zephir 1.3.0
+
+### Changed
+
+### Added
+
+### Fixed
+
+- `Phalcon\Forms\Element\CheckGroup` and `RadioGroup` storing their choices in the property `Phalcon\Forms\Element\AbstractElement` uses for user options, so `setUserOption()` added a choice and `setOptions()` removed every user option. [#17536](https://github.com/phalcon/cphalcon/issues/17536) [[doc]](https://docs.phalcon.io/5.20/forms/)
+- `Phalcon\Forms\Element\Select::addOption()` writing with an offset into an object or `null` options value; the write now happens only when the options value is an array (`null` becomes an empty array). [#17536](https://github.com/phalcon/cphalcon/issues/17536) [[doc]](https://docs.phalcon.io/5.20/forms/)
+
+### Removed
+
+
 ## [5.20.3](https://github.com/phalcon/cphalcon/releases/tag/v5.20.3) (2026-08-26)
 
 ### Tools

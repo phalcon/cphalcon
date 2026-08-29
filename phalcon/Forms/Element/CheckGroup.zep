@@ -28,7 +28,7 @@ class CheckGroup extends AbstractElement
     /**
      * @var array
      */
-    protected options = [];
+    protected optionsValues = [];
 
     /**
      * Constructor
@@ -46,7 +46,7 @@ class CheckGroup extends AbstractElement
             let name = name . "[]";
         }
 
-        let this->options = options;
+        let this->optionsValues = options;
 
         parent::__construct(name, attributes);
     }
@@ -58,7 +58,7 @@ class CheckGroup extends AbstractElement
      */
     public function getOptions() -> array
     {
-        return this->options;
+        return this->optionsValues;
     }
 
     /**
@@ -76,7 +76,7 @@ class CheckGroup extends AbstractElement
             merged = array_merge(this->attributes, attributes),
             helper = this->getLocalTagFactory()->newInstance("inputCheckboxGroup");
 
-        return (string) helper->__invoke(this->name, this->options, value, merged);
+        return (string) helper->__invoke(this->name, this->optionsValues, value, merged);
     }
 
     /**
@@ -88,7 +88,7 @@ class CheckGroup extends AbstractElement
      */
     public function setOptions(array options) -> <ElementInterface>
     {
-        let this->options = options;
+        let this->optionsValues = options;
 
         return this;
     }
