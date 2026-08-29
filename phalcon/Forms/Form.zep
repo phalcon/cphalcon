@@ -12,7 +12,9 @@ namespace Phalcon\Forms;
 
 use Countable;
 use Iterator;
+use Phalcon\Contracts\Forms\FormsTypes;
 use Phalcon\Contracts\Forms\Schema;
+use Phalcon\Contracts\Html\HtmlTypes;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\Injectable;
 use Phalcon\Filter\FilterInterface;
@@ -32,6 +34,15 @@ use Phalcon\Filter\Validation\ValidationInterface;
 
 /**
  * This component allows to build forms using an object-oriented interface
+ *
+ * @phpstan-import-type forms_data from FormsTypes
+ * @phpstan-import-type forms_elements from FormsTypes
+ * @phpstan-import-type forms_elements_indexed from FormsTypes
+ * @phpstan-import-type forms_options from FormsTypes
+ * @phpstan-import-type forms_whitelist from FormsTypes
+ * @phpstan-import-type html_attributes from HtmlTypes
+ *
+ * @implements Iterator<int, ElementInterface>
  */
 class Form extends Injectable implements Countable, Iterator, AttributesInterface
 {
@@ -42,21 +53,29 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
 
     /**
      * @var array
+     *
+     * @phpstan-var forms_data
      */
     protected data = [];
 
     /**
      * @var array
+     *
+     * @phpstan-var forms_data
      */
     protected filteredData = [];
 
     /**
      * @var array
+     *
+     * @phpstan-var forms_elements
      */
     protected elements = [];
 
     /**
      * @var array
+     *
+     * @phpstan-var forms_elements_indexed
      */
     protected elementsIndexed = [];
 
@@ -77,6 +96,8 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
 
     /**
      * @var array
+     *
+     * @phpstan-var forms_options
      */
     protected options = [];
 
@@ -92,11 +113,15 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
 
     /**
      * @var array
+     *
+     * @phpstan-var forms_whitelist
      */
     protected whitelist = [];
 
     /**
      * Phalcon\Forms\Form constructor
+     *
+     * @phpstan-param forms_options $userOptions
      */
     public function __construct(var entity = null, array userOptions = [])
     {
@@ -191,6 +216,9 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      *
      * @param object entity
      * @param array whitelist
+     *
+     * @phpstan-param forms_data $data
+     * @phpstan-param forms_whitelist $whitelist
      */
     public function bind( array data, var entity = null, array whitelist = []) -> <static>
     {
@@ -329,6 +357,8 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      * Clears every element in the form to its default value
      *
      * @param array|string|null fields
+     *
+     * @phpstan-param array<array-key, string>|string|null $fields
      */
     public function clear(var fields = null) -> <static>
     {
@@ -547,6 +577,8 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
 
     /**
      * Returns the options for the element
+     *
+     * @phpstan-return forms_options
      */
     public function getUserOptions() -> array
     {
@@ -658,6 +690,8 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
 
     /**
      * return array
+     *
+     * @phpstan-return forms_whitelist
      */
     public function getWhitelist() -> array
     {
@@ -689,6 +723,9 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      * @param array data
      * @param object entity
      * @param array whitelist
+     *
+     * @phpstan-param forms_data $data
+     * @phpstan-param forms_whitelist $whitelist
      */
     public function isValid(var data = null, var entity = null, array whitelist = []) -> bool
     {
@@ -863,6 +900,8 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
 
     /**
      * Generate the label of an element added to the form including HTML
+     *
+     * @phpstan-param html_attributes $attributes
      */
     public function label( string name, array attributes = []) -> string
     {
@@ -885,6 +924,8 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
 
     /**
      * Renders a specific item in the form
+     *
+     * @phpstan-param html_attributes $attributes
      */
     public function render( string name, array attributes = []) -> string
     {
@@ -989,6 +1030,8 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      * Sets the default whitelist
      *
      * @param array whitelist
+     *
+     * @phpstan-param forms_whitelist $whitelist
      */
     public function setWhitelist(array whitelist) -> <static>
     {
@@ -1009,6 +1052,8 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
 
     /**
      * Sets options for the element
+     *
+     * @phpstan-param forms_options $options
      */
     public function setUserOptions( array options) -> <static>
     {

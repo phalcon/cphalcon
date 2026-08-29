@@ -11,6 +11,8 @@
 namespace Phalcon\Forms\Element;
 
 use InvalidArgumentException;
+use Phalcon\Contracts\Forms\FormsTypes;
+use Phalcon\Contracts\Html\HtmlTypes;
 use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Filter\Validation\ValidatorInterface;
@@ -24,16 +26,26 @@ use Phalcon\Messages\Messages;
 
 /**
  * This is a base class for form elements
+ *
+ * @phpstan-import-type forms_attributes from FormsTypes
+ * @phpstan-import-type forms_filters from FormsTypes
+ * @phpstan-import-type forms_options from FormsTypes
+ * @phpstan-import-type forms_validators from FormsTypes
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 abstract class AbstractElement implements ElementInterface
 {
     /**
      * @var array
+     *
+     * @phpstan-var forms_attributes
      */
     protected attributes = [];
 
     /**
      * @var array
+     *
+     * @phpstan-var forms_filters
      */
     protected filters = [];
 
@@ -64,6 +76,8 @@ abstract class AbstractElement implements ElementInterface
 
     /**
      * @var array
+     *
+     * @phpstan-var forms_options
      */
     protected options = [];
 
@@ -74,6 +88,8 @@ abstract class AbstractElement implements ElementInterface
 
     /**
      * @var array
+     *
+     * @phpstan-var forms_validators
      */
     protected validators = [];
 
@@ -87,6 +103,8 @@ abstract class AbstractElement implements ElementInterface
      *
      * @param string name       Attribute name (value of 'name' attribute of HTML element)
      * @param array  attributes Additional HTML element attributes
+     *
+     * @phpstan-param forms_attributes $attributes
      */
     public function __construct(string name, array attributes = [])
     {
@@ -134,6 +152,8 @@ abstract class AbstractElement implements ElementInterface
      *
      * @param \Phalcon\Filter\Validation\ValidatorInterface[] validators
      * @param bool                                            merge
+     *
+     * @phpstan-param array<array-key, mixed> $validators
      */
     public function addValidators( array validators, bool merge = true) -> <ElementInterface>
     {
@@ -195,6 +215,8 @@ abstract class AbstractElement implements ElementInterface
 
     /**
      * Returns the default attributes for the element
+     *
+     * @phpstan-return forms_attributes
      */
     public function getAttributes() -> array
     {
@@ -217,6 +239,8 @@ abstract class AbstractElement implements ElementInterface
      * Returns the element filters
      *
      * @return mixed
+     *
+     * @phpstan-return forms_filters
      */
     public function getFilters()
     {
@@ -280,6 +304,8 @@ abstract class AbstractElement implements ElementInterface
 
     /**
      * Returns the options for the element
+     *
+     * @phpstan-return forms_options
      */
     public function getUserOptions() -> array
     {
@@ -288,6 +314,8 @@ abstract class AbstractElement implements ElementInterface
 
     /**
      * Returns the validators registered for the element
+     *
+     * @phpstan-return forms_validators
      */
     public function getValidators() -> <ValidatorInterface[]>
     {
@@ -330,6 +358,8 @@ abstract class AbstractElement implements ElementInterface
 
     /**
      * Generate the HTML to label the element
+     *
+     * @phpstan-param html_attributes $attributes
      */
     public function label(array attributes = []) -> string
     {
@@ -365,6 +395,8 @@ abstract class AbstractElement implements ElementInterface
 
     /**
      * Renders the element widget returning HTML
+     *
+     * @phpstan-param html_attributes $attributes
      */
     public function render(array attributes = []) -> string
     {
@@ -403,6 +435,8 @@ abstract class AbstractElement implements ElementInterface
 
     /**
      * Sets default attributes for the element
+     *
+     * @phpstan-param forms_attributes $attributes
      */
     public function setAttributes( array attributes) -> <ElementInterface>
     {
@@ -426,6 +460,8 @@ abstract class AbstractElement implements ElementInterface
      * Sets the element filters
      *
      * @param array|string filters
+     *
+     * @phpstan-param forms_filters|string $filters
      */
     public function setFilters(var filters) -> <ElementInterface>
     {
@@ -504,6 +540,8 @@ abstract class AbstractElement implements ElementInterface
 
     /**
      * Sets options for the element
+     *
+     * @phpstan-param forms_options $options
      */
     public function setUserOptions(array options) -> <ElementInterface>
     {

@@ -10,6 +10,8 @@
 
 namespace Phalcon\Forms\Element;
 
+use Phalcon\Contracts\Forms\FormsTypes;
+use Phalcon\Contracts\Html\HtmlTypes;
 use Phalcon\Forms\Form;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Messages\Messages;
@@ -17,6 +19,12 @@ use Phalcon\Filter\Validation\ValidatorInterface;
 
 /**
  * Interface for Phalcon\Forms\Element classes
+ *
+ * @phpstan-import-type forms_attributes from FormsTypes
+ * @phpstan-import-type forms_filters from FormsTypes
+ * @phpstan-import-type forms_options from FormsTypes
+ * @phpstan-import-type forms_validators from FormsTypes
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 interface ElementInterface
 {
@@ -37,6 +45,8 @@ interface ElementInterface
      * @param bool merge
      *
      * @return ElementInterface
+     *
+     * @phpstan-param array<array-key, mixed> $validators
      */
     public function addValidators( array validators, bool merge = true) -> <ElementInterface>;
 
@@ -57,6 +67,8 @@ interface ElementInterface
 
     /**
      * Returns the default attributes for the element
+     *
+     * @phpstan-return forms_attributes
      */
     public function getAttributes() -> array;
 
@@ -69,6 +81,8 @@ interface ElementInterface
      * Returns the element's filters
      *
      * @return mixed
+     *
+     * @phpstan-return forms_filters
      */
     public function getFilters();
 
@@ -100,11 +114,15 @@ interface ElementInterface
 
     /**
      * Returns the options for the element
+     *
+     * @phpstan-return forms_options
      */
     public function getUserOptions() -> array;
 
     /**
      * Returns the validators registered for the element
+     *
+     * @phpstan-return forms_validators
      */
     public function getValidators() -> <ValidatorInterface[]>;
 
@@ -125,6 +143,8 @@ interface ElementInterface
 
     /**
      * Renders the element widget
+     *
+     * @phpstan-param html_attributes $attributes
      */
     public function render(array attributes = []) -> string;
 
@@ -135,6 +155,8 @@ interface ElementInterface
 
     /**
      * Sets default attributes for the element
+     *
+     * @phpstan-param forms_attributes $attributes
      */
     public function setAttributes( array attributes) -> <ElementInterface>;
 
@@ -148,6 +170,8 @@ interface ElementInterface
      * Sets the element's filters
      *
      * @param array|string filters
+     *
+     * @phpstan-param forms_filters|string $filters
      */
     public function setFilters(filters) -> <ElementInterface>;
 
@@ -178,6 +202,8 @@ interface ElementInterface
 
     /**
      * Sets options for the element
+     *
+     * @phpstan-param forms_options $options
      */
     public function setUserOptions(array options) -> <ElementInterface>;
 }

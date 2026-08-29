@@ -10,6 +10,8 @@
 
 namespace Phalcon\Forms\Element;
 
+use Phalcon\Contracts\Forms\FormsTypes;
+use Phalcon\Contracts\Html\HtmlTypes;
 use Phalcon\Html\TagFactory;
 
 /**
@@ -22,11 +24,17 @@ use Phalcon\Html\TagFactory;
  *   ['value' => 'Label']
  * or with per-item attributes:
  *   ['value' => ['label' => 'Label', 'disabled' => true]]
+ *
+ * @phpstan-import-type forms_attributes from FormsTypes
+ * @phpstan-import-type forms_group_options from FormsTypes
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 class CheckGroup extends AbstractElement
 {
     /**
      * @var array
+     *
+     * @phpstan-var forms_group_options
      */
     protected optionsValues = [];
 
@@ -36,6 +44,9 @@ class CheckGroup extends AbstractElement
      * @param string $name
      * @param array  $options
      * @param array  $attributes
+     *
+     * @phpstan-param forms_group_options $options
+     * @phpstan-param forms_attributes $attributes
      */
     public function __construct(
         string name,
@@ -55,6 +66,8 @@ class CheckGroup extends AbstractElement
      * Returns the group options
      *
      * @return array
+     *
+     * @phpstan-return forms_group_options
      */
     public function getOptions() -> array
     {
@@ -67,6 +80,8 @@ class CheckGroup extends AbstractElement
      * @param array $attributes
      *
      * @return string
+     *
+     * @phpstan-param html_attributes $attributes
      */
     public function render(array attributes = []) -> string
     {
@@ -85,6 +100,8 @@ class CheckGroup extends AbstractElement
      * @param array $options
      *
      * @return ElementInterface
+     *
+     * @phpstan-param forms_group_options $options
      */
     public function setOptions(array options) -> <ElementInterface>
     {

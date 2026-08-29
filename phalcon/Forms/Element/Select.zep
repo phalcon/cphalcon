@@ -10,15 +10,23 @@
 
 namespace Phalcon\Forms\Element;
 
+use Phalcon\Contracts\Forms\FormsTypes;
+use Phalcon\Contracts\Html\HtmlTypes;
 use Phalcon\Tag\Select as SelectTag;
 
 /**
  * Component SELECT (choice) for forms
+ *
+ * @phpstan-import-type forms_attributes from FormsTypes
+ * @phpstan-import-type forms_select_options from FormsTypes
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 class Select extends AbstractElement
 {
     /**
      * @var object|array|null
+     *
+     * @phpstan-var forms_select_options|object|null
      */
     protected optionsValues = null;
 
@@ -28,6 +36,9 @@ class Select extends AbstractElement
      * @param string            name
      * @param object|array|null options
      * @param array             attributes
+     *
+     * @phpstan-param forms_select_options|object|null $options
+     * @phpstan-param forms_attributes $attributes
      */
     public function __construct(string name, options = null, array attributes = [])
     {
@@ -39,7 +50,7 @@ class Select extends AbstractElement
     /**
      * Adds an option to the current options
      *
-     * @param array|string option
+     * @param mixed option
      */
     public function addOption(var option) -> <ElementInterface>
     {
@@ -66,6 +77,8 @@ class Select extends AbstractElement
      * Returns the choices' options
      *
      * @return array|object
+     *
+     * @phpstan-return forms_select_options|object|null
      */
     public function getOptions()
     {
@@ -74,6 +87,8 @@ class Select extends AbstractElement
 
     /**
      * Renders the element widget returning HTML
+     *
+     * @phpstan-param html_attributes $attributes
      */
     public function render(array attributes = []) -> string
     {
@@ -90,6 +105,8 @@ class Select extends AbstractElement
      * Set the choice's options
      *
      * @param array|object options
+     *
+     * @phpstan-param forms_select_options|object $options
      */
     public function setOptions(var options) -> <ElementInterface>
     {
@@ -101,6 +118,9 @@ class Select extends AbstractElement
     /**
      * Returns an array of prepared attributes for Phalcon\Html\TagFactory
      * helpers according to the element parameters
+     *
+     * @phpstan-param html_attributes $attributes
+     * @phpstan-return array<array-key, mixed>
      */
     protected function prepareAttributes(array attributes = []) -> array
     {
