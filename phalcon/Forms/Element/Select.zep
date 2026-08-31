@@ -24,7 +24,7 @@ use Phalcon\Tag\Select as SelectTag;
 class Select extends AbstractElement
 {
     /**
-     * @var object|array|null
+     * @var array|object|null
      *
      * @phpstan-var forms_select_options|object|null
      */
