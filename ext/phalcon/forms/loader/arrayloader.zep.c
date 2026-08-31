@@ -69,7 +69,7 @@ PHP_METHOD(Phalcon_Forms_Loader_ArrayLoader, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &definitions_param);
 	zephir_get_arrval(&definitions, definitions_param);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 800, &definitions);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 799, &definitions);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Forms_Loader_ArrayLoader, load)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 800, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 799, PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_2);
 		zephir_string_to_char_array(&_2, &_0);

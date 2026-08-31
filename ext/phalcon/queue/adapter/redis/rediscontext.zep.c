@@ -119,11 +119,11 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, __construct)
 		pollInterval = 200;
 	} else {
 		}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1280, redis);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1281, &prefix_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1279, redis);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1280, &prefix_zv);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, pollInterval);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1282, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1281, &_0);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -165,7 +165,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, blockingPop)
 	ZVAL_STR_COPY(&queueName_zv, queueName);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "promote", NULL, 0, &queueName_zv);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1280, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1279, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_create_array(&_1, 1, 0);
 	ZEPHIR_CALL_METHOD(&_2, this_ptr, "listkey", NULL, 0, &queueName_zv);
@@ -298,7 +298,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, createSubscriptionConsumer)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	object_init_ex(return_value, phalcon_queue_adapter_redis_redissubscriptionconsumer_ce);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1282, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1281, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, this_ptr, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -336,7 +336,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, popMessage)
 	ZVAL_STR_COPY(&queueName_zv, queueName);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "promote", NULL, 0, &queueName_zv);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1280, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1279, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "listkey", NULL, 0, &queueName_zv);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&payload, &_0, "rpop", NULL, 0, &_1);
@@ -379,12 +379,12 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, purgeQueue)
 	zephir_fetch_params(1, 1, 0, &queue);
 	ZEPHIR_CALL_METHOD(&queueName, queue, "getqueuename", NULL, 0);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1280, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1279, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "listkey", NULL, 0, &queueName);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &_0, "del", NULL, 0, &_1);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 1280, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 1279, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_3, this_ptr, "delayedkey", NULL, 0, &queueName);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &_2, "del", NULL, 0, &_3);
@@ -453,7 +453,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, pushMessage)
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&member);
 		ZEPHIR_CONCAT_VSV(&member, &_2$$3, "|", &payload);
-		zephir_read_property_cached(&_3$$3, this_ptr, _zephir_prop_0, 1280, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_3$$3, this_ptr, _zephir_prop_0, 1279, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "delayedkey", NULL, 0, &queueName_zv);
 		zephir_check_call_status();
 		ZVAL_LONG(&_5$$3, score);
@@ -461,7 +461,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, pushMessage)
 		zephir_check_call_status();
 		RETURN_MM_NULL();
 	}
-	zephir_read_property_cached(&_6, this_ptr, _zephir_prop_0, 1280, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_6, this_ptr, _zephir_prop_0, 1279, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_7, this_ptr, "listkey", NULL, 0, &queueName_zv);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &_6, "lpush", NULL, 0, &_7, &payload);
@@ -519,7 +519,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, delayedKey)
 		Z_PARAM_STR(queueName)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&queueName_zv, queueName);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1281, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1280, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CONCAT_VVS(return_value, &_0, &queueName_zv, ":delayed");
 	return;
 }
@@ -541,7 +541,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, listKey)
 		Z_PARAM_STR(queueName)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&queueName_zv, queueName);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1281, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1280, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CONCAT_VV(return_value, &_0, &queueName_zv);
 	return;
 }
@@ -613,7 +613,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, promote)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&listKey, this_ptr, "listkey", NULL, 0, &queueName_zv);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1280, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1279, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "now", NULL, 0);
 	zephir_check_call_status();
 	ZVAL_LONG(&_2, 0);
@@ -635,7 +635,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, promote)
 		{
 			ZEPHIR_INIT_NVAR(&member);
 			ZVAL_COPY(&member, _5);
-			zephir_read_property_cached(&_6$$4, this_ptr, _zephir_prop_0, 1280, PH_NOISY_CC | PH_READONLY);
+			zephir_read_property_cached(&_6$$4, this_ptr, _zephir_prop_0, 1279, PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CALL_METHOD(&_7$$4, &_6$$4, "zrem", NULL, 0, &delayedKey, &member);
 			zephir_check_call_status();
 			if (ZEPHIR_GT_LONG(&_7$$4, 0)) {
@@ -646,7 +646,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, promote)
 				ZVAL_LONG(&_9$$5, (zephir_get_numberval(&position) + 1));
 				ZEPHIR_INIT_NVAR(&payload);
 				zephir_substr(&payload, &member, zephir_get_intval(&_9$$5), 0, ZEPHIR_SUBSTR_NO_LENGTH);
-				zephir_read_property_cached(&_10$$5, this_ptr, _zephir_prop_0, 1280, PH_NOISY_CC | PH_READONLY);
+				zephir_read_property_cached(&_10$$5, this_ptr, _zephir_prop_0, 1279, PH_NOISY_CC | PH_READONLY);
 				ZEPHIR_CALL_METHOD(NULL, &_10$$5, "lpush", NULL, 0, &listKey, &payload);
 				zephir_check_call_status();
 			}
@@ -669,7 +669,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, promote)
 			}
 			ZEPHIR_CALL_METHOD(&member, _3, "current", NULL, 0);
 			zephir_check_call_status();
-				zephir_read_property_cached(&_13$$6, this_ptr, _zephir_prop_0, 1280, PH_NOISY_CC | PH_READONLY);
+				zephir_read_property_cached(&_13$$6, this_ptr, _zephir_prop_0, 1279, PH_NOISY_CC | PH_READONLY);
 				ZEPHIR_CALL_METHOD(&_14$$6, &_13$$6, "zrem", NULL, 0, &delayedKey, &member);
 				zephir_check_call_status();
 				if (ZEPHIR_GT_LONG(&_14$$6, 0)) {
@@ -680,7 +680,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, promote)
 					ZVAL_LONG(&_16$$7, (zephir_get_numberval(&position) + 1));
 					ZEPHIR_INIT_NVAR(&payload);
 					zephir_substr(&payload, &member, zephir_get_intval(&_16$$7), 0, ZEPHIR_SUBSTR_NO_LENGTH);
-					zephir_read_property_cached(&_17$$7, this_ptr, _zephir_prop_0, 1280, PH_NOISY_CC | PH_READONLY);
+					zephir_read_property_cached(&_17$$7, this_ptr, _zephir_prop_0, 1279, PH_NOISY_CC | PH_READONLY);
 					ZEPHIR_CALL_METHOD(NULL, &_17$$7, "lpush", NULL, 0, &listKey, &payload);
 					zephir_check_call_status();
 				}

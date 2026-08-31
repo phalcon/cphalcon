@@ -96,11 +96,11 @@ PHP_METHOD(Phalcon_Forms_Element_Check, setUncheckedValue)
 		Z_PARAM_ZVAL(value)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &value);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 774, value);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 773, value);
 	if (1) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 775, &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 774, &__$true);
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 775, &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 774, &__$false);
 	}
 	RETURN_THISW();
 }

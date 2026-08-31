@@ -88,7 +88,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/acl/adapter", "adapter.zep.c persistable.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/auth/access", "access.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/encryption/security/jwt/signer", "signer.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/flash", "flash.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/flash", "flash.zep.c flashtypes.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/logger/formatter", "formatter.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/datamapper/pdo/connection", "pdointerface.zep.c connectioninterface.zep.c abstractconnection.zep.c decorated.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/dispatcher", "exception.zep.c dispatcherinterface.zep.c abstractdispatcher.zep.c", "phalcon");

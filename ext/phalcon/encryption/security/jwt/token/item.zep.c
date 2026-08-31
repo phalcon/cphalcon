@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Item, get)
 		RETVAL_ZVAL(defaultValue, 1, 0);
 		RETURN_MM();
 	}
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 715, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 714, PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch_string(&_2, &_1, SL("payload"), PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/JWT/Token/Item.zep", 42);
 	zephir_array_fetch(&_3, &_2, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/JWT/Token/Item.zep", 42);
 	RETURN_CTOR(&_3);
@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Item, getPayload)
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("data", 4, 1);
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 715, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 714, PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch_string(&_1, &_0, SL("payload"), PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/JWT/Token/Item.zep", 50);
 	RETURN_CTORW(&_1);
 }
@@ -171,7 +171,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Item, has)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&name_zv, name);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 715, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 714, PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch_string(&_1, &_0, SL("payload"), PH_READONLY, "phalcon/Encryption/Security/JWT/Token/Item.zep", 60);
 	RETURN_BOOL(zephir_array_isset_value(&_1, &name_zv));
 }

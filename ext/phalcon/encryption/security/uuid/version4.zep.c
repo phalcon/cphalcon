@@ -97,7 +97,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version4, __construct)
 	ZVAL_STRING(&_8, "sprintf");
 	ZEPHIR_CALL_USER_FUNC_ARRAY(&_7, &_8, &ary);
 	zephir_check_call_status();
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 727, &_7);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 726, &_7);
 	ZEPHIR_MM_RESTORE();
 }
 

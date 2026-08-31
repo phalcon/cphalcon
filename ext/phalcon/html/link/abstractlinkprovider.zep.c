@@ -210,7 +210,7 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doGetLinksByRel)
 	ZVAL_STR_COPY(&rel_zv, rel);
 	ZEPHIR_INIT_VAR(&filtered);
 	array_init(&filtered);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 226, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 225, PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_2);
 		zephir_string_to_char_array(&_2, &_0);
