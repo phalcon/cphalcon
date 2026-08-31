@@ -10,6 +10,7 @@
 
 namespace Phalcon\Flash;
 
+use Phalcon\Contracts\Flash\FlashTypes;
 use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\AbstractInjectionAware;
@@ -17,7 +18,7 @@ use Phalcon\Flash\Exceptions\EscaperServiceUnavailable;
 use Phalcon\Flash\Exceptions\FlashMessageNotStringOrArray;
 use Phalcon\Html\Escaper\EscaperInterface;
 use Phalcon\Session\ManagerInterface as SessionInterface;
-use Phalcon\Support\Helper\Str\Interpolate;
+use Phalcon\Traits\Support\Helper\Str\InterpolateTrait;
 
 /**
  * Shows HTML notifications related to different circumstances. Classes can be
@@ -28,75 +29,41 @@ use Phalcon\Support\Helper\Str\Interpolate;
  * $flash->error("Cannot open the file");
  *```
  *
- * Class AbstractFlash
- *
- * @package Phalcon\Flash
+ * @phpstan-import-type flash_messages from FlashTypes
+ * @phpstan-import-type flash_css_classes from FlashTypes
  */
 abstract class AbstractFlash extends AbstractInjectionAware implements FlashInterface
 {
-    /**
-     * @var bool
-     */
-    protected autoescape = true;
+    use InterpolateTrait;
 
+    protected bool autoescape = true;
+    protected bool automaticHtml = true;
     /**
-     * @var bool
+     * @phpstan-var flash_css_classes
      */
-    protected automaticHtml = true;
-
+    protected array cssClasses = [];
     /**
-     * @var array
+     * @phpstan-var flash_css_classes
      */
-    protected cssClasses = [];
-
+    protected array cssIconClasses = [];
+    protected string customTemplate = "";
+    protected ?<EscaperInterface> escaperService = null;
+    protected bool implicitFlush = true;
     /**
-     * @var array
+     * @phpstan-var flash_messages
      */
-    protected cssIconClasses = [];
-
-    /**
-     * @var string
-     */
-    protected customTemplate = "";
-
-    /**
-     * @var EscaperInterface | null
-     */
-    protected escaperService = null;
-
-    /**
-     * @var bool
-     */
-    protected implicitFlush = true;
-
-    /**
-     * @var Interpolate
-     */
-    protected interpolator;
-
-    /**
-     * @var array
-     */
-    protected messages = [];
-
-    /**
-     * @var SessionInterface|null
-     */
-    protected sessionService = null;
+    protected array messages = [];
+    protected ?<SessionInterface> sessionService = null;
 
     /**
      * AbstractFlash constructor.
-     *
-     * @param EscaperInterface|null $escaper
-     * @param SessionInterface|null $session
      */
     public function __construct(
         <EscaperInterface> escaper = null,
         <SessionInterface> session = null
     ) {
         let this->escaperService = escaper,
-            this->sessionService = session,
-            this->interpolator   = new Interpolate();
+            this->sessionService = session;
 
         let this->cssClasses = [
             "error"   : "errorMessage",
@@ -120,10 +87,6 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
      *```php
      * $flash->error("This is an error");
      *```
-     *
-     * @param string $message
-     *
-     * @return string|null
      */
     public function error(string message) -> string | null
     {
@@ -131,7 +94,7 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
     }
 
     /**
-     * @return bool
+     * Returns the flag that defines whether to automatically escape content or not
      */
     public function getAutoescape() -> bool
     {
@@ -139,15 +102,18 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
     }
 
     /**
-     * @return bool
-     */
-    public function getAutomaticHtml() -> bool
+     * Returns the flag that defines whether to automatically use HTML or not
+     *
+    public function getAutomaticHtml(): bool
     {
         return this->automaticHtml;
     }
 
     /**
-     * @return array
+     * Returns the array of the CSS classes for formatting messages. The key is
+     * the type of message and the value is the CSS class
+     *
+     * @phpstan-return flash_css_classes
      */
     public function getCssClasses() -> array
     {
@@ -155,7 +121,10 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
     }
 
     /**
-     * @return array
+     * Returns the array of the icon CSS classes for formatting messages. The
+     * key is the type of message and the value is the icon CSS class
+     *
+     * @phpstan-return flash_css_classes
      */
     public function getCssIconClasses() -> array
     {
@@ -163,7 +132,8 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
     }
 
     /**
-     * @return string
+     * Returns the custom template for formatting messages
+
      */
     public function getCustomTemplate() -> string
     {
@@ -173,7 +143,6 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
     /**
      * Returns the Escaper Service
      *
-     * @return EscaperInterface
      * @throws Exception
      */
     public function getEscaperService() -> <EscaperInterface>
@@ -198,11 +167,6 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
      * Outputs a message. Delivery semantics differ per implementation:
      * `Direct` renders and emits immediately, `Session` stores the raw
      * message for output on a later request.
-     *
-     * @param string $type
-     * @param mixed  $message
-     *
-     * @return string|null
      */
     abstract public function message(string type, var message) -> string | null;
 
@@ -212,119 +176,10 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
      *```php
      * $flash->notice("This is an information");
      *```
-     *
-     * @param string $message
-     *
-     * @return string|null
      */
     public function notice(string message) -> string | null
     {
         return this->message("notice", message);
-    }
-
-    /**
-     * Set the autoescape mode in generated HTML
-     *
-     * @param bool $autoescape
-     */
-    public function setAutoescape(bool autoescape) -> <static>
-    {
-        let this->autoescape = autoescape;
-
-        return this;
-    }
-
-    /**
-     * Set if the output must be implicitly formatted with HTML
-     *
-     * @param bool $automaticHtml
-     */
-    public function setAutomaticHtml(bool automaticHtml) -> <static>
-    {
-        let this->automaticHtml = automaticHtml;
-
-        return this;
-    }
-
-    /**
-     * Set an array with CSS classes to format the messages
-     *
-     * @param array $cssClasses
-     */
-    public function setCssClasses( array cssClasses) -> <static>
-    {
-        let this->cssClasses = cssClasses;
-
-        return this;
-    }
-
-    /**
-     * Set an array with CSS classes to format the icon messages
-     *
-     * @param array $cssIconClasses
-     */
-    public function setCssIconClasses( array cssIconClasses) -> <static>
-    {
-        let this->cssIconClasses  = cssIconClasses;
-
-        return this;
-    }
-
-    /**
-     * Set a custom template for showing the messages
-     *
-     * @param string $customTemplate
-     */
-    public function setCustomTemplate( string customTemplate) -> <static>
-    {
-        let this->customTemplate = customTemplate;
-
-        return this;
-    }
-
-    /**
-     * Sets the Escaper Service
-     *
-     * @param EscaperInterface $escaperService
-     */
-    public function setEscaperService(<EscaperInterface> escaperService) -> <static>
-    {
-        let this->escaperService = escaperService;
-
-        return this;
-    }
-
-    /**
-     * Set whether the output must be implicitly flushed to the output or
-     * returned as string
-     *
-     * Note: `output()` is an echo API and requires implicit flush to remain
-     * enabled (the default). With implicit flush disabled, `message()` returns
-     * the rendered string while `output()` does not emit it.
-     *
-     * @param bool $implicitFlush
-     */
-    public function setImplicitFlush(bool implicitFlush) -> <static>
-    {
-        let this->implicitFlush = implicitFlush;
-
-        return this;
-    }
-
-    /**
-     * Shows a HTML success message
-     *
-     *```php
-     * $flash->success("The process was finished successfully");
-     *```
-     *
-     * @param string $message
-     *
-     * @return string|null
-     */
-    public function success(string message) -> string | null
-    {
-        return this->message("success", message);
     }
 
     /**
@@ -334,10 +189,6 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
      * $flash->outputMessage("error", $message);
      *```
      *
-     * @param string $type
-     * @param mixed  $message
-     *
-     * @return string|null
      * @throws Exception
      */
     public function outputMessage(string type, var message) -> string | null
@@ -377,15 +228,102 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
     }
 
     /**
+     * Set the autoescape mode in generated HTML
+     */
+    public function setAutoescape(bool autoescape) -> <static>
+    {
+        let this->autoescape = autoescape;
+
+        return this;
+    }
+
+    /**
+     * Set if the output must be implicitly formatted with HTML
+     */
+    public function setAutomaticHtml(bool automaticHtml) -> <static>
+    {
+        let this->automaticHtml = automaticHtml;
+
+        return this;
+    }
+
+    /**
+     * Set an array with CSS classes to format the messages
+     *
+     * @phpstan-param flash_css_classes $cssClasses
+     */
+    public function setCssClasses( array cssClasses) -> <static>
+    {
+        let this->cssClasses = cssClasses;
+
+        return this;
+    }
+
+    /**
+     * Set an array with CSS classes to format the icon messages
+     *
+     * @phpstan-param flash_css_classes $cssIconClasses
+     */
+    public function setCssIconClasses( array cssIconClasses) -> <static>
+    {
+        let this->cssIconClasses  = cssIconClasses;
+
+        return this;
+    }
+
+    /**
+     * Set a custom template for showing the messages
+     */
+    public function setCustomTemplate( string customTemplate) -> <static>
+    {
+        let this->customTemplate = customTemplate;
+
+        return this;
+    }
+
+    /**
+     * Sets the Escaper Service
+     */
+    public function setEscaperService(<EscaperInterface> escaperService) -> <static>
+    {
+        let this->escaperService = escaperService;
+
+        return this;
+    }
+
+    /**
+     * Set whether the output must be implicitly flushed to the output or
+     * returned as string
+     *
+     * Note: `output()` is an echo API and requires implicit flush to remain
+     * enabled (the default). With implicit flush disabled, `message()` returns
+     * the rendered string while `output()` does not emit it.
+     */
+    public function setImplicitFlush(bool implicitFlush) -> <static>
+    {
+        let this->implicitFlush = implicitFlush;
+
+        return this;
+    }
+
+    /**
+     * Shows a HTML success message
+     *
+     *```php
+     * $flash->success("The process was finished successfully");
+     *```
+     */
+    public function success(string message) -> string | null
+    {
+        return this->message("success", message);
+    }
+
+    /**
      * Shows a HTML warning message
      *
      *```php
      * $flash->warning("Hey, this is important");
      *```
-     *
-     * @param string $message
-     *
-     * @return string|null
      */
     public function warning(string message) -> string | null
     {
@@ -393,13 +331,31 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
     }
 
     /**
+     * Checks the collection and returns the content as a string
+     * (array is joined)
+     *
+     * @phpstan-param flash_css_classes $collection
+     */
+    private function checkClasses(array collection, string type) -> string
+    {
+        var content;
+
+        let content = "";
+
+        if isset collection[type] {
+            let content = collection[type];
+        }
+
+        if typeof content !== "array" {
+            let content = [content];
+        }
+
+        return join(" ", content);
+    }
+
+    /**
      * Returns the template for the CSS classes (with icon classes). It will
      * either be the custom one (defined) or the default
-     *
-     * @param string $cssClasses
-     * @param string $cssIconClasses
-     *
-     * @return string
      */
     private function getTemplate(string cssClasses, string cssIconClasses) -> string
     {
@@ -420,7 +376,7 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
             }
         }
 
-        return this->interpolator->__invoke(
+        return this->toInterpolate(
             template,
             [
                 "divString"  : divString,
@@ -432,11 +388,6 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
     /**
      * Returns the message escaped if the autoEscape is true, otherwise the
      * original message is returned
-     *
-     * @param string $message
-     *
-     * @return string
-     * @throws Exception
      */
     private function prepareEscapedMessage(string message) -> string
     {
@@ -454,11 +405,6 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
     /**
      * Prepares the HTML output for the message. If automaticHtml is not set
      * then the original message is returned
-     *
-     * @param string $type
-     * @param string $message
-     *
-     * @return string
      */
     private function prepareHtmlMessage(string type, string message) -> string
     {
@@ -475,7 +421,7 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
         let cssClasses     = htmlspecialchars(this->checkClasses(this->cssClasses, type), ENT_QUOTES, "utf-8"),
             cssIconClasses = htmlspecialchars(this->checkClasses(this->cssIconClasses, type), ENT_QUOTES, "utf-8");
 
-        return this->interpolator->__invoke(
+        return this->toInterpolate(
             this->getTemplate(cssClasses, cssIconClasses),
             [
                 "cssClass"     : cssClasses,
@@ -483,35 +429,5 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
                 "message"      : message
             ]
         );
-    }
-
-    /**
-     * Checks the collection and returns the content as a string
-     * (array is joined)
-     *
-     * @param array  $collection
-     * @param string $type
-     *
-     * @return string
-     */
-    private function checkClasses(array collection, string type) -> string
-    {
-        var content;
-
-        let content = "";
-
-        if isset collection[type] {
-            let content = collection[type];
-        }
-
-        if true !== empty(content) {
-            if typeof content !== "array" {
-                let content = [content];
-            }
-
-            let content = join(" ", content);
-        }
-
-        return content;
     }
 }

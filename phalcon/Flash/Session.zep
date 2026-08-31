@@ -10,6 +10,7 @@
 
 namespace Phalcon\Flash;
 
+use Phalcon\Contracts\Flash\FlashTypes;
 use Phalcon\Flash\Exceptions\SessionServiceUnavailable;
 use Phalcon\Html\Escaper\EscaperInterface;
 use Phalcon\Session\ManagerInterface;
@@ -22,6 +23,8 @@ use Phalcon\Session\ManagerInterface;
  * Class Session
  *
  * @package Phalcon\Flash
+ *
+ * @phpstan-import-type flash_session_messages from FlashTypes
  */
 class Session extends AbstractFlash
 {
@@ -30,17 +33,10 @@ class Session extends AbstractFlash
      */
     const SESSION_KEY = "_flashMessages";
 
-    /**
-     * @var string
-     */
-    protected sessionKey = "";
+    protected string sessionKey = "";
 
     /**
      * Session constructor.
-     *
-     * @param EscaperInterface|null $escaper
-     * @param ManagerInterface|null $session
-     * @param string|null           $sessionKey
      */
     public function __construct(
         <EscaperInterface> escaper = null,
@@ -66,10 +62,10 @@ class Session extends AbstractFlash
     /**
      * Returns the messages in the session flasher
      *
-     * @param mixed|null $type
-     * @param bool       $remove
+     * @param string|null $type
+     * @param bool        $remove
      *
-     * @return array
+     * @phpstan-return ($type is null ? flash_session_messages : list<mixed>)
      * @throws Exception
      */
     public function getMessages(var type = null, bool remove = true) -> array
@@ -78,11 +74,32 @@ class Session extends AbstractFlash
     }
 
     /**
+     * Returns the Session Service
+     *
+     * @return ManagerInterface
+     * @throws Exception
+     */
+    public function getSessionService() -> <ManagerInterface>
+    {
+        if null !== this->sessionService {
+            return this->sessionService;
+        }
+
+        if (
+            null !== this->container &&
+            true === this->container->has("session")
+        ) {
+            let this->sessionService = this->container->getShared("session");
+
+            return this->sessionService;
+        }
+
+        throw new SessionServiceUnavailable();
+    }
+
+    /**
      * Checks whether there are messages
      *
-     * @param string|null $type
-     *
-     * @return bool
      * @throws Exception
      */
     public function has(string type = null) -> bool
@@ -101,10 +118,6 @@ class Session extends AbstractFlash
     /**
      * Adds a message to the session flasher
      *
-     * @param string $type
-     * @param mixed  $message
-     *
-     * @return string|null
      * @throws Exception
      */
     public function message(string type, var message) -> string | null
@@ -126,8 +139,6 @@ class Session extends AbstractFlash
 
     /**
      * Prints the messages in the session flasher
-     *
-     * @param bool $remove
      *
      * @throws Exception
      */
@@ -155,10 +166,10 @@ class Session extends AbstractFlash
     /**
      * Returns the messages stored in session
      *
-     * @param bool       $remove
-     * @param mixed|null $type
+     * @param bool        $remove
+     * @param string|null $type
      *
-     * @return array
+     * @phpstan-return ($type is null ? flash_session_messages : list<mixed>)
      * @throws Exception
      */
     protected function getSessionMessages(bool remove, string type = null) -> array
@@ -198,9 +209,9 @@ class Session extends AbstractFlash
     /**
      * Stores the messages in session
      *
-     * @param array $messages
+     * @phpstan-param  flash_session_messages $messages
+     * @phpstan-return flash_session_messages
      *
-     * @return array
      * @throws Exception
      */
     protected function setSessionMessages( array messages) -> array
@@ -214,27 +225,4 @@ class Session extends AbstractFlash
         return messages;
     }
 
-    /**
-     * Returns the Session Service
-     *
-     * @return ManagerInterface
-     * @throws Exception
-     */
-    public function getSessionService() -> <ManagerInterface>
-    {
-        if null !== this->sessionService {
-            return this->sessionService;
-        }
-
-        if (
-            null !== this->container &&
-            true === this->container->has("session")
-        ) {
-            let this->sessionService = this->container->getShared("session");
-
-            return this->sessionService;
-        }
-
-        throw new SessionServiceUnavailable();
-    }
 }
