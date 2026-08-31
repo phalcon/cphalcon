@@ -39,7 +39,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Select)
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Select, phalcon, forms_element_select, phalcon_forms_element_abstractelement_ce, phalcon_forms_element_select_method_entry, 0);
 
 	/**
-	 * @var object|array|null
+	 * @var array|object|null
 	 *
 	 * @phpstan-var forms_select_options|object|null
 	 */
