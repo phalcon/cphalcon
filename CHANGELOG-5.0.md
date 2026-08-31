@@ -6,7 +6,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 ### Tools
 
-- Zephir 1.3.0
+- Zephir 1.3.0 (594e50a)
 
 ### Changed
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ba38d31f0b419cb33e960ca7742986a2",
+    "content-hash": "497c5375b22ae32caa2d4923b5bf3343",
     "packages": [],
     "packages-dev": [
         {
@@ -2676,16 +2676,16 @@
         },
         {
             "name": "phalcon/zephir",
-            "version": "1.3.0",
+            "version": "dev-development",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zephir-lang/zephir.git",
-                "reference": "09ae1ec6f17340d6c44007331ff3d0ebc880bccd"
+                "reference": "594e50a35493316b798158d5464854c862d2c16e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/09ae1ec6f17340d6c44007331ff3d0ebc880bccd",
-                "reference": "09ae1ec6f17340d6c44007331ff3d0ebc880bccd",
+                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/594e50a35493316b798158d5464854c862d2c16e",
+                "reference": "594e50a35493316b798158d5464854c862d2c16e",
                 "shasum": ""
             },
             "require": {
@@ -2713,6 +2713,7 @@
             "suggest": {
                 "ext-zephir_parser": "Optional native parser used as a fast path; the built-in pure-PHP parser is used when it is absent"
             },
+            "default-branch": true,
             "bin": [
                 "zephir"
             ],
@@ -2761,7 +2762,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-08-25T17:52:08+00:00"
+            "time": "2026-08-31T14:19:46+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -3134,16 +3135,16 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "2.3.4",
+            "version": "2.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "98dbc9412932af5825e6d5aa5d6bc4de7d82538a"
+                "reference": "148cefffaf0233e4c08cc13db8a195a56dd6dfe9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/98dbc9412932af5825e6d5aa5d6bc4de7d82538a",
-                "reference": "98dbc9412932af5825e6d5aa5d6bc4de7d82538a",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/148cefffaf0233e4c08cc13db8a195a56dd6dfe9",
+                "reference": "148cefffaf0233e4c08cc13db8a195a56dd6dfe9",
                 "shasum": ""
             },
             "require": {
@@ -3175,17 +3176,17 @@
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
             "support": {
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/2.3.4"
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/2.3.5"
             },
-            "time": "2026-08-30T16:25:38+00:00"
+            "time": "2026-08-31T16:05:28+00:00"
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.2.11",
+            "version": "2.2.12",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/0eb899d48d9b784eee3f1b58a6c9dc79734cf811",
-                "reference": "0eb899d48d9b784eee3f1b58a6c9dc79734cf811",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/174b0d88710f00a42598886504dd7a146f91ace5",
+                "reference": "174b0d88710f00a42598886504dd7a146f91ace5",
                 "shasum": ""
             },
             "require": {
@@ -3241,7 +3242,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-08-31T10:33:10+00:00"
+            "time": "2026-08-31T19:09:43+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -8084,7 +8085,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": {
+        "phalcon/zephir": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
