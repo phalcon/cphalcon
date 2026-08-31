@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Container_Definition_Processor_ObjectProcessor, process)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval name_zv, *definition, definition_sub, *container, container_sub, def, _0;
+	zval name_zv, *definition, definition_sub, *container, container_sub, def, _0, _1;
 	zend_string *name = NULL;
 
 	ZVAL_UNDEF(&name_zv);
@@ -99,6 +99,7 @@ PHP_METHOD(Phalcon_Container_Definition_Processor_ObjectProcessor, process)
 	ZVAL_UNDEF(&container_sub);
 	ZVAL_UNDEF(&def);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_STR(name)
 		Z_PARAM_ZVAL(definition)
@@ -117,10 +118,12 @@ PHP_METHOD(Phalcon_Container_Definition_Processor_ObjectProcessor, process)
 	ZEPHIR_CALL_METHOD(NULL, &def, "__construct", NULL, 482, &name_zv, &_0, definition);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
-	ZEPHIR_INIT_NVAR(&_0);
-	zephir_create_closure_ex(&_0, NULL, phalcon_11__closure_ce, SL("__invoke"));
-	zephir_update_static_property_ce(phalcon_11__closure_ce, ZEND_STRL("definition"), definition);
-	ZEPHIR_CALL_METHOD(NULL, &def, "setfactory", NULL, 487, &_0);
+	object_init_ex(&_0, phalcon_11__closure_ce);
+	zephir_update_property_zval(&_0, SL("definition"), definition);
+	ZEPHIR_INIT_VAR(&_1);
+	ZEPHIR_INIT_NVAR(&_1);
+	zephir_create_closure_bound(&_1, &_0, NULL, phalcon_11__closure_ce, SL("__invoke"));
+	ZEPHIR_CALL_METHOD(NULL, &def, "setfactory", NULL, 487, &_1);
 	zephir_check_call_status();
 	RETURN_CCTOR(&def);
 }

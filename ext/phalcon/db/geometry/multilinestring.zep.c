@@ -15,10 +15,10 @@
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/string.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
 #include "kernel/array.h"
-#include "kernel/string.h"
 
 
 /**
@@ -93,8 +93,8 @@ PHP_METHOD(Phalcon_Db_Geometry_MultiLineString, getLineStrings)
 
 PHP_METHOD(Phalcon_Db_Geometry_MultiLineString, toWkt)
 {
-	zend_bool _5;
-	zval line, parts, _0, *_1, _4, _8, _2$$3, _3$$3, _6$$4, _7$$4;
+	zend_bool _7;
+	zval line, parts, _0, *_1, _2, *_3, _6, _10, _4$$3, _5$$3, _8$$4, _9$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -102,12 +102,13 @@ PHP_METHOD(Phalcon_Db_Geometry_MultiLineString, toWkt)
 	ZVAL_UNDEF(&line);
 	ZVAL_UNDEF(&parts);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_8);
-	ZVAL_UNDEF(&_2$$3);
-	ZVAL_UNDEF(&_3$$3);
-	ZVAL_UNDEF(&_6$$4);
-	ZVAL_UNDEF(&_7$$4);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_10);
+	ZVAL_UNDEF(&_4$$3);
+	ZVAL_UNDEF(&_5$$3);
+	ZVAL_UNDEF(&_8$$4);
+	ZVAL_UNDEF(&_9$$4);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("lineStrings", 11, 1);
@@ -118,47 +119,54 @@ PHP_METHOD(Phalcon_Db_Geometry_MultiLineString, toWkt)
 	ZEPHIR_INIT_VAR(&parts);
 	array_init(&parts);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 626, PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_0, 0, "phalcon/Db/Geometry/MultiLineString.zep", 46);
-	if (Z_TYPE_P(&_0) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
+	if (Z_TYPE_P(&_0) == IS_STRING) {
+		ZEPHIR_INIT_VAR(&_2);
+		zephir_string_to_char_array(&_2, &_0);
+		_1 = &_2;
+	} else {
+		_1 = &_0;
+	}
+	zephir_is_iterable(_1, 0, "phalcon/Db/Geometry/MultiLineString.zep", 46);
+	if (Z_TYPE_P(_1) == IS_ARRAY) {
+		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_1), _3)
 		{
 			ZEPHIR_INIT_NVAR(&line);
-			ZVAL_COPY(&line, _1);
-			ZEPHIR_CALL_METHOD(&_2$$3, &line, "pointswkt", NULL, 0);
+			ZVAL_COPY(&line, _3);
+			ZEPHIR_CALL_METHOD(&_4$$3, &line, "pointswkt", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_INIT_NVAR(&_3$$3);
-			ZEPHIR_CONCAT_SVS(&_3$$3, "(", &_2$$3, ")");
-			zephir_array_append(&parts, &_3$$3, PH_SEPARATE, "phalcon/Db/Geometry/MultiLineString.zep", 43);
+			ZEPHIR_INIT_NVAR(&_5$$3);
+			ZEPHIR_CONCAT_SVS(&_5$$3, "(", &_4$$3, ")");
+			zephir_array_append(&parts, &_5$$3, PH_SEPARATE, "phalcon/Db/Geometry/MultiLineString.zep", 43);
 		} ZEND_HASH_FOREACH_END();
 	} else {
-		ZEPHIR_CALL_METHOD(NULL, &_0, "rewind", NULL, 0);
+		ZEPHIR_CALL_METHOD(NULL, _1, "rewind", NULL, 0);
 		zephir_check_call_status();
-		_5 = 1;
+		_7 = 1;
 		while (1) {
-			if (_5) {
-				_5 = 0;
+			if (_7) {
+				_7 = 0;
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, &_0, "next", NULL, 0);
+				ZEPHIR_CALL_METHOD(NULL, _1, "next", NULL, 0);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_4, &_0, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_6, _1, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_4)) {
+			if (!zend_is_true(&_6)) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&line, &_0, "current", NULL, 0);
+			ZEPHIR_CALL_METHOD(&line, _1, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_6$$4, &line, "pointswkt", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_8$$4, &line, "pointswkt", NULL, 0);
 				zephir_check_call_status();
-				ZEPHIR_INIT_NVAR(&_7$$4);
-				ZEPHIR_CONCAT_SVS(&_7$$4, "(", &_6$$4, ")");
-				zephir_array_append(&parts, &_7$$4, PH_SEPARATE, "phalcon/Db/Geometry/MultiLineString.zep", 43);
+				ZEPHIR_INIT_NVAR(&_9$$4);
+				ZEPHIR_CONCAT_SVS(&_9$$4, "(", &_8$$4, ")");
+				zephir_array_append(&parts, &_9$$4, PH_SEPARATE, "phalcon/Db/Geometry/MultiLineString.zep", 43);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&line);
-	ZEPHIR_INIT_VAR(&_8);
-	zephir_fast_join_str(&_8, SL(", "), &parts);
-	ZEPHIR_CONCAT_SVS(return_value, "MULTILINESTRING(", &_8, ")");
+	ZEPHIR_INIT_VAR(&_10);
+	zephir_fast_join_str(&_10, SL(", "), &parts);
+	ZEPHIR_CONCAT_SVS(return_value, "MULTILINESTRING(", &_10, ")");
 	RETURN_MM();
 }
 

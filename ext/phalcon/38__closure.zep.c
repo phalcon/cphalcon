@@ -21,7 +21,8 @@ ZEPHIR_INIT_CLASS(phalcon_38__closure)
 {
 	ZEPHIR_REGISTER_CLASS(phalcon, 38__closure, phalcon, 38__closure, phalcon_38__closure_method_entry, ZEND_ACC_FINAL_CLASS);
 
-	zend_declare_property_null(phalcon_38__closure_ce, SL("escaper"), ZEND_ACC_PUBLIC|ZEND_ACC_STATIC);
+	zend_declare_property_null(phalcon_38__closure_ce, SL("escaper"), ZEND_ACC_PUBLIC);
+	zend_declare_property_null(phalcon_38__closure_ce, SL("__$zephir_this"), ZEND_ACC_PUBLIC);
 	return SUCCESS;
 }
 
@@ -29,15 +30,19 @@ PHP_METHOD(phalcon_38__closure, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval escaper, _0, _1;
+	zval escaper, __$zephir_this, _0, _1;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&escaper);
+	ZVAL_UNDEF(&__$zephir_this);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_read_static_property_ce(&escaper, phalcon_38__closure_ce, SL("escaper"), PH_NOISY_CC);
+	zephir_read_property(&__$zephir_this, this_ptr, SL("__$zephir_this"), PH_NOISY_CC | PH_READONLY);
+	zephir_memory_observe(&escaper);
+	zephir_read_property(&escaper, this_ptr, SL("escaper"), PH_NOISY_CC);
+	this_ptr = &__$zephir_this;
 
 	object_init_ex(return_value, phalcon_html_helper_body_ce);
 	ZEPHIR_INIT_VAR(&_1);

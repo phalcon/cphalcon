@@ -100,6 +100,9 @@ int zephir_update_static_property_array_multi_ce(zend_class_entry *ce, const cha
 
 /** Create closures */
 int zephir_create_closure_ex(zval *return_value, zval *this_ptr, zend_class_entry *ce, const char *method_name, uint32_t method_length);
+int zephir_create_closure_bound(zval *return_value, zval *bound_this, zval *scope_this, zend_class_entry *ce, const char *method_name, uint32_t method_length);
+int zephir_update_property_reference(zval *object, const char *property_name, uint32_t property_length, zval *value);
+void zephir_make_local_reference(zval *var);
 
 /** Create instances */
 int zephir_create_instance(zval *return_value, const zval *class_name);

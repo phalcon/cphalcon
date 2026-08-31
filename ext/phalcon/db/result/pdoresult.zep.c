@@ -180,7 +180,7 @@ PHP_METHOD(Phalcon_Db_Result_PdoResult, __construct)
  */
 PHP_METHOD(Phalcon_Db_Result_PdoResult, dataSeek)
 {
-	long n = 0;
+	zend_long n = 0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_4 = NULL;
 	zval *number_param = NULL, connection, pdo, sqlStatement, bindParams, statement, _0, _1$$4, _2$$4, _3$$6;

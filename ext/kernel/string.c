@@ -282,7 +282,7 @@ int zephir_end_with_str(const zval *str, char *compared, unsigned int compared_l
 /**
  * Makes a substr like the PHP function. This function SUPPORT negative from and length
  */
-void zephir_substr(zval *return_value, zval *str, long f, long l, int flags)
+void zephir_substr(zval *return_value, zval *str, zend_long f, zend_long l, int flags)
 {
 	zval copy;
 	int use_copy = 0;
@@ -712,7 +712,7 @@ int zephir_memnstr_str(const zval *haystack, char *needle, unsigned int needle_l
 /**
  * Fast call to explode php function
  */
-void zephir_fast_explode(zval *return_value, zval *delimiter, zval *str, long limit)
+void zephir_fast_explode(zval *return_value, zval *delimiter, zval *str, zend_long limit)
 {
 	if (UNEXPECTED(Z_TYPE_P(str) != IS_STRING || Z_TYPE_P(delimiter) != IS_STRING)) {
 		zend_error(E_WARNING, "Invalid arguments supplied for explode()");
@@ -726,7 +726,7 @@ void zephir_fast_explode(zval *return_value, zval *delimiter, zval *str, long li
 /**
  * Fast call to explode php function
  */
-void zephir_fast_explode_str(zval *return_value, const char *delim, int delim_length, zval *str, long limit)
+void zephir_fast_explode_str(zval *return_value, const char *delim, int delim_length, zval *str, zend_long limit)
 {
 	zend_string *delimiter;
 
@@ -1044,7 +1044,7 @@ void zephir_fast_str_replace(zval *return_value_ptr, zval *search, zval *replace
 /**
  * Execute preg-match without function lookup in the PHP userland
  */
-void zephir_preg_match(zval *return_value, zval *regex, zval *subject, zval *matches, int global, long flags, long offset)
+void zephir_preg_match(zval *return_value, zval *regex, zval *subject, zval *matches, int global, zend_long flags, zend_long offset)
 {
 	int use_copy = 0;
 	zval copy, tmp_matches;
@@ -1104,7 +1104,7 @@ void zephir_preg_match(zval *return_value, zval *regex, zval *subject, zval *mat
 
 #else
 
-void zephir_preg_match(zval *return_value, zval *regex, zval *subject, zval *matches, int global, long flags, long offset)
+void zephir_preg_match(zval *return_value, zval *regex, zval *subject, zval *matches, int global, zend_long flags, zend_long offset)
 {
 	zval tmp_flags;
 	zval tmp_offset;
@@ -1408,5 +1408,396 @@ void zephir_string_to_hex(zval *return_value, zval *var)
 
 	if (use_copy) {
 		zval_dtor(var);
+	}
+}
+
+/* ---------------------------------------------------------------------------
+ * String offsets.
+ *
+ * PHP's `$str[$off]` is a byte offset into the string, not a hash lookup, and
+ * it has its own set of diagnostics. The functions below mirror
+ * `zend_fetch_dimension_address_read()`'s string branch in
+ * `Zend/zend_execute.c` so a compiled extension behaves exactly like PHP.
+ *
+ * `flags` carries `PH_NOISY`: with it set the helpers behave like PHP's
+ * `BP_VAR_R` (warn, yield ""), without it like `BP_VAR_IS` (silent, yield
+ * NULL). That is the same distinction Zephir already draws between a plain
+ * read and one guarded by `isset`/`fetch`.
+ *
+ * One deliberate departure: PHP raises the illegal-offset `TypeError` even
+ * under `BP_VAR_IS`, because there `BP_VAR_IS` still means `??`. In Zephir a
+ * silent read only ever comes from `isset`/`fetch`, which PHP answers with its
+ * silent handler, so the `TypeError` is raised only when PH_NOISY is set.
+ * ------------------------------------------------------------------------ */
+
+/**
+ * A userland error handler can unset the variable an offset is being read
+ * from, freeing the string under our feet. PHP brackets every string-offset
+ * diagnostic with these two; `release` returns 0 when the string did not
+ * survive, and the caller must then bail out instead of dereferencing it.
+ */
+static zend_always_inline void zephir_string_offset_hold(zend_string *str)
+{
+	if (!(GC_FLAGS(str) & IS_STR_INTERNED)) {
+		GC_ADDREF(str);
+	}
+}
+
+static zend_always_inline int zephir_string_offset_release(zend_string *str)
+{
+	if (!(GC_FLAGS(str) & IS_STR_INTERNED) && UNEXPECTED(GC_DELREF(str) == 0)) {
+		zend_string_efree(str);
+
+		return 0;
+	}
+
+	return 1;
+}
+
+static int zephir_string_offset_normalize(zend_long *offset, zval *str, zval *dim, int flags)
+{
+	zend_string *s = Z_STR_P(str);
+
+try_string_offset:
+	if (EXPECTED(Z_TYPE_P(dim) == IS_LONG)) {
+		*offset = Z_LVAL_P(dim);
+		return SUCCESS;
+	}
+
+	switch (Z_TYPE_P(dim)) {
+		case IS_STRING: {
+			bool trailing_data = false;
+
+			/* For BC reasons PHP allows errors here so it can warn on a
+			 * leading numeric string such as "2abc". */
+			if (IS_LONG == is_numeric_string_ex(Z_STRVAL_P(dim), Z_STRLEN_P(dim), offset,
+					NULL, /* allow errors */ true, NULL, &trailing_data)) {
+				if (UNEXPECTED(trailing_data)) {
+					zephir_string_offset_hold(s);
+					zend_error(E_WARNING, "Illegal string offset \"%s\"", Z_STRVAL_P(dim));
+
+					if (!zephir_string_offset_release(s)) {
+						return FAILURE;
+					}
+				}
+
+				return SUCCESS;
+			}
+
+			if ((flags & PH_NOISY) == PH_NOISY) {
+				zend_type_error("Cannot access offset of type %s on string", zend_zval_type_name(dim));
+			}
+
+			return FAILURE;
+		}
+
+		case IS_DOUBLE:
+		case IS_NULL:
+		case IS_FALSE:
+		case IS_TRUE:
+			if ((flags & PH_NOISY) == PH_NOISY) {
+				zephir_string_offset_hold(s);
+				zend_error(E_WARNING, "String offset cast occurred");
+
+				if (!zephir_string_offset_release(s)) {
+					return FAILURE;
+				}
+			}
+
+#if PHP_VERSION_ID >= 80500
+			/* 8.5 warns on non-representable float-to-int casts. PHP routes
+			 * string offsets around it to avoid a second warning. */
+			if (Z_TYPE_P(dim) == IS_DOUBLE) {
+				*offset = zend_dval_to_lval_silent(Z_DVAL_P(dim));
+
+				return SUCCESS;
+			}
+#endif
+			break;
+
+		case IS_REFERENCE:
+			dim = Z_REFVAL_P(dim);
+			goto try_string_offset;
+
+		default:
+			if ((flags & PH_NOISY) == PH_NOISY) {
+				zend_type_error("Cannot access offset of type %s on string", zend_zval_type_name(dim));
+			}
+
+			return FAILURE;
+	}
+
+	*offset = zval_get_long(dim);
+
+	return SUCCESS;
+}
+
+void zephir_string_offset_read(zval *return_value, zval *str, zend_long offset, int flags)
+{
+	zend_string *s;
+
+	if (UNEXPECTED(Z_TYPE_P(str) != IS_STRING)) {
+		ZVAL_NULL(return_value);
+
+		return;
+	}
+
+	s = Z_STR_P(str);
+
+	if (UNEXPECTED(ZSTR_LEN(s) < ((offset < 0) ? -(size_t) offset : ((size_t) offset + 1)))) {
+		if ((flags & PH_NOISY) != PH_NOISY) {
+			ZVAL_NULL(return_value);
+
+			return;
+		}
+
+		zephir_string_offset_hold(s);
+		zend_error(E_WARNING, "Uninitialized string offset " ZEND_LONG_FMT, offset);
+
+		if (zephir_string_offset_release(s)) {
+			ZVAL_EMPTY_STRING(return_value);
+		} else {
+			ZVAL_NULL(return_value);
+		}
+
+		return;
+	}
+
+	ZVAL_CHAR(return_value, (zend_uchar) ZSTR_VAL(s)[(offset < 0) ? (zend_long) ZSTR_LEN(s) + offset : offset]);
+}
+
+void zephir_string_offset_read_zval(zval *return_value, zval *str, zval *dim, int flags)
+{
+	zend_long offset;
+
+	if (UNEXPECTED(Z_TYPE_P(str) != IS_STRING)
+		|| FAILURE == zephir_string_offset_normalize(&offset, str, dim, flags)) {
+		ZVAL_NULL(return_value);
+
+		return;
+	}
+
+	zephir_string_offset_read(return_value, str, offset, flags);
+}
+
+unsigned char zephir_string_offset_byte_zval(zval *str, zval *dim, int flags)
+{
+	zend_long offset;
+
+	if (UNEXPECTED(Z_TYPE_P(str) != IS_STRING)
+		|| FAILURE == zephir_string_offset_normalize(&offset, str, dim, flags)) {
+		return '\0';
+	}
+
+	return zephir_string_offset_byte(str, offset, flags);
+}
+
+unsigned char zephir_string_offset_byte(zval *str, zend_long offset, int flags)
+{
+	zend_string *s;
+
+	if (UNEXPECTED(Z_TYPE_P(str) != IS_STRING)) {
+		return '\0';
+	}
+
+	s = Z_STR_P(str);
+
+	if (UNEXPECTED(ZSTR_LEN(s) < ((offset < 0) ? -(size_t) offset : ((size_t) offset + 1)))) {
+		/* A native char cannot hold PHP's "" result, so it stays NUL. The
+		 * diagnostic still matches so the two paths report the same thing. */
+		if ((flags & PH_NOISY) == PH_NOISY) {
+			zephir_string_offset_hold(s);
+			zend_error(E_WARNING, "Uninitialized string offset " ZEND_LONG_FMT, offset);
+			zephir_string_offset_release(s);
+		}
+
+		return '\0';
+	}
+
+	return (unsigned char) ZSTR_VAL(s)[(offset < 0) ? (zend_long) ZSTR_LEN(s) + offset : offset];
+}
+
+/**
+ * `isset($str[$off])`.
+ *
+ * PHP does not reuse the read path here: `zend_isset_dim_slow()` is silent for
+ * every illegal offset and coerces with `is_strict = true`, which is where the
+ * 8.1 float-precision deprecation comes from. Calling the engine's own
+ * converter keeps that version-dependent diagnostic without restating it.
+ */
+int zephir_string_offset_isset(const zval *str, zend_long offset)
+{
+	if (offset < 0) {
+		offset += (zend_long) Z_STRLEN_P(str);
+	}
+
+	return offset >= 0 && (size_t) offset < Z_STRLEN_P(str);
+}
+
+int zephir_string_offset_isset_zval(const zval *str, zval *dim)
+{
+	if (UNEXPECTED(Z_TYPE_P(str) != IS_STRING)) {
+		return 0;
+	}
+
+	if (EXPECTED(Z_TYPE_P(dim) == IS_LONG)) {
+		return zephir_string_offset_isset(str, Z_LVAL_P(dim));
+	}
+
+	ZVAL_DEREF(dim);
+
+	if (Z_TYPE_P(dim) < IS_STRING
+		|| (Z_TYPE_P(dim) == IS_STRING
+			&& IS_LONG == is_numeric_string(Z_STRVAL_P(dim), Z_STRLEN_P(dim), NULL, NULL, 0))) {
+#if PHP_VERSION_ID >= 80100
+		return zephir_string_offset_isset(str, zval_get_long_ex(dim, /* is_strict */ true));
+#else
+		return zephir_string_offset_isset(str, zval_get_long(dim));
+#endif
+	}
+
+	return 0;
+}
+
+/**
+ * `$str[$off] = $value`, mirroring `zend_assign_to_string_offset()`.
+ *
+ * The string is separated first, so a shared `zend_string` is never mutated in
+ * place. Writing past the end extends the string and pads with spaces, not
+ * NULs; only the first byte of the value is stored.
+ */
+void zephir_string_offset_write(zval *str, zend_long offset, zval *value)
+{
+	zend_string *s;
+	zend_uchar   c;
+	size_t       length;
+
+	if (UNEXPECTED(Z_TYPE_P(str) != IS_STRING)) {
+		return;
+	}
+
+	if (Z_REFCOUNTED_P(str) && Z_REFCOUNT_P(str) == 1) {
+		s = Z_STR_P(str);
+	} else {
+		s         = zend_string_init(Z_STRVAL_P(str), Z_STRLEN_P(str), 0);
+		ZSTR_H(s) = ZSTR_H(Z_STR_P(str));
+
+		if (Z_REFCOUNTED_P(str)) {
+			GC_DELREF(Z_STR_P(str));
+		}
+
+		ZVAL_NEW_STR(str, s);
+	}
+
+	if (UNEXPECTED(offset < -(zend_long) ZSTR_LEN(s))) {
+		zend_error(E_WARNING, "Illegal string offset " ZEND_LONG_FMT, offset);
+
+		return;
+	}
+
+	if (offset < 0) {
+		offset += (zend_long) ZSTR_LEN(s);
+	}
+
+	if (UNEXPECTED(Z_TYPE_P(value) != IS_STRING)) {
+		zend_string *tmp;
+
+		zephir_string_offset_hold(s);
+		tmp = zval_try_get_string_func(value);
+
+		if (!zephir_string_offset_release(s)) {
+			if (tmp) {
+				zend_string_release_ex(tmp, 0);
+			}
+
+			return;
+		}
+
+		if (UNEXPECTED(!tmp)) {
+			return;
+		}
+
+		length = ZSTR_LEN(tmp);
+		c      = (zend_uchar) ZSTR_VAL(tmp)[0];
+		zend_string_release_ex(tmp, 0);
+	} else {
+		length = Z_STRLEN_P(value);
+		c      = (zend_uchar) Z_STRVAL_P(value)[0];
+	}
+
+	if (UNEXPECTED(length != 1)) {
+		if (length == 0) {
+			zend_throw_error(NULL, "Cannot assign an empty string to a string offset");
+
+			return;
+		}
+
+		zephir_string_offset_hold(s);
+		zend_error(E_WARNING, "Only the first byte will be assigned to the string offset");
+
+		if (!zephir_string_offset_release(s) || UNEXPECTED(EG(exception) != NULL)) {
+			return;
+		}
+	}
+
+	if ((size_t) offset >= ZSTR_LEN(s)) {
+		size_t old_len = ZSTR_LEN(s);
+
+		ZVAL_NEW_STR(str, zend_string_extend(s, (size_t) offset + 1, 0));
+		memset(Z_STRVAL_P(str) + old_len, ' ', offset - old_len);
+		Z_STRVAL_P(str)[offset + 1] = 0;
+	} else {
+		zend_string_forget_hash_val(Z_STR_P(str));
+	}
+
+	Z_STRVAL_P(str)[offset] = c;
+}
+
+void zephir_string_offset_write_zval(zval *str, zval *dim, zval *value)
+{
+	zend_long offset;
+
+	if (UNEXPECTED(Z_TYPE_P(str) != IS_STRING)
+		|| FAILURE == zephir_string_offset_normalize(&offset, str, dim, PH_NOISY)) {
+		return;
+	}
+
+	zephir_string_offset_write(str, offset, value);
+}
+
+/**
+ * Splits a string into an array of its bytes, each a 1-character string.
+ *
+ * `for c in s` is Zephir syntax with no PHP counterpart: PHP's foreach rejects
+ * strings outright. Materialising the bytes lets a dynamically typed source
+ * reuse the ordinary array traversal rather than emitting the loop body a
+ * second time for a different container. The characters are the permanent
+ * interned one-byte strings, so the array costs one allocation, not one per
+ * character.
+ */
+void zephir_string_to_char_array(zval *return_value, zval *str)
+{
+	size_t i, length;
+
+	if (UNEXPECTED(Z_TYPE_P(str) != IS_STRING)) {
+		array_init(return_value);
+
+		return;
+	}
+
+	length = Z_STRLEN_P(str);
+	array_init_size(return_value, length);
+
+	if (length == 0) {
+		return;
+	}
+
+	zend_hash_real_init_packed(Z_ARRVAL_P(return_value));
+
+	for (i = 0; i < length; i++) {
+		zval character;
+
+		ZVAL_CHAR(&character, (zend_uchar) Z_STRVAL_P(str)[i]);
+		zend_hash_next_index_insert_new(Z_ARRVAL_P(return_value), &character);
 	}
 }

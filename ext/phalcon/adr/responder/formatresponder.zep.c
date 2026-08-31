@@ -16,6 +16,7 @@
 #include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
+#include "kernel/string.h"
 #include "kernel/array.h"
 
 
@@ -86,11 +87,11 @@ PHP_METHOD(Phalcon_ADR_Responder_FormatResponder, __construct)
 
 PHP_METHOD(Phalcon_ADR_Responder_FormatResponder, __invoke)
 {
-	zend_bool _8;
+	zend_bool _9;
 	zval _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *request, request_sub, *response, response_sub, *payload, payload_sub, accept, chosen, formatter, _0, _1, _2, _4, *_5, _7, _11, _12, _13, _6$$4, _9$$6, _10$$8;
+	zval *request, request_sub, *response, response_sub, *payload, payload_sub, accept, chosen, formatter, _0, _1, _2, _4, *_5, *_6, _8, _12, _13, _14, _7$$4, _10$$6, _11$$8;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&request_sub);
@@ -103,13 +104,13 @@ PHP_METHOD(Phalcon_ADR_Responder_FormatResponder, __invoke)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_7);
-	ZVAL_UNDEF(&_11);
+	ZVAL_UNDEF(&_8);
 	ZVAL_UNDEF(&_12);
 	ZVAL_UNDEF(&_13);
-	ZVAL_UNDEF(&_6$$4);
-	ZVAL_UNDEF(&_9$$6);
-	ZVAL_UNDEF(&_10$$8);
+	ZVAL_UNDEF(&_14);
+	ZVAL_UNDEF(&_7$$4);
+	ZVAL_UNDEF(&_10$$6);
+	ZVAL_UNDEF(&_11$$8);
 	ZVAL_UNDEF(&_3);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -138,40 +139,47 @@ PHP_METHOD(Phalcon_ADR_Responder_FormatResponder, __invoke)
 	zephir_cast_to_string(&_3, &_1);
 	ZEPHIR_CPY_WRT(&accept, &_3);
 	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 363, PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_4, 0, "phalcon/ADR/Responder/FormatResponder.zep", 60);
-	if (Z_TYPE_P(&_4) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_4), _5)
+	if (Z_TYPE_P(&_4) == IS_STRING) {
+		ZEPHIR_INIT_NVAR(&_2);
+		zephir_string_to_char_array(&_2, &_4);
+		_5 = &_2;
+	} else {
+		_5 = &_4;
+	}
+	zephir_is_iterable(_5, 0, "phalcon/ADR/Responder/FormatResponder.zep", 60);
+	if (Z_TYPE_P(_5) == IS_ARRAY) {
+		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_5), _6)
 		{
 			ZEPHIR_INIT_NVAR(&formatter);
-			ZVAL_COPY(&formatter, _5);
-			ZEPHIR_CALL_METHOD(&_6$$4, &formatter, "accepts", NULL, 0, &accept);
+			ZVAL_COPY(&formatter, _6);
+			ZEPHIR_CALL_METHOD(&_7$$4, &formatter, "accepts", NULL, 0, &accept);
 			zephir_check_call_status();
-			if (zephir_is_true(&_6$$4)) {
+			if (zephir_is_true(&_7$$4)) {
 				ZEPHIR_CPY_WRT(&chosen, &formatter);
 				break;
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
-		ZEPHIR_CALL_METHOD(NULL, &_4, "rewind", NULL, 0);
+		ZEPHIR_CALL_METHOD(NULL, _5, "rewind", NULL, 0);
 		zephir_check_call_status();
-		_8 = 1;
+		_9 = 1;
 		while (1) {
-			if (_8) {
-				_8 = 0;
+			if (_9) {
+				_9 = 0;
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, &_4, "next", NULL, 0);
+				ZEPHIR_CALL_METHOD(NULL, _5, "next", NULL, 0);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_7, &_4, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_8, _5, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_7)) {
+			if (!zend_is_true(&_8)) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&formatter, &_4, "current", NULL, 0);
+			ZEPHIR_CALL_METHOD(&formatter, _5, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_9$$6, &formatter, "accepts", NULL, 0, &accept);
+				ZEPHIR_CALL_METHOD(&_10$$6, &formatter, "accepts", NULL, 0, &accept);
 				zephir_check_call_status();
-				if (zephir_is_true(&_9$$6)) {
+				if (zephir_is_true(&_10$$6)) {
 					ZEPHIR_CPY_WRT(&chosen, &formatter);
 					break;
 				}
@@ -179,17 +187,17 @@ PHP_METHOD(Phalcon_ADR_Responder_FormatResponder, __invoke)
 	}
 	ZEPHIR_INIT_NVAR(&formatter);
 	if (Z_TYPE_P(&chosen) == IS_NULL) {
-		zephir_read_property_cached(&_10$$8, this_ptr, _zephir_prop_0, 363, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_11$$8, this_ptr, _zephir_prop_0, 363, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_NVAR(&chosen);
-		zephir_array_fetch_long(&chosen, &_10$$8, 0, PH_NOISY, "phalcon/ADR/Responder/FormatResponder.zep", 61);
+		zephir_array_fetch_long(&chosen, &_11$$8, 0, PH_NOISY, "phalcon/ADR/Responder/FormatResponder.zep", 61);
 	}
-	ZEPHIR_CALL_METHOD(&_12, &chosen, "contenttype", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_13, &chosen, "contenttype", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_11, response, "setcontenttype", NULL, 0, &_12);
+	ZEPHIR_CALL_METHOD(&_12, response, "setcontenttype", NULL, 0, &_13);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_13, &chosen, "format", NULL, 0, payload);
+	ZEPHIR_CALL_METHOD(&_14, &chosen, "format", NULL, 0, payload);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &_11, "setcontent", NULL, 0, &_13);
+	ZEPHIR_CALL_METHOD(NULL, &_12, "setcontent", NULL, 0, &_14);
 	zephir_check_call_status();
 	RETVAL_ZVAL(response, 1, 0);
 	RETURN_MM();

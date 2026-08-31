@@ -17,6 +17,7 @@
 #include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
+#include "kernel/string.h"
 
 
 /**
@@ -285,13 +286,13 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getProperties)
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getMethod)
 {
-	zend_bool _6$$3;
-	zend_ulong _1$$3;
+	zend_bool _8$$3;
+	zend_ulong _3$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_4 = NULL;
+	zephir_fcall_cache_entry *_6 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval className_zv, methodName_zv, classAnnotations, methods, method, methodKey, *_0$$3, _5$$3, _3$$5, _7$$7;
-	zend_string *className = NULL, *methodName = NULL, *_2$$3;
+	zval className_zv, methodName_zv, classAnnotations, methods, method, methodKey, *_0$$3, _1$$3, *_2$$3, _7$$3, _5$$5, _9$$7;
+	zend_string *className = NULL, *methodName = NULL, *_4$$3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&className_zv);
@@ -300,9 +301,10 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getMethod)
 	ZVAL_UNDEF(&methods);
 	ZVAL_UNDEF(&method);
 	ZVAL_UNDEF(&methodKey);
-	ZVAL_UNDEF(&_5$$3);
-	ZVAL_UNDEF(&_3$$5);
-	ZVAL_UNDEF(&_7$$7);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_7$$3);
+	ZVAL_UNDEF(&_5$$5);
+	ZVAL_UNDEF(&_9$$7);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(className)
 		Z_PARAM_STR(methodName)
@@ -322,47 +324,54 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getMethod)
 		if (zephir_array_isset_fetch(&method, &methods, &methodName_zv, 0)) {
 			RETURN_CCTOR(&method);
 		}
-		zephir_is_iterable(&methods, 0, "phalcon/Annotations/Adapter/AbstractAdapter.zep", 194);
-		if (Z_TYPE_P(&methods) == IS_ARRAY) {
-			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&methods), _1$$3, _2$$3, _0$$3)
+		if (Z_TYPE_P(&methods) == IS_STRING) {
+			ZEPHIR_INIT_VAR(&_1$$3);
+			zephir_string_to_char_array(&_1$$3, &methods);
+			_0$$3 = &_1$$3;
+		} else {
+			_0$$3 = &methods;
+		}
+		zephir_is_iterable(_0$$3, 0, "phalcon/Annotations/Adapter/AbstractAdapter.zep", 194);
+		if (Z_TYPE_P(_0$$3) == IS_ARRAY) {
+			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_0$$3), _3$$3, _4$$3, _2$$3)
 			{
 				ZEPHIR_INIT_NVAR(&methodKey);
-				if (_2$$3 != NULL) { 
-					ZVAL_STR_COPY(&methodKey, _2$$3);
+				if (_4$$3 != NULL) { 
+					ZVAL_STR_COPY(&methodKey, _4$$3);
 				} else {
-					ZVAL_LONG(&methodKey, _1$$3);
+					ZVAL_LONG(&methodKey, _3$$3);
 				}
 				ZEPHIR_INIT_NVAR(&method);
-				ZVAL_COPY(&method, _0$$3);
-				ZEPHIR_CALL_FUNCTION(&_3$$5, "strcasecmp", &_4, 87, &methodKey, &methodName_zv);
+				ZVAL_COPY(&method, _2$$3);
+				ZEPHIR_CALL_FUNCTION(&_5$$5, "strcasecmp", &_6, 87, &methodKey, &methodName_zv);
 				zephir_check_call_status();
-				if (!(zephir_is_true(&_3$$5))) {
+				if (!(zephir_is_true(&_5$$5))) {
 					RETURN_CCTOR(&method);
 				}
 			} ZEND_HASH_FOREACH_END();
 		} else {
-			ZEPHIR_CALL_METHOD(NULL, &methods, "rewind", NULL, 0);
+			ZEPHIR_CALL_METHOD(NULL, _0$$3, "rewind", NULL, 0);
 			zephir_check_call_status();
-			_6$$3 = 1;
+			_8$$3 = 1;
 			while (1) {
-				if (_6$$3) {
-					_6$$3 = 0;
+				if (_8$$3) {
+					_8$$3 = 0;
 				} else {
-					ZEPHIR_CALL_METHOD(NULL, &methods, "next", NULL, 0);
+					ZEPHIR_CALL_METHOD(NULL, _0$$3, "next", NULL, 0);
 					zephir_check_call_status();
 				}
-				ZEPHIR_CALL_METHOD(&_5$$3, &methods, "valid", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_7$$3, _0$$3, "valid", NULL, 0);
 				zephir_check_call_status();
-				if (!zend_is_true(&_5$$3)) {
+				if (!zend_is_true(&_7$$3)) {
 					break;
 				}
-				ZEPHIR_CALL_METHOD(&methodKey, &methods, "key", NULL, 0);
+				ZEPHIR_CALL_METHOD(&methodKey, _0$$3, "key", NULL, 0);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&method, &methods, "current", NULL, 0);
+				ZEPHIR_CALL_METHOD(&method, _0$$3, "current", NULL, 0);
 				zephir_check_call_status();
-					ZEPHIR_CALL_FUNCTION(&_7$$7, "strcasecmp", &_4, 87, &methodKey, &methodName_zv);
+					ZEPHIR_CALL_FUNCTION(&_9$$7, "strcasecmp", &_6, 87, &methodKey, &methodName_zv);
 					zephir_check_call_status();
-					if (!(zephir_is_true(&_7$$7))) {
+					if (!(zephir_is_true(&_9$$7))) {
 						RETURN_CCTOR(&method);
 					}
 			}

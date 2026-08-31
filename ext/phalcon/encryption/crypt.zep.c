@@ -1827,10 +1827,10 @@ PHP_METHOD(Phalcon_Encryption_Crypt, encryptGcmCcm)
  */
 PHP_METHOD(Phalcon_Encryption_Crypt, initializeAvailableCiphers)
 {
-	zend_bool _8, _4$$4, _5$$4, _6$$4, _9$$6, _10$$6, _11$$6;
+	zend_bool _9, _5$$4, _6$$4, _7$$4, _10$$6, _11$$6, _12$$6;
 	zval allowed;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval __$true, available, cipher, _0, _1, *_3, _7, _2$$3;
+	zval __$true, available, cipher, _0, _1, *_3, *_4, _8, _2$$3;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -1839,7 +1839,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, initializeAvailableCiphers)
 	ZVAL_UNDEF(&cipher);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_7);
+	ZVAL_UNDEF(&_8);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&allowed);
 	static zend_string *_zephir_prop_0 = NULL;
@@ -1866,59 +1866,66 @@ PHP_METHOD(Phalcon_Encryption_Crypt, initializeAvailableCiphers)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&allowed);
 	array_init(&allowed);
-	zephir_is_iterable(&available, 0, "phalcon/Encryption/Crypt.zep", 993);
-	if (Z_TYPE_P(&available) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&available), _3)
+	if (Z_TYPE_P(&available) == IS_STRING) {
+		ZEPHIR_INIT_NVAR(&_1);
+		zephir_string_to_char_array(&_1, &available);
+		_3 = &_1;
+	} else {
+		_3 = &available;
+	}
+	zephir_is_iterable(_3, 0, "phalcon/Encryption/Crypt.zep", 993);
+	if (Z_TYPE_P(_3) == IS_ARRAY) {
+		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_3), _4)
 		{
 			ZEPHIR_INIT_NVAR(&cipher);
-			ZVAL_COPY(&cipher, _3);
-			_4$$4 = 1 != zephir_start_with_str(&cipher, SL("des"));
-			if (_4$$4) {
-				_4$$4 = 1 != zephir_start_with_str(&cipher, SL("rc2"));
-			}
-			_5$$4 = _4$$4;
+			ZVAL_COPY(&cipher, _4);
+			_5$$4 = 1 != zephir_start_with_str(&cipher, SL("des"));
 			if (_5$$4) {
-				_5$$4 = 1 != zephir_start_with_str(&cipher, SL("rc4"));
+				_5$$4 = 1 != zephir_start_with_str(&cipher, SL("rc2"));
 			}
 			_6$$4 = _5$$4;
 			if (_6$$4) {
-				_6$$4 = 1 != zephir_end_with_str(&cipher, SL("ecb"));
+				_6$$4 = 1 != zephir_start_with_str(&cipher, SL("rc4"));
 			}
-			if (_6$$4) {
+			_7$$4 = _6$$4;
+			if (_7$$4) {
+				_7$$4 = 1 != zephir_end_with_str(&cipher, SL("ecb"));
+			}
+			if (_7$$4) {
 				zephir_array_update_zval(&allowed, &cipher, &cipher, PH_COPY | PH_SEPARATE);
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
-		ZEPHIR_CALL_METHOD(NULL, &available, "rewind", NULL, 0);
+		ZEPHIR_CALL_METHOD(NULL, _3, "rewind", NULL, 0);
 		zephir_check_call_status();
-		_8 = 1;
+		_9 = 1;
 		while (1) {
-			if (_8) {
-				_8 = 0;
+			if (_9) {
+				_9 = 0;
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, &available, "next", NULL, 0);
+				ZEPHIR_CALL_METHOD(NULL, _3, "next", NULL, 0);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_7, &available, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_8, _3, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_7)) {
+			if (!zend_is_true(&_8)) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&cipher, &available, "current", NULL, 0);
+			ZEPHIR_CALL_METHOD(&cipher, _3, "current", NULL, 0);
 			zephir_check_call_status();
-				_9$$6 = 1 != zephir_start_with_str(&cipher, SL("des"));
-				if (_9$$6) {
-					_9$$6 = 1 != zephir_start_with_str(&cipher, SL("rc2"));
-				}
-				_10$$6 = _9$$6;
+				_10$$6 = 1 != zephir_start_with_str(&cipher, SL("des"));
 				if (_10$$6) {
-					_10$$6 = 1 != zephir_start_with_str(&cipher, SL("rc4"));
+					_10$$6 = 1 != zephir_start_with_str(&cipher, SL("rc2"));
 				}
 				_11$$6 = _10$$6;
 				if (_11$$6) {
-					_11$$6 = 1 != zephir_end_with_str(&cipher, SL("ecb"));
+					_11$$6 = 1 != zephir_start_with_str(&cipher, SL("rc4"));
 				}
-				if (_11$$6) {
+				_12$$6 = _11$$6;
+				if (_12$$6) {
+					_12$$6 = 1 != zephir_end_with_str(&cipher, SL("ecb"));
+				}
+				if (_12$$6) {
 					zephir_array_update_zval(&allowed, &cipher, &cipher, PH_COPY | PH_SEPARATE);
 				}
 		}
@@ -2127,7 +2134,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt, doDecodeUrl)
 	zephir_get_strval(&input, input_param);
 	ZEPHIR_CALL_FUNCTION(&_0, "mb_strlen", NULL, 0, &input);
 	zephir_check_call_status();
-	remainder = (long) (zephir_safe_mod_zval_long(&_0, 4));
+	remainder = zephir_safe_mod_zval_long(&_0, 4);
 	if (remainder) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "=");

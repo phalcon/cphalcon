@@ -660,7 +660,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processBackground)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 4, 0, &red_param, &green_param, &blue_param, &opacity_param);
-	localOpacity =  (zephir_safe_div_double_long((double) opacity, (double) (100)));
+	localOpacity =  (zephir_safe_div_double_long((double) opacity, 100));
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "rgb(%d, %d, %d)");
 	ZVAL_LONG(&_1, red);
@@ -1261,7 +1261,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processReflection)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &fade, "newpseudoimage", NULL, 0, &_15, &_16, &pseudo);
 	zephir_check_call_status();
-	fadeOpacity =  (zephir_safe_div_double_long((double) opacity, (double) (100)));
+	fadeOpacity =  (zephir_safe_div_double_long((double) opacity, 100));
 	ZVAL_LONG(&_2, 0);
 	ZEPHIR_CALL_METHOD(NULL, &reflection, "setiteratorindex", NULL, 0, &_2);
 	zephir_check_call_status();
@@ -1812,7 +1812,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processSharpen)
 		ZVAL_LONG(&_0, amount);
 	}
 	amount = zephir_get_numberval(&_0);
-	sigma =  (zephir_safe_div_double_long(((double) amount * 3.0), (double) (100)));
+	sigma =  (zephir_safe_div_double_long(((double) amount * 3.0), 100));
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 928, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&image, &_1);
 	ZVAL_LONG(&_1, 0);
@@ -1912,7 +1912,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processText)
 		zephir_memory_observe(&fontFile_zv);
 	ZVAL_STR_COPY(&fontFile_zv, fontFile);
 	}
-	textOpacity =  (zephir_safe_div_double_long((double) opacity, (double) (100)));
+	textOpacity =  (zephir_safe_div_double_long((double) opacity, 100));
 	ZEPHIR_INIT_VAR(&draw);
 	object_init_ex(&draw, zephir_get_internal_ce(SL("imagickdraw")));
 	ZEPHIR_CALL_METHOD(NULL, &draw, "__construct", NULL, 0);
@@ -2176,7 +2176,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processWatermark)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 4, 0, &watermark, &offsetX_param, &offsetY_param, &opacity_param);
-	watermarkOpacity =  (zephir_safe_div_double_long((double) opacity, (double) (100)));
+	watermarkOpacity =  (zephir_safe_div_double_long((double) opacity, 100));
 	ZEPHIR_INIT_VAR(&image);
 	object_init_ex(&image, zephir_get_internal_ce(SL("imagick")));
 	ZEPHIR_CALL_METHOD(NULL, &image, "__construct", NULL, 0);

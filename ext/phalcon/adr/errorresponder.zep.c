@@ -17,6 +17,7 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
+#include "kernel/string.h"
 
 
 /**
@@ -388,7 +389,7 @@ PHP_METHOD(Phalcon_ADR_ErrorResponder, resolveStatus)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *exception, exception_sub, className, ancestor, ancestors, _0, _3, _4, _5, _6, *_7, _1$$3, _2$$3, _8$$4, _9$$5, _10$$5;
+	zval *exception, exception_sub, className, ancestor, ancestors, _0, _3, _4, _5, _6, *_7, _8, *_9, _1$$3, _2$$3, _10$$4, _11$$5, _12$$5;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&exception_sub);
@@ -400,11 +401,12 @@ PHP_METHOD(Phalcon_ADR_ErrorResponder, resolveStatus)
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_8);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
-	ZVAL_UNDEF(&_8$$4);
-	ZVAL_UNDEF(&_9$$5);
-	ZVAL_UNDEF(&_10$$5);
+	ZVAL_UNDEF(&_10$$4);
+	ZVAL_UNDEF(&_11$$5);
+	ZVAL_UNDEF(&_12$$5);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("exceptionMap", 12, 1);
@@ -434,16 +436,23 @@ PHP_METHOD(Phalcon_ADR_ErrorResponder, resolveStatus)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&ancestors);
 	zephir_fast_array_merge(&ancestors, &_4, &_6);
-	zephir_is_iterable(&ancestors, 0, "phalcon/ADR/ErrorResponder.zep", 184);
-	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&ancestors), _7)
+	if (Z_TYPE_P(&ancestors) == IS_STRING) {
+		ZEPHIR_INIT_VAR(&_8);
+		zephir_string_to_char_array(&_8, &ancestors);
+		_7 = &_8;
+	} else {
+		_7 = &ancestors;
+	}
+	zephir_is_iterable(_7, 0, "phalcon/ADR/ErrorResponder.zep", 184);
+	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_7), _9)
 	{
 		ZEPHIR_INIT_NVAR(&ancestor);
-		ZVAL_COPY(&ancestor, _7);
-		zephir_read_property_cached(&_8$$4, this_ptr, _zephir_prop_0, 350, PH_NOISY_CC | PH_READONLY);
-		if (zephir_array_isset_value(&_8$$4, &ancestor)) {
-			zephir_read_property_cached(&_9$$5, this_ptr, _zephir_prop_0, 350, PH_NOISY_CC | PH_READONLY);
-			zephir_array_fetch(&_10$$5, &_9$$5, &ancestor, PH_NOISY | PH_READONLY, "phalcon/ADR/ErrorResponder.zep", 180);
-			RETURN_CTOR(&_10$$5);
+		ZVAL_COPY(&ancestor, _9);
+		zephir_read_property_cached(&_10$$4, this_ptr, _zephir_prop_0, 350, PH_NOISY_CC | PH_READONLY);
+		if (zephir_array_isset_value(&_10$$4, &ancestor)) {
+			zephir_read_property_cached(&_11$$5, this_ptr, _zephir_prop_0, 350, PH_NOISY_CC | PH_READONLY);
+			zephir_array_fetch(&_12$$5, &_11$$5, &ancestor, PH_NOISY | PH_READONLY, "phalcon/ADR/ErrorResponder.zep", 180);
+			RETURN_CTOR(&_12$$5);
 		}
 	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&ancestor);

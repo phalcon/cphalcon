@@ -16,6 +16,7 @@
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
+#include "kernel/string.h"
 #include "kernel/array.h"
 
 
@@ -111,12 +112,12 @@ PHP_METHOD(Phalcon_Forms_Element_Select, __construct)
  */
 PHP_METHOD(Phalcon_Forms_Element_Select, addOption)
 {
-	zend_bool _7$$5;
-	zend_string *_5$$5;
-	zend_ulong _4$$5;
+	zend_bool _9$$5;
+	zend_string *_7$$5;
+	zend_ulong _6$$5;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *option, option_sub, key, value, _0, _2, _1$$3, *_3$$5, _6$$5;
+	zval *option, option_sub, key, value, _0, _2, _1$$3, *_3$$5, _4$$5, *_5$$5, _8$$5;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&option_sub);
@@ -125,7 +126,8 @@ PHP_METHOD(Phalcon_Forms_Element_Select, addOption)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_6$$5);
+	ZVAL_UNDEF(&_4$$5);
+	ZVAL_UNDEF(&_8$$5);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("optionsValues", 13, 1);
@@ -147,39 +149,46 @@ PHP_METHOD(Phalcon_Forms_Element_Select, addOption)
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 782, PH_NOISY_CC);
 	if (Z_TYPE_P(&_2) == IS_ARRAY) {
 		if (Z_TYPE_P(option) == IS_ARRAY) {
-			zephir_is_iterable(option, 0, "phalcon/Forms/Element/Select.zep", 64);
-			if (Z_TYPE_P(option) == IS_ARRAY) {
-				ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(option), _4$$5, _5$$5, _3$$5)
+			if (Z_TYPE_P(option) == IS_STRING) {
+				ZEPHIR_INIT_VAR(&_4$$5);
+				zephir_string_to_char_array(&_4$$5, option);
+				_3$$5 = &_4$$5;
+			} else {
+				_3$$5 = option;
+			}
+			zephir_is_iterable(_3$$5, 0, "phalcon/Forms/Element/Select.zep", 64);
+			if (Z_TYPE_P(_3$$5) == IS_ARRAY) {
+				ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_3$$5), _6$$5, _7$$5, _5$$5)
 				{
 					ZEPHIR_INIT_NVAR(&key);
-					if (_5$$5 != NULL) { 
-						ZVAL_STR_COPY(&key, _5$$5);
+					if (_7$$5 != NULL) { 
+						ZVAL_STR_COPY(&key, _7$$5);
 					} else {
-						ZVAL_LONG(&key, _4$$5);
+						ZVAL_LONG(&key, _6$$5);
 					}
 					ZEPHIR_INIT_NVAR(&value);
-					ZVAL_COPY(&value, _3$$5);
+					ZVAL_COPY(&value, _5$$5);
 					zephir_update_property_array(this_ptr, SL("optionsValues"), &key, &value);
 				} ZEND_HASH_FOREACH_END();
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, option, "rewind", NULL, 0);
+				ZEPHIR_CALL_METHOD(NULL, _3$$5, "rewind", NULL, 0);
 				zephir_check_call_status();
-				_7$$5 = 1;
+				_9$$5 = 1;
 				while (1) {
-					if (_7$$5) {
-						_7$$5 = 0;
+					if (_9$$5) {
+						_9$$5 = 0;
 					} else {
-						ZEPHIR_CALL_METHOD(NULL, option, "next", NULL, 0);
+						ZEPHIR_CALL_METHOD(NULL, _3$$5, "next", NULL, 0);
 						zephir_check_call_status();
 					}
-					ZEPHIR_CALL_METHOD(&_6$$5, option, "valid", NULL, 0);
+					ZEPHIR_CALL_METHOD(&_8$$5, _3$$5, "valid", NULL, 0);
 					zephir_check_call_status();
-					if (!zend_is_true(&_6$$5)) {
+					if (!zend_is_true(&_8$$5)) {
 						break;
 					}
-					ZEPHIR_CALL_METHOD(&key, option, "key", NULL, 0);
+					ZEPHIR_CALL_METHOD(&key, _3$$5, "key", NULL, 0);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&value, option, "current", NULL, 0);
+					ZEPHIR_CALL_METHOD(&value, _3$$5, "current", NULL, 0);
 					zephir_check_call_status();
 						zephir_update_property_array(this_ptr, SL("optionsValues"), &key, &value);
 				}

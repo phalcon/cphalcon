@@ -1045,13 +1045,14 @@ int zephir_update_property_array_multi(zval *object, const char *property, uint3
 			va_start(ap, types_count);
 			switch (types[0]) {
 				case 's': {
-					char *str = va_arg(ap, char*);
-					int len   = va_arg(ap, int);
+					char *str  = va_arg(ap, char*);
+					/* SL() pushes a size_t; see kernel/array.c. */
+					size_t len = va_arg(ap, size_t);
 					ZVAL_STRINGL(&offset, str, len);
 					break;
 				}
 				case 'l':
-					ZVAL_LONG(&offset, va_arg(ap, long));
+					ZVAL_LONG(&offset, va_arg(ap, zend_long));
 					break;
 				case 'z':
 					ZVAL_COPY(&offset, va_arg(ap, zval*));
@@ -1443,22 +1444,69 @@ int zephir_property_incr_decr(zval *object, char *property_name, unsigned int pr
 	return SUCCESS;
 }
 
-/* Imported since PHP is so nice to define this in a .c file... */
-typedef struct _zend_closure {
-	zend_object       std;
-	zend_function     func;
-	zval              this_ptr;
-	zend_class_entry *called_scope;
-	zif_handler       orig_internal_handler;
-} zend_closure;
+/**
+ * Writes a PHP reference into a declared property without dereferencing it.
+ *
+ * write_property() assigns *through* a reference, which is the opposite of
+ * what a by-reference closure capture needs: the carrier has to hold the
+ * reference itself, so that the closure and the enclosing scope keep sharing
+ * one storage slot.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2652
+ */
+int zephir_update_property_reference(zval *object, const char *property_name, uint32_t property_length, zval *value)
+{
+	zend_string *property;
+	zval *slot;
+
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+		php_error_docref(NULL, E_WARNING, "Attempt to assign property '%s' of non-object", property_name);
+		return FAILURE;
+	}
+
+	property = zend_string_init(property_name, property_length, 0);
+	slot     = zend_std_get_property_ptr_ptr(Z_OBJ_P(object), property, BP_VAR_W, NULL);
+	zend_string_release(property);
+
+	if (slot == NULL) {
+		return FAILURE;
+	}
+
+	zval_ptr_dtor(slot);
+	ZVAL_COPY(slot, value);
+
+	return SUCCESS;
+}
 
 /**
- * Creates a closure
+ * Turns a local into a PHP reference holding NULL.
+ *
+ * NULL rather than UNDEF on purpose: ZEPHIR_CPY_WRT() observes its
+ * destination when it is UNDEF, which would register the reference's inner
+ * slot with the memory frame and free it twice.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2652
  */
-int zephir_create_closure_ex(zval *return_value, zval *this_ptr, zend_class_entry *ce, const char *method_name, uint32_t method_length)
+void zephir_make_local_reference(zval *var)
+{
+	zval value;
+
+	ZVAL_NULL(&value);
+	ZVAL_NEW_REF(var, &value);
+}
+
+/**
+ * Creates a closure bound to `bound_this`, scoped by `scope_this`.
+ *
+ * A closure with `use (...)` captures binds a per-creation capture carrier as
+ * its `$this`, because that is the only per-instance slot the engine gives an
+ * internal-function closure. The scope has to keep coming from the enclosing
+ * object, or the body would lose access to its protected/private members.
+ * The two are the same object for every other closure.
+ */
+int zephir_create_closure_bound(zval *return_value, zval *bound_this, zval *scope_this, zend_class_entry *ce, const char *method_name, uint32_t method_length)
 {
 	zend_function *function_ptr;
-	zend_closure *closure;
 	zend_class_entry *scope_ce;
 
 	if ((function_ptr = zend_hash_str_find_ptr(&ce->function_table, method_name, method_length)) == NULL) {
@@ -1467,16 +1515,32 @@ int zephir_create_closure_ex(zval *return_value, zval *this_ptr, zend_class_entr
 	}
 
 	/**
-	 * When this_ptr is provided, use its class as the scope so the closure
-	 * can access protected/private members of the enclosing object.
+	 * When an enclosing object is provided, use its class as the scope so the
+	 * closure can access protected/private members of that object.
 	 */
-	scope_ce = (this_ptr && Z_TYPE_P(this_ptr) == IS_OBJECT) ? Z_OBJCE_P(this_ptr) : ce;
+	scope_ce = (scope_this && Z_TYPE_P(scope_this) == IS_OBJECT) ? Z_OBJCE_P(scope_this) : ce;
 
-	zend_create_closure(return_value, function_ptr, scope_ce, scope_ce, this_ptr);
-	// Make sure we can use a closure multiple times
-	closure = (zend_closure*)Z_OBJ_P(return_value);
-	closure->func.internal_function.handler = closure->orig_internal_handler;
+	/**
+	 * The engine wraps an internal function's handler with
+	 * zend_closure_internal_handler(), whose only job is to release the
+	 * reference every call path takes on the closure object
+	 * (zend_call_function() does it unconditionally for ZEND_ACC_CLOSURE, and
+	 * the internal-call teardown releases nothing else). Restoring
+	 * orig_internal_handler here used to bypass that release, so each
+	 * invocation leaked one reference and the closure - with everything it
+	 * held - was never freed.
+	 */
+	zend_create_closure(return_value, function_ptr, scope_ce, scope_ce, bound_this);
+
 	return SUCCESS;
+}
+
+/**
+ * Creates a closure whose bound object doubles as its scope.
+ */
+int zephir_create_closure_ex(zval *return_value, zval *this_ptr, zend_class_entry *ce, const char *method_name, uint32_t method_length)
+{
+	return zephir_create_closure_bound(return_value, this_ptr, this_ptr, ce, method_name, method_length);
 }
 
 /**

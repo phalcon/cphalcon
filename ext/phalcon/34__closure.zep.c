@@ -21,8 +21,8 @@ ZEPHIR_INIT_CLASS(phalcon_34__closure)
 {
 	ZEPHIR_REGISTER_CLASS(phalcon, 34__closure, phalcon, 34__closure, phalcon_34__closure_method_entry, ZEND_ACC_FINAL_CLASS);
 
-	zend_declare_property_null(phalcon_34__closure_ce, SL("schema"), ZEND_ACC_PUBLIC|ZEND_ACC_STATIC);
-	zend_declare_property_null(phalcon_34__closure_ce, SL("locator"), ZEND_ACC_PUBLIC|ZEND_ACC_STATIC);
+	zend_declare_property_null(phalcon_34__closure_ce, SL("schema"), ZEND_ACC_PUBLIC);
+	zend_declare_property_null(phalcon_34__closure_ce, SL("locator"), ZEND_ACC_PUBLIC);
 	return SUCCESS;
 }
 
@@ -31,6 +31,7 @@ PHP_METHOD(phalcon_34__closure, __invoke)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval schema, locator, *e, e_sub, _0;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&schema);
 	ZVAL_UNDEF(&locator);
@@ -41,8 +42,10 @@ PHP_METHOD(phalcon_34__closure, __invoke)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_read_static_property_ce(&locator, phalcon_34__closure_ce, SL("locator"), PH_NOISY_CC);
-	zephir_read_static_property_ce(&schema, phalcon_34__closure_ce, SL("schema"), PH_NOISY_CC);
+	zephir_memory_observe(&locator);
+	zephir_read_property(&locator, this_ptr, SL("locator"), PH_NOISY_CC);
+	zephir_memory_observe(&schema);
+	zephir_read_property(&schema, this_ptr, SL("schema"), PH_NOISY_CC);
 	zephir_fetch_params(1, 1, 0, &e);
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_forms_form_ce);
