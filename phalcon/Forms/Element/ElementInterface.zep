@@ -12,10 +12,10 @@ namespace Phalcon\Forms\Element;
 
 use Phalcon\Contracts\Forms\FormsTypes;
 use Phalcon\Contracts\Html\HtmlTypes;
+use Phalcon\Filter\Validation\ValidatorInterface;
 use Phalcon\Forms\Form;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Messages\Messages;
-use Phalcon\Filter\Validation\ValidatorInterface;
 
 /**
  * Interface for Phalcon\Forms\Element classes
@@ -40,11 +40,6 @@ interface ElementInterface
 
     /**
      * Adds a group of validators
-     *
-     * @param \Phalcon\Filter\Validation\ValidatorInterface[] validators
-     * @param bool merge
-     *
-     * @return ElementInterface
      *
      * @phpstan-param array<array-key, mixed> $validators
      */
@@ -79,8 +74,6 @@ interface ElementInterface
 
     /**
      * Returns the element's filters
-     *
-     * @return mixed
      *
      * @phpstan-return forms_filters
      */
@@ -168,8 +161,6 @@ interface ElementInterface
 
     /**
      * Sets the element's filters
-     *
-     * @param array|string filters
      *
      * @phpstan-param forms_filters|string $filters
      */

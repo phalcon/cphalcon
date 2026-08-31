@@ -32,18 +32,12 @@ use Phalcon\Html\TagFactory;
 class CheckGroup extends AbstractElement
 {
     /**
-     * @var array
-     *
      * @phpstan-var forms_group_options
      */
-    protected optionsValues = [];
+    protected array optionsValues = [];
 
     /**
      * Constructor
-     *
-     * @param string $name
-     * @param array  $options
-     * @param array  $attributes
      *
      * @phpstan-param forms_group_options $options
      * @phpstan-param forms_attributes $attributes
@@ -65,8 +59,6 @@ class CheckGroup extends AbstractElement
     /**
      * Returns the group options
      *
-     * @return array
-     *
      * @phpstan-return forms_group_options
      */
     public function getOptions() -> array
@@ -76,10 +68,6 @@ class CheckGroup extends AbstractElement
 
     /**
      * Renders the checkbox group returning HTML
-     *
-     * @param array $attributes
-     *
-     * @return string
      *
      * @phpstan-param html_attributes $attributes
      */
@@ -96,10 +84,6 @@ class CheckGroup extends AbstractElement
 
     /**
      * Sets the group options
-     *
-     * @param array $options
-     *
-     * @return ElementInterface
      *
      * @phpstan-param forms_group_options $options
      */

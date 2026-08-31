@@ -26,8 +26,8 @@ use Phalcon\Forms\Form;
  * @phpstan-type forms_group_options array<array-key, mixed>
  * @phpstan-type forms_locator_element_factory callable(string, forms_group_options, forms_attributes): ElementInterface
  * @phpstan-type forms_locator_elements array<string, forms_locator_element_factory>
- * @phpstan-type forms_locator_factories array<string, forms_locator_factory>
  * @phpstan-type forms_locator_factory callable(object|null): Form
+ * @phpstan-type forms_locator_factories array<string, forms_locator_factory>
  * @phpstan-type forms_options array<string, mixed>
  * @phpstan-type forms_schema_definition array{
  *     type: string,

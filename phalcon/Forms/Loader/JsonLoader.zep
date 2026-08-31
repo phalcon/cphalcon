@@ -28,10 +28,7 @@ class JsonLoader implements Schema
 {
     use FileTrait;
 
-    /**
-     * @var string
-     */
-    protected source;
+    protected string source;
 
     /**
      * @param string $source JSON string or path to a JSON file

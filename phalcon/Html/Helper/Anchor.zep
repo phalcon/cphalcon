@@ -37,7 +37,7 @@ class Anchor extends AbstractHelper
     }
 
     /**
-     * Produce a <a> tag
+     * Produce a `<a>` tag
      *
      * @phpstan-param html_attributes $attributes
      */

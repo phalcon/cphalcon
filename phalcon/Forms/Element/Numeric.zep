@@ -10,15 +10,10 @@
 
 namespace Phalcon\Forms\Element;
 
-use Phalcon\Tag;
-
 /**
  * Component INPUT[type=number] for forms
  */
 class Numeric extends AbstractElement
 {
-    /**
-     * @var string
-     */
-    protected method = "inputNumeric";
+    protected string method = "inputNumeric";
 }
