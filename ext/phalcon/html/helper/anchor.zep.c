@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Html_Helper_Anchor, __construct)
 }
 
 /**
- * Produce a <a> tag
+ * Produce a `<a>` tag
  *
  * @phpstan-param html_attributes $attributes
  */

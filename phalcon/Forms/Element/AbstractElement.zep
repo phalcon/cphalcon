@@ -10,7 +10,6 @@
 
 namespace Phalcon\Forms\Element;
 
-use InvalidArgumentException;
 use Phalcon\Contracts\Forms\FormsTypes;
 use Phalcon\Contracts\Html\HtmlTypes;
 use Phalcon\Di\Di;
@@ -23,6 +22,7 @@ use Phalcon\Forms\Form;
 use Phalcon\Html\TagFactory;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Messages\Messages;
+use Stringable;
 
 /**
  * This is a base class for form elements
@@ -36,62 +36,28 @@ use Phalcon\Messages\Messages;
 abstract class AbstractElement implements ElementInterface
 {
     /**
-     * @var array
-     *
      * @phpstan-var forms_attributes
      */
-    protected attributes = [];
+    protected array attributes = [];
 
     /**
-     * @var array
-     *
      * @phpstan-var forms_filters
      */
-    protected filters = [];
-
+    protected array filters = [];
+    protected ?<Form> form = null;
+    protected ?string label = null;
+    protected <Messages> messages;
+    protected string method = "inputText";
+    protected string name;
     /**
-     * @var Form|null
-     */
-    protected form = null;
-
-    /**
-     * @var string|null
-     */
-    protected label = null;
-
-    /**
-     * @var string
-     */
-    protected method = "inputText";
-
-    /**
-     * @var Messages
-     */
-    protected messages;
-
-    /**
-     * @var string
-     */
-    protected name;
-
-    /**
-     * @var array
-     *
      * @phpstan-var forms_options
      */
-    protected options = [];
-
+    protected array options = [];
+    protected ?<TagFactory> tagFactory = null;
     /**
-     * @var TagFactory|null
-     */
-    protected tagFactory = null;
-
-    /**
-     * @var array
-     *
      * @phpstan-var forms_validators
      */
-    protected validators = [];
+    protected array validators = [];
 
     /**
      * @var mixed|null
@@ -100,9 +66,6 @@ abstract class AbstractElement implements ElementInterface
 
     /**
      * Constructor
-     *
-     * @param string name       Attribute name (value of 'name' attribute of HTML element)
-     * @param array  attributes Additional HTML element attributes
      *
      * @phpstan-param forms_attributes $attributes
      */
@@ -150,12 +113,9 @@ abstract class AbstractElement implements ElementInterface
     /**
      * Adds a group of validators
      *
-     * @param \Phalcon\Filter\Validation\ValidatorInterface[] validators
-     * @param bool                                            merge
-     *
      * @phpstan-param array<array-key, mixed> $validators
      */
-    public function addValidators( array validators, bool merge = true) -> <ElementInterface>
+    public function addValidators(array validators, bool merge = true) -> <ElementInterface>
     {
         var validator;
 
@@ -237,8 +197,6 @@ abstract class AbstractElement implements ElementInterface
 
     /**
      * Returns the element filters
-     *
-     * @return mixed
      *
      * @phpstan-return forms_filters
      */
@@ -458,8 +416,6 @@ abstract class AbstractElement implements ElementInterface
 
     /**
      * Sets the element filters
-     *
-     * @param array|string filters
      *
      * @phpstan-param forms_filters|string $filters
      */

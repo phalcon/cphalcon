@@ -10,15 +10,10 @@
 
 namespace Phalcon\Forms\Element;
 
-use Phalcon\Tag;
-
 /**
  * Component INPUT[type=password] for forms
  */
 class Password extends AbstractElement
 {
-    /**
-     * @var string
-     */
-    protected method = "inputPassword";
+    protected string method = "inputPassword";
 }

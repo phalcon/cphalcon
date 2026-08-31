@@ -17,8 +17,8 @@
 #include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
-#include "kernel/concat.h"
 #include "kernel/string.h"
+#include "kernel/concat.h"
 
 
 /**
@@ -418,11 +418,11 @@ PHP_METHOD(Phalcon_Html_Helper_Breadcrumbs, remove)
  */
 PHP_METHOD(Phalcon_Html_Helper_Breadcrumbs, render)
 {
-	zend_bool _8;
-	zval output, _16;
-	zval data, lastUrl, lastElement, element, _0, _1, *_2, _7, _12, _13, _14, _15, _17, _18, _19, _20, _21, _22, _23, _24, _3$$4, _4$$4, _5$$4, _9$$5, _10$$5, _11$$5;
+	zend_bool _10;
+	zval output, _18;
+	zval data, lastUrl, lastElement, element, _0, _1, *_2, _3, *_4, _9, _14, _15, _16, _17, _19, _20, _21, _22, _23, _24, _25, _26, _5$$4, _6$$4, _7$$4, _11$$5, _12$$5, _13$$5;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_6 = NULL;
+	zephir_fcall_cache_entry *_8 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -432,27 +432,28 @@ PHP_METHOD(Phalcon_Html_Helper_Breadcrumbs, render)
 	ZVAL_UNDEF(&element);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_7);
-	ZVAL_UNDEF(&_12);
-	ZVAL_UNDEF(&_13);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_9);
 	ZVAL_UNDEF(&_14);
 	ZVAL_UNDEF(&_15);
+	ZVAL_UNDEF(&_16);
 	ZVAL_UNDEF(&_17);
-	ZVAL_UNDEF(&_18);
 	ZVAL_UNDEF(&_19);
 	ZVAL_UNDEF(&_20);
 	ZVAL_UNDEF(&_21);
 	ZVAL_UNDEF(&_22);
 	ZVAL_UNDEF(&_23);
 	ZVAL_UNDEF(&_24);
-	ZVAL_UNDEF(&_3$$4);
-	ZVAL_UNDEF(&_4$$4);
+	ZVAL_UNDEF(&_25);
+	ZVAL_UNDEF(&_26);
 	ZVAL_UNDEF(&_5$$4);
-	ZVAL_UNDEF(&_9$$5);
-	ZVAL_UNDEF(&_10$$5);
+	ZVAL_UNDEF(&_6$$4);
+	ZVAL_UNDEF(&_7$$4);
 	ZVAL_UNDEF(&_11$$5);
+	ZVAL_UNDEF(&_12$$5);
+	ZVAL_UNDEF(&_13$$5);
 	ZVAL_UNDEF(&output);
-	ZVAL_UNDEF(&_16);
+	ZVAL_UNDEF(&_18);
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	static zend_string *_zephir_prop_2 = NULL;
@@ -493,72 +494,79 @@ PHP_METHOD(Phalcon_Html_Helper_Breadcrumbs, render)
 	zephir_memory_observe(&lastElement);
 	zephir_array_fetch(&lastElement, &data, &lastUrl, PH_NOISY, "phalcon/Html/Helper/Breadcrumbs.zep", 229);
 	zephir_array_unset(&data, &lastUrl, PH_SEPARATE);
-	zephir_is_iterable(&data, 0, "phalcon/Html/Helper/Breadcrumbs.zep", 240);
-	if (Z_TYPE_P(&data) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&data), _2)
+	if (Z_TYPE_P(&data) == IS_STRING) {
+		ZEPHIR_INIT_VAR(&_3);
+		zephir_string_to_char_array(&_3, &data);
+		_2 = &_3;
+	} else {
+		_2 = &data;
+	}
+	zephir_is_iterable(_2, 0, "phalcon/Html/Helper/Breadcrumbs.zep", 240);
+	if (Z_TYPE_P(_2) == IS_ARRAY) {
+		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_2), _4)
 		{
 			ZEPHIR_INIT_NVAR(&element);
-			ZVAL_COPY(&element, _2);
-			zephir_read_property_cached(&_4$$4, this_ptr, _zephir_prop_1, 828, PH_NOISY_CC | PH_READONLY);
-			zephir_array_fetch_string(&_5$$4, &_4$$4, SL("line"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Breadcrumbs.zep", 234);
-			ZEPHIR_CALL_METHOD(&_3$$4, this_ptr, "getlink", &_6, 0, &_5$$4, &element);
+			ZVAL_COPY(&element, _4);
+			zephir_read_property_cached(&_6$$4, this_ptr, _zephir_prop_1, 828, PH_NOISY_CC | PH_READONLY);
+			zephir_array_fetch_string(&_7$$4, &_6$$4, SL("line"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Breadcrumbs.zep", 234);
+			ZEPHIR_CALL_METHOD(&_5$$4, this_ptr, "getlink", &_8, 0, &_7$$4, &element);
 			zephir_check_call_status();
-			zephir_array_append(&output, &_3$$4, PH_SEPARATE, "phalcon/Html/Helper/Breadcrumbs.zep", 234);
+			zephir_array_append(&output, &_5$$4, PH_SEPARATE, "phalcon/Html/Helper/Breadcrumbs.zep", 234);
 		} ZEND_HASH_FOREACH_END();
 	} else {
-		ZEPHIR_CALL_METHOD(NULL, &data, "rewind", NULL, 0);
+		ZEPHIR_CALL_METHOD(NULL, _2, "rewind", NULL, 0);
 		zephir_check_call_status();
-		_8 = 1;
+		_10 = 1;
 		while (1) {
-			if (_8) {
-				_8 = 0;
+			if (_10) {
+				_10 = 0;
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, &data, "next", NULL, 0);
+				ZEPHIR_CALL_METHOD(NULL, _2, "next", NULL, 0);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_7, &data, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_9, _2, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_7)) {
+			if (!zend_is_true(&_9)) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&element, &data, "current", NULL, 0);
+			ZEPHIR_CALL_METHOD(&element, _2, "current", NULL, 0);
 			zephir_check_call_status();
-				zephir_read_property_cached(&_10$$5, this_ptr, _zephir_prop_1, 828, PH_NOISY_CC | PH_READONLY);
-				zephir_array_fetch_string(&_11$$5, &_10$$5, SL("line"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Breadcrumbs.zep", 234);
-				ZEPHIR_CALL_METHOD(&_9$$5, this_ptr, "getlink", &_6, 0, &_11$$5, &element);
+				zephir_read_property_cached(&_12$$5, this_ptr, _zephir_prop_1, 828, PH_NOISY_CC | PH_READONLY);
+				zephir_array_fetch_string(&_13$$5, &_12$$5, SL("line"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Breadcrumbs.zep", 234);
+				ZEPHIR_CALL_METHOD(&_11$$5, this_ptr, "getlink", &_8, 0, &_13$$5, &element);
 				zephir_check_call_status();
-				zephir_array_append(&output, &_9$$5, PH_SEPARATE, "phalcon/Html/Helper/Breadcrumbs.zep", 234);
+				zephir_array_append(&output, &_11$$5, PH_SEPARATE, "phalcon/Html/Helper/Breadcrumbs.zep", 234);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&element);
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 828, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_13, &_1, SL("last"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Breadcrumbs.zep", 240);
-	ZEPHIR_CALL_METHOD(&_12, this_ptr, "getlink", &_6, 0, &_13, &lastElement);
+	zephir_array_fetch_string(&_15, &_1, SL("last"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Breadcrumbs.zep", 240);
+	ZEPHIR_CALL_METHOD(&_14, this_ptr, "getlink", &_8, 0, &_15, &lastElement);
 	zephir_check_call_status();
-	zephir_array_append(&output, &_12, PH_SEPARATE, "phalcon/Html/Helper/Breadcrumbs.zep", 240);
-	zephir_read_property_cached(&_14, this_ptr, _zephir_prop_1, 828, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_15, &_14, SL("main"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Breadcrumbs.zep", 243);
-	ZEPHIR_INIT_VAR(&_16);
-	zephir_create_array(&_16, 4, 0);
-	zephir_read_property_cached(&_18, this_ptr, _zephir_prop_2, 827, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_17, this_ptr, "processattributes", NULL, 0, &_18);
+	zephir_array_append(&output, &_14, PH_SEPARATE, "phalcon/Html/Helper/Breadcrumbs.zep", 240);
+	zephir_read_property_cached(&_16, this_ptr, _zephir_prop_1, 828, PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch_string(&_17, &_16, SL("main"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Breadcrumbs.zep", 243);
+	ZEPHIR_INIT_VAR(&_18);
+	zephir_create_array(&_18, 4, 0);
+	zephir_read_property_cached(&_20, this_ptr, _zephir_prop_2, 827, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(&_19, this_ptr, "processattributes", NULL, 0, &_20);
 	zephir_check_call_status();
-	zephir_array_update_string(&_16, SL("attributes"), &_17, PH_COPY | PH_SEPARATE);
-	zephir_memory_observe(&_19);
-	zephir_read_property_cached(&_19, this_ptr, _zephir_prop_3, 824, PH_NOISY_CC);
-	zephir_array_update_string(&_16, SL("delimiter"), &_19, PH_COPY | PH_SEPARATE);
-	ZEPHIR_OBS_NVAR(&_19);
-	zephir_read_property_cached(&_19, this_ptr, _zephir_prop_4, 825, PH_NOISY_CC);
-	zephir_array_update_string(&_16, SL("indent"), &_19, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_VAR(&_20);
-	zephir_read_property_cached(&_21, this_ptr, _zephir_prop_4, 825, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_22, this_ptr, _zephir_prop_5, 829, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_23, this_ptr, _zephir_prop_3, 824, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_INIT_VAR(&_24);
-	ZEPHIR_CONCAT_VVV(&_24, &_21, &_22, &_23);
-	zephir_fast_join(&_20, &_24, &output);
-	zephir_array_update_string(&_16, SL("items"), &_20, PH_COPY | PH_SEPARATE);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "tointerpolate", NULL, 0, &_15, &_16);
+	zephir_array_update_string(&_18, SL("attributes"), &_19, PH_COPY | PH_SEPARATE);
+	zephir_memory_observe(&_21);
+	zephir_read_property_cached(&_21, this_ptr, _zephir_prop_3, 824, PH_NOISY_CC);
+	zephir_array_update_string(&_18, SL("delimiter"), &_21, PH_COPY | PH_SEPARATE);
+	ZEPHIR_OBS_NVAR(&_21);
+	zephir_read_property_cached(&_21, this_ptr, _zephir_prop_4, 825, PH_NOISY_CC);
+	zephir_array_update_string(&_18, SL("indent"), &_21, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_VAR(&_22);
+	zephir_read_property_cached(&_23, this_ptr, _zephir_prop_4, 825, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_24, this_ptr, _zephir_prop_5, 829, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_25, this_ptr, _zephir_prop_3, 824, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_INIT_VAR(&_26);
+	ZEPHIR_CONCAT_VVV(&_26, &_23, &_24, &_25);
+	zephir_fast_join(&_22, &_26, &output);
+	zephir_array_update_string(&_18, SL("items"), &_22, PH_COPY | PH_SEPARATE);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "tointerpolate", NULL, 0, &_17, &_18);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -703,35 +711,33 @@ PHP_METHOD(Phalcon_Html_Helper_Breadcrumbs, toArray)
  */
 PHP_METHOD(Phalcon_Html_Helper_Breadcrumbs, getLink)
 {
-	zend_bool _1, _4;
+	zend_bool _0, _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval element, _12;
-	zval template_zv, *element_param = NULL, link, _0, _2, _3, _5, _10, _11, _13, _14, _15, _16, _17, _18, _19, _6$$3, _7$$3, _8$$4, _9$$4;
+	zval element, _10;
+	zval template_zv, *element_param = NULL, link, _1, _3, _8, _9, _11, _12, _13, _14, _15, _16, _17, _4$$3, _5$$3, _6$$4, _7$$4;
 	zend_string *template = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&template_zv);
 	ZVAL_UNDEF(&link);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_5);
-	ZVAL_UNDEF(&_10);
+	ZVAL_UNDEF(&_8);
+	ZVAL_UNDEF(&_9);
 	ZVAL_UNDEF(&_11);
+	ZVAL_UNDEF(&_12);
 	ZVAL_UNDEF(&_13);
 	ZVAL_UNDEF(&_14);
 	ZVAL_UNDEF(&_15);
 	ZVAL_UNDEF(&_16);
 	ZVAL_UNDEF(&_17);
-	ZVAL_UNDEF(&_18);
-	ZVAL_UNDEF(&_19);
-	ZVAL_UNDEF(&_6$$3);
-	ZVAL_UNDEF(&_7$$3);
-	ZVAL_UNDEF(&_8$$4);
-	ZVAL_UNDEF(&_9$$4);
+	ZVAL_UNDEF(&_4$$3);
+	ZVAL_UNDEF(&_5$$3);
+	ZVAL_UNDEF(&_6$$4);
+	ZVAL_UNDEF(&_7$$4);
 	ZVAL_UNDEF(&element);
-	ZVAL_UNDEF(&_12);
+	ZVAL_UNDEF(&_10);
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	static zend_string *_zephir_prop_2 = NULL;
@@ -763,57 +769,55 @@ PHP_METHOD(Phalcon_Html_Helper_Breadcrumbs, getLink)
 	zephir_memory_observe(&template_zv);
 	ZVAL_STR_COPY(&template_zv, template);
 	zephir_get_arrval(&element, element_param);
-	zephir_array_fetch_string(&_0, &element, SL("link"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Breadcrumbs.zep", 326);
-	_1 = !(ZEPHIR_IS_EMPTY(&_0));
-	if (_1) {
-		zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 823, PH_NOISY_CC | PH_READONLY);
-		_1 = Z_TYPE_P(&_2) != IS_NULL;
+	_0 = !(zephir_isempty_dim_string(&element, SL("link")));
+	if (_0) {
+		zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 823, PH_NOISY_CC | PH_READONLY);
+		_0 = Z_TYPE_P(&_1) != IS_NULL;
 	}
-	if (_1) {
-		zephir_read_property_cached(&_6$$3, this_ptr, _zephir_prop_0, 823, PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch_string(&_7$$3, &element, SL("link"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Breadcrumbs.zep", 327);
-		ZEPHIR_CALL_METHOD(&link, &_6$$3, "get", NULL, 0, &_7$$3);
+	if (_0) {
+		zephir_read_property_cached(&_4$$3, this_ptr, _zephir_prop_0, 823, PH_NOISY_CC | PH_READONLY);
+		zephir_array_fetch_string(&_5$$3, &element, SL("link"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Breadcrumbs.zep", 327);
+		ZEPHIR_CALL_METHOD(&link, &_4$$3, "get", NULL, 0, &_5$$3);
 		zephir_check_call_status();
 	} else {
-		zephir_array_fetch_string(&_3, &element, SL("link"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Breadcrumbs.zep", 328);
-		_4 = !(ZEPHIR_IS_EMPTY(&_3));
-		if (_4) {
-			zephir_read_property_cached(&_5, this_ptr, _zephir_prop_1, 830, PH_NOISY_CC | PH_READONLY);
-			_4 = !(ZEPHIR_IS_EMPTY(&_5));
+		_2 = !(zephir_isempty_dim_string(&element, SL("link")));
+		if (_2) {
+			zephir_read_property_cached(&_3, this_ptr, _zephir_prop_1, 830, PH_NOISY_CC | PH_READONLY);
+			_2 = !(ZEPHIR_IS_EMPTY(&_3));
 		}
-		if (_4) {
-			zephir_read_property_cached(&_8$$4, this_ptr, _zephir_prop_1, 830, PH_NOISY_CC | PH_READONLY);
-			zephir_array_fetch_string(&_9$$4, &element, SL("link"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Breadcrumbs.zep", 329);
+		if (_2) {
+			zephir_read_property_cached(&_6$$4, this_ptr, _zephir_prop_1, 830, PH_NOISY_CC | PH_READONLY);
+			zephir_array_fetch_string(&_7$$4, &element, SL("link"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Breadcrumbs.zep", 329);
 			ZEPHIR_INIT_NVAR(&link);
-			ZEPHIR_CONCAT_VV(&link, &_8$$4, &_9$$4);
+			ZEPHIR_CONCAT_VV(&link, &_6$$4, &_7$$4);
 		} else {
 			ZEPHIR_OBS_NVAR(&link);
 			zephir_array_fetch_string(&link, &element, SL("link"), PH_NOISY, "phalcon/Html/Helper/Breadcrumbs.zep", 331);
 		}
 	}
-	zephir_read_property_cached(&_10, this_ptr, _zephir_prop_2, 825, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_INIT_VAR(&_12);
-	zephir_create_array(&_12, 4, 0);
-	zephir_array_fetch_string(&_14, &element, SL("attributes"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Breadcrumbs.zep", 338);
-	ZEPHIR_CALL_METHOD(&_13, this_ptr, "processattributes", NULL, 0, &_14);
+	zephir_read_property_cached(&_8, this_ptr, _zephir_prop_2, 825, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_INIT_VAR(&_10);
+	zephir_create_array(&_10, 4, 0);
+	zephir_array_fetch_string(&_12, &element, SL("attributes"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Breadcrumbs.zep", 338);
+	ZEPHIR_CALL_METHOD(&_11, this_ptr, "processattributes", NULL, 0, &_12);
 	zephir_check_call_status();
-	zephir_array_update_string(&_12, SL("attributes"), &_13, PH_COPY | PH_SEPARATE);
-	zephir_memory_observe(&_15);
-	zephir_array_fetch_string(&_15, &element, SL("icon"), PH_NOISY, "phalcon/Html/Helper/Breadcrumbs.zep", 339);
-	zephir_array_update_string(&_12, SL("icon"), &_15, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&_10, SL("attributes"), &_11, PH_COPY | PH_SEPARATE);
+	zephir_memory_observe(&_13);
+	zephir_array_fetch_string(&_13, &element, SL("icon"), PH_NOISY, "phalcon/Html/Helper/Breadcrumbs.zep", 339);
+	zephir_array_update_string(&_10, SL("icon"), &_13, PH_COPY | PH_SEPARATE);
+	zephir_read_property_cached(&_14, this_ptr, _zephir_prop_3, 831, PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch_string(&_15, &element, SL("text"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Breadcrumbs.zep", 340);
+	ZEPHIR_CALL_METHOD(&_11, &_14, "html", NULL, 0, &_15);
+	zephir_check_call_status();
+	zephir_array_update_string(&_10, SL("text"), &_11, PH_COPY | PH_SEPARATE);
 	zephir_read_property_cached(&_16, this_ptr, _zephir_prop_3, 831, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_17, &element, SL("text"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Breadcrumbs.zep", 340);
-	ZEPHIR_CALL_METHOD(&_13, &_16, "html", NULL, 0, &_17);
+	ZEPHIR_CALL_METHOD(&_11, &_16, "attributes", NULL, 0, &link);
 	zephir_check_call_status();
-	zephir_array_update_string(&_12, SL("text"), &_13, PH_COPY | PH_SEPARATE);
-	zephir_read_property_cached(&_18, this_ptr, _zephir_prop_3, 831, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_13, &_18, "attributes", NULL, 0, &link);
+	zephir_array_update_string(&_10, SL("link"), &_11, PH_COPY | PH_SEPARATE);
+	ZEPHIR_CALL_METHOD(&_9, this_ptr, "tointerpolate", NULL, 0, &template_zv, &_10);
 	zephir_check_call_status();
-	zephir_array_update_string(&_12, SL("link"), &_13, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(&_11, this_ptr, "tointerpolate", NULL, 0, &template_zv, &_12);
-	zephir_check_call_status();
-	zephir_read_property_cached(&_19, this_ptr, _zephir_prop_4, 824, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CONCAT_VVV(return_value, &_10, &_11, &_19);
+	zephir_read_property_cached(&_17, this_ptr, _zephir_prop_4, 824, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CONCAT_VVV(return_value, &_8, &_9, &_17);
 	RETURN_MM();
 }
 

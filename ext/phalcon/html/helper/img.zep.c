@@ -43,7 +43,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Img)
 }
 
 /**
- * Produce a <img> tag.
+ * Produce a `<img>` tag.
  *
  * @phpstan-param html_attributes $attributes
  */

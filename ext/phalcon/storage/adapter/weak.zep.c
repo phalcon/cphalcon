@@ -175,7 +175,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Weak, getKeys)
 	zval results;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval prefix_zv, keys, key, _0, _1, *_2$$3;
+	zval prefix_zv, keys, key, _0, _1, *_2$$3, _3$$3, *_4$$3;
 	zend_string *prefix = NULL;
 	zval *this_ptr = getThis();
 
@@ -184,6 +184,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Weak, getKeys)
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&results);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -212,11 +213,18 @@ PHP_METHOD(Phalcon_Storage_Adapter_Weak, getKeys)
 	if (UNEXPECTED(!ZEPHIR_IS_IDENTICAL(&_1, &prefix_zv))) {
 		ZEPHIR_INIT_VAR(&results);
 		array_init(&results);
-		zephir_is_iterable(&keys, 0, "phalcon/Storage/Adapter/Weak.zep", 93);
-		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&keys), _2$$3)
+		if (Z_TYPE_P(&keys) == IS_STRING) {
+			ZEPHIR_INIT_VAR(&_3$$3);
+			zephir_string_to_char_array(&_3$$3, &keys);
+			_2$$3 = &_3$$3;
+		} else {
+			_2$$3 = &keys;
+		}
+		zephir_is_iterable(_2$$3, 0, "phalcon/Storage/Adapter/Weak.zep", 93);
+		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_2$$3), _4$$3)
 		{
 			ZEPHIR_INIT_NVAR(&key);
-			ZVAL_COPY(&key, _2$$3);
+			ZVAL_COPY(&key, _4$$3);
 			if (zephir_start_with(&key, &prefix_zv, NULL)) {
 				zephir_array_append(&results, &key, PH_SEPARATE, "phalcon/Storage/Adapter/Weak.zep", 90);
 			}

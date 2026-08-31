@@ -1,4 +1,17 @@
 
+#ifdef HAVE_CONFIG_H
+#include "../../../ext_config.h"
+#endif
+
+#include <php.h>
+#include "../../../php_ext.h"
+#include "../../../ext.h"
+
+#include <Zend/zend_exceptions.h>
+
+#include "kernel/main.h"
+
+
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -7,14 +20,6 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
-
-
-namespace Phalcon\Contracts\Forms;
-
-use Phalcon\Filter\Validation\ValidatorInterface;
-use Phalcon\Forms\Element\ElementInterface;
-use Phalcon\Forms\Form;
-
 /**
  * Central registry of the array shapes used across the Forms namespace.
  *
@@ -43,6 +48,10 @@ use Phalcon\Forms\Form;
  * @phpstan-type forms_validators list<ValidatorInterface>
  * @phpstan-type forms_whitelist array<array-key, string>
  */
-interface FormsTypes
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Forms_FormsTypes)
 {
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Contracts\\Forms, FormsTypes, phalcon, contracts_forms_formstypes, NULL);
+
+	return SUCCESS;
 }
+

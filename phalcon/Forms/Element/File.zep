@@ -10,15 +10,10 @@
 
 namespace Phalcon\Forms\Element;
 
-use Phalcon\Tag;
-
 /**
  * Component INPUT[type=file] for forms
  */
 class File extends AbstractElement
 {
-    /**
-     * @var string
-     */
-    protected method = "inputFile";
+    protected string method = "inputFile";
 }

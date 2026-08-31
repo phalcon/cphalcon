@@ -1818,39 +1818,40 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, query)
  */
 PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, quote)
 {
-	zval _2$$3, _10$$4, _18$$5;
-	zend_bool _15;
-	zend_string *_7;
-	zend_ulong _6;
+	zval _2$$3, _12$$4, _20$$5;
+	zend_bool _17;
+	zend_string *_9;
+	zend_ulong _8;
 	zval elements;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long type, ZEPHIR_LAST_CALL_STATUS;
-	zval *value, value_sub, *type_param = NULL, element, key, quotes, *_5, _14, _0$$3, _1$$3, _3$$3, _4$$3, _8$$4, _9$$4, _11$$4, _12$$4, _13$$4, _16$$5, _17$$5, _19$$5, _20$$5, _21$$5;
+	zval *value, value_sub, *type_param = NULL, element, key, quotes, *_5, _6, *_7, _16, _0$$3, _1$$3, _3$$3, _4$$3, _10$$4, _11$$4, _13$$4, _14$$4, _15$$4, _18$$5, _19$$5, _21$$5, _22$$5, _23$$5;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&value_sub);
 	ZVAL_UNDEF(&element);
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&quotes);
-	ZVAL_UNDEF(&_14);
+	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_16);
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_4$$3);
-	ZVAL_UNDEF(&_8$$4);
-	ZVAL_UNDEF(&_9$$4);
+	ZVAL_UNDEF(&_10$$4);
 	ZVAL_UNDEF(&_11$$4);
-	ZVAL_UNDEF(&_12$$4);
 	ZVAL_UNDEF(&_13$$4);
-	ZVAL_UNDEF(&_16$$5);
-	ZVAL_UNDEF(&_17$$5);
+	ZVAL_UNDEF(&_14$$4);
+	ZVAL_UNDEF(&_15$$4);
+	ZVAL_UNDEF(&_18$$5);
 	ZVAL_UNDEF(&_19$$5);
-	ZVAL_UNDEF(&_20$$5);
 	ZVAL_UNDEF(&_21$$5);
+	ZVAL_UNDEF(&_22$$5);
+	ZVAL_UNDEF(&_23$$5);
 	ZVAL_UNDEF(&elements);
 	ZVAL_UNDEF(&_2$$3);
-	ZVAL_UNDEF(&_10$$4);
-	ZVAL_UNDEF(&_18$$5);
+	ZVAL_UNDEF(&_12$$4);
+	ZVAL_UNDEF(&_20$$5);
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ZVAL(value)
 		Z_PARAM_OPTIONAL
@@ -1881,59 +1882,66 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, quote)
 		ZEPHIR_CONCAT_VVV(return_value, &_3$$3, &element, &_4$$3);
 		RETURN_MM();
 	}
-	zephir_is_iterable(value, 0, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 838);
-	if (Z_TYPE_P(value) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(value), _6, _7, _5)
+	if (Z_TYPE_P(value) == IS_STRING) {
+		ZEPHIR_INIT_VAR(&_6);
+		zephir_string_to_char_array(&_6, value);
+		_5 = &_6;
+	} else {
+		_5 = value;
+	}
+	zephir_is_iterable(_5, 0, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 838);
+	if (Z_TYPE_P(_5) == IS_ARRAY) {
+		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_5), _8, _9, _7)
 		{
 			ZEPHIR_INIT_NVAR(&key);
-			if (_7 != NULL) { 
-				ZVAL_STR_COPY(&key, _7);
+			if (_9 != NULL) { 
+				ZVAL_STR_COPY(&key, _9);
 			} else {
-				ZVAL_LONG(&key, _6);
+				ZVAL_LONG(&key, _8);
 			}
 			ZEPHIR_INIT_NVAR(&element);
-			ZVAL_COPY(&element, _5);
-			zephir_array_fetch_string(&_8$$4, &quotes, SL("find"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 831);
-			zephir_array_fetch_string(&_9$$4, &quotes, SL("replace"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 832);
-			zephir_cast_to_string(&_10$$4, &element);
+			ZVAL_COPY(&element, _7);
+			zephir_array_fetch_string(&_10$$4, &quotes, SL("find"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 831);
+			zephir_array_fetch_string(&_11$$4, &quotes, SL("replace"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 832);
+			zephir_cast_to_string(&_12$$4, &element);
 			ZEPHIR_INIT_NVAR(&element);
-			zephir_fast_str_replace(&element, &_8$$4, &_9$$4, &_10$$4);
-			zephir_array_fetch_string(&_11$$4, &quotes, SL("prefix"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 835);
-			zephir_array_fetch_string(&_12$$4, &quotes, SL("suffix"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 835);
-			ZEPHIR_INIT_NVAR(&_13$$4);
-			ZEPHIR_CONCAT_VVV(&_13$$4, &_11$$4, &element, &_12$$4);
-			zephir_array_update_zval(&elements, &key, &_13$$4, PH_COPY | PH_SEPARATE);
+			zephir_fast_str_replace(&element, &_10$$4, &_11$$4, &_12$$4);
+			zephir_array_fetch_string(&_13$$4, &quotes, SL("prefix"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 835);
+			zephir_array_fetch_string(&_14$$4, &quotes, SL("suffix"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 835);
+			ZEPHIR_INIT_NVAR(&_15$$4);
+			ZEPHIR_CONCAT_VVV(&_15$$4, &_13$$4, &element, &_14$$4);
+			zephir_array_update_zval(&elements, &key, &_15$$4, PH_COPY | PH_SEPARATE);
 		} ZEND_HASH_FOREACH_END();
 	} else {
-		ZEPHIR_CALL_METHOD(NULL, value, "rewind", NULL, 0);
+		ZEPHIR_CALL_METHOD(NULL, _5, "rewind", NULL, 0);
 		zephir_check_call_status();
-		_15 = 1;
+		_17 = 1;
 		while (1) {
-			if (_15) {
-				_15 = 0;
+			if (_17) {
+				_17 = 0;
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, value, "next", NULL, 0);
+				ZEPHIR_CALL_METHOD(NULL, _5, "next", NULL, 0);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_14, value, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_16, _5, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_14)) {
+			if (!zend_is_true(&_16)) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&key, value, "key", NULL, 0);
+			ZEPHIR_CALL_METHOD(&key, _5, "key", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&element, value, "current", NULL, 0);
+			ZEPHIR_CALL_METHOD(&element, _5, "current", NULL, 0);
 			zephir_check_call_status();
-				zephir_array_fetch_string(&_16$$5, &quotes, SL("find"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 831);
-				zephir_array_fetch_string(&_17$$5, &quotes, SL("replace"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 832);
-				zephir_cast_to_string(&_18$$5, &element);
+				zephir_array_fetch_string(&_18$$5, &quotes, SL("find"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 831);
+				zephir_array_fetch_string(&_19$$5, &quotes, SL("replace"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 832);
+				zephir_cast_to_string(&_20$$5, &element);
 				ZEPHIR_INIT_NVAR(&element);
-				zephir_fast_str_replace(&element, &_16$$5, &_17$$5, &_18$$5);
-				zephir_array_fetch_string(&_19$$5, &quotes, SL("prefix"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 835);
-				zephir_array_fetch_string(&_20$$5, &quotes, SL("suffix"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 835);
-				ZEPHIR_INIT_NVAR(&_21$$5);
-				ZEPHIR_CONCAT_VVV(&_21$$5, &_19$$5, &element, &_20$$5);
-				zephir_array_update_zval(&elements, &key, &_21$$5, PH_COPY | PH_SEPARATE);
+				zephir_fast_str_replace(&element, &_18$$5, &_19$$5, &_20$$5);
+				zephir_array_fetch_string(&_21$$5, &quotes, SL("prefix"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 835);
+				zephir_array_fetch_string(&_22$$5, &quotes, SL("suffix"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 835);
+				ZEPHIR_INIT_NVAR(&_23$$5);
+				ZEPHIR_CONCAT_VVV(&_23$$5, &_21$$5, &element, &_22$$5);
+				zephir_array_update_zval(&elements, &key, &_23$$5, PH_COPY | PH_SEPARATE);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&element);

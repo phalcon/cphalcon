@@ -15,6 +15,7 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
+#include "kernel/string.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 
@@ -80,10 +81,10 @@ PHP_METHOD(Phalcon_ADR_Responder_ChainResponder, __construct)
 
 PHP_METHOD(Phalcon_ADR_Responder_ChainResponder, __invoke)
 {
-	zend_bool _4;
+	zend_bool _6;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *request, request_sub, *response = NULL, response_sub, *payload, payload_sub, link, _0, *_1, _3, _2$$3, _5$$4;
+	zval *request, request_sub, *response = NULL, response_sub, *payload, payload_sub, link, _0, *_1, _2, *_3, _5, _4$$3, _7$$4;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&request_sub);
@@ -91,9 +92,10 @@ PHP_METHOD(Phalcon_ADR_Responder_ChainResponder, __invoke)
 	ZVAL_UNDEF(&payload_sub);
 	ZVAL_UNDEF(&link);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_2$$3);
-	ZVAL_UNDEF(&_5$$4);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_4$$3);
+	ZVAL_UNDEF(&_7$$4);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("links", 5, 1);
@@ -109,37 +111,44 @@ PHP_METHOD(Phalcon_ADR_Responder_ChainResponder, __invoke)
 	zephir_fetch_params(1, 3, 0, &request, &response, &payload);
 	ZEPHIR_SEPARATE_PARAM(response);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 92, PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_0, 0, "phalcon/ADR/Responder/ChainResponder.zep", 48);
-	if (Z_TYPE_P(&_0) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
+	if (Z_TYPE_P(&_0) == IS_STRING) {
+		ZEPHIR_INIT_VAR(&_2);
+		zephir_string_to_char_array(&_2, &_0);
+		_1 = &_2;
+	} else {
+		_1 = &_0;
+	}
+	zephir_is_iterable(_1, 0, "phalcon/ADR/Responder/ChainResponder.zep", 48);
+	if (Z_TYPE_P(_1) == IS_ARRAY) {
+		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_1), _3)
 		{
 			ZEPHIR_INIT_NVAR(&link);
-			ZVAL_COPY(&link, _1);
-			ZEPHIR_CALL_METHOD(&_2$$3, &link, "__invoke", NULL, 0, request, response, payload);
+			ZVAL_COPY(&link, _3);
+			ZEPHIR_CALL_METHOD(&_4$$3, &link, "__invoke", NULL, 0, request, response, payload);
 			zephir_check_call_status();
-			ZEPHIR_CPY_WRT(response, &_2$$3);
+			ZEPHIR_CPY_WRT(response, &_4$$3);
 		} ZEND_HASH_FOREACH_END();
 	} else {
-		ZEPHIR_CALL_METHOD(NULL, &_0, "rewind", NULL, 0);
+		ZEPHIR_CALL_METHOD(NULL, _1, "rewind", NULL, 0);
 		zephir_check_call_status();
-		_4 = 1;
+		_6 = 1;
 		while (1) {
-			if (_4) {
-				_4 = 0;
+			if (_6) {
+				_6 = 0;
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, &_0, "next", NULL, 0);
+				ZEPHIR_CALL_METHOD(NULL, _1, "next", NULL, 0);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_3, &_0, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_5, _1, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_3)) {
+			if (!zend_is_true(&_5)) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&link, &_0, "current", NULL, 0);
+			ZEPHIR_CALL_METHOD(&link, _1, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_5$$4, &link, "__invoke", NULL, 0, request, response, payload);
+				ZEPHIR_CALL_METHOD(&_7$$4, &link, "__invoke", NULL, 0, request, response, payload);
 				zephir_check_call_status();
-				ZEPHIR_CPY_WRT(response, &_5$$4);
+				ZEPHIR_CPY_WRT(response, &_7$$4);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&link);

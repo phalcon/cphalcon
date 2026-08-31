@@ -16,6 +16,7 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
+#include "kernel/string.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/concat.h"
@@ -90,14 +91,14 @@ PHP_METHOD(Phalcon_Html_Attributes, render)
  */
 PHP_METHOD(Phalcon_Html_Attributes, renderAttributes)
 {
-	zval _13$$4;
-	zend_bool _4$$3, _5$$4;
-	zend_string *_3;
-	zend_ulong _2;
+	zval _15$$4;
+	zend_bool _6$$3, _7$$4;
+	zend_string *_5;
+	zend_ulong _4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_8 = NULL, *_12 = NULL, *_14 = NULL;
+	zephir_fcall_cache_entry *_10 = NULL, *_14 = NULL, *_16 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *attributes_param = NULL, __$null, escaper, intersect, key, result, results, value, _0, *_1, _9$$4, _10$$4, _11$$4, _15$$4, _16$$4, _6$$5, _7$$5;
+	zval *attributes_param = NULL, __$null, escaper, intersect, key, result, results, value, _0, *_1, _2, *_3, _11$$4, _12$$4, _13$$4, _17$$4, _18$$4, _8$$5, _9$$5;
 	zval attributes, order;
 
 	ZVAL_UNDEF(&attributes);
@@ -110,14 +111,15 @@ PHP_METHOD(Phalcon_Html_Attributes, renderAttributes)
 	ZVAL_UNDEF(&results);
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_9$$4);
-	ZVAL_UNDEF(&_10$$4);
+	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_11$$4);
-	ZVAL_UNDEF(&_15$$4);
-	ZVAL_UNDEF(&_16$$4);
-	ZVAL_UNDEF(&_6$$5);
-	ZVAL_UNDEF(&_7$$5);
+	ZVAL_UNDEF(&_12$$4);
 	ZVAL_UNDEF(&_13$$4);
+	ZVAL_UNDEF(&_17$$4);
+	ZVAL_UNDEF(&_18$$4);
+	ZVAL_UNDEF(&_8$$5);
+	ZVAL_UNDEF(&_9$$5);
+	ZVAL_UNDEF(&_15$$4);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		ZEPHIR_Z_PARAM_ARRAY(attributes, attributes_param)
 	ZEND_PARSE_PARAMETERS_END();
@@ -154,51 +156,58 @@ PHP_METHOD(Phalcon_Html_Attributes, renderAttributes)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&result);
 	ZVAL_STRING(&result, "");
-	zephir_is_iterable(&results, 0, "phalcon/Html/Attributes.zep", 102);
-	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&results), _2, _3, _1)
+	if (Z_TYPE_P(&results) == IS_STRING) {
+		ZEPHIR_INIT_VAR(&_2);
+		zephir_string_to_char_array(&_2, &results);
+		_1 = &_2;
+	} else {
+		_1 = &results;
+	}
+	zephir_is_iterable(_1, 0, "phalcon/Html/Attributes.zep", 102);
+	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_1), _4, _5, _3)
 	{
 		ZEPHIR_INIT_NVAR(&key);
-		if (_3 != NULL) { 
-			ZVAL_STR_COPY(&key, _3);
+		if (_5 != NULL) { 
+			ZVAL_STR_COPY(&key, _5);
 		} else {
-			ZVAL_LONG(&key, _2);
+			ZVAL_LONG(&key, _4);
 		}
 		ZEPHIR_INIT_NVAR(&value);
-		ZVAL_COPY(&value, _1);
-		_4$$3 = Z_TYPE_P(&key) == IS_STRING;
-		if (_4$$3) {
-			_4$$3 = Z_TYPE_P(&value) != IS_NULL;
+		ZVAL_COPY(&value, _3);
+		_6$$3 = Z_TYPE_P(&key) == IS_STRING;
+		if (_6$$3) {
+			_6$$3 = Z_TYPE_P(&value) != IS_NULL;
 		}
-		if (_4$$3) {
-			_5$$4 = Z_TYPE_P(&value) == IS_ARRAY;
-			if (!(_5$$4)) {
-				_5$$4 = Z_TYPE_P(&value) == IS_RESOURCE;
+		if (_6$$3) {
+			_7$$4 = Z_TYPE_P(&value) == IS_ARRAY;
+			if (!(_7$$4)) {
+				_7$$4 = Z_TYPE_P(&value) == IS_RESOURCE;
 			}
-			if (_5$$4) {
-				ZEPHIR_INIT_NVAR(&_6$$5);
-				object_init_ex(&_6$$5, phalcon_html_exceptions_attributenotrenderable_ce);
-				ZEPHIR_INIT_NVAR(&_7$$5);
-				zephir_gettype(&_7$$5, &value);
-				ZEPHIR_CALL_METHOD(NULL, &_6$$5, "__construct", &_8, 0, &key, &_7$$5);
+			if (_7$$4) {
+				ZEPHIR_INIT_NVAR(&_8$$5);
+				object_init_ex(&_8$$5, phalcon_html_exceptions_attributenotrenderable_ce);
+				ZEPHIR_INIT_NVAR(&_9$$5);
+				zephir_gettype(&_9$$5, &value);
+				ZEPHIR_CALL_METHOD(NULL, &_8$$5, "__construct", &_10, 0, &key, &_9$$5);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_6$$5, "phalcon/Html/Attributes.zep", 89);
+				zephir_throw_exception_debug(&_8$$5, "phalcon/Html/Attributes.zep", 89);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			ZEPHIR_INIT_NVAR(&_9$$4);
-			ZVAL_STRING(&_9$$4, "~[\\s/=]~");
-			ZEPHIR_INIT_NVAR(&_10$$4);
-			ZVAL_STRING(&_10$$4, "");
-			ZEPHIR_CALL_FUNCTION(&_11$$4, "preg_replace", &_12, 6, &_9$$4, &_10$$4, &key);
+			ZEPHIR_INIT_NVAR(&_11$$4);
+			ZVAL_STRING(&_11$$4, "~[\\s/=]~");
+			ZEPHIR_INIT_NVAR(&_12$$4);
+			ZVAL_STRING(&_12$$4, "");
+			ZEPHIR_CALL_FUNCTION(&_13$$4, "preg_replace", &_14, 6, &_11$$4, &_12$$4, &key);
 			zephir_check_call_status();
-			zephir_cast_to_string(&_13$$4, &_11$$4);
-			ZEPHIR_CALL_METHOD(&key, &escaper, "escape", &_14, 0, &_13$$4);
+			zephir_cast_to_string(&_15$$4, &_13$$4);
+			ZEPHIR_CALL_METHOD(&key, &escaper, "escape", &_16, 0, &_15$$4);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_15$$4, &escaper, "escape", &_14, 0, &value);
+			ZEPHIR_CALL_METHOD(&_17$$4, &escaper, "escape", &_16, 0, &value);
 			zephir_check_call_status();
-			ZEPHIR_INIT_NVAR(&_16$$4);
-			ZEPHIR_CONCAT_VSVS(&_16$$4, &key, "=\"", &_15$$4, "\" ");
-			zephir_concat_self(&result, &_16$$4);
+			ZEPHIR_INIT_NVAR(&_18$$4);
+			ZEPHIR_CONCAT_VSVS(&_18$$4, &key, "=\"", &_17$$4, "\" ");
+			zephir_concat_self(&result, &_18$$4);
 		}
 	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&value);

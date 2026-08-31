@@ -24,7 +24,7 @@ use Phalcon\Contracts\Html\HtmlTypes;
 class Img extends AbstractHelper
 {
     /**
-     * Produce a <img> tag.
+     * Produce a `<img>` tag.
      *
      * @phpstan-param html_attributes $attributes
      */
