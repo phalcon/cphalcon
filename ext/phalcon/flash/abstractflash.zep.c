@@ -234,13 +234,14 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, getAutoescape)
 
 /**
  * Returns the flag that defines whether to automatically use HTML or not
- *
- public function getAutomaticHtml(): bool
- {
- return this->automaticHtml;
- }
+ */
+PHP_METHOD(Phalcon_Flash_AbstractFlash, getAutomaticHtml)
+{
 
- /**
+	RETURN_MEMBER(getThis(), "automaticHtml");
+}
+
+/**
  * Returns the array of the CSS classes for formatting messages. The key is
  * the type of message and the value is the CSS class
  *
