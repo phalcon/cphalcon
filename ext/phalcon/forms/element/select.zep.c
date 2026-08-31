@@ -29,6 +29,10 @@
  */
 /**
  * Component SELECT (choice) for forms
+ *
+ * @phpstan-import-type forms_attributes from FormsTypes
+ * @phpstan-import-type forms_select_options from FormsTypes
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Select)
 {
@@ -36,6 +40,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Select)
 
 	/**
 	 * @var object|array|null
+	 *
+	 * @phpstan-var forms_select_options|object|null
 	 */
 	zend_declare_property_null(phalcon_forms_element_select_ce, SL("optionsValues"), ZEND_ACC_PROTECTED);
 	return SUCCESS;
@@ -44,9 +50,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Select)
 /**
  * Constructor
  *
- * @param string            name
- * @param object|array|null options
- * @param array             attributes
+ * @phpstan-param forms_select_options|object|null $options
+ * @phpstan-param forms_attributes $attributes
  */
 PHP_METHOD(Phalcon_Forms_Element_Select, __construct)
 {
@@ -102,7 +107,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, __construct)
 /**
  * Adds an option to the current options
  *
- * @param array|string option
+ * @param mixed option
  */
 PHP_METHOD(Phalcon_Forms_Element_Select, addOption)
 {
@@ -142,7 +147,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, addOption)
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 782, PH_NOISY_CC);
 	if (Z_TYPE_P(&_2) == IS_ARRAY) {
 		if (Z_TYPE_P(option) == IS_ARRAY) {
-			zephir_is_iterable(option, 0, "phalcon/Forms/Element/Select.zep", 57);
+			zephir_is_iterable(option, 0, "phalcon/Forms/Element/Select.zep", 64);
 			if (Z_TYPE_P(option) == IS_ARRAY) {
 				ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(option), _4$$5, _5$$5, _3$$5)
 				{
@@ -191,7 +196,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, addOption)
 /**
  * Returns the choices' options
  *
- * @return array|object
+ * @phpstan-return forms_select_options|object|null
  */
 PHP_METHOD(Phalcon_Forms_Element_Select, getOptions)
 {
@@ -201,6 +206,8 @@ PHP_METHOD(Phalcon_Forms_Element_Select, getOptions)
 
 /**
  * Renders the element widget returning HTML
+ *
+ * @phpstan-param html_attributes $attributes
  */
 PHP_METHOD(Phalcon_Forms_Element_Select, render)
 {
@@ -242,7 +249,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, render)
 /**
  * Set the choice's options
  *
- * @param array|object options
+ * @phpstan-param forms_select_options|object $options
  */
 PHP_METHOD(Phalcon_Forms_Element_Select, setOptions)
 {
@@ -266,6 +273,9 @@ PHP_METHOD(Phalcon_Forms_Element_Select, setOptions)
 /**
  * Returns an array of prepared attributes for Phalcon\Html\TagFactory
  * helpers according to the element parameters
+ *
+ * @phpstan-param html_attributes $attributes
+ * @phpstan-return array<array-key, mixed>
  */
 PHP_METHOD(Phalcon_Forms_Element_Select, prepareAttributes)
 {

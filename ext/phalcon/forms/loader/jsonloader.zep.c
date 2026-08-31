@@ -39,10 +39,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Loader_JsonLoader)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Forms\\Loader, JsonLoader, phalcon, forms_loader_jsonloader, phalcon_forms_loader_jsonloader_method_entry, 0);
 
-	/**
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_forms_loader_jsonloader_ce, SL("source"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_forms_loader_jsonloader_ce, SL("source"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	zend_class_implements(phalcon_forms_loader_jsonloader_ce, 1, phalcon_contracts_forms_schema_ce);
 	return SUCCESS;
 }
@@ -153,7 +155,7 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, load)
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, &_10$$5, "__construct", NULL, 0, &_11$$5);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_10$$5, "phalcon/Forms/Loader/JsonLoader.zep", 61);
+			zephir_throw_exception_debug(&_10$$5, "phalcon/Forms/Loader/JsonLoader.zep", 58);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -169,7 +171,7 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, load)
 		object_init_ex(&_14$$6, phalcon_forms_exceptions_jsonschemanotarray_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_14$$6, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_14$$6, "phalcon/Forms/Loader/JsonLoader.zep", 65);
+		zephir_throw_exception_debug(&_14$$6, "phalcon/Forms/Loader/JsonLoader.zep", 62);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

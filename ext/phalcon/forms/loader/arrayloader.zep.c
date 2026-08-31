@@ -35,10 +35,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Loader_ArrayLoader)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Forms\\Loader, ArrayLoader, phalcon, forms_loader_arrayloader, phalcon_forms_loader_arrayloader_method_entry, 0);
 
-	/**
-	 * @var array
-	 */
-	zend_declare_property_null(phalcon_forms_loader_arrayloader_ce, SL("definitions"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_forms_loader_arrayloader_ce, SL("definitions"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
 	zend_class_implements(phalcon_forms_loader_arrayloader_ce, 1, phalcon_contracts_forms_schema_ce);
 	return SUCCESS;
 }
@@ -99,7 +101,7 @@ PHP_METHOD(Phalcon_Forms_Loader_ArrayLoader, load)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 800, PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_0, 0, "phalcon/Forms/Loader/ArrayLoader.zep", 48);
+	zephir_is_iterable(&_0, 0, "phalcon/Forms/Loader/ArrayLoader.zep", 45);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_0), _2, _3, _1)
 		{
@@ -146,9 +148,6 @@ PHP_METHOD(Phalcon_Forms_Loader_ArrayLoader, load)
 }
 
 /**
- * @param mixed $definition
- * @param int   $index
- *
  * @throws Exception
  */
 PHP_METHOD(Phalcon_Forms_Loader_ArrayLoader, validateDefinition)
@@ -182,13 +181,13 @@ PHP_METHOD(Phalcon_Forms_Loader_ArrayLoader, validateDefinition)
 		ZVAL_LONG(&_1$$3, index);
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 0, &_1$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Forms/Loader/ArrayLoader.zep", 60);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Forms/Loader/ArrayLoader.zep", 54);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	_2 = !(zephir_array_isset_value_string(definition, SL("type")));
 	if (!(_2)) {
-		zephir_array_fetch_string(&_3, definition, SL("type"), PH_NOISY | PH_READONLY, "phalcon/Forms/Loader/ArrayLoader.zep", 63);
+		zephir_array_fetch_string(&_3, definition, SL("type"), PH_NOISY | PH_READONLY, "phalcon/Forms/Loader/ArrayLoader.zep", 57);
 		_2 = ZEPHIR_IS_EMPTY(&_3);
 	}
 	if (_2) {
@@ -199,13 +198,13 @@ PHP_METHOD(Phalcon_Forms_Loader_ArrayLoader, validateDefinition)
 		ZVAL_STRING(&_6$$4, "type");
 		ZEPHIR_CALL_METHOD(NULL, &_4$$4, "__construct", NULL, 0, &_5$$4, &_6$$4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$4, "phalcon/Forms/Loader/ArrayLoader.zep", 64);
+		zephir_throw_exception_debug(&_4$$4, "phalcon/Forms/Loader/ArrayLoader.zep", 58);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	_7 = !(zephir_array_isset_value_string(definition, SL("name")));
 	if (!(_7)) {
-		zephir_array_fetch_string(&_8, definition, SL("name"), PH_NOISY | PH_READONLY, "phalcon/Forms/Loader/ArrayLoader.zep", 67);
+		zephir_array_fetch_string(&_8, definition, SL("name"), PH_NOISY | PH_READONLY, "phalcon/Forms/Loader/ArrayLoader.zep", 61);
 		_7 = ZEPHIR_IS_EMPTY(&_8);
 	}
 	if (_7) {
@@ -216,7 +215,7 @@ PHP_METHOD(Phalcon_Forms_Loader_ArrayLoader, validateDefinition)
 		ZVAL_STRING(&_11$$5, "name");
 		ZEPHIR_CALL_METHOD(NULL, &_9$$5, "__construct", NULL, 0, &_10$$5, &_11$$5);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_9$$5, "phalcon/Forms/Loader/ArrayLoader.zep", 68);
+		zephir_throw_exception_debug(&_9$$5, "phalcon/Forms/Loader/ArrayLoader.zep", 62);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

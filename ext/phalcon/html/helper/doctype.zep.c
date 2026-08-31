@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Html_Helper_Doctype, __construct)
 }
 
 /**
- * Produce a <doctype> tag
+ * Produce a `<doctype>` tag
  */
 PHP_METHOD(Phalcon_Html_Helper_Doctype, __invoke)
 {

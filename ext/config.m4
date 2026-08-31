@@ -586,6 +586,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/contracts/container/service/definition.zep.c
 	phalcon/contracts/dispatcher/dispatchertypes.zep.c
 	phalcon/contracts/events/subscriber.zep.c
+	phalcon/contracts/forms/formstypes.zep.c
 	phalcon/contracts/front/fronttypealiases.zep.c
 	phalcon/contracts/html/htmltypes.zep.c
 	phalcon/contracts/html/link/linktypes.zep.c

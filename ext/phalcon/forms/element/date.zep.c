@@ -29,10 +29,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Date)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Date, phalcon, forms_element_date, phalcon_forms_element_abstractelement_ce, NULL, 0);
 
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_forms_element_date_ce, SL("method"), "inputDate", ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "inputDate", sizeof("inputDate") - 1);
+		zephir_declare_typed_property(phalcon_forms_element_date_ce, SL("method"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 

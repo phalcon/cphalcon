@@ -40,6 +40,11 @@
  * Each callable has the signature `fn(string $name, array $options, array $attributes): ElementInterface`.
  * Default types are seeded by `getDefaultServices()`. Users may add or override
  * types with `setElement()`.
+ *
+ * @phpstan-import-type forms_locator_element_factory from FormsTypes
+ * @phpstan-import-type forms_locator_elements from FormsTypes
+ * @phpstan-import-type forms_locator_factories from FormsTypes
+ * @phpstan-import-type forms_locator_factory from FormsTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Forms_FormsLocator)
 {
@@ -48,28 +53,41 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_FormsLocator)
 	/**
 	 * Element type → factory callable.
 	 *
-	 * @var array
+	 * @phpstan-var forms_locator_elements
 	 */
-	zend_declare_property_null(phalcon_forms_formslocator_ce, SL("elements"), ZEND_ACC_PRIVATE);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_forms_formslocator_ce, SL("elements"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_ARRAY, NULL, 0);
+	}
+
 	/**
 	 * Form name → factory callable.
 	 *
-	 * @var array
+	 * @phpstan-var forms_locator_factories
 	 */
-	zend_declare_property_null(phalcon_forms_formslocator_ce, SL("factories"), ZEND_ACC_PRIVATE);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_forms_formslocator_ce, SL("factories"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_ARRAY, NULL, 0);
+	}
+
 	/**
 	 * Cached entity-less form instances.
 	 *
-	 * @var array
+	 * @phpstan-var array<string, Form>
 	 */
-	zend_declare_property_null(phalcon_forms_formslocator_ce, SL("instances"), ZEND_ACC_PRIVATE);
-	phalcon_forms_formslocator_ce->create_object = zephir_init_properties_Phalcon_Forms_FormsLocator;
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_forms_formslocator_ce, SL("instances"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_ARRAY, NULL, 0);
+	}
 
 	return SUCCESS;
 }
 
 /**
- * @param array $definitions  name → callable map for the form registry
+ * @phpstan-param forms_locator_factories $definitions
  */
 PHP_METHOD(Phalcon_Forms_FormsLocator, __construct)
 {
@@ -109,7 +127,7 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, __construct)
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getdefaultservices", NULL, 0);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 797, &_0);
-	zephir_is_iterable(&definitions, 0, "phalcon/Forms/FormsLocator.zep", 78);
+	zephir_is_iterable(&definitions, 0, "phalcon/Forms/FormsLocator.zep", 85);
 	if (Z_TYPE_P(&definitions) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&definitions), _2, _3, _1)
 		{
@@ -159,10 +177,8 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, __construct)
  * Without an entity the result is lazily created and cached.
  * With an entity a fresh form is always produced.
  *
- * @param string      $name
  * @param object|null $entity
  *
- * @return Form
  * @throws Exception
  */
 PHP_METHOD(Phalcon_Forms_FormsLocator, get)
@@ -216,13 +232,13 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, get)
 		object_init_ex(&_1$$3, phalcon_forms_exceptions_formnotinlocator_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0, &name_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Forms/FormsLocator.zep", 97);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Forms/FormsLocator.zep", 102);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 798, PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&factory);
-	zephir_array_fetch(&factory, &_2, &name_zv, PH_NOISY, "phalcon/Forms/FormsLocator.zep", 100);
+	zephir_array_fetch(&factory, &_2, &name_zv, PH_NOISY, "phalcon/Forms/FormsLocator.zep", 105);
 	if (Z_TYPE_P(entity) != IS_NULL) {
 		ZEPHIR_RETURN_CALL_ZVAL_FUNCTION(&factory, NULL, 0, entity);
 		zephir_check_call_status();
@@ -242,10 +258,7 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, get)
 /**
  * Returns the factory callable for the given element type.
  *
- * @param string $type
- *
- * @return callable
- * @throws Exception
+ * @phpstan-return forms_locator_element_factory
  */
 PHP_METHOD(Phalcon_Forms_FormsLocator, getElement)
 {
@@ -278,21 +291,17 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, getElement)
 		object_init_ex(&_1$$3, phalcon_forms_exceptions_unknownformelementtype_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0, &type_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Forms/FormsLocator.zep", 125);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Forms/FormsLocator.zep", 127);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 797, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_3, &_2, &type_zv, PH_NOISY | PH_READONLY, "phalcon/Forms/FormsLocator.zep", 128);
+	zephir_array_fetch(&_3, &_2, &type_zv, PH_NOISY | PH_READONLY, "phalcon/Forms/FormsLocator.zep", 130);
 	RETURN_CTOR(&_3);
 }
 
 /**
  * Checks whether a named form factory is registered.
- *
- * @param string $name
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Forms_FormsLocator, has)
 {
@@ -317,10 +326,6 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, has)
 
 /**
  * Checks whether an element type is registered.
- *
- * @param string $type
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Forms_FormsLocator, hasElement)
 {
@@ -350,8 +355,7 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, hasElement)
  * Form instance. Replacing a registration clears any cached instance so
  * the next get() call rebuilds from the new factory.
  *
- * @param string   $name
- * @param callable $factory
+ * @phpstan-param forms_locator_factory $factory
  */
 PHP_METHOD(Phalcon_Forms_FormsLocator, set)
 {
@@ -385,8 +389,7 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, set)
  * The callable must accept (string $name, array $options, array $attributes)
  * and return an ElementInterface instance.
  *
- * @param string   $type
- * @param callable $factory
+ * @phpstan-param forms_locator_element_factory $factory
  */
 PHP_METHOD(Phalcon_Forms_FormsLocator, setElement)
 {
@@ -410,7 +413,7 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, setElement)
  *
  * Each value is a callable: fn(string $name, array $options, array $attributes): ElementInterface
  *
- * @return array
+ * @phpstan-return forms_locator_elements
  */
 PHP_METHOD(Phalcon_Forms_FormsLocator, getDefaultServices)
 {
@@ -479,46 +482,5 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, getDefaultServices)
 	zephir_create_closure_ex(&_0, NULL, phalcon_33__closure_ce, SL("__invoke"));
 	zephir_array_update_string(return_value, SL("textarea"), &_0, PH_COPY | PH_SEPARATE);
 	RETURN_MM();
-}
-
-zend_object *zephir_init_properties_Phalcon_Forms_FormsLocator(zend_class_entry *class_type)
-{
-		zval _0, _2, _4, _1$$3, _3$$4, _5$$5;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$4);
-	ZVAL_UNDEF(&_5$$5);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("instances"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("instances"), &_1$$3);
-		}
-		zephir_read_property_ex(&_2, this_ptr, ZEND_STRL("factories"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_2) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_3$$4);
-			array_init(&_3$$4);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("factories"), &_3$$4);
-		}
-		zephir_read_property_ex(&_4, this_ptr, ZEND_STRL("elements"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_4) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_5$$5);
-			array_init(&_5$$5);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("elements"), &_5$$5);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

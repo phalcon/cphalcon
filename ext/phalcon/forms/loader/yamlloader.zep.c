@@ -39,10 +39,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Loader_YamlLoader)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Forms\\Loader, YamlLoader, phalcon, forms_loader_yamlloader, phalcon_forms_loader_yamlloader_method_entry, 0);
 
-	/**
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_forms_loader_yamlloader_ce, SL("source"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_forms_loader_yamlloader_ce, SL("source"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	zend_class_implements(phalcon_forms_loader_yamlloader_ce, 1, phalcon_contracts_forms_schema_ce);
 	return SUCCESS;
 }
@@ -107,7 +109,7 @@ PHP_METHOD(Phalcon_Forms_Loader_YamlLoader, load)
 		object_init_ex(&_2$$3, phalcon_forms_exceptions_yamlextensionrequired_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$3, "phalcon/Forms/Loader/YamlLoader.zep", 53);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/Forms/Loader/YamlLoader.zep", 50);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -133,7 +135,7 @@ PHP_METHOD(Phalcon_Forms_Loader_YamlLoader, load)
 		object_init_ex(&_7$$6, phalcon_forms_exceptions_yamlschemanotarray_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_7$$6, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_7$$6, "phalcon/Forms/Loader/YamlLoader.zep", 65);
+		zephir_throw_exception_debug(&_7$$6, "phalcon/Forms/Loader/YamlLoader.zep", 62);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
