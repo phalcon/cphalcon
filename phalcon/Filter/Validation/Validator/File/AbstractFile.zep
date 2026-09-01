@@ -110,13 +110,11 @@ abstract class AbstractFile extends AbstractValidator
         let value = validation->getValue(field);
 
         if (
-            is_array(value) &&
-            (
-                true !== isset(value["error"]) ||
-                true !== isset(value["tmp_name"]) ||
-                value["error"] !== UPLOAD_ERR_OK ||
-                true !== this->checkIsUploadedFile(value["tmp_name"])
-            )
+            true !== is_array(value) ||
+            true !== isset(value["error"]) ||
+            true !== isset(value["tmp_name"]) ||
+            value["error"] !== UPLOAD_ERR_OK ||
+            true !== this->checkIsUploadedFile(value["tmp_name"])
         ) {
             let label        = this->prepareLabel(validation, field);
             let replacePairs = [
@@ -151,31 +149,17 @@ abstract class AbstractFile extends AbstractValidator
         <Validation> validation,
         string field
     ) -> bool {
-        var label, replacePairs, value;
+        var value;
 
         let value = validation->getValue(field);
 
         if (
-            is_array(value) &&
-            (
-                true !== isset(value["name"]) ||
-                true !== isset(value["type"]) ||
-                true !== isset(value["size"])
-            )
+            true !== is_array(value) ||
+            true !== isset(value["name"]) ||
+            true !== isset(value["type"]) ||
+            true !== isset(value["size"])
         ) {
-            let label        = this->prepareLabel(validation, field);
-            let replacePairs = [
-                ":field" : label
-            ];
-
-            validation->appendMessage(
-                new Message(
-                    strtr(this->getMessageValid(), replacePairs),
-                    field,
-                    get_class(this),
-                    this->prepareCode(field)
-                )
-            );
+            this->appendMessageValid(validation, field);
 
             return false;
         }
