@@ -213,7 +213,7 @@ abstract class Resultset
         var record, connection = null;
 
         let result = true;
-        let transaction = false;
+        let transaction, isUnderTransaction = false;
 
         this->rewind();
 
@@ -229,9 +229,15 @@ abstract class Resultset
                 }
 
                 let connection = record->getWriteConnection(),
-                    transaction = true;
+                    transaction = true,
+                    isUnderTransaction = connection->isUnderTransaction();
 
-                connection->begin();
+                /**
+                 * If we already under transaction we should not begin or commit it
+                 */
+                if isUnderTransaction === false {
+                    connection->begin();
+                }
             }
 
             /**
@@ -271,7 +277,7 @@ abstract class Resultset
         /**
          * Commit the transaction
          */
-        if transaction === true {
+        if transaction === true & isUnderTransaction === false {
             connection->commit();
         }
 
@@ -624,7 +630,7 @@ abstract class Resultset
         bool transaction;
         var record, connection = null;
 
-        let transaction = false;
+        let transaction, isUnderTransaction = false;
 
         this->rewind();
 
@@ -640,9 +646,15 @@ abstract class Resultset
                 }
 
                 let connection = record->getWriteConnection(),
-                    transaction = true;
+                    transaction = true,
+                     isUnderTransaction = connection->isUnderTransaction();
 
-                connection->begin();
+                /**
+                 * If we already under transaction we should not begin or commit it
+                 */
+                if isUnderTransaction === false {
+                    connection->begin();
+                }
             }
 
             /**
@@ -683,7 +695,7 @@ abstract class Resultset
         /**
          * Commit the transaction
          */
-        if transaction === true {
+        if transaction === true & isUnderTransaction === false {
             connection->commit();
         }
 
