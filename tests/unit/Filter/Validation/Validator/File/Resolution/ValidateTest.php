@@ -23,6 +23,7 @@ use Phalcon\Tests\Unit\Filter\Validation\Validator\File\Resolution\Fake\FakeMin;
 use PHPUnit\Framework\Attributes\BackupGlobals;
 use PHPUnit\Framework\Attributes\DataProvider;
 
+use function basename;
 use function filesize;
 
 #[BackupGlobals(true)]
@@ -90,6 +91,19 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
+     * @return array<array{string, array}>
+     */
+    public static function getExamplesNotAnImage(): array
+    {
+        return [
+            [FakeEqual::class, ['resolution' => '82x82']],
+            [FakeMax::class, ['resolution' => '100x100']],
+            [FakeMin::class, ['resolution' => '50x50']],
+            [FakeAspectRatio::class, ['ratio' => '1x1']],
+        ];
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-06-06
      */
@@ -134,15 +148,47 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-31
+     */
+    #[DataProvider('getExamplesNotAnImage')]
+    public function testFilterValidationValidatorFileResolutionNotAnImage(
+        string $class,
+        array $options
+    ): void {
+        $_SERVER = ['REQUEST_METHOD' => 'POST'];
+        $_FILES  = [
+            'thumbnail' => $this->buildFile(
+                'assets/stream/mit.txt',
+                'text/plain'
+            ),
+        ];
+
+        $validator  = new $class($options);
+        $validation = new Validation();
+        $validation->add('thumbnail', $validator);
+
+        $messages = $validation->validate($_FILES);
+
+        $this->assertCount(1, $messages);
+        $this->assertSame(
+            'Field thumbnail is not valid',
+            $messages[0]->getMessage()
+        );
+    }
+
+    /**
      * @return array<string, mixed>
      */
-    private function buildFile(): array
-    {
-        $path = Talon::settings()->supportPath('assets/images/example-png.png');
+    private function buildFile(
+        string $relative = 'assets/images/example-png.png',
+        string $type = 'image/png'
+    ): array {
+        $path = Talon::settings()->supportPath($relative);
 
         return [
-            'name'     => 'example-png.png',
-            'type'     => 'image/png',
+            'name'     => basename($path),
+            'type'     => $type,
             'tmp_name' => $path,
             'error'    => 0,
             'size'     => filesize($path),

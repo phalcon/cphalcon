@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Ip, __invoke)
 	zephir_fast_trim(&ipInput, &input_zv, NULL , ZEPHIR_TRIM_BOTH);
 	if (zephir_memnstr_str(&ipInput, SL("/"), "phalcon/Filter/Sanitize/Ip.zep", 34)) {
 		ZEPHIR_INIT_VAR(&parts);
-		zephir_fast_explode_str(&parts, SL("/"), &input_zv, 2 );
+		zephir_fast_explode_str(&parts, SL("/"), &ipInput, 2 );
 		zephir_memory_observe(&ip);
 		zephir_array_fetch_long(&ip, &parts, 0, PH_NOISY, "phalcon/Filter/Sanitize/Ip.zep", 36);
 		zephir_memory_observe(&mask);
