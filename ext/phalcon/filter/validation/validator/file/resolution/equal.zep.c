@@ -115,10 +115,10 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Resolution_Equal, __construc
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Resolution_Equal, validate)
 {
-	zend_bool _5;
+	zend_bool _4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validation, validation_sub, *field, field_sub, height, equalHeight, equalWidth, resolution, resolutionArray, tmp, value, width, replacePairs, _0, _1, _2, _3$$5, _4$$6, _6$$7;
+	zval *validation, validation_sub, *field, field_sub, height, equalHeight, equalWidth, resolution, resolutionArray, tmp, value, width, replacePairs, _0, _1, _2, _3$$5, _5$$6;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
@@ -136,8 +136,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Resolution_Equal, validate)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3$$5);
-	ZVAL_UNDEF(&_4$$6);
-	ZVAL_UNDEF(&_6$$7);
+	ZVAL_UNDEF(&_5$$6);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
 		Z_PARAM_ZVAL(field)
@@ -178,21 +177,17 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Resolution_Equal, validate)
 	zephir_array_fetch_long(&equalWidth, &resolutionArray, 0, PH_NOISY, "phalcon/Filter/Validation/Validator/File/Resolution/Equal.zep", 107);
 	zephir_memory_observe(&equalHeight);
 	zephir_array_fetch_long(&equalHeight, &resolutionArray, 1, PH_NOISY, "phalcon/Filter/Validation/Validator/File/Resolution/Equal.zep", 108);
-	if (Z_TYPE_P(&resolution) == IS_ARRAY) {
-		zephir_array_fetch(&_4$$6, &resolution, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/File/Resolution/Equal.zep", 111);
-		ZEPHIR_CPY_WRT(&resolution, &_4$$6);
+	_4 = !ZEPHIR_IS_EQUAL(&width, &equalWidth);
+	if (!(_4)) {
+		_4 = !ZEPHIR_IS_EQUAL(&height, &equalHeight);
 	}
-	_5 = !ZEPHIR_IS_EQUAL(&width, &equalWidth);
-	if (!(_5)) {
-		_5 = !ZEPHIR_IS_EQUAL(&height, &equalHeight);
-	}
-	if (_5) {
+	if (_4) {
 		ZEPHIR_INIT_VAR(&replacePairs);
 		zephir_create_array(&replacePairs, 1, 0);
 		zephir_array_update_string(&replacePairs, SL(":resolution"), &resolution, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_METHOD(&_6$$7, this_ptr, "messagefactory", NULL, 0, validation, field, &replacePairs);
+		ZEPHIR_CALL_METHOD(&_5$$6, this_ptr, "messagefactory", NULL, 0, validation, field, &replacePairs);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_6$$7);
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_5$$6);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}

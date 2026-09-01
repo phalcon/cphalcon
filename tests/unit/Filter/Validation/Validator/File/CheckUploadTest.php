@@ -18,6 +18,7 @@ use Phalcon\Filter\Validation\Validator\File\Size\Equal;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Filter\Validation\Validator\File\Fake\FakeMimeType;
 use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use const UPLOAD_ERR_INI_SIZE;
 use const UPLOAD_ERR_PARTIAL;
@@ -25,6 +26,43 @@ use const UPLOAD_ERR_PARTIAL;
 #[BackupGlobals(true)]
 final class CheckUploadTest extends AbstractUnitTestCase
 {
+    /**
+     * @return array<array{mixed}>
+     */
+    public static function getExamplesNotAnUploadArray(): array
+    {
+        return [
+            // Field populated from $_POST instead of $_FILES
+            ['not-a-file'],
+            // Field not present in the request
+            [null],
+            [1234],
+        ];
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-31
+     */
+    #[DataProvider('getExamplesNotAnUploadArray')]
+    public function testFilterValidationValidatorFileCheckUploadIsEmptyNotAnArray(
+        mixed $value
+    ): void {
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+
+        $validator  = new FakeMimeType(['types' => ['image/jpeg']]);
+        $validation = new Validation();
+        $validation->add('file', $validator);
+
+        $messages = $validation->validate(['file' => $value]);
+
+        $this->assertCount(1, $messages, 'A non array value is not a file');
+        $this->assertSame(
+            'Field file must not be empty',
+            $messages[0]->getMessage()
+        );
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
