@@ -42,10 +42,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Flash_Direct)
 /**
  * Outputs a message
  *
- * @param string $type
- * @param mixed  $message
- *
- * @return string|null
  * @throws Exception
  */
 PHP_METHOD(Phalcon_Flash_Direct, message)
@@ -103,7 +99,7 @@ PHP_METHOD(Phalcon_Flash_Direct, output)
 		remove = 1;
 	} else {
 		}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 769, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 768, PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_2);
 		zephir_string_to_char_array(&_2, &_0);
@@ -111,7 +107,7 @@ PHP_METHOD(Phalcon_Flash_Direct, output)
 	} else {
 		_1 = &_0;
 	}
-	zephir_is_iterable(_1, 0, "phalcon/Flash/Direct.zep", 45);
+	zephir_is_iterable(_1, 0, "phalcon/Flash/Direct.zep", 41);
 	if (Z_TYPE_P(_1) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_1), _3)
 		{

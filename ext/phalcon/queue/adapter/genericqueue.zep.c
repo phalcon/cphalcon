@@ -70,7 +70,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_GenericQueue, __construct)
 		Z_PARAM_STR(queueName)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&queueName_zv, queueName);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1269, &queueName_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1268, &queueName_zv);
 }
 
 /**

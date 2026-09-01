@@ -63,7 +63,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, __construct)
 		Z_PARAM_OBJECT_OF_CLASS(factory, phalcon_logger_adapterfactory_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &factory);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 955, factory);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 954, factory);
 }
 
 /**
@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, load)
 			ZVAL_STRING(&_9$$3, "options");
 			ZEPHIR_CALL_METHOD(&adapterOptions, this_ptr, "getarrval", NULL, 0, &adapter, &_9$$3, &_8$$3);
 			zephir_check_call_status();
-			zephir_read_property_cached(&_10$$3, this_ptr, _zephir_prop_0, 955, PH_NOISY_CC | PH_READONLY);
+			zephir_read_property_cached(&_10$$3, this_ptr, _zephir_prop_0, 954, PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CALL_METHOD(&_11$$3, &_10$$3, "newinstance", NULL, 0, &adapterClass, &adapterFileName, &adapterOptions);
 			zephir_check_call_status();
 			zephir_array_update_zval(&data, &adapterName, &_11$$3, PH_COPY | PH_SEPARATE);
@@ -231,7 +231,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, load)
 				ZVAL_STRING(&_15$$4, "options");
 				ZEPHIR_CALL_METHOD(&adapterOptions, this_ptr, "getarrval", NULL, 0, &adapter, &_15$$4, &_14$$4);
 				zephir_check_call_status();
-				zephir_read_property_cached(&_16$$4, this_ptr, _zephir_prop_0, 955, PH_NOISY_CC | PH_READONLY);
+				zephir_read_property_cached(&_16$$4, this_ptr, _zephir_prop_0, 954, PH_NOISY_CC | PH_READONLY);
 				ZEPHIR_CALL_METHOD(&_17$$4, &_16$$4, "newinstance", NULL, 0, &adapterClass, &adapterFileName, &adapterOptions);
 				zephir_check_call_status();
 				zephir_array_update_zval(&data, &adapterName, &_17$$4, PH_COPY | PH_SEPARATE);

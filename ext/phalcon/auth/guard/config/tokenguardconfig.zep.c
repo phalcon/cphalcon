@@ -93,8 +93,8 @@ PHP_METHOD(Phalcon_Auth_Guard_Config_TokenGuardConfig, __construct)
 	ZVAL_STRING(&_1, "storageKey");
 	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_auth_exceptions_configrequiresnonemptyvalue_ce, "assert", NULL, 0, &storageKey_zv, &_0, &_1);
 	zephir_check_call_status();
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 446, &inputKey_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 447, &storageKey_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 445, &inputKey_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 446, &storageKey_zv);
 	ZEPHIR_MM_RESTORE();
 }
 

@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_CsEnv, resolve)
 	ZVAL_STRING(&_3, "\\");
 	ZEPHIR_CALL_FUNCTION(&values, "str_getcsv", NULL, 497, &_0, &_1, &_2, &_3);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 551, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 550, PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_4) != IS_NULL) {
 		ZEPHIR_INIT_VAR(&result);
 		array_init(&result);
@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_CsEnv, resolve)
 				}
 				ZEPHIR_INIT_NVAR(&value);
 				ZVAL_COPY(&value, _7$$3);
-				zephir_read_property_cached(&_10$$4, this_ptr, _zephir_prop_0, 551, PH_NOISY_CC | PH_READONLY);
+				zephir_read_property_cached(&_10$$4, this_ptr, _zephir_prop_0, 550, PH_NOISY_CC | PH_READONLY);
 				ZEPHIR_MAKE_REF(&value);
 				ZEPHIR_CALL_FUNCTION(NULL, "settype", &_11, 17, &value, &_10$$4);
 				ZEPHIR_UNREF(&value);
@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_CsEnv, resolve)
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(&value, _5$$3, "current", NULL, 0);
 				zephir_check_call_status();
-					zephir_read_property_cached(&_14$$5, this_ptr, _zephir_prop_0, 551, PH_NOISY_CC | PH_READONLY);
+					zephir_read_property_cached(&_14$$5, this_ptr, _zephir_prop_0, 550, PH_NOISY_CC | PH_READONLY);
 					ZEPHIR_MAKE_REF(&value);
 					ZEPHIR_CALL_FUNCTION(NULL, "settype", &_11, 17, &value, &_14$$5);
 					ZEPHIR_UNREF(&value);

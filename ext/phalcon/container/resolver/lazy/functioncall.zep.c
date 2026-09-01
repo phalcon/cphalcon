@@ -103,8 +103,8 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_FunctionCall, __construct)
 	arguments_param = ZEND_CALL_ARG(execute_data, 2);
 	ZVAL_STR(&functionName_zv, functionName);
 	zephir_get_arrval(&arguments, arguments_param);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 553, &functionName_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 554, &arguments);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 552, &functionName_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 553, &arguments);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -137,10 +137,10 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_FunctionCall, resolve)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &ioc);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 554, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 553, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&arguments, this_ptr, "resolvearguments", NULL, 0, ioc, &_0);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 553, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 552, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_1, &arguments);
 	zephir_check_call_status();
 	RETURN_MM();
