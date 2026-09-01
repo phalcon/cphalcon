@@ -1,4 +1,3 @@
-
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -10,63 +9,65 @@
 
 namespace Phalcon\Storage\Adapter;
 
-use DateInterval;
 use FilesystemIterator;
 use Iterator;
-use Phalcon\Storage\Exception;
+use Phalcon\Contracts\Storage\StorageTypes;
+use Phalcon\Storage\Exceptions\InvalidConfiguration;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Storage\Traits\StorageErrorHandlerTrait;
-use Phalcon\Support\Exception as SupportException;
-use Phalcon\Traits\Helper\Str\DirFromFileTrait;
-use Phalcon\Traits\Helper\Str\DirSeparatorTrait;
 use Phalcon\Traits\Php\FileTrait;
+use Phalcon\Traits\Support\Helper\Str\DirFromFileTrait;
+use Phalcon\Traits\Support\Helper\Str\DirSeparatorTrait;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use SplFileInfo;
 
 /**
  * Stream adapter
  *
- * @property string $storageDir
- * @property array  $options
+ * Capabilities:
+ * - Counters: read-modify-write (doHas()/doGet()/doSet()); not atomic and racy
+ *   across concurrent processes.
+ * - getKeys(): recursive directory traversal; cost grows with the entry count.
+ * - Serializers: Phalcon-side only.
+ *
+ * @phpstan-import-type storage_keys from StorageTypes
+ * @phpstan-import-type storage_stream_options from StorageTypes
+ * @phpstan-import-type storage_stream_payload from StorageTypes
  */
 class Stream extends AbstractAdapter
 {
-    /**
-     * @var string
-     */
-    protected prefix = "ph-strm";
+    use DirFromFileTrait;
+    use DirSeparatorTrait;
+    use FileTrait;
 
-    /**
-     * @var string
-     */
-    protected storageDir = "";
+    protected string prefix = "ph-strm";
+    protected string storageDir = "";
 
     /**
      * Stream constructor.
      *
-     * @param SerializerFactory $factory
-     * @param array             $options = [
-     *     'storageDir'        => '',
-     *     'defaultSerializer' => 'php',
-     *     'lifetime'          => 3600,
-     *     'prefix'            => ''
-     * ]
+     * @phpstan-param storage_stream_options $options
      *
-     * @throws Exception
+     * @throws InvalidConfiguration
      */
-    public function __construct(<SerializerFactory> factory, array! options = [])
-    {
+    public function __construct(
+        <SerializerFactory> factory,
+        array options = []
+    ) {
         var storageDir;
 
+        /** @var string $storageDir */
         let storageDir = this->getArrVal(options, "storageDir", "");
         if empty storageDir {
-            throw new Exception("The 'storageDir' must be specified in the options");
+            throw new InvalidConfiguration(
+                "The 'storageDir' must be specified in the options"
+            );
         }
 
         /**
          * Lets set some defaults and options here
          */
-        let this->storageDir = this->getDirSeparator(storageDir);
+        let this->storageDir = this->toDirSeparator(storageDir);
 
         parent::__construct(factory, options);
 
@@ -82,11 +83,17 @@ class Stream extends AbstractAdapter
         bool result;
 
         let result    = true,
-            directory = this->getDirSeparator(this->storageDir),
-            iterator  = this->getIterator(directory);
+            directory = this->getDir();
 
+        if unlikely true !== this->phpFileExists(directory) {
+            return result;
+        }
+
+        let iterator = this->getIterator(directory);
+
+        /** @var SplFileInfo $file */
         for file in iterator {
-            if file->isFile() && !unlink(file->getPathName()) {
+            if unlikely true === file->isFile() && true !== this->phpUnlink(file->getPathName()) {
                 let result = false;
             }
         }
@@ -95,62 +102,100 @@ class Stream extends AbstractAdapter
     }
 
     /**
-     * Decrements a stored number
+     * Stores data in the adapter
      *
-     * @param string $key
-     * @param int    $value
-     *
-     * @return bool|int
+     * @phpstan-return storage_keys
      */
-    public function decrement(string! key, int value = 1) -> int | bool
+    public function getKeys(string prefix = "") -> array
     {
-        var data;
+        var directory, file, iterator;
+        array files;
 
-        if !this->has(key) {
-            return false;
+        let files     = [],
+            directory = this->getDir();
+
+        if unlikely true !== this->phpFileExists(directory) {
+            return [];
         }
 
-        let data = this->get(key),
-            data = (int) data - value;
+        let iterator  = this->getIterator(directory);
 
-        return this->set(key, data);
+        /** @var SplFileInfo $file */
+        for file in iterator {
+            if true === file->isFile() {
+                let files[] = this->prefix . file->getFilename();
+            }
+        }
+
+        return this->getFilteredKeys(files, prefix);
     }
 
     /**
-     * Reads data from the adapter
-     *
-     * @param string $key
-     *
-     * @return bool
+     * Stores data in the adapter forever. The key needs to manually deleted
+     * from the adapter.
      */
-    public function delete(string! key) -> bool
+    public function setForever(string key, var data) -> bool
+    {
+        array payload;
+
+        let payload   = [
+            "created" : time(),
+            "ttl"     : "forever",
+            "content" : this->getSerializedData(data)
+        ];
+
+        return this->storePayload(payload, key);
+    }
+
+    /**
+     * Decrements a stored number
+     */
+    protected function doDecrement(string key, int value = 1) -> false | int
+    {
+        var data, result;
+
+        if unlikely true !== this->doHas(key) {
+            return false;
+        }
+
+        /** @var float|int|string $data */
+        let data = this->doGet(key),
+            data = (int) data - value;
+
+        let result = this->doSet(key, data);
+        if likely result !== false {
+            let result = data;
+        }
+
+        return result;
+    }
+
+    /**
+     * Deletes data from the adapter
+     */
+    protected function doDelete(string key) -> bool
     {
         var filepath;
 
-        if !this->has(key) {
+        if true !== this->doHas(key) {
             return false;
         }
 
         let filepath = this->getFilepath(key);
 
-        return unlink(filepath);
+        return this->phpUnlink(filepath);
     }
 
     /**
      * Reads data from the adapter
-     *
-     * @param string     $key
-     * @param mixed|null $defaultValue
-     *
-     * @return mixed|null
      */
-    public function get(string! key, var defaultValue = null) -> var
+    protected function doGet( string key, var defaultValue = null) -> var
     {
         var content, filepath, payload;
 
         let filepath = this->getFilepath(key);
 
-        if (true !== file_exists(filepath)) {
+        if (true !== this->phpFileExists(filepath)) {
             return defaultValue;
         }
 
@@ -166,49 +211,15 @@ class Stream extends AbstractAdapter
     }
 
     /**
-     * Stores data in the adapter
-     *
-     * @param string $prefix
-     *
-     * @return array
-     */
-    public function getKeys(string! prefix = "") -> array
-    {
-        var directory, file, iterator;
-        array files;
-
-        let files     = [],
-            directory = this->getDir();
-
-        if !file_exists(directory) {
-            return [];
-        }
-
-        let iterator  = this->getIterator(directory);
-
-        for file in iterator {
-            if file->isFile() {
-                let files[] = this->prefix . file->getFilename();
-            }
-        }
-
-        return this->getFilteredKeys(files, prefix);
-    }
-
-    /**
      * Checks if an element exists in the cache and is not expired
-     *
-     * @param string $key
-     *
-     * @return bool
      */
-    public function has(string! key) -> bool
+    protected function doHas( string key) -> bool
     {
         var payload, filepath;
 
         let filepath = this->getFilepath(key);
 
-        if !file_exists(filepath) {
+        if unlikely true !== this->phpFileExists(filepath) {
             return false;
         }
 
@@ -223,36 +234,35 @@ class Stream extends AbstractAdapter
 
     /**
      * Increments a stored number
-     *
-     * @param string $key
-     * @param int    $value
-     *
-     * @return bool|int
      */
-    public function increment(string! key, int value = 1) -> int | bool
+    protected function doIncrement( string key, int value = 1) -> false | int
     {
-        var data;
+        var data, result;
 
-        if !this->has(key) {
+        if unlikely true !== this->doHas(key) {
             return false;
         }
 
-        let data = this->get(key),
+        /** @var float|int|string $data */
+        let data = this->doGet(key),
             data = (int) data + value;
 
-        return this->set(key, data);
+        let result = this->doSet(key, data);
+        if likely result !== false {
+            let result = data;
+        }
+
+        return result;
     }
 
     /**
-     * Stores data in the adapter
-     *
-     * @param string                 $key
-     * @param mixed                  $value
-     * @param \DateInterval|int|null $ttl
-     *
-     * @return bool
+     * Stores data in the adapter. If the TTL is `null` (default) or not defined
+     * then the default TTL will be used, as set in this adapter. If the TTL
+     * is `0` or a negative number, a `delete()` will be issued, since this
+     * item has expired. If you need to set this key forever, you should use
+     * the `setForever()` method.
      */
-    public function set(string! key, var value, var ttl = null) -> bool
+    protected function doSet( string key, var value, var ttl = null) -> bool
     {
         array payload;
 
@@ -270,66 +280,49 @@ class Stream extends AbstractAdapter
     }
 
     /**
-     * Stores data in the adapter forever. The key needs to manually deleted
-     * from the adapter.
-     *
-     * @param string $key
-     * @param mixed  $value
-     *
-     * @return bool
-     */
-    public function setForever(string! key, var value) -> bool
-    {
-        array payload;
-
-        let payload   = [
-            "created" : time(),
-            "ttl"     : "forever",
-            "content" : this->getSerializedData(value)
-        ];
-
-        return this->storePayload(payload, key);
-    }
-
-    /**
      * Returns the folder based on the storageDir and the prefix
-     *
-     * @param string $key
-     *
-     * @return string
      */
-    private function getDir(string! key = "") -> string
+    private function getDir( string key = "") -> string
     {
         var dirFromFile, dirPrefix;
 
-        let dirPrefix   = this->getDirSeparator(this->storageDir . this->prefix),
-            dirFromFile = this->getDirFromFile(
-                str_replace(this->prefix, "", key)
-            );
+        let dirPrefix   = this->toDirSeparator(this->storageDir . this->prefix),
+            dirFromFile = this->toDirFromFile(this->getKeyWithoutPrefix(key), true);
 
-        return this->getDirSeparator(dirPrefix . dirFromFile);
+        return this->toDirSeparator(dirPrefix . dirFromFile);
     }
 
     /**
      * Returns the full path to the file
-     *
-     * @param string $key
-     *
-     * @return string
      */
-    private function getFilepath(string! key) -> string
+    private function getFilepath(string key) -> string
     {
-        return this->getDir(key) . str_replace(this->prefix, "", key);
+        var name, plain;
+
+        /**
+         * Remove path separators from the key so a crafted key cannot climb
+         * out of the storage directory (CWE-22). str_replace is used rather
+         * than prepare_virtual_path because the latter also lower-cases the
+         * key, which would no longer match the stored file name.
+         */
+        let plain = this->getKeyWithoutPrefix(key),
+            name  = str_replace(["/", "\\", ":"], "_", plain);
+
+        /**
+         * A key with a path separator gets a hash suffix, so it cannot share
+         * a file with a key that spells the "_" replacement itself.
+         */
+        if memstr(plain, "/") || memstr(plain, "\\") || memstr(plain, ":") {
+            let name = name . "_" . sha1(plain);
+        }
+
+        return this->getDir(key) . name;
     }
 
     /**
      * Returns an iterator for the directory contents
-     *
-     * @param string $dir
-     *
-     * @return Iterator
      */
-    private function getIterator(string! dir) -> <Iterator>
+    private function getIterator( string dir) -> <Iterator>
     {
         return new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator(
@@ -344,57 +337,51 @@ class Stream extends AbstractAdapter
      * Gets the file contents and returns an array or an error if something
      * went wrong
      *
-     * @param string $filepath
-     *
-     * @return array
+     * @phpstan-return storage_stream_payload
      */
     private function getPayload(string filepath) -> array
     {
-        var payload, pointer, version;
+        var payload, pointer;
 
         let payload = false,
-            pointer = fopen(filepath, 'r');
+            pointer = this->phpFopen(filepath, "r");
 
         /**
          * Cannot open file
          */
-        if (false === pointer) {
+        if unlikely false === pointer {
             return [];
         }
 
-        if (flock(pointer, LOCK_SH)) {
-            let payload = file_get_contents(filepath);
+        if likely true === flock(pointer, LOCK_SH) {
+            let payload = this->phpFileGetContents(filepath);
         }
 
-        fclose(pointer);
+        this->phpFclose(pointer);
 
         /**
          * No results
          */
-        if false === payload {
+        if unlikely false === payload {
             return [];
         }
 
-        let version = phpversion();
         globals_set("warning.enable", false);
+        set_error_handler(
+            function (number, message, file, line) {
+                globals_set("warning.enable", true);
+            },
+            E_NOTICE
+        );
 
-        if version_compare(version, "8.0", ">=") {
-            set_error_handler(
-                function (number, message, file, line) {
-                    globals_set("warning.enable", true);
-                },
-                E_NOTICE
-            );
-        } else {
-            set_error_handler(
-                function (number, message, file, line, context) {
-                    globals_set("warning.enable", true);
-                },
-                E_NOTICE
-            );
-        }
-
-        let payload = unserialize(payload);
+        /**
+         * The payload is only ever a metadata array (the stored value is a
+         * nested serialized string). Refuse to build any object so a crafted
+         * cache file cannot fire magic methods on read (CWE-502).
+         *
+         * @var storage_stream_payload|false $payload
+         */
+        let payload = unserialize(payload, ["allowed_classes" : false]);
 
         restore_error_handler();
 
@@ -408,11 +395,9 @@ class Stream extends AbstractAdapter
     /**
      * Returns if the cache has expired for this item or not
      *
-     * @param array $payload
-     *
-     * @return bool
+     * @phpstan-param storage_stream_payload $payload
      */
-    private function isExpired(array! payload) -> bool
+    private function isExpired( array payload) -> bool
     {
         var created, ttl;
 
@@ -426,55 +411,26 @@ class Stream extends AbstractAdapter
         return (created + ttl) < time();
     }
 
-
     /**
      * Stores an array payload on the file system
      *
-     * @param array  $payload
-     * @param string $key
-     *
-     * @return bool
+     * @phpstan-param storage_stream_payload $payload
      */
     private function storePayload(array payload, string key) -> bool
     {
-        var directory, payload;
+        var directory, localPayload;
 
-        let payload   = serialize(payload),
+        let localPayload   = serialize(payload),
             directory = this->getDir(key);
 
         if !is_dir(directory) {
-            mkdir(directory, 0777, true);
+            mkdir(directory, 0755, true);
         }
 
-        return false !== file_put_contents(directory . key, payload, LOCK_EX);
-    }
-
-    /**
-     * @todo Remove this when we get traits
-     */
-    private function getDirFromFile(string! file) -> string
-    {
-        var name, start;
-
-        let name  = pathinfo(file, PATHINFO_FILENAME),
-            start = substr(name, 0, -2);
-
-         if !empty start {
-            let start = str_replace(".", "-", start);
-        }
-
-        if !start {
-            let start = substr(name, 0, 1);
-        }
-
-        return implode("/", str_split(start, 2)) . "/";
-    }
-
-    /**
-     * @todo Remove this when we get traits
-     */
-    private function getDirSeparator(string! directory) -> string
-    {
-        return rtrim(directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        return false !== this->phpFilePutContents(
+            this->getFilepath(key),
+            localPayload,
+            LOCK_EX
+        );
     }
 }

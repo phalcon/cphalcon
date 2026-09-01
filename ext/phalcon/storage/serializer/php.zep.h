@@ -3,12 +3,21 @@ extern zend_class_entry *phalcon_storage_serializer_php_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_Php);
 
+PHP_METHOD(Phalcon_Storage_Serializer_Php, getAllowedClasses);
 PHP_METHOD(Phalcon_Storage_Serializer_Php, serialize);
+PHP_METHOD(Phalcon_Storage_Serializer_Php, setAllowedClasses);
 PHP_METHOD(Phalcon_Storage_Serializer_Php, unserialize);
-PHP_METHOD(Phalcon_Storage_Serializer_Php, processSerializable);
-PHP_METHOD(Phalcon_Storage_Serializer_Php, processNotSerializable);
+PHP_METHOD(Phalcon_Storage_Serializer_Php, phpSerialize);
+PHP_METHOD(Phalcon_Storage_Serializer_Php, phpUnserialize);
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_serializer_php_serialize, 0, 0, IS_STRING, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_serializer_php_getallowedclasses, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_serializer_php_serialize, 0, 0, IS_MIXED, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_storage_serializer_php_setallowedclasses, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_INFO(0, allowedClasses)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_serializer_php_unserialize, 0, 1, IS_VOID, 0)
@@ -16,20 +25,21 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_serializer_php_u
 	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_serializer_php_processserializable, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_INFO(0, data)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_serializer_php_phpserialize, 0, 1, IS_STRING, 0)
+	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_serializer_php_processnotserializable, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_INFO(0, data)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_serializer_php_phpunserialize, 0, 1, IS_MIXED, 0)
+	ZEND_ARG_TYPE_INFO(0, data, IS_STRING, 0)
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_storage_serializer_php_method_entry) {
+PHP_ME(Phalcon_Storage_Serializer_Php, getAllowedClasses, arginfo_phalcon_storage_serializer_php_getallowedclasses, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Serializer_Php, serialize, arginfo_phalcon_storage_serializer_php_serialize, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Storage_Serializer_Php, setAllowedClasses, arginfo_phalcon_storage_serializer_php_setallowedclasses, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Serializer_Php, unserialize, arginfo_phalcon_storage_serializer_php_unserialize, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Storage_Serializer_Php, processSerializable, arginfo_phalcon_storage_serializer_php_processserializable, ZEND_ACC_PRIVATE)
-	PHP_ME(Phalcon_Storage_Serializer_Php, processNotSerializable, arginfo_phalcon_storage_serializer_php_processnotserializable, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Storage_Serializer_Php, phpSerialize, arginfo_phalcon_storage_serializer_php_phpserialize, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Storage_Serializer_Php, phpUnserialize, arginfo_phalcon_storage_serializer_php_phpunserialize, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

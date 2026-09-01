@@ -22,48 +22,16 @@
  */
 /**
  * Interface for Phalcon\Cli\Dispatcher
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Cli\Dispatcher} instead.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cli_DispatcherInterface)
 {
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Cli, DispatcherInterface, phalcon, cli_dispatcherinterface, phalcon_cli_dispatcherinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Cli, DispatcherInterface, phalcon, cli_dispatcherinterface, NULL);
 
-	zend_class_implements(phalcon_cli_dispatcherinterface_ce, 1, phalcon_dispatcher_dispatcherinterface_ce);
+	zend_class_implements(phalcon_cli_dispatcherinterface_ce, 1, phalcon_contracts_cli_dispatcher_ce);
 	return SUCCESS;
 }
 
-/**
- * Returns the active task in the dispatcher
- */
-ZEPHIR_DOC_METHOD(Phalcon_Cli_DispatcherInterface, getActiveTask);
-/**
- * Returns the latest dispatched controller
- */
-ZEPHIR_DOC_METHOD(Phalcon_Cli_DispatcherInterface, getLastTask);
-/**
- * Get dispatched options
- */
-ZEPHIR_DOC_METHOD(Phalcon_Cli_DispatcherInterface, getOptions);
-/**
- * Gets last dispatched task name
- */
-ZEPHIR_DOC_METHOD(Phalcon_Cli_DispatcherInterface, getTaskName);
-/**
- * Gets default task suffix
- */
-ZEPHIR_DOC_METHOD(Phalcon_Cli_DispatcherInterface, getTaskSuffix);
-/**
- * Sets the default task name
- */
-ZEPHIR_DOC_METHOD(Phalcon_Cli_DispatcherInterface, setDefaultTask);
-/**
- * Set the options to be dispatched
- */
-ZEPHIR_DOC_METHOD(Phalcon_Cli_DispatcherInterface, setOptions);
-/**
- * Sets the task name to be dispatched
- */
-ZEPHIR_DOC_METHOD(Phalcon_Cli_DispatcherInterface, setTaskName);
-/**
- * Sets the default task suffix
- */
-ZEPHIR_DOC_METHOD(Phalcon_Cli_DispatcherInterface, setTaskSuffix);

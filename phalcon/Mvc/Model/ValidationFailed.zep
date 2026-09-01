@@ -22,14 +22,14 @@ use Phalcon\Mvc\ModelInterface;
 class ValidationFailed extends Exception
 {
     /**
-     * @var array
-     */
-    protected messages = [];
-
-    /**
      * @var ModelInterface
      */
     protected model;
+
+    /**
+     * @var array
+     */
+    protected validationMessages = [];
 
     /**
      * Phalcon\Mvc\Model\ValidationFailed constructor
@@ -37,11 +37,11 @@ class ValidationFailed extends Exception
      * @param ModelInterface model
      * @param Message[] validationMessages
      */
-    public function __construct(<ModelInterface> model, array! validationMessages)
+    public function __construct(<ModelInterface> model,  array validationMessages)
     {
         var messageStr, message;
 
-        if count(validationMessages) > 0 {
+        if !empty validationMessages {
             /**
              * Get the first message in the array
              */
@@ -56,7 +56,7 @@ class ValidationFailed extends Exception
         }
 
         let this->model = model;
-        let this->messages = validationMessages;
+        let this->validationMessages = validationMessages;
 
         parent::__construct(messageStr);
     }
@@ -66,7 +66,7 @@ class ValidationFailed extends Exception
      */
     public function getMessages() -> <Message[]>
     {
-        return this->messages;
+        return this->validationMessages;
     }
 
     /**

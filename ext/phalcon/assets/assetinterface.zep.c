@@ -21,40 +21,17 @@
  * file that was distributed with this source code.
  */
 /**
- * Interface for custom Phalcon\Assets resources
+ * Phalcon\Assets\AssetInterface
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Assets\Asset} instead.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_AssetInterface)
 {
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Assets, AssetInterface, phalcon, assets_assetinterface, phalcon_assets_assetinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Assets, AssetInterface, phalcon, assets_assetinterface, NULL);
 
+	zend_class_implements(phalcon_assets_assetinterface_ce, 1, phalcon_contracts_assets_asset_ce);
 	return SUCCESS;
 }
 
-/**
- * Gets the asset's key.
- */
-ZEPHIR_DOC_METHOD(Phalcon_Assets_AssetInterface, getAssetKey);
-/**
- * Gets extra HTML attributes.
- */
-ZEPHIR_DOC_METHOD(Phalcon_Assets_AssetInterface, getAttributes);
-/**
- * Gets if the asset must be filtered or not.
- */
-ZEPHIR_DOC_METHOD(Phalcon_Assets_AssetInterface, getFilter);
-/**
- * Gets the asset's type.
- */
-ZEPHIR_DOC_METHOD(Phalcon_Assets_AssetInterface, getType);
-/**
- * Sets extra HTML attributes.
- */
-ZEPHIR_DOC_METHOD(Phalcon_Assets_AssetInterface, setAttributes);
-/**
- * Sets if the asset must be filtered or not.
- */
-ZEPHIR_DOC_METHOD(Phalcon_Assets_AssetInterface, setFilter);
-/**
- * Sets the asset's type.
- */
-ZEPHIR_DOC_METHOD(Phalcon_Assets_AssetInterface, setType);

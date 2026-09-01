@@ -1,0 +1,5 @@
+
+extern zend_class_entry *phalcon_encryption_security_uuid_timebaseduuidinterface_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_Uuid_TimeBasedUuidInterface);
+

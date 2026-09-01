@@ -4,32 +4,33 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Mvc\Model;
 
-use Phalcon\Di\Di;
 use Phalcon\Db\Column;
+use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Mvc\Model\Exceptions\InvalidModelName;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
 
 /**
- * Phalcon\Mvc\Model\Criteria
- *
  * This class is used to build the array parameter required by
  * Phalcon\Mvc\Model::find() and Phalcon\Mvc\Model::findFirst() using an
  * object-oriented interface.
  *
  * ```php
- * $robots = Robots::query()
- *     ->where("type = :type:")
- *     ->andWhere("year < 2000")
- *     ->bind(["type" => "mechanical"])
+ * <?php
+ *
+ * $invoices = Invoices::query()
+ *     ->where("inv_cst_id = :customerId:")
+ *     ->andWhere("inv_created_date < '2000-01-01'")
+ *     ->bind(["customerId" => 1])
  *     ->limit(5, 10)
- *     ->orderBy("name")
+ *     ->orderBy("inv_title")
  *     ->execute();
  * ```
  */
@@ -63,7 +64,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Appends a condition to the current conditions using an AND operator
      */
-    public function andWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>
+    public function andWhere( string conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>
     {
         var currentConditions;
 
@@ -81,7 +82,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * $criteria->betweenWhere("price", 100.25, 200.50);
      *```
      */
-    public function betweenWhere(string! expr, var minimum, var maximum) -> <CriteriaInterface>
+    public function betweenWhere( string expr, var minimum, var maximum) -> <CriteriaInterface>
     {
         var hiddenParam, minimumKey, nextHiddenParam, maximumKey;
 
@@ -120,7 +121,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * Sets the bound parameters in the criteria
      * This method replaces all previously set bound parameters
      */
-    public function bind(array! bindParams, bool merge = false) -> <CriteriaInterface>
+    public function bind( array bindParams, bool merge = false) -> <CriteriaInterface>
     {
         if !isset this->params["bind"] {
             let this->params["bind"] = [];
@@ -139,7 +140,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * Sets the bind types in the criteria
      * This method replaces all previously set bound parameters
      */
-    public function bindTypes(array! bindTypes) -> <CriteriaInterface>
+    public function bindTypes( array bindTypes) -> <CriteriaInterface>
     {
         let this->params["bindTypes"] = bindTypes;
 
@@ -150,7 +151,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * Sets the cache options in the criteria
      * This method replaces all previously set cache options
      */
-    public function cache(array! cache) -> <CriteriaInterface>
+    public function cache( array cache) -> <CriteriaInterface>
     {
         let this->params["cache"] = cache;
 
@@ -158,18 +159,51 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     }
 
     /**
-     * Sets the columns to be queried
+     * Sets the columns to be queried. The columns can be either a `string` or
+     * an `array` of strings. If the argument is a (single, non-embedded) string,
+     * its content can specify one or more columns, separated by commas, the same
+     * way that one uses the SQL select statement. You can use aliases, aggregate
+     * functions, etc. If you need to reference other models you will need to
+     * reference them with their namespaces.
+     *
+     * When using an array as a parameter, you will need to specify one field
+     * per array element. If a non-numeric key is defined in the array, it will
+     * be used as the alias in the query
      *
      *```php
+     * <?php
+     *
+     * // String, comma separated values
+     * $criteria->columns("id, category");
+     *
+     * // Array, one column per element
      * $criteria->columns(
      *     [
-     *         "id",
-     *         "name",
+     *         "inv_id",
+     *         "inv_total",
+     *     ]
+     * );
+     *
+     * // Array with named key. The name of the key acts as an
+     * // alias (`AS` clause)
+     * $criteria->columns(
+     *     [
+     *         "inv_cst_id",
+     *         "total_invoices" => "COUNT(*)",
+     *     ]
+     * );
+     *
+     * // Different models
+     * $criteria->columns(
+     *     [
+     *         "\Phalcon\Models\Invoices.*",
+     *         "\Phalcon\Models\Customers.cst_name_first",
+     *         "\Phalcon\Models\Customers.cst_name_last",
      *     ]
      * );
      *```
      *
-     * @param string|array columns
+     * @param string|array $columns
      */
     public function columns(var columns) -> <CriteriaInterface>
     {
@@ -181,7 +215,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Adds the conditions parameter to the criteria
      */
-    public function conditions(string! conditions) -> <CriteriaInterface>
+    public function conditions( string conditions) -> <CriteriaInterface>
     {
         let this->params["conditions"] = conditions;
 
@@ -192,9 +226,11 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * Creates a query builder from criteria.
      *
      * ```php
-     * $builder = Robots::query()
-     *     ->where("type = :type:")
-     *     ->bind(["type" => "mechanical"])
+     * <?php
+     *
+     * $invoices = Invoices::query()
+     *     ->where("inv_cst_id = :customerId:")
+     *     ->bind(["customerId" => 1])
      *     ->createBuilder();
      * ```
      */
@@ -233,6 +269,33 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      }
 
     /**
+     * Pre-loads the named relations when the criteria is executed
+     *
+     *```php
+     * $invoices = Invoices::query()
+     *     ->eager(["customer"])
+     *     ->where("inv_total > 100")
+     *     ->execute();
+     *```
+     *
+     * execute() forwards the parameters to Model::find(), which owns the
+     * loading, so this is a pass-through and takes the same shape: an array of
+     * dot-delimited relation paths, optionally `path => options`.
+     *
+     * Returns the concrete criteria rather than the interface because the
+     * method is deliberately not part of CriteriaInterface - adding it there
+     * would break every userland implementation.
+     *
+     * @param array $paths relation paths
+     */
+    public function eager(array paths) -> <Criteria>
+    {
+        let this->params["eager"] = paths;
+
+        return this;
+    }
+
+    /**
      * Executes a find using the parameters built with the criteria
      */
     public function execute() -> <ResultsetInterface>
@@ -242,7 +305,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
         let model = this->getModelName();
 
         if unlikely typeof model != "string" {
-            throw new Exception("Model name must be string");
+            throw new InvalidModelName();
         }
 
         return {model}::find(
@@ -265,9 +328,9 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public static function fromInput(
         <DiInterface> container,
-        string! modelName,
-        array! data,
-        string! operator = "AND"
+         string modelName,
+         array data,
+         string operator = "AND"
     ) -> <CriteriaInterface> {
         var attribute, field, value, type, metaData, model, dataTypes,
             criteria, columnMap;
@@ -275,7 +338,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
         let conditions = [];
 
-        if count(data) {
+        if !empty data {
             let metaData  = container->getShared("modelsMetadata"),
                 model     = create_instance_params(
                     modelName,
@@ -293,7 +356,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
             let bind = [];
 
             for field, value in data {
-                if typeof columnMap == "array" && count(columnMap) {
+                if typeof columnMap == "array" && !empty columnMap {
                     let attribute = columnMap[field];
                 } else {
                     let attribute = field;
@@ -327,7 +390,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
         let criteria = new self();
         criteria->setDI(container);
 
-        if count(conditions) {
+        if !empty conditions {
             criteria->where(
                 join(
                     " " . operator . " ",
@@ -490,44 +553,19 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     }
 
     /**
-     * Adds an INNER join to the query
-     *
-     *```php
-     * $criteria->innerJoin(
-     *     Robots::class
-     * );
-     *
-     * $criteria->innerJoin(
-     *     Robots::class,
-     *     "r.id = RobotsParts.robots_id"
-     * );
-     *
-     * $criteria->innerJoin(
-     *     Robots::class,
-     *     "r.id = RobotsParts.robots_id",
-     *     "r"
-     * );
-     *```
-     */
-    public function innerJoin(string! model, var conditions = null, var alias = null) -> <CriteriaInterface>
-    {
-        return this->join(model, conditions, alias, "INNER");
-    }
-
-    /**
      * Appends an IN condition to the current conditions
      *
      * ```php
      * $criteria->inWhere("id", [1, 2, 3]);
      * ```
      */
-    public function inWhere(string! expr, array! values) -> <CriteriaInterface>
+    public function inWhere( string expr,  array values) -> <CriteriaInterface>
     {
         var hiddenParam, value;
         array bindParams, bindKeys;
         string key, queryKey;
 
-        if !count(values) {
+        if empty values {
             this->andWhere(expr . " != " . expr);
 
             return this;
@@ -570,65 +608,79 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * Adds an INNER join to the query
      *
      *```php
+     * <?php
+     *
+     * $criteria->innerJoin(
+     *     Invoices::class
+     * );
+     *
+     * $criteria->innerJoin(
+     *     Invoices::class,
+     *     "inv_cst_id = Customers.cst_id"
+     * );
+     *
+     * $criteria->innerJoin(
+     *     Invoices::class,
+     *     "i.inv_cst_id = Customers.cst_id",
+     *     "i"
+     * );
+     *```
+     */
+    public function innerJoin( string model, var conditions = null, var alias = null) -> <CriteriaInterface>
+    {
+        return this->addJoinClause(model, conditions, alias, "INNER");
+    }
+
+    /**
+     * Adds an INNER join to the query
+     *
+     *```php
+     * <?php
+     *
      * $criteria->join(
-     *     Robots::class
+     *     Invoices::class
      * );
      *
      * $criteria->join(
-     *     Robots::class,
-     *     "r.id = RobotsParts.robots_id"
+     *     Invoices::class,
+     *     "inv_cst_id = Customers.cst_id"
      * );
      *
      * $criteria->join(
-     *     Robots::class,
-     *     "r.id = RobotsParts.robots_id",
-     *     "r"
+     *     Invoices::class,
+     *     "i.inv_cst_id = Customers.cst_id",
+     *     "i"
      * );
      *
      * $criteria->join(
-     *     Robots::class,
-     *     "r.id = RobotsParts.robots_id",
-     *     "r",
+     *     Invoices::class,
+     *     "i.inv_cst_id = Customers.cst_id",
+     *     "i",
      *     "LEFT"
      * );
      *```
      */
-    public function join(string! model, var conditions = null, var alias = null, var type = null) -> <CriteriaInterface>
+    public function join( string model, var conditions = null, var alias = null, var type = null) -> <CriteriaInterface>
     {
-        var mergedJoins, currentJoins;
-        array join;
-
-        let join = [model, conditions, alias, type];
-
-        if fetch currentJoins, this->params["joins"] {
-            if typeof currentJoins == "array" {
-                let mergedJoins = array_merge(currentJoins, [join]);
-            } else {
-                let mergedJoins = [join];
-            }
-        } else {
-            let mergedJoins = [join];
-        }
-
-        let this->params["joins"] = mergedJoins;
-
-        return this;
+        return this->addJoinClause(model, conditions, alias, type);
     }
 
     /**
      * Adds a LEFT join to the query
      *
      *```php
+     * <?php
+     *
      * $criteria->leftJoin(
-     *     Robots::class,
-     *     "r.id = RobotsParts.robots_id",
-     *     "r"
+     *     Invoices::class,
+     *     "i.inv_cst_id = Customers.cst_id",
+     *     "i"
      * );
      *```
      */
-    public function leftJoin(string! model, var conditions = null, var alias = null) -> <CriteriaInterface>
+    public function leftJoin( string model, var conditions = null, var alias = null) -> <CriteriaInterface>
     {
-        return this->join(model, conditions, alias, "LEFT");
+        return this->addJoinClause(model, conditions, alias, "LEFT");
     }
 
     /**
@@ -668,7 +720,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * $criteria->notBetweenWhere("price", 100.25, 200.50);
      *```
      */
-    public function notBetweenWhere(string! expr, var minimum, var maximum) -> <CriteriaInterface>
+    public function notBetweenWhere( string expr, var minimum, var maximum) -> <CriteriaInterface>
     {
         var hiddenParam, nextHiddenParam;
         string minimumKey, maximumKey;
@@ -713,7 +765,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * $criteria->notInWhere("id", [1, 2, 3]);
      *```
      */
-    public function notInWhere(string! expr, array! values) -> <CriteriaInterface>
+    public function notInWhere( string expr,  array values) -> <CriteriaInterface>
     {
         var hiddenParam, value;
         array bindParams, bindKeys;
@@ -750,19 +802,9 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     }
 
     /**
-     * Adds the order-by clause to the criteria
-     */
-    public function orderBy(string! orderColumns) -> <CriteriaInterface>
-    {
-        let this->params["order"] = orderColumns;
-
-        return this;
-    }
-
-    /**
      * Appends a condition to the current conditions using an OR operator
      */
-    public function orWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>
+    public function orWhere( string conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>
     {
         var currentConditions;
 
@@ -774,19 +816,31 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     }
 
     /**
+     * Adds the order-by clause to the criteria
+     */
+    public function orderBy( string orderColumns) -> <CriteriaInterface>
+    {
+        let this->params["order"] = orderColumns;
+
+        return this;
+    }
+
+    /**
      * Adds a RIGHT join to the query
      *
      *```php
+     * <?php
+     *
      * $criteria->rightJoin(
-     *     Robots::class,
-     *     "r.id = RobotsParts.robots_id",
-     *     "r"
+     *     Invoices::class,
+     *     "i.inv_cst_id = Customers.cst_id",
+     *     "i"
      * );
      *```
      */
-    public function rightJoin(string! model, conditions = null, alias = null) -> <CriteriaInterface>
+    public function rightJoin( string model, conditions = null, alias = null) -> <CriteriaInterface>
     {
-        return this->join(model, conditions, alias, "RIGHT");
+        return this->addJoinClause(model, conditions, alias, "RIGHT");
     }
 
     /**
@@ -800,7 +854,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Set a model on which the query will be executed
      */
-    public function setModelName(string! modelName) -> <CriteriaInterface>
+    public function setModelName( string modelName) -> <CriteriaInterface>
     {
         let this->model = modelName;
 
@@ -820,7 +874,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Sets the conditions parameter in the criteria
      */
-    public function where(string! conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>
+    public function where( string conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>
     {
         var currentBindParams, currentBindTypes;
 
@@ -853,6 +907,35 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
                 let this->params["bindTypes"] = bindTypes;
             }
         }
+
+        return this;
+    }
+
+    /**
+     * Appends a JOIN clause to the criteria params under a non-conflicting
+     * name. Internal wrappers (innerJoin/leftJoin/rightJoin/join) all
+     * delegate here so that the call site is not subject to Zephir's
+     * name collision between the public `join()` method and PHP's
+     * built-in `join()` function.
+     */
+    private function addJoinClause( string model, var conditions = null, var alias = null, var type = null) -> <CriteriaInterface>
+    {
+        var mergedJoins, currentJoins;
+        array join;
+
+        let join = [model, conditions, alias, type];
+
+        if fetch currentJoins, this->params["joins"] {
+            if typeof currentJoins == "array" {
+                let mergedJoins = array_merge(currentJoins, [join]);
+            } else {
+                let mergedJoins = [join];
+            }
+        } else {
+            let mergedJoins = [join];
+        }
+
+        let this->params["joins"] = mergedJoins;
 
         return this;
     }

@@ -10,10 +10,12 @@
 
 namespace Phalcon\Filter\Validation\Validator;
 
-use Phalcon\Messages\Message;
 use Phalcon\Filter\Validation;
-use Phalcon\Filter\Validation\ValidatorInterface;
 use Phalcon\Filter\Validation\AbstractValidator;
+use Phalcon\Filter\Validation\Exceptions\InvalidCallbackReturn;
+use Phalcon\Filter\Validation\ValidatorInterface;
+use Phalcon\Messages\Message;
+use ReflectionFunction;
 
 /**
  * Calls user function for validation
@@ -72,7 +74,7 @@ class Callback extends AbstractValidator
      *     'callback' => null
      * ]
      */
-    public function __construct(array! options = [])
+    public function __construct( array options = [])
     {
         parent::__construct(options);
     }
@@ -82,7 +84,8 @@ class Callback extends AbstractValidator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var callback, returnedValue, data;
+        var arguments, callback, returnedValue, data, reflection, savedTemplate,
+            savedChanged, savedTemplates;
 
         let callback = this->getOption("callback");
 
@@ -93,25 +96,53 @@ class Callback extends AbstractValidator
                 let data = validation->getData();
             }
 
-            let returnedValue = call_user_func(callback, data);
+            /**
+             * Snapshot the message state so a setTemplate()/setTemplates()
+             * call inside the callback cannot leak into later validations
+             * that reuse this validator instance. Restored below once the
+             * failure message (if any) has been built.
+             */
+            let savedTemplate  = this->template,
+                savedChanged   = this->templateChanged,
+                savedTemplates = this->templates;
+
+            /**
+             * Send this validator to the closure as a second argument, but
+             * only if the closure accepts it. The `$this` of the closure does
+             * not change. Thus a closure that you write in a class keeps the
+             * object that made it.
+             */
+            let arguments = [data];
+
+            if callback instanceof \Closure {
+                let reflection = new ReflectionFunction(callback);
+
+                if reflection->getNumberOfParameters() > 1 {
+                    let arguments[] = this;
+                }
+            }
+
+            let returnedValue = call_user_func_array(callback, arguments);
+
+            if typeof returnedValue == "boolean" && !returnedValue {
+                validation->appendMessage(
+                    this->messageFactory(validation, field)
+                );
+            }
+
+            let this->template        = savedTemplate,
+                this->templateChanged = savedChanged,
+                this->templates       = savedTemplates;
 
             if typeof returnedValue == "boolean" {
-                if !returnedValue {
-                    validation->appendMessage(
-                        this->messageFactory(validation, field)
-                    );
+                return returnedValue;
+            }
 
-                    return false;
-                }
-
-                return true;
-            } elseif typeof returnedValue == "object" && returnedValue instanceof ValidatorInterface {
+            if typeof returnedValue == "object" && returnedValue instanceof ValidatorInterface {
                 return returnedValue->validate(validation, field);
             }
 
-            throw new Exception(
-                "Callback must return bool or Phalcon\\Filter\\Validation\\Validator object"
-            );
+            throw new InvalidCallbackReturn();
         }
 
         return true;

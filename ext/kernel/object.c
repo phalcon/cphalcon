@@ -18,6 +18,7 @@
 
 #include <Zend/zend_closures.h>
 #include <Zend/zend_string.h>
+#include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -338,11 +339,7 @@ int zephir_clone(zval *destination, zval *obj)
 			status = FAILURE;
 		} else {
 			if (!EG(exception)) {
-#if PHP_VERSION_ID >= 80000
 				ZVAL_OBJ(destination, clone_call(Z_OBJ_P(obj)));
-#else
-				ZVAL_OBJ(destination, clone_call(obj));
-#endif
 				if (EG(exception)) {
 					zval_ptr_dtor(destination);
 				}
@@ -363,19 +360,11 @@ int zephir_isset_property(zval *object, const char *property_name, unsigned int 
 			return 1;
 		}
 
-#if PHP_VERSION_ID >= 80000
 		return zend_hash_str_exists(
 			Z_OBJ_HT_P(object)->get_properties(Z_OBJ_P(object)),
 			property_name,
 			property_length
 		);
-#else
-		return zend_hash_str_exists(
-			Z_OBJ_HT_P(object)->get_properties(object),
-			property_name,
-			property_length
-		);
-#endif
 	}
 
 	return 0;
@@ -391,24 +380,70 @@ int zephir_isset_property_zval(zval *object, const zval *property)
 			if (EXPECTED(zend_hash_str_exists(&Z_OBJCE_P(object)->properties_info, Z_STRVAL_P(property), Z_STRLEN_P(property)))) {
 				return 1;
 			} else {
-#if PHP_VERSION_ID >= 80000
 				return zend_hash_str_exists(
 					Z_OBJ_HT_P(object)->get_properties(Z_OBJ_P(object)),
 					Z_STRVAL_P(property),
 					Z_STRLEN_P(property)
 				);
-#else
-				return zend_hash_str_exists(
-					Z_OBJ_HT_P(object)->get_properties(object),
-					Z_STRVAL_P(property),
-					Z_STRLEN_P(property)
-				);
-#endif
 			}
 		}
 	}
 
 	return 0;
+}
+
+/*
+ * PHP isset() semantics for object properties: the property exists AND its
+ * value is not IS_NULL. Delegates to the object's has_property handler with
+ * ZEND_PROPERTY_ISSET (mode 0), which is the same path the engine takes for
+ * the ZEND_ISSET_ISEMPTY_PROP_OBJ opcode — this gives correct behaviour for
+ * std objects, __isset magic, typed-uninitialized properties, etc.
+ * See https://github.com/zephir-lang/zephir/issues/2385.
+ */
+int zephir_isset_property_value(zval *object, const char *property_name, unsigned int property_length)
+{
+	zend_string *member;
+	int result;
+
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+		return 0;
+	}
+
+	if (!Z_OBJ_HT_P(object)->has_property) {
+		return 0;
+	}
+
+	member = zend_string_init(property_name, property_length, 0);
+	result = Z_OBJ_HT_P(object)->has_property(Z_OBJ_P(object), member, 0, NULL);
+	zend_string_release(member);
+
+	return result;
+}
+
+int zephir_isset_property_value_zval(zval *object, const zval *property)
+{
+	if (Z_TYPE_P(object) != IS_OBJECT || Z_TYPE_P(property) != IS_STRING) {
+		return 0;
+	}
+
+	if (!Z_OBJ_HT_P(object)->has_property) {
+		return 0;
+	}
+
+	return Z_OBJ_HT_P(object)->has_property(Z_OBJ_P(object), Z_STR_P(property), 0, NULL);
+}
+
+int zephir_isset_property_value_fast(zval *object, zend_string *property_name)
+{
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+		return 0;
+	}
+
+	if (!Z_OBJ_HT_P(object)->has_property) {
+		return 0;
+	}
+
+	return Z_OBJ_HT_P(object)->has_property(Z_OBJ_P(object), property_name, 0, NULL);
 }
 
 /**
@@ -421,7 +456,7 @@ static inline zend_class_entry *zephir_lookup_class_ce(
 ) {
 	zend_class_entry *original_ce = ce;
 	zend_property_info *info;
-	zend_class_entry *scope;
+	const zend_class_entry *scope;
 	zval member;
 
 	ZVAL_STRINGL(&member, property_name, property_length);
@@ -465,7 +500,7 @@ int zephir_read_property_ex(
 	const char *property_name,
 	uint32_t property_length, int flags
 ) {
-	zend_class_entry *scope;
+	const zend_class_entry *scope;
 	int retval;
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
@@ -523,15 +558,9 @@ int zephir_read_property(
 	}
 
 	ZVAL_STRINGL(&property, property_name, property_length);
-#if PHP_VERSION_ID >= 80000
 	res = Z_OBJ_HT_P(object)->read_property(Z_OBJ_P(object), Z_STR(property),
 											flags ? BP_VAR_IS : BP_VAR_R,
 											NULL, &tmp);
-#else
-	res = Z_OBJ_HT_P(object)->read_property(object, &property,
-											flags ? BP_VAR_IS : BP_VAR_R,
-											NULL, &tmp);
-#endif
 
 	if ((flags & PH_READONLY) == PH_READONLY) {
 		ZVAL_COPY_VALUE(result, res);
@@ -540,6 +569,66 @@ int zephir_read_property(
 	}
 
 	zval_ptr_dtor(&property);
+
+	return SUCCESS;
+}
+
+/**
+ * Fast object-property read for compile-time-known names.
+ *
+ * Identical semantics to zephir_read_property(), but the name is a
+ * pre-interned zend_string (the codegen emits a method-static slot,
+ * skipping the per-call zend_string_init/dtor) and an optional inline
+ * cache slot index may be supplied. cache_slot == 0 means "uncached"
+ * (a NULL cache_slot is handed to the engine, i.e. today's behavior).
+ * See https://github.com/zephir-lang/zephir/issues/1884 (property access).
+ */
+int zephir_read_property_cached(
+	zval *result,
+	zval *object,
+	zend_string *name,
+	zend_ulong cache_slot,
+	int flags
+) {
+	zval tmp;
+	zval *res;
+	void **slot = NULL;
+
+	/*
+	 * Resolve the per-site inline cache slot from the per-request-zeroed
+	 * module globals. Index 0 = uncached -> NULL (engine re-resolves every
+	 * time, as before). A zeroed slot is a safe miss: the engine's
+	 * `ce == slot[0]` check fails against NULL and it fills the slot.
+	 */
+	if (cache_slot) {
+		zend_zephir_globals_def *zephir_globals_ptr = ZEPHIR_VGLOBAL;
+		slot = &zephir_globals_ptr->pcache[cache_slot * ZEPHIR_PROPERTY_CACHE_SLOT_SIZE];
+	}
+
+	ZVAL_UNDEF(&tmp);
+
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+		if ((flags & PH_NOISY) == PH_NOISY) {
+			php_error_docref(NULL, E_NOTICE, "Trying to get property '%s' of non-object", ZSTR_VAL(name));
+		}
+
+		ZVAL_NULL(result);
+		return FAILURE;
+	}
+
+	if (!Z_OBJ_HT_P(object)->read_property) {
+		zend_error(E_CORE_ERROR, "Property %s of class %s cannot be read", ZSTR_VAL(name), ZSTR_VAL(Z_OBJCE_P(object)->name));
+	}
+
+	res = Z_OBJ_HT_P(object)->read_property(Z_OBJ_P(object), name,
+											flags ? BP_VAR_IS : BP_VAR_R,
+											slot, &tmp);
+
+	if ((flags & PH_READONLY) == PH_READONLY) {
+		ZVAL_COPY_VALUE(result, res);
+	} else {
+		ZVAL_COPY(result, res);
+	}
 
 	return SUCCESS;
 }
@@ -612,7 +701,7 @@ int zephir_update_property_zval_ex(
 	unsigned int property_length,
 	zval *value
 ) {
-	zend_class_entry *scope;
+	const zend_class_entry *scope;
 	int retval;
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
@@ -674,13 +763,62 @@ int zephir_update_property_zval(
 
 	/* write_property will add 1 to refcount,
 	   so no Z_TRY_ADDREF_P(value) is necessary */
-#if PHP_VERSION_ID >= 80000
 	Z_OBJ_HT_P(object)->write_property(Z_OBJ_P(object), Z_STR(property), &sep_value, 0);
-#else
-	Z_OBJ_HT_P(object)->write_property(object, &property, &sep_value, 0);
-#endif
 
 	zval_ptr_dtor(&property);
+
+	if (UNEXPECTED(EG(exception))) {
+		return FAILURE;
+	}
+
+	return SUCCESS;
+}
+
+/**
+ * Fast object-property write for compile-time-known names.
+ *
+ * Identical semantics to zephir_update_property_zval(), but the name is a
+ * pre-interned zend_string and an optional inline cache slot index may be
+ * supplied. cache_slot == 0 means "uncached" (NULL cache_slot to the engine).
+ * See https://github.com/zephir-lang/zephir/issues/1884 (property access).
+ */
+int zephir_update_property_zval_cached(
+	zval *object,
+	zend_string *name,
+	zend_ulong cache_slot,
+	zval *value
+) {
+	zval sep_value;
+	void **slot = NULL;
+
+	/* See zephir_read_property_cached: resolve the per-request cache slot. */
+	if (cache_slot) {
+		zend_zephir_globals_def *zephir_globals_ptr = ZEPHIR_VGLOBAL;
+		slot = &zephir_globals_ptr->pcache[cache_slot * ZEPHIR_PROPERTY_CACHE_SLOT_SIZE];
+	}
+
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+		php_error_docref(NULL, E_WARNING, "Attempt to assign property '%s' of non-object", ZSTR_VAL(name));
+		return FAILURE;
+	}
+
+	if (!Z_OBJ_HT_P(object)->write_property) {
+		zend_error(E_CORE_ERROR, "Property %s of class %s cannot be updated", ZSTR_VAL(name), ZSTR_VAL(Z_OBJCE_P(object)->name));
+	}
+
+	ZVAL_COPY_VALUE(&sep_value, value);
+	if (Z_TYPE(sep_value) == IS_ARRAY) {
+		ZVAL_ARR(&sep_value, zend_array_dup(Z_ARR(sep_value)));
+		if (EXPECTED(!(GC_FLAGS(Z_ARRVAL(sep_value)) & IS_ARRAY_IMMUTABLE))) {
+			if (UNEXPECTED(GC_REFCOUNT(Z_ARR(sep_value)) > 0)) {
+				GC_DELREF(Z_ARR(sep_value));
+			}
+		}
+	}
+
+	/* write_property will add 1 to refcount,
+	   so no Z_TRY_ADDREF_P(value) is necessary */
+	Z_OBJ_HT_P(object)->write_property(Z_OBJ_P(object), name, &sep_value, slot);
 
 	if (UNEXPECTED(EG(exception))) {
 		return FAILURE;
@@ -715,6 +853,17 @@ int zephir_update_property_array(zval *object, const char *property, uint32_t pr
 	}
 
 	zephir_read_property(&tmp, object, property, property_length, PH_NOISY | PH_READONLY);
+
+	/**
+	 * If the property holds an object implementing ArrayAccess, delegate the
+	 * offset assignment to its offsetSet() method instead of converting the
+	 * object into a plain array. See #2465.
+	 */
+	if (UNEXPECTED(Z_TYPE(tmp) == IS_OBJECT && zephir_instance_of_ev(&tmp, (const zend_class_entry *)zend_ce_arrayaccess))) {
+		zend_long ZEPHIR_LAST_CALL_STATUS;
+		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(NULL, &tmp, "offsetset", NULL, 0, (zval *)index, value);
+		return ZEPHIR_LAST_CALL_STATUS != FAILURE ? SUCCESS : FAILURE;
+	}
 
 	/** Separation only when refcount > 1 */
 	if (Z_REFCOUNTED(tmp)) {
@@ -770,7 +919,7 @@ int zephir_update_property_array(zval *object, const char *property, uint32_t pr
 
 	if (separated) {
 		zephir_update_property_zval(object, property, property_length, &tmp);
-		zephir_ptr_dtor(&tmp);
+		zval_ptr_dtor(&tmp);
 	}
 
 	return SUCCESS;
@@ -858,7 +1007,7 @@ int zephir_update_property_array_append(zval *object, char *property, unsigned i
 
 	if (separated) {
 		zephir_update_property_zval(object, property, property_length, &tmp);
-		zephir_ptr_dtor(&tmp);
+		zval_ptr_dtor(&tmp);
 	}
 
 	return SUCCESS;
@@ -875,6 +1024,53 @@ int zephir_update_property_array_multi(zval *object, const char *property, uint3
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 		zephir_read_property(&tmp_arr, object, property, property_length, PH_NOISY | PH_READONLY);
+
+		/**
+		 * If the property holds an object implementing ArrayAccess, a chained
+		 * write (this->prop[a][b] = value) cannot persist. This mirrors native
+		 * PHP exactly: the first offset is fetched once via offsetGet(), the
+		 * indirect modification of the returned by-value element has no effect,
+		 * and an "Indirect modification of overloaded element" notice is raised.
+		 * The object is left intact rather than converted into an array. #2465
+		 */
+		if (UNEXPECTED(Z_TYPE(tmp_arr) == IS_OBJECT && zephir_instance_of_ev(&tmp_arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
+			zend_long ZEPHIR_LAST_CALL_STATUS;
+			zval offset, fetched;
+			/* Class entries are persistent, so this stays valid even if the
+			 * offsetGet() call below were to drop the last instance reference. */
+			zend_class_entry *ce = Z_OBJCE(tmp_arr);
+			ZVAL_UNDEF(&fetched);
+			ZVAL_UNDEF(&offset);
+
+			va_start(ap, types_count);
+			switch (types[0]) {
+				case 's': {
+					char *str  = va_arg(ap, char*);
+					/* SL() pushes a size_t; see kernel/array.c. */
+					size_t len = va_arg(ap, size_t);
+					ZVAL_STRINGL(&offset, str, len);
+					break;
+				}
+				case 'l':
+					ZVAL_LONG(&offset, va_arg(ap, zend_long));
+					break;
+				case 'z':
+					ZVAL_COPY(&offset, va_arg(ap, zval*));
+					break;
+				default: /* 'a' (append): the fetched offset is null */
+					ZVAL_NULL(&offset);
+					break;
+			}
+			va_end(ap);
+
+			ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(&fetched, &tmp_arr, "offsetget", NULL, 0, &offset);
+			zval_ptr_dtor(&fetched);
+			zval_ptr_dtor(&offset);
+
+			zend_error(E_NOTICE, "Indirect modification of overloaded element of %s has no effect", ZSTR_VAL(ce->name));
+
+			return SUCCESS;
+		}
 
 		/** Separation only when refcount > 1 */
 		if (Z_REFCOUNTED(tmp_arr)) {
@@ -920,7 +1116,7 @@ int zephir_update_property_array_multi(zval *object, const char *property, uint3
 
 		if (separated) {
 			zephir_update_property_zval(object, property, property_length, &tmp_arr);
-			zephir_ptr_dtor(&tmp_arr);
+			zval_ptr_dtor(&tmp_arr);
 		}
 	}
 
@@ -934,7 +1130,7 @@ int zephir_unset_property(zval* object, const char* name)
 	}
 
 	zval member;
-	zend_class_entry *scope;
+	const zend_class_entry *scope;
 
 	ZVAL_STRING(&member, name);
 
@@ -943,12 +1139,29 @@ int zephir_unset_property(zval* object, const char* name)
 
 	/* Use caller's scope */
 	zephir_set_scope(Z_OBJCE_P(object));
-#if PHP_VERSION_ID >= 80000
 	Z_OBJ_HT_P(object)->unset_property(Z_OBJ_P(object), Z_STR(member), 0);
-#else
-	Z_OBJ_HT_P(object)->unset_property(object, &member, 0);
-#endif
 	/* Restore original scope */
+	zephir_set_scope(scope);
+
+	return SUCCESS;
+}
+
+/**
+ * Unsets an object property whose name is given as a zval string.
+ * Mirrors zephir_unset_property() but accepts a dynamic zval name,
+ * enabling unset(obj->{variable}) compiled via zephir_unset_property_zval().
+ */
+int zephir_unset_property_zval(zval *object, const zval *name)
+{
+	const zend_class_entry *scope;
+
+	if (Z_TYPE_P(object) != IS_OBJECT || Z_TYPE_P(name) != IS_STRING) {
+		return FAILURE;
+	}
+
+	scope = zephir_get_scope(0);
+	zephir_set_scope(Z_OBJCE_P(object));
+	Z_OBJ_HT_P(object)->unset_property(Z_OBJ_P(object), Z_STR_P(name), 0);
 	zephir_set_scope(scope);
 
 	return SUCCESS;
@@ -1231,34 +1444,175 @@ int zephir_property_incr_decr(zval *object, char *property_name, unsigned int pr
 	return SUCCESS;
 }
 
-/* Imported since PHP is so nice to define this in a .c file... */
-typedef struct _zend_closure {
-	zend_object       std;
-	zend_function     func;
-	zval              this_ptr;
-	zend_class_entry *called_scope;
-	zif_handler       orig_internal_handler;
-} zend_closure;
+/**
+ * Writes a PHP reference into a declared property without dereferencing it.
+ *
+ * write_property() assigns *through* a reference, which is the opposite of
+ * what a by-reference closure capture needs: the carrier has to hold the
+ * reference itself, so that the closure and the enclosing scope keep sharing
+ * one storage slot.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2652
+ */
+int zephir_update_property_reference(zval *object, const char *property_name, uint32_t property_length, zval *value)
+{
+	zend_string *property;
+	zval *slot;
+
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+		php_error_docref(NULL, E_WARNING, "Attempt to assign property '%s' of non-object", property_name);
+		return FAILURE;
+	}
+
+	property = zend_string_init(property_name, property_length, 0);
+	slot     = zend_std_get_property_ptr_ptr(Z_OBJ_P(object), property, BP_VAR_W, NULL);
+	zend_string_release(property);
+
+	if (slot == NULL) {
+		return FAILURE;
+	}
+
+	zval_ptr_dtor(slot);
+	ZVAL_COPY(slot, value);
+
+	return SUCCESS;
+}
 
 /**
- * Creates a closure
+ * Turns a local into a PHP reference holding NULL.
+ *
+ * NULL rather than UNDEF on purpose: ZEPHIR_CPY_WRT() observes its
+ * destination when it is UNDEF, which would register the reference's inner
+ * slot with the memory frame and free it twice.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2652
  */
-int zephir_create_closure_ex(zval *return_value, zval *this_ptr, zend_class_entry *ce, const char *method_name, uint32_t method_length)
+void zephir_make_local_reference(zval *var)
+{
+	zval value;
+
+	ZVAL_NULL(&value);
+	ZVAL_NEW_REF(var, &value);
+}
+
+/**
+ * Creates a closure bound to `bound_this`, scoped by `scope_this`.
+ *
+ * A closure with `use (...)` captures binds a per-creation capture carrier as
+ * its `$this`, because that is the only per-instance slot the engine gives an
+ * internal-function closure. The scope has to keep coming from the enclosing
+ * object, or the body would lose access to its protected/private members.
+ * The two are the same object for every other closure.
+ */
+int zephir_create_closure_bound(zval *return_value, zval *bound_this, zval *scope_this, zend_class_entry *ce, const char *method_name, uint32_t method_length)
 {
 	zend_function *function_ptr;
-	zend_closure *closure;
+	zend_class_entry *scope_ce;
 
 	if ((function_ptr = zend_hash_str_find_ptr(&ce->function_table, method_name, method_length)) == NULL) {
 		ZVAL_NULL(return_value);
 		return FAILURE;
 	}
 
-	zend_create_closure(return_value, function_ptr, ce, ce, this_ptr);
-	// Make sure we can use a closure multiple times
-	closure = (zend_closure*)Z_OBJ_P(return_value);
-	closure->func.internal_function.handler = closure->orig_internal_handler;
+	/**
+	 * When an enclosing object is provided, use its class as the scope so the
+	 * closure can access protected/private members of that object.
+	 */
+	scope_ce = (scope_this && Z_TYPE_P(scope_this) == IS_OBJECT) ? Z_OBJCE_P(scope_this) : ce;
+
+	/**
+	 * The engine wraps an internal function's handler with
+	 * zend_closure_internal_handler(), whose only job is to release the
+	 * reference every call path takes on the closure object
+	 * (zend_call_function() does it unconditionally for ZEND_ACC_CLOSURE, and
+	 * the internal-call teardown releases nothing else). Restoring
+	 * orig_internal_handler here used to bypass that release, so each
+	 * invocation leaked one reference and the closure - with everything it
+	 * held - was never freed.
+	 */
+	zend_create_closure(return_value, function_ptr, scope_ce, scope_ce, bound_this);
+
 	return SUCCESS;
 }
+
+/**
+ * Creates a closure whose bound object doubles as its scope.
+ */
+int zephir_create_closure_ex(zval *return_value, zval *this_ptr, zend_class_entry *ce, const char *method_name, uint32_t method_length)
+{
+	return zephir_create_closure_bound(return_value, this_ptr, this_ptr, ce, method_name, method_length);
+}
+
+/**
+ * Copied from php-src source tree for PHP 8.4
+ */
+#if PHP_VERSION_ID < 80400
+static zend_result object_init_with_constructor(zval *arg, zend_class_entry *class_type, uint32_t param_count, zval *params, HashTable *named_params)
+{
+	zend_result status = object_and_properties_init(arg, class_type, NULL);
+	if (UNEXPECTED(status == FAILURE)) {
+		ZVAL_UNDEF(arg);
+		return FAILURE;
+	}
+	zend_object *obj = Z_OBJ_P(arg);
+	zend_function *constructor = obj->handlers->get_constructor(obj);
+	if (constructor == NULL) {
+		/* The constructor can be NULL for 2 different reasons:
+		 * - It is not defined
+		 * - We are not allowed to call the constructor (e.g. private, or internal opaque class)
+		 *   and an exception has been thrown
+		 * in the former case, we are (mostly) done and the object is initialized,
+		 * in the latter we need to destroy the object as initialization failed
+		 */
+		if (UNEXPECTED(EG(exception))) {
+			zval_ptr_dtor(arg);
+			ZVAL_UNDEF(arg);
+			return FAILURE;
+		}
+
+		/* Surprisingly, this is the only case where internal classes will allow to pass extra arguments
+		 * However, if there are named arguments (and it is not empty),
+		 * an Error must be thrown to be consistent with new ClassName() */
+		if (UNEXPECTED(named_params != NULL && zend_hash_num_elements(named_params) != 0)) {
+			/* Throw standard Error */
+			zend_string *arg_name = NULL;
+			zend_hash_get_current_key(named_params, &arg_name, /* num_index */ NULL);
+			ZEND_ASSERT(arg_name != NULL);
+			zend_throw_error(NULL, "Unknown named parameter $%s", ZSTR_VAL(arg_name));
+			/* Do not call destructor, free object, and set arg to IS_UNDEF */
+			zend_object_store_ctor_failed(obj);
+			zval_ptr_dtor(arg);
+			ZVAL_UNDEF(arg);
+			return FAILURE;
+		} else {
+			return SUCCESS;
+		}
+	}
+	/* A constructor should not return a value, however if an exception is thrown
+	 * zend_call_known_function() will set the retval to IS_UNDEF */
+	zval retval;
+	zend_call_known_function(
+		constructor,
+		obj,
+		class_type,
+		&retval,
+		param_count,
+		params,
+		named_params
+	);
+	if (Z_TYPE(retval) == IS_UNDEF) {
+		/* Do not call destructor, free object, and set arg to IS_UNDEF */
+		zend_object_store_ctor_failed(obj);
+		zval_ptr_dtor(arg);
+		ZVAL_UNDEF(arg);
+		return FAILURE;
+	} else {
+		/* Unlikely, but user constructors may return any value they want */
+		zval_ptr_dtor(&retval);
+		return SUCCESS;
+	}
+}
+#endif
 
 /**
  * Creates a new instance dynamically. Call constructor without parameters
@@ -1278,42 +1632,7 @@ int zephir_create_instance(zval *return_value, const zval *class_name)
 		return FAILURE;
 	}
 
-	if(UNEXPECTED(object_init_ex(return_value, ce) != SUCCESS)) {
-    	return FAILURE;
-    }
-
-	if (EXPECTED(Z_OBJ_HT_P(return_value)->get_constructor)) {
-		zend_object* obj    = Z_OBJ_P(return_value);
-		zend_function* ctor = Z_OBJ_HT_P(return_value)->get_constructor(obj);
-		if (ctor) {
-			zend_fcall_info fci;
-			zend_fcall_info_cache fcc;
-
-			zend_class_entry* ce = Z_OBJCE_P(return_value);
-
-			fci.size             = sizeof(fci);
-			fci.object           = obj;
-			fci.retval           = 0;
-			fci.param_count      = 0;
-			fci.params           = 0;
-#if PHP_VERSION_ID < 80000
-			fci.no_separation = 1;
-#else
-			fci.named_params = NULL;
-#endif
-
-			ZVAL_NULL(&fci.function_name);
-
-			fcc.object           = obj;
-			fcc.called_scope     = ce;
-			fcc.calling_scope    = ce;
-			fcc.function_handler = ctor;
-
-			return zend_fcall_info_call(&fci, &fcc, NULL, NULL);
-		}
-	}
-
-	return SUCCESS;
+	return object_init_with_constructor(return_value, ce, 0, NULL, NULL);
 }
 
 /**
@@ -1339,43 +1658,5 @@ int zephir_create_instance_params(zval *return_value, const zval *class_name, zv
 		return FAILURE;
 	}
 
-	if(UNEXPECTED(object_init_ex(return_value, ce) != SUCCESS)) {
-    	return FAILURE;
-    }
-
-	if (EXPECTED(Z_OBJ_HT_P(return_value)->get_constructor)) {
-		zend_object* obj    = Z_OBJ_P(return_value);
-		zend_function* ctor = Z_OBJ_HT_P(return_value)->get_constructor(obj);
-		if (ctor) {
-			int status;
-			zend_fcall_info fci;
-			zend_fcall_info_cache fcc;
-
-			zend_class_entry* ce = Z_OBJCE_P(return_value);
-
-			fci.size             = sizeof(fci);
-			fci.object           = obj;
-			fci.retval           = 0;
-			fci.param_count      = 0;
-			fci.params           = 0;
-#if PHP_VERSION_ID < 80000
-			fci.no_separation = 1;
-#else
-			fci.named_params = NULL;
-#endif
-			ZVAL_NULL(&fci.function_name);
-
-			fcc.object           = obj;
-			fcc.called_scope     = ce;
-			fcc.calling_scope    = ce;
-			fcc.function_handler = ctor;
-
-			zend_fcall_info_args_ex(&fci, fcc.function_handler, params);
-			status = zend_fcall_info_call(&fci, &fcc, NULL, NULL);
-			zend_fcall_info_args_clear(&fci, 1);
-			return status;
-		}
-	}
-
-	return SUCCESS;
+	return object_init_with_constructor(return_value, ce, 0, NULL, Z_ARRVAL_P(params));
 }

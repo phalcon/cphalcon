@@ -15,13 +15,14 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_filter_validation_validationinterface_bind, 0, 2, Phalcon\\Filter\\Validation\\ValidationInterface, 0)
 	ZEND_ARG_INFO(0, entity)
 	ZEND_ARG_INFO(0, data)
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, whitelist, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_validationinterface_getentity, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_validationinterface_getfilters, 0, 0, 0)
-	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, field, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validationinterface_getlabel, 0, 1, IS_STRING, 0)
@@ -58,9 +59,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_valida
 	ZEND_ARG_ARRAY_INFO(0, labels, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_filter_validation_validationinterface_validate, 0, 0, Phalcon\\Messages\\Messages, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_phalcon_filter_validation_validationinterface_validate, 0, 0, Phalcon\\Messages\\Messages, MAY_BE_BOOL)
 	ZEND_ARG_INFO(0, data)
 	ZEND_ARG_INFO(0, entity)
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, whitelist, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_filter_validation_validationinterface_method_entry) {

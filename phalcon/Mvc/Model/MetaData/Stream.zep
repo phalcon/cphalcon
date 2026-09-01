@@ -11,7 +11,9 @@
 namespace Phalcon\Mvc\Model\MetaData;
 
 use Phalcon\Mvc\Model\MetaData;
-use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model\MetaData\Exceptions\MetaDataDirectoryNotWritable;
+use Phalcon\Support\Settings;
+use Phalcon\Traits\Php\FileTrait;
 
 /**
  * Phalcon\Mvc\Model\MetaData\Stream
@@ -28,6 +30,8 @@ use Phalcon\Mvc\Model\Exception;
  */
 class Stream extends MetaData
 {
+    use FileTrait;
+
     /**
      * @var string
      */
@@ -50,13 +54,17 @@ class Stream extends MetaData
     /**
      * Reads meta-data from files
      */
-    public function read(string! key) -> array | null
+    public function read(var key) -> array | null
     {
         var path;
 
-        let path = this->metaDataDir . prepare_virtual_path(key, "_") . ".php";
+        if null === key {
+            return null;
+        }
 
-        if !file_exists(path) {
+        let path = this->getFilePath(key);
+
+        if !this->phpFileExists(path) {
             return null;
         }
 
@@ -66,15 +74,16 @@ class Stream extends MetaData
     /**
      * Writes the meta-data to files
      */
-    public function write(string! key, array data) -> void
+    public function write(var key, array data) -> void
     {
         var option, path;
 
-        try {
-            let path   = this->metaDataDir . prepare_virtual_path(key, "_") . ".php",
-                option = globals_get("orm.exception_on_failed_metadata_save");
+        let option = Settings::get("orm.exception_on_failed_metadata_save");
 
-            if false === file_put_contents(path, "<?php return " . var_export(data, true) . "; ") {
+        try {
+            let path = this->getFilePath(key);
+
+            if false === this->phpFilePutContents(path, "<?php return " . var_export(data, true) . "; ") {
                 this->throwWriteException(option);
             }
         } catch \Exception {
@@ -83,14 +92,30 @@ class Stream extends MetaData
     }
 
     /**
+     * Builds the cache file path. Namespace separators become "_", so a
+     * name that itself contains "_" gets a hash suffix; otherwise "A\\B"
+     * and "A_B" would share one file.
+     */
+    private function getFilePath(string key) -> string
+    {
+        var name;
+
+        let name = prepare_virtual_path(key, "_");
+
+        if memstr(key, "_") {
+            let name = name . "_" . sha1(key);
+        }
+
+        return this->metaDataDir . name . ".php";
+    }
+
+    /**
      * Throws an exception when the metadata cannot be written
      */
     private function throwWriteException(var option) -> void
     {
         if option {
-            throw new Exception(
-                "Meta-Data directory cannot be written"
-            );
+            throw new MetaDataDirectoryNotWritable();
         } else {
             trigger_error(
                 "Meta-Data directory cannot be written"

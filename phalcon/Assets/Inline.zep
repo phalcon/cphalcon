@@ -10,43 +10,38 @@
 
 namespace Phalcon\Assets;
 
+use Phalcon\Assets\Traits\AttributesTrait;
+use Phalcon\Contracts\Assets\AssetsTypes;
+use Phalcon\Traits\Php\HashTrait;
+
 /**
  * Represents an inline asset
  *
  *```php
  * $inline = new \Phalcon\Assets\Inline("js", "alert('hello world');");
  *```
+ *
+ * @phpstan-import-type assets_attributes from AssetsTypes
  */
 class $Inline implements AssetInterface
 {
-    /**
-     * @var array | null
-     */
-    protected attributes { get };
+    use AttributesTrait;
+    use HashTrait;
+
+    protected string content;
+    protected bool filter;
+    protected string type;
 
     /**
-     * @var string
-     */
-    protected content { get };
-
-    /**
-     * @var bool
-     */
-    protected filter { get };
-
-    /**
-     * @var string
-     */
-    protected type { get };
-
-    /**
-     * Phalcon\Assets\Inline constructor
+     * Inline constructor.
+     *
+     * @param assets_attributes $attributes
      */
     public function __construct(string type, string content, bool filter = true, array attributes = [])
     {
-        let this->type = type,
-            this->content = content,
-            this->filter = filter,
+        let this->type       = type,
+            this->content    = content,
+            this->filter     = filter,
             this->attributes = attributes;
     }
 
@@ -59,11 +54,43 @@ class $Inline implements AssetInterface
 
         let key = this->getType() . ":" . this->getContent();
 
-        return hash("sha256", key);
+        return this->phpHash("sha256", key);
+    }
+
+    /**
+     * Gets if the asset content
+     *
+     * @return string
+     */
+    public function getContent() -> string
+    {
+        return this->content;
+    }
+
+    /**
+     * Gets if the asset must be filtered or not.
+     *
+     * @return bool
+     */
+    public function getFilter() -> bool
+    {
+        return this->filter;
+    }
+
+    /**
+     * Gets the asset's type.
+     *
+     * @return string
+     */
+    public function getType() -> string
+    {
+        return this->type;
     }
 
     /**
      * Sets extra HTML attributes
+     *
+     * @param assets_attributes $attributes
      */
     public function setAttributes(array attributes) -> <AssetInterface>
     {

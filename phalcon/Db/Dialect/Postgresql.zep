@@ -10,13 +10,18 @@
 
 namespace Phalcon\Db\Dialect;
 
-use Phalcon\Db\Dialect;
+use Phalcon\Db\CheckInterface;
 use Phalcon\Db\Column;
-use Phalcon\Db\Exception;
-use Phalcon\Db\IndexInterface;
 use Phalcon\Db\ColumnInterface;
-use Phalcon\Db\ReferenceInterface;
+use Phalcon\Db\Dialect;
 use Phalcon\Db\DialectInterface;
+use Phalcon\Db\Exception;
+use Phalcon\Db\Exceptions\MissingDefinitionKey;
+use Phalcon\Db\Exceptions\ReturningRequiresColumn;
+use Phalcon\Db\Exceptions\UnrecognizedDataType;
+use Phalcon\Db\IndexInterface;
+use Phalcon\Db\RawValue;
+use Phalcon\Db\ReferenceInterface;
 
 /**
  * Generates database specific SQL for the PostgreSQL RDBMS
@@ -29,19 +34,25 @@ class Postgresql extends Dialect
     protected escapeChar = "\"";
 
     /**
+     * @var array
+     */
+    protected supportedOperators = ["@@", "@>", "<@", "&&", "||", "->", "->>", "#>", "#>>"];
+
+    /**
      * Generates SQL to add a column to a table
      */
-    public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string
+    public function addColumn( string tableName,  string schemaName, <ColumnInterface> column) -> string
     {
         var columnDefinition;
         string sql;
 
-        let columnDefinition = this->getColumnDefinition(column);
+        let columnDefinition = this->getColumnDefinition(column)
+            . this->getGeneratedClause(column, true);
 
         let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD COLUMN ";
         let sql .= "\"" . column->getName() . "\" " . columnDefinition;
 
-        if column->hasDefault() {
+        if !column->isGenerated() && column->hasDefault() {
             let sql .= " DEFAULT " . this->castDefault(column);
         }
 
@@ -55,9 +66,18 @@ class Postgresql extends Dialect
     }
 
     /**
+     * Generates SQL to add a CHECK constraint to an existing table.
+     */
+    public function addCheck( string tableName,  string schemaName, <CheckInterface> check) -> string
+    {
+        return "ALTER TABLE " . this->prepareTable(tableName, schemaName)
+            . " ADD " . this->getCheckClause(check, "\"");
+    }
+
+    /**
      * Generates SQL to add an index to a table
      */
-    public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> string
+    public function addForeignKey( string tableName,  string schemaName, <ReferenceInterface> reference) -> string
     {
         var onDelete, onUpdate;
         string sql;
@@ -87,7 +107,7 @@ class Postgresql extends Dialect
     /**
      * Generates SQL to add an index to a table
      */
-    public function addIndex(string! tableName, string! schemaName, <IndexInterface> index) -> string
+    public function addIndex( string tableName,  string schemaName, <IndexInterface> index) -> string
     {
         var indexType;
         string sql;
@@ -102,9 +122,19 @@ class Postgresql extends Dialect
         if !empty indexType {
             let sql .= " " . indexType;
         }
-        let sql .= " INDEX \"" . index->getName() . "\" ON " . this->prepareTable(tableName, schemaName);
+        let sql .= " INDEX";
 
-        let sql .= " (" . this->getColumnList(index->getColumns()) . ")";
+        if index->isConcurrent() {
+            let sql .= " CONCURRENTLY";
+        }
+
+        let sql .= " \"" . index->getName() . "\" ON " . this->prepareTable(tableName, schemaName);
+
+        let sql .= " (" . this->getIndexColumnList(index) . ")";
+
+        if index->getWhere() !== "" {
+            let sql .= " WHERE " . index->getWhere();
+        }
 
         return sql;
     }
@@ -112,7 +142,7 @@ class Postgresql extends Dialect
     /**
      * Generates SQL to add the primary key to a table
      */
-    public function addPrimaryKey(string! tableName, string! schemaName, <IndexInterface> index) -> string
+    public function addPrimaryKey( string tableName,  string schemaName, <IndexInterface> index) -> string
     {
         return "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD CONSTRAINT \"" . tableName . "_PRIMARY\" PRIMARY KEY (" . this->getColumnList(index->getColumns()) . ")";
     }
@@ -120,18 +150,16 @@ class Postgresql extends Dialect
     /**
      * Generates SQL to create a table
      */
-    public function createTable(string! tableName, string! schemaName, array! definition) -> string
+    public function createTable( string tableName,  string schemaName,  array definition) -> string
     {
         var temporary, options, table, columns, column, indexes, index,
             reference, references, indexName, indexType, onDelete, onUpdate,
-            columnDefinition;
+            columnDefinition, checks, check, tableComment;
         array createLines, primaryColumns;
         string indexSql, indexSqlAfterCreate, columnLine, referenceSql, sql;
 
         if unlikely !fetch columns, definition["columns"] {
-            throw new Exception(
-                "The index 'columns' is required in the definition array"
-            );
+            throw new MissingDefinitionKey("columns");
         }
 
         let table = this->prepareTable(tableName, schemaName);
@@ -139,6 +167,7 @@ class Postgresql extends Dialect
         let temporary = false;
         if fetch options, definition["options"] {
             fetch temporary, options["temporary"];
+            fetch tableComment, options["TABLE_COMMENT"];
         }
 
         /**
@@ -159,13 +188,14 @@ class Postgresql extends Dialect
         let primaryColumns = [];
 
         for column in columns {
-            let columnDefinition = this->getColumnDefinition(column);
+            let columnDefinition = this->getColumnDefinition(column)
+                . this->getGeneratedClause(column, true);
             let columnLine = "\"" . column->getName() . "\" " . columnDefinition;
 
             /**
-             * Add a Default clause
+             * Add a Default clause (skipped for generated columns)
              */
-            if column->hasDefault() {
+            if !column->isGenerated() && column->hasDefault() {
                 let columnLine .= " DEFAULT " . this->castDefault(column);
             }
 
@@ -191,7 +221,7 @@ class Postgresql extends Dialect
             * Add a COMMENT clause
             */
             if column->getComment() {
-                let indexSqlAfterCreate .= " COMMENT ON COLUMN " . table . ".\"" . column->getName()."\" IS '".column->getComment()."';";
+                let indexSqlAfterCreate .= " COMMENT ON COLUMN " . table . ".\"" . column->getName()."\" IS '" . str_replace("'", "''", column->getComment()) . "';";
             }
         }
 
@@ -209,14 +239,16 @@ class Postgresql extends Dialect
                  * If the index name is primary we add a primary key
                  */
                 if indexName == "PRIMARY" {
-                    let indexSql = "CONSTRAINT \"PRIMARY\" PRIMARY KEY (" . this->getColumnList(index->getColumns()) . ")";
+                    let indexSql = "CONSTRAINT \"PRIMARY\" PRIMARY KEY (" . this->getIndexColumnList(index) . ")";
                 } else {
                     if !empty indexType {
-                        let indexSql = "CONSTRAINT \"" . indexName . "\" " . indexType . " (" . this->getColumnList(index->getColumns()) . ")";
+                        let indexSql = "CONSTRAINT \"" . indexName . "\" "
+                            . indexType . " ("
+                            . this->getIndexColumnList(index) . ")";
                     } else {
                         let indexSqlAfterCreate .= "CREATE INDEX \"" . index->getName() . "\" ON " . this->prepareTable(tableName, schemaName);
 
-                        let indexSqlAfterCreate .= " (" . this->getColumnList(index->getColumns()) . ");";
+                        let indexSqlAfterCreate .= " (" . this->getIndexColumnList(index) . ");";
                     }
                 }
 
@@ -254,26 +286,53 @@ class Postgresql extends Dialect
             }
         }
 
+        /**
+         * Create CHECK constraints
+         */
+        if fetch checks, definition["checks"] {
+            for check in checks {
+                let createLines[] = this->getCheckClause(check, "\"");
+            }
+        }
+
         let sql .= join(",\n\t", createLines) . "\n)";
         if isset definition["options"] {
             let sql .= " " . this->getTableOptions(definition);
         }
+        if tableComment {
+            let indexSqlAfterCreate .= " COMMENT ON TABLE " . table . " IS '" . str_replace("'", "''", tableComment) . "';";
+        }
+
         let sql .= ";" . indexSqlAfterCreate;
 
         return sql;
     }
 
     /**
-     * Generates SQL to create a view
+     * Generates SQL to create a materialized view.
      */
-    public function createView(string! viewName, array! definition, string schemaName = null) -> string
+    public function createMaterializedView( string viewName,  array definition, string schemaName = null) -> string
     {
         var viewSql;
 
         if unlikely !fetch viewSql, definition["sql"] {
-            throw new Exception(
-                "The index 'sql' is required in the definition array"
-            );
+            throw new MissingDefinitionKey("sql");
+        }
+
+        return "CREATE MATERIALIZED VIEW "
+            . this->prepareTable(viewName, schemaName)
+            . " AS " . viewSql;
+    }
+
+    /**
+     * Generates SQL to create a view
+     */
+    public function createView( string viewName,  array definition, string schemaName = null) -> string
+    {
+        var viewSql;
+
+        if unlikely !fetch viewSql, definition["sql"] {
+            throw new MissingDefinitionKey("sql");
         }
 
         return "CREATE VIEW " . this->prepareTable(viewName, schemaName) . " AS " . viewSql;
@@ -288,47 +347,98 @@ class Postgresql extends Dialect
      * );
      * ```
      */
-    public function describeColumns(string! table, string schema = null) -> string
+    public function describeColumns( string table, string schema = null) -> string
     {
         if schema === null {
             let schema = "public";
         }
 
-        return "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.numeric_scale AS NumericScale, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, c.column_default, des.description FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) LEFT JOIN ( SELECT objsubid, description, relname, nspname FROM pg_description JOIN pg_class ON pg_description.objoid = pg_class.oid JOIN pg_namespace ON pg_class.relnamespace = pg_namespace.oid ) des ON ( des.objsubid = C.ordinal_position AND C.table_schema = des.nspname AND C.TABLE_NAME = des.relname ) WHERE c.table_schema='" . schema . "' AND c.table_name='" . table . "' ORDER BY c.ordinal_position";
+        /**
+         * Adapter loop reads by ordinal index:
+         *   0:Field, 1:Type, 2:Size, 3:NumericSize, 4:NumericScale, 5:Null,
+         *   6:Key, 7:Extra, 8:Position, 9:column_default, 10:description
+         *
+         * Positions 11 (IsGenerated) and 12 (GenerationExpression) are
+         * appended for the generated column round-trip
+         * (cphalcon issue [#14719] umbrella). `is_generated` is 'ALWAYS' for
+         * stored generated columns in PostgreSQL 12+, 'NEVER' otherwise.
+         * PostgreSQL only supports STORED generated columns.
+         */
+        return "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, "
+            . "c.character_maximum_length AS Size, "
+            . "c.numeric_precision AS NumericSize, "
+            . "c.numeric_scale AS NumericScale, c.is_nullable AS Null, "
+            . "CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, "
+            . "CASE WHEN c.data_type LIKE '%int%' AND "
+            . "c.column_default LIKE '%nextval%' THEN 'auto_increment' "
+            . "ELSE '' END AS Extra, c.ordinal_position AS Position, "
+            . "c.column_default, des.description, "
+            . "c.is_generated AS IsGenerated, "
+            . "c.generation_expression AS GenerationExpression "
+            . "FROM information_schema.columns c "
+            . "LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, "
+            . "kcu.table_schema FROM information_schema.table_constraints tc "
+            . "INNER JOIN information_schema.key_column_usage kcu on "
+            . "(kcu.constraint_name = tc.constraint_name and "
+            . "kcu.table_name=tc.table_name and "
+            . "kcu.table_schema=tc.table_schema) "
+            . "WHERE tc.constraint_type='PRIMARY KEY') pkc "
+            . "ON (c.column_name=pkc.column_name AND "
+            . "c.table_schema = pkc.table_schema AND "
+            . "c.table_name=pkc.table_name) "
+            . "LEFT JOIN ( SELECT objsubid, description, relname, nspname "
+            . "FROM pg_description "
+            . "JOIN pg_class ON pg_description.objoid = pg_class.oid "
+            . "JOIN pg_namespace ON pg_class.relnamespace = pg_namespace.oid "
+            . ") des ON ( des.objsubid = C.ordinal_position "
+            . "AND C.table_schema = des.nspname "
+            . "AND C.TABLE_NAME = des.relname ) "
+            . "WHERE c.table_schema='" . this->escapeStringLiteral(schema) . "' "
+            . "AND c.table_name='" . this->escapeStringLiteral(table) . "' "
+            . "ORDER BY c.ordinal_position";
     }
 
     /**
      * Generates SQL to query indexes on a table
      */
-    public function describeIndexes(string! table, string schema = null) -> string
+    public function describeIndexes( string table, string schema = null) -> string
     {
-        return "SELECT 0 as c0, t.relname as table_name, i.relname as key_name, 3 as c3, a.attname as column_name FROM pg_class t, pg_class i, pg_index ix, pg_attribute a WHERE t.oid = ix.indrelid AND i.oid = ix.indexrelid AND a.attrelid = t.oid AND a.attnum = ANY(ix.indkey) AND t.relkind = 'r' AND t.relname = '" . table . "' ORDER BY t.relname, i.relname;";
+        return "SELECT 0 as c0, t.relname as table_name, i.relname as key_name, 3 as c3, a.attname as column_name FROM pg_class t, pg_class i, pg_index ix, pg_attribute a WHERE t.oid = ix.indrelid AND i.oid = ix.indexrelid AND a.attrelid = t.oid AND a.attnum = ANY(ix.indkey) AND t.relkind = 'r' AND t.relname = '" . this->escapeStringLiteral(table) . "' ORDER BY t.relname, i.relname;";
     }
 
     /**
      * Generates SQL to query foreign keys on a table
      */
-    public function describeReferences(string! table, string schema = null) -> string
+    public function describeReferences( string table, string schema = null) -> string
     {
         if schema === null {
             let schema = "public";
         }
 
-        return "SELECT DISTINCT tc.table_name AS TABLE_NAME, kcu.column_name AS COLUMN_NAME, tc.constraint_name AS CONSTRAINT_NAME, tc.table_catalog AS REFERENCED_TABLE_SCHEMA, ccu.table_name AS REFERENCED_TABLE_NAME, ccu.column_name AS REFERENCED_COLUMN_NAME, rc.update_rule AS UPDATE_RULE, rc.delete_rule AS DELETE_RULE FROM information_schema.table_constraints AS tc JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name JOIN information_schema.referential_constraints rc ON tc.constraint_catalog = rc.constraint_catalog AND tc.constraint_schema = rc.constraint_schema AND tc.constraint_name = rc.constraint_name AND tc.constraint_type = 'FOREIGN KEY' WHERE constraint_type = 'FOREIGN KEY' AND tc.table_schema = '" . schema . "' AND tc.table_name='" . table . "'";
+        return "SELECT DISTINCT tc.table_name AS TABLE_NAME, kcu.column_name AS COLUMN_NAME, tc.constraint_name AS CONSTRAINT_NAME, tc.table_catalog AS REFERENCED_TABLE_SCHEMA, ccu.table_name AS REFERENCED_TABLE_NAME, ccu.column_name AS REFERENCED_COLUMN_NAME, rc.update_rule AS UPDATE_RULE, rc.delete_rule AS DELETE_RULE FROM information_schema.table_constraints AS tc JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name JOIN information_schema.referential_constraints rc ON tc.constraint_catalog = rc.constraint_catalog AND tc.constraint_schema = rc.constraint_schema AND tc.constraint_name = rc.constraint_name AND tc.constraint_type = 'FOREIGN KEY' WHERE constraint_type = 'FOREIGN KEY' AND tc.table_schema = '" . this->escapeStringLiteral(schema) . "' AND tc.table_name='" . this->escapeStringLiteral(table) . "'";
     }
 
     /**
      * Generates SQL to delete a column from a table
      */
-    public function dropColumn(string! tableName, string! schemaName, string! columnName) -> string
+    public function dropColumn( string tableName,  string schemaName,  string columnName) -> string
     {
         return "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " DROP COLUMN \"" . columnName . "\"";
     }
 
     /**
+     * Generates SQL to delete a CHECK constraint from a table
+     */
+    public function dropCheck( string tableName,  string schemaName,  string checkName) -> string
+    {
+        return "ALTER TABLE " . this->prepareTable(tableName, schemaName)
+            . " DROP CONSTRAINT \"" . checkName . "\"";
+    }
+
+    /**
      * Generates SQL to delete a foreign key from a table
      */
-    public function dropForeignKey(string! tableName, string! schemaName, string! referenceName) -> string
+    public function dropForeignKey( string tableName,  string schemaName,  string referenceName) -> string
     {
         return "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " DROP CONSTRAINT \"" . referenceName . "\"";
     }
@@ -336,7 +446,7 @@ class Postgresql extends Dialect
     /**
      * Generates SQL to delete an index from a table
      */
-    public function dropIndex(string! tableName, string! schemaName, string! indexName) -> string
+    public function dropIndex( string tableName,  string schemaName,  string indexName) -> string
     {
         return "DROP INDEX \"" . indexName . "\"";
     }
@@ -344,7 +454,7 @@ class Postgresql extends Dialect
     /**
      * Generates SQL to delete primary key from a table
      */
-    public function dropPrimaryKey(string! tableName, string! schemaName) -> string
+    public function dropPrimaryKey( string tableName,  string schemaName) -> string
     {
         return "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " DROP CONSTRAINT \"" . tableName . "_PRIMARY\"";
     }
@@ -352,7 +462,7 @@ class Postgresql extends Dialect
     /**
      * Generates SQL to drop a table
      */
-    public function dropTable(string! tableName, string schemaName = null, bool! ifExists = true) -> string
+    public function dropTable( string tableName, string schemaName = null,  bool ifExists = true) -> string
     {
         var table;
 
@@ -366,9 +476,25 @@ class Postgresql extends Dialect
     }
 
     /**
+     * Generates SQL to drop a materialized view.
+     */
+    public function dropMaterializedView( string viewName, string schemaName = null, bool ifExists = true) -> string
+    {
+        var view;
+
+        let view = this->prepareTable(viewName, schemaName);
+
+        if ifExists {
+            return "DROP MATERIALIZED VIEW IF EXISTS " . view;
+        }
+
+        return "DROP MATERIALIZED VIEW " . view;
+    }
+
+    /**
      * Generates SQL to drop a view
      */
-    public function dropView(string! viewName, string schemaName = null, bool! ifExists = true) -> string
+    public function dropView( string viewName, string schemaName = null,  bool ifExists = true) -> string
     {
         var view;
 
@@ -379,6 +505,24 @@ class Postgresql extends Dialect
         }
 
         return "DROP VIEW " . view;
+    }
+
+    /**
+     * Generates SQL to refresh a materialized view. When `concurrent` is
+     * true, emits `REFRESH MATERIALIZED VIEW CONCURRENTLY ...` (avoids
+     * blocking concurrent SELECTs; requires a unique index on the view).
+     */
+    public function refreshMaterializedView( string viewName, string schemaName = null, bool concurrent = false) -> string
+    {
+        var view;
+
+        let view = this->prepareTable(viewName, schemaName);
+
+        if concurrent {
+            return "REFRESH MATERIALIZED VIEW CONCURRENTLY " . view;
+        }
+
+        return "REFRESH MATERIALIZED VIEW " . view;
     }
 
     /**
@@ -495,6 +639,13 @@ class Postgresql extends Dialect
 
                 break;
 
+            case Column::TYPE_UUID:
+                if empty columnSql {
+                    let columnSql .= "UUID";
+                }
+
+                break;
+
             case Column::TYPE_VARCHAR:
                 if empty columnSql {
                     let columnSql .= "CHARACTER VARYING";
@@ -504,11 +655,135 @@ class Postgresql extends Dialect
 
                 break;
 
+            case Column::TYPE_BYTEA:
+                if empty columnSql {
+                    let columnSql .= "BYTEA";
+                }
+
+                break;
+
+            case Column::TYPE_INET:
+                if empty columnSql {
+                    let columnSql .= "INET";
+                }
+
+                break;
+
+            case Column::TYPE_CIDR:
+                if empty columnSql {
+                    let columnSql .= "CIDR";
+                }
+
+                break;
+
+            case Column::TYPE_MACADDR:
+                if empty columnSql {
+                    let columnSql .= "MACADDR";
+                }
+
+                break;
+
+            case Column::TYPE_INT4RANGE:
+                if empty columnSql {
+                    let columnSql .= "INT4RANGE";
+                }
+
+                break;
+
+            case Column::TYPE_INT8RANGE:
+                if empty columnSql {
+                    let columnSql .= "INT8RANGE";
+                }
+
+                break;
+
+            case Column::TYPE_NUMRANGE:
+                if empty columnSql {
+                    let columnSql .= "NUMRANGE";
+                }
+
+                break;
+
+            case Column::TYPE_TSRANGE:
+                if empty columnSql {
+                    let columnSql .= "TSRANGE";
+                }
+
+                break;
+
+            case Column::TYPE_TSTZRANGE:
+                if empty columnSql {
+                    let columnSql .= "TSTZRANGE";
+                }
+
+                break;
+
+            case Column::TYPE_DATERANGE:
+                if empty columnSql {
+                    let columnSql .= "DATERANGE";
+                }
+
+                break;
+
+            case Column::TYPE_GEOMETRY:
+                if empty columnSql {
+                    let columnSql .= "GEOMETRY";
+                }
+
+                break;
+
+            case Column::TYPE_POINT:
+                if empty columnSql {
+                    let columnSql .= "POINT";
+                }
+
+                break;
+
+            case Column::TYPE_LINESTRING:
+                if empty columnSql {
+                    let columnSql .= "LINESTRING";
+                }
+
+                break;
+
+            case Column::TYPE_POLYGON:
+                if empty columnSql {
+                    let columnSql .= "POLYGON";
+                }
+
+                break;
+
+            case Column::TYPE_MULTIPOINT:
+                if empty columnSql {
+                    let columnSql .= "MULTIPOINT";
+                }
+
+                break;
+
+            case Column::TYPE_MULTILINESTRING:
+                if empty columnSql {
+                    let columnSql .= "MULTILINESTRING";
+                }
+
+                break;
+
+            case Column::TYPE_MULTIPOLYGON:
+                if empty columnSql {
+                    let columnSql .= "MULTIPOLYGON";
+                }
+
+                break;
+
+            case Column::TYPE_GEOMETRYCOLLECTION:
+                if empty columnSql {
+                    let columnSql .= "GEOMETRYCOLLECTION";
+                }
+
+                break;
+
             default:
                 if unlikely empty columnSql {
-                    throw new Exception(
-                        "Unrecognized PostgreSQL data type at column " . column->getName()
-                    );
+                    throw new UnrecognizedDataType("PostgreSQL", column->getName());
                 }
 
                 let typeValues = column->getTypeValues();
@@ -520,14 +795,18 @@ class Postgresql extends Dialect
                         let valueSql = "";
 
                         for value in typeValues {
-                            let valueSql .= "'" . addcslashes(value, "\'") . "', ";
+                            let valueSql .= "'" . this->escapeStringLiteral(value) . "', ";
                         }
 
                         let columnSql .= "(" . substr(valueSql, 0, -2) . ")";
                     } else {
-                        let columnSql .= "('" . addcslashes(typeValues, "\'") . "')";
+                        let columnSql .= "('" . this->escapeStringLiteral(typeValues) . "')";
                     }
                 }
+        }
+
+        if column->isArray() {
+            let columnSql .= "[]";
         }
 
         return columnSql;
@@ -548,7 +827,7 @@ class Postgresql extends Dialect
             let schemaName = "public";
         }
 
-        return "SELECT table_name FROM information_schema.tables WHERE table_schema = '" . schemaName . "' ORDER BY table_name";
+        return "SELECT table_name FROM information_schema.tables WHERE table_schema = '" . this->escapeStringLiteral(schemaName) . "' ORDER BY table_name";
     }
 
     /**
@@ -560,13 +839,13 @@ class Postgresql extends Dialect
             let schemaName = "public";
         }
 
-        return "SELECT viewname AS view_name FROM pg_views WHERE schemaname = '" . schemaName . "' ORDER BY view_name";
+        return "SELECT viewname AS view_name FROM pg_views WHERE schemaname = '" . this->escapeStringLiteral(schemaName) . "' ORDER BY view_name";
     }
 
     /**
      * Generates SQL to modify a column in a table
      */
-    public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> string
+    public function modifyColumn( string tableName,  string schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> string
     {
         var defaultValue, columnDefinition;
         string sql = "", sqlAlterTable;
@@ -601,23 +880,18 @@ class Postgresql extends Dialect
          * Add a COMMENT clause
          */
          if column->getComment() {
-            let sql .= "COMMENT ON COLUMN " . this->prepareTable(tableName, schemaName) . ".\"" .column->getName()."\" IS '" . column->getComment() . "';";
+            let sql .= "COMMENT ON COLUMN " . this->prepareTable(tableName, schemaName) . ".\"" .column->getName()."\" IS '" . str_replace("'", "''", column->getComment()) . "';";
         }
 
         // DEFAULT
         if column->getDefault() !== currentColumn->getDefault() {
-            if empty column->getDefault() && !empty currentColumn->getDefault() {
+            if !column->hasDefault() && currentColumn->hasDefault() {
                 let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" DROP DEFAULT;";
             }
 
             if column->hasDefault() {
                 let defaultValue = this->castDefault(column);
-
-                if memstr(strtoupper(columnDefinition), "BOOLEAN") {
-                    let sql .= " ALTER COLUMN \"" . column->getName() . "\" SET DEFAULT " . defaultValue;
-                } else {
-                    let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" SET DEFAULT " . defaultValue;
-                }
+                let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" SET DEFAULT " . defaultValue;
             }
         }
 
@@ -625,12 +899,68 @@ class Postgresql extends Dialect
     }
 
     /**
-     * Returns a SQL modified a shared lock statement. For now this method
-     * returns the original query
+     * Appends a `RETURNING` clause to the supplied INSERT/UPDATE/DELETE
+     * statement. Pass `["*"]` for `RETURNING *`, or a list of column names.
      */
-    public function sharedLock(string! sqlQuery) -> string
+    public function returning( string sqlQuery,  array columns) -> string
     {
-        return sqlQuery;
+        var first;
+
+        if unlikely empty columns {
+            throw new ReturningRequiresColumn();
+        }
+
+        if count(columns) == 1 {
+            let first = (string) columns[0];
+
+            if first == "*" {
+                return sqlQuery . " RETURNING *";
+            }
+        }
+
+        return sqlQuery . " RETURNING " . this->getColumnList(columns);
+    }
+
+    /**
+     * PostgreSQL supports materialized views (`CREATE MATERIALIZED VIEW`).
+     */
+    public function supportsMaterializedViews() -> bool
+    {
+        return true;
+    }
+
+    /**
+     * PostgreSQL supports the `RETURNING` clause.
+     */
+    public function supportsReturning() -> bool
+    {
+        return true;
+    }
+
+    /**
+     * Returns a SQL modified with a `FOR SHARE` clause - PostgreSQL's
+     * equivalent of MySQL's `LOCK IN SHARE MODE`. The optional `modifier`
+     * appends a row-lock disposition keyword (pass `Dialect::LOCK_NOWAIT`
+     * or `Dialect::LOCK_SKIP_LOCKED`).
+     *
+     *```php
+     * echo $dialect->sharedLock("SELECT * FROM co_invoices");
+     * // SELECT * FROM co_invoices FOR SHARE
+     *
+     * echo $dialect->sharedLock(
+     *     "SELECT * FROM co_invoices",
+     *     Dialect::LOCK_NOWAIT
+     * );
+     * // SELECT * FROM co_invoices FOR SHARE NOWAIT
+     *```
+     */
+    public function sharedLock( string sqlQuery, string modifier = "") -> string
+    {
+        if modifier !== "" {
+            return sqlQuery . " FOR SHARE " . modifier;
+        }
+
+        return sqlQuery . " FOR SHARE";
     }
 
     /**
@@ -642,27 +972,35 @@ class Postgresql extends Dialect
      * echo $dialect->tableExists("posts");
      * ```
      */
-    public function tableExists(string! tableName, string schemaName = null) -> string
+    public function tableExists( string tableName, string schemaName = null) -> string
     {
         if schemaName === null {
             let schemaName = "public";
         }
 
-        return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM information_schema.tables WHERE table_schema = '" . schemaName . "' AND table_name='" . tableName . "'";
+        return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM information_schema.tables WHERE table_schema = '" . this->escapeStringLiteral(schemaName) . "' AND table_name='" . this->escapeStringLiteral(tableName) . "'";
     }
 
     /**
      * Generates the SQL to describe the table creation options
      */
-    public function tableOptions(string! table, string schema = null) -> string
+    public function tableOptions( string table, string schema = null) -> string
     {
-        return "";
+        string sql;
+
+        let sql = "SELECT obj_description(c.oid, 'pg_class') AS table_comment FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE c.relname = '" . this->escapeStringLiteral(table) . "' AND ";
+
+        if schema {
+            return sql . "n.nspname = '" . this->escapeStringLiteral(schema) . "'";
+        }
+
+        return sql . "n.nspname = current_schema()";
     }
 
     /**
      * Generates SQL to truncate a table
      */
-    public function truncateTable(string! tableName, string! schemaName) -> string
+    public function truncateTable( string tableName,  string schemaName) -> string
     {
         var table;
 
@@ -678,13 +1016,13 @@ class Postgresql extends Dialect
     /**
      * Generates SQL checking for the existence of a schema.view
      */
-    public function viewExists(string! viewName, string schemaName = null) -> string
+    public function viewExists( string viewName, string schemaName = null) -> string
     {
         if schemaName === null {
             let schemaName = "public";
         }
 
-        return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='" . viewName . "' AND schemaname='" . schemaName . "'";
+        return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='" . this->escapeStringLiteral(viewName) . "' AND schemaname='" . this->escapeStringLiteral(schemaName) . "'";
     }
 
     protected function castDefault(<ColumnInterface> column) -> string
@@ -692,12 +1030,24 @@ class Postgresql extends Dialect
         var defaultValue, columnDefinition, columnType;
         string  preparedValue;
 
-        let defaultValue = column->getDefault(),
-            columnDefinition = this->getColumnDefinition(column),
+        let defaultValue = column->getDefault();
+
+        /**
+         * RawValue defaults are emitted verbatim - this is how the caller
+         * signals an SQL expression (e.g. `nextval('seq')`, `gen_random_uuid()`,
+         * a function call, or any other dialect-specific expression).
+         */
+        if typeof defaultValue == "object" && defaultValue instanceof RawValue {
+            return defaultValue->getValue();
+        }
+
+        let columnDefinition = this->getColumnDefinition(column),
             columnType = column->getType();
 
         if memstr(strtoupper(columnDefinition), "BOOLEAN") {
-            return defaultValue;
+            var boolStr;
+            let boolStr = strtolower((string) defaultValue);
+            return (boolStr == "false" || boolStr == "0" || boolStr == "") ? "false" : "true";
         }
 
         if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
@@ -711,13 +1061,13 @@ class Postgresql extends Dialect
             columnType === Column::TYPE_DOUBLE {
             let preparedValue = (string) defaultValue;
         } else {
-            let preparedValue = "'" . addcslashes(defaultValue, "\'") . "'";
+            let preparedValue = "'" . this->escapeStringLiteral(defaultValue) . "'";
         }
 
         return preparedValue;
     }
 
-    protected function getTableOptions(array! definition) -> string
+    protected function getTableOptions( array definition) -> string
     {
         return "";
     }

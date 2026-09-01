@@ -10,8 +10,8 @@
 
 namespace Phalcon\Mvc;
 
-use Phalcon\Mvc\Router\RouteInterface;
 use Phalcon\Mvc\Router\GroupInterface;
+use Phalcon\Mvc\Router\RouteInterface;
 
 /**
  * Interface for Phalcon\Mvc\Router
@@ -27,17 +27,7 @@ interface RouterInterface
      *
      * @return RouteInterface
      */
-    public function add(string! pattern, var paths = null, var httpMethods = null) -> <RouteInterface>;
-
-    /**
-     * Attach Route object to the routes stack.
-     *
-     * @param RouteInterface route
-     * @param int position
-     *
-     * @return RouterInterface
-     */
-    public function attach(<RouteInterface> route, int position = Router::POSITION_LAST) -> <RouterInterface>;
+    public function add( string pattern, var paths = null, var httpMethods = null, int position = Router::POSITION_LAST) -> <RouteInterface>;
 
     /**
      * Adds a route to the router that only match if the HTTP method is CONNECT
@@ -47,7 +37,7 @@ interface RouterInterface
      *
      * @return RouteInterface
      */
-    public function addConnect(string! pattern, var paths = null) -> <RouteInterface>;
+    public function addConnect( string pattern, var paths = null, int position = Router::POSITION_LAST) -> <RouteInterface>;
 
     /**
      * Adds a route to the router that only match if the HTTP method is DELETE
@@ -57,17 +47,7 @@ interface RouterInterface
      *
      * @return RouteInterface
      */
-    public function addDelete(string! pattern, var paths = null) -> <RouteInterface>;
-
-    /**
-     * Adds a route to the router that only match if the HTTP method is HEAD
-     *
-     * @param string pattern
-     * @param array|string|null paths
-     *
-     * @return RouteInterface
-     */
-    public function addHead(string! pattern, var paths = null) -> <RouteInterface>;
+    public function addDelete( string pattern, var paths = null, int position = Router::POSITION_LAST) -> <RouteInterface>;
 
     /**
      * Adds a route to the router that only match if the HTTP method is GET
@@ -77,7 +57,17 @@ interface RouterInterface
      *
      * @return RouteInterface
      */
-    public function addGet(string! pattern, var paths = null) -> <RouteInterface>;
+    public function addGet( string pattern, var paths = null, int position = Router::POSITION_LAST) -> <RouteInterface>;
+
+    /**
+     * Adds a route to the router that only match if the HTTP method is HEAD
+     *
+     * @param string pattern
+     * @param array|string|null paths
+     *
+     * @return RouteInterface
+     */
+    public function addHead( string pattern, var paths = null, int position = Router::POSITION_LAST) -> <RouteInterface>;
 
     /**
      * Add a route to the router that only match if the HTTP method is OPTIONS
@@ -87,7 +77,7 @@ interface RouterInterface
      *
      * @return RouteInterface
      */
-    public function addOptions(string! pattern, var paths = null) -> <RouteInterface>;
+    public function addOptions( string pattern, var paths = null, int position = Router::POSITION_LAST) -> <RouteInterface>;
 
     /**
      * Adds a route to the router that only match if the HTTP method is PATCH
@@ -97,7 +87,7 @@ interface RouterInterface
      *
      * @return RouteInterface
      */
-    public function addPatch(string! pattern, var paths = null) -> <RouteInterface>;
+    public function addPatch( string pattern, var paths = null, int position = Router::POSITION_LAST) -> <RouteInterface>;
 
     /**
      * Adds a route to the router that only match if the HTTP method is POST
@@ -107,7 +97,7 @@ interface RouterInterface
      *
      * @return RouteInterface
      */
-    public function addPost(string! pattern, var paths = null) -> <RouteInterface>;
+    public function addPost( string pattern, var paths = null, int position = Router::POSITION_LAST) -> <RouteInterface>;
 
     /**
      * Adds a route to the router that only match if the HTTP method is PURGE
@@ -118,7 +108,7 @@ interface RouterInterface
      *
      * @return RouteInterface
      */
-    public function addPurge(string! pattern, var paths = null) -> <RouteInterface>;
+    public function addPurge( string pattern, var paths = null, int position = Router::POSITION_LAST) -> <RouteInterface>;
 
     /**
      * Adds a route to the router that only match if the HTTP method is PUT
@@ -128,7 +118,7 @@ interface RouterInterface
      *
      * @return RouteInterface
      */
-    public function addPut(string! pattern, var paths = null) -> <RouteInterface>;
+    public function addPut( string pattern, var paths = null, int position = Router::POSITION_LAST) -> <RouteInterface>;
 
     /**
      * Adds a route to the router that only match if the HTTP method is TRACE
@@ -138,7 +128,17 @@ interface RouterInterface
      *
      * @return RouteInterface
      */
-    public function addTrace(string! pattern, var paths = null) -> <RouteInterface>;
+    public function addTrace( string pattern, var paths = null, int position = Router::POSITION_LAST) -> <RouteInterface>;
+
+    /**
+     * Attach Route object to the routes stack.
+     *
+     * @param RouteInterface route
+     * @param int position
+     *
+     * @return RouterInterface
+     */
+    public function attach(<RouteInterface> route, int position = Router::POSITION_LAST) -> <RouterInterface>;
 
     /**
      * Removes all the defined routes
@@ -158,7 +158,7 @@ interface RouterInterface
     /**
      * Returns the route that matches the handled URI
      */
-    public function getMatchedRoute() -> <RouteInterface>;
+    public function getMatchedRoute() -> <RouteInterface> | null;
 
     /**
      * Return the sub expressions in the regular expression matched
@@ -181,28 +181,37 @@ interface RouterInterface
     public function getParams() -> array;
 
     /**
-     * Return all the routes defined in the router
-     */
-    public function getRoutes() -> <RouteInterface[]>;
-
-    /**
      * Returns a route object by its id
      *
      * @return RouteInterface|bool
      */
-    public function getRouteById(var id) -> <RouteInterface> | bool;
+    public function getRouteById(var routeId) -> <RouteInterface> | bool;
 
     /**
      * Returns a route object by its name
      *
      * @return RouteInterface|bool
      */
-    public function getRouteByName(string! name) -> <RouteInterface> | bool;
+    public function getRouteByName( string name) -> <RouteInterface> | bool;
+
+    /**
+     * Return all the routes defined in the router
+     */
+    public function getRoutes() -> <RouteInterface[]>;
 
     /**
      * Handles routing information received from the rewrite engine
      */
-    public function handle(string! uri) -> void;
+    public function handle( string uri) -> void;
+
+    /**
+     * Loads routes from an array or Phalcon\Config\Config instance.
+     *
+     * @param array|\Phalcon\Config\ConfigInterface config
+     *
+     * @return RouterInterface
+     */
+    public function loadFromConfig(var config) -> <RouterInterface>;
 
     /**
      * Mounts a group of routes in the router
@@ -212,22 +221,22 @@ interface RouterInterface
     /**
      * Sets the default action name
      */
-    public function setDefaultAction(string! actionName) -> <RouterInterface>;
+    public function setDefaultAction( string actionName) -> <RouterInterface>;
 
     /**
      * Sets the default controller name
      */
-    public function setDefaultController(string! controllerName) -> <RouterInterface>;
+    public function setDefaultController( string controllerName) -> <RouterInterface>;
 
     /**
      * Sets the name of the default module
      */
-    public function setDefaultModule(string! moduleName) -> <RouterInterface>;
+    public function setDefaultModule( string moduleName) -> <RouterInterface>;
 
     /**
      * Sets an array of default paths
      */
-    public function setDefaults(array! defaults) -> <RouterInterface>;
+    public function setDefaults( array defaults) -> <RouterInterface>;
 
     /**
      * Check if the router matches any of the defined routes

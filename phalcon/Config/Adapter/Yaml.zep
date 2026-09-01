@@ -12,6 +12,10 @@ namespace Phalcon\Config\Adapter;
 
 use Phalcon\Config\Config;
 use Phalcon\Config\Exception;
+use Phalcon\Config\Exceptions\CannotLoadConfigFile;
+use Phalcon\Config\Exceptions\MissingYamlExtension;
+use Phalcon\Traits\Php\InfoTrait;
+use Phalcon\Traits\Php\YamlTrait;
 
 /**
  * Reads YAML files and converts them to Phalcon\Config\Config objects.
@@ -52,47 +56,34 @@ use Phalcon\Config\Exception;
  */
 class Yaml extends Config
 {
+    use InfoTrait;
+    use YamlTrait;
+
     /**
      * Phalcon\Config\Adapter\Yaml constructor
      */
-    public function __construct(string! filePath, array! callbacks = null)
+    public function __construct( string filePath,  array callbacks = null)
     {
         var yamlConfig;
-        int ndocs = 0;
 
         if unlikely !this->phpExtensionLoaded("yaml") {
-            throw new Exception("Yaml extension is not loaded");
+            throw new MissingYamlExtension();
         }
 
         if empty(callbacks) {
             let yamlConfig = this->phpYamlParseFile(filePath);
         } else {
-            let yamlConfig = this->phpYamlParseFile(filePath, 0, ndocs, callbacks);
+            let yamlConfig = this->phpYamlParseFile(filePath, 0, callbacks);
+        }
+
+        if unlikely yamlConfig === null {
+            let yamlConfig = [];
         }
 
         if unlikely yamlConfig === false {
-            throw new Exception(
-                "Configuration file " . basename(filePath) . " can't be loaded"
-            );
+            throw new CannotLoadConfigFile(basename(filePath));
         }
 
         parent::__construct(yamlConfig);
-    }
-
-    /**
-     * @todo to be removed when we get traits
-     */
-    protected function phpYamlParseFile(
-        filename,
-        pos = 0,
-        ndocs = null,
-        callbacks = []
-    ) {
-        return yaml_parse_file(filename, pos, ndocs, callbacks);
-    }
-
-    protected function phpExtensionLoaded(string name) -> bool
-    {
-        return extension_loaded(name);
     }
 }

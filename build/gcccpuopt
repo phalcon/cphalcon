@@ -4,7 +4,7 @@
 
 # License: LGPLv2
 # Author:
-#    http://www.pixelbeat.org/
+#    https://www.pixelbeat.org/
 # Notes:
 #    This script currently supports Linux,FreeBSD,Cygwin
 #    This script is x86 (32 bit) specific
@@ -58,7 +58,7 @@
 #   V0.99.4, 24 Oct 2009, Following a report from Maxime de Roucy, add support
 #                         for AMD family 17 (griffin).
 #   V0.99.11, 04 Jul 2013
-#     http://github.com/pixelb/scripts/commits/master/scripts/gcccpuopt
+#     https://github.com/pixelb/scripts/commits/master/scripts/gcccpuopt
 
 if [ "$1" = "--version" ]; then
     echo "0.99.11" && exit

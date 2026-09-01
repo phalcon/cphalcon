@@ -1,0 +1,401 @@
+<?php
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Phalcon\Tests\Unit\Cache\Adapter;
+
+use Phalcon\Cache\Adapter\AdapterInterface;
+use Phalcon\Cache\Adapter\Apcu;
+use Phalcon\Cache\Adapter\Libmemcached;
+use Phalcon\Cache\Adapter\Memory;
+use Phalcon\Cache\Adapter\Redis;
+use Phalcon\Cache\Adapter\RedisCluster;
+use Phalcon\Cache\Adapter\Stream;
+use Phalcon\Cache\Adapter\Weak;
+use Phalcon\Storage\SerializerFactory;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
+use Phalcon\Tests\Unit\Cache\Fake\Adapter\FakeApcuIterator;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
+use stdClass;
+
+use function phpversion;
+use function uniqid;
+use function version_compare;
+
+final class GetKeysTest extends AbstractUnitTestCase
+{
+    /**
+     *
+     */
+    public static function getAdapters(): array
+    {
+        return [
+            [
+                'apcu',
+                Apcu::class,
+                [],
+                'ph-apcu-'
+            ],
+            [
+                '',
+                Memory::class,
+                [],
+                'ph-memo-'
+            ],
+            [
+                'redis',
+                Redis::class,
+                Talon::settings()->getServiceOptions('redis'),
+                'ph-reds-'
+            ],
+            [
+                'redis',
+                RedisCluster::class,
+                Talon::settings()->getServiceOptions('redisCluster'),
+                'ph-redc-'
+            ],
+            [
+                '',
+                Stream::class,
+                [
+                    'storageDir' => Talon::settings()->outputPath() . '/',
+                ],
+                'ph-strm'
+            ],
+//            [
+//                '',
+//                Weak::class,
+//                [],
+//                'ph-wea-'
+//            ],
+        ];
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    #[RequiresPhpExtension('apcu')]
+    public function testCacheAdapterApcuGetKeysIteratorError(): void
+    {
+        $serializer = new SerializerFactory();
+        $adapter    = new FakeApcuIterator($serializer);
+
+        $this->setupTest($adapter);
+
+        $actual = $adapter->getKeys();
+        $this->assertIsArray($actual);
+        $this->assertEmpty($actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    #[DataProvider('getAdapters')]
+    public function testCacheAdapterGetKeys(
+        string $extension,
+        string $adapterClass,
+        array $options,
+        string $prefix
+    ): void {
+        if (!empty($extension)) {
+            $this->checkExtensionIsLoaded($extension);
+        }
+
+        $serializer = new SerializerFactory();
+        $adapter    = new $adapterClass($serializer, $options);
+
+        $this->assertTrue($adapter->clear());
+
+        $this->runTests($adapter, $prefix);
+
+        if ('ph-strm' === $prefix) {
+            $this->safeDeleteDirectory(Talon::settings()->outputPath('ph-strm'));
+        }
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    #[RequiresPhpExtension('memcached')]
+    public function testCacheAdapterLibmemcachedGetKeys(): void
+    {
+        $serializer = new SerializerFactory();
+        $adapter    = new Libmemcached(
+            $serializer,
+            [
+                'client' => [],
+                'servers' => [
+                    Talon::settings()->getServiceOptions('memcached')
+                ]
+            ],
+        );
+
+        $memcachedServerVersions   = $adapter->getAdapter()
+                                             ->getVersion()
+        ;
+        $memcachedExtensionVersion = phpversion('memcached');
+
+        foreach ($memcachedServerVersions as $memcachedServerVersion) {
+            // https://www.php.net/manual/en/memcached.getallkeys.php#123793
+            // https://bugs.launchpad.net/libmemcached/+bug/1534062
+            if (
+                version_compare($memcachedServerVersion, '1.4.23', '>=') &&
+                version_compare($memcachedExtensionVersion, '3.0.1', '<')
+            ) {
+                $this->markTestSkipped(
+                    'getAllKeys() does not work in certain Memcached versions'
+                );
+            }
+
+            // https://github.com/php-memcached-dev/php-memcached/issues/367
+            if (version_compare($memcachedServerVersion, '1.5.0', '>=')) {
+                $this->markTestSkipped(
+                    'getAllKeys() does not work in certain Memcached versions'
+                );
+            }
+        }
+
+        $this->assertTrue($adapter->clear());
+
+        $this->runTests($adapter, 'ph-memc-');
+    }
+
+    /**
+     * @issue https://github.com/phalcon/cphalcon/issues/14190
+     * @author ekmst <https://github.com/ekmst>
+     * @since  2020-09-09
+     */
+    public function testCacheAdapterStreamGetKeysIssue14190(): void
+    {
+        $serializer = new SerializerFactory();
+        $adapter    = new Stream(
+            $serializer,
+            [
+                'storageDir' => Talon::settings()->outputPath() . '/',
+                'prefix'     => 'basePrefix-',
+            ]
+        );
+
+        $adapter->clear();
+
+        $actual = $adapter->set('key', 'test');
+        $this->assertNotFalse($actual);
+        $actual = $adapter->set('key1', 'test');
+        $this->assertNotFalse($actual);
+
+        $expected = [
+            'basePrefix-key',
+            'basePrefix-key1',
+        ];
+
+        $actual = $adapter->getKeys();
+        sort($actual);
+
+        $this->assertSame($expected, $actual);
+
+        foreach ($expected as $key) {
+            $actual = $adapter->delete($key);
+            $this->assertTrue($actual);
+        }
+
+        $this->safeDeleteDirectory(Talon::settings()->outputPath('basePrefix-'));
+    }
+
+    /**
+     * @issue https://github.com/phalcon/cphalcon/issues/14190
+     * @author ekmst <https://github.com/ekmst>
+     * @since  2020-09-09
+     */
+    public function testCacheAdapterStreamGetKeysPrefix(): void
+    {
+        $serializer = new SerializerFactory();
+        $adapter    = new Stream(
+            $serializer,
+            [
+                'storageDir' => Talon::settings()->outputPath() . '/',
+                'prefix'     => 'pref-',
+            ]
+        );
+
+        $actual = $adapter->clear();
+        $this->assertTrue($actual);
+        $actual = $adapter->getKeys();
+        $this->assertEmpty($actual);
+
+        $actual = $adapter->set('key', 'test');
+        $this->assertNotFalse($actual);
+        $actual = $adapter->set('key1', 'test');
+        $this->assertNotFalse($actual);
+        $actual = $adapter->set('somekey', 'test');
+        $this->assertNotFalse($actual);
+        $actual = $adapter->set('somekey1', 'test');
+        $this->assertNotFalse($actual);
+
+        $expected = [
+            'pref-key',
+            'pref-key1',
+            'pref-somekey',
+            'pref-somekey1',
+        ];
+        $actual   = $adapter->getKeys();
+        sort($actual);
+        $this->assertSame($expected, $actual);
+
+        $expected = [
+            'pref-somekey',
+            'pref-somekey1',
+        ];
+
+        $actual = $adapter->getKeys('so');
+        sort($actual);
+        $this->assertSame($expected, $actual);
+
+        $actual = $adapter->clear();
+        $this->assertTrue($actual);
+
+        $this->safeDeleteDirectory(Talon::settings()->outputPath('pref-'));
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testCacheAdapterWeakGetKeys(): void
+    {
+        $serializer = new SerializerFactory();
+        $adapter    = new Weak($serializer);
+
+        $this->assertTrue($adapter->clear());
+
+        $obj1 = new stdClass();
+        $obj2 = new stdClass();
+        $obj3 = new stdClass();
+
+
+        $adapter->set('key-1', $obj1);
+        $adapter->set('key-2', $obj2);
+        $adapter->set('key-3', $obj3);
+        $adapter->set('one-1', $obj1);
+        $adapter->set('one-2', $obj2);
+        $adapter->set('one-3', $obj3);
+
+        $expected = [
+            'key-1',
+            'key-2',
+            'key-3',
+            'one-1',
+            'one-2',
+            'one-3',
+        ];
+        $actual   = $adapter->getKeys();
+        sort($actual);
+        $this->assertSame($expected, $actual);
+
+        $expected = [
+            'one-1',
+            'one-2',
+            'one-3',
+        ];
+        $actual   = $adapter->getKeys("one");
+        sort($actual);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-04-14
+     */
+    public function testCacheAdapterWeakGetKeysWithPrefix(): void
+    {
+        $serializer = new SerializerFactory();
+        $adapter    = new Weak($serializer);
+
+        $obj1 = new stdClass();
+        $obj2 = new stdClass();
+        $obj3 = new stdClass();
+
+        $adapter->set('prefix-one', $obj1);
+        $adapter->set('prefix-two', $obj2);
+        $adapter->set('other-key', $obj3);
+
+        $actual = $adapter->getKeys('prefix-');
+        sort($actual);
+        $expected = ['prefix-one', 'prefix-two'];
+        $this->assertSame($expected, $actual);
+
+        $actual = $adapter->getKeys('other-');
+        $this->assertSame(['other-key'], $actual);
+
+        $actual = $adapter->getKeys('');
+        sort($actual);
+        $expected = ['other-key', 'prefix-one', 'prefix-two'];
+        $this->assertSame($expected, $actual);
+    }
+
+    private function runTests(
+        AdapterInterface $adapter,
+        string $prefix
+    ): void {
+        [$key1, $key2, $key3, $key4] = $this->setupTest($adapter);
+
+        $expected = [
+            $prefix . $key1,
+            $prefix . $key2,
+            $prefix . $key3,
+            $prefix . $key4,
+        ];
+        $actual   = $adapter->getKeys();
+        sort($actual);
+        $this->assertSame($expected, $actual);
+
+        $expected = [
+            $prefix . $key3,
+            $prefix . $key4,
+        ];
+        $actual   = $adapter->getKeys("one");
+        sort($actual);
+        $this->assertSame($expected, $actual);
+    }
+
+    private function setupTest(AdapterInterface $adapter): array
+    {
+        $key1 = uniqid('key');
+        $key2 = uniqid('key');
+        $key3 = uniqid('one');
+        $key4 = uniqid('one');
+
+        $result = $adapter->set($key1, 'test');
+        $this->assertNotFalse($result);
+        $result = $adapter->set($key2, 'test');
+        $this->assertNotFalse($result);
+        $result = $adapter->set($key3, 'test');
+        $this->assertNotFalse($result);
+        $result = $adapter->set($key4, 'test');
+        $this->assertNotFalse($result);
+
+        $actual = $adapter->has($key1);
+        $this->assertTrue($actual);
+        $actual = $adapter->has($key2);
+        $this->assertTrue($actual);
+        $actual = $adapter->has($key3);
+        $this->assertTrue($actual);
+        $actual = $adapter->has($key4);
+        $this->assertTrue($actual);
+
+        return [$key1, $key2, $key3, $key4];
+    }
+}

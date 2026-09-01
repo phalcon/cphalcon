@@ -13,17 +13,22 @@ namespace Phalcon\Assets\Filters;
 use Phalcon\Assets\FilterInterface;
 
 /**
- * Deletes the characters which are insignificant to JavaScript. Comments will
- * be removed. Tabs will be replaced with spaces. Carriage returns will be
- * replaced with linefeeds. Most spaces and linefeeds will be removed.
+ * Filter intended to minify JavaScript content (remove comments and the
+ * characters that are insignificant to JavaScript - tabs, carriage returns,
+ * and most spaces and linefeeds).
+ *
+ * > NOTE: This functionality is not currently available; `filter()` returns
+ * > the content unchanged.
+ *
+ * @deprecated Use Phalcon\Assets\Filters\None, or a custom
+ *             Phalcon\Assets\FilterInterface wrapping a real JS minifier.
  */
 class Jsmin implements FilterInterface
 {
     /**
      * Filters the content using JSMIN
-     * NOTE: This functionality is not currently available
      */
-    public function filter(string! content) -> string
+    public function filter( string content) -> string
     {
         return content;
     }

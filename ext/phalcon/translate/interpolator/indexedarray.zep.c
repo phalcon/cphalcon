@@ -15,8 +15,6 @@
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
 #include "kernel/object.h"
 
 
@@ -27,11 +25,6 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
- */
-/**
- * Class IndexedArray
- *
- * @package Phalcon\Translate\Interpolator
  */
 ZEPHIR_INIT_CLASS(Phalcon_Translate_Interpolator_IndexedArray)
 {
@@ -44,63 +37,60 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Interpolator_IndexedArray)
 /**
  * Replaces placeholders by the values passed
  *
- * @param string $translation
- * @param array  $placeholders
- *
- * @return string
+ * @phpstan-param array<string, string> $placeholders
  */
 PHP_METHOD(Phalcon_Translate_Interpolator_IndexedArray, replacePlaceholders)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval placeholders;
-	zval *translation_param = NULL, *placeholders_param = NULL, _0$$3;
-	zval translation;
-	zval *this_ptr = getThis();
+	zval translation_zv, *placeholders_param = NULL, _0$$3, _1$$3;
+	zend_string *translation = NULL;
 
-	ZVAL_UNDEF(&translation);
+	ZVAL_UNDEF(&translation_zv);
 	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&placeholders);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(translation)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ARRAY(placeholders)
+		ZEPHIR_Z_PARAM_ARRAY(placeholders, placeholders_param)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &translation_param, &placeholders_param);
-	if (UNEXPECTED(Z_TYPE_P(translation_param) != IS_STRING && Z_TYPE_P(translation_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translation' must be of the type string"));
-		RETURN_MM_NULL();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (ZEND_NUM_ARGS() > 1) {
+		placeholders_param = ZEND_CALL_ARG(execute_data, 2);
 	}
-	if (EXPECTED(Z_TYPE_P(translation_param) == IS_STRING)) {
-		zephir_get_strval(&translation, translation_param);
-	} else {
-		ZEPHIR_INIT_VAR(&translation);
-	}
+	zephir_memory_observe(&translation_zv);
+	ZVAL_STR_COPY(&translation_zv, translation);
 	if (!placeholders_param) {
 		ZEPHIR_INIT_VAR(&placeholders);
 		array_init(&placeholders);
 	} else {
 		zephir_get_arrval(&placeholders, placeholders_param);
 	}
-
-
 	if (1 != ZEPHIR_IS_EMPTY(&placeholders)) {
-		ZEPHIR_MAKE_REF(&placeholders);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 285, &placeholders, &translation);
-		ZEPHIR_UNREF(&placeholders);
-		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(&_0$$3);
-		ZVAL_STRING(&_0$$3, "sprintf");
-		ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_0$$3, &placeholders);
-		zephir_check_call_status();
-		RETURN_MM();
+
+		/* try_start_1: */
+
+			ZEPHIR_RETURN_CALL_FUNCTION("vsprintf", NULL, 0, &translation_zv, &placeholders);
+			zephir_check_call_status_or_jump(try_end_1);
+			RETURN_MM();
+
+		try_end_1:
+
+		if (EG(exception)) {
+			ZEPHIR_INIT_VAR(&_0$$3);
+			ZVAL_OBJ(&_0$$3, EG(exception));
+			Z_ADDREF_P(&_0$$3);
+			ZEPHIR_INIT_VAR(&_1$$3);
+			if (zephir_is_instance_of(&_0$$3, SL("ValueError"))) {
+				zend_clear_exception();
+				ZEPHIR_CPY_WRT(&_1$$3, &_0$$3);
+				RETURN_MM_STR(zend_string_copy(translation));
+			}
+		}
 	}
-	RETURN_CTOR(&translation);
+	RETURN_MM_STR(zend_string_copy(translation));
 }
 

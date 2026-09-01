@@ -1,8 +1,8 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,6 +15,7 @@ use Phalcon\Db\Column;
 use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\Enum;
 use Phalcon\Db\Exception;
+use Phalcon\Db\Exceptions\MissingSqliteDatabase;
 use Phalcon\Db\Index;
 use Phalcon\Db\IndexInterface;
 use Phalcon\Db\RawValue;
@@ -49,7 +50,7 @@ class Sqlite extends PdoAdapter
     /**
      * Constructor for Phalcon\Db\Adapter\Pdo\Sqlite
      */
-    public function __construct(array! descriptor)
+    public function __construct( array descriptor)
     {
         if isset descriptor["charset"] {
             trigger_error(
@@ -64,7 +65,7 @@ class Sqlite extends PdoAdapter
      * This method is automatically called in Phalcon\Db\Adapter\Pdo
      * constructor. Call it when you need to restore a database connection.
      */
-    public function connect(array! descriptor = []) -> void
+    public function connect( array descriptor = []) -> void
     {
         var dbname;
 
@@ -77,9 +78,7 @@ class Sqlite extends PdoAdapter
 
             unset descriptor["dbname"];
         } elseif unlikely !isset descriptor["dsn"] {
-            throw new Exception(
-                "The database must be specified with either 'dbname' or 'dsn'."
-            );
+            throw new MissingSqliteDatabase();
         }
 
         parent::connect(descriptor);
@@ -94,10 +93,10 @@ class Sqlite extends PdoAdapter
      * );
      * ```
      */
-    public function describeColumns(string! table, string! schema = null) -> <ColumnInterface[]>
+    public function describeColumns( string table,  string schema = null) -> <ColumnInterface[]>
     {
         var columns, columnType, fields, field, definition, oldColumn,
-            sizePattern, matches, matchOne, matchTwo, columnName;
+            sizePattern, matches, matchOne, matchTwo, columnName, hiddenFlag;
 
         let oldColumn = null,
             sizePattern = "#\\(([0-9]+)(?:,\\s*([0-9]+))*\\)#";
@@ -113,7 +112,6 @@ class Sqlite extends PdoAdapter
         );
 
         for field in fields {
-
             /**
              * By default the bind types is two
              */
@@ -126,6 +124,7 @@ class Sqlite extends PdoAdapter
              * Phalcon\Db\Column
              */
             let columnType = field[2];
+            let columnType = strtolower(columnType);
 
             /**
              * The order of these IF statements matters. Since we are using
@@ -147,7 +146,7 @@ class Sqlite extends PdoAdapter
                 let definition["type"] = Column::TYPE_BIGINTEGER,
                     definition["isNumeric"] = true,
                     definition["bindType"] = Column::BIND_PARAM_STR;
-            } elseif memstr(columnType, "int") || memstr(columnType, "INT") {
+            } elseif memstr(columnType, "int") {
                 /**
                  * Smallint/Integers/Int are int
                  */
@@ -206,6 +205,13 @@ class Sqlite extends PdoAdapter
                 let definition["type"] = Column::TYPE_FLOAT,
                     definition["isNumeric"] = true,
                     definition["bindType"] = Column::TYPE_DECIMAL;
+            } elseif memstr(columnType, "real") {
+                /**
+                 * Real are float
+                 */
+                let definition["type"] = Column::TYPE_FLOAT,
+                    definition["isNumeric"] = true,
+                    definition["bindType"] = Column::BIND_PARAM_DECIMAL;
 
             /**
              * TIMESTAMP
@@ -290,15 +296,32 @@ class Sqlite extends PdoAdapter
             }
 
             /**
-             * Check if the column is default values
-             * When field is empty default value is null
+             * Detect a generated/computed column from the `table_xinfo`
+             * `hidden` flag (field index 6). 2 = VIRTUAL, 3 = STORED.
+             * SQLite does not expose the expression through any pragma, so
+             * `getGenerationExpression()` round-trips as an empty string
+             * (documented limitation - cphalcon issue [#14719] umbrella).
              */
-            if strcasecmp(field[4], "null") != 0 && field[4] != "" {
-                let definition["default"] = preg_replace(
-                    "/^'|'$/",
-                    "",
-                    field[4]
-                );
+            let hiddenFlag = 0;
+            if isset field[6] {
+                let hiddenFlag = (int) field[6];
+            }
+
+            if hiddenFlag === 2 || hiddenFlag === 3 {
+                let definition["generated"] = "";
+                let definition["generationStored"] = (hiddenFlag === 3);
+            } else {
+                /**
+                 * Check if the column is default values
+                 * When field is empty default value is null
+                 */
+                if !empty(field[4]) && strcasecmp(field[4], "null") !== 0 {
+                    let definition["default"] = preg_replace(
+                        "/(?:^')|(?:'$)/",
+                        "",
+                        field[4]
+                    );
+                }
             }
 
             /**
@@ -317,11 +340,11 @@ class Sqlite extends PdoAdapter
      *
      * ```php
      * print_r(
-     *     $connection->describeIndexes("robots_parts")
+     *     $connection->describeIndexes("co_orders_x_products")
      * );
      * ```
      */
-    public function describeIndexes(string! table, string! schema = null) -> <IndexInterface[]>
+    public function describeIndexes( string table,  string schema = null) -> <IndexInterface[]>
     {
         var indexes, index, keyName, indexObjects, name, columns,
             describeIndexes, describeIndex, indexSql;
@@ -363,7 +386,7 @@ class Sqlite extends PdoAdapter
                     let indexes[keyName]["type"] = "PRIMARY";
                 }
             } else {
-                let indexes[keyName]["type"] = null;
+                let indexes[keyName]["type"] = "";
             }
         }
 
@@ -383,7 +406,7 @@ class Sqlite extends PdoAdapter
     /**
      * Lists table references
      */
-    public function describeReferences(string! table, string! schema = null) -> <ReferenceInterface[]>
+    public function describeReferences( string table,  string schema = null) -> <ReferenceInterface[]>
     {
         var references, reference, arrayReference, constraintName,
             referenceObjects, name, referencedSchema, referencedTable, columns,
@@ -439,16 +462,16 @@ class Sqlite extends PdoAdapter
      * in the table definition
      *
      *```php
-     * // Inserting a new robot with a valid default value for the column 'year'
+     * // Inserting a new invoice with a valid default value for the column 'inv_total'
      * $success = $connection->insert(
-     *     "robots",
+     *     "co_invoices",
      *     [
-     *         "Astro Boy",
+     *         "Test Invoice",
      *         $connection->getDefaultValue(),
      *     ],
      *     [
-     *         "name",
-     *         "year",
+     *         "inv_title",
+     *         "inv_total",
      *     ]
      * );
      *```

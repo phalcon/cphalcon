@@ -15,6 +15,8 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\Model\CriteriaInterface;
 use Phalcon\Mvc\Model\MetaDataInterface;
+use Phalcon\Mvc\Model\ResultInterface;
+use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
 
@@ -22,6 +24,8 @@ use Phalcon\Mvc\Model\TransactionInterface;
  * Phalcon\Mvc\ModelInterface
  *
  * Interface for Phalcon\Mvc\Model
+ *
+ * @template T
  */
 interface ModelInterface
 {
@@ -39,7 +43,7 @@ interface ModelInterface
      *
      * @return ModelInterface
      */
-    public function assign(array! data, var whiteList = null, var dataColumnMap = null) -> <ModelInterface>;
+    public function assign( array data, var whiteList = null, var dataColumnMap = null) -> <ModelInterface>;
 
     /**
      * Allows to calculate the average value on a column matching the specified
@@ -53,7 +57,7 @@ interface ModelInterface
     /**
      * Assigns values to a model from an array returning a new model
      */
-    public static function cloneResult(<ModelInterface> base, array! data, int dirtyState = 0) -> <ModelInterface>;
+    public static function cloneResult(<ModelInterface> base,  array data, int dirtyState = 0) -> <ModelInterface>;
 
     /**
      * Assigns values to a model from an array returning a new model
@@ -65,14 +69,20 @@ interface ModelInterface
      *
      * @return ModelInterface
      */
-    public static function cloneResultMap(base, array! data, var columnMap, int dirtyState = 0, bool keepSnapshots = false) -> <ModelInterface>;
+    public static function cloneResultMap(
+        var base,
+         array data,
+        var columnMap,
+        int dirtyState = 0,
+        bool keepSnapshots = false
+    ) -> <ModelInterface>;
 
     /**
      * Returns an hydrated result based on the data and the column map
      *
      * @param array columnMap
      */
-    public static function cloneResultMapHydrate(array! data, var columnMap, int hydrationMode);
+    public static function cloneResultMapHydrate( array data, var columnMap, int hydrationMode);
 
     /**
      * Allows to count how many records match the specified conditions
@@ -98,22 +108,31 @@ interface ModelInterface
     public function delete() -> bool;
 
     /**
-     * Allows to query a set of records that match the specified conditions
+     * Allows to query a set of records that match the specified conditions.
+     *
+     * This is one of four ways to express a query against a model, each with an
+     * intended lane:
+     *
+     * - find-parameter arrays (this method) for simple lookups;
+     * - `Phalcon\Mvc\Model\Query\Builder` as the canonical programmatic API;
+     * - `Phalcon\Mvc\Model\Criteria` as request-bound convenience;
+     * - raw PHQL via `Phalcon\Mvc\Model\Query` for everything else.
      *
      * @param array|string|int|null parameters
      *
-     * @return ResultsetInterface
+     * @return T[]|\Phalcon\Mvc\Model\Resultset<int, T>
      */
-    public static function find(var parameters = null) -> <ResultsetInterface>;
+    public static function find(var parameters = null);
 
     /**
      * Allows to query the first record that match the specified conditions
      *
      * @param array parameters
-     * @return \Phalcon\Mvc\ModelInterface|\Phalcon\Mvc\Model\Row|null
+     * @return T|\Phalcon\Mvc\ModelInterface|\Phalcon\Mvc\Model\Row|null
      *
-     * TODO: Current method signature must be reviewed in v5. As it must return only ?ModelInterface.
+     * TODO: Current method signature must be reviewed in v5. As it must return only ?ModelInterface (it also returns Row).
      * @see https://github.com/phalcon/cphalcon/issues/15212
+     * @see https://github.com/phalcon/cphalcon/issues/15883
      */
     public static function findFirst(parameters = null) -> var | null;
 
@@ -121,14 +140,14 @@ interface ModelInterface
      * Fires an event, implicitly calls behaviors and listeners in the events
      * manager are notified
      */
-    public function fireEvent(string! eventName) -> bool;
+    public function fireEvent( string eventName) -> bool;
 
     /**
      * Fires an event, implicitly calls behaviors and listeners in the events
      * manager are notified. This method stops if one of the callbacks/listeners
      * returns bool false
      */
-    public function fireEventCancel(string! eventName) -> bool;
+    public function fireEventCancel( string eventName) -> bool;
 
     /**
      * Returns one of the DIRTY_STATE_* constants telling if the record exists
@@ -247,7 +266,15 @@ interface ModelInterface
      *
      * @param array columnMap
      */
-    public function setSnapshotData(array! data, columnMap = null) -> void;
+    public function setSnapshotData( array data, columnMap = null) -> void;
+
+    /**
+     * Marks one or more many-to-many relationships to be synchronized (or not)
+     * on the next save() call.
+     *
+     * @param string|array|null elements
+     */
+    public function setSync(var elements = null, bool enabled = true) -> <ModelInterface>;
 
     /**
      * Sets a transaction related to the Model instance
@@ -273,14 +300,14 @@ interface ModelInterface
     public static function sum(parameters = null) -> float | <ResultsetInterface>;
 
     /**
-     * Check whether validation process has generated any messages
-     */
-    public function validationHasFailed() -> bool;
-
-    /**
-     * Updates a model instance. If the instance doesn't exist in the
+     * Updates a model instance. If the instance does not exist in the
      * persistence it will throw an exception. Returning true on success or
      * false otherwise.
      */
     public function update() -> bool;
+
+    /**
+     * Check whether validation process has generated any messages
+     */
+    public function validationHasFailed() -> bool;
 }

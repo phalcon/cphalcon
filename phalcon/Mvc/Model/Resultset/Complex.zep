@@ -10,17 +10,20 @@
 
 namespace Phalcon\Mvc\Model\Resultset;
 
+use Phalcon\Db\ResultInterface;
 use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
-use Phalcon\Db\ResultInterface;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model\Exceptions\CorruptColumnType;
+use Phalcon\Mvc\Model\Exceptions\InvalidContainer;
+use Phalcon\Mvc\Model\Exceptions\InvalidSerializationData;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\Row;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
-use Psr\SimpleCache\CacheInterface;
+use Phalcon\Support\Settings;
 use stdClass;
 
 /**
@@ -28,8 +31,11 @@ use stdClass;
  *
  * Complex resultsets may include complete objects and scalar values.
  * This class builds every complex row as it is required
+ *
+ * @template TKey of int
+ * @template TValue of mixed
  */
-class Complex extends Resultset implements ResultsetInterface
+class Complex extends Resultset
 {
     /**
      * @var array
@@ -45,16 +51,23 @@ class Complex extends Resultset implements ResultsetInterface
     protected disableHydration = false;
 
     /**
+     * @var string
+     */
+    protected resultsetRowClass = "";
+
+    /**
      * Phalcon\Mvc\Model\Resultset\Complex constructor
      *
-     * @param array                columnTypes
-     * @param ResultInterface|null result
-     * @param CacheInterface|null  cache
+     * @param array                $columnTypes
+     * @param ResultInterface|null $result
+     * @param mixed|null           $cache
+     * @param string               $resultsetRowClass
      */
     public function __construct(
         var columnTypes,
         <ResultInterface> result = null,
-        <CacheInterface> cache = null
+        var cache = null,
+        string resultsetRowClass = ""
     )
     {
         /**
@@ -62,17 +75,55 @@ class Complex extends Resultset implements ResultsetInterface
          */
         let this->columnTypes = columnTypes;
 
+        let this->resultsetRowClass = resultsetRowClass;
+
         parent::__construct(result, cache);
+    }
+
+    public function __serialize() -> array
+    {
+        var records, cache, columnTypes, hydrateMode;
+
+        /**
+         * Obtain the records as an array
+         */
+        let records = this->toArray();
+
+        let cache       = this->cache,
+            columnTypes = this->columnTypes,
+            hydrateMode = this->hydrateMode;
+
+        return [
+           "cache"       : cache,
+           "rows"        : records,
+           "columnTypes" : columnTypes,
+           "hydrateMode" : hydrateMode
+        ];
+    }
+
+    public function __unserialize(array data) -> void
+    {
+        /**
+         * Rows are already hydrated
+         */
+        let this->disableHydration = true;
+
+        let this->rows        = data["rows"],
+            this->count       = count(data["rows"]),
+            this->cache       = data["cache"],
+            this->columnTypes = data["columnTypes"],
+            this->hydrateMode = data["hydrateMode"];
     }
 
     /**
      * Returns current row in the resultset
      */
-    final public function current() -> <ModelInterface> | bool
+    final public function current() -> mixed
     {
         var row, hydrateMode, eager, dirtyState, alias, activeRow, type, column,
             columnValue, value, attribute, source, attributes, columnMap,
             rowModel, keepSnapshots, sqlAlias, modelName;
+        bool allNull;
 
         let activeRow = this->activeRow;
 
@@ -113,7 +164,11 @@ class Complex extends Resultset implements ResultsetInterface
          */
         switch hydrateMode {
             case Resultset::HYDRATE_RECORDS:
-                let activeRow = new Row();
+                if this->resultsetRowClass !== "" {
+                    let activeRow = create_instance(this->resultsetRowClass);
+                } else {
+                    let activeRow = new Row();
+                }
                 break;
 
             case Resultset::HYDRATE_ARRAYS:
@@ -136,7 +191,7 @@ class Complex extends Resultset implements ResultsetInterface
          */
         for alias, column in this->columnTypes {
             if unlikely typeof column != "array" {
-                throw new Exception("Column type is corrupt");
+                throw new CorruptColumnType();
             }
 
             let type = column["type"];
@@ -163,67 +218,83 @@ class Complex extends Resultset implements ResultsetInterface
                 }
 
                 /**
-                 * Generate the column value according to the hydration type
+                 * If all values are null, the LEFT JOIN returned no matching
+                 * row. `orm.resultset_empty_left_join_model` defaults to
+                 * `true`, preserving the pre-5.12 behavior of hydrating an
+                 * empty Model instance (all properties null) so existing
+                 * applications keep working without changes. New code that
+                 * prefers the cleaner "explicit null on no match" semantics
+                 * introduced in 5.12 can opt in by setting the flag to
+                 * `false` (via php.ini, .htaccess, or `Settings::set()`).
                  */
-                switch hydrateMode {
+                let allNull = true;
+                for columnValue in rowModel {
+                    if columnValue !== null {
+                        let allNull = false;
+                        break;
+                    }
+                }
 
-                    case Resultset::HYDRATE_RECORDS:
-                        // Check if the resultset must keep snapshots
-                        if !fetch keepSnapshots, column["keepSnapshots"] {
-                            let keepSnapshots = false;
-                        }
-
-                        if globals_get("orm.late_state_binding") {
-
-                            if column["instance"] instanceof Model {
-                                let modelName = get_class(column["instance"]);
-                            } else {
-                                let modelName = "Phalcon\\Mvc\\Model";
+                if allNull && !Settings::get("orm.resultset_empty_left_join_model") {
+                    let value = null;
+                } else {
+                    /**
+                     * Generate the column value according to the hydration type
+                     */
+                    switch hydrateMode {
+                        case Resultset::HYDRATE_RECORDS:
+                            // Check if the resultset must keep snapshots
+                            if !fetch keepSnapshots, column["keepSnapshots"] {
+                                let keepSnapshots = false;
                             }
 
-                            let value = {modelName}::cloneResultMap(
-                                column["instance"],
+                            if Settings::get("orm.late_state_binding") {
+                                if column["instance"] instanceof Model {
+                                    let modelName = get_class(column["instance"]);
+                                } else {
+                                    let modelName = Model::class;
+                                }
+
+                                let value = {modelName}::cloneResultMap(
+                                    column["instance"],
+                                    rowModel,
+                                    columnMap,
+                                    dirtyState,
+                                    keepSnapshots
+                                );
+                            } else {
+                                /**
+                                 * Get the base instance. Assign the values to the
+                                 * attributes using a column map
+                                 */
+                                let value = Model::cloneResultMap(
+                                    column["instance"],
+                                    rowModel,
+                                    columnMap,
+                                    dirtyState,
+                                    keepSnapshots
+                                );
+                            }
+
+                            break;
+
+                        default:
+                            // Other kinds of hydration
+                            let value = Model::cloneResultMapHydrate(
                                 rowModel,
                                 columnMap,
-                                dirtyState,
-                                keepSnapshots
+                                hydrateMode
                             );
 
-                        } else {
-
-                            /**
-                             * Get the base instance. Assign the values to the
-                             * attributes using a column map
-                             */
-                            let value = Model::cloneResultMap(
-                                column["instance"],
-                                rowModel,
-                                columnMap,
-                                dirtyState,
-                                keepSnapshots
-                            );
-                        }
-
-                        break;
-
-                    default:
-                        // Other kinds of hydration
-                        let value = Model::cloneResultMapHydrate(
-                            rowModel,
-                            columnMap,
-                            hydrateMode
-                        );
-
-                        break;
+                            break;
+                    }
                 }
 
                 /**
                  * The complete object is assigned to an attribute with the name of the alias or the model name
                  */
                 let attribute = column["balias"];
-
             } else {
-
                 /**
                  * Scalar columns are simply assigned to the result object
                  */
@@ -244,7 +315,6 @@ class Complex extends Resultset implements ResultsetInterface
             }
 
             if !fetch eager, column["eager"] {
-
                 /**
                  * Assign the instance according to the hydration type
                  */
@@ -267,6 +337,37 @@ class Complex extends Resultset implements ResultsetInterface
         let this->activeRow = activeRow;
 
         return activeRow;
+    }
+
+    /**
+     * Serializing a resultset will dump all related rows into a big array,
+     * serialize it and return the resulting string
+     */
+    public function serialize() -> string
+    {
+        var container, serializer;
+        array data;
+
+        let container = Di::getDefault();
+        if container === null {
+            throw new InvalidContainer();
+        }
+
+        let data = [
+            "cache"       : this->cache,
+            "rows"        : this->toArray(),
+            "columnTypes" : this->columnTypes,
+            "hydrateMode" : this->hydrateMode
+        ];
+
+        if container->has("serializer") {
+            let serializer = <SerializerInterface> container->getShared("serializer");
+            serializer->setData(data);
+
+            return serializer->serialize();
+        }
+
+        return serialize(data);
     }
 
     /**
@@ -293,55 +394,6 @@ class Complex extends Resultset implements ResultsetInterface
     }
 
     /**
-     * Serializing a resultset will dump all related rows into a big array
-     */
-    public function serialize() -> string
-    {
-        var records, cache, columnTypes, hydrateMode, container, serializer;
-
-        /**
-         * Obtain the records as an array
-         */
-        let records = this->toArray();
-
-        let cache       = this->cache,
-            columnTypes = this->columnTypes,
-            hydrateMode = this->hydrateMode;
-
-        let container = Di::getDefault();
-
-        if unlikely typeof container != "object" {
-            throw new Exception(
-                "The dependency injector container is not valid"
-            );
-        }
-
-        if container->has("serializer") {
-            let serializer = <SerializerInterface> container->getShared("serializer");
-
-            serializer->setData(
-                [
-                    "cache"       : cache,
-                    "rows"        : records,
-                    "columnTypes" : columnTypes,
-                    "hydrateMode" : hydrateMode
-                ]
-            );
-
-            return serializer->serialize();
-        }
-
-        return serialize(
-            [
-                "cache"       : cache,
-                "rows"        : records,
-                "columnTypes" : columnTypes,
-                "hydrateMode" : hydrateMode
-            ]
-        );
-    }
-
-    /**
      * Unserializing a resultset will allow to only works on the rows present in the saved state
      */
     public function unserialize(var data) -> void
@@ -354,11 +406,8 @@ class Complex extends Resultset implements ResultsetInterface
         let this->disableHydration = true;
 
         let container = Di::getDefault();
-
-        if unlikely typeof container != "object" {
-            throw new Exception(
-                "The dependency injector container is not valid"
-            );
+        if container === null {
+            throw new InvalidContainer();
         }
 
         if container->has("serializer") {
@@ -371,7 +420,7 @@ class Complex extends Resultset implements ResultsetInterface
         }
 
         if unlikely typeof resultset != "array" {
-            throw new Exception("Invalid serialization data");
+            throw new InvalidSerializationData();
         }
 
         let this->rows        = resultset["rows"],

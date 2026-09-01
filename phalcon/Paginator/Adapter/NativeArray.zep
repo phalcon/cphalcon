@@ -11,11 +11,10 @@
 namespace Phalcon\Paginator\Adapter;
 
 use Phalcon\Paginator\Exception;
+use Phalcon\Paginator\Exceptions\PaginatorDataNotArray;
 use Phalcon\Paginator\RepositoryInterface;
 
 /**
- * Phalcon\Paginator\Adapter\NativeArray
- *
  * Pagination using a PHP array as source of data
  *
  * ```php
@@ -47,14 +46,11 @@ class NativeArray extends AbstractAdapter
         int show, pageNumber, totalPages, number, previous, next;
         double roundedTotal;
 
-        /**
-         * TODO: Rewrite the whole method!
-         */
         let config = this->config,
             items  = config["data"];
 
         if unlikely typeof items != "array" {
-            throw new Exception("Invalid data for paginator");
+            throw new PaginatorDataNotArray();
         }
 
         let show       = (int) this->limitRows,

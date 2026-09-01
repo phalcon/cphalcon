@@ -19,15 +19,21 @@
 
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 /**
  * Class Body
+ *
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Body)
 {
@@ -39,10 +45,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Body)
 /**
  * Produce a `<body>` tag.
  *
- * @param array $attributes
- *
- * @return string
- * @throws Exception
+ * @phpstan-param html_attributes $attributes
  */
 PHP_METHOD(Phalcon_Html_Helper_Body, __invoke)
 {
@@ -54,16 +57,12 @@ PHP_METHOD(Phalcon_Html_Helper_Body, __invoke)
 
 	ZVAL_UNDEF(&attributes);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ARRAY(attributes)
+		ZEPHIR_Z_PARAM_ARRAY(attributes, attributes_param)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 0, 1, &attributes_param);
 	if (!attributes_param) {
 		ZEPHIR_INIT_VAR(&attributes);
@@ -71,8 +70,6 @@ PHP_METHOD(Phalcon_Html_Helper_Body, __invoke)
 	} else {
 		zephir_get_arrval(&attributes, attributes_param);
 	}
-
-
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "body");
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderelement", NULL, 0, &_0, &attributes);

@@ -1,6 +1,6 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -17,8 +17,8 @@ namespace Phalcon\Support\Helper\Arr;
 class Has
 {
     /**
-     * @param array      $collection
-     * @param string|int $index
+     * @param array<array-key, mixed> $collection
+     * @param int|string              $index
      *
      * @return bool
      */

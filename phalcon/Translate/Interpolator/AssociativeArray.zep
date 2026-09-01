@@ -10,31 +10,24 @@
 
 namespace Phalcon\Translate\Interpolator;
 
-use Phalcon\Support\Helper\Str\Interpolate;
+use Phalcon\Traits\Support\Helper\Str\InterpolateTrait;
 
 /**
  * Class AssociativeArray
- *
- * @package Phalcon\Translate\Interpolator
  */
 class AssociativeArray implements InterpolatorInterface
 {
+    use InterpolateTrait;
+
     /**
      * Replaces placeholders by the values passed
      *
-     * @param string $translation
-     * @param array  $placeholders
-     *
-     * @return string
+     * @phpstan-param array<string, string> $placeholders
      */
     public function replacePlaceholders(
-        string! translation,
+         string translation,
         array placeholders = []
     ) -> string {
-        var interpolate;
-
-        let interpolate = new Interpolate();
-
-        return interpolate->__invoke(translation, placeholders);
+        return this->toInterpolate(translation, placeholders);
     }
 }

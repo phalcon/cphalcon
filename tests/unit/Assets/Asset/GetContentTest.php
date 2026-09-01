@@ -1,0 +1,97 @@
+<?php
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Phalcon\Tests\Unit\Assets\Asset;
+
+use Phalcon\Assets\Asset;
+use Phalcon\Assets\Exception;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
+use Phalcon\Tests\Unit\Assets\Fake\AssetsTrait;
+use Phalcon\Tests\Unit\Assets\Fake\FakeAssetFileExists;
+use Phalcon\Tests\Unit\Assets\Fake\FakeAssetFileGetContents;
+use PHPUnit\Framework\Attributes\DataProvider;
+
+use function file_get_contents;
+
+use const PHP_EOL;
+
+final class GetContentTest extends AbstractUnitTestCase
+{
+    use AssetsTrait;
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    #[DataProvider('providerAssets')]
+    public function testAssetsAssetGetContent(
+        string $type,
+        string $path
+    ): void {
+        $asset = new Asset($type, $path);
+
+        $expected = file_get_contents(Talon::settings()->supportPath($path));
+        $expected = str_replace("\r\n", PHP_EOL, $expected);
+        $actual   = $asset->getContent(Talon::settings()->supportPath() . '/');
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testAssetsAssetGetContentException404(): void
+    {
+        $file    = 'assets/assets/1198.css';
+        $message = "Asset's content for '" . Talon::settings()->supportPath($file) . "' cannot be read";
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage($message);
+
+        $asset = new FakeAssetFileExists('css', $file);
+        $asset->getContent(Talon::settings()->supportPath() . '/');
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testAssetsAssetGetContentExceptionCannotReadFile(): void
+    {
+        $file    = 'assets/assets/1198.css';
+        $message = "Asset's content for '" . Talon::settings()->supportPath($file) . "' cannot be read";
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage($message);
+
+        $asset = new FakeAssetFileGetContents('css', $file);
+        $asset->getContent(Talon::settings()->supportPath() . '/');
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testAssetsAssetGetContentWithSourcePath(): void
+    {
+        $path   = 'assets/assets/jquery.js';
+        $source = 'assets/assets/1198.css';
+        $asset  = new Asset('js', $path);
+        $asset->setSourcePath($source);
+
+        $expected = file_get_contents(Talon::settings()->supportPath($source));
+        $expected = str_replace("\r\n", PHP_EOL, $expected);
+        $actual   = $asset->getContent(Talon::settings()->supportPath() . '/');
+        $this->assertSame($expected, $actual);
+    }
+}

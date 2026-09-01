@@ -52,7 +52,7 @@ interface ServiceInterface
     /**
      * Changes a parameter in the definition without resolve the service
      */
-    public function setParameter(int position, array! parameter) -> <ServiceInterface>;
+    public function setParameter(int position,  array parameter) -> <ServiceInterface>;
 
     /**
      * Sets if the service is shared or not

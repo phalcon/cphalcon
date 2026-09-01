@@ -21,24 +21,17 @@
  * file that was distributed with this source code.
  */
 /**
- * Interface for Phalcon\Db\Index
+ * Phalcon\Db\IndexInterface
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Db\Index} instead.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_IndexInterface)
 {
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Db, IndexInterface, phalcon, db_indexinterface, phalcon_db_indexinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Db, IndexInterface, phalcon, db_indexinterface, NULL);
 
+	zend_class_implements(phalcon_db_indexinterface_ce, 1, phalcon_contracts_db_index_ce);
 	return SUCCESS;
 }
 
-/**
- * Gets the columns that corresponds the index
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_IndexInterface, getColumns);
-/**
- * Gets the index name
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_IndexInterface, getName);
-/**
- * Gets the index type
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_IndexInterface, getType);

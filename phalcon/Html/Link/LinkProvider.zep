@@ -10,46 +10,28 @@
 
 namespace Phalcon\Html\Link;
 
-use Psr\Link\LinkInterface;
-use Psr\Link\LinkProviderInterface;
+use Phalcon\Contracts\Html\Link\LinkTypes;
+use Phalcon\Html\Link\Interfaces\LinkProviderInterface;
 
 /**
- * @property LinkInterface[] links
+ * @phpstan-import-type link_collection from LinkTypes
+ * @phpstan-import-type link_list from LinkTypes
+ *
+ * @phpstan-property link_collection $links
  */
-class LinkProvider implements LinkProviderInterface
+class LinkProvider extends AbstractLinkProvider implements LinkProviderInterface
 {
-    /**
-     * @var LinkInterface[]
-     */
-    protected links = [];
-
-    /**
-     * LinkProvider constructor.
-     *
-     * @param array links
-     */
-    public function __construct(array links = [])
-    {
-        var link;
-
-        for link in links {
-            if link instanceof LinkInterface {
-                let this->links[this->getKey(link)] = link;
-            }
-        }
-    }
-
     /**
      * Returns an iterable of LinkInterface objects.
      *
      * The iterable may be an array or any PHP \Traversable object. If no links
      * are available, an empty array or \Traversable MUST be returned.
      *
-     * @return LinkInterface[]|\Traversable
+     * @phpstan-return link_collection
      */
-    public function getLinks()
+    public function getLinks() -> array
     {
-        return this->links;
+        return this->doGetLinks();
     }
 
     /**
@@ -60,32 +42,12 @@ class LinkProvider implements LinkProviderInterface
      * with that relationship are available, an empty array or \Traversable
      * MUST be returned.
      *
-     * @return LinkInterface[]|\Traversable
-     */
-    public function getLinksByRel(var rel)
-    {
-        var link, links, rels;
-
-        let links = [];
-        for link in this->links {
-            let rels = link->getRels();
-            if true === in_array(rel, rels) {
-                let links[] = link;
-            }
-        }
-
-        return links;
-    }
-
-    /**
-     * Returns the object hash key
+     * @phpstan-param string $rel
      *
-     * @param LinkInterface link
-     *
-     * @return string
+     * @phpstan-return link_list
      */
-    protected function getKey(<LinkInterface> link) -> string
+    public function getLinksByRel(var rel) -> array
     {
-        return spl_object_hash(link);
+        return this->doGetLinksByRel(rel);
     }
 }

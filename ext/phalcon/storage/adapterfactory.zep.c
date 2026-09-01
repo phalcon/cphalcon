@@ -15,10 +15,8 @@
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
-#include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/array.h"
 
 
 /**
@@ -29,19 +27,27 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+/**
+ * @phpstan-import-type storage_options from StorageTypes
+ * @phpstan-import-type storage_services from StorageTypes
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Storage_AdapterFactory)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Storage, AdapterFactory, phalcon, storage_adapterfactory, phalcon_factory_abstractfactory_ce, phalcon_storage_adapterfactory_method_entry, 0);
 
-	/**
-	 * @var SerializerFactory
-	 */
-	zend_declare_property_null(phalcon_storage_adapterfactory_ce, SL("serializerFactory"), ZEND_ACC_PRIVATE);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_storage_adapterfactory_ce, SL("serializerFactory"), &_zc0, ZEND_ACC_PRIVATE, 0, SL("Phalcon\\Storage\\SerializerFactory"));
+	}
+
 	return SUCCESS;
 }
 
 /**
  * AdapterFactory constructor.
+ *
+ * @param string[] $services
  */
 PHP_METHOD(Phalcon_Storage_AdapterFactory, __construct)
 {
@@ -53,27 +59,26 @@ PHP_METHOD(Phalcon_Storage_AdapterFactory, __construct)
 
 	ZVAL_UNDEF(&factory_sub);
 	ZVAL_UNDEF(&services);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("serializerFactory", 17, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_OBJECT_OF_CLASS(factory, phalcon_storage_serializerfactory_ce)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ARRAY(services)
+		ZEPHIR_Z_PARAM_ARRAY(services, services_param)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &factory, &services_param);
 	if (!services_param) {
 		ZEPHIR_INIT_VAR(&services);
 		array_init(&services);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&services, services_param);
+		zephir_get_arrval(&services, services_param);
 	}
-
-
-	zephir_update_property_zval(this_ptr, ZEND_STRL("serializerFactory"), factory);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1336, factory);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &services);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -82,7 +87,7 @@ PHP_METHOD(Phalcon_Storage_AdapterFactory, __construct)
 /**
  * Create a new instance of the adapter
  *
- * @param array options = [
+ * @param array $options = [
  *     'servers' => [
  *         [
  *             'host' => '127.0.0.1',
@@ -103,58 +108,54 @@ PHP_METHOD(Phalcon_Storage_AdapterFactory, __construct)
  *     'storageDir' => '',
  * ]
  *
+ * @phpstan-param storage_options $options
+ *
  * @return AdapterInterface
- * @throws Exception
+ * @throws BaseException
  */
 PHP_METHOD(Phalcon_Storage_AdapterFactory, newInstance)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval options, _0;
-	zval *name_param = NULL, *options_param = NULL, definition, _1;
-	zval name;
+	zval name_zv, *options_param = NULL, definition, _1;
+	zend_string *name = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&name);
+	ZVAL_UNDEF(&name_zv);
 	ZVAL_UNDEF(&definition);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("serializerFactory", 17, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(name)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ARRAY(options)
+		ZEPHIR_Z_PARAM_ARRAY(options, options_param)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &name_param, &options_param);
-	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
-		RETURN_MM_NULL();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (ZEND_NUM_ARGS() > 1) {
+		options_param = ZEND_CALL_ARG(execute_data, 2);
 	}
-	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {
-		zephir_get_strval(&name, name_param);
-	} else {
-		ZEPHIR_INIT_VAR(&name);
-	}
+	zephir_memory_observe(&name_zv);
+	ZVAL_STR_COPY(&name_zv, name);
 	if (!options_param) {
 		ZEPHIR_INIT_VAR(&options);
 		array_init(&options);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
+		zephir_get_arrval(&options, options_param);
 	}
-
-
-	ZEPHIR_CALL_METHOD(&definition, this_ptr, "getservice", NULL, 0, &name);
+	ZEPHIR_CALL_METHOD(&definition, this_ptr, "getservice", NULL, 0, &name_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 2, 0);
-	ZEPHIR_OBS_VAR(&_1);
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("serializerFactory"), PH_NOISY_CC);
+	zephir_memory_observe(&_1);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1336, PH_NOISY_CC);
 	zephir_array_fast_append(&_0, &_1);
 	zephir_array_fast_append(&_0, &options);
 	ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(return_value, &definition, &_0);
@@ -163,13 +164,10 @@ PHP_METHOD(Phalcon_Storage_AdapterFactory, newInstance)
 }
 
 /**
- * @return string
+ * @return class-string<Throwable>
  */
 PHP_METHOD(Phalcon_Storage_AdapterFactory, getExceptionClass)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_STRING("Phalcon\\Storage\\Exception");
 }
@@ -178,19 +176,20 @@ PHP_METHOD(Phalcon_Storage_AdapterFactory, getExceptionClass)
  * Returns the available adapters
  *
  * @return string[]
+ *
+ * @phpstan-return storage_services
  */
 PHP_METHOD(Phalcon_Storage_AdapterFactory, getServices)
 {
-	zval *this_ptr = getThis();
 
-
-
-	zephir_create_array(return_value, 5, 0);
+	zephir_create_array(return_value, 7, 0);
 	add_assoc_stringl_ex(return_value, SL("apcu"), SL("Phalcon\\Storage\\Adapter\\Apcu"));
 	add_assoc_stringl_ex(return_value, SL("libmemcached"), SL("Phalcon\\Storage\\Adapter\\Libmemcached"));
 	add_assoc_stringl_ex(return_value, SL("memory"), SL("Phalcon\\Storage\\Adapter\\Memory"));
 	add_assoc_stringl_ex(return_value, SL("redis"), SL("Phalcon\\Storage\\Adapter\\Redis"));
+	add_assoc_stringl_ex(return_value, SL("rediscluster"), SL("Phalcon\\Storage\\Adapter\\RedisCluster"));
 	add_assoc_stringl_ex(return_value, SL("stream"), SL("Phalcon\\Storage\\Adapter\\Stream"));
+	add_assoc_stringl_ex(return_value, SL("weak"), SL("Phalcon\\Storage\\Adapter\\Weak"));
 	return;
 }
 

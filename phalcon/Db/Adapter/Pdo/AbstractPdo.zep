@@ -1,8 +1,8 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,9 +13,14 @@ namespace Phalcon\Db\Adapter\Pdo;
 use Phalcon\Db\Adapter\AbstractAdapter;
 use Phalcon\Db\Column;
 use Phalcon\Db\Exception;
-use Phalcon\Db\Result\Pdo as ResultPdo;
+use Phalcon\Db\Exceptions\CannotPrepareStatement;
+use Phalcon\Db\Exceptions\InvalidBindParameter;
+use Phalcon\Db\Exceptions\MatchedParameterNotFound;
+use Phalcon\Db\Exceptions\NoActiveTransaction;
+use Phalcon\Db\Result\PdoResult;
 use Phalcon\Db\ResultInterface;
 use Phalcon\Events\ManagerInterface;
+use Phalcon\Support\Settings;
 
 /**
  * Phalcon\Db\Adapter\Pdo is the Phalcon\Db that internally uses PDO to connect
@@ -38,11 +43,24 @@ use Phalcon\Events\ManagerInterface;
 abstract class AbstractPdo extends AbstractAdapter
 {
     /**
+     * @var string
+     */
+    const BIND_PATTERN = "/\\?([0-9]+)|:([a-zA-Z0-9_]+):/";
+
+    /**
      * Last affected rows
      *
      * @var int
      */
     protected affectedRows = 0;
+
+    /**
+     * Whether to transparently reconnect and retry once when a query fails
+     * because the connection was lost. Opt-in; off by default.
+     *
+     * @var bool
+     */
+    protected autoReconnect = false;
 
     /**
      * PDO Handler
@@ -66,7 +84,7 @@ abstract class AbstractPdo extends AbstractAdapter
      *     'charset' => 'utf8mb4'
      * ]
      */
-    public function __construct(array! descriptor)
+    public function __construct( array descriptor)
     {
         this->connect(descriptor);
 
@@ -79,7 +97,7 @@ abstract class AbstractPdo extends AbstractAdapter
      *
      *```php
      * $connection->execute(
-     *     "DELETE FROM robots"
+     *     "DELETE FROM co_invoices"
      * );
      *
      * echo $connection->affectedRows(), " were deleted";
@@ -95,7 +113,7 @@ abstract class AbstractPdo extends AbstractAdapter
      */
     public function begin(bool nesting = true) -> bool
     {
-        var transactionLevel, eventsManager, savepointName;
+        var eventsManager, savepointName;
 
         /**
          * Increase the transaction nesting level
@@ -105,9 +123,7 @@ abstract class AbstractPdo extends AbstractAdapter
         /**
          * Check the transaction nesting level
          */
-        let transactionLevel = (int) this->transactionLevel;
-
-        if transactionLevel == 1 {
+        if this->transactionLevel === 1 {
             /**
              * Notify the events manager about the started transaction
              */
@@ -122,7 +138,7 @@ abstract class AbstractPdo extends AbstractAdapter
         /**
          * Check if the current database system supports nested transactions
          */
-        if !transactionLevel || !nesting || !this->isNestedTransactionsWithSavepoints() {
+        if this->transactionLevel === 0 || !nesting || !this->isNestedTransactionsWithSavepoints() {
             return false;
         }
 
@@ -144,17 +160,16 @@ abstract class AbstractPdo extends AbstractAdapter
      */
     public function commit(bool nesting = true) -> bool
     {
-        var transactionLevel, eventsManager, savepointName;
+        var eventsManager, savepointName;
 
         /**
          * Check the transaction nesting level
          */
-        let transactionLevel = (int) this->transactionLevel;
-        if unlikely !transactionLevel {
-            throw new Exception("There is no active transaction");
+        if this->transactionLevel === 0 {
+            throw new NoActiveTransaction();
         }
 
-        if transactionLevel == 1 {
+        if this->transactionLevel === 1 {
             /**
              * Notify the events manager about the committed transaction
              */
@@ -174,11 +189,11 @@ abstract class AbstractPdo extends AbstractAdapter
         /**
          * Check if the current database system supports nested transactions
          */
-        if !transactionLevel || !nesting || !this->isNestedTransactionsWithSavepoints() {
+        if this->transactionLevel === 0 || !nesting || !this->isNestedTransactionsWithSavepoints() {
             /**
              * Reduce the transaction nesting level
              */
-            if transactionLevel > 0 {
+            if this->transactionLevel > 0 {
                 let this->transactionLevel--;
             }
 
@@ -236,10 +251,10 @@ abstract class AbstractPdo extends AbstractAdapter
      * $connection->connect();
      * ```
      */
-    public function connect(array! descriptor = []) -> void
+    public function connect( array descriptor = []) -> void
     {
         var username, password, dsnAttributes, dsnAttributesCustomRaw,
-            dsnAttributesMap, key, options, persistent, value;
+            dsnAttributesMap, key, options, persistent, value, autoReconnect;
         array dsnParts = [];
 
         if empty descriptor {
@@ -274,6 +289,13 @@ abstract class AbstractPdo extends AbstractAdapter
 
         if fetch persistent, descriptor["persistent"] {
             let options[\PDO::ATTR_PERSISTENT] = (bool) persistent;
+        }
+
+        // Opt-in transparent auto-reconnect flag; strip it so it never leaks
+        // into the DSN string built below.
+        if fetch autoReconnect, descriptor["autoReconnect"] {
+            let this->autoReconnect = (bool) autoReconnect;
+            unset descriptor["autoReconnect"];
         }
 
         // Set PDO to throw exceptions when an error is encountered.
@@ -319,21 +341,21 @@ abstract class AbstractPdo extends AbstractAdapter
      *```php
      * print_r(
      *     $connection->convertBoundParams(
-     *         "SELECT * FROM robots WHERE name = :name:",
+     *         "SELECT * FROM co_invoices WHERE inv_title = :inv_title:",
      *         [
-     *             "Bender",
+     *             "Test Invoice",
      *         ]
      *     )
      * );
      *```
      */
-    public function convertBoundParams(string! sql, array params = []) -> array
+    public function convertBoundParams( string sql, array params = []) -> array
     {
         var boundSql, placeHolders, bindPattern, matches, setOrder, placeMatch,
             value;
 
         let placeHolders = [],
-            bindPattern = "/\\?([0-9]+)|:([a-zA-Z0-9_]+):/",
+            bindPattern = self::BIND_PATTERN,
             matches = null,
             setOrder = 2;
 
@@ -341,15 +363,11 @@ abstract class AbstractPdo extends AbstractAdapter
             for placeMatch in matches {
                 if !fetch value, params[placeMatch[1]] {
                     if unlikely !isset placeMatch[2] {
-                        throw new Exception(
-                            "Matched parameter was not found in parameters list"
-                        );
+                        throw new MatchedParameterNotFound();
                     }
 
                     if unlikely !fetch value, params[placeMatch[2]] {
-                        throw new Exception(
-                            "Matched parameter was not found in parameters list"
-                        );
+                        throw new MatchedParameterNotFound();
                     }
                 }
 
@@ -381,28 +399,38 @@ abstract class AbstractPdo extends AbstractAdapter
     }
 
     /**
+     * Ensures the connection is alive, reconnecting in place if it is not.
+     */
+    public function ensureConnection() -> void
+    {
+        if !this->ping() {
+            this->connect();
+        }
+    }
+
+    /**
      * Sends SQL statements to the database server returning the success state.
-     * Use this method only when the SQL statement sent to the server doesn't
+     * Use this method only when the SQL statement sent to the server does not
      * return any rows
      *
      *```php
      * // Inserting data
      * $success = $connection->execute(
-     *     "INSERT INTO robots VALUES (1, 'Astro Boy')"
+     *     "INSERT INTO co_invoices VALUES (1, 'Test Invoice')"
      * );
      *
      * $success = $connection->execute(
-     *     "INSERT INTO robots VALUES (?, ?)",
+     *     "INSERT INTO co_invoices VALUES (?, ?)",
      *     [
      *         1,
-     *         "Astro Boy",
+     *         "Test Invoice",
      *     ]
      * );
      *```
      */
-    public function execute(string! sqlStatement, array! bindParams = [], array! bindTypes = []) -> bool
+    public function execute( string sqlStatement,  array bindParams = [],  array bindTypes = []) -> bool
     {
-        var eventsManager, affectedRows, newStatement, statement;
+        var eventsManager, affectedRows, e;
 
         /**
          * Execute the beforeQuery event if an EventsManager is available
@@ -425,20 +453,16 @@ abstract class AbstractPdo extends AbstractAdapter
 
         this->prepareRealSql(sqlStatement, bindParams);
 
-        if !empty bindParams {
-            let statement = this->pdo->prepare(sqlStatement);
-
-            if typeof statement == "object" {
-                let newStatement = this->executePrepared(
-                    statement,
-                    bindParams,
-                    bindTypes
-                );
-
-                let affectedRows = newStatement->rowCount();
+        try {
+            let affectedRows = this->executeStatement(sqlStatement, bindParams, bindTypes);
+        } catch \PDOException, e {
+            if !this->canReconnect(e) {
+                throw e;
             }
-        } else {
-            let affectedRows = this->pdo->exec(sqlStatement);
+
+            this->handleConnectionLost();
+
+            let affectedRows = this->executeStatement(sqlStatement, bindParams, bindTypes);
         }
 
         /**
@@ -463,21 +487,21 @@ abstract class AbstractPdo extends AbstractAdapter
      * use Phalcon\Db\Column;
      *
      * $statement = $db->prepare(
-     *     "SELECT * FROM robots WHERE name = :name"
+     *     "SELECT * FROM co_invoices WHERE inv_title = :inv_title"
      * );
      *
      * $result = $connection->executePrepared(
      *     $statement,
      *     [
-     *         "name" => "Voltron",
+     *         "inv_title" => "Test Invoice",
      *     ],
      *     [
-     *         "name" => Column::BIND_PARAM_INT,
+     *         "inv_title" => Column::BIND_PARAM_STR,
      *     ]
      * );
      *```
      */
-    public function executePrepared(<\PDOStatement> statement, array! placeholders, dataTypes) -> <\PDOStatement>
+    public function executePrepared(<\PDOStatement> statement,  array placeholders, array dataTypes = []) -> <\PDOStatement>
     {
         var wildcard, value, type, castValue, parameter, position, itemValue;
 
@@ -487,10 +511,10 @@ abstract class AbstractPdo extends AbstractAdapter
             } elseif typeof wildcard == "string" {
                 let parameter = wildcard;
             } else {
-                throw new Exception("Invalid bind parameter (1)");
+                throw new InvalidBindParameter();
             }
 
-            if typeof dataTypes == "array" && fetch type, dataTypes[wildcard] {
+            if fetch type, dataTypes[wildcard] {
                 /**
                  * The bind type needs to be string because the precision
                  * is lost if it is casted as a double
@@ -499,7 +523,7 @@ abstract class AbstractPdo extends AbstractAdapter
                     let castValue = (string) value,
                         type = Column::BIND_SKIP;
                 } else {
-                    if globals_get("db.force_casting") {
+                    if Settings::get("db.force_casting") {
                         if typeof value != "array" {
                             switch type {
 
@@ -573,6 +597,14 @@ abstract class AbstractPdo extends AbstractAdapter
     }
 
     /**
+     * Returns whether transparent auto-reconnect is enabled.
+     */
+    public function getAutoReconnect() -> bool
+    {
+        return this->autoReconnect;
+    }
+
+    /**
      * Return the error info, if any
      */
     public function getErrorInfo() -> array
@@ -618,16 +650,16 @@ abstract class AbstractPdo extends AbstractAdapter
      * the latest executed SQL statement
      *
      *```php
-     * // Inserting a new robot
+     * // Inserting a new invoice
      * $success = $connection->insert(
-     *     "robots",
+     *     "co_invoices",
      *     [
-     *         "Astro Boy",
-     *         1952,
+     *         "Test Invoice",
+     *         100,
      *     ],
      *     [
-     *         "name",
-     *         "year",
+     *         "inv_title",
+     *         "inv_total",
      *     ]
      * );
      *
@@ -638,9 +670,28 @@ abstract class AbstractPdo extends AbstractAdapter
      * @param string|null $name
      * @return string|bool
      */
-    public function lastInsertId(string! name = null) -> string | bool
+    public function lastInsertId( string name = null) -> string | bool
     {
         return this->pdo->lastInsertId(name);
+    }
+
+    /**
+     * Checks whether the underlying connection is still alive by issuing a
+     * trivial query. Returns false if there is no handle or the probe fails.
+     */
+    public function ping() -> bool
+    {
+        if !this->pdo {
+            return false;
+        }
+
+        try {
+            this->pdo->query("SELECT 1");
+        } catch \Throwable {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -650,21 +701,21 @@ abstract class AbstractPdo extends AbstractAdapter
      * use Phalcon\Db\Column;
      *
      * $statement = $db->prepare(
-     *     "SELECT * FROM robots WHERE name = :name"
+     *     "SELECT * FROM co_invoices WHERE inv_title = :inv_title"
      * );
      *
      * $result = $connection->executePrepared(
      *     $statement,
      *     [
-     *         "name" => "Voltron",
+     *         "inv_title" => "Test Invoice",
      *     ],
      *     [
-     *         "name" => Column::BIND_PARAM_INT,
+     *         "inv_title" => Column::BIND_PARAM_INT,
      *     ]
      * );
      *```
      */
-    public function prepare(string! sqlStatement) -> <\PDOStatement>
+    public function prepare( string sqlStatement) -> <\PDOStatement>
     {
         return this->pdo->prepare(sqlStatement);
     }
@@ -677,20 +728,20 @@ abstract class AbstractPdo extends AbstractAdapter
      *```php
      * // Querying data
      * $resultset = $connection->query(
-     *     "SELECT * FROM robots WHERE type = 'mechanical'"
+     *     "SELECT * FROM co_invoices WHERE inv_status_flag = 1"
      * );
      *
      * $resultset = $connection->query(
-     *     "SELECT * FROM robots WHERE type = ?",
+     *     "SELECT * FROM co_invoices WHERE inv_status_flag = ?",
      *     [
-     *         "mechanical",
+     *         1,
      *     ]
      * );
      *```
      */
-    public function query(string! sqlStatement, array! bindParams = [], array! bindTypes = []) -> <ResultInterface> | bool
+    public function query( string sqlStatement,  array bindParams = [],  array bindTypes = []) -> <ResultInterface> | bool
     {
-        var eventsManager, statement, params, types;
+        var eventsManager, statement, params, types, e;
 
         let eventsManager = <ManagerInterface> this->eventsManager;
 
@@ -715,14 +766,19 @@ abstract class AbstractPdo extends AbstractAdapter
             let types = [];
         }
 
-        let statement = this->pdo->prepare(sqlStatement);
-        if unlikely typeof statement != "object" {
-            throw new Exception("Cannot prepare statement");
-        }
-
         this->prepareRealSql(sqlStatement, bindParams);
 
-        let statement = this->executePrepared(statement, params, types);
+        try {
+            let statement = this->queryStatement(sqlStatement, params, types);
+        } catch \PDOException, e {
+            if !this->canReconnect(e) {
+                throw e;
+            }
+
+            this->handleConnectionLost();
+
+            let statement = this->queryStatement(sqlStatement, params, types);
+        }
 
         /**
          * Execute the afterQuery event if an EventsManager is available
@@ -732,7 +788,7 @@ abstract class AbstractPdo extends AbstractAdapter
                 eventsManager->fire("db:afterQuery", this);
             }
 
-            return new ResultPdo(
+            return new PdoResult(
                 this,
                 statement,
                 sqlStatement,
@@ -749,17 +805,16 @@ abstract class AbstractPdo extends AbstractAdapter
      */
     public function rollback(bool nesting = true) -> bool
     {
-        var transactionLevel, eventsManager, savepointName;
+        var eventsManager, savepointName;
 
         /**
          * Check the transaction nesting level
          */
-        let transactionLevel = (int) this->transactionLevel;
-        if unlikely !transactionLevel {
-            throw new Exception("There is no active transaction");
+        if this->transactionLevel === 0 {
+            throw new NoActiveTransaction();
         }
 
-        if transactionLevel == 1 {
+        if this->transactionLevel === 1 {
             /**
              * Notify the events manager about the rollbacked transaction
              */
@@ -779,11 +834,11 @@ abstract class AbstractPdo extends AbstractAdapter
         /**
          * Check if the current database system supports nested transactions
          */
-        if !transactionLevel || !nesting || !this->isNestedTransactionsWithSavepoints() {
+        if this->transactionLevel === 0 || !nesting || !this->isNestedTransactionsWithSavepoints() {
             /**
              * Reduce the transaction nesting level
              */
-            if transactionLevel > 0 {
+            if this->transactionLevel > 0 {
                 let this->transactionLevel--;
             }
 
@@ -809,9 +864,29 @@ abstract class AbstractPdo extends AbstractAdapter
     }
 
     /**
+     * Enables or disables transparent auto-reconnect on a lost connection.
+     */
+    public function setAutoReconnect(bool autoReconnect) -> <static>
+    {
+        let this->autoReconnect = autoReconnect;
+
+        return this;
+    }
+
+    /**
      * Returns PDO adapter DSN defaults as a key-value map.
      */
     abstract protected function getDsnDefaults() -> array;
+
+    /**
+     * Recognizes whether an exception represents a lost ("gone away")
+     * connection. The base adapter cannot know driver specifics, so it
+     * returns false; concrete adapters override this.
+     */
+    protected function isConnectionError(<\Throwable> exception) -> bool
+    {
+        return false;
+    }
 
     /**
      * Constructs the SQL statement (with parameters)
@@ -849,5 +924,82 @@ abstract class AbstractPdo extends AbstractAdapter
         }
 
         let this->realSqlStatement = result;
+    }
+
+    /**
+     * Whether a failed query may be transparently retried after reconnecting.
+     * Only when auto-reconnect is on, we are not in a transaction, and the
+     * failure is a recognized connection loss.
+     */
+    private function canReconnect(<\Throwable> exception) -> bool
+    {
+        if !this->autoReconnect {
+            return false;
+        }
+
+        if this->transactionLevel !== 0 {
+            return false;
+        }
+
+        return this->isConnectionError(exception);
+    }
+
+    /**
+     * Runs the actual write against PDO and returns the affected-rows count
+     * (or the raw exec() return for unprepared statements).
+     */
+    private function executeStatement(string sqlStatement, array bindParams, array bindTypes) -> var
+    {
+        var statement, newStatement, affectedRows;
+
+        let affectedRows = 0;
+
+        if !empty bindParams {
+            let statement = this->pdo->prepare(sqlStatement);
+
+            if typeof statement == "object" {
+                let newStatement = this->executePrepared(
+                    statement,
+                    bindParams,
+                    bindTypes
+                );
+
+                let affectedRows = newStatement->rowCount();
+            }
+        } else {
+            let affectedRows = this->pdo->exec(sqlStatement);
+        }
+
+        return affectedRows;
+    }
+
+    /**
+     * Notifies listeners that the connection was lost and re-establishes it.
+     */
+    private function handleConnectionLost() -> void
+    {
+        var eventsManager;
+
+        let eventsManager = <ManagerInterface> this->eventsManager;
+        if typeof eventsManager == "object" {
+            eventsManager->fire("db:connectionLost", this);
+        }
+
+        this->connect();
+    }
+
+    /**
+     * Prepares and executes a read statement, returning the live PDOStatement.
+     */
+    private function queryStatement(string sqlStatement, array params, array types) -> <\PDOStatement>
+    {
+        var statement;
+
+        let statement = this->pdo->prepare(sqlStatement);
+        if unlikely typeof statement != "object" {
+            throw new CannotPrepareStatement();
+        }
+
+        return this->executePrepared(statement, params, types);
     }
 }

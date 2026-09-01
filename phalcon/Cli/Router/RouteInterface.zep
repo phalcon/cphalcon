@@ -10,31 +10,48 @@
 
 namespace Phalcon\Cli\Router;
 
+use Phalcon\Contracts\Cli\CliTypes;
+
 /**
  * Interface for Phalcon\Cli\Router\Route
+ *
+ * Note: `Phalcon\Cli\Router` always constructs and returns the concrete
+ * `Phalcon\Cli\Router\Route`, and there is no injection point for an externally
+ * built route, so this interface is a marker for type hints rather than an
+ * implementable contract. The fluent route API used in practice -
+ * `beforeMatch()`, `getBeforeMatch()`, `convert()`, and `getConverters()` - is
+ * declared on the concrete `Route` class, not here.
+ *
+ * @phpstan-import-type cli_route_paths from CliTypes
+ * @phpstan-import-type cli_route_reversed_paths from CliTypes
  */
 interface RouteInterface
 {
     /**
-     * Replaces placeholders from pattern returning a valid PCRE regular
-     * expression
-     */
-    public function compilePattern(string! pattern) -> string;
-
-    /**
      * Set the routing delimiter
      */
-    public static function delimiter(string! delimiter = null);
-
-    /**
-     * Returns the route's pattern
-     */
-    public function getCompiledPattern() -> string;
+    public static function delimiter( string delimiter = null);
 
     /**
      * Get routing delimiter
      */
     public static function getDelimiter() -> string;
+
+    /**
+     * Resets the internal route id generator
+     */
+    public static function reset() -> void;
+
+    /**
+     * Replaces placeholders from pattern returning a valid PCRE regular
+     * expression
+     */
+    public function compilePattern( string pattern) -> string;
+
+    /**
+     * Returns the route's pattern
+     */
+    public function getCompiledPattern() -> string;
 
     /**
      * Returns the route's description
@@ -48,6 +65,8 @@ interface RouteInterface
 
     /**
      * Returns the paths
+     *
+     * @phpstan-return cli_route_paths
      */
     public function getPaths() -> array;
 
@@ -58,6 +77,8 @@ interface RouteInterface
 
     /**
      * Returns the paths using positions as keys and names as values
+     *
+     * @phpstan-return cli_route_reversed_paths
      */
     public function getReversedPaths() -> array;
 
@@ -69,22 +90,16 @@ interface RouteInterface
     /**
      * Reconfigure the route adding a new pattern and a set of paths
      *
-     * @param string pattern
      * @param array|string|null paths
      *
      * @return void
      */
-    public function reConfigure(string! pattern, var paths = null) -> void;
-
-    /**
-     * Resets the internal route id generator
-     */
-    public static function reset() -> void;
+    public function reConfigure( string pattern, var paths = null) -> void;
 
     /**
      * Sets the route's description
      */
-    public function setDescription(string! description) -> <RouteInterface>;
+    public function setDescription( string description) -> <RouteInterface>;
 
     /**
      * Sets the route's name

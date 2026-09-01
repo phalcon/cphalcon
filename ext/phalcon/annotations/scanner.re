@@ -25,13 +25,18 @@ int phannot_get_token(phannot_scanner_state *s, phannot_scanner_token *token) {
 
 		if (s->mode == PHANNOT_MODE_RAW) {
 
+			/* End of input: nothing after the terminator may be read. */
+			if (*YYCURSOR == '\0') {
+				return PHANNOT_SCANNER_RETCODE_EOF;
+			}
+
 			if (*YYCURSOR == '\n') {
 				s->active_line++;
 			}
 
 			next = *(YYCURSOR+1);
 
-			if (*YYCURSOR == '\0' || *YYCURSOR == '@') {
+			if (*YYCURSOR == '@') {
 				if ((next >= 'A' && next <= 'Z') || (next >= 'a' && next <= 'z')) {
 					s->mode = PHANNOT_MODE_ANNOTATION;
 					continue;
@@ -81,7 +86,7 @@ int phannot_get_token(phannot_scanner_state *s, phannot_scanner_token *token) {
 			return 0;
 		}
 
-		STRING = (["] ([\\]["]|[\\].|[\001-\377]\[\\"])* ["])|(['] ([\\][']|[\\].|[\001-\377]\[\\'])* [']);
+		STRING = (["] ([\\]["]|[\\][^\n\x00]|[\001-\377]\[\\"])* ["])|(['] ([\\][']|[\\][^\n\x00]|[\001-\377]\[\\'])* [']);
 		STRING {
 			token->opcode = PHANNOT_T_STRING;
 			token->value = estrndup(q, YYCURSOR - q - 1);

@@ -1,32 +1,45 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 
 namespace Phalcon\Html\Helper;
 
-use Phalcon\Html\Exception;
+use Phalcon\Contracts\Html\HtmlTypes;
+use Phalcon\Html\Escaper\EscaperInterface;
 
 /**
  * Class Element
+ *
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 class Element extends AbstractHelper
 {
+    protected bool forceRaw = false;
+
+    public function __construct(
+        <EscaperInterface> escaper,
+        <Doctype> doctype = null,
+        bool forceRaw = false
+    ) {
+        parent::__construct(escaper, doctype);
+
+        let this->forceRaw = forceRaw;
+    }
+
     /**
      * Produce a tag.
      *
-     * @param string $tag
-     * @param string $text
-     * @param array  $attributes
-     * @param bool   $raw
-     *
-     * @return string
-     * @throws Exception
+     * @phpstan-param html_attributes $attributes
      */
     public function __invoke(
         string tag,
@@ -34,6 +47,11 @@ class Element extends AbstractHelper
         array attributes = [],
         bool raw = false
     ) -> string {
-        return this->renderFullElement(tag, text, attributes, raw);
+        return this->renderFullElement(
+            tag,
+            text,
+            attributes,
+            raw || this->forceRaw
+        );
     }
 }

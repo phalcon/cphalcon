@@ -11,7 +11,9 @@
 namespace Phalcon\Di;
 
 use Phalcon\Di\Di;
+use Phalcon\Di\Exceptions\ContainerRequired;
 use Phalcon\Session\BagInterface;
+use stdClass;
 
 /**
  * This class allows to access services in the services container by just only
@@ -23,26 +25,27 @@ use Phalcon\Session\BagInterface;
  * @property \Phalcon\Http\Request|\Phalcon\Http\RequestInterface $request
  * @property \Phalcon\Http\Response|\Phalcon\Http\ResponseInterface $response
  * @property \Phalcon\Http\Response\Cookies|\Phalcon\Http\Response\CookiesInterface $cookies
- * @property \Phalcon\Filter $filter
+ * @property \Phalcon\Filter\Filter $filter
  * @property \Phalcon\Flash\Direct $flash
  * @property \Phalcon\Flash\Session $flashSession
  * @property \Phalcon\Session\ManagerInterface $session
  * @property \Phalcon\Events\Manager|\Phalcon\Events\ManagerInterface $eventsManager
  * @property \Phalcon\Db\Adapter\AdapterInterface $db
- * @property \Phalcon\Security $security
- * @property \Phalcon\Crypt\Crypt|\Phalcon\Crypt\CryptInterface $crypt
- * @property \Phalcon\Tag $tag
+ * @property \Phalcon\Encryption\Security $security
+ * @property \Phalcon\Encryption\Crypt|\Phalcon\Encryption\Crypt\CryptInterface $crypt
+ * @property \Phalcon\Html\TagFactory $tag
  * @property \Phalcon\Html\Escaper|\Phalcon\Html\Escaper\EscaperInterface $escaper
  * @property \Phalcon\Annotations\Adapter\Memory|\Phalcon\Annotations\Adapter $annotations
  * @property \Phalcon\Mvc\Model\Manager|\Phalcon\Mvc\Model\ManagerInterface $modelsManager
  * @property \Phalcon\Mvc\Model\MetaData\Memory|\Phalcon\Mvc\Model\MetadataInterface $modelsMetadata
  * @property \Phalcon\Mvc\Model\Transaction\Manager|\Phalcon\Mvc\Model\Transaction\ManagerInterface $transactionManager
+ * @property \Phalcon\Support\Settings $settings
  * @property \Phalcon\Assets\Manager $assets
- * @property \Phalcon\Di\Di|\Phalcon\Di\Di\DiInterface $di
+ * @property \Phalcon\Di\Di|\Phalcon\Di\DiInterface $di
  * @property \Phalcon\Session\Bag|\Phalcon\Session\BagInterface $persistent
  * @property \Phalcon\Mvc\View|\Phalcon\Mvc\ViewInterface $view
  */
-abstract class Injectable implements InjectionAwareInterface
+abstract class Injectable extends stdClass implements InjectionAwareInterface
 {
     /**
      * Dependency Injector
@@ -54,13 +57,13 @@ abstract class Injectable implements InjectionAwareInterface
     /**
      * Magic method __get
      */
-    public function __get(string! propertyName) -> var | null
+    public function __get( string propertyName) -> var | null
     {
         var container, service;
 
         let container = <DiInterface> this->getDI();
 
-        if propertyName == "di" {
+        if propertyName === "di" {
             let this->{"di"} = container;
 
             return container;
@@ -69,7 +72,7 @@ abstract class Injectable implements InjectionAwareInterface
         /**
          * Accessing the persistent property will create a session bag on any class
          */
-        if propertyName == "persistent" {
+        if propertyName === "persistent" {
             let this->{"persistent"} = <BagInterface> container->get(
                 "sessionBag",
                 [
@@ -82,11 +85,18 @@ abstract class Injectable implements InjectionAwareInterface
         }
 
         /**
-         * Fallback to the PHP userland if the cache is not available
+         * Resolve the service through the container. Only cache it on the
+         * object when the property is already declared on the class. This way
+         * dynamic services (e.g. request, response) are re-resolved on each
+         * access and reflect updates to the service definition, while declared
+         * component properties keep being populated as before.
          */
         if container->has(propertyName) {
             let service = container->getShared(propertyName);
-            let this->{propertyName} = service;
+
+            if property_exists(this, propertyName) {
+                let this->{propertyName} = service;
+            }
 
             return service;
         }
@@ -102,7 +112,7 @@ abstract class Injectable implements InjectionAwareInterface
     /**
      * Magic method __isset
      */
-    public function __isset(string! name) -> bool
+    public function __isset( string name) -> bool
     {
         return this->getDI()->has(name);
     }
@@ -116,13 +126,11 @@ abstract class Injectable implements InjectionAwareInterface
 
         let container = <DiInterface> this->container;
 
-        if typeof container != "object" {
+        if container === null {
             let container = Di::getDefault();
 
             if unlikely typeof container != "object" {
-                throw new Exception(
-                    "A dependency injection container is required to access internal services"
-                );
+                throw new ContainerRequired();
             }
 
             /**

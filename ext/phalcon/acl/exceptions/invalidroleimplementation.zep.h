@@ -1,0 +1,14 @@
+
+extern zend_class_entry *phalcon_acl_exceptions_invalidroleimplementation_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Acl_Exceptions_InvalidRoleImplementation);
+
+PHP_METHOD(Phalcon_Acl_Exceptions_InvalidRoleImplementation, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_exceptions_invalidroleimplementation___construct, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_acl_exceptions_invalidroleimplementation_method_entry) {
+PHP_ME(Phalcon_Acl_Exceptions_InvalidRoleImplementation, __construct, arginfo_phalcon_acl_exceptions_invalidroleimplementation___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};

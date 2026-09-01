@@ -11,16 +11,17 @@
 namespace Phalcon\Filter\Validation\Validator;
 
 use Phalcon\Messages\Message;
-use Phalcon\Support\Helper\Arr\Get;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\AbstractValidatorComposite;
 use Phalcon\Filter\Validation\Validator\File\MimeType;
+use Phalcon\Filter\Validation\Validator\File\Resolution\AspectRatio;
 use Phalcon\Filter\Validation\Validator\File\Resolution\Equal as EqualResolution;
 use Phalcon\Filter\Validation\Validator\File\Resolution\Max as MaxResolution;
 use Phalcon\Filter\Validation\Validator\File\Resolution\Min as MinResolution;
 use Phalcon\Filter\Validation\Validator\File\Size\Equal as EqualFileSize;
 use Phalcon\Filter\Validation\Validator\File\Size\Max as MaxFileSize;
 use Phalcon\Filter\Validation\Validator\File\Size\Min as MinFileSize;
+use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 
 /**
  * Checks if a value has a correct file
@@ -94,6 +95,8 @@ use Phalcon\Filter\Validation\Validator\File\Size\Min as MinFileSize;
  */
 class File extends AbstractValidatorComposite
 {
+    use GetTrait;
+
     /**
      * Constructor
      *
@@ -107,6 +110,7 @@ class File extends AbstractValidatorComposite
      *     'equalSize' => '',
      *     'messageEqualSize' => '',
      *     'allowedTypes' => [],
+     *     'allowWildcards' => false,
      *     'messageType' => '',
      *     'maxResolution' => '1000x1000',
      *     'messageMaxResolution' => '',
@@ -116,41 +120,46 @@ class File extends AbstractValidatorComposite
      *     'messageMinResolution' => '',
      *     'equalResolution' => '1000x1000',
      *     'messageEqualResolution' => '',
+     *     'aspectRatio' => '16x9',
+     *     'messageAspectRatio' => '',
      *     'allowEmpty' => false,
      *     'messageFileEmpty' => '',
      *     'messageIniSize' => '',
      *     'messageValid' => ''
      * ]
      */
-    public function __construct(array! options = [])
+    public function __construct( array options = [])
     {
-        var helper, included = null, key, message = null,
+        var allowWildcards = false, included = null, key, message = null,
             messageFileEmpty = null, messageIniSize = null, messageValid = null,
             validator, value;
 
-        let helper = new Get();
-
         if isset options["messageFileEmpty"] {
-            let messageFileEmpty  = helper->__invoke(options, "messageFileEmpty");
+            let messageFileEmpty  = this->getArrVal(options, "messageFileEmpty");
             unset options["messageFileEmpty"];
         }
 
         if isset options["messageIniSize"] {
-            let messageIniSize  = helper->__invoke(options, "messageIniSize");
+            let messageIniSize  = this->getArrVal(options, "messageIniSize");
             unset options["messageIniSize"];
         }
 
         if isset options["messageValid"] {
-            let messageValid  = helper->__invoke(options, "messageValid");
+            let messageValid  = this->getArrVal(options, "messageValid");
             unset options["messageValid"];
+        }
+
+        if isset options["allowWildcards"] {
+            let allowWildcards = (bool) this->getArrVal(options, "allowWildcards");
+            unset options["allowWildcards"];
         }
 
         // create individual validators
         for key, value in options {
             // min file size
             if strcasecmp(key, "minSize") === 0 {
-                let message  = helper->__invoke(options, "messageMinSize"),
-                    included = helper->__invoke(options, "includedMinSize");
+                let message  = this->getArrVal(options, "messageMinSize"),
+                    included = this->getArrVal(options, "includedMinSize");
 
                 let validator = new MinFileSize(
                     [
@@ -160,14 +169,15 @@ class File extends AbstractValidatorComposite
                     ]
                 );
 
+                unset options["minSize"];
                 unset options["messageMinSize"];
                 unset options["includedMinSize"];
             }
 
             // max file size
             elseif strcasecmp(key, "maxSize") === 0 {
-                let message  = helper->__invoke(options, "messageSize"),
-                    included = helper->__invoke(options, "includedSize");
+                let message  = this->getArrVal(options, "messageSize"),
+                    included = this->getArrVal(options, "includedSize");
 
                 let validator = new MaxFileSize(
                     [
@@ -184,7 +194,7 @@ class File extends AbstractValidatorComposite
 
             // equal file size
             elseif strcasecmp(key, "equalSize") === 0 {
-                let message = helper->__invoke(options, "messageEqualSize");
+                let message = this->getArrVal(options, "messageEqualSize");
 
                 let validator = new EqualFileSize(
                     [
@@ -199,12 +209,13 @@ class File extends AbstractValidatorComposite
 
             // mime types
             elseif strcasecmp(key, "allowedTypes") === 0 {
-                let message = helper->__invoke(options, "messageType");
+                let message = this->getArrVal(options, "messageType");
 
                 let validator = new MimeType(
                     [
-                        "types"   : value,
-                        "message" : message
+                        "types"          : value,
+                        "message"        : message,
+                        "allowWildcards" : allowWildcards
                     ]
                 );
 
@@ -214,8 +225,8 @@ class File extends AbstractValidatorComposite
 
             // max resolution
             elseif strcasecmp(key, "maxResolution") === 0 {
-                let message  = helper->__invoke(options, "messageMaxResolution"),
-                    included = helper->__invoke(options, "includedMaxResolution");
+                let message  = this->getArrVal(options, "messageMaxResolution"),
+                    included = this->getArrVal(options, "includedMaxResolution");
 
                 let validator = new MaxResolution(
                     [
@@ -232,8 +243,8 @@ class File extends AbstractValidatorComposite
 
             // min resolution
             elseif strcasecmp(key, "minResolution") === 0 {
-                let message  = helper->__invoke(options, "messageMinResolution"),
-                    included = helper->__invoke(options, "includedMinResolution");
+                let message  = this->getArrVal(options, "messageMinResolution"),
+                    included = this->getArrVal(options, "includedMinResolution");
 
                 let validator = new MinResolution(
                     [
@@ -250,7 +261,7 @@ class File extends AbstractValidatorComposite
 
             // equal resolution
             elseif strcasecmp(key, "equalResolution") === 0 {
-                let message = helper->__invoke(options, "messageEqualResolution");
+                let message = this->getArrVal(options, "messageEqualResolution");
 
                 let validator = new EqualResolution(
                     [
@@ -261,6 +272,21 @@ class File extends AbstractValidatorComposite
 
                 unset options["equalResolution"];
                 unset options["messageEqualResolution"];
+            }
+
+            // aspect ratio
+            elseif strcasecmp(key, "aspectRatio") === 0 {
+                let message = this->getArrVal(options, "messageAspectRatio");
+
+                let validator = new AspectRatio(
+                    [
+                        "ratio"   : value,
+                        "message" : message
+                    ]
+                );
+
+                unset options["aspectRatio"];
+                unset options["messageAspectRatio"];
             } else {
                 continue;
             }

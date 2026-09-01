@@ -10,9 +10,9 @@
 
 namespace Phalcon\Logger\Adapter;
 
-use LogicException;
+use Phalcon\Logger\Adapter\Exceptions\SyslogOpenFailed;
+use Phalcon\Logger\Enum;
 use Phalcon\Logger\Item;
-use Phalcon\Logger\Logger;
 
 
 /**
@@ -26,25 +26,10 @@ use Phalcon\Logger\Logger;
  */
 class Syslog extends AbstractAdapter
 {
-    /**
-     * @var int
-     */
-    protected facility = 0;
-
-    /**
-     * @var string
-     */
-    protected name = "";
-
-    /**
-     * @var bool
-     */
-    protected opened = false;
-
-    /**
-     * @var int
-     */
-    protected option = 0;
+    protected int facility = 0;
+    protected string name = "";
+    protected bool opened = false;
+    protected int option = 0;
 
     /**
      * Syslog constructor.
@@ -52,7 +37,7 @@ class Syslog extends AbstractAdapter
      * @param string $name
      * @param array  $options
      */
-    public function __construct(string! name, array options = [])
+    public function __construct(string name, array options = [])
     {
         var facility, option;
 
@@ -71,8 +56,8 @@ class Syslog extends AbstractAdapter
     }
 
     /**
-      * Closes the logger
-      */
+     * Closes the logger
+     */
     public function close() -> bool
     {
         if !this->opened {
@@ -85,9 +70,7 @@ class Syslog extends AbstractAdapter
     /**
      * Processes the message i.e. writes it to the syslog
      *
-     * @param Item $item
-     *
-     * @throws LogicException
+     * @throws SyslogOpenFailed
      */
     public function process(<Item> item) -> void
     {
@@ -97,13 +80,7 @@ class Syslog extends AbstractAdapter
             result  = this->openlog(this->name, this->option, this->facility);
 
         if (!result) {
-            throw new LogicException(
-                sprintf(
-                    "Cannot open syslog for name [%s] and facility [%s]",
-                    this->name,
-                    (string) this->facility
-                )
-            );
+            throw new SyslogOpenFailed(this->name, this->facility);
         }
 
         let this->opened = true,
@@ -114,14 +91,6 @@ class Syslog extends AbstractAdapter
 
     /**
      * Open connection to system logger
-     *
-     * @link https://php.net/manual/en/function.openlog.php
-     *
-     * @param string $ident
-     * @param int    $option
-     * @param int    $facility
-     *
-     * @return bool
      */
     protected function openlog(string ident, int option, int facility) -> bool
     {
@@ -130,10 +99,6 @@ class Syslog extends AbstractAdapter
 
     /**
      * Translates a Logger level to a Syslog level
-     *
-     * @param int $level
-     *
-     * @return int
      */
     private function logLevelToSyslog(int level) -> int
     {
@@ -141,15 +106,16 @@ class Syslog extends AbstractAdapter
         array levels;
 
         let levels = [
-            Logger::ALERT     : LOG_ALERT,
-            Logger::CRITICAL  : LOG_CRIT,
-            Logger::CUSTOM    : LOG_ERR,
-            Logger::DEBUG     : LOG_DEBUG,
-            Logger::EMERGENCY : LOG_EMERG,
-            Logger::ERROR     : LOG_ERR,
-            Logger::INFO      : LOG_INFO,
-            Logger::NOTICE    : LOG_NOTICE,
-            Logger::WARNING   : LOG_WARNING
+            Enum::ALERT     : LOG_ALERT,
+            Enum::CRITICAL  : LOG_CRIT,
+            Enum::CUSTOM    : LOG_ERR,
+            Enum::DEBUG     : LOG_DEBUG,
+            Enum::EMERGENCY : LOG_EMERG,
+            Enum::ERROR     : LOG_ERR,
+            Enum::INFO      : LOG_INFO,
+            Enum::NOTICE    : LOG_NOTICE,
+            Enum::TRACE     : LOG_DEBUG,
+            Enum::WARNING   : LOG_WARNING
         ];
 
         if !fetch result, levels[level] {

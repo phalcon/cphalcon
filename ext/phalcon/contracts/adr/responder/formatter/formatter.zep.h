@@ -1,0 +1,22 @@
+
+extern zend_class_entry *phalcon_contracts_adr_responder_formatter_formatter_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_ADR_Responder_Formatter_Formatter);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_adr_responder_formatter_formatter_accepts, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, acceptHeader, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_adr_responder_formatter_formatter_contenttype, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_adr_responder_formatter_formatter_format, 0, 1, IS_STRING, 0)
+	ZEND_ARG_OBJ_INFO(0, payload, Phalcon\\Contracts\\ADR\\Payload\\Payload, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_contracts_adr_responder_formatter_formatter_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Contracts_ADR_Responder_Formatter_Formatter, accepts, arginfo_phalcon_contracts_adr_responder_formatter_formatter_accepts)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_ADR_Responder_Formatter_Formatter, contentType, arginfo_phalcon_contracts_adr_responder_formatter_formatter_contenttype)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_ADR_Responder_Formatter_Formatter, format, arginfo_phalcon_contracts_adr_responder_formatter_formatter_format)
+	PHP_FE_END
+};

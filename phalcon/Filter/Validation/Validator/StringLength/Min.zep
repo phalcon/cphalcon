@@ -14,11 +14,17 @@ use Phalcon\Messages\Message;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\AbstractValidator;
 use Phalcon\Filter\Validation\Exception;
+use Phalcon\Traits\Php\InfoTrait;
 
 /**
  * Validates that a string has the specified minimum constraints
  * The test is passed if for a string's length L, min<=L, i.e. L must
  * be at least min.
+ *
+ * The "included" option is true by default. Set the option to false
+ * for min<L, i.e. L must be more than min. The "includedMinimum" option
+ * is an alias of "included". If you set the two options, "included" has
+ * precedence.
  *
  * ```php
  * use Phalcon\Filter\Validation;
@@ -32,7 +38,7 @@ use Phalcon\Filter\Validation\Exception;
  *         [
  *             "min"     => 2,
  *             "message" => "We want more than just their initials",
- *             "included" => true
+ *             "included" => false
  *         ]
  *     )
  * );
@@ -63,6 +69,8 @@ use Phalcon\Filter\Validation\Exception;
  */
 class Min extends AbstractValidator
 {
+    use InfoTrait;
+
     protected template = "Field :field must be at least :min characters long";
 
     /**
@@ -73,10 +81,11 @@ class Min extends AbstractValidator
      *     'template' => '',
      *     'allowEmpty' => false,
      *     'min' => 1000,
-     *     'included' => false
+     *     'included' => true,
+     *     'includedMinimum' => true
      * ]
      */
-    public function __construct(array! options = [])
+    public function __construct( array options = [])
     {
         parent::__construct(options);
     }
@@ -86,18 +95,22 @@ class Min extends AbstractValidator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, length, minimum, replacePairs, included, result;
+        var failed, included, length, minimum, replacePairs, value;
 
         let value = validation->getValue(field);
         if this->allowEmpty(field, value) {
             return true;
         }
 
+        if this->rejectNonStringable(validation, field, value) {
+            return false;
+        }
+
         // Check if mbstring is available to calculate the correct length
-        if function_exists("mb_strlen") {
-            let length = mb_strlen(value);
+        if this->phpFunctionExists("mb_strlen") {
+            let length = mb_strlen((string) value);
         } else {
-            let length = strlen(value);
+            let length = strlen((string) value);
         }
 
         let minimum = this->getOption("min");
@@ -106,7 +119,16 @@ class Min extends AbstractValidator
             let minimum = minimum[field];
         }
 
-        let included = this->getOption("included");
+        // "includedMinimum" is an alias of "included". The minimum is
+        // inclusive if no option is set. hasOption() uses isset(), thus a
+        // null value also counts as not set
+        let included = true;
+
+        if this->hasOption("included") {
+            let included = this->getOption("included");
+        } elseif this->hasOption("includedMinimum") {
+            let included = this->getOption("includedMinimum");
+        }
 
         if typeof included == "array" {
             let included = (bool) included[field];
@@ -115,12 +137,12 @@ class Min extends AbstractValidator
         }
 
         if included {
-            let result = length <= minimum;
+            let failed = length < minimum;
         } else {
-            let result = length < minimum;
+            let failed = length <= minimum;
         }
 
-        if result {
+        if failed {
             let replacePairs = [
                 ":min"   : minimum
             ];

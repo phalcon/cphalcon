@@ -21,30 +21,15 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Paginator\AdapterInterface
- *
- * Interface for Phalcon\Paginator adapters
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Paginator\Adapter} instead.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_AdapterInterface)
 {
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Paginator\\Adapter, AdapterInterface, phalcon, paginator_adapter_adapterinterface, phalcon_paginator_adapter_adapterinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Paginator\\Adapter, AdapterInterface, phalcon, paginator_adapter_adapterinterface, NULL);
 
+	zend_class_implements(phalcon_paginator_adapter_adapterinterface_ce, 1, phalcon_contracts_paginator_adapter_ce);
 	return SUCCESS;
 }
 
-/**
- * Get current rows limit
- */
-ZEPHIR_DOC_METHOD(Phalcon_Paginator_Adapter_AdapterInterface, getLimit);
-/**
- * Returns a slice of the resultset to show in the pagination
- */
-ZEPHIR_DOC_METHOD(Phalcon_Paginator_Adapter_AdapterInterface, paginate);
-/**
- * Set the current page number
- */
-ZEPHIR_DOC_METHOD(Phalcon_Paginator_Adapter_AdapterInterface, setCurrentPage);
-/**
- * Set current rows limit
- */
-ZEPHIR_DOC_METHOD(Phalcon_Paginator_Adapter_AdapterInterface, setLimit);

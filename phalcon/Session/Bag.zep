@@ -1,7 +1,7 @@
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -9,14 +9,14 @@
 
 namespace Phalcon\Session;
 
-use Phalcon\Support\Collection;
+use Phalcon\Contracts\Session\SessionTypes;
 use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Session\ManagerInterface;
+use Phalcon\Support\Collection;
 
 /**
- * Phalcon\Session\Bag
- *
  * This component helps to separate session data into "namespaces". Working by
  * this way you can easily create groups of session variables into the
  * application
@@ -27,58 +27,50 @@ use Phalcon\Di\InjectionAwareInterface;
  * $user->name = "Kimbra Johnson";
  * $user->age  = 22;
  * ```
+ *
+ * @property DiInterface|null $container
+ * @property string           $name
+ * @property ManagerInterface $session;
+ *
+ * @extends Collection<mixed>
+ *
+ * @phpstan-import-type session_bag_data from SessionTypes
  */
-class Bag extends Collection implements InjectionAwareInterface
+class Bag extends Collection implements BagInterface, InjectionAwareInterface
 {
     /**
      * @var DiInterface|null
      */
     private container;
+    private string name;
+    private <ManagerInterface> session;
 
     /**
-     * Session Bag name
-     *
-     * @var string
+     * @param ManagerInterface $session
+     * @param string           $name
      */
-    private name;
-
-    /**
-     * @var \Phalcon\Session\ManagerInterface
-     */
-    private session;
-
-    /**
-     * Phalcon\Session\Bag constructor
-     */
-    public function __construct(string! name, <DiInterface> container = null)
+    public function __construct(<ManagerInterface> session, string name)
     {
-        var data, session;
+        var data;
 
-        let this->name = name;
+        let this->session = session,
+            this->name    = name;
 
-        if unlikely null === container {
-            throw new Exception(
-                "A dependency injection container is required to access the 'session' service"
-            );
+        /**
+         * `getDI()` is not part of ManagerInterface; capture the container
+         * only when the manager provides one
+         */
+        if method_exists(session, "getDI") {
+            let this->container = session->getDI();
         }
-
-        if unlikely true !== container->has("session") {
-            throw new Exception(
-                "A dependency injection container is required to access the 'session' service"
-            );
-        }
-
-        let session         = container->getShared("session"),
-            this->container = container,
-            this->session   = session;
 
         let data = session->get(this->name);
 
-        if typeof data != "array" {
+        if typeof data !== "array" {
             let data = [];
         }
 
-        this->init(data);
+        parent::__construct(data);
     }
 
     /**
@@ -101,18 +93,20 @@ class Bag extends Collection implements InjectionAwareInterface
 
     /**
      * Initialize internal array
+     *
+     * @phpstan-param session_bag_data $data
      */
-    public function init(array! data = []) -> void
+    public function init( array data = []) -> void
     {
         parent::init(data);
 
-        this->session->set(this->name, this->data);
+        this->session->set(this->name, data);
     }
 
     /**
      * Removes a property from the internal bag
      */
-    public function remove(string! element) -> void
+    public function remove( string element) -> void
     {
         parent::remove(element);
 
@@ -122,7 +116,7 @@ class Bag extends Collection implements InjectionAwareInterface
     /**
      * Sets a value in the session bag
      */
-    public function set(string! element, var value) -> void
+    public function set( string element, var value) -> void
     {
         parent::set(element, value);
 

@@ -23,13 +23,12 @@
  * file that was distributed with this source code.
  */
 /**
- * Exceptions thrown in Phalcon\Cache will use this class
+ * Exceptions thrown in Phalcon\Cache for invalid arguments will use this class
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Exception_InvalidArgumentException)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Exception, InvalidArgumentException, phalcon, cache_exception_invalidargumentexception, zend_ce_exception, NULL, 0);
 
-	zend_class_implements(phalcon_cache_exception_invalidargumentexception_ce, 1, zephir_get_internal_ce(SL("psr\\simplecache\\invalidargumentexception")));
 	return SUCCESS;
 }
 

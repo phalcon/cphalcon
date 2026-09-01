@@ -13,14 +13,20 @@ namespace Phalcon\Mvc;
 use Closure;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\Injectable;
-use Phalcon\Events\ManagerInterface;
-use Phalcon\Mvc\View\Exception;
 use Phalcon\Events\EventsAwareInterface;
+use Phalcon\Events\ManagerInterface;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
+use Phalcon\Mvc\View\Exception;
+use Phalcon\Mvc\View\Exceptions\InvalidEngineRegistration;
+use Phalcon\Mvc\View\Exceptions\InvalidViewsDirType;
+use Phalcon\Mvc\View\Exceptions\ViewNotFound;
+use Phalcon\Mvc\View\Exceptions\ViewServicesUnavailable;
+use Phalcon\Mvc\View\Exceptions\ViewsDirItemMustBeString;
+use Phalcon\Mvc\View\Traits\ViewParamsTrait;
+use Phalcon\Traits\Php\FileTrait;
+use Phalcon\Traits\Support\Helper\Str\DirSeparatorTrait;
 
 /**
- * Phalcon\Mvc\View
- *
  * Phalcon\Mvc\View is a class for working with the "view" portion of the
  * model-view-controller pattern. That is, it exists to help keep the view
  * script separate from the model and controller scripts. It provides a system
@@ -46,33 +52,49 @@ use Phalcon\Mvc\View\Engine\Php as PhpEngine;
  */
 class View extends Injectable implements ViewInterface, EventsAwareInterface
 {
+    use DirSeparatorTrait;
+    use FileTrait;
+    use ViewParamsTrait;
+
     /**
      * Render Level: To the action view
+     *
+     * @var int
      */
     const LEVEL_ACTION_VIEW = 1;
 
     /**
      * Render Level: To the templates "before"
+     *
+     * @var int
      */
     const LEVEL_BEFORE_TEMPLATE = 2;
 
     /**
      * Render Level: To the controller layout
+     *
+     * @var int
      */
     const LEVEL_LAYOUT = 3;
 
     /**
      * Render Level: To the main layout
+     *
+     * @var int
      */
     const LEVEL_MAIN_LAYOUT = 5;
 
     /**
      * Render Level: No render any view
+     *
+     * @var int
      */
     const LEVEL_NO_RENDER = 0;
 
     /**
      * Render Level: Render to the templates "after"
+     *
+     * @var int
      */
     const LEVEL_AFTER_TEMPLATE = 4;
 
@@ -94,17 +116,12 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     /**
      * @var string
      */
-    protected content = "";
-
-    /**
-     * @var string
-     */
     protected controllerName;
 
     /**
      * @var int
      */
-    protected currentRenderLevel = 0 { get };
+    protected currentRenderLevel = 0;
 
     /**
      * @var bool
@@ -162,14 +179,9 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     protected partialsDir = "";
 
     /**
-     * @var array
-     */
-    protected registeredEngines = [] { get };
-
-    /**
      * @var int
      */
-    protected renderLevel = 5 { get };
+    protected renderLevel = 5;
 
     /**
      * @var array
@@ -187,16 +199,13 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     protected viewsDirs = [];
 
     /**
-     * @var array
-     */
-    protected viewParams = [];
-
-    /**
      * Phalcon\Mvc\View constructor
      */
     public function __construct(array options = [])
     {
-        let this->options = options;
+        let this->options           = options,
+            this->registeredEngines = [],
+            this->viewParams        = [];
     }
 
     /**
@@ -206,7 +215,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * echo $this->view->products;
      *```
      */
-    public function __get(string! key) -> var | null
+    public function __get( string key) -> var | null
     {
         return this->getVar(key);
     }
@@ -218,7 +227,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * echo isset($this->view->products);
      *```
      */
-    public function __isset(string! key) -> bool
+    public function __isset( string key) -> bool
     {
         return isset this->viewParams[key];
     }
@@ -230,7 +239,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * $this->view->products = $products;
      *```
      */
-    public function __set(string! key, var value)
+    public function __set( string key, var value)
     {
         this->setVar(key, value);
     }
@@ -238,7 +247,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     /**
      * Resets any template before layouts
      */
-    public function cleanTemplateAfter() -> <View>
+    public function cleanTemplateAfter() -> <static>
     {
         let this->templatesAfter = [];
 
@@ -248,9 +257,19 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     /**
      * Resets any "template before" layouts
      */
-    public function cleanTemplateBefore() -> <View>
+    public function cleanTemplateBefore() -> <static>
     {
         let this->templatesBefore = [];
+
+        return this;
+    }
+
+    /**
+     * Disables the auto-rendering process
+     */
+    public function disable() -> <static>
+    {
+        let this->disabled = true;
 
         return this;
     }
@@ -265,7 +284,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * );
      *```
      */
-    public function disableLevel(var level) -> <ViewInterface>
+    public function disableLevel(var level) -> <static>
     {
         if typeof level == "array" {
             let this->disabledLevels = level;
@@ -277,19 +296,9 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     }
 
     /**
-     * Disables the auto-rendering process
-     */
-    public function disable() -> <View>
-    {
-        let this->disabled = true;
-
-        return this;
-    }
-
-    /**
      * Enables the auto-rendering process
      */
-    public function enable() -> <View>
+    public function enable() -> <static>
     {
         let this->disabled = false;
 
@@ -300,7 +309,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * Checks whether view exists
      * @deprecated
      */
-    public function exists(string! view) -> bool
+    public function exists( string view) -> bool
     {
         return this->has(view);
     }
@@ -308,7 +317,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     /**
      * Finishes the render process by stopping the output buffering
      */
-    public function finish() -> <View>
+    public function finish() -> <static>
     {
         ob_end_clean();
 
@@ -329,14 +338,14 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     public function getActiveRenderPath() -> string | array
     {
         var activeRenderPath;
-        int viewsDirsCount;
 
-        let viewsDirsCount = count(this->getViewsDirs()),
-            activeRenderPath = this->activeRenderPaths;
+        let activeRenderPath = this->activeRenderPaths;
 
-        if viewsDirsCount === 1 {
-            if typeof activeRenderPath == "array" && count(activeRenderPath) {
+        if typeof activeRenderPath === "array" {
+            if count(activeRenderPath) === 1 {
                 let activeRenderPath = activeRenderPath[0];
+            } elseif empty activeRenderPath {
+                let activeRenderPath = "";
             }
         }
 
@@ -356,19 +365,19 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     }
 
     /**
-     * Returns output from another view stage
-     */
-    public function getContent() -> string
-    {
-        return this->content;
-    }
-
-    /**
      * Gets the name of the controller rendered
      */
     public function getControllerName() -> string
     {
         return this->controllerName;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCurrentRenderLevel() -> int
+    {
+        return this->currentRenderLevel;
     }
 
     /**
@@ -382,7 +391,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     /**
      * Returns the name of the main view
      */
-    public function getLayout() -> string
+    public function getLayout() -> string | null
     {
         return this->layout;
     }
@@ -404,14 +413,6 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     }
 
     /**
-     * Returns parameters to views
-     */
-    public function getParamsToView() -> array
-    {
-        return this->viewParams;
-    }
-
-    /**
      * Renders a partial view
      *
      * ```php
@@ -429,7 +430,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * );
      * ```
      */
-    public function getPartial(string! partialPath, var params = null) -> string
+    public function getPartial( string partialPath, var params = null) -> string
     {
         // not liking the ob_* functions here, but it will greatly reduce the
         // amount of double code.
@@ -463,7 +464,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      *
      * @param mixed configCallback
      */
-    public function getRender(string! controllerName, string! actionName, array params = [], configCallback = null) -> string
+    public function getRender( string controllerName,  string actionName, array params = [], configCallback = null) -> string
     {
         var view;
 
@@ -485,7 +486,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
         /**
          * Perform extra configurations over the cloned object
          */
-        if typeof configCallback == "object" {
+        if typeof configCallback === "object" {
             call_user_func_array(configCallback, [view]);
         }
 
@@ -511,17 +512,11 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     }
 
     /**
-     * Returns a parameter previously set in the view
+     * @return int
      */
-    public function getVar(string! key)
+    public function getRenderLevel() -> int
     {
-        var value;
-
-        if !fetch value, this->viewParams[key] {
-            return null;
-        }
-
-        return value;
+        return this->renderLevel;
     }
 
     /**
@@ -533,21 +528,9 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     }
 
     /**
-     * Gets views directories
-     */
-    protected function getViewsDirs() -> array
-    {
-        if typeof this->viewsDirs === "string" {
-            return [this->viewsDirs];
-        }
-
-        return this->viewsDirs;
-    }
-
-    /**
      * Checks whether view exists
      */
-    public function has(string! view) -> bool
+    public function has( string view) -> bool
     {
         var basePath, viewsDir, engines, extension;
 
@@ -556,7 +539,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
 
         if empty engines {
             let engines = [
-                ".phtml": "Phalcon\\Mvc\\View\\Engine\\Php"
+                ".phtml": PhpEngine::class
             ];
 
             this->registerEngines(engines);
@@ -564,7 +547,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
 
         for viewsDir in this->getViewsDirs() {
             for extension, _ in engines {
-                if file_exists(basePath . viewsDir . view . extension) {
+                if this->phpFileExists(basePath . viewsDir . view . extension) {
                     return true;
                 }
             }
@@ -599,15 +582,15 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * );
      * ```
      */
-    public function partial(string! partialPath, var params = null)
+    public function partial( string partialPath, var params = null)
     {
-        var viewParams;
+        var viewParams, segment, segments;
 
         /**
          * If the developer pass an array of variables we create a new virtual
          * symbol table
          */
-        if typeof params == "array" {
+        if typeof params === "array" {
             /**
              * Merge the new params as parameters
              */
@@ -627,6 +610,21 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
          * Call engine render, this checks in every registered engine for the
          * partial
          */
+        /**
+         * Drop "." and ".." path segments so a crafted partial path cannot
+         * climb out of the partials directory, while still allowing
+         * sub-directories and absolute paths (CWE-22). Backslashes are
+         * separators on Windows, so they are normalized first.
+         */
+        let segments = [];
+        for segment in explode("/", str_replace("\\", "/", partialPath)) {
+            if segment !== "." && segment !== ".." {
+                let segments[] = segment;
+            }
+        }
+
+        let partialPath = implode("/", segments);
+
         this->engineRender(
             this->loadTemplateEngines(),
             this->partialsDir . partialPath,
@@ -637,7 +635,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
         /**
          * Now we need to restore the original view parameters
          */
-        if typeof params == "array" {
+        if typeof params === "array" {
             /**
              * Restore the original view params
              */
@@ -663,11 +661,11 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * }
      * ```
      */
-    public function pick(var renderView) -> <View>
+    public function pick(var renderView) -> <static>
     {
         var pickView, layout, parts;
 
-        if typeof renderView == "array" {
+        if typeof renderView === "array" {
             let pickView = renderView;
         } else {
             let layout = null;
@@ -690,496 +688,11 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     }
 
     /**
-     * Register templating engines
-     *
-     * ```php
-     * $this->view->registerEngines(
-     *     [
-     *         ".phtml" => \Phalcon\Mvc\View\Engine\Php::class,
-     *         ".volt"  => \Phalcon\Mvc\View\Engine\Volt::class,
-     *         ".mhtml" => \MyCustomEngine::class,
-     *     ]
-     * );
-     * ```
-     */
-    public function registerEngines(array! engines) -> <View>
-    {
-        let this->registeredEngines = engines;
-
-        return this;
-    }
-
-    /**
-     * Executes render process from dispatching data
-     *
-     *```php
-     * // Shows recent posts view (app/views/posts/recent.phtml)
-     * $view->start()->render("posts", "recent")->finish();
-     *```
-     */
-    public function render(
-        string! controllerName,
-        string! actionName,
-        array params = []
-    ) -> <View> | bool
-    {
-        var result;
-
-        let result = this->processRender(controllerName, actionName, params);
-
-        if !result {
-            return false;
-        }
-
-        return this;
-    }
-
-    /**
-     * Resets the view component to its factory default values
-     */
-    public function reset() -> <View>
-    {
-        let this->disabled        = false,
-            this->engines         = false,
-            this->renderLevel     = self::LEVEL_MAIN_LAYOUT,
-            this->content         = null,
-            this->templatesBefore = [],
-            this->templatesAfter  = [];
-
-        return this;
-    }
-
-    /**
-     * Sets base path. Depending of your platform, always add a trailing slash
-     * or backslash
-     *
-     * ```php
-     * $view->setBasePath(__DIR__ . "/");
-     * ```
-     */
-    public function setBasePath(string basePath) -> <View>
-    {
-        let this->basePath = basePath;
-
-        return this;
-    }
-
-    /**
-     * Externally sets the view content
-     *
-     *```php
-     * $this->view->setContent("<h1>hello</h1>");
-     *```
-     */
-    public function setContent(string content) -> <View>
-    {
-        let this->content = content;
-
-        return this;
-    }
-
-    /**
-     * Sets the events manager
-     */
-    public function setEventsManager(<ManagerInterface> eventsManager) -> void
-    {
-        let this->eventsManager = eventsManager;
-    }
-
-    /**
-     * Change the layout to be used instead of using the name of the latest
-     * controller name
-     *
-     * ```php
-     * $this->view->setLayout("main");
-     * ```
-     */
-    public function setLayout(string layout) -> <View>
-    {
-        let this->layout = layout;
-
-        return this;
-    }
-
-    /**
-     * Sets the layouts sub-directory. Must be a directory under the views
-     * directory. Depending of your platform, always add a trailing slash or
-     * backslash
-     *
-     *```php
-     * $view->setLayoutsDir("../common/layouts/");
-     *```
-     */
-    public function setLayoutsDir(string layoutsDir) -> <View>
-    {
-        let this->layoutsDir = layoutsDir;
-
-        return this;
-    }
-
-    /**
-     * Sets default view name. Must be a file without extension in the views
-     * directory
-     *
-     * ```php
-     * // Renders as main view views-dir/base.phtml
-     * $this->view->setMainView("base");
-     * ```
-     */
-    public function setMainView(string viewPath) -> <View>
-    {
-        let this->mainView = viewPath;
-
-        return this;
-    }
-
-    /**
-     * Sets a partials sub-directory. Must be a directory under the views
-     * directory. Depending of your platform, always add a trailing slash or
-     * backslash
-     *
-     *```php
-     * $view->setPartialsDir("../common/partials/");
-     *```
-     */
-    public function setPartialsDir(string partialsDir) -> <View>
-    {
-        let this->partialsDir = partialsDir;
-
-        return this;
-    }
-
-    /**
-     * Adds parameters to views (alias of setVar)
-     *
-     *```php
-     * $this->view->setParamToView("products", $products);
-     *```
-     */
-    public function setParamToView(string! key, var value) -> <View>
-    {
-        let this->viewParams[key] = value;
-
-        return this;
-    }
-
-    /**
-     * Sets the render level for the view
-     *
-     * ```php
-     * // Render the view related to the controller only
-     * $this->view->setRenderLevel(
-     *     View::LEVEL_LAYOUT
-     * );
-     * ```
-     */
-    public function setRenderLevel(int level) -> <ViewInterface>
-    {
-        let this->renderLevel = level;
-
-        return this;
-    }
-
-    /**
-     * Sets a "template after" controller layout
-     */
-    public function setTemplateAfter(var templateAfter) -> <View>
-    {
-        if typeof templateAfter != "array" {
-            let this->templatesAfter = [templateAfter];
-        } else {
-            let this->templatesAfter = templateAfter;
-        }
-
-        return this;
-    }
-
-    /**
-     * Sets a template before the controller layout
-     */
-    public function setTemplateBefore(var templateBefore) -> <View>
-    {
-        if typeof templateBefore != "array" {
-            let this->templatesBefore = [templateBefore];
-        } else {
-            let this->templatesBefore = templateBefore;
-        }
-
-        return this;
-    }
-
-    /**
-     * Set a single view parameter
-     *
-     *```php
-     * $this->view->setVar("products", $products);
-     *```
-     */
-    public function setVar(string! key, var value) -> <View>
-    {
-        let this->viewParams[key] = value;
-
-        return this;
-    }
-
-    /**
-     * Set all the render params
-     *
-     *```php
-     * $this->view->setVars(
-     *     [
-     *         "products" => $products,
-     *     ]
-     * );
-     *```
-     */
-    public function setVars(array! params, bool merge = true) -> <View>
-    {
-        if merge {
-            let this->viewParams = array_merge(this->viewParams, params);
-        } else {
-            let this->viewParams = params;
-        }
-
-        return this;
-    }
-
-    /**
-     * Sets the views directory. Depending of your platform,
-     * always add a trailing slash or backslash
-     */
-    public function setViewsDir(var viewsDir) -> <View>
-    {
-        var position, directory, newViewsDir;
-
-        if typeof viewsDir != "string" && typeof viewsDir != "array" {
-            throw new Exception("Views directory must be a string or an array");
-        }
-
-        if typeof viewsDir == "string" {
-            let this->viewsDirs = this->getDirSeparator(viewsDir);
-        } else {
-            let newViewsDir = [];
-
-            for position, directory in viewsDir {
-                if typeof directory != "string" {
-                    throw new Exception(
-                        "Views directory item must be a string"
-                    );
-                }
-
-                let newViewsDir[position] = this->getDirSeparator(directory);
-            }
-
-            let this->viewsDirs = newViewsDir;
-        }
-
-        return this;
-    }
-
-    /**
-     * Starts rendering process enabling the output buffering
-     */
-    public function start() -> <View>
-    {
-        ob_start();
-
-        let this->content = null;
-
-        return this;
-    }
-
-    /**
-     * Renders the view and returns it as a string
-     */
-    public function toString(
-        string! controllerName,
-        string! actionName,
-        array params = []
-    ) -> string
-    {
-        var result;
-
-        this->start();
-
-        let result = this->processRender(
-            controllerName,
-            actionName,
-            params,
-            false
-        );
-
-        this->finish();
-
-        if !result {
-            return "";
-        }
-
-        return this->getContent();
-    }
-
-    /**
-     * Checks whether view exists on registered extensions and render it
-     */
-    protected function engineRender(
-        array engines,
-        string viewPath,
-        bool silence,
-        bool mustClean = true
-    ) {
-        var basePath, engine, eventsManager, extension, viewsDir, viewsDirPath,
-            viewEnginePath, viewEnginePaths, viewParams;
-
-        let basePath        = this->basePath,
-            viewParams      = this->viewParams,
-            eventsManager   = <ManagerInterface> this->eventsManager,
-            viewEnginePaths = [];
-
-        for viewsDir in this->getViewsDirs() {
-            if !this->isAbsolutePath(viewPath) {
-                let viewsDirPath = basePath . viewsDir . viewPath;
-            } else {
-                let viewsDirPath = viewPath;
-            }
-
-            /**
-             * Views are rendered in each engine
-             */
-            for extension, engine in engines {
-                let viewEnginePath = viewsDirPath . extension;
-
-                if file_exists(viewEnginePath) {
-                    /**
-                     * Call beforeRenderView if there is an events manager
-                     * available
-                     */
-                    if typeof eventsManager == "object" {
-                        let this->activeRenderPaths = [viewEnginePath];
-
-                        if eventsManager->fire("view:beforeRenderView", this, viewEnginePath) === false {
-                            continue;
-                        }
-                    }
-
-                    engine->render(viewEnginePath, viewParams, mustClean);
-
-                    if typeof eventsManager == "object" {
-                        eventsManager->fire("view:afterRenderView", this);
-                    }
-
-                    return;
-                }
-
-                let viewEnginePaths[] = viewEnginePath;
-            }
-        }
-
-        /**
-         * Notify about not found views
-         */
-        if typeof eventsManager == "object" {
-            let this->activeRenderPaths = viewEnginePaths;
-
-            eventsManager->fire("view:notFoundView", this, viewEnginePath);
-        }
-
-        if !silence {
-            throw new Exception(
-                "View '" . viewPath . "' was not found in any of the views directory"
-            );
-        }
-    }
-
-    /**
-     * Checks if a path is absolute or not
-     */
-    final protected function isAbsolutePath(string path)
-    {
-        if PHP_OS == "WINNT" {
-            return strlen(path) >= 3 && path[1] == ':' && path[2] == '\\';
-        }
-
-        return strlen(path) >= 1 && path[0] == '/';
-    }
-    /**
-     * Loads registered template engines, if none is registered it will use
-     * Phalcon\Mvc\View\Engine\Php
-     */
-    protected function loadTemplateEngines() -> array
-    {
-        var engines, di, registeredEngines, engineService, extension;
-
-        let engines = this->engines;
-
-        /**
-         * If the engines aren't initialized 'engines' is false
-         */
-        if engines === false {
-            let di = <DiInterface> this->container;
-
-            let engines = [];
-            let registeredEngines = this->registeredEngines;
-
-            if empty registeredEngines {
-                /**
-                 * We use Phalcon\Mvc\View\Engine\Php as default
-                 */
-                let engines[".phtml"] = new PhpEngine(this, di);
-            } else {
-                if typeof di != "object" {
-                    throw new Exception(
-                        "A dependency injection container is required to access application services"
-                    );
-                }
-
-                for extension, engineService in registeredEngines {
-                    if typeof engineService == "object" {
-                        /**
-                         * Engine can be a closure
-                         */
-                        if engineService instanceof Closure {
-                            let engineService = Closure::bind(
-                                engineService,
-                                di
-                            );
-
-                            let engines[extension] = call_user_func(
-                                engineService,
-                                this
-                            );
-                        } else {
-                            let engines[extension] = engineService;
-                        }
-                    } else {
-                        /**
-                         * Engine can be a string representing a service in the DI
-                         */
-                        if typeof engineService != "string" {
-                            throw new Exception(
-                                "Invalid template engine registration for extension: " . extension
-                            );
-                        }
-
-                        let engines[extension] = di->get(
-                            engineService,
-                            [this]
-                        );
-                    }
-                }
-            }
-
-            let this->engines = engines;
-        }
-
-        return engines;
-    }
-
-    /**
      * Processes the view and templates; Fires events if needed
      */
     public function processRender(
-        string! controllerName,
-        string! actionName,
+         string controllerName,
+         string actionName,
         array params = [],
         bool fireEvents = true
     ) -> bool
@@ -1264,7 +777,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
         /**
          * Call beforeRender if there is an events manager
          */
-        if fireEvents && typeof eventsManager == "object" {
+        if fireEvents && typeof eventsManager === "object" {
             if eventsManager->fire("view:beforeRender", this) === false {
                 return false;
             }
@@ -1381,7 +894,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
         /**
          * Call afterRender event
          */
-        if fireEvents && typeof eventsManager == "object" {
+        if fireEvents && typeof eventsManager === "object" {
             eventsManager->fire("view:afterRender", this);
         }
 
@@ -1389,10 +902,464 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     }
 
     /**
-     * @todo Remove this when we get traits
+     * Register templating engines
+     *
+     * ```php
+     * $this->view->registerEngines(
+     *     [
+     *         ".phtml" => \Phalcon\Mvc\View\Engine\Php::class,
+     *         ".volt"  => \Phalcon\Mvc\View\Engine\Volt::class,
+     *         ".mhtml" => \MyCustomEngine::class,
+     *     ]
+     * );
+     * ```
      */
-    private function getDirSeparator(string! directory) -> string
+    public function registerEngines( array engines) -> <static>
     {
-        return rtrim(directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        let this->registeredEngines = engines;
+
+        return this;
+    }
+
+    /**
+     * Executes render process from dispatching data
+     *
+     *```php
+     * // Shows recent posts view (app/views/posts/recent.phtml)
+     * $view->start()->render("posts", "recent")->finish();
+     *```
+     */
+    public function render(
+         string controllerName,
+         string actionName,
+        array params = []
+    ) -> <static> | false
+    {
+        var result;
+
+        let result = this->processRender(controllerName, actionName, params);
+
+        if !result {
+            return false;
+        }
+
+        return this;
+    }
+
+    /**
+     * Resets the view component to its factory default values
+     */
+    public function reset() -> <static>
+    {
+        let this->disabled        = false,
+            this->engines         = false,
+            this->renderLevel     = self::LEVEL_MAIN_LAYOUT,
+            this->content         = "",
+            this->templatesBefore = [],
+            this->templatesAfter  = [];
+
+        return this;
+    }
+
+    /**
+     * Sets base path. Depending of your platform, always add a trailing slash
+     * or backslash
+     *
+     * ```php
+     * $view->setBasePath(__DIR__ . "/");
+     * ```
+     */
+    public function setBasePath(string basePath) -> <static>
+    {
+        let this->basePath = basePath;
+
+        return this;
+    }
+
+    /**
+     * Sets the events manager
+     */
+    public function setEventsManager(<ManagerInterface> eventsManager) -> void
+    {
+        let this->eventsManager = eventsManager;
+    }
+
+    /**
+     * Change the layout to be used instead of using the name of the latest
+     * controller name
+     *
+     * ```php
+     * $this->view->setLayout("main");
+     * ```
+     */
+    public function setLayout(string layout) -> <static>
+    {
+        let this->layout = layout;
+
+        return this;
+    }
+
+    /**
+     * Sets the layouts sub-directory. Must be a directory under the views
+     * directory. Depending of your platform, always add a trailing slash or
+     * backslash
+     *
+     *```php
+     * $view->setLayoutsDir("../common/layouts/");
+     *```
+     */
+    public function setLayoutsDir(string layoutsDir) -> <static>
+    {
+        let this->layoutsDir = layoutsDir;
+
+        return this;
+    }
+
+    /**
+     * Sets default view name. Must be a file without extension in the views
+     * directory
+     *
+     * ```php
+     * // Renders as main view views-dir/base.phtml
+     * $this->view->setMainView("base");
+     * ```
+     */
+    public function setMainView(string viewPath) -> <static>
+    {
+        let this->mainView = viewPath;
+
+        return this;
+    }
+
+    /**
+     * Adds parameters to views (alias of setVar)
+     *
+     *```php
+     * $this->view->setParamToView("products", $products);
+     *```
+     */
+    public function setParamToView( string key, var value) -> <static>
+    {
+        let this->viewParams[key] = value;
+
+        return this;
+    }
+
+    /**
+     * Sets a partials sub-directory. Must be a directory under the views
+     * directory. Depending of your platform, always add a trailing slash or
+     * backslash
+     *
+     *```php
+     * $view->setPartialsDir("../common/partials/");
+     *```
+     */
+    public function setPartialsDir(string partialsDir) -> <static>
+    {
+        let this->partialsDir = partialsDir;
+
+        return this;
+    }
+
+    /**
+     * Sets the render level for the view
+     *
+     * ```php
+     * // Render the view related to the controller only
+     * $this->view->setRenderLevel(
+     *     View::LEVEL_LAYOUT
+     * );
+     * ```
+     */
+    public function setRenderLevel(int level) -> <static>
+    {
+        let this->renderLevel = level;
+
+        return this;
+    }
+
+    /**
+     * Sets a "template after" controller layout
+     */
+    public function setTemplateAfter(var templateAfter) -> <static>
+    {
+        if typeof templateAfter !== "array" {
+            let this->templatesAfter = [templateAfter];
+        } else {
+            let this->templatesAfter = templateAfter;
+        }
+
+        return this;
+    }
+
+    /**
+     * Sets a template before the controller layout
+     */
+    public function setTemplateBefore(var templateBefore) -> <static>
+    {
+        if typeof templateBefore !== "array" {
+            let this->templatesBefore = [templateBefore];
+        } else {
+            let this->templatesBefore = templateBefore;
+        }
+
+        return this;
+    }
+
+    /**
+     * Set all the render params
+     *
+     *```php
+     * $this->view->setVars(
+     *     [
+     *         "products" => $products,
+     *     ]
+     * );
+     *```
+     */
+    public function setVars( array params, bool merge = true) -> <static>
+    {
+        if merge {
+            let this->viewParams = array_merge(this->viewParams, params);
+        } else {
+            let this->viewParams = params;
+        }
+
+        return this;
+    }
+
+    /**
+     * Sets the views directory. Depending of your platform,
+     * always add a trailing slash or backslash
+     */
+    public function setViewsDir(var viewsDir) -> <static>
+    {
+        var position, directory, newViewsDir;
+
+        if typeof viewsDir !== "string" && typeof viewsDir !== "array" {
+            throw new InvalidViewsDirType();
+        }
+
+        if typeof viewsDir == "string" {
+            let this->viewsDirs = this->toDirSeparator(viewsDir);
+        } else {
+            let newViewsDir = [];
+
+            for position, directory in viewsDir {
+                if typeof directory != "string" {
+                    throw new ViewsDirItemMustBeString();
+                }
+
+                let newViewsDir[position] = this->toDirSeparator(directory);
+            }
+
+            let this->viewsDirs = newViewsDir;
+        }
+
+        return this;
+    }
+
+    /**
+     * Starts rendering process enabling the output buffering
+     */
+    public function start() -> <static>
+    {
+        ob_start();
+
+        let this->content = "";
+
+        return this;
+    }
+
+    /**
+     * Renders the view and returns it as a string
+     */
+    public function toString(
+         string controllerName,
+         string actionName,
+        array params = []
+    ) -> string
+    {
+        var result;
+
+        this->start();
+
+        let result = this->processRender(
+            controllerName,
+            actionName,
+            params,
+            false
+        );
+
+        this->finish();
+
+        if !result {
+            return "";
+        }
+
+        return this->getContent();
+    }
+
+    /**
+     * Checks whether view exists on registered extensions and render it
+     */
+    protected function engineRender(
+        array engines,
+        string viewPath,
+        bool silence,
+        bool mustClean = true
+    ) {
+        var basePath, engine, eventsManager, extension, viewsDir, viewsDirPath,
+            viewEnginePath, viewEnginePaths, viewParams;
+
+        let basePath        = this->basePath,
+            viewParams      = this->viewParams,
+            eventsManager   = <ManagerInterface> this->eventsManager,
+            viewEnginePaths = [];
+
+        for viewsDir in this->getViewsDirs() {
+            if !this->isAbsolutePath(viewPath) {
+                let viewsDirPath = basePath . viewsDir . viewPath;
+            } else {
+                let viewsDirPath = viewPath;
+            }
+
+            /**
+             * Views are rendered in each engine
+             */
+            for extension, engine in engines {
+                let viewEnginePath = viewsDirPath . extension;
+
+                if this->phpFileExists(viewEnginePath) {
+                    /**
+                     * Call beforeRenderView if there is an events manager
+                     * available
+                     */
+                    if typeof eventsManager === "object" {
+                        let this->activeRenderPaths = [viewEnginePath];
+
+                        if eventsManager->fire("view:beforeRenderView", this, viewEnginePath) === false {
+                            continue;
+                        }
+                    }
+
+                    engine->render(viewEnginePath, viewParams, mustClean);
+
+                    if typeof eventsManager === "object" {
+                        eventsManager->fire("view:afterRenderView", this);
+                    }
+
+                    return;
+                }
+
+                let viewEnginePaths[] = viewEnginePath;
+            }
+        }
+
+        /**
+         * Notify about not found views
+         */
+        if typeof eventsManager === "object" {
+            let this->activeRenderPaths = viewEnginePaths;
+
+            eventsManager->fire("view:notFoundView", this, viewEnginePath);
+        }
+
+        if !silence {
+            throw new ViewNotFound(viewPath);
+        }
+    }
+
+    /**
+     * Gets views directories
+     */
+    protected function getViewsDirs() -> array
+    {
+        if typeof this->viewsDirs === "string" {
+            return [this->viewsDirs];
+        }
+
+        return this->viewsDirs;
+    }
+
+    /**
+     * Checks if a path is absolute or not
+     */
+    final protected function isAbsolutePath(string path)
+    {
+        if PHP_OS === "WINNT" {
+            return strlen(path) >= 3 && substr(path, 1, 2) === ":\\";
+        }
+
+        return str_starts_with(path, "/");
+    }
+
+    /**
+     * Loads registered template engines, if none is registered it will use
+     * Phalcon\Mvc\View\Engine\Php
+     */
+    protected function loadTemplateEngines() -> array
+    {
+        var engines, di, registeredEngines, engineService, extension;
+
+        let engines = this->engines;
+
+        /**
+         * If the engines aren't initialized 'engines' is false
+         */
+        if engines === false {
+            let di = <DiInterface> this->container;
+
+            let engines = [];
+            let registeredEngines = this->registeredEngines;
+
+            if empty registeredEngines {
+                /**
+                 * We use Phalcon\Mvc\View\Engine\Php as default
+                 */
+                let engines[".phtml"] = new PhpEngine(this, di);
+            } else {
+                if typeof di != "object" {
+                    throw new ViewServicesUnavailable();
+                }
+
+                for extension, engineService in registeredEngines {
+                    if typeof engineService == "object" {
+                        /**
+                         * Engine can be a closure
+                         */
+                        if engineService instanceof Closure {
+                            let engineService = Closure::bind(
+                                engineService,
+                                di
+                            );
+
+                            let engines[extension] = call_user_func(
+                                engineService,
+                                this
+                            );
+                        } else {
+                            let engines[extension] = engineService;
+                        }
+                    } else {
+                        /**
+                         * Engine can be a string representing a service in the DI
+                         */
+                        if typeof engineService != "string" {
+                            throw new InvalidEngineRegistration(extension);
+                        }
+
+                        let engines[extension] = di->get(
+                            engineService,
+                            [this]
+                        );
+                    }
+                }
+            }
+
+            let this->engines = engines;
+        }
+
+        return engines;
     }
 }

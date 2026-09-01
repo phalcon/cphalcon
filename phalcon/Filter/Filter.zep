@@ -10,57 +10,155 @@
 
 namespace Phalcon\Filter;
 
+use Phalcon\Filter\Exceptions\FilterNotRegistered;
+use Phalcon\Filter\Sanitize\AbsInt;
+use Phalcon\Filter\Sanitize\Alnum;
+use Phalcon\Filter\Sanitize\Alpha;
+use Phalcon\Filter\Sanitize\BoolVal;
+use Phalcon\Filter\Sanitize\Email;
+use Phalcon\Filter\Sanitize\FloatVal;
+use Phalcon\Filter\Sanitize\IntVal;
+use Phalcon\Filter\Sanitize\Ip;
+use Phalcon\Filter\Sanitize\Lower;
+use Phalcon\Filter\Sanitize\LowerFirst;
+use Phalcon\Filter\Sanitize\Regex;
+use Phalcon\Filter\Sanitize\Remove;
+use Phalcon\Filter\Sanitize\Replace;
+use Phalcon\Filter\Sanitize\Special;
+use Phalcon\Filter\Sanitize\SpecialFull;
+use Phalcon\Filter\Sanitize\StringVal;
+use Phalcon\Filter\Sanitize\StringValLegacy;
+use Phalcon\Filter\Sanitize\Striptags;
+use Phalcon\Filter\Sanitize\Trim;
+use Phalcon\Filter\Sanitize\Upper;
+use Phalcon\Filter\Sanitize\UpperFirst;
+use Phalcon\Filter\Sanitize\UpperWords;
+use Phalcon\Filter\Sanitize\Url;
+
 /**
  * Lazy loads, stores and exposes sanitizer objects
  *
- * @method absint(mixed $input): int
- * @method alnum(mixed $input): string
- * @method alpha(mixed $input): string
- * @method bool(mixed $input): bool
- * @method email(string $input): string
- * @method float(mixed $input): float
- * @method int(string $input): int
- * @method lower(string $input): string
- * @method lowerfirst(string $input): string
- * @method regex(mixed $input, mixed $pattern, mixed $replace): mixed
- * @method remove(mixed $input, mixed $replace): mixed
- * @method replace(mixed $input, mixed $source, mixed $target): mixed
- * @method special(string $input): string
- * @method specialfull(string $input): string
- * @method string(string $input): string
- * @method striptags(string $input): string
- * @method trim(string $input): string
- * @method upper(string $input): string
- * @method upperFirst(string $input): string
- * @method upperWords(string $input): string|null
- * @method url(string $input): string|null
+ * @method int          absint(mixed $input)
+ * @method string       alnum(mixed $input)
+ * @method string       alpha(mixed $input)
+ * @method bool         bool(mixed $input)
+ * @method string       email(string $input)
+ * @method float        float(mixed $input)
+ * @method int          int(string $input)
+ * @method string|false ip(string $input, int $filter = FILTER_FLAG_NONE)
+ * @method string       lower(string $input)
+ * @method string       lowerfirst(string $input)
+ * @method mixed        regex(mixed $input, mixed $pattern, mixed $replace)
+ * @method mixed        remove(mixed $input, mixed $replace)
+ * @method mixed        replace(mixed $input, mixed $from, mixed $to)
+ * @method string       special(string $input)
+ * @method string       specialfull(string $input)
+ * @method string       string(string $input)
+ * @method string       stringlegacy(mixed $input)
+ * @method string       striptags(string $input)
+ * @method string       trim(string $input)
+ * @method string       upper(string $input)
+ * @method string       upperFirst(string $input)
+ * @method string|null  upperWords(string $input)
+ * @method string|null  url(string $input)
  *
  * @property array $mapper
  * @property array $services
  */
 class Filter implements FilterInterface
 {
-    const FILTER_ABSINT      = "absint";
-    const FILTER_ALNUM       = "alnum";
-    const FILTER_ALPHA       = "alpha";
-    const FILTER_BOOL        = "bool";
-    const FILTER_EMAIL       = "email";
-    const FILTER_FLOAT       = "float";
-    const FILTER_INT         = "int";
-    const FILTER_LOWER       = "lower";
-    const FILTER_LOWERFIRST  = "lowerfirst";
-    const FILTER_REGEX       = "regex";
-    const FILTER_REMOVE      = "remove";
-    const FILTER_REPLACE     = "replace";
-    const FILTER_SPECIAL     = "special";
-    const FILTER_SPECIALFULL = "specialfull";
-    const FILTER_STRING      = "string";
-    const FILTER_STRIPTAGS   = "striptags";
-    const FILTER_TRIM        = "trim";
-    const FILTER_UPPER       = "upper";
-    const FILTER_UPPERFIRST  = "upperfirst";
-    const FILTER_UPPERWORDS  = "upperwords";
-    const FILTER_URL         = "url";
+    /**
+     * @var string
+     */
+    const FILTER_ABSINT        = "absint";
+    /**
+     * @var string
+     */
+    const FILTER_ALNUM         = "alnum";
+    /**
+     * @var string
+     */
+    const FILTER_ALPHA         = "alpha";
+    /**
+     * @var string
+     */
+    const FILTER_BOOL          = "bool";
+    /**
+     * @var string
+     */
+    const FILTER_EMAIL         = "email";
+    /**
+     * @var string
+     */
+    const FILTER_FLOAT         = "float";
+    /**
+     * @var string
+     */
+    const FILTER_INT           = "int";
+    /**
+     * @var string
+     */
+    const FILTER_IP            = "ip";
+    /**
+     * @var string
+     */
+    const FILTER_LOWER         = "lower";
+    /**
+     * @var string
+     */
+    const FILTER_LOWERFIRST    = "lowerfirst";
+    /**
+     * @var string
+     */
+    const FILTER_REGEX         = "regex";
+    /**
+     * @var string
+     */
+    const FILTER_REMOVE        = "remove";
+    /**
+     * @var string
+     */
+    const FILTER_REPLACE       = "replace";
+    /**
+     * @var string
+     */
+    const FILTER_SPECIAL       = "special";
+    /**
+     * @var string
+     */
+    const FILTER_SPECIALFULL   = "specialfull";
+    /**
+     * @var string
+     */
+    const FILTER_STRING        = "string";
+    /**
+     * @var string
+     */
+    const FILTER_STRING_LEGACY = "stringlegacy";
+    /**
+     * @var string
+     */
+    const FILTER_STRIPTAGS     = "striptags";
+    /**
+     * @var string
+     */
+    const FILTER_TRIM          = "trim";
+    /**
+     * @var string
+     */
+    const FILTER_UPPER         = "upper";
+    /**
+     * @var string
+     */
+    const FILTER_UPPERFIRST    = "upperfirst";
+    /**
+     * @var string
+     */
+    const FILTER_UPPERWORDS    = "upperwords";
+    /**
+     * @var string
+     */
+    const FILTER_URL           = "url";
 
     /**
      * @var array
@@ -114,9 +212,7 @@ class Filter implements FilterInterface
         var definition;
 
         if (true !== isset(this->mapper[name])) {
-            throw new Exception(
-                "Filter " . name . " is not registered"
-            );
+            throw new FilterNotRegistered(name);
         }
 
         if (true !== isset(this->services[name])) {
@@ -125,6 +221,42 @@ class Filter implements FilterInterface
         }
 
         return this->services[name];
+    }
+
+    /**
+     * Returns the default sanitizer name to class map. This is the single
+     * source for the built-in sanitizer registry: when adding a sanitizer,
+     * add its `FILTER_*` constant and its entry here.
+     *
+     * @return string[]
+     */
+    public static function getDefaultMapper() -> array
+    {
+        return [
+            self::FILTER_ABSINT        : AbsInt::class,
+            self::FILTER_ALNUM         : Alnum::class,
+            self::FILTER_ALPHA         : Alpha::class,
+            self::FILTER_BOOL          : BoolVal::class,
+            self::FILTER_EMAIL         : Email::class,
+            self::FILTER_FLOAT         : FloatVal::class,
+            self::FILTER_INT           : IntVal::class,
+            self::FILTER_IP            : Ip::class,
+            self::FILTER_LOWER         : Lower::class,
+            self::FILTER_LOWERFIRST    : LowerFirst::class,
+            self::FILTER_REGEX         : Regex::class,
+            self::FILTER_REMOVE        : Remove::class,
+            self::FILTER_REPLACE       : Replace::class,
+            self::FILTER_SPECIAL       : Special::class,
+            self::FILTER_SPECIALFULL   : SpecialFull::class,
+            self::FILTER_STRING        : StringVal::class,
+            self::FILTER_STRING_LEGACY : StringValLegacy::class,
+            self::FILTER_STRIPTAGS     : Striptags::class,
+            self::FILTER_TRIM          : Trim::class,
+            self::FILTER_UPPER         : Upper::class,
+            self::FILTER_UPPERFIRST    : UpperFirst::class,
+            self::FILTER_UPPERWORDS    : UpperWords::class,
+            self::FILTER_URL           : Url::class
+        ];
     }
 
     /**
@@ -141,6 +273,14 @@ class Filter implements FilterInterface
 
     /**
      * Sanitizes a value with a specified single or set of sanitizers
+     *
+     * Array policy: when `$value` is an array and `$noRecursive` is `false`
+     * (the default), each element is passed to the sanitizer individually
+     * and an array is returned - recursion is one level deep only. Elements
+     * that are themselves arrays are passed to the sanitizer as-is, which
+     * raises a `TypeError` for sanitizers that type their value parameter
+     * (e.g. `trim`). When `$noRecursive` is `true`, the whole array is
+     * passed to the sanitizer as a single value.
      *
      * @param mixed $value
      * @param mixed $sanitizers
@@ -284,18 +424,20 @@ class Filter implements FilterInterface
              * has been defined it is a straight up; otherwise recursion is
              * required
              */
-            let value = this->processValueIsArray(
-                value,
-                sanitizerName,
-                sanitizerParams,
-                noRecursive
-            );
-
-            let value = this->processValueIsNotArray(
-                value,
-                sanitizerName,
-                sanitizerParams
-            );
+             if typeof value === "array" {
+                let value = this->processValueIsArray(
+                    value,
+                    sanitizerName,
+                    sanitizerParams,
+                    noRecursive
+                );
+             } else {
+                 let value = this->processValueIsNotArray(
+                     value,
+                     sanitizerName,
+                     sanitizerParams
+                 );
+             }
         }
 
         return value;
@@ -379,7 +521,13 @@ class Filter implements FilterInterface
         array sanitizerParams,
         bool noRecursive
     ) {
-        if typeof value === "array" && !noRecursive {
+        if noRecursive {
+            let value = this->sanitizer(
+                value,
+                sanitizerName,
+                sanitizerParams
+            );
+        } else {
             let value = this->processArrayValues(
                 value,
                 sanitizerName,

@@ -10,8 +10,14 @@
 
 namespace Phalcon\Encryption\Security\JWT\Token;
 
+use Phalcon\Encryption\Security\JWT\Signer\SignerInterface;
+use Phalcon\Encryption\Security\JWT\Validator;
+
 /**
- * Class Token
+ * Token Class.
+ *
+ * A container for Token related data. It stores the claims, headers, signature
+ * and payload. It also calculates and returns the token string.
  *
  * @property Item      $claims
  * @property Item      $headers
@@ -24,17 +30,17 @@ class Token
     /**
      * @var Item
      */
-    private claims { get };
+    private claims;
 
     /**
      * @var Item
      */
-    private headers { get };
+    private headers;
 
     /**
      * @var Signature
      */
-    private signature { get };
+    private signature;
 
     /**
      * Token constructor.
@@ -54,6 +60,28 @@ class Token
     }
 
     /**
+     * Return the registered claims
+     *
+     * @return Item
+     */
+    public function getClaims() -> <Item>
+    {
+        return this->claims;
+    }
+
+    /**
+     * Return the registered headers
+     *
+     * @return Item
+     */
+    public function getHeaders() -> <Item>
+    {
+        return this->headers;
+    }
+
+    /**
+     * Return the payload
+     *
      * @return string
      */
     public function getPayload() -> string
@@ -62,10 +90,83 @@ class Token
     }
 
     /**
+     * Return the signature
+     *
+     * @return Signature
+     */
+    public function getSignature() -> <Signature>
+    {
+        return this->signature;
+    }
+
+    /**
+     * Return the token
+     *
      * @return string
      */
     public function getToken() -> string
     {
-        return this->getPayload() . "." . this->getSignature()->getEncoded();
+        return this->getPayload() . "." . this->signature->getEncoded();
+    }
+
+    /**
+     * Validate the token against the claims registered in the validator.
+     *
+     * Only claims that have a value in the validator are checked. A claim left
+     * as null expresses no expectation and is skipped.
+     *
+     * Security note: this method checks the claims only. It does not verify
+     * the signature. A token accepted by validate() alone is unauthenticated.
+     * Always also call verify() (or Validator::validateSignature()) and treat
+     * an empty error array as valid only after the signature check passes.
+     * A signature-aware default is planned for a future major version.
+     *
+     * @param Validator $validator
+     *
+     * @return array
+     */
+    public function validate(<Validator> validator) -> array
+    {
+        var claimValue, method;
+        array methods;
+
+        let methods = [
+            "validateAudience"   : validator->get(Enum::AUDIENCE),
+            "validateExpiration" : validator->get(Enum::EXPIRATION_TIME),
+            "validateId"         : validator->get(Enum::ID),
+            "validateIssuedAt"   : validator->get(Enum::ISSUED_AT),
+            "validateIssuer"     : validator->get(Enum::ISSUER),
+            "validateNotBefore"  : validator->get(Enum::NOT_BEFORE),
+            "validateSubject"    : validator->get(Enum::SUBJECT)
+        ];
+
+        for method, claimValue in methods {
+            if (null !== claimValue) {
+                validator->{method}(claimValue);
+            }
+        }
+
+        return validator->getErrors();
+    }
+
+    /**
+     * Verify the signature
+     *
+     * @param SignerInterface $signer
+     * @param string          $key
+     *
+     * @return bool
+     */
+    public function verify(<SignerInterface> signer, string key) -> bool
+    {
+        if (signer->getAlgHeader() !== this->getHeaders()->get(Enum::ALGO)) {
+            return false;
+        }
+
+        return signer->verify(
+            this->signature->getHash(),
+            this->getPayload(),
+            key
+        );
     }
 }

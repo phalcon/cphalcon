@@ -35,17 +35,18 @@ class IsoIek implements PadInterface
      */
     public function unpad(string input, int blockSize) -> int
     {
-        var length, inputArray;
+        var length, inputArray, zero;
         int counter, paddingSize;
 
         let paddingSize = 0,
-            length      = mb_strlen(input),
+            zero        = chr(0),
+            length      = strlen(input),
             inputArray  = str_split(input),
             counter     = length - 1;
 
         while (
             counter > 0 &&
-            inputArray[counter] === chr(0) &&
+            inputArray[counter] === zero &&
             paddingSize < blockSize
         ) {
             let paddingSize++,

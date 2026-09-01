@@ -1,8 +1,8 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -10,17 +10,22 @@
 
 namespace Phalcon\Session\Adapter;
 
+use Exception;
+use Phalcon\Contracts\Session\SessionTypes;
 use Phalcon\Storage\AdapterFactory;
 
 /**
  * Phalcon\Session\Adapter\Libmemcached
+ *
+ * @phpstan-import-type session_libmemcached_options from SessionTypes
  */
 class Libmemcached extends AbstractAdapter
 {
     /**
-     * Constructor
+     * Libmemcached constructor.
      *
-     * @param array options = [
+     * @param AdapterFactory $factory
+     * @param array          $options = [
      *     'servers' => [
      *         [
      *             'host' => 'localhost',
@@ -32,12 +37,23 @@ class Libmemcached extends AbstractAdapter
      *     'defaultSerializer' => 'Php',
      *     'lifetime' => 3600,
      *     'serializer' => null,
-     *     'prefix' => 'sess-memc-'
+     *     'prefix' => 'sess-memc-',
+     *     'stripPrefix' => false
      * ]
+     *
+     * @phpstan-param session_libmemcached_options $options
+     *
+     * @throws Exception
      */
-    public function __construct(<AdapterFactory> factory, array! options = [])
+    public function __construct(<AdapterFactory> factory,  array options = [])
     {
-        let options["prefix"] = this->getArrVal(options, "prefix", "sess-memc-"),
-            this->adapter     = factory->newInstance("libmemcached", options);
+        /**
+         * Session ids are externally generated and never carry the storage
+         * prefix; disable prefix stripping so an id that happens to start
+         * with the prefix text cannot collide with another session
+         */
+        let options["prefix"]      = this->getArrVal(options, "prefix", "sess-memc-"),
+            options["stripPrefix"] = this->getArrVal(options, "stripPrefix", false),
+            this->adapter          = factory->newInstance("libmemcached", options);
     }
 }

@@ -10,23 +10,27 @@
 
 namespace Phalcon\Paginator\Adapter;
 
+use Phalcon\Contracts\Db\Adapter\Adapter as DbAdapter;
+use Phalcon\Contracts\Paginator\PaginatorTypes;
 use Phalcon\Db\Enum;
 use Phalcon\Mvc\Model\Query\Builder;
-use Phalcon\Paginator\RepositoryInterface;
 use Phalcon\Paginator\Exception;
+use Phalcon\Paginator\Exceptions\BuilderModelNotDefined;
+use Phalcon\Paginator\Exceptions\InvalidBuilderInstance;
+use Phalcon\Paginator\Exceptions\MissingColumnsForHaving;
+use Phalcon\Paginator\Exceptions\MissingRequiredParameter;
+use Phalcon\Paginator\RepositoryInterface;
 
 /**
- * Phalcon\Paginator\Adapter\QueryBuilder
- *
  * Pagination using a PHQL query builder as source of data
  *
  * ```php
  * use Phalcon\Paginator\Adapter\QueryBuilder;
  *
  * $builder = $this->modelsManager->createBuilder()
- *                 ->columns("id, name")
- *                 ->from(Robots::class)
- *                 ->orderBy("name");
+ *                 ->columns("inv_id, inv_title")
+ *                 ->from(Invoices::class)
+ *                 ->orderBy("inv_title");
  *
  * $paginator = new QueryBuilder(
  *     [
@@ -36,27 +40,39 @@ use Phalcon\Paginator\Exception;
  *     ]
  * );
  *```
+ *
+ * @phpstan-import-type paginator_columns from PaginatorTypes
+ * @phpstan-import-type paginator_config from PaginatorTypes
+ * @phpstan-import-type paginator_count_object from PaginatorTypes
+ * @phpstan-import-type paginator_count_row from PaginatorTypes
+ * @phpstan-import-type paginator_group_by from PaginatorTypes
+ * @phpstan-import-type paginator_query_sql from PaginatorTypes
  */
 class QueryBuilder extends AbstractAdapter
 {
     /**
      * Paginator's data
-     *
-     * @var Builder
      */
-    protected builder;
+    protected <Builder> builder;
 
     /**
-     * Columns for count query if builder has having
+     * Column list used only for COUNT rewriting when the builder carries a
+     * HAVING or GROUP BY clause. It supplies the columns for the subquery
+     * that counts the grouped/having result set and is ignored otherwise.
      *
-     * @var array|string
+     * @var paginator_columns|null
      */
     protected columns;
 
     /**
      * Phalcon\Paginator\Adapter\QueryBuilder
      *
-     * @param array config = [
+     * The `columns` option is not a projection for the paginated rows; it is
+     * consumed solely by the total-count rewrite when the builder has a
+     * HAVING or GROUP BY clause (it becomes the column list of the counting
+     * subquery). It has no effect on plain queries.
+     *
+     * @param paginator_config $config = [
      *     'limit' => 10,
      *     'builder' => null,
      *     'columns' => ''
@@ -67,17 +83,14 @@ class QueryBuilder extends AbstractAdapter
         var builder, columns;
 
         if unlikely !isset config["limit"] {
-            throw new Exception("Parameter 'limit' is required");
+            throw new MissingRequiredParameter("limit");
         }
 
         if unlikely !fetch builder, config["builder"] {
-            throw new Exception("Parameter 'builder' is required");
+            throw new MissingRequiredParameter("builder");
         }
         if unlikely !(builder instanceof Builder) {
-            throw new Exception(
-                "Parameter 'builder' must be an instance " .
-                "of Phalcon\\Mvc\\Model\\Query\\Builder"
-            );
+            throw new InvalidBuilderInstance();
         }
 
         if fetch columns, config["columns"] {
@@ -112,12 +125,13 @@ class QueryBuilder extends AbstractAdapter
         var originalBuilder, builder, totalBuilder, totalPages, limit,
             number, query, previous, items, totalQuery, result, row, rowcount,
             next, sql, columns, db, model, modelClass, dbService, groups,
-            groupColumn;
-        bool hasHaving, hasGroup;
+            groupColumn, builderColumns, distinctColumn;
+        bool hasHaving, hasGroup, hasMultipleGroups, hasDistinct;
         int numberPage;
 
         let originalBuilder = this->builder;
         let columns = this->columns;
+        let hasMultipleGroups = false;
 
         /**
          * We make a copy of the original builder to leave it as it is
@@ -172,32 +186,64 @@ class QueryBuilder extends AbstractAdapter
 
         if hasHaving && !hasGroup {
             if unlikely empty columns {
-                throw new Exception(
-                    "When having is set there should be columns option provided for which calculate row count"
-                );
+                throw new MissingColumnsForHaving();
             }
 
             totalBuilder->columns(columns);
         } else {
-            totalBuilder->columns("COUNT(*) [rowcount]");
+            let hasDistinct    = false,
+                builderColumns = builder->getColumns();
+
+            if typeof builderColumns == "string" && stripos(trim(builderColumns), "DISTINCT ") === 0 {
+                let distinctColumn = trim(substr(trim(builderColumns), 9));
+                let hasDistinct = true;
+
+                if strpos(distinctColumn, ",") !== false {
+                    totalBuilder->columns(["DISTINCT " . distinctColumn]);
+                    let hasMultipleGroups = true;
+                } else {
+                    totalBuilder->columns(
+                        ["COUNT(DISTINCT " . distinctColumn . ") AS [rowcount]"]
+                    );
+                }
+            }
+
+            if !hasDistinct {
+                totalBuilder->columns("COUNT(*) [rowcount]");
+            }
         }
 
         /**
          * Change 'COUNT()' parameters, when the query contains 'GROUP BY'
          */
         if hasGroup {
-            if typeof groups == "array" {
-                let groupColumn = implode(", ", groups);
-            } else {
-                let groupColumn = groups;
-            }
+            let groupColumn = implode(", ", groups);
+            let hasMultipleGroups = count(groups) > 1;
 
             if !hasHaving {
-                totalBuilder->groupBy(null)->columns(
-                    [
-                        "COUNT(DISTINCT " . groupColumn . ") AS [rowcount]"
-                    ]
-                );
+                if !empty columns {
+                    let groupColumn = columns;
+                    let hasMultipleGroups = false;
+                }
+
+                if hasMultipleGroups {
+                    /**
+                     * Multiple GROUP BY columns: COUNT(DISTINCT col1, col2) is
+                     * invalid in PostgreSQL. Use DISTINCT columns and wrap in a
+                     * subquery (same strategy as hasHaving) to count groups.
+                     */
+                    totalBuilder->groupBy(null)->columns(
+                        [
+                            "DISTINCT " . groupColumn
+                        ]
+                    );
+                } else {
+                    totalBuilder->groupBy(null)->columns(
+                        [
+                            "COUNT(DISTINCT " . groupColumn . ") AS [rowcount]"
+                        ]
+                    );
+                }
             } else {
                 totalBuilder->columns(
                     [
@@ -221,12 +267,12 @@ class QueryBuilder extends AbstractAdapter
          * Obtain the result of the total query
          * If we have having perform native count on temp table
          */
-        if hasHaving {
+        if hasHaving || hasMultipleGroups {
             let sql = totalQuery->getSql(),
                 modelClass = builder->getModels();
 
             if unlikely modelClass === null {
-                throw new Exception("Model not defined in builder");
+                throw new BuilderModelNotDefined();
             }
 
             if typeof modelClass == "array" {
@@ -275,7 +321,7 @@ class QueryBuilder extends AbstractAdapter
     /**
      * Set query builder object
      */
-    public function setQueryBuilder(<Builder> builder) -> <QueryBuilder>
+    public function setQueryBuilder(<Builder> builder) -> <static>
     {
         let this->builder = builder;
 

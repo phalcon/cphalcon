@@ -12,12 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/fcall.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
-#include "kernel/fcall.h"
-#include "kernel/string.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
 #include "kernel/operators.h"
 
 
@@ -38,6 +35,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Upper)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Filter\\Sanitize, Upper, phalcon, filter_sanitize_upper, phalcon_filter_sanitize_upper_method_entry, 0);
 
+	zend_class_implements(phalcon_filter_sanitize_upper_ce, 1, phalcon_contracts_filter_sanitizer_ce);
 	return SUCCESS;
 }
 
@@ -50,46 +48,59 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Upper, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *input_param = NULL, _0$$3, _1$$3, _2;
-	zval input;
+	zval input_zv, _0;
+	zend_string *input = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&input);
-	ZVAL_UNDEF(&_0$$3);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_2);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	ZVAL_UNDEF(&input_zv);
+	ZVAL_UNDEF(&_0);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(input)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &input_param);
-	if (UNEXPECTED(Z_TYPE_P(input_param) != IS_STRING && Z_TYPE_P(input_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'input' must be of the type string"));
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(input_param) == IS_STRING)) {
-		zephir_get_strval(&input, input_param);
-	} else {
-		ZEPHIR_INIT_VAR(&input);
-	}
-
-
-	if (1 == (zephir_function_exists_ex(ZEND_STRL("mb_convert_case")) == SUCCESS)) {
-		ZVAL_LONG(&_0$$3, 0);
-		ZEPHIR_INIT_VAR(&_1$$3);
-		ZVAL_STRING(&_1$$3, "UTF-8");
-		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 11, &input, &_0$$3, &_1$$3);
-		zephir_check_call_status();
-		RETURN_MM();
-	}
-	ZEPHIR_CALL_FUNCTION(&_2, "utf8_decode", NULL, 300, &input);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&input_zv);
+	ZVAL_STR_COPY(&input_zv, input);
+	ZVAL_LONG(&_0, 0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "phpmbconvertcase", NULL, 0, &input_zv, &_0);
 	zephir_check_call_status();
-	zephir_fast_strtoupper(return_value, &_2);
+	RETURN_MM();
+}
+
+/**
+ * Converts the case of a string using `mb_convert_case()`
+ *
+ * @param string $input
+ * @param int    $mode
+ *
+ * @return string
+ *
+ * @link https://php.net/manual/en/function.mb-convert-case.php
+ */
+PHP_METHOD(Phalcon_Filter_Sanitize_Upper, phpMbConvertCase)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long mode, ZEPHIR_LAST_CALL_STATUS;
+	zval input_zv, *mode_param = NULL, _0, _1;
+	zend_string *input = NULL;
+
+	ZVAL_UNDEF(&input_zv);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(input)
+		Z_PARAM_LONG(mode)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	mode_param = ZEND_CALL_ARG(execute_data, 2);
+	zephir_memory_observe(&input_zv);
+	ZVAL_STR_COPY(&input_zv, input);
+	ZVAL_LONG(&_0, mode);
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "UTF-8");
+	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 32, &input_zv, &_0, &_1);
+	zephir_check_call_status();
 	RETURN_MM();
 }
 

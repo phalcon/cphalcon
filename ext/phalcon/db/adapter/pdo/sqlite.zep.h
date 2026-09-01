@@ -19,26 +19,22 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_sqlite_connect, 0, 0, IS_VOID, 0)
 
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, descriptor, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, descriptor, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, descriptor, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_sqlite_describecolumns, 0, 1, IS_ARRAY, 0)
 	ZEND_ARG_TYPE_INFO(0, table, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, schema, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schema, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_sqlite_describeindexes, 0, 1, IS_ARRAY, 0)
 	ZEND_ARG_TYPE_INFO(0, table, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, schema, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schema, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_sqlite_describereferences, 0, 1, IS_ARRAY, 0)
 	ZEND_ARG_TYPE_INFO(0, table, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, schema, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schema, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_db_adapter_pdo_sqlite_getdefaultvalue, 0, 0, Phalcon\\Db\\RawValue, 0)

@@ -10,11 +10,14 @@
 
 namespace Phalcon\Cli;
 
-use Phalcon\Di\DiInterface;
-use Phalcon\Di\AbstractInjectionAware;
-use Phalcon\Cli\Router\Route;
 use Phalcon\Cli\Router\Exception;
+use Phalcon\Cli\Router\Exceptions\BeforeMatchNotCallable;
+use Phalcon\Cli\Router\Exceptions\RouterArgumentsInvalidType;
+use Phalcon\Cli\Router\Route;
 use Phalcon\Cli\Router\RouteInterface;
+use Phalcon\Contracts\Cli\CliTypes;
+use Phalcon\Di\AbstractInjectionAware;
+use Phalcon\Di\DiInterface;
 
 /**
  * Phalcon\Cli\Router is the standard framework router. Routing is the process
@@ -35,92 +38,54 @@ use Phalcon\Cli\Router\RouteInterface;
  *
  * echo $router->getTaskName();
  *```
+ * @phpstan-import-type cli_parameters from CliTypes
+ * @phpstan-import-type cli_router_defaults from CliTypes
+ * @phpstan-import-type cli_routes from CliTypes
  */
-class Router extends AbstractInjectionAware
+class Router extends AbstractInjectionAware implements RouterInterface
 {
+    protected string action = "";
+    protected string defaultAction = "";
+    protected string defaultModule = "";
     /**
-     * @var string|null
+     * @phpstan-var cli_parameters
      */
-    protected action = null;
-
+    protected array defaultParams = [];
+    protected string defaultTask = "";
+    protected ?<RouteInterface> matchedRoute = null;
     /**
-     * @var string|null
+     * @var array<array-key, string>
      */
-    protected defaultAction = null;
-
+    protected array matches = [];
+    protected string module = "";
     /**
-     * @var string|null
+     * @phpstan-var cli_parameters
      */
-    protected defaultModule = null;
-
+    protected array params = [];
     /**
-     * @var array
+     * @phpstan-var cli_routes
      */
-    protected defaultParams = [];
-
-    /**
-     * @var string|null
-     */
-    protected defaultTask = null;
-
-    /**
-     * @var RouteInterface|null
-     */
-    protected matchedRoute = null;
-
-    /**
-     * @var array|null
-     * TODO: make always array
-     */
-    protected matches = null;
-
-    /**
-     * @var string|null
-     */
-    protected module = null;
-
-    /**
-     * @var array
-     */
-    protected params = [];
-
-    /**
-     * @var array
-     */
-    protected routes = [];
-
-    /**
-     * @var string|null
-     */
-    protected task = null;
-
-    /**
-     * @var bool
-     */
-    protected wasMatched = false;
+    protected array routes = [];
+    protected string task = "";
+    protected bool wasMatched = false;
 
     /**
      * Phalcon\Cli\Router constructor
      */
     public function __construct(bool defaultRoutes = true)
     {
-        array routes;
-
-        let routes = [];
-
         if defaultRoutes {
             // Two routes are added by default to match
             // /:task/:action and /:task/:action/:params
-
-            let routes[] = new Route(
+            $this->add(
                 "#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+)[:delimiter]{0,1}$#",
                 [
                     "task": 1
                 ]
             );
 
-            let routes[] = new Route(
-                "#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+):delimiter([a-zA-Z0-9\\.\\_]+)(:delimiter.*)*$#",
+            $this->add(
+                "#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+):delimiter([a-zA-Z0-9\\.\\_]+)(:delimiter.*)?$#",
                 [
                     "task":   1,
                     "action": 2,
@@ -128,8 +93,6 @@ class Router extends AbstractInjectionAware
                 ]
             );
         }
-
-        let this->routes = routes;
     }
 
     /**
@@ -139,14 +102,14 @@ class Router extends AbstractInjectionAware
      * $router->add("/about", "About::main");
      *```
      *
-     * @param string|array paths
+     * @phpstan-param mixed $paths
      */
-    public function add(string! pattern, paths = null) -> <RouteInterface>
+    public function add(string pattern, paths = null) -> <RouteInterface>
     {
         var route;
 
         let route = new Route(pattern, paths),
-            this->routes[] = route;
+            this->routes[route->getRouteId()] = route;
 
         return route;
     }
@@ -162,13 +125,15 @@ class Router extends AbstractInjectionAware
     /**
      * Returns the route that matches the handled URI
      */
-    public function getMatchedRoute() -> <RouteInterface>
+    public function getMatchedRoute() -> <RouteInterface> | null
     {
         return this->matchedRoute;
     }
 
     /**
      * Returns the sub expressions in the regular expression matched
+     *
+     * @return array<array-key, string>
      */
     public function getMatches() -> array
     {
@@ -185,25 +150,33 @@ class Router extends AbstractInjectionAware
 
     /**
      * Returns processed extra params
+     *
+     * @phpstan-return cli_parameters
      */
-    public function getParams() -> array
+    public function getParameters() -> array
     {
         return this->params;
     }
 
     /**
-     * Returns a route object by its id
+     * Returns processed extra params
      *
-     * @param int id
+     * @deprecated Use {@see getParameters()} instead.
+     *
+     * @phpstan-return cli_parameters
      */
-    public function getRouteById(var id) -> <RouteInterface> | bool
+    public function getParams() -> array
     {
-        var route;
+        return this->getParameters();
+    }
 
-        for route in this->routes {
-            if route->getRouteId() == id {
-                return route;
-            }
+    /**
+     * Returns a route object by its id
+     */
+    public function getRouteById(var id) -> bool | <RouteInterface>
+    {
+        if isset this->routes[id] {
+            return this->routes[id];
         }
 
         return false;
@@ -212,7 +185,7 @@ class Router extends AbstractInjectionAware
     /**
      * Returns a route object by its name
      */
-    public function getRouteByName(string! name) -> <RouteInterface> | bool
+    public function getRouteByName(string name) -> bool | <RouteInterface>
     {
         var route;
 
@@ -227,6 +200,8 @@ class Router extends AbstractInjectionAware
 
     /**
      * Returns all the routes defined in the router
+     *
+     * @phpstan-return cli_routes
      */
     public function getRoutes() -> <Route[]>
     {
@@ -244,7 +219,7 @@ class Router extends AbstractInjectionAware
     /**
      * Handles routing information received from command-line arguments
      *
-     * @param array arguments
+     * @phpstan-param mixed $arguments
      */
     public function handle(arguments = null)
     {
@@ -259,9 +234,17 @@ class Router extends AbstractInjectionAware
             this->wasMatched = false,
             this->matchedRoute = null;
 
-        if typeof arguments != "array" {
+        if typeof arguments !== "array" {
             if unlikely (typeof arguments != "string" && arguments !== null) {
-                throw new Exception("Arguments must be an array or string");
+                throw new RouterArgumentsInvalidType(gettype(arguments));
+            }
+
+            /**
+             * A null subject makes preg_match() emit a deprecation, so use an
+             * empty string.
+             */
+            if arguments === null {
+                let arguments = "";
             }
 
             for route in reverse this->routes {
@@ -287,9 +270,7 @@ class Router extends AbstractInjectionAware
                          * Check first if the callback is callable
                          */
                         if unlikely !is_callable(beforeMatch) {
-                            throw new Exception(
-                                "Before-Match callback is not callable in matched route"
-                            );
+                            throw new BeforeMatchNotCallable(route->getPattern());
                         }
 
                         /**
@@ -418,7 +399,7 @@ class Router extends AbstractInjectionAware
         }
 
         /**
-         * Check for an parameters
+         * Check for parameters
          */
         if fetch params, parts["params"] {
             if typeof params != "array" {
@@ -437,7 +418,7 @@ class Router extends AbstractInjectionAware
             unset parts["params"];
         }
 
-        if count(params) {
+        if !empty params {
             let params = array_merge(params, parts);
         } else {
             let params = parts;
@@ -447,22 +428,27 @@ class Router extends AbstractInjectionAware
             this->task = taskName,
             this->action = actionName,
             this->params = params;
+
+        return this;
     }
 
     /**
      * Sets the default action name
      */
-    public function setDefaultAction(string actionName)
+    public function setDefaultAction(string actionName) -> <static>
     {
         let this->defaultAction = actionName;
+
+        return this;
     }
 
     /**
      * Sets the name of the default module
      */
-    public function setDefaultModule(string moduleName)
+    public function setDefaultModule(string moduleName) -> <static>
     {
         let this->defaultModule = moduleName;
+        return this;
     }
 
     /**
@@ -478,8 +464,10 @@ class Router extends AbstractInjectionAware
      *     ]
      * );
      *```
+     *
+     * @phpstan-param cli_router_defaults $defaults
      */
-    public function setDefaults(array! defaults) -> <Router>
+    public function setDefaults( array defaults) -> <static>
     {
         var module, task, action, params;
 
@@ -509,9 +497,11 @@ class Router extends AbstractInjectionAware
     /**
      * Sets the default controller name
      */
-    public function setDefaultTask(string taskName) -> void
+    public function setDefaultTask(string taskName) -> <static>
     {
         let this->defaultTask = taskName;
+
+        return this;
     }
 
     /**

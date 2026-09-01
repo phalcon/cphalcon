@@ -11,12 +11,41 @@
 namespace Phalcon\Encryption\Security\JWT\Token;
 
 use InvalidArgumentException;
+use Phalcon\Encryption\Security\JWT\Exceptions\InvalidClaims;
+use Phalcon\Encryption\Security\JWT\Exceptions\InvalidHeader;
+use Phalcon\Encryption\Security\JWT\Exceptions\MalformedJwtString;
+use Phalcon\Encryption\Security\JWT\Exceptions\MissingJwtTypHeader;
+use Phalcon\Support\Helper\Json\Decode;
+use Phalcon\Traits\Php\Base64Trait;
 
 /**
- * Class Parser
+ * Token Parser class.
+ *
+ * It parses a token by validating if it is formed properly and splits it into
+ * three parts. The headers are decoded, then the claims and finally the
+ * signature. It returns a token object populated with the decoded information.
  */
 class Parser
 {
+    use Base64Trait;
+
+    /**
+     * @var Decode
+     */
+    private decode;
+
+    public function __construct(<Decode> decode = null)
+    {
+        var service;
+
+        let service = decode;
+        if (null === service) {
+            let service = new Decode();
+        }
+
+        let this->decode = service;
+    }
+
     /**
      * Parse a token and return it
      *
@@ -24,7 +53,7 @@ class Parser
      *
      * @return Token
      */
-    public function parse(string! token) -> <Token>
+    public function parse( string token) -> <Token>
     {
         var claims, encodedClaims, encodedHeaders, encodedSignature,
             headers, results, signature;
@@ -32,7 +61,7 @@ class Parser
         let results          = this->parseToken(token),
             encodedHeaders   = results[0],
             encodedClaims    = results[1],
-            encodedSignature = results[2],
+            encodedSignature = (string) results[2],
             headers          = this->decodeHeaders(encodedHeaders),
             claims           = this->decodeClaims(encodedClaims),
             signature        = this->decodeSignature(headers, encodedSignature);
@@ -51,12 +80,10 @@ class Parser
     {
         var decoded;
 
-        let decoded = this->decode(this->decodeUrl(claims), true);
+        let decoded = this->decode->__invoke(this->doDecodeUrl(claims), true);
 
         if typeof decoded !== "array" {
-            throw new InvalidArgumentException(
-                "Invalid Claims (not an array)"
-            );
+            throw new InvalidClaims();
         }
 
         /**
@@ -80,18 +107,14 @@ class Parser
     {
         var decoded;
 
-        let decoded = this->decode(this->decodeUrl(headers), true);
+        let decoded = this->decode->__invoke(this->doDecodeUrl(headers), true);
 
         if typeof decoded !== "array" {
-            throw new InvalidArgumentException(
-                "Invalid Header (not an array)"
-            );
+            throw new InvalidHeader();
         }
 
         if !isset decoded[Enum::TYPE] {
-            throw new InvalidArgumentException(
-                "Invalid Header (missing 'typ' element)"
-            );
+            throw new MissingJwtTypHeader();
         }
 
         return new Item(decoded, headers);
@@ -105,20 +128,20 @@ class Parser
      *
      * @return Signature
      */
-    private function decodeSignature(<Item> headers, string signature) -> <Signature>
+    private function decodeSignature(<Item> headers,  string signature) -> <Signature>
     {
-        var algo, decoded;
+        var algo, decoded, encodedSignature;
 
-        let algo = headers->get(Enum::ALGO, "none");
+        let decoded          = "",
+            encodedSignature = "",
+            algo             = headers->get(Enum::ALGO, "none");
 
-        if "none" === algo {
-            let decoded   = "",
-                signature = "";
-        } else {
-            let decoded = this->decodeUrl(signature);
+        if "none" !== algo {
+            let decoded          = (string) this->doDecodeUrl(signature),
+                encodedSignature = signature;
         }
 
-        return new Signature(decoded, signature);
+        return new Signature(decoded, encodedSignature);
     }
 
     /**
@@ -128,61 +151,17 @@ class Parser
      *
      * @return array
      */
-    private function parseToken(string! token) -> array
+    private function parseToken( string token) -> array
     {
         var parts;
 
         let parts = explode(".", token);
 
         if count(parts) !== 3 {
-            throw new InvalidArgumentException(
-                "Invalid JWT string (dots misalignment)"
-            );
+            throw new MalformedJwtString();
         }
 
         return parts;
     }
 
-    /**
-     * @todo This will be removed when traits are introduced
-     */
-    private function decode(
-        string! data,
-        bool associative = false,
-        int depth = 512,
-        int options = 0
-    ) -> var
-    {
-        var decoded;
-
-        let decoded = json_decode(data, associative, depth, options);
-
-        if unlikely JSON_ERROR_NONE !== json_last_error() {
-            throw new InvalidArgumentException(
-                "json_decode error: " . json_last_error_msg()
-            );
-        }
-
-        return decoded;
-    }
-
-    /**
-     * @todo This will be removed when traits are introduced
-     */
-    private function decodeUrl(string! input) -> string
-    {
-        var data, remainder;
-
-        let remainder = strlen(input) % 4;
-        if remainder {
-            let input .= str_repeat("=", 4 - remainder);
-        }
-
-        let data = base64_decode(strtr(input, "-_", "+/"));
-        if (false === data) {
-            let data = "";
-        }
-
-        return data;
-    }
 }

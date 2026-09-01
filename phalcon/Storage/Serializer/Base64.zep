@@ -10,46 +10,46 @@
 
 namespace Phalcon\Storage\Serializer;
 
-use InvalidArgumentException;
+use Phalcon\Storage\Serializer\Exceptions\InvalidSerializationInput;
+use Phalcon\Storage\Serializer\Exceptions\InvalidUnserializationInput;
+use Phalcon\Traits\Php\Base64Trait;
 
-/**
- * Class Base64
- *
- * @package Phalcon\Storage\Serializer
- */
 class Base64 extends AbstractSerializer
 {
+    use Base64Trait;
+
     /**
      * Serializes data
-     *
-     * @return string
      */
-	public function serialize() -> string
-	{
-	    if typeof this->data !== "string" {
-	        throw new InvalidArgumentException(
-	        	"Data for the serializer must of type string"
-	        );
-	    }
+    public function serialize() -> string
+    {
+        if typeof this->data !== "string" {
+            throw new InvalidSerializationInput();
+        }
 
-		return base64_encode(this->data);
-	}
+        return this->phpBase64Encode(this->data);
+    }
 
     /**
      * Unserializes data
-     *
-     * @param string $data
-     *
-     * @retrun void
      */
-	public function unserialize(var data) -> void
-	{
-	    if typeof data !== "string" {
-	        throw new InvalidArgumentException(
-	        	"Data for the unserializer must of type string"
-	        );
-	    }
+    public function unserialize(mixed data) -> void
+    {
+        var result;
 
-        let this->data = base64_decode(data);
+        if typeof data !== "string" {
+            throw new InvalidUnserializationInput();
+        }
+
+        let result = this->phpBase64Decode(data, true);
+
+        if unlikely false === result {
+            let this->isSuccess = false,
+                result          = "";
+        } else {
+            let this->isSuccess = true;
+        }
+
+        let this->data = result;
     }
 }

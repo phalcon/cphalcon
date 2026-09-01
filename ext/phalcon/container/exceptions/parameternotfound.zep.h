@@ -1,0 +1,15 @@
+
+extern zend_class_entry *phalcon_container_exceptions_parameternotfound_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Container_Exceptions_ParameterNotFound);
+
+PHP_METHOD(Phalcon_Container_Exceptions_ParameterNotFound, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_container_exceptions_parameternotfound___construct, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_container_exceptions_parameternotfound_method_entry) {
+	PHP_ME(Phalcon_Container_Exceptions_ParameterNotFound, __construct, arginfo_phalcon_container_exceptions_parameternotfound___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};

@@ -12,6 +12,7 @@ namespace Phalcon\Annotations;
 
 use Countable;
 use Iterator;
+use Phalcon\Annotations\Exceptions\AnnotationNotFound;
 
 /**
  * Represents a collection of annotations. This class allows to traverse a group
@@ -69,7 +70,7 @@ class Collection implements Iterator, Countable
     /**
      * Returns the current annotation in the iterator
      */
-    public function current() -> <Annotation> | bool
+    public function current() -> mixed
     {
         var annotation;
 
@@ -95,9 +96,7 @@ class Collection implements Iterator, Countable
             }
         }
 
-        throw new Exception(
-            "Collection doesn't have an annotation called '" . name . "'"
-        );
+        throw new AnnotationNotFound(name);
     }
 
     /**

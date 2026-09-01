@@ -1,0 +1,40 @@
+<?php
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Phalcon\Tests\Unit\Mvc\Router\Annotations;
+
+use Phalcon\Mvc\Router\Annotations;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+
+final class GetRouteByIdTest extends AbstractUnitTestCase
+{
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
+     */
+    public function testMvcRouterAnnotationsGetRouteById(): void
+    {
+        $router = new Annotations(false);
+
+        $router->add('/test', ['controller' => 'test', 'action' => 'test']);
+        $router->add('/test2', ['controller' => 'test', 'action' => 'test']);
+        $router->add('/test3', ['controller' => 'test', 'action' => 'test']);
+
+        foreach (array_reverse($router->getRoutes()) as $route) {
+            $this->assertSame(
+                $route,
+                $router->getRouteById($route->getRouteId())
+            );
+        }
+    }
+}

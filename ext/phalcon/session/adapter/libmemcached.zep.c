@@ -16,20 +16,21 @@
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/object.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
+#include "kernel/operators.h"
 
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
  * Phalcon\Session\Adapter\Libmemcached
+ *
+ * @phpstan-import-type session_libmemcached_options from SessionTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Libmemcached)
 {
@@ -39,9 +40,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Libmemcached)
 }
 
 /**
- * Constructor
+ * Libmemcached constructor.
  *
- * @param array options = [
+ * @param AdapterFactory $factory
+ * @param array          $options = [
  *     'servers' => [
  *         [
  *             'host' => 'localhost',
@@ -53,15 +55,20 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Libmemcached)
  *     'defaultSerializer' => 'Php',
  *     'lifetime' => 3600,
  *     'serializer' => null,
- *     'prefix' => 'sess-memc-'
+ *     'prefix' => 'sess-memc-',
+ *     'stripPrefix' => false
  * ]
+ *
+ * @phpstan-param session_libmemcached_options $options
+ *
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval options;
-	zval *factory, factory_sub, *options_param = NULL, _0, _1, _2, _3;
+	zval *factory, factory_sub, *options_param = NULL, _0, _1, _2, _3, _4, _5;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&factory_sub);
@@ -69,27 +76,28 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, __construct)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&options);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("adapter", 7, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_OBJECT_OF_CLASS(factory, phalcon_storage_adapterfactory_ce)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ARRAY(options)
+		ZEPHIR_Z_PARAM_ARRAY(options, options_param)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &factory, &options_param);
 	if (!options_param) {
 		ZEPHIR_INIT_VAR(&options);
 		array_init(&options);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
+		zephir_get_arrval(&options, options_param);
 	}
-
-
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "prefix");
 	ZEPHIR_INIT_VAR(&_2);
@@ -98,10 +106,16 @@ PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, __construct)
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("prefix"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
-	ZVAL_STRING(&_1, "libmemcached");
-	ZEPHIR_CALL_METHOD(&_3, factory, "newinstance", NULL, 0, &_1, &options);
+	ZVAL_STRING(&_1, "stripPrefix");
+	ZVAL_BOOL(&_4, 0);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getarrval", NULL, 0, &options, &_1, &_4);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("adapter"), &_3);
+	zephir_array_update_string(&options, SL("stripPrefix"), &_3, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_STRING(&_1, "libmemcached");
+	ZEPHIR_CALL_METHOD(&_5, factory, "newinstance", NULL, 0, &_1, &options);
+	zephir_check_call_status();
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1315, &_5);
 	ZEPHIR_MM_RESTORE();
 }
 

@@ -12,9 +12,11 @@
 namespace Phalcon\Encryption\Security\JWT\Exceptions;
 
 use Exception;
-use Throwable;
 
-class UnsupportedAlgorithmException extends Exception implements Throwable
+/**
+ * Exception thrown when the algorithm is not supported for JWT
+ */
+class UnsupportedAlgorithmException extends Exception
 {
 
 }

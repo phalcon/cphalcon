@@ -1,52 +1,50 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 
 namespace Phalcon\Html\Helper;
 
-use Phalcon\Html\Exception;
+use Phalcon\Contracts\Html\HtmlTypes;
 
 /**
  * Class AbstractList
+ *
+ * @phpstan-import-type html_attributes from HtmlTypes
+ * @phpstan-import-type html_element_store from HtmlTypes
  */
 abstract class AbstractList extends AbstractHelper
 {
     /**
-     * @var array
+     * @phpstan-var html_attributes
      */
-    protected attributes = [];
+    protected array attributes = [];
+    protected string elementTag = "li";
+    /**
+     * @phpstan-var html_element_store
+     */
+    protected array store = [];
 
     /**
-     * @var string
-     */
-    protected elementTag = "li";
-
-    /**
-     * @var array
-     */
-    protected store = [];
-
-    /**
-     * @param string $indent
-     * @param string $delimiter
-     * @param array  $attributes
-     *
-     * @return AbstractList
+     * @phpstan-param html_attributes $attributes
      */
     public function __invoke(
         string indent = "    ",
         string delimiter = null,
         array attributes = []
-    ) -> <AbstractList> {
+    ) -> <static> {
         let this->attributes = attributes,
             this->delimiter  = empty(delimiter) ? PHP_EOL : delimiter,
-	        this->indent     = indent,
+            this->indent     = indent,
             this->store      = [];
 
         return this;
@@ -54,9 +52,6 @@ abstract class AbstractList extends AbstractHelper
 
     /**
      * Generates and returns the HTML for the list.
-     *
-     * @return string
-     * @throws Exception
      */
     public function __toString()
     {
@@ -83,9 +78,6 @@ abstract class AbstractList extends AbstractHelper
     /**
      *
      * Returns the tag name.
-     *
-     * @return string
-     *
      */
     abstract protected function getTag() -> string;
 }

@@ -16,18 +16,35 @@
 namespace Phalcon\DataMapper\Pdo\Connection;
 
 use BadMethodCallException;
-use Phalcon\DataMapper\Pdo\Exception\CannotBindValue;
+use Phalcon\Contracts\Events\EventsAware;
+use Phalcon\DataMapper\Pdo\Events;
+use Phalcon\DataMapper\Pdo\Exception\OperationCancelled;
+use Phalcon\DataMapper\Pdo\Exception\UnknownDriverMethod;
 use Phalcon\DataMapper\Pdo\Profiler\ProfilerInterface;
+use Phalcon\Events\ManagerInterface;
+use Phalcon\Events\Traits\EventsAwareTrait;
 
 /**
  * Provides array quoting, profiling, a new `perform()` method, new `fetch*()`
  * methods
  *
- * @property PDO               $pdo
- * @property ProfilerInterface $profiler
+ * Connections fire the lifecycle events in Phalcon\DataMapper\Pdo\Events when
+ * an events manager is set. ConnectionInterface does not declare the events
+ * manager methods; the EventsAware contract is applied here so that existing
+ * implementations of the interface keep working.
  */
-abstract class AbstractConnection implements ConnectionInterface
+abstract class AbstractConnection implements ConnectionInterface, EventsAware
 {
+    use EventsAwareTrait;
+
+    /**
+     * Whether to transparently reconnect and retry once when a statement fails
+     * because the connection was lost. Opt-in; off by default.
+     *
+     * @var bool
+     */
+    protected autoReconnect = false;
+
     /**
      * @var \PDO
      */
@@ -37,6 +54,15 @@ abstract class AbstractConnection implements ConnectionInterface
      * @var ProfilerInterface
      */
     protected profiler;
+
+    /**
+     * Current transaction nesting level. Tracked locally rather than via
+     * PDO::inTransaction() because some drivers report a broken connection as
+     * being "in transaction".
+     *
+     * @var int
+     */
+    protected transactionLevel = 0;
 
     /**
      * Proxies to PDO methods created for specific drivers; in particular,
@@ -59,7 +85,7 @@ abstract class AbstractConnection implements ConnectionInterface
                 message   = "Class '" . className
                           . "' does not have a method '" . name . "'";
 
-            throw new BadMethodCallException(message);
+            throw new UnknownDriverMethod(message);
         }
 
         return call_user_func_array(
@@ -82,11 +108,16 @@ abstract class AbstractConnection implements ConnectionInterface
         var result;
 
         this->connect();
+        this->fireBefore(Events::BEFORE_BEGIN_TRANSACTION);
         this->profiler->start(__FUNCTION__);
 
         let result = this->pdo->beginTransaction();
 
         this->profiler->finish();
+
+        let this->transactionLevel++;
+
+        this->fireManagerEvent(Events::AFTER_BEGIN_TRANSACTION, null, false);
 
         return result;
     }
@@ -102,11 +133,18 @@ abstract class AbstractConnection implements ConnectionInterface
         var result;
 
         this->connect();
+        this->fireBefore(Events::BEFORE_COMMIT);
         this->profiler->start(__FUNCTION__);
 
         let result = this->pdo->commit();
 
         this->profiler->finish();
+
+        if this->transactionLevel > 0 {
+            let this->transactionLevel--;
+        }
+
+        this->fireManagerEvent(Events::AFTER_COMMIT, null, false);
 
         return result;
     }
@@ -120,6 +158,19 @@ abstract class AbstractConnection implements ConnectionInterface
      * Disconnects from the database.
      */
     abstract public function disconnect() -> void;
+
+    /**
+     * Ensures the connection is alive, reconnecting in place if it is not.
+     * disconnect() is required first because connect() is idempotent and will
+     * not rebuild a dead-but-present handle.
+     */
+    public function ensureConnection() -> void
+    {
+        if !this->ping() {
+            this->disconnect();
+            this->connect();
+        }
+    }
 
     /**
      * Gets the most recent error code.
@@ -155,14 +206,34 @@ abstract class AbstractConnection implements ConnectionInterface
      */
     public function exec(string statement) -> int
     {
-        var affectedRows;
+        var affectedRows, e;
 
         this->connect();
+        this->fireBefore(Events::BEFORE_EXEC, ["statement" : statement]);
         this->profiler->start(__FUNCTION__);
 
-        let affectedRows = this->pdo->exec(statement);
+        try {
+            let affectedRows = this->pdo->exec(statement);
+        } catch \PDOException, e {
+            if !this->canReconnect(e) {
+                throw e;
+            }
+
+            this->reconnect();
+
+            let affectedRows = this->pdo->exec(statement);
+        }
 
         this->profiler->finish(statement);
+
+        this->fireManagerEvent(
+            Events::AFTER_EXEC,
+            [
+                "statement"    : statement,
+                "affectedRows" : affectedRows
+            ],
+            false
+        );
 
         return affectedRows;
     }
@@ -429,6 +500,16 @@ abstract class AbstractConnection implements ConnectionInterface
     }
 
     /**
+     * Returns whether transparent auto-reconnect is enabled.
+     *
+     * @return bool
+     */
+    public function getAutoReconnect() -> bool
+    {
+        return this->autoReconnect;
+    }
+
+    /**
      * Return the driver name
      *
      * @return string
@@ -568,22 +649,62 @@ abstract class AbstractConnection implements ConnectionInterface
         string statement,
         array values = []
     ) -> <\PDOStatement> {
-        var name, sth, value;
+        var sth, e;
 
         this->connect();
+        this->fireBefore(
+            Events::BEFORE_PERFORM,
+            [
+                "statement" : statement,
+                "values"    : values
+            ]
+        );
 
         this->profiler->start(__FUNCTION__);
 
-        let sth = this->prepare(statement);
-        for name, value in values {
-            this->performBind(sth, name, value);
-        }
+        try {
+            let sth = this->performStatement(statement, values);
+        } catch \PDOException, e {
+            if !this->canReconnect(e) {
+                throw e;
+            }
 
-        sth->execute();
+            this->reconnect();
+
+            let sth = this->performStatement(statement, values);
+        }
 
         this->profiler->finish(statement, values);
 
+        this->fireManagerEvent(
+            Events::AFTER_PERFORM,
+            [
+                "statement" : statement,
+                "values"    : values
+            ],
+            false
+        );
+
         return sth;
+    }
+
+    /**
+     * Checks whether the underlying connection is still alive by issuing a
+     * trivial query. Returns false if there is no handle or the probe fails.
+     */
+    public function ping() -> bool
+    {
+        if !this->pdo {
+            return false;
+        }
+
+        try {
+            this->pdo->query("SELECT 1");
+        } catch \Throwable {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -598,13 +719,23 @@ abstract class AbstractConnection implements ConnectionInterface
         string statement,
         array options = []
     ) -> <\PDOStatement> | bool {
-        var sth;
+        var sth, e;
 
         this->connect();
 
         this->profiler->start(__FUNCTION__);
 
-        let sth = this->pdo->prepare(statement, options);
+        try {
+            let sth = this->pdo->prepare(statement, options);
+        } catch \PDOException, e {
+            if !this->canReconnect(e) {
+                throw e;
+            }
+
+            this->reconnect();
+
+            let sth = this->pdo->prepare(statement, options);
+        }
 
         this->profiler->finish(sth->queryString);
 
@@ -622,21 +753,44 @@ abstract class AbstractConnection implements ConnectionInterface
      */
     public function query(string statement) -> <\PDOStatement> | bool
     {
-        var sth;
+        var sth, e, arguments;
 
         this->connect();
 
-        this->profiler->start(__FUNCTION__);
+        let arguments = func_get_args();
 
-        let sth = call_user_func_array(
+        this->fireBefore(
+            Events::BEFORE_QUERY,
             [
-                this->pdo,
-                "query"
-            ],
-            func_get_args()
+                "statement" : statement,
+                "arguments" : arguments
+            ]
         );
 
+        this->profiler->start(__FUNCTION__);
+
+        try {
+            let sth = call_user_func_array([this->pdo, "query"], arguments);
+        } catch \PDOException, e {
+            if !this->canReconnect(e) {
+                throw e;
+            }
+
+            this->reconnect();
+
+            let sth = call_user_func_array([this->pdo, "query"], arguments);
+        }
+
         this->profiler->finish(sth->queryString);
+
+        this->fireManagerEvent(
+            Events::AFTER_QUERY,
+            [
+                "statement" : statement,
+                "arguments" : arguments
+            ],
+            false
+        );
 
         return sth;
     }
@@ -662,14 +816,22 @@ abstract class AbstractConnection implements ConnectionInterface
             quotes  = this->getQuoteNames();
 
         if typeof element !== "array" {
-            let element = (string) element;
+            let element = str_replace(
+                quotes["find"],
+                quotes["replace"],
+                (string) element
+            );
 
             return quotes["prefix"] . element . quotes["suffix"];
         }
 
         // quote array values, not keys, then combine with commas
         for key, element in value {
-            let element       = (string) element,
+            let element       = str_replace(
+                    quotes["find"],
+                    quotes["replace"],
+                    (string) element
+                ),
                 elements[key] = quotes["prefix"] . element . quotes["suffix"];
         }
 
@@ -687,12 +849,19 @@ abstract class AbstractConnection implements ConnectionInterface
         var result;
 
         this->connect();
+        this->fireBefore(Events::BEFORE_ROLLBACK);
 
         this->profiler->start(__FUNCTION__);
 
         let result = this->pdo->rollBack();
 
         this->profiler->finish();
+
+        if this->transactionLevel > 0 {
+            let this->transactionLevel--;
+        }
+
+        this->fireManagerEvent(Events::AFTER_ROLLBACK, null, false);
 
         return result;
     }
@@ -713,13 +882,44 @@ abstract class AbstractConnection implements ConnectionInterface
     }
 
     /**
+     * Enables or disables transparent auto-reconnect on a lost connection.
+     *
+     * @param bool $autoReconnect
+     */
+    public function setAutoReconnect(bool autoReconnect) -> <static>
+    {
+        let this->autoReconnect = autoReconnect;
+
+        return this;
+    }
+
+    /**
      * Sets the Profiler instance.
      *
      * @param ProfilerInterface $profiler
      */
-    public function setProfiler(<ProfilerInterface> profiler)
+    public function setProfiler(<ProfilerInterface> profiler) -> <static>
     {
         let this->profiler = profiler;
+
+        return this;
+    }
+
+    /**
+     * Fires a cancellable "before" event. A listener cancels by stopping the
+     * event and returning false; see Phalcon\DataMapper\Pdo\Events for the
+     * required idiom. The operation does not run when it is cancelled.
+     *
+     * @param string     $eventName
+     * @param mixed|null $data
+     *
+     * @throws OperationCancelled
+     */
+    protected function fireBefore(string eventName, var data = null) -> void
+    {
+        if this->fireManagerEvent(eventName, data, true) === false {
+            throw new OperationCancelled(eventName);
+        }
     }
 
     /**
@@ -802,5 +1002,89 @@ abstract class AbstractConnection implements ConnectionInterface
         }
 
         return result;
+    }
+
+    /**
+     * Recognizes a lost ("gone away") connection. Detection is driver-agnostic:
+     * the driver name is not queried because the underlying connection may be
+     * dead by this point. The MySQL error codes and PostgreSQL SQLSTATEs do not
+     * overlap, so all known signatures are checked unconditionally.
+     */
+    protected function isConnectionError(<\Throwable> exception) -> bool
+    {
+        var errorInfo, driverCode, sqlState, message;
+
+        let errorInfo = exception->errorInfo;
+        if typeof errorInfo == "array" && isset errorInfo[1] {
+            let driverCode = (int) errorInfo[1];
+
+            if driverCode === 2006 || driverCode === 2013 {
+                return true;
+            }
+        }
+
+        let sqlState = (string) exception->getCode();
+        if sqlState === "08003" || sqlState === "08006" ||
+            sqlState === "57P01" || sqlState === "57P02" || sqlState === "57P03" {
+            return true;
+        }
+
+        let message = exception->getMessage();
+
+        return memstr(message, "server has gone away") ||
+            memstr(message, "Lost connection") ||
+            memstr(message, "server closed the connection unexpectedly") ||
+            memstr(message, "no connection to the server");
+    }
+
+    /**
+     * Whether a failed statement may be transparently retried after
+     * reconnecting. Only when auto-reconnect is on, a handle exists, we are
+     * not in a transaction, and the failure is a recognized connection loss.
+     */
+    private function canReconnect(<\Throwable> exception) -> bool
+    {
+        if !this->autoReconnect {
+            return false;
+        }
+
+        if !this->pdo {
+            return false;
+        }
+
+        if this->transactionLevel !== 0 {
+            return false;
+        }
+
+        return this->isConnectionError(exception);
+    }
+
+    /**
+     * Prepares, binds, and executes a statement, returning the PDOStatement.
+     */
+    private function performStatement(string statement, array values) -> <\PDOStatement>
+    {
+        var name, sth, value;
+
+        let sth = this->prepare(statement);
+        for name, value in values {
+            this->performBind(sth, name, value);
+        }
+
+        sth->execute();
+
+        return sth;
+    }
+
+    /**
+     * Drops the dead handle and rebuilds it. disconnect() first is required
+     * because connect() is idempotent.
+     */
+    private function reconnect() -> void
+    {
+        this->fireManagerEvent(Events::CONNECTION_LOST, null, false);
+
+        this->disconnect();
+        this->connect();
     }
 }

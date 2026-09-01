@@ -17,13 +17,37 @@ namespace Phalcon\Mvc\Model;
  */
 class Relation implements RelationInterface
 {
+    /**
+     * @var int
+     */
     const ACTION_CASCADE   = 2;
+    /**
+     * @var int
+     */
     const ACTION_RESTRICT  = 1;
+    /**
+     * @var int
+     */
     const BELONGS_TO       = 0;
+    /**
+     * @var int
+     */
     const HAS_MANY         = 2;
+    /**
+     * @var int
+     */
     const HAS_MANY_THROUGH = 4;
+    /**
+     * @var int
+     */
     const HAS_ONE          = 1;
+    /**
+     * @var int
+     */
     const HAS_ONE_THROUGH  = 3;
+    /**
+     * @var int
+     */
     const NO_ACTION        = 0;
 
     /**
@@ -75,7 +99,7 @@ class Relation implements RelationInterface
      * @param array|string referencedFields
      * @param array options
      */
-    public function __construct(int type, string! referencedModel, var fields, var referencedFields, array options = [])
+    public function __construct(int type,  string referencedModel, var fields, var referencedFields, array options = [])
     {
         let this->type = type,
             this->referencedModel = referencedModel,
@@ -144,9 +168,9 @@ class Relation implements RelationInterface
 
     /**
      * Returns an option by the specified name
-     * If the option doesn't exist null is returned
+     * If the option does not exist null is returned
      */
-    public function getOption(string! name)
+    public function getOption( string name)
     {
         var option;
 
@@ -264,7 +288,7 @@ class Relation implements RelationInterface
      * @param string       intermediateModel
      * @param array|string intermediateReferencedFields
      */
-    public function setIntermediateRelation(var intermediateFields, string! intermediateModel, var intermediateReferencedFields)
+    public function setIntermediateRelation(var intermediateFields,  string intermediateModel, var intermediateReferencedFields)
     {
         let this->intermediateFields = intermediateFields,
             this->intermediateModel = intermediateModel,

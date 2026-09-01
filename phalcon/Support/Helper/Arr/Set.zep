@@ -1,6 +1,6 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -16,11 +16,9 @@ namespace Phalcon\Support\Helper\Arr;
 class Set
 {
     /**
-     * @param array $collection
-     * @param mixed $value
-     * @param mixed $index
+     * @param array<array-key, mixed> $collection
      *
-     * @return array
+     * @return array<array-key, mixed>
      */
     public function __invoke(
         array collection,
@@ -35,32 +33,28 @@ class Set
     }
 
     /**
-     * @param array $collection
-     * @param mixed $value
-     * @param mixed $index
+     * @param array<array-key, mixed> $collection
      *
-     * @return array
+     * @return array<array-key, mixed>
      */
-    private function checkNull(array collection, var value, var index) -> array
+    private function checkNotNull(array collection, var value, var index) -> array
     {
-        if null === index {
-            let collection[] = value;
+        if null !== index {
+            let collection[index] = value;
         }
 
         return collection;
     }
 
     /**
-     * @param array $collection
-     * @param mixed $value
-     * @param mixed $index
+     * @param array<array-key, mixed> $collection
      *
-     * @return array<int|string,mixed>
+     * @return array<array-key, mixed>
      */
-    private function checkNotNull(array collection, var value, var index) -> array
+    private function checkNull(array collection, var value, var index) -> array
     {
-        if null !== index {
-            let collection[index] = value;
+        if null === index {
+            let collection[] = value;
         }
 
         return collection;

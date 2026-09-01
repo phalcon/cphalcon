@@ -131,7 +131,7 @@ int phannot_parse_annotations(zval *result, zval *comment, zval *file_path, zval
  */
 static void phannot_remove_comment_separators(char **ret, int *ret_len, const char *comment, int length, int *start_lines)
 {
-	char ch;
+	char ch, quote;
 	int start_mode = 1, j, i, open_parentheses;
 	smart_str processed_str = {0};
 
@@ -181,6 +181,37 @@ static void phannot_remove_comment_separators(char **ret, int *ret_len, const ch
 				} else {
 
 					smart_str_appendc(&processed_str, ch);
+
+					if (ch == '"' || ch == '\'') {
+						quote = ch;
+
+						/**
+						 * Consume the whole string literal so that any
+						 * parentheses inside it are not counted as structural
+						 */
+						for (j++; j < length; j++) {
+							ch = comment[j];
+							smart_str_appendc(&processed_str, ch);
+
+							if (ch == '\\') {
+								j++;
+								if (j < length) {
+									smart_str_appendc(&processed_str, comment[j]);
+								}
+								continue;
+							}
+
+							if (ch == quote) {
+								break;
+							}
+
+							if (ch == '\n') {
+								(*start_lines)++;
+							}
+						}
+
+						continue;
+					}
 
 					if (ch == '(') {
 						open_parentheses++;
@@ -284,6 +315,7 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, int c
 	parser_status->scanner_state = state;
 	parser_status->token = &token;
 	parser_status->syntax_error = NULL;
+	ZVAL_UNDEF(&parser_status->ret);
 
 	/**
 	 * Initialize the scanner state
@@ -429,7 +461,16 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, int c
 
 	if (status != FAILURE) {
 		if (parser_status->status == PHANNOT_PARSING_OK) {
-			ZVAL_ZVAL(*result, &parser_status->ret, 1, 1);
+			/*
+			 * A docblock without any annotation token (for example "@!")
+			 * never runs the "program" rule, so ret is not set. Report
+			 * "no annotations" instead of copying an unset value.
+			 */
+			if (Z_TYPE(parser_status->ret) != IS_UNDEF) {
+				ZVAL_ZVAL(*result, &parser_status->ret, 1, 1);
+			} else {
+				ZVAL_BOOL(*result, 0);
+			}
 		}
 	}
 

@@ -16,6 +16,8 @@
 #include "kernel/memory.h"
 #include "kernel/concat.h"
 #include "kernel/fcall.h"
+#include "kernel/array.h"
+#include "kernel/operators.h"
 
 
 /**
@@ -27,7 +29,10 @@
  * file that was distributed with this source code.
  */
 /**
- * Class Token
+ * Token Class.
+ *
+ * A container for Token related data. It stores the claims, headers, signature
+ * and payload. It also calculates and returns the token string.
  *
  * @property Item      $claims
  * @property Item      $headers
@@ -55,39 +60,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Token_Token)
 }
 
 /**
- */
-PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getClaims)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "claims");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getHeaders)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "headers");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getSignature)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "signature");
-}
-
-/**
  * Token constructor.
  *
  * @param Item      $headers
@@ -102,25 +74,55 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, __construct)
 	ZVAL_UNDEF(&headers_sub);
 	ZVAL_UNDEF(&claims_sub);
 	ZVAL_UNDEF(&signature_sub);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("headers", 7, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("claims", 6, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("signature", 9, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_OBJECT_OF_CLASS(headers, phalcon_encryption_security_jwt_token_item_ce)
 		Z_PARAM_OBJECT_OF_CLASS(claims, phalcon_encryption_security_jwt_token_item_ce)
 		Z_PARAM_OBJECT_OF_CLASS(signature, phalcon_encryption_security_jwt_token_signature_ce)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
 	zephir_fetch_params_without_memory_grow(3, 0, &headers, &claims, &signature);
-
-
-	zephir_update_property_zval(this_ptr, ZEND_STRL("headers"), headers);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("claims"), claims);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("signature"), signature);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 717, headers);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 718, claims);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 719, signature);
 }
 
 /**
+ * Return the registered claims
+ *
+ * @return Item
+ */
+PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getClaims)
+{
+
+	RETURN_MEMBER(getThis(), "claims");
+}
+
+/**
+ * Return the registered headers
+ *
+ * @return Item
+ */
+PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getHeaders)
+{
+
+	RETURN_MEMBER(getThis(), "headers");
+}
+
+/**
+ * Return the payload
+ *
  * @return string
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getPayload)
@@ -134,14 +136,21 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getPayload)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("headers", 7, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("claims", 6, 1);
+	}
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-
-	ZEPHIR_MM_GROW();
-
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("headers"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 717, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_1, &_0, "getencoded", NULL, 0);
 	zephir_check_call_status();
-	zephir_read_property(&_2, this_ptr, ZEND_STRL("claims"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 718, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_3, &_2, "getencoded", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_VSV(return_value, &_1, ".", &_3);
@@ -149,6 +158,19 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getPayload)
 }
 
 /**
+ * Return the signature
+ *
+ * @return Signature
+ */
+PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getSignature)
+{
+
+	RETURN_MEMBER(getThis(), "signature");
+}
+
+/**
+ * Return the token
+ *
  * @return string
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getToken)
@@ -161,17 +183,176 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getToken)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
-
-
-	ZEPHIR_MM_GROW();
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("signature", 9, 1);
+	}
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getpayload", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getsignature", NULL, 0);
-	zephir_check_call_status();
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 719, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_2, &_1, "getencoded", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_VSV(return_value, &_0, ".", &_2);
+	RETURN_MM();
+}
+
+/**
+ * Validate the token against the claims registered in the validator.
+ *
+ * Only claims that have a value in the validator are checked. A claim left
+ * as null expresses no expectation and is skipped.
+ *
+ * Security note: this method checks the claims only. It does not verify
+ * the signature. A token accepted by validate() alone is unauthenticated.
+ * Always also call verify() (or Validator::validateSignature()) and treat
+ * an empty error array as valid only after the signature check passes.
+ * A signature-aware default is planned for a future major version.
+ *
+ * @param Validator $validator
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, validate)
+{
+	zend_string *_4;
+	zend_ulong _3;
+	zval methods;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *validator, validator_sub, claimValue, method, _0, _1, *_2;
+
+	ZVAL_UNDEF(&validator_sub);
+	ZVAL_UNDEF(&claimValue);
+	ZVAL_UNDEF(&method);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&methods);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(validator, phalcon_encryption_security_jwt_validator_ce)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &validator);
+	ZEPHIR_INIT_VAR(&methods);
+	zephir_create_array(&methods, 7, 0);
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "aud");
+	ZEPHIR_CALL_METHOD(&_0, validator, "get", NULL, 0, &_1);
+	zephir_check_call_status();
+	zephir_array_update_string(&methods, SL("validateAudience"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_STRING(&_1, "exp");
+	ZEPHIR_CALL_METHOD(&_0, validator, "get", NULL, 0, &_1);
+	zephir_check_call_status();
+	zephir_array_update_string(&methods, SL("validateExpiration"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_STRING(&_1, "jti");
+	ZEPHIR_CALL_METHOD(&_0, validator, "get", NULL, 0, &_1);
+	zephir_check_call_status();
+	zephir_array_update_string(&methods, SL("validateId"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_STRING(&_1, "iat");
+	ZEPHIR_CALL_METHOD(&_0, validator, "get", NULL, 0, &_1);
+	zephir_check_call_status();
+	zephir_array_update_string(&methods, SL("validateIssuedAt"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_STRING(&_1, "iss");
+	ZEPHIR_CALL_METHOD(&_0, validator, "get", NULL, 0, &_1);
+	zephir_check_call_status();
+	zephir_array_update_string(&methods, SL("validateIssuer"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_STRING(&_1, "nbf");
+	ZEPHIR_CALL_METHOD(&_0, validator, "get", NULL, 0, &_1);
+	zephir_check_call_status();
+	zephir_array_update_string(&methods, SL("validateNotBefore"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_STRING(&_1, "sub");
+	ZEPHIR_CALL_METHOD(&_0, validator, "get", NULL, 0, &_1);
+	zephir_check_call_status();
+	zephir_array_update_string(&methods, SL("validateSubject"), &_0, PH_COPY | PH_SEPARATE);
+	zephir_is_iterable(&methods, 0, "phalcon/Encryption/Security/JWT/Token/Token.zep", 149);
+	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&methods), _3, _4, _2)
+	{
+		ZEPHIR_INIT_NVAR(&method);
+		if (_4 != NULL) { 
+			ZVAL_STR_COPY(&method, _4);
+		} else {
+			ZVAL_LONG(&method, _3);
+		}
+		ZEPHIR_INIT_NVAR(&claimValue);
+		ZVAL_COPY(&claimValue, _2);
+		if (Z_TYPE_P(&claimValue) != IS_NULL) {
+			ZEPHIR_CALL_METHOD_ZVAL(NULL, validator, &method, NULL, 0, &claimValue);
+			zephir_check_call_status();
+		}
+	} ZEND_HASH_FOREACH_END();
+	ZEPHIR_INIT_NVAR(&claimValue);
+	ZEPHIR_INIT_NVAR(&method);
+	ZEPHIR_RETURN_CALL_METHOD(validator, "geterrors", NULL, 0);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
+ * Verify the signature
+ *
+ * @param SignerInterface $signer
+ * @param string          $key
+ *
+ * @return bool
+ */
+PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, verify)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zend_string *key = NULL;
+	zval *signer, signer_sub, key_zv, _0, _1, _2, _3, _4, _5, _6;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&signer_sub);
+	ZVAL_UNDEF(&key_zv);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_6);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("signature", 9, 1);
+	}
+
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(signer, phalcon_encryption_security_jwt_signer_signerinterface_ce)
+		Z_PARAM_STR(key)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	signer = ZEND_CALL_ARG(execute_data, 1);
+	zephir_memory_observe(&key_zv);
+	ZVAL_STR_COPY(&key_zv, key);
+	ZEPHIR_CALL_METHOD(&_0, signer, "getalgheader", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getheaders", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(&_3);
+	ZVAL_STRING(&_3, "alg");
+	ZEPHIR_CALL_METHOD(&_2, &_1, "get", NULL, 0, &_3);
+	zephir_check_call_status();
+	if (!ZEPHIR_IS_IDENTICAL(&_0, &_2)) {
+		RETURN_MM_BOOL(0);
+	}
+	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 719, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(&_5, &_4, "gethash", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&_6, this_ptr, "getpayload", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_RETURN_CALL_METHOD(signer, "verify", NULL, 0, &_5, &_6, &key_zv);
+	zephir_check_call_status();
 	RETURN_MM();
 }
 

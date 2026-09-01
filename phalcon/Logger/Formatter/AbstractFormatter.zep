@@ -10,22 +10,33 @@
 
 namespace Phalcon\Logger\Formatter;
 
+use DateTimeImmutable;
 use Phalcon\Logger\Item;
-use Phalcon\Support\Helper\Str\AbstractStr;
+use Phalcon\Traits\Support\Helper\Str\InterpolateTrait;
 
 /**
  * Class AbstractFormatter
- *
- * @property string $dateFormat
  */
-abstract class AbstractFormatter extends AbstractStr implements FormatterInterface
+abstract class AbstractFormatter implements FormatterInterface
 {
+    use InterpolateTrait;
+
     /**
      * Default date format
-     *
-     * @var string
      */
-    protected dateFormat = "c" { get, set };
+    protected string dateFormat = "c";
+    protected string interpolatorLeft = "%";
+    protected string interpolatorRight = "%";
+
+    public function getDateFormat() -> string
+    {
+        return this->dateFormat;
+    }
+
+    public function setDateFormat(string format) -> void
+    {
+        let this->dateFormat = format;
+    }
 
     /**
      * Returns the date formatted for the logger.
@@ -37,5 +48,25 @@ abstract class AbstractFormatter extends AbstractStr implements FormatterInterfa
     protected function getFormattedDate(<Item> item) -> string
     {
         return item->getDateTime()->format(this->dateFormat);
+    }
+
+    /**
+     * Returns the interpolated message, replacing context placeholders.
+     *
+     * @param Item   $item
+     * @param string $message
+     *
+     * @return string
+     */
+    protected function getInterpolatedMessage(
+        <Item> item,
+        string message
+    ) -> string {
+        return this->toInterpolate(
+            message,
+            item->getContext(),
+            this->interpolatorLeft,
+            this->interpolatorRight
+        );
     }
 }

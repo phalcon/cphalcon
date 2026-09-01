@@ -1,0 +1,14 @@
+
+extern zend_class_entry *phalcon_flash_exceptions_escaperserviceunavailable_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Flash_Exceptions_EscaperServiceUnavailable);
+
+PHP_METHOD(Phalcon_Flash_Exceptions_EscaperServiceUnavailable, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash_exceptions_escaperserviceunavailable___construct, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_flash_exceptions_escaperserviceunavailable_method_entry) {
+PHP_ME(Phalcon_Flash_Exceptions_EscaperServiceUnavailable, __construct, arginfo_phalcon_flash_exceptions_escaperserviceunavailable___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};

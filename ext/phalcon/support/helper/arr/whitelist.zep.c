@@ -19,7 +19,7 @@
 
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -38,10 +38,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Arr_Whitelist)
 }
 
 /**
- * @param array $collection
- * @param array $whiteList
+ * @param array<array-key, mixed> $collection
+ * @param array<array-key, mixed> $whiteList
  *
- * @return array
+ * @return array<array-key, mixed>
  */
 PHP_METHOD(Phalcon_Support_Helper_Arr_Whitelist, __invoke)
 {
@@ -56,29 +56,23 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Whitelist, __invoke)
 	ZVAL_UNDEF(&filtered);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_ARRAY(collection)
-		Z_PARAM_ARRAY(whiteList)
+		ZEPHIR_Z_PARAM_ARRAY(collection, collection_param)
+		ZEPHIR_Z_PARAM_ARRAY(whiteList, whiteList_param)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &collection_param, &whiteList_param);
 	zephir_get_arrval(&collection, collection_param);
 	zephir_get_arrval(&whiteList, whiteList_param);
-
-
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	zephir_create_closure_ex(&_0, NULL, phalcon_18__closure_ce, SL("__invoke"));
+	zephir_create_closure_ex(&_0, NULL, phalcon_102__closure_ce, SL("__invoke"));
 	ZEPHIR_CALL_METHOD(&filtered, this_ptr, "tofilter", NULL, 0, &whiteList, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_1, "array_flip", NULL, 203, &filtered);
+	ZEPHIR_CALL_FUNCTION(&_1, "array_flip", NULL, 263, &filtered);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("array_intersect_key", NULL, 2, &collection, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_intersect_key", NULL, 8, &collection, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }

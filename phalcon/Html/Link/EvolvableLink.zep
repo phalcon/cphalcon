@@ -10,15 +10,13 @@
 
 namespace Phalcon\Html\Link;
 
-use Psr\Link\EvolvableLinkInterface;
+use Phalcon\Contracts\Html\Link\LinkTypes;
+use Phalcon\Html\Link\Interfaces\EvolvableLinkInterface;
 
 /**
- * Class Phalcon\Http\Link\EvolvableLink
+ * Class Phalcon\Html\Link\EvolvableLink
  *
- * @property array  attributes
- * @property string href
- * @property array  rels
- * @property bool   templated
+ * @phpstan-import-type link_attribute_value from LinkTypes
  */
 class EvolvableLink extends Link implements EvolvableLinkInterface
 {
@@ -28,20 +26,11 @@ class EvolvableLink extends Link implements EvolvableLinkInterface
      * If the specified attribute is already present, it will be overwritten
      * with the new value.
      *
-     * @param string attribute The attribute to include.
-     * @param string value     The value of the attribute to set.
-     *
-     * @return static
+     * @phpstan-param link_attribute_value $value
      */
-    public function withAttribute(var attribute, var value)
+    public function withAttribute(var attribute, var value) -> <static>
     {
-        var newInstance;
-
-        let newInstance = clone this;
-
-        newInstance->attributes->set(attribute, value);
-
-        return newInstance;
+        return this->doWithAttribute(attribute, value);
     }
 
     /**
@@ -58,40 +47,10 @@ class EvolvableLink extends Link implements EvolvableLinkInterface
      *
      * An implementing library SHOULD evaluate a passed object to a string
      * immediately rather than waiting for it to be returned later.
-     *
-     * @return static
      */
-    public function withHref(var href)
+    public function withHref(string href) -> <static>
     {
-        var newInstance;
-
-        let newInstance            = clone this,
-            newInstance->href      = href,
-            newInstance->templated = this->hrefIsTemplated(href);
-
-        return newInstance;
-    }
-
-    /**
-     * Returns an instance with the specified relationship included.
-     *
-     * If the specified rel is already present, this method MUST return
-     * normally without errors, but without adding the rel a second time.
-     *
-     * @param string rel
-     *   The relationship value to add.
-     *
-     * @return static
-     */
-    public function withRel(var rel)
-    {
-        var newInstance;
-
-        let newInstance = clone this;
-
-        newInstance->rels->set(rel, true);
-
-        return newInstance;
+        return this->doWithHref(href);
     }
 
     /**
@@ -99,21 +58,10 @@ class EvolvableLink extends Link implements EvolvableLinkInterface
      *
      * If the specified attribute is not present, this method MUST return
      * normally without errors.
-     *
-     * @param string attribute
-     *   The attribute to remove.
-     *
-     * @return static
      */
-    public function withoutAttribute(var attribute)
+    public function withoutAttribute(string attribute) -> <static>
     {
-        var newInstance;
-
-        let newInstance = clone this;
-
-        newInstance->attributes->remove(attribute);
-
-        return newInstance;
+        return this->doWithoutAttribute(attribute);
     }
 
     /**
@@ -121,20 +69,20 @@ class EvolvableLink extends Link implements EvolvableLinkInterface
      *
      * If the specified rel is not present, this method MUST return
      * normally without errors.
-     *
-     * @param string rel
-     *   The relationship value to exclude.
-     *
-     * @return static
      */
-    public function withoutRel(var rel)
+    public function withoutRel(string rel) -> <static>
     {
-        var newInstance;
+        return this->doWithoutRel(rel);
+    }
 
-        let newInstance = clone this;
-
-        newInstance->rels->remove(rel);
-
-        return newInstance;
+    /**
+     * Returns an instance with the specified relationship included.
+     *
+     * If the specified rel is already present, this method MUST return
+     * normally without errors, but without adding the rel a second time.
+     */
+    public function withRel(string rel) -> <static>
+    {
+        return this->doWithRel(rel);
     }
 }

@@ -12,10 +12,10 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 #include "kernel/array.h"
+#include "kernel/concat.h"
 #include "kernel/fcall.h"
 
 
@@ -29,8 +29,6 @@
  */
 /**
  * Class Line
- *
- * @property string $format
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Line)
 {
@@ -38,51 +36,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Line)
 
 	/**
 	 * Format applied to each message
-	 *
-	 * @var string
 	 */
-	zend_declare_property_null(phalcon_logger_formatter_line_ce, SL("format"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_logger_formatter_line_ce, SL("format"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	return SUCCESS;
-}
-
-/**
- * Format applied to each message
- */
-PHP_METHOD(Phalcon_Logger_Formatter_Line, getFormat)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "format");
-}
-
-/**
- * Format applied to each message
- */
-PHP_METHOD(Phalcon_Logger_Formatter_Line, setFormat)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *format_param = NULL;
-	zval format;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&format);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(format)
-	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &format_param);
-	zephir_get_strval(&format, format_param);
-
-
-	zephir_update_property_zval(this_ptr, ZEND_STRL("format"), &format);
-	RETURN_THIS();
 }
 
 /**
@@ -90,53 +51,88 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, setFormat)
  *
  * @param string $format
  * @param string $dateFormat
+ * @param string $interpolatorLeft
+ * @param string $interpolatorRight
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Line, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *format_param = NULL, *dateFormat_param = NULL;
-	zval format, dateFormat;
+	zval format_zv, dateFormat_zv, interpolatorLeft_zv, interpolatorRight_zv;
+	zend_string *format = NULL, *dateFormat = NULL, *interpolatorLeft = NULL, *interpolatorRight = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&format);
-	ZVAL_UNDEF(&dateFormat);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(0, 2)
+	ZVAL_UNDEF(&format_zv);
+	ZVAL_UNDEF(&dateFormat_zv);
+	ZVAL_UNDEF(&interpolatorLeft_zv);
+	ZVAL_UNDEF(&interpolatorRight_zv);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	static zend_string *_zephir_prop_3 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("format", 6, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("dateFormat", 10, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("interpolatorLeft", 16, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_3)) {
+		_zephir_prop_3 = zend_string_init("interpolatorRight", 17, 1);
+	}
+
+	ZEND_PARSE_PARAMETERS_START(0, 4)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR(format)
 		Z_PARAM_STR(dateFormat)
+		Z_PARAM_STR(interpolatorLeft)
+		Z_PARAM_STR(interpolatorRight)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 2, &format_param, &dateFormat_param);
-	if (!format_param) {
-		ZEPHIR_INIT_VAR(&format);
-		ZVAL_STRING(&format, "[%date%][%level%] %message%");
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (!format) {
+		format = zend_string_init(ZEND_STRL("[%date%][%level%] %message%"), 0);
+		zephir_memory_observe(&format_zv);
+		ZVAL_STR(&format_zv, format);
 	} else {
-		zephir_get_strval(&format, format_param);
+		zephir_memory_observe(&format_zv);
+	ZVAL_STR_COPY(&format_zv, format);
 	}
-	if (!dateFormat_param) {
-		ZEPHIR_INIT_VAR(&dateFormat);
-		ZVAL_STRING(&dateFormat, "c");
+	if (!dateFormat) {
+		dateFormat = zend_string_init(ZEND_STRL("c"), 0);
+		zephir_memory_observe(&dateFormat_zv);
+		ZVAL_STR(&dateFormat_zv, dateFormat);
 	} else {
-		zephir_get_strval(&dateFormat, dateFormat_param);
+		zephir_memory_observe(&dateFormat_zv);
+	ZVAL_STR_COPY(&dateFormat_zv, dateFormat);
 	}
-
-
-	zephir_update_property_zval(this_ptr, ZEND_STRL("format"), &format);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("dateFormat"), &dateFormat);
+	if (!interpolatorLeft) {
+		interpolatorLeft = zend_string_init(ZEND_STRL("%"), 0);
+		zephir_memory_observe(&interpolatorLeft_zv);
+		ZVAL_STR(&interpolatorLeft_zv, interpolatorLeft);
+	} else {
+		zephir_memory_observe(&interpolatorLeft_zv);
+	ZVAL_STR_COPY(&interpolatorLeft_zv, interpolatorLeft);
+	}
+	if (!interpolatorRight) {
+		interpolatorRight = zend_string_init(ZEND_STRL("%"), 0);
+		zephir_memory_observe(&interpolatorRight_zv);
+		ZVAL_STR(&interpolatorRight_zv, interpolatorRight);
+	} else {
+		zephir_memory_observe(&interpolatorRight_zv);
+	ZVAL_STR_COPY(&interpolatorRight_zv, interpolatorRight);
+	}
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 945, &format_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 946, &dateFormat_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 947, &interpolatorLeft_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 948, &interpolatorRight_zv);
 	ZEPHIR_MM_RESTORE();
 }
 
 /**
  * Applies a format to a message before sent it to the internal log
  *
- * @param Item $item
- *
- * @return string
  * @throws Exception
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Line, format)
@@ -144,44 +140,112 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format)
 	zval _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *item, item_sub, message, _0, _2;
+	zval *item, item_sub, message, _0, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&item_sub);
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_7);
+	ZVAL_UNDEF(&_8);
+	ZVAL_UNDEF(&_9);
+	ZVAL_UNDEF(&_10);
+	ZVAL_UNDEF(&_11);
+	ZVAL_UNDEF(&_12);
+	ZVAL_UNDEF(&_13);
 	ZVAL_UNDEF(&_1);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("format", 6, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("interpolatorLeft", 16, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("interpolatorRight", 17, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(item, phalcon_logger_item_ce)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &item);
-
-
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("format"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 945, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_create_array(&_1, 3, 0);
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getformatteddate", NULL, 0, item);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 947, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_2, 948, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_INIT_VAR(&_4);
+	ZEPHIR_CONCAT_VSV(&_4, &_2, "date", &_3);
+	ZEPHIR_CALL_METHOD(&_5, this_ptr, "getformatteddate", NULL, 0, item);
 	zephir_check_call_status();
-	zephir_array_update_string(&_1, SL("%date%"), &_2, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(&_2, item, "getlevelname", NULL, 0);
+	zephir_array_update_zval(&_1, &_4, &_5, PH_COPY);
+	zephir_read_property_cached(&_6, this_ptr, _zephir_prop_1, 947, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_7, this_ptr, _zephir_prop_2, 948, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_INIT_VAR(&_8);
+	ZEPHIR_CONCAT_VSV(&_8, &_6, "level", &_7);
+	ZEPHIR_CALL_METHOD(&_5, item, "getlevelname", NULL, 0);
 	zephir_check_call_status();
-	zephir_array_update_string(&_1, SL("%level%"), &_2, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(&_2, item, "getmessage", NULL, 0);
+	zephir_array_update_zval(&_1, &_8, &_5, PH_COPY);
+	zephir_read_property_cached(&_9, this_ptr, _zephir_prop_1, 947, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_10, this_ptr, _zephir_prop_2, 948, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_INIT_VAR(&_11);
+	ZEPHIR_CONCAT_VSV(&_11, &_9, "message", &_10);
+	ZEPHIR_CALL_METHOD(&_5, item, "getmessage", NULL, 0);
 	zephir_check_call_status();
-	zephir_array_update_string(&_1, SL("%message%"), &_2, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_FUNCTION(&message, "strtr", NULL, 5, &_0, &_1);
+	zephir_array_update_zval(&_1, &_11, &_5, PH_COPY);
+	ZEPHIR_CALL_FUNCTION(&message, "strtr", NULL, 4, &_0, &_1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_2, item, "getcontext", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_5, this_ptr, "getinterpolatedmessage", NULL, 0, item, &message);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "tointerpolate", NULL, 0, &message, &_2);
+	ZEPHIR_CPY_WRT(&message, &_5);
+	ZEPHIR_INIT_VAR(&_12);
+	ZEPHIR_INIT_NVAR(&_12);
+	zephir_create_closure_ex(&_12, NULL, phalcon_89__closure_ce, SL("__invoke"));
+	ZEPHIR_INIT_VAR(&_13);
+	ZVAL_STRING(&_13, "/[\\x00-\\x08\\x0A-\\x1F\\x7F]/");
+	ZEPHIR_RETURN_CALL_FUNCTION("preg_replace_callback", NULL, 0, &_13, &_12, &message);
 	zephir_check_call_status();
 	RETURN_MM();
+}
+
+/**
+ * Return the format applied to each message
+ */
+PHP_METHOD(Phalcon_Logger_Formatter_Line, getFormat)
+{
+
+	RETURN_MEMBER_TYPED(getThis(), "format", IS_STRING);
+}
+
+/**
+ * Set the format applied to each message
+ */
+PHP_METHOD(Phalcon_Logger_Formatter_Line, setFormat)
+{
+	zval format_zv;
+	zend_string *format = NULL;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&format_zv);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("format", 6, 1);
+	}
+
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(format)
+	ZEND_PARSE_PARAMETERS_END();
+	ZVAL_STR(&format_zv, format);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 945, &format_zv);
+	RETURN_THISW();
 }
 

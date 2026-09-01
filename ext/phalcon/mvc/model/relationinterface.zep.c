@@ -62,7 +62,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getIntermediateModel);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getIntermediateReferencedFields);
 /**
  * Returns an option by the specified name
- * If the option doesn't exist null is returned
+ * If the option does not exist null is returned
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getOption);
 /**

@@ -10,9 +10,11 @@
 
 namespace Phalcon\Mvc\Model\Behavior;
 
-use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Behavior;
+use Phalcon\Mvc\Model\Behavior\Exceptions\MissingRequiredOption;
 use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\ModelInterface;
+use Phalcon\Support\Settings;
 
 /**
  * Phalcon\Mvc\Model\Behavior\SoftDelete
@@ -25,7 +27,7 @@ class SoftDelete extends Behavior
     /**
      * Listens for notifications from the models manager
      */
-    public function notify(string! type, <ModelInterface> model)
+    public function notify( string type, <ModelInterface> model)
     {
         var options, value, field, updateModel, message, modelsManager, metaData;
 
@@ -39,14 +41,14 @@ class SoftDelete extends Behavior
          * 'value' is the value to be updated instead of delete the record
          */
         if unlikely !fetch value, options["value"] {
-            throw new Exception("The option 'value' is required");
+            throw new MissingRequiredOption("value");
         }
 
         /**
          * 'field' is the attribute to be updated instead of delete the record
          */
         if unlikely !fetch field, options["field"] {
-            throw new Exception("The option 'field' is required");
+            throw new MissingRequiredOption("field");
         }
 
         /**
@@ -89,7 +91,7 @@ class SoftDelete extends Behavior
          */
         model->writeAttribute(field, value);
 
-        if modelsManager->isKeepingSnapshots(model) && globals_get("orm.update_snapshot_on_save") {
+        if modelsManager->isKeepingSnapshots(model) && Settings::get("orm.update_snapshot_on_save") {
             let metaData = model->getModelsMetaData();
 
             model->setSnapshotData(

@@ -22,6 +22,16 @@
  */
 /**
  * Interface for Phalcon\Cli\Router\Route
+ *
+ * Note: `Phalcon\Cli\Router` always constructs and returns the concrete
+ * `Phalcon\Cli\Router\Route`, and there is no injection point for an externally
+ * built route, so this interface is a marker for type hints rather than an
+ * implementable contract. The fluent route API used in practice -
+ * `beforeMatch()`, `getBeforeMatch()`, `convert()`, and `getConverters()` - is
+ * declared on the concrete `Route` class, not here.
+ *
+ * @phpstan-import-type cli_route_paths from CliTypes
+ * @phpstan-import-type cli_route_reversed_paths from CliTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cli_Router_RouteInterface)
 {
@@ -31,22 +41,26 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_Router_RouteInterface)
 }
 
 /**
+ * Set the routing delimiter
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, delimiter);
+/**
+ * Get routing delimiter
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, getDelimiter);
+/**
+ * Resets the internal route id generator
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, reset);
+/**
  * Replaces placeholders from pattern returning a valid PCRE regular
  * expression
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, compilePattern);
 /**
- * Set the routing delimiter
- */
-ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, delimiter);
-/**
  * Returns the route's pattern
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, getCompiledPattern);
-/**
- * Get routing delimiter
- */
-ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, getDelimiter);
 /**
  * Returns the route's description
  */
@@ -57,6 +71,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, getDescription);
 ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, getName);
 /**
  * Returns the paths
+ *
+ * @phpstan-return cli_route_paths
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, getPaths);
 /**
@@ -65,6 +81,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, getPaths);
 ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, getPattern);
 /**
  * Returns the paths using positions as keys and names as values
+ *
+ * @phpstan-return cli_route_reversed_paths
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, getReversedPaths);
 /**
@@ -74,16 +92,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, getRouteId);
 /**
  * Reconfigure the route adding a new pattern and a set of paths
  *
- * @param string pattern
  * @param array|string|null paths
  *
  * @return void
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, reConfigure);
-/**
- * Resets the internal route id generator
- */
-ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, reset);
 /**
  * Sets the route's description
  */

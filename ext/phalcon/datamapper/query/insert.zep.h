@@ -22,7 +22,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_insert_column, 0, 1, Phalcon\\DataMapper\\Query\\Insert, 0)
 	ZEND_ARG_TYPE_INFO(0, column, IS_STRING, 0)
 	ZEND_ARG_INFO(0, value)
-	ZEND_ARG_TYPE_INFO(0, type, IS_LONG, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, type, IS_LONG, 0, "-1")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_insert_columns, 0, 1, Phalcon\\DataMapper\\Query\\Insert, 0)
@@ -34,7 +34,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_insert_i
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_insert_getlastinsertid, 0, 0, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, name, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_insert_getstatement, 0, 0, IS_STRING, 0)

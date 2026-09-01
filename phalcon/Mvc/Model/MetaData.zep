@@ -13,9 +13,15 @@ namespace Phalcon\Mvc\Model;
 use Phalcon\Cache\Adapter\AdapterInterface as CacheAdapterInterface;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Mvc\Model\MetaData\Exceptions\ContainerRequired;
+use Phalcon\Mvc\Model\MetaData\Exceptions\CorruptedMetaData;
+use Phalcon\Mvc\Model\MetaData\Exceptions\InvalidMetaDataForModel;
+use Phalcon\Mvc\Model\MetaData\Exceptions\MetaDataStrategyFailed;
 use Phalcon\Mvc\Model\MetaData\Strategy\Introspection;
 use Phalcon\Mvc\Model\MetaData\Strategy\StrategyInterface;
 use Phalcon\Mvc\ModelInterface;
+use Phalcon\Support\Settings;
+use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 
 /**
  * Phalcon\Mvc\Model\MetaData
@@ -31,29 +37,113 @@ use Phalcon\Mvc\ModelInterface;
  * $metaData = new \Phalcon\Mvc\Model\MetaData\Memory();
  *
  * $attributes = $metaData->getAttributes(
- *     new Robots()
+ *     new Invoices()
  * );
  *
  * print_r($attributes);
  * ```
+ *
+ * Each model's metadata is stored as two positional arrays addressed by two
+ * constant families. Both families count from 0 and therefore share numeric
+ * values, so a metadata array is only meaningful together with the family that
+ * indexes it. The metadata cache adapters persist these arrays verbatim, so the
+ * slot layout is a stored format: reordering a slot invalidates existing
+ * caches.
+ *
+ * Attribute metadata array (`MODELS_*` family):
+ *
+ * | Slot | Constant                          | Contents                                        |
+ * |------|-----------------------------------|-------------------------------------------------|
+ * | 0    | `MODELS_ATTRIBUTES`               | All mapped attribute (column) names             |
+ * | 1    | `MODELS_PRIMARY_KEY`              | Primary-key attributes                          |
+ * | 2    | `MODELS_NON_PRIMARY_KEY`          | Non-primary-key attributes                      |
+ * | 3    | `MODELS_NOT_NULL`                 | Attributes declared `NOT NULL`                  |
+ * | 4    | `MODELS_DATA_TYPES`               | attribute => column data type                   |
+ * | 5    | `MODELS_DATA_TYPES_NUMERIC`       | Attributes with a numeric type                  |
+ * | 6    | `MODELS_DATE_AT`                  | Reserved (declared, currently unused)           |
+ * | 7    | `MODELS_DATE_IN`                  | Reserved (declared, currently unused)           |
+ * | 8    | `MODELS_IDENTITY_COLUMN`          | The auto-increment identity attribute           |
+ * | 9    | `MODELS_DATA_TYPES_BIND`          | attribute => PDO bind type                      |
+ * | 10   | `MODELS_AUTOMATIC_DEFAULT_INSERT` | Attributes omitted from `INSERT` (DB-defaulted) |
+ * | 11   | `MODELS_AUTOMATIC_DEFAULT_UPDATE` | Attributes omitted from `UPDATE` (DB-defaulted) |
+ * | 12   | `MODELS_DEFAULT_VALUES`           | attribute => default value                      |
+ * | 13   | `MODELS_EMPTY_STRING_VALUES`      | Attributes that keep `''` instead of `NULL`     |
+ *
+ * Column-map array (`MODELS_COLUMN_MAP` family), present only when a column map
+ * is defined:
+ *
+ * | Slot | Constant                    | Contents            |
+ * |------|-----------------------------|---------------------|
+ * | 0    | `MODELS_COLUMN_MAP`         | column => attribute |
+ * | 1    | `MODELS_REVERSE_COLUMN_MAP` | attribute => column |
  */
 abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 {
+    use GetTrait;
+
+    /**
+     * @var int
+     */
     const MODELS_ATTRIBUTES = 0;
+    /**
+     * @var int
+     */
     const MODELS_AUTOMATIC_DEFAULT_INSERT = 10;
+    /**
+     * @var int
+     */
     const MODELS_AUTOMATIC_DEFAULT_UPDATE = 11;
+    /**
+     * @var int
+     */
     const MODELS_COLUMN_MAP = 0;
-    const MODELS_DATE_AT = 6;
-    const MODELS_DATE_IN = 7;
+    /**
+     * @var int
+     */
     const MODELS_DATA_TYPES = 4;
+    /**
+     * @var int
+     */
     const MODELS_DATA_TYPES_BIND = 9;
+    /**
+     * @var int
+     */
     const MODELS_DATA_TYPES_NUMERIC = 5;
+    /**
+     * @var int
+     */
+    const MODELS_DATE_AT = 6;
+    /**
+     * @var int
+     */
+    const MODELS_DATE_IN = 7;
+    /**
+     * @var int
+     */
     const MODELS_DEFAULT_VALUES = 12;
+    /**
+     * @var int
+     */
     const MODELS_EMPTY_STRING_VALUES = 13;
+    /**
+     * @var int
+     */
     const MODELS_IDENTITY_COLUMN = 8;
+    /**
+     * @var int
+     */
     const MODELS_NON_PRIMARY_KEY = 2;
+    /**
+     * @var int
+     */
     const MODELS_NOT_NULL = 3;
+    /**
+     * @var int
+     */
     const MODELS_PRIMARY_KEY = 1;
+    /**
+     * @var int
+     */
     const MODELS_REVERSE_COLUMN_MAP = 1;
 
     /**
@@ -77,9 +167,27 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     protected metaData = [];
 
     /**
+     * Holds metadata index writes that arrived before the model's metadata was
+     * properly initialized (e.g. skipAttributes() called in a parent model's
+     * initialize() while the child's source had not yet been set).  Applied
+     * inside initializeMetaData() after the real schema is loaded.
+     *
+     * @var array
+     */
+    protected pendingMetaDataWrites = [];
+
+    /**
      * @var StrategyInterface|null
      */
     protected strategy = null;
+
+    /**
+     * Return the internal cache adapter
+     */
+    public function getAdapter() -> <CacheAdapterInterface> | null
+    {
+        return this->adapter;
+    }
 
     /**
      * Returns table attributes names (fields)
@@ -87,7 +195,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *```php
      * print_r(
      *     $metaData->getAttributes(
-     *         new Robots()
+     *         new Invoices()
      *     )
      * );
      *```
@@ -99,7 +207,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
         let data = this->readMetaDataIndex(model, self::MODELS_ATTRIBUTES);
 
         if unlikely typeof data != "array" {
-            throw new Exception("The meta-data is invalid or is corrupt");
+            throw new CorruptedMetaData();
         }
 
         return data;
@@ -111,7 +219,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *```php
      * print_r(
      *     $metaData->getAutomaticCreateAttributes(
-     *         new Robots()
+     *         new Invoices()
      *     )
      * );
      *```
@@ -126,7 +234,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
         );
 
         if unlikely typeof data != "array" {
-            throw new Exception("The meta-data is invalid or is corrupt");
+            throw new CorruptedMetaData();
         }
 
         return data;
@@ -138,7 +246,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *```php
      * print_r(
      *     $metaData->getAutomaticUpdateAttributes(
-     *         new Robots()
+     *         new Invoices()
      *     )
      * );
      *```
@@ -153,7 +261,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
         );
 
         if unlikely typeof data != "array" {
-            throw new Exception("The meta-data is invalid or is corrupt");
+            throw new CorruptedMetaData();
         }
 
         return data;
@@ -165,7 +273,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *```php
      * print_r(
      *     $metaData->getBindTypes(
-     *         new Robots()
+     *         new Invoices()
      *     )
      * );
      *```
@@ -180,7 +288,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
         );
 
         if unlikely typeof data != "array" {
-            throw new Exception("The meta-data is invalid or is corrupt");
+            throw new CorruptedMetaData();
         }
 
         return data;
@@ -192,7 +300,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *```php
      * print_r(
      *     $metaData->getColumnMap(
-     *         new Robots()
+     *         new Invoices()
      *     )
      * );
      *```
@@ -204,34 +312,43 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
         let data = this->readColumnMapIndex(model, self::MODELS_COLUMN_MAP);
 
         if unlikely (data !== null && typeof data != "array") {
-            throw new Exception("The meta-data is invalid or is corrupt");
+            throw new CorruptedMetaData();
         }
 
         return data;
     }
 
     /**
-     * Returns attributes (which have default values) and their default values
+     * Returns a ColumnMap Unique key for meta-data is created using className
      *
-     *```php
-     * print_r(
-     *     $metaData->getDefaultValues(
-     *         new Robots()
-     *     )
-     * );
-     *```
+     * @return string
      */
-    public function getDefaultValues(<ModelInterface> model) -> array
+    public final function getColumnMapUniqueKey(<ModelInterface> model) -> string | null
     {
-        var data;
+        string key;
+        let key = get_class_lower(model);
+        if false === isset(this->columnMap[key]) {
+            if false === this->initializeColumnMap(model, key) {
+                return null;
+            }
+        }
+        return key;
+    }
 
-        let data = this->readMetaDataIndex(model, self::MODELS_DEFAULT_VALUES);
+    /**
+     * Returns the DependencyInjector container
+     */
+    public function getDI() -> <DiInterface>
+    {
+        var container;
 
-        if unlikely typeof data != "array" {
-            throw new Exception("The meta-data is invalid or is corrupt");
+        let container = <DiInterface> this->container;
+
+        if typeof container != "object" {
+            throw new ContainerRequired();
         }
 
-        return data;
+        return container;
     }
 
     /**
@@ -240,7 +357,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *```php
      * print_r(
      *     $metaData->getDataTypes(
-     *         new Robots()
+     *         new Invoices()
      *     )
      * );
      *```
@@ -252,7 +369,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
         let data = this->readMetaDataIndex(model, self::MODELS_DATA_TYPES);
 
         if unlikely typeof data != "array" {
-            throw new Exception("The meta-data is invalid or is corrupt");
+            throw new CorruptedMetaData();
         }
 
         return data;
@@ -264,7 +381,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *```php
      * print_r(
      *     $metaData->getDataTypesNumeric(
-     *         new Robots()
+     *         new Invoices()
      *     )
      * );
      *```
@@ -279,28 +396,34 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
         );
 
         if unlikely typeof data != "array" {
-            throw new Exception("The meta-data is invalid or is corrupt");
+            throw new CorruptedMetaData();
         }
 
         return data;
     }
 
     /**
-     * Returns the DependencyInjector container
+     * Returns attributes (which have default values) and their default values
+     *
+     *```php
+     * print_r(
+     *     $metaData->getDefaultValues(
+     *         new Invoices()
+     *     )
+     * );
+     *```
      */
-    public function getDI() -> <DiInterface>
+    public function getDefaultValues(<ModelInterface> model) -> array
     {
-        var container;
+        var data;
 
-        let container = <DiInterface> this->container;
+        let data = this->readMetaDataIndex(model, self::MODELS_DEFAULT_VALUES);
 
-        if typeof container != "object" {
-            throw new Exception(
-                "A dependency injection container is required to access internal services"
-            );
+        if unlikely typeof data != "array" {
+            throw new CorruptedMetaData();
         }
 
-        return container;
+        return data;
     }
 
     /**
@@ -309,7 +432,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *```php
      * print_r(
      *     $metaData->getEmptyStringAttributes(
-     *         new Robots()
+     *         new Invoices()
      *     )
      * );
      *```
@@ -324,7 +447,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
         );
 
         if unlikely typeof data != "array" {
-            throw new Exception("The meta-data is invalid or is corrupt");
+            throw new CorruptedMetaData();
         }
 
         return data;
@@ -336,14 +459,52 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *```php
      * print_r(
      *     $metaData->getIdentityField(
-     *         new Robots()
+     *         new Invoices()
      *     )
      * );
      *```
      */
-    public function getIdentityField(<ModelInterface> model) -> string | null
+    public function getIdentityField(<ModelInterface> model) -> bool | string | null
     {
         return this->readMetaDataIndex(model, self::MODELS_IDENTITY_COLUMN);
+    }
+
+    /**
+     * Returns a MetaData Unique key for meta-data is created using className
+     *
+     * @return string
+     */
+    public final function getMetaDataUniqueKey(<ModelInterface> model) -> string | null
+    {
+        string key;
+        let key = get_class_lower(model);
+        if false === isset(this->metaData[key]) {
+            if false === this->initializeMetaData(model, key) {
+                return null;
+            }
+        }
+        return key;
+    }
+
+    /**
+     * Returns the model UniqueID based on model and array row primary key(s) value(s)
+     */
+    public function getModelUUID(<ModelInterface> model, array row) -> string | null
+    {
+        var pks, uuid, pk;
+
+        let pks = this->readMetaDataIndex(model, self::MODELS_PRIMARY_KEY);
+        if null === pks {
+            return null;
+        }
+
+        let uuid = get_class(model);
+
+        for pk in pks {
+            let uuid = uuid . ":" . row[pk];
+        }
+
+        return uuid;
     }
 
     /**
@@ -352,7 +513,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *```php
      * print_r(
      *     $metaData->getNonPrimaryKeyAttributes(
-     *         new Robots()
+     *         new Invoices()
      *     )
      * );
      *```
@@ -364,7 +525,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
         let data = this->readMetaDataIndex(model, self::MODELS_NON_PRIMARY_KEY);
 
         if unlikely typeof data != "array" {
-            throw new Exception("The meta-data is invalid or is corrupt");
+            throw new CorruptedMetaData();
         }
 
         return data;
@@ -376,7 +537,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *```php
      * print_r(
      *     $metaData->getNotNullAttributes(
-     *         new Robots()
+     *         new Invoices()
      *     )
      * );
      *```
@@ -388,7 +549,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
         let data = this->readMetaDataIndex(model, self::MODELS_NOT_NULL);
 
         if unlikely typeof data != "array" {
-            throw new Exception("The meta-data is invalid or is corrupt");
+            throw new CorruptedMetaData();
         }
 
         return data;
@@ -400,7 +561,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *```php
      * print_r(
      *     $metaData->getPrimaryKeyAttributes(
-     *         new Robots()
+     *         new Invoices()
      *     )
      * );
      *```
@@ -412,7 +573,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
         let data = this->readMetaDataIndex(model, self::MODELS_PRIMARY_KEY);
 
         if unlikely typeof data != "array" {
-            throw new Exception("The meta-data is invalid or is corrupt");
+            throw new CorruptedMetaData();
         }
 
         return data;
@@ -424,7 +585,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *```php
      * print_r(
      *     $metaData->getReverseColumnMap(
-     *         new Robots()
+     *         new Invoices()
      *     )
      * );
      *```
@@ -439,7 +600,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
         );
 
         if unlikely (data !== null && typeof data != "array") {
-            throw new Exception("The meta-data is invalid or is corrupt");
+            throw new CorruptedMetaData();
         }
 
         return data;
@@ -463,7 +624,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *```php
      * var_dump(
      *     $metaData->hasAttribute(
-     *         new Robots(),
+     *         new Invoices(),
      *         "name"
      *     )
      * );
@@ -476,10 +637,10 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
         let columnMap = this->getReverseColumnMap(model);
 
         if typeof columnMap == "array" {
-            return isset columnMap[attribute];
+            return isset(columnMap[attribute]);
         }
 
-        return isset this->readMetaData(model)[self::MODELS_DATA_TYPES][attribute];
+        return isset(this->readMetaData(model)[self::MODELS_DATA_TYPES][attribute]);
     }
 
     /**
@@ -493,13 +654,21 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      */
     public function isEmpty() -> bool
     {
-        return count(this->metaData) == 0;
+        return empty this->metaData;
+    }
+
+    /**
+     * Compares if two models are the same in memory
+     */
+    public function modelEquals(<ModelInterface> first, <ModelInterface> other) -> bool
+    {
+        return spl_object_id(first) === spl_object_id(other);
     }
 
     /**
      * Reads metadata from the adapter
      */
-    public function read(string! key) -> array | null
+    public function read(var key) -> array | null
     {
         return this->adapter->get(key);
     }
@@ -510,28 +679,23 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *```php
      * print_r(
      *     $metaData->readColumnMap(
-     *         new Robots()
+     *         new Invoices()
      *     )
      * );
      *```
      */
     final public function readColumnMap(<ModelInterface> model) -> array | null
     {
-        var keyName, data;
+        var keyName;
 
-        if !globals_get("orm.column_renaming") {
+        if !Settings::get("orm.column_renaming") {
             return null;
         }
-
-        let keyName = get_class_lower(model);
-
-        if !fetch data, this->columnMap[keyName] {
-            this->initialize(model, null, null, null);
-
-            let data = this->columnMap[keyName];
+        let keyName = this->getColumnMapUniqueKey(model);
+        if likely keyName !== null {
+            return this->columnMap[keyName];
         }
-
-        return data;
+        return null;
     }
 
     /**
@@ -540,31 +704,24 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *```php
      * print_r(
      *     $metaData->readColumnMapIndex(
-     *         new Robots(),
+     *         new Invoices(),
      *         MetaData::MODELS_REVERSE_COLUMN_MAP
      *     )
      * );
      *```
      */
-    final public function readColumnMapIndex(<ModelInterface> model, int index)
+    final public function readColumnMapIndex(<ModelInterface> model, int index) -> array | null
     {
-        var keyName, columnMapModel, map;
+        var keyName;
 
-        if !globals_get("orm.column_renaming") {
+        if !Settings::get("orm.column_renaming") {
             return null;
         }
-
-        let keyName = get_class_lower(model);
-
-        if !fetch columnMapModel, this->columnMap[keyName] {
-            this->initialize(model, null, null, null);
-
-            let columnMapModel = this->columnMap[keyName];
+        let keyName = this->getColumnMapUniqueKey(model);
+        if likely keyName !== null {
+            return this->columnMap[keyName][index];
         }
-
-        fetch map, columnMapModel[index];
-
-        return map;
+        return null;
     }
 
     /**
@@ -573,29 +730,19 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *```php
      * print_r(
      *     $metaData->readMetaData(
-     *         new Robots()
+     *         new Invoices()
      *     )
      * );
      *```
      */
-    final public function readMetaData(<ModelInterface> model) -> array
+    final public function readMetaData(<ModelInterface> model) -> array | null
     {
-        var source, schema;
-        string key;
-
-        let source = model->getSource(),
-            schema = model->getSchema();
-
-        /*
-         * Unique key for meta-data is created using class-name-schema-source
-         */
-        let key = get_class_lower(model) . "-" . schema . source;
-
-        if !isset this->metaData[key] {
-            this->initialize(model, key, source, schema);
+        var key;
+        let key = this->getMetaDataUniqueKey(model);
+        if likely key !== null {
+            return this->metaData[key];
         }
-
-        return this->metaData[key];
+        return null;
     }
 
     /**
@@ -604,30 +751,20 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *```php
      * print_r(
      *     $metaData->readMetaDataIndex(
-     *         new Robots(),
+     *         new Invoices(),
      *         0
      *     )
      * );
      *```
      */
-    final public function readMetaDataIndex(<ModelInterface> model, int index)
+    final public function readMetaDataIndex(<ModelInterface> model, int index) -> array | string | null
     {
-        var source, schema;
-        string key;
-
-        let source = model->getSource(),
-            schema = model->getSchema();
-
-        /*
-         * Unique key for meta-data is created using class-name-schema-source
-         */
-        let key = get_class_lower(model) . "-" . schema . source;
-
-        if !isset this->metaData[key][index] {
-            this->initialize(model, key, source, schema);
+        var key;
+        let key = this->getMetaDataUniqueKey(model);
+        if likely key !== null {
+            return this->metaData[key][index];
         }
-
-        return this->metaData[key][index];
+        return null;
     }
 
     /**
@@ -639,8 +776,9 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      */
     public function reset() -> void
     {
-        let this->metaData = [],
-            this->columnMap = [];
+        let this->metaData             = [],
+            this->columnMap            = [],
+            this->pendingMetaDataWrites = [];
     }
 
     /**
@@ -648,7 +786,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *
      *```php
      * $metaData->setAutomaticCreateAttributes(
-     *     new Robots(),
+     *     new Invoices(),
      *     [
      *         "created_at" => true,
      *     ]
@@ -669,7 +807,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *
      *```php
      * $metaData->setAutomaticUpdateAttributes(
-     *     new Robots(),
+     *     new Invoices(),
      *     [
      *         "modified_at" => true,
      *     ]
@@ -686,11 +824,19 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     }
 
     /**
+     * Sets the DependencyInjector container
+     */
+    public function setDI(<DiInterface> container) -> void
+    {
+        let this->container = container;
+    }
+
+    /**
      * Set the attributes that allow empty string values
      *
      *```php
      * $metaData->setEmptyStringAttributes(
-     *     new Robots(),
+     *     new Invoices(),
      *     [
      *         "name" => true,
      *     ]
@@ -707,14 +853,6 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     }
 
     /**
-     * Sets the DependencyInjector container
-     */
-    public function setDI(<DiInterface> container) -> void
-    {
-        let this->container = container;
-    }
-
-    /**
      * Set the meta-data extraction strategy
      */
     public function setStrategy(<StrategyInterface> strategy) -> void
@@ -725,13 +863,14 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     /**
      * Writes the metadata to adapter
      */
-    public function write(string! key, array data) -> void
+    public function write( string key, array data) -> void
     {
         var result, option;
 
+        let option = Settings::get("orm.exception_on_failed_metadata_save");
+
         try {
-            let option = globals_get("orm.exception_on_failed_metadata_save"),
-                result = this->adapter->set(key, data);
+            let result = this->adapter->set(key, data);
 
             if false === result {
                 this->throwWriteException(option);
@@ -747,7 +886,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *```php
      * print_r(
      *     $metaData->writeColumnMapIndex(
-     *         new Robots(),
+     *         new Invoices(),
      *         MetaData::MODELS_REVERSE_COLUMN_MAP,
      *         [
      *             "leName" => "name",
@@ -758,44 +897,99 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      */
     final public function writeMetaDataIndex(<ModelInterface> model, int index, var data) -> void
     {
-        var source, schema;
         string key;
+        let key = get_class_lower(model);
 
-        if unlikely (typeof data != "array" && typeof data != "string" && typeof data != "boolean") {
-            throw new Exception("Invalid data for index");
+        if isset(this->metaData[key]) {
+            let this->metaData[key][index] = data;
+        } else {
+            if !isset(this->pendingMetaDataWrites[key]) {
+                let this->pendingMetaDataWrites[key] = [];
+            }
+            let this->pendingMetaDataWrites[key][index] = data;
+        }
+    }
+
+    /**
+     * Initialize old behavior for compatability
+     */
+    final protected function initialize(<ModelInterface> model, var key, var table, var schema)
+    {
+        this->initializeMetaData(model, key);
+        this->initializeColumnMap(model, key);
+    }
+
+    /**
+     * Initialize ColumnMap for a certain table
+     */
+    final protected function initializeColumnMap(<ModelInterface> model, key) -> bool
+    {
+        var strategy, data, modelColumnMap, container;
+        string prefixKey;
+
+        if unlikely key === null {
+            return false;
         }
 
-        let source = model->getSource(),
-            schema = model->getSchema();
-
-        /*
-         * Unique key for meta-data is created using class-name-schema-table
+        /**
+         * Check for a column map, store in columnMap in order and reversed order
          */
-        let key = get_class_lower(model) . "-" . schema . source;
-
-        if !isset this->metaData[key] {
-            this->initialize(model, key, source, schema);
+        if !Settings::get("orm.column_renaming") {
+            return false;
         }
 
-        let this->metaData[key][index] = data;
+        if true === isset(this->columnMap[key]) {
+            return true;
+        }
+
+        /**
+         * Create the map key name
+         * Check if the meta-data is already in the adapter
+         */
+        let prefixKey = "map-" . key,
+            data = this->{"read"}(prefixKey);
+
+        if data !== null {
+            let this->columnMap[key] = data;
+
+            return true;
+        }
+
+        /**
+         * Get the meta-data extraction strategy
+         */
+
+        let container = this->getDI(),
+            strategy = this->getStrategy();
+
+        /**
+         * Get the meta-data
+         * Update the column map locally
+         */
+        let modelColumnMap = strategy->getColumnMaps(model, container),
+            this->columnMap[key] = modelColumnMap;
+
+        /**
+         * Write the data to the adapter
+         */
+        this->{"write"}(prefixKey, modelColumnMap);
+        return true;
     }
 
     /**
      * Initialize the metadata for certain table
      */
-    final protected function initialize(<ModelInterface> model, var key, var table, var schema)
+    final protected function initializeMetaData(<ModelInterface> model, var key) -> bool
     {
-        var strategy, className, metaData, data, modelMetadata, modelColumnMap,
-            container, keyName;
+        var strategy, metaData, data, modelMetadata, container;
         string prefixKey;
 
-        let strategy = null,
-            className = get_class(model);
+        let strategy = null;
 
-        if key !== null {
+        if likely key !== null {
             let metaData = this->metaData;
 
-            if !isset metaData[key] {
+            if false === isset(metaData[key]) {
                 /**
                  * The meta-data is read from the adapter always if not available in metaData property
                  */
@@ -812,9 +1006,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
                         let modelMetadata = model->{"metaData"}();
 
                         if unlikely typeof modelMetadata != "array" {
-                            throw new Exception(
-                                "Invalid meta-data for model " . className
-                            );
+                            throw new InvalidMetaDataForModel(get_class(model));
                         }
                     } else {
                         /**
@@ -838,54 +1030,24 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
                      */
                     this->{"write"}(prefixKey, modelMetadata);
                 }
+
+                /**
+                 * Apply any metadata index writes that were buffered before
+                 * this model's metadata was properly initialized (e.g. from
+                 * skipAttributes() called during a parent model's initialize()
+                 * while the child's source had not yet been set).
+                 */
+                if isset(this->pendingMetaDataWrites[key]) {
+                    var pendingIndex, pendingData;
+                    for pendingIndex, pendingData in this->pendingMetaDataWrites[key] {
+                        let this->metaData[key][pendingIndex] = pendingData;
+                    }
+                    unset(this->pendingMetaDataWrites[key]);
+                }
             }
+            return true;
         }
-
-        /**
-         * Check for a column map, store in columnMap in order and reversed order
-         */
-        if !globals_get("orm.column_renaming") {
-            return null;
-        }
-
-        let keyName = strtolower(className);
-
-        if isset this->columnMap[keyName] {
-            return null;
-        }
-
-        /**
-         * Create the map key name
-         * Check if the meta-data is already in the adapter
-         */
-        let prefixKey = "map-" . keyName,
-            data = this->{"read"}(prefixKey);
-
-        if data !== null {
-            let this->columnMap[keyName] = data;
-
-            return null;
-        }
-
-        /**
-         * Get the meta-data extraction strategy
-         */
-        if typeof strategy != "object" {
-            let container = this->getDI(),
-                strategy = this->getStrategy();
-        }
-
-        /**
-         * Get the meta-data
-         * Update the column map locally
-         */
-        let modelColumnMap = strategy->getColumnMaps(model, container),
-            this->columnMap[keyName] = modelColumnMap;
-
-        /**
-         * Write the data to the adapter
-         */
-        this->{"write"}(prefixKey, modelColumnMap);
+        return false;
     }
 
     /**
@@ -898,26 +1060,9 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
         let message = "Failed to store metaData to the cache adapter";
 
         if option {
-            throw new Exception(message);
+            throw new MetaDataStrategyFailed(message);
         } else {
             trigger_error(message);
         }
-    }
-
-    /**
-     * @todo Remove this when we get traits
-     */
-    protected function getArrVal(
-        array! collection,
-        var index,
-        var defaultValue = null
-    ) -> var {
-        var value;
-
-        if unlikely !fetch value, collection[index] {
-            return defaultValue;
-        }
-
-        return value;
     }
 }

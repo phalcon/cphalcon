@@ -15,5 +15,31 @@ namespace Phalcon\Di;
  */
 class Exception extends \Exception
 {
+    public static function serviceCannotBeResolved(string name) -> <Exception>
+    {
+        return new Exception(
+            "Service '" . name . "' cannot be resolved"
+        );
+    }
 
+    public static function serviceNotFound(string name) -> <Exception>
+    {
+        return new Exception(
+            "Service '" . name . "' is not registered in the container"
+        );
+    }
+
+    public static function unknownServiceInParameter(int position) -> <Exception>
+    {
+        return new Exception(
+            "Unknown service type in parameter on position " . position
+        );
+    }
+
+    public static function undefinedMethod(string method) -> <Exception>
+    {
+        return new Exception(
+            "Call to undefined method or service '" . method . "'"
+        );
+    }
 }

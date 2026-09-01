@@ -18,7 +18,9 @@
 #include <php_main.h>
 #include <main/php_streams.h>
 #include <ext/standard/file.h>
+#if PHP_VERSION_ID < 80500
 #include <ext/standard/php_smart_string.h>
+#endif
 #include <ext/standard/php_filestat.h>
 #include <ext/standard/php_string.h>
 
@@ -65,7 +67,13 @@ int zephir_file_exists(zval *filename)
 		return FAILURE;
 	}
 
+#if PHP_VERSION_ID >= 80100
+	zend_string *file = zend_string_init(Z_STRVAL_P(filename), Z_STRLEN_P(filename), 0);
+	php_stat(file, FS_EXISTS, &return_value);
+	zend_string_release(file);
+#else
 	php_stat(Z_STRVAL_P(filename), (php_stat_len) Z_STRLEN_P(filename), FS_EXISTS, &return_value);
+#endif
 
 	if (Z_TYPE(return_value) != IS_TRUE) {
 		return FAILURE;
@@ -170,7 +178,7 @@ int zephir_fclose(zval *stream_zval)
 	}
 
 	if ((stream->flags & PHP_STREAM_FLAG_NO_FCLOSE) != 0) {
-		php_error_docref(NULL, E_WARNING, "%d is not a valid stream resource", stream->res->handle);
+		php_error_docref(NULL, E_WARNING, ZEND_LONG_FMT " is not a valid stream resource", (zend_long) stream->res->handle);
 		return 0;
 	}
 
@@ -183,7 +191,7 @@ void zephir_file_get_contents(zval *return_value, zval *filename)
 {
 	zend_string *contents;
 	php_stream *stream;
-	long maxlen = PHP_STREAM_COPY_ALL;
+	size_t maxlen = PHP_STREAM_COPY_ALL;
 	zval *zcontext = NULL;
 	php_stream_context *context = NULL;
 
@@ -288,7 +296,13 @@ void zephir_file_put_contents(zval *return_value, zval *filename, zval *data)
 void zephir_filemtime(zval *return_value, zval *path)
 {
 	if (EXPECTED(Z_TYPE_P(path) == IS_STRING)) {
+#if PHP_VERSION_ID >= 80100
+		zend_string *file = zend_string_init(Z_STRVAL_P(path), Z_STRLEN_P(path), 0);
+		php_stat(file, FS_MTIME, return_value);
+		zend_string_release(file);
+#else
 		php_stat(Z_STRVAL_P(path), (php_stat_len)(Z_STRLEN_P(path)), FS_MTIME, return_value);
+#endif
 	} else {
 		ZVAL_FALSE(return_value);
 	}
@@ -339,7 +353,7 @@ void zephir_prepare_virtual_path(zval *return_value, zval *path, zval *virtual_s
  */
 void zephir_unique_path_key(zval *return_value, zval *path)
 {
-	unsigned long h;
+	zend_ulong h;
 	char *strKey;
 
 	if (Z_TYPE_P(path) != IS_STRING) {
@@ -349,7 +363,7 @@ void zephir_unique_path_key(zval *return_value, zval *path)
 	h = zend_hash_func(Z_STRVAL_P(path), Z_STRLEN_P(path) + 1);
 
 	strKey = emalloc(24);
-	sprintf(strKey, "v%lu", h);
+	snprintf(strKey, 24, "v" ZEND_ULONG_FMT, h);
 
 	RETVAL_STRING(strKey);
 	efree(strKey);

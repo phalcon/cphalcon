@@ -12,10 +12,6 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
-#include "kernel/operators.h"
-#include "kernel/memory.h"
 #include "kernel/object.h"
 
 
@@ -28,8 +24,14 @@
  * file that was distributed with this source code.
  */
 /**
- * Minify the CSS - removes comments removes newlines and line feeds keeping
- * removes last semicolon from last property
+ * Filter intended to minify CSS content (remove comments, newlines, and line
+ * feeds, and drop the last semicolon of the last property).
+ *
+ * > NOTE: This functionality is not currently available; `filter()` returns
+ * > the content unchanged.
+ *
+ * @deprecated Use Phalcon\Assets\Filters\None, or a custom
+ *             Phalcon\Assets\FilterInterface wrapping a real CSS minifier.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Filters_Cssmin)
 {
@@ -41,37 +43,17 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Filters_Cssmin)
 
 /**
  * Filters the content using CSSMIN
- * NOTE: This functionality is not currently available
  */
 PHP_METHOD(Phalcon_Assets_Filters_Cssmin, filter)
 {
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *content_param = NULL;
-	zval content;
-	zval *this_ptr = getThis();
+	zval content_zv;
+	zend_string *content = NULL;
 
-	ZVAL_UNDEF(&content);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	ZVAL_UNDEF(&content_zv);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(content)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &content_param);
-	if (UNEXPECTED(Z_TYPE_P(content_param) != IS_STRING && Z_TYPE_P(content_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'content' must be of the type string"));
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(content_param) == IS_STRING)) {
-		zephir_get_strval(&content, content_param);
-	} else {
-		ZEPHIR_INIT_VAR(&content);
-	}
-
-
-	RETURN_CTOR(&content);
+	ZVAL_STR(&content_zv, content);
+	RETURN_STR(zend_string_copy(content));
 }
 

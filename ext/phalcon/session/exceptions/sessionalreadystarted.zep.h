@@ -1,0 +1,14 @@
+
+extern zend_class_entry *phalcon_session_exceptions_sessionalreadystarted_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Session_Exceptions_SessionAlreadyStarted);
+
+PHP_METHOD(Phalcon_Session_Exceptions_SessionAlreadyStarted, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_exceptions_sessionalreadystarted___construct, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_session_exceptions_sessionalreadystarted_method_entry) {
+PHP_ME(Phalcon_Session_Exceptions_SessionAlreadyStarted, __construct, arginfo_phalcon_session_exceptions_sessionalreadystarted___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};

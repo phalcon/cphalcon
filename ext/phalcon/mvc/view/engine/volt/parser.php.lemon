@@ -150,9 +150,18 @@
 		} else {
 			status->syntax_error = NULL;
 		}
+
+		/* The message was copied; release the builder buffer. */
+		smart_str_free(&error_str);
 	}
 
 	status->status = PHVOLT_PARSING_FAILED;
+}
+
+%stack_overflow {
+	status->status = PHVOLT_PARSING_FAILED;
+	status->syntax_error_len = strlen("Parsing failed, the template expression is nested too deeply");
+	status->syntax_error = estrndup("Parsing failed, the template expression is nested too deeply", status->syntax_error_len);
 }
 
 %token_destructor {
@@ -250,7 +259,7 @@ statement(R) ::= autoescape_statement(E) . {
 	R = E;
 }
 
-statement(R) ::= raw_statement(E) . {
+statement(R) ::= verbatim_statement(E) . {
 	R = E;
 }
 
@@ -475,8 +484,12 @@ cache_lifetime(R) ::= IDENTIFIER(I) . {
 	phvolt_ret_literal_zval(&R, PHVOLT_T_IDENTIFIER, I, status->scanner_state);
 }
 
-raw_statement(R) ::= OPEN_DELIMITER RAW CLOSE_DELIMITER statement(T) OPEN_DELIMITER ENDRAW CLOSE_DELIMITER . {
-	phvolt_ret_raw_statement(&R, &T, status->scanner_state);
+verbatim_statement(R) ::= OPEN_DELIMITER VERBATIM CLOSE_DELIMITER raw_fragment(F) OPEN_DELIMITER ENDVERBATIM CLOSE_DELIMITER . {
+	R = F;
+}
+
+verbatim_statement(R) ::= OPEN_DELIMITER VERBATIM CLOSE_DELIMITER OPEN_DELIMITER ENDVERBATIM CLOSE_DELIMITER . {
+	phvolt_ret_literal_zval(&R, PHVOLT_T_RAW_FRAGMENT, NULL, status->scanner_state);
 }
 
 extends_statement(R) ::= OPEN_DELIMITER EXTENDS expr(S) CLOSE_DELIMITER . {

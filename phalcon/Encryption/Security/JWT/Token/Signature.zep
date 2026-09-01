@@ -11,7 +11,7 @@
 namespace Phalcon\Encryption\Security\JWT\Token;
 
 /**
- * Class Item
+ * Signature class containing the encoded data and the hash.
  */
 class Signature extends AbstractItem
 {
@@ -21,7 +21,7 @@ class Signature extends AbstractItem
      * @param string $hash
      * @param string $encoded
      */
-    public function __construct(string! hash = "", string! encoded = "")
+    public function __construct( string hash = "",  string encoded = "")
     {
         let this->data["encoded"] = encoded,
             this->data["hash"]    = hash;

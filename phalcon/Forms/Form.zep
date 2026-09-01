@@ -12,20 +12,38 @@ namespace Phalcon\Forms;
 
 use Countable;
 use Iterator;
-use Phalcon\Di\Injectable;
+use Phalcon\Contracts\Forms\FormsTypes;
+use Phalcon\Contracts\Forms\Schema;
+use Phalcon\Contracts\Html\HtmlTypes;
 use Phalcon\Di\DiInterface;
+use Phalcon\Di\Injectable;
 use Phalcon\Filter\FilterInterface;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\ValidationInterface;
+use Phalcon\Forms\Element\Check;
 use Phalcon\Forms\Element\ElementInterface;
+use Phalcon\Forms\Exceptions\ElementNotInForm;
+use Phalcon\Forms\Exceptions\InvalidEntity;
+use Phalcon\Forms\Exceptions\NoFormElements;
 use Phalcon\Html\Attributes;
 use Phalcon\Html\Attributes\AttributesInterface;
 use Phalcon\Html\TagFactory;
 use Phalcon\Messages\Messages;
+use Phalcon\Support\Settings;
 use Phalcon\Tag;
-use Phalcon\Filter\Validation;
-use Phalcon\Filter\Validation\ValidationInterface;
 
 /**
  * This component allows to build forms using an object-oriented interface
+ *
+ * @phpstan-import-type forms_data from FormsTypes
+ * @phpstan-import-type forms_elements from FormsTypes
+ * @phpstan-import-type forms_elements_indexed from FormsTypes
+ * @phpstan-import-type forms_options from FormsTypes
+ * @phpstan-import-type forms_schema_definition from FormsTypes
+ * @phpstan-import-type forms_whitelist from FormsTypes
+ * @phpstan-import-type html_attributes from HtmlTypes
+ *
+ * @implements Iterator<int, ElementInterface>
  */
 class Form extends Injectable implements Countable, Iterator, AttributesInterface
 {
@@ -33,69 +51,48 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      * @var AttributesInterface|null
      */
     protected attributes = null;
-
     /**
-     * @var array
+     * @phpstan-var forms_data
      */
-    protected data = [];
-
+    protected array data = [];
     /**
-     * @var array
+     * @phpstan-var forms_elements
      */
-    protected filteredData = [];
-
+    protected array elements = [];
     /**
-     * @var array
+     * @phpstan-var forms_elements_indexed
      */
-    protected elements = [];
-
-    /**
-     * @var array
-     */
-    protected elementsIndexed = [];
-
+    protected array elementsIndexed = [];
     /**
      * @var object|null
      */
     protected entity = null;
-
     /**
-     * @var Messages|array|null
+     * @phpstan-var forms_data
      */
-    protected messages = null;
-
+    protected array filteredData = [];
+    protected <Messages> messages;
     /**
-     * @var int
+     * @phpstan-var forms_options
      */
-    protected position = 0;
-
+    protected array options = [];
+    protected int position = 0;
+    protected ?<TagFactory> tagFactory = null;
+    protected ?<ValidationInterface> validation = null;
     /**
-     * @var array
+     * @phpstan-var forms_whitelist
      */
-    protected options = [];
-
-    /**
-     * @var TagFactory|null
-     */
-    protected tagFactory = null;
-
-    /**
-     * @var ValidationInterface|null
-     */
-    protected validation = null { get };
-
-    /**
-     * @var array
-     */
-    protected whitelist = [] { get };
+    protected array whitelist = [];
 
     /**
      * Phalcon\Forms\Form constructor
+     *
+     * @phpstan-param forms_options $userOptions
      */
     public function __construct(var entity = null, array userOptions = [])
     {
         if unlikely (entity !== null && typeof entity != "object") {
-            throw new Exception("The base entity is not valid");
+            throw new InvalidEntity();
         }
 
         let this->entity = entity;
@@ -106,9 +103,10 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         let this->options = userOptions;
 
         /**
-        * Set form attributes
-        */
-        let this->attributes = new Attributes();
+         * Set form attributes/messages
+         */
+        let this->attributes = new Attributes(),
+            this->messages   = new Messages();
 
         /**
          * Check for an 'initialize' method and call it
@@ -121,8 +119,11 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Adds an element to the form
      */
-    public function add(<ElementInterface> element, string position = null, bool type = null) -> <Form>
-    {
+    public function add(
+        <ElementInterface> element,
+        string position = null,
+        bool type = null
+    ) -> <static> {
         var name, key, value;
         array elements;
 
@@ -182,21 +183,53 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Binds data to the entity
      *
-     * @param object entity
-     * @param array whitelist
+     * @phpstan-param forms_data      $data
+     * @param object|null             $entity
+     * @phpstan-param forms_whitelist $whitelist
      */
-    public function bind(array! data, var entity = null, array whitelist = []) -> <Form>
-    {
-        var filter, key, value, element, filters, container, filteredValue;
+    public function bind(
+        array data,
+        var entity = null,
+        array whitelist = []
+    ) -> <static> {
+        var filter, key, value, element, candidate, filters, container, filteredValue;
+        var elementName, dataKey;
         array assignData, filteredData;
         string method;
 
         if unlikely empty this->elements {
-            throw new Exception("There are no elements in the form");
+            throw new NoFormElements();
+        }
+
+        /**
+         * Check if there is a method 'beforeBind'
+         */
+        if method_exists(this, "beforeBind") {
+            if this->{"beforeBind"}(data, entity) === false {
+                return this;
+            }
         }
 
         if empty whitelist {
             let whitelist = this->whitelist;
+        }
+
+        /**
+         * Unchecked checkboxes are absent from POST data. For any Check
+         * element that opted in via setUncheckedValue(), inject the
+         * registered value so the existing bind loop applies it to the
+         * entity. See cphalcon issue #16982.
+         */
+        for elementName, element in this->elements {
+            if element instanceof Check && element->hasUncheckedValue() {
+                let dataKey = element->getAttribute("name");
+                if dataKey === null {
+                    let dataKey = elementName;
+                }
+                if !array_key_exists(dataKey, data) {
+                    let data[dataKey] = element->getUncheckedValue();
+                }
+            }
         }
 
         let filter = null;
@@ -208,7 +241,18 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
              * Get the element
              */
             if !fetch element, this->elements[key] {
-                continue;
+                let element = null;
+
+                for candidate in this->elements {
+                    if candidate->getAttribute("name") === key {
+                        let element = candidate;
+                        break;
+                    }
+                }
+
+                if element === null {
+                    continue;
+                }
             }
 
             /**
@@ -252,14 +296,29 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
                 }
 
                 /**
-                 * Use the public property if it doesn't have a setter
+                 * Use the public property if it does not have a setter
                  */
-                let entity->{key} = filteredValue;
+                if (!Settings::get("form.strict_entity_property_check")) {
+                    let entity->{key} = filteredValue;
+
+                    continue;
+                }
+
+                if (property_exists(entity, key)) {
+                    let entity->{key} = filteredValue;
+                }
             }
         }
 
         let this->data = assignData;
         let this->filteredData = filteredData;
+
+        /**
+         * Check if there is a method 'afterBind'
+         */
+        if method_exists(this, "afterBind") {
+            this->{"afterBind"}(entity);
+        }
 
         return this;
     }
@@ -267,13 +326,13 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Clears every element in the form to its default value
      *
-     * @param array|string|null fields
+     * @phpstan-param array<array-key, string>|string|null $fields
      */
-    public function clear(var fields = null) -> <Form>
+    public function clear(var fields = null) -> <static>
     {
         var elements, element, data, field;
 
-        let data = this->data,
+        let data     = this->data,
             elements = this->elements;
 
         /**
@@ -281,11 +340,11 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
          * If it's array, clear only fields in array.
          * If null, clear all
          */
-        if fields === null {
+        if null === fields {
             let data = [];
 
             for element in elements {
-                element->clear();
+                let data[element->getName()] = element->getDefault();
             }
         } else {
             if typeof fields != "array" {
@@ -293,12 +352,18 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             }
 
             for field in fields {
-                if isset data[field] {
+                /**
+                 * array_key_exists() is used so a stored `null` value is
+                 * still recognized as present and unset before the default
+                 * is assigned (post-5.13.0 Zephir `isset` returns false on
+                 * null) [#17042].
+                 */
+                if array_key_exists(field, data) {
                     unset data[field];
                 }
 
                 if fetch element, elements[field] {
-                    element->clear();
+                    let data[element->getName()] = element->getDefault();
                 }
             }
         }
@@ -318,8 +383,10 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
 
     /**
      * Returns the current element in the iterator
+     *
+     * @psalm-suppress LessSpecificImplementedReturnType
      */
-    public function current() -> <ElementInterface> | bool
+    public function current() -> mixed
     {
         var element;
 
@@ -333,14 +400,12 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Returns an element added to the form by its name
      */
-    public function get(string! name) -> <ElementInterface>
+    public function get( string name) -> <ElementInterface>
     {
         var element;
 
         if unlikely !fetch element, this->elements[name] {
-            throw new Exception(
-                "Element with ID=" . name . " is not part of the form"
-            );
+            throw new ElementNotInForm(name);
         }
 
         return element;
@@ -377,7 +442,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Returns the entity related to the model
      *
-     * @return object
+     * @return object|null
      */
     public function getEntity()
     {
@@ -387,7 +452,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Gets a value from the internal filtered data or calls getValue(name)
      */
-    public function getFilteredValue(string! name) -> var | null
+    public function getFilteredValue( string name) -> var | null
     {
         var filteredData, value;
 
@@ -408,14 +473,12 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Returns a label for an element
      */
-    public function getLabel(string! name) -> string
+    public function getLabel( string name) -> string
     {
         var element, label;
 
         if unlikely !fetch element, this->elements[name] {
-            throw new Exception(
-                "Element with ID=" . name . " is not part of the form"
-            );
+            throw new ElementNotInForm(name);
         }
 
         let label = element->getLabel();
@@ -443,23 +506,15 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      * }
      * ```
      */
-    public function getMessages() -> <Messages> | array
+    public function getMessages() -> <Messages>
     {
-        var messages;
-
-        let messages = this->messages;
-
-        if !(typeof messages == "object" && messages instanceof Messages) {
-            return new Messages();
-        }
-
-        return messages;
+        return this->messages;
     }
 
     /**
      * Returns the messages generated for a specific element
      */
-    public function getMessagesFor(string! name) -> <Messages>
+    public function getMessagesFor( string name) -> <Messages>
     {
         if !this->has(name) {
             return new Messages();
@@ -492,6 +547,8 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
 
     /**
      * Returns the options for the element
+     *
+     * @phpstan-return forms_options
      */
     public function getUserOptions() -> array
     {
@@ -499,16 +556,24 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     }
 
     /**
+     * return ValidationInterface|null
+     */
+    public function getValidation() -> <ValidationInterface> | null
+    {
+        return this->validation;
+    }
+
+    /**
      * Gets a value from the internal related entity or from the default value
      */
-    public function getValue(string! name) -> var | null
+    public function getValue( string name) -> var | null
     {
         var entity, value, data, internalEntity, element;
         array forbidden;
         string method;
 
         let entity = this->entity;
-        let data = this->data;
+        let data   = this->data;
 
         /**
          * Check if form has a getter
@@ -543,21 +608,28 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             }
         }
 
+        /**
+         * Check if the name is in the _POST superglobal
+         */
+        if fetch value, _POST[name] {
+            return value;
+        }
+
         let forbidden = [
-            "attributes":    true,
-            "validation":    true,
             "action":        true,
-            "useroption":    true,
-            "useroptions":   true,
-            "entity":        true,
+            "attributes":    true,
+            "di":            true,
             "elements":      true,
+            "entity":        true,
+            "eventsmanager": true,
+            "label":         true,
             "messages":      true,
             "messagesfor":   true,
-            "label":         true,
-            "value":         true,
-            "di":            true,
             "tagFactory":    true,
-            "eventsmanager": true
+            "useroption":    true,
+            "useroptions":   true,
+            "validation":    true,
+            "value":         true
         ];
 
         /**
@@ -587,9 +659,17 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     }
 
     /**
+     * @phpstan-return forms_whitelist
+     */
+    public function getWhitelist() -> array
+    {
+        return this->whitelist;
+    }
+
+    /**
      * Check if the form contains an element
      */
-    public function has(string! name) -> bool
+    public function has( string name) -> bool
     {
         /**
          * Checks if the element is in the form
@@ -600,7 +680,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Check if messages were generated for a specific element
      */
-    public function hasMessagesFor(string! name) -> bool
+    public function hasMessagesFor( string name) -> bool
     {
         return this->getMessagesFor(name)->count() > 0;
     }
@@ -608,9 +688,9 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Validates the form
      *
-     * @param array data
-     * @param object entity
-     * @param array whitelist
+     * @phpstan-param forms_data      $data
+     * @phpstan-param object|null     $entity
+     * @phpstan-param forms_whitelist $whitelist
      */
     public function isValid(var data = null, var entity = null, array whitelist = []) -> bool
     {
@@ -634,7 +714,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         }
 
         /**
-         * If the user doesn't pass an entity we use the one in this_ptr->entity
+         * If the user does not pass an entity we use the one in this_ptr->entity
          */
         if typeof entity != "object" && typeof this->entity == "object" {
             let entity = this->entity;
@@ -663,7 +743,12 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         for element in this->elements {
             let validators = element->getValidators();
 
-            if count(validators) == 0 {
+            /**
+             * Get filters in the element
+             */
+            let filters = element->getFilters();
+
+            if empty validators && empty filters {
                 continue;
             }
 
@@ -673,16 +758,11 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             let name = element->getName();
 
             /**
-            * Append (not overriding) element validators to validation class
-            */
+             * Append (not overriding) element validators to validation class
+             */
             for validator in validators {
                 validation->add(name, validator);
             }
-
-            /**
-             * Get filters in the element
-             */
-            let filters = element->getFilters();
 
             /**
              * Assign the filters to the validation
@@ -693,9 +773,10 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         }
 
         /**
-        * Perform the validation
-        */
-        let messages = validation->validate(data, entity);
+         * Perform the validation
+         */
+        validation->validate(data, entity);
+        let messages = validation->getMessages();
         if messages->count() {
             // Add validation messages to relevant elements
             for elementMessage in iterator(messages) {
@@ -737,18 +818,61 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
 
     /**
      * Generate the label of an element added to the form including HTML
+     *
+     * @phpstan-param html_attributes $attributes
      */
-    public function label(string! name, array attributes = null) -> string
+    public function label( string name, array attributes = []) -> string
     {
         var element;
 
         if unlikely !fetch element, this->elements[name] {
-            throw new Exception(
-                "Element with ID=" . name . " is not part of the form"
-            );
+            throw new ElementNotInForm(name);
         }
 
         return element->label(attributes);
+    }
+
+    /**
+     * Loads elements into the form from a Schema source.
+     *
+     * Each definition in the schema must have at least 'type' and 'name'.
+     * The locator resolves the type string to an element factory; custom
+     * types can be registered on the locator with setElement().
+     *
+     * @throws Exception
+     */
+    public function load(<Schema> schema, <FormsLocator> locator) -> <static>
+    {
+        var attributes, definition, element, factory, name, options, type;
+
+        for definition in schema->load() {
+            let type       = strtolower((string) definition["type"]),
+                name       = (string) definition["name"],
+                attributes = isset definition["attributes"] ? (array) definition["attributes"] : [],
+                options    = isset definition["options"]    ? (array) definition["options"]    : [],
+                factory    = locator->getElement(type),
+                element    = {factory}(name, options, attributes);
+
+            if isset definition["label"] && !empty definition["label"] {
+                element->setLabel((string) definition["label"]);
+            }
+
+            if array_key_exists("default", definition) {
+                element->setDefault(definition["default"]);
+            }
+
+            if isset definition["filters"] && !empty definition["filters"] {
+                element->setFilters(definition["filters"]);
+            }
+
+            if isset definition["validators"] && !empty definition["validators"] {
+                element->addValidators(definition["validators"]);
+            }
+
+            this->add(element);
+        }
+
+        return this;
     }
 
     /**
@@ -760,25 +884,9 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     }
 
     /**
-     * Renders a specific item in the form
-     */
-    public function render(string! name, array attributes = []) -> string
-    {
-        var element;
-
-        if unlikely !fetch element, this->elements[name] {
-            throw new Exception(
-                "Element with ID=" . name . " is not part of the form"
-            );
-        }
-
-        return element->render(attributes);
-    }
-
-    /**
      * Removes an element from the form
      */
-    public function remove(string! name) -> bool
+    public function remove( string name) -> bool
     {
         /**
          * Checks if the element is in the form
@@ -792,9 +900,25 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         /**
          * Clean the iterator index
          */
-        let this->elementsIndexed = null;
+        let this->elementsIndexed = [];
 
         return false;
+    }
+
+    /**
+     * Renders a specific item in the form
+     *
+     * @phpstan-param html_attributes $attributes
+     */
+    public function render( string name, array attributes = []) -> string
+    {
+        var element;
+
+        if unlikely !fetch element, this->elements[name] {
+            throw new ElementNotInForm(name);
+        }
+
+        return element->render(attributes);
     }
 
     /**
@@ -810,9 +934,8 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Sets the form's action
      *
-     * @return Form
      */
-    public function setAction(string! action) -> <Form>
+    public function setAction( string action) -> <static>
     {
         this->getAttributes()->set("action", action);
 
@@ -820,9 +943,9 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     }
 
     /**
-    * Set form attributes collection
-    */
-    public function setAttributes(<Attributes> attributes) -> <AttributesInterface>
+     * Set form attributes collection
+     */
+    public function setAttributes(<Attributes> attributes) -> <static>
     {
         let this->attributes = attributes;
 
@@ -832,9 +955,9 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Sets the entity related to the model
      *
-     * @param object entity
+     * @param object $entity
      */
-    public function setEntity(var entity) -> <Form>
+    public function setEntity(var entity) -> <static>
     {
         let this->entity = entity;
 
@@ -844,9 +967,31 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Sets the tagFactory for the form
      */
-    public function setTagFactory(<TagFactory> tagFactory) -> <Form>
+    public function setTagFactory(<TagFactory> tagFactory) -> <static>
     {
         let this->tagFactory = tagFactory;
+
+        return this;
+    }
+
+    /**
+     * Sets an option for the form
+     */
+    public function setUserOption(string option, var value) -> <static>
+    {
+        let this->options[option] = value;
+
+        return this;
+    }
+
+    /**
+     * Sets options for the element
+     *
+     * @phpstan-param forms_options $options
+     */
+    public function setUserOptions( array options) -> <static>
+    {
+        let this->options = options;
 
         return this;
     }
@@ -856,7 +1001,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      *
      * @param ValidationInterface validation
      */
-    public function setValidation(<ValidationInterface> validation) -> <Form>
+    public function setValidation(<ValidationInterface> validation) -> <static>
     {
         let this->validation = validation;
 
@@ -866,31 +1011,11 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Sets the default whitelist
      *
-     * @param array whitelist
+     * @phpstan-param forms_whitelist $whitelist
      */
-    public function setWhitelist(array whitelist) -> <Form>
+    public function setWhitelist(array whitelist) -> <static>
     {
         let this->whitelist = whitelist;
-
-        return this;
-    }
-
-    /**
-     * Sets an option for the form
-     */
-    public function setUserOption(string option, var value) -> <Form>
-    {
-        let this->options[option] = value;
-
-        return this;
-    }
-
-    /**
-     * Sets options for the element
-     */
-    public function setUserOptions(array! options) -> <Form>
-    {
-        let this->options = options;
 
         return this;
     }

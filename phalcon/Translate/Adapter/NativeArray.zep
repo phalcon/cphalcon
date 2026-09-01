@@ -10,59 +10,48 @@
 
 namespace Phalcon\Translate\Adapter;
 
-use ArrayAccess;
+use Phalcon\Contracts\Translate\TranslateTypes;
 use Phalcon\Translate\Exception;
+use Phalcon\Translate\Exceptions\InvalidDataType;
+use Phalcon\Translate\Exceptions\MissingContent;
 use Phalcon\Translate\InterpolatorFactory;
 
 /**
- * Class NativeArray
- *
  * Defines translation lists using PHP arrays
  *
- * @package Phalcon\Translate\Adapter
- *
- * @property array $translate
- * @property bool  $triggerError
+ * @phpstan-import-type translate_array_options from TranslateTypes
+ * @phpstan-import-type translate_data from TranslateTypes
+ * @phpstan-import-type translate_placeholders from TranslateTypes
  */
-class NativeArray extends AbstractAdapter implements ArrayAccess
+class NativeArray extends AbstractAdapter
 {
     /**
-     * @var array
+     * @phpstan-var translate_data
      */
-    private translate = [];
-
-    /**
-     * @var bool
-     */
-    private triggerError = false;
+    private array translate = [];
 
     /**
      * NativeArray constructor.
      *
-     * @param InterpolatorFactory $interpolator
-     * @param array               $options = [
-     *                                'content'      => '',
-     *                                'triggerError' => false
-     *                            ]
+     * @phpstan-param translate_array_options $options
      *
-     * @throws Exception
+     * @throws InvalidDataType
+     * @throws MissingContent
      */
-    public function __construct(<InterpolatorFactory> interpolator, array! options)
-    {
-        var data, error;
+    public function __construct(
+        <InterpolatorFactory> interpolator,
+        array options
+    ) {
+        var data;
 
         parent::__construct(interpolator, options);
 
         if unlikely !fetch data, options["content"] {
-            throw new Exception("Translation content was not provided");
-        }
-
-        if fetch error, options["triggerError"] {
-            let this->triggerError = (bool) error;
+            throw new MissingContent();
         }
 
         if unlikely typeof data !== "array" {
-            throw new Exception("Translation data must be an array");
+            throw new InvalidDataType();
         }
 
         let this->translate = data;
@@ -71,55 +60,29 @@ class NativeArray extends AbstractAdapter implements ArrayAccess
     /**
      * Check whether is defined a translation key in the internal array
      *
-     * @param string $index
-     *
-     * @return bool
      * @deprecated
      */
-    public function exists(string! index) -> bool
+    public function exists(string index) -> bool
     {
         return this->has(index);
     }
 
     /**
      * Check whether is defined a translation key in the internal array
-     *
-     * @param string $index
-     *
-     * @return bool
      */
-    public function has(string! index) -> bool
+    public function has(string index) -> bool
     {
         return isset this->translate[index];
     }
 
     /**
-     * Whenever a key is not found this method will be called
-     *
-     * @param string $index
-     *
-     * @return string
-     * @throws Exception
-     */
-    public function notFound(string! index) -> string
-    {
-        if unlikely (true === this->triggerError) {
-            throw new Exception("Cannot find translation key: " . index);
-        }
-
-        return index;
-    }
-
-    /**
      * Returns the translation related to the given key
      *
-     * @param string $index
-     * @param array  $placeholders
+     * @phpstan-param translate_placeholders $placeholders
      *
-     * @return string
      * @throws Exception
      */
-    public function query(string! translateKey, array placeholders = []) -> string
+    public function query(string translateKey, array placeholders = []) -> string
     {
         var translation;
 
@@ -128,5 +91,15 @@ class NativeArray extends AbstractAdapter implements ArrayAccess
         }
 
         return this->replacePlaceholders(translation, placeholders);
+    }
+
+    /**
+     * Returns the internal array
+     *
+     * @phpstan-return translate_data
+     */
+    public function toArray() -> array
+    {
+        return this->translate;
     }
 }

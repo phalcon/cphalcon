@@ -15,18 +15,11 @@
 
 namespace Phalcon\DataMapper\Pdo\Connection;
 
-use Phalcon\DataMapper\Pdo\Exception\CannotBindValue;
-use Phalcon\DataMapper\Pdo\Parser\ParserInterface;
 use Phalcon\DataMapper\Pdo\Profiler\ProfilerInterface;
 
 /**
  * Provides array quoting, profiling, a new `perform()` method, new `fetch*()`
  * methods
- *
- * @property array             $args
- * @property PDO               $pdo
- * @property ProfilerInterface $profiler
- * @property array             $quote
  */
 interface ConnectionInterface extends PdoInterface
 {

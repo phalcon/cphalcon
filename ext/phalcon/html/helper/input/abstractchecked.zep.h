@@ -1,0 +1,36 @@
+
+extern zend_class_entry *phalcon_html_helper_input_abstractchecked_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_AbstractChecked);
+
+PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, __toString);
+PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, label);
+PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, strict);
+PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, processChecked);
+PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, processUnchecked);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_input_abstractchecked___tostring, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_html_helper_input_abstractchecked_label, 0, 0, MAY_BE_STATIC)
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_html_helper_input_abstractchecked_strict, 0, 0, MAY_BE_STATIC)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, flag, _IS_BOOL, 0, "true")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_input_abstractchecked_processchecked, 0, 0, IS_VOID, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_input_abstractchecked_processunchecked, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_html_helper_input_abstractchecked_method_entry) {
+PHP_ME(Phalcon_Html_Helper_Input_AbstractChecked, __toString, arginfo_phalcon_html_helper_input_abstractchecked___tostring, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Html_Helper_Input_AbstractChecked, label, arginfo_phalcon_html_helper_input_abstractchecked_label, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Html_Helper_Input_AbstractChecked, strict, arginfo_phalcon_html_helper_input_abstractchecked_strict, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Html_Helper_Input_AbstractChecked, processChecked, arginfo_phalcon_html_helper_input_abstractchecked_processchecked, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Html_Helper_Input_AbstractChecked, processUnchecked, arginfo_phalcon_html_helper_input_abstractchecked_processunchecked, ZEND_ACC_PROTECTED)
+	PHP_FE_END
+};

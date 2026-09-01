@@ -1,54 +1,50 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 
 namespace Phalcon\Html\Helper\Input;
 
+use Phalcon\Contracts\Html\HtmlTypes;
 use Phalcon\Html\Helper\AbstractHelper;
+use Phalcon\Html\Helper\Doctype;
 
 /**
  * Class AbstractInput
  *
- * @property array  $attributes
- * @property string $type
- * @property string $value
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 abstract class AbstractInput extends AbstractHelper
 {
     /**
-     * @var string
+     * @phpstan-var html_attributes
      */
-    protected type = "text";
+    protected array attributes = [];
+    protected string type = "text";
 
     /**
-     * @var array
-     */
-    protected attributes = [];
-
-    /**
-     * @param string      $name
-     * @param string|null $value
-     * @param array       $attributes
-     *
-     * @return AbstractInput
+     * @phpstan-param html_attributes $attributes
      */
     public function __invoke(
         string name,
         string value = null,
         array attributes = []
-    ) -> <AbstractInput> {
+    ) -> <static> {
         let this->attributes = [
             "type" : this->type,
             "name" : name
         ];
 
-        if !isset attributes["id"] {
+        if !isset attributes["id"] && !memstr(name, "[") {
             let this->attributes["id"] = name;
         }
 
@@ -61,33 +57,33 @@ abstract class AbstractInput extends AbstractHelper
 
     /**
      * Returns the HTML for the input.
-     *
-     * @return string
      */
     public function __toString()
     {
-        array attributes;
+        var closeTag, output;
 
-        let attributes       = this->attributes,
-            this->attributes = [];
+        let closeTag = "";
+        if null !== this->doctype && this->doctype->getType() > Doctype::HTML5 {
+            let closeTag = "/";
+        }
 
-        return this->renderTag(
+        let output = this->renderTag(
             "input",
-            attributes,
-            "/"
+            this->attributes,
+            closeTag
         );
+
+        let this->attributes = [];
+
+        return output;
     }
 
     /**
      * Sets the value of the element
-     *
-     * @param string|null $value
-     *
-     * @return AbstractInput
      */
-    public function setValue(string value = null) -> <AbstractInput>
+    public function setValue(string value = null) -> <static>
     {
-        if is_numeric(value) || !empty(value)  {
+        if value !== null {
             let this->attributes["value"] = value;
         }
 

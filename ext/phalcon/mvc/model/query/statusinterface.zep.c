@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Model\Query\StatusInterface
- *
  * Interface for Phalcon\Mvc\Model\Query\Status
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_StatusInterface)

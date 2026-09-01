@@ -14,12 +14,12 @@
 #include "kernel/main.h"
 #include "kernel/concat.h"
 #include "kernel/operators.h"
-#include "kernel/memory.h"
 #include "kernel/object.h"
+#include "kernel/memory.h"
 
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -28,6 +28,7 @@
  */
 /**
  * Prefixes the text with the supplied prefix
+ * @todo v7 make text string
  */
 ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_Prefix)
 {
@@ -37,37 +38,29 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_Prefix)
 }
 
 /**
- * @param mixed  $text
- * @param string $prefix
- *
- * @return string
+ * @param scalar|Stringable|null $text
  */
 PHP_METHOD(Phalcon_Support_Helper_Str_Prefix, __invoke)
 {
+	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval prefix, _0;
-	zval *text, text_sub, *prefix_param = NULL;
-	zval *this_ptr = getThis();
+	zend_string *prefix = NULL;
+	zval *text, text_sub, prefix_zv;
 
 	ZVAL_UNDEF(&text_sub);
-	ZVAL_UNDEF(&prefix);
+	ZVAL_UNDEF(&prefix_zv);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_ZVAL(text)
 		Z_PARAM_STR(prefix)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &text, &prefix_param);
-	zephir_get_strval(&prefix, prefix_param);
-
-
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	text = ZEND_CALL_ARG(execute_data, 1);
+	zephir_memory_observe(&prefix_zv);
+	ZVAL_STR_COPY(&prefix_zv, prefix);
 	zephir_cast_to_string(&_0, text);
-	ZEPHIR_CONCAT_VV(return_value, &prefix, &_0);
+	ZEPHIR_CONCAT_VV(return_value, &prefix_zv, &_0);
 	RETURN_MM();
 }
 

@@ -12,12 +12,10 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
-#include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
-#include "kernel/filter.h"
-#include "kernel/array.h"
+#include "kernel/fcall.h"
+#include "kernel/object.h"
+#include "kernel/operators.h"
 
 
 /**
@@ -27,6 +25,10 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 /**
  * Phalcon\Html\Escaper
@@ -34,433 +36,533 @@
  * Escapes different kinds of text securing them. By using this component you
  * may prevent XSS attacks.
  *
+ * The class is a façade over five per-context escapers (`HtmlEscaper`,
+ * `AttributeEscaper`, `CssEscaper`, `JsEscaper`, `UrlEscaper`). Each can be
+ * retrieved via the matching `getXxxEscaper()` accessor and substituted via
+ * the matching `setXxxEscaper()` setter. The legacy `setEncoding`,
+ * `setFlags`, and `setDoubleEncode` continue to fan out to all sub-objects
+ * so existing code keeps working.
+ *
  * This component only works with UTF-8. The PREG extension needs to be compiled
  * with UTF-8 support.
  *
  *```php
  * $escaper = new \Phalcon\Html\Escaper();
  *
- * $escaped = $escaper->escapeCss("font-family: <Verdana>");
+ * $escaped = $escaper->css("font-family: <Verdana>");
  *
  * echo $escaped; // font\2D family\3A \20 \3C Verdana\3E
  *```
+ *
+ * @phpstan-import-type html_escaper_input from HtmlTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Escaper)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Html, Escaper, phalcon, html_escaper, phalcon_html_escaper_method_entry, 0);
 
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_bool(phalcon_html_escaper_ce, SL("doubleEncode"), 1, ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_html_escaper_ce, SL("encoding"), "utf-8", ZEND_ACC_PROTECTED);
-	/**
-	 * ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401
-	 *
-	 * @var int
-	 */
-	zend_declare_property_long(phalcon_html_escaper_ce, SL("flags"), 11, ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_html_escaper_ce, SL("attributeEscaper"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Html\\Escaper\\AttributeEscaper"));
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_html_escaper_ce, SL("cssEscaper"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Html\\Escaper\\CssEscaper"));
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_html_escaper_ce, SL("htmlEscaper"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Html\\Escaper\\HtmlEscaper"));
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_html_escaper_ce, SL("jsEscaper"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Html\\Escaper\\JsEscaper"));
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_html_escaper_ce, SL("urlEscaper"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Html\\Escaper\\UrlEscaper"));
+	}
+
 	zend_class_implements(phalcon_html_escaper_ce, 1, phalcon_html_escaper_escaperinterface_ce);
 	return SUCCESS;
 }
 
 /**
+ * Constructor. Accepts the legacy scalar params for backward compatibility
+ * and fans them out to every sub-escaper so existing code keeps working.
  */
-PHP_METHOD(Phalcon_Html_Escaper, getEncoding)
+PHP_METHOD(Phalcon_Html_Escaper, __construct)
 {
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_bool doubleEncode;
+	zend_long flags, ZEPHIR_LAST_CALL_STATUS;
+	zval encoding_zv, *flags_param = NULL, *doubleEncode_param = NULL, _0, _1, _2, _3, _4, _5, _6$$4, _7$$5;
+	zend_string *encoding = NULL;
 	zval *this_ptr = getThis();
 
+	ZVAL_UNDEF(&encoding_zv);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_6$$4);
+	ZVAL_UNDEF(&_7$$5);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	static zend_string *_zephir_prop_3 = NULL;
+	static zend_string *_zephir_prop_4 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("attributeEscaper", 16, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("cssEscaper", 10, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("htmlEscaper", 11, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_3)) {
+		_zephir_prop_3 = zend_string_init("jsEscaper", 9, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_4)) {
+		_zephir_prop_4 = zend_string_init("urlEscaper", 10, 1);
+	}
 
+	ZEND_PARSE_PARAMETERS_START(0, 3)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR(encoding)
+		Z_PARAM_LONG(flags)
+		Z_PARAM_BOOL(doubleEncode)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (ZEND_NUM_ARGS() > 1) {
+		flags_param = ZEND_CALL_ARG(execute_data, 2);
+	}
+	if (ZEND_NUM_ARGS() > 2) {
+		doubleEncode_param = ZEND_CALL_ARG(execute_data, 3);
+	}
+	if (!encoding) {
+		encoding = zend_string_init(ZEND_STRL("utf-8"), 0);
+		zephir_memory_observe(&encoding_zv);
+		ZVAL_STR(&encoding_zv, encoding);
+	} else {
+		zephir_memory_observe(&encoding_zv);
+	ZVAL_STR_COPY(&encoding_zv, encoding);
+	}
+	if (!flags_param) {
+		flags = 11;
+	} else {
+		}
+	if (!doubleEncode_param) {
+		doubleEncode = 1;
+	} else {
+		}
+	ZEPHIR_INIT_VAR(&_0);
+	object_init_ex(&_0, phalcon_html_escaper_attributeescaper_ce);
+	if (zephir_has_constructor(&_0)) {
+		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
+		zephir_check_call_status();
+	}
 
-	RETURN_MEMBER(getThis(), "encoding");
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 807, &_0);
+	ZEPHIR_INIT_VAR(&_1);
+	object_init_ex(&_1, phalcon_html_escaper_cssescaper_ce);
+	if (zephir_has_constructor(&_1)) {
+		ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 0);
+		zephir_check_call_status();
+	}
+
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 808, &_1);
+	ZEPHIR_INIT_VAR(&_2);
+	object_init_ex(&_2, phalcon_html_escaper_htmlescaper_ce);
+	if (zephir_has_constructor(&_2)) {
+		ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 0);
+		zephir_check_call_status();
+	}
+
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 809, &_2);
+	ZEPHIR_INIT_VAR(&_3);
+	object_init_ex(&_3, phalcon_html_escaper_jsescaper_ce);
+	if (zephir_has_constructor(&_3)) {
+		ZEPHIR_CALL_METHOD(NULL, &_3, "__construct", NULL, 0);
+		zephir_check_call_status();
+	}
+
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 810, &_3);
+	ZEPHIR_INIT_VAR(&_4);
+	object_init_ex(&_4, phalcon_html_escaper_urlescaper_ce);
+	if (zephir_has_constructor(&_4)) {
+		ZEPHIR_CALL_METHOD(NULL, &_4, "__construct", NULL, 0);
+		zephir_check_call_status();
+	}
+
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 811, &_4);
+	ZEPHIR_INIT_VAR(&_5);
+	ZVAL_STRING(&_5, "utf-8");
+	if (!ZEPHIR_IS_IDENTICAL(&_5, &encoding_zv)) {
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setencoding", NULL, 0, &encoding_zv);
+		zephir_check_call_status();
+	}
+	if (11 != flags) {
+		ZVAL_LONG(&_6$$4, flags);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setflags", NULL, 0, &_6$$4);
+		zephir_check_call_status();
+	}
+	if (doubleEncode != 1) {
+		if (doubleEncode) {
+			ZVAL_BOOL(&_7$$5, 1);
+		} else {
+			ZVAL_BOOL(&_7$$5, 0);
+		}
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setdoubleencode", NULL, 0, &_7$$5);
+		zephir_check_call_status();
+	}
+	ZEPHIR_MM_RESTORE();
 }
 
 /**
- * ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401
- */
-PHP_METHOD(Phalcon_Html_Escaper, getFlags)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "flags");
-}
-
-/**
- * Escapes a HTML attribute string
+ * Escapes a HTML attribute string or array. Delegates to `AttributeEscaper`.
  *
- * @param string $input
- *
- * @return string
+ * @phpstan-param html_escaper_input $input
  */
 PHP_METHOD(Phalcon_Html_Escaper, attributes)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *input_param = NULL, _0, _1, _2;
-	zval input;
+	zval *input = NULL, input_sub, __$null, _0;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&input);
+	ZVAL_UNDEF(&input_sub);
+	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
-#if PHP_VERSION_ID >= 80000
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("attributeEscaper", 16, 1);
+	}
+
 	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(input)
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL_OR_NULL(input)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &input_param);
-	zephir_get_strval(&input, input_param);
-
-
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("encoding"), PH_NOISY_CC | PH_READONLY);
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("doubleEncode"), PH_NOISY_CC | PH_READONLY);
-	ZVAL_LONG(&_2, 3);
-	ZEPHIR_RETURN_CALL_FUNCTION("htmlspecialchars", NULL, 337, &input, &_2, &_0, &_1);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 0, 1, &input);
+	if (!input) {
+		input = &input_sub;
+		input = &__$null;
+	}
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 807, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "escape", NULL, 0, input);
 	zephir_check_call_status();
 	RETURN_MM();
 }
 
 /**
- * Escape CSS strings by replacing non-alphanumeric chars by their
- * hexadecimal escaped representation
- *
- * @param string $input
- *
- * @return string
+ * Escape CSS strings. Delegates to `CssEscaper`.
  */
 PHP_METHOD(Phalcon_Html_Escaper, css)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *input_param = NULL, _0;
-	zval input;
+	zval input_zv, _0;
+	zend_string *input = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&input);
+	ZVAL_UNDEF(&input_zv);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("cssEscaper", 10, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(input)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &input_param);
-	zephir_get_strval(&input, input_param);
-
-
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "normalizeencoding", NULL, 339, &input);
-	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "doescapecss", NULL, 340, &_0);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&input_zv);
+	ZVAL_STR_COPY(&input_zv, input);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 808, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "escape", NULL, 0, &input_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
 
 /**
- * Detect the character encoding of a string to be handled by an encoder.
- * Special-handling for chr(172) and chr(128) to chr(159) which fail to be
- * detected by mb_detect_encoding()
- *
- * @param string $input
- *
- * @return string|null
+ * Detects the character encoding of a string. Delegates to `HtmlEscaper`.
  */
 PHP_METHOD(Phalcon_Html_Escaper, detectEncoding)
 {
-	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_5 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *input_param = NULL, __$true, charset, _1, *_2, _3, _4$$5, _6$$7;
-	zval input;
+	zval input_zv, _0;
+	zend_string *input = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&input);
-	ZVAL_BOOL(&__$true, 1);
-	ZVAL_UNDEF(&charset);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_4$$5);
-	ZVAL_UNDEF(&_6$$7);
+	ZVAL_UNDEF(&input_zv);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("htmlEscaper", 11, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(input)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &input_param);
-	zephir_get_strval(&input, input_param);
-
-
-	ZEPHIR_INIT_VAR(&charset);
-	zephir_is_basic_charset(&charset, &input);
-	if (Z_TYPE_P(&charset) == IS_STRING) {
-		RETURN_CCTOR(&charset);
-	}
-	if (!((zephir_function_exists_ex(ZEND_STRL("mb_detect_encoding")) == SUCCESS))) {
-		RETURN_MM_NULL();
-	}
-	ZEPHIR_INIT_VAR(&_0);
-	zephir_create_array(&_0, 4, 0);
-	ZEPHIR_INIT_VAR(&_1);
-	ZVAL_STRING(&_1, "UTF-32");
-	zephir_array_fast_append(&_0, &_1);
-	ZEPHIR_INIT_NVAR(&_1);
-	ZVAL_STRING(&_1, "UTF-8");
-	zephir_array_fast_append(&_0, &_1);
-	ZEPHIR_INIT_NVAR(&_1);
-	ZVAL_STRING(&_1, "ISO-8859-1");
-	zephir_array_fast_append(&_0, &_1);
-	ZEPHIR_INIT_NVAR(&_1);
-	ZVAL_STRING(&_1, "ASCII");
-	zephir_array_fast_append(&_0, &_1);
-	zephir_is_iterable(&_0, 0, "phalcon/Html/Escaper.zep", 127);
-	if (Z_TYPE_P(&_0) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _2)
-		{
-			ZEPHIR_INIT_NVAR(&charset);
-			ZVAL_COPY(&charset, _2);
-			ZEPHIR_CALL_FUNCTION(&_4$$5, "mb_detect_encoding", &_5, 341, &input, &charset, &__$true);
-			zephir_check_call_status();
-			if (!ZEPHIR_IS_FALSE_IDENTICAL(&_4$$5)) {
-				RETURN_CCTOR(&charset);
-			}
-		} ZEND_HASH_FOREACH_END();
-	} else {
-		ZEPHIR_CALL_METHOD(NULL, &_0, "rewind", NULL, 0);
-		zephir_check_call_status();
-		while (1) {
-			ZEPHIR_CALL_METHOD(&_3, &_0, "valid", NULL, 0);
-			zephir_check_call_status();
-			if (!zend_is_true(&_3)) {
-				break;
-			}
-			ZEPHIR_CALL_METHOD(&charset, &_0, "current", NULL, 0);
-			zephir_check_call_status();
-				ZEPHIR_CALL_FUNCTION(&_6$$7, "mb_detect_encoding", &_5, 341, &input, &charset, &__$true);
-				zephir_check_call_status();
-				if (!ZEPHIR_IS_FALSE_IDENTICAL(&_6$$7)) {
-					RETURN_CCTOR(&charset);
-				}
-			ZEPHIR_CALL_METHOD(NULL, &_0, "next", NULL, 0);
-			zephir_check_call_status();
-		}
-	}
-	ZEPHIR_INIT_NVAR(&charset);
-	ZEPHIR_RETURN_CALL_FUNCTION("mb_detect_encoding", &_5, 341, &input);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&input_zv);
+	ZVAL_STR_COPY(&input_zv, input);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 809, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "detectencoding", NULL, 0, &input_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
 
 /**
- * Escape CSS strings by replacing non-alphanumeric chars by their
- * hexadecimal escaped representation
- *
- * @param string $input
- *
- * @return string
  * @deprecated
  */
 PHP_METHOD(Phalcon_Html_Escaper, escapeCss)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *input_param = NULL;
-	zval input;
+	zval input_zv;
+	zend_string *input = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&input);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	ZVAL_UNDEF(&input_zv);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(input)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &input_param);
-	zephir_get_strval(&input, input_param);
-
-
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "css", NULL, 0, &input);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&input_zv);
+	ZVAL_STR_COPY(&input_zv, input);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "css", NULL, 0, &input_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
 
 /**
- * Escape JavaScript strings by replacing non-alphanumeric chars by their
- * hexadecimal escaped representation
- *
- * @param string $input
- *
- * @return string
- * @deprecated
- */
-PHP_METHOD(Phalcon_Html_Escaper, escapeJs)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *input_param = NULL;
-	zval input;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&input);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(input)
-	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &input_param);
-	zephir_get_strval(&input, input_param);
-
-
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "js", NULL, 0, &input);
-	zephir_check_call_status();
-	RETURN_MM();
-}
-
-/**
- * Escapes a HTML string. Internally uses htmlspecialchars
- *
- * @param string|null $input
- *
- * @return string
  * @deprecated
  */
 PHP_METHOD(Phalcon_Html_Escaper, escapeHtml)
 {
+	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *input_param = NULL;
-	zval input, _0;
+	zval input_zv;
+	zend_string *input = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&input);
+	ZVAL_UNDEF(&input_zv);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(input)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &input_param);
-	if (!input_param) {
-		ZEPHIR_INIT_VAR(&input);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (!input) {
+		ZEPHIR_INIT_VAR(&input_zv);
 	} else {
-		zephir_get_strval(&input, input_param);
+		zephir_memory_observe(&input_zv);
+	ZVAL_STR_COPY(&input_zv, input);
 	}
-
-
-	zephir_cast_to_string(&_0, &input);
+	zephir_cast_to_string(&_0, &input_zv);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "html", NULL, 0, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
 
 /**
- * Escapes a HTML attribute string
- *
- * @param string|null $input
- *
- * @return string
  * @deprecated
  */
 PHP_METHOD(Phalcon_Html_Escaper, escapeHtmlAttr)
 {
+	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *input_param = NULL;
-	zval input, _0;
+	zval input_zv;
+	zend_string *input = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&input);
+	ZVAL_UNDEF(&input_zv);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(input)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &input_param);
-	if (!input_param) {
-		ZEPHIR_INIT_VAR(&input);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (!input) {
+		ZEPHIR_INIT_VAR(&input_zv);
 	} else {
-		zephir_get_strval(&input, input_param);
+		zephir_memory_observe(&input_zv);
+	ZVAL_STR_COPY(&input_zv, input);
 	}
-
-
-	zephir_cast_to_string(&_0, &input);
+	zephir_cast_to_string(&_0, &input_zv);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "attributes", NULL, 0, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
 
 /**
- * Escapes a URL. Internally uses rawurlencode
- *
- * @param string $input
- *
- * @return string
+ * @deprecated
+ */
+PHP_METHOD(Phalcon_Html_Escaper, escapeJs)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval input_zv;
+	zend_string *input = NULL;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&input_zv);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(input)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&input_zv);
+	ZVAL_STR_COPY(&input_zv, input);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "js", NULL, 0, &input_zv);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
  * @deprecated
  */
 PHP_METHOD(Phalcon_Html_Escaper, escapeUrl)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *input_param = NULL;
-	zval input;
+	zval input_zv;
+	zend_string *input = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&input);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	ZVAL_UNDEF(&input_zv);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(input)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &input_param);
-	zephir_get_strval(&input, input_param);
-
-
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "url", NULL, 0, &input);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&input_zv);
+	ZVAL_STR_COPY(&input_zv, input);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "url", NULL, 0, &input_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
 
 /**
- * Escapes a HTML string. Internally uses htmlspecialchars
+ * @return AttributeEscaper
+ */
+PHP_METHOD(Phalcon_Html_Escaper, getAttributeEscaper)
+{
+
+	RETURN_MEMBER(getThis(), "attributeEscaper");
+}
+
+/**
+ * @return CssEscaper
+ */
+PHP_METHOD(Phalcon_Html_Escaper, getCssEscaper)
+{
+
+	RETURN_MEMBER(getThis(), "cssEscaper");
+}
+
+/**
+ * Returns the encoding from the HtmlEscaper.
+ */
+PHP_METHOD(Phalcon_Html_Escaper, getEncoding)
+{
+	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("htmlEscaper", 11, 1);
+	}
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 809, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "getencoding", NULL, 0);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
+ * Returns the flags from the HtmlEscaper.
+ */
+PHP_METHOD(Phalcon_Html_Escaper, getFlags)
+{
+	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("htmlEscaper", 11, 1);
+	}
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 809, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "getflags", NULL, 0);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
+ * @return HtmlEscaper
+ */
+PHP_METHOD(Phalcon_Html_Escaper, getHtmlEscaper)
+{
+
+	RETURN_MEMBER(getThis(), "htmlEscaper");
+}
+
+/**
+ * @return JsEscaper
+ */
+PHP_METHOD(Phalcon_Html_Escaper, getJsEscaper)
+{
+
+	RETURN_MEMBER(getThis(), "jsEscaper");
+}
+
+/**
+ * @return UrlEscaper
+ */
+PHP_METHOD(Phalcon_Html_Escaper, getUrlEscaper)
+{
+
+	RETURN_MEMBER(getThis(), "urlEscaper");
+}
+
+/**
+ * Escapes a HTML string. Delegates to `HtmlEscaper`.
  *
  * @param string|null $input
  *
@@ -470,234 +572,387 @@ PHP_METHOD(Phalcon_Html_Escaper, html)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *input_param = NULL, _0, _1, _2;
-	zval input;
+	zval input_zv, _0;
+	zend_string *input = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&input);
+	ZVAL_UNDEF(&input_zv);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
-#if PHP_VERSION_ID >= 80000
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("htmlEscaper", 11, 1);
+	}
+
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(input)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &input_param);
-	if (!input_param) {
-		ZEPHIR_INIT_VAR(&input);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (!input) {
+		ZEPHIR_INIT_VAR(&input_zv);
 	} else {
-		zephir_get_strval(&input, input_param);
+		zephir_memory_observe(&input_zv);
+	ZVAL_STR_COPY(&input_zv, input);
 	}
-
-
-	if (!(!(ZEPHIR_IS_EMPTY(&input)))) {
-		RETURN_MM_STRING("");
-	}
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("flags"), PH_NOISY_CC | PH_READONLY);
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("encoding"), PH_NOISY_CC | PH_READONLY);
-	zephir_read_property(&_2, this_ptr, ZEND_STRL("doubleEncode"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("htmlspecialchars", NULL, 337, &input, &_0, &_1, &_2);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 809, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "escape", NULL, 0, &input_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
 
 /**
- * Escape javascript strings by replacing non-alphanumeric chars by their
- * hexadecimal escaped representation
- *
- * @param string $input
- *
- * @return string
+ * Escape javascript strings. Delegates to `JsEscaper`.
  */
 PHP_METHOD(Phalcon_Html_Escaper, js)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *input_param = NULL, _0;
-	zval input;
+	zval input_zv, _0;
+	zend_string *input = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&input);
+	ZVAL_UNDEF(&input_zv);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("jsEscaper", 9, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(input)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &input_param);
-	zephir_get_strval(&input, input_param);
-
-
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "normalizeencoding", NULL, 339, &input);
-	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "doescapejs", NULL, 342, &_0);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&input_zv);
+	ZVAL_STR_COPY(&input_zv, input);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 810, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "escape", NULL, 0, &input_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
 
 /**
- * Utility to normalize a string's encoding to UTF-32.
- *
- * @param string $input
- *
- * @return string
+ * Normalizes a string's encoding to UTF-32. Delegates to `HtmlEscaper`.
  */
 PHP_METHOD(Phalcon_Html_Escaper, normalizeEncoding)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *input_param = NULL, _0, _1;
-	zval input;
+	zval input_zv, _0;
+	zend_string *input = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&input);
+	ZVAL_UNDEF(&input_zv);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("htmlEscaper", 11, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(input)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &input_param);
-	zephir_get_strval(&input, input_param);
-
-
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "detectencoding", NULL, 343, &input);
-	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_1);
-	ZVAL_STRING(&_1, "UTF-32");
-	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_encoding", NULL, 344, &input, &_1, &_0);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&input_zv);
+	ZVAL_STR_COPY(&input_zv, input);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 809, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "normalizeencoding", NULL, 0, &input_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
 
 /**
- * Sets the double_encode to be used by the escaper
- *
- *```php
- * $escaper->setDoubleEncode(false);
- *```
- *
- * @param bool $doubleEncode
+ * @param AttributeEscaper $escaper
  */
-PHP_METHOD(Phalcon_Html_Escaper, setDoubleEncode)
+PHP_METHOD(Phalcon_Html_Escaper, setAttributeEscaper)
 {
-	zval *doubleEncode_param = NULL, __$true, __$false;
-	zend_bool doubleEncode;
+	zval *escaper, escaper_sub;
 	zval *this_ptr = getThis();
 
-	ZVAL_BOOL(&__$true, 1);
-	ZVAL_BOOL(&__$false, 0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_BOOL(doubleEncode)
-	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	zephir_fetch_params_without_memory_grow(1, 0, &doubleEncode_param);
-	doubleEncode = zephir_get_boolval(doubleEncode_param);
-
-
-	if (doubleEncode) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("doubleEncode"), &__$true);
-	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("doubleEncode"), &__$false);
+	ZVAL_UNDEF(&escaper_sub);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("attributeEscaper", 16, 1);
 	}
+
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(escaper, phalcon_html_escaper_attributeescaper_ce)
+	ZEND_PARSE_PARAMETERS_END();
+	zephir_fetch_params_without_memory_grow(1, 0, &escaper);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 807, escaper);
 	RETURN_THISW();
 }
 
 /**
- * Sets the encoding to be used by the escaper
- *
- *```php
- * $escaper->setEncoding("utf-8");
- *```
- *
- * @param string $encoding
+ * @param CssEscaper $escaper
  */
-PHP_METHOD(Phalcon_Html_Escaper, setEncoding)
+PHP_METHOD(Phalcon_Html_Escaper, setCssEscaper)
 {
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *encoding_param = NULL;
-	zval encoding;
+	zval *escaper, escaper_sub;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&encoding);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	ZVAL_UNDEF(&escaper_sub);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("cssEscaper", 10, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(encoding)
+		Z_PARAM_OBJECT_OF_CLASS(escaper, phalcon_html_escaper_cssescaper_ce)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
+	zephir_fetch_params_without_memory_grow(1, 0, &escaper);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 808, escaper);
+	RETURN_THISW();
+}
 
+/**
+ * Sets the double_encode flag. Fans out to all sub-escapers.
+ */
+PHP_METHOD(Phalcon_Html_Escaper, setDoubleEncode)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *doubleEncode_param = NULL, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9;
+	zend_bool doubleEncode;
+	zval *this_ptr = getThis();
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &encoding_param);
-	zephir_get_strval(&encoding, encoding_param);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_7);
+	ZVAL_UNDEF(&_8);
+	ZVAL_UNDEF(&_9);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	static zend_string *_zephir_prop_3 = NULL;
+	static zend_string *_zephir_prop_4 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("attributeEscaper", 16, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("cssEscaper", 10, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("htmlEscaper", 11, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_3)) {
+		_zephir_prop_3 = zend_string_init("jsEscaper", 9, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_4)) {
+		_zephir_prop_4 = zend_string_init("urlEscaper", 10, 1);
+	}
 
-
-	zephir_update_property_zval(this_ptr, ZEND_STRL("encoding"), &encoding);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_BOOL(doubleEncode)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &doubleEncode_param);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 807, PH_NOISY_CC | PH_READONLY);
+	if (doubleEncode) {
+		ZVAL_BOOL(&_1, 1);
+	} else {
+		ZVAL_BOOL(&_1, 0);
+	}
+	ZEPHIR_CALL_METHOD(NULL, &_0, "setdoubleencode", NULL, 0, &_1);
+	zephir_check_call_status();
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 808, PH_NOISY_CC | PH_READONLY);
+	if (doubleEncode) {
+		ZVAL_BOOL(&_3, 1);
+	} else {
+		ZVAL_BOOL(&_3, 0);
+	}
+	ZEPHIR_CALL_METHOD(NULL, &_2, "setdoubleencode", NULL, 0, &_3);
+	zephir_check_call_status();
+	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_2, 809, PH_NOISY_CC | PH_READONLY);
+	if (doubleEncode) {
+		ZVAL_BOOL(&_5, 1);
+	} else {
+		ZVAL_BOOL(&_5, 0);
+	}
+	ZEPHIR_CALL_METHOD(NULL, &_4, "setdoubleencode", NULL, 0, &_5);
+	zephir_check_call_status();
+	zephir_read_property_cached(&_6, this_ptr, _zephir_prop_3, 810, PH_NOISY_CC | PH_READONLY);
+	if (doubleEncode) {
+		ZVAL_BOOL(&_7, 1);
+	} else {
+		ZVAL_BOOL(&_7, 0);
+	}
+	ZEPHIR_CALL_METHOD(NULL, &_6, "setdoubleencode", NULL, 0, &_7);
+	zephir_check_call_status();
+	zephir_read_property_cached(&_8, this_ptr, _zephir_prop_4, 811, PH_NOISY_CC | PH_READONLY);
+	if (doubleEncode) {
+		ZVAL_BOOL(&_9, 1);
+	} else {
+		ZVAL_BOOL(&_9, 0);
+	}
+	ZEPHIR_CALL_METHOD(NULL, &_8, "setdoubleencode", NULL, 0, &_9);
+	zephir_check_call_status();
 	RETURN_THIS();
 }
 
 /**
- * Sets the HTML quoting type for htmlspecialchars
- *
- *```php
- * $escaper->setFlags(ENT_XHTML);
- *```
- *
- * @param int $flags
+ * Sets the encoding. Fans out to all sub-escapers.
+ */
+PHP_METHOD(Phalcon_Html_Escaper, setEncoding)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval encoding_zv, _0, _1, _2, _3, _4;
+	zend_string *encoding = NULL;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&encoding_zv);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	static zend_string *_zephir_prop_3 = NULL;
+	static zend_string *_zephir_prop_4 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("attributeEscaper", 16, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("cssEscaper", 10, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("htmlEscaper", 11, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_3)) {
+		_zephir_prop_3 = zend_string_init("jsEscaper", 9, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_4)) {
+		_zephir_prop_4 = zend_string_init("urlEscaper", 10, 1);
+	}
+
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(encoding)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&encoding_zv);
+	ZVAL_STR_COPY(&encoding_zv, encoding);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 807, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "setencoding", NULL, 0, &encoding_zv);
+	zephir_check_call_status();
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 808, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(NULL, &_1, "setencoding", NULL, 0, &encoding_zv);
+	zephir_check_call_status();
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 809, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "setencoding", NULL, 0, &encoding_zv);
+	zephir_check_call_status();
+	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_3, 810, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(NULL, &_3, "setencoding", NULL, 0, &encoding_zv);
+	zephir_check_call_status();
+	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_4, 811, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(NULL, &_4, "setencoding", NULL, 0, &encoding_zv);
+	zephir_check_call_status();
+	RETURN_THIS();
+}
+
+/**
+ * Sets the htmlspecialchars flags. Fans out to all sub-escapers.
  */
 PHP_METHOD(Phalcon_Html_Escaper, setFlags)
 {
-	zval *flags_param = NULL, _0;
-	zend_long flags;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *flags_param = NULL, _0, _1, _2, _3, _4, _5;
+	zend_long flags, ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	static zend_string *_zephir_prop_3 = NULL;
+	static zend_string *_zephir_prop_4 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("attributeEscaper", 16, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("cssEscaper", 10, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("htmlEscaper", 11, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_3)) {
+		_zephir_prop_3 = zend_string_init("jsEscaper", 9, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_4)) {
+		_zephir_prop_4 = zend_string_init("urlEscaper", 10, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(flags)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &flags_param);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 807, PH_NOISY_CC | PH_READONLY);
+	ZVAL_LONG(&_1, flags);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "setflags", NULL, 0, &_1);
+	zephir_check_call_status();
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 808, PH_NOISY_CC | PH_READONLY);
+	ZVAL_LONG(&_2, flags);
+	ZEPHIR_CALL_METHOD(NULL, &_1, "setflags", NULL, 0, &_2);
+	zephir_check_call_status();
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 809, PH_NOISY_CC | PH_READONLY);
+	ZVAL_LONG(&_3, flags);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "setflags", NULL, 0, &_3);
+	zephir_check_call_status();
+	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_3, 810, PH_NOISY_CC | PH_READONLY);
+	ZVAL_LONG(&_4, flags);
+	ZEPHIR_CALL_METHOD(NULL, &_3, "setflags", NULL, 0, &_4);
+	zephir_check_call_status();
+	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_4, 811, PH_NOISY_CC | PH_READONLY);
+	ZVAL_LONG(&_5, flags);
+	ZEPHIR_CALL_METHOD(NULL, &_4, "setflags", NULL, 0, &_5);
+	zephir_check_call_status();
+	RETURN_THIS();
+}
 
+/**
+ * @param HtmlEscaper $escaper
+ */
+PHP_METHOD(Phalcon_Html_Escaper, setHtmlEscaper)
+{
+	zval *escaper, escaper_sub;
+	zval *this_ptr = getThis();
 
-	zephir_fetch_params_without_memory_grow(1, 0, &flags_param);
-	flags = zephir_get_intval(flags_param);
+	ZVAL_UNDEF(&escaper_sub);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("htmlEscaper", 11, 1);
+	}
 
-
-	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_LONG(&_0, flags);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("flags"), &_0);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(escaper, phalcon_html_escaper_htmlescaper_ce)
+	ZEND_PARSE_PARAMETERS_END();
+	zephir_fetch_params_without_memory_grow(1, 0, &escaper);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 809, escaper);
 	RETURN_THISW();
 }
 
 /**
- * Sets the HTML quoting type for htmlspecialchars
+ * Sets the HTML quoting type for htmlspecialchars.
  *
- *```php
- * $escaper->setHtmlQuoteType(ENT_XHTML);
- *```
- *
- * @param int $flags
  * @deprecated
  */
 PHP_METHOD(Phalcon_Html_Escaper, setHtmlQuoteType)
@@ -708,19 +963,12 @@ PHP_METHOD(Phalcon_Html_Escaper, setHtmlQuoteType)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(flags)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &flags_param);
-	flags = zephir_get_intval(flags_param);
-
-
 	ZVAL_LONG(&_0, flags);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "setflags", NULL, 0, &_0);
 	zephir_check_call_status();
@@ -728,96 +976,77 @@ PHP_METHOD(Phalcon_Html_Escaper, setHtmlQuoteType)
 }
 
 /**
- * Escapes a URL. Internally uses rawurlencode
- *
- * @param string $input
- *
- * @return string
+ * @param JsEscaper $escaper
+ */
+PHP_METHOD(Phalcon_Html_Escaper, setJsEscaper)
+{
+	zval *escaper, escaper_sub;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&escaper_sub);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("jsEscaper", 9, 1);
+	}
+
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(escaper, phalcon_html_escaper_jsescaper_ce)
+	ZEND_PARSE_PARAMETERS_END();
+	zephir_fetch_params_without_memory_grow(1, 0, &escaper);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 810, escaper);
+	RETURN_THISW();
+}
+
+/**
+ * @param UrlEscaper $escaper
+ */
+PHP_METHOD(Phalcon_Html_Escaper, setUrlEscaper)
+{
+	zval *escaper, escaper_sub;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&escaper_sub);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("urlEscaper", 10, 1);
+	}
+
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(escaper, phalcon_html_escaper_urlescaper_ce)
+	ZEND_PARSE_PARAMETERS_END();
+	zephir_fetch_params_without_memory_grow(1, 0, &escaper);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 811, escaper);
+	RETURN_THISW();
+}
+
+/**
+ * Escapes a URL. Delegates to `UrlEscaper`.
  */
 PHP_METHOD(Phalcon_Html_Escaper, url)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *input_param = NULL;
-	zval input;
+	zval input_zv, _0;
+	zend_string *input = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&input);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	ZVAL_UNDEF(&input_zv);
+	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("urlEscaper", 10, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(input)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &input_param);
-	zephir_get_strval(&input, input_param);
-
-
-	ZEPHIR_RETURN_CALL_FUNCTION("rawurlencode", NULL, 345, &input);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&input_zv);
+	ZVAL_STR_COPY(&input_zv, input);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 811, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "escape", NULL, 0, &input_zv);
 	zephir_check_call_status();
-	RETURN_MM();
-}
-
-/**
- * @param string $input
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Html_Escaper, doEscapeCss)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *input_param = NULL;
-	zval input;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&input);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(input)
-	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &input_param);
-	zephir_get_strval(&input, input_param);
-
-
-	zephir_escape_css(return_value, &input);
-	RETURN_MM();
-}
-
-/**
- * @param string $input
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Html_Escaper, doEscapeJs)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *input_param = NULL;
-	zval input;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&input);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(input)
-	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &input_param);
-	zephir_get_strval(&input, input_param);
-
-
-	zephir_escape_js(return_value, &input);
 	RETURN_MM();
 }
 

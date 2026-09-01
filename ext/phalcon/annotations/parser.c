@@ -13,10 +13,10 @@
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
-/*
+/* 
 ** These constants (all generated automatically by the parser generator)
 ** specify the various kinds of tokens (terminals) that the parser
-** understands.
+** understands. 
 **
 ** Each symbol here is a terminal symbol in the grammar.
 */
@@ -33,7 +33,7 @@
 **                       and nonterminals.  "int" is used otherwise.
 **    AANOCODE           is a number of type AACODETYPE which corresponds
 **                       to no legal terminal or nonterminal number.  This
-**                       number is used to fill in empty slots of the hash
+**                       number is used to fill in empty slots of the hash 
 **                       table.
 **    AAFALLBACK         If defined, this indicates that one or more tokens
 **                       have fall-back values which should be used if the
@@ -42,7 +42,7 @@
 **                       and nonterminal numbers.  "unsigned char" is
 **                       used if there are fewer than 250 rules and
 **                       states combined.  "int" is used otherwise.
-**    phannot_TOKENTYPE     is the data type used for minor tokens given
+**    phannot_TOKENTYPE     is the data type used for minor tokens given 
 **                       directly to the parser from the tokenizer.
 **    AAMINORTYPE        is the data type used for all minor tokens.
 **                       This is typically a union of many types, one of
@@ -83,7 +83,7 @@ typedef union {
 /* Next are that tables used to determine what action to take based on the
 ** current state and lookahead token.  These tables are used to implement
 ** functions that take a state number and lookahead value and return an
-** action integer.
+** action integer.  
 **
 ** Suppose the action integer is N.  Then the action is determined as
 ** follows
@@ -108,7 +108,7 @@ typedef union {
 ** If the index value aa_shift_ofst[S]+X is out of range or if the value
 ** aa_lookahead[aa_shift_ofst[S]+X] is not equal to X or if aa_shift_ofst[S]
 ** is equal to AA_SHIFT_USE_DFLT, it means that the action is not in the table
-** and that aa_default[S] should be used instead.
+** and that aa_default[S] should be used instead.  
 **
 ** The formula above is for computing the action when the lookahead is
 ** a terminal symbol.  If the lookahead is a non-terminal (as occurs after
@@ -175,7 +175,7 @@ static AAACTIONTYPE aa_default[] = {
 
 /* The next table maps tokens into fallback tokens.  If a construct
 ** like the following:
-**
+** 
 **      %fallback ID X Y Z.
 **
 ** appears in the grammer, then ID becomes a fallback token for X, Y,
@@ -226,10 +226,10 @@ static char *aaTracePrompt = 0;
 #endif /* NDEBUG */
 
 #ifndef NDEBUG
-/*
+/* 
 ** Turn parser tracing on by giving a stream to which to write the trace
 ** and a prompt to preface each trace message.  Tracing is turned off
-** by making either argument NULL
+** by making either argument NULL 
 **
 ** Inputs:
 ** <ul>
@@ -254,14 +254,14 @@ void phannot_Trace(FILE *TraceFILE, char *zTracePrompt){
 #ifndef NDEBUG
 /* For tracing shifts, the names of all terminals and nonterminals
 ** are required.  The following table supplies these names */
-static const char *aaTokenName[] = {
-  "$",             "COMMA",         "AT",            "IDENTIFIER",
-  "PARENTHESES_OPEN",  "PARENTHESES_CLOSE",  "STRING",        "EQUALS",
-  "COLON",         "INTEGER",       "DOUBLE",        "NULL",
+static const char *aaTokenName[] = { 
+  "$",             "COMMA",         "AT",            "IDENTIFIER",  
+  "PARENTHESES_OPEN",  "PARENTHESES_CLOSE",  "STRING",        "EQUALS",      
+  "COLON",         "INTEGER",       "DOUBLE",        "NULL",        
   "FALSE",         "TRUE",          "BRACKET_OPEN",  "BRACKET_CLOSE",
-  "SBRACKET_OPEN",  "SBRACKET_CLOSE",  "error",         "program",
+  "SBRACKET_OPEN",  "SBRACKET_CLOSE",  "error",         "program",     
   "annotation_language",  "annotation_list",  "annotation",    "argument_list",
-  "argument_item",  "expr",          "array",
+  "argument_item",  "expr",          "array",       
 };
 #endif /* NDEBUG */
 
@@ -313,7 +313,7 @@ const char *phannot_TokenName(int tokenType){
 #endif
 }
 
-/*
+/* 
 ** This function allocates a new parser.
 ** The only argument is a pointer to a function which works like
 ** malloc.
@@ -344,7 +344,7 @@ static void aa_destructor(AACODETYPE aamajor, AAMINORTYPE *aapminor){
     /* Here is inserted the actions which take place when a
     ** terminal or non-terminal is destroyed.  This can happen
     ** when the symbol is popped from the stack during a
-    ** reduce or during error processing or when a parser is
+    ** reduce or during error processing or when a parser is 
     ** being destroyed before it is finished parsing.
     **
     ** Note: during a reduce, the only symbols destroyed are those
@@ -368,7 +368,7 @@ static void aa_destructor(AACODETYPE aamajor, AAMINORTYPE *aapminor){
     case 15:
     case 16:
     case 17:
-// 67 "parser.php.lemon"
+// 72 "parser.php.lemon"
 {
 	if ((aapminor->aa0)) {
 		if ((aapminor->aa0)->free_flag) {
@@ -385,7 +385,7 @@ static void aa_destructor(AACODETYPE aamajor, AAMINORTYPE *aapminor){
     case 23:
     case 24:
     case 25:
-// 80 "parser.php.lemon"
+// 85 "parser.php.lemon"
 {
     zval_ptr_dtor(&(aapminor->aa8));
 }
@@ -421,7 +421,7 @@ static int aa_pop_parser_stack(aaParser *pParser){
   return aamajor;
 }
 
-/*
+/* 
 ** Deallocate and destroy a parser.  Destructors are all called for
 ** all stack elements before shutting the parser down.
 **
@@ -457,7 +457,7 @@ static int aa_find_shift_action(
 ){
   int i;
   int stateno = pParser->aastack[pParser->aaidx].stateno;
-
+ 
   /* if( pParser->aaidx<0 ) return AA_NO_ACTION;  */
   i = aa_shift_ofst[stateno];
   if( i==AA_SHIFT_USE_DFLT ){
@@ -501,7 +501,7 @@ static int aa_find_reduce_action(
 ){
   int i;
   int stateno = pParser->aastack[pParser->aaidx].stateno;
-
+ 
   i = aa_reduce_ofst[stateno];
   if( i==AA_REDUCE_USE_DFLT ){
     return aa_default[stateno];
@@ -539,6 +539,12 @@ static void aa_shift(
      while( aapParser->aaidx>=0 ) aa_pop_parser_stack(aapParser);
      /* Here code is inserted which will execute if the parser
      ** stack every overflows */
+// 67 "parser.php.lemon"
+
+	status->status = PHANNOT_PARSING_FAILED;
+	spprintf(&status->syntax_error, 0, "Parsing failed, the annotation is nested too deeply in %s on line %d", status->scanner_state->active_file, status->scanner_state->active_line);
+
+// 547 "parser.php.c"
      phannot_ARG_STORE; /* Suppress warning about unused %extra_argument var */
      return;
   }
@@ -610,7 +616,7 @@ static void aa_reduce(
   phannot_ARG_FETCH;
   aamsp = &aapParser->aastack[aapParser->aaidx];
 #ifndef NDEBUG
-  if( aaTraceFILE && aaruleno>=0
+  if( aaTraceFILE && aaruleno>=0 
         && aaruleno<sizeof(aaRuleName)/sizeof(aaRuleName[0]) ){
     fprintf(aaTraceFILE, "%sReduce [%s].\n", aaTracePrompt,
       aaRuleName[aaruleno]);
@@ -627,166 +633,166 @@ static void aa_reduce(
   **     break;
   */
       case 0:
-// 76 "parser.php.lemon"
+// 81 "parser.php.lemon"
 {
 	ZVAL_ZVAL(&status->ret, &aamsp[0].minor.aa8, 1, 1);
 }
-// 634 "parser.php.c"
+// 640 "parser.php.c"
         break;
       case 1:
       case 14:
       case 15:
-// 84 "parser.php.lemon"
+// 89 "parser.php.lemon"
 {
 	aagotominor.aa8 = aamsp[0].minor.aa8;
 }
-// 643 "parser.php.c"
+// 649 "parser.php.c"
         break;
       case 2:
-// 92 "parser.php.lemon"
+// 97 "parser.php.lemon"
 {
 	phannot_ret_zval_list(&aagotominor.aa8, &aamsp[-1].minor.aa8, &aamsp[0].minor.aa8);
 }
-// 650 "parser.php.c"
+// 656 "parser.php.c"
         break;
       case 3:
       case 8:
-// 96 "parser.php.lemon"
+// 101 "parser.php.lemon"
 {
 	phannot_ret_zval_list(&aagotominor.aa8, NULL, &aamsp[0].minor.aa8);
 }
-// 658 "parser.php.c"
+// 664 "parser.php.c"
         break;
       case 4:
-// 104 "parser.php.lemon"
+// 109 "parser.php.lemon"
 {
 	phannot_ret_annotation(&aagotominor.aa8, aamsp[-3].minor.aa0, &aamsp[-1].minor.aa8, status->scanner_state);
   aa_destructor(2,&aamsp[-4].minor);
   aa_destructor(4,&aamsp[-2].minor);
   aa_destructor(5,&aamsp[0].minor);
 }
-// 668 "parser.php.c"
+// 674 "parser.php.c"
         break;
       case 5:
-// 108 "parser.php.lemon"
+// 113 "parser.php.lemon"
 {
 	phannot_ret_annotation(&aagotominor.aa8, aamsp[-2].minor.aa0, NULL, status->scanner_state);
   aa_destructor(2,&aamsp[-3].minor);
   aa_destructor(4,&aamsp[-1].minor);
   aa_destructor(5,&aamsp[0].minor);
 }
-// 678 "parser.php.c"
+// 684 "parser.php.c"
         break;
       case 6:
-// 112 "parser.php.lemon"
+// 117 "parser.php.lemon"
 {
 	phannot_ret_annotation(&aagotominor.aa8, aamsp[0].minor.aa0, NULL, status->scanner_state);
   aa_destructor(2,&aamsp[-1].minor);
 }
-// 686 "parser.php.c"
+// 692 "parser.php.c"
         break;
       case 7:
-// 120 "parser.php.lemon"
+// 125 "parser.php.lemon"
 {
 	phannot_ret_zval_list(&aagotominor.aa8, &aamsp[-2].minor.aa8, &aamsp[0].minor.aa8);
   aa_destructor(1,&aamsp[-1].minor);
 }
-// 694 "parser.php.c"
+// 700 "parser.php.c"
         break;
       case 9:
-// 132 "parser.php.lemon"
+// 137 "parser.php.lemon"
 {
 	phannot_ret_named_item(&aagotominor.aa8, NULL, &aamsp[0].minor.aa8);
 }
-// 701 "parser.php.c"
+// 707 "parser.php.c"
         break;
       case 10:
       case 12:
-// 136 "parser.php.lemon"
+// 141 "parser.php.lemon"
 {
 	phannot_ret_named_item(&aagotominor.aa8, aamsp[-2].minor.aa0, &aamsp[0].minor.aa8);
   aa_destructor(7,&aamsp[-1].minor);
 }
-// 710 "parser.php.c"
+// 716 "parser.php.c"
         break;
       case 11:
       case 13:
-// 140 "parser.php.lemon"
+// 145 "parser.php.lemon"
 {
 	phannot_ret_named_item(&aagotominor.aa8, aamsp[-2].minor.aa0, &aamsp[0].minor.aa8);
   aa_destructor(8,&aamsp[-1].minor);
 }
-// 719 "parser.php.c"
+// 725 "parser.php.c"
         break;
       case 16:
-// 164 "parser.php.lemon"
+// 169 "parser.php.lemon"
 {
 	phannot_ret_literal_zval(&aagotominor.aa8, PHANNOT_T_IDENTIFIER, aamsp[0].minor.aa0);
 }
-// 726 "parser.php.c"
+// 732 "parser.php.c"
         break;
       case 17:
-// 168 "parser.php.lemon"
+// 173 "parser.php.lemon"
 {
 	phannot_ret_literal_zval(&aagotominor.aa8, PHANNOT_T_INTEGER, aamsp[0].minor.aa0);
 }
-// 733 "parser.php.c"
+// 739 "parser.php.c"
         break;
       case 18:
-// 172 "parser.php.lemon"
+// 177 "parser.php.lemon"
 {
 	phannot_ret_literal_zval(&aagotominor.aa8, PHANNOT_T_STRING, aamsp[0].minor.aa0);
 }
-// 740 "parser.php.c"
+// 746 "parser.php.c"
         break;
       case 19:
-// 176 "parser.php.lemon"
+// 181 "parser.php.lemon"
 {
 	phannot_ret_literal_zval(&aagotominor.aa8, PHANNOT_T_DOUBLE, aamsp[0].minor.aa0);
 }
-// 747 "parser.php.c"
+// 753 "parser.php.c"
         break;
       case 20:
-// 180 "parser.php.lemon"
+// 185 "parser.php.lemon"
 {
 	phannot_ret_literal_zval(&aagotominor.aa8, PHANNOT_T_NULL, NULL);
   aa_destructor(11,&aamsp[0].minor);
 }
-// 755 "parser.php.c"
+// 761 "parser.php.c"
         break;
       case 21:
-// 184 "parser.php.lemon"
+// 189 "parser.php.lemon"
 {
 	phannot_ret_literal_zval(&aagotominor.aa8, PHANNOT_T_FALSE, NULL);
   aa_destructor(12,&aamsp[0].minor);
 }
-// 763 "parser.php.c"
+// 769 "parser.php.c"
         break;
       case 22:
-// 188 "parser.php.lemon"
+// 193 "parser.php.lemon"
 {
 	phannot_ret_literal_zval(&aagotominor.aa8, PHANNOT_T_TRUE, NULL);
   aa_destructor(13,&aamsp[0].minor);
 }
-// 771 "parser.php.c"
+// 777 "parser.php.c"
         break;
       case 23:
-// 192 "parser.php.lemon"
+// 197 "parser.php.lemon"
 {
 	phannot_ret_array(&aagotominor.aa8, &aamsp[-1].minor.aa8);
   aa_destructor(14,&aamsp[-2].minor);
   aa_destructor(15,&aamsp[0].minor);
 }
-// 780 "parser.php.c"
+// 786 "parser.php.c"
         break;
       case 24:
-// 196 "parser.php.lemon"
+// 201 "parser.php.lemon"
 {
 	phannot_ret_array(&aagotominor.aa8, &aamsp[-1].minor.aa8);
   aa_destructor(16,&aamsp[-2].minor);
   aa_destructor(17,&aamsp[0].minor);
 }
-// 789 "parser.php.c"
+// 795 "parser.php.c"
         break;
   };
   aagoto = aaRuleInfo[aaruleno].lhs;
@@ -873,7 +879,7 @@ static void aa_syntax_error(
 
 	status->status = PHANNOT_PARSING_FAILED;
 
-// 876 "parser.php.c"
+// 882 "parser.php.c"
   phannot_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 
@@ -967,7 +973,7 @@ void phannot_(
 #ifdef AAERRORSYMBOL
       /* A syntax error has occurred.
       ** The response to an error depends upon whether or not the
-      ** grammar defines an error token "ERROR".
+      ** grammar defines an error token "ERROR".  
       **
       ** This is what we do if the grammar does define ERROR:
       **
@@ -1109,7 +1115,7 @@ static void phannot_parse_with_token(void* phannot_parser, int opcode, int parse
 /**
  * Creates an error message when it's triggered by the scanner
  */
-static void phannot_scanner_error_msg(phannot_parser_status *parser_status, char **error_msg){
+static void phannot_scanner_error_msg(phannot_parser_status *parser_status, char **error_msg) {
 
 	phannot_scanner_state *state = parser_status->scanner_state;
 
@@ -1177,7 +1183,7 @@ int phannot_parse_annotations(zval *result, zval *comment, zval *file_path, zval
  */
 static void phannot_remove_comment_separators(char **ret, int *ret_len, const char *comment, int length, int *start_lines)
 {
-	char ch;
+	char ch, quote;
 	int start_mode = 1, j, i, open_parentheses;
 	smart_str processed_str = {0};
 
@@ -1227,6 +1233,37 @@ static void phannot_remove_comment_separators(char **ret, int *ret_len, const ch
 				} else {
 
 					smart_str_appendc(&processed_str, ch);
+
+					if (ch == '"' || ch == '\'') {
+						quote = ch;
+
+						/**
+						 * Consume the whole string literal so that any
+						 * parentheses inside it are not counted as structural
+						 */
+						for (j++; j < length; j++) {
+							ch = comment[j];
+							smart_str_appendc(&processed_str, ch);
+
+							if (ch == '\\') {
+								j++;
+								if (j < length) {
+									smart_str_appendc(&processed_str, comment[j]);
+								}
+								continue;
+							}
+
+							if (ch == quote) {
+								break;
+							}
+
+							if (ch == '\n') {
+								(*start_lines)++;
+							}
+						}
+
+						continue;
+					}
 
 					if (ch == '(') {
 						open_parentheses++;
@@ -1330,6 +1367,7 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, int c
 	parser_status->scanner_state = state;
 	parser_status->token = &token;
 	parser_status->syntax_error = NULL;
+	ZVAL_UNDEF(&parser_status->ret);
 
 	/**
 	 * Initialize the scanner state
@@ -1475,7 +1513,16 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, int c
 
 	if (status != FAILURE) {
 		if (parser_status->status == PHANNOT_PARSING_OK) {
-			ZVAL_ZVAL(*result, &parser_status->ret, 1, 1);
+			/*
+			 * A docblock without any annotation token (for example "@!")
+			 * never runs the "program" rule, so ret is not set. Report
+			 * "no annotations" instead of copying an unset value.
+			 */
+			if (Z_TYPE(parser_status->ret) != IS_UNDEF) {
+				ZVAL_ZVAL(*result, &parser_status->ret, 1, 1);
+			} else {
+				ZVAL_BOOL(*result, 0);
+			}
 		}
 	}
 

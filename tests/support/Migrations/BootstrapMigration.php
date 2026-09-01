@@ -1,0 +1,46 @@
+<?php
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Phalcon\Tests\Support\Migrations;
+
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
+/**
+ * Outputs the MySQL-only preamble that must appear at the top of every
+ * generated schema file.  Other drivers need no bootstrap statements.
+ */
+class BootstrapMigration extends AbstractSchema
+{
+    protected string $table = '';
+
+    protected function getStatementsMysql(): array
+    {
+        return [
+            "SET NAMES utf8;",
+            "SET FOREIGN_KEY_CHECKS=0;",
+            "CREATE DATABASE IF NOT EXISTS `private`;",
+        ];
+    }
+
+    protected function getStatementsSqlite(): array
+    {
+        return [];
+    }
+
+    protected function getStatementsPgsql(): array
+    {
+        return [
+            "CREATE SCHEMA IF NOT EXISTS private;",
+        ];
+    }
+}

@@ -1,8 +1,8 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,6 +15,7 @@ use Phalcon\Db\Column;
 use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\Enum;
 use Phalcon\Db\Exception;
+use Phalcon\Db\Exceptions\MissingForeignKeyChecks;
 use Phalcon\Db\Index;
 use Phalcon\Db\IndexInterface;
 use Phalcon\Db\Reference;
@@ -50,42 +51,13 @@ class Mysql extends PdoAdapter
     protected type = "mysql";
 
     /**
-     * Constructor for Phalcon\Db\Adapter\Pdo
-     *
-     * @param array descriptor = [
-     *     'host' => 'localhost',
-     *     'port' => '3306',
-     *     'dbname' => 'blog',
-     *     'username' => 'sigma'
-     *     'password' => 'secret'
-     *     'dialectClass' => null,
-     *     'options' => [],
-     *     'dsn' => null,
-     *     'charset' => 'utf8mb4'
-     * ]
-     */
-    public function __construct(array! descriptor)
-    {
-        /**
-         * Returning numbers as numbers and not strings. If the user already
-         * set this option in the descriptor["options"], we do not have to set
-         * anything
-         */
-        if (!isset(descriptor["options"][\PDO::ATTR_EMULATE_PREPARES])) {
-            let descriptor["options"][\PDO::ATTR_EMULATE_PREPARES]  = false;
-        }
-        if (!isset(descriptor["options"][\PDO::ATTR_STRINGIFY_FETCHES])) {
-            let descriptor["options"][\PDO::ATTR_STRINGIFY_FETCHES]  = false;
-        }
-
-        parent::__construct(descriptor);
-    }
-
-    /**
      * Adds a foreign key to a table
      */
-    public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> bool
-    {
+    public function addForeignKey(
+        string tableName, 
+        string schemaName, 
+        <ReferenceInterface> reference
+    ) -> bool {
         var foreignKeyCheck;
 
         let foreignKeyCheck = this->{"prepare"}(
@@ -93,9 +65,7 @@ class Mysql extends PdoAdapter
         );
 
         if unlikely !foreignKeyCheck->execute() {
-            throw new Exception(
-                "DATABASE PARAMETER 'FOREIGN_KEY_CHECKS' HAS TO BE 1"
-            );
+            throw new MissingForeignKeyChecks();
         }
 
         return this->{"execute"}(
@@ -118,14 +88,13 @@ class Mysql extends PdoAdapter
      */
     public function describeColumns(string table, string schema = null) -> <ColumnInterface[]>
     {
-        var columns, columnType, fields, field, oldColumn, sizePattern, matches,
-            matchOne, matchTwo, columnName;
-        array definition;
-
-        let oldColumn = null,
-            sizePattern = "#\\(([0-9]+)(?:,\\s*([0-9]+))*\\)#";
-
-        let columns = [];
+        var    columnName, columnType, defaultValue, extraValue, field, fields, 
+               generationExpression, matchOne, matchTwo, matches, 
+               oldColumn   = null; 
+        bool   isMariaDb   = false;
+        string sizePattern = "#\\(([0-9]+)(?:,\\s*([0-9]+))*\\)#";
+        array  columns     = [],
+               definition  = [];
 
         let fields = this->fetchAll(
             this->dialect->describeColumns(table, schema),
@@ -133,10 +102,31 @@ class Mysql extends PdoAdapter
         );
 
         /**
+         * MariaDB stores `COLUMN_DEFAULT` as the DDL source rather than the
+         * resolved literal, so its string defaults arrive quoted. MySQL
+         * resolves them, and a MySQL default may legitimately contain quotes,
+         * so the unquoting below must only run for MariaDB. Both engines report
+         * `mysql` as the PDO driver name; only the version tells them apart.
+         */
+        let isMariaDb = memstr(
+            (string) this->pdo->getAttribute(\PDO::ATTR_SERVER_VERSION),
+            "MariaDB"
+        );
+
+        /**
          * Get the SQL to describe a table
-         * We're using FETCH_NUM to fetch the columns
-         * Get the describe
-         * Field Indexes: 0:name, 1:type, 2:not null, 3:key, 4:default, 5:extra
+         * We're using FETCH_NUM to fetch the columns.
+         * Field Indexes (from `Mysql::describeColumns()`):
+         *   0: Field 
+         *   1: Type 
+         *   2: Collation 
+         *   3: Null 
+         *   4: Key 
+         *   5: Default 
+         *   6: Extra
+         *   7: Privileges 
+         *   8: Comment 
+         *   9: GenerationExpression
          */
         for field in fields {
             /**
@@ -389,7 +379,7 @@ class Mysql extends PdoAdapter
                  * VARBINARY
                  */
                 case starts_with(columnType, "varbinary", true):
-                    let definition["type"] = Column::TYPE_BINARY;
+                    let definition["type"] = Column::TYPE_VARBINARY;
 
                     break;
 
@@ -398,6 +388,50 @@ class Mysql extends PdoAdapter
                  */
                 case starts_with(columnType, "binary", true):
                     let definition["type"] = Column::TYPE_BINARY;
+
+                    break;
+
+                /**
+                 * Spatial types - order matters: detect the multi-* and
+                 * geometrycollection variants before the bare names.
+                 */
+                case starts_with(columnType, "multipoint", true):
+                    let definition["type"] = Column::TYPE_MULTIPOINT;
+
+                    break;
+
+                case starts_with(columnType, "multilinestring", true):
+                    let definition["type"] = Column::TYPE_MULTILINESTRING;
+
+                    break;
+
+                case starts_with(columnType, "multipolygon", true):
+                    let definition["type"] = Column::TYPE_MULTIPOLYGON;
+
+                    break;
+
+                case starts_with(columnType, "geometrycollection", true):
+                    let definition["type"] = Column::TYPE_GEOMETRYCOLLECTION;
+
+                    break;
+
+                case starts_with(columnType, "linestring", true):
+                    let definition["type"] = Column::TYPE_LINESTRING;
+
+                    break;
+
+                case starts_with(columnType, "polygon", true):
+                    let definition["type"] = Column::TYPE_POLYGON;
+
+                    break;
+
+                case starts_with(columnType, "point", true):
+                    let definition["type"] = Column::TYPE_POINT;
+
+                    break;
+
+                case starts_with(columnType, "geometry", true):
+                    let definition["type"] = Column::TYPE_GEOMETRY;
 
                     break;
 
@@ -461,24 +495,73 @@ class Mysql extends PdoAdapter
             }
 
             /**
-             * Check if the column is auto increment
+             * Detect an INVISIBLE column from the EXTRA flag (MySQL 8.0.23+).
+             * EXTRA may concatenate INVISIBLE with other flags, e.g.
+             * `INVISIBLE STORED GENERATED`, so we use a substring match.
              */
-            if field[6] == "auto_increment" {
-                let definition["autoIncrement"] = true;
+            let extraValue = field[6];
+            if extraValue !== null && memstr(extraValue, "INVISIBLE") {
+                let definition["invisible"] = true;
             }
 
             /**
-             * Check if the column has default value
+             * Detect a generated/computed column from the EXTRA flag and
+             * populate the expression from GENERATION_EXPRESSION.
+             *
+             * `EXTRA` contains `VIRTUAL GENERATED` or `STORED GENERATED` for
+             * generated columns; `COLUMN_DEFAULT` is always NULL for them so
+             * the regular default/auto-increment branches below are skipped.
+             *
+             * Note: a non-generated column with `DEFAULT CURRENT_TIMESTAMP`
+             * has EXTRA `DEFAULT_GENERATED` (and possibly `on update ...`),
+             * which also contains the substring `GENERATED`. Match the
+             * specific `VIRTUAL GENERATED` / `STORED GENERATED` tokens to
+             * avoid the false positive.
              */
-            if field[5] !== null {
-                if memstr(field[6], "on update") {
-                    let definition["default"] = field[5] . " " . field[6];
+            if extraValue !== null && (memstr(extraValue, "VIRTUAL GENERATED") || memstr(extraValue, "STORED GENERATED")) {
+                if isset field[9] {
+                    let generationExpression = field[9];
                 } else {
-                    let definition["default"] = field[5];
+                    let generationExpression = "";
                 }
+
+                let definition["generated"] = generationExpression;
+                let definition["generationStored"] = memstr(extraValue, "STORED");
             } else {
-                if memstr(field[6], "on update") {
-                    let definition["default"] = "NULL " . field[6];
+                /**
+                 * Check if the column is auto increment
+                 */
+                if extraValue == "auto_increment" {
+                    let definition["autoIncrement"] = true;
+                }
+
+                /**
+                 * Check if the column has default value.
+                 *
+                 * `INFORMATION_SCHEMA.COLUMNS.COLUMN_DEFAULT` reports a column
+                 * declared `DEFAULT NULL` as the literal string "NULL" (the
+                 * legacy `SHOW FULL COLUMNS` returned a real SQL NULL). Treat
+                 * that sentinel as "no default" so a nullable column is not
+                 * given the string "NULL" as its default, which would later be
+                 * written back onto the model attribute on save. See cphalcon
+                 * issue #17176.
+                 */
+                if field[5] !== null && field[5] !== "NULL" {
+                    let defaultValue = field[5];
+
+                    if isMariaDb {
+                        let defaultValue = this->unquoteDefault(defaultValue);
+                    }
+
+                    if memstr(extraValue, "on update") {
+                        let definition["default"] = defaultValue . " " . extraValue;
+                    } else {
+                        let definition["default"] = defaultValue;
+                    }
+                } else {
+                    if memstr(extraValue, "on update") {
+                        let definition["default"] = "NULL " . extraValue;
+                    }
                 }
             }
 
@@ -505,15 +588,16 @@ class Mysql extends PdoAdapter
      *
      * ```php
      * print_r(
-     *     $connection->describeIndexes("robots_parts")
+     *     $connection->describeIndexes("co_orders_x_products")
      * );
      * ```
      */
-    public function describeIndexes(string! table, string! schema = null) -> <IndexInterface[]>
+    public function describeIndexes( string table,  string schema = null) -> <IndexInterface[]>
     {
-        var indexes, index, keyName, indexType, indexObjects, columns, name;
-
-        let indexes = [];
+        var columns, index, keyName, indexType, name, directions, collation;
+        bool invisible, anyDirection;
+        array indexes      = [],
+              indexObjects = [];
 
         for index in this->fetchAll(this->dialect->describeIndexes(table, schema), Enum::FETCH_ASSOC) {
             let keyName = index["Key_name"];
@@ -532,6 +616,31 @@ class Mysql extends PdoAdapter
             let columns[] = index["Column_name"];
             let indexes[keyName]["columns"] = columns;
 
+            /**
+             * `SHOW INDEXES.Collation` is `A` for ASC, `D` for DESC (the
+             * latter only meaningful from MySQL 8.0, where DESC indexes are
+             * actually honored). Older versions and unsorted indexes report
+             * NULL - treat those as ASC.
+             */
+            if !isset indexes[keyName]["directions"] {
+                let directions = [];
+            } else {
+                let directions = indexes[keyName]["directions"];
+            }
+
+            let collation = "";
+            if isset index["Collation"] && index["Collation"] !== null {
+                let collation = (string) index["Collation"];
+            }
+
+            if collation == "D" {
+                let directions[] = "DESC";
+            } else {
+                let directions[] = "ASC";
+            }
+
+            let indexes[keyName]["directions"] = directions;
+
             if keyName == "PRIMARY" {
                 let indexes[keyName]["type"] = "PRIMARY";
             } elseif indexType == "FULLTEXT" {
@@ -539,17 +648,51 @@ class Mysql extends PdoAdapter
             } elseif index["Non_unique"] == 0 {
                 let indexes[keyName]["type"] = "UNIQUE";
             } else {
-                let indexes[keyName]["type"] = null;
+                let indexes[keyName]["type"] = "";
+            }
+
+            /**
+             * `Visible` is a MySQL 8.0+ column from `SHOW INDEXES` - `NO`
+             * marks an INVISIBLE index. On older MySQL versions the field
+             * is absent and the index defaults to visible.
+             */
+            if isset index["Visible"] && index["Visible"] == "NO" {
+                let indexes[keyName]["invisible"] = true;
             }
         }
 
-        let indexObjects = [];
-
         for name, index in indexes {
+            let invisible = false;
+            if isset index["invisible"] {
+                let invisible = (bool) index["invisible"];
+            }
+
+            /**
+             * Only carry `directions` through to the Index when at least one
+             * column is non-ASC. All-ASC defaults to an empty array so the
+             * dialect emits the legacy plain `(col1, col2)` rendering.
+             */
+            let directions  = index["directions"],
+                anyDirection = false;
+            for collation in directions {
+                if collation == "DESC" {
+                    let anyDirection = true;
+                    break;
+                }
+            }
+
+            if !anyDirection {
+                let directions = [];
+            }
+
             let indexObjects[name] = new Index(
                 name,
-                index["columns"],
-                index["type"]
+                [
+                    "columns":    index["columns"],
+                    "type":       index["type"],
+                    "invisible":  invisible,
+                    "directions": directions
+                ]
             );
         }
 
@@ -561,17 +704,17 @@ class Mysql extends PdoAdapter
      *
      *```php
      * print_r(
-     *     $connection->describeReferences("robots_parts")
+     *     $connection->describeReferences("co_orders_x_products")
      * );
      *```
      */
-    public function describeReferences(string! table, string! schema = null) -> <ReferenceInterface[]>
+    public function describeReferences( string table,  string schema = null) -> <ReferenceInterface[]>
     {
-        var references, reference, arrayReference, constraintName,
-            referenceObjects, name, referencedSchema, referencedTable, columns,
-            referencedColumns, referenceUpdate, referenceDelete;
-
-        let references = [];
+        var arrayReference, columns, constraintName, name, reference, 
+            referenceDelete, referenceUpdate, 
+            referencedColumns, referencedSchema, referencedTable;
+        array references       = [],
+              referenceObjects = [];
 
         for reference in this->fetchAll(this->dialect->describeReferences(table, schema), Enum::FETCH_NUM) {
 
@@ -606,7 +749,6 @@ class Mysql extends PdoAdapter
             ];
         }
 
-        let referenceObjects = [];
         for name, arrayReference in references {
             let referenceObjects[name] = new Reference(
                 name,
@@ -633,5 +775,48 @@ class Mysql extends PdoAdapter
         return [
             "charset" : "utf8mb4"
         ];
+    }
+
+    /**
+     * Recognizes a MySQL "server has gone away" / "Lost connection" failure
+     * by the driver error code (2006 / 2013) with a message fallback.
+     */
+    protected function isConnectionError(<\Throwable> exception) -> bool
+    {
+        var errorInfo, driverCode, message;
+
+        let errorInfo = exception->errorInfo;
+        if typeof errorInfo == "array" && isset errorInfo[1] {
+            let driverCode = (int) errorInfo[1];
+
+            if driverCode === 2006 || driverCode === 2013 {
+                return true;
+            }
+        }
+
+        let message = exception->getMessage();
+
+        return memstr(message, "server has gone away") ||
+            memstr(message, "Lost connection");
+    }
+
+    /**
+     * Resolves a MariaDB `COLUMN_DEFAULT` literal to the value it represents.
+     *
+     * MariaDB quotes literal defaults to tell them apart from the expression
+     * defaults it has supported since 10.2. Expression defaults arrive
+     * unquoted, so an unmatched pair leaves the value untouched.
+     */
+    private function unquoteDefault(string value) -> string
+    {
+        if strlen(value) < 2 ||
+           substr(value, 0, 1) !== "'" ||
+           substr(value, -1) !== "'" {
+            return value;
+        }
+
+        return stripcslashes(
+            str_replace("''", "'", substr(value, 1, -1))
+        );
     }
 }

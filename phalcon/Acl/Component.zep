@@ -10,32 +10,25 @@
 
 namespace Phalcon\Acl;
 
+use Phalcon\Acl\Exceptions\ForbiddenDelimiter;
+use Phalcon\Acl\Exceptions\ForbiddenWildcard;
+
 /**
  * This class defines component entity and its description
  */
-class Component implements ComponentInterface
+class Component extends AbstractElement implements ComponentInterface
 {
     /**
-     * Component description
-     *
-     * @var string
+     * Component constructor.
      */
-    private description { get };
-
-    /**
-     * Component name
-     *
-     * @var string
-     */
-    private name { get, __toString };
-
-    /**
-     * Phalcon\Acl\Component constructor
-     */
-    public function __construct(string! name, string description = null)
+    public function __construct( string name, string description = null)
     {
-        if unlikely name == "*" {
-            throw new Exception("Component name cannot be '*'");
+        if unlikely name === "*" {
+            throw new ForbiddenWildcard("component");
+        }
+
+        if unlikely memstr(name, "!") {
+            throw new ForbiddenDelimiter("component");
         }
 
         let this->name = name,

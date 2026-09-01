@@ -29,8 +29,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Enum)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Acl, Enum, phalcon, acl_enum, NULL, 0);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_acl_enum_ce, SL("ALLOW"), 1);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_acl_enum_ce, SL("DENY"), 0);
 
 	return SUCCESS;

@@ -10,65 +10,71 @@
 
 namespace Phalcon\Cli;
 
+use Closure;
 use Phalcon\Application\AbstractApplication;
+use Phalcon\Cli\Console\Exceptions\ContainerRequired;
+use Phalcon\Cli\Console\Exceptions\InvalidModuleDefinition;
+use Phalcon\Cli\Console\Exceptions\ModuleDefinitionPathNotFound;
 use Phalcon\Cli\Router\Route;
-use Phalcon\Cli\Console\Exception;
-use Phalcon\Di\DiInterface;
+use Phalcon\Contracts\Cli\CliTypes;
 use Phalcon\Events\ManagerInterface;
+use Phalcon\Mvc\ModuleDefinitionInterface;
+use Phalcon\Traits\Php\FileTrait;
 
 /**
  * This component allows to create CLI applications using Phalcon
+ *
+ * @phpstan-import-type cli_arguments from CliTypes
+ * @phpstan-import-type cli_options from CliTypes
+ * @phpstan-import-type cli_parameters from CliTypes
  */
 class Console extends AbstractApplication
 {
-    /**
-     * @var array
-     */
-    protected arguments = [];
+    use FileTrait;
 
     /**
-     * @var array
+     * @phpstan-var cli_arguments
      */
-    protected options = [];
+    protected var arguments = [];
+    /**
+     * @phpstan-var cli_options
+     */
+    protected array options = [];
 
     /**
      * Handle the whole command-line tasks
+     *
+     * @phpstan-param cli_parameters|null $arguments
      */
     public function handle(array arguments = null)
     {
-        var className, container, dispatcher, eventsManager, module, moduleName,
-            moduleObject, modules, path, router, task;
+        var className, dispatcher, module, moduleName,
+            moduleObject, path, router, task;
 
-        let container = this->container;
-
-        if unlikely typeof container != "object" {
-            throw new Exception(
-                "A dependency injection container is required to access internal services"
-            );
+        if this->container === null {
+            throw new ContainerRequired();
         }
-
-        let eventsManager = <ManagerInterface> this->eventsManager;
 
         /**
          * Call boot event, this allows the developer to perform initialization
          * actions
          */
-        if typeof eventsManager == "object" {
-            if eventsManager->fire("console:boot", this) === false {
+        if this->eventsManager !== null {
+            if this->eventsManager->fire("console:boot", this) === false {
                 return false;
             }
         }
 
-        let router = <Router> container->getShared("router");
+        let router = <Router> this->container->getShared("router");
 
-        if !count(arguments) && this->arguments {
+        if empty arguments && this->arguments {
             router->handle(this->arguments);
         } else {
             router->handle(arguments);
         }
 
         /**
-         * If the router doesn't return a valid module we use the default module
+         * If the router does not return a valid module we use the default module
          */
         let moduleName = router->getModuleName();
 
@@ -77,95 +83,139 @@ class Console extends AbstractApplication
         }
 
         if moduleName {
-            if typeof eventsManager == "object" {
-                if eventsManager->fire("console:beforeStartModule", this, moduleName) === false {
+            if this->eventsManager !== null {
+                if this->eventsManager->fire("console:beforeStartModule", this, moduleName) === false {
                     return false;
                 }
             }
 
-            let modules = this->modules;
+            /**
+             * Gets the module definition
+             */
+            let module = this->getModule(moduleName);
 
-            if unlikely !isset modules[moduleName] {
-                throw new Exception(
-                    "Module '" . moduleName . "' isn't registered in the console container"
+            /**
+             * A module definition must be an array or an object
+             */
+            if unlikely (typeof module !== "array" && typeof module !== "object") {
+                throw new InvalidModuleDefinition(
+                    moduleName,
+                    "The module definition must be an array or an object"
                 );
             }
 
-            let module = modules[moduleName];
+            /**
+             * An array module definition contains a path to a module
+             * definition class
+             */
+            if typeof module === "array" {
+                /**
+                 * Class name used to load the module definition
+                 */
+                if !fetch className, module["className"] {
+                    let className = "Module";
+                }
 
-            if unlikely typeof module != "array" {
-                throw new Exception("Invalid module definition path");
-            }
+                /**
+                 * If developer specify a path try to include the file
+                 */
+                if fetch path, module["path"] {
+                    if unlikely !this->phpFileExists(path) {
+                        throw new ModuleDefinitionPathNotFound(path);
+                    }
 
-            if !fetch className, module["className"] {
-                let className = "Module";
-            }
+                    if !class_exists(className, false) {
+                        require_once path;
+                    }
+                }
 
-            if fetch path, module["path"] {
-                if unlikely !file_exists(path) {
-                    throw new Exception(
-                        "Module definition path '" . path . "' doesn't exist"
+                let moduleObject = <ModuleDefinitionInterface> this->container->get(className);
+
+                /**
+                 * 'registerAutoloaders' and 'registerServices' are
+                 * automatically called
+                 */
+                moduleObject->registerAutoloaders(this->container);
+                moduleObject->registerServices(this->container);
+            } else {
+                /**
+                 * A module definition object, can be a Closure instance
+                 */
+                if unlikely !(module instanceof Closure) {
+                    throw new InvalidModuleDefinition(
+                        moduleName,
+                        "The module definition object must be a Closure"
                     );
                 }
 
-                if !class_exists(className, false) {
-                    require_once path;
-                }
+                let moduleObject = call_user_func_array(
+                    module,
+                    [
+                        this->container
+                    ]
+                );
             }
 
-            let moduleObject = container->get(className);
-
-            moduleObject->registerAutoloaders(container);
-            moduleObject->registerServices(container);
-
-            if typeof eventsManager == "object" {
-                if eventsManager->fire("console:afterStartModule", this, moduleObject) === false {
+            /**
+             * The "afterStartModule" event is fired once the module has
+             * started. Unlike Phalcon\Mvc\Application - where the return value
+             * is a notification only - Console honors a `false` return and
+             * aborts handling. This divergence is retained for backward
+             * compatibility and is unified in the next major version.
+             */
+            if this->eventsManager !== null {
+                if this->eventsManager->fire("console:afterStartModule", this, moduleObject) === false {
                     return false;
                 }
             }
 
         }
 
-        let dispatcher = <Dispatcher> container->getShared("dispatcher");
+        let dispatcher = <Dispatcher> this->container->getShared("dispatcher");
 
-        dispatcher->setModuleName(router->getModuleName());
+        dispatcher->setModuleName(moduleName);
         dispatcher->setTaskName(router->getTaskName());
         dispatcher->setActionName(router->getActionName());
-        dispatcher->setParams(router->getParams());
+        dispatcher->setParams(router->getParameters());
         dispatcher->setOptions(this->options);
 
-        if typeof eventsManager == "object" {
-            if eventsManager->fire("console:beforeHandleTask", this, dispatcher) === false {
+        if this->eventsManager !== null {
+            if this->eventsManager->fire("console:beforeHandleTask", this, dispatcher) === false {
                 return false;
             }
         }
 
         let task = dispatcher->dispatch();
 
-        if typeof eventsManager == "object" {
-            eventsManager->fire("console:afterHandleTask", this, task);
+        if this->eventsManager !== null {
+            this->eventsManager->fire("console:afterHandleTask", this, task);
         }
 
         return task;
     }
 
     /**
-     * Set an specific argument
+     * Set a specific argument
+     *
+     * @phpstan-param cli_parameters|null $arguments
      */
-    public function setArgument(array! arguments = null, bool! str = true, bool! shift = true) -> <Console>
-    {
+    public function setArgument(
+        array arguments = null,
+        bool str = true,
+        bool shift = true
+    ) -> <static> {
         var arg, pos, args, opts, handleArgs;
 
         let args = [],
             opts = [],
             handleArgs = [];
 
-        if shift && count(arguments) {
+        if shift && !empty arguments {
             array_shift(arguments);
         }
 
         for arg in arguments {
-            if typeof arg == "string" {
+            if typeof arg === "string" {
                 if strncmp(arg, "--", 2) == 0 {
                     let pos = strpos(arg, "=");
 
@@ -192,15 +242,15 @@ class Console extends AbstractApplication
                 args
             );
         } else {
-            if count(args) {
+            if !empty args {
                 let handleArgs["task"] = array_shift(args);
             }
 
-            if count(args) {
+            if !empty args {
                 let handleArgs["action"] = array_shift(args);
             }
 
-            if count(args) {
+            if !empty args {
                 let handleArgs = array_merge(handleArgs, args);
             }
 

@@ -1,6 +1,6 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -15,35 +15,24 @@ namespace Phalcon\Support\Helper\Str;
  */
 class PascalCase
 {
-    /**
-     * @param string      $text
-     * @param string|null $delimiters
-     *
-     * @return string
-     */
     public function __invoke(
         string text,
         string delimiters = null
     ) -> string {
-        var exploded, output;
+        var exploded, output, element;
 
         let exploded = this->processArray(text, delimiters);
 
-        let output = array_map(
-            function (element) {
-                return ucfirst(mb_strtolower(element));
-            },
-            exploded
-        );
+        let output = "";
+        for element in exploded {
+            let output = output . ucfirst(mb_strtolower(element));
+        }
 
-        return implode("", output);
+        return output;
     }
 
     /**
-     * @param string      $text
-     * @param string|null $delimiters
-     *
-     * @return array
+     * @return string[]
      */
     protected function processArray(string text, string delimiters = null) -> array
     {
@@ -60,7 +49,7 @@ class PascalCase
          */
         if strpos(delimiters, "\\-") !== false || strpos(delimiters, "-") !== false {
             let delimiters = str_replace(["\\-", "-"], ["", ""], delimiters),
-                delimiters = "-" . $delimiters;
+                delimiters = "-" . delimiters;
         }
 
         let result = preg_split(

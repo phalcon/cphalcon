@@ -10,12 +10,14 @@
 
 namespace Phalcon\Filter\Sanitize;
 
+use Phalcon\Contracts\Filter\Sanitizer;
+
 /**
  * Phalcon\Filter\Sanitize\Replace
  *
  * Sanitizes a value replacing parts of a string
  */
-class Replace
+class Replace implements Sanitizer
 {
     /**
      * @param mixed $input

@@ -21,7 +21,9 @@
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 
+#if PHP_VERSION_ID < 80500
 #include <ext/standard/php_smart_string.h>
+#endif
 #include <zend_smart_str.h>
 
 #include <ext/standard/php_string.h>

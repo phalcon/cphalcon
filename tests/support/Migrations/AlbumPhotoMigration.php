@@ -1,0 +1,86 @@
+<?php
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Phalcon\Tests\Support\Migrations;
+
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
+class AlbumPhotoMigration extends AbstractSchema
+{
+    protected string $table = 'album_photo';
+
+    /**
+     * @return int
+     */
+    public function insert(): int
+    {
+        return 0;
+    }
+
+    protected function getStatementsMysql(): array
+    {
+        return [
+            "
+CREATE TABLE `album_photo` (
+	`id`       int(11) unsigned not null AUTO_INCREMENT,
+	`photo_id` int(11) unsigned null default null,
+	`album_id` int(11) unsigned null default null,
+	`position` int(10) unsigned not null default '999999999',
+	primary key (`id`) using BTREE,
+	unique index `UQ_cadf1c545153612614511f15197cae7b6dacac97` (`album_id`, `photo_id`) using BTREE,
+	index `index_foreignkey_album_photo_photo` (`photo_id`) using BTREE,
+	index `index_foreignkey_album_photo_album` (`album_id`) using BTREE,
+	constraint `c_fk_album_photo_album_id` foreign key (`album_id`) references `album` (`id`) on update cascade on delete cascade,
+	constraint `c_fk_album_photo_photo_id` foreign key (`photo_id`) references `photo` (`id`) on update cascade on delete cascade
+) collate='utf8mb4_unicode_520_ci';
+            ",
+        ];
+    }
+
+    protected function getStatementsSqlite(): array
+    {
+        return [
+            "
+create table album_photo
+(
+    id       integer constraint album_photo_pk primary key autoincrement not null,
+    photo_id integer null,
+    album_id integer null,
+    position integer not null default 999999999
+);
+            ",
+        ];
+    }
+
+    protected function getStatementsPgsql(): array
+    {
+        return [
+            "
+create table album_photo
+(
+    id       serial   constraint album_photo_pk primary key,
+    photo_id integer  null,
+    album_id integer  null,
+    position integer  not null default 999999999,
+    constraint UQ_cadf1c545153612614511f15197cae7b6dacac97 unique (album_id, photo_id)
+);
+            ",
+            "
+create index index_foreignkey_album_photo_photo on album_photo (photo_id);
+            ",
+            "
+create index index_foreignkey_album_photo_album on album_photo (album_id);
+            ",
+        ];
+    }
+}

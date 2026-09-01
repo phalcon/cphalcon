@@ -18,7 +18,7 @@
 
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -36,32 +36,27 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Arr_ToObject)
 }
 
 /**
- * @param array $collection
+ * @param array<array-key, mixed> $collection
  *
  * @return object
  */
 PHP_METHOD(Phalcon_Support_Helper_Arr_ToObject, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *collection_param = NULL;
+	zval *collection_param = NULL, _0;
 	zval collection;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&collection);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	ZVAL_UNDEF(&_0);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ARRAY(collection)
+		ZEPHIR_Z_PARAM_ARRAY(collection, collection_param)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &collection_param);
 	zephir_get_arrval(&collection, collection_param);
-
-
-	zephir_convert_to_object(&collection);
-	RETURN_CTOR(&collection);
+	ZEPHIR_CPY_WRT(&_0, &collection);
+	zephir_convert_to_object(&_0);
+	RETURN_CCTOR(&_0);
 }
 

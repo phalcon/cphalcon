@@ -21,53 +21,17 @@
  * file that was distributed with this source code.
  */
 /**
- * Interface for Phalcon\Db\Result objects
+ * Phalcon\Db\ResultInterface
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Db\Result} instead.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_ResultInterface)
 {
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Db, ResultInterface, phalcon, db_resultinterface, phalcon_db_resultinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Db, ResultInterface, phalcon, db_resultinterface, NULL);
 
+	zend_class_implements(phalcon_db_resultinterface_ce, 1, phalcon_contracts_db_result_ce);
 	return SUCCESS;
 }
 
-/**
- * Moves internal resultset cursor to another position letting us to fetch a
- * certain row
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_ResultInterface, dataSeek);
-/**
- * Allows to execute the statement again. Some database systems don't
- * support scrollable cursors. So, as cursors are forward only, we need to
- * execute the cursor again to fetch rows from the beginning
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_ResultInterface, execute);
-/**
- * Fetches an array/object of strings that corresponds to the fetched row,
- * or FALSE if there are no more rows. This method is affected by the active
- * fetch flag set using `Phalcon\Db\Result\Pdo::setFetchMode()`
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_ResultInterface, fetch);
-/**
- * Returns an array of arrays containing all the records in the result. This
- * method is affected by the active fetch flag set using
- * `Phalcon\Db\Result\Pdo::setFetchMode()`
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_ResultInterface, fetchAll);
-/**
- * Returns an array of strings that corresponds to the fetched row, or FALSE
- * if there are no more rows. This method is affected by the active fetch
- * flag set using `Phalcon\Db\Result\Pdo::setFetchMode()`
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_ResultInterface, fetchArray);
-/**
- * Gets the internal PDO result object
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_ResultInterface, getInternalResult);
-/**
- * Gets number of rows returned by a resultset
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_ResultInterface, numRows);
-/**
- * Changes the fetching mode affecting Phalcon\Db\Result\Pdo::fetch()
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_ResultInterface, setFetchMode);

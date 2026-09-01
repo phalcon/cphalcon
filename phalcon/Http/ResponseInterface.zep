@@ -23,42 +23,81 @@ interface ResponseInterface
     /**
      * Appends a string to the HTTP response body
      */
-    public function appendContent(content) -> <ResponseInterface>;
+    public function appendContent(string content) -> <ResponseInterface>;
 
     /**
      * Gets the HTTP response body
+     *
+     * @return string
      */
     public function getContent() -> string;
 
     /**
-     * Returns the status code
-     */
-    public function getStatusCode() -> int | null;
-
-    /**
      * Returns headers set by the user
+     *
+     * @return HeadersInterface
      */
     public function getHeaders() -> <HeadersInterface>;
 
     /**
+     * Returns the status code
+     *
+     * @return int|null
+     */
+    public function getStatusCode() -> int | null;
+
+    /**
      * Checks if a header exists
+     *
+     * @param string $name
+     *
+     * @return bool
      */
     public function hasHeader(string name) -> bool;
 
     /**
      * Checks if the response was already sent
+     *
+     * @return bool
      */
     public function isSent() -> bool;
 
     /**
      * Redirect by HTTP to another action or URL
+     *
+     * @param string|null $location
+     * @param bool        $externalRedirect
+     * @param int         $statusCode
+     *
+     * @return ResponseInterface
      */
-    public function redirect(location = null, bool externalRedirect = false, int statusCode = 302) -> <ResponseInterface>;
+    public function redirect(string location = null, bool externalRedirect = false, int statusCode = 302) -> <ResponseInterface>;
 
     /**
      * Resets all the established headers
+     *
+     * @return ResponseInterface
      */
     public function resetHeaders() -> <ResponseInterface>;
+
+    /**
+     * Prints out HTTP response to the client
+     *
+     * @return ResponseInterface
+     */
+    public function send() -> <ResponseInterface>;
+
+    /**
+     * Sends cookies to the client
+     *
+     * @return ResponseInterface
+     */
+    public function sendCookies() -> <ResponseInterface>;
+
+    /**
+     * Sends headers to the client
+     */
+    public function sendHeaders() -> bool | <ResponseInterface>;
 
     /**
      * Sets HTTP response body
@@ -73,9 +112,9 @@ interface ResponseInterface
     /**
      * Sets the response content-type mime, optionally the charset
      *
-     * @param string charset
+     * @todo check the null
      */
-    public function setContentType(string contentType, charset = null) -> <ResponseInterface>;
+    public function setContentType(string contentType, string charset = null) -> <ResponseInterface>;
 
     /**
      * Sets output expire time header
@@ -84,13 +123,15 @@ interface ResponseInterface
 
     /**
      * Sets an attached file to be sent at the end of the request
+     *
+     * @todo check the null
      */
-    public function setFileToSend(string filePath, attachmentName = null) -> <ResponseInterface>;
+    public function setFileToSend(string filePath, string attachmentName = null) -> <ResponseInterface>;
 
     /**
      * Overwrites a header in the response
      */
-    public function setHeader(string name, value) -> <ResponseInterface>;
+    public function setHeader(string name, string value) -> <ResponseInterface>;
 
     /**
      * Sets HTTP response body. The parameter is automatically converted to JSON
@@ -102,8 +143,10 @@ interface ResponseInterface
      *     ]
      * );
      *```
+     *
+     * @todo check the parameter type
      */
-    public function setJsonContent(content) -> <ResponseInterface>;
+    public function setJsonContent(var content) -> <ResponseInterface>;
 
     /**
      * Sends a Not-Modified response
@@ -117,21 +160,8 @@ interface ResponseInterface
 
     /**
      * Sets the HTTP response code
+     *
+     * @todo change $message to only string
      */
     public function setStatusCode(int code, string message = null) -> <ResponseInterface>;
-
-    /**
-     * Prints out HTTP response to the client
-     */
-    public function send() -> <ResponseInterface>;
-
-    /**
-     * Sends cookies to the client
-     */
-    public function sendCookies() -> <ResponseInterface>;
-
-    /**
-     * Sends headers to the client
-     */
-    public function sendHeaders() -> <ResponseInterface> | boolean;
 }

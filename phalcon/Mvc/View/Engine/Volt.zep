@@ -16,13 +16,19 @@ use Phalcon\Events\ManagerInterface;
 use Phalcon\Html\Link\Link;
 use Phalcon\Html\Link\Serializer\Header;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\InvalidHaystack;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\MacroNotFound;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\MbstringRequired;
 use Phalcon\Mvc\View\Exception;
+use Phalcon\Traits\Php\InfoTrait;
 
 /**
  * Designer friendly and fast template engine for PHP written in Zephir/C
  */
 class Volt extends AbstractEngine implements EventsAwareInterface
 {
+    use InfoTrait;
+
     /**
      * @var Compiler
      */
@@ -51,12 +57,12 @@ class Volt extends AbstractEngine implements EventsAwareInterface
      *
      * @return mixed
      */
-    public function callMacro(string! name, array arguments = []) -> var
+    public function callMacro( string name, array arguments = []) -> var
     {
         var macro;
 
         if unlikely !fetch macro, this->macros[name] {
-            throw new Exception("Macro '" . name . "' does not exist");
+            throw new MacroNotFound(name);
         }
 
         return call_user_func(macro, arguments);
@@ -67,35 +73,13 @@ class Volt extends AbstractEngine implements EventsAwareInterface
      *
      * @return string
      */
-    public function convertEncoding(string text, string! from, string! to) -> string
+    public function convertEncoding(string text,  string from,  string to) -> string
     {
-        /**
-         * Try to use utf8_encode if conversion is 'latin1' to 'utf8'
-         */
-        if from === "latin1" || to === "utf8" {
-            return utf8_encode(text);
+        if unlikely !this->phpFunctionExists("mb_convert_encoding") {
+            throw new MbstringRequired();
         }
 
-        /**
-         * Try to use utf8_decode if conversion is 'utf8' to 'latin1'
-         */
-        if to === "latin1" || from === "utf8" {
-            return utf8_decode(text);
-        }
-
-        /**
-         * Fallback to mb_convert_encoding
-         */
-        if function_exists("mb_convert_encoding") {
-            return mb_convert_encoding(text, from, to);
-        }
-
-        /**
-         * There are no enough extensions available
-         */
-        throw new Exception(
-            "'mbstring' is required to perform the charset conversion"
-        );
+        return mb_convert_encoding(text, to, from);
     }
 
     /**
@@ -166,19 +150,23 @@ class Volt extends AbstractEngine implements EventsAwareInterface
      */
     public function isIncluded(var needle, var haystack) -> bool
     {
+        if unlikely null === needle {
+            let needle = "";
+        }
+
         if typeof haystack == "array" {
             return in_array(needle, haystack);
         }
 
         if typeof haystack == "string" {
-            if function_exists("mb_strpos") {
+            if this->phpFunctionExists("mb_strpos") {
                 return mb_strpos(haystack, needle) !== false;
             }
 
             return strpos(haystack, needle) !== false;
         }
 
-        throw new Exception("Invalid haystack");
+        throw new InvalidHaystack();
     }
 
     /**
@@ -190,11 +178,15 @@ class Volt extends AbstractEngine implements EventsAwareInterface
      */
     public function length(var item) -> int
     {
+        if unlikely null === item {
+            let item = "";
+        }
+
         if typeof item == "object" || typeof item == "array" {
             return count(item);
         }
 
-        if function_exists("mb_strlen") {
+        if this->phpFunctionExists("mb_strlen") {
             return mb_strlen(item);
         }
 
@@ -260,7 +252,7 @@ class Volt extends AbstractEngine implements EventsAwareInterface
      *
      * @return void
      */
-    public function render(string! path, var params, bool mustClean = false) // TODO: Make params array
+    public function render( string path, var params, bool mustClean = false) // TODO: Make params array
     {
         var compiler, compiledTemplatePath, eventsManager, key, value;
 
@@ -325,7 +317,7 @@ class Volt extends AbstractEngine implements EventsAwareInterface
      *
      * @return void
      */
-    public function setOptions(array! options)
+    public function setOptions( array options)
     {
         let this->options = options;
     }
@@ -384,7 +376,7 @@ class Volt extends AbstractEngine implements EventsAwareInterface
         /**
          * Use mb_substr if available
          */
-        if function_exists("mb_substr") {
+        if this->phpFunctionExists("mb_substr") {
             if length !== null {
                 return mb_substr(value, start, length);
             }

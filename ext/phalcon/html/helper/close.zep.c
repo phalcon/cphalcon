@@ -14,17 +14,21 @@
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
-#include "kernel/memory.h"
 #include "kernel/object.h"
+#include "kernel/memory.h"
 
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 /**
  * Class Close
@@ -49,38 +53,34 @@ PHP_METHOD(Phalcon_Html_Helper_Close, __invoke)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool raw;
-	zval *tag_param = NULL, *raw_param = NULL, _0;
-	zval tag;
+	zval tag_zv, *raw_param = NULL, _0;
+	zend_string *tag = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&tag);
+	ZVAL_UNDEF(&tag_zv);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(tag)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_BOOL(raw)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &tag_param, &raw_param);
-	zephir_get_strval(&tag, tag_param);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (ZEND_NUM_ARGS() > 1) {
+		raw_param = ZEND_CALL_ARG(execute_data, 2);
+	}
+	zephir_memory_observe(&tag_zv);
+	ZVAL_STR_COPY(&tag_zv, tag);
 	if (!raw_param) {
 		raw = 0;
 	} else {
-		raw = zephir_get_boolval(raw_param);
-	}
-
-
+		}
 	if (raw) {
 		ZVAL_BOOL(&_0, 1);
 	} else {
 		ZVAL_BOOL(&_0, 0);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "close", NULL, 0, &tag, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "close", NULL, 0, &tag_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

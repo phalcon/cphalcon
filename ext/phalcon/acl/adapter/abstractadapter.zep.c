@@ -13,8 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/memory.h"
 #include "kernel/operators.h"
+#include "kernel/memory.h"
 
 
 /**
@@ -26,37 +26,46 @@
  * LICENSE.txt file that was distributed with this source code.
  */
 /**
- * Adapter for Phalcon\Acl adapters
+ * Functionality common to all adapters
  */
 ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter_AbstractAdapter)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Acl\\Adapter, AbstractAdapter, phalcon, acl_adapter_abstractadapter, phalcon_events_abstracteventsaware_ce, phalcon_acl_adapter_abstractadapter_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	/**
-	 * Active access which the list is checking if some role can access it
-	 *
-	 * @var string|null
-	 */
-	zend_declare_property_null(phalcon_acl_adapter_abstractadapter_ce, SL("activeAccess"), ZEND_ACC_PROTECTED);
-	/**
 	 * Access Granted
 	 *
-	 * @var bool
+	 * @var int
 	 */
-	zend_declare_property_bool(phalcon_acl_adapter_abstractadapter_ce, SL("accessGranted"), 0, ZEND_ACC_PROTECTED);
+	zend_declare_property_long(phalcon_acl_adapter_abstractadapter_ce, SL("accessGranted"), 0, ZEND_ACC_PROTECTED);
+	/**
+	 * Active access which the list is checking if some role can access it
+	 */
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_acl_adapter_abstractadapter_ce, SL("activeAccess"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING|MAY_BE_NULL, NULL, 0);
+	}
+
+	/**
+	 * Component which the list is checking if some role can access it
+	 */
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_acl_adapter_abstractadapter_ce, SL("activeComponent"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING|MAY_BE_NULL, NULL, 0);
+	}
+
 	/**
 	 * Role which the list is checking if it's allowed to certain
 	 * component/access
-	 *
-	 * @var string|null
 	 */
-	zend_declare_property_null(phalcon_acl_adapter_abstractadapter_ce, SL("activeRole"), ZEND_ACC_PROTECTED);
-	/**
-	 * Component which the list is checking if some role can access it
-	 *
-	 * @var string|null
-	 */
-	zend_declare_property_null(phalcon_acl_adapter_abstractadapter_ce, SL("activeComponent"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_acl_adapter_abstractadapter_ce, SL("activeRole"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING|MAY_BE_NULL, NULL, 0);
+	}
+
 	/**
 	 * Default access
 	 *
@@ -69,59 +78,46 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter_AbstractAdapter)
 }
 
 /**
- * Active access which the list is checking if some role can access it
+ * Returns the access which the list is checking if a role can access it
  */
 PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getActiveAccess)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "activeAccess");
 }
 
 /**
- * Role which the list is checking if it's allowed to certain
- *
- *
- * component/access
- *
- */
-PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getActiveRole)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "activeRole");
-}
-
-/**
- * Component which the list is checking if some role can access it
+ * Returns the component which the list is checking if some role can access
+ * it
  */
 PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getActiveComponent)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "activeComponent");
 }
 
 /**
- * Returns the default ACL access level
+ * Returns the role which the list is checking if it's allowed to certain
+ * component/access
  */
-PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getDefaultAction)
+PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getActiveRole)
 {
-	zval *this_ptr = getThis();
 
-
-
-	RETURN_MEMBER(getThis(), "defaultAccess");
+	RETURN_MEMBER(getThis(), "activeRole");
 }
 
 /**
- * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
+ * Returns the default action
+ */
+PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getDefaultAction)
+{
+
+	RETURN_MEMBER_TYPED(getThis(), "defaultAccess", IS_LONG);
+}
+
+/**
+ * Sets the default access level
+ * (Phalcon\Acl\Enum::ALLOW or Phalcon\Acl\Enum::DENY)
  */
 PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, setDefaultAction)
 {
@@ -130,20 +126,17 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, setDefaultAction)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("defaultAccess", 13, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(defaultAccess)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
 	zephir_fetch_params_without_memory_grow(1, 0, &defaultAccess_param);
-	defaultAccess = zephir_get_intval(defaultAccess_param);
-
-
-	ZEPHIR_INIT_ZVAL_NREF(_0);
+	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, defaultAccess);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("defaultAccess"), &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 136, &_0);
 }
 

@@ -1,0 +1,89 @@
+
+#ifdef HAVE_CONFIG_H
+#include "../../ext_config.h"
+#endif
+
+#include <php.h>
+#include "../../php_ext.h"
+#include "../../ext.h"
+
+#include <Zend/zend_operators.h>
+#include <Zend/zend_exceptions.h>
+#include <Zend/zend_interfaces.h>
+
+#include "kernel/main.h"
+
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+/**
+ * Log Level Enum constants
+ */
+ZEPHIR_INIT_CLASS(Phalcon_Logger_Enum)
+{
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Logger, Enum, phalcon, logger_enum, NULL, 0);
+
+	/**
+	 * @var int
+	 */
+	zephir_declare_class_constant_long(phalcon_logger_enum_ce, SL("ALERT"), 2);
+
+	/**
+	 * @var int
+	 */
+	zephir_declare_class_constant_long(phalcon_logger_enum_ce, SL("CRITICAL"), 1);
+
+	/**
+	 * Default threshold and fallback sink. It sits between DEBUG (7) and
+	 * TRACE (9) in the ordering, so the default log level excludes TRACE.
+	 * It is also the fallback for unknown message levels and invalid
+	 * setLogLevel() values.
+	 *
+	 * @var int
+	 */
+	zephir_declare_class_constant_long(phalcon_logger_enum_ce, SL("CUSTOM"), 8);
+
+	/**
+	 * @var int
+	 */
+	zephir_declare_class_constant_long(phalcon_logger_enum_ce, SL("DEBUG"), 7);
+
+	/**
+	 * @var int
+	 */
+	zephir_declare_class_constant_long(phalcon_logger_enum_ce, SL("EMERGENCY"), 0);
+
+	/**
+	 * @var int
+	 */
+	zephir_declare_class_constant_long(phalcon_logger_enum_ce, SL("ERROR"), 3);
+
+	/**
+	 * @var int
+	 */
+	zephir_declare_class_constant_long(phalcon_logger_enum_ce, SL("INFO"), 6);
+
+	/**
+	 * @var int
+	 */
+	zephir_declare_class_constant_long(phalcon_logger_enum_ce, SL("NOTICE"), 5);
+
+	/**
+	 * @var int
+	 */
+	zephir_declare_class_constant_long(phalcon_logger_enum_ce, SL("TRACE"), 9);
+
+	/**
+	 * @var int
+	 */
+	zephir_declare_class_constant_long(phalcon_logger_enum_ce, SL("WARNING"), 4);
+
+	return SUCCESS;
+}
+

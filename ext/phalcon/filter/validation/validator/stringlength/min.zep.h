@@ -5,13 +5,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_StringLength_Min);
 
 PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength_Min, __construct);
 PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength_Min, validate);
+PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength_Min, phpExtensionLoaded);
+PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength_Min, phpFunctionExists);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_validator_stringlength_min___construct, 0, 0, 0)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, options, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validator_stringlength_min_validate, 0, 2, _IS_BOOL, 0)
@@ -19,8 +17,18 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_valida
 	ZEND_ARG_INFO(0, field)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validator_stringlength_min_phpextensionloaded, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validator_stringlength_min_phpfunctionexists, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, functionName, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_filter_validation_validator_stringlength_min_method_entry) {
 	PHP_ME(Phalcon_Filter_Validation_Validator_StringLength_Min, __construct, arginfo_phalcon_filter_validation_validator_stringlength_min___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Filter_Validation_Validator_StringLength_Min, validate, arginfo_phalcon_filter_validation_validator_stringlength_min_validate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Filter_Validation_Validator_StringLength_Min, phpExtensionLoaded, arginfo_phalcon_filter_validation_validator_stringlength_min_phpextensionloaded, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Filter_Validation_Validator_StringLength_Min, phpFunctionExists, arginfo_phalcon_filter_validation_validator_stringlength_min_phpfunctionexists, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

@@ -10,6 +10,11 @@
 
 namespace Phalcon\Db;
 
+use Phalcon\Db\Exceptions\ForeignKeyColumnsRequired;
+use Phalcon\Db\Exceptions\ReferencedColumnCountMismatch;
+use Phalcon\Db\Exceptions\ReferencedColumnsRequired;
+use Phalcon\Db\Exceptions\ReferencedTableRequired;
+
 /**
  * Allows to define reference constraints on tables
  *
@@ -38,61 +43,61 @@ class Reference implements ReferenceInterface
      *
      * @var array
      */
-    protected columns { get };
+    protected columns;
 
     /**
      * Constraint name
      *
      * @var string
      */
-    protected name { get };
+    protected name;
 
     /**
      * Referenced Columns
      *
      * @var array
      */
-    protected referencedColumns { get };
+    protected referencedColumns;
 
     /**
      * Referenced Schema
      *
      * @var string
      */
-    protected referencedSchema { get };
+    protected referencedSchema;
 
     /**
      * Referenced Table
      *
      * @var string
      */
-    protected referencedTable { get };
+    protected referencedTable;
 
     /**
      * Schema name
      *
      * @var string
      */
-    protected schemaName { get };
+    protected schemaName;
 
     /**
      * ON DELETE
      *
      * @var string
      */
-    protected onDelete { get };
+    protected onDelete;
 
     /**
      * ON UPDATE
      *
      * @var string
      */
-    protected onUpdate { get };
+    protected onUpdate;
 
     /**
      * Phalcon\Db\Reference constructor
      */
-    public function __construct(string! name, array! definition)
+    public function __construct( string name,  array definition)
     {
         var columns, schema, referencedTable, referencedSchema,
             referencedColumns, onDelete, onUpdate;
@@ -100,21 +105,19 @@ class Reference implements ReferenceInterface
         let this->name = name;
 
         if unlikely !fetch referencedTable, definition["referencedTable"] {
-            throw new Exception("Referenced table is required");
+            throw new ReferencedTableRequired();
         }
 
         let this->referencedTable = referencedTable;
 
         if unlikely !fetch columns, definition["columns"] {
-            throw new Exception("Foreign key columns are required");
+            throw new ForeignKeyColumnsRequired();
         }
 
         let this->columns = columns;
 
         if unlikely !fetch referencedColumns, definition["referencedColumns"] {
-            throw new Exception(
-                "Referenced columns of the foreign key are required"
-            );
+            throw new ReferencedColumnsRequired();
         }
 
         let this->referencedColumns = referencedColumns;
@@ -136,9 +139,71 @@ class Reference implements ReferenceInterface
         }
 
         if unlikely count(columns) != count(referencedColumns) {
-            throw new Exception(
-                "Number of columns is not equals than the number of columns referenced"
-            );
+            throw new ReferencedColumnCountMismatch();
         }
+    }
+
+    /**
+     * Local reference columns
+     */
+    public function getColumns() -> array
+    {
+        return this->columns;
+    }
+
+    /**
+     * Constraint name
+     */
+    public function getName() -> string
+    {
+        return this->name;
+    }
+
+    /**
+     * Referenced Columns
+     */
+    public function getReferencedColumns() -> array
+    {
+        return this->referencedColumns;
+    }
+
+    /**
+     * Referenced Schema
+     */
+    public function getReferencedSchema() -> string | null
+    {
+        return this->referencedSchema;
+    }
+
+    /**
+     * Referenced Table
+     */
+    public function getReferencedTable() -> string
+    {
+        return this->referencedTable;
+    }
+
+    /**
+     * Schema name
+     */
+    public function getSchemaName() -> string | null
+    {
+        return this->schemaName;
+    }
+
+    /**
+     * ON DELETE
+     */
+    public function getOnDelete() -> string | null
+    {
+        return this->onDelete;
+    }
+
+    /**
+     * ON UPDATE
+     */
+    public function getOnUpdate() -> string | null
+    {
+        return this->onUpdate;
     }
 }

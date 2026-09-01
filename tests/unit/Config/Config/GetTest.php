@@ -1,0 +1,73 @@
+<?php
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Phalcon\Tests\Unit\Config\Config;
+
+use Phalcon\Config\Config;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Traits\ConfigTrait;
+
+final class GetTest extends AbstractUnitTestCase
+{
+    use ConfigTrait;
+
+    /**
+     * @author Cameron Hall <me@chall.id.au>
+     * @since  2019-06-17
+     */
+    public function testConfigGet(): void
+    {
+        $config = $this->getConfig();
+
+        $expected = $this->config['database']['adapter'];
+        $actual   = $config->get('database')
+                           ->get('adapter')
+        ;
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-05-13
+     * @issue  https://github.com/phalcon/cphalcon/issues/17005
+     */
+    public function testConfigGetCastArrayUnwrapsNestedConfig(): void
+    {
+        $config = new Config(
+            [
+                'outKey' => [
+                    'inKey' => 'inValue',
+                ],
+            ]
+        );
+
+        $extractedArray = $config->get('outKey', [], 'array');
+
+        $this->assertIsArray($extractedArray);
+        $this->assertArrayHasKey('inKey', $extractedArray);
+        $this->assertSame('inValue', $extractedArray['inKey']);
+    }
+
+    /**
+     * @author Cameron Hall <me@chall.id.au>
+     * @since  2019-06-17
+     */
+    public function testConfigGetter(): void
+    {
+        $config = $this->getConfig();
+
+        $expected = $config->database->adapter;
+        $actual   = $this->config['database']['adapter'];
+        $this->assertSame($expected, $actual);
+    }
+}

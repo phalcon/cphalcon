@@ -35,105 +35,227 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_Igbinary)
 
 /**
  * Serializes data
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, serialize)
 {
-	zval _0, _1, _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval __$true, __$false, result, _0, _1, _2;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
+	ZVAL_BOOL(&__$true, 1);
+	ZVAL_BOOL(&__$false, 0);
+	ZVAL_UNDEF(&result);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("data", 4, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("isSuccess", 9, 1);
+	}
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-
-	ZEPHIR_MM_GROW();
-
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 335, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isserializable", NULL, 0, &_1);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
 		RETURN_MM_MEMBER(getThis(), "data");
 	}
-	zephir_read_property(&_2, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("igbinary_serialize", NULL, 0, &_2);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 335, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(&result, this_ptr, "doserialize", NULL, 0, &_2);
+	zephir_check_call_status();
+	if (UNEXPECTED(Z_TYPE_P(&result) == IS_NULL)) {
+		if (0) {
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 336, &__$true);
+		} else {
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 336, &__$false);
+		}
+		ZEPHIR_INIT_NVAR(&result);
+		ZVAL_STRING(&result, "");
+	} else {
+		if (1) {
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 336, &__$true);
+		} else {
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 336, &__$false);
+		}
+	}
+	RETURN_CCTOR(&result);
+}
+
+/**
+ * Unserializes data
+ */
+PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, unserialize)
+{
+	zend_bool _3$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval data_sub, __$false, __$true, result, _0, _1$$4, _2$$4;
+	zval *data;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&data_sub);
+	ZVAL_BOOL(&__$false, 0);
+	ZVAL_BOOL(&__$true, 1);
+	ZVAL_UNDEF(&result);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1$$4);
+	ZVAL_UNDEF(&_2$$4);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("data", 4, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("isSuccess", 9, 1);
+	}
+
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(data)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &data);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isserializable", NULL, 0, data);
+	zephir_check_call_status();
+	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 335, data);
+	} else {
+		ZEPHIR_GLOBAL(warning).enable = zend_is_true(&__$false);
+		ZEPHIR_INIT_VAR(&_1$$4);
+		ZEPHIR_INIT_NVAR(&_1$$4);
+		zephir_create_closure_ex(&_1$$4, NULL, phalcon_3__closure_ce, SL("__invoke"));
+		ZVAL_LONG(&_2$$4, 2);
+		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 303, &_1$$4, &_2$$4);
+		zephir_check_call_status();
+		ZEPHIR_CALL_METHOD(&result, this_ptr, "dounserialize", NULL, 0, data);
+		zephir_check_call_status();
+		ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 304);
+		zephir_check_call_status();
+		_3$$4 = ZEPHIR_GLOBAL(warning).enable;
+		if (!(_3$$4)) {
+			_3$$4 = ZEPHIR_IS_FALSE_IDENTICAL(&result);
+		}
+		if (UNEXPECTED(_3$$4)) {
+			if (0) {
+				zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 336, &__$true);
+			} else {
+				zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 336, &__$false);
+			}
+			ZEPHIR_INIT_NVAR(&result);
+			ZVAL_STRING(&result, "");
+		} else {
+			if (1) {
+				zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 336, &__$true);
+			} else {
+				zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 336, &__$false);
+			}
+		}
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 335, &result);
+	}
+	ZEPHIR_MM_RESTORE();
+}
+
+/**
+ * Serialize
+ */
+PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, doSerialize)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *value, value_sub;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&value_sub);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(value)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &value);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "phpigbinaryserialize", NULL, 0, value);
 	zephir_check_call_status();
 	RETURN_MM();
 }
 
 /**
- * Unserializes data
+ * Unserialize
  *
- * @param string $data
+ * @param string $value
  *
- * @return void
+ * @return false|mixed
  */
-PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, unserialize)
+PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, doUnserialize)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *data, data_sub, __$false, __$null, version, _0, _1, _2, _7, _3$$3, _4$$3, _5$$4, _6$$4;
+	zval *value, value_sub;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&data_sub);
-	ZVAL_BOOL(&__$false, 0);
-	ZVAL_NULL(&__$null);
-	ZVAL_UNDEF(&version);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_7);
-	ZVAL_UNDEF(&_3$$3);
-	ZVAL_UNDEF(&_4$$3);
-	ZVAL_UNDEF(&_5$$4);
-	ZVAL_UNDEF(&_6$$4);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	ZVAL_UNDEF(&value_sub);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(data)
+		Z_PARAM_ZVAL(value)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &data);
-
-
-	ZEPHIR_CALL_FUNCTION(&version, "phpversion", NULL, 87);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &value);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "phpigbinaryunserialize", NULL, 0, value);
 	zephir_check_call_status();
-	ZEPHIR_GLOBAL(warning).enable = zend_is_true(&__$false);
-	ZEPHIR_INIT_VAR(&_0);
-	ZVAL_STRING(&_0, "8.0");
-	ZEPHIR_INIT_VAR(&_1);
-	ZVAL_STRING(&_1, ">=");
-	ZEPHIR_CALL_FUNCTION(&_2, "version_compare", NULL, 88, &version, &_0, &_1);
+	RETURN_MM();
+}
+
+/**
+ * @param mixed $value
+ *
+ * @return string|null
+ *
+ * @link https://php.net/manual/en/function.igbinary-serialize.php
+ */
+PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, phpIgbinarySerialize)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *value, value_sub;
+
+	ZVAL_UNDEF(&value_sub);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(value)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &value);
+	ZEPHIR_RETURN_CALL_FUNCTION("igbinary_serialize", NULL, 309, value);
 	zephir_check_call_status();
-	if (zephir_is_true(&_2)) {
-		ZEPHIR_INIT_VAR(&_3$$3);
-		ZEPHIR_INIT_NVAR(&_3$$3);
-		zephir_create_closure_ex(&_3$$3, NULL, phalcon_11__closure_ce, SL("__invoke"));
-		ZVAL_LONG(&_4$$3, 2);
-		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 89, &_3$$3, &_4$$3);
-		zephir_check_call_status();
-	} else {
-		ZEPHIR_INIT_VAR(&_5$$4);
-		ZEPHIR_INIT_NVAR(&_5$$4);
-		zephir_create_closure_ex(&_5$$4, NULL, phalcon_12__closure_ce, SL("__invoke"));
-		ZVAL_LONG(&_6$$4, 2);
-		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 89, &_5$$4, &_6$$4);
-		zephir_check_call_status();
-	}
-	ZEPHIR_CALL_FUNCTION(&_7, "igbinary_unserialize", NULL, 0, data);
+	RETURN_MM();
+}
+
+/**
+ * @param string $value
+ *
+ * @return mixed|false
+ *
+ * @link https://php.net/manual/en/function.igbinary-unserialize.php
+ */
+PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, phpIgbinaryUnserialize)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *value, value_sub;
+
+	ZVAL_UNDEF(&value_sub);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(value)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &value);
+	ZEPHIR_RETURN_CALL_FUNCTION("igbinary_unserialize", NULL, 310, value);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &_7);
-	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 91);
-	zephir_check_call_status();
-	if (UNEXPECTED(ZEPHIR_GLOBAL(warning).enable)) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &__$null);
-	}
-	ZEPHIR_MM_RESTORE();
+	RETURN_MM();
 }
 

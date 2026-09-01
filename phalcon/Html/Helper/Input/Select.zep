@@ -1,57 +1,47 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 
 namespace Phalcon\Html\Helper\Input;
 
+use Phalcon\Contracts\Html\Helper\Input\SelectData;
+use Phalcon\Contracts\Html\HtmlTypes;
 use Phalcon\Html\Helper\AbstractList;
 
 /**
  * Class Select
  *
- * @property string $elementTag
- * @property bool   $inOptGroup
- * @property string $selected
+ * @phpstan-import-type html_attributes from HtmlTypes
+ * @phpstan-import-type html_select_attributes from HtmlTypes
  */
 class Select extends AbstractList
 {
-    /**
-     * @var string
-     */
-    protected elementTag = "option";
-
-    /**
-     * @var bool
-     */
-    protected inOptGroup = false;
-
-    /**
-     * @var string
-     */
-    protected selected = "";
+    protected string elementTag = "option";
+    protected bool inOptGroup = false;
+    protected string selected = "";
+    protected bool strict = false;
 
     /**
      * Add an element to the list
      *
-     * @param string      $text
-     * @param string|null $value
-     * @param array       $attributes
-     * @param bool        $raw
-     *
-     * @return Select
+     * @phpstan-param html_attributes $attributes
      */
     public function add(
         string text,
         string value = null,
         array attributes = [],
         bool raw = false
-    ) -> <Select> {
+    ) -> <static> {
         let attributes = this->processValue(attributes, value);
 
         let this->store[] = [
@@ -71,21 +61,16 @@ class Select extends AbstractList
     /**
      * Add a placeholder to the element
      *
-     * @param string $text
-     * @param string $value
-     * @param array  $attributes
-     * @param bool   $raw
-     *
-     * @return Select
+     * @phpstan-param html_attributes $attributes
      */
     public function addPlaceholder(
         string text,
-        var value = null,
+        string value = null,
         array attributes = [],
         bool raw = false
-    ) -> <Select> {
+    ) -> <static> {
         if null !== value {
-            let attributes["value"] = (string) value;
+            let attributes["value"] = value;
         }
 
         let this->store[] = [
@@ -103,17 +88,48 @@ class Select extends AbstractList
     }
 
     /**
+     * Populates the select from a data provider.
+     *
+     * Flat entries: key = option value, value = label string.
+     * Optgroup entries: key = group label, value = [value => label] array.
+     *
+     */
+    public function fromData(<SelectData> data) -> <static>
+    {
+        var attributes, key, optionAttrs, subAttrs, subKey, subValue, value;
+
+        let attributes = data->getAttributes();
+
+        for key, value in data->getOptions() {
+            if typeof value == "array" {
+                this->optGroup((string) key);
+
+                for subKey, subValue in value {
+                    let subAttrs = isset(attributes[subKey]) ? attributes[subKey] : [];
+
+                    this->add((string) subValue, (string) subKey, subAttrs);
+                }
+
+                this->optGroup((string) key);
+            } else {
+                let optionAttrs = isset(attributes[key]) ? attributes[key] : [];
+
+                this->add((string) value, (string) key, optionAttrs);
+            }
+        }
+
+        return this;
+    }
+
+    /**
      * Creates an option group
      *
-     * @param string $label
-     * @param array  $attributes
-     *
-     * @return Select
+     * @phpstan-param html_attributes $attributes
      */
     public function optGroup(
         string label = null,
         array attributes = []
-    ) -> <Select> {
+    ) -> <static> {
         if !this->inOptGroup {
             let this->store[]     = [
                 "optGroupStart",
@@ -139,11 +155,32 @@ class Select extends AbstractList
     }
 
     /**
-     * @param string $selected
+     * Adds a non-selectable placeholder option as the first entry. Renders
+     * as `<option value="" disabled selected>$text</option>`, matching the
+     * common HTML idiom for "Choose..."-style prompts.
      *
-     * @return Select
      */
-    public function selected(string selected) -> <Select>
+    public function placeholder(string text) -> <static>
+    {
+        let this->store[] = [
+            "renderFullElement",
+            [
+                this->elementTag,
+                text,
+                [
+                    "value"    : "",
+                    "disabled" : "disabled",
+                    "selected" : "selected"
+                ],
+                false
+            ],
+            this->indent()
+        ];
+
+        return this;
+    }
+
+    public function selected(string selected) -> <static>
     {
         let this->selected = selected;
 
@@ -151,26 +188,30 @@ class Select extends AbstractList
     }
 
     /**
-     * @return string
+     * Toggles strict (`===`) comparison between an option's `value` and
+     * the previously stored `selected` value. Defaults to loose (`==`),
+     * matching the round-tripping fix in `AbstractChecked` so mixed
+     * int/string form data marks the right option as selected.
      */
+    public function strict(bool flag = true) -> <static>
+    {
+        let this->strict = flag;
+
+        return this;
+    }
+
     protected function getTag() -> string
     {
         return "select";
     }
 
-    /**
-     * @return string
-     */
     protected function optGroupEnd() -> string
     {
         return "</optgroup>";
     }
 
     /**
-     * @param string $label
-     * @param array  $attributes
-     *
-     * @return string
+     * @phpstan-param html_attributes $attributes
      */
     protected function optGroupStart(
         string label,
@@ -185,19 +226,28 @@ class Select extends AbstractList
      * Checks if the value has been passed and if it is the same as the
      * value stored in the object
      *
-     * @param array  $attributes
-     * @param string $value
+     * @phpstan-param html_attributes $attributes
      *
-     * @return array
+     * @phpstan-return html_attributes
      */
     private function processValue(
         array attributes,
-        var value = null
+        string value = null
     ) -> array {
+        var matched;
+
         if is_numeric(value) || !empty(value)  {
             let attributes["value"] = value;
-            if !empty this->selected && value === this->selected {
-                let attributes["selected"] = "selected";
+            if this->selected !== "" {
+                if this->strict {
+                    let matched = value === this->selected;
+                } else {
+                    let matched = value == this->selected;
+                }
+
+                if matched {
+                    let attributes["selected"] = "selected";
+                }
             }
         }
 

@@ -10,120 +10,120 @@
 
 namespace Phalcon\Translate\Adapter;
 
-use Phalcon\Support\Helper\Arr\Get;
+use ArrayAccess;
+use Phalcon\Contracts\Translate\TranslateTypes;
 use Phalcon\Translate\Exception;
+use Phalcon\Translate\Exceptions\ImmutableObject;
+use Phalcon\Translate\Exceptions\KeyNotFound;
+use Phalcon\Translate\Interpolator\InterpolatorInterface;
 use Phalcon\Translate\InterpolatorFactory;
 
 /**
- * Class AbstractAdapter
+ * @phpstan-import-type translate_adapter_options from TranslateTypes
+ * @phpstan-import-type translate_placeholders from TranslateTypes
  *
- * @package Phalcon\Translate\Adapter
- *
- * @property string              $defaultInterpolator
- * @property InterpolatorFactory $interpolatorFactory
+ * @implements ArrayAccess<string, string>
  */
-abstract class AbstractAdapter implements AdapterInterface
+abstract class AbstractAdapter implements AdapterInterface, ArrayAccess
 {
-    /**
-     * @var string
-     */
-    protected defaultInterpolator = "";
-
-    /**
-    * @var InterpolatorFactory
-    */
-    protected interpolatorFactory;
+    protected string defaultInterpolator = "";
+    protected ?<InterpolatorInterface> interpolator = null;
+    protected <InterpolatorFactory> interpolatorFactory;
+    protected bool triggerError = false;
 
     /**
      * AbstractAdapter constructor.
      *
-     * @param InterpolatorFactory $interpolator
-     * @param array               $options
+     * @phpstan-param translate_adapter_options $options
      */
     public function __construct(
-        <InterpolatorFactory> interpolator,
+        <InterpolatorFactory> interpolatorFactory,
         array options = []
     ) {
-        var value;
+        var error, value;
 
         if !fetch value, options["defaultInterpolator"] {
             let value = "associativeArray";
         }
+
         let this->defaultInterpolator = value,
-            this->interpolatorFactory = interpolator;
+            this->interpolatorFactory = interpolatorFactory;
+
+        if fetch error, options["triggerError"] {
+            let this->triggerError = (bool) error;
+        }
     }
 
     /**
      * Returns the translation string of the given key (alias of method 't')
      *
-     * @param string $translateKey
-     * @param array  $placeholders
-     *
-     * @return string
+     * @phpstan-param translate_placeholders $placeholders
      */
-    public function _(string! translateKey, array placeholders = []) -> string
+    public function _(string translateKey, array placeholders = []) -> string
     {
         return this->query(translateKey, placeholders);
     }
 
     /**
-     * Check whether a translation key exists
+     * Whenever a key is not found this method will be called
      *
-     * @param mixed $translateKey
-     *
-     * @return bool
+     * @throws KeyNotFound
      */
-    public function offsetExists(var translateKey) -> bool
+    public function notFound( string index) -> string
     {
-        return this->has(translateKey);
+        if unlikely (true === this->triggerError) {
+            throw new KeyNotFound(index);
+        }
+
+        return index;
+    }
+
+    /**
+     * Check whether a translation key exists
+     */
+    public function offsetExists(var offset) -> bool
+    {
+        return this->has(offset);
     }
 
     /**
      * Returns the translation related to the given key
      *
-     * @param mixed $translateKey
+     * @param string $offset
      *
-     * @return mixed
+     * @return string
      */
-    public function offsetGet(var translateKey) -> var
+    public function offsetGet(mixed offset) -> string
     {
-        return this->query(translateKey);
+        return this->query(offset);
     }
 
     /**
      * Sets a translation value
      *
-     * @param mixed $offset
-     * @param mixed $value
-     *
-     * @throws Exception
+     * @throws ImmutableObject
      */
     public function offsetSet(var offset, var value) -> void
     {
-        throw new Exception("Translate is an immutable ArrayAccess object");
+        throw new ImmutableObject();
     }
 
     /**
      * Unsets a translation from the dictionary
      *
-     * @param mixed $offset
-     *
-     * @throws Exception
+     * @throws ImmutableObject
      */
     public function offsetUnset(var offset) -> void
     {
-        throw new Exception("Translate is an immutable ArrayAccess object");
+        throw new ImmutableObject();
     }
 
     /**
      * Returns the translation string of the given key
      *
-     * @param string $translateKey
-     * @param array  $placeholders
-     *
-     * @return string
+     * @phpstan-param translate_placeholders $placeholders
      */
-    public function t(string! translateKey, array placeholders = []) -> string
+    public function t( string translateKey, array placeholders = []) -> string
     {
         return this->query(translateKey, placeholders);
     }
@@ -131,20 +131,21 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Replaces placeholders by the values passed
      *
-     * @param string $translation
-     * @param array  $placeholders
+     * @phpstan-param translate_placeholders $placeholders
      *
-     * @return string
+     * @throws Exception
      */
     protected function replacePlaceholders(
-        string! translation,
+        string translation,
         array placeholders = []
     ) -> string {
-        var interpolator;
+        if null === this->interpolator {
+            let this->interpolator = this->interpolatorFactory->newInstance(
+                this->defaultInterpolator
+            );
+        }
 
-        let interpolator = this->interpolatorFactory->newInstance(this->defaultInterpolator);
-
-        return interpolator->replacePlaceholders(
+        return this->interpolator->replacePlaceholders(
             translation,
             placeholders
         );

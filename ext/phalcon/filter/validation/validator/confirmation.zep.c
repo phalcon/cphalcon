@@ -14,11 +14,10 @@
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
+#include "kernel/operators.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
-#include "kernel/operators.h"
+#include "kernel/exception.h"
 
 
 /**
@@ -42,7 +41,7 @@
  *     "password",
  *     new Confirmation(
  *         [
- *             "message" => "Password doesn't match confirmation",
+ *             "message" => "Password does not match confirmation",
  *             "with"    => "confirmPassword",
  *         ]
  *     )
@@ -56,8 +55,8 @@
  *     new Confirmation(
  *         [
  *             "message" => [
- *                 "password" => "Password doesn't match confirmation",
- *                 "email"    => "Email doesn't match confirmation",
+ *                 "password" => "Password does not match confirmation",
+ *                 "email"    => "Email does not match confirmation",
  *             ],
  *             "with" => [
  *                 "password" => "confirmPassword",
@@ -91,32 +90,24 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
 	zval *options_param = NULL;
 	zval options;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&options);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ARRAY(options)
+		ZEPHIR_Z_PARAM_ARRAY(options, options_param)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 0, 1, &options_param);
 	if (!options_param) {
 		ZEPHIR_INIT_VAR(&options);
 		array_init(&options);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
+		zephir_get_arrval(&options, options_param);
 	}
-
-
-	ZEPHIR_CALL_PARENT(NULL, phalcon_filter_validation_validator_confirmation_ce, getThis(), "__construct", &_0, 0, &options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_filter_validation_validator_confirmation_ce, getThis(), "__construct", NULL, 0, &options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -126,9 +117,11 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, __construct)
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, validate)
 {
+	zval _6, _7;
+	zend_bool _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validation, validation_sub, *field, field_sub, fieldWith, value, valueWith, labelWith, replacePairs, _0, _2, _1$$3, _3$$4, _5$$4, _4$$5;
+	zval *validation, validation_sub, *field, field_sub, fieldWith, value, valueWith, labelWith, replacePairs, _0, _2, _4, _5, _1$$3, _8$$5, _10$$5, _9$$6;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
@@ -140,45 +133,56 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, validate)
 	ZVAL_UNDEF(&replacePairs);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$4);
-	ZVAL_UNDEF(&_5$$4);
-	ZVAL_UNDEF(&_4$$5);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	ZVAL_UNDEF(&_8$$5);
+	ZVAL_UNDEF(&_10$$5);
+	ZVAL_UNDEF(&_9$$6);
+	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_7);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
 		Z_PARAM_ZVAL(field)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &validation, &field);
-
-
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "with");
 	ZEPHIR_CALL_METHOD(&fieldWith, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&fieldWith) == IS_ARRAY) {
-		zephir_array_fetch(&_1$$3, &fieldWith, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Confirmation.zep", 87);
+		zephir_array_fetch(&_1$$3, &fieldWith, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Confirmation.zep", 91);
 		ZEPHIR_CPY_WRT(&fieldWith, &_1$$3);
 	}
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&valueWith, validation, "getvalue", NULL, 0, &fieldWith);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "compare", NULL, 307, &value, &valueWith);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "rejectnonstringable", NULL, 0, validation, field, &value);
 	zephir_check_call_status();
-	if (!(zephir_is_true(&_2))) {
-		ZEPHIR_INIT_VAR(&_3$$4);
-		ZVAL_STRING(&_3$$4, "labelWith");
-		ZEPHIR_CALL_METHOD(&labelWith, this_ptr, "getoption", NULL, 0, &_3$$4);
+	_3 = zephir_is_true(&_2);
+	if (!(_3)) {
+		ZEPHIR_CALL_METHOD(&_4, this_ptr, "rejectnonstringable", NULL, 0, validation, field, &valueWith);
+		zephir_check_call_status();
+		_3 = zephir_is_true(&_4);
+	}
+	if (_3) {
+		RETURN_MM_BOOL(0);
+	}
+	zephir_cast_to_string(&_6, &value);
+	zephir_cast_to_string(&_7, &valueWith);
+	ZEPHIR_CALL_METHOD(&_5, this_ptr, "compare", NULL, 0, &_6, &_7);
+	zephir_check_call_status();
+	if (!(zephir_is_true(&_5))) {
+		ZEPHIR_INIT_VAR(&_8$$5);
+		ZVAL_STRING(&_8$$5, "labelWith");
+		ZEPHIR_CALL_METHOD(&labelWith, this_ptr, "getoption", NULL, 0, &_8$$5);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&labelWith) == IS_ARRAY) {
-			zephir_array_fetch(&_4$$5, &labelWith, &fieldWith, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Confirmation.zep", 97);
-			ZEPHIR_CPY_WRT(&labelWith, &_4$$5);
+			zephir_array_fetch(&_9$$6, &labelWith, &fieldWith, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Confirmation.zep", 105);
+			ZEPHIR_CPY_WRT(&labelWith, &_9$$6);
 		}
 		if (ZEPHIR_IS_EMPTY(&labelWith)) {
 			ZEPHIR_CALL_METHOD(&labelWith, validation, "getlabel", NULL, 0, &fieldWith);
@@ -187,9 +191,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, validate)
 		ZEPHIR_INIT_VAR(&replacePairs);
 		zephir_create_array(&replacePairs, 1, 0);
 		zephir_array_update_string(&replacePairs, SL(":with"), &labelWith, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_METHOD(&_5$$4, this_ptr, "messagefactory", NULL, 0, validation, field, &replacePairs);
+		ZEPHIR_CALL_METHOD(&_10$$5, this_ptr, "messagefactory", NULL, 0, validation, field, &replacePairs);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_5$$4);
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_10$$5);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}
@@ -203,7 +207,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, compare)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *a_param = NULL, *b_param = NULL, _0, _1, _2, _6, _3$$3, _4$$3, _5$$3;
+	zval *a_param = NULL, *b_param = NULL, _0, _1, _2, _8, _3$$3, _4$$3, _6$$3, _7$$3, _5$$4;
 	zval a, b;
 	zval *this_ptr = getThis();
 
@@ -212,48 +216,104 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, compare)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_8);
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_4$$3);
-	ZVAL_UNDEF(&_5$$3);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	ZVAL_UNDEF(&_6$$3);
+	ZVAL_UNDEF(&_7$$3);
+	ZVAL_UNDEF(&_5$$4);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_STR(a)
-		Z_PARAM_STR(b)
+		Z_PARAM_ZVAL(a_param)
+		Z_PARAM_ZVAL(b_param)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &a_param, &b_param);
 	zephir_get_strval(&a, a_param);
 	zephir_get_strval(&b, b_param);
-
-
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "ignoreCase");
 	ZVAL_BOOL(&_2, 0);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getoption", NULL, 0, &_1, &_2);
 	zephir_check_call_status();
 	if (zephir_is_true(&_0)) {
-		if (UNEXPECTED(!((zephir_function_exists_ex(ZEND_STRL("mb_strtolower")) == SUCCESS)))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_filter_validation_exception_ce, "Extension 'mbstring' is required", "phalcon/Filter/Validation/Validator/Confirmation.zep", 128);
+		ZEPHIR_INIT_VAR(&_4$$3);
+		ZVAL_STRING(&_4$$3, "mb_strtolower");
+		ZEPHIR_CALL_METHOD(&_3$$3, this_ptr, "phpfunctionexists", NULL, 0, &_4$$3);
+		zephir_check_call_status();
+		if (UNEXPECTED(!zephir_is_true(&_3$$3))) {
+			ZEPHIR_INIT_VAR(&_5$$4);
+			object_init_ex(&_5$$4, phalcon_filter_validation_exceptions_missingmbstring_ce);
+			ZEPHIR_CALL_METHOD(NULL, &_5$$4, "__construct", NULL, 0);
+			zephir_check_call_status();
+			zephir_throw_exception_debug(&_5$$4, "phalcon/Filter/Validation/Validator/Confirmation.zep", 136);
+			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZEPHIR_INIT_VAR(&_3$$3);
-		ZVAL_STRING(&_3$$3, "utf-8");
-		ZEPHIR_CALL_FUNCTION(&_4$$3, "mb_strtolower", NULL, 10, &a, &_3$$3);
+		ZEPHIR_INIT_NVAR(&_4$$3);
+		ZVAL_STRING(&_4$$3, "utf-8");
+		ZEPHIR_CALL_FUNCTION(&_6$$3, "mb_strtolower", NULL, 16, &a, &_4$$3);
 		zephir_check_call_status();
-		zephir_get_strval(&a, &_4$$3);
-		ZEPHIR_INIT_NVAR(&_3$$3);
-		ZVAL_STRING(&_3$$3, "utf-8");
-		ZEPHIR_CALL_FUNCTION(&_5$$3, "mb_strtolower", NULL, 10, &b, &_3$$3);
+		zephir_get_strval(&a, &_6$$3);
+		ZEPHIR_INIT_NVAR(&_4$$3);
+		ZVAL_STRING(&_4$$3, "utf-8");
+		ZEPHIR_CALL_FUNCTION(&_7$$3, "mb_strtolower", NULL, 16, &b, &_4$$3);
 		zephir_check_call_status();
-		zephir_get_strval(&b, &_5$$3);
+		zephir_get_strval(&b, &_7$$3);
 	}
-	ZEPHIR_CALL_FUNCTION(&_6, "strcmp", NULL, 308, &a, &b);
+	ZEPHIR_CALL_FUNCTION(&_8, "strcmp", NULL, 0, &a, &b);
 	zephir_check_call_status();
-	RETURN_MM_BOOL(ZEPHIR_IS_LONG_IDENTICAL(&_6, 0));
+	RETURN_MM_BOOL(ZEPHIR_IS_LONG_IDENTICAL(&_8, 0));
+}
+
+/**
+ * Find out whether an extension is loaded
+ *
+ * @param string $name
+ *
+ * @return bool
+ *
+ * @link https://php.net/manual/en/function.extension-loaded.php
+ */
+PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, phpExtensionLoaded)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval name_zv;
+	zend_string *name = NULL;
+
+	ZVAL_UNDEF(&name_zv);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&name_zv);
+	ZVAL_STR_COPY(&name_zv, name);
+	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 469, &name_zv);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
+ * Return true if the given function has been defined
+ *
+ * @param string $functionName
+ *
+ * @return bool
+ *
+ * @link https://php.net/manual/en/function.function-exists.php
+ */
+PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, phpFunctionExists)
+{
+	zval functionName_zv;
+	zend_string *functionName = NULL;
+
+	ZVAL_UNDEF(&functionName_zv);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(functionName)
+	ZEND_PARSE_PARAMETERS_END();
+	ZVAL_STR(&functionName_zv, functionName);
+	RETURN_BOOL((zephir_function_exists(&functionName_zv) == SUCCESS));
 }
 

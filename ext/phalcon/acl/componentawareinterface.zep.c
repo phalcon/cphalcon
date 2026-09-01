@@ -21,16 +21,17 @@
  * file that was distributed with this source code.
  */
 /**
- * Interface for classes which could be used in allow method as RESOURCE
+ * Interface for ACL Component aware objects
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Acl\ComponentAware} instead.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Acl_ComponentAwareInterface)
 {
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Acl, ComponentAwareInterface, phalcon, acl_componentawareinterface, phalcon_acl_componentawareinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Acl, ComponentAwareInterface, phalcon, acl_componentawareinterface, NULL);
 
+	zend_class_implements(phalcon_acl_componentawareinterface_ce, 1, phalcon_contracts_acl_componentaware_ce);
 	return SUCCESS;
 }
 
-/**
- * Returns component name
- */
-ZEPHIR_DOC_METHOD(Phalcon_Acl_ComponentAwareInterface, getComponentName);

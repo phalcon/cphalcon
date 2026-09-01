@@ -6,13 +6,17 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Adapter_AdapterInterface);
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_adapterinterface_clear, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_adapterinterface_decrement, 0, 0, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_storage_adapter_adapterinterface_decrement, 0, 1, MAY_BE_FALSE|MAY_BE_LONG)
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, value, IS_LONG, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, value, IS_LONG, 0, "1")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_adapterinterface_delete, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_adapterinterface_deletemultiple, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_ARRAY_INFO(0, keys, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_adapterinterface_get, 0, 0, 1)
@@ -24,7 +28,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_adapterinterface_getadapt
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_adapterinterface_getkeys, 0, 0, IS_ARRAY, 0)
-	ZEND_ARG_TYPE_INFO(0, prefix, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, prefix, IS_STRING, 0, "''")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_adapterinterface_getprefix, 0, 0, IS_STRING, 0)
@@ -34,9 +38,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_adapteri
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_adapterinterface_increment, 0, 0, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_storage_adapter_adapterinterface_increment, 0, 1, MAY_BE_FALSE|MAY_BE_LONG)
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, value, IS_LONG, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, value, IS_LONG, 0, "1")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_adapterinterface_set, 0, 2, _IS_BOOL, 0)
@@ -47,13 +51,14 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_adapterinterface_setforever, 0, 2, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
-	ZEND_ARG_INFO(0, value)
+	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_storage_adapter_adapterinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Storage_Adapter_AdapterInterface, clear, arginfo_phalcon_storage_adapter_adapterinterface_clear)
 	PHP_ABSTRACT_ME(Phalcon_Storage_Adapter_AdapterInterface, decrement, arginfo_phalcon_storage_adapter_adapterinterface_decrement)
 	PHP_ABSTRACT_ME(Phalcon_Storage_Adapter_AdapterInterface, delete, arginfo_phalcon_storage_adapter_adapterinterface_delete)
+	PHP_ABSTRACT_ME(Phalcon_Storage_Adapter_AdapterInterface, deleteMultiple, arginfo_phalcon_storage_adapter_adapterinterface_deletemultiple)
 	PHP_ABSTRACT_ME(Phalcon_Storage_Adapter_AdapterInterface, get, arginfo_phalcon_storage_adapter_adapterinterface_get)
 	PHP_ABSTRACT_ME(Phalcon_Storage_Adapter_AdapterInterface, getAdapter, arginfo_phalcon_storage_adapter_adapterinterface_getadapter)
 	PHP_ABSTRACT_ME(Phalcon_Storage_Adapter_AdapterInterface, getKeys, arginfo_phalcon_storage_adapter_adapterinterface_getkeys)

@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Router\GroupInterface
- *
  *```php
  * $router = new \Phalcon\Mvc\Router();
  *

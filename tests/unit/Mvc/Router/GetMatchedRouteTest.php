@@ -1,0 +1,36 @@
+<?php
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Phalcon\Tests\Unit\Mvc\Router;
+
+use Phalcon\Mvc\Router\RouteInterface;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Unit\Mvc\Fake\RouterTrait;
+
+final class GetMatchedRouteTest extends AbstractUnitTestCase
+{
+    use RouterTrait;
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
+     */
+    public function testMvcRouterGetMatchedRoute(): void
+    {
+        $router = $this->getRouter(false);
+        $this->assertNull($router->getMatchedRoute());
+        $router->add('/test', ['controller' => 'test', 'action' => 'index']);
+        $router->handle('/test');
+        $this->assertInstanceOf(RouteInterface::class, $router->getMatchedRoute());
+    }
+}

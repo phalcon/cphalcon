@@ -1,41 +1,87 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 
 namespace Phalcon\Html\Helper;
 
-use Phalcon\Html\Exception;
+use Phalcon\Contracts\Html\HtmlTypes;
 /**
  * Class Script
+ *
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 class Script extends AbstractSeries
 {
     /**
      * Add an element to the list
      *
-     * @param string $url
-     * @param array  $attributes
-     *
-     * @return $this
-     * @throws Exception
+     * @phpstan-param html_attributes $attributes
      */
-    public function add(string url, array attributes = [])
+    public function add(string url, array attributes = [], int position = -1) -> <static>
     {
-        let this->store[] = [
-            "renderFullElement",
+        this->pushOrPlace(
             [
-                this->getTag(),
-                "",
-                this->getAttributes(url, attributes)
+                "renderFullElement",
+                [
+                    this->getTag(),
+                    "",
+                    this->getAttributes(url, attributes)
+                ],
+                this->indent()
             ],
-            this->indent()
-        ];
+            position
+        );
+
+        return this;
+    }
+
+    /**
+     * Begins capturing inline script content via output buffering. Pair
+     * with `endInternal()` to close the buffer and append the captured
+     * markup as a `<script>...</script>` block in the asset stack.
+     */
+    public function beginInternal() -> void
+    {
+        ob_start();
+    }
+
+    /**
+     * Closes an inline-script buffer opened by `beginInternal()` and adds
+     * the captured content as a `<script>...</script>` entry. Any
+     * attributes supplied are placed on the wrapping tag. The script body
+     * is treated as raw HTML (it is JavaScript, not user-supplied text).
+     *
+     * @phpstan-param html_attributes $attributes
+     */
+    public function endInternal(array attributes = [], int position = -1) -> <static>
+    {
+        var content;
+
+        let content = (string) ob_get_clean();
+
+        this->pushOrPlace(
+            [
+                "renderFullElement",
+                [
+                    this->getTag(),
+                    content,
+                    attributes,
+                    true
+                ],
+                this->indent()
+            ],
+            position
+        );
 
         return this;
     }
@@ -43,10 +89,9 @@ class Script extends AbstractSeries
     /**
      * Returns the necessary attributes
      *
-     * @param string $url
-     * @param array  $attributes
+     * @phpstan-param html_attributes $attributes
      *
-     * @return array
+     * @phpstan-return html_attributes
      */
     protected function getAttributes(string url, array attributes) -> array
     {
@@ -62,9 +107,6 @@ class Script extends AbstractSeries
         return array_merge(required, attributes);
     }
 
-    /**
-     * @return string
-     */
     protected function getTag() -> string
     {
         return "script";

@@ -47,20 +47,11 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Noop, pad)
 {
 	zval *paddingSize_param = NULL;
 	zend_long paddingSize;
-	zval *this_ptr = getThis();
 
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(paddingSize)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
 	zephir_fetch_params_without_memory_grow(1, 0, &paddingSize_param);
-	paddingSize = zephir_get_intval(paddingSize_param);
-
-
 	RETURN_STRING("");
 }
 
@@ -72,28 +63,17 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Noop, pad)
  */
 PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Noop, unpad)
 {
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long blockSize;
-	zval *input_param = NULL, *blockSize_param = NULL;
-	zval input;
-	zval *this_ptr = getThis();
+	zval input_zv, *blockSize_param = NULL;
+	zend_string *input = NULL;
 
-	ZVAL_UNDEF(&input);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	ZVAL_UNDEF(&input_zv);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(input)
 		Z_PARAM_LONG(blockSize)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &input_param, &blockSize_param);
-	zephir_get_strval(&input, input_param);
-	blockSize = zephir_get_intval(blockSize_param);
-
-
-	RETURN_MM_LONG(0);
+	blockSize_param = ZEND_CALL_ARG(execute_data, 2);
+	ZVAL_STR(&input_zv, input);
+	RETURN_LONG(0);
 }
 

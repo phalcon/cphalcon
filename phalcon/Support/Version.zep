@@ -22,6 +22,8 @@ class Version
      * echo (new Phalcon\Support\Version())
      *          ->getPart(Phalcon\Support\Version::VERSION_MAJOR);
      * ```
+     *
+     * @var int
      */
     const VERSION_MAJOR = 0;
 
@@ -32,6 +34,8 @@ class Version
      * echo (new Phalcon\Support\Version())
      *          ->getPart(Phalcon\Support\Version::VERSION_MEDIUM);
      * ```
+     *
+     * @var int
      */
     const VERSION_MEDIUM = 1;
 
@@ -42,6 +46,8 @@ class Version
      * echo (new Phalcon\Support\Version())
      *          ->getPart(Phalcon\Support\Version::VERSION_MINOR);
      * ```
+     *
+     * @var int
      */
     const VERSION_MINOR = 2;
 
@@ -52,6 +58,8 @@ class Version
      * echo (new Phalcon\Support\Version())
      *          ->getPart(Phalcon\Support\Version::VERSION_SPECIAL);
      * ```
+     *
+     * @var int
      */
     const VERSION_SPECIAL = 3;
 
@@ -62,45 +70,10 @@ class Version
      * echo (new Phalcon\Support\Version())
      *          ->getPart(Phalcon\Support\Version::VERSION_SPECIAL_NUMBER);
      * ```
+     *
+     * @var int
      */
     const VERSION_SPECIAL_NUMBER = 4;
-
-    /**
-     * Area where the version number is set. The format is as follows:
-     * ABBCCDE
-     *
-     * A - Major version
-     * B - Med version (two digits)
-     * C - Min version (two digits)
-     * D - Special release: 1 = alpha, 2 = beta, 3 = RC, 4 = stable
-     * E - Special release version i.e. RC1, Beta2 etc.
-     */
-    protected function getVersion() -> array
-    {
-        return [5, 0, 0, 2, 3];
-    }
-
-    /**
-     * Translates a number to a special release.
-     */
-    protected final function getSpecial(int special) -> string
-    {
-        string suffix = "";
-
-        switch special {
-            case 1:
-                let suffix = "alpha";
-                break;
-            case 2:
-                let suffix = "beta";
-                break;
-            case 3:
-                let suffix = "RC";
-                break;
-        }
-
-        return suffix;
-    }
 
     /**
      * Returns the active version (string)
@@ -186,12 +159,54 @@ class Version
             case self::VERSION_MEDIUM:
             case self::VERSION_MINOR:
             case self::VERSION_SPECIAL_NUMBER:
-                return version[part];
+                return (string) version[part];
 
             case self::VERSION_SPECIAL:
                 return this->getSpecial(version[self::VERSION_SPECIAL]);
         }
 
         return this->get();
+    }
+
+    /**
+     * Translates a number to a special release.
+     */
+    final protected function getSpecial(int special) -> string
+    {
+        var suffix;
+
+        switch special {
+            case 1:
+                let suffix = "alpha";
+                break;
+            case 2:
+                let suffix = "beta";
+                break;
+            case 3:
+                let suffix = "RC";
+                break;
+            default:
+                let suffix = "";
+                break;
+        }
+
+        return suffix;
+    }
+
+    /**
+     * Area where the version number is set. The format is as follows:
+     * ABBCCDE
+     *
+     * A - Major version
+     * B - Med version (two digits)
+     * C - Min version (two digits)
+     * D - Special release: 1 = alpha, 2 = beta, 3 = RC, 4 = stable
+     * E - Special release version i.e. RC1, Beta2 etc.
+     *
+     * @return int[]
+     */
+    protected function getVersion() -> array
+    {
+        return [5, 20, 3, 4, 0];
     }
 }

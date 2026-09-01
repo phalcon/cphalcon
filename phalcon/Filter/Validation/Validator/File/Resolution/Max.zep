@@ -72,7 +72,7 @@ class Max extends AbstractFile
      *     'included' => false
      * ]
      */
-    public function __construct(array! options = [])
+    public function __construct( array options = [])
     {
         parent::__construct(options);
     }
@@ -90,9 +90,17 @@ class Max extends AbstractFile
             return false;
         }
 
-        let value  = validation->getValue(field),
-            tmp    = getimagesize(value["tmp_name"]),
-            width  = tmp[0],
+        let value = validation->getValue(field),
+            tmp   = getimagesize(value["tmp_name"]);
+
+        // The file cannot be read as an image
+        if (false === tmp) {
+            this->appendMessageValid(validation, field);
+
+            return false;
+        }
+
+        let width  = tmp[0],
             height = tmp[1];
 
         let resolution = this->getOption("resolution");
@@ -117,10 +125,6 @@ class Max extends AbstractFile
             let result = width >= maxWidth || height >= maxHeight;
         } else {
             let result = width > maxWidth || height > maxHeight;
-        }
-
-        if typeof resolution == "array" {
-            let resolution = resolution[field];
         }
 
         if result {

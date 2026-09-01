@@ -18,8 +18,7 @@ namespace Phalcon\Encryption\Crypt\Padding;
 class Iso10126 implements PadInterface
 {
     /**
-     * @param string $input
-     * @param int    $blockSize
+     * @param int $paddingSize
      *
      * @return string
      */
@@ -30,7 +29,7 @@ class Iso10126 implements PadInterface
         let padding = "";
 
         for counter in range(0, paddingSize - 2) {
-            let padding .= chr(rand());
+            let padding .= random_bytes(1);
         }
 
         let padding .= chr(paddingSize);

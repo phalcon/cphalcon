@@ -3,7 +3,7 @@
   "name": "phalcon",
   "description": "Phalcon is a full stack PHP framework, delivered as a PHP extension, offering lower resource consumption and high performance.",
   "author": "Phalcon Team and contributors",
-  "version": "5.0.0beta3",
+  "version": "5.20.3",
   "verbose": false,
   "stubs": {
     "path": "ide\/%version%\/%namespace%\/",
@@ -20,8 +20,7 @@
       "SPL",
       "standard",
       "hash",
-      "json",
-      "psr"
+      "json"
     ]
   },
 
@@ -70,6 +69,10 @@
       "type": "bool",
       "default": false
     },
+    "form.strict_entity_property_check": {
+      "type": "bool",
+      "default": false
+    },
     "orm.ast_cache": {
       "type": "hash",
       "default": "NULL"
@@ -77,6 +80,10 @@
     "orm.cache_level": {
       "type": "int",
       "default": 3
+    },
+    "orm.call_setters_on_hydration": {
+      "type": "bool",
+      "default": false
     },
     "orm.case_insensitive_column_map": {
       "type": "bool",
@@ -134,6 +141,10 @@
       "type": "hash",
       "default": "NULL"
     },
+    "orm.resultset_empty_left_join_model": {
+      "type": "bool",
+      "default": true
+    },
     "orm.resultset_prefetch_records": {
       "type": "string",
       "default": "0"
@@ -147,6 +158,10 @@
       "default": true
     },
     "orm.virtual_foreign_keys": {
+      "type": "bool",
+      "default": true
+    },
+    "orm.dynamic_update": {
       "type": "bool",
       "default": true
     },

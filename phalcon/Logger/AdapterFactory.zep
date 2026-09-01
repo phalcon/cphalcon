@@ -10,9 +10,13 @@
 
 namespace Phalcon\Logger;
 
+use Exception as BaseException;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Logger\Adapter\AdapterInterface;
-use Phalcon\Logger\Exception;
+use Phalcon\Logger\Adapter\Noop;
+use Phalcon\Logger\Adapter\Stream;
+use Phalcon\Logger\Adapter\Syslog;
+use Throwable;
 
 /**
  * Factory used to create adapters used for Logging
@@ -24,7 +28,7 @@ class AdapterFactory extends AbstractFactory
      *
      * @param array $services
      */
-    public function __construct(array! services = [])
+    public function __construct( array services = [])
     {
         this->init(services);
     }
@@ -37,11 +41,11 @@ class AdapterFactory extends AbstractFactory
      * @param array  $options
      *
      * @return AdapterInterface
-     * @throws Exception
+     * @throws BaseException
      */
     public function newInstance(
-        string! name,
-        string! fileName,
+         string name,
+         string fileName,
         array options = []
     ) -> <AdapterInterface>
     {
@@ -59,11 +63,11 @@ class AdapterFactory extends AbstractFactory
     }
 
     /**
-     * @return string
+     * @return class-string<Throwable>
      */
     protected function getExceptionClass() -> string
     {
-        return "Phalcon\\Logger\\Exception";
+        return Exception::class;
     }
 
     /**
@@ -74,9 +78,9 @@ class AdapterFactory extends AbstractFactory
     protected function getServices() -> array
     {
         return [
-            "noop"   : "Phalcon\\Logger\\Adapter\\Noop",
-            "stream" : "Phalcon\\Logger\\Adapter\\Stream",
-            "syslog" : "Phalcon\\Logger\\Adapter\\Syslog"
+            "noop"   : Noop::class,
+            "stream" : Stream::class,
+            "syslog" : Syslog::class
         ];
     }
 }

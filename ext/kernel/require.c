@@ -45,14 +45,22 @@ int zephir_require_ret(zval *return_value_ptr, const char *require_path)
 	}
 #endif
 
-    ret = php_stream_open_for_zend_ex(require_path, &file_handle, USE_PATH|STREAM_OPEN_FOR_INCLUDE);
+#if PHP_VERSION_ID >= 80100
+	zend_string *zend_string_path = zend_string_init(require_path, strlen(require_path), 0);
+
+	zend_stream_init_filename_ex(&file_handle, zend_string_path);
+    ret = php_stream_open_for_zend_ex(&file_handle, USE_PATH|STREAM_OPEN_FOR_INCLUDE);
+
+    zend_string_release(zend_string_path);
+#else
+	ret = php_stream_open_for_zend_ex(require_path, &file_handle, USE_PATH|STREAM_OPEN_FOR_INCLUDE);
+#endif
     if (ret != SUCCESS) {
         return FAILURE;
     }
 
 	new_op_array = zend_compile_file(&file_handle, ZEND_REQUIRE);
 	if (new_op_array) {
-
 		if (file_handle.handle.stream.handle) {
 			ZVAL_NULL(&dummy);
 			if (!file_handle.opened_path) {
@@ -63,7 +71,10 @@ int zephir_require_ret(zval *return_value_ptr, const char *require_path)
 			zend_destroy_file_handle(&file_handle);
 		}
 
-		new_op_array->scope = EG(fake_scope) ? EG(fake_scope) : zend_get_executed_scope();
+		/* zend_op_array.scope is `zend_class_entry *`, but EG(fake_scope) was
+		 * made `const zend_class_entry *` in PHP 8.5. The cast is safe: the
+		 * class entry itself is the same object — only the access path differs. */
+		new_op_array->scope = (zend_class_entry *) (EG(fake_scope) ? EG(fake_scope) : zend_get_executed_scope());
 		zend_execute(new_op_array, &local_retval);
 
 		if (return_value_ptr) {
@@ -110,7 +121,16 @@ int zephir_require_once_ret(zval *return_value_ptr, const char *require_path)
 	}
 #endif
 
-    ret = php_stream_open_for_zend_ex(require_path, &file_handle, USE_PATH|STREAM_OPEN_FOR_INCLUDE);
+#if PHP_VERSION_ID >= 80100
+	zend_string *zend_string_path = zend_string_init(require_path, strlen(require_path), 0);
+
+	zend_stream_init_filename_ex(&file_handle, zend_string_path);
+    ret = php_stream_open_for_zend_ex(&file_handle, USE_PATH|STREAM_OPEN_FOR_INCLUDE);
+
+    zend_string_release(zend_string_path);
+#else
+	ret = php_stream_open_for_zend_ex(require_path, &file_handle, USE_PATH|STREAM_OPEN_FOR_INCLUDE);
+#endif
     if (ret != SUCCESS) {
         return FAILURE;
     }
@@ -142,7 +162,10 @@ int zephir_require_once_ret(zval *return_value_ptr, const char *require_path)
 			zend_destroy_file_handle(&file_handle);
 		}
 
-		new_op_array->scope = EG(fake_scope) ? EG(fake_scope) : zend_get_executed_scope();
+		/* zend_op_array.scope is `zend_class_entry *`, but EG(fake_scope) was
+		 * made `const zend_class_entry *` in PHP 8.5. The cast is safe: the
+		 * class entry itself is the same object — only the access path differs. */
+		new_op_array->scope = (zend_class_entry *) (EG(fake_scope) ? EG(fake_scope) : zend_get_executed_scope());
 		zend_execute(new_op_array, &local_retval);
 
 		if (return_value_ptr) {

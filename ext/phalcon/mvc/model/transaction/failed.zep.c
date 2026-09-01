@@ -14,10 +14,8 @@
 #include "kernel/main.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/operators.h"
 
 
 /**
@@ -54,42 +52,37 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, *record = NULL, record_sub, __$null;
-	zval message;
+	zval message_zv, *record = NULL, record_sub, __$null;
+	zend_string *message = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&message);
+	ZVAL_UNDEF(&message_zv);
 	ZVAL_UNDEF(&record_sub);
 	ZVAL_NULL(&__$null);
-#if PHP_VERSION_ID >= 80000
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("record", 6, 1);
+	}
+
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(message)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(record, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &message_param, &record);
-	if (UNEXPECTED(Z_TYPE_P(message_param) != IS_STRING && Z_TYPE_P(message_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be of the type string"));
-		RETURN_MM_NULL();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (ZEND_NUM_ARGS() > 1) {
+		record = ZEND_CALL_ARG(execute_data, 2);
 	}
-	if (EXPECTED(Z_TYPE_P(message_param) == IS_STRING)) {
-		zephir_get_strval(&message, message_param);
-	} else {
-		ZEPHIR_INIT_VAR(&message);
-	}
+	zephir_memory_observe(&message_zv);
+	ZVAL_STR_COPY(&message_zv, message);
 	if (!record) {
 		record = &record_sub;
 		record = &__$null;
 	}
-
-
-	zephir_update_property_zval(this_ptr, ZEND_STRL("record"), record);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_transaction_failed_ce, getThis(), "__construct", NULL, 0, &message);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1131, record);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_transaction_failed_ce, getThis(), "__construct", NULL, 0, &message_zv);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -97,13 +90,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct)
 /**
  * Returns validation record messages which stop the transaction
  *
- * @return ModelInterface
+ * @return ModelInterface|null
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecord)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "record");
 }
@@ -111,7 +101,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecord)
 /**
  * Returns validation record messages which stop the transaction
  *
- * @return MessageInterface[]
+ * @return MessageInterface[]|string
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages)
 {
@@ -122,11 +112,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages)
 
 	ZVAL_UNDEF(&record);
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("record", 6, 1);
+	}
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-
-	ZEPHIR_MM_GROW();
-
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("record"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1131, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&record, &_0);
 	if (Z_TYPE_P(&record) != IS_NULL) {
 		ZEPHIR_RETURN_CALL_METHOD(&record, "getmessages", NULL, 0);

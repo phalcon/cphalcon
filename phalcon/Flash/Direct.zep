@@ -20,10 +20,6 @@ class Direct extends AbstractFlash
     /**
      * Outputs a message
      *
-     * @param string $type
-     * @param mixed  $message
-     *
-     * @return string|null
      * @throws Exception
      */
     public function message(string type, var message) -> string | null

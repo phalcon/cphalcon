@@ -10,19 +10,21 @@
 
 namespace Phalcon\Filter\Sanitize;
 
+use Phalcon\Contracts\Filter\Sanitizer;
+
 /**
  * Phalcon\Filter\Sanitize\LowerFirst
  *
  * Sanitizes a value to lcfirst
  */
-class LowerFirst
+class LowerFirst implements Sanitizer
 {
     /**
      * @param string $input The text to sanitize
      *
      * @return string
      */
-    public function __invoke(string! input)
+    public function __invoke( string input)
     {
         return lcfirst(input);
     }

@@ -10,8 +10,16 @@
 
 namespace Phalcon\Config;
 
+use Phalcon\Config\Adapter\Grouped;
+use Phalcon\Config\Adapter\Ini;
+use Phalcon\Config\Adapter\Json;
+use Phalcon\Config\Adapter\Php;
+use Phalcon\Config\Adapter\Yaml;
 use Phalcon\Config\Config;
 use Phalcon\Config\ConfigInterface;
+use Phalcon\Config\Exceptions\ConfigNotArrayOrObject;
+use Phalcon\Config\Exceptions\MissingConfigOption;
+use Phalcon\Config\Exceptions\MissingFileExtension;
 use Phalcon\Factory\AbstractFactory;
 
 /**
@@ -52,32 +60,34 @@ class ConfigFactory extends AbstractFactory
      * @return ConfigInterface
      * @throws Exception
      */
-    public function load(config) -> <ConfigInterface>
+    public function load(var config) -> <ConfigInterface>
     {
-        var adapter, configArray, filePath, param;
+        var adapter, aliases, configArray, filePath, param, spec;
 
         let configArray = this->parseConfig(config),
             adapter     = strtolower(configArray["adapter"]),
             filePath    = configArray["filePath"];
 
         if true === empty(pathinfo(filePath, PATHINFO_EXTENSION)) {
-            let filePath .= "." . lcfirst(adapter);
+            let filePath .= "." . adapter;
         }
 
-        switch (adapter) {
-            case "ini":
-                let param = INI_SCANNER_RAW;
-                if isset configArray["mode"] {
-                    let param = configArray["mode"];
-                }
-                return this->newInstance(adapter, filePath, param);
+        let aliases = this->getAdapterAliases();
 
-            case "yaml":
-                let param = null;
-                if isset configArray["callbacks"] {
-                    let param = configArray["callbacks"];
-                }
-                return this->newInstance(adapter, filePath, param);
+        if isset aliases[adapter] {
+            let adapter = aliases[adapter];
+        }
+
+        let spec = this->getExtraArguments();
+
+        if isset spec[adapter] && null !== spec[adapter]["option"] {
+            let param = spec[adapter]["default"];
+
+            if isset configArray[spec[adapter]["option"]] {
+                let param = configArray[spec[adapter]["option"]];
+            }
+
+            return this->newInstance(adapter, filePath, param);
         }
 
         return this->newInstance(adapter, filePath);
@@ -98,23 +108,31 @@ class ConfigFactory extends AbstractFactory
         string fileName,
         params = null
     ) -> <ConfigInterface> {
-        var definition;
+        var definition, spec;
         array arguments;
 
         let definition = this->getService(name),
-            arguments  = [fileName];
+            arguments  = [fileName],
+            spec       = this->getExtraArguments();
 
-        switch (name) {
-            case "grouped":
-            case "ini":
-            case "yaml":
-                if null !== params {
-                    let arguments[] = params;
-                }
-                break;
+        if null !== params && isset spec[name] {
+            let arguments[] = params;
         }
 
         return create_instance_params(definition, arguments);
+    }
+
+    /**
+     * Adapter name aliases resolved by `load()` (file extensions that map
+     * to a registered adapter)
+     *
+     * @return array<string, string>
+     */
+    protected function getAdapterAliases() -> array
+    {
+        return [
+            "yml" : "yaml"
+        ];
     }
 
     /**
@@ -122,7 +140,23 @@ class ConfigFactory extends AbstractFactory
      */
     protected function getExceptionClass() -> string
     {
-        return "Phalcon\\Config\\Exception";
+        return Exception::class;
+    }
+
+    /**
+     * Adapters accepting an extra constructor argument, with the config
+     * option carrying it and its default value. Single source for the
+     * parameter-forwarding knowledge used by `load()` and `newInstance()`.
+     *
+     * @return array<string, array>
+     */
+    protected function getExtraArguments() -> array
+    {
+        return [
+            "grouped" : ["option" : null,        "default" : null],
+            "ini"     : ["option" : "mode",      "default" : INI_SCANNER_RAW],
+            "yaml"    : ["option" : "callbacks", "default" : null]
+        ];
     }
 
     /**
@@ -133,11 +167,11 @@ class ConfigFactory extends AbstractFactory
     protected function getServices() -> array
     {
         return [
-            "grouped" : "Phalcon\\Config\\Adapter\\Grouped",
-            "ini"     : "Phalcon\\Config\\Adapter\\Ini",
-            "json"    : "Phalcon\\Config\\Adapter\\Json",
-            "php"     : "Phalcon\\Config\\Adapter\\Php",
-            "yaml"    : "Phalcon\\Config\\Adapter\\Yaml"
+            "grouped" : Grouped::class,
+            "ini"     : Ini::class,
+            "json"    : Json::class,
+            "php"     : Php::class,
+            "yaml"    : Yaml::class
         ];
     }
 
@@ -156,9 +190,7 @@ class ConfigFactory extends AbstractFactory
                 extension = pathinfo(config, PATHINFO_EXTENSION);
 
             if true  == empty(extension) {
-                throw new Exception(
-                    "You need to provide the extension in the file path"
-                );
+                throw new MissingFileExtension();
             }
 
             let config = [
@@ -172,9 +204,7 @@ class ConfigFactory extends AbstractFactory
         }
 
         if typeof config !== "array" {
-            throw new Exception(
-                "Config must be array or Phalcon\\Config\\Config object"
-            );
+            throw new ConfigNotArrayOrObject();
         }
 
         this->checkConfigArray(config);
@@ -190,15 +220,11 @@ class ConfigFactory extends AbstractFactory
     private function checkConfigArray(array config) -> void
     {
         if true !== isset(config["filePath"]) {
-            throw new Exception(
-                "You must provide 'filePath' option in factory config parameter."
-            );
+            throw new MissingConfigOption("filePath");
         }
 
         if true !== isset(config["adapter"]) {
-            throw new Exception(
-                "You must provide 'adapter' option in factory config parameter."
-            );
+            throw new MissingConfigOption("adapter");
         }
     }
 }

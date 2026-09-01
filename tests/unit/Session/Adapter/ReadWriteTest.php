@@ -1,0 +1,179 @@
+<?php
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Phalcon\Tests\Unit\Session\Adapter;
+
+use Phalcon\Session\Adapter\Redis;
+use Phalcon\Talon\PHPUnit\AbstractServicesTestCase;
+use Phalcon\Talon\Talon;
+use Phalcon\Tests\Support\Traits\DiTrait;
+use Phalcon\Tests\Unit\Session\Fake\Adapter\FakeStreamFileGetContents;
+
+use function Phalcon\Tests\Support\Traits\getOptionsSessionStream;
+use function uniqid;
+
+final class ReadWriteTest extends AbstractServicesTestCase
+{
+    use DiTrait;
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testSessionAdapterLibmemcachedReadWrite(): void
+    {
+        $adapter = $this->newService('sessionLibmemcached');
+
+        $value = uniqid();
+
+        $adapter->write('test1', $value);
+
+        $actual = $adapter->read('test1');
+        $this->assertEquals($value, $actual);
+
+        $this->clearMemcached();
+
+        $actual = $adapter->read('test1');
+        $this->assertNotNull($actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testSessionAdapterNoopReadWrite(): void
+    {
+        $adapter = $this->newService('sessionNoop');
+        $value   = uniqid();
+
+        $adapter->write('test1', $value);
+
+        $expected = '';
+        $actual   = $adapter->read('test1');
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testSessionAdapterNoopWrite(): void
+    {
+        $adapter = $this->newService('sessionNoop');
+
+        $actual = $adapter->write('test1', uniqid());
+        $this->assertTrue($actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testSessionAdapterRedisReadWrite(): void
+    {
+        /** @var Redis $adapter */
+        $adapter = $this->newService('sessionRedis');
+        $value   = uniqid();
+
+        $adapter->write('test1', $value);
+
+        $expected = $value;
+        $actual   = $adapter->read('test1');
+        $this->assertEquals($expected, $actual);
+        $this->sendRedisCommand('del', 'sess-reds-test1');
+
+        $actual = $adapter->read('test1');
+        $this->assertNotNull($actual);
+    }
+
+    /**
+     * A session id that happens to start with the storage prefix text must
+     * not collide with another session
+     *
+     * @issue  17127
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-11
+     */
+    public function testSessionAdapterRedisReadWritePrefixedIdNoCollision(): void
+    {
+        /** @var Redis $adapter */
+        $adapter = $this->newService('sessionRedis');
+
+        $valueOne = uniqid('one-');
+        $valueTwo = uniqid('two-');
+
+        $adapter->write('sess-reds-17127', $valueOne);
+        $adapter->write('17127', $valueTwo);
+
+        $expected = $valueOne;
+        $actual   = $adapter->read('sess-reds-17127');
+        $this->assertEquals($expected, $actual);
+
+        $expected = $valueTwo;
+        $actual   = $adapter->read('17127');
+        $this->assertEquals($expected, $actual);
+
+        $adapter->destroy('sess-reds-17127');
+        $adapter->destroy('17127');
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testSessionAdapterStreamRead(): void
+    {
+        $adapter = $this->newService('sessionStream');
+
+        $value = uniqid();
+        $adapter->write('test1', $value);
+
+        $actual = $adapter->read('test1');
+        $this->assertEquals($value, $actual);
+
+        $this->safeDeleteFile(Talon::settings()->outputPath('tests/cache/sessions/test1'));
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testSessionAdapterStreamReadNoData(): void
+    {
+        $adapter = new FakeStreamFileGetContents(getOptionsSessionStream());
+        $value   = uniqid();
+        $adapter->write('test1', $value);
+
+        $actual = $adapter->read('test1');
+        $this->assertEmpty($actual);
+
+        $this->safeDeleteFile(Talon::settings()->outputPath('tests/cache/sessions/test1'));
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testSessionAdapterStreamWrite(): void
+    {
+        $adapter = $this->newService('sessionStream');
+        $value   = uniqid();
+        $adapter->write('test1', $value);
+
+        $file = Talon::settings()->outputPath('tests/cache/sessions/test1');
+        $this->assertFileExists($file);
+
+        $this->assertFileContentsContains($file, $value);
+        $this->safeDeleteFile($file);
+    }
+}

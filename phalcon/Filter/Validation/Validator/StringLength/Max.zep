@@ -14,11 +14,17 @@ use Phalcon\Messages\Message;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\AbstractValidator;
 use Phalcon\Filter\Validation\Exception;
+use Phalcon\Traits\Php\InfoTrait;
 
 /**
  * Validates that a string has the specified maximum constraints
  * The test is passed if for a string's length L, L<=max, i.e. L must
  * be at most max.
+ *
+ * The "included" option is true by default. Set the option to false
+ * for L<max, i.e. L must be less than max. The "includedMaximum" option
+ * is an alias of "included". If you set the two options, "included" has
+ * precedence.
  *
  * ```php
  * use Phalcon\Filter\Validation;
@@ -63,6 +69,8 @@ use Phalcon\Filter\Validation\Exception;
  */
 class Max extends AbstractValidator
 {
+    use InfoTrait;
+
     protected template = "Field :field must not exceed :max characters long";
 
     /**
@@ -73,10 +81,11 @@ class Max extends AbstractValidator
      *     'template' => '',
      *     'allowEmpty' => false,
      *     'max' => 1000,
-     *     'included' => false
+     *     'included' => true,
+     *     'includedMaximum' => true
      * ]
      */
-    public function __construct(array! options = [])
+    public function __construct( array options = [])
     {
         parent::__construct(options);
     }
@@ -86,18 +95,22 @@ class Max extends AbstractValidator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, length, maximum, replacePairs, included, result;
+        var failed, included, length, maximum, replacePairs, value;
 
         let value = validation->getValue(field);
         if this->allowEmpty(field, value) {
             return true;
         }
 
+        if this->rejectNonStringable(validation, field, value) {
+            return false;
+        }
+
         // Check if mbstring is available to calculate the correct length
-        if function_exists("mb_strlen") {
-            let length = mb_strlen(value);
+        if this->phpFunctionExists("mb_strlen") {
+            let length = mb_strlen((string) value);
         } else {
-            let length = strlen(value);
+            let length = strlen((string) value);
         }
 
         let maximum = this->getOption("max");
@@ -106,7 +119,16 @@ class Max extends AbstractValidator
             let maximum = maximum[field];
         }
 
-        let included = this->getOption("included");
+        // "includedMaximum" is an alias of "included". The maximum is
+        // inclusive if no option is set. hasOption() uses isset(), thus a
+        // null value also counts as not set
+        let included = true;
+
+        if this->hasOption("included") {
+            let included = this->getOption("included");
+        } elseif this->hasOption("includedMaximum") {
+            let included = this->getOption("includedMaximum");
+        }
 
         if typeof included == "array" {
             let included = (bool) included[field];
@@ -115,12 +137,12 @@ class Max extends AbstractValidator
         }
 
         if included {
-            let result = length >= maximum;
+            let failed = length > maximum;
         } else {
-            let result = length > maximum;
+            let failed = length >= maximum;
         }
 
-        if result {
+        if failed {
             let replacePairs = [
                 ":max" : maximum
             ];

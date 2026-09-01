@@ -18,7 +18,7 @@ namespace Phalcon\DataMapper\Query;
 use Phalcon\DataMapper\Pdo\Connection;
 
 /**
- * Class Update
+ * Update Query
  */
 class Update extends AbstractConditions
 {
@@ -110,7 +110,7 @@ class Update extends AbstractConditions
      */
     public function hasColumns() -> bool
     {
-        return count(this->store["COLUMNS"]) > 0;
+        return !empty this->store["COLUMNS"];
     }
 
     /**

@@ -19,7 +19,7 @@ abstract class AbstractConfigFactory
      */
     protected function checkConfig(var config) -> array
     {
-        if typeof config == "object" && config instanceof ConfigInterface {
+        if typeof config === "object" && config instanceof ConfigInterface {
             let config = config->toArray();
         }
 
@@ -39,7 +39,7 @@ abstract class AbstractConfigFactory
     {
         if unlikely !isset config[element] {
             throw this->getException(
-                "You must provide '" . element . "' option in factory config parameter."
+                "You must provide the '" . element . "' option in the factory config parameter."
             );
         }
 

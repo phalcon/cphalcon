@@ -1,0 +1,46 @@
+<?php
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Phalcon\Tests\Unit\Html\Attributes;
+
+use Phalcon\Html\Attributes;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+
+final class SerializeTest extends AbstractUnitTestCase
+{
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-06-02
+     */
+    public function testHtmlAttributesSerialize(): void
+    {
+        $data = [
+            'type'  => 'text',
+            'class' => 'form-control',
+            'name'  => 'q',
+            'value' => '',
+        ];
+
+        $attributes = new Attributes($data);
+
+        $expected = serialize(
+            [
+                'data'        => $data,
+                'insensitive' => true,
+                'strictNull'  => false,
+                'type'        => null,
+            ]
+        );
+        $this->assertSame($expected, $attributes->serialize());
+    }
+}

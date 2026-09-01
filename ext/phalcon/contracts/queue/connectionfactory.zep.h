@@ -1,0 +1,12 @@
+
+extern zend_class_entry *phalcon_contracts_queue_connectionfactory_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Queue_ConnectionFactory);
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_queue_connectionfactory_createcontext, 0, 0, Phalcon\\Contracts\\Queue\\Context, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_contracts_queue_connectionfactory_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Queue_ConnectionFactory, createContext, arginfo_phalcon_contracts_queue_connectionfactory_createcontext)
+	PHP_FE_END
+};

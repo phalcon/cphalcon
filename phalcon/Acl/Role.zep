@@ -10,32 +10,25 @@
 
 namespace Phalcon\Acl;
 
+use Phalcon\Acl\Exceptions\ForbiddenDelimiter;
+use Phalcon\Acl\Exceptions\ForbiddenWildcard;
+
 /**
  * This class defines role entity and its description
  */
-class Role implements RoleInterface
+class Role extends AbstractElement implements RoleInterface
 {
     /**
-     * Role name
-     *
-     * @var string
+     * Role constructor.
      */
-    private name { get, __toString };
-
-    /**
-     * Role description
-     *
-     * @var string
-     */
-    private description { get };
-
-    /**
-     * Phalcon\Acl\Role constructor
-     */
-    public function __construct(string! name, string description = null)
+    public function __construct(string name, string description = null)
     {
-        if unlikely name == "*" {
-            throw new Exception("Role name cannot be '*'");
+        if unlikely name === "*" {
+            throw new ForbiddenWildcard("role");
+        }
+
+        if unlikely memstr(name, "!") {
+            throw new ForbiddenDelimiter("role");
         }
 
         let this->name = name,

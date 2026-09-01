@@ -1,0 +1,14 @@
+
+extern zend_class_entry *phalcon_mvc_micro_exceptions_missingcollectionmainhandler_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_Exceptions_MissingCollectionMainHandler);
+
+PHP_METHOD(Phalcon_Mvc_Micro_Exceptions_MissingCollectionMainHandler, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_exceptions_missingcollectionmainhandler___construct, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_mvc_micro_exceptions_missingcollectionmainhandler_method_entry) {
+PHP_ME(Phalcon_Mvc_Micro_Exceptions_MissingCollectionMainHandler, __construct, arginfo_phalcon_mvc_micro_exceptions_missingcollectionmainhandler___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};

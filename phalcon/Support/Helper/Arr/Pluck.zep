@@ -1,6 +1,6 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -16,24 +16,51 @@ namespace Phalcon\Support\Helper\Arr;
 class Pluck
 {
     /**
-     * @param array  $collection
-     * @param string $element
+     * @param array<array-key, mixed> $collection
+     * @param string                  $element
      *
-     * @return array
+     * @return array<array-key, mixed>
      */
     public function __invoke(array collection, string element) -> array
     {
-        var item;
-        array filtered;
-
-        let filtered = [];
+        var item,
+            filtered = [];
 
         for item in collection {
-            if typeof item === "object" && isset item->{element} {
-                let filtered[] = item->{element};
-            } elseif typeof item === "array" && isset item[element] {
-                let filtered[] = item[element];
-            }
+            let filtered = this->checkObject(filtered, element, item);
+            let filtered = this->checkArray(filtered, element, item);
+        }
+
+        return filtered;
+    }
+
+    /**
+     * @param array<array-key, mixed> $filtered
+     * @param string                  $element
+     * @param mixed                   $item
+     *
+     * @return array<array-key, mixed>
+     */
+    private function checkArray(array filtered, string element, var item) -> array
+    {
+        if (typeof item === "array" && isset(item[element])) {
+            let filtered[] = item[element];
+        }
+
+        return filtered;
+    }
+
+    /**
+     * @param array<array-key, mixed> $filtered
+     * @param string                  $element
+     * @param mixed                   $item
+     *
+     * @return array<array-key, mixed>
+     */
+    private function checkObject(array filtered, string element, var item) -> array
+    {
+        if (typeof item === "object" && isset(item->{element})) {
+            let filtered[] = item->{element};
         }
 
         return filtered;

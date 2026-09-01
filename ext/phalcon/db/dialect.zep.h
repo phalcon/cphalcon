@@ -13,16 +13,30 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlColumn);
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression);
 PHP_METHOD(Phalcon_Db_Dialect, getSqlTable);
 PHP_METHOD(Phalcon_Db_Dialect, limit);
+PHP_METHOD(Phalcon_Db_Dialect, getLimitValue);
 PHP_METHOD(Phalcon_Db_Dialect, registerCustomFunction);
+PHP_METHOD(Phalcon_Db_Dialect, createMaterializedView);
+PHP_METHOD(Phalcon_Db_Dialect, dropMaterializedView);
+PHP_METHOD(Phalcon_Db_Dialect, refreshMaterializedView);
+PHP_METHOD(Phalcon_Db_Dialect, onConflictUpdate);
+PHP_METHOD(Phalcon_Db_Dialect, returning);
 PHP_METHOD(Phalcon_Db_Dialect, releaseSavepoint);
 PHP_METHOD(Phalcon_Db_Dialect, rollbackSavepoint);
 PHP_METHOD(Phalcon_Db_Dialect, select);
 PHP_METHOD(Phalcon_Db_Dialect, supportsSavepoints);
 PHP_METHOD(Phalcon_Db_Dialect, supportsReleaseSavepoints);
+PHP_METHOD(Phalcon_Db_Dialect, supportsAlterTable);
+PHP_METHOD(Phalcon_Db_Dialect, supportsMaterializedViews);
+PHP_METHOD(Phalcon_Db_Dialect, supportsOnConflictUpdate);
+PHP_METHOD(Phalcon_Db_Dialect, supportsReturning);
+PHP_METHOD(Phalcon_Db_Dialect, escapeStringLiteral);
 PHP_METHOD(Phalcon_Db_Dialect, getColumnSize);
 PHP_METHOD(Phalcon_Db_Dialect, getColumnSizeAndScale);
 PHP_METHOD(Phalcon_Db_Dialect, checkColumnType);
 PHP_METHOD(Phalcon_Db_Dialect, checkColumnTypeSql);
+PHP_METHOD(Phalcon_Db_Dialect, getCheckClause);
+PHP_METHOD(Phalcon_Db_Dialect, getIndexColumnList);
+PHP_METHOD(Phalcon_Db_Dialect, getGeneratedClause);
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionAll);
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionBinaryOperations);
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionCase);
@@ -52,26 +66,23 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_escape, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, str, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, escapeChar, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, escapeChar, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_escapeschema, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, str, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, escapeChar, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, escapeChar, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_forupdate, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, sqlQuery, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, modifier, IS_STRING, 0, "''")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_getcolumnlist, 0, 1, IS_STRING, 0)
 	ZEND_ARG_ARRAY_INFO(0, columnList, 0)
-	ZEND_ARG_TYPE_INFO(0, escapeChar, IS_STRING, 1)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, bindCounts, 0)
-#endif
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, escapeChar, IS_STRING, 1, "null")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_getcustomfunctions, 0, 0, IS_ARRAY, 0)
@@ -79,27 +90,19 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_getsqlcolumn, 0, 1, IS_STRING, 0)
 	ZEND_ARG_INFO(0, column)
-	ZEND_ARG_TYPE_INFO(0, escapeChar, IS_STRING, 1)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, bindCounts, 0)
-#endif
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, escapeChar, IS_STRING, 1, "null")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_getsqlexpression, 0, 1, IS_STRING, 0)
 	ZEND_ARG_ARRAY_INFO(0, expression, 0)
-	ZEND_ARG_TYPE_INFO(0, escapeChar, IS_STRING, 1)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, bindCounts, 0)
-#endif
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, escapeChar, IS_STRING, 1, "null")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_getsqltable, 0, 1, IS_STRING, 0)
 	ZEND_ARG_INFO(0, table)
-	ZEND_ARG_TYPE_INFO(0, escapeChar, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, escapeChar, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_limit, 0, 2, IS_STRING, 0)
@@ -107,9 +110,42 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_limit, 0, 2, 
 	ZEND_ARG_INFO(0, number)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_db_dialect_registercustomfunction, 0, 2, Phalcon\\Db\\Dialect, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_getlimitvalue, 0, 1, IS_STRING, 0)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_db_dialect_registercustomfunction, 0, 2, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 	ZEND_ARG_INFO(0, customFunction)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_creatematerializedview, 0, 2, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, viewName, IS_STRING, 0)
+	ZEND_ARG_ARRAY_INFO(0, definition, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_dropmaterializedview, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, viewName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, ifExists, _IS_BOOL, 0, "true")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_refreshmaterializedview, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, viewName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, concurrent, _IS_BOOL, 0, "false")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_onconflictupdate, 0, 3, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, sqlQuery, IS_STRING, 0)
+	ZEND_ARG_ARRAY_INFO(0, conflictColumns, 0)
+	ZEND_ARG_ARRAY_INFO(0, updateColumns, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_returning, 0, 2, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, sqlQuery, IS_STRING, 0)
+	ZEND_ARG_ARRAY_INFO(0, columns, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_releasesavepoint, 0, 1, IS_STRING, 0)
@@ -130,6 +166,22 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_supportsreleasesavepoints, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_supportsaltertable, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_supportsmaterializedviews, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_supportsonconflictupdate, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_supportsreturning, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_escapestringliteral, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, value, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_getcolumnsize, 0, 1, IS_STRING, 0)
 	ZEND_ARG_OBJ_INFO(0, column, Phalcon\\Db\\ColumnInterface, 0)
 ZEND_END_ARG_INFO()
@@ -146,188 +198,143 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_checkcolumnty
 	ZEND_ARG_OBJ_INFO(0, column, Phalcon\\Db\\ColumnInterface, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_getcheckclause, 0, 1, IS_STRING, 0)
+	ZEND_ARG_OBJ_INFO(0, check, Phalcon\\Db\\CheckInterface, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, escapeChar, IS_STRING, 0, "'`'")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_getindexcolumnlist, 0, 1, IS_STRING, 0)
+	ZEND_ARG_OBJ_INFO(0, index, Phalcon\\Db\\IndexInterface, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, wrapExpressions, _IS_BOOL, 0, "true")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_getgeneratedclause, 0, 1, IS_STRING, 0)
+	ZEND_ARG_OBJ_INFO(0, column, Phalcon\\Db\\ColumnInterface, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, forceStored, _IS_BOOL, 0, "false")
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_getsqlexpressionall, 0, 1, IS_STRING, 0)
 	ZEND_ARG_ARRAY_INFO(0, expression, 0)
-	ZEND_ARG_TYPE_INFO(0, escapeChar, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, escapeChar, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_getsqlexpressionbinaryoperations, 0, 1, IS_STRING, 0)
 	ZEND_ARG_ARRAY_INFO(0, expression, 0)
-	ZEND_ARG_TYPE_INFO(0, escapeChar, IS_STRING, 1)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, bindCounts, 0)
-#endif
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, escapeChar, IS_STRING, 1, "null")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_getsqlexpressioncase, 0, 1, IS_STRING, 0)
 	ZEND_ARG_ARRAY_INFO(0, expression, 0)
-	ZEND_ARG_TYPE_INFO(0, escapeChar, IS_STRING, 1)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, bindCounts, 0)
-#endif
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, escapeChar, IS_STRING, 1, "null")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_getsqlexpressioncastvalue, 0, 1, IS_STRING, 0)
 	ZEND_ARG_ARRAY_INFO(0, expression, 0)
-	ZEND_ARG_TYPE_INFO(0, escapeChar, IS_STRING, 1)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, bindCounts, 0)
-#endif
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, escapeChar, IS_STRING, 1, "null")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_getsqlexpressionconvertvalue, 0, 1, IS_STRING, 0)
 	ZEND_ARG_ARRAY_INFO(0, expression, 0)
-	ZEND_ARG_TYPE_INFO(0, escapeChar, IS_STRING, 1)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, bindCounts, 0)
-#endif
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, escapeChar, IS_STRING, 1, "null")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_getsqlexpressionfrom, 0, 1, IS_STRING, 0)
 	ZEND_ARG_INFO(0, expression)
-	ZEND_ARG_TYPE_INFO(0, escapeChar, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, escapeChar, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_getsqlexpressionfunctioncall, 0, 1, IS_STRING, 0)
 	ZEND_ARG_ARRAY_INFO(0, expression, 0)
-	ZEND_ARG_TYPE_INFO(0, escapeChar, IS_STRING, 1)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, bindCounts, 0)
-#endif
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, escapeChar, IS_STRING, 1, "null")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_getsqlexpressiongroupby, 0, 1, IS_STRING, 0)
 	ZEND_ARG_INFO(0, expression)
-	ZEND_ARG_TYPE_INFO(0, escapeChar, IS_STRING, 1)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, bindCounts, 0)
-#endif
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, escapeChar, IS_STRING, 1, "null")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_getsqlexpressionhaving, 0, 1, IS_STRING, 0)
 	ZEND_ARG_ARRAY_INFO(0, expression, 0)
-	ZEND_ARG_TYPE_INFO(0, escapeChar, IS_STRING, 1)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, bindCounts, 0)
-#endif
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, escapeChar, IS_STRING, 1, "null")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_getsqlexpressionjoins, 0, 1, IS_STRING, 0)
 	ZEND_ARG_INFO(0, expression)
-	ZEND_ARG_TYPE_INFO(0, escapeChar, IS_STRING, 1)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, bindCounts, 0)
-#endif
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, escapeChar, IS_STRING, 1, "null")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_getsqlexpressionlimit, 0, 1, IS_STRING, 0)
 	ZEND_ARG_INFO(0, expression)
-	ZEND_ARG_TYPE_INFO(0, escapeChar, IS_STRING, 1)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, bindCounts, 0)
-#endif
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, escapeChar, IS_STRING, 1, "null")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_getsqlexpressionlist, 0, 1, IS_STRING, 0)
 	ZEND_ARG_ARRAY_INFO(0, expression, 0)
-	ZEND_ARG_TYPE_INFO(0, escapeChar, IS_STRING, 1)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, bindCounts, 0)
-#endif
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, escapeChar, IS_STRING, 1, "null")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_getsqlexpressionobject, 0, 1, IS_STRING, 0)
 	ZEND_ARG_ARRAY_INFO(0, expression, 0)
-	ZEND_ARG_TYPE_INFO(0, escapeChar, IS_STRING, 1)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, bindCounts, 0)
-#endif
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, escapeChar, IS_STRING, 1, "null")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_getsqlexpressionorderby, 0, 1, IS_STRING, 0)
 	ZEND_ARG_INFO(0, expression)
-	ZEND_ARG_TYPE_INFO(0, escapeChar, IS_STRING, 1)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, bindCounts, 0)
-#endif
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, escapeChar, IS_STRING, 1, "null")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_getsqlexpressionqualified, 0, 1, IS_STRING, 0)
 	ZEND_ARG_ARRAY_INFO(0, expression, 0)
-	ZEND_ARG_TYPE_INFO(0, escapeChar, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, escapeChar, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_getsqlexpressionscalar, 0, 1, IS_STRING, 0)
 	ZEND_ARG_ARRAY_INFO(0, expression, 0)
-	ZEND_ARG_TYPE_INFO(0, escapeChar, IS_STRING, 1)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, bindCounts, 0)
-#endif
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, escapeChar, IS_STRING, 1, "null")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_getsqlexpressionunaryoperations, 0, 1, IS_STRING, 0)
 	ZEND_ARG_ARRAY_INFO(0, expression, 0)
-	ZEND_ARG_TYPE_INFO(0, escapeChar, IS_STRING, 1)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, bindCounts, 0)
-#endif
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, escapeChar, IS_STRING, 1, "null")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_getsqlexpressionwhere, 0, 1, IS_STRING, 0)
 	ZEND_ARG_INFO(0, expression)
-	ZEND_ARG_TYPE_INFO(0, escapeChar, IS_STRING, 1)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, bindCounts, 0)
-#endif
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, escapeChar, IS_STRING, 1, "null")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindCounts, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_preparecolumnalias, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, qualified, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, alias, IS_STRING, 1)
-	ZEND_ARG_TYPE_INFO(0, escapeChar, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, alias, IS_STRING, 1, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, escapeChar, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_preparetable, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, table, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, schema, IS_STRING, 1)
-	ZEND_ARG_TYPE_INFO(0, alias, IS_STRING, 1)
-	ZEND_ARG_TYPE_INFO(0, escapeChar, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schema, IS_STRING, 1, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, alias, IS_STRING, 1, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, escapeChar, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_preparequalified, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, column, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, domain, IS_STRING, 1)
-	ZEND_ARG_TYPE_INFO(0, escapeChar, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, domain, IS_STRING, 1, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, escapeChar, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_zephir_init_properties_phalcon_db_dialect, 0, 0, 0)
@@ -344,16 +351,30 @@ ZEPHIR_INIT_FUNCS(phalcon_db_dialect_method_entry) {
 	PHP_ME(Phalcon_Db_Dialect, getSqlExpression, arginfo_phalcon_db_dialect_getsqlexpression, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect, getSqlTable, arginfo_phalcon_db_dialect_getsqltable, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect, limit, arginfo_phalcon_db_dialect_limit, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, getLimitValue, arginfo_phalcon_db_dialect_getlimitvalue, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Db_Dialect, registerCustomFunction, arginfo_phalcon_db_dialect_registercustomfunction, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, createMaterializedView, arginfo_phalcon_db_dialect_creatematerializedview, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, dropMaterializedView, arginfo_phalcon_db_dialect_dropmaterializedview, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, refreshMaterializedView, arginfo_phalcon_db_dialect_refreshmaterializedview, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, onConflictUpdate, arginfo_phalcon_db_dialect_onconflictupdate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, returning, arginfo_phalcon_db_dialect_returning, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect, releaseSavepoint, arginfo_phalcon_db_dialect_releasesavepoint, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect, rollbackSavepoint, arginfo_phalcon_db_dialect_rollbacksavepoint, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect, select, arginfo_phalcon_db_dialect_select, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect, supportsSavepoints, arginfo_phalcon_db_dialect_supportssavepoints, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Dialect, supportsReleaseSavepoints, arginfo_phalcon_db_dialect_supportsreleasesavepoints, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, supportsAlterTable, arginfo_phalcon_db_dialect_supportsaltertable, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, supportsMaterializedViews, arginfo_phalcon_db_dialect_supportsmaterializedviews, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, supportsOnConflictUpdate, arginfo_phalcon_db_dialect_supportsonconflictupdate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, supportsReturning, arginfo_phalcon_db_dialect_supportsreturning, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Dialect, escapeStringLiteral, arginfo_phalcon_db_dialect_escapestringliteral, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Db_Dialect, getColumnSize, arginfo_phalcon_db_dialect_getcolumnsize, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Db_Dialect, getColumnSizeAndScale, arginfo_phalcon_db_dialect_getcolumnsizeandscale, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Db_Dialect, checkColumnType, arginfo_phalcon_db_dialect_checkcolumntype, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Db_Dialect, checkColumnTypeSql, arginfo_phalcon_db_dialect_checkcolumntypesql, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Db_Dialect, getCheckClause, arginfo_phalcon_db_dialect_getcheckclause, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Db_Dialect, getIndexColumnList, arginfo_phalcon_db_dialect_getindexcolumnlist, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Db_Dialect, getGeneratedClause, arginfo_phalcon_db_dialect_getgeneratedclause, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Db_Dialect, getSqlExpressionAll, arginfo_phalcon_db_dialect_getsqlexpressionall, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Db_Dialect, getSqlExpressionBinaryOperations, arginfo_phalcon_db_dialect_getsqlexpressionbinaryoperations, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Db_Dialect, getSqlExpressionCase, arginfo_phalcon_db_dialect_getsqlexpressioncase, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)

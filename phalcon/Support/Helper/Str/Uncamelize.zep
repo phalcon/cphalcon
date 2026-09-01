@@ -1,6 +1,6 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -10,27 +10,19 @@
 
 namespace Phalcon\Support\Helper\Str;
 
+use Phalcon\Traits\Support\Helper\Str\UncamelizeTrait;
+
 /**
  * Converts strings to non camelized style
  */
 class Uncamelize
 {
-    /**
-     * @param string $text
-     * @param string $delimiters
-     *
-     * @return string
-     */
+    use UncamelizeTrait;
+
     public function __invoke(
         string text,
         string delimiter = "_"
     ) -> string {
-        return mb_strtolower(
-            preg_replace(
-                "/[A-Z]/",
-                delimiter . "\\0",
-                lcfirst(text)
-            )
-        );
+        return this->toUncamelize(text, delimiter);
     }
 }

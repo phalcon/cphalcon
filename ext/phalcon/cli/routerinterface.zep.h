@@ -11,7 +11,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_getactionname, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_routerinterface_getmatchedroute, 0, 0, Phalcon\\Cli\\Router\\RouteInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_routerinterface_getmatchedroute, 0, 0, Phalcon\\Cli\\Router\\RouteInterface, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_getmatches, 0, 0, IS_ARRAY, 0)
@@ -20,14 +20,17 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_getmodulename, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_getparameters, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_getparams, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_routerinterface_getroutebyid, 0, 1, Phalcon\\Cli\\Router\\RouteInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_phalcon_cli_routerinterface_getroutebyid, 0, 1, Phalcon\\Cli\\Router\\RouteInterface, MAY_BE_BOOL)
 	ZEND_ARG_INFO(0, id)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_routerinterface_getroutebyname, 0, 1, Phalcon\\Cli\\Router\\RouteInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_phalcon_cli_routerinterface_getroutebyname, 0, 1, Phalcon\\Cli\\Router\\RouteInterface, MAY_BE_BOOL)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
@@ -41,23 +44,19 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_routerinterface_handle, 0, 0, 0)
 	ZEND_ARG_INFO(0, arguments)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_setdefaultaction, 0, 1, IS_VOID, 0)
-
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_routerinterface_setdefaultaction, 0, 1, Phalcon\\Cli\\RouterInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, actionName, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_setdefaultmodule, 0, 1, IS_VOID, 0)
-
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_routerinterface_setdefaultmodule, 0, 1, Phalcon\\Cli\\RouterInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, moduleName, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_setdefaults, 0, 1, IS_VOID, 0)
-
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_routerinterface_setdefaults, 0, 1, Phalcon\\Cli\\RouterInterface, 0)
 	ZEND_ARG_ARRAY_INFO(0, defaults, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_setdefaulttask, 0, 1, IS_VOID, 0)
-
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_routerinterface_setdefaulttask, 0, 1, Phalcon\\Cli\\RouterInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, taskName, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
@@ -70,6 +69,7 @@ ZEPHIR_INIT_FUNCS(phalcon_cli_routerinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, getMatchedRoute, arginfo_phalcon_cli_routerinterface_getmatchedroute)
 	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, getMatches, arginfo_phalcon_cli_routerinterface_getmatches)
 	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, getModuleName, arginfo_phalcon_cli_routerinterface_getmodulename)
+	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, getParameters, arginfo_phalcon_cli_routerinterface_getparameters)
 	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, getParams, arginfo_phalcon_cli_routerinterface_getparams)
 	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, getRouteById, arginfo_phalcon_cli_routerinterface_getroutebyid)
 	PHP_ABSTRACT_ME(Phalcon_Cli_RouterInterface, getRouteByName, arginfo_phalcon_cli_routerinterface_getroutebyname)

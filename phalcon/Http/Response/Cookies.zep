@@ -10,14 +10,16 @@
 
 namespace Phalcon\Http\Response;
 
-use Phalcon\Di\DiInterface;
+use Phalcon\Contracts\Http\HttpTypes;
 use Phalcon\Di\AbstractInjectionAware;
-use Phalcon\Http\Cookie\Exception;
+use Phalcon\Di\DiInterface;
+use Phalcon\Http\Cookie;
 use Phalcon\Http\Cookie\CookieInterface;
+use Phalcon\Http\Cookie\Exception;
+use Phalcon\Http\Response\Exceptions\ResponseServiceUnavailable;
+use Phalcon\Http\Traits\EncryptionAwareTrait;
 
 /**
- * Phalcon\Http\Response\Cookies
- *
  * This class is a bag to manage the cookies.
  *
  * A cookies bag is automatically registered as part of the 'response' service
@@ -38,8 +40,10 @@ use Phalcon\Http\Cookie\CookieInterface;
  *     function () {
  *         $crypt = new Crypt();
  *
- *         // The `$key' should have been previously generated in a cryptographically safe way.
- *         $key = "T4\xb1\x8d\xa9\x98\x05\\\x8c\xbe\x1d\x07&[\x99\x18\xa4~Lc1\xbeW\xb3";
+ *         // The `$key' should have been previously generated in a
+ *         // cryptographically safe way.
+ *         $key =
+ *         "T4\xb1\x8d\xa9\x98\x05\\\x8c\xbe\x1d\x07&[\x99\x18\xa4~Lc1\xbeW\xb3";
  *
  *         $crypt->setKey($key);
  *
@@ -52,9 +56,10 @@ use Phalcon\Http\Cookie\CookieInterface;
  *     function () {
  *         $cookies = new Cookies();
  *
- *         // The `$key' MUST be at least 32 characters long and generated using a
- *         // cryptographically secure pseudo random generator.
- *         $key = "#1dj8$=dp?.ak//j1V$~%*0XaK\xb1\x8d\xa9\x98\x054t7w!z%C*F-Jk\x98\x05\\\x5c";
+ *         // The `$key' MUST be at least 32 characters long and generated
+ *         // using a cryptographically secure pseudo random generator.
+ *         $key =
+ *         "#1dj8$=dp?.ak//j1V$~%*0XaK\xb1\x8d\xa9\x98\x054t7w!z%C*F-Jk\x98\x05\\\x5c";
  *
  *         $cookies->setSignKey($key);
  *
@@ -62,37 +67,27 @@ use Phalcon\Http\Cookie\CookieInterface;
  *     }
  * );
  * ```
+ *
+ * @phpstan-import-type http_cookie_bag from HttpTypes
+ * @phpstan-import-type http_cookie_options from HttpTypes
  */
 class Cookies extends AbstractInjectionAware implements CookiesInterface
 {
-    /**
-     * @var array
-     */
-    protected cookies = [];
+    use EncryptionAwareTrait;
 
     /**
-     * @var bool
+     * @phpstan-var http_cookie_bag
      */
-    protected isSent = false;
-
-    /**
-     * @var bool
-     */
-    protected registered = false;
-
+    protected array cookies = [];
+    protected bool isRegistered = false;
+    protected bool isSent = false;
     /**
      * The cookie's sign key.
-     * @var string|null
      */
-    protected signKey = null;
+    protected ?string signKey = null;
 
     /**
-     * @var bool
-     */
-    protected useEncryption = true;
-
-    /**
-     * Phalcon\Http\Response\Cookies constructor
+     * Constructor
      */
     public function __construct(bool useEncryption = true, string signKey = null)
     {
@@ -103,17 +98,31 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
 
     /**
      * Deletes a cookie by its name
-     * This method does not removes cookies from the _COOKIE superglobal
+     * This method does not remove cookies from the _COOKIE super-global
      */
-    public function delete(string! name) -> bool
+    public function delete( string name) -> bool
     {
         var cookie;
 
         /**
-         * Check the internal bag
+         * Check the internal bag. Cookies that arrived with the request are
+         * not in it, so fall back to the _COOKIE superglobal.
          */
         if !fetch cookie, this->cookies[name] {
-            return false;
+            if !isset _COOKIE[name] {
+                return false;
+            }
+
+            let cookie = new Cookie(name);
+
+            /**
+             * Pass the DI to the created cookie when one is available, so that
+             * the cookie definition stored in the session can be cleared. A
+             * container is not required to delete a cookie.
+             */
+            if this->container !== null {
+                cookie->setDi(this->container);
+            }
         }
 
         cookie->delete();
@@ -124,7 +133,7 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
     /**
      * Gets a cookie from the bag
      */
-    public function get(string! name) -> <CookieInterface>
+    public function get( string name) -> <CookieInterface>
     {
         var container, encryption, cookie;
 
@@ -136,28 +145,26 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
         }
 
         /**
-         * Create the cookie if the it does not exist.
-         * It's value come from $_COOKIE with request, so it shouldn't be saved
+         * Create the cookie if it does not exist.
+         * Its value comes from $_COOKIE with request, so it shouldn't be saved
          * to _cookies property, otherwise it will always be resent after get.
          */
-        let cookie = <CookieInterface> this->container->get("Phalcon\\Http\\Cookie", [name]),
-            container = this->container;
+        let container = this->checkGetContainer();
+        let cookie    = <CookieInterface> container->get(Cookie::class, [name]);
 
-        if typeof container == "object" {
-            /**
-             * Pass the DI to created cookies
-             */
-            cookie->setDi(container);
+        /**
+         * Pass the DI to created cookies
+         */
+        cookie->setDi(container);
 
-            let encryption = this->useEncryption;
+        let encryption = this->useEncryption;
 
-            /**
-             * Enable encryption in the cookie
-             */
-            if encryption {
-                cookie->useEncryption(encryption);
-                cookie->setSignKey(this->signKey);
-            }
+        /**
+         * Enable encryption in the cookie
+         */
+        if encryption {
+            cookie->useEncryption(encryption);
+            cookie->setSignKey(this->signKey);
         }
 
         return cookie;
@@ -165,6 +172,8 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
 
     /**
      * Gets all cookies from the bag
+     *
+     * @phpstan-return http_cookie_bag
      */
     public function getCookies() -> array
     {
@@ -173,9 +182,9 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
 
     /**
      * Check if a cookie is defined in the bag or exists in the _COOKIE
-     * superglobal
+     * super-global
      */
-    public function has(string! name) -> bool
+    public function has( string name) -> bool
     {
         return isset this->cookies[name] || isset _COOKIE[name];
     }
@@ -186,14 +195,6 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
     public function isSent() -> bool
     {
         return this->isSent;
-    }
-
-    /**
-     * Returns if the bag is automatically encrypting/decrypting cookies
-     */
-    public function isUsingEncryption() -> bool
-    {
-        return this->useEncryption;
     }
 
     /**
@@ -245,15 +246,17 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
      *     (int) $tomorrow->format('U'),
      * );
      * ```
+     *
+     * @phpstan-param http_cookie_options $options
      */
     public function set(
-        string! name,
+         string name,
         var value = null,
         int expire = 0,
         string path = "/",
-        bool secure = null,
-        string! domain = null,
-        bool httpOnly = null,
+        bool secure = false,
+         string domain = "",
+        bool httpOnly = false,
         array options = []
     ) -> <CookiesInterface> {
         var cookie, encryption, container, response;
@@ -266,7 +269,7 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
         if !fetch cookie, this->cookies[name] {
             let cookie =
                 <CookieInterface> this->container->get(
-                    "Phalcon\\Http\\Cookie",
+                    Cookie::class,
                     [name, value, expire, path, secure, domain, httpOnly, options]
                 );
 
@@ -280,7 +283,6 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
              */
             if encryption {
                 cookie->useEncryption(encryption);
-
                 cookie->setSignKey(this->signKey);
             }
 
@@ -302,16 +304,9 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
         /**
          * Register the cookies bag in the response
          */
-        if this->registered === false {
-            let container = this->container;
-
-            if unlikely typeof container != "object" {
-                throw new Exception(
-                    "A dependency injection container is required to access the 'response' service"
-                );
-            }
-
-            let response = container->getShared("response");
+        if this->isRegistered === false {
+            let container = this->checkGetContainer();
+            let response  = container->getShared("response");
 
             /**
              * Pass the cookies bag to the response so it can send the headers
@@ -319,7 +314,7 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
              */
             response->setCookies(this);
 
-            let this->registered = true;
+            let this->isRegistered = true;
         }
 
         return this;
@@ -333,7 +328,7 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
      *
      * Use NULL to disable cookie signing.
      *
-     * @see \Phalcon\Security\Random
+     * @see \Phalcon\Encryption\Security\Random
      */
     public function setSignKey(string signKey = null) -> <CookiesInterface>
     {
@@ -350,5 +345,18 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
         let this->useEncryption = useEncryption;
 
         return this;
+    }
+
+    private function checkGetContainer() -> <DiInterface>
+    {
+        var container;
+
+        let container = this->container;
+
+        if container === null {
+            throw new ResponseServiceUnavailable();
+        }
+
+        return container;
     }
 }

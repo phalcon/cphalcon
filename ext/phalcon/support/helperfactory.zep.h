@@ -10,11 +10,7 @@ PHP_METHOD(Phalcon_Support_HelperFactory, getExceptionClass);
 PHP_METHOD(Phalcon_Support_HelperFactory, getServices);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_helperfactory___construct, 0, 0, 0)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, services, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, services, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, services, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_helperfactory___call, 0, 0, 2)

@@ -1,0 +1,14 @@
+
+extern zend_class_entry *phalcon_dispatcher_exceptions_forwardininitializeforbidden_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Dispatcher_Exceptions_ForwardInInitializeForbidden);
+
+PHP_METHOD(Phalcon_Dispatcher_Exceptions_ForwardInInitializeForbidden, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_exceptions_forwardininitializeforbidden___construct, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_dispatcher_exceptions_forwardininitializeforbidden_method_entry) {
+PHP_ME(Phalcon_Dispatcher_Exceptions_ForwardInInitializeForbidden, __construct, arginfo_phalcon_dispatcher_exceptions_forwardininitializeforbidden___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};

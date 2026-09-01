@@ -10,8 +10,11 @@
 
 namespace Phalcon\Translate\Adapter;
 
-use ArrayAccess;
+use Phalcon\Contracts\Translate\TranslateTypes;
+use Phalcon\Traits\Php\InfoTrait;
 use Phalcon\Translate\Exception;
+use Phalcon\Translate\Exceptions\MissingGettextExtension;
+use Phalcon\Translate\Exceptions\MissingRequiredParameter;
 use Phalcon\Translate\InterpolatorFactory;
 
 /**
@@ -30,54 +33,45 @@ use Phalcon\Translate\InterpolatorFactory;
  * );
  * ```
  *
- * Allows translate using gettext
+ * Allows translations using gettext
  *
- * @property int          $category
- * @property string       $defaultDomain
- * @property string|array $directory
- * @property string|false $locale
+ * @phpstan-import-type translate_data from TranslateTypes
+ * @phpstan-import-type translate_gettext_defaults from TranslateTypes
+ * @phpstan-import-type translate_gettext_options from TranslateTypes
+ * @phpstan-import-type translate_placeholders from TranslateTypes
  */
-class Gettext extends AbstractAdapter implements ArrayAccess
+class Gettext extends AbstractAdapter
 {
-    /**
-     * @var int
-     */
-    protected category { get };
+    use InfoTrait;
+
+    protected int category = 6; // LC_ALL
+    protected string defaultDomain = "messages";
 
     /**
-     * @var string
+     * @phpstan-var translate_data|string
      */
-    protected defaultDomain { get };
+    protected var directory;
 
     /**
-     * @var string|array
+     * @var false|string
      */
-    protected directory { get };
-
-    /**
-     * @var string
-     */
-    protected locale { get };
+    protected var locale;
 
     /**
      * Gettext constructor.
      *
-     * @param InterpolatorFactory $interpolator
-     * @param array               $options = [
-     *                                       'locale'        => '',
-     *                                       'defaultDomain' => '',
-     *                                       'directory'     => '',
-     *                                       'category'      => ''
-     *                                       ]
+     * @phpstan-param translate_gettext_options $options
      *
      * @throws Exception
+     * @throws MissingGettextExtension
+     * @throws MissingRequiredParameter
      */
-    public function __construct(<InterpolatorFactory> interpolator, array! options)
-    {
+    public function __construct(
+        <InterpolatorFactory> interpolator,
+        array options
+    ) {
         if unlikely !this->phpFunctionExists("gettext") {
-            throw new Exception(
-                "This class requires the gettext extension for PHP"
-            );
+            throw new MissingGettextExtension();
         }
 
         parent::__construct(interpolator, options);
@@ -88,30 +82,42 @@ class Gettext extends AbstractAdapter implements ArrayAccess
     /**
      * Check whether is defined a translation key in the internal array
      *
-     * @param string $index
-     *
-     * @return bool
      * @deprecated
      */
-    public function exists(string! index) -> bool
+    public function exists(string index) -> bool
     {
         return this->has(index);
     }
 
+    public function getCategory() -> int
+    {
+        return this->category;
+    }
+
+    public function getDefaultDomain() -> string
+    {
+        return this->defaultDomain;
+    }
+
+    /**
+     * @phpstan-return translate_data|string
+     */
+    public function getDirectory() -> array | string
+    {
+        return this->directory;
+    }
+
+    public function getLocale() -> false | string
+    {
+        return this->locale;
+    }
+
     /**
      * Check whether is defined a translation key in the internal array
-     *
-     * @param string $index
-     *
-     * @return bool
      */
-    public function has(string! index) -> bool
+    public function has(string index) -> bool
     {
-        var result;
-
-        let result = this->query(index);
-
-        return result !== index;
+        return gettext(index) !== index;
     }
 
     /**
@@ -119,20 +125,14 @@ class Gettext extends AbstractAdapter implements ArrayAccess
      * Some languages have more than one form for plural messages dependent on
      * the count.
      *
-     * @param string      $msgid1
-     * @param string      $msgid2
-     * @param int         $count
-     * @param array       $placeholders
-     * @param string|null $domain
-     *
-     * @return string
+     * @phpstan-param translate_placeholders $placeholders
      */
     public function nquery(
-        string! msgid1,
-        string! msgid2,
-        int! count,
+        string msgid1,
+        string msgid2,
+        int count,
         array placeholders = [],
-        string! domain = null
+        string domain = null
     ) -> string {
         var translation;
 
@@ -152,20 +152,25 @@ class Gettext extends AbstractAdapter implements ArrayAccess
      * $translator->query("你好 %name%！", ["name" => "Phalcon"]);
      * ```
      *
-     * @param string $translateKey
-     * @param array  $placeholders
+     * @phpstan-param translate_placeholders $placeholders
      *
-     * @return string
+     * @throws Exception
      */
-    public function query(string! translateKey, array placeholders = []) -> string
+    public function query(string translateKey, array placeholders = []) -> string
     {
-        return this->replacePlaceholders(gettext(translateKey), placeholders);
+        var translation;
+
+        let translation = gettext(translateKey);
+
+        if translation === translateKey {
+            let translation = this->notFound(translateKey);
+        }
+
+        return this->replacePlaceholders(translation, placeholders);
     }
 
     /**
      * Sets the default domain
-     *
-     * @return string
      */
     public function resetDomain() -> string
     {
@@ -174,10 +179,8 @@ class Gettext extends AbstractAdapter implements ArrayAccess
 
     /**
      * Sets the domain default to search within when calls are made to gettext()
-     *
-     * @param string $domain
      */
-    public function setDefaultDomain(string! domain) -> void
+    public function setDefaultDomain(string domain) -> void
     {
         let this->defaultDomain = domain;
     }
@@ -198,7 +201,7 @@ class Gettext extends AbstractAdapter implements ArrayAccess
      * );
      * ```
      *
-     * @param string|array $directory
+     * @phpstan-param translate_data|string $directory
      */
     public function setDirectory(var directory) -> void
     {
@@ -224,10 +227,6 @@ class Gettext extends AbstractAdapter implements ArrayAccess
 
     /**
      * Changes the current domain (i.e. the translation file)
-     *
-     * @param string|null $domain
-     *
-     * @return string
      */
     public function setDomain(string domain = null) -> string
     {
@@ -237,28 +236,34 @@ class Gettext extends AbstractAdapter implements ArrayAccess
     /**
      * Sets locale information
      *
+     * Note: this method has process-global side effects. Besides calling
+     * `setlocale()`, it exports the `LC_ALL`, `LANG` and `LANGUAGE`
+     * environment variables via `putenv()`. `LC_ALL` affects every
+     * locale-sensitive operation in the process - `(string)` casts of floats,
+     * `strtoupper()`/`strtolower()` tables, date formatting and more - not
+     * just translations.
+     *
      * ```php
      * // Set locale to Dutch
-     * $gettext->setLocale(LC_ALL, "nl_NL");
+     * $gettext->setLocale(LC_ALL, ["nl_NL"]);
      *
      * // Try different possible locale names for German
-     * $gettext->setLocale(LC_ALL, "de_DE@euro", "de_DE", "de", "ge");
+     * $gettext->setLocale(LC_ALL, ["de_DE@euro", "de_DE", "de", "ge"]);
      * ```
      *
-     * @param int   $category
-     * @param array $localeArray
-     *
-     * @return false|string
+     * @phpstan-param array<array-key, string> $localeArray
      */
-    public function setLocale(int! category, array localeArray = []) -> string | bool
+    public function setLocale(int category, array localeArray = []) -> false | string
     {
         let this->locale   = setlocale(category, localeArray),
             this->category = category;
 
-        putenv("LC_ALL=" . this->locale);
-        putenv("LANG=" . this->locale);
-        putenv("LANGUAGE=" . this->locale);
-        setlocale(LC_ALL, this->locale);
+        if (false !== this->locale) {
+            putenv("LC_ALL=" . this->locale);
+            putenv("LANG=" . this->locale);
+            putenv("LANGUAGE=" . this->locale);
+            setlocale(LC_ALL, this->locale);
+        }
 
         return this->locale;
     }
@@ -266,7 +271,7 @@ class Gettext extends AbstractAdapter implements ArrayAccess
     /**
      * Gets default options
      *
-     * @return array
+     * @phpstan-return translate_gettext_defaults
      */
     protected function getOptionsDefault() -> array
     {
@@ -279,18 +284,16 @@ class Gettext extends AbstractAdapter implements ArrayAccess
     /**
      * Validator for constructor
      *
-     * @param array $options
-     *
-     * @throws Exception
+     * @phpstan-param translate_gettext_options $options
      */
-    protected function prepareOptions(array! options) -> void
+    protected function prepareOptions( array options) -> void
     {
         if unlikely !isset options["locale"] {
-            throw new Exception("Parameter 'locale' is required");
+            throw new MissingRequiredParameter("locale");
         }
 
         if unlikely !isset options["directory"] {
-            throw new Exception("Parameter 'directory' is required");
+            throw new MissingRequiredParameter("directory");
         }
 
         let options = array_merge(
@@ -302,13 +305,5 @@ class Gettext extends AbstractAdapter implements ArrayAccess
         this->setDefaultDomain(options["defaultDomain"]);
         this->setDirectory(options["directory"]);
         this->setDomain(options["defaultDomain"]);
-    }
-
-    /**
-     * @todo to be removed when we get traits
-     */
-    protected function phpFunctionExists(string name) -> bool
-    {
-        return function_exists(name);
     }
 }

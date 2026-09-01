@@ -1,0 +1,684 @@
+<?php
+
+/**
+ * This file is part of the Phalcon Framework.
+ * (c) Phalcon Team <team@phalcon.io>
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Phalcon\Tests\Unit\Storage\Adapter;
+
+use Phalcon\Events\Event;
+use Phalcon\Events\Manager;
+use Phalcon\Storage\Adapter\Apcu;
+use Phalcon\Storage\Adapter\Libmemcached;
+use Phalcon\Storage\Adapter\Memory;
+use Phalcon\Storage\Adapter\Redis;
+use Phalcon\Storage\Adapter\RedisCluster;
+use Phalcon\Storage\Adapter\Stream;
+use Phalcon\Storage\Adapter\Weak;
+use Phalcon\Storage\SerializerFactory;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
+use PHPUnit\Framework\Attributes\DataProvider;
+use RuntimeException;
+
+final class EventsTest extends AbstractUnitTestCase
+{
+    /**
+     * @return array[]
+     */
+    public static function getAdapters(): array
+    {
+        return [
+            [
+                Apcu::class,
+                [],
+                'apcu',
+            ],
+            [
+                Libmemcached::class,
+                [
+                    'client' => [],
+                    'servers' => [
+                        Talon::settings()->getServiceOptions('memcached')
+                    ]
+                ],
+                'memcached'
+            ],
+            [
+                Memory::class,
+                [],
+                '',
+            ],
+            [
+                Redis::class,
+                Talon::settings()->getServiceOptions('redis'),
+                'redis',
+            ],
+            [
+                RedisCluster::class,
+                Talon::settings()->getServiceOptions('redisCluster'),
+                'redis',
+            ],
+            [
+                Stream::class,
+                [
+                    'storageDir' => Talon::settings()->outputPath() . '/',
+                ],
+                '',
+            ],
+        ];
+    }
+    /**
+     * @return array[]
+     */
+    public static function getExamples(): array
+    {
+        return [
+            [
+                'apcu',
+                Apcu::class,
+                [],
+            ],
+            [
+                'memcached',
+                Libmemcached::class,
+                [
+                    'client' => [],
+                    'servers' => [
+                        Talon::settings()->getServiceOptions('memcached')
+                    ]
+                ],
+            ],
+            [
+                '',
+                Memory::class,
+                [],
+            ],
+            [
+                'redis',
+                Redis::class,
+                Talon::settings()->getServiceOptions('redis'),
+            ],
+            [
+                'redis',
+                RedisCluster::class,
+                Talon::settings()->getServiceOptions('redisCluster'),
+            ],
+            [
+                '',
+                Stream::class,
+                [
+                    'storageDir' => Talon::settings()->outputPath() . '/',
+                ],
+            ],
+            [
+                '',
+                Weak::class,
+                [],
+            ],
+        ];
+    }
+
+    /**
+     * @author n[oO]ne <lominum@protonmail.com>
+     * @since  2024-06-07
+     */
+    #[DataProvider('getAdapters')]
+    public function testCacheAdapterMemoryGetEventsManagerNotSet(
+        string $adapterClass,
+        array $options,
+        string $extension
+    ): void {
+        if (!empty($extension)) {
+            $this->checkExtensionIsLoaded($extension);
+        }
+
+        $serializer = new SerializerFactory();
+        $adapter    = new $adapterClass($serializer, $options);
+
+        $this->assertNull($adapter->getEventsManager());
+    }
+
+    /**
+     * @author n[oO]ne <lominum@protonmail.com>
+     * @since  2024-06-07
+     */
+    #[DataProvider('getAdapters')]
+    public function testCacheAdapterMemoryGetEventsManagerSet(
+        string $adapterClass,
+        array $options,
+        string $extension
+    ): void {
+        if (!empty($extension)) {
+            $this->checkExtensionIsLoaded($extension);
+        }
+
+        $serializer = new SerializerFactory();
+        $adapter    = new $adapterClass($serializer, $options);
+
+        $adapter->setEventsManager(new Manager());
+
+        $this->assertInstanceOf(Manager::class, $adapter->getEventsManager());
+    }
+
+    /**
+     * @author       n[oO]ne <lominum@protonmail.com>
+     * @since        2024-06-07
+     */
+    #[DataProvider('getExamples')]
+    public function testStorageAdapterEventsAfterDecrement(
+        string $extension,
+        string $class,
+        array $options
+    ): void {
+        if (!empty($extension)) {
+            $this->checkExtensionIsLoaded($extension);
+        }
+
+        $counter    = 0;
+        $serializer = new SerializerFactory();
+        $adapter    = new $class($serializer, $options);
+        $manager    = new Manager();
+
+        $manager->attach(
+            'storage:afterDecrement',
+            static function (Event $event) use (&$counter): void {
+                $counter++;
+                $data = $event->getData();
+                $data === 'test' ?: throw new RuntimeException('wrong key');
+            }
+        );
+
+        $adapter->setEventsManager($manager);
+
+        call_user_func_array([$adapter, 'decrement'], ['test']);
+        call_user_func_array([$adapter, 'decrement'], ['test']);
+
+        $expected = 2;
+        $this->assertEquals($expected, $counter);
+    }
+
+    /**
+     * @author       n[oO]ne <lominum@protonmail.com>
+     * @since        2024-06-07
+     */
+    #[DataProvider('getExamples')]
+    public function testStorageAdapterEventsAfterDelete(
+        string $extension,
+        string $class,
+        array $options
+    ): void {
+        if (!empty($extension)) {
+            $this->checkExtensionIsLoaded($extension);
+        }
+
+        $counter    = 0;
+        $serializer = new SerializerFactory();
+        $adapter    = new $class($serializer, $options);
+        $manager    = new Manager();
+
+        $manager->attach(
+            'storage:afterDelete',
+            static function (Event $event) use (&$counter): void {
+                $counter++;
+                $data = $event->getData();
+                $data === 'test' ?: throw new RuntimeException('wrong key');
+            }
+        );
+
+        $adapter->setEventsManager($manager);
+
+        call_user_func_array([$adapter, 'delete'], ['test']);
+        call_user_func_array([$adapter, 'delete'], ['test']);
+
+        $expected = 2;
+        $this->assertEquals($expected, $counter);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-25
+     */
+    #[DataProvider('getExamples')]
+    public function testStorageAdapterEventsAfterDeleteMultiple(
+        string $extension,
+        string $class,
+        array $options
+    ): void {
+        if (!empty($extension)) {
+            $this->checkExtensionIsLoaded($extension);
+        }
+
+        $counter    = 0;
+        $serializer = new SerializerFactory();
+        $adapter    = new $class($serializer, $options);
+        $manager    = new Manager();
+
+        $manager->attach(
+            'storage:afterDeleteMultiple',
+            static function () use (&$counter): void {
+                $counter++;
+            }
+        );
+
+        $adapter->setEventsManager($manager);
+
+        call_user_func_array([$adapter, 'deleteMultiple'], [['test']]);
+        call_user_func_array([$adapter, 'deleteMultiple'], [['test']]);
+
+        $expected = 2;
+        $this->assertEquals($expected, $counter);
+    }
+
+    /**
+     * @author       n[oO]ne <lominum@protonmail.com>
+     * @since        2024-06-07
+     */
+    #[DataProvider('getExamples')]
+    public function testStorageAdapterEventsAfterGet(
+        string $extension,
+        string $class,
+        array $options
+    ): void {
+        if (!empty($extension)) {
+            $this->checkExtensionIsLoaded($extension);
+        }
+
+        $counter    = 0;
+        $serializer = new SerializerFactory();
+        $adapter    = new $class($serializer, $options);
+        $manager    = new Manager();
+
+        $manager->attach(
+            'storage:afterGet',
+            static function (Event $event) use (&$counter): void {
+                $counter++;
+                $data = $event->getData();
+                $data === 'test' ?: throw new RuntimeException('wrong key');
+            }
+        );
+
+        $adapter->setEventsManager($manager);
+
+        $adapter->set('test', 'value');
+        call_user_func_array([$adapter, 'get'], ['test']);
+        call_user_func_array([$adapter, 'get'], ['test']);
+
+        $expected = 2;
+        $this->assertEquals($expected, $counter);
+    }
+
+    /**
+     * @author       n[oO]ne <lominum@protonmail.com>
+     * @since        2024-06-07
+     */
+    #[DataProvider('getExamples')]
+    public function testStorageAdapterEventsAfterHas(
+        string $extension,
+        string $class,
+        array $options
+    ): void {
+        if (!empty($extension)) {
+            $this->checkExtensionIsLoaded($extension);
+        }
+
+        $counter    = 0;
+        $serializer = new SerializerFactory();
+        $adapter    = new $class($serializer, $options);
+        $manager    = new Manager();
+
+        $manager->attach(
+            'storage:afterHas',
+            static function (Event $event) use (&$counter): void {
+                $counter++;
+                $data = $event->getData();
+                $data === 'test' ?: throw new RuntimeException('wrong key');
+            }
+        );
+
+        $adapter->setEventsManager($manager);
+
+        call_user_func_array([$adapter, 'has'], ['test']);
+        call_user_func_array([$adapter, 'has'], ['test']);
+
+        $expected = 2;
+        $this->assertEquals($expected, $counter);
+    }
+
+    /**
+     * @author       n[oO]ne <lominum@protonmail.com>
+     * @since        2024-06-07
+     */
+    #[DataProvider('getExamples')]
+    public function testStorageAdapterEventsAfterIncrement(
+        string $extension,
+        string $class,
+        array $options
+    ): void {
+        if (!empty($extension)) {
+            $this->checkExtensionIsLoaded($extension);
+        }
+
+        $counter    = 0;
+        $serializer = new SerializerFactory();
+        $adapter    = new $class($serializer, $options);
+        $manager    = new Manager();
+
+        $manager->attach(
+            'storage:afterIncrement',
+            static function (Event $event) use (&$counter): void {
+                $counter++;
+                $data = $event->getData();
+                $data === 'test' ?: throw new RuntimeException('wrong key');
+            }
+        );
+
+        $adapter->setEventsManager($manager);
+
+        call_user_func_array([$adapter, 'increment'], ['test']);
+        call_user_func_array([$adapter, 'increment'], ['test']);
+
+        $expected = 2;
+        $this->assertEquals($expected, $counter);
+    }
+
+    /**
+     * @author       n[oO]ne <lominum@protonmail.com>
+     * @since        2024-06-07
+     */
+    #[DataProvider('getExamples')]
+    public function testStorageAdapterEventsAfterSet(
+        string $extension,
+        string $class,
+        array $options
+    ): void {
+        if (!empty($extension)) {
+            $this->checkExtensionIsLoaded($extension);
+        }
+
+        $counter    = 0;
+        $serializer = new SerializerFactory();
+        $adapter    = new $class($serializer, $options);
+        $manager    = new Manager();
+
+        $manager->attach(
+            'storage:afterSet',
+            static function (Event $event) use (&$counter): void {
+                $counter++;
+                $data = $event->getData();
+                $data === 'test' ?: throw new RuntimeException('wrong key');
+            }
+        );
+
+        $adapter->setEventsManager($manager);
+
+        call_user_func_array([$adapter, 'set'], ['test', 'test']);
+        call_user_func_array([$adapter, 'set'], ['test', 'test']);
+
+        $expected = 2;
+        $this->assertEquals($expected, $counter);
+    }
+
+    /**
+     * @author       n[oO]ne <lominum@protonmail.com>
+     * @since        2024-06-07
+     */
+    #[DataProvider('getExamples')]
+    public function testStorageAdapterEventsBeforeDecrement(
+        string $extension,
+        string $class,
+        array $options
+    ): void {
+        if (!empty($extension)) {
+            $this->checkExtensionIsLoaded($extension);
+        }
+
+        $counter    = 0;
+        $serializer = new SerializerFactory();
+        $adapter    = new $class($serializer, $options);
+        $manager    = new Manager();
+
+        $manager->attach(
+            'storage:beforeDecrement',
+            static function (Event $event) use (&$counter): void {
+                $counter++;
+                $data = $event->getData();
+                $data === 'test' ?: throw new RuntimeException('wrong key');
+            }
+        );
+
+        $adapter->setEventsManager($manager);
+
+        call_user_func_array([$adapter, 'decrement'], ['test']);
+        call_user_func_array([$adapter, 'decrement'], ['test']);
+
+        $expected = 2;
+        $this->assertEquals($expected, $counter);
+    }
+
+    /**
+     * @author       n[oO]ne <lominum@protonmail.com>
+     * @since        2024-06-07
+     */
+    #[DataProvider('getExamples')]
+    public function testStorageAdapterEventsBeforeDelete(
+        string $extension,
+        string $class,
+        array $options
+    ): void {
+        if (!empty($extension)) {
+            $this->checkExtensionIsLoaded($extension);
+        }
+
+        $counter    = 0;
+        $serializer = new SerializerFactory();
+        $adapter    = new $class($serializer, $options);
+        $manager    = new Manager();
+
+        $manager->attach(
+            'storage:beforeDelete',
+            static function (Event $event) use (&$counter): void {
+                $counter++;
+                $data = $event->getData();
+                $data === 'test' ?: throw new RuntimeException('wrong key');
+            }
+        );
+
+        $adapter->setEventsManager($manager);
+
+        call_user_func_array([$adapter, 'delete'], ['test']);
+        call_user_func_array([$adapter, 'delete'], ['test']);
+
+        $expected = 2;
+        $this->assertEquals($expected, $counter);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-25
+     */
+    #[DataProvider('getExamples')]
+    public function testStorageAdapterEventsBeforeDeleteMultiple(
+        string $extension,
+        string $class,
+        array $options
+    ): void {
+        if (!empty($extension)) {
+            $this->checkExtensionIsLoaded($extension);
+        }
+
+        $counter    = 0;
+        $serializer = new SerializerFactory();
+        $adapter    = new $class($serializer, $options);
+        $manager    = new Manager();
+
+        $manager->attach(
+            'storage:beforeDeleteMultiple',
+            static function () use (&$counter): void {
+                $counter++;
+            }
+        );
+
+        $adapter->setEventsManager($manager);
+
+        call_user_func_array([$adapter, 'deleteMultiple'], [['test']]);
+        call_user_func_array([$adapter, 'deleteMultiple'], [['test']]);
+
+        $expected = 2;
+        $this->assertEquals($expected, $counter);
+    }
+
+    /**
+     * @author       n[oO]ne <lominum@protonmail.com>
+     * @since        2024-06-07
+     */
+    #[DataProvider('getExamples')]
+    public function testStorageAdapterEventsBeforeGet(
+        string $extension,
+        string $class,
+        array $options
+    ): void {
+        if (!empty($extension)) {
+            $this->checkExtensionIsLoaded($extension);
+        }
+
+        $counter    = 0;
+        $serializer = new SerializerFactory();
+        $adapter    = new $class($serializer, $options);
+        $manager    = new Manager();
+
+        $manager->attach(
+            'storage:beforeGet',
+            static function (Event $event) use (&$counter): void {
+                $counter++;
+                $data = $event->getData();
+                $data === 'test' ?: throw new RuntimeException('wrong key');
+            }
+        );
+
+        $adapter->setEventsManager($manager);
+
+        $adapter->set('test', 'value');
+        call_user_func_array([$adapter, 'get'], ['test']);
+        call_user_func_array([$adapter, 'get'], ['test']);
+
+        $expected = 2;
+        $this->assertEquals($expected, $counter);
+    }
+
+    /**
+     * @author       n[oO]ne <lominum@protonmail.com>
+     * @since        2024-06-07
+     */
+    #[DataProvider('getExamples')]
+    public function testStorageAdapterEventsBeforeHas(
+        string $extension,
+        string $class,
+        array $options
+    ): void {
+        if (!empty($extension)) {
+            $this->checkExtensionIsLoaded($extension);
+        }
+
+        $counter    = 0;
+        $serializer = new SerializerFactory();
+        $adapter    = new $class($serializer, $options);
+        $manager    = new Manager();
+
+        $manager->attach(
+            'storage:beforeHas',
+            static function (Event $event) use (&$counter): void {
+                $counter++;
+                $data = $event->getData();
+                $data === 'test' ?: throw new RuntimeException('wrong key');
+            }
+        );
+
+        $adapter->setEventsManager($manager);
+
+        call_user_func_array([$adapter, 'has'], ['test']);
+        call_user_func_array([$adapter, 'has'], ['test']);
+
+        $expected = 2;
+        $this->assertEquals($expected, $counter);
+    }
+
+    /**
+     * @author       n[oO]ne <lominum@protonmail.com>
+     * @since        2024-06-07
+     */
+    #[DataProvider('getExamples')]
+    public function testStorageAdapterEventsBeforeIncrement(
+        string $extension,
+        string $class,
+        array $options
+    ): void {
+        if (!empty($extension)) {
+            $this->checkExtensionIsLoaded($extension);
+        }
+
+        $counter    = 0;
+        $serializer = new SerializerFactory();
+        $adapter    = new $class($serializer, $options);
+        $manager    = new Manager();
+
+        $manager->attach(
+            'storage:beforeIncrement',
+            static function (Event $event) use (&$counter): void {
+                $counter++;
+                $data = $event->getData();
+                $data === 'test' ?: throw new RuntimeException('wrong key');
+            }
+        );
+
+        $adapter->setEventsManager($manager);
+
+        call_user_func_array([$adapter, 'increment'], ['test']);
+        call_user_func_array([$adapter, 'increment'], ['test']);
+
+        $expected = 2;
+        $this->assertEquals($expected, $counter);
+    }
+
+    /**
+     * @author       n[oO]ne <lominum@protonmail.com>
+     * @since        2024-06-07
+     */
+    #[DataProvider('getExamples')]
+    public function testStorageAdapterEventsBeforeSet(
+        string $extension,
+        string $class,
+        array $options
+    ): void {
+        if (!empty($extension)) {
+            $this->checkExtensionIsLoaded($extension);
+        }
+
+        $counter    = 0;
+        $serializer = new SerializerFactory();
+        $adapter    = new $class($serializer, $options);
+        $manager    = new Manager();
+
+        $manager->attach(
+            'storage:beforeSet',
+            static function (Event $event) use (&$counter): void {
+                $counter++;
+                $data = $event->getData();
+                $data === 'test' ?: throw new RuntimeException('wrong key');
+            }
+        );
+
+        $adapter->setEventsManager($manager);
+
+        call_user_func_array([$adapter, 'set'], ['test', 'test']);
+        call_user_func_array([$adapter, 'set'], ['test', 'test']);
+
+        $expected = 2;
+        $this->assertEquals($expected, $counter);
+    }
+}

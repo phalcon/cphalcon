@@ -1,0 +1,18 @@
+
+extern zend_class_entry *phalcon_contracts_events_eventsaware_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Events_EventsAware);
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_events_eventsaware_geteventsmanager, 0, 0, Phalcon\\Events\\ManagerInterface, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_events_eventsaware_seteventsmanager, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_contracts_events_eventsaware_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Events_EventsAware, getEventsManager, arginfo_phalcon_contracts_events_eventsaware_geteventsmanager)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Events_EventsAware, setEventsManager, arginfo_phalcon_contracts_events_eventsaware_seteventsmanager)
+	PHP_FE_END
+};

@@ -10,23 +10,15 @@
 
 namespace Phalcon\Encryption\Crypt\Padding;
 
+use Phalcon\Contracts\Encryption\Crypt\Padding\Pad as PadContract;
+
 /**
  * Interface for Phalcon\Encryption\Crypt\Padding
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Encryption\Crypt\Padding\Pad} instead.
  */
-interface PadInterface
+interface PadInterface extends PadContract
 {
-    /**
-     * @param int $paddingSize
-     *
-     * @return string
-     */
-    public function pad(int paddingSize) -> string;
-
-    /**
-     * @param string $input
-     * @param int    $blockSize
-     *
-     * @return int
-     */
-    public function unpad(string input, int blockSize) -> int;
 }

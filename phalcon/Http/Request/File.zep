@@ -10,6 +10,9 @@
 
 namespace Phalcon\Http\Request;
 
+use Phalcon\Contracts\Http\HttpTypes;
+use Phalcon\Traits\Support\Helper\Arr\GetTrait;
+
 /**
  * Phalcon\Http\Request\File
  *
@@ -32,53 +35,28 @@ namespace Phalcon\Http\Request;
  *     }
  * }
  *```
+ *
+ * @phpstan-import-type http_uploaded_file from HttpTypes
  */
 class File implements FileInterface
 {
-    /**
-     * @var string|null
-     */
-    protected error = null { get };
+    use GetTrait;
+
+    protected int error = 0;
+    protected string extension = "";
+    protected string key = "";
+    protected string name = "";
+    protected string realType;
+    protected int size = 0;
+    protected string tmpName = "";
+    protected string type = "";
 
     /**
-     * @var string
+     * Constructor
+     *
+     * @phpstan-param http_uploaded_file $file
      */
-    protected extension { get };
-
-    /**
-     * @var string|null
-     */
-    protected key = null { get };
-
-    /**
-     * @var string
-     */
-    protected name;
-
-    /**
-     * @var string
-     */
-    protected realType;
-
-    /**
-     * @var int
-     */
-    protected size = 0;
-
-    /**
-     * @var string|null
-     */
-    protected tmp = null;
-
-    /**
-     * @var string
-     */
-    protected type;
-
-    /**
-     * Phalcon\Http\Request\File constructor
-     */
-    public function __construct(array! file, key = null)
+    public function __construct( array file, string key = "")
     {
         var name;
 
@@ -90,14 +68,29 @@ class File implements FileInterface
             }
         }
 
-        let this->tmp   = this->getArrVal(file, "tmp_name"),
-            this->size  = this->getArrVal(file, "size"),
-            this->type  = this->getArrVal(file, "type"),
-            this->error = this->getArrVal(file, "error");
+        let this->tmpName = this->getArrVal(file, "tmp_name"),
+            this->size    = this->getArrVal(file, "size"),
+            this->type    = this->getArrVal(file, "type"),
+            this->error   = this->getArrVal(file, "error");
 
-        if key {
+        if !empty(key) {
             let this->key = key;
         }
+    }
+
+    public function getError() -> int
+    {
+        return this->error;
+    }
+
+    public function getExtension() -> string
+    {
+        return this->extension;
+    }
+
+    public function getKey() -> string
+    {
+        return this->key;
     }
 
     /**
@@ -115,17 +108,19 @@ class File implements FileInterface
     {
         var finfo, mime;
 
-        let finfo = finfo_open(FILEINFO_MIME_TYPE);
+        if empty(this->realType) {
+            let finfo = finfo_open(FILEINFO_MIME_TYPE);
 
-        if typeof finfo != "resource" {
-            return "";
+            if finfo !== false {
+                let mime = finfo_file(finfo, this->tmpName);
+
+                if mime !== false {
+                    let this->realType = mime;
+                }
+            }
         }
 
-        let mime = finfo_file(finfo, this->tmp);
-
-        finfo_close(finfo);
-
-        return mime;
+        return this->realType;
     }
 
     /**
@@ -141,7 +136,7 @@ class File implements FileInterface
      */
     public function getTempName() -> string
     {
-        return this->tmp;
+        return this->tmpName;
     }
 
     /**
@@ -158,35 +153,18 @@ class File implements FileInterface
      */
     public function isUploadedFile() -> bool
     {
-        var tmp;
+        var name;
 
-        let tmp = this->getTempName();
+        let name = this->tmpName;
 
-        return typeof tmp == "string" && is_uploaded_file(tmp);
+        return !empty(name) && is_uploaded_file(name);
     }
 
     /**
      * Moves the temporary file to a destination within the application
      */
-    public function moveTo(string! destination) -> bool
+    public function moveTo( string destination) -> bool
     {
-        return move_uploaded_file(this->tmp, destination);
-    }
-
-    /**
-     * @todo Remove this when we get traits
-     */
-    private function getArrVal(
-        array! collection,
-        var index,
-        var defaultValue = null
-    ) -> var {
-        var value;
-
-        if unlikely !fetch value, collection[index] {
-            return defaultValue;
-        }
-
-        return value;
+        return move_uploaded_file(this->tmpName, destination);
     }
 }

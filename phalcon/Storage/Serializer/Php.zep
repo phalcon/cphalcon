@@ -10,87 +10,102 @@
 
 namespace Phalcon\Storage\Serializer;
 
-use InvalidArgumentException;
-use Phalcon\Storage\Traits\StorageErrorHandlerTrait;
+use Phalcon\Storage\Serializer\Exceptions\InvalidUnserializationInput;
+use Phalcon\Traits\Php\SerializeTrait;
 
 class Php extends AbstractSerializer
 {
+    use SerializeTrait;
+
+    /**
+     * Classes that unserialize() may instantiate: true (any class, the PHP
+     * default), false (none) or a list of class names. Stored bytes that
+     * try to build another class are rejected on read.
+     *
+     * @var mixed
+     */
+    protected allowedClasses = true;
+
+    /**
+     * @return bool|array<int, string>
+     */
+    public function getAllowedClasses() -> var
+    {
+        return this->allowedClasses;
+    }
+
     /**
      * Serializes data
      *
-     * @return string
+     * @return bool|float|int|string|null
      */
-	public function serialize() -> string
-	{
-        if !this->isSerializable(this->data) {
+    public function serialize() -> mixed
+    {
+        if (true !== this->isSerializable(this->data)) {
             return this->data;
         }
 
-		return serialize(this->data);
-	}
-
-	/**
-	 * Unserializes data
-     *
-     * @param string $data
-	 */
-	public function unserialize(var data) -> void
-    {
-        this->processSerializable(data);
-        this->processNotSerializable(data);
-	}
-
-    /**
-     * @param mixed $data
-     */
-    private function processSerializable(var data) -> void
-    {
-        var version;
-
-        if (true === this->isSerializable(data)) {
-            if typeof data !== "string" {
-                throw new InvalidArgumentException(
-                    "Data for the unserializer must of type string"
-                );
-            }
-
-            let version = phpversion();
-
-            globals_set("warning.enable", false);
-
-            if version_compare(version, "8.0", ">=") {
-                set_error_handler(
-                    function (number, message, file, line) {
-                        globals_set("warning.enable", true);
-                    },
-                    E_NOTICE
-                );
-            } else {
-                set_error_handler(
-                    function (number, message, file, line, context) {
-                        globals_set("warning.enable", true);
-                    },
-                    E_NOTICE
-                );
-            }
-
-            let this->data = unserialize(data);
-
-            restore_error_handler();
-
-            if unlikely globals_get("warning.enable") {
-                let this->data = null;
-            }
-        }
+        return this->phpSerialize(this->data);
     }
 
     /**
-     * @param mixed $data
+     * Restricts the classes that unserialize() may instantiate (see the
+     * "allowed_classes" option of unserialize()).
+     *
+     * @param bool|array<int, string> $allowedClasses
      */
-    private function processNotSerializable(var data) -> void
+    public function setAllowedClasses(var allowedClasses) -> <static>
     {
+        let this->allowedClasses = allowedClasses;
+
+        return this;
+    }
+
+    /**
+     * Unserializes data
+     */
+    public function unserialize(mixed data) -> void
+    {
+        var result;
+
         if (true !== this->isSerializable(data)) {
             let this->data = data;
+
+            return;
         }
+
+        if unlikely typeof data != "string" {
+            throw new InvalidUnserializationInput();
+        }
+
+        globals_set("warning.enable", false);
+        set_error_handler(
+            function (number, message, file, line) {
+                globals_set("warning.enable", true);
+            },
+            E_NOTICE | E_WARNING
+        );
+
+        let result = this->phpUnserialize(
+            data,
+            ["allowed_classes": this->allowedClasses]
+        );
+
+        restore_error_handler();
+
+        /**
+         * A class outside the allow-list comes back as
+         * __PHP_Incomplete_Class: treat it as a failed unserialize.
+         */
+        if unlikely globals_get("warning.enable") || result === false ||
+            (typeof result === "object" && get_class(result) === "__PHP_Incomplete_Class") {
+            let this->isSuccess = false,
+                result          = "";
+        } else {
+            let this->isSuccess = true;
+        }
+
+        let this->data = result;
     }
+
 }

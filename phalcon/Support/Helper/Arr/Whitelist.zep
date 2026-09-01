@@ -1,6 +1,6 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -17,10 +17,10 @@ namespace Phalcon\Support\Helper\Arr;
 class Whitelist extends AbstractArr
 {
     /**
-     * @param array $collection
-     * @param array $whiteList
+     * @param array<array-key, mixed> $collection
+     * @param array<array-key, mixed> $whiteList
      *
-     * @return array
+     * @return array<array-key, mixed>
      */
     public function __invoke(array collection, array whiteList) -> array
     {

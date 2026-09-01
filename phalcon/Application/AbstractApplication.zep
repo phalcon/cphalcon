@@ -10,42 +10,38 @@
 
 namespace Phalcon\Application;
 
+use Closure;
+use Phalcon\Application\Exceptions\ModuleNotRegistered;
+use Phalcon\Contracts\Application\ApplicationTypes;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\Injectable;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
+use Phalcon\Events\Traits\EventsAwareTrait;
 
 /**
  * Base class for Phalcon\Cli\Console and Phalcon\Mvc\Application.
+ *
+ * @phpstan-import-type application_module_definition from ApplicationTypes
+ * @phpstan-import-type application_modules from ApplicationTypes
  */
 abstract class AbstractApplication extends Injectable implements EventsAwareInterface
 {
-    /**
-     * @var DiInterface|null
-     */
-    protected container = null;
+    use EventsAwareTrait;
+
+    protected string defaultModule = "";
 
     /**
-     * @var string|null
+     * @phpstan-var application_modules
      */
-    protected defaultModule = null;
+    protected array modules = [];
 
     /**
-     * @var ManagerInterface|null
-     */
-    protected eventsManager = null;
-
-    /**
-     * @var array
-     */
-    protected modules = [];
-
-    /**
-     * Phalcon\AbstractApplication constructor
+     * AbstractApplication constructor.
      */
     public function __construct(<DiInterface> container = null)
     {
-        if typeof container == "object" {
+        if container !== null {
             let this->container = container;
         }
     }
@@ -59,28 +55,18 @@ abstract class AbstractApplication extends Injectable implements EventsAwareInte
     }
 
     /**
-     * Returns the internal event manager
-     */
-    public function getEventsManager() -> <ManagerInterface> | null
-    {
-        return this->eventsManager;
-    }
-
-    /**
      * Gets the module definition registered in the application via module name
      *
      * @param string name
      *
-     * @return array|mixed
+     * @phpstan-return Closure|application_module_definition
      */
-    public function getModule(string! name) -> array | object
+    public function getModule(string name) -> mixed
     {
         var module;
 
         if unlikely !fetch module, this->modules[name] {
-            throw new Exception(
-                "Module '" . name . "' is not registered in the application container"
-            );
+            throw new ModuleNotRegistered(name);
         }
 
         return module;
@@ -88,6 +74,8 @@ abstract class AbstractApplication extends Injectable implements EventsAwareInte
 
     /**
      * Return the modules registered in the application
+     *
+     * @phpstan-return application_modules
      */
     public function getModules() -> array
     {
@@ -111,9 +99,13 @@ abstract class AbstractApplication extends Injectable implements EventsAwareInte
      *     ]
      * );
      * ```
+     *
+     * @phpstan-param application_modules $modules
      */
-    public function registerModules(array modules, bool merge = false) -> <AbstractApplication>
-    {
+    public function registerModules(
+        array modules,
+        bool merge = false
+    ) -> <static> {
         if merge {
             let this->modules = array_merge(this->modules, modules);
         } else {
@@ -124,9 +116,10 @@ abstract class AbstractApplication extends Injectable implements EventsAwareInte
     }
 
     /**
-     * Sets the module name to be used if the router doesn't return a valid module
+     * Sets the module name to be used if the router does not return a valid
+     * module
      */
-    public function setDefaultModule(string! defaultModule) -> <AbstractApplication>
+    public function setDefaultModule( string defaultModule) -> <static>
     {
         let this->defaultModule = defaultModule;
 
@@ -138,6 +131,13 @@ abstract class AbstractApplication extends Injectable implements EventsAwareInte
      */
     public function setEventsManager(<ManagerInterface> eventsManager) -> void
     {
+        var container;
+
+        /** @var DiInterface $container */
+        let container = this->getDI();
+
+        container->set("eventsManager", eventsManager);
+
         let this->eventsManager = eventsManager;
     }
 }

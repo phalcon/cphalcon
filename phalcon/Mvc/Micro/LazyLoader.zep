@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc\Micro;
 
+use Phalcon\Mvc\Micro\Exceptions\LazyHandlerNotFound;
 use Phalcon\Mvc\Model\BinderInterface;
 
 /**
@@ -20,19 +21,19 @@ use Phalcon\Mvc\Model\BinderInterface;
 class LazyLoader
 {
     /**
-     * @var object|null
-     */
-    protected handler = null { get };
-
-    /**
      * @var string
      */
-    protected definition { get };
+    protected definition;
+
+    /**
+     * @var object|null
+     */
+    protected handler = null;
 
     /**
      * Phalcon\Mvc\Micro\LazyLoader constructor
      */
-    public function __construct(string! definition)
+    public function __construct( string definition)
     {
         let this->definition = definition;
     }
@@ -43,7 +44,7 @@ class LazyLoader
      * @param  array arguments
      * @return mixed
      */
-    public function callMethod(string! method, arguments, <BinderInterface> modelBinder = null)
+    public function callMethod( string method, arguments, <BinderInterface> modelBinder = null)
     {
          var handler, definition, bindCacheKey;
 
@@ -52,7 +53,7 @@ class LazyLoader
 
         if typeof handler != "object" {
             if !class_exists(definition) {
-                throw new Exception("Handler '" . definition ."' doesn't exist");
+                throw new LazyHandlerNotFound(definition);
             }
 
             let handler = create_instance(definition);
@@ -76,7 +77,23 @@ class LazyLoader
          */
         return call_user_func_array(
             [handler, method],
-            arguments
+            array_values(arguments)
         );
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefinition() -> string
+    {
+        return this->definition;
+    }
+
+    /**
+     * @return object|null
+     */
+    public function getHandler() -> object | null
+    {
+        return this->handler;
     }
 }

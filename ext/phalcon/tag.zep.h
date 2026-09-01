@@ -13,11 +13,11 @@ PHP_METHOD(Phalcon_Tag, displayTo);
 PHP_METHOD(Phalcon_Tag, emailField);
 PHP_METHOD(Phalcon_Tag, endForm);
 PHP_METHOD(Phalcon_Tag, fileField);
-PHP_METHOD(Phalcon_Tag, form);
+PHP_METHOD(Phalcon_Tag, formLegacy);
 PHP_METHOD(Phalcon_Tag, friendlyTitle);
+PHP_METHOD(Phalcon_Tag, getDI);
 PHP_METHOD(Phalcon_Tag, getDocType);
 PHP_METHOD(Phalcon_Tag, getEscaper);
-PHP_METHOD(Phalcon_Tag, getDI);
 PHP_METHOD(Phalcon_Tag, getEscaperService);
 PHP_METHOD(Phalcon_Tag, getTitle);
 PHP_METHOD(Phalcon_Tag, getTitleSeparator);
@@ -32,8 +32,8 @@ PHP_METHOD(Phalcon_Tag, linkTo);
 PHP_METHOD(Phalcon_Tag, monthField);
 PHP_METHOD(Phalcon_Tag, numericField);
 PHP_METHOD(Phalcon_Tag, passwordField);
-PHP_METHOD(Phalcon_Tag, prependTitle);
 PHP_METHOD(Phalcon_Tag, preload);
+PHP_METHOD(Phalcon_Tag, prependTitle);
 PHP_METHOD(Phalcon_Tag, radioField);
 PHP_METHOD(Phalcon_Tag, rangeField);
 PHP_METHOD(Phalcon_Tag, renderAttributes);
@@ -59,8 +59,10 @@ PHP_METHOD(Phalcon_Tag, textField);
 PHP_METHOD(Phalcon_Tag, timeField);
 PHP_METHOD(Phalcon_Tag, urlField);
 PHP_METHOD(Phalcon_Tag, weekField);
+PHP_METHOD(Phalcon_Tag, getStaticUrl);
 PHP_METHOD(Phalcon_Tag, inputField);
 PHP_METHOD(Phalcon_Tag, inputFieldChecked);
+PHP_METHOD(Phalcon_Tag, toStringValue);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_appendtitle, 0, 1, IS_VOID, 0)
 
@@ -104,15 +106,18 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_filefield, 0, 1, IS_
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_form, 0, 1, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_formlegacy, 0, 1, IS_STRING, 0)
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_friendlytitle, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, text, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, separator, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, lowercase, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, separator, IS_STRING, 0, "'-'")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, lowercase, _IS_BOOL, 0, "true")
 	ZEND_ARG_INFO(0, replace)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_tag_getdi, 0, 0, Phalcon\\Di\\DiInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_getdoctype, 0, 0, IS_STRING, 0)
@@ -122,15 +127,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_tag_getescaper, 0, 1, Pha
 	ZEND_ARG_ARRAY_INFO(0, params, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_tag_getdi, 0, 0, Phalcon\\Di\\DiInterface, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_tag_getescaperservice, 0, 0, Phalcon\\Html\\Escaper\\EscaperInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_gettitle, 0, 0, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, prepend, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, append, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, prepend, _IS_BOOL, 0, "true")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, append, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_gettitleseparator, 0, 0, IS_STRING, 0)
@@ -139,13 +141,9 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_tag_geturlservice, 0, 0, Phalcon\\Mvc\\Url\\UrlInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_getvalue, 0, 0, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_getvalue, 0, 1, IS_MIXED, 0)
 	ZEND_ARG_INFO(0, name)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, params, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, params, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, params, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_hasvalue, 0, 1, _IS_BOOL, 0)
@@ -158,7 +156,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_image, 0, 0, IS_STRING, 0)
 	ZEND_ARG_INFO(0, parameters)
-	ZEND_ARG_TYPE_INFO(0, local, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, local, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_imageinput, 0, 1, IS_STRING, 0)
@@ -167,7 +165,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_javascriptinclude, 0, 0, IS_STRING, 0)
 	ZEND_ARG_INFO(0, parameters)
-	ZEND_ARG_TYPE_INFO(0, local, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, local, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_linkto, 0, 1, IS_STRING, 0)
@@ -188,13 +186,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_passwordfield, 0, 1,
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_preload, 0, 1, IS_STRING, 0)
+	ZEND_ARG_INFO(0, parameters)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_prependtitle, 0, 1, IS_VOID, 0)
 
 	ZEND_ARG_INFO(0, title)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_preload, 0, 1, IS_STRING, 0)
-	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_radiofield, 0, 1, IS_STRING, 0)
@@ -211,8 +209,8 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_renderattributes, 0,
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_rendertitle, 0, 0, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, prepend, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, append, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, prepend, _IS_BOOL, 0, "true")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, append, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_resetinput, 0, 0, IS_VOID, 0)
@@ -246,7 +244,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_setdefaults, 0, 1, IS_VOID, 0)
 
 	ZEND_ARG_ARRAY_INFO(0, values, 0)
-	ZEND_ARG_TYPE_INFO(0, merge, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, merge, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_setdi, 0, 1, IS_VOID, 0)
@@ -271,7 +269,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_stylesheetlink, 0, 0, IS_STRING, 0)
 	ZEND_ARG_INFO(0, parameters)
-	ZEND_ARG_TYPE_INFO(0, local, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, local, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_submitbutton, 0, 1, IS_STRING, 0)
@@ -281,14 +279,14 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_taghtml, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, tagName, IS_STRING, 0)
 	ZEND_ARG_INFO(0, parameters)
-	ZEND_ARG_TYPE_INFO(0, selfClose, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, onlyStart, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, useEol, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, selfClose, _IS_BOOL, 0, "false")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, onlyStart, _IS_BOOL, 0, "false")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, useEol, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_taghtmlclose, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, tagName, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, useEol, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, useEol, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_telfield, 0, 1, IS_STRING, 0)
@@ -315,15 +313,23 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_weekfield, 0, 1, IS_
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_getstaticurl, 0, 1, IS_STRING, 0)
+	ZEND_ARG_INFO(0, uri)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_inputfield, 0, 2, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, type, IS_STRING, 0)
 	ZEND_ARG_INFO(0, parameters)
-	ZEND_ARG_TYPE_INFO(0, asValue, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, asValue, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_inputfieldchecked, 0, 2, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, type, IS_STRING, 0)
 	ZEND_ARG_INFO(0, parameters)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_tag_tostringvalue, 0, 1, IS_STRING, 0)
+	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_tag_method_entry) {
@@ -337,11 +343,11 @@ ZEPHIR_INIT_FUNCS(phalcon_tag_method_entry) {
 	PHP_ME(Phalcon_Tag, emailField, arginfo_phalcon_tag_emailfield, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag, endForm, arginfo_phalcon_tag_endform, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag, fileField, arginfo_phalcon_tag_filefield, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
-	PHP_ME(Phalcon_Tag, form, arginfo_phalcon_tag_form, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Tag, formLegacy, arginfo_phalcon_tag_formlegacy, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag, friendlyTitle, arginfo_phalcon_tag_friendlytitle, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Tag, getDI, arginfo_phalcon_tag_getdi, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag, getDocType, arginfo_phalcon_tag_getdoctype, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag, getEscaper, arginfo_phalcon_tag_getescaper, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
-	PHP_ME(Phalcon_Tag, getDI, arginfo_phalcon_tag_getdi, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag, getEscaperService, arginfo_phalcon_tag_getescaperservice, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag, getTitle, arginfo_phalcon_tag_gettitle, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag, getTitleSeparator, arginfo_phalcon_tag_gettitleseparator, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
@@ -356,8 +362,8 @@ ZEPHIR_INIT_FUNCS(phalcon_tag_method_entry) {
 	PHP_ME(Phalcon_Tag, monthField, arginfo_phalcon_tag_monthfield, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag, numericField, arginfo_phalcon_tag_numericfield, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag, passwordField, arginfo_phalcon_tag_passwordfield, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
-	PHP_ME(Phalcon_Tag, prependTitle, arginfo_phalcon_tag_prependtitle, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag, preload, arginfo_phalcon_tag_preload, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Tag, prependTitle, arginfo_phalcon_tag_prependtitle, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag, radioField, arginfo_phalcon_tag_radiofield, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag, rangeField, arginfo_phalcon_tag_rangefield, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag, renderAttributes, arginfo_phalcon_tag_renderattributes, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
@@ -383,7 +389,9 @@ ZEPHIR_INIT_FUNCS(phalcon_tag_method_entry) {
 	PHP_ME(Phalcon_Tag, timeField, arginfo_phalcon_tag_timefield, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag, urlField, arginfo_phalcon_tag_urlfield, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Tag, weekField, arginfo_phalcon_tag_weekfield, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
-	PHP_ME(Phalcon_Tag, inputField, arginfo_phalcon_tag_inputfield, ZEND_ACC_STATIC|ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Tag, inputFieldChecked, arginfo_phalcon_tag_inputfieldchecked, ZEND_ACC_STATIC|ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Tag, getStaticUrl, arginfo_phalcon_tag_getstaticurl, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Tag, inputField, arginfo_phalcon_tag_inputfield, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Tag, inputFieldChecked, arginfo_phalcon_tag_inputfieldchecked, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Tag, toStringValue, arginfo_phalcon_tag_tostringvalue, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

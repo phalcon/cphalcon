@@ -11,27 +11,54 @@
 namespace Phalcon\Encryption\Security\JWT\Token;
 
 /**
- * Class Enum
+ * Constants for Tokens. It offers constants for Headers as well as Claims
  *
  * @link https://tools.ietf.org/html/rfc7519
  */
 class Enum
 {
     /**
-     * Headers
+     * @var string
      */
-    const TYPE         = "typ";
-    const ALGO         = "alg";
-    const CONTENT_TYPE = "cty";
-
+    const ALGO = "alg";
     /**
      * Claims
+     *
+     * @var string
      */
     const AUDIENCE        = "aud";
+    /**
+     * @var string
+     */
+    const CONTENT_TYPE    = "cty";
+    /**
+     * @var string
+     */
     const EXPIRATION_TIME = "exp";
+    /**
+     * @var string
+     */
     const ID              = "jti";
+    /**
+     * @var string
+     */
     const ISSUED_AT       = "iat";
+    /**
+     * @var string
+     */
     const ISSUER          = "iss";
+    /**
+     * @var string
+     */
     const NOT_BEFORE      = "nbf";
+    /**
+     * @var string
+     */
     const SUBJECT         = "sub";
+    /**
+     * Headers
+     *
+     * @var string
+     */
+    const TYPE = "typ";
 }

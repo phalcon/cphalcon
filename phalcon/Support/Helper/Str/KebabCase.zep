@@ -1,6 +1,6 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -15,12 +15,6 @@ namespace Phalcon\Support\Helper\Str;
  */
 class KebabCase extends PascalCase
 {
-    /**
-     * @param string      $text
-     * @param string|null $delimiters
-     *
-     * @return string
-     */
     public function __invoke(
         string text,
         string delimiters = null
@@ -29,6 +23,6 @@ class KebabCase extends PascalCase
 
         let output = this->processArray(text, delimiters);
 
-        return implode("_", output);
+        return implode("-", output);
     }
 }

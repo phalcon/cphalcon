@@ -22,6 +22,9 @@
  */
 /**
  * Interface for Phalcon\Cli\Router
+ *
+ * @phpstan-import-type cli_parameters from CliTypes
+ * @phpstan-import-type cli_router_defaults from CliTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cli_RouterInterface)
 {
@@ -32,6 +35,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_RouterInterface)
 
 /**
  * Adds a route to the router on any HTTP method
+ *
+ * @phpstan-param mixed $paths
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, add);
 /**
@@ -44,6 +49,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getActionName);
 ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getMatchedRoute);
 /**
  * Return the sub expressions in the regular expression matched
+ *
+ * @return array<array-key, string>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getMatches);
 /**
@@ -52,10 +59,23 @@ ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getMatches);
 ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getModuleName);
 /**
  * Returns processed extra params
+ *
+ * @phpstan-return cli_parameters
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getParameters);
+/**
+ * Returns processed extra params
+ *
+ * @deprecated Use getParameters() instead
+ *
+ * @phpstan-return cli_parameters
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getParams);
 /**
  * Returns a route object by its id
+ *
+ * @todo change param type to string
+ * @phpstan-param string $id
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getRouteById);
 /**
@@ -71,9 +91,15 @@ ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getRoutes);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, getTaskName);
 /**
- * Handles routing information received from the rewrite engine
+ * Handles routing information received from the rewrite engine.
  *
- * @param array arguments
+ * When `arguments` is a string (or null), it is matched against the
+ * registered routes. When it is an array, matching is bypassed entirely:
+ * the array is treated as the already-resolved module/task/action/params,
+ * so `wasMatched()` stays false and `getMatchedRoute()` returns null even
+ * though routing succeeded.
+ *
+ * @param array|string|null arguments
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, handle);
 /**
@@ -86,6 +112,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, setDefaultAction);
 ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, setDefaultModule);
 /**
  * Sets an array of default paths
+ *
+ * @phpstan-param cli_router_defaults $defaults
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_RouterInterface, setDefaults);
 /**

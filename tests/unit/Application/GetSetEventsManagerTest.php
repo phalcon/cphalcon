@@ -1,0 +1,49 @@
+<?php
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Phalcon\Tests\Unit\Application;
+
+use Phalcon\Di\FactoryDefault;
+use Phalcon\Events\Manager;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Unit\Application\Fake\FakeApplication;
+
+final class GetSetEventsManagerTest extends AbstractUnitTestCase
+{
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testApplicationGetSetEventsManager(): void
+    {
+        $container   = new FactoryDefault();
+        $manager     = new Manager();
+        $application = new FakeApplication($container);
+
+        $actual = $application->getEventsManager();
+        $this->assertNull($actual);
+
+        $application->setEventsManager($manager);
+
+        $expected = $manager;
+        $actual   = $application->getEventsManager();
+        $this->assertSame($expected, $actual);
+
+        /**
+         * setEventsManager() also registers the manager in the DI container
+         * under the 'eventsManager' key.
+         */
+        $actual = $container->get('eventsManager');
+        $this->assertSame($expected, $actual);
+    }
+}

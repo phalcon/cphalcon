@@ -10,29 +10,31 @@
 
 namespace Phalcon\Translate\Interpolator;
 
-/**
- * Class IndexedArray
- *
- * @package Phalcon\Translate\Interpolator
- */
 class IndexedArray implements InterpolatorInterface
 {
     /**
      * Replaces placeholders by the values passed
      *
-     * @param string $translation
-     * @param array  $placeholders
-     *
-     * @return string
+     * @phpstan-param array<string, string> $placeholders
      */
     public function replacePlaceholders(
-        string! translation,
+         string translation,
         array placeholders = []
     ) -> string {
         if true !== empty(placeholders) {
-            array_unshift(placeholders, translation);
-
-            return call_user_func_array("sprintf", placeholders);
+            /**
+             * vsprintf() treats the translation as a format string. When the
+             * translation is a fallback (e.g. a missing, possibly
+             * request-derived key) its format specifiers may not match the
+             * given arguments, which would raise a ValueError. Return the
+             * translation unchanged in that case so a crafted key cannot turn
+             * into a format-string error / DoS (CWE-134).
+             */
+            try {
+                return vsprintf(translation, placeholders);
+            } catch \ValueError {
+                return translation;
+            }
         }
 
         return translation;

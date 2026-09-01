@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Phalcon\Tests\Unit\Assets\Collection;
+
+use Phalcon\Assets\Collection;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+
+final class GetSetPrefixTest extends AbstractUnitTestCase
+{
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testAssetsCollectionGetSetPrefix(): void
+    {
+        $collection = new Collection();
+        $prefix     = 'phly_';
+        $collection->setPrefix($prefix);
+
+        $expected = $prefix;
+        $actual   = $collection->getPrefix();
+        $this->assertSame($expected, $actual);
+    }
+}

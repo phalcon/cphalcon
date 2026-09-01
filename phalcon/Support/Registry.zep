@@ -10,12 +10,9 @@
 
 namespace Phalcon\Support;
 
-use Phalcon\Support\Collection;
 use Traversable;
 
 /**
- * Phalcon\Registry
- *
  * A registry is a container for storing objects and values in the application
  * space. By storing the value in a registry, the same object is always
  * available throughout your application.
@@ -62,13 +59,15 @@ use Traversable;
  * Internally all the magic methods (and interfaces except JsonSerializable)
  * are implemented using object handlers or similar techniques: this allows to
  * bypass relatively slow method calls.
+ *
+ * @extends Collection<mixed>
  */
 final class Registry extends Collection
 {
     /**
      * Constructor
      */
-    final public function __construct(array! data = [])
+    final public function __construct( array data = [])
     {
         parent::__construct(data);
     }
@@ -76,7 +75,7 @@ final class Registry extends Collection
     /**
      * Magic getter to get an element from the collection
      */
-    final public function __get(string! element) -> var
+    final public function __get(string element) -> mixed
     {
         return parent::get(element);
     }
@@ -84,7 +83,7 @@ final class Registry extends Collection
     /**
      * Magic isset to check whether an element exists or not
      */
-    final public function __isset(string! element) -> bool
+    final public function __isset(string element) -> bool
     {
         return parent::has(element);
     }
@@ -92,7 +91,7 @@ final class Registry extends Collection
     /**
      * Magic setter to assign values to an element
      */
-    final public function __set(string! element, var value) -> void
+    final public function __set(string element, var value) -> void
     {
         parent::set(element, value);
     }
@@ -100,7 +99,7 @@ final class Registry extends Collection
     /**
      * Magic unset to remove an element from the collection
      */
-    final public function __unset(string! element) -> void
+    final public function __unset(string element) -> void
     {
         parent::remove(element);
     }
@@ -115,8 +114,6 @@ final class Registry extends Collection
 
     /**
      * Count elements of an object
-     *
-     * @link https://php.net/manual/en/countable.count.php
      */
     final public function count() -> int
     {
@@ -127,15 +124,17 @@ final class Registry extends Collection
      * Get the element from the collection
      */
     final public function get(
-        string! element,
+        string element,
         var defaultValue = null,
-        string! cast = null
-    ) -> var {
+        string cast = null
+    ) -> mixed {
         return parent::get(element, defaultValue, cast);
     }
 
     /**
      * Returns the iterator of the class
+     *
+     * @return Traversable<int|string, mixed>
      */
     final public function getIterator() -> <Traversable>
     {
@@ -145,7 +144,7 @@ final class Registry extends Collection
     /**
      * Determines whether an element is present in the collection.
      */
-    final public function has(string! element) -> bool
+    final public function has( string element) -> bool
     {
         return parent::has(element);
     }
@@ -153,15 +152,13 @@ final class Registry extends Collection
     /**
      * Initialize internal array
      */
-    final public function init(array! data = []) -> void
+    final public function init( array data = []) -> void
     {
         parent::init(data);
     }
 
     /**
      * Specify data which should be serialized to JSON
-     *
-     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
      */
     final public function jsonSerialize() -> array
     {
@@ -170,8 +167,6 @@ final class Registry extends Collection
 
     /**
      * Whether a offset exists
-     *
-     * @link https://php.net/manual/en/arrayaccess.offsetexists.php
      */
     final public function offsetExists(var element) -> bool
     {
@@ -180,18 +175,14 @@ final class Registry extends Collection
 
     /**
      * Offset to retrieve
-     *
-     * @link https://php.net/manual/en/arrayaccess.offsetget.php
      */
-    final public function offsetGet(var element) -> var
+    final public function offsetGet(mixed element) -> mixed
     {
         return parent::get(element);
     }
 
     /**
      * Offset to set
-     *
-     * @link https://php.net/manual/en/arrayaccess.offsetset.php
      */
     final public function offsetSet(var element, var value) -> void
     {
@@ -200,8 +191,6 @@ final class Registry extends Collection
 
     /**
      * Offset to unset
-     *
-     * @link https://php.net/manual/en/arrayaccess.offsetunset.php
      */
     final public function offsetUnset(var element) -> void
     {
@@ -211,17 +200,15 @@ final class Registry extends Collection
     /**
      * Delete the element from the collection
      */
-    final public function remove(string! element) -> void
+    final public function remove( string element) -> void
     {
         parent::remove(element);
     }
 
     /**
      * String representation of object
-     *
-     * @link https://php.net/manual/en/serializable.serialize.php
      */
-    final public function serialize() -> string
+    final public function serialize() -> string | null
     {
         return parent::serialize();
     }
@@ -229,7 +216,7 @@ final class Registry extends Collection
     /**
      * Set an element in the collection
      */
-    final public function set(string! element, var value) -> void
+    final public function set( string element, var value) -> void
     {
         parent::set(element, value);
     }
@@ -248,8 +235,6 @@ final class Registry extends Collection
      * The default string uses the following options for json_encode
      *
      * JSON_HEX_TAG, JSON_HEX_APOS, JSON_HEX_AMP, JSON_HEX_QUOT, JSON_UNESCAPED_SLASHES
-     *
-     * @see https://www.ietf.org/rfc/rfc4627.txt
      */
     final public function toJson(int options = 79) -> string
     {
@@ -257,12 +242,10 @@ final class Registry extends Collection
     }
 
     /**
-     * Constructs the object
-     *
-     * @link https://php.net/manual/en/serializable.unserialize.php
+     * Unserializes the object
      */
-    final public function unserialize(var serialized) -> void
+    final public function unserialize(string data) -> void
     {
-        parent::unserialize(serialized);
+        parent::unserialize(data);
     }
 }

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<psalm
+    errorLevel="1"
+    resolveFromConfigFile="true"
+    findUnusedCode="false"
+    findUnusedBaselineEntry="false"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config ../vendor/vimeo/psalm/config.xsd"
+>
+    <projectFiles>
+        <directory name="../ide/" />
+        <ignoreFiles>
+            <directory name="../vendor" />
+        </ignoreFiles>
+    </projectFiles>
+
+    <issueHandlers>
+        <ClassMustBeFinal errorLevel="suppress"/>
+        <!--
+            Phalcon\Support\Collection\CollectionInterface is intentionally
+            kept (and marked @deprecated) as a back-compat bridge over the
+            canonical Phalcon\Contracts\Support\Collection for one major
+            release. The deprecation is still visible to end-user code that
+            references the interface directly; suppressing it here silences
+            the noise from our own internal classes that have to keep
+            implementing it during the migration window.
+        -->
+        <DeprecatedInterface errorLevel="suppress"/>
+        <InvalidReturnType errorLevel="suppress"/>
+        <MissingOverrideAttribute errorLevel="suppress"/>
+        <MissingTemplateParam errorLevel="suppress"/>
+        <PropertyNotSetInConstructor errorLevel="suppress"/>
+        <UnusedParam errorLevel="suppress"/>
+    </issueHandlers>
+</psalm>

@@ -1,0 +1,97 @@
+<?php
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Phalcon\Tests\Database\Mvc\Model\Criteria;
+
+use Phalcon\Mvc\Model\Criteria;
+use Phalcon\Mvc\Model\Query\Builder;
+use Phalcon\Mvc\Model\Resultset\Simple;
+use Phalcon\Storage\Exception;
+use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Models\Customers;
+use Phalcon\Tests\Support\Models\Invoices;
+use Phalcon\Tests\Support\Models\Orders;
+use Phalcon\Tests\Support\Models\Products;
+use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\Group;
+
+final class JoinTest extends AbstractDatabaseTestCase
+{
+    use DiTrait;
+
+    /**
+     * @throws Exception
+     */
+    public function setUp(): void
+    {
+        $this->setNewFactoryDefault();
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-02-01
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelCriteriaJoin(): void
+    {
+        $criteria = new Criteria();
+        $criteria->setDI($this->container);
+
+        $criteria
+            ->setModelName(Invoices::class)
+            ->join(Customers::class, 'inv_cst_id = cst_id', 'customer')
+        ;
+
+        $builder = $criteria->createBuilder();
+
+        $this->assertInstanceOf(Builder::class, $builder);
+
+        $expected = 'SELECT [Phalcon\Tests\Support\Models\Invoices].* '
+            . 'FROM [Phalcon\Tests\Support\Models\Invoices] '
+            . 'JOIN [Phalcon\Tests\Support\Models\Customers] AS [customer] ON inv_cst_id = cst_id';
+        $actual   = $builder->getPhql();
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/14716
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2020-02-06
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    public function testMvcModelCriteriaJoinManyToManyMultipleSchema(): void
+    {
+        // sqlite is excluded above - it doesn't model multiple schemas
+        // the way mysql/pgsql do, so the `private.co_orders_x_products`
+        // join the test asserts on can't be produced there.
+        $this->setDatabase();
+
+        $criteria = new Criteria();
+        $criteria->setDI($this->container);
+
+        $builder = $criteria->createBuilder();
+        $builder->from(Orders::class);
+        $builder->join(Products::class);
+
+        $expected = 'private';
+        $query    = $builder->getQuery();
+        $request  = $query->getSql();
+
+        $this->assertStringContainsString($expected, $request['sql']);
+
+        $this->assertInstanceOf(Simple::class, $query->execute());
+    }
+}

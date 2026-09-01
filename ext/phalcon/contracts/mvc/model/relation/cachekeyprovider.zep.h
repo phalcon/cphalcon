@@ -1,0 +1,12 @@
+
+extern zend_class_entry *phalcon_contracts_mvc_model_relation_cachekeyprovider_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Mvc_Model_Relation_CacheKeyProvider);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_mvc_model_relation_cachekeyprovider_getuniquekey, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_contracts_mvc_model_relation_cachekeyprovider_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Mvc_Model_Relation_CacheKeyProvider, getUniqueKey, arginfo_phalcon_contracts_mvc_model_relation_cachekeyprovider_getuniquekey)
+	PHP_FE_END
+};

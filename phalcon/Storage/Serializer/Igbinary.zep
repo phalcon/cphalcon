@@ -10,59 +10,86 @@
 
 namespace Phalcon\Storage\Serializer;
 
+use Phalcon\Traits\Php\IgbinaryTrait;
+
 class Igbinary extends AbstractSerializer
 {
+    use IgbinaryTrait;
+
     /**
      * Serializes data
-     *
-     * @return string
      */
-    public function serialize()
+    public function serialize() -> mixed
     {
+        var result;
+
         if (true !== this->isSerializable(this->data)) {
             return this->data;
         }
 
-        return igbinary_serialize(this->data);
+        let result = this->doSerialize(this->data);
+
+        if unlikely null === result {
+            let this->isSuccess = false,
+                result          = "";
+        } else {
+            let this->isSuccess = true;
+        }
+
+        return result;
     }
 
     /**
      * Unserializes data
-     *
-     * @param string $data
-     *
-     * @return void
      */
-	public function unserialize(var data) -> void
-	{
-	    var version;
+    public function unserialize(mixed data) -> void
+    {
+        var result;
 
-	    let version = phpversion();
-
-	    globals_set("warning.enable", false);
-
-	    if version_compare(version, "8.0", ">=") {
-	        set_error_handler(
+        if (true !== this->isSerializable(data)) {
+            let this->data = data;
+        } else {
+            globals_set("warning.enable", false);
+            set_error_handler(
                 function (number, message, file, line) {
                     globals_set("warning.enable", true);
                 },
                 E_WARNING
             );
-	    } else {
-	        set_error_handler(
-                function (number, message, file, line, context) {
-                    globals_set("warning.enable", true);
-                },
-                E_WARNING
-            );
-	    }
 
-		let this->data = igbinary_unserialize(data);
+            /** @var string $data */
+            let result = this->doUnserialize(data);
 
-        restore_error_handler();
+            restore_error_handler();
 
-        if unlikely globals_get("warning.enable") {
-            let this->data = null;
+            if unlikely globals_get("warning.enable") || false === result {
+                let this->isSuccess = false,
+                    result          = "";
+            } else {
+                let this->isSuccess = true;
+            }
+
+            let this->data = result;
         }
+    }
+
+    /**
+     * Serialize
+     */
+    protected function doSerialize(var value) -> string | null
+    {
+        return this->phpIgbinarySerialize(value);
+    }
+
+    /**
+     * Unserialize
+     *
+     * @param string $value
+     *
+     * @return false|mixed
+     */
+    protected function doUnserialize(value)
+    {
+        return this->phpIgbinaryUnserialize(value);
     }
 }

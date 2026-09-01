@@ -14,10 +14,8 @@
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
-#include "kernel/object.h"
 #include "kernel/operators.h"
+#include "kernel/object.h"
 #include "kernel/array.h"
 
 
@@ -91,32 +89,24 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Identical, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
 	zval *options_param = NULL;
 	zval options;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&options);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ARRAY(options)
+		ZEPHIR_Z_PARAM_ARRAY(options, options_param)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 0, 1, &options_param);
 	if (!options_param) {
 		ZEPHIR_INIT_VAR(&options);
 		array_init(&options);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
+		zephir_get_arrval(&options, options_param);
 	}
-
-
-	ZEPHIR_CALL_PARENT(NULL, phalcon_filter_validation_validator_identical_ce, getThis(), "__construct", &_0, 0, &options);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_filter_validation_validator_identical_ce, getThis(), "__construct", NULL, 0, &options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -144,19 +134,13 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Identical, validate)
 	ZVAL_UNDEF(&_5$$5);
 	ZVAL_UNDEF(&_6$$7);
 	ZVAL_UNDEF(&_7$$8);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
 		Z_PARAM_ZVAL(field)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &validation, &field);
-
-
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "allowempty", NULL, 0, field, &value);
@@ -168,20 +152,22 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Identical, validate)
 	ZVAL_STRING(&_2, "accepted");
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "hasoption", NULL, 0, &_2);
 	zephir_check_call_status();
-	ZEPHIR_INIT_NVAR(&_2);
-	ZVAL_STRING(&_2, "value");
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "hasoption", NULL, 0, &_2);
-	zephir_check_call_status();
 	if (zephir_is_true(&_1)) {
 		ZEPHIR_INIT_VAR(&_4$$4);
 		ZVAL_STRING(&_4$$4, "accepted");
 		ZEPHIR_CALL_METHOD(&accepted, this_ptr, "getoption", NULL, 0, &_4$$4);
 		zephir_check_call_status();
-	} else if (zephir_is_true(&_3)) {
-		ZEPHIR_INIT_VAR(&_5$$5);
-		ZVAL_STRING(&_5$$5, "value");
-		ZEPHIR_CALL_METHOD(&accepted, this_ptr, "getoption", NULL, 0, &_5$$5);
+	} else {
+		ZEPHIR_INIT_NVAR(&_2);
+		ZVAL_STRING(&_2, "value");
+		ZEPHIR_CALL_METHOD(&_3, this_ptr, "hasoption", NULL, 0, &_2);
 		zephir_check_call_status();
+		if (zephir_is_true(&_3)) {
+			ZEPHIR_INIT_VAR(&_5$$5);
+			ZVAL_STRING(&_5$$5, "value");
+			ZEPHIR_CALL_METHOD(&accepted, this_ptr, "getoption", NULL, 0, &_5$$5);
+			zephir_check_call_status();
+		}
 	}
 	if (zephir_is_true(&accepted)) {
 		if (Z_TYPE_P(&accepted) == IS_ARRAY) {

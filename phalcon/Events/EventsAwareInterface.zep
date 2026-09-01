@@ -10,21 +10,15 @@
 
 namespace Phalcon\Events;
 
+use Phalcon\Contracts\Events\EventsAware as EventsAwareContract;
+
 /**
  * Phalcon\Events\EventsAwareInterface
  *
- * This interface must for those classes that accept an EventsManager and
- * dispatch events
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Events\EventsAware} instead.
  */
-interface EventsAwareInterface
+interface EventsAwareInterface extends EventsAwareContract
 {
-    /**
-     * Returns the internal event manager
-     */
-    public function getEventsManager() -> <ManagerInterface> | null;
-
-    /**
-     * Sets the events manager
-     */
-    public function setEventsManager(<ManagerInterface> eventsManager) -> void;
 }

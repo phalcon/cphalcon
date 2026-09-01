@@ -21,7 +21,7 @@
 
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -39,47 +39,36 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_FirstBetween)
 	return SUCCESS;
 }
 
-/**
- * @param string $text
- * @param string $start
- * @param string $end
- *
- * @return string
- */
 PHP_METHOD(Phalcon_Support_Helper_Str_FirstBetween, __invoke)
 {
+	zval _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *text_param = NULL, *start_param = NULL, *end_param = NULL, __$true, result, _0, _1;
-	zval text, start, end, _2;
-	zval *this_ptr = getThis();
+	zval text_zv, start_zv, end_zv, __$true, result, _0, _1;
+	zend_string *text = NULL, *start = NULL, *end = NULL;
 
-	ZVAL_UNDEF(&text);
-	ZVAL_UNDEF(&start);
-	ZVAL_UNDEF(&end);
-	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&text_zv);
+	ZVAL_UNDEF(&start_zv);
+	ZVAL_UNDEF(&end_zv);
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_UNDEF(&result);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	ZVAL_UNDEF(&_2);
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_STR(text)
 		Z_PARAM_STR(start)
 		Z_PARAM_STR(end)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 0, &text_param, &start_param, &end_param);
-	zephir_get_strval(&text, text_param);
-	zephir_get_strval(&start, start_param);
-	zephir_get_strval(&end, end_param);
-
-
-	ZEPHIR_CALL_FUNCTION(&result, "mb_strstr", NULL, 0, &text, &start);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&text_zv);
+	ZVAL_STR_COPY(&text_zv, text);
+	zephir_memory_observe(&start_zv);
+	ZVAL_STR_COPY(&start_zv, start);
+	zephir_memory_observe(&end_zv);
+	ZVAL_STR_COPY(&end_zv, end);
+	ZEPHIR_CALL_FUNCTION(&result, "mb_strstr", NULL, 0, &text_zv, &start_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&result)) {
@@ -89,7 +78,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_FirstBetween, __invoke)
 		ZEPHIR_CPY_WRT(&_0, &result);
 	}
 	ZEPHIR_CPY_WRT(&result, &_0);
-	ZEPHIR_CALL_FUNCTION(&_1, "mb_strstr", NULL, 0, &result, &end, &__$true);
+	ZEPHIR_CALL_FUNCTION(&_1, "mb_strstr", NULL, 0, &result, &end_zv, &__$true);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&result, &_1);
 	ZEPHIR_INIT_NVAR(&_0);
@@ -101,7 +90,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_FirstBetween, __invoke)
 	}
 	ZEPHIR_CPY_WRT(&result, &_0);
 	ZEPHIR_INIT_VAR(&_2);
-	ZEPHIR_CONCAT_VV(&_2, &start, &end);
+	ZEPHIR_CONCAT_VV(&_2, &start_zv, &end_zv);
 	zephir_fast_trim(return_value, &result, &_2, ZEPHIR_TRIM_BOTH);
 	RETURN_MM();
 }

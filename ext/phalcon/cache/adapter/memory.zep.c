@@ -29,6 +29,15 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Adapter_Memory)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Adapter, Memory, phalcon, cache_adapter_memory, phalcon_storage_adapter_memory_ce, NULL, 0);
 
+	/**
+	 * EventType prefix.
+	 */
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "cache", sizeof("cache") - 1);
+		zephir_declare_typed_property(phalcon_cache_adapter_memory_ce, SL("eventType"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	zend_class_implements(phalcon_cache_adapter_memory_ce, 1, phalcon_cache_adapter_adapterinterface_ce);
 	return SUCCESS;
 }

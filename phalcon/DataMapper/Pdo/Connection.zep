@@ -14,18 +14,14 @@
 
 namespace Phalcon\DataMapper\Pdo;
 
-use InvalidArgumentException;
 use Phalcon\DataMapper\Pdo\Connection\AbstractConnection;
+use Phalcon\DataMapper\Pdo\Exception\DriverNotSupported;
 use Phalcon\DataMapper\Pdo\Profiler\Profiler;
 use Phalcon\DataMapper\Pdo\Profiler\ProfilerInterface;
 
 /**
  * Provides array quoting, profiling, a new `perform()` method, new `fetch*()`
  * methods
- *
- * @property array             $arguments
- * @property PDO               $pdo
- * @property ProfilerInterface $profiler
  */
 class Connection extends AbstractConnection
 {
@@ -67,9 +63,7 @@ class Connection extends AbstractConnection
             ];
 
         if !isset available[parts[0]] {
-            throw new InvalidArgumentException(
-                "Driver not supported [" . parts[0] . "]"
-            );
+            throw new DriverNotSupported(parts[0]);
         }
 
 
@@ -120,6 +114,8 @@ class Connection extends AbstractConnection
         var dsn, options, password, query, queries, username;
 
         if !this->pdo {
+            this->fireBefore(Events::BEFORE_CONNECT);
+
             // connect
             this->profiler->start(__FUNCTION__);
 
@@ -133,6 +129,8 @@ class Connection extends AbstractConnection
 
             this->profiler->finish();
 
+            this->fireManagerEvent(Events::AFTER_CONNECT, null, false);
+
             // connection-time queries
             for query in queries {
                 this->exec(query);
@@ -145,10 +143,14 @@ class Connection extends AbstractConnection
      */
     public function disconnect() -> void
     {
+        this->fireBefore(Events::BEFORE_DISCONNECT);
+
         this->profiler->start(__FUNCTION__);
 
         let this->pdo = null;
 
         this->profiler->finish();
+
+        this->fireManagerEvent(Events::AFTER_DISCONNECT, null, false);
     }
 }

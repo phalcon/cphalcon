@@ -96,40 +96,27 @@ Thanks for the support
 [//]: github-sponsors
 
 <a href="https://github.com/niden"><img src="https://avatars2.githubusercontent.com/u/1073784?s=460&v=4" title="Nikolaos Dimopoulos" width="60" height="60"></a>
-<a href="https://github.com/Brade"><img src="https://avatars.githubusercontent.com/u/46009?v=4" title="N. Brad Garrett" width="60" height="60"></a>
-<a href="https://github.com/DestinyMKas"><img src="https://avatars.githubusercontent.com/u/170159?v=4" title="Karolis Mačiulskis" width="60" height="60"></a>
-<a href="https://github.com/andresgutierrez"><img src="https://avatars.githubusercontent.com/u/213590?v=4" title="Andres Gutierrez" width="60" height="60"></a>
-<a href="https://github.com/pyatin"><img src="https://avatars.githubusercontent.com/u/296939?v=4" title="Glib Pyatin" width="60" height="60"></a>
+<a href="https://github.com/ADS-Fund"><img src="https://avatars.githubusercontent.com/u/202042116?s=200&v=4" title="ADS Fund" width="60" height="60"></a>
+<a href="https://github.com/elstin"><img src="https://avatars.githubusercontent.com/u/38716832?v=4" title="Akira Kato" width="60" height="60"></a>
+<a href="https://github.com/francoisgrogor"><img src="https://avatars.githubusercontent.com/u/5804565?v=4" title="francoisgrogor" width="60" height="60"></a>
 <a href="https://github.com/alrieckert"><img src="https://avatars1.githubusercontent.com/u/452786?s=460&v=4" title="Anton Rieckert" width="60" height="60"></a>
-<a href="https://github.com/yannux"><img src="https://avatars.githubusercontent.com/u/533125?s=460&u=4f1e888783d1faafaa76282e5c388501c2b2df83&v=4" title="Yann" width="60" height="60"></a>
-<a href="https://github.com/sinbadxiii"><img src="https://avatars2.githubusercontent.com/u/900273?s=460&v=4" title="Sergey Mukhin" width="60" height="60"></a>
 <a href="https://github.com/elcreator"><img src="https://avatars.githubusercontent.com/u/974975?v=4" title="Artur Kyryliuk" width="60" height="60"></a>
 <a href="https://github.com/Ultimater"><img src="https://avatars.githubusercontent.com/u/1922199?v=4" title="Kevin Yarmak" width="60" height="60"></a>
-<a href="https://github.com/qmegas"><img src="https://avatars3.githubusercontent.com/u/2444896?s=460&v=4" title="qmegas" width="60" height="60"></a>
-<a href="https://github.com/gwijnja"><img src="https://avatars1.githubusercontent.com/u/2666867?s=460&u=7f358f88d53208909d808db17b382ae44d9eb48a&v=4" title="Gerben Wijnja" width="60" height="60"></a>
-<a href="https://github.com/terolblade"><img src="https://avatars3.githubusercontent.com/u/3078649?s=460&v=4" title="Stanislav Sviridenko" width="60" height="60"></a>
-<a href="https://github.com/Ruzgfpegk"><img src="https://avatars1.githubusercontent.com/u/3818364?s=460&v=4" title="Ruzgfpegk" width="60" height="60"></a>
+<a href="https://github.com/f-do"><img src="https://avatars.githubusercontent.com/u/4299065?v=4" title="Florian" width="60" height="60"></a>
 <a href="https://github.com/borisdelev"><img src="https://avatars.githubusercontent.com/u/4441663?s=460&u=be604c39153e26326f2123c6e1bfe880d5ec0947&v=4" title="Boris Delev" width="60" height="60"></a>
-<a href="https://github.com/educury"><img src="https://avatars2.githubusercontent.com/u/5339278?s=460&v=4" title="educury" width="60" height="60"></a>
+<a href="https://github.com/raicabogdan"><img src="https://avatars.githubusercontent.com/u/4399340?v=4" title="Bogdan Raica" width="60" height="60"></a>
+<a href="https://github.com/jturbide"><img src="https://avatars.githubusercontent.com/u/4306188?v=4" title="Julien Turbide" width="60" height="60"></a>
 <a href="https://github.com/emagus"><img src="https://avatars.githubusercontent.com/u/5857789?v=4" title="maGus Informática" width="60" height="60"></a>
 <a href="https://github.com/tztztztz"><img src="https://avatars.githubusercontent.com/u/7032308?v=4" title="Tomasz Zadora" width="60" height="60"></a>
-<a href="https://github.com/ruudboon"><img src="https://avatars3.githubusercontent.com/u/7444246?s=460&v=4" title="Ruud Boon" width="60" height="60"></a>
-<a href="https://github.com/tacxticx88"><img src="https://avatars3.githubusercontent.com/u/12997062?s=460&u=5af0fbe438391ac46fb19befe0c20a4b1374e187&v=4" title="Clément" width="60" height="60"></a>
-<a href="https://github.com/Montana"><img src="https://avatars3.githubusercontent.com/u/20936398?s=460&v=4" title="Montana Mendy" width="60" height="60"></a>
+<a href="https://github.com/6trading"><img src="https://avatars.githubusercontent.com/u/12135941?v=4" title="Chris" width="60" height="60"></a>
 <a href="https://github.com/fvromera"><img src="https://avatars.githubusercontent.com/u/32909196?s=460&u=a4a6d765c836be52ab247354399d0ed1a49224fa&v=4" title="fvromera" width="60" height="60"></a>
-<a href="https://github.com/ak1113"><img src="https://avatars0.githubusercontent.com/u/38716832?s=460&v=4" title="Akira Kato" width="60" height="60"></a>
 <a href="https://github.com/dredasss"><img src="https://avatars1.githubusercontent.com/u/38747389?s=460&u=ee99a8bb28ee6bedbbea6325d49d4eb99080d421&v=4" title="Nerijus Alex" width="60" height="60"></a>
-<a href="https://github.com/postype"><img src="https://avatars.githubusercontent.com/u/54393235?s=200&v=4" title="https://www.postype.com/" width="60" height="60"></a>
+<a href="https://github.com/housesigma"><img src="https://avatars.githubusercontent.com/u/50630040?s=200&v=4" title="HouseSigma" width="60" height="60"></a>
+<a href="https://github.com/markofo"><img src="https://avatars.githubusercontent.com/u/59839390?v=4" title="markofo" width="60" height="60"></a>
+<a href="https://github.com/levertr"><img src="https://avatars.githubusercontent.com/u/78140431?v=4" title="Rayan Levert" width="60" height="60"></a>
 <a href="https://github.com/iogates"><img src="https://avatars.githubusercontent.com/u/86652317?s=200&v=4" title="iogates" width="60" height="60"></a>
-<a href="https://github.com/barnettruth"><img src="https://avatars.githubusercontent.com/u/95089067?v=4" title="barnettruth" width="60" height="60"></a>
-<a href="https://github.com/mccauleycassa"><img src="https://avatars.githubusercontent.com/u/95136425?v=4" title="mccauleycassa" width="60" height="60"></a>
-<a href="https://github.com/hillbrianna"><img src="https://avatars.githubusercontent.com/u/95143459?v=4" title="hillbrianna" width="60" height="60"></a>
-<a href="https://github.com/whitneyza"><img src="https://avatars.githubusercontent.com/u/95216218?v=4" title="whitneyza" width="60" height="60"></a>
-<a href="https://github.com/volkmanaub"><img src="https://avatars.githubusercontent.com/u/95301170?v=4" title="volkmanaub" width="60" height="60"></a>
-<a href="https://github.com/lueilwit"><img src="https://avatars.githubusercontent.com/u/95302137?v=4" title="lueilwit" width="60" height="60"></a>
-<a href="https://github.com/nicolec3urv7"><img src="https://avatars.githubusercontent.com/u/95520516?v=4" title="nicolec3urv7" width="60" height="60"></a>
-<a href="https://github.com/lazospark1"><img src="https://avatars.githubusercontent.com/u/95704274?v=4" title="lazospark1" width="60" height="60"></a>
-<a href="https://github.com/leonardarac"><img src="https://avatars.githubusercontent.com/u/95871191?v=4" title="leonardarac" width="60" height="60"></a>
+<a href="https://github.com/s-ohnishi"><img src="https://avatars.githubusercontent.com/u/6782530?v=4" title="s-ohnishi" width="60" height="60"></a>
+<a href="https://github.com/easoftoy"><img src="https://avatars.githubusercontent.com/u/16577638?s=200&v=4" title="Easoft Group Oy" width="60" height="60"></a>
 
 [//]: github-sponsors
 

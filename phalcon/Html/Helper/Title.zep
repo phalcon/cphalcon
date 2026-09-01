@@ -1,11 +1,15 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 
 namespace Phalcon\Html\Helper;
@@ -14,66 +18,43 @@ use Phalcon\Html\Exception;
 
 /**
  * Class Title
- *
- * @property array  $append
- * @property string $delimiter
- * @property string $indent
- * @property array  $prepend
- * @property string $title
- * @property string $separator
  */
 class Title extends AbstractHelper
 {
     /**
-     * @var array
+     * @phpstan-var list<string>
      */
-    protected append = [];
-
+    protected array append = [];
     /**
-     * @var array
+     * Untyped on purpose. A typed `array` default is shared by all instances
+     * and `prepend()` mutates it in place, which corrupts the heap. See
+     * team/Planning/2026-08-20-zephir-typed-array-property-shared-default.md
+     *
+     * @phpstan-var list<string>
      */
     protected prepend = [];
-
-    /**
-     * @var string
-     */
-    protected title = "";
-
-    /**
-     * @var string
-     */
-    protected separator = "";
+    protected string title = "";
+    protected string separator = "";
 
     /**
      * Sets the separator and returns the object back
-     *
-     * @param string      $separator
-     * @param string|null $indent
-     * @param string|null $delimiter
-     *
-     * @return Title
      */
     public function __invoke(
-        string separator = "",
-        string indent = null,
+        string indent = "    ",
         string delimiter = null
-    ) -> <Title> {
-        let this->delimiter = delimiter,
-            this->indent    = indent,
-            this->separator = separator;
+    ) -> <static> {
+        let this->delimiter = null === delimiter ? PHP_EOL : delimiter,
+            this->indent    = indent;
 
         return this;
     }
 
     /**
      * Returns the title tags
-     *
-     * @return string
-     * @throws Exception
      */
     public function __toString()
     {
-        var delimiter, indent, items;
+        var items;
 
         let items = array_merge(
             this->prepend,
@@ -81,32 +62,24 @@ class Title extends AbstractHelper
             this->append
         );
 
-        let indent    = this->indent ? this->indent : "";
-        let delimiter = this->delimiter ? this->delimiter : "";
-
         let this->append  = [],
             this->prepend = [],
             this->title   = "";
 
-        return indent
+        return this->indent
             . this->renderFullElement(
                 "title",
                 implode(this->separator, items),
                 [],
                 true
             )
-            . delimiter;
+            . this->delimiter;
     }
 
     /**
      * Appends text to current document title
-     *
-     * @param string $text
-     * @param bool   $raw
-     *
-     * @return Title
      */
-    public function append(string text, bool raw = false) -> <Title>
+    public function append(string text, bool raw = false) -> <static>
     {
         let text = raw ? text : this->escaper->html(text);
 
@@ -117,8 +90,6 @@ class Title extends AbstractHelper
 
     /**
      * Returns the title
-     *
-     * @return string
      */
     public function get() -> string
     {
@@ -126,14 +97,27 @@ class Title extends AbstractHelper
     }
 
     /**
-     * Sets the title
-     *
-     * @param string $text
-     * @param bool   $raw
-     *
-     * @return Title
+     * Prepends text to current document title
      */
-    public function set(string text, bool raw = false) -> <Title>
+    public function prepend(string text, bool raw = false) -> <static>
+    {
+        var prepend;
+
+        let text = raw ? text : this->escaper->html(text);
+
+        let prepend = this->prepend;
+
+        array_unshift(prepend, text);
+
+        let this->prepend = prepend;
+
+        return this;
+    }
+
+    /**
+     * Sets the title
+     */
+    public function set(string text, bool raw = false) -> <static>
     {
         let text = raw ? text : this->escaper->html(text);
 
@@ -143,18 +127,11 @@ class Title extends AbstractHelper
     }
 
     /**
-     * Prepends text to current document title
-     *
-     * @param string $text
-     * @param bool   $raw
-     *
-     * @return Title
+     * Sets the separator
      */
-    public function prepend(string text, bool raw = false) -> <Title>
+    public function setSeparator(string separator, bool raw = false) -> <static>
     {
-        let text = raw ? text : this->escaper->html(text);
-
-        let this->prepend[] = text;
+        let this->separator = raw ? separator : this->escaper->html(separator);
 
         return this;
     }

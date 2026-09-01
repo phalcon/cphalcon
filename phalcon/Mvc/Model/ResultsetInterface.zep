@@ -13,7 +13,6 @@ namespace Phalcon\Mvc\Model;
 use Closure;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\ModelInterface;
-use Psr\SimpleCache\CacheInterface;
 
 /**
  * Phalcon\Mvc\Model\ResultsetInterface
@@ -31,10 +30,10 @@ interface ResultsetInterface
      * Filters a resultset returning only those the developer requires
      *
      *```php
-     * $filtered = $robots->filter(
-     *     function ($robot) {
-     *         if ($robot->id < 3) {
-     *             return $robot;
+     * $filtered = $invoices->filter(
+     *     function ($invoice) {
+     *         if ($invoice->inv_id < 3) {
+     *             return $invoice;
      *         }
      *     }
      * );
@@ -45,7 +44,7 @@ interface ResultsetInterface
     /**
      * Returns the associated cache for the resultset
      */
-    public function getCache() -> <CacheInterface> | null;
+    public function getCache() -> var | null;
 
     /**
      * Get first row in the resultset

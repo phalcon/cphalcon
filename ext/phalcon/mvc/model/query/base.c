@@ -21,6 +21,15 @@ const phql_token_names phql_tokens[] =
   { SL("/"),				   PHQL_T_DIV },
   { SL("&"),				   PHQL_T_BITWISE_AND },
   { SL("|"),				   PHQL_T_BITWISE_OR },
+  { SL("@@"),				   PHQL_T_OP_MATCHES },
+  { SL("@>"),				   PHQL_T_OP_CONTAINS },
+  { SL("<@"),				   PHQL_T_OP_CONTAINED },
+  { SL("&&"),				   PHQL_T_OP_OVERLAPS },
+  { SL("||"),				   PHQL_T_OP_CONCAT },
+  { SL("->"),				   PHQL_T_OP_JSON_GET },
+  { SL("->>"),				   PHQL_T_OP_JSON_GET_TEXT },
+  { SL("#>"),				   PHQL_T_OP_JSON_PATH },
+  { SL("#>>"),				   PHQL_T_OP_JSON_PATH_TEXT },
   { SL("%%"),				   PHQL_T_MOD },
   { SL("AND"),				   PHQL_T_AND },
   { SL("OR"),				   PHQL_T_OR },
@@ -98,6 +107,18 @@ static void phql_wrapper_free(void *pointer)
 	efree(pointer);
 }
 
+/**
+ * Releases a scanner token that the parser did not take over
+ */
+static void phql_token_free(phql_scanner_token *token)
+{
+	if (token->value) {
+		efree(token->value);
+		token->value = NULL;
+		token->len = 0;
+	}
+}
+
 static void phql_parse_with_token(void* phql_parser, int opcode, int parsercode, phql_scanner_token *token, phql_parser_status *parser_status)
 {
 
@@ -158,6 +179,8 @@ int phql_parse_phql(zval *result, zval *phql)
 
 	if (phql_internal_parse_phql(&result, Z_STRVAL_P(phql), Z_STRLEN_P(phql), &error_msg) == FAILURE) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, Z_STRVAL_P(error_msg));
+		/* The exception holds its own copy; release the message string. */
+		zval_dtor(error_msg);
 		return FAILURE;
 	}
 
@@ -176,7 +199,6 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 	phql_scanner_token token;
 	void* phql_parser;
 	char *error;
-	unsigned long phql_key = 0;
 	zval *temp_ast;
 
 	if (!phql) {
@@ -186,11 +208,9 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 
 	cache_level = phalcon_globals_ptr->orm.cache_level;
 	if (cache_level >= 0) {
-		phql_key = zend_inline_hash_func(phql, phql_length + 1);
 		if (phalcon_globals_ptr->orm.parser_cache != NULL) {
-			if ((temp_ast = zend_hash_index_find(phalcon_globals_ptr->orm.parser_cache, phql_key)) != NULL) {
+			if ((temp_ast = zend_hash_str_find(phalcon_globals_ptr->orm.parser_cache, phql, phql_length)) != NULL) {
 				ZVAL_ZVAL(*result, temp_ast, 1, 0);
-				Z_TRY_ADDREF_P(*result);
 				return SUCCESS;
 			}
 		}
@@ -311,6 +331,33 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 			case PHQL_T_BITWISE_XOR:
 				phql_(phql_parser, PHQL_BITWISE_XOR, NULL, parser_status);
 				break;
+			case PHQL_T_OP_MATCHES:
+				phql_(phql_parser, PHQL_OP_MATCHES, NULL, parser_status);
+				break;
+			case PHQL_T_OP_CONTAINS:
+				phql_(phql_parser, PHQL_OP_CONTAINS, NULL, parser_status);
+				break;
+			case PHQL_T_OP_CONTAINED:
+				phql_(phql_parser, PHQL_OP_CONTAINED, NULL, parser_status);
+				break;
+			case PHQL_T_OP_OVERLAPS:
+				phql_(phql_parser, PHQL_OP_OVERLAPS, NULL, parser_status);
+				break;
+			case PHQL_T_OP_CONCAT:
+				phql_(phql_parser, PHQL_OP_CONCAT, NULL, parser_status);
+				break;
+			case PHQL_T_OP_JSON_GET:
+				phql_(phql_parser, PHQL_OP_JSON_GET, NULL, parser_status);
+				break;
+			case PHQL_T_OP_JSON_GET_TEXT:
+				phql_(phql_parser, PHQL_OP_JSON_GET_TEXT, NULL, parser_status);
+				break;
+			case PHQL_T_OP_JSON_PATH:
+				phql_(phql_parser, PHQL_OP_JSON_PATH, NULL, parser_status);
+				break;
+			case PHQL_T_OP_JSON_PATH_TEXT:
+				phql_(phql_parser, PHQL_OP_JSON_PATH_TEXT, NULL, parser_status);
+				break;
 			case PHQL_T_AGAINST:
 				phql_(phql_parser, PHQL_AGAINST, NULL, parser_status);
 				break;
@@ -340,6 +387,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				if (parser_status->enable_literals) {
 					phql_parse_with_token(phql_parser, PHQL_T_INTEGER, PHQL_INTEGER, &token, parser_status);
 				} else {
+					phql_token_free(&token);
 					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements");
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
@@ -348,6 +396,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				if (parser_status->enable_literals) {
 					phql_parse_with_token(phql_parser, PHQL_T_DOUBLE, PHQL_DOUBLE, &token, parser_status);
 				} else {
+					phql_token_free(&token);
 					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements");
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
@@ -356,6 +405,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				if (parser_status->enable_literals) {
 					phql_parse_with_token(phql_parser, PHQL_T_STRING, PHQL_STRING, &token, parser_status);
 				} else {
+					phql_token_free(&token);
 					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements");
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
@@ -380,6 +430,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				if (parser_status->enable_literals) {
 					phql_parse_with_token(phql_parser, PHQL_T_HINTEGER, PHQL_HINTEGER, &token, parser_status);
 				} else {
+					phql_token_free(&token);
 					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements");
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
@@ -586,9 +637,10 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 
 					Z_TRY_ADDREF_P(*result);
 
-					zend_hash_index_update(
+					zend_hash_str_update(
 						phalcon_globals_ptr->orm.parser_cache,
-						phql_key,
+						phql,
+						phql_length,
 						*result
 					);
 				}
@@ -597,6 +649,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 		}
 	}
 
+	phql_token_free(&token);
 	efree(parser_status);
 	efree(state);
 

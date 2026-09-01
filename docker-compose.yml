@@ -1,53 +1,197 @@
 # For local development only.
 
-version: '3'
+name: ${PROJECT_PREFIX:-cphalcon}
 
 services:
-  cphalcon-7.4:
-    container_name: cphalcon-7.4
-    hostname: cphalcon-74
-    build: docker/7.4
+  cphalcon-dev-8.1:
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-8.1
+    hostname: ${PROJECT_PREFIX:-cphalcon}-dev-81
+    build:
+      dockerfile: resources/docker/develop/Dockerfile
+      target: dev
+      args:
+        PHP_VERSION: 8.1
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
     working_dir: /srv
     volumes:
       - .:/srv
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
-  cphalcon-8.0:
-    container_name: cphalcon-8.0
-    hostname: cphalcon-80
-    build: docker/8.0
+  cphalcon-dev-8.2:
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-8.2
+    hostname: ${PROJECT_PREFIX:-cphalcon}-dev-82
+    build:
+      dockerfile: resources/docker/develop/Dockerfile
+      target: dev
+      args:
+        PHP_VERSION: 8.2
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
     working_dir: /srv
     volumes:
       - .:/srv
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
-  mysql:
-    container_name: cphalcon-mysql
-    image: mysql:5.7
-    ports:
-      - 3306:3306
+  cphalcon-dev-8.3:
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-8.3
+    hostname: ${PROJECT_PREFIX:-cphalcon}-dev-83
+    build:
+      dockerfile: resources/docker/develop/Dockerfile
+      target: dev
+      args:
+        PHP_VERSION: 8.3
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    working_dir: /srv
+    volumes:
+      - .:/srv
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  cphalcon-dev-8.4:
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-8.4
+    hostname: ${PROJECT_PREFIX:-cphalcon}-dev-84
+    build:
+      dockerfile: resources/docker/develop/Dockerfile
+      target: dev
+      args:
+        PHP_VERSION: 8.4
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    working_dir: /srv
+    volumes:
+      - .:/srv
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  cphalcon-dev-8.5:
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-8.5
+    hostname: ${PROJECT_PREFIX:-cphalcon}-dev-85
+    build:
+      dockerfile: resources/docker/develop/Dockerfile
+      target: dev
+      args:
+        PHP_VERSION: 8.5
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    working_dir: /srv
+    volumes:
+      - .:/srv
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  mariadb:
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-mariadb
+    image: mariadb:10.6
     environment:
       - MYSQL_ROOT_PASSWORD=secret
       - MYSQL_USER=phalcon
       - MYSQL_DATABASE=phalcon
       - MYSQL_PASSWORD=secret
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  mysql:
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-mysql
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_USER=phalcon
+      - MYSQL_DATABASE=phalcon
+      - MYSQL_PASSWORD=secret
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   postgres:
-    container_name: cphalcon-postgres
-    image: postgres:12-alpine
-    ports:
-      - 5432:5432
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-postgres
+    image: postgres:18-alpine
     environment:
       - POSTGRES_PASSWORD=secret
       - POSTGRES_USER=phalcon
       - POSTGRES_DB=phalcon
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   redis:
-    container_name: cphalcon-redis
-    image: redis:5-alpine
-    ports:
-      - 6379:6379
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-redis
+    image: redis:8-alpine
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  redis-node-0:
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-redis-node-0
+    image: docker.io/bitnamilegacy/redis-cluster:8.2
+    environment:
+      - 'REDIS_PASSWORD=bitnami'
+      - 'REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5'
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  redis-node-1:
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-redis-node-1
+    image: docker.io/bitnamilegacy/redis-cluster:8.2
+    environment:
+      - 'REDIS_PASSWORD=bitnami'
+      - 'REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5'
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  redis-node-2:
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-redis-node-2
+    image: docker.io/bitnamilegacy/redis-cluster:8.2
+    environment:
+      - 'REDIS_PASSWORD=bitnami'
+      - 'REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5'
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  redis-node-3:
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-redis-node-3
+    image: docker.io/bitnamilegacy/redis-cluster:8.2
+    environment:
+      - 'REDIS_PASSWORD=bitnami'
+      - 'REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5'
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  redis-node-4:
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-redis-node-4
+    image: docker.io/bitnamilegacy/redis-cluster:8.2
+    environment:
+      - 'REDIS_PASSWORD=bitnami'
+      - 'REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5'
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  redis-node-5:
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-redis-node-5
+    image: docker.io/bitnamilegacy/redis-cluster:8.2
+    depends_on:
+      - redis-node-0
+      - redis-node-1
+      - redis-node-2
+      - redis-node-3
+      - redis-node-4
+    environment:
+      - 'REDIS_PASSWORD=bitnami'
+      - 'REDISCLI_AUTH=bitnami'
+      - 'REDIS_CLUSTER_REPLICAS=1'
+      - 'REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5'
+      - 'REDIS_CLUSTER_CREATOR=yes'
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   memcached:
-    container_name: cphalcon-memcached
-    image: memcached:1.5-alpine
-#    ports:
-#      - 11211:11211
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-memcached
+    image: memcached:1.6-alpine
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  beanstalkd:
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-beanstalkd
+    image: schickling/beanstalkd:latest
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

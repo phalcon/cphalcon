@@ -1,0 +1,23 @@
+
+extern zend_class_entry *phalcon_container_definition_processor_stringprocessor_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Container_Definition_Processor_StringProcessor);
+
+PHP_METHOD(Phalcon_Container_Definition_Processor_StringProcessor, canProcess);
+PHP_METHOD(Phalcon_Container_Definition_Processor_StringProcessor, process);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_definition_processor_stringprocessor_canprocess, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_INFO(0, definition)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_container_definition_processor_stringprocessor_process, 0, 3, Phalcon\\Container\\Definition\\ServiceDefinition, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+	ZEND_ARG_INFO(0, definition)
+	ZEND_ARG_INFO(0, container)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_container_definition_processor_stringprocessor_method_entry) {
+	PHP_ME(Phalcon_Container_Definition_Processor_StringProcessor, canProcess, arginfo_phalcon_container_definition_processor_stringprocessor_canprocess, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Definition_Processor_StringProcessor, process, arginfo_phalcon_container_definition_processor_stringprocessor_process, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};

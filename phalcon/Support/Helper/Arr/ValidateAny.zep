@@ -1,6 +1,6 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -17,13 +17,13 @@ namespace Phalcon\Support\Helper\Arr;
 class ValidateAny extends AbstractArr
 {
     /**
-     * @param array    $collection
-     * @param callable $method
+     * @param array<array-key, mixed> $collection
+     * @param callable                $method
      *
      * @return bool
      */
     public function __invoke(array collection, var method) -> bool
     {
-        return count(this->toFilter(collection, method)) > 0;
+        return !empty this->toFilter(collection, method);
     }
 }

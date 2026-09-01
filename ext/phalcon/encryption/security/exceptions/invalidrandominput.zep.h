@@ -1,0 +1,14 @@
+
+extern zend_class_entry *phalcon_encryption_security_exceptions_invalidrandominput_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_Exceptions_InvalidRandomInput);
+
+PHP_METHOD(Phalcon_Encryption_Security_Exceptions_InvalidRandomInput, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_encryption_security_exceptions_invalidrandominput___construct, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_encryption_security_exceptions_invalidrandominput_method_entry) {
+PHP_ME(Phalcon_Encryption_Security_Exceptions_InvalidRandomInput, __construct, arginfo_phalcon_encryption_security_exceptions_invalidrandominput___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};

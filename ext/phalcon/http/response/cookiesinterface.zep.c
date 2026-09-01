@@ -21,9 +21,9 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Http\Response\CookiesInterface
- *
  * Interface for Phalcon\Http\Response\Cookies
+ *
+ * @phpstan-import-type http_cookie_options from HttpTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Response_CookiesInterface)
 {
@@ -59,6 +59,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_Response_CookiesInterface, reset);
 ZEPHIR_DOC_METHOD(Phalcon_Http_Response_CookiesInterface, send);
 /**
  * Sets a cookie to be sent at the end of the request
+ *
+ * @phpstan-param http_cookie_options $options
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_Response_CookiesInterface, set);
 /**

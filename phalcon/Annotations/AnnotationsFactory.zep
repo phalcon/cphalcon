@@ -11,18 +11,23 @@
 namespace Phalcon\Annotations;
 
 use Phalcon\Annotations\Adapter\AdapterInterface;
+use Phalcon\Annotations\Adapter\Apcu;
+use Phalcon\Annotations\Adapter\Memory;
+use Phalcon\Annotations\Adapter\Stream;
 use Phalcon\Factory\AbstractFactory;
-use Phalcon\Support\Helper\Arr\Get;
+use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 
 /**
  * Factory to create annotations components
  */
 class AnnotationsFactory extends AbstractFactory
 {
+    use GetTrait;
+
     /**
      * AdapterFactory constructor.
      */
-    public function __construct(array! services = [])
+    public function __construct( array services = [])
     {
         this->init(services);
     }
@@ -49,7 +54,7 @@ class AnnotationsFactory extends AbstractFactory
 
         unset config["adapter"];
 
-        let options = (new Get())->__invoke(config, "options", []);
+        let options = this->getArrVal(config, "options", []);
 
         return this->newInstance(name, options);
     }
@@ -63,7 +68,7 @@ class AnnotationsFactory extends AbstractFactory
      *     'annotationsDir' => 'phalconDir'
      * ]
      */
-    public function newInstance(string! name, array! options = []) -> <AdapterInterface>
+    public function newInstance( string name,  array options = []) -> <AdapterInterface>
     {
         var definition;
 
@@ -82,7 +87,7 @@ class AnnotationsFactory extends AbstractFactory
      */
     protected function getExceptionClass() -> string
     {
-        return "Phalcon\\Annotations\\Exception";
+        return Exception::class;
     }
 
     /**
@@ -93,9 +98,9 @@ class AnnotationsFactory extends AbstractFactory
     protected function getServices() -> array
     {
         return [
-            "apcu"   : "Phalcon\\Annotations\\Adapter\\Apcu",
-            "memory" : "Phalcon\\Annotations\\Adapter\\Memory",
-            "stream" : "Phalcon\\Annotations\\Adapter\\Stream"
+            "apcu"   : Apcu::class,
+            "memory" : Memory::class,
+            "stream" : Stream::class
         ];
     }
 }

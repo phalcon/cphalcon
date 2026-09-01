@@ -14,11 +14,10 @@
 #include "kernel/main.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
-#include "kernel/fcall.h"
-#include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
-#include "kernel/memory.h"
+#include "kernel/fcall.h"
 #include "kernel/operators.h"
+#include "kernel/memory.h"
 
 
 /**
@@ -31,6 +30,9 @@
  */
 /**
  * Phalcon\Paginator\Adapter\AbstractAdapter
+ *
+ * @phpstan-import-type paginator_config from PaginatorTypes
+ * @phpstan-import-type paginator_properties from PaginatorTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_AbstractAdapter)
 {
@@ -38,10 +40,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_AbstractAdapter)
 
 	/**
 	 * Configuration of paginator
-	 *
-	 * @var array
 	 */
-	zend_declare_property_null(phalcon_paginator_adapter_abstractadapter_ce, SL("config"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_paginator_adapter_abstractadapter_ce, SL("config"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
 	/**
 	 * Number of rows to show in the paginator. By default is null
 	 *
@@ -56,57 +61,61 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_AbstractAdapter)
 	zend_declare_property_null(phalcon_paginator_adapter_abstractadapter_ce, SL("page"), ZEND_ACC_PROTECTED);
 	/**
 	 * Repository for pagination
-	 *
-	 * @var RepositoryInterface
 	 */
-	zend_declare_property_null(phalcon_paginator_adapter_abstractadapter_ce, SL("repository"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_paginator_adapter_abstractadapter_ce, SL("repository"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Paginator\\RepositoryInterface"));
+	}
+
 	zend_class_implements(phalcon_paginator_adapter_abstractadapter_ce, 1, phalcon_paginator_adapter_adapterinterface_ce);
 	return SUCCESS;
 }
 
 /**
- * Phalcon\Paginator\Adapter\AbstractAdapter constructor
+ * Constructor
  *
- * @param array $config
+ * @param paginator_config $config
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *config_param = NULL, _0$$3, _1$$4, _2$$5;
+	zval *config_param = NULL, _0, _1$$4, _2$$5;
 	zval config;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&config);
-	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$4);
 	ZVAL_UNDEF(&_2$$5);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ARRAY(config)
-	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &config_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&config, config_param);
-
-
-	zephir_update_property_zval(this_ptr, ZEND_STRL("config"), &config);
-	if (zephir_array_isset_string(&config, SL("limit"))) {
-		zephir_array_fetch_string(&_0$$3, &config, SL("limit"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/AbstractAdapter.zep", 62);
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setlimit", NULL, 0, &_0$$3);
-		zephir_check_call_status();
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("config", 6, 1);
 	}
-	if (zephir_array_isset_string(&config, SL("page"))) {
-		zephir_array_fetch_string(&_1$$4, &config, SL("page"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/AbstractAdapter.zep", 68);
+
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		ZEPHIR_Z_PARAM_ARRAY(config, config_param)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &config_param);
+	zephir_get_arrval(&config, config_param);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 81, &config);
+	if (UNEXPECTED(!(zephir_array_isset_value_string(&config, SL("limit"))))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exceptions_missingrequiredparameter_ce, "limit", "phalcon/Paginator/Adapter/AbstractAdapter.zep", 62);
+		return;
+	}
+	zephir_array_fetch_string(&_0, &config, SL("limit"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/AbstractAdapter.zep", 67);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setlimit", NULL, 0, &_0);
+	zephir_check_call_status();
+	if (zephir_array_isset_value_string(&config, SL("page"))) {
+		zephir_array_fetch_string(&_1$$4, &config, SL("page"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/AbstractAdapter.zep", 72);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setcurrentpage", NULL, 0, &_1$$4);
 		zephir_check_call_status();
 	}
-	if (zephir_array_isset_string(&config, SL("repository"))) {
-		zephir_array_fetch_string(&_2$$5, &config, SL("repository"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/AbstractAdapter.zep", 74);
+	if (zephir_array_isset_value_string(&config, SL("repository"))) {
+		zephir_array_fetch_string(&_2$$5, &config, SL("repository"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/AbstractAdapter.zep", 78);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setrepository", NULL, 0, &_2$$5);
 		zephir_check_call_status();
 	}
@@ -118,11 +127,8 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, __construct)
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, getLimit)
 {
-	zval *this_ptr = getThis();
 
-
-
-	RETURN_MEMBER(getThis(), "limitRows");
+	RETURN_MEMBER_TYPED(getThis(), "limitRows", IS_LONG);
 }
 
 /**
@@ -135,21 +141,18 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, setCurrentPage)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("page", 4, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(page)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
 	zephir_fetch_params_without_memory_grow(1, 0, &page_param);
-	page = zephir_get_intval(page_param);
-
-
-	ZEPHIR_INIT_ZVAL_NREF(_0);
+	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, page);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("page"), &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 82, &_0);
 	RETURN_THISW();
 }
 
@@ -158,31 +161,37 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, setCurrentPage)
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, setLimit)
 {
-	zval *limit_param = NULL, _0;
-	zend_long limit;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *limit_param = NULL, _0$$3, _1;
+	zend_long limit, ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_1);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("limitRows", 9, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(limit)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	zephir_fetch_params_without_memory_grow(1, 0, &limit_param);
-	limit = zephir_get_intval(limit_param);
-
-
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &limit_param);
 	if (limit <= 0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_paginator_exception_ce, "Limit must be greater than zero", "phalcon/Paginator/Adapter/AbstractAdapter.zep", 102);
+		ZEPHIR_INIT_VAR(&_0$$3);
+		object_init_ex(&_0$$3, phalcon_paginator_exceptions_invalidlimit_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 73);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Paginator/Adapter/AbstractAdapter.zep", 106);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_LONG(&_0, limit);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("limitRows"), &_0);
-	RETURN_THISW();
+	ZVAL_UNDEF(&_1);
+	ZVAL_LONG(&_1, limit);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 83, &_1);
+	RETURN_THIS();
 }
 
 /**
@@ -194,23 +203,23 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, setRepository)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&repository_sub);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("repository", 10, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(repository, phalcon_paginator_repositoryinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
 	zephir_fetch_params_without_memory_grow(1, 0, &repository);
-
-
-	zephir_update_property_zval(this_ptr, ZEND_STRL("repository"), repository);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 84, repository);
 	RETURN_THISW();
 }
 
 /**
  * Gets current repository for pagination
+ *
+ * @param paginator_properties|null $properties
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, getRepository)
 {
@@ -224,26 +233,26 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, getRepository)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$4);
-#if PHP_VERSION_ID >= 80000
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("repository", 10, 1);
+	}
+
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ARRAY_OR_NULL(properties)
+		ZEPHIR_Z_PARAM_ARRAY_OR_NULL(properties, properties_param)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 0, 1, &properties_param);
 	if (!properties_param) {
 		ZEPHIR_INIT_VAR(&properties);
 	} else {
 		zephir_get_arrval(&properties, properties_param);
 	}
-
-
-	ZEPHIR_OBS_VAR(&_0);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("repository"), PH_NOISY_CC);
+	zephir_memory_observe(&_0);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 84, PH_NOISY_CC);
 	if (Z_TYPE_P(&_0) != IS_OBJECT) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_paginator_repository_ce);
@@ -252,10 +261,10 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, getRepository)
 			zephir_check_call_status();
 		}
 
-		zephir_update_property_zval(this_ptr, ZEND_STRL("repository"), &_1$$3);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 84, &_1$$3);
 	}
 	if (!ZEPHIR_IS_NULL(&properties)) {
-		zephir_read_property(&_2$$4, this_ptr, ZEND_STRL("repository"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_2$$4, this_ptr, _zephir_prop_0, 84, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "setproperties", NULL, 0, &properties);
 		zephir_check_call_status();
 	}

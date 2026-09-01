@@ -10,7 +10,28 @@
 
 namespace Phalcon\Di;
 
+use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
+use Phalcon\Assets\Manager as AssetsManager;
+use Phalcon\Encryption\Crypt;
+use Phalcon\Encryption\Security;
+use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Filter\FilterFactory;
+use Phalcon\Flash\Direct;
+use Phalcon\Flash\Session;
+use Phalcon\Html\Escaper;
+use Phalcon\Html\TagFactory;
+use Phalcon\Http\Request;
+use Phalcon\Http\Response;
+use Phalcon\Http\Response\Cookies;
+use Phalcon\Mvc\Dispatcher;
+use Phalcon\Mvc\Model\Manager as ModelManager;
+use Phalcon\Mvc\Model\MetaData\Memory as ModelMetaDataMemory;
+use Phalcon\Mvc\Model\Transaction\Manager as TransactionManager;
+use Phalcon\Mvc\Router;
+use Phalcon\Mvc\Url;
+use Phalcon\Queue\QueueFactory;
+use Phalcon\Support\HelperFactory;
+use Phalcon\Support\Settings;
 
 /**
  * This is a variant of the standard Phalcon\Di\Di. By default it automatically
@@ -32,10 +53,10 @@ class FactoryDefault extends \Phalcon\Di\Di
         let filter = new FilterFactory();
 
         let this->services = [
-            "annotations"        : new Service("Phalcon\\Annotations\\Adapter\\Memory", true),
+            "annotations"        : new Service(AnnotationsMemory::class, true),
             "assets"             : new Service(
                 [
-                    "className" : "Phalcon\\Assets\\Manager",
+                    "className" : AssetsManager::class,
                     "arguments" : [
                         [
                             "type" : "service",
@@ -45,24 +66,26 @@ class FactoryDefault extends \Phalcon\Di\Di
                 ],
                 true
             ),
-            "crypt"              : new Service("Phalcon\\Encryption\\Crypt", true),
-            "cookies"            : new Service("Phalcon\\Http\\Response\\Cookies", true),
-            "dispatcher"         : new Service("Phalcon\\Mvc\\Dispatcher", true),
-            "escaper"            : new Service("Phalcon\\Html\\Escaper", true),
-            "eventsManager"      : new Service("Phalcon\\Events\\Manager", true),
-            "flash"              : new Service("Phalcon\\Flash\\Direct", true),
-            "flashSession"       : new Service("Phalcon\\Flash\\Session", true),
+            "crypt"              : new Service(Crypt::class, true),
+            "cookies"            : new Service(Cookies::class, true),
+            "dispatcher"         : new Service(Dispatcher::class, true),
+            "escaper"            : new Service(Escaper::class, true),
+            "eventsManager"      : new Service(EventsManager::class, true),
+            "flash"              : new Service(Direct::class, true),
+            "flashSession"       : new Service(Session::class, true),
             "filter"             : new Service(filter->newInstance(), true),
-            "helper"             : new Service("Phalcon\\Support\\HelperFactory", true),
-            "modelsManager"      : new Service("Phalcon\\Mvc\\Model\\Manager", true),
-            "modelsMetadata"     : new Service("Phalcon\\Mvc\\Model\\MetaData\\Memory", true),
-            "request"            : new Service("Phalcon\\Http\\Request", true),
-            "response"           : new Service("Phalcon\\Http\\Response", true),
-            "router"             : new Service("Phalcon\\Mvc\\Router", true),
-            "security"           : new Service("Phalcon\\Encryption\\Security", true),
+            "helper"             : new Service(HelperFactory::class, true),
+            "settings"           : new Service(Settings::class, true),
+            "modelsManager"      : new Service(ModelManager::class, true),
+            "modelsMetadata"     : new Service(ModelMetaDataMemory::class, true),
+            "queueFactory"       : new Service(QueueFactory::class, true),
+            "request"            : new Service(Request::class, true),
+            "response"           : new Service(Response::class, true),
+            "router"             : new Service(Router::class, true),
+            "security"           : new Service(Security::class, true),
             "tag"                : new Service(
                 [
-                    "className" : "Phalcon\\Html\\TagFactory",
+                    "className" : TagFactory::class,
                     "arguments" : [
                         [
                             "type" : "service",
@@ -72,8 +95,8 @@ class FactoryDefault extends \Phalcon\Di\Di
                 ],
                 true
             ),
-            "transactionManager" : new Service("Phalcon\\Mvc\\Model\\Transaction\\Manager", true),
-            "url"                : new Service("Phalcon\\Mvc\\Url", true)
+            "transactionManager" : new Service(TransactionManager::class, true),
+            "url"                : new Service(Url::class, true)
         ];
 
 //        this->setShared(

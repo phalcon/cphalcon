@@ -1,0 +1,5 @@
+
+extern zend_class_entry *phalcon_contracts_auth_guard_guardconfig_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Auth_Guard_GuardConfig);
+

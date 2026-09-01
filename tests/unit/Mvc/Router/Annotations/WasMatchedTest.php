@@ -1,0 +1,49 @@
+<?php
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Phalcon\Tests\Unit\Mvc\Router\Annotations;
+
+use Phalcon\Mvc\Router\Annotations;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Traits\DiTrait;
+
+final class WasMatchedTest extends AbstractUnitTestCase
+{
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->newDi();
+        $this->setDiService('request');
+        $this->setDiService('annotations');
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
+     */
+    public function testMvcRouterAnnotationsWasMatched(): void
+    {
+        $router = new Annotations(false);
+        $router->setDI($this->container);
+
+        $this->assertFalse($router->wasMatched());
+
+        $router->add('/test', ['controller' => 'test', 'action' => 'index']);
+        $router->handle('/test');
+
+        $this->assertTrue($router->wasMatched());
+    }
+}

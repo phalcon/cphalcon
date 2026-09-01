@@ -10,21 +10,25 @@
 
 namespace Phalcon\Paginator\Adapter;
 
+use Phalcon\Contracts\Paginator\PaginatorTypes;
 use Phalcon\Paginator\Exception;
+use Phalcon\Paginator\Exceptions\InvalidLimit;
+use Phalcon\Paginator\Exceptions\MissingRequiredParameter;
 use Phalcon\Paginator\Repository;
 use Phalcon\Paginator\RepositoryInterface;
 
 /**
  * Phalcon\Paginator\Adapter\AbstractAdapter
+ *
+ * @phpstan-import-type paginator_config from PaginatorTypes
+ * @phpstan-import-type paginator_properties from PaginatorTypes
  */
 abstract class AbstractAdapter implements AdapterInterface
 {
     /**
      * Configuration of paginator
-     *
-     * @var array
      */
-    protected config;
+    protected array config;
 
     /**
      * Number of rows to show in the paginator. By default is null
@@ -42,25 +46,25 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Repository for pagination
-     *
-     * @var RepositoryInterface
      */
-    protected repository;
+    protected <RepositoryInterface> repository;
 
     /**
-     * Phalcon\Paginator\Adapter\AbstractAdapter constructor
+     * Constructor
      *
-     * @param array $config
+     * @param paginator_config $config
      */
-    public function __construct(array! config)
+    public function __construct(array config)
     {
         let this->config = config;
 
-        if isset config["limit"] {
-            this->setLimit(
-                config["limit"]
-            );
+        if unlikely !isset config["limit"] {
+            throw new MissingRequiredParameter("limit");
         }
+
+        this->setLimit(
+            config["limit"]
+        );
 
         if isset config["page"] {
             this->setCurrentPage(
@@ -99,7 +103,7 @@ abstract class AbstractAdapter implements AdapterInterface
     public function setLimit(int limit) -> <AdapterInterface>
     {
         if limit <= 0 {
-            throw new Exception("Limit must be greater than zero");
+            throw new InvalidLimit();
         }
         let this->limitRows = limit;
 
@@ -118,6 +122,8 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Gets current repository for pagination
+     *
+     * @param paginator_properties|null $properties
      */
     protected function getRepository(array properties = null) -> <RepositoryInterface>
     {

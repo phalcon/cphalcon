@@ -21,44 +21,17 @@
  * file that was distributed with this source code.
  */
 /**
- * Interface for Phalcon\Db\Reference
+ * Phalcon\Db\ReferenceInterface
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Db\Reference} instead.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_ReferenceInterface)
 {
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Db, ReferenceInterface, phalcon, db_referenceinterface, phalcon_db_referenceinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Db, ReferenceInterface, phalcon, db_referenceinterface, NULL);
 
+	zend_class_implements(phalcon_db_referenceinterface_ce, 1, phalcon_contracts_db_reference_ce);
 	return SUCCESS;
 }
 
-/**
- * Gets local columns which reference is based
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getColumns);
-/**
- * Gets the index name
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getName);
-/**
- * Gets the referenced on delete
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getOnDelete);
-/**
- * Gets the referenced on update
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getOnUpdate);
-/**
- * Gets referenced columns
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getReferencedColumns);
-/**
- * Gets the schema where referenced table is
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getReferencedSchema);
-/**
- * Gets the referenced table
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getReferencedTable);
-/**
- * Gets the schema where referenced table is
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getSchemaName);

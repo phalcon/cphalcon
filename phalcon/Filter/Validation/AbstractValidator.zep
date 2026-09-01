@@ -10,9 +10,10 @@
 
 namespace Phalcon\Filter\Validation;
 
-use Phalcon\Support\Helper\Arr\Whitelist;
-use Phalcon\Messages\Message;
 use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Exceptions\FieldNotPrintable;
+use Phalcon\Messages\Message;
+use Phalcon\Support\Helper\Arr\Whitelist;
 
 /**
  * This is a base class for validators
@@ -20,17 +21,27 @@ use Phalcon\Filter\Validation;
 abstract class AbstractValidator implements ValidatorInterface
 {
     /**
-    * Message template
-    *
-    * @var string|null
-    */
+     * Message template
+     *
+     * @var string|null
+     */
     protected template = null;
 
     /**
-    * Message templates
-    *
-    * @var array
-    */
+     * Whether the template/message has been explicitly assigned on the
+     * instance (constructor `message`/`template` option or setTemplate()).
+     * While false, `template` still holds the validator's class default and a
+     * global default registered via Validation::setDefaultMessages() applies.
+     *
+     * @var bool
+     */
+    protected templateChanged = false;
+
+    /**
+     * Message templates
+     *
+     * @var array
+     */
     protected templates = [];
 
     /**
@@ -40,8 +51,10 @@ abstract class AbstractValidator implements ValidatorInterface
 
     /**
      * Phalcon\Filter\Validation\Validator constructor
+     *
+     * @param array $options
      */
-    public function __construct(array! options = [])
+    public function __construct(array options = [])
     {
         var template, whitelist;
 
@@ -66,19 +79,54 @@ abstract class AbstractValidator implements ValidatorInterface
     }
 
     /**
+     * Returns an option in the validator's options
+     * Returns null if the option hasn't set
+     *
+     * @param string     $key
+     * @param mixed|null $defaultValue
+     *
+     * @return mixed
+     */
+    public function getOption(string key, var defaultValue = null) -> var
+    {
+        var value;
+
+        if !fetch value, this->options[key] {
+            return defaultValue;
+        }
+
+        return value;
+    }
+
+    /**
      * Get the template message
      *
+     * @param string|null $field
+     *
      * @return string
-     * @throw InvalidArgumentException When the field does not exists
      */
-    public function getTemplate(string! field = null) -> string
+    public function getTemplate(string field = null) -> string
     {
+        var defaultMessage;
+
         // there is a template in field
         if field !== null && isset this->templates[field] {
             return this->templates[field];
         }
 
-        // there is a custom template
+        // an explicitly assigned template/message wins over a global default
+        if this->templateChanged && this->template {
+            return this->template;
+        }
+
+        // a global default message registered for this validator class
+        let defaultMessage = Validation::getDefaultMessage(get_class(this));
+
+        if defaultMessage !== "" {
+            return defaultMessage;
+        }
+
+        // custom or class default template
         if this->template {
             return this->template;
         }
@@ -98,11 +146,107 @@ abstract class AbstractValidator implements ValidatorInterface
     }
 
     /**
-    * Clear current templates and set new from an array,
-    *
-    * @return ValidatorInterface
-    */
-    public function setTemplates(array! templates) -> <ValidatorInterface>
+     * Checks if an option is defined
+     *
+     * @param string $key
+     *
+     * @return bool
+     */
+    public function hasOption(string key) -> bool
+    {
+        return isset this->options[key];
+    }
+
+    /**
+     * Checks whether the field can be considered empty and therefore
+     * skipped, honoring the `allowEmpty` option (boolean flag, list of
+     * empty values, or per-field map).
+     *
+     * @param Validation $validation
+     * @param string     $field
+     *
+     * @return bool
+     */
+    public function isAllowEmpty(<Validation> validation, string field) -> bool
+    {
+        var value;
+
+        let value = validation->getValue(field);
+
+        return this->allowEmpty(field, value);
+    }
+
+    /**
+     * Create a default message by factory
+     *
+     * @param Validation   $validation
+     * @param array|string $field
+     * @param array        $replacements
+     *
+     * @return Message
+     */
+    public function messageFactory(
+        <Validation> validation,
+        var field,
+        array replacements = []
+    ) -> <Message> {
+        var singleField;
+
+        if typeof field == "array" {
+            let singleField = implode(", ", field);
+        } elseif typeof field == "string" {
+            let singleField = field;
+        } else {
+            throw new FieldNotPrintable();
+        }
+
+        let replacements = array_merge(
+            [
+                ":field" : this->prepareLabel(validation, singleField)
+            ],
+            replacements
+        );
+
+        return new Message(
+            strtr(this->getTemplate(singleField), replacements),
+            singleField,
+            get_class(this),
+            this->prepareCode(singleField)
+        );
+    }
+
+    /**
+     * Sets an option in the validator
+     *
+     * @param string $key
+     * @param mixed  $value
+     *
+     * @return void
+     */
+    public function setOption(string key, value) -> void
+    {
+        let this->options[key] = value;
+    }
+
+    /**
+     * Set a new template message
+     *
+     * @return ValidatorInterface
+     */
+    public function setTemplate(string template) -> <ValidatorInterface>
+    {
+        let this->template = template,
+            this->templateChanged = true;
+
+        return this;
+    }
+
+    /**
+     * Clear current templates and set new from an array,
+     *
+     * @return ValidatorInterface
+     */
+    public function setTemplates(array templates) -> <ValidatorInterface>
     {
         var field, template;
 
@@ -118,73 +262,91 @@ abstract class AbstractValidator implements ValidatorInterface
     }
 
     /**
-    * Set a new template message
-    *
-    * @return ValidatorInterface
-    */
-    public function setTemplate(string! template) -> <ValidatorInterface>
-    {
-        let this->template = template;
+     * Executes the validation
+     *
+     * @param Validation $validation
+     * @param mixed      $field
+     *
+     * @return bool
+     */
+    abstract public function validate(
+        <Validation> validation,
+        var field
+    ) -> bool;
 
-        return this;
+    /**
+     * Checks if field can be empty.
+     *
+     * @param mixed $field
+     * @param mixed $value
+     *
+     * @return bool
+     */
+    protected function allowEmpty(var field, var value) -> bool
+    {
+        var allowEmpty, emptyValue;
+
+        let allowEmpty = this->getOption("allowEmpty", false);
+
+        if typeof allowEmpty === "array" {
+            /**
+             * Per-field map: ['fieldName' => true/false]
+             * Used by multi-field validators such as Ip.
+             */
+            if fetch emptyValue, allowEmpty[field] {
+                return emptyValue && empty value;
+            }
+
+            /**
+             * Value list: [null, '']
+             * Strict comparison so that '0' is not treated as empty.
+             */
+            for emptyValue in allowEmpty {
+                if emptyValue === value {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        return allowEmpty && empty value;
     }
 
     /**
-     * Returns an option in the validator's options
-     * Returns null if the option hasn't set
+     * Checks if a value is an array and returns the element based on the
+     * passed field name
+     *
+     * @param mixed  $value
+     * @param string $field
+     *
+     * @return mixed
      */
-    public function getOption(string! key, var defaultValue = null) -> var
+    protected function checkArray(var value, string field) -> var
     {
-        var value, fieldValue;
-
-        if !fetch value, this->options[key] {
-            return defaultValue;
-        }
-
-        /*
-         * If we have attribute it means it's Uniqueness validator, we
-         * can have here multiple fields, so we need to check it
-         */
-        if key == "attribute" && typeof value == "array" {
-            if fetch fieldValue, value[key] {
-                return fieldValue;
-            }
+        if (
+            typeof value === "array" && isset value[field]
+        ) {
+            let value = value[field];
         }
 
         return value;
     }
 
     /**
-     * Checks if an option is defined
-     */
-    public function hasOption(string! key) -> bool
-    {
-        return isset this->options[key];
-    }
-
-    /**
-     * Sets an option in the validator
-     */
-    public function setOption(string! key, value) -> void
-    {
-        let this->options[key] = value;
-    }
-
-    /**
-     * Executes the validation
-     */
-    abstract public function validate(<Validation> validation, var field) -> bool;
-
-    /**
      * Prepares a validation code.
+     *
+     * @param string $field
+     *
+     * @return int
      */
-    protected function prepareCode(string! field) -> int | null
+    protected function prepareCode(string field) -> int
     {
         var code;
 
-        let code = this->getOption("code");
+        let code = this->getOption("code", 0);
 
-        if typeof code == "array" {
+        if typeof code === "array" {
             let code = code[field];
         }
 
@@ -193,8 +355,13 @@ abstract class AbstractValidator implements ValidatorInterface
 
     /**
      * Prepares a label for the field.
+     *
+     * @param Validation $validation
+     * @param string     $field
+     *
+     * @return mixed
      */
-    protected function prepareLabel(<Validation> validation, string! field) -> var
+    protected function prepareLabel(<Validation> validation, string field) -> var
     {
         var label;
 
@@ -212,57 +379,21 @@ abstract class AbstractValidator implements ValidatorInterface
     }
 
     /**
-     * Checks if field can be empty.
-     *
-     * @param mixed field
-     * @param mixed value
-     *
-     * @return bool
+     * Rejects a value that cannot be a string: an array, or an object without
+     * __toString(). A cast would turn an array into the constant "Array",
+     * which satisfies the string checks. Appends the message and returns
+     * true when the value is rejected.
      */
-    protected function allowEmpty(var field, var value) -> bool
+    protected function rejectNonStringable(<Validation> validation, var field, var value) -> bool
     {
-        var allowEmpty;
+        if typeof value === "array" || (typeof value === "object" && !method_exists(value, "__toString")) {
+            validation->appendMessage(
+                this->messageFactory(validation, field)
+            );
 
-        let allowEmpty = this->getOption("allowEmpty", false);
-
-        if typeof allowEmpty === "array" {
-            let allowEmpty = isset allowEmpty[field] ? allowEmpty[field] : false;
+            return true;
         }
 
-        return allowEmpty && empty value;
-    }
-
-    /**
-     * Create a default message by factory
-     *
-     * @return Message
-     *
-     * @throw Exception
-     */
-    public function messageFactory(<Validation> validation, var field, array! replacements = []) -> <Message>
-    {
-        var singleField;
-
-        if typeof field == "array" {
-            let singleField = implode(", ", field);
-        } elseif typeof field == "string" {
-            let singleField = field;
-        } else {
-            throw new Exception("The field can not be printed");
-        }
-
-        let replacements = array_merge(
-            [
-                ":field" : this->prepareLabel(validation, singleField)
-            ],
-            replacements
-        );
-
-        return new Message(
-            strtr(this->getTemplate(singleField), replacements),
-            field,
-            get_class(this),
-            this->prepareCode(singleField)
-        );
+        return false;
     }
 }

@@ -37,35 +37,35 @@ class Payload implements PayloadInterface
      *
      * @var mixed
      */
-    protected extras { get };
+    protected extras;
 
     /**
      * Input
      *
      * @var mixed
      */
-    protected input { get };
+    protected input;
 
     /**
      * Messages
      *
      * @var mixed
      */
-    protected messages { get };
+    protected messages;
 
     /**
      * Status
      *
      * @var mixed
      */
-    protected status { get };
+    protected status;
 
     /**
      * Output
      *
      * @var mixed
      */
-    protected output { get };
+    protected output;
 
     /**
      * Gets the potential exception thrown in the domain layer
@@ -75,6 +75,60 @@ class Payload implements PayloadInterface
     public function getException() -> <Throwable> | null
     {
         return this->exception;
+    }
+
+    /**
+     * Extra information
+     *
+     * @return mixed
+     */
+    public function getExtras() -> var
+    {
+        return this->extras;
+    }
+
+    /**
+     * Input
+     *
+     * @return mixed
+     */
+    public function getInput() -> var
+    {
+        return this->input;
+    }
+
+    /**
+     * Messages
+     *
+     * @return mixed
+     */
+    public function getMessages() -> var
+    {
+        return this->messages;
+    }
+
+    /**
+     * Status
+     *
+     * Status values are drawn from the `Status` vocabulary.
+     *
+     * @return mixed
+     *
+     * @see Status
+     */
+    public function getStatus() -> var
+    {
+        return this->status;
+    }
+
+    /**
+     * Output
+     *
+     * @return mixed
+     */
+    public function getOutput() -> var
+    {
+        return this->output;
     }
 
     /**
@@ -133,6 +187,10 @@ class Payload implements PayloadInterface
 
     /**
      * Sets the payload status.
+     *
+     * Status values are drawn from the `Status` vocabulary.
+     *
+     * @see Status
      */
     public function setStatus(var status) -> <PayloadInterface>
     {

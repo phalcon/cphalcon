@@ -13,26 +13,35 @@
 
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Session
- *
  * Interface for the Phalcon\Session\Manager
+ *
+ * @phpstan-import-type session_options from SessionTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Session_ManagerInterface)
 {
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Session, ManagerInterface, phalcon, session_managerinterface, phalcon_session_managerinterface_method_entry);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_session_managerinterface_ce, SL("SESSION_ACTIVE"), 2);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_session_managerinterface_ce, SL("SESSION_DISABLED"), 0);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_session_managerinterface_ce, SL("SESSION_NONE"), 1);
 
 	return SUCCESS;
@@ -55,37 +64,43 @@ ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, __set);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, __unset);
 /**
- * Check whether the session has been started
- */
-ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, exists);
-/**
  * Destroy/end a session
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, destroy);
+/**
+ * Check whether the session has been started
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, exists);
 /**
  * Gets a session variable from an application context
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, get);
 /**
- * Returns the session id
- */
-ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, getId);
-/**
  * Returns the stored session adapter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, getAdapter);
+/**
+ * Returns the session id
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, getId);
 /**
  * Returns the name of the session
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, getName);
 /**
  * Get internal options
+ *
+ * @phpstan-return session_options
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, getOptions);
 /**
  * Check whether a session variable is set in an application context
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, has);
+/**
+ * Regenerates the session id using the adapter.
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, regenerateId);
 /**
  * Removes a session variable from an application context
  */
@@ -111,18 +126,16 @@ ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, setId);
 ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, setName);
 /**
  * Sets session's options
+ *
+ * @phpstan-param session_options $options
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, setOptions);
-/**
- * Returns the status of the current session.
- */
-ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, status);
 /**
  * Starts the session (if headers are already sent the session will not be
  * started)
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, start);
 /**
- * Regenerates the session id using the adapter.
+ * Returns the status of the current session.
  */
-ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, regenerateId);
+ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, status);

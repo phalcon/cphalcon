@@ -45,7 +45,6 @@ typedef enum _zephir_call_type {
 
 #define ZEPHIR_CALL_FUNCTION(return_value_ptr, func_name, cache, cache_slot, ...) \
 	do { \
-		zephir_fcall_cache_entry **cache_entry_ = cache; \
 		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
 		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
 		ZEPHIR_LAST_CALL_STATUS = zephir_call_func_aparams(return_value_ptr, func_name, strlen(func_name), cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
@@ -69,24 +68,54 @@ typedef enum _zephir_call_type {
 	} \
 	else { ZEPHIR_SET_THIS_EXPLICIT_NULL(); } \
 
+/**
+ * `func` of the synthetic frame that ZEPHIR_BACKUP_SCOPE() installs for an
+ * internal (C-to-C) method call.
+ *
+ * To the engine, a frame with `func == NULL` means exactly one thing: a
+ * generator placeholder frame. zend_fetch_debug_backtrace() hands such a frame
+ * to zend_generator_check_placeholder_frame(), which only rewrites it when
+ * `This` holds a Generator, then dereferences `call->func` unconditionally
+ * (the ZEND_ASSERT that guards it is compiled out of a release build). So any
+ * backtrace capture taken while an internal method ran crashed the process --
+ * including the implicit capture in every Exception constructor, which made a
+ * plain `throw` out of an internal method a segfault (issue #2639).
+ *
+ * `function_name` stays NULL on purpose: zend_fetch_debug_backtrace() then
+ * drops the frame entirely instead of reporting it as "unknown". An internal
+ * method is a C-level inlining of a Zephir method, so it must not show up as a
+ * stack frame of its own.
+ *
+ * Read-only after load, so no MINIT plumbing and safe under ZTS.
+ */
+extern zend_internal_function zephir_internal_call_frame_func;
+
 #define ZEPHIR_BACKUP_SCOPE() \
-	zend_class_entry *old_scope = EG(fake_scope); \
+	const zend_class_entry *old_scope = EG(fake_scope); \
 	zend_execute_data *old_call = execute_data; \
 	zend_execute_data *old_execute_data = EG(current_execute_data), new_execute_data; \
 	if (!EG(current_execute_data)) { \
 		memset(&new_execute_data, 0, sizeof(zend_execute_data)); \
-		execute_data = EG(current_execute_data) = &new_execute_data; \
 	} else { \
 		new_execute_data = *EG(current_execute_data); \
 		new_execute_data.prev_execute_data = EG(current_execute_data); \
 		new_execute_data.call = NULL; \
 		new_execute_data.opline = NULL; \
-		new_execute_data.func = NULL; \
-		execute_data = EG(current_execute_data) = &new_execute_data; \
-	}
+	} \
+	new_execute_data.func = (zend_function *) &zephir_internal_call_frame_func; \
+	/* Drop the copied frame's call flags and argument count. ZEND_CALL_INFO() \
+	 * is Z_TYPE_INFO(This) and ZEND_CALL_NUM_ARGS() is This.u2.num_args, so a \
+	 * frame copied from the caller would claim the caller's arguments -- and \
+	 * this frame is a bare struct with no VAR/CV slots behind it, so reading \
+	 * them (debug_backtrace() does) runs off the end of it. The immediately \
+	 * following ZEPHIR_SET_THIS() writes the real `This`; neither ZVAL_OBJ nor \
+	 * ZVAL_NULL touches u2, so num_args stays 0. */ \
+	Z_TYPE_INFO(new_execute_data.This) = IS_UNDEF; \
+	ZEND_CALL_NUM_ARGS(&new_execute_data) = 0; \
+	execute_data = EG(current_execute_data) = &new_execute_data;
 
 #define ZEPHIR_RESTORE_SCOPE() \
-	EG(fake_scope) = old_scope; \
+	EG(fake_scope) = (zend_class_entry *) old_scope; \
 	execute_data = old_call; \
 	EG(current_execute_data) = old_execute_data;
 
@@ -167,19 +196,11 @@ typedef enum _zephir_call_type {
 		ZEPHIR_LAST_CALL_STATUS = zephir_return_call_class_method(return_value, Z_TYPE_P(object) == IS_OBJECT ? Z_OBJCE_P(object) : NULL, zephir_fcall_method, object, method, strlen(method), cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
 	} while (0)
 
-#if PHP_VERSION_ID >= 80000
 #define ZEPHIR_RETURN_CALL_STATIC(method, cache, cache_slot, ...) \
 	do { \
 		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
 		ZEPHIR_LAST_CALL_STATUS = zephir_return_call_class_method(return_value, (getThis() ? Z_OBJCE_P(getThis()) : NULL), zephir_fcall_static, getThis(), method, strlen(method), cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
 	} while (0)
-#else
-#define ZEPHIR_RETURN_CALL_STATIC(method, cache, cache_slot, ...) \
-	do { \
-		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
-		ZEPHIR_LAST_CALL_STATUS = zephir_return_call_class_method(return_value, NULL, zephir_fcall_static, NULL, method, strlen(method), cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
-	} while (0)
-#endif
 
 #define ZEPHIR_RETURN_CALL_PARENT(class_entry, this_ptr, method, cache, cache_slot, ...) \
 	do { \
@@ -187,51 +208,25 @@ typedef enum _zephir_call_type {
 		ZEPHIR_LAST_CALL_STATUS = zephir_return_call_class_method(return_value, class_entry, zephir_fcall_parent, this_ptr, method, strlen(method), cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
 	} while (0)
 
-#if PHP_VERSION_ID >= 80000
 #define ZEPHIR_CALL_SELF(return_value_ptr, method, cache, cache_slot, ...) \
 	do { \
 		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
 		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
 		ZEPHIR_LAST_CALL_STATUS = zephir_call_class_method_aparams(return_value_ptr, (getThis() ? Z_OBJCE_P(getThis()) : NULL), zephir_fcall_self, getThis(), method, strlen(method), cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
 	} while (0)
-#else
-#define ZEPHIR_CALL_SELF(return_value_ptr, method, cache, cache_slot, ...) \
-	do { \
-		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
-		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
-		ZEPHIR_LAST_CALL_STATUS = zephir_call_class_method_aparams(return_value_ptr, NULL, zephir_fcall_self, NULL, method, strlen(method), cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
-	} while (0)
-#endif
 
-#if PHP_VERSION_ID >= 80000
 #define ZEPHIR_RETURN_CALL_SELF(method, cache, cache_slot, ...) \
 	do { \
 		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
 		ZEPHIR_LAST_CALL_STATUS = zephir_return_call_class_method(return_value, (getThis() ? Z_OBJCE_P(getThis()) : NULL), zephir_fcall_self, getThis(), method, strlen(method), cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
 	} while (0)
-#else
-#define ZEPHIR_RETURN_CALL_SELF(method, cache, cache_slot, ...) \
-	do { \
-		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
-		ZEPHIR_LAST_CALL_STATUS = zephir_return_call_class_method(return_value, NULL, zephir_fcall_self, NULL, method, strlen(method), cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
-	} while (0)
-#endif
 
-#if PHP_VERSION_ID >= 80000
 #define ZEPHIR_CALL_STATIC(return_value_ptr, method, cache, cache_slot, ...) \
 	do { \
 		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
 		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
 		ZEPHIR_LAST_CALL_STATUS = zephir_call_class_method_aparams(return_value_ptr, (getThis() ? Z_OBJCE_P(getThis()) : NULL), zephir_fcall_static, getThis(), method, strlen(method), cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
 	} while (0)
-#else
-#define ZEPHIR_CALL_STATIC(return_value_ptr, method, cache, cache_slot, ...) \
-	do { \
-		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
-		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
-		ZEPHIR_LAST_CALL_STATUS = zephir_call_class_method_aparams(return_value_ptr, NULL, zephir_fcall_static, NULL, method, strlen(method), cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
-	} while (0)
-#endif
 
 #define ZEPHIR_CALL_CE_STATIC(return_value_ptr, class_entry, method, cache, cache_slot, ...) \
 	do { \
@@ -311,9 +306,15 @@ int zephir_call_class_method_aparams(
 	uint32_t param_count,
 	zval **params) ZEPHIR_ATTR_WARN_UNUSED_RESULT;
 
-ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_return_call_function(zval *return_value,
-	const char *func, uint32_t func_len, zephir_fcall_cache_entry **cache_entry, int cache_slot, uint32_t param_count, zval **params)
-{
+ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_return_call_function(
+	zval *return_value,
+	const char *func,
+	uint32_t func_len,
+	zephir_fcall_cache_entry **cache_entry,
+	int cache_slot,
+	uint32_t param_count,
+	zval **params
+) {
 	zval rv, *rvp = return_value ? return_value : &rv;
 	int status;
 
@@ -420,6 +421,14 @@ ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_call_user_func_array(zva
 
 int zephir_has_constructor_ce(const zend_class_entry *ce) ZEPHIR_ATTR_PURE ZEPHIR_ATTR_NONNULL;
 
+/**
+ * Throws an Error and returns FAILURE when the object's constructor is not
+ * accessible from the current scope, mirroring PHP's "new" operator.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/882
+ */
+int zephir_check_constructor_access(const zval *object) ZEPHIR_ATTR_NONNULL;
+
 ZEPHIR_ATTR_WARN_UNUSED_RESULT ZEPHIR_ATTR_NONNULL static inline int zephir_has_constructor(const zval *object)
 {
 	return Z_TYPE_P(object) == IS_OBJECT ? zephir_has_constructor_ce(Z_OBJCE_P(object)) : 0;
@@ -461,11 +470,20 @@ static inline void zephir_set_called_scope(zend_execute_data *ex, zend_class_ent
 		if (Z_TYPE(ex->This) == IS_OBJECT) {
 			Z_OBJCE(ex->This) = called_scope;
 			return;
-		}else if (ex->func) {
+		}else if (ex->func && ex->func != (zend_function *) &zephir_internal_call_frame_func) {
 			if (ex->func->type != ZEND_INTERNAL_FUNCTION || ex->func->common.scope) {
 				return;
 			}
 		} else {
+			/**
+			 * Either a frame with no function at all, or the synthetic frame
+			 * ZEPHIR_BACKUP_SCOPE() installs for a static internal call --
+			 * which is the frame the called scope belongs on. Walking past it
+			 * would land on the caller, whose `This` is a live object, and the
+			 * branch above would then write `called_scope` into that object's
+			 * class entry (#2639). Before that frame carried a function, the
+			 * `ex->func` test alone stopped here.
+			 */
 			Z_CE(ex->This) = called_scope;
 			return;
 		}

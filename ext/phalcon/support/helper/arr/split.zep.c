@@ -20,7 +20,7 @@
 
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -39,9 +39,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Arr_Split)
 }
 
 /**
- * @param array $collection
+ * @param array<array-key, mixed> $collection
  *
- * @return array
+ * @return array<array-key, mixed>
  */
 PHP_METHOD(Phalcon_Support_Helper_Arr_Split, __invoke)
 {
@@ -49,29 +49,22 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Split, __invoke)
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *collection_param = NULL, _0, _1;
 	zval collection;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&collection);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ARRAY(collection)
+		ZEPHIR_Z_PARAM_ARRAY(collection, collection_param)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &collection_param);
 	zephir_get_arrval(&collection, collection_param);
-
-
 	zephir_create_array(return_value, 2, 0);
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_array_keys(&_0, &collection);
 	zephir_array_fast_append(return_value, &_0);
-	ZEPHIR_CALL_FUNCTION(&_1, "array_values", NULL, 14, &collection);
+	ZEPHIR_CALL_FUNCTION(&_1, "array_values", NULL, 28, &collection);
 	zephir_check_call_status();
 	zephir_array_fast_append(return_value, &_1);
 	RETURN_MM();

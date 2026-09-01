@@ -12,6 +12,7 @@
 #ifndef ZEPHIR_KERNEL_MAIN_H
 #define ZEPHIR_KERNEL_MAIN_H
 
+#include <php.h>
 #include <Zend/zend_interfaces.h>
 #include <ext/spl/spl_exceptions.h>
 #include <ext/spl/spl_iterators.h>
@@ -36,13 +37,29 @@ extern zend_string* i_self;
 #define PH_COPY 1024
 #define PH_CTOR 4096
 
-/* Deprecated */
-#ifndef zend_uint
- #define zend_uint uint32_t
-#endif
-
 #ifndef ZEND_ACC_FINAL_CLASS
  #define ZEND_ACC_FINAL_CLASS ZEND_ACC_FINAL
+#endif
+
+/* readonly properties (issue #2614) are PHP 8.1+; on 8.0 the flag does not
+ * exist, so it degrades to a no-op (the property compiles as a normal typed
+ * property, without write-once enforcement). Keeps generated C version-uniform. */
+#ifndef ZEND_ACC_READONLY
+ #define ZEND_ACC_READONLY 0
+#endif
+
+/* The float-to-int coercion PHP applies to a `%` operand. PHP 8.1 started
+ * deprecating a conversion that loses precision ("Deprecate implicit
+ * non-integer-compatible float to int conversions"), and carries that
+ * diagnostic in zend_dval_to_lval_safe(), which does not exist on 8.0. Routing
+ * through this shim keeps the kernel's `%` byte-identical to the engine's on
+ * every supported version: silent on 8.0, deprecating from 8.1.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2666 */
+#if PHP_VERSION_ID >= 80100
+ #define ZEPHIR_DVAL_TO_LVAL(d) zend_dval_to_lval_safe(d)
+#else
+ #define ZEPHIR_DVAL_TO_LVAL(d) zend_dval_to_lval(d)
 #endif
 
 #define SL(str) ZEND_STRL(str)
@@ -84,6 +101,22 @@ extern zend_string* i_self;
 			return FAILURE; \
 		} \
 		lower_ns## _ ##lcname## _ce->ce_flags |= flags;  \
+	}
+
+/* Registers a real zend trait (ZEND_ACC_TRAIT) so PHP userland can `use` it */
+#define ZEPHIR_REGISTER_TRAIT(ns, class_name, lower_ns, name, methods)				\
+	{																				\
+		zend_class_entry ce;														\
+		memset(&ce, 0, sizeof(zend_class_entry));									\
+		INIT_NS_CLASS_ENTRY(ce, #ns, #class_name, methods);							\
+		lower_ns## _ ##name## _ce = zend_register_internal_class(&ce);				\
+		if (UNEXPECTED(!lower_ns## _ ##name## _ce)) {								\
+			const char *_n = (#ns);													\
+			const char *_c = (#class_name);											\
+			zend_error(E_ERROR, "%s\\%s: trait registration has failed.", _n, _c);	\
+			return FAILURE;															\
+		}																			\
+		lower_ns## _ ##name## _ce->ce_flags |= ZEND_ACC_TRAIT;						\
 	}
 
 #define ZEPHIR_REGISTER_INTERFACE(ns, classname, lower_ns, name, methods) \
@@ -154,6 +187,22 @@ extern zend_string* i_self;
 	ZEPHIR_MM_RESTORE(); \
 	return;
 
+/**
+ * Return an explicitly named object instead of getThis().
+ *
+ * A capturing closure binds its capture carrier as `$this`, so getThis() is
+ * not the enclosing object there; `this_ptr` is. These are the RETURN_THIS
+ * pair with the object spelled out.
+ */
+#define RETURN_THISW_ZVAL(object) \
+	RETURN_ZVAL(object, 1, 0);
+
+#define RETURN_THIS_ZVAL(object) { \
+		RETVAL_ZVAL(object, 1, 0); \
+	} \
+	ZEPHIR_MM_RESTORE(); \
+	return;
+
 #define RETURN_LCTORW(var) RETURN_CCTORW(var);
 
 #define RETURN_LCTOR(var) RETURN_CCTOR(var);
@@ -175,6 +224,9 @@ extern zend_string* i_self;
 #define RETURN_MM_STRING(str)       { RETVAL_STRING(str); ZEPHIR_MM_RESTORE(); return; }
 #define RETURN_MM_EMPTY_STRING()    { RETVAL_EMPTY_STRING(); ZEPHIR_MM_RESTORE(); return; }
 
+/** Return zend_string restoring memory frame */
+#define RETURN_MM_STR(s)            { RETVAL_STR(s); ZEPHIR_MM_RESTORE(); return; }
+
 /* Return long */
 #define RETURN_MM_LONG(value)       { RETVAL_LONG(value); ZEPHIR_MM_RESTORE(); return; }
 
@@ -188,6 +240,68 @@ extern zend_string* i_self;
   zephir_return_property(return_value, object, SL(member_name)); \
   RETURN_MM();
 
+/**
+ * Throws a TypeError that matches PHP's userland return-type message format:
+ *   "Class\Method(): Return value must be of type <expected>, <actual> returned"
+ *
+ * Used by RETURN_*_MEMBER_TYPED macros to enforce strict scalar return types
+ * on methods that return a runtime value (e.g. `return this->property`) where
+ * the static checker in src/Statements/ReturnStatement.php can't prove the
+ * type matches. Without this, internal C extensions bypass the engine's
+ * return-type verification (which only runs in ZEND_DEBUG builds).
+ *
+ * See https://github.com/zephir-lang/zephir/issues/1991
+ */
+static inline void zephir_throw_return_type_error(uint32_t expected_type, zval *retval)
+{
+	zend_execute_data *ex = EG(current_execute_data);
+	const char *expected = zend_get_type_by_const(expected_type);
+	const char *actual   = zend_zval_type_name(retval);
+
+	if (ex && ex->func && ex->func->common.function_name) {
+		zend_string *fname = ex->func->common.function_name;
+		zend_class_entry *scope = ex->func->common.scope;
+		if (scope) {
+			zend_type_error("%s::%s(): Return value must be of type %s, %s returned",
+				ZSTR_VAL(scope->name), ZSTR_VAL(fname), expected, actual);
+		} else {
+			zend_type_error("%s(): Return value must be of type %s, %s returned",
+				ZSTR_VAL(fname), expected, actual);
+		}
+	} else {
+		zend_type_error("Return value must be of type %s, %s returned",
+			expected, actual);
+	}
+}
+
+/**
+ * Same as RETURN_MEMBER but verifies that the property's runtime type matches
+ * the method's declared return type. Throws TypeError on mismatch.
+ * Used when the method body is `return this->prop` and the method declares
+ * a strict scalar return type like `-> string`.
+ */
+#define RETURN_MEMBER_TYPED(object, member_name, expected_type) \
+  do { \
+    zephir_return_property(return_value, object, SL(member_name)); \
+    if (UNEXPECTED(Z_TYPE_P(return_value) != (expected_type))) { \
+      zephir_throw_return_type_error((expected_type), return_value); \
+      return; \
+    } \
+    return; \
+  } while (0)
+
+/** Memory-grow-aware variant of RETURN_MEMBER_TYPED. */
+#define RETURN_MM_MEMBER_TYPED(object, member_name, expected_type) \
+  do { \
+    zephir_return_property(return_value, object, SL(member_name)); \
+    if (UNEXPECTED(Z_TYPE_P(return_value) != (expected_type))) { \
+      zephir_throw_return_type_error((expected_type), return_value); \
+      ZEPHIR_MM_RESTORE(); \
+      return; \
+    } \
+    RETURN_MM(); \
+  } while (0)
+
 #define RETURN_ON_FAILURE(what) \
 	do { \
 		if (what == FAILURE) { \
@@ -198,7 +312,6 @@ extern zend_string* i_self;
 #define RETURN_MM_ON_FAILURE(what) \
 	do { \
 		if (what == FAILURE) { \
-			ZEPHIR_MM_RESTORE(); \
 			return; \
 		} \
 	} while (0)
@@ -249,7 +362,7 @@ int zephir_is_iterable_ex(zval *arr, int duplicate);
 /** Check if an array is iterable or not */
 #define zephir_is_iterable(var, duplicate, file, line) \
 	if (!zephir_is_iterable_ex(var, duplicate)) { \
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(zend_exception_get_default(), "The argument is not initialized or iterable()", file, line); \
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(zend_ce_exception, "The argument is not initialized or iterable()", file, line); \
 		ZEPHIR_MM_RESTORE(); \
 		return; \
 	}
@@ -272,6 +385,21 @@ int zephir_fetch_parameters(int num_args, int required_args, int optional_args, 
 		RETURN_NULL(); \
 	}
 
+/* Fetch the fixed (leading) parameters of a variadic method. Unlike
+ * zephir_fetch_parameters() this does not reject calls that pass more
+ * arguments than declared; the extra arguments are collected separately
+ * via zephir_get_args_from(). */
+int zephir_fetch_parameters_variadic(int num_args, int required_args, int optional_args, ...);
+
+#define zephir_fetch_params_variadic(memory_grow, required_params, optional_params, ...) \
+	if (zephir_fetch_parameters_variadic(ZEND_NUM_ARGS(), required_params, optional_params, __VA_ARGS__) == FAILURE) { \
+		if (memory_grow) { \
+			RETURN_MM_NULL(); \
+		} else { \
+			RETURN_NULL(); \
+		} \
+	}
+
 #define ZEPHIR_CREATE_OBJECT(obj, class_type) \
 	{ \
 		zend_object *object = zend_objects_new(class_type); \
@@ -289,7 +417,7 @@ int zephir_fetch_parameters(int num_args, int required_args, int optional_args, 
 	    zval _null; \
 		ZVAL_NULL(&_null); \
 		ZVAL_COPY(return_value, &_null); \
-		zephir_ptr_dtor(&_null); \
+		zval_ptr_dtor(&_null); \
 	} else { \
 	    ZVAL_COPY(return_value, _constant_ptr); \
 	} \
@@ -298,12 +426,27 @@ int zephir_fetch_parameters(int num_args, int required_args, int optional_args, 
 #define ZEPHIR_GET_IMKEY(var, it) it->funcs->get_current_key(it, &var);
 
 /* Declare class constants */
+int zephir_declare_class_constant(zend_class_entry *ce, const char *name, size_t name_length, zval *value);
+int zephir_declare_class_constant_array(zend_class_entry *ce, const char *name, size_t name_length, zval *value);
 int zephir_declare_class_constant_null(zend_class_entry *ce, const char *name, size_t name_length);
 int zephir_declare_class_constant_long(zend_class_entry *ce, const char *name, size_t name_length, zend_long value);
 int zephir_declare_class_constant_bool(zend_class_entry *ce, const char *name, size_t name_length, zend_bool value);
 int zephir_declare_class_constant_double(zend_class_entry *ce, const char *name, size_t name_length, double value);
 int zephir_declare_class_constant_stringl(zend_class_entry *ce, const char *name, size_t name_length, const char *value, size_t value_length);
 int zephir_declare_class_constant_string(zend_class_entry *ce, const char *name, size_t name_length, const char *value);
+
+/* Declare a class property whose default is an array (persisted immutable, e.g. on a trait ce) */
+int zephir_declare_property_array(zend_class_entry *ce, const char *name, size_t name_length, zval *value, int access_type);
+
+/* Declare a class property carrying a PHP type (issue #2608). `type_mask` is a
+ * MAY_BE_* bitmask (with MAY_BE_NULL folded in for `?type`); when `class_name`
+ * is non-NULL the property is a class type resolved lazily by the engine. */
+zend_property_info *zephir_declare_typed_property(zend_class_entry *ce, const char *name, size_t name_length, zval *value, int access_type, uint32_t type_mask, const char *class_name, size_t class_name_length);
+
+/* Declare a union-typed class property (issue #2613), e.g. `int | float` or
+ * `<A> | <B> | null`. `type_mask` carries the scalar/null MAY_BE_* bits; the
+ * `num_classes` class names (0, 1 or many) form the object part of the union. */
+zend_property_info *zephir_declare_typed_property_union(zend_class_entry *ce, const char *name, size_t name_length, zval *value, int access_type, uint32_t type_mask, const char **class_names, uint32_t num_classes);
 
 int zephir_is_php_version(unsigned int id);
 
@@ -321,6 +464,36 @@ int zephir_is_php_version(unsigned int id);
 void zephir_get_args(zval* return_value);
 void zephir_get_arg(zval* return_value, zend_long idx);
 
+/* Collect the arguments starting at the 0-based index `skip` into an array.
+ * Used to populate the array of a variadic parameter from the trailing
+ * arguments that follow the fixed (declared) parameters. */
+void zephir_get_args_from(zval* return_value, uint32_t skip);
+
 void zephir_module_init();
+
+/**
+ * Z_PARAM_ARRAY(dest) expands to a call to zend_parse_arg_array(_arg, &dest, ...).
+ * The inline function has taken `zval **dest` since at least PHP 7.0, so the
+ * variable passed to the macro must be a `zval *` for `&dest` to have the
+ * correct type. Zephir always emits a `<name>_param` companion of type `zval *`
+ * for array parameters; we forward that here.
+ *
+ * Historical note: previous versions of this header conditionally selected
+ * between `dest` (a `zval` value) and `dest_ptr` (a `zval *`) based on a
+ * config.m4 autoconf probe (`ZEPHIR_ARRAY_PARAM_DOUBLE_PTR`). The `dest`
+ * branch was always wrong — the underlying signature has been `zval **dest`
+ * since PHP 7.0 — but it only surfaced as a warning once GCC 14 promoted
+ * `-Wincompatible-pointer-types` to default-on. Downstream projects that
+ * ship a stale `config.m4` (e.g. cphalcon) didn't get the probe defined and
+ * fell into the broken branch, producing hundreds of warnings on PHP 8.5
+ * (see https://github.com/zephir-lang/zephir/issues/2462).
+ *
+ * The probe is no longer needed and has been removed from
+ * templates/engine/config.m4. The legacy `ZEPHIR_ARRAY_PARAM_DOUBLE_PTR`
+ * macro is now a no-op — if a stale generated `config.m4` still emits it,
+ * the definition is harmless.
+ */
+#define ZEPHIR_Z_PARAM_ARRAY(dest, dest_ptr)              Z_PARAM_ARRAY(dest_ptr)
+#define ZEPHIR_Z_PARAM_ARRAY_OR_NULL(dest, dest_ptr)      Z_PARAM_ARRAY_OR_NULL(dest_ptr)
 
 #endif /* ZEPHIR_KERNEL_MAIN_H */

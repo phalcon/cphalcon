@@ -10,100 +10,76 @@
 
 namespace Phalcon\Autoload;
 
-use Phalcon\Events\AbstractEventsAware;
+use Phalcon\Autoload\Exceptions\LoaderDirectoriesNotArray;
+use Phalcon\Autoload\Exceptions\LoaderMethodNotCallable;
+use Phalcon\Contracts\Autoload\AutoloadTypes;
+use Phalcon\Events\Exception as EventsException;
+use Phalcon\Events\ManagerInterface;
+use Phalcon\Events\Traits\EventsAwareTrait;
 
 /**
  * The Phalcon Autoloader provides an easy way to automatically load classes
  * (namespaced or not) as well as files. It also features extension loading,
  * allowing the user to autoload files with different extensions than .php.
  *
- * @property string|null          $checkedPath
- * @property array                $classes
- * @property array                $debug
- * @property array                $directories
- * @property array                $extensions
- * @property string|callable|null $fileCheckingCallback
- * @property array                $files
- * @property string|null          $foundPath
- * @property bool                 $isDebug
- * @property bool                 $isRegistered
- * @property array                $namespaces
+ * @phpstan-import-type autoload_namespaces from AutoloadTypes
+ * @phpstan-import-type autoload_strings from AutoloadTypes
  */
-class Loader extends AbstractEventsAware
+class Loader
 {
-    /**
-     * @var string|null
-     */
-    protected checkedPath = null;
+    use EventsAwareTrait;
 
+    protected ?string checkedPath = null;
     /**
-     * @var array
+     * @var autoload_strings
      */
-    protected classes = [];
-
+    protected array classes = [];
     /**
-     * @var array
+     * @var array<int, string>
      */
-    protected debug = [];
-
+    protected array debug = [];
     /**
-     * @var array
+     * @var autoload_strings
      */
-    protected directories = [];
-
+    protected array directories = [];
     /**
-     * @var array
+     * @var autoload_strings
      */
-    protected extensions = [];
-
+    protected array extensions = [];
     /**
-     * @var string|callable
+     * Always holds a callable. The setter accepts a callable or a callable
+     * string and rejects anything else.
+     *
+     * @var callable
      */
     protected fileCheckingCallback = "is_file";
+    /**
+     * @var autoload_strings
+     */
+    protected array files = [];
+    protected ?string foundPath = null;
+    protected bool isDebug = false;
+    protected bool isRegistered = false;
 
     /**
-     * @var array
+     * @var autoload_namespaces
      */
-    protected files = [];
-
-    /**
-     * @var string|null
-     */
-    protected foundPath = null;
-
-    /**
-     * @var bool
-     */
-    protected isDebug = false;
-
-    /**
-     * @var bool
-     */
-    protected isRegistered = false;
-
-    /**
-     * @var array
-     */
-    protected namespaces = [];
+    protected array namespaces = [];
+    protected int nestingLevel = 0;
 
     /**
      * Loader constructor.
      */
     public function __construct(bool isDebug = false)
     {
-        let this->extensions[hash("sha256", "php")] = "php",
+        let this->extensions["php"] = "php",
             this->isDebug    = isDebug;
     }
 
     /**
      * Adds a class to the internal collection for the mapping
-     *
-     * @param string $name
-     * @param string $file
-     *
-     * @return Loader
      */
-    public function addClass(string name, string file) -> <Loader>
+    public function addClass(string name, string file) -> <static>
     {
         let this->classes[name] = file;
 
@@ -112,66 +88,49 @@ class Loader extends AbstractEventsAware
 
     /**
      * Adds a directory for the loaded files
-     *
-     * @param string $directory
-     *
-     * @return Loader
      */
-    public function addDirectory(string directory) -> <Loader>
+    public function addDirectory(string directory) -> <static>
     {
-        let this->directories[hash("sha256", directory)] = directory;
+        let this->directories[directory] = directory;
 
         return this;
     }
 
     /**
      * Adds an extension for the loaded files
-     *
-     * @param string $extension
-     *
-     * @return Loader
      */
-    public function addExtension(string extension) -> <Loader>
+    public function addExtension(string extension) -> <static>
     {
-        let this->extensions[hash("sha256", extension)] = extension;
+        let this->extensions[extension] = extension;
 
         return this;
     }
 
     /**
      * Adds a file to be added to the loader
-     *
-     * @param string $file
-     *
-     * @return Loader
      */
-    public function addFile(string file) -> <Loader>
+    public function addFile(string file) -> <static>
     {
-        let this->files[hash("sha256", file)] = file;
+        let this->files[file] = file;
 
         return this;
     }
 
     /**
-     * @param string $name
-     * @param mixed  $directories
-     * @param bool   $prepend
-     *
-     * @return Loader
-     * @throws Exception
+     * @param autoload_strings|string $directories
      */
     public function addNamespace(
         string name,
         var directories,
         bool prepend = false
-    ) -> <Loader> {
+    ) -> <static> {
         var dirSeparator, nsName, nsSeparator, source, target;
 
         let nsName       = name,
             nsSeparator  = "\\",
             dirSeparator = DIRECTORY_SEPARATOR,
             nsName       = trim(nsName, nsSeparator) . nsSeparator,
-            directories  = this->checkDirectories(directories, dirSeparator);
+            directories  = this->checkDirectories(directories, dirSeparator, name);
 
         // initialize the namespace prefix array if needed
         if (!isset(this->namespaces[nsName])) {
@@ -190,54 +149,59 @@ class Loader extends AbstractEventsAware
 
     /**
      * Autoloads the registered classes
-     *
-     * @param string $className
-     *
-     * @return bool
+     * @throws EventsException
      */
     public function autoload(string className) -> bool
     {
-        let this->debug = [];
+        bool result;
+
+        /**
+         * Reset the debug trail only on the outermost call. A "require_once"
+         * routinely triggers a nested autoload (a class extending a not yet
+         * loaded parent); resetting on a nested call would clobber the trail
+         * of the outer call mid-flight.
+         */
+        if (0 === this->nestingLevel) {
+            let this->debug = [];
+        }
+
+        let result             = true,
+            this->nestingLevel = this->nestingLevel + 1;
 
         this->addDebug("Loading: " . className);
         this->fireManagerEvent("loader:beforeCheckClass", className);
 
-        if (true === this->autoloadCheckClasses(className)) {
-            return true;
+        if (true !== this->autoloadCheckClasses(className)) {
+            this->addDebug("Class: 404: " . className);
+
+            if (true !== this->autoloadCheckNamespaces(className)) {
+                this->addDebug("Namespace: 404: " . className);
+
+                if (
+                    true !== this->autoloadCheckDirectories(
+                        this->directories,
+                        className,
+                        true
+                    )
+                ) {
+                    this->addDebug("Directories: 404: " . className);
+                    this->fireManagerEvent("loader:afterCheckClass", className);
+
+                    /**
+                     * Cannot find the class
+                     */
+                    let result = false;
+                }
+            }
         }
 
-        this->addDebug("Class: 404: " . className);
+        let this->nestingLevel = this->nestingLevel - 1;
 
-        if (true === this->autoloadCheckNamespaces(className)) {
-            return true;
-        }
-
-        this->addDebug("Namespace: 404: " . className);
-
-        if (
-            true === this->autoloadCheckDirectories(
-                this->directories,
-                className,
-                true
-            )
-        ) {
-            return true;
-        }
-
-        this->addDebug("Directories: 404: " . className);
-
-        this->fireManagerEvent("loader:afterCheckClass", className);
-
-        /**
-         * Cannot find the class, return false
-         */
-        return false;
+        return result;
     }
 
     /**
      * Get the path the loader is checking for a path
-     *
-     * @return string|null
      */
     public function getCheckedPath() -> string | null
     {
@@ -307,11 +271,19 @@ class Loader extends AbstractEventsAware
     /**
      * Returns the namespaces currently registered in the autoloader
      *
-     * @return string[]
+     * @return autoload_namespaces
      */
     public function getNamespaces() -> array
     {
         return this->namespaces;
+    }
+
+    /**
+     * Returns isRegistered
+     */
+    public function isRegistered() -> bool
+    {
+        return this->isRegistered;
     }
 
     /**
@@ -326,26 +298,20 @@ class Loader extends AbstractEventsAware
         for file in files {
             this->fireManagerEvent("loader:beforeCheckPath", file);
 
-            if (true === this->requireFile(file)) {
-                let this->foundPath = file;
-                this->fireManagerEvent("loader:pathFound", file);
-            }
+            this->requireFile(file);
         }
     }
 
     /**
      * Register the autoload method
+     *
+     * @throws EventsException
      */
-    public function register(bool prepend = false) -> <Loader>
+    public function register(bool prepend = false) -> <static>
     {
-        if (true !== this->isRegistered) {
+        if (true !== $this->isRegistered) {
             this->loadFiles();
-
-            spl_autoload_register(
-                [this, "autoload"],
-                true,
-                prepend
-            );
+            this->registerAutoload(prepend);
 
             let this->isRegistered = true;
         }
@@ -356,12 +322,9 @@ class Loader extends AbstractEventsAware
     /**
      * Register classes and their locations
      *
-     * @param array $classes
-     * @param bool  $merge
-     *
-     * @return Loader
+     * @param autoload_strings $classes
      */
-    public function setClasses(array classes, bool merge = false) -> <Loader>
+    public function setClasses(array classes, bool merge = false) -> <static>
     {
         var className, name;
 
@@ -379,12 +342,12 @@ class Loader extends AbstractEventsAware
     /**
      * Register directories in which "not found" classes could be found
      *
-     * @param array $directories
+     * @param autoload_strings $directories
      * @param bool  $merge
      *
-     * @return Loader
+     * @return static
      */
-    public function setDirectories(array directories, bool merge = false) -> <Loader>
+    public function setDirectories(array directories, bool merge = false) -> <static>
     {
         return this->addToCollection(
             directories,
@@ -398,18 +361,15 @@ class Loader extends AbstractEventsAware
      * Sets an array of file extensions that the loader must try in each attempt
      * to locate the file
      *
-     * @param array $extensions
-     * @param bool  $merge
-     *
-     * @return Loader
+     * @param autoload_strings $extensions
      */
-    public function setExtensions(array extensions, bool merge = false) -> <Loader>
+    public function setExtensions(array extensions, bool merge = false) -> <static>
     {
         var extension;
 
         if (!merge) {
             let this->extensions = [],
-                this->extensions[hash("sha256", "php")] = "php";
+                this->extensions["php"] = "php";
         }
 
         for extension in extensions {
@@ -434,12 +394,11 @@ class Loader extends AbstractEventsAware
      * $loader->setFileCheckingCallback(null);
      * ```
      *
-     * @param string|callable|null $method
+     * @param callable|string|null $method
      *
-     * @return Loader
      * @throws Exception
      */
-    public function setFileCheckingCallback(method = null) -> <Loader>
+    public function setFileCheckingCallback(var method = null) -> <static>
     {
         if (true === is_callable(method)) {
             let this->fileCheckingCallback = method;
@@ -448,9 +407,7 @@ class Loader extends AbstractEventsAware
                 return true;
             };
         } else {
-            throw new Exception(
-                "The 'method' parameter must be either a callable or NULL"
-            );
+            throw new LoaderMethodNotCallable();
         }
 
         return this;
@@ -460,12 +417,9 @@ class Loader extends AbstractEventsAware
      * Registers files that are "non-classes" hence need a "require". This is
      * very useful for including files that only have functions
      *
-     * @param array $files
-     * @param bool  $merge
-     *
-     * @return Loader
+     * @param autoload_strings $files
      */
-    public function setFiles(array files, bool merge = false) -> <Loader>
+    public function setFiles(array files, bool merge = false) -> <static>
     {
         return this->addToCollection(
             files,
@@ -478,23 +432,17 @@ class Loader extends AbstractEventsAware
     /**
      * Register namespaces and their related directories
      *
-     * @param array $namespaces
-     * @param bool  $merge
-     *
-     * @return Loader
+     * @param autoload_namespaces $namespaces
      */
-    public function setNamespaces(array namespaces, bool merge = false) -> <Loader>
+    public function setNamespaces(array namespaces, bool merge = false) -> <static>
     {
-        var dirSeparator, directories, name;
-
-        let dirSeparator = DIRECTORY_SEPARATOR;
+        var directories, name;
 
         if (!merge) {
             let this->namespaces = [];
         }
 
         for name, directories in namespaces {
-            let directories = this->checkDirectories(directories, dirSeparator);
             this->addNamespace(name, directories);
         }
 
@@ -503,10 +451,8 @@ class Loader extends AbstractEventsAware
 
     /**
      * Unregister the autoload method
-     *
-     * @return Loader
      */
-    public function unregister() -> <Loader>
+    public function unregister() -> <static>
     {
         if (true === this->isRegistered) {
             spl_autoload_unregister(
@@ -525,9 +471,7 @@ class Loader extends AbstractEventsAware
     /**
      * If the file exists, require it and return true; false otherwise
      *
-     * @param string $file The file to require
-     *
-     * @return bool
+     * @throws EventsException
      */
     protected function requireFile(string file) -> bool
     {
@@ -535,6 +479,8 @@ class Loader extends AbstractEventsAware
          * Check if the file specified even exists
          */
         if (false !== call_user_func(this->fileCheckingCallback, file)) {
+            let this->foundPath = file;
+
             /**
              * Call 'pathFound' event
              */
@@ -556,8 +502,6 @@ class Loader extends AbstractEventsAware
 
     /**
      * Adds a debugging message in the collection
-     *
-     * @param string $message
      */
     private function addDebug(string message) -> void
     {
@@ -570,19 +514,14 @@ class Loader extends AbstractEventsAware
      * Traverses a collection and adds elements to it using the relevant
      * class method
      *
-     * @param array  $collection
-     * @param string $collectionName
-     * @param string $method
-     * @param bool   $merge
-     *
-     * @return Loader
+     * @param autoload_strings $collection
      */
     private function addToCollection(
         array collection,
         string collectionName,
         string method,
         bool merge = false
-    ) -> <Loader> {
+    ) -> <static> {
         var element;
 
         if (!merge) {
@@ -600,9 +539,7 @@ class Loader extends AbstractEventsAware
      * Checks the registered classes to find the class. Includes the file if
      * found and returns true; false otherwise
      *
-     * @param string $className
-     *
-     * @return bool
+     * @throws EventsException
      */
     private function autoloadCheckClasses(string className) -> bool
     {
@@ -610,12 +547,14 @@ class Loader extends AbstractEventsAware
 
         if (true === isset(this->classes[className])) {
             let filePath = this->classes[className];
-            this->fireManagerEvent("loader:pathFound", filePath);
 
-            this->requireFile(filePath);
-            this->addDebug("Class: load: " . filePath);
+            this->fireManagerEvent("loader:beforeCheckPath", filePath);
 
-            return true;
+            if (true === this->requireFile(filePath)) {
+                this->addDebug("Class: load: " . filePath);
+
+                return true;
+            }
         }
 
         return false;
@@ -625,24 +564,22 @@ class Loader extends AbstractEventsAware
      * Checks the registered directories to find the class. Includes the file if
      * found and returns true; false otherwise
      *
-     * @param array  $directories
-     * @param string $className
-     * @param bool   $isDirectory
+     * @param autoload_strings $directories
      *
-     * @return bool
+     * @throws EventsException
      */
     private function autoloadCheckDirectories(
         array directories,
         string className,
         bool isDirectory = false
     ) -> bool {
-        var className, dirSeparator, directory, extension, extensions,
-            filePath, fixedDirectory, nsSeparator;
+        var dirSeparator, directory, extension, extensions,
+            filePath, fixedDirectory, localClassName, nsSeparator;
 
-        let dirSeparator = DIRECTORY_SEPARATOR,
-            nsSeparator  = "\\",
-            className    = str_replace(nsSeparator, dirSeparator, className),
-            extensions   = this->extensions;
+        let dirSeparator   = DIRECTORY_SEPARATOR,
+            nsSeparator    = "\\",
+            localClassName = str_replace(nsSeparator, dirSeparator, className),
+            extensions     = this->extensions;
 
         for directory in directories {
             /**
@@ -654,7 +591,7 @@ class Loader extends AbstractEventsAware
                 /**
                  * Create a possible path for the file
                  */
-                let filePath          = fixedDirectory . className . "." . extension,
+                let filePath          = fixedDirectory . localClassName . "." . extension,
                     this->checkedPath = filePath;
 
                 this->fireManagerEvent("loader:beforeCheckPath", filePath);
@@ -675,27 +612,20 @@ class Loader extends AbstractEventsAware
      * Checks the registered namespaces to find the class. Includes the file if
      * found and returns true; false otherwise
      *
-     * @param string $className
-     *
-     * @return bool
+     * @throws EventsException
      */
     private function autoloadCheckNamespaces(string className) -> bool
     {
-        var directories, fileName, namespaces, nsSeparator, prefix;
+        var directories, fileName, namespaces, prefix;
 
-        let nsSeparator = "\\",
-            namespaces  = this->namespaces;
+        let namespaces = this->namespaces;
 
         for prefix, directories in namespaces {
             if (true !== starts_with(className, prefix)) {
                 continue;
             }
 
-            /**
-             * Append the namespace separator to the prefix
-             */
-            let prefix   = rtrim(prefix, nsSeparator) . nsSeparator,
-                fileName = substr(className, strlen(prefix));
+            let fileName = substr(className, strlen(prefix));
 
             if (true === this->autoloadCheckDirectories(directories, fileName)) {
                 this->addDebug("Namespace: " . prefix . " - " . this->checkedPath);
@@ -712,21 +642,20 @@ class Loader extends AbstractEventsAware
      * to normalize the directories with the proper directory separator at the
      * end
      *
-     * @param mixed  $directories
-     * @param string $dirSeparator
+     * @param mixed $directories
      *
-     * @return array<string, string>
-     * @throws Exception
+     * @return autoload_strings
      */
-    private function checkDirectories(directories, string dirSeparator) -> array
-    {
+    private function checkDirectories(
+        directories,
+        string dirSeparator,
+        string name = ""
+    ) -> array {
         var directory;
         array results;
 
         if (!is_string(directories) && !is_array(directories)) {
-            throw new Exception(
-                "The directories parameter is not a string or array"
-            );
+            throw new LoaderDirectoriesNotArray(name);
         }
 
         if (is_string(directories)) {
@@ -737,9 +666,14 @@ class Loader extends AbstractEventsAware
         for directory in directories {
             let directory = rtrim(directory, dirSeparator) . dirSeparator;
 
-            let results[hash("sha256", directory)] = directory;
+            let results[directory] = directory;
         }
 
         return results;
+    }
+
+    private function registerAutoload(bool prepend) -> bool
+    {
+        return spl_autoload_register([this, "autoload"], true, prepend);
     }
 }

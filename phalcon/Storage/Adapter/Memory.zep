@@ -1,4 +1,3 @@
-
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -10,23 +9,42 @@
 
 namespace Phalcon\Storage\Adapter;
 
-use DateInterval;
 use Exception as BaseException;
+use Phalcon\Contracts\Storage\StorageTypes;
 use Phalcon\Storage\SerializerFactory;
-use Phalcon\Support\Exception as SupportException;
 
 /**
  * Memory adapter
  *
- * @property array $data
- * @property array $options
+ * @phpstan-import-type storage_adapter_options from StorageTypes
+ * @phpstan-import-type storage_keys from StorageTypes
+ * @phpstan-import-type storage_memory_data from StorageTypes
+ *
+ * @phpstan-property storage_memory_data $data
+ * @phpstan-property storage_adapter_options $options
+ *
+ * Capabilities:
+ * - Scope: per-request, in-process; nothing is shared across requests or
+ *   processes and the store is discarded when the request ends.
+ * - Counters: read-modify-write on the in-memory array.
+ * - getKeys(): in-memory array scan (cheap).
+ * - Optional maxItems FIFO cap drops the oldest entry before a new key is set.
  */
 class Memory extends AbstractAdapter
 {
     /**
-     * @var array
+     * @var array<string, mixed>
+     *
+     * @phpstan-var storage_memory_data
      */
-    protected data = [];
+    protected array data = [];
+
+    /**
+     * Maximum number of items retained in the in-memory store.
+     * 0 (default) keeps the original unbounded behavior; a positive
+     * value drops the oldest entry FIFO before a new key is stored.
+     */
+    protected int maxItems = 0;
 
     /**
      * Memory constructor.
@@ -34,9 +52,11 @@ class Memory extends AbstractAdapter
      * @param SerializerFactory $factory
      * @param array             $options
      *
-     * @throws SupportException
+     * @phpstan-param storage_adapter_options $options
+     *
+     * @throws BaseException
      */
-    public function __construct(<SerializerFactory> factory, array! options = [])
+    public function __construct(<SerializerFactory> factory, array options = [])
     {
         parent::__construct(factory, options);
 
@@ -54,72 +74,13 @@ class Memory extends AbstractAdapter
     }
 
     /**
-     * Decrements a stored number
-     *
-     * @param string $key
-     * @param int    $value
-     *
-     * @return bool|int
-     */
-    public function decrement(string! key, int value = 1) -> int | bool
-    {
-        var current, prefixedKey, result;
-
-        let prefixedKey = this->getPrefixedKey(key);
-
-        if unlikely !fetch current, this->data[prefixedKey] {
-            return false;
-        }
-
-        let result = (int) current - value,
-            this->data[prefixedKey] = result;
-
-        return result;
-    }
-
-    /**
-     * Deletes data from the adapter
-     *
-     * @param string $key
-     *
-     * @return bool
-     */
-    public function delete(string! key) -> bool
-    {
-        var exists, prefixedKey;
-
-        let prefixedKey = this->getPrefixedKey(key),
-            exists      = isset(this->data[prefixedKey]);
-
-        unset(this->data[prefixedKey]);
-
-        return exists;
-    }
-
-    /**
-     * Reads data from the adapter
-     *
-     * @param string     $key
-     * @param mixed|null $defaultValue
-     *
-     * @return mixed
-     */
-    public function get(string key, defaultValue = null)
-    {
-        var content, prefixedKey;
-
-        let prefixedKey = this->getPrefixedKey(key),
-            content     = this->data[prefixedKey];
-
-        return this->getUnserializedData(content, defaultValue);
-    }
-
-    /**
      * Stores data in the adapter
      *
      * @param string $prefix
      *
      * @return array
+     *
+     * @phpstan-return storage_keys
      */
     public function getKeys(string prefix = "") -> array
     {
@@ -127,58 +88,117 @@ class Memory extends AbstractAdapter
     }
 
     /**
-     * Checks if an element exists in the cache
-     *
-     * @param string $key
-     *
-     * @return bool
+     * Returns the configured store cap (0 = unlimited). See setMaxItems().
      */
-    public function has(string! key) -> bool
+    public function getMaxItems() -> int
     {
-        var prefixedKey;
-
-        let prefixedKey = this->getPrefixedKey(key);
-
-        return isset(this->data[prefixedKey]);
+        return this->maxItems;
     }
 
     /**
-     * Increments a stored number
-     *
-     * @param string $key
-     * @param int    $value
-     *
-     * @return bool|int
+     * Stores data in the adapter forever. The key needs to manually deleted
+     * from the adapter.
      */
-    public function increment(string! key, int value = 1) -> int | bool
+    public function setForever(string key, var data) -> bool
     {
-        var current, prefixedKey, result;
+        return $this->set(key, data);
+    }
 
-        let prefixedKey = this->getPrefixedKey(key);
+    /**
+     * Caps the number of items retained in the in-memory store.
+     * 0 disables the cap (the default; preserves the original
+     * unbounded behavior). When the cap is exceeded, the oldest
+     * entry is evicted FIFO before a new key is stored.
+     */
+    public function setMaxItems(int maxItems) -> <static>
+    {
+        let this->maxItems = maxItems;
 
-        if unlikely !fetch current, this->data[prefixedKey] {
-            return false;
+        return this;
+    }
+
+    /**
+     * Decrements a stored number
+     */
+    protected function doDecrement(string key, int value = 1) -> false | int
+    {
+        var current, newValue, prefixedKey, result;
+
+        let prefixedKey = this->getPrefixedKey(key),
+            result      = array_key_exists(prefixedKey, this->data);
+
+        if likely true === result {
+            /** @var float|int|string $current */
+            let current  = this->data[prefixedKey],
+                newValue = (int) current - value,
+                result   = newValue;
+
+            let this->data[prefixedKey] = newValue;
         }
-
-        let result = (int) current + value,
-            this->data[prefixedKey] = result;
 
         return result;
     }
 
     /**
-     * Stores data in the adapter
-     *
-     * @param string                 $key
-     * @param mixed                  $value
-     * @param \DateInterval|int|null $ttl
-     *
-     * @return bool
-     * @throws BaseException
+     * Deletes data from the adapter
      */
-    public function set(string! key, var value, var ttl = null) -> bool
+    protected function doDelete(string key) -> bool
     {
-        var content, prefixedKey;
+        var exists, prefixedKey;
+
+        let prefixedKey = this->getPrefixedKey(key),
+            exists      = array_key_exists(prefixedKey, this->data);
+
+        unset(this->data[prefixedKey]);
+
+        return exists;
+    }
+
+    protected function doGetData(string key) -> var
+    {
+        return this->data[this->getPrefixedKey(key)];
+    }
+
+    /**
+     * Checks if an element exists in the cache
+     */
+    protected function doHas(string key) -> bool
+    {
+        return array_key_exists(this->getPrefixedKey(key), this->data);
+    }
+
+    /**
+     * Increments a stored number
+     */
+    protected function doIncrement(string key, int value = 1) -> false | int
+    {
+        var current, newValue, prefixedKey, result;
+
+        let prefixedKey = this->getPrefixedKey(key),
+            result      = array_key_exists(prefixedKey, this->data);
+
+        if likely true === result {
+            /** @var float|int|string $current */
+            let current  = this->data[prefixedKey],
+                newValue = (int) current + value,
+                result   = newValue;
+
+            let this->data[prefixedKey] = newValue;
+        }
+
+        return result;
+    }
+
+    /**
+     * Stores data in the adapter. If the TTL is `null` (default) or not defined
+     * then the default TTL will be used, as set in this adapter. If the TTL
+     * is `0` or a negative number, a `delete()` will be issued, since this
+     * item has expired. If you need to set this key forever, you should use
+     * the `setForever()` method.
+     */
+    protected function doSet(string key, var value, var ttl = null) -> bool
+    {
+        var content, firstKey, prefixedKey;
 
         if (typeof ttl === "integer" && ttl < 1) {
             return this->delete(key);
@@ -187,22 +207,16 @@ class Memory extends AbstractAdapter
         let content     = this->getSerializedData(value),
             prefixedKey = this->getPrefixedKey(key);
 
+        if this->maxItems > 0
+            && !array_key_exists(prefixedKey, this->data)
+            && count(this->data) >= this->maxItems {
+            let firstKey = array_key_first(this->data);
+
+            unset(this->data[firstKey]);
+        }
+
         let this->data[prefixedKey] = content;
 
         return true;
-    }
-
-    /**
-     * Stores data in the adapter forever. The key needs to manually deleted
-     * from the adapter.
-     *
-     * @param string $key
-     * @param mixed  $value
-     *
-     * @return bool
-     */
-    public function setForever(string! key, var value) -> bool
-    {
-        return this->set(key, value);
     }
 }

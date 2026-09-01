@@ -13,8 +13,9 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
-#include "kernel/memory.h"
+#include "kernel/operators.h"
 #include "kernel/object.h"
+#include "kernel/memory.h"
 
 
 /**
@@ -26,45 +27,49 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Filter\Sanitize\String
- *
  * Sanitizes a value to string
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_StringVal)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Filter\\Sanitize, StringVal, phalcon, filter_sanitize_stringval, phalcon_filter_sanitize_stringval_method_entry, 0);
 
+	zend_class_implements(phalcon_filter_sanitize_stringval_ce, 1, phalcon_contracts_filter_sanitizer_ce);
 	return SUCCESS;
 }
 
 /**
- * @param mixed $input The text to sanitize
+ * @param string $input The text to sanitize
+ * @param int    $flags The flags for `htmlspecialchars()`
  *
  * @return string
  */
 PHP_METHOD(Phalcon_Filter_Sanitize_StringVal, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *input, input_sub, _0;
-	zval *this_ptr = getThis();
+	zend_long flags, ZEPHIR_LAST_CALL_STATUS;
+	zval input_zv, *flags_param = NULL, _0;
+	zend_string *input = NULL;
 
-	ZVAL_UNDEF(&input_sub);
+	ZVAL_UNDEF(&input_zv);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(input)
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(input)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_LONG(flags)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &input);
-
-
-	ZVAL_LONG(&_0, 513);
-	ZEPHIR_RETURN_CALL_FUNCTION("filter_var", NULL, 298, input, &_0);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (ZEND_NUM_ARGS() > 1) {
+		flags_param = ZEND_CALL_ARG(execute_data, 2);
+	}
+	zephir_memory_observe(&input_zv);
+	ZVAL_STR_COPY(&input_zv, input);
+	if (!flags_param) {
+		flags = 11;
+	} else {
+		}
+	ZVAL_LONG(&_0, flags);
+	ZEPHIR_RETURN_CALL_FUNCTION("htmlspecialchars", NULL, 197, &input_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -22,11 +22,13 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+/**
+ * Exception thrown when the algorithm is not supported for JWT
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Exceptions_UnsupportedAlgorithmException)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Encryption\\Security\\JWT\\Exceptions, UnsupportedAlgorithmException, phalcon, encryption_security_jwt_exceptions_unsupportedalgorithmexception, zend_ce_exception, NULL, 0);
 
-	zend_class_implements(phalcon_encryption_security_jwt_exceptions_unsupportedalgorithmexception_ce, 1, zend_ce_throwable);
 	return SUCCESS;
 }
 

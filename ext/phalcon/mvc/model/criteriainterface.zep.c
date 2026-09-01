@@ -17,8 +17,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 /**
  * Phalcon\Mvc\Model\CriteriaInterface
@@ -130,27 +130,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, groupBy);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, having);
 /**
- * Adds an INNER join to the query
- *
- *```php
- * $criteria->innerJoin(
- *     Robots::class
- * );
- *
- * $criteria->innerJoin(
- *     Robots::class,
- *     "r.id = RobotsParts.robots_id"
- * );
- *
- * $criteria->innerJoin(
- *     Robots::class,
- *     "r.id = RobotsParts.robots_id",
- *     "r"
- * );
- *```
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, innerJoin);
-/**
  * Appends an IN condition to the current conditions
  *
  *```php
@@ -159,12 +138,33 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, innerJoin);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, inWhere);
 /**
+ * Adds an INNER join to the query
+ *
+ *```php
+ * $criteria->innerJoin(
+ *     Orders::class
+ * );
+ *
+ * $criteria->innerJoin(
+ *     Orders::class,
+ *     "r.ord_id = OrdersProducts.oxp_ord_id"
+ * );
+ *
+ * $criteria->innerJoin(
+ *     Orders::class,
+ *     "r.ord_id = OrdersProducts.oxp_ord_id",
+ *     "r"
+ * );
+ *```
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, innerJoin);
+/**
  * Adds a LEFT join to the query
  *
  *```php
  * $criteria->leftJoin(
- *     Robots::class,
- *     "r.id = RobotsParts.robots_id",
+ *     Orders::class,
+ *     "r.ord_id = OrdersProducts.oxp_ord_id",
  *     "r"
  * );
  *```
@@ -194,10 +194,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, notBetweenWhere);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, notInWhere);
 /**
- * Adds the order-by parameter to the criteria
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, orderBy);
-/**
  * Appends a condition to the current conditions using an OR operator
  *
  * @param array bindParams
@@ -205,12 +201,16 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, orderBy);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, orWhere);
 /**
+ * Adds the order-by parameter to the criteria
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, orderBy);
+/**
  * Adds a RIGHT join to the query
  *
  *```php
  * $criteria->rightJoin(
- *     Robots::class,
- *     "r.id = RobotsParts.robots_id",
+ *     Orders::class,
+ *     "r.ord_id = OrdersProducts.oxp_ord_id",
  *     "r"
  * );
  *```

@@ -1,6 +1,6 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -15,11 +15,6 @@ namespace Phalcon\Support\Helper\Str;
  */
 class IsPalindrome
 {
-    /**
-     * @param string $text
-     *
-     * @return bool
-     */
     public function __invoke(string text) -> bool
     {
         return strrev(text) === text;

@@ -4,51 +4,52 @@
  *
  * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 
 namespace Phalcon\Html\Helper;
 
+use Phalcon\Contracts\Html\HtmlTypes;
+
 /**
  * Creates <link> tags
+ *
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 class Link extends Style
 {
     /**
      * Add an element to the list
      *
-     * @param string $url
-     * @param array  $attributes
+     * @phpstan-param html_attributes $attributes
      */
-    public function add(string url, array attributes = [])
+    public function add(string url, array attributes = [], int position = -1) -> <static>
     {
-        let this->store[] = [
-            "renderTag",
+        this->pushOrPlace(
             [
-                this->getTag(),
-                this->getAttributes(url, attributes),
-                "/"
+                "renderTag",
+                [
+                    this->getTag(),
+                    this->getAttributes(url, attributes),
+                    "/"
+                ],
+                this->indent()
             ],
-            this->indent()
-        ];
+            position
+        );
 
         return this;
     }
 
     /**
-     * @return string
-     */
-    protected function getTag() -> string
-    {
-        return "link";
-    }
-
-    /**
      * Returns the necessary attributes
      *
-     * @param string $url
-     * @param array  $attributes
+     * @phpstan-param html_attributes $attributes
      *
-     * @return array
+     * @phpstan-return html_attributes
      */
     protected function getAttributes(string url, array attributes) -> array
     {
@@ -61,5 +62,13 @@ class Link extends Style
         unset(attributes["href"]);
 
         return array_merge(required, attributes);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getTag() -> string
+    {
+        return "link";
     }
 }

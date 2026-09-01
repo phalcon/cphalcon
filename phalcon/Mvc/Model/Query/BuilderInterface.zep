@@ -13,13 +13,17 @@ namespace Phalcon\Mvc\Model\Query;
 use Phalcon\Mvc\Model\QueryInterface;
 
 /**
- * Phalcon\Mvc\Model\Query\BuilderInterface
- *
  * Interface for Phalcon\Mvc\Model\Query\Builder
  */
 interface BuilderInterface
 {
+    /**
+     * @var string
+     */
     const OPERATOR_AND = "and";
+    /**
+     * @var string
+     */
     const OPERATOR_OR = "or";
 
     /**
@@ -38,12 +42,53 @@ interface BuilderInterface
      * @param mixed minimum
      * @param mixed maximum
      */
-    public function betweenWhere(string! expr, minimum, maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>;
+    public function betweenWhere( string expr, minimum, maximum,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>;
 
     /**
-     * Sets the columns to be queried
+     * Sets the columns to be queried. The columns can be either a `string` or
+     * an `array` of strings. If the argument is a (single, non-embedded) string,
+     * its content can specify one or more columns, separated by commas, the same
+     * way that one uses the SQL select statement. You can use aliases, aggregate
+     * functions, etc. If you need to reference other models you will need to
+     * reference them with their namespaces.
      *
-     * @param string|array columns
+     * When using an array as a parameter, you will need to specify one field
+     * per array element. If a non-numeric key is defined in the array, it will
+     * be used as the alias in the query
+     *
+     *```php
+     * <?php
+     *
+     * // String, comma separated values
+     * $builder->columns("id, name");
+     *
+     * // Array, one column per element
+     * $builder->columns(
+     *     [
+     *         "id",
+     *         "name",
+     *     ]
+     * );
+     *
+     * // Array, named keys. The name of the key acts as an alias (`AS` clause)
+     * $builder->columns(
+     *     [
+     *         "name",
+     *         "number" => "COUNT(*)",
+     *     ]
+     * );
+     *
+     * // Different models
+     * $builder->columns(
+     *     [
+     *         "\Phalcon\Models\Invoices.*",
+     *         "\Phalcon\Models\Customers.cst_name_first",
+     *         "\Phalcon\Models\Customers.cst_name_last",
+     *     ]
+     * );
+     *```
+     *
+     * @param string|array $columns
      */
     public function columns(columns) -> <BuilderInterface>;
 
@@ -110,7 +155,7 @@ interface BuilderInterface
     /**
      * Returns the HAVING condition clause
      */
-    public function getHaving() -> string;
+    public function getHaving() -> string | null;
 
     /**
      * Return join parts of the query
@@ -123,6 +168,11 @@ interface BuilderInterface
      * @return string|array
      */
     public function getLimit();
+
+    /**
+     * Returns the models involved in the query
+     */
+    public function getModels() -> string | array | null;
 
     /**
      * Returns the current OFFSET clause
@@ -163,7 +213,7 @@ interface BuilderInterface
     /**
      * Sets a HAVING condition clause
      */
-    public function having(string conditions) -> <BuilderInterface>;
+    public function having(string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>;
 
     /**
      * Adds an INNER join to the query
@@ -173,7 +223,7 @@ interface BuilderInterface
     /**
      * Appends an IN condition to the current conditions
      */
-    public function inWhere(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>;
+    public function inWhere( string expr,  array values,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>;
 
     /**
      * Adds an :type: join (by default type - INNER) to the query
@@ -198,27 +248,27 @@ interface BuilderInterface
     public function limit(int limit, offset = null) -> <BuilderInterface>;
 
     /**
-     * Returns the models involved in the query
-     */
-    public function getModels() -> string | array | null;
-
-    /**
      * Appends a NOT BETWEEN condition to the current conditions
      *
      * @param mixed minimum
      * @param mixed maximum
      */
-    public function notBetweenWhere(string! expr, minimum, maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>;
+    public function notBetweenWhere( string expr, minimum, maximum,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>;
 
     /**
      * Appends a NOT IN condition to the current conditions
      */
-    public function notInWhere(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>;
+    public function notInWhere( string expr,  array values,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>;
 
     /**
      * Sets an OFFSET clause
      */
     public function offset(int offset) -> <BuilderInterface>;
+
+    /**
+     * Appends a condition to the current conditions using an OR operator
+     */
+    public function orWhere(string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>;
 
     /**
      * Sets an ORDER BY condition clause
@@ -228,11 +278,6 @@ interface BuilderInterface
     public function orderBy(var orderBy) -> <BuilderInterface>;
 
     /**
-     * Appends a condition to the current conditions using an OR operator
-     */
-    public function orWhere(string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>;
-
-    /**
      * Adds a RIGHT join to the query
      */
     public function rightJoin(string model, string conditions = null, string alias = null) -> <BuilderInterface>;
@@ -240,15 +285,23 @@ interface BuilderInterface
     /**
      * Set default bind parameters
      */
-    public function setBindParams(array! bindParams, bool merge = false) -> <BuilderInterface>;
+    public function setBindParams( array bindParams, bool merge = false) -> <BuilderInterface>;
 
     /**
      * Set default bind types
      */
-    public function setBindTypes(array! bindTypes, bool merge = false) -> <BuilderInterface>;
+    public function setBindTypes( array bindTypes, bool merge = false) -> <BuilderInterface>;
 
     /**
      * Sets conditions for the query
      */
     public function where(string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>;
+
+    // TODO v7: promote the custom resultset-row-class accessors into this
+    // interface. They are implemented on Phalcon\Mvc\Model\Query\Builder but
+    // are kept out of the contract in 5.x to avoid breaking existing
+    // BuilderInterface implementations in the wild.
+    //
+    // public function getResultsetRowClass() -> string;
+    // public function setResultsetRowClass(string resultsetRowClass) -> <BuilderInterface>;
 }

@@ -1,8 +1,8 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view
  * the LICENSE file that was distributed with this source code.
@@ -10,20 +10,72 @@
 
 namespace Phalcon\Db\Adapter;
 
-use Phalcon\Db\DialectInterface;
+use Phalcon\Db\CheckInterface;
 use Phalcon\Db\ColumnInterface;
+use Phalcon\Db\DialectInterface;
 use Phalcon\Db\Enum;
 use Phalcon\Db\Exception;
+use Phalcon\Db\Exceptions\CannotInsertWithoutData;
+use Phalcon\Db\Exceptions\IncompleteBindTypes;
+use Phalcon\Db\Exceptions\InvalidDialectClass;
+use Phalcon\Db\Exceptions\InvalidWhereConditions;
+use Phalcon\Db\Exceptions\NestedTransactionChangeBlocked;
+use Phalcon\Db\Exceptions\SavepointsNotSupported;
+use Phalcon\Db\Exceptions\TableMustHaveColumn;
+use Phalcon\Db\Exceptions\UpdateFieldCountMismatch;
 use Phalcon\Db\Index;
 use Phalcon\Db\IndexInterface;
+use Phalcon\Db\RawValue;
 use Phalcon\Db\Reference;
 use Phalcon\Db\ReferenceInterface;
-use Phalcon\Db\RawValue;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
+use Phalcon\Support\Settings;
 
 /**
- * Base class for Phalcon\Db\Adapter adapters
+ * Base class for Phalcon\Db\Adapter adapters.
+ *
+ * This class and its related classes provide a simple SQL database interface
+ * for Phalcon Framework. The Phalcon\Db is the basic class you use to connect
+ * your PHP application to an RDBMS. There is a different adapter class for each
+ * brand of RDBMS.
+ *
+ * This component is intended to lower level database operations. If you want to
+ * interact with databases using higher level of abstraction use
+ * Phalcon\Mvc\Model.
+ *
+ * Phalcon\Db\AbstractDb is an abstract class. You only can use it with a
+ * database adapter like Phalcon\Db\Adapter\Pdo
+ *
+ *```php
+ * use Phalcon\Db;
+ * use Phalcon\Db\Exception;
+ * use Phalcon\Db\Adapter\Pdo\Mysql as MysqlConnection;
+ *
+ * try {
+ *     $connection = new MysqlConnection(
+ *         [
+ *             "host"     => "192.168.0.11",
+ *             "username" => "sigma",
+ *             "password" => "secret",
+ *             "dbname"   => "blog",
+ *             "port"     => "3306",
+ *         ]
+ *     );
+ *
+ *     $result = $connection->query(
+ *         "SELECT * FROM co_invoices LIMIT 5"
+ *     );
+ *
+ *     $result->setFetchMode(Enum::FETCH_NUM);
+ *
+ *     while ($invoice = $result->fetch()) {
+ *         print_r($invoice);
+ *     }
+ * } catch (Exception $e) {
+ *     echo $e->getMessage(), PHP_EOL;
+ * }
+ * ```
  */
 abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 {
@@ -51,7 +103,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Dialect instance
      *
-     * @var object
+     * @var DialectInterface
      */
     protected dialect;
 
@@ -60,7 +112,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * @var string
      */
-    protected dialectType { get };
+    protected dialectType;
 
     /**
      * Event Manager
@@ -116,7 +168,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * @var string
      */
-    protected type { get };
+    protected type;
 
     /**
      * Phalcon\Db\Adapter constructor
@@ -132,8 +184,12 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *     'dsn' => null,
      *     'charset' => 'utf8mb4'
      * ]
+     *
+     * Note: the `options` key is forwarded to the static `setup()` method,
+     * which writes process-global settings affecting every connection in the
+     * process. See `setup()`.
      */
-    public function __construct(array! descriptor)
+    public function __construct( array descriptor)
     {
         var dialectClass, connectionId;
 
@@ -151,19 +207,27 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
         /**
          * Create the instance only if the dialect is a string
          */
-        if typeof dialectClass == "string" {
+        if typeof dialectClass === "string" {
             let this->dialect = create_instance(dialectClass);
-        } elseif typeof dialectClass == "object" {
+        } elseif typeof dialectClass === "object" {
+            if unlikely !(dialectClass instanceof DialectInterface) {
+                throw new InvalidDialectClass(get_class(dialectClass));
+            }
+
             let this->dialect = dialectClass;
         }
 
         let this->descriptor = descriptor;
+
+        if (isset (descriptor["options"]) && typeof descriptor["options"] === "array") {
+            self::setup(descriptor["options"]);
+        }
     }
 
     /**
      * Adds a column to a table
      */
-    public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> bool
+    public function addColumn( string tableName,  string schemaName, <ColumnInterface> column) -> bool
     {
         return this->{"execute"}(
             this->dialect->addColumn(
@@ -175,9 +239,24 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
+     * Adds a CHECK constraint to a table. MySQL 8.0.16+ and PostgreSQL
+     * issue `ALTER TABLE ... ADD CONSTRAINT ... CHECK (...)`; SQLite throws.
+     */
+    public function addCheck( string tableName,  string schemaName, <CheckInterface> check) -> bool
+    {
+        return this->{"execute"}(
+            this->dialect->addCheck(
+                tableName,
+                schemaName,
+                check
+            )
+        );
+    }
+
+    /**
      * Adds a foreign key to a table
      */
-    public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> bool
+    public function addForeignKey( string tableName,  string schemaName, <ReferenceInterface> reference) -> bool
     {
         return this->{"execute"}(
             this->dialect->addForeignKey(
@@ -191,7 +270,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Adds an index to a table
      */
-    public function addIndex(string! tableName, string! schemaName, <IndexInterface> index) -> bool
+    public function addIndex( string tableName,  string schemaName, <IndexInterface> index) -> bool
     {
         return this->{"execute"}(
             this->dialect->addIndex(
@@ -205,7 +284,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Adds a primary key to a table
      */
-    public function addPrimaryKey(string! tableName, string! schemaName, <IndexInterface> index) -> bool
+    public function addPrimaryKey( string tableName,  string schemaName, <IndexInterface> index) -> bool
     {
         return this->{"execute"}(
             this->dialect->addPrimaryKey(
@@ -219,16 +298,14 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Creates a new savepoint
      */
-    public function createSavepoint(string! name) -> bool
+    public function createSavepoint( string name) -> bool
     {
         var dialect;
 
         let dialect = this->dialect;
 
         if unlikely !dialect->supportsSavePoints() {
-            throw new Exception(
-                "Savepoints are not supported by this database adapter."
-            );
+            throw new SavepointsNotSupported();
         }
 
         return this->{"execute"}(
@@ -239,16 +316,16 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Creates a table
      */
-    public function createTable(string! tableName, string! schemaName, array! definition) -> bool
+    public function createTable( string tableName,  string schemaName,  array definition) -> bool
     {
         var columns;
 
         if unlikely !fetch columns, definition["columns"] {
-            throw new Exception("The table must contain at least one column");
+            throw new TableMustHaveColumn();
         }
 
-        if unlikely !count(columns) {
-            throw new Exception("The table must contain at least one column");
+        if unlikely empty columns {
+            throw new TableMustHaveColumn();
         }
 
         return this->{"execute"}(
@@ -263,10 +340,10 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Creates a view
      */
-    public function createView(string! viewName, array! definition, string schemaName = null) -> bool
+    public function createView( string viewName,  array definition, string schemaName = null) -> bool
     {
         if unlikely !isset definition["sql"] {
-            throw new Exception("The table must contain at least one column");
+            throw new TableMustHaveColumn();
         }
 
         return this->{"execute"}(
@@ -282,15 +359,17 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * Deletes data from a table using custom RBDM SQL syntax
      *
      * ```php
-     * // Deleting existing robot
+     * // Deleting existing invoice
      * $success = $connection->delete(
-     *     "robots",
-     *     "id = 101"
+     *     "co_invoices",
+     *     "inv_id = 101"
      * );
      *
      * // Next SQL sentence is generated
-     * DELETE FROM `robots` WHERE `id` = 101
+     * DELETE FROM `co_invoices` WHERE `inv_id` = 101
      * ```
+     *
+     * Warning! If $whereCondition is string it not escaped.
      *
      * @param array|string table
      * @param string|null whereCondition
@@ -322,11 +401,18 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      *```php
      * print_r(
-     *     $connection->describeIndexes("robots_parts")
+     *     $connection->describeIndexes("co_orders_x_products")
      * );
      *```
+     *
+     * This base implementation consumes the dialect's `describeIndexes()` SQL
+     * as `FETCH_NUM` rows by position: column index 2 is the index key name and
+     * column index 4 is the indexed column name. A custom dialect's
+     * `describeIndexes()` SQL must emit columns in that order, or a custom
+     * adapter must override this method. All bundled adapters except PostgreSQL
+     * override it.
      */
-    public function describeIndexes(string! table, string schema = null) -> <IndexInterface[]>
+    public function describeIndexes( string table, string schema = null) -> <IndexInterface[]>
     {
         var indexes, index, keyName, indexObjects, name, indexColumns, columns;
 
@@ -362,11 +448,20 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      *```php
      * print_r(
-     *     $connection->describeReferences("robots_parts")
+     *     $connection->describeReferences("co_orders_x_products")
      * );
      *```
+     *
+     * This base implementation consumes the dialect's `describeReferences()`
+     * SQL as `FETCH_NUM` rows by position: index 1 is the local column, index 2
+     * the constraint name, index 3 the referenced schema, index 4 the
+     * referenced table, and index 5 the referenced column. A custom dialect's
+     * `describeReferences()` SQL must emit columns in that order, or a custom
+     * adapter must override this method. Every bundled adapter (MySQL,
+     * PostgreSQL, SQLite) overrides it, so this base implementation has no
+     * in-tree caller and effectively assumes the PostgreSQL row shape.
      */
-    public function describeReferences(string! table, string! schema = null) -> <ReferenceInterface[]>
+    public function describeReferences( string table,  string schema = null) -> <ReferenceInterface[]>
     {
         var references, reference, arrayReference, constraintName,
             referenceObjects, name, referencedSchema, referencedTable, columns,
@@ -420,7 +515,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Drops a column from a table
      */
-    public function dropColumn(string! tableName, string! schemaName, string columnName) -> bool
+    public function dropColumn( string tableName,  string schemaName, string columnName) -> bool
     {
         return this->{"execute"}(
             this->dialect->dropColumn(
@@ -432,9 +527,23 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
+     * Drops a CHECK constraint from a table. SQLite throws.
+     */
+    public function dropCheck( string tableName,  string schemaName,  string checkName) -> bool
+    {
+        return this->{"execute"}(
+            this->dialect->dropCheck(
+                tableName,
+                schemaName,
+                checkName
+            )
+        );
+    }
+
+    /**
      * Drops a foreign key from a table
      */
-    public function dropForeignKey(string! tableName, string! schemaName, string! referenceName) -> bool
+    public function dropForeignKey( string tableName,  string schemaName,  string referenceName) -> bool
     {
         return this->{"execute"}(
             this->dialect->dropForeignKey(
@@ -448,7 +557,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Drop an index from a table
      */
-    public function dropIndex(string! tableName, string! schemaName, indexName) -> bool
+    public function dropIndex( string tableName,  string schemaName, indexName) -> bool
     {
         return this->{"execute"}(
             this->dialect->dropIndex(
@@ -462,7 +571,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Drops a table's primary key
      */
-    public function dropPrimaryKey(string! tableName, string! schemaName) -> bool
+    public function dropPrimaryKey( string tableName,  string schemaName) -> bool
     {
         return this->{"execute"}(
             this->dialect->dropPrimaryKey(
@@ -475,7 +584,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Drops a table from a schema/database
      */
-    public function dropTable(string! tableName, string! schemaName = null, bool ifExists = true) -> bool
+    public function dropTable( string tableName,  string schemaName = null, bool ifExists = true) -> bool
     {
         return this->{"execute"}(
             this->dialect->dropTable(
@@ -489,7 +598,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Drops a view
      */
-    public function dropView(string! viewName, string! schemaName = null, bool ifExists = true) -> bool
+    public function dropView( string viewName,  string schemaName = null, bool ifExists = true) -> bool
     {
         return this->{"execute"}(
             this->dialect->dropView(
@@ -505,13 +614,13 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      *```php
      * $escapedTable = $connection->escapeIdentifier(
-     *     "robots"
+     *     "co_invoices"
      * );
      *
      * $escapedTable = $connection->escapeIdentifier(
      *     [
      *         "store",
-     *         "robots",
+     *         "co_invoices",
      *     ]
      * );
      *```
@@ -529,26 +638,26 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * Dumps the complete result of a query into an array
      *
      *```php
-     * // Getting all robots with associative indexes only
-     * $robots = $connection->fetchAll(
-     *     "SELECT * FROM robots",
+     * // Getting all invoices with associative indexes only
+     * $invoices = $connection->fetchAll(
+     *     "SELECT * FROM co_invoices",
      *     \Phalcon\Db\Enum::FETCH_ASSOC
      * );
      *
-     * foreach ($robots as $robot) {
-     *     print_r($robot);
+     * foreach ($invoices as $invoice) {
+     *     print_r($invoice);
      * }
      *
-     *  // Getting all robots that contains word "robot" withing the name
-     * $robots = $connection->fetchAll(
-     *     "SELECT * FROM robots WHERE name LIKE :name",
+     *  // Getting all invoices whose title contains the word "Test"
+     * $invoices = $connection->fetchAll(
+     *     "SELECT * FROM co_invoices WHERE inv_title LIKE :inv_title",
      *     \Phalcon\Db\Enum::FETCH_ASSOC,
      *     [
-     *         "name" => "%robot%",
+     *         "inv_title" => "%Test%",
      *     ]
      * );
-     * foreach($robots as $robot) {
-     *     print_r($robot);
+     * foreach($invoices as $invoice) {
+     *     print_r($invoice);
      * }
      *```
      */
@@ -575,16 +684,16 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * Returns the n'th field of first row in a SQL query result
      *
      *```php
-     * // Getting count of robots
-     * $robotsCount = $connection->fetchColumn("SELECT count(*) FROM robots");
-     * print_r($robotsCount);
+     * // Getting count of invoices
+     * $invoicesCount = $connection->fetchColumn("SELECT count(*) FROM co_invoices");
+     * print_r($invoicesCount);
      *
-     * // Getting name of last edited robot
-     * $robot = $connection->fetchColumn(
-     *     "SELECT id, name FROM robots ORDER BY modified DESC",
+     * // Getting the title of the last created invoice
+     * $invoice = $connection->fetchColumn(
+     *     "SELECT inv_id, inv_title FROM co_invoices ORDER BY inv_created_at DESC",
      *     1
      * );
-     * print_r($robot);
+     * print_r($invoice);
      *```
      */
     public function fetchColumn(string sqlQuery, array placeholders = [], var column = 0) -> string | bool
@@ -604,19 +713,19 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * Returns the first row in a SQL query result
      *
      *```php
-     * // Getting first robot
-     * $robot = $connection->fetchOne("SELECT * FROM robots");
-     * print_r($robot);
+     * // Getting first invoice
+     * $invoice = $connection->fetchOne("SELECT * FROM co_invoices");
+     * print_r($invoice);
      *
-     * // Getting first robot with associative indexes only
-     * $robot = $connection->fetchOne(
-     *     "SELECT * FROM robots",
+     * // Getting first invoice with associative indexes only
+     * $invoice = $connection->fetchOne(
+     *     "SELECT * FROM co_invoices",
      *     \Phalcon\Db\Enum::FETCH_ASSOC
      * );
-     * print_r($robot);
+     * print_r($invoice);
      *```
      */
-    public function fetchOne(string! sqlQuery, var fetchMode = Enum::FETCH_ASSOC, array bindParams = [], array bindTypes = []) -> array
+    public function fetchOne( string sqlQuery, var fetchMode = Enum::FETCH_ASSOC, array bindParams = [], array bindTypes = []) -> array
     {
         var result;
 
@@ -634,11 +743,13 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
-     * Returns a SQL modified with a FOR UPDATE clause
+     * Returns a SQL modified with a FOR UPDATE clause. The optional
+     * `modifier` is passed straight to the dialect (use `Dialect::LOCK_NOWAIT`
+     * / `Dialect::LOCK_SKIP_LOCKED` / `Dialect::LOCK_NONE`).
      */
-    public function forUpdate(string! sqlQuery) -> string
+    public function forUpdate( string sqlQuery, string modifier = "") -> string
     {
-        return this->dialect->forUpdate(sqlQuery);
+        return this->dialect->forUpdate(sqlQuery, modifier);
     }
 
     /**
@@ -660,7 +771,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Gets the active connection unique identifier
      */
-    public function getConnectionId() -> string
+    public function getConnectionId() -> int
     {
         return this->connectionId;
     }
@@ -669,18 +780,18 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * Returns the default identity value to be inserted in an identity column
      *
      *```php
-     * // Inserting a new robot with a valid default value for the column 'id'
+     * // Inserting a new invoice with a valid default value for the column 'inv_id'
      * $success = $connection->insert(
-     *     "robots",
+     *     "co_invoices",
      *     [
      *         $connection->getDefaultIdValue(),
-     *         "Astro Boy",
-     *         1952,
+     *         "Test Invoice",
+     *         100,
      *     ],
      *     [
-     *         "id",
-     *         "name",
-     *         "year",
+     *         "inv_id",
+     *         "inv_title",
+     *         "inv_total",
      *     ]
      * );
      *```
@@ -695,16 +806,16 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * in the table definition
      *
      *```php
-     * // Inserting a new robot with a valid default value for the column 'year'
+     * // Inserting a new invoice with a valid default value for the column 'inv_total'
      * $success = $connection->insert(
-     *     "robots",
+     *     "co_invoices",
      *     [
-     *         "Astro Boy",
+     *         "Test Invoice",
      *         $connection->getDefaultValue()
      *     ],
      *     [
-     *         "name",
-     *         "year",
+     *         "inv_title",
+     *         "inv_total",
      *     ]
      * );
      *```
@@ -730,6 +841,14 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     public function getDialect() -> <DialectInterface>
     {
         return this->dialect;
+    }
+
+    /**
+     * Name of the dialect used
+     */
+    public function getDialectType() -> string
+    {
+        return this->dialectType;
     }
 
     /**
@@ -781,33 +900,39 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
+     * Type of database system the adapter is used for
+     */
+    public function getType() -> string
+    {
+        return this->type;
+    }
+
+    /**
      * Inserts data into a table using custom RDBMS SQL syntax
      *
      * ```php
-     * // Inserting a new robot
+     * // Inserting a new invoice
      * $success = $connection->insert(
-     *     "robots",
-     *     ["Astro Boy", 1952],
-     *     ["name", "year"]
+     *     "co_invoices",
+     *     ["Test Invoice", 100],
+     *     ["inv_title", "inv_total"]
      * );
      *
      * // Next SQL sentence is sent to the database system
-     * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
+     * INSERT INTO `co_invoices` (`inv_title`, `inv_total`) VALUES ("Test Invoice", 100);
      * ```
      */
-    public function insert(string table, array! values, var fields = null, var dataTypes = null) -> bool
+    public function insert(string table,  array values, var fields = null, var dataTypes = null) -> bool
     {
-        var bindDataTypes, bindType, escapedTable, escapedFields, field,
-            insertSql, insertValues, joinedValues, placeholders, position,
-            tableName, value;
+        var bindDataTypes, escapedTable, escapedFields, field,
+            insertSql, insertValues, joinedValues, placeholder, placeholders,
+            position, tableName, value;
 
         /**
          * A valid array with more than one element is required
          */
-        if unlikely !count(values) {
-            throw new Exception(
-                "Unable to insert into " . table . " without data"
-            );
+        if unlikely empty values {
+            throw new CannotInsertWithoutData(table);
         }
 
         let placeholders  = [],
@@ -819,28 +944,15 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
          * string "null", everything else is passed as "?"
          */
         for position, value in values {
-            if typeof value == "object" && value instanceof RawValue {
-                let placeholders[] = (string) value;
-            } else {
-                if typeof value == "object" {
-                    let value = (string) value;
-                }
+            let placeholder = this->buildValuePlaceholder(value, position, dataTypes);
 
-                if value === null {
-                    let placeholders[] = "null";
-                } else {
-                    let placeholders[] = "?";
-                    let insertValues[] = value;
+            let placeholders[] = placeholder["placeholder"];
 
-                    if typeof dataTypes == "array" {
-                        if unlikely !fetch bindType, dataTypes[position] {
-                            throw new Exception(
-                                "Incomplete number of bind types"
-                            );
-                        }
+            if placeholder["bind"] {
+                let insertValues[] = placeholder["value"];
 
-                        let bindDataTypes[] = bindType;
-                    }
+                if placeholder["hasBindType"] {
+                    let bindDataTypes[] = placeholder["bindType"];
                 }
             }
         }
@@ -873,7 +985,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
         /**
          * Perform the execution via PDO::execute
          */
-        if !count(bindDataTypes) {
+        if empty bindDataTypes {
             return this->{"execute"}(insertSql, insertValues);
         }
 
@@ -884,17 +996,17 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * Inserts data into a table using custom RBDM SQL syntax
      *
      * ```php
-     * // Inserting a new robot
+     * // Inserting a new invoice
      * $success = $connection->insertAsDict(
-     *     "robots",
+     *     "co_invoices",
      *     [
-     *         "name" => "Astro Boy",
-     *         "year" => 1952,
+     *         "inv_title" => "Test Invoice",
+     *         "inv_total" => 100,
      *     ]
      * );
      *
      * // Next SQL sentence is sent to the database system
-     * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
+     * INSERT INTO `co_invoices` (`inv_title`, `inv_total`) VALUES ("Test Invoice", 100);
      * ```
      */
     public function insertAsDict(string table, data, var dataTypes = null) -> bool
@@ -926,10 +1038,10 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * Appends a LIMIT clause to $sqlQuery argument
      *
      * ```php
-     * echo $connection->limit("SELECT * FROM robots", 5);
+     * echo $connection->limit("SELECT * FROM co_invoices", 5);
      * ```
      */
-    public function limit(string! sqlQuery, int number) -> string
+    public function limit( string sqlQuery, var number) -> string
     {
         return this->dialect->limit(sqlQuery, number);
     }
@@ -943,7 +1055,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * );
      *```
      */
-    public function listTables(string! schemaName = null) -> array
+    public function listTables( string schemaName = null) -> array
     {
         var tables, table, allTables;
 
@@ -970,7 +1082,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * );
      *```
      */
-    public function listViews(string! schemaName = null) -> array
+    public function listViews( string schemaName = null) -> array
     {
         var tables, table, allTables;
 
@@ -991,7 +1103,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Modifies a table column based on a definition
      */
-    public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> bool
+    public function modifyColumn( string tableName,  string schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> bool
     {
         return this->{"execute"}(
             this->dialect->modifyColumn(
@@ -1006,16 +1118,14 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Releases given savepoint
      */
-    public function releaseSavepoint(string! name) -> bool
+    public function releaseSavepoint( string name) -> bool
     {
         var dialect;
 
         let dialect = this->dialect;
 
         if unlikely !dialect->supportsSavePoints() {
-            throw new Exception(
-                "Savepoints are not supported by this database adapter"
-            );
+            throw new SavepointsNotSupported();
         }
 
         if !dialect->supportsReleaseSavePoints() {
@@ -1030,16 +1140,14 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Rollbacks given savepoint
      */
-    public function rollbackSavepoint(string! name) -> bool
+    public function rollbackSavepoint( string name) -> bool
     {
         var dialect;
 
         let dialect = this->dialect;
 
         if unlikely !dialect->supportsSavePoints() {
-            throw new Exception(
-                "Savepoints are not supported by this database adapter"
-            );
+            throw new SavepointsNotSupported();
         }
 
         return this->{"execute"}(
@@ -1069,15 +1177,11 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     public function setNestedTransactionsWithSavepoints(bool nestedTransactionsWithSavepoints) -> <AdapterInterface>
     {
         if unlikely this->transactionLevel > 0 {
-            throw new Exception(
-                "Nested transaction with savepoints behavior cannot be changed while a transaction is open"
-            );
+            throw new NestedTransactionChangeBlocked();
         }
 
         if unlikely !this->dialect->supportsSavePoints() {
-            throw new Exception(
-                "Savepoints are not supported by this database adapter"
-            );
+            throw new SavepointsNotSupported();
         }
 
         let this->transactionsWithSavepoints = nestedTransactionsWithSavepoints;
@@ -1086,11 +1190,111 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
-     * Returns a SQL modified with a LOCK IN SHARE MODE clause
+     * Enables/disables options in the Database component.
+     *
+     * The flags are stored as process-global `Phalcon\Support\Settings`
+     * (`db.escape_identifiers`, `db.force_casting`) and therefore affect every
+     * connection in the process at once, last-writer-wins. Call this once at
+     * bootstrap; it is not per-connection configuration. Because the
+     * constructor calls `setup()` whenever a descriptor carries an `options`
+     * key, constructing one adapter with `options` can change the SQL another,
+     * already-configured connection generates.
      */
-    public function sharedLock(string! sqlQuery) -> string
+    public static function setup( array options) -> void
     {
-        return this->dialect->sharedLock(sqlQuery);
+        var escapeIdentifiers, forceCasting;
+
+        /**
+         * Enables/Disables globally the escaping of SQL identifiers
+         */
+        if fetch escapeIdentifiers, options["escapeSqlIdentifiers"] {
+            Settings::set("db.escape_identifiers", escapeIdentifiers);
+        }
+
+        /**
+         * Force cast bound values in the PHP userland
+         */
+        if fetch forceCasting, options["forceCasting"] {
+            Settings::set("db.force_casting", forceCasting);
+        }
+    }
+
+    /**
+     * Returns a SQL modified with a shared-lock clause. The optional
+     * `modifier` is passed straight to the dialect (use
+     * `Dialect::LOCK_NOWAIT` / `Dialect::LOCK_SKIP_LOCKED` for PostgreSQL).
+     */
+    public function sharedLock( string sqlQuery, string modifier = "") -> string
+    {
+        return this->dialect->sharedLock(sqlQuery, modifier);
+    }
+
+    /**
+     * Creates a materialized view (PostgreSQL only - MySQL and SQLite
+     * throw via the dialect).
+     */
+    public function createMaterializedView( string viewName,  array definition, string schemaName = null) -> bool
+    {
+        return this->{"execute"}(
+            this->dialect->createMaterializedView(
+                viewName,
+                definition,
+                schemaName
+            )
+        );
+    }
+
+    /**
+     * Drops a materialized view (PostgreSQL only).
+     */
+    public function dropMaterializedView( string viewName, string schemaName = null, bool ifExists = true) -> bool
+    {
+        return this->{"execute"}(
+            this->dialect->dropMaterializedView(
+                viewName,
+                schemaName,
+                ifExists
+            )
+        );
+    }
+
+    /**
+     * Refreshes a materialized view (PostgreSQL only). Pass
+     * `concurrent = true` for non-blocking refresh.
+     */
+    public function refreshMaterializedView( string viewName, string schemaName = null, bool concurrent = false) -> bool
+    {
+        return this->{"execute"}(
+            this->dialect->refreshMaterializedView(
+                viewName,
+                schemaName,
+                concurrent
+            )
+        );
+    }
+
+    /**
+     * Appends an `ON CONFLICT (...) DO UPDATE SET col = excluded.col`
+     * upsert clause to the supplied INSERT statement. Supported by
+     * PostgreSQL and SQLite 3.24+; MySQL throws.
+     */
+    public function onConflictUpdate( string sqlQuery,  array conflictColumns,  array updateColumns) -> string
+    {
+        return this->dialect->onConflictUpdate(
+            sqlQuery,
+            conflictColumns,
+            updateColumns
+        );
+    }
+
+    /**
+     * Appends a RETURNING clause to an INSERT/UPDATE/DELETE SQL statement
+     * and returns the modified SQL. Supported by PostgreSQL and SQLite 3.35+;
+     * MySQL throws (no RETURNING construct). Pass `["*"]` for `RETURNING *`.
+     */
+    public function returning( string sqlQuery,  array columns) -> string
+    {
+        return this->dialect->returning(sqlQuery, columns);
     }
 
     /**
@@ -1111,9 +1315,20 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * );
      *```
      */
-    public function tableExists(string! tableName, string! schemaName = null) -> bool
+    public function tableExists( string tableName,  string schemaName = null) -> bool
     {
-        return this->fetchOne(this->dialect->tableExists(tableName, schemaName), Enum::FETCH_NUM)[0] > 0;
+        var result;
+
+        let result = this->fetchOne(
+            this->dialect->tableExists(tableName, schemaName),
+            Enum::FETCH_NUM
+        );
+
+        if typeof result != "array" || !isset result[0] {
+            return false;
+        }
+
+        return result[0] > 0;
     }
 
     /**
@@ -1121,13 +1336,13 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      *```php
      * print_r(
-     *     $connection->tableOptions("robots")
+     *     $connection->tableOptions("co_invoices")
      * );
      *```
      */
-    public function tableOptions(string! tableName, string schemaName = null) -> array
+    public function tableOptions( string tableName, string schemaName = null) -> array
     {
-        var sql;
+        var sql, options;
 
         let sql = this->dialect->tableOptions(tableName, schemaName);
 
@@ -1135,31 +1350,37 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
             return [];
         }
 
-        return this->fetchAll(sql, Enum::FETCH_ASSOC)[0];
+        let options = this->fetchAll(sql, Enum::FETCH_ASSOC);
+
+        if !isset options[0] {
+            return [];
+        }
+
+        return options[0];
     }
 
     /**
      * Updates data on a table using custom RBDM SQL syntax
      *
      * ```php
-     * // Updating existing robot
+     * // Updating existing invoice
      * $success = $connection->update(
-     *     "robots",
-     *     ["name"],
-     *     ["New Astro Boy"],
-     *     "id = 101"
+     *     "co_invoices",
+     *     ["inv_title"],
+     *     ["New Test Invoice"],
+     *     "inv_id = 101"
      * );
      *
      * // Next SQL sentence is sent to the database system
-     * UPDATE `robots` SET `name` = "Astro boy" WHERE id = 101
+     * UPDATE `co_invoices` SET `inv_title` = "New Test Invoice" WHERE inv_id = 101
      *
-     * // Updating existing robot with array condition and $dataTypes
+     * // Updating existing invoice with array condition and $dataTypes
      * $success = $connection->update(
-     *     "robots",
-     *     ["name"],
-     *     ["New Astro Boy"],
+     *     "co_invoices",
+     *     ["inv_title"],
+     *     ["New Test Invoice"],
      *     [
-     *         "conditions" => "id = ?",
+     *         "conditions" => "inv_id = ?",
      *         "bind"       => [$some_unsafe_id],
      *         "bindTypes"  => [PDO::PARAM_INT], // use only if you use $dataTypes param
      *     ],
@@ -1174,9 +1395,9 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      */
     public function update(string table, var fields, var values, var whereCondition = null, var dataTypes = null) -> bool
     {
-        var bindDataTypes, bindType, conditions, escapedField, escapedTable,
-            field, placeholders, position, setClause, tableName, updateSql,
-            updateValues, value, whereBind, whereTypes;
+        var bindDataTypes, conditions, escapedField, escapedTable,
+            field, placeholder, placeholders, position, setClause, tableName,
+            updateSql, updateValues, value, whereBind, whereTypes;
 
         let placeholders  = [],
             updateValues  = [],
@@ -1188,36 +1409,19 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
          */
         for position, value in values {
             if unlikely !fetch field, fields[position] {
-                throw new Exception(
-                    "The number of values in the update is not the same as fields"
-                );
+                throw new UpdateFieldCountMismatch();
             }
 
             let escapedField = this->escapeIdentifier(field);
+            let placeholder  = this->buildValuePlaceholder(value, position, dataTypes);
 
-            if typeof value == "object" && value instanceof RawValue {
-                let placeholders[] = escapedField . " = " . (string) value;
-            } else {
-                if typeof value == "object" {
-                    let value = (string) value;
-                }
+            let placeholders[] = escapedField . " = " . placeholder["placeholder"];
 
-                if value === null {
-                    let placeholders[] = escapedField . " = null";
-                } else {
-                    let updateValues[] = value;
+            if placeholder["bind"] {
+                let updateValues[] = placeholder["value"];
 
-                    if typeof dataTypes == "array" {
-                        if unlikely !fetch bindType, dataTypes[position] {
-                            throw new Exception(
-                                "Incomplete number of bind types"
-                            );
-                        }
-
-                        let bindDataTypes[] = bindType;
-                    }
-
-                    let placeholders[] = escapedField . " = ?";
+                if placeholder["hasBindType"] {
+                    let bindDataTypes[] = placeholder["bindType"];
                 }
             }
         }
@@ -1248,7 +1452,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
                  * Array conditions may have bound params and bound types
                  */
                 if unlikely typeof whereCondition != "array" {
-                    throw new Exception("Invalid WHERE clause conditions");
+                    throw new InvalidWhereConditions();
                 }
 
                 /**
@@ -1282,7 +1486,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
         /**
          * Perform the update via PDO::execute
          */
-        if !count(bindDataTypes) {
+        if empty bindDataTypes {
             return this->{"execute"}(updateSql, updateValues);
         }
 
@@ -1294,17 +1498,17 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * Another, more convenient syntax
      *
      * ```php
-     * // Updating existing robot
+     * // Updating existing invoice
      * $success = $connection->updateAsDict(
-     *     "robots",
+     *     "co_invoices",
      *     [
-     *         "name" => "New Astro Boy",
+     *         "inv_title" => "New Test Invoice",
      *     ],
-     *     "id = 101"
+     *     "inv_id = 101"
      * );
      *
      * // Next SQL sentence is sent to the database system
-     * UPDATE `robots` SET `name` = "Astro boy" WHERE id = 101
+     * UPDATE `co_invoices` SET `inv_title` = "New Test Invoice" WHERE inv_id = 101
      * ```
      */
     public function updateAsDict(string table, var data, var whereCondition = null, var dataTypes = null) -> bool
@@ -1337,7 +1541,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * Check whether the database system support the DEFAULT
      * keyword (SQLite does not support it)
      *
-     * @deprecated Will re removed in the next version
+     * @deprecated Will be removed in a future major release.
      */
     public function supportsDefaultValue() -> bool {
         return true;
@@ -1352,8 +1556,76 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * );
      *```
      */
-    public function viewExists(string! viewName, string! schemaName = null) -> bool
+    public function viewExists( string viewName,  string schemaName = null) -> bool
     {
         return this->fetchOne(this->dialect->viewExists(viewName, schemaName), Enum::FETCH_NUM)[0] > 0;
+    }
+
+    /**
+     * Builds the SQL value fragment for a single INSERT/UPDATE value, shared by
+     * insert() and update(). RawValue instances are inlined as raw SQL, objects
+     * are cast via __toString, null becomes the literal "null", and every other
+     * value becomes a "?" placeholder.
+     *
+     * Zephir cannot mutate caller arrays by reference, so the bound value and
+     * bind type are returned for the caller to collect. The returned array has:
+     *
+     *  - "placeholder": string  - the SQL fragment ("null", "?", or raw SQL)
+     *  - "bind":        bool    - whether "value" must be bound
+     *  - "value":       mixed   - the value to bind (when "bind" is true)
+     *  - "hasBindType": bool    - whether "bindType" must be collected
+     *  - "bindType":    mixed   - the bind type to collect (when applicable)
+     *
+     * @param mixed $value
+     * @param mixed $position
+     * @param mixed $dataTypes
+     *
+     * @return array
+     */
+    private function buildValuePlaceholder(var value, var position, var dataTypes) -> array
+    {
+        var bindType;
+        bool hasBindType;
+
+        if typeof value == "object" && value instanceof RawValue {
+            return [
+                "placeholder" : (string) value,
+                "bind"        : false,
+                "value"       : null,
+                "hasBindType" : false,
+                "bindType"    : null
+            ];
+        }
+
+        if typeof value == "object" {
+            let value = (string) value;
+        }
+
+        if value === null {
+            return [
+                "placeholder" : "null",
+                "bind"        : false,
+                "value"       : null,
+                "hasBindType" : false,
+                "bindType"    : null
+            ];
+        }
+
+        let bindType    = null,
+            hasBindType = (typeof dataTypes == "array");
+
+        if hasBindType {
+            if unlikely !fetch bindType, dataTypes[position] {
+                throw new IncompleteBindTypes();
+            }
+        }
+
+        return [
+            "placeholder" : "?",
+            "bind"        : true,
+            "value"       : value,
+            "hasBindType" : hasBindType,
+            "bindType"    : bindType
+        ];
     }
 }

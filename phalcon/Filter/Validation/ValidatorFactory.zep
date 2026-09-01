@@ -11,13 +11,34 @@
 namespace Phalcon\Filter\Validation;
 
 use Phalcon\Factory\AbstractFactory;
+use Phalcon\Filter\Validation\Validator\Alnum;
+use Phalcon\Filter\Validation\Validator\Alpha;
+use Phalcon\Filter\Validation\Validator\Between;
+use Phalcon\Filter\Validation\Validator\Callback;
+use Phalcon\Filter\Validation\Validator\Confirmation;
+use Phalcon\Filter\Validation\Validator\CreditCard;
+use Phalcon\Filter\Validation\Validator\Date;
+use Phalcon\Filter\Validation\Validator\Digit;
+use Phalcon\Filter\Validation\Validator\Email;
+use Phalcon\Filter\Validation\Validator\Exception as ValidatorException;
+use Phalcon\Filter\Validation\Validator\ExclusionIn;
+use Phalcon\Filter\Validation\Validator\File;
+use Phalcon\Filter\Validation\Validator\Identical;
+use Phalcon\Filter\Validation\Validator\InclusionIn;
+use Phalcon\Filter\Validation\Validator\Ip;
+use Phalcon\Filter\Validation\Validator\Numericality;
+use Phalcon\Filter\Validation\Validator\PresenceOf;
+use Phalcon\Filter\Validation\Validator\Regex;
+use Phalcon\Filter\Validation\Validator\StringLength;
+use Phalcon\Filter\Validation\Validator\Uniqueness;
+use Phalcon\Filter\Validation\Validator\Url;
 
 class ValidatorFactory extends AbstractFactory
 {
     /**
      * TagFactory constructor.
      */
-    public function __construct(array! services = [])
+    public function __construct( array services = [])
     {
         this->init(services);
     }
@@ -25,7 +46,7 @@ class ValidatorFactory extends AbstractFactory
     /**
      * Creates a new instance
      */
-    public function newInstance(string! name) -> <ValidatorInterface>
+    public function newInstance( string name) -> <ValidatorInterface>
     {
         var definition;
 
@@ -39,7 +60,7 @@ class ValidatorFactory extends AbstractFactory
      */
     protected function getExceptionClass() -> string
     {
-        return "Phalcon\\Validation\\Exception";
+        return Exception::class;
     }
 
     /**
@@ -50,27 +71,27 @@ class ValidatorFactory extends AbstractFactory
     protected function getServices() -> array
     {
         return [
-            "alnum"        : "Phalcon\\Filter\\Validation\\Validator\\Alnum",
-            "alpha"        : "Phalcon\\Filter\\Validation\\Validator\\Alpha",
-            "between"      : "Phalcon\\Filter\\Validation\\Validator\\Between",
-            "callback"     : "Phalcon\\Filter\\Validation\\Validator\\Callback",
-            "confirmation" : "Phalcon\\Filter\\Validation\\Validator\\Confirmation",
-            "creditCard"   : "Phalcon\\Filter\\Validation\\Validator\\CreditCard",
-            "date"         : "Phalcon\\Filter\\Validation\\Validator\\Date",
-            "digit"        : "Phalcon\\Filter\\Validation\\Validator\\Digit",
-            "email"        : "Phalcon\\Filter\\Validation\\Validator\\Email",
-            "exception"    : "Phalcon\\Filter\\Validation\\Validator\\Exception",
-            "exclusionIn"  : "Phalcon\\Filter\\Validation\\Validator\\ExclusionIn",
-            "file"         : "Phalcon\\Filter\\Validation\\Validator\\File",
-            "identical"    : "Phalcon\\Filter\\Validation\\Validator\\Identical",
-            "inclusionIn"  : "Phalcon\\Filter\\Validation\\Validator\\InclusionIn",
-            "ip"           : "Phalcon\\Filter\\Validation\\Validator\\Ip",
-            "numericality" : "Phalcon\\Filter\\Validation\\Validator\\Numericality",
-            "presenceOf"   : "Phalcon\\Filter\\Validation\\Validator\\PresenceOf",
-            "regex"        : "Phalcon\\Filter\\Validation\\Validator\\Regex",
-            "stringLength" : "Phalcon\\Filter\\Validation\\Validator\\StringLength",
-            "uniqueness"   : "Phalcon\\Filter\\Validation\\Validator\\Uniqueness",
-            "url"          : "Phalcon\\Filter\\Validation\\Validator\\Url"
+            "alnum"        : Alnum::class,
+            "alpha"        : Alpha::class,
+            "between"      : Between::class,
+            "callback"     : Callback::class,
+            "confirmation" : Confirmation::class,
+            "creditCard"   : CreditCard::class,
+            "date"         : Date::class,
+            "digit"        : Digit::class,
+            "email"        : Email::class,
+            "exception"    : ValidatorException::class,
+            "exclusionIn"  : ExclusionIn::class,
+            "file"         : File::class,
+            "identical"    : Identical::class,
+            "inclusionIn"  : InclusionIn::class,
+            "ip"           : Ip::class,
+            "numericality" : Numericality::class,
+            "presenceOf"   : PresenceOf::class,
+            "regex"        : Regex::class,
+            "stringLength" : StringLength::class,
+            "uniqueness"   : Uniqueness::class,
+            "url"          : Url::class
         ];
     }
 }

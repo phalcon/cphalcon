@@ -1,0 +1,14 @@
+
+extern zend_class_entry *phalcon_filter_validation_exceptions_invalidvalidatorscope_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Exceptions_InvalidValidatorScope);
+
+PHP_METHOD(Phalcon_Filter_Validation_Exceptions_InvalidValidatorScope, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_exceptions_invalidvalidatorscope___construct, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_filter_validation_exceptions_invalidvalidatorscope_method_entry) {
+PHP_ME(Phalcon_Filter_Validation_Exceptions_InvalidValidatorScope, __construct, arginfo_phalcon_filter_validation_exceptions_invalidvalidatorscope___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};

@@ -42,35 +42,39 @@
  * ```php
  *
  * // Using a standard foreach
- * $robots = Robots::find(
+ * $invoices = Invoices::find(
  *     [
- *         "type = 'virtual'",
- *         "order" => "name",
+ *         "inv_status_flag = 1",
+ *         "order" => "inv_title",
  *     ]
  * );
  *
- * foreach ($robots as robot) {
- *     echo robot->name, "\n";
+ * foreach ($invoices as invoice) {
+ *     echo invoice->inv_title, "\n";
  * }
  *
  * // Using a while
- * $robots = Robots::find(
+ * $invoices = Invoices::find(
  *     [
- *         "type = 'virtual'",
- *         "order" => "name",
+ *         "inv_status_flag = 1",
+ *         "order" => "inv_title",
  *     ]
  * );
  *
- * $robots->rewind();
+ * $invoices->rewind();
  *
- * while ($robots->valid()) {
- *     $robot = $robots->current();
+ * while ($invoices->valid()) {
+ *     $invoice = $invoices->current();
  *
- *     echo $robot->name, "\n";
+ *     echo $invoice->inv_title, "\n";
  *
- *     $robots->next();
+ *     $invoices->next();
  * }
  * ```
+ * @template TKey
+ * @template TValue
+ * @implements Iterator<TKey, TValue>
+ * @implements ArrayAccess<TKey, TValue>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Resultset)
 {
@@ -85,9 +89,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Resultset)
 	 */
 	zend_declare_property_null(phalcon_mvc_model_resultset_ce, SL("cache"), ZEND_ACC_PROTECTED);
 	/**
-	 * @var int
+	 * Number of rows, or null while it has not been worked out yet. Resolved
+	 * lazily by count() - asking the driver up front costs SQLite an extra
+	 * statement on every single result-set.
+	 *
+	 * @var int|null
 	 */
-	zend_declare_property_long(phalcon_mvc_model_resultset_ce, SL("count"), 0, ZEND_ACC_PROTECTED);
+	zend_declare_property_null(phalcon_mvc_model_resultset_ce, SL("count"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var array
 	 */
@@ -119,14 +127,29 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Resultset)
 	 */
 	zend_declare_property_null(phalcon_mvc_model_resultset_ce, SL("result"), ZEND_ACC_PROTECTED);
 	phalcon_mvc_model_resultset_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_Resultset;
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_mvc_model_resultset_ce, SL("HYDRATE_ARRAYS"), 1);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_mvc_model_resultset_ce, SL("HYDRATE_OBJECTS"), 2);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_mvc_model_resultset_ce, SL("HYDRATE_RECORDS"), 0);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_mvc_model_resultset_ce, SL("TYPE_RESULT_FULL"), 0);
 
+	/**
+	 * @var int
+	 */
 	zephir_declare_class_constant_long(phalcon_mvc_model_resultset_ce, SL("TYPE_RESULT_PARTIAL"), 1);
 
 	zend_class_implements(phalcon_mvc_model_resultset_ce, 1, phalcon_mvc_model_resultsetinterface_ce);
@@ -134,7 +157,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Resultset)
 	zend_class_implements(phalcon_mvc_model_resultset_ce, 1, spl_ce_SeekableIterator);
 	zend_class_implements(phalcon_mvc_model_resultset_ce, 1, zend_ce_countable);
 	zend_class_implements(phalcon_mvc_model_resultset_ce, 1, zend_ce_arrayaccess);
-	zend_class_implements(phalcon_mvc_model_resultset_ce, 1, zend_ce_serializable);
 	zend_class_implements(phalcon_mvc_model_resultset_ce, 1, php_json_serializable_ce);
 	return SUCCESS;
 }
@@ -142,90 +164,133 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Resultset)
 /**
  * Phalcon\Mvc\Model\Resultset constructor
  *
- * @param ResultInterface|false result
- * @param CacheInterface|null   cache
+ * @param ResultInterface|false $result
+ * @param mixed|null            $cache
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, __construct)
 {
-	zend_bool _5;
-	zval _4;
+	zend_bool _14, _4$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, prefetchRecords = 0;
-	zval *result, result_sub, *cache = NULL, cache_sub, __$null, rowCount, rows, _2, _0$$3, _1$$3, _3$$5, _6$$8;
+	zval *result, result_sub, *cache = NULL, cache_sub, __$null, _7, _8, _9, _12, _13, _15, _0$$3, _1$$3, _2$$4, _3$$4, _5$$4, _6$$5, _10$$6, _11$$6;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&result_sub);
 	ZVAL_UNDEF(&cache_sub);
 	ZVAL_NULL(&__$null);
-	ZVAL_UNDEF(&rowCount);
-	ZVAL_UNDEF(&rows);
-	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_7);
+	ZVAL_UNDEF(&_8);
+	ZVAL_UNDEF(&_9);
+	ZVAL_UNDEF(&_12);
+	ZVAL_UNDEF(&_13);
+	ZVAL_UNDEF(&_15);
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$5);
-	ZVAL_UNDEF(&_6$$8);
-	ZVAL_UNDEF(&_4);
-#if PHP_VERSION_ID >= 80000
+	ZVAL_UNDEF(&_2$$4);
+	ZVAL_UNDEF(&_3$$4);
+	ZVAL_UNDEF(&_5$$4);
+	ZVAL_UNDEF(&_6$$5);
+	ZVAL_UNDEF(&_10$$6);
+	ZVAL_UNDEF(&_11$$6);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	static zend_string *_zephir_prop_3 = NULL;
+	static zend_string *_zephir_prop_4 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("count", 5, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("rows", 4, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("result", 6, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_3)) {
+		_zephir_prop_3 = zend_string_init("cache", 5, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_4)) {
+		_zephir_prop_4 = zend_string_init("row", 3, 1);
+	}
+
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ZVAL(result)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(cache, zephir_get_internal_ce(SL("psr\\simplecache\\cacheinterface")))
+		Z_PARAM_ZVAL_OR_NULL(cache)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &result, &cache);
 	if (!cache) {
 		cache = &cache_sub;
 		cache = &__$null;
 	}
-
-
 	if (Z_TYPE_P(result) != IS_OBJECT) {
-		ZEPHIR_INIT_ZVAL_NREF(_0$$3);
+		ZVAL_UNDEF(&_0$$3);
 		ZVAL_LONG(&_0$$3, 0);
-		zephir_update_property_zval(this_ptr, ZEND_STRL("count"), &_0$$3);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 235, &_0$$3);
 		ZEPHIR_INIT_VAR(&_1$$3);
 		array_init(&_1$$3);
-		zephir_update_property_zval(this_ptr, ZEND_STRL("rows"), &_1$$3);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 236, &_1$$3);
 		RETURN_MM_NULL();
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("result"), result);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 237, result);
 	if (Z_TYPE_P(cache) != IS_NULL) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("cache"), cache);
+		ZEPHIR_INIT_VAR(&_2$$4);
+		ZVAL_STRING(&_2$$4, "Phalcon\\Cache\\CacheInterface");
+		ZEPHIR_CALL_FUNCTION(&_3$$4, "is_a", NULL, 201, cache, &_2$$4);
+		zephir_check_call_status();
+		_4$$4 = !ZEPHIR_IS_TRUE_IDENTICAL(&_3$$4);
+		if (_4$$4) {
+			ZEPHIR_INIT_NVAR(&_2$$4);
+			ZVAL_STRING(&_2$$4, "Psr\\SimpleCache\\CacheInterface");
+			ZEPHIR_CALL_FUNCTION(&_5$$4, "is_a", NULL, 201, cache, &_2$$4);
+			zephir_check_call_status();
+			_4$$4 = !ZEPHIR_IS_TRUE_IDENTICAL(&_5$$4);
+		}
+		if (UNEXPECTED(_4$$4)) {
+			ZEPHIR_INIT_VAR(&_6$$5);
+			object_init_ex(&_6$$5, phalcon_mvc_model_exceptions_invalidresultsetcacheservice_ce);
+			ZEPHIR_CALL_METHOD(NULL, &_6$$5, "__construct", NULL, 214);
+			zephir_check_call_status();
+			zephir_throw_exception_debug(&_6$$5, "phalcon/Mvc/Model/Resultset.zep", 189);
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 238, cache);
 	}
-	ZVAL_LONG(&_2, 2);
-	ZEPHIR_CALL_METHOD(NULL, result, "setfetchmode", NULL, 0, &_2);
+	ZVAL_LONG(&_7, 2);
+	ZEPHIR_CALL_METHOD(NULL, result, "setfetchmode", NULL, 0, &_7);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&rowCount, result, "numrows", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_8, result, "fetch", NULL, 0);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("count"), &rowCount);
-	if (ZEPHIR_IS_LONG(&rowCount, 0)) {
-		ZEPHIR_INIT_VAR(&_3$$5);
-		array_init(&_3$$5);
-		zephir_update_property_zval(this_ptr, ZEND_STRL("rows"), &_3$$5);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 239, &_8);
+	zephir_memory_observe(&_9);
+	zephir_read_property_cached(&_9, this_ptr, _zephir_prop_4, 239, PH_NOISY_CC);
+	if (Z_TYPE_P(&_9) != IS_ARRAY) {
+		ZVAL_UNDEF(&_10$$6);
+		ZVAL_LONG(&_10$$6, 0);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 235, &_10$$6);
+		ZEPHIR_INIT_VAR(&_11$$6);
+		array_init(&_11$$6);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 236, &_11$$6);
 		RETURN_MM_NULL();
 	}
-	ZEPHIR_INIT_VAR(&_4);
-	ZEPHIR_INIT_NVAR(&_4);
-	ZVAL_STRING(&_4, "ZEPHIR_GLOBAL(orm).resultset_prefetch_records");
-	prefetchRecords = zephir_get_intval_ex(&_4);
-	_5 = prefetchRecords > 0;
-	if (_5) {
-		_5 = ZEPHIR_LE_LONG(&rowCount, prefetchRecords);
-	}
-	if (_5) {
-		ZEPHIR_CALL_METHOD(&rows, result, "fetchall", NULL, 0);
+	ZEPHIR_INIT_VAR(&_13);
+	ZVAL_STRING(&_13, "orm.resultset_prefetch_records");
+	ZEPHIR_CALL_CE_STATIC(&_12, phalcon_support_settings_ce, "get", NULL, 0, &_13);
+	zephir_check_call_status();
+	prefetchRecords = zephir_get_intval(&_12);
+	_14 = prefetchRecords > 0;
+	if (_14) {
+		ZEPHIR_CALL_METHOD(&_15, this_ptr, "count", NULL, 215);
 		zephir_check_call_status();
-		if (Z_TYPE_P(&rows) == IS_ARRAY) {
-			zephir_update_property_zval(this_ptr, ZEND_STRL("rows"), &rows);
-		} else {
-			ZEPHIR_INIT_VAR(&_6$$8);
-			array_init(&_6$$8);
-			zephir_update_property_zval(this_ptr, ZEND_STRL("rows"), &_6$$8);
-		}
+		_14 = ZEPHIR_LE_LONG(&_15, prefetchRecords);
+	}
+	if (_14) {
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "materialize", NULL, 0);
+		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
 }
@@ -235,11 +300,59 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, __construct)
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, count)
 {
+	zval result, _0, _1$$3, _2$$3, _3$$4, _4$$4, _5$$5, _6$$5, _7$$6;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
+	ZVAL_UNDEF(&result);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_3$$4);
+	ZVAL_UNDEF(&_4$$4);
+	ZVAL_UNDEF(&_5$$5);
+	ZVAL_UNDEF(&_6$$5);
+	ZVAL_UNDEF(&_7$$6);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("count", 5, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("result", 6, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("rows", 4, 1);
+	}
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-
-	RETURN_MEMBER(getThis(), "count");
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 235, PH_NOISY_CC | PH_READONLY);
+	if (Z_TYPE_P(&_0) == IS_NULL) {
+		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_1, 237, PH_NOISY_CC | PH_READONLY);
+		ZEPHIR_CPY_WRT(&result, &_1$$3);
+		zephir_memory_observe(&_2$$3);
+		zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_2, 236, PH_NOISY_CC);
+		if (Z_TYPE_P(&_2$$3) == IS_ARRAY) {
+			zephir_read_property_cached(&_3$$4, this_ptr, _zephir_prop_2, 236, PH_NOISY_CC | PH_READONLY);
+			ZVAL_UNDEF(&_4$$4);
+			ZVAL_LONG(&_4$$4, zephir_fast_count_int(&_3$$4));
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 235, &_4$$4);
+		} else if (Z_TYPE_P(&result) == IS_OBJECT) {
+			ZEPHIR_CALL_METHOD(&_5$$5, &result, "numrows", NULL, 0);
+			zephir_check_call_status();
+			ZVAL_UNDEF(&_6$$5);
+			ZVAL_LONG(&_6$$5, zephir_get_intval(&_5$$5));
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 235, &_6$$5);
+		} else {
+			ZVAL_UNDEF(&_7$$6);
+			ZVAL_LONG(&_7$$6, 0);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 235, &_7$$6);
+		}
+	}
+	RETURN_MM_MEMBER_TYPED(getThis(), "count", IS_LONG);
 }
 
 /**
@@ -247,12 +360,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, count)
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete)
 {
-	zval _4$$6;
+	zval _6$$6;
 	zend_bool result = 0, transaction = 0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_1 = NULL, *_2 = NULL, *_5 = NULL;
+	zephir_fcall_cache_entry *_1 = NULL, *_2 = NULL, *_4 = NULL, *_7 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *conditionCallback = NULL, conditionCallback_sub, __$null, record, connection, _0, _3$$6, _6$$3, _7$$8;
+	zval *conditionCallback = NULL, conditionCallback_sub, __$null, record, connection, _0, _3$$5, _5$$6, _8$$3, _9$$8;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&conditionCallback_sub);
@@ -260,32 +373,33 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete)
 	ZVAL_UNDEF(&record);
 	ZVAL_UNDEF(&connection);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_3$$6);
-	ZVAL_UNDEF(&_6$$3);
-	ZVAL_UNDEF(&_7$$8);
-	ZVAL_UNDEF(&_4$$6);
-#if PHP_VERSION_ID >= 80000
+	ZVAL_UNDEF(&_3$$5);
+	ZVAL_UNDEF(&_5$$6);
+	ZVAL_UNDEF(&_8$$3);
+	ZVAL_UNDEF(&_9$$8);
+	ZVAL_UNDEF(&_6$$6);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("errorMessages", 13, 1);
+	}
+
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(conditionCallback, zend_ce_closure)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 0, 1, &conditionCallback);
 	if (!conditionCallback) {
 		conditionCallback = &conditionCallback_sub;
 		conditionCallback = &__$null;
 	}
-
-
 	ZEPHIR_INIT_VAR(&connection);
 	ZVAL_NULL(&connection);
 	result = 1;
 	transaction = 0;
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "rewind", NULL, 118);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "rewind", NULL, 216);
 	zephir_check_call_status();
 	while (1) {
 		ZEPHIR_CALL_METHOD(&_0, this_ptr, "valid", &_1, 0);
@@ -297,7 +411,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete)
 		zephir_check_call_status();
 		if (transaction == 0) {
 			if (UNEXPECTED(!((zephir_method_exists_ex(&record, ZEND_STRL("getwriteconnection")) == SUCCESS)))) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The returned record is not valid", "phalcon/Mvc/Model/Resultset.zep", 228);
+				ZEPHIR_INIT_NVAR(&_3$$5);
+				object_init_ex(&_3$$5, phalcon_mvc_model_exceptions_invalidreturnedrecord_ce);
+				ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", &_4, 217);
+				zephir_check_call_status();
+				zephir_throw_exception_debug(&_3$$5, "phalcon/Mvc/Model/Resultset.zep", 275);
+				ZEPHIR_MM_RESTORE();
 				return;
 			}
 			ZEPHIR_CALL_METHOD(&connection, &record, "getwriteconnection", NULL, 0);
@@ -307,37 +426,39 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete)
 			zephir_check_call_status();
 		}
 		if (Z_TYPE_P(conditionCallback) == IS_OBJECT) {
-			ZEPHIR_INIT_NVAR(&_3$$6);
-			ZEPHIR_INIT_NVAR(&_4$$6);
-			zephir_create_array(&_4$$6, 1, 0);
-			zephir_array_fast_append(&_4$$6, &record);
-			ZEPHIR_CALL_USER_FUNC_ARRAY(&_3$$6, conditionCallback, &_4$$6);
+			ZEPHIR_INIT_NVAR(&_5$$6);
+			ZEPHIR_INIT_NVAR(&_6$$6);
+			zephir_create_array(&_6$$6, 1, 0);
+			zephir_array_fast_append(&_6$$6, &record);
+			ZEPHIR_CALL_USER_FUNC_ARRAY(&_5$$6, conditionCallback, &_6$$6);
 			zephir_check_call_status();
-			if (ZEPHIR_IS_FALSE_IDENTICAL(&_3$$6)) {
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "next", &_5, 0);
+			if (ZEPHIR_IS_FALSE_IDENTICAL(&_5$$6)) {
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "next", &_7, 0);
 				zephir_check_call_status();
 				continue;
 			}
 		}
-		ZEPHIR_CALL_METHOD(&_6$$3, &record, "delete", NULL, 0);
+		ZEPHIR_CALL_METHOD(&_8$$3, &record, "delete", NULL, 0);
 		zephir_check_call_status();
-		if (!(zephir_is_true(&_6$$3))) {
-			ZEPHIR_CALL_METHOD(&_7$$8, &record, "getmessages", NULL, 0);
+		if (!(zephir_is_true(&_8$$3))) {
+			ZEPHIR_CALL_METHOD(&_9$$8, &record, "getmessages", NULL, 0);
 			zephir_check_call_status();
-			zephir_update_property_zval(this_ptr, ZEND_STRL("errorMessages"), &_7$$8);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 240, &_9$$8);
 			ZEPHIR_CALL_METHOD(NULL, &connection, "rollback", NULL, 0);
 			zephir_check_call_status();
 			result = 0;
 			transaction = 0;
 			break;
 		}
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "next", &_5, 0);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "next", &_7, 0);
 		zephir_check_call_status();
 	}
 	if (transaction == 1) {
 		ZEPHIR_CALL_METHOD(NULL, &connection, "commit", NULL, 0);
 		zephir_check_call_status();
 	}
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "refresh", NULL, 0);
+	zephir_check_call_status();
 	RETURN_MM_BOOL(result);
 }
 
@@ -345,10 +466,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete)
  * Filters a resultset returning only those the developer requires
  *
  *```php
- * $filtered = $robots->filter(
- *     function ($robot) {
- *         if ($robot->id < 3) {
- *             return $robot;
+ * $filtered = $invoices->filter(
+ *     function ($invoice) {
+ *         if ($invoice->inv_id < 3) {
+ *             return $invoice;
  *         }
  *     }
  * );
@@ -370,21 +491,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&records);
 	ZVAL_UNDEF(&_3$$3);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(filter)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &filter);
-
-
 	ZEPHIR_INIT_VAR(&records);
 	array_init(&records);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "rewind", NULL, 118);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "rewind", NULL, 216);
 	zephir_check_call_status();
 	while (1) {
 		ZEPHIR_CALL_METHOD(&_0, this_ptr, "valid", &_1, 0);
@@ -409,7 +524,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter)
 			zephir_check_call_status();
 			continue;
 		}
-		zephir_array_append(&records, &processedRecord, PH_SEPARATE, "phalcon/Mvc/Model/Resultset.zep", 322);
+		zephir_array_append(&records, &processedRecord, PH_SEPARATE, "phalcon/Mvc/Model/Resultset.zep", 369);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "next", &_5, 0);
 		zephir_check_call_status();
 	}
@@ -421,9 +536,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter)
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, getCache)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "cache");
 }
@@ -432,21 +544,21 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getCache)
  * Get first row in the resultset
  *
  * ```php
- * $model = new Robots();
+ * $model = new Invoices();
  * $manager = $model->getModelsManager();
  *
- * // \Robots
- * $manager->createQuery('SELECT * FROM Robots')
+ * // \Invoices
+ * $manager->createQuery('SELECT * FROM Invoices')
  *         ->execute()
  *         ->getFirst();
  *
  * // \Phalcon\Mvc\Model\Row
- * $manager->createQuery('SELECT r.id FROM Robots AS r')
+ * $manager->createQuery('SELECT r.inv_id FROM Invoices AS r')
  *         ->execute()
  *         ->getFirst();
  *
  * // NULL
- * $manager->createQuery('SELECT r.id FROM Robots AS r WHERE r.name = "NON-EXISTENT"')
+ * $manager->createQuery('SELECT r.inv_id FROM Invoices AS r WHERE r.inv_title = "NON-EXISTENT"')
  *         ->execute()
  *         ->getFirst();
  * ```
@@ -462,17 +574,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst)
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-
-	ZEPHIR_MM_GROW();
-
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("count"), PH_NOISY_CC | PH_READONLY);
-	if (ZEPHIR_IS_LONG(&_0, 0)) {
+	ZVAL_LONG(&_0, 0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 218, &_0);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "valid", NULL, 0);
+	zephir_check_call_status();
+	if (!(zephir_is_true(&_1))) {
 		RETURN_MM_NULL();
 	}
-	ZVAL_LONG(&_1, 0);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 119, &_1);
-	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "current", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -483,11 +595,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst)
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, getHydrateMode)
 {
-	zval *this_ptr = getThis();
 
-
-
-	RETURN_MEMBER(getThis(), "hydrateMode");
+	RETURN_MEMBER_TYPED(getThis(), "hydrateMode", IS_LONG);
 }
 
 /**
@@ -502,17 +611,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getLast)
 
 	ZVAL_UNDEF(&count);
 	ZVAL_UNDEF(&_0);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-
-	ZEPHIR_MM_GROW();
-
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("count"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CPY_WRT(&count, &_0);
+	ZEPHIR_CALL_METHOD(&count, this_ptr, "count", NULL, 215);
+	zephir_check_call_status();
 	if (ZEPHIR_IS_LONG(&count, 0)) {
 		RETURN_MM_NULL();
 	}
 	ZVAL_LONG(&_0, (zephir_get_numberval(&count) - 1));
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 119, &_0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 218, &_0);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "current", NULL, 0);
 	zephir_check_call_status();
@@ -524,11 +632,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getLast)
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, getMessages)
 {
-	zval *this_ptr = getThis();
 
-
-
-	RETURN_MEMBER(getThis(), "errorMessages");
+	RETURN_MEMBER_TYPED(getThis(), "errorMessages", IS_ARRAY);
 }
 
 /**
@@ -542,16 +647,21 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getType)
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-
-
-	ZEPHIR_MM_GROW();
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("rows", 4, 1);
+	}
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZEPHIR_INIT_VAR(&_0);
-	ZEPHIR_OBS_VAR(&_1);
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("rows"), PH_NOISY_CC);
+	zephir_memory_observe(&_1);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 236, PH_NOISY_CC);
 	if (Z_TYPE_P(&_1) == IS_ARRAY) {
+		ZEPHIR_INIT_NVAR(&_0);
 		ZVAL_LONG(&_0, 0);
 	} else {
+		ZEPHIR_INIT_NVAR(&_0);
 		ZVAL_LONG(&_0, 1);
 	}
 	RETURN_CCTOR(&_0);
@@ -562,9 +672,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getType)
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, isFresh)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "isFresh");
 }
@@ -574,9 +681,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, isFresh)
  * Calls jsonSerialize on each object if present
  *
  *```php
- * $robots = Robots::find();
+ * $invoices = Invoices::find();
  *
- * echo json_encode($robots);
+ * echo json_encode($invoices);
  *```
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, jsonSerialize)
@@ -593,13 +700,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, jsonSerialize)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_4$$4);
 	ZVAL_UNDEF(&records);
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZEPHIR_INIT_VAR(&records);
 	array_init(&records);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "rewind", NULL, 118);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "rewind", NULL, 216);
 	zephir_check_call_status();
 	while (1) {
 		ZEPHIR_CALL_METHOD(&_0, this_ptr, "valid", &_1, 0);
@@ -616,9 +722,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, jsonSerialize)
 		if (_3$$3) {
 			ZEPHIR_CALL_METHOD(&_4$$4, &current, "jsonserialize", NULL, 0);
 			zephir_check_call_status();
-			zephir_array_append(&records, &_4$$4, PH_SEPARATE, "phalcon/Mvc/Model/Resultset.zep", 447);
+			zephir_array_append(&records, &_4$$4, PH_SEPARATE, "phalcon/Mvc/Model/Resultset.zep", 498);
 		} else {
-			zephir_array_append(&records, &current, PH_SEPARATE, "phalcon/Mvc/Model/Resultset.zep", 449);
+			zephir_array_append(&records, &current, PH_SEPARATE, "phalcon/Mvc/Model/Resultset.zep", 500);
 		}
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "next", &_5, 0);
 		zephir_check_call_status();
@@ -628,6 +734,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, jsonSerialize)
 
 /**
  * Gets pointer number of active row in the resultset
+ *
+ * @return TKey|null
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, key)
 {
@@ -637,9 +745,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, key)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "valid", NULL, 0);
 	zephir_check_call_status();
@@ -647,6 +754,104 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, key)
 		RETURN_MM_NULL();
 	}
 	RETURN_MM_MEMBER(getThis(), "pointer");
+}
+
+/**
+ * Fetches every remaining row of the underlying cursor into memory,
+ * turning the resultset into TYPE_RESULT_FULL.
+ *
+ * Free when called before the cursor has been advanced: the statement has
+ * already been executed by Model\Query::executeSelect() and only the row
+ * the constructor consumed is missing from the cursor, so no re-execution
+ * takes place. Idempotent.
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, materialize)
+{
+	zval _5$$8;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval __$null, records, result, _0, _1, _7, _2$$4, _3$$6, _4$$8, _6$$8;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
+
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&records);
+	ZVAL_UNDEF(&result);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_7);
+	ZVAL_UNDEF(&_2$$4);
+	ZVAL_UNDEF(&_3$$6);
+	ZVAL_UNDEF(&_4$$8);
+	ZVAL_UNDEF(&_6$$8);
+	ZVAL_UNDEF(&_5$$8);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	static zend_string *_zephir_prop_3 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("rows", 4, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("result", 6, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("pointer", 7, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_3)) {
+		_zephir_prop_3 = zend_string_init("row", 3, 1);
+	}
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+
+	zephir_memory_observe(&_0);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 236, PH_NOISY_CC);
+	if (Z_TYPE_P(&_0) == IS_ARRAY) {
+		RETURN_MM_NULL();
+	}
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 237, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CPY_WRT(&result, &_1);
+	if (Z_TYPE_P(&result) != IS_OBJECT) {
+		ZEPHIR_INIT_VAR(&_2$$4);
+		array_init(&_2$$4);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 236, &_2$$4);
+		RETURN_MM_NULL();
+	}
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_2, 241, PH_NOISY_CC | PH_READONLY);
+	if (ZEPHIR_GT_LONG(&_1, 0)) {
+		ZEPHIR_CALL_METHOD(NULL, &result, "execute", NULL, 0);
+		zephir_check_call_status();
+		ZEPHIR_CALL_METHOD(&records, &result, "fetchall", NULL, 0);
+		zephir_check_call_status();
+	} else {
+		ZEPHIR_CALL_METHOD(&records, &result, "fetchall", NULL, 0);
+		zephir_check_call_status();
+		if (Z_TYPE_P(&records) != IS_ARRAY) {
+			ZEPHIR_INIT_NVAR(&records);
+			array_init(&records);
+		}
+		zephir_memory_observe(&_3$$6);
+		zephir_read_property_cached(&_3$$6, this_ptr, _zephir_prop_3, 239, PH_NOISY_CC);
+		if (Z_TYPE_P(&_3$$6) == IS_ARRAY) {
+			ZEPHIR_INIT_VAR(&_4$$8);
+			ZEPHIR_INIT_VAR(&_5$$8);
+			zephir_create_array(&_5$$8, 1, 0);
+			zephir_memory_observe(&_6$$8);
+			zephir_read_property_cached(&_6$$8, this_ptr, _zephir_prop_3, 239, PH_NOISY_CC);
+			zephir_array_fast_append(&_5$$8, &_6$$8);
+			zephir_fast_array_merge(&_4$$8, &_5$$8, &records);
+			ZEPHIR_CPY_WRT(&records, &_4$$8);
+		}
+	}
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 239, &__$null);
+	ZEPHIR_INIT_VAR(&_7);
+	if (Z_TYPE_P(&records) == IS_ARRAY) {
+		ZEPHIR_CPY_WRT(&_7, &records);
+	} else {
+		ZEPHIR_INIT_NVAR(&_7);
+		array_init(&_7);
+	}
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 236, &_7);
+	ZEPHIR_MM_RESTORE();
 }
 
 /**
@@ -661,15 +866,41 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, next)
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("pointer", 7, 1);
+	}
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-
-	ZEPHIR_MM_GROW();
-
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("pointer"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 241, PH_NOISY_CC | PH_READONLY);
 	ZVAL_LONG(&_1, (zephir_get_numberval(&_0) + 1));
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 119, &_1);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 218, &_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
+}
+
+/**
+ * Checks whether offset exists in the resultset
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetExists)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *index, index_sub, _0;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&index_sub);
+	ZVAL_UNDEF(&_0);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(index)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &index);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "count", NULL, 215);
+	zephir_check_call_status();
+	RETURN_MM_BOOL(ZEPHIR_LT(index, &_0));
 }
 
 /**
@@ -679,29 +910,31 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *index, index_sub, _0;
+	zval index_sub, _0, _1$$3;
+	zval *index;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&index_sub);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	ZVAL_UNDEF(&_1$$3);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(index)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &index);
-
-
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("count"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "count", NULL, 215);
+	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_GE(index, &_0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The index does not exist in the cursor", "phalcon/Mvc/Model/Resultset.zep", 487);
+		ZEPHIR_INIT_VAR(&_1$$3);
+		object_init_ex(&_1$$3, phalcon_mvc_model_exceptions_indexnotincursor_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 219);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Resultset.zep", 601);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 119, index);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 218, index);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "current", NULL, 0);
 	zephir_check_call_status();
@@ -709,56 +942,33 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet)
 }
 
 /**
- * Checks whether offset exists in the resultset
- */
-PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetExists)
-{
-	zval *index, index_sub, _0;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&index_sub);
-	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(index)
-	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	zephir_fetch_params_without_memory_grow(1, 0, &index);
-
-
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("count"), PH_NOISY_CC | PH_READONLY);
-	RETURN_BOOL(ZEPHIR_LT(index, &_0));
-}
-
-/**
  * Resultsets cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
  *
- * @param int index
+ * @param int offset
  * @param \Phalcon\Mvc\ModelInterface value
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetSet)
 {
-	zval *index, index_sub, *value, value_sub;
-	zval *this_ptr = getThis();
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *offset, offset_sub, *value, value_sub, _0;
 
-	ZVAL_UNDEF(&index_sub);
+	ZVAL_UNDEF(&offset_sub);
 	ZVAL_UNDEF(&value_sub);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	ZVAL_UNDEF(&_0);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_ZVAL(index)
+		Z_PARAM_ZVAL(offset)
 		Z_PARAM_ZVAL(value)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	zephir_fetch_params_without_memory_grow(2, 0, &index, &value);
-
-
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object", "phalcon/Mvc/Model/Resultset.zep", 514);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 2, 0, &offset, &value);
+	ZEPHIR_INIT_VAR(&_0);
+	object_init_ex(&_0, phalcon_mvc_model_exceptions_cursorisimmutable_ce);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 220);
+	zephir_check_call_status();
+	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Resultset.zep", 620);
+	ZEPHIR_MM_RESTORE();
 	return;
 }
 
@@ -767,22 +977,24 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetSet)
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetUnset)
 {
-	zval *offset, offset_sub;
-	zval *this_ptr = getThis();
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *offset, offset_sub, _0;
 
 	ZVAL_UNDEF(&offset_sub);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	ZVAL_UNDEF(&_0);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(offset)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	zephir_fetch_params_without_memory_grow(1, 0, &offset);
-
-
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object", "phalcon/Mvc/Model/Resultset.zep", 522);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &offset);
+	ZEPHIR_INIT_VAR(&_0);
+	object_init_ex(&_0, phalcon_mvc_model_exceptions_cursorisimmutable_ce);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 220);
+	zephir_check_call_status();
+	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Resultset.zep", 628);
+	ZEPHIR_MM_RESTORE();
 	return;
 }
 
@@ -797,12 +1009,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZVAL_LONG(&_0, 0);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 119, &_0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 218, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -817,10 +1028,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_13 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *position, position_sub, __$null, result, row, _0, _2, _3$$3, _5$$3, _7$$3, _9$$3, _11$$3, _4$$4, _8$$6, _10$$7, _12$$8;
+	zval *position, position_sub, __$true, __$false, __$null, result, row, _0, _2, _3$$3, _5$$3, _7$$3, _9$$3, _11$$3, _4$$4, _8$$7, _10$$8, _12$$9;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&position_sub);
+	ZVAL_BOOL(&__$true, 1);
+	ZVAL_BOOL(&__$false, 0);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&result);
 	ZVAL_UNDEF(&row);
@@ -832,74 +1045,95 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek)
 	ZVAL_UNDEF(&_9$$3);
 	ZVAL_UNDEF(&_11$$3);
 	ZVAL_UNDEF(&_4$$4);
-	ZVAL_UNDEF(&_8$$6);
-	ZVAL_UNDEF(&_10$$7);
-	ZVAL_UNDEF(&_12$$8);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	ZVAL_UNDEF(&_8$$7);
+	ZVAL_UNDEF(&_10$$8);
+	ZVAL_UNDEF(&_12$$9);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	static zend_string *_zephir_prop_3 = NULL;
+	static zend_string *_zephir_prop_4 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("pointer", 7, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("row", 3, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("rows", 4, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_3)) {
+		_zephir_prop_3 = zend_string_init("activeRow", 9, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_4)) {
+		_zephir_prop_4 = zend_string_init("result", 6, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(position)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &position);
-
-
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("pointer"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 241, PH_NOISY_CC | PH_READONLY);
 	_1 = !ZEPHIR_IS_EQUAL(&_0, position);
 	if (!(_1)) {
-		zephir_read_property(&_2, this_ptr, ZEND_STRL("row"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 239, PH_NOISY_CC | PH_READONLY);
 		_1 = Z_TYPE_P(&_2) == IS_NULL;
 	}
 	if (_1) {
-		ZEPHIR_OBS_VAR(&_3$$3);
-		zephir_read_property(&_3$$3, this_ptr, ZEND_STRL("rows"), PH_NOISY_CC);
+		zephir_memory_observe(&_3$$3);
+		zephir_read_property_cached(&_3$$3, this_ptr, _zephir_prop_2, 236, PH_NOISY_CC);
 		if (Z_TYPE_P(&_3$$3) == IS_ARRAY) {
-			ZEPHIR_OBS_VAR(&row);
-			zephir_read_property(&_4$$4, this_ptr, ZEND_STRL("rows"), PH_NOISY_CC | PH_READONLY);
+			zephir_memory_observe(&row);
+			zephir_read_property_cached(&_4$$4, this_ptr, _zephir_prop_2, 236, PH_NOISY_CC | PH_READONLY);
 			if (zephir_array_isset_fetch(&row, &_4$$4, position, 0)) {
-				zephir_update_property_zval(this_ptr, ZEND_STRL("row"), &row);
+				zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 239, &row);
+			} else {
+				if (0) {
+					zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 239, &__$true);
+				} else {
+					zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 239, &__$false);
+				}
 			}
-			zephir_update_property_zval(this_ptr, ZEND_STRL("pointer"), position);
-			zephir_update_property_zval(this_ptr, ZEND_STRL("activeRow"), &__$null);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 241, position);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 242, &__$null);
 			RETURN_MM_NULL();
 		}
-		zephir_read_property(&_5$$3, this_ptr, ZEND_STRL("result"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_5$$3, this_ptr, _zephir_prop_4, 237, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CPY_WRT(&result, &_5$$3);
-		zephir_read_property(&_5$$3, this_ptr, ZEND_STRL("row"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_5$$3, this_ptr, _zephir_prop_1, 239, PH_NOISY_CC | PH_READONLY);
 		_6$$3 = Z_TYPE_P(&_5$$3) == IS_NULL;
 		if (_6$$3) {
-			zephir_read_property(&_7$$3, this_ptr, ZEND_STRL("pointer"), PH_NOISY_CC | PH_READONLY);
+			zephir_read_property_cached(&_7$$3, this_ptr, _zephir_prop_0, 241, PH_NOISY_CC | PH_READONLY);
 			_6$$3 = ZEPHIR_IS_LONG_IDENTICAL(&_7$$3, 0);
 		}
 		if (_6$$3) {
-			ZEPHIR_CALL_METHOD(&_8$$6, &result, "fetch", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_8$$7, &result, "fetch", NULL, 0);
 			zephir_check_call_status();
-			zephir_update_property_zval(this_ptr, ZEND_STRL("row"), &_8$$6);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 239, &_8$$7);
 		}
-		zephir_read_property(&_9$$3, this_ptr, ZEND_STRL("pointer"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_9$$3, this_ptr, _zephir_prop_0, 241, PH_NOISY_CC | PH_READONLY);
 		if (ZEPHIR_GT(&_9$$3, position)) {
 			ZEPHIR_CALL_METHOD(NULL, &result, "dataseek", NULL, 0, position);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_10$$7, &result, "fetch", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_10$$8, &result, "fetch", NULL, 0);
 			zephir_check_call_status();
-			zephir_update_property_zval(this_ptr, ZEND_STRL("row"), &_10$$7);
-			zephir_update_property_zval(this_ptr, ZEND_STRL("pointer"), position);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 239, &_10$$8);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 241, position);
 		}
 		while (1) {
-			zephir_read_property(&_11$$3, this_ptr, ZEND_STRL("pointer"), PH_NOISY_CC | PH_READONLY);
+			zephir_read_property_cached(&_11$$3, this_ptr, _zephir_prop_0, 241, PH_NOISY_CC | PH_READONLY);
 			if (!(ZEPHIR_LT(&_11$$3, position))) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&_12$$8, &result, "fetch", &_13, 0);
+			ZEPHIR_CALL_METHOD(&_12$$9, &result, "fetch", &_13, 0);
 			zephir_check_call_status();
-			zephir_update_property_zval(this_ptr, ZEND_STRL("row"), &_12$$8);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 239, &_12$$9);
 			RETURN_ON_FAILURE(zephir_property_incr(this_ptr, SL("pointer")));
 		}
-		zephir_update_property_zval(this_ptr, ZEND_STRL("pointer"), position);
-		zephir_update_property_zval(this_ptr, ZEND_STRL("activeRow"), &__$null);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 241, position);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 242, &__$null);
 	}
 	ZEPHIR_MM_RESTORE();
 }
@@ -914,21 +1148,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, setHydrateMode)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("hydrateMode", 11, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(hydrateMode)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
 	zephir_fetch_params_without_memory_grow(1, 0, &hydrateMode_param);
-	hydrateMode = zephir_get_intval(hydrateMode_param);
-
-
-	ZEPHIR_INIT_ZVAL_NREF(_0);
+	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, hydrateMode);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("hydrateMode"), &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 243, &_0);
 	RETURN_THISW();
 }
 
@@ -943,22 +1174,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, setIsFresh)
 
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("isFresh", 7, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_BOOL(isFresh)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
 	zephir_fetch_params_without_memory_grow(1, 0, &isFresh_param);
-	isFresh = zephir_get_boolval(isFresh_param);
-
-
 	if (isFresh) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("isFresh"), &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 244, &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("isFresh"), &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 244, &__$false);
 	}
 	RETURN_THISW();
 }
@@ -970,12 +1198,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, setIsFresh)
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, update)
 {
-	zval _4$$6;
+	zval _6$$6;
 	zend_bool transaction = 0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_1 = NULL, *_2 = NULL, *_5 = NULL;
+	zephir_fcall_cache_entry *_1 = NULL, *_2 = NULL, *_4 = NULL, *_7 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *data, data_sub, *conditionCallback = NULL, conditionCallback_sub, __$null, record, connection, _0, _3$$6, _6$$3, _7$$8;
+	zval *data, data_sub, *conditionCallback = NULL, conditionCallback_sub, __$null, record, connection, _0, _3$$5, _5$$6, _8$$3, _9$$8;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data_sub);
@@ -984,32 +1212,33 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, update)
 	ZVAL_UNDEF(&record);
 	ZVAL_UNDEF(&connection);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_3$$6);
-	ZVAL_UNDEF(&_6$$3);
-	ZVAL_UNDEF(&_7$$8);
-	ZVAL_UNDEF(&_4$$6);
-#if PHP_VERSION_ID >= 80000
+	ZVAL_UNDEF(&_3$$5);
+	ZVAL_UNDEF(&_5$$6);
+	ZVAL_UNDEF(&_8$$3);
+	ZVAL_UNDEF(&_9$$8);
+	ZVAL_UNDEF(&_6$$6);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("errorMessages", 13, 1);
+	}
+
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ZVAL(data)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(conditionCallback, zend_ce_closure)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &data, &conditionCallback);
 	if (!conditionCallback) {
 		conditionCallback = &conditionCallback_sub;
 		conditionCallback = &__$null;
 	}
-
-
 	ZEPHIR_INIT_VAR(&connection);
 	ZVAL_NULL(&connection);
 	transaction = 0;
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "rewind", NULL, 118);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "rewind", NULL, 216);
 	zephir_check_call_status();
 	while (1) {
 		ZEPHIR_CALL_METHOD(&_0, this_ptr, "valid", &_1, 0);
@@ -1021,7 +1250,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, update)
 		zephir_check_call_status();
 		if (transaction == 0) {
 			if (UNEXPECTED(!((zephir_method_exists_ex(&record, ZEND_STRL("getwriteconnection")) == SUCCESS)))) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The returned record is not valid", "phalcon/Mvc/Model/Resultset.zep", 639);
+				ZEPHIR_INIT_NVAR(&_3$$5);
+				object_init_ex(&_3$$5, phalcon_mvc_model_exceptions_invalidreturnedrecord_ce);
+				ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", &_4, 217);
+				zephir_check_call_status();
+				zephir_throw_exception_debug(&_3$$5, "phalcon/Mvc/Model/Resultset.zep", 751);
+				ZEPHIR_MM_RESTORE();
 				return;
 			}
 			ZEPHIR_CALL_METHOD(&connection, &record, "getwriteconnection", NULL, 0);
@@ -1031,57 +1265,203 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, update)
 			zephir_check_call_status();
 		}
 		if (Z_TYPE_P(conditionCallback) == IS_OBJECT) {
-			ZEPHIR_INIT_NVAR(&_3$$6);
-			ZEPHIR_INIT_NVAR(&_4$$6);
-			zephir_create_array(&_4$$6, 1, 0);
-			zephir_array_fast_append(&_4$$6, &record);
-			ZEPHIR_CALL_USER_FUNC_ARRAY(&_3$$6, conditionCallback, &_4$$6);
+			ZEPHIR_INIT_NVAR(&_5$$6);
+			ZEPHIR_INIT_NVAR(&_6$$6);
+			zephir_create_array(&_6$$6, 1, 0);
+			zephir_array_fast_append(&_6$$6, &record);
+			ZEPHIR_CALL_USER_FUNC_ARRAY(&_5$$6, conditionCallback, &_6$$6);
 			zephir_check_call_status();
-			if (ZEPHIR_IS_FALSE_IDENTICAL(&_3$$6)) {
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "next", &_5, 0);
+			if (ZEPHIR_IS_FALSE_IDENTICAL(&_5$$6)) {
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "next", &_7, 0);
 				zephir_check_call_status();
 				continue;
 			}
 		}
 		ZEPHIR_CALL_METHOD(NULL, &record, "assign", NULL, 0, data);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&_6$$3, &record, "save", NULL, 0);
+		ZEPHIR_CALL_METHOD(&_8$$3, &record, "save", NULL, 0);
 		zephir_check_call_status();
-		if (!(zephir_is_true(&_6$$3))) {
-			ZEPHIR_CALL_METHOD(&_7$$8, &record, "getmessages", NULL, 0);
+		if (!(zephir_is_true(&_8$$3))) {
+			ZEPHIR_CALL_METHOD(&_9$$8, &record, "getmessages", NULL, 0);
 			zephir_check_call_status();
-			zephir_update_property_zval(this_ptr, ZEND_STRL("errorMessages"), &_7$$8);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 240, &_9$$8);
 			ZEPHIR_CALL_METHOD(NULL, &connection, "rollback", NULL, 0);
 			zephir_check_call_status();
 			transaction = 0;
 			break;
 		}
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "next", &_5, 0);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "next", &_7, 0);
 		zephir_check_call_status();
 	}
 	if (transaction == 1) {
 		ZEPHIR_CALL_METHOD(NULL, &connection, "commit", NULL, 0);
 		zephir_check_call_status();
 	}
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "refresh", NULL, 0);
+	zephir_check_call_status();
 	RETURN_MM_BOOL(transaction);
 }
 
 /**
  * Check whether internal resource has rows to fetch
+ *
+ * Driven by the row the cursor is parked on rather than by the count, so
+ * that a plain traversal never has to ask the driver how many rows there
+ * are - on SQLite that answer costs a second statement.
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, valid)
 {
-	zval _0, _1;
+	zval _0, _2, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_1$$3);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("row", 3, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("pointer", 7, 1);
+	}
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 239, PH_NOISY_CC | PH_READONLY);
+	if (Z_TYPE_P(&_0) == IS_NULL) {
+		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_1, 241, PH_NOISY_CC | PH_READONLY);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 218, &_1$$3);
+		zephir_check_call_status();
+	}
+	zephir_memory_observe(&_2);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 239, PH_NOISY_CC);
+	RETURN_MM_BOOL(Z_TYPE_P(&_2) == IS_ARRAY);
+}
 
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, refresh)
+{
+	zend_bool _10;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval __$true, __$false, __$null, result, success, _0, _3, _4, _5, _8, _9, _11, _1$$3, _2$$3, _6$$5, _7$$5;
+	zend_long ZEPHIR_LAST_CALL_STATUS, prefetchRecords = 0;
+	zval *this_ptr = getThis();
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("pointer"), PH_NOISY_CC | PH_READONLY);
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("count"), PH_NOISY_CC | PH_READONLY);
-	RETURN_BOOL(ZEPHIR_LT(&_0, &_1));
+	ZVAL_BOOL(&__$true, 1);
+	ZVAL_BOOL(&__$false, 0);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&result);
+	ZVAL_UNDEF(&success);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_8);
+	ZVAL_UNDEF(&_9);
+	ZVAL_UNDEF(&_11);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_6$$5);
+	ZVAL_UNDEF(&_7$$5);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	static zend_string *_zephir_prop_3 = NULL;
+	static zend_string *_zephir_prop_4 = NULL;
+	static zend_string *_zephir_prop_5 = NULL;
+	static zend_string *_zephir_prop_6 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("result", 6, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("count", 5, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("rows", 4, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_3)) {
+		_zephir_prop_3 = zend_string_init("isFresh", 7, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_4)) {
+		_zephir_prop_4 = zend_string_init("row", 3, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_5)) {
+		_zephir_prop_5 = zend_string_init("activeRow", 9, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_6)) {
+		_zephir_prop_6 = zend_string_init("pointer", 7, 1);
+	}
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+
+	zephir_memory_observe(&_0);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 237, PH_NOISY_CC);
+	if (Z_TYPE_P(&_0) != IS_OBJECT) {
+		ZVAL_UNDEF(&_1$$3);
+		ZVAL_LONG(&_1$$3, 0);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 235, &_1$$3);
+		ZEPHIR_INIT_VAR(&_2$$3);
+		array_init(&_2$$3);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 236, &_2$$3);
+		RETURN_MM_BOOL(1);
+	}
+	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 237, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CPY_WRT(&result, &_3);
+	ZEPHIR_CALL_METHOD(&success, &result, "execute", NULL, 0);
+	zephir_check_call_status();
+	if (ZEPHIR_IS_FALSE_IDENTICAL(&success)) {
+		RETURN_MM_BOOL(0);
+	}
+	if (1) {
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 244, &__$true);
+	} else {
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 244, &__$false);
+	}
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 235, &__$null);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 236, &__$null);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 239, &__$null);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 242, &__$null);
+	ZVAL_UNDEF(&_3);
+	ZVAL_LONG(&_3, 0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_6, 241, &_3);
+	ZEPHIR_CALL_METHOD(&_4, &result, "fetch", NULL, 0);
+	zephir_check_call_status();
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 239, &_4);
+	zephir_memory_observe(&_5);
+	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_4, 239, PH_NOISY_CC);
+	if (Z_TYPE_P(&_5) != IS_ARRAY) {
+		ZVAL_UNDEF(&_6$$5);
+		ZVAL_LONG(&_6$$5, 0);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 235, &_6$$5);
+		ZEPHIR_INIT_VAR(&_7$$5);
+		array_init(&_7$$5);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 236, &_7$$5);
+		RETURN_MM_BOOL(1);
+	}
+	ZEPHIR_INIT_VAR(&_9);
+	ZVAL_STRING(&_9, "orm.resultset_prefetch_records");
+	ZEPHIR_CALL_CE_STATIC(&_8, phalcon_support_settings_ce, "get", NULL, 0, &_9);
+	zephir_check_call_status();
+	prefetchRecords = zephir_get_intval(&_8);
+	_10 = prefetchRecords > 0;
+	if (_10) {
+		ZEPHIR_CALL_METHOD(&_11, this_ptr, "count", NULL, 215);
+		zephir_check_call_status();
+		_10 = ZEPHIR_LE_LONG(&_11, prefetchRecords);
+	}
+	if (_10) {
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "materialize", NULL, 0);
+		zephir_check_call_status();
+	}
+	RETURN_MM_BOOL(1);
+}
+
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, getResult)
+{
+
+	RETURN_MEMBER(getThis(), "result");
 }
 
 zend_object *zephir_init_properties_Phalcon_Mvc_Model_Resultset(zend_class_entry *class_type)
@@ -1092,7 +1472,8 @@ zend_object *zephir_init_properties_Phalcon_Mvc_Model_Resultset(zend_class_entry
 	ZVAL_UNDEF(&_1$$3);
 	
 
-		ZEPHIR_MM_GROW();
+		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;

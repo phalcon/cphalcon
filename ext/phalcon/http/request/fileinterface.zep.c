@@ -21,10 +21,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Http\Request\FileInterface
- *
  * Interface for Phalcon\Http\Request\File
- *
  */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Request_FileInterface)
 {

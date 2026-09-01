@@ -1,0 +1,402 @@
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+namespace Phalcon\Logger;
+
+use DateTimeZone;
+use Exception;
+use Phalcon\Logger\Adapter\AdapterInterface;
+use Phalcon\Logger\Exceptions\AdapterNotFound;
+use Phalcon\Logger\Exceptions\NoAdaptersConfigured;
+use Phalcon\Time\Clock\ClockInterface;
+use Phalcon\Time\Clock\SystemClock;
+
+/**
+ * Abstract Logger Class
+ *
+ * Abstract logger class, providing common functionality. A formatter interface
+ * is available as well as an adapter one. Adapters can be created easily using
+ * the built in AdapterFactory. A LoggerFactory is also available that allows
+ * developers to create new instances of the Logger or load them from config
+ * files (see Phalcon\Config\Config object).
+ *
+ * @property AdapterInterface[] $adapters
+ * @property array              $excluded
+ * @property int                $logLevel
+ * @property string             $name
+ * @property DateTimeZone       $timezone
+ */
+abstract class AbstractLogger
+{
+    /**
+     * @var int
+     */
+    const ALERT     = 2;
+    /**
+     * @var int
+     */
+    const CRITICAL  = 1;
+    /**
+     * Default threshold and fallback sink. It sits between DEBUG (7) and
+     * TRACE (9) in the ordering, so the default log level excludes TRACE.
+     * It is also the fallback for unknown message levels and invalid
+     * setLogLevel() values.
+     *
+     * @var int
+     */
+    const CUSTOM    = 8;
+    /**
+     * @var int
+     */
+    const DEBUG     = 7;
+    /**
+     * @var int
+     */
+    const EMERGENCY = 0;
+    /**
+     * @var int
+     */
+    const ERROR     = 3;
+    /**
+     * @var int
+     */
+    const INFO      = 6;
+    /**
+     * @var int
+     */
+    const NOTICE    = 5;
+    /**
+     * @var int
+     */
+    const TRACE     = 9;
+    /**
+     * @var int
+     */
+    const WARNING   = 4;
+
+    /**
+     * The adapter stack
+     *
+     * @var AdapterInterface[]
+     */
+    protected array adapters = [];
+    /**
+     * Clock used to timestamp log items
+     */
+    protected <ClockInterface> clock;
+    /**
+     * The excluded adapters for this log process
+     */
+    protected array excluded = [];
+    /**
+     * Minimum log level for the logger
+     */
+    protected int logLevel = 8;
+    protected string name = "";
+    protected <DateTimeZone> timezone;
+
+    /**
+     * Constructor.
+     */
+    public function __construct(
+        string name,
+        array adapters = [],
+        <DateTimeZone> timezone = null,
+        <ClockInterface> clock = null
+    ) {
+        var defaultTimezone;
+
+        if (null == timezone) {
+            let defaultTimezone = date_default_timezone_get();
+
+            if unlikely true === empty(defaultTimezone) {
+                let defaultTimezone = "UTC";
+            }
+
+            let timezone = new DateTimeZone(defaultTimezone);
+        }
+
+        let this->name     = name,
+            this->timezone = timezone;
+
+        if (null === clock) {
+            let clock = new SystemClock(timezone);
+        }
+
+        let this->clock = clock;
+
+        this->setAdapters(adapters);
+    }
+
+    /**
+     * Add an adapter to the stack. For processing we use FIFO
+     */
+    public function addAdapter(string name, <AdapterInterface> adapter) -> <static>
+    {
+        let this->adapters[name] = adapter;
+
+        return this;
+    }
+
+    /**
+     * Starts a transaction on every (non-excluded) adapter in the stack.
+     */
+    public function begin() -> <static>
+    {
+        var adapter, collection;
+
+        let collection = array_diff_key(this->adapters, this->excluded);
+        for adapter in collection {
+            adapter->begin();
+        }
+
+        return this;
+    }
+
+    /**
+     * Commits the transaction on every (non-excluded) adapter in the stack.
+     */
+    public function commit() -> <static>
+    {
+        var adapter, collection;
+
+        let collection = array_diff_key(this->adapters, this->excluded);
+        for adapter in collection {
+            adapter->commit();
+        }
+
+        return this;
+    }
+
+    /**
+     * Exclude certain adapters.
+     */
+    public function excludeAdapters(array adapters = []) -> <static>
+    {
+        var adapter, registered;
+
+        /**
+         * Loop through what has been passed. Check these names with
+         * the registered adapters. If they match, add them to the
+         * this->excluded array
+         */
+        let registered = this->adapters;
+
+        /**
+         * Loop through what has been passed. Check these names with
+         * the registered adapters. If they match, add them to the
+         * this->excluded array
+         */
+        for adapter in adapters {
+            if (true === isset(registered[adapter])) {
+                let this->excluded[adapter] = true;
+            }
+        }
+
+        return this;
+    }
+
+    /**
+     * Returns an adapter from the stack
+     *
+     * @throws AdapterNotFound
+     */
+    public function getAdapter(string name) -> <AdapterInterface>
+    {
+        if (true !== isset(this->adapters[name])) {
+            throw new AdapterNotFound(name);
+        }
+
+        return this->adapters[name];
+    }
+
+    /**
+     * Returns the adapter stack array
+     *
+     * @return AdapterInterface[]
+     */
+    public function getAdapters() -> array
+    {
+        return this->adapters;
+    }
+
+    /**
+     * Returns the log level
+     */
+    public function getLogLevel() -> int
+    {
+        return this->logLevel;
+    }
+
+    /**
+     * Returns the name of the logger
+     */
+    public function getName() -> string
+    {
+        return this->name;
+    }
+
+    /**
+     * Removes an adapter from the stack
+     *
+     * @throws AdapterNotFound
+     */
+    public function removeAdapter(string name) -> <static>
+    {
+        if (true !== isset(this->adapters[name])) {
+            throw new AdapterNotFound(name);
+        }
+
+        unset(this->adapters[name]);
+
+        return this;
+    }
+
+    /**
+     * Rolls back the transaction on every (non-excluded) adapter in the stack.
+     */
+    public function rollback() -> <static>
+    {
+        var adapter, collection;
+
+        let collection = array_diff_key(this->adapters, this->excluded);
+        for adapter in collection {
+            adapter->rollback();
+        }
+
+        return this;
+    }
+
+    /**
+     * Sets the adapters stack overriding what is already there
+     */
+    public function setAdapters(array adapters) -> <static>
+    {
+        let this->adapters = adapters;
+
+        return this;
+    }
+
+    /**
+     * Sets the minimum log level for the logger.
+     *
+     * An unknown level is not rejected: it is stored as CUSTOM, which sits
+     * between DEBUG and TRACE in the ordering, so the threshold becomes
+     * "everything except TRACE".
+     */
+    public function setLogLevel(int level) -> <static>
+    {
+        var levels;
+
+        let levels         = this->getLevels(),
+            this->logLevel = true === isset(levels[level]) ? level : Enum::CUSTOM;
+
+        return this;
+    }
+
+
+    /**
+     * Adds a message to each handler for processing
+     *
+     * @throws Exception
+     * @throws NoAdaptersConfigured
+     */
+    protected function addMessage(
+        int level,
+        string message,
+        array context = []
+    ) -> bool {
+        var adapter, collection, item, levelName, levels;
+        if (this->logLevel >= level) {
+            if empty this->adapters {
+                throw new NoAdaptersConfigured();
+            }
+
+            let levels    = this->getLevels(),
+                levelName = true === isset(levels[level]) ? levels[level] : levels[Enum::CUSTOM];
+
+            let item = new Item(
+                message,
+                levelName,
+                level,
+                this->clock->now(),
+                context
+            );
+
+            /**
+             * Log only if the key does not exist in the excluded ones
+             */
+            let collection = array_diff_key(this->adapters, this->excluded);
+            for adapter in collection {
+                if (true === adapter->inTransaction()) {
+                    adapter->add(item);
+                } else {
+                    adapter->process(item);
+                }
+            }
+        }
+
+        /**
+         * Clear the excluded array since we made the call now. This runs
+         * regardless of the level filter so a filtered-out message cannot
+         * leave the exclusion armed for the next call.
+         */
+        let this->excluded = [];
+
+        return true;
+    }
+
+    /**
+     * Converts the level from string/word to an integer
+     */
+    protected function getLevelNumber(var level) -> int
+    {
+        var levelName, levels;
+
+        /**
+         * If someone uses "critical" as the level (string)
+         */
+        if (typeof level === "string") {
+            let levelName = strtolower(level),
+                levels    = array_flip(this->getLevels());
+
+            if (isset(levels[levelName])) {
+                return levels[levelName];
+            }
+        } elseif (true === is_numeric(level)) {
+            let levels = this->getLevels();
+
+            if (isset(levels[level])) {
+                return (int) level;
+            }
+        }
+
+        return Enum::CUSTOM;
+    }
+
+    /**
+     * Returns an array of log levels with integer to string conversion
+     */
+    protected function getLevels() -> array
+    {
+        return [
+            Enum::ALERT     : "alert",
+            Enum::CRITICAL  : "critical",
+            Enum::DEBUG     : "debug",
+            Enum::EMERGENCY : "emergency",
+            Enum::ERROR     : "error",
+            Enum::INFO      : "info",
+            Enum::NOTICE    : "notice",
+            Enum::WARNING   : "warning",
+            Enum::CUSTOM    : "custom",
+            Enum::TRACE     : "trace"
+        ];
+    }
+}

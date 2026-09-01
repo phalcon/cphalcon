@@ -1,0 +1,12 @@
+
+extern zend_class_entry *phalcon_contracts_events_subscriber_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Events_Subscriber);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_events_subscriber_getsubscribedevents, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_contracts_events_subscriber_method_entry) {
+	ZEND_FENTRY(getSubscribedEvents, NULL, arginfo_phalcon_contracts_events_subscriber_getsubscribedevents, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};

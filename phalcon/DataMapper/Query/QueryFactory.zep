@@ -18,9 +18,7 @@ namespace Phalcon\DataMapper\Query;
 use Phalcon\DataMapper\Pdo\Connection;
 
 /**
- * Class QueryFactory
- *
- * @property string $class
+ * QueryFactory
  */
 class QueryFactory
 {
@@ -37,7 +35,7 @@ class QueryFactory
     public function __construct(string selectClass = "")
     {
         if empty selectClass {
-            let selectClass = "Phalcon\\DataMapper\\Query\\Select";
+            let selectClass = Select::class;
         }
 
         let this->selectClass = selectClass;

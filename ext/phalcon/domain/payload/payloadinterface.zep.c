@@ -30,6 +30,10 @@
  */
 /**
  * This interface is used for consumers
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Domain\Payload\Payload} instead.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Domain_Payload_PayloadInterface)
 {
@@ -37,6 +41,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Domain_Payload_PayloadInterface)
 
 	zend_class_implements(phalcon_domain_payload_payloadinterface_ce, 1, phalcon_domain_payload_readableinterface_ce);
 	zend_class_implements(phalcon_domain_payload_payloadinterface_ce, 1, phalcon_domain_payload_writeableinterface_ce);
+	zend_class_implements(phalcon_domain_payload_payloadinterface_ce, 1, phalcon_contracts_domain_payload_payload_ce);
 	return SUCCESS;
 }
 

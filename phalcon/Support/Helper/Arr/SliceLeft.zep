@@ -1,6 +1,6 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -16,10 +16,10 @@ namespace Phalcon\Support\Helper\Arr;
 class SliceLeft
 {
     /**
-     * @param array $collection
-     * @param int   $elements
+     * @param array<array-key, mixed> $collection
+     * @param int                     $elements
      *
-     * @return array
+     * @return array<array-key, mixed>
      */
     public function __invoke(array collection, int elements = 1) -> array
     {

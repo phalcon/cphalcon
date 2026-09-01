@@ -11,8 +11,6 @@
 namespace Phalcon\Mvc\Router;
 
 /**
- * Phalcon\Mvc\Router\Group
- *
  * Helper class to create a group of routes with common attributes
  *
  *```php
@@ -108,18 +106,18 @@ class Group implements GroupInterface
      * $router->add("/about", "About::index");
      *```
      *
-     * @param string pattenr
+     * @param string pattern
      * @param string|array paths = [
      *     'module => '',
      *     'controller' => '',
      *     'action' => '',
      *     'namespace' => ''
      * ]
-     * @param httpMethods array|string|null
+     * @param array|string|null httpMethods
      *
      * @return RouteInterface
      */
-    public function add(string! pattern, var paths = null, var httpMethods = null) -> <RouteInterface>
+    public function add( string pattern, var paths = null, var httpMethods = null) -> <RouteInterface>
     {
         return this->addRoute(pattern, paths, httpMethods);
     }
@@ -137,7 +135,7 @@ class Group implements GroupInterface
      *
      * @return RouteInterface
      */
-    public function addConnect(string! pattern, var paths = null) -> <RouteInterface>
+    public function addConnect( string pattern, var paths = null) -> <RouteInterface>
     {
         return this->addRoute(pattern, paths, "CONNECT");
     }
@@ -155,7 +153,7 @@ class Group implements GroupInterface
      *
      * @return RouteInterface
      */
-    public function addDelete(string! pattern, var paths = null) -> <RouteInterface>
+    public function addDelete( string pattern, var paths = null) -> <RouteInterface>
     {
         return this->addRoute(pattern, paths, "DELETE");
     }
@@ -173,7 +171,7 @@ class Group implements GroupInterface
      *
      * @return RouteInterface
      */
-    public function addGet(string! pattern, var paths = null) -> <RouteInterface>
+    public function addGet( string pattern, var paths = null) -> <RouteInterface>
     {
         return this->addRoute(pattern, paths, "GET");
     }
@@ -191,7 +189,7 @@ class Group implements GroupInterface
      *
      * @return RouteInterface
      */
-    public function addHead(string! pattern, var paths = null) -> <RouteInterface>
+    public function addHead( string pattern, var paths = null) -> <RouteInterface>
     {
         return this->addRoute(pattern, paths, "HEAD");
     }
@@ -209,7 +207,7 @@ class Group implements GroupInterface
      *
      * @return RouteInterface
      */
-    public function addOptions(string! pattern, var paths = null) -> <RouteInterface>
+    public function addOptions( string pattern, var paths = null) -> <RouteInterface>
     {
         return this->addRoute(pattern, paths, "OPTIONS");
     }
@@ -227,7 +225,7 @@ class Group implements GroupInterface
      *
      * @return RouteInterface
      */
-    public function addPatch(string! pattern, var paths = null) -> <RouteInterface>
+    public function addPatch( string pattern, var paths = null) -> <RouteInterface>
     {
         return this->addRoute(pattern, paths, "PATCH");
     }
@@ -245,7 +243,7 @@ class Group implements GroupInterface
      *
      * @return RouteInterface
      */
-    public function addPost(string! pattern, var paths = null) -> <RouteInterface>
+    public function addPost( string pattern, var paths = null) -> <RouteInterface>
     {
         return this->addRoute(pattern, paths, "POST");
     }
@@ -263,7 +261,7 @@ class Group implements GroupInterface
      *
      * @return RouteInterface
      */
-    public function addPurge(string! pattern, var paths = null) -> <RouteInterface>
+    public function addPurge( string pattern, var paths = null) -> <RouteInterface>
     {
         return this->addRoute(pattern, paths, "PURGE");
     }
@@ -281,7 +279,7 @@ class Group implements GroupInterface
      *
      * @return RouteInterface
      */
-    public function addPut(string! pattern, var paths = null) -> <RouteInterface>
+    public function addPut( string pattern, var paths = null) -> <RouteInterface>
     {
         return this->addRoute(pattern, paths, "PUT");
     }
@@ -299,7 +297,7 @@ class Group implements GroupInterface
      *
      * @return RouteInterface
      */
-    public function addTrace(string! pattern, var paths = null) -> <RouteInterface>
+    public function addTrace( string pattern, var paths = null) -> <RouteInterface>
     {
         return this->addRoute(pattern, paths, "TRACE");
     }
@@ -309,11 +307,11 @@ class Group implements GroupInterface
      * The developer can implement any arbitrary conditions here
      * If the callback returns false the route is treated as not matched
      *
-     * @paramm callable beforeMatch
+     * @param callable beforeMatch
      *
      * @return GroupInterface
      */
-     public function beforeMatch(callable beforeMatch) -> <GroupInterface>
+    public function beforeMatch(callable beforeMatch) -> <GroupInterface>
     {
         let this->beforeMatch = beforeMatch;
 
@@ -331,7 +329,7 @@ class Group implements GroupInterface
     /**
      * Returns the 'before match' callback if any
      */
-    public function getBeforeMatch() -> callable
+    public function getBeforeMatch() -> callable | null
     {
         return this->beforeMatch;
     }
@@ -339,7 +337,7 @@ class Group implements GroupInterface
     /**
      * Returns the hostname restriction
      */
-    public function getHostname() -> string
+    public function getHostname() -> string | null
     {
         return this->hostname;
     }
@@ -347,7 +345,7 @@ class Group implements GroupInterface
     /**
      * Returns the common paths defined for this group
      */
-    public function getPaths() -> array | string
+    public function getPaths() -> array | string | null
     {
         return this->paths;
     }
@@ -355,7 +353,7 @@ class Group implements GroupInterface
     /**
      * Returns the common prefix for all the routes
      */
-    public function getPrefix() -> string
+    public function getPrefix() -> string | null
     {
         return this->prefix;
     }
@@ -424,7 +422,7 @@ class Group implements GroupInterface
      *
      * @return RouteInterface
      */
-    protected function addRoute(string! pattern, var paths = null, var httpMethods = null) -> <RouteInterface>
+    protected function addRoute( string pattern, var paths = null, var httpMethods = null) -> <RouteInterface>
     {
         var mergedPaths, route, defaultPaths, processedPaths;
 

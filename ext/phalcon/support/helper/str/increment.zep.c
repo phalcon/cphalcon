@@ -12,8 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/string.h"
 #include "kernel/memory.h"
+#include "kernel/string.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
@@ -21,7 +21,7 @@
 
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -40,58 +40,50 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_Increment)
 }
 
 /**
- * @param string $text
- * @param string $separator
- *
- * @return string
+ * @phpstan-param non-empty-string $separator
  */
 PHP_METHOD(Phalcon_Support_Helper_Str_Increment, __invoke)
 {
 	zend_long number = 0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *text_param = NULL, *separator_param = NULL, parts, _1, _2, _0$$3;
-	zval text, separator;
-	zval *this_ptr = getThis();
+	zval text_zv, separator_zv, parts, _1, _2, _0$$3;
+	zend_string *text = NULL, *separator = NULL;
 
-	ZVAL_UNDEF(&text);
-	ZVAL_UNDEF(&separator);
+	ZVAL_UNDEF(&text_zv);
+	ZVAL_UNDEF(&separator_zv);
 	ZVAL_UNDEF(&parts);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_0$$3);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(text)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR(separator)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &text_param, &separator_param);
-	zephir_get_strval(&text, text_param);
-	if (!separator_param) {
-		ZEPHIR_INIT_VAR(&separator);
-		ZVAL_STRING(&separator, "_");
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&text_zv);
+	ZVAL_STR_COPY(&text_zv, text);
+	if (!separator) {
+		separator = zend_string_init(ZEND_STRL("_"), 0);
+		zephir_memory_observe(&separator_zv);
+		ZVAL_STR(&separator_zv, separator);
 	} else {
-		zephir_get_strval(&separator, separator_param);
+		zephir_memory_observe(&separator_zv);
+	ZVAL_STR_COPY(&separator_zv, separator);
 	}
-
-
 	ZEPHIR_INIT_VAR(&parts);
-	zephir_fast_explode(&parts, &separator, &text, LONG_MAX);
+	zephir_fast_explode(&parts, &separator_zv, &text_zv, LONG_MAX);
 	number = 1;
-	if (1 == zephir_array_isset_long(&parts, 1)) {
-		ZEPHIR_OBS_VAR(&_0$$3);
-		zephir_array_fetch_long(&_0$$3, &parts, 1, PH_NOISY, "phalcon/Support/Helper/Str/Increment.zep", 35);
+	if (1 == zephir_array_isset_value_long(&parts, 1)) {
+		zephir_memory_observe(&_0$$3);
+		zephir_array_fetch_long(&_0$$3, &parts, 1, PH_NOISY, "phalcon/Support/Helper/Str/Increment.zep", 32);
 		number = (zephir_get_intval(&_0$$3) + 1);
 	}
-	zephir_array_fetch_long(&_1, &parts, 0, PH_NOISY | PH_READONLY, "phalcon/Support/Helper/Str/Increment.zep", 38);
+	zephir_array_fetch_long(&_1, &parts, 0, PH_NOISY | PH_READONLY, "phalcon/Support/Helper/Str/Increment.zep", 35);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_LONG(&_2, number);
-	ZEPHIR_CONCAT_VVV(return_value, &_1, &separator, &_2);
+	ZEPHIR_CONCAT_VVV(return_value, &_1, &separator_zv, &_2);
 	RETURN_MM();
 }
 

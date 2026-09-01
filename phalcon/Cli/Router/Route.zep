@@ -10,72 +10,55 @@
 
 namespace Phalcon\Cli\Router;
 
+use Phalcon\Cli\Router\Exceptions\BeforeMatchNotCallable;
+use Phalcon\Cli\Router\Exceptions\InvalidRoutePaths;
+use Phalcon\Contracts\Cli\CliTypes;
+
 /**
  * This class represents every route added to the router
+ *
+ * @phpstan-import-type cli_route_converters from CliTypes
+ * @phpstan-import-type cli_route_extracted from CliTypes
+ * @phpstan-import-type cli_route_paths from CliTypes
+ * @phpstan-import-type cli_route_reversed_paths from CliTypes
  */
 class Route implements RouteInterface
 {
+    /**
+     * @var string
+     */
     const DEFAULT_DELIMITER = " ";
+    /**
+     * @var string
+     */
+    protected static delimiterPath = self::DEFAULT_DELIMITER;
+    protected static int uniqueId = 0;
 
     /**
      * @var mixed|null
      */
     protected beforeMatch = null;
-
+    protected string compiledPattern = "";
     /**
-     * @var string|null
+     * @phpstan-var cli_route_converters
      */
-    protected compiledPattern = null;
-
+    protected array converters = [];
+    protected string delimiter;
+    protected string description = "";
+    protected string name = "";
     /**
-     * @var array
+     * @phpstan-var cli_route_paths
      */
-    protected converters = [];
+    protected array paths = [];
+    protected string pattern = "";
+    protected string routeId;
 
     /**
-     * @var string
-     */
-    protected delimiter;
-
-    /**
-     * @var string
-     */
-    protected static delimiterPath = self::DEFAULT_DELIMITER;
-
-    /**
-     * @var string|null
-     */
-    protected description = null;
-
-    /**
-     * @var string
-     */
-    protected id;
-
-    /**
-     * @var string|null
-     */
-    protected name = null;
-
-    /**
-     * @var array
-     */
-    protected paths = [];
-
-    /**
-     * @var string
-     */
-    protected pattern;
-
-    /**
-     * @var int|string
-     */
-    protected static uniqueId = 0;
-
-    /**
+     * Constructor
+     *
      * @param array|string paths
      */
-    public function __construct(string! pattern, paths = null)
+    public function __construct( string pattern, paths = null)
     {
         var routeId, uniqueId;
 
@@ -90,8 +73,42 @@ class Route implements RouteInterface
 
         // TODO: Add a function that increase static members
         let routeId        = uniqueId,
-            this->id       = routeId,
+            this->routeId  = (string) routeId,
             self::uniqueId = uniqueId + 1;
+    }
+
+    /**
+     * Set the routing delimiter.
+     *
+     * This sets a process-global delimiter that each route captures at
+     * construction time. Configure it once during bootstrap, before any routes
+     * are created: routes built before and after a change keep their own
+     * delimiter, and `Console::setArgument()` reads the current value when it
+     * parses arguments.
+     */
+    public static function delimiter(string delimiter = null) -> void
+    {
+        let self::delimiterPath = delimiter;
+    }
+
+    /**
+     * Get routing delimiter
+     */
+    public static function getDelimiter() -> string
+    {
+        return self::delimiterPath;
+    }
+
+    /**
+     * Resets the internal route id generator.
+     *
+     * Intended for test isolation only. The router keys its route map by the
+     * route id, so resetting the sequence while a router still holds routes
+     * makes newly created routes overwrite existing entries.
+     */
+    public static function reset() -> void
+    {
+        let self::uniqueId = 0;
     }
 
     /**
@@ -103,6 +120,10 @@ class Route implements RouteInterface
      */
     public function beforeMatch(var callback) -> <RouteInterface>
     {
+        if unlikely !is_callable(callback) {
+            throw new BeforeMatchNotCallable(this->pattern);
+        }
+
         let this->beforeMatch = callback;
 
         return this;
@@ -112,68 +133,31 @@ class Route implements RouteInterface
      * Replaces placeholders from pattern returning a valid PCRE regular
      * expression
      */
-    public function compilePattern(string! pattern) -> string
+    public function compilePattern( string pattern) -> string
     {
-        var idPattern, part;
+        var idPattern;
+        array map;
 
         // If a pattern contains ':', maybe there are placeholders to replace
         if memstr(pattern, ":") {
 
             // This is a pattern for valid identifiers
             let idPattern = this->delimiter . "([a-zA-Z0-9\\_\\-]+)";
+            let map       = [
+                ":delimiter"                   : this->delimiter,
+                this->delimiter . ":module"    : idPattern,
+                this->delimiter . ":task"      : idPattern,
+                this->delimiter . ":namespace" : idPattern,
+                this->delimiter . ":action"    : idPattern,
+                this->delimiter . ":params"    : "(" . this->delimiter . ".*)?",
+                this->delimiter . ":int"       : this->delimiter . "([0-9]+)"
+            ];
 
-            // Replace the delimiter part
-            if memstr(pattern, ":delimiter") {
-                let pattern = str_replace(
-                    ":delimiter",
-                    this->delimiter,
-                    pattern
-                );
-            }
-
-            // Replace the module part
-            let part = this->delimiter . ":module";
-            if memstr(pattern, part) {
-                let pattern = str_replace(part, idPattern, pattern);
-            }
-
-            // Replace the task placeholder
-            let part = this->delimiter . ":task";
-            if memstr(pattern, part) {
-                let pattern = str_replace(part, idPattern, pattern);
-            }
-
-            // Replace the namespace placeholder
-            let part = this->delimiter . ":namespace";
-            if memstr(pattern, part) {
-                let pattern = str_replace(part, idPattern, pattern);
-            }
-
-            // Replace the action placeholder
-            let part = this->delimiter . ":action";
-            if memstr(pattern, part) {
-                let pattern = str_replace(part, idPattern, pattern);
-            }
-
-            // Replace the params placeholder
-            let part = this->delimiter . ":params";
-            if memstr(pattern, part) {
-                let pattern = str_replace(
-                    part,
-                    "(" . this->delimiter . ".*)*",
-                    pattern
-                );
-            }
-
-            // Replace the int placeholder
-            let part = this->delimiter . ":int";
-            if memstr(pattern, part) {
-                let pattern = str_replace(
-                    part,
-                    this->delimiter . "([0-9]+)",
-                    pattern
-                );
-            }
+            let pattern = str_replace(
+                array_keys(map),
+                array_values(map),
+                pattern
+            );
         }
 
         /**
@@ -193,7 +177,7 @@ class Route implements RouteInterface
      *
      * @param callable converter
      */
-    public function convert(string! name, converter) -> <RouteInterface>
+    public function convert(string name, converter) -> <RouteInterface>
     {
         let this->converters[name] = converter;
 
@@ -201,17 +185,11 @@ class Route implements RouteInterface
     }
 
     /**
-     * Set the routing delimiter
-     */
-    public static function delimiter(string! delimiter = null) -> void
-    {
-        let self::delimiterPath = delimiter;
-    }
-
-    /**
      * Extracts parameters from a string
+     *
+     * @phpstan-return cli_route_extracted|false
      */
-    public function extractNamedParams(string! pattern) -> array | bool
+    public function extractNamedParams( string pattern) -> array | bool
     {
         char ch;
         var tmp;
@@ -358,18 +336,12 @@ class Route implements RouteInterface
 
     /**
      * Returns the router converter
+     *
+     * @phpstan-return cli_route_converters
      */
     public function getConverters() -> array
     {
         return this->converters;
-    }
-
-    /**
-     * Get routing delimiter
-     */
-    public static function getDelimiter() -> string
-    {
-        return self::delimiterPath;
     }
 
     /**
@@ -390,6 +362,8 @@ class Route implements RouteInterface
 
     /**
      * Returns the paths
+     *
+     * @phpstan-return cli_route_paths
      */
     public function getPaths() -> array
     {
@@ -406,6 +380,8 @@ class Route implements RouteInterface
 
     /**
      * Returns the paths using positions as keys and names as values
+     *
+     * @phpstan-return cli_route_reversed_paths
      */
     public function getReversedPaths() -> array
     {
@@ -419,18 +395,15 @@ class Route implements RouteInterface
      */
     public function getRouteId() -> string
     {
-        return this->id;
+        return this->routeId;
     }
 
     /**
      * Reconfigure the route adding a new pattern and a set of paths
      *
-     * @param string pattern
      * @param array|string|null paths
-     *
-     * @return void
      */
-    public function reConfigure(string! pattern, paths = null) -> void
+    public function reConfigure( string pattern, paths = null) -> void
     {
         var moduleName, taskName, actionName, parts, routePaths, realClassName,
             namespaceName, pcrePattern, compiledPattern, extracted;
@@ -441,7 +414,7 @@ class Route implements RouteInterface
 
         if typeof paths == "string" {
             let moduleName = null,
-                taskName = null,
+                taskName   = null,
                 actionName = null;
 
             // Explode the short paths using the :: separator
@@ -484,9 +457,7 @@ class Route implements RouteInterface
                     let namespaceName = get_ns_class(taskName);
 
                     if unlikely (namespaceName === null || realClassName === null) {
-                        throw new Exception(
-                            "The route contains invalid paths"
-                        );
+                        throw new InvalidRoutePaths(pattern);
                     }
 
                     // Update the namespace
@@ -510,7 +481,7 @@ class Route implements RouteInterface
         }
 
         if unlikely typeof routePaths !== "array" {
-            throw new Exception("The route contains invalid paths");
+            throw new InvalidRoutePaths(pattern);
         }
 
         /**
@@ -563,17 +534,9 @@ class Route implements RouteInterface
     }
 
     /**
-     * Resets the internal route id generator
-     */
-    public static function reset() -> void
-    {
-        let self::uniqueId = 0;
-    }
-
-    /**
      * Sets the route's description
      */
-    public function setDescription(string! description) -> <RouteInterface>
+    public function setDescription( string description) -> <RouteInterface>
     {
         let this->description = description;
 
@@ -592,7 +555,7 @@ class Route implements RouteInterface
      * )->setName("about");
      *```
      */
-    public function setName(string! name) -> <RouteInterface>
+    public function setName( string name) -> <RouteInterface>
     {
         let this->name = name;
 

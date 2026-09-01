@@ -1,0 +1,5 @@
+
+extern zend_class_entry *phalcon_session_adapter_exceptions_adapterruntimeerror_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Exceptions_AdapterRuntimeError);
+

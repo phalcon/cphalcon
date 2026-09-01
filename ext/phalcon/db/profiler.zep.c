@@ -14,8 +14,9 @@
 #include "kernel/main.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
-#include "kernel/fcall.h"
 #include "kernel/operators.h"
+#include "kernel/fcall.h"
+#include "kernel/array.h"
 
 
 /**
@@ -94,11 +95,19 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler)
 	 */
 	zend_declare_property_null(phalcon_db_profiler_ce, SL("allProfiles"), ZEND_ACC_PROTECTED);
 	/**
-	 * Total time spent by all profiles to complete
+	 * Maximum number of profiles to retain. 0 (default) keeps the
+	 * original unbounded behavior; a positive value drops the oldest
+	 * profile FIFO before a new one is appended.
+	 *
+	 * @var int
+	 */
+	zend_declare_property_long(phalcon_db_profiler_ce, SL("maxProfiles"), 0, ZEND_ACC_PROTECTED);
+	/**
+	 * Total time spent by all profiles to complete in nanoseconds
 	 *
 	 * @var float
 	 */
-	zend_declare_property_long(phalcon_db_profiler_ce, SL("totalSeconds"), 0, ZEND_ACC_PROTECTED);
+	zend_declare_property_long(phalcon_db_profiler_ce, SL("totalNanoseconds"), 0, ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
 
@@ -107,11 +116,18 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler)
  */
 PHP_METHOD(Phalcon_Db_Profiler, getLastProfile)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "activeProfile");
+}
+
+/**
+ * Returns the configured maximum number of retained profiles
+ * (0 = unlimited)
+ */
+PHP_METHOD(Phalcon_Db_Profiler, getMaxProfiles)
+{
+
+	RETURN_MEMBER_TYPED(getThis(), "maxProfiles", IS_LONG);
 }
 
 /**
@@ -123,23 +139,21 @@ PHP_METHOD(Phalcon_Db_Profiler, getNumberTotalStatements)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
-
-
-
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("allProfiles"), PH_NOISY_CC | PH_READONLY);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("allProfiles", 11, 1);
+	}
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 646, PH_NOISY_CC | PH_READONLY);
 	RETURN_LONG(zephir_fast_count_int(&_0));
 }
 
 /**
- * Returns the total time in seconds spent by the profiles
+ * Returns the total time in nanoseconds spent by the profiles
  */
-PHP_METHOD(Phalcon_Db_Profiler, getTotalElapsedSeconds)
+PHP_METHOD(Phalcon_Db_Profiler, getTotalElapsedNanoseconds)
 {
-	zval *this_ptr = getThis();
 
-
-
-	RETURN_MEMBER(getThis(), "totalSeconds");
+	RETURN_MEMBER_TYPED(getThis(), "totalNanoseconds", IS_DOUBLE);
 }
 
 /**
@@ -147,11 +161,8 @@ PHP_METHOD(Phalcon_Db_Profiler, getTotalElapsedSeconds)
  */
 PHP_METHOD(Phalcon_Db_Profiler, getProfiles)
 {
-	zval *this_ptr = getThis();
 
-
-
-	RETURN_MEMBER(getThis(), "allProfiles");
+	RETURN_MEMBER_TYPED(getThis(), "allProfiles", IS_ARRAY);
 }
 
 /**
@@ -164,14 +175,43 @@ PHP_METHOD(Phalcon_Db_Profiler, reset)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
-
-
-	ZEPHIR_MM_GROW();
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("allProfiles", 11, 1);
+	}
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("allProfiles"), &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 646, &_0);
 	RETURN_THIS();
+}
+
+/**
+ * Sets the maximum number of retained profiles. 0 disables the cap
+ * (the default; preserves the original unbounded behavior).
+ */
+PHP_METHOD(Phalcon_Db_Profiler, setMaxProfiles)
+{
+	zval *maxProfiles_param = NULL, _0;
+	zend_long maxProfiles;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("maxProfiles", 11, 1);
+	}
+
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_LONG(maxProfiles)
+	ZEND_PARSE_PARAMETERS_END();
+	zephir_fetch_params_without_memory_grow(1, 0, &maxProfiles_param);
+	ZVAL_UNDEF(&_0);
+	ZVAL_LONG(&_0, maxProfiles);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 647, &_0);
+	RETURN_THISW();
 }
 
 /**
@@ -181,41 +221,50 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *sqlStatement_param = NULL, *sqlVariables = NULL, sqlVariables_sub, *sqlBindTypes = NULL, sqlBindTypes_sub, __$true, __$null, activeProfile, _0;
-	zval sqlStatement;
+	zval sqlVariables, sqlBindTypes;
+	zval sqlStatement_zv, *sqlVariables_param = NULL, *sqlBindTypes_param = NULL, __$true, activeProfile, _0;
+	zend_string *sqlStatement = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&sqlStatement);
-	ZVAL_UNDEF(&sqlVariables_sub);
-	ZVAL_UNDEF(&sqlBindTypes_sub);
+	ZVAL_UNDEF(&sqlStatement_zv);
 	ZVAL_BOOL(&__$true, 1);
-	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&activeProfile);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	ZVAL_UNDEF(&sqlVariables);
+	ZVAL_UNDEF(&sqlBindTypes);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("activeProfile", 13, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(sqlStatement)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL_OR_NULL(sqlVariables)
-		Z_PARAM_ZVAL_OR_NULL(sqlBindTypes)
+		ZEPHIR_Z_PARAM_ARRAY(sqlVariables, sqlVariables_param)
+		ZEPHIR_Z_PARAM_ARRAY(sqlBindTypes, sqlBindTypes_param)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 2, &sqlStatement_param, &sqlVariables, &sqlBindTypes);
-	zephir_get_strval(&sqlStatement, sqlStatement_param);
-	if (!sqlVariables) {
-		sqlVariables = &sqlVariables_sub;
-		sqlVariables = &__$null;
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (ZEND_NUM_ARGS() > 1) {
+		sqlVariables_param = ZEND_CALL_ARG(execute_data, 2);
 	}
-	if (!sqlBindTypes) {
-		sqlBindTypes = &sqlBindTypes_sub;
-		sqlBindTypes = &__$null;
+	if (ZEND_NUM_ARGS() > 2) {
+		sqlBindTypes_param = ZEND_CALL_ARG(execute_data, 3);
 	}
-
-
+	zephir_memory_observe(&sqlStatement_zv);
+	ZVAL_STR_COPY(&sqlStatement_zv, sqlStatement);
+	if (!sqlVariables_param) {
+		ZEPHIR_INIT_VAR(&sqlVariables);
+		array_init(&sqlVariables);
+	} else {
+		zephir_get_arrval(&sqlVariables, sqlVariables_param);
+	}
+	if (!sqlBindTypes_param) {
+		ZEPHIR_INIT_VAR(&sqlBindTypes);
+		array_init(&sqlBindTypes);
+	} else {
+		zephir_get_arrval(&sqlBindTypes, sqlBindTypes_param);
+	}
 	ZEPHIR_INIT_VAR(&activeProfile);
 	object_init_ex(&activeProfile, phalcon_db_profiler_item_ce);
 	if (zephir_has_constructor(&activeProfile)) {
@@ -223,25 +272,21 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile)
 		zephir_check_call_status();
 	}
 
-	ZEPHIR_CALL_METHOD(NULL, &activeProfile, "setsqlstatement", NULL, 232, &sqlStatement);
+	ZEPHIR_CALL_METHOD(NULL, &activeProfile, "setsqlstatement", NULL, 0, &sqlStatement_zv);
 	zephir_check_call_status();
-	if (Z_TYPE_P(sqlVariables) == IS_ARRAY) {
-		ZEPHIR_CALL_METHOD(NULL, &activeProfile, "setsqlvariables", NULL, 233, sqlVariables);
-		zephir_check_call_status();
-	}
-	if (Z_TYPE_P(sqlBindTypes) == IS_ARRAY) {
-		ZEPHIR_CALL_METHOD(NULL, &activeProfile, "setsqlbindtypes", NULL, 234, sqlBindTypes);
-		zephir_check_call_status();
-	}
-	ZEPHIR_CALL_FUNCTION(&_0, "hrtime", NULL, 216, &__$true);
+	ZEPHIR_CALL_METHOD(NULL, &activeProfile, "setsqlvariables", NULL, 0, &sqlVariables);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &activeProfile, "setinitialtime", NULL, 235, &_0);
+	ZEPHIR_CALL_METHOD(NULL, &activeProfile, "setsqlbindtypes", NULL, 0, &sqlBindTypes);
+	zephir_check_call_status();
+	ZEPHIR_CALL_FUNCTION(&_0, "hrtime", NULL, 0, &__$true);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(NULL, &activeProfile, "setinitialtime", NULL, 0, &_0);
 	zephir_check_call_status();
 	if ((zephir_method_exists_ex(this_ptr, ZEND_STRL("beforestartprofile")) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "beforestartprofile", NULL, 0, &activeProfile);
 		zephir_check_call_status();
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("activeProfile"), &activeProfile);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 648, &activeProfile);
 	RETURN_THIS();
 }
 
@@ -250,41 +295,115 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile)
  */
 PHP_METHOD(Phalcon_Db_Profiler, stopProfile)
 {
+	zend_bool _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval __$true, activeProfile, finalTime, initialTime, _0, _1, _2;
+	zval __$true, activeProfile, firstKey, _0, _1, _3, _4, _7, _8, _9, _5$$3, _6$$4;
 	zval *this_ptr = getThis();
 
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_UNDEF(&activeProfile);
-	ZVAL_UNDEF(&finalTime);
-	ZVAL_UNDEF(&initialTime);
+	ZVAL_UNDEF(&firstKey);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_7);
+	ZVAL_UNDEF(&_8);
+	ZVAL_UNDEF(&_9);
+	ZVAL_UNDEF(&_5$$3);
+	ZVAL_UNDEF(&_6$$4);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	static zend_string *_zephir_prop_3 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("activeProfile", 13, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("maxProfiles", 11, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("allProfiles", 11, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_3)) {
+		_zephir_prop_3 = zend_string_init("totalNanoseconds", 16, 1);
+	}
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-
-	ZEPHIR_MM_GROW();
-
-	ZEPHIR_CALL_FUNCTION(&finalTime, "hrtime", NULL, 216, &__$true);
-	zephir_check_call_status();
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("activeProfile"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 648, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&activeProfile, &_0);
-	ZEPHIR_CALL_METHOD(NULL, &activeProfile, "setfinaltime", NULL, 0, &finalTime);
+	ZEPHIR_CALL_FUNCTION(&_1, "hrtime", NULL, 0, &__$true);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&initialTime, &activeProfile, "getinitialtime", NULL, 0);
+	ZEPHIR_CALL_METHOD(NULL, &activeProfile, "setfinaltime", NULL, 0, &_1);
 	zephir_check_call_status();
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("totalSeconds"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_INIT_VAR(&_1);
-	zephir_sub_function(&_1, &finalTime, &initialTime);
-	ZEPHIR_INIT_VAR(&_2);
-	zephir_add_function(&_2, &_0, &_1);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("totalSeconds"), &_2);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 647, PH_NOISY_CC | PH_READONLY);
+	_2 = ZEPHIR_GT_LONG(&_0, 0);
+	if (_2) {
+		zephir_read_property_cached(&_3, this_ptr, _zephir_prop_2, 646, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_4, this_ptr, _zephir_prop_1, 647, PH_NOISY_CC | PH_READONLY);
+		_2 = ZEPHIR_LE_LONG(&_4, zephir_fast_count_int(&_3));
+	}
+	if (_2) {
+		zephir_read_property_cached(&_5$$3, this_ptr, _zephir_prop_2, 646, PH_NOISY_CC | PH_READONLY);
+		ZEPHIR_CALL_FUNCTION(&firstKey, "array_key_first", NULL, 18, &_5$$3);
+		zephir_check_call_status();
+		if (Z_TYPE_P(&firstKey) != IS_NULL) {
+			zephir_unset_property_array(this_ptr, ZEND_STRL("allProfiles"), &firstKey);
+			zephir_read_property_cached(&_6$$4, this_ptr, _zephir_prop_2, 646, PH_NOISY_CC | PH_READONLY);
+			zephir_array_unset(&_6$$4, &firstKey, PH_SEPARATE);
+		}
+	}
+	zephir_read_property_cached(&_7, this_ptr, _zephir_prop_3, 649, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(&_8, &activeProfile, "gettotalelapsednanoseconds", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(&_9);
+	zephir_add_function(&_9, &_7, &_8);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 649, &_9);
 	zephir_update_property_array_append(this_ptr, SL("allProfiles"), &activeProfile);
 	if ((zephir_method_exists_ex(this_ptr, ZEND_STRL("afterendprofile")) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "afterendprofile", NULL, 0, &activeProfile);
 		zephir_check_call_status();
 	}
 	RETURN_THIS();
+}
+
+/**
+ * Returns the total time in milliseconds spent by the profiles
+ */
+PHP_METHOD(Phalcon_Db_Profiler, getTotalElapsedMilliseconds)
+{
+	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&_0);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "gettotalelapsednanoseconds", NULL, 0);
+	zephir_check_call_status();
+	RETURN_MM_DOUBLE(zephir_safe_div_zval_long(&_0, 1000000));
+}
+
+/**
+ * Returns the total time in seconds spent by the profiles
+ */
+PHP_METHOD(Phalcon_Db_Profiler, getTotalElapsedSeconds)
+{
+	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&_0);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "gettotalelapsedmilliseconds", NULL, 0);
+	zephir_check_call_status();
+	RETURN_MM_DOUBLE(zephir_safe_div_zval_long(&_0, 1000));
 }
 

@@ -10,81 +10,17 @@
 
 namespace Phalcon\Logger\Adapter;
 
-use Phalcon\Logger\Formatter\FormatterInterface;
-use Phalcon\Logger\Item;
+use Phalcon\Contracts\Logger\Adapter\Adapter as AdapterContract;
 
 /**
  * Phalcon\Logger\AdapterInterface
  *
  * Interface for Phalcon\Logger adapters
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Logger\Adapter\Adapter} instead.
  */
-interface AdapterInterface
+interface AdapterInterface extends AdapterContract
 {
-    /**
-     * Adds a message in the queue
-     *
-     * @param Item $item
-     *
-     * @return AdapterInterface
-     */
-    public function add(<Item> item) -> <AdapterInterface>;
-
-    /**
-     * Starts a transaction
-     *
-     * @return AdapterInterface
-     */
-    public function begin() -> <AdapterInterface>;
-
-    /**
-     * Closes the logger
-     *
-     * @return bool
-     */
-    public function close() -> bool;
-
-    /**
-     * Commits the internal transaction
-     *
-     * @return AdapterInterface
-     */
-    public function commit() -> <AdapterInterface>;
-
-    /**
-     * Returns the internal formatter
-     *
-     * @return FormatterInterface
-     */
-    public function getFormatter() -> <FormatterInterface>;
-
-    /**
-     * Returns the whether the logger is currently in an active transaction or
-     * not
-     *
-     * @return bool
-     */
-    public function inTransaction() -> bool;
-
-    /**
-     * Processes the message in the adapter
-     *
-     * @param Item $item
-     */
-    public function process(<Item> item) -> void;
-
-    /**
-     * Rollbacks the internal transaction
-     *
-     * @return AdapterInterface
-     */
-    public function rollback() -> <AdapterInterface>;
-
-    /**
-     * Sets the message formatter
-     *
-     * @param FormatterInterface $formatter
-     *
-     * @return AdapterInterface
-     */
-    public function setFormatter(<FormatterInterface> formatter) -> <AdapterInterface>;
 }

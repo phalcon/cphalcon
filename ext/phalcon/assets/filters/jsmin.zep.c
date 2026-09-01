@@ -12,10 +12,6 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
-#include "kernel/operators.h"
-#include "kernel/memory.h"
 #include "kernel/object.h"
 
 
@@ -28,9 +24,15 @@
  * file that was distributed with this source code.
  */
 /**
- * Deletes the characters which are insignificant to JavaScript. Comments will
- * be removed. Tabs will be replaced with spaces. Carriage returns will be
- * replaced with linefeeds. Most spaces and linefeeds will be removed.
+ * Filter intended to minify JavaScript content (remove comments and the
+ * characters that are insignificant to JavaScript - tabs, carriage returns,
+ * and most spaces and linefeeds).
+ *
+ * > NOTE: This functionality is not currently available; `filter()` returns
+ * > the content unchanged.
+ *
+ * @deprecated Use Phalcon\Assets\Filters\None, or a custom
+ *             Phalcon\Assets\FilterInterface wrapping a real JS minifier.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Filters_Jsmin)
 {
@@ -42,37 +44,17 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Filters_Jsmin)
 
 /**
  * Filters the content using JSMIN
- * NOTE: This functionality is not currently available
  */
 PHP_METHOD(Phalcon_Assets_Filters_Jsmin, filter)
 {
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *content_param = NULL;
-	zval content;
-	zval *this_ptr = getThis();
+	zval content_zv;
+	zend_string *content = NULL;
 
-	ZVAL_UNDEF(&content);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	ZVAL_UNDEF(&content_zv);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(content)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &content_param);
-	if (UNEXPECTED(Z_TYPE_P(content_param) != IS_STRING && Z_TYPE_P(content_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'content' must be of the type string"));
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(content_param) == IS_STRING)) {
-		zephir_get_strval(&content, content_param);
-	} else {
-		ZEPHIR_INIT_VAR(&content);
-	}
-
-
-	RETURN_CTOR(&content);
+	ZVAL_STR(&content_zv, content);
+	RETURN_STR(zend_string_copy(content));
 }
 

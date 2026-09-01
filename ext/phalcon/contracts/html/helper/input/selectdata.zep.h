@@ -1,0 +1,16 @@
+
+extern zend_class_entry *phalcon_contracts_html_helper_input_selectdata_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Html_Helper_Input_SelectData);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_html_helper_input_selectdata_getattributes, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_html_helper_input_selectdata_getoptions, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_contracts_html_helper_input_selectdata_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Html_Helper_Input_SelectData, getAttributes, arginfo_phalcon_contracts_html_helper_input_selectdata_getattributes)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Html_Helper_Input_SelectData, getOptions, arginfo_phalcon_contracts_html_helper_input_selectdata_getoptions)
+	PHP_FE_END
+};

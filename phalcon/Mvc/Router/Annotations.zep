@@ -10,9 +10,11 @@
 
 namespace Phalcon\Mvc\Router;
 
+use Phalcon\Annotations\Annotation;
 use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\Router;
-use Phalcon\Annotations\Annotation;
+use Phalcon\Mvc\Router\Exceptions\AnnotationsServiceUnavailable;
+use Phalcon\Mvc\Router\Exceptions\InvalidCallbackParameter;
 
 /**
  * Phalcon\Mvc\Router\Annotations
@@ -28,8 +30,8 @@ use Phalcon\Annotations\Annotation;
  *         // Use the annotations router
  *         $router = new Annotations(false);
  *
- *         // This will do the same as above but only if the handled uri starts with /robots
- *         $router->addResource("Robots", "/robots");
+ *         // This will do the same as above but only if the handled uri starts with /invoices
+ *         $router->addResource("Invoices", "/invoices");
  *
  *         return $router;
  *     }
@@ -68,7 +70,7 @@ class Annotations extends Router
      * A resource is a class that contains routing annotations
      * The class is located in a module
      */
-    public function addModuleResource(string! module, string! handler, string! prefix = null) -> <Annotations>
+    public function addModuleResource( string module,  string handler,  string prefix = null) -> <static>
     {
         let this->handlers[] = [prefix, handler, module];
 
@@ -79,7 +81,7 @@ class Annotations extends Router
      * Adds a resource to the annotations handler
      * A resource is a class that contains routing annotations
      */
-    public function addResource(string! handler, string! prefix = null) -> <Annotations>
+    public function addResource( string handler,  string prefix = null) -> <static>
     {
         let this->handlers[] = [prefix, handler];
 
@@ -97,7 +99,7 @@ class Annotations extends Router
     /**
      * Produce the routing parameters from the rewrite information
      */
-    public function handle(string! uri) -> void
+    public function handle( string uri) -> void
     {
         var annotationsService, handlers, controllerSuffix, scope, prefix,
             route, compiledPattern, container, handler, controllerName,
@@ -109,9 +111,7 @@ class Annotations extends Router
         let container = <DiInterface> this->container;
 
         if unlikely typeof container != "object" {
-            throw new Exception(
-                "A dependency injection container is required to access the 'annotations' service"
-            );
+            throw new AnnotationsServiceUnavailable();
         }
 
         let handlers = this->handlers;
@@ -168,6 +168,18 @@ class Annotations extends Router
                  */
                 let controllerName = get_class_ns(handler),
                     namespaceName = get_ns_class(handler);
+
+                /**
+                 * Strip the suffix if the FQCN already includes it,
+                 * so we do not end up with e.g. "InvoicesControllerController"
+                 */
+                if ends_with(controllerName, controllerSuffix) {
+                    let controllerName = substr(
+                        controllerName,
+                        0,
+                        strlen(controllerName) - strlen(controllerSuffix)
+                    );
+                }
             } else {
                 let controllerName = handler;
 
@@ -180,6 +192,7 @@ class Annotations extends Router
              * Check if the scope has a module associated
              */
             fetch moduleName, scope[2];
+            let moduleName = moduleName !== null ? moduleName : "";
 
             let sufixed = controllerName . controllerSuffix;
 
@@ -253,10 +266,10 @@ class Annotations extends Router
      * Checks for annotations in the public methods of the controller
      */
     public function processActionAnnotation(
-        string! module,
-        string! namespaceName,
-        string! controller,
-        string! action,
+         string module,
+         string namespaceName,
+         string controller,
+         string action,
         <Annotation> annotation
     ) -> void {
         var name, proxyActionName, actionName, routePrefix, paths, value, uri, route, methods,
@@ -275,12 +288,16 @@ class Annotations extends Router
                 let isRoute = true;
                 break;
 
-            case "Get":
-            case "Post":
-            case "Put":
-            case "Patch":
+            case "Connect":
             case "Delete":
+            case "Get":
+            case "Head":
             case "Options":
+            case "Patch":
+            case "Post":
+            case "Purge":
+            case "Put":
+            case "Trace":
                 let isRoute = true,
                     methods = strtoupper(name);
                 break;
@@ -401,7 +418,7 @@ class Annotations extends Router
     /**
      * Checks for annotations in the controller docblock
      */
-    public function processControllerAnnotation(string! handler, <Annotation> annotation)
+    public function processControllerAnnotation( string handler, <Annotation> annotation)
     {
         /**
          * @RoutePrefix add a prefix for all the routes defined in the model
@@ -414,9 +431,11 @@ class Annotations extends Router
     /**
      * Changes the action method suffix
      */
-    public function setActionSuffix(string! actionSuffix)
+    public function setActionSuffix( string actionSuffix) -> <self>
     {
         let this->actionSuffix = actionSuffix;
+
+        return this;
     }
 
     /**
@@ -448,7 +467,7 @@ class Annotations extends Router
      *
      * @param callable|string|null $callback
      */
-    public function setActionPreformatCallback(var callback = null)
+    public function setActionPreformatCallback(var callback = null) -> <self>
     {
         if likely is_callable(callback) {
             let this->actionPreformatCallback = callback;
@@ -457,10 +476,10 @@ class Annotations extends Router
                 return uncamelize(action, "-");
             };
         } else {
-            throw new Exception(
-                "The 'callback' parameter must be either a callable or NULL."
-            );
+            throw new InvalidCallbackParameter();
         }
+
+        return this;
     }
 
     /**
@@ -474,8 +493,10 @@ class Annotations extends Router
     /**
      * Changes the controller class suffix
      */
-    public function setControllerSuffix(string! controllerSuffix)
+    public function setControllerSuffix( string controllerSuffix) -> <self>
     {
         let this->controllerSuffix = controllerSuffix;
+
+        return this;
     }
 }

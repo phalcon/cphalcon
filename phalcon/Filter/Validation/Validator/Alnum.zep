@@ -60,7 +60,7 @@ class Alnum extends AbstractValidator
      *     'allowEmpty' => false
      * ]
      */
-    public function __construct(array! options = [])
+    public function __construct( array options = [])
     {
         parent::__construct(options);
     }
@@ -77,7 +77,11 @@ class Alnum extends AbstractValidator
             return true;
         }
 
-        if !ctype_alnum(value) {
+        if this->rejectNonStringable(validation, field, value) {
+            return false;
+        }
+
+        if !ctype_alnum((string) value) {
             validation->appendMessage(
                 this->messageFactory(validation, field)
             );

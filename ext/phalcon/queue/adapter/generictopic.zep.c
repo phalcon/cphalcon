@@ -1,0 +1,84 @@
+
+#ifdef HAVE_CONFIG_H
+#include "../../../ext_config.h"
+#endif
+
+#include <php.h>
+#include "../../../php_ext.h"
+#include "../../../ext.h"
+
+#include <Zend/zend_operators.h>
+#include <Zend/zend_exceptions.h>
+#include <Zend/zend_interfaces.h>
+
+#include "kernel/main.h"
+#include "kernel/object.h"
+
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ *
+ * Implementation of this component has been inspired by the queue-interop and
+ * enqueue projects.
+ *
+ * @link    https://github.com/queue-interop/queue-interop
+ * @license https://github.com/queue-interop/queue-interop/blob/master/LICENSE
+ *
+ * @link    https://github.com/php-enqueue/enqueue-dev
+ * @license https://github.com/php-enqueue/enqueue-dev/blob/master/LICENSE
+ */
+/**
+ * A named topic destination shared by every transport. A topic name is the
+ * only knowledge a destination carries, so the adapters need no transport
+ * specific subclass.
+ */
+ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_GenericTopic)
+{
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Queue\\Adapter, GenericTopic, phalcon, queue_adapter_generictopic, phalcon_queue_adapter_generictopic_method_entry, 0);
+
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "", sizeof("") - 1);
+		zephir_declare_typed_property(phalcon_queue_adapter_generictopic_ce, SL("topicName"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
+	zend_class_implements(phalcon_queue_adapter_generictopic_ce, 1, phalcon_contracts_queue_topic_ce);
+	return SUCCESS;
+}
+
+/**
+ * GenericTopic constructor.
+ */
+PHP_METHOD(Phalcon_Queue_Adapter_GenericTopic, __construct)
+{
+	zval topicName_zv;
+	zend_string *topicName = NULL;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&topicName_zv);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("topicName", 9, 1);
+	}
+
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(topicName)
+	ZEND_PARSE_PARAMETERS_END();
+	ZVAL_STR(&topicName_zv, topicName);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1269, &topicName_zv);
+}
+
+/**
+ * Returns the topic name.
+ */
+PHP_METHOD(Phalcon_Queue_Adapter_GenericTopic, getTopicName)
+{
+
+	RETURN_MEMBER_TYPED(getThis(), "topicName", IS_STRING);
+}
+

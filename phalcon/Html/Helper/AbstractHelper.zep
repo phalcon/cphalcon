@@ -1,70 +1,67 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 
 namespace Phalcon\Html\Helper;
 
+use Phalcon\Contracts\Html\HtmlTypes;
 use Phalcon\Html\Escaper\EscaperInterface;
 use Phalcon\Html\Exception;
 
 /**
- * @property string           $delimiter
- * @property EscaperInterface $escaper
- * @property string           $indent
- * @property int              $indentLevel
+ * @phpstan-import-type html_attributes from HtmlTypes
+ * @phpstan-import-type html_element_store from HtmlTypes
  */
 abstract class AbstractHelper
 {
-    /**
-     * @var string
-     */
-    protected delimiter = "";
-
-    /**
-     * @var EscaperInterface
-     */
-    protected escaper;
-
-    /**
-     * @var string
-     */
-    protected indent = "    ";
-
-    /**
-     * @var int
-     */
-    protected indentLevel = 1;
+    protected string delimiter = "";
+    protected ?<Doctype> doctype = null;
+    protected <EscaperInterface> escaper;
+    protected string indent = "    ";
+    protected int indentLevel = 1;
 
     /**
      * AbstractHelper constructor.
-     *
-     * @param EscaperInterface $escaper
      */
-    public function __construct(<EscaperInterface> escaper)
-    {
+    public function __construct(
+        <EscaperInterface> escaper,
+        <Doctype> doctype = null
+    ) {
         let this->delimiter = PHP_EOL,
-            this->escaper   = escaper;
+            this->escaper   = escaper,
+            this->doctype   = doctype;
     }
 
     /**
      * Produces a closing tag
-     *
-     * @param string $tag
-     * @param bool   $raw
-     *
-     * @return string
      */
     protected function close(string tag, bool raw = false) -> string
     {
-        let tag = raw ? tag : this->escaper->html(tag);
+        let tag = raw ? tag : this->escapeName(tag);
 
         return "</" . tag . ">";
+    }
+
+    /**
+     * Removes the characters that end a tag or attribute name (white space,
+     * "/", "=") and escapes the rest, so a crafted name cannot break out of
+     * its position.
+     */
+    protected function escapeName(string name) -> string
+    {
+        return this->escaper->html(
+            (string) preg_replace("~[\\s/=]~", "", name)
+        );
     }
 
     /**
@@ -78,15 +75,39 @@ abstract class AbstractHelper
     }
 
     /**
-     * Keeps all the attributes sorted - same order all the tome
+     * Forces `$key => $value` to the front of the attributes array,
+     * removing any existing entry for that key. This guarantees the
+     * attribute is always present and appears first in the rendered output.
      *
-     * @param array $overrides
-     * @param array $attributes
+     * @phpstan-param html_attributes $attributes
      *
-     * @return array
+     * @phpstan-return html_attributes
      */
-    protected function orderAttributes(array overrides, array attributes) -> array
-    {
+    protected function injectAttribute(
+        string key,
+        string value,
+        array attributes
+    ) -> array {
+        unset attributes[key];
+
+        return array_merge(
+            [key: value],
+            attributes
+        );
+    }
+
+    /**
+     * Keeps all the attributes sorted - same order all the time
+     *
+     * @phpstan-param html_attributes $overrides
+     * @phpstan-param html_attributes $attributes
+     *
+     * @phpstan-return html_attributes
+     */
+    protected function orderAttributes(
+        array overrides,
+        array attributes
+    ) -> array {
         var intersect, results;
         array order;
 
@@ -119,10 +140,7 @@ abstract class AbstractHelper
      * Traverses an array and calls the method defined in the first element
      * with attributes as the second, returning the resulting string
      *
-     * @param array  $elements
-     * @param string $delimiter
-     *
-     * @return string
+     * @phpstan-param html_element_store $elements
      */
     protected function renderArrayElements(
         array elements,
@@ -143,9 +161,7 @@ abstract class AbstractHelper
     /**
      * Renders all the attributes
      *
-     * @param array $attributes
-     *
-     * @return string
+     * @phpstan-param html_attributes $attributes
      */
     protected function renderAttributes(array attributes) -> string
     {
@@ -154,7 +170,13 @@ abstract class AbstractHelper
         let result = "";
         for key, value in attributes {
             if typeof key === "string" && null !== value {
-                let result .= key . "=\"" . this->escaper->attributes(value) . "\" ";
+                let key = this->escapeName(key);
+
+                if (true === value) {
+                    let result .= key . " ";
+                } else {
+                    let result .= key . "=\"" . this->escaper->attributes(value) . "\" ";
+                }
             }
         }
 
@@ -164,27 +186,19 @@ abstract class AbstractHelper
     /**
      * Renders an element
      *
-     * @param string $tag
-     * @param array  $attributes
-     *
-     * @return string
-     * @throws Exception
+     * @phpstan-param html_attributes $attributes
      */
-    protected function renderElement(string tag, array attributes = []) -> string
-    {
+    protected function renderElement(
+        string tag,
+        array attributes = []
+    ) -> string {
         return this->renderTag(tag, attributes);
     }
 
     /**
      * Renders an element
      *
-     * @param string $tag
-     * @param string $text
-     * @param array  $attributes
-     * @param bool   $raw
-     *
-     * @return string
-     * @throws Exception
+     * @phpstan-param html_attributes $attributes
      */
     protected function renderFullElement(
         string tag,
@@ -204,18 +218,14 @@ abstract class AbstractHelper
     /**
      * Renders a tag
      *
-     * @param string $tag
-     * @param array  $attributes
-     * @param string $close
-     *
-     * @return string
+     * @phpstan-param html_attributes $attributes
      */
     protected function renderTag(
         string tag,
         array attributes = [],
         string close = ""
     ) -> string {
-        var attrs, close, escapedAttrs;
+        var attrs, escapedAttrs, localClose;
 
         let escapedAttrs = "";
         if (true !== empty(attributes)) {
@@ -223,18 +233,15 @@ abstract class AbstractHelper
                 escapedAttrs = " " . rtrim(this->renderAttributes(attrs));
         }
 
-        let close = empty(trim(close)) ? "" : " " . trim(close);
+        let localClose = empty(trim(close)) ? "" : " " . trim(close);
 
-        return "<" . tag . escapedAttrs . close . ">";
+        return "<" . this->escapeName(tag) . escapedAttrs . localClose . ">";
     }
 
     /**
      * Produces a self close tag i.e. <img />
      *
-     * @param string $tag
-     * @param array  $attributes
-     *
-     * @return string
+     * @phpstan-param html_attributes $attributes
      */
     protected function selfClose(string tag, array attributes = []) -> string
     {

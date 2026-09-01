@@ -10,10 +10,12 @@
 
 namespace Phalcon\Filter\Validation\Validator;
 
-use Phalcon\Messages\Message;
 use Phalcon\Filter\Validation;
-use Phalcon\Filter\Validation\Exception;
 use Phalcon\Filter\Validation\AbstractValidator;
+use Phalcon\Filter\Validation\Exception;
+use Phalcon\Filter\Validation\Exceptions\MissingMbstring;
+use Phalcon\Messages\Message;
+use Phalcon\Traits\Php\InfoTrait;
 
 /**
  * Checks that two values have the same value
@@ -28,7 +30,7 @@ use Phalcon\Filter\Validation\AbstractValidator;
  *     "password",
  *     new Confirmation(
  *         [
- *             "message" => "Password doesn't match confirmation",
+ *             "message" => "Password does not match confirmation",
  *             "with"    => "confirmPassword",
  *         ]
  *     )
@@ -42,8 +44,8 @@ use Phalcon\Filter\Validation\AbstractValidator;
  *     new Confirmation(
  *         [
  *             "message" => [
- *                 "password" => "Password doesn't match confirmation",
- *                 "email"    => "Email doesn't match confirmation",
+ *                 "password" => "Password does not match confirmation",
+ *                 "email"    => "Email does not match confirmation",
  *             ],
  *             "with" => [
  *                 "password" => "confirmPassword",
@@ -56,6 +58,8 @@ use Phalcon\Filter\Validation\AbstractValidator;
  */
 class Confirmation extends AbstractValidator
 {
+    use InfoTrait;
+
     protected template = "Field :field must be the same as :with";
 
     /**
@@ -69,7 +73,7 @@ class Confirmation extends AbstractValidator
      *     'ignoreCase' => false
      * ]
      */
-    public function __construct(array! options = [])
+    public function __construct( array options = [])
     {
         parent::__construct(options);
     }
@@ -90,7 +94,11 @@ class Confirmation extends AbstractValidator
         let value = validation->getValue(field),
             valueWith = validation->getValue(fieldWith);
 
-        if !this->compare(value, valueWith) {
+        if this->rejectNonStringable(validation, field, value) || this->rejectNonStringable(validation, field, valueWith) {
+            return false;
+        }
+
+        if !this->compare((string) value, (string) valueWith) {
             let labelWith = this->getOption("labelWith");
 
             if typeof labelWith == "array" {
@@ -124,8 +132,8 @@ class Confirmation extends AbstractValidator
             /**
              * mbstring is required here
              */
-            if unlikely !function_exists("mb_strtolower") {
-                throw new Exception("Extension 'mbstring' is required");
+            if unlikely !this->phpFunctionExists("mb_strtolower") {
+                throw new MissingMbstring();
             }
 
             let a = mb_strtolower(a, "utf-8");

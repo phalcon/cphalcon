@@ -92,6 +92,9 @@ class Generator_File_PhalconC
     {
         foreach (array_keys($alreadyIncludedHeaders) as $file) {
             $path = Util::normalize($this->sourceDir . '/' . $file);
+            if ($path === null) {
+                continue;
+            }
 
             $this->skipFiles[$path] = true;
         }
@@ -100,6 +103,10 @@ class Generator_File_PhalconC
         $files = include($this->configDir . '/phalcon_c_skip_files.php');
         foreach ($files as $file) {
             $path = Util::normalize($this->sourceDir . '/' . $file);
+            if ($path === null) {
+                continue;
+            }
+
             $this->skipFiles[$path] = true;
         }
 
@@ -154,7 +161,7 @@ class Generator_File_PhalconC
     protected function addAllSourceFiles($fileHandler)
     {
         /**
-         * Sorting is important, so that the resulting contents doesn't fluctuate because of OS,
+         * Sorting is important, so that the resulting contents does not fluctuate because of OS,
          * filesystem walk order, etc. Therefore the resulting file can be easily diff'ed
          * with its previous version in repository.
          */

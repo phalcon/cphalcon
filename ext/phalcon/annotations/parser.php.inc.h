@@ -2,7 +2,9 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
+#if PHP_VERSION_ID < 80500
 #include <ext/standard/php_smart_string.h>
+#endif
 #include <zend_smart_str.h>
 
 #include <main/spprintf.h>
@@ -42,30 +44,28 @@ static void phannot_ret_array(zval *ret, zval *items)
 
 static void phannot_ret_zval_list(zval *ret, zval *list_left, zval *right_list)
 {
-	HashTable *list;
-
-	array_init(ret);
-
 	if (list_left) {
-
-		list = Z_ARRVAL_P(list_left);
-		if (zend_hash_index_exists(list, 0)) {
-            {
-                zval *item;
-                ZEND_HASH_FOREACH_VAL(list, item) {
-
-                    Z_TRY_ADDREF_P(item);
-                    add_next_index_zval(ret, item);
-
-                } ZEND_HASH_FOREACH_END();
-            }
-            zval_dtor(list_left);
+		if (zend_hash_index_exists(Z_ARRVAL_P(list_left), 0)) {
+			/*
+			 * list_left is the list built so far. Take it over instead of
+			 * copying every item on each reduction (that made a list of n
+			 * items cost O(n^2)). The parser drops the source slot after
+			 * the reduction, so the ownership moves with the zval.
+			 */
+			ZVAL_COPY_VALUE(ret, list_left);
+			ZVAL_UNDEF(list_left);
+			SEPARATE_ARRAY(ret);
 		} else {
+			array_init(ret);
 			add_next_index_zval(ret, list_left);
 		}
+	} else {
+		array_init(ret);
 	}
 
-	add_next_index_zval(ret, right_list);
+	if (right_list) {
+		add_next_index_zval(ret, right_list);
+	}
 }
 
 static void phannot_ret_named_item(zval *ret, phannot_parser_token *name, zval *expr)

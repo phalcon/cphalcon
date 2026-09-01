@@ -10,18 +10,32 @@
 
 namespace Phalcon\Image;
 
+use Exception as BaseException;
+use Phalcon\Config\ConfigInterface;
+use Phalcon\Contracts\Image\ImageTypes;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Image\Adapter\AdapterInterface;
+use Phalcon\Image\Adapter\Gd;
+use Phalcon\Image\Adapter\Imagick;
+use Phalcon\Traits\Support\Helper\Arr\GetTrait;
+use Throwable;
 
 /**
- * Phalcon\Image/ImageFactory
+ * Factory to create adapters for image manipulation
+ *
+ * @phpstan-import-type image_factory_config from ImageTypes
+ * @phpstan-import-type image_factory_services from ImageTypes
  */
 class ImageFactory extends AbstractFactory
 {
+    use GetTrait;
+
     /**
-     * TagFactory constructor.
+     * Constructor
+     *
+     * @phpstan-param image_factory_services $services
      */
-    public function __construct(array! services = [])
+    public function __construct( array services = [])
     {
         this->init(services);
     }
@@ -29,7 +43,9 @@ class ImageFactory extends AbstractFactory
     /**
      * Factory to create an instance from a Config object
      *
-     * @param array|\Phalcon\Config\Config config = [
+     * @phpstan-param ConfigInterface|image_factory_config $config
+     *
+     * @param array|ConfigInterface config = [
      *     'adapter' => 'gd',
      *     'file' => 'image.jpg',
      *     'height' => null,
@@ -40,6 +56,7 @@ class ImageFactory extends AbstractFactory
     {
         var height, file, name, width;
 
+        /** @phpstan-var image_factory_config $config */
         let config = this->checkConfig(config),
             config = this->checkConfigElement(config, "adapter"),
             config = this->checkConfigElement(config, "file");
@@ -57,10 +74,12 @@ class ImageFactory extends AbstractFactory
 
     /**
      * Creates a new instance
+     *
+     * @throws BaseException
      */
     public function newInstance(
-        string! name,
-        string! file,
+         string name,
+         string file,
         int width = null,
         int height = null
     ) -> <AdapterInterface>
@@ -80,40 +99,25 @@ class ImageFactory extends AbstractFactory
     }
 
     /**
-     * @return string
+     * @return class-string<Throwable>
      */
     protected function getExceptionClass() -> string
     {
-        return "Phalcon\\Image\\Exception";
+        return Exception::class;
     }
 
     /**
      * Returns the available adapters
+     *
+     * @phpstan-return image_factory_services
      *
      * @return string[]
      */
     protected function getServices() -> array
     {
         return [
-            "gd"      : "Phalcon\\Image\\Adapter\\Gd",
-            "imagick" : "Phalcon\\Image\\Adapter\\Imagick"
+            "gd"      : Gd::class,
+            "imagick" : Imagick::class
         ];
-    }
-
-    /**
-     * @todo Remove this when we get traits
-     */
-    private function getArrVal(
-        array! collection,
-        var index,
-        var defaultValue = null
-    ) -> var {
-        var value;
-
-        if unlikely !fetch value, collection[index] {
-            return defaultValue;
-        }
-
-        return value;
     }
 }

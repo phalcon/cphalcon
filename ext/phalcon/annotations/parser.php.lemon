@@ -64,6 +64,11 @@
 	status->status = PHANNOT_PARSING_FAILED;
 }
 
+%stack_overflow {
+	status->status = PHANNOT_PARSING_FAILED;
+	spprintf(&status->syntax_error, 0, "Parsing failed, the annotation is nested too deeply in %s on line %d", status->scanner_state->active_file, status->scanner_state->active_line);
+}
+
 %token_destructor {
 	if ($$) {
 		if ($$->free_flag) {

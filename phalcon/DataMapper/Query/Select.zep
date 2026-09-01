@@ -16,29 +16,28 @@
 namespace Phalcon\DataMapper\Query;
 
 use BadMethodCallException;
+use Phalcon\DataMapper\Pdo\Exception\UnknownQueryMethod;
 
 /**
- * Class Select
- *
- * @property string $asAlias
- * @property bool   $forUpdate
- *
- * @method int    fetchAffected()
- * @method array  fetchAll()
- * @method array  fetchAssoc()
- * @method array  fetchColumn(int $column = 0)
- * @method array  fetchGroup(int $flags = PDO::FETCH_ASSOC)
- * @method object fetchObject(string $class = 'stdClass', array $arguments = [])
- * @method array  fetchObjects(string $class = 'stdClass', array $arguments = [])
- * @method array  fetchOne()
- * @method array  fetchPairs()
- * @method mixed  fetchValue()
+ * Select Query
  */
 class Select extends AbstractConditions
 {
+    /**
+     * @var string
+     */
     const JOIN_INNER   = "INNER";
+    /**
+     * @var string
+     */
     const JOIN_LEFT    = "LEFT";
+    /**
+     * @var string
+     */
     const JOIN_NATURAL = "NATURAL";
+    /**
+     * @var string
+     */
     const JOIN_RIGHT   = "RIGHT";
 
     /**
@@ -92,9 +91,7 @@ class Select extends AbstractConditions
             );
         }
 
-        throw new BadMethodCallException(
-            "Unknown method: [" . method . "]"
-        );
+        throw new UnknownQueryMethod(method);
     }
 
     /**
@@ -178,18 +175,29 @@ class Select extends AbstractConditions
     }
 
     /**
-     * The columns to select from. If a key is set in an array element, the
+     * The columns to select from. If a key is set in the array element, the
      * key will be used as the alias
      *
-     * @param string ...$column
+     * @param array $columns
      *
      * @return Select
      */
-    public function columns() -> <Select>
+    public function columns(array columns) -> <Select>
     {
+        var key, value;
+        array localColumns = [];
+
+        for key, value in columns {
+            if is_int(key) {
+                let localColumns[] = value;
+            } else {
+                let localColumns[] = value . " AS " . key;
+            }
+        }
+
         let this->store["COLUMNS"] = array_merge(
             this->store["COLUMNS"],
-            func_get_args()
+            localColumns
         );
 
         return this;
@@ -266,7 +274,7 @@ class Select extends AbstractConditions
      */
     public function hasColumns() -> bool
     {
-        return count(this->store["COLUMNS"]) > 0;
+        return !empty this->store["COLUMNS"];
     }
 
     /**
@@ -355,17 +363,13 @@ class Select extends AbstractConditions
 
     /**
      * Resets the internal collections
-     *
-     * @return Select
      */
-    public function reset() -> <Select>
+    public function reset() -> void
     {
         parent::reset();
 
         let this->asAlias   = "",
             this->forUpdate = false;
-
-        return this;
     }
 
     /**

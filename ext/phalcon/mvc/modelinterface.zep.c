@@ -24,6 +24,8 @@
  * Phalcon\Mvc\ModelInterface
  *
  * Interface for Phalcon\Mvc\Model
+ *
+ * @template T
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_ModelInterface)
 {
@@ -96,21 +98,30 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, create);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, delete);
 /**
- * Allows to query a set of records that match the specified conditions
+ * Allows to query a set of records that match the specified conditions.
+ *
+ * This is one of four ways to express a query against a model, each with an
+ * intended lane:
+ *
+ * - find-parameter arrays (this method) for simple lookups;
+ * - `Phalcon\Mvc\Model\Query\Builder` as the canonical programmatic API;
+ * - `Phalcon\Mvc\Model\Criteria` as request-bound convenience;
+ * - raw PHQL via `Phalcon\Mvc\Model\Query` for everything else.
  *
  * @param array|string|int|null parameters
  *
- * @return ResultsetInterface
+ * @return T[]|\Phalcon\Mvc\Model\Resultset<int, T>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, find);
 /**
  * Allows to query the first record that match the specified conditions
  *
  * @param array parameters
- * @return \Phalcon\Mvc\ModelInterface|\Phalcon\Mvc\Model\Row|null
+ * @return T|\Phalcon\Mvc\ModelInterface|\Phalcon\Mvc\Model\Row|null
  *
- * TODO: Current method signature must be reviewed in v5. As it must return only ?ModelInterface.
+ * TODO: Current method signature must be reviewed in v5. As it must return only ?ModelInterface (it also returns Row).
  * @see https://github.com/phalcon/cphalcon/issues/15212
+ * @see https://github.com/phalcon/cphalcon/issues/15883
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, findFirst);
 /**
@@ -224,6 +235,13 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, setReadConnectionService);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, setSnapshotData);
 /**
+ * Marks one or more many-to-many relationships to be synchronized (or not)
+ * on the next save() call.
+ *
+ * @param string|array|null elements
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, setSync);
+/**
  * Sets a transaction related to the Model instance
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, setTransaction);
@@ -243,12 +261,12 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, skipOperation);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, sum);
 /**
- * Check whether validation process has generated any messages
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, validationHasFailed);
-/**
- * Updates a model instance. If the instance doesn't exist in the
+ * Updates a model instance. If the instance does not exist in the
  * persistence it will throw an exception. Returning true on success or
  * false otherwise.
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, update);
+/**
+ * Check whether validation process has generated any messages
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, validationHasFailed);

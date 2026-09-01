@@ -22,7 +22,7 @@ interface BinderInterface
     /**
      * Bind models into params in proper handler
      */
-    public function bindToHandler(object handler, array params, string cacheKey, string! methodName = null) -> array;
+    public function bindToHandler(object handler, array params, string cacheKey,  string methodName = null) -> array;
 
     /**
      * Gets active bound models

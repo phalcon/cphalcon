@@ -10,6 +10,8 @@
 
 namespace Phalcon\Encryption\Security;
 
+use Phalcon\Encryption\Security\Exceptions\InvalidRandomInput;
+
 /**
  * Phalcon\Encryption\Security\Random
  *
@@ -52,11 +54,17 @@ namespace Phalcon\Encryption\Security;
  * echo $random->base64Safe(8);          // mGyy0evy3ok
  * echo $random->base64Safe(null, true); // DRrAgOFkS4rvRiVHFefcQ==
  *
- * // Random UUID
+ * // Random UUID (version 4) - returns a string
  * echo $random->uuid(); // db082997-2572-4e2c-a046-5eefe97b1235
  * echo $random->uuid(); // da2aa0e2-b4d0-4e3c-99f5-f5ef62c57fe2
- * echo $random->uuid(); // 75e6b628-c562-4117-bb76-61c4153455a9
- * echo $random->uuid(); // dc446df1-0848-4d05-b501-4af3c220c13d
+ *
+ * // For other UUID versions (1, 3, 5, 6, 7) or object-based access use the
+ * // Phalcon\Encryption\Security\Uuid factory instead:
+ * //
+ * // $uuid = new \Phalcon\Encryption\Security\Uuid();
+ * // echo $uuid->v1(); // time-based
+ * // echo $uuid->v6(); // reordered time-based (sortable)
+ * // echo $uuid->v7(); // Unix-timestamp based (sortable)
  *
  * // Random number between 0 and $len
  * echo $random->number(256); // 84
@@ -73,14 +81,13 @@ namespace Phalcon\Encryption\Security;
  *
  * This class partially borrows SecureRandom library from Ruby
  *
- * @link http://ruby-doc.org/stdlib-2.2.2/libdoc/securerandom/rdoc/SecureRandom.html
+ * @link https://ruby-doc.org/stdlib-2.2.2/libdoc/securerandom/rdoc/SecureRandom.html
  */
 class Random
 {
     /**
      * Generates a random base58 string
      *
-     * If $len is not specified, 16 is assumed. It may be larger in future.
      * The result may contain alphanumeric characters except 0, O, I and l.
      *
      * It is similar to `Phalcon\Encryption\Security\Random::base64()` but has been
@@ -97,7 +104,7 @@ class Random
      * @link   https://en.wikipedia.org/wiki/Base58
      * @throws Exception If secure random number generator is not available or unexpected partial read
      */
-    public function base58(int len = null) -> string
+    public function base58(int len = 16) -> string
     {
         return this->base(
             "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz",
@@ -108,8 +115,6 @@ class Random
 
     /**
      * Generates a random base62 string
-     *
-     * If $len is not specified, 16 is assumed. It may be larger in future.
      *
      * It is similar to `Phalcon\Encryption\Security\Random::base58()` but has been
      * modified to provide the largest value that can safely be used in URLs
@@ -125,7 +130,7 @@ class Random
      * @see    \Phalcon\Encryption\Security\Random:base58
      * @throws Exception If secure random number generator is not available or unexpected partial read
      */
-    public function base62(int len = null) -> string
+    public function base62(int len = 16) -> string
     {
         return this->base(
             "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
@@ -137,7 +142,6 @@ class Random
     /**
      * Generates a random base64 string
      *
-     * If $len is not specified, 16 is assumed. It may be larger in future.
      * The length of the result string is usually greater of $len.
      * Size formula: 4 * ($len / 3) rounded up to a multiple of 4.
      *
@@ -149,7 +153,7 @@ class Random
      *
      * @throws Exception If secure random number generator is not available or unexpected partial read
      */
-    public function base64(int len = null) -> string
+    public function base64(int len = 16) -> string
     {
         return base64_encode(
             this->bytes(len)
@@ -159,7 +163,6 @@ class Random
     /**
      * Generates a random URL-safe base64 string
      *
-     * If $len is not specified, 16 is assumed. It may be larger in future.
      * The length of the result string is usually greater of $len.
      *
      * By default, padding is not generated because "=" may be used as a URL
@@ -176,7 +179,7 @@ class Random
      * @link https://www.ietf.org/rfc/rfc3548.txt
      * @throws Exception If secure random number generator is not available or unexpected partial read
      */
-    public function base64Safe(int len = null, bool padding = false) -> string
+    public function base64Safe(int len = 16, bool padding = false) -> string
     {
         var s;
 
@@ -232,7 +235,6 @@ class Random
     /**
      * Generates a random hex string
      *
-     * If $len is not specified, 16 is assumed. It may be larger in future.
      * The length of the result string is usually greater of $len.
      *
      *```php
@@ -243,7 +245,7 @@ class Random
      *
      * @throws Exception If secure random number generator is not available or unexpected partial read
      */
-    public function hex(int len = null) -> string
+    public function hex(int len = 16) -> string
     {
         return array_shift(
             unpack(
@@ -269,7 +271,7 @@ class Random
     public function number(int len) -> int
     {
         if unlikely len <= 0 {
-            throw new Exception("Input number must be a positive integer");
+            throw new InvalidRandomInput();
         }
 
         return random_int(0, len);
@@ -278,15 +280,12 @@ class Random
     /**
      * Generates a v4 random UUID (Universally Unique IDentifier)
      *
-     * The version 4 UUID is purely random (except the version). It doesn't
+     * The version 4 UUID is purely random (except the version). It does not
      * contain meaningful information such as MAC address, time, etc. See RFC
      * 4122 for details of UUID.
      *
-     * This algorithm sets the version number (4 bits) as well as two reserved
-     * bits. All other bits (the remaining 122 bits) are set using a random or
-     * pseudorandom data source. Version 4 UUIDs have the form
-     * xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx where x is any hexadecimal digit and
-     * y is one of 8, 9, A, or B (e.g., f47ac10b-58cc-4372-a567-0e02b2c3d479).
+     * Delegates to `Phalcon\Encryption\Security\Uuid::v4()`. For other UUID
+     * versions or object-based access use that class directly.
      *
      *```php
      * $random = new \Phalcon\Encryption\Security\Random();
@@ -295,28 +294,10 @@ class Random
      *```
      *
      * @link https://www.ietf.org/rfc/rfc4122.txt
-     * @throws Exception If secure random number generator is not available or unexpected partial read
      */
     public function uuid() -> string
     {
-        var ary;
-
-        let ary = array_values(
-            unpack(
-                "N1a/n1b/n1c/n1d/n1e/N1f",
-                this->bytes(16)
-            )
-        );
-
-        let ary[2] = (ary[2] & 0x0fff) | 0x4000,
-            ary[3] = (ary[3] & 0x3fff) | 0x8000;
-
-        array_unshift(
-            ary,
-            "%08x-%04x-%04x-%04x-%04x%08x"
-        );
-
-        return call_user_func_array("sprintf", ary);
+        return (string) (new Uuid())->v4();
     }
 
 
@@ -324,18 +305,16 @@ class Random
      * Generates a random string based on the number ($base) of characters
      * ($alphabet).
      *
-     * If $n is not specified, 16 is assumed. It may be larger in future.
-     *
      * @throws Exception If secure random number generator is not available or unexpected partial read
      */
-    protected function base(string alphabet, int base, n = null) -> string
+    protected function base(string alphabet, int base, number = 16) -> string
     {
         var bytes, idx;
         string byteString = "";
 
         let bytes = unpack(
             "C*",
-            this->bytes(n)
+            this->bytes(number)
         );
 
         for idx in bytes {

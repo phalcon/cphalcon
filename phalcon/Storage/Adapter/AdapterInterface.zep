@@ -10,10 +10,13 @@
 
 namespace Phalcon\Storage\Adapter;
 
-use Phalcon\Storage\Serializer\SerializerInterface;
+use DateInterval;
+use Phalcon\Contracts\Storage\StorageTypes;
 
 /**
  * Interface for Phalcon\Logger adapters
+ *
+ * @phpstan-import-type storage_keys from StorageTypes
  */
 interface AdapterInterface
 {
@@ -25,22 +28,24 @@ interface AdapterInterface
     /**
      * Decrements a stored number
      */
-    public function decrement(string! key, int value = 1) -> int | bool;
+    public function decrement( string key, int value = 1) -> false | int;
 
     /**
      * Deletes data from the adapter
      */
-    public function delete(string! key) -> bool;
+    public function delete( string key) -> bool;
+
+    /**
+     * Deletes multiple data from the adapter
+     *
+     * @phpstan-param storage_keys $keys
+     */
+    public function deleteMultiple(array keys) -> bool;
 
     /**
      * Reads data from the adapter
-     *
-     * @param string key
-     * @param mixed|null defaultValue
-     *
-     * @return mixed
      */
-    public function get(string! key, var defaultValue = null) -> var;
+    public function get( string key, var defaultValue = null) -> var;
 
     /**
      * Returns the already connected adapter or connects to the backend
@@ -50,8 +55,10 @@ interface AdapterInterface
 
     /**
      * Returns all the keys stored
+     *
+     * @phpstan-return storage_keys
      */
-    public function getKeys(string! prefix = "") -> array;
+    public function getKeys( string prefix = "") -> array;
 
     /**
      * Returns the prefix for the keys
@@ -61,12 +68,12 @@ interface AdapterInterface
     /**
      * Checks if an element exists in the cache
      */
-    public function has(string! key) -> bool;
+    public function has( string key) -> bool;
 
     /**
      * Increments a stored number
      */
-    public function increment(string! key, int value = 1) -> int | bool;
+    public function increment( string key, int value = 1) -> false | int;
 
     /**
      * Stores data in the adapter. If the TTL is `null` (default) or not defined
@@ -75,22 +82,15 @@ interface AdapterInterface
      * item has expired. If you need to set this key forever, you should use
      * the `setForever()` method.
      *
-     * @param string                 $key
-     * @param mixed                  $value
-     * @param \DateInterval|int|null $ttl
+     * @param DateInterval|int|null $ttl
      *
      * @return bool
      */
-    public function set(string! key, var value, var ttl = null) -> bool;
+    public function set( string key, var value, var ttl = null) -> bool;
 
     /**
-     * Stores data in the adapter forever. The key needs to manually deleted
+     * Stores data in the adapter forever. The key needs to be manually deleted
      * from the adapter.
-     *
-     * @param string $key
-     * @param mixed  $value
-     *
-     * @return bool
      */
-    public function setForever(string key, value) -> bool;
+    public function setForever(string key, data) -> bool;
 }

@@ -1,6 +1,6 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -10,19 +10,18 @@
 
 namespace Phalcon\Support\Helper\Str;
 
+use Phalcon\Traits\Support\Helper\Str\DirSeparatorTrait;
+
 /**
  * Accepts a directory name and ensures that it ends with
  * DIRECTORY_SEPARATOR
  */
 class DirSeparator
 {
-    /**
-     * @param string $directory
-     *
-     * @return string
-     */
+    use DirSeparatorTrait;
+
     public function __invoke(string directory) -> string
     {
-        return rtrim(directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        return this->toDirSeparator(directory);
     }
 }

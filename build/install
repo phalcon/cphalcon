@@ -117,4 +117,7 @@ fi
 make -s -j"$(getconf _NPROCESSORS_ONLN)"
 make -s install
 
+# `make install` copies the module with mode 0755; shared objects only need read permission
+chmod 644 "$(${PHPCONFIG_BIN} --extension-dir)/phalcon.so"
+
 echo -e "\nThanks for compiling Phalcon!\nBuild succeed: Please restart your web server to complete the installation\n"

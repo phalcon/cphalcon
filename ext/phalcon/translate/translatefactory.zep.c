@@ -15,10 +15,8 @@
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
-#include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/array.h"
 
 
 /**
@@ -30,28 +28,25 @@
  * file that was distributed with this source code.
  */
 /**
- * Class TranslateFactory
- *
- * @package Phalcon\Translate
- *
  * @property InterpolatorFactory $interpolator
+ *
+ * @phpstan-import-type translate_factory_config from TranslateTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Translate_TranslateFactory)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Translate, TranslateFactory, phalcon, translate_translatefactory, phalcon_factory_abstractfactory_ce, phalcon_translate_translatefactory_method_entry, 0);
 
-	/**
-	 * @var InterpolatorFactory
-	 */
-	zend_declare_property_null(phalcon_translate_translatefactory_ce, SL("interpolator"), ZEND_ACC_PRIVATE);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_translate_translatefactory_ce, SL("interpolator"), &_zc0, ZEND_ACC_PRIVATE, 0, SL("Phalcon\\Translate\\InterpolatorFactory"));
+	}
+
 	return SUCCESS;
 }
 
 /**
- * AdapterFactory constructor.
- *
- * @param InterpolatorFactory $interpolator
- * @param array               $services
+ * @phpstan-param array<string, string> $services
  */
 PHP_METHOD(Phalcon_Translate_TranslateFactory, __construct)
 {
@@ -63,27 +58,26 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, __construct)
 
 	ZVAL_UNDEF(&interpolator_sub);
 	ZVAL_UNDEF(&services);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("interpolator", 12, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_OBJECT_OF_CLASS(interpolator, phalcon_translate_interpolatorfactory_ce)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ARRAY(services)
+		ZEPHIR_Z_PARAM_ARRAY(services, services_param)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &interpolator, &services_param);
 	if (!services_param) {
 		ZEPHIR_INIT_VAR(&services);
 		array_init(&services);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&services, services_param);
+		zephir_get_arrval(&services, services_param);
 	}
-
-
-	zephir_update_property_zval(this_ptr, ZEND_STRL("interpolator"), interpolator);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1396, interpolator);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &services);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -92,19 +86,7 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, __construct)
 /**
  * Factory to create an instance from a Config object
  *
- * @param array|ConfigInterface $config = [
- *     'adapter' => 'ini,
- *     'options' => [
- *         'content'       => '',
- *         'delimiter'     => ';',
- *         'enclosure'     => '"',
- *         'locale'        => '',
- *         'defaultDomain' => '',
- *         'directory'     => '',
- *         'category'      => ''
- *         'triggerError'  => false
- *     ]
- * ]
+ * @phpstan-param ConfigInterface|translate_factory_config $config
  *
  * @return AdapterInterface
  * @throws Exception
@@ -121,19 +103,13 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, load)
 	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(config)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &config);
 	ZEPHIR_SEPARATE_PARAM(config);
-
-
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkconfig", NULL, 0, config);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
@@ -142,9 +118,9 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, load)
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkconfigelement", NULL, 0, config, &_1);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
-	ZEPHIR_OBS_VAR(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Translate/TranslateFactory.zep", 72);
-	ZEPHIR_OBS_VAR(&options);
+	zephir_memory_observe(&name);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Translate/TranslateFactory.zep", 58);
+	zephir_memory_observe(&options);
 	if (!(zephir_array_isset_string_fetch(&options, config, SL("options"), 0))) {
 		ZEPHIR_INIT_NVAR(&options);
 		array_init(&options);
@@ -157,61 +133,53 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, load)
 /**
  * Create a new instance of the adapter
  *
- * @param string $name
- * @param array  $options
+ * @phpstan-param array<string, mixed> $options
  *
  * @return AdapterInterface
- * @throws Exception
  */
 PHP_METHOD(Phalcon_Translate_TranslateFactory, newInstance)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval options, _0;
-	zval *name_param = NULL, *options_param = NULL, definition, _1;
-	zval name;
+	zval name_zv, *options_param = NULL, definition, _1;
+	zend_string *name = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&name);
+	ZVAL_UNDEF(&name_zv);
 	ZVAL_UNDEF(&definition);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("interpolator", 12, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(name)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ARRAY(options)
+		ZEPHIR_Z_PARAM_ARRAY(options, options_param)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &name_param, &options_param);
-	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
-		RETURN_MM_NULL();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (ZEND_NUM_ARGS() > 1) {
+		options_param = ZEND_CALL_ARG(execute_data, 2);
 	}
-	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {
-		zephir_get_strval(&name, name_param);
-	} else {
-		ZEPHIR_INIT_VAR(&name);
-	}
+	zephir_memory_observe(&name_zv);
+	ZVAL_STR_COPY(&name_zv, name);
 	if (!options_param) {
 		ZEPHIR_INIT_VAR(&options);
 		array_init(&options);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
+		zephir_get_arrval(&options, options_param);
 	}
-
-
-	ZEPHIR_CALL_METHOD(&definition, this_ptr, "getservice", NULL, 0, &name);
+	ZEPHIR_CALL_METHOD(&definition, this_ptr, "getservice", NULL, 0, &name_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 2, 0);
-	ZEPHIR_OBS_VAR(&_1);
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("interpolator"), PH_NOISY_CC);
+	zephir_memory_observe(&_1);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1396, PH_NOISY_CC);
 	zephir_array_fast_append(&_0, &_1);
 	zephir_array_fast_append(&_0, &options);
 	ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(return_value, &definition, &_0);
@@ -220,15 +188,12 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, newInstance)
 }
 
 /**
- * @return string
+ * @return class-string<Throwable>
  */
 PHP_METHOD(Phalcon_Translate_TranslateFactory, getExceptionClass)
 {
-	zval *this_ptr = getThis();
 
-
-
-	RETURN_STRING("Phalcon\\Translate\\Exception");
+	RETURN_STRING("Phalcon\\Translate\\Exceptions\\TranslatorNotRegistered");
 }
 
 /**
@@ -238,9 +203,6 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, getExceptionClass)
  */
 PHP_METHOD(Phalcon_Translate_TranslateFactory, getServices)
 {
-	zval *this_ptr = getThis();
-
-
 
 	zephir_create_array(return_value, 3, 0);
 	add_assoc_stringl_ex(return_value, SL("csv"), SL("Phalcon\\Translate\\Adapter\\Csv"));

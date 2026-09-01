@@ -10,15 +10,19 @@
 
 namespace Phalcon\Html\Link\Serializer;
 
-use Psr\Link\EvolvableLinkInterface;
+use Phalcon\Contracts\Html\Link\LinkTypes;
 
 /**
  * Class Phalcon\Http\Link\Serializer\Header
+ *
+ * @phpstan-import-type link_collection from LinkTypes
  */
 class Header implements SerializerInterface
 {
     /**
      * Serializes all the passed links to a HTTP link header
+     *
+     * @phpstan-param link_collection $links
      */
     public function serialize(array links) -> string | null
     {
@@ -47,13 +51,13 @@ class Header implements SerializerInterface
             for key, value in attributes {
                 if typeof value === "array" {
                     for subValue in value {
-                        let parts[] = key . "=\"" . subValue . "\"";
+                        let parts[] = key . "=\"" . this->quote((string) subValue) . "\"";
                     }
                     continue;
                 }
 
                 if typeof value !== "boolean" {
-                    let parts[] = key . "=\"" . value . "\"";
+                    let parts[] = key . "=\"" . this->quote((string) value) . "\"";
                     continue;
                 }
 
@@ -69,10 +73,20 @@ class Header implements SerializerInterface
                            . implode("; ", parts);
         }
 
-        if count(elements) > 0 {
+        if !empty elements {
             let result = implode(",", elements);
         }
 
         return result;
+    }
+
+    /**
+     * Escapes a quoted-string attribute value per RFC 8288 section 3: a
+     * backslash and a double quote are each prefixed with a backslash so the
+     * value cannot terminate or corrupt the header field.
+     */
+    private function quote(string value) -> string
+    {
+        return str_replace(["\\", "\""], ["\\\\", "\\\""], value);
     }
 }

@@ -34,7 +34,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Url_UrlInterface)
  * Generates a URL
  *
  * @param string|array uri
- * @param array|object args Optional arguments to be appended to the query string
+ * @param array|object arguments Optional arguments to be appended to the query string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Url_UrlInterface, get);
 /**
@@ -46,6 +46,10 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Url_UrlInterface, getBasePath);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Url_UrlInterface, getBaseUri);
 /**
+ * Generates a local path
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Url_UrlInterface, path);
+/**
  * Sets a base paths for all the generated paths
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Url_UrlInterface, setBasePath);
@@ -53,7 +57,3 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Url_UrlInterface, setBasePath);
  * Sets a prefix to all the urls generated
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Url_UrlInterface, setBaseUri);
-/**
- * Generates a local path
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Url_UrlInterface, path);

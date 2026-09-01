@@ -1,0 +1,24 @@
+
+extern zend_class_entry *phalcon_encryption_security_uuid_version6_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_Uuid_Version6);
+
+PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version6, __construct);
+PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version6, getDateTime);
+PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version6, getNode);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_encryption_security_uuid_version6___construct, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_uuid_version6_getdatetime, 0, 0, DateTimeImmutable, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_uuid_version6_getnode, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_encryption_security_uuid_version6_method_entry) {
+PHP_ME(Phalcon_Encryption_Security_Uuid_Version6, __construct, arginfo_phalcon_encryption_security_uuid_version6___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Encryption_Security_Uuid_Version6, getDateTime, arginfo_phalcon_encryption_security_uuid_version6_getdatetime, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Encryption_Security_Uuid_Version6, getNode, arginfo_phalcon_encryption_security_uuid_version6_getnode, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};

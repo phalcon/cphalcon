@@ -16,7 +16,9 @@
 #include "php.h"
 #include "php_ext.h"
 
-#include "ext/standard/php_smart_string.h"
+#if PHP_VERSION_ID < 80500
+#include <ext/standard/php_smart_string.h>
+#endif
 #include "ext/standard/php_var.h"
 
 static zend_always_inline void zephir_smart_str_0(smart_str *str)

@@ -10,10 +10,6 @@
 
 namespace Phalcon\Filter\Validation\Validator\File\Size;
 
-use Phalcon\Messages\Message;
-use Phalcon\Filter\Validation;
-use Phalcon\Filter\Validation\Validator\File\AbstractFile;
-
 /**
  * Checks if a value has a correct file
  *
@@ -58,73 +54,31 @@ use Phalcon\Filter\Validation\Validator\File\AbstractFile;
  * );
  * ```
  */
-class Min extends AbstractFile
+class Min extends Equal
 {
+    /**
+     * @var string|null
+     */
     protected template = "File :field can not have the minimum size of :size";
 
     /**
-     * Constructor
+     * Executes the conditional
      *
-     * @param array options = [
-     *     'message' => '',
-     *     'template' => '',
-     *     'size' => '2.5MB',
-     *     'included' => false
-     * ]
+     * @param float $source
+     * @param float $target
+     * @param bool  $included
+     *
+     * @return bool
      */
-    public function __construct(array! options = [])
-    {
-        parent::__construct(options);
-    }
-
-    /**
-     * Executes the validation
-     */
-    public function validate(<Validation> validation, var field) -> bool
-    {
-        var bytes, fileSize, included = false, replacePairs, result, size, value;
-
-        // Check file upload
-        if this->checkUpload(validation, field) === false {
-            return false;
+    protected function getConditional(
+        float source,
+        float target,
+        bool included = false
+    ) {
+        if (included === true) {
+            return target <= source;
         }
 
-        let value = validation->getValue(field),
-            size = this->getOption("size");
-
-        if typeof size == "array" {
-            let size = size[field];
-        }
-
-        let bytes = round(this->getFileSizeInBytes(size), 6),
-            fileSize = round(floatval(value["size"]), 6);
-
-        let included = this->getOption("included");
-
-        if typeof included == "array" {
-            let included = (bool) included[field];
-        } else {
-            let included = (bool) included;
-        }
-
-        if included {
-            let result = fileSize >= bytes;
-        } else {
-            let result = fileSize > bytes;
-        }
-
-        if result {
-            let replacePairs = [
-                ":size"  : size
-            ];
-
-            validation->appendMessage(
-                this->messageFactory(validation, field, replacePairs)
-            );
-
-            return false;
-        }
-
-        return true;
+        return target < source;
     }
 }

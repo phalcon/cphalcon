@@ -15,24 +15,31 @@
 
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 /**
- * Class Radio
+ * Renders an `<input type="radio">`. Behavior (label wrapping, `unchecked`
+ * companion, loose-by-default `checked` match) lives in `AbstractChecked`.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Radio)
 {
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper\\Input, Radio, phalcon, html_helper_input_radio, phalcon_html_helper_input_checkbox_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper\\Input, Radio, phalcon, html_helper_input_radio, phalcon_html_helper_input_abstractchecked_ce, NULL, 0);
 
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_html_helper_input_radio_ce, SL("type"), "radio", ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "radio", sizeof("radio") - 1);
+		zephir_declare_typed_property(phalcon_html_helper_input_radio_ce, SL("type"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 

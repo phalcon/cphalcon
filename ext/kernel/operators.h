@@ -68,15 +68,27 @@
 
 #define ZEPHIR_STRING_OFFSET(op1, index) ((index >= 0 && index < Z_STRLEN_P(op1)) ? Z_STRVAL_P(op1)[index] : '\0')
 
+/*
+ * A PHP integer is a `zend_long`, i.e. `int64_t` on every 64-bit target. A C
+ * `long` is 64-bit under LP64 (Linux, macOS) but 32-bit under LLP64 (Windows
+ * x64), so a prototype spelling `long` truncates every value the compiler
+ * routes through it -- and does so only on Windows, where no CI leg of this
+ * repo can see it.
+ *
+ * Keep `zend_long`/`zend_ulong` in every signature that carries a PHP integer.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2666
+ */
+
 /* concatenation */
 void zephir_concat_self(zval *left, zval *right);
 void zephir_concat_self_str(zval *left, const char *right, int right_length);
-void zephir_concat_self_long(zval *left, const long right);
+void zephir_concat_self_long(zval *left, const zend_long right);
 void zephir_concat_self_char(zval *left, unsigned char right);
 
 /** Strict comparing */
 int zephir_compare_strict_string(zval *op1, const char *op2, int op2_length);
-int zephir_compare_strict_long(zval *op1, long op2);
+int zephir_compare_strict_long(zval *op1, zend_long op2);
 
 /** Operator functions */
 int zephir_add_function_ex(zval *result, zval *op1, zval *op2);
@@ -92,14 +104,14 @@ int zephir_shift_right_function(zval *result, zval *op1, zval *op2);
 
 /** Strict comparing */
 int zephir_compare_strict_string(zval *op1, const char *op2, int op2_length);
-int zephir_compare_strict_long(zval *op1, long op2);
+int zephir_compare_strict_long(zval *op1, zend_long op2);
 int zephir_compare_strict_double(zval *op1, double op2);
 int zephir_compare_strict_bool(zval *op1, zend_bool op2);
 
 void zephir_cast(zval *result, zval *var, uint32_t type);
 void zephir_convert_to_object(zval *op);
-long zephir_get_intval_ex(const zval *op);
-long zephir_get_charval_ex(const zval *op);
+zend_long zephir_get_intval_ex(const zval *op);
+zend_long zephir_get_charval_ex(const zval *op);
 double zephir_get_doubleval_ex(const zval *op);
 zend_bool zephir_get_boolval_ex(zval *op);
 
@@ -109,36 +121,47 @@ int zephir_is_equal(zval *op1, zval *op2);
 int zephir_is_identical(zval *op1, zval *op2);
 
 int zephir_less(zval *op1, zval *op2);
-int zephir_less_long(zval *op1, long op2);
+int zephir_less_long(zval *op1, zend_long op2);
 int zephir_less_double(zval *op1, double op2);
 
 int zephir_greater(zval *op1, zval *op2);
-int zephir_greater_long(zval *op1, long op2);
+int zephir_greater_long(zval *op1, zend_long op2);
 int zephir_greater_double(zval *op1, double op2);
 
 int zephir_less_equal(zval *op1, zval *op2);
-int zephir_less_equal_long(zval *op1, long op2);
+int zephir_less_equal_long(zval *op1, zend_long op2);
 
 int zephir_greater_equal(zval *op1, zval *op2);
-int zephir_greater_equal_long(zval *op1, long op2);
+int zephir_greater_equal_long(zval *op1, zend_long op2);
 
-double zephir_safe_div_long_long(long op1, long op2);
-double zephir_safe_div_long_double(long op1, double op2);
-double zephir_safe_div_double_long(double op1, long op2);
+/*
+ * A zero divisor throws DivisionByZeroError, as PHP 8 does; the helper still
+ * returns 0 because it has no way to abort its caller, so the rest of the
+ * generated method body runs with the exception pending and the engine
+ * discards the return value on the way out.
+ */
+double zephir_safe_div_long_long(zend_long op1, zend_long op2);
+double zephir_safe_div_long_double(zend_long op1, double op2);
+double zephir_safe_div_double_long(double op1, zend_long op2);
 double zephir_safe_div_double_double(double op1, double op2);
-double zephir_safe_div_zval_long(zval *op1, long op2);
+double zephir_safe_div_zval_long(zval *op1, zend_long op2);
 double zephir_safe_div_zval_double(zval *op1, double op2);
-double zephir_safe_div_long_zval(long op1, zval *op2);
+double zephir_safe_div_long_zval(zend_long op1, zval *op2);
 double zephir_safe_div_double_zval(double op1, zval *op2);
 
-long zephir_safe_mod_long_long(long op1, long op2);
-long zephir_safe_mod_long_double(long op1, double op2);
-long zephir_safe_mod_double_long(double op1, long op2);
-long zephir_safe_mod_double_double(double op1, double op2);
-long zephir_safe_mod_zval_long(zval *op1, long op2);
-long zephir_safe_mod_zval_double(zval *op1, double op2);
-long zephir_safe_mod_long_zval(long op1, zval *op2);
-long zephir_safe_mod_double_zval(double op1, zval *op2);
+/*
+ * PHP's `%` converts both operands to `zend_long` and yields a `zend_long`.
+ * A `-1` divisor short-circuits to 0: `PHP_INT_MIN % -1` overflows and raises
+ * SIGFPE on x86, which is why php-src special-cases it in mod_function().
+ */
+zend_long zephir_safe_mod_long_long(zend_long op1, zend_long op2);
+zend_long zephir_safe_mod_long_double(zend_long op1, double op2);
+zend_long zephir_safe_mod_double_long(double op1, zend_long op2);
+zend_long zephir_safe_mod_double_double(double op1, double op2);
+zend_long zephir_safe_mod_zval_long(zval *op1, zend_long op2);
+zend_long zephir_safe_mod_zval_double(zval *op1, double op2);
+zend_long zephir_safe_mod_long_zval(zend_long op1, zval *op2);
+zend_long zephir_safe_mod_double_zval(double op1, zval *op2);
 
 #define zephir_get_numberval(z) (Z_TYPE_P(z) == IS_LONG ? Z_LVAL_P(z) : zephir_get_doubleval(z))
 #define zephir_get_intval(z) (Z_TYPE_P(z) == IS_LONG ? Z_LVAL_P(z) : zephir_get_intval_ex(z))
@@ -146,22 +169,33 @@ long zephir_safe_mod_double_zval(double op1, zval *op2);
 #define zephir_get_boolval(z) (Z_TYPE_P(z) == IS_TRUE ? 1 : (Z_TYPE_P(z) == IS_FALSE ? 0 : zephir_get_boolval_ex(z)))
 #define zephir_get_charval(z) (Z_TYPE_P(z) == IS_LONG ? Z_LVAL_P(z) : zephir_get_charval_ex(z))
 
+#if PHP_VERSION_ID >= 80300
+#define zephir_add_function(result, left, right) add_function(result, left, right)
+#else
 #define zephir_add_function(result, left, right) fast_add_function(result, left, right)
+#endif
 #define zephir_sub_function(result, left, right) sub_function(result, left, right)
 #define zephir_pow_function(result, op1, op2) pow_function(result, op1, op2)
 #define zephir_increment(var) increment_function(var)
 #define zephir_decrement(var) decrement_function(var)
 
+/* `z += v`, matching PHP's `+` for every operand type.
+   - array + array: in-place union (SEPARATE_ARRAY for copy-on-write, then merge
+     without overwriting existing keys). This is PHP's own array-union algorithm
+     and stays O(n) amortized when accumulating, instead of duplicating z each step.
+   - anything else: compute into a separate tmp then replace z, so the numeric
+     writeback covers all result types without add_function result==op1 aliasing. */
 #define ZEPHIR_ADD_ASSIGN(z, v)  \
 	{  \
-		zval tmp;  \
-		ZEPHIR_SEPARATE(z);  \
-		add_function(&tmp, z, v);  \
-		if (Z_TYPE(tmp) == IS_LONG) {  \
-			Z_LVAL_P(z) = Z_LVAL(tmp);  \
+		if (Z_TYPE_P(z) == IS_ARRAY && Z_TYPE_P(v) == IS_ARRAY) {  \
+			SEPARATE_ARRAY(z);  \
+			zend_hash_merge(Z_ARRVAL_P(z), Z_ARRVAL_P(v), (copy_ctor_func_t) zval_add_ref, 0);  \
 		} else {  \
-			if (Z_TYPE(tmp) == IS_DOUBLE) {  \
-				Z_DVAL_P(z) = Z_DVAL(tmp);  \
+			zval tmp;  \
+			ZVAL_NULL(&tmp);  \
+			if (add_function(&tmp, z, v) == SUCCESS) {  \
+				zval_ptr_dtor(z);  \
+				ZVAL_COPY_VALUE(z, &tmp);  \
 			}  \
 		}  \
 	}
@@ -169,7 +203,7 @@ long zephir_safe_mod_double_zval(double op1, zval *op2);
 #define ZEPHIR_SUB_ASSIGN(z, v)  \
 	{  \
 		zval tmp;  \
-		ZEPHIR_SEPARATE(z);  \
+		SEPARATE_ZVAL(z);  \
 		sub_function(&tmp, z, v);  \
 		if (Z_TYPE(tmp) == IS_LONG) {  \
 			Z_LVAL_P(z) = Z_LVAL(tmp);  \
@@ -183,7 +217,7 @@ long zephir_safe_mod_double_zval(double op1, zval *op2);
 #define ZEPHIR_MUL_ASSIGN(z, v)  \
 	{  \
 		zval tmp;  \
-		ZEPHIR_SEPARATE(z);  \
+		SEPARATE_ZVAL(z);  \
 		mul_function(&tmp, z, v);  \
 		if (Z_TYPE(tmp) == IS_LONG) {  \
 			Z_LVAL_P(z) = Z_LVAL(tmp);  \

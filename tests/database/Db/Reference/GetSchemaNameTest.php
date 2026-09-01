@@ -1,0 +1,56 @@
+<?php
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Phalcon\Tests\Database\Db\Reference;
+
+use Phalcon\Db\Reference;
+use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
+
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
+final class GetSchemaNameTest extends AbstractDatabaseTestCase
+{
+    /**
+     * Tests Phalcon\Db\Reference :: getSchemaName()
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
+     */
+    public function testDbReferenceGetSchemaName(): void
+    {
+        $reference = new Reference(
+            'field_fk',
+            [
+                'referencedTable'   => 'products',
+                'columns'           => ['product_code'],
+                'referencedColumns' => ['code'],
+                'schema'            => 'public',
+            ]
+        );
+
+        $this->assertSame('public', $reference->getSchemaName());
+
+        $reference = new Reference(
+            'field_fk',
+            [
+                'referencedTable'   => 'products',
+                'columns'           => ['product_code'],
+                'referencedColumns' => ['code'],
+            ]
+        );
+
+        $this->assertNull($reference->getSchemaName());
+    }
+}

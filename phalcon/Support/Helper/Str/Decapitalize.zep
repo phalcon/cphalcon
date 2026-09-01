@@ -1,6 +1,6 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -17,13 +17,6 @@ namespace Phalcon\Support\Helper\Str;
  */
 class Decapitalize extends AbstractStr
 {
-    /**
-     * @param string $text
-     * @param bool   $upperRest
-     * @param string $encoding
-     *
-     * @return string
-     */
     public function __invoke(
         string text,
         bool upperRest = false,

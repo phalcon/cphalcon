@@ -4,6 +4,10 @@
  *
  * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 
 namespace Phalcon\Html\Helper;
@@ -13,16 +17,49 @@ namespace Phalcon\Html\Helper;
  */
 class Doctype
 {
+    /**
+     * @var int
+     */
     const HTML32               = 1;
+    /**
+     * @var int
+     */
     const HTML401_STRICT       = 2;
+    /**
+     * @var int
+     */
     const HTML401_TRANSITIONAL = 3;
+    /**
+     * @var int
+     */
     const HTML401_FRAMESET     = 4;
+    /**
+     * @var int
+     */
     const HTML5                = 5;
+    /**
+     * @var int
+     */
     const XHTML10_STRICT       = 6;
+    /**
+     * @var int
+     */
     const XHTML10_TRANSITIONAL = 7;
+    /**
+     * @var int
+     */
     const XHTML10_FRAMESET     = 8;
+    /**
+     * @var int
+     */
     const XHTML11              = 9;
+    /**
+     * @var int
+     */
     const XHTML20              = 10;
+    /**
+     * @var int
+     */
     const XHTML5               = 11;
 
     /**
@@ -33,34 +70,30 @@ class Doctype
     /**
      * @var int
      */
-    private flag;
+    private type;
 
     public function __construct()
     {
-        let this->flag      = self::HTML5,
+        let this->type      = self::HTML5,
             this->delimiter = PHP_EOL;
     }
 
     /**
-     * Produce a <doctype> tag
-     *
-     * @param int    $flag
-     * @param string $delimiter
+     * Produce a `<doctype>` tag
      */
     public function __invoke(
-        int flag = self::HTML5,
+        int type = self::HTML5,
         string delimiter = "\n"
-    ) -> void {
-        let this->flag      = flag,
+    ) -> <static> {
+        let this->type      = type,
             this->delimiter = delimiter;
+
+        return this;
     }
 
-    /**
-     * @return string
-     */
     public function __toString() -> string
     {
-        switch this->flag {
+        switch this->type {
             case self::HTML32:
                 return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">"
                     . this->delimiter;
@@ -107,5 +140,10 @@ class Doctype
         }
 
         return "<!DOCTYPE html>" . this->delimiter;
+    }
+
+    public function getType() -> int
+    {
+        return this->type;
     }
 }

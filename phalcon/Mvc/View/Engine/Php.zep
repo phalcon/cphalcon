@@ -18,7 +18,7 @@ class Php extends AbstractEngine
     /**
      * Renders a view using the template engine
      */
-    public function render(string! path, var params, bool mustClean = false)
+    public function render( string path, var params, bool mustClean = false)
     {
         var key, value;
 
@@ -29,7 +29,7 @@ class Php extends AbstractEngine
         /**
          * Create the variables in local symbol table
          */
-        if typeof params == "array" {
+        if typeof params === "array" {
             for key, value in params {
                 let {key} = value;
             }

@@ -13,10 +13,8 @@
 
 #include "kernel/main.h"
 #include "ext/json/php_json.h"
-#include "kernel/object.h"
 #include "kernel/memory.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
+#include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
 
@@ -30,35 +28,46 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Messages\Message
+ * Class Message
  *
  * Stores a message from various components
+ *
+ * @phpstan-import-type messages_message from MessagesTypes
+ * @phpstan-import-type messages_metadata from MessagesTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Messages_Message)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Messages, Message, phalcon, messages_message, phalcon_messages_message_method_entry, 0);
 
-	/**
-	 * @var int
-	 */
-	zend_declare_property_null(phalcon_messages_message_ce, SL("code"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_messages_message_ce, SL("field"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_messages_message_ce, SL("message"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_messages_message_ce, SL("type"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var array
-	 */
-	zend_declare_property_null(phalcon_messages_message_ce, SL("metaData"), ZEND_ACC_PROTECTED);
-	phalcon_messages_message_ce->create_object = zephir_init_properties_Phalcon_Messages_Message;
+	{
+		zval _zc0;
+		ZVAL_LONG(&_zc0, 0);
+		zephir_declare_typed_property(phalcon_messages_message_ce, SL("code"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_LONG, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "", sizeof("") - 1);
+		zephir_declare_typed_property(phalcon_messages_message_ce, SL("field"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_messages_message_ce, SL("message"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_messages_message_ce, SL("metaData"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "", sizeof("") - 1);
+		zephir_declare_typed_property(phalcon_messages_message_ce, SL("type"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
 
 	zend_class_implements(phalcon_messages_message_ce, 1, phalcon_messages_messageinterface_ce);
 	zend_class_implements(phalcon_messages_message_ce, 1, php_json_serializable_ce);
@@ -66,132 +75,96 @@ ZEPHIR_INIT_CLASS(Phalcon_Messages_Message)
 }
 
 /**
- */
-PHP_METHOD(Phalcon_Messages_Message, getCode)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "code");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Messages_Message, getField)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "field");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Messages_Message, getMessage)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "message");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Messages_Message, getType)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "type");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Messages_Message, getMetaData)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "metaData");
-}
-
-/**
  * Phalcon\Messages\Message constructor
+ *
+ * @param messages_metadata $metaData
  */
 PHP_METHOD(Phalcon_Messages_Message, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval metaData;
 	zend_long code;
-	zval *message_param = NULL, *field = NULL, field_sub, *type_param = NULL, *code_param = NULL, *metaData_param = NULL, _0;
-	zval message, type;
+	zval message_zv, field_zv, type_zv, *code_param = NULL, *metaData_param = NULL, _0;
+	zend_string *message = NULL, *field = NULL, *type = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&message);
-	ZVAL_UNDEF(&type);
-	ZVAL_UNDEF(&field_sub);
+	ZVAL_UNDEF(&message_zv);
+	ZVAL_UNDEF(&field_zv);
+	ZVAL_UNDEF(&type_zv);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&metaData);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	static zend_string *_zephir_prop_3 = NULL;
+	static zend_string *_zephir_prop_4 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("message", 7, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("field", 5, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("type", 4, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_3)) {
+		_zephir_prop_3 = zend_string_init("code", 4, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_4)) {
+		_zephir_prop_4 = zend_string_init("metaData", 8, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 5)
 		Z_PARAM_STR(message)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(field)
+		Z_PARAM_STR(field)
 		Z_PARAM_STR(type)
 		Z_PARAM_LONG(code)
-		Z_PARAM_ARRAY(metaData)
+		ZEPHIR_Z_PARAM_ARRAY(metaData, metaData_param)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 4, &message_param, &field, &type_param, &code_param, &metaData_param);
-	if (UNEXPECTED(Z_TYPE_P(message_param) != IS_STRING && Z_TYPE_P(message_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be of the type string"));
-		RETURN_MM_NULL();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (ZEND_NUM_ARGS() > 3) {
+		code_param = ZEND_CALL_ARG(execute_data, 4);
 	}
-	if (EXPECTED(Z_TYPE_P(message_param) == IS_STRING)) {
-		zephir_get_strval(&message, message_param);
-	} else {
-		ZEPHIR_INIT_VAR(&message);
+	if (ZEND_NUM_ARGS() > 4) {
+		metaData_param = ZEND_CALL_ARG(execute_data, 5);
 	}
+	zephir_memory_observe(&message_zv);
+	ZVAL_STR_COPY(&message_zv, message);
 	if (!field) {
-		field = &field_sub;
-		ZEPHIR_INIT_VAR(field);
-		ZVAL_STRING(field, "");
-	}
-	if (!type_param) {
-		ZEPHIR_INIT_VAR(&type);
-		ZVAL_STRING(&type, "");
+		field = zend_string_init(ZEND_STRL(""), 0);
+		zephir_memory_observe(&field_zv);
+		ZVAL_STR(&field_zv, field);
 	} else {
-		zephir_get_strval(&type, type_param);
+		zephir_memory_observe(&field_zv);
+	ZVAL_STR_COPY(&field_zv, field);
+	}
+	if (!type) {
+		type = zend_string_init(ZEND_STRL(""), 0);
+		zephir_memory_observe(&type_zv);
+		ZVAL_STR(&type_zv, type);
+	} else {
+		zephir_memory_observe(&type_zv);
+	ZVAL_STR_COPY(&type_zv, type);
 	}
 	if (!code_param) {
 		code = 0;
 	} else {
-		code = zephir_get_intval(code_param);
-	}
+		}
 	if (!metaData_param) {
 		ZEPHIR_INIT_VAR(&metaData);
 		array_init(&metaData);
 	} else {
 		zephir_get_arrval(&metaData, metaData_param);
 	}
-
-
-	zephir_update_property_zval(this_ptr, ZEND_STRL("message"), &message);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("field"), field);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("type"), &type);
-	ZEPHIR_INIT_ZVAL_NREF(_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 955, &message_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 956, &field_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 957, &type_zv);
+	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, code);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("code"), &_0);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("metaData"), &metaData);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 958, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 959, &metaData);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -200,15 +173,59 @@ PHP_METHOD(Phalcon_Messages_Message, __construct)
  */
 PHP_METHOD(Phalcon_Messages_Message, __toString)
 {
-	zval *this_ptr = getThis();
 
+	RETURN_MEMBER_TYPED(getThis(), "message", IS_STRING);
+}
 
+/**
+ * @return int
+ */
+PHP_METHOD(Phalcon_Messages_Message, getCode)
+{
 
-	RETURN_MEMBER(getThis(), "message");
+	RETURN_MEMBER_TYPED(getThis(), "code", IS_LONG);
+}
+
+/**
+ * @return string
+ */
+PHP_METHOD(Phalcon_Messages_Message, getField)
+{
+
+	RETURN_MEMBER_TYPED(getThis(), "field", IS_STRING);
+}
+
+/**
+ * @return string
+ */
+PHP_METHOD(Phalcon_Messages_Message, getMessage)
+{
+
+	RETURN_MEMBER_TYPED(getThis(), "message", IS_STRING);
+}
+
+/**
+ * @return messages_metadata
+ */
+PHP_METHOD(Phalcon_Messages_Message, getMetaData)
+{
+
+	RETURN_MEMBER_TYPED(getThis(), "metaData", IS_ARRAY);
+}
+
+/**
+ * @return string
+ */
+PHP_METHOD(Phalcon_Messages_Message, getType)
+{
+
+	RETURN_MEMBER_TYPED(getThis(), "type", IS_STRING);
 }
 
 /**
  * Serializes the object for json_encode
+ *
+ * @return messages_message
  */
 PHP_METHOD(Phalcon_Messages_Message, jsonSerialize)
 {
@@ -217,25 +234,44 @@ PHP_METHOD(Phalcon_Messages_Message, jsonSerialize)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
-
-
-	ZEPHIR_MM_GROW();
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	static zend_string *_zephir_prop_3 = NULL;
+	static zend_string *_zephir_prop_4 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("field", 5, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("message", 7, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("type", 4, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_3)) {
+		_zephir_prop_3 = zend_string_init("code", 4, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_4)) {
+		_zephir_prop_4 = zend_string_init("metaData", 8, 1);
+	}
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_create_array(return_value, 5, 0);
-	ZEPHIR_OBS_VAR(&_0);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("field"), PH_NOISY_CC);
+	zephir_memory_observe(&_0);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 956, PH_NOISY_CC);
 	zephir_array_update_string(return_value, SL("field"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_OBS_NVAR(&_0);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("message"), PH_NOISY_CC);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 955, PH_NOISY_CC);
 	zephir_array_update_string(return_value, SL("message"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_OBS_NVAR(&_0);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("type"), PH_NOISY_CC);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_2, 957, PH_NOISY_CC);
 	zephir_array_update_string(return_value, SL("type"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_OBS_NVAR(&_0);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("code"), PH_NOISY_CC);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_3, 958, PH_NOISY_CC);
 	zephir_array_update_string(return_value, SL("code"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_OBS_NVAR(&_0);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("metaData"), PH_NOISY_CC);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_4, 959, PH_NOISY_CC);
 	zephir_array_update_string(return_value, SL("metaData"), &_0, PH_COPY | PH_SEPARATE);
 	RETURN_MM();
 }
@@ -250,21 +286,18 @@ PHP_METHOD(Phalcon_Messages_Message, setCode)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("code", 4, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(code)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
 	zephir_fetch_params_without_memory_grow(1, 0, &code_param);
-	code = zephir_get_intval(code_param);
-
-
-	ZEPHIR_INIT_ZVAL_NREF(_0);
+	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, code);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("code"), &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 958, &_0);
 	RETURN_THISW();
 }
 
@@ -273,22 +306,21 @@ PHP_METHOD(Phalcon_Messages_Message, setCode)
  */
 PHP_METHOD(Phalcon_Messages_Message, setField)
 {
-	zval *field, field_sub;
+	zval field_zv;
+	zend_string *field = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&field_sub);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	ZVAL_UNDEF(&field_zv);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("field", 5, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(field)
+		Z_PARAM_STR(field)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	zephir_fetch_params_without_memory_grow(1, 0, &field);
-
-
-	zephir_update_property_zval(this_ptr, ZEND_STRL("field"), field);
+	ZVAL_STR(&field_zv, field);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 956, &field_zv);
 	RETURN_THISW();
 }
 
@@ -297,39 +329,28 @@ PHP_METHOD(Phalcon_Messages_Message, setField)
  */
 PHP_METHOD(Phalcon_Messages_Message, setMessage)
 {
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *message_param = NULL;
-	zval message;
+	zval message_zv;
+	zend_string *message = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&message);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	ZVAL_UNDEF(&message_zv);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("message", 7, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(message)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &message_param);
-	if (UNEXPECTED(Z_TYPE_P(message_param) != IS_STRING && Z_TYPE_P(message_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be of the type string"));
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(message_param) == IS_STRING)) {
-		zephir_get_strval(&message, message_param);
-	} else {
-		ZEPHIR_INIT_VAR(&message);
-	}
-
-
-	zephir_update_property_zval(this_ptr, ZEND_STRL("message"), &message);
-	RETURN_THIS();
+	ZVAL_STR(&message_zv, message);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 955, &message_zv);
+	RETURN_THISW();
 }
 
 /**
  * Sets message metadata
+ *
+ * @param messages_metadata $metaData
  */
 PHP_METHOD(Phalcon_Messages_Message, setMetaData)
 {
@@ -339,20 +360,19 @@ PHP_METHOD(Phalcon_Messages_Message, setMetaData)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&metaData);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("metaData", 8, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ARRAY(metaData)
+		ZEPHIR_Z_PARAM_ARRAY(metaData, metaData_param)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &metaData_param);
-	ZEPHIR_OBS_COPY_OR_DUP(&metaData, metaData_param);
-
-
-	zephir_update_property_zval(this_ptr, ZEND_STRL("metaData"), &metaData);
+	zephir_get_arrval(&metaData, metaData_param);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 959, &metaData);
 	RETURN_THIS();
 }
 
@@ -361,58 +381,21 @@ PHP_METHOD(Phalcon_Messages_Message, setMetaData)
  */
 PHP_METHOD(Phalcon_Messages_Message, setType)
 {
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *type_param = NULL;
-	zval type;
+	zval type_zv;
+	zend_string *type = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&type);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	ZVAL_UNDEF(&type_zv);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("type", 4, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(type)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &type_param);
-	if (UNEXPECTED(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be of the type string"));
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(type_param) == IS_STRING)) {
-		zephir_get_strval(&type, type_param);
-	} else {
-		ZEPHIR_INIT_VAR(&type);
-	}
-
-
-	zephir_update_property_zval(this_ptr, ZEND_STRL("type"), &type);
-	RETURN_THIS();
-}
-
-zend_object *zephir_init_properties_Phalcon_Messages_Message(zend_class_entry *class_type)
-{
-		zval _0, _1$$3;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
-	
-
-		ZEPHIR_MM_GROW();
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("metaData"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("metaData"), &_1$$3);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
+	ZVAL_STR(&type_zv, type);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 957, &type_zv);
+	RETURN_THISW();
 }
 

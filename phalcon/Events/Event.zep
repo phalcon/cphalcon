@@ -10,9 +10,11 @@
 
 namespace Phalcon\Events;
 
+use Phalcon\Contracts\Events\Stoppable;
+use Phalcon\Events\Exceptions\EventNotCancelable;
+use Phalcon\Events\Exceptions\InvalidEventSource;
+
 /**
- * Phalcon\Events\Event
- *
  * This class offers contextual information of a fired event in the
  * EventsManager
  *
@@ -25,7 +27,7 @@ namespace Phalcon\Events;
  * }
  * ```
  */
-class Event implements EventInterface
+class Event implements EventInterface, Stoppable
 {
     /**
      * Is event cancelable?
@@ -39,14 +41,14 @@ class Event implements EventInterface
      *
      * @var mixed
      */
-    protected data { get };
+    protected data;
 
     /**
      * Event source
      *
      * @var object|null
      */
-    protected source { get };
+    protected source = null;
 
     /**
      * Is event propagation stopped?
@@ -60,24 +62,42 @@ class Event implements EventInterface
      *
      * @var string
      */
-    protected type { get };
+    protected type;
 
     /**
      * Phalcon\Events\Event constructor
      *
      * @param object source
      */
-    public function __construct(string! type, var source = null, var data = null, bool cancelable = true)
-    {
-        if unlikely null !== source && typeof source != "object" {
-            throw new Exception(
-                "The source of " . type . " event must be an object, got " . (typeof source)
-            );
+    public function __construct(
+        string type,
+        var source = null,
+        var data = null,
+        bool cancelable = true
+    ) {
+        if unlikely null !== source && typeof source !== "object" {
+            throw new InvalidEventSource(type, (typeof source));
         }
+
         let this->type       = type,
             this->source     = source,
             this->data       = data,
             this->cancelable = cancelable;
+    }
+
+    public function getData() -> var
+    {
+        return this->data;
+    }
+
+    public function getSource() -> object | null
+    {
+        return this->source;
+    }
+
+    public function getType() -> string
+    {
+        return this->type;
     }
 
     /**
@@ -92,6 +112,15 @@ class Event implements EventInterface
     public function isCancelable() -> bool
     {
         return this->cancelable;
+    }
+
+    /**
+     * Returns whether propagation must stop. PSR-14 alias backed by the same
+     * `stopped` flag as `isStopped()`; calling `stop()` flips both.
+     */
+    public function isPropagationStopped() -> bool
+    {
+        return this->stopped;
     }
 
     /**
@@ -115,7 +144,7 @@ class Event implements EventInterface
     /**
      * Sets event type.
      */
-    public function setType(string! type) -> <EventInterface>
+    public function setType( string type) -> <EventInterface>
     {
         let this->type = type;
 
@@ -134,7 +163,7 @@ class Event implements EventInterface
     public function stop() -> <EventInterface>
     {
         if unlikely !this->cancelable {
-            throw new Exception("Trying to cancel a non-cancelable event");
+            throw new EventNotCancelable();
         }
 
         let this->stopped = true;

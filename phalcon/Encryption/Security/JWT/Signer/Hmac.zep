@@ -11,12 +11,16 @@
 namespace Phalcon\Encryption\Security\JWT\Signer;
 
 use Phalcon\Encryption\Security\JWT\Exceptions\UnsupportedAlgorithmException;
+use Phalcon\Encryption\Security\JWT\Exceptions\UnsupportedHmacAlgorithm;
+use Phalcon\Traits\Php\HashTrait;
 
 /**
- * Class Hmac
+ * HMAC signing class
  */
 class Hmac extends AbstractSigner
 {
+    use HashTrait;
+
     /**
      * Hmac constructor.
      *
@@ -24,7 +28,7 @@ class Hmac extends AbstractSigner
      *
      * @throws UnsupportedAlgorithmException
      */
-    public function __construct(string! algo = "sha512")
+    public function __construct( string algo = "sha512")
     {
         array supported;
 
@@ -35,10 +39,8 @@ class Hmac extends AbstractSigner
         ];
 
         if !isset supported[algo] {
-            throw new UnsupportedAlgorithmException(
-                "Unsupported HMAC algorithm"
-            );
-        };
+            throw new UnsupportedHmacAlgorithm();
+        }
 
         let this->algorithm = algo;
     }
@@ -61,7 +63,7 @@ class Hmac extends AbstractSigner
      *
      * @return string
      */
-    public function sign(string! payload, string! passphrase) -> string
+    public function sign( string payload,  string passphrase) -> string
     {
         return this->getHash(payload, passphrase);
     }
@@ -75,9 +77,12 @@ class Hmac extends AbstractSigner
      *
      * @return bool
      */
-    public function verify(string! source, string! payload, string! passphrase) -> bool
-    {
-        return hash_equals(source, this->getHash(payload, passphrase));
+    public function verify(
+        string source,
+        string payload,
+        string passphrase
+    ) -> bool {
+        return this->phpHashEquals(source, this->getHash(payload, passphrase));
     }
 
     /**
@@ -88,8 +93,8 @@ class Hmac extends AbstractSigner
      *
      * @return string
      */
-    private function getHash(string! payload, string! passphrase) -> string
+    private function getHash(string payload, string passphrase) -> string
     {
-        return hash_hmac(this->getAlgorithm(), payload, passphrase, true);
+        return this->phpHashHmac(this->getAlgorithm(), payload, passphrase, true);
     }
 }

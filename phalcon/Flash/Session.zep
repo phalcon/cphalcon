@@ -10,6 +10,9 @@
 
 namespace Phalcon\Flash;
 
+use Phalcon\Contracts\Flash\FlashTypes;
+use Phalcon\Flash\Exceptions\SessionServiceUnavailable;
+use Phalcon\Html\Escaper\EscaperInterface;
 use Phalcon\Session\ManagerInterface;
 
 /**
@@ -20,10 +23,30 @@ use Phalcon\Session\ManagerInterface;
  * Class Session
  *
  * @package Phalcon\Flash
+ *
+ * @phpstan-import-type flash_session_messages from FlashTypes
  */
 class Session extends AbstractFlash
 {
+    /**
+     * @var string
+     */
     const SESSION_KEY = "_flashMessages";
+
+    protected string sessionKey = "";
+
+    /**
+     * Session constructor.
+     */
+    public function __construct(
+        <EscaperInterface> escaper = null,
+        <ManagerInterface> session = null,
+        string sessionKey = null
+    ) {
+        parent::__construct(escaper, session);
+
+        let this->sessionKey = null !== sessionKey ? sessionKey : self::SESSION_KEY;
+    }
 
     /**
      * Clear messages in the session messenger
@@ -39,144 +62,15 @@ class Session extends AbstractFlash
     /**
      * Returns the messages in the session flasher
      *
-     * @param mixed|null $type
-     * @param bool       $remove
+     * @param string|null $type
+     * @param bool        $remove
      *
-     * @return array
+     * @phpstan-return ($type is null ? flash_session_messages : list<mixed>)
      * @throws Exception
      */
     public function getMessages(var type = null, bool remove = true) -> array
     {
         return this->getSessionMessages(remove, type);
-    }
-
-    /**
-     * Checks whether there are messages
-     *
-     * @param string|null $type
-     *
-     * @return bool
-     * @throws Exception
-     */
-    public function has(string type = null) -> bool
-    {
-        var messages;
-
-        let messages = this->getSessionMessages(false);
-
-        if !type {
-            return (true !== empty(messages));
-        }
-
-        return isset(messages[type]);
-    }
-
-    /**
-     * Adds a message to the session flasher
-     *
-     * @param string $type
-     * @param mixed  $message
-     *
-     * @return string|null
-     * @throws Exception
-     */
-    public function message(string type, var message) -> string | null
-    {
-        var messages;
-
-        let messages = this->getSessionMessages(false);
-
-        if (true !== isset(messages[type])) {
-            let messages[type] = [];
-        }
-
-        let messages[type][] = message;
-
-        this->setSessionMessages(messages);
-
-        return null;
-    }
-
-    /**
-     * Prints the messages in the session flasher
-     *
-     * @param bool $remove
-     *
-     * @throws Exception
-     */
-    public function output(bool remove = true) -> void
-    {
-        var message, messages, type;
-
-        let messages = this->getSessionMessages(remove);
-
-        for type, message in messages {
-            this->outputMessage(type, message);
-        }
-
-        parent::clear();
-    }
-
-    /**
-     * Returns the messages stored in session
-     *
-     * @param bool       $remove
-     * @param mixed|null $type
-     *
-     * @return array
-     * @throws Exception
-     */
-    protected function getSessionMessages(bool remove, string type = null) -> array
-    {
-        var session, messages, returnMessages;
-
-        let session  = this->getSessionService(),
-            messages = session->get(self::SESSION_KEY);
-
-        /**
-         * Session might be empty
-         */
-        if typeof messages !== "array" {
-            let messages = [];
-        }
-
-        if true !== empty(type) {
-            if fetch returnMessages, messages[type] {
-                if remove {
-                    unset(messages[type]);
-                    session->set(self::SESSION_KEY, messages);
-                }
-
-                return returnMessages;
-            }
-
-            return [];
-        }
-
-        if remove {
-            session->remove(self::SESSION_KEY);
-        }
-
-        return messages;
-    }
-
-    /**
-     * Stores the messages in session
-     *
-     * @param array $messages
-     *
-     * @return array
-     * @throws Exception
-     */
-    protected function setSessionMessages(array! messages) -> array
-    {
-        var session;
-
-        let session  = this->getSessionService();
-
-        session->set(self::SESSION_KEY, messages);
-
-        return messages;
     }
 
     /**
@@ -200,8 +94,135 @@ class Session extends AbstractFlash
             return this->sessionService;
         }
 
-        throw new Exception(
-            "A dependency injection container is required to access the 'session' service"
-        );
+        throw new SessionServiceUnavailable();
     }
+
+    /**
+     * Checks whether there are messages
+     *
+     * @throws Exception
+     */
+    public function has(string type = null) -> bool
+    {
+        var messages;
+
+        let messages = this->getSessionMessages(false);
+
+        if !type {
+            return (true !== empty(messages));
+        }
+
+        return isset(messages[type]);
+    }
+
+    /**
+     * Adds a message to the session flasher
+     *
+     * @throws Exception
+     */
+    public function message(string type, var message) -> string | null
+    {
+        var messages;
+
+        let messages = this->getSessionMessages(false);
+
+        if (true !== isset(messages[type])) {
+            let messages[type] = [];
+        }
+
+        let messages[type][] = message;
+
+        this->setSessionMessages(messages);
+
+        return null;
+    }
+
+    /**
+     * Prints the messages in the session flasher
+     *
+     * @throws Exception
+     */
+    public function output(bool remove = true) -> void
+    {
+        var message, messages, type;
+
+        let messages = this->getSessionMessages(remove);
+
+        for type, message in messages {
+            this->outputMessage(type, message);
+        }
+
+        /**
+         * `output()` is an echo API. With implicit flush enabled the messages
+         * have been echoed, so the accumulation buffer can be cleared. With it
+         * disabled, `outputMessage()` has filled the buffer instead - do not
+         * destroy it, leave the rendered messages reachable via `getMessages()`.
+         */
+        if (true === this->implicitFlush) {
+            parent::clear();
+        }
+    }
+
+    /**
+     * Returns the messages stored in session
+     *
+     * @param bool        $remove
+     * @param string|null $type
+     *
+     * @phpstan-return ($type is null ? flash_session_messages : list<mixed>)
+     * @throws Exception
+     */
+    protected function getSessionMessages(bool remove, string type = null) -> array
+    {
+        var session, messages, returnMessages;
+
+        let session  = this->getSessionService(),
+            messages = session->get(this->sessionKey);
+
+        /**
+         * Session might be empty
+         */
+        if typeof messages !== "array" {
+            let messages = [];
+        }
+
+        if true !== empty(type) {
+            if fetch returnMessages, messages[type] {
+                if remove {
+                    unset(messages[type]);
+                    session->set(this->sessionKey, messages);
+                }
+
+                return returnMessages;
+            }
+
+            return [];
+        }
+
+        if remove {
+            session->remove(this->sessionKey);
+        }
+
+        return messages;
+    }
+
+    /**
+     * Stores the messages in session
+     *
+     * @phpstan-param  flash_session_messages $messages
+     * @phpstan-return flash_session_messages
+     *
+     * @throws Exception
+     */
+    protected function setSessionMessages( array messages) -> array
+    {
+        var session;
+
+        let session  = this->getSessionService();
+
+        session->set(this->sessionKey, messages);
+
+        return messages;
+    }
+
 }

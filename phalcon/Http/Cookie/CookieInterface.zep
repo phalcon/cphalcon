@@ -10,15 +10,19 @@
 
 namespace Phalcon\Http\Cookie;
 
+use Phalcon\Contracts\Http\HttpTypes;
+
 /**
  * Interface for Phalcon\Http\Cookie
+ *
+ * @phpstan-import-type http_cookie_options from HttpTypes
  */
 interface CookieInterface
 {
     /**
      * Deletes the cookie
      */
-    public function delete();
+    public function delete() -> void;
 
     /**
      * Returns the domain that the cookie is available to
@@ -28,7 +32,7 @@ interface CookieInterface
     /**
      * Returns the current expiration time
      */
-    public function getExpiration() -> string;
+    public function getExpiration() -> int;
 
     /**
      * Returns if the cookie is accessible only through the HTTP protocol
@@ -42,6 +46,8 @@ interface CookieInterface
 
     /**
      * Returns the current cookie's options
+     *
+     * @phpstan-return http_cookie_options
      */
     public function getOptions() -> array;
 
@@ -58,6 +64,8 @@ interface CookieInterface
 
     /**
      * Returns the cookie's value.
+     *
+     * @todo check if $filters can be more type specific
      */
     public function getValue(var filters = null, var defaultValue = null) -> var;
 
@@ -74,7 +82,7 @@ interface CookieInterface
     /**
      * Sets the domain that the cookie is available to
      */
-    public function setDomain(string! domain) -> <CookieInterface>;
+    public function setDomain( string domain) -> <CookieInterface>;
 
     /**
      * Sets the cookie's expiration time
@@ -88,13 +96,15 @@ interface CookieInterface
 
     /**
      * Sets the cookie's options
+     *
+     * @phpstan-param http_cookie_options $options
      */
-    public function setOptions(array! options) -> <CookieInterface>;
+    public function setOptions( array options) -> <CookieInterface>;
 
     /**
      * Sets the cookie's expiration time
      */
-    public function setPath(string! path) -> <CookieInterface>;
+    public function setPath( string path) -> <CookieInterface>;
 
     /**
      * Sets if the cookie must only be sent when the connection is secure
@@ -105,7 +115,7 @@ interface CookieInterface
     /**
      * Sets the cookie's value
      *
-     * @param string value
+     * @todo check if we can make this a string
      */
     public function setValue(var value) -> <CookieInterface>;
 

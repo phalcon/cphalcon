@@ -1,0 +1,59 @@
+<?php
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Phalcon\Tests\Unit\Logger\Adapter\Stream;
+
+use Phalcon\Logger\Adapter\Stream;
+use Phalcon\Logger\Exceptions\TransactionAlreadyActive;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
+
+final class BeginTest extends AbstractUnitTestCase
+{
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testLoggerAdapterStreamBegin(): void
+    {
+        $fileName   = $this->getNewFileName('log', 'log');
+        $outputPath = Talon::settings()->outputPath('tests/logs/');
+        $adapter    = new Stream($outputPath . $fileName);
+
+        $adapter->begin();
+
+        $actual = $adapter->inTransaction();
+        $this->assertTrue($actual);
+
+        $adapter->rollback();
+        $adapter->close();
+        $this->safeDeleteFile($outputPath . $fileName);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-06-15
+     */
+    public function testLoggerAdapterStreamBeginTransactionAlreadyActive(): void
+    {
+        $this->expectException(TransactionAlreadyActive::class);
+        $this->expectExceptionMessage('There is an active transaction');
+
+        $fileName   = $this->getNewFileName('log', 'log');
+        $outputPath = Talon::settings()->outputPath('tests/logs/');
+        $adapter    = new Stream($outputPath . $fileName);
+
+        $adapter->begin();
+        $adapter->begin();
+    }
+}

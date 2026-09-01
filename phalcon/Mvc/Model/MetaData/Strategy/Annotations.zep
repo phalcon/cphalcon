@@ -10,11 +10,13 @@
 
 namespace Phalcon\Mvc\Model\MetaData\Strategy;
 
-use Phalcon\Di\DiInterface;
 use Phalcon\Db\Column;
-use Phalcon\Mvc\ModelInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\Model\MetaData;
-use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model\MetaData\Exceptions\InvalidContainer;
+use Phalcon\Mvc\Model\MetaData\Exceptions\NoAnnotationsForClass;
+use Phalcon\Mvc\Model\MetaData\Exceptions\NoPropertyAnnotationsForClass;
+use Phalcon\Mvc\ModelInterface;
 
 class Annotations implements StrategyInterface
 {
@@ -29,7 +31,7 @@ class Annotations implements StrategyInterface
         bool hasReversedColumn;
 
         if unlikely typeof container != "object" {
-            throw new Exception("The dependency injector is invalid");
+            throw new InvalidContainer();
         }
 
         let annotations = container->get("annotations");
@@ -38,9 +40,7 @@ class Annotations implements StrategyInterface
             reflection = annotations->get(className);
 
         if unlikely typeof reflection != "object" {
-            throw new Exception(
-                "No annotations were found in class " . className
-            );
+            throw new NoAnnotationsForClass(className);
         }
 
         /**
@@ -48,10 +48,8 @@ class Annotations implements StrategyInterface
          */
         let propertiesAnnotations = reflection->getPropertiesAnnotations();
 
-        if unlikely !count(propertiesAnnotations) {
-            throw new Exception(
-                "No properties with annotations were found in class " . className
-            );
+        if unlikely empty propertiesAnnotations {
+            throw new NoPropertyAnnotationsForClass(className);
         }
 
         let orderedColumnMap = [],
@@ -110,7 +108,7 @@ class Annotations implements StrategyInterface
             emptyStringValues, skipOnInsert, skipOnUpdate;
 
         if unlikely typeof container != "object" {
-            throw new Exception("The dependency injector is invalid");
+            throw new InvalidContainer();
         }
 
         let annotations = container->get("annotations");
@@ -119,9 +117,7 @@ class Annotations implements StrategyInterface
             reflection = annotations->get(className);
 
         if unlikely typeof reflection != "object" {
-            throw new Exception(
-                "No annotations were found in class " . className
-            );
+            throw new NoAnnotationsForClass(className);
         }
 
         /**
@@ -129,10 +125,8 @@ class Annotations implements StrategyInterface
          */
         let propertiesAnnotations = reflection->getPropertiesAnnotations();
 
-        if unlikely !count(propertiesAnnotations) {
-            throw new Exception(
-                "No properties with annotations were found in class " . className
-            );
+        if unlikely empty propertiesAnnotations {
+            throw new NoPropertyAnnotationsForClass(className);
         }
 
         /**
@@ -350,21 +344,21 @@ class Annotations implements StrategyInterface
              * Column will be skipped on INSERT operation
              */
             if columnAnnotation->getNamedParameter("skip_on_insert") {
-                let skipOnInsert[] = columnName;
+                let skipOnInsert[columnName] = true;
             }
 
             /**
              * Column will be skipped on UPDATE operation
              */
             if columnAnnotation->getNamedParameter("skip_on_update") {
-                let skipOnUpdate[] = columnName;
+                let skipOnUpdate[columnName] = true;
             }
 
             /**
              * Allow empty strings for column
              */
             if columnAnnotation->getNamedParameter("allow_empty_string") {
-                let emptyStringValues[] = columnName;
+                let emptyStringValues[columnName] = columnName;
             }
 
             /**

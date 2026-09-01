@@ -27,23 +27,21 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Model\Query\Status
- *
  * This class represents the status returned by a PHQL
  * statement like INSERT, UPDATE or DELETE. It offers context
  * information and the related messages produced by the
  * model which finally executes the operations when it fails
  *
  *```php
- * $phql = "UPDATE Robots SET name = :name:, type = :type:, year = :year: WHERE id = :id:";
+ * $phql = "UPDATE Invoices SET inv_title = :inv_title:, inv_status_flag = :inv_status_flag:, inv_total = :inv_total: WHERE inv_id = :inv_id:";
  *
  * $status = $app->modelsManager->executeQuery(
  *     $phql,
  *     [
- *         "id"   => 100,
- *         "name" => "Astroy Boy",
- *         "type" => "mechanical",
- *         "year" => 1959,
+ *         "inv_id"          => 100,
+ *         "inv_title"       => "Test Invoice",
+ *         "inv_status_flag" => 1,
+ *         "inv_total"       => 1959,
  *     ]
  * );
  *
@@ -82,30 +80,32 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct)
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 	ZVAL_NULL(&__$null);
-#if PHP_VERSION_ID >= 80000
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("success", 7, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("model", 5, 1);
+	}
+
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_BOOL(success)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
 	zephir_fetch_params_without_memory_grow(1, 1, &success_param, &model);
-	success = zephir_get_boolval(success_param);
 	if (!model) {
 		model = &model_sub;
 		model = &__$null;
 	}
-
-
 	if (success) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("success"), &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1096, &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("success"), &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1096, &__$false);
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("model"), model);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1097, model);
 }
 
 /**
@@ -120,11 +120,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages)
 
 	ZVAL_UNDEF(&model);
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("model", 5, 1);
+	}
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-
-	ZEPHIR_MM_GROW();
-
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("model"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1097, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&model, &_0);
 	if (Z_TYPE_P(&model) != IS_OBJECT) {
 		array_init(return_value);
@@ -140,9 +143,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages)
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getModel)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "model");
 }
@@ -152,9 +152,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getModel)
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, success)
 {
-	zval *this_ptr = getThis();
-
-
 
 	RETURN_MEMBER(getThis(), "success");
 }

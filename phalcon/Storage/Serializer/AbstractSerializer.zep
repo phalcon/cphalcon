@@ -10,12 +10,13 @@
 
 namespace Phalcon\Storage\Serializer;
 
+use Phalcon\Contracts\Storage\StorageTypes;
+
 /**
- * Class AbstractSerializer
- *
- * @package Phalcon\Storage\Serializer
- *
  * @property mixed $data
+ * @property bool  $isSuccess
+ *
+ * @phpstan-import-type storage_serializer_data from StorageTypes
  */
 abstract class AbstractSerializer implements SerializerInterface
 {
@@ -23,11 +24,12 @@ abstract class AbstractSerializer implements SerializerInterface
      * @var mixed
      */
     protected data = null;
+    protected bool isSuccess = true;
 
     /**
-     * Constructor.
+     * AbstractSerializer constructor.
      *
-     * @param mixed|null $data
+     * @param mixed $data
      */
     public function __construct(var data = null)
     {
@@ -35,30 +37,66 @@ abstract class AbstractSerializer implements SerializerInterface
     }
 
     /**
-     * If this returns true, then the data returns back as is
+     * Serialize data
      *
-     * @param mixed $data
+     * @return array
      *
-     * @return bool
+     * @phpstan-return storage_serializer_data
      */
-	protected function isSerializable(var data) -> bool
-	{
-        return !(empty data || typeof data === "bool" || is_numeric(data));
-	}
+    public function __serialize() -> array
+    {
+        if typeof this->data === "array" {
+            return this->data;
+        }
+
+        return [];
+    }
 
     /**
-     * @return mixed
+     * Unserialize data
+     *
+     * @phpstan-param storage_serializer_data $data
      */
-    public function getData() -> var
+    public function __unserialize(array data) -> void
+    {
+        let this->data = data;
+    }
+
+    public function getData() -> mixed
     {
         return this->data;
     }
 
     /**
+     * Returns `true` if the serialize/unserialize operation was successful;
+     * `false` otherwise
+     */
+    public function isSuccess() -> bool
+    {
+        return this->isSuccess;
+    }
+
+    /**
      * @param mixed $data
      */
-    public function setData(var data) -> void
+    public function setData(data) -> void
     {
         let this->data = data;
+    }
+
+    /**
+     * If this returns true, then the data is returned as is
+     *
+     * @param mixed $data
+     *
+     * @phpstan-assert-if-false bool|float|int|numeric-string|null $data
+     */
+    protected function isSerializable(data) -> bool
+    {
+        return !(
+            null === data ||
+            true === is_bool(data) ||
+            true === is_numeric(data)
+        );
     }
 }

@@ -12,11 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
 #include "kernel/memory.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
-#include "kernel/operators.h"
+#include "kernel/object.h"
 #include "kernel/array.h"
 
 
@@ -29,7 +26,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Class Item
+ * Signature class containing the encoded data and the hash.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Token_Signature)
 {
@@ -47,62 +44,43 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Token_Signature)
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Signature, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *hash_param = NULL, *encoded_param = NULL, _0, _1;
-	zval hash, encoded;
+	zval hash_zv, encoded_zv, _0, _1;
+	zend_string *hash = NULL, *encoded = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&hash);
-	ZVAL_UNDEF(&encoded);
+	ZVAL_UNDEF(&hash_zv);
+	ZVAL_UNDEF(&encoded_zv);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 2)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR(hash)
 		Z_PARAM_STR(encoded)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 2, &hash_param, &encoded_param);
-	if (!hash_param) {
-		ZEPHIR_INIT_VAR(&hash);
-		ZVAL_STRING(&hash, "");
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (!hash) {
+		hash = zend_string_init(ZEND_STRL(""), 0);
+		zephir_memory_observe(&hash_zv);
+		ZVAL_STR(&hash_zv, hash);
 	} else {
-	if (UNEXPECTED(Z_TYPE_P(hash_param) != IS_STRING && Z_TYPE_P(hash_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'hash' must be of the type string"));
-		RETURN_MM_NULL();
+		zephir_memory_observe(&hash_zv);
+	ZVAL_STR_COPY(&hash_zv, hash);
 	}
-	if (EXPECTED(Z_TYPE_P(hash_param) == IS_STRING)) {
-		zephir_get_strval(&hash, hash_param);
+	if (!encoded) {
+		encoded = zend_string_init(ZEND_STRL(""), 0);
+		zephir_memory_observe(&encoded_zv);
+		ZVAL_STR(&encoded_zv, encoded);
 	} else {
-		ZEPHIR_INIT_VAR(&hash);
+		zephir_memory_observe(&encoded_zv);
+	ZVAL_STR_COPY(&encoded_zv, encoded);
 	}
-	}
-	if (!encoded_param) {
-		ZEPHIR_INIT_VAR(&encoded);
-		ZVAL_STRING(&encoded, "");
-	} else {
-	if (UNEXPECTED(Z_TYPE_P(encoded_param) != IS_STRING && Z_TYPE_P(encoded_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'encoded' must be of the type string"));
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(encoded_param) == IS_STRING)) {
-		zephir_get_strval(&encoded, encoded_param);
-	} else {
-		ZEPHIR_INIT_VAR(&encoded);
-	}
-	}
-
-
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "encoded");
-	zephir_update_property_array(this_ptr, SL("data"), &_0, &encoded);
+	zephir_update_property_array(this_ptr, SL("data"), &_0, &encoded_zv);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "hash");
-	zephir_update_property_array(this_ptr, SL("data"), &_1, &hash);
+	zephir_update_property_array(this_ptr, SL("data"), &_1, &hash_zv);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -116,10 +94,11 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Signature, getHash)
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-
-
-
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("data", 4, 1);
+	}
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 716, PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch_string(&_1, &_0, SL("hash"), PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/JWT/Token/Signature.zep", 35);
 	RETURN_CTORW(&_1);
 }

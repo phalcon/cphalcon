@@ -68,7 +68,7 @@ class Date extends AbstractValidator
      *     'allowEmpty' => false
      * ]
      */
-    public function __construct(array! options = [])
+    public function __construct( array options = [])
     {
         parent::__construct(options);
     }
@@ -116,6 +116,6 @@ class Date extends AbstractValidator
         let date = DateTime::createFromFormat(format, value);
         let errors = DateTime::getLastErrors();
 
-        return errors["warning_count"] == 0 && errors["error_count"] == 0;
+        return errors === false || (errors["warning_count"] == 0 && errors["error_count"] == 0);
     }
 }

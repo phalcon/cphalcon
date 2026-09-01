@@ -14,12 +14,13 @@ use Phalcon\Config\Config;
 use Phalcon\Config\ConfigFactory;
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Config\Exception;
+use Phalcon\Config\Exceptions\GroupedAdapterRequiresArray;
 use Phalcon\Factory\Exception as FactoryException;
 
 /**
  * Reads multiple files (or arrays) and merges them all together.
  *
- * See `Phalcon\Config\Factory::load` To load Config Adapter class using 'adapter' option.
+ * See `Phalcon\Config\ConfigFactory::load` To load Config Adapter class using 'adapter' option.
  *
  * ```php
  * use Phalcon\Config\Adapter\Grouped;
@@ -71,12 +72,28 @@ class Grouped extends Config
 {
     /**
      * Phalcon\Config\Adapter\Grouped constructor
+     *
+     * @param array              $arrayConfig
+     * @param string             $defaultAdapter
+     * @param ConfigFactory|null $factory        Factory used to load file
+     *                                           based fragments; a default
+     *                                           one is created when not
+     *                                           provided
      */
-    public function __construct(array! arrayConfig, string! defaultAdapter = "php")
-    {
-        var configArray, configInstance, configName;
+    public function __construct(
+         array arrayConfig,
+         string defaultAdapter = "php",
+        <ConfigFactory> factory = null
+    ) {
+        var configArray, configFactory, configInstance, configName;
 
         parent::__construct([]);
+
+        let configFactory = factory;
+
+        if null === configFactory {
+            let configFactory = new ConfigFactory();
+        }
 
         for configName in arrayConfig {
             let configInstance = configName;
@@ -88,7 +105,7 @@ class Grouped extends Config
             } elseif typeof configName === "string" {
                 if "" === defaultAdapter {
                     this->merge(
-                        (new ConfigFactory())->load(configName)
+                        configFactory->load(configName)
                     );
 
                     continue;
@@ -104,16 +121,13 @@ class Grouped extends Config
 
             if "array" === configInstance["adapter"] {
                 if !isset configInstance["config"] {
-                    throw new Exception(
-                        "To use 'array' adapter you have to specify " .
-                        "the 'config' as an array."
-                    );
+                    throw new GroupedAdapterRequiresArray();
                 }
 
                 let configArray    = configInstance["config"],
-                    configInstance = new Config(configArray);
+                    configInstance = new Config(configArray, this->insensitive);
             } else {
-                let configInstance = (new ConfigFactory())->load(configInstance);
+                let configInstance = configFactory->load(configInstance);
             }
 
             this->merge(configInstance);

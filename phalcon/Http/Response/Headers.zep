@@ -10,27 +10,32 @@
 
 namespace Phalcon\Http\Response;
 
+use IteratorAggregate;
+use Phalcon\Contracts\Http\HttpTypes;
+use Traversable;
+
 /**
- * Phalcon\Http\Response\Headers
- *
  * This class is a bag to manage the response headers
+ *
+ * @phpstan-import-type http_response_headers from HttpTypes
+ *
+ * @implements IteratorAggregate<string, string|null>
  */
-class Headers implements HeadersInterface
+class Headers implements HeadersInterface, IteratorAggregate
 {
     /**
      * @var array
      */
     protected headers = [];
-
-    /**
-     * @var bool
-     */
-    protected isSent = false;
+    protected bool isSent = false;
 
     /**
      * Gets a header value from the internal bag
+     *
+     * @return bool|string|null
+     * @todo change the raw headers not to return null
      */
-    public function get(string name) -> string | bool
+    public function get(string name) -> string | bool | null
     {
         var headers, headerValue;
 
@@ -44,11 +49,19 @@ class Headers implements HeadersInterface
     }
 
     /**
+     * @return Traversable<string, string|null>
+     */
+    public function getIterator() -> <Traversable>
+    {
+        return new \ArrayIterator(this->headers);
+    }
+
+    /**
      * Checks if a header exists
      */
     public function has(string name) -> bool
     {
-        return isset this->headers[name];
+        return array_key_exists(name, this->headers);
     }
 
     /**
@@ -76,7 +89,7 @@ class Headers implements HeadersInterface
     /**
      * Reset set headers
      */
-    public function reset()
+    public function reset() -> void
     {
         let this->headers = [];
     }
@@ -131,6 +144,8 @@ class Headers implements HeadersInterface
 
     /**
      * Returns the current headers as an array
+     *
+     * @phpstan-return http_response_headers
      */
     public function toArray() -> array
     {

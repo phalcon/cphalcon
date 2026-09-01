@@ -1,0 +1,20 @@
+
+extern zend_class_entry *phalcon_config_exceptions_missingconfigoption_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Config_Exceptions_MissingConfigOption);
+
+PHP_METHOD(Phalcon_Config_Exceptions_MissingConfigOption, __construct);
+PHP_METHOD(Phalcon_Config_Exceptions_MissingConfigOption, getOption);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_exceptions_missingconfigoption___construct, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, option, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_config_exceptions_missingconfigoption_getoption, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_config_exceptions_missingconfigoption_method_entry) {
+	PHP_ME(Phalcon_Config_Exceptions_MissingConfigOption, __construct, arginfo_phalcon_config_exceptions_missingconfigoption___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Config_Exceptions_MissingConfigOption, getOption, arginfo_phalcon_config_exceptions_missingconfigoption_getoption, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};

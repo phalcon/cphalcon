@@ -13,11 +13,15 @@ namespace Phalcon\Mvc;
 use Closure;
 use Phalcon\Application\AbstractApplication;
 use Phalcon\Di\DiInterface;
-use Phalcon\Http\ResponseInterface;
 use Phalcon\Events\ManagerInterface;
+use Phalcon\Http\ResponseInterface;
 use Phalcon\Mvc\Application\Exception;
-use Phalcon\Mvc\Router\RouteInterface;
+use Phalcon\Mvc\Application\Exceptions\ContainerRequired;
+use Phalcon\Mvc\Application\Exceptions\InvalidModuleDefinition;
+use Phalcon\Mvc\Application\Exceptions\ModuleDefinitionPathNotFound;
 use Phalcon\Mvc\ModuleDefinitionInterface;
+use Phalcon\Mvc\Router\RouteInterface;
+use Phalcon\Traits\Php\FileTrait;
 
 /**
  * Phalcon\Mvc\Application
@@ -67,6 +71,8 @@ use Phalcon\Mvc\ModuleDefinitionInterface;
  */
 class Application extends AbstractApplication
 {
+    use FileTrait;
+
     /**
      * @var bool
      */
@@ -85,7 +91,7 @@ class Application extends AbstractApplication
     /**
      * Handles a MVC request
      */
-    public function handle(string! uri) -> <ResponseInterface> | bool
+    public function handle( string uri) -> <ResponseInterface> | bool
     {
         var container, eventsManager, router, dispatcher, response, view,
             module, moduleObject, moduleName, className, path, implicitView,
@@ -94,10 +100,8 @@ class Application extends AbstractApplication
 
         let container = this->container;
 
-        if unlikely typeof container != "object" {
-            throw new Exception(
-                "A dependency injection container is required to access internal services"
-            );
+        if container === null {
+            throw new ContainerRequired();
         }
 
         let eventsManager = <ManagerInterface> this->eventsManager;
@@ -106,10 +110,8 @@ class Application extends AbstractApplication
          * Call boot event, this allow the developer to perform initialization
          * actions
          */
-        if typeof eventsManager == "object" {
-            if eventsManager->fire("application:boot", this) === false {
-                return false;
-            }
+        if eventsManager !== null && eventsManager->fire("application:boot", this) === false {
+            return false;
         }
 
         let router = <RouterInterface> container->getShared("router");
@@ -125,7 +127,7 @@ class Application extends AbstractApplication
          */
         let matchedRoute = router->getMatchedRoute();
 
-        if typeof matchedRoute == "object" {
+        if typeof matchedRoute === "object" {
             let match = matchedRoute->getMatch();
 
             if match !== null {
@@ -144,7 +146,7 @@ class Application extends AbstractApplication
                 /**
                  * If the returned value is a string return it as body
                  */
-                if typeof possibleResponse == "string" {
+                if typeof possibleResponse === "string" {
                     let response = <ResponseInterface> container->getShared("response");
 
                     response->setContent(possibleResponse);
@@ -156,7 +158,7 @@ class Application extends AbstractApplication
                  * If the returned string is a ResponseInterface use it as
                  * response
                  */
-                if typeof possibleResponse == "object" && possibleResponse instanceof ResponseInterface {
+                if typeof possibleResponse === "object" && possibleResponse instanceof ResponseInterface {
                     possibleResponse->sendHeaders();
                     possibleResponse->sendCookies();
 
@@ -166,7 +168,7 @@ class Application extends AbstractApplication
         }
 
         /**
-         * If the router doesn't return a valid module we use the default module
+         * If the router does not return a valid module we use the default module
          */
         let moduleName = router->getModuleName();
 
@@ -180,7 +182,7 @@ class Application extends AbstractApplication
          * Process the module definition
          */
         if moduleName {
-            if typeof eventsManager == "object" {
+            if typeof eventsManager === "object" {
                 if eventsManager->fire("application:beforeStartModule", this, moduleName) === false {
                     return false;
                 }
@@ -194,15 +196,18 @@ class Application extends AbstractApplication
             /**
              * A module definition must ne an array or an object
              */
-            if unlikely (typeof module != "array" && typeof module != "object") {
-                throw new Exception("Invalid module definition");
+            if unlikely (typeof module !== "array" && typeof module !== "object") {
+                throw new InvalidModuleDefinition(
+                    moduleName,
+                    "The module definition must be an array or an object"
+                );
             }
 
             /**
              * An array module definition contains a path to a module definition
              * class
              */
-            if typeof module == "array" {
+            if typeof module === "array" {
                 /**
                  * Class name used to load the module definition
                  */
@@ -214,10 +219,8 @@ class Application extends AbstractApplication
                  * If developer specify a path try to include the file
                  */
                 if fetch path, module["path"] {
-                    if unlikely !file_exists(path) {
-                        throw new Exception(
-                            "Module definition path '" . path . "' doesn't exist"
-                        );
+                    if unlikely !this->phpFileExists(path) {
+                        throw new ModuleDefinitionPathNotFound(path);
                     }
 
                     if !class_exists(className, false) {
@@ -238,7 +241,10 @@ class Application extends AbstractApplication
                  * A module definition object, can be a Closure instance
                  */
                 if unlikely !(module instanceof Closure) {
-                    throw new Exception("Invalid module definition");
+                    throw new InvalidModuleDefinition(
+                        moduleName,
+                        "The module definition object must be a Closure"
+                    );
                 }
 
                 let moduleObject = call_user_func_array(
@@ -250,9 +256,13 @@ class Application extends AbstractApplication
             }
 
             /**
-             * Calling afterStartModule event
+             * The "afterStartModule" event is a notification fired once the
+             * module has started. Its return value is intentionally ignored:
+             * the module is already booted, so handling cannot be cancelled
+             * here. (Phalcon\Cli\Console still honors a `false` return for
+             * backward compatibility; the two are unified in the next major.)
              */
-            if typeof eventsManager == "object" {
+            if typeof eventsManager === "object" {
                 eventsManager->fire("application:afterStartModule", this, moduleObject);
             }
         }
@@ -272,7 +282,7 @@ class Application extends AbstractApplication
          */
         let dispatcher = <DispatcherInterface> container->getShared("dispatcher");
 
-        dispatcher->setModuleName(router->getModuleName());
+        dispatcher->setModuleName(moduleName);
         dispatcher->setNamespaceName(router->getNamespaceName());
         dispatcher->setControllerName(router->getControllerName());
         dispatcher->setActionName(router->getActionName());
@@ -313,7 +323,7 @@ class Application extends AbstractApplication
             /**
              * Returning a string makes use it as the body of the response
              */
-            if typeof possibleResponse == "string" {
+            if typeof possibleResponse === "string" {
                 let response = <ResponseInterface> container->getShared("response");
 
                 response->setContent(possibleResponse);
@@ -326,7 +336,7 @@ class Application extends AbstractApplication
                 /**
                  * Calling afterHandleRequest
                  */
-                if typeof eventsManager == "object" {
+                if typeof eventsManager === "object" {
                     eventsManager->fire("application:afterHandleRequest", this, controller);
                 }
 
@@ -335,7 +345,7 @@ class Application extends AbstractApplication
                  * in auto-rendering mode
                  */
                 if returnedResponse === false && implicitView === true {
-                    if typeof controller == "object" {
+                    if typeof controller === "object" {
                         let renderStatus = true;
 
                         /**
@@ -395,14 +405,14 @@ class Application extends AbstractApplication
         /**
          * Calling beforeSendResponse
          */
-        if typeof eventsManager == "object" {
+        if typeof eventsManager === "object" {
             eventsManager->fire("application:beforeSendResponse", this, response);
         }
 
         /**
          * Check whether send headers or not (by default yes)
          */
-        if this->sendHeaders  {
+        if this->sendHeaders {
             response->sendHeaders();
         }
 
@@ -422,7 +432,7 @@ class Application extends AbstractApplication
     /**
      * Enables or disables sending cookies by each request handling
      */
-    public function sendCookiesOnHandleRequest(bool sendCookies) -> <Application>
+    public function sendCookiesOnHandleRequest(bool sendCookies) -> <static>
     {
         let this->sendCookies = sendCookies;
 
@@ -433,7 +443,7 @@ class Application extends AbstractApplication
     /**
      * Enables or disables sending headers by each request handling
      */
-    public function sendHeadersOnHandleRequest(bool sendHeaders) -> <Application>
+    public function sendHeadersOnHandleRequest(bool sendHeaders) -> <static>
     {
         let this->sendHeaders = sendHeaders;
 
@@ -444,7 +454,7 @@ class Application extends AbstractApplication
      * By default. The view is implicitly buffering all the output
      * You can full disable the view component using this method
      */
-    public function useImplicitView(bool implicitView) -> <Application>
+    public function useImplicitView(bool implicitView) -> <static>
     {
         let this->implicitView = implicitView;
 

@@ -10,99 +10,67 @@
 
 namespace Phalcon\Http;
 
-use Phalcon\Di\DiInterface;
+use Phalcon\Contracts\Http\HttpTypes;
 use Phalcon\Di\AbstractInjectionAware;
+use Phalcon\Di\DiInterface;
 use Phalcon\Encryption\Crypt\CryptInterface;
-use Phalcon\Encryption\Crypt\Mismatch;
 use Phalcon\Filter\FilterInterface;
-use Phalcon\Http\Response\Exception;
 use Phalcon\Http\Cookie\CookieInterface;
 use Phalcon\Http\Cookie\Exception as CookieException;
+use Phalcon\Http\Cookie\Exceptions\CookieKeyTooShort;
+use Phalcon\Http\Cookie\Exceptions\CryptInterfaceRequired;
+use Phalcon\Http\Cookie\Exceptions\CryptServiceUnavailable;
+use Phalcon\Http\Cookie\Exceptions\FilterServiceUnavailable;
+use Phalcon\Http\Response\Exception;
+use Phalcon\Http\Traits\EncryptionAwareTrait;
 use Phalcon\Session\ManagerInterface as SessionManagerInterface;
+use Phalcon\Traits\Support\Helper\Arr\GetTrait;
+use Stringable;
 
 /**
  * Provide OO wrappers to manage a HTTP cookie.
+ *
+ * @phpstan-import-type http_cookie_definition from HttpTypes
+ * @phpstan-import-type http_cookie_options from HttpTypes
+ * @phpstan-import-type http_setcookie_options from HttpTypes
  */
-class Cookie extends AbstractInjectionAware implements CookieInterface
+class Cookie extends AbstractInjectionAware implements CookieInterface, Stringable
 {
-    /**
-     * @var string
-     */
-    protected domain;
+    use EncryptionAwareTrait;
+    use GetTrait;
 
-    /**
-     * @var int
-     */
-    protected expire;
-
-    /**
-     * @var FilterInterface|null
-     */
-    protected filter = null;
-
-    /**
-     * @var bool
-     */
-    protected httpOnly;
-
-    /**
-     * @var string
-     */
-    protected name;
-
-    /**
-     * @var array
-     */
-    protected options = [];
-
-    /**
-     * @var string
-     */
-    protected path;
-
-    /**
-     * @var bool
-     */
-    protected read = false;
-
-    /**
-     * @var bool
-     */
-    protected restored = false;
-
-    /**
-     * @var bool
-     */
-    protected secure = true;
-
+    protected string domain = "";
+    protected int expire = 0;
+    protected ?<FilterInterface> filter = null;
+    protected bool httpOnly = false;
+    protected string name;
+    protected array options = [];
+    protected string path = "/";
+    protected bool isRead = false;
+    protected bool isRestored = false;
+    protected bool secure = false;
     /**
      * The cookie's sign key.
-     *
-     * @var string|null
      */
-    protected signKey = null;
-
+    protected ?string signKey = null;
     /**
-     * @var bool
-     */
-    protected useEncryption = false;
-
-    /**
-     * @var mixed|null
+     * @var mixed
      */
     protected value = null;
 
     /**
      * Phalcon\Http\Cookie constructor.
+     *
+     * @phpstan-param http_cookie_options $options
      */
     public function __construct(
-        string! name,
+         string name,
         var value = null,
         int expire = 0,
         string path = "/",
-        bool secure = null,
-        string domain = null,
-        bool httpOnly = null,
+        bool secure = false,
+        string domain = "",
+        bool httpOnly = false,
         array options = []
     ) {
         let this->name     = name,
@@ -127,37 +95,22 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
     }
 
     /**
-     * Deletes the cookie by setting an expire time in the past
+     * Deletes the cookie by setting an expiration time in the past
      */
-    public function delete()
+    public function delete() -> void
     {
-        var container, domain, httpOnly, name, options, path, secure, session;
+        var options, session;
 
-        let name     = this->name,
-            domain   = this->domain,
-            path     = this->path,
-            secure   = this->secure,
-            httpOnly = this->httpOnly;
+        let session = this->getStartedSession();
 
-        let container = <DiInterface> this->container;
-
-        if typeof container == "object" && container->has("session") {
-            let session = <SessionManagerInterface> container->getShared("session");
-
-            if session->exists() {
-                session->remove("_PHCOOKIE_" . name);
-            }
+        if session !== null {
+            session->remove(this->getSessionKey());
         }
 
-        let this->value         = null,
-            options             = this->options,
-            options["expires"]  = this->getArrVal(options, "expires", time() - 691200),
-            options["domain"]   = this->getArrVal(options, "domain", domain),
-            options["path"]     = this->getArrVal(options, "path", path),
-            options["secure"]   = this->getArrVal(options, "secure", secure),
-            options["httponly"] = this->getArrVal(options, "httponly", httpOnly);
+        let this->value = null,
+            options     = this->getCookieOptions(time() - 691200);
 
-        setcookie(name, null, options);
+        setcookie(this->name, "", options);
     }
 
     /**
@@ -165,9 +118,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function getDomain() -> string
     {
-        if !this->restored {
-            this->restore();
-        }
+        this->checkRestored();
 
         return this->domain;
     }
@@ -175,11 +126,9 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
     /**
      * Returns the current expiration time
      */
-    public function getExpiration() -> string
+    public function getExpiration() -> int
     {
-        if !this->restored {
-            this->restore();
-        }
+        this->checkRestored();
 
         return this->expire;
     }
@@ -189,9 +138,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function getHttpOnly() -> bool
     {
-        if !this->restored {
-            this->restore();
-        }
+        this->checkRestored();
 
         return this->httpOnly;
     }
@@ -206,6 +153,8 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
 
     /**
      * Returns the current cookie's options
+     *
+     * @phpstan-return http_cookie_options
      */
     public function getOptions() -> array
     {
@@ -217,9 +166,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function getPath() -> string
     {
-        if !this->restored {
-            this->restore();
-        }
+        this->checkRestored();
 
         return this->path;
     }
@@ -230,28 +177,26 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function getSecure() -> bool
     {
-        if !this->restored {
-            this->restore();
-        }
+        this->checkRestored();
 
         return this->secure;
     }
 
     /**
      * Returns the cookie's value.
+     *
+     * @todo filters needs to be array/string
      */
     public function getValue(var filters = null, var defaultValue = null) -> var
     {
         var container, value, crypt, decryptedValue, filter, signKey, name;
 
-        if !this->restored {
-            this->restore();
-        }
+        this->checkRestored();
 
         let container = null,
             name = this->name;
 
-        if this->read === false {
+        if this->isRead === false {
             if !fetch value, _COOKIE[name] {
                 return defaultValue;
             }
@@ -259,18 +204,14 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
             if this->useEncryption {
                 let container = <DiInterface> this->container;
 
-                if unlikely typeof container != "object" {
-                    throw new Exception(
-                        "A dependency injection container is required to access the 'filter' and 'crypt' services"
-                    );
+                if container === null {
+                    throw new CryptServiceUnavailable();
                 }
 
                 let crypt = <CryptInterface> container->getShared("crypt");
 
                 if unlikely typeof crypt != "object" {
-                    throw new Exception(
-                        "A dependency which implements CryptInterface is required to use encryption"
-                    );
+                    throw new CryptInterfaceRequired();
                 }
 
                 /**
@@ -308,10 +249,8 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
                     if container === null {
                         let container = <DiInterface> this->container;
 
-                        if unlikely typeof container != "object" {
-                            throw new Exception(
-                                "A dependency injection container is required to access the 'filter' service"
-                            );
+                        if container === null {
+                            throw new FilterServiceUnavailable();
                         }
                     }
 
@@ -332,14 +271,6 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
     }
 
     /**
-     * Check if the cookie is using implicit encryption
-     */
-    public function isUsingEncryption() -> bool
-    {
-        return this->useEncryption;
-    }
-
-    /**
      * Reads the cookie-related info from the SESSION to restore the cookie as
      * it was set.
      *
@@ -348,47 +279,41 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function restore() -> <CookieInterface>
     {
-        var container, definition, domain, expire, httpOnly, options, path,
+        var definition, domain, expire, httpOnly, options, path,
             secure, session;
 
-        if !this->restored {
-            let container = this->container;
+        if !this->isRestored {
+            let session = this->getStartedSession();
 
-            if typeof container == "object" && container->has("session") {
-                let session = container->getShared("session");
+            if session !== null {
+                let definition = session->get(this->getSessionKey());
 
-                if session->exists() {
-                    let definition = session->get(
-                        "_PHCOOKIE_" . this->name
-                    );
+                if fetch expire, definition["expire"] {
+                    let this->expire = expire;
+                }
 
-                    if fetch expire, definition["expire"] {
-                        let this->expire = expire;
-                    }
+                if fetch domain, definition["domain"] {
+                    let this->domain = domain;
+                }
 
-                    if fetch domain, definition["domain"] {
-                        let this->domain = domain;
-                    }
+                if fetch path, definition["path"] {
+                    let this->path = path;
+                }
 
-                    if fetch path, definition["path"] {
-                        let this->path = path;
-                    }
+                if fetch secure, definition["secure"] {
+                    let this->secure = secure;
+                }
 
-                    if fetch secure, definition["secure"] {
-                        let this->secure = secure;
-                    }
+                if fetch httpOnly, definition["httpOnly"] {
+                    let this->httpOnly = httpOnly;
+                }
 
-                    if fetch httpOnly, definition["httpOnly"] {
-                        let this->httpOnly = httpOnly;
-                    }
-
-                    if fetch options, definition["options"] {
-                        let this->options = options;
-                    }
+                if fetch options, definition["options"] {
+                    let this->options = options;
                 }
             }
 
-            let this->restored = true;
+            let this->isRestored = true;
         }
 
         return this;
@@ -415,59 +340,39 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
 
         let container = this->container;
 
-        let definition = [];
+        let definition              = [],
+            definition["expire"]   = expire,
+            definition["path"]     = path,
+            definition["domain"]   = domain,
+            definition["secure"]   = secure,
+            definition["httpOnly"] = httpOnly,
+            definition["options"]  = options;
 
-        if expire != 0 {
-            let definition["expire"] = expire;
-        }
-
-        if !empty path {
-            let definition["path"] = path;
-        }
-
-        if !empty domain {
-            let definition["domain"] = domain;
-        }
-
-        if !empty secure {
-            let definition["secure"] = secure;
-        }
-
-        if !empty httpOnly {
-            let definition["httpOnly"] = httpOnly;
-        }
-
-        if !empty options {
-            let definition["options"] = options;
-        }
+        /**
+         * Remove all the empty elements
+         */
+        let definition = array_filter(definition);
 
         /**
          * The definition is stored in session
          */
-        if count(definition) && container->has("session") {
-            let session = <SessionManagerInterface> container->getShared("session");
+        if !empty(definition) {
+            let session = this->getStartedSession();
 
-            if session->exists() {
-                session->set(
-                    "_PHCOOKIE_" . name,
-                    definition
-                );
+            if session !== null {
+                session->set(this->getSessionKey(), definition);
             }
         }
 
         if this->useEncryption && !empty value {
-            if unlikely typeof container != "object" {
-                throw new Exception(
-                    "A dependency injection container is required to access the 'filter' service"
-                );
+            if container === null {
+                throw new FilterServiceUnavailable();
             }
 
             let crypt = <CryptInterface> container->getShared("crypt");
 
-            if unlikely typeof crypt != "object" {
-                throw new Exception(
-                    "A dependency which implements CryptInterface is required to use encryption"
-                );
+            if unlikely typeof crypt !== "object" {
+                throw new CryptInterfaceRequired();
             }
 
             /**
@@ -493,11 +398,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
         /**
          * Sets the cookie using the standard 'setcookie' function
          */
-        let options["expires"]  = this->getArrVal(options, "expires", expire),
-            options["domain"]   = this->getArrVal(options, "domain", domain),
-            options["path"]     = this->getArrVal(options, "path", path),
-            options["secure"]   = this->getArrVal(options, "secure", secure),
-            options["httponly"] = this->getArrVal(options, "httponly", httpOnly);
+        let options = this->getCookieOptions(this->expire);
 
         setcookie(name, encryptValue, options);
 
@@ -507,11 +408,9 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
     /**
      * Sets the domain that the cookie is available to
      */
-    public function setDomain(string! domain) -> <CookieInterface>
+    public function setDomain( string domain) -> <CookieInterface>
     {
-        if !this->restored {
-            this->restore();
-        }
+        this->checkRestored();
 
         let this->domain = domain;
 
@@ -523,9 +422,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function setExpiration(int expire) -> <CookieInterface>
     {
-        if !this->restored {
-            this->restore();
-        }
+        this->checkRestored();
 
         let this->expire = expire;
 
@@ -537,9 +434,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function setHttpOnly(bool httpOnly) -> <CookieInterface>
     {
-        if !this->restored {
-            this->restore();
-        }
+        this->checkRestored();
 
         let this->httpOnly = httpOnly;
 
@@ -548,8 +443,10 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
 
     /**
      * Sets the cookie's options
+     *
+     * @phpstan-param http_cookie_options $options
      */
-    public function setOptions(array! options) -> <CookieInterface>
+    public function setOptions( array options) -> <CookieInterface>
     {
         let this->options = options;
 
@@ -559,11 +456,9 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
     /**
      * Sets the cookie's path
      */
-    public function setPath(string! path) -> <CookieInterface>
+    public function setPath( string path) -> <CookieInterface>
     {
-        if !this->restored {
-            this->restore();
-        }
+        this->checkRestored();
 
         let this->path = path;
 
@@ -571,13 +466,12 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
     }
 
     /**
-     * Sets if the cookie must only be sent when the connection is secure (HTTPS)
+     * Sets if the cookie must only be sent when the connection is secure
+     * (HTTPS)
      */
     public function setSecure(bool secure) -> <CookieInterface>
     {
-        if !this->restored {
-            this->restore();
-        }
+        this->checkRestored();
 
         let this->secure = secure;
 
@@ -592,8 +486,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      *
      * Use NULL to disable cookie signing.
      *
-     * @see \Phalcon\Security\Random
-     * @throws \Phalcon\Http\Cookie\Exception
+     * @see \Phalcon\Encryption\Security\Random
      */
     public function setSignKey(string signKey = null) -> <CookieInterface>
     {
@@ -608,13 +501,11 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
 
     /**
      * Sets the cookie's value
-     *
-     * @param string value
      */
     public function setValue(value) -> <CookieInterface>
     {
         let this->value = value,
-            this->read = true;
+            this->isRead = true;
 
         return this;
     }
@@ -634,36 +525,72 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      *
      * @throws \Phalcon\Http\Cookie\Exception
      */
-    protected function assertSignKeyIsLongEnough(string! signKey) -> void
+    protected function assertSignKeyIsLongEnough( string signKey) -> void
     {
         var length;
 
         let length = mb_strlen(signKey);
 
         if unlikely length < 32 {
-            throw new CookieException(
-                sprintf(
-                    "The cookie's key should be at least 32 characters long. Current length is %d.",
-                    length
-                )
-            );
+            throw new CookieKeyTooShort(length);
         }
     }
 
     /**
-     * @todo Remove this when we get traits
+     * Check if the cookie is restored and restore it if not
      */
-    private function getArrVal(
-        array! collection,
-        var index,
-        var defaultValue = null
-    ) -> var {
-        var value;
+    private function checkRestored() -> void
+    {
+        if (true !== this->isRestored) {
+            this->restore();
+        }
+    }
 
-        if unlikely !fetch value, collection[index] {
-            return defaultValue;
+    /**
+     * @phpstan-return http_setcookie_options
+     */
+    private function getCookieOptions(int expiresDefault) -> array
+    {
+        array options;
+        
+        let options             = this->options;
+        let options["expires"]  = this->getArrVal(options, "expires", expiresDefault);
+        let options["domain"]   = this->getArrVal(options, "domain", this->domain);
+        let options["path"]     = this->getArrVal(options, "path", this->path);
+        let options["secure"]   = this->getArrVal(options, "secure", this->secure);
+        let options["httponly"] = this->getArrVal(options, "httponly", this->httpOnly);
+
+        return options;
+    }
+
+    /**
+     * The session key under which this cookie's definition is stored
+     */
+    private function getSessionKey() -> string
+    {
+        return "_PHCOOKIE_" . this->name;
+    }
+
+    /**
+     * Returns the session manager from the container when the service is
+     * available and the session has been started; `null` otherwise
+     */
+    private function getStartedSession() -> <SessionManagerInterface> | null
+    {
+        var container, session;
+
+        let container = this->container;
+
+        if typeof container != "object" || !container->has("session") {
+            return null;
         }
 
-        return value;
+        let session = <SessionManagerInterface> container->getShared("session");
+
+        if !session->exists() {
+            return null;
+        }
+
+        return session;
     }
 }

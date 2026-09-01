@@ -1,6 +1,6 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -17,10 +17,10 @@ namespace Phalcon\Support\Helper\Arr;
 class Flatten
 {
     /**
-     * @param array $collection
-     * @param bool  $deep
+     * @param array<array-key, mixed> $collection
+     * @param bool                    $deep
      *
-     * @return array
+     * @return array<array-key, mixed>
      */
     public function __invoke(array collection, bool deep = false) -> array
     {
@@ -38,26 +38,9 @@ class Flatten
     }
 
     /**
-     * @param array $data
-     * @param mixed $item
+     * @param array<array-key, mixed> $data
      *
-     * @return array
-     */
-    private function processNotArray(array data, item) -> array
-    {
-        if typeof item !== "array" {
-            let data[] = item;
-        }
-
-        return data;
-    }
-
-    /**
-     * @param array $data
-     * @param mixed $item
-     * @param bool  $deep
-     *
-     * @return array
+     * @return array<array-key, mixed>
      */
     private function processArray(array data, var item, bool deep) -> array
     {
@@ -69,16 +52,28 @@ class Flatten
     }
 
     /**
-     * @param array $data
-     * @param mixed $item
-     * @param bool  $deep
+     * @param array<array-key, mixed> $data
      *
-     * @return array
+     * @return array<array-key, mixed>
      */
     private function processArrayDeep(array data, var item, bool deep) -> array
     {
         if typeof item === "array" && deep {
             let data = array_merge(data, this->__invoke(item, true));
+        }
+
+        return data;
+    }
+
+    /**
+     * @param array<array-key, mixed> $data
+     *
+     * @return array<array-key, mixed>
+     */
+    private function processNotArray(array data, item) -> array
+    {
+        if typeof item !== "array" {
+            let data[] = item;
         }
 
         return data;

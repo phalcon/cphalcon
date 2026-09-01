@@ -17,6 +17,9 @@ namespace Phalcon\DataMapper\Query;
 
 use Phalcon\DataMapper\Pdo\Connection;
 
+/**
+ * Delete Query
+ */
 class Delete extends AbstractConditions
 {
     /**

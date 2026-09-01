@@ -11,17 +11,14 @@
 namespace Phalcon\Http\Request;
 
 /**
- * Phalcon\Http\Request\FileInterface
- *
  * Interface for Phalcon\Http\Request\File
- *
  */
 interface FileInterface
 {
     /**
      * Returns the error if any
      */
-    public function getError() -> string | null;
+    public function getError() -> int;
 
     /**
      * Returns the real name of the uploaded file
@@ -52,5 +49,5 @@ interface FileInterface
     /**
      * Move the temporary file to a destination
      */
-    public function moveTo(string! destination) -> bool;
+    public function moveTo( string destination) -> bool;
 }

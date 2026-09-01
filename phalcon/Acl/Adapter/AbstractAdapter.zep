@@ -15,38 +15,32 @@ use Phalcon\Events\AbstractEventsAware;
 use Phalcon\Events\EventsAwareInterface;
 
 /**
- * Adapter for Phalcon\Acl adapters
+ * Functionality common to all adapters
  */
 abstract class AbstractAdapter extends AbstractEventsAware implements AdapterInterface, EventsAwareInterface
 {
     /**
-     * Active access which the list is checking if some role can access it
-     *
-     * @var string|null
-     */
-    protected activeAccess { get };
-
-    /**
      * Access Granted
      *
-     * @var bool
+     * @var int
      */
-    protected accessGranted = false;
+    protected accessGranted = Enum::DENY;
+
+    /**
+     * Active access which the list is checking if some role can access it
+     */
+    protected ?string activeAccess = null;
+
+    /**
+     * Component which the list is checking if some role can access it
+     */
+    protected ?string activeComponent = null;
 
     /**
      * Role which the list is checking if it's allowed to certain
      * component/access
-     *
-     * @var string|null
      */
-    protected activeRole { get };
-
-    /**
-     * Component which the list is checking if some role can access it
-     *
-     * @var string|null
-     */
-    protected activeComponent { get };
+    protected ?string activeRole = null;
 
     /**
      * Default access
@@ -55,8 +49,35 @@ abstract class AbstractAdapter extends AbstractEventsAware implements AdapterInt
      */
     protected defaultAccess = Enum::DENY;
 
+
     /**
-     * Returns the default ACL access level
+     * Returns the access which the list is checking if a role can access it
+     */
+    public function getActiveAccess() -> string | null
+    {
+        return this->activeAccess;
+    }
+
+    /**
+     * Returns the component which the list is checking if some role can access
+     * it
+     */
+    public function getActiveComponent() -> string | null
+    {
+        return this->activeComponent;
+    }
+
+    /**
+     * Returns the role which the list is checking if it's allowed to certain
+     * component/access
+     */
+    public function getActiveRole() -> string | null
+    {
+        return this->activeRole;
+    }
+
+    /**
+     * Returns the default action
      */
     public function getDefaultAction() -> int
     {
@@ -64,7 +85,8 @@ abstract class AbstractAdapter extends AbstractEventsAware implements AdapterInt
     }
 
     /**
-     * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
+     * Sets the default access level
+     * (Phalcon\Acl\Enum::ALLOW or Phalcon\Acl\Enum::DENY)
      */
     public function setDefaultAction(int defaultAccess) -> void
     {

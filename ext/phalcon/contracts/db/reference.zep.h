@@ -1,0 +1,40 @@
+
+extern zend_class_entry *phalcon_contracts_db_reference_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Db_Reference);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_reference_getcolumns, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_reference_getname, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_reference_getondelete, 0, 0, IS_STRING, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_reference_getonupdate, 0, 0, IS_STRING, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_reference_getreferencedcolumns, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_reference_getreferencedschema, 0, 0, IS_STRING, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_reference_getreferencedtable, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_reference_getschemaname, 0, 0, IS_STRING, 1)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_contracts_db_reference_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Reference, getColumns, arginfo_phalcon_contracts_db_reference_getcolumns)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Reference, getName, arginfo_phalcon_contracts_db_reference_getname)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Reference, getOnDelete, arginfo_phalcon_contracts_db_reference_getondelete)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Reference, getOnUpdate, arginfo_phalcon_contracts_db_reference_getonupdate)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Reference, getReferencedColumns, arginfo_phalcon_contracts_db_reference_getreferencedcolumns)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Reference, getReferencedSchema, arginfo_phalcon_contracts_db_reference_getreferencedschema)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Reference, getReferencedTable, arginfo_phalcon_contracts_db_reference_getreferencedtable)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Reference, getSchemaName, arginfo_phalcon_contracts_db_reference_getschemaname)
+	PHP_FE_END
+};

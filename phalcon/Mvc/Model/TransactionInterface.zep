@@ -14,8 +14,6 @@ use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Transaction\ManagerInterface;
 
 /**
- * Phalcon\Mvc\Model\TransactionInterface
- *
  * Interface for Phalcon\Mvc\Model\Transaction
  */
 interface TransactionInterface

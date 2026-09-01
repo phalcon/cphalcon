@@ -1,0 +1,160 @@
+<?php
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Phalcon\Tests\Support\Migrations;
+
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
+
+/**
+ * Class InvoicesMigration
+ */
+class InvoicesMigration extends AbstractSchema
+{
+    protected string $table = 'co_invoices';
+
+    public function insert(
+        int|string|null $id,
+        ?int $custId = null,
+        int $status = 0,
+        ?string $title = null,
+        float $total = 0,
+        ?string $createdAt = null
+    ): int {
+        $useAutoId = (null === $id || 'default' === $id || 'null' === $id);
+        if ($useAutoId) {
+            $sql = <<<SQL
+insert into co_invoices (
+    inv_cst_id, inv_status_flag, inv_title, inv_total, inv_created_at
+) values (
+    :custId, :status, :title, :total, :createdAt
+)
+SQL;
+        } else {
+            $sql = <<<SQL
+insert into co_invoices (
+    inv_id, inv_cst_id, inv_status_flag, inv_title, inv_total, inv_created_at
+) values (
+    :id, :custId, :status, :title, :total, :createdAt
+)
+SQL;
+        }
+
+        $params = [
+            ':custId'    => $custId,
+            ':status'    => $status,
+            ':title'     => $title ?: uniqid('', true),
+            ':total'     => $total,
+            ':createdAt' => $createdAt ?: date('Y-m-d H:i:s'),
+        ];
+
+        if (!$useAutoId) {
+            $params[':id'] = $id;
+        }
+
+        $result = $this->execute($sql, $params);
+
+        if (!$useAutoId && is_int($id)) {
+            $this->advanceSequence('inv_id', $id);
+        }
+
+        return $result;
+    }
+
+    protected function getStatementsMysql(): array
+    {
+        return [
+            "
+create table co_invoices
+(
+    `inv_id`          int(10) auto_increment primary key,
+    `inv_cst_id`      int(10)      null,
+    `inv_status_flag` tinyint(1)   null,
+    `inv_title`       varchar(100) null,
+    `inv_total`       float(10, 2) null,
+    `inv_created_at`  datetime     null
+);
+            ",
+            "
+create index co_invoices_inv_cst_id_index
+    on `co_invoices` (`inv_cst_id`);
+            ",
+            "
+create index co_invoices_inv_status_flag_index
+    on `co_invoices` (`inv_status_flag`);
+            ",
+            "
+create index co_invoices_inv_created_at_index
+    on `co_invoices` (`inv_created_at`);
+            ",
+        ];
+    }
+
+    protected function getStatementsSqlite(): array
+    {
+        return [
+            "
+create table co_invoices
+    (
+    inv_id          integer constraint co_invoices_pk primary key autoincrement not null,
+    inv_cst_id      integer,
+    inv_status_flag integer,
+    inv_title       text,
+    inv_total       real,
+    inv_created_at  text
+);
+            ",
+            "
+create index co_invoices_inv_cst_id_index
+    on co_invoices (inv_cst_id);
+            ",
+            "
+create index co_invoices_inv_status_flag_index
+    on co_invoices (inv_status_flag);
+            ",
+            "
+create index co_invoices_inv_created_at_index
+    on co_invoices (inv_created_at);
+            ",
+        ];
+    }
+
+    protected function getStatementsPgsql(): array
+    {
+        return [
+            "
+create table co_invoices
+(
+    inv_id          serial constraint co_invoices_pk primary key,
+    inv_cst_id      integer,
+    inv_status_flag smallint,
+    inv_title       varchar(100),
+    inv_total       numeric(10, 2),
+    inv_created_at  timestamp
+);
+            ",
+            "
+create index co_invoices_inv_created_at_index
+    on co_invoices (inv_created_at);
+            ",
+            "
+create index co_invoices_inv_cst_id_index
+    on co_invoices (inv_cst_id);
+            ",
+            "
+create index co_invoices_inv_status_flag_index
+    on co_invoices (inv_status_flag);
+            ",
+        ];
+    }
+}

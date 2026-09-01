@@ -28,11 +28,6 @@
 /**
  * Provides array quoting, profiling, a new `perform()` method, new `fetch*()`
  * methods
- *
- * @property array             $args
- * @property PDO               $pdo
- * @property ProfilerInterface $profiler
- * @property array             $quote
  */
 ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface)
 {

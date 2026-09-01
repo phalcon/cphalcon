@@ -15,97 +15,98 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Html\Escaper\EscaperInterface;
 use Phalcon\Html\Link\Link;
 use Phalcon\Html\Link\Serializer\Header;
-use Phalcon\Tag\Select;
-use Phalcon\Tag\Exception;
+use Phalcon\Mvc\Url;
 use Phalcon\Mvc\Url\UrlInterface;
 use Phalcon\Support\Helper\Str\Friendly;
+use Phalcon\Tag\Exception;
+use Phalcon\Tag\Select;
+use Stringable;
 
 /**
  * Phalcon\Tag is designed to simplify building of HTML tags.
  * It provides a set of helpers to generate HTML in a dynamic way.
  * This component is a class that you can extend to add more helpers.
+ *
+ * @phpstan-type tag_parameters array<array-key, mixed>
+ * @phpstan-type tag_attributes array<array-key, mixed>
+ * @phpstan-type tag_display_values array<array-key, scalar|null>
+ * @phpstan-type tag_title_parts array<array-key, string>
+ * @phpstan-type tag_select_data array<array-key, mixed>
  */
 class Tag
 {
-    const HTML32 = 1;
-    const HTML401_STRICT = 2;
-    const HTML401_TRANSITIONAL = 3;
-    const HTML401_FRAMESET = 4;
-    const HTML5 = 5;
-    const XHTML10_STRICT = 6;
-    const XHTML10_TRANSITIONAL = 7;
-    const XHTML10_FRAMESET = 8;
-    const XHTML11 = 9;
-    const XHTML20 = 10;
-    const XHTML5 = 11;
-
-    /**
-     * @var bool
-     */
-    protected static autoEscape = true;
-
-    /**
-     * DI Container
-     *
-     * @var DiInterface|null
-     */
-    protected static container = null;
-
-    /**
-     * Pre-assigned values for components
-     *
-     * @var array
-     */
-    protected static displayValues;
-
-    /**
-     * @var array
-     */
-    protected static documentAppendTitle;
-
-    /**
-     * @var array
-     */
-    protected static documentPrependTitle;
-
-    /**
-     * HTML document title
-     *
-     * @var string|null
-     */
-    protected static documentTitle = null;
-
-    /**
-     * @var string|null
-     */
-    protected static documentTitleSeparator = null;
-
     /**
      * @var int
      */
-    protected static documentType = 11;
-
+    const HTML32 = 1;
     /**
-     * @var EscaperInterface|null
+     * @var int
      */
-    protected static escaperService = null;
-
+    const HTML401_STRICT = 2;
     /**
-     * @var UrlInterface|null
+     * @var int
      */
-    protected static urlService = null;
+    const HTML401_TRANSITIONAL = 3;
+    /**
+     * @var int
+     */
+    const HTML401_FRAMESET = 4;
+    /**
+     * @var int
+     */
+    const HTML5 = 5;
+    /**
+     * @var int
+     */
+    const XHTML10_STRICT = 6;
+    /**
+     * @var int
+     */
+    const XHTML10_TRANSITIONAL = 7;
+    /**
+     * @var int
+     */
+    const XHTML10_FRAMESET = 8;
+    /**
+     * @var int
+     */
+    const XHTML11 = 9;
+    /**
+     * @var int
+     */
+    const XHTML20 = 10;
+    /**
+     * @var int
+     */
+    const XHTML5 = 11;
+
+    protected static bool autoEscape = true;
+    protected static ?<DiInterface> container = null;
+    /**
+     * @phpstan-var tag_display_values
+     */
+    protected static array displayValues = [];
+    /**
+     * @phpstan-var tag_title_parts
+     */
+    protected static array documentAppendTitle = [];
+    /**
+     * @phpstan-var tag_title_parts
+     */
+    protected static array documentPrependTitle = [];
+    protected static ?string documentTitle = null;
+    protected static ?string documentTitleSeparator = null;
+    protected static int documentType = 11;
+    protected static ?<EscaperInterface> escaperService = null;
+    protected static ?<UrlInterface> urlService = null;
 
     /**
      * Appends a text to current document title
      *
-     * @param array|string title
+     * @phpstan-param tag_title_parts|string $title
      */
     public static function appendTitle(var title) -> void
     {
-        if self::documentAppendTitle === null {
-            let self::documentAppendTitle = [];
-        }
-
         if typeof title == "array" {
             let self::documentAppendTitle = title;
         } else {
@@ -114,9 +115,11 @@ class Tag
     }
 
     /**
-     * Builds a HTML input[type="check"] tag
+     * Builds an HTML input[type="check"] tag
      *
-     * @param array parameters = [
+     * @phpstan-param tag_parameters|string $parameters
+     *
+     * @param array|string $parameters = [
      *     'class' => '',
      *     'id' => '',
      *     'name' => ''
@@ -129,9 +132,11 @@ class Tag
     }
 
     /**
-     * Builds a HTML input[type="color"] tag
+     * Builds an HTML input[type="color"] tag
      *
-     * @param array parameters = [
+     * @phpstan-param tag_parameters|string $parameters
+     *
+     * @param array|string $parameters = [
      *     'class' => '',
      *     'id' => '',
      *     'name' => ''
@@ -144,9 +149,11 @@ class Tag
     }
 
     /**
-     * Builds a HTML input[type="date"] tag
+     * Builds an HTML input[type="date"] tag
      *
-     * @param array parameters = [
+     * @phpstan-param tag_parameters|string $parameters
+     *
+     * @param array|string $parameters = [
      *     'class' => '',
      *     'id' => '',
      *     'name' => ''
@@ -159,30 +166,34 @@ class Tag
     }
 
     /**
-    * Builds a HTML input[type="datetime"] tag
-    *
-     * @param array parameters = [
+     * Builds an HTML input[type="datetime"] tag
+     *
+     * @phpstan-param tag_parameters|string $parameters
+     *
+     * @param array|string $parameters = [
      *     'class' => '',
      *     'id' => '',
      *     'name' => ''
      *     'value' => ''
      * ]
-    */
+     */
     public static function dateTimeField(var parameters) -> string
     {
         return self::inputField("datetime", parameters);
     }
 
     /**
-    * Builds a HTML input[type="datetime-local"] tag
-    *
-     * @param array parameters = [
+     * Builds an HTML input[type="datetime-local"] tag
+     *
+     * @phpstan-param tag_parameters|string $parameters
+     *
+     * @param array|string $parameters = [
      *     'class' => '',
      *     'id' => '',
      *     'name' => ''
      *     'value' => ''
      * ]
-    */
+     */
     public static function dateTimeLocalField(var parameters) -> string
     {
         return self::inputField("datetime-local", parameters);
@@ -191,15 +202,17 @@ class Tag
     /**
      * Alias of Phalcon\Tag::setDefault()
      */
-    public static function displayTo(string! id, value) -> void
+    public static function displayTo( string id, value) -> void
     {
         self::setDefault(id, value);
     }
 
     /**
-     * Builds a HTML input[type="email"] tag
+     * Builds an HTML input[type="email"] tag
      *
-     * @param array parameters = [
+     * @phpstan-param tag_parameters|string $parameters
+     *
+     * @param array|string $parameters = [
      *     'class' => '',
      *     'id' => '',
      *     'name' => ''
@@ -212,7 +225,7 @@ class Tag
     }
 
     /**
-     * Builds a HTML close FORM tag
+     * Builds an HTML close FORM tag
      */
     public static function endForm() -> string
     {
@@ -220,9 +233,11 @@ class Tag
     }
 
     /**
-     * Builds a HTML input[type="file"] tag
+     * Builds an HTML input[type="file"] tag
      *
-     * @param array parameters = [
+     * @phpstan-param tag_parameters|string $parameters
+     *
+     * @param array|string $parameters = [
      *     'class' => '',
      *     'id' => '',
      *     'name' => ''
@@ -235,9 +250,11 @@ class Tag
     }
 
     /**
-     * Builds a HTML FORM tag
+     * Builds an HTML FORM tag
      *
-     * @param array parameters = [
+     * @phpstan-param tag_parameters|string $parameters
+     *
+     * @param array|string $parameters = [
      *     'method' => 'post',
      *     'action' => '',
      *     'parameters' => '',
@@ -246,7 +263,7 @@ class Tag
      *     'id' => ''
      * ]
      */
-    public static function form(var parameters) -> string
+    public static function formLegacy(var parameters) -> string
     {
         var params, paramsAction, action, code;
 
@@ -292,6 +309,8 @@ class Tag
 
     /**
      * Converts texts into URL-friendly titles
+     *
+     * @phpstan-param array<array-key, string>|string $replace
      */
     public static function friendlyTitle(
         string text,
@@ -307,6 +326,18 @@ class Tag
         } catch \Exception, ex {
             throw new Exception(ex->getMessage());
         }
+    }
+
+    /**
+     * Internally gets the request dispatcher
+     */
+    public static function getDI() -> <DiInterface>
+    {
+        if (null === self::container) {
+            let self::container = Di::getDefault();
+        }
+
+        return self::container;
     }
 
     /**
@@ -353,8 +384,10 @@ class Tag
 
     /**
      * Obtains the 'escaper' service if required
+     *
+     * @phpstan-param tag_parameters $parameters
      */
-    public static function getEscaper(array! params) -> <EscaperInterface> | null
+    public static function getEscaper(array params) -> <EscaperInterface> | null
     {
         var autoescape;
 
@@ -370,22 +403,6 @@ class Tag
     }
 
     /**
-     * Internally gets the request dispatcher
-     */
-    public static function getDI() -> <DiInterface>
-    {
-        var di;
-
-        let di = self::container;
-
-        if typeof di != "object" {
-            let di = Di::getDefault();
-        }
-
-        return di;
-    }
-
-    /**
      * Returns an Escaper service from the default DI
      */
     public static function getEscaperService() -> <EscaperInterface>
@@ -397,7 +414,7 @@ class Tag
         if typeof escaper != "object" {
             let container = self::getDI();
 
-            if unlikely typeof container != "object" {
+            if container === null {
                 throw new Exception(
                     "A dependency injection container is required to access the 'escaper' service"
                 );
@@ -413,32 +430,30 @@ class Tag
     /**
      * Gets the current document title. The title will be automatically escaped.
      */
-    public static function getTitle(bool prepend = true, bool append = true) -> string
-    {
+    public static function getTitle(
+        bool prepend = true,
+        bool append = true
+    ) -> string {
         var items, output, title, documentTitle, documentAppendTitle,
             documentPrependTitle, documentTitleSeparator, escaper;
 
         let escaper = <EscaperInterface> self::getEscaper(["escape": true]);
         let items = [];
         let output = "";
-        let documentTitle = escaper->escapeHtml(self::documentTitle);
+        let documentTitle = escaper->html(self::documentTitle);
 
-        let documentTitleSeparator = escaper->escapeHtml(
+        let documentTitleSeparator = escaper->html(
             self::documentTitleSeparator
         );
 
         if prepend {
-            if self::documentPrependTitle === null {
-                let self::documentPrependTitle = [];
-            }
-
             let documentPrependTitle = self::documentPrependTitle;
 
             if !empty documentPrependTitle {
                 var tmp = array_reverse(documentPrependTitle);
 
                 for title in tmp {
-                    let items[] = escaper->escapeHtml(title);
+                    let items[] = escaper->html(title);
                 }
             }
         }
@@ -448,15 +463,11 @@ class Tag
         }
 
         if append {
-            if self::documentAppendTitle === null {
-                let self::documentAppendTitle = [];
-            }
-
             let documentAppendTitle = self::documentAppendTitle;
 
             if !empty documentAppendTitle {
                 for title in documentAppendTitle {
-                    let items[] = escaper->escapeHtml(title);
+                    let items[] = escaper->html(title);
                 }
             }
         }
@@ -477,7 +488,7 @@ class Tag
      */
     public static function getTitleSeparator() -> string
     {
-        return self::documentTitleSeparator;
+        return (string) self::documentTitleSeparator;
     }
 
     /**
@@ -492,7 +503,7 @@ class Tag
         if typeof url != "object" {
             let container = self::getDI();
 
-            if unlikely typeof container != "object" {
+            if container === null {
                 throw new Exception(
                     "A dependency injection container is required to access the 'url' service"
                 );
@@ -508,8 +519,10 @@ class Tag
     /**
      * Every helper calls this function to check whether a component has a
      * predefined value using Phalcon\Tag::setDefault() or value from $_POST
+     *
+     * @phpstan-param tag_parameters $parameters
      */
-    public static function getValue(var name, array params = [])
+    public static function getValue(var name, array params = []) -> mixed
     {
         var value;
 
@@ -545,7 +558,9 @@ class Tag
     /**
      * Builds a HTML input[type="hidden"] tag
      *
-     * @param array parameters = [
+     * @phpstan-param tag_parameters|string $parameters
+     *
+     * @param array|string $parameters = [
      *     'class' => '',
      *     'name' => '',
      *     'src' => '',
@@ -561,15 +576,19 @@ class Tag
     /**
      * Builds HTML IMG tags
      *
-     * @param array|string parameters = [
+     * @phpstan-param tag_parameters|string $parameters
+     *
+     * @param array|string $parameters = [
      *     'src' => '',
      *     'class' => '',
      *     'id' => '',
      *     'name' => ''
      * ]
      */
-    public static function image(var parameters = null, bool local = true) -> string
-    {
+    public static function image(
+        var parameters = null,
+        bool local = true
+    ) -> string {
         var params, code, src;
 
         if typeof parameters != "array" {
@@ -594,7 +613,7 @@ class Tag
          * Use the "url" service if the URI is local
          */
         if local {
-            let params["src"] = self::getUrlService()->getStatic(params["src"]);
+            let params["src"] = self::getStaticUrl(params["src"]);
         }
 
         let code = self::renderAttributes("<img", params);
@@ -612,9 +631,11 @@ class Tag
     }
 
     /**
-     * Builds a HTML input[type="image"] tag
+     * Builds an HTML input[type="image"] tag
      *
-     * @param array parameters = [
+     * @phpstan-param tag_parameters|string $parameters
+     *
+     * @param array|string $parameters = [
      *     'class' => '',
      *     'name' => '',
      *     'src' => '',
@@ -629,15 +650,19 @@ class Tag
     /**
      * Builds a SCRIPT[type="javascript"] tag
      *
-     * @param array|string parameters = [
+     * @phpstan-param tag_parameters|string $parameters
+     *
+     * @param array|string $parameters = [
      *     'local' => false,
      *     'src' => '',
      *     'type' => 'text/javascript'
      *     'rel' => ''
      * ]
      */
-    public static function javascriptInclude(var parameters = null, bool local = true) -> string
-    {
+    public static function javascriptInclude(
+        var parameters = null,
+        bool local = true
+    ) -> string {
         var params, code;
 
         if typeof parameters != "array" {
@@ -672,7 +697,7 @@ class Tag
          * URLs are generated through the "url" service
          */
         if local {
-            let params["src"] = self::getUrlService()->getStatic(params["src"]);
+            let params["src"] = self::getStaticUrl(params["src"]);
         }
 
         let code = self::renderAttributes("<script", params),
@@ -682,9 +707,11 @@ class Tag
     }
 
     /**
-     * Builds a HTML A tag using framework conventions
+     * Builds an HTML A tag using framework conventions
      *
-     * @param parameters array|string = [
+     * @phpstan-param tag_parameters|string $parameters
+     *
+     * @param array|string $parameters = [
      *     'action' => '',
      *     'text' => '',
      *     'local' => false,
@@ -695,8 +722,11 @@ class Tag
      *     'id' => ''
      * ]
      */
-    public static function linkTo(parameters, text = null, local = true) -> string
-    {
+    public static function linkTo(
+        var parameters,
+        var text = null,
+        var local = true
+    ) -> string {
         var params, action, query, url, code;
 
         if typeof parameters != "array" {
@@ -735,18 +765,27 @@ class Tag
             let query = null;
         }
 
+        /**
+         * Only an array can be turned into a query string
+         */
+        if typeof query != "array" {
+            let query = null;
+        }
+
         let url = self::getUrlService(),
             params["href"] = url->get(action, query, local),
             code = self::renderAttributes("<a", params),
-            code .= ">" . text . "</a>";
+            code .= ">" . htmlspecialchars(self::toStringValue(text)) . "</a>";
 
         return code;
     }
 
     /**
-     * Builds a HTML input[type="month"] tag
+     * Builds an HTML input[type="month"] tag
      *
-     * @param array parameters = [
+     * @phpstan-param tag_parameters|string $parameters
+     *
+     * @param array|string $parameters = [
      *     'class' => '',
      *     'name' => '',
      *     'src' => '',
@@ -760,9 +799,11 @@ class Tag
     }
 
     /**
-     * Builds a HTML input[type="number"] tag
+     * Builds an HTML input[type="number"] tag
      *
-     * @param array parameters = [
+     * @phpstan-param tag_parameters|string $parameters
+     *
+     * @param array|string $parameters = [
      *     'class' => '',
      *     'name' => '',
      *     'src' => '',
@@ -775,11 +816,12 @@ class Tag
         return self::inputField("number", parameters);
     }
 
-
     /**
      * Builds a HTML input[type="password"] tag
      *
-     * @param array parameters = [
+     * @phpstan-param tag_parameters|string $parameters
+     *
+     * @param array|string $parameters = [
      *     'class' => '',
      *     'name' => '',
      *     'src' => '',
@@ -793,25 +835,9 @@ class Tag
     }
 
     /**
-     * Prepends a text to current document title
-     *
-     * @param array|string title
-     */
-    public static function prependTitle(var title) -> void
-    {
-        if self::documentPrependTitle === null {
-            let self::documentPrependTitle = [];
-        }
-
-        if typeof title == "array" {
-            let self::documentPrependTitle = title;
-        } else {
-            let self::documentPrependTitle[] = title;
-        }
-    }
-
-    /**
      * Parses the preload element passed and sets the necessary link headers
+     *
+     * @phpstan-param tag_parameters|string $parameters
      */
     public static function preload(var parameters) -> string
     {
@@ -843,6 +869,13 @@ class Tag
             }
 
             /**
+             * Only an array can be handed to the Link element
+             */
+            if typeof attributes != "array" {
+                let attributes = ["as" : "style"];
+            }
+
+            /**
              * href comes wrapped with ''. Remove them
              */
             let response = container->get("response"),
@@ -860,9 +893,25 @@ class Tag
     }
 
     /**
-     * Builds a HTML input[type="radio"] tag
+     * Prepends a text to current document title
      *
-     * @param array parameters = [
+     * @phpstan-param tag_title_parts|string $title
+     */
+    public static function prependTitle(var title) -> void
+    {
+        if typeof title == "array" {
+            let self::documentPrependTitle = title;
+        } else {
+            let self::documentPrependTitle[] = title;
+        }
+    }
+
+    /**
+     * Builds an HTML input[type="radio"] tag
+     *
+     * @phpstan-param tag_parameters|string $parameters
+     *
+     * @param array|string $parameters = [
      *     'class' => '',
      *     'name' => '',
      *     'src' => '',
@@ -876,16 +925,18 @@ class Tag
     }
 
     /**
-    * Builds a HTML input[type="range"] tag
-    *
-     * @param array parameters = [
+     * Builds an HTML input[type="range"] tag
+     *
+     * @phpstan-param tag_parameters|string $parameters
+     *
+     * @param array|string $parameters = [
      *     'class' => '',
      *     'name' => '',
      *     'src' => '',
      *     'id' => '',
      *     'value' => ''
      * ]
-    */
+     */
     public static function rangeField(var parameters) -> string
     {
         return self::inputField("range", parameters);
@@ -894,7 +945,7 @@ class Tag
     /**
      * Renders parameters keeping order in their HTML attributes
      *
-     * @param array attributes = [
+     * @param array $attributes = [
      *     'rel' => null,
      *     'type' => null,
      *     'for' => null,
@@ -906,10 +957,13 @@ class Tag
      *     'value' => null,
      *     'class' => null
      * ]
+     *
+     * @phpstan-param tag_attributes $attributes
      */
-    public static function renderAttributes(string! code, array! attributes) -> string
+    public static function renderAttributes( string code,  array attributes) -> string
     {
-        var order, escaper, attrs, attribute, value, escaped, key, newCode;
+        var order, escaper, attrs, attribute, value, escaped, key;
+        array attrParts;
 
         let order = [
             "rel"    : null,
@@ -942,7 +996,7 @@ class Tag
 
         unset attrs["escape"];
 
-        let newCode = code;
+        let attrParts = [];
 
         for key, value in attrs {
             if typeof key == "string" && value !== null {
@@ -953,23 +1007,36 @@ class Tag
                 }
 
                 if escaper {
-                    let escaped = escaper->escapeHtmlAttr(value);
+                    let escaped = escaper->attributes(value);
                 } else {
                     let escaped = value;
                 }
 
-                let newCode .= " " . key . "=\"" . escaped . "\"";
+                /**
+                 * The key is an attribute name. Remove the characters that end
+                 * a name so a crafted key cannot add more attributes or close
+                 * the tag.
+                 */
+                let key = preg_replace("~[\\s/=<>\"']~", "", key);
+
+                let attrParts[] = key . "=\"" . escaped . "\"";
             }
         }
 
-        return newCode;
+        if empty attrParts {
+            return code;
+        }
+
+        return code . " " . implode(" ", attrParts);
     }
 
     /**
      * Renders the title with title tags. The title is automatically escaped
      */
-    public static function renderTitle(bool prepend = true, bool append = true) -> string
-    {
+    public static function renderTitle(
+        bool prepend = true,
+        bool append = true
+    ) -> string {
         return "<title>" . self::getTitle(prepend, append) . "</title>" . PHP_EOL;
     }
 
@@ -991,7 +1058,9 @@ class Tag
     /**
      * Builds a HTML input[type="search"] tag
      *
-     * @param array parameters = [
+     * @phpstan-param tag_parameters|string $parameters
+     *
+     * @param array|string $parameters = [
      *     'class' => '',
      *     'name' => '',
      *     'src' => '',
@@ -1007,7 +1076,9 @@ class Tag
     /**
      * Builds a HTML SELECT tag using a Phalcon\Mvc\Model resultset as options
      *
-     * @param array parameters = [
+     * @phpstan-param tag_parameters|string $parameters
+     *
+     * @param array|string $parameters = [
      *     'id' => '',
      *     'name' => '',
      *     'value' => '',
@@ -1022,9 +1093,11 @@ class Tag
     }
 
     /**
-     * Builds a HTML SELECT tag using a PHP array for options
+     * Builds an HTML SELECT tag using a PHP array for options
      *
-     * @param array parameters = [
+     * @phpstan-param tag_parameters|string $parameters
+     *
+     * @param array|string $parameters = [
      *     'id' => '',
      *     'name' => '',
      *     'value' => '',
@@ -1049,7 +1122,7 @@ class Tag
     /**
      * Assigns default values to generated tags by helpers
      */
-    public static function setDefault(string! id, value) -> void
+    public static function setDefault( string id, value) -> void
     {
         if value !== null {
             if unlikely (typeof value == "array" || typeof value == "object") {
@@ -1064,8 +1137,10 @@ class Tag
 
     /**
      * Assigns default values to generated tags by helpers
+     *
+     * @phpstan-param tag_display_values $values
      */
-    public static function setDefaults(array! values, bool merge = false) -> void
+    public static function setDefaults( array values, bool merge = false) -> void
     {
         if merge && typeof self::displayValues == "array" {
             let self::displayValues = array_merge(self::displayValues, values);
@@ -1112,9 +1187,13 @@ class Tag
 
     /**
      * Builds a LINK[rel="stylesheet"] tag
+     *
+     * @phpstan-param tag_parameters|string|null $parameters
      */
-    public static function stylesheetLink(var parameters = null, bool local = true) -> string
-    {
+    public static function stylesheetLink(
+        var parameters = null,
+        bool local = true
+    ) -> string {
         var params, code;
 
         if typeof parameters != "array" {
@@ -1149,9 +1228,7 @@ class Tag
          * URLs are generated through the "url" service
          */
         if local {
-            let params["href"] = self::getUrlService()->getStatic(
-                params["href"]
-            );
+            let params["href"] = self::getStaticUrl(params["href"]);
         }
 
         if !isset params["rel"] {
@@ -1173,7 +1250,9 @@ class Tag
     }
 
     /**
-     * Builds a HTML input[type="submit"] tag
+     * Builds an HTML input[type="submit"] tag
+     *
+     * @phpstan-param tag_parameters|string $parameters
      */
     public static function submitButton(var parameters) -> string
     {
@@ -1182,6 +1261,8 @@ class Tag
 
     /**
      * Builds a HTML tag
+     *
+     * @phpstan-param tag_parameters|string $parameters
      */
     public static function tagHtml(
         string tagName,
@@ -1192,6 +1273,12 @@ class Tag
     ) -> string
     {
         var params, localCode;
+
+        /**
+         * The tag name is a raw structural position. Remove the characters
+         * that end a name or the tag so a crafted name cannot inject markup.
+         */
+        let tagName = (string) preg_replace("~[\\s/=<>\"']~", "", tagName);
 
         if typeof parameters != "array" {
             let params = [parameters];
@@ -1230,6 +1317,12 @@ class Tag
      */
     public static function tagHtmlClose(string tagName, bool useEol = false) -> string
     {
+        /**
+         * The tag name is a raw structural position. Remove the characters
+         * that end a name or the tag so a crafted name cannot inject markup.
+         */
+        let tagName = (string) preg_replace("~[\\s/=<>\"']~", "", tagName);
+
         if useEol {
             return "</" . tagName . ">" . PHP_EOL;
         }
@@ -1238,24 +1331,28 @@ class Tag
     }
 
     /**
-    * Builds a HTML input[type="tel"] tag
-    *
-    * @param array parameters = [
-    *     'id' => '',
-    *     'name' => '',
-    *     'value' => '',
-    *     'class' => ''
-    * ]
-    */
+     * Builds an HTML input[type="tel"] tag
+     *
+     * @phpstan-param tag_parameters|string $parameters
+     *
+     * @param array|string $parameters = [
+     *     'id' => '',
+     *     'name' => '',
+     *     'value' => '',
+     *     'class' => ''
+     * ]
+     */
     public static function telField(var parameters) -> string
     {
         return self::inputField("tel", parameters);
     }
 
     /**
-     * Builds a HTML TEXTAREA tag
+     * Builds an HTML TEXTAREA tag
      *
-     * @paraym array parameters = [
+     * @phpstan-param tag_parameters|string $parameters
+     *
+     * @param array|string $parameters = [
      *     'id' => '',
      *     'name' => '',
      *     'value' => '',
@@ -1302,6 +1399,13 @@ class Tag
             let content = self::getValue(id, params);
         }
 
+        /**
+         * PHP 8.x does not allow null to string conversion for internal methods
+         */
+        if unlikely null === content {
+            let content = "";
+        }
+
         let code = self::renderAttributes("<textarea", params),
             code .= ">" . htmlspecialchars(content) . "</textarea>";
 
@@ -1309,9 +1413,11 @@ class Tag
     }
 
     /**
-     * Builds a HTML input[type="text"] tag
+     * Builds an HTML input[type="text"] tag
      *
-     * @param array parameters = [
+     * @phpstan-param tag_parameters|string $parameters
+     *
+     * @param array|string $parameters = [
      *     'id' => '',
      *     'name' => '',
      *     'value' => '',
@@ -1324,9 +1430,11 @@ class Tag
     }
 
     /**
-     * Builds a HTML input[type="time"] tag
+     * Builds an HTML input[type="time"] tag
      *
-     * @param array parameters = [
+     * @phpstan-param tag_parameters|string $parameters
+     *
+     * @param array|string $parameters = [
      *     'id' => '',
      *     'name' => '',
      *     'value' => '',
@@ -1339,9 +1447,11 @@ class Tag
     }
 
     /**
-     * Builds a HTML input[type="url"] tag
+     * Builds an HTML input[type="url"] tag
      *
-     * @param array parameters = [
+     * @phpstan-param tag_parameters|string $parameters
+     *
+     * @param array|string $parameters = [
      *     'id' => '',
      *     'name' => '',
      *     'value' => '',
@@ -1354,9 +1464,11 @@ class Tag
     }
 
     /**
-     * Builds a HTML input[type="week"] tag
+     * Builds an HTML input[type="week"] tag
      *
-     * @param array parameters = [
+     * @phpstan-param tag_parameters|string $parameters
+     *
+     * @param array|string $parameters = [
      *     'id' => '',
      *     'name' => '',
      *     'value' => '',
@@ -1369,9 +1481,36 @@ class Tag
     }
 
     /**
+     * Resolves a static (asset) URL through the `url` service.
+     *
+     * `getStatic()` lives on Phalcon\Mvc\Url but is absent from
+     * Phalcon\Mvc\Url\UrlInterface, which is what getUrlService() is typed
+     * to return. A service that does not carry it falls back to `get()`
+     * rather than aborting the helper.
+     */
+    final protected static function getStaticUrl(var uri) -> string
+    {
+        var url;
+
+        let url = self::getUrlService();
+
+        if (typeof uri !== "string" && typeof uri !== "array") {
+            let uri = self::toStringValue(uri);
+        }
+
+        if (method_exists(url, "getStatic")) {
+            return self::toStringValue(url->getStatic(uri));
+        }
+
+        return url->get(uri);
+    }
+
+    /**
      * Builds generic INPUT tags
      *
-     * @param array parameters = [
+     * @phpstan-param tag_parameters|string $parameters
+     *
+     * @param array|string $parameters = [
      *     'id' => '',
      *     'name' => '',
      *     'value' => '',
@@ -1379,8 +1518,11 @@ class Tag
      *     'type' => ''
      * ]
      */
-    static final protected function inputField(string type, parameters, bool asValue = false) -> string
-    {
+    final protected static function inputField(
+        string type,
+        var parameters,
+        bool asValue = false
+    ) -> string {
         var params, id, value, code, name;
 
         let params = [];
@@ -1392,9 +1534,11 @@ class Tag
         }
 
         if asValue == false {
-            if !fetch id, params[0] {
+            if !isset params[0] {
                 let params[0] = params["id"];
             }
+
+            let id = self::toStringValue(params[0]);
 
             if fetch name, params["name"] {
                 if empty name {
@@ -1407,10 +1551,8 @@ class Tag
             /**
              * Automatically assign the id if the name is not an array
              */
-            if typeof id == "string" {
-                if !memstr(id, "[") && !isset params["id"] {
-                    let params["id"] = id;
-                }
+            if !memstr(id, "[") && !isset params["id"] {
+                let params["id"] = id;
             }
 
             let params["value"] = self::getValue(id, params);
@@ -1442,9 +1584,13 @@ class Tag
 
     /**
      * Builds INPUT tags that implements the checked attribute
+     *
+     * @phpstan-param tag_parameters|string $parameters
      */
-    static final protected function inputFieldChecked(string type, var parameters) -> string
-    {
+    final protected static function inputFieldChecked(
+        string type,
+        var parameters
+    ) -> string {
         var params, value, id, code, name, currentValue;
 
         if  typeof parameters != "array" {
@@ -1470,8 +1616,8 @@ class Tag
         }
 
         /**
-        * Automatically assign the id if the name is not an array
-        */
+         * Automatically assign the id if the name is not an array
+         */
         if !strpos(id, "[") {
             if !isset params["id"] {
                 let params["id"] = id;
@@ -1495,15 +1641,15 @@ class Tag
             let value = self::getValue(id, params);
 
             /**
-            * Evaluate the value in POST
-            */
+             * Evaluate the value in POST
+             */
             if value != null {
                 let params["checked"] = "checked";
             }
 
             /**
-            * Update the value anyways
-            */
+             * Update the value anyways
+             */
             let params["value"] = value;
         }
 
@@ -1520,5 +1666,21 @@ class Tag
         }
 
         return code;
+    }
+
+    /**
+     * Reduces an arbitrary helper value to the string a tag attribute, id or
+     * URI needs. Parameter bags are user supplied, so a value that cannot be
+     * expressed as a string - an array, an object without `__toString()` -
+     * reads back as an empty string rather than aborting the helper.
+     */
+    final protected static function toStringValue(var value) -> string
+    {
+        if (is_scalar(value)
+            || (typeof value === "object" && value instanceof Stringable)) {
+            return (string) value;
+        }
+
+        return "";
     }
 }

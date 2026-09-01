@@ -11,44 +11,36 @@
 namespace Phalcon\Messages;
 
 use JsonSerializable;
+use Phalcon\Contracts\Messages\MessagesTypes;
 
 /**
- * Phalcon\Messages\Message
+ * Class Message
  *
  * Stores a message from various components
+ *
+ * @phpstan-import-type messages_message from MessagesTypes
+ * @phpstan-import-type messages_metadata from MessagesTypes
  */
 class Message implements MessageInterface, JsonSerializable
 {
-    /**
-     * @var int
-     */
-    protected code { get };
-
-    /**
-     * @var string
-     */
-    protected field { get };
-
-    /**
-     * @var string
-     */
-    protected message { get };
-
-    /**
-     * @var string
-     */
-    protected type { get };
-
-    /**
-     * @var array
-     */
-    protected metaData = [] { get };
+    protected int code = 0;
+    protected string field = "";
+    protected string message;
+    protected array metaData = [];
+    protected string type = "";
 
     /**
      * Phalcon\Messages\Message constructor
+     *
+     * @param messages_metadata $metaData
      */
-    public function __construct(string! message, var field = "", string type = "", int code = 0, array metaData = [])
-    {
+    public function __construct(
+        string message,
+        string field = "",
+        string type = "",
+        int code = 0,
+        array metaData = []
+    ) {
         let this->message  = message,
             this->field    = field,
             this->type     = type,
@@ -65,7 +57,49 @@ class Message implements MessageInterface, JsonSerializable
     }
 
     /**
+     * @return int
+     */
+    public function getCode() -> int
+    {
+        return this->code;
+    }
+
+    /**
+     * @return string
+     */
+    public function getField() -> string
+    {
+        return this->field;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMessage() -> string
+    {
+        return this->message;
+    }
+
+    /**
+     * @return messages_metadata
+     */
+    public function getMetaData() -> array
+    {
+        return this->metaData;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType() -> string
+    {
+        return this->type;
+    }
+
+    /**
      * Serializes the object for json_encode
+     *
+     * @return messages_message
      */
     public function jsonSerialize() -> array
     {
@@ -91,7 +125,7 @@ class Message implements MessageInterface, JsonSerializable
     /**
      * Sets field name related to message
      */
-    public function setField(var field) -> <MessageInterface>
+    public function setField( string field) -> <MessageInterface>
     {
         let this->field = field;
 
@@ -101,7 +135,7 @@ class Message implements MessageInterface, JsonSerializable
     /**
      * Sets verbose message
      */
-    public function setMessage(string! message) -> <MessageInterface>
+    public function setMessage( string message) -> <MessageInterface>
     {
         let this->message = message;
 
@@ -110,8 +144,10 @@ class Message implements MessageInterface, JsonSerializable
 
     /**
      * Sets message metadata
+     *
+     * @param messages_metadata $metaData
      */
-    public function setMetaData(array! metaData) -> <MessageInterface>
+    public function setMetaData( array metaData) -> <MessageInterface>
     {
         let this->metaData = metaData;
 
@@ -121,7 +157,7 @@ class Message implements MessageInterface, JsonSerializable
     /**
      * Sets message type
      */
-    public function setType(string! type) -> <MessageInterface>
+    public function setType( string type) -> <MessageInterface>
     {
         let this->type = type;
 

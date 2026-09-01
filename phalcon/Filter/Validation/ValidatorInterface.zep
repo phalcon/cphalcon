@@ -23,14 +23,43 @@ interface ValidatorInterface
      *
      * @return mixed
      */
-    public function getOption(string! key, var defaultValue = null) -> var;
+    public function getOption( string key, var defaultValue = null) -> var;
+
+    /**
+     * Get the template message
+     *
+     * @return string
+     * @throw InvalidArgumentException When the field does not exists
+     */
+    public function getTemplate( string field) -> string;
+
+    /**
+     * Get message templates
+     *
+     * @return array
+     */
+    public function getTemplates() -> array;
 
     /**
      * Checks if an option is defined
      *
      * @return boolean
      */
-    public function hasOption(string! key) -> bool;
+    public function hasOption( string key) -> bool;
+
+    /**
+     * Set a new template message
+     *
+     * @return ValidatorInterface
+     */
+    public function setTemplate( string template) -> <ValidatorInterface>;
+
+    /**
+     * Clear current template and set new from an array,
+     *
+     * @return ValidatorInterface
+     */
+    public function setTemplates( array templates) -> <ValidatorInterface>;
 
     /**
      * Executes the validation
@@ -38,33 +67,4 @@ interface ValidatorInterface
      * @return boolean
      */
     public function validate(<Validation> validation, var field) -> bool;
-
-    /**
-    * Get the template message
-    *
-    * @return string
-    * @throw InvalidArgumentException When the field does not exists
-    */
-    public function getTemplate(string! field) -> string;
-
-    /**
-    * Get message templates
-    *
-    * @return array
-    */
-    public function getTemplates() -> array;
-
-    /**
-    * Clear current template and set new from an array,
-    *
-    * @return ValidatorInterface
-    */
-    public function setTemplates(array! templates) -> <ValidatorInterface>;
-
-    /**
-    * Set a new template message
-    *
-    * @return ValidatorInterface
-    */
-    public function setTemplate(string! template) -> <ValidatorInterface>;
 }

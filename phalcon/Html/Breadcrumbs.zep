@@ -6,11 +6,15 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 
 namespace Phalcon\Html;
 
-use Phalcon\Di\DiInterface;
+use Phalcon\Contracts\Html\HtmlTypes;
 
 /**
  * Phalcon\Html\Breadcrumbs
@@ -18,29 +22,28 @@ use Phalcon\Di\DiInterface;
  * This component offers an easy way to create breadcrumbs for your application.
  * The resulting HTML when calling `render()` will have each breadcrumb enclosed
  * in `<dt>` tags, while the whole string is enclosed in `<dl>` tags.
+ *
+ * @phpstan-import-type html_breadcrumb_elements from HtmlTypes
+ *
+ * @deprecated Will be removed in future version
+ * Use {@see \Phalcon\Html\Helper\Breadcrumbs} instead.
  */
 class Breadcrumbs
 {
     /**
      * Keeps all the breadcrumbs
      *
-     * @var array
+     * @phpstan-var html_breadcrumb_elements
      */
-    private elements = [];
-
+    private array elements = [];
     /**
      * Crumb separator
-     *
-     * @var string
      */
-    private separator = " / " { get, set };
-
+    private string separator = " / ";
     /**
      * The HTML template to use to render the breadcrumbs.
-     *
-     * @var string
      */
-    private template = "<dt><a href=\"%link%\">%label%</a></dt>";
+    private string template = "<dt><a href=\"%link%\">%label%</a></dt>";
 
     /**
      * Adds a new crumb.
@@ -52,8 +55,12 @@ class Breadcrumbs
      * // Adding a crumb without a link (normally the last one)
      * $breadcrumbs->add("Users");
      * ```
+     *
+     * Crumbs are stored keyed by their link, so adding two crumbs that share
+     * the same link - including two link-less crumbs, which share the empty
+     * string key - keeps only the last one.
      */
-    public function add(string label, string link = "") -> <Breadcrumbs>
+    public function add(string label, string link = "") -> <static>
     {
         let this->elements[link] = label;
 
@@ -70,6 +77,14 @@ class Breadcrumbs
     public function clear() -> void
     {
         let this->elements = [];
+    }
+
+    /**
+     * Returns the separator
+     */
+    public function getSeparator() -> string
+    {
+        return this->separator;
     }
 
     /**
@@ -104,8 +119,17 @@ class Breadcrumbs
     {
         var element, elements, lastLabel, lastUrl, output, template, url, urls;
 
+        let elements = this->elements;
+
+        /**
+         * Nothing to render - guard against end([]) returning false and
+         * indexing elements[false]
+         */
+        if empty elements {
+            return "";
+        }
+
         let output    = [],
-            elements  = this->elements,
             template  = this->template,
             urls      = array_keys(elements),
             lastUrl   = end(urls),
@@ -120,8 +144,8 @@ class Breadcrumbs
                     "%link%"
                 ],
                 [
-                    element,
-                    url
+                    htmlspecialchars((string) element),
+                    htmlspecialchars((string) url)
                 ],
                 template
             );
@@ -130,8 +154,8 @@ class Breadcrumbs
         /**
          * Check if this is the "Home" element i.e. count() = 0
          */
-        if 0 !== count(elements) {
-            let output[] = "<dt>" . lastLabel . "</dt>";
+        if !empty elements {
+            let output[] = "<dt>" . htmlspecialchars((string) lastLabel) . "</dt>";
         } else {
             let output[] = str_replace(
                 [
@@ -139,8 +163,8 @@ class Breadcrumbs
                     "%link%"
                 ],
                 [
-                    lastLabel,
-                    lastUrl
+                    htmlspecialchars((string) lastLabel),
+                    htmlspecialchars((string) lastUrl)
                 ],
                 template
             );
@@ -150,7 +174,19 @@ class Breadcrumbs
     }
 
     /**
+     * Set the separator
+     */
+    public function setSeparator(string separator) -> <static>
+    {
+        let this->separator = separator;
+
+        return this;
+    }
+
+    /**
      * Returns the internal breadcrumbs array
+     *
+     * @phpstan-return html_breadcrumb_elements
      */
     public function toArray() -> array
     {

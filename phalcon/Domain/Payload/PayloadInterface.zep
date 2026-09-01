@@ -18,9 +18,15 @@
 
 namespace Phalcon\Domain\Payload;
 
+use Phalcon\Contracts\Domain\Payload\Payload as PayloadContract;
+
 /**
  * This interface is used for consumers
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Domain\Payload\Payload} instead.
  */
-interface PayloadInterface extends ReadableInterface, WriteableInterface
+interface PayloadInterface extends ReadableInterface, WriteableInterface, PayloadContract
 {
 }

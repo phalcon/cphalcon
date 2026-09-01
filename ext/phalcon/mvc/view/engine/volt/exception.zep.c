@@ -12,9 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/memory.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
-#include "kernel/memory.h"
 #include "kernel/operators.h"
 
 
@@ -53,34 +53,46 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exception, __construct)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long code, ZEPHIR_LAST_CALL_STATUS;
 	zval statement;
-	zval *message_param = NULL, *statement_param = NULL, *code_param = NULL, *previous = NULL, previous_sub, __$null, _0;
-	zval message;
+	zval message_zv, *statement_param = NULL, *code_param = NULL, *previous = NULL, previous_sub, __$null, _0;
+	zend_string *message = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&message);
+	ZVAL_UNDEF(&message_zv);
 	ZVAL_UNDEF(&previous_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&statement);
-#if PHP_VERSION_ID >= 80000
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("statement", 9, 1);
+	}
+
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 4)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR(message)
-		Z_PARAM_ARRAY(statement)
+		ZEPHIR_Z_PARAM_ARRAY(statement, statement_param)
 		Z_PARAM_LONG(code)
 		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(previous, zend_ce_exception)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 4, &message_param, &statement_param, &code_param, &previous);
-	if (!message_param) {
-		ZEPHIR_INIT_VAR(&message);
-		ZVAL_STRING(&message, "");
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (ZEND_NUM_ARGS() > 1) {
+		statement_param = ZEND_CALL_ARG(execute_data, 2);
+	}
+	if (ZEND_NUM_ARGS() > 2) {
+		code_param = ZEND_CALL_ARG(execute_data, 3);
+	}
+	if (ZEND_NUM_ARGS() > 3) {
+		previous = ZEND_CALL_ARG(execute_data, 4);
+	}
+	if (!message) {
+		message = zend_string_init(ZEND_STRL(""), 0);
+		zephir_memory_observe(&message_zv);
+		ZVAL_STR(&message_zv, message);
 	} else {
-		zephir_get_strval(&message, message_param);
+		zephir_memory_observe(&message_zv);
+	ZVAL_STR_COPY(&message_zv, message);
 	}
 	if (!statement_param) {
 		ZEPHIR_INIT_VAR(&statement);
@@ -91,17 +103,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exception, __construct)
 	if (!code_param) {
 		code = 0;
 	} else {
-		code = zephir_get_intval(code_param);
-	}
+		}
 	if (!previous) {
 		previous = &previous_sub;
 		previous = &__$null;
 	}
-
-
-	zephir_update_property_zval(this_ptr, ZEND_STRL("statement"), &statement);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 10, &statement);
 	ZVAL_LONG(&_0, code);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_view_engine_volt_exception_ce, getThis(), "__construct", NULL, 0, &message, &_0, previous);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_view_engine_volt_exception_ce, getThis(), "__construct", NULL, 0, &message_zv, &_0, previous);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -119,11 +128,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exception, getStatement)
 
 	ZVAL_UNDEF(&statement);
 	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("statement", 9, 1);
+	}
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-
-	ZEPHIR_MM_GROW();
-
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("statement"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 10, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&statement, &_0);
 	if (Z_TYPE_P(&statement) != IS_ARRAY) {
 		ZEPHIR_INIT_NVAR(&statement);
@@ -140,7 +152,8 @@ zend_object *zephir_init_properties_Phalcon_Mvc_View_Engine_Volt_Exception(zend_
 	ZVAL_UNDEF(&_1$$3);
 	
 
-		ZEPHIR_MM_GROW();
+		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;

@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Phalcon\Tests\Database\Db\Dialect\Sqlite;
+
+use Phalcon\Db\Dialect\Sqlite;
+use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\Group;
+
+#[Group('mysql')]
+#[Group('pgsql')]
+#[Group('sqlite')]
+final class SelectTest extends AbstractDatabaseTestCase
+{
+    /**
+     * Tests Phalcon\Db\Dialect\Sqlite :: select()
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
+     */
+    public function testDbDialectSqliteSelect(): void
+    {
+        $dialect = new Sqlite();
+
+        $definition = [
+            'tables'  => ['robots'],
+            'columns' => ['*'],
+        ];
+
+        $this->assertSame(
+            'SELECT * FROM "robots"',
+            $dialect->select($definition)
+        );
+    }
+}

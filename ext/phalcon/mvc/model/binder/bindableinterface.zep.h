@@ -3,7 +3,7 @@ extern zend_class_entry *phalcon_mvc_model_binder_bindableinterface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Binder_BindableInterface);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_binder_bindableinterface_getmodelname, 0, 0, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_model_binder_bindableinterface_getmodelname, 0, 0, MAY_BE_STRING|MAY_BE_ARRAY)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_binder_bindableinterface_method_entry) {

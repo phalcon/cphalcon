@@ -1,0 +1,14 @@
+
+extern zend_class_entry *phalcon_di_exceptions_containerrequired_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Di_Exceptions_ContainerRequired);
+
+PHP_METHOD(Phalcon_Di_Exceptions_ContainerRequired, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_exceptions_containerrequired___construct, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_di_exceptions_containerrequired_method_entry) {
+PHP_ME(Phalcon_Di_Exceptions_ContainerRequired, __construct, arginfo_phalcon_di_exceptions_containerrequired___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};

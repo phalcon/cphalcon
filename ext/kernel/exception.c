@@ -38,11 +38,12 @@ void zephir_throw_exception_debug(zval *object, const char *file, uint32_t line)
 
 	ZVAL_UNDEF(&curline);
 
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	if (Z_TYPE_P(object) != IS_OBJECT) {
 		ZVAL_COPY_VALUE(&object_copy, object);
-		object_init_ex(object, zend_exception_get_default());
+		object_init_ex(object, zend_ce_exception);
 		ZEPHIR_CALL_METHOD(NULL, object, "__construct", NULL, 0, &object_copy);
 		zval_ptr_dtor(&object_copy);
 	}
@@ -53,15 +54,9 @@ void zephir_throw_exception_debug(zval *object, const char *file, uint32_t line)
 		ZEPHIR_CALL_METHOD(&curline, object, "getline", NULL, 0);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_LONG(&curline, 0)) {
-			default_exception_ce = zend_exception_get_default();
-
-#if PHP_VERSION_ID >= 80000
+			default_exception_ce = zend_ce_exception;
 			zend_update_property_string(default_exception_ce, Z_OBJ_P(object), SL("file"), file);
 			zend_update_property_long(default_exception_ce, Z_OBJ_P(object), SL("line"), line);
-#else
-			zend_update_property_string(default_exception_ce, object, SL("file"), file);
-			zend_update_property_long(default_exception_ce, object, SL("line"), line);
-#endif
 		}
 	}
 
@@ -87,14 +82,9 @@ void zephir_throw_exception_string_debug(zend_class_entry *ce, const char *messa
 	ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(NULL, &object, "__construct", NULL, 0, &msg);
 
 	if (line > 0) {
-		default_exception_ce = zend_exception_get_default();
-#if PHP_VERSION_ID >= 80000
+		default_exception_ce = zend_ce_exception;
 		zend_update_property_string(default_exception_ce, Z_OBJ(object), "file", sizeof("file")-1, file);
 		zend_update_property_long(default_exception_ce, Z_OBJ(object), "line", sizeof("line")-1, line);
-#else
-		zend_update_property_string(default_exception_ce, &object, "file", sizeof("file")-1, file);
-		zend_update_property_long(default_exception_ce, &object, "line", sizeof("line")-1, line);
-#endif
 	}
 
 	if (ZEPHIR_LAST_CALL_STATUS != FAILURE) {

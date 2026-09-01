@@ -14,12 +14,12 @@
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
-#include "kernel/memory.h"
 #include "kernel/object.h"
+#include "kernel/memory.h"
 
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -36,53 +36,43 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_StartsWith)
 	return SUCCESS;
 }
 
-/**
- * @param string $haystack
- * @param string $needle
- * @param bool   $ignoreCase
- *
- * @return bool
- */
 PHP_METHOD(Phalcon_Support_Helper_Str_StartsWith, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool ignoreCase;
-	zval *haystack_param = NULL, *needle_param = NULL, *ignoreCase_param = NULL, _0;
-	zval haystack, needle;
+	zval haystack_zv, needle_zv, *ignoreCase_param = NULL, _0;
+	zend_string *haystack = NULL, *needle = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&haystack);
-	ZVAL_UNDEF(&needle);
+	ZVAL_UNDEF(&haystack_zv);
+	ZVAL_UNDEF(&needle_zv);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_STR(haystack)
 		Z_PARAM_STR(needle)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_BOOL(ignoreCase)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 1, &haystack_param, &needle_param, &ignoreCase_param);
-	zephir_get_strval(&haystack, haystack_param);
-	zephir_get_strval(&needle, needle_param);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (ZEND_NUM_ARGS() > 2) {
+		ignoreCase_param = ZEND_CALL_ARG(execute_data, 3);
+	}
+	zephir_memory_observe(&haystack_zv);
+	ZVAL_STR_COPY(&haystack_zv, haystack);
+	zephir_memory_observe(&needle_zv);
+	ZVAL_STR_COPY(&needle_zv, needle);
 	if (!ignoreCase_param) {
 		ignoreCase = 1;
 	} else {
-		ignoreCase = zephir_get_boolval(ignoreCase_param);
-	}
-
-
+		}
 	if (ignoreCase) {
 		ZVAL_BOOL(&_0, 1);
 	} else {
 		ZVAL_BOOL(&_0, 0);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "tostartswith", NULL, 0, &haystack, &needle, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "tostartswith", NULL, 0, &haystack_zv, &needle_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

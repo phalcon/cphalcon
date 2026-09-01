@@ -22,24 +22,16 @@
  */
 /**
  * Interface for Phalcon\Encryption\Crypt\Padding
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Encryption\Crypt\Padding\Pad} instead.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Crypt_Padding_PadInterface)
 {
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Encryption\\Crypt\\Padding, PadInterface, phalcon, encryption_crypt_padding_padinterface, phalcon_encryption_crypt_padding_padinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Encryption\\Crypt\\Padding, PadInterface, phalcon, encryption_crypt_padding_padinterface, NULL);
 
+	zend_class_implements(phalcon_encryption_crypt_padding_padinterface_ce, 1, phalcon_contracts_encryption_crypt_padding_pad_ce);
 	return SUCCESS;
 }
 
-/**
- * @param int $paddingSize
- *
- * @return string
- */
-ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_Padding_PadInterface, pad);
-/**
- * @param string $input
- * @param int    $blockSize
- *
- * @return int
- */
-ZEPHIR_DOC_METHOD(Phalcon_Encryption_Crypt_Padding_PadInterface, unpad);

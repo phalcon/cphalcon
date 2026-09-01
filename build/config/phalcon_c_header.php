@@ -32,12 +32,16 @@ return <<<HEADER
 #include <main/php_ini.h>
 #include <main/SAPI.h>
 #include <ext/standard/php_string.h>
+#if PHP_VERSION_ID < 80500
 #include <ext/standard/php_smart_string.h>
+#endif
 #include <ext/standard/info.h>
 #include <ext/standard/file.h>
 #include <ext/standard/php_filestat.h>
+#if PHP_VERSION_ID < 80400
 #include <ext/standard/php_rand.h>
 #include <ext/standard/php_lcg.h>
+#endif
 #include <ext/standard/php_math.h>
 #include <ext/standard/php_array.h>
 #include <ext/standard/php_var.h>
@@ -55,6 +59,10 @@ return <<<HEADER
 #include <ext/spl/spl_directory.h>
 #include <ext/spl/spl_iterators.h>
 #include <ext/spl/spl_array.h>
+
+#if defined ZEPHIR_USE_PHP_PCRE && ZEPHIR_USE_PHP_PCRE
+#include <ext/pcre/php_pcre.h>
+#endif
 
 #include <ext/pdo/php_pdo_driver.h>
 #include <ext/hash/php_hash.h>

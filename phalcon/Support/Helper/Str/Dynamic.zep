@@ -1,6 +1,6 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -10,7 +10,7 @@
 
 namespace Phalcon\Support\Helper\Str;
 
-use RuntimeException;
+use Phalcon\Support\Helper\Str\Exceptions\SyntaxError;
 
 /**
  * Generates random text in accordance with the template. The template is
@@ -20,12 +20,7 @@ use RuntimeException;
 class Dynamic
 {
     /**
-     * @param string $text
-     * @param string $leftDelimiter
-     * @param string $rightDelimiter
-     * @param string $separator
-     *
-     * @return string
+     * @phpstan-param non-empty-string $separator
      */
     public function __invoke(
         string text,
@@ -37,10 +32,8 @@ class Dynamic
         var ldS, rdS, matches, match, words, word, sub;
         string pattern;
 
-        if unlikely substr_count(text, leftDelimiter) !== substr_count(text, rightDelimiter) {
-            throw new RuntimeException(
-                "Syntax error in string '" . text . "'"
-            );
+        if unlikely mb_substr_count(text, leftDelimiter) !== mb_substr_count(text, rightDelimiter) {
+            throw new SyntaxError(text);
         }
 
         let ldS = preg_quote(leftDelimiter),

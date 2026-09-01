@@ -1,6 +1,6 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -10,7 +10,7 @@
 
 namespace Phalcon\Support\Helper\Str;
 
-use Phalcon\Support\Helper\Exception;
+use Phalcon\Support\Helper\Str\Exceptions\InvalidReplaceFormat;
 
 /**
  * Changes a text to a URL friendly one. Replaces commonly known accented
@@ -20,17 +20,13 @@ use Phalcon\Support\Helper\Exception;
 class Friendly extends AbstractStr
 {
     /**
-     * @param string     $text
-     * @param string     $separator
-     * @param bool       $lowercase
-     * @param mixed|null $replace
+     * @param array<array-key, string>|string|null $replace
      *
-     * @return string
-     * @throws Exception
+     * @throws InvalidReplaceFormat
      */
     public function __invoke(
-        string! text,
-        string! separator = "-",
+        string text,
+        string separator = "-",
         bool lowercase = true,
         var replace = null
     ) -> string {
@@ -52,7 +48,7 @@ class Friendly extends AbstractStr
             );
 
         if lowercase {
-            let friendly = strtolower(friendly);
+            let friendly = this->toLower(friendly);
         }
 
         let friendly = preg_replace("/[\\/_|+ -]+/", separator, friendly);
@@ -61,15 +57,15 @@ class Friendly extends AbstractStr
     }
 
     /**
-     * @param mixed $replace
+     * @param array<array-key, string>|string $replace
      *
-     * @return array
-     * @throws Exception
+     * @return array<array-key, string>
+     * @throws InvalidReplaceFormat
      */
-    private function checkReplace(replace) -> array
+    private function checkReplace(var replace) -> array
     {
         if typeof replace !== "array" && typeof replace !== "string" {
-            throw new Exception(
+            throw new InvalidReplaceFormat(
                 "Parameter replace must be an array or a string"
             );
         }
@@ -82,10 +78,9 @@ class Friendly extends AbstractStr
     }
 
     /**
-     * @param mixed $replace
+     * @param array<array-key, string> $replace
      *
-     * @return array
-     * @throws Exception
+     * @return array<string, string>
      */
     private function getMatrix(array replace) -> array
     {

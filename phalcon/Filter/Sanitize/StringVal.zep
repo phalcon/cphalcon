@@ -10,20 +10,21 @@
 
 namespace Phalcon\Filter\Sanitize;
 
+use Phalcon\Contracts\Filter\Sanitizer;
+
 /**
- * Phalcon\Filter\Sanitize\String
- *
  * Sanitizes a value to string
  */
-class StringVal
+class StringVal implements Sanitizer
 {
     /**
-     * @param mixed $input The text to sanitize
+     * @param string $input The text to sanitize
+     * @param int    $flags The flags for `htmlspecialchars()`
      *
      * @return string
      */
-    public function __invoke(var input)
+    public function __invoke(string input, int flags = 11) -> string
     {
-        return filter_var(input, FILTER_SANITIZE_STRING);
+        return htmlspecialchars(input, flags);
     }
 }

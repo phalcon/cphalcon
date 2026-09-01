@@ -11,7 +11,7 @@
 namespace Phalcon\Support;
 
 /**
- * Phalcon\Support\Exception
+ * Exceptions thrown in Phalcon\Support will use this class
  */
 class Exception extends \Exception
 {

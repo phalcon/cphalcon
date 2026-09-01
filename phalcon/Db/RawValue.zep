@@ -23,6 +23,13 @@ namespace Phalcon\Db;
  *
  * $subscriber->save();
  *```
+ *
+ * WARNING: a RawValue is emitted into the SQL verbatim, with no quoting or
+ * escaping - including a RawValue passed as a query bind-parameter value, which
+ * is spliced into the compiled SQL string rather than bound. Never wrap
+ * request-derived or otherwise untrusted data in a RawValue; use ordinary bind
+ * parameters for those. RawValue is only for developer-authored SQL fragments
+ * (for example database functions such as now()).
  */
 class RawValue
 {
@@ -31,7 +38,7 @@ class RawValue
      *
      * @var string
      */
-    protected value { get, __toString };
+    protected value;
 
     /**
      * Phalcon\Db\RawValue constructor
@@ -45,5 +52,15 @@ class RawValue
         } else {
             let this->value = (string) value;
         }
+    }
+
+    public function __toString() -> string
+    {
+        return this->value;
+    }
+
+    public function getValue() -> string
+    {
+        return this->value;
     }
 }

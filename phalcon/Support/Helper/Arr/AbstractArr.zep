@@ -1,6 +1,6 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -10,30 +10,16 @@
 
 namespace Phalcon\Support\Helper\Arr;
 
+use Phalcon\Traits\Support\Helper\Arr\FilterTrait;
+
 /**
- * Abstract class offering methods to help with the Arr namespace. This can
- * be moved to a trait once Zephir supports it.
+ * @internal
  *
- * @todo move to trait when there is support for it
+ * @todo Remove in v7. Kept only for backwards compatibility; compose
+ * Phalcon\Traits\Support\Helper\Arr\FilterTrait directly instead of extending
+ * this.
  */
 abstract class AbstractArr
 {
-    /**
-     * Helper method to filter the collection
-     *
-     * @param array         $collection
-     * @param callable|null $method
-     *
-     * @return array
-     */
-    protected function toFilter(
-        array collection,
-        var method = null
-    ) -> array {
-        if (!method || !is_callable(method)) {
-            return collection;
-        }
-
-        return array_filter(collection, method);
-    }
+    use FilterTrait;
 }

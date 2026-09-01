@@ -36,10 +36,11 @@ interface ValidationInterface
      * Assigns the data to an entity
      * The entity is used to obtain the validation values
      *
-     * @param object entity
-     * @param array|object data
+     * @param object        $entity
+     * @param array|object  $data
+     * @param array         $whitelist
      */
-    public function bind(entity, data) -> <ValidationInterface>;
+    public function bind(var entity, var data, array whitelist = []) -> <ValidationInterface>;
 
     /**
      * Returns the bound entity
@@ -56,7 +57,7 @@ interface ValidationInterface
     /**
      * Get label for field
      */
-    public function getLabel(string! field) -> string;
+    public function getLabel( string field) -> string;
 
     /**
      * Returns the registered validators
@@ -84,7 +85,7 @@ interface ValidationInterface
     /**
      * Adds the validators to a field
      */
-    public function rules(string! field, array! validators) -> <ValidationInterface>;
+    public function rules( string field,  array validators) -> <ValidationInterface>;
 
     /**
      * Adds filters to the field
@@ -96,13 +97,16 @@ interface ValidationInterface
     /**
      * Adds labels for fields
      */
-    public function setLabels(array! labels) -> void;
+    public function setLabels( array labels) -> void;
 
     /**
      * Validate a set of data according to a set of rules
      *
-     * @param array|object data
-     * @param object entity
+     * @param array|object  $data
+     * @param object        $entity
+     * @param array         $whitelist
+     *
+     * @return Messages|false
      */
-    public function validate(var data = null, var entity = null) -> <Messages>;
+    public function validate(var data = null, var entity = null, array whitelist = []) -> <Messages> | bool;
 }

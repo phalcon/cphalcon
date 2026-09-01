@@ -10,35 +10,17 @@
 
 namespace Phalcon\Filter\Validation;
 
-use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Traits\ValidatorCompositeTrait;
 
 /**
  * This is a base class for combined fields validators
+ *
+ * @todo Remove in v7. Kept only for backwards compatibility; compose
+ * Phalcon\Filter\Validation\Traits\ValidatorCompositeTrait directly (with
+ * extends AbstractValidator implements ValidatorCompositeInterface) instead of
+ * extending this.
  */
 abstract class AbstractValidatorComposite extends AbstractValidator implements ValidatorCompositeInterface
 {
-    /**
-     * @var array
-     */
-    protected validators = [] { get };
-
-    /**
-     * Executes the validation
-     */
-    public function validate(<Validation> validation, var field) -> bool
-    {
-        var validator;
-
-        if unlikely count(this->getValidators()) === 0 {
-            throw new Exception(get_class(this) . " does not have any validator added");
-        }
-
-        for validator in this->getValidators() {
-            if validator->validate(validation, field) === false {
-                return false;
-            }
-        }
-
-        return true;
-    }
+    use ValidatorCompositeTrait;
 }

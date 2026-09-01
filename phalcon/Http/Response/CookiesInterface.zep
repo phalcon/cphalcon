@@ -10,12 +10,13 @@
 
 namespace Phalcon\Http\Response;
 
+use Phalcon\Contracts\Http\HttpTypes;
 use Phalcon\Http\Cookie\CookieInterface;
 
 /**
- * Phalcon\Http\Response\CookiesInterface
- *
  * Interface for Phalcon\Http\Response\Cookies
+ *
+ * @phpstan-import-type http_cookie_options from HttpTypes
  */
 interface CookiesInterface
 {
@@ -23,17 +24,17 @@ interface CookiesInterface
      * Deletes a cookie by its name
      * This method does not removes cookies from the _COOKIE superglobal
      */
-    public function delete(string! name) -> bool;
+    public function delete( string name) -> bool;
 
     /**
      * Gets a cookie from the bag
      */
-    public function get(string! name) -> <CookieInterface>;
+    public function get( string name) -> <CookieInterface>;
 
     /**
      * Check if a cookie is defined in the bag or exists in the _COOKIE superglobal
      */
-    public function has(string! name) -> bool;
+    public function has( string name) -> bool;
 
     /**
      * Returns if the bag is automatically encrypting/decrypting cookies
@@ -52,15 +53,17 @@ interface CookiesInterface
 
     /**
      * Sets a cookie to be sent at the end of the request
+     *
+     * @phpstan-param http_cookie_options $options
      */
     public function set(
-        string! name,
+         string name,
         var value = null,
         int expire = 0,
         string path = "/",
-        bool secure = null,
-        string! domain = null,
-        bool httpOnly = null,
+        bool secure = false,
+         string domain = "",
+        bool httpOnly = false,
         array options = []
     ) -> <CookiesInterface>;
 

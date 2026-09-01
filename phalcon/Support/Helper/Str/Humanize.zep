@@ -1,6 +1,6 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -15,11 +15,6 @@ namespace Phalcon\Support\Helper\Str;
  */
 class Humanize
 {
-    /**
-     * @param string $text
-     *
-     * @return string
-     */
     public function __invoke(string text) -> string
     {
         var result;

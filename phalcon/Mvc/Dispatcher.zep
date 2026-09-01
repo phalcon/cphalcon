@@ -10,10 +10,12 @@
 
 namespace Phalcon\Mvc;
 
-use Phalcon\Mvc\Dispatcher\Exception;
+use Phalcon\Contracts\Dispatcher\DispatcherTypes;
+use Phalcon\Dispatcher\AbstractDispatcher as BaseDispatcher;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Http\ResponseInterface;
-use Phalcon\Dispatcher\AbstractDispatcher as BaseDispatcher;
+use Phalcon\Mvc\Dispatcher\Exception;
+use Phalcon\Mvc\Dispatcher\Exceptions\ResponseServiceUnavailable;
 
 /**
  * Dispatching is the process of taking the request object, extracting the
@@ -34,14 +36,16 @@ use Phalcon\Dispatcher\AbstractDispatcher as BaseDispatcher;
  *
  * $controller = $dispatcher->dispatch();
  *```
+ *
+ * @phpstan-import-type dispatcher_forward from DispatcherTypes
  */
 class Dispatcher extends BaseDispatcher implements DispatcherInterface
 {
-    protected defaultAction = "index";
+    protected string defaultAction = "index";
 
-    protected defaultHandler = "index";
+    protected string defaultHandler = "index";
 
-    protected handlerSuffix = "Controller";
+    protected string handlerSuffix = "Controller";
 
     /**
      * Forwards the execution flow to another controller/action.
@@ -100,7 +104,7 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
      * );
      * ```
      *
-     * @param array forward
+     * @phpstan-param dispatcher_forward $forward
      */
     public function forward(array forward) -> void
     {
@@ -149,15 +153,10 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
     }
 
     /**
-     * Gets previous dispatched action name
-     */
-    public function getPreviousActionName() -> string
-    {
-        return this->previousActionName;
-    }
-
-    /**
      * Gets previous dispatched controller name
+     *
+     * Note: This is an Mvc-specific alias for the base
+     * getPreviousHandlerName().
      */
     public function getPreviousControllerName() -> string
     {
@@ -165,35 +164,33 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
     }
 
     /**
-     * Gets previous dispatched namespace name
-     */
-    public function getPreviousNamespaceName() -> string
-    {
-        return this->previousNamespaceName;
-    }
-
-    /**
      * Sets the controller name to be dispatched
      */
-    public function setControllerName(string! controllerName)
+    public function setControllerName( string controllerName) -> <DispatcherInterface>
     {
         let this->handlerName = controllerName;
+
+        return this;
     }
 
     /**
      * Sets the default controller suffix
      */
-    public function setControllerSuffix(string! controllerSuffix)
+    public function setControllerSuffix( string controllerSuffix) -> <DispatcherInterface>
     {
         let this->handlerSuffix = controllerSuffix;
+
+        return this;
     }
 
     /**
      * Sets the default controller name
      */
-    public function setDefaultController(string! controllerName)
+    public function setDefaultController( string controllerName) -> <DispatcherInterface>
     {
         let this->defaultHandler = controllerName;
+
+        return this;
     }
 
     /**
@@ -215,17 +212,14 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
     /**
      * Throws an internal exception
      */
-    protected function throwDispatchException(string! message, int exceptionCode = 0)
+    protected function throwDispatchException( string message, int exceptionCode = 0)
     {
         var container, response, exception;
 
         let container = this->container;
 
-        if unlikely typeof container != "object" {
-            throw new Exception(
-                "A dependency injection container is required to access the 'response' service",
-                Exception::EXCEPTION_NO_DI
-            );
+        if container === null {
+            throw new ResponseServiceUnavailable();
         }
 
         let response = <ResponseInterface> container->getShared("response");

@@ -1,0 +1,5 @@
+
+extern zend_class_entry *phalcon_contracts_image_imagetypes_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Image_ImageTypes);
+

@@ -1,0 +1,187 @@
+<?php
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Phalcon\Tests\Unit\Storage\Adapter;
+
+use Phalcon\Storage\Adapter\Apcu;
+use Phalcon\Storage\Adapter\Libmemcached;
+use Phalcon\Storage\Adapter\Memory;
+use Phalcon\Storage\Adapter\Redis;
+use Phalcon\Storage\Adapter\RedisCluster;
+use Phalcon\Storage\Adapter\Stream;
+use Phalcon\Storage\Adapter\Weak;
+use Phalcon\Storage\Exception;
+use Phalcon\Storage\SerializerFactory;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+
+use function getOptionsLibmemcached;
+use function getOptionsRedis;
+use function getOptionsRedisCluster;
+use function outputDir;
+use function uniqid;
+
+final class SetMultipleTest extends AbstractUnitTestCase
+{
+    /**
+     * @return array[]
+     */
+    public static function getExamples(): array
+    {
+        return [
+            [
+                'apcu',
+                Apcu::class,
+                [],
+            ],
+            [
+                'memcached',
+                Libmemcached::class,
+                getOptionsLibmemcached(),
+            ],
+            [
+                '',
+                Memory::class,
+                [],
+            ],
+            [
+                'redis',
+                Redis::class,
+                getOptionsRedis(),
+            ],
+            [
+                'redis',
+                RedisCluster::class,
+                getOptionsRedisCluster(),
+            ],
+            [
+                '',
+                Stream::class,
+                [
+                    'storageDir' => outputDir(),
+                ],
+            ],
+            [
+                '',
+                Weak::class,
+                [],
+            ],
+        ];
+    }
+
+    /**
+     * Tests Phalcon\Storage\Adapter\* :: setMultiple()
+     *
+     * @dataProvider getExamples
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-09-09
+     */
+    public function testStorageAdapterSetMultiple(
+        string $extension,
+        string $class,
+        array $options
+    ): void {
+        if (!empty($extension)) {
+            $this->checkExtensionIsLoaded($extension);
+        }
+
+        $serializer = new SerializerFactory();
+        $adapter    = new $class($serializer, $options);
+
+        $key1 = uniqid();
+        $key2 = uniqid();
+        $adapter->setMultiple(
+            [
+                $key1 => 'test1',
+                $key2 => 'test2',
+            ]
+        );
+
+        $this->assertTrue($adapter->has($key1));
+        $this->assertTrue($adapter->has($key2));
+
+        $expected = [
+            $key1     => 'test1',
+            $key2     => 'test2',
+            'unknown' => 'default-unknown',
+        ];
+        $actual   = $adapter->getMultiple(
+            [
+                $key1,
+                $key2,
+                'unknown'
+            ],
+            'default-unknown'
+        );
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Storage\Adapter\* :: setMultiple() - exception
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-09
+     */
+    public function testStorageAdapterSetMultipleExceptionInvalidCharacters(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('The key contains invalid characters');
+
+        $serializer = new SerializerFactory();
+        $adapter    = new Apcu($serializer);
+
+        $adapter->setMultiple(
+            [
+                'abc$^' => 'test1',
+                'abd$^' => 'test2',
+            ]
+        );
+    }
+
+//    /**
+//     * Tests Phalcon\Storage\Adapter\* :: setMultiple() - false
+//     *
+//     * @author Phalcon Team <team@phalcon.io>
+//     * @since  2020-09-09
+//     */
+//    public function testStorageAdapterSetMultipleFalse(): void
+//    {
+//        $serializer = new SerializerFactory();
+//        $adapter    = new Apcu($serializer);
+//
+//        $adapter->setMultiple(
+//            [
+//                'abc$^' => 'test1',
+//                'abd$^' => 'test2',
+//            ]
+//        );
+//
+//        $mock = $this
+//            ->getMockBuilder(Cache::class)
+//            ->setConstructorArgs([$instance])
+//            ->getMock()
+//        ;
+//        $mock->method('set')->willReturn(false);
+//
+//        $key1   = uniqid();
+//        $key2   = uniqid();
+//        $actual = $mock->setMultiple(
+//            [
+//                $key1 => 'test1',
+//                $key2 => 'test2',
+//            ]
+//        );
+//
+//        $this->assertFalse($actual);
+//    }
+}

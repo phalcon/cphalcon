@@ -10,33 +10,31 @@
 
 namespace Phalcon\Translate\Adapter;
 
-use ArrayAccess;
+use Phalcon\Contracts\Translate\TranslateTypes;
+use Phalcon\Traits\Php\FileTrait;
 use Phalcon\Translate\Exception;
+use Phalcon\Translate\Exceptions\FileOpenError;
+use Phalcon\Translate\Exceptions\MissingRequiredParameter;
 use Phalcon\Translate\InterpolatorFactory;
 
 /**
- * Class Csv
- *
- * @package Phalcon\Translate\Adapter
- *
- * @property array $translate
+ * @phpstan-import-type translate_csv_options from TranslateTypes
+ * @phpstan-import-type translate_data from TranslateTypes
+ * @phpstan-import-type translate_placeholders from TranslateTypes
  */
-class Csv extends AbstractAdapter implements ArrayAccess
+class Csv extends AbstractAdapter
 {
+    use FileTrait;
+
     /**
-     * @var array
+     * @phpstan-var translate_data
      */
-    protected translate = [];
+    protected array translate = [];
 
     /**
      * Csv constructor.
      *
-     * @param InterpolatorFactory $interpolator
-     * @param array               $options = [
-     *                                       'content'   => '',
-     *                                       'delimiter' => ';',
-     *                                       'enclosure' => '"'
-     *                                       ]
+     * @phpstan-param translate_csv_options $options
      *
      * @throws Exception
      */
@@ -44,12 +42,12 @@ class Csv extends AbstractAdapter implements ArrayAccess
         <InterpolatorFactory> interpolator,
         array options
     ) {
-        var delimiter, enclosure;
+        var delimiter, enclosure, escape;
 
         parent::__construct(interpolator, options);
 
         if unlikely !isset options["content"] {
-            throw new Exception("Parameter 'content' is required");
+            throw new MissingRequiredParameter("content");
         }
 
         if isset options["delimiter"] {
@@ -64,30 +62,29 @@ class Csv extends AbstractAdapter implements ArrayAccess
             let enclosure = "\"";
         }
 
-        this->load(options["content"], 0, delimiter, enclosure);
+        if isset options["escape"] {
+            let escape = options["escape"];
+        } else {
+            let escape = "\\";
+        }
+
+        this->load(options["content"], 0, delimiter, enclosure, escape);
     }
 
     /**
      * Check whether is defined a translation key in the internal array
      *
-     * @param string $index
-     *
-     * @return bool
      * @deprecated
      */
-    public function exists(string! index) -> bool
+    public function exists(string index) -> bool
     {
         return this->has(index);
     }
 
     /**
      * Check whether is defined a translation key in the internal array
-     *
-     * @param string $index
-     *
-     * @return bool
      */
-    public function has(string! index) -> bool
+    public function has(string index) -> bool
     {
         return isset this->translate[index];
     }
@@ -95,46 +92,56 @@ class Csv extends AbstractAdapter implements ArrayAccess
     /**
      * Returns the translation related to the given key
      *
-     * @param string $translateKey
-     * @param array  $placeholders
-     *
-     * @return string
+     * @phpstan-param translate_placeholders $placeholders
      */
-    public function query(string! translateKey, array placeholders = []) -> string
+    public function query(string translateKey, array placeholders = []) -> string
     {
         var translation;
 
         if !fetch translation, this->translate[translateKey] {
-            let translation = translateKey;
+            let translation = this->notFound(translateKey);
         }
 
         return this->replacePlaceholders(translation, placeholders);
     }
 
     /**
+     * Returns the internal array
+     *
+     * @phpstan-return translate_data
+     */
+    public function toArray() -> array
+    {
+        return this->translate;
+    }
+
+    /**
      * Load translations from file
      *
-     * @param string $file
-     * @param int    $length
-     * @param string $separator
-     * @param string $enclosure
+     * Lines whose first column begins with a `#` are treated as comments
+     * and skipped.
      *
-     * @throws Exception
+     * @phpstan-param int<0, max> $length
+     *
+     * @throws FileOpenError
      */
-    private function load(string file, int length, string delimiter, string enclosure) -> void
-    {
+    private function load(
+        string file,
+        int length,
+        string delimiter,
+        string enclosure,
+        string escape
+    ) -> void {
         var data, fileHandler;
 
         let fileHandler = this->phpFopen(file, "rb");
 
         if unlikely typeof fileHandler !== "resource" {
-            throw new Exception(
-                "Error opening translation file '" . file . "'"
-            );
+            throw new FileOpenError(file);
         }
 
         loop {
-            let data = fgetcsv(fileHandler, length, delimiter, enclosure);
+            let data = this->phpFgetCsv(fileHandler, length, delimiter, enclosure, escape);
 
             if data === false {
                 break;
@@ -147,14 +154,6 @@ class Csv extends AbstractAdapter implements ArrayAccess
             let this->translate[data[0]] = data[1];
         }
 
-        fclose(fileHandler);
-    }
-
-    /**
-     * @todo to be removed when we get traits
-     */
-    protected function phpFopen(string filename, string mode)
-    {
-        return fopen(filename, mode);
+        this->phpFclose(fileHandler);
     }
 }

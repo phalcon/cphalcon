@@ -1,6 +1,6 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -17,10 +17,10 @@ namespace Phalcon\Support\Helper\Arr;
 class LastKey extends AbstractArr
 {
     /**
-     * @param array         $collection
-     * @param callable|null $method
+     * @param array<array-key, mixed> $collection
+     * @param callable|null           $method
      *
-     * @return mixed
+     * @return int|string|null
      */
     public function __invoke(array collection, var method = null) -> var
     {

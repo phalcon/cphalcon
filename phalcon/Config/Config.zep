@@ -10,6 +10,7 @@
 
 namespace Phalcon\Config;
 
+use Phalcon\Config\Exceptions\InvalidMergeData;
 use Phalcon\Support\Collection;
 
 /**
@@ -19,7 +20,7 @@ use Phalcon\Support\Collection;
  * code.
  *
  *```php
- * $config = new \Phalcon\Config(
+ * $config = new \Phalcon\Config\Config(
  *     [
  *         "database" => [
  *             "adapter"  => "Mysql",
@@ -36,11 +37,12 @@ use Phalcon\Support\Collection;
  *     ]
  * );
  *```
- *
- * @property string $pathDelimiter
  */
 class Config extends Collection implements ConfigInterface
 {
+    /**
+     * @var string
+     */
     const DEFAULT_PATH_DELIMITER = ".";
 
     /**
@@ -62,7 +64,7 @@ class Config extends Collection implements ConfigInterface
      * Merges a configuration into the current one
      *
      *```php
-     * $appConfig = new \Phalcon\Config(
+     * $appConfig = new \Phalcon\Config\Config(
      *     [
      *         "database" => [
      *             "host" => "localhost",
@@ -80,29 +82,25 @@ class Config extends Collection implements ConfigInterface
      */
     public function merge(var toMerge) -> <ConfigInterface>
     {
-        var result, source;
+        var result, source, target;
+
+        if typeof toMerge === "array" {
+            let target = toMerge;
+        } elseif typeof toMerge === "object" && toMerge instanceof ConfigInterface {
+            let target = toMerge->toArray();
+        } else {
+            throw new InvalidMergeData();
+        }
 
         let source = this->toArray();
 
         this->clear();
 
-        if typeof toMerge === "array" {
-            let result = this->internalMerge(source, toMerge);
+        let result = this->internalMerge(source, target);
 
-            this->init(result);
+        this->init(result);
 
-            return this;
-        }
-
-        if typeof toMerge === "object" && toMerge instanceof ConfigInterface {
-            let result = this->internalMerge(source, toMerge->toArray());
-
-            this->init(result);
-
-            return this;
-        }
-
-        throw new Exception("Invalid data type for merge.");
+        return this;
     }
 
     /**
@@ -206,6 +204,29 @@ class Config extends Collection implements ConfigInterface
     }
 
     /**
+     * Builds a new collection with the given data, carrying over the
+     * configuration of the current one. Clone-based instead of
+     * constructor-based: adapter subclasses (Ini, Json, Php, Yaml, Grouped)
+     * define file-loading constructors that are incompatible with the
+     * parent's `(array data, ...)` signature, so `filter()`, `map()`,
+     * `sort()` and `where()` would otherwise fail on any adapter instance.
+     *
+     * @param array<int|string, mixed> $data
+     *
+     * @return static
+     */
+    protected function cloneEmpty(array data = []) -> <static>
+    {
+        var copy;
+
+        let copy = clone this;
+
+        copy->replace(data);
+
+        return copy;
+    }
+
+    /**
      * Performs a merge recursively
      *
      * @param array $source
@@ -237,24 +258,36 @@ class Config extends Collection implements ConfigInterface
     /**
      * Sets the collection data
      *
+     * Array values become nested Config objects carrying the `insensitive`,
+     * `strictNull` and `type` flags of this instance. The `type` guard is
+     * applied to leaf values only - arrays are not validated themselves;
+     * the nested Config validates its own leaves.
+     *
      * @param mixed $element
      * @param mixed $value
      */
     protected function setData(var element, var value) -> void
     {
-        var data, key;
-        let data    = this->data,
-            element = (string) element,
+        var key;
+
+        if typeof value !== "array" {
+            this->validateType(value);
+        }
+
+        let element = (string) element,
             key     = (this->insensitive) ? mb_strtolower(element) : element;
 
         let this->lowerKeys[key] = element;
 
         if typeof value === "array" {
-            let data[element] = new Config(value);
+            let this->data[element] = new Config(
+                value,
+                this->insensitive,
+                this->strictNull,
+                this->type
+            );
         } else {
-            let data[element] = value;
+            let this->data[element] = value;
         }
-
-        let this->data = data;
     }
 }

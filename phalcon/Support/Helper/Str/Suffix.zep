@@ -1,6 +1,6 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -10,16 +10,16 @@
 
 namespace Phalcon\Support\Helper\Str;
 
+use Stringable;
+
 /**
  * Suffixes the text with the supplied suffix
+ * @todo v7 make text string
  */
 class Suffix
 {
     /**
-     * @param mixed  $text
-     * @param string $suffix
-     *
-     * @return string
+     * @param scalar|Stringable|null $text
      */
     public function __invoke(var text, string suffix) -> string
     {

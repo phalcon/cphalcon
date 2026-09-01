@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
+         bootstrap="../tests/bootstrap.php"
+         cacheDirectory="../tests/_output/.phpunit.result.cache"
+         colors="true"
+         displayDetailsOnPhpunitDeprecations="true"
+         displayDetailsOnTestsThatTriggerDeprecations="true"
+         displayDetailsOnTestsThatTriggerErrors="true"
+         displayDetailsOnTestsThatTriggerNotices="true"
+         displayDetailsOnTestsThatTriggerWarnings="true"
+         failOnDeprecation="true"
+         failOnNotice="true"
+         failOnPhpunitDeprecation="true"
+         failOnWarning="true"
+>
+    <testsuites>
+        <testsuite name="pgsql tests">
+            <directory>../tests/database</directory>
+        </testsuite>
+    </testsuites>
+    <source>
+        <include>
+            <directory suffix=".php">../src</directory>
+        </include>
+    </source>
+    <groups>
+        <include>
+            <group>pgsql</group>
+        </include>
+    </groups>
+    <php>
+        <env name="driver" value="pgsql"/>
+        <env name="dump_file" value="tests/support/assets/schema/pgsql"/>
+    </php>
+</phpunit>

@@ -1,0 +1,61 @@
+<?php
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Phalcon\Tests\Unit\Mvc\Router\Annotations;
+
+use Phalcon\Mvc\Router\Annotations;
+use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\BackupGlobals;
+
+#[BackupGlobals(true)]
+final class AddResourceTest extends AbstractUnitTestCase
+{
+    use DiTrait;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->newDi();
+        $this->setDiService('request');
+        $this->setDiService('annotations');
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
+     */
+    public function testMvcRouterAnnotationsAddResource(): void
+    {
+        $router = new Annotations(false);
+        $router->setDI($this->container);
+        $router->setDefaultNamespace('Phalcon\Tests\Support\Controllers');
+
+        $router->addResource('Robots', '/robots');
+
+        // The resource is registered as [prefix, handler]
+        $this->assertSame(
+            [
+                ['/robots', 'Robots'],
+            ],
+            $router->getResources()
+        );
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $router->handle('/robots');
+
+        // RobotsController exposes three annotated routes
+        $this->assertCount(3, $router->getRoutes());
+    }
+}

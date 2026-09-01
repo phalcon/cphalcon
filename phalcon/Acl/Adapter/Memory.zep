@@ -10,15 +10,29 @@
 
 namespace Phalcon\Acl\Adapter;
 
-use Phalcon\Acl\Enum;
-use Phalcon\Acl\Role;
-use Phalcon\Acl\RoleInterface;
 use Phalcon\Acl\Component;
-use Phalcon\Acl\Exception;
-use Phalcon\Acl\RoleAwareInterface;
 use Phalcon\Acl\ComponentAwareInterface;
 use Phalcon\Acl\ComponentInterface;
+use Phalcon\Acl\Enum;
+use Phalcon\Acl\Exceptions\AccessRuleNotFound;
+use Phalcon\Acl\Exceptions\CircularInheritanceError;
+use Phalcon\Acl\Exceptions\ElementNotFound;
+use Phalcon\Acl\Exceptions\ForbiddenDelimiter;
+use Phalcon\Acl\Exceptions\InvalidAccessList;
+use Phalcon\Acl\Exceptions\InvalidComponentImplementation;
+use Phalcon\Acl\Exceptions\InvalidRoleImplementation;
+use Phalcon\Acl\Exceptions\InvalidRoleType;
+use Phalcon\Acl\Exceptions\MissingFunctionParameters;
+use Phalcon\Acl\Exceptions\ParameterTypeMismatch;
+use Phalcon\Acl\Exceptions\RoleNotFoundException;
+use Phalcon\Acl\Role;
+use Phalcon\Acl\RoleAwareInterface;
+use Phalcon\Acl\RoleInterface;
+use Phalcon\Contracts\Acl\AclTypes;
+use ReflectionClass;
+use ReflectionException;
 use ReflectionFunction;
+use ReflectionNamedType;
 
 /**
  * Manages ACL lists in memory
@@ -82,104 +96,90 @@ use ReflectionFunction;
  *     }
  * }
  *```
+ *
+ * @phpstan-import-type acl_access_list from AclTypes
+ * @phpstan-import-type acl_component_name from AclTypes
+ * @phpstan-import-type acl_components from AclTypes
+ * @phpstan-import-type acl_role_name from AclTypes
+ * @phpstan-import-type acl_role_to_inherit from AclTypes
  */
 class Memory extends AbstractAdapter
 {
     /**
      * Access
      *
-     * @var mixed
+     * @phpstan-var array<string, int>
      */
-    protected access;
-
+    protected array access = [];
     /**
      * Access List
      *
-     * @var mixed
+     * @phpstan-var array<string, bool>
      */
-    protected accessList;
-
+    protected array accessList = ["*!*": true];
     /**
-     * Returns latest function used to acquire access
+     * Returns the latest function used to acquire access
      *
      * @var mixed
      */
-    protected activeFunction { get };
-
+    protected activeFunction;
     /**
-     * Returns number of additional arguments(excluding role and resource) for active function
-     *
-     * @var int
+     * Returns number of additional arguments(excluding role and resource) for
+     * active function
      */
-    protected activeFunctionCustomArgumentsCount = 0 { get };
-
+    protected int activeFunctionCustomArgumentsCount = 0;
     /**
-     * Returns latest key used to acquire access
+     * Returns the latest key used to acquire access
      *
      * @var string|null
      */
-    protected activeKey { get };
-
+    protected activeKey = null;
     /**
      * Components
      *
-     * @var mixed
+     * @phpstan-var acl_components
      */
-    protected components;
-
+    protected array components = [];
     /**
      * Component Names
      *
-     * @var mixed
+     * @phpstan-var array<string, bool>
      */
-    protected componentsNames;
-
+    protected array componentsNames = ["*": true];
     /**
      * Function List
      *
-     * @var mixed
+     * @phpstan-var array<string, callable|string>
      */
-    protected func;
-
+    protected array functions = [];
     /**
-     * Default action for no arguments is allow
+     * Default action for no arguments is `deny`
      *
-     * @var mixed
+     * @var int
      */
     protected noArgumentsDefaultAction = Enum::DENY;
-
-    /**
-     * Roles
-     *
-     * @var mixed
-     */
-    protected roles;
-
     /**
      * Role Inherits
      *
-     * @var mixed
+     * @phpstan-var array<string, array<int, string>>
      */
-    protected roleInherits;
-
+    protected array roleInherits = [];
     /**
-     * Phalcon\Acl\Adapter\Memory constructor
+     * Roles
+     *
+     * @phpstan-var array<string, RoleInterface>
      */
-    public function __construct()
-    {
-        let this->componentsNames = ["*": true];
-        let this->accessList = ["*!*": true];
-    }
+    protected array roles = [];
 
     /**
      * Adds a component to the ACL list
      *
-     * Access names can be a particular action, by example
-     * search, update, delete, etc or a list of them
+     * Access names can be a particular action, for instance `search`, `update`
+     * `delete` etc. or a list of them.
      *
      * Example:
      * ```php
-     * // Add a component to the the list allowing access to an action
+     * // Add a component to the list allowing access to an action
      * $acl->addComponent(
      *     new Phalcon\Acl\Component("customers"),
      *     "search"
@@ -204,12 +204,15 @@ class Memory extends AbstractAdapter
      *     ]
      * );
      * ```
+     *
+     * @phpstan-param ComponentInterface|string $componentValue
+     * @phpstan-param acl_access_list           $accessList
      */
     public function addComponent(var componentValue, var accessList) -> bool
     {
         var componentName, componentObject;
 
-        if typeof componentValue == "object" && componentValue instanceof ComponentInterface {
+        if typeof componentValue === "object" && componentValue instanceof ComponentInterface {
             let componentObject = componentValue;
         } else {
             let componentObject = new Component(componentValue);
@@ -227,31 +230,44 @@ class Memory extends AbstractAdapter
 
     /**
      * Adds access to components
+     *
+     * The guard below is the validation, so the parameter stays `var` here.
+     * The accepted values are documented on the contract.
+     *
+     * @phpstan-param mixed $accessList
      */
     public function addComponentAccess(string componentName, var accessList) -> bool
     {
-        var accessName;
-        string accessKey;
+        var accessKey, accessName;
         bool exists;
 
         this->checkExists(this->componentsNames, componentName, "Component");
 
-        if unlikely (typeof accessList != "array" && typeof accessList != "string") {
-            throw new Exception("Invalid value for the accessList");
+        if unlikely (typeof accessList !== "array" && typeof accessList !== "string") {
+            throw new InvalidAccessList();
         }
 
         let exists = true;
 
-        if typeof accessList == "array" {
+        if typeof accessList === "array" {
+            /** @var array<int|string, string> $accessList */
             for accessName in accessList {
-                let accessKey = componentName . "!" . accessName;
+                if unlikely memstr(accessName, "!") {
+                    throw new ForbiddenDelimiter("access");
+                }
+
+                let accessKey = this->buildAccessKey(componentName, accessName);
 
                 if !isset this->accessList[accessKey] {
                     let this->accessList[accessKey] = exists;
                 }
             }
         } else {
-            let accessKey = componentName . "!" . accessList;
+            if unlikely memstr(accessList, "!") {
+                throw new ForbiddenDelimiter("access");
+            }
+
+            let accessKey = this->buildAccessKey(componentName, accessList);
 
             if !isset this->accessList[accessKey] {
                 let this->accessList[accessKey] = exists;
@@ -262,18 +278,21 @@ class Memory extends AbstractAdapter
     }
 
     /**
-     * Do a role inherit from another existing role
+     * Add a role which inherits from an existing role
      *
      * ```php
      * $acl->addRole("administrator", "consultant");
      * $acl->addRole("administrator", ["consultant", "consultant2"]);
      * ```
+     *
+     * @phpstan-param acl_role_to_inherit $roleToInherits
      */
     public function addInherit(string roleName, var roleToInherits) -> bool
     {
         var roleInheritName, roleToInherit, checkRoleToInherit,
             roleToInheritList, usedRoleToInherit;
         array checkRoleToInherits, usedRoleToInherits;
+        int pendingIndex;
 
         this->checkExists(this->roles, roleName, "Role", "role list");
 
@@ -284,7 +303,7 @@ class Memory extends AbstractAdapter
         /**
          * Type conversion
          */
-        if typeof roleToInherits != "array" {
+        if typeof roleToInherits !== "array" {
             let roleToInheritList = [roleToInherits];
         } else {
             let roleToInheritList = roleToInherits;
@@ -294,10 +313,14 @@ class Memory extends AbstractAdapter
          * inherits
          */
         for roleToInherit in roleToInheritList {
-            if typeof roleToInherit == "object" && roleToInherit instanceof RoleInterface {
+            if typeof roleToInherit === "object" && roleToInherit instanceof RoleInterface {
                 let roleInheritName = roleToInherit->getName();
             } else {
                 let roleInheritName = roleToInherit;
+            }
+
+            if unlikely typeof roleInheritName !== "string" && typeof roleInheritName !== "int" {
+                throw new InvalidRoleType();
             }
 
             /**
@@ -311,10 +334,7 @@ class Memory extends AbstractAdapter
              * Check if the role to inherit is valid
              */
             if unlikely !isset this->roles[roleInheritName] {
-                throw new Exception(
-                    "Role '" . roleInheritName .
-                    "' (to inherit) does not exist in the role list"
-                );
+                throw new RoleNotFoundException(roleInheritName);
             }
 
             if roleName == roleInheritName {
@@ -333,8 +353,17 @@ class Memory extends AbstractAdapter
 
                 let usedRoleToInherits = [];
 
-                while !empty checkRoleToInherits {
-                    let checkRoleToInherit = array_shift(checkRoleToInherits);
+                /**
+                 * Walk the inheritance queue with an integer cursor instead
+                 * of `array_shift`. New roles enqueued by the body land at
+                 * the end of `checkRoleToInherits`, so advancing `pendingIndex`
+                 * preserves FIFO order without paying `array_shift`'s O(n)
+                 * reindex per pop.
+                 */
+                let pendingIndex = 0;
+                while pendingIndex < count(checkRoleToInherits) {
+                    let checkRoleToInherit = checkRoleToInherits[pendingIndex];
+                    let pendingIndex++;
 
                     if isset usedRoleToInherits[checkRoleToInherit] {
                         continue;
@@ -343,10 +372,7 @@ class Memory extends AbstractAdapter
                     let usedRoleToInherits[checkRoleToInherit] = true;
 
                     if unlikely roleName == checkRoleToInherit {
-                        throw new Exception(
-                            "Role '" . roleInheritName .
-                            "' (to inherit) produces an infinite loop"
-                        );
+                        throw new CircularInheritanceError(roleInheritName);
                     }
 
                     /**
@@ -367,7 +393,8 @@ class Memory extends AbstractAdapter
     }
 
     /**
-     * Adds a role to the ACL list. Second parameter allows inheriting access data from other existing role
+     * Adds a role to the ACL list. The second parameter lets to inherit access
+     * from an existing role
      *
      * ```php
      * $acl->addRole(
@@ -378,19 +405,20 @@ class Memory extends AbstractAdapter
      * $acl->addRole("administrator", "consultant");
      * $acl->addRole("administrator", ["consultant", "consultant2"]);
      * ```
+     *
+     * @phpstan-param RoleInterface|string     $role
+     * @phpstan-param acl_role_to_inherit|null $accessInherits
      */
     public function addRole(role, accessInherits = null) -> bool
     {
         var roleName, roleObject;
 
-        if typeof role == "object" && role instanceof RoleInterface {
+        if typeof role === "object" && role instanceof RoleInterface {
             let roleObject = role;
         } elseif is_string(role) {
             let roleObject = new Role(role);
         } else {
-            throw new Exception(
-                "Role must be either a string or implement RoleInterface"
-            );
+            throw new InvalidRoleType();
         }
 
         let roleName = roleObject->getName();
@@ -411,6 +439,9 @@ class Memory extends AbstractAdapter
     /**
      * Allow access to a role on a component. You can use `*` as wildcard
      *
+     * A `*` role is an eager snapshot: it expands to the roles that exist when
+     * `allow()` is called, so roles added afterwards do not inherit the grant.
+     *
      * ```php
      * // Allow access to guests to search on customers
      * $acl->allow("guests", "customers", "search");
@@ -421,11 +452,16 @@ class Memory extends AbstractAdapter
      * // Allow access to any role to browse on products
      * $acl->allow("*", "products", "browse");
      *
-     * // Allow access to any role to browse on any component
-     * $acl->allow("*", "*", "browse");
+     * // Allow access to any role to perform any action on any component
+     * $acl->allow("*", "*", "*");
+     * ```
      */
-    public function allow(string roleName, string componentName, var access, var func = null) -> void
-    {
+    public function allow(
+        string roleName,
+        string componentName,
+        var access,
+        var func = null
+    ) -> void {
         var role, rolesArray;
 
         let rolesArray = [roleName];
@@ -447,6 +483,9 @@ class Memory extends AbstractAdapter
     /**
      * Deny access to a role on a component. You can use `*` as wildcard
      *
+     * A `*` role is an eager snapshot: it expands to the roles that exist when
+     * `deny()` is called, so roles added afterwards do not inherit the rule.
+     *
      * ```php
      * // Deny access to guests to search on customers
      * $acl->deny("guests", "customers", "search");
@@ -457,12 +496,16 @@ class Memory extends AbstractAdapter
      * // Deny access to any role to browse on products
      * $acl->deny("*", "products", "browse");
      *
-     * // Deny access to any role to browse on any component
-     * $acl->deny("*", "*", "browse");
+     * // Deny access to any role to perform any action on any component
+     * $acl->deny("*", "*", "*");
      * ```
      */
-    public function deny(string roleName, string componentName, var access, var func = null) -> void
-    {
+    public function deny(
+        string roleName,
+        string componentName,
+        var access,
+        var func = null
+    ) -> void {
         var role, rolesArray;
 
         let rolesArray = [roleName];
@@ -482,33 +525,64 @@ class Memory extends AbstractAdapter
     }
 
     /**
-     * Removes an access from a component
+     * Removes access from a component
+     *
+     * @param array<string>|string $accessList
      */
     public function dropComponentAccess(string componentName, var accessList) -> void
     {
-        var accessName;
-        string accessKey;
+        var accessKey, accessName;
         array localAccess = [];
 
-        if typeof accessList == "string" {
+        if typeof accessList === "string" {
             let localAccess = [accessList];
         } else {
             let localAccess = accessList;
         }
 
-        if typeof accessList == "array" {
-            for accessName in localAccess {
-                let accessKey = componentName . "!" . accessName;
+        for accessName in localAccess {
+            let accessKey = this->buildAccessKey(componentName, accessName);
 
-                if isset this->accessList[accessKey] {
-                    unset this->accessList[accessKey];
-                }
+            if isset this->accessList[accessKey] {
+                unset this->accessList[accessKey];
             }
         }
-     }
+    }
+
+    /**
+     * Returns the latest function used to acquire access
+     *
+     * @return mixed
+     */
+    public function getActiveFunction() -> var
+    {
+        return this->activeFunction;
+    }
+
+    /**
+     * Returns number of additional arguments(excluding role and resource) for active function
+     */
+    public function getActiveFunctionCustomArgumentsCount() -> int
+    {
+        return this->activeFunctionCustomArgumentsCount;
+    }
+
+    /**
+     * Returns the last composite key used to acquire access.
+     *
+     * @deprecated Relies on the internal "role!component!access" encoding,
+     *             which will be removed in v7. Use getActiveRole(),
+     *             getActiveComponent() and getActiveAccess() instead.
+     */
+    public function getActiveKey() -> string | null
+    {
+        return this->activeKey;
+    }
 
     /**
      * Return an array with every component registered in the list
+     *
+     * @phpstan-return array<string, ComponentInterface>
      */
     public function getComponents() -> <ComponentInterface[]>
     {
@@ -519,6 +593,8 @@ class Memory extends AbstractAdapter
      * Returns the inherited roles for a passed role name. If no role name
      * has been specified it will return the whole array. If the role has not
      * been found it returns an empty array
+     *
+     * @return array<int|string, array<int, string>|string>
      */
     public function getInheritedRoles(string roleName = "") -> array
     {
@@ -546,6 +622,8 @@ class Memory extends AbstractAdapter
 
     /**
      * Return an array with every role registered in the list
+     *
+     * @return array<string, RoleInterface>
      */
     public function getRoles() -> <RoleInterface[]>
     {
@@ -562,58 +640,53 @@ class Memory extends AbstractAdapter
      * // Do guests have access to any component to edit?
      * $acl->isAllowed("guests", "*", "edit");
      * ```
+     *
+     * @phpstan-param acl_role_name      $roleName
+     * @phpstan-param acl_component_name $componentName
      */
-    public function isAllowed(var roleName, var componentName, string access, array parameters = null) -> bool
-    {
-        var accessKey, accessList, componentObject = null, haveAccess = null,
-            funcAccess = null, funcList, numberOfRequiredParameters,
-            reflectionFunction, reflectionParameters, parameterNumber,
-            parameterToCheck, parametersForFunction, reflectionClass,
-            reflectionParameter, roleObject = null,
-            userParametersSizeShouldBe;
+    public function isAllowed(
+        var roleName,
+        var componentName,
+        string access,
+        array parameters = null
+    ) -> bool {
+        var accessKey, accessList, componentObject = null,
+            haveAccess = null, funcAccess = null, funcList,
+            roleObject = null, ruleResult;
+        bool allowed;
 
-        bool hasComponent = false, hasRole = false;
-
-        if typeof roleName == "object" {
-            if roleName instanceof RoleAwareInterface {
-                let roleObject = roleName,
-                    roleName   = roleObject->getRoleName();
-            } elseif roleName instanceof RoleInterface {
-                let roleName = roleName->getName();
-            } else {
-                throw new Exception(
-                    "Object passed as roleName must implement " .
-                    "Phalcon\\Acl\\RoleAwareInterface or Phalcon\\Acl\\RoleInterface"
-                );
-            }
+        if typeof roleName === "object" && roleName instanceof RoleAwareInterface {
+            let roleObject = roleName;
         }
 
-        if typeof componentName == "object" {
-            if componentName instanceof ComponentAwareInterface {
-                let componentObject = componentName,
-                    componentName   = componentObject->getComponentName();
-            } elseif componentName instanceof ComponentInterface {
-                let componentName = componentName->getName();
-            } else {
-                throw new Exception(
-                    "Object passed as componentName must implement " .
-                    "Phalcon\\Acl\\ComponentAwareInterface or Phalcon\\Acl\\ComponentInterface"
-                );
-            }
+        if typeof componentName === "object" && componentName instanceof ComponentAwareInterface {
+            let componentObject = componentName;
         }
+
+        let roleName      = this->toRoleName(roleName),
+            componentName = this->toComponentName(componentName);
 
         let this->activeRole      = roleName,
             this->activeComponent = componentName,
             this->activeAccess    = access,
             this->activeKey       = null,
-            this->activeKey       = null,
             this->activeFunction  = null,
+            this->accessGranted   = Enum::DENY,
             accessList            = this->access,
-            funcList              = this->func;
+            funcList              = this->functions;
 
         let this->activeFunctionCustomArgumentsCount = 0;
 
-        if (false === this->fireManagerEvent("acl:beforeCheckAccess", this)) {
+        if (false === this->fireManagerEvent(
+            "acl:beforeCheckAccess",
+            [
+                "role":      roleName,
+                "component": componentName,
+                "access":    access
+            ],
+            true,
+            true
+        )) {
             return false;
         }
 
@@ -635,14 +708,7 @@ class Memory extends AbstractAdapter
             fetch funcAccess, funcList[accessKey];
         }
 
-        /**
-         * Check in the inherits roles
-         */
-        let this->accessGranted = haveAccess;
-
-        this->fireManagerEvent("acl:afterCheckAccess", this);
-
-        let this->activeKey      = accessKey,
+        let this->activeKey      = (accessKey === false) ? null : accessKey,
             this->activeFunction = funcAccess;
 
         if haveAccess == null {
@@ -650,142 +716,47 @@ class Memory extends AbstractAdapter
              * Change activeKey to most narrow if there was no access for any
              * patterns found
              */
-            let this->activeKey = roleName . "!" . componentName . "!" . access;
+            let this->activeKey = this->buildKey(roleName, componentName, access);
 
-            return this->defaultAccess == Enum::ALLOW;
+            let allowed = this->defaultAccess == Enum::ALLOW;
+        } elseif is_callable(funcAccess) {
+            /**
+             * If we have funcAccess then do all the checks for it
+             */
+            let ruleResult = this->invokeRule(
+                funcAccess,
+                haveAccess,
+                parameters,
+                roleObject,
+                componentObject,
+                roleName,
+                componentName,
+                access
+            );
+
+            let allowed = ruleResult;
+        } else {
+            let allowed = haveAccess == Enum::ALLOW;
         }
 
         /**
-         * If we have funcAccess then do all the checks for it
+         * Report the final decision - after the default action and the rule
+         * callback are applied - so listeners see the same result as the
+         * caller.
          */
-        if is_callable(funcAccess) {
-            let reflectionFunction   = new ReflectionFunction(funcAccess),
-                reflectionParameters = reflectionFunction->getParameters(),
-                parameterNumber      = count(reflectionParameters);
+        let this->accessGranted = allowed ? Enum::ALLOW : Enum::DENY;
 
-            /**
-             * No parameters, just return haveAccess and call function without
-             * array
-             */
-            if parameterNumber === 0 {
-                return haveAccess == Enum::ALLOW && call_user_func(funcAccess);
-            }
+        this->fireManagerEvent(
+            "acl:afterCheckAccess",
+            [
+                "role":      roleName,
+                "component": componentName,
+                "access":    access,
+                "granted":   this->accessGranted
+            ]
+        );
 
-            let parametersForFunction      = [],
-                numberOfRequiredParameters = reflectionFunction->getNumberOfRequiredParameters(),
-                userParametersSizeShouldBe = parameterNumber;
-
-            for reflectionParameter in reflectionParameters {
-                let reflectionClass  = reflectionParameter->getClass(),
-                    parameterToCheck = reflectionParameter->getName();
-
-                if reflectionClass !== null {
-                    // roleObject is this class
-                    if (roleObject !== null &&
-                        reflectionClass->isInstance(roleObject) &&
-                        !hasRole
-                    ) {
-                        let hasRole                 = true,
-                            parametersForFunction[] = roleObject;
-                        let userParametersSizeShouldBe--;
-
-                        continue;
-                    }
-
-                    // componentObject is this class
-                    if (componentObject !== null &&
-                        reflectionClass->isInstance(componentObject) &&
-                        !hasComponent
-                    ) {
-                        let hasComponent            = true,
-                            parametersForFunction[] = componentObject;
-                        let userParametersSizeShouldBe--;
-
-                        continue;
-                    }
-
-                    /**
-                     * This is some user defined class, check if his parameter
-                     * is instance of it
-                     */
-                    if unlikely (isset(parameters[parameterToCheck]) &&
-                        is_object(parameters[parameterToCheck]) &&
-                        !reflectionClass->isInstance(parameters[parameterToCheck])
-                    ) {
-                        throw new Exception(
-                            "Your passed parameter doesn't have the " .
-                            "same class as the parameter in defined function " .
-                            "when checking if " . roleName . " can " . access .
-                            " " . componentName . ". Class passed: " .
-                            get_class(parameters[parameterToCheck]) .
-                            " , Class in defined function: " .
-                            reflectionClass->getName() . "."
-                        );
-                    }
-                }
-
-                if isset parameters[parameterToCheck] {
-                    /**
-                     * We can't check type of ReflectionParameter in PHP 5.x so
-                     * we just add it as it is
-                     */
-                    let parametersForFunction[] = parameters[parameterToCheck];
-                }
-            }
-
-            let this->activeFunctionCustomArgumentsCount = userParametersSizeShouldBe;
-
-            if unlikely count(parameters) > userParametersSizeShouldBe {
-                trigger_error(
-                    "Number of parameters in array is higher than " .
-                    "the number of parameters in defined function when checking if '" .
-                    roleName . "' can '" . access . "' '" . componentName .
-                    "'. Extra parameters will be ignored.",
-                    E_USER_WARNING
-                );
-            }
-
-            // We dont have any parameters so check default action
-            if count(parametersForFunction) == 0 {
-                if unlikely numberOfRequiredParameters > 0 {
-                    trigger_error(
-                        "You did not provide any parameters when '" . roleName .
-                        "' can '" . access . "' '"  . componentName .
-                        "'. We will use default action when no arguments."
-                    );
-
-                    return haveAccess == Enum::ALLOW && this->noArgumentsDefaultAction == Enum::ALLOW;
-                }
-
-                /**
-                 * Number of required parameters == 0 so call funcAccess without
-                 * any arguments
-                 */
-                return haveAccess == Enum::ALLOW && call_user_func(funcAccess);
-            }
-
-            // Check necessary parameters
-            if count(parametersForFunction) >= numberOfRequiredParameters {
-                return haveAccess == Enum::ALLOW && call_user_func_array(funcAccess, parametersForFunction);
-            }
-
-            // We don't have enough parameters
-            throw new Exception(
-                "You did not provide all necessary parameters for the " .
-                "defined function when checking if '" . roleName . "' can '" .
-                access . "' for '" . componentName . "'."
-            );
-        }
-
-        return haveAccess == Enum::ALLOW;
-    }
-
-    /**
-     * Check whether role exist in the roles list
-     */
-    public function isRole(string roleName) -> bool
-    {
-        return isset this->roles[roleName];
+        return allowed;
     }
 
     /**
@@ -797,9 +768,17 @@ class Memory extends AbstractAdapter
     }
 
     /**
-     * Sets the default access level (`Phalcon\Enum::ALLOW` or `Phalcon\Enum::DENY`)
-     * for no arguments provided in isAllowed action if there exists func for
-     * accessKey
+     * Check whether role exist in the roles list
+     */
+    public function isRole(string roleName) -> bool
+    {
+        return isset this->roles[roleName];
+    }
+
+    /**
+     * Sets the default access level (`Phalcon\Enum::ALLOW` or
+     * `Phalcon\Enum::DENY`) for no arguments provided in isAllowed action if
+     * there exists func for accessKey
      */
     public function setNoArgumentsDefaultAction(int defaultAccess) -> void
     {
@@ -808,9 +787,18 @@ class Memory extends AbstractAdapter
 
     /**
      * Checks if a role has access to a component
+     *
+     * @phpstan-param array<string>|string $access
+     * @phpstan-param int                  $action
+     * @phpstan-param callable|null        $func
      */
-    private function allowOrDeny(string roleName, string componentName, var access, var action, var func = null) -> void
-    {
+    private function allowOrDeny(
+        string roleName,
+        string componentName,
+        var access,
+        var action,
+        var func = null
+    ) -> void {
         var accessList, accessName, accessKey;
 
         this->checkExists(this->roles, roleName, "Role");
@@ -820,61 +808,86 @@ class Memory extends AbstractAdapter
 
         if typeof access == "array" {
             for accessName in access {
-                let accessKey = componentName . "!" . accessName;
+                let accessKey = this->buildAccessKey(componentName, accessName);
 
                 if unlikely !isset accessList[accessKey] {
-                    throw new Exception(
-                        "Access '" . accessName .
-                        "' does not exist in component '" . componentName . "'"
-                    );
+                    throw new AccessRuleNotFound(accessName, componentName);
                 }
             }
 
             for accessName in access {
-                let accessKey = roleName . "!" .componentName . "!" . accessName;
+                let accessKey = this->buildKey(roleName, componentName, accessName);
                 let this->access[accessKey] = action;
 
                 if func != null {
-                    let this->func[accessKey] = func;
+                    let this->functions[accessKey] = func;
                 }
             }
         } else {
             if access != "*" {
-                let accessKey = componentName . "!" . access;
+                let accessKey = this->buildAccessKey(componentName, access);
 
                 if unlikely !isset accessList[accessKey] {
-                    throw new Exception(
-                        "Access '" . access .
-                        "' does not exist in component '" . componentName . "'"
-                    );
+                    throw new AccessRuleNotFound(access, componentName);
                 }
             }
 
-            let accessKey = roleName . "!" . componentName . "!" . access;
+            let accessKey = this->buildKey(roleName, componentName, access);
 
             /**
              * Define the access action for the specified accessKey
              */
             let this->access[accessKey] = action;
-
             if func != null {
-                let this->func[accessKey] = func;
+                let this->functions[accessKey] = func;
             }
         }
     }
 
     /**
-     * Check whether a role is allowed to access an action from a component
+     * Builds the `<component>!<access>` access-list key
      */
-    private function canAccess(string roleName, string componentName, string access) -> string | bool
+    private function buildAccessKey(string componentName, string access) -> string
     {
+        return componentName . "!" . access;
+    }
+
+    /**
+     * Builds the `<role>!<component>!<access>` rule key
+     */
+    private function buildKey(string roleName, string componentName, string access) -> string
+    {
+        return roleName . "!" . componentName . "!" . access;
+    }
+
+    /**
+     * Check whether a role is allowed to access an action from a component
+     *
+     * Returns the rule key that grants the access, or `false` when no rule
+     * matches. The native type is the wider `string | bool`.
+     *
+     * @return string|false
+     */
+    private function canAccess(
+        string roleName,
+        string componentName,
+        string access
+    ) -> bool | string {
         var accessList, checkRoleToInherit, usedRoleToInherit;
         array usedRoleToInherits, checkRoleToInherits;
-        string accessKey;
+        string accessKey, roleComponentPrefix, inheritPrefix;
+        int pendingIndex;
 
         let accessList = this->access;
 
-        let accessKey = roleName . "!" . componentName . "!" . access;
+        /**
+         * Build the shared `<role>!<component>!` prefix once and reuse
+         * it for the two component-scoped lookups below; only the
+         * role-only `<role>!*!*` key sits outside the prefix.
+         */
+        let roleComponentPrefix = roleName . "!" . componentName . "!";
+
+        let accessKey = roleComponentPrefix . access;
 
         /**
          * Check if there is a direct combination for role-component-access
@@ -886,7 +899,7 @@ class Memory extends AbstractAdapter
         /**
          * Check if there is a direct combination for role-*-*
          */
-        let accessKey = roleName . "!" . componentName . "!*";
+        let accessKey = roleComponentPrefix . "*";
 
         if isset accessList[accessKey] {
             return accessKey;
@@ -913,8 +926,16 @@ class Memory extends AbstractAdapter
 
             let usedRoleToInherits = [];
 
-            while !empty checkRoleToInherits {
-                let checkRoleToInherit = array_shift(checkRoleToInherits);
+            /**
+             * Walk the inheritance queue with an integer cursor instead of
+             * `array_shift`. New roles enqueued by the body land at the end
+             * of `checkRoleToInherits`, so advancing `pendingIndex` preserves
+             * FIFO order without paying `array_shift`'s O(n) reindex per pop.
+             */
+            let pendingIndex = 0;
+            while pendingIndex < count(checkRoleToInherits) {
+                let checkRoleToInherit = checkRoleToInherits[pendingIndex];
+                let pendingIndex++;
 
                 if isset usedRoleToInherits[checkRoleToInherit] {
                     continue;
@@ -922,7 +943,8 @@ class Memory extends AbstractAdapter
 
                 let usedRoleToInherits[checkRoleToInherit] = true;
 
-                let accessKey = checkRoleToInherit . "!" . componentName . "!" . access;
+                let inheritPrefix = checkRoleToInherit . "!" . componentName . "!";
+                let accessKey = inheritPrefix . access;
 
                 /**
                  * Check if there is a direct combination in one of the
@@ -935,7 +957,7 @@ class Memory extends AbstractAdapter
                 /**
                  * Check if there is a direct combination for role-*-*
                  */
-                let accessKey = checkRoleToInherit . "!" . componentName . "!*";
+                let accessKey = inheritPrefix . "*";
 
                 if isset accessList[accessKey] {
                     return accessKey;
@@ -965,12 +987,9 @@ class Memory extends AbstractAdapter
     }
 
     /**
-     * @param array  $collection
-     * @param string $element
-     * @param string $elementName
-     * @param string $suffix
+     * @phpstan-param array<string, mixed> $collection
      *
-     * @throws Exception
+     * @throws ElementNotFound
      */
     private function checkExists(
         array collection,
@@ -979,10 +998,211 @@ class Memory extends AbstractAdapter
         string suffix = "ACL"
     ) -> void {
         if (true !== isset(collection[element])) {
-            throw new Exception(
+            throw new ElementNotFound(
                 elementName . " '" . element .
                 "' does not exist in the " . suffix
             );
         }
+    }
+
+    /**
+     * Invokes a callable rule, binding the role/component/user objects to the
+     * closure parameters by type and enforcing its arity.
+     *
+     * @phpstan-param callable                      $funcAccess
+     * @phpstan-param array<int|string, mixed>|null $parameters
+     * @phpstan-param object|null                   $roleObject
+     * @phpstan-param object|null                   $componentObject
+     *
+     * @throws ParameterTypeMismatch
+     * @throws MissingFunctionParameters
+     * @throws ReflectionException
+     */
+    private function invokeRule(
+        var funcAccess,
+        int haveAccess,
+        var parameters,
+        var roleObject,
+        var componentObject,
+        string roleName,
+        string componentName,
+        string access
+    ) -> bool {
+        var className, numberOfRequiredParameters, parameterNumber,
+            parameterToCheck, parametersForFunction, reflectionClass,
+            reflectionFunction, reflectionParameter, reflectionParameters,
+            reflectionType, userParametersSizeShouldBe;
+        bool hasComponent = false, hasRole = false;
+
+        let reflectionFunction   = new ReflectionFunction(\Closure::fromCallable(funcAccess)),
+            reflectionParameters = reflectionFunction->getParameters(),
+            parameterNumber      = count(reflectionParameters);
+
+        /**
+         * No parameters, just return haveAccess and call function without
+         * array
+         */
+        if parameterNumber === 0 {
+            return haveAccess == Enum::ALLOW && call_user_func(funcAccess);
+        }
+
+        let parametersForFunction      = [],
+            numberOfRequiredParameters = reflectionFunction->getNumberOfRequiredParameters(),
+            userParametersSizeShouldBe = parameterNumber;
+
+        for reflectionParameter in reflectionParameters {
+            let reflectionType   = reflectionParameter->getType();
+            let parameterToCheck = reflectionParameter->getName();
+
+
+            if null !== reflectionType && (reflectionType instanceof ReflectionNamedType) && !reflectionType->isBuiltin() {
+                let className       = reflectionType->getName();
+                let reflectionClass = new ReflectionClass(className);
+                // roleObject is this class
+                if (
+                    null !== roleObject &&
+                    reflectionClass->isInstance(roleObject) &&
+                    !hasRole
+                ) {
+                    let hasRole                 = true,
+                        parametersForFunction[] = roleObject;
+                    let userParametersSizeShouldBe--;
+
+                    continue;
+                }
+
+                // componentObject is this class
+                if (componentObject !== null &&
+                    reflectionClass->isInstance(componentObject) &&
+                    !hasComponent
+                ) {
+                    let hasComponent            = true,
+                        parametersForFunction[] = componentObject;
+                    let userParametersSizeShouldBe--;
+
+                    continue;
+                }
+
+                /**
+                 * This is some user defined class, check if his parameter
+                 * is instance of it
+                 */
+                if unlikely (isset(parameters[parameterToCheck]) &&
+                    is_object(parameters[parameterToCheck]) &&
+                    !reflectionClass->isInstance(parameters[parameterToCheck])
+                ) {
+                    throw new ParameterTypeMismatch(
+                        "Your passed parameter does not have the " .
+                        "same class as the parameter in defined function " .
+                        "when checking if " . roleName . " can " . access .
+                        " " . componentName . ". Class passed: " .
+                        get_class(parameters[parameterToCheck]) .
+                        " , Class in defined function: " .
+                        reflectionClass->getName() . "."
+                    );
+                }
+            }
+
+            if isset parameters[parameterToCheck] {
+                /**
+                 * We can't check type of ReflectionParameter in PHP 5.x so
+                 * we just add it as it is
+                 */
+                let parametersForFunction[] = parameters[parameterToCheck];
+            }
+        }
+
+        let this->activeFunctionCustomArgumentsCount = userParametersSizeShouldBe;
+
+        if unlikely count(parameters) > userParametersSizeShouldBe {
+            trigger_error(
+                "Number of parameters in array is higher than " .
+                "the number of parameters in defined function when checking if '" .
+                roleName . "' can '" . access . "' '" . componentName .
+                "'. Extra parameters will be ignored.",
+                E_USER_WARNING
+            );
+        }
+
+        // We dont have any parameters so check default action
+        if empty parametersForFunction {
+            if unlikely numberOfRequiredParameters > 0 {
+                trigger_error(
+                    "You did not provide any parameters when '" . roleName .
+                    "' can '" . access . "' '"  . componentName .
+                    "'. We will use default action when no arguments."
+                );
+
+                return haveAccess == Enum::ALLOW && this->noArgumentsDefaultAction == Enum::ALLOW;
+            }
+
+            /**
+             * Number of required parameters == 0 so call funcAccess without
+             * any arguments
+             */
+            return haveAccess == Enum::ALLOW && call_user_func(funcAccess);
+        }
+
+        // Check necessary parameters
+        if count(parametersForFunction) >= numberOfRequiredParameters {
+            return haveAccess == Enum::ALLOW && call_user_func_array(funcAccess, parametersForFunction);
+        }
+
+        // We don't have enough parameters
+        throw new MissingFunctionParameters(
+            "You did not provide all necessary parameters for the " .
+            "defined function when checking if '" . roleName . "' can '" .
+            access . "' for '" . componentName . "'."
+        );
+    }
+
+    /**
+     * Resolves a component identifier (object or string) to its name
+     *
+     * @phpstan-param  object|string $component
+     * @phpstan-return string
+     *
+     * @throws InvalidComponentImplementation
+     */
+    private function toComponentName(var component)
+    {
+        if typeof component === "object" {
+            if component instanceof ComponentAwareInterface {
+                return component->getComponentName();
+            }
+
+            if component instanceof ComponentInterface {
+                return component->getName();
+            }
+
+            throw new InvalidComponentImplementation();
+        }
+
+        return component;
+    }
+
+    /**
+     * Resolves a role identifier (object or string) to its name
+     *
+     * @phpstan-param  object|string $role
+     * @phpstan-return string
+     *
+     * @throws InvalidRoleImplementation
+     */
+    private function toRoleName(var role)
+    {
+        if typeof role === "object" {
+            if role instanceof RoleAwareInterface {
+                return role->getRoleName();
+            }
+
+            if role instanceof RoleInterface {
+                return role->getName();
+            }
+
+            throw new InvalidRoleImplementation();
+        }
+
+        return role;
     }
 }

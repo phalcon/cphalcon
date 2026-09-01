@@ -61,7 +61,7 @@ class Digit extends AbstractValidator
      *     'allowEmpty' => false
      * ]
      */
-    public function __construct(array! options = [])
+    public function __construct( array options = [])
     {
         parent::__construct(options);
     }
@@ -76,7 +76,11 @@ class Digit extends AbstractValidator
             return true;
         }
 
-        if is_int(value) || ctype_digit(value) {
+        if this->rejectNonStringable(validation, field, value) {
+            return false;
+        }
+
+        if is_int(value) || ctype_digit((string) value) {
             return true;
         }
 

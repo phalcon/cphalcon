@@ -1,6 +1,6 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -17,16 +17,19 @@ namespace Phalcon\Support\Helper\Arr;
  */
 class Order
 {
+    /**
+     * @var int
+     */
     const ORDER_ASC  = 1;
+    /**
+     * @var int
+     */
     const ORDER_DESC = 2;
 
     /**
-     * @param array $collection
-     * @param mixed $attribute
-     * @param int   $order
-     * @param int   $flags
+     * @param array<array-key, mixed> $collection
      *
-     * @return array
+     * @return array<array-key, mixed>
      */
     public function __invoke(
         array collection,
@@ -52,18 +55,21 @@ class Order
     }
 
     /**
-     * @param array $sorted
-     * @param mixed $attribute
-     * @param mixed $item
+     * @param array<array-key, mixed> $sorted
+     * @param string                  $attribute
+     * @param mixed                   $item
      *
-     * @return array
+     * @return array<array-key, mixed>
      */
-    private function checkObject(array sorted, var attribute, var item) -> array
-    {
+    private function checkNonObject(
+        array sorted,
+        string attribute,
+        var item
+    ) -> array {
         var key;
 
-        if typeof item === "object" {
-            let key         = item->{attribute},
+        if typeof item !== "object" {
+            let key         = item[attribute],
                 sorted[key] = item;
         }
 
@@ -71,18 +77,21 @@ class Order
     }
 
     /**
-     * @param array $sorted
-     * @param mixed $attribute
-     * @param mixed $item
+     * @param array<array-key, mixed> $sorted
+     * @param string                  $attribute
+     * @param mixed                   $item
      *
-     * @return array
+     * @return array<array-key, mixed>
      */
-    private function checkNonObject(array sorted, var attribute, var item) -> array
-    {
+    private function checkObject(
+        array sorted,
+        string attribute,
+        var item
+    ) -> array {
         var key;
-
-        if typeof item !== "object" {
-            let key         = item[attribute],
+        
+        if typeof item === "object" {
+            let key         = item->{attribute},
                 sorted[key] = item;
         }
 

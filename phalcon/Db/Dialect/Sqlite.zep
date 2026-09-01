@@ -10,12 +10,24 @@
 
 namespace Phalcon\Db\Dialect;
 
+use Phalcon\Db\CheckInterface;
 use Phalcon\Db\Column;
-use Phalcon\Db\Exception;
-use Phalcon\Db\IndexInterface;
+use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\Dialect;
 use Phalcon\Db\DialectInterface;
-use Phalcon\Db\ColumnInterface;
+use Phalcon\Db\Exception;
+use Phalcon\Db\Exceptions\MissingDefinitionKey;
+use Phalcon\Db\Exceptions\ReturningRequiresColumn;
+use Phalcon\Db\Exceptions\SqliteAlterCheckNotSupported;
+use Phalcon\Db\Exceptions\SqliteAlterColumnNotSupported;
+use Phalcon\Db\Exceptions\SqliteAlterForeignKeyNotSupported;
+use Phalcon\Db\Exceptions\SqliteAlterPrimaryKeyNotSupported;
+use Phalcon\Db\Exceptions\SqliteDropCheckNotSupported;
+use Phalcon\Db\Exceptions\SqliteDropForeignKeyNotSupported;
+use Phalcon\Db\Exceptions\SqliteDropPrimaryKeyNotSupported;
+use Phalcon\Db\Exceptions\UnrecognizedDataType;
+use Phalcon\Db\IndexInterface;
+use Phalcon\Db\RawValue;
 use Phalcon\Db\ReferenceInterface;
 
 /**
@@ -29,24 +41,33 @@ class Sqlite extends Dialect
     protected escapeChar = "\"";
 
     /**
+     * @var array
+     */
+    protected supportedOperators = ["||", "->", "->>"];
+
+    /**
      * Generates SQL to add a column to a table
      */
-    public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string
+    public function addColumn( string tableName,  string schemaName, <ColumnInterface> column) -> string
     {
         var defaultValue;
         string sql;
 
         let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD COLUMN ";
 
-        let sql .= "\"" . column->getName() . "\" " . this->getColumnDefinition(column);
+        let sql .= "\"" . column->getName() . "\" "
+            . this->getColumnDefinition(column)
+            . this->getGeneratedClause(column);
 
-        if column->hasDefault() {
+        if !column->isGenerated() && column->hasDefault() {
             let defaultValue = column->getDefault();
 
-            if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+            if typeof defaultValue == "object" && defaultValue instanceof RawValue {
+                let sql .= " DEFAULT " . defaultValue->getValue();
+            } elseif memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
                 let sql .= " DEFAULT CURRENT_TIMESTAMP";
             } else {
-                let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+                let sql .= " DEFAULT '" . this->escapeStringLiteral(defaultValue) . "'";
             }
         }
 
@@ -56,7 +77,7 @@ class Sqlite extends Dialect
             let sql .= " NULL";
         }
 
-        if column->isAutoincrement() {
+        if !column->isGenerated() && column->isAutoincrement() {
             let sql .= " PRIMARY KEY AUTOINCREMENT";
         }
 
@@ -64,19 +85,26 @@ class Sqlite extends Dialect
     }
 
     /**
-     * Generates SQL to add an index to a table
+     * SQLite cannot ALTER an existing table to add a CHECK constraint;
+     * the constraint must be declared at CREATE TABLE time.
      */
-    public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> string
+    public function addCheck( string tableName,  string schemaName, <CheckInterface> check) -> string
     {
-        throw new Exception(
-            "Adding a foreign key constraint to an existing table is not supported by SQLite"
-        );
+        throw new SqliteAlterCheckNotSupported();
     }
 
     /**
      * Generates SQL to add an index to a table
      */
-    public function addIndex(string! tableName, string! schemaName, <IndexInterface> index) -> string
+    public function addForeignKey( string tableName,  string schemaName, <ReferenceInterface> reference) -> string
+    {
+        throw new SqliteAlterForeignKeyNotSupported();
+    }
+
+    /**
+     * Generates SQL to add an index to a table
+     */
+    public function addIndex( string tableName,  string schemaName, <IndexInterface> index) -> string
     {
         var indexType;
         string sql;
@@ -95,7 +123,12 @@ class Sqlite extends Dialect
             let sql .= "\"" . index->getName() . "\"";
         }
 
-        let sql .= " ON \"" . tableName . "\" (" . this->getColumnList(index->getColumns()) . ")";
+        let sql .= " ON \"" . tableName . "\" ("
+            . this->getIndexColumnList(index, false) . ")";
+
+        if index->getWhere() !== "" {
+            let sql .= " WHERE " . index->getWhere();
+        }
 
         return sql;
     }
@@ -103,21 +136,19 @@ class Sqlite extends Dialect
     /**
      * Generates SQL to add the primary key to a table
      */
-    public function addPrimaryKey(string! tableName, string! schemaName, <IndexInterface> index) -> string
+    public function addPrimaryKey( string tableName,  string schemaName, <IndexInterface> index) -> string
     {
-        throw new Exception(
-            "Adding a primary key after table has been created is not supported by SQLite"
-        );
+        throw new SqliteAlterPrimaryKeyNotSupported();
     }
 
     /**
      * Generates SQL to create a table
      */
-    public function createTable(string! tableName, string! schemaName, array! definition) -> string
+    public function createTable( string tableName,  string schemaName,  array definition) -> string
     {
         var columns, table, temporary, options, createLines, columnLine,
             column, indexes, index, indexName, indexType, references, reference,
-            defaultValue, referenceSql, onDelete, onUpdate;
+            defaultValue, referenceSql, onDelete, onUpdate, checks, check;
         bool hasPrimary;
         string sql;
 
@@ -129,9 +160,7 @@ class Sqlite extends Dialect
         }
 
         if unlikely !fetch columns, definition["columns"] {
-            throw new Exception(
-                "The index 'columns' is required in the definition array"
-            );
+            throw new MissingDefinitionKey("columns");
         }
 
         /**
@@ -149,33 +178,39 @@ class Sqlite extends Dialect
         let createLines = [];
 
         for column in columns {
-            let columnLine = "`" . column->getName() . "` " . this->getColumnDefinition(column);
+            let columnLine = "`" . column->getName() . "` "
+                . this->getColumnDefinition(column)
+                . this->getGeneratedClause(column);
 
-            /**
-             * Mark the column as primary key
-             */
-            if column->isPrimary() && !hasPrimary {
-                let columnLine .= " PRIMARY KEY";
-                let hasPrimary = true;
-            }
+            if !column->isGenerated() {
+                /**
+                 * Mark the column as primary key
+                 */
+                if column->isPrimary() && !hasPrimary {
+                    let columnLine .= " PRIMARY KEY";
+                    let hasPrimary = true;
+                }
 
-            /**
-             * Add an AUTOINCREMENT clause
-             */
-            if column->isAutoIncrement() && hasPrimary {
-                let columnLine .= " AUTOINCREMENT";
-            }
+                /**
+                 * Add an AUTOINCREMENT clause
+                 */
+                if column->isAutoIncrement() && hasPrimary {
+                    let columnLine .= " AUTOINCREMENT";
+                }
 
-            /**
-             * Add a Default clause
-             */
-            if column->hasDefault() {
-                let defaultValue = column->getDefault();
+                /**
+                 * Add a Default clause
+                 */
+                if column->hasDefault() {
+                    let defaultValue = column->getDefault();
 
-                if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
-                    let columnLine .= " DEFAULT CURRENT_TIMESTAMP";
-                } else {
-                    let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+                    if typeof defaultValue == "object" && defaultValue instanceof RawValue {
+                        let columnLine .= " DEFAULT " . defaultValue->getValue();
+                    } elseif memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+                        let columnLine .= " DEFAULT CURRENT_TIMESTAMP";
+                    } else {
+                        let columnLine .= " DEFAULT '" . this->escapeStringLiteral(defaultValue) . "'";
+                    }
                 }
             }
 
@@ -203,9 +238,11 @@ class Sqlite extends Dialect
                  * If the index name is primary we add a primary key
                  */
                 if indexName == "PRIMARY" && !hasPrimary {
-                    let createLines[] = "PRIMARY KEY (" . this->getColumnList(index->getColumns()) . ")";
+                    let createLines[] = "PRIMARY KEY ("
+                        . this->getIndexColumnList(index, false) . ")";
                 } elseif !empty indexType && memstr(strtoupper(indexType), "UNIQUE") {
-                    let createLines[] = "UNIQUE (" . this->getColumnList(index->getColumns()) . ")";
+                    let createLines[] = "UNIQUE ("
+                        . this->getIndexColumnList(index, false) . ")";
                 }
             }
         }
@@ -232,6 +269,15 @@ class Sqlite extends Dialect
             }
         }
 
+        /**
+         * Create CHECK constraints
+         */
+        if fetch checks, definition["checks"] {
+            for check in checks {
+                let createLines[] = this->getCheckClause(check, "`");
+            }
+        }
+
         let sql .= join(",\n\t", createLines) . "\n)";
 
         return sql;
@@ -240,14 +286,12 @@ class Sqlite extends Dialect
     /**
      * Generates SQL to create a view
      */
-    public function createView(string! viewName, array! definition, string schemaName = null) -> string
+    public function createView( string viewName,  array definition, string schemaName = null) -> string
     {
         var viewSql;
 
         if unlikely !fetch viewSql, definition["sql"] {
-            throw new Exception(
-                "The index 'sql' is required in the definition array"
-            );
+            throw new MissingDefinitionKey("sql");
         }
 
         return "CREATE VIEW " . this->prepareTable(viewName, schemaName) . " AS " . viewSql;
@@ -262,57 +306,78 @@ class Sqlite extends Dialect
      * );
      * ```
      */
-    public function describeColumns(string! table, string schema = null) -> string
+    public function describeColumns( string table, string schema = null) -> string
     {
-        return "PRAGMA table_info('" . table . "')";
+        /**
+         * `table_xinfo` mirrors `table_info` but exposes the `hidden` column:
+         *   0 = ordinary, 1 = hidden (virtual table internal),
+         *   2 = VIRTUAL generated, 3 = STORED generated.
+         *
+         * The adapter loop uses this to populate the generated-column flag
+         * (cphalcon issue [#14719] umbrella). The expression itself is not
+         * exposed by any pragma in SQLite, so it is not reverse-engineered.
+         */
+        return "PRAGMA table_xinfo('" . this->escapeStringLiteral(table) . "')";
     }
 
     /**
      * Generates SQL to query indexes detail on a table
      */
-    public function describeIndex(string! index) -> string
+    public function describeIndex( string index) -> string
     {
-        return "PRAGMA index_info('" . index . "')";
+        return "PRAGMA index_info('" . this->escapeStringLiteral(index) . "')";
     }
 
     /**
      * Generates SQL to query indexes on a table
      */
-    public function describeIndexes(string! table, string schema = null) -> string
+    public function describeIndexes( string table, string schema = null) -> string
     {
-        return "PRAGMA index_list('" . table . "')";
+        return "PRAGMA index_list('" . this->escapeStringLiteral(table) . "')";
     }
 
     /**
      * Generates SQL to query foreign keys on a table
      */
-    public function describeReferences(string! table, string schema = null) -> string
+    public function describeReferences( string table, string schema = null) -> string
     {
-        return "PRAGMA foreign_key_list('" . table . "')";
+        return "PRAGMA foreign_key_list('" . this->escapeStringLiteral(table) . "')";
     }
 
     /**
-     * Generates SQL to delete a column from a table
+     * Generates SQL to delete a column from a table.
+     *
+     * SQLite 3.35+ supports `ALTER TABLE ... DROP COLUMN ...` directly. On
+     * older versions the server rejects the statement at execution time;
+     * cphalcon no longer pre-empts that rejection at the dialect level so
+     * callers on 3.35+ can use the feature.
      */
-    public function dropColumn(string! tableName, string! schemaName, string! columnName) -> string
+    public function dropColumn( string tableName,  string schemaName,  string columnName) -> string
     {
-        throw new Exception("Dropping DB column is not supported by SQLite");
+        return "ALTER TABLE " . this->prepareTable(tableName, schemaName)
+            . " DROP COLUMN \"" . columnName . "\"";
+    }
+
+    /**
+     * SQLite cannot DROP a CHECK constraint from an existing table.
+     */
+    public function dropCheck( string tableName,  string schemaName,  string checkName) -> string
+    {
+        throw new SqliteDropCheckNotSupported();
     }
 
     /**
      * Generates SQL to delete a foreign key from a table
      */
-    public function dropForeignKey(string! tableName, string! schemaName, string! referenceName) -> string
+    public function dropForeignKey( string tableName,  string schemaName,  string referenceName) -> string
     {
-        throw new Exception(
-            "Dropping a foreign key constraint is not supported by SQLite"
-        );
+        throw new SqliteDropForeignKeyNotSupported();
     }
 
     /**
      * Generates SQL to delete an index from a table
      */
-    public function dropIndex(string! tableName, string! schemaName, string! indexName) -> string
+    public function dropIndex( string tableName,  string schemaName,  string indexName) -> string
     {
         if schemaName {
             return "DROP INDEX \"" . schemaName . "\".\"" . indexName . "\"";
@@ -324,17 +389,15 @@ class Sqlite extends Dialect
     /**
      * Generates SQL to delete primary key from a table
      */
-    public function dropPrimaryKey(string! tableName, string! schemaName) -> string
+    public function dropPrimaryKey( string tableName,  string schemaName) -> string
     {
-        throw new Exception(
-            "Removing a primary key after table has been created is not supported by SQLite"
-        );
+        throw new SqliteDropPrimaryKeyNotSupported();
     }
 
     /**
      * Generates SQL to drop a table
      */
-    public function dropTable(string! tableName, string schemaName = null, bool! ifExists = true) -> string
+    public function dropTable( string tableName, string schemaName = null,  bool ifExists = true) -> string
     {
         var table;
 
@@ -350,7 +413,7 @@ class Sqlite extends Dialect
     /**
      * Generates SQL to drop a view
      */
-    public function dropView(string! viewName, string schemaName = null, bool! ifExists = true) -> string
+    public function dropView( string viewName, string schemaName = null,  bool ifExists = true) -> string
     {
         var view;
 
@@ -364,10 +427,12 @@ class Sqlite extends Dialect
     }
 
     /**
-     * Returns a SQL modified with a FOR UPDATE clause. For SQLite it returns
-     * the original query
+     * Returns a SQL modified with a FOR UPDATE clause. SQLite has no
+     * row-level locking, so the original query is returned unchanged
+     * regardless of the `modifier` argument (`NOWAIT` / `SKIP LOCKED` are
+     * silently ignored).
      */
-    public function forUpdate(string! sqlQuery) -> string
+    public function forUpdate( string sqlQuery, string modifier = "") -> string
     {
         return sqlQuery;
     }
@@ -384,7 +449,7 @@ class Sqlite extends Dialect
 
         // SQLite has dynamic column typing. The conversion below maximizes
         // compatibility with other DBMS's while following the type affinity
-        // rules: http://www.sqlite.org/datatype3.html.
+        // rules: https://www.sqlite.org/datatype3.html.
         switch columnType {
 
             case Column::TYPE_BIGINTEGER:
@@ -515,9 +580,7 @@ class Sqlite extends Dialect
 
             default:
                 if empty columnSql {
-                    throw new Exception(
-                        "Unrecognized SQLite data type at column " . column->getName()
-                    );
+                    throw new UnrecognizedDataType("SQLite", column->getName());
                 }
 
                 let typeValues = column->getTypeValues();
@@ -528,12 +591,12 @@ class Sqlite extends Dialect
                         let valueSql = "";
 
                         for value in typeValues {
-                            let valueSql .= "\"" . addcslashes(value, "\"") . "\", ";
+                            let valueSql .= "'" . this->escapeStringLiteral(value) . "', ";
                         }
 
                         let columnSql .= "(" . substr(valueSql, 0, -2) . ")";
                     } else {
-                        let columnSql .= "(\"" . addcslashes(typeValues, "\"") . "\")";
+                        let columnSql .= "('" . this->escapeStringLiteral(typeValues) . "')";
                     }
                 }
         }
@@ -550,7 +613,7 @@ class Sqlite extends Dialect
      * );
      * ```
      */
-    public function listIndexesSql(string! table, string schema = null, string keyName = null) -> string
+    public function listIndexesSql( string table, string schema = null, string keyName = null) -> string
     {
         string sql;
 
@@ -580,7 +643,7 @@ class Sqlite extends Dialect
     /**
      * Generates the SQL to list all views of a schema or user
      */
-    public function listViews(string! schemaName = null) -> string
+    public function listViews( string schemaName = null) -> string
     {
         return "SELECT tbl_name FROM sqlite_master WHERE type = 'view' ORDER BY tbl_name";
     }
@@ -588,16 +651,58 @@ class Sqlite extends Dialect
     /**
      * Generates SQL to modify a column in a table
      */
-    public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> string
+    public function modifyColumn( string tableName,  string schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> string
     {
-        throw new Exception("Altering a DB column is not supported by SQLite");
+        throw new SqliteAlterColumnNotSupported();
     }
 
     /**
-     * Returns a SQL modified a shared lock statement. For now this method
-     * returns the original query
+     * Appends a `RETURNING` clause to the supplied INSERT/UPDATE/DELETE
+     * statement. Supported by SQLite 3.35+. Pass `["*"]` for `RETURNING *`,
+     * or a list of column names.
      */
-    public function sharedLock(string! sqlQuery) -> string
+    public function returning( string sqlQuery,  array columns) -> string
+    {
+        var first;
+
+        if unlikely empty columns {
+            throw new ReturningRequiresColumn();
+        }
+
+        if count(columns) == 1 {
+            let first = (string) columns[0];
+
+            if first == "*" {
+                return sqlQuery . " RETURNING *";
+            }
+        }
+
+        return sqlQuery . " RETURNING " . this->getColumnList(columns);
+    }
+
+    /**
+     * SQLite cannot modify existing columns or add/drop foreign keys, primary
+     * keys, or check constraints through `ALTER TABLE`; those operations throw
+     * a dedicated `Sqlite*NotSupported` exception.
+     */
+    public function supportsAlterTable() -> bool
+    {
+        return false;
+    }
+
+    /**
+     * SQLite (3.35+) supports the `RETURNING` clause.
+     */
+    public function supportsReturning() -> bool
+    {
+        return true;
+    }
+
+    /**
+     * SQLite has no row-level shared-lock construct, so the original query
+     * is returned unchanged regardless of the `modifier` argument.
+     */
+    public function sharedLock( string sqlQuery, string modifier = "") -> string
     {
         return sqlQuery;
     }
@@ -611,15 +716,15 @@ class Sqlite extends Dialect
      * echo $dialect->tableExists("posts");
      * ```
      */
-    public function tableExists(string! tableName, string schemaName = null) -> string
+    public function tableExists( string tableName, string schemaName = null) -> string
     {
-        return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM sqlite_master WHERE type='table' AND tbl_name='" . tableName . "'";
+        return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM sqlite_master WHERE type='table' AND tbl_name='" . this->escapeStringLiteral(tableName) . "'";
     }
 
     /**
      * Generates the SQL to describe the table creation options
      */
-    public function tableOptions(string! table, string schema = null) -> string
+    public function tableOptions( string table, string schema = null) -> string
     {
         return "";
     }
@@ -627,7 +732,7 @@ class Sqlite extends Dialect
     /**
      * Generates SQL to truncate a table
      */
-    public function truncateTable(string! tableName, string! schemaName) -> string
+    public function truncateTable( string tableName,  string schemaName) -> string
     {
         string table;
 
@@ -643,8 +748,8 @@ class Sqlite extends Dialect
     /**
      * Generates SQL checking for the existence of a schema.view
      */
-    public function viewExists(string! viewName, string schemaName = null) -> string
+    public function viewExists( string viewName, string schemaName = null) -> string
     {
-        return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM sqlite_master WHERE type='view' AND tbl_name='" . viewName . "'";
+        return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM sqlite_master WHERE type='view' AND tbl_name='" . this->escapeStringLiteral(viewName) . "'";
     }
 }

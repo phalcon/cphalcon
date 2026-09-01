@@ -20,8 +20,14 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * For the full copyright and license information, please view the LICENSE.md
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 /**
  * Class EscaperFactory
@@ -42,18 +48,12 @@ PHP_METHOD(Phalcon_Html_EscaperFactory, newInstance)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *this_ptr = getThis();
-
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	object_init_ex(return_value, phalcon_html_escaper_ce);
-	if (zephir_has_constructor(return_value)) {
-		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0);
-		zephir_check_call_status();
-	}
-
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0);
+	zephir_check_call_status();
 	RETURN_MM();
 }
 

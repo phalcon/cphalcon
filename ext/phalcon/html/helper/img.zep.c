@@ -12,23 +12,28 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/array.h"
-#include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/object.h"
 
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 /**
  * Class Img
+ *
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Img)
 {
@@ -38,58 +43,48 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Img)
 }
 
 /**
- * Produce a <img> tag.
+ * Produce a `<img>` tag.
  *
- * @param string $src
- * @param array  $attributes
- *
- * @return string
- * @throws Exception
+ * @phpstan-param html_attributes $attributes
  */
 PHP_METHOD(Phalcon_Html_Helper_Img, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval attributes;
-	zval *src_param = NULL, *attributes_param = NULL, overrides, _0;
-	zval src;
+	zval src_zv, *attributes_param = NULL, _0, _1;
+	zend_string *src = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&src);
-	ZVAL_UNDEF(&overrides);
+	ZVAL_UNDEF(&src_zv);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&attributes);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(src)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ARRAY(attributes)
+		ZEPHIR_Z_PARAM_ARRAY(attributes, attributes_param)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &src_param, &attributes_param);
-	zephir_get_strval(&src, src_param);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (ZEND_NUM_ARGS() > 1) {
+		attributes_param = ZEND_CALL_ARG(execute_data, 2);
+	}
+	zephir_memory_observe(&src_zv);
+	ZVAL_STR_COPY(&src_zv, src);
 	if (!attributes_param) {
 		ZEPHIR_INIT_VAR(&attributes);
 		array_init(&attributes);
 	} else {
 		zephir_get_arrval(&attributes, attributes_param);
 	}
-
-
-	ZEPHIR_INIT_VAR(&overrides);
-	zephir_create_array(&overrides, 1, 0);
-	zephir_array_update_string(&overrides, SL("src"), &src, PH_COPY | PH_SEPARATE);
-	zephir_array_unset_string(&attributes, SL("src"), PH_SEPARATE);
-	ZEPHIR_INIT_VAR(&_0);
-	zephir_fast_array_merge(&_0, &overrides, &attributes);
-	ZEPHIR_CPY_WRT(&overrides, &_0);
-	ZEPHIR_INIT_NVAR(&_0);
-	ZVAL_STRING(&_0, "img");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "selfclose", NULL, 0, &_0, &overrides);
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "src");
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "injectattribute", NULL, 0, &_1, &src_zv, &attributes);
+	zephir_check_call_status();
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_STRING(&_1, "img");
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "selfclose", NULL, 0, &_1, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

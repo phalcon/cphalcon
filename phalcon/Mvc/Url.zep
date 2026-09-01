@@ -10,15 +10,19 @@
 
 namespace Phalcon\Mvc;
 
-use Phalcon\Di\DiInterface;
 use Phalcon\Di\AbstractInjectionAware;
-use Phalcon\Mvc\RouterInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\Router\RouteInterface;
+use Phalcon\Mvc\RouterInterface;
 use Phalcon\Mvc\Url\Exception;
+use Phalcon\Mvc\Url\Exceptions\MissingRouteName;
+use Phalcon\Mvc\Url\Exceptions\RouteNotFound;
+use Phalcon\Mvc\Url\Exceptions\RouterServiceUnavailable;
 use Phalcon\Mvc\Url\UrlInterface;
+use Phalcon\Support\Helper\Str\ReduceSlashes;
 
 /**
- * This components helps in the generation of: URIs, URLs and Paths
+ * This component helps in the generation of: URIs, URLs and Paths
  *
  *```php
  * // Generate a URL appending the URI to the base URI
@@ -39,12 +43,12 @@ class Url extends AbstractInjectionAware implements UrlInterface
     /**
      * @var null | string
      */
-    protected baseUri = null;
+    protected basePath = null;
 
     /**
      * @var null | string
      */
-    protected basePath = null;
+    protected baseUri = null;
 
     /**
      * @var RouterInterface | null
@@ -86,11 +90,24 @@ class Url extends AbstractInjectionAware implements UrlInterface
      *     ]
      * );
      *
-     * // Generate an absolute URL by setting the third parameter as false.
+     * // A URI that already carries a scheme is detected as remote and is
+     * // returned untouched. The third parameter is only honored when it is
+     * // explicitly true - a false reads the same as leaving it out.
      * echo $url->get(
      *     "https://phalcon.io/",
      *     null,
      *     false
+     * );
+     *
+     * // Override existing query string keys instead of appending duplicates.
+     * // Without the fifth argument: "http://example.com?page=1&page=5".
+     * // With it set to true:        "http://example.com?page=5".
+     * echo $url->get(
+     *     "http://example.com?page=1",
+     *     ["page" => 5],
+     *     null,
+     *     null,
+     *     true
      * );
      *```
      *
@@ -98,10 +115,16 @@ class Url extends AbstractInjectionAware implements UrlInterface
      *     'for' => '',
      * ]
      */
-    public function get(var uri = null, var args = null, bool local = null, var baseUri = null) -> string
-    {
+    public function get(
+        var uri = null,
+        var arguments = null,
+        bool local = null,
+        var baseUri = null,
+        bool replaceArgs = false
+    ) -> string {
         string strUri;
-        var router, container, routeName, route, queryString;
+        var container, existing, hostname, queryPos, queryString,
+            router, routeName, route;
 
         if local == null {
             if typeof uri == "string" && (memstr(uri, "//") || memstr(uri, ":")) {
@@ -121,9 +144,7 @@ class Url extends AbstractInjectionAware implements UrlInterface
 
         if typeof uri == "array" {
             if unlikely !fetch routeName, uri["for"] {
-                throw new Exception(
-                    "It's necessary to define the route name with the parameter 'for'"
-                );
+                throw new MissingRouteName();
             }
 
             let router = this->router;
@@ -135,15 +156,11 @@ class Url extends AbstractInjectionAware implements UrlInterface
                 let container = <DiInterface> this->container;
 
                 if unlikely typeof container != "object" {
-                    throw new Exception(
-                        "A dependency injection container is required to access the 'router' service"
-                    );
+                    throw new RouterServiceUnavailable();
                 }
 
                 if unlikely !container->has("router") {
-                    throw new Exception(
-                        "A dependency injection container is required to access the 'router' service"
-                    );
+                    throw new RouterServiceUnavailable();
                 }
 
                 let router       = <RouterInterface> container->getShared("router"),
@@ -156,9 +173,7 @@ class Url extends AbstractInjectionAware implements UrlInterface
             let route = <RouteInterface> router->getRouteByName(routeName);
 
             if unlikely typeof route != "object" {
-                throw new Exception(
-                    "Cannot obtain a route using the name '" . routeName . "'"
-                );
+                throw new RouteNotFound(routeName);
             }
 
             /**
@@ -169,18 +184,52 @@ class Url extends AbstractInjectionAware implements UrlInterface
                 route->getReversedPaths(),
                 uri
             );
+
+            /**
+             * If the route has a hostname restriction, prepend it as a
+             * protocol-relative URL so the generated link works under
+             * both HTTP and HTTPS.  The baseUri is not prepended in this
+             * case because the hostname already provides the authority.
+             */
+            let hostname = route->getHostname();
+
+            if hostname !== null && hostname !== "" {
+                if substr(uri, 0, 1) !== "/" {
+                    let uri = "//" . hostname . "/" . uri;
+                } else {
+                    let uri = "//" . hostname . uri;
+                }
+
+                let local = false;
+            }
         }
 
         if local {
             let strUri = (string) uri;
-            let uri = preg_replace("#(?<!:)//+#", "/", baseUri . strUri);
+            let uri = (new ReduceSlashes())->__invoke(baseUri . strUri);
         }
 
-        if args {
-            let queryString = http_build_query(args);
+        if arguments {
+            let queryPos = strpos(uri, "?");
+
+            if replaceArgs && queryPos !== false {
+                let existing = [];
+
+                parse_str(
+                    (string) substr(uri, queryPos + 1),
+                    existing
+                );
+
+                let arguments = array_merge(existing, (array) arguments),
+                    uri  = (string) substr(uri, 0, queryPos);
+
+                let queryPos = false;
+            }
+
+            let queryString = http_build_query(arguments);
 
             if typeof queryString == "string" && strlen(queryString) {
-                if strpos(uri, "?") !== false {
+                if queryPos !== false {
                     let uri .= "&" . queryString;
                 } else {
                     let uri .= "?" . queryString;
@@ -194,7 +243,7 @@ class Url extends AbstractInjectionAware implements UrlInterface
     /**
      * Returns the base path
      */
-    public function getBasePath() -> string
+    public function getBasePath() -> string | null
     {
         return this->basePath;
     }
@@ -261,15 +310,19 @@ class Url extends AbstractInjectionAware implements UrlInterface
      */
     public function getStaticBaseUri() -> string
     {
-        var staticBaseUri;
-
-        let staticBaseUri = this->staticBaseUri;
-
-        if staticBaseUri !== null {
-            return staticBaseUri;
+        if this->staticBaseUri !== null {
+            return this->staticBaseUri;
         }
 
         return this->getBaseUri();
+    }
+
+    /**
+     * Generates a local path
+     */
+    public function path(string path = null) -> string
+    {
+        return this->basePath . path;
     }
 
     /**
@@ -279,7 +332,7 @@ class Url extends AbstractInjectionAware implements UrlInterface
      * $url->setBasePath("/var/www/htdocs/");
      *```
      */
-    public function setBasePath(string! basePath) -> <UrlInterface>
+    public function setBasePath( string basePath) -> <UrlInterface>
     {
         let this->basePath = basePath;
 
@@ -295,7 +348,7 @@ class Url extends AbstractInjectionAware implements UrlInterface
      * $url->setBaseUri("/invo/index.php/");
      *```
      */
-    public function setBaseUri(string! baseUri) -> <UrlInterface>
+    public function setBaseUri( string baseUri) -> <UrlInterface>
     {
         let this->baseUri = baseUri;
 
@@ -313,18 +366,10 @@ class Url extends AbstractInjectionAware implements UrlInterface
      * $url->setStaticBaseUri("/invo/");
      *```
      */
-    public function setStaticBaseUri(string! staticBaseUri) -> <UrlInterface>
+    public function setStaticBaseUri( string staticBaseUri) -> <UrlInterface>
     {
         let this->staticBaseUri = staticBaseUri;
 
         return this;
-    }
-
-    /**
-     * Generates a local path
-     */
-    public function path(string path = null) -> string
-    {
-        return this->basePath . path;
     }
 }

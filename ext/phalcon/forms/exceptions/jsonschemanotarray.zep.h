@@ -1,0 +1,14 @@
+
+extern zend_class_entry *phalcon_forms_exceptions_jsonschemanotarray_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Forms_Exceptions_JsonSchemaNotArray);
+
+PHP_METHOD(Phalcon_Forms_Exceptions_JsonSchemaNotArray, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_exceptions_jsonschemanotarray___construct, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_forms_exceptions_jsonschemanotarray_method_entry) {
+PHP_ME(Phalcon_Forms_Exceptions_JsonSchemaNotArray, __construct, arginfo_phalcon_forms_exceptions_jsonschemanotarray___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};

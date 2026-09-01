@@ -12,13 +12,11 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/string.h"
 #include "kernel/memory.h"
+#include "kernel/string.h"
 #include "kernel/array.h"
 #include "kernel/exception.h"
-#include "ext/spl/spl_exceptions.h"
 #include "kernel/fcall.h"
-#include "kernel/concat.h"
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "ext/pdo/php_pdo_driver.h"
@@ -40,10 +38,6 @@
 /**
  * Provides array quoting, profiling, a new `perform()` method, new `fetch*()`
  * methods
- *
- * @property array             $arguments
- * @property PDO               $pdo
- * @property ProfilerInterface $profiler
  */
 ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Connection)
 {
@@ -75,14 +69,14 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval options, queries, available, _5;
-	zval *dsn_param = NULL, *username_param = NULL, *password_param = NULL, *options_param = NULL, *queries_param = NULL, *profiler = NULL, profiler_sub, __$true, __$null, parts, _0, _1$$3, _2$$3, _3$$3, _4$$4;
-	zval dsn, username, password;
+	zval options, queries, available, _4;
+	zval dsn_zv, username_zv, password_zv, *options_param = NULL, *queries_param = NULL, *profiler = NULL, profiler_sub, __$true, __$null, parts, _0, _1$$3, _2$$3, _3$$4;
+	zend_string *dsn = NULL, *username = NULL, *password = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&dsn);
-	ZVAL_UNDEF(&username);
-	ZVAL_UNDEF(&password);
+	ZVAL_UNDEF(&dsn_zv);
+	ZVAL_UNDEF(&username_zv);
+	ZVAL_UNDEF(&password_zv);
 	ZVAL_UNDEF(&profiler_sub);
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_NULL(&__$null);
@@ -90,38 +84,50 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __construct)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
-	ZVAL_UNDEF(&_3$$3);
-	ZVAL_UNDEF(&_4$$4);
+	ZVAL_UNDEF(&_3$$4);
 	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&queries);
 	ZVAL_UNDEF(&available);
-	ZVAL_UNDEF(&_5);
-#if PHP_VERSION_ID >= 80000
+	ZVAL_UNDEF(&_4);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("arguments", 9, 1);
+	}
+
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 6)
 		Z_PARAM_STR(dsn)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(username)
 		Z_PARAM_STR_OR_NULL(password)
-		Z_PARAM_ARRAY(options)
-		Z_PARAM_ARRAY(queries)
+		ZEPHIR_Z_PARAM_ARRAY(options, options_param)
+		ZEPHIR_Z_PARAM_ARRAY(queries, queries_param)
 		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(profiler, phalcon_datamapper_pdo_profiler_profilerinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 5, &dsn_param, &username_param, &password_param, &options_param, &queries_param, &profiler);
-	zephir_get_strval(&dsn, dsn_param);
-	if (!username_param) {
-		ZEPHIR_INIT_VAR(&username);
-	} else {
-		zephir_get_strval(&username, username_param);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (ZEND_NUM_ARGS() > 3) {
+		options_param = ZEND_CALL_ARG(execute_data, 4);
 	}
-	if (!password_param) {
-		ZEPHIR_INIT_VAR(&password);
+	if (ZEND_NUM_ARGS() > 4) {
+		queries_param = ZEND_CALL_ARG(execute_data, 5);
+	}
+	if (ZEND_NUM_ARGS() > 5) {
+		profiler = ZEND_CALL_ARG(execute_data, 6);
+	}
+	zephir_memory_observe(&dsn_zv);
+	ZVAL_STR_COPY(&dsn_zv, dsn);
+	if (!username) {
+		ZEPHIR_INIT_VAR(&username_zv);
 	} else {
-		zephir_get_strval(&password, password_param);
+		zephir_memory_observe(&username_zv);
+	ZVAL_STR_COPY(&username_zv, username);
+	}
+	if (!password) {
+		ZEPHIR_INIT_VAR(&password_zv);
+	} else {
+		zephir_memory_observe(&password_zv);
+	ZVAL_STR_COPY(&password_zv, password);
 	}
 	if (!options_param) {
 		ZEPHIR_INIT_VAR(&options);
@@ -141,46 +147,42 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __construct)
 	} else {
 		ZEPHIR_SEPARATE_PARAM(profiler);
 	}
-
-
 	ZEPHIR_INIT_VAR(&parts);
-	zephir_fast_explode_str(&parts, SL(":"), &dsn, LONG_MAX);
+	zephir_fast_explode_str(&parts, SL(":"), &dsn_zv, LONG_MAX);
 	ZEPHIR_INIT_VAR(&available);
 	zephir_create_array(&available, 4, 0);
 	zephir_array_update_string(&available, SL("mysql"), &__$true, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&available, SL("pgsql"), &__$true, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&available, SL("sqlite"), &__$true, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&available, SL("mssql"), &__$true, PH_COPY | PH_SEPARATE);
-	zephir_array_fetch_long(&_0, &parts, 0, PH_READONLY, "phalcon/DataMapper/Pdo/Connection.zep", 69);
-	if (!(zephir_array_isset(&available, &_0))) {
+	zephir_array_fetch_long(&_0, &parts, 0, PH_READONLY, "phalcon/DataMapper/Pdo/Connection.zep", 65);
+	if (!(zephir_array_isset_value(&available, &_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
-		object_init_ex(&_1$$3, spl_ce_InvalidArgumentException);
-		zephir_array_fetch_long(&_2$$3, &parts, 0, PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/Connection.zep", 71);
-		ZEPHIR_INIT_VAR(&_3$$3);
-		ZEPHIR_CONCAT_SVS(&_3$$3, "Driver not supported [", &_2$$3, "]");
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 40, &_3$$3);
+		object_init_ex(&_1$$3, phalcon_datamapper_pdo_exception_drivernotsupported_ce);
+		zephir_array_fetch_long(&_2$$3, &parts, 0, PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/Connection.zep", 66);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/DataMapper/Pdo/Connection.zep", 72);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/DataMapper/Pdo/Connection.zep", 66);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	if (!(zephir_array_isset_long(&options, 3))) {
-		ZEPHIR_INIT_VAR(&_4$$4);
-		ZVAL_LONG(&_4$$4, 2);
-		zephir_array_update_long(&options, 3, &_4$$4, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
+	if (!(zephir_array_isset_value_long(&options, 3))) {
+		ZEPHIR_INIT_VAR(&_3$$4);
+		ZVAL_LONG(&_3$$4, 2);
+		zephir_array_update_long(&options, 3, &_3$$4, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
 	}
-	ZEPHIR_INIT_VAR(&_5);
-	zephir_create_array(&_5, 5, 0);
-	zephir_array_fast_append(&_5, &dsn);
-	zephir_array_fast_append(&_5, &username);
-	zephir_array_fast_append(&_5, &password);
-	zephir_array_fast_append(&_5, &options);
-	zephir_array_fast_append(&_5, &queries);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("arguments"), &_5);
+	ZEPHIR_INIT_VAR(&_4);
+	zephir_create_array(&_4, 5, 0);
+	zephir_array_fast_append(&_4, &dsn_zv);
+	zephir_array_fast_append(&_4, &username_zv);
+	zephir_array_fast_append(&_4, &password_zv);
+	zephir_array_fast_append(&_4, &options);
+	zephir_array_fast_append(&_4, &queries);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 565, &_4);
 	if (Z_TYPE_P(profiler) == IS_NULL) {
 		ZEPHIR_INIT_NVAR(profiler);
 		object_init_ex(profiler, phalcon_datamapper_pdo_profiler_profiler_ce);
-		ZEPHIR_CALL_METHOD(NULL, profiler, "__construct", NULL, 214);
+		ZEPHIR_CALL_METHOD(NULL, profiler, "__construct", NULL, 0);
 		zephir_check_call_status();
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setprofiler", NULL, 0, profiler);
@@ -206,16 +208,19 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __debugInfo)
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
-
-
-	ZEPHIR_MM_GROW();
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("arguments", 9, 1);
+	}
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_create_array(return_value, 1, 0);
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 5, 0);
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("arguments"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_OBS_VAR(&_2);
-	zephir_array_fetch_long(&_2, &_1, 0, PH_NOISY, "phalcon/DataMapper/Pdo/Connection.zep", 106);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 565, PH_NOISY_CC | PH_READONLY);
+	zephir_memory_observe(&_2);
+	zephir_array_fetch_long(&_2, &_1, 0, PH_NOISY, "phalcon/DataMapper/Pdo/Connection.zep", 100);
 	zephir_array_fast_append(&_0, &_2);
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "****");
@@ -223,13 +228,13 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __debugInfo)
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "****");
 	zephir_array_fast_append(&_0, &_3);
-	zephir_read_property(&_4, this_ptr, ZEND_STRL("arguments"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 565, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_OBS_NVAR(&_2);
-	zephir_array_fetch_long(&_2, &_4, 3, PH_NOISY, "phalcon/DataMapper/Pdo/Connection.zep", 109);
+	zephir_array_fetch_long(&_2, &_4, 3, PH_NOISY, "phalcon/DataMapper/Pdo/Connection.zep", 103);
 	zephir_array_fast_append(&_0, &_2);
-	zephir_read_property(&_5, this_ptr, ZEND_STRL("arguments"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_0, 565, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_OBS_NVAR(&_2);
-	zephir_array_fetch_long(&_2, &_5, 4, PH_NOISY, "phalcon/DataMapper/Pdo/Connection.zep", 111);
+	zephir_array_fetch_long(&_2, &_5, 4, PH_NOISY, "phalcon/DataMapper/Pdo/Connection.zep", 105);
 	zephir_array_fast_append(&_0, &_2);
 	zephir_array_update_string(return_value, SL("arguments"), &_0, PH_COPY | PH_SEPARATE);
 	RETURN_MM();
@@ -240,9 +245,10 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __debugInfo)
  */
 PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, connect)
 {
-	zval dsn, options, password, query, queries, username, _0, _1$$3, _2$$3, _3$$3, _4$$3, _5$$3, _6$$3, _7$$3, _8$$3, *_9$$3, _10$$3;
+	zend_bool _16$$3;
+	zval dsn, options, password, query, queries, username, _0, _1$$3, _2$$3, _3$$3, _4$$3, _5$$3, _6$$3, _7$$3, _8$$3, _9$$3, _10$$3, _11$$3, *_12$$3, *_13$$3, _15$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_11 = NULL;
+	zephir_fcall_cache_entry *_14 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -261,65 +267,101 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, connect)
 	ZVAL_UNDEF(&_6$$3);
 	ZVAL_UNDEF(&_7$$3);
 	ZVAL_UNDEF(&_8$$3);
+	ZVAL_UNDEF(&_9$$3);
 	ZVAL_UNDEF(&_10$$3);
+	ZVAL_UNDEF(&_11$$3);
+	ZVAL_UNDEF(&_15$$3);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("pdo", 3, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("profiler", 8, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("arguments", 9, 1);
+	}
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-
-	ZEPHIR_MM_GROW();
-
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("pdo"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 566, PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_is_true(&_0))) {
-		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("profiler"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_INIT_VAR(&_2$$3);
-		ZVAL_STRING(&_2$$3, "connect");
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "start", NULL, 0, &_2$$3);
+		ZEPHIR_INIT_VAR(&_1$$3);
+		ZVAL_STRING(&_1$$3, "dm:beforeConnect");
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "firebefore", NULL, 0, &_1$$3);
 		zephir_check_call_status();
-		zephir_read_property(&_3$$3, this_ptr, ZEND_STRL("arguments"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_OBS_VAR(&dsn);
-		zephir_array_fetch_long(&dsn, &_3$$3, 0, PH_NOISY, "phalcon/DataMapper/Pdo/Connection.zep", 126);
-		zephir_read_property(&_4$$3, this_ptr, ZEND_STRL("arguments"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_OBS_VAR(&username);
-		zephir_array_fetch_long(&username, &_4$$3, 1, PH_NOISY, "phalcon/DataMapper/Pdo/Connection.zep", 127);
-		zephir_read_property(&_5$$3, this_ptr, ZEND_STRL("arguments"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_OBS_VAR(&password);
-		zephir_array_fetch_long(&password, &_5$$3, 2, PH_NOISY, "phalcon/DataMapper/Pdo/Connection.zep", 128);
-		zephir_read_property(&_6$$3, this_ptr, ZEND_STRL("arguments"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_OBS_VAR(&options);
-		zephir_array_fetch_long(&options, &_6$$3, 3, PH_NOISY, "phalcon/DataMapper/Pdo/Connection.zep", 129);
-		zephir_read_property(&_7$$3, this_ptr, ZEND_STRL("arguments"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_OBS_VAR(&queries);
-		zephir_array_fetch_long(&queries, &_7$$3, 4, PH_NOISY, "phalcon/DataMapper/Pdo/Connection.zep", 130);
-		ZEPHIR_INIT_NVAR(&_2$$3);
-		object_init_ex(&_2$$3, php_pdo_get_dbh_ce());
-		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 0, &dsn, &username, &password, &options);
+		zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_1, 567, PH_NOISY_CC | PH_READONLY);
+		ZEPHIR_INIT_NVAR(&_1$$3);
+		ZVAL_STRING(&_1$$3, "connect");
+		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "start", NULL, 0, &_1$$3);
 		zephir_check_call_status();
-		zephir_update_property_zval(this_ptr, ZEND_STRL("pdo"), &_2$$3);
-		zephir_read_property(&_8$$3, this_ptr, ZEND_STRL("profiler"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_3$$3, this_ptr, _zephir_prop_2, 565, PH_NOISY_CC | PH_READONLY);
+		zephir_memory_observe(&dsn);
+		zephir_array_fetch_long(&dsn, &_3$$3, 0, PH_NOISY, "phalcon/DataMapper/Pdo/Connection.zep", 122);
+		zephir_read_property_cached(&_4$$3, this_ptr, _zephir_prop_2, 565, PH_NOISY_CC | PH_READONLY);
+		zephir_memory_observe(&username);
+		zephir_array_fetch_long(&username, &_4$$3, 1, PH_NOISY, "phalcon/DataMapper/Pdo/Connection.zep", 123);
+		zephir_read_property_cached(&_5$$3, this_ptr, _zephir_prop_2, 565, PH_NOISY_CC | PH_READONLY);
+		zephir_memory_observe(&password);
+		zephir_array_fetch_long(&password, &_5$$3, 2, PH_NOISY, "phalcon/DataMapper/Pdo/Connection.zep", 124);
+		zephir_read_property_cached(&_6$$3, this_ptr, _zephir_prop_2, 565, PH_NOISY_CC | PH_READONLY);
+		zephir_memory_observe(&options);
+		zephir_array_fetch_long(&options, &_6$$3, 3, PH_NOISY, "phalcon/DataMapper/Pdo/Connection.zep", 125);
+		zephir_read_property_cached(&_7$$3, this_ptr, _zephir_prop_2, 565, PH_NOISY_CC | PH_READONLY);
+		zephir_memory_observe(&queries);
+		zephir_array_fetch_long(&queries, &_7$$3, 4, PH_NOISY, "phalcon/DataMapper/Pdo/Connection.zep", 126);
+		ZEPHIR_INIT_NVAR(&_1$$3);
+		object_init_ex(&_1$$3, php_pdo_get_dbh_ce());
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0, &dsn, &username, &password, &options);
+		zephir_check_call_status();
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 566, &_1$$3);
+		zephir_read_property_cached(&_8$$3, this_ptr, _zephir_prop_1, 567, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(NULL, &_8$$3, "finish", NULL, 0);
 		zephir_check_call_status();
-		zephir_is_iterable(&queries, 0, "phalcon/DataMapper/Pdo/Connection.zep", 140);
-		if (Z_TYPE_P(&queries) == IS_ARRAY) {
-			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&queries), _9$$3)
+		ZEPHIR_INIT_VAR(&_9$$3);
+		ZVAL_STRING(&_9$$3, "dm:afterConnect");
+		ZVAL_NULL(&_10$$3);
+		ZVAL_BOOL(&_11$$3, 0);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "firemanagerevent", NULL, 0, &_9$$3, &_10$$3, &_11$$3);
+		zephir_check_call_status();
+		if (Z_TYPE_P(&queries) == IS_STRING) {
+			ZEPHIR_INIT_NVAR(&_9$$3);
+			zephir_string_to_char_array(&_9$$3, &queries);
+			_12$$3 = &_9$$3;
+		} else {
+			_12$$3 = &queries;
+		}
+		zephir_is_iterable(_12$$3, 0, "phalcon/DataMapper/Pdo/Connection.zep", 138);
+		if (Z_TYPE_P(_12$$3) == IS_ARRAY) {
+			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_12$$3), _13$$3)
 			{
 				ZEPHIR_INIT_NVAR(&query);
-				ZVAL_COPY(&query, _9$$3);
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "exec", &_11, 0, &query);
+				ZVAL_COPY(&query, _13$$3);
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "exec", &_14, 0, &query);
 				zephir_check_call_status();
 			} ZEND_HASH_FOREACH_END();
 		} else {
-			ZEPHIR_CALL_METHOD(NULL, &queries, "rewind", NULL, 0);
+			ZEPHIR_CALL_METHOD(NULL, _12$$3, "rewind", NULL, 0);
 			zephir_check_call_status();
+			_16$$3 = 1;
 			while (1) {
-				ZEPHIR_CALL_METHOD(&_10$$3, &queries, "valid", NULL, 0);
+				if (_16$$3) {
+					_16$$3 = 0;
+				} else {
+					ZEPHIR_CALL_METHOD(NULL, _12$$3, "next", NULL, 0);
+					zephir_check_call_status();
+				}
+				ZEPHIR_CALL_METHOD(&_15$$3, _12$$3, "valid", NULL, 0);
 				zephir_check_call_status();
-				if (!zend_is_true(&_10$$3)) {
+				if (!zend_is_true(&_15$$3)) {
 					break;
 				}
-				ZEPHIR_CALL_METHOD(&query, &queries, "current", NULL, 0);
+				ZEPHIR_CALL_METHOD(&query, _12$$3, "current", NULL, 0);
 				zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(NULL, this_ptr, "exec", &_11, 0, &query);
+					ZEPHIR_CALL_METHOD(NULL, this_ptr, "exec", &_14, 0, &query);
 					zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(NULL, &queries, "next", NULL, 0);
-				zephir_check_call_status();
 			}
 		}
 		ZEPHIR_INIT_NVAR(&query);
@@ -333,7 +375,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, connect)
 PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, disconnect)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval __$null, _0, _1, _2;
+	zval __$null, _0, _1, _2, _3, _4;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -341,18 +383,37 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, disconnect)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("profiler", 8, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("pdo", 3, 1);
+	}
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-
-	ZEPHIR_MM_GROW();
-
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("profiler"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_INIT_VAR(&_1);
-	ZVAL_STRING(&_1, "disconnect");
-	ZEPHIR_CALL_METHOD(NULL, &_0, "start", NULL, 0, &_1);
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "dm:beforeDisconnect");
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "firebefore", NULL, 0, &_0);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("pdo"), &__$null);
-	zephir_read_property(&_2, this_ptr, ZEND_STRL("profiler"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 567, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_INIT_NVAR(&_0);
+	ZVAL_STRING(&_0, "disconnect");
+	ZEPHIR_CALL_METHOD(NULL, &_1, "start", NULL, 0, &_0);
+	zephir_check_call_status();
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 566, &__$null);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 567, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, &_2, "finish", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_INIT_NVAR(&_0);
+	ZVAL_STRING(&_0, "dm:afterDisconnect");
+	ZVAL_NULL(&_3);
+	ZVAL_BOOL(&_4, 0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "firemanagerevent", NULL, 0, &_0, &_3, &_4);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -365,7 +426,8 @@ zend_object *zephir_init_properties_Phalcon_DataMapper_Pdo_Connection(zend_class
 	ZVAL_UNDEF(&_1$$3);
 	
 
-		ZEPHIR_MM_GROW();
+		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;

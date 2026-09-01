@@ -1,0 +1,14 @@
+version: 2
+
+updates:
+  # Keep the SHA-pinned GitHub Actions current. Dependabot opens reviewable
+  # pull requests that bump both the commit SHA and the trailing "# version"
+  # comment; it never merges on its own. "/" covers .github/workflows, and the
+  # glob covers the composite actions under .github/actions.
+  - package-ecosystem: "github-actions"
+    directories:
+      - "/"
+      - "/.github/actions/*"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10

@@ -10,48 +10,15 @@
 
 namespace Phalcon\Db;
 
+use Phalcon\Contracts\Db\Reference as ReferenceContract;
+
 /**
- * Interface for Phalcon\Db\Reference
+ * Phalcon\Db\ReferenceInterface
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Db\Reference} instead.
  */
-interface ReferenceInterface
+interface ReferenceInterface extends ReferenceContract
 {
-    /**
-     * Gets local columns which reference is based
-     */
-    public function getColumns() -> array;
-
-    /**
-     * Gets the index name
-     */
-    public function getName() -> string;
-
-    /**
-     * Gets the referenced on delete
-     */
-    public function getOnDelete() -> string;
-
-    /**
-     * Gets the referenced on update
-     */
-    public function getOnUpdate() -> string;
-
-    /**
-     * Gets referenced columns
-     */
-    public function getReferencedColumns() -> array;
-
-    /**
-     * Gets the schema where referenced table is
-     */
-    public function getReferencedSchema() -> string;
-
-    /**
-     * Gets the referenced table
-     */
-    public function getReferencedTable() -> string;
-
-    /**
-     * Gets the schema where referenced table is
-     */
-    public function getSchemaName() -> string;
 }

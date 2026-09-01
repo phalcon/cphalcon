@@ -13,11 +13,10 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/array.h"
 
@@ -40,36 +39,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_LazyLoader)
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Micro, LazyLoader, phalcon, mvc_micro_lazyloader, phalcon_mvc_micro_lazyloader_method_entry, 0);
 
 	/**
-	 * @var object|null
-	 */
-	zend_declare_property_null(phalcon_mvc_micro_lazyloader_ce, SL("handler"), ZEND_ACC_PROTECTED);
-	/**
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_mvc_micro_lazyloader_ce, SL("definition"), ZEND_ACC_PROTECTED);
+	/**
+	 * @var object|null
+	 */
+	zend_declare_property_null(phalcon_mvc_micro_lazyloader_ce, SL("handler"), ZEND_ACC_PROTECTED);
 	return SUCCESS;
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, getHandler)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "handler");
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, getDefinition)
-{
-	zval *this_ptr = getThis();
-
-
-
-	RETURN_MEMBER(getThis(), "definition");
 }
 
 /**
@@ -77,35 +54,21 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, getDefinition)
  */
 PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct)
 {
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *definition_param = NULL;
-	zval definition;
+	zval definition_zv;
+	zend_string *definition = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&definition);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	ZVAL_UNDEF(&definition_zv);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("definition", 10, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(definition)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &definition_param);
-	if (UNEXPECTED(Z_TYPE_P(definition_param) != IS_STRING && Z_TYPE_P(definition_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'definition' must be of the type string"));
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(definition_param) == IS_STRING)) {
-		zephir_get_strval(&definition, definition_param);
-	} else {
-		ZEPHIR_INIT_VAR(&definition);
-	}
-
-
-	zephir_update_property_zval(this_ptr, ZEND_STRL("definition"), &definition);
-	ZEPHIR_MM_RESTORE();
+	ZVAL_STR(&definition_zv, definition);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 994, &definition_zv);
 }
 
 /**
@@ -116,14 +79,14 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct)
  */
 PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
 {
-	zval _4;
+	zval _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *method_param = NULL, *arguments = NULL, arguments_sub, *modelBinder = NULL, modelBinder_sub, __$null, handler, definition, bindCacheKey, _0, _1$$4, _2$$4, _3$$5;
-	zval method;
+	zval method_zv, *arguments = NULL, arguments_sub, *modelBinder = NULL, modelBinder_sub, __$null, handler, definition, bindCacheKey, _0, _4, _1$$4, _2$$5;
+	zend_string *method = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&method);
+	ZVAL_UNDEF(&method_zv);
 	ZVAL_UNDEF(&arguments_sub);
 	ZVAL_UNDEF(&modelBinder_sub);
 	ZVAL_NULL(&__$null);
@@ -131,11 +94,19 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
 	ZVAL_UNDEF(&definition);
 	ZVAL_UNDEF(&bindCacheKey);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$4);
-	ZVAL_UNDEF(&_2$$4);
-	ZVAL_UNDEF(&_3$$5);
 	ZVAL_UNDEF(&_4);
-#if PHP_VERSION_ID >= 80000
+	ZVAL_UNDEF(&_1$$4);
+	ZVAL_UNDEF(&_2$$5);
+	ZVAL_UNDEF(&_3);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("handler", 7, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("definition", 10, 1);
+	}
+
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_STR(method)
@@ -143,61 +114,71 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(modelBinder, phalcon_mvc_model_binderinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 1, &method_param, &arguments, &modelBinder);
-	if (UNEXPECTED(Z_TYPE_P(method_param) != IS_STRING && Z_TYPE_P(method_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'method' must be of the type string"));
-		RETURN_MM_NULL();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	arguments = ZEND_CALL_ARG(execute_data, 2);
+	if (ZEND_NUM_ARGS() > 2) {
+		modelBinder = ZEND_CALL_ARG(execute_data, 3);
 	}
-	if (EXPECTED(Z_TYPE_P(method_param) == IS_STRING)) {
-		zephir_get_strval(&method, method_param);
-	} else {
-		ZEPHIR_INIT_VAR(&method);
-	}
+	zephir_memory_observe(&method_zv);
+	ZVAL_STR_COPY(&method_zv, method);
 	ZEPHIR_SEPARATE_PARAM(arguments);
 	if (!modelBinder) {
 		modelBinder = &modelBinder_sub;
 		modelBinder = &__$null;
 	}
-
-
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("handler"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 995, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&handler, &_0);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("definition"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 994, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&definition, &_0);
 	if (Z_TYPE_P(&handler) != IS_OBJECT) {
 		if (!(zephir_class_exists(&definition, 1))) {
 			ZEPHIR_INIT_VAR(&_1$$4);
-			object_init_ex(&_1$$4, phalcon_mvc_micro_exception_ce);
-			ZEPHIR_INIT_VAR(&_2$$4);
-			ZEPHIR_CONCAT_SVS(&_2$$4, "Handler '", &definition, "' doesn't exist");
-			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 31, &_2$$4);
+			object_init_ex(&_1$$4, phalcon_mvc_micro_exceptions_lazyhandlernotfound_ce);
+			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 0, &definition);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_1$$4, "phalcon/Mvc/Micro/LazyLoader.zep", 55);
+			zephir_throw_exception_debug(&_1$$4, "phalcon/Mvc/Micro/LazyLoader.zep", 56);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
 		ZEPHIR_INIT_NVAR(&handler);
 		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(&handler, &definition);
 		zephir_check_call_status();
-		zephir_update_property_zval(this_ptr, ZEND_STRL("handler"), &handler);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 995, &handler);
 	}
 	if (Z_TYPE_P(modelBinder) != IS_NULL) {
 		ZEPHIR_INIT_VAR(&bindCacheKey);
-		ZEPHIR_CONCAT_SVSV(&bindCacheKey, "_PHMB_", &definition, "_", &method);
-		ZEPHIR_CALL_METHOD(&_3$$5, modelBinder, "bindtohandler", NULL, 0, &handler, arguments, &bindCacheKey, &method);
+		ZEPHIR_CONCAT_SVSV(&bindCacheKey, "_PHMB_", &definition, "_", &method_zv);
+		ZEPHIR_CALL_METHOD(&_2$$5, modelBinder, "bindtohandler", NULL, 0, &handler, arguments, &bindCacheKey, &method_zv);
 		zephir_check_call_status();
-		ZEPHIR_CPY_WRT(arguments, &_3$$5);
+		ZEPHIR_CPY_WRT(arguments, &_2$$5);
 	}
-	ZEPHIR_INIT_VAR(&_4);
-	zephir_create_array(&_4, 2, 0);
-	zephir_array_fast_append(&_4, &handler);
-	zephir_array_fast_append(&_4, &method);
-	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_4, arguments);
+	ZEPHIR_INIT_VAR(&_3);
+	zephir_create_array(&_3, 2, 0);
+	zephir_array_fast_append(&_3, &handler);
+	zephir_array_fast_append(&_3, &method_zv);
+	ZEPHIR_CALL_FUNCTION(&_4, "array_values", NULL, 28, arguments);
+	zephir_check_call_status();
+	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_3, &_4);
 	zephir_check_call_status();
 	RETURN_MM();
+}
+
+/**
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, getDefinition)
+{
+
+	RETURN_MEMBER_TYPED(getThis(), "definition", IS_STRING);
+}
+
+/**
+ * @return object|null
+ */
+PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, getHandler)
+{
+
+	RETURN_MEMBER(getThis(), "handler");
 }
 

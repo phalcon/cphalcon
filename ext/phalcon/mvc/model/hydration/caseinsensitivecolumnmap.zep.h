@@ -1,0 +1,16 @@
+
+extern zend_class_entry *phalcon_mvc_model_hydration_caseinsensitivecolumnmap_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Hydration_CaseInsensitiveColumnMap);
+
+PHP_METHOD(Phalcon_Mvc_Model_Hydration_CaseInsensitiveColumnMap, caseInsensitiveColumnMap);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_hydration_caseinsensitivecolumnmap_caseinsensitivecolumnmap, 0, 2, IS_STRING, 0)
+	ZEND_ARG_INFO(0, columnMap)
+	ZEND_ARG_INFO(0, key)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_mvc_model_hydration_caseinsensitivecolumnmap_method_entry) {
+	PHP_ME(Phalcon_Mvc_Model_Hydration_CaseInsensitiveColumnMap, caseInsensitiveColumnMap, arginfo_phalcon_mvc_model_hydration_caseinsensitivecolumnmap_caseinsensitivecolumnmap, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_FE_END
+};

@@ -1,0 +1,29 @@
+
+extern zend_class_entry *phalcon_contracts_encryption_security_jwt_signer_signer_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Encryption_Security_JWT_Signer_Signer);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_encryption_security_jwt_signer_signer_getalgheader, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_encryption_security_jwt_signer_signer_getalgorithm, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_encryption_security_jwt_signer_signer_sign, 0, 2, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, payload, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, passphrase, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_encryption_security_jwt_signer_signer_verify, 0, 3, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, source, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, payload, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, passphrase, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_contracts_encryption_security_jwt_signer_signer_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_JWT_Signer_Signer, getAlgHeader, arginfo_phalcon_contracts_encryption_security_jwt_signer_signer_getalgheader)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_JWT_Signer_Signer, getAlgorithm, arginfo_phalcon_contracts_encryption_security_jwt_signer_signer_getalgorithm)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_JWT_Signer_Signer, sign, arginfo_phalcon_contracts_encryption_security_jwt_signer_signer_sign)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_JWT_Signer_Signer, verify, arginfo_phalcon_contracts_encryption_security_jwt_signer_signer_verify)
+	PHP_FE_END
+};

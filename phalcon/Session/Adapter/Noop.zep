@@ -1,8 +1,8 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -11,6 +11,7 @@
 namespace Phalcon\Session\Adapter;
 
 use SessionHandlerInterface;
+use SessionUpdateTimestampHandlerInterface;
 
 /**
  * Phalcon\Session\Adapter\Noop
@@ -28,55 +29,8 @@ use SessionHandlerInterface;
  * $session->setAdapter(new Noop());
  * ```
  */
-class Noop implements SessionHandlerInterface
+class Noop implements SessionHandlerInterface, SessionUpdateTimestampHandlerInterface
 {
-    /**
-     * The connection of some adapters
-     *
-     * @var null
-     */
-    protected connection = null;
-
-    /**
-     * Session options
-     *
-     * @var array
-     */
-    protected options = [];
-
-    /**
-     * Session prefix
-     *
-     * @var string
-     */
-    protected prefix = "";
-
-    /**
-     * Time To Live
-     *
-     * @var int
-     */
-    protected ttl = 8600;
-
-    /**
-     * Constructor
-     *
-     * @param array options = [
-     *     'prefix' => ''
-     * ]
-     */
-    public function __construct(array! options = [])
-    {
-        var prefix;
-
-        if !fetch prefix, options["prefix"] {
-            let prefix = "";
-        }
-
-        let this->prefix  = prefix,
-            this->options = options;
-    }
-
     /**
      * Close
      */
@@ -88,7 +42,7 @@ class Noop implements SessionHandlerInterface
     /**
      * Destroy
      */
-    public function destroy(var id) -> bool
+    public function destroy(string id) -> bool
     {
         return true;
     }
@@ -96,7 +50,15 @@ class Noop implements SessionHandlerInterface
     /**
      * Garbage Collector
      */
-    public function gc(var maxlifetime)
+    public function gc(int max_lifetime) -> false | int
+    {
+        return 1;
+    }
+
+    /**
+     * Open
+     */
+    public function open(string path, string name) -> bool
     {
         return true;
     }
@@ -104,15 +66,23 @@ class Noop implements SessionHandlerInterface
     /**
      * Read
      */
-    public function read(var id) -> string
+    public function read(string id) -> string
     {
         return "";
     }
 
     /**
-     * Open
+     * Refresh the session lifetime without changing the session data
      */
-    public function open(var savePath, var sessionName) -> bool
+    public function updateTimestamp(string id, string data) -> bool
+    {
+        return true;
+    }
+
+    /**
+     * Validate the session id (used when strict mode is enabled)
+     */
+    public function validateId(string id) -> bool
     {
         return true;
     }
@@ -120,18 +90,8 @@ class Noop implements SessionHandlerInterface
     /**
      * Write
      */
-    public function write(var id, var data) -> bool
+    public function write(string id, string data) -> bool
     {
         return true;
-    }
-
-    /**
-     * Helper method to get the name prefixed
-     */
-    protected function getPrefixedName(var name) -> string
-    {
-        let name = (string) name;
-
-        return this->prefix . name;
     }
 }

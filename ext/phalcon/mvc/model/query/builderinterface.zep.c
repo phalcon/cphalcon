@@ -21,16 +21,20 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Model\Query\BuilderInterface
- *
  * Interface for Phalcon\Mvc\Model\Query\Builder
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_BuilderInterface)
 {
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Model\\Query, BuilderInterface, phalcon, mvc_model_query_builderinterface, phalcon_mvc_model_query_builderinterface_method_entry);
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_mvc_model_query_builderinterface_ce, SL("OPERATOR_AND"), "and");
 
+	/**
+	 * @var string
+	 */
 	zephir_declare_class_constant_string(phalcon_mvc_model_query_builderinterface_ce, SL("OPERATOR_OR"), "or");
 
 	return SUCCESS;
@@ -52,9 +56,50 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, andWhere);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, betweenWhere);
 /**
- * Sets the columns to be queried
+ * Sets the columns to be queried. The columns can be either a `string` or
+ * an `array` of strings. If the argument is a (single, non-embedded) string,
+ * its content can specify one or more columns, separated by commas, the same
+ * way that one uses the SQL select statement. You can use aliases, aggregate
+ * functions, etc. If you need to reference other models you will need to
+ * reference them with their namespaces.
  *
- * @param string|array columns
+ * When using an array as a parameter, you will need to specify one field
+ * per array element. If a non-numeric key is defined in the array, it will
+ * be used as the alias in the query
+ *
+ *```php
+ * <?php
+ *
+ * // String, comma separated values
+ * $builder->columns("id, name");
+ *
+ * // Array, one column per element
+ * $builder->columns(
+ *     [
+ *         "id",
+ *         "name",
+ *     ]
+ * );
+ *
+ * // Array, named keys. The name of the key acts as an alias (`AS` clause)
+ * $builder->columns(
+ *     [
+ *         "name",
+ *         "number" => "COUNT(*)",
+ *     ]
+ * );
+ *
+ * // Different models
+ * $builder->columns(
+ *     [
+ *         "\Phalcon\Models\Invoices.*",
+ *         "\Phalcon\Models\Customers.cst_name_first",
+ *         "\Phalcon\Models\Customers.cst_name_last",
+ *     ]
+ * );
+ *```
+ *
+ * @param string|array $columns
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, columns);
 /**
@@ -123,6 +168,10 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getJoins);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getLimit);
 /**
+ * Returns the models involved in the query
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getModels);
+/**
  * Returns the current OFFSET clause
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getOffset);
@@ -184,10 +233,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, leftJoin);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, limit);
 /**
- * Returns the models involved in the query
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getModels);
-/**
  * Appends a NOT BETWEEN condition to the current conditions
  *
  * @param mixed minimum
@@ -203,15 +248,15 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, notInWhere);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, offset);
 /**
+ * Appends a condition to the current conditions using an OR operator
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, orWhere);
+/**
  * Sets an ORDER BY condition clause
  *
  * @param array|string orderBy
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, orderBy);
-/**
- * Appends a condition to the current conditions using an OR operator
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, orWhere);
 /**
  * Adds a RIGHT join to the query
  */

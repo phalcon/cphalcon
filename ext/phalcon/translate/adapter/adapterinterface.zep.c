@@ -34,27 +34,28 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_AdapterInterface)
 
 /**
  * Check whether is defined a translation key in the internal array
- *
- * @param string $index
- *
- * @return bool
  */
 ZEPHIR_DOC_METHOD(Phalcon_Translate_Adapter_AdapterInterface, has);
 /**
  * Returns the translation related to the given key
  *
- * @param string $translateKey
- * @param array  $placeholders
+ * Missing-key semantics differ per adapter:
  *
- * @return string
+ * | Adapter     | Missing key returns       | Strict mode (triggerError) |
+ * | ----------- | ------------------------- | -------------------------- |
+ * | NativeArray | the key, not interpolated | yes                        |
+ * | Csv         | the key, interpolated     | yes                        |
+ * | Gettext     | the msgid (gettext)       | yes                        |
+ *
+ * With strict mode enabled (the `triggerError` option) a missing key
+ * throws `KeyNotFound` instead of falling back.
+ *
+ * @phpstan-param array<string, string> $placeholders
  */
 ZEPHIR_DOC_METHOD(Phalcon_Translate_Adapter_AdapterInterface, query);
 /**
  * Returns the translation string of the given key
  *
- * @param string $translateKey
- * @param array  $placeholders
- *
- * @return string
+ * @phpstan-param array<string, string> $placeholders
  */
 ZEPHIR_DOC_METHOD(Phalcon_Translate_Adapter_AdapterInterface, t);

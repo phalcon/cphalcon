@@ -22,9 +22,10 @@ class Reader implements ReaderInterface
      */
     public function parse(string className) -> array
     {
-        var reflection, comment, properties, methods, property, method,
-            classAnnotations, line, annotationsProperties, propertyAnnotations,
-            annotationsMethods, methodAnnotations;
+        var reflection, comment, line, arrayKeys, classAnnotations,
+            properties,  property, annotationsProperties, propertyAnnotations,
+            methods, method, annotationsMethods, methodAnnotations,
+            constants, constant, anotationsConstants, constantAnnotations, constantReflection;
         array annotations;
 
         let annotations = [];
@@ -35,8 +36,7 @@ class Reader implements ReaderInterface
         let reflection = new ReflectionClass(className);
 
         let comment = reflection->getDocComment();
-        if typeof comment == "string" {
-
+        if comment !== false {
             /**
              * Read annotations from class
              */
@@ -49,8 +49,48 @@ class Reader implements ReaderInterface
             /**
              * Append the class annotations to the annotations var
              */
-            if typeof classAnnotations == "array" {
+            if typeof classAnnotations === "array" {
                 let annotations["class"] = classAnnotations;
+            }
+        }
+
+        /**
+         * Get class constants
+         */
+        let constants = reflection->getConstants();
+
+        if !empty constants {
+            /**
+             * Line declaration for constants isn't available
+             */
+            let line = 1;
+            let arrayKeys = array_keys(constants);
+            let anotationsConstants = [];
+
+            for constant in arrayKeys {
+                /**
+                 * Read comment from constant docblock
+                 */
+                let constantReflection = reflection->getReflectionConstant(constant);
+                let comment = constantReflection->getDocComment();
+                if comment !== false {
+                    /**
+                     * Parse constant docblock comment
+                     */
+                    let constantAnnotations = phannot_parse_annotations(
+                        comment,
+                        reflection->getFileName(),
+                        line
+                    );
+
+                    if typeof constantAnnotations == "array" {
+                        let anotationsConstants[constant] = constantAnnotations;
+                    }
+                }
+            }
+
+            if !empty anotationsConstants {
+                let annotations["constants"] = anotationsConstants;
             }
         }
 
@@ -59,23 +99,21 @@ class Reader implements ReaderInterface
          */
         let properties = reflection->getProperties();
 
-        if count(properties) {
+        if !empty properties {
             /**
              * Line declaration for properties isn't available
              */
             let line = 1;
-
             let annotationsProperties = [];
 
             for property in properties {
                 /**
-                 * Read comment from method
+                 * Read comment from property
                  */
                 let comment = property->getDocComment();
-
-                if typeof comment == "string" {
+                if comment !== false {
                     /**
-                     * Read annotations from the docblock
+                     * Parse property docblock comment
                      */
                     let propertyAnnotations = phannot_parse_annotations(
                         comment,
@@ -83,13 +121,13 @@ class Reader implements ReaderInterface
                         line
                     );
 
-                    if typeof propertyAnnotations == "array" {
+                    if typeof propertyAnnotations === "array" {
                         let annotationsProperties[property->name] = propertyAnnotations;
                     }
                 }
             }
 
-            if count(annotationsProperties) {
+            if !empty annotationsProperties {
                 let annotations["properties"] = annotationsProperties;
             }
         }
@@ -99,7 +137,7 @@ class Reader implements ReaderInterface
          */
         let methods = reflection->getMethods();
 
-        if count(methods) {
+        if false === empty(methods) {
             let annotationsMethods = [];
 
             for method in methods {
@@ -107,10 +145,9 @@ class Reader implements ReaderInterface
                  * Read comment from method
                  */
                 let comment = method->getDocComment();
-
-                if typeof comment == "string" {
+                if comment !== false {
                     /**
-                     * Read annotations from class
+                     * Parse method docblock comment
                      */
                     let methodAnnotations = phannot_parse_annotations(
                         comment,
@@ -118,13 +155,13 @@ class Reader implements ReaderInterface
                         method->getStartLine()
                     );
 
-                    if typeof methodAnnotations == "array" {
+                    if typeof methodAnnotations === "array" {
                         let annotationsMethods[method->name] = methodAnnotations;
                     }
                 }
             }
 
-            if count(annotationsMethods) {
+            if !empty annotationsMethods {
                 let annotations["methods"] = annotationsMethods;
             }
         }
@@ -137,7 +174,7 @@ class Reader implements ReaderInterface
      */
     public static function parseDocBlock(string docBlock, file = null, line = null) -> array
     {
-        if typeof file != "string" {
+        if typeof file !== "string" {
             let file = "eval code";
         }
 

@@ -1,0 +1,5 @@
+
+extern zend_class_entry *phalcon_queue_adapter_redis_redismessage_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Redis_RedisMessage);
+

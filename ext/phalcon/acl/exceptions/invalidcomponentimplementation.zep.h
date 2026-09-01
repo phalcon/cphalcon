@@ -1,0 +1,14 @@
+
+extern zend_class_entry *phalcon_acl_exceptions_invalidcomponentimplementation_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Acl_Exceptions_InvalidComponentImplementation);
+
+PHP_METHOD(Phalcon_Acl_Exceptions_InvalidComponentImplementation, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_exceptions_invalidcomponentimplementation___construct, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_acl_exceptions_invalidcomponentimplementation_method_entry) {
+PHP_ME(Phalcon_Acl_Exceptions_InvalidComponentImplementation, __construct, arginfo_phalcon_acl_exceptions_invalidcomponentimplementation___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};

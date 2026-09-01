@@ -38,15 +38,10 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setTagFactory);
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setUserOption);
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setUserOptions);
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, getLocalTagFactory);
-zend_object *zephir_init_properties_Phalcon_Forms_Element_AbstractElement(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_abstractelement___construct, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_element_abstractelement___tostring, 0, 0, IS_STRING, 0)
@@ -62,7 +57,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_element_abstractelement_addvalidators, 0, 1, Phalcon\\Forms\\Element\\ElementInterface, 0)
 	ZEND_ARG_ARRAY_INFO(0, validators, 0)
-	ZEND_ARG_TYPE_INFO(0, merge, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, merge, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_element_abstractelement_appendmessage, 0, 1, Phalcon\\Forms\\Element\\ElementInterface, 0)
@@ -89,7 +84,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_element_abstractelement_getform, 0, 0, Phalcon\\Forms\\Form, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_element_abstractelement_getlabel, 0, 0, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_element_abstractelement_getlabel, 0, 0, IS_STRING, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_element_abstractelement_getmessages, 0, 0, Phalcon\\Messages\\Messages, 0)
@@ -119,19 +114,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_element_abstractel
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_element_abstractelement_label, 0, 0, IS_STRING, 0)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_element_abstractelement_render, 0, 0, IS_STRING, 0)
-#if PHP_VERSION_ID >= 80000
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
-#else
-	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
-#endif
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_element_abstractelement_setattribute, 0, 2, Phalcon\\Forms\\Element\\ElementInterface, 0)
@@ -167,7 +154,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_element_abstractele
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_element_abstractelement_settagfactory, 0, 1, Phalcon\\Forms\\Element\\AbstractElement, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_forms_element_abstractelement_settagfactory, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, tagFactory, Phalcon\\Html\\TagFactory, 0)
 ZEND_END_ARG_INFO()
 
@@ -183,9 +170,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_element_abstractelement_getlocaltagfactory, 0, 0, Phalcon\\Html\\TagFactory, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_abstractelement_zephir_init_properties_phalcon_forms_element_abstractelement, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_forms_element_abstractelement_method_entry) {
 	PHP_ME(Phalcon_Forms_Element_AbstractElement, __construct, arginfo_phalcon_forms_element_abstractelement___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Forms_Element_AbstractElement, __toString, arginfo_phalcon_forms_element_abstractelement___tostring, ZEND_ACC_PUBLIC)
@@ -196,16 +180,8 @@ ZEPHIR_INIT_FUNCS(phalcon_forms_element_abstractelement_method_entry) {
 	PHP_ME(Phalcon_Forms_Element_AbstractElement, clear, arginfo_phalcon_forms_element_abstractelement_clear, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Element_AbstractElement, getAttribute, arginfo_phalcon_forms_element_abstractelement_getattribute, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Element_AbstractElement, getAttributes, arginfo_phalcon_forms_element_abstractelement_getattributes, ZEND_ACC_PUBLIC)
-#if PHP_VERSION_ID >= 80000
-	PHP_ME(Phalcon_Forms_Element_AbstractElement, getDefault, arginfo_phalcon_forms_element_abstractelement_getdefault, ZEND_ACC_PUBLIC)
-#else
-	PHP_ME(Phalcon_Forms_Element_AbstractElement, getDefault, NULL, ZEND_ACC_PUBLIC)
-#endif
-#if PHP_VERSION_ID >= 80000
-	PHP_ME(Phalcon_Forms_Element_AbstractElement, getFilters, arginfo_phalcon_forms_element_abstractelement_getfilters, ZEND_ACC_PUBLIC)
-#else
-	PHP_ME(Phalcon_Forms_Element_AbstractElement, getFilters, NULL, ZEND_ACC_PUBLIC)
-#endif
+PHP_ME(Phalcon_Forms_Element_AbstractElement, getDefault, arginfo_phalcon_forms_element_abstractelement_getdefault, ZEND_ACC_PUBLIC)
+PHP_ME(Phalcon_Forms_Element_AbstractElement, getFilters, arginfo_phalcon_forms_element_abstractelement_getfilters, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Element_AbstractElement, getForm, arginfo_phalcon_forms_element_abstractelement_getform, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Element_AbstractElement, getLabel, arginfo_phalcon_forms_element_abstractelement_getlabel, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Element_AbstractElement, getMessages, arginfo_phalcon_forms_element_abstractelement_getmessages, ZEND_ACC_PUBLIC)
@@ -214,11 +190,7 @@ ZEPHIR_INIT_FUNCS(phalcon_forms_element_abstractelement_method_entry) {
 	PHP_ME(Phalcon_Forms_Element_AbstractElement, getUserOption, arginfo_phalcon_forms_element_abstractelement_getuseroption, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Element_AbstractElement, getUserOptions, arginfo_phalcon_forms_element_abstractelement_getuseroptions, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Element_AbstractElement, getValidators, arginfo_phalcon_forms_element_abstractelement_getvalidators, ZEND_ACC_PUBLIC)
-#if PHP_VERSION_ID >= 80000
-	PHP_ME(Phalcon_Forms_Element_AbstractElement, getValue, arginfo_phalcon_forms_element_abstractelement_getvalue, ZEND_ACC_PUBLIC)
-#else
-	PHP_ME(Phalcon_Forms_Element_AbstractElement, getValue, NULL, ZEND_ACC_PUBLIC)
-#endif
+PHP_ME(Phalcon_Forms_Element_AbstractElement, getValue, arginfo_phalcon_forms_element_abstractelement_getvalue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Element_AbstractElement, hasMessages, arginfo_phalcon_forms_element_abstractelement_hasmessages, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Element_AbstractElement, label, arginfo_phalcon_forms_element_abstractelement_label, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Element_AbstractElement, render, arginfo_phalcon_forms_element_abstractelement_render, ZEND_ACC_PUBLIC)

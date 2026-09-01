@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Http\Response\HeadersInterface
- *
  * Interface for Phalcon\Http\Response\Headers compatible bags
  */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Response_HeadersInterface)

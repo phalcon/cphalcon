@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Router\RouteInterface
- *
  * Interface for Phalcon\Mvc\Router\Route
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_RouteInterface)
@@ -73,6 +71,14 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, getReversedPaths);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, getRouteId);
 /**
+ * Reconfigure the route adding a new pattern and a set of paths
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, reConfigure);
+/**
+ * Resets the internal route id generator
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, reset);
+/**
  * Sets a hostname restriction to the route
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, setHostname);
@@ -85,13 +91,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, setHttpMethods);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, setName);
 /**
- * Reconfigure the route adding a new pattern and a set of paths
+ * Sets the route's id (intended for restoring cached routes)
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, reConfigure);
-/**
- * Resets the internal route id generator
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, reset);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, setRouteId);
 /**
  * Set one or more HTTP methods that constraint the matching of the route
  */

@@ -67,7 +67,7 @@ class Regex extends AbstractValidator
      *     'pattern' => ''
      * ]
      */
-    public function __construct(array! options = [])
+    public function __construct( array options = [])
     {
         parent::__construct(options);
     }
@@ -88,13 +88,20 @@ class Regex extends AbstractValidator
             return true;
         }
 
+        if this->rejectNonStringable(validation, field, value) {
+            return false;
+        }
+
         let pattern = this->getOption("pattern");
 
-        if typeof pattern == "array" {
+        if typeof pattern === "array" {
             let pattern = pattern[field];
         }
 
-        if preg_match(pattern, value, matches) {
+        /**
+         * Since PHP8.1 $value can't be null.
+         */
+        if value !== null && preg_match(pattern, value, matches) {
             let failed = matches[0] != value;
         } else {
             let failed = true;

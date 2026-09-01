@@ -19,7 +19,7 @@
 
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -38,7 +38,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Arr_IsUnique)
 }
 
 /**
- * @param array $collection
+ * @param array<array-key, scalar|Stringable|null> $collection
  *
  * @return bool
  */
@@ -48,24 +48,17 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_IsUnique, __invoke)
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *collection_param = NULL, _0;
 	zval collection;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&collection);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ARRAY(collection)
+		ZEPHIR_Z_PARAM_ARRAY(collection, collection_param)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &collection_param);
 	zephir_get_arrval(&collection, collection_param);
-
-
-	ZEPHIR_CALL_FUNCTION(&_0, "array_unique", NULL, 191, &collection);
+	ZEPHIR_CALL_FUNCTION(&_0, "array_unique", NULL, 440, &collection);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(zephir_fast_count_int(&collection) == zephir_fast_count_int(&_0));
 }

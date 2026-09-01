@@ -1,0 +1,98 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Phalcon\Tests\Support\Migrations;
+
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
+/**
+ * Class ManufacturersMigration
+ */
+class ManufacturersMigration extends AbstractSchema
+{
+    protected string $table = "co_manufacturers";
+
+    /**
+     * @param int         $id
+     * @param string      $name
+     * @param string|null $country
+     * @param int         $foundedYear
+     *
+     * @return int
+     */
+    public function insert(
+        ?int $id,
+        string $name,
+        ?string $country,
+        int $foundedYear
+    ): int {
+        $sql    = <<<SQL
+insert into co_manufacturers (
+    id, name, country, founded_year
+) values (
+    :id, :name, :country, :foundedYear
+)
+SQL;
+        $params = [
+            ':id'          => $id,
+            ':name'        => $name,
+            ':country'     => $country,
+            ':foundedYear' => $foundedYear,
+        ];
+
+        $result = $this->execute($sql, $params);
+
+        if ($id !== null) {
+            $this->advanceSequence('id', $id);
+        }
+
+        return $result;
+    }
+
+    protected function getStatementsMysql(): array
+    {
+        return [
+            "
+CREATE TABLE `co_manufacturers` (
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(100) NOT NULL,
+    `country` VARCHAR(100) NULL,
+    `founded_year` INT NOT NULL,
+    PRIMARY KEY (`id`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+            "
+        ];
+    }
+
+    protected function getStatementsSqlite(): array
+    {
+        return [
+            "
+create table co_manufacturers (
+    id integer constraint co_manufacturers_pk primary key autoincrement,
+    name text not null,
+    country text null,
+    founded_year integer not null
+);
+            "
+        ];
+    }
+
+    protected function getStatementsPgsql(): array
+    {
+        return [
+            "
+create table co_manufacturers
+(
+    id serial not null
+    constraint manufacturers_pk
+      primary key,
+    name varchar(100) not null,
+    country varchar(100) null,
+    founded_year int not null
+);
+            "
+        ];
+    }
+}

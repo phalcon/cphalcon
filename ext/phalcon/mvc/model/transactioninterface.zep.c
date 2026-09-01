@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Model\TransactionInterface
- *
  * Interface for Phalcon\Mvc\Model\Transaction
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_TransactionInterface)

@@ -14,8 +14,6 @@ use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\ModelInterface;
 
 /**
- * Phalcon\Mvc\Model\Query\StatusInterface
- *
  * Interface for Phalcon\Mvc\Model\Query\Status
  */
 interface StatusInterface
@@ -28,7 +26,7 @@ interface StatusInterface
     /**
      * Returns the model which executed the action
      */
-    public function getModel() -> <ModelInterface>;
+    public function getModel() -> <ModelInterface> | null;
 
     /**
      * Allows to check if the executed operation was successful

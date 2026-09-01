@@ -1,55 +1,52 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE
+ * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
 
 namespace Phalcon\Session;
 
 use InvalidArgumentException;
-use RuntimeException;
-use SessionHandlerInterface;
+use Phalcon\Contracts\Session\SessionTypes;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Di\DiInterface;
-use Phalcon\Support\Helper\Arr\Get;
+use Phalcon\Session\Exceptions\InvalidSessionAdapter;
+use Phalcon\Session\Exceptions\InvalidSessionId;
+use Phalcon\Session\Exceptions\InvalidSessionName;
+use Phalcon\Session\Exceptions\SessionAlreadyStarted;
+use Phalcon\Session\Exceptions\SessionModificationDenied;
+use Phalcon\Traits\Php\HeaderTrait;
+use Phalcon\Traits\Support\Helper\Arr\GetTrait;
+use SessionHandlerInterface;
 
 /**
- * Phalcon\Session\Manager
- *
  * Session manager class
+ *
+ * @phpstan-import-type session_options from SessionTypes
  */
 class Manager extends AbstractInjectionAware implements ManagerInterface
 {
-    /**
-     * @var SessionHandlerInterface|null
-     */
-    private adapter = null;
+    use GetTrait;
+    use HeaderTrait;
 
+    private ?<SessionHandlerInterface> adapter = null;
+    private string name = "";
     /**
-     * @var string
+     * @var array<string, mixed>
+     *
+     * @phpstan-var session_options
      */
-    private name = "";
-
-    /**
-     * @var array
-     */
-    private options = [];
-
-    /**
-     * @var string
-     */
-    private uniqueId = "";
+    private array options = [];
+    private string uniqueId = "";
 
     /**
      * Manager constructor.
      *
-     * @param array options = [
-     *     'uniqueId' => null
-     * ]
+     * @phpstan-param session_options $options
      */
     public function __construct(array options = [])
     {
@@ -58,6 +55,10 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
 
     /**
      * Alias: Gets a session variable from an application context
+     *
+     * @param string $key
+     *
+     * @return mixed
      */
     public function __get(string key) -> var
     {
@@ -66,6 +67,10 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
 
     /**
      * Alias: Check whether a session variable is set in an application context
+     *
+     * @param string $key
+     *
+     * @return bool
      */
     public function __isset(string key) -> bool
     {
@@ -74,14 +79,19 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
 
     /**
      * Alias: Sets a session variable in an application context
+     *
+     * @param string $key
+     * @param mixed  $value
      */
-    public function __set(string key, value) -> void
+    public function __set(string key, var value) -> void
     {
         this->set(key, value);
     }
 
     /**
      * Alias: Removes a session variable from an application context
+     *
+     * @param string $key
      */
     public function __unset(string key) -> void
     {
@@ -93,7 +103,7 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
      */
     public function destroy() -> void
     {
-        if true === this->exists() {
+        if (true === this->exists()) {
             session_destroy();
 
             let _SESSION = [];
@@ -102,6 +112,8 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
 
     /**
      * Check whether the session has been started
+     *
+     * @return bool
      */
     public function exists() -> bool
     {
@@ -110,12 +122,23 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
 
     /**
      * Gets a session variable from an application context
+     *
+     * @param string     $key
+     * @param mixed|null $defaultValue
+     * @param bool       $remove
+     *
+     * @return mixed|null
      */
-    public function get(string key, var defaultValue = null, bool remove = false) -> var
-    {
-        var uniqueKey, value = null;
+    public function get(
+        string key,
+        var defaultValue = null,
+        bool remove = false
+    ) -> var {
+        var value, uniqueKey;
 
-        if false === this->exists() {
+        let value = null;
+
+        if (false === this->exists()) {
             // To use $_SESSION variable we need to start session first
             return value;
         }
@@ -133,7 +156,7 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
     /**
      * Returns the stored session adapter
      */
-    public function getAdapter() -> <SessionHandlerInterface>
+    public function getAdapter() -> <SessionHandlerInterface> | null
     {
         return this->adapter;
     }
@@ -159,6 +182,16 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
     }
 
     /**
+     * Get internal options
+     *
+     * @phpstan-return session_options
+     */
+    public function getOptions() -> array
+    {
+        return this->options;
+    }
+
+    /**
      * Check whether a session variable is set in an application context
      */
     public function has(string key) -> bool
@@ -176,24 +209,14 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
     }
 
     /**
-     * Get internal options
+     * Regenerates the session id via `session_regenerate_id()` (when the
+     * session is active). The registered save handler persists the data
+     * under the new id.
      */
-    public function getOptions() -> array
+    public function regenerateId(bool deleteOldSession = true) -> <ManagerInterface>
     {
-        return this->options;
-    }
-
-    /**
-     * Regenerates the session id using the adapter.
-     */
-    public function regenerateId(deleteOldSession = true) -> <ManagerInterface>
-    {
-        var delete;
-
-        let delete = (bool) deleteOldSession;
-
         if true === this->exists() {
-            session_regenerate_id(delete);
+            session_regenerate_id(deleteOldSession);
         }
 
         return this;
@@ -204,32 +227,29 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
      */
     public function remove(string key) -> void
     {
-        if false === this->exists() {
-            // To use $_SESSION variable we need to start session first
-            return;
-        }
-
         var uniqueKey;
 
-        let uniqueKey = this->getUniqueKey(key);
+        // To use $_SESSION variable we need to start session first
+        if true === this->exists() {
+            let uniqueKey = this->getUniqueKey(key);
 
-        unset(_SESSION[uniqueKey]);
+            unset _SESSION[uniqueKey];
+        }
     }
 
     /**
      * Sets a session variable in an application context
      */
-    public function set(string key, value) -> void
+    public function set(string key, var value) -> void
     {
         var uniqueKey;
 
-        if false === this->exists() {
-            // To use $_SESSION variable we need to start session first
-            return;
-        }
+        // To use $_SESSION variable we need to start session first
+        if true === this->exists() {
+            let uniqueKey = this->getUniqueKey(key);
 
-         let uniqueKey          = this->getUniqueKey(key),
-            _SESSION[uniqueKey] = value;
+            let _SESSION[uniqueKey] = value;
+        }
     }
 
     /**
@@ -244,17 +264,22 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
 
     /**
      * Set session Id
+     *
+     * @return ManagerInterface
+     * @throws InvalidSessionId
+     * @throws SessionAlreadyStarted
      */
-    public function setId(string id) -> <ManagerInterface>
+    public function setId(string sessionId) -> <ManagerInterface>
     {
         if unlikely (true === this->exists()) {
-            throw new RuntimeException(
-                "The session has already been started. " .
-                "To change the id, use regenerateId()"
-            );
+            throw new SessionAlreadyStarted();
         }
 
-        session_id(id);
+        if unlikely !preg_match("/^[a-zA-Z0-9,-]+$/D", sessionId) {
+            throw new InvalidSessionId();
+        }
+
+        session_id(sessionId);
 
         return this;
     }
@@ -263,24 +288,23 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
      * Set the session name. Throw exception if the session has started
      * and do not allow poop names
      *
-     * @param  string name
+     * @param string $name
      *
-     * @throws InvalidArgumentException
-     *
-     * @return Manager
+     * @return ManagerInterface
+     * @throws InvalidSessionName
+     * @throws SessionModificationDenied
      */
     public function setName(string name) -> <ManagerInterface>
     {
-        if unlikely this->exists() {
-            throw new InvalidArgumentException(
-                "Cannot set session name after a session has started"
-            );
+        if unlikely true === this->exists() {
+            throw new SessionModificationDenied();
         }
 
-        if unlikely !preg_match("/^[\p{L}\p{N}_-]+$/u", name) {
-            throw new InvalidArgumentException(
-                "The name contains non alphanum characters"
-            );
+        if unlikely (
+            !preg_match("/^[\p{L}\p{N}_-]+$/u", name) ||
+            preg_match("/^[0-9]+$/", name)
+        ) {
+            throw new InvalidSessionName();
         }
 
         let this->name = name;
@@ -292,6 +316,8 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
 
     /**
      * Sets session's options
+     *
+     * @phpstan-param session_options $options
      */
     public function setOptions(array options) -> void
     {
@@ -307,8 +333,6 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
     {
         var name, value;
 
-        let name = this->getName();
-
         /**
          * Check if the session exists
          */
@@ -319,22 +343,26 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
         /**
          * Cannot start this - headers already sent
          */
-        if true === headers_sent() {
+        if (true === this->phpHeadersSent()) {
             return false;
         }
 
-        if unlikely !(this->adapter instanceof SessionHandlerInterface) {
-            throw new Exception("The session adapter is not valid");
-        }
-
         /**
-         * Verify that the session value is alphanumeric, otherwise we
-         * unset the cookie to allow it to be created by session_start().
+         * Verify that the session cookie value uses the PHP session ID
+         * alphabet ([a-zA-Z0-9,-], depending on session.sid_bits_per_character),
+         * otherwise we unset the cookie to allow it to be created by
+         * session_start().
          */
+        let name = this->getName();
+
         if fetch value, _COOKIE[name] {
-            if !preg_match("/^[a-z0-9]+$/iD", value) {
+            if !preg_match("/^[a-zA-Z0-9,-]+$/D", value) {
                 unset _COOKIE[name];
             }
+        }
+
+        if unlikely !(this->adapter instanceof SessionHandlerInterface) {
+            throw new InvalidSessionAdapter();
         }
 
         /**
@@ -370,34 +398,17 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
 
     /**
      * Returns the key prefixed
+     *
+     * @param string $key
+     *
+     * @return string
      */
     private function getUniqueKey(string key) -> string
     {
-        var uniqueId;
+        var prefix;
 
-        let uniqueId = this->uniqueId;
+        let prefix = (true !== empty(this->uniqueId)) ? this->uniqueId . "#" : "";
 
-        if !empty uniqueId {
-            return this->uniqueId . "#" . key;
-        } else {
-            return key;
-        }
-    }
-
-    /**
-     * @todo Remove this when we get traits
-     */
-    private function getArrVal(
-        array! collection,
-        var index,
-        var defaultValue = null
-    ) -> var {
-        var value;
-
-        if unlikely !fetch value, collection[index] {
-            return defaultValue;
-        }
-
-        return value;
+        return prefix . key;
     }
 }

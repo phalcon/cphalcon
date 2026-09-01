@@ -12,14 +12,14 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/object.h"
 
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -38,8 +38,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Arr_ValidateAny)
 }
 
 /**
- * @param array    $collection
- * @param callable $method
+ * @param array<array-key, mixed> $collection
+ * @param callable                $method
  *
  * @return bool
  */
@@ -54,22 +54,16 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_ValidateAny, __invoke)
 	ZVAL_UNDEF(&collection);
 	ZVAL_UNDEF(&method_sub);
 	ZVAL_UNDEF(&_0);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_ARRAY(collection)
+		ZEPHIR_Z_PARAM_ARRAY(collection, collection_param)
 		Z_PARAM_ZVAL(method)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &collection_param, &method);
 	zephir_get_arrval(&collection, collection_param);
-
-
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "tofilter", NULL, 0, &collection, method);
 	zephir_check_call_status();
-	RETURN_MM_BOOL(zephir_fast_count_int(&_0) > 0);
+	RETURN_MM_BOOL(!(ZEPHIR_IS_EMPTY(&_0)));
 }
 

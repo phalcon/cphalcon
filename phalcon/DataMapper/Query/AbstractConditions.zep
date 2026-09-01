@@ -270,7 +270,7 @@ abstract class AbstractConditions extends AbstractQuery
      */
     protected function buildLimitCommon() -> string
     {
-        string limit = "";
+        var limit = "";
 
         if 0 !== this->store["LIMIT"] {
             let limit .= "LIMIT " . this->store["LIMIT"];

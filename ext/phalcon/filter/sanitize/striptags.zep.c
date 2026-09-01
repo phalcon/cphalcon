@@ -13,11 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
-#include "kernel/operators.h"
-#include "kernel/memory.h"
 #include "kernel/object.h"
+#include "kernel/memory.h"
 
 
 /**
@@ -37,6 +34,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Striptags)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Filter\\Sanitize, Striptags, phalcon, filter_sanitize_striptags, phalcon_filter_sanitize_striptags_method_entry, 0);
 
+	zend_class_implements(phalcon_filter_sanitize_striptags_ce, 1, phalcon_contracts_filter_sanitizer_ce);
 	return SUCCESS;
 }
 
@@ -49,33 +47,18 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Striptags, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *input_param = NULL;
-	zval input;
-	zval *this_ptr = getThis();
+	zval input_zv;
+	zend_string *input = NULL;
 
-	ZVAL_UNDEF(&input);
-#if PHP_VERSION_ID >= 80000
-	bool is_null_true = 1;
+	ZVAL_UNDEF(&input_zv);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(input)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &input_param);
-	if (UNEXPECTED(Z_TYPE_P(input_param) != IS_STRING && Z_TYPE_P(input_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'input' must be of the type string"));
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(input_param) == IS_STRING)) {
-		zephir_get_strval(&input, input_param);
-	} else {
-		ZEPHIR_INIT_VAR(&input);
-	}
-
-
-	ZEPHIR_RETURN_CALL_FUNCTION("strip_tags", NULL, 301, &input);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&input_zv);
+	ZVAL_STR_COPY(&input_zv, input);
+	ZEPHIR_RETURN_CALL_FUNCTION("strip_tags", NULL, 0, &input_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

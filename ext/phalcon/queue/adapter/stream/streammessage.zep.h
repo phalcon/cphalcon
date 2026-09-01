@@ -1,0 +1,5 @@
+
+extern zend_class_entry *phalcon_queue_adapter_stream_streammessage_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Stream_StreamMessage);
+

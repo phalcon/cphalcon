@@ -1,0 +1,5 @@
+
+extern zend_class_entry *phalcon_queue_adapter_memory_memorymessage_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Memory_MemoryMessage);
+

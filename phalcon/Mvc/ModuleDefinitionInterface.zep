@@ -13,8 +13,6 @@ namespace Phalcon\Mvc;
 use Phalcon\Di\DiInterface;
 
 /**
- * Phalcon\Mvc\ModuleDefinitionInterface
- *
  * This interface must be implemented by class module definitions
  */
 interface ModuleDefinitionInterface

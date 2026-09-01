@@ -10,72 +10,29 @@
 
 namespace Phalcon\Html\Link;
 
-use Phalcon\Support\Collection;
-use Phalcon\Support\Collection\CollectionInterface;
-use Psr\Link\LinkInterface;
+use Phalcon\Contracts\Html\Link\LinkTypes;
+use Phalcon\Html\Link\Interfaces\LinkInterface;
 
 /**
- * Class Phalcon\Http\Link\Link
+ * Class Phalcon\Html\Link\Link
  *
- * @property array  attributes
- * @property string href
- * @property array  rels
- * @property bool   templated
+ * @phpstan-import-type link_attributes from LinkTypes
+ * @phpstan-import-type link_rels from LinkTypes
  */
-class Link implements LinkInterface
+class Link extends AbstractLink implements LinkInterface
 {
-    /**
-     * @var Collection|CollectionInterface
-     */
-    protected attributes;
-
-    /**
-     * @var string
-     */
-    protected href = "";
-
-    /**
-     * @var Collection|CollectionInterface
-     */
-    protected rels;
-
-    /**
-     * @var bool
-     */
-    protected templated = false;
-
-    /**
-     * Link constructor.
-     *
-     * @param string rel
-     * @param string href
-     */
-    public function __construct(
-        string rel = "",
-        string href = "",
-        array attributes = []
-    ) {
-        let this->rels       = new Collection(),
-            this->attributes = new Collection(attributes),
-            this->href       = href,
-            this->templated  = this->hrefIsTemplated(href);
-
-        if !empty rel {
-            this->rels->set(rel, true);
-        }
-    }
-
     /**
      * Returns a list of attributes that describe the target URI.
      *
-     * @return array
-     *   A key-value list of attributes, where the key is a string and the value
-     *  is either a PHP primitive or an array of PHP strings. If no values are
-     *  found an empty array MUST be returned.
+     * A key-value list of attributes, where the key is a string and the value
+     * is either a PHP primitive or an array of PHP strings. If no values are
+     * found an empty array MUST be returned.
+     *
+     * @phpstan-return link_attributes
      */
-    public function getAttributes()
+    public function getAttributes() -> array
     {
-        return this->attributes->toArray();
+        return this->doGetAttributes();
     }
 
     /**
@@ -88,12 +45,10 @@ class Link implements LinkInterface
      * - A URI template as defined by RFC 6570.
      *
      * If a URI template is returned, isTemplated() MUST return True.
-     *
-     * @return string
      */
-    public function getHref()
+    public function getHref() -> string
     {
-        return this->href;
+        return this->doGetHref();
     }
 
     /**
@@ -102,37 +57,18 @@ class Link implements LinkInterface
      * This method returns 0 or more relationship types for a link, expressed
      * as an array of strings.
      *
-     * @return string[]
+     * @phpstan-return link_rels
      */
-    public function getRels()
+    public function getRels() -> array
     {
-        return this->rels->getKeys(false);
+        return this->doGetRels();
     }
 
     /**
-     * Returns whether or not this is a templated link.
-     *
-     * @return bool True if this link object is templated, False otherwise.
+     * Returns whether this is a templated link.
      */
-    public function isTemplated()
+    public function isTemplated() -> bool
     {
-        return this->templated;
-    }
-
-    /**
-     * Determines if a href is a templated link or not.
-     *
-     * @see https://tools.ietf.org/html/rfc6570
-     *
-     * @param string href
-     *
-     * @return bool
-     */
-    protected function hrefIsTemplated(string href) -> bool
-    {
-        return (
-            false !== strpos(href, "{") &&
-            false !== strrpos(href, "}")
-        );
+        return this->doIsTemplated();
     }
 }

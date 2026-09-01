@@ -1,0 +1,7 @@
+parameters:
+    paths:
+        - ../src
+    level: 1
+    tmpDir: ../tests/_output
+    ignoreErrors:
+        - "#Unsafe usage of new static#"

@@ -3,10 +3,18 @@
 *.sql   linguist-language=SQL
 *.w32   linguist-language=JavaScript
 
-ext/*        linguist-vendored
-build/php5/* linguist-vendored
-build/php7/* linguist-vendored
+ext/**           linguist-vendored
+build/phalcon/** linguist-vendored
 
 *.png   binary
 
-tests/_data/assets/assets/*  -text
+tests/support/assets/*  -text
+
+# `git archive` produces the tarball that Composer 
+# and PIE download. Prune what no consumer needs to 
+# build the extension.
+
+/.github    export-ignore
+/phalcon    export-ignore
+/resources  export-ignore
+/tests      export-ignore

@@ -1,46 +1,41 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by AuraPHP
+ * @link    https://github.com/auraphp/Aura.Html
+ * @license https://github.com/auraphp/Aura.Html/blob/2.x/LICENSE
  */
 
 namespace Phalcon\Html\Helper;
 
-use Phalcon\Html\Exception;
+use Phalcon\Contracts\Html\HtmlTypes;
 
 /**
  * Class Base
+ *
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 class Base extends AbstractHelper
 {
     /**
      * Produce a `<base/>` tag.
      *
-     * @param string $href
-     * @param array  $attributes
-     *
-     * @return string
-     * @throws Exception
+     * @phpstan-param html_attributes $attributes
      */
     public function __invoke(string href = null, array attributes = []) -> string
     {
-        var overrides = [];
-
         if !empty href {
-            let overrides = ["href" : href];
+            let attributes = this->injectAttribute("href", href, attributes);
+        } else {
+            unset attributes["href"];
         }
 
-        /**
-         * Avoid duplicate "href" and ignore it if it is passed in the attributes
-         */
-        unset attributes["href"];
-
-        let overrides = array_merge(overrides, attributes);
-
-        return this->renderElement("base", overrides);
+        return this->renderElement("base", attributes);
     }
 }

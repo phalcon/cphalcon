@@ -16,6 +16,10 @@ use Phalcon\Mvc\ModelInterface;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\AbstractCombinedFieldsValidator;
 use Phalcon\Filter\Validation\Exception;
+use Phalcon\Filter\Validation\Exceptions\UniquenessConversionMustBeArray;
+use Phalcon\Filter\Validation\Exceptions\UniquenessModelRequired;
+use Phalcon\Filter\Validation\Exceptions\UniquenessOnlyForPhalconModel;
+use Phalcon\Support\Settings;
 //use Phalcon\Mvc\CollectionInterface;
 //use Phalcon\Mvc\Collection;
 
@@ -101,18 +105,49 @@ class Uniqueness extends AbstractCombinedFieldsValidator
     /**
      * Constructor
      *
-     * @param array options = [
-     *     'message' => '',
-     *     'template' => '',
+     * @param array $options = [
+     *     'message'    => '',
+     *     'template'   => '',
      *     'allowEmpty' => false,
-     *     'convert' => null,
-     *     'model' => null,
-     *     'except' => null
+     *     'convert'    => null,
+     *     'model'      => null,
+     *     'except'     => null
      * ]
      */
-    public function __construct(array! options = [])
+    public function __construct( array options = [])
     {
         parent::__construct(options);
+    }
+
+    /**
+     * Returns an option in the validator's options
+     * Returns null if the option hasn't set
+     *
+     * The `attribute` option can be defined as an array when validating a
+     * combination of fields; in that case resolve it to the mapped value.
+     *
+     * @param string     $key
+     * @param mixed|null $defaultValue
+     *
+     * @return mixed
+     */
+    public function getOption(string key, var defaultValue = null) -> var
+    {
+        var fieldValue, value;
+
+        if !this->hasOption(key) {
+            return defaultValue;
+        }
+
+        let value = parent::getOption(key, defaultValue);
+
+        if key === "attribute" && typeof value === "array" {
+            if fetch fieldValue, value[key] {
+                return fieldValue;
+            }
+        }
+
+        return value;
     }
 
     /**
@@ -134,10 +169,10 @@ class Uniqueness extends AbstractCombinedFieldsValidator
     /**
      * The column map is used in the case to get real column name
      */
-    protected function getColumnNameReal(var record, string! field) -> string
+    protected function getColumnNameReal(var record,  string field) -> string
     {
         // Caching columnMap
-        if globals_get("orm.column_renaming") && !this->columnMap {
+        if Settings::get("orm.column_renaming") && !this->columnMap {
             let this->columnMap = record->getDI()
                 ->getShared("modelsMetadata")
                 ->getColumnMap(record);
@@ -176,7 +211,7 @@ class Uniqueness extends AbstractCombinedFieldsValidator
             let values = {convert}(values);
 
             if unlikely !is_array(values) {
-                throw new Exception("Value conversion must return an array");
+                throw new UniquenessConversionMustBeArray();
             }
         }
 
@@ -187,9 +222,7 @@ class Uniqueness extends AbstractCombinedFieldsValidator
             let record = validation->getEntity();
 
             if unlikely empty record {
-                throw new Exception(
-                    "Model of record must be set to property \"model\""
-                );
+                throw new UniquenessModelRequired();
             }
         }
 
@@ -207,9 +240,7 @@ class Uniqueness extends AbstractCombinedFieldsValidator
 //        } elseif isDocument {
 //            let params = this->isUniquenessCollection(record, field, values);
         } else {
-            throw new Exception(
-                "The uniqueness validator works only with Phalcon\\Mvc\\Model"
-            );
+            throw new UniquenessOnlyForPhalconModel();
 //
 // @todo: Restore when new Collection is reintroduced
 //

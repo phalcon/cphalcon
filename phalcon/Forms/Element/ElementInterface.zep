@@ -10,13 +10,21 @@
 
 namespace Phalcon\Forms\Element;
 
+use Phalcon\Contracts\Forms\FormsTypes;
+use Phalcon\Contracts\Html\HtmlTypes;
+use Phalcon\Filter\Validation\ValidatorInterface;
 use Phalcon\Forms\Form;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Messages\Messages;
-use Phalcon\Filter\Validation\ValidatorInterface;
 
 /**
  * Interface for Phalcon\Forms\Element classes
+ *
+ * @phpstan-import-type forms_attributes from FormsTypes
+ * @phpstan-import-type forms_filters from FormsTypes
+ * @phpstan-import-type forms_options from FormsTypes
+ * @phpstan-import-type forms_validators from FormsTypes
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 interface ElementInterface
 {
@@ -33,12 +41,9 @@ interface ElementInterface
     /**
      * Adds a group of validators
      *
-     * @param \Phalcon\Filter\Validation\ValidatorInterface[] validators
-     * @param bool merge
-     *
-     * @return ElementInterface
+     * @phpstan-param array<array-key, mixed> $validators
      */
-    public function addValidators(array! validators, bool merge = true) -> <ElementInterface>;
+    public function addValidators( array validators, bool merge = true) -> <ElementInterface>;
 
     /**
      * Appends a message to the internal message list
@@ -57,6 +62,8 @@ interface ElementInterface
 
     /**
      * Returns the default attributes for the element
+     *
+     * @phpstan-return forms_attributes
      */
     public function getAttributes() -> array;
 
@@ -68,7 +75,7 @@ interface ElementInterface
     /**
      * Returns the element's filters
      *
-     * @return mixed
+     * @phpstan-return forms_filters
      */
     public function getFilters();
 
@@ -80,7 +87,7 @@ interface ElementInterface
     /**
      * Returns the element's label
      */
-    public function getLabel() -> string;
+    public function getLabel() -> string | null;
 
     /**
      * Returns the messages that belongs to the element
@@ -100,11 +107,15 @@ interface ElementInterface
 
     /**
      * Returns the options for the element
+     *
+     * @phpstan-return forms_options
      */
     public function getUserOptions() -> array;
 
     /**
      * Returns the validators registered for the element
+     *
+     * @phpstan-return forms_validators
      */
     public function getValidators() -> <ValidatorInterface[]>;
 
@@ -125,6 +136,8 @@ interface ElementInterface
 
     /**
      * Renders the element widget
+     *
+     * @phpstan-param html_attributes $attributes
      */
     public function render(array attributes = []) -> string;
 
@@ -135,8 +148,10 @@ interface ElementInterface
 
     /**
      * Sets default attributes for the element
+     *
+     * @phpstan-param forms_attributes $attributes
      */
-    public function setAttributes(array! attributes) -> <ElementInterface>;
+    public function setAttributes( array attributes) -> <ElementInterface>;
 
     /**
      * Sets a default value in case the form does not use an entity
@@ -147,7 +162,7 @@ interface ElementInterface
     /**
      * Sets the element's filters
      *
-     * @param array|string filters
+     * @phpstan-param forms_filters|string $filters
      */
     public function setFilters(filters) -> <ElementInterface>;
 
@@ -169,7 +184,7 @@ interface ElementInterface
     /**
      * Sets the element's name
      */
-    public function setName(string! name) -> <ElementInterface>;
+    public function setName( string name) -> <ElementInterface>;
 
     /**
      * Sets an option for the element
@@ -178,6 +193,8 @@ interface ElementInterface
 
     /**
      * Sets options for the element
+     *
+     * @phpstan-param forms_options $options
      */
     public function setUserOptions(array options) -> <ElementInterface>;
 }

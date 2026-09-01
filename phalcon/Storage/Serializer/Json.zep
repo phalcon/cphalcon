@@ -10,92 +10,47 @@
 
 namespace Phalcon\Storage\Serializer;
 
-use InvalidArgumentException;
-use JsonSerializable;
+use Phalcon\Support\Helper\Json\Decode;
+use Phalcon\Support\Helper\Json\Encode;
 
-/**
- * Class Json
- *
- * @package Phalcon\Storage\Serializer
- */
 class Json extends AbstractSerializer
 {
+    private <Decode> decode;
+    private <Encode> encode;
+
+    /**
+     * AbstractSerializer constructor.
+     */
+    public function __construct(var data = null)
+    {
+        let this->encode = new Encode(),
+            this->decode = new Decode();
+
+        parent::__construct(data);
+    }
+
     /**
      * Serializes data
-     *
-     * @return JsonSerializable|mixed|string
      */
-    public function serialize()
+    public function serialize() -> mixed
     {
-        if (typeof this->data === "object" && !(this->data instanceof JsonSerializable)) {
-            throw new InvalidArgumentException(
-                "Data for the JSON serializer cannot be of type 'object' " .
-                "without implementing 'JsonSerializable'"
-            );
-        }
-
-        if !this->isSerializable(this->data) {
+        if (true !== this->isSerializable(this->data)) {
             return this->data;
         }
 
-        return this->getEncode(this->data);
+        return this->encode->__invoke(this->data);
     }
 
     /**
      * Unserializes data
-     *
-     * @param string $data
-     *
-     * @return void
      */
-    public function unserialize(var data) -> void
+    public function unserialize(mixed data) -> void
     {
-        let this->data = this->getDecode(data);
-    }
-
-    /**
-     * @todo Remove this when we get traits
-     */
-    private function getDecode(
-        string! data,
-        bool associative = false,
-        int depth = 512,
-        int options = 0
-    ) -> var
-    {
-        var decoded;
-
-        let decoded = json_decode(data, associative, depth, options);
-
-        if unlikely JSON_ERROR_NONE !== json_last_error() {
-            throw new InvalidArgumentException(
-                "json_decode error: " . json_last_error_msg()
-            );
+        if (true !== this->isSerializable(data)) {
+            let this->data = data;
+        } else {
+            /** @var string $data */
+            let this->data = this->decode->__invoke(data);
         }
-
-        return decoded;
     }
-
-    /**
-     * @todo Remove this when we get traits
-     */
-    private function getEncode(
-        var data,
-        int options = 0,
-        int depth = 512
-    ) -> string
-    {
-        var encoded;
-
-        let encoded = json_encode(data, options, depth);
-
-        if unlikely JSON_ERROR_NONE !== json_last_error() {
-            throw new InvalidArgumentException(
-                "json_encode error: " . json_last_error_msg()
-            );
-        }
-
-        return encoded;
-    }
-
 }

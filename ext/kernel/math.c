@@ -16,7 +16,9 @@
 #include <php.h>
 #include <ext/standard/php_string.h>
 #include <ext/standard/php_math.h>
+#if PHP_VERSION_ID < 80400
 #include <ext/standard/php_rand.h>
+#endif
 
 #include "php_ext.h"
 #include "kernel/main.h"
@@ -149,7 +151,7 @@ extern double _php_math_round(double value, int places, int mode);
 void zephir_round(zval *return_value, zval *op1, zval *op2, zval *op3)
 {
 	int places = 0;
-	long mode = PHP_ROUND_HALF_UP;
+	int mode = PHP_ROUND_HALF_UP;
 	double return_val;
 
 	convert_scalar_to_number_ex(op1);
@@ -179,20 +181,6 @@ void zephir_round(zval *return_value, zval *op1, zval *op2, zval *op3)
 			RETURN_FALSE;
 			break;
 	}
-}
-
-zend_long zephir_mt_rand(zend_long min, zend_long max)
-{
-	if (max < min) {
-		php_error_docref(NULL, E_WARNING, "max(" ZEND_LONG_FMT ") is smaller than min(" ZEND_LONG_FMT ")", max, min);
-		return 0;
-	}
-
-	if (!BG(mt_rand_is_seeded)) {
-		php_mt_srand(GENERATE_SEED());
-	}
-
-	return php_mt_rand_range(min, max);
 }
 
 double zephir_ldexp(zval *value, zval *expval)

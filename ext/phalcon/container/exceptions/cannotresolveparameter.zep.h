@@ -1,0 +1,16 @@
+
+extern zend_class_entry *phalcon_container_exceptions_cannotresolveparameter_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Container_Exceptions_CannotResolveParameter);
+
+PHP_METHOD(Phalcon_Container_Exceptions_CannotResolveParameter, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_container_exceptions_cannotresolveparameter___construct, 0, 0, 2)
+	ZEND_ARG_TYPE_INFO(0, param, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, className, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_container_exceptions_cannotresolveparameter_method_entry) {
+	PHP_ME(Phalcon_Container_Exceptions_CannotResolveParameter, __construct, arginfo_phalcon_container_exceptions_cannotresolveparameter___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};

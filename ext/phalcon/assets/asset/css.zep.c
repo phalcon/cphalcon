@@ -12,10 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/fcall.h"
 #include "kernel/memory.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
+#include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/object.h"
 
@@ -39,97 +37,92 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Asset_Css)
 }
 
 /**
- * Phalcon\Assets\Asset\Css constructor
+ * Css constructor.
  */
 PHP_METHOD(Phalcon_Assets_Asset_Css, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
 	zval attributes;
 	zend_bool local, filter, autoVersion;
-	zval *path_param = NULL, *local_param = NULL, *filter_param = NULL, *attributes_param = NULL, *version_param = NULL, *autoVersion_param = NULL, _1, _2, _3, _4;
-	zval path, version;
-	zval *this_ptr = getThis();
+	zval path_zv, *local_param = NULL, *filter_param = NULL, *attributes_param = NULL, version_zv, *autoVersion_param = NULL, _0, _1, _2, _3;
+	zend_string *path = NULL, *version = NULL;
 
-	ZVAL_UNDEF(&path);
-	ZVAL_UNDEF(&version);
+	ZVAL_UNDEF(&path_zv);
+	ZVAL_UNDEF(&version_zv);
+	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&attributes);
-#if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 6)
 		Z_PARAM_STR(path)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_BOOL(local)
 		Z_PARAM_BOOL(filter)
-		Z_PARAM_ARRAY(attributes)
+		ZEPHIR_Z_PARAM_ARRAY(attributes, attributes_param)
 		Z_PARAM_STR_OR_NULL(version)
 		Z_PARAM_BOOL(autoVersion)
 	ZEND_PARSE_PARAMETERS_END();
-#endif
-
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 5, &path_param, &local_param, &filter_param, &attributes_param, &version_param, &autoVersion_param);
-	if (UNEXPECTED(Z_TYPE_P(path_param) != IS_STRING && Z_TYPE_P(path_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be of the type string"));
-		RETURN_MM_NULL();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (ZEND_NUM_ARGS() > 1) {
+		local_param = ZEND_CALL_ARG(execute_data, 2);
 	}
-	if (EXPECTED(Z_TYPE_P(path_param) == IS_STRING)) {
-		zephir_get_strval(&path, path_param);
-	} else {
-		ZEPHIR_INIT_VAR(&path);
+	if (ZEND_NUM_ARGS() > 2) {
+		filter_param = ZEND_CALL_ARG(execute_data, 3);
 	}
+	if (ZEND_NUM_ARGS() > 3) {
+		attributes_param = ZEND_CALL_ARG(execute_data, 4);
+	}
+	if (ZEND_NUM_ARGS() > 5) {
+		autoVersion_param = ZEND_CALL_ARG(execute_data, 6);
+	}
+	zephir_memory_observe(&path_zv);
+	ZVAL_STR_COPY(&path_zv, path);
 	if (!local_param) {
 		local = 1;
 	} else {
-		local = zephir_get_boolval(local_param);
-	}
+		}
 	if (!filter_param) {
 		filter = 1;
 	} else {
-		filter = zephir_get_boolval(filter_param);
-	}
+		}
 	if (!attributes_param) {
 		ZEPHIR_INIT_VAR(&attributes);
 		array_init(&attributes);
 	} else {
 		zephir_get_arrval(&attributes, attributes_param);
 	}
-	if (!version_param) {
-		ZEPHIR_INIT_VAR(&version);
+	if (!version) {
+		ZEPHIR_INIT_VAR(&version_zv);
 	} else {
-		zephir_get_strval(&version, version_param);
+		zephir_memory_observe(&version_zv);
+	ZVAL_STR_COPY(&version_zv, version);
 	}
 	if (!autoVersion_param) {
 		autoVersion = 0;
 	} else {
-		autoVersion = zephir_get_boolval(autoVersion_param);
-	}
-
-
-	ZEPHIR_INIT_VAR(&_1);
-	ZVAL_STRING(&_1, "css");
+		}
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "css");
 	if (local) {
+		ZVAL_BOOL(&_1, 1);
+	} else {
+		ZVAL_BOOL(&_1, 0);
+	}
+	if (filter) {
 		ZVAL_BOOL(&_2, 1);
 	} else {
 		ZVAL_BOOL(&_2, 0);
 	}
-	if (filter) {
+	if (autoVersion) {
 		ZVAL_BOOL(&_3, 1);
 	} else {
 		ZVAL_BOOL(&_3, 0);
 	}
-	if (autoVersion) {
-		ZVAL_BOOL(&_4, 1);
-	} else {
-		ZVAL_BOOL(&_4, 0);
-	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_assets_asset_css_ce, getThis(), "__construct", &_0, 0, &_1, &path, &_2, &_3, &attributes, &version, &_4);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_assets_asset_css_ce, getThis(), "__construct", NULL, 0, &_0, &path_zv, &_1, &_2, &attributes, &version_zv, &_3);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

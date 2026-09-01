@@ -30,47 +30,16 @@
  */
 /**
  * This interface is used for consumers (read only)
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Domain\Payload\Readable} instead.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Domain_Payload_ReadableInterface)
 {
-	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Domain\\Payload, ReadableInterface, phalcon, domain_payload_readableinterface, phalcon_domain_payload_readableinterface_method_entry);
+	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Domain\\Payload, ReadableInterface, phalcon, domain_payload_readableinterface, NULL);
 
+	zend_class_implements(phalcon_domain_payload_readableinterface_ce, 1, phalcon_contracts_domain_payload_readable_ce);
 	return SUCCESS;
 }
 
-/**
- * Gets the potential exception thrown in the domain layer
- *
- * @return Throwable|null
- */
-ZEPHIR_DOC_METHOD(Phalcon_Domain_Payload_ReadableInterface, getException);
-/**
- * Gets arbitrary extra values produced by the domain layer.
- *
- * @return mixed
- */
-ZEPHIR_DOC_METHOD(Phalcon_Domain_Payload_ReadableInterface, getExtras);
-/**
- * Gets the input received by the domain layer.
- *
- * @return mixed
- */
-ZEPHIR_DOC_METHOD(Phalcon_Domain_Payload_ReadableInterface, getInput);
-/**
- * Gets the messages produced by the domain layer.
- *
- * @return mixed
- */
-ZEPHIR_DOC_METHOD(Phalcon_Domain_Payload_ReadableInterface, getMessages);
-/**
- * Gets the output produced from the domain layer.
- *
- * @return mixed
- */
-ZEPHIR_DOC_METHOD(Phalcon_Domain_Payload_ReadableInterface, getOutput);
-/**
- * Gets the status of this payload.
- *
- * @return mixed
- */
-ZEPHIR_DOC_METHOD(Phalcon_Domain_Payload_ReadableInterface, getStatus);

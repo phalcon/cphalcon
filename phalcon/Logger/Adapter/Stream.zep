@@ -10,9 +10,11 @@
 
 namespace Phalcon\Logger\Adapter;
 
-use LogicException;
+use Phalcon\Logger\Adapter\Exceptions\FileOpenFailed;
+use Phalcon\Logger\Adapter\Exceptions\InvalidStreamMode;
 use Phalcon\Logger\Exception;
 use Phalcon\Logger\Item;
+use Phalcon\Traits\Php\FileTrait;
 
 /**
  * Phalcon\Logger\Adapter\Stream
@@ -23,7 +25,7 @@ use Phalcon\Logger\Item;
  * $logger = new \Phalcon\Logger\Adapter\Stream('app/logs/test.log');
  *
  * $logger->log('This is a message');
- * $logger->log(\Phalcon\Logger::ERROR, 'This is an error');
+ * $logger->log(\Phalcon\Logger\Enum::ERROR, 'This is an error');
  * $logger->error('This is another error');
  *
  * $logger->close();
@@ -32,10 +34,11 @@ use Phalcon\Logger\Item;
  * @property resource|null $handler
  * @property string        $mode
  * @property string        $name
- * @property array         $options
  */
 class Stream extends AbstractAdapter
 {
+    use FileTrait;
+
     /**
      * Stream handler resource
      *
@@ -45,32 +48,18 @@ class Stream extends AbstractAdapter
 
     /**
      * The file open mode. Defaults to 'ab'
-     *
-     * @var string
      */
-    protected mode = "ab";
+    protected string mode = "ab";
 
     /**
      * Stream name
-     *
-     * @var string
      */
-    protected name { get };
-
-    /**
-     * Path options
-     *
-     * @var array
-     */
-    protected options;
+    protected string name;
 
     /**
      * Stream constructor.
      *
-     * @param string $name
-     * @param array  $options
-     *
-     * @throws Exception
+     * @throws InvalidStreamMode
      */
     public function __construct(string name, array options = [])
     {
@@ -79,14 +68,9 @@ class Stream extends AbstractAdapter
         /**
          * Mode
          */
-        if fetch mode, options["mode"] {
-            if memstr(mode, "r") {
-                throw new Exception("Adapter cannot be opened in read mode");
-            }
-        }
-
-        if mode === null {
-            let mode = "ab";
+        let mode = true === isset(options["mode"]) ? options["mode"] : "ab";
+        if (false !== mb_strpos(mode, "r")) {
+            throw new InvalidStreamMode();
         }
 
         let this->name = name,
@@ -98,52 +82,45 @@ class Stream extends AbstractAdapter
      */
     public function close() -> bool
     {
-        bool result = true;
+        var handler;
 
-        if is_resource(this->handler) {
-            let result = fclose(this->handler);
+        if (this->handler !== null) {
+            let handler = this->handler,
+                this->handler = null;
+            return this->phpFclose(handler);
         }
 
-        let this->handler = null;
+        return true;
+    }
 
-        return result;
+    /**
+     * Stream name
+     */
+    public function getName() -> string
+    {
+        return this->name;
     }
 
     /**
      * Processes the message i.e. writes it to the file
-     *
-     * @param Item $item
      */
     public function process(<Item> item) -> void
     {
-        var message;
+        var fileHandler, message;
 
-        if !is_resource(this->handler) {
-            let this->handler = this->phpFopen(this->name, this->mode);
+        if (!is_resource(this->handler)) {
+            let fileHandler = this->phpFopen(this->name, this->mode);
 
-            if !is_resource(this->handler) {
+            if (!is_resource(fileHandler)) {
                 let this->handler = null;
 
-                throw new LogicException(
-                    sprintf(
-                        "The file '%s' cannot be opened with mode '%s'",
-                        this->name,
-                        this->mode
-                    )
-                );
+                throw new FileOpenFailed(this->name, this->mode);
             }
+
+            let this->handler = fileHandler;
         }
 
         let message = this->getFormattedItem(item) . PHP_EOL;
-
-        fwrite(this->handler, message);
-    }
-
-    /**
-     * @todo to be removed when we get traits
-     */
-    protected function phpFopen(string filename, string mode)
-    {
-        return fopen(filename, mode);
+        this->phpFwrite(this->handler, message);
     }
 }

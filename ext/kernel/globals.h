@@ -16,6 +16,15 @@
 
 #define ZEPHIR_MAX_CACHE_SLOTS 512
 
+/*
+ * Inline property-cache slots (issue #1902 follow-up). Each slot is a
+ * run-time cache region handed to the engine's read_property/write_property
+ * handler: [0]=class entry, [1]=property offset, [2]=property_info (typed).
+ * Stored in per-request-zeroed module globals; index 0 means "uncached".
+ */
+#define ZEPHIR_PROPERTY_CACHE_SLOT_SIZE 3
+#define ZEPHIR_MAX_PROPERTY_CACHE_SLOTS 2048
+
 typedef struct _zephir_function_cache {
 	zend_class_entry *ce;
 	zend_function *func;

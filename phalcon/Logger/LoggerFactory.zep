@@ -11,21 +11,23 @@
 namespace Phalcon\Logger;
 
 use DateTimeZone;
+use Exception as BaseException;
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Factory\AbstractConfigFactory;
+use Phalcon\Traits\Support\Helper\Arr\GetTrait;
+use Throwable;
 
 /**
  * Factory creating logger objects
  */
 class LoggerFactory extends AbstractConfigFactory
 {
-    /**
-     * @var AdapterFactory
-     */
-    private adapterFactory;
+    use GetTrait;
+
+    private <AdapterFactory> adapterFactory;
 
     /**
-     * @param AdapterFactory $factory
+     * Constructor
      */
     public function __construct(<AdapterFactory> factory)
     {
@@ -54,10 +56,9 @@ class LoggerFactory extends AbstractConfigFactory
     {
         var adapter, adapterClass, adapterFileName, adapterName, adapterOptions,
             adapters, name, timezone, options;
-        array data;
+        array data = [];
 
-        let data     = [],
-            config   = this->checkConfig(config),
+        let config   = this->checkConfig(config),
             config   = this->checkConfigElement(config, "name"),
             name     = config["name"],
             timezone = this->getArrVal(config, "timezone"),
@@ -84,11 +85,6 @@ class LoggerFactory extends AbstractConfigFactory
     /**
      * Returns a Logger object
      *
-     * @param string            $name
-     * @param array             $adapters
-     * @param DateTimeZone|null $timezone
-     *
-     * @return Logger
      */
     public function newInstance(
         string name,
@@ -99,27 +95,10 @@ class LoggerFactory extends AbstractConfigFactory
     }
 
     /**
-     * @todo Remove this when we get traits
-     */
-    protected function getArrVal(
-        array! collection,
-        var index,
-        var defaultValue = null
-    ) -> var {
-        var value;
-
-        if unlikely !fetch value, collection[index] {
-            return defaultValue;
-        }
-
-        return value;
-    }
-
-    /**
-     * @return string
+     * @return class-string<Throwable>
      */
     protected function getExceptionClass() -> string
     {
-        return "Phalcon\\Logger\\Exception";
+        return Exception::class;
     }
 }

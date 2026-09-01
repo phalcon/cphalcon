@@ -1,0 +1,86 @@
+<?php
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Phalcon\Tests\Support\Migrations;
+
+use Phalcon\Talon\Database\Schema\AbstractSchema;
+
+
+/**
+ * Class ArtistsMigration
+ */
+class ArtistsMigration extends AbstractSchema
+{
+    protected string $table = 'artists';
+
+    /**
+     * @param int    $id
+     * @param string $name
+     *
+     * @return int
+     */
+    public function insert(int $id, string $name): int
+    {
+        $sql    = <<<SQL
+insert into artists (id, name) values (:id, :name)
+SQL;
+        $params = [
+            ':id'   => $id,
+            ':name' => $name,
+        ];
+
+        $result = $this->execute($sql, $params);
+        $this->advanceSequence('id', $id);
+
+        return $result;
+    }
+
+    protected function getStatementsMysql(): array
+    {
+        return [
+            "
+create table `artists`
+(
+    `id`   int(10) auto_increment primary key,
+    `name` varchar(100) not null
+);
+            ",
+        ];
+    }
+
+    protected function getStatementsSqlite(): array
+    {
+        return [
+            "
+create table artists
+(
+    id   integer constraint artists_pk primary key autoincrement not null,
+    name text not null
+);
+            ",
+        ];
+    }
+
+    protected function getStatementsPgsql(): array
+    {
+        return [
+            "
+create table artists
+(
+    id   serial constraint artists_pk primary key,
+    name varchar(100) not null
+);
+            ",
+        ];
+    }
+}

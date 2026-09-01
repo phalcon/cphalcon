@@ -10,23 +10,15 @@
 
 namespace Phalcon\Db;
 
+use Phalcon\Contracts\Db\Index as IndexContract;
+
 /**
- * Interface for Phalcon\Db\Index
+ * Phalcon\Db\IndexInterface
+ *
+ * @psalm-suppress DeprecatedInterface
+ * @deprecated Will be removed in a future major release.
+ *             Use {@see \Phalcon\Contracts\Db\Index} instead.
  */
-interface IndexInterface
+interface IndexInterface extends IndexContract
 {
-    /**
-     * Gets the columns that corresponds the index
-     */
-    public function getColumns() -> array;
-
-    /**
-     * Gets the index name
-     */
-    public function getName() -> string;
-
-    /**
-     * Gets the index type
-     */
-    public function getType() -> string;
 }

@@ -1,6 +1,6 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
@@ -10,7 +10,7 @@
 
 namespace Phalcon\Support\Helper\Str;
 
-use Phalcon\Support\Helper\Exception;
+use Phalcon\Support\Helper\Str\Exceptions\InsufficientArguments;
 
 /**
  * Concatenates strings using the separator only once without duplication in
@@ -20,42 +20,35 @@ class Concat extends AbstractStr
 {
     /**
      * @param string $delimiter
-     * @param string $first
-     * @param string $second
-     * @param string ...$arguments
+     * @param string ...$many
      *
      * @return string
+     *
+     * @throws InsufficientArguments
      */
-    public function __invoke() -> string
+    public function __invoke(string delimiter, string ...many) -> string
     {
-        var argument, arguments, delimiter, data, first, last,
-            prefix, suffix;
+        var item, first, last;
+        array data = [];
+        string prefix = "", suffix = "";
 
-        let arguments = func_get_args();
-
-        if unlikely count(arguments) < 3 {
-            throw new Exception("concat needs at least three parameters");
+        if unlikely count(many) < 2 {
+            throw new InsufficientArguments();
         }
 
-        let delimiter = reset(arguments),
-            arguments = array_slice(arguments, 1),
-            first     = reset(arguments),
-            last      = end(arguments),
-            prefix    = "",
-            suffix    = "",
-            data      = [];
+        let first = reset(many),
+            last  = end(many);
 
-        if starts_with(first, delimiter) {
+        if this->toStartsWith(first, delimiter, false) {
             let prefix = delimiter;
         }
 
-        if ends_with(last, delimiter) {
+        if this->toEndsWith(last, delimiter, false) {
             let suffix = delimiter;
         }
 
-
-        for argument in arguments {
-            let data[] = trim(argument, delimiter);
+        for item in many {
+            let data[] = trim(item, delimiter);
         }
 
         return prefix . implode(delimiter, data) . suffix;

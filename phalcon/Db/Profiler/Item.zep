@@ -10,51 +10,145 @@
 
 namespace Phalcon\Db\Profiler;
 
+use Phalcon\Db\Traits\ElapsedTimeTrait;
+
 /**
  * This class identifies each profile in a Phalcon\Db\Profiler
  */
 class Item
 {
+    use ElapsedTimeTrait;
+
     /**
      * Timestamp when the profile ended
      *
      * @var double
      */
-    protected finalTime { set, get };
+    protected finalTime;
 
     /**
      * Timestamp when the profile started
      *
      * @var double
      */
-    protected initialTime { set, get };
+    protected initialTime;
 
     /**
      * SQL bind types related to the profile
      *
      * @var array
      */
-    protected sqlBindTypes { set, get };
+    protected sqlBindTypes;
 
     /**
      * SQL statement related to the profile
      *
      * @var string
      */
-    protected sqlStatement { set, get };
+    protected sqlStatement;
 
     /**
      * SQL variables related to the profile
      *
      * @var array
      */
-    protected sqlVariables { set, get };
+    protected sqlVariables;
 
     /**
-     * Returns the total time in seconds spent by the profile
+     * Return the timestamp when the profile ended
      */
-    public function getTotalElapsedSeconds() -> double
+    public function getFinalTime() -> double
+    {
+        return this->finalTime;
+    }
+
+    /**
+     * Return the timestamp when the profile started
+     */
+    public function getInitialTime() -> double
+    {
+        return this->initialTime;
+    }
+
+    /**
+     * Return the SQL bind types related to the profile
+     */
+    public function getSqlBindTypes() -> array
+    {
+        return this->sqlBindTypes;
+    }
+
+    /**
+     * Return the SQL statement related to the profile
+     */
+    public function getSqlStatement() -> string
+    {
+        return this->sqlStatement;
+    }
+
+    /**
+     * Return the SQL variables related to the profile
+     */
+    public function getSqlVariables() -> array
+    {
+        return this->sqlVariables;
+    }
+
+    /**
+     * Returns the total time in nanoseconds spent by the profile
+     */
+    public function getTotalElapsedNanoseconds() -> double
     {
         return this->finalTime - this->initialTime;
+    }
+
+    /**
+     * Return the timestamp when the profile ended
+     */
+    public function setFinalTime(double finalTime) -> <static>
+    {
+        let this->finalTime = finalTime;
+
+        return this;
+    }
+
+    /**
+     * Return the timestamp when the profile started
+     */
+    public function setInitialTime(double initialTime) -> <static>
+    {
+        let this->initialTime = initialTime;
+
+        return this;
+    }
+
+    /**
+     * Return the SQL bind types related to the profile
+     */
+    public function setSqlBindTypes(array sqlBindTypes) -> <static>
+    {
+        let this->sqlBindTypes = sqlBindTypes;
+
+        return this;
+    }
+
+    /**
+     * Return the SQL statement related to the profile
+     */
+    public function setSqlStatement(string sqlStatement) -> <static>
+    {
+        let this->sqlStatement = sqlStatement;
+
+        return this;
+    }
+
+    /**
+     * Return the SQL variables related to the profile
+     */
+    public function setSqlVariables(array sqlVariables) -> <static>
+    {
+        let this->sqlVariables = sqlVariables;
+
+        return this;
     }
 }

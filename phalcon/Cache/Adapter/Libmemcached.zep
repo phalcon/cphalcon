@@ -18,4 +18,8 @@ use Phalcon\Storage\Adapter\Libmemcached as StorageLibmemcached;
  */
 class Libmemcached extends StorageLibmemcached implements CacheAdapterInterface
 {
+    /**
+     * EventType prefix.
+     */
+    protected string eventType = "cache";
 }
