@@ -668,6 +668,63 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, setMessageVali
 }
 
 /**
+ * Appends the "file is not valid" message for the field
+ *
+ * @param Validation $validation
+ * @param string     $field
+ *
+ * @return void
+ * @throws Validation\Exception
+ */
+PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, appendMessageValid)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zend_string *field = NULL;
+	zval *validation, validation_sub, field_zv, label, replacePairs, _0, _1, _2, _3, _4;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&validation_sub);
+	ZVAL_UNDEF(&field_zv);
+	ZVAL_UNDEF(&label);
+	ZVAL_UNDEF(&replacePairs);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
+		Z_PARAM_STR(field)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	validation = ZEND_CALL_ARG(execute_data, 1);
+	zephir_memory_observe(&field_zv);
+	ZVAL_STR_COPY(&field_zv, field);
+	ZEPHIR_CALL_METHOD(&label, this_ptr, "preparelabel", NULL, 0, validation, &field_zv);
+	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(&replacePairs);
+	zephir_create_array(&replacePairs, 1, 0);
+	zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_VAR(&_0);
+	object_init_ex(&_0, phalcon_messages_message_ce);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getmessagevalid", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_CALL_FUNCTION(&_2, "strtr", NULL, 4, &_1, &replacePairs);
+	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(&_3);
+	zephir_get_class(&_3, this_ptr, 0);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "preparecode", NULL, 0, &field_zv);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 5, &_2, &field_zv, &_3, &_4);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_0);
+	zephir_check_call_status();
+	ZEPHIR_MM_RESTORE();
+}
+
+/**
  * Checks if a file has been uploaded; Internal check that can be
  * overridden in a subclass if you do not want to check uploaded files
  *

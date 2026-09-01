@@ -265,7 +265,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File, __construct)
 		allowWildcards = zephir_get_boolval(&_3$$6);
 		zephir_array_unset_string(&options, SL("allowWildcards"), PH_SEPARATE);
 	}
-	zephir_is_iterable(&options, 1, "phalcon/Filter/Validation/Validator/File.zep", 308);
+	zephir_is_iterable(&options, 1, "phalcon/Filter/Validation/Validator/File.zep", 309);
 	if (Z_TYPE_P(&options) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&options), _6, _7, _5)
 		{
@@ -299,6 +299,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File, __construct)
 				zephir_array_update_string(&_19$$8, SL("included"), &included, PH_COPY | PH_SEPARATE);
 				ZEPHIR_CALL_METHOD(NULL, &validator, "__construct", &_20, 0, &_19$$8);
 				zephir_check_call_status();
+				zephir_array_unset_string(&options, SL("minSize"), PH_SEPARATE);
 				zephir_array_unset_string(&options, SL("messageMinSize"), PH_SEPARATE);
 				zephir_array_unset_string(&options, SL("includedMinSize"), PH_SEPARATE);
 			} else {
@@ -528,6 +529,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File, __construct)
 					zephir_array_update_string(&_54$$21, SL("included"), &included, PH_COPY | PH_SEPARATE);
 					ZEPHIR_CALL_METHOD(NULL, &validator, "__construct", &_38, 0, &_54$$21);
 					zephir_check_call_status();
+					zephir_array_unset_string(&options, SL("minSize"), PH_SEPARATE);
 					zephir_array_unset_string(&options, SL("messageMinSize"), PH_SEPARATE);
 					zephir_array_unset_string(&options, SL("includedMinSize"), PH_SEPARATE);
 				} else {
