@@ -44,7 +44,7 @@
  * @method string       lowerfirst(string $input)
  * @method mixed        regex(mixed $input, mixed $pattern, mixed $replace)
  * @method mixed        remove(mixed $input, mixed $replace)
- * @method mixed        replace(mixed $input, mixed $source, mixed $target)
+ * @method mixed        replace(mixed $input, mixed $from, mixed $to)
  * @method string       special(string $input)
  * @method string       specialfull(string $input)
  * @method string       string(string $input)

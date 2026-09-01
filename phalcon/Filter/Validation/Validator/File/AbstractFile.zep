@@ -379,6 +379,36 @@ abstract class AbstractFile extends AbstractValidator
     }
 
     /**
+     * Appends the "file is not valid" message for the field
+     *
+     * @param Validation $validation
+     * @param string     $field
+     *
+     * @return void
+     * @throws Validation\Exception
+     */
+    protected function appendMessageValid(
+        <Validation> validation,
+        string field
+    ) -> void {
+        var label, replacePairs;
+
+        let label        = this->prepareLabel(validation, field);
+        let replacePairs = [
+            ":field" : label
+        ];
+
+        validation->appendMessage(
+            new Message(
+                strtr(this->getMessageValid(), replacePairs),
+                field,
+                get_class(this),
+                this->prepareCode(field)
+            )
+        );
+    }
+
+    /**
      * Checks if a file has been uploaded; Internal check that can be
      * overridden in a subclass if you do not want to check uploaded files
      *

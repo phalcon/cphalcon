@@ -32,7 +32,7 @@ class Ip implements Sanitizer
 
         // CIDR notation (e.g., 192.168.1.0/24)
         if memstr(ipInput, "/") {
-            let parts       = explode("/", input, 2),
+            let parts       = explode("/", ipInput, 2),
                 ip          = parts[0],
                 mask        = parts[1];
 

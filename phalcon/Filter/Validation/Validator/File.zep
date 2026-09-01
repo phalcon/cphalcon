@@ -169,6 +169,7 @@ class File extends AbstractValidatorComposite
                     ]
                 );
 
+                unset options["minSize"];
                 unset options["messageMinSize"];
                 unset options["includedMinSize"];
             }
