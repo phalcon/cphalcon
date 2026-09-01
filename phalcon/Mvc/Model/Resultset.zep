@@ -647,7 +647,7 @@ abstract class Resultset
 
                 let connection = record->getWriteConnection(),
                     transaction = true,
-                     isUnderTransaction = connection->isUnderTransaction();
+                    isUnderTransaction = connection->isUnderTransaction();
 
                 /**
                  * If we already under transaction we should not begin or commit it
