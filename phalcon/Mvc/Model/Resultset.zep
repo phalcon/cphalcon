@@ -277,7 +277,7 @@ abstract class Resultset
         /**
          * Commit the transaction
          */
-        if transaction === true & isUnderTransaction === false {
+        if transaction === true && isUnderTransaction === false {
             connection->commit();
         }
 
@@ -695,7 +695,7 @@ abstract class Resultset
         /**
          * Commit the transaction
          */
-        if transaction === true & isUnderTransaction === false {
+        if transaction === true && isUnderTransaction === false {
             connection->commit();
         }
 
