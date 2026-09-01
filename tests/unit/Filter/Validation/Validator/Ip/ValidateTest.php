@@ -101,6 +101,67 @@ final class ValidateTest extends AbstractUnitTestCase
     }
 
     /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-01
+     */
+    public function testFilterValidationValidatorIpPerFieldPrivateReserved(): void
+    {
+        $validation = new Validation();
+
+        $validation->add(
+            [
+                'internal',
+                'external',
+            ],
+            new Ip(
+                [
+                    'version'       => Ip::VERSION_4,
+                    'allowPrivate'  => [
+                        'internal' => true,
+                        'external' => false,
+                    ],
+                    'allowReserved' => [
+                        'internal' => true,
+                        'external' => false,
+                    ],
+                ]
+            )
+        );
+
+        // a private address is allowed for `internal` only
+        $messages = $validation->validate(
+            [
+                'internal' => '10.0.0.1',
+                'external' => '10.0.0.1',
+            ]
+        );
+
+        $this->assertCount(1, $messages);
+        $this->assertSame('external', $messages[0]->getField());
+
+        // a reserved address is allowed for `internal` only
+        $messages = $validation->validate(
+            [
+                'internal' => '127.0.0.1',
+                'external' => '127.0.0.1',
+            ]
+        );
+
+        $this->assertCount(1, $messages);
+        $this->assertSame('external', $messages[0]->getField());
+
+        // a public address is allowed for both fields
+        $messages = $validation->validate(
+            [
+                'internal' => '8.8.8.8',
+                'external' => '8.8.8.8',
+            ]
+        );
+
+        $this->assertCount(0, $messages);
+    }
+
+    /**
      * @author Gorka Guridi <gorka.guridi@gmail.com>
      * @since  2016-12-17
      */

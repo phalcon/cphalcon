@@ -111,15 +111,17 @@ class Ip extends AbstractValidator
             let version = version[field];
         }
 
-        let allowPrivate = this->getOption("allowPrivate") ? 0 : FILTER_FLAG_NO_PRIV_RANGE;
+        let allowPrivate = this->getOption("allowPrivate", false);
         if typeof allowPrivate == "array" {
             let allowPrivate = allowPrivate[field];
         }
+        let allowPrivate = allowPrivate ? 0 : FILTER_FLAG_NO_PRIV_RANGE;
 
-        let allowReserved = this->getOption("allowReserved") ? 0 : FILTER_FLAG_NO_RES_RANGE;
+        let allowReserved = this->getOption("allowReserved", false);
         if typeof allowReserved == "array" {
             let allowReserved = allowReserved[field];
         }
+        let allowReserved = allowReserved ? 0 : FILTER_FLAG_NO_RES_RANGE;
 
         let options = [
             "options": [
