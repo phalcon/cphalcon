@@ -101,6 +101,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Pkcs7, unpad)
 	blockSize_param = ZEND_CALL_ARG(execute_data, 2);
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
+	ZEPHIR_INIT_VAR(&paddingSize);
 	ZEPHIR_INIT_VAR(&length);
 	ZVAL_LONG(&length, zephir_fast_strlen_ev(&input_zv));
 	ZVAL_LONG(&_0, (zephir_get_numberval(&length) - 1));

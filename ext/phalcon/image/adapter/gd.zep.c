@@ -12,9 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
-#include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
 #include "kernel/exception.h"
@@ -189,6 +189,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, __construct)
 		maxPixels = 0;
 	} else {
 		}
+	ZEPHIR_INIT_VAR(&image);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "check", NULL, 0);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 918, &file_zv);

@@ -1986,7 +1986,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public static function findFirst(var parameters = null) -> var | null
     {
-        var params, query;
+        var eager, params, query, resultset;
 
         if null === parameters {
             let params = [];
@@ -1999,6 +1999,23 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         }
 
         let query = self::getPreparedQuery(params, 1);
+
+        /**
+         * A unique row is hydrated by the query itself, which leaves no point
+         * at which the relation map can be attached. The resultset is kept
+         * instead, pre-loaded, and reduced to its first row afterwards.
+         */
+        if fetch eager, params["eager"] {
+            let resultset = query->execute();
+
+            if typeof resultset === "object" {
+                self::loadEager(resultset, eager, params);
+
+                return resultset->getFirst();
+            }
+
+            return resultset;
+        }
 
         /**
          * Return only the first row

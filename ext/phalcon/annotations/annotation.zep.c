@@ -253,6 +253,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &expr_param);
 	zephir_get_arrval(&expr, expr_param);
+	ZEPHIR_INIT_VAR(&value);
 	zephir_memory_observe(&type);
 	zephir_array_fetch_string(&type, &expr, SL("type"), PH_NOISY, "phalcon/Annotations/Annotation.zep", 113);
 	if (ZEPHIR_IS_LONG(&type, 301)) { goto zephir_switch_0_clause_0; }
@@ -269,7 +270,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression)
 	zephir_switch_0_clause_1: ;
 	zephir_switch_0_clause_2: ;
 	zephir_switch_0_clause_3: ;
-		zephir_memory_observe(&value);
+		ZEPHIR_OBS_NVAR(&value);
 		zephir_array_fetch_string(&value, &expr, SL("value"), PH_NOISY, "phalcon/Annotations/Annotation.zep", 120);
 		goto zephir_switch_0_end;
 	zephir_switch_0_clause_4: ;

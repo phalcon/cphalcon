@@ -946,6 +946,7 @@ PHP_METHOD(Phalcon_Assets_Manager, output)
 	collection = ZEND_CALL_ARG(execute_data, 1);
 	zephir_memory_observe(&type_zv);
 	ZVAL_STR_COPY(&type_zv, type);
+	ZEPHIR_INIT_VAR(&targetPath);
 	ZEPHIR_INIT_VAR(&completeSourcePath);
 	ZVAL_STRING(&completeSourcePath, "");
 	ZEPHIR_INIT_VAR(&completeTargetPath);
@@ -1373,6 +1374,7 @@ PHP_METHOD(Phalcon_Assets_Manager, outputInline)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &collection, &type);
+	ZEPHIR_INIT_VAR(&attributes);
 	ZEPHIR_INIT_VAR(&output);
 	ZVAL_STRING(&output, "");
 	ZEPHIR_INIT_VAR(&html);

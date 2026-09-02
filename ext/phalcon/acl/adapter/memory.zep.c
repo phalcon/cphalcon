@@ -970,6 +970,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addRole)
 		accessInherits = &accessInherits_sub;
 		accessInherits = &__$null;
 	}
+	ZEPHIR_INIT_VAR(&roleObject);
 	_0 = Z_TYPE_P(role) == IS_OBJECT;
 	if (_0) {
 		_0 = zephir_instance_of_ev(role, phalcon_acl_roleinterface_ce);

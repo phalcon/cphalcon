@@ -400,8 +400,9 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, messageFactory)
 	} else {
 		zephir_get_arrval(&replacements, replacements_param);
 	}
+	ZEPHIR_INIT_VAR(&singleField);
 	if (Z_TYPE_P(field) == IS_ARRAY) {
-		ZEPHIR_INIT_VAR(&singleField);
+		ZEPHIR_INIT_NVAR(&singleField);
 		zephir_fast_join_str(&singleField, SL(", "), field);
 	} else if (Z_TYPE_P(field) == IS_STRING) {
 		ZEPHIR_CPY_WRT(&singleField, field);

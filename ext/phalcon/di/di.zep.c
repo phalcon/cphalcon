@@ -328,6 +328,7 @@ PHP_METHOD(Phalcon_Di_Di, get)
 		parameters = &parameters_sub;
 		parameters = &__$null;
 	}
+	ZEPHIR_INIT_VAR(&isShared);
 	ZEPHIR_INIT_VAR(&instance);
 	ZVAL_NULL(&instance);
 	ZEPHIR_INIT_NVAR(&instance);
