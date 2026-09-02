@@ -107,8 +107,8 @@ PHP_METHOD(Phalcon_ADR_Dispatcher, __construct)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(2, 3)
-		Z_PARAM_OBJECT_OF_CLASS(container, phalcon_contracts_container_ioc_ioccontainer_ce)
-		Z_PARAM_OBJECT_OF_CLASS(events, phalcon_contracts_events_manager_ce)
+		Z_PARAM_OBJECT_OF_CLASS(container, zephir_get_internal_ce(SL("phalcon\\contracts\\container\\ioc\\ioccontainer")))
+		Z_PARAM_OBJECT_OF_CLASS(events, zephir_get_internal_ce(SL("phalcon\\contracts\\events\\manager")))
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(globalMiddleware, globalMiddleware_param)
 	ZEND_PARSE_PARAMETERS_END();
@@ -167,7 +167,7 @@ PHP_METHOD(Phalcon_ADR_Dispatcher, dispatch)
 
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_STR(actionClass)
-		Z_PARAM_OBJECT_OF_CLASS(request, phalcon_contracts_http_attributerequest_ce)
+		Z_PARAM_OBJECT_OF_CLASS(request, zephir_get_internal_ce(SL("phalcon\\contracts\\http\\attributerequest")))
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(routeMiddleware, routeMiddleware_param)
 	ZEND_PARSE_PARAMETERS_END();

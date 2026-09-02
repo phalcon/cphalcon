@@ -75,8 +75,8 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamConsumer, __construct)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(2, 3)
-		Z_PARAM_OBJECT_OF_CLASS(context, phalcon_queue_adapter_stream_streamcontext_ce)
-		Z_PARAM_OBJECT_OF_CLASS(queue, phalcon_contracts_queue_queue_ce)
+		Z_PARAM_OBJECT_OF_CLASS(context, zephir_get_internal_ce(SL("phalcon\\queue\\adapter\\stream\\streamcontext")))
+		Z_PARAM_OBJECT_OF_CLASS(queue, zephir_get_internal_ce(SL("phalcon\\contracts\\queue\\queue")))
 		Z_PARAM_OPTIONAL
 		Z_PARAM_LONG(pollInterval)
 	ZEND_PARSE_PARAMETERS_END();
@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamConsumer, acknowledge)
 
 	ZVAL_UNDEF(&message_sub);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(message, phalcon_contracts_queue_message_ce)
+		Z_PARAM_OBJECT_OF_CLASS(message, zephir_get_internal_ce(SL("phalcon\\contracts\\queue\\message")))
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &message);
 }
@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamConsumer, reject)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 2)
-		Z_PARAM_OBJECT_OF_CLASS(message, phalcon_contracts_queue_message_ce)
+		Z_PARAM_OBJECT_OF_CLASS(message, zephir_get_internal_ce(SL("phalcon\\contracts\\queue\\message")))
 		Z_PARAM_OPTIONAL
 		Z_PARAM_BOOL(requeue)
 	ZEND_PARSE_PARAMETERS_END();

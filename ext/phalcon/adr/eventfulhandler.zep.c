@@ -69,8 +69,8 @@ PHP_METHOD(Phalcon_ADR_EventfulHandler, __construct)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(action, phalcon_contracts_adr_action_ce)
-		Z_PARAM_OBJECT_OF_CLASS(events, phalcon_contracts_events_manager_ce)
+		Z_PARAM_OBJECT_OF_CLASS(action, zephir_get_internal_ce(SL("phalcon\\contracts\\adr\\action")))
+		Z_PARAM_OBJECT_OF_CLASS(events, zephir_get_internal_ce(SL("phalcon\\contracts\\events\\manager")))
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(2, 0, &action, &events);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 350, action);
@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_ADR_EventfulHandler, __invoke)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(request, phalcon_contracts_http_attributerequest_ce)
+		Z_PARAM_OBJECT_OF_CLASS(request, zephir_get_internal_ce(SL("phalcon\\contracts\\http\\attributerequest")))
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);

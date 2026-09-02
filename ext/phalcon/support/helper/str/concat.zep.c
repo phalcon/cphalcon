@@ -52,12 +52,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_Concat)
  */
 PHP_METHOD(Phalcon_Support_Helper_Str_Concat, __invoke)
 {
-	zend_bool _9;
+	zend_bool _7;
 	zval prefix, suffix;
 	zval data;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval delimiter_zv, many, item, first, last, _1, _2, _3, *_4, _5, *_6, _8, _11, _0$$3, _7$$6, _10$$7;
+	zval delimiter_zv, many, item, first, last, _1, _2, _3, *_4, _6, _9, _0$$3, _5$$6, _8$$7;
 	zend_string *delimiter = NULL;
 	zval *this_ptr = getThis();
 
@@ -69,12 +69,11 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Concat, __invoke)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_5);
-	ZVAL_UNDEF(&_8);
-	ZVAL_UNDEF(&_11);
+	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_9);
 	ZVAL_UNDEF(&_0$$3);
-	ZVAL_UNDEF(&_7$$6);
-	ZVAL_UNDEF(&_10$$7);
+	ZVAL_UNDEF(&_5$$6);
+	ZVAL_UNDEF(&_8$$7);
 	ZVAL_UNDEF(&data);
 	ZVAL_UNDEF(&prefix);
 	ZVAL_UNDEF(&suffix);
@@ -122,50 +121,43 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Concat, __invoke)
 	if (zephir_is_true(&_3)) {
 		ZEPHIR_CPY_WRT(&suffix, &delimiter_zv);
 	}
-	if (Z_TYPE_P(&many) == IS_STRING) {
-		ZEPHIR_INIT_VAR(&_5);
-		zephir_string_to_char_array(&_5, &many);
-		_4 = &_5;
-	} else {
-		_4 = &many;
-	}
-	zephir_is_iterable(_4, 0, "phalcon/Support/Helper/Str/Concat.zep", 54);
-	if (Z_TYPE_P(_4) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_4), _6)
+	zephir_is_iterable(&many, 0, "phalcon/Support/Helper/Str/Concat.zep", 54);
+	if (Z_TYPE_P(&many) == IS_ARRAY) {
+		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&many), _4)
 		{
 			ZEPHIR_INIT_NVAR(&item);
-			ZVAL_COPY(&item, _6);
-			ZEPHIR_INIT_NVAR(&_7$$6);
-			zephir_fast_trim(&_7$$6, &item, &delimiter_zv, ZEPHIR_TRIM_BOTH);
-			zephir_array_append(&data, &_7$$6, PH_SEPARATE, "phalcon/Support/Helper/Str/Concat.zep", 51);
+			ZVAL_COPY(&item, _4);
+			ZEPHIR_INIT_NVAR(&_5$$6);
+			zephir_fast_trim(&_5$$6, &item, &delimiter_zv, ZEPHIR_TRIM_BOTH);
+			zephir_array_append(&data, &_5$$6, PH_SEPARATE, "phalcon/Support/Helper/Str/Concat.zep", 51);
 		} ZEND_HASH_FOREACH_END();
 	} else {
-		ZEPHIR_CALL_METHOD(NULL, _4, "rewind", NULL, 0);
+		ZEPHIR_CALL_METHOD(NULL, &many, "rewind", NULL, 0);
 		zephir_check_call_status();
-		_9 = 1;
+		_7 = 1;
 		while (1) {
-			if (_9) {
-				_9 = 0;
+			if (_7) {
+				_7 = 0;
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, _4, "next", NULL, 0);
+				ZEPHIR_CALL_METHOD(NULL, &many, "next", NULL, 0);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_8, _4, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_6, &many, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_8)) {
+			if (!zend_is_true(&_6)) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&item, _4, "current", NULL, 0);
+			ZEPHIR_CALL_METHOD(&item, &many, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_INIT_NVAR(&_10$$7);
-				zephir_fast_trim(&_10$$7, &item, &delimiter_zv, ZEPHIR_TRIM_BOTH);
-				zephir_array_append(&data, &_10$$7, PH_SEPARATE, "phalcon/Support/Helper/Str/Concat.zep", 51);
+				ZEPHIR_INIT_NVAR(&_8$$7);
+				zephir_fast_trim(&_8$$7, &item, &delimiter_zv, ZEPHIR_TRIM_BOTH);
+				zephir_array_append(&data, &_8$$7, PH_SEPARATE, "phalcon/Support/Helper/Str/Concat.zep", 51);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&item);
-	ZEPHIR_INIT_VAR(&_11);
-	zephir_fast_join(&_11, &delimiter_zv, &data);
-	ZEPHIR_CONCAT_VVV(return_value, &prefix, &_11, &suffix);
+	ZEPHIR_INIT_VAR(&_9);
+	zephir_fast_join(&_9, &delimiter_zv, &data);
+	ZEPHIR_CONCAT_VVV(return_value, &prefix, &_9, &suffix);
 	RETURN_MM();
 }
 

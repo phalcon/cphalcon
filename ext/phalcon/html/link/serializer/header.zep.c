@@ -49,14 +49,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Link_Serializer_Header)
  */
 PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 {
-	zval _13$$7, _19$$8, _22$$9, _30$$13, _35$$14, _38$$15, _57$$21, _62$$22, _65$$23, _73$$27, _78$$28, _81$$29;
-	zend_string *_8$$3, *_52$$17;
-	zend_ulong _7$$3, _51$$17;
-	zend_bool _43, _25$$3, _17$$6, _33$$12, _68$$17, _60$$20, _76$$26;
+	zval _9$$7, _15$$8, _18$$9, _24$$13, _29$$14, _32$$15, _47$$21, _52$$22, _55$$23, _61$$27, _66$$28, _69$$29;
+	zend_string *_6$$3, *_44$$17;
+	zend_ulong _5$$3, _43$$17;
+	zend_bool _37, _21$$3, _13$$6, _27$$12, _58$$17, _50$$20, _64$$26;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_14 = NULL;
+	zephir_fcall_cache_entry *_10 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *links_param = NULL, attributes, key, link, rels, result, subValue, value, *_0, _42, _1$$3, _2$$3, _3$$3, *_4$$3, _5$$3, *_6$$3, _24$$3, _40$$3, _41$$3, *_9$$6, _10$$6, *_11$$6, _16$$6, _12$$7, _15$$7, _18$$8, _20$$8, _21$$9, _23$$9, *_26$$12, _27$$12, *_28$$12, _32$$12, _29$$13, _31$$13, _34$$14, _36$$14, _37$$15, _39$$15, _44$$17, _45$$17, _46$$17, _47$$17, *_48$$17, _49$$17, *_50$$17, _67$$17, _83$$17, _84$$17, *_53$$20, _54$$20, *_55$$20, _59$$20, _56$$21, _58$$21, _61$$22, _63$$22, _64$$23, _66$$23, *_69$$26, _70$$26, *_71$$26, _75$$26, _72$$27, _74$$27, _77$$28, _79$$28, _80$$29, _82$$29;
+	zval *links_param = NULL, attributes, key, link, rels, result, subValue, value, *_0, _36, _1$$3, _2$$3, _3$$3, *_4$$3, _20$$3, _34$$3, _35$$3, *_7$$6, _12$$6, _8$$7, _11$$7, _14$$8, _16$$8, _17$$9, _19$$9, *_22$$12, _26$$12, _23$$13, _25$$13, _28$$14, _30$$14, _31$$15, _33$$15, _38$$17, _39$$17, _40$$17, _41$$17, *_42$$17, _57$$17, _71$$17, _72$$17, *_45$$20, _49$$20, _46$$21, _48$$21, _51$$22, _53$$22, _54$$23, _56$$23, *_59$$26, _63$$26, _60$$27, _62$$27, _65$$28, _67$$28, _68$$29, _70$$29;
 	zval links, elements, parts;
 	zval *this_ptr = getThis();
 
@@ -70,66 +70,60 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 	ZVAL_UNDEF(&result);
 	ZVAL_UNDEF(&subValue);
 	ZVAL_UNDEF(&value);
-	ZVAL_UNDEF(&_42);
+	ZVAL_UNDEF(&_36);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$3);
-	ZVAL_UNDEF(&_5$$3);
-	ZVAL_UNDEF(&_24$$3);
-	ZVAL_UNDEF(&_40$$3);
-	ZVAL_UNDEF(&_41$$3);
-	ZVAL_UNDEF(&_10$$6);
-	ZVAL_UNDEF(&_16$$6);
-	ZVAL_UNDEF(&_12$$7);
-	ZVAL_UNDEF(&_15$$7);
-	ZVAL_UNDEF(&_18$$8);
-	ZVAL_UNDEF(&_20$$8);
-	ZVAL_UNDEF(&_21$$9);
-	ZVAL_UNDEF(&_23$$9);
-	ZVAL_UNDEF(&_27$$12);
-	ZVAL_UNDEF(&_32$$12);
-	ZVAL_UNDEF(&_29$$13);
-	ZVAL_UNDEF(&_31$$13);
-	ZVAL_UNDEF(&_34$$14);
-	ZVAL_UNDEF(&_36$$14);
-	ZVAL_UNDEF(&_37$$15);
-	ZVAL_UNDEF(&_39$$15);
-	ZVAL_UNDEF(&_44$$17);
-	ZVAL_UNDEF(&_45$$17);
-	ZVAL_UNDEF(&_46$$17);
-	ZVAL_UNDEF(&_47$$17);
-	ZVAL_UNDEF(&_49$$17);
-	ZVAL_UNDEF(&_67$$17);
-	ZVAL_UNDEF(&_83$$17);
-	ZVAL_UNDEF(&_84$$17);
-	ZVAL_UNDEF(&_54$$20);
-	ZVAL_UNDEF(&_59$$20);
-	ZVAL_UNDEF(&_56$$21);
-	ZVAL_UNDEF(&_58$$21);
-	ZVAL_UNDEF(&_61$$22);
-	ZVAL_UNDEF(&_63$$22);
-	ZVAL_UNDEF(&_64$$23);
-	ZVAL_UNDEF(&_66$$23);
-	ZVAL_UNDEF(&_70$$26);
-	ZVAL_UNDEF(&_75$$26);
-	ZVAL_UNDEF(&_72$$27);
-	ZVAL_UNDEF(&_74$$27);
-	ZVAL_UNDEF(&_77$$28);
-	ZVAL_UNDEF(&_79$$28);
-	ZVAL_UNDEF(&_80$$29);
-	ZVAL_UNDEF(&_82$$29);
-	ZVAL_UNDEF(&_13$$7);
-	ZVAL_UNDEF(&_19$$8);
-	ZVAL_UNDEF(&_22$$9);
-	ZVAL_UNDEF(&_30$$13);
-	ZVAL_UNDEF(&_35$$14);
-	ZVAL_UNDEF(&_38$$15);
-	ZVAL_UNDEF(&_57$$21);
-	ZVAL_UNDEF(&_62$$22);
-	ZVAL_UNDEF(&_65$$23);
-	ZVAL_UNDEF(&_73$$27);
-	ZVAL_UNDEF(&_78$$28);
-	ZVAL_UNDEF(&_81$$29);
+	ZVAL_UNDEF(&_20$$3);
+	ZVAL_UNDEF(&_34$$3);
+	ZVAL_UNDEF(&_35$$3);
+	ZVAL_UNDEF(&_12$$6);
+	ZVAL_UNDEF(&_8$$7);
+	ZVAL_UNDEF(&_11$$7);
+	ZVAL_UNDEF(&_14$$8);
+	ZVAL_UNDEF(&_16$$8);
+	ZVAL_UNDEF(&_17$$9);
+	ZVAL_UNDEF(&_19$$9);
+	ZVAL_UNDEF(&_26$$12);
+	ZVAL_UNDEF(&_23$$13);
+	ZVAL_UNDEF(&_25$$13);
+	ZVAL_UNDEF(&_28$$14);
+	ZVAL_UNDEF(&_30$$14);
+	ZVAL_UNDEF(&_31$$15);
+	ZVAL_UNDEF(&_33$$15);
+	ZVAL_UNDEF(&_38$$17);
+	ZVAL_UNDEF(&_39$$17);
+	ZVAL_UNDEF(&_40$$17);
+	ZVAL_UNDEF(&_41$$17);
+	ZVAL_UNDEF(&_57$$17);
+	ZVAL_UNDEF(&_71$$17);
+	ZVAL_UNDEF(&_72$$17);
+	ZVAL_UNDEF(&_49$$20);
+	ZVAL_UNDEF(&_46$$21);
+	ZVAL_UNDEF(&_48$$21);
+	ZVAL_UNDEF(&_51$$22);
+	ZVAL_UNDEF(&_53$$22);
+	ZVAL_UNDEF(&_54$$23);
+	ZVAL_UNDEF(&_56$$23);
+	ZVAL_UNDEF(&_63$$26);
+	ZVAL_UNDEF(&_60$$27);
+	ZVAL_UNDEF(&_62$$27);
+	ZVAL_UNDEF(&_65$$28);
+	ZVAL_UNDEF(&_67$$28);
+	ZVAL_UNDEF(&_68$$29);
+	ZVAL_UNDEF(&_70$$29);
+	ZVAL_UNDEF(&_9$$7);
+	ZVAL_UNDEF(&_15$$8);
+	ZVAL_UNDEF(&_18$$9);
+	ZVAL_UNDEF(&_24$$13);
+	ZVAL_UNDEF(&_29$$14);
+	ZVAL_UNDEF(&_32$$15);
+	ZVAL_UNDEF(&_47$$21);
+	ZVAL_UNDEF(&_52$$22);
+	ZVAL_UNDEF(&_55$$23);
+	ZVAL_UNDEF(&_61$$27);
+	ZVAL_UNDEF(&_66$$28);
+	ZVAL_UNDEF(&_69$$29);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		ZEPHIR_Z_PARAM_ARRAY(links, links_param)
 	ZEND_PARSE_PARAMETERS_END();
@@ -166,82 +160,68 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 			ZEPHIR_INIT_NVAR(&_3$$3);
 			ZEPHIR_CONCAT_SVS(&_3$$3, "rel=\"", &_2$$3, "\"");
 			zephir_array_fast_append(&parts, &_3$$3);
-			if (Z_TYPE_P(&attributes) == IS_STRING) {
-				ZEPHIR_INIT_NVAR(&_5$$3);
-				zephir_string_to_char_array(&_5$$3, &attributes);
-				_4$$3 = &_5$$3;
-			} else {
-				_4$$3 = &attributes;
-			}
-			zephir_is_iterable(_4$$3, 0, "phalcon/Html/Link/Serializer/Header.zep", 70);
-			if (Z_TYPE_P(_4$$3) == IS_ARRAY) {
-				ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_4$$3), _7$$3, _8$$3, _6$$3)
+			zephir_is_iterable(&attributes, 0, "phalcon/Html/Link/Serializer/Header.zep", 70);
+			if (Z_TYPE_P(&attributes) == IS_ARRAY) {
+				ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&attributes), _5$$3, _6$$3, _4$$3)
 				{
 					ZEPHIR_INIT_NVAR(&key);
-					if (_8$$3 != NULL) { 
-						ZVAL_STR_COPY(&key, _8$$3);
+					if (_6$$3 != NULL) { 
+						ZVAL_STR_COPY(&key, _6$$3);
 					} else {
-						ZVAL_LONG(&key, _7$$3);
+						ZVAL_LONG(&key, _5$$3);
 					}
 					ZEPHIR_INIT_NVAR(&value);
-					ZVAL_COPY(&value, _6$$3);
+					ZVAL_COPY(&value, _4$$3);
 					if (Z_TYPE_P(&value) == IS_ARRAY) {
-						if (Z_TYPE_P(&value) == IS_STRING) {
-							ZEPHIR_INIT_NVAR(&_10$$6);
-							zephir_string_to_char_array(&_10$$6, &value);
-							_9$$6 = &_10$$6;
-						} else {
-							_9$$6 = &value;
-						}
-						zephir_is_iterable(_9$$6, 0, "phalcon/Html/Link/Serializer/Header.zep", 56);
-						if (Z_TYPE_P(_9$$6) == IS_ARRAY) {
-							ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_9$$6), _11$$6)
+						zephir_is_iterable(&value, 0, "phalcon/Html/Link/Serializer/Header.zep", 56);
+						if (Z_TYPE_P(&value) == IS_ARRAY) {
+							ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&value), _7$$6)
 							{
 								ZEPHIR_INIT_NVAR(&subValue);
-								ZVAL_COPY(&subValue, _11$$6);
-								zephir_cast_to_string(&_13$$7, &subValue);
-								ZEPHIR_CALL_METHOD(&_12$$7, this_ptr, "quote", &_14, 0, &_13$$7);
+								ZVAL_COPY(&subValue, _7$$6);
+								zephir_cast_to_string(&_9$$7, &subValue);
+								ZEPHIR_CALL_METHOD(&_8$$7, this_ptr, "quote", &_10, 0, &_9$$7);
 								zephir_check_call_status();
-								ZEPHIR_INIT_NVAR(&_15$$7);
-								ZEPHIR_CONCAT_VSVS(&_15$$7, &key, "=\"", &_12$$7, "\"");
-								zephir_array_append(&parts, &_15$$7, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 54);
+								ZEPHIR_INIT_NVAR(&_11$$7);
+								ZEPHIR_CONCAT_VSVS(&_11$$7, &key, "=\"", &_8$$7, "\"");
+								zephir_array_append(&parts, &_11$$7, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 54);
 							} ZEND_HASH_FOREACH_END();
 						} else {
-							ZEPHIR_CALL_METHOD(NULL, _9$$6, "rewind", NULL, 0);
+							ZEPHIR_CALL_METHOD(NULL, &value, "rewind", NULL, 0);
 							zephir_check_call_status();
-							_17$$6 = 1;
+							_13$$6 = 1;
 							while (1) {
-								if (_17$$6) {
-									_17$$6 = 0;
+								if (_13$$6) {
+									_13$$6 = 0;
 								} else {
-									ZEPHIR_CALL_METHOD(NULL, _9$$6, "next", NULL, 0);
+									ZEPHIR_CALL_METHOD(NULL, &value, "next", NULL, 0);
 									zephir_check_call_status();
 								}
-								ZEPHIR_CALL_METHOD(&_16$$6, _9$$6, "valid", NULL, 0);
+								ZEPHIR_CALL_METHOD(&_12$$6, &value, "valid", NULL, 0);
 								zephir_check_call_status();
-								if (!zend_is_true(&_16$$6)) {
+								if (!zend_is_true(&_12$$6)) {
 									break;
 								}
-								ZEPHIR_CALL_METHOD(&subValue, _9$$6, "current", NULL, 0);
+								ZEPHIR_CALL_METHOD(&subValue, &value, "current", NULL, 0);
 								zephir_check_call_status();
-									zephir_cast_to_string(&_19$$8, &subValue);
-									ZEPHIR_CALL_METHOD(&_18$$8, this_ptr, "quote", &_14, 0, &_19$$8);
+									zephir_cast_to_string(&_15$$8, &subValue);
+									ZEPHIR_CALL_METHOD(&_14$$8, this_ptr, "quote", &_10, 0, &_15$$8);
 									zephir_check_call_status();
-									ZEPHIR_INIT_NVAR(&_20$$8);
-									ZEPHIR_CONCAT_VSVS(&_20$$8, &key, "=\"", &_18$$8, "\"");
-									zephir_array_append(&parts, &_20$$8, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 54);
+									ZEPHIR_INIT_NVAR(&_16$$8);
+									ZEPHIR_CONCAT_VSVS(&_16$$8, &key, "=\"", &_14$$8, "\"");
+									zephir_array_append(&parts, &_16$$8, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 54);
 							}
 						}
 						ZEPHIR_INIT_NVAR(&subValue);
 						continue;
 					}
 					if (((Z_TYPE_P(&value) == IS_TRUE || Z_TYPE_P(&value) == IS_FALSE) != 1)) {
-						zephir_cast_to_string(&_22$$9, &value);
-						ZEPHIR_CALL_METHOD(&_21$$9, this_ptr, "quote", &_14, 0, &_22$$9);
+						zephir_cast_to_string(&_18$$9, &value);
+						ZEPHIR_CALL_METHOD(&_17$$9, this_ptr, "quote", &_10, 0, &_18$$9);
 						zephir_check_call_status();
-						ZEPHIR_INIT_NVAR(&_23$$9);
-						ZEPHIR_CONCAT_VSVS(&_23$$9, &key, "=\"", &_21$$9, "\"");
-						zephir_array_append(&parts, &_23$$9, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 60);
+						ZEPHIR_INIT_NVAR(&_19$$9);
+						ZEPHIR_CONCAT_VSVS(&_19$$9, &key, "=\"", &_17$$9, "\"");
+						zephir_array_append(&parts, &_19$$9, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 60);
 						continue;
 					}
 					if (ZEPHIR_IS_TRUE_IDENTICAL(&value)) {
@@ -250,82 +230,75 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 					}
 				} ZEND_HASH_FOREACH_END();
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, _4$$3, "rewind", NULL, 0);
+				ZEPHIR_CALL_METHOD(NULL, &attributes, "rewind", NULL, 0);
 				zephir_check_call_status();
-				_25$$3 = 1;
+				_21$$3 = 1;
 				while (1) {
-					if (_25$$3) {
-						_25$$3 = 0;
+					if (_21$$3) {
+						_21$$3 = 0;
 					} else {
-						ZEPHIR_CALL_METHOD(NULL, _4$$3, "next", NULL, 0);
+						ZEPHIR_CALL_METHOD(NULL, &attributes, "next", NULL, 0);
 						zephir_check_call_status();
 					}
-					ZEPHIR_CALL_METHOD(&_24$$3, _4$$3, "valid", NULL, 0);
+					ZEPHIR_CALL_METHOD(&_20$$3, &attributes, "valid", NULL, 0);
 					zephir_check_call_status();
-					if (!zend_is_true(&_24$$3)) {
+					if (!zend_is_true(&_20$$3)) {
 						break;
 					}
-					ZEPHIR_CALL_METHOD(&key, _4$$3, "key", NULL, 0);
+					ZEPHIR_CALL_METHOD(&key, &attributes, "key", NULL, 0);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&value, _4$$3, "current", NULL, 0);
+					ZEPHIR_CALL_METHOD(&value, &attributes, "current", NULL, 0);
 					zephir_check_call_status();
 						if (Z_TYPE_P(&value) == IS_ARRAY) {
-							if (Z_TYPE_P(&value) == IS_STRING) {
-								ZEPHIR_INIT_NVAR(&_27$$12);
-								zephir_string_to_char_array(&_27$$12, &value);
-								_26$$12 = &_27$$12;
-							} else {
-								_26$$12 = &value;
-							}
-							zephir_is_iterable(_26$$12, 0, "phalcon/Html/Link/Serializer/Header.zep", 56);
-							if (Z_TYPE_P(_26$$12) == IS_ARRAY) {
-								ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_26$$12), _28$$12)
+							zephir_is_iterable(&value, 0, "phalcon/Html/Link/Serializer/Header.zep", 56);
+							if (Z_TYPE_P(&value) == IS_ARRAY) {
+								ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&value), _22$$12)
 								{
 									ZEPHIR_INIT_NVAR(&subValue);
-									ZVAL_COPY(&subValue, _28$$12);
-									zephir_cast_to_string(&_30$$13, &subValue);
-									ZEPHIR_CALL_METHOD(&_29$$13, this_ptr, "quote", &_14, 0, &_30$$13);
+									ZVAL_COPY(&subValue, _22$$12);
+									zephir_cast_to_string(&_24$$13, &subValue);
+									ZEPHIR_CALL_METHOD(&_23$$13, this_ptr, "quote", &_10, 0, &_24$$13);
 									zephir_check_call_status();
-									ZEPHIR_INIT_NVAR(&_31$$13);
-									ZEPHIR_CONCAT_VSVS(&_31$$13, &key, "=\"", &_29$$13, "\"");
-									zephir_array_append(&parts, &_31$$13, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 54);
+									ZEPHIR_INIT_NVAR(&_25$$13);
+									ZEPHIR_CONCAT_VSVS(&_25$$13, &key, "=\"", &_23$$13, "\"");
+									zephir_array_append(&parts, &_25$$13, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 54);
 								} ZEND_HASH_FOREACH_END();
 							} else {
-								ZEPHIR_CALL_METHOD(NULL, _26$$12, "rewind", NULL, 0);
+								ZEPHIR_CALL_METHOD(NULL, &value, "rewind", NULL, 0);
 								zephir_check_call_status();
-								_33$$12 = 1;
+								_27$$12 = 1;
 								while (1) {
-									if (_33$$12) {
-										_33$$12 = 0;
+									if (_27$$12) {
+										_27$$12 = 0;
 									} else {
-										ZEPHIR_CALL_METHOD(NULL, _26$$12, "next", NULL, 0);
+										ZEPHIR_CALL_METHOD(NULL, &value, "next", NULL, 0);
 										zephir_check_call_status();
 									}
-									ZEPHIR_CALL_METHOD(&_32$$12, _26$$12, "valid", NULL, 0);
+									ZEPHIR_CALL_METHOD(&_26$$12, &value, "valid", NULL, 0);
 									zephir_check_call_status();
-									if (!zend_is_true(&_32$$12)) {
+									if (!zend_is_true(&_26$$12)) {
 										break;
 									}
-									ZEPHIR_CALL_METHOD(&subValue, _26$$12, "current", NULL, 0);
+									ZEPHIR_CALL_METHOD(&subValue, &value, "current", NULL, 0);
 									zephir_check_call_status();
-										zephir_cast_to_string(&_35$$14, &subValue);
-										ZEPHIR_CALL_METHOD(&_34$$14, this_ptr, "quote", &_14, 0, &_35$$14);
+										zephir_cast_to_string(&_29$$14, &subValue);
+										ZEPHIR_CALL_METHOD(&_28$$14, this_ptr, "quote", &_10, 0, &_29$$14);
 										zephir_check_call_status();
-										ZEPHIR_INIT_NVAR(&_36$$14);
-										ZEPHIR_CONCAT_VSVS(&_36$$14, &key, "=\"", &_34$$14, "\"");
-										zephir_array_append(&parts, &_36$$14, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 54);
+										ZEPHIR_INIT_NVAR(&_30$$14);
+										ZEPHIR_CONCAT_VSVS(&_30$$14, &key, "=\"", &_28$$14, "\"");
+										zephir_array_append(&parts, &_30$$14, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 54);
 								}
 							}
 							ZEPHIR_INIT_NVAR(&subValue);
 							continue;
 						}
 						if (((Z_TYPE_P(&value) == IS_TRUE || Z_TYPE_P(&value) == IS_FALSE) != 1)) {
-							zephir_cast_to_string(&_38$$15, &value);
-							ZEPHIR_CALL_METHOD(&_37$$15, this_ptr, "quote", &_14, 0, &_38$$15);
+							zephir_cast_to_string(&_32$$15, &value);
+							ZEPHIR_CALL_METHOD(&_31$$15, this_ptr, "quote", &_10, 0, &_32$$15);
 							zephir_check_call_status();
-							ZEPHIR_INIT_NVAR(&_39$$15);
-							ZEPHIR_CONCAT_VSVS(&_39$$15, &key, "=\"", &_37$$15, "\"");
-							zephir_array_append(&parts, &_39$$15, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 60);
+							ZEPHIR_INIT_NVAR(&_33$$15);
+							ZEPHIR_CONCAT_VSVS(&_33$$15, &key, "=\"", &_31$$15, "\"");
+							zephir_array_append(&parts, &_33$$15, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 60);
 							continue;
 						}
 						if (ZEPHIR_IS_TRUE_IDENTICAL(&value)) {
@@ -336,128 +309,114 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 			}
 			ZEPHIR_INIT_NVAR(&value);
 			ZEPHIR_INIT_NVAR(&key);
-			ZEPHIR_CALL_METHOD(&_40$$3, &link, "gethref", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_34$$3, &link, "gethref", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_INIT_NVAR(&_41$$3);
-			zephir_fast_join_str(&_41$$3, SL("; "), &parts);
+			ZEPHIR_INIT_NVAR(&_35$$3);
+			zephir_fast_join_str(&_35$$3, SL("; "), &parts);
 			ZEPHIR_INIT_NVAR(&_3$$3);
-			ZEPHIR_CONCAT_SVSV(&_3$$3, "<", &_40$$3, ">", &_41$$3);
+			ZEPHIR_CONCAT_SVSV(&_3$$3, "<", &_34$$3, ">", &_35$$3);
 			zephir_array_append(&elements, &_3$$3, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 73);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &links, "rewind", NULL, 0);
 		zephir_check_call_status();
-		_43 = 1;
+		_37 = 1;
 		while (1) {
-			if (_43) {
-				_43 = 0;
+			if (_37) {
+				_37 = 0;
 			} else {
 				ZEPHIR_CALL_METHOD(NULL, &links, "next", NULL, 0);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_42, &links, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_36, &links, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_42)) {
+			if (!zend_is_true(&_36)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&link, &links, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_44$$17, &link, "istemplated", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_38$$17, &link, "istemplated", NULL, 0);
 				zephir_check_call_status();
-				if (ZEPHIR_IS_TRUE_IDENTICAL(&_44$$17)) {
+				if (ZEPHIR_IS_TRUE_IDENTICAL(&_38$$17)) {
 					continue;
 				}
 				ZEPHIR_CALL_METHOD(&attributes, &link, "getattributes", NULL, 0);
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(&rels, &link, "getrels", NULL, 0);
 				zephir_check_call_status();
-				ZEPHIR_INIT_NVAR(&_45$$17);
-				zephir_create_array(&_45$$17, 2, 0);
-				ZEPHIR_INIT_NVAR(&_46$$17);
-				ZVAL_STRING(&_46$$17, "");
-				zephir_array_fast_append(&_45$$17, &_46$$17);
-				ZEPHIR_INIT_NVAR(&_46$$17);
-				zephir_fast_join_str(&_46$$17, SL(" "), &rels);
-				ZEPHIR_INIT_NVAR(&_47$$17);
-				ZEPHIR_CONCAT_SVS(&_47$$17, "rel=\"", &_46$$17, "\"");
-				zephir_array_fast_append(&_45$$17, &_47$$17);
-				ZEPHIR_CPY_WRT(&parts, &_45$$17);
-				if (Z_TYPE_P(&attributes) == IS_STRING) {
-					ZEPHIR_INIT_NVAR(&_49$$17);
-					zephir_string_to_char_array(&_49$$17, &attributes);
-					_48$$17 = &_49$$17;
-				} else {
-					_48$$17 = &attributes;
-				}
-				zephir_is_iterable(_48$$17, 0, "phalcon/Html/Link/Serializer/Header.zep", 70);
-				if (Z_TYPE_P(_48$$17) == IS_ARRAY) {
-					ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_48$$17), _51$$17, _52$$17, _50$$17)
+				ZEPHIR_INIT_NVAR(&_39$$17);
+				zephir_create_array(&_39$$17, 2, 0);
+				ZEPHIR_INIT_NVAR(&_40$$17);
+				ZVAL_STRING(&_40$$17, "");
+				zephir_array_fast_append(&_39$$17, &_40$$17);
+				ZEPHIR_INIT_NVAR(&_40$$17);
+				zephir_fast_join_str(&_40$$17, SL(" "), &rels);
+				ZEPHIR_INIT_NVAR(&_41$$17);
+				ZEPHIR_CONCAT_SVS(&_41$$17, "rel=\"", &_40$$17, "\"");
+				zephir_array_fast_append(&_39$$17, &_41$$17);
+				ZEPHIR_CPY_WRT(&parts, &_39$$17);
+				zephir_is_iterable(&attributes, 0, "phalcon/Html/Link/Serializer/Header.zep", 70);
+				if (Z_TYPE_P(&attributes) == IS_ARRAY) {
+					ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&attributes), _43$$17, _44$$17, _42$$17)
 					{
 						ZEPHIR_INIT_NVAR(&key);
-						if (_52$$17 != NULL) { 
-							ZVAL_STR_COPY(&key, _52$$17);
+						if (_44$$17 != NULL) { 
+							ZVAL_STR_COPY(&key, _44$$17);
 						} else {
-							ZVAL_LONG(&key, _51$$17);
+							ZVAL_LONG(&key, _43$$17);
 						}
 						ZEPHIR_INIT_NVAR(&value);
-						ZVAL_COPY(&value, _50$$17);
+						ZVAL_COPY(&value, _42$$17);
 						if (Z_TYPE_P(&value) == IS_ARRAY) {
-							if (Z_TYPE_P(&value) == IS_STRING) {
-								ZEPHIR_INIT_NVAR(&_54$$20);
-								zephir_string_to_char_array(&_54$$20, &value);
-								_53$$20 = &_54$$20;
-							} else {
-								_53$$20 = &value;
-							}
-							zephir_is_iterable(_53$$20, 0, "phalcon/Html/Link/Serializer/Header.zep", 56);
-							if (Z_TYPE_P(_53$$20) == IS_ARRAY) {
-								ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_53$$20), _55$$20)
+							zephir_is_iterable(&value, 0, "phalcon/Html/Link/Serializer/Header.zep", 56);
+							if (Z_TYPE_P(&value) == IS_ARRAY) {
+								ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&value), _45$$20)
 								{
 									ZEPHIR_INIT_NVAR(&subValue);
-									ZVAL_COPY(&subValue, _55$$20);
-									zephir_cast_to_string(&_57$$21, &subValue);
-									ZEPHIR_CALL_METHOD(&_56$$21, this_ptr, "quote", &_14, 0, &_57$$21);
+									ZVAL_COPY(&subValue, _45$$20);
+									zephir_cast_to_string(&_47$$21, &subValue);
+									ZEPHIR_CALL_METHOD(&_46$$21, this_ptr, "quote", &_10, 0, &_47$$21);
 									zephir_check_call_status();
-									ZEPHIR_INIT_NVAR(&_58$$21);
-									ZEPHIR_CONCAT_VSVS(&_58$$21, &key, "=\"", &_56$$21, "\"");
-									zephir_array_append(&parts, &_58$$21, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 54);
+									ZEPHIR_INIT_NVAR(&_48$$21);
+									ZEPHIR_CONCAT_VSVS(&_48$$21, &key, "=\"", &_46$$21, "\"");
+									zephir_array_append(&parts, &_48$$21, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 54);
 								} ZEND_HASH_FOREACH_END();
 							} else {
-								ZEPHIR_CALL_METHOD(NULL, _53$$20, "rewind", NULL, 0);
+								ZEPHIR_CALL_METHOD(NULL, &value, "rewind", NULL, 0);
 								zephir_check_call_status();
-								_60$$20 = 1;
+								_50$$20 = 1;
 								while (1) {
-									if (_60$$20) {
-										_60$$20 = 0;
+									if (_50$$20) {
+										_50$$20 = 0;
 									} else {
-										ZEPHIR_CALL_METHOD(NULL, _53$$20, "next", NULL, 0);
+										ZEPHIR_CALL_METHOD(NULL, &value, "next", NULL, 0);
 										zephir_check_call_status();
 									}
-									ZEPHIR_CALL_METHOD(&_59$$20, _53$$20, "valid", NULL, 0);
+									ZEPHIR_CALL_METHOD(&_49$$20, &value, "valid", NULL, 0);
 									zephir_check_call_status();
-									if (!zend_is_true(&_59$$20)) {
+									if (!zend_is_true(&_49$$20)) {
 										break;
 									}
-									ZEPHIR_CALL_METHOD(&subValue, _53$$20, "current", NULL, 0);
+									ZEPHIR_CALL_METHOD(&subValue, &value, "current", NULL, 0);
 									zephir_check_call_status();
-										zephir_cast_to_string(&_62$$22, &subValue);
-										ZEPHIR_CALL_METHOD(&_61$$22, this_ptr, "quote", &_14, 0, &_62$$22);
+										zephir_cast_to_string(&_52$$22, &subValue);
+										ZEPHIR_CALL_METHOD(&_51$$22, this_ptr, "quote", &_10, 0, &_52$$22);
 										zephir_check_call_status();
-										ZEPHIR_INIT_NVAR(&_63$$22);
-										ZEPHIR_CONCAT_VSVS(&_63$$22, &key, "=\"", &_61$$22, "\"");
-										zephir_array_append(&parts, &_63$$22, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 54);
+										ZEPHIR_INIT_NVAR(&_53$$22);
+										ZEPHIR_CONCAT_VSVS(&_53$$22, &key, "=\"", &_51$$22, "\"");
+										zephir_array_append(&parts, &_53$$22, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 54);
 								}
 							}
 							ZEPHIR_INIT_NVAR(&subValue);
 							continue;
 						}
 						if (((Z_TYPE_P(&value) == IS_TRUE || Z_TYPE_P(&value) == IS_FALSE) != 1)) {
-							zephir_cast_to_string(&_65$$23, &value);
-							ZEPHIR_CALL_METHOD(&_64$$23, this_ptr, "quote", &_14, 0, &_65$$23);
+							zephir_cast_to_string(&_55$$23, &value);
+							ZEPHIR_CALL_METHOD(&_54$$23, this_ptr, "quote", &_10, 0, &_55$$23);
 							zephir_check_call_status();
-							ZEPHIR_INIT_NVAR(&_66$$23);
-							ZEPHIR_CONCAT_VSVS(&_66$$23, &key, "=\"", &_64$$23, "\"");
-							zephir_array_append(&parts, &_66$$23, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 60);
+							ZEPHIR_INIT_NVAR(&_56$$23);
+							ZEPHIR_CONCAT_VSVS(&_56$$23, &key, "=\"", &_54$$23, "\"");
+							zephir_array_append(&parts, &_56$$23, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 60);
 							continue;
 						}
 						if (ZEPHIR_IS_TRUE_IDENTICAL(&value)) {
@@ -466,82 +425,75 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 						}
 					} ZEND_HASH_FOREACH_END();
 				} else {
-					ZEPHIR_CALL_METHOD(NULL, _48$$17, "rewind", NULL, 0);
+					ZEPHIR_CALL_METHOD(NULL, &attributes, "rewind", NULL, 0);
 					zephir_check_call_status();
-					_68$$17 = 1;
+					_58$$17 = 1;
 					while (1) {
-						if (_68$$17) {
-							_68$$17 = 0;
+						if (_58$$17) {
+							_58$$17 = 0;
 						} else {
-							ZEPHIR_CALL_METHOD(NULL, _48$$17, "next", NULL, 0);
+							ZEPHIR_CALL_METHOD(NULL, &attributes, "next", NULL, 0);
 							zephir_check_call_status();
 						}
-						ZEPHIR_CALL_METHOD(&_67$$17, _48$$17, "valid", NULL, 0);
+						ZEPHIR_CALL_METHOD(&_57$$17, &attributes, "valid", NULL, 0);
 						zephir_check_call_status();
-						if (!zend_is_true(&_67$$17)) {
+						if (!zend_is_true(&_57$$17)) {
 							break;
 						}
-						ZEPHIR_CALL_METHOD(&key, _48$$17, "key", NULL, 0);
+						ZEPHIR_CALL_METHOD(&key, &attributes, "key", NULL, 0);
 						zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(&value, _48$$17, "current", NULL, 0);
+						ZEPHIR_CALL_METHOD(&value, &attributes, "current", NULL, 0);
 						zephir_check_call_status();
 							if (Z_TYPE_P(&value) == IS_ARRAY) {
-								if (Z_TYPE_P(&value) == IS_STRING) {
-									ZEPHIR_INIT_NVAR(&_70$$26);
-									zephir_string_to_char_array(&_70$$26, &value);
-									_69$$26 = &_70$$26;
-								} else {
-									_69$$26 = &value;
-								}
-								zephir_is_iterable(_69$$26, 0, "phalcon/Html/Link/Serializer/Header.zep", 56);
-								if (Z_TYPE_P(_69$$26) == IS_ARRAY) {
-									ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_69$$26), _71$$26)
+								zephir_is_iterable(&value, 0, "phalcon/Html/Link/Serializer/Header.zep", 56);
+								if (Z_TYPE_P(&value) == IS_ARRAY) {
+									ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&value), _59$$26)
 									{
 										ZEPHIR_INIT_NVAR(&subValue);
-										ZVAL_COPY(&subValue, _71$$26);
-										zephir_cast_to_string(&_73$$27, &subValue);
-										ZEPHIR_CALL_METHOD(&_72$$27, this_ptr, "quote", &_14, 0, &_73$$27);
+										ZVAL_COPY(&subValue, _59$$26);
+										zephir_cast_to_string(&_61$$27, &subValue);
+										ZEPHIR_CALL_METHOD(&_60$$27, this_ptr, "quote", &_10, 0, &_61$$27);
 										zephir_check_call_status();
-										ZEPHIR_INIT_NVAR(&_74$$27);
-										ZEPHIR_CONCAT_VSVS(&_74$$27, &key, "=\"", &_72$$27, "\"");
-										zephir_array_append(&parts, &_74$$27, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 54);
+										ZEPHIR_INIT_NVAR(&_62$$27);
+										ZEPHIR_CONCAT_VSVS(&_62$$27, &key, "=\"", &_60$$27, "\"");
+										zephir_array_append(&parts, &_62$$27, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 54);
 									} ZEND_HASH_FOREACH_END();
 								} else {
-									ZEPHIR_CALL_METHOD(NULL, _69$$26, "rewind", NULL, 0);
+									ZEPHIR_CALL_METHOD(NULL, &value, "rewind", NULL, 0);
 									zephir_check_call_status();
-									_76$$26 = 1;
+									_64$$26 = 1;
 									while (1) {
-										if (_76$$26) {
-											_76$$26 = 0;
+										if (_64$$26) {
+											_64$$26 = 0;
 										} else {
-											ZEPHIR_CALL_METHOD(NULL, _69$$26, "next", NULL, 0);
+											ZEPHIR_CALL_METHOD(NULL, &value, "next", NULL, 0);
 											zephir_check_call_status();
 										}
-										ZEPHIR_CALL_METHOD(&_75$$26, _69$$26, "valid", NULL, 0);
+										ZEPHIR_CALL_METHOD(&_63$$26, &value, "valid", NULL, 0);
 										zephir_check_call_status();
-										if (!zend_is_true(&_75$$26)) {
+										if (!zend_is_true(&_63$$26)) {
 											break;
 										}
-										ZEPHIR_CALL_METHOD(&subValue, _69$$26, "current", NULL, 0);
+										ZEPHIR_CALL_METHOD(&subValue, &value, "current", NULL, 0);
 										zephir_check_call_status();
-											zephir_cast_to_string(&_78$$28, &subValue);
-											ZEPHIR_CALL_METHOD(&_77$$28, this_ptr, "quote", &_14, 0, &_78$$28);
+											zephir_cast_to_string(&_66$$28, &subValue);
+											ZEPHIR_CALL_METHOD(&_65$$28, this_ptr, "quote", &_10, 0, &_66$$28);
 											zephir_check_call_status();
-											ZEPHIR_INIT_NVAR(&_79$$28);
-											ZEPHIR_CONCAT_VSVS(&_79$$28, &key, "=\"", &_77$$28, "\"");
-											zephir_array_append(&parts, &_79$$28, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 54);
+											ZEPHIR_INIT_NVAR(&_67$$28);
+											ZEPHIR_CONCAT_VSVS(&_67$$28, &key, "=\"", &_65$$28, "\"");
+											zephir_array_append(&parts, &_67$$28, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 54);
 									}
 								}
 								ZEPHIR_INIT_NVAR(&subValue);
 								continue;
 							}
 							if (((Z_TYPE_P(&value) == IS_TRUE || Z_TYPE_P(&value) == IS_FALSE) != 1)) {
-								zephir_cast_to_string(&_81$$29, &value);
-								ZEPHIR_CALL_METHOD(&_80$$29, this_ptr, "quote", &_14, 0, &_81$$29);
+								zephir_cast_to_string(&_69$$29, &value);
+								ZEPHIR_CALL_METHOD(&_68$$29, this_ptr, "quote", &_10, 0, &_69$$29);
 								zephir_check_call_status();
-								ZEPHIR_INIT_NVAR(&_82$$29);
-								ZEPHIR_CONCAT_VSVS(&_82$$29, &key, "=\"", &_80$$29, "\"");
-								zephir_array_append(&parts, &_82$$29, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 60);
+								ZEPHIR_INIT_NVAR(&_70$$29);
+								ZEPHIR_CONCAT_VSVS(&_70$$29, &key, "=\"", &_68$$29, "\"");
+								zephir_array_append(&parts, &_70$$29, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 60);
 								continue;
 							}
 							if (ZEPHIR_IS_TRUE_IDENTICAL(&value)) {
@@ -552,13 +504,13 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 				}
 				ZEPHIR_INIT_NVAR(&value);
 				ZEPHIR_INIT_NVAR(&key);
-				ZEPHIR_CALL_METHOD(&_83$$17, &link, "gethref", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_71$$17, &link, "gethref", NULL, 0);
 				zephir_check_call_status();
-				ZEPHIR_INIT_NVAR(&_84$$17);
-				zephir_fast_join_str(&_84$$17, SL("; "), &parts);
-				ZEPHIR_INIT_NVAR(&_47$$17);
-				ZEPHIR_CONCAT_SVSV(&_47$$17, "<", &_83$$17, ">", &_84$$17);
-				zephir_array_append(&elements, &_47$$17, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 73);
+				ZEPHIR_INIT_NVAR(&_72$$17);
+				zephir_fast_join_str(&_72$$17, SL("; "), &parts);
+				ZEPHIR_INIT_NVAR(&_41$$17);
+				ZEPHIR_CONCAT_SVSV(&_41$$17, "<", &_71$$17, ">", &_72$$17);
+				zephir_array_append(&elements, &_41$$17, PH_SEPARATE, "phalcon/Html/Link/Serializer/Header.zep", 73);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&link);

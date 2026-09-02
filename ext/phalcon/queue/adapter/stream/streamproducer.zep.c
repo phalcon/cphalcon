@@ -67,7 +67,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamProducer, __construct)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(context, phalcon_queue_adapter_stream_streamcontext_ce)
+		Z_PARAM_OBJECT_OF_CLASS(context, zephir_get_internal_ce(SL("phalcon\\queue\\adapter\\stream\\streamcontext")))
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &context);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1292, context);
@@ -91,8 +91,8 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamProducer, send)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(destination, phalcon_contracts_queue_destination_ce)
-		Z_PARAM_OBJECT_OF_CLASS(message, phalcon_contracts_queue_message_ce)
+		Z_PARAM_OBJECT_OF_CLASS(destination, zephir_get_internal_ce(SL("phalcon\\contracts\\queue\\destination")))
+		Z_PARAM_OBJECT_OF_CLASS(message, zephir_get_internal_ce(SL("phalcon\\contracts\\queue\\message")))
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);

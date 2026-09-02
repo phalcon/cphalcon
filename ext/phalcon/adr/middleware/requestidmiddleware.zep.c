@@ -56,8 +56,8 @@ PHP_METHOD(Phalcon_ADR_Middleware_RequestIdMiddleware, __invoke)
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(request, phalcon_contracts_http_attributerequest_ce)
-		Z_PARAM_OBJECT_OF_CLASS(next, phalcon_contracts_adr_handler_ce)
+		Z_PARAM_OBJECT_OF_CLASS(request, zephir_get_internal_ce(SL("phalcon\\contracts\\http\\attributerequest")))
+		Z_PARAM_OBJECT_OF_CLASS(next, zephir_get_internal_ce(SL("phalcon\\contracts\\adr\\handler")))
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);

@@ -90,8 +90,8 @@ PHP_METHOD(Phalcon_ADR_Responder_ViewResponder, __construct)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(2, 3)
-		Z_PARAM_OBJECT_OF_CLASS(renderer, phalcon_contracts_view_renderer_ce)
-		Z_PARAM_OBJECT_OF_CLASS(statusMapper, phalcon_adr_responder_statusmapper_ce)
+		Z_PARAM_OBJECT_OF_CLASS(renderer, zephir_get_internal_ce(SL("phalcon\\contracts\\view\\renderer")))
+		Z_PARAM_OBJECT_OF_CLASS(statusMapper, zephir_get_internal_ce(SL("phalcon\\adr\\responder\\statusmapper")))
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR(template)
 	ZEND_PARSE_PARAMETERS_END();
@@ -149,9 +149,9 @@ PHP_METHOD(Phalcon_ADR_Responder_ViewResponder, __invoke)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(3, 3)
-		Z_PARAM_OBJECT_OF_CLASS(request, phalcon_http_requestinterface_ce)
-		Z_PARAM_OBJECT_OF_CLASS(response, phalcon_http_responseinterface_ce)
-		Z_PARAM_OBJECT_OF_CLASS(payload, phalcon_contracts_adr_payload_payload_ce)
+		Z_PARAM_OBJECT_OF_CLASS(request, zephir_get_internal_ce(SL("phalcon\\http\\requestinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(response, zephir_get_internal_ce(SL("phalcon\\http\\responseinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(payload, zephir_get_internal_ce(SL("phalcon\\contracts\\adr\\payload\\payload")))
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
@@ -229,7 +229,7 @@ PHP_METHOD(Phalcon_ADR_Responder_ViewResponder, viewData)
 	ZVAL_UNDEF(&payload_sub);
 	ZVAL_UNDEF(&_0);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(payload, phalcon_contracts_adr_payload_payload_ce)
+		Z_PARAM_OBJECT_OF_CLASS(payload, zephir_get_internal_ce(SL("phalcon\\contracts\\adr\\payload\\payload")))
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);

@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Forms_Manager, __construct)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(locator, phalcon_forms_formslocator_ce)
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(locator, zephir_get_internal_ce(SL("phalcon\\forms\\formslocator")))
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
@@ -220,7 +220,7 @@ PHP_METHOD(Phalcon_Forms_Manager, loadForm)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval name_zv, *schema, schema_sub, *entity = NULL, entity_sub, __$null, form, locator, _0, _1, _2, _3;
+	zval name_zv, *schema, schema_sub, *entity = NULL, entity_sub, __$null, form, locator, _0, _1, _2;
 	zend_string *name = NULL;
 	zval *this_ptr = getThis();
 
@@ -233,7 +233,6 @@ PHP_METHOD(Phalcon_Forms_Manager, loadForm)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_3);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("locator", 7, 1);
@@ -242,7 +241,7 @@ PHP_METHOD(Phalcon_Forms_Manager, loadForm)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_STR(name)
-		Z_PARAM_OBJECT_OF_CLASS(schema, phalcon_contracts_forms_schema_ce)
+		Z_PARAM_OBJECT_OF_CLASS(schema, zephir_get_internal_ce(SL("phalcon\\contracts\\forms\\schema")))
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ZVAL_OR_NULL(entity)
 	ZEND_PARSE_PARAMETERS_END();
@@ -269,13 +268,11 @@ PHP_METHOD(Phalcon_Forms_Manager, loadForm)
 	zephir_update_property_array(this_ptr, SL("forms"), &name_zv, &form);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 802, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_2);
-	object_init_ex(&_2, phalcon_34__closure_ce);
-	zephir_update_property_zval(&_2, SL("schema"), schema);
-	zephir_update_property_zval(&_2, SL("locator"), &locator);
-	ZEPHIR_INIT_VAR(&_3);
-	ZEPHIR_INIT_NVAR(&_3);
-	zephir_create_closure_bound(&_3, &_2, NULL, phalcon_34__closure_ce, SL("__invoke"));
-	ZEPHIR_CALL_METHOD(NULL, &_0, "set", NULL, 0, &name_zv, &_3);
+	ZEPHIR_INIT_NVAR(&_2);
+	zephir_create_closure_ex(&_2, NULL, phalcon_34__closure_ce, SL("__invoke"));
+	zephir_update_static_property_ce(phalcon_34__closure_ce, ZEND_STRL("schema"), schema);
+	zephir_update_static_property_ce(phalcon_34__closure_ce, ZEND_STRL("locator"), &locator);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "set", NULL, 0, &name_zv, &_2);
 	zephir_check_call_status();
 	RETURN_CCTOR(&form);
 }
@@ -293,7 +290,7 @@ PHP_METHOD(Phalcon_Forms_Manager, set)
 	ZVAL_UNDEF(&form_sub);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(name)
-		Z_PARAM_OBJECT_OF_CLASS(form, phalcon_forms_form_ce)
+		Z_PARAM_OBJECT_OF_CLASS(form, zephir_get_internal_ce(SL("phalcon\\forms\\form")))
 	ZEND_PARSE_PARAMETERS_END();
 	form = ZEND_CALL_ARG(execute_data, 2);
 	ZVAL_STR(&name_zv, name);

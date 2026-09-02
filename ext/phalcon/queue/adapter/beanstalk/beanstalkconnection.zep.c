@@ -986,10 +986,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, assertValidTube)
  */
 PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, parseDictionary)
 {
-	zend_bool _5$$3, _8$$3, _9$$3;
+	zend_bool _3$$3, _6$$3, _7$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval payload_zv, line, parts, key, value, result, _0, *_1, _2, *_3, _4$$3, _6$$3, _7$$3, _10$$6;
+	zval payload_zv, line, parts, key, value, result, _0, *_1, _2$$3, _4$$3, _5$$3, _8$$6;
 	zend_string *payload = NULL;
 
 	ZVAL_UNDEF(&payload_zv);
@@ -999,11 +999,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, parseDictionary)
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&result);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_4$$3);
-	ZVAL_UNDEF(&_6$$3);
-	ZVAL_UNDEF(&_7$$3);
-	ZVAL_UNDEF(&_10$$6);
+	ZVAL_UNDEF(&_5$$3);
+	ZVAL_UNDEF(&_8$$6);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(payload)
 	ZEND_PARSE_PARAMETERS_END();
@@ -1015,26 +1014,19 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, parseDictionary)
 	array_init(&result);
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_fast_explode_str(&_0, SL("\n"), &payload_zv, LONG_MAX);
-	if (Z_TYPE_P(&_0) == IS_STRING) {
-		ZEPHIR_INIT_VAR(&_2);
-		zephir_string_to_char_array(&_2, &_0);
-		_1 = &_2;
-	} else {
-		_1 = &_0;
-	}
-	zephir_is_iterable(_1, 0, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnection.zep", 450);
-	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_1), _3)
+	zephir_is_iterable(&_0, 0, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnection.zep", 450);
+	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
 	{
 		ZEPHIR_INIT_NVAR(&line);
-		ZVAL_COPY(&line, _3);
-		ZEPHIR_INIT_NVAR(&_4$$3);
-		zephir_fast_trim(&_4$$3, &line, NULL , ZEPHIR_TRIM_BOTH);
-		ZEPHIR_CPY_WRT(&line, &_4$$3);
-		_5$$3 = ZEPHIR_IS_STRING_IDENTICAL(&line, "");
-		if (!(_5$$3)) {
-			_5$$3 = ZEPHIR_IS_STRING_IDENTICAL(&line, "---");
+		ZVAL_COPY(&line, _1);
+		ZEPHIR_INIT_NVAR(&_2$$3);
+		zephir_fast_trim(&_2$$3, &line, NULL , ZEPHIR_TRIM_BOTH);
+		ZEPHIR_CPY_WRT(&line, &_2$$3);
+		_3$$3 = ZEPHIR_IS_STRING_IDENTICAL(&line, "");
+		if (!(_3$$3)) {
+			_3$$3 = ZEPHIR_IS_STRING_IDENTICAL(&line, "---");
 		}
-		if (_5$$3) {
+		if (_3$$3) {
 			continue;
 		}
 		ZEPHIR_INIT_NVAR(&parts);
@@ -1042,24 +1034,24 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, parseDictionary)
 		if (zephir_fast_count_int(&parts) != 2) {
 			continue;
 		}
-		zephir_array_fetch_long(&_6$$3, &parts, 0, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnection.zep", 440);
+		zephir_array_fetch_long(&_4$$3, &parts, 0, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnection.zep", 440);
 		ZEPHIR_INIT_NVAR(&key);
-		zephir_fast_trim(&key, &_6$$3, NULL , ZEPHIR_TRIM_BOTH);
-		zephir_array_fetch_long(&_7$$3, &parts, 1, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnection.zep", 441);
+		zephir_fast_trim(&key, &_4$$3, NULL , ZEPHIR_TRIM_BOTH);
+		zephir_array_fetch_long(&_5$$3, &parts, 1, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnection.zep", 441);
 		ZEPHIR_INIT_NVAR(&value);
-		zephir_fast_trim(&value, &_7$$3, NULL , ZEPHIR_TRIM_BOTH);
-		_8$$3 = !ZEPHIR_IS_STRING_IDENTICAL(&key, "name");
-		if (_8$$3) {
-			_8$$3 = !ZEPHIR_IS_STRING_IDENTICAL(&value, "");
+		zephir_fast_trim(&value, &_5$$3, NULL , ZEPHIR_TRIM_BOTH);
+		_6$$3 = !ZEPHIR_IS_STRING_IDENTICAL(&key, "name");
+		if (_6$$3) {
+			_6$$3 = !ZEPHIR_IS_STRING_IDENTICAL(&value, "");
 		}
-		_9$$3 = _8$$3;
-		if (_9$$3) {
-			_9$$3 = zephir_is_numeric(&value);
+		_7$$3 = _6$$3;
+		if (_7$$3) {
+			_7$$3 = zephir_is_numeric(&value);
 		}
-		if (_9$$3) {
-			ZEPHIR_INIT_NVAR(&_10$$6);
-			ZVAL_LONG(&_10$$6, zephir_get_intval(&value));
-			zephir_array_update_zval(&result, &key, &_10$$6, PH_COPY | PH_SEPARATE);
+		if (_7$$3) {
+			ZEPHIR_INIT_NVAR(&_8$$6);
+			ZVAL_LONG(&_8$$6, zephir_get_intval(&value));
+			zephir_array_update_zval(&result, &key, &_8$$6, PH_COPY | PH_SEPARATE);
 		} else {
 			zephir_array_update_zval(&result, &key, &value, PH_COPY | PH_SEPARATE);
 		}
@@ -1075,7 +1067,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, parseDictionary)
  */
 PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, restoreSession)
 {
-	zval tube, _0, _3, _4, *_5, _6, *_7, _9, _1$$3, _2$$3, _8$$5, _10$$6;
+	zval tube, _0, _3, _4, *_5, _7, _1$$3, _2$$3, _6$$5, _8$$6;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -1084,12 +1076,11 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, restoreSession)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_6);
-	ZVAL_UNDEF(&_9);
+	ZVAL_UNDEF(&_7);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
-	ZVAL_UNDEF(&_8$$5);
-	ZVAL_UNDEF(&_10$$6);
+	ZVAL_UNDEF(&_6$$5);
+	ZVAL_UNDEF(&_8$$6);
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -1114,33 +1105,26 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, restoreSession)
 	ZEPHIR_INIT_VAR(&_3);
 	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_1, 1250, PH_NOISY_CC | PH_READONLY);
 	zephir_array_keys(&_3, &_4);
-	if (Z_TYPE_P(&_3) == IS_STRING) {
-		ZEPHIR_INIT_VAR(&_6);
-		zephir_string_to_char_array(&_6, &_3);
-		_5 = &_6;
-	} else {
-		_5 = &_3;
-	}
-	zephir_is_iterable(_5, 0, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnection.zep", 474);
-	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_5), _7)
+	zephir_is_iterable(&_3, 0, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnection.zep", 474);
+	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_3), _5)
 	{
 		ZEPHIR_INIT_NVAR(&tube);
-		ZVAL_COPY(&tube, _7);
+		ZVAL_COPY(&tube, _5);
 		if (!ZEPHIR_IS_STRING(&tube, "default")) {
-			ZEPHIR_INIT_NVAR(&_8$$5);
-			ZEPHIR_CONCAT_SV(&_8$$5, "watch ", &tube);
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, 0, &_8$$5);
+			ZEPHIR_INIT_NVAR(&_6$$5);
+			ZEPHIR_CONCAT_SV(&_6$$5, "watch ", &tube);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, 0, &_6$$5);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "readstatus", NULL, 0);
 			zephir_check_call_status();
 		}
 	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&tube);
-	zephir_read_property_cached(&_9, this_ptr, _zephir_prop_1, 1250, PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset_value_string(&_9, SL("default")))) {
-		ZEPHIR_INIT_VAR(&_10$$6);
-		ZVAL_STRING(&_10$$6, "ignore default");
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, 0, &_10$$6);
+	zephir_read_property_cached(&_7, this_ptr, _zephir_prop_1, 1250, PH_NOISY_CC | PH_READONLY);
+	if (!(zephir_array_isset_value_string(&_7, SL("default")))) {
+		ZEPHIR_INIT_VAR(&_8$$6);
+		ZVAL_STRING(&_8$$6, "ignore default");
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, 0, &_8$$6);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "readstatus", NULL, 0);
 		zephir_check_call_status();

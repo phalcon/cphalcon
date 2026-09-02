@@ -108,7 +108,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, __construct)
 	ZVAL_UNDEF(&read);
 	ZVAL_UNDEF(&write);
 	ZEND_PARSE_PARAMETERS_START(1, 3)
-		Z_PARAM_OBJECT_OF_CLASS(master, phalcon_datamapper_pdo_connection_connectioninterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(master, zephir_get_internal_ce(SL("phalcon\\datamapper\\pdo\\connection\\connectioninterface")))
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(read, read_param)
 		ZEPHIR_Z_PARAM_ARRAY(write, write_param)
@@ -342,7 +342,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, setMaster)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(callableObject, phalcon_datamapper_pdo_connection_connectioninterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(callableObject, zephir_get_internal_ce(SL("phalcon\\datamapper\\pdo\\connection\\connectioninterface")))
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &callableObject);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 569, callableObject);
@@ -522,7 +522,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, applyEventsManager)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(connection, phalcon_datamapper_pdo_connection_connectioninterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(connection, zephir_get_internal_ce(SL("phalcon\\datamapper\\pdo\\connection\\connectioninterface")))
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
@@ -578,7 +578,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, setEventsManager)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(eventsManager, phalcon_events_managerinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(eventsManager, zephir_get_internal_ce(SL("phalcon\\events\\managerinterface")))
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);

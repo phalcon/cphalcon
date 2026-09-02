@@ -48,20 +48,6 @@ extern zend_string* i_self;
  #define ZEND_ACC_READONLY 0
 #endif
 
-/* The float-to-int coercion PHP applies to a `%` operand. PHP 8.1 started
- * deprecating a conversion that loses precision ("Deprecate implicit
- * non-integer-compatible float to int conversions"), and carries that
- * diagnostic in zend_dval_to_lval_safe(), which does not exist on 8.0. Routing
- * through this shim keeps the kernel's `%` byte-identical to the engine's on
- * every supported version: silent on 8.0, deprecating from 8.1.
- *
- * @see https://github.com/zephir-lang/zephir/issues/2666 */
-#if PHP_VERSION_ID >= 80100
- #define ZEPHIR_DVAL_TO_LVAL(d) zend_dval_to_lval_safe(d)
-#else
- #define ZEPHIR_DVAL_TO_LVAL(d) zend_dval_to_lval(d)
-#endif
-
 #define SL(str) ZEND_STRL(str)
 #define SS(str) ZEND_STRS(str)
 #define ISL(str) (zephir_interned_##str), (sizeof(#str)-1)
@@ -183,22 +169,6 @@ extern zend_string* i_self;
 /** Return this pointer */
 #define RETURN_THIS() { \
 		RETVAL_ZVAL(getThis(), 1, 0); \
-	} \
-	ZEPHIR_MM_RESTORE(); \
-	return;
-
-/**
- * Return an explicitly named object instead of getThis().
- *
- * A capturing closure binds its capture carrier as `$this`, so getThis() is
- * not the enclosing object there; `this_ptr` is. These are the RETURN_THIS
- * pair with the object spelled out.
- */
-#define RETURN_THISW_ZVAL(object) \
-	RETURN_ZVAL(object, 1, 0);
-
-#define RETURN_THIS_ZVAL(object) { \
-		RETVAL_ZVAL(object, 1, 0); \
 	} \
 	ZEPHIR_MM_RESTORE(); \
 	return;

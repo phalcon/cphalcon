@@ -235,7 +235,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, addValidator)
 
 	ZVAL_UNDEF(&validator_sub);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(validator, phalcon_filter_validation_validatorinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(validator, zephir_get_internal_ce(SL("phalcon\\filter\\validation\\validatorinterface")))
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &validator);
 	zephir_update_property_array_append(this_ptr, SL("validators"), validator);
@@ -341,7 +341,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, appendMessage)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(message, phalcon_messages_messageinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(message, zephir_get_internal_ce(SL("phalcon\\messages\\messageinterface")))
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
@@ -950,7 +950,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setForm)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(form, phalcon_forms_form_ce)
+		Z_PARAM_OBJECT_OF_CLASS(form, zephir_get_internal_ce(SL("phalcon\\forms\\form")))
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &form);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 21, form);
@@ -995,7 +995,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setMessages)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(messages, phalcon_messages_messages_ce)
+		Z_PARAM_OBJECT_OF_CLASS(messages, zephir_get_internal_ce(SL("phalcon\\messages\\messages")))
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &messages);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 19, messages);
@@ -1040,7 +1040,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setTagFactory)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(tagFactory, phalcon_html_tagfactory_ce)
+		Z_PARAM_OBJECT_OF_CLASS(tagFactory, zephir_get_internal_ce(SL("phalcon\\html\\tagfactory")))
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &tagFactory);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 27, tagFactory);

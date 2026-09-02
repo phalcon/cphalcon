@@ -17,7 +17,6 @@
 #include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/object.h"
-#include "kernel/string.h"
 #include "kernel/concat.h"
 #include "kernel/array.h"
 
@@ -103,7 +102,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, __construct)
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&options);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(interpolator, phalcon_translate_interpolatorfactory_ce)
+		Z_PARAM_OBJECT_OF_CLASS(interpolator, zephir_get_internal_ce(SL("phalcon\\translate\\interpolatorfactory")))
 		ZEPHIR_Z_PARAM_ARRAY(options, options_param)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
@@ -390,21 +389,20 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDefaultDomain)
  */
 PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDirectory)
 {
-	zend_bool _7$$4;
-	zend_string *_4$$4;
-	zend_ulong _3$$4;
+	zend_bool _5$$4;
+	zend_string *_2$$4;
+	zend_ulong _1$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_5 = NULL;
+	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *directory, directory_sub, key, value, *_0$$4, _1$$4, *_2$$4, _6$$4, _8$$7;
+	zval *directory, directory_sub, key, value, *_0$$4, _4$$4, _6$$7;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&directory_sub);
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&value);
-	ZVAL_UNDEF(&_1$$4);
-	ZVAL_UNDEF(&_6$$4);
-	ZVAL_UNDEF(&_8$$7);
+	ZVAL_UNDEF(&_4$$4);
+	ZVAL_UNDEF(&_6$$7);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("directory", 9, 1);
@@ -421,58 +419,51 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDirectory)
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1391, directory);
 	if (Z_TYPE_P(directory) == IS_ARRAY) {
-		if (Z_TYPE_P(directory) == IS_STRING) {
-			ZEPHIR_INIT_VAR(&_1$$4);
-			zephir_string_to_char_array(&_1$$4, directory);
-			_0$$4 = &_1$$4;
-		} else {
-			_0$$4 = directory;
-		}
-		zephir_is_iterable(_0$$4, 0, "phalcon/Translate/Adapter/Gettext.zep", 220);
-		if (Z_TYPE_P(_0$$4) == IS_ARRAY) {
-			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_0$$4), _3$$4, _4$$4, _2$$4)
+		zephir_is_iterable(directory, 0, "phalcon/Translate/Adapter/Gettext.zep", 220);
+		if (Z_TYPE_P(directory) == IS_ARRAY) {
+			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(directory), _1$$4, _2$$4, _0$$4)
 			{
 				ZEPHIR_INIT_NVAR(&key);
-				if (_4$$4 != NULL) { 
-					ZVAL_STR_COPY(&key, _4$$4);
+				if (_2$$4 != NULL) { 
+					ZVAL_STR_COPY(&key, _2$$4);
 				} else {
-					ZVAL_LONG(&key, _3$$4);
+					ZVAL_LONG(&key, _1$$4);
 				}
 				ZEPHIR_INIT_NVAR(&value);
-				ZVAL_COPY(&value, _2$$4);
-				ZEPHIR_CALL_FUNCTION(NULL, "bindtextdomain", &_5, 0, &key, &value);
+				ZVAL_COPY(&value, _0$$4);
+				ZEPHIR_CALL_FUNCTION(NULL, "bindtextdomain", &_3, 0, &key, &value);
 				zephir_check_call_status();
 			} ZEND_HASH_FOREACH_END();
 		} else {
-			ZEPHIR_CALL_METHOD(NULL, _0$$4, "rewind", NULL, 0);
+			ZEPHIR_CALL_METHOD(NULL, directory, "rewind", NULL, 0);
 			zephir_check_call_status();
-			_7$$4 = 1;
+			_5$$4 = 1;
 			while (1) {
-				if (_7$$4) {
-					_7$$4 = 0;
+				if (_5$$4) {
+					_5$$4 = 0;
 				} else {
-					ZEPHIR_CALL_METHOD(NULL, _0$$4, "next", NULL, 0);
+					ZEPHIR_CALL_METHOD(NULL, directory, "next", NULL, 0);
 					zephir_check_call_status();
 				}
-				ZEPHIR_CALL_METHOD(&_6$$4, _0$$4, "valid", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_4$$4, directory, "valid", NULL, 0);
 				zephir_check_call_status();
-				if (!zend_is_true(&_6$$4)) {
+				if (!zend_is_true(&_4$$4)) {
 					break;
 				}
-				ZEPHIR_CALL_METHOD(&key, _0$$4, "key", NULL, 0);
+				ZEPHIR_CALL_METHOD(&key, directory, "key", NULL, 0);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&value, _0$$4, "current", NULL, 0);
+				ZEPHIR_CALL_METHOD(&value, directory, "current", NULL, 0);
 				zephir_check_call_status();
-					ZEPHIR_CALL_FUNCTION(NULL, "bindtextdomain", &_5, 0, &key, &value);
+					ZEPHIR_CALL_FUNCTION(NULL, "bindtextdomain", &_3, 0, &key, &value);
 					zephir_check_call_status();
 			}
 		}
 		ZEPHIR_INIT_NVAR(&value);
 		ZEPHIR_INIT_NVAR(&key);
 	} else {
-		ZEPHIR_CALL_METHOD(&_8$$7, this_ptr, "getdefaultdomain", NULL, 0);
+		ZEPHIR_CALL_METHOD(&_6$$7, this_ptr, "getdefaultdomain", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(NULL, "bindtextdomain", &_5, 0, &_8$$7, directory);
+		ZEPHIR_CALL_FUNCTION(NULL, "bindtextdomain", &_3, 0, &_6$$7, directory);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();

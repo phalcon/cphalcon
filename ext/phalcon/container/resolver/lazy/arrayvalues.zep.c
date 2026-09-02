@@ -17,7 +17,6 @@
 #include "kernel/operators.h"
 #include "ext/spl/spl_array.h"
 #include "kernel/fcall.h"
-#include "kernel/string.h"
 #include "kernel/array.h"
 
 
@@ -151,44 +150,36 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, getIterator)
  */
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, merge)
 {
-	zend_bool _6;
-	zend_string *_4;
-	zend_ulong _3;
+	zend_bool _4;
+	zend_string *_2;
+	zend_ulong _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *values, values_sub, key, value, *_0, _1, *_2, _5;
+	zval *values, values_sub, key, value, *_0, _3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&values_sub);
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&value);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_3);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(values)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &values);
-	if (Z_TYPE_P(values) == IS_STRING) {
-		ZEPHIR_INIT_VAR(&_1);
-		zephir_string_to_char_array(&_1, values);
-		_0 = &_1;
-	} else {
-		_0 = values;
-	}
-	zephir_is_iterable(_0, 0, "phalcon/Container/Resolver/Lazy/ArrayValues.zep", 87);
-	if (Z_TYPE_P(_0) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_0), _3, _4, _2)
+	zephir_is_iterable(values, 0, "phalcon/Container/Resolver/Lazy/ArrayValues.zep", 87);
+	if (Z_TYPE_P(values) == IS_ARRAY) {
+		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(values), _1, _2, _0)
 		{
 			ZEPHIR_INIT_NVAR(&key);
-			if (_4 != NULL) { 
-				ZVAL_STR_COPY(&key, _4);
+			if (_2 != NULL) { 
+				ZVAL_STR_COPY(&key, _2);
 			} else {
-				ZVAL_LONG(&key, _3);
+				ZVAL_LONG(&key, _1);
 			}
 			ZEPHIR_INIT_NVAR(&value);
-			ZVAL_COPY(&value, _2);
+			ZVAL_COPY(&value, _0);
 			if (Z_TYPE_P(&key) == IS_LONG) {
 				zephir_update_property_array_append(this_ptr, SL("values"), &value);
 			} else {
@@ -196,24 +187,24 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, merge)
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
-		ZEPHIR_CALL_METHOD(NULL, _0, "rewind", NULL, 0);
+		ZEPHIR_CALL_METHOD(NULL, values, "rewind", NULL, 0);
 		zephir_check_call_status();
-		_6 = 1;
+		_4 = 1;
 		while (1) {
-			if (_6) {
-				_6 = 0;
+			if (_4) {
+				_4 = 0;
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, _0, "next", NULL, 0);
+				ZEPHIR_CALL_METHOD(NULL, values, "next", NULL, 0);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_5, _0, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_3, values, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_5)) {
+			if (!zend_is_true(&_3)) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&key, _0, "key", NULL, 0);
+			ZEPHIR_CALL_METHOD(&key, values, "key", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&value, _0, "current", NULL, 0);
+			ZEPHIR_CALL_METHOD(&value, values, "current", NULL, 0);
 			zephir_check_call_status();
 				if (Z_TYPE_P(&key) == IS_LONG) {
 					zephir_update_property_array_append(this_ptr, SL("values"), &value);

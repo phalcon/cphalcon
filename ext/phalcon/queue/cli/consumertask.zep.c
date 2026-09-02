@@ -172,7 +172,7 @@ PHP_METHOD(Phalcon_Queue_Cli_ConsumerTask, intOption)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(dispatcher, phalcon_cli_dispatcher_ce)
+		Z_PARAM_OBJECT_OF_CLASS(dispatcher, zephir_get_internal_ce(SL("phalcon\\cli\\dispatcher")))
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);

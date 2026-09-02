@@ -54,7 +54,7 @@ PHP_METHOD(Phalcon_Auth_Mvc_AuthDispatcherListener, beforeExecuteRoute)
 	zval _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *event, event_sub, *dispatcher, dispatcher_sub, _0, _3, _4, _5;
+	zval *event, event_sub, *dispatcher, dispatcher_sub, _0, _3, _4;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&event_sub);
@@ -62,12 +62,11 @@ PHP_METHOD(Phalcon_Auth_Mvc_AuthDispatcherListener, beforeExecuteRoute)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(event, phalcon_events_event_ce)
-		Z_PARAM_OBJECT_OF_CLASS(dispatcher, phalcon_mvc_dispatcher_ce)
+		Z_PARAM_OBJECT_OF_CLASS(event, zephir_get_internal_ce(SL("phalcon\\events\\event")))
+		Z_PARAM_OBJECT_OF_CLASS(dispatcher, zephir_get_internal_ce(SL("phalcon\\mvc\\dispatcher")))
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
@@ -87,12 +86,10 @@ PHP_METHOD(Phalcon_Auth_Mvc_AuthDispatcherListener, beforeExecuteRoute)
 	zephir_check_call_status();
 	zephir_array_update_string(&_2, SL("params"), &_3, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_VAR(&_4);
-	object_init_ex(&_4, phalcon_7__closure_ce);
-	zephir_update_property_zval(&_4, SL("dispatcher"), dispatcher);
-	ZEPHIR_INIT_VAR(&_5);
-	ZEPHIR_INIT_NVAR(&_5);
-	zephir_create_closure_bound(&_5, &_4, NULL, phalcon_7__closure_ce, SL("__invoke"));
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "enforce", NULL, 0, &_1, &_2, &_5);
+	ZEPHIR_INIT_NVAR(&_4);
+	zephir_create_closure_ex(&_4, NULL, phalcon_7__closure_ce, SL("__invoke"));
+	zephir_update_static_property_ce(phalcon_7__closure_ce, ZEND_STRL("dispatcher"), dispatcher);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "enforce", NULL, 0, &_1, &_2, &_4);
 	zephir_check_call_status();
 	RETURN_MM();
 }

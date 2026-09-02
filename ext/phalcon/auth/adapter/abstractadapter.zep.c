@@ -84,8 +84,8 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractAdapter, __construct)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(hasher, phalcon_contracts_encryption_security_security_ce)
-		Z_PARAM_OBJECT_OF_CLASS(config, phalcon_contracts_auth_adapter_adapterconfig_ce)
+		Z_PARAM_OBJECT_OF_CLASS(hasher, zephir_get_internal_ce(SL("phalcon\\contracts\\encryption\\security\\security")))
+		Z_PARAM_OBJECT_OF_CLASS(config, zephir_get_internal_ce(SL("phalcon\\contracts\\auth\\adapter\\adapterconfig")))
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(2, 0, &hasher, &config);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 68, hasher);
@@ -153,7 +153,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractAdapter, validateCredentials)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(user, phalcon_contracts_auth_authuser_ce)
+		Z_PARAM_OBJECT_OF_CLASS(user, zephir_get_internal_ce(SL("phalcon\\contracts\\auth\\authuser")))
 		ZEPHIR_Z_PARAM_ARRAY(credentials, credentials_param)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);

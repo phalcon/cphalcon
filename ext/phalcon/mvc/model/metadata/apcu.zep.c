@@ -80,7 +80,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apcu, __construct)
 
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
-		Z_PARAM_OBJECT_OF_CLASS(factory, phalcon_cache_adapterfactory_ce)
+		Z_PARAM_OBJECT_OF_CLASS(factory, zephir_get_internal_ce(SL("phalcon\\cache\\adapterfactory")))
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY_OR_NULL(options, options_param)
 	ZEND_PARSE_PARAMETERS_END();

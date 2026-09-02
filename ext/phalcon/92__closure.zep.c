@@ -20,27 +20,22 @@ ZEPHIR_INIT_CLASS(phalcon_92__closure)
 {
 	ZEPHIR_REGISTER_CLASS(phalcon, 92__closure, phalcon, 92__closure, phalcon_92__closure_method_entry, ZEND_ACC_FINAL_CLASS);
 
-	zend_declare_property_null(phalcon_92__closure_ce, SL("rawValue"), ZEND_ACC_PUBLIC);
+	zend_declare_property_null(phalcon_92__closure_ce, SL("rawValue"), ZEND_ACC_PUBLIC|ZEND_ACC_STATIC);
 	return SUCCESS;
 }
 
 PHP_METHOD(phalcon_92__closure, __invoke)
 {
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval rawValue, *matches, matches_sub;
-	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&rawValue);
 	ZVAL_UNDEF(&matches_sub);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(matches)
 	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_memory_observe(&rawValue);
-	zephir_read_property(&rawValue, this_ptr, SL("rawValue"), PH_NOISY_CC);
-	zephir_fetch_params(1, 1, 0, &matches);
+	zephir_read_static_property_ce(&rawValue, phalcon_92__closure_ce, SL("rawValue"), PH_NOISY_CC);
+	zephir_fetch_params_without_memory_grow(1, 0, &matches);
 	RETVAL_ZVAL(&rawValue, 1, 0);
-	RETURN_MM();
+	return;
 }
 

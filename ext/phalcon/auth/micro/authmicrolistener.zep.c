@@ -70,7 +70,7 @@ PHP_METHOD(Phalcon_Auth_Micro_AuthMicroListener, __construct)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 2)
-		Z_PARAM_OBJECT_OF_CLASS(manager, phalcon_contracts_auth_manager_ce)
+		Z_PARAM_OBJECT_OF_CLASS(manager, zephir_get_internal_ce(SL("phalcon\\contracts\\auth\\manager")))
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR(componentName)
 	ZEND_PARSE_PARAMETERS_END();
@@ -119,8 +119,8 @@ PHP_METHOD(Phalcon_Auth_Micro_AuthMicroListener, beforeExecuteRoute)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(event, phalcon_events_event_ce)
-		Z_PARAM_OBJECT_OF_CLASS(application, phalcon_mvc_micro_ce)
+		Z_PARAM_OBJECT_OF_CLASS(event, zephir_get_internal_ce(SL("phalcon\\events\\event")))
+		Z_PARAM_OBJECT_OF_CLASS(application, zephir_get_internal_ce(SL("phalcon\\mvc\\micro")))
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);

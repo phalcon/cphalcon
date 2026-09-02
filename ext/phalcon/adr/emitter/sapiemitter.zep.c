@@ -52,7 +52,7 @@ PHP_METHOD(Phalcon_ADR_Emitter_SapiEmitter, emit)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(response, phalcon_http_responseinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(response, zephir_get_internal_ce(SL("phalcon\\http\\responseinterface")))
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);

@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Auth_Manager, __construct)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(accessFactory, phalcon_auth_access_accesslocator_ce)
+		Z_PARAM_OBJECT_OF_CLASS(accessFactory, zephir_get_internal_ce(SL("phalcon\\auth\\access\\accesslocator")))
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &accessFactory);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 463, accessFactory);
@@ -253,7 +253,7 @@ PHP_METHOD(Phalcon_Auth_Manager, addGuard)
 
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_STR(nameGuard)
-		Z_PARAM_OBJECT_OF_CLASS(guard, phalcon_contracts_auth_guard_guard_ce)
+		Z_PARAM_OBJECT_OF_CLASS(guard, zephir_get_internal_ce(SL("phalcon\\contracts\\auth\\guard\\guard")))
 		Z_PARAM_OPTIONAL
 		Z_PARAM_BOOL(isDefault)
 	ZEND_PARSE_PARAMETERS_END();
@@ -555,7 +555,7 @@ PHP_METHOD(Phalcon_Auth_Manager, setAccess)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(access, phalcon_contracts_auth_access_access_ce)
+		Z_PARAM_OBJECT_OF_CLASS(access, zephir_get_internal_ce(SL("phalcon\\contracts\\auth\\access\\access")))
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &access);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 464, access);
@@ -574,7 +574,7 @@ PHP_METHOD(Phalcon_Auth_Manager, setDefaultGuard)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(guard, phalcon_contracts_auth_guard_guard_ce)
+		Z_PARAM_OBJECT_OF_CLASS(guard, zephir_get_internal_ce(SL("phalcon\\contracts\\auth\\guard\\guard")))
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &guard);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 465, guard);

@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, __construct)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 2)
-		Z_PARAM_OBJECT_OF_CLASS(acl, phalcon_acl_adapter_adapterinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(acl, zephir_get_internal_ce(SL("phalcon\\acl\\adapter\\adapterinterface")))
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(options, options_param)
 	ZEND_PARSE_PARAMETERS_END();
@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, isAllowed)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(2, 3)
-		Z_PARAM_OBJECT_OF_CLASS(guard, phalcon_contracts_auth_guard_guard_ce)
+		Z_PARAM_OBJECT_OF_CLASS(guard, zephir_get_internal_ce(SL("phalcon\\contracts\\auth\\guard\\guard")))
 		Z_PARAM_STR(actionName)
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(context, context_param)
@@ -268,7 +268,7 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, allowedIf)
 
 	ZVAL_UNDEF(&guard_sub);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(guard, phalcon_contracts_auth_guard_guard_ce)
+		Z_PARAM_OBJECT_OF_CLASS(guard, zephir_get_internal_ce(SL("phalcon\\contracts\\auth\\guard\\guard")))
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &guard);
 	RETURN_BOOL(0);
@@ -289,7 +289,7 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, resolveRole)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(guard, phalcon_contracts_auth_guard_guard_ce)
+		Z_PARAM_OBJECT_OF_CLASS(guard, zephir_get_internal_ce(SL("phalcon\\contracts\\auth\\guard\\guard")))
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);

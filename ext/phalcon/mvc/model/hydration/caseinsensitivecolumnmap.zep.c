@@ -14,8 +14,8 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
-#include "kernel/string.h"
 #include "kernel/fcall.h"
+#include "kernel/string.h"
 #include "kernel/operators.h"
 #include "kernel/object.h"
 
@@ -42,15 +42,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Hydration_CaseInsensitiveColumnMap, caseInsensitive
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *columnMap, columnMap_sub, *key, key_sub, cmKey, _0, *_1, _2, *_3, _4$$3, _5$$3;
+	zval *columnMap, columnMap_sub, *key, key_sub, cmKey, _0, *_1, _2$$3, _3$$3;
 
 	ZVAL_UNDEF(&columnMap_sub);
 	ZVAL_UNDEF(&key_sub);
 	ZVAL_UNDEF(&cmKey);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_4$$3);
-	ZVAL_UNDEF(&_5$$3);
+	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_3$$3);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_ZVAL(columnMap)
 		Z_PARAM_ZVAL(key)
@@ -60,23 +59,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Hydration_CaseInsensitiveColumnMap, caseInsensitive
 	zephir_fetch_params(1, 2, 0, &columnMap, &key);
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_array_keys(&_0, columnMap);
-	if (Z_TYPE_P(&_0) == IS_STRING) {
-		ZEPHIR_INIT_VAR(&_2);
-		zephir_string_to_char_array(&_2, &_0);
-		_1 = &_2;
-	} else {
-		_1 = &_0;
-	}
-	zephir_is_iterable(_1, 0, "phalcon/Mvc/Model/Hydration/CaseInsensitiveColumnMap.zep", 28);
-	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_1), _3)
+	zephir_is_iterable(&_0, 0, "phalcon/Mvc/Model/Hydration/CaseInsensitiveColumnMap.zep", 28);
+	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
 	{
 		ZEPHIR_INIT_NVAR(&cmKey);
-		ZVAL_COPY(&cmKey, _3);
-		ZEPHIR_INIT_NVAR(&_4$$3);
-		zephir_fast_strtolower(&_4$$3, &cmKey);
-		ZEPHIR_INIT_NVAR(&_5$$3);
-		zephir_fast_strtolower(&_5$$3, key);
-		if (ZEPHIR_IS_EQUAL(&_4$$3, &_5$$3)) {
+		ZVAL_COPY(&cmKey, _1);
+		ZEPHIR_INIT_NVAR(&_2$$3);
+		zephir_fast_strtolower(&_2$$3, &cmKey);
+		ZEPHIR_INIT_NVAR(&_3$$3);
+		zephir_fast_strtolower(&_3$$3, key);
+		if (ZEPHIR_IS_EQUAL(&_2$$3, &_3$$3)) {
 			RETURN_CCTOR(&cmKey);
 		}
 	} ZEND_HASH_FOREACH_END();

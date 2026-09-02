@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(item, phalcon_logger_item_ce)
+		Z_PARAM_OBJECT_OF_CLASS(item, zephir_get_internal_ce(SL("phalcon\\logger\\item")))
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);

@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, write)
 
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(key)
-		Z_PARAM_OBJECT_OF_CLASS(data, phalcon_annotations_reflection_ce)
+		Z_PARAM_OBJECT_OF_CLASS(data, zephir_get_internal_ce(SL("phalcon\\annotations\\reflection")))
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);

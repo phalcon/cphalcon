@@ -250,8 +250,8 @@ PHP_METHOD(Phalcon_ADR_Middleware_CorsMiddleware, __invoke)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(request, phalcon_contracts_http_attributerequest_ce)
-		Z_PARAM_OBJECT_OF_CLASS(next, phalcon_contracts_adr_handler_ce)
+		Z_PARAM_OBJECT_OF_CLASS(request, zephir_get_internal_ce(SL("phalcon\\contracts\\http\\attributerequest")))
+		Z_PARAM_OBJECT_OF_CLASS(next, zephir_get_internal_ce(SL("phalcon\\contracts\\adr\\handler")))
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
@@ -347,7 +347,7 @@ PHP_METHOD(Phalcon_ADR_Middleware_CorsMiddleware, applyHeaders)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(response, phalcon_http_responseinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(response, zephir_get_internal_ce(SL("phalcon\\http\\responseinterface")))
 		Z_PARAM_STR(origin)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);

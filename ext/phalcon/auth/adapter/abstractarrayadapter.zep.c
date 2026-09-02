@@ -15,9 +15,9 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
-#include "kernel/string.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
+#include "kernel/string.h"
 
 
 /**
@@ -60,11 +60,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Auth_Adapter_AbstractArrayAdapter)
  */
 PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, retrieveByCredentials)
 {
-	zend_bool _9;
+	zend_bool _7;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_6 = NULL, *_7 = NULL;
+	zephir_fcall_cache_entry *_4 = NULL, *_5 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *credentials_param = NULL, row, _0, _1, *_2, _3, *_4, _8, _5$$4, _10$$6;
+	zval *credentials_param = NULL, row, _0, _1, *_2, _6, _3$$4, _8$$6;
 	zval credentials;
 	zval *this_ptr = getThis();
 
@@ -72,10 +72,9 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, retrieveByCredentials)
 	ZVAL_UNDEF(&row);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_8);
-	ZVAL_UNDEF(&_5$$4);
-	ZVAL_UNDEF(&_10$$6);
+	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_3$$4);
+	ZVAL_UNDEF(&_8$$6);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		ZEPHIR_Z_PARAM_ARRAY(credentials, credentials_param)
 	ZEND_PARSE_PARAMETERS_END();
@@ -90,49 +89,42 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, retrieveByCredentials)
 	}
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "loadusers", NULL, 0);
 	zephir_check_call_status();
-	if (Z_TYPE_P(&_1) == IS_STRING) {
-		ZEPHIR_INIT_VAR(&_3);
-		zephir_string_to_char_array(&_3, &_1);
-		_2 = &_3;
-	} else {
-		_2 = &_1;
-	}
-	zephir_is_iterable(_2, 0, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 57);
-	if (Z_TYPE_P(_2) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_2), _4)
+	zephir_is_iterable(&_1, 0, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 57);
+	if (Z_TYPE_P(&_1) == IS_ARRAY) {
+		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_1), _2)
 		{
 			ZEPHIR_INIT_NVAR(&row);
-			ZVAL_COPY(&row, _4);
-			ZEPHIR_CALL_METHOD(&_5$$4, this_ptr, "matchesrow", &_6, 0, &row, &credentials);
+			ZVAL_COPY(&row, _2);
+			ZEPHIR_CALL_METHOD(&_3$$4, this_ptr, "matchesrow", &_4, 0, &row, &credentials);
 			zephir_check_call_status();
-			if (zephir_is_true(&_5$$4)) {
-				ZEPHIR_RETURN_CALL_METHOD(this_ptr, "hydrate", &_7, 0, &row);
+			if (zephir_is_true(&_3$$4)) {
+				ZEPHIR_RETURN_CALL_METHOD(this_ptr, "hydrate", &_5, 0, &row);
 				zephir_check_call_status();
 				RETURN_MM();
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
-		ZEPHIR_CALL_METHOD(NULL, _2, "rewind", NULL, 0);
+		ZEPHIR_CALL_METHOD(NULL, &_1, "rewind", NULL, 0);
 		zephir_check_call_status();
-		_9 = 1;
+		_7 = 1;
 		while (1) {
-			if (_9) {
-				_9 = 0;
+			if (_7) {
+				_7 = 0;
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, _2, "next", NULL, 0);
+				ZEPHIR_CALL_METHOD(NULL, &_1, "next", NULL, 0);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_8, _2, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_6, &_1, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_8)) {
+			if (!zend_is_true(&_6)) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&row, _2, "current", NULL, 0);
+			ZEPHIR_CALL_METHOD(&row, &_1, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_10$$6, this_ptr, "matchesrow", &_6, 0, &row, &credentials);
+				ZEPHIR_CALL_METHOD(&_8$$6, this_ptr, "matchesrow", &_4, 0, &row, &credentials);
 				zephir_check_call_status();
-				if (zephir_is_true(&_10$$6)) {
-					ZEPHIR_RETURN_CALL_METHOD(this_ptr, "hydrate", &_7, 0, &row);
+				if (zephir_is_true(&_8$$6)) {
+					ZEPHIR_RETURN_CALL_METHOD(this_ptr, "hydrate", &_5, 0, &row);
 					zephir_check_call_status();
 					RETURN_MM();
 				}
@@ -150,20 +142,19 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, retrieveByCredentials)
  */
 PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, retrieveById)
 {
-	zend_bool _8, _4$$3, _9$$5;
+	zend_bool _6, _2$$3, _7$$5;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_6 = NULL;
+	zephir_fcall_cache_entry *_4 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *id, id_sub, row, _0, *_1, _2, *_3, _7, _5$$3, _10$$5;
+	zval *id, id_sub, row, _0, *_1, _5, _3$$3, _8$$5;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&id_sub);
 	ZVAL_UNDEF(&row);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_7);
-	ZVAL_UNDEF(&_5$$3);
-	ZVAL_UNDEF(&_10$$5);
+	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_3$$3);
+	ZVAL_UNDEF(&_8$$5);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(id)
 	ZEND_PARSE_PARAMETERS_END();
@@ -172,55 +163,48 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, retrieveById)
 	zephir_fetch_params(1, 1, 0, &id);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "loadusers", NULL, 0);
 	zephir_check_call_status();
-	if (Z_TYPE_P(&_0) == IS_STRING) {
-		ZEPHIR_INIT_VAR(&_2);
-		zephir_string_to_char_array(&_2, &_0);
-		_1 = &_2;
-	} else {
-		_1 = &_0;
-	}
-	zephir_is_iterable(_1, 0, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 76);
-	if (Z_TYPE_P(_1) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_1), _3)
+	zephir_is_iterable(&_0, 0, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 76);
+	if (Z_TYPE_P(&_0) == IS_ARRAY) {
+		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
 		{
 			ZEPHIR_INIT_NVAR(&row);
-			ZVAL_COPY(&row, _3);
-			_4$$3 = zephir_array_isset_value_string(&row, SL("id"));
-			if (_4$$3) {
-				zephir_array_fetch_string(&_5$$3, &row, SL("id"), PH_NOISY | PH_READONLY, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 71);
-				_4$$3 = ZEPHIR_IS_IDENTICAL(&_5$$3, id);
+			ZVAL_COPY(&row, _1);
+			_2$$3 = zephir_array_isset_value_string(&row, SL("id"));
+			if (_2$$3) {
+				zephir_array_fetch_string(&_3$$3, &row, SL("id"), PH_NOISY | PH_READONLY, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 71);
+				_2$$3 = ZEPHIR_IS_IDENTICAL(&_3$$3, id);
 			}
-			if (_4$$3) {
-				ZEPHIR_RETURN_CALL_METHOD(this_ptr, "hydrate", &_6, 0, &row);
+			if (_2$$3) {
+				ZEPHIR_RETURN_CALL_METHOD(this_ptr, "hydrate", &_4, 0, &row);
 				zephir_check_call_status();
 				RETURN_MM();
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
-		ZEPHIR_CALL_METHOD(NULL, _1, "rewind", NULL, 0);
+		ZEPHIR_CALL_METHOD(NULL, &_0, "rewind", NULL, 0);
 		zephir_check_call_status();
-		_8 = 1;
+		_6 = 1;
 		while (1) {
-			if (_8) {
-				_8 = 0;
+			if (_6) {
+				_6 = 0;
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, _1, "next", NULL, 0);
+				ZEPHIR_CALL_METHOD(NULL, &_0, "next", NULL, 0);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_7, _1, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_5, &_0, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_7)) {
+			if (!zend_is_true(&_5)) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&row, _1, "current", NULL, 0);
+			ZEPHIR_CALL_METHOD(&row, &_0, "current", NULL, 0);
 			zephir_check_call_status();
-				_9$$5 = zephir_array_isset_value_string(&row, SL("id"));
-				if (_9$$5) {
-					zephir_array_fetch_string(&_10$$5, &row, SL("id"), PH_NOISY | PH_READONLY, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 71);
-					_9$$5 = ZEPHIR_IS_IDENTICAL(&_10$$5, id);
+				_7$$5 = zephir_array_isset_value_string(&row, SL("id"));
+				if (_7$$5) {
+					zephir_array_fetch_string(&_8$$5, &row, SL("id"), PH_NOISY | PH_READONLY, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 71);
+					_7$$5 = ZEPHIR_IS_IDENTICAL(&_8$$5, id);
 				}
-				if (_9$$5) {
-					ZEPHIR_RETURN_CALL_METHOD(this_ptr, "hydrate", &_6, 0, &row);
+				if (_7$$5) {
+					ZEPHIR_RETURN_CALL_METHOD(this_ptr, "hydrate", &_4, 0, &row);
 					zephir_check_call_status();
 					RETURN_MM();
 				}

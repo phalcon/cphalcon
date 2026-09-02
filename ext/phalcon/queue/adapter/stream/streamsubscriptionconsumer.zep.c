@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamSubscriptionConsumer, __construct)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 2)
-		Z_PARAM_OBJECT_OF_CLASS(context, phalcon_queue_adapter_stream_streamcontext_ce)
+		Z_PARAM_OBJECT_OF_CLASS(context, zephir_get_internal_ce(SL("phalcon\\queue\\adapter\\stream\\streamcontext")))
 		Z_PARAM_OPTIONAL
 		Z_PARAM_LONG(pollInterval)
 	ZEND_PARSE_PARAMETERS_END();

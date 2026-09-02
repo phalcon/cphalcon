@@ -102,9 +102,9 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, __construct)
 
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
-		Z_PARAM_OBJECT_OF_CLASS(escaper, phalcon_html_escaper_escaperinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(escaper, zephir_get_internal_ce(SL("phalcon\\html\\escaper\\escaperinterface")))
 		Z_PARAM_OPTIONAL
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(doctype, phalcon_html_helper_doctype_ce)
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(doctype, zephir_get_internal_ce(SL("phalcon\\html\\helper\\doctype")))
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);

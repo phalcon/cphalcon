@@ -92,8 +92,8 @@ PHP_METHOD(Phalcon_Auth_Guard_AbstractGuard, __construct)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(adapter, phalcon_contracts_auth_adapter_adapter_ce)
-		Z_PARAM_OBJECT_OF_CLASS(config, phalcon_contracts_auth_guard_guardconfig_ce)
+		Z_PARAM_OBJECT_OF_CLASS(adapter, zephir_get_internal_ce(SL("phalcon\\contracts\\auth\\adapter\\adapter")))
+		Z_PARAM_OBJECT_OF_CLASS(config, zephir_get_internal_ce(SL("phalcon\\contracts\\auth\\guard\\guardconfig")))
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(2, 0, &adapter, &config);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 156, adapter);
@@ -202,7 +202,7 @@ PHP_METHOD(Phalcon_Auth_Guard_AbstractGuard, setAdapter)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(adapter, phalcon_contracts_auth_adapter_adapter_ce)
+		Z_PARAM_OBJECT_OF_CLASS(adapter, zephir_get_internal_ce(SL("phalcon\\contracts\\auth\\adapter\\adapter")))
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &adapter);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 156, adapter);
@@ -221,7 +221,7 @@ PHP_METHOD(Phalcon_Auth_Guard_AbstractGuard, setUser)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(user, phalcon_contracts_auth_authuser_ce)
+		Z_PARAM_OBJECT_OF_CLASS(user, zephir_get_internal_ce(SL("phalcon\\contracts\\auth\\authuser")))
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &user);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 158, user);
@@ -304,7 +304,7 @@ PHP_METHOD(Phalcon_Auth_Guard_AbstractGuard, setEventsManager)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(eventsManager, phalcon_events_managerinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(eventsManager, zephir_get_internal_ce(SL("phalcon\\events\\managerinterface")))
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);

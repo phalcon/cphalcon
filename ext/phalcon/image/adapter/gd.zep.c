@@ -760,7 +760,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, processMask)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(mask, phalcon_image_adapter_adapterinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(mask, zephir_get_internal_ce(SL("phalcon\\image\\adapter\\adapterinterface")))
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
@@ -1818,7 +1818,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, processWatermark)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(4, 4)
-		Z_PARAM_OBJECT_OF_CLASS(watermark, phalcon_image_adapter_adapterinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(watermark, zephir_get_internal_ce(SL("phalcon\\image\\adapter\\adapterinterface")))
 		Z_PARAM_LONG(offsetX)
 		Z_PARAM_LONG(offsetY)
 		Z_PARAM_LONG(opacity)

@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, missingMethod)
 	ZVAL_UNDEF(&method_zv);
 	ZVAL_UNDEF(&arguments);
 	ZEND_PARSE_PARAMETERS_START(2, 3)
-		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(model, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
 		Z_PARAM_STR(method)
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(arguments, arguments_param)
@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, notify)
 	ZVAL_UNDEF(&model_sub);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(type)
-		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(model, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
 	ZEND_PARSE_PARAMETERS_END();
 	model = ZEND_CALL_ARG(execute_data, 2);
 	ZVAL_STR(&type_zv, type);

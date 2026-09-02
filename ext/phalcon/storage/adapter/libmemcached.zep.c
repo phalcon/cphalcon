@@ -17,8 +17,8 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/object.h"
-#include "kernel/string.h"
 #include "kernel/exception.h"
+#include "kernel/string.h"
 
 
 /**
@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, __construct)
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$3);
 	ZEND_PARSE_PARAMETERS_START(1, 2)
-		Z_PARAM_OBJECT_OF_CLASS(factory, phalcon_storage_serializerfactory_ce)
+		Z_PARAM_OBJECT_OF_CLASS(factory, zephir_get_internal_ce(SL("phalcon\\storage\\serializerfactory")))
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(options, options_param)
 	ZEND_PARSE_PARAMETERS_END();
@@ -421,10 +421,10 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, doDelete)
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, doDeleteMultiple)
 {
-	zend_bool _5;
+	zend_bool _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *keys_param = NULL, result, value, _0, *_1, _2, *_3, _4;
+	zval *keys_param = NULL, result, value, _0, *_1, _2;
 	zval keys;
 	zval *this_ptr = getThis();
 
@@ -433,7 +433,6 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, doDeleteMultiple)
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_4);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		ZEPHIR_Z_PARAM_ARRAY(keys, keys_param)
 	ZEND_PARSE_PARAMETERS_END();
@@ -451,40 +450,33 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, doDeleteMultiple)
 	if (Z_TYPE_P(&result) != IS_ARRAY) {
 		RETURN_MM_BOOL(0);
 	}
-	if (Z_TYPE_P(&result) == IS_STRING) {
-		ZEPHIR_INIT_VAR(&_2);
-		zephir_string_to_char_array(&_2, &result);
-		_1 = &_2;
-	} else {
-		_1 = &result;
-	}
-	zephir_is_iterable(_1, 0, "phalcon/Storage/Adapter/Libmemcached.zep", 207);
-	if (Z_TYPE_P(_1) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_1), _3)
+	zephir_is_iterable(&result, 0, "phalcon/Storage/Adapter/Libmemcached.zep", 207);
+	if (Z_TYPE_P(&result) == IS_ARRAY) {
+		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&result), _1)
 		{
 			ZEPHIR_INIT_NVAR(&value);
-			ZVAL_COPY(&value, _3);
+			ZVAL_COPY(&value, _1);
 			if (!ZEPHIR_IS_TRUE_IDENTICAL(&value)) {
 				RETURN_MM_BOOL(0);
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
-		ZEPHIR_CALL_METHOD(NULL, _1, "rewind", NULL, 0);
+		ZEPHIR_CALL_METHOD(NULL, &result, "rewind", NULL, 0);
 		zephir_check_call_status();
-		_5 = 1;
+		_3 = 1;
 		while (1) {
-			if (_5) {
-				_5 = 0;
+			if (_3) {
+				_3 = 0;
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, _1, "next", NULL, 0);
+				ZEPHIR_CALL_METHOD(NULL, &result, "next", NULL, 0);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_4, _1, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_2, &result, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_4)) {
+			if (!zend_is_true(&_2)) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&value, _1, "current", NULL, 0);
+			ZEPHIR_CALL_METHOD(&value, &result, "current", NULL, 0);
 			zephir_check_call_status();
 				if (!ZEPHIR_IS_TRUE_IDENTICAL(&value)) {
 					RETURN_MM_BOOL(0);

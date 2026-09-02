@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_Decorated, __construct)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_OBJECT_OF_CLASS(pdo, php_pdo_get_dbh_ce())
 		Z_PARAM_OPTIONAL
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(profiler, phalcon_datamapper_pdo_profiler_profilerinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(profiler, zephir_get_internal_ce(SL("phalcon\\datamapper\\pdo\\profiler\\profilerinterface")))
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);

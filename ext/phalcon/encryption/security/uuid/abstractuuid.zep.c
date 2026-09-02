@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, uuidTimestampToDateTim
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&sec);
 	ZVAL_LONG(&sec, (zephir_get_numberval(&_1) - 12219292800));
-	ZVAL_LONG(&_0, zephir_safe_mod_zval_long(timestamp, 10000000));
+	ZVAL_DOUBLE(&_0, zephir_safe_mod_zval_long(timestamp, 10000000));
 	ZVAL_LONG(&_2, 10);
 	ZEPHIR_CALL_FUNCTION(&usec, "intdiv", NULL, 36, &_0, &_2);
 	zephir_check_call_status();

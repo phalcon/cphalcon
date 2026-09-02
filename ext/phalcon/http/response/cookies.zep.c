@@ -17,7 +17,6 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
-#include "kernel/string.h"
 #include "kernel/exception.h"
 
 
@@ -384,9 +383,9 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, reset)
  */
 PHP_METHOD(Phalcon_Http_Response_Cookies, send)
 {
-	zend_bool _1, _8;
+	zend_bool _1, _6;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval __$true, __$false, cookie, _0, _2, _3, *_4, _5, *_6, _7;
+	zval __$true, __$false, cookie, _0, _2, _3, *_4, _5;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -397,7 +396,6 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send)
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_5);
-	ZVAL_UNDEF(&_7);
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -421,39 +419,32 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send)
 		RETURN_MM_BOOL(0);
 	}
 	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 911, PH_NOISY_CC | PH_READONLY);
-	if (Z_TYPE_P(&_3) == IS_STRING) {
-		ZEPHIR_INIT_VAR(&_5);
-		zephir_string_to_char_array(&_5, &_3);
-		_4 = &_5;
-	} else {
-		_4 = &_3;
-	}
-	zephir_is_iterable(_4, 0, "phalcon/Http/Response/Cookies.zep", 226);
-	if (Z_TYPE_P(_4) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_4), _6)
+	zephir_is_iterable(&_3, 0, "phalcon/Http/Response/Cookies.zep", 226);
+	if (Z_TYPE_P(&_3) == IS_ARRAY) {
+		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_3), _4)
 		{
 			ZEPHIR_INIT_NVAR(&cookie);
-			ZVAL_COPY(&cookie, _6);
+			ZVAL_COPY(&cookie, _4);
 			ZEPHIR_CALL_METHOD(NULL, &cookie, "send", NULL, 0);
 			zephir_check_call_status();
 		} ZEND_HASH_FOREACH_END();
 	} else {
-		ZEPHIR_CALL_METHOD(NULL, _4, "rewind", NULL, 0);
+		ZEPHIR_CALL_METHOD(NULL, &_3, "rewind", NULL, 0);
 		zephir_check_call_status();
-		_8 = 1;
+		_6 = 1;
 		while (1) {
-			if (_8) {
-				_8 = 0;
+			if (_6) {
+				_6 = 0;
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, _4, "next", NULL, 0);
+				ZEPHIR_CALL_METHOD(NULL, &_3, "next", NULL, 0);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_7, _4, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_5, &_3, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_7)) {
+			if (!zend_is_true(&_5)) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&cookie, _4, "current", NULL, 0);
+			ZEPHIR_CALL_METHOD(&cookie, &_3, "current", NULL, 0);
 			zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(NULL, &cookie, "send", NULL, 0);
 				zephir_check_call_status();

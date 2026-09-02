@@ -16,7 +16,6 @@
 #include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/object.h"
-#include "kernel/string.h"
 #include "kernel/array.h"
 
 
@@ -181,11 +180,11 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doGetLinks)
  */
 PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doGetLinksByRel)
 {
-	zend_bool _5;
+	zend_bool _3;
 	zval filtered;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval rel_zv, link, rels, _0, *_1, _2, *_3, _4;
+	zval rel_zv, link, rels, _0, *_1, _2;
 	zend_string *rel = NULL;
 	zval *this_ptr = getThis();
 
@@ -194,7 +193,6 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doGetLinksByRel)
 	ZVAL_UNDEF(&rels);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&filtered);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -211,19 +209,12 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doGetLinksByRel)
 	ZEPHIR_INIT_VAR(&filtered);
 	array_init(&filtered);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 225, PH_NOISY_CC | PH_READONLY);
-	if (Z_TYPE_P(&_0) == IS_STRING) {
-		ZEPHIR_INIT_VAR(&_2);
-		zephir_string_to_char_array(&_2, &_0);
-		_1 = &_2;
-	} else {
-		_1 = &_0;
-	}
-	zephir_is_iterable(_1, 0, "phalcon/Html/Link/AbstractLinkProvider.zep", 85);
-	if (Z_TYPE_P(_1) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_1), _3)
+	zephir_is_iterable(&_0, 0, "phalcon/Html/Link/AbstractLinkProvider.zep", 85);
+	if (Z_TYPE_P(&_0) == IS_ARRAY) {
+		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
 		{
 			ZEPHIR_INIT_NVAR(&link);
-			ZVAL_COPY(&link, _3);
+			ZVAL_COPY(&link, _1);
 			ZEPHIR_CALL_METHOD(&rels, &link, "getrels", NULL, 0);
 			zephir_check_call_status();
 			if (1 == zephir_fast_in_array(&rel_zv, &rels)) {
@@ -231,22 +222,22 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doGetLinksByRel)
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
-		ZEPHIR_CALL_METHOD(NULL, _1, "rewind", NULL, 0);
+		ZEPHIR_CALL_METHOD(NULL, &_0, "rewind", NULL, 0);
 		zephir_check_call_status();
-		_5 = 1;
+		_3 = 1;
 		while (1) {
-			if (_5) {
-				_5 = 0;
+			if (_3) {
+				_3 = 0;
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, _1, "next", NULL, 0);
+				ZEPHIR_CALL_METHOD(NULL, &_0, "next", NULL, 0);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_4, _1, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_2, &_0, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_4)) {
+			if (!zend_is_true(&_2)) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&link, _1, "current", NULL, 0);
+			ZEPHIR_CALL_METHOD(&link, &_0, "current", NULL, 0);
 			zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(&rels, &link, "getrels", NULL, 0);
 				zephir_check_call_status();

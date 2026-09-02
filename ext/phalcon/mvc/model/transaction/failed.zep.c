@@ -68,7 +68,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(message)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(record, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(record, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);

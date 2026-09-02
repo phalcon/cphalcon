@@ -83,9 +83,9 @@ PHP_METHOD(Phalcon_Queue_Consumer_BoundProcessor, __construct)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(3, 3)
-		Z_PARAM_OBJECT_OF_CLASS(queue, phalcon_contracts_queue_queue_ce)
-		Z_PARAM_OBJECT_OF_CLASS(processor, phalcon_contracts_queue_processor_ce)
-		Z_PARAM_OBJECT_OF_CLASS(consumer, phalcon_contracts_queue_consumer_ce)
+		Z_PARAM_OBJECT_OF_CLASS(queue, zephir_get_internal_ce(SL("phalcon\\contracts\\queue\\queue")))
+		Z_PARAM_OBJECT_OF_CLASS(processor, zephir_get_internal_ce(SL("phalcon\\contracts\\queue\\processor")))
+		Z_PARAM_OBJECT_OF_CLASS(consumer, zephir_get_internal_ce(SL("phalcon\\contracts\\queue\\consumer")))
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(3, 0, &queue, &processor, &consumer);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1301, queue);

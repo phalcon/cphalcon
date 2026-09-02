@@ -679,7 +679,7 @@ PHP_METHOD(Phalcon_Html_Escaper, setAttributeEscaper)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(escaper, phalcon_html_escaper_attributeescaper_ce)
+		Z_PARAM_OBJECT_OF_CLASS(escaper, zephir_get_internal_ce(SL("phalcon\\html\\escaper\\attributeescaper")))
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &escaper);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 807, escaper);
@@ -701,7 +701,7 @@ PHP_METHOD(Phalcon_Html_Escaper, setCssEscaper)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(escaper, phalcon_html_escaper_cssescaper_ce)
+		Z_PARAM_OBJECT_OF_CLASS(escaper, zephir_get_internal_ce(SL("phalcon\\html\\escaper\\cssescaper")))
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &escaper);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 808, escaper);
@@ -943,7 +943,7 @@ PHP_METHOD(Phalcon_Html_Escaper, setHtmlEscaper)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(escaper, phalcon_html_escaper_htmlescaper_ce)
+		Z_PARAM_OBJECT_OF_CLASS(escaper, zephir_get_internal_ce(SL("phalcon\\html\\escaper\\htmlescaper")))
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &escaper);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 809, escaper);
@@ -990,7 +990,7 @@ PHP_METHOD(Phalcon_Html_Escaper, setJsEscaper)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(escaper, phalcon_html_escaper_jsescaper_ce)
+		Z_PARAM_OBJECT_OF_CLASS(escaper, zephir_get_internal_ce(SL("phalcon\\html\\escaper\\jsescaper")))
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &escaper);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 810, escaper);
@@ -1012,7 +1012,7 @@ PHP_METHOD(Phalcon_Html_Escaper, setUrlEscaper)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(escaper, phalcon_html_escaper_urlescaper_ce)
+		Z_PARAM_OBJECT_OF_CLASS(escaper, zephir_get_internal_ce(SL("phalcon\\html\\escaper\\urlescaper")))
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &escaper);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 811, escaper);

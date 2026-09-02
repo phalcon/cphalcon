@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Container_Provider_Web, provide)
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(services, phalcon_contracts_container_service_collection_ce)
+		Z_PARAM_OBJECT_OF_CLASS(services, zephir_get_internal_ce(SL("phalcon\\contracts\\container\\service\\collection")))
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);

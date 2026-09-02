@@ -14,8 +14,8 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "kernel/string.h"
 #include "kernel/concat.h"
+#include "kernel/string.h"
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
@@ -41,11 +41,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_PascalCase)
 
 PHP_METHOD(Phalcon_Support_Helper_Str_PascalCase, __invoke)
 {
-	zend_bool _8;
+	zend_bool _6;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_5 = NULL;
+	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval text_zv, delimiters_zv, exploded, output, element, *_0, _1, *_2, _7, _3$$3, _4$$3, _6$$3, _9$$4, _10$$4, _11$$4;
+	zval text_zv, delimiters_zv, exploded, output, element, *_0, _5, _1$$3, _2$$3, _4$$3, _7$$4, _8$$4, _9$$4;
 	zend_string *text = NULL, *delimiters = NULL;
 	zval *this_ptr = getThis();
 
@@ -54,14 +54,13 @@ PHP_METHOD(Phalcon_Support_Helper_Str_PascalCase, __invoke)
 	ZVAL_UNDEF(&exploded);
 	ZVAL_UNDEF(&output);
 	ZVAL_UNDEF(&element);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_7);
-	ZVAL_UNDEF(&_3$$3);
+	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_4$$3);
-	ZVAL_UNDEF(&_6$$3);
+	ZVAL_UNDEF(&_7$$4);
+	ZVAL_UNDEF(&_8$$4);
 	ZVAL_UNDEF(&_9$$4);
-	ZVAL_UNDEF(&_10$$4);
-	ZVAL_UNDEF(&_11$$4);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(text)
@@ -82,52 +81,45 @@ PHP_METHOD(Phalcon_Support_Helper_Str_PascalCase, __invoke)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&output);
 	ZVAL_STRING(&output, "");
-	if (Z_TYPE_P(&exploded) == IS_STRING) {
-		ZEPHIR_INIT_VAR(&_1);
-		zephir_string_to_char_array(&_1, &exploded);
-		_0 = &_1;
-	} else {
-		_0 = &exploded;
-	}
-	zephir_is_iterable(_0, 0, "phalcon/Support/Helper/Str/PascalCase.zep", 31);
-	if (Z_TYPE_P(_0) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_0), _2)
+	zephir_is_iterable(&exploded, 0, "phalcon/Support/Helper/Str/PascalCase.zep", 31);
+	if (Z_TYPE_P(&exploded) == IS_ARRAY) {
+		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&exploded), _0)
 		{
 			ZEPHIR_INIT_NVAR(&element);
-			ZVAL_COPY(&element, _2);
-			ZEPHIR_INIT_NVAR(&_3$$3);
-			ZEPHIR_CALL_FUNCTION(&_4$$3, "mb_strtolower", &_5, 16, &element);
+			ZVAL_COPY(&element, _0);
+			ZEPHIR_INIT_NVAR(&_1$$3);
+			ZEPHIR_CALL_FUNCTION(&_2$$3, "mb_strtolower", &_3, 16, &element);
 			zephir_check_call_status();
-			zephir_ucfirst(&_3$$3, &_4$$3);
-			ZEPHIR_INIT_NVAR(&_6$$3);
-			ZEPHIR_CONCAT_VV(&_6$$3, &output, &_3$$3);
-			ZEPHIR_CPY_WRT(&output, &_6$$3);
+			zephir_ucfirst(&_1$$3, &_2$$3);
+			ZEPHIR_INIT_NVAR(&_4$$3);
+			ZEPHIR_CONCAT_VV(&_4$$3, &output, &_1$$3);
+			ZEPHIR_CPY_WRT(&output, &_4$$3);
 		} ZEND_HASH_FOREACH_END();
 	} else {
-		ZEPHIR_CALL_METHOD(NULL, _0, "rewind", NULL, 0);
+		ZEPHIR_CALL_METHOD(NULL, &exploded, "rewind", NULL, 0);
 		zephir_check_call_status();
-		_8 = 1;
+		_6 = 1;
 		while (1) {
-			if (_8) {
-				_8 = 0;
+			if (_6) {
+				_6 = 0;
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, _0, "next", NULL, 0);
+				ZEPHIR_CALL_METHOD(NULL, &exploded, "next", NULL, 0);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_7, _0, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_5, &exploded, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_7)) {
+			if (!zend_is_true(&_5)) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&element, _0, "current", NULL, 0);
+			ZEPHIR_CALL_METHOD(&element, &exploded, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_INIT_NVAR(&_9$$4);
-				ZEPHIR_CALL_FUNCTION(&_10$$4, "mb_strtolower", &_5, 16, &element);
+				ZEPHIR_INIT_NVAR(&_7$$4);
+				ZEPHIR_CALL_FUNCTION(&_8$$4, "mb_strtolower", &_3, 16, &element);
 				zephir_check_call_status();
-				zephir_ucfirst(&_9$$4, &_10$$4);
-				ZEPHIR_INIT_NVAR(&_11$$4);
-				ZEPHIR_CONCAT_VV(&_11$$4, &output, &_9$$4);
-				ZEPHIR_CPY_WRT(&output, &_11$$4);
+				zephir_ucfirst(&_7$$4, &_8$$4);
+				ZEPHIR_INIT_NVAR(&_9$$4);
+				ZEPHIR_CONCAT_VV(&_9$$4, &output, &_7$$4);
+				ZEPHIR_CPY_WRT(&output, &_9$$4);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&element);

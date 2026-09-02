@@ -64,9 +64,9 @@ PHP_METHOD(Phalcon_ADR_Responder_RedirectResponder, __invoke)
 	ZVAL_UNDEF(&_8$$3);
 	ZVAL_UNDEF(&_9$$3);
 	ZEND_PARSE_PARAMETERS_START(3, 3)
-		Z_PARAM_OBJECT_OF_CLASS(request, phalcon_http_requestinterface_ce)
-		Z_PARAM_OBJECT_OF_CLASS(response, phalcon_http_responseinterface_ce)
-		Z_PARAM_OBJECT_OF_CLASS(payload, phalcon_contracts_adr_payload_payload_ce)
+		Z_PARAM_OBJECT_OF_CLASS(request, zephir_get_internal_ce(SL("phalcon\\http\\requestinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(response, zephir_get_internal_ce(SL("phalcon\\http\\responseinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(payload, zephir_get_internal_ce(SL("phalcon\\contracts\\adr\\payload\\payload")))
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
