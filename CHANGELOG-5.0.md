@@ -6,11 +6,13 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 ### Tools
 
-- Zephir 1.3.0 (594e50a)
+- Zephir 1.3.0 (4714968)
 
 ### Changed
 
 ### Added
+
+- `Phalcon\Mvc\Model::findFirst()` now recognizes the `eager` parameter, so relations can be eagerly loaded. [#17534](https://github.com/phalcon/cphalcon/issues/17534) [[doc]](https://docs.phalcon.io/5.20/db-models/)
 
 ### Fixed
 
