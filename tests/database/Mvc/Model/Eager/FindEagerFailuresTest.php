@@ -97,8 +97,9 @@ final class FindEagerFailuresTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * The sibling find methods ignore unknown parameter keys, so `eager` is
-     * inert there rather than throwing - and rather than silently working.
+     * `count()` returns an integer, so there is no record to attach relations
+     * to and `eager` stays inert there. `findFirst()` returns a record and
+     * honors it, the same as `find()`.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-07-25
@@ -121,7 +122,7 @@ final class FindEagerFailuresTest extends AbstractDatabaseTestCase
         );
 
         $this->assertNotNull($invoice);
-        $this->assertFalse($invoice->isRelationshipLoaded('customer'));
+        $this->assertTrue($invoice->isRelationshipLoaded('customer'));
     }
 
     /**
