@@ -12,8 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/array.h"
 #include "kernel/memory.h"
+#include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/string.h"
 #include "kernel/operators.h"
@@ -115,6 +115,9 @@ PHP_METHOD(Phalcon_Tag_Select, selectField)
 		data = &data_sub;
 		data = &__$null;
 	}
+	ZEPHIR_INIT_VAR(&emptyValue);
+	ZEPHIR_INIT_VAR(&emptyText);
+	ZEPHIR_INIT_VAR(&using);
 	if (Z_TYPE_P(parameters) != IS_ARRAY) {
 		ZEPHIR_INIT_VAR(&params);
 		zephir_create_array(&params, 2, 0);
@@ -153,14 +156,14 @@ PHP_METHOD(Phalcon_Tag_Select, selectField)
 	}
 	zephir_memory_observe(&useEmpty);
 	if (zephir_array_isset_string_fetch(&useEmpty, &params, SL("useEmpty"), 0)) {
-		zephir_memory_observe(&emptyValue);
+		ZEPHIR_OBS_NVAR(&emptyValue);
 		if (!(zephir_array_isset_string_fetch(&emptyValue, &params, SL("emptyValue"), 0))) {
 			ZEPHIR_INIT_NVAR(&emptyValue);
 			ZVAL_STRING(&emptyValue, "");
 		} else {
 			zephir_array_unset_string(&params, SL("emptyValue"), PH_SEPARATE);
 		}
-		zephir_memory_observe(&emptyText);
+		ZEPHIR_OBS_NVAR(&emptyText);
 		if (!(zephir_array_isset_string_fetch(&emptyText, &params, SL("emptyText"), 0))) {
 			ZEPHIR_INIT_NVAR(&emptyText);
 			ZVAL_STRING(&emptyText, "Choose...");
@@ -174,7 +177,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField)
 		ZEPHIR_CPY_WRT(&options, data);
 	}
 	if (Z_TYPE_P(&options) == IS_OBJECT) {
-		zephir_memory_observe(&using);
+		ZEPHIR_OBS_NVAR(&using);
 		if (UNEXPECTED(!(zephir_array_isset_string_fetch(&using, &params, SL("using"), 0)))) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_tag_exception_ce, "The 'using' parameter is required", "phalcon/Tag/Select.zep", 113);
 			return;
@@ -592,6 +595,8 @@ PHP_METHOD(Phalcon_Tag_Select, optionsFromResultset)
 	value = ZEND_CALL_ARG(execute_data, 3);
 	zephir_memory_observe(&closeOption_zv);
 	ZVAL_STR_COPY(&closeOption_zv, closeOption);
+	ZEPHIR_INIT_VAR(&usingZero);
+	ZEPHIR_INIT_VAR(&usingOne);
 	ZEPHIR_INIT_VAR(&code);
 	ZVAL_STRING(&code, "");
 	ZEPHIR_INIT_VAR(&params);

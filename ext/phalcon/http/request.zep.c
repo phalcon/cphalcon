@@ -4615,6 +4615,8 @@ PHP_METHOD(Phalcon_Http_Request, resolveAuthorizationHeaders)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
+	ZEPHIR_INIT_VAR(&eventsManager);
+	ZEPHIR_INIT_VAR(&hasEventsManager);
 	ZEPHIR_INIT_VAR(&authHeader);
 	ZVAL_NULL(&authHeader);
 	ZEPHIR_INIT_VAR(&headers);

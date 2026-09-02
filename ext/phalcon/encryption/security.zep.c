@@ -692,6 +692,7 @@ PHP_METHOD(Phalcon_Encryption_Security, getSaltBytes)
 		numberBytes = 0;
 	} else {
 		}
+	ZEPHIR_INIT_VAR(&safeBytes);
 	if (!(numberBytes)) {
 		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 703, PH_NOISY_CC | PH_READONLY);
 		numberBytes = zephir_get_numberval(&_0$$3);

@@ -212,6 +212,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File, __construct)
 	ZVAL_NULL(&messageIniSize);
 	ZEPHIR_INIT_VAR(&messageValid);
 	ZVAL_NULL(&messageValid);
+	ZEPHIR_INIT_VAR(&validator);
 	if (zephir_array_isset_value_string(&options, SL("messageFileEmpty"))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZVAL_STRING(&_0$$3, "messageFileEmpty");

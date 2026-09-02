@@ -2356,6 +2356,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords)
 		zephir_memory_observe(&method_zv);
 	ZVAL_STR_COPY(&method_zv, method);
 	}
+	ZEPHIR_INIT_VAR(&uniqueKey);
+	ZEPHIR_INIT_VAR(&records);
+	ZEPHIR_INIT_VAR(&retrieveMethod);
 	ZEPHIR_INIT_VAR(&placeholders);
 	array_init(&placeholders);
 	ZEPHIR_CALL_METHOD(&extraParameters, relation, "getparams", NULL, 0);
@@ -2646,7 +2649,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords)
 		goto zephir_switch_1_clause_3;
 		zephir_switch_1_clause_0: ;
 		zephir_switch_1_clause_1: ;
-			ZEPHIR_INIT_VAR(&retrieveMethod);
+			ZEPHIR_INIT_NVAR(&retrieveMethod);
 			ZVAL_STRING(&retrieveMethod, "findFirst");
 			goto zephir_switch_1_end;
 		zephir_switch_1_clause_2: ;

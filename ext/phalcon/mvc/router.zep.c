@@ -6556,6 +6556,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addRouteFromConfig)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &routeData_param);
 	zephir_get_arrval(&routeData, routeData_param);
+	ZEPHIR_INIT_VAR(&route);
 	zephir_memory_observe(&pattern);
 	if (!(zephir_array_isset_string_fetch(&pattern, &routeData, SL("pattern"), 0))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_router_exceptions_missingrouteconfigkey_ce, "pattern", "phalcon/Mvc/Router.zep", 2061);
@@ -6715,6 +6716,7 @@ PHP_METHOD(Phalcon_Mvc_Router, mountGroupFromConfig)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &groupData_param);
 	zephir_get_arrval(&groupData, groupData_param);
+	ZEPHIR_INIT_VAR(&route);
 	ZEPHIR_INIT_VAR(&paths);
 	ZVAL_NULL(&paths);
 	if (zephir_array_isset_value_string(&groupData, SL("paths"))) {

@@ -745,6 +745,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle)
 	ZVAL_STR_COPY(&uri_zv, uri);
 	ZEPHIR_INIT_VAR(&status);
 	ZVAL_NULL(&status);
+	ZEPHIR_INIT_VAR(&returnedValue);
 	ZEPHIR_INIT_VAR(&realHandler);
 	ZVAL_NULL(&realHandler);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 980, PH_NOISY_CC | PH_READONLY);
@@ -761,7 +762,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle)
 
 	/* try_start_1: */
 
-		ZEPHIR_INIT_VAR(&returnedValue);
+		ZEPHIR_INIT_NVAR(&returnedValue);
 		ZVAL_NULL(&returnedValue);
 		zephir_read_property_cached(&_2$$4, this_ptr, _zephir_prop_1, 978, PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_2$$4) != IS_NULL) {

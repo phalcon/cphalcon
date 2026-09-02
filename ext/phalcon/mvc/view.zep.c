@@ -1086,6 +1086,7 @@ PHP_METHOD(Phalcon_Mvc_View, partial)
 		params = &params_sub;
 		params = &__$null;
 	}
+	ZEPHIR_INIT_VAR(&viewParams);
 	if (Z_TYPE_P(params) == IS_ARRAY) {
 		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 1169, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CPY_WRT(&viewParams, &_0$$3);
@@ -2419,6 +2420,7 @@ PHP_METHOD(Phalcon_Mvc_View, engineRender)
 		mustClean = 1;
 	} else {
 		}
+	ZEPHIR_INIT_VAR(&viewEnginePath);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1175, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&basePath, &_0);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 1169, PH_NOISY_CC | PH_READONLY);

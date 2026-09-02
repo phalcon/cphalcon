@@ -160,6 +160,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength, __construct)
 	ZVAL_NULL(&included);
 	ZEPHIR_INIT_VAR(&message);
 	ZVAL_NULL(&message);
+	ZEPHIR_INIT_VAR(&validator);
 	hasIncluded = zephir_array_isset_value_string(&options, SL("included"));
 	hasMessage = zephir_array_isset_value_string(&options, SL("message"));
 	if (hasIncluded) {

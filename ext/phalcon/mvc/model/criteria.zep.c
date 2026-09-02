@@ -665,6 +665,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput)
 		zephir_memory_observe(&operator_zv);
 	ZVAL_STR_COPY(&operator_zv, operator);
 	}
+	ZEPHIR_INIT_VAR(&bind);
 	ZEPHIR_INIT_VAR(&conditions);
 	array_init(&conditions);
 	if (!(ZEPHIR_IS_EMPTY(&data))) {
@@ -683,7 +684,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput)
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&columnMap, &metaData, "getreversecolumnmap", NULL, 0, &model);
 		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(&bind);
+		ZEPHIR_INIT_NVAR(&bind);
 		array_init(&bind);
 		zephir_is_iterable(&data, 0, "phalcon/Mvc/Model/Criteria.zep", 385);
 		if (Z_TYPE_P(&data) == IS_ARRAY) {

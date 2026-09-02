@@ -924,6 +924,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire)
 		stopOnFalse = &stopOnFalse_sub;
 		stopOnFalse = &__$null;
 	}
+	ZEPHIR_INIT_VAR(&stashed);
 	if (Z_TYPE_P(stopOnFalse) == IS_NULL) {
 		zephir_memory_observe(&stop);
 		zephir_read_property_cached(&stop, this_ptr, _zephir_prop_0, 740, PH_NOISY_CC);
@@ -1022,7 +1023,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire)
 	collect = zephir_is_true(&_17);
 	if (collect) {
 		if (ZEPHIR_GT_LONG(&wasDepth, 0)) {
-			zephir_memory_observe(&stashed);
+			ZEPHIR_OBS_NVAR(&stashed);
 			zephir_read_property_cached(&stashed, this_ptr, _zephir_prop_7, 745, PH_NOISY_CC);
 		}
 		ZEPHIR_INIT_VAR(&_18$$14);
@@ -2165,6 +2166,7 @@ PHP_METHOD(Phalcon_Events_Manager, runObjectQueue)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 3, 0, &queue_param, &event, &methodName);
 	zephir_get_arrval(&queue, queue_param);
+	ZEPHIR_INIT_VAR(&ret);
 	ZEPHIR_INIT_VAR(&status);
 	ZVAL_NULL(&status);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 737, PH_NOISY_CC | PH_READONLY);

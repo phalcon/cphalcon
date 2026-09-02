@@ -509,6 +509,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile)
 		extendsMode = 0;
 	} else {
 		}
+	ZEPHIR_INIT_VAR(&compiledTemplatePath);
 	if (0) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1200, &__$true);
 	} else {
@@ -663,7 +664,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile)
 		} else {
 			ZEPHIR_CPY_WRT(&templateSepPath, &templatePath_zv);
 		}
-		ZEPHIR_INIT_VAR(&compiledTemplatePath);
+		ZEPHIR_INIT_NVAR(&compiledTemplatePath);
 		if (extendsMode) {
 			ZEPHIR_CONCAT_VVVVSVV(&compiledTemplatePath, &compiledPath, &prefix, &templateSepPath, &compiledSeparator, "e", &compiledSeparator, &compiledExtension);
 		} else {
@@ -2419,6 +2420,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression)
 		doubleQuotes = 0;
 	} else {
 		}
+	ZEPHIR_INIT_VAR(&leftCode);
+	ZEPHIR_INIT_VAR(&rightCode);
 	ZEPHIR_INIT_VAR(&exprCode);
 	ZVAL_NULL(&exprCode);
 	RETURN_ON_FAILURE(zephir_property_incr(this_ptr, SL("exprLevel")));
@@ -4097,6 +4100,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getFinalPath)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&path_zv);
 	ZVAL_STR_COPY(&path_zv, path);
+	ZEPHIR_INIT_VAR(&viewsDir);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isabsolutepath", NULL, 0, &path_zv);
 	zephir_check_call_status();
 	if (zephir_is_true(&_0)) {

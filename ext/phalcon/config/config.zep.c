@@ -13,9 +13,9 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
+#include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
-#include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
 #include "kernel/array.h"
@@ -121,6 +121,7 @@ PHP_METHOD(Phalcon_Config_Config, merge)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &toMerge);
+	ZEPHIR_INIT_VAR(&target);
 	if (Z_TYPE_P(toMerge) == IS_ARRAY) {
 		ZEPHIR_CPY_WRT(&target, toMerge);
 	} else {

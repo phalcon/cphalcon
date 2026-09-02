@@ -543,6 +543,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable)
 	zephir_memory_observe(&schemaName_zv);
 	ZVAL_STR_COPY(&schemaName_zv, schemaName);
 	zephir_get_arrval(&definition, definition_param);
+	ZEPHIR_INIT_VAR(&tableComment);
 	zephir_memory_observe(&columns);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&columns, &definition, SL("columns"), 0)))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exceptions_missingdefinitionkey_ce, "columns", "phalcon/Db/Dialect/Postgresql.zep", 162);
@@ -556,7 +557,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable)
 	if (zephir_array_isset_string_fetch(&options, &definition, SL("options"), 0)) {
 		ZEPHIR_OBS_NVAR(&temporary);
 		zephir_array_isset_string_fetch(&temporary, &options, SL("temporary"), 0);
-		zephir_memory_observe(&tableComment);
+		ZEPHIR_OBS_NVAR(&tableComment);
 		zephir_array_isset_string_fetch(&tableComment, &options, SL("TABLE_COMMENT"), 0);
 	}
 	if (zephir_is_true(&temporary)) {

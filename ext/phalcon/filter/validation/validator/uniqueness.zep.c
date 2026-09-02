@@ -359,6 +359,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniqueness)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &validation, &field);
 	ZEPHIR_SEPARATE_PARAM(field);
+	ZEPHIR_INIT_VAR(&params);
 	if (Z_TYPE_P(field) != IS_ARRAY) {
 		ZEPHIR_CPY_WRT(&singleField, field);
 		ZEPHIR_INIT_NVAR(field);
