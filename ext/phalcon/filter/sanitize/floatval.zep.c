@@ -28,8 +28,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Filter\Sanitize\FloatVal
- *
  * Sanitizes a value to float
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_FloatVal)

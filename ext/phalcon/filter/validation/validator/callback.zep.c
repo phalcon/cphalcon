@@ -72,11 +72,16 @@
  *     )
  * );
  * ```
+ *
+ * @phpstan-import-type filter_validator_options from FilterTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_Callback)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Filter\\Validation\\Validator, Callback, phalcon, filter_validation_validator_callback, phalcon_filter_validation_abstractvalidator_ce, phalcon_filter_validation_validator_callback_method_entry, 0);
 
+	/**
+	 * @var string|null
+	 */
 	zend_declare_property_string(phalcon_filter_validation_validator_callback_ce, SL("template"), "Field :field must match the callback function", ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
@@ -84,11 +89,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_Callback)
 /**
  * Constructor
  *
- * @param array options = [
- *     'message' => '',
- *     'template' => '',
- *     'callback' => null
- * ]
+ * @phpstan-param filter_validator_options $options
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_Callback, __construct)
 {
@@ -189,7 +190,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Callback, validate)
 			ZEPHIR_CALL_METHOD(&_1$$5, &reflection, "getnumberofparameters", NULL, 0);
 			zephir_check_call_status();
 			if (ZEPHIR_GT_LONG(&_1$$5, 1)) {
-				zephir_array_append(&arguments, this_ptr, PH_SEPARATE, "phalcon/Filter/Validation/Validator/Callback.zep", 121);
+				zephir_array_append(&arguments, this_ptr, PH_SEPARATE, "phalcon/Filter/Validation/Validator/Callback.zep", 123);
 			}
 		}
 		ZEPHIR_INIT_VAR(&returnedValue);
@@ -224,7 +225,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Callback, validate)
 		object_init_ex(&_5$$3, phalcon_filter_validation_exceptions_invalidcallbackreturn_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_5$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_5$$3, "phalcon/Filter/Validation/Validator/Callback.zep", 145);
+		zephir_throw_exception_debug(&_5$$3, "phalcon/Filter/Validation/Validator/Callback.zep", 147);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

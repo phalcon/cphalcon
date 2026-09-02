@@ -71,6 +71,8 @@
  *     )
  * );
  * ```
+ *
+ * @phpstan-import-type filter_uploaded_file from FilterTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_File_Size_Equal)
 {
@@ -144,7 +146,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Size_Equal, validate)
 	ZVAL_LONG(&_4, 6);
 	ZEPHIR_INIT_VAR(&bytes);
 	zephir_round(&bytes, &_3, &_4, NULL);
-	zephir_array_fetch_string(&_5, &value, SL("size"), PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/File/Size/Equal.zep", 89);
+	zephir_array_fetch_string(&_5, &value, SL("size"), PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/File/Size/Equal.zep", 92);
 	ZEPHIR_CALL_FUNCTION(&_6, "floatval", NULL, 33, &_5);
 	zephir_check_call_status();
 	ZVAL_LONG(&_7, 6);

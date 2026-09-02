@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Files, isAllowEmpty)
 	} else {
 		_0 = &files;
 	}
-	zephir_is_iterable(_0, 0, "phalcon/Filter/Validation/Validator/Files.zep", 77);
+	zephir_is_iterable(_0, 0, "phalcon/Filter/Validation/Validator/Files.zep", 76);
 	if (Z_TYPE_P(_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_0), _2)
 		{
@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Files, isAllowEmpty)
 			}
 			_4$$4 = _3$$4;
 			if (_4$$4) {
-				zephir_array_fetch_string(&_5$$4, &single, SL("error"), PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Files.zep", 71);
+				zephir_array_fetch_string(&_5$$4, &single, SL("error"), PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Files.zep", 70);
 				_4$$4 = ZEPHIR_IS_LONG_IDENTICAL(&_5$$4, 4);
 			}
 			if (!(_4$$4)) {
@@ -155,7 +155,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Files, isAllowEmpty)
 				}
 				_9$$6 = _8$$6;
 				if (_9$$6) {
-					zephir_array_fetch_string(&_10$$6, &single, SL("error"), PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Files.zep", 71);
+					zephir_array_fetch_string(&_10$$6, &single, SL("error"), PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Files.zep", 70);
 					_9$$6 = ZEPHIR_IS_LONG_IDENTICAL(&_10$$6, 4);
 				}
 				if (!(_9$$6)) {
@@ -229,7 +229,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Files, validate)
 	} else {
 		_1 = &files;
 	}
-	zephir_is_iterable(_1, 0, "phalcon/Filter/Validation/Validator/Files.zep", 114);
+	zephir_is_iterable(_1, 0, "phalcon/Filter/Validation/Validator/Files.zep", 113);
 	if (Z_TYPE_P(_1) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_1), _3)
 		{
@@ -366,7 +366,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Files, normalizeFiles)
 	_0 = !(zephir_array_isset_value_string(value, SL("name")));
 	if (!(_0)) {
 		zephir_memory_observe(&_1);
-		zephir_array_fetch_string(&_1, value, SL("name"), PH_NOISY, "phalcon/Filter/Validation/Validator/Files.zep", 136);
+		zephir_array_fetch_string(&_1, value, SL("name"), PH_NOISY, "phalcon/Filter/Validation/Validator/Files.zep", 135);
 		_0 = Z_TYPE_P(&_1) != IS_ARRAY;
 	}
 	if (_0) {
@@ -375,31 +375,31 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Files, normalizeFiles)
 		RETURN_MM();
 	}
 	zephir_memory_observe(&names);
-	zephir_array_fetch_string(&names, value, SL("name"), PH_NOISY, "phalcon/Filter/Validation/Validator/Files.zep", 140);
+	zephir_array_fetch_string(&names, value, SL("name"), PH_NOISY, "phalcon/Filter/Validation/Validator/Files.zep", 139);
 	if (zephir_array_isset_value_string(value, SL("type"))) {
 		zephir_memory_observe(&types);
-		zephir_array_fetch_string(&types, value, SL("type"), PH_NOISY, "phalcon/Filter/Validation/Validator/Files.zep", 141);
+		zephir_array_fetch_string(&types, value, SL("type"), PH_NOISY, "phalcon/Filter/Validation/Validator/Files.zep", 140);
 	} else {
 		ZEPHIR_INIT_NVAR(&types);
 		array_init(&types);
 	}
 	if (zephir_array_isset_value_string(value, SL("tmp_name"))) {
 		zephir_memory_observe(&tmpNames);
-		zephir_array_fetch_string(&tmpNames, value, SL("tmp_name"), PH_NOISY, "phalcon/Filter/Validation/Validator/Files.zep", 142);
+		zephir_array_fetch_string(&tmpNames, value, SL("tmp_name"), PH_NOISY, "phalcon/Filter/Validation/Validator/Files.zep", 141);
 	} else {
 		ZEPHIR_INIT_NVAR(&tmpNames);
 		array_init(&tmpNames);
 	}
 	if (zephir_array_isset_value_string(value, SL("size"))) {
 		zephir_memory_observe(&sizes);
-		zephir_array_fetch_string(&sizes, value, SL("size"), PH_NOISY, "phalcon/Filter/Validation/Validator/Files.zep", 143);
+		zephir_array_fetch_string(&sizes, value, SL("size"), PH_NOISY, "phalcon/Filter/Validation/Validator/Files.zep", 142);
 	} else {
 		ZEPHIR_INIT_NVAR(&sizes);
 		array_init(&sizes);
 	}
 	if (zephir_array_isset_value_string(value, SL("error"))) {
 		zephir_memory_observe(&errors);
-		zephir_array_fetch_string(&errors, value, SL("error"), PH_NOISY, "phalcon/Filter/Validation/Validator/Files.zep", 144);
+		zephir_array_fetch_string(&errors, value, SL("error"), PH_NOISY, "phalcon/Filter/Validation/Validator/Files.zep", 143);
 	} else {
 		ZEPHIR_INIT_NVAR(&errors);
 		array_init(&errors);
@@ -413,7 +413,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Files, normalizeFiles)
 	} else {
 		_2 = &names;
 	}
-	zephir_is_iterable(_2, 0, "phalcon/Filter/Validation/Validator/Files.zep", 178);
+	zephir_is_iterable(_2, 0, "phalcon/Filter/Validation/Validator/Files.zep", 177);
 	if (Z_TYPE_P(_2) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_2), _5, _6, _4)
 		{
@@ -435,19 +435,19 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Files, normalizeFiles)
 			ZVAL_NULL(&error);
 			if (zephir_array_isset_value(&types, &index)) {
 				ZEPHIR_OBS_NVAR(&type);
-				zephir_array_fetch(&type, &types, &index, PH_NOISY, "phalcon/Filter/Validation/Validator/Files.zep", 154);
+				zephir_array_fetch(&type, &types, &index, PH_NOISY, "phalcon/Filter/Validation/Validator/Files.zep", 153);
 			}
 			if (zephir_array_isset_value(&tmpNames, &index)) {
 				ZEPHIR_OBS_NVAR(&tmpName);
-				zephir_array_fetch(&tmpName, &tmpNames, &index, PH_NOISY, "phalcon/Filter/Validation/Validator/Files.zep", 158);
+				zephir_array_fetch(&tmpName, &tmpNames, &index, PH_NOISY, "phalcon/Filter/Validation/Validator/Files.zep", 157);
 			}
 			if (zephir_array_isset_value(&sizes, &index)) {
 				ZEPHIR_OBS_NVAR(&size);
-				zephir_array_fetch(&size, &sizes, &index, PH_NOISY, "phalcon/Filter/Validation/Validator/Files.zep", 162);
+				zephir_array_fetch(&size, &sizes, &index, PH_NOISY, "phalcon/Filter/Validation/Validator/Files.zep", 161);
 			}
 			if (zephir_array_isset_value(&errors, &index)) {
 				ZEPHIR_OBS_NVAR(&error);
-				zephir_array_fetch(&error, &errors, &index, PH_NOISY, "phalcon/Filter/Validation/Validator/Files.zep", 166);
+				zephir_array_fetch(&error, &errors, &index, PH_NOISY, "phalcon/Filter/Validation/Validator/Files.zep", 165);
 			}
 			ZEPHIR_INIT_NVAR(&_7$$5);
 			zephir_create_array(&_7$$5, 5, 0);
@@ -456,7 +456,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Files, normalizeFiles)
 			zephir_array_update_string(&_7$$5, SL("tmp_name"), &tmpName, PH_COPY | PH_SEPARATE);
 			zephir_array_update_string(&_7$$5, SL("size"), &size, PH_COPY | PH_SEPARATE);
 			zephir_array_update_string(&_7$$5, SL("error"), &error, PH_COPY | PH_SEPARATE);
-			zephir_array_append(&files, &_7$$5, PH_SEPARATE, "phalcon/Filter/Validation/Validator/Files.zep", 175);
+			zephir_array_append(&files, &_7$$5, PH_SEPARATE, "phalcon/Filter/Validation/Validator/Files.zep", 174);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, _2, "rewind", NULL, 0);
@@ -488,19 +488,19 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Files, normalizeFiles)
 				ZVAL_NULL(&error);
 				if (zephir_array_isset_value(&types, &index)) {
 					ZEPHIR_OBS_NVAR(&type);
-					zephir_array_fetch(&type, &types, &index, PH_NOISY, "phalcon/Filter/Validation/Validator/Files.zep", 154);
+					zephir_array_fetch(&type, &types, &index, PH_NOISY, "phalcon/Filter/Validation/Validator/Files.zep", 153);
 				}
 				if (zephir_array_isset_value(&tmpNames, &index)) {
 					ZEPHIR_OBS_NVAR(&tmpName);
-					zephir_array_fetch(&tmpName, &tmpNames, &index, PH_NOISY, "phalcon/Filter/Validation/Validator/Files.zep", 158);
+					zephir_array_fetch(&tmpName, &tmpNames, &index, PH_NOISY, "phalcon/Filter/Validation/Validator/Files.zep", 157);
 				}
 				if (zephir_array_isset_value(&sizes, &index)) {
 					ZEPHIR_OBS_NVAR(&size);
-					zephir_array_fetch(&size, &sizes, &index, PH_NOISY, "phalcon/Filter/Validation/Validator/Files.zep", 162);
+					zephir_array_fetch(&size, &sizes, &index, PH_NOISY, "phalcon/Filter/Validation/Validator/Files.zep", 161);
 				}
 				if (zephir_array_isset_value(&errors, &index)) {
 					ZEPHIR_OBS_NVAR(&error);
-					zephir_array_fetch(&error, &errors, &index, PH_NOISY, "phalcon/Filter/Validation/Validator/Files.zep", 166);
+					zephir_array_fetch(&error, &errors, &index, PH_NOISY, "phalcon/Filter/Validation/Validator/Files.zep", 165);
 				}
 				ZEPHIR_INIT_NVAR(&_10$$10);
 				zephir_create_array(&_10$$10, 5, 0);
@@ -509,7 +509,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Files, normalizeFiles)
 				zephir_array_update_string(&_10$$10, SL("tmp_name"), &tmpName, PH_COPY | PH_SEPARATE);
 				zephir_array_update_string(&_10$$10, SL("size"), &size, PH_COPY | PH_SEPARATE);
 				zephir_array_update_string(&_10$$10, SL("error"), &error, PH_COPY | PH_SEPARATE);
-				zephir_array_append(&files, &_10$$10, PH_SEPARATE, "phalcon/Filter/Validation/Validator/Files.zep", 175);
+				zephir_array_append(&files, &_10$$10, PH_SEPARATE, "phalcon/Filter/Validation/Validator/Files.zep", 174);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&name);

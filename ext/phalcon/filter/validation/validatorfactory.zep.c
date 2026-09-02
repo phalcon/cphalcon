@@ -27,6 +27,9 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+/**
+ * @phpstan-import-type filter_validator_services from FilterTypes
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_ValidatorFactory)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Filter\\Validation, ValidatorFactory, phalcon, filter_validation_validatorfactory, phalcon_factory_abstractfactory_ce, phalcon_filter_validation_validatorfactory_method_entry, 0);
@@ -35,7 +38,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_ValidatorFactory)
 }
 
 /**
- * TagFactory constructor.
+ * Constructor.
+ *
+ * @phpstan-param filter_validator_services $services
  */
 PHP_METHOD(Phalcon_Filter_Validation_ValidatorFactory, __construct)
 {

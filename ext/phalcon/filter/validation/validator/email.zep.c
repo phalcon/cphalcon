@@ -58,7 +58,9 @@
  *         ]
  *     )
  * );
+ * ```
  *
+ * ```php
  * $validator->add(
  *     "täst@example.com",
  *     new EmailValidator(
@@ -69,11 +71,16 @@
  *     )
  * );
  * ```
+ *
+ * @phpstan-import-type filter_validator_options from FilterTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_Email)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Filter\\Validation\\Validator, Email, phalcon, filter_validation_validator_email, phalcon_filter_validation_abstractvalidator_ce, phalcon_filter_validation_validator_email_method_entry, 0);
 
+	/**
+	 * @var string|null
+	 */
 	zend_declare_property_string(phalcon_filter_validation_validator_email_ce, SL("template"), "Field :field must be an email address", ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
@@ -81,12 +88,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_Email)
 /**
  * Constructor
  *
- * @param array options = [
- *     'message' => '',
- *     'template' => '',
- *     'allowEmpty' => false,
- *     'allowUTF8' => false,
- * ]
+ * @phpstan-param filter_validator_options $options
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_Email, __construct)
 {

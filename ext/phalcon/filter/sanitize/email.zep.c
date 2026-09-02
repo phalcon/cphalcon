@@ -26,8 +26,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Filter\Sanitize\Email
- *
  * Sanitizes an email string
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Email)

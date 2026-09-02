@@ -51,7 +51,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_AbstractValidatorComposite)
 }
 
 /**
- * @return array
+ * @phpstan-return filter_validators
  */
 PHP_METHOD(Phalcon_Filter_Validation_AbstractValidatorComposite, getValidators)
 {
@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidatorComposite, validate)
 		zephir_get_class(&_2$$3, this_ptr, 0);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 191, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Filter/Validation/Traits/ValidatorCompositeTrait.zep", 44);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Filter/Validation/Traits/ValidatorCompositeTrait.zep", 48);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -126,7 +126,7 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidatorComposite, validate)
 	} else {
 		_4 = &_3;
 	}
-	zephir_is_iterable(_4, 0, "phalcon/Filter/Validation/Traits/ValidatorCompositeTrait.zep", 53);
+	zephir_is_iterable(_4, 0, "phalcon/Filter/Validation/Traits/ValidatorCompositeTrait.zep", 57);
 	if (Z_TYPE_P(_4) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_4), _6)
 		{

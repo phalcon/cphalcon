@@ -27,8 +27,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Filter\Sanitize\Lower
- *
  * Sanitizes a value to lowercase
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Lower)

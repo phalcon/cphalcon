@@ -65,11 +65,16 @@
  *     )
  * );
  * ```
+ *
+ * @phpstan-import-type filter_validator_options from FilterTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_Date)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Filter\\Validation\\Validator, Date, phalcon, filter_validation_validator_date, phalcon_filter_validation_abstractvalidator_ce, phalcon_filter_validation_validator_date_method_entry, 0);
 
+	/**
+	 * @var string|null
+	 */
 	zend_declare_property_string(phalcon_filter_validation_validator_date_ce, SL("template"), "Field :field is not a valid date", ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
@@ -77,12 +82,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_Date)
 /**
  * Constructor
  *
- * @param array options = [
- *     'message' => '',
- *     'template' => '',
- *     'format' => 'Y-m-d',
- *     'allowEmpty' => false
- * ]
+ * @phpstan-param filter_validator_options $options
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_Date, __construct)
 {
@@ -167,6 +167,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Date, validate)
 	RETURN_MM_BOOL(1);
 }
 
+/**
+ * @phpstan-param string $format
+ */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_Date, checkDate)
 {
 	zend_bool _2, _4;
@@ -199,10 +202,10 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Date, checkDate)
 	zephir_check_call_status();
 	_2 = ZEPHIR_IS_FALSE_IDENTICAL(&errors);
 	if (!(_2)) {
-		zephir_array_fetch_string(&_3, &errors, SL("warning_count"), PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Date.zep", 119);
+		zephir_array_fetch_string(&_3, &errors, SL("warning_count"), PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Date.zep", 122);
 		_4 = ZEPHIR_IS_LONG(&_3, 0);
 		if (_4) {
-			zephir_array_fetch_string(&_5, &errors, SL("error_count"), PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Date.zep", 119);
+			zephir_array_fetch_string(&_5, &errors, SL("error_count"), PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Date.zep", 122);
 			_4 = ZEPHIR_IS_LONG(&_5, 0);
 		}
 		_2 = _4;

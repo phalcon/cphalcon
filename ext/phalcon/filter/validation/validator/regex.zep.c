@@ -66,11 +66,16 @@
  *     )
  * );
  * ```
+ *
+ * @phpstan-import-type filter_validator_options from FilterTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_Regex)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Filter\\Validation\\Validator, Regex, phalcon, filter_validation_validator_regex, phalcon_filter_validation_abstractvalidator_ce, phalcon_filter_validation_validator_regex_method_entry, 0);
 
+	/**
+	 * @var string|null
+	 */
 	zend_declare_property_string(phalcon_filter_validation_validator_regex_ce, SL("template"), "Field :field does not match the required format", ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
@@ -78,12 +83,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_Regex)
 /**
  * Constructor
  *
- * @param array options = [
- *     'message' => '',
- *     'template' => '',
- *     'allowEmpty' => false,
- *     'pattern' => ''
- * ]
+ * @phpstan-param filter_validator_options $options
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_Regex, __construct)
 {
@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Regex, validate)
 	ZEPHIR_CALL_METHOD(&pattern, this_ptr, "getoption", NULL, 0, &_2);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&pattern) == IS_ARRAY) {
-		zephir_array_fetch(&_3$$5, &pattern, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Regex.zep", 98);
+		zephir_array_fetch(&_3$$5, &pattern, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Regex.zep", 99);
 		ZEPHIR_CPY_WRT(&pattern, &_3$$5);
 	}
 	_4 = Z_TYPE_P(&value) != IS_NULL;
@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Regex, validate)
 		_4 = zephir_is_true(&_2);
 	}
 	if (_4) {
-		zephir_array_fetch_long(&_5$$6, &matches, 0, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Regex.zep", 105);
+		zephir_array_fetch_long(&_5$$6, &matches, 0, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Regex.zep", 106);
 		failed = !ZEPHIR_IS_EQUAL(&_5$$6, &value);
 	} else {
 		failed = 1;

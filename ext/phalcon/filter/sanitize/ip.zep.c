@@ -30,8 +30,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Filter\Sanitize\IP
- *
  * Sanitizes a value to an ip address or CIDR range
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Ip)
@@ -86,13 +84,13 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Ip, __invoke)
 		}
 	ZEPHIR_INIT_VAR(&ipInput);
 	zephir_fast_trim(&ipInput, &input_zv, NULL , ZEPHIR_TRIM_BOTH);
-	if (zephir_memnstr_str(&ipInput, SL("/"), "phalcon/Filter/Sanitize/Ip.zep", 34)) {
+	if (zephir_memnstr_str(&ipInput, SL("/"), "phalcon/Filter/Sanitize/Ip.zep", 32)) {
 		ZEPHIR_INIT_VAR(&parts);
 		zephir_fast_explode_str(&parts, SL("/"), &ipInput, 2 );
 		zephir_memory_observe(&ip);
-		zephir_array_fetch_long(&ip, &parts, 0, PH_NOISY, "phalcon/Filter/Sanitize/Ip.zep", 36);
+		zephir_array_fetch_long(&ip, &parts, 0, PH_NOISY, "phalcon/Filter/Sanitize/Ip.zep", 34);
 		zephir_memory_observe(&mask);
-		zephir_array_fetch_long(&mask, &parts, 1, PH_NOISY, "phalcon/Filter/Sanitize/Ip.zep", 37);
+		zephir_array_fetch_long(&mask, &parts, 1, PH_NOISY, "phalcon/Filter/Sanitize/Ip.zep", 35);
 		ZVAL_LONG(&_0$$3, 275);
 		ZVAL_LONG(&_1$$3, filter);
 		ZEPHIR_CALL_FUNCTION(&filtered, "filter_var", NULL, 0, &ip, &_0$$3, &_1$$3);

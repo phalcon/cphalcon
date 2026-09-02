@@ -71,11 +71,16 @@
  *     )
  * );
  * ```
+ *
+ * @phpstan-import-type filter_validator_options from FilterTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_Between)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Filter\\Validation\\Validator, Between, phalcon, filter_validation_validator_between, phalcon_filter_validation_abstractvalidator_ce, phalcon_filter_validation_validator_between_method_entry, 0);
 
+	/**
+	 * @var string|null
+	 */
 	zend_declare_property_string(phalcon_filter_validation_validator_between_ce, SL("template"), "Field :field must be within the range of :min to :max", ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
@@ -83,13 +88,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_Between)
 /**
  * Constructor
  *
- * @param array options = [
- *     'message' => '',
- *     'template' => '',
- *     'minimum' => 5,
- *     'maximum' => 50,
- *     'allowEmpty' => false
- * ]
+ * @phpstan-param filter_validator_options $options
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_Between, __construct)
 {
@@ -162,11 +161,11 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Between, validate)
 		RETURN_MM_BOOL(1);
 	}
 	if (Z_TYPE_P(&minimum) == IS_ARRAY) {
-		zephir_array_fetch(&_2$$4, &minimum, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Between.zep", 98);
+		zephir_array_fetch(&_2$$4, &minimum, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Between.zep", 97);
 		ZEPHIR_CPY_WRT(&minimum, &_2$$4);
 	}
 	if (Z_TYPE_P(&maximum) == IS_ARRAY) {
-		zephir_array_fetch(&_3$$5, &maximum, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Between.zep", 102);
+		zephir_array_fetch(&_3$$5, &maximum, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Between.zep", 101);
 		ZEPHIR_CPY_WRT(&maximum, &_3$$5);
 	}
 	_4 = ZEPHIR_LT(&value, &minimum);

@@ -25,8 +25,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Filter\Sanitize\UpperFirst
- *
  * Sanitizes a value to ucfirst
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_UpperFirst)

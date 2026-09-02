@@ -71,11 +71,17 @@
  *     )
  * );
  * ```
+ *
+ * @phpstan-import-type filter_validator_options from FilterTypes
+ * @phpstan-import-type filter_uploaded_file from FilterTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_File_Resolution_Min)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Filter\\Validation\\Validator\\File\\Resolution, Min, phalcon, filter_validation_validator_file_resolution_min, phalcon_filter_validation_validator_file_abstractfile_ce, phalcon_filter_validation_validator_file_resolution_min_method_entry, 0);
 
+	/**
+	 * @var string|null
+	 */
 	zend_declare_property_string(phalcon_filter_validation_validator_file_resolution_min_ce, SL("template"), "File :field can not have the minimum resolution of :resolution", ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
@@ -83,12 +89,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_File_Resolution_Min)
 /**
  * Constructor
  *
- * @param array options = [
- *     'message' => '',
- *     'template' => '',
- *     'resolution' => '1000x1000',
- *     'included' => false
- * ]
+ * @phpstan-param filter_validator_options $options
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Resolution_Min, __construct)
 {
@@ -162,7 +163,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Resolution_Min, validate)
 	}
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
-	zephir_array_fetch_string(&_1, &value, SL("tmp_name"), PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/File/Resolution/Min.zep", 94);
+	zephir_array_fetch_string(&_1, &value, SL("tmp_name"), PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/File/Resolution/Min.zep", 96);
 	ZEPHIR_CALL_FUNCTION(&tmp, "getimagesize", NULL, 0, &_1);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&tmp)) {
@@ -171,30 +172,30 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Resolution_Min, validate)
 		RETURN_MM_BOOL(0);
 	}
 	zephir_memory_observe(&width);
-	zephir_array_fetch_long(&width, &tmp, 0, PH_NOISY, "phalcon/Filter/Validation/Validator/File/Resolution/Min.zep", 103);
+	zephir_array_fetch_long(&width, &tmp, 0, PH_NOISY, "phalcon/Filter/Validation/Validator/File/Resolution/Min.zep", 105);
 	zephir_memory_observe(&height);
-	zephir_array_fetch_long(&height, &tmp, 1, PH_NOISY, "phalcon/Filter/Validation/Validator/File/Resolution/Min.zep", 104);
+	zephir_array_fetch_long(&height, &tmp, 1, PH_NOISY, "phalcon/Filter/Validation/Validator/File/Resolution/Min.zep", 106);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "resolution");
 	ZEPHIR_CALL_METHOD(&resolution, this_ptr, "getoption", NULL, 0, &_2);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&resolution) == IS_ARRAY) {
-		zephir_array_fetch(&_3$$5, &resolution, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/File/Resolution/Min.zep", 109);
+		zephir_array_fetch(&_3$$5, &resolution, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/File/Resolution/Min.zep", 111);
 		ZEPHIR_CPY_WRT(&resolution, &_3$$5);
 	}
 	ZEPHIR_INIT_VAR(&resolutionArray);
 	zephir_fast_explode_str(&resolutionArray, SL("x"), &resolution, LONG_MAX);
 	zephir_memory_observe(&minWidth);
-	zephir_array_fetch_long(&minWidth, &resolutionArray, 0, PH_NOISY, "phalcon/Filter/Validation/Validator/File/Resolution/Min.zep", 113);
+	zephir_array_fetch_long(&minWidth, &resolutionArray, 0, PH_NOISY, "phalcon/Filter/Validation/Validator/File/Resolution/Min.zep", 115);
 	zephir_memory_observe(&minHeight);
-	zephir_array_fetch_long(&minHeight, &resolutionArray, 1, PH_NOISY, "phalcon/Filter/Validation/Validator/File/Resolution/Min.zep", 114);
+	zephir_array_fetch_long(&minHeight, &resolutionArray, 1, PH_NOISY, "phalcon/Filter/Validation/Validator/File/Resolution/Min.zep", 116);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "included");
 	ZEPHIR_CALL_METHOD(&included, this_ptr, "getoption", NULL, 0, &_2);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&included) == IS_ARRAY) {
 		zephir_memory_observe(&_4$$6);
-		zephir_array_fetch(&_4$$6, &included, field, PH_NOISY, "phalcon/Filter/Validation/Validator/File/Resolution/Min.zep", 119);
+		zephir_array_fetch(&_4$$6, &included, field, PH_NOISY, "phalcon/Filter/Validation/Validator/File/Resolution/Min.zep", 121);
 		_5$$6 = zephir_get_boolval(&_4$$6);
 		ZEPHIR_INIT_NVAR(&included);
 		ZVAL_BOOL(&included, _5$$6);
