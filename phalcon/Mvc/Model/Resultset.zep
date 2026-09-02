@@ -256,7 +256,7 @@ abstract class Resultset
      */
     public function delete(<Closure> conditionCallback = null) -> bool
     {
-        bool result, transaction;
+        bool result, transaction, isUnderTransaction;
         var record, connection = null;
 
         let result = true;
@@ -739,7 +739,7 @@ abstract class Resultset
      */
     public function update(var data, <Closure> conditionCallback = null) -> bool
     {
-        bool transaction;
+        bool transaction, isUnderTransaction;
         var record, connection = null;
 
         let transaction, isUnderTransaction = false;
