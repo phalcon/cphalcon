@@ -260,7 +260,8 @@ abstract class Resultset
         var record, connection = null;
 
         let result = true;
-        let transaction, isUnderTransaction = false;
+        let transaction = false;
+        let isUnderTransaction = false;
 
         this->rewind();
 
@@ -742,7 +743,8 @@ abstract class Resultset
         bool transaction, isUnderTransaction;
         var record, connection = null;
 
-        let transaction, isUnderTransaction = false;
+        let transaction = false;
+        let isUnderTransaction = false;
 
         this->rewind();
 
