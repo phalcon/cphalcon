@@ -13,8 +13,6 @@ namespace Phalcon\Filter\Sanitize;
 use Phalcon\Contracts\Filter\Sanitizer;
 
 /**
- * Phalcon\Filter\Sanitize\Striptags
- *
  * Sanitizes a value striptags
  */
 class Striptags implements Sanitizer

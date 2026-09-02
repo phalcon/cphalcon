@@ -43,7 +43,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_StringValLegacy)
 /**
  * @param string $input The text to sanitize
  *
- * @return string|false
+ * @return false|string
  */
 PHP_METHOD(Phalcon_Filter_Sanitize_StringValLegacy, __invoke)
 {

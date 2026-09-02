@@ -581,6 +581,7 @@
 #include "phalcon/contracts/container/service/definition.zep.h"
 #include "phalcon/contracts/dispatcher/dispatchertypes.zep.h"
 #include "phalcon/contracts/events/subscriber.zep.h"
+#include "phalcon/contracts/filter/filtertypes.zep.h"
 #include "phalcon/contracts/flash/flashtypes.zep.h"
 #include "phalcon/contracts/forms/formstypes.zep.h"
 #include "phalcon/contracts/front/fronttypealiases.zep.h"

@@ -27,6 +27,8 @@ namespace Phalcon\Contracts\Filter;
  * A sanitizer operates on a single value. Array handling (one level of
  * recursion by default) is the responsibility of
  * Phalcon\Filter\Filter::sanitize(), not of the sanitizer.
+ *
+ * @method mixed __invoke(mixed $value, mixed ...$params)
  */
 interface Sanitizer
 {

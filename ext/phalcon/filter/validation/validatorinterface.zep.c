@@ -22,6 +22,8 @@
  */
 /**
  * Interface for Phalcon\Filter\Validation\AbstractValidator
+ *
+ * @phpstan-import-type filter_validator_templates from FilterTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_ValidatorInterface)
 {
@@ -39,38 +41,29 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_ValidatorInterface)
 ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidatorInterface, getOption);
 /**
  * Get the template message
- *
- * @return string
- * @throw InvalidArgumentException When the field does not exists
  */
 ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidatorInterface, getTemplate);
 /**
  * Get message templates
  *
- * @return array
+ * @phpstan-return filter_validator_templates
  */
 ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidatorInterface, getTemplates);
 /**
  * Checks if an option is defined
- *
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidatorInterface, hasOption);
 /**
  * Set a new template message
- *
- * @return ValidatorInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidatorInterface, setTemplate);
 /**
  * Clear current template and set new from an array,
  *
- * @return ValidatorInterface
+ * @phpstan-param filter_validator_templates $templates
  */
 ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidatorInterface, setTemplates);
 /**
  * Executes the validation
- *
- * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidatorInterface, validate);

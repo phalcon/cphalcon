@@ -10,11 +10,12 @@
 
 namespace Phalcon\Filter\Validation\Validator;
 
-use Phalcon\Messages\Message;
+use Phalcon\Contracts\Filter\FilterTypes;
 use Phalcon\Filter\Validation\AbstractValidatorComposite;
 use Phalcon\Filter\Validation\Validator\StringLength\Max;
 use Phalcon\Filter\Validation\Validator\StringLength\Min;
 use Phalcon\Filter\Validation\Exception;
+use Phalcon\Messages\Message;
 
 /**
  * Validates that a string has the specified maximum and minimum constraints
@@ -82,22 +83,15 @@ use Phalcon\Filter\Validation\Exception;
  *     )
  * );
  * ```
+ *
+ * @phpstan-import-type filter_validator_options from FilterTypes
  */
 class StringLength extends AbstractValidatorComposite
 {
     /**
      * Constructor
      *
-     * @param array options = [
-     *     'min' => 100,
-     *     'message' => '',
-     *     'messageMinimum' => '',
-     *     'included' => true,
-     *     'includedMinimum' => true,
-     *     'max' => 1000,
-     *     'messageMaximum' => '',
-     *     'includedMaximum' => true
-     * ]
+     * @phpstan-param filter_validator_options $options
      */
     public function __construct( array options = [])
     {

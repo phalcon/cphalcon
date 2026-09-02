@@ -27,8 +27,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Filter\Sanitize\IntVal
- *
  * Sanitizes a value to integer
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_IntVal)

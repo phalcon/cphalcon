@@ -10,10 +10,10 @@
 
 namespace Phalcon\Filter\Validation\Validator\StringLength;
 
-use Phalcon\Messages\Message;
+use Phalcon\Contracts\Filter\FilterTypes;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\AbstractValidator;
-use Phalcon\Filter\Validation\Exception;
+use Phalcon\Messages\Message;
 use Phalcon\Traits\Php\InfoTrait;
 
 /**
@@ -66,24 +66,22 @@ use Phalcon\Traits\Php\InfoTrait;
  *     )
  * );
  * ```
+ *
+ * @phpstan-import-type filter_validator_options from FilterTypes
  */
 class Min extends AbstractValidator
 {
     use InfoTrait;
 
+    /**
+     * @var string|null
+     */
     protected template = "Field :field must be at least :min characters long";
 
     /**
      * Constructor
      *
-     * @param array options = [
-     *     'message' => '',
-     *     'template' => '',
-     *     'allowEmpty' => false,
-     *     'min' => 1000,
-     *     'included' => true,
-     *     'includedMinimum' => true
-     * ]
+     * @phpstan-param filter_validator_options $options
      */
     public function __construct( array options = [])
     {

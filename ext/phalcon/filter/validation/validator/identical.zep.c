@@ -65,11 +65,16 @@
  *     )
  * );
  * ```
+ *
+ * @phpstan-import-type filter_validator_options from FilterTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_Identical)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Filter\\Validation\\Validator, Identical, phalcon, filter_validation_validator_identical, phalcon_filter_validation_abstractvalidator_ce, phalcon_filter_validation_validator_identical_method_entry, 0);
 
+	/**
+	 * @var string|null
+	 */
 	zend_declare_property_string(phalcon_filter_validation_validator_identical_ce, SL("template"), "Field :field does not have the expected value", ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
@@ -77,13 +82,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_Identical)
 /**
  * Constructor
  *
- * @param array options = [
- *     'message' => '',
- *     'template' => '',
- *     'accepted' => '',
- *     'value' => '',
- *     'allowEmpty' => false
- * ]
+ * @phpstan-param filter_validator_options $options
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_Identical, __construct)
 {
@@ -171,7 +170,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Identical, validate)
 	}
 	if (zephir_is_true(&accepted)) {
 		if (Z_TYPE_P(&accepted) == IS_ARRAY) {
-			zephir_array_fetch(&_6$$7, &accepted, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Identical.zep", 97);
+			zephir_array_fetch(&_6$$7, &accepted, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Identical.zep", 96);
 			ZEPHIR_CPY_WRT(&accepted, &_6$$7);
 		}
 		valid = ZEPHIR_IS_EQUAL(&value, &accepted);

@@ -13,8 +13,6 @@ namespace Phalcon\Filter\Sanitize;
 use Phalcon\Contracts\Filter\Sanitizer;
 
 /**
- * Phalcon\Filter\Sanitize\FloatVal
- *
  * Sanitizes a value to float
  */
 class FloatVal implements Sanitizer
@@ -26,7 +24,7 @@ class FloatVal implements Sanitizer
      */
     public function __invoke(var input)
     {
-        return (double) filter_var(
+        return (float) filter_var(
             input,
             FILTER_SANITIZE_NUMBER_FLOAT,
             ["flags": FILTER_FLAG_ALLOW_FRACTION]

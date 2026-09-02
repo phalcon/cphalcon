@@ -29,8 +29,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Filter\Sanitize\BoolVal
- *
  * Sanitizes a value to boolean
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_BoolVal)

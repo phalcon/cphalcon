@@ -10,7 +10,7 @@
 
 namespace Phalcon\Filter\Validation\Validator;
 
-use Phalcon\Messages\Message;
+use Phalcon\Contracts\Filter\FilterTypes;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\AbstractValidator;
 
@@ -52,21 +52,20 @@ use Phalcon\Filter\Validation\AbstractValidator;
  *     )
  * );
  * ```
+ *
+ * @phpstan-import-type filter_validator_options from FilterTypes
  */
 class Identical extends AbstractValidator
 {
+    /**
+     * @var string|null
+     */
     protected template = "Field :field does not have the expected value";
 
     /**
      * Constructor
      *
-     * @param array options = [
-     *     'message' => '',
-     *     'template' => '',
-     *     'accepted' => '',
-     *     'value' => '',
-     *     'allowEmpty' => false
-     * ]
+     * @phpstan-param filter_validator_options $options
      */
     public function __construct( array options = [])
     {

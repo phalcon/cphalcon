@@ -67,11 +67,16 @@
  *     )
  * );
  * ```
+ *
+ * @phpstan-import-type filter_validator_options from FilterTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_InclusionIn)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Filter\\Validation\\Validator, InclusionIn, phalcon, filter_validation_validator_inclusionin, phalcon_filter_validation_abstractvalidator_ce, phalcon_filter_validation_validator_inclusionin_method_entry, 0);
 
+	/**
+	 * @var string|null
+	 */
 	zend_declare_property_string(phalcon_filter_validation_validator_inclusionin_ce, SL("template"), "Field :field must be a part of list: :domain", ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
@@ -79,13 +84,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_InclusionIn)
 /**
  * Constructor
  *
- * @param array options = [
- *     'message' => '',
- *     'template' => '',
- *     'domain' => [],
- *     'strict' => false,
- *     'allowEmpty' => false
- * ]
+ * @phpstan-param filter_validator_options $options
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_InclusionIn, __construct)
 {
@@ -169,7 +168,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_InclusionIn, validate)
 		object_init_ex(&_2$$6, phalcon_filter_validation_exceptions_invaliddomainoption_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_2$$6, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$6, "phalcon/Filter/Validation/Validator/InclusionIn.zep", 103);
+		zephir_throw_exception_debug(&_2$$6, "phalcon/Filter/Validation/Validator/InclusionIn.zep", 102);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -185,7 +184,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_InclusionIn, validate)
 		ZEPHIR_CALL_METHOD(&strict, this_ptr, "getoption", NULL, 0, &_4$$7);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&strict) == IS_ARRAY) {
-			zephir_array_fetch(&_5$$8, &strict, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/InclusionIn.zep", 112);
+			zephir_array_fetch(&_5$$8, &strict, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/InclusionIn.zep", 111);
 			ZEPHIR_CPY_WRT(&strict, &_5$$8);
 		}
 		if (UNEXPECTED(((Z_TYPE_P(&strict) == IS_TRUE || Z_TYPE_P(&strict) == IS_FALSE) != 1))) {
@@ -193,7 +192,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_InclusionIn, validate)
 			object_init_ex(&_6$$9, phalcon_filter_validation_exceptions_invalidstrictoption_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_6$$9, "__construct", NULL, 0);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_6$$9, "phalcon/Filter/Validation/Validator/InclusionIn.zep", 116);
+			zephir_throw_exception_debug(&_6$$9, "phalcon/Filter/Validation/Validator/InclusionIn.zep", 115);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}

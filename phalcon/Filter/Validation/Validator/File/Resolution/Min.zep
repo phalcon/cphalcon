@@ -10,9 +10,10 @@
 
 namespace Phalcon\Filter\Validation\Validator\File\Resolution;
 
-use Phalcon\Messages\Message;
+use Phalcon\Contracts\Filter\FilterTypes;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\Validator\File\AbstractFile;
+use Phalcon\Messages\Message;
 
 /**
  * Checks if a file has the right resolution
@@ -57,20 +58,21 @@ use Phalcon\Filter\Validation\Validator\File\AbstractFile;
  *     )
  * );
  * ```
+ *
+ * @phpstan-import-type filter_validator_options from FilterTypes
+ * @phpstan-import-type filter_uploaded_file from FilterTypes
  */
 class Min extends AbstractFile
 {
+    /**
+     * @var string|null
+     */
     protected template = "File :field can not have the minimum resolution of :resolution";
 
     /**
      * Constructor
      *
-     * @param array options = [
-     *     'message' => '',
-     *     'template' => '',
-     *     'resolution' => '1000x1000',
-     *     'included' => false
-     * ]
+     * @phpstan-param filter_validator_options $options
      */
     public function __construct( array options = [])
     {

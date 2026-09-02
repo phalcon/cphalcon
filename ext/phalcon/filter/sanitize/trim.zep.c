@@ -25,8 +25,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Filter\Sanitize\Trim
- *
  * Sanitizes a value removing leading and trailing spaces
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Trim)

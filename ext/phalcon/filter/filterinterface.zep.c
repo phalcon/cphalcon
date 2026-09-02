@@ -22,6 +22,8 @@
  */
 /**
  * Lazy loads, stores and exposes sanitizer objects
+ *
+ * @phpstan-import-type filter_sanitizers from FilterTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_FilterInterface)
 {
@@ -41,6 +43,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_FilterInterface)
  * @param mixed $value
  * @param mixed $sanitizers
  * @param bool  $noRecursive
+ *
+ * @phpstan-param filter_sanitizers|string $sanitizers
  *
  * @return mixed
  */

@@ -15,5 +15,4 @@ namespace Phalcon\Filter\Validation;
  */
 class Exception extends \Exception
 {
-
 }

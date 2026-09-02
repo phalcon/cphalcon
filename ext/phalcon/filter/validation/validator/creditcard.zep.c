@@ -60,11 +60,16 @@
  *     )
  * );
  * ```
+ *
+ * @phpstan-import-type filter_validator_options from FilterTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_CreditCard)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Filter\\Validation\\Validator, CreditCard, phalcon, filter_validation_validator_creditcard, phalcon_filter_validation_abstractvalidator_ce, phalcon_filter_validation_validator_creditcard_method_entry, 0);
 
+	/**
+	 * @var string|null
+	 */
 	zend_declare_property_string(phalcon_filter_validation_validator_creditcard_ce, SL("template"), "Field :field is not valid for a credit card number", ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
@@ -72,11 +77,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_CreditCard)
 /**
  * Constructor
  *
- * @param array options = [
- *     'message' => '',
- *     'template' => '',
- *     'allowEmpty' => false
- * ]
+ * @phpstan-param filter_validator_options $options
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_CreditCard, __construct)
 {
@@ -206,7 +207,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_CreditCard, verifyByLuhnAlgorithm
 	} else {
 		_2 = &digits;
 	}
-	zephir_is_iterable(_2, 0, "phalcon/Filter/Validation/Validator/CreditCard.zep", 116);
+	zephir_is_iterable(_2, 0, "phalcon/Filter/Validation/Validator/CreditCard.zep", 117);
 	if (Z_TYPE_P(_2) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_2), _5, _6, _4)
 		{

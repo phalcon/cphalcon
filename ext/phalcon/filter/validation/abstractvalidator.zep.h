@@ -19,7 +19,6 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, checkArray);
 PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, prepareCode);
 PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, prepareLabel);
 PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, rejectNonStringable);
-zend_object *zephir_init_properties_Phalcon_Filter_Validation_AbstractValidator(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator___construct, 0, 0, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
@@ -94,9 +93,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_abstra
 	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Filter\\Validation, 0)
 	ZEND_ARG_INFO(0, field)
 	ZEND_ARG_INFO(0, value)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator_zephir_init_properties_phalcon_filter_validation_abstractvalidator, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_filter_validation_abstractvalidator_method_entry) {
