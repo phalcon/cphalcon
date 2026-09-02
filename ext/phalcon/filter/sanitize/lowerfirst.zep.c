@@ -26,8 +26,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Filter\Sanitize\LowerFirst
- *
  * Sanitizes a value to lcfirst
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_LowerFirst)

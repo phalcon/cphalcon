@@ -14,8 +14,6 @@ use Phalcon\Contracts\Filter\Sanitizer;
 use Phalcon\Traits\Php\MbCaseTrait;
 
 /**
- * Phalcon\Filter\Sanitize\Upper
- *
  * Sanitizes a value to uppercase
  */
 class Upper implements Sanitizer

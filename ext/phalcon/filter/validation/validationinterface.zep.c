@@ -22,6 +22,12 @@
  */
 /**
  * Interface for the Phalcon\Filter\Validation component
+ *
+ * @phpstan-import-type filter_validation_data from FilterTypes
+ * @phpstan-import-type filter_validation_labels from FilterTypes
+ * @phpstan-import-type filter_validation_validators from FilterTypes
+ * @phpstan-import-type filter_validation_whitelist from FilterTypes
+ * @phpstan-import-type filter_validators from FilterTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_ValidationInterface)
 {
@@ -35,6 +41,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_ValidationInterface)
  *
  * @param string|array       $field
  * @param ValidatorInterface $validator
+ *
+ * @phpstan-param mixed $field
  */
 ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidationInterface, add);
 /**
@@ -47,13 +55,18 @@ ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidationInterface, appendMessage);
  *
  * @param object        $entity
  * @param array|object  $data
- * @param array         $whitelist
+ *
+ * @phpstan-param mixed                       $entity
+ * @phpstan-param filter_validation_data      $data
+ * @phpstan-param filter_validation_whitelist $whitelist
  */
 ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidationInterface, bind);
 /**
  * Returns the bound entity
  *
  * @return object
+ *
+ * @phpstan-return object|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidationInterface, getEntity);
 /**
@@ -70,6 +83,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidationInterface, getLabel);
 ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidationInterface, getMessages);
 /**
  * Returns the validators added to the validation
+ *
+ * @phpstan-return filter_validation_validators
  */
 ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidationInterface, getValidators);
 /**
@@ -81,20 +96,28 @@ ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidationInterface, getValue);
  *
  * @param string|array       $field
  * @param ValidatorInterface $validator
+ *
+ * @phpstan-param mixed $field
  */
 ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidationInterface, rule);
 /**
  * Adds the validators to a field
+ *
+ * @phpstan-param filter_validators $validators
  */
 ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidationInterface, rules);
 /**
  * Adds filters to the field
  *
- * @param array|string filters
+ * @param array|string $filters
+ *
+ * @phpstan-param mixed $filters
  */
 ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidationInterface, setFilters);
 /**
  * Adds labels for fields
+ *
+ * @phpstan-param filter_validation_labels $labels
  */
 ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidationInterface, setLabels);
 /**
@@ -102,8 +125,10 @@ ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidationInterface, setLabels);
  *
  * @param array|object  $data
  * @param object        $entity
- * @param array         $whitelist
  *
- * @return Messages|false
+ * @phpstan-param mixed $data
+ * @phpstan-param filter_validation_whitelist $whitelist
+ *
+ * @return false|Messages
  */
 ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidationInterface, validate);

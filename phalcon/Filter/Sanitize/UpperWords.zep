@@ -14,8 +14,6 @@ use Phalcon\Contracts\Filter\Sanitizer;
 use Phalcon\Traits\Php\MbCaseTrait;
 
 /**
- * Phalcon\Filter\Sanitize\UpperWords
- *
  * Sanitizes a value to uppercase the first character of each word
  */
 class UpperWords implements Sanitizer

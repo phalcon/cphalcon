@@ -66,11 +66,16 @@
  *     )
  * );
  * ```
+ *
+ * @phpstan-import-type filter_validator_options from FilterTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_Confirmation)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Filter\\Validation\\Validator, Confirmation, phalcon, filter_validation_validator_confirmation, phalcon_filter_validation_abstractvalidator_ce, phalcon_filter_validation_validator_confirmation_method_entry, 0);
 
+	/**
+	 * @var string|null
+	 */
 	zend_declare_property_string(phalcon_filter_validation_validator_confirmation_ce, SL("template"), "Field :field must be the same as :with", ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
@@ -78,13 +83,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_Confirmation)
 /**
  * Constructor
  *
- * @param array options = [
- *     'message' => '',
- *     'template' => '',
- *     'with' => '',
- *     'labelWith' => '',
- *     'ignoreCase' => false
- * ]
+ * @phpstan-param filter_validator_options $options
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, __construct)
 {
@@ -153,7 +152,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, validate)
 	ZEPHIR_CALL_METHOD(&fieldWith, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&fieldWith) == IS_ARRAY) {
-		zephir_array_fetch(&_1$$3, &fieldWith, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Confirmation.zep", 91);
+		zephir_array_fetch(&_1$$3, &fieldWith, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Confirmation.zep", 90);
 		ZEPHIR_CPY_WRT(&fieldWith, &_1$$3);
 	}
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
@@ -181,7 +180,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, validate)
 		ZEPHIR_CALL_METHOD(&labelWith, this_ptr, "getoption", NULL, 0, &_8$$5);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&labelWith) == IS_ARRAY) {
-			zephir_array_fetch(&_9$$6, &labelWith, &fieldWith, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Confirmation.zep", 105);
+			zephir_array_fetch(&_9$$6, &labelWith, &fieldWith, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Confirmation.zep", 104);
 			ZEPHIR_CPY_WRT(&labelWith, &_9$$6);
 		}
 		if (ZEPHIR_IS_EMPTY(&labelWith)) {
@@ -246,7 +245,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, compare)
 			object_init_ex(&_5$$4, phalcon_filter_validation_exceptions_missingmbstring_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_5$$4, "__construct", NULL, 0);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_5$$4, "phalcon/Filter/Validation/Validator/Confirmation.zep", 136);
+			zephir_throw_exception_debug(&_5$$4, "phalcon/Filter/Validation/Validator/Confirmation.zep", 135);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}

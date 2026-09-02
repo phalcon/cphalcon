@@ -1,0 +1,5 @@
+
+extern zend_class_entry *phalcon_contracts_filter_filtertypes_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Filter_FilterTypes);
+

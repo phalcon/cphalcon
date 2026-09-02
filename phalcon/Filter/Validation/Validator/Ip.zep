@@ -10,6 +10,7 @@
 
 namespace Phalcon\Filter\Validation\Validator;
 
+use Phalcon\Contracts\Filter\FilterTypes;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\AbstractValidator;
 use Phalcon\Messages\Message;
@@ -64,6 +65,8 @@ use Phalcon\Messages\Message;
  *     )
  * );
  * ```
+ *
+ * @phpstan-import-type filter_validator_options from FilterTypes
  */
 class Ip extends AbstractValidator
 {
@@ -76,18 +79,15 @@ class Ip extends AbstractValidator
      */
     const VERSION_6  = FILTER_FLAG_IPV6;
 
+    /**
+     * @var string|null
+     */
     protected template = "Field :field must be a valid IP address";
 
     /**
      * Constructor
      *
-     * @param array options = [
-     *     'message' => '',
-     *     'template' => '',
-     *     'allowPrivate' => false,
-     *     'allowReserved' => false,
-     *     'allowEmpty' => false
-     * ]
+     * @phpstan-param filter_validator_options $options
      */
     public function __construct( array options = [])
     {
@@ -111,15 +111,17 @@ class Ip extends AbstractValidator
             let version = version[field];
         }
 
-        let allowPrivate = this->getOption("allowPrivate") ? 0 : FILTER_FLAG_NO_PRIV_RANGE;
+        let allowPrivate = this->getOption("allowPrivate", false);
         if typeof allowPrivate == "array" {
             let allowPrivate = allowPrivate[field];
         }
+        let allowPrivate = allowPrivate ? 0 : FILTER_FLAG_NO_PRIV_RANGE;
 
-        let allowReserved = this->getOption("allowReserved") ? 0 : FILTER_FLAG_NO_RES_RANGE;
+        let allowReserved = this->getOption("allowReserved", false);
         if typeof allowReserved == "array" {
             let allowReserved = allowReserved[field];
         }
+        let allowReserved = allowReserved ? 0 : FILTER_FLAG_NO_RES_RANGE;
 
         let options = [
             "options": [
@@ -134,7 +136,7 @@ class Ip extends AbstractValidator
             );
 
             return false;
-       }
+        }
 
         return true;
     }

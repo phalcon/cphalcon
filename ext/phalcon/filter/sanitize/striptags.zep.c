@@ -26,8 +26,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Filter\Sanitize\Striptags
- *
  * Sanitizes a value striptags
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Striptags)

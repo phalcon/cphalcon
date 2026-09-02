@@ -77,21 +77,22 @@
  *     )
  * );
  * ```
+ *
+ * @phpstan-import-type filter_uploaded_file from FilterTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_File_MimeType)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Filter\\Validation\\Validator\\File, MimeType, phalcon, filter_validation_validator_file_mimetype, phalcon_filter_validation_validator_file_abstractfile_ce, phalcon_filter_validation_validator_file_mimetype_method_entry, 0);
 
+	/**
+	 * @var string|null
+	 */
 	zend_declare_property_string(phalcon_filter_validation_validator_file_mimetype_ce, SL("template"), "File :field must be of type: :types", ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
 
 /**
  * Executes the validation
- *
- * @param Validation $validation
- * @param mixed $field
- * @return bool
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_File_MimeType, validate)
 {

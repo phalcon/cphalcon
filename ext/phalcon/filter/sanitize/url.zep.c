@@ -29,8 +29,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Filter\Sanitize\Url
- *
  * Sanitizes a value url
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Url)

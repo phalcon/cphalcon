@@ -77,11 +77,16 @@
  *     )
  * );
  * ```
+ *
+ * @phpstan-import-type filter_validator_options from FilterTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_Ip)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Filter\\Validation\\Validator, Ip, phalcon, filter_validation_validator_ip, phalcon_filter_validation_abstractvalidator_ce, phalcon_filter_validation_validator_ip_method_entry, 0);
 
+	/**
+	 * @var string|null
+	 */
 	zend_declare_property_string(phalcon_filter_validation_validator_ip_ce, SL("template"), "Field :field must be a valid IP address", ZEND_ACC_PROTECTED);
 	/**
 	 * @var int
@@ -99,13 +104,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_Ip)
 /**
  * Constructor
  *
- * @param array options = [
- *     'message' => '',
- *     'template' => '',
- *     'allowPrivate' => false,
- *     'allowReserved' => false,
- *     'allowEmpty' => false
- * ]
+ * @phpstan-param filter_validator_options $options
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_Ip, __construct)
 {
@@ -138,10 +137,10 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Ip, __construct)
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_Ip, validate)
 {
-	zval _8;
+	zval _7;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validation, validation_sub, *field, field_sub, __$false, value, version, allowPrivate, allowReserved, options, _0, _1, _2, _4, _6, _9, _10, _11, _3$$4, _5$$5, _7$$6, _12$$7;
+	zval *validation, validation_sub, *field, field_sub, __$false, value, version, allowPrivate, allowReserved, options, _0, _1, _2, _5, _8, _9, _3$$4, _4$$5, _6$$6, _10$$7;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
@@ -155,16 +154,14 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Ip, validate)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_6);
-	ZVAL_UNDEF(&_9);
-	ZVAL_UNDEF(&_10);
-	ZVAL_UNDEF(&_11);
-	ZVAL_UNDEF(&_3$$4);
-	ZVAL_UNDEF(&_5$$5);
-	ZVAL_UNDEF(&_7$$6);
-	ZVAL_UNDEF(&_12$$7);
+	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_8);
+	ZVAL_UNDEF(&_9);
+	ZVAL_UNDEF(&_3$$4);
+	ZVAL_UNDEF(&_4$$5);
+	ZVAL_UNDEF(&_6$$6);
+	ZVAL_UNDEF(&_10$$7);
+	ZVAL_UNDEF(&_7);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
 		Z_PARAM_ZVAL(field)
@@ -190,52 +187,58 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Ip, validate)
 	}
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "allowPrivate");
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "getoption", NULL, 0, &_1);
+	ZVAL_BOOL(&_2, 0);
+	ZEPHIR_CALL_METHOD(&allowPrivate, this_ptr, "getoption", NULL, 0, &_1, &_2);
 	zephir_check_call_status();
-	if (zephir_is_true(&_4)) {
-		ZEPHIR_INIT_VAR(&allowPrivate);
-		ZVAL_LONG(&allowPrivate, 0);
-	} else {
-		ZEPHIR_INIT_NVAR(&allowPrivate);
-		ZVAL_LONG(&allowPrivate, 8388608);
-	}
 	if (Z_TYPE_P(&allowPrivate) == IS_ARRAY) {
-		zephir_array_fetch(&_5$$5, &allowPrivate, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Ip.zep", 116);
-		ZEPHIR_CPY_WRT(&allowPrivate, &_5$$5);
+		zephir_array_fetch(&_4$$5, &allowPrivate, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Ip.zep", 116);
+		ZEPHIR_CPY_WRT(&allowPrivate, &_4$$5);
 	}
+	ZEPHIR_INIT_VAR(&_5);
+	if (zephir_is_true(&allowPrivate)) {
+		ZEPHIR_INIT_NVAR(&_5);
+		ZVAL_LONG(&_5, 0);
+	} else {
+		ZEPHIR_INIT_NVAR(&_5);
+		ZVAL_LONG(&_5, 8388608);
+	}
+	ZEPHIR_CPY_WRT(&allowPrivate, &_5);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "allowReserved");
-	ZEPHIR_CALL_METHOD(&_6, this_ptr, "getoption", NULL, 0, &_1);
+	ZVAL_BOOL(&_2, 0);
+	ZEPHIR_CALL_METHOD(&allowReserved, this_ptr, "getoption", NULL, 0, &_1, &_2);
 	zephir_check_call_status();
-	if (zephir_is_true(&_6)) {
-		ZEPHIR_INIT_VAR(&allowReserved);
-		ZVAL_LONG(&allowReserved, 0);
-	} else {
-		ZEPHIR_INIT_NVAR(&allowReserved);
-		ZVAL_LONG(&allowReserved, 4194304);
-	}
 	if (Z_TYPE_P(&allowReserved) == IS_ARRAY) {
-		zephir_array_fetch(&_7$$6, &allowReserved, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Ip.zep", 121);
-		ZEPHIR_CPY_WRT(&allowReserved, &_7$$6);
+		zephir_array_fetch(&_6$$6, &allowReserved, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Ip.zep", 122);
+		ZEPHIR_CPY_WRT(&allowReserved, &_6$$6);
 	}
+	ZEPHIR_INIT_NVAR(&_5);
+	if (zephir_is_true(&allowReserved)) {
+		ZEPHIR_INIT_NVAR(&_5);
+		ZVAL_LONG(&_5, 0);
+	} else {
+		ZEPHIR_INIT_NVAR(&_5);
+		ZVAL_LONG(&_5, 4194304);
+	}
+	ZEPHIR_CPY_WRT(&allowReserved, &_5);
 	ZEPHIR_INIT_VAR(&options);
 	zephir_create_array(&options, 2, 0);
+	ZEPHIR_INIT_VAR(&_7);
+	zephir_create_array(&_7, 1, 0);
+	zephir_array_update_string(&_7, SL("default"), &__$false, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&options, SL("options"), &_7, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_VAR(&_8);
-	zephir_create_array(&_8, 1, 0);
-	zephir_array_update_string(&_8, SL("default"), &__$false, PH_COPY | PH_SEPARATE);
-	zephir_array_update_string(&options, SL("options"), &_8, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_VAR(&_9);
-	zephir_bitwise_or_function(&_9, &version, &allowPrivate);
-	ZEPHIR_INIT_VAR(&_10);
-	zephir_bitwise_or_function(&_10, &_9, &allowReserved);
-	zephir_array_update_string(&options, SL("flags"), &_10, PH_COPY | PH_SEPARATE);
+	zephir_bitwise_or_function(&_8, &version, &allowPrivate);
+	ZEPHIR_INIT_NVAR(&_5);
+	zephir_bitwise_or_function(&_5, &_8, &allowReserved);
+	zephir_array_update_string(&options, SL("flags"), &_5, PH_COPY | PH_SEPARATE);
 	ZVAL_LONG(&_2, 275);
-	ZEPHIR_CALL_FUNCTION(&_11, "filter_var", NULL, 0, &value, &_2, &options);
+	ZEPHIR_CALL_FUNCTION(&_9, "filter_var", NULL, 0, &value, &_2, &options);
 	zephir_check_call_status();
-	if (!(zephir_is_true(&_11))) {
-		ZEPHIR_CALL_METHOD(&_12$$7, this_ptr, "messagefactory", NULL, 0, validation, field);
+	if (!(zephir_is_true(&_9))) {
+		ZEPHIR_CALL_METHOD(&_10$$7, this_ptr, "messagefactory", NULL, 0, validation, field);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_12$$7);
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_10$$7);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}

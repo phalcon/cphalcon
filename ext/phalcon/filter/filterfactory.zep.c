@@ -29,6 +29,8 @@
  * Class FilterFactory
  *
  * @package Phalcon\Filter
+ *
+ * @phpstan-import-type filter_mapper from FilterTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_FilterFactory)
 {
@@ -66,6 +68,8 @@ PHP_METHOD(Phalcon_Filter_FilterFactory, newInstance)
  * Returns the available adapters
  *
  * @return string[]
+ *
+ * @phpstan-return filter_mapper
  */
 PHP_METHOD(Phalcon_Filter_FilterFactory, getServices)
 {

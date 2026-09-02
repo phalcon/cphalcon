@@ -10,6 +10,7 @@
 
 namespace Phalcon\Filter\Validation\Validator\File\Resolution;
 
+use Phalcon\Contracts\Filter\FilterTypes;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\Validator\File\AbstractFile;
 
@@ -55,19 +56,21 @@ use Phalcon\Filter\Validation\Validator\File\AbstractFile;
  *     )
  * );
  * ```
+ *
+ * @phpstan-import-type filter_validator_options from FilterTypes
+ * @phpstan-import-type filter_uploaded_file from FilterTypes
  */
 class AspectRatio extends AbstractFile
 {
+    /**
+     * @var string|null
+     */
     protected template = "File :field does not have the exact aspect ratio of :ratio";
 
     /**
      * Constructor
      *
-     * @param array options = [
-     *     'message' => '',
-     *     'template' => '',
-     *     'ratio' => '16x9'
-     * ]
+     * @phpstan-param filter_validator_options $options
      */
     public function __construct( array options = [])
     {

@@ -10,12 +10,14 @@
 
 namespace Phalcon\Filter;
 
+use Phalcon\Contracts\Filter\FilterTypes;
 use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
+use Phalcon\Di\Exception as DiException;
 use Phalcon\Di\Injectable;
 use Phalcon\Filter\FilterInterface;
 use Phalcon\Filter\Validation\AbstractCombinedFieldsValidator;
-use Phalcon\Filter\Validation\Exception;
+use Phalcon\Filter\Validation\Exception as ValidationException;
 use Phalcon\Filter\Validation\Exceptions\FilterServiceUnavailable;
 use Phalcon\Filter\Validation\Exceptions\InvalidFieldType;
 use Phalcon\Filter\Validation\Exceptions\InvalidFilterService;
@@ -32,19 +34,19 @@ use Phalcon\Messages\Messages;
 
 /**
  * Allows to validate data using custom or built-in validators
+ *
+ * @phpstan-import-type filter_validation_combined_validators from FilterTypes
+ * @phpstan-import-type filter_validation_data from FilterTypes
+ * @phpstan-import-type filter_validation_default_messages from FilterTypes
+ * @phpstan-import-type filter_validation_filters from FilterTypes
+ * @phpstan-import-type filter_validation_labels from FilterTypes
+ * @phpstan-import-type filter_validation_validators from FilterTypes
+ * @phpstan-import-type filter_validation_values from FilterTypes
+ * @phpstan-import-type filter_validation_whitelist from FilterTypes
+ * @phpstan-import-type filter_validators from FilterTypes
  */
 class Validation extends Injectable implements ValidationInterface
 {
-    /**
-     * @var array
-     */
-    protected combinedFieldsValidators = [];
-
-    /**
-     * @var mixed
-     */
-    protected data;
-
     /**
      * Default messages for validators, keyed by validator class name
      *
@@ -53,9 +55,19 @@ class Validation extends Injectable implements ValidationInterface
      * fails to compile in the single-file build. It is null until first set
      * and treated as an empty array by the accessors below.
      *
-     * @var array
+     * @phpstan-var filter_validation_default_messages
      */
     protected static defaultMessages = [];
+
+    /**
+     * @phpstan-var filter_validation_combined_validators
+     */
+    protected array combinedFieldsValidators = [];
+
+    /**
+     * @phpstan-var filter_validation_data
+     */
+    protected data;
 
     /**
      * @var object|null
@@ -63,41 +75,43 @@ class Validation extends Injectable implements ValidationInterface
     protected entity = null;
 
     /**
-     * @var array
+     * @phpstan-var filter_validation_filters
      */
-    protected filters = [];
+    protected array filters = [];
 
     /**
-     * @var array
+     * @phpstan-var filter_validation_labels
      */
-    protected whitelist = [];
-
-    /**
-     * @var array
-     */
-    protected labels = [];
+    protected array labels = [];
 
     /**
      * @var Messages
      */
-    protected messages;
+    protected <Messages> messages;
 
     /**
      * List of validators
      *
-     * @var array
+     * @phpstan-var filter_validation_validators
      */
-    protected validators = [];
+    protected array validators = [];
 
     /**
      * Calculated values
      *
-     * @var array
+     * @phpstan-var filter_validation_values
      */
-    protected values = [];
+    protected array values = [];
+
+    /**
+     * @phpstan-var filter_validation_whitelist
+     */
+    protected array whitelist = [];
 
     /**
      * Phalcon\Filter\Validation constructor
+     *
+     * @phpstan-param filter_validation_validators $validators
      */
     public function __construct(array validators = [])
     {
@@ -126,12 +140,55 @@ class Validation extends Injectable implements ValidationInterface
     }
 
     /**
+     * Returns the default message registered for a validator class, or an
+     * empty string when none has been registered.
+     *
+     * @param string $validatorClassName
+     *
+     * @return string
+     */
+    public static function getDefaultMessage(string validatorClassName) -> string
+    {
+        var defaultMessage;
+
+        if fetch defaultMessage, self::defaultMessages[validatorClassName] {
+            return defaultMessage;
+        }
+
+        return "";
+    }
+
+    /**
+     * Registers default messages for validators, keyed by validator class
+     * name. A registered default is used when a validator does not define its
+     * own message; a message set on the validator instance still wins. Calls
+     * are merged, so defaults can be registered incrementally.
+     *
+     * @phpstan-param filter_validation_default_messages $messages
+     *
+     * @phpstan-return filter_validation_default_messages
+     */
+    public static function setDefaultMessages(array messages = []) -> array
+    {
+        var localMessages;
+
+        let localMessages = self::defaultMessages;
+
+        let self::defaultMessages = array_merge(localMessages, messages);
+
+        return self::defaultMessages;
+    }
+
+    /**
      * Adds a validator to a field
      *
      * @param string|array       $field
      * @param ValidatorInterface $validator
      *
-     * @return static
+     * @phpstan-param mixed $field
+     *
+     * @phpstan-return static
+     * @throws ValidationException
      */
     public function add(var field, <ValidatorInterface> validator) -> <static>
     {
@@ -157,8 +214,6 @@ class Validation extends Injectable implements ValidationInterface
 
     /**
      * Appends a message to the messages list
-     *
-     * @param MessageInterface $message
      */
     public function appendMessage(<MessageInterface> message) -> <static>
     {
@@ -179,9 +234,11 @@ class Validation extends Injectable implements ValidationInterface
      * $validation->validate();
      * ```
      *
-     * @param object $entity the entity object to assign data to
-     * @param array|object $data the data that needs to be validated
-     * @param array $whitelist only allow these fields to be mutated when entity is used
+     * @param object $entity
+     *
+     * @phpstan-param mixed                       $entity
+     * @phpstan-param filter_validation_data      $data
+     * @phpstan-param filter_validation_whitelist $whitelist
      */
     public function bind(var entity, var data, array whitelist = []) -> <static>
     {
@@ -252,6 +309,18 @@ class Validation extends Injectable implements ValidationInterface
     }
 
     /**
+     * Verify if validation fails by verifying if there are messages in the current validation
+     */
+    public function fails() -> bool
+    {
+        if this->messages->count() > 0 {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * @return mixed
      */
     public function getData() -> var
@@ -260,28 +329,11 @@ class Validation extends Injectable implements ValidationInterface
     }
 
     /**
-     * Returns the default message registered for a validator class, or an
-     * empty string when none has been registered.
-     *
-     * @param string $validatorClassName
-     *
-     * @return string
-     */
-    public static function getDefaultMessage(string validatorClassName) -> string
-    {
-        var defaultMessage;
-
-        if fetch defaultMessage, self::defaultMessages[validatorClassName] {
-            return defaultMessage;
-        }
-
-        return "";
-    }
-
-    /**
      * Returns the bound entity
      *
      * @return object
+     *
+     * @phpstan-return object|null
      */
     public function getEntity() -> var
     {
@@ -311,7 +363,9 @@ class Validation extends Injectable implements ValidationInterface
     /**
      * Get label for field
      *
-     * @param string field
+     * @param array|string $field
+     *
+     * @phpstan-param mixed $field
      */
     public function getLabel(var field) -> string
     {
@@ -340,6 +394,8 @@ class Validation extends Injectable implements ValidationInterface
 
     /**
      * Returns the validators added to the validation
+     *
+     * @phpstan-return filter_validation_validators
      */
     public function getValidators() -> array
     {
@@ -347,68 +403,13 @@ class Validation extends Injectable implements ValidationInterface
     }
 
     /**
-     * Gets the a value to validate in the object entity source
-     *
-     * @param mixed $entity
-     * @param string $field
-     */
-    public function getValueByEntity(var entity, string field) -> var | null
-    {
-        string method;
-
-        let method = "get" . camelize(field);
-
-        if method_exists(entity, method) {
-            return entity->{method}();
-        }
-
-        if method_exists(entity, "readAttribute") {
-            return entity->readAttribute(field);
-        }
-
-        if isset entity->{field} {
-            return entity->{field};
-        }
-
-        return null;
-    }
-
-    /**
-     * Gets the a value to validate in the array/object data source
-     *
-     * @param mixed $data
-     * @param string $field
-     */
-    public function getValueByData(var data, string field) -> var | null
-    {
-        var value, values;
-
-        // Check if there is a calculated value
-        let values = this->values;
-
-        if fetch value, values[field] {
-            return value;
-        }
-
-        if typeof data === "array" {
-            if isset data[field] {
-                return data[field];
-            }
-        }
-
-        if typeof data === "object" {
-            if isset data->{field} {
-                return data->{field};
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Gets the a value to validate in the array/object data source
+     * Gets the value to validate in the array/object data source
      *
      * @param string $field
+     *
+     * @return mixed
+     * @throws ValidationException
+     * @throws DiException
      */
     public function getValue(string field) -> var | null
     {
@@ -488,12 +489,66 @@ class Validation extends Injectable implements ValidationInterface
     }
 
     /**
+     * Gets the value to validate in the array/object data source
+     */
+    public function getValueByData(var data, string field) -> var | null
+    {
+        var value, values;
+
+        // Check if there is a calculated value
+        let values = this->values;
+
+        if fetch value, values[field] {
+            return value;
+        }
+
+        if typeof data === "array" {
+            if isset data[field] {
+                return data[field];
+            }
+        }
+
+        if typeof data === "object" {
+            if isset data->{field} {
+                return data->{field};
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Gets the value to validate in the object entity source
+     */
+    public function getValueByEntity(var entity, string field) -> var | null
+    {
+        string method;
+
+        let method = "get" . camelize(field);
+
+        if method_exists(entity, method) {
+            return entity->{method}();
+        }
+
+        if method_exists(entity, "readAttribute") {
+            return entity->readAttribute(field);
+        }
+
+        if isset entity->{field} {
+            return entity->{field};
+        }
+
+        return null;
+    }
+
+    /**
      * Alias of `add` method
      *
      * @param string|array       $field
-     * @param ValidatorInterface $validator
      *
-     * @return static
+     * @phpstan-param mixed $field
+     *
+     * @todo remove this
      */
     public function rule(var field, <ValidatorInterface> validator) -> <static>
     {
@@ -502,6 +557,8 @@ class Validation extends Injectable implements ValidationInterface
 
     /**
      * Adds the validators to a field
+     *
+     * @phpstan-param filter_validators $validators
      */
     public function rules(var field,  array validators) -> <static>
     {
@@ -517,30 +574,9 @@ class Validation extends Injectable implements ValidationInterface
     }
 
     /**
-     * Registers default messages for validators, keyed by validator class
-     * name. A registered default is used when a validator does not define its
-     * own message; a message set on the validator instance still wins. Calls
-     * are merged, so defaults can be registered incrementally.
-     *
-     * @param array $messages
-     *
-     * @return array
-     */
-    public static function setDefaultMessages(array messages = []) -> array
-    {
-        var localMessages;
-
-        let localMessages = self::defaultMessages;
-
-        let self::defaultMessages = array_merge(localMessages, messages);
-
-        return self::defaultMessages;
-    }
-
-    /**
      * Sets the bound entity
      *
-     * @param object entity
+     * @param object $entity
      */
     public function setEntity(entity) -> void
     {
@@ -554,8 +590,11 @@ class Validation extends Injectable implements ValidationInterface
     /**
      * Adds filters to the field
      *
-     * @param string field
-     * @param array|string filters
+     * @param array|string $field
+     * @param array|string $filters
+     *
+     * @phpstan-param mixed $field
+     * @phpstan-param mixed $filters
      */
     public function setFilters(var field, filters) -> <static>
     {
@@ -576,6 +615,8 @@ class Validation extends Injectable implements ValidationInterface
 
     /**
      * Adds labels for fields
+     *
+     * @phpstan-param filter_validation_labels $labels
      */
     public function setLabels( array labels) -> void
     {
@@ -584,6 +625,8 @@ class Validation extends Injectable implements ValidationInterface
 
     /**
      * Sets the validator array
+     *
+     * @phpstan-param filter_validation_validators $validators
      */
     public function setValidators(array validators) -> <static>
     {
@@ -611,11 +654,13 @@ class Validation extends Injectable implements ValidationInterface
      * $validation->validate($_POST, $entity, $fields);
      * ```
      *
-     * @param array|object $data the data that needs to be validated
-     * @param object $entity the entity object to assign data to
-     * @param array $whitelist only allow these fields to be mutated when entity is used
+     * @param array|object $data
      *
-     * @return Messages|false
+     * @phpstan-param mixed $data
+     * @phpstan-param object $entity
+     * @phpstan-param filter_validation_whitelist $whitelist
+     *
+     * @return false|Messages
      */
     public function validate(var data = null, var entity = null, array whitelist = []) -> <Messages> | bool
     {
@@ -732,22 +777,12 @@ class Validation extends Injectable implements ValidationInterface
     }
 
     /**
-     * Verify if validation fails by verifying if there are messages in the current validation
-     */
-    public function fails() -> bool
-    {
-        if this->messages->count() > 0 {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * Internal validations, if it returns true, then skip the current validator
      *
      * @param array|string $field
      * @param ValidatorInterface $validator
+     *
+     * @phpstan-param mixed $field
      */
     protected function preChecking(var field, <ValidatorInterface> validator) -> bool
     {

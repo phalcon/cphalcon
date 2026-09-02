@@ -39,7 +39,7 @@
  * @method string       email(string $input)
  * @method float        float(mixed $input)
  * @method int          int(string $input)
- * @method string|false ip(string $input, int $filter = FILTER_FLAG_NONE)
+ * @method false|string ip(string $input, int $filter = 0)
  * @method string       lower(string $input)
  * @method string       lowerfirst(string $input)
  * @method mixed        regex(mixed $input, mixed $pattern, mixed $replace)
@@ -58,20 +58,36 @@
  *
  * @property array $mapper
  * @property array $services
+ *
+ * @phpstan-import-type filter_mapper from FilterTypes
+ * @phpstan-import-type filter_sanitizer_params from FilterTypes
+ * @phpstan-import-type filter_sanitizer_split from FilterTypes
+ * @phpstan-import-type filter_sanitizers from FilterTypes
+ * @phpstan-import-type filter_services from FilterTypes
+ * @phpstan-import-type filter_values from FilterTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Filter)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Filter, Filter, phalcon, filter_filter, phalcon_filter_filter_method_entry, 0);
 
 	/**
-	 * @var array
+	 * @phpstan-var filter_mapper
 	 */
-	zend_declare_property_null(phalcon_filter_filter_ce, SL("mapper"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_filter_filter_ce, SL("mapper"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
 	/**
-	 * @var array
+	 * @phpstan-var filter_services
 	 */
-	zend_declare_property_null(phalcon_filter_filter_ce, SL("services"), ZEND_ACC_PROTECTED);
-	phalcon_filter_filter_ce->create_object = zephir_init_properties_Phalcon_Filter_Filter;
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_filter_filter_ce, SL("services"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
 	/**
 	 * @var string
 	 */
@@ -194,7 +210,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Filter)
 /**
  * Filter constructor.
  *
- * @param array $mapper
+ * @phpstan-param filter_mapper $mapper
  */
 PHP_METHOD(Phalcon_Filter_Filter, __construct)
 {
@@ -226,8 +242,8 @@ PHP_METHOD(Phalcon_Filter_Filter, __construct)
 /**
  * Magic call to make the helper objects available as methods.
  *
- * @param string $name
- * @param array  $args
+ * @param string               $name
+ * @param array<string, mixed> $args
  *
  * @return mixed
  * @throws Exception
@@ -270,12 +286,54 @@ PHP_METHOD(Phalcon_Filter_Filter, __call)
 }
 
 /**
+ * Returns the default sanitizer name to class map. This is the single
+ * source for the built-in sanitizer registry: when adding a sanitizer,
+ * add its `FILTER_*` constant and its entry here.
+ *
+ * @return string[]
+ *
+ * @phpstan-return filter_mapper
+ */
+PHP_METHOD(Phalcon_Filter_Filter, getDefaultMapper)
+{
+
+	zephir_create_array(return_value, 23, 0);
+	add_assoc_stringl_ex(return_value, SL("absint"), SL("Phalcon\\Filter\\Sanitize\\AbsInt"));
+	add_assoc_stringl_ex(return_value, SL("alnum"), SL("Phalcon\\Filter\\Sanitize\\Alnum"));
+	add_assoc_stringl_ex(return_value, SL("alpha"), SL("Phalcon\\Filter\\Sanitize\\Alpha"));
+	add_assoc_stringl_ex(return_value, SL("bool"), SL("Phalcon\\Filter\\Sanitize\\BoolVal"));
+	add_assoc_stringl_ex(return_value, SL("email"), SL("Phalcon\\Filter\\Sanitize\\Email"));
+	add_assoc_stringl_ex(return_value, SL("float"), SL("Phalcon\\Filter\\Sanitize\\FloatVal"));
+	add_assoc_stringl_ex(return_value, SL("int"), SL("Phalcon\\Filter\\Sanitize\\IntVal"));
+	add_assoc_stringl_ex(return_value, SL("ip"), SL("Phalcon\\Filter\\Sanitize\\Ip"));
+	add_assoc_stringl_ex(return_value, SL("lower"), SL("Phalcon\\Filter\\Sanitize\\Lower"));
+	add_assoc_stringl_ex(return_value, SL("lowerfirst"), SL("Phalcon\\Filter\\Sanitize\\LowerFirst"));
+	add_assoc_stringl_ex(return_value, SL("regex"), SL("Phalcon\\Filter\\Sanitize\\Regex"));
+	add_assoc_stringl_ex(return_value, SL("remove"), SL("Phalcon\\Filter\\Sanitize\\Remove"));
+	add_assoc_stringl_ex(return_value, SL("replace"), SL("Phalcon\\Filter\\Sanitize\\Replace"));
+	add_assoc_stringl_ex(return_value, SL("special"), SL("Phalcon\\Filter\\Sanitize\\Special"));
+	add_assoc_stringl_ex(return_value, SL("specialfull"), SL("Phalcon\\Filter\\Sanitize\\SpecialFull"));
+	add_assoc_stringl_ex(return_value, SL("string"), SL("Phalcon\\Filter\\Sanitize\\StringVal"));
+	add_assoc_stringl_ex(return_value, SL("stringlegacy"), SL("Phalcon\\Filter\\Sanitize\\StringValLegacy"));
+	add_assoc_stringl_ex(return_value, SL("striptags"), SL("Phalcon\\Filter\\Sanitize\\Striptags"));
+	add_assoc_stringl_ex(return_value, SL("trim"), SL("Phalcon\\Filter\\Sanitize\\Trim"));
+	add_assoc_stringl_ex(return_value, SL("upper"), SL("Phalcon\\Filter\\Sanitize\\Upper"));
+	add_assoc_stringl_ex(return_value, SL("upperfirst"), SL("Phalcon\\Filter\\Sanitize\\UpperFirst"));
+	add_assoc_stringl_ex(return_value, SL("upperwords"), SL("Phalcon\\Filter\\Sanitize\\UpperWords"));
+	add_assoc_stringl_ex(return_value, SL("url"), SL("Phalcon\\Filter\\Sanitize\\Url"));
+	return;
+}
+
+/**
  * Get a service. If it is not in the mapper array, create a new object,
  * set it and then return it.
  *
  * @param string $name
  *
  * @return mixed
+ *
+ * @phpstan-return Sanitizer
+ *
  * @throws Exception
  */
 PHP_METHOD(Phalcon_Filter_Filter, get)
@@ -317,7 +375,7 @@ PHP_METHOD(Phalcon_Filter_Filter, get)
 		object_init_ex(&_1$$3, phalcon_filter_exceptions_filternotregistered_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0, &name_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Filter/Filter.zep", 215);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Filter/Filter.zep", 265);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -325,51 +383,14 @@ PHP_METHOD(Phalcon_Filter_Filter, get)
 	if (1 != zephir_array_isset_value(&_2, &name_zv)) {
 		zephir_read_property_cached(&_3$$4, this_ptr, _zephir_prop_0, 750, PH_NOISY_CC | PH_READONLY);
 		zephir_memory_observe(&definition);
-		zephir_array_fetch(&definition, &_3$$4, &name_zv, PH_NOISY, "phalcon/Filter/Filter.zep", 219);
+		zephir_array_fetch(&definition, &_3$$4, &name_zv, PH_NOISY, "phalcon/Filter/Filter.zep", 269);
 		ZEPHIR_CALL_METHOD(&_4$$4, this_ptr, "createinstance", NULL, 0, &definition);
 		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("services"), &name_zv, &_4$$4);
 	}
 	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_1, 751, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_6, &_5, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Filter/Filter.zep", 223);
+	zephir_array_fetch(&_6, &_5, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Filter/Filter.zep", 273);
 	RETURN_CTOR(&_6);
-}
-
-/**
- * Returns the default sanitizer name to class map. This is the single
- * source for the built-in sanitizer registry: when adding a sanitizer,
- * add its `FILTER_*` constant and its entry here.
- *
- * @return string[]
- */
-PHP_METHOD(Phalcon_Filter_Filter, getDefaultMapper)
-{
-
-	zephir_create_array(return_value, 23, 0);
-	add_assoc_stringl_ex(return_value, SL("absint"), SL("Phalcon\\Filter\\Sanitize\\AbsInt"));
-	add_assoc_stringl_ex(return_value, SL("alnum"), SL("Phalcon\\Filter\\Sanitize\\Alnum"));
-	add_assoc_stringl_ex(return_value, SL("alpha"), SL("Phalcon\\Filter\\Sanitize\\Alpha"));
-	add_assoc_stringl_ex(return_value, SL("bool"), SL("Phalcon\\Filter\\Sanitize\\BoolVal"));
-	add_assoc_stringl_ex(return_value, SL("email"), SL("Phalcon\\Filter\\Sanitize\\Email"));
-	add_assoc_stringl_ex(return_value, SL("float"), SL("Phalcon\\Filter\\Sanitize\\FloatVal"));
-	add_assoc_stringl_ex(return_value, SL("int"), SL("Phalcon\\Filter\\Sanitize\\IntVal"));
-	add_assoc_stringl_ex(return_value, SL("ip"), SL("Phalcon\\Filter\\Sanitize\\Ip"));
-	add_assoc_stringl_ex(return_value, SL("lower"), SL("Phalcon\\Filter\\Sanitize\\Lower"));
-	add_assoc_stringl_ex(return_value, SL("lowerfirst"), SL("Phalcon\\Filter\\Sanitize\\LowerFirst"));
-	add_assoc_stringl_ex(return_value, SL("regex"), SL("Phalcon\\Filter\\Sanitize\\Regex"));
-	add_assoc_stringl_ex(return_value, SL("remove"), SL("Phalcon\\Filter\\Sanitize\\Remove"));
-	add_assoc_stringl_ex(return_value, SL("replace"), SL("Phalcon\\Filter\\Sanitize\\Replace"));
-	add_assoc_stringl_ex(return_value, SL("special"), SL("Phalcon\\Filter\\Sanitize\\Special"));
-	add_assoc_stringl_ex(return_value, SL("specialfull"), SL("Phalcon\\Filter\\Sanitize\\SpecialFull"));
-	add_assoc_stringl_ex(return_value, SL("string"), SL("Phalcon\\Filter\\Sanitize\\StringVal"));
-	add_assoc_stringl_ex(return_value, SL("stringlegacy"), SL("Phalcon\\Filter\\Sanitize\\StringValLegacy"));
-	add_assoc_stringl_ex(return_value, SL("striptags"), SL("Phalcon\\Filter\\Sanitize\\Striptags"));
-	add_assoc_stringl_ex(return_value, SL("trim"), SL("Phalcon\\Filter\\Sanitize\\Trim"));
-	add_assoc_stringl_ex(return_value, SL("upper"), SL("Phalcon\\Filter\\Sanitize\\Upper"));
-	add_assoc_stringl_ex(return_value, SL("upperfirst"), SL("Phalcon\\Filter\\Sanitize\\UpperFirst"));
-	add_assoc_stringl_ex(return_value, SL("upperwords"), SL("Phalcon\\Filter\\Sanitize\\UpperWords"));
-	add_assoc_stringl_ex(return_value, SL("url"), SL("Phalcon\\Filter\\Sanitize\\Url"));
-	return;
 }
 
 /**
@@ -411,9 +432,7 @@ PHP_METHOD(Phalcon_Filter_Filter, has)
  * (e.g. `trim`). When `$noRecursive` is `true`, the whole array is
  * passed to the sanitizer as a single value.
  *
- * @param mixed $value
- * @param mixed $sanitizers
- * @param bool  $noRecursive
+ * @phpstan-param filter_sanitizers|string $sanitizers
  *
  * @return array|false|mixed|null
  * @throws Exception
@@ -469,8 +488,7 @@ PHP_METHOD(Phalcon_Filter_Filter, sanitize)
 /**
  * Set a new service to the mapper array
  *
- * @param string $name
- * @param mixed  $service
+ * @phpstan-param class-string<Sanitizer>|Sanitizer $service
  */
 PHP_METHOD(Phalcon_Filter_Filter, set)
 {
@@ -501,7 +519,7 @@ PHP_METHOD(Phalcon_Filter_Filter, set)
 /**
  * Loads the objects in the internal mapper array
  *
- * @param array $mapper
+ * @phpstan-param filter_mapper $mapper
  */
 PHP_METHOD(Phalcon_Filter_Filter, init)
 {
@@ -526,7 +544,7 @@ PHP_METHOD(Phalcon_Filter_Filter, init)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &mapper_param);
 	zephir_get_arrval(&mapper, mapper_param);
-	zephir_is_iterable(&mapper, 0, "phalcon/Filter/Filter.zep", 369);
+	zephir_is_iterable(&mapper, 0, "phalcon/Filter/Filter.zep", 380);
 	if (Z_TYPE_P(&mapper) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&mapper), _1, _2, _0)
 		{
@@ -571,9 +589,9 @@ PHP_METHOD(Phalcon_Filter_Filter, init)
 }
 
 /**
- * @param mixed $definition
+ * @phpstan-param class-string<Sanitizer>|Sanitizer $definition
  *
- * @return mixed
+ * @phpstan-return Sanitizer
  */
 PHP_METHOD(Phalcon_Filter_Filter, createInstance)
 {
@@ -599,9 +617,7 @@ PHP_METHOD(Phalcon_Filter_Filter, createInstance)
 }
 
 /**
- * @param array $sanitizers
- * @param mixed $value
- * @param bool  $noRecursive
+ * @phpstan-param filter_sanitizers $sanitizers
  *
  * @return array|false|mixed|null
  * @throws Exception
@@ -646,7 +662,7 @@ PHP_METHOD(Phalcon_Filter_Filter, processArraySanitizers)
 		RETVAL_ZVAL(value, 1, 0);
 		RETURN_MM();
 	}
-	zephir_is_iterable(&sanitizers, 0, "phalcon/Filter/Filter.zep", 443);
+	zephir_is_iterable(&sanitizers, 0, "phalcon/Filter/Filter.zep", 452);
 	if (Z_TYPE_P(&sanitizers) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&sanitizers), _1, _2, _0)
 		{
@@ -661,9 +677,9 @@ PHP_METHOD(Phalcon_Filter_Filter, processArraySanitizers)
 			ZEPHIR_CALL_METHOD(&split, this_ptr, "splitsanitizerparameters", &_3, 0, &sanitizerKey, &sanitizer);
 			zephir_check_call_status();
 			ZEPHIR_OBS_NVAR(&sanitizerName);
-			zephir_array_fetch_long(&sanitizerName, &split, 0, PH_NOISY, "phalcon/Filter/Filter.zep", 419);
+			zephir_array_fetch_long(&sanitizerName, &split, 0, PH_NOISY, "phalcon/Filter/Filter.zep", 428);
 			ZEPHIR_OBS_NVAR(&sanitizerParams);
-			zephir_array_fetch_long(&sanitizerParams, &split, 1, PH_NOISY, "phalcon/Filter/Filter.zep", 420);
+			zephir_array_fetch_long(&sanitizerParams, &split, 1, PH_NOISY, "phalcon/Filter/Filter.zep", 429);
 			if (Z_TYPE_P(value) == IS_ARRAY) {
 				if (noRecursive) {
 					ZVAL_BOOL(&_5$$5, 1);
@@ -702,9 +718,9 @@ PHP_METHOD(Phalcon_Filter_Filter, processArraySanitizers)
 				ZEPHIR_CALL_METHOD(&split, this_ptr, "splitsanitizerparameters", &_3, 0, &sanitizerKey, &sanitizer);
 				zephir_check_call_status();
 				ZEPHIR_OBS_NVAR(&sanitizerName);
-				zephir_array_fetch_long(&sanitizerName, &split, 0, PH_NOISY, "phalcon/Filter/Filter.zep", 419);
+				zephir_array_fetch_long(&sanitizerName, &split, 0, PH_NOISY, "phalcon/Filter/Filter.zep", 428);
 				ZEPHIR_OBS_NVAR(&sanitizerParams);
-				zephir_array_fetch_long(&sanitizerParams, &split, 1, PH_NOISY, "phalcon/Filter/Filter.zep", 420);
+				zephir_array_fetch_long(&sanitizerParams, &split, 1, PH_NOISY, "phalcon/Filter/Filter.zep", 429);
 				if (Z_TYPE_P(value) == IS_ARRAY) {
 					if (noRecursive) {
 						ZVAL_BOOL(&_12$$8, 1);
@@ -730,11 +746,10 @@ PHP_METHOD(Phalcon_Filter_Filter, processArraySanitizers)
 /**
  * Processes the array values with the relevant sanitizers
  *
- * @param array  $values
- * @param string $sanitizerName
- * @param array  $sanitizerParams
+ * @phpstan-param filter_values           $values
+ * @phpstan-param filter_sanitizer_params $sanitizerParams
  *
- * @return array
+ * @phpstan-return filter_values
  * @throws Exception
  */
 PHP_METHOD(Phalcon_Filter_Filter, processArrayValues)
@@ -781,7 +796,7 @@ PHP_METHOD(Phalcon_Filter_Filter, processArrayValues)
 	}
 	ZEPHIR_INIT_VAR(&arrayValues);
 	array_init(&arrayValues);
-	zephir_is_iterable(&values, 0, "phalcon/Filter/Filter.zep", 472);
+	zephir_is_iterable(&values, 0, "phalcon/Filter/Filter.zep", 480);
 	if (Z_TYPE_P(&values) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&values), _1, _2, _0)
 		{
@@ -828,84 +843,8 @@ PHP_METHOD(Phalcon_Filter_Filter, processArrayValues)
 }
 
 /**
- * Internal sanitize wrapper for recursion
- *
- * @param mixed  $value
- * @param string $sanitizerName
- * @param array  $sanitizerParams
- *
- * @return false|mixed
- * @throws Exception
- */
-PHP_METHOD(Phalcon_Filter_Filter, sanitizer)
-{
-	zval _1$$4;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval sanitizerParams, _3;
-	zend_string *sanitizerName = NULL;
-	zval *value, value_sub, sanitizerName_zv, *sanitizerParams_param = NULL, params, sanitizerObject, _0, _2$$4;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&value_sub);
-	ZVAL_UNDEF(&sanitizerName_zv);
-	ZVAL_UNDEF(&params);
-	ZVAL_UNDEF(&sanitizerObject);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2$$4);
-	ZVAL_UNDEF(&sanitizerParams);
-	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_1$$4);
-	ZEND_PARSE_PARAMETERS_START(2, 3)
-		Z_PARAM_ZVAL(value)
-		Z_PARAM_STR(sanitizerName)
-		Z_PARAM_OPTIONAL
-		ZEPHIR_Z_PARAM_ARRAY(sanitizerParams, sanitizerParams_param)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	value = ZEND_CALL_ARG(execute_data, 1);
-	if (ZEND_NUM_ARGS() > 2) {
-		sanitizerParams_param = ZEND_CALL_ARG(execute_data, 3);
-	}
-	zephir_memory_observe(&sanitizerName_zv);
-	ZVAL_STR_COPY(&sanitizerName_zv, sanitizerName);
-	if (!sanitizerParams_param) {
-		ZEPHIR_INIT_VAR(&sanitizerParams);
-		array_init(&sanitizerParams);
-	} else {
-		zephir_get_arrval(&sanitizerParams, sanitizerParams_param);
-	}
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "has", NULL, 0, &sanitizerName_zv);
-	zephir_check_call_status();
-	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
-		if (1 != ZEPHIR_IS_EMPTY(&sanitizerName_zv)) {
-			ZEPHIR_INIT_VAR(&_1$$4);
-			ZEPHIR_CONCAT_SVS(&_1$$4, "Sanitizer '", &sanitizerName_zv, "' is not registered");
-			ZVAL_LONG(&_2$$4, 1024);
-			ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 11, &_1$$4, &_2$$4);
-			zephir_check_call_status();
-		}
-		RETVAL_ZVAL(value, 1, 0);
-		RETURN_MM();
-	}
-	ZEPHIR_CALL_METHOD(&sanitizerObject, this_ptr, "get", NULL, 0, &sanitizerName_zv);
-	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_3);
-	zephir_create_array(&_3, 1, 0);
-	zephir_array_fast_append(&_3, value);
-	ZEPHIR_INIT_VAR(&params);
-	zephir_fast_array_merge(&params, &_3, &sanitizerParams);
-	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &sanitizerObject, &params);
-	zephir_check_call_status();
-	RETURN_MM();
-}
-
-/**
- * @param mixed  $value
- * @param string $sanitizerName
- * @param array  $sanitizerParams
- * @param bool   $noRecursive
+ * @phpstan-param filter_values             $value
+ * @phpstan-param filter_sanitizer_params   $sanitizerParams
  *
  * @return array|mixed
  * @throws Exception
@@ -954,9 +893,7 @@ PHP_METHOD(Phalcon_Filter_Filter, processValueIsArray)
 }
 
 /**
- * @param mixed  $value
- * @param string $sanitizerName
- * @param array  $sanitizerParams
+ * @phpstan-param filter_sanitizer_params $sanitizerParams
  *
  * @return array|false|mixed
  * @throws Exception
@@ -997,10 +934,90 @@ PHP_METHOD(Phalcon_Filter_Filter, processValueIsNotArray)
 }
 
 /**
+ * Internal sanitize wrapper for recursion
+ *
+ * @phpstan-param filter_sanitizer_params $sanitizerParams
+ *
+ * @return false|mixed
+ * @throws Exception
+ */
+PHP_METHOD(Phalcon_Filter_Filter, sanitizer)
+{
+	zval _1$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval sanitizerParams, _3, _4;
+	zend_string *sanitizerName = NULL;
+	zval *value, value_sub, sanitizerName_zv, *sanitizerParams_param = NULL, params, sanitizerObject, _0, _5, _2$$4;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&value_sub);
+	ZVAL_UNDEF(&sanitizerName_zv);
+	ZVAL_UNDEF(&params);
+	ZVAL_UNDEF(&sanitizerObject);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_2$$4);
+	ZVAL_UNDEF(&sanitizerParams);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_1$$4);
+	ZEND_PARSE_PARAMETERS_START(2, 3)
+		Z_PARAM_ZVAL(value)
+		Z_PARAM_STR(sanitizerName)
+		Z_PARAM_OPTIONAL
+		ZEPHIR_Z_PARAM_ARRAY(sanitizerParams, sanitizerParams_param)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	value = ZEND_CALL_ARG(execute_data, 1);
+	if (ZEND_NUM_ARGS() > 2) {
+		sanitizerParams_param = ZEND_CALL_ARG(execute_data, 3);
+	}
+	zephir_memory_observe(&sanitizerName_zv);
+	ZVAL_STR_COPY(&sanitizerName_zv, sanitizerName);
+	if (!sanitizerParams_param) {
+		ZEPHIR_INIT_VAR(&sanitizerParams);
+		array_init(&sanitizerParams);
+	} else {
+		zephir_get_arrval(&sanitizerParams, sanitizerParams_param);
+	}
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "has", NULL, 0, &sanitizerName_zv);
+	zephir_check_call_status();
+	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
+		if (1 != ZEPHIR_IS_EMPTY(&sanitizerName_zv)) {
+			ZEPHIR_INIT_VAR(&_1$$4);
+			ZEPHIR_CONCAT_SVS(&_1$$4, "Sanitizer '", &sanitizerName_zv, "' is not registered");
+			ZVAL_LONG(&_2$$4, 1024);
+			ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 11, &_1$$4, &_2$$4);
+			zephir_check_call_status();
+		}
+		RETVAL_ZVAL(value, 1, 0);
+		RETURN_MM();
+	}
+	ZEPHIR_CALL_METHOD(&sanitizerObject, this_ptr, "get", NULL, 0, &sanitizerName_zv);
+	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(&_3);
+	zephir_create_array(&_3, 1, 0);
+	zephir_array_fast_append(&_3, value);
+	ZEPHIR_INIT_VAR(&params);
+	zephir_fast_array_merge(&params, &_3, &sanitizerParams);
+	ZEPHIR_INIT_VAR(&_4);
+	zephir_create_array(&_4, 2, 0);
+	zephir_array_fast_append(&_4, &sanitizerObject);
+	ZEPHIR_INIT_VAR(&_5);
+	ZVAL_STRING(&_5, "__invoke");
+	zephir_array_fast_append(&_4, &_5);
+	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_4, &params);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
  * @param mixed $sanitizerKey
  * @param mixed $sanitizer
  *
- * @return array
+ * @phpstan-return filter_sanitizer_split
  */
 PHP_METHOD(Phalcon_Filter_Filter, splitSanitizerParameters)
 {
@@ -1029,38 +1046,5 @@ PHP_METHOD(Phalcon_Filter_Filter, splitSanitizerParameters)
 	array_init(&_0);
 	zephir_array_fast_append(return_value, &_0);
 	RETURN_MM();
-}
-
-zend_object *zephir_init_properties_Phalcon_Filter_Filter(zend_class_entry *class_type)
-{
-		zval _0, _2, _1$$3, _3$$4;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$4);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("services"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("services"), &_1$$3);
-		}
-		zephir_read_property_ex(&_2, this_ptr, ZEND_STRL("mapper"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_2) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_3$$4);
-			array_init(&_3$$4);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("mapper"), &_3$$4);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

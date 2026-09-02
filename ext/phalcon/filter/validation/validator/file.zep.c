@@ -96,6 +96,8 @@
  *     )
  * );
  * ```
+ *
+ * @phpstan-import-type filter_validator_options from FilterTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_File)
 {
@@ -107,33 +109,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_File)
 /**
  * Constructor
  *
- * @param array options = [
- *     'messageMinSize' => '',
- *     'includedMinSize' => false,
- *     'minSize' => 100,
- *     'maxSize' => 1000,
- *     'messageSize' => '',
- *     'includedSize' => false,
- *     'equalSize' => '',
- *     'messageEqualSize' => '',
- *     'allowedTypes' => [],
- *     'allowWildcards' => false,
- *     'messageType' => '',
- *     'maxResolution' => '1000x1000',
- *     'messageMaxResolution' => '',
- *     'includedMaxResolution' => false,
- *     'minResolution => '500x500',
- *     'includedMinResolution' => false,
- *     'messageMinResolution' => '',
- *     'equalResolution' => '1000x1000',
- *     'messageEqualResolution' => '',
- *     'aspectRatio' => '16x9',
- *     'messageAspectRatio' => '',
- *     'allowEmpty' => false,
- *     'messageFileEmpty' => '',
- *     'messageIniSize' => '',
- *     'messageValid' => ''
- * ]
+ * @phpstan-param filter_validator_options $options
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_File, __construct)
 {
@@ -265,7 +241,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File, __construct)
 		allowWildcards = zephir_get_boolval(&_3$$6);
 		zephir_array_unset_string(&options, SL("allowWildcards"), PH_SEPARATE);
 	}
-	zephir_is_iterable(&options, 1, "phalcon/Filter/Validation/Validator/File.zep", 309);
+	zephir_is_iterable(&options, 1, "phalcon/Filter/Validation/Validator/File.zep", 286);
 	if (Z_TYPE_P(&options) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&options), _6, _7, _5)
 		{

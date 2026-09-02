@@ -14,8 +14,6 @@ use Phalcon\Contracts\Filter\Sanitizer;
 use Phalcon\Traits\Php\MbCaseTrait;
 
 /**
- * Phalcon\Filter\Sanitize\Lower
- *
  * Sanitizes a value to lowercase
  */
 class Lower implements Sanitizer

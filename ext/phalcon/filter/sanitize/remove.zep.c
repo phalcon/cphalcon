@@ -26,8 +26,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Filter\Sanitize\Remove
- *
  * Sanitizes a value removing parts of a string
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Remove)
@@ -39,8 +37,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Remove)
 }
 
 /**
- * @param mixed $input
- * @param mixed $replace
+ * @param string|string[] $input
+ * @param string|string[] $replace
  *
  * @return string|string[]
  */

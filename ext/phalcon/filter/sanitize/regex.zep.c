@@ -26,8 +26,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Filter\Sanitize\Regex
- *
  * Sanitizes a value performing preg_replace
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Regex)
@@ -39,9 +37,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Regex)
 }
 
 /**
- * @param mixed $input
- * @param mixed $pattern
- * @param mixed $replace
+ * @param string|string[] $input
+ * @param string|string[] $pattern
+ * @param string|string[] $replace
  *
  * @return string|string[]|null
  */
