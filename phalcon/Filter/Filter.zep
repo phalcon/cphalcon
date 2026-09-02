@@ -10,6 +10,8 @@
 
 namespace Phalcon\Filter;
 
+use Phalcon\Contracts\Filter\FilterTypes;
+use Phalcon\Contracts\Filter\Sanitizer;
 use Phalcon\Filter\Exceptions\FilterNotRegistered;
 use Phalcon\Filter\Sanitize\AbsInt;
 use Phalcon\Filter\Sanitize\Alnum;
@@ -45,7 +47,7 @@ use Phalcon\Filter\Sanitize\Url;
  * @method string       email(string $input)
  * @method float        float(mixed $input)
  * @method int          int(string $input)
- * @method string|false ip(string $input, int $filter = FILTER_FLAG_NONE)
+ * @method false|string ip(string $input, int $filter = 0)
  * @method string       lower(string $input)
  * @method string       lowerfirst(string $input)
  * @method mixed        regex(mixed $input, mixed $pattern, mixed $replace)
@@ -64,6 +66,13 @@ use Phalcon\Filter\Sanitize\Url;
  *
  * @property array $mapper
  * @property array $services
+ *
+ * @phpstan-import-type filter_mapper from FilterTypes
+ * @phpstan-import-type filter_sanitizer_params from FilterTypes
+ * @phpstan-import-type filter_sanitizer_split from FilterTypes
+ * @phpstan-import-type filter_sanitizers from FilterTypes
+ * @phpstan-import-type filter_services from FilterTypes
+ * @phpstan-import-type filter_values from FilterTypes
  */
 class Filter implements FilterInterface
 {
@@ -161,19 +170,19 @@ class Filter implements FilterInterface
     const FILTER_URL           = "url";
 
     /**
-     * @var array
+     * @phpstan-var filter_mapper
      */
-    protected mapper = [];
+    protected array mapper = [];
 
     /**
-     * @var array
+     * @phpstan-var filter_services
      */
-    protected services = [];
+    protected array services = [];
 
     /**
      * Filter constructor.
      *
-     * @param array $mapper
+     * @phpstan-param filter_mapper $mapper
      */
     public function __construct(array mapper = [])
     {
@@ -183,8 +192,8 @@ class Filter implements FilterInterface
     /**
      * Magic call to make the helper objects available as methods.
      *
-     * @param string $name
-     * @param array  $args
+     * @param string               $name
+     * @param array<string, mixed> $args
      *
      * @return mixed
      * @throws Exception
@@ -199,36 +208,13 @@ class Filter implements FilterInterface
     }
 
     /**
-     * Get a service. If it is not in the mapper array, create a new object,
-     * set it and then return it.
-     *
-     * @param string $name
-     *
-     * @return mixed
-     * @throws Exception
-     */
-    public function get(string name) -> var
-    {
-        var definition;
-
-        if (true !== isset(this->mapper[name])) {
-            throw new FilterNotRegistered(name);
-        }
-
-        if (true !== isset(this->services[name])) {
-            let definition           = this->mapper[name],
-                this->services[name] = this->createInstance(definition);
-        }
-
-        return this->services[name];
-    }
-
-    /**
      * Returns the default sanitizer name to class map. This is the single
      * source for the built-in sanitizer registry: when adding a sanitizer,
      * add its `FILTER_*` constant and its entry here.
      *
      * @return string[]
+     *
+     * @phpstan-return filter_mapper
      */
     public static function getDefaultMapper() -> array
     {
@@ -260,6 +246,34 @@ class Filter implements FilterInterface
     }
 
     /**
+     * Get a service. If it is not in the mapper array, create a new object,
+     * set it and then return it.
+     *
+     * @param string $name
+     *
+     * @return mixed
+     *
+     * @phpstan-return Sanitizer
+     *
+     * @throws Exception
+     */
+    public function get(string name) -> var
+    {
+        var definition;
+
+        if (true !== isset(this->mapper[name])) {
+            throw new FilterNotRegistered(name);
+        }
+
+        if (true !== isset(this->services[name])) {
+            let definition           = this->mapper[name],
+                this->services[name] = this->createInstance(definition);
+        }
+
+        return this->services[name];
+    }
+
+    /**
      * Checks if a service exists in the map array
      *
      * @param string $name
@@ -282,9 +296,7 @@ class Filter implements FilterInterface
      * (e.g. `trim`). When `$noRecursive` is `true`, the whole array is
      * passed to the sanitizer as a single value.
      *
-     * @param mixed $value
-     * @param mixed $sanitizers
-     * @param bool  $noRecursive
+     * @phpstan-param filter_sanitizers|string $sanitizers
      *
      * @return array|false|mixed|null
      * @throws Exception
@@ -344,8 +356,7 @@ class Filter implements FilterInterface
     /**
      * Set a new service to the mapper array
      *
-     * @param string $name
-     * @param mixed  $service
+     * @phpstan-param class-string<Sanitizer>|Sanitizer $service
      */
     public function set(string name, var service) -> void
     {
@@ -357,7 +368,7 @@ class Filter implements FilterInterface
     /**
      * Loads the objects in the internal mapper array
      *
-     * @param array $mapper
+     * @phpstan-param filter_mapper $mapper
      */
     protected function init(array mapper) -> void
     {
@@ -369,9 +380,9 @@ class Filter implements FilterInterface
     }
 
     /**
-     * @param mixed $definition
+     * @phpstan-param class-string<Sanitizer>|Sanitizer $definition
      *
-     * @return mixed
+     * @phpstan-return Sanitizer
      */
     private function createInstance(var definition)
     {
@@ -386,9 +397,7 @@ class Filter implements FilterInterface
     }
 
     /**
-     * @param array $sanitizers
-     * @param mixed $value
-     * @param bool  $noRecursive
+     * @phpstan-param filter_sanitizers $sanitizers
      *
      * @return array|false|mixed|null
      * @throws Exception
@@ -446,11 +455,10 @@ class Filter implements FilterInterface
     /**
      * Processes the array values with the relevant sanitizers
      *
-     * @param array  $values
-     * @param string $sanitizerName
-     * @param array  $sanitizerParams
+     * @phpstan-param filter_values           $values
+     * @phpstan-param filter_sanitizer_params $sanitizerParams
      *
-     * @return array
+     * @phpstan-return filter_values
      * @throws Exception
      */
     private function processArrayValues(
@@ -473,44 +481,8 @@ class Filter implements FilterInterface
     }
 
     /**
-     * Internal sanitize wrapper for recursion
-     *
-     * @param mixed  $value
-     * @param string $sanitizerName
-     * @param array  $sanitizerParams
-     *
-     * @return false|mixed
-     * @throws Exception
-     */
-    private function sanitizer(
-        var value,
-        string sanitizerName,
-        array sanitizerParams = []
-    ) {
-        var params, sanitizerObject;
-
-        if true !== this->has(sanitizerName) {
-            if true !== empty(sanitizerName) {
-                trigger_error(
-                    "Sanitizer '" . sanitizerName . "' is not registered",
-                    E_USER_NOTICE
-                );
-            }
-
-            return value;
-        }
-
-        let sanitizerObject = this->get(sanitizerName),
-            params          = array_merge([value], sanitizerParams);
-
-        return call_user_func_array(sanitizerObject, params);
-    }
-
-    /**
-     * @param mixed  $value
-     * @param string $sanitizerName
-     * @param array  $sanitizerParams
-     * @param bool   $noRecursive
+     * @phpstan-param filter_values             $value
+     * @phpstan-param filter_sanitizer_params   $sanitizerParams
      *
      * @return array|mixed
      * @throws Exception
@@ -539,9 +511,7 @@ class Filter implements FilterInterface
     }
 
     /**
-     * @param mixed  $value
-     * @param string $sanitizerName
-     * @param array  $sanitizerParams
+     * @phpstan-param filter_sanitizer_params $sanitizerParams
      *
      * @return array|false|mixed
      * @throws Exception
@@ -563,10 +533,42 @@ class Filter implements FilterInterface
     }
 
     /**
+     * Internal sanitize wrapper for recursion
+     *
+     * @phpstan-param filter_sanitizer_params $sanitizerParams
+     *
+     * @return false|mixed
+     * @throws Exception
+     */
+    private function sanitizer(
+        var value,
+        string sanitizerName,
+        array sanitizerParams = []
+    ) {
+        var params, sanitizerObject;
+
+        if true !== this->has(sanitizerName) {
+            if true !== empty(sanitizerName) {
+                trigger_error(
+                    "Sanitizer '" . sanitizerName . "' is not registered",
+                    E_USER_NOTICE
+                );
+            }
+
+            return value;
+        }
+
+        let sanitizerObject = this->get(sanitizerName),
+            params          = array_merge([value], sanitizerParams);
+
+        return call_user_func_array([sanitizerObject, "__invoke"], params);
+    }
+
+    /**
      * @param mixed $sanitizerKey
      * @param mixed $sanitizer
      *
-     * @return array
+     * @phpstan-return filter_sanitizer_split
      */
     private function splitSanitizerParameters(var sanitizerKey, var sanitizer) -> array
     {

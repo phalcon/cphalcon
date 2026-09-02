@@ -13,8 +13,6 @@ namespace Phalcon\Filter\Sanitize;
 use Phalcon\Contracts\Filter\Sanitizer;
 
 /**
- * Phalcon\Filter\Sanitize\Special
- *
  * Sanitizes a value special characters
  */
 class Special implements Sanitizer
@@ -22,7 +20,7 @@ class Special implements Sanitizer
     /**
      * @param mixed $input The text to sanitize
      *
-     * @return mixed
+     * @return string
      */
     public function __invoke(var input)
     {

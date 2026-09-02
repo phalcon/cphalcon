@@ -10,9 +10,9 @@
 
 namespace Phalcon\Filter\Validation\Validator;
 
+use Phalcon\Contracts\Filter\FilterTypes;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\AbstractValidator;
-use Phalcon\Filter\Validation\Exception;
 use Phalcon\Filter\Validation\Exceptions\MissingMbstring;
 use Phalcon\Messages\Message;
 use Phalcon\Traits\Php\InfoTrait;
@@ -55,23 +55,22 @@ use Phalcon\Traits\Php\InfoTrait;
  *     )
  * );
  * ```
+ *
+ * @phpstan-import-type filter_validator_options from FilterTypes
  */
 class Confirmation extends AbstractValidator
 {
     use InfoTrait;
 
+    /**
+     * @var string|null
+     */
     protected template = "Field :field must be the same as :with";
 
     /**
      * Constructor
      *
-     * @param array options = [
-     *     'message' => '',
-     *     'template' => '',
-     *     'with' => '',
-     *     'labelWith' => '',
-     *     'ignoreCase' => false
-     * ]
+     * @phpstan-param filter_validator_options $options
      */
     public function __construct( array options = [])
     {

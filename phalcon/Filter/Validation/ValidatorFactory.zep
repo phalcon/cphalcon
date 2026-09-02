@@ -10,6 +10,7 @@
 
 namespace Phalcon\Filter\Validation;
 
+use Phalcon\Contracts\Filter\FilterTypes;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Filter\Validation\Validator\Alnum;
 use Phalcon\Filter\Validation\Validator\Alpha;
@@ -33,10 +34,15 @@ use Phalcon\Filter\Validation\Validator\StringLength;
 use Phalcon\Filter\Validation\Validator\Uniqueness;
 use Phalcon\Filter\Validation\Validator\Url;
 
+/**
+ * @phpstan-import-type filter_validator_services from FilterTypes
+ */
 class ValidatorFactory extends AbstractFactory
 {
     /**
-     * TagFactory constructor.
+     * Constructor.
+     *
+     * @phpstan-param filter_validator_services $services
      */
     public function __construct( array services = [])
     {

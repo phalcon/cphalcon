@@ -10,9 +10,10 @@
 
 namespace Phalcon\Filter\Validation\Validator;
 
-use Phalcon\Messages\Message;
+use Phalcon\Contracts\Filter\FilterTypes;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\AbstractValidator;
+use Phalcon\Messages\Message;
 
 /**
  * Allows validate if the value of a field matches a regular expression
@@ -52,20 +53,20 @@ use Phalcon\Filter\Validation\AbstractValidator;
  *     )
  * );
  * ```
+ *
+ * @phpstan-import-type filter_validator_options from FilterTypes
  */
 class Regex extends AbstractValidator
 {
+    /**
+     * @var string|null
+     */
     protected template = "Field :field does not match the required format";
 
     /**
      * Constructor
      *
-     * @param array options = [
-     *     'message' => '',
-     *     'template' => '',
-     *     'allowEmpty' => false,
-     *     'pattern' => ''
-     * ]
+     * @phpstan-param filter_validator_options $options
      */
     public function __construct( array options = [])
     {

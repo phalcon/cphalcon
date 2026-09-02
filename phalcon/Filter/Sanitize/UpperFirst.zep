@@ -13,8 +13,6 @@ namespace Phalcon\Filter\Sanitize;
 use Phalcon\Contracts\Filter\Sanitizer;
 
 /**
- * Phalcon\Filter\Sanitize\UpperFirst
- *
  * Sanitizes a value to ucfirst
  */
 class UpperFirst implements Sanitizer

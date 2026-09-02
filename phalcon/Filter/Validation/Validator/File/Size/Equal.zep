@@ -10,6 +10,7 @@
 
 namespace Phalcon\Filter\Validation\Validator\File\Size;
 
+use Phalcon\Contracts\Filter\FilterTypes;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\Validator\File\AbstractFile;
 
@@ -56,6 +57,8 @@ use Phalcon\Filter\Validation\Validator\File\AbstractFile;
  *     )
  * );
  * ```
+ *
+ * @phpstan-import-type filter_uploaded_file from FilterTypes
  */
 class Equal extends AbstractFile
 {
