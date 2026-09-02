@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "497c5375b22ae32caa2d4923b5bf3343",
+    "content-hash": "5e2b0d3a790497d6e0b4f8d8d502c03f",
     "packages": [],
     "packages-dev": [
         {
@@ -1996,16 +1996,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "2.11.0",
+            "version": "2.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "37308608e599f34a1a4845b16440047ec98a172a"
+                "reference": "bf2403f591c5a431b6e0e1170cbadd3d64499564"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/37308608e599f34a1a4845b16440047ec98a172a",
-                "reference": "37308608e599f34a1a4845b16440047ec98a172a",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/bf2403f591c5a431b6e0e1170cbadd3d64499564",
+                "reference": "bf2403f591c5a431b6e0e1170cbadd3d64499564",
                 "shasum": ""
             },
             "require": {
@@ -2082,7 +2082,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Seldaek/monolog/issues",
-                "source": "https://github.com/Seldaek/monolog/tree/2.11.0"
+                "source": "https://github.com/Seldaek/monolog/tree/2.11.1"
             },
             "funding": [
                 {
@@ -2094,7 +2094,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-01-01T13:05:00+00:00"
+            "time": "2026-09-02T07:57:24+00:00"
         },
         {
             "name": "mustache/mustache",
@@ -2530,16 +2530,16 @@
         },
         {
             "name": "phalcon/quill",
-            "version": "v0.4.0",
+            "version": "v0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phalcon/quill.git",
-                "reference": "8cbb890512453ce1cecbe7116912da8a509a76aa"
+                "reference": "75a9ecb08726fdb3b33e0b28798bcaa4691221fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phalcon/quill/zipball/8cbb890512453ce1cecbe7116912da8a509a76aa",
-                "reference": "8cbb890512453ce1cecbe7116912da8a509a76aa",
+                "url": "https://api.github.com/repos/phalcon/quill/zipball/75a9ecb08726fdb3b33e0b28798bcaa4691221fb",
+                "reference": "75a9ecb08726fdb3b33e0b28798bcaa4691221fb",
                 "shasum": ""
             },
             "require": {
@@ -2582,7 +2582,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phalcon/quill/issues",
-                "source": "https://github.com/phalcon/quill/tree/v0.4.0"
+                "source": "https://github.com/phalcon/quill/tree/v0.5.0"
             },
             "funding": [
                 {
@@ -2594,7 +2594,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2026-08-31T15:53:25+00:00"
+            "time": "2026-09-02T01:58:49+00:00"
         },
         {
             "name": "phalcon/talon",
@@ -2680,12 +2680,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zephir-lang/zephir.git",
-                "reference": "594e50a35493316b798158d5464854c862d2c16e"
+                "reference": "47149681b244d24c644aee1346ee9f8f8d5fd877"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/594e50a35493316b798158d5464854c862d2c16e",
-                "reference": "594e50a35493316b798158d5464854c862d2c16e",
+                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/47149681b244d24c644aee1346ee9f8f8d5fd877",
+                "reference": "47149681b244d24c644aee1346ee9f8f8d5fd877",
                 "shasum": ""
             },
             "require": {
@@ -2762,7 +2762,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-08-31T14:19:46+00:00"
+            "time": "2026-09-02T14:21:24+00:00"
         },
         {
             "name": "phar-io/manifest",
