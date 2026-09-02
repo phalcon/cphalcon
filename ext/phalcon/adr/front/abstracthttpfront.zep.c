@@ -202,7 +202,7 @@ PHP_METHOD(Phalcon_ADR_Front_AbstractHttpFront, getApplication)
 
 	ZVAL_UNDEF(&container_sub);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(container, zephir_get_internal_ce(SL("phalcon\\container\\container")))
+		Z_PARAM_OBJECT_OF_CLASS(container, phalcon_container_container_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
@@ -255,7 +255,7 @@ PHP_METHOD(Phalcon_ADR_Front_AbstractHttpFront, loadEnvironment)
 
 	ZVAL_UNDEF(&container_sub);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(container, zephir_get_internal_ce(SL("phalcon\\container\\container")))
+		Z_PARAM_OBJECT_OF_CLASS(container, phalcon_container_container_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &container);
 }
@@ -269,7 +269,7 @@ PHP_METHOD(Phalcon_ADR_Front_AbstractHttpFront, registerProviders)
 	ZVAL_UNDEF(&container_sub);
 	ZVAL_UNDEF(&_0);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(container, zephir_get_internal_ce(SL("phalcon\\container\\container")))
+		Z_PARAM_OBJECT_OF_CLASS(container, phalcon_container_container_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);

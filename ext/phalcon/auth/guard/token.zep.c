@@ -65,9 +65,9 @@ PHP_METHOD(Phalcon_Auth_Guard_Token, __construct)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(3, 3)
-		Z_PARAM_OBJECT_OF_CLASS(adapter, zephir_get_internal_ce(SL("phalcon\\contracts\\auth\\adapter\\adapter")))
-		Z_PARAM_OBJECT_OF_CLASS(request, zephir_get_internal_ce(SL("phalcon\\http\\requestinterface")))
-		Z_PARAM_OBJECT_OF_CLASS(config, zephir_get_internal_ce(SL("phalcon\\auth\\guard\\config\\tokenguardconfig")))
+		Z_PARAM_OBJECT_OF_CLASS(adapter, phalcon_contracts_auth_adapter_adapter_ce)
+		Z_PARAM_OBJECT_OF_CLASS(request, phalcon_http_requestinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(config, phalcon_auth_guard_config_tokenguardconfig_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Token, fromOptions)
 	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&options);
 	ZEND_PARSE_PARAMETERS_START(3, 3)
-		Z_PARAM_OBJECT_OF_CLASS(adapter, zephir_get_internal_ce(SL("phalcon\\contracts\\auth\\adapter\\adapter")))
+		Z_PARAM_OBJECT_OF_CLASS(adapter, phalcon_contracts_auth_adapter_adapter_ce)
 		Z_PARAM_ZVAL(container)
 		ZEPHIR_Z_PARAM_ARRAY(options, options_param)
 	ZEND_PARSE_PARAMETERS_END();
@@ -239,7 +239,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Token, setRequest)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(request, zephir_get_internal_ce(SL("phalcon\\http\\requestinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(request, phalcon_http_requestinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &request);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 456, request);

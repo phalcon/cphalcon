@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 3)
-		Z_PARAM_OBJECT_OF_CLASS(container, zephir_get_internal_ce(SL("phalcon\\di\\diinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(container, phalcon_di_diinterface_ce)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_BOOL(autoBegin)
 		Z_PARAM_STR(service)
@@ -359,7 +359,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback)
 	ZEND_PARSE_PARAMETERS_START(0, 2)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ZVAL_OR_NULL(rollbackMessage_param)
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(rollbackRecord, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(rollbackRecord, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
@@ -475,7 +475,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackedRecord)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(record, zephir_get_internal_ce(SL("phalcon\\mvc\\modelinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(record, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &record);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1128, record);
@@ -496,7 +496,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setTransactionManager)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(manager, zephir_get_internal_ce(SL("phalcon\\mvc\\model\\transaction\\managerinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(manager, phalcon_mvc_model_transaction_managerinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &manager);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1126, manager);

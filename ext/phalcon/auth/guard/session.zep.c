@@ -107,13 +107,13 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, __construct)
 
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(4, 6)
-		Z_PARAM_OBJECT_OF_CLASS(adapter, zephir_get_internal_ce(SL("phalcon\\contracts\\auth\\adapter\\adapter")))
-		Z_PARAM_OBJECT_OF_CLASS(request, zephir_get_internal_ce(SL("phalcon\\http\\requestinterface")))
-		Z_PARAM_OBJECT_OF_CLASS(cookies, zephir_get_internal_ce(SL("phalcon\\http\\response\\cookiesinterface")))
-		Z_PARAM_OBJECT_OF_CLASS(session, zephir_get_internal_ce(SL("phalcon\\session\\managerinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(adapter, phalcon_contracts_auth_adapter_adapter_ce)
+		Z_PARAM_OBJECT_OF_CLASS(request, phalcon_http_requestinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(cookies, phalcon_http_response_cookiesinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(session, phalcon_session_managerinterface_ce)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(config, zephir_get_internal_ce(SL("phalcon\\auth\\guard\\config\\sessionguardconfig")))
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(clock, zephir_get_internal_ce(SL("phalcon\\time\\clock\\clockinterface")))
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(config, phalcon_auth_guard_config_sessionguardconfig_ce)
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(clock, phalcon_time_clock_clockinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, fromOptions)
 	ZVAL_UNDEF(&_13);
 	ZVAL_UNDEF(&options);
 	ZEND_PARSE_PARAMETERS_START(3, 3)
-		Z_PARAM_OBJECT_OF_CLASS(adapter, zephir_get_internal_ce(SL("phalcon\\contracts\\auth\\adapter\\adapter")))
+		Z_PARAM_OBJECT_OF_CLASS(adapter, phalcon_contracts_auth_adapter_adapter_ce)
 		Z_PARAM_ZVAL(container)
 		ZEPHIR_Z_PARAM_ARRAY(options, options_param)
 	ZEND_PARSE_PARAMETERS_END();
@@ -441,7 +441,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, login)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 2)
-		Z_PARAM_OBJECT_OF_CLASS(user, zephir_get_internal_ce(SL("phalcon\\contracts\\auth\\authuser")))
+		Z_PARAM_OBJECT_OF_CLASS(user, phalcon_contracts_auth_authuser_ce)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_BOOL(remember)
 	ZEND_PARSE_PARAMETERS_END();
@@ -1004,7 +1004,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, createRememberToken)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(user, zephir_get_internal_ce(SL("phalcon\\contracts\\auth\\authuser")))
+		Z_PARAM_OBJECT_OF_CLASS(user, phalcon_contracts_auth_authuser_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
@@ -1118,7 +1118,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, rememberUser)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(user, zephir_get_internal_ce(SL("phalcon\\contracts\\auth\\authuser")))
+		Z_PARAM_OBJECT_OF_CLASS(user, phalcon_contracts_auth_authuser_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
@@ -1208,7 +1208,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, userFromRecaller)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(recaller, zephir_get_internal_ce(SL("phalcon\\auth\\guard\\userremember")))
+		Z_PARAM_OBJECT_OF_CLASS(recaller, phalcon_auth_guard_userremember_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);

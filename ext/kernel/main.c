@@ -428,11 +428,30 @@ int zephir_declare_class_constant(zend_class_entry *ce, const char *name, size_t
 
 /**
  * Deep-copies a (request) zval into persistent, immutable memory so it can be
- * stored as a constant on a persistently-registered (internal) class. Only the
- * value kinds that may appear in a Zephir array constant are handled: scalars,
- * strings and (nested) arrays.
+ * stored as a constant or as a property default on a persistently-registered
+ * (internal) class. Only the value kinds that may appear in a Zephir array
+ * constant are handled: scalars, strings and (nested) arrays.
+ *
+ * The result is one table shared by every instance and every reader, so it must
+ * carry PHP's own shared-immutable-array shape. php-src builds that shape in two
+ * places -- zend_empty_array (Zend/zend_hash.c) and opcache's zend_persist_zval()
+ * (ext/opcache/zend_persist.c) -- and both agree on three invariants:
+ *
+ *   1. refcount 2, so SEPARATE_ARRAY()'s `GC_REFCOUNT(arr) > 1` test always
+ *      fires and a userland write duplicates instead of mutating this table.
+ *      The count never moves: SEPARATE_ARRAY releases via GC_TRY_DELREF(), a
+ *      no-op on GC_IMMUTABLE, and ZVAL_COPY never addrefs a non-refcounted zval.
+ *   2. every string inside is non-refcounted, and
+ *   3. the table carries HASH_FLAG_STATIC_KEYS.
+ *
+ * (2) and (3) exist because zend_array_dup()'s immutable branch is a raw memcpy
+ * of the buckets with no addref on keys or values, while the copy it produces
+ * gets pDestructor = ZVAL_PTR_DTOR. A refcounted string value or a non-static
+ * string key would therefore be released by a copy that never referenced it,
+ * freeing memory this table still points at.
  *
  * @see https://github.com/zephir-lang/zephir/issues/2533
+ * @see https://github.com/zephir-lang/zephir/issues/2651
  */
 static void zephir_persist_constant_zval(zval *dst, zval *src)
 {
@@ -440,6 +459,10 @@ static void zephir_persist_constant_zval(zval *dst, zval *src)
 		case IS_STRING:
 			ZVAL_STR(dst, zend_string_init(Z_STRVAL_P(src), Z_STRLEN_P(src), 1));
 			GC_ADD_FLAGS(Z_STR_P(dst), IS_STR_PERSISTENT);
+			/* Non-refcounted, like opcache's `Z_TYPE_FLAGS_P(z) = 0`: a copy of the
+			 * owning array borrows this string without an addref and must never
+			 * release it. */
+			Z_TYPE_INFO_P(dst) = IS_STRING;
 			break;
 
 		case IS_ARRAY: {
@@ -465,8 +488,13 @@ static void zephir_persist_constant_zval(zval *dst, zval *src)
 			} ZEND_HASH_FOREACH_END();
 
 			ZVAL_ARR(dst, ht);
+			/* A non-interned key cleared this flag on every insert above. Restore it
+			 * (as zend_hash_persist() does) so neither this table nor a copy made by
+			 * zend_array_dup() releases keys it does not own; the flag is inside
+			 * HASH_FLAG_MASK, so the copy inherits it. */
+			HT_FLAGS(ht) |= HASH_FLAG_STATIC_KEYS;
+			GC_SET_REFCOUNT(ht, 2);
 			GC_ADD_FLAGS(ht, IS_ARRAY_IMMUTABLE);
-			GC_SET_REFCOUNT(ht, 1);
 			/* store as a non-refcounted (immutable) array zval */
 			Z_TYPE_INFO_P(dst) = IS_ARRAY;
 			break;

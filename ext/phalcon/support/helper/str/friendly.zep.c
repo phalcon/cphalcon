@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, getMatrix)
 	zephir_fetch_params(1, 1, 0, &replace_param);
 	zephir_get_arrval(&replace, replace_param);
 	ZEPHIR_INIT_VAR(&matrix);
-	zephir_create_array(&matrix, 78, 0);
+	zephir_create_array(&matrix, 79, 0);
 	add_assoc_stringl_ex(&matrix, SL("Š"), SL("S"));
 	add_assoc_stringl_ex(&matrix, SL("š"), SL("s"));
 	add_assoc_stringl_ex(&matrix, SL("Đ"), SL("Dj"));

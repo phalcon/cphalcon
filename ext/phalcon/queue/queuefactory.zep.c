@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Queue_QueueFactory, __construct)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(factory, zephir_get_internal_ce(SL("phalcon\\queue\\adapterfactory")))
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(factory, phalcon_queue_adapterfactory_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);

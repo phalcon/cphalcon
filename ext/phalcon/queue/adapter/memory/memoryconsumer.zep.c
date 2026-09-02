@@ -72,8 +72,8 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryConsumer, __construct)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(context, zephir_get_internal_ce(SL("phalcon\\queue\\adapter\\memory\\memorycontext")))
-		Z_PARAM_OBJECT_OF_CLASS(queue, zephir_get_internal_ce(SL("phalcon\\contracts\\queue\\queue")))
+		Z_PARAM_OBJECT_OF_CLASS(context, phalcon_queue_adapter_memory_memorycontext_ce)
+		Z_PARAM_OBJECT_OF_CLASS(queue, phalcon_contracts_queue_queue_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(2, 0, &context, &queue);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1271, context);
@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryConsumer, acknowledge)
 
 	ZVAL_UNDEF(&message_sub);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(message, zephir_get_internal_ce(SL("phalcon\\contracts\\queue\\message")))
+		Z_PARAM_OBJECT_OF_CLASS(message, phalcon_contracts_queue_message_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &message);
 }
@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryConsumer, reject)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 2)
-		Z_PARAM_OBJECT_OF_CLASS(message, zephir_get_internal_ce(SL("phalcon\\contracts\\queue\\message")))
+		Z_PARAM_OBJECT_OF_CLASS(message, phalcon_contracts_queue_message_ce)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_BOOL(requeue)
 	ZEND_PARSE_PARAMETERS_END();

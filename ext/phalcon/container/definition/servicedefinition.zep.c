@@ -16,6 +16,7 @@
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
+#include "kernel/string.h"
 #include "kernel/exception.h"
 #include "kernel/array.h"
 
@@ -280,10 +281,10 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, addTag)
  */
 PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, buildService)
 {
-	zend_bool _9;
+	zend_bool _11;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *container, container_sub, args, className, extender, factory, instance, reflection, _0, _5, *_6, _8, _1$$3, _2$$4, _3$$4, _4$$4, _7$$5, _10$$6;
+	zval *container, container_sub, args, className, extender, factory, instance, reflection, _0, _5, *_6, _7, *_8, _10, _1$$3, _2$$4, _3$$4, _4$$4, _9$$5, _12$$6;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&container_sub);
@@ -295,13 +296,14 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, buildService)
 	ZVAL_UNDEF(&reflection);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_5);
-	ZVAL_UNDEF(&_8);
+	ZVAL_UNDEF(&_7);
+	ZVAL_UNDEF(&_10);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&_3$$4);
 	ZVAL_UNDEF(&_4$$4);
-	ZVAL_UNDEF(&_7$$5);
-	ZVAL_UNDEF(&_10$$6);
+	ZVAL_UNDEF(&_9$$5);
+	ZVAL_UNDEF(&_12$$6);
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	static zend_string *_zephir_prop_2 = NULL;
@@ -358,37 +360,44 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, buildService)
 		zephir_check_call_status();
 	}
 	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_4, 541, PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_5, 0, "phalcon/Container/Definition/ServiceDefinition.zep", 162);
-	if (Z_TYPE_P(&_5) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_5), _6)
+	if (Z_TYPE_P(&_5) == IS_STRING) {
+		ZEPHIR_INIT_VAR(&_7);
+		zephir_string_to_char_array(&_7, &_5);
+		_6 = &_7;
+	} else {
+		_6 = &_5;
+	}
+	zephir_is_iterable(_6, 0, "phalcon/Container/Definition/ServiceDefinition.zep", 162);
+	if (Z_TYPE_P(_6) == IS_ARRAY) {
+		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_6), _8)
 		{
 			ZEPHIR_INIT_NVAR(&extender);
-			ZVAL_COPY(&extender, _6);
-			ZEPHIR_CALL_ZVAL_FUNCTION(&_7$$5, &extender, NULL, 0, &instance, container);
+			ZVAL_COPY(&extender, _8);
+			ZEPHIR_CALL_ZVAL_FUNCTION(&_9$$5, &extender, NULL, 0, &instance, container);
 			zephir_check_call_status();
-			ZEPHIR_CPY_WRT(&instance, &_7$$5);
+			ZEPHIR_CPY_WRT(&instance, &_9$$5);
 		} ZEND_HASH_FOREACH_END();
 	} else {
-		ZEPHIR_CALL_METHOD(NULL, &_5, "rewind", NULL, 0);
+		ZEPHIR_CALL_METHOD(NULL, _6, "rewind", NULL, 0);
 		zephir_check_call_status();
-		_9 = 1;
+		_11 = 1;
 		while (1) {
-			if (_9) {
-				_9 = 0;
+			if (_11) {
+				_11 = 0;
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, &_5, "next", NULL, 0);
+				ZEPHIR_CALL_METHOD(NULL, _6, "next", NULL, 0);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_8, &_5, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_10, _6, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_8)) {
+			if (!zend_is_true(&_10)) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&extender, &_5, "current", NULL, 0);
+			ZEPHIR_CALL_METHOD(&extender, _6, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_ZVAL_FUNCTION(&_10$$6, &extender, NULL, 0, &instance, container);
+				ZEPHIR_CALL_ZVAL_FUNCTION(&_12$$6, &extender, NULL, 0, &instance, container);
 				zephir_check_call_status();
-				ZEPHIR_CPY_WRT(&instance, &_10$$6);
+				ZEPHIR_CPY_WRT(&instance, &_12$$6);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&extender);

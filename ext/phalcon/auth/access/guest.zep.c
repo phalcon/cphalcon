@@ -43,7 +43,7 @@ PHP_METHOD(Phalcon_Auth_Access_Guest, allowedIf)
 
 	ZVAL_UNDEF(&guard_sub);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(guard, zephir_get_internal_ce(SL("phalcon\\contracts\\auth\\guard\\guard")))
+		Z_PARAM_OBJECT_OF_CLASS(guard, phalcon_contracts_auth_guard_guard_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);

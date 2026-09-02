@@ -88,9 +88,9 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, __construct)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(3, 3)
-		Z_PARAM_OBJECT_OF_CLASS(headers, zephir_get_internal_ce(SL("phalcon\\encryption\\security\\jwt\\token\\item")))
-		Z_PARAM_OBJECT_OF_CLASS(claims, zephir_get_internal_ce(SL("phalcon\\encryption\\security\\jwt\\token\\item")))
-		Z_PARAM_OBJECT_OF_CLASS(signature, zephir_get_internal_ce(SL("phalcon\\encryption\\security\\jwt\\token\\signature")))
+		Z_PARAM_OBJECT_OF_CLASS(headers, phalcon_encryption_security_jwt_token_item_ce)
+		Z_PARAM_OBJECT_OF_CLASS(claims, phalcon_encryption_security_jwt_token_item_ce)
+		Z_PARAM_OBJECT_OF_CLASS(signature, phalcon_encryption_security_jwt_token_signature_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(3, 0, &headers, &claims, &signature);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 717, headers);
@@ -231,7 +231,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, validate)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&methods);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(validator, zephir_get_internal_ce(SL("phalcon\\encryption\\security\\jwt\\validator")))
+		Z_PARAM_OBJECT_OF_CLASS(validator, phalcon_encryption_security_jwt_validator_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
@@ -327,7 +327,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, verify)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(signer, zephir_get_internal_ce(SL("phalcon\\encryption\\security\\jwt\\signer\\signerinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(signer, phalcon_encryption_security_jwt_signer_signerinterface_ce)
 		Z_PARAM_STR(key)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);

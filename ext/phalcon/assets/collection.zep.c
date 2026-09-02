@@ -147,7 +147,7 @@ PHP_METHOD(Phalcon_Assets_Collection, add)
 
 	ZVAL_UNDEF(&asset_sub);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(asset, zephir_get_internal_ce(SL("phalcon\\assets\\assetinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(asset, phalcon_assets_assetinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
@@ -258,7 +258,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addFilter)
 
 	ZVAL_UNDEF(&filter_sub);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(filter, zephir_get_internal_ce(SL("phalcon\\assets\\filterinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(filter, phalcon_assets_filterinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &filter);
 	zephir_update_property_array_append(this_ptr, SL("filters"), filter);
@@ -277,7 +277,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInline)
 
 	ZVAL_UNDEF(&code_sub);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(code, zephir_get_internal_ce(SL("phalcon\\assets\\inline")))
+		Z_PARAM_OBJECT_OF_CLASS(code, phalcon_assets_inline_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
@@ -677,7 +677,7 @@ PHP_METHOD(Phalcon_Assets_Collection, has)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(asset, zephir_get_internal_ce(SL("phalcon\\assets\\assetinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(asset, phalcon_assets_assetinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
@@ -897,7 +897,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addAsset)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$4);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(asset, zephir_get_internal_ce(SL("phalcon\\assets\\assetinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(asset, phalcon_assets_assetinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);

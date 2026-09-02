@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, __construct)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(signer, zephir_get_internal_ce(SL("phalcon\\encryption\\security\\jwt\\signer\\signerinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(signer, phalcon_encryption_security_jwt_signer_signerinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
@@ -1127,7 +1127,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, doDecodeUrl)
 	zephir_get_strval(&input, input_param);
 	ZEPHIR_CALL_FUNCTION(&_0, "mb_strlen", NULL, 0, &input);
 	zephir_check_call_status();
-	remainder = (long) (zephir_safe_mod_zval_long(&_0, 4));
+	remainder = zephir_safe_mod_zval_long(&_0, 4);
 	if (remainder) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "=");

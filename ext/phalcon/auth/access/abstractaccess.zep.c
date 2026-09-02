@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Auth_Access_AbstractAccess, isAllowed)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(2, 3)
-		Z_PARAM_OBJECT_OF_CLASS(guard, zephir_get_internal_ce(SL("phalcon\\contracts\\auth\\guard\\guard")))
+		Z_PARAM_OBJECT_OF_CLASS(guard, phalcon_contracts_auth_guard_guard_ce)
 		Z_PARAM_STR(actionName)
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(context, context_param)

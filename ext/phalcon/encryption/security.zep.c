@@ -221,8 +221,8 @@ PHP_METHOD(Phalcon_Encryption_Security, __construct)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 2)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(session, zephir_get_internal_ce(SL("phalcon\\session\\managerinterface")))
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(request, zephir_get_internal_ce(SL("phalcon\\http\\requestinterface")))
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(session, phalcon_session_managerinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(request, phalcon_http_requestinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);

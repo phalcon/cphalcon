@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Db_Result_PdoResult, __construct)
 
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 5)
-		Z_PARAM_OBJECT_OF_CLASS(connection, zephir_get_internal_ce(SL("phalcon\\db\\adapter\\adapterinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(connection, phalcon_db_adapter_adapterinterface_ce)
 		Z_PARAM_OBJECT_OF_CLASS(result, zephir_get_internal_ce(SL("pdostatement")))
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ZVAL_OR_NULL(sqlStatement)
@@ -180,7 +180,7 @@ PHP_METHOD(Phalcon_Db_Result_PdoResult, __construct)
  */
 PHP_METHOD(Phalcon_Db_Result_PdoResult, dataSeek)
 {
-	long n = 0;
+	zend_long n = 0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_4 = NULL;
 	zval *number_param = NULL, connection, pdo, sqlStatement, bindParams, statement, _0, _1$$4, _2$$4, _3$$6;

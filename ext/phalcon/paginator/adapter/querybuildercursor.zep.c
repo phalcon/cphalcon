@@ -428,7 +428,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilderCursor, setQueryBuilder)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(builder, zephir_get_internal_ce(SL("phalcon\\mvc\\model\\query\\builder")))
+		Z_PARAM_OBJECT_OF_CLASS(builder, phalcon_mvc_model_query_builder_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &builder);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1242, builder);

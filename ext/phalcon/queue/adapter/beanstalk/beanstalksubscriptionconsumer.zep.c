@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkSubscriptionConsumer, __cons
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 2)
-		Z_PARAM_OBJECT_OF_CLASS(context, zephir_get_internal_ce(SL("phalcon\\queue\\adapter\\beanstalk\\beanstalkcontext")))
+		Z_PARAM_OBJECT_OF_CLASS(context, phalcon_queue_adapter_beanstalk_beanstalkcontext_ce)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_LONG(pollInterval)
 	ZEND_PARSE_PARAMETERS_END();

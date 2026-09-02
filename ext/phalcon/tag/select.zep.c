@@ -580,7 +580,7 @@ PHP_METHOD(Phalcon_Tag_Select, optionsFromResultset)
 	ZVAL_UNDEF(&_19$$17);
 	ZVAL_UNDEF(&_20$$19);
 	ZEND_PARSE_PARAMETERS_START(4, 4)
-		Z_PARAM_OBJECT_OF_CLASS(resultset, zephir_get_internal_ce(SL("phalcon\\mvc\\model\\resultsetinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(resultset, phalcon_mvc_model_resultsetinterface_ce)
 		Z_PARAM_ZVAL(using)
 		Z_PARAM_ZVAL(value)
 		Z_PARAM_STR(closeOption)

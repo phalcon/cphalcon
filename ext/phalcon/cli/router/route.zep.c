@@ -430,7 +430,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, convert)
  */
 PHP_METHOD(Phalcon_Cli_Router_Route, extractNamedParams)
 {
-	long _0, _5$$10, _26$$18;
+	zend_long _0, _5$$10, _26$$18;
 	zval route, item, variable, regexp, _4$$10, _21$$15, _24$$15, _27$$25, _30$$28;
 	zend_long cursor = 0, cursorVar = 0, marker = 0, bracketCount, parenthesesCount, foundPattern, intermediate, numberMatches;
 	zend_bool notValid = 0, _6$$11, _7$$11, _8$$11, _9$$11, _10$$11, _11$$11, _12$$11, _13$$11, _14$$11, _15$$11, _16$$11, _17$$11, _25$$17;

@@ -326,7 +326,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, convert)
  */
 PHP_METHOD(Phalcon_Mvc_Router_Route, extractNamedParams)
 {
-	long _0, _5$$10, _26$$18;
+	zend_long _0, _5$$10, _26$$18;
 	zval route, item, variable, regexp, _4$$10, _21$$15, _24$$15, _27$$25, _28$$28;
 	zend_long cursor = 0, cursorVar = 0, marker = 0, bracketCount, parenthesesCount, foundPattern, intermediate, numberMatches;
 	zend_bool notValid = 0, _6$$11, _7$$11, _8$$11, _9$$11, _10$$11, _11$$11, _12$$11, _13$$11, _14$$11, _15$$11, _16$$11, _17$$11, _25$$17, _29$$34, _30$$35, _31$$35, _32$$35;
@@ -993,7 +993,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, setGroup)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(group, zephir_get_internal_ce(SL("phalcon\\mvc\\router\\groupinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(group, phalcon_mvc_router_groupinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &group);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1159, group);

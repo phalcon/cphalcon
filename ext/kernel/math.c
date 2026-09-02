@@ -151,7 +151,7 @@ extern double _php_math_round(double value, int places, int mode);
 void zephir_round(zval *return_value, zval *op1, zval *op2, zval *op3)
 {
 	int places = 0;
-	long mode = PHP_ROUND_HALF_UP;
+	int mode = PHP_ROUND_HALF_UP;
 	double return_val;
 
 	convert_scalar_to_number_ex(op1);

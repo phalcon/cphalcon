@@ -82,20 +82,24 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_CallableNew, __construct)
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_CallableNew, resolve)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *ioc, ioc_sub, instance;
+	zval *ioc, ioc_sub, instance, _0;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&ioc_sub);
 	ZVAL_UNDEF(&instance);
+	ZVAL_UNDEF(&_0);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT(ioc)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &ioc);
+	ZEPHIR_INIT_VAR(&_0);
+	object_init_ex(&_0, phalcon_17__closure_ce);
+	zephir_update_property_zval(&_0, SL("ioc"), ioc);
+	zephir_update_property_zval(&_0, SL("__$zephir_this"), this_ptr);
 	ZEPHIR_INIT_VAR(&instance);
-	zephir_create_closure_ex(&instance, this_ptr, phalcon_17__closure_ce, SL("__invoke"));
-	zephir_update_static_property_ce(phalcon_17__closure_ce, ZEND_STRL("ioc"), ioc);
+	zephir_create_closure_bound(&instance, &_0, this_ptr, phalcon_17__closure_ce, SL("__invoke"));
 	RETURN_CCTOR(&instance);
 }
 

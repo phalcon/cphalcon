@@ -66,7 +66,7 @@ PHP_METHOD(Phalcon_Cache_AdapterFactory, __construct)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 2)
-		Z_PARAM_OBJECT_OF_CLASS(serializerFactory, zephir_get_internal_ce(SL("phalcon\\storage\\serializerfactory")))
+		Z_PARAM_OBJECT_OF_CLASS(serializerFactory, phalcon_storage_serializerfactory_ce)
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(services, services_param)
 	ZEND_PARSE_PARAMETERS_END();

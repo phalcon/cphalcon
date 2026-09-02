@@ -56,8 +56,8 @@ PHP_METHOD(Phalcon_Auth_Cli_AuthDispatcherListener, beforeExecuteRoute)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_OBJECT_OF_CLASS(event, zephir_get_internal_ce(SL("phalcon\\events\\event")))
-		Z_PARAM_OBJECT_OF_CLASS(dispatcher, zephir_get_internal_ce(SL("phalcon\\cli\\dispatcher")))
+		Z_PARAM_OBJECT_OF_CLASS(event, phalcon_events_event_ce)
+		Z_PARAM_OBJECT_OF_CLASS(dispatcher, phalcon_cli_dispatcher_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);

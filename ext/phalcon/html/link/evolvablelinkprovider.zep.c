@@ -56,7 +56,7 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLinkProvider, withLink)
 
 	ZVAL_UNDEF(&link_sub);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(link, zephir_get_internal_ce(SL("phalcon\\html\\link\\interfaces\\linkinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(link, phalcon_html_link_interfaces_linkinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLinkProvider, withoutLink)
 
 	ZVAL_UNDEF(&link_sub);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(link, zephir_get_internal_ce(SL("phalcon\\html\\link\\interfaces\\linkinterface")))
+		Z_PARAM_OBJECT_OF_CLASS(link, phalcon_html_link_interfaces_linkinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
