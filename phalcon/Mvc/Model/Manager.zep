@@ -315,7 +315,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * Check if the number of fields are the same
          */
         if unlikely typeof referencedFields == "array" {
-            if unlikely count(fields) != count(referencedFields) {
+            if unlikely this->getFieldsCount(fields) != this->getFieldsCount(referencedFields) {
                 throw new ReferencedFieldsMismatch("BelongsTo", entityName, referencedEntity);
             }
         }
@@ -409,7 +409,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * Check if the number of fields are the same
          */
         if typeof referencedFields == "array" {
-            if unlikely count(fields) != count(referencedFields) {
+            if unlikely this->getFieldsCount(fields) != this->getFieldsCount(referencedFields) {
                 throw new ReferencedFieldsMismatch("HasMany", entityName, referencedEntity);
             }
         }
@@ -511,7 +511,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * intermediate model
          */
         if typeof intermediateFields == "array" {
-            if unlikely count(fields) != count(intermediateFields) {
+            if unlikely this->getFieldsCount(fields) != this->getFieldsCount(intermediateFields) {
                 throw new ReferencedFieldsMismatch("HasManytoMany", entityName, referencedEntity);
             }
         }
@@ -521,7 +521,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * model to the referenced model
          */
         if typeof intermediateReferencedFields == "array" {
-            if unlikely count(fields) != count(intermediateFields) {
+            if unlikely this->getFieldsCount(intermediateReferencedFields) != this->getFieldsCount(referencedFields) {
                 throw new ReferencedFieldsMismatch("HasManytoMany", entityName, referencedEntity);
             }
         }
@@ -629,7 +629,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * Check if the number of fields are the same
          */
         if typeof referencedFields == "array" {
-            if unlikely count(fields) != count(referencedFields) {
+            if unlikely this->getFieldsCount(fields) != this->getFieldsCount(referencedFields) {
                 throw new ReferencedFieldsMismatch("HasOne", entityName, referencedEntity);
             }
         }
@@ -731,7 +731,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * intermediate model
          */
         if typeof intermediateFields == "array" {
-            if unlikely count(fields) != count(intermediateFields) {
+            if unlikely this->getFieldsCount(fields) != this->getFieldsCount(intermediateFields) {
                 throw new ReferencedFieldsMismatch("HasOneThrough", entityName, referencedEntity);
             }
         }
@@ -741,7 +741,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * model to the referenced model
          */
         if typeof intermediateReferencedFields == "array" {
-            if unlikely count(fields) != count(intermediateFields) {
+            if unlikely this->getFieldsCount(intermediateReferencedFields) != this->getFieldsCount(referencedFields) {
                 throw new ReferencedFieldsMismatch("HasOneThrough", entityName, referencedEntity);
             }
         }
@@ -2494,6 +2494,23 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         }
 
         return connection;
+    }
+
+    /**
+     * Counts the fields of a relation leg. A leg with one field is a string,
+     * so it counts as one field.
+     *
+     * @param mixed $fields
+     *
+     * @return int
+     */
+    private function getFieldsCount(var fields) -> int
+    {
+        if typeof fields == "array" {
+            return count(fields);
+        }
+
+        return 1;
     }
 
     /**
