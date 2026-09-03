@@ -175,7 +175,7 @@ abstract class AbstractValidator implements ValidatorInterface
         var field,
         array replacements = []
     ) -> <Message> {
-        var singleField;
+        var singleField = "";
 
         if typeof field == "array" {
             let singleField = implode(", ", field);

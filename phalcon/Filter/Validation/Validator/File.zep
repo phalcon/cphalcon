@@ -107,9 +107,14 @@ class File extends AbstractValidatorComposite
      */
     public function __construct( array options = [])
     {
-        var allowWildcards = false, included = null, key, message = null,
-            messageFileEmpty = null, messageIniSize = null, messageValid = null,
-            validator, value;
+        var key, value,
+            allowWildcards   = false,
+            included         = null,
+            message          = null,
+            messageFileEmpty = null,
+            messageIniSize   = null,
+            messageValid     = null,
+            validator        = null;
 
         if isset options["messageFileEmpty"] {
             let messageFileEmpty  = this->getArrVal(options, "messageFileEmpty");

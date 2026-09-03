@@ -334,7 +334,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     ) -> <CriteriaInterface> {
         var attribute, field, value, type, metaData, model, dataTypes,
             criteria, columnMap;
-        array conditions, bind;
+        array conditions, bind = [];
 
         let conditions = [];
 

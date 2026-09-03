@@ -174,10 +174,9 @@ class Di implements DiInterface
      */
     public function get( string name, parameters = null) -> var
     {
-        var service, isShared, instance = null;
-
-        let instance = null;
-        let service  = null;
+        var service  = null,
+            isShared = false,
+            instance = null;
 
         /**
          * Resolve the alias, if any

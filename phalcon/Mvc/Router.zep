@@ -2055,7 +2055,9 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      */
     protected function addRouteFromConfig(array routeData) -> void
     {
-        var method, methodClass, pattern, paths, route;
+        var methodClass, pattern, paths,
+            method = "",
+            route  = null;
 
         if !fetch pattern, routeData["pattern"] {
             throw new MissingRouteConfigKey("pattern");
@@ -2065,7 +2067,6 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             throw new MissingRouteConfigKey("paths");
         }
 
-        let method = "";
         if isset routeData["method"] && routeData["method"] !== null {
             let method = strtolower((string) routeData["method"]);
         }
@@ -2116,7 +2117,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      */
     protected function mountGroupFromConfig(array groupData) -> void
     {
-        var group, paths, routes, routeData, method, methodClass, pattern, routePaths, route;
+        var group, paths, routes, routeData, method, methodClass, pattern, routePaths,
+            route = null;
 
         let paths = null;
         if isset groupData["paths"] {

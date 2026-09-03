@@ -180,7 +180,8 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      */
     public function partial( string partialPath, var params = null) -> void
     {
-        var viewParams, mergedParams;
+        var mergedParams,
+            viewParams = [];
 
         /**
          * Start output buffering
@@ -350,7 +351,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
     protected function loadTemplateEngines() -> array
     {
         var engines, di, registeredEngines, extension, engineService,
-            engineObject;
+            engineObject = null;
 
         /**
          * If the engines aren't initialized 'engines' is false
@@ -425,7 +426,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
     {
         var eventsManager, engines, extension, engine, segment, segments;
         bool notExists, mustClean;
-        string viewEnginePath, viewsDirPath;
+        string viewEnginePath = "", viewsDirPath;
 
         let eventsManager = this->eventsManager;
 

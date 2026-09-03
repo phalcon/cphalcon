@@ -95,9 +95,13 @@ class StringLength extends AbstractValidatorComposite
      */
     public function __construct( array options = [])
     {
-        var hasIncluded = false, hasMessage = false, included = null,
-            includedMaximum, includedMinimum, key, message = null,
-            messageMaximum, messageMinimum, validator, value;
+        var includedMaximum, includedMinimum, key, messageMaximum,
+            messageMinimum, value,
+            hasIncluded = false,
+            hasMessage  = false,
+            included    = null,
+            message     = null,
+            validator   = null;
 
         // the generic options apply to both validators. Read them before the
         // loop, because each branch removes them from the options

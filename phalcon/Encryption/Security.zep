@@ -391,7 +391,7 @@ class Security extends AbstractInjectionAware implements SecurityContract
      */
     public function getSaltBytes(int numberBytes = 0) -> string
     {
-        var safeBytes;
+        var safeBytes = null;
 
         if !numberBytes {
             let numberBytes = this->numberBytes;

@@ -93,10 +93,11 @@ class Application extends AbstractApplication
      */
     public function handle( string uri) -> <ResponseInterface> | bool
     {
-        var container, eventsManager, router, dispatcher, response, view,
-            module, moduleObject, moduleName, className, path, implicitView,
-            returnedResponse, controller, possibleResponse, renderStatus,
-            matchedRoute, match;
+        var className, container, controller, dispatcher, eventsManager,
+            implicitView, match, matchedRoute, module, moduleName, moduleObject,
+            path, possibleResponse, renderStatus, response, returnedResponse,
+            router,
+            view = null;
 
         let container = this->container;
 

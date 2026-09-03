@@ -77,8 +77,9 @@ class Identical extends AbstractValidator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, accepted;
-        bool valid;
+        var value,
+            accepted = null;
+        bool valid = false;
 
         let value = validation->getValue(field);
         if this->allowEmpty(field, value) {

@@ -1986,7 +1986,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public static function findFirst(var parameters = null) -> var | null
     {
-        var eager, params, query, resultset;
+        var eager, query, resultset;
+        array params = [];
 
         if null === parameters {
             let params = [];
@@ -2863,9 +2864,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public function doSave(<CollectionInterface> visited) -> bool
     {
-        var metaData, schema, writeConnection, source, table,
-            identityField, exists, success, relatedToSave, objId,
-            manager, savedSnapshot, savedOldSnapshot;
+        var exists, identityField, manager, metaData, objId, relatedToSave,
+            schema, source, success, table, writeConnection,
+            savedSnapshot    = [],
+            savedOldSnapshot = [];
         bool hasRelatedToSave;
 
         let objId = spl_object_id(this);
@@ -4126,22 +4128,26 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * @param string|array table
      * @param bool|string identityField
      */
-    protected function doLowInsert(<MetaDataInterface> metaData, <AdapterInterface> connection,
-        table, identityField) -> bool
-    {
-        var attributeField, attributes, automaticAttributes, bindDataTypes,
-            bindSkip, bindType, bindTypes, columnMap, defaultValue, defaultValues,
-            field, fields, lastInsertedId, manager, rawValue, rawValues, sequenceName, schema,
-            snapshot, source, success, unsetDefaultValues, value, values;
+    protected function doLowInsert(
+        <MetaDataInterface> metaData,
+        <AdapterInterface> connection,
+        table,
+        identityField
+    ) -> bool {
+        var attributes, automaticAttributes, bindDataTypes, bindSkip, bindType,
+            columnMap, defaultValue, defaultValues, field, lastInsertedId,
+            manager, rawValue, rawValues, sequenceName, schema, source, success,
+            attributeField     = null,
+            bindTypes          = [],
+            fields             = [],
+            snapshot           = [],
+            unsetDefaultValues = [],
+            value              = null,
+            values             = [];
         bool useExplicitIdentity;
 
         let bindSkip            = Column::BIND_SKIP,
             manager             = <ManagerInterface> this->modelsManager,
-            fields              = [],
-            values              = [],
-            snapshot            = [],
-            bindTypes           = [],
-            unsetDefaultValues  = [],
             rawValues           = this->rawValues,
             attributes          = metaData->getAttributes(this),
             bindDataTypes       = metaData->getBindTypes(this),
@@ -5563,7 +5569,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             intermediateReferencedFields, existingIntermediateModel, columnA, columnB,
             existingRecords, existingRecord, keepKey, override;
         bool isThrough, doSync;
-        int columnCount, referencedFieldsCount, i, j, t, h;
+        int referencedFieldsCount, i, j, t, h,
+            columnCount = 0;
         array conditions, placeholders, loopConditions, loopPlaceholders, keptKeys;
 
         let nesting = false,

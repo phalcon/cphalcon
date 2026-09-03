@@ -71,7 +71,6 @@ use Phalcon\Support\Helper\Str\Ucwords;
 use Phalcon\Support\Helper\Str\Uncamelize;
 use Phalcon\Support\Helper\Str\Underscore;
 use Phalcon\Support\Helper\Str\Upper;
-use Throwable;
 
 /**
  * ServiceLocator implementation for helpers
@@ -180,7 +179,7 @@ class HelperFactory extends AbstractFactory
     }
 
     /**
-     * @return class-string<Throwable>
+     * @return class-string<\Exception>
      */
     protected function getExceptionClass() -> string
     {

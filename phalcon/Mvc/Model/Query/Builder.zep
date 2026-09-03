@@ -693,13 +693,14 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     final public function getPhql() -> string
     {
-        var container, models, conditions, model, metaData, modelInstance,
-            primaryKeys, firstPrimaryKey, columnMap, modelAlias,
-            attributeField, phql, column, columns, selectedColumns,
-            selectedColumn, selectedModel, selectedModels, columnAlias,
-            modelColumnAlias, joins, join, joinModel, joinConditions,
-            joinAlias, joinType, group, groupItems, groupItem, having, order,
-            orderItems, orderItem, limit, number, offset, forUpdate, distinct;
+        var attributeField, column, columnAlias, columnMap, columns, conditions,
+            container, distinct, firstPrimaryKey, forUpdate, group, groupItem,
+            groupItems, having, join, joinAlias, joinConditions, joinModel,
+            joinType, joins, limit, metaData, model, modelAlias, modelColumnAlias,
+            modelInstance, models, number, order, orderItem, orderItems, phql,
+            primaryKeys, selectedColumn, selectedColumns, selectedModel,
+            selectedModels,
+            offset = null;
         bool noPrimary;
 
         let container = this->container;

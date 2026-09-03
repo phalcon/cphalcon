@@ -336,24 +336,22 @@ class Manager extends AbstractInjectionAware
      */
     public function output(<Collection> collection, string type) -> string | null
     {
-        string output;
-        bool filterNeeded;
         var asset, assets, callback, callbackMethod, collectionSourcePath,
-            collectionTargetPath, completeSourcePath, completeTargetPath,
-            content, filters, filteredContent, filteredJoinedContent,
-            html, join, mustFilter, options, prefixedPath, sourceBasePath,
-            sourcePath, targetBasePath, targetPath, typeCss;
-
-        let completeSourcePath    = "",
+            collectionTargetPath, content, filters, html, mustFilter, options,
+            prefixedPath, sourceBasePath, sourcePath, targetBasePath,
+            typeCss,
+            completeSourcePath    = "",
             completeTargetPath    = "",
             filteredContent       = "",
             filteredJoinedContent = "",
             join                  = false,
-            output                = "",
-            options               = this->options;
+            targetPath            = "";
+        string output = "";
+        bool filterNeeded;
 
         let callbackMethod = ("css" === type) ? "cssLink" : "jsLink",
-            callback       = [this, callbackMethod];
+            callback       = [this, callbackMethod],
+            options        = this->options;
 
         /**
          * Get the assets as an array
@@ -605,13 +603,13 @@ class Manager extends AbstractInjectionAware
      */
     public function outputInline(<Collection> collection, type) -> string
     {
-        string html, joinedContent, output;
-        var attributes, code, codes, content, filters, join;
+        var code, codes, content, filters, join,
+            attributes = null;
+        string html          = "",
+               joinedContent = "",
+               output        = "";
 
-        let output        = "",
-            html          = "",
-            joinedContent = "",
-            codes         = collection->getCodes(),
+        let codes         = collection->getCodes(),
             filters       = collection->getFilters(),
             join          = collection->getJoin();
 

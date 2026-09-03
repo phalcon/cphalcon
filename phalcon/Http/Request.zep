@@ -1729,8 +1729,10 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      */
     protected function resolveAuthorizationHeaders() -> array
     {
-        var resolved, eventsManager, hasEventsManager, container, exploded,
-            digest, authHeader = null, server;
+        var container, digest, exploded, resolved, server,
+            authHeader       = null,
+            eventsManager    = null,
+            hasEventsManager = false;
         array headers = [];
 
         let container = <DiInterface> this->getDI(),

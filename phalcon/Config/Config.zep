@@ -82,7 +82,8 @@ class Config extends Collection implements ConfigInterface
      */
     public function merge(var toMerge) -> <ConfigInterface>
     {
-        var result, source, target;
+        var result, source,
+            target = null;
 
         if typeof toMerge === "array" {
             let target = toMerge;

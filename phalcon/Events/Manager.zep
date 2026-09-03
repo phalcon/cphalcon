@@ -201,7 +201,7 @@ class Manager implements ManagerInterface, Enumerable
         var handler,
         int priority = self::DEFAULT_PRIORITY
     ) -> void {
-        int type;
+        int type = 2;
 
         // Classify the handler type ONCE so fireQueue() doesn't have to
         // run instanceof / is_callable per fire per listener.
@@ -419,8 +419,9 @@ class Manager implements ManagerInterface, Enumerable
         bool cancelable = true,
         var stopOnFalse = null
     ) {
-        var cached, colonPos, event, eventName, ex, fireEvents, stashed,
-            status, stop, type, wasDepth;
+        var cached, colonPos, event, eventName, ex, fireEvents, status, stop,
+            type, wasDepth,
+            stashed = [];
         bool collect, hasFullQueue, hasTypeQueue;
 
         if stopOnFalse === null {
@@ -964,7 +965,8 @@ class Manager implements ManagerInterface, Enumerable
      */
     private function runObjectQueue(array queue, object event, var methodName)
     {
-        var handler, handlerCallable, handlerObject, ret, status, tuple, type;
+        var handler, handlerCallable, handlerObject, status, tuple, type,
+            ret = null;
         bool collect;
 
         let status  = null;
