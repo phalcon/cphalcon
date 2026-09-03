@@ -3938,7 +3938,7 @@ class Query implements QueryInterface, InjectionAwareInterface
         var alias, automaticJoins, bestAlias, column, columns, completeSource,
             distinct, eagerType, groupBy, having, joinAlias, joins, limit,
             manager, mergeKey, mergeValue, metaData, model, modelName, number,
-            order, qualifiedName, relation, relationModel, schema, select,
+            order, qualifiedName, relation, relationModel, relations, schema, select,
             selectColumns, selectedModel, selectedModels, source, sqlColumn,
             sqlColumnAliases, sqlJoins, sqlSelect, tables, where, with, withItem, withs,
             tempModels                    = [],
@@ -4115,14 +4115,31 @@ class Query implements QueryInterface, InjectionAwareInterface
                             relationModel = relation->getReferencedModel(),
                             eagerType = relation->getType();
                     } else {
-                        let relation = manager->getRelationsBetween(
+                        /**
+                         * Check for relations between models. The call gives
+                         * back an array of relations, or false when the models
+                         * have none.
+                         */
+                        let relations = manager->getRelationsBetween(
                             modelName,
                             relationModel
                         );
 
-                        if unlikely typeof relation != "object" {
+                        if unlikely typeof relations != "array" {
                             throw new RelationshipNotFound(modelName, relationModel, this->phql);
                         }
+
+                        /**
+                         * More than one relation must throw an exception
+                         */
+                        if unlikely count(relations) != 1 {
+                            throw new AmbiguousJoinRelation(modelName, relationModel, this->phql);
+                        }
+
+                        /**
+                         * Get the first relationship
+                         */
+                        let relation = relations[0];
 
                         let bestAlias = relation->getOption("alias"),
                             relationModel = relation->getReferencedModel(),
