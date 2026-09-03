@@ -78,15 +78,15 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Pkcs7, unpad)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long blockSize, ZEPHIR_LAST_CALL_STATUS;
-	zval input_zv, *blockSize_param = NULL, last, length, ord, padding, paddingSize, _0, _1, _2$$3, _3$$3, _4$$3;
+	zval input_zv, *blockSize_param = NULL, length, ord, padding, paddingSize, last, _0, _1, _2$$3, _3$$3, _4$$3;
 	zend_string *input = NULL;
 
 	ZVAL_UNDEF(&input_zv);
-	ZVAL_UNDEF(&last);
 	ZVAL_UNDEF(&length);
 	ZVAL_UNDEF(&ord);
 	ZVAL_UNDEF(&padding);
 	ZVAL_UNDEF(&paddingSize);
+	ZVAL_UNDEF(&last);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2$$3);
@@ -102,11 +102,14 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Pkcs7, unpad)
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
 	ZEPHIR_INIT_VAR(&paddingSize);
+	ZVAL_LONG(&paddingSize, 0);
+	ZEPHIR_INIT_VAR(&last);
+	ZVAL_STRING(&last, "");
 	ZEPHIR_INIT_VAR(&length);
 	ZVAL_LONG(&length, zephir_fast_strlen_ev(&input_zv));
 	ZVAL_LONG(&_0, (zephir_get_numberval(&length) - 1));
 	ZVAL_LONG(&_1, 1);
-	ZEPHIR_INIT_VAR(&last);
+	ZEPHIR_INIT_NVAR(&last);
 	zephir_substr(&last, &input_zv, zephir_get_intval(&_0), 1 , 0);
 	ZEPHIR_CALL_FUNCTION(&ord, "ord", NULL, 0, &last);
 	zephir_check_call_status();

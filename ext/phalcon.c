@@ -252,6 +252,7 @@ zend_class_entry *phalcon_contracts_container_resolver_reflectionmethodresolver_
 zend_class_entry *phalcon_contracts_container_service_definition_ce;
 zend_class_entry *phalcon_contracts_dispatcher_dispatchertypes_ce;
 zend_class_entry *phalcon_contracts_events_subscriber_ce;
+zend_class_entry *phalcon_contracts_factory_factorytypes_ce;
 zend_class_entry *phalcon_contracts_filter_filtertypes_ce;
 zend_class_entry *phalcon_contracts_flash_flashtypes_ce;
 zend_class_entry *phalcon_contracts_forms_formstypes_ce;
@@ -1869,6 +1870,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Contracts_Container_Service_Definition);
 	ZEPHIR_INIT(Phalcon_Contracts_Dispatcher_DispatcherTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Events_Subscriber);
+	ZEPHIR_INIT(Phalcon_Contracts_Factory_FactoryTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Filter_FilterTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Flash_FlashTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Forms_FormsTypes);

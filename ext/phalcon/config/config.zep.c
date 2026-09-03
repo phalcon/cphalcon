@@ -122,6 +122,7 @@ PHP_METHOD(Phalcon_Config_Config, merge)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &toMerge);
 	ZEPHIR_INIT_VAR(&target);
+	ZVAL_NULL(&target);
 	if (Z_TYPE_P(toMerge) == IS_ARRAY) {
 		ZEPHIR_CPY_WRT(&target, toMerge);
 	} else {
@@ -137,7 +138,7 @@ PHP_METHOD(Phalcon_Config_Config, merge)
 			object_init_ex(&_1$$5, phalcon_config_exceptions_invalidmergedata_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_1$$5, "__construct", NULL, 39);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_1$$5, "phalcon/Config/Config.zep", 92);
+			zephir_throw_exception_debug(&_1$$5, "phalcon/Config/Config.zep", 93);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -343,7 +344,7 @@ PHP_METHOD(Phalcon_Config_Config, toArray)
 	} else {
 		_0 = &data;
 	}
-	zephir_is_iterable(_0, 0, "phalcon/Config/Config.zep", 203);
+	zephir_is_iterable(_0, 0, "phalcon/Config/Config.zep", 204);
 	if (Z_TYPE_P(_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_0), _3, _4, _2)
 		{
@@ -487,7 +488,7 @@ PHP_METHOD(Phalcon_Config_Config, internalMerge)
 	zephir_fetch_params(1, 2, 0, &source_param, &target_param);
 	zephir_get_arrval(&source, source_param);
 	zephir_get_arrval(&target, target_param);
-	zephir_is_iterable(&target, 0, "phalcon/Config/Config.zep", 255);
+	zephir_is_iterable(&target, 0, "phalcon/Config/Config.zep", 256);
 	if (Z_TYPE_P(&target) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&target), _1, _2, _0)
 		{
@@ -506,11 +507,11 @@ PHP_METHOD(Phalcon_Config_Config, internalMerge)
 			_4$$3 = _3$$3;
 			if (_4$$3) {
 				ZEPHIR_OBS_NVAR(&_5$$3);
-				zephir_array_fetch(&_5$$3, &source, &key, PH_NOISY, "phalcon/Config/Config.zep", 245);
+				zephir_array_fetch(&_5$$3, &source, &key, PH_NOISY, "phalcon/Config/Config.zep", 246);
 				_4$$3 = Z_TYPE_P(&_5$$3) == IS_ARRAY;
 			}
 			if (_4$$3) {
-				zephir_array_fetch(&_7$$4, &source, &key, PH_NOISY | PH_READONLY, "phalcon/Config/Config.zep", 247);
+				zephir_array_fetch(&_7$$4, &source, &key, PH_NOISY | PH_READONLY, "phalcon/Config/Config.zep", 248);
 				ZEPHIR_CALL_METHOD(&_6$$4, this_ptr, "internalmerge", &_8, 40, &_7$$4, &value);
 				zephir_check_call_status();
 				zephir_array_update_zval(&source, &key, &_6$$4, PH_COPY | PH_SEPARATE);
@@ -545,11 +546,11 @@ PHP_METHOD(Phalcon_Config_Config, internalMerge)
 				_12$$5 = _11$$5;
 				if (_12$$5) {
 					ZEPHIR_OBS_NVAR(&_13$$5);
-					zephir_array_fetch(&_13$$5, &source, &key, PH_NOISY, "phalcon/Config/Config.zep", 245);
+					zephir_array_fetch(&_13$$5, &source, &key, PH_NOISY, "phalcon/Config/Config.zep", 246);
 					_12$$5 = Z_TYPE_P(&_13$$5) == IS_ARRAY;
 				}
 				if (_12$$5) {
-					zephir_array_fetch(&_15$$6, &source, &key, PH_NOISY | PH_READONLY, "phalcon/Config/Config.zep", 247);
+					zephir_array_fetch(&_15$$6, &source, &key, PH_NOISY | PH_READONLY, "phalcon/Config/Config.zep", 248);
 					ZEPHIR_CALL_METHOD(&_14$$6, this_ptr, "internalmerge", &_8, 40, &_15$$6, &value);
 					zephir_check_call_status();
 					zephir_array_update_zval(&source, &key, &_14$$6, PH_COPY | PH_SEPARATE);

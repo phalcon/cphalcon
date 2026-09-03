@@ -172,7 +172,7 @@ PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, newInstance)
 }
 
 /**
- * @return string
+ * @return class-string<\Exception>
  */
 PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, getExceptionClass)
 {
@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, getExceptionClass)
 /**
  * Returns the available adapters
  *
- * @return string[]
+ * @return array<string, string>
  */
 PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, getServices)
 {

@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Queue_AdapterFactory, newInstance)
 /**
  * Returns the exception class for the factory
  *
- * @return class-string<\Throwable>
+ * @return class-string<\Exception>
  */
 PHP_METHOD(Phalcon_Queue_AdapterFactory, getExceptionClass)
 {
@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Queue_AdapterFactory, getExceptionClass)
 /**
  * Returns the available adapters.
  *
- * @return string[]
+ * @return array<string, string>
  */
 PHP_METHOD(Phalcon_Queue_AdapterFactory, getServices)
 {

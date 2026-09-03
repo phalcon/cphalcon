@@ -99,19 +99,19 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_MimeType, validate)
 	zend_bool allowWildcards = 0, _16$$9, _11$$10, _17$$12;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validation, validation_sub, *field, field_sub, fieldTypes, matched, mime, replacePairs, tmp, type, types, value, _0, _1, _3, _6, _7, _2$$5, _4$$6, _5$$7, *_8$$9, _9$$9, *_10$$9, _15$$9, _12$$10, _13$$10, _14$$10, _18$$12, _19$$12, _20$$12, _21$$15, _22$$15;
+	zval *validation, validation_sub, *field, field_sub, fieldTypes, replacePairs, tmp, type, types, value, matched, mime, _0, _1, _3, _6, _7, _2$$5, _4$$6, _5$$7, *_8$$9, _9$$9, *_10$$9, _15$$9, _12$$10, _13$$10, _14$$10, _18$$12, _19$$12, _20$$12, _21$$15, _22$$15;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
 	ZVAL_UNDEF(&field_sub);
 	ZVAL_UNDEF(&fieldTypes);
-	ZVAL_UNDEF(&matched);
-	ZVAL_UNDEF(&mime);
 	ZVAL_UNDEF(&replacePairs);
 	ZVAL_UNDEF(&tmp);
 	ZVAL_UNDEF(&type);
 	ZVAL_UNDEF(&types);
 	ZVAL_UNDEF(&value);
+	ZVAL_UNDEF(&matched);
+	ZVAL_UNDEF(&mime);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_3);
@@ -140,6 +140,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_MimeType, validate)
 	ZEPHIR_INIT_VAR(&matched);
 	ZVAL_BOOL(&matched, 0);
 	ZEPHIR_INIT_VAR(&mime);
+	ZVAL_NULL(&mime);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkupload", NULL, 0, validation, field);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_0)) {

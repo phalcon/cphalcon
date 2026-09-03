@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Translate_InterpolatorFactory, newInstance)
 }
 
 /**
- * @return class-string<Throwable>
+ * @return class-string<\Exception>
  */
 PHP_METHOD(Phalcon_Translate_InterpolatorFactory, getExceptionClass)
 {
@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Translate_InterpolatorFactory, getExceptionClass)
 /**
  * Returns the available adapters
  *
- * @return string[]
+ * @return array<string, string>
  */
 PHP_METHOD(Phalcon_Translate_InterpolatorFactory, getServices)
 {

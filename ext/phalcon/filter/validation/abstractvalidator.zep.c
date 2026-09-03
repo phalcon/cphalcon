@@ -401,6 +401,7 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, messageFactory)
 		zephir_get_arrval(&replacements, replacements_param);
 	}
 	ZEPHIR_INIT_VAR(&singleField);
+	ZVAL_STRING(&singleField, "");
 	if (Z_TYPE_P(field) == IS_ARRAY) {
 		ZEPHIR_INIT_NVAR(&singleField);
 		zephir_fast_join_str(&singleField, SL(", "), field);

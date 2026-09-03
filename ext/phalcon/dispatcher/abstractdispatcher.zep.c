@@ -247,16 +247,16 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, callActionMethod)
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval params, _13, _3$$3, _8$$3;
 	zend_string *actionMethod = NULL;
-	zval *handler, handler_sub, actionMethod_zv, *params_param = NULL, result, observer, altHandler, altAction, altParams, _0, _2, _14, _15, _17, _4$$3, _5$$3, _6$$3, _7$$3, _9$$4, _10$$4, _11$$4, _12$$4, _18$$5, _19$$5;
+	zval *handler, handler_sub, actionMethod_zv, *params_param = NULL, altAction, altHandler, altParams, result, observer, _0, _2, _14, _15, _17, _4$$3, _5$$3, _6$$3, _7$$3, _9$$4, _10$$4, _11$$4, _12$$4, _18$$5, _19$$5;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&handler_sub);
 	ZVAL_UNDEF(&actionMethod_zv);
+	ZVAL_UNDEF(&altAction);
+	ZVAL_UNDEF(&altHandler);
+	ZVAL_UNDEF(&altParams);
 	ZVAL_UNDEF(&result);
 	ZVAL_UNDEF(&observer);
-	ZVAL_UNDEF(&altHandler);
-	ZVAL_UNDEF(&altAction);
-	ZVAL_UNDEF(&altParams);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_14);
@@ -310,6 +310,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, callActionMethod)
 		zephir_get_arrval(&params, params_param);
 	}
 	ZEPHIR_INIT_VAR(&observer);
+	ZVAL_NULL(&observer);
 	ZEPHIR_CPY_WRT(&altHandler, handler);
 	ZEPHIR_CPY_WRT(&altAction, &actionMethod_zv);
 	ZEPHIR_CPY_WRT(&altParams, &params);
@@ -642,7 +643,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch)
 					if (ZEPHIR_IS_FALSE_IDENTICAL(&status)) {
 						RETURN_MM_BOOL(0);
 					}
-					zephir_throw_exception_debug(&e, "phalcon/Dispatcher/AbstractDispatcher.zep", 275);
+					zephir_throw_exception_debug(&e, "phalcon/Dispatcher/AbstractDispatcher.zep", 276);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
@@ -719,7 +720,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch)
 					if (_21$$15) {
 						continue;
 					}
-					zephir_throw_exception_debug(&e, "phalcon/Dispatcher/AbstractDispatcher.zep", 321);
+					zephir_throw_exception_debug(&e, "phalcon/Dispatcher/AbstractDispatcher.zep", 322);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
@@ -795,7 +796,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch)
 		}
 		zephir_read_property_cached(&_38$$10, this_ptr, _zephir_prop_5, 180, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_NVAR(&hookCache);
-		zephir_array_fetch(&hookCache, &_38$$10, &handlerClass, PH_NOISY, "phalcon/Dispatcher/AbstractDispatcher.zep", 389);
+		zephir_array_fetch(&hookCache, &_38$$10, &handlerClass, PH_NOISY, "phalcon/Dispatcher/AbstractDispatcher.zep", 390);
 		zephir_read_property_cached(&_39$$10, this_ptr, _zephir_prop_6, 181, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CPY_WRT(&namespaceName, &_39$$10);
 		zephir_read_property_cached(&_39$$10, this_ptr, _zephir_prop_7, 175, PH_NOISY_CC | PH_READONLY);
@@ -898,13 +899,13 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch)
 						zephir_check_call_status();
 						continue;
 					}
-					zephir_throw_exception_debug(&e, "phalcon/Dispatcher/AbstractDispatcher.zep", 475);
+					zephir_throw_exception_debug(&e, "phalcon/Dispatcher/AbstractDispatcher.zep", 476);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
 			}
 		}
-		zephir_array_fetch_long(&_64$$10, &hookCache, 0, PH_NOISY | PH_READONLY, "phalcon/Dispatcher/AbstractDispatcher.zep", 479);
+		zephir_array_fetch_long(&_64$$10, &hookCache, 0, PH_NOISY | PH_READONLY, "phalcon/Dispatcher/AbstractDispatcher.zep", 480);
 		if (zephir_is_true(&_64$$10)) {
 
 			/* try_start_4: */
@@ -943,14 +944,14 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch)
 						zephir_check_call_status();
 						continue;
 					}
-					zephir_throw_exception_debug(&e, "phalcon/Dispatcher/AbstractDispatcher.zep", 498);
+					zephir_throw_exception_debug(&e, "phalcon/Dispatcher/AbstractDispatcher.zep", 499);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
 			}
 		}
 		if (isNewHandler) {
-			zephir_array_fetch_long(&_74$$41, &hookCache, 1, PH_NOISY | PH_READONLY, "phalcon/Dispatcher/AbstractDispatcher.zep", 522);
+			zephir_array_fetch_long(&_74$$41, &hookCache, 1, PH_NOISY | PH_READONLY, "phalcon/Dispatcher/AbstractDispatcher.zep", 523);
 			if (zephir_is_true(&_74$$41)) {
 
 				/* try_start_5: */
@@ -987,7 +988,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch)
 						if (_77$$44) {
 							continue;
 						}
-						zephir_throw_exception_debug(&e, "phalcon/Dispatcher/AbstractDispatcher.zep", 544);
+						zephir_throw_exception_debug(&e, "phalcon/Dispatcher/AbstractDispatcher.zep", 545);
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
@@ -1050,7 +1051,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch)
 						if (_90$$50) {
 							continue;
 						}
-						zephir_throw_exception_debug(&e, "phalcon/Dispatcher/AbstractDispatcher.zep", 582);
+						zephir_throw_exception_debug(&e, "phalcon/Dispatcher/AbstractDispatcher.zep", 583);
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
@@ -1081,7 +1082,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch)
 				continue;
 			}
 		}
-		zephir_array_fetch_long(&_97$$10, &hookCache, 2, PH_NOISY | PH_READONLY, "phalcon/Dispatcher/AbstractDispatcher.zep", 628);
+		zephir_array_fetch_long(&_97$$10, &hookCache, 2, PH_NOISY | PH_READONLY, "phalcon/Dispatcher/AbstractDispatcher.zep", 629);
 		if (zephir_is_true(&_97$$10)) {
 			ZEPHIR_CALL_METHOD(&_98$$56, &handler, "afterbinding", NULL, 0, this_ptr);
 			zephir_check_call_status();
@@ -1125,7 +1126,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch)
 				if (_106$$61) {
 					continue;
 				}
-				zephir_throw_exception_debug(&e, "phalcon/Dispatcher/AbstractDispatcher.zep", 667);
+				zephir_throw_exception_debug(&e, "phalcon/Dispatcher/AbstractDispatcher.zep", 668);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -1166,13 +1167,13 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch)
 					if (_114$$66) {
 						continue;
 					}
-					zephir_throw_exception_debug(&e, "phalcon/Dispatcher/AbstractDispatcher.zep", 689);
+					zephir_throw_exception_debug(&e, "phalcon/Dispatcher/AbstractDispatcher.zep", 690);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
 			}
 		}
-		zephir_array_fetch_long(&_116$$10, &hookCache, 3, PH_NOISY | PH_READONLY, "phalcon/Dispatcher/AbstractDispatcher.zep", 696);
+		zephir_array_fetch_long(&_116$$10, &hookCache, 3, PH_NOISY | PH_READONLY, "phalcon/Dispatcher/AbstractDispatcher.zep", 697);
 		if (zephir_is_true(&_116$$10)) {
 
 			/* try_start_9: */
@@ -1207,7 +1208,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch)
 					if (_122$$71) {
 						continue;
 					}
-					zephir_throw_exception_debug(&e, "phalcon/Dispatcher/AbstractDispatcher.zep", 712);
+					zephir_throw_exception_debug(&e, "phalcon/Dispatcher/AbstractDispatcher.zep", 713);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
@@ -1241,7 +1242,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch)
 					if (_127$$75) {
 						continue;
 					}
-					zephir_throw_exception_debug(&e, "phalcon/Dispatcher/AbstractDispatcher.zep", 732);
+					zephir_throw_exception_debug(&e, "phalcon/Dispatcher/AbstractDispatcher.zep", 733);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
@@ -1271,7 +1272,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch)
 				if (ZEPHIR_IS_FALSE_IDENTICAL(&_131$$79)) {
 					RETURN_MM_BOOL(0);
 				}
-				zephir_throw_exception_debug(&e, "phalcon/Dispatcher/AbstractDispatcher.zep", 749);
+				zephir_throw_exception_debug(&e, "phalcon/Dispatcher/AbstractDispatcher.zep", 750);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -1369,7 +1370,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, forward)
 		object_init_ex(&_1$$3, phalcon_dispatcher_exceptions_forwardininitializeforbidden_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 189);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Dispatcher/AbstractDispatcher.zep", 781);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Dispatcher/AbstractDispatcher.zep", 782);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -1568,7 +1569,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getHandlerClass)
 	ZEPHIR_CPY_WRT(&handlerName, &_0);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_2, 181, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&namespaceName, &_0);
-	if (!(zephir_memnstr_str(&handlerName, SL("\\"), "phalcon/Dispatcher/AbstractDispatcher.zep", 902))) {
+	if (!(zephir_memnstr_str(&handlerName, SL("\\"), "phalcon/Dispatcher/AbstractDispatcher.zep", 903))) {
 		ZEPHIR_CALL_METHOD(&camelizedClass, this_ptr, "tocamelcase", NULL, 0, &handlerName);
 		zephir_check_call_status();
 	} else {

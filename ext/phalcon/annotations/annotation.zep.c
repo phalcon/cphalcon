@@ -229,17 +229,17 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_5 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *expr_param = NULL, value, item, resolvedItem, arrayValue, name, type, _0$$7, *_1$$7, _2$$7, *_3$$7, _6$$7, _4$$8, _8$$11, _9$$15;
+	zval *expr_param = NULL, item, resolvedItem, arrayValue, name, type, value, _0$$7, *_1$$7, _2$$7, *_3$$7, _6$$7, _4$$8, _8$$11, _9$$15;
 	zval expr;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&expr);
-	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&item);
 	ZVAL_UNDEF(&resolvedItem);
 	ZVAL_UNDEF(&arrayValue);
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&type);
+	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_0$$7);
 	ZVAL_UNDEF(&_2$$7);
 	ZVAL_UNDEF(&_6$$7);
@@ -254,8 +254,9 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression)
 	zephir_fetch_params(1, 1, 0, &expr_param);
 	zephir_get_arrval(&expr, expr_param);
 	ZEPHIR_INIT_VAR(&value);
+	ZVAL_NULL(&value);
 	zephir_memory_observe(&type);
-	zephir_array_fetch_string(&type, &expr, SL("type"), PH_NOISY, "phalcon/Annotations/Annotation.zep", 113);
+	zephir_array_fetch_string(&type, &expr, SL("type"), PH_NOISY, "phalcon/Annotations/Annotation.zep", 114);
 	if (ZEPHIR_IS_LONG(&type, 301)) { goto zephir_switch_0_clause_0; }
 	if (ZEPHIR_IS_LONG(&type, 302)) { goto zephir_switch_0_clause_1; }
 	if (ZEPHIR_IS_LONG(&type, 303)) { goto zephir_switch_0_clause_2; }
@@ -271,7 +272,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression)
 	zephir_switch_0_clause_2: ;
 	zephir_switch_0_clause_3: ;
 		ZEPHIR_OBS_NVAR(&value);
-		zephir_array_fetch_string(&value, &expr, SL("value"), PH_NOISY, "phalcon/Annotations/Annotation.zep", 120);
+		zephir_array_fetch_string(&value, &expr, SL("value"), PH_NOISY, "phalcon/Annotations/Annotation.zep", 121);
 		goto zephir_switch_0_end;
 	zephir_switch_0_clause_4: ;
 		ZEPHIR_INIT_NVAR(&value);
@@ -288,7 +289,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression)
 	zephir_switch_0_clause_7: ;
 		ZEPHIR_INIT_VAR(&arrayValue);
 		array_init(&arrayValue);
-		zephir_array_fetch_string(&_0$$7, &expr, SL("items"), PH_NOISY | PH_READONLY, "phalcon/Annotations/Annotation.zep", 138);
+		zephir_array_fetch_string(&_0$$7, &expr, SL("items"), PH_NOISY | PH_READONLY, "phalcon/Annotations/Annotation.zep", 139);
 		if (Z_TYPE_P(&_0$$7) == IS_STRING) {
 			ZEPHIR_INIT_VAR(&_2$$7);
 			zephir_string_to_char_array(&_2$$7, &_0$$7);
@@ -296,20 +297,20 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression)
 		} else {
 			_1$$7 = &_0$$7;
 		}
-		zephir_is_iterable(_1$$7, 0, "phalcon/Annotations/Annotation.zep", 150);
+		zephir_is_iterable(_1$$7, 0, "phalcon/Annotations/Annotation.zep", 151);
 		if (Z_TYPE_P(_1$$7) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_1$$7), _3$$7)
 			{
 				ZEPHIR_INIT_NVAR(&item);
 				ZVAL_COPY(&item, _3$$7);
-				zephir_array_fetch_string(&_4$$8, &item, SL("expr"), PH_NOISY | PH_READONLY, "phalcon/Annotations/Annotation.zep", 141);
+				zephir_array_fetch_string(&_4$$8, &item, SL("expr"), PH_NOISY | PH_READONLY, "phalcon/Annotations/Annotation.zep", 142);
 				ZEPHIR_CALL_METHOD(&resolvedItem, this_ptr, "getexpression", &_5, 361, &_4$$8);
 				zephir_check_call_status();
 				ZEPHIR_OBS_NVAR(&name);
 				if (zephir_array_isset_string_fetch(&name, &item, SL("name"), 0)) {
 					zephir_array_update_zval(&arrayValue, &name, &resolvedItem, PH_COPY | PH_SEPARATE);
 				} else {
-					zephir_array_append(&arrayValue, &resolvedItem, PH_SEPARATE, "phalcon/Annotations/Annotation.zep", 146);
+					zephir_array_append(&arrayValue, &resolvedItem, PH_SEPARATE, "phalcon/Annotations/Annotation.zep", 147);
 				}
 			} ZEND_HASH_FOREACH_END();
 		} else {
@@ -330,14 +331,14 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression)
 				}
 				ZEPHIR_CALL_METHOD(&item, _1$$7, "current", NULL, 0);
 				zephir_check_call_status();
-					zephir_array_fetch_string(&_8$$11, &item, SL("expr"), PH_NOISY | PH_READONLY, "phalcon/Annotations/Annotation.zep", 141);
+					zephir_array_fetch_string(&_8$$11, &item, SL("expr"), PH_NOISY | PH_READONLY, "phalcon/Annotations/Annotation.zep", 142);
 					ZEPHIR_CALL_METHOD(&resolvedItem, this_ptr, "getexpression", &_5, 361, &_8$$11);
 					zephir_check_call_status();
 					ZEPHIR_OBS_NVAR(&name);
 					if (zephir_array_isset_string_fetch(&name, &item, SL("name"), 0)) {
 						zephir_array_update_zval(&arrayValue, &name, &resolvedItem, PH_COPY | PH_SEPARATE);
 					} else {
-						zephir_array_append(&arrayValue, &resolvedItem, PH_SEPARATE, "phalcon/Annotations/Annotation.zep", 146);
+						zephir_array_append(&arrayValue, &resolvedItem, PH_SEPARATE, "phalcon/Annotations/Annotation.zep", 147);
 					}
 			}
 		}
@@ -353,7 +354,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression)
 		object_init_ex(&_9$$15, phalcon_annotations_exceptions_unknownannotationexpression_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_9$$15, "__construct", NULL, 363, &type);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_9$$15, "phalcon/Annotations/Annotation.zep", 156);
+		zephir_throw_exception_debug(&_9$$15, "phalcon/Annotations/Annotation.zep", 157);
 		ZEPHIR_MM_RESTORE();
 		return;
 	zephir_switch_0_end: ;
