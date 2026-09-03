@@ -78,6 +78,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setSticky);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, setWriteConnectionService);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, useDynamicUpdate);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getConnection);
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getFieldsCount);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, checkHasRelationship);
 zend_object *zephir_init_properties_Phalcon_Mvc_Model_Manager(zend_class_entry *class_type);
 
@@ -463,6 +464,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_manager_getconn
 	ZEND_ARG_ARRAY_INFO(0, connectionServices, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_getfieldscount, 0, 1, IS_LONG, 0)
+	ZEND_ARG_INFO(0, fields)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_checkhasrelationship, 0, 3, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, collection, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, modelName, IS_STRING, 0)
@@ -548,6 +553,7 @@ PHP_ME(Phalcon_Mvc_Model_Manager, __destruct, arginfo_phalcon_mvc_model_manager_
 	PHP_ME(Phalcon_Mvc_Model_Manager, setWriteConnectionService, arginfo_phalcon_mvc_model_manager_setwriteconnectionservice, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, useDynamicUpdate, arginfo_phalcon_mvc_model_manager_usedynamicupdate, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, getConnection, arginfo_phalcon_mvc_model_manager_getconnection, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Manager, getFieldsCount, arginfo_phalcon_mvc_model_manager_getfieldscount, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Mvc_Model_Manager, checkHasRelationship, arginfo_phalcon_mvc_model_manager_checkhasrelationship, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };
