@@ -16,10 +16,18 @@
 namespace Phalcon\DataMapper\Query;
 
 use BadMethodCallException;
+use Phalcon\Contracts\DataMapper\DataMapperTypes;
 use Phalcon\DataMapper\Pdo\Exception\UnknownQueryMethod;
 
 /**
  * Select Query
+ *
+ * @phpstan-import-type datamapper_call_arguments from DataMapperTypes
+ * @phpstan-import-type datamapper_clauses from DataMapperTypes
+ * @phpstan-import-type datamapper_columns from DataMapperTypes
+ * @phpstan-import-type datamapper_select_store from DataMapperTypes
+ *
+ * @property datamapper_select_store $store
  */
 class Select extends AbstractConditions
 {
@@ -57,6 +65,8 @@ class Select extends AbstractConditions
      * @param array  $params
      *
      * @return mixed
+     *
+     * @phpstan-param datamapper_call_arguments $params
      */
     public function __call(string method, array params)
     {
@@ -66,7 +76,7 @@ class Select extends AbstractConditions
             "fetchAffected" : true,
             "fetchAll"      : true,
             "fetchAssoc"    : true,
-            "fetchCol"      : true,
+            "fetchColumn"   : true,
             "fetchGroup"    : true,
             "fetchObject"   : true,
             "fetchObjects"  : true,
@@ -181,6 +191,8 @@ class Select extends AbstractConditions
      * @param array $columns
      *
      * @return Select
+     *
+     * @phpstan-param datamapper_columns $columns
      */
     public function columns(array columns) -> <Select>
     {
@@ -259,6 +271,8 @@ class Select extends AbstractConditions
      * @param array|string $groupBy
      *
      * @return Select
+     *
+     * @phpstan-param datamapper_clauses|string $groupBy
      */
     public function groupBy(var groupBy) -> <Select>
     {

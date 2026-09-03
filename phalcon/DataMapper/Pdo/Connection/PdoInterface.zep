@@ -15,8 +15,15 @@
 
 namespace Phalcon\DataMapper\Pdo\Connection;
 
+use Phalcon\Contracts\DataMapper\DataMapperTypes;
+
 /**
  * An interface to the native PDO object.
+ *
+ * @phpstan-import-type datamapper_drivers from DataMapperTypes
+ * @phpstan-import-type datamapper_error_info from DataMapperTypes
+ * @phpstan-import-type datamapper_pdo_options from DataMapperTypes
+ * @phpstan-import-type datamapper_quote_value from DataMapperTypes
  */
 interface PdoInterface
 {
@@ -47,6 +54,8 @@ interface PdoInterface
      * Gets the most recent error info.
      *
      * @return array
+     *
+     * @phpstan-return datamapper_error_info
      */
     public function errorInfo() -> array;
 
@@ -73,6 +82,8 @@ interface PdoInterface
      * Return an array of available PDO drivers (empty array if none available)
      *
      * @return array
+     *
+     * @phpstan-return datamapper_drivers
      */
     public static function getAvailableDrivers() -> array;
 
@@ -102,6 +113,8 @@ interface PdoInterface
      * @param array  $options
      *
      * @return \PDOStatement|false
+     *
+     * @phpstan-param datamapper_pdo_options $options
      */
     public function prepare(string statement, array options = []) -> <\PDOStatement> | bool;
 
@@ -125,6 +138,8 @@ interface PdoInterface
      * @param int   $type
      *
      * @return string The quoted value.
+     *
+     * @phpstan-param datamapper_quote_value $value
      */
     public function quote(var value, int type = \PDO::PARAM_STR) -> string;
 

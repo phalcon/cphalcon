@@ -15,10 +15,13 @@
 
 namespace Phalcon\DataMapper\Pdo\Profiler;
 
+use Phalcon\Contracts\DataMapper\DataMapperTypes;
 use Phalcon\Logger\LoggerInterface;
 
 /**
  * Interface to send query profiles to a logger.
+ *
+ * @phpstan-import-type datamapper_values from DataMapperTypes
  */
 interface ProfilerInterface
 {
@@ -27,6 +30,8 @@ interface ProfilerInterface
      *
      * @param string $statement
      * @param array  $values
+     *
+     * @phpstan-param datamapper_values $values
      */
     public function finish(string statement = null, array values = []) -> void;
 

@@ -15,11 +15,22 @@
 
 namespace Phalcon\DataMapper\Pdo\Connection;
 
+use Phalcon\Contracts\DataMapper\DataMapperTypes;
 use Phalcon\DataMapper\Pdo\Profiler\ProfilerInterface;
 
 /**
  * Provides array quoting, profiling, a new `perform()` method, new `fetch*()`
  * methods
+ *
+ * @phpstan-import-type datamapper_assoc_rows from DataMapperTypes
+ * @phpstan-import-type datamapper_column from DataMapperTypes
+ * @phpstan-import-type datamapper_constructor_arguments from DataMapperTypes
+ * @phpstan-import-type datamapper_grouped_rows from DataMapperTypes
+ * @phpstan-import-type datamapper_objects from DataMapperTypes
+ * @phpstan-import-type datamapper_pairs from DataMapperTypes
+ * @phpstan-import-type datamapper_row from DataMapperTypes
+ * @phpstan-import-type datamapper_rows from DataMapperTypes
+ * @phpstan-import-type datamapper_values from DataMapperTypes
  */
 interface ConnectionInterface extends PdoInterface
 {
@@ -40,6 +51,8 @@ interface ConnectionInterface extends PdoInterface
      * @param array  $values
      *
      * @return int
+     *
+     * @phpstan-param datamapper_values $values
      */
     public function fetchAffected(string statement, array values = []) -> int;
 
@@ -51,6 +64,10 @@ interface ConnectionInterface extends PdoInterface
      * @param array  $values
      *
      * @return array
+     *
+     * @phpstan-param datamapper_values $values
+     *
+     * @phpstan-return datamapper_rows
      */
     public function fetchAll(string statement, array values = []) -> array;
 
@@ -67,6 +84,10 @@ interface ConnectionInterface extends PdoInterface
      * @param array  $values
      *
      * @return array
+     *
+     * @phpstan-param datamapper_values $values
+     *
+     * @phpstan-return datamapper_assoc_rows
      */
     public function fetchAssoc(string statement, array values = []) -> array;
 
@@ -78,6 +99,10 @@ interface ConnectionInterface extends PdoInterface
      * @param int    $column
      *
      * @return array
+     *
+     * @phpstan-param datamapper_values $values
+     *
+     * @phpstan-return datamapper_column
      */
     public function fetchColumn(string statement, array values = [], int column = 0) -> array;
 
@@ -91,6 +116,10 @@ interface ConnectionInterface extends PdoInterface
      * @param int    $flags
      *
      * @return array
+     *
+     * @phpstan-param datamapper_values $values
+     *
+     * @phpstan-return datamapper_grouped_rows
      */
     public function fetchGroup(string statement, array values = [], int flags = \PDO::FETCH_ASSOC) -> array;
 
@@ -103,12 +132,19 @@ interface ConnectionInterface extends PdoInterface
      * constructor, will override the values that have been injected by
      * `fetchObject`. The default object returned is `\stdClass`
      *
+     * An empty `stdClass` is returned when there is no row. The
+     * `object|false` return type lands in v7.
+     *
      * @param string $statement
      * @param array  $values
      * @param string $class
      * @param array  $arguments
      *
      * @return object
+     *
+     * @phpstan-param datamapper_values                $values
+     * @phpstan-param class-string|'stdClass'          $className
+     * @phpstan-param datamapper_constructor_arguments $arguments
      */
     public function fetchObject(string statement, array values = [], string className = "stdClass", array arguments = []) -> object;
 
@@ -128,6 +164,12 @@ interface ConnectionInterface extends PdoInterface
      * @param array  $arguments
      *
      * @return array
+     *
+     * @phpstan-param datamapper_values                $values
+     * @phpstan-param class-string|'stdClass'          $className
+     * @phpstan-param datamapper_constructor_arguments $arguments
+     *
+     * @phpstan-return datamapper_objects
      */
     public function fetchObjects(string statement, array values = [], string className = "stdClass", array arguments = []) -> array;
 
@@ -138,6 +180,10 @@ interface ConnectionInterface extends PdoInterface
      * @param array  $values
      *
      * @return array
+     *
+     * @phpstan-param datamapper_values $values
+     *
+     * @phpstan-return datamapper_row
      */
     public function fetchOne(string statement, array values = []) -> array;
 
@@ -149,6 +195,10 @@ interface ConnectionInterface extends PdoInterface
      * @param array  $values
      *
      * @return array
+     *
+     * @phpstan-param datamapper_values $values
+     *
+     * @phpstan-return datamapper_pairs
      */
     public function fetchPairs(string statement, array values = []) -> array;
 
@@ -159,6 +209,8 @@ interface ConnectionInterface extends PdoInterface
      * @param array  $values
      *
      * @return mixed
+     *
+     * @phpstan-param datamapper_values $values
      */
     public function fetchValue(string statement, array values = []) -> var;
 
@@ -193,6 +245,8 @@ interface ConnectionInterface extends PdoInterface
      * @param array  $values
      *
      * @return \PDOStatement
+     *
+     * @phpstan-param datamapper_values $values
      */
     public function perform(string statement, array values = []) -> <\PDOStatement>;
 
@@ -200,6 +254,8 @@ interface ConnectionInterface extends PdoInterface
      * Sets the Profiler instance.
      *
      * @param ProfilerInterface $profiler The Profiler instance.
+     *
+     * @return static
      */
     public function setProfiler(<ProfilerInterface> profiler);
 }
