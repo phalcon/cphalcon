@@ -27,6 +27,8 @@
  */
 /**
  * Interface to send query profiles to a logger.
+ *
+ * @phpstan-import-type datamapper_values from DataMapperTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Profiler_ProfilerInterface)
 {
@@ -40,6 +42,8 @@ ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Profiler_ProfilerInterface)
  *
  * @param string $statement
  * @param array  $values
+ *
+ * @phpstan-param datamapper_values $values
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Profiler_ProfilerInterface, finish);
 /**

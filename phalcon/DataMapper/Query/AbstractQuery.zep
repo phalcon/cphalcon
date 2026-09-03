@@ -15,10 +15,16 @@
 
 namespace Phalcon\DataMapper\Query;
 
+use Phalcon\Contracts\DataMapper\DataMapperTypes;
 use Phalcon\DataMapper\Pdo\Connection;
 
 /**
  * Class AbstractQuery
+ *
+ * @phpstan-import-type datamapper_bind_store from DataMapperTypes
+ * @phpstan-import-type datamapper_bind_values from DataMapperTypes
+ * @phpstan-import-type datamapper_clauses from DataMapperTypes
+ * @phpstan-import-type datamapper_query_store from DataMapperTypes
  */
 abstract class AbstractQuery
 {
@@ -34,6 +40,9 @@ abstract class AbstractQuery
 
     /**
      * @var array
+     *
+     * @phpstan-var datamapper_query_store
+     * @psalm-suppress InvalidPropertyAssignmentValue
      */
     protected store = [];
 
@@ -90,6 +99,8 @@ abstract class AbstractQuery
      * @param array $values
      *
      * @return AbstractQuery
+     *
+     * @phpstan-param datamapper_bind_values $values
      */
     public function bindValues(array values) -> <AbstractQuery>
     {
@@ -102,6 +113,8 @@ abstract class AbstractQuery
      * Returns all the bound values
      *
      * @return array
+     *
+     * @phpstan-return datamapper_bind_store
      */
     public function getBindValues() -> array
     {
@@ -280,6 +293,8 @@ abstract class AbstractQuery
      * @param string $glue
      *
      * @return string
+     *
+     * @phpstan-param datamapper_clauses $collection
      */
     protected function indent(array collection, string glue = "") -> string
     {

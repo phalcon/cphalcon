@@ -15,10 +15,17 @@
 
 namespace Phalcon\DataMapper\Query;
 
+use Phalcon\Contracts\DataMapper\DataMapperTypes;
 use Phalcon\DataMapper\Pdo\Connection;
 
 /**
  * Update Query
+ *
+ * @phpstan-import-type datamapper_clauses from DataMapperTypes
+ * @phpstan-import-type datamapper_column_values from DataMapperTypes
+ * @phpstan-import-type datamapper_write_store from DataMapperTypes
+ *
+ * @property datamapper_write_store $store
  */
 class Update extends AbstractConditions
 {
@@ -60,6 +67,8 @@ class Update extends AbstractConditions
      * @param array $columns
      *
      * @return Update
+     *
+     * @phpstan-param datamapper_column_values $columns
      */
     public function columns(array columns) -> <Update>
     {
@@ -119,6 +128,8 @@ class Update extends AbstractConditions
      * @param array $columns
      *
      * @return Update
+     *
+     * @phpstan-param datamapper_clauses $columns
      */
     public function returning(array columns) -> <Update>
     {
@@ -148,6 +159,8 @@ class Update extends AbstractConditions
      * @param mixed|null $value
      *
      * @return Update
+     *
+     * @phpstan-param string|null $value
      */
     public function set(string column, var value = null) -> <Update>
     {

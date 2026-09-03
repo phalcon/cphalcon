@@ -15,8 +15,13 @@
 
 namespace Phalcon\DataMapper\Query;
 
+use Phalcon\Contracts\DataMapper\DataMapperTypes;
+
 /**
  * Class AbstractConditions
+ *
+ * @phpstan-import-type datamapper_clauses from DataMapperTypes
+ * @phpstan-import-type datamapper_column_values from DataMapperTypes
  */
 abstract class AbstractConditions extends AbstractQuery
 {
@@ -92,6 +97,8 @@ abstract class AbstractConditions extends AbstractQuery
      * @param array|string $orderBy
      *
      * @return AbstractConditions
+     *
+     * @phpstan-param datamapper_clauses|string $orderBy
      */
     public function orderBy(var orderBy) -> <AbstractConditions>
     {
@@ -142,6 +149,8 @@ abstract class AbstractConditions extends AbstractQuery
      * @param array $columnsValues
      *
      * @return AbstractConditions
+     *
+     * @phpstan-param datamapper_column_values $columnsValues
      */
     public function whereEquals(array columnsValues) -> <AbstractConditions>
     {
@@ -170,6 +179,8 @@ abstract class AbstractConditions extends AbstractQuery
      * @param string     $condition
      * @param mixed|null $value
      * @param int        $type
+     *
+     * @phpstan-param 'HAVING'|'WHERE' $store
      */
     protected function addCondition(
         string store,
@@ -195,6 +206,8 @@ abstract class AbstractConditions extends AbstractQuery
      * @param string $type
      *
      * @return string
+     *
+     * @phpstan-param 'GROUP'|'ORDER' $type
      */
     protected function buildBy(string type) -> string
     {
@@ -212,6 +225,8 @@ abstract class AbstractConditions extends AbstractQuery
      * @param string $type
      *
      * @return string
+     *
+     * @phpstan-param 'HAVING'|'WHERE' $type
      */
     protected function buildCondition(string type) -> string
     {
@@ -311,6 +326,8 @@ abstract class AbstractConditions extends AbstractQuery
      * @param string $condition
      * @param mixed  $value
      * @param int    $type
+     *
+     * @phpstan-param 'HAVING'|'WHERE' $store
      */
     protected function appendCondition(
         string store,
@@ -338,6 +355,9 @@ abstract class AbstractConditions extends AbstractQuery
      *
      * @param string       $store
      * @param array|string $data
+     *
+     * @phpstan-param 'GROUP'|'ORDER'           $store
+     * @phpstan-param datamapper_clauses|string $data
      */
     protected function processValue(string store, var data) -> void
     {

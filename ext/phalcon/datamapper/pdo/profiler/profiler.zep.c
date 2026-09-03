@@ -34,6 +34,9 @@
  */
 /**
  * Sends query profiles to a logger.
+ *
+ * @phpstan-import-type datamapper_profiler_context from DataMapperTypes
+ * @phpstan-import-type datamapper_values from DataMapperTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Profiler_Profiler)
 {
@@ -45,6 +48,8 @@ ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Profiler_Profiler)
 	zend_declare_property_bool(phalcon_datamapper_pdo_profiler_profiler_ce, SL("active"), 0, ZEND_ACC_PROTECTED);
 	/**
 	 * @var array
+	 *
+	 * @phpstan-var datamapper_profiler_context
 	 */
 	zend_declare_property_null(phalcon_datamapper_pdo_profiler_profiler_ce, SL("context"), ZEND_ACC_PROTECTED);
 	/**
@@ -149,13 +154,15 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, __construct)
  *
  * @param string $statement
  * @param array  $values
+ *
+ * @phpstan-param datamapper_values $values
  */
 PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, finish)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval values;
-	zval statement_zv, *values_param = NULL, __$true, ex, finish, _0, _1$$3, _2$$3, _3$$3, _4$$3, _5$$3, _6$$3, _7$$3, _8$$3, _9$$3, _10$$3, _11$$3, _12$$3, _13$$3, _14$$3, _15$$3;
+	zval statement_zv, *values_param = NULL, __$true, ex, finish, start, _0, _1$$3, _2$$3, _3$$3, _4$$3, _5$$3, _6$$3, _7$$3, _8$$3, _9$$3, _10$$3, _11$$3, _12$$3, _13$$3, _14$$3;
 	zend_string *statement = NULL;
 	zval *this_ptr = getThis();
 
@@ -163,6 +170,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, finish)
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_UNDEF(&ex);
 	ZVAL_UNDEF(&finish);
+	ZVAL_UNDEF(&start);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
@@ -178,7 +186,6 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, finish)
 	ZVAL_UNDEF(&_12$$3);
 	ZVAL_UNDEF(&_13$$3);
 	ZVAL_UNDEF(&_14$$3);
-	ZVAL_UNDEF(&_15$$3);
 	ZVAL_UNDEF(&values);
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
@@ -236,45 +243,46 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, finish)
 		zephir_check_call_status();
 		ZEPHIR_CALL_FUNCTION(&finish, "hrtime", NULL, 0, &__$true);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&_1$$3, &ex, "gettraceasstring", NULL, 0);
+		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_1, 578, PH_NOISY_CC | PH_READONLY);
+		zephir_memory_observe(&start);
+		zephir_array_fetch_string(&start, &_1$$3, SL("start"), PH_NOISY, "phalcon/DataMapper/Pdo/Profiler/Profiler.zep", 96);
+		ZEPHIR_CALL_METHOD(&_2$$3, &ex, "gettraceasstring", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(&_2$$3);
-		ZVAL_STRING(&_2$$3, "backtrace");
-		zephir_update_property_array(this_ptr, SL("context"), &_2$$3, &_1$$3);
-		zephir_read_property_cached(&_3$$3, this_ptr, _zephir_prop_1, 578, PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch_string(&_4$$3, &_3$$3, SL("start"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/Profiler/Profiler.zep", 91);
+		ZEPHIR_INIT_VAR(&_3$$3);
+		ZVAL_STRING(&_3$$3, "backtrace");
+		zephir_update_property_array(this_ptr, SL("context"), &_3$$3, &_2$$3);
+		ZEPHIR_INIT_VAR(&_4$$3);
+		zephir_sub_function(&_4$$3, &finish, &start);
 		ZEPHIR_INIT_VAR(&_5$$3);
-		zephir_sub_function(&_5$$3, &finish, &_4$$3);
+		ZVAL_STRING(&_5$$3, "duration");
+		zephir_update_property_array(this_ptr, SL("context"), &_5$$3, &_4$$3);
 		ZEPHIR_INIT_VAR(&_6$$3);
-		ZVAL_STRING(&_6$$3, "duration");
-		zephir_update_property_array(this_ptr, SL("context"), &_6$$3, &_5$$3);
+		ZVAL_STRING(&_6$$3, "finish");
+		zephir_update_property_array(this_ptr, SL("context"), &_6$$3, &finish);
 		ZEPHIR_INIT_VAR(&_7$$3);
-		ZVAL_STRING(&_7$$3, "finish");
-		zephir_update_property_array(this_ptr, SL("context"), &_7$$3, &finish);
-		ZEPHIR_INIT_VAR(&_8$$3);
-		ZVAL_STRING(&_8$$3, "statement");
-		zephir_update_property_array(this_ptr, SL("context"), &_8$$3, &statement_zv);
-		ZEPHIR_INIT_NVAR(&_5$$3);
+		ZVAL_STRING(&_7$$3, "statement");
+		zephir_update_property_array(this_ptr, SL("context"), &_7$$3, &statement_zv);
+		ZEPHIR_INIT_NVAR(&_4$$3);
 		if (ZEPHIR_IS_EMPTY(&values)) {
-			ZEPHIR_INIT_NVAR(&_5$$3);
-			ZVAL_STRING(&_5$$3, "");
+			ZEPHIR_INIT_NVAR(&_4$$3);
+			ZVAL_STRING(&_4$$3, "");
 		} else {
-			zephir_read_property_cached(&_9$$3, this_ptr, _zephir_prop_2, 576, PH_NOISY_CC | PH_READONLY);
-			ZEPHIR_CALL_METHOD(&_5$$3, &_9$$3, "__invoke", NULL, 0, &values);
+			zephir_read_property_cached(&_8$$3, this_ptr, _zephir_prop_2, 576, PH_NOISY_CC | PH_READONLY);
+			ZEPHIR_CALL_METHOD(&_4$$3, &_8$$3, "__invoke", NULL, 0, &values);
 			zephir_check_call_status();
 		}
-		ZEPHIR_INIT_VAR(&_10$$3);
-		ZVAL_STRING(&_10$$3, "values");
-		zephir_update_property_array(this_ptr, SL("context"), &_10$$3, &_5$$3);
-		zephir_read_property_cached(&_11$$3, this_ptr, _zephir_prop_3, 575, PH_NOISY_CC | PH_READONLY);
-		zephir_read_property_cached(&_12$$3, this_ptr, _zephir_prop_4, 574, PH_NOISY_CC | PH_READONLY);
-		zephir_read_property_cached(&_13$$3, this_ptr, _zephir_prop_5, 573, PH_NOISY_CC | PH_READONLY);
-		zephir_read_property_cached(&_14$$3, this_ptr, _zephir_prop_1, 578, PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_METHOD(NULL, &_11$$3, "log", NULL, 0, &_12$$3, &_13$$3, &_14$$3);
+		ZEPHIR_INIT_VAR(&_9$$3);
+		ZVAL_STRING(&_9$$3, "values");
+		zephir_update_property_array(this_ptr, SL("context"), &_9$$3, &_4$$3);
+		zephir_read_property_cached(&_10$$3, this_ptr, _zephir_prop_3, 575, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_11$$3, this_ptr, _zephir_prop_4, 574, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_12$$3, this_ptr, _zephir_prop_5, 573, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_13$$3, this_ptr, _zephir_prop_1, 578, PH_NOISY_CC | PH_READONLY);
+		ZEPHIR_CALL_METHOD(NULL, &_10$$3, "log", NULL, 0, &_11$$3, &_12$$3, &_13$$3);
 		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(&_15$$3);
-		array_init(&_15$$3);
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 578, &_15$$3);
+		ZEPHIR_INIT_VAR(&_14$$3);
+		array_init(&_14$$3);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 578, &_14$$3);
 	}
 	ZEPHIR_MM_RESTORE();
 }

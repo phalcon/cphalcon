@@ -27,6 +27,8 @@
  */
 /**
  * Locates PDO connections for default, read, and write databases.
+ *
+ * @phpstan-import-type datamapper_connection_factory from DataMapperTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_ConnectionLocatorInterface)
 {
@@ -76,6 +78,8 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocatorInterface, setMaster);
  * @param callable $callable
  *
  * @return ConnectionLocatorInterface
+ *
+ * @phpstan-param datamapper_connection_factory $callableObject
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocatorInterface, setRead);
 /**
@@ -85,5 +89,7 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocatorInterface, setRead);
  * @param callable $callable
  *
  * @return ConnectionLocatorInterface
+ *
+ * @phpstan-param datamapper_connection_factory $callableObject
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocatorInterface, setWrite);

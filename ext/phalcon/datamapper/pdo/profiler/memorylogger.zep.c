@@ -35,6 +35,8 @@
  */
 /**
  * A memory-based logger.
+ *
+ * @phpstan-import-type datamapper_log_messages from DataMapperTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger)
 {
@@ -42,6 +44,8 @@ ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger)
 
 	/**
 	 * @var array
+	 *
+	 * @phpstan-var datamapper_log_messages
 	 */
 	zend_declare_property_null(phalcon_datamapper_pdo_profiler_memorylogger_ce, SL("messages"), ZEND_ACC_PROTECTED);
 	phalcon_datamapper_pdo_profiler_memorylogger_ce->create_object = zephir_init_properties_Phalcon_DataMapper_Pdo_Profiler_MemoryLogger;
@@ -306,6 +310,8 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, getLogLevel)
  * Returns the logged messages.
  *
  * @return array
+ *
+ * @phpstan-return datamapper_log_messages
  */
 PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, getMessages)
 {
@@ -532,7 +538,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, log)
 	}
 	ZEPHIR_INIT_VAR(&replace);
 	array_init(&replace);
-	zephir_is_iterable(&context, 0, "phalcon/DataMapper/Pdo/Profiler/MemoryLogger.zep", 178);
+	zephir_is_iterable(&context, 0, "phalcon/DataMapper/Pdo/Profiler/MemoryLogger.zep", 185);
 	if (Z_TYPE_P(&context) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&context), _1, _2, _0)
 		{

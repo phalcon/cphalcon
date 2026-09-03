@@ -15,8 +15,14 @@
 
 namespace Phalcon\DataMapper\Query;
 
+use Phalcon\Contracts\DataMapper\DataMapperTypes;
+
 /**
  * Class Bind
+ *
+ * @phpstan-import-type datamapper_bind_store from DataMapperTypes
+ * @phpstan-import-type datamapper_bind_values from DataMapperTypes
+ * @phpstan-import-type datamapper_values from DataMapperTypes
  */
 class Bind
 {
@@ -27,6 +33,8 @@ class Bind
 
     /**
      * @var array
+     *
+     * @phpstan-var datamapper_bind_store
      */
     protected store = [];
 
@@ -97,6 +105,8 @@ class Bind
      *
      * @param array $values
      * @param int   $type
+     *
+     * @phpstan-param datamapper_bind_values $values
      */
     public function setValues(array values, int type = -1) -> void
     {
@@ -111,6 +121,8 @@ class Bind
      * Returns the internal collection
      *
      * @return array
+     *
+     * @phpstan-return datamapper_bind_store
      */
     public function toArray() -> array
     {
@@ -148,6 +160,8 @@ class Bind
      * @param int   $type
      *
      * @return string
+     *
+     * @phpstan-param datamapper_values $data
      */
     protected function inlineArray(array data, int type) -> string
     {
