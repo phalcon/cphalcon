@@ -421,10 +421,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
              * can go stale after external deletes; reusable relations delegate
              * caching to the models manager.
              */
-            if isset this->related[lowerProperty] && !relation->isReusable() {
-                if typeof this->related[lowerProperty] === "object" && (this->related[lowerProperty] instanceof ModelInterface) {
-                    return this->related[lowerProperty];
-                }
+            if isset this->related[lowerProperty] && !relation->isReusable() &&
+                typeof this->related[lowerProperty] === "object" &&
+                (this->related[lowerProperty] instanceof ModelInterface) {
+                return this->related[lowerProperty];
             }
 
             /**
@@ -935,10 +935,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             // Check if we there is data for the field
             if fetch value, dataMapped[attributeField] {
                 // If white-list exists check if the attribute is on that list
-                if typeof whiteList == "array" {
-                    if !in_array(attributeField, whiteList) {
-                        continue;
-                    }
+                if typeof whiteList == "array" && !in_array(attributeField, whiteList) {
+                    continue;
                 }
 
                 // Try to find a possible getter
@@ -4008,14 +4006,12 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 this
             );
 
-            if related {
-                /**
-                 * Delete related if there is any
-                 * Stop the operation if needed
-                 */
-                if related->delete() === false {
-                    return false;
-                }
+            /**
+             * Delete related if there is any
+             * Stop the operation if needed
+             */
+            if related && related->delete() === false {
+                return false;
             }
         }
 
@@ -4175,66 +4171,65 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 let attributeField = field;
             }
 
-            if !array_key_exists(attributeField, automaticAttributes) {
+            /**
+             * Check every attribute in the model except identity field
+             */
+            if !array_key_exists(attributeField, automaticAttributes) &&
+                field != identityField {
                 /**
-                 * Check every attribute in the model except identity field
+                 * This isset checks that the property be defined in the
+                 * model
                  */
-                if field != identityField {
-                    /**
-                     * This isset checks that the property be defined in the
-                     * model
-                     */
-                    if fetch rawValue, rawValues[attributeField] {
-                        if unlikely !fetch bindType, bindDataTypes[field] {
-                            throw new BindTypeNotDefined(field, get_class(this));
-                        }
-
-                        let fields[]                 = field,
-                            values[]                 = rawValue,
-                            bindTypes[]              = bindType,
-                            snapshot[attributeField] = rawValue;
-                    } elseif fetch value, this->{attributeField} {
-                        if value === null && array_key_exists(field, defaultValues) {
-                            let snapshot[attributeField]           = defaultValues[field],
-                                unsetDefaultValues[attributeField] = defaultValues[field];
-
-                            if unlikely false === connection->supportsDefaultValue() {
-                                continue;
-                            }
-
-                            let value = connection->getDefaultValue();
-                        } else {
-                            let snapshot[attributeField] = value;
-                        }
-
-                        /**
-                         * Every column must have a bind data type defined
-                         */
-                        if unlikely !fetch bindType, bindDataTypes[field] {
-                            throw new BindTypeNotDefined(field, get_class(this));
-                        }
-
-                        let fields[]    = field,
-                            values[]    = value,
-                            bindTypes[] = bindType;
-                    } else {
-                        if array_key_exists(field, defaultValues) {
-                            let snapshot[attributeField]           = defaultValues[field],
-                                unsetDefaultValues[attributeField] = defaultValues[field];
-
-                            if unlikely false === connection->supportsDefaultValue() {
-                                continue;
-                            }
-
-                            let values[] = connection->getDefaultValue();
-                        } else {
-                            let values[]                 = value,
-                                snapshot[attributeField] = value;
-                        }
-
-                        let fields[]    = field,
-                            bindTypes[] = bindSkip;
+                if fetch rawValue, rawValues[attributeField] {
+                    if unlikely !fetch bindType, bindDataTypes[field] {
+                        throw new BindTypeNotDefined(field, get_class(this));
                     }
+
+                    let fields[]                 = field,
+                        values[]                 = rawValue,
+                        bindTypes[]              = bindType,
+                        snapshot[attributeField] = rawValue;
+                } elseif fetch value, this->{attributeField} {
+                    if value === null && array_key_exists(field, defaultValues) {
+                        let snapshot[attributeField]           = defaultValues[field],
+                            unsetDefaultValues[attributeField] = defaultValues[field];
+
+                        if unlikely false === connection->supportsDefaultValue() {
+                            continue;
+                        }
+
+                        let value = connection->getDefaultValue();
+                    } else {
+                        let snapshot[attributeField] = value;
+                    }
+
+                    /**
+                     * Every column must have a bind data type defined
+                     */
+                    if unlikely !fetch bindType, bindDataTypes[field] {
+                        throw new BindTypeNotDefined(field, get_class(this));
+                    }
+
+                    let fields[]    = field,
+                        values[]    = value,
+                        bindTypes[] = bindType;
+                } else {
+                    if array_key_exists(field, defaultValues) {
+                        let snapshot[attributeField]           = defaultValues[field],
+                            unsetDefaultValues[attributeField] = defaultValues[field];
+
+                        if unlikely false === connection->supportsDefaultValue() {
+                            continue;
+                        }
+
+                        let values[] = connection->getDefaultValue();
+                    } else {
+                        let values[]                 = value,
+                            snapshot[attributeField] = value;
+                    }
+
+                    let fields[]    = field,
+                        bindTypes[] = bindSkip;
                 }
             }
         }
@@ -5802,14 +5797,12 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                                 let keepKey = (string) existingRecord->{intermediateReferencedFields};
                             }
 
-                            if !isset keptKeys[keepKey] {
-                                if !existingRecord->delete() {
-                                    this->appendMessagesFrom(existingRecord);
+                            if !isset keptKeys[keepKey] && !existingRecord->delete() {
+                                this->appendMessagesFrom(existingRecord);
 
-                                    connection->rollback(nesting);
+                                connection->rollback(nesting);
 
-                                    return false;
-                                }
+                                return false;
                             }
                         }
                     }

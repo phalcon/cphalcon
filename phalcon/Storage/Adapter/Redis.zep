@@ -185,10 +185,8 @@ class Redis extends AbstractAdapter
                 break;
             }
 
-            if (fetch scanKeys, result[1]) {
-                if (typeof scanKeys === "array") {
-                    let keys = array_merge(keys, scanKeys);
-                }
+            if fetch scanKeys, result[1] && typeof scanKeys === "array" {
+                let keys = array_merge(keys, scanKeys);
             }
 
             if (cursor === "0" || cursor === 0) {

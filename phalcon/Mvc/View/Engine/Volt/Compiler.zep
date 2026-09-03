@@ -3064,7 +3064,7 @@ class Compiler implements InjectionAwareInterface
                  * There is a value, get it and check it
                  */
                 if fetch leftValue, left["value"] {
-                    return (leftValue === "tag");
+                    return leftValue === "tag";
                 } else {
                     /**
                      * There is a "name" so that is nested, recursion

@@ -82,10 +82,10 @@ class Postgresql extends PdoAdapter
             let schema = null;
         }
 
-        if isset descriptor["password"] {
-            if typeof descriptor["password"] == "string" && strlen(descriptor["password"]) == 0 {
-                let descriptor["password"] = null;
-            }
+        if isset descriptor["password"] &&
+            typeof descriptor["password"] == "string" &&
+            strlen(descriptor["password"]) == 0 {
+            let descriptor["password"] = null;
         }
 
         parent::connect(descriptor);

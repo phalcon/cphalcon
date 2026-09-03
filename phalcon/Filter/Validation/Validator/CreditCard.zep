@@ -118,6 +118,6 @@ class CreditCard extends AbstractValidator
             str_split(hash)
         );
 
-        return (result % 10 == 0);
+        return result % 10 == 0;
     }
 }
