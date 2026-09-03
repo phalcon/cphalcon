@@ -1366,13 +1366,15 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         var parameters = null,
         string method = null
     ) {
-        var referencedModel, intermediateModel, intermediateFields, intermediateReferenceFields, fields,
-            builder, extraParameters, refPosition, field, referencedFields,
-            findParams, findArguments, uniqueKey, records, arguments, rows,
-            firstRow, query;
+        var arguments, builder, extraParameters, field, fields, findArguments,
+            findParams, firstRow, intermediateFields, intermediateModel,
+            intermediateReferenceFields, query, refPosition, referencedFields,
+            referencedModel, rows,
+            records   = null,
+            uniqueKey = null;
         array placeholders, conditions, joinConditions;
         bool reusable;
-        string retrieveMethod;
+        string retrieveMethod = null;
         int i, columnCount;
 
         /**

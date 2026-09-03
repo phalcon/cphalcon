@@ -152,9 +152,10 @@ class Postgresql extends Dialect
      */
     public function createTable( string tableName,  string schemaName,  array definition) -> string
     {
-        var temporary, options, table, columns, column, indexes, index,
-            reference, references, indexName, indexType, onDelete, onUpdate,
-            columnDefinition, checks, check, tableComment;
+        var check, checks, column, columnDefinition, columns, index, indexName,
+            indexType, indexes, onDelete, onUpdate, options, reference,
+            references, table, temporary,
+            tableComment = null;
         array createLines, primaryColumns;
         string indexSql, indexSqlAfterCreate, columnLine, referenceSql, sql;
 

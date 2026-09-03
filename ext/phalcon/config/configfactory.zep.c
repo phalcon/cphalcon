@@ -260,7 +260,7 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, getAdapterAliases)
 }
 
 /**
- * @return string
+ * @return class-string<\Exception>
  */
 PHP_METHOD(Phalcon_Config_ConfigFactory, getExceptionClass)
 {
@@ -308,7 +308,7 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, getExtraArguments)
 /**
  * Returns the available adapters
  *
- * @return string[]
+ * @return array<string, string>
  */
 PHP_METHOD(Phalcon_Config_ConfigFactory, getServices)
 {

@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File, __construct)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_10 = NULL, *_20 = NULL, *_29 = NULL, *_32 = NULL, *_35 = NULL, *_38 = NULL, *_39 = NULL, *_40 = NULL, *_41 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *options_param = NULL, included, key, message, messageFileEmpty, messageIniSize, messageValid, validator, value, *_5, _42, _0$$3, _1$$4, _2$$5, _3$$6, _4$$6, _8$$7, _9$$7, _11$$7, _12$$7, _13$$7, _14$$7, _15$$7, _16$$7, _17$$7, _18$$8, _21$$9, _23$$10, _25$$11, _27$$12, _30$$13, _33$$14, _36$$15, _44$$20, _45$$20, _46$$20, _47$$20, _48$$20, _49$$20, _50$$20, _51$$20, _52$$20, _53$$21, _55$$22, _57$$23, _59$$24, _61$$25, _63$$26, _65$$27, _67$$28;
+	zval *options_param = NULL, key, value, included, message, messageFileEmpty, messageIniSize, messageValid, validator, *_5, _42, _0$$3, _1$$4, _2$$5, _3$$6, _4$$6, _8$$7, _9$$7, _11$$7, _12$$7, _13$$7, _14$$7, _15$$7, _16$$7, _17$$7, _18$$8, _21$$9, _23$$10, _25$$11, _27$$12, _30$$13, _33$$14, _36$$15, _44$$20, _45$$20, _46$$20, _47$$20, _48$$20, _49$$20, _50$$20, _51$$20, _52$$20, _53$$21, _55$$22, _57$$23, _59$$24, _61$$25, _63$$26, _65$$27, _67$$28;
 	zval options, _19$$8, _22$$9, _24$$10, _26$$11, _28$$12, _31$$13, _34$$14, _37$$15, _54$$21, _56$$22, _58$$23, _60$$24, _62$$25, _64$$26, _66$$27, _68$$28;
 	zval *this_ptr = getThis();
 
@@ -140,14 +140,14 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File, __construct)
 	ZVAL_UNDEF(&_64$$26);
 	ZVAL_UNDEF(&_66$$27);
 	ZVAL_UNDEF(&_68$$28);
-	ZVAL_UNDEF(&included);
 	ZVAL_UNDEF(&key);
+	ZVAL_UNDEF(&value);
+	ZVAL_UNDEF(&included);
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&messageFileEmpty);
 	ZVAL_UNDEF(&messageIniSize);
 	ZVAL_UNDEF(&messageValid);
 	ZVAL_UNDEF(&validator);
-	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_42);
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$4);
@@ -213,6 +213,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File, __construct)
 	ZEPHIR_INIT_VAR(&messageValid);
 	ZVAL_NULL(&messageValid);
 	ZEPHIR_INIT_VAR(&validator);
+	ZVAL_NULL(&validator);
 	if (zephir_array_isset_value_string(&options, SL("messageFileEmpty"))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZVAL_STRING(&_0$$3, "messageFileEmpty");
@@ -242,7 +243,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File, __construct)
 		allowWildcards = zephir_get_boolval(&_3$$6);
 		zephir_array_unset_string(&options, SL("allowWildcards"), PH_SEPARATE);
 	}
-	zephir_is_iterable(&options, 1, "phalcon/Filter/Validation/Validator/File.zep", 286);
+	zephir_is_iterable(&options, 1, "phalcon/Filter/Validation/Validator/File.zep", 291);
 	if (Z_TYPE_P(&options) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&options), _6, _7, _5)
 		{

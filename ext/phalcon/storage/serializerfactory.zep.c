@@ -100,7 +100,7 @@ PHP_METHOD(Phalcon_Storage_SerializerFactory, newInstance)
 }
 
 /**
- * @return class-string<Throwable>
+ * @return class-string<\Exception>
  */
 PHP_METHOD(Phalcon_Storage_SerializerFactory, getExceptionClass)
 {

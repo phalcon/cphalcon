@@ -108,7 +108,8 @@ class Annotation
      */
     public function getExpression( array expr) -> var
     {
-        var value, item, resolvedItem, arrayValue, name, type;
+        var item, resolvedItem, arrayValue, name, type,
+            value = null;
 
         let type = expr["type"];
 

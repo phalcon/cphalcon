@@ -1106,7 +1106,7 @@ class Mysql extends Dialect
      */
     private function checkColumnSizeAndScale(<ColumnInterface> column) -> string
     {
-        string columnSql;
+        string columnSql = "";
 
         if column->getSize() {
             let columnSql .= "(" . column->getSize();

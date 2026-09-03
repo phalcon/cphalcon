@@ -350,11 +350,13 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      */
     public function handle( string uri)
     {
-        var container, status = null, router, matchedRoute,
-            handler, beforeHandlers, params, returnedValue, e,
-            afterHandlers, notFoundHandler, finishHandlers, finish, before,
-            after, response, modelBinder, routeName, realHandler = null,
-            methodName, lazyReturned, afterBindingHandlers, afterBinding;
+        var after, afterBinding, afterBindingHandlers, afterHandlers, before,
+            beforeHandlers, container, e, finish, finishHandlers, handler,
+            lazyReturned, matchedRoute, methodName, modelBinder, notFoundHandler,
+            params, response, routeName, router,
+            realHandler   = null,
+            returnedValue = null,
+            status        = null;
         string bindCacheKey;
 
         let container = this->container;

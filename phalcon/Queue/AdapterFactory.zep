@@ -64,7 +64,7 @@ class AdapterFactory extends AbstractFactory
     /**
      * Returns the exception class for the factory
      *
-     * @return class-string<\Throwable>
+     * @return class-string<\Exception>
      */
     protected function getExceptionClass() -> string
     {
@@ -74,7 +74,7 @@ class AdapterFactory extends AbstractFactory
     /**
      * Returns the available adapters.
      *
-     * @return string[]
+     * @return array<string, string>
      */
     protected function getServices() -> array
     {

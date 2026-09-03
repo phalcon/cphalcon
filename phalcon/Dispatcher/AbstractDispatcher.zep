@@ -134,7 +134,8 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
         string actionMethod,
         array params = []
     ) {
-        var result, observer, altHandler, altAction, altParams;
+        var altAction, altHandler, altParams, result,
+            observer = null;
 
         let altHandler = handler;
         let altAction = actionMethod;

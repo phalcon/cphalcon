@@ -35,7 +35,9 @@ class Pkcs7 implements PadInterface
      */
     public function unpad(string input, int blockSize) -> int
     {
-        var last, length, ord, padding, paddingSize;
+        var length, ord, padding,
+            paddingSize = 0,
+            last        = "";
 
         let length = strlen(input),
             last   = substr(input, length - 1, 1),

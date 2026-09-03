@@ -10,16 +10,29 @@
 
 namespace Phalcon\Factory;
 
+use Exception as BaseException;
 use Phalcon\Config\ConfigInterface;
+use Phalcon\Contracts\Factory\FactoryTypes;
 
+/**
+ * @phpstan-import-type factory_config from FactoryTypes
+ */
 abstract class AbstractConfigFactory
 {
     /**
      * Checks the config if it is a valid object
+     *
+     * @param array<string, mixed>|ConfigInterface $config
+     *
+     * @phpstan-param factory_config|ConfigInterface $config
+     *
+     * @phpstan-return factory_config
+     * @throws BaseException
      */
     protected function checkConfig(var config) -> array
     {
         if typeof config === "object" && config instanceof ConfigInterface {
+            /** @phpstan-var factory_config $config */
             let config = config->toArray();
         }
 
@@ -34,6 +47,15 @@ abstract class AbstractConfigFactory
 
     /**
      * Checks if the config has "adapter"
+     *
+     * @param array<string, mixed> $config
+     * @param string               $element
+     *
+     * @phpstan-param factory_config $config
+     *
+     * @return array<string, mixed>
+     * @phpstan-return factory_config
+     * @throws BaseException
      */
     protected function checkConfigElement(array config, string element) -> array
     {
@@ -60,6 +82,7 @@ abstract class AbstractConfigFactory
 
     /**
      * @return string
+     * @phpstan-return class-string<\Exception>
      */
     protected function getExceptionClass() -> string
     {

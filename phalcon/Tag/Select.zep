@@ -47,8 +47,10 @@ abstract class Select
         var parameters,
         var data = null
     ) -> string {
-        var params, name, id, value, useEmpty, code, emptyValue, emptyText,
-            options, using, escaper;
+        var code, escaper, id, name, options, params, useEmpty, value,
+            emptyText  = "",
+            emptyValue = "",
+            using      = null;
 
         if typeof parameters != "array" {
             let params = [parameters, data];
@@ -197,11 +199,11 @@ abstract class Select
         var value,
         string closeOption
     ) -> string {
-        var strValue, strOptionValue, code, optionValue, optionText, escaped,
-            escapedText, escaper;
-
-        let code    = "",
-            escaper = <EscaperInterface> BaseTag::getEscaperService();
+        var escapedText, escaper, optionText, optionValue, strOptionValue,
+            strValue,
+            code    = "",
+            escaped = "";
+        let escaper = <EscaperInterface> BaseTag::getEscaperService();
 
         for optionValue, optionText in data {
             let escaped = escaper->attributes(optionValue);
@@ -253,11 +255,11 @@ abstract class Select
         string closeOption
     ) -> string
     {
-        var code, escaper, executed, params, option, usingZero, usingOne,
-            optionValue, optionText, strValue, strOptionValue;
-
-        let code = "";
-        let params = null;
+        var escaper, executed, option, optionText, optionValue, strOptionValue, strValue,
+            code      = "",
+            params    = null,
+            usingOne  = "",
+            usingZero = "";
 
         if typeof using == "array" {
             if unlikely count(using) != 2 {

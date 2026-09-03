@@ -332,9 +332,13 @@ class Query implements QueryInterface, InjectionAwareInterface
      */
     public function execute(array bindParams = [], array bindTypes = [])
     {
-        var adapter, cache, cacheLifetime, cacheOptions, cacheService,
-            defaultBindParams, defaultBindTypes, intermediate, key, lifetime,
-            mergedParams, mergedTypes, preparedResult, result, type, uniqueRow;
+        var adapter, cacheLifetime, cacheOptions, cacheService, defaultBindParams,
+            defaultBindTypes, intermediate, mergedParams, mergedTypes,
+            preparedResult, type, uniqueRow,
+            cache    = null,
+            key      = "",
+            lifetime = null,
+            result   = false;
 
         let uniqueRow    = this->uniqueRow,
             cacheOptions = this->cacheOptions;
@@ -951,10 +955,10 @@ class Query implements QueryInterface, InjectionAwareInterface
      */
     final protected function executeInsert(array intermediate, array bindParams, array bindTypes) -> <StatusInterface>
     {
-        var modelName, manager, connection, metaData, attributes, fields,
-            columnMap, dialect, insertValues, number, value, model, values,
-            exprValue, insertValue, wildcard, fieldName, attributeName,
-            insertModel;
+        var attributeName, attributes, connection, dialect, exprValue, fieldName,
+            fields, insertModel, insertValue, insertValues, manager, metaData,
+            model, modelName, number, value, values, wildcard,
+            columnMap = null;
         bool automaticFields;
 
         let modelName = intermediate["model"];
@@ -1086,15 +1090,16 @@ class Query implements QueryInterface, InjectionAwareInterface
      */
     final protected function executeSelect(array intermediate, array bindParams, array bindTypes, bool simulate = false) -> <ResultsetInterface> | array
     {
-        var manager, modelName, models, model, connection, connectionTypes,
-            columns, column, selectColumns, simpleColumnMap, metaData,
-            aliasCopy, sqlColumn, attributes, instance, columnMap, attribute,
-            columnAlias, sqlAlias, dialect, sqlSelect, bindCounts, processed,
-            wildcard, value, processedTypes, typeWildcard, result, resultData,
-            cache, resultObject, columns1, typesColumnMap, wildcardValue,
-            resultsetClassName;
-        bool haveObjects, haveScalars, isComplex, isSimpleStd,
-            isKeepingSnapshots;
+        var aliasCopy, attribute, attributes, bindCounts, cache, column,
+            columnAlias, columnMap, columns, columns1, connectionTypes, dialect,
+            instance, manager, metaData, modelName, models, processed,
+            processedTypes, result, resultData, resultObject, resultsetClassName,
+            selectColumns, simpleColumnMap, sqlAlias, sqlColumn, sqlSelect,
+            typeWildcard, typesColumnMap, value, wildcard, wildcardValue,
+            connection = null,
+            model      = null;
+        bool haveObjects, haveScalars, isComplex, isKeepingSnapshots,
+             isSimpleStd = true;
         int numberObjects;
 
         let manager = this->manager;
@@ -1770,9 +1775,11 @@ class Query implements QueryInterface, InjectionAwareInterface
      */
     final protected function getExpression(array expr, bool quoting = true) -> array
     {
-        var exprType, exprLeft, exprRight, left = null, right = null,
-            listItems, exprListItem, exprReturn, value, valueParts, name,
-            bindType, bind;
+        var bind, bindType, exprType, exprLeft, exprListItem, exprRight,
+            listItems, name,value, valueParts,
+            exprReturn = [],
+            left       = null,
+            right      = null;
         bool tempNotQuoting;
 
         if fetch exprType, expr["type"] {
@@ -3928,18 +3935,21 @@ class Query implements QueryInterface, InjectionAwareInterface
     final protected function prepareSelect(var ast = null, bool merge = false) -> array
     {
         int position;
-        var select, tables, columns, selectedModels, manager, metaData,
-            selectedModel, qualifiedName, modelName, model, schema, source,
-            completeSource, alias, joins, sqlJoins, selectColumns,
-            sqlColumnAliases, column, sqlColumn, sqlSelect, distinct, having,
-            where, groupBy, order, limit, tempModels, tempModelsInstances,
-            tempSqlAliases, tempSqlModelsAliases,
-            tempSqlAliasesModelsInstances, tempSqlAliasesModels, with, withs,
-            withItem, automaticJoins, number, relation, joinAlias,
-            relationModel, bestAlias, eagerType, mergeKey, mergeValue;
-        array sqlModels, sqlTables, sqlAliases, sqlColumns, sqlAliasesModels,
-            sqlModelsAliases, sqlAliasesModelsInstances, models,
-            modelsInstances;
+        var alias, automaticJoins, bestAlias, column, columns, completeSource,
+            distinct, eagerType, groupBy, having, joinAlias, joins, limit,
+            manager, mergeKey, mergeValue, metaData, model, modelName, number,
+            order, qualifiedName, relation, relationModel, schema, select,
+            selectColumns, selectedModel, selectedModels, source, sqlColumn,
+            sqlColumnAliases, sqlJoins, sqlSelect, tables, where, with, withItem, withs,
+            tempModels                    = [],
+            tempModelsInstances           = [],
+            tempSqlAliasesModels          = [],
+            tempSqlAliasesModelsInstances = [],
+            tempSqlModelsAliases          = [],
+            tempSqlAliases                = [];
+        array models, modelsInstances, sqlAliases, sqlAliasesModels,
+              sqlAliasesModelsInstances, sqlColumns, sqlModels, sqlModelsAliases,
+              sqlTables;
 
         if empty ast {
             let ast = this->ast;

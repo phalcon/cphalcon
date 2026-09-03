@@ -307,8 +307,8 @@ class Compiler implements InjectionAwareInterface
     public function compile( string templatePath, bool extendsMode = false)
     {
         var blocksCode, compilation, compileAlways, compiledExtension,
-            compiledPath, compiledSeparator, compiledTemplatePath, options,
-            prefix, stat, templateSepPath;
+            compiledPath, compiledSeparator, options, prefix, stat, templateSepPath,
+            compiledTemplatePath = "";
 
         /**
          * Re-initialize some properties already initialized when the object is
@@ -1386,10 +1386,13 @@ class Compiler implements InjectionAwareInterface
      */
     final public function expression( array expr, bool doubleQuotes = false) -> string
     {
-        var end, endCode, exprCode, extensions, items, left, leftCode, name,
-            right, rightCode, singleExpr, singleExprCode, start, startCode, type;
+        var end, endCode, extensions, items, left, name, right, singleExpr,
+            singleExprCode, start, startCode, type,
+            exprCode  = null,
+            leftCode  = "",
+            rightCode = "";
 
-        let exprCode = null, this->exprLevel++;
+        let this->exprLevel++;
 
         /**
          * Check if any of the registered extensions provide compilation for
@@ -1829,13 +1832,12 @@ class Compiler implements InjectionAwareInterface
      */
     public function functionCall( array expr, bool doubleQuotes = false) -> string
     {
-        var arguments, arrayHelpers, block, code, currentBlock, definition,
-            escapedCode, exprLevel, extendedBlocks, extensions, funcArguments,
-            functions, method, name, nameExpr, nameType, tagService;
-
-        let code          = null,
-            funcArguments = null,
-            nameExpr      = expr["name"],
+        var arguments, arrayHelpers, block, currentBlock, definition, escapedCode,
+            exprLevel, extendedBlocks, extensions, functions, method, name,
+            nameExpr, nameType, tagService,
+            code          = null,
+            funcArguments = null;
+        let nameExpr      = expr["name"],
             nameType      = nameExpr["type"];
 
         /**
@@ -2450,7 +2452,8 @@ class Compiler implements InjectionAwareInterface
      */
     protected function getFinalPath(string path)
     {
-        var view, viewsDirs, viewsDir;
+        var view, viewsDirs,
+            viewsDir = "";
 
         /**
          * Absolute paths are used as they are
@@ -3061,7 +3064,7 @@ class Compiler implements InjectionAwareInterface
                  * There is a value, get it and check it
                  */
                 if fetch leftValue, left["value"] {
-                    return (leftValue === "tag");
+                    return leftValue === "tag";
                 } else {
                     /**
                      * There is a "name" so that is nested, recursion

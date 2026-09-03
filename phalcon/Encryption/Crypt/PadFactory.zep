@@ -27,15 +27,11 @@ use Phalcon\Factory\AbstractFactory;
  */
 class PadFactory extends AbstractFactory
 {
-    protected string exception = "";
-
     /**
      * AdapterFactory constructor.
      */
     public function __construct( array services = [])
     {
-        let this->exception = Exception::class;
-
         this->init(services);
     }
 
@@ -83,7 +79,15 @@ class PadFactory extends AbstractFactory
     }
 
     /**
-     * @return string[]
+     * @return class-string<\Exception>
+     */
+    protected function getExceptionClass() -> string
+    {
+        return Exception::class;
+    }
+
+    /**
+     * @return array<string, string>
      */
     protected function getServices() -> array
     {

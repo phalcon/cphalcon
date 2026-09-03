@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_Db_Adapter_PdoFactory, newInstance)
 }
 
 /**
- * @return string
+ * @return class-string<\Exception>
  */
 PHP_METHOD(Phalcon_Db_Adapter_PdoFactory, getExceptionClass)
 {
@@ -180,7 +180,7 @@ PHP_METHOD(Phalcon_Db_Adapter_PdoFactory, getExceptionClass)
 /**
  * Returns the available adapters
  *
- * @return string[]
+ * @return array<string, string>
  */
 PHP_METHOD(Phalcon_Db_Adapter_PdoFactory, getServices)
 {

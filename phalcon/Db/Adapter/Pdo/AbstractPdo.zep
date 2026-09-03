@@ -503,7 +503,8 @@ abstract class AbstractPdo extends AbstractAdapter
      */
     public function executePrepared(<\PDOStatement> statement,  array placeholders, array dataTypes = []) -> <\PDOStatement>
     {
-        var wildcard, value, type, castValue, parameter, position, itemValue;
+        var castValue, itemValue, position, type, value, wildcard,
+            parameter = null;
 
         for wildcard, value in placeholders {
             if typeof wildcard == "integer" {

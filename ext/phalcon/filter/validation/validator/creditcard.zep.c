@@ -264,6 +264,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_CreditCard, verifyByLuhnAlgorithm
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&result, "array_sum", NULL, 0, &_11);
 	zephir_check_call_status();
-	RETURN_MM_BOOL((zephir_safe_mod_zval_long(&result, 10) == 0));
+	RETURN_MM_BOOL(zephir_safe_mod_zval_long(&result, 10) == 0);
 }
 

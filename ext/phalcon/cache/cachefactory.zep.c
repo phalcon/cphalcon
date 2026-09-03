@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, load)
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	zephir_memory_observe(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Cache/CacheFactory.zep", 72);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Cache/CacheFactory.zep", 71);
 	zephir_memory_observe(&options);
 	if (!(zephir_array_isset_string_fetch(&options, config, SL("options"), 0))) {
 		ZEPHIR_INIT_NVAR(&options);
@@ -216,7 +216,7 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, newInstance)
 /**
  * Returns the exception class for the factory
  *
- * @return class-string<Throwable>
+ * @return class-string<\Exception>
  */
 PHP_METHOD(Phalcon_Cache_CacheFactory, getExceptionClass)
 {

@@ -411,7 +411,8 @@ class Memory extends AbstractAdapter
      */
     public function addRole(role, accessInherits = null) -> bool
     {
-        var roleName, roleObject;
+        var roleName,
+            roleObject = null;
 
         if typeof role === "object" && role instanceof RoleInterface {
             let roleObject = role;

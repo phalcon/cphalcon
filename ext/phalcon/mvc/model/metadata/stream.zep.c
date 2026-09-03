@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, __construct)
 	}
 	zephir_memory_observe(&metaDataDir);
 	if (zephir_array_isset_string_fetch(&metaDataDir, &options, SL("metaDataDir"), 0)) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1054, &metaDataDir);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1053, &metaDataDir);
 	}
 	ZEPHIR_MM_RESTORE();
 }
@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, getFilePath)
 		ZEPHIR_CONCAT_VSV(&_2$$3, &name, "_", &_1$$3);
 		ZEPHIR_CPY_WRT(&name, &_2$$3);
 	}
-	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 1054, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 1053, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CONCAT_VVS(return_value, &_3, &name, ".php");
 	RETURN_MM();
 }

@@ -2723,6 +2723,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, checkColumnSizeAndScale)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &column);
 	ZEPHIR_INIT_VAR(&columnSql);
+	ZVAL_STRING(&columnSql, "");
 	ZEPHIR_CALL_METHOD(&_0, column, "getsize", NULL, 0);
 	zephir_check_call_status();
 	if (zephir_is_true(&_0)) {

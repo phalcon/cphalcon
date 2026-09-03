@@ -584,7 +584,8 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      */
     public function partial( string partialPath, var params = null)
     {
-        var viewParams, segment, segments;
+        var segment, segments,
+            viewParams = [];
 
         /**
          * If the developer pass an array of variables we create a new virtual
@@ -1117,7 +1118,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * );
      *```
      */
-    public function setVars( array params, bool merge = true) -> <static>
+    public function setVars(array params, bool merge = true) -> <static>
     {
         if merge {
             let this->viewParams = array_merge(this->viewParams, params);
@@ -1210,12 +1211,13 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
         bool mustClean = true
     ) {
         var basePath, engine, eventsManager, extension, viewsDir, viewsDirPath,
-            viewEnginePath, viewEnginePaths, viewParams;
+            viewParams,
+            viewEnginePath  = "",
+            viewEnginePaths = [];
 
         let basePath        = this->basePath,
             viewParams      = this->viewParams,
-            eventsManager   = <ManagerInterface> this->eventsManager,
-            viewEnginePaths = [];
+            eventsManager   = <ManagerInterface> this->eventsManager;
 
         for viewsDir in this->getViewsDirs() {
             if !this->isAbsolutePath(viewPath) {
