@@ -5447,7 +5447,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, isTagFactory)
 		if (zephir_array_isset_string_fetch(&left, &name, SL("left"), 0)) {
 			zephir_memory_observe(&leftValue);
 			if (zephir_array_isset_string_fetch(&leftValue, &left, SL("value"), 0)) {
-				RETURN_MM_BOOL((ZEPHIR_IS_STRING_IDENTICAL(&leftValue, "tag")));
+				RETURN_MM_BOOL(ZEPHIR_IS_STRING_IDENTICAL(&leftValue, "tag"));
 			} else {
 				_0$$6 = zephir_array_isset_value_string(&left, SL("name"));
 				if (_0$$6) {

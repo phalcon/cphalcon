@@ -98,10 +98,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, __construct)
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect)
 {
-	zend_bool _2$$6;
+	zend_bool _1, _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *descriptor_param = NULL, __$null, schema, sql, _0$$3, _1$$6, _3$$6;
+	zval *descriptor_param = NULL, __$null, schema, sql, _2, _4, _0$$3;
 	zval descriptor;
 	zval *this_ptr = getThis();
 
@@ -109,9 +109,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect)
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&schema);
 	ZVAL_UNDEF(&sql);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_0$$3);
-	ZVAL_UNDEF(&_1$$6);
-	ZVAL_UNDEF(&_3$$6);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("descriptor", 10, 1);
@@ -141,17 +141,19 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect)
 		ZEPHIR_INIT_NVAR(&schema);
 		ZVAL_NULL(&schema);
 	}
-	if (zephir_array_isset_value_string(&descriptor, SL("password"))) {
-		zephir_memory_observe(&_1$$6);
-		zephir_array_fetch_string(&_1$$6, &descriptor, SL("password"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 86);
-		_2$$6 = Z_TYPE_P(&_1$$6) == IS_STRING;
-		if (_2$$6) {
-			zephir_array_fetch_string(&_3$$6, &descriptor, SL("password"), PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 86);
-			_2$$6 = zephir_fast_strlen_ev(&_3$$6) == 0;
-		}
-		if (_2$$6) {
-			zephir_array_update_string(&descriptor, SL("password"), &__$null, PH_COPY | PH_SEPARATE);
-		}
+	_1 = zephir_array_isset_value_string(&descriptor, SL("password"));
+	if (_1) {
+		zephir_memory_observe(&_2);
+		zephir_array_fetch_string(&_2, &descriptor, SL("password"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 86);
+		_1 = Z_TYPE_P(&_2) == IS_STRING;
+	}
+	_3 = _1;
+	if (_3) {
+		zephir_array_fetch_string(&_4, &descriptor, SL("password"), PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 87);
+		_3 = zephir_fast_strlen_ev(&_4) == 0;
+	}
+	if (_3) {
+		zephir_array_update_string(&descriptor, SL("password"), &__$null, PH_COPY | PH_SEPARATE);
 	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_db_adapter_pdo_postgresql_ce, getThis(), "connect", NULL, 0, &descriptor);
 	zephir_check_call_status();

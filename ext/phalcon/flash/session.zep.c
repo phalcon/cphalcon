@@ -290,7 +290,7 @@ PHP_METHOD(Phalcon_Flash_Session, has)
 	ZEPHIR_CALL_METHOD(&messages, this_ptr, "getsessionmessages", NULL, 0, &_0);
 	zephir_check_call_status();
 	if (!(!(ZEPHIR_IS_EMPTY(&type_zv)))) {
-		RETURN_MM_BOOL((1 != ZEPHIR_IS_EMPTY(&messages)));
+		RETURN_MM_BOOL(1 != ZEPHIR_IS_EMPTY(&messages));
 	}
 	RETURN_MM_BOOL(zephir_array_isset_value(&messages, &type_zv));
 }
