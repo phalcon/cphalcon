@@ -36,6 +36,11 @@
  */
 /**
  * Class AbstractQuery
+ *
+ * @phpstan-import-type datamapper_bind_store from DataMapperTypes
+ * @phpstan-import-type datamapper_bind_values from DataMapperTypes
+ * @phpstan-import-type datamapper_clauses from DataMapperTypes
+ * @phpstan-import-type datamapper_query_store from DataMapperTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Query_AbstractQuery)
 {
@@ -51,6 +56,9 @@ ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Query_AbstractQuery)
 	zend_declare_property_null(phalcon_datamapper_query_abstractquery_ce, SL("connection"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var array
+	 *
+	 * @phpstan-var datamapper_query_store
+	 * @psalm-suppress InvalidPropertyAssignmentValue
 	 */
 	zend_declare_property_null(phalcon_datamapper_query_abstractquery_ce, SL("store"), ZEND_ACC_PROTECTED);
 	phalcon_datamapper_query_abstractquery_ce->create_object = zephir_init_properties_Phalcon_DataMapper_Query_AbstractQuery;
@@ -202,6 +210,8 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, bindValue)
  * @param array $values
  *
  * @return AbstractQuery
+ *
+ * @phpstan-param datamapper_bind_values $values
  */
 PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, bindValues)
 {
@@ -235,6 +245,8 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, bindValues)
  * Returns all the bound values
  *
  * @return array
+ *
+ * @phpstan-return datamapper_bind_store
  */
 PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, getBindValues)
 {
@@ -343,7 +355,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, setFlag)
 	} else {
 		zephir_read_property_cached(&_0$$4, this_ptr, _zephir_prop_0, 55, PH_NOISY_CC | PH_READONLY);
 		zephir_memory_observe(&flags);
-		zephir_array_fetch_string(&flags, &_0$$4, SL("FLAGS"), PH_NOISY, "phalcon/DataMapper/Query/AbstractQuery.zep", 144);
+		zephir_array_fetch_string(&flags, &_0$$4, SL("FLAGS"), PH_NOISY, "phalcon/DataMapper/Query/AbstractQuery.zep", 157);
 		zephir_array_unset(&flags, &flag_zv, PH_SEPARATE);
 		ZEPHIR_INIT_VAR(&_1$$4);
 		ZVAL_STRING(&_1$$4, "FLAGS");
@@ -690,7 +702,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, buildFlags)
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 55, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_4, &_3, SL("FLAGS"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/AbstractQuery.zep", 259);
+	zephir_array_fetch_string(&_4, &_3, SL("FLAGS"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/AbstractQuery.zep", 272);
 	zephir_array_keys(&_2, &_4);
 	zephir_fast_join_str(&_1, SL(" "), &_2);
 	ZEPHIR_CONCAT_SV(return_value, " ", &_1);
@@ -726,7 +738,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, buildReturning)
 		RETURN_MM_STRING("");
 	}
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 55, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_3, &_2, SL("RETURNING"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/AbstractQuery.zep", 273);
+	zephir_array_fetch_string(&_3, &_2, SL("RETURNING"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/AbstractQuery.zep", 286);
 	ZEPHIR_INIT_VAR(&_4);
 	ZVAL_STRING(&_4, ",");
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "indent", NULL, 0, &_3, &_4);
@@ -742,6 +754,8 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, buildReturning)
  * @param string $glue
  *
  * @return string
+ *
+ * @phpstan-param datamapper_clauses $collection
  */
 PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, indent)
 {

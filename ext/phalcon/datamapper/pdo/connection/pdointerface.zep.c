@@ -27,6 +27,11 @@
  */
 /**
  * An interface to the native PDO object.
+ *
+ * @phpstan-import-type datamapper_drivers from DataMapperTypes
+ * @phpstan-import-type datamapper_error_info from DataMapperTypes
+ * @phpstan-import-type datamapper_pdo_options from DataMapperTypes
+ * @phpstan-import-type datamapper_quote_value from DataMapperTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Connection_PdoInterface)
 {
@@ -59,6 +64,8 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_PdoInterface, errorCode);
  * Gets the most recent error info.
  *
  * @return array
+ *
+ * @phpstan-return datamapper_error_info
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_PdoInterface, errorInfo);
 /**
@@ -82,6 +89,8 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_PdoInterface, getAttribute);
  * Return an array of available PDO drivers (empty array if none available)
  *
  * @return array
+ *
+ * @phpstan-return datamapper_drivers
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_PdoInterface, getAvailableDrivers);
 /**
@@ -108,6 +117,8 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_PdoInterface, lastInsertId);
  * @param array  $options
  *
  * @return \PDOStatement|false
+ *
+ * @phpstan-param datamapper_pdo_options $options
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_PdoInterface, prepare);
 /**
@@ -129,6 +140,8 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_PdoInterface, query);
  * @param int   $type
  *
  * @return string The quoted value.
+ *
+ * @phpstan-param datamapper_quote_value $value
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_PdoInterface, quote);
 /**

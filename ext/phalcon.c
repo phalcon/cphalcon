@@ -250,6 +250,7 @@ zend_class_entry *phalcon_contracts_container_containertypes_ce;
 zend_class_entry *phalcon_contracts_container_ioc_ioctypealiases_ce;
 zend_class_entry *phalcon_contracts_container_resolver_reflectionmethodresolver_ce;
 zend_class_entry *phalcon_contracts_container_service_definition_ce;
+zend_class_entry *phalcon_contracts_datamapper_datamappertypes_ce;
 zend_class_entry *phalcon_contracts_dispatcher_dispatchertypes_ce;
 zend_class_entry *phalcon_contracts_events_subscriber_ce;
 zend_class_entry *phalcon_contracts_factory_factorytypes_ce;
@@ -1868,6 +1869,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Contracts_Container_Ioc_IocTypeAliases);
 	ZEPHIR_INIT(Phalcon_Contracts_Container_Resolver_ReflectionMethodResolver);
 	ZEPHIR_INIT(Phalcon_Contracts_Container_Service_Definition);
+	ZEPHIR_INIT(Phalcon_Contracts_DataMapper_DataMapperTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Dispatcher_DispatcherTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Events_Subscriber);
 	ZEPHIR_INIT(Phalcon_Contracts_Factory_FactoryTypes);

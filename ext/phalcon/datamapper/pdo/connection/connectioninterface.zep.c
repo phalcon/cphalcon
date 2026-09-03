@@ -28,6 +28,16 @@
 /**
  * Provides array quoting, profiling, a new `perform()` method, new `fetch*()`
  * methods
+ *
+ * @phpstan-import-type datamapper_assoc_rows from DataMapperTypes
+ * @phpstan-import-type datamapper_column from DataMapperTypes
+ * @phpstan-import-type datamapper_constructor_arguments from DataMapperTypes
+ * @phpstan-import-type datamapper_grouped_rows from DataMapperTypes
+ * @phpstan-import-type datamapper_objects from DataMapperTypes
+ * @phpstan-import-type datamapper_pairs from DataMapperTypes
+ * @phpstan-import-type datamapper_row from DataMapperTypes
+ * @phpstan-import-type datamapper_rows from DataMapperTypes
+ * @phpstan-import-type datamapper_values from DataMapperTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface)
 {
@@ -52,6 +62,8 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, disconn
  * @param array  $values
  *
  * @return int
+ *
+ * @phpstan-param datamapper_values $values
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchAffected);
 /**
@@ -62,6 +74,10 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchAf
  * @param array  $values
  *
  * @return array
+ *
+ * @phpstan-param datamapper_values $values
+ *
+ * @phpstan-return datamapper_rows
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchAll);
 /**
@@ -77,6 +93,10 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchAl
  * @param array  $values
  *
  * @return array
+ *
+ * @phpstan-param datamapper_values $values
+ *
+ * @phpstan-return datamapper_assoc_rows
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchAssoc);
 /**
@@ -87,6 +107,10 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchAs
  * @param int    $column
  *
  * @return array
+ *
+ * @phpstan-param datamapper_values $values
+ *
+ * @phpstan-return datamapper_column
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchColumn);
 /**
@@ -99,6 +123,10 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchCo
  * @param int    $flags
  *
  * @return array
+ *
+ * @phpstan-param datamapper_values $values
+ *
+ * @phpstan-return datamapper_grouped_rows
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchGroup);
 /**
@@ -110,12 +138,19 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchGr
  * constructor, will override the values that have been injected by
  * `fetchObject`. The default object returned is `\stdClass`
  *
+ * An empty `stdClass` is returned when there is no row. The
+ * `object|false` return type lands in v7.
+ *
  * @param string $statement
  * @param array  $values
  * @param string $class
  * @param array  $arguments
  *
  * @return object
+ *
+ * @phpstan-param datamapper_values                $values
+ * @phpstan-param class-string|'stdClass'          $className
+ * @phpstan-param datamapper_constructor_arguments $arguments
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchObject);
 /**
@@ -134,6 +169,12 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchOb
  * @param array  $arguments
  *
  * @return array
+ *
+ * @phpstan-param datamapper_values                $values
+ * @phpstan-param class-string|'stdClass'          $className
+ * @phpstan-param datamapper_constructor_arguments $arguments
+ *
+ * @phpstan-return datamapper_objects
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchObjects);
 /**
@@ -143,6 +184,10 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchOb
  * @param array  $values
  *
  * @return array
+ *
+ * @phpstan-param datamapper_values $values
+ *
+ * @phpstan-return datamapper_row
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchOne);
 /**
@@ -153,6 +198,10 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchOn
  * @param array  $values
  *
  * @return array
+ *
+ * @phpstan-param datamapper_values $values
+ *
+ * @phpstan-return datamapper_pairs
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchPairs);
 /**
@@ -162,6 +211,8 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchPa
  * @param array  $values
  *
  * @return mixed
+ *
+ * @phpstan-param datamapper_values $values
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchValue);
 /**
@@ -192,11 +243,15 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, isConne
  * @param array  $values
  *
  * @return \PDOStatement
+ *
+ * @phpstan-param datamapper_values $values
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, perform);
 /**
  * Sets the Profiler instance.
  *
  * @param ProfilerInterface $profiler The Profiler instance.
+ *
+ * @return static
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, setProfiler);

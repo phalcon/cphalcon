@@ -36,6 +36,10 @@
  */
 /**
  * Class Bind
+ *
+ * @phpstan-import-type datamapper_bind_store from DataMapperTypes
+ * @phpstan-import-type datamapper_bind_values from DataMapperTypes
+ * @phpstan-import-type datamapper_values from DataMapperTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Query_Bind)
 {
@@ -47,6 +51,8 @@ ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Query_Bind)
 	zend_declare_property_long(phalcon_datamapper_query_bind_ce, SL("inlineCount"), 0, ZEND_ACC_PROTECTED);
 	/**
 	 * @var array
+	 *
+	 * @phpstan-var datamapper_bind_store
 	 */
 	zend_declare_property_null(phalcon_datamapper_query_bind_ce, SL("store"), ZEND_ACC_PROTECTED);
 	phalcon_datamapper_query_bind_ce->create_object = zephir_init_properties_Phalcon_DataMapper_Query_Bind;
@@ -213,6 +219,8 @@ PHP_METHOD(Phalcon_DataMapper_Query_Bind, setValue)
  *
  * @param array $values
  * @param int   $type
+ *
+ * @phpstan-param datamapper_bind_values $values
  */
 PHP_METHOD(Phalcon_DataMapper_Query_Bind, setValues)
 {
@@ -245,7 +253,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Bind, setValues)
 		type = -1;
 	} else {
 		}
-	zephir_is_iterable(&values, 0, "phalcon/DataMapper/Query/Bind.zep", 108);
+	zephir_is_iterable(&values, 0, "phalcon/DataMapper/Query/Bind.zep", 118);
 	if (Z_TYPE_P(&values) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&values), _1, _2, _0)
 		{
@@ -295,6 +303,8 @@ PHP_METHOD(Phalcon_DataMapper_Query_Bind, setValues)
  * Returns the internal collection
  *
  * @return array
+ *
+ * @phpstan-return datamapper_bind_store
  */
 PHP_METHOD(Phalcon_DataMapper_Query_Bind, toArray)
 {
@@ -337,6 +347,8 @@ PHP_METHOD(Phalcon_DataMapper_Query_Bind, getType)
  * @param int   $type
  *
  * @return string
+ *
+ * @phpstan-param datamapper_values $data
  */
 PHP_METHOD(Phalcon_DataMapper_Query_Bind, inlineArray)
 {
@@ -377,7 +389,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Bind, inlineArray)
 	zephir_get_arrval(&data, data_param);
 	ZEPHIR_INIT_VAR(&keys);
 	array_init(&keys);
-	zephir_is_iterable(&data, 0, "phalcon/DataMapper/Query/Bind.zep", 167);
+	zephir_is_iterable(&data, 0, "phalcon/DataMapper/Query/Bind.zep", 181);
 	if (Z_TYPE_P(&data) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&data), _0)
 		{
@@ -395,7 +407,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Bind, inlineArray)
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_5$$3);
 			ZEPHIR_CONCAT_SV(&_5$$3, ":", &key);
-			zephir_array_append(&keys, &_5$$3, PH_SEPARATE, "phalcon/DataMapper/Query/Bind.zep", 164);
+			zephir_array_append(&keys, &_5$$3, PH_SEPARATE, "phalcon/DataMapper/Query/Bind.zep", 178);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &data, "rewind", NULL, 0);
@@ -427,7 +439,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Bind, inlineArray)
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_11$$4);
 				ZEPHIR_CONCAT_SV(&_11$$4, ":", &key);
-				zephir_array_append(&keys, &_11$$4, PH_SEPARATE, "phalcon/DataMapper/Query/Bind.zep", 164);
+				zephir_array_append(&keys, &_11$$4, PH_SEPARATE, "phalcon/DataMapper/Query/Bind.zep", 178);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&value);
