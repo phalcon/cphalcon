@@ -911,7 +911,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
         for attribute in metaData->getAttributes(this) {
             // Try to find case-insensitive key variant
-            if !isset columnMap[attribute] && Settings::get("orm.case_insensitive_column_map") {
+            if typeof columnMap == "array" &&
+               !isset columnMap[attribute] &&
+               Settings::get("orm.case_insensitive_column_map") {
                 let attribute = self::caseInsensitiveColumnMap(
                     columnMap,
                     attribute
@@ -3325,7 +3327,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 }
 
                 // Try to find case-insensitive key variant
-                if !isset columnMap[key] && Settings::get("orm.case_insensitive_column_map") {
+                if typeof columnMap == "array" &&
+                   !isset columnMap[key] &&
+                   Settings::get("orm.case_insensitive_column_map") {
                     let key = self::caseInsensitiveColumnMap(columnMap, key);
                 }
 
@@ -3791,8 +3795,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     final protected function checkForeignKeysRestrict() -> bool
     {
         var manager, belongsTo, foreignKey, relation, position, bindParams,
-            extraConditions, message, fields, referencedFields, field,
-            referencedModel, value, allowNulls;
+            extraConditions, message, messageField, fields, referencedFields,
+            field, referencedModel, value, allowNulls;
         array conditions;
         int action, numberNull;
         bool error, validateWithNulls;
@@ -3919,10 +3923,19 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 /**
                  * Create a message
                  */
+                /**
+                 * A composite foreign key names every field it covers.
+                 */
+                if typeof fields == "array" {
+                    let messageField = join(", ", fields);
+                } else {
+                    let messageField = fields;
+                }
+
                 this->appendMessage(
                     new Message(
                         message,
-                        fields,
+                        messageField,
                         "ConstraintViolation",
                         0,
                         [
@@ -4026,7 +4039,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     {
         bool error;
         var manager, relations, foreignKey, relation, relationClass,
-            fields, message;
+            fields, message, messageField;
         int action;
 
         /**
@@ -4084,10 +4097,19 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 /**
                  * Create a message
                  */
+                /**
+                 * A composite foreign key names every field it covers.
+                 */
+                if typeof fields == "array" {
+                    let messageField = join(", ", fields);
+                } else {
+                    let messageField = fields;
+                }
+
                 this->appendMessage(
                     new Message(
                         message,
-                        fields,
+                        messageField,
                         "ConstraintViolation",
                         0,
                         [
