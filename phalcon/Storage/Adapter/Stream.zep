@@ -418,13 +418,20 @@ class Stream extends AbstractAdapter
      */
     private function storePayload(array payload, string key) -> bool
     {
-        var directory, localPayload;
+        var directory, errorLevel, localPayload;
 
         let localPayload   = serialize(payload),
             directory = this->getDir(key);
 
-        if !is_dir(directory) {
-            mkdir(directory, 0755, true);
+        /**
+         * A different process can make the directory after the test. Do not
+         * report the "File exists" warning that this condition causes.
+         */
+        if !this->phpIsDir(directory) {
+            let errorLevel = error_reporting(0);
+            this->phpMkdir(directory, 0755, true);
+            error_clear_last();
+            error_reporting(errorLevel);
         }
 
         return false !== this->phpFilePutContents(

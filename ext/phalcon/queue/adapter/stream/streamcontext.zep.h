@@ -21,7 +21,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, phpFileGetContents);
 PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, phpFilePutContents);
 PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, phpFopen);
 PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, phpFwrite);
+PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, phpIsDir);
 PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, phpIsWritable);
+PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, phpMkdir);
 PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, phpUnlink);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_adapter_stream_streamcontext___construct, 0, 0, 1)
@@ -114,8 +116,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_queue_adapter_stream_str
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_stream_streamcontext_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_stream_streamcontext_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_stream_streamcontext_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_stream_streamcontext_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -142,7 +155,9 @@ ZEPHIR_INIT_FUNCS(phalcon_queue_adapter_stream_streamcontext_method_entry) {
 	PHP_ME(Phalcon_Queue_Adapter_Stream_StreamContext, phpFilePutContents, arginfo_phalcon_queue_adapter_stream_streamcontext_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Queue_Adapter_Stream_StreamContext, phpFopen, arginfo_phalcon_queue_adapter_stream_streamcontext_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Queue_Adapter_Stream_StreamContext, phpFwrite, arginfo_phalcon_queue_adapter_stream_streamcontext_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Queue_Adapter_Stream_StreamContext, phpIsDir, arginfo_phalcon_queue_adapter_stream_streamcontext_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Queue_Adapter_Stream_StreamContext, phpIsWritable, arginfo_phalcon_queue_adapter_stream_streamcontext_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Queue_Adapter_Stream_StreamContext, phpMkdir, arginfo_phalcon_queue_adapter_stream_streamcontext_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Queue_Adapter_Stream_StreamContext, phpUnlink, arginfo_phalcon_queue_adapter_stream_streamcontext_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

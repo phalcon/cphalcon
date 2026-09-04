@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_ADR_Application, __construct)
 			zephir_check_call_status();
 		}
 
-		ZEPHIR_CALL_METHOD(&_1$$3, &_0$$3, "addprovider", NULL, 311, &_2$$3);
+		ZEPHIR_CALL_METHOD(&_1$$3, &_0$$3, "addprovider", NULL, 313, &_2$$3);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(container, &_1$$3, "newcontainer", NULL, 0);
 		zephir_check_call_status();
@@ -492,7 +492,7 @@ PHP_METHOD(Phalcon_ADR_Application, handle)
 		if (Z_TYPE_P(&match) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_13$$8);
 			object_init_ex(&_13$$8, phalcon_adr_exceptions_routenotfound_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_13$$8, "__construct", NULL, 312);
+			ZEPHIR_CALL_METHOD(NULL, &_13$$8, "__construct", NULL, 314);
 			zephir_check_call_status_or_jump(try_end_1);
 			zephir_throw_exception_debug(&_13$$8, "phalcon/ADR/Application.zep", 169);
 			goto try_end_1;
@@ -587,7 +587,7 @@ PHP_METHOD(Phalcon_ADR_Application, handle)
 				zephir_check_call_status_or_jump(try_end_2);
 				ZEPHIR_INIT_NVAR(&_34$$12);
 				object_init_ex(&_34$$12, phalcon_http_response_ce);
-				ZEPHIR_CALL_METHOD(NULL, &_34$$12, "__construct", NULL, 313);
+				ZEPHIR_CALL_METHOD(NULL, &_34$$12, "__construct", NULL, 315);
 				zephir_check_call_status_or_jump(try_end_2);
 				ZEPHIR_CALL_METHOD(&response, &_33$$12, "handle", NULL, 0, request, &_34$$12, &exception);
 				zephir_check_call_status_or_jump(try_end_2);
@@ -604,10 +604,10 @@ PHP_METHOD(Phalcon_ADR_Application, handle)
 					ZEPHIR_CPY_WRT(&_36$$11, &_35$$11);
 					ZEPHIR_INIT_NVAR(&response);
 					object_init_ex(&response, phalcon_http_response_ce);
-					ZEPHIR_CALL_METHOD(NULL, &response, "__construct", NULL, 313);
+					ZEPHIR_CALL_METHOD(NULL, &response, "__construct", NULL, 315);
 					zephir_check_call_status();
 					ZVAL_LONG(&_38$$13, 500);
-					ZEPHIR_CALL_METHOD(&_37$$13, &response, "setstatuscode", NULL, 314, &_38$$13);
+					ZEPHIR_CALL_METHOD(&_37$$13, &response, "setstatuscode", NULL, 316, &_38$$13);
 					zephir_check_call_status();
 					ZEPHIR_INIT_VAR(&_39$$13);
 					ZVAL_STRING(&_39$$13, "Internal Server Error");

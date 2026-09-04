@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, __construct)
 	if (Z_TYPE_P(config) == IS_NULL) {
 		ZEPHIR_INIT_NVAR(config);
 		object_init_ex(config, phalcon_auth_guard_config_sessionguardconfig_ce);
-		ZEPHIR_CALL_METHOD(NULL, config, "__construct", NULL, 416);
+		ZEPHIR_CALL_METHOD(NULL, config, "__construct", NULL, 418);
 		zephir_check_call_status();
 	}
 	if (Z_TYPE_P(clock) == IS_NULL) {
@@ -220,7 +220,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, fromOptions)
 		ZEPHIR_INIT_NVAR(&_6);
 		ZVAL_BOOL(&_6, 1);
 	}
-	ZEPHIR_CALL_METHOD(NULL, &config, "__construct", NULL, 416, &_0, &_2, &_3, &_4, &_6);
+	ZEPHIR_CALL_METHOD(NULL, &config, "__construct", NULL, 418, &_0, &_2, &_3, &_4, &_6);
 	zephir_check_call_status();
 	object_init_ex(return_value, zend_get_called_scope(execute_data));
 	ZEPHIR_INIT_NVAR(&_1);
@@ -253,7 +253,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, fromOptions)
 	ZVAL_STRING(&_11, "Session guard");
 	ZEPHIR_CALL_CE_STATIC(&_13, phalcon_auth_internal_containerresolver_ce, "resolvecandidate", NULL, 0, container, &options, &_1, &_9, &_10, &_11);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 417, adapter, &_8, &_12, &_13, &config);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 419, adapter, &_8, &_12, &_13, &config);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -594,7 +594,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, logout)
 	zephir_check_call_status();
 	if (Z_TYPE_P(&recaller) != IS_NULL) {
 		if (zephir_instance_of_ev(&current, phalcon_contracts_auth_authremember_ce)) {
-			ZEPHIR_CALL_METHOD(&token, &recaller, "gettoken", NULL, 418);
+			ZEPHIR_CALL_METHOD(&token, &recaller, "gettoken", NULL, 420);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&tokenRow, &current, "getremembertoken", NULL, 0, &token);
 			zephir_check_call_status();
@@ -1057,7 +1057,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, recaller)
 	}
 	if (Z_TYPE_P(&raw) == IS_STRING) {
 		object_init_ex(return_value, phalcon_auth_guard_userremember_ce);
-		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 419, &raw);
+		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 421, &raw);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -1065,7 +1065,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, recaller)
 		RETURN_MM_NULL();
 	}
 	object_init_ex(return_value, phalcon_auth_guard_userremember_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 419, &raw);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 421, &raw);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -1218,13 +1218,13 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, userFromRecaller)
 	if (!(zephir_instance_of_ev(&_0, phalcon_contracts_auth_adapter_rememberadapter_ce))) {
 		RETURN_MM_NULL();
 	}
-	ZEPHIR_CALL_METHOD(&id, recaller, "getid", NULL, 420);
+	ZEPHIR_CALL_METHOD(&id, recaller, "getid", NULL, 422);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&id) == IS_NULL) {
 		RETURN_MM_NULL();
 	}
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 453, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_2, recaller, "gettoken", NULL, 418);
+	ZEPHIR_CALL_METHOD(&_2, recaller, "gettoken", NULL, 420);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_1, 447, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_4, &_3, "getuseragent", NULL, 0);

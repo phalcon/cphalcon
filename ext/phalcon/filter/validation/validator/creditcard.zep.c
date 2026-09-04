@@ -196,9 +196,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_CreditCard, verifyByLuhnAlgorithm
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_0)) {
 		RETURN_MM_BOOL(0);
 	}
-	ZEPHIR_CALL_FUNCTION(&_1, "str_split", NULL, 213, &number_zv);
+	ZEPHIR_CALL_FUNCTION(&_1, "str_split", NULL, 215, &number_zv);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&digits, "array_reverse", NULL, 271, &_1);
+	ZEPHIR_CALL_FUNCTION(&digits, "array_reverse", NULL, 273, &_1);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&digits) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_3);
@@ -260,7 +260,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_CreditCard, verifyByLuhnAlgorithm
 	}
 	ZEPHIR_INIT_NVAR(&digit);
 	ZEPHIR_INIT_NVAR(&position);
-	ZEPHIR_CALL_FUNCTION(&_11, "str_split", NULL, 213, &hash);
+	ZEPHIR_CALL_FUNCTION(&_11, "str_split", NULL, 215, &hash);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&result, "array_sum", NULL, 0, &_11);
 	zephir_check_call_status();

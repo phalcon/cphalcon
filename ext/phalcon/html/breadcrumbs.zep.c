@@ -322,11 +322,11 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, render)
 			ZEPHIR_INIT_NVAR(&_9$$4);
 			zephir_create_array(&_9$$4, 2, 0);
 			zephir_cast_to_string(&_10$$4, &element);
-			ZEPHIR_CALL_FUNCTION(&_11$$4, "htmlspecialchars", &_12, 197, &_10$$4);
+			ZEPHIR_CALL_FUNCTION(&_11$$4, "htmlspecialchars", &_12, 199, &_10$$4);
 			zephir_check_call_status();
 			zephir_array_fast_append(&_9$$4, &_11$$4);
 			zephir_cast_to_string(&_13$$4, &url);
-			ZEPHIR_CALL_FUNCTION(&_11$$4, "htmlspecialchars", &_12, 197, &_13$$4);
+			ZEPHIR_CALL_FUNCTION(&_11$$4, "htmlspecialchars", &_12, 199, &_13$$4);
 			zephir_check_call_status();
 			zephir_array_fast_append(&_9$$4, &_11$$4);
 			zephir_fast_str_replace(&_6$$4, &_7$$4, &_9$$4, &template);
@@ -364,11 +364,11 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, render)
 				ZEPHIR_INIT_NVAR(&_19$$5);
 				zephir_create_array(&_19$$5, 2, 0);
 				zephir_cast_to_string(&_20$$5, &element);
-				ZEPHIR_CALL_FUNCTION(&_21$$5, "htmlspecialchars", &_12, 197, &_20$$5);
+				ZEPHIR_CALL_FUNCTION(&_21$$5, "htmlspecialchars", &_12, 199, &_20$$5);
 				zephir_check_call_status();
 				zephir_array_fast_append(&_19$$5, &_21$$5);
 				zephir_cast_to_string(&_22$$5, &url);
-				ZEPHIR_CALL_FUNCTION(&_21$$5, "htmlspecialchars", &_12, 197, &_22$$5);
+				ZEPHIR_CALL_FUNCTION(&_21$$5, "htmlspecialchars", &_12, 199, &_22$$5);
 				zephir_check_call_status();
 				zephir_array_fast_append(&_19$$5, &_21$$5);
 				zephir_fast_str_replace(&_16$$5, &_17$$5, &_19$$5, &template);
@@ -379,7 +379,7 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, render)
 	ZEPHIR_INIT_NVAR(&url);
 	if (!(ZEPHIR_IS_EMPTY(&elements))) {
 		zephir_cast_to_string(&_23$$6, &lastLabel);
-		ZEPHIR_CALL_FUNCTION(&_24$$6, "htmlspecialchars", &_12, 197, &_23$$6);
+		ZEPHIR_CALL_FUNCTION(&_24$$6, "htmlspecialchars", &_12, 199, &_23$$6);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_25$$6);
 		ZEPHIR_CONCAT_SVS(&_25$$6, "<dt>", &_24$$6, "</dt>");
@@ -397,11 +397,11 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, render)
 		ZEPHIR_INIT_VAR(&_29$$7);
 		zephir_create_array(&_29$$7, 2, 0);
 		zephir_cast_to_string(&_30$$7, &lastLabel);
-		ZEPHIR_CALL_FUNCTION(&_31$$7, "htmlspecialchars", &_12, 197, &_30$$7);
+		ZEPHIR_CALL_FUNCTION(&_31$$7, "htmlspecialchars", &_12, 199, &_30$$7);
 		zephir_check_call_status();
 		zephir_array_fast_append(&_29$$7, &_31$$7);
 		zephir_cast_to_string(&_32$$7, &lastUrl);
-		ZEPHIR_CALL_FUNCTION(&_31$$7, "htmlspecialchars", &_12, 197, &_32$$7);
+		ZEPHIR_CALL_FUNCTION(&_31$$7, "htmlspecialchars", &_12, 199, &_32$$7);
 		zephir_check_call_status();
 		zephir_array_fast_append(&_29$$7, &_31$$7);
 		zephir_fast_str_replace(&_26$$7, &_27$$7, &_29$$7, &template);

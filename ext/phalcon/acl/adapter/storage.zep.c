@@ -230,7 +230,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Storage, load)
 	ZEPHIR_CALL_METHOD(&data, &_0, "get", NULL, 0, &_1);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&data) == IS_OBJECT) {
-		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "normalizetoarray", NULL, 356, &data);
+		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "normalizetoarray", NULL, 358, &data);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&data, &_2$$3);
 	}
@@ -503,7 +503,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Storage, load)
 				ZVAL_COPY(&description, _45$$21);
 				ZEPHIR_INIT_NVAR(&_48$$22);
 				object_init_ex(&_48$$22, phalcon_acl_role_ce);
-				ZEPHIR_CALL_METHOD(NULL, &_48$$22, "__construct", &_49, 238, &name, &description);
+				ZEPHIR_CALL_METHOD(NULL, &_48$$22, "__construct", &_49, 240, &name, &description);
 				zephir_check_call_status_or_jump(try_end_1);
 				zephir_array_update_zval(&rebuiltRoles, &name, &_48$$22, PH_COPY | PH_SEPARATE);
 			} ZEND_HASH_FOREACH_END();
@@ -529,7 +529,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Storage, load)
 				zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_52$$23);
 					object_init_ex(&_52$$23, phalcon_acl_role_ce);
-					ZEPHIR_CALL_METHOD(NULL, &_52$$23, "__construct", &_49, 238, &name, &description);
+					ZEPHIR_CALL_METHOD(NULL, &_52$$23, "__construct", &_49, 240, &name, &description);
 					zephir_check_call_status_or_jump(try_end_1);
 					zephir_array_update_zval(&rebuiltRoles, &name, &_52$$23, PH_COPY | PH_SEPARATE);
 			}
@@ -560,7 +560,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Storage, load)
 				ZVAL_COPY(&description, _56$$21);
 				ZEPHIR_INIT_NVAR(&_59$$24);
 				object_init_ex(&_59$$24, phalcon_acl_component_ce);
-				ZEPHIR_CALL_METHOD(NULL, &_59$$24, "__construct", &_60, 229, &name, &description);
+				ZEPHIR_CALL_METHOD(NULL, &_59$$24, "__construct", &_60, 231, &name, &description);
 				zephir_check_call_status_or_jump(try_end_1);
 				zephir_array_update_zval(&rebuiltComponents, &name, &_59$$24, PH_COPY | PH_SEPARATE);
 			} ZEND_HASH_FOREACH_END();
@@ -586,7 +586,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Storage, load)
 				zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_63$$25);
 					object_init_ex(&_63$$25, phalcon_acl_component_ce);
-					ZEPHIR_CALL_METHOD(NULL, &_63$$25, "__construct", &_60, 229, &name, &description);
+					ZEPHIR_CALL_METHOD(NULL, &_63$$25, "__construct", &_60, 231, &name, &description);
 					zephir_check_call_status_or_jump(try_end_1);
 					zephir_array_update_zval(&rebuiltComponents, &name, &_63$$25, PH_COPY | PH_SEPARATE);
 			}
@@ -923,7 +923,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Storage, normalizeToArray)
 		return;
 	}
 	if (Z_TYPE_P(value) == IS_OBJECT) {
-		ZEPHIR_CALL_FUNCTION(&_0$$4, "get_object_vars", NULL, 357, value);
+		ZEPHIR_CALL_FUNCTION(&_0$$4, "get_object_vars", NULL, 359, value);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(value, &_0$$4);
 	}
@@ -953,7 +953,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Storage, normalizeToArray)
 			ZEPHIR_INIT_NVAR(&item);
 			ZVAL_COPY(&item, _3);
 			ZVAL_LONG(&_7$$6, (depth + 1));
-			ZEPHIR_CALL_METHOD(&_6$$6, this_ptr, "normalizetoarray", &_8, 356, &item, &_7$$6);
+			ZEPHIR_CALL_METHOD(&_6$$6, this_ptr, "normalizetoarray", &_8, 358, &item, &_7$$6);
 			zephir_check_call_status();
 			zephir_array_update_zval(&result, &key, &_6$$6, PH_COPY | PH_SEPARATE);
 		} ZEND_HASH_FOREACH_END();
@@ -978,7 +978,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Storage, normalizeToArray)
 			ZEPHIR_CALL_METHOD(&item, _1, "current", NULL, 0);
 			zephir_check_call_status();
 				ZVAL_LONG(&_12$$7, (depth + 1));
-				ZEPHIR_CALL_METHOD(&_11$$7, this_ptr, "normalizetoarray", &_8, 356, &item, &_12$$7);
+				ZEPHIR_CALL_METHOD(&_11$$7, this_ptr, "normalizetoarray", &_8, 358, &item, &_12$$7);
 				zephir_check_call_status();
 				zephir_array_update_zval(&result, &key, &_11$$7, PH_COPY | PH_SEPARATE);
 		}

@@ -31,7 +31,9 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, phpFileGetContents);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, phpFilePutContents);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, phpFopen);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, phpFwrite);
+PHP_METHOD(Phalcon_Image_Adapter_Imagick, phpIsDir);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, phpIsWritable);
+PHP_METHOD(Phalcon_Image_Adapter_Imagick, phpMkdir);
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, phpUnlink);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick___construct, 0, 0, 1)
@@ -205,8 +207,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_image_adapter_imagick_ph
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_imagick_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_imagick_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_imagick_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_imagick_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -243,7 +256,9 @@ PHP_ME(Phalcon_Image_Adapter_Imagick, __destruct, arginfo_phalcon_image_adapter_
 	PHP_ME(Phalcon_Image_Adapter_Imagick, phpFilePutContents, arginfo_phalcon_image_adapter_imagick_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Image_Adapter_Imagick, phpFopen, arginfo_phalcon_image_adapter_imagick_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Image_Adapter_Imagick, phpFwrite, arginfo_phalcon_image_adapter_imagick_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Image_Adapter_Imagick, phpIsDir, arginfo_phalcon_image_adapter_imagick_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Image_Adapter_Imagick, phpIsWritable, arginfo_phalcon_image_adapter_imagick_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Image_Adapter_Imagick, phpMkdir, arginfo_phalcon_image_adapter_imagick_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Image_Adapter_Imagick, phpUnlink, arginfo_phalcon_image_adapter_imagick_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

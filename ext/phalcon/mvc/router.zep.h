@@ -65,7 +65,9 @@ PHP_METHOD(Phalcon_Mvc_Router, phpFileGetContents);
 PHP_METHOD(Phalcon_Mvc_Router, phpFilePutContents);
 PHP_METHOD(Phalcon_Mvc_Router, phpFopen);
 PHP_METHOD(Phalcon_Mvc_Router, phpFwrite);
+PHP_METHOD(Phalcon_Mvc_Router, phpIsDir);
 PHP_METHOD(Phalcon_Mvc_Router, phpIsWritable);
+PHP_METHOD(Phalcon_Mvc_Router, phpMkdir);
 PHP_METHOD(Phalcon_Mvc_Router, phpUnlink);
 zend_object *zephir_init_properties_Phalcon_Mvc_Router(zend_class_entry *class_type);
 
@@ -347,8 +349,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_phpfwrite, 0,
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -422,7 +435,9 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_router_method_entry) {
 	PHP_ME(Phalcon_Mvc_Router, phpFilePutContents, arginfo_phalcon_mvc_router_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Router, phpFopen, arginfo_phalcon_mvc_router_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Router, phpFwrite, arginfo_phalcon_mvc_router_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Router, phpIsDir, arginfo_phalcon_mvc_router_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Router, phpIsWritable, arginfo_phalcon_mvc_router_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Router, phpMkdir, arginfo_phalcon_mvc_router_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Router, phpUnlink, arginfo_phalcon_mvc_router_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

@@ -86,9 +86,9 @@ PHP_METHOD(Phalcon_Container_Resolver_Resolver, isResolvableClass)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, zephir_get_internal_ce(SL("reflectionclass")));
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 249, &className_zv);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 251, &className_zv);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "isinstantiable", NULL, 510);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "isinstantiable", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -135,9 +135,9 @@ PHP_METHOD(Phalcon_Container_Resolver_Resolver, resolveCall)
 	}
 	ZEPHIR_INIT_VAR(&reflection);
 	object_init_ex(&reflection, zephir_get_internal_ce(SL("reflectionfunction")));
-	ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 246, &closure);
+	ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 248, &closure);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&params, &reflection, "getparameters", NULL, 247);
+	ZEPHIR_CALL_METHOD(&params, &reflection, "getparameters", NULL, 249);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&resolved, this_ptr, "resolveparameters", NULL, 0, ioc, &params, &arguments);
 	zephir_check_call_status();
@@ -185,14 +185,14 @@ PHP_METHOD(Phalcon_Container_Resolver_Resolver, resolveClass)
 	zephir_get_arrval(&arguments, arguments_param);
 	ZEPHIR_INIT_VAR(&reflection);
 	object_init_ex(&reflection, zephir_get_internal_ce(SL("reflectionclass")));
-	ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 249, &className_zv);
+	ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 251, &className_zv);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&constructor, &reflection, "getconstructor", NULL, 492);
+	ZEPHIR_CALL_METHOD(&constructor, &reflection, "getconstructor", NULL, 494);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&constructor) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		array_init(&_0$$3);
-		ZEPHIR_RETURN_CALL_METHOD(&reflection, "newinstanceargs", NULL, 491, &_0$$3);
+		ZEPHIR_RETURN_CALL_METHOD(&reflection, "newinstanceargs", NULL, 493, &_0$$3);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -200,7 +200,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Resolver, resolveClass)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&resolved, this_ptr, "resolveparameters", NULL, 0, ioc, &params, &arguments);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(&reflection, "newinstanceargs", NULL, 491, &resolved);
+	ZEPHIR_RETURN_CALL_METHOD(&reflection, "newinstanceargs", NULL, 493, &resolved);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -322,7 +322,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Resolver, resolveParameter)
 	object_init_ex(&_6, phalcon_container_exceptions_cannotresolveparameter_ce);
 	ZEPHIR_CALL_METHOD(&_7, parameter, "getname", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &_6, "__construct", NULL, 511, &_7, &declaringName);
+	ZEPHIR_CALL_METHOD(NULL, &_6, "__construct", NULL, 0, &_7, &declaringName);
 	zephir_check_call_status();
 	zephir_throw_exception_debug(&_6, "phalcon/Container/Resolver/Resolver.zep", 174);
 	ZEPHIR_MM_RESTORE();

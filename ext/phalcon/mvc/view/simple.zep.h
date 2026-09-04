@@ -26,7 +26,9 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, phpFileGetContents);
 PHP_METHOD(Phalcon_Mvc_View_Simple, phpFilePutContents);
 PHP_METHOD(Phalcon_Mvc_View_Simple, phpFopen);
 PHP_METHOD(Phalcon_Mvc_View_Simple, phpFwrite);
+PHP_METHOD(Phalcon_Mvc_View_Simple, phpIsDir);
 PHP_METHOD(Phalcon_Mvc_View_Simple, phpIsWritable);
+PHP_METHOD(Phalcon_Mvc_View_Simple, phpMkdir);
 PHP_METHOD(Phalcon_Mvc_View_Simple, phpUnlink);
 PHP_METHOD(Phalcon_Mvc_View_Simple, getContent);
 PHP_METHOD(Phalcon_Mvc_View_Simple, getParamsToView);
@@ -152,8 +154,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_view_simple_phpfwrit
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_simple_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_simple_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_simple_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_simple_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -210,7 +223,9 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_view_simple_method_entry) {
 	PHP_ME(Phalcon_Mvc_View_Simple, phpFilePutContents, arginfo_phalcon_mvc_view_simple_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, phpFopen, arginfo_phalcon_mvc_view_simple_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, phpFwrite, arginfo_phalcon_mvc_view_simple_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_View_Simple, phpIsDir, arginfo_phalcon_mvc_view_simple_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, phpIsWritable, arginfo_phalcon_mvc_view_simple_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_View_Simple, phpMkdir, arginfo_phalcon_mvc_view_simple_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, phpUnlink, arginfo_phalcon_mvc_view_simple_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, getContent, arginfo_phalcon_mvc_view_simple_getcontent, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, getParamsToView, arginfo_phalcon_mvc_view_simple_getparamstoview, ZEND_ACC_PUBLIC)

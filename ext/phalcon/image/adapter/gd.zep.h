@@ -30,7 +30,9 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, phpFileGetContents);
 PHP_METHOD(Phalcon_Image_Adapter_Gd, phpFilePutContents);
 PHP_METHOD(Phalcon_Image_Adapter_Gd, phpFopen);
 PHP_METHOD(Phalcon_Image_Adapter_Gd, phpFwrite);
+PHP_METHOD(Phalcon_Image_Adapter_Gd, phpIsDir);
 PHP_METHOD(Phalcon_Image_Adapter_Gd, phpIsWritable);
+PHP_METHOD(Phalcon_Image_Adapter_Gd, phpMkdir);
 PHP_METHOD(Phalcon_Image_Adapter_Gd, phpUnlink);
 PHP_METHOD(Phalcon_Image_Adapter_Gd, phpExtensionLoaded);
 PHP_METHOD(Phalcon_Image_Adapter_Gd, phpFunctionExists);
@@ -194,8 +196,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_image_adapter_gd_phpfwri
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_gd_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_gd_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_gd_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_gd_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -239,7 +252,9 @@ PHP_ME(Phalcon_Image_Adapter_Gd, __destruct, arginfo_phalcon_image_adapter_gd___
 	PHP_ME(Phalcon_Image_Adapter_Gd, phpFilePutContents, arginfo_phalcon_image_adapter_gd_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Image_Adapter_Gd, phpFopen, arginfo_phalcon_image_adapter_gd_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Image_Adapter_Gd, phpFwrite, arginfo_phalcon_image_adapter_gd_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Image_Adapter_Gd, phpIsDir, arginfo_phalcon_image_adapter_gd_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Image_Adapter_Gd, phpIsWritable, arginfo_phalcon_image_adapter_gd_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Image_Adapter_Gd, phpMkdir, arginfo_phalcon_image_adapter_gd_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Image_Adapter_Gd, phpUnlink, arginfo_phalcon_image_adapter_gd_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Image_Adapter_Gd, phpExtensionLoaded, arginfo_phalcon_image_adapter_gd_phpextensionloaded, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Image_Adapter_Gd, phpFunctionExists, arginfo_phalcon_image_adapter_gd_phpfunctionexists, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
