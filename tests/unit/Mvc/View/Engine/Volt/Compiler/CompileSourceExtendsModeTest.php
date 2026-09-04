@@ -44,7 +44,6 @@ final class CompileSourceExtendsModeTest extends AbstractUnitTestCase
         $compiler = new Compiler();
 
         $method = new ReflectionMethod($compiler, 'compileSource');
-        $method->setAccessible(true);
 
         $expected = [];
         $actual   = $method->invoke($compiler, $source, true);
