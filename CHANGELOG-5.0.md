@@ -24,6 +24,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - PHQL `WITH` naming a model instead of a relation alias always throwing `RelationshipNotFound`; the fallback checked `Phalcon\Mvc\Model\Manager::getRelationsBetween()` for an object, but it returns an array. Ambiguous pairs now throw `AmbiguousJoinRelation`. [#17554](https://github.com/phalcon/cphalcon/issues/17554) [[doc]](https://docs.phalcon.io/5.20/db-models/)
 - `Phalcon\Mvc\Model\Manager` relation guards throwing `TypeError` on a string field list, and the second check in `addHasManyToMany()` / `addHasOneThrough()` comparing the same pair twice. [#17556](https://github.com/phalcon/cphalcon/issues/17556) [[doc]](https://docs.phalcon.io/5.20/db-models/)
 - `Phalcon\Mvc\Model` raising `TypeError` on a composite virtual foreign key violation, and when the case-insensitive column-map lookup ran without a column map. [#17558](https://github.com/phalcon/cphalcon/issues/17558) [[doc]](https://docs.phalcon.io/5.20/db-models/)
+- `Phalcon\Mvc\Model\Manager::getRelationRecords()` raising `TypeError` on a compound through-relation marked `reusable`, and reusing one key for every record. The key is now built from every field the relation covers. [#17560](https://github.com/phalcon/cphalcon/issues/17560) [[doc]](https://docs.phalcon.io/5.20/db-models-relationships/)
 
 ### Removed
 
