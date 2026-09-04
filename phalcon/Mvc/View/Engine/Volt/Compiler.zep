@@ -2439,9 +2439,16 @@ class Compiler implements InjectionAwareInterface
         if extendsMode {
             /**
              * In extends mode we return the template blocks instead of the
-             * compilation
+             * compilation. A template that defines no blocks of its own gives
+             * back an empty array.
              */
-            return this->blocks;
+            let blocks = this->blocks;
+
+            if typeof blocks != "array" {
+                let blocks = [];
+            }
+
+            return blocks;
         }
 
         return compilation;

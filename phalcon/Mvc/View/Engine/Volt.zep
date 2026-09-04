@@ -217,9 +217,10 @@ class Volt extends AbstractEngine implements EventsAwareInterface
         let container = this->container;
 
         /**
-         * Check if we have the response object in the container
+         * Check if we have the response object in the container. Without a
+         * container the href is given back as it is.
          */
-        if container->has("response") {
+        if container !== null && container->has("response") {
             if isset params[1] {
                 let attributes = params[1];
             } else {
