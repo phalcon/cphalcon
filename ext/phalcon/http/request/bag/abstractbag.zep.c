@@ -597,7 +597,7 @@ PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, offsetSet)
 	if (Z_TYPE_P(offset) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_http_request_exceptions_nullkeyexception_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 256);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 258);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_0$$3, "phalcon/Http/Request/Bag/AbstractBag.zep", 252);
 		ZEPHIR_MM_RESTORE();

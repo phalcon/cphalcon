@@ -173,7 +173,7 @@ PHP_METHOD(Phalcon_Di_Di, __call)
 		ZVAL_LONG(&_0$$3, 3);
 		ZEPHIR_INIT_VAR(&_1$$3);
 		zephir_substr(&_1$$3, &method_zv, 3 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
-		ZEPHIR_CALL_FUNCTION(&possibleService, "lcfirst", NULL, 178, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(&possibleService, "lcfirst", NULL, 180, &_1$$3);
 		zephir_check_call_status();
 		zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_0, 169, PH_NOISY_CC | PH_READONLY);
 		if (zephir_array_isset_value(&_2$$3, &possibleService)) {
@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Di_Di, __call)
 			ZVAL_LONG(&_3$$6, 3);
 			ZEPHIR_INIT_VAR(&_4$$6);
 			zephir_substr(&_4$$6, &method_zv, 3 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
-			ZEPHIR_CALL_FUNCTION(&_5$$6, "lcfirst", NULL, 178, &_4$$6);
+			ZEPHIR_CALL_FUNCTION(&_5$$6, "lcfirst", NULL, 180, &_4$$6);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "set", NULL, 0, &_5$$6, &definition);
 			zephir_check_call_status();
@@ -257,7 +257,7 @@ PHP_METHOD(Phalcon_Di_Di, attempt)
 	} else {
 		ZVAL_BOOL(&_2, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 179, definition, &_2);
+	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 181, definition, &_2);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("services"), &name_zv, &_1);
 	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 169, PH_NOISY_CC | PH_READONLY);
@@ -334,7 +334,7 @@ PHP_METHOD(Phalcon_Di_Di, get)
 	ZVAL_BOOL(&isShared, 0);
 	ZEPHIR_INIT_VAR(&instance);
 	ZVAL_NULL(&instance);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "resolvealias", NULL, 180, &name);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "resolvealias", NULL, 182, &name);
 	zephir_check_call_status();
 	zephir_get_strval(&name, &_0);
 	ZEPHIR_OBS_NVAR(&service);
@@ -385,7 +385,7 @@ PHP_METHOD(Phalcon_Di_Di, get)
 					ZEPHIR_CPY_WRT(&_11$$7, &_10$$7);
 					ZEPHIR_INIT_VAR(&_12$$9);
 					object_init_ex(&_12$$9, phalcon_di_exceptions_servicecannotberesolved_ce);
-					ZEPHIR_CALL_METHOD(NULL, &_12$$9, "__construct", NULL, 181, &name);
+					ZEPHIR_CALL_METHOD(NULL, &_12$$9, "__construct", NULL, 183, &name);
 					zephir_check_call_status();
 					zephir_throw_exception_debug(&_12$$9, "phalcon/Di/Di.zep", 219);
 					ZEPHIR_MM_RESTORE();
@@ -565,7 +565,7 @@ PHP_METHOD(Phalcon_Di_Di, getService)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &name_param);
 	zephir_get_strval(&name, name_param);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "resolvealias", NULL, 180, &name);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "resolvealias", NULL, 182, &name);
 	zephir_check_call_status();
 	zephir_get_strval(&name, &_0);
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "has", NULL, 0, &name);
@@ -630,7 +630,7 @@ PHP_METHOD(Phalcon_Di_Di, getShared)
 		parameters = &parameters_sub;
 		parameters = &__$null;
 	}
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "resolvealias", NULL, 180, &name);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "resolvealias", NULL, 182, &name);
 	zephir_check_call_status();
 	zephir_get_strval(&name, &_0);
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 170, PH_NOISY_CC | PH_READONLY);
@@ -792,7 +792,7 @@ PHP_METHOD(Phalcon_Di_Di, loadFromPhp)
 	ZVAL_STR_COPY(&filePath_zv, filePath);
 	ZEPHIR_INIT_VAR(&services);
 	object_init_ex(&services, phalcon_config_adapter_php_ce);
-	ZEPHIR_CALL_METHOD(NULL, &services, "__construct", NULL, 182, &filePath_zv);
+	ZEPHIR_CALL_METHOD(NULL, &services, "__construct", NULL, 184, &filePath_zv);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "loadfromconfig", NULL, 0, &services);
 	zephir_check_call_status();
@@ -864,7 +864,7 @@ PHP_METHOD(Phalcon_Di_Di, loadFromYaml)
 	}
 	ZEPHIR_INIT_VAR(&services);
 	object_init_ex(&services, phalcon_config_adapter_yaml_ce);
-	ZEPHIR_CALL_METHOD(NULL, &services, "__construct", NULL, 183, &filePath_zv, &callbacks);
+	ZEPHIR_CALL_METHOD(NULL, &services, "__construct", NULL, 185, &filePath_zv, &callbacks);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "loadfromconfig", NULL, 0, &services);
 	zephir_check_call_status();
@@ -897,7 +897,7 @@ PHP_METHOD(Phalcon_Di_Di, has)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &name_param);
 	zephir_get_strval(&name, name_param);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "resolvealias", NULL, 180, &name);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "resolvealias", NULL, 182, &name);
 	zephir_check_call_status();
 	zephir_get_strval(&name, &_0);
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 169, PH_NOISY_CC | PH_READONLY);
@@ -934,7 +934,7 @@ PHP_METHOD(Phalcon_Di_Di, hasShared)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &name_param);
 	zephir_get_strval(&name, name_param);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "resolvealias", NULL, 180, &name);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "resolvealias", NULL, 182, &name);
 	zephir_check_call_status();
 	zephir_get_strval(&name, &_0);
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 170, PH_NOISY_CC | PH_READONLY);
@@ -1136,7 +1136,7 @@ PHP_METHOD(Phalcon_Di_Di, remove)
 	ZEPHIR_CPY_WRT(&services, &_0);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_2, 170, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&sharedInstances, &_0);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "resolvealias", NULL, 180, &name);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "resolvealias", NULL, 182, &name);
 	zephir_check_call_status();
 	zephir_get_strval(&name, &_1);
 	zephir_array_unset(&services, &name, PH_SEPARATE);
@@ -1161,7 +1161,7 @@ PHP_METHOD(Phalcon_Di_Di, remove)
 			}
 			ZEPHIR_INIT_NVAR(&target);
 			ZVAL_COPY(&target, _4);
-			ZEPHIR_CALL_METHOD(&_7$$3, this_ptr, "resolvealias", NULL, 180, &target);
+			ZEPHIR_CALL_METHOD(&_7$$3, this_ptr, "resolvealias", NULL, 182, &target);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_IDENTICAL(&name, &_7$$3)) {
 				zephir_array_unset(&aliases, &alias, PH_SEPARATE);
@@ -1187,7 +1187,7 @@ PHP_METHOD(Phalcon_Di_Di, remove)
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&target, _2, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_10$$5, this_ptr, "resolvealias", NULL, 180, &target);
+				ZEPHIR_CALL_METHOD(&_10$$5, this_ptr, "resolvealias", NULL, 182, &target);
 				zephir_check_call_status();
 				if (ZEPHIR_IS_IDENTICAL(&name, &_10$$5)) {
 					zephir_array_unset(&aliases, &alias, PH_SEPARATE);
@@ -1239,7 +1239,7 @@ PHP_METHOD(Phalcon_Di_Di, removeShared)
 	zephir_get_strval(&name, name_param);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 170, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&sharedInstances, &_0);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "resolvealias", NULL, 180, &name);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "resolvealias", NULL, 182, &name);
 	zephir_check_call_status();
 	zephir_get_strval(&name, &_1);
 	zephir_array_unset(&sharedInstances, &name, PH_SEPARATE);
@@ -1305,7 +1305,7 @@ PHP_METHOD(Phalcon_Di_Di, set)
 		shared = 0;
 	} else {
 		}
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "resolvealias", NULL, 180, &name);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "resolvealias", NULL, 182, &name);
 	zephir_check_call_status();
 	zephir_get_strval(&name, &_0);
 	ZEPHIR_INIT_VAR(&_1);
@@ -1315,7 +1315,7 @@ PHP_METHOD(Phalcon_Di_Di, set)
 	} else {
 		ZVAL_BOOL(&_2, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 179, definition, &_2);
+	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 181, definition, &_2);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("services"), &name, &_1);
 	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 169, PH_NOISY_CC | PH_READONLY);
@@ -1406,7 +1406,7 @@ PHP_METHOD(Phalcon_Di_Di, setAlias)
 			if (Z_TYPE_P(&alias) != IS_STRING) {
 				ZEPHIR_INIT_NVAR(&_6$$6);
 				object_init_ex(&_6$$6, phalcon_di_exceptions_aliasnamemustbestring_ce);
-				ZEPHIR_CALL_METHOD(NULL, &_6$$6, "__construct", &_7, 184);
+				ZEPHIR_CALL_METHOD(NULL, &_6$$6, "__construct", &_7, 186);
 				zephir_check_call_status();
 				zephir_throw_exception_debug(&_6$$6, "phalcon/Di/Di.zep", 669);
 				ZEPHIR_MM_RESTORE();
@@ -1421,7 +1421,7 @@ PHP_METHOD(Phalcon_Di_Di, setAlias)
 			if (_8$$5) {
 				ZEPHIR_INIT_NVAR(&_10$$7);
 				object_init_ex(&_10$$7, phalcon_di_exceptions_aliasalreadyinuse_ce);
-				ZEPHIR_CALL_METHOD(NULL, &_10$$7, "__construct", &_11, 185, &alias);
+				ZEPHIR_CALL_METHOD(NULL, &_10$$7, "__construct", &_11, 187, &alias);
 				zephir_check_call_status();
 				zephir_throw_exception_debug(&_10$$7, "phalcon/Di/Di.zep", 673);
 				ZEPHIR_MM_RESTORE();
@@ -1450,7 +1450,7 @@ PHP_METHOD(Phalcon_Di_Di, setAlias)
 				if (Z_TYPE_P(&alias) != IS_STRING) {
 					ZEPHIR_INIT_NVAR(&_14$$9);
 					object_init_ex(&_14$$9, phalcon_di_exceptions_aliasnamemustbestring_ce);
-					ZEPHIR_CALL_METHOD(NULL, &_14$$9, "__construct", &_7, 184);
+					ZEPHIR_CALL_METHOD(NULL, &_14$$9, "__construct", &_7, 186);
 					zephir_check_call_status();
 					zephir_throw_exception_debug(&_14$$9, "phalcon/Di/Di.zep", 669);
 					ZEPHIR_MM_RESTORE();
@@ -1465,7 +1465,7 @@ PHP_METHOD(Phalcon_Di_Di, setAlias)
 				if (_15$$8) {
 					ZEPHIR_INIT_NVAR(&_17$$10);
 					object_init_ex(&_17$$10, phalcon_di_exceptions_aliasalreadyinuse_ce);
-					ZEPHIR_CALL_METHOD(NULL, &_17$$10, "__construct", &_11, 185, &alias);
+					ZEPHIR_CALL_METHOD(NULL, &_17$$10, "__construct", &_11, 187, &alias);
 					zephir_check_call_status();
 					zephir_throw_exception_debug(&_17$$10, "phalcon/Di/Di.zep", 673);
 					ZEPHIR_MM_RESTORE();
@@ -1615,7 +1615,7 @@ PHP_METHOD(Phalcon_Di_Di, resolveAlias)
 		if (zephir_array_isset_value(&seen, &current)) {
 			ZEPHIR_INIT_NVAR(&_1$$4);
 			object_init_ex(&_1$$4, phalcon_di_exceptions_circularaliasreference_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", &_2, 186, &name_zv);
+			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", &_2, 188, &name_zv);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_1$$4, "phalcon/Di/Di.zep", 735);
 			ZEPHIR_MM_RESTORE();

@@ -510,7 +510,7 @@ PHP_METHOD(Phalcon_Http_Request, getClientAddress)
 			ZVAL_STRING(&_6$$8, "trim");
 			ZEPHIR_CALL_FUNCTION(&forwardedIps, "array_map", NULL, 20, &_6$$8, &_5$$8);
 			zephir_check_call_status();
-			ZEPHIR_CALL_FUNCTION(&reverseForwardedIps, "array_reverse", NULL, 271, &forwardedIps);
+			ZEPHIR_CALL_FUNCTION(&reverseForwardedIps, "array_reverse", NULL, 273, &forwardedIps);
 			zephir_check_call_status();
 			if (Z_TYPE_P(&reverseForwardedIps) == IS_STRING) {
 				ZEPHIR_INIT_NVAR(&_6$$8);
@@ -1257,7 +1257,7 @@ PHP_METHOD(Phalcon_Http_Request, getHeaders)
 				ZVAL_STRING(&_10$$4, " ");
 				zephir_fast_str_replace(&_6$$4, &_9$$4, &_10$$4, &_8$$4);
 				zephir_fast_strtolower(&_5$$4, &_6$$4);
-				ZEPHIR_CALL_FUNCTION(&name, "ucwords", &_11, 353, &_5$$4);
+				ZEPHIR_CALL_FUNCTION(&name, "ucwords", &_11, 355, &_5$$4);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_12$$4);
 				ZEPHIR_INIT_NVAR(&_13$$4);
@@ -1281,7 +1281,7 @@ PHP_METHOD(Phalcon_Http_Request, getHeaders)
 				ZVAL_STRING(&_19$$5, " ");
 				zephir_fast_str_replace(&_17$$5, &_18$$5, &_19$$5, &name);
 				zephir_fast_strtolower(&_16$$5, &_17$$5);
-				ZEPHIR_CALL_FUNCTION(&name, "ucwords", &_11, 353, &_16$$5);
+				ZEPHIR_CALL_FUNCTION(&name, "ucwords", &_11, 355, &_16$$5);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_20$$5);
 				ZEPHIR_INIT_NVAR(&_21$$5);
@@ -1325,7 +1325,7 @@ PHP_METHOD(Phalcon_Http_Request, getHeaders)
 					ZVAL_STRING(&_30$$7, " ");
 					zephir_fast_str_replace(&_26$$7, &_29$$7, &_30$$7, &_28$$7);
 					zephir_fast_strtolower(&_25$$7, &_26$$7);
-					ZEPHIR_CALL_FUNCTION(&name, "ucwords", &_11, 353, &_25$$7);
+					ZEPHIR_CALL_FUNCTION(&name, "ucwords", &_11, 355, &_25$$7);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_31$$7);
 					ZEPHIR_INIT_NVAR(&_32$$7);
@@ -1349,7 +1349,7 @@ PHP_METHOD(Phalcon_Http_Request, getHeaders)
 					ZVAL_STRING(&_38$$8, " ");
 					zephir_fast_str_replace(&_36$$8, &_37$$8, &_38$$8, &name);
 					zephir_fast_strtolower(&_35$$8, &_36$$8);
-					ZEPHIR_CALL_FUNCTION(&name, "ucwords", &_11, 353, &_35$$8);
+					ZEPHIR_CALL_FUNCTION(&name, "ucwords", &_11, 355, &_35$$8);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_39$$8);
 					ZEPHIR_INIT_NVAR(&_40$$8);
@@ -1580,7 +1580,7 @@ PHP_METHOD(Phalcon_Http_Request, getJsonRawBody)
 	} else {
 		ZVAL_BOOL(&_1, 0);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "__invoke", NULL, 408, &rawBody, &_1);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "__invoke", NULL, 410, &rawBody, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -4089,7 +4089,7 @@ PHP_METHOD(Phalcon_Http_Request, getQualityHeader)
 	ZVAL_STRING(&_1, "/,\\s*/");
 	ZVAL_LONG(&_2, -1);
 	ZVAL_LONG(&_3, 1);
-	ZEPHIR_CALL_FUNCTION(&parts, "preg_split", NULL, 190, &_1, &serverValue, &_2, &_3);
+	ZEPHIR_CALL_FUNCTION(&parts, "preg_split", NULL, 192, &_1, &serverValue, &_2, &_3);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&parts) == IS_STRING) {
 		ZEPHIR_INIT_NVAR(&_1);
@@ -4112,7 +4112,7 @@ PHP_METHOD(Phalcon_Http_Request, getQualityHeader)
 			ZVAL_STRING(&_7$$3, "/\\s*;\\s*/");
 			ZVAL_LONG(&_8$$3, -1);
 			ZVAL_LONG(&_9$$3, 1);
-			ZEPHIR_CALL_FUNCTION(&headerSplit, "preg_split", NULL, 190, &_7$$3, &_6$$3, &_8$$3, &_9$$3);
+			ZEPHIR_CALL_FUNCTION(&headerSplit, "preg_split", NULL, 192, &_7$$3, &_6$$3, &_8$$3, &_9$$3);
 			zephir_check_call_status();
 			if (Z_TYPE_P(&headerSplit) == IS_STRING) {
 				ZEPHIR_INIT_NVAR(&_7$$3);
@@ -4229,7 +4229,7 @@ PHP_METHOD(Phalcon_Http_Request, getQualityHeader)
 				ZVAL_STRING(&_33$$14, "/\\s*;\\s*/");
 				ZVAL_LONG(&_34$$14, -1);
 				ZVAL_LONG(&_35$$14, 1);
-				ZEPHIR_CALL_FUNCTION(&headerSplit, "preg_split", NULL, 190, &_33$$14, &_32$$14, &_34$$14, &_35$$14);
+				ZEPHIR_CALL_FUNCTION(&headerSplit, "preg_split", NULL, 192, &_33$$14, &_32$$14, &_34$$14, &_35$$14);
 				zephir_check_call_status();
 				if (Z_TYPE_P(&headerSplit) == IS_STRING) {
 					ZEPHIR_INIT_NVAR(&_33$$14);
@@ -4530,7 +4530,7 @@ PHP_METHOD(Phalcon_Http_Request, isIpAddressInCIDR)
 	maskBytes = (int) zephir_floor(&_6);
 	remainingBits = zephir_safe_mod_long_long(maskLength, 8);
 	ZVAL_LONG(&_9, maskBytes);
-	ZEPHIR_CALL_FUNCTION(&_10, "strncmp", NULL, 355, &ipBits, &subnetBits, &_9);
+	ZEPHIR_CALL_FUNCTION(&_10, "strncmp", NULL, 357, &ipBits, &subnetBits, &_9);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_LONG_IDENTICAL(&_10, 0)) {
 		RETURN_MM_BOOL(0);
@@ -5269,10 +5269,10 @@ PHP_METHOD(Phalcon_Http_Request, getFormData)
 	ZEPHIR_CONCAT_SVS(&_7, "/\\R?-+", &_6, "/s");
 	ZEPHIR_CALL_METHOD(&_8, this_ptr, "getrawbody", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&bodyParts, "preg_split", NULL, 190, &_7, &_8);
+	ZEPHIR_CALL_FUNCTION(&bodyParts, "preg_split", NULL, 192, &_7, &_8);
 	zephir_check_call_status();
 	ZEPHIR_MAKE_REF(&bodyParts);
-	ZEPHIR_CALL_FUNCTION(NULL, "array_pop", NULL, 350, &bodyParts);
+	ZEPHIR_CALL_FUNCTION(NULL, "array_pop", NULL, 352, &bodyParts);
 	ZEPHIR_UNREF(&bodyParts);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&dataset);
@@ -5296,7 +5296,7 @@ PHP_METHOD(Phalcon_Http_Request, getFormData)
 			ZEPHIR_INIT_NVAR(&_11$$4);
 			ZVAL_STRING(&_11$$4, "/\\R\\R/");
 			ZVAL_LONG(&_12$$4, 2);
-			ZEPHIR_CALL_FUNCTION(&splited$$4, "preg_split", NULL, 190, &_11$$4, &bodyPart, &_12$$4);
+			ZEPHIR_CALL_FUNCTION(&splited$$4, "preg_split", NULL, 192, &_11$$4, &bodyPart, &_12$$4);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&splited$$4, &splited$$4);
 			ZEPHIR_INIT_NVAR(&headers$$4);
@@ -5306,7 +5306,7 @@ PHP_METHOD(Phalcon_Http_Request, getFormData)
 			ZVAL_STRING(&_11$$4, "/\\R/s");
 			ZVAL_LONG(&_12$$4, -1);
 			ZVAL_LONG(&_14$$4, 1);
-			ZEPHIR_CALL_FUNCTION(&headerParts$$4, "preg_split", NULL, 190, &_11$$4, &_13$$4, &_12$$4, &_14$$4);
+			ZEPHIR_CALL_FUNCTION(&headerParts$$4, "preg_split", NULL, 192, &_11$$4, &_13$$4, &_12$$4, &_14$$4);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&headerParts$$4, &headerParts$$4);
 			if (Z_TYPE_P(&headerParts$$4) == IS_STRING) {
@@ -5542,7 +5542,7 @@ PHP_METHOD(Phalcon_Http_Request, getFormData)
 				ZEPHIR_INIT_NVAR(&_59$$22);
 				ZVAL_STRING(&_59$$22, "/\\R\\R/");
 				ZVAL_LONG(&_60$$22, 2);
-				ZEPHIR_CALL_FUNCTION(&splited$$22, "preg_split", NULL, 190, &_59$$22, &bodyPart, &_60$$22);
+				ZEPHIR_CALL_FUNCTION(&splited$$22, "preg_split", NULL, 192, &_59$$22, &bodyPart, &_60$$22);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(&splited$$22, &splited$$22);
 				ZEPHIR_INIT_NVAR(&headers$$22);
@@ -5552,7 +5552,7 @@ PHP_METHOD(Phalcon_Http_Request, getFormData)
 				ZVAL_STRING(&_59$$22, "/\\R/s");
 				ZVAL_LONG(&_60$$22, -1);
 				ZVAL_LONG(&_62$$22, 1);
-				ZEPHIR_CALL_FUNCTION(&headerParts$$22, "preg_split", NULL, 190, &_59$$22, &_61$$22, &_60$$22, &_62$$22);
+				ZEPHIR_CALL_FUNCTION(&headerParts$$22, "preg_split", NULL, 192, &_59$$22, &_61$$22, &_60$$22, &_62$$22);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(&headerParts$$22, &headerParts$$22);
 				if (Z_TYPE_P(&headerParts$$22) == IS_STRING) {
@@ -6583,6 +6583,35 @@ PHP_METHOD(Phalcon_Http_Request, phpFwrite)
 }
 
 /**
+ * Tells whether the filename is a directory
+ *
+ * @param string $filename
+ *
+ * @return bool
+ *
+ * @link https://php.net/manual/en/function.is-dir.php
+ */
+PHP_METHOD(Phalcon_Http_Request, phpIsDir)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval filename_zv;
+	zend_string *filename = NULL;
+
+	ZVAL_UNDEF(&filename_zv);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(filename)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&filename_zv);
+	ZVAL_STR_COPY(&filename_zv, filename);
+	ZEPHIR_RETURN_CALL_FUNCTION("is_dir", NULL, 166, &filename_zv);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
  * Tells whether the filename is writable
  *
  * @param string $filename
@@ -6606,7 +6635,72 @@ PHP_METHOD(Phalcon_Http_Request, phpIsWritable)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&filename_zv);
 	ZVAL_STR_COPY(&filename_zv, filename);
-	ZEPHIR_RETURN_CALL_FUNCTION("is_writable", NULL, 166, &filename_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("is_writable", NULL, 167, &filename_zv);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
+ * Makes a directory
+ *
+ * @param string        $directory
+ * @param int           $permissions
+ * @param bool          $recursive
+ * @param resource|null $context
+ *
+ * @return bool
+ *
+ * @link https://php.net/manual/en/function.mkdir.php
+ */
+PHP_METHOD(Phalcon_Http_Request, phpMkdir)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_bool recursive;
+	zend_long permissions, ZEPHIR_LAST_CALL_STATUS;
+	zval directory_zv, *permissions_param = NULL, *recursive_param = NULL, *context = NULL, context_sub, __$null, _0, _1;
+	zend_string *directory = NULL;
+
+	ZVAL_UNDEF(&directory_zv);
+	ZVAL_UNDEF(&context_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 4)
+		Z_PARAM_STR(directory)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_LONG(permissions)
+		Z_PARAM_BOOL(recursive)
+		Z_PARAM_ZVAL_OR_NULL(context)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (ZEND_NUM_ARGS() > 1) {
+		permissions_param = ZEND_CALL_ARG(execute_data, 2);
+	}
+	if (ZEND_NUM_ARGS() > 2) {
+		recursive_param = ZEND_CALL_ARG(execute_data, 3);
+	}
+	if (ZEND_NUM_ARGS() > 3) {
+		context = ZEND_CALL_ARG(execute_data, 4);
+	}
+	zephir_memory_observe(&directory_zv);
+	ZVAL_STR_COPY(&directory_zv, directory);
+	if (!permissions_param) {
+		permissions = 0777;
+	} else {
+		}
+	if (!recursive_param) {
+		recursive = 0;
+	} else {
+		}
+	if (!context) {
+		context = &context_sub;
+		context = &__$null;
+	}
+	ZVAL_LONG(&_0, permissions);
+	ZVAL_BOOL(&_1, (recursive ? 1 : 0));
+	ZEPHIR_RETURN_CALL_FUNCTION("mkdir", NULL, 168, &directory_zv, &_0, &_1, context);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -6646,7 +6740,7 @@ PHP_METHOD(Phalcon_Http_Request, phpUnlink)
 		context = &context_sub;
 		context = &__$null;
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("unlink", NULL, 167, &filename_zv, context);
+	ZEPHIR_RETURN_CALL_FUNCTION("unlink", NULL, 169, &filename_zv, context);
 	zephir_check_call_status();
 	RETURN_MM();
 }

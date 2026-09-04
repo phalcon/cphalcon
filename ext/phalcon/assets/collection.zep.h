@@ -41,7 +41,9 @@ PHP_METHOD(Phalcon_Assets_Collection, phpFileGetContents);
 PHP_METHOD(Phalcon_Assets_Collection, phpFilePutContents);
 PHP_METHOD(Phalcon_Assets_Collection, phpFopen);
 PHP_METHOD(Phalcon_Assets_Collection, phpFwrite);
+PHP_METHOD(Phalcon_Assets_Collection, phpIsDir);
 PHP_METHOD(Phalcon_Assets_Collection, phpIsWritable);
+PHP_METHOD(Phalcon_Assets_Collection, phpMkdir);
 PHP_METHOD(Phalcon_Assets_Collection, phpUnlink);
 PHP_METHOD(Phalcon_Assets_Collection, getSourcePath);
 PHP_METHOD(Phalcon_Assets_Collection, getTargetPath);
@@ -232,8 +234,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_collection_phpfwr
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_collection_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_collection_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_collection_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_collection_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -308,7 +321,9 @@ ZEPHIR_INIT_FUNCS(phalcon_assets_collection_method_entry) {
 	PHP_ME(Phalcon_Assets_Collection, phpFilePutContents, arginfo_phalcon_assets_collection_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Assets_Collection, phpFopen, arginfo_phalcon_assets_collection_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Assets_Collection, phpFwrite, arginfo_phalcon_assets_collection_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Assets_Collection, phpIsDir, arginfo_phalcon_assets_collection_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Assets_Collection, phpIsWritable, arginfo_phalcon_assets_collection_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Assets_Collection, phpMkdir, arginfo_phalcon_assets_collection_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Assets_Collection, phpUnlink, arginfo_phalcon_assets_collection_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Assets_Collection, getSourcePath, arginfo_phalcon_assets_collection_getsourcepath, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Collection, getTargetPath, arginfo_phalcon_assets_collection_gettargetpath, ZEND_ACC_PUBLIC)

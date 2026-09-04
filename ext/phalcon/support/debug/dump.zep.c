@@ -859,7 +859,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 				ZVAL_LONG(&_8$$5, 3);
 				ZEPHIR_INIT_NVAR(&_11$$5);
 				ZVAL_STRING(&_11$$5, "utf-8");
-				ZEPHIR_CALL_FUNCTION(&_13$$5, "htmlspecialchars", &_15, 197, &_14$$5, &_8$$5, &_11$$5);
+				ZEPHIR_CALL_FUNCTION(&_13$$5, "htmlspecialchars", &_15, 199, &_14$$5, &_8$$5, &_11$$5);
 				zephir_check_call_status();
 				zephir_array_update_string(&_12$$5, SL("key"), &_13$$5, PH_COPY | PH_SEPARATE);
 				ZEPHIR_CPY_WRT(&context, &_12$$5);
@@ -929,7 +929,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 					ZVAL_LONG(&_24$$7, 3);
 					ZEPHIR_INIT_NVAR(&_26$$7);
 					ZVAL_STRING(&_26$$7, "utf-8");
-					ZEPHIR_CALL_FUNCTION(&_28$$7, "htmlspecialchars", &_15, 197, &_29$$7, &_24$$7, &_26$$7);
+					ZEPHIR_CALL_FUNCTION(&_28$$7, "htmlspecialchars", &_15, 199, &_29$$7, &_24$$7, &_26$$7);
 					zephir_check_call_status();
 					zephir_array_update_string(&_27$$7, SL("key"), &_28$$7, PH_COPY | PH_SEPARATE);
 					ZEPHIR_CPY_WRT(&context, &_27$$7);
@@ -1033,7 +1033,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 				_47$$9 = zephir_is_instance_of(variable, SL("stdClass"));
 			}
 			if (_47$$9) {
-				ZEPHIR_CALL_FUNCTION(&vars, "get_object_vars", NULL, 357, variable);
+				ZEPHIR_CALL_FUNCTION(&vars, "get_object_vars", NULL, 359, variable);
 				zephir_check_call_status();
 				if (Z_TYPE_P(&vars) == IS_STRING) {
 					ZEPHIR_INIT_VAR(&_52$$12);
@@ -1136,10 +1136,10 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 			} else {
 				ZEPHIR_INIT_VAR(&reflect);
 				object_init_ex(&reflect, zephir_get_internal_ce(SL("reflectionclass")));
-				ZEPHIR_CALL_METHOD(NULL, &reflect, "__construct", NULL, 249, variable);
+				ZEPHIR_CALL_METHOD(NULL, &reflect, "__construct", NULL, 251, variable);
 				zephir_check_call_status();
 				ZVAL_LONG(&_72$$15, ((1 | 2) | 4));
-				ZEPHIR_CALL_METHOD(&props, &reflect, "getproperties", NULL, 370, &_72$$15);
+				ZEPHIR_CALL_METHOD(&props, &reflect, "getproperties", NULL, 372, &_72$$15);
 				zephir_check_call_status();
 				if (Z_TYPE_P(&props) == IS_STRING) {
 					ZEPHIR_INIT_VAR(&_74$$15);

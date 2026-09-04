@@ -29,7 +29,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, phpFileGetConten
 PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, phpFilePutContents);
 PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, phpFopen);
 PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, phpFwrite);
+PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, phpIsDir);
 PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, phpIsWritable);
+PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, phpMkdir);
 PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, phpUnlink);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalkconnection___construct, 0, 0, 0)
@@ -157,8 +159,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_queue_adapter_beanstalk_
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalkconnection_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalkconnection_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalkconnection_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalkconnection_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -193,7 +206,9 @@ PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, connect, arginfo_pha
 	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, phpFilePutContents, arginfo_phalcon_queue_adapter_beanstalk_beanstalkconnection_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, phpFopen, arginfo_phalcon_queue_adapter_beanstalk_beanstalkconnection_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, phpFwrite, arginfo_phalcon_queue_adapter_beanstalk_beanstalkconnection_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, phpIsDir, arginfo_phalcon_queue_adapter_beanstalk_beanstalkconnection_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, phpIsWritable, arginfo_phalcon_queue_adapter_beanstalk_beanstalkconnection_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, phpMkdir, arginfo_phalcon_queue_adapter_beanstalk_beanstalkconnection_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, phpUnlink, arginfo_phalcon_queue_adapter_beanstalk_beanstalkconnection_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

@@ -923,7 +923,7 @@ PHP_METHOD(Phalcon_Tag, getTitle)
 		zephir_read_static_property_ce(&_4$$3, phalcon_tag_ce, SL("documentPrependTitle"), PH_NOISY_CC);
 		ZEPHIR_CPY_WRT(&documentPrependTitle, &_4$$3);
 		if (!(ZEPHIR_IS_EMPTY(&documentPrependTitle))) {
-			ZEPHIR_CALL_FUNCTION(&tmp$$4, "array_reverse", NULL, 271, &documentPrependTitle);
+			ZEPHIR_CALL_FUNCTION(&tmp$$4, "array_reverse", NULL, 273, &documentPrependTitle);
 			zephir_check_call_status();
 			if (Z_TYPE_P(&tmp$$4) == IS_STRING) {
 				ZEPHIR_INIT_VAR(&_6$$4);
@@ -1549,7 +1549,7 @@ PHP_METHOD(Phalcon_Tag, linkTo)
 	zephir_check_call_status();
 	ZEPHIR_CALL_SELF(&_2, "tostringvalue", &_3, 0, text);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_4, "htmlspecialchars", NULL, 197, &_2);
+	ZEPHIR_CALL_FUNCTION(&_4, "htmlspecialchars", NULL, 199, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_5);
 	ZEPHIR_CONCAT_SVS(&_5, ">", &_4, "</a>");
@@ -2856,7 +2856,7 @@ PHP_METHOD(Phalcon_Tag, textArea)
 	ZVAL_STRING(&_1, "<textarea");
 	ZEPHIR_CALL_SELF(&code, "renderattributes", NULL, 0, &_1, &params);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_2, "htmlspecialchars", NULL, 197, &content);
+	ZEPHIR_CALL_FUNCTION(&_2, "htmlspecialchars", NULL, 199, &content);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_SVS(&_3, ">", &_2, "</textarea>");

@@ -565,7 +565,7 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doGetMultiple)
 		ZEPHIR_CALL_FUNCTION(&_9$$3, "array_map", NULL, 20, &_8$$3, &results);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&results, &_9$$3);
-		ZEPHIR_CALL_FUNCTION(&_9$$3, "array_combine", NULL, 254, &keysArray, &results);
+		ZEPHIR_CALL_FUNCTION(&_9$$3, "array_combine", NULL, 256, &keysArray, &results);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&results, &_9$$3);
 	} else {

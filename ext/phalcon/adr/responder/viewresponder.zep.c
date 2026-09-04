@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_ADR_Responder_ViewResponder, __invoke)
 	zephir_fetch_params(1, 3, 0, &request, &response, &payload);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 368, PH_NOISY_CC | PH_READONLY);
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 370, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "viewdata", NULL, 337, payload);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "viewdata", NULL, 339, payload);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&html, &_0, "render", NULL, 0, &_1, &_2);
 	zephir_check_call_status();
