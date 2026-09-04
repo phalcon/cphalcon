@@ -1475,9 +1475,14 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
                 if record instanceof CacheKeyProvider {
                     let uniqueKey = record->getUniqueKey();
                 } else {
+                    /**
+                     * The placeholders hold the value of every field the
+                     * relation covers, so a compound relation gets a key of
+                     * its own.
+                     */
                     let uniqueKey = unique_key(
                         referencedModel,
-                        [intermediateModel, parameters, record->readAttribute(fields)]
+                        [intermediateModel, parameters, placeholders]
                     );
                 }
 
