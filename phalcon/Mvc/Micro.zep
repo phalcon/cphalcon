@@ -200,7 +200,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *
      * @param callable handler
      */
-    public function delete(tring routePattern, handler) -> <RouteInterface>
+    public function delete(string routePattern, handler) -> <RouteInterface>
     {
         return this->addRoute("addDelete", routePattern, handler);
     }

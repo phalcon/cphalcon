@@ -111,7 +111,7 @@ interface RequestInterface
     /**
      * Return the HTTP header from request data
      */
-    public function getHeader(tring header) -> string;
+    public function getHeader(string header) -> string;
 
     /**
      * Returns the available headers in the request
