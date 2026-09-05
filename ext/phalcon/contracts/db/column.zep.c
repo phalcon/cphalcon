@@ -26,11 +26,23 @@
  * @todo v7 - these will become required interface members. They are
  *            omitted from the v5 line to avoid breaking third-party
  *            implementors:
+ *              - getComment()              : string | null
  *              - getGenerationExpression() : string | null
  *              - isArray()                 : bool
  *              - isGenerated()             : bool
  *              - isGenerationStored()      : bool
  *              - isInvisible()             : bool
+ *
+ * The dialects call the members above on the interface. They join the
+ * interface in the next major; until then the tags below record what all
+ * implementations provide.
+ *
+ * @method string|null getComment()
+ * @method string|null getGenerationExpression()
+ * @method bool        isArray()
+ * @method bool        isGenerated()
+ * @method bool        isGenerationStored()
+ * @method bool        isInvisible()
  */
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Db_Column)
 {
@@ -73,6 +85,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Column, getType);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Column, getTypeReference);
 /**
  * Returns column type values
+ *
+ * @phpstan-return array<array-key, string>|int|string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Column, getTypeValues);
 /**

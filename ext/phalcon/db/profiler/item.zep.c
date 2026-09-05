@@ -28,6 +28,9 @@
  */
 /**
  * This class identifies each profile in a Phalcon\Db\Profiler
+ *
+ * @phpstan-import-type db_bind_params from DbTypes
+ * @phpstan-import-type db_bind_types from DbTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler_Item)
 {
@@ -49,6 +52,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler_Item)
 	 * SQL bind types related to the profile
 	 *
 	 * @var array
+	 *
+	 * @phpstan-var db_bind_types
 	 */
 	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("sqlBindTypes"), ZEND_ACC_PROTECTED);
 	/**
@@ -61,6 +66,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler_Item)
 	 * SQL variables related to the profile
 	 *
 	 * @var array
+	 *
+	 * @phpstan-var db_bind_params
 	 */
 	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("sqlVariables"), ZEND_ACC_PROTECTED);
 	return SUCCESS;
@@ -86,6 +93,8 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getInitialTime)
 
 /**
  * Return the SQL bind types related to the profile
+ *
+ * @phpstan-return db_bind_types
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlBindTypes)
 {
@@ -104,6 +113,8 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlStatement)
 
 /**
  * Return the SQL variables related to the profile
+ *
+ * @phpstan-return db_bind_params
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlVariables)
 {
@@ -189,6 +200,8 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setInitialTime)
 
 /**
  * Return the SQL bind types related to the profile
+ *
+ * @phpstan-param db_bind_types $sqlBindTypes
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlBindTypes)
 {
@@ -239,6 +252,8 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlStatement)
 
 /**
  * Return the SQL variables related to the profile
+ *
+ * @phpstan-param db_bind_params $sqlVariables
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlVariables)
 {

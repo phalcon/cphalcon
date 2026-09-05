@@ -427,6 +427,9 @@ PHP_METHOD(Phalcon_Db_Geometry_WkbParser, readPoint)
 	RETURN_MM();
 }
 
+/**
+ * @phpstan-return list<Point>
+ */
 PHP_METHOD(Phalcon_Db_Geometry_WkbParser, readPointList)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -504,12 +507,15 @@ PHP_METHOD(Phalcon_Db_Geometry_WkbParser, readPointList)
 		object_init_ex(&_8$$3, phalcon_db_geometry_point_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_8$$3, "__construct", &_9, 0, &x, &y);
 		zephir_check_call_status();
-		zephir_array_append(&points, &_8$$3, PH_SEPARATE, "phalcon/Db/Geometry/WkbParser.zep", 177);
+		zephir_array_append(&points, &_8$$3, PH_SEPARATE, "phalcon/Db/Geometry/WkbParser.zep", 180);
 		i = (i + 1);
 	}
 	RETURN_CCTOR(&points);
 }
 
+/**
+ * @phpstan-return list<list<Point>>
+ */
 PHP_METHOD(Phalcon_Db_Geometry_WkbParser, readRingList)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -565,7 +571,7 @@ PHP_METHOD(Phalcon_Db_Geometry_WkbParser, readRingList)
 		}
 		ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "readpointlist", &_5, 0, &_2$$3, &_3$$3, &_4$$3);
 		zephir_check_call_status();
-		zephir_array_append(&rings, &_1$$3, PH_SEPARATE, "phalcon/Db/Geometry/WkbParser.zep", 192);
+		zephir_array_append(&rings, &_1$$3, PH_SEPARATE, "phalcon/Db/Geometry/WkbParser.zep", 198);
 		i = (i + 1);
 	}
 	RETURN_CCTOR(&rings);
@@ -646,7 +652,7 @@ PHP_METHOD(Phalcon_Db_Geometry_WkbParser, readByte)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 638, PH_NOISY_CC | PH_READONLY);
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 637, PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_LT_LONG(&_1, (zephir_get_numberval(&_0) + 1))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exceptions_invalidwkb_ce, "truncated buffer", "phalcon/Db/Geometry/WkbParser.zep", 215);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exceptions_invalidwkb_ce, "truncated buffer", "phalcon/Db/Geometry/WkbParser.zep", 221);
 		return;
 	}
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 636, PH_NOISY_CC | PH_READONLY);
@@ -663,7 +669,7 @@ PHP_METHOD(Phalcon_Db_Geometry_WkbParser, readByte)
 	ZVAL_LONG(&_8, (zephir_get_numberval(&_7) + 1));
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 638, &_8);
 	zephir_memory_observe(&_9);
-	zephir_array_fetch_long(&_9, &arr, 1, PH_NOISY, "phalcon/Db/Geometry/WkbParser.zep", 221);
+	zephir_array_fetch_long(&_9, &arr, 1, PH_NOISY, "phalcon/Db/Geometry/WkbParser.zep", 227);
 	RETURN_MM_LONG(zephir_get_intval(&_9));
 }
 
@@ -708,7 +714,7 @@ PHP_METHOD(Phalcon_Db_Geometry_WkbParser, readUint32)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 638, PH_NOISY_CC | PH_READONLY);
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 637, PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_LT_LONG(&_1, (zephir_get_numberval(&_0) + 4))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exceptions_invalidwkb_ce, "truncated buffer", "phalcon/Db/Geometry/WkbParser.zep", 229);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exceptions_invalidwkb_ce, "truncated buffer", "phalcon/Db/Geometry/WkbParser.zep", 235);
 		return;
 	}
 	if (little) {
@@ -730,7 +736,7 @@ PHP_METHOD(Phalcon_Db_Geometry_WkbParser, readUint32)
 	ZVAL_LONG(&_7, (zephir_get_numberval(&_6) + 4));
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 638, &_7);
 	zephir_memory_observe(&_8);
-	zephir_array_fetch_long(&_8, &arr, 1, PH_NOISY, "phalcon/Db/Geometry/WkbParser.zep", 236);
+	zephir_array_fetch_long(&_8, &arr, 1, PH_NOISY, "phalcon/Db/Geometry/WkbParser.zep", 242);
 	RETURN_MM_LONG(zephir_get_intval(&_8));
 }
 
@@ -775,7 +781,7 @@ PHP_METHOD(Phalcon_Db_Geometry_WkbParser, readDouble)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 638, PH_NOISY_CC | PH_READONLY);
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 637, PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_LT_LONG(&_1, (zephir_get_numberval(&_0) + 8))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exceptions_invalidwkb_ce, "truncated buffer", "phalcon/Db/Geometry/WkbParser.zep", 244);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exceptions_invalidwkb_ce, "truncated buffer", "phalcon/Db/Geometry/WkbParser.zep", 250);
 		return;
 	}
 	if (little) {
@@ -797,7 +803,7 @@ PHP_METHOD(Phalcon_Db_Geometry_WkbParser, readDouble)
 	ZVAL_LONG(&_7, (zephir_get_numberval(&_6) + 8));
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 638, &_7);
 	zephir_memory_observe(&_8);
-	zephir_array_fetch_long(&_8, &arr, 1, PH_NOISY, "phalcon/Db/Geometry/WkbParser.zep", 251);
+	zephir_array_fetch_long(&_8, &arr, 1, PH_NOISY, "phalcon/Db/Geometry/WkbParser.zep", 257);
 	RETURN_MM_DOUBLE(zephir_get_doubleval(&_8));
 }
 

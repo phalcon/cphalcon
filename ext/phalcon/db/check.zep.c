@@ -57,6 +57,8 @@
  * // SQLite cannot add CHECK constraints to existing tables.
  * $connection->addCheck("products", null, $positivePrice);
  *```
+ *
+ * @phpstan-import-type db_check_definition from DbTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Check)
 {
@@ -82,6 +84,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Check)
 
 /**
  * Phalcon\Db\Check constructor
+ *
+ * @phpstan-param db_check_definition $definition
  */
 PHP_METHOD(Phalcon_Db_Check, __construct)
 {
@@ -123,7 +127,7 @@ PHP_METHOD(Phalcon_Db_Check, __construct)
 		object_init_ex(&_0$$3, phalcon_db_exceptions_checkexpressionrequired_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Db/Check.zep", 72);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Db/Check.zep", 77);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -136,7 +140,7 @@ PHP_METHOD(Phalcon_Db_Check, __construct)
 		object_init_ex(&_2$$4, phalcon_db_exceptions_invalidcheckexpression_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$4, "phalcon/Db/Check.zep", 76);
+		zephir_throw_exception_debug(&_2$$4, "phalcon/Db/Check.zep", 81);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

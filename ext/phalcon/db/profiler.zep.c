@@ -77,6 +77,10 @@
  * echo "Final Time: ", $profile->getFinalTime(), "\n";
  * echo "Total Elapsed Time: ", $profile->getTotalElapsedSeconds(), "\n";
  * ```
+ *
+ * @phpstan-import-type db_bind_params from DbTypes
+ * @phpstan-import-type db_bind_types from DbTypes
+ * @phpstan-import-type db_profiler_items from DbTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler)
 {
@@ -92,6 +96,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler)
 	 * All the Items in the active profile
 	 *
 	 * @var Item[]
+	 *
+	 * @phpstan-var db_profiler_items
 	 */
 	zend_declare_property_null(phalcon_db_profiler_ce, SL("allProfiles"), ZEND_ACC_PROTECTED);
 	/**
@@ -216,6 +222,9 @@ PHP_METHOD(Phalcon_Db_Profiler, setMaxProfiles)
 
 /**
  * Starts the profile of a SQL sentence
+ *
+ * @phpstan-param db_bind_params $sqlVariables
+ * @phpstan-param db_bind_types  $sqlBindTypes
  */
 PHP_METHOD(Phalcon_Db_Profiler, startProfile)
 {

@@ -580,6 +580,7 @@
 #include "phalcon/contracts/container/resolver/reflectionmethodresolver.zep.h"
 #include "phalcon/contracts/container/service/definition.zep.h"
 #include "phalcon/contracts/datamapper/datamappertypes.zep.h"
+#include "phalcon/contracts/db/dbtypes.zep.h"
 #include "phalcon/contracts/dispatcher/dispatchertypes.zep.h"
 #include "phalcon/contracts/events/subscriber.zep.h"
 #include "phalcon/contracts/factory/factorytypes.zep.h"

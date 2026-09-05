@@ -22,6 +22,8 @@
  */
 /**
  * Canonical contract for Phalcon\Db\Reference.
+ *
+ * @phpstan-import-type db_column_names from DbTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Db_Reference)
 {
@@ -32,6 +34,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_Db_Reference)
 
 /**
  * Gets local columns which reference is based
+ *
+ * @phpstan-return db_column_names
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Reference, getColumns);
 /**
@@ -48,6 +52,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Reference, getOnDelete);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Reference, getOnUpdate);
 /**
  * Gets referenced columns
+ *
+ * @phpstan-return db_column_names
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Reference, getReferencedColumns);
 /**

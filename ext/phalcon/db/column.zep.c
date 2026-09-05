@@ -51,6 +51,8 @@
  * // Add column to existing table
  * $connection->addColumn("co_invoices", null, $column);
  *```
+ *
+ * @phpstan-import-type db_column_definition from DbTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Column)
 {
@@ -177,6 +179,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column)
 	 * Column data type values
 	 *
 	 * @var array|string
+	 *
+	 * @phpstan-var array<array-key, string>|int|string
 	 */
 	zend_declare_property_null(phalcon_db_column_ce, SL("typeValues"), ZEND_ACC_PROTECTED);
 	/**
@@ -577,6 +581,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column)
 
 /**
  * Phalcon\Db\Column constructor
+ *
+ * @phpstan-param db_column_definition $definition
  */
 PHP_METHOD(Phalcon_Db_Column, __construct)
 {
@@ -716,7 +722,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct)
 		object_init_ex(&_0$$3, phalcon_db_exceptions_columntyperequired_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Db/Column.zep", 595);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Db/Column.zep", 602);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -767,7 +773,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct)
 			object_init_ex(&_1$$11, phalcon_db_exceptions_columntyperejectsscale_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_1$$11, "__construct", NULL, 0);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_1$$11, "phalcon/Db/Column.zep", 643);
+			zephir_throw_exception_debug(&_1$$11, "phalcon/Db/Column.zep", 650);
 			ZEPHIR_MM_RESTORE();
 			return;
 		zephir_switch_0_end: ;
@@ -816,7 +822,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct)
 				object_init_ex(&_2$$19, phalcon_db_exceptions_columntyperejectsautoincrement_ce);
 				ZEPHIR_CALL_METHOD(NULL, &_2$$19, "__construct", NULL, 0);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_2$$19, "phalcon/Db/Column.zep", 685);
+				zephir_throw_exception_debug(&_2$$19, "phalcon/Db/Column.zep", 692);
 				ZEPHIR_MM_RESTORE();
 				return;
 			zephir_switch_1_end: ;
@@ -847,7 +853,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct)
 				object_init_ex(&_3$$26, phalcon_db_exceptions_invalidgenerationexpression_ce);
 				ZEPHIR_CALL_METHOD(NULL, &_3$$26, "__construct", NULL, 0);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_3$$26, "phalcon/Db/Column.zep", 726);
+				zephir_throw_exception_debug(&_3$$26, "phalcon/Db/Column.zep", 733);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -857,7 +863,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct)
 				object_init_ex(&_5$$27, phalcon_db_exceptions_generatedautoincrementconflict_ce);
 				ZEPHIR_CALL_METHOD(NULL, &_5$$27, "__construct", NULL, 0);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_5$$27, "phalcon/Db/Column.zep", 730);
+				zephir_throw_exception_debug(&_5$$27, "phalcon/Db/Column.zep", 737);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -867,7 +873,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct)
 				object_init_ex(&_7$$28, phalcon_db_exceptions_generateddefaultconflict_ce);
 				ZEPHIR_CALL_METHOD(NULL, &_7$$28, "__construct", NULL, 0);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_7$$28, "phalcon/Db/Column.zep", 734);
+				zephir_throw_exception_debug(&_7$$28, "phalcon/Db/Column.zep", 741);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -991,6 +997,8 @@ PHP_METHOD(Phalcon_Db_Column, getTypeReference)
 
 /**
  * Column data type values
+ *
+ * @phpstan-return array<array-key, string>|string
  */
 PHP_METHOD(Phalcon_Db_Column, getTypeValues)
 {

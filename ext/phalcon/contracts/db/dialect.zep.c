@@ -23,6 +23,16 @@
 /**
  * Canonical contract for Phalcon\Db dialects.
  *
+ * @phpstan-import-type db_bind_counts from DbTypes
+ * @phpstan-import-type db_column_list from DbTypes
+ * @phpstan-import-type db_column_names from DbTypes
+ * @phpstan-import-type db_custom_functions from DbTypes
+ * @phpstan-import-type db_expression from DbTypes
+ * @phpstan-import-type db_limit_number from DbTypes
+ * @phpstan-import-type db_select_definition from DbTypes
+ * @phpstan-import-type db_table_definition from DbTypes
+ * @phpstan-import-type db_view_definition from DbTypes
+ *
  * @todo v7 - these will become required interface members. They are
  *            omitted from the v5 line to avoid breaking third-party
  *            implementors:
@@ -30,9 +40,27 @@
  *              - createMaterializedView()  : string
  *              - dropCheck()               : string
  *              - dropMaterializedView()    : string
+ *              - escape()                  : string
+ *              - escapeSchema()            : string
+ *              - listViews()               : string
  *              - onConflictUpdate()        : string
  *              - refreshMaterializedView() : string
  *              - returning()               : string
+ *
+ * The adapters call the members above on the interface. They join the
+ * interface in the next major; until then the tags below record what all
+ * implementations provide.
+ *
+ * @method string addCheck(string $tableName, string $schemaName, \Phalcon\Db\CheckInterface $check)
+ * @method string createMaterializedView(string $view, db_view_definition $definition, string|null $schema = null)
+ * @method string dropCheck(string $tableName, string $schemaName, string $checkName)
+ * @method string dropMaterializedView(string $viewName, string|null $schemaName = null, bool $ifExists = true)
+ * @method string escape(string $input, string $escapeChar = '')
+ * @method string escapeSchema(string $input, string $escapeChar = '')
+ * @method string listViews(string|null $schemaName = null)
+ * @method string onConflictUpdate(string $sqlQuery, db_column_names $conflictColumns, db_column_names $updateColumns)
+ * @method string refreshMaterializedView(string $viewName, string|null $schemaName = null, bool $concurrent = false)
+ * @method string returning(string $sqlQuery, db_column_names $columns)
  */
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Db_Dialect)
 {
@@ -89,10 +117,14 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Dialect, addPrimaryKey);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Dialect, createSavepoint);
 /**
  * Generates SQL to create a table
+ *
+ * @phpstan-param db_table_definition $definition
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Dialect, createTable);
 /**
  * Generates SQL to create a view
+ *
+ * @phpstan-param db_view_definition $definition
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Dialect, createView);
 /**
@@ -133,7 +165,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Dialect, dropIndex);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Dialect, dropPrimaryKey);
 /**
- * Generates SQL to drop a table
+ * Generates SQL to drop a table. Every bundled dialect widens
+ * `schemaName` to `string|null` and defaults it to null; widening the
+ * contract itself is a next major change.
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Dialect, dropTable);
 /**
@@ -152,19 +186,28 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Dialect, forUpdate);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Dialect, getColumnDefinition);
 /**
  * Gets a list of columns
+ *
+ * @phpstan-param db_column_list $columnList
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Dialect, getColumnList);
 /**
  * Returns registered functions
+ *
+ * @phpstan-return db_custom_functions
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Dialect, getCustomFunctions);
 /**
  * Transforms an intermediate representation for an expression into a
  * database system valid expression
+ *
+ * @phpstan-param db_expression   $expression
+ * @phpstan-param db_bind_counts  $bindCounts
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Dialect, getSqlExpression);
 /**
  * Generates the SQL for LIMIT clause
+ *
+ * @phpstan-param db_limit_number $number
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Dialect, limit);
 /**
@@ -189,6 +232,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Dialect, releaseSavepoint);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Dialect, rollbackSavepoint);
 /**
  * Builds a SELECT statement
+ *
+ * @phpstan-param db_select_definition $definition
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Dialect, select);
 /**

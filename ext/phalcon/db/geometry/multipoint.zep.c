@@ -35,11 +35,16 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Geometry_MultiPoint)
 
 	/**
 	 * @var array
+	 *
+	 * @phpstan-var list<Point>
 	 */
 	zend_declare_property_null(phalcon_db_geometry_multipoint_ce, SL("points"), ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
 
+/**
+ * @phpstan-param list<Point> $points
+ */
 PHP_METHOD(Phalcon_Db_Geometry_MultiPoint, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -85,6 +90,9 @@ PHP_METHOD(Phalcon_Db_Geometry_MultiPoint, getType)
 	RETURN_LONG(44);
 }
 
+/**
+ * @phpstan-return list<Point>
+ */
 PHP_METHOD(Phalcon_Db_Geometry_MultiPoint, getPoints)
 {
 
@@ -124,7 +132,7 @@ PHP_METHOD(Phalcon_Db_Geometry_MultiPoint, toWkt)
 	} else {
 		_1 = &_0;
 	}
-	zephir_is_iterable(_1, 0, "phalcon/Db/Geometry/MultiPoint.zep", 46);
+	zephir_is_iterable(_1, 0, "phalcon/Db/Geometry/MultiPoint.zep", 54);
 	if (Z_TYPE_P(_1) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_1), _3)
 		{
@@ -132,7 +140,7 @@ PHP_METHOD(Phalcon_Db_Geometry_MultiPoint, toWkt)
 			ZVAL_COPY(&point, _3);
 			ZEPHIR_CALL_METHOD(&_4$$3, &point, "coordswkt", NULL, 0);
 			zephir_check_call_status();
-			zephir_array_append(&parts, &_4$$3, PH_SEPARATE, "phalcon/Db/Geometry/MultiPoint.zep", 43);
+			zephir_array_append(&parts, &_4$$3, PH_SEPARATE, "phalcon/Db/Geometry/MultiPoint.zep", 51);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, _1, "rewind", NULL, 0);
@@ -154,7 +162,7 @@ PHP_METHOD(Phalcon_Db_Geometry_MultiPoint, toWkt)
 			zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(&_7$$4, &point, "coordswkt", NULL, 0);
 				zephir_check_call_status();
-				zephir_array_append(&parts, &_7$$4, PH_SEPARATE, "phalcon/Db/Geometry/MultiPoint.zep", 43);
+				zephir_array_append(&parts, &_7$$4, PH_SEPARATE, "phalcon/Db/Geometry/MultiPoint.zep", 51);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&point);
