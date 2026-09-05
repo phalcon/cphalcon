@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc\Model\Resultset;
 
+use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Db\ResultInterface;
 use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
@@ -34,6 +35,10 @@ use stdClass;
  *
  * @template TKey of int
  * @template TValue of mixed
+ *
+ * @phpstan-import-type mvc_resultset_complex_state from MvcTypes
+ * @phpstan-import-type mvc_resultset_object_column from MvcTypes
+ * @phpstan-import-type mvc_resultset_scalar_column from MvcTypes
  */
 class Complex extends Resultset
 {
@@ -373,6 +378,8 @@ class Complex extends Resultset
     /**
      * Returns a complete resultset as an array, if the resultset has a big
      * number of rows it could consume more memory than currently it does.
+     *
+     * @phpstan-return array<array-key, mixed>
      */
     public function toArray() -> array
     {
@@ -395,6 +402,8 @@ class Complex extends Resultset
 
     /**
      * Unserializing a resultset will allow to only works on the rows present in the saved state
+     *
+     * @phpstan-param string $data
      */
     public function unserialize(var data) -> void
     {

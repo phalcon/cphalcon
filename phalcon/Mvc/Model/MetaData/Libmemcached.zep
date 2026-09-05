@@ -11,6 +11,8 @@
 namespace Phalcon\Mvc\Model\MetaData;
 
 use Phalcon\Cache\AdapterFactory;
+use Phalcon\Contracts\Mvc\MvcTypes;
+use Phalcon\Contracts\Storage\StorageTypes;
 use Phalcon\Mvc\Model\MetaData;
 
 /**
@@ -19,6 +21,8 @@ use Phalcon\Mvc\Model\MetaData;
  * Stores model meta-data in the Memcache.
  *
  * By default meta-data is stored for 48 hours (172800 seconds)
+ *
+ * @phpstan-import-type storage_adapter_options from StorageTypes
  */
 class Libmemcached extends MetaData
 {

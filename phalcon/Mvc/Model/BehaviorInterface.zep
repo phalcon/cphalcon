@@ -21,6 +21,8 @@ interface BehaviorInterface
 {
     /**
      * Calls a method when it's missing in the model
+     *
+     * @phpstan-param array<array-key, mixed> $arguments
      */
     public function missingMethod(<ModelInterface> model,  string method, array arguments = []);
 

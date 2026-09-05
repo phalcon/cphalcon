@@ -443,6 +443,8 @@ class Application extends AbstractApplication
 
     /**
      * Enables or disables sending headers by each request handling
+     *
+     * @phpstan-return static
      */
     public function sendHeadersOnHandleRequest(bool sendHeaders) -> <static>
     {
@@ -454,6 +456,8 @@ class Application extends AbstractApplication
     /**
      * By default. The view is implicitly buffering all the output
      * You can full disable the view component using this method
+     *
+     * @phpstan-return static
      */
     public function useImplicitView(bool implicitView) -> <static>
     {

@@ -11,6 +11,7 @@
 namespace Phalcon\Mvc\Model;
 
 use Phalcon\Contracts\Mvc\Model\Relation\CacheKeyProvider;
+use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
@@ -54,11 +55,19 @@ use ReflectionProperty;
  *
  * $invoice = new Invoices($di);
  * ```
+ *
+ * @phpstan-import-type mvc_manager_relations from MvcTypes
+ * @phpstan-import-type mvc_model_bind_params from MvcTypes
+ * @phpstan-import-type mvc_model_bind_types from MvcTypes
+ * @phpstan-import-type mvc_model_parameters from MvcTypes
+ * @phpstan-import-type mvc_relation_options from MvcTypes
  */
 class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareInterface
 {
     /**
      * @var array
+     *
+     * @phpstan-var array<string, RelationInterface>
      */
     protected aliases = [];
 
@@ -66,6 +75,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * Models' behaviors
      *
      * @var array
+     *
+     * @phpstan-var array<string, array<int, BehaviorInterface>>
      */
     protected behaviors = [];
 
@@ -73,6 +84,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * Belongs to relations
      *
      * @var array
+     *
+     * @phpstan-var mvc_manager_relations
      */
     protected belongsTo = [];
 
@@ -80,6 +93,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * All the relationships by model
      *
      * @var array
+     *
+     * @phpstan-var mvc_manager_relations
      */
     protected belongsToSingle = [];
 
@@ -95,6 +110,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
     /**
      * @var array
+     *
+     * @phpstan-var array<string, EventsManagerInterface>
      */
     protected customEventsManager = [];
 
@@ -104,6 +121,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * connection after a write.
      *
      * @var array
+     *
+     * @phpstan-var array<string, bool>
      */
     protected dirtyWriteServices = [];
 
@@ -111,6 +130,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * Does the model use dynamic update, instead of updating all rows?
      *
      * @var array
+     *
+     * @phpstan-var array<string, bool>
      */
     protected dynamicUpdate = [];
 
@@ -123,6 +144,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * Has many relations
      *
      * @var array
+     *
+     * @phpstan-var mvc_manager_relations
      */
     protected hasMany = [];
 
@@ -130,6 +153,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * Has many relations by model
      *
      * @var array
+     *
+     * @phpstan-var mvc_manager_relations
      */
     protected hasManySingle = [];
 
@@ -137,6 +162,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * Has many-Through relations
      *
      * @var array
+     *
+     * @phpstan-var mvc_manager_relations
      */
     protected hasManyToMany = [];
 
@@ -144,6 +171,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * Has many-Through relations by model
      *
      * @var array
+     *
+     * @phpstan-var mvc_manager_relations
      */
     protected hasManyToManySingle = [];
 
@@ -151,6 +180,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * Has one relations
      *
      * @var array
+     *
+     * @phpstan-var mvc_manager_relations
      */
     protected hasOne = [];
 
@@ -158,6 +189,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * Has one relations by model
      *
      * @var array
+     *
+     * @phpstan-var mvc_manager_relations
      */
     protected hasOneSingle = [];
 
@@ -165,6 +198,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * Has one through relations
      *
      * @var array
+     *
+     * @phpstan-var mvc_manager_relations
      */
     protected hasOneThrough = [];
 
@@ -172,6 +207,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * Has one through relations by model
      *
      * @var array
+     *
+     * @phpstan-var mvc_manager_relations
      */
     protected hasOneThroughSingle = [];
 
@@ -179,11 +216,15 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * Mark initialized models
      *
      * @var array
+     *
+     * @phpstan-var array<string, bool>
      */
     protected initialized = [];
 
     /**
      * @var array
+     *
+     * @phpstan-var array<string, bool>
      */
     protected keepSnapshots = [];
 
@@ -203,6 +244,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
     /**
      * @var array
+     *
+     * @phpstan-var array<string, array<string, bool>>
      */
     protected modelVisibility = [];
 
@@ -213,16 +256,22 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
     /**
      * @var array
+     *
+     * @phpstan-var array<string, string>
      */
     protected readConnectionServices = [];
 
     /**
      * @var array
+     *
+     * @phpstan-var array<string, string>
      */
     protected sources = [];
 
     /**
      * @var array
+     *
+     * @phpstan-var array<string, string>
      */
     protected schemas = [];
 
@@ -236,6 +285,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
     /**
      * @var array
+     *
+     * @phpstan-var array<string, string>
      */
     protected writeConnectionServices = [];
 
@@ -243,6 +294,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * Stores a list of reusable instances
      *
      * @var array
+     *
+     * @phpstan-var array<string, mixed>
      */
     protected reusable = [];
 
@@ -290,6 +343,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * @param array          $options
      *
      * @return RelationInterface
+     *
+     * @phpstan-param mvc_relation_options $options
      */
     public function addBelongsTo(
         <ModelInterface> model,
@@ -383,6 +438,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * @param array          $options
      *
      * @return RelationInterface
+     *
+     * @phpstan-param mvc_relation_options $options
      */
     public function addHasMany(
         <ModelInterface> model,
@@ -480,6 +537,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * @param array          $options
      *
      * @return RelationInterface
+     *
+     * @phpstan-param mvc_relation_options $options
      */
     public function addHasManyToMany(
         <ModelInterface> model,
@@ -604,6 +663,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * @param array          $options
      *
      * @return RelationInterface
+     *
+     * @phpstan-param mvc_relation_options $options
      */
     public function addHasOne(
         <ModelInterface> model,
@@ -700,6 +761,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * @param array          $options
      *
      * @return RelationInterface
+     *
+     * @phpstan-param mvc_relation_options $options
      */
     public function addHasOneThrough(
         <ModelInterface> model,
@@ -1009,6 +1072,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * @param string|null    $method
      *
      * @return ResultsetInterface | bool
+     *
+     * @phpstan-param mvc_model_parameters|string|null $parameters
      */
     public function getBelongsToRecords(
          string modelName,
@@ -1059,6 +1124,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * @param array          $connectionServices
      *
      * @return string
+     *
+     * @phpstan-param array<string, string> $connectionServices
      */
     public function getConnectionService(
         <ModelInterface> model,
@@ -1124,6 +1191,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
     /**
      * Gets hasMany related records from a model
+     *
+     * @phpstan-param mvc_model_parameters|string|null $parameters
      */
     public function getHasManyRecords( string modelName,  string modelRelation, <ModelInterface> record, parameters = null, string method = null)
         -> <ResultsetInterface> | bool
@@ -1193,6 +1262,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
     /**
      * Gets belongsTo related records from a model
+     *
+     * @phpstan-param mvc_model_parameters|string|null $parameters
      */
     public function getHasOneRecords( string modelName,  string modelRelation, <ModelInterface> record, parameters = null, string method = null)
         -> <ModelInterface> | bool
@@ -2059,6 +2130,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * @param mixed $findParamsTwo
      *
      * @return array
+     *
+     * @phpstan-return mvc_model_parameters
      */
     final public static function mergeFindParameters(var findParamsOne, var findParamsTwo) -> array
     {
@@ -2129,6 +2202,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * @param ModelInterface $model
      * @param string         $eventName
      * @param mixed          $data
+     *
+     * @phpstan-param array<array-key, mixed> $data
      */
     public function missingMethod(<ModelInterface> model,  string eventName, var data)
     {
@@ -2474,6 +2549,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * @param array          $connectionServices
      *
      * @return AdapterInterface
+     *
+     * @phpstan-param array<string, string> $connectionServices
      */
     protected function getConnection(
         <ModelInterface> model,

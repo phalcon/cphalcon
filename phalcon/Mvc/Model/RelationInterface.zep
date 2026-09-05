@@ -10,10 +10,16 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Contracts\Mvc\MvcTypes;
+
 /**
  * Phalcon\Mvc\Model\RelationInterface
  *
  * Interface for Phalcon\Mvc\Model\Relation
+ *
+ * @phpstan-import-type mvc_model_parameters from MvcTypes
+ * @phpstan-import-type mvc_relation_fields from MvcTypes
+ * @phpstan-import-type mvc_relation_options from MvcTypes
  */
 interface RelationInterface
 {
@@ -21,6 +27,8 @@ interface RelationInterface
      * Returns the fields
      *
      * @return string|array
+     *
+     * @phpstan-return mvc_relation_fields
      */
     public function getFields();
 
@@ -28,6 +36,8 @@ interface RelationInterface
      * Returns the foreign key configuration
      *
      * @return string|array
+     *
+     * @phpstan-return array<string, mixed>|string|bool
      */
     public function getForeignKey();
 
@@ -35,6 +45,8 @@ interface RelationInterface
      * Gets the intermediate fields for has-*-through relations
      *
      * @return string|array
+     *
+     * @phpstan-return mvc_relation_fields
      */
     public function getIntermediateFields();
 
@@ -47,6 +59,8 @@ interface RelationInterface
      * Gets the intermediate referenced fields for has-*-through relations
      *
      * @return string|array
+     *
+     * @phpstan-return mvc_relation_fields
      */
     public function getIntermediateReferencedFields();
 
@@ -58,6 +72,8 @@ interface RelationInterface
 
     /**
      * Returns the options
+     *
+     * @phpstan-return mvc_relation_options
      */
     public function getOptions() -> array;
 
@@ -65,6 +81,8 @@ interface RelationInterface
      * Returns parameters that must be always used when the related records are obtained
      *
      * @return array
+     *
+     * @phpstan-return mvc_model_parameters|false
      */
     public function getParams();
 
@@ -72,6 +90,8 @@ interface RelationInterface
      * Returns the referenced fields
      *
      * @return string|array
+     *
+     * @phpstan-return mvc_relation_fields
      */
     public function getReferencedFields();
 

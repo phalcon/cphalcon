@@ -10,6 +10,8 @@
 
 namespace Phalcon\Mvc\Router;
 
+use Phalcon\Contracts\Mvc\MvcTypes;
+
 /**
  *```php
  * $router = new \Phalcon\Mvc\Router();
@@ -53,6 +55,9 @@ namespace Phalcon\Mvc\Router;
  * // Add the group to the router
  * $router->mount($blog);
  *```
+ *
+ * @phpstan-import-type mvc_router_http_methods from MvcTypes
+ * @phpstan-import-type mvc_router_paths from MvcTypes
  */
 interface GroupInterface
 {
@@ -195,6 +200,8 @@ interface GroupInterface
 
     /**
      * Returns the common paths defined for this group
+     *
+     * @phpstan-return mvc_router_paths|string|null
      */
     public function getPaths() -> array | string | null;
 
@@ -205,6 +212,8 @@ interface GroupInterface
 
     /**
      * Returns the routes added to the group
+     *
+     * @phpstan-return list<RouteInterface>
      */
     public function getRoutes() -> <RouteInterface[]>;
 

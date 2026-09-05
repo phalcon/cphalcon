@@ -10,8 +10,15 @@
 
 namespace Phalcon\Mvc\Router;
 
+use Phalcon\Contracts\Mvc\MvcTypes;
+
 /**
  * Interface for Phalcon\Mvc\Router\Route
+ *
+ * @phpstan-import-type mvc_router_http_methods from MvcTypes
+ * @phpstan-import-type mvc_router_paths from MvcTypes
+ * @phpstan-import-type mvc_router_converters from MvcTypes
+ * @phpstan-import-type mvc_router_reversed_paths from MvcTypes
  */
 interface RouteInterface
 {
@@ -37,6 +44,8 @@ interface RouteInterface
 
     /**
      * Returns the HTTP methods that constraint matching the route
+     *
+     * @phpstan-return mvc_router_http_methods|string|null
      */
     public function getHttpMethods() -> array | string | null;
 
@@ -47,6 +56,8 @@ interface RouteInterface
 
     /**
      * Returns the paths
+     *
+     * @phpstan-return mvc_router_paths
      */
     public function getPaths() -> array;
 
@@ -57,6 +68,8 @@ interface RouteInterface
 
     /**
      * Returns the paths using positions as keys and names as values
+     *
+     * @phpstan-return mvc_router_reversed_paths
      */
     public function getReversedPaths() -> array;
 

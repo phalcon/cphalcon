@@ -10,6 +10,8 @@
 
 namespace Phalcon\Mvc\Micro;
 
+use Phalcon\Contracts\Mvc\MvcTypes;
+
 /**
  * Phalcon\Mvc\Micro\Collection
  *
@@ -28,6 +30,8 @@ namespace Phalcon\Mvc\Micro;
  *
  * $app->mount($collection);
  *```
+ *
+ * @phpstan-import-type mvc_micro_handlers from MvcTypes
  */
 class Collection implements CollectionInterface
 {
@@ -38,6 +42,8 @@ class Collection implements CollectionInterface
 
     /**
      * @var array
+     *
+     * @phpstan-var mvc_micro_handlers
      */
     protected handlers = [];
 
@@ -95,6 +101,8 @@ class Collection implements CollectionInterface
 
     /**
      * Returns the registered handlers
+     *
+     * @phpstan-return mvc_micro_handlers
      */
     public function getHandlers() -> array
     {

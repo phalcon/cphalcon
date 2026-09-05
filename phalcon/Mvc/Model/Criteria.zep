@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Db\Column;
 use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
@@ -33,16 +34,27 @@ use Phalcon\Mvc\Model\Query\BuilderInterface;
  *     ->orderBy("inv_title")
  *     ->execute();
  * ```
+ *
+ * @phpstan-import-type mvc_criteria_params from MvcTypes
+ * @phpstan-import-type mvc_model_bind_params from MvcTypes
+ * @phpstan-import-type mvc_model_bind_types from MvcTypes
+ * @phpstan-import-type mvc_model_cache_options from MvcTypes
+ * @phpstan-import-type mvc_model_parameters from MvcTypes
+ * @phpstan-import-type mvc_query_columns from MvcTypes
  */
 class Criteria implements CriteriaInterface, InjectionAwareInterface
 {
     /**
      * @var array
+     *
+     * @phpstan-var mvc_model_bind_params
      */
     protected bindParams;
 
     /**
      * @var array
+     *
+     * @phpstan-var mvc_model_bind_types
      */
     protected bindTypes;
 
@@ -58,6 +70,8 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
     /**
      * @var array
+     *
+     * @phpstan-var mvc_criteria_params
      */
     protected params = [];
 
@@ -120,6 +134,8 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Sets the bound parameters in the criteria
      * This method replaces all previously set bound parameters
+     *
+     * @phpstan-param mvc_model_bind_params $bindParams
      */
     public function bind( array bindParams, bool merge = false) -> <CriteriaInterface>
     {
@@ -139,6 +155,8 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Sets the bind types in the criteria
      * This method replaces all previously set bound parameters
+     *
+     * @phpstan-param mvc_model_bind_types $bindTypes
      */
     public function bindTypes( array bindTypes) -> <CriteriaInterface>
     {
@@ -150,6 +168,8 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Sets the cache options in the criteria
      * This method replaces all previously set cache options
+     *
+     * @phpstan-param mvc_model_cache_options $cache
      */
     public function cache( array cache) -> <CriteriaInterface>
     {
@@ -287,6 +307,8 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * would break every userland implementation.
      *
      * @param array $paths relation paths
+     *
+     * @phpstan-param array<array-key, mixed> $paths
      */
     public function eager(array paths) -> <Criteria>
     {
@@ -325,6 +347,8 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
     /**
      * Builds a Phalcon\Mvc\Model\Criteria based on an input array like $_POST
+     *
+     * @phpstan-param array<string, mixed> $data
      */
     public static function fromInput(
         <DiInterface> container,
@@ -408,6 +432,8 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
     /**
      * Returns the columns to be queried
+     *
+     * @phpstan-return mvc_query_columns|null
      */
     public function getColumns() -> string | array | null
     {
@@ -476,6 +502,8 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * - An integer if 'limit' was set without an 'offset'
      * - An array with 'number' and 'offset' keys if an offset was set with the limit
      * - NULL if limit has not been set
+     *
+     * @phpstan-return array{number: int|string, offset?: int|string}|int|null
      */
     public function getLimit()  -> int | array | null
     {
@@ -512,6 +540,8 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
     /**
      * Returns all the parameters defined in the criteria
+     *
+     * @phpstan-return mvc_criteria_params
      */
     public function getParams() -> array
     {
@@ -558,6 +588,8 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * ```php
      * $criteria->inWhere("id", [1, 2, 3]);
      * ```
+     *
+     * @phpstan-param array<array-key, mixed> $values
      */
     public function inWhere( string expr,  array values) -> <CriteriaInterface>
     {
@@ -764,6 +796,8 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      *```php
      * $criteria->notInWhere("id", [1, 2, 3]);
      *```
+     *
+     * @phpstan-param array<array-key, mixed> $values
      */
     public function notInWhere( string expr,  array values) -> <CriteriaInterface>
     {

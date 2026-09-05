@@ -20,6 +20,7 @@ namespace Phalcon\Mvc;
 
 use Phalcon\Cache\Adapter\AdapterInterface as CacheAdapterInterface;
 use Phalcon\Config\ConfigInterface;
+use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Di\DiInterface;
 use Phalcon\Events\EventsAwareInterface;
@@ -71,6 +72,25 @@ use Phalcon\Traits\Php\FileTrait;
  *
  * echo $router->getControllerName();
  * ```
+ *
+ * @phpstan-import-type mvc_router_defaults from MvcTypes
+ * @phpstan-import-type mvc_router_http_methods from MvcTypes
+ * @phpstan-import-type mvc_router_config_group from MvcTypes
+ * @phpstan-import-type mvc_router_config_route from MvcTypes
+ * @phpstan-import-type mvc_router_dump from MvcTypes
+ * @phpstan-import-type mvc_router_dumped_route from MvcTypes
+ * @phpstan-import-type mvc_router_hostname_buckets from MvcTypes
+ * @phpstan-import-type mvc_router_index_buckets from MvcTypes
+ * @phpstan-import-type mvc_router_matches from MvcTypes
+ * @phpstan-import-type mvc_router_method_buckets from MvcTypes
+ * @phpstan-import-type mvc_router_params from MvcTypes
+ * @phpstan-import-type mvc_router_paths from MvcTypes
+ * @phpstan-import-type mvc_router_regex_chunks from MvcTypes
+ * @phpstan-import-type mvc_router_regex_disabled from MvcTypes
+ * @phpstan-import-type mvc_router_regex_mark_map from MvcTypes
+ * @phpstan-import-type mvc_router_route_meta from MvcTypes
+ * @phpstan-import-type mvc_router_shadow_buckets from MvcTypes
+ * @phpstan-import-type mvc_router_static_buckets from MvcTypes
  */
 class Router extends AbstractInjectionAware implements RouterInterface, EventsAwareInterface
 {
@@ -117,6 +137,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * Built in rebuildMethodIndex(); consumed by handle() in reverse.
      *
      * @var array
+     *
+     * @phpstan-var mvc_router_method_buckets
      */
     protected candidatesByMethod = [];
 
@@ -134,6 +156,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      *   ]
      *
      * @var array
+     *
+     * @phpstan-var array<string, mvc_router_route_meta>
      */
     protected routeMeta = [];
 
@@ -144,6 +168,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * pattern shape.
      *
      * @var array
+     *
+     * @phpstan-var mvc_router_regex_chunks
      */
     protected combinedRegexByMethod = [];
 
@@ -152,6 +178,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * built (hostname route present, exotic pattern shape, etc.).
      *
      * @var array
+     *
+     * @phpstan-var mvc_router_regex_disabled
      */
     protected combinedRegexDisabled = [];
 
@@ -162,6 +190,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      *   combinedRegexMarkMap[method][chunkIdx][markLabel] = routeIdx
      *
      * @var array
+     *
+     * @phpstan-var mvc_router_regex_mark_map
      */
     protected combinedRegexMarkMap = [];
 
@@ -192,6 +222,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
     /**
      * @var array
+     *
+     * @phpstan-var mvc_router_params
      */
     protected defaultParams = [];
 
@@ -208,6 +240,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * Shape: hostnameByMethod[method][hostname] = list of route indices.
      *
      * @var array
+     *
+     * @phpstan-var mvc_router_hostname_buckets
      */
     protected hostnameByMethod = [];
 
@@ -219,16 +253,22 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * candidatesByMethod[method].
      *
      * @var array
+     *
+     * @phpstan-var mvc_router_index_buckets
      */
     protected hostnameLessByMethod = [];
 
     /**
      * @var array
+     *
+     * @phpstan-var array<string, int|string>
      */
     protected keyRouteNames = [];
 
     /**
      * @var array
+     *
+     * @phpstan-var array<array-key, int|string>
      */
     protected keyRouteIds = [];
 
@@ -239,11 +279,15 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
     /**
      * @var array
+     *
+     * @phpstan-var mvc_router_matches
      */
     protected matches = [];
 
     /**
      * @var array
+     *
+     * @phpstan-var mvc_router_method_buckets
      */
     protected methodRoutes = [];
 
@@ -264,11 +308,15 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
     /**
      * @var array|string|null
+     *
+     * @phpstan-var mvc_router_paths|string|null
      */
     protected notFoundPaths = null;
 
     /**
      * @var array
+     *
+     * @phpstan-var mvc_router_params
      */
     protected params = [];
 
@@ -294,6 +342,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
     /**
      * @var array
+     *
+     * @phpstan-var list<RouteInterface>
      */
     protected routes = [];
 
@@ -303,6 +353,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * pattern is a literal string equal to that URI.
      *
      * @var array
+     *
+     * @phpstan-var mvc_router_static_buckets
      */
     protected staticByMethod = [];
 
@@ -313,6 +365,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * loop so the regex wins (reverse-iteration semantics).
      *
      * @var array
+     *
+     * @phpstan-var mvc_router_shadow_buckets
      */
     protected staticShadowedByMethod = [];
 
@@ -656,6 +710,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * @param int            $position
      *
      * @return static
+     *
+     * @phpstan-return static
      */
     public function attach(
         <RouteInterface> route,
@@ -706,6 +762,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * cannot be cached.
      *
      * @throws \Phalcon\Mvc\Router\Exception
+     *
+     * @phpstan-return mvc_router_dump
      */
     public function buildDispatcherDump() -> array
     {
@@ -810,6 +868,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * every index, and marks the indexes clean so handle() skips rebuild.
      *
      * @throws \Phalcon\Mvc\Router\Exception
+     *
+     * @phpstan-param array<string, mixed> $dump
      */
     public function loadDispatcherFromArray(array dump) -> void
     {
@@ -1018,6 +1078,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
     /**
      * Returns an array of default parameters
+     *
+     * @phpstan-return array<string, mixed>
      */
     public function getDefaults() -> array
     {
@@ -1032,6 +1094,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
     /**
      * @return array
+     *
+     * @phpstan-return array<array-key, int|string>
      */
     public function getKeyRouteIds() -> array
     {
@@ -1040,6 +1104,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
     /**
      * @return array
+     *
+     * @phpstan-return array<string, int|string>
      */
     public function getKeyRouteNames() -> array
     {
@@ -1056,6 +1122,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
     /**
      * Returns the sub expressions in the regular expression matched
+     *
+     * @phpstan-return mvc_router_matches
      */
     public function getMatches() -> array
     {
@@ -1067,6 +1135,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * Routes with no HTTP constraint are stored under the "*" key.
      *
      * @return array
+     *
+     * @phpstan-return mvc_router_method_buckets
      */
     public function getMethodRoutes() -> array
     {
@@ -1095,6 +1165,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
     /**
      * Returns the processed parameters
+     *
+     * @phpstan-return mvc_router_params
      */
     public function getParams() -> array
     {
@@ -1741,6 +1813,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * @param array|ConfigInterface config
      *
      * @return static
+     *
+     * @phpstan-return static
      */
     public function loadFromConfig(var config) -> <static>
     {
@@ -1801,6 +1875,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * @param GroupInterface group
      *
      * @return static
+     *
+     * @phpstan-return static
      */
     public function mount(<GroupInterface> group) -> <static>
     {
@@ -1852,6 +1928,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * @param array|string|null paths
      *
      * @return static
+     *
+     * @phpstan-return static
      */
     public function notFound(var paths) -> <static>
     {
@@ -1870,6 +1948,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * @param bool remove
      *
      * @return static
+     *
+     * @phpstan-return static
      */
     public function removeExtraSlashes( bool remove) -> <static>
     {
@@ -1884,6 +1964,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * @param string actionName
      *
      * @return static
+     *
+     * @phpstan-return static
      */
     public function setDefaultAction( string actionName) -> <static>
     {
@@ -1898,6 +1980,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * @param string controllerName
      *
      * @return static
+     *
+     * @phpstan-return static
      */
     public function setDefaultController( string controllerName) -> <static>
     {
@@ -1912,6 +1996,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * @param string moduleName
      *
      * @return static
+     *
+     * @phpstan-return static
      */
     public function setDefaultModule( string moduleName) -> <static>
     {
@@ -1926,6 +2012,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * @parma string namespaceName
      *
      * @return static
+     *
+     * @phpstan-return static
      */
     public function setDefaultNamespace( string namespaceName) -> <static>
     {
@@ -1951,6 +2039,9 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * @param array defaults
      *
      * @return static
+     *
+     * @phpstan-param mvc_router_defaults $defaults
+     * @phpstan-return static
      */
     public function setDefaults( array defaults) -> <static>
     {
@@ -2000,6 +2091,9 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * @param array $routeIds
      *
      * @return static
+     *
+     * @phpstan-param array<array-key, int|string> $routeIds
+     * @phpstan-return static
      */
     public function setKeyRouteIds(array routeIds) -> <static>
     {
@@ -2012,6 +2106,9 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * @param array $routeNames
      *
      * @return static
+     *
+     * @phpstan-param array<string, int|string> $routeNames
+     * @phpstan-return static
      */
     public function setKeyRouteNames(array routeNames) -> <static>
     {
@@ -2052,6 +2149,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * @param array routeData
      *
      * @return void
+     *
+     * @phpstan-param array<string, mixed> $routeData
      */
     protected function addRouteFromConfig(array routeData) -> void
     {
@@ -2114,6 +2213,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * @param array groupData
      *
      * @return void
+     *
+     * @phpstan-param array<string, mixed> $groupData
      */
     protected function mountGroupFromConfig(array groupData) -> void
     {

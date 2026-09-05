@@ -82,12 +82,14 @@ class Imagick extends AbstractAdapter
         int height = null,
         int maxPixels = 0
     ) {
-        var image;
+        var coalesced, image;
 
         this->check();
 
+        let image = new ImagickNative();
+
         let this->file      = file;
-        let this->image     = new ImagickNative();
+        let this->image     = image;
         let this->maxPixels = maxPixels > 0 ? maxPixels : self::DEFAULT_MAX_PIXELS;
 
         if (true === this->phpFileExists(this->file)) {
@@ -98,36 +100,37 @@ class Imagick extends AbstractAdapter
              * dimensions before readImage() decodes the full pixel buffer
              * (CWE-409).
              */
-            if (true === this->image->pingImage(this->realpath)) {
+            if (true === image->pingImage(this->realpath)) {
                 this->assertPixelLimit(
-                    (int) this->image->getImageWidth(),
-                    (int) this->image->getImageHeight()
+                    (int) image->getImageWidth(),
+                    (int) image->getImageHeight()
                 );
 
-                this->image->clear();
+                image->clear();
             }
 
-            if (true !== this->image->readImage(this->realpath)) {
+            if (true !== image->readImage(this->realpath)) {
                 throw new ImageLoadFailed(this->file);
             }
 
-            if (!this->image->getImageAlphaChannel()) {
-                this->image->setImageAlphaChannel(
+            if (!image->getImageAlphaChannel()) {
+                image->setImageAlphaChannel(
                     constant("Imagick::ALPHACHANNEL_SET")
                 );
             }
-            let this->type = this->image->getImageType();
+            let this->type = image->getImageType();
 
             /**
              * GIF. The format, not the image type: getImageType() reports an
              * Imagick IMGTYPE_* value, which never equals an IMAGETYPE_* one.
              */
-            if ("GIF" === strtoupper(this->image->getImageFormat())) {
-                let image = this->image->coalesceImages();
+            if ("GIF" === strtoupper(image->getImageFormat())) {
+                let coalesced = image->coalesceImages();
 
-                this->image->clear();
-                this->image->destroy();
+                image->clear();
+                image->destroy();
 
+                let image       = coalesced;
                 let this->image = image;
             }
         } else {
@@ -135,22 +138,22 @@ class Imagick extends AbstractAdapter
                 throw new ImageLoadFailed(this->file);
             }
 
-            this->image->newImage(
+            image->newImage(
                 width,
                 height,
                 new ImagickPixel("transparent")
             );
 
-            this->image->setFormat("png");
-            this->image->setImageFormat("png");
+            image->setFormat("png");
+            image->setImageFormat("png");
 
             let this->realpath = this->file;
         }
 
-        let this->width  = this->image->getImageWidth();
-        let this->height = this->image->getImageHeight();
-        let this->type   = this->image->getImageType();
-        let this->mime   = "image/" . this->image->getImageFormat();
+        let this->width  = image->getImageWidth();
+        let this->height = image->getImageHeight();
+        let this->type   = image->getImageType();
+        let this->mime   = "image/" . image->getImageFormat();
     }
 
     /**
@@ -481,7 +484,8 @@ class Imagick extends AbstractAdapter
         int opacity,
         bool fadeIn
     ) -> void {
-        var current, fade, fadeOpacity, image, pixel, pseudo, reflection, result;
+        var current, fade, fadeOpacity, hasNext, image, pixel, pseudo,
+            reflection, result;
 
         /** @var ImagickNative $current */
         let current = this->image;
@@ -511,7 +515,14 @@ class Imagick extends AbstractAdapter
                 0
             );
 
-            if (true !== reflection->nextImage()) {
+            /**
+             * The result is kept in a local because PHPStan carries the
+             * narrowing of a repeated call expression past the loop, and it
+             * cannot know that nextImage() moves an internal cursor.
+             */
+            let hasNext = reflection->nextImage();
+
+            if (true !== hasNext) {
                 break;
             }
         }
@@ -546,7 +557,9 @@ class Imagick extends AbstractAdapter
                 constant("Imagick::CHANNEL_ALPHA")
             );
 
-            if (true !== reflection->nextImage()) {
+            let hasNext = reflection->nextImage();
+
+            if (true !== hasNext) {
                 break;
             }
         }

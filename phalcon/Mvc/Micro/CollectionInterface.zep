@@ -10,10 +10,14 @@
 
 namespace Phalcon\Mvc\Micro;
 
+use Phalcon\Contracts\Mvc\MvcTypes;
+
 /**
  * Phalcon\Mvc\Micro\CollectionInterface
  *
  * Interface for Phalcon\Mvc\Micro\Collection
+ *
+ * @phpstan-import-type mvc_micro_handlers from MvcTypes
  */
 interface CollectionInterface
 {
@@ -34,6 +38,8 @@ interface CollectionInterface
 
     /**
      * Returns the registered handlers
+     *
+     * @phpstan-return mvc_micro_handlers
      */
     public function getHandlers() -> array;
 

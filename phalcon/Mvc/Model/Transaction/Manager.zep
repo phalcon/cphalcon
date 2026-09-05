@@ -91,6 +91,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 
     /**
      * @var array
+     *
+     * @phpstan-var list<TransactionInterface>
      */
     protected transactions = [];
 

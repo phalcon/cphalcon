@@ -26,6 +26,8 @@ class SoftDelete extends Behavior
 {
     /**
      * Listens for notifications from the models manager
+     *
+     * @phpstan-return mixed
      */
     public function notify( string type, <ModelInterface> model)
     {

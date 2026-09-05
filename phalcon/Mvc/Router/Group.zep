@@ -10,6 +10,8 @@
 
 namespace Phalcon\Mvc\Router;
 
+use Phalcon\Contracts\Mvc\MvcTypes;
+
 /**
  * Helper class to create a group of routes with common attributes
  *
@@ -55,11 +57,16 @@ namespace Phalcon\Mvc\Router;
  * //Add the group to the router
  * $router->mount($blog);
  *```
+ *
+ * @phpstan-import-type mvc_router_http_methods from MvcTypes
+ * @phpstan-import-type mvc_router_paths from MvcTypes
  */
 class Group implements GroupInterface
 {
     /**
      * @var callable|null
+     *
+     * @phpstan-var callable|null
      */
     protected beforeMatch = null;
 
@@ -70,6 +77,8 @@ class Group implements GroupInterface
 
     /**
      * @var array|string|null
+     *
+     * @phpstan-var mvc_router_paths|string|null
      */
     protected paths = null;
 
@@ -80,6 +89,8 @@ class Group implements GroupInterface
 
     /**
      * @var array
+     *
+     * @phpstan-var list<RouteInterface>
      */
     protected routes = [];
 
@@ -87,6 +98,8 @@ class Group implements GroupInterface
      * Phalcon\Mvc\Router\Group constructor
      *
      * @param array|string paths
+     *
+     * @phpstan-param mvc_router_paths|string|null $paths
      */
     public function __construct(var paths = null)
     {
@@ -344,6 +357,8 @@ class Group implements GroupInterface
 
     /**
      * Returns the common paths defined for this group
+     *
+     * @phpstan-return mvc_router_paths|string|null
      */
     public function getPaths() -> array | string | null
     {
@@ -360,6 +375,8 @@ class Group implements GroupInterface
 
     /**
      * Returns the routes added to the group
+     *
+     * @phpstan-return list<RouteInterface>
      */
     public function getRoutes() -> <RouteInterface[]>
     {

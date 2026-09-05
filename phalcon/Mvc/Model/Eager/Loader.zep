@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc\Model\Eager;
 
+use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Mvc\Model\Exceptions\EagerRowLimitExceeded;
 use Phalcon\Mvc\Model\Exceptions\MissingEagerKeyColumn;
 use Phalcon\Mvc\Model\Exceptions\UnknownEagerRelation;
@@ -24,6 +25,14 @@ use Phalcon\Mvc\ModelInterface;
  * Loads model relations in bulk - a bounded number of queries per relation
  * node rather than one per record - and applies the result to records as they
  * are hydrated.
+ *
+ * @phpstan-import-type mvc_eager_map from MvcTypes
+ * @phpstan-import-type mvc_eager_map_node from MvcTypes
+ * @phpstan-import-type mvc_eager_node from MvcTypes
+ * @phpstan-import-type mvc_eager_parents from MvcTypes
+ * @phpstan-import-type mvc_model_parameters from MvcTypes
+ * @phpstan-import-type mvc_query_columns from MvcTypes
+ * @phpstan-import-type mvc_relation_fields from MvcTypes
  */
 class Loader
 {
@@ -57,6 +66,8 @@ class Loader
      * select produces, and it has no relation cache.
      *
      * @param object $record ModelInterface or Row
+     *
+     * @phpstan-param mvc_eager_map                                $eagerMap
      */
     public static function apply(var record, array eagerMap) -> void
     {
@@ -97,6 +108,8 @@ class Loader
      * PostgreSQL-integer / MySQL-string mismatch for the same column. Multiple
      * values are length-prefixed so ["a|b", "c"] cannot collide with
      * ["a", "b|c"].
+     *
+     * @phpstan-param array<array-key, mixed> $values
      */
     public static function buildKey(array values) -> string
     {
@@ -123,6 +136,8 @@ class Loader
      * The resultset is materialized first: at this point the statement has run
      * but no row has been consumed, so fetching every row costs nothing extra
      * and gives the key values without a second pass over the cursor.
+     *
+     * @phpstan-param array<string, mixed> $tree
      */
     public function loadResultset(
         <Simple> resultset,
@@ -145,6 +160,10 @@ class Loader
      *
      * @param array $parents attribute-keyed row arrays at the root, or
      *                       ModelInterface / Row instances below it
+     *
+     * @phpstan-param mvc_eager_parents    $parents
+     * @phpstan-param array<string, mixed> $tree
+     * @phpstan-return mvc_eager_map
      */
     protected function buildMap(
         array parents,
@@ -176,6 +195,10 @@ class Loader
 
     /**
      * Builds a single map node: one query, indexed by the referenced field.
+     *
+     * @phpstan-param mvc_eager_parents $parents
+     * @phpstan-param mvc_eager_node    $node
+     * @phpstan-return mvc_eager_map_node
      */
     protected function buildNode(
         <RelationInterface> relation,
@@ -287,6 +310,10 @@ class Loader
      * collected. The pairs then attribute referenced rows back to parents
      * without a synthetic column in the select list, and without the row
      * multiplication an inner join would cause.
+     *
+     * @phpstan-param mvc_eager_parents $parents
+     * @phpstan-param mvc_eager_node    $node
+     * @phpstan-return mvc_eager_map_node
      */
     protected function buildThroughNode(
         <RelationInterface> relation,
@@ -453,6 +480,10 @@ class Loader
      * @param array $parents attribute-keyed row arrays, ModelInterface or Row
      *
      * @return array list of value-tuples, deduped
+     *
+     * @phpstan-param mvc_eager_parents         $parents
+     * @phpstan-param array<array-key, string>  $fields
+     * @phpstan-return list<array<array-key, mixed>>
      */
     protected function collectKeys(
         array parents,
@@ -494,6 +525,9 @@ class Loader
     /**
      * One query per relation node. An empty key set issues none at all -
      * WHERE IN () is a syntax error and there is nothing to attribute.
+     *
+     * @phpstan-param array<array-key, array<array-key, mixed>> $keys
+     * @phpstan-param mvc_model_parameters                      $options
      */
     protected function fetchReferenced(
         <RelationInterface> relation,
@@ -624,6 +658,9 @@ class Loader
      * Relation fields are declared as a string for a single column and an
      * array for a composite key. Normalizing removes that fork everywhere
      * downstream.
+     *
+     * @phpstan-param mvc_relation_fields $fields
+     * @phpstan-return array<array-key, string>
      */
     protected function normalizeFields(var fields) -> array
     {
@@ -636,6 +673,8 @@ class Loader
 
     /**
      * Lookup key for an already-hydrated record.
+     *
+     * @phpstan-param array<array-key, string> $fields
      */
     protected function recordKey(var record, array fields) -> string
     {

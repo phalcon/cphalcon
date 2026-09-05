@@ -10,12 +10,19 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Di\DiInterface;
 
 /**
  * Phalcon\Mvc\Model\CriteriaInterface
  *
  * Interface for Phalcon\Mvc\Model\Criteria
+ *
+ * @phpstan-import-type mvc_model_bind_params from MvcTypes
+ * @phpstan-import-type mvc_model_bind_types from MvcTypes
+ * @phpstan-import-type mvc_model_cache_options from MvcTypes
+ * @phpstan-import-type mvc_model_parameters from MvcTypes
+ * @phpstan-import-type mvc_query_columns from MvcTypes
  */
 interface CriteriaInterface
 {
@@ -42,18 +49,24 @@ interface CriteriaInterface
     /**
      * Sets the bound parameters in the criteria
      * This method replaces all previously set bound parameters
+     *
+     * @phpstan-param mvc_model_bind_params $bindParams
      */
     public function bind( array bindParams) -> <CriteriaInterface>;
 
     /**
      * Sets the bind types in the criteria
      * This method replaces all previously set bound parameters
+     *
+     * @phpstan-param mvc_model_bind_types $bindTypes
      */
     public function bindTypes( array bindTypes) -> <CriteriaInterface>;
 
     /**
      * Sets the cache options in the criteria
      * This method replaces all previously set cache options
+     *
+     * @phpstan-param mvc_model_cache_options $cache
      */
     public function cache( array cache) -> <CriteriaInterface>;
 
@@ -79,6 +92,8 @@ interface CriteriaInterface
 
     /**
      * Returns the columns to be queried
+     *
+     * @phpstan-return mvc_query_columns|null
      */
     public function getColumns() -> string | array | null;
 
@@ -103,6 +118,8 @@ interface CriteriaInterface
      * - An integer if 'limit' was set without an 'offset'
      * - An array with 'number' and 'offset' keys if an offset was set with the limit
      * - NULL if limit has not been set
+     *
+     * @phpstan-return array{number: int|string, offset?: int|string}|int|null
      */
     public function getLimit() -> int | array | null;
 
@@ -118,6 +135,8 @@ interface CriteriaInterface
 
     /**
      * Returns all the parameters defined in the criteria
+     *
+     * @phpstan-return mvc_model_parameters
      */
     public function getParams() -> array;
 
@@ -142,6 +161,8 @@ interface CriteriaInterface
      *```php
      * $criteria->inWhere("id", [1, 2, 3]);
      *```
+     *
+     * @phpstan-param array<array-key, mixed> $values
      */
     public function inWhere( string expr,  array values) -> <CriteriaInterface>;
 
@@ -203,6 +224,8 @@ interface CriteriaInterface
      *```php
      * $criteria->notInWhere("id", [1, 2, 3]);
      *```
+     *
+     * @phpstan-param array<array-key, mixed> $values
      */
     public function notInWhere( string expr,  array values) -> <CriteriaInterface>;
 

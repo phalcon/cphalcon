@@ -20,6 +20,8 @@ interface BindableInterface
     /**
      * Return the model name or models names and parameters keys associated with
      * this class
+     *
+     * @phpstan-return array<array-key, string>|string
      */
     public function getModelName() -> string | array;
 }
