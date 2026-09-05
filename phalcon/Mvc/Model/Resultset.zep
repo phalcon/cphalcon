@@ -257,10 +257,11 @@ abstract class Resultset
     public function delete(<Closure> conditionCallback = null) -> bool
     {
         bool result, transaction;
-        var record, connection = null;
+        var record, connection, isUnderTransaction = null;
 
         let result = true;
         let transaction = false;
+        let isUnderTransaction = false;
 
         this->rewind();
 
@@ -276,9 +277,15 @@ abstract class Resultset
                 }
 
                 let connection = record->getWriteConnection(),
-                    transaction = true;
+                    transaction = true,
+                    isUnderTransaction = connection->isUnderTransaction();
 
-                connection->begin();
+                /**
+                 * If we already under transaction we should not begin or commit it
+                 */
+                if isUnderTransaction === false {
+                    connection->begin();
+                }
             }
 
             /**
@@ -318,7 +325,7 @@ abstract class Resultset
         /**
          * Commit the transaction
          */
-        if transaction === true {
+        if transaction === true && isUnderTransaction === false {
             connection->commit();
         }
         this->refresh();
@@ -734,9 +741,10 @@ abstract class Resultset
     public function update(var data, <Closure> conditionCallback = null) -> bool
     {
         bool transaction;
-        var record, connection = null;
+        var record, connection, isUnderTransaction = null;
 
         let transaction = false;
+        let isUnderTransaction = false;
 
         this->rewind();
 
@@ -752,9 +760,15 @@ abstract class Resultset
                 }
 
                 let connection = record->getWriteConnection(),
-                    transaction = true;
+                    transaction = true,
+                    isUnderTransaction = connection->isUnderTransaction();
 
-                connection->begin();
+                /**
+                 * If we already under transaction we should not begin or commit it
+                 */
+                if isUnderTransaction === false {
+                    connection->begin();
+                }
             }
 
             /**
@@ -795,7 +809,7 @@ abstract class Resultset
         /**
          * Commit the transaction
          */
-        if transaction === true {
+        if transaction === true && isUnderTransaction === false {
             connection->commit();
         }
         this->refresh();
