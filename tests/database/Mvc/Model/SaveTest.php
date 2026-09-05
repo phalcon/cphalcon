@@ -332,7 +332,7 @@ final class SaveTest extends AbstractDatabaseTestCase
 
         $customer->cst_name_first = 'updatedFirstName';
 
-        $invoice = new InvoicesBelongsToCustomers();
+        $invoice                 = new InvoicesBelongsToCustomers();
         $invoice->inv_title      = uniqid('inv-', true);
         $invoice->inv_created_at = date('Y-m-d H:i:s');
         $invoice->setCustomer($customer);
@@ -413,12 +413,12 @@ final class SaveTest extends AbstractDatabaseTestCase
         $actual = $manager->getReusableRecords('SomeModel', 'key-abc');
         $this->assertNotNull($actual);
 
-        $invoice              = new Invoices();
-        $invoice->inv_cst_id  = 1;
+        $invoice                  = new Invoices();
+        $invoice->inv_cst_id      = 1;
         $invoice->inv_status_flag = 0;
-        $invoice->inv_title   = uniqid('inv-', true);
-        $invoice->inv_total   = 100.0;
-        $invoice->inv_created_at = date('Y-m-d H:i:s');
+        $invoice->inv_title       = uniqid('inv-', true);
+        $invoice->inv_total       = 100.0;
+        $invoice->inv_created_at  = date('Y-m-d H:i:s');
 
         $actual = $invoice->save();
         $this->assertTrue($actual);

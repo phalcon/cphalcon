@@ -37,7 +37,7 @@ final class CreateBuilderTest extends AbstractDatabaseTestCase
         $this->setDatabase();
         /** @var ManagerInterface $manager */
         $manager = $this->getService("modelsManager");
-        $actual = $manager->getBuilder();
+        $actual  = $manager->getBuilder();
         $this->assertNull($actual);
         $builder    = $manager->createBuilder();
         $getBuilder = $manager->getBuilder();

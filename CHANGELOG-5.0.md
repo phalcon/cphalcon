@@ -27,6 +27,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - `Phalcon\Mvc\Model\Manager::getRelationRecords()` raising `TypeError` on a compound through-relation marked `reusable`, and reusing one key for every record. The key is now built from every field the relation covers. [#17560](https://github.com/phalcon/cphalcon/issues/17560) [[doc]](https://docs.phalcon.io/5.20/db-models-relationships/)
 - `Phalcon\Mvc\View\Engine\Volt::preload()` raising an error when the engine has no container; the href is given back unchanged. `Phalcon\Mvc\View\Engine\Volt\Compiler::compileSource()` returning `null` in extends mode when the template contributes no blocks. [#17565](https://github.com/phalcon/cphalcon/issues/17565) [[doc]](https://docs.phalcon.io/5.20/volt/)
 - `Phalcon\Storage\Adapter\Stream` and `Phalcon\Queue\Adapter\Stream\StreamContext` reporting a `mkdir(): File exists` warning when a different process makes the directory first. [#17561](https://github.com/phalcon/cphalcon/issues/17561) [[doc]](https://docs.phalcon.io/5.20/storage/)
+- `Phalcon\Mvc\Model\Resultset\Simple::current()` giving back `false` on a second call at a position with no row; the `false` it caches is a sentinel, and `null` is returned as the declared type says. [#17568](https://github.com/phalcon/cphalcon/issues/17568) [[doc]](https://docs.phalcon.io/5.20/db-models/)
 
 ### Removed
 

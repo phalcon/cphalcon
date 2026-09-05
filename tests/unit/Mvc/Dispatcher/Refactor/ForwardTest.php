@@ -53,9 +53,9 @@ class ForwardTest extends AbstractUnitTestCase
             function ($event, $dispatcher, $exception) {
                 $dispatcher->forward(
                     [
-                        'namespace' => 'Phalcon\Tests\Support\Controllers',
+                        'namespace'  => 'Phalcon\Tests\Support\Controllers',
                         'controller' => 'exception',
-                        'action' => 'second',
+                        'action'     => 'second',
                     ]
                 );
 

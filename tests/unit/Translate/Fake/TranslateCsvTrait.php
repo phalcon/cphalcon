@@ -21,10 +21,10 @@ trait TranslateCsvTrait
     {
 
         return ['en' => ['content' => Talon::settings()->supportPath('assets/translation/csv/en.csv'),],
-            'es' => ['content' => Talon::settings()->supportPath('assets/translation/csv/es_ES.csv'),],
-            'fr' => ['content' => Talon::settings()->supportPath('assets/translation/csv/fr_FR.csv'),
-                'delimiter' => '|',
-                'enclosure' => "'",],
+            'es'     => ['content' => Talon::settings()->supportPath('assets/translation/csv/es_ES.csv'),],
+            'fr'     => ['content' => Talon::settings()->supportPath('assets/translation/csv/fr_FR.csv'),
+                'delimiter'        => '|',
+                'enclosure'        => "'",],
             'ru' => ['content' => Talon::settings()->supportPath('assets/translation/csv/ru_RU.csv'),],];
     }
 }

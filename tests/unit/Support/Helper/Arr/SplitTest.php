@@ -24,7 +24,7 @@ final class SplitTest extends AbstractUnitTestCase
      */
     public function testSupportHelperArrSplit(): void
     {
-        $object = new Split();
+        $object     = new Split();
         $collection = [
             1 => 'Phalcon',
             3 => 'Framework',

@@ -35,7 +35,7 @@ abstract class AbstractCollectionTestCase extends AbstractUnitTestCase
      */
     public static function getExamples(): array
     {
-        $sample = new stdClass();
+        $sample      = new stdClass();
         $sample->one = 'two';
 
         return [

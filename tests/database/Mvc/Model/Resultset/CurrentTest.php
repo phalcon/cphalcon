@@ -70,4 +70,46 @@ final class CurrentTest extends AbstractDatabaseTestCase
 
         $this->assertInstanceOf($expected, $current);
     }
+
+    /**
+     * The same holds once a populated resultset has been iterated to the end.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-04
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelResultsetCurrentTwiceAfterExhaustion(): void
+    {
+        $resultset = $this->getResultset('simple');
+
+        foreach ($resultset as $record) {
+            $this->assertInstanceOf(Invoices::class, $record);
+        }
+
+        $this->assertNull($resultset->current());
+        $this->assertNull($resultset->current());
+    }
+
+    /**
+     * A second `current()` at a position with no row gives back `null` again.
+     * The `false` the first call stores is a sentinel that stops the row check
+     * running twice; it is not a value to give back.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-04
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelResultsetCurrentTwiceOnEmpty(): void
+    {
+        $resultset = $this->getResultset('empty');
+
+        $resultset->rewind();
+
+        $this->assertNull($resultset->current());
+        $this->assertNull($resultset->current());
+    }
 }

@@ -27,15 +27,15 @@ final class ToJsonTest extends AbstractCollectionTestCase
     public function testSupportCollectionToJson(
         string $class,
     ): void {
-        $data = $this->getData();
+        $data       = $this->getData();
         $collection = new $class($data);
 
         $expected = json_encode($data);
-        $actual = $collection->toJson();
+        $actual   = $collection->toJson();
         $this->assertSame($expected, $actual);
 
         $expected = json_encode($data, JSON_PRETTY_PRINT);
-        $actual = $collection->toJson(JSON_PRETTY_PRINT);
+        $actual   = $collection->toJson(JSON_PRETTY_PRINT);
         $this->assertSame($expected, $actual);
     }
 

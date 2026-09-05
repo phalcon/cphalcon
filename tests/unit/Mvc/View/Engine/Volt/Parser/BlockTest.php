@@ -53,14 +53,14 @@ final class BlockTest extends AbstractUnitTestCase
         $source   = '{% block content %}Default content{% endblock %}';
         $expected = [
             [
-                'type' => 307,
-                'name' => 'content',
+                'type'             => 307,
+                'name'             => 'content',
                 'block_statements' => [
                     [
-                        'type' => 357,
+                        'type'  => 357,
                         'value' => 'Default content',
-                        'file' => 'eval code',
-                        'line' => 1,
+                        'file'  => 'eval code',
+                        'line'  => 1,
                     ],
                 ],
                 'file' => 'eval code',

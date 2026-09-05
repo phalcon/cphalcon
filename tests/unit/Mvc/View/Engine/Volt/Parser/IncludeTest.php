@@ -36,10 +36,10 @@ final class IncludeTest extends AbstractUnitTestCase
             [
                 'type' => 313,
                 'path' => [
-                    'type' => 260,
+                    'type'  => 260,
                     'value' => 'partial.volt',
-                    'file' => 'eval code',
-                    'line' => 1,
+                    'file'  => 'eval code',
+                    'line'  => 1,
                 ],
                 'file' => 'eval code',
                 'line' => 1,
@@ -60,16 +60,16 @@ final class IncludeTest extends AbstractUnitTestCase
             [
                 'type' => 313,
                 'path' => [
-                    'type' => 260,
+                    'type'  => 260,
                     'value' => 'partial.volt',
-                    'file' => 'eval code',
-                    'line' => 1,
+                    'file'  => 'eval code',
+                    'line'  => 1,
                 ],
                 'params' => [
-                    'type' => 265,
+                    'type'  => 265,
                     'value' => 'vars',
-                    'file' => 'eval code',
-                    'line' => 1,
+                    'file'  => 'eval code',
+                    'line'  => 1,
                 ],
                 'file' => 'eval code',
                 'line' => 1,
@@ -90,20 +90,20 @@ final class IncludeTest extends AbstractUnitTestCase
             [
                 'type' => 313,
                 'path' => [
-                    'type' => 260,
+                    'type'  => 260,
                     'value' => 'partial.volt',
-                    'file' => 'eval code',
-                    'line' => 1,
+                    'file'  => 'eval code',
+                    'line'  => 1,
                 ],
                 'params' => [
                     'type' => 360,
                     'left' => [
                         [
                             'expr' => [
-                                'type' => 260,
+                                'type'  => 260,
                                 'value' => 'value',
-                                'file' => 'eval code',
-                                'line' => 1,
+                                'file'  => 'eval code',
+                                'line'  => 1,
                             ],
                             'name' => 'key',
                             'file' => 'eval code',

@@ -25,7 +25,7 @@ final class GetVersionTest extends AbstractUnitTestCase
      */
     public function testSupportDebugGetVersion(): void
     {
-        $debug = new Debug();
+        $debug   = new Debug();
         $version = new Version();
 
         $link = "https://docs.phalcon.io/"

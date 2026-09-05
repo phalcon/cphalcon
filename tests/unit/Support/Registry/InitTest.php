@@ -23,17 +23,17 @@ final class InitTest extends AbstractRegistryTestCase
      */
     public function testSupportRegistryInit(): void
     {
-        $data = $this->getData();
+        $data     = $this->getData();
         $registry = new Registry();
 
         $expected = 0;
-        $actual = $registry->count();
+        $actual   = $registry->count();
         $this->assertSame($expected, $actual);
 
         $registry->init($data);
 
         $expected = $data;
-        $actual = $registry->toArray();
+        $actual   = $registry->toArray();
         $this->assertSame($expected, $actual);
     }
 }

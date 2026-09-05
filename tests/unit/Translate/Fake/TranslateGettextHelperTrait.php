@@ -39,7 +39,7 @@ trait TranslateGettextHelperTrait
     {
 
         return [[['hi' => 'Hello',
-            'bye' => 'Bye',],],];
+            'bye'      => 'Bye',],],];
     }
 
     /**
@@ -61,7 +61,7 @@ trait TranslateGettextHelperTrait
     public function testTranslateAdapterGettextQuery(array $tests): void
     {
 
-        $language = $this->getGettextConfig();
+        $language   = $this->getGettextConfig();
         $translator = new Gettext(new InterpolatorFactory(), $language);
 
         foreach ($tests as $key => $expected) {
@@ -78,7 +78,7 @@ trait TranslateGettextHelperTrait
     public function testTranslateAdapterGettextVariableSubstitutionNoVariables(array $tests): void
     {
 
-        $language = $this->getGettextConfig();
+        $language   = $this->getGettextConfig();
         $translator = new Gettext(new InterpolatorFactory(), $language);
 
         foreach ($tests as $key => $expected) {
@@ -95,7 +95,7 @@ trait TranslateGettextHelperTrait
     public function testTranslateAdapterGettextVariableSubstitutionOneVariable(array $tests): void
     {
 
-        $language = $this->getGettextConfig();
+        $language   = $this->getGettextConfig();
         $translator = new Gettext(new InterpolatorFactory(), $language);
 
         foreach ($tests as $key => $expected) {
@@ -112,11 +112,11 @@ trait TranslateGettextHelperTrait
     public function testTranslateAdapterGettextVariableSubstitutionTwoVariable(array $tests): void
     {
 
-        $language = $this->getGettextConfig();
+        $language   = $this->getGettextConfig();
         $translator = new Gettext(new InterpolatorFactory(), $language);
 
         $vars = ['song' => 'Dust in the wind',
-            'artist' => 'Kansas',];
+            'artist'    => 'Kansas',];
 
         foreach ($tests as $key => $expected) {
             $actual = $translator->{$this->func()}($key, $vars);
@@ -136,11 +136,11 @@ trait TranslateGettextHelperTrait
         $translator = new Gettext(new InterpolatorFactory(), $language);
 
         $vars = ['fname' => 'John',
-            'lname' => 'Doe',
-            'mname' => 'D.',];
+            'lname'      => 'Doe',
+            'mname'      => 'D.',];
 
         $expected = 'Привет, John D. Doe!';
-        $actual = $translator->{$this->func()}('Привет, %fname% %mname% %lname%!', $vars);
+        $actual   = $translator->{$this->func()}('Привет, %fname% %mname% %lname%!', $vars);
         $this->assertSame($expected, $actual);
     }
 

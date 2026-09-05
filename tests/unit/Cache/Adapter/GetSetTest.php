@@ -51,7 +51,7 @@ final class GetSetTest extends AbstractUnitTestCase
             [
                 Libmemcached::class,
                 [
-                    'client' => [],
+                    'client'  => [],
                     'servers' => [
                         Talon::settings()->getServiceOptions('memcached')
                     ]
@@ -129,7 +129,7 @@ final class GetSetTest extends AbstractUnitTestCase
                 'memcached',
                 Libmemcached::class,
                 [
-                    'client' => [],
+                    'client'  => [],
                     'servers' => [
                         Talon::settings()->getServiceOptions('memcached')
                     ]
@@ -140,7 +140,7 @@ final class GetSetTest extends AbstractUnitTestCase
                 'memcached',
                 Libmemcached::class,
                 [
-                    'client' => [],
+                    'client'  => [],
                     'servers' => [
                         Talon::settings()->getServiceOptions('memcached')
                     ]
@@ -151,7 +151,7 @@ final class GetSetTest extends AbstractUnitTestCase
                 'memcached',
                 Libmemcached::class,
                 [
-                    'client' => [],
+                    'client'  => [],
                     'servers' => [
                         Talon::settings()->getServiceOptions('memcached')
                     ]
@@ -162,7 +162,7 @@ final class GetSetTest extends AbstractUnitTestCase
                 'memcached',
                 Libmemcached::class,
                 [
-                    'client' => [],
+                    'client'  => [],
                     'servers' => [
                         Talon::settings()->getServiceOptions('memcached')
                     ]
@@ -173,7 +173,7 @@ final class GetSetTest extends AbstractUnitTestCase
                 'memcached',
                 Libmemcached::class,
                 [
-                    'client' => [],
+                    'client'  => [],
                     'servers' => [
                         Talon::settings()->getServiceOptions('memcached')
                     ]
@@ -184,7 +184,7 @@ final class GetSetTest extends AbstractUnitTestCase
                 'memcached',
                 Libmemcached::class,
                 [
-                    'client' => [],
+                    'client'  => [],
                     'servers' => [
                         Talon::settings()->getServiceOptions('memcached')
                     ]
@@ -195,7 +195,7 @@ final class GetSetTest extends AbstractUnitTestCase
                 'memcached',
                 Libmemcached::class,
                 [
-                    'client' => [],
+                    'client'  => [],
                     'servers' => [
                         Talon::settings()->getServiceOptions('memcached')
                     ]
@@ -207,7 +207,7 @@ final class GetSetTest extends AbstractUnitTestCase
                 Libmemcached::class,
                 array_merge(
                     [
-                        'client' => [],
+                        'client'  => [],
                         'servers' => [
                             Talon::settings()->getServiceOptions('memcached')
                         ]

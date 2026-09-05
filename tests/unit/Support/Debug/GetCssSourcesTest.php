@@ -30,7 +30,7 @@ final class GetCssSourcesTest extends AbstractUnitTestCase
     public function testSupportDebugGetCssSources(): void
     {
         $debug = new Debug();
-        $uri = 'https://assets.phalcon.io/debug/5.0.x/';
+        $uri   = 'https://assets.phalcon.io/debug/5.0.x/';
 
         $expected = "
     <link href='{$uri}debug.css'

@@ -113,7 +113,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
             ]
         );
 
-        $page1 = $paginator->paginate();
+        $page1     = $paginator->paginate();
         $page1Next = $page1->getNext();
         $this->assertCount(5, $page1->getItems());
         $this->assertGreaterThan(0, $page1Next);
@@ -209,7 +209,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
         );
 
         // page 1 - 5 rows, next cursor set
-        $page1 = $paginator->paginate();
+        $page1      = $paginator->paginate();
         $page1Items = $page1->getItems();
         $this->assertCount(5, $page1Items);
         $this->assertGreaterThan(0, $page1->getNext());
@@ -220,7 +220,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
 
         // page 2 - 5 rows, next cursor set
         $paginator->setCursor($page1Next);
-        $page2 = $paginator->paginate();
+        $page2      = $paginator->paginate();
         $page2Items = $page2->getItems();
         $this->assertCount(5, $page2Items);
         $this->assertSame($page1Next, $page2->getCurrent());
@@ -231,7 +231,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
 
         // page 3 - 1 remaining row, no further page
         $paginator->setCursor($page2Next);
-        $page3 = $paginator->paginate();
+        $page3      = $paginator->paginate();
         $page3Items = $page3->getItems();
         $this->assertCount(1, $page3Items);
         $this->assertSame(0, $page3->getNext());
@@ -282,7 +282,7 @@ final class PaginateTest extends AbstractDatabaseTestCase
             ]
         );
 
-        $page1 = $paginator->paginate();
+        $page1      = $paginator->paginate();
         $page1Items = $page1->getItems();
         $page1Next  = $page1->getNext();
         $this->assertCount(5, $page1Items);

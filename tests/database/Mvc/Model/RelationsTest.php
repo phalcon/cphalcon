@@ -75,8 +75,8 @@ final class RelationsTest extends AbstractDatabaseTestCase
         $customersMigration = new CustomersMigration($connection);
         $customersMigration->insert($custIdOne, 0, $firstNameOne, $lastNameOne);
 
-        $invoiceId = 50;
-        $title = uniqid('inv-');
+        $invoiceId         = 50;
+        $title             = uniqid('inv-');
         $invoicesMigration = new InvoicesMigration($connection);
         $invoicesMigration->insert(
             $invoiceId,
@@ -85,7 +85,7 @@ final class RelationsTest extends AbstractDatabaseTestCase
             $title . '-paid'
         );
         $invoiceId = 70;
-        $title = uniqid('inv-');
+        $title     = uniqid('inv-');
         $invoicesMigration->insert(
             $invoiceId,
             $custIdOne,
@@ -94,14 +94,14 @@ final class RelationsTest extends AbstractDatabaseTestCase
         );
 
         $invoice = Invoices::findFirst(50);
-        $actual = $invoice->customer;
+        $actual  = $invoice->customer;
         $this->assertNotNull($actual);
 
         $actual = $invoice->customerMultipleFields;
         $this->assertNull($actual);
 
         $invoice = Invoices::findFirst(70);
-        $actual = $invoice->customer;
+        $actual  = $invoice->customer;
         $this->assertNotNull($actual);
 
         $actual = $invoice->customerMultipleFields;
@@ -129,8 +129,8 @@ final class RelationsTest extends AbstractDatabaseTestCase
         $customersMigration = new CustomersMigration($connection);
         $customersMigration->insert($custIdOne, 0, $firstNameOne, $lastNameOne);
 
-        $invoiceId = 50;
-        $title = uniqid('inv-');
+        $invoiceId         = 50;
+        $title             = uniqid('inv-');
         $invoicesMigration = new InvoicesMigration($connection);
         $invoicesMigration->insert(
             $invoiceId,
@@ -139,7 +139,7 @@ final class RelationsTest extends AbstractDatabaseTestCase
             $title . '-paid'
         );
         $invoiceId = 70;
-        $title = uniqid('inv-');
+        $title     = uniqid('inv-');
         $invoicesMigration->insert(
             $invoiceId,
             $custIdOne,
@@ -150,28 +150,28 @@ final class RelationsTest extends AbstractDatabaseTestCase
         $customer = Customers::findFirst(50);
 
         $invoices = $customer->getRelated('invoices');
-        $actual = count($invoices);
+        $actual   = count($invoices);
         $expected = 2;
         $this->assertEquals($expected, $actual);
 
         $invoices = $customer->getRelated('invoicesMultipleFields');
-        $actual = count($invoices);
+        $actual   = count($invoices);
         $expected = 1;
         $this->assertEquals($expected, $actual);
 
-        $invoice = $invoices->getFirst();
+        $invoice  = $invoices->getFirst();
         $expected = 0;
-        $actual = $invoice->inv_status_flag;
+        $actual   = $invoice->inv_status_flag;
         $this->assertEquals($expected, $actual);
 
         $invoices = $customer->getRelated('invoices');
-        $actual = count($invoices);
+        $actual   = count($invoices);
         $expected = 2;
         $this->assertEquals($expected, $actual);
 
-        $invoice = $invoices->getFirst();
+        $invoice  = $invoices->getFirst();
         $expected = 1;
-        $actual = $invoice->inv_status_flag;
+        $actual   = $invoice->inv_status_flag;
         $this->assertEquals($expected, $actual);
     }
 
@@ -197,10 +197,10 @@ final class RelationsTest extends AbstractDatabaseTestCase
         $productStatus = 10;
         $quantity      = 1;
 
-        $ordersMigragion            = new OrdersMigration($connection);
-        $ordersProductsOneMigration = new OrdersProductsFieldsOneMigration($connection);
+        $ordersMigragion             = new OrdersMigration($connection);
+        $ordersProductsOneMigration  = new OrdersProductsFieldsOneMigration($connection);
         $ordersProductsMultMigration = new OrdersProductsFieldsMultMigration($connection);
-        $productsMigrations         = new ProductsMigration($connection);
+        $productsMigrations          = new ProductsMigration($connection);
 
         $ordersMigragion->insert($orderId, $orderName, $orderStatus);
         $productsMigrations->insert($productId, $productName, $productStatus);
@@ -253,10 +253,10 @@ final class RelationsTest extends AbstractDatabaseTestCase
         $productStatus = 10;
         $quantity      = 1;
 
-        $ordersMigragion            = new OrdersMigration($connection);
-        $ordersProductsOneMigration = new OrdersProductsFieldsOneCompMigration($connection);
+        $ordersMigragion             = new OrdersMigration($connection);
+        $ordersProductsOneMigration  = new OrdersProductsFieldsOneCompMigration($connection);
         $ordersProductsMultMigration = new OrdersProductsFieldsMultCompMigration($connection);
-        $productsMigrations         = new ProductsMigration($connection);
+        $productsMigrations          = new ProductsMigration($connection);
 
         $ordersMigragion->insert($orderId, $orderName, $orderStatus);
         $productsMigrations->insert($productId, $productName, $productStatus);
@@ -308,10 +308,10 @@ final class RelationsTest extends AbstractDatabaseTestCase
         $productStatus = 10;
         $quantity      = 1;
 
-        $ordersMigragion            = new OrdersMigration($connection);
-        $ordersProductsOneMigration = new OrdersProductsFieldsOneMigration($connection);
+        $ordersMigragion             = new OrdersMigration($connection);
+        $ordersProductsOneMigration  = new OrdersProductsFieldsOneMigration($connection);
         $ordersProductsMultMigration = new OrdersProductsFieldsMultMigration($connection);
-        $productsMigrations         = new ProductsMigration($connection);
+        $productsMigrations          = new ProductsMigration($connection);
 
         $ordersMigragion->insert($orderId, $orderName, $orderStatus);
         $productsMigrations->insert($productId, $productName, $productStatus);
@@ -359,10 +359,10 @@ final class RelationsTest extends AbstractDatabaseTestCase
         $productStatus = 10;
         $quantity      = 1;
 
-        $ordersMigragion            = new OrdersMigration($connection);
-        $ordersProductsOneMigration = new OrdersProductsFieldsOneCompMigration($connection);
+        $ordersMigragion             = new OrdersMigration($connection);
+        $ordersProductsOneMigration  = new OrdersProductsFieldsOneCompMigration($connection);
         $ordersProductsMultMigration = new OrdersProductsFieldsMultCompMigration($connection);
-        $productsMigrations         = new ProductsMigration($connection);
+        $productsMigrations          = new ProductsMigration($connection);
 
         $ordersMigragion->insert($orderId, $orderName, $orderStatus);
         $productsMigrations->insert($productId, $productName, $productStatus);
@@ -408,8 +408,8 @@ final class RelationsTest extends AbstractDatabaseTestCase
         $customersMigration = new CustomersMigration($connection);
         $customersMigration->insert($custIdOne, 0, $firstNameOne, $lastNameOne);
 
-        $invoiceId = 50;
-        $title = uniqid('inv-');
+        $invoiceId         = 50;
+        $title             = uniqid('inv-');
         $invoicesMigration = new InvoicesMigration($connection);
         $invoicesMigration->insert(
             $invoiceId,
@@ -463,8 +463,8 @@ final class RelationsTest extends AbstractDatabaseTestCase
         $customersMigration = new CustomersMigration($connection);
         $customersMigration->insert($custIdOne, 0, $firstNameOne, $lastNameOne);
 
-        $invoiceId = 50;
-        $title = uniqid('inv-');
+        $invoiceId         = 50;
+        $title             = uniqid('inv-');
         $invoicesMigration = new InvoicesMigration($connection);
         $invoicesMigration->insert(
             $invoiceId,
@@ -480,7 +480,7 @@ final class RelationsTest extends AbstractDatabaseTestCase
         $invoice->inv_title = uniqid('inv-');
 
         $customer->InvoicesMultipleFields = [$invoice];
-        $actual = $customer->save();
+        $actual                           = $customer->save();
         $this->assertTrue($actual);
 
         $expected = 0;
@@ -514,24 +514,24 @@ final class RelationsTest extends AbstractDatabaseTestCase
         $orderName   = uniqid('ord', true);
         $orderStatus = 5;
 
-        $ordersMigragion            = new OrdersMigration($connection);
-        $ordersProductsOneMigration = new OrdersProductsFieldsOneMigration($connection);
+        $ordersMigragion             = new OrdersMigration($connection);
+        $ordersProductsOneMigration  = new OrdersProductsFieldsOneMigration($connection);
         $ordersProductsMultMigration = new OrdersProductsFieldsMultMigration($connection);
-        $productsMigrations         = new ProductsMigration($connection);
+        $productsMigrations          = new ProductsMigration($connection);
 
         $ordersMigragion->insert($orderId, $orderName, $orderStatus);
 
-        $orders              = OrdersMultiple::findFirst(10);
-        $product1            = new Products();
-        $product1->prd_name  = uniqid('prd1', true);
+        $orders                    = OrdersMultiple::findFirst(10);
+        $product1                  = new Products();
+        $product1->prd_name        = uniqid('prd1', true);
         $product1->prd_status_flag = 5;
 
-        $product2            = new Products();
-        $product2->prd_name  = uniqid('prd2', true);
+        $product2                  = new Products();
+        $product2->prd_name        = uniqid('prd2', true);
         $product2->prd_status_flag = 10;
 
         $orders->productsFieldsOne = [$product1];
-        $actual = $orders->save();
+        $actual                    = $orders->save();
         $this->assertTrue($actual);
 
         $expected = 0;
@@ -544,7 +544,7 @@ final class RelationsTest extends AbstractDatabaseTestCase
         $this->assertEquals($expected, $actual);
 
         $orders->productsFieldsOne = [$product1, $product2];
-        $actual = $orders->save();
+        $actual                    = $orders->save();
         $this->assertTrue($actual);
 
         $expected = 0;
@@ -565,7 +565,7 @@ final class RelationsTest extends AbstractDatabaseTestCase
          * Multiple Keys
          */
         $orders->productsFieldsMult = [$product1];
-        $actual = $orders->save();
+        $actual                     = $orders->save();
         $this->assertTrue($actual);
 
         $intermidiate = OrdersProductsFieldsMult::find();
@@ -574,7 +574,7 @@ final class RelationsTest extends AbstractDatabaseTestCase
         $this->assertEquals($expected, $actual);
 
         $orders->productsFieldsMult = [$product2];
-        $actual = $orders->save();
+        $actual                     = $orders->save();
         $this->assertTrue($actual);
 
         $intermidiate = OrdersProductsFieldsMult::find();
@@ -583,7 +583,7 @@ final class RelationsTest extends AbstractDatabaseTestCase
         $this->assertEquals($expected, $actual);
 
         $orders->productsFieldsMult = [$product1, $product2];
-        $actual = $orders->save();
+        $actual                     = $orders->save();
         $this->assertTrue($actual);
 
         $intermidiate = OrdersProductsFieldsMult::find();
@@ -616,20 +616,20 @@ final class RelationsTest extends AbstractDatabaseTestCase
         $orderName   = uniqid('ord', true);
         $orderStatus = 5;
 
-        $ordersMigragion            = new OrdersMigration($connection);
-        $ordersProductsOneMigration = new OrdersProductsFieldsOneCompMigration($connection);
+        $ordersMigragion             = new OrdersMigration($connection);
+        $ordersProductsOneMigration  = new OrdersProductsFieldsOneCompMigration($connection);
         $ordersProductsMultMigration = new OrdersProductsFieldsMultCompMigration($connection);
-        $productsMigrations         = new ProductsMigration($connection);
+        $productsMigrations          = new ProductsMigration($connection);
 
         $ordersMigragion->insert($orderId, $orderName, $orderStatus);
 
-        $orders              = OrdersMultiple::findFirst(10);
-        $product1            = new Products();
-        $product1->prd_name  = uniqid('prd', true);
+        $orders                    = OrdersMultiple::findFirst(10);
+        $product1                  = new Products();
+        $product1->prd_name        = uniqid('prd', true);
         $product1->prd_status_flag = 0;
 
         $orders->productsFieldsOneComp = [$product1];
-        $actual = $orders->save();
+        $actual                        = $orders->save();
         $this->assertTrue($actual);
 
         $expected = 0;
@@ -641,12 +641,12 @@ final class RelationsTest extends AbstractDatabaseTestCase
         $actual       = count($intermidiate);
         $this->assertEquals($expected, $actual);
 
-        $product2            = new Products();
-        $product2->prd_name  = uniqid('prd2', true);
+        $product2                  = new Products();
+        $product2->prd_name        = uniqid('prd2', true);
         $product2->prd_status_flag = 10;
 
         $orders->productsFieldsMultComp = [$product2];
-        $actual = $orders->save();
+        $actual                         = $orders->save();
         $this->assertTrue($actual);
 
         $expected = 0;
@@ -664,7 +664,7 @@ final class RelationsTest extends AbstractDatabaseTestCase
         $this->assertEquals($expected, $actual);
 
         $orders->productsFieldsMultComp = [$product1, $product2];
-        $actual = $orders->save();
+        $actual                         = $orders->save();
         $this->assertTrue($actual);
 
         $intermidiate = OrdersProductsFieldsMultComp::find();
@@ -855,20 +855,20 @@ final class RelationsTest extends AbstractDatabaseTestCase
         $orderName   = uniqid('ord', true);
         $orderStatus = 5;
 
-        $ordersMigragion            = new OrdersMigration($connection);
-        $ordersProductsOneMigration = new OrdersProductsFieldsOneCompMigration($connection);
+        $ordersMigragion             = new OrdersMigration($connection);
+        $ordersProductsOneMigration  = new OrdersProductsFieldsOneCompMigration($connection);
         $ordersProductsMultMigration = new OrdersProductsFieldsMultCompMigration($connection);
-        $productsMigrations         = new ProductsMigration($connection);
+        $productsMigrations          = new ProductsMigration($connection);
 
         $ordersMigragion->insert($orderId, $orderName, $orderStatus);
 
-        $orders              = OrdersMultiple::findFirst(10);
-        $product             = new Products();
-        $product->prd_name   = uniqid('prd', true);
+        $orders                   = OrdersMultiple::findFirst(10);
+        $product                  = new Products();
+        $product->prd_name        = uniqid('prd', true);
         $product->prd_status_flag = 0;
 
         $orders->singleProductFieldsOneComp = $product;
-        $actual = $orders->save();
+        $actual                             = $orders->save();
         $this->assertTrue($actual);
 
         $expected = 0;
@@ -880,12 +880,12 @@ final class RelationsTest extends AbstractDatabaseTestCase
         $actual       = count($intermidiate);
         $this->assertEquals($expected, $actual);
 
-        $product             = new Products();
-        $product->prd_name   = uniqid('prd2', true);
+        $product                  = new Products();
+        $product->prd_name        = uniqid('prd2', true);
         $product->prd_status_flag = 10;
 
         $orders->singleProductFieldsOneComp = $product;
-        $actual = $orders->save();
+        $actual                             = $orders->save();
         $this->assertTrue($actual);
 
         $intermidiate = OrdersProductsFieldsOneComp::find();
@@ -894,7 +894,7 @@ final class RelationsTest extends AbstractDatabaseTestCase
         $this->assertEquals($expected, $actual);
 
         $orders->singleProductFieldsMultComp = $product;
-        $actual = $orders->save();
+        $actual                              = $orders->save();
         $this->assertTrue($actual);
 
         $expected = 0;
@@ -926,20 +926,20 @@ final class RelationsTest extends AbstractDatabaseTestCase
         $orderName   = uniqid('ord', true);
         $orderStatus = 5;
 
-        $ordersMigragion            = new OrdersMigration($connection);
-        $ordersProductsOneMigration = new OrdersProductsFieldsOneCompMigration($connection);
+        $ordersMigragion             = new OrdersMigration($connection);
+        $ordersProductsOneMigration  = new OrdersProductsFieldsOneCompMigration($connection);
         $ordersProductsMultMigration = new OrdersProductsFieldsMultCompMigration($connection);
-        $productsMigrations         = new ProductsMigration($connection);
+        $productsMigrations          = new ProductsMigration($connection);
 
         $ordersMigragion->insert($orderId, $orderName, $orderStatus);
 
-        $orders              = OrdersMultiple::findFirst(10);
-        $product             = new Products();
-        $product->prd_name   = uniqid('prd', true);
+        $orders                   = OrdersMultiple::findFirst(10);
+        $product                  = new Products();
+        $product->prd_name        = uniqid('prd', true);
         $product->prd_status_flag = 0;
 
         $orders->singleProductFieldsOneComp = $product;
-        $actual = $orders->save();
+        $actual                             = $orders->save();
         $this->assertTrue($actual);
 
         $expected = 0;
@@ -951,12 +951,12 @@ final class RelationsTest extends AbstractDatabaseTestCase
         $actual       = count($intermidiate);
         $this->assertEquals($expected, $actual);
 
-        $product             = new Products();
-        $product->prd_name   = uniqid('prd2', true);
+        $product                  = new Products();
+        $product->prd_name        = uniqid('prd2', true);
         $product->prd_status_flag = 10;
 
         $orders->singleProductFieldsOneComp = $product;
-        $actual = $orders->save();
+        $actual                             = $orders->save();
         $this->assertTrue($actual);
 
         $intermidiate = OrdersProductsFieldsOneComp::find();
@@ -965,7 +965,7 @@ final class RelationsTest extends AbstractDatabaseTestCase
         $this->assertEquals($expected, $actual);
 
         $orders->singleProductFieldsMultComp = $product;
-        $actual = $orders->save();
+        $actual                              = $orders->save();
         $this->assertTrue($actual);
 
         $expected = 0;

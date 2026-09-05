@@ -32,8 +32,8 @@ final class ToObjectTest extends AbstractUnitTestCase
         ];
 
 
-        $expected = new stdClass();
-        $expected->one = 'two';
+        $expected        = new stdClass();
+        $expected->one   = 'two';
         $expected->three = 'four';
 
         $actual = $object($source);

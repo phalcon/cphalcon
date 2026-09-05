@@ -26,12 +26,12 @@ final class GetIteratorTest extends AbstractCollectionTestCase
     public function testSupportCollectionGetIterator(
         string $class,
     ): void {
-        $data = $this->getData();
+        $data       = $this->getData();
         $collection = new $class($data);
 
         foreach ($collection as $key => $value) {
             $expected = $data[$key];
-            $actual = $collection[$key];
+            $actual   = $collection[$key];
             $this->assertSame($expected, $actual);
         }
     }

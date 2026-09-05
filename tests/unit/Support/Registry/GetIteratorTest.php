@@ -23,7 +23,7 @@ final class GetIteratorTest extends AbstractRegistryTestCase
      */
     public function testSupportRegistryGetIterator(): void
     {
-        $data = $this->getData();
+        $data     = $this->getData();
         $registry = new Registry($data);
 
         foreach ($registry as $key => $value) {

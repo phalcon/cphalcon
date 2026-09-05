@@ -43,7 +43,7 @@ final class NewInstanceTest extends AbstractUnitTestCase
                 'libmemcached',
                 Libmemcached::class,
                 [
-                    'client' => [],
+                    'client'  => [],
                     'servers' => [
                         Talon::settings()->getServiceOptions('memcached')
                     ]

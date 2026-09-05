@@ -20,16 +20,16 @@ use Phalcon\Http\Cookie\CookieInterface;
 
 final class FakeCookie implements CookieInterface
 {
-    private string $domain = '';
+    private string $domain  = '';
     private int $expiration = 0;
-    private bool $httpOnly = false;
+    private bool $httpOnly  = false;
     private string $name;
     /**
      * @var array<array-key, mixed>
      */
     private array $options = [];
-    private string $path = '/';
-    private bool $secure = false;
+    private string $path   = '/';
+    private bool $secure   = false;
     private mixed $value;
 
     public function __construct(string $name, mixed $value = null)

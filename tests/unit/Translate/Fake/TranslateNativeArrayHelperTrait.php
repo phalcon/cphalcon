@@ -44,13 +44,13 @@ trait TranslateNativeArrayHelperTrait
     {
 
         return [['en',
-            ['hi' => 'Hello',
+            ['hi'     => 'Hello',
                 'bye' => 'Good Bye',],],
             ['es',
-                ['hi' => 'Hola',
+                ['hi'     => 'Hola',
                     'bye' => 'Adiós',],],
             ['fr',
-                ['hi' => 'Bonjour',
+                ['hi'     => 'Bonjour',
                     'bye' => 'Au revoir',],],];
     }
 
@@ -78,7 +78,7 @@ trait TranslateNativeArrayHelperTrait
     public function testTranslateAdapterNativearrayQuery(string $code, array $tests): void
     {
 
-        $language = $this->getArrayConfig()[$code];
+        $language   = $this->getArrayConfig()[$code];
         $translator = new NativeArray(new InterpolatorFactory(), ['content' => $language,]);
 
         foreach ($tests as $key => $expected) {
@@ -96,7 +96,7 @@ trait TranslateNativeArrayHelperTrait
     public function testTranslateAdapterNativearrayVariableSubstitutionNoVariables(string $code, array $tests): void
     {
 
-        $language = $this->getArrayConfig()[$code];
+        $language   = $this->getArrayConfig()[$code];
         $translator = new NativeArray(new InterpolatorFactory(), ['content' => $language,]);
 
         foreach ($tests as $key => $expected) {
@@ -110,7 +110,7 @@ trait TranslateNativeArrayHelperTrait
     public function testTranslateAdapterNativearrayVariableSubstitutionOneVariable(string $code, array $tests): void
     {
 
-        $language = $this->getArrayConfig()[$code];
+        $language   = $this->getArrayConfig()[$code];
         $translator = new NativeArray(new InterpolatorFactory(), ['content' => $language,]);
 
         foreach ($tests as $key => $expected) {
@@ -127,11 +127,11 @@ trait TranslateNativeArrayHelperTrait
     public function testTranslateAdapterNativearrayVariableSubstitutionTwoVariable(string $code, array $tests): void
     {
 
-        $language = $this->getArrayConfig()[$code];
+        $language   = $this->getArrayConfig()[$code];
         $translator = new NativeArray(new InterpolatorFactory(), ['content' => $language,]);
 
         $vars = ['song' => 'Dust in the wind',
-            'artist' => 'Kansas',];
+            'artist'    => 'Kansas',];
 
         foreach ($tests as $key => $expected) {
             $actual = $translator->{$this->func()}($key, $vars);
@@ -152,10 +152,10 @@ trait TranslateNativeArrayHelperTrait
         $translator = new NativeArray(new InterpolatorFactory(), ['content' => $language,]);
 
         $vars = ['fname' => 'John',
-            'lname' => 'Doe',
-            'mname' => 'D.',];
+            'lname'      => 'Doe',
+            'mname'      => 'D.',];
         $expected = 'Привет, John D. Doe!';
-        $actual = $translator->{$this->func()}('Hello %fname% %mname% %lname%!', $vars);
+        $actual   = $translator->{$this->func()}('Hello %fname% %mname% %lname%!', $vars);
         $this->assertSame($expected, $actual);
     }
 

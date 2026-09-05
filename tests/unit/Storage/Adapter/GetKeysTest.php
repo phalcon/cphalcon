@@ -137,7 +137,7 @@ final class GetKeysTest extends AbstractUnitTestCase
         $adapter    = new Libmemcached(
             $serializer,
             [
-                'client' => [],
+                'client'  => [],
                 'servers' => [
                     Talon::settings()->getServiceOptions('memcached')
                 ]

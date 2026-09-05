@@ -48,9 +48,9 @@ final class DetachAllTest extends AbstractUnitTestCase
      */
     public function testEventsManagerDetachAllWithType(): void
     {
-        $uploadType = 'some:upload';
+        $uploadType   = 'some:upload';
         $downloadType = 'some:download';
-        $manager = new Manager();
+        $manager      = new Manager();
         $manager->attach(
             $uploadType,
             function () {

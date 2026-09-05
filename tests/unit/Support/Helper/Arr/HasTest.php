@@ -24,7 +24,7 @@ final class HasTest extends AbstractUnitTestCase
      */
     public function testSupportHelperArrHas(): void
     {
-        $object = new Has();
+        $object     = new Has();
         $collection = [
             1        => 'Phalcon',
             'suffix' => 'Framework',

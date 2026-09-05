@@ -90,7 +90,7 @@ final class RenderHtmlTest extends AbstractUnitTestCase
     public function testSupportDebugRenderHtmlFileFragment(): void
     {
         $exception = new Exception('exception message', 1234);
-        $debug = new Debug();
+        $debug     = new Debug();
         $debug->setShowBackTrace(true);
         $debug->setShowFileFragment(true);
 
@@ -107,7 +107,7 @@ final class RenderHtmlTest extends AbstractUnitTestCase
     public function testSupportDebugRenderHtmlNoFiles(): void
     {
         $exception = new Exception('exception message', 1234);
-        $debug = new Debug();
+        $debug     = new Debug();
         $debug->setShowBackTrace(true);
         $debug->setShowFiles(false);
 
@@ -122,11 +122,11 @@ final class RenderHtmlTest extends AbstractUnitTestCase
      */
     public function testSupportDebugRenderHtmlWithBacktrace(): void
     {
-        $key = uniqid('var-');
+        $key       = uniqid('var-');
         $exception = new Exception('exception message', 1234);
-        $debug = new Debug();
+        $debug     = new Debug();
         $debug->setShowBackTrace(true);
-        $server = $_SERVER;
+        $server        = $_SERVER;
         $_SERVER[$key] = uniqid('val-');
 
         $actual = $debug->renderHtml($exception);
@@ -149,10 +149,10 @@ final class RenderHtmlTest extends AbstractUnitTestCase
      */
     public function testSupportDebugRenderHtmlWithBacktraceAndBlacklist(): void
     {
-        $key = uniqid('var-');
-        $exception = new Exception('exception message', 1234);
-        $debug = new Debug();
-        $server = $_SERVER;
+        $key           = uniqid('var-');
+        $exception     = new Exception('exception message', 1234);
+        $debug         = new Debug();
+        $server        = $_SERVER;
         $_SERVER[$key] = uniqid('val-');
 
         $debug->setShowBackTrace(true);
@@ -162,7 +162,7 @@ final class RenderHtmlTest extends AbstractUnitTestCase
             ],
         );
 
-        $actual = $debug->renderHtml($exception);
+        $actual  = $debug->renderHtml($exception);
         $_SERVER = $server;
 
         $this->assertStringContainsString(self::TABS, $actual);
@@ -176,9 +176,9 @@ final class RenderHtmlTest extends AbstractUnitTestCase
      */
     public function testSupportDebugRenderHtmlWithDebugVar(): void
     {
-        $value = uniqid('var-');
+        $value     = uniqid('var-');
         $exception = new Exception('exception message', 1234);
-        $debug = new Debug();
+        $debug     = new Debug();
         $debug->setShowBackTrace(true);
         $debug->debugVar($value);
 
@@ -194,10 +194,10 @@ final class RenderHtmlTest extends AbstractUnitTestCase
      */
     public function testSupportDebugRenderHtmlWithRequestBlacklist(): void
     {
-        $key = uniqid('var-');
-        $exception = new Exception('exception message', 1234);
-        $debug = new Debug();
-        $request = $_REQUEST;
+        $key            = uniqid('var-');
+        $exception      = new Exception('exception message', 1234);
+        $debug          = new Debug();
+        $request        = $_REQUEST;
         $_REQUEST[$key] = uniqid('val-');
 
         $debug->setShowBackTrace(true);
@@ -207,7 +207,7 @@ final class RenderHtmlTest extends AbstractUnitTestCase
             ],
         );
 
-        $actual = $debug->renderHtml($exception);
+        $actual   = $debug->renderHtml($exception);
         $_REQUEST = $request;
 
         $this->assertStringContainsString(self::TABS, $actual);

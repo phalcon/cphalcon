@@ -42,19 +42,19 @@ final class SetTest extends AbstractCollectionTestCase
         $collection->set('three', 'two');
 
         $expected = 'two';
-        $actual = $collection->get('three');
+        $actual   = $collection->get('three');
         $this->assertSame($expected, $actual);
 
         $collection->three = 'Phalcon';
 
         $expected = 'Phalcon';
-        $actual = $collection->get('three');
+        $actual   = $collection->get('three');
         $this->assertSame($expected, $actual);
 
         $collection->offsetSet('three', 123);
 
         $expected = 123;
-        $actual = $collection->get('three');
+        $actual   = $collection->get('three');
         $this->assertSame($expected, $actual);
 
         $collection['three'] = true;
@@ -71,7 +71,7 @@ final class SetTest extends AbstractCollectionTestCase
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('The object is read only');
-        $collection = new ReadOnlyCollection();
+        $collection          = new ReadOnlyCollection();
         $collection['three'] = true;
     }
 
@@ -95,7 +95,7 @@ final class SetTest extends AbstractCollectionTestCase
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('The object is read only');
-        $collection = new ReadOnlyCollection();
+        $collection        = new ReadOnlyCollection();
         $collection->three = 'Phalcon';
     }
 }

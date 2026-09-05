@@ -333,8 +333,8 @@ final class CoverageGapsTest extends AbstractUnitTestCase
      */
     public function testMountAppliesGroupBeforeMatch(): void
     {
-        $router = $this->getRouter(false);
-        $group  = new \Phalcon\Mvc\Router\Group();
+        $router   = $this->getRouter(false);
+        $group    = new \Phalcon\Mvc\Router\Group();
         $callback = static fn(): bool => false;
         $group->beforeMatch($callback);
         $group->add('/admin', ['controller' => 'admin']);

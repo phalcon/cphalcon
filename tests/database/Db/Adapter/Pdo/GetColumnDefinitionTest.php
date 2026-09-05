@@ -50,7 +50,7 @@ final class GetColumnDefinitionTest extends AbstractDatabaseTestCase
             'size' => 100,
         ]);
 
-        $driver = self::getDatabaseDialect();
+        $driver      = self::getDatabaseDialect();
         $expectedInt = [
             'mysql'  => 'INT(10)',
             'pgsql'  => 'INT',

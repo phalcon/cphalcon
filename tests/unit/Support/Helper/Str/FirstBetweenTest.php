@@ -24,10 +24,10 @@ final class FirstBetweenTest extends AbstractUnitTestCase
      */
     public function testSupportHelperStrFirstBetween(): void
     {
-        $object = new FirstBetween();
-        $source = 'This is a [custom] string';
+        $object   = new FirstBetween();
+        $source   = 'This is a [custom] string';
         $expected = 'custom';
-        $actual = $object($source, '[', ']');
+        $actual   = $object($source, '[', ']');
         $this->assertSame($expected, $actual);
     }
 }

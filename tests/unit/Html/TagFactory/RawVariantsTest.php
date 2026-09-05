@@ -24,7 +24,7 @@ final class RawVariantsTest extends AbstractUnitTestCase
 {
     public function testAnchorEscapingByDefault(): void
     {
-        $factory = new TagFactory(new Escaper());
+        $factory  = new TagFactory(new Escaper());
         $rendered = $factory->a('/x', '<b>hi</b>');
 
         $this->assertStringContainsString('&lt;b&gt;hi&lt;/b&gt;', $rendered);
@@ -32,7 +32,7 @@ final class RawVariantsTest extends AbstractUnitTestCase
 
     public function testAnchorRawDoesNotEscape(): void
     {
-        $factory = new TagFactory(new Escaper());
+        $factory  = new TagFactory(new Escaper());
         $rendered = $factory->aRaw('/x', '<b>hi</b>');
 
         $this->assertStringContainsString('<b>hi</b>', $rendered);

@@ -119,7 +119,7 @@ final class ManagerTest extends AbstractDatabaseTestCase
 
         $tm->rollback();
 
-        $stmt             = self::getPdoConnection()->query('SELECT COUNT(*) FROM ph_select');
+        $stmt               = self::getPdoConnection()->query('SELECT COUNT(*) FROM ph_select');
         $countAfterRollback = (int) $stmt->fetchColumn();
         $this->assertSame($countAfterCommit, $countAfterRollback);
     }

@@ -166,7 +166,7 @@ final class ValidationCoverageTest extends AbstractUnitTestCase
      */
     public function testFilterValidationValidateCombinedAllowEmptySkips(): void
     {
-        $validator = new FakeCombinedValidator(['allowEmpty' => true]);
+        $validator  = new FakeCombinedValidator(['allowEmpty' => true]);
         $validation = new Validation();
         $validation->add(['field1', 'field2'], $validator);
 

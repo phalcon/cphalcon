@@ -142,7 +142,7 @@ final class LoadFromConfigTest extends AbstractUnitTestCase
         $router = $this->getRouter(false);
         $router->loadFromConfig([
             'removeExtraSlashes' => true,
-            'routes' => [
+            'routes'             => [
                 ['method' => 'get', 'pattern' => '/about', 'paths' => 'About::index'],
             ],
         ]);

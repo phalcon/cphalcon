@@ -24,15 +24,15 @@ final class DecapitalizeTest extends AbstractUnitTestCase
      */
     public function testSupportHelperStrDecapitalize(): void
     {
-        $object = new Decapitalize();
-        $source = 'BeetleJuice';
+        $object   = new Decapitalize();
+        $source   = 'BeetleJuice';
         $expected = 'beetleJuice';
-        $actual = $object($source);
+        $actual   = $object($source);
         $this->assertSame($expected, $actual);
 
-        $source = 'BeetleJuice';
+        $source   = 'BeetleJuice';
         $expected = 'bEETLEJUICE';
-        $actual = $object($source, true);
+        $actual   = $object($source, true);
         $this->assertSame($expected, $actual);
     }
 }

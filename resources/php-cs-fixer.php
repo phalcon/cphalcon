@@ -44,6 +44,29 @@ return (new Config())
     ->setCacheFile($root . '/tests/_output/.php-cs-fixer.cache')
     ->setRules(
         [
+            /**
+             * Aligns the `=` of consecutive assignments and the `=>` of
+             * consecutive array elements. The compound assignments join the
+             * same run, so a `.=` between two `=` lines keeps the column. A
+             * run ends at the first line without one of these operators, so
+             * unrelated blocks stay independent. Every other operator keeps
+             * the single space PSR-12 asks for.
+             */
+            'binary_operator_spaces' => [
+                'default'   => 'single_space',
+                'operators' => [
+                    '='   => 'align',
+                    '+='  => 'align',
+                    '-='  => 'align',
+                    '*='  => 'align',
+                    '/='  => 'align',
+                    '.='  => 'align',
+                    '%='  => 'align',
+                    '**=' => 'align',
+                    '??=' => 'align',
+                    '=>'  => 'align',
+                ],
+            ],
             'declare_strict_types'   => true,
             'no_unused_imports'      => true,
             'ordered_imports'        => [

@@ -54,7 +54,7 @@ class RenderTest extends AbstractUnitTestCase
         $this->setNewFactoryDefault();
         $this->setDiService('viewSimple');
 
-        $view = $this->getService('viewSimple');
+        $view          = $this->getService('viewSimple');
         $eventsManager = $this->newService('eventsManager');
 
         $listener = new ViewCompileListener();

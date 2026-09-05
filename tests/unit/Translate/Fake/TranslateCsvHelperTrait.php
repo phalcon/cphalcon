@@ -46,13 +46,13 @@ trait TranslateCsvHelperTrait
     {
 
         return [['en',
-            ['hi' => 'Hello',
+            ['hi'     => 'Hello',
                 'bye' => 'Good Bye',],],
             ['es',
-                ['hi' => 'Hola',
+                ['hi'     => 'Hola',
                     'bye' => 'Adiós',],],
             ['fr',
-                ['hi' => 'Bonjour',
+                ['hi'     => 'Bonjour',
                     'bye' => 'Au revoir',],],];
     }
 
@@ -88,7 +88,7 @@ trait TranslateCsvHelperTrait
     public function testTranslateAdapterCsvQuery(string $code, array $tests): void
     {
 
-        $language = $this->getCsvConfig()[$code];
+        $language   = $this->getCsvConfig()[$code];
         $translator = new Csv(new InterpolatorFactory(), $language);
 
         foreach ($tests as $key => $expected) {
@@ -106,7 +106,7 @@ trait TranslateCsvHelperTrait
     public function testTranslateAdapterCsvVariableSubstitutionNoVariables(string $code, array $tests): void
     {
 
-        $language = $this->getCsvConfig()[$code];
+        $language   = $this->getCsvConfig()[$code];
         $translator = new Csv(new InterpolatorFactory(), $language);
 
         foreach ($tests as $key => $expected) {
@@ -124,7 +124,7 @@ trait TranslateCsvHelperTrait
     public function testTranslateAdapterCsvVariableSubstitutionOneVariable(string $code, array $tests): void
     {
 
-        $language = $this->getCsvConfig()[$code];
+        $language   = $this->getCsvConfig()[$code];
         $translator = new Csv(new InterpolatorFactory(), $language);
 
         foreach ($tests as $key => $expected) {
@@ -141,10 +141,10 @@ trait TranslateCsvHelperTrait
     public function testTranslateAdapterCsvVariableSubstitutionTwoVariable(string $code, array $tests): void
     {
 
-        $language = $this->getCsvConfig()[$code];
+        $language   = $this->getCsvConfig()[$code];
         $translator = new Csv(new InterpolatorFactory(), $language);
-        $vars = ['song' => 'Dust in the wind',
-            'artist' => 'Kansas',];
+        $vars       = ['song' => 'Dust in the wind',
+            'artist'          => 'Kansas',];
 
         foreach ($tests as $key => $expected) {
             $actual = $translator->{$this->function}($key, $vars);
@@ -160,14 +160,14 @@ trait TranslateCsvHelperTrait
     public function testTranslateAdapterCsvWithArrayAccessAndUTF8Strings(): void
     {
 
-        $language = $this->getCsvConfig()['ru'];
+        $language   = $this->getCsvConfig()['ru'];
         $translator = new Csv(new InterpolatorFactory(), $language);
 
         $vars = ['fname' => 'John',
-            'lname' => 'Doe',
-            'mname' => 'D.',];
+            'lname'      => 'Doe',
+            'mname'      => 'D.',];
         $expected = 'Привет, John D. Doe!';
-        $actual = $translator->{$this->function}('Hello %fname% %mname% %lname%!', $vars);
+        $actual   = $translator->{$this->function}('Hello %fname% %mname% %lname%!', $vars);
         $this->assertSame($expected, $actual);
     }
 

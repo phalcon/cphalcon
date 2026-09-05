@@ -24,7 +24,7 @@ final class GetSetHasTest extends AbstractRegistryTestCase
      */
     public static function getExamples(): array
     {
-        $sample = new stdClass();
+        $sample      = new stdClass();
         $sample->one = 'two';
 
         return [
@@ -104,7 +104,7 @@ final class GetSetHasTest extends AbstractRegistryTestCase
         $this->assertTrue($actual);
 
         $expected = 'two';
-        $actual = $registry->get('three');
+        $actual   = $registry->get('three');
         $this->assertSame($expected, $actual);
 
         /**
@@ -131,7 +131,7 @@ final class GetSetHasTest extends AbstractRegistryTestCase
         $this->assertTrue($actual);
 
         $expected = 789;
-        $actual = $registry->six;
+        $actual   = $registry->six;
         $this->assertSame($expected, $actual);
 
         /**
@@ -163,7 +163,7 @@ final class GetSetHasTest extends AbstractRegistryTestCase
          * offsetGet
          */
         $expected = 123;
-        $actual = $registry->offsetGet('four');
+        $actual   = $registry->offsetGet('four');
         $this->assertSame($expected, $actual);
 
         /**
@@ -192,7 +192,7 @@ final class GetSetHasTest extends AbstractRegistryTestCase
          * Get
          */
         $expected = 456;
-        $actual = $registry['five'];
+        $actual   = $registry['five'];
         $this->assertSame($expected, $actual);
 
         /**
