@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc\Model\MetaData;
 
+use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Mvc\Model\MetaData\Exceptions\MetaDataDirectoryNotWritable;
 use Phalcon\Support\Settings;
@@ -27,20 +28,19 @@ use Phalcon\Traits\Php\FileTrait;
  *     ]
  * );
  *```
+ *
+ * @phpstan-import-type mvc_metadata_index from MvcTypes
  */
 class Stream extends MetaData
 {
     use FileTrait;
 
-    /**
-     * @var string
-     */
-    protected metaDataDir = "./";
+    protected string metaDataDir = "./";
 
     /**
      * Phalcon\Mvc\Model\MetaData\Files constructor
      *
-     * @param array options
+     * @param array<string, mixed> $options
      */
     public function __construct(array options = [])
     {
@@ -53,6 +53,8 @@ class Stream extends MetaData
 
     /**
      * Reads meta-data from files
+     *
+     * @phpstan-return mvc_metadata_index|null
      */
     public function read(var key) -> array | null
     {
@@ -73,6 +75,8 @@ class Stream extends MetaData
 
     /**
      * Writes the meta-data to files
+     *
+     * @phpstan-param mvc_metadata_index $data
      */
     public function write(var key, array data) -> void
     {

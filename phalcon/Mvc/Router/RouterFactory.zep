@@ -42,6 +42,8 @@ class RouterFactory
      * @param array|\Phalcon\Config\ConfigInterface config
      *
      * @return RouterInterface
+     *
+     * @phpstan-param array<array-key, mixed>|ConfigInterface $config
      */
     public function load(var config) -> <RouterInterface>
     {

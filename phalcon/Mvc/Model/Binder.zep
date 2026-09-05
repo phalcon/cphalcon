@@ -14,6 +14,7 @@ use Closure;
 use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Mvc\Controller\BindModelInterface;
 use Phalcon\Mvc\Model;
+use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Binder\BindableInterface;
 use Phalcon\Mvc\Model\Exceptions\HandlerMustImplementBindable;
 use Phalcon\Mvc\Model\Exceptions\InvalidGetModelNameReturn;
@@ -34,6 +35,8 @@ class Binder implements BinderInterface
      * Array for storing active bound models
      *
      * @var array
+     *
+     * @phpstan-var array<array-key, ModelInterface>
      */
     protected boundModels = [];
 
@@ -48,6 +51,8 @@ class Binder implements BinderInterface
      * Internal cache for caching parameters for model binding during request
      *
      * @var array
+     *
+     * @phpstan-var array<string, array<array-key, string>>
      */
     protected internalCache = [];
 
@@ -55,6 +60,8 @@ class Binder implements BinderInterface
      * Array for original values
      *
      * @var array
+     *
+     * @phpstan-var array<array-key, mixed>
      */
     protected originalValues = [];
 
@@ -68,6 +75,9 @@ class Binder implements BinderInterface
 
     /**
      * Bind models into params in proper handler
+     *
+     * @phpstan-param array<array-key, mixed> $params
+     * @phpstan-return array<array-key, mixed>
      */
     public function bindToHandler(object handler, array params, string cacheKey,  string methodName = null) -> array
     {
@@ -106,6 +116,8 @@ class Binder implements BinderInterface
      * Return the active bound models
      *
      * @return array
+     *
+     * @phpstan-return array<array-key, ModelInterface>
      */
     public function getBoundModels() -> array
     {
@@ -124,6 +136,8 @@ class Binder implements BinderInterface
      * Return the array for original values
      *
      * @return array
+     *
+     * @phpstan-return array<array-key, mixed>
      */
     public function getOriginalValues() -> array
     {
@@ -152,6 +166,8 @@ class Binder implements BinderInterface
 
     /**
      * Get params classes from cache by key
+     *
+     * @phpstan-return array<array-key, string>|null
      */
     protected function getParamsFromCache(string cacheKey) -> array | null
     {
@@ -175,6 +191,9 @@ class Binder implements BinderInterface
 
     /**
      * Get modified params for handler using reflection
+     *
+     * @phpstan-param array<array-key, mixed> $params
+     * @phpstan-return array<array-key, mixed>
      */
     protected function getParamsFromReflection(object handler, array params, string cacheKey,  string methodName) -> array
     {

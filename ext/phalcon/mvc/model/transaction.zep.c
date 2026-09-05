@@ -91,6 +91,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Transaction)
 	zend_declare_property_null(phalcon_mvc_model_transaction_ce, SL("manager"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var array
+	 *
+	 * @phpstan-var list<MessageInterface>
 	 */
 	zend_declare_property_null(phalcon_mvc_model_transaction_ce, SL("messages"), ZEND_ACC_PROTECTED);
 	/**
@@ -264,6 +266,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, getConnection)
 
 /**
  * Returns validations messages from last save try
+ *
+ * @phpstan-return list<MessageInterface>
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, getMessages)
 {
@@ -398,7 +402,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback)
 			zephir_read_property_cached(&_4$$7, this_ptr, _zephir_prop_2, 1127, PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CALL_METHOD(NULL, &_3$$7, "__construct", NULL, 0, &rollbackMessage, &_4$$7);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_3$$7, "phalcon/Mvc/Model/Transaction.zep", 211);
+			zephir_throw_exception_debug(&_3$$7, "phalcon/Mvc/Model/Transaction.zep", 216);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}

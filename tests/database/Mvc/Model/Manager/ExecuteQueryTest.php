@@ -31,8 +31,6 @@ final class ExecuteQueryTest extends AbstractDatabaseTestCase
 
     /**
      * Executed before each test
-     *
-     * @return void
      */
     public function setUp(): void
     {

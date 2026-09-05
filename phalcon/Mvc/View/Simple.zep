@@ -64,6 +64,8 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
 
     /**
      * @var EngineInterface[]|false
+     *
+     * @phpstan-var array<string, EngineInterface>|false
      */
     protected engines = false; // TODO: Change to default null or empty array
 
@@ -86,6 +88,8 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      * Phalcon\Mvc\View\Simple constructor
      *
      * @param array options
+     *
+     * @phpstan-param array<string, mixed> $options
      */
     public function __construct(array options = [])
     {
@@ -245,6 +249,8 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      *```
      *
      * @return void
+     *
+     * @phpstan-param array<string, mixed> $engines
      */
     public function registerEngines( array engines) -> void
     {
@@ -255,6 +261,8 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      * Renders a view
      *
      * @return string
+     *
+     * @phpstan-param array<string, mixed> $params
      */
     public function render( string path, array params = []) -> string
     {
@@ -302,6 +310,8 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      *```
      *
      * @return static
+     *
+     * @phpstan-return static
      */
     public function setParamToView( string key, var value) -> <static>
     {
@@ -320,6 +330,8 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      *```
      *
      * @return static
+     *
+     * @phpstan-param array<string, mixed> $params
      */
     public function setVars( array params, bool merge = true) -> <static>
     {
@@ -347,6 +359,8 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      * Phalcon\Mvc\View\Engine\Php
      *
      * @return array
+     *
+     * @phpstan-return array<string, EngineInterface>
      */
     protected function loadTemplateEngines() -> array
     {

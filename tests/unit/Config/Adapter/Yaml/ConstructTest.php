@@ -31,9 +31,6 @@ final class ConstructTest extends AbstractUnitTestCase
 {
     use ConfigTrait;
 
-    /**
-     * @return void
-     */
     public function setUp(): void
     {
     }

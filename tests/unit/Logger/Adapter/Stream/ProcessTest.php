@@ -60,8 +60,6 @@ final class ProcessTest extends AbstractUnitTestCase
 
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: process() - exception
-     *
-     * @return void
      */
     public function testLoggerAdapterStreamProcessException(): void
     {

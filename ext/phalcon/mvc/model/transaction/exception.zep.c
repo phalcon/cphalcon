@@ -23,8 +23,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Model\Transaction\Exception
- *
  * Exceptions thrown in Phalcon\Mvc\Model\Transaction will use this class
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Transaction_Exception)

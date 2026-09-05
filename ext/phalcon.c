@@ -264,6 +264,7 @@ zend_class_entry *phalcon_contracts_http_httptypes_ce;
 zend_class_entry *phalcon_contracts_image_imagetypes_ce;
 zend_class_entry *phalcon_contracts_messages_messagestypes_ce;
 zend_class_entry *phalcon_contracts_mvc_model_relation_cachekeyprovider_ce;
+zend_class_entry *phalcon_contracts_mvc_mvctypes_ce;
 zend_class_entry *phalcon_contracts_paginator_paginatortypes_ce;
 zend_class_entry *phalcon_contracts_queue_processor_ce;
 zend_class_entry *phalcon_contracts_queue_queuetypes_ce;
@@ -1883,6 +1884,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Contracts_Image_ImageTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Messages_MessagesTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Mvc_Model_Relation_CacheKeyProvider);
+	ZEPHIR_INIT(Phalcon_Contracts_Mvc_MvcTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Paginator_PaginatorTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Queue_Processor);
 	ZEPHIR_INIT(Phalcon_Contracts_Queue_QueueTypes);

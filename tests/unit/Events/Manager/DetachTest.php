@@ -20,9 +20,6 @@ use stdClass;
 
 final class DetachTest extends AbstractUnitTestCase
 {
-    /**
-     * @return array
-     */
     public static function booleanProvider(): array
     {
         return [

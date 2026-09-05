@@ -40,9 +40,6 @@ final class GetSetDescriptionTest extends AbstractUnitTestCase
         }
     }
 
-    /**
-     * @return array
-     */
     private function getExampleRoutes(): array
     {
         return [

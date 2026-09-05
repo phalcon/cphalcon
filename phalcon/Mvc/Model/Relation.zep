@@ -10,10 +10,16 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Contracts\Mvc\MvcTypes;
+
 /**
  * Phalcon\Mvc\Model\Relation
  *
  * This class represents a relationship between two models
+ *
+ * @phpstan-import-type mvc_model_parameters from MvcTypes
+ * @phpstan-import-type mvc_relation_fields from MvcTypes
+ * @phpstan-import-type mvc_relation_options from MvcTypes
  */
 class Relation implements RelationInterface
 {
@@ -57,6 +63,8 @@ class Relation implements RelationInterface
 
     /**
      * @var array|string
+     *
+     * @phpstan-var mvc_relation_fields
      */
     protected intermediateFields;
 
@@ -67,6 +75,8 @@ class Relation implements RelationInterface
 
     /**
      * @var array|string
+     *
+     * @phpstan-var mvc_relation_fields
      */
     protected intermediateReferencedFields;
 
@@ -98,6 +108,8 @@ class Relation implements RelationInterface
      * @param array|string fields
      * @param array|string referencedFields
      * @param array options
+     *
+     * @phpstan-param mvc_relation_options $options
      */
     public function __construct(int type,  string referencedModel, var fields, var referencedFields, array options = [])
     {
@@ -112,6 +124,8 @@ class Relation implements RelationInterface
      * Returns the fields
      *
      * @return array|string
+     *
+     * @phpstan-return mvc_relation_fields
      */
     public function getFields()
     {
@@ -122,6 +136,8 @@ class Relation implements RelationInterface
      * Returns the foreign key configuration
      *
      * @return array|string
+     *
+     * @phpstan-return array<string, mixed>|string|bool
      */
     public function getForeignKey()
     {
@@ -142,6 +158,8 @@ class Relation implements RelationInterface
      * Gets the intermediate fields for has-*-through relations
      *
      * @return array|string
+     *
+     * @phpstan-return mvc_relation_fields
      */
     public function getIntermediateFields()
     {
@@ -160,6 +178,8 @@ class Relation implements RelationInterface
      * Gets the intermediate referenced fields for has-*-through relations
      *
      * @return array|string
+     *
+     * @phpstan-return mvc_relation_fields
      */
     public function getIntermediateReferencedFields()
     {
@@ -183,6 +203,8 @@ class Relation implements RelationInterface
 
     /**
      * Returns the options
+     *
+     * @phpstan-return mvc_relation_options
      */
     public function getOptions() -> array
     {
@@ -193,6 +215,8 @@ class Relation implements RelationInterface
      * Returns parameters that must be always used when the related records are obtained
      *
      * @return array
+     *
+     * @phpstan-return mvc_model_parameters|false
      */
     public function getParams()
     {
@@ -225,6 +249,8 @@ class Relation implements RelationInterface
      * Returns the referenced fields
      *
      * @return array|string
+     *
+     * @phpstan-return mvc_relation_fields
      */
     public function getReferencedFields()
     {

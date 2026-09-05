@@ -32,8 +32,6 @@ trait GdTrait
      * @param string $image    path to image
      * @param string $hash     expected hash
      * @param float  $simility percent of similarity
-     *
-     * @return bool
      */
     private function checkImageHash(string $image, string $hash, float $simility = 70.0): bool
     {
@@ -266,9 +264,6 @@ trait GdTrait
         return implode("", $hash);
     }
 
-    /**
-     * @return bool
-     */
     private function hasJpegSupport(): bool
     {
         $gdInfo = gd_info();

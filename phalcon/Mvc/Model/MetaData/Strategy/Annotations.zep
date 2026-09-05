@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc\Model\MetaData\Strategy;
 
+use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Db\Column;
 use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\Model\MetaData;
@@ -18,10 +19,15 @@ use Phalcon\Mvc\Model\MetaData\Exceptions\NoAnnotationsForClass;
 use Phalcon\Mvc\Model\MetaData\Exceptions\NoPropertyAnnotationsForClass;
 use Phalcon\Mvc\ModelInterface;
 
+/**
+ * @phpstan-import-type mvc_metadata_index from MvcTypes
+ */
 class Annotations implements StrategyInterface
 {
     /**
      * Read the model's column map, this can't be inferred
+     *
+     * @phpstan-return mvc_metadata_index
      */
     final public function getColumnMaps(<ModelInterface> model, <DiInterface> container) -> array
     {
@@ -98,6 +104,8 @@ class Annotations implements StrategyInterface
 
     /**
      * The meta-data is obtained by reading the column descriptions from the database information schema
+     *
+     * @phpstan-return mvc_metadata_index
      */
     final public function getMetaData(<ModelInterface> model, <DiInterface> container) -> array
     {

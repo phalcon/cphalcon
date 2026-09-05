@@ -27,15 +27,10 @@ final class RollbackOnExceptionTest extends AbstractDatabaseTestCase
     use DiTrait;
     use RecordsTrait;
 
-    /**
-     * @var RollbackTestMigration
-     */
     private RollbackTestMigration $migration;
 
     /**
      * Executed before each test
-     *
-     * @return void
      */
     public function setUp(): void
     {
@@ -111,13 +106,6 @@ final class RollbackOnExceptionTest extends AbstractDatabaseTestCase
         $this->assertInDatabase($this->migration->getTable(), ['name' => 'test 5 OK']);
     }
 
-    /**
-     * @param int     $id
-     * @param string  $name
-     * @param Manager $modelsManager
-     *
-     * @return string
-     */
     private function update(int $id, string $name, Manager $modelsManager): string
     {
         try {

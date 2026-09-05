@@ -10,9 +10,9 @@
 
 namespace Phalcon\Mvc\Micro;
 
+use Phalcon\Contracts\Mvc\MvcTypes;
+
 /**
- * Phalcon\Mvc\Micro\Collection
- *
  * Groups Micro-Mvc handlers as controllers
  *
  *```php
@@ -28,6 +28,8 @@ namespace Phalcon\Mvc\Micro;
  *
  * $app->mount($collection);
  *```
+ *
+ * @phpstan-import-type mvc_micro_handlers from MvcTypes
  */
 class Collection implements CollectionInterface
 {
@@ -35,32 +37,19 @@ class Collection implements CollectionInterface
      * @var callable
      */
     protected handler;
-
     /**
-     * @var array
+     * @phpstan-var mvc_micro_handlers
      */
-    protected handlers = [];
-
-    /**
-     * @var bool
-     */
-    protected isLazy = false;
-
-    /**
-     * @var string
-     */
-    protected prefix = "";
+    protected array handlers = [];
+    protected bool isLazy = false;
+    protected string prefix = "";
 
     /**
      * Maps a route to a handler that only matches if the HTTP method is DELETE.
      *
-     * @param string routePattern
-     * @param callable handler
-     * @param string|null name
-     *
-     * @return CollectionInterface
+     * @param mixed $handler
      */
-    public function delete( string routePattern, callable handler, string name = null) -> <CollectionInterface>
+    public function delete(string routePattern, callable handler, string name = null) -> <CollectionInterface>
     {
         this->addMap("DELETE", routePattern, handler, name);
 
@@ -70,13 +59,10 @@ class Collection implements CollectionInterface
     /**
      * Maps a route to a handler that only matches if the HTTP method is GET.
      *
-     * @param string routePattern
-     * @param callable handler
-     * @param string|null name
      *
-     * @return CollectionInterface
+     * @param mixed $handler
      */
-    public function get( string routePattern, callable handler, string name = null) -> <CollectionInterface>
+    public function get(string routePattern, callable handler, string name = null) -> <CollectionInterface>
     {
         this->addMap("GET", routePattern, handler, name);
 
@@ -85,8 +71,6 @@ class Collection implements CollectionInterface
 
     /**
      * Returns the main handler
-     *
-     * @return mixed
      */
     public function getHandler() -> var
     {
@@ -95,6 +79,8 @@ class Collection implements CollectionInterface
 
     /**
      * Returns the registered handlers
+     *
+     * @phpstan-return mvc_micro_handlers
      */
     public function getHandlers() -> array
     {
@@ -112,13 +98,9 @@ class Collection implements CollectionInterface
     /**
      * Maps a route to a handler that only matches if the HTTP method is HEAD.
      *
-     * @param string routePattern
-     * @param callable|string handler
-     * @param string|null name
-     *
-     * @return CollectionInterface
+     * @param mixed $handler
      */
-    public function head( string routePattern, callable handler, string name = null) -> <CollectionInterface>
+    public function head(string routePattern, callable handler, string name = null) -> <CollectionInterface>
     {
         this->addMap("HEAD", routePattern, handler, name);
 
@@ -136,13 +118,9 @@ class Collection implements CollectionInterface
     /**
      * Maps a route to a handler.
      *
-     * @param string routePattern
-     * @param callable handler
-     * @param string|null name
-     *
-     * @return CollectionInterface
+     * @param mixed $handler
      */
-    public function map( string routePattern, callable handler, string name = null) -> <CollectionInterface>
+    public function map(string routePattern, callable handler, string name = null) -> <CollectionInterface>
     {
         this->addMap(null, routePattern, handler, name);
 
@@ -161,14 +139,10 @@ class Collection implements CollectionInterface
      * );
      * ```
      *
-     * @param string routePattern
-     * @param callable handler
-     * @param string|array method
-     * @param string|null name
-     *
-     * @return CollectionInterface
+     * @param callable     $handler
+     * @param string|array $method
      */
-    public function mapVia( string routePattern, callable handler, var method, string name = null) -> <CollectionInterface>
+    public function mapVia(string routePattern, callable handler, var method, string name = null) -> <CollectionInterface>
     {
         this->addMap(method, routePattern, handler, name);
 
@@ -179,13 +153,9 @@ class Collection implements CollectionInterface
      * Maps a route to a handler that only matches if the HTTP method is
      * OPTIONS.
      *
-     * @param string routePattern
-     * @param callable handler
-     * @param string|null name
-     *
-     * @return CollectionInterface
+     * @param callable $handler
      */
-    public function options( string routePattern, callable handler, string name = null) -> <CollectionInterface>
+    public function options(string routePattern, callable handler, string name = null) -> <CollectionInterface>
     {
         this->addMap("OPTIONS", routePattern, handler, name);
 
@@ -195,13 +165,10 @@ class Collection implements CollectionInterface
     /**
      * Maps a route to a handler that only matches if the HTTP method is PATCH.
      *
-     * @param string routePattern
-     * @param callable handler
-     * @param string|null name
      *
-     * @return CollectionInterface
+     * @param callable $handler
      */
-    public function patch( string routePattern, callable handler, string name = null) -> <CollectionInterface>
+    public function patch(string routePattern, callable handler, string name = null) -> <CollectionInterface>
     {
         this->addMap("PATCH", routePattern, handler, name);
 
@@ -211,13 +178,10 @@ class Collection implements CollectionInterface
     /**
      * Maps a route to a handler that only matches if the HTTP method is POST.
      *
-     * @param string routePattern
-     * @param callable handler
-     * @param string|null name
      *
-     * @return CollectionInterface
+     * @param callable $handler
      */
-    public function post( string routePattern, callable handler, string name = null) -> <CollectionInterface>
+    public function post(string routePattern, callable handler, string name = null) -> <CollectionInterface>
     {
         this->addMap("POST", routePattern, handler, name);
 
@@ -227,13 +191,9 @@ class Collection implements CollectionInterface
     /**
      * Maps a route to a handler that only matches if the HTTP method is PUT.
      *
-     * @param string routePattern
-     * @param callable handler
-     * @param string|null name
-     *
-     * @return CollectionInterface
+     * @param callable $handler
      */
-    public function put( string routePattern, callable handler, string name = null) -> <CollectionInterface>
+    public function put(string routePattern, callable handler, string name = null) -> <CollectionInterface>
     {
         this->addMap("PUT", routePattern, handler, name);
 
@@ -242,11 +202,6 @@ class Collection implements CollectionInterface
 
     /**
      * Sets the main handler.
-     *
-     * @param mixed handler
-     * @param bool isLazy
-     *
-     * @return CollectionInterface
      */
     public function setHandler(var handler, bool isLazy = false) -> <CollectionInterface>
     {
@@ -258,12 +213,8 @@ class Collection implements CollectionInterface
 
     /**
      * Sets if the main handler must be lazy loaded
-     *
-     * @param bool isLazy
-     *
-     * @return CollectionInterface
      */
-    public function setLazy( bool isLazy) -> <CollectionInterface>
+    public function setLazy(bool isLazy) -> <CollectionInterface>
     {
         let this->isLazy = isLazy;
 
@@ -272,12 +223,8 @@ class Collection implements CollectionInterface
 
     /**
      * Sets a prefix for all routes added to the collection
-     *
-     * @param string prefix
-     *
-     * @return CollectionInterface
      */
-    public function setPrefix( string prefix) -> <CollectionInterface>
+    public function setPrefix(string prefix) -> <CollectionInterface>
     {
         let this->prefix = prefix;
 
@@ -287,10 +234,8 @@ class Collection implements CollectionInterface
     /**
      * Internal function to add a handler to the group.
      *
-     * @param string|array method
-     * @param string routePattern
-     * @param callable handler
-     * @param string|null name
+     * @param string|array $method
+     * @param callable     $handler
      */
     protected function addMap(var method,  string routePattern, callable handler, string name = null) -> void
     {

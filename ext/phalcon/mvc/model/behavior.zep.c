@@ -45,6 +45,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Behavior)
 
 /**
  * Phalcon\Mvc\Model\Behavior
+ *
+ * @phpstan-param array<string, mixed> $options
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior, __construct)
 {
@@ -78,6 +80,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, __construct)
 
 /**
  * Acts as fallbacks when a missing method is called on the model
+ *
+ * @phpstan-param array<array-key, mixed> $arguments
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior, missingMethod)
 {
@@ -113,6 +117,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, missingMethod)
 
 /**
  * This method receives the notifications from the EventsManager
+ *
+ * @phpstan-return mixed
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior, notify)
 {
@@ -134,6 +140,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, notify)
  * Returns the behavior options related to an event
  *
  * @return array
+ *
+ * @phpstan-return array<string, mixed>|mixed
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions)
 {

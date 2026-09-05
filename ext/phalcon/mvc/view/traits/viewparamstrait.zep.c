@@ -43,12 +43,16 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Traits_ViewParamsTrait)
 	 * @var array
 	 *
 	 * @todo Use a default [] once Zephir supports array trait defaults
+	 *
+	 * @phpstan-var array<string, mixed>
 	 */
 	zend_declare_property_null(phalcon_mvc_view_traits_viewparamstrait_ce, SL("registeredEngines"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var array
 	 *
 	 * @todo Use a default [] once Zephir supports array trait defaults
+	 *
+	 * @phpstan-var array<string, mixed>
 	 */
 	zend_declare_property_null(phalcon_mvc_view_traits_viewparamstrait_ce, SL("viewParams"), ZEND_ACC_PROTECTED);
 	return SUCCESS;
@@ -69,6 +73,8 @@ PHP_METHOD(Phalcon_Mvc_View_Traits_ViewParamsTrait, getContent)
  * Returns parameters to views
  *
  * @return array
+ *
+ * @phpstan-return array<string, mixed>
  */
 PHP_METHOD(Phalcon_Mvc_View_Traits_ViewParamsTrait, getParamsToView)
 {
@@ -94,6 +100,8 @@ PHP_METHOD(Phalcon_Mvc_View_Traits_ViewParamsTrait, getParamsToView)
 
 /**
  * @return array
+ *
+ * @phpstan-return array<string, mixed>
  */
 PHP_METHOD(Phalcon_Mvc_View_Traits_ViewParamsTrait, getRegisteredEngines)
 {

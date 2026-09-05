@@ -24,8 +24,10 @@ use Phalcon\Mvc\ModelInterface;
 class Row extends \stdClass implements EntityInterface, ResultInterface, ArrayAccess, JsonSerializable
 {
     /**
-    * Serializes the object for json_encode
-    */
+     * Serializes the object for json_encode
+     *
+     * @phpstan-return array<array-key, mixed>
+     */
     public function jsonSerialize() -> array
     {
         return this->toArray();
@@ -37,6 +39,8 @@ class Row extends \stdClass implements EntityInterface, ResultInterface, ArrayAc
      * presence is the contract, not value truthiness.
      *
      * @param string|int $index
+     *
+     * @phpstan-param array-key $index
      */
     public function offsetExists(mixed index) -> bool
     {
@@ -49,6 +53,8 @@ class Row extends \stdClass implements EntityInterface, ResultInterface, ArrayAc
      * @param string|int index
      *
      * @return string|ModelInterface
+     *
+     * @phpstan-param array-key $index
      */
     public function offsetGet(mixed index) -> mixed
     {
@@ -110,6 +116,8 @@ class Row extends \stdClass implements EntityInterface, ResultInterface, ArrayAc
 
     /**
      * Returns the instance as an array representation
+     *
+     * @phpstan-return array<array-key, mixed>
      */
     public function toArray() -> array
     {

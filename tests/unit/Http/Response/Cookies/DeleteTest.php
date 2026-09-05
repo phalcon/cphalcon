@@ -25,10 +25,6 @@ final class DeleteTest extends AbstractHttpBase
 
     /**
      * Executed before each test
-     *
-     * @return void
-     *
-     * @return void
      */
     public function setUp(): void
     {

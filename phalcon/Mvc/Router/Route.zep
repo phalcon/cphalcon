@@ -10,15 +10,24 @@
 
 namespace Phalcon\Mvc\Router;
 
+use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Mvc\Router\Exceptions\InvalidRoutePaths;
 
 /**
  * This class represents every route added to the router
+ *
+ * @phpstan-import-type mvc_router_converters from MvcTypes
+ * @phpstan-import-type mvc_router_http_methods from MvcTypes
+ * @phpstan-import-type mvc_router_named_params from MvcTypes
+ * @phpstan-import-type mvc_router_paths from MvcTypes
+ * @phpstan-import-type mvc_router_reversed_paths from MvcTypes
  */
 class Route implements RouteInterface
 {
     /**
      * @var callable|null
+     *
+     * @phpstan-var callable|null
      */
     protected beforeMatch = null;
 
@@ -38,6 +47,8 @@ class Route implements RouteInterface
 
     /**
      * @var array
+     *
+     * @phpstan-var mvc_router_converters
      */
     protected converters = [];
 
@@ -53,11 +64,15 @@ class Route implements RouteInterface
 
     /**
      * @var callable|null
+     *
+     * @phpstan-var callable|null
      */
     protected match = null;
 
     /**
      * @var array|string|null
+     *
+     * @phpstan-var mvc_router_http_methods|string|null
      */
     protected methods = [];
 
@@ -68,6 +83,8 @@ class Route implements RouteInterface
 
     /**
      * @var array
+     *
+     * @phpstan-var mvc_router_paths
      */
     protected paths = [];
 
@@ -206,6 +223,8 @@ class Route implements RouteInterface
 
     /**
      * Extracts parameters from a string
+     *
+     * @phpstan-return mvc_router_named_params|false
      */
     public function extractNamedParams( string pattern) -> array | bool
     {
@@ -404,6 +423,8 @@ class Route implements RouteInterface
 
     /**
      * Returns the router converter
+     *
+     * @phpstan-return mvc_router_converters
      */
     public function getConverters() -> array
     {
@@ -428,6 +449,8 @@ class Route implements RouteInterface
 
     /**
      * Returns the HTTP methods that constraint matching the route
+     *
+     * @phpstan-return mvc_router_http_methods|string|null
      */
     public function getHttpMethods() -> array | string | null
     {
@@ -452,6 +475,8 @@ class Route implements RouteInterface
 
     /**
      * Returns the paths
+     *
+     * @phpstan-return mvc_router_paths
      */
     public function getPaths() -> array
     {
@@ -468,6 +493,8 @@ class Route implements RouteInterface
 
     /**
      * Returns the paths using positions as keys and names as values
+     *
+     * @phpstan-return mvc_router_reversed_paths
      */
     public function getReversedPaths() -> array
     {
@@ -486,6 +513,8 @@ class Route implements RouteInterface
 
     /**
      * Returns routePaths
+     *
+     * @phpstan-return mvc_router_paths
      */
     public static function getRoutePaths(var paths = null) -> array
     {

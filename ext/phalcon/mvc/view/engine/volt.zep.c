@@ -48,10 +48,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt)
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_ce, SL("eventsManager"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var array
+	 *
+	 * @phpstan-var array<string, callable>
 	 */
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_ce, SL("macros"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var array
+	 *
+	 * @phpstan-var array<string, mixed>
 	 */
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_ce, SL("options"), ZEND_ACC_PROTECTED);
 	phalcon_mvc_view_engine_volt_ce->create_object = zephir_init_properties_Phalcon_Mvc_View_Engine_Volt;
@@ -67,6 +71,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt)
  * @params array arguments
  *
  * @return mixed
+ *
+ * @phpstan-param array<array-key, mixed> $arguments
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, callMacro)
 {
@@ -112,7 +118,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, callMacro)
 		object_init_ex(&_1$$3, phalcon_mvc_view_engine_volt_exceptions_macronotfound_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0, &name_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/View/Engine/Volt.zep", 65);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/View/Engine/Volt.zep", 73);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -162,7 +168,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding)
 		object_init_ex(&_2$$3, phalcon_mvc_view_engine_volt_exceptions_mbstringrequired_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$3, "phalcon/Mvc/View/Engine/Volt.zep", 79);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/Mvc/View/Engine/Volt.zep", 87);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -248,6 +254,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getEventsManager)
  * Return Volt's options
  *
  * @return array
+ *
+ * @phpstan-return array<string, mixed>
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getOptions)
 {
@@ -309,7 +317,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, isIncluded)
 	object_init_ex(&_3, phalcon_mvc_view_engine_volt_exceptions_invalidhaystack_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_3, "__construct", NULL, 0);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_3, "phalcon/Mvc/View/Engine/Volt.zep", 169);
+	zephir_throw_exception_debug(&_3, "phalcon/Mvc/View/Engine/Volt.zep", 179);
 	ZEPHIR_MM_RESTORE();
 	return;
 }
@@ -320,6 +328,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, isIncluded)
  * @param mixed item
  *
  * @return int
+ *
+ * @phpstan-param array<array-key, mixed>|Countable|string|null $item
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, length)
 {
@@ -365,6 +375,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, length)
 /**
  * Parses the preload element passed and sets the necessary link headers
  * @todo find a better way to handle this
+ *
+ * @phpstan-param array{
+ *     0?: string,
+ *     1?: array<string, array<string>|bool|float|int|string|null>
+ * }|string $parameters
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, preload)
 {
@@ -430,7 +445,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, preload)
 	if (_2) {
 		if (zephir_array_isset_value_long(&params, 1)) {
 			zephir_memory_observe(&attributes);
-			zephir_array_fetch_long(&attributes, &params, 1, PH_NOISY, "phalcon/Mvc/View/Engine/Volt.zep", 225);
+			zephir_array_fetch_long(&attributes, &params, 1, PH_NOISY, "phalcon/Mvc/View/Engine/Volt.zep", 242);
 		} else {
 			ZEPHIR_INIT_VAR(&_5$$7);
 			zephir_create_array(&_5$$7, 1, 0);
@@ -575,7 +590,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render)
 		} else {
 			_5$$8 = params;
 		}
-		zephir_is_iterable(_5$$8, 0, "phalcon/Mvc/View/Engine/Volt.zep", 293);
+		zephir_is_iterable(_5$$8, 0, "phalcon/Mvc/View/Engine/Volt.zep", 310);
 		if (Z_TYPE_P(_5$$8) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_5$$8), _8$$8, _9$$8, _7$$8)
 			{
@@ -665,6 +680,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, setEventsManager)
  * @param array options
  *
  * @return void
+ *
+ * @phpstan-param array<string, mixed> $options
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, setOptions)
 {
@@ -692,6 +709,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, setOptions)
 
 /**
  * Extracts a slice from a string/array/traversable object value
+ *
+ * @phpstan-param array<array-key, mixed>|string|(Countable&Iterator<array-key, mixed>) $value
+ * @phpstan-param int|null $end
+ * @phpstan-return array<array-key, mixed>|string
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice)
 {
@@ -760,7 +781,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice)
 			if (_1$$5) {
 				ZEPHIR_CALL_METHOD(&_2$$6, value, "current", &_3, 0);
 				zephir_check_call_status();
-				zephir_array_append(&slice, &_2$$6, PH_SEPARATE, "phalcon/Mvc/View/Engine/Volt.zep", 350);
+				zephir_array_append(&slice, &_2$$6, PH_SEPARATE, "phalcon/Mvc/View/Engine/Volt.zep", 373);
 			}
 			ZEPHIR_CALL_METHOD(NULL, value, "next", &_4, 0);
 			zephir_check_call_status();
@@ -808,6 +829,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice)
 
 /**
  * Sorts an array
+ *
+ * @phpstan-param array<array-key, mixed> $value
+ * @phpstan-return array<array-key, mixed>
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, sort)
 {

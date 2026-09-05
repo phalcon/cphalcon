@@ -20,10 +20,6 @@ class FakeYamlExtensionLoaded extends Yaml
     /**
      * Find out whether an extension is loaded
      *
-     * @param string $name
-     *
-     * @return bool
-     *
      * @link https://php.net/manual/en/function.extension-loaded.php
      */
     protected static function phpExtensionLoaded(string $name): bool

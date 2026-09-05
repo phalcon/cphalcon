@@ -23,9 +23,6 @@ final class LoadTest extends AbstractUnitTestCase
 {
     use FactoryTrait;
 
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -85,11 +82,6 @@ final class LoadTest extends AbstractUnitTestCase
         $factory->load(1234);
     }
 
-    /**
-     * @param mixed $options
-     *
-     * @return void
-     */
     private function runFactoryTests(mixed $options): void
     {
         $factory = new AnnotationsFactory();

@@ -11,6 +11,7 @@
 namespace Phalcon\Mvc\Model;
 
 use Phalcon\Cache\Adapter\AdapterInterface as CacheAdapterInterface;
+use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\MetaData\Exceptions\ContainerRequired;
@@ -76,6 +77,17 @@ use Phalcon\Traits\Support\Helper\Arr\GetTrait;
  * |------|-----------------------------|---------------------|
  * | 0    | `MODELS_COLUMN_MAP`         | column => attribute |
  * | 1    | `MODELS_REVERSE_COLUMN_MAP` | attribute => column |
+ *
+ * @phpstan-import-type mvc_metadata_column_map from MvcTypes
+ * @phpstan-import-type mvc_metadata_column_map_store from MvcTypes
+ * @phpstan-import-type mvc_metadata_column_maps from MvcTypes
+ * @phpstan-import-type mvc_metadata_default_values from MvcTypes
+ * @phpstan-import-type mvc_metadata_index from MvcTypes
+ * @phpstan-import-type mvc_metadata_model from MvcTypes
+ * @phpstan-import-type mvc_metadata_slot from MvcTypes
+ * @phpstan-import-type mvc_metadata_store from MvcTypes
+ * @phpstan-import-type mvc_metadata_types from MvcTypes
+ * @phpstan-import-type mvc_model_attributes from MvcTypes
  */
 abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 {
@@ -153,6 +165,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
     /**
      * @var array
+     *
+     * @phpstan-var mvc_metadata_column_map_store
      */
     protected columnMap = [];
 
@@ -163,6 +177,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
     /**
      * @var array
+     *
+     * @phpstan-var mvc_metadata_store
      */
     protected metaData = [];
 
@@ -173,6 +189,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      * inside initializeMetaData() after the real schema is loaded.
      *
      * @var array
+     *
+     * @phpstan-var mvc_metadata_store
      */
     protected pendingMetaDataWrites = [];
 
@@ -199,6 +217,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return mvc_model_attributes
      */
     public function getAttributes(<ModelInterface> model) -> array
     {
@@ -223,6 +243,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return array<string, mixed>
      */
     public function getAutomaticCreateAttributes(<ModelInterface> model) -> array
     {
@@ -250,6 +272,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return array<string, mixed>
      */
     public function getAutomaticUpdateAttributes(<ModelInterface> model) -> array
     {
@@ -277,6 +301,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return mvc_metadata_types
      */
     public function getBindTypes(<ModelInterface> model) -> array
     {
@@ -304,6 +330,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return mvc_metadata_column_map|null
      */
     public function getColumnMap(<ModelInterface> model) -> array | null
     {
@@ -361,6 +389,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return mvc_metadata_types
      */
     public function getDataTypes(<ModelInterface> model) -> array
     {
@@ -385,6 +415,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return mvc_metadata_types
      */
     public function getDataTypesNumeric(<ModelInterface> model) -> array
     {
@@ -412,6 +444,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return mvc_metadata_default_values
      */
     public function getDefaultValues(<ModelInterface> model) -> array
     {
@@ -436,6 +470,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return array<string, mixed>
      */
     public function getEmptyStringAttributes(<ModelInterface> model) -> array
     {
@@ -488,6 +524,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
     /**
      * Returns the model UniqueID based on model and array row primary key(s) value(s)
+     *
+     * @phpstan-param array<string, scalar|null> $row
      */
     public function getModelUUID(<ModelInterface> model, array row) -> string | null
     {
@@ -517,6 +555,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return mvc_model_attributes
      */
     public function getNonPrimaryKeyAttributes(<ModelInterface> model) -> array
     {
@@ -541,6 +581,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return mvc_model_attributes
      */
     public function getNotNullAttributes(<ModelInterface> model) -> array
     {
@@ -565,6 +607,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return mvc_model_attributes
      */
     public function getPrimaryKeyAttributes(<ModelInterface> model) -> array
     {
@@ -589,6 +633,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return mvc_metadata_column_map|null
      */
     public function getReverseColumnMap(<ModelInterface> model) -> array | null
     {
@@ -667,6 +713,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
     /**
      * Reads metadata from the adapter
+     *
+     * @phpstan-return mvc_metadata_index|null
      */
     public function read(var key) -> array | null
     {
@@ -683,6 +731,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return mvc_metadata_column_maps|null
      */
     final public function readColumnMap(<ModelInterface> model) -> array | null
     {
@@ -709,8 +759,10 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return mvc_metadata_slot
      */
-    final public function readColumnMapIndex(<ModelInterface> model, int index) -> array | null
+    final public function readColumnMapIndex(<ModelInterface> model, int index) -> array | bool | string | null
     {
         var keyName;
 
@@ -734,6 +786,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return mvc_metadata_model|null
      */
     final public function readMetaData(<ModelInterface> model) -> array | null
     {
@@ -756,8 +810,10 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return mvc_metadata_slot
      */
-    final public function readMetaDataIndex(<ModelInterface> model, int index) -> array | string | null
+    final public function readMetaDataIndex(<ModelInterface> model, int index) -> array | bool | string | null
     {
         var key;
         let key = this->getMetaDataUniqueKey(model);
@@ -792,6 +848,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     ]
      * );
      *```
+     *
+     * @phpstan-param array<string, mixed> $attributes
      */
     public function setAutomaticCreateAttributes(<ModelInterface> model, array attributes) -> void
     {
@@ -813,6 +871,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     ]
      * );
      *```
+     *
+     * @phpstan-param array<string, mixed> $attributes
      */
     public function setAutomaticUpdateAttributes(<ModelInterface> model, array attributes) -> void
     {
@@ -842,6 +902,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     ]
      * );
      *```
+     *
+     * @phpstan-param array<string, mixed> $attributes
      */
     public function setEmptyStringAttributes(<ModelInterface> model, array attributes) -> void
     {
@@ -862,6 +924,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
     /**
      * Writes the metadata to adapter
+     *
+     * @phpstan-param mvc_metadata_index $data
      */
     public function write( string key, array data) -> void
     {

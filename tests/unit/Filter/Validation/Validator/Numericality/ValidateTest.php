@@ -21,9 +21,6 @@ use stdClass;
 
 final class ValidateTest extends AbstractUnitTestCase
 {
-    /**
-     * @return array
-     */
     public static function getExamples(): array
     {
         return [

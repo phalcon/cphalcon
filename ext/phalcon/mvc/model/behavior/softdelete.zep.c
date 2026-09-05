@@ -30,8 +30,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Model\Behavior\SoftDelete
- *
  * Instead of permanently delete a record it marks the record as deleted
  * changing the value of a flag column
  */
@@ -44,6 +42,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Behavior_SoftDelete)
 
 /**
  * Listens for notifications from the models manager
+ *
+ * @phpstan-return mixed
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify)
 {

@@ -67,6 +67,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Simple)
 	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("activeRenderPath"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var EngineInterface[]|false
+	 *
+	 * @phpstan-var array<string, EngineInterface>|false
 	 */
 	zend_declare_property_bool(phalcon_mvc_view_simple_ce, SL("engines"), 0, ZEND_ACC_PROTECTED);
 	/**
@@ -89,12 +91,16 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Simple)
 	 * @var array
 	 *
 	 * @todo Use a default [] once Zephir supports array trait defaults
+	 *
+	 * @phpstan-var array<string, mixed>
 	 */
 	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("registeredEngines"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var array
 	 *
 	 * @todo Use a default [] once Zephir supports array trait defaults
+	 *
+	 * @phpstan-var array<string, mixed>
 	 */
 	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("viewParams"), ZEND_ACC_PROTECTED);
 	phalcon_mvc_view_simple_ce->create_object = zephir_init_properties_Phalcon_Mvc_View_Simple;
@@ -109,6 +115,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Simple)
  * Phalcon\Mvc\View\Simple constructor
  *
  * @param array options
+ *
+ * @phpstan-param array<string, mixed> $options
  */
 PHP_METHOD(Phalcon_Mvc_View_Simple, __construct)
 {
@@ -357,6 +365,8 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, partial)
  *```
  *
  * @return void
+ *
+ * @phpstan-param array<string, mixed> $engines
  */
 PHP_METHOD(Phalcon_Mvc_View_Simple, registerEngines)
 {
@@ -386,6 +396,8 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, registerEngines)
  * Renders a view
  *
  * @return string
+ *
+ * @phpstan-param array<string, mixed> $params
  */
 PHP_METHOD(Phalcon_Mvc_View_Simple, render)
 {
@@ -472,6 +484,8 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, setEventsManager)
  *```
  *
  * @return static
+ *
+ * @phpstan-return static
  */
 PHP_METHOD(Phalcon_Mvc_View_Simple, setParamToView)
 {
@@ -509,6 +523,8 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, setParamToView)
  *```
  *
  * @return static
+ *
+ * @phpstan-param array<string, mixed> $params
  */
 PHP_METHOD(Phalcon_Mvc_View_Simple, setVars)
 {
@@ -587,6 +603,8 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, setViewsDir)
  * Phalcon\Mvc\View\Engine\Php
  *
  * @return array
+ *
+ * @phpstan-return array<string, EngineInterface>
  */
 PHP_METHOD(Phalcon_Mvc_View_Simple, loadTemplateEngines)
 {
@@ -658,7 +676,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, loadTemplateEngines)
 				object_init_ex(&_3$$6, phalcon_mvc_view_exceptions_simpleviewservicesunavailable_ce);
 				ZEPHIR_CALL_METHOD(NULL, &_3$$6, "__construct", NULL, 0);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_3$$6, "phalcon/Mvc/View/Simple.zep", 376);
+				zephir_throw_exception_debug(&_3$$6, "phalcon/Mvc/View/Simple.zep", 390);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -669,7 +687,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, loadTemplateEngines)
 			} else {
 				_4$$5 = &registeredEngines;
 			}
-			zephir_is_iterable(_4$$5, 0, "phalcon/Mvc/View/Simple.zep", 407);
+			zephir_is_iterable(_4$$5, 0, "phalcon/Mvc/View/Simple.zep", 421);
 			if (Z_TYPE_P(_4$$5) == IS_ARRAY) {
 				ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_4$$5), _7$$5, _8$$5, _6$$5)
 				{
@@ -703,7 +721,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, loadTemplateEngines)
 						object_init_ex(&_14$$12, phalcon_mvc_view_exceptions_invalidengineregistration_ce);
 						ZEPHIR_CALL_METHOD(NULL, &_14$$12, "__construct", &_15, 0, &extension);
 						zephir_check_call_status();
-						zephir_throw_exception_debug(&_14$$12, "phalcon/Mvc/View/Simple.zep", 402);
+						zephir_throw_exception_debug(&_14$$12, "phalcon/Mvc/View/Simple.zep", 416);
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
@@ -751,7 +769,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, loadTemplateEngines)
 							object_init_ex(&_21$$18, phalcon_mvc_view_exceptions_invalidengineregistration_ce);
 							ZEPHIR_CALL_METHOD(NULL, &_21$$18, "__construct", &_15, 0, &extension);
 							zephir_check_call_status();
-							zephir_throw_exception_debug(&_21$$18, "phalcon/Mvc/View/Simple.zep", 402);
+							zephir_throw_exception_debug(&_21$$18, "phalcon/Mvc/View/Simple.zep", 416);
 							ZEPHIR_MM_RESTORE();
 							return;
 						}
@@ -888,7 +906,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, internalRender)
 	} else {
 		_7 = &_3;
 	}
-	zephir_is_iterable(_7, 0, "phalcon/Mvc/View/Simple.zep", 462);
+	zephir_is_iterable(_7, 0, "phalcon/Mvc/View/Simple.zep", 476);
 	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_7), _9)
 	{
 		ZEPHIR_INIT_NVAR(&segment);
@@ -898,7 +916,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, internalRender)
 			_10$$6 = !ZEPHIR_IS_STRING_IDENTICAL(&segment, "..");
 		}
 		if (_10$$6) {
-			zephir_array_append(&segments, &segment, PH_SEPARATE, "phalcon/Mvc/View/Simple.zep", 458);
+			zephir_array_append(&segments, &segment, PH_SEPARATE, "phalcon/Mvc/View/Simple.zep", 472);
 		}
 	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&segment);
@@ -917,7 +935,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, internalRender)
 	} else {
 		_12 = &engines;
 	}
-	zephir_is_iterable(_12, 0, "phalcon/Mvc/View/Simple.zep", 513);
+	zephir_is_iterable(_12, 0, "phalcon/Mvc/View/Simple.zep", 527);
 	if (Z_TYPE_P(_12) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_12), _15, _16, _14)
 		{
@@ -1055,7 +1073,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, internalRender)
 		object_init_ex(&_46$$22, phalcon_mvc_view_exceptions_simpleviewnotfound_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_46$$22, "__construct", NULL, 0, &viewsDirPath);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_46$$22, "phalcon/Mvc/View/Simple.zep", 514);
+		zephir_throw_exception_debug(&_46$$22, "phalcon/Mvc/View/Simple.zep", 528);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -1646,6 +1664,8 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, getContent)
  * Returns parameters to views
  *
  * @return array
+ *
+ * @phpstan-return array<string, mixed>
  */
 PHP_METHOD(Phalcon_Mvc_View_Simple, getParamsToView)
 {
@@ -1671,6 +1691,8 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, getParamsToView)
 
 /**
  * @return array
+ *
+ * @phpstan-return array<string, mixed>
  */
 PHP_METHOD(Phalcon_Mvc_View_Simple, getRegisteredEngines)
 {

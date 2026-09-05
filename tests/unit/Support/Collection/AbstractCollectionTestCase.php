@@ -188,9 +188,6 @@ abstract class AbstractCollectionTestCase extends AbstractUnitTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     protected function getDataKeys(): array
     {
         return array_keys($this->getData());
@@ -208,9 +205,6 @@ abstract class AbstractCollectionTestCase extends AbstractUnitTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     protected function getDataValues(): array
     {
         return array_values($this->getData());

@@ -598,6 +598,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/contracts/image/imagetypes.zep.c
 	phalcon/contracts/messages/messagestypes.zep.c
 	phalcon/contracts/mvc/model/relation/cachekeyprovider.zep.c
+	phalcon/contracts/mvc/mvctypes.zep.c
 	phalcon/contracts/paginator/paginatortypes.zep.c
 	phalcon/contracts/queue/processor.zep.c
 	phalcon/contracts/queue/queuetypes.zep.c

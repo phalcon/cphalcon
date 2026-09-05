@@ -64,21 +64,29 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
 {
     /**
      * @var callable|null
+     *
+     * @phpstan-var array<array-key, mixed>|callable|null
      */
     protected activeHandler = null;
 
     /**
      * @var array
+     *
+     * @phpstan-var list<mixed>
      */
     protected afterBindingHandlers = [];
 
     /**
      * @var array
+     *
+     * @phpstan-var list<mixed>
      */
     protected afterHandlers = [];
 
     /**
      * @var array
+     *
+     * @phpstan-var list<mixed>
      */
     protected beforeHandlers = [];
 
@@ -99,11 +107,15 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
 
     /**
      * @var array
+     *
+     * @phpstan-var list<mixed>
      */
     protected finishHandlers = [];
 
     /**
      * @var array
+     *
+     * @phpstan-var array<string, array<array-key, mixed>|callable>
      */
     protected handlers = [];
 
@@ -232,6 +244,8 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      * Return the handler that will be called for the matched route
      *
      * @return callable
+     *
+     * @phpstan-return array<array-key, mixed>|callable|null
      */
     public function getActiveHandler()
     {
@@ -240,6 +254,8 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
 
     /**
      * Returns bound models from binder instance
+     *
+     * @phpstan-return array<array-key, mixed>
      */
     public function getBoundModels() -> array
     {
@@ -272,6 +288,8 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
 
     /**
      * Returns the internal handlers attached to the application
+     *
+     * @phpstan-return array<string, array<array-key, mixed>|callable>
      */
     public function getHandlers() -> array
     {
@@ -970,6 +988,8 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      * Sets externally the handler that must be called by the matched route
      *
      * @param callable activeHandler
+     *
+     * @phpstan-return static
      */
     public function setActiveHandler(activeHandler) -> <self>
     {

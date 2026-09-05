@@ -46,8 +46,6 @@ class CompilerTest extends AbstractUnitTestCase
     /**
      * Runs regardless of the test outcome, so a failing test cannot leave
      * compiled `*.volt.php` artifacts behind and poison later runs.
-     *
-     * @return void
      */
     protected function tearDown(): void
     {
@@ -331,9 +329,6 @@ FORM;
         $this->assertSame($expected, $actual);
     }
 
-    /**
-     * @return void
-     */
     private function clearFiles(): void
     {
         $this->safeDeleteFile(
@@ -383,8 +378,6 @@ FORM;
 
     /**
      * Sets up a view with relevant services
-     *
-     * @return View
      */
     private function setupServices(Di $di): View
     {

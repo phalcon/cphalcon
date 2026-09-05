@@ -47,6 +47,8 @@ interface ViewInterface extends ViewBaseInterface
 
     /**
      * Returns the path of the view that is currently rendered
+     *
+     * @phpstan-return list<string>|string
      */
     public function getActiveRenderPath() -> string | array;
 
@@ -92,11 +94,15 @@ interface ViewInterface extends ViewBaseInterface
 
     /**
      * Register templating engines
+     *
+     * @phpstan-param array<string, mixed> $engines
      */
     public function registerEngines( array engines);
 
     /**
      * Executes render process from dispatching data
+     *
+     * @phpstan-param array<string, mixed> $params
      */
     public function render( string controllerName,  string actionName, array params = []) -> <ViewInterface> | bool;
 

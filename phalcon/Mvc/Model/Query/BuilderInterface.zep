@@ -10,10 +10,16 @@
 
 namespace Phalcon\Mvc\Model\Query;
 
+use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Mvc\Model\QueryInterface;
 
 /**
  * Interface for Phalcon\Mvc\Model\Query\Builder
+ *
+ * @phpstan-import-type mvc_model_bind_params from MvcTypes
+ * @phpstan-import-type mvc_model_bind_types from MvcTypes
+ * @phpstan-import-type mvc_query_columns from MvcTypes
+ * @phpstan-import-type mvc_query_order from MvcTypes
  */
 interface BuilderInterface
 {
@@ -33,14 +39,17 @@ interface BuilderInterface
 
     /**
      * Appends a condition to the current conditions using a AND operator
+     *
+     * @phpstan-param mvc_model_bind_params $bindParams
+     * @phpstan-param mvc_model_bind_types $bindTypes
      */
     public function andWhere(string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>;
 
     /**
      * Appends a BETWEEN condition to the current conditions
      *
-     * @param mixed minimum
-     * @param mixed maximum
+     * @param mixed  $minimum
+     * @param mixed  $maximum
      */
     public function betweenWhere( string expr, minimum, maximum,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>;
 
@@ -65,15 +74,15 @@ interface BuilderInterface
      * // Array, one column per element
      * $builder->columns(
      *     [
-     *         "id",
-     *         "name",
+     *         "inv_id",
+     *         "inv_title",
      *     ]
      * );
      *
      * // Array, named keys. The name of the key acts as an alias (`AS` clause)
      * $builder->columns(
      *     [
-     *         "name",
+     *         "inv_title",
      *         "number" => "COUNT(*)",
      *     ]
      * );
@@ -114,24 +123,28 @@ interface BuilderInterface
     /**
      * Sets the models who makes part of the query
      *
-     * @param string|array models
+     * @phpstan-param mvc_query_columns $models
      */
     public function from(models) -> <BuilderInterface>;
 
     /**
      * Returns default bind params
+     *
+     * @phpstan-return mvc_model_bind_params
      */
     public function getBindParams() -> array;
 
     /**
      * Returns default bind types
+     *
+     * @phpstan-return mvc_model_bind_types
      */
     public function getBindTypes() -> array;
 
     /**
      * Return the columns to be queried
      *
-     * @return string|array
+     * @phpstan-return mvc_query_columns|null
      */
     public function getColumns();
 
@@ -143,12 +156,14 @@ interface BuilderInterface
     /**
      * Return the models who makes part of the query
      *
-     * @return string|array
+     * @phpstan-return mvc_query_columns|null
      */
     public function getFrom();
 
     /**
      * Returns the GROUP BY clause
+     *
+     * @phpstan-return array<array-key, string>
      */
     public function getGroupBy() -> array;
 
@@ -159,18 +174,22 @@ interface BuilderInterface
 
     /**
      * Return join parts of the query
+     *
+     * @phpstan-return array<array-key, mixed>
      */
     public function getJoins() -> array;
 
     /**
      * Returns the current LIMIT clause
      *
-     * @return string|array
+     * @phpstan-return array<array-key, mixed>|int|string|null
      */
     public function getLimit();
 
     /**
      * Returns the models involved in the query
+     *
+     * @phpstan-return mvc_query_columns|null
      */
     public function getModels() -> string | array | null;
 
@@ -182,7 +201,7 @@ interface BuilderInterface
     /**
      * Return the set ORDER BY clause
      *
-     * @return string|array
+     * @phpstan-return array<array-key, int|string>|string|null
      */
     public function getOrderBy();
 
@@ -199,19 +218,22 @@ interface BuilderInterface
     /**
      * Return the conditions for the query
      *
-     * @return string|array
+     * @phpstan-return array<array-key, mixed>|string|null
      */
     public function getWhere();
 
     /**
      * Sets a GROUP BY clause
      *
-     * @param string|array group
+     * @phpstan-param array<array-key, string>|string|null $group
      */
     public function groupBy(var group) -> <BuilderInterface>;
 
     /**
      * Sets a HAVING condition clause
+     *
+     * @phpstan-param mvc_model_bind_params $bindParams
+     * @phpstan-param mvc_model_bind_types $bindTypes
      */
     public function having(string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>;
 
@@ -222,16 +244,13 @@ interface BuilderInterface
 
     /**
      * Appends an IN condition to the current conditions
+     *
+     * @phpstan-param array<array-key, mixed> $values
      */
     public function inWhere( string expr,  array values,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>;
 
     /**
      * Adds an :type: join (by default type - INNER) to the query
-     *
-     * @param string model
-     * @param string conditions
-     * @param string alias
-     * @return BuilderInterface
      */
     public function join(string model, string conditions = null, string alias = null) -> <BuilderInterface>;
 
@@ -242,21 +261,18 @@ interface BuilderInterface
 
     /**
      * Sets a LIMIT clause
-     *
-     * @param int offset
      */
     public function limit(int limit, offset = null) -> <BuilderInterface>;
 
     /**
      * Appends a NOT BETWEEN condition to the current conditions
-     *
-     * @param mixed minimum
-     * @param mixed maximum
      */
     public function notBetweenWhere( string expr, minimum, maximum,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>;
 
     /**
      * Appends a NOT IN condition to the current conditions
+     *
+     * @phpstan-param array<array-key, mixed> $values
      */
     public function notInWhere( string expr,  array values,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>;
 
@@ -266,16 +282,18 @@ interface BuilderInterface
     public function offset(int offset) -> <BuilderInterface>;
 
     /**
+     * Sets an ORDER BY condition clause
+     */
+    public function orderBy(var orderBy) -> <BuilderInterface>;
+    
+    /**
      * Appends a condition to the current conditions using an OR operator
+     *
+     * @phpstan-param mvc_model_bind_params $bindParams
+     * @phpstan-param mvc_model_bind_types $bindTypes
      */
     public function orWhere(string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>;
 
-    /**
-     * Sets an ORDER BY condition clause
-     *
-     * @param array|string orderBy
-     */
-    public function orderBy(var orderBy) -> <BuilderInterface>;
 
     /**
      * Adds a RIGHT join to the query
@@ -284,16 +302,23 @@ interface BuilderInterface
 
     /**
      * Set default bind parameters
+     *
+     * @phpstan-param mvc_model_bind_params $bindParams
      */
-    public function setBindParams( array bindParams, bool merge = false) -> <BuilderInterface>;
+    public function setBindParams(array bindParams, bool merge = false) -> <BuilderInterface>;
 
     /**
      * Set default bind types
+     *
+     * @phpstan-param mvc_model_bind_types $bindTypes
      */
-    public function setBindTypes( array bindTypes, bool merge = false) -> <BuilderInterface>;
+    public function setBindTypes(array bindTypes, bool merge = false) -> <BuilderInterface>;
 
     /**
      * Sets conditions for the query
+     *
+     * @phpstan-param mvc_model_bind_params $bindParams
+     * @phpstan-param mvc_model_bind_types $bindTypes
      */
     public function where(string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>;
 

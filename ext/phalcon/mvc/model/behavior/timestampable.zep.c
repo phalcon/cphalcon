@@ -32,8 +32,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Model\Behavior\Timestampable
- *
  * Allows to automatically update a model’s attribute saving the datetime when a
  * record is created or updated
  */
@@ -87,7 +85,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify)
 	}
 	zephir_memory_observe(&field);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&field, &options, SL("field"), 0)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_behavior_exceptions_missingrequiredoption_ce, "field", "phalcon/Mvc/Model/Behavior/Timestampable.zep", 51);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_behavior_exceptions_missingrequiredoption_ce, "field", "phalcon/Mvc/Model/Behavior/Timestampable.zep", 49);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&timestamp, this_ptr, "gettimestamp", NULL, 0, &options);
@@ -100,7 +98,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify)
 		} else {
 			_1$$6 = &field;
 		}
-		zephir_is_iterable(_1$$6, 0, "phalcon/Mvc/Model/Behavior/Timestampable.zep", 64);
+		zephir_is_iterable(_1$$6, 0, "phalcon/Mvc/Model/Behavior/Timestampable.zep", 62);
 		if (Z_TYPE_P(_1$$6) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_1$$6), _3$$6)
 			{
@@ -139,6 +137,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify)
 	ZEPHIR_MM_RESTORE();
 }
 
+/**
+ * @phpstan-param array<string, mixed> $options
+ * @phpstan-return int|string
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, getTimestamp)
 {
 	zend_bool _0$$4;

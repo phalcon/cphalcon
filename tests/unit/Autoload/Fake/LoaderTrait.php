@@ -13,20 +13,12 @@ namespace Phalcon\Tests\Unit\Autoload\Fake;
 
 trait LoaderTrait
 {
-    /**
-     * @var string
-     */
     protected string $includePath = '';
 
-    /**
-     * @var array
-     */
     protected array $loaders = [];
 
     /**
      * Executed before each test
-     *
-     * @return void
      */
     public function setUp(): void
     {
@@ -41,8 +33,6 @@ trait LoaderTrait
 
     /**
      * Executed after each test
-     *
-     * @return void
      */
     public function tearDown(): void
     {

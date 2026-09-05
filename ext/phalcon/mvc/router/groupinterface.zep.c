@@ -63,6 +63,9 @@
  * // Add the group to the router
  * $router->mount($blog);
  *```
+ *
+ * @phpstan-import-type mvc_router_http_methods from MvcTypes
+ * @phpstan-import-type mvc_router_paths from MvcTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_GroupInterface)
 {
@@ -195,6 +198,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, getBeforeMatch);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, getHostname);
 /**
  * Returns the common paths defined for this group
+ *
+ * @phpstan-return mvc_router_paths|string|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, getPaths);
 /**
@@ -203,6 +208,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, getPaths);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, getPrefix);
 /**
  * Returns the routes added to the group
+ *
+ * @phpstan-return list<RouteInterface>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, getRoutes);
 /**

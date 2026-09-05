@@ -11,6 +11,7 @@
 namespace Phalcon\Mvc;
 
 use JsonSerializable;
+use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Db\Column;
 use Phalcon\Db\DialectInterface;
@@ -70,6 +71,7 @@ use Phalcon\Mvc\Model\ResultInterface;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\Resultset\Simple;
+use Phalcon\Mvc\Model\Row;
 use Phalcon\Mvc\Model\TransactionInterface;
 use Phalcon\Mvc\Model\ValidationFailed;
 use Phalcon\Mvc\ModelInterface;
@@ -133,6 +135,23 @@ use ReflectionProperty;
  * `Phalcon\Mvc\Model\Exceptions\MethodNotFound`.
  *
  * @template T of static
+ *
+ * @phpstan-import-type mvc_model_attributes from MvcTypes
+ * @phpstan-import-type mvc_model_bind_params from MvcTypes
+ * @phpstan-import-type mvc_model_bind_types from MvcTypes
+ * @phpstan-import-type mvc_model_cache_options from MvcTypes
+ * @phpstan-import-type mvc_model_data from MvcTypes
+ * @phpstan-import-type mvc_model_foreign_key from MvcTypes
+ * @phpstan-import-type mvc_model_messages from MvcTypes
+ * @phpstan-import-type mvc_model_parameters from MvcTypes
+ * @phpstan-import-type mvc_model_related from MvcTypes
+ * @phpstan-import-type mvc_model_serialized from MvcTypes
+ * @phpstan-import-type mvc_model_snapshot from MvcTypes
+ * @phpstan-import-type mvc_model_sync_related from MvcTypes
+ * @phpstan-import-type mvc_metadata_column_map from MvcTypes
+ * @phpstan-import-type mvc_hydration_column_map from MvcTypes
+ * @phpstan-import-type mvc_relation_fields from MvcTypes
+ * @phpstan-import-type mvc_relation_options from MvcTypes
  */
 abstract class Model extends AbstractInjectionAware implements EntityInterface, ModelInterface, ResultInterface, JsonSerializable
 {
@@ -176,11 +195,15 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
     /**
      * @var array
+     *
+     * @phpstan-var mvc_model_related
      */
     protected dirtyRelated = [];
 
     /**
      * @var array
+     *
+     * @phpstan-var mvc_model_messages
      */
     protected errorMessages = [];
 
@@ -196,6 +219,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
     /**
      * @var array
+     *
+     * @phpstan-var mvc_model_related
      */
     protected related = [];
 
@@ -206,11 +231,15 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
     /**
      * @var array
+     *
+     * @phpstan-var mvc_model_snapshot
      */
     protected oldSnapshot = [];
 
     /**
      * @var array
+     *
+     * @phpstan-var array<string, mixed>
      */
     protected rawValues = [];
 
@@ -221,6 +250,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
     /**
      * @var array
+     *
+     * @phpstan-var mvc_model_snapshot
      */
     protected snapshot = [];
 
@@ -229,6 +260,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * alias (or "*" wildcard) => bool. Cleared after each save().
      *
      * @var array
+     *
+     * @phpstan-var mvc_model_sync_related
      */
     protected syncRelated = [];
 
@@ -244,11 +277,15 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
     /**
      * @var array
+     *
+     * @phpstan-var mvc_model_bind_params
      */
     protected uniqueParams = [];
 
     /**
      * @var array
+     *
+     * @phpstan-var mvc_model_bind_types
      */
     protected uniqueTypes = [];
 
@@ -258,6 +295,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * hydration - see getPrivateProperties()
      *
      * @var array
+     *
+     * @phpstan-var array<class-string, array<string, \ReflectionProperty>>
      */
     private static privatePropertiesCache = [];
 
@@ -320,6 +359,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @return mixed
      * @throws \Phalcon\Mvc\Model\Exception If the method does not exist
+     *
+     * @phpstan-param list<mixed> $arguments
      */
     public function __call(string method, array arguments)
     {
@@ -363,6 +404,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @return mixed
      * @throws \Phalcon\Mvc\Model\Exception If the method does not exist
+     *
+     * @phpstan-param list<mixed> $arguments
+     * @phpstan-return int|ResultsetInterface|Row|static|null
      */
     public static function __callStatic(string method, array arguments)
     {
@@ -485,6 +529,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
     /**
      * Serializes a model
+     *
+     * @phpstan-return mvc_model_serialized
      */
     public function __serialize() -> array
     {
@@ -668,6 +714,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
     /**
      * Unserializes an array to the model
+     *
+     * @phpstan-param array<string, mixed> $data
      */
     public function __unserialize(array data) -> void
     {
@@ -872,6 +920,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * @param mixed dataColumnMap Array to transform keys of data to another
      *
      * @return ModelInterface
+     *
+     * @phpstan-param mvc_model_data $data
      */
     public function assign( array data, var whiteList = null, var dataColumnMap = null) -> <ModelInterface>
     {
@@ -986,6 +1036,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @param array parameters
      * @return float | ResultsetInterface
+     *
+     * @phpstan-param mvc_model_parameters $parameters
      */
     public static function average(array parameters = []) -> float | <ResultsetInterface>
     {
@@ -1017,6 +1069,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     ]
      * );
      *```
+     *
+     * @phpstan-param mvc_model_data $data
      */
     public static function cloneResult(<ModelInterface> base,  array data, int dirtyState = 0) -> <ModelInterface>
     {
@@ -1080,6 +1134,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * @param bool keepSnapshots
      *
      * @return ModelInterface
+     *
+     * @phpstan-param mvc_model_data $data
      */
     public static function cloneResultMap(
         var base,
@@ -1338,6 +1394,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * @param int hydrationMode
      *
      * @return mixed
+     *
+     * @phpstan-param mvc_model_data $data
      */
     public static function cloneResultMapHydrate( array data, var columnMap, int hydrationMode)
     {
@@ -1349,6 +1407,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * related records along with freshly added one
      *
      * @return array Related records that should be saved
+     *
+     * @phpstan-return mvc_model_related
      */
     protected function collectRelatedToSave() -> array
     {
@@ -1405,6 +1465,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * ```
      *
      * @param array|string|null parameters
+     *
+     * @phpstan-param mvc_model_parameters|string|null $parameters
      */
     public static function count(var parameters = null) -> int | <ResultsetInterface>
     {
@@ -1672,6 +1734,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     $invoice->dump()
      * );
      *```
+     *
+     * @phpstan-return array<string, mixed>
      */
     public function dump() -> array
     {
@@ -1855,6 +1919,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     'hydration' => null
      * ]
      * @return \Phalcon\Mvc\Model\Resultset<int, T>
+     *
+     * @phpstan-param mvc_model_parameters|int|string|null $parameters
      */
     public static function find(var parameters = null) -> <ResultsetInterface>
     {
@@ -1983,6 +2049,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * ]
      *
      * @return T|\Phalcon\Mvc\Model\Row|null
+     *
+     * @phpstan-param mvc_model_parameters|scalar|null $parameters
      */
     public static function findFirst(var parameters = null) -> var | null
     {
@@ -2088,6 +2156,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * $invoices->getChangedFields();
      * print_r($invoices->getChangedFields()); // ["deleted"]
      * ```
+     *
+     * @phpstan-return list<string>
      */
     public function getChangedFields() -> array
     {
@@ -2200,6 +2270,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     echo "Great, a new invoice was saved successfully!";
      * }
      * ```
+     *
+     * @phpstan-return mvc_model_messages
      */
     public function getMessages(var filter = null) -> <MessageInterface[]>
     {
@@ -2277,6 +2349,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
     /**
      * Returns the internal old snapshot data
+     *
+     * @phpstan-return mvc_model_snapshot
      */
     public function getOldSnapshotData() -> array
     {
@@ -2425,6 +2499,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
     /**
      * Returns the internal snapshot data
+     *
+     * @phpstan-return mvc_model_snapshot
      */
     public function getSnapshotData() -> array
     {
@@ -2454,6 +2530,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * print_r($invoices->getChangedFields()); // []
      * print_r($invoices->getUpdatedFields()); // ["deleted"]
      * ```
+     *
+     * @phpstan-return list<string>
      */
     public function getUpdatedFields() -> array
     {
@@ -2539,6 +2617,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @param string|array fieldName
      * @param boolean allFields
+     *
+     * @phpstan-param list<string>|string|null $fieldName
      */
     public function hasChanged(var fieldName = null, bool allFields = false) -> bool
     {
@@ -2606,12 +2686,14 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     }
 
     /**
-    * Serializes the object for json_encode
-    *
+     * Serializes the object for json_encode
+     *
     *```php
-    * echo json_encode($invoice);
+     * echo json_encode($invoice);
     *```
-    */
+     *
+     * @phpstan-return array<string, mixed>
+     */
     public function jsonSerialize() -> array
     {
         return this->toArray();
@@ -2644,6 +2726,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @param array parameters
      * @return mixed
+     *
+     * @phpstan-param mvc_model_parameters|string|null $parameters
      */
     public static function maximum(var parameters = null) -> var
     {
@@ -2676,6 +2760,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * ```
      *
      * @param array parameters
+     *
+     * @phpstan-param mvc_model_parameters|string|null $parameters
      */
     public static function minimum(parameters = null) -> var
     {
@@ -2861,6 +2947,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * @param CollectionInterface $visited
      *
      * @return bool
+     *
+     * @phpstan-param CollectionInterface<mixed> $visited
      */
     public function doSave(<CollectionInterface> visited) -> bool
     {
@@ -3233,6 +3321,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @param array data
      * @param array columnMap
+     *
+     * @phpstan-param array<string, mixed> $data
+     * @phpstan-param mvc_hydration_column_map|null $columnMap
      */
     public function setOldSnapshotData( array data, columnMap = null)
     {
@@ -3306,6 +3397,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * set up to keep snapshot data
      *
      * @param array columnMap
+     *
+     * @phpstan-param mvc_model_data $data
      */
     public function setSnapshotData( array data, columnMap = null) -> void
     {
@@ -3387,6 +3480,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *```
      *
      * @param string|array|null elements
+     *
+     * @phpstan-param array<array-key, mixed> $elements
      */
     public function setSync(var elements = null, bool enabled = true) -> <ModelInterface>
     {
@@ -3470,6 +3565,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * Call this once during bootstrap; it is not per-model or per-container
      * configuration, and one application's `setup()` reconfigures the ORM for
      * every other user in the same process.
+     *
+     * @phpstan-param array<string, mixed> $options
      */
     public static function setup( array options) -> void
     {
@@ -3621,6 +3718,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @param array parameters
      * @return double | ResultsetInterface
+     *
+     * @phpstan-param mvc_model_parameters|string|null $parameters
      */
     public static function sum(var parameters = null) -> float | <ResultsetInterface>
     {
@@ -3649,6 +3748,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *```
      *
      * @param array $columns
+     *
+     * @phpstan-return array<string, mixed>
      */
     public function toArray(columns = null, useGetter = true) -> array
     {
@@ -4898,6 +4999,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * @param array  arguments
      *
      * @return ResultsetInterface|ModelInterface|bool|null
+     *
+     * @phpstan-param list<mixed> $arguments
      */
     protected function getRelatedRecords( string modelName,  string method,  array arguments)
     {
@@ -5064,6 +5167,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * Try to check if the query must invoke a finder
      *
      * @return ModelInterface[]|ModelInterface|bool
+     *
+     * @phpstan-param array<array-key, mixed> $arguments
+     * @phpstan-return false|int|ResultsetInterface|Row|static|null
      */
     protected final static function invokeFinder(string method, array arguments)
     {
@@ -5468,6 +5574,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * @param ModelInterface[] related
      * @param CollectionInterface visited
      * @return bool
+     *
+     * @phpstan-param CollectionInterface<mixed> $visited
      */
 
     protected function preSaveRelatedRecords(<AdapterInterface> connection, related, <CollectionInterface> visited) -> bool
@@ -5576,6 +5684,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * @param ModelInterface[] related
      * @param CollectionInterface visited
      * @return bool
+     *
+     * @phpstan-param CollectionInterface<mixed> $visited
      */
     protected function postSaveRelatedRecords(<AdapterInterface> connection, related, <CollectionInterface> visited) -> bool
     {
@@ -5916,6 +6026,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     }
      * }
      *```
+     *
+     * @phpstan-param mvc_model_attributes $attributes
      */
     protected function allowEmptyStringValues( array attributes) -> void
     {
@@ -5988,6 +6100,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *         'hydration' => null
      *     ]
      * ]
+     *
+     * @phpstan-param mvc_relation_options $options
      */
     protected function belongsTo(var fields,  string referenceModel, var referencedFields, array options = []) -> <Relation>
     {
@@ -6002,6 +6116,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
     /**
      * shared prepare query logic for find and findFirst method
+     *
+     * @phpstan-param object $resultset
+     * @phpstan-param mvc_model_parameters $params
      */
     private static function loadEager(
         var resultset,
@@ -6037,6 +6154,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
     /**
      * shared prepare query logic for find and findFirst method
+     *
+     * @phpstan-param int|null $limit
      */
     private static function getPreparedQuery(var params, var limit = null) -> <QueryInterface>
     {
@@ -6135,6 +6254,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *         'hydration' => null
      *     ]
      * ]
+     *
+     * @phpstan-param mvc_relation_options $options
+     * @phpstan-param mvc_relation_fields $referencedFields
      */
     protected function hasMany(var fields,  string referenceModel, var referencedFields, array options = []) -> <Relation>
     {
@@ -6201,6 +6323,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *         'hydration' => null
      *     ]
      * ]
+     *
+     * @phpstan-param mvc_relation_options $options
+     * @phpstan-param mvc_relation_fields $intermediateFields
+     * @phpstan-param mvc_relation_fields $intermediateReferencedFields
      */
     protected function hasManyToMany(
         var fields,
@@ -6267,6 +6393,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *         'hydration' => null
      *     ]
      * ]
+     *
+     * @phpstan-param mvc_relation_options $options
      */
     protected function hasOne(var fields,  string referenceModel, var referencedFields, array options = []) -> <Relation>
     {
@@ -6306,6 +6434,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * @param    string|array $intermediateReferencedFields
      * @param    string|array $referencedFields
      * @param    array $options
+     *
+     * @phpstan-param mvc_relation_options $options
+     * @phpstan-param mvc_relation_fields $intermediateFields
+     * @phpstan-param mvc_relation_fields $intermediateReferencedFields
      */
     protected function hasOneThrough(var fields,  string intermediateModel, var intermediateFields, var intermediateReferencedFields,
          string referenceModel, var referencedFields, array options = []) -> <Relation>
@@ -6385,6 +6517,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     }
      * }
      *```
+     *
+     * @phpstan-param mvc_model_attributes $attributes
      */
     protected function skipAttributes( array attributes) -> void
     {
@@ -6409,6 +6543,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     }
      * }
      *```
+     *
+     * @phpstan-param mvc_model_attributes $attributes
      */
     protected function skipAttributesOnCreate( array attributes) -> void
     {
@@ -6444,6 +6580,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     }
      * }
      *```
+     *
+     * @phpstan-param mvc_model_attributes $attributes
      */
     protected function skipAttributesOnUpdate( array attributes) -> void
     {
@@ -6607,6 +6745,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * database value instead.
      *
      * @see https://github.com/phalcon/cphalcon/issues/16454
+     *
+     * @phpstan-param class-string $className
      */
     private static function getPrivateProperties(string className) -> array
     {

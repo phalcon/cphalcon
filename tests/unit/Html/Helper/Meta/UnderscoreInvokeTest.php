@@ -21,9 +21,6 @@ use const PHP_EOL;
 
 final class UnderscoreInvokeTest extends AbstractUnitTestCase
 {
-    /**
-     * @return array
-     */
     public static function getExamples(): array
     {
         return [

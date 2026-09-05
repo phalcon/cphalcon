@@ -35,18 +35,17 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Transaction_Failed)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Transaction, Failed, phalcon, mvc_model_transaction_failed, phalcon_mvc_model_transaction_exception_ce, phalcon_mvc_model_transaction_failed_method_entry, 0);
 
-	/**
-	 * @var ModelInterface|null
-	 */
-	zend_declare_property_null(phalcon_mvc_model_transaction_failed_ce, SL("record"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_mvc_model_transaction_failed_ce, SL("record"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_NULL, SL("Phalcon\\Mvc\\ModelInterface"));
+	}
+
 	return SUCCESS;
 }
 
 /**
- * Phalcon\Mvc\Model\Transaction\Failed constructor
- *
- * @param string message
- * @param ModelInterface|null record
+ * Constructor
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct)
 {
@@ -89,8 +88,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct)
 
 /**
  * Returns validation record messages which stop the transaction
- *
- * @return ModelInterface|null
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecord)
 {

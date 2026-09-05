@@ -10,11 +10,18 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Mvc\Router\GroupInterface;
 use Phalcon\Mvc\Router\RouteInterface;
 
 /**
  * Interface for Phalcon\Mvc\Router
+ *
+ * @phpstan-import-type mvc_router_defaults from MvcTypes
+ * @phpstan-import-type mvc_router_http_methods from MvcTypes
+ * @phpstan-import-type mvc_router_matches from MvcTypes
+ * @phpstan-import-type mvc_router_params from MvcTypes
+ * @phpstan-import-type mvc_router_paths from MvcTypes
  */
 interface RouterInterface
 {
@@ -162,6 +169,8 @@ interface RouterInterface
 
     /**
      * Return the sub expressions in the regular expression matched
+     *
+     * @phpstan-return mvc_router_matches
      */
     public function getMatches() -> array;
 
@@ -177,6 +186,8 @@ interface RouterInterface
 
     /**
      * Returns processed extra params
+     *
+     * @phpstan-return mvc_router_params
      */
     public function getParams() -> array;
 
@@ -235,6 +246,8 @@ interface RouterInterface
 
     /**
      * Sets an array of default paths
+     *
+     * @phpstan-param mvc_router_defaults $defaults
      */
     public function setDefaults( array defaults) -> <RouterInterface>;
 

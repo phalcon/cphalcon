@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Di\DiInterface;
 use Phalcon\Messages\MessageInterface;
@@ -26,6 +27,10 @@ use Phalcon\Mvc\Model\TransactionInterface;
  * Interface for Phalcon\Mvc\Model
  *
  * @template T
+ *
+ * @phpstan-import-type mvc_model_data from MvcTypes
+ * @phpstan-import-type mvc_model_parameters from MvcTypes
+ * @phpstan-import-type mvc_model_snapshot from MvcTypes
  */
 interface ModelInterface
 {
@@ -42,6 +47,8 @@ interface ModelInterface
      * @param mixed dataColumnMap Array to transform keys of data to another
      *
      * @return ModelInterface
+     *
+     * @phpstan-param mvc_model_data $data
      */
     public function assign( array data, var whiteList = null, var dataColumnMap = null) -> <ModelInterface>;
 
@@ -51,11 +58,15 @@ interface ModelInterface
      *
      * @param array parameters
      * @return ResultsetInterface|float
+     *
+     * @phpstan-param mvc_model_parameters $parameters
      */
     public static function average(array parameters = []) -> float | <ResultsetInterface>;
 
     /**
      * Assigns values to a model from an array returning a new model
+     *
+     * @phpstan-param mvc_model_data $data
      */
     public static function cloneResult(<ModelInterface> base,  array data, int dirtyState = 0) -> <ModelInterface>;
 
@@ -68,6 +79,8 @@ interface ModelInterface
      * @param bool keepSnapshots
      *
      * @return ModelInterface
+     *
+     * @phpstan-param mvc_model_data $data
      */
     public static function cloneResultMap(
         var base,
@@ -81,6 +94,8 @@ interface ModelInterface
      * Returns an hydrated result based on the data and the column map
      *
      * @param array columnMap
+     *
+     * @phpstan-param mvc_model_data $data
      */
     public static function cloneResultMapHydrate( array data, var columnMap, int hydrationMode);
 
@@ -92,6 +107,8 @@ interface ModelInterface
      * contain the count of each group.
      *
      * @param array|string|null parameters
+     *
+     * @phpstan-param mvc_model_parameters $parameters
      */
     public static function count(var parameters = null) -> int | <ResultsetInterface>;
 
@@ -265,6 +282,8 @@ interface ModelInterface
      * snapshot data when the model was set up to keep snapshot data
      *
      * @param array columnMap
+     *
+     * @phpstan-param mvc_model_data $data
      */
     public function setSnapshotData( array data, columnMap = null) -> void;
 
@@ -273,6 +292,8 @@ interface ModelInterface
      * on the next save() call.
      *
      * @param string|array|null elements
+     *
+     * @phpstan-param mvc_model_data $elements
      */
     public function setSync(var elements = null, bool enabled = true) -> <ModelInterface>;
 

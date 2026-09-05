@@ -24,15 +24,10 @@ final class MysqlTest extends AbstractDatabaseTestCase
     private const CHILD  = 'foreign_key_child';
     private const PARENT = 'foreign_key_parent';
 
-    /**
-     * @var Mysql|null
-     */
     private ?Mysql $connection = null;
 
     /**
      * Executed before each test
-     *
-     * @return void
      */
     public function setUp(): void
     {
@@ -107,13 +102,6 @@ final class MysqlTest extends AbstractDatabaseTestCase
         ];
     }
 
-    /**
-     * @param string $foreignKeyName
-     * @param string $onUpdate
-     * @param string $onDelete
-     *
-     * @return string
-     */
     private static function addForeignKeySql(
         string $foreignKeyName = '',
         string $onUpdate = '',
@@ -138,11 +126,6 @@ final class MysqlTest extends AbstractDatabaseTestCase
         return $sql;
     }
 
-    /**
-     * @param string $foreignKeyName
-     *
-     * @return string
-     */
     private static function getForeignKeySql(string $foreignKeyName): string
     {
         return "SELECT

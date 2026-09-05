@@ -33,8 +33,6 @@ class DispatcherCoverageTest extends BaseDispatcher
      *
      * When the action throws and the beforeException listener does not return
      * false, the exception is re-thrown at L617.
-     *
-     * @return void
      */
     public function testActionExceptionBubbles(): void
     {
@@ -53,8 +51,6 @@ class DispatcherCoverageTest extends BaseDispatcher
      *
      * When the action throws and beforeException returns false, handleException
      * returns false → the continue at L614 is executed.
-     *
-     * @return void
      */
     public function testActionExceptionSuppressedByContinue(): void
     {
@@ -91,8 +87,6 @@ class DispatcherCoverageTest extends BaseDispatcher
      * When the beforeNotFoundAction event forwards to a valid action, finished
      * becomes false and the continue at L394 causes the loop to restart with
      * the new action.
-     *
-     * @return void
      */
     public function testActionNotFoundBeforeNotFoundEventForwards(): void
     {
@@ -125,8 +119,6 @@ class DispatcherCoverageTest extends BaseDispatcher
      * When the beforeNotFoundAction event returns false, the loop continues
      * with $this->finished still true, which causes the while condition to
      * fail and dispatch() returns the loaded handler.
-     *
-     * @return void
      */
     public function testActionNotFoundBeforeNotFoundEventReturnsFalse(): void
     {
@@ -152,8 +144,6 @@ class DispatcherCoverageTest extends BaseDispatcher
      *
      * When beforeException returns false and $this->finished is true,
      * dispatch() reaches the break at L412.
-     *
-     * @return void
      */
     public function testActionNotFoundExceptionSuppressedBreaks(): void
     {
@@ -178,8 +168,6 @@ class DispatcherCoverageTest extends BaseDispatcher
      *
      * When beforeException returns false AND forwards (finished=false), dispatch
      * hits the continue at L408-409 and the next iteration completes normally.
-     *
-     * @return void
      */
     public function testActionNotFoundExceptionSuppressedForwardContinues(): void
     {
@@ -210,8 +198,6 @@ class DispatcherCoverageTest extends BaseDispatcher
      *
      * When the dispatch:afterBinding event forwards (finished=false) the
      * continue at L571 is executed; the next iteration completes normally.
-     *
-     * @return void
      */
     public function testAfterBindingEventForwards(): void
     {
@@ -241,8 +227,6 @@ class DispatcherCoverageTest extends BaseDispatcher
      * When the dispatch:afterBinding event listener returns false, the continue
      * at L564 is executed and (with finished=true) the loop exits returning the
      * loaded handler.
-     *
-     * @return void
      */
     public function testAfterBindingEventReturnsFalse(): void
     {
@@ -267,8 +251,6 @@ class DispatcherCoverageTest extends BaseDispatcher
      * When the controller's afterBinding() method forwards (sets finished=false),
      * the continue at L586-587 causes the loop to restart and dispatch the
      * forwarded action.
-     *
-     * @return void
      */
     public function testAfterBindingMethodForwards(): void
     {
@@ -288,8 +270,6 @@ class DispatcherCoverageTest extends BaseDispatcher
      *
      * When the controller's afterBinding() method returns false, dispatch()
      * continues (loop exits because finished=true) and returns the handler.
-     *
-     * @return void
      */
     public function testAfterBindingMethodReturnsFalse(): void
     {
@@ -310,8 +290,6 @@ class DispatcherCoverageTest extends BaseDispatcher
      *
      * When the beforeException listener returns false the exception is not
      * thrown and dispatch() reaches the break at L295.
-     *
-     * @return void
      */
     public function testCyclicRoutingEventReturnsFalse(): void
     {
@@ -340,8 +318,6 @@ class DispatcherCoverageTest extends BaseDispatcher
      *
      * The dispatcher forwards on every beforeDispatch event; after 256
      * iterations it detects the cycle and throws EXCEPTION_CYCLIC_ROUTING.
-     *
-     * @return void
      */
     public function testCyclicRoutingExceptionThrown(): void
     {
@@ -369,8 +345,6 @@ class DispatcherCoverageTest extends BaseDispatcher
      *
      * When the beforeException listener returns false and $this->finished is
      * still true, dispatch() reaches the break at L368 and exits the loop.
-     *
-     * @return void
      */
     public function testInvalidHandlerEventReturnsFalseBreak(): void
     {
@@ -404,8 +378,6 @@ class DispatcherCoverageTest extends BaseDispatcher
      *
      * When beforeException returns false AND forwards (finished=false), dispatch
      * hits the continue at L365 and the next iteration loads a valid controller.
-     *
-     * @return void
      */
     public function testInvalidHandlerExceptionSuppressedForwardContinues(): void
     {
@@ -450,8 +422,6 @@ class DispatcherCoverageTest extends BaseDispatcher
 
     /**
      * Tests invalid handler (not an object) - exception thrown path (L359-362).
-     *
-     * @return void
      */
     public function testInvalidHandlerExceptionThrown(): void
     {
@@ -481,8 +451,6 @@ class DispatcherCoverageTest extends BaseDispatcher
      *
      * When $this->modelBinding is true, the model binder is invoked to
      * potentially replace the dispatched parameters before action execution.
-     *
-     * @return void
      */
     public function testModelBindingBlockExecuted(): void
     {

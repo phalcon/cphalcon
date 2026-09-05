@@ -46,9 +46,6 @@ final class GetSetHostnameTest extends AbstractUnitTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     public static function getHostnameRoutesRegex(): array
     {
         return [

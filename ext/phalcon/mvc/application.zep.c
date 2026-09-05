@@ -537,6 +537,8 @@ PHP_METHOD(Phalcon_Mvc_Application, sendCookiesOnHandleRequest)
 
 /**
  * Enables or disables sending headers by each request handling
+ *
+ * @phpstan-return static
  */
 PHP_METHOD(Phalcon_Mvc_Application, sendHeadersOnHandleRequest)
 {
@@ -566,6 +568,8 @@ PHP_METHOD(Phalcon_Mvc_Application, sendHeadersOnHandleRequest)
 /**
  * By default. The view is implicitly buffering all the output
  * You can full disable the view component using this method
+ *
+ * @phpstan-return static
  */
 PHP_METHOD(Phalcon_Mvc_Application, useImplicitView)
 {

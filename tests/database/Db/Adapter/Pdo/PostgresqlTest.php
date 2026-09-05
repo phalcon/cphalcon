@@ -27,8 +27,6 @@ final class PostgresqlTest extends AbstractDatabaseTestCase
 
     /**
      * Executed before each test
-     *
-     * @return void
      */
     public function setUp(): void
     {
@@ -69,11 +67,6 @@ final class PostgresqlTest extends AbstractDatabaseTestCase
         ];
     }
 
-    /**
-     * @param string $foreignKeyName
-     *
-     * @return string
-     */
     private static function getForeignKeySql(string $foreignKeyName): string
     {
         $sql = rtrim(

@@ -17,5 +17,4 @@ namespace Phalcon\Mvc\Url;
  */
 class Exception extends \Exception
 {
-
 }

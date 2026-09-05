@@ -68,7 +68,7 @@ use SeekableIterator;
  *     $invoices->next();
  * }
  * ```
- * @template TKey
+ * @template TKey of int
  * @template TValue
  * @implements Iterator<TKey, TValue>
  * @implements ArrayAccess<TKey, TValue>
@@ -118,6 +118,8 @@ abstract class Resultset
 
     /**
      * @var array
+     *
+     * @phpstan-var array<array-key, MessageInterface>
      */
     protected errorMessages = [];
 
@@ -143,6 +145,8 @@ abstract class Resultset
 
     /**
      * @var array|null
+     *
+     * @phpstan-var array<array-key, mixed>|null
      */
     protected rows = null;
 
@@ -150,6 +154,8 @@ abstract class Resultset
      * Phalcon\Db\ResultInterface or false for empty resultset
      *
      * @var ResultInterface|bool
+     *
+     * @phpstan-var bool|\Phalcon\Contracts\Db\Result|null
      */
     protected result;
 
@@ -158,6 +164,8 @@ abstract class Resultset
      *
      * @param ResultInterface|false $result
      * @param mixed|null            $cache
+     *
+     * @phpstan-param \Phalcon\Contracts\Db\Result|false|null $result
      */
     public function __construct(var result, var cache = null)
     {
@@ -231,6 +239,8 @@ abstract class Resultset
 
     /**
      * Counts how many rows are in the resultset
+     *
+     * @phpstan-return int
      */
     final public function count() -> int
     {
@@ -337,6 +347,8 @@ abstract class Resultset
      *     }
      * );
      *```
+     *
+     * @phpstan-return list<array<array-key, mixed>|object>
      */
     public function filter(callable filter) -> <ModelInterface[]>
     {
@@ -450,6 +462,8 @@ abstract class Resultset
 
     /**
      * Returns the error messages produced by a batch operation
+     *
+     * @phpstan-return array<array-key, MessageInterface>
      */
     public function getMessages() -> <MessageInterface[]>
     {
@@ -481,6 +495,8 @@ abstract class Resultset
      *
      * echo json_encode($invoices);
      *```
+     *
+     * @phpstan-return array<array-key, mixed>
      */
     public function jsonSerialize() -> array
     {
@@ -586,6 +602,8 @@ abstract class Resultset
 
     /**
      * Checks whether offset exists in the resultset
+     *
+     * @phpstan-param int $index
      */
     public function offsetExists(var index) -> bool
     {
@@ -594,6 +612,8 @@ abstract class Resultset
 
     /**
      * Gets row in a specific position of the resultset
+     *
+     * @phpstan-param int $index
      */
     public function offsetGet(mixed index) -> mixed
     {
@@ -639,6 +659,8 @@ abstract class Resultset
     /**
      * Changes the internal pointer to a specific position in the resultset.
      * Set the new position if required, and then set this->row
+     *
+     * @phpstan-param int $position
      */
     final public function seek(var position) -> void
     {
@@ -730,6 +752,8 @@ abstract class Resultset
      * Updates every record in the resultset
      *
      * @param array data
+     *
+     * @phpstan-param array<array-key, mixed> $data
      */
     public function update(var data, <Closure> conditionCallback = null) -> bool
     {

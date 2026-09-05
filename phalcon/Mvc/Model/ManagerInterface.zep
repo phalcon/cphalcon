@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
@@ -19,6 +20,11 @@ use Phalcon\Mvc\Model\Query\StatusInterface;
  * Phalcon\Mvc\Model\ManagerInterface
  *
  * Interface for Phalcon\Mvc\Model\Manager
+ *
+ * @phpstan-import-type mvc_model_bind_params from MvcTypes
+ * @phpstan-import-type mvc_model_bind_types from MvcTypes
+ * @phpstan-import-type mvc_model_parameters from MvcTypes
+ * @phpstan-import-type mvc_relation_options from MvcTypes
  */
 interface ManagerInterface
 {
@@ -36,6 +42,8 @@ interface ManagerInterface
      * @param    mixed  fields
      * @param    mixed  referencedFields
      * @param    array  options
+     *
+     * @phpstan-param mvc_relation_options $options
      */
     public function addBelongsTo(
         <ModelInterface> model,
@@ -51,6 +59,8 @@ interface ManagerInterface
      * @param    mixed  fields
      * @param    mixed  referencedFields
      * @param    array  options
+     *
+     * @phpstan-param mvc_relation_options $options
      */
     public function addHasMany(
         <ModelInterface> model,
@@ -68,6 +78,8 @@ interface ManagerInterface
      * @param    string intermediateReferencedFields
      * @param    string referencedFields
      * @param   array options
+     *
+     * @phpstan-param mvc_relation_options $options
      */
     public function addHasManyToMany(
         <ModelInterface> model,
@@ -86,6 +98,8 @@ interface ManagerInterface
      * @param    mixed  fields
      * @param    mixed  referencedFields
      * @param    array  options
+     *
+     * @phpstan-param mvc_relation_options $options
      */
     public function addHasOne(
         <ModelInterface> model,
@@ -103,6 +117,8 @@ interface ManagerInterface
      * @param    string intermediateReferencedFields
      * @param    string referencedFields
      * @param   array options
+     *
+     * @phpstan-param mvc_relation_options $options
      */
     public function addHasOneThrough(
         <ModelInterface> model,

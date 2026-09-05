@@ -25,9 +25,6 @@ use User\TestClassNs;
 #[RequiresPhpExtension('apcu')]
 final class ApcuTest extends AbstractUnitTestCase
 {
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();

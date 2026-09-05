@@ -21,9 +21,6 @@ final class IsExactControllerNameTest extends AbstractUnitTestCase
 {
     use DiTrait;
 
-    /**
-     * @return void
-     */
     public function setUp(): void
     {
         parent::setUp();

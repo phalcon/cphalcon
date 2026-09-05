@@ -48,9 +48,6 @@ final class FindFirstTest extends AbstractDatabaseTestCase
         (new InvoicesMigration($connection));
     }
 
-    /**
-     * @return array
-     */
     public static function findFirstProvider(): array
     {
         return [

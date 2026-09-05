@@ -28,11 +28,11 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Model\MetaData\Libmemcached
- *
  * Stores model meta-data in the Memcache.
  *
  * By default meta-data is stored for 48 hours (172800 seconds)
+ *
+ * @phpstan-import-type storage_adapter_options from StorageTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Libmemcached)
 {
@@ -44,7 +44,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Libmemcached)
 /**
  * Phalcon\Mvc\Model\MetaData\Libmemcached constructor
  *
- * @param array options
+ * @param array<string, mixed> $options
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, __construct)
 {

@@ -29,10 +29,6 @@ class FakeCryptFunctionExistsTwice extends Crypt
     /**
      * Return true if the given function has been defined
      *
-     * @param string $function
-     *
-     * @return bool
-     *
      * @link https://php.net/manual/en/function.function-exists.php
      */
     protected static function phpFunctionExists(string $function): bool

@@ -17,10 +17,6 @@ use Phalcon\Acl\ComponentAwareInterface;
 
 class TestComponentAware implements ComponentAwareInterface
 {
-    /**
-     * @param int    $user
-     * @param string $resourceName
-     */
     public function __construct(
         protected int $user,
         protected string $resourceName
@@ -32,9 +28,6 @@ class TestComponentAware implements ComponentAwareInterface
         return $this->resourceName;
     }
 
-    /**
-     * @return int
-     */
     public function getUser(): int
     {
         return $this->user;

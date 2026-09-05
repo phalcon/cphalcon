@@ -29,15 +29,10 @@ final class CountTest extends AbstractDatabaseTestCase
     use DiTrait;
     use RecordsTrait;
 
-    /**
-     * @var InvoicesMigration
-     */
     private InvoicesMigration $invoiceMigration;
 
     /**
      * Executed before each test
-     *
-     * @return void
      */
     public function setUp(): void
     {
@@ -233,11 +228,6 @@ final class CountTest extends AbstractDatabaseTestCase
         }
     }
 
-    /**
-     * @param string $invId
-     *
-     * @return void
-     */
     private function seed(string $invId): void
     {
         $this->insertDataInvoices($this->invoiceMigration, 7, $invId, 2, 'ccc');

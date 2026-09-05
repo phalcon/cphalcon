@@ -23,8 +23,6 @@ final class SetSignKeyTest extends AbstractHttpBase
 
     /**
      * Executed before each test
-     *
-     * @return void
      */
     public function setUp(): void
     {

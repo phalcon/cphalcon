@@ -44,6 +44,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, commit);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, getConnection);
 /**
  * Returns validations messages from last save try
+ *
+ * @phpstan-return array<array-key, mixed>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, getMessages);
 /**

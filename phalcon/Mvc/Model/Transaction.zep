@@ -12,6 +12,7 @@ namespace Phalcon\Mvc\Model;
 
 use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Di\DiInterface;
+use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Transaction\Failed as TxFailed;
 use Phalcon\Mvc\Model\Transaction\ManagerInterface;
@@ -83,6 +84,8 @@ class Transaction implements TransactionInterface
 
     /**
      * @var array
+     *
+     * @phpstan-var list<MessageInterface>
      */
     protected messages = [];
 
@@ -161,6 +164,8 @@ class Transaction implements TransactionInterface
 
     /**
      * Returns validations messages from last save try
+     *
+     * @phpstan-return list<MessageInterface>
      */
     public function getMessages() -> array
     {

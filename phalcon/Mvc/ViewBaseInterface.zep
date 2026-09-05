@@ -24,11 +24,15 @@ interface ViewBaseInterface
 
     /**
      * Returns parameters to views
+     *
+     * @phpstan-return array<string, mixed>
      */
     public function getParamsToView() -> array;
 
     /**
      * Gets views directory
+     *
+     * @phpstan-return list<string>|string
      */
     public function getViewsDir() -> string | array;
 

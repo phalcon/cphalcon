@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc\Model\Query;
 
+use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Db\Column;
 use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
@@ -58,99 +59,83 @@ use Phalcon\Support\Settings;
  *
  * $queryBuilder = new \Phalcon\Mvc\Model\Query\Builder($params);
  *```
+ *
+ * @phpstan-import-type mvc_model_bind_params from MvcTypes
+ * @phpstan-import-type mvc_model_bind_types from MvcTypes
+ * @phpstan-import-type mvc_query_builder_join from MvcTypes
+ * @phpstan-import-type mvc_query_builder_params from MvcTypes
+ * @phpstan-import-type mvc_query_columns from MvcTypes
+ * @phpstan-import-type mvc_query_order from MvcTypes
  */
 class Builder implements BuilderInterface, InjectionAwareInterface
 {
     /**
-     * @var array
+     * @phpstan-var mvc_model_bind_params
      */
-    protected bindParams = [];
-
+    protected array bindParams = [];
     /**
-     * @var array
+     * @phpstan-var mvc_model_bind_types
      */
-    protected bindTypes = [];
-
+    protected array bindTypes = [];
     /**
-     * @var array|string|null
+     * @phpstan-var mvc_query_columns|null
      */
     protected columns = null;
-
     /**
-     * @var array|string|null
+     * @phpstan-var array<array-key, mixed>|int|string|null
      */
     protected conditions = null;
 
     /**
      * @var DiInterface|null
+     *
+     * @phpstan-var DiInterface|null
      */
     protected container;
-
     /**
      * @var mixed
      */
     protected distinct = null;
-
+    protected bool forUpdate = false;
     /**
-     * @var bool
-     */
-    protected forUpdate = false;
-
-    /**
-     * @var array
+     * @phpstan-var array<array-key, string>|null
      */
     protected group = [];
-
     /**
      * @var string|null
      */
     protected having = null;
-
+    protected int hiddenParamNumber = 0;
     /**
-     * @var int
+     * @phpstan-var array<array-key, mvc_query_builder_join>
      */
-    protected hiddenParamNumber = 0;
-
-    /**
-     * @var array
-     */
-    protected joins = [];
-
+    protected array joins = [];
     /**
      * @var array|string
+     *
+     * @phpstan-var array<array-key, mixed>|int|string|null
      */
     protected limit;
-
     /**
      * @var array|string
+     *
+     * @phpstan-var mvc_query_columns|null
      */
     protected models;
-
-    /**
-     * @var int
-     */
-    protected offset = 0;
-
+    protected int offset = 0;
     /**
      * @var array|string
+     *
+     * @phpstan-var array<array-key, int|string>|string|null
      */
     protected order;
-
-    /**
-     * @var string
-     */
-    protected resultsetRowClass = "";
-
-    /**
-     * @var bool
-     */
-    protected sharedLock = false;
+    protected string resultsetRowClass = "";
+    protected bool sharedLock = false;
 
     /**
      * Phalcon\Mvc\Model\Query\Builder constructor
      *
      * @param array|string|null params
-     * @param DiInterface|null container
      */
     public function __construct(var params = null, <DiInterface> container = null)
     {
@@ -373,8 +358,11 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      *     ]
      * );
      *```
+     *
+     * @phpstan-param mvc_model_bind_params $bindParams
+     * @phpstan-param mvc_model_bind_types $bindTypes
      */
-    public function andHaving( string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
+    public function andHaving(string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
     {
         var currentConditions;
 
@@ -404,6 +392,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      *     ]
      * );
      *```
+     *
+     * @phpstan-param mvc_model_bind_params $bindParams
+     * @phpstan-param mvc_model_bind_types $bindTypes
      */
     public function andWhere( string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
     {
@@ -440,7 +431,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * $builder->betweenHaving("SUM(Invoices.inv_total)", 100.25, 200.50);
      *```
      */
-    public function betweenHaving( string expr, var minimum, var maximum,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
+    public function betweenHaving(string expr, var minimum, var maximum,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
     {
         return this->conditionBetween("Having", operator, expr, minimum, maximum);
     }
@@ -452,7 +443,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * $builder->betweenWhere("price", 100.25, 200.50);
      *```
      */
-    public function betweenWhere( string expr, var minimum, var maximum,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
+    public function betweenWhere(string expr, var minimum, var maximum,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
     {
         return this->conditionBetween("Where", operator, expr, minimum, maximum);
     }
@@ -562,6 +553,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      *     ]
      * );
      *```
+     *
+     * @phpstan-param mvc_query_columns $models
      */
     public function from(var models) -> <BuilderInterface>
     {
@@ -572,6 +565,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
     /**
      * Returns default bind params
+     *
+     * @phpstan-return mvc_model_bind_params
      */
     public function getBindParams() -> array
     {
@@ -580,6 +575,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
     /**
      * Returns default bind types
+     *
+     * @phpstan-return mvc_model_bind_types
      */
     public function getBindTypes() -> array
     {
@@ -590,6 +587,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * Return the columns to be queried
      *
      * @return array|string
+     *
+     * @phpstan-return mvc_query_columns|null
      */
     public function getColumns()
     {
@@ -616,6 +615,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * Return the models who makes part of the query
      *
      * @return array|string
+     *
+     * @phpstan-return mvc_query_columns|null
      */
     public function getFrom()
     {
@@ -624,6 +625,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
     /**
      * Returns the GROUP BY clause
+     *
+     * @phpstan-return array<array-key, string>
      */
     public function getGroupBy() -> array
     {
@@ -640,6 +643,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
     /**
      * Return join parts of the query
+     *
+     * @phpstan-return array<array-key, mvc_query_builder_join>
      */
     public function getJoins() -> array
     {
@@ -650,6 +655,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * Returns the current LIMIT clause
      *
      * @return array|string
+     *
+     * @phpstan-return array<array-key, mixed>|int|string|null
      */
     public function getLimit()
     {
@@ -658,6 +665,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
     /**
      * Returns the models involved in the query
+     *
+     * @phpstan-return mvc_query_columns|null
      */
     public function getModels() -> string | array | null
     {
@@ -682,6 +691,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * Returns the set ORDER BY clause
      *
      * @return array|string
+     *
+     * @phpstan-return array<array-key, int|string>|string|null
      */
     public function getOrderBy()
     {
@@ -1128,6 +1139,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * Return the conditions for the query
      *
      * @return array|string
+     *
+     * @phpstan-return array<array-key, mixed>|string|null
      */
     public function getWhere()
     {
@@ -1148,7 +1161,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * Passing null (or an empty array) clears the clause; the PHQL generator
      * treats both as "no GROUP BY".
      *
-     * @param array|string|null group
+     * @param array|string|null $group
+     *
+     * @phpstan-param array<array-key, string>|string|null $group
      */
     public function groupBy(var group) -> <BuilderInterface>
     {
@@ -1178,6 +1193,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      *     ]
      * );
      *```
+     *
+     * @phpstan-param mvc_model_bind_params $bindParams
+     * @phpstan-param mvc_model_bind_types $bindTypes
      */
     public function having(string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
     {
@@ -1216,25 +1234,12 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      *```php
      * $builder->inHaving("SUM(Invoices.inv_total)", [100, 200]);
      *```
+     *
+     * @phpstan-param array<array-key, mixed> $values
      */
-    public function inHaving( string expr,  array values,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
+    public function inHaving(string expr,  array values,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
     {
         return this->conditionIn("Having", operator, expr, values);
-    }
-
-    /**
-     * Appends an IN condition to the current WHERE conditions
-     *
-     *```php
-     * $builder->inWhere(
-     *     "id",
-     *     [1, 2, 3]
-     * );
-     *```
-     */
-    public function inWhere( string expr,  array values,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
-    {
-        return this->conditionIn("Where", operator, expr, values);
     }
 
     /**
@@ -1268,6 +1273,23 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     }
 
     /**
+     * Appends an IN condition to the current WHERE conditions
+     *
+     *```php
+     * $builder->inWhere(
+     *     "id",
+     *     [1, 2, 3]
+     * );
+     *```
+     *
+     * @phpstan-param array<array-key, mixed> $values
+     */
+    public function inWhere(string expr,  array values,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
+    {
+        return this->conditionIn("Where", operator, expr, values);
+    }
+
+    /**
      * Adds an :type: join (by default type - INNER) to the query
      *
      *```php
@@ -1298,7 +1320,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * );
      *```
      */
-    public function join( string model, string conditions = null, string alias = null, string type = null) -> <BuilderInterface>
+    public function join(string model, string conditions = null, string alias = null, string type = null) -> <BuilderInterface>
     {
         let this->joins[] = [model, conditions, alias, type];
 
@@ -1356,7 +1378,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * $builder->notBetweenHaving("SUM(Invoices.inv_total)", 100.25, 200.50);
      *```
      */
-    public function notBetweenHaving( string expr, var minimum, var maximum,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
+    public function notBetweenHaving(string expr, var minimum, var maximum,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
     {
         return this->conditionNotBetween(
             "Having",
@@ -1374,7 +1396,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * $builder->notBetweenWhere("price", 100.25, 200.50);
      *```
      */
-    public function notBetweenWhere( string expr, var minimum, var maximum,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
+    public function notBetweenWhere(string expr, var minimum, var maximum,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
     {
         return this->conditionNotBetween(
             "Where",
@@ -1391,8 +1413,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      *```php
      * $builder->notInHaving("SUM(Invoices.inv_total)", [100, 200]);
      *```
+     *
+     * @phpstan-param array<array-key, mixed> $values
      */
-    public function notInHaving( string expr,  array values,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
+    public function notInHaving(string expr,  array values,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
     {
         return this->conditionNotIn("Having", operator, expr, values);
     }
@@ -1403,8 +1427,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      *```php
      * $builder->notInWhere("id", [1, 2, 3]);
      *```
+     *
+     * @phpstan-param array<array-key, mixed> $values
      */
-    public function notInWhere( string expr,  array values,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
+    public function notInWhere(string expr,  array values,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
     {
         return this->conditionNotIn("Where", operator, expr, values);
     }
@@ -1424,6 +1450,22 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     }
 
     /**
+     * Sets an ORDER BY condition clause
+     *
+     *```php
+     * $builder->orderBy("Invoices.inv_title");
+     * $builder->orderBy(["1", "Invoices.inv_title"]);
+     * $builder->orderBy(["Invoices.inv_title DESC"]);
+     *```
+     */
+    public function orderBy(var orderBy) -> <BuilderInterface>
+    {
+        let this->order = orderBy;
+
+        return this;
+    }
+
+    /**
      * Appends a condition to the current HAVING conditions clause using an OR operator
      *
      *```php
@@ -1436,8 +1478,11 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      *     ]
      * );
      *```
+     *
+     * @phpstan-param mvc_model_bind_params $bindParams
+     * @phpstan-param mvc_model_bind_types $bindTypes
      */
-    public function orHaving( string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
+    public function orHaving(string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
     {
         var currentConditions;
 
@@ -1485,24 +1530,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     }
 
     /**
-     * Sets an ORDER BY condition clause
-     *
-     *```php
-     * $builder->orderBy("Invoices.inv_title");
-     * $builder->orderBy(["1", "Invoices.inv_title"]);
-     * $builder->orderBy(["Invoices.inv_title DESC"]);
-     *```
-     *
-     * @param array|string orderBy
-     */
-    public function orderBy(var orderBy) -> <BuilderInterface>
-    {
-        let this->order = orderBy;
-
-        return this;
-    }
-
-    /**
      * Adds a RIGHT join to the query
      *
      *```php
@@ -1513,7 +1540,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * );
      *```
      */
-    public function rightJoin( string model, string conditions = null, string alias = null) -> <BuilderInterface>
+    public function rightJoin(string model, string conditions = null, string alias = null) -> <BuilderInterface>
     {
         let this->joins[] = [model, conditions, alias, "RIGHT"];
 
@@ -1522,6 +1549,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
     /**
      * Set default bind parameters
+     *
+     * @phpstan-param mvc_model_bind_params $bindParams
      */
     public function setBindParams( array bindParams, bool merge = false) -> <BuilderInterface>
     {
@@ -1543,6 +1572,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
     /**
      * Set default bind types
+     *
+     * @phpstan-param mvc_model_bind_types $bindTypes
      */
     public function setBindTypes( array bindTypes, bool merge = false) -> <BuilderInterface>
     {
@@ -1680,6 +1711,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
     /**
      * Appends an IN condition
+     *
+     * @phpstan-param array<array-key, mixed> $values
      */
     protected function conditionIn( string clause,  string operator,  string expr,  array values) -> <BuilderInterface>
     {
@@ -1731,7 +1764,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Appends a NOT BETWEEN condition
      */
-    protected function conditionNotBetween( string clause,  string operator,  string expr, var minimum, var maximum) -> <BuilderInterface>
+    protected function conditionNotBetween(string clause,  string operator,  string expr, var minimum, var maximum) -> <BuilderInterface>
     {
         var hiddenParam, nextHiddenParam, minimumKey, maximumKey, operatorMethod;
 
@@ -1771,6 +1804,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
     /**
      * Appends a NOT IN condition
+     *
+     * @phpstan-param array<array-key, mixed> $values
      */
     protected function conditionNotIn( string clause,  string operator,  string expr,  array values) -> <BuilderInterface>
     {

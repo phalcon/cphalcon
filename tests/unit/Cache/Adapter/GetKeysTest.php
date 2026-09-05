@@ -35,9 +35,6 @@ use function version_compare;
 
 final class GetKeysTest extends AbstractUnitTestCase
 {
-    /**
-     *
-     */
     public static function getAdapters(): array
     {
         return [

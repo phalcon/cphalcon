@@ -121,18 +121,12 @@ abstract class AbstractHttpBase extends AbstractUnitTestCase
         return $this->container->get('response');
     }
 
-    /**
-     * @return void
-     */
     protected function registerStream(): void
     {
         stream_wrapper_unregister(Http::STREAM_NAME);
         stream_wrapper_register(Http::STREAM_NAME, FakePhpStream::class);
     }
 
-    /**
-     * @return void
-     */
     protected function unregisterStream(): void
     {
         stream_wrapper_restore(Http::STREAM_NAME);

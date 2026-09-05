@@ -21,9 +21,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 
 final class CaseTest extends AbstractUnitTestCase
 {
-    /**
-     * @return array
-     */
     public static function getSources(): array
     {
         return [

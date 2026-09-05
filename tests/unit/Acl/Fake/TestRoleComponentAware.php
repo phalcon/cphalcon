@@ -18,11 +18,6 @@ use Phalcon\Acl\RoleAwareInterface;
 
 class TestRoleComponentAware implements RoleAwareInterface, ComponentAwareInterface
 {
-    /**
-     * @param int    $user
-     * @param string $componentName
-     * @param string $roleName
-     */
     public function __construct(
         protected int $user,
         protected string $componentName,
@@ -30,25 +25,16 @@ class TestRoleComponentAware implements RoleAwareInterface, ComponentAwareInterf
     ) {
     }
 
-    /**
-     * @return string
-     */
     public function getComponentName(): string
     {
         return $this->componentName;
     }
 
-    /**
-     * @return string
-     */
     public function getRoleName(): string
     {
         return $this->roleName;
     }
 
-    /**
-     * @return int
-     */
     public function getUser(): int
     {
         return $this->user;

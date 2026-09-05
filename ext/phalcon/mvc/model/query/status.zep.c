@@ -33,7 +33,11 @@
  * model which finally executes the operations when it fails
  *
  *```php
- * $phql = "UPDATE Invoices SET inv_title = :inv_title:, inv_status_flag = :inv_status_flag:, inv_total = :inv_total: WHERE inv_id = :inv_id:";
+ * $phql = "UPDATE Invoices
+ *      SET inv_title = :inv_title:,
+ *          inv_status_flag = :inv_status_flag:,
+ *          inv_total = :inv_total:
+ *      WHERE inv_id = :inv_id:";
  *
  * $status = $app->modelsManager->executeQuery(
  *     $phql,
@@ -55,14 +59,18 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_Status)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Query, Status, phalcon, mvc_model_query_status, phalcon_mvc_model_query_status_method_entry, 0);
 
-	/**
-	 * @var ModelInterface|null
-	 */
-	zend_declare_property_null(phalcon_mvc_model_query_status_ce, SL("model"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_null(phalcon_mvc_model_query_status_ce, SL("success"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_mvc_model_query_status_ce, SL("model"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_NULL, SL("Phalcon\\Mvc\\ModelInterface"));
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_mvc_model_query_status_ce, SL("success"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
+
 	zend_class_implements(phalcon_mvc_model_query_status_ce, 1, phalcon_mvc_model_query_statusinterface_ce);
 	return SUCCESS;
 }

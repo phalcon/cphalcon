@@ -31,6 +31,10 @@
  * Phalcon\Mvc\Model\Relation
  *
  * This class represents a relationship between two models
+ *
+ * @phpstan-import-type mvc_model_parameters from MvcTypes
+ * @phpstan-import-type mvc_relation_fields from MvcTypes
+ * @phpstan-import-type mvc_relation_options from MvcTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Relation)
 {
@@ -42,6 +46,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Relation)
 	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("fields"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var array|string
+	 *
+	 * @phpstan-var mvc_relation_fields
 	 */
 	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("intermediateFields"), ZEND_ACC_PROTECTED);
 	/**
@@ -50,6 +56,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Relation)
 	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("intermediateModel"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var array|string
+	 *
+	 * @phpstan-var mvc_relation_fields
 	 */
 	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("intermediateReferencedFields"), ZEND_ACC_PROTECTED);
 	/**
@@ -121,6 +129,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Relation)
  * @param array|string fields
  * @param array|string referencedFields
  * @param array options
+ *
+ * @phpstan-param mvc_relation_options $options
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, __construct)
 {
@@ -194,6 +204,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, __construct)
  * Returns the fields
  *
  * @return array|string
+ *
+ * @phpstan-return mvc_relation_fields
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getFields)
 {
@@ -205,6 +217,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getFields)
  * Returns the foreign key configuration
  *
  * @return array|string
+ *
+ * @phpstan-return array<string, mixed>|string|bool
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getForeignKey)
 {
@@ -237,6 +251,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getForeignKey)
  * Gets the intermediate fields for has-*-through relations
  *
  * @return array|string
+ *
+ * @phpstan-return mvc_relation_fields
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateFields)
 {
@@ -257,6 +273,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateModel)
  * Gets the intermediate referenced fields for has-*-through relations
  *
  * @return array|string
+ *
+ * @phpstan-return mvc_relation_fields
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateReferencedFields)
 {
@@ -300,6 +318,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getOption)
 
 /**
  * Returns the options
+ *
+ * @phpstan-return mvc_relation_options
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getOptions)
 {
@@ -311,6 +331,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getOptions)
  * Returns parameters that must be always used when the related records are obtained
  *
  * @return array
+ *
+ * @phpstan-return mvc_model_parameters|false
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getParams)
 {
@@ -358,6 +380,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getType)
  * Returns the referenced fields
  *
  * @return array|string
+ *
+ * @phpstan-return mvc_relation_fields
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getReferencedFields)
 {

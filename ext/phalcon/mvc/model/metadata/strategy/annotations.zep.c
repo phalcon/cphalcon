@@ -29,6 +29,9 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+/**
+ * @phpstan-import-type mvc_metadata_index from MvcTypes
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Strategy_Annotations)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\MetaData\\Strategy, Annotations, phalcon, mvc_model_metadata_strategy_annotations, phalcon_mvc_model_metadata_strategy_annotations_method_entry, 0);
@@ -39,6 +42,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Strategy_Annotations)
 
 /**
  * Read the model's column map, this can't be inferred
+ *
+ * @phpstan-return mvc_metadata_index
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps)
 {
@@ -84,7 +89,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps)
 		object_init_ex(&_0$$3, phalcon_mvc_model_metadata_exceptions_invalidcontainer_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 34);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 40);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -101,7 +106,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps)
 		object_init_ex(&_2$$4, phalcon_mvc_model_metadata_exceptions_noannotationsforclass_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 0, &className);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$4, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 43);
+		zephir_throw_exception_debug(&_2$$4, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 49);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -112,7 +117,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps)
 		object_init_ex(&_3$$5, phalcon_mvc_model_metadata_exceptions_nopropertyannotationsforclass_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", NULL, 0, &className);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_3$$5, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 52);
+		zephir_throw_exception_debug(&_3$$5, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 58);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -128,7 +133,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps)
 	} else {
 		_4 = &propertiesAnnotations;
 	}
-	zephir_is_iterable(_4, 0, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 89);
+	zephir_is_iterable(_4, 0, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 95);
 	if (Z_TYPE_P(_4) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_4), _6, _7, _5)
 		{
@@ -233,6 +238,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps)
 
 /**
  * The meta-data is obtained by reading the column descriptions from the database information schema
+ *
+ * @phpstan-return mvc_metadata_index
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 {
@@ -411,7 +418,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 		object_init_ex(&_0$$3, phalcon_mvc_model_metadata_exceptions_invalidcontainer_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 111);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 119);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -428,7 +435,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 		object_init_ex(&_2$$4, phalcon_mvc_model_metadata_exceptions_noannotationsforclass_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 0, &className);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$4, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 120);
+		zephir_throw_exception_debug(&_2$$4, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 128);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -439,7 +446,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 		object_init_ex(&_3$$5, phalcon_mvc_model_metadata_exceptions_nopropertyannotationsforclass_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", NULL, 0, &className);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_3$$5, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 129);
+		zephir_throw_exception_debug(&_3$$5, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 137);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -474,7 +481,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 	} else {
 		_4 = &propertiesAnnotations;
 	}
-	zephir_is_iterable(_4, 0, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 386);
+	zephir_is_iterable(_4, 0, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 394);
 	if (Z_TYPE_P(_4) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_4), _6, _7, _5)
 		{
@@ -767,9 +774,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 			ZEPHIR_CALL_METHOD(&_64$$6, &propAnnotations, "has", NULL, 0, &_9$$6);
 			zephir_check_call_status();
 			if (zephir_is_true(&_64$$6)) {
-				zephir_array_append(&primaryKeys, &columnName, PH_SEPARATE, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 330);
+				zephir_array_append(&primaryKeys, &columnName, PH_SEPARATE, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 338);
 			} else {
-				zephir_array_append(&nonPrimaryKeys, &columnName, PH_SEPARATE, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 332);
+				zephir_array_append(&nonPrimaryKeys, &columnName, PH_SEPARATE, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 340);
 			}
 			ZEPHIR_INIT_NVAR(&_9$$6);
 			ZVAL_STRING(&_9$$6, "Identity");
@@ -804,7 +811,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 			ZEPHIR_CALL_METHOD(&_69$$6, &columnAnnotation, "getnamedparameter", NULL, 0, &_9$$6);
 			zephir_check_call_status();
 			if (!(zephir_is_true(&_69$$6))) {
-				zephir_array_append(&notNull, &columnName, PH_SEPARATE, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 368);
+				zephir_array_append(&notNull, &columnName, PH_SEPARATE, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 376);
 			}
 			ZEPHIR_INIT_NVAR(&_9$$6);
 			ZVAL_STRING(&_9$$6, "default");
@@ -821,7 +828,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 			if (_70$$6) {
 				zephir_array_update_zval(&defaultValues, &columnName, &defaultValue, PH_COPY | PH_SEPARATE);
 			}
-			zephir_array_append(&attributes, &columnName, PH_SEPARATE, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 380);
+			zephir_array_append(&attributes, &columnName, PH_SEPARATE, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 388);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, _4, "rewind", NULL, 0);
@@ -1124,9 +1131,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 				ZEPHIR_CALL_METHOD(&_130$$44, &propAnnotations, "has", NULL, 0, &_75$$44);
 				zephir_check_call_status();
 				if (zephir_is_true(&_130$$44)) {
-					zephir_array_append(&primaryKeys, &columnName, PH_SEPARATE, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 330);
+					zephir_array_append(&primaryKeys, &columnName, PH_SEPARATE, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 338);
 				} else {
-					zephir_array_append(&nonPrimaryKeys, &columnName, PH_SEPARATE, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 332);
+					zephir_array_append(&nonPrimaryKeys, &columnName, PH_SEPARATE, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 340);
 				}
 				ZEPHIR_INIT_NVAR(&_75$$44);
 				ZVAL_STRING(&_75$$44, "Identity");
@@ -1161,7 +1168,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 				ZEPHIR_CALL_METHOD(&_135$$44, &columnAnnotation, "getnamedparameter", NULL, 0, &_75$$44);
 				zephir_check_call_status();
 				if (!(zephir_is_true(&_135$$44))) {
-					zephir_array_append(&notNull, &columnName, PH_SEPARATE, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 368);
+					zephir_array_append(&notNull, &columnName, PH_SEPARATE, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 376);
 				}
 				ZEPHIR_INIT_NVAR(&_75$$44);
 				ZVAL_STRING(&_75$$44, "default");
@@ -1178,7 +1185,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 				if (_136$$44) {
 					zephir_array_update_zval(&defaultValues, &columnName, &defaultValue, PH_COPY | PH_SEPARATE);
 				}
-				zephir_array_append(&attributes, &columnName, PH_SEPARATE, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 380);
+				zephir_array_append(&attributes, &columnName, PH_SEPARATE, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 388);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&propAnnotations);

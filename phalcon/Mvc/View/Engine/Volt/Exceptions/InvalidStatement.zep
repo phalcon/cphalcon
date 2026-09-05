@@ -10,8 +10,12 @@
 
 namespace Phalcon\Mvc\View\Engine\Volt\Exceptions;
 
+use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Mvc\View\Engine\Volt\Exception;
 
+/**
+ * @phpstan-import-type mvc_volt_node from MvcTypes
+ */
 class InvalidStatement extends Exception
 {
     public function __construct(string file, int line, array statement)

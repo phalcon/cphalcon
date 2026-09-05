@@ -593,6 +593,7 @@
 #include "phalcon/contracts/image/imagetypes.zep.h"
 #include "phalcon/contracts/messages/messagestypes.zep.h"
 #include "phalcon/contracts/mvc/model/relation/cachekeyprovider.zep.h"
+#include "phalcon/contracts/mvc/mvctypes.zep.h"
 #include "phalcon/contracts/paginator/paginatortypes.zep.h"
 #include "phalcon/contracts/queue/processor.zep.h"
 #include "phalcon/contracts/queue/queuetypes.zep.h"

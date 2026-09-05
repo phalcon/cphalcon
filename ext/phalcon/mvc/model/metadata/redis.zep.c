@@ -47,6 +47,8 @@
  *     ]
  * );
  *```
+ *
+ * @phpstan-import-type storage_adapter_options from StorageTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Redis)
 {
@@ -58,7 +60,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Redis)
 /**
  * Phalcon\Mvc\Model\MetaData\Redis constructor
  *
- * @param array options
+ * @param array<string, mixed> $options
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, __construct)
 {
