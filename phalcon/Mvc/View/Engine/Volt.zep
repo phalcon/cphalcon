@@ -65,7 +65,7 @@ class Volt extends AbstractEngine implements EventsAwareInterface
      *
      * @phpstan-param array<array-key, mixed> $arguments
      */
-    public function callMacro( string name, array arguments = []) -> var
+    public function callMacro(string name, array arguments = []) -> var
     {
         var macro;
 
@@ -270,7 +270,7 @@ class Volt extends AbstractEngine implements EventsAwareInterface
      *
      * @return void
      */
-    public function render( string path, var params, bool mustClean = false) // TODO: Make params array
+    public function render(string path, var params, bool mustClean = false) // TODO: Make params array
     {
         var compiler, compiledTemplatePath, eventsManager, key, value;
 
@@ -337,7 +337,7 @@ class Volt extends AbstractEngine implements EventsAwareInterface
      *
      * @phpstan-param array<string, mixed> $options
      */
-    public function setOptions( array options)
+    public function setOptions(array options)
     {
         let this->options = options;
     }

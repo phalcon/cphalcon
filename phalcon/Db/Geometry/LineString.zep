@@ -16,9 +16,14 @@ class LineString extends AbstractGeometry
 {
     /**
      * @var array
+     *
+     * @phpstan-var list<Point>
      */
     protected points;
 
+    /**
+     * @phpstan-param list<Point> $points
+     */
     public function __construct(array points, int srid = 0)
     {
         let this->points = points,
@@ -30,6 +35,9 @@ class LineString extends AbstractGeometry
         return Column::TYPE_LINESTRING;
     }
 
+    /**
+     * @phpstan-return list<Point>
+     */
     public function getPoints() -> array
     {
         return this->points;

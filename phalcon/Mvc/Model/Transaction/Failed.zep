@@ -25,7 +25,7 @@ class Failed extends Exception
     /**
      * Constructor
      */
-    public function __construct( string message, <ModelInterface> record = null)
+    public function __construct(string message, <ModelInterface> record = null)
     {
         let this->record = record;
 

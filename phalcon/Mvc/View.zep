@@ -234,7 +234,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * echo $this->view->products;
      *```
      */
-    public function __get( string key) -> var | null
+    public function __get(string key) -> var | null
     {
         return this->getVar(key);
     }
@@ -246,7 +246,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * echo isset($this->view->products);
      *```
      */
-    public function __isset( string key) -> bool
+    public function __isset(string key) -> bool
     {
         return isset this->viewParams[key];
     }
@@ -258,7 +258,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * $this->view->products = $products;
      *```
      */
-    public function __set( string key, var value)
+    public function __set(string key, var value)
     {
         this->setVar(key, value);
     }
@@ -330,7 +330,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * Checks whether view exists
      * @deprecated
      */
-    public function exists( string view) -> bool
+    public function exists(string view) -> bool
     {
         return this->has(view);
     }
@@ -453,7 +453,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * );
      * ```
      */
-    public function getPartial( string partialPath, var params = null) -> string
+    public function getPartial(string partialPath, var params = null) -> string
     {
         // not liking the ob_* functions here, but it will greatly reduce the
         // amount of double code.
@@ -489,7 +489,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      *
      * @phpstan-param array<string, mixed> $params
      */
-    public function getRender( string controllerName,  string actionName, array params = [], configCallback = null) -> string
+    public function getRender(string controllerName,  string actionName, array params = [], configCallback = null) -> string
     {
         var view;
 
@@ -557,7 +557,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     /**
      * Checks whether view exists
      */
-    public function has( string view) -> bool
+    public function has(string view) -> bool
     {
         var basePath, viewsDir, engines, extension;
 
@@ -609,7 +609,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      * );
      * ```
      */
-    public function partial( string partialPath, var params = null)
+    public function partial(string partialPath, var params = null)
     {
         var segment, segments,
             viewParams = [];
@@ -946,7 +946,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      *
      * @phpstan-param array<string, mixed> $engines
      */
-    public function registerEngines( array engines) -> <static>
+    public function registerEngines(array engines) -> <static>
     {
         let this->registeredEngines = engines;
 
@@ -1074,7 +1074,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      *
      * @phpstan-return static
      */
-    public function setParamToView( string key, var value) -> <static>
+    public function setParamToView(string key, var value) -> <static>
     {
         let this->viewParams[key] = value;
 

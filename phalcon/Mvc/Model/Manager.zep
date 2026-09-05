@@ -921,7 +921,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return QueryInterface
      */
-    public function createQuery( string phql) -> <QueryInterface>
+    public function createQuery(string phql) -> <QueryInterface>
     {
         var container, query;
 
@@ -973,7 +973,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return ResultsetInterface|StatusInterface
      */
-    public function executeQuery( string phql, var placeholders = null, var types = null) -> var
+    public function executeQuery(string phql, var placeholders = null, var types = null) -> var
     {
         var query;
 
@@ -997,7 +997,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * Checks whether a model has a belongsTo relation with another model
      * @deprecated
      */
-    public function existsBelongsTo( string modelName,  string modelRelation) -> bool
+    public function existsBelongsTo(string modelName,  string modelRelation) -> bool
     {
         return this->hasBelongsTo(modelName, modelRelation);
     }
@@ -1006,7 +1006,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * Checks whether a model has a hasMany relation with another model
      * @deprecated
      */
-    public function existsHasMany( string modelName,  string modelRelation) -> bool
+    public function existsHasMany(string modelName,  string modelRelation) -> bool
     {
         return this->hasHasMany(modelName, modelRelation);
     }
@@ -1015,7 +1015,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * Checks whether a model has a hasManyToMany relation with another model
      * @deprecated
      */
-    public function existsHasManyToMany( string modelName,  string modelRelation) -> bool
+    public function existsHasManyToMany(string modelName,  string modelRelation) -> bool
     {
         return this->hasHasManyToMany(modelName, modelRelation);
     }
@@ -1024,7 +1024,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * Checks whether a model has a hasOne relation with another model
      * @deprecated
      */
-    public function existsHasOne( string modelName,  string modelRelation) -> bool
+    public function existsHasOne(string modelName,  string modelRelation) -> bool
     {
         return this->hasHasOne(modelName, modelRelation);
     }
@@ -1033,7 +1033,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * Checks whether a model has a hasOneThrough relation with another model
      * @deprecated
      */
-    public function existsHasOneThrough( string modelName,  string modelRelation) -> bool
+    public function existsHasOneThrough(string modelName,  string modelRelation) -> bool
     {
         return this->hasHasOneThrough(modelName, modelRelation);
     }
@@ -1194,7 +1194,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @phpstan-param mvc_model_parameters|string|null $parameters
      */
-    public function getHasManyRecords( string modelName,  string modelRelation, <ModelInterface> record, parameters = null, string method = null)
+    public function getHasManyRecords(string modelName,  string modelRelation, <ModelInterface> record, parameters = null, string method = null)
         -> <ResultsetInterface> | bool
     {
         var relations;
@@ -1265,7 +1265,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @phpstan-param mvc_model_parameters|string|null $parameters
      */
-    public function getHasOneRecords( string modelName,  string modelRelation, <ModelInterface> record, parameters = null, string method = null)
+    public function getHasOneRecords(string modelName,  string modelRelation, <ModelInterface> record, parameters = null, string method = null)
         -> <ModelInterface> | bool
     {
         var relations;
@@ -1410,7 +1410,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return RelationInterface|bool
      */
-    public function getRelationByAlias( string modelName,  string alias) -> <RelationInterface> | bool
+    public function getRelationByAlias(string modelName,  string alias) -> <RelationInterface> | bool
     {
         var relation;
 
@@ -1698,7 +1698,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return RelationInterface[]
      */
-    public function getRelations( string modelName) -> <RelationInterface[]>
+    public function getRelations(string modelName) -> <RelationInterface[]>
     {
         var entityName, relations, relation;
         array allRelations;
@@ -1762,7 +1762,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return RelationInterface[] | bool
      */
-    public function getRelationsBetween( string first,  string second) -> <RelationInterface[]> | bool
+    public function getRelationsBetween(string first,  string second) -> <RelationInterface[]> | bool
     {
         var relations;
         string keyRelation;
@@ -1815,7 +1815,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return mixed
      */
-    public function getReusableRecords( string modelName,  string key)
+    public function getReusableRecords(string modelName,  string key)
     {
         var records;
 
@@ -1861,7 +1861,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return bool
      */
-    public function hasBelongsTo( string modelName,  string modelRelation) -> bool
+    public function hasBelongsTo(string modelName,  string modelRelation) -> bool
     {
         return this->checkHasRelationship("belongsTo", modelName, modelRelation);
     }
@@ -1874,7 +1874,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return bool
      */
-    public function hasHasMany( string modelName,  string modelRelation) -> bool
+    public function hasHasMany(string modelName,  string modelRelation) -> bool
     {
         return this->checkHasRelationship("hasMany", modelName, modelRelation);
     }
@@ -1887,7 +1887,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return bool
      */
-    public function hasHasManyToMany( string modelName,  string modelRelation) -> bool
+    public function hasHasManyToMany(string modelName,  string modelRelation) -> bool
     {
         return this->checkHasRelationship("hasManyToMany", modelName, modelRelation);
     }
@@ -1900,7 +1900,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return bool
      */
-    public function hasHasOne( string modelName,  string modelRelation) -> bool
+    public function hasHasOne(string modelName,  string modelRelation) -> bool
     {
         return this->checkHasRelationship("hasOne", modelName, modelRelation);
     }
@@ -1913,7 +1913,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return bool
      */
-    public function hasHasOneThrough( string modelName,  string modelRelation) -> bool
+    public function hasHasOneThrough(string modelName,  string modelRelation) -> bool
     {
         return this->checkHasRelationship("hasOneThrough", modelName, modelRelation);
     }
@@ -1983,7 +1983,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return bool
      */
-    public function isInitialized( string className) -> bool
+    public function isInitialized(string className) -> bool
     {
         return isset this->initialized[strtolower(className)];
     }
@@ -2089,7 +2089,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return ModelInterface
      */
-    public function load( string modelName) -> <ModelInterface>
+    public function load(string modelName) -> <ModelInterface>
     {
         var model;
 
@@ -2249,7 +2249,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * @param string         $eventName
      * @param ModelInterface $model
      */
-    public function notifyEvent( string eventName, <ModelInterface> model)
+    public function notifyEvent(string eventName, <ModelInterface> model)
     {
         var status, behavior, modelsBehaviors, eventsManager,
             customEventsManager;
@@ -2439,7 +2439,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return void
      */
-    public function setModelPrefix( string prefix) -> void
+    public function setModelPrefix(string prefix) -> void
     {
         let this->prefix = prefix;
     }
@@ -2492,7 +2492,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return void
      */
-    public function setReusableRecords( string modelName,  string key, var records) -> void
+    public function setReusableRecords(string modelName,  string key, var records) -> void
     {
         let this->reusable[key] = records;
     }

@@ -70,6 +70,10 @@
  * $connection->addIndex("co_invoices", null, $primary);
  * $connection->addIndex("co_invoices", null, $hidden);
  *```
+ *
+ * @phpstan-import-type db_index_columns from DbTypes
+ * @phpstan-import-type db_index_definition from DbTypes
+ * @phpstan-import-type db_index_directions from DbTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Index)
 {
@@ -79,6 +83,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Index)
 	 * Index columns
 	 *
 	 * @var array
+	 *
+	 * @phpstan-var db_index_columns
 	 */
 	zend_declare_property_null(phalcon_db_index_ce, SL("columns"), ZEND_ACC_PROTECTED);
 	/**
@@ -97,6 +103,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Index)
 	 * the columns list default to `ASC` for the missing positions.
 	 *
 	 * @var array
+	 *
+	 * @phpstan-var db_index_directions
 	 */
 	zend_declare_property_null(phalcon_db_index_ce, SL("directions"), ZEND_ACC_PROTECTED);
 	/**
@@ -143,6 +151,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Index)
  * "invisible" => true, ...])`. Detection is based on the presence of a
  * `columns` key in the second argument; when present, the third
  * positional `type` argument is ignored in favor of the definition.
+ *
+ * @phpstan-param db_index_columns|db_index_definition $columnsOrDefinition
  */
 PHP_METHOD(Phalcon_Db_Index, __construct)
 {
@@ -222,17 +232,17 @@ PHP_METHOD(Phalcon_Db_Index, __construct)
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 639, &name_zv);
 	if (zephir_array_isset_value_string(&columnsOrDefinition, SL("columns"))) {
 		zephir_memory_observe(&_0$$3);
-		zephir_array_fetch_string(&_0$$3, &columnsOrDefinition, SL("columns"), PH_NOISY, "phalcon/Db/Index.zep", 139);
+		zephir_array_fetch_string(&_0$$3, &columnsOrDefinition, SL("columns"), PH_NOISY, "phalcon/Db/Index.zep", 150);
 		if (UNEXPECTED(Z_TYPE_P(&_0$$3) != IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(&_1$$4);
 			object_init_ex(&_1$$4, phalcon_db_exceptions_invalidindexcolumns_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 0);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_1$$4, "phalcon/Db/Index.zep", 140);
+			zephir_throw_exception_debug(&_1$$4, "phalcon/Db/Index.zep", 151);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		zephir_array_fetch_string(&_2$$3, &columnsOrDefinition, SL("columns"), PH_NOISY | PH_READONLY, "phalcon/Db/Index.zep", 143);
+		zephir_array_fetch_string(&_2$$3, &columnsOrDefinition, SL("columns"), PH_NOISY | PH_READONLY, "phalcon/Db/Index.zep", 154);
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 640, &_2$$3);
 		zephir_memory_observe(&definitionType);
 		if (zephir_array_isset_string_fetch(&definitionType, &columnsOrDefinition, SL("type"), 0)) {
@@ -254,7 +264,7 @@ PHP_METHOD(Phalcon_Db_Index, __construct)
 				object_init_ex(&_4$$8, phalcon_db_exceptions_invalidindexdirections_ce);
 				ZEPHIR_CALL_METHOD(NULL, &_4$$8, "__construct", NULL, 0);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_4$$8, "phalcon/Db/Index.zep", 155);
+				zephir_throw_exception_debug(&_4$$8, "phalcon/Db/Index.zep", 166);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -267,7 +277,7 @@ PHP_METHOD(Phalcon_Db_Index, __construct)
 				object_init_ex(&_5$$10, phalcon_db_exceptions_invalidindexwhere_ce);
 				ZEPHIR_CALL_METHOD(NULL, &_5$$10, "__construct", NULL, 0);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_5$$10, "phalcon/Db/Index.zep", 163);
+				zephir_throw_exception_debug(&_5$$10, "phalcon/Db/Index.zep", 174);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -289,6 +299,8 @@ PHP_METHOD(Phalcon_Db_Index, __construct)
 
 /**
  * Index columns
+ *
+ * @phpstan-return db_index_columns
  */
 PHP_METHOD(Phalcon_Db_Index, getColumns)
 {
@@ -302,6 +314,8 @@ PHP_METHOD(Phalcon_Db_Index, getColumns)
  * directions and dialects emit the columns plainly. When populated,
  * entries are aligned with `getColumns()`; missing trailing positions
  * default to `ASC` at emission time.
+ *
+ * @phpstan-return db_index_directions
  */
 PHP_METHOD(Phalcon_Db_Index, getDirections)
 {

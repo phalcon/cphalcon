@@ -35,11 +35,16 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Geometry_MultiPolygon)
 
 	/**
 	 * @var array
+	 *
+	 * @phpstan-var list<Polygon>
 	 */
 	zend_declare_property_null(phalcon_db_geometry_multipolygon_ce, SL("polygons"), ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
 
+/**
+ * @phpstan-param list<Polygon> $polygons
+ */
 PHP_METHOD(Phalcon_Db_Geometry_MultiPolygon, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -85,6 +90,9 @@ PHP_METHOD(Phalcon_Db_Geometry_MultiPolygon, getType)
 	RETURN_LONG(46);
 }
 
+/**
+ * @phpstan-return list<Polygon>
+ */
 PHP_METHOD(Phalcon_Db_Geometry_MultiPolygon, getPolygons)
 {
 
@@ -126,7 +134,7 @@ PHP_METHOD(Phalcon_Db_Geometry_MultiPolygon, toWkt)
 	} else {
 		_1 = &_0;
 	}
-	zephir_is_iterable(_1, 0, "phalcon/Db/Geometry/MultiPolygon.zep", 46);
+	zephir_is_iterable(_1, 0, "phalcon/Db/Geometry/MultiPolygon.zep", 54);
 	if (Z_TYPE_P(_1) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_1), _3)
 		{
@@ -136,7 +144,7 @@ PHP_METHOD(Phalcon_Db_Geometry_MultiPolygon, toWkt)
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_5$$3);
 			ZEPHIR_CONCAT_SVS(&_5$$3, "(", &_4$$3, ")");
-			zephir_array_append(&parts, &_5$$3, PH_SEPARATE, "phalcon/Db/Geometry/MultiPolygon.zep", 43);
+			zephir_array_append(&parts, &_5$$3, PH_SEPARATE, "phalcon/Db/Geometry/MultiPolygon.zep", 51);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, _1, "rewind", NULL, 0);
@@ -160,7 +168,7 @@ PHP_METHOD(Phalcon_Db_Geometry_MultiPolygon, toWkt)
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_9$$4);
 				ZEPHIR_CONCAT_SVS(&_9$$4, "(", &_8$$4, ")");
-				zephir_array_append(&parts, &_9$$4, PH_SEPARATE, "phalcon/Db/Geometry/MultiPolygon.zep", 43);
+				zephir_array_append(&parts, &_9$$4, PH_SEPARATE, "phalcon/Db/Geometry/MultiPolygon.zep", 51);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&polygon);

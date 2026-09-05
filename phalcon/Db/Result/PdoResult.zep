@@ -10,6 +10,7 @@
 
 namespace Phalcon\Db\Result;
 
+use Phalcon\Contracts\Db\DbTypes;
 use Phalcon\Db\Enum;
 use Phalcon\Db\ResultInterface;
 use Phalcon\Db\Adapter\AdapterInterface;
@@ -32,16 +33,25 @@ use Phalcon\Db\Adapter\AdapterInterface;
  *     print_r($invoice);
  * }
  * ```
+ *
+ * @phpstan-import-type db_bind_params from DbTypes
+ * @phpstan-import-type db_bind_types from DbTypes
+ * @phpstan-import-type db_constructor_arguments from DbTypes
+ * @phpstan-import-type db_rows from DbTypes
  */
 class PdoResult implements ResultInterface
 {
     /**
      * @var array
+     *
+     * @phpstan-var db_bind_params
      */
     protected bindParams = [];
 
     /**
      * @var array
+     *
+     * @phpstan-var db_bind_types
      */
     protected bindTypes = [];
 
@@ -82,6 +92,9 @@ class PdoResult implements ResultInterface
 
     /**
      * Phalcon\Db\Result\Pdo constructor
+     *
+     * @phpstan-param db_bind_params $bindParams
+     * @phpstan-param db_bind_types  $bindTypes
      */
     public function __construct(
         <AdapterInterface> connection,
@@ -217,6 +230,10 @@ class PdoResult implements ResultInterface
      * @param int                      $mode
      * @param int|string|callable|null $fetchArgument
      * @param array|null               $constructorArgs
+     *
+     * @phpstan-param db_constructor_arguments|null $constructorArgs
+     *
+     * @phpstan-return db_rows
      */
     public function fetchAll(
         int mode = Enum::FETCH_DEFAULT,

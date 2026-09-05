@@ -63,22 +63,22 @@ interface MessageInterface
     /**
      * Sets field name related to message
      */
-    public function setField( string field) -> <MessageInterface>;
+    public function setField(string field) -> <MessageInterface>;
 
     /**
      * Sets verbose message
      */
-    public function setMessage( string message) -> <MessageInterface>;
+    public function setMessage(string message) -> <MessageInterface>;
 
     /**
      * Sets message metadata
      *
      * @param messages_metadata $metaData
      */
-    public function setMetaData( array metaData) -> <MessageInterface>;
+    public function setMetaData(array metaData) -> <MessageInterface>;
 
     /**
      * Sets message type
      */
-    public function setType( string type) -> <MessageInterface>;
+    public function setType(string type) -> <MessageInterface>;
 }

@@ -89,10 +89,10 @@ interface CollectionInterface
     /**
      * Sets if the main handler must be lazy loaded
      */
-    public function setLazy( bool isLazy) -> <CollectionInterface>;
+    public function setLazy(bool isLazy) -> <CollectionInterface>;
 
     /**
      * Sets a prefix for all routes added to the collection
      */
-    public function setPrefix( string prefix) -> <CollectionInterface>;
+    public function setPrefix(string prefix) -> <CollectionInterface>;
 }

@@ -10,6 +10,7 @@
 
 namespace Phalcon\Db\Dialect;
 
+use Phalcon\Contracts\Db\DbTypes;
 use Phalcon\Db\CheckInterface;
 use Phalcon\Db\Column;
 use Phalcon\Db\ColumnInterface;
@@ -25,6 +26,8 @@ use Phalcon\Db\ReferenceInterface;
 
 /**
  * Generates database specific SQL for the MySQL RDBMS
+ *
+ * @phpstan-import-type db_table_options from DbTypes
  */
 class Mysql extends Dialect
 {
@@ -35,13 +38,15 @@ class Mysql extends Dialect
 
     /**
      * @var array
+     *
+     * @phpstan-var list<string>
      */
     protected supportedOperators = ["->", "->>"];
 
     /**
      * Generates SQL to add a column to a table
      */
-    public function addColumn( string tableName,  string schemaName, <ColumnInterface> column) -> string
+    public function addColumn(string tableName,  string schemaName, <ColumnInterface> column) -> string
     {
         var afterPosition, defaultValue, upperDefaultValue;
         string sql;
@@ -103,7 +108,7 @@ class Mysql extends Dialect
      * Generates SQL to add a CHECK constraint to an existing table.
      * Enforced by MySQL 8.0.16+.
      */
-    public function addCheck( string tableName,  string schemaName, <CheckInterface> check) -> string
+    public function addCheck(string tableName,  string schemaName, <CheckInterface> check) -> string
     {
         return "ALTER TABLE " . this->prepareTable(tableName, schemaName)
             . " ADD " . this->getCheckClause(check, "`");
@@ -112,7 +117,7 @@ class Mysql extends Dialect
     /**
      * Generates SQL to add an index to a table
      */
-    public function addForeignKey( string tableName,  string schemaName, <ReferenceInterface> reference) -> string
+    public function addForeignKey(string tableName,  string schemaName, <ReferenceInterface> reference) -> string
     {
         var onDelete, onUpdate;
         string sql;
@@ -140,7 +145,7 @@ class Mysql extends Dialect
     /**
      * Generates SQL to add an index to a table
      */
-    public function addIndex( string tableName,  string schemaName, <IndexInterface> index) -> string
+    public function addIndex(string tableName,  string schemaName, <IndexInterface> index) -> string
     {
         var indexType;
         string sql;
@@ -168,7 +173,7 @@ class Mysql extends Dialect
     /**
      * Generates SQL to add the primary key to a table
      */
-    public function addPrimaryKey( string tableName,  string schemaName, <IndexInterface> index) -> string
+    public function addPrimaryKey(string tableName,  string schemaName, <IndexInterface> index) -> string
     {
         return "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD PRIMARY KEY (" . this->getColumnList(index->getColumns()) . ")";
     }
@@ -176,7 +181,7 @@ class Mysql extends Dialect
     /**
      * Generates SQL to create a table
      */
-    public function createTable( string tableName,  string schemaName,  array definition) -> string
+    public function createTable(string tableName,  string schemaName,  array definition) -> string
     {
         var temporary, options, table, columns, column, indexes, index,
             reference, references, indexName, columnLine, indexType, onDelete,
@@ -344,7 +349,7 @@ class Mysql extends Dialect
     /**
      * Generates SQL to create a view
      */
-    public function createView( string viewName,  array definition, string schemaName = null) -> string
+    public function createView(string viewName,  array definition, string schemaName = null) -> string
     {
         var viewSql;
 
@@ -364,7 +369,7 @@ class Mysql extends Dialect
      * );
      * ```
      */
-    public function describeColumns( string table, string schema = null) -> string
+    public function describeColumns(string table, string schema = null) -> string
     {
         string sql, schemaClause;
 
@@ -401,7 +406,7 @@ class Mysql extends Dialect
     /**
      * Generates SQL to query indexes on a table
      */
-    public function describeIndexes( string table, string schema = null) -> string
+    public function describeIndexes(string table, string schema = null) -> string
     {
         return "SHOW INDEXES FROM " . this->prepareTable(table, schema);
     }
@@ -409,7 +414,7 @@ class Mysql extends Dialect
     /**
      * Generates SQL to query foreign keys on a table
      */
-    public function describeReferences( string table, string schema = null) -> string
+    public function describeReferences(string table, string schema = null) -> string
     {
         string sql;
 
@@ -427,7 +432,7 @@ class Mysql extends Dialect
     /**
      * Generates SQL to delete a column from a table
      */
-    public function dropColumn( string tableName,  string schemaName,  string columnName) -> string
+    public function dropColumn(string tableName,  string schemaName,  string columnName) -> string
     {
         return "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " DROP COLUMN `" . columnName . "`";
     }
@@ -435,7 +440,7 @@ class Mysql extends Dialect
     /**
      * Generates SQL to delete a CHECK constraint from a table
      */
-    public function dropCheck( string tableName,  string schemaName,  string checkName) -> string
+    public function dropCheck(string tableName,  string schemaName,  string checkName) -> string
     {
         return "ALTER TABLE " . this->prepareTable(tableName, schemaName)
             . " DROP CHECK `" . checkName . "`";
@@ -444,7 +449,7 @@ class Mysql extends Dialect
     /**
      * Generates SQL to delete a foreign key from a table
      */
-    public function dropForeignKey( string tableName,  string schemaName,  string referenceName) -> string
+    public function dropForeignKey(string tableName,  string schemaName,  string referenceName) -> string
     {
         return "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " DROP FOREIGN KEY `" . referenceName . "`";
     }
@@ -452,7 +457,7 @@ class Mysql extends Dialect
     /**
      * Generates SQL to delete an index from a table
      */
-    public function dropIndex( string tableName,  string schemaName,  string indexName) -> string
+    public function dropIndex(string tableName,  string schemaName,  string indexName) -> string
     {
         return "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " DROP INDEX `" . indexName . "`";
     }
@@ -460,7 +465,7 @@ class Mysql extends Dialect
     /**
      * Generates SQL to delete primary key from a table
      */
-    public function dropPrimaryKey( string tableName,  string schemaName) -> string
+    public function dropPrimaryKey(string tableName,  string schemaName) -> string
     {
         return "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " DROP PRIMARY KEY";
     }
@@ -468,7 +473,7 @@ class Mysql extends Dialect
     /**
      * Generates SQL to drop a table
      */
-    public function dropTable( string tableName, string schemaName = null,  bool ifExists = true) -> string
+    public function dropTable(string tableName, string schemaName = null,  bool ifExists = true) -> string
     {
         var table;
 
@@ -484,7 +489,7 @@ class Mysql extends Dialect
     /**
      * Generates SQL to drop a view
      */
-    public function dropView( string viewName, string schemaName = null,  bool ifExists = true) -> string
+    public function dropView(string viewName, string schemaName = null,  bool ifExists = true) -> string
     {
         var view;
 
@@ -838,7 +843,7 @@ class Mysql extends Dialect
     /**
      * Generates the SQL to list all views of a schema or user
      */
-    public function listViews( string schemaName = null) -> string
+    public function listViews(string schemaName = null) -> string
     {
         if schemaName {
             return "SELECT `TABLE_NAME` AS view_name FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_SCHEMA` = '" . this->escapeStringLiteral(schemaName) . "' ORDER BY view_name";
@@ -850,7 +855,7 @@ class Mysql extends Dialect
     /**
      * Generates SQL to modify a column in a table
      */
-    public function modifyColumn( string tableName,  string schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> string
+    public function modifyColumn(string tableName,  string schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> string
     {
         var afterPosition, defaultValue, upperDefaultValue, columnDefinition;
         string sql;
@@ -931,7 +936,7 @@ class Mysql extends Dialect
      * overridden here to throw, preventing accidental emission of invalid
      * SQL on MySQL connections.
      */
-    public function onConflictUpdate( string sqlQuery,  array conflictColumns,  array updateColumns) -> string
+    public function onConflictUpdate(string sqlQuery,  array conflictColumns,  array updateColumns) -> string
     {
         throw new MysqlOnConflictNotSupported();
     }
@@ -958,7 +963,7 @@ class Mysql extends Dialect
      * echo $sql; // SELECT * FROM co_invoices LOCK IN SHARE MODE
      *```
      */
-    public function sharedLock( string sqlQuery, string modifier = "") -> string
+    public function sharedLock(string sqlQuery, string modifier = "") -> string
     {
         return sqlQuery . " LOCK IN SHARE MODE";
     }
@@ -972,7 +977,7 @@ class Mysql extends Dialect
      * echo $dialect->tableExists("posts");
      * ```
      */
-    public function tableExists( string tableName, string schemaName = null) -> string
+    public function tableExists(string tableName, string schemaName = null) -> string
     {
         if schemaName {
             return "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME`= '"
@@ -986,7 +991,7 @@ class Mysql extends Dialect
     /**
      * Generates the SQL to describe the table creation options
      */
-    public function tableOptions( string table, string schema = null) -> string
+    public function tableOptions(string table, string schema = null) -> string
     {
         string sql;
 
@@ -1004,7 +1009,7 @@ class Mysql extends Dialect
     /**
      * Generates SQL to truncate a table
      */
-    public function truncateTable( string tableName,  string schemaName) -> string
+    public function truncateTable(string tableName,  string schemaName) -> string
     {
         string table;
 
@@ -1020,7 +1025,7 @@ class Mysql extends Dialect
     /**
      * Generates SQL checking for the existence of a schema.view
      */
-    public function viewExists( string viewName, string schemaName = null) -> string
+    public function viewExists(string viewName, string schemaName = null) -> string
     {
         if schemaName {
             return "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_NAME`= '"
@@ -1046,9 +1051,13 @@ class Mysql extends Dialect
     }
 
     /**
-     * Generates SQL to add the table creation options
+     * Generates SQL to add the table creation options. The caller emits the
+     * clause only when the definition carries the options, so the shape
+     * below is narrower than `db_table_definition`.
+     *
+     * @phpstan-param array{options: db_table_options} $definition
      */
-    protected function getTableOptions( array definition) -> string
+    protected function getTableOptions(array definition) -> string
     {
         var options, engine, autoIncrement, tableCollation, collationParts, tableComment;
         array tableOptions;

@@ -211,7 +211,7 @@ interface MetaDataInterface
      *
      * @phpstan-param mvc_metadata_index $data
      */
-    public function write( string key, array data) -> void;
+    public function write(string key, array data) -> void;
 
     /**
      * Writes meta-data for certain model using a MODEL_* constant

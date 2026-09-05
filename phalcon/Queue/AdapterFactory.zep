@@ -42,7 +42,7 @@ class AdapterFactory extends AbstractFactory
      *
      * @phpstan-param array<string, class-string<ConnectionFactoryInterface>> $services
      */
-    public function __construct( array services = [])
+    public function __construct(array services = [])
     {
         this->init(services);
     }
@@ -52,7 +52,7 @@ class AdapterFactory extends AbstractFactory
      *
      * @phpstan-param queue_connection_options $options
      */
-    public function newInstance( string name,  array options = []) -> <ConnectionFactoryInterface>
+    public function newInstance(string name,  array options = []) -> <ConnectionFactoryInterface>
     {
         var definition;
 

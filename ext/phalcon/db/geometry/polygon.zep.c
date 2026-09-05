@@ -35,11 +35,16 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Geometry_Polygon)
 
 	/**
 	 * @var array
+	 *
+	 * @phpstan-var list<list<Point>>
 	 */
 	zend_declare_property_null(phalcon_db_geometry_polygon_ce, SL("rings"), ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
 
+/**
+ * @phpstan-param list<list<Point>> $rings
+ */
 PHP_METHOD(Phalcon_Db_Geometry_Polygon, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -85,6 +90,9 @@ PHP_METHOD(Phalcon_Db_Geometry_Polygon, getType)
 	RETURN_LONG(43);
 }
 
+/**
+ * @phpstan-return list<list<Point>>
+ */
 PHP_METHOD(Phalcon_Db_Geometry_Polygon, getRings)
 {
 
@@ -152,7 +160,7 @@ PHP_METHOD(Phalcon_Db_Geometry_Polygon, ringsWkt)
 	} else {
 		_1 = &_0;
 	}
-	zephir_is_iterable(_1, 0, "phalcon/Db/Geometry/Polygon.zep", 57);
+	zephir_is_iterable(_1, 0, "phalcon/Db/Geometry/Polygon.zep", 65);
 	if (Z_TYPE_P(_1) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_1), _3)
 		{
@@ -167,7 +175,7 @@ PHP_METHOD(Phalcon_Db_Geometry_Polygon, ringsWkt)
 			} else {
 				_4$$3 = &ring;
 			}
-			zephir_is_iterable(_4$$3, 0, "phalcon/Db/Geometry/Polygon.zep", 54);
+			zephir_is_iterable(_4$$3, 0, "phalcon/Db/Geometry/Polygon.zep", 62);
 			if (Z_TYPE_P(_4$$3) == IS_ARRAY) {
 				ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_4$$3), _6$$3)
 				{
@@ -175,7 +183,7 @@ PHP_METHOD(Phalcon_Db_Geometry_Polygon, ringsWkt)
 					ZVAL_COPY(&point, _6$$3);
 					ZEPHIR_CALL_METHOD(&_7$$4, &point, "coordswkt", NULL, 0);
 					zephir_check_call_status();
-					zephir_array_append(&ringParts, &_7$$4, PH_SEPARATE, "phalcon/Db/Geometry/Polygon.zep", 51);
+					zephir_array_append(&ringParts, &_7$$4, PH_SEPARATE, "phalcon/Db/Geometry/Polygon.zep", 59);
 				} ZEND_HASH_FOREACH_END();
 			} else {
 				ZEPHIR_CALL_METHOD(NULL, _4$$3, "rewind", NULL, 0);
@@ -197,7 +205,7 @@ PHP_METHOD(Phalcon_Db_Geometry_Polygon, ringsWkt)
 					zephir_check_call_status();
 						ZEPHIR_CALL_METHOD(&_10$$5, &point, "coordswkt", NULL, 0);
 						zephir_check_call_status();
-						zephir_array_append(&ringParts, &_10$$5, PH_SEPARATE, "phalcon/Db/Geometry/Polygon.zep", 51);
+						zephir_array_append(&ringParts, &_10$$5, PH_SEPARATE, "phalcon/Db/Geometry/Polygon.zep", 59);
 				}
 			}
 			ZEPHIR_INIT_NVAR(&point);
@@ -205,7 +213,7 @@ PHP_METHOD(Phalcon_Db_Geometry_Polygon, ringsWkt)
 			zephir_fast_join_str(&_11$$3, SL(", "), &ringParts);
 			ZEPHIR_INIT_NVAR(&_12$$3);
 			ZEPHIR_CONCAT_SVS(&_12$$3, "(", &_11$$3, ")");
-			zephir_array_append(&parts, &_12$$3, PH_SEPARATE, "phalcon/Db/Geometry/Polygon.zep", 54);
+			zephir_array_append(&parts, &_12$$3, PH_SEPARATE, "phalcon/Db/Geometry/Polygon.zep", 62);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, _1, "rewind", NULL, 0);
@@ -234,7 +242,7 @@ PHP_METHOD(Phalcon_Db_Geometry_Polygon, ringsWkt)
 				} else {
 					_15$$6 = &ring;
 				}
-				zephir_is_iterable(_15$$6, 0, "phalcon/Db/Geometry/Polygon.zep", 54);
+				zephir_is_iterable(_15$$6, 0, "phalcon/Db/Geometry/Polygon.zep", 62);
 				if (Z_TYPE_P(_15$$6) == IS_ARRAY) {
 					ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_15$$6), _17$$6)
 					{
@@ -242,7 +250,7 @@ PHP_METHOD(Phalcon_Db_Geometry_Polygon, ringsWkt)
 						ZVAL_COPY(&point, _17$$6);
 						ZEPHIR_CALL_METHOD(&_18$$7, &point, "coordswkt", NULL, 0);
 						zephir_check_call_status();
-						zephir_array_append(&ringParts, &_18$$7, PH_SEPARATE, "phalcon/Db/Geometry/Polygon.zep", 51);
+						zephir_array_append(&ringParts, &_18$$7, PH_SEPARATE, "phalcon/Db/Geometry/Polygon.zep", 59);
 					} ZEND_HASH_FOREACH_END();
 				} else {
 					ZEPHIR_CALL_METHOD(NULL, _15$$6, "rewind", NULL, 0);
@@ -264,7 +272,7 @@ PHP_METHOD(Phalcon_Db_Geometry_Polygon, ringsWkt)
 						zephir_check_call_status();
 							ZEPHIR_CALL_METHOD(&_21$$8, &point, "coordswkt", NULL, 0);
 							zephir_check_call_status();
-							zephir_array_append(&ringParts, &_21$$8, PH_SEPARATE, "phalcon/Db/Geometry/Polygon.zep", 51);
+							zephir_array_append(&ringParts, &_21$$8, PH_SEPARATE, "phalcon/Db/Geometry/Polygon.zep", 59);
 					}
 				}
 				ZEPHIR_INIT_NVAR(&point);
@@ -272,7 +280,7 @@ PHP_METHOD(Phalcon_Db_Geometry_Polygon, ringsWkt)
 				zephir_fast_join_str(&_22$$6, SL(", "), &ringParts);
 				ZEPHIR_INIT_NVAR(&_23$$6);
 				ZEPHIR_CONCAT_SVS(&_23$$6, "(", &_22$$6, ")");
-				zephir_array_append(&parts, &_23$$6, PH_SEPARATE, "phalcon/Db/Geometry/Polygon.zep", 54);
+				zephir_array_append(&parts, &_23$$6, PH_SEPARATE, "phalcon/Db/Geometry/Polygon.zep", 62);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&ring);

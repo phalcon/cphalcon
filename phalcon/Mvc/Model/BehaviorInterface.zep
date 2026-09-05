@@ -29,5 +29,5 @@ interface BehaviorInterface
     /**
      * This method receives the notifications from the EventsManager
      */
-    public function notify( string type, <ModelInterface> model);
+    public function notify(string type, <ModelInterface> model);
 }

@@ -252,7 +252,7 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
      *
      * @phpstan-param flash_css_classes $cssClasses
      */
-    public function setCssClasses( array cssClasses) -> <static>
+    public function setCssClasses(array cssClasses) -> <static>
     {
         let this->cssClasses = cssClasses;
 
@@ -264,7 +264,7 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
      *
      * @phpstan-param flash_css_classes $cssIconClasses
      */
-    public function setCssIconClasses( array cssIconClasses) -> <static>
+    public function setCssIconClasses(array cssIconClasses) -> <static>
     {
         let this->cssIconClasses  = cssIconClasses;
 
@@ -274,7 +274,7 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
     /**
      * Set a custom template for showing the messages
      */
-    public function setCustomTemplate( string customTemplate) -> <static>
+    public function setCustomTemplate(string customTemplate) -> <static>
     {
         let this->customTemplate = customTemplate;
 

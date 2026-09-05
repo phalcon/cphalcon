@@ -396,7 +396,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * @phpstan-param mvc_model_bind_params $bindParams
      * @phpstan-param mvc_model_bind_types $bindTypes
      */
-    public function andWhere( string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
+    public function andWhere(string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
     {
         var currentConditions;
 
@@ -1265,7 +1265,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * );
      *```
      */
-    public function innerJoin( string model, string conditions = null, string alias = null) -> <BuilderInterface>
+    public function innerJoin(string model, string conditions = null, string alias = null) -> <BuilderInterface>
     {
         let this->joins[] = [model, conditions, alias, "INNER"];
 
@@ -1338,7 +1338,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * );
      *```
      */
-    public function leftJoin( string model, string conditions = null, string alias = null) -> <BuilderInterface>
+    public function leftJoin(string model, string conditions = null, string alias = null) -> <BuilderInterface>
     {
         let this->joins[] = [model, conditions, alias, "LEFT"];
 
@@ -1513,7 +1513,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * );
      *```
      */
-    public function orWhere( string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
+    public function orWhere(string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
     {
         var currentConditions;
 
@@ -1552,7 +1552,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      *
      * @phpstan-param mvc_model_bind_params $bindParams
      */
-    public function setBindParams( array bindParams, bool merge = false) -> <BuilderInterface>
+    public function setBindParams(array bindParams, bool merge = false) -> <BuilderInterface>
     {
         var currentBindParams;
 
@@ -1575,7 +1575,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      *
      * @phpstan-param mvc_model_bind_types $bindTypes
      */
-    public function setBindTypes( array bindTypes, bool merge = false) -> <BuilderInterface>
+    public function setBindTypes(array bindTypes, bool merge = false) -> <BuilderInterface>
     {
         var currentBindTypes;
 
@@ -1670,7 +1670,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Appends a BETWEEN condition
      */
-    protected function conditionBetween( string clause,  string operator,  string expr, var minimum, var maximum) -> <BuilderInterface>
+    protected function conditionBetween(string clause,  string operator,  string expr, var minimum, var maximum) -> <BuilderInterface>
     {
         var hiddenParam, nextHiddenParam, minimumKey, maximumKey, operatorMethod;
 
@@ -1714,7 +1714,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      *
      * @phpstan-param array<array-key, mixed> $values
      */
-    protected function conditionIn( string clause,  string operator,  string expr,  array values) -> <BuilderInterface>
+    protected function conditionIn(string clause,  string operator,  string expr,  array values) -> <BuilderInterface>
     {
         var key, queryKey, value, bindKeys, bindParams, operatorMethod;
         int hiddenParam;
@@ -1807,7 +1807,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      *
      * @phpstan-param array<array-key, mixed> $values
      */
-    protected function conditionNotIn( string clause,  string operator,  string expr,  array values) -> <BuilderInterface>
+    protected function conditionNotIn(string clause,  string operator,  string expr,  array values) -> <BuilderInterface>
     {
         var key, queryKey, value, bindKeys, bindParams, operatorMethod;
         int hiddenParam;

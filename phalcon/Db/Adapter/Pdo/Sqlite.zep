@@ -10,6 +10,7 @@
 
 namespace Phalcon\Db\Adapter\Pdo;
 
+use Phalcon\Contracts\Db\DbTypes;
 use Phalcon\Db\Adapter\Pdo\AbstractPdo as PdoAdapter;
 use Phalcon\Db\Column;
 use Phalcon\Db\ColumnInterface;
@@ -34,6 +35,8 @@ use Phalcon\Db\ReferenceInterface;
  *     ]
  * );
  * ```
+ *
+ * @phpstan-import-type db_dsn_defaults from DbTypes
  */
 class Sqlite extends PdoAdapter
 {
@@ -50,7 +53,7 @@ class Sqlite extends PdoAdapter
     /**
      * Constructor for Phalcon\Db\Adapter\Pdo\Sqlite
      */
-    public function __construct( array descriptor)
+    public function __construct(array descriptor)
     {
         if isset descriptor["charset"] {
             trigger_error(
@@ -65,7 +68,7 @@ class Sqlite extends PdoAdapter
      * This method is automatically called in Phalcon\Db\Adapter\Pdo
      * constructor. Call it when you need to restore a database connection.
      */
-    public function connect( array descriptor = []) -> void
+    public function connect(array descriptor = []) -> void
     {
         var dbname;
 
@@ -93,7 +96,7 @@ class Sqlite extends PdoAdapter
      * );
      * ```
      */
-    public function describeColumns( string table,  string schema = null) -> <ColumnInterface[]>
+    public function describeColumns(string table,  string schema = null) -> <ColumnInterface[]>
     {
         var columns, columnType, fields, field, definition, oldColumn,
             sizePattern, matches, matchOne, matchTwo, columnName, hiddenFlag;
@@ -344,7 +347,7 @@ class Sqlite extends PdoAdapter
      * );
      * ```
      */
-    public function describeIndexes( string table,  string schema = null) -> <IndexInterface[]>
+    public function describeIndexes(string table,  string schema = null) -> <IndexInterface[]>
     {
         var indexes, index, keyName, indexObjects, name, columns,
             describeIndexes, describeIndex, indexSql;
@@ -406,7 +409,7 @@ class Sqlite extends PdoAdapter
     /**
      * Lists table references
      */
-    public function describeReferences( string table,  string schema = null) -> <ReferenceInterface[]>
+    public function describeReferences(string table,  string schema = null) -> <ReferenceInterface[]>
     {
         var references, reference, arrayReference, constraintName,
             referenceObjects, name, referencedSchema, referencedTable, columns,
@@ -501,6 +504,8 @@ class Sqlite extends PdoAdapter
 
     /**
      * Returns PDO adapter DSN defaults as a key-value map.
+     *
+     * @phpstan-return db_dsn_defaults
      */
     protected function getDsnDefaults() -> array
     {

@@ -336,7 +336,7 @@ class Url extends AbstractInjectionAware implements UrlInterface
      * $url->setBasePath("/var/www/htdocs/");
      *```
      */
-    public function setBasePath( string basePath) -> <UrlInterface>
+    public function setBasePath(string basePath) -> <UrlInterface>
     {
         let this->basePath = basePath;
 
@@ -352,7 +352,7 @@ class Url extends AbstractInjectionAware implements UrlInterface
      * $url->setBaseUri("/invo/index.php/");
      *```
      */
-    public function setBaseUri( string baseUri) -> <UrlInterface>
+    public function setBaseUri(string baseUri) -> <UrlInterface>
     {
         let this->baseUri = baseUri;
 
@@ -370,7 +370,7 @@ class Url extends AbstractInjectionAware implements UrlInterface
      * $url->setStaticBaseUri("/invo/");
      *```
      */
-    public function setStaticBaseUri( string staticBaseUri) -> <UrlInterface>
+    public function setStaticBaseUri(string staticBaseUri) -> <UrlInterface>
     {
         let this->staticBaseUri = staticBaseUri;
 

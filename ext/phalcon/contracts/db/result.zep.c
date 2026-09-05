@@ -22,6 +22,8 @@
  */
 /**
  * Canonical contract for Phalcon\Db result objects.
+ *
+ * @phpstan-import-type db_rows from DbTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Db_Result)
 {
@@ -51,6 +53,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Result, fetch);
  * Returns an array of arrays containing all the records in the result. This
  * method is affected by the active fetch flag set using
  * `Phalcon\Db\Result\Pdo::setFetchMode()`
+ *
+ * @phpstan-return db_rows
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Result, fetchAll);
 /**

@@ -73,7 +73,7 @@ class AdapterFactory extends AbstractFactory
      * @return AdapterInterface
      * @throws Exception
      */
-    public function newInstance( string name,  array options = []) -> <AdapterInterface>
+    public function newInstance(string name,  array options = []) -> <AdapterInterface>
     {
         var definition;
 

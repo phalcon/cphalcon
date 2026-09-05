@@ -105,7 +105,7 @@ class File extends AbstractValidatorComposite
      *
      * @phpstan-param filter_validator_options $options
      */
-    public function __construct( array options = [])
+    public function __construct(array options = [])
     {
         var key, value,
             allowWildcards   = false,

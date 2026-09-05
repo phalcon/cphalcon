@@ -385,7 +385,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      *
      * @param bool defaultRoutes
      */
-    public function __construct( bool defaultRoutes = true)
+    public function __construct(bool defaultRoutes = true)
     {
         if defaultRoutes {
             /**
@@ -980,7 +980,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      *
      * @throws \Phalcon\Mvc\Router\Exception
      */
-    public function dumpDispatcher( string path) -> void
+    public function dumpDispatcher(string path) -> void
     {
         var dump, php, tmpPath;
 
@@ -1004,7 +1004,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      *
      * @throws \Phalcon\Mvc\Router\Exception
      */
-    public function loadDispatcher( string path) -> void
+    public function loadDispatcher(string path) -> void
     {
         var dump;
 
@@ -1238,7 +1238,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      *
      * @return RouteInterface|bool
      */
-    public function getRouteByName( string name) -> <RouteInterface> | bool
+    public function getRouteByName(string name) -> <RouteInterface> | bool
     {
         var route, routeName, key;
 
@@ -1283,7 +1283,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      *
      * @return void
      */
-    public function handle( string uri) -> void
+    public function handle(string uri) -> void
     {
         var action, beforeMatch, candidateRoutes, container,
             controller, converter, converters, currentHostName, eventsManager,
@@ -1951,7 +1951,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      *
      * @phpstan-return static
      */
-    public function removeExtraSlashes( bool remove) -> <static>
+    public function removeExtraSlashes(bool remove) -> <static>
     {
         let this->removeExtraSlashes = remove;
 
@@ -1967,7 +1967,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      *
      * @phpstan-return static
      */
-    public function setDefaultAction( string actionName) -> <static>
+    public function setDefaultAction(string actionName) -> <static>
     {
         let this->defaultAction = actionName;
 
@@ -1983,7 +1983,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      *
      * @phpstan-return static
      */
-    public function setDefaultController( string controllerName) -> <static>
+    public function setDefaultController(string controllerName) -> <static>
     {
         let this->defaultController = controllerName;
 
@@ -1999,7 +1999,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      *
      * @phpstan-return static
      */
-    public function setDefaultModule( string moduleName) -> <static>
+    public function setDefaultModule(string moduleName) -> <static>
     {
         let this->defaultModule = moduleName;
 
@@ -2015,7 +2015,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      *
      * @phpstan-return static
      */
-    public function setDefaultNamespace( string namespaceName) -> <static>
+    public function setDefaultNamespace(string namespaceName) -> <static>
     {
         let this->defaultNamespace = namespaceName;
 
@@ -2043,7 +2043,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * @phpstan-param mvc_router_defaults $defaults
      * @phpstan-return static
      */
-    public function setDefaults( array defaults) -> <static>
+    public function setDefaults(array defaults) -> <static>
     {
         var namespaceName, module, controller, action, params;
 
@@ -2197,7 +2197,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
         }
     }
 
-    protected function extractRealUri( string uri) -> string
+    protected function extractRealUri(string uri) -> string
     {
         var urlParts, realUri;
 

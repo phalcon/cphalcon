@@ -927,7 +927,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *
      * @phpstan-param mvc_metadata_index $data
      */
-    public function write( string key, array data) -> void
+    public function write(string key, array data) -> void
     {
         var result, option;
 

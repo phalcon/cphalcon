@@ -46,6 +46,11 @@
  *     print_r($invoice);
  * }
  * ```
+ *
+ * @phpstan-import-type db_bind_params from DbTypes
+ * @phpstan-import-type db_bind_types from DbTypes
+ * @phpstan-import-type db_constructor_arguments from DbTypes
+ * @phpstan-import-type db_rows from DbTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Result_PdoResult)
 {
@@ -53,10 +58,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Result_PdoResult)
 
 	/**
 	 * @var array
+	 *
+	 * @phpstan-var db_bind_params
 	 */
 	zend_declare_property_null(phalcon_db_result_pdoresult_ce, SL("bindParams"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var array
+	 *
+	 * @phpstan-var db_bind_types
 	 */
 	zend_declare_property_null(phalcon_db_result_pdoresult_ce, SL("bindTypes"), ZEND_ACC_PROTECTED);
 	/**
@@ -96,6 +105,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Result_PdoResult)
 
 /**
  * Phalcon\Db\Result\Pdo constructor
+ *
+ * @phpstan-param db_bind_params $bindParams
+ * @phpstan-param db_bind_types  $bindTypes
  */
 PHP_METHOD(Phalcon_Db_Result_PdoResult, __construct)
 {
@@ -385,6 +397,10 @@ PHP_METHOD(Phalcon_Db_Result_PdoResult, fetch)
  * @param int                      $mode
  * @param int|string|callable|null $fetchArgument
  * @param array|null               $constructorArgs
+ *
+ * @phpstan-param db_constructor_arguments|null $constructorArgs
+ *
+ * @phpstan-return db_rows
  */
 PHP_METHOD(Phalcon_Db_Result_PdoResult, fetchAll)
 {
@@ -602,7 +618,7 @@ PHP_METHOD(Phalcon_Db_Result_PdoResult, numRows)
 	ZEPHIR_CALL_METHOD(&row, &result, "fetch", NULL, 0);
 	zephir_check_call_status();
 	zephir_memory_observe(&_6);
-	zephir_array_fetch_string(&_6, &row, SL("numrows"), PH_NOISY, "phalcon/Db/Result/PdoResult.zep", 321);
+	zephir_array_fetch_string(&_6, &row, SL("numrows"), PH_NOISY, "phalcon/Db/Result/PdoResult.zep", 338);
 	ZEPHIR_INIT_NVAR(&rowCount);
 	ZVAL_LONG(&rowCount, zephir_get_intval(&_6));
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 670, &rowCount);

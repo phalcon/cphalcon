@@ -269,7 +269,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     /**
      * Sets the database service used to run the isolated transactions
      */
-    public function setDbService( string service) -> <ManagerInterface>
+    public function setDbService(string service) -> <ManagerInterface>
     {
         let this->service = service;
 

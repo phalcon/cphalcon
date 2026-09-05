@@ -315,7 +315,7 @@ class Filter implements FilterInterface
          * If the array is passed with just values then those are just the
          * sanitizer names i.e.
          *
-         * $locator->sanitize( 'abcde', ['trim', 'upper'])
+         * $locator->sanitize('abcde', ['trim', 'upper'])
          *
          * If the sanitizer requires more than one parameter then we need to
          * inject those parameters in the sanitize also:

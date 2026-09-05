@@ -89,7 +89,7 @@ class Ip extends AbstractValidator
      *
      * @phpstan-param filter_validator_options $options
      */
-    public function __construct( array options = [])
+    public function __construct(array options = [])
     {
         parent::__construct(options);
     }

@@ -16,9 +16,14 @@ class Polygon extends AbstractGeometry
 {
     /**
      * @var array
+     *
+     * @phpstan-var list<list<Point>>
      */
     protected rings;
 
+    /**
+     * @phpstan-param list<list<Point>> $rings
+     */
     public function __construct(array rings, int srid = 0)
     {
         let this->rings = rings,
@@ -30,6 +35,9 @@ class Polygon extends AbstractGeometry
         return Column::TYPE_POLYGON;
     }
 
+    /**
+     * @phpstan-return list<list<Point>>
+     */
     public function getRings() -> array
     {
         return this->rings;

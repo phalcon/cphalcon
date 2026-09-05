@@ -16,9 +16,14 @@ class MultiPolygon extends AbstractGeometry
 {
     /**
      * @var array
+     *
+     * @phpstan-var list<Polygon>
      */
     protected polygons;
 
+    /**
+     * @phpstan-param list<Polygon> $polygons
+     */
     public function __construct(array polygons, int srid = 0)
     {
         let this->polygons = polygons,
@@ -30,6 +35,9 @@ class MultiPolygon extends AbstractGeometry
         return Column::TYPE_MULTIPOLYGON;
     }
 
+    /**
+     * @phpstan-return list<Polygon>
+     */
     public function getPolygons() -> array
     {
         return this->polygons;

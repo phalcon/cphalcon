@@ -214,7 +214,7 @@ class Session extends AbstractFlash
      *
      * @throws Exception
      */
-    protected function setSessionMessages( array messages) -> array
+    protected function setSessionMessages(array messages) -> array
     {
         var session;
 

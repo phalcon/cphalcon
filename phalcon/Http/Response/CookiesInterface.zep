@@ -24,17 +24,17 @@ interface CookiesInterface
      * Deletes a cookie by its name
      * This method does not removes cookies from the _COOKIE superglobal
      */
-    public function delete( string name) -> bool;
+    public function delete(string name) -> bool;
 
     /**
      * Gets a cookie from the bag
      */
-    public function get( string name) -> <CookieInterface>;
+    public function get(string name) -> <CookieInterface>;
 
     /**
      * Check if a cookie is defined in the bag or exists in the _COOKIE superglobal
      */
-    public function has( string name) -> bool;
+    public function has(string name) -> bool;
 
     /**
      * Returns if the bag is automatically encrypting/decrypting cookies

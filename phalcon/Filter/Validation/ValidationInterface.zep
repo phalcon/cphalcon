@@ -71,7 +71,7 @@ interface ValidationInterface
     /**
      * Get label for field
      */
-    public function getLabel( string field) -> string;
+    public function getLabel(string field) -> string;
 
     /**
      * Returns the registered validators
@@ -105,7 +105,7 @@ interface ValidationInterface
      *
      * @phpstan-param filter_validators $validators
      */
-    public function rules( string field,  array validators) -> <ValidationInterface>;
+    public function rules(string field,  array validators) -> <ValidationInterface>;
 
     /**
      * Adds filters to the field
@@ -121,7 +121,7 @@ interface ValidationInterface
      *
      * @phpstan-param filter_validation_labels $labels
      */
-    public function setLabels( array labels) -> void;
+    public function setLabels(array labels) -> void;
 
     /**
      * Validate a set of data according to a set of rules

@@ -133,7 +133,7 @@ class RedisCluster extends Redis
                 );
             } catch Throwable, ex {
                 throw new ClusterConnectionFailed(
-                    "Could not connect to the Redis Cluster server due to: " 
+                    "Could not connect to the Redis Cluster server due to: "
                     . ex->getMessage(),
                     0,
                     ex
@@ -160,7 +160,7 @@ class RedisCluster extends Redis
      *
      * @throws ClusterConnectionFailed|SupportException
      */
-    public function getKeys( string prefix = "") -> array
+    public function getKeys(string prefix = "") -> array
     {
         var keys;
 

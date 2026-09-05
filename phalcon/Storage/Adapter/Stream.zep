@@ -189,7 +189,7 @@ class Stream extends AbstractAdapter
     /**
      * Reads data from the adapter
      */
-    protected function doGet( string key, var defaultValue = null) -> var
+    protected function doGet(string key, var defaultValue = null) -> var
     {
         var content, filepath, payload;
 
@@ -213,7 +213,7 @@ class Stream extends AbstractAdapter
     /**
      * Checks if an element exists in the cache and is not expired
      */
-    protected function doHas( string key) -> bool
+    protected function doHas(string key) -> bool
     {
         var payload, filepath;
 
@@ -235,7 +235,7 @@ class Stream extends AbstractAdapter
     /**
      * Increments a stored number
      */
-    protected function doIncrement( string key, int value = 1) -> false | int
+    protected function doIncrement(string key, int value = 1) -> false | int
     {
         var data, result;
 
@@ -262,7 +262,7 @@ class Stream extends AbstractAdapter
      * item has expired. If you need to set this key forever, you should use
      * the `setForever()` method.
      */
-    protected function doSet( string key, var value, var ttl = null) -> bool
+    protected function doSet(string key, var value, var ttl = null) -> bool
     {
         array payload;
 
@@ -282,7 +282,7 @@ class Stream extends AbstractAdapter
     /**
      * Returns the folder based on the storageDir and the prefix
      */
-    private function getDir( string key = "") -> string
+    private function getDir(string key = "") -> string
     {
         var dirFromFile, dirPrefix;
 
@@ -322,7 +322,7 @@ class Stream extends AbstractAdapter
     /**
      * Returns an iterator for the directory contents
      */
-    private function getIterator( string dir) -> <Iterator>
+    private function getIterator(string dir) -> <Iterator>
     {
         return new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator(
@@ -397,7 +397,7 @@ class Stream extends AbstractAdapter
      *
      * @phpstan-param storage_stream_payload $payload
      */
-    private function isExpired( array payload) -> bool
+    private function isExpired(array payload) -> bool
     {
         var created, ttl;
 

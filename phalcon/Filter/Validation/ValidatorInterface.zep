@@ -26,12 +26,12 @@ interface ValidatorInterface
      *
      * @return mixed
      */
-    public function getOption( string key, var defaultValue = null) -> var;
+    public function getOption(string key, var defaultValue = null) -> var;
 
     /**
      * Get the template message
      */
-    public function getTemplate( string field) -> string;
+    public function getTemplate(string field) -> string;
 
     /**
      * Get message templates
@@ -43,19 +43,19 @@ interface ValidatorInterface
     /**
      * Checks if an option is defined
      */
-    public function hasOption( string key) -> bool;
+    public function hasOption(string key) -> bool;
 
     /**
      * Set a new template message
      */
-    public function setTemplate( string template) -> <ValidatorInterface>;
+    public function setTemplate(string template) -> <ValidatorInterface>;
 
     /**
      * Clear current template and set new from an array,
      *
      * @phpstan-param filter_validator_templates $templates
      */
-    public function setTemplates( array templates) -> <ValidatorInterface>;
+    public function setTemplates(array templates) -> <ValidatorInterface>;
 
     /**
      * Executes the validation

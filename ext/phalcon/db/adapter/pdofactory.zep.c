@@ -27,6 +27,10 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+/**
+ * @phpstan-import-type db_descriptor from DbTypes
+ * @phpstan-import-type db_factory_config from DbTypes
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_PdoFactory)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Db\\Adapter, PdoFactory, phalcon, db_adapter_pdofactory, phalcon_factory_abstractfactory_ce, phalcon_db_adapter_pdofactory_method_entry, 0);
@@ -36,6 +40,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_PdoFactory)
 
 /**
  * Constructor
+ *
+ * @phpstan-param array<string, class-string<AdapterInterface>> $services
  */
 PHP_METHOD(Phalcon_Db_Adapter_PdoFactory, __construct)
 {
@@ -111,7 +117,7 @@ PHP_METHOD(Phalcon_Db_Adapter_PdoFactory, load)
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	zephir_memory_observe(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Db/Adapter/PdoFactory.zep", 56);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Db/Adapter/PdoFactory.zep", 63);
 	zephir_array_unset_string(config, SL("adapter"), PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	array_init(&_1);
@@ -126,6 +132,8 @@ PHP_METHOD(Phalcon_Db_Adapter_PdoFactory, load)
 
 /**
  * Create a new instance of the adapter
+ *
+ * @phpstan-param db_descriptor $options
  */
 PHP_METHOD(Phalcon_Db_Adapter_PdoFactory, newInstance)
 {

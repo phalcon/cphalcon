@@ -96,14 +96,14 @@ interface QueryInterface
      *
      * @phpstan-param mvc_model_bind_params $bindParams
      */
-    public function setBindParams( array bindParams, bool merge = false) -> <QueryInterface>;
+    public function setBindParams(array bindParams, bool merge = false) -> <QueryInterface>;
 
     /**
      * Set default bind parameters
      *
      * @phpstan-param mvc_model_bind_types $bindTypes
      */
-    public function setBindTypes( array bindTypes, bool merge = false) -> <QueryInterface>;
+    public function setBindTypes(array bindTypes, bool merge = false) -> <QueryInterface>;
 
     /**
      * Set SHARED LOCK clause
