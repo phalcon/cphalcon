@@ -53,7 +53,7 @@ class Parser
      *
      * @return Token
      */
-    public function parse( string token) -> <Token>
+    public function parse(string token) -> <Token>
     {
         var claims, encodedClaims, encodedHeaders, encodedSignature,
             headers, results, signature;
@@ -151,7 +151,7 @@ class Parser
      *
      * @return array
      */
-    private function parseToken( string token) -> array
+    private function parseToken(string token) -> array
     {
         var parts;
 

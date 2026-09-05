@@ -215,7 +215,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * @phpstan-param db_descriptor $descriptor
      */
-    public function __construct( array descriptor)
+    public function __construct(array descriptor)
     {
         var dialectClass, connectionId;
 
@@ -253,7 +253,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Adds a column to a table
      */
-    public function addColumn( string tableName,  string schemaName, <ColumnInterface> column) -> bool
+    public function addColumn(string tableName,  string schemaName, <ColumnInterface> column) -> bool
     {
         return this->{"execute"}(
             this->dialect->addColumn(
@@ -268,7 +268,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * Adds a CHECK constraint to a table. MySQL 8.0.16+ and PostgreSQL
      * issue `ALTER TABLE ... ADD CONSTRAINT ... CHECK (...)`; SQLite throws.
      */
-    public function addCheck( string tableName,  string schemaName, <CheckInterface> check) -> bool
+    public function addCheck(string tableName,  string schemaName, <CheckInterface> check) -> bool
     {
         return this->{"execute"}(
             this->dialect->addCheck(
@@ -282,7 +282,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Adds a foreign key to a table
      */
-    public function addForeignKey( string tableName,  string schemaName, <ReferenceInterface> reference) -> bool
+    public function addForeignKey(string tableName,  string schemaName, <ReferenceInterface> reference) -> bool
     {
         return this->{"execute"}(
             this->dialect->addForeignKey(
@@ -296,7 +296,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Adds an index to a table
      */
-    public function addIndex( string tableName,  string schemaName, <IndexInterface> index) -> bool
+    public function addIndex(string tableName,  string schemaName, <IndexInterface> index) -> bool
     {
         return this->{"execute"}(
             this->dialect->addIndex(
@@ -310,7 +310,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Adds a primary key to a table
      */
-    public function addPrimaryKey( string tableName,  string schemaName, <IndexInterface> index) -> bool
+    public function addPrimaryKey(string tableName,  string schemaName, <IndexInterface> index) -> bool
     {
         return this->{"execute"}(
             this->dialect->addPrimaryKey(
@@ -324,7 +324,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Creates a new savepoint
      */
-    public function createSavepoint( string name) -> bool
+    public function createSavepoint(string name) -> bool
     {
         var dialect;
 
@@ -344,7 +344,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * @phpstan-param db_table_definition $definition
      */
-    public function createTable( string tableName,  string schemaName,  array definition) -> bool
+    public function createTable(string tableName,  string schemaName,  array definition) -> bool
     {
         var columns;
 
@@ -368,7 +368,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Creates a view
      */
-    public function createView( string viewName,  array definition, string schemaName = null) -> bool
+    public function createView(string viewName,  array definition, string schemaName = null) -> bool
     {
         if unlikely !isset definition["sql"] {
             throw new TableMustHaveColumn();
@@ -440,7 +440,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * adapter must override this method. All bundled adapters except PostgreSQL
      * override it.
      */
-    public function describeIndexes( string table, string schema = null) -> <IndexInterface[]>
+    public function describeIndexes(string table, string schema = null) -> <IndexInterface[]>
     {
         var indexes, index, keyName, indexObjects, name, indexColumns, columns;
 
@@ -489,7 +489,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * PostgreSQL, SQLite) overrides it, so this base implementation has no
      * in-tree caller and effectively assumes the PostgreSQL row shape.
      */
-    public function describeReferences( string table,  string schema = null) -> <ReferenceInterface[]>
+    public function describeReferences(string table,  string schema = null) -> <ReferenceInterface[]>
     {
         var references, reference, arrayReference, constraintName,
             referenceObjects, name, referencedSchema, referencedTable, columns,
@@ -543,7 +543,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Drops a column from a table
      */
-    public function dropColumn( string tableName,  string schemaName, string columnName) -> bool
+    public function dropColumn(string tableName,  string schemaName, string columnName) -> bool
     {
         return this->{"execute"}(
             this->dialect->dropColumn(
@@ -557,7 +557,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Drops a CHECK constraint from a table. SQLite throws.
      */
-    public function dropCheck( string tableName,  string schemaName,  string checkName) -> bool
+    public function dropCheck(string tableName,  string schemaName,  string checkName) -> bool
     {
         return this->{"execute"}(
             this->dialect->dropCheck(
@@ -571,7 +571,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Drops a foreign key from a table
      */
-    public function dropForeignKey( string tableName,  string schemaName,  string referenceName) -> bool
+    public function dropForeignKey(string tableName,  string schemaName,  string referenceName) -> bool
     {
         return this->{"execute"}(
             this->dialect->dropForeignKey(
@@ -585,7 +585,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Drop an index from a table
      */
-    public function dropIndex( string tableName,  string schemaName, indexName) -> bool
+    public function dropIndex(string tableName,  string schemaName, indexName) -> bool
     {
         return this->{"execute"}(
             this->dialect->dropIndex(
@@ -599,7 +599,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Drops a table's primary key
      */
-    public function dropPrimaryKey( string tableName,  string schemaName) -> bool
+    public function dropPrimaryKey(string tableName,  string schemaName) -> bool
     {
         return this->{"execute"}(
             this->dialect->dropPrimaryKey(
@@ -612,7 +612,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Drops a table from a schema/database
      */
-    public function dropTable( string tableName,  string schemaName = null, bool ifExists = true) -> bool
+    public function dropTable(string tableName,  string schemaName = null, bool ifExists = true) -> bool
     {
         return this->{"execute"}(
             this->dialect->dropTable(
@@ -626,7 +626,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Drops a view
      */
-    public function dropView( string viewName,  string schemaName = null, bool ifExists = true) -> bool
+    public function dropView(string viewName,  string schemaName = null, bool ifExists = true) -> bool
     {
         return this->{"execute"}(
             this->dialect->dropView(
@@ -759,8 +759,10 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * );
      * print_r($invoice);
      *```
+     *
+     * @todo v7 check the return type, it should be also bool
      */
-    public function fetchOne( string sqlQuery, var fetchMode = Enum::FETCH_ASSOC, array bindParams = [], array bindTypes = []) -> array
+    public function fetchOne(string sqlQuery, var fetchMode = Enum::FETCH_ASSOC, array bindParams = [], array bindTypes = []) -> array
     {
         var result;
 
@@ -782,7 +784,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * `modifier` is passed straight to the dialect (use `Dialect::LOCK_NOWAIT`
      * / `Dialect::LOCK_SKIP_LOCKED` / `Dialect::LOCK_NONE`).
      */
-    public function forUpdate( string sqlQuery, string modifier = "") -> string
+    public function forUpdate(string sqlQuery, string modifier = "") -> string
     {
         return this->dialect->forUpdate(sqlQuery, modifier);
     }
@@ -1086,7 +1088,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * @phpstan-param db_limit_number $number
      */
-    public function limit( string sqlQuery, var number) -> string
+    public function limit(string sqlQuery, var number) -> string
     {
         return this->dialect->limit(sqlQuery, number);
     }
@@ -1102,7 +1104,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * @phpstan-return db_table_names
      */
-    public function listTables( string schemaName = null) -> array
+    public function listTables(string schemaName = null) -> array
     {
         var tables, table, allTables;
 
@@ -1131,7 +1133,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * @phpstan-return db_table_names
      */
-    public function listViews( string schemaName = null) -> array
+    public function listViews(string schemaName = null) -> array
     {
         var tables, table, allTables;
 
@@ -1152,7 +1154,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Modifies a table column based on a definition
      */
-    public function modifyColumn( string tableName,  string schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> bool
+    public function modifyColumn(string tableName,  string schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> bool
     {
         return this->{"execute"}(
             this->dialect->modifyColumn(
@@ -1167,7 +1169,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Releases given savepoint
      */
-    public function releaseSavepoint( string name) -> bool
+    public function releaseSavepoint(string name) -> bool
     {
         var dialect;
 
@@ -1189,7 +1191,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Rollbacks given savepoint
      */
-    public function rollbackSavepoint( string name) -> bool
+    public function rollbackSavepoint(string name) -> bool
     {
         var dialect;
 
@@ -1251,7 +1253,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * @phpstan-param db_setup_options $options
      */
-    public static function setup( array options) -> void
+    public static function setup(array options) -> void
     {
         var escapeIdentifiers, forceCasting;
 
@@ -1275,7 +1277,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * `modifier` is passed straight to the dialect (use
      * `Dialect::LOCK_NOWAIT` / `Dialect::LOCK_SKIP_LOCKED` for PostgreSQL).
      */
-    public function sharedLock( string sqlQuery, string modifier = "") -> string
+    public function sharedLock(string sqlQuery, string modifier = "") -> string
     {
         return this->dialect->sharedLock(sqlQuery, modifier);
     }
@@ -1286,7 +1288,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * @phpstan-param db_view_definition $definition
      */
-    public function createMaterializedView( string viewName,  array definition, string schemaName = null) -> bool
+    public function createMaterializedView(string viewName,  array definition, string schemaName = null) -> bool
     {
         return this->{"execute"}(
             this->dialect->createMaterializedView(
@@ -1300,7 +1302,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Drops a materialized view (PostgreSQL only).
      */
-    public function dropMaterializedView( string viewName, string schemaName = null, bool ifExists = true) -> bool
+    public function dropMaterializedView(string viewName, string schemaName = null, bool ifExists = true) -> bool
     {
         return this->{"execute"}(
             this->dialect->dropMaterializedView(
@@ -1315,7 +1317,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * Refreshes a materialized view (PostgreSQL only). Pass
      * `concurrent = true` for non-blocking refresh.
      */
-    public function refreshMaterializedView( string viewName, string schemaName = null, bool concurrent = false) -> bool
+    public function refreshMaterializedView(string viewName, string schemaName = null, bool concurrent = false) -> bool
     {
         return this->{"execute"}(
             this->dialect->refreshMaterializedView(
@@ -1334,7 +1336,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * @phpstan-param db_column_names $conflictColumns
      * @phpstan-param db_column_names $updateColumns
      */
-    public function onConflictUpdate( string sqlQuery,  array conflictColumns,  array updateColumns) -> string
+    public function onConflictUpdate(string sqlQuery,  array conflictColumns,  array updateColumns) -> string
     {
         return this->dialect->onConflictUpdate(
             sqlQuery,
@@ -1350,7 +1352,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * @phpstan-param db_column_names $columns
      */
-    public function returning( string sqlQuery,  array columns) -> string
+    public function returning(string sqlQuery,  array columns) -> string
     {
         return this->dialect->returning(sqlQuery, columns);
     }
@@ -1373,7 +1375,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * );
      *```
      */
-    public function tableExists( string tableName,  string schemaName = null) -> bool
+    public function tableExists(string tableName,  string schemaName = null) -> bool
     {
         var result;
 
@@ -1400,7 +1402,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * @phpstan-return db_table_options
      */
-    public function tableOptions( string tableName, string schemaName = null) -> array
+    public function tableOptions(string tableName, string schemaName = null) -> array
     {
         var sql, options;
 
@@ -1616,7 +1618,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * );
      *```
      */
-    public function viewExists( string viewName,  string schemaName = null) -> bool
+    public function viewExists(string viewName,  string schemaName = null) -> bool
     {
         return this->fetchOne(this->dialect->viewExists(viewName, schemaName), Enum::FETCH_NUM)[0] > 0;
     }

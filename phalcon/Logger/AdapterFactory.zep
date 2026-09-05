@@ -27,7 +27,7 @@ class AdapterFactory extends AbstractFactory
      *
      * @param array $services
      */
-    public function __construct( array services = [])
+    public function __construct(array services = [])
     {
         this->init(services);
     }

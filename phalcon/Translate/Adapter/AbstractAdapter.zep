@@ -69,7 +69,7 @@ abstract class AbstractAdapter implements AdapterInterface, ArrayAccess
      *
      * @throws KeyNotFound
      */
-    public function notFound( string index) -> string
+    public function notFound(string index) -> string
     {
         if unlikely (true === this->triggerError) {
             throw new KeyNotFound(index);
@@ -123,7 +123,7 @@ abstract class AbstractAdapter implements AdapterInterface, ArrayAccess
      *
      * @phpstan-param translate_placeholders $placeholders
      */
-    public function t( string translateKey, array placeholders = []) -> string
+    public function t(string translateKey, array placeholders = []) -> string
     {
         return this->query(translateKey, placeholders);
     }

@@ -785,7 +785,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      *
      * @phpstan-param mvc_model_bind_params $bindParams
      */
-    public function setBindParams( array bindParams, bool merge = false) -> <QueryInterface>
+    public function setBindParams(array bindParams, bool merge = false) -> <QueryInterface>
     {
         var currentBindParams;
 
@@ -804,7 +804,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      *
      * @phpstan-param mvc_model_bind_types $bindTypes
      */
-    public function setBindTypes( array bindTypes, bool merge = false) -> <QueryInterface>
+    public function setBindTypes(array bindTypes, bool merge = false) -> <QueryInterface>
     {
         var currentBindTypes;
 
@@ -853,7 +853,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      *
      * @phpstan-param mvc_query_ir $intermediate
      */
-    public function setIntermediate( array intermediate) -> <QueryInterface>
+    public function setIntermediate(array intermediate) -> <QueryInterface>
     {
         let this->intermediate = intermediate;
 
@@ -1809,7 +1809,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      * @phpstan-param array<array-key, mixed> $argument
      * @phpstan-return array<array-key, mixed>
      */
-    final protected function getCallArgument( array argument) -> array
+    final protected function getCallArgument(array argument) -> array
     {
         if argument["type"] == PHQL_T_STARALL {
             return [
@@ -1826,7 +1826,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      * @phpstan-param array<array-key, mixed> $expr
      * @phpstan-return array<string, mixed>
      */
-    final protected function getCaseExpression( array expr) -> array
+    final protected function getCaseExpression(array expr) -> array
     {
         var whenClauses, whenExpr;
 
@@ -2561,7 +2561,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      * @phpstan-param array<array-key, mixed> $expr
      * @phpstan-return array<string, mixed>
      */
-    final protected function getFunctionCall( array expr) -> array
+    final protected function getFunctionCall(array expr) -> array
     {
         var arguments, argument, name;
         array functionArgs;
@@ -2626,7 +2626,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      * @phpstan-param array<array-key, mixed> $group
      * @phpstan-return list<array<array-key, mixed>>
      */
-    final protected function getGroupClause( array group) -> array
+    final protected function getGroupClause(array group) -> array
     {
         var groupItem;
         array groupParts;
@@ -3076,7 +3076,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      * @phpstan-param array<array-key, mixed> $limitClause
      * @phpstan-return array<string, mixed>
      */
-    final protected function getLimitClause( array limitClause) -> array
+    final protected function getLimitClause(array limitClause) -> array
     {
         var number, offset;
         array limit = [];
@@ -3100,7 +3100,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      * @phpstan-param array<array-key, mixed>|string $joinSource
      * @phpstan-return array<array-key, mixed>
      */
-    final protected function getMultiJoin( string joinType, joinSource, string modelAlias, string joinAlias, <RelationInterface> relation) -> array
+    final protected function getMultiJoin(string joinType, joinSource, string modelAlias, string joinAlias, <RelationInterface> relation) -> array
     {
         var fields, referencedFields, intermediateModelName,
             intermediateModel, intermediateSource, intermediateSchema,
@@ -3328,7 +3328,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      * @phpstan-param array<array-key, mixed> $expr
      * @phpstan-return array<string, mixed>
      */
-    final protected function getQualified( array expr) -> array
+    final protected function getQualified(array expr) -> array
     {
         var columnName, nestingLevel, sqlColumnAliases, metaData, sqlAliases,
             source, sqlAliasesModelsInstances, realColumnName, columnDomain,
@@ -3587,7 +3587,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      * @phpstan-param array<array-key, mixed> $column
      * @phpstan-return array<array-key, mixed>
      */
-    final protected function getSelectColumn( array column) -> array
+    final protected function getSelectColumn(array column) -> array
     {
         var columnType, sqlAliases, modelName, source, columnDomain,
             sqlColumnAlias, preparedAlias, sqlExprColumn, sqlAliasesModels,
@@ -3729,7 +3729,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      *
      * @phpstan-return array<string, mixed>
      */
-    final protected function getSingleJoin( string joinType, joinSource, string modelAlias, string joinAlias, <RelationInterface> relation) -> array
+    final protected function getSingleJoin(string joinType, joinSource, string modelAlias, string joinAlias, <RelationInterface> relation) -> array
     {
         var fields, referencedFields, sqlJoinConditions = null,
             sqlJoinPartialConditions, position, field, referencedField;

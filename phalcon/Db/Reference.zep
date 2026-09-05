@@ -107,7 +107,7 @@ class Reference implements ReferenceInterface
      *
      * @phpstan-param db_reference_definition $definition
      */
-    public function __construct( string name,  array definition)
+    public function __construct(string name,  array definition)
     {
         var columns, schema, referencedTable, referencedSchema,
             referencedColumns, onDelete, onUpdate;

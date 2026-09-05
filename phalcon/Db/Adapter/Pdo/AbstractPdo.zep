@@ -94,7 +94,7 @@ abstract class AbstractPdo extends AbstractAdapter
      *
      * @phpstan-param db_descriptor $descriptor
      */
-    public function __construct( array descriptor)
+    public function __construct(array descriptor)
     {
         this->connect(descriptor);
 
@@ -263,7 +263,7 @@ abstract class AbstractPdo extends AbstractAdapter
      *
      * @phpstan-param db_descriptor $descriptor
      */
-    public function connect( array descriptor = []) -> void
+    public function connect(array descriptor = []) -> void
     {
         var username, password, dsnAttributes, dsnAttributesCustomRaw,
             dsnAttributesMap, key, options, persistent, value, autoReconnect;
@@ -365,7 +365,7 @@ abstract class AbstractPdo extends AbstractAdapter
      *
      * @phpstan-return array{sql: string, params: list<mixed>}
      */
-    public function convertBoundParams( string sql, array params = []) -> array
+    public function convertBoundParams(string sql, array params = []) -> array
     {
         var boundSql, placeHolders, bindPattern, matches, setOrder, placeMatch,
             value;
@@ -447,7 +447,7 @@ abstract class AbstractPdo extends AbstractAdapter
      * @phpstan-param db_bind_params $bindParams
      * @phpstan-param db_bind_types  $bindTypes
      */
-    public function execute( string sqlStatement,  array bindParams = [],  array bindTypes = []) -> bool
+    public function execute(string sqlStatement,  array bindParams = [],  array bindTypes = []) -> bool
     {
         var eventsManager, affectedRows, e;
 
@@ -695,7 +695,7 @@ abstract class AbstractPdo extends AbstractAdapter
      * @param string|null $name
      * @return string|bool
      */
-    public function lastInsertId( string name = null) -> string | bool
+    public function lastInsertId(string name = null) -> string | bool
     {
         return this->pdo->lastInsertId(name);
     }
@@ -740,7 +740,7 @@ abstract class AbstractPdo extends AbstractAdapter
      * );
      *```
      */
-    public function prepare( string sqlStatement) -> <\PDOStatement>
+    public function prepare(string sqlStatement) -> <\PDOStatement>
     {
         return this->pdo->prepare(sqlStatement);
     }
@@ -764,7 +764,7 @@ abstract class AbstractPdo extends AbstractAdapter
      * );
      *```
      */
-    public function query( string sqlStatement,  array bindParams = [],  array bindTypes = []) -> <ResultInterface> | bool
+    public function query(string sqlStatement,  array bindParams = [],  array bindTypes = []) -> <ResultInterface> | bool
     {
         var eventsManager, statement, params, types, e;
 

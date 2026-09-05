@@ -28,7 +28,7 @@ class Hmac extends AbstractSigner
      *
      * @throws UnsupportedAlgorithmException
      */
-    public function __construct( string algo = "sha512")
+    public function __construct(string algo = "sha512")
     {
         array supported;
 
@@ -63,7 +63,7 @@ class Hmac extends AbstractSigner
      *
      * @return string
      */
-    public function sign( string payload,  string passphrase) -> string
+    public function sign(string payload,  string passphrase) -> string
     {
         return this->getHash(payload, passphrase);
     }

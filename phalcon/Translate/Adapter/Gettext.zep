@@ -286,7 +286,7 @@ class Gettext extends AbstractAdapter
      *
      * @phpstan-param translate_gettext_options $options
      */
-    protected function prepareOptions( array options) -> void
+    protected function prepareOptions(array options) -> void
     {
         if unlikely !isset options["locale"] {
             throw new MissingRequiredParameter("locale");

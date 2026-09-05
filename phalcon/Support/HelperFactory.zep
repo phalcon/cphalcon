@@ -146,7 +146,7 @@ class HelperFactory extends AbstractFactory
      *
      * @phpstan-param support_helper_services $services
      */
-    public function __construct( array services = [])
+    public function __construct(array services = [])
     {
         this->init(services);
     }

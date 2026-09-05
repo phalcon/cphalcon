@@ -200,7 +200,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *
      * @param callable handler
      */
-    public function delete( string routePattern, handler) -> <RouteInterface>
+    public function delete(tring routePattern, handler) -> <RouteInterface>
     {
         return this->addRoute("addDelete", routePattern, handler);
     }
@@ -235,7 +235,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *
      * @param callable handler
      */
-    public function get( string routePattern, handler) -> <RouteInterface>
+    public function get(string routePattern, handler) -> <RouteInterface>
     {
         return this->addRoute("addGet", routePattern, handler);
     }
@@ -341,7 +341,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *
      * @return object
      */
-    public function getService( string serviceName)
+    public function getService(string serviceName)
     {
         this->checkDiContainer();
 
@@ -353,7 +353,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *
      * @return mixed
      */
-    public function getSharedService( string serviceName)
+    public function getSharedService(string serviceName)
     {
         this->checkDiContainer();
 
@@ -366,7 +366,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      * @param string uri
      * @return mixed
      */
-    public function handle( string uri)
+    public function handle(string uri)
     {
         var after, afterBinding, afterBindingHandlers, afterHandlers, before,
             beforeHandlers, container, e, finish, finishHandlers, handler,
@@ -773,7 +773,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
     /**
      * Checks if a service is registered in the DI
      */
-    public function hasService( string serviceName) -> bool
+    public function hasService(string serviceName) -> bool
     {
         this->checkDiContainer();
 
@@ -785,7 +785,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *
      * @param callable handler
      */
-    public function head( string routePattern, handler) -> <RouteInterface>
+    public function head(string routePattern, handler) -> <RouteInterface>
     {
         return this->addRoute("addHead", routePattern, handler);
     }
@@ -795,7 +795,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *
      * @param callable handler
      */
-    public function map( string routePattern, handler) -> <RouteInterface>
+    public function map(string routePattern, handler) -> <RouteInterface>
     {
         return this->addRoute("add", routePattern, handler);
     }
@@ -949,7 +949,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *
      * @param callable handler
      */
-    public function options( string routePattern, handler) -> <RouteInterface>
+    public function options(string routePattern, handler) -> <RouteInterface>
     {
         return this->addRoute("addOptions", routePattern, handler);
     }
@@ -959,7 +959,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *
      * @param callable $handler
      */
-    public function patch( string routePattern, handler) -> <RouteInterface>
+    public function patch(string routePattern, handler) -> <RouteInterface>
     {
         return this->addRoute("addPatch", routePattern, handler);
     }
@@ -969,7 +969,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *
      * @param callable handler
      */
-    public function post( string routePattern, handler) -> <RouteInterface>
+    public function post(string routePattern, handler) -> <RouteInterface>
     {
         return this->addRoute("addPost", routePattern, handler);
     }
@@ -979,7 +979,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *
      * @param callable $handler
      */
-    public function put( string routePattern, handler) -> <RouteInterface>
+    public function put(string routePattern, handler) -> <RouteInterface>
     {
         return this->addRoute("addPut", routePattern, handler);
     }
@@ -1049,7 +1049,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
     /**
      * Sets a service from the DI
      */
-    public function setService( string serviceName, var definition, bool isShared = false) -> <ServiceInterface>
+    public function setService(string serviceName, var definition, bool isShared = false) -> <ServiceInterface>
     {
         this->checkDiContainer();
 
@@ -1074,7 +1074,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *
      * @return RouteInterface
      */
-    private function addRoute( string method,  string routePattern, handler) -> <RouteInterface>
+    private function addRoute(string method,  string routePattern, handler) -> <RouteInterface>
     {
         var router, route;
 

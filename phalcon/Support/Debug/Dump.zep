@@ -65,7 +65,7 @@ class Dump implements TemplateAware
      *
      * @phpstan-param support_debug_styles $styles
      */
-    public function __construct( array styles = [], bool detailed = false)
+    public function __construct(array styles = [], bool detailed = false)
     {
         let this->encode = new Encode();
 
@@ -114,7 +114,7 @@ class Dump implements TemplateAware
      * @phpstan-param  support_debug_styles $styles
      * @phpstan-return support_debug_styles
      */
-    public function setStyles( array styles = []) -> array
+    public function setStyles(array styles = []) -> array
     {
         var defaultStyles;
 
@@ -179,7 +179,7 @@ class Dump implements TemplateAware
     {
         var message;
         array context;
-        
+
         let message = this->getTemplate("pre");
         let context = [
             "style"  : this->getStyle("pre"),
@@ -256,7 +256,7 @@ class Dump implements TemplateAware
     /**
      * Get style for type
      */
-    protected function getStyle( string type) -> string
+    protected function getStyle(string type) -> string
     {
         var style;
 
@@ -277,7 +277,7 @@ class Dump implements TemplateAware
         string name = null,
         int tab = 1
     ) -> string {
-        var attr, key, message, 
+        var attr, key, message,
             output = "",
             property, props, reflect, type, value,vars;
         array context = [];

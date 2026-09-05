@@ -361,7 +361,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
             eventsManager = this->eventsManager;
 
         if this->fireManagerEvent("response:beforeSendHeaders") === false {
-            return false; 
+            return false;
         }
 
         /**
@@ -383,7 +383,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      * $this->response->setCache(60);
      *```
      */
-    public function setCache( int minutes) -> <ResponseInterface>
+    public function setCache(int minutes) -> <ResponseInterface>
     {
         var date;
 
@@ -544,10 +544,10 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
             if basePathEncoding != "ASCII" {
                 let basePath = this->phpRawUrlEncode(basePath);
                 this->setRawHeader(
-                    "Content-Disposition: attachment; filename=" 
-                    . basePath 
+                    "Content-Disposition: attachment; filename="
+                    . basePath
                     . "; filename*="
-                    . strtolower(basePathEncoding) 
+                    . strtolower(basePathEncoding)
                     . "''" . basePath
                 );
             } else {
@@ -558,7 +558,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
                 // in syntax rule of quoted-string
                 let basePath = addcslashes(basePath, "\15\17\\\"");
                 this->setRawHeader(
-                    "Content-Disposition: attachment; filename=\"" 
+                    "Content-Disposition: attachment; filename=\""
                     . basePath . "\""
                 );
             }

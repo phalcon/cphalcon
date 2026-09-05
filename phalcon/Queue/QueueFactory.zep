@@ -76,7 +76,7 @@ class QueueFactory extends AbstractConfigFactory
      *
      * @phpstan-param queue_connection_options $options
      */
-    public function newInstance( string name,  array options = []) -> <ContextInterface>
+    public function newInstance(string name,  array options = []) -> <ContextInterface>
     {
         var connectionFactory;
 

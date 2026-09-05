@@ -618,7 +618,7 @@ class Validation extends Injectable implements ValidationInterface
      *
      * @phpstan-param filter_validation_labels $labels
      */
-    public function setLabels( array labels) -> void
+    public function setLabels(array labels) -> void
     {
         let this->labels = labels;
     }

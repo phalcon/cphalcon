@@ -228,7 +228,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @return static
      */
-    public function addFilter( string name, var definition) -> <static>
+    public function addFilter(string name, var definition) -> <static>
     {
         let this->filters[name] = definition;
 
@@ -243,7 +243,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @return static
      */
-    public function addFunction( string name, var definition) -> <static>
+    public function addFunction(string name, var definition) -> <static>
     {
         let this->functions[name] = definition;
 
@@ -259,7 +259,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @phpstan-param mvc_volt_node $expr
      */
-    public function attributeReader( array expr) -> string
+    public function attributeReader(array expr) -> string
     {
         var left, leftType, variable, level, leftCode, right;
         string exprCode;
@@ -329,7 +329,7 @@ class Compiler implements InjectionAwareInterface
      * @throws \Phalcon\Mvc\View\Engine\Volt\Exception
      * @return mixed
      */
-    public function compile( string templatePath, bool extendsMode = false)
+    public function compile(string templatePath, bool extendsMode = false)
     {
         var blocksCode, compilation, compileAlways, compiledExtension,
             compiledPath, compiledSeparator, options, prefix, stat, templateSepPath,
@@ -562,7 +562,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @phpstan-param mvc_volt_node $statement
      */
-    public function compileAutoEscape( array statement, bool extendsMode) -> string
+    public function compileAutoEscape(array statement, bool extendsMode) -> string
     {
         var autoescape, oldAutoescape, compilation;
 
@@ -597,7 +597,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @phpstan-param mvc_volt_node $statement
      */
-    public function compileCall( array statement, bool extendsMode) -> string
+    public function compileCall(array statement, bool extendsMode) -> string
     {
         // Not implemented?
         return "";
@@ -613,7 +613,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @phpstan-param mvc_volt_node $statement
      */
-    public function compileCase( array statement, bool caseClause = true) -> string
+    public function compileCase(array statement, bool caseClause = true) -> string
     {
         var expr;
 
@@ -646,7 +646,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @phpstan-param mvc_volt_node $statement
      */
-    public function compileDo( array statement) -> string
+    public function compileDo(array statement) -> string
     {
         var expr;
 
@@ -672,7 +672,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @phpstan-param mvc_volt_node $statement
      */
-    public function compileEcho( array statement) -> string
+    public function compileEcho(array statement) -> string
     {
         var expr, exprCode, name;
 
@@ -724,7 +724,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @phpstan-param mvc_volt_node $statement
      */
-    public function compileElseIf( array statement) -> string
+    public function compileElseIf(array statement) -> string
     {
         var expr;
 
@@ -760,7 +760,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @phpstan-return array<array-key, mixed>|string
      */
-    public function compileFile( string path,  string compiledPath, bool extendsMode = false)
+    public function compileFile(string path,  string compiledPath, bool extendsMode = false)
     {
         var viewCode, compilation, finalCompilation;
 
@@ -819,7 +819,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @phpstan-param mvc_volt_node $statement
      */
-    public function compileForeach( array statement, bool extendsMode = false) -> string
+    public function compileForeach(array statement, bool extendsMode = false) -> string
     {
         var prefix, level, prefixLevel, expr, exprCode, bstatement, type,
             blockStatements, forElse, code, loopContext, iterator, key, ifExpr,
@@ -1000,7 +1000,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @phpstan-param mvc_volt_node $statement
      */
-    public function compileIf( array statement, bool extendsMode = false) -> string
+    public function compileIf(array statement, bool extendsMode = false) -> string
     {
         var blockStatements, expr;
         string compilation;
@@ -1042,7 +1042,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @phpstan-param mvc_volt_node $statement
      */
-    public function compileInclude( array statement) -> string
+    public function compileInclude(array statement) -> string
     {
         var pathExpr, path, subCompiler, finalPath, compilation, params;
 
@@ -1118,7 +1118,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @phpstan-param mvc_volt_node $statement
      */
-    public function compileMacro( array statement, bool extendsMode) -> string
+    public function compileMacro(array statement, bool extendsMode) -> string
     {
         var name, defaultValue, parameters, position, parameter, variableName,
             blockStatements;
@@ -1203,7 +1203,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @phpstan-param mvc_volt_node $statement
      */
-    public function compileReturn( array statement) -> string
+    public function compileReturn(array statement) -> string
     {
         var expr;
 
@@ -1281,7 +1281,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @phpstan-param mvc_volt_node $statement
      */
-    public function compileSet( array statement) -> string
+    public function compileSet(array statement) -> string
     {
         var assignments, assignment, exprCode, target;
         string compilation;
@@ -1356,7 +1356,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @return string
      */
-    public function compileString( string viewCode, bool extendsMode = false) -> string
+    public function compileString(string viewCode, bool extendsMode = false) -> string
     {
         let this->currentPath = "eval code";
 
@@ -1374,7 +1374,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @phpstan-param mvc_volt_node $statement
      */
-    public function compileSwitch( array statement, bool extendsMode = false) -> string
+    public function compileSwitch(array statement, bool extendsMode = false) -> string
     {
         var compilation, caseClauses, expr, lines;
 
@@ -1439,7 +1439,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @phpstan-param mvc_volt_node $expr
      */
-    final public function expression( array expr, bool doubleQuotes = false) -> string
+    final public function expression(array expr, bool doubleQuotes = false) -> string
     {
         var end, endCode, extensions, items, left, name, right, singleExpr,
             singleExprCode, start, startCode, type,
@@ -1847,7 +1847,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @phpstan-param array<array-key, mixed> $arguments
      */
-    final public function fireExtensionEvent( string name, array arguments = [])
+    final public function fireExtensionEvent(string name, array arguments = [])
     {
         var extensions, extension, status;
 
@@ -1889,7 +1889,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @phpstan-param mvc_volt_node $expr
      */
-    public function functionCall( array expr, bool doubleQuotes = false) -> string
+    public function functionCall(array expr, bool doubleQuotes = false) -> string
     {
         var arguments, arrayHelpers, block, currentBlock, definition, escapedCode,
             exprLevel, extendedBlocks, extensions, functions, method, name,
@@ -2197,7 +2197,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @return string|null
      */
-    public function getOption( string option) -> string | null
+    public function getOption(string option) -> string | null
     {
         var value;
 
@@ -2283,7 +2283,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @phpstan-return mvc_volt_node
      */
-    public function parse( string viewCode) -> array
+    public function parse(string viewCode) -> array
     {
         var currentPath = "eval code";
 
@@ -2295,7 +2295,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @phpstan-param mvc_volt_node $test
      */
-    public function resolveTest( array test, string left) -> string
+    public function resolveTest(array test, string left) -> string
     {
         var type, name, testName;
 
@@ -2361,7 +2361,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @param mixed value
      */
-    public function setOption( string option, value) -> <static>
+    public function setOption(string option, value) -> <static>
     {
         let this->options[option] = value;
 
@@ -2373,7 +2373,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @phpstan-param array<string, mixed> $options
      */
-    public function setOptions( array options) -> <static>
+    public function setOptions(array options) -> <static>
     {
         let this->options = options;
 
@@ -2383,7 +2383,7 @@ class Compiler implements InjectionAwareInterface
     /**
      * Set a unique prefix to be used as prefix for compiled variables
      */
-    public function setUniquePrefix( string prefix) -> <static>
+    public function setUniquePrefix(string prefix) -> <static>
     {
         let this->prefix = prefix;
 
@@ -2395,7 +2395,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @phpstan-return array<array-key, mixed>|string
      */
-    protected function compileSource( string viewCode, bool extendsMode = false) -> array | string
+    protected function compileSource(string viewCode, bool extendsMode = false) -> array | string
     {
         var currentPath, intermediate, extended, finalCompilation, blocks,
             extendedBlocks, name, block, blockCompilation, localBlock,
@@ -2579,7 +2579,7 @@ class Compiler implements InjectionAwareInterface
      *
      * @phpstan-param mvc_volt_node $filter
      */
-    final protected function resolveFilter( array filter, string left) -> string
+    final protected function resolveFilter(array filter, string left) -> string
     {
         var code, type, functionName, name, file, line, extensions, filters,
             funcArguments, arguments, definition;
@@ -2770,7 +2770,7 @@ class Compiler implements InjectionAwareInterface
      * @phpstan-param mvc_volt_node $statements
      * @phpstan-return string
      */
-    final protected function statementList( array statements, bool extendsMode = false) -> string
+    final protected function statementList(array statements, bool extendsMode = false) -> string
     {
         var extended, blockMode, compilation, extensions, statement,
             tempCompilation, type, blockName, blockStatements, blocks, path,

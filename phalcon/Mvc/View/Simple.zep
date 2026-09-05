@@ -107,7 +107,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      *
      * @return mixed|null
      */
-    public function __get( string key) -> var | null
+    public function __get(string key) -> var | null
     {
         var value;
 
@@ -127,7 +127,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      *
      * @return void
      */
-    public function __set( string key, var value) -> void
+    public function __set(string key, var value) -> void
     {
         let this->viewParams[key] = value;
     }
@@ -182,7 +182,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      *
      * @return void
      */
-    public function partial( string partialPath, var params = null) -> void
+    public function partial(string partialPath, var params = null) -> void
     {
         var mergedParams,
             viewParams = [];
@@ -252,7 +252,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      *
      * @phpstan-param array<string, mixed> $engines
      */
-    public function registerEngines( array engines) -> void
+    public function registerEngines(array engines) -> void
     {
         let this->registeredEngines = engines;
     }
@@ -264,7 +264,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      *
      * @phpstan-param array<string, mixed> $params
      */
-    public function render( string path, array params = []) -> string
+    public function render(string path, array params = []) -> string
     {
         var mergedParams, viewParams;
 
@@ -313,7 +313,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      *
      * @phpstan-return static
      */
-    public function setParamToView( string key, var value) -> <static>
+    public function setParamToView(string key, var value) -> <static>
     {
         return this->setVar(key, value);
     }
@@ -333,7 +333,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      *
      * @phpstan-param array<string, mixed> $params
      */
-    public function setVars( array params, bool merge = true) -> <static>
+    public function setVars(array params, bool merge = true) -> <static>
     {
         if merge {
             let params = array_merge(this->viewParams, params);
@@ -349,7 +349,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      *
      * @return void
      */
-    public function setViewsDir( string viewsDir) -> void
+    public function setViewsDir(string viewsDir) -> void
     {
         let this->viewsDir = this->toDirSeparator(viewsDir);
     }
@@ -436,7 +436,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      *
      * @return void
      */
-    final protected function internalRender( string path, params) -> void
+    final protected function internalRender(string path, params) -> void
     {
         var eventsManager, engines, extension, engine, segment, segments;
         bool notExists, mustClean;

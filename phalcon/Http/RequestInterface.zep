@@ -111,7 +111,7 @@ interface RequestInterface
     /**
      * Return the HTTP header from request data
      */
-    public function getHeader( string header) -> string;
+    public function getHeader(tring header) -> string;
 
     /**
      * Returns the available headers in the request
@@ -286,7 +286,7 @@ interface RequestInterface
     /**
      * Return a variable from $_SERVER superglobal
      */
-    public function getServer( string name) -> string | null;
+    public function getServer(string name) -> string | null;
 
     /**
      * Return the active server address IP
@@ -330,7 +330,7 @@ interface RequestInterface
     /**
      * Return whether the $_REQUEST superglobal has certain index
      */
-    public function has( string name) -> bool;
+    public function has(string name) -> bool;
 
     /**
      * Return whether the request includes attached files
@@ -340,27 +340,27 @@ interface RequestInterface
     /**
      * Return whether the headers have a certain index
      */
-    public function hasHeader( string header) -> bool;
+    public function hasHeader(string header) -> bool;
 
     /**
      * Return whether the $_POST superglobal has certain index
      */
-    public function hasPost( string name) -> bool;
+    public function hasPost(string name) -> bool;
 
     /**
      * Return whether the PUT data has certain index
      */
-    public function hasPut( string name) -> bool;
+    public function hasPut(string name) -> bool;
 
     /**
      * Return whether the $_GET superglobal has certain index
      */
-    public function hasQuery( string name) -> bool;
+    public function hasQuery(string name) -> bool;
 
     /**
      * Return whether the $_SERVER superglobal has certain index
      */
-    public function hasServer( string name) -> bool;
+    public function hasServer(string name) -> bool;
 
     /**
      * Return whether the request has been made using ajax. Checks if

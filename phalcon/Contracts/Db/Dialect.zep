@@ -87,46 +87,46 @@ interface Dialect
     /**
      * Generates SQL to add a column to a table
      */
-    public function addColumn( string tableName,  string schemaName, <ColumnInterface> column) -> string;
+    public function addColumn(string tableName,  string schemaName, <ColumnInterface> column) -> string;
 
     /**
      * Generates SQL to add an index to a table
      */
-    public function addForeignKey( string tableName,  string schemaName, <ReferenceInterface> reference) -> string;
+    public function addForeignKey(string tableName,  string schemaName, <ReferenceInterface> reference) -> string;
 
     /**
      * Generates SQL to add an index to a table
      */
-    public function addIndex( string tableName,  string schemaName, <IndexInterface> index) -> string;
+    public function addIndex(string tableName,  string schemaName, <IndexInterface> index) -> string;
 
     /**
      * Generates SQL to add the primary key to a table
      */
-    public function addPrimaryKey( string tableName,  string schemaName, <IndexInterface> index) -> string;
+    public function addPrimaryKey(string tableName,  string schemaName, <IndexInterface> index) -> string;
 
     /**
      * Generate SQL to create a new savepoint
      */
-    public function createSavepoint( string name) -> string;
+    public function createSavepoint(string name) -> string;
 
     /**
      * Generates SQL to create a table
      *
      * @phpstan-param db_table_definition $definition
      */
-    public function createTable( string tableName,  string schemaName,  array definition) -> string;
+    public function createTable(string tableName,  string schemaName,  array definition) -> string;
 
     /**
      * Generates SQL to create a view
      *
      * @phpstan-param db_view_definition $definition
      */
-    public function createView( string viewName,  array definition, string schemaName = null) -> string;
+    public function createView(string viewName,  array definition, string schemaName = null) -> string;
 
     /**
      * Generates SQL to describe a table
      */
-    public function describeColumns( string table, string schema = null) -> string;
+    public function describeColumns(string table, string schema = null) -> string;
 
     /**
      * Generates SQL to query indexes on a table.
@@ -135,7 +135,7 @@ interface Dialect
      * column index 2 must be the index key name and column index 4 the indexed
      * column name.
      */
-    public function describeIndexes( string table, string schema = null) -> string;
+    public function describeIndexes(string table, string schema = null) -> string;
 
     /**
      * Generates SQL to query foreign keys on a table.
@@ -145,46 +145,46 @@ interface Dialect
      * referenced schema, index 4 the referenced table, and index 5 the
      * referenced column.
      */
-    public function describeReferences( string table, string schema = null) -> string;
+    public function describeReferences(string table, string schema = null) -> string;
 
     /**
      * Generates SQL to delete a column from a table
      */
-    public function dropColumn( string tableName,  string schemaName,  string columnName) -> string;
+    public function dropColumn(string tableName,  string schemaName,  string columnName) -> string;
 
     /**
      * Generates SQL to delete a foreign key from a table
      */
-    public function dropForeignKey( string tableName,  string schemaName,  string referenceName) -> string;
+    public function dropForeignKey(string tableName,  string schemaName,  string referenceName) -> string;
 
     /**
       * Generates SQL to delete an index from a table
      */
-    public function dropIndex( string tableName,  string schemaName,  string indexName) -> string;
+    public function dropIndex(string tableName,  string schemaName,  string indexName) -> string;
 
     /**
      * Generates SQL to delete primary key from a table
      */
-    public function dropPrimaryKey( string tableName,  string schemaName) -> string;
+    public function dropPrimaryKey(string tableName,  string schemaName) -> string;
 
     /**
      * Generates SQL to drop a table. Every bundled dialect widens
      * `schemaName` to `string|null` and defaults it to null; widening the
      * contract itself is a next major change.
      */
-    public function dropTable( string tableName,  string schemaName, bool ifExists = true) -> string;
+    public function dropTable(string tableName,  string schemaName, bool ifExists = true) -> string;
 
     /**
      * Generates SQL to drop a view
      */
-    public function dropView( string viewName, string schemaName = null,  bool ifExists = true) -> string;
+    public function dropView(string viewName, string schemaName = null,  bool ifExists = true) -> string;
 
     /**
      * Returns a SQL modified with a FOR UPDATE clause. The optional `modifier`
      * appends a row-lock disposition keyword - pass `Dialect::LOCK_NOWAIT`
      * or `Dialect::LOCK_SKIP_LOCKED` (or leave as `Dialect::LOCK_NONE`).
      */
-    public function forUpdate( string sqlQuery, string modifier = "") -> string;
+    public function forUpdate(string sqlQuery, string modifier = "") -> string;
 
     /**
      * Gets the column name in RDBMS
@@ -196,7 +196,7 @@ interface Dialect
      *
      * @phpstan-param db_column_list $columnList
      */
-    public function getColumnList( array columnList) -> string;
+    public function getColumnList(array columnList) -> string;
 
     /**
      * Returns registered functions
@@ -212,14 +212,14 @@ interface Dialect
      * @phpstan-param db_expression   $expression
      * @phpstan-param db_bind_counts  $bindCounts
      */
-    public function getSqlExpression( array expression, string escapeChar = null,  array bindCounts = []) -> string;
+    public function getSqlExpression(array expression, string escapeChar = null,  array bindCounts = []) -> string;
 
     /**
      * Generates the SQL for LIMIT clause
      *
      * @phpstan-param db_limit_number $number
      */
-    public function limit( string sqlQuery, var number) -> string;
+    public function limit(string sqlQuery, var number) -> string;
 
     /**
      * List all tables in database
@@ -244,19 +244,19 @@ interface Dialect
     /**
      * Generate SQL to release a savepoint
      */
-    public function releaseSavepoint( string name) -> string;
+    public function releaseSavepoint(string name) -> string;
 
     /**
      * Generate SQL to rollback a savepoint
      */
-    public function rollbackSavepoint( string name) -> string;
+    public function rollbackSavepoint(string name) -> string;
 
     /**
      * Builds a SELECT statement
      *
      * @phpstan-param db_select_definition $definition
      */
-    public function select( array definition) -> string;
+    public function select(array definition) -> string;
 
     /**
      * Returns a SQL modified with a shared-lock clause. MySQL emits
@@ -266,7 +266,7 @@ interface Dialect
      * for PostgreSQL - MySQL's legacy `LOCK IN SHARE MODE` does not support
      * modifiers, so non-empty values are silently ignored on MySQL.
      */
-    public function sharedLock( string sqlQuery, string modifier = "") -> string;
+    public function sharedLock(string sqlQuery, string modifier = "") -> string;
 
     /**
      * Checks whether the platform supports releasing savepoints.
@@ -281,15 +281,15 @@ interface Dialect
     /**
      * Generates SQL checking for the existence of a schema.table
      */
-    public function tableExists( string tableName, string schemaName = null) -> string;
+    public function tableExists(string tableName, string schemaName = null) -> string;
 
     /**
      * Generates the SQL to describe the table creation options
      */
-    public function tableOptions( string table, string schema = null) -> string;
+    public function tableOptions(string table, string schema = null) -> string;
 
     /**
      * Generates SQL checking for the existence of a schema.view
      */
-    public function viewExists( string viewName, string schemaName = null) -> string;
+    public function viewExists(string viewName, string schemaName = null) -> string;
 }

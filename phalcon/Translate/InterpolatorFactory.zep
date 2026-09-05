@@ -21,7 +21,7 @@ class InterpolatorFactory extends AbstractFactory
     /**
      * @phpstan-param array<string, string> $services
      */
-    public function __construct( array services = [])
+    public function __construct(array services = [])
     {
         this->init(services);
     }
@@ -29,7 +29,7 @@ class InterpolatorFactory extends AbstractFactory
     /**
      * Create a new instance of the adapter
      */
-    public function newInstance( string name) -> <InterpolatorInterface>
+    public function newInstance(string name) -> <InterpolatorInterface>
     {
         var definition;
 

@@ -166,7 +166,7 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
     /**
      * Sets the controller name to be dispatched
      */
-    public function setControllerName( string controllerName) -> <DispatcherInterface>
+    public function setControllerName(string controllerName) -> <DispatcherInterface>
     {
         let this->handlerName = controllerName;
 
@@ -176,7 +176,7 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
     /**
      * Sets the default controller suffix
      */
-    public function setControllerSuffix( string controllerSuffix) -> <DispatcherInterface>
+    public function setControllerSuffix(string controllerSuffix) -> <DispatcherInterface>
     {
         let this->handlerSuffix = controllerSuffix;
 
@@ -186,7 +186,7 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
     /**
      * Sets the default controller name
      */
-    public function setDefaultController( string controllerName) -> <DispatcherInterface>
+    public function setDefaultController(string controllerName) -> <DispatcherInterface>
     {
         let this->defaultHandler = controllerName;
 
@@ -212,7 +212,7 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
     /**
      * Throws an internal exception
      */
-    protected function throwDispatchException( string message, int exceptionCode = 0)
+    protected function throwDispatchException(string message, int exceptionCode = 0)
     {
         var container, response, exception;
 

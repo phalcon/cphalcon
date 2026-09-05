@@ -396,7 +396,7 @@ abstract class AbstractElement implements ElementInterface
      *
      * @phpstan-param forms_attributes $attributes
      */
-    public function setAttributes( array attributes) -> <ElementInterface>
+    public function setAttributes(array attributes) -> <ElementInterface>
     {
         let this->attributes = attributes;
 
@@ -467,7 +467,7 @@ abstract class AbstractElement implements ElementInterface
     /**
      * Sets the element name
      */
-    public function setName( string name) -> <ElementInterface>
+    public function setName(string name) -> <ElementInterface>
     {
         let this->name = name;
 

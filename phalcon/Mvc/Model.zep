@@ -433,7 +433,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @return mixed
      */
-    public function __get( string property)
+    public function __get(string property)
     {
         var modelName, manager, lowerProperty, relation;
         string method;
@@ -500,7 +500,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Magic method to check if a property is a valid relation
      */
-    public function __isset( string property) -> bool
+    public function __isset(string property) -> bool
     {
         var manager, method, modelName, relation, result;
 
@@ -923,7 +923,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @phpstan-param mvc_model_data $data
      */
-    public function assign( array data, var whiteList = null, var dataColumnMap = null) -> <ModelInterface>
+    public function assign(array data, var whiteList = null, var dataColumnMap = null) -> <ModelInterface>
     {
         var key, keyMapped, value, attribute, attributeField, metaData,
             columnMap, disableAssignSetters, rawValues;
@@ -1397,7 +1397,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @phpstan-param mvc_model_data $data
      */
-    public static function cloneResultMapHydrate( array data, var columnMap, int hydrationMode)
+    public static function cloneResultMapHydrate(array data, var columnMap, int hydrationMode)
     {
         return CloneResultMapHydrate::cloneResultMapHydrate(data, columnMap, hydrationMode, get_called_class());
     }
@@ -2101,7 +2101,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * Fires an event, implicitly calls behaviors and listeners in the events
      * manager are notified
      */
-    public function fireEvent( string eventName) -> bool
+    public function fireEvent(string eventName) -> bool
     {
         /**
          * Check if there is a method with the same name of the event
@@ -2124,7 +2124,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * manager are notified
      * This method stops if one of the callbacks/listeners returns bool false
      */
-    public function fireEventCancel( string eventName) -> bool
+    public function fireEventCancel(string eventName) -> bool
     {
         /**
          * Check if there is a method with the same name of the event
@@ -2809,7 +2809,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * echo $invoice->readAttribute("name");
      * ```
      */
-    public function readAttribute( string attribute) -> var | null
+    public function readAttribute(string attribute) -> var | null
     {
         if !isset this->{attribute} {
             return null;
@@ -3277,7 +3277,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Sets the DependencyInjection connection service name
      */
-    final public function setConnectionService( string connectionService) -> void
+    final public function setConnectionService(string connectionService) -> void
     {
         (<ManagerInterface> this->modelsManager)->setConnectionService(
             this,
@@ -3306,7 +3306,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Sets the DependencyInjection connection service name used to read data
      */
-    final public function setReadConnectionService( string connectionService) -> void
+    final public function setReadConnectionService(string connectionService) -> void
     {
         (<ManagerInterface> this->modelsManager)->setReadConnectionService(
             this,
@@ -3325,7 +3325,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * @phpstan-param array<string, mixed> $data
      * @phpstan-param mvc_hydration_column_map|null $columnMap
      */
-    public function setOldSnapshotData( array data, columnMap = null)
+    public function setOldSnapshotData(array data, columnMap = null)
     {
         var key, value, attribute;
         array snapshot;
@@ -3400,7 +3400,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @phpstan-param mvc_model_data $data
      */
-    public function setSnapshotData( array data, columnMap = null) -> void
+    public function setSnapshotData(array data, columnMap = null) -> void
     {
         var key, value, attribute;
         array snapshot;
@@ -3568,7 +3568,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @phpstan-param array<string, mixed> $options
      */
-    public static function setup( array options) -> void
+    public static function setup(array options) -> void
     {
         var disableEvents, columnRenaming, notNullValidations,
             exceptionOnFailedSave, exceptionOnFailedMetaDataSave, phqlLiterals,
@@ -3674,7 +3674,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Sets the DependencyInjection connection service name used to write data
      */
-    final public function setWriteConnectionService( string connectionService) -> void
+    final public function setWriteConnectionService(string connectionService) -> void
     {
         (<ManagerInterface> this->modelsManager)->setWriteConnectionService(
             this,
@@ -3883,7 +3883,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * $invoice->writeAttribute("name", "Rosey");
      *```
      */
-    public function writeAttribute( string attribute, var value) -> void
+    public function writeAttribute(string attribute, var value) -> void
     {
         let this->{attribute} = value;
     }
@@ -5002,7 +5002,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @phpstan-param list<mixed> $arguments
      */
-    protected function getRelatedRecords( string modelName,  string method,  array arguments)
+    protected function getRelatedRecords(string modelName,  string method,  array arguments)
     {
         var manager, relation, queryMethod, extraArgs, alias;
 
@@ -5072,7 +5072,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @return int|float|string|null|ResultsetInterface
      */
-    protected static function groupResult( string functionName,  string alias, var parameters = null) -> var
+    protected static function groupResult(string functionName,  string alias, var parameters = null) -> var
     {
         var params, distinctColumn, groupColumn, columns,
             resultset, cache, firstRow, groupColumns, builder, query, container,
@@ -6029,7 +6029,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @phpstan-param mvc_model_attributes $attributes
      */
-    protected function allowEmptyStringValues( array attributes) -> void
+    protected function allowEmptyStringValues(array attributes) -> void
     {
         var keysAttributes, attribute;
 
@@ -6480,7 +6480,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Sets schema name where the mapped table is located
      */
-    final protected function setSchema( string schema) -> <ModelInterface>
+    final protected function setSchema(string schema) -> <ModelInterface>
     {
         (<ManagerInterface> this->modelsManager)->setModelSchema(
             this,
@@ -6493,7 +6493,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Sets the table name to which model should be mapped
      */
-    final protected function setSource( string source) -> <ModelInterface>
+    final protected function setSource(string source) -> <ModelInterface>
     {
         (<ManagerInterface> this->modelsManager)->setModelSource(this, source);
 
@@ -6520,7 +6520,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @phpstan-param mvc_model_attributes $attributes
      */
-    protected function skipAttributes( array attributes) -> void
+    protected function skipAttributes(array attributes) -> void
     {
         this->skipAttributesOnCreate(attributes);
         this->skipAttributesOnUpdate(attributes);
@@ -6546,7 +6546,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @phpstan-param mvc_model_attributes $attributes
      */
-    protected function skipAttributesOnCreate( array attributes) -> void
+    protected function skipAttributesOnCreate(array attributes) -> void
     {
         var attribute;
         array keysAttributes;
@@ -6583,7 +6583,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @phpstan-param mvc_model_attributes $attributes
      */
-    protected function skipAttributesOnUpdate( array attributes) -> void
+    protected function skipAttributesOnUpdate(array attributes) -> void
     {
         var attribute;
         array keysAttributes;

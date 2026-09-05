@@ -51,7 +51,7 @@ interface BuilderInterface
      * @param mixed  $minimum
      * @param mixed  $maximum
      */
-    public function betweenWhere( string expr, minimum, maximum,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>;
+    public function betweenWhere(string expr, minimum, maximum,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>;
 
     /**
      * Sets the columns to be queried. The columns can be either a `string` or
@@ -247,7 +247,7 @@ interface BuilderInterface
      *
      * @phpstan-param array<array-key, mixed> $values
      */
-    public function inWhere( string expr,  array values,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>;
+    public function inWhere(string expr,  array values,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>;
 
     /**
      * Adds an :type: join (by default type - INNER) to the query
@@ -267,14 +267,14 @@ interface BuilderInterface
     /**
      * Appends a NOT BETWEEN condition to the current conditions
      */
-    public function notBetweenWhere( string expr, minimum, maximum,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>;
+    public function notBetweenWhere(string expr, minimum, maximum,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>;
 
     /**
      * Appends a NOT IN condition to the current conditions
      *
      * @phpstan-param array<array-key, mixed> $values
      */
-    public function notInWhere( string expr,  array values,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>;
+    public function notInWhere(string expr,  array values,  string operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>;
 
     /**
      * Sets an OFFSET clause
@@ -285,7 +285,7 @@ interface BuilderInterface
      * Sets an ORDER BY condition clause
      */
     public function orderBy(var orderBy) -> <BuilderInterface>;
-    
+
     /**
      * Appends a condition to the current conditions using an OR operator
      *

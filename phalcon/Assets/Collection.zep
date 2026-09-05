@@ -228,7 +228,7 @@ class Collection implements Countable, IteratorAggregate
      * Returns the complete location where the joined/filtered collection must
      * be written
      */
-    public function getRealTargetPath( string basePath) -> string
+    public function getRealTargetPath(string basePath) -> string
     {
         var completePath;
 

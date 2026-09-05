@@ -586,7 +586,7 @@ class Column implements ColumnInterface
      *
      * @phpstan-param db_column_definition $definition
      */
-    public function __construct( string name,  array definition)
+    public function __construct(string name,  array definition)
     {
         var type, notNull, primary, size, scale, dunsigned, first, after,
             bindType, isNumeric, autoIncrement, defaultValue, typeReference,
@@ -851,9 +851,9 @@ class Column implements ColumnInterface
     /**
      * Column data type values
      *
-     * @phpstan-return array<array-key, string>|string
+     * @phpstan-return array<array-key, string>|int|string
      */
-    public function getTypeValues() -> array | string
+    public function getTypeValues() -> array | string | int
     {
         return this->typeValues;
     }

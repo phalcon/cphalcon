@@ -44,7 +44,7 @@ class ValidatorFactory extends AbstractFactory
      *
      * @phpstan-param filter_validator_services $services
      */
-    public function __construct( array services = [])
+    public function __construct(array services = [])
     {
         this->init(services);
     }
@@ -52,7 +52,7 @@ class ValidatorFactory extends AbstractFactory
     /**
      * Creates a new instance
      */
-    public function newInstance( string name) -> <ValidatorInterface>
+    public function newInstance(string name) -> <ValidatorInterface>
     {
         var definition;
 

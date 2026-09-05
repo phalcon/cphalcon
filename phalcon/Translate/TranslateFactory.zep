@@ -70,7 +70,7 @@ class TranslateFactory extends AbstractFactory
      *
      * @return AdapterInterface
      */
-    public function newInstance( string name,  array options = []) -> <AdapterInterface>
+    public function newInstance(string name,  array options = []) -> <AdapterInterface>
     {
         var definition;
 

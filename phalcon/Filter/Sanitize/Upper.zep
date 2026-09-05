@@ -25,7 +25,7 @@ class Upper implements Sanitizer
      *
      * @return false|string|string[]
      */
-    public function __invoke( string input)
+    public function __invoke(string input)
     {
         return this->phpMbConvertCase(input, MB_CASE_UPPER);
     }

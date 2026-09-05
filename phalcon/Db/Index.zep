@@ -140,7 +140,7 @@ class Index implements IndexInterface
      *
      * @phpstan-param db_index_columns|db_index_definition $columnsOrDefinition
      */
-    public function __construct( string name,  array columnsOrDefinition, string type = "")
+    public function __construct(string name,  array columnsOrDefinition, string type = "")
     {
         var definitionType, invisible, directions, where, concurrent;
 

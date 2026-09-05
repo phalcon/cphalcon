@@ -31,7 +31,7 @@ class PdoFactory extends AbstractFactory
      *
      * @phpstan-param array<string, class-string<AdapterInterface>> $services
      */
-    public function __construct( array services = [])
+    public function __construct(array services = [])
     {
         this->init(services);
     }
@@ -74,7 +74,7 @@ class PdoFactory extends AbstractFactory
      *
      * @phpstan-param db_descriptor $options
      */
-    public function newInstance( string name,  array options = []) ->  <AdapterInterface>
+    public function newInstance(string name,  array options = []) ->  <AdapterInterface>
     {
         var definition;
 

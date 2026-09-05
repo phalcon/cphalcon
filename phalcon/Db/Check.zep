@@ -69,7 +69,7 @@ class Check implements CheckInterface
      *
      * @phpstan-param db_check_definition $definition
      */
-    public function __construct( string name,  array definition)
+    public function __construct(string name,  array definition)
     {
         var expression;
 

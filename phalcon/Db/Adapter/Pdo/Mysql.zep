@@ -57,8 +57,8 @@ class Mysql extends PdoAdapter
      * Adds a foreign key to a table
      */
     public function addForeignKey(
-        string tableName, 
-        string schemaName, 
+        string tableName,
+        string schemaName,
         <ReferenceInterface> reference
     ) -> bool {
         var foreignKeyCheck;
@@ -91,9 +91,9 @@ class Mysql extends PdoAdapter
      */
     public function describeColumns(string table, string schema = null) -> <ColumnInterface[]>
     {
-        var    columnName, columnType, defaultValue, extraValue, field, fields, 
-               generationExpression, matchOne, matchTwo, matches, 
-               oldColumn   = null; 
+        var    columnName, columnType, defaultValue, extraValue, field, fields,
+               generationExpression, matchOne, matchTwo, matches,
+               oldColumn   = null;
         bool   isMariaDb   = false;
         string sizePattern = "#\\(([0-9]+)(?:,\\s*([0-9]+))*\\)#";
         array  columns     = [],
@@ -120,15 +120,15 @@ class Mysql extends PdoAdapter
          * Get the SQL to describe a table
          * We're using FETCH_NUM to fetch the columns.
          * Field Indexes (from `Mysql::describeColumns()`):
-         *   0: Field 
-         *   1: Type 
-         *   2: Collation 
-         *   3: Null 
-         *   4: Key 
-         *   5: Default 
+         *   0: Field
+         *   1: Type
+         *   2: Collation
+         *   3: Null
+         *   4: Key
+         *   5: Default
          *   6: Extra
-         *   7: Privileges 
-         *   8: Comment 
+         *   7: Privileges
+         *   8: Comment
          *   9: GenerationExpression
          */
         for field in fields {
@@ -595,7 +595,7 @@ class Mysql extends PdoAdapter
      * );
      * ```
      */
-    public function describeIndexes( string table,  string schema = null) -> <IndexInterface[]>
+    public function describeIndexes(string table,  string schema = null) -> <IndexInterface[]>
     {
         var columns, index, keyName, indexType, name, directions, collation;
         bool invisible, anyDirection;
@@ -711,10 +711,10 @@ class Mysql extends PdoAdapter
      * );
      *```
      */
-    public function describeReferences( string table,  string schema = null) -> <ReferenceInterface[]>
+    public function describeReferences(string table,  string schema = null) -> <ReferenceInterface[]>
     {
-        var arrayReference, columns, constraintName, name, reference, 
-            referenceDelete, referenceUpdate, 
+        var arrayReference, columns, constraintName, name, reference,
+            referenceDelete, referenceUpdate,
             referencedColumns, referencedSchema, referencedTable;
         array references       = [],
               referenceObjects = [];

@@ -450,7 +450,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Gets HTTP header from request data
      */
-    public function getHeader( string header) -> string
+    public function getHeader(string header) -> string
     {
         var value, name, server;
 
@@ -948,7 +948,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Gets variable from $_SERVER superglobal
      */
-    public function getServer( string name) -> string | null
+    public function getServer(string name) -> string | null
     {
         var serverValue, server;
 
@@ -1094,7 +1094,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Checks whether $_REQUEST superglobal has certain index
      */
-    public function has( string name) -> bool
+    public function has(string name) -> bool
     {
         return array_key_exists(name, _REQUEST);
     }
@@ -1110,7 +1110,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Checks whether headers has certain index
      */
-    final public function hasHeader( string header) -> bool
+    final public function hasHeader(string header) -> bool
     {
         var name;
 
@@ -1122,7 +1122,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Checks whether the PATCH data has certain index
      */
-    public function hasPatch( string name) -> bool
+    public function hasPatch(string name) -> bool
     {
         var patch;
 
@@ -1134,7 +1134,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Checks whether $_POST superglobal has certain index
      */
-    public function hasPost( string name) -> bool
+    public function hasPost(string name) -> bool
     {
         var post;
 
@@ -1146,7 +1146,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Checks whether the PUT data has certain index
      */
-    public function hasPut( string name) -> bool
+    public function hasPut(string name) -> bool
     {
         var put;
 
@@ -1158,7 +1158,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Checks whether $_GET superglobal has certain index
      */
-    public function hasQuery( string name) -> bool
+    public function hasQuery(string name) -> bool
     {
         return array_key_exists(name, _GET);
     }
@@ -1166,7 +1166,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Checks whether $_SERVER superglobal has certain index
      */
-    final public function hasServer( string name) -> bool
+    final public function hasServer(string name) -> bool
     {
         var server;
 

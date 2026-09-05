@@ -32,7 +32,7 @@ interface CriteriaInterface
      * @param array bindParams
      * @param array bindTypes
      */
-    public function andWhere( string conditions, bindParams = null, bindTypes = null) -> <CriteriaInterface>;
+    public function andWhere(string conditions, bindParams = null, bindTypes = null) -> <CriteriaInterface>;
 
     /**
      * Appends a BETWEEN condition to the current conditions
@@ -44,7 +44,7 @@ interface CriteriaInterface
      * @param mixed minimum
      * @param mixed maximum
      */
-    public function betweenWhere( string expr, minimum, maximum) -> <CriteriaInterface>;
+    public function betweenWhere(string expr, minimum, maximum) -> <CriteriaInterface>;
 
     /**
      * Sets the bound parameters in the criteria
@@ -52,7 +52,7 @@ interface CriteriaInterface
      *
      * @phpstan-param mvc_model_bind_params $bindParams
      */
-    public function bind( array bindParams) -> <CriteriaInterface>;
+    public function bind(array bindParams) -> <CriteriaInterface>;
 
     /**
      * Sets the bind types in the criteria
@@ -60,7 +60,7 @@ interface CriteriaInterface
      *
      * @phpstan-param mvc_model_bind_types $bindTypes
      */
-    public function bindTypes( array bindTypes) -> <CriteriaInterface>;
+    public function bindTypes(array bindTypes) -> <CriteriaInterface>;
 
     /**
      * Sets the cache options in the criteria
@@ -68,12 +68,12 @@ interface CriteriaInterface
      *
      * @phpstan-param mvc_model_cache_options $cache
      */
-    public function cache( array cache) -> <CriteriaInterface>;
+    public function cache(array cache) -> <CriteriaInterface>;
 
     /**
      * Adds the conditions parameter to the criteria
      */
-    public function conditions( string conditions) -> <CriteriaInterface>;
+    public function conditions(string conditions) -> <CriteriaInterface>;
 
     /**
      * Sets SELECT DISTINCT / SELECT ALL flag
@@ -164,7 +164,7 @@ interface CriteriaInterface
      *
      * @phpstan-param array<array-key, mixed> $values
      */
-    public function inWhere( string expr,  array values) -> <CriteriaInterface>;
+    public function inWhere(string expr,  array values) -> <CriteriaInterface>;
 
     /**
      * Adds an INNER join to the query
@@ -186,7 +186,7 @@ interface CriteriaInterface
      * );
      *```
      */
-    public function innerJoin( string model, var conditions = null, var alias = null) -> <CriteriaInterface>;
+    public function innerJoin(string model, var conditions = null, var alias = null) -> <CriteriaInterface>;
 
     /**
      * Adds a LEFT join to the query
@@ -199,7 +199,7 @@ interface CriteriaInterface
      * );
      *```
      */
-    public function leftJoin( string model, var conditions = null, var alias = null) -> <CriteriaInterface>;
+    public function leftJoin(string model, var conditions = null, var alias = null) -> <CriteriaInterface>;
 
     /**
      * Sets the limit parameter to the criteria
@@ -216,7 +216,7 @@ interface CriteriaInterface
      * @param mixed minimum
      * @param mixed maximum
      */
-    public function notBetweenWhere( string expr, minimum, maximum) -> <CriteriaInterface>;
+    public function notBetweenWhere(string expr, minimum, maximum) -> <CriteriaInterface>;
 
     /**
      * Appends a NOT IN condition to the current conditions
@@ -227,7 +227,7 @@ interface CriteriaInterface
      *
      * @phpstan-param array<array-key, mixed> $values
      */
-    public function notInWhere( string expr,  array values) -> <CriteriaInterface>;
+    public function notInWhere(string expr,  array values) -> <CriteriaInterface>;
 
     /**
      * Appends a condition to the current conditions using an OR operator
@@ -235,12 +235,12 @@ interface CriteriaInterface
      * @param array bindParams
      * @param array bindTypes
      */
-    public function orWhere( string conditions, bindParams = null, bindTypes = null) -> <CriteriaInterface>;
+    public function orWhere(string conditions, bindParams = null, bindTypes = null) -> <CriteriaInterface>;
 
     /**
      * Adds the order-by parameter to the criteria
      */
-    public function orderBy( string orderColumns) -> <CriteriaInterface>;
+    public function orderBy(string orderColumns) -> <CriteriaInterface>;
 
     /**
      * Adds a RIGHT join to the query
@@ -253,12 +253,12 @@ interface CriteriaInterface
      * );
      *```
      */
-    public function rightJoin( string model, conditions = null, alias = null) -> <CriteriaInterface>;
+    public function rightJoin(string model, conditions = null, alias = null) -> <CriteriaInterface>;
 
     /**
      * Set a model on which the query will be executed
      */
-    public function setModelName( string modelName) -> <CriteriaInterface>;
+    public function setModelName(string modelName) -> <CriteriaInterface>;
 
     /**
      * Sets the "shared_lock" parameter to the criteria
@@ -268,5 +268,5 @@ interface CriteriaInterface
     /**
      * Sets the conditions parameter in the criteria
      */
-    public function where( string conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>;
+    public function where(string conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>;
 }

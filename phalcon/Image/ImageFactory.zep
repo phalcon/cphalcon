@@ -34,7 +34,7 @@ class ImageFactory extends AbstractFactory
      *
      * @phpstan-param image_factory_services $services
      */
-    public function __construct( array services = [])
+    public function __construct(array services = [])
     {
         this->init(services);
     }

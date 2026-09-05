@@ -39,7 +39,7 @@ class SerializerFactory extends AbstractFactory
      *
      * @param string[] $services
      */
-    public function __construct( array services = [])
+    public function __construct(array services = [])
     {
         this->init(services);
     }
@@ -50,7 +50,7 @@ class SerializerFactory extends AbstractFactory
      * @return SerializerInterface
      * @throws BaseException
      */
-    public function newInstance( string name) -> <SerializerInterface>
+    public function newInstance(string name) -> <SerializerInterface>
     {
         var definition;
 
