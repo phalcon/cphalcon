@@ -998,7 +998,7 @@ PHP_METHOD(Phalcon_Db_Column, getTypeReference)
 /**
  * Column data type values
  *
- * @phpstan-return array<array-key, string>|string
+ * @phpstan-return array<array-key, string>|int|string
  */
 PHP_METHOD(Phalcon_Db_Column, getTypeValues)
 {
