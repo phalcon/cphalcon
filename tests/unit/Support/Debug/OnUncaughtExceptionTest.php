@@ -27,7 +27,7 @@ final class OnUncaughtExceptionTest extends AbstractUnitTestCase
     public function testSupportDebugOnUncaughtException(): void
     {
         $message = uniqid('var-');
-        $debug = new Debug();
+        $debug   = new Debug();
         $debug->setShowBackTrace(false);
         $exception = new Exception($message, 1234);
 

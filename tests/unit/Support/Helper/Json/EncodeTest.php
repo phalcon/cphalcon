@@ -29,12 +29,12 @@ final class EncodeTest extends AbstractUnitTestCase
     public function testSupportHelperJsonEncode(): void
     {
         $object = new Encode();
-        $data = [
+        $data   = [
             'one' => 'two',
             'three',
         ];
         $expected = '{"one":"two","0":"three"}';
-        $actual = $object($data);
+        $actual   = $object($data);
         $this->assertSame($expected, $actual);
     }
 

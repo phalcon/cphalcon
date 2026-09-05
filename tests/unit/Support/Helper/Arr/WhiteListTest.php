@@ -26,7 +26,7 @@ final class WhiteListTest extends AbstractUnitTestCase
     public function testSupportHelperArrWhiteList(): void
     {
         $object = new Whitelist();
-        $value = [
+        $value  = [
             'value-1',
             ' key '  => 'value-2',
             5        => 'value-3',

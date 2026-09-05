@@ -30,11 +30,11 @@ final class SetStylesTest extends AbstractUnitTestCase
         );
 
         $expected = 'color:gray';
-        $actual = $this->callProtectedMethod($dump, 'getStyle', 'unknown');
+        $actual   = $this->callProtectedMethod($dump, 'getStyle', 'unknown');
         $this->assertSame($expected, $actual);
 
         $expected = 'color:blue';
-        $actual = $this->callProtectedMethod($dump, 'getStyle', 'int');
+        $actual   = $this->callProtectedMethod($dump, 'getStyle', 'int');
         $this->assertSame($expected, $actual);
     }
 
@@ -50,7 +50,7 @@ final class SetStylesTest extends AbstractUnitTestCase
         );
 
         $expected = 'color:blue';
-        $actual = $this->callProtectedMethod($dump, 'getStyle', 'int');
+        $actual   = $this->callProtectedMethod($dump, 'getStyle', 'int');
         $this->assertSame($expected, $actual);
 
         $dump->setStyles(
@@ -60,7 +60,7 @@ final class SetStylesTest extends AbstractUnitTestCase
         );
 
         $expected = 'color:indigo';
-        $actual = $this->callProtectedMethod($dump, 'getStyle', 'int');
+        $actual   = $this->callProtectedMethod($dump, 'getStyle', 'int');
         $this->assertSame($expected, $actual);
     }
 }

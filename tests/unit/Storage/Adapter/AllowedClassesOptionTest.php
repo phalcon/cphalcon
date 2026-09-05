@@ -126,7 +126,7 @@ final class AllowedClassesOptionTest extends AbstractUnitTestCase
         file_put_contents($file, serialize($envelope));
 
         WakeupCanary::$fired = false;
-        $actual = $adapter->get('nested-key', 'default');
+        $actual              = $adapter->get('nested-key', 'default');
 
         $this->safeDeleteFile($file);
 

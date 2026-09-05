@@ -32,7 +32,7 @@ final class GetSetStatusCodeTest extends AbstractHttpBase
      */
     public function testHttpResponseGetSetStatusCode(): void
     {
-        $code = Http::CODE_200;
+        $code     = Http::CODE_200;
         $response = $this->getResponseObject();
         $response->setStatusCode($code);
 

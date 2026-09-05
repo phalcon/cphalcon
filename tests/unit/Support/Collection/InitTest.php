@@ -25,17 +25,17 @@ final class InitTest extends AbstractCollectionTestCase
      */
     public function testSupportCollectionInit(): void
     {
-        $data = $this->getData();
+        $data       = $this->getData();
         $collection = new Collection();
 
         $expected = 0;
-        $actual = $collection->count();
+        $actual   = $collection->count();
         $this->assertSame($expected, $actual);
 
         $collection->init($data);
 
         $expected = $data;
-        $actual = $collection->toArray();
+        $actual   = $collection->toArray();
         $this->assertSame($expected, $actual);
     }
 

@@ -25,7 +25,7 @@ final class GetTest extends AbstractUnitTestCase
      */
     public static function getExamples(): array
     {
-        $sample = new stdClass();
+        $sample      = new stdClass();
         $sample->one = 'two';
 
         return [
@@ -93,7 +93,7 @@ final class GetTest extends AbstractUnitTestCase
         mixed $value,
         mixed $expected,
     ): void {
-        $object = new Get();
+        $object     = new Get();
         $collection = [
             'value' => $value,
         ];
@@ -108,14 +108,14 @@ final class GetTest extends AbstractUnitTestCase
      */
     public function testSupportHelperArrGetDefault(): void
     {
-        $object = new Get();
+        $object     = new Get();
         $collection = [
             1        => 'Phalcon',
             'suffix' => 'Framework',
         ];
 
         $expected = 'Error';
-        $actual = $object($collection, uniqid(), 'Error');
+        $actual   = $object($collection, uniqid(), 'Error');
         $this->assertSame($expected, $actual);
     }
 
@@ -125,14 +125,14 @@ final class GetTest extends AbstractUnitTestCase
      */
     public function testSupportHelperArrGetNumeric(): void
     {
-        $object = new Get();
+        $object     = new Get();
         $collection = [
             1        => 'Phalcon',
             'suffix' => 'Framework',
         ];
 
         $expected = 'Phalcon';
-        $actual = $object($collection, 1, 'Error');
+        $actual   = $object($collection, 1, 'Error');
         $this->assertSame($expected, $actual);
     }
 
@@ -142,14 +142,14 @@ final class GetTest extends AbstractUnitTestCase
      */
     public function testSupportHelperArrGetString(): void
     {
-        $object = new Get();
+        $object     = new Get();
         $collection = [
             1        => 'Phalcon',
             'suffix' => 'Framework',
         ];
 
         $expected = 'Framework';
-        $actual = $object($collection, 'suffix', 'Error');
+        $actual   = $object($collection, 'suffix', 'Error');
         $this->assertSame($expected, $actual);
     }
 }

@@ -52,7 +52,7 @@ final class FunctionCallTest extends AbstractUnitTestCase
      */
     public function testContainerResolverLazyFunctionCallResolveWithNoArguments(): void
     {
-        $version = PHP_VERSION;
+        $version   = PHP_VERSION;
         $container = new FakeNameContainer();
         $lazy      = new FunctionCall('phpversion', []);
         $result    = $lazy->resolve($container);

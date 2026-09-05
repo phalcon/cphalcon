@@ -26,15 +26,15 @@ final class CountTest extends AbstractCollectionTestCase
     public function testSupportCollectionCount(
         string $class,
     ): void {
-        $data = $this->getData();
+        $data       = $this->getData();
         $collection = new $class($data);
 
         $expected = 3;
-        $actual = $collection->toArray();
+        $actual   = $collection->toArray();
         $this->assertCount($expected, $actual);
 
         $expected = 3;
-        $actual = $collection->count();
+        $actual   = $collection->count();
         $this->assertSame($expected, $actual);
     }
 }

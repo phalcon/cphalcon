@@ -61,7 +61,7 @@ final class ExecuteQueryTest extends AbstractDatabaseTestCase
     {
         /** @var ManagerInterface $manager */
         $manager = $this->getService("modelsManager");
-        $sql = sprintf("SELECT * FROM [%s]", Invoices::class);
+        $sql     = sprintf("SELECT * FROM [%s]", Invoices::class);
         $this->assertInstanceOf(Simple::class, $manager->executeQuery($sql));
         $sql = sprintf("SELECT SUM(inv_total) AS s FROM [%s]", Invoices::class);
         $this->assertInstanceOf(Simple::class, $manager->executeQuery($sql));

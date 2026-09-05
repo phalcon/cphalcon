@@ -28,7 +28,7 @@ final class HasTest extends AbstractCollectionTestCase
     public function testSupportCollectionHas(
         string $class,
     ): void {
-        $data = $this->getData();
+        $data       = $this->getData();
         $collection = new $class($data);
 
         $actual = $collection->has('three');
@@ -62,7 +62,7 @@ final class HasTest extends AbstractCollectionTestCase
      */
     public function testSupportCollectionHasSensitive(): void
     {
-        $data = $this->getData();
+        $data       = $this->getData();
         $collection = new Collection($data, false);
 
         $actual = $collection->has('three');
@@ -96,7 +96,7 @@ final class HasTest extends AbstractCollectionTestCase
      */
     public function testSupportCollectionReadOnlyHasSensitive(): void
     {
-        $data = $this->getData();
+        $data       = $this->getData();
         $collection = new ReadOnlyCollection($data, false);
 
         $actual = $collection->has('three');

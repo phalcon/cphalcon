@@ -136,7 +136,7 @@ final class LogTest extends AbstractUnitTestCase
     {
         $fileName   = $this->getNewFileName('log', 'log');
         $outputPath = Talon::settings()->outputPath('tests/logs/' . $fileName);
-        $adapter  = new Stream($outputPath);
+        $adapter    = new Stream($outputPath);
 
         $logger = new Logger(
             'my-logger',

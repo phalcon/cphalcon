@@ -61,7 +61,7 @@ final class MimeTest extends AbstractUnitTestCase
             'types'   => ['image/jpeg', 'image/png'],
             'message' => 'Allowed file types are :types'
         ];
-        $validator = new FakeMimeType($options);
+        $validator  = new FakeMimeType($options);
         $validation = new Validation();
         $validation->add('thumbnail', $validator);
 
@@ -93,7 +93,7 @@ final class MimeTest extends AbstractUnitTestCase
         $options = [
             'message' => 'Allowed file types are :types'
         ];
-        $validator = new FakeMimeType($options);
+        $validator  = new FakeMimeType($options);
         $validation = new Validation();
         $validation->add('thumbnail', $validator);
 
@@ -126,7 +126,7 @@ final class MimeTest extends AbstractUnitTestCase
             'types'   => ['image/jpeg', 'image/png'],
             'message' => 'Allowed file types are :types'
         ];
-        $validator = new File\MimeType($options);
+        $validator  = new File\MimeType($options);
         $validation = new Validation();
         $validation->add('thumbnail', $validator);
 
@@ -160,7 +160,7 @@ final class MimeTest extends AbstractUnitTestCase
             'types'   => ['image/.*'],
             'message' => 'Allowed file types are :types'
         ];
-        $validator = new FakeMimeType($options);
+        $validator  = new FakeMimeType($options);
         $validation = new Validation();
         $validation->add('thumbnail', $validator);
 
@@ -195,7 +195,7 @@ final class MimeTest extends AbstractUnitTestCase
             'message'        => 'Allowed file types are :types',
             'allowWildcards' => true
         ];
-        $validator = new FakeMimeType($options);
+        $validator  = new FakeMimeType($options);
         $validation = new Validation();
         $validation->add('thumbnail', $validator);
 
@@ -229,7 +229,7 @@ final class MimeTest extends AbstractUnitTestCase
             'message'        => 'Allowed file types are :types',
             'allowWildcards' => true
         ];
-        $validator = new FakeMimeType($options);
+        $validator  = new FakeMimeType($options);
         $validation = new Validation();
         $validation->add('thumbnail', $validator);
 
@@ -263,7 +263,7 @@ final class MimeTest extends AbstractUnitTestCase
             'message'        => 'Allowed file types are :types',
             'allowWildcards' => true
         ];
-        $validator = new FakeMimeType($options);
+        $validator  = new FakeMimeType($options);
         $validation = new Validation();
         $validation->add('thumbnail', $validator);
 
@@ -300,7 +300,7 @@ final class MimeTest extends AbstractUnitTestCase
             'types'   => ['image/gif'],
             'message' => 'Allowed file types are :types'
         ];
-        $validator = new FakeMimeType($options);
+        $validator  = new FakeMimeType($options);
         $validation = new Validation();
         $validation->add('thumbnail', $validator);
 

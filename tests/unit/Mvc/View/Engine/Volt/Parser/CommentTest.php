@@ -46,10 +46,10 @@ final class CommentTest extends AbstractUnitTestCase
         $source   = 'Hello {# greeting comment #} World';
         $expected = [
             [
-                'type' => 357,
+                'type'  => 357,
                 'value' => 'Hello  World',
-                'file' => 'eval code',
-                'line' => 1,
+                'file'  => 'eval code',
+                'line'  => 1,
             ],
         ];
         $actual   = $this->compiler->parse($source);

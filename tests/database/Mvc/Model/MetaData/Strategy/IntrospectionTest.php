@@ -118,7 +118,7 @@ final class IntrospectionTest extends AbstractDatabaseTestCase
         $this->setDatabase();
 
         $strategy = new Introspection();
-        $invoice = $this
+        $invoice  = $this
             ->getMockBuilder(InvoicesMap::class)
             ->getMock()
         ;

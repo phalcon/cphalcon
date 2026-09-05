@@ -63,30 +63,30 @@ final class ArrayTest extends AbstractUnitTestCase
                     'left' => [
                         [
                             'expr' => [
-                                'type' => 258,
+                                'type'  => 258,
                                 'value' => '1',
-                                'file' => 'eval code',
-                                'line' => 1,
+                                'file'  => 'eval code',
+                                'line'  => 1,
                             ],
                             'file' => 'eval code',
                             'line' => 1,
                         ],
                         [
                             'expr' => [
-                                'type' => 258,
+                                'type'  => 258,
                                 'value' => '2',
-                                'file' => 'eval code',
-                                'line' => 1,
+                                'file'  => 'eval code',
+                                'line'  => 1,
                             ],
                             'file' => 'eval code',
                             'line' => 1,
                         ],
                         [
                             'expr' => [
-                                'type' => 258,
+                                'type'  => 258,
                                 'value' => '3',
-                                'file' => 'eval code',
-                                'line' => 1,
+                                'file'  => 'eval code',
+                                'line'  => 1,
                             ],
                             'file' => 'eval code',
                             'line' => 1,
@@ -118,30 +118,30 @@ final class ArrayTest extends AbstractUnitTestCase
                     'left' => [
                         [
                             'expr' => [
-                                'type' => 260,
+                                'type'  => 260,
                                 'value' => 'a',
-                                'file' => 'eval code',
-                                'line' => 1,
+                                'file'  => 'eval code',
+                                'line'  => 1,
                             ],
                             'file' => 'eval code',
                             'line' => 1,
                         ],
                         [
                             'expr' => [
-                                'type' => 260,
+                                'type'  => 260,
                                 'value' => 'b',
-                                'file' => 'eval code',
-                                'line' => 1,
+                                'file'  => 'eval code',
+                                'line'  => 1,
                             ],
                             'file' => 'eval code',
                             'line' => 1,
                         ],
                         [
                             'expr' => [
-                                'type' => 260,
+                                'type'  => 260,
                                 'value' => 'c',
-                                'file' => 'eval code',
-                                'line' => 1,
+                                'file'  => 'eval code',
+                                'line'  => 1,
                             ],
                             'file' => 'eval code',
                             'line' => 1,
@@ -196,10 +196,10 @@ final class ArrayTest extends AbstractUnitTestCase
                     'left' => [
                         [
                             'expr' => [
-                                'type' => 260,
+                                'type'  => 260,
                                 'value' => 'value',
-                                'file' => 'eval code',
-                                'line' => 1,
+                                'file'  => 'eval code',
+                                'line'  => 1,
                             ],
                             'name' => 'key',
                             'file' => 'eval code',
@@ -207,10 +207,10 @@ final class ArrayTest extends AbstractUnitTestCase
                         ],
                         [
                             'expr' => [
-                                'type' => 258,
+                                'type'  => 258,
                                 'value' => '42',
-                                'file' => 'eval code',
-                                'line' => 1,
+                                'file'  => 'eval code',
+                                'line'  => 1,
                             ],
                             'name' => 'num',
                             'file' => 'eval code',

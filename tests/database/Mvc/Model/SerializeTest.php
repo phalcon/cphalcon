@@ -97,10 +97,10 @@ final class SerializeTest extends AbstractDatabaseTestCase
         $date   = date('Y-m-d H:i:s');
         $base   = new InvoicesTypedProperties();
 
-        $invoice             = new InvoicesTypedProperties();
-        $invoice->inv_id     = 99;
-        $invoice->inv_title  = $title;
-        $invoice->inv_total  = 50.0;
+        $invoice                 = new InvoicesTypedProperties();
+        $invoice->inv_id         = 99;
+        $invoice->inv_title      = $title;
+        $invoice->inv_total      = 50.0;
         $invoice->inv_created_at = $date;
 
         $serialized = serialize($invoice);
@@ -123,9 +123,9 @@ final class SerializeTest extends AbstractDatabaseTestCase
          * Tamper: inject null for inv_id to mimic what happens when toArray()
          * returns null for an uninitialized typed property.
          */
-        $data               = unserialize($serialized);
+        $data                         = unserialize($serialized);
         $data['attributes']['inv_id'] = null;
-        $tamperedSerialized = serialize($data);
+        $tamperedSerialized           = serialize($data);
 
         $fresh = new InvoicesTypedProperties();
         $fresh->unserialize($tamperedSerialized);
@@ -232,12 +232,12 @@ final class SerializeTest extends AbstractDatabaseTestCase
         $title = uniqid('inv-');
         $date  = date('Y-m-d H:i:s');
 
-        $invoice                 = new InvoicesOnConstruct();
-        $invoice->inv_cst_id     = 1;
+        $invoice                  = new InvoicesOnConstruct();
+        $invoice->inv_cst_id      = 1;
         $invoice->inv_status_flag = 0;
-        $invoice->inv_title      = $title;
-        $invoice->inv_total      = 10.0;
-        $invoice->inv_created_at = $date;
+        $invoice->inv_title       = $title;
+        $invoice->inv_total       = 10.0;
+        $invoice->inv_created_at  = $date;
         $invoice->save();
 
         // old-style serialize/unserialize

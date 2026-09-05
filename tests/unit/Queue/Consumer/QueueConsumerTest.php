@@ -102,7 +102,7 @@ final class QueueConsumerTest extends AbstractUnitTestCase
     private function collectingProcessor(): Processor
     {
         return new class implements Processor {
-            public array $seen = [];
+            public array $seen    = [];
             public string $return = Processor::ACK;
 
             public function process(Message $message, Context $context): object | string

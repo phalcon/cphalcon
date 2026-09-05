@@ -24,7 +24,7 @@ final class FilterTest extends AbstractUnitTestCase
      */
     public function testSupportHelperArrFilter(): void
     {
-        $object = new Filter();
+        $object     = new Filter();
         $collection = [
             1  => 1,
             2  => 2,

@@ -36,10 +36,10 @@ final class CallTest extends AbstractUnitTestCase
             [
                 'type' => 325,
                 'name' => [
-                    'type' => 265,
+                    'type'  => 265,
                     'value' => 'myMacro',
-                    'file' => 'eval code',
-                    'line' => 1,
+                    'file'  => 'eval code',
+                    'line'  => 1,
                 ],
                 'file' => 'eval code',
                 'line' => 1,
@@ -60,18 +60,18 @@ final class CallTest extends AbstractUnitTestCase
             [
                 'type' => 325,
                 'name' => [
-                    'type' => 265,
+                    'type'  => 265,
                     'value' => 'render',
-                    'file' => 'eval code',
-                    'line' => 1,
+                    'file'  => 'eval code',
+                    'line'  => 1,
                 ],
                 'arguments' => [
                     [
                         'expr' => [
-                            'type' => 265,
+                            'type'  => 265,
                             'value' => 'item',
-                            'file' => 'eval code',
-                            'line' => 1,
+                            'file'  => 'eval code',
+                            'line'  => 1,
                         ],
                         'file' => 'eval code',
                         'line' => 1,
@@ -79,10 +79,10 @@ final class CallTest extends AbstractUnitTestCase
                 ],
                 'caller' => [
                     [
-                        'type' => 357,
+                        'type'  => 357,
                         'value' => 'block content',
-                        'file' => 'eval code',
-                        'line' => 1,
+                        'file'  => 'eval code',
+                        'line'  => 1,
                     ],
                 ],
                 'file' => 'eval code',

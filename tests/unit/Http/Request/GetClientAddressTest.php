@@ -91,8 +91,8 @@ final class GetClientAddressTest extends AbstractHttpBase
      */
     public function testHttpRequestGetClientAddressTrustForwardedHeaderClientIp(): void
     {
-        $container = new FactoryDefault();
-        $_SERVER['REMOTE_ADDR'] = Http::TEST_IP_THREE;
+        $container                 = new FactoryDefault();
+        $_SERVER['REMOTE_ADDR']    = Http::TEST_IP_THREE;
         $_SERVER['HTTP_CLIENT_IP'] = Http::TEST_IP_TWO;
 
         $request = new Request();

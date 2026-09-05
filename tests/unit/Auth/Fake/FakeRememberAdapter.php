@@ -45,8 +45,8 @@ final class FakeRememberAdapter extends Memory implements RememberAdapter
 
     public function createRememberToken(AuthUser $user): RememberToken
     {
-        $token              = 'test-token-' . $user->getAuthIdentifier();
-        $entry              = new FakeRememberToken($token);
+        $token                    = 'test-token-' . $user->getAuthIdentifier();
+        $entry                    = new FakeRememberToken($token);
         $this->tokenStore[$token] = $entry;
 
         return $entry;

@@ -115,7 +115,7 @@ final class BasenameTest extends AbstractUnitTestCase
         $object = new Basename();
 
         $expected = basename($path, $suffix);
-        $actual = $object($path, $suffix);
+        $actual   = $object($path, $suffix);
         $this->assertSame($expected, $actual);
     }
 }

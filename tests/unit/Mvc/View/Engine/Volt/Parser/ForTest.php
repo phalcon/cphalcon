@@ -34,22 +34,22 @@ final class ForTest extends AbstractUnitTestCase
         $source   = '{% for item in items %}{{ item }}{% elsefor %}No items{% endfor %}';
         $expected = [
             [
-                'type' => 304,
+                'type'     => 304,
                 'variable' => 'item',
-                'expr' => [
-                    'type' => 265,
+                'expr'     => [
+                    'type'  => 265,
                     'value' => 'items',
-                    'file' => 'eval code',
-                    'line' => 1,
+                    'file'  => 'eval code',
+                    'line'  => 1,
                 ],
                 'block_statements' => [
                     [
                         'type' => 359,
                         'expr' => [
-                            'type' => 265,
+                            'type'  => 265,
                             'value' => 'item',
-                            'file' => 'eval code',
-                            'line' => 1,
+                            'file'  => 'eval code',
+                            'line'  => 1,
                         ],
                         'file' => 'eval code',
                         'line' => 1,
@@ -60,10 +60,10 @@ final class ForTest extends AbstractUnitTestCase
                         'line' => 1,
                     ],
                     [
-                        'type' => 357,
+                        'type'  => 357,
                         'value' => 'No items',
-                        'file' => 'eval code',
-                        'line' => 1,
+                        'file'  => 'eval code',
+                        'line'  => 1,
                     ],
                 ],
                 'file' => 'eval code',
@@ -83,27 +83,27 @@ final class ForTest extends AbstractUnitTestCase
         $source   = '{% for item in items if item.active %}{{ item.name }}{% endfor %}';
         $expected = [
             [
-                'type' => 304,
+                'type'     => 304,
                 'variable' => 'item',
-                'expr' => [
-                    'type' => 265,
+                'expr'     => [
+                    'type'  => 265,
                     'value' => 'items',
-                    'file' => 'eval code',
-                    'line' => 1,
+                    'file'  => 'eval code',
+                    'line'  => 1,
                 ],
                 'if_expr' => [
                     'type' => 46,
                     'left' => [
-                        'type' => 265,
+                        'type'  => 265,
                         'value' => 'item',
-                        'file' => 'eval code',
-                        'line' => 1,
+                        'file'  => 'eval code',
+                        'line'  => 1,
                     ],
                     'right' => [
-                        'type' => 265,
+                        'type'  => 265,
                         'value' => 'active',
-                        'file' => 'eval code',
-                        'line' => 1,
+                        'file'  => 'eval code',
+                        'line'  => 1,
                     ],
                     'file' => 'eval code',
                     'line' => 1,
@@ -114,16 +114,16 @@ final class ForTest extends AbstractUnitTestCase
                         'expr' => [
                             'type' => 46,
                             'left' => [
-                                'type' => 265,
+                                'type'  => 265,
                                 'value' => 'item',
-                                'file' => 'eval code',
-                                'line' => 1,
+                                'file'  => 'eval code',
+                                'line'  => 1,
                             ],
                             'right' => [
-                                'type' => 265,
+                                'type'  => 265,
                                 'value' => 'name',
-                                'file' => 'eval code',
-                                'line' => 1,
+                                'file'  => 'eval code',
+                                'line'  => 1,
                             ],
                             'file' => 'eval code',
                             'line' => 1,
@@ -149,40 +149,40 @@ final class ForTest extends AbstractUnitTestCase
         $source   = '{% for key, value in map %}{{ key }}: {{ value }}{% endfor %}';
         $expected = [
             [
-                'type' => 304,
+                'type'     => 304,
                 'variable' => 'value',
-                'key' => 'key',
-                'expr' => [
-                    'type' => 265,
+                'key'      => 'key',
+                'expr'     => [
+                    'type'  => 265,
                     'value' => 'map',
-                    'file' => 'eval code',
-                    'line' => 1,
+                    'file'  => 'eval code',
+                    'line'  => 1,
                 ],
                 'block_statements' => [
                     [
                         'type' => 359,
                         'expr' => [
-                            'type' => 265,
+                            'type'  => 265,
                             'value' => 'key',
-                            'file' => 'eval code',
-                            'line' => 1,
+                            'file'  => 'eval code',
+                            'line'  => 1,
                         ],
                         'file' => 'eval code',
                         'line' => 1,
                     ],
                     [
-                        'type' => 357,
+                        'type'  => 357,
                         'value' => ': ',
-                        'file' => 'eval code',
-                        'line' => 1,
+                        'file'  => 'eval code',
+                        'line'  => 1,
                     ],
                     [
                         'type' => 359,
                         'expr' => [
-                            'type' => 265,
+                            'type'  => 265,
                             'value' => 'value',
-                            'file' => 'eval code',
-                            'line' => 1,
+                            'file'  => 'eval code',
+                            'line'  => 1,
                         ],
                         'file' => 'eval code',
                         'line' => 1,
@@ -205,28 +205,28 @@ final class ForTest extends AbstractUnitTestCase
         $source   = '{% for key, value in map if value > 0 %}{{ key }}{% endfor %}';
         $expected = [
             [
-                'type' => 304,
+                'type'     => 304,
                 'variable' => 'value',
-                'key' => 'key',
-                'expr' => [
-                    'type' => 265,
+                'key'      => 'key',
+                'expr'     => [
+                    'type'  => 265,
                     'value' => 'map',
-                    'file' => 'eval code',
-                    'line' => 1,
+                    'file'  => 'eval code',
+                    'line'  => 1,
                 ],
                 'if_expr' => [
                     'type' => 62,
                     'left' => [
-                        'type' => 265,
+                        'type'  => 265,
                         'value' => 'value',
-                        'file' => 'eval code',
-                        'line' => 1,
+                        'file'  => 'eval code',
+                        'line'  => 1,
                     ],
                     'right' => [
-                        'type' => 258,
+                        'type'  => 258,
                         'value' => '0',
-                        'file' => 'eval code',
-                        'line' => 1,
+                        'file'  => 'eval code',
+                        'line'  => 1,
                     ],
                     'file' => 'eval code',
                     'line' => 1,
@@ -235,10 +235,10 @@ final class ForTest extends AbstractUnitTestCase
                     [
                         'type' => 359,
                         'expr' => [
-                            'type' => 265,
+                            'type'  => 265,
                             'value' => 'key',
-                            'file' => 'eval code',
-                            'line' => 1,
+                            'file'  => 'eval code',
+                            'line'  => 1,
                         ],
                         'file' => 'eval code',
                         'line' => 1,
@@ -261,22 +261,22 @@ final class ForTest extends AbstractUnitTestCase
         $source   = '{% for item in items %}{{ item }}{% endfor %}';
         $expected = [
             [
-                'type' => 304,
+                'type'     => 304,
                 'variable' => 'item',
-                'expr' => [
-                    'type' => 265,
+                'expr'     => [
+                    'type'  => 265,
                     'value' => 'items',
-                    'file' => 'eval code',
-                    'line' => 1,
+                    'file'  => 'eval code',
+                    'line'  => 1,
                 ],
                 'block_statements' => [
                     [
                         'type' => 359,
                         'expr' => [
-                            'type' => 265,
+                            'type'  => 265,
                             'value' => 'item',
-                            'file' => 'eval code',
-                            'line' => 1,
+                            'file'  => 'eval code',
+                            'line'  => 1,
                         ],
                         'file' => 'eval code',
                         'line' => 1,

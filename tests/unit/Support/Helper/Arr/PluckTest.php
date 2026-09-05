@@ -24,14 +24,14 @@ final class PluckTest extends AbstractUnitTestCase
      */
     public function testSupportHelperArrPluck(): void
     {
-        $object = new Pluck();
+        $object     = new Pluck();
         $collection = [
             ['product_id' => 'prod-100', 'name' => 'Desk'],
             ['product_id' => 'prod-200', 'name' => 'Chair'],
         ];
 
         $expected = ['Desk', 'Chair'];
-        $actual = $object($collection, 'name');
+        $actual   = $object($collection, 'name');
         $this->assertSame($expected, $actual);
     }
 
@@ -41,14 +41,14 @@ final class PluckTest extends AbstractUnitTestCase
      */
     public function testSupportHelperArrPluckObject(): void
     {
-        $object = new Pluck();
+        $object     = new Pluck();
         $collection = [
             (object)['product_id' => 'prod-100', 'name' => 'Desk'],
             (object)['product_id' => 'prod-200', 'name' => 'Chair'],
         ];
 
         $expected = ['Desk', 'Chair'];
-        $actual = $object($collection, 'name');
+        $actual   = $object($collection, 'name');
         $this->assertSame($expected, $actual);
     }
 }

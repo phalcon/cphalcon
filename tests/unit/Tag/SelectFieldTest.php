@@ -37,9 +37,9 @@ final class SelectFieldTest extends AbstractTagTestCase
             [
                 'choices',
                 'a" onmouseover=alert(1) x' => 'y',
-                'useEmpty'   => true,
-                'emptyText'  => '</option><script>alert(1)</script>',
-                'emptyValue' => '"><svg onload=alert(1)>',
+                'useEmpty'                  => true,
+                'emptyText'                 => '</option><script>alert(1)</script>',
+                'emptyValue'                => '"><svg onload=alert(1)>',
             ],
             ['1' => 'One']
         );

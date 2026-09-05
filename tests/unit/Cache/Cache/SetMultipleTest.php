@@ -35,8 +35,8 @@ final class SetMultipleTest extends AbstractUnitTestCase
 
         $adapter = new Cache($instance);
 
-        $key1 = uniqid();
-        $key2 = uniqid();
+        $key1   = uniqid();
+        $key2   = uniqid();
         $actual = $adapter->setMultiple(
             [
                 $key1 => 'test1',

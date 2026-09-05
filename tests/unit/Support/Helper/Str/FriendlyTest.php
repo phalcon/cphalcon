@@ -98,9 +98,9 @@ final class FriendlyTest extends AbstractUnitTestCase
         array | string $replace,
         string $result,
     ): void {
-        $object = new Friendly();
+        $object   = new Friendly();
         $expected = $result;
-        $actual = $object->__invoke(
+        $actual   = $object->__invoke(
             $text,
             $separator,
             $lowercase,

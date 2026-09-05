@@ -36,25 +36,25 @@ final class CacheTest extends AbstractUnitTestCase
             [
                 'type' => 314,
                 'expr' => [
-                    'type' => 260,
+                    'type'  => 260,
                     'value' => 'sidebar',
-                    'file' => 'eval code',
-                    'line' => 1,
+                    'file'  => 'eval code',
+                    'line'  => 1,
                 ],
                 'lifetime' => [
-                    'type' => 258,
+                    'type'  => 258,
                     'value' => '3600',
-                    'file' => 'eval code',
-                    'line' => 1,
+                    'file'  => 'eval code',
+                    'line'  => 1,
                 ],
                 'block_statements' => [
                     [
                         'type' => 359,
                         'expr' => [
-                            'type' => 265,
+                            'type'  => 265,
                             'value' => 'content',
-                            'file' => 'eval code',
-                            'line' => 1,
+                            'file'  => 'eval code',
+                            'line'  => 1,
                         ],
                         'file' => 'eval code',
                         'line' => 1,
@@ -79,25 +79,25 @@ final class CacheTest extends AbstractUnitTestCase
             [
                 'type' => 314,
                 'expr' => [
-                    'type' => 265,
+                    'type'  => 265,
                     'value' => 'cacheKey',
-                    'file' => 'eval code',
-                    'line' => 1,
+                    'file'  => 'eval code',
+                    'line'  => 1,
                 ],
                 'lifetime' => [
-                    'type' => 265,
+                    'type'  => 265,
                     'value' => 'lifetime',
-                    'file' => 'eval code',
-                    'line' => 1,
+                    'file'  => 'eval code',
+                    'line'  => 1,
                 ],
                 'block_statements' => [
                     [
                         'type' => 359,
                         'expr' => [
-                            'type' => 265,
+                            'type'  => 265,
                             'value' => 'content',
-                            'file' => 'eval code',
-                            'line' => 1,
+                            'file'  => 'eval code',
+                            'line'  => 1,
                         ],
                         'file' => 'eval code',
                         'line' => 1,
@@ -122,19 +122,19 @@ final class CacheTest extends AbstractUnitTestCase
             [
                 'type' => 314,
                 'expr' => [
-                    'type' => 260,
+                    'type'  => 260,
                     'value' => 'sidebar',
-                    'file' => 'eval code',
-                    'line' => 1,
+                    'file'  => 'eval code',
+                    'line'  => 1,
                 ],
                 'block_statements' => [
                     [
                         'type' => 359,
                         'expr' => [
-                            'type' => 265,
+                            'type'  => 265,
                             'value' => 'content',
-                            'file' => 'eval code',
-                            'line' => 1,
+                            'file'  => 'eval code',
+                            'line'  => 1,
                         ],
                         'file' => 'eval code',
                         'line' => 1,

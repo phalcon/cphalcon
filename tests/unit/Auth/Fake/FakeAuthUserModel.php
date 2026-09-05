@@ -123,7 +123,7 @@ class FakeAuthUserModel implements AuthUser, AuthRemember
         string $token,
         ?string $userAgent = null
     ): RememberToken {
-        $entry                       = new FakeRememberToken($token, $userAgent ?? '');
+        $entry                        = new FakeRememberToken($token, $userAgent ?? '');
         $this->rememberTokens[$token] = $entry;
 
         return $entry;

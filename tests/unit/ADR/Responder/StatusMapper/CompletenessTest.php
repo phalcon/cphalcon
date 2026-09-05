@@ -29,7 +29,7 @@ final class CompletenessTest extends AbstractUnitTestCase
         $mapper = new StatusMapper();
 
         $property = new ReflectionProperty($mapper, 'map');
-        $map = $property->getValue($mapper);
+        $map      = $property->getValue($mapper);
 
         $statuses = (new ReflectionClass(Status::class))->getConstants();
 

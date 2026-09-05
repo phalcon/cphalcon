@@ -45,7 +45,7 @@ final class DecrementTest extends AbstractUnitTestCase
                 'Libmemcached',
                 Libmemcached::class,
                 [
-                    'client' => [],
+                    'client'  => [],
                     'servers' => [
                         Talon::settings()->getServiceOptions('memcached')
                     ]

@@ -25,7 +25,7 @@ final class SetUriTest extends AbstractUnitTestCase
     public function testSupportDebugSetUri(): void
     {
         $debug = new Debug();
-        $uri = 'https://something.com/test/';
+        $uri   = 'https://something.com/test/';
 
         $expected = "
     <link href='" . $uri . "debug.css'

@@ -55,11 +55,11 @@ final class GetTest extends AbstractUnitTestCase
      */
     public function testContainerResolverLazyGetResolveWithNestedLazyId(): void
     {
-        $service = new stdClass();
+        $service   = new stdClass();
         $container = new FakeContainerWithServiceResolution($service);
-        $inner = new FunctionCall('strtolower', ['TARGET']);
-        $outer = new Get($inner);
-        $result = $outer->resolve($container);
+        $inner     = new FunctionCall('strtolower', ['TARGET']);
+        $outer     = new Get($inner);
+        $result    = $outer->resolve($container);
 
         $this->assertSame($service, $result);
         $this->assertSame('target', $container->lastId);

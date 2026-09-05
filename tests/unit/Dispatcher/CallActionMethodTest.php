@@ -22,14 +22,14 @@ use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class CallActionMethodTest extends AbstractUnitTestCase
 {
-    private bool $altCalled = false;
+    private bool $altCalled     = false;
     private string $paramCalled = '';
-    private bool $wasCalled = false;
+    private bool $wasCalled     = false;
 
     protected function setUp(): void
     {
-        $this->wasCalled  = false;
-        $this->altCalled  = false;
+        $this->wasCalled   = false;
+        $this->altCalled   = false;
         $this->paramCalled = '';
     }
 

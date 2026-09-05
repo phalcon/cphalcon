@@ -27,7 +27,7 @@ final class NewInstanceTest extends AbstractUnitTestCase
     public function testFilterValidationValidatorFactoryNewInstance(): void
     {
         $factory = new ValidatorFactory();
-        $name = 'alnum';
+        $name    = 'alnum';
 
         $validator = $factory->newInstance($name);
 
@@ -41,7 +41,7 @@ final class NewInstanceTest extends AbstractUnitTestCase
     public function testFilterValidationValidatorFactoryNewInstanceException(): void
     {
         $factory = new ValidatorFactory();
-        $name = 'unknown';
+        $name    = 'unknown';
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Service unknown is not registered');
