@@ -21,10 +21,6 @@ final class FakeMemory extends Memory
      * Overrides fireManagerEvent to always return false, used for testing
      * when an event manager vetoes an action.
      *
-     * @param string $eventName
-     * @param mixed  $data
-     * @param bool   $cancellable
-     *
      * @return bool|mixed|null
      */
     protected function fireManagerEvent(

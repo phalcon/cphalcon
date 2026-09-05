@@ -651,9 +651,6 @@ final class HandleTest extends AbstractUnitTestCase
         );
     }
 
-    /**
-     * @return void
-     */
     public function testCliRouterHandleRouterInvalidPathsException(): void
     {
         $this->expectException(Exception::class);
@@ -690,9 +687,6 @@ final class HandleTest extends AbstractUnitTestCase
         );
     }
 
-    /**
-     * @return void
-     */
     private function assertParameters(
         Router $router,
         array | string $uri,

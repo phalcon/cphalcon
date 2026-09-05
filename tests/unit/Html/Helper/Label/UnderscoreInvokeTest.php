@@ -21,9 +21,6 @@ use function uniqid;
 
 final class UnderscoreInvokeTest extends AbstractUnitTestCase
 {
-    /**
-     * @return array
-     */
     public static function getExamples(): array
     {
         $text = uniqid();

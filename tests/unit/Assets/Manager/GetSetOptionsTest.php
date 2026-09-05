@@ -21,9 +21,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 
 final class GetSetOptionsTest extends AbstractUnitTestCase
 {
-    /**
-     * @return array
-     */
     public static function getExamples(): array
     {
         return [

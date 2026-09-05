@@ -28,9 +28,6 @@ final class ConstructTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
 
-    /**
-     * @return void
-     */
     public function setUp(): void
     {
         try {
@@ -58,9 +55,6 @@ final class ConstructTest extends AbstractDatabaseTestCase
         $migration->insert(1, 1, 0, 'Test Invoice');
     }
 
-    /**
-     * @return void
-     */
     public function tearDown(): void
     {
         $this->safeDeleteFile(

@@ -21,8 +21,6 @@ use function uniqid;
 trait RecordsTrait
 {
     /**
-     * @param int $number
-     *
      * @return false|float
      */
     private function getFibonacci(int $number)
@@ -30,14 +28,6 @@ trait RecordsTrait
         return round((((sqrt(5) + 1) / 2) ** $number) / sqrt(5));
     }
 
-    /**
-     * @param InvoicesMigration $migration
-     * @param int               $count
-     * @param string            $invId
-     * @param int               $custId
-     * @param string            $prefix
-     * @param int               $pad
-     */
     private function insertDataInvoices(
         InvoicesMigration $migration,
         int $count,

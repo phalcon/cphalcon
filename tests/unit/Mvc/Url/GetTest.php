@@ -20,9 +20,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 
 final class GetTest extends AbstractUnitTestCase
 {
-    /**
-     * @return array
-     */
     public static function getExamples(): array
     {
         return [

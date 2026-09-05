@@ -21,12 +21,7 @@ class FakeModelBinder implements BinderInterface
     private ?CacheAdapterInterface $cache = null;
 
     /**
-     * @param mixed       $handler
-     * @param array       $params
-     * @param string      $cacheKey
-     * @param string|null $methodName
-     *
-     * @return array
+     * @param mixed $handler
      */
     public function bindToHandler(
         $handler,
@@ -37,27 +32,16 @@ class FakeModelBinder implements BinderInterface
         return $params;
     }
 
-    /**
-     * @return array
-     */
     public function getBoundModels(): array
     {
         return [];
     }
 
-    /**
-     * @return CacheAdapterInterface
-     */
     public function getCache(): CacheAdapterInterface
     {
         return $this->cache;
     }
 
-    /**
-     * @param CacheAdapterInterface $cache
-     *
-     * @return BinderInterface
-     */
     public function setCache(CacheAdapterInterface $cache): BinderInterface
     {
         $this->cache = $cache;

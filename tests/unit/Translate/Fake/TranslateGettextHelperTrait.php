@@ -144,13 +144,7 @@ trait TranslateGettextHelperTrait
         $this->assertSame($expected, $actual);
     }
 
-    /**
-     * @return string
-     */
     abstract protected function func(): string;
 
-    /**
-     * @return array
-     */
     abstract protected function getGettextConfig(): array;
 }

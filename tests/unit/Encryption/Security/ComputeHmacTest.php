@@ -20,9 +20,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 
 final class ComputeHmacTest extends AbstractUnitTestCase
 {
-    /**
-     * @return array
-     */
     public static function hmacProvider(): array
     {
         $data = [];

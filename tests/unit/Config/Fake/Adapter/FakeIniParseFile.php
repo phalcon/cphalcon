@@ -20,12 +20,6 @@ class FakeIniParseFile extends Ini
     /**
      * Parse a configuration file
      *
-     * @param string $filename
-     * @param bool   $processSections
-     * @param int    $scannerMode
-     *
-     * @return array|false
-     *
      * @link https://php.net/manual/en/function.parse-ini-file.php
      */
     protected static function phpParseIniFile(

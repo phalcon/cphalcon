@@ -171,13 +171,7 @@ trait TranslateCsvHelperTrait
         $this->assertSame($expected, $actual);
     }
 
-    /**
-     * @return string
-     */
     abstract protected function func(): string;
 
-    /**
-     * @return array
-     */
     abstract protected function getCsvConfig(): array;
 }

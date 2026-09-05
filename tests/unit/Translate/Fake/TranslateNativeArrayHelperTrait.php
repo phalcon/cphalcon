@@ -159,13 +159,7 @@ trait TranslateNativeArrayHelperTrait
         $this->assertSame($expected, $actual);
     }
 
-    /**
-     * @return string
-     */
     abstract protected function func(): string;
 
-    /**
-     * @return array
-     */
     abstract protected function getArrayConfig(): array;
 }

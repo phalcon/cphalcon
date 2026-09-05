@@ -162,9 +162,6 @@ final class ReadMetadataTest extends AbstractDatabaseTestCase
         }
     }
 
-    /**
-     * @return array
-     */
     private function getKeyData(): array
     {
         $dateUploadedType = ('pgsql' === self::getDatabaseDriver()) ? 17 : 4;

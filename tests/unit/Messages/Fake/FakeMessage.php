@@ -17,38 +17,17 @@ use Phalcon\Messages\MessageInterface;
 
 class FakeMessage implements MessageInterface
 {
-    /**
-     * @var int
-     */
     protected int $code;
 
-    /**
-     * @var string
-     */
     protected string $field;
-    /**
-     * @var string
-     */
     protected string $message;
 
-    /**
-     * @var array
-     */
     protected array $metaData = [];
 
-    /**
-     * @var string
-     */
     protected string $type;
 
     /**
      * Phalcon\Messages\Message constructor
-     *
-     * @param string $message
-     * @param string $field
-     * @param string $type
-     * @param int    $code
-     * @param array  $metaData
      */
     public function __construct(
         string $message,
@@ -72,41 +51,26 @@ class FakeMessage implements MessageInterface
         return $this->message;
     }
 
-    /**
-     * @return int
-     */
     public function getCode(): int
     {
         return $this->code;
     }
 
-    /**
-     * @return string
-     */
     public function getField(): string
     {
         return $this->field;
     }
 
-    /**
-     * @return string
-     */
     public function getMessage(): string
     {
         return $this->message;
     }
 
-    /**
-     * @return array
-     */
     public function getMetaData(): array
     {
         return $this->metaData;
     }
 
-    /**
-     * @return string
-     */
     public function getType(): string
     {
         return $this->type;
@@ -114,8 +78,6 @@ class FakeMessage implements MessageInterface
 
     /**
      * Sets code for the message
-     *
-     * @param int $code
      *
      * @return $this|MessageInterface
      */
@@ -129,8 +91,6 @@ class FakeMessage implements MessageInterface
     /**
      * Sets field name related to message
      *
-     * @param string $field
-     *
      * @return $this|MessageInterface
      */
     public function setField(string $field): MessageInterface
@@ -142,8 +102,6 @@ class FakeMessage implements MessageInterface
 
     /**
      * Sets verbose message
-     *
-     * @param string $message
      *
      * @return $this|MessageInterface
      */
@@ -157,8 +115,6 @@ class FakeMessage implements MessageInterface
     /**
      * Sets message metadata
      *
-     * @param array $metaData
-     *
      * @return $this|MessageInterface
      */
     public function setMetaData(array $metaData): MessageInterface
@@ -170,8 +126,6 @@ class FakeMessage implements MessageInterface
 
     /**
      * Sets message type
-     *
-     * @param string $type
      *
      * @return $this|MessageInterface
      */

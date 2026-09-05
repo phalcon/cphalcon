@@ -29,9 +29,6 @@ trait TranslateGettextTrait
         }
     }
 
-    /**
-     * @return array
-     */
     protected function getGettextConfig(): array
     {
 

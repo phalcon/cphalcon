@@ -29,15 +29,10 @@ final class SumTest extends AbstractDatabaseTestCase
     use DiTrait;
     use RecordsTrait;
 
-    /**
-     * @var InvoicesMigration
-     */
     private InvoicesMigration $invoiceMigration;
 
     /**
      * Executed before each test
-     *
-     * @return void
      */
     public function setUp(): void
     {

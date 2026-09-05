@@ -29,14 +29,8 @@ final class CurrentTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
 
-    /**
-     * @var CustomersMigration
-     */
     private CustomersMigration $customerMigration;
 
-    /**
-     * @var InvoicesMigration
-     */
     private InvoicesMigration $invoiceMigration;
 
     public function setUp(): void
