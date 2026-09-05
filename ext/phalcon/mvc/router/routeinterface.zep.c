@@ -22,6 +22,11 @@
  */
 /**
  * Interface for Phalcon\Mvc\Router\Route
+ *
+ * @phpstan-import-type mvc_router_http_methods from MvcTypes
+ * @phpstan-import-type mvc_router_paths from MvcTypes
+ * @phpstan-import-type mvc_router_converters from MvcTypes
+ * @phpstan-import-type mvc_router_reversed_paths from MvcTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_RouteInterface)
 {
@@ -48,6 +53,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, getCompiledPattern);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, getHostname);
 /**
  * Returns the HTTP methods that constraint matching the route
+ *
+ * @phpstan-return mvc_router_http_methods|string|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, getHttpMethods);
 /**
@@ -56,6 +63,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, getHttpMethods);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, getName);
 /**
  * Returns the paths
+ *
+ * @phpstan-return mvc_router_paths
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, getPaths);
 /**
@@ -64,6 +73,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, getPaths);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, getPattern);
 /**
  * Returns the paths using positions as keys and names as values
+ *
+ * @phpstan-return mvc_router_reversed_paths
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, getReversedPaths);
 /**

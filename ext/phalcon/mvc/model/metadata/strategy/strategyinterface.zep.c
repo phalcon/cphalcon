@@ -20,6 +20,9 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+/**
+ * @phpstan-import-type mvc_metadata_index from MvcTypes
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Strategy_StrategyInterface)
 {
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Model\\MetaData\\Strategy, StrategyInterface, phalcon, mvc_model_metadata_strategy_strategyinterface, phalcon_mvc_model_metadata_strategy_strategyinterface_method_entry);
@@ -31,9 +34,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Strategy_StrategyInterface)
  * Read the model's column map, this can't be inferred
  *
  * @todo Not implemented
+ *
+ * @phpstan-return mvc_metadata_index
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_StrategyInterface, getColumnMaps);
 /**
  * The meta-data is obtained by reading the column descriptions from the database information schema
+ *
+ * @phpstan-return mvc_metadata_index
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_StrategyInterface, getMetaData);

@@ -91,6 +91,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, setIsFresh);
 /**
  * Returns a complete resultset as an array, if the resultset has a big number of rows
  * it could consume more memory than currently it does.
+ *
+ * @phpstan-return array<array-key, mixed>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, toArray);
 /**

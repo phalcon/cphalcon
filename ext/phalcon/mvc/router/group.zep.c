@@ -73,6 +73,9 @@
  * //Add the group to the router
  * $router->mount($blog);
  *```
+ *
+ * @phpstan-import-type mvc_router_http_methods from MvcTypes
+ * @phpstan-import-type mvc_router_paths from MvcTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Group)
 {
@@ -80,6 +83,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Group)
 
 	/**
 	 * @var callable|null
+	 *
+	 * @phpstan-var callable|null
 	 */
 	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("beforeMatch"), ZEND_ACC_PROTECTED);
 	/**
@@ -88,6 +93,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Group)
 	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("hostname"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var array|string|null
+	 *
+	 * @phpstan-var mvc_router_paths|string|null
 	 */
 	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("paths"), ZEND_ACC_PROTECTED);
 	/**
@@ -96,6 +103,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Group)
 	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("prefix"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var array
+	 *
+	 * @phpstan-var list<RouteInterface>
 	 */
 	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("routes"), ZEND_ACC_PROTECTED);
 	phalcon_mvc_router_group_ce->create_object = zephir_init_properties_Phalcon_Mvc_Router_Group;
@@ -108,6 +117,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Group)
  * Phalcon\Mvc\Router\Group constructor
  *
  * @param array|string paths
+ *
+ * @phpstan-param mvc_router_paths|string|null $paths
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, __construct)
 {
@@ -771,6 +782,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, getHostname)
 
 /**
  * Returns the common paths defined for this group
+ *
+ * @phpstan-return mvc_router_paths|string|null
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, getPaths)
 {
@@ -789,6 +802,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, getPrefix)
 
 /**
  * Returns the routes added to the group
+ *
+ * @phpstan-return list<RouteInterface>
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, getRoutes)
 {

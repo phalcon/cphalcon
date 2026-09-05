@@ -44,6 +44,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Behavior_SoftDelete)
 
 /**
  * Listens for notifications from the models manager
+ *
+ * @phpstan-return mixed
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify)
 {
@@ -91,12 +93,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify)
 	zephir_check_call_status();
 	zephir_memory_observe(&value);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&value, &options, SL("value"), 0)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_behavior_exceptions_missingrequiredoption_ce, "value", "phalcon/Mvc/Model/Behavior/SoftDelete.zep", 44);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_behavior_exceptions_missingrequiredoption_ce, "value", "phalcon/Mvc/Model/Behavior/SoftDelete.zep", 46);
 		return;
 	}
 	zephir_memory_observe(&field);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&field, &options, SL("field"), 0)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_behavior_exceptions_missingrequiredoption_ce, "field", "phalcon/Mvc/Model/Behavior/SoftDelete.zep", 51);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_behavior_exceptions_missingrequiredoption_ce, "field", "phalcon/Mvc/Model/Behavior/SoftDelete.zep", 53);
 		return;
 	}
 	ZVAL_BOOL(&_0, 1);
@@ -127,7 +129,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify)
 		} else {
 			_4$$7 = &_3$$7;
 		}
-		zephir_is_iterable(_4$$7, 0, "phalcon/Mvc/Model/Behavior/SoftDelete.zep", 86);
+		zephir_is_iterable(_4$$7, 0, "phalcon/Mvc/Model/Behavior/SoftDelete.zep", 88);
 		if (Z_TYPE_P(_4$$7) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_4$$7), _6$$7)
 			{

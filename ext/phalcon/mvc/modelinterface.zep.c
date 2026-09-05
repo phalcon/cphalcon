@@ -26,6 +26,10 @@
  * Interface for Phalcon\Mvc\Model
  *
  * @template T
+ *
+ * @phpstan-import-type mvc_model_data from MvcTypes
+ * @phpstan-import-type mvc_model_parameters from MvcTypes
+ * @phpstan-import-type mvc_model_snapshot from MvcTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_ModelInterface)
 {
@@ -46,6 +50,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, appendMessage);
  * @param mixed dataColumnMap Array to transform keys of data to another
  *
  * @return ModelInterface
+ *
+ * @phpstan-param mvc_model_data $data
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, assign);
 /**
@@ -54,10 +60,14 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, assign);
  *
  * @param array parameters
  * @return ResultsetInterface|float
+ *
+ * @phpstan-param mvc_model_parameters $parameters
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, average);
 /**
  * Assigns values to a model from an array returning a new model
+ *
+ * @phpstan-param mvc_model_data $data
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, cloneResult);
 /**
@@ -69,12 +79,16 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, cloneResult);
  * @param bool keepSnapshots
  *
  * @return ModelInterface
+ *
+ * @phpstan-param mvc_model_data $data
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, cloneResultMap);
 /**
  * Returns an hydrated result based on the data and the column map
  *
  * @param array columnMap
+ *
+ * @phpstan-param mvc_model_data $data
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, cloneResultMapHydrate);
 /**
@@ -85,6 +99,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, cloneResultMapHydrate);
  * contain the count of each group.
  *
  * @param array|string|null parameters
+ *
+ * @phpstan-param mvc_model_parameters $parameters
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, count);
 /**
@@ -232,6 +248,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, setReadConnectionService);
  * snapshot data when the model was set up to keep snapshot data
  *
  * @param array columnMap
+ *
+ * @phpstan-param mvc_model_data $data
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, setSnapshotData);
 /**
@@ -239,6 +257,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, setSnapshotData);
  * on the next save() call.
  *
  * @param string|array|null elements
+ *
+ * @phpstan-param mvc_model_data $elements
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, setSync);
 /**

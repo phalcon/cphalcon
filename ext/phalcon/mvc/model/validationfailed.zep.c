@@ -55,6 +55,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ValidationFailed)
  *
  * @param ModelInterface model
  * @param Message[] validationMessages
+ *
+ * @phpstan-param list<MessageInterface> $validationMessages
  */
 PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct)
 {
@@ -87,7 +89,7 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct)
 	zephir_get_arrval(&validationMessages, validationMessages_param);
 	if (!(ZEPHIR_IS_EMPTY(&validationMessages))) {
 		zephir_memory_observe(&message);
-		zephir_array_fetch_long(&message, &validationMessages, 0, PH_NOISY, "phalcon/Mvc/Model/ValidationFailed.zep", 48);
+		zephir_array_fetch_long(&message, &validationMessages, 0, PH_NOISY, "phalcon/Mvc/Model/ValidationFailed.zep", 51);
 		ZEPHIR_CALL_METHOD(&messageStr, &message, "getmessage", NULL, 0);
 		zephir_check_call_status();
 	} else {
@@ -103,6 +105,8 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct)
 
 /**
  * Returns the complete group of messages produced in the validation
+ *
+ * @phpstan-return list<MessageInterface>
  */
 PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, getMessages)
 {

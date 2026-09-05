@@ -28,6 +28,8 @@
  */
 /**
  * Class for exceptions thrown by Phalcon\Mvc\View
+ *
+ * @phpstan-import-type mvc_volt_node from MvcTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt_Exception)
 {
@@ -35,6 +37,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt_Exception)
 
 	/**
 	 * @var array
+	 *
+	 * @phpstan-var mvc_volt_node
 	 */
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_exception_ce, SL("statement"), ZEND_ACC_PROTECTED);
 	phalcon_mvc_view_engine_volt_exception_ce->create_object = zephir_init_properties_Phalcon_Mvc_View_Engine_Volt_Exception;
@@ -47,6 +51,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt_Exception)
  * @param array statement
  * @param int code
  * @param \Exception|null previous
+ *
+ * @phpstan-param mvc_volt_node $statement
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exception, __construct)
 {
@@ -119,6 +125,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exception, __construct)
  * Gets currently parsed statement (if any).
  *
  * @return array
+ *
+ * @phpstan-return mvc_volt_node
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exception, getStatement)
 {

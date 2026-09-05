@@ -46,6 +46,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Row)
 
 /**
  * Serializes the object for json_encode
+ *
+ * @phpstan-return array<array-key, mixed>
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, jsonSerialize)
 {
@@ -66,6 +68,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, jsonSerialize)
  * presence is the contract, not value truthiness.
  *
  * @param string|int $index
+ *
+ * @phpstan-param array-key $index
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists)
 {
@@ -93,6 +97,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists)
  * @param string|int index
  *
  * @return string|ModelInterface
+ *
+ * @phpstan-param array-key $index
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet)
 {
@@ -119,7 +125,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet)
 		object_init_ex(&_1$$3, phalcon_mvc_model_exceptions_indexnotinrow_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Row.zep", 56);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Row.zep", 62);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -155,7 +161,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet)
 	object_init_ex(&_0, phalcon_mvc_model_exceptions_rowisimmutable_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Row.zep", 70);
+	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Row.zep", 76);
 	ZEPHIR_MM_RESTORE();
 	return;
 }
@@ -184,7 +190,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset)
 	object_init_ex(&_0, phalcon_mvc_model_exceptions_rowisimmutable_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Row.zep", 80);
+	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Row.zep", 86);
 	ZEPHIR_MM_RESTORE();
 	return;
 }
@@ -238,6 +244,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, setDirtyState)
 
 /**
  * Returns the instance as an array representation
+ *
+ * @phpstan-return array<array-key, mixed>
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, toArray)
 {

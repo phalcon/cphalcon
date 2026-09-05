@@ -22,6 +22,11 @@
  */
 /**
  * Interface for Phalcon\Mvc\Model\Query\Builder
+ *
+ * @phpstan-import-type mvc_model_bind_params from MvcTypes
+ * @phpstan-import-type mvc_model_bind_types from MvcTypes
+ * @phpstan-import-type mvc_query_columns from MvcTypes
+ * @phpstan-import-type mvc_query_order from MvcTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_BuilderInterface)
 {
@@ -46,6 +51,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_BuilderInterface)
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, addFrom);
 /**
  * Appends a condition to the current conditions using a AND operator
+ *
+ * @phpstan-param mvc_model_bind_params $bindParams
+ * @phpstan-param mvc_model_bind_types $bindTypes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, andWhere);
 /**
@@ -123,20 +131,28 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, forUpdate);
  * Sets the models who makes part of the query
  *
  * @param string|array models
+ *
+ * @phpstan-param mvc_query_columns $models
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, from);
 /**
  * Returns default bind params
+ *
+ * @phpstan-return mvc_model_bind_params
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getBindParams);
 /**
  * Returns default bind types
+ *
+ * @phpstan-return mvc_model_bind_types
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getBindTypes);
 /**
  * Return the columns to be queried
  *
  * @return string|array
+ *
+ * @phpstan-return mvc_query_columns|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getColumns);
 /**
@@ -147,10 +163,14 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getDistinct);
  * Return the models who makes part of the query
  *
  * @return string|array
+ *
+ * @phpstan-return mvc_query_columns|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getFrom);
 /**
  * Returns the GROUP BY clause
+ *
+ * @phpstan-return array<array-key, string>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getGroupBy);
 /**
@@ -159,16 +179,22 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getGroupBy);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getHaving);
 /**
  * Return join parts of the query
+ *
+ * @phpstan-return array<array-key, mixed>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getJoins);
 /**
  * Returns the current LIMIT clause
  *
  * @return string|array
+ *
+ * @phpstan-return array<array-key, mixed>|int|string|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getLimit);
 /**
  * Returns the models involved in the query
+ *
+ * @phpstan-return mvc_query_columns|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getModels);
 /**
@@ -179,6 +205,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getOffset);
  * Return the set ORDER BY clause
  *
  * @return string|array
+ *
+ * @phpstan-return array<array-key, int|string>|string|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getOrderBy);
 /**
@@ -193,16 +221,23 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getQuery);
  * Return the conditions for the query
  *
  * @return string|array
+ *
+ * @phpstan-return array<array-key, mixed>|string|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getWhere);
 /**
  * Sets a GROUP BY clause
  *
  * @param string|array group
+ *
+ * @phpstan-param array<array-key, string>|string|null $group
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, groupBy);
 /**
  * Sets a HAVING condition clause
+ *
+ * @phpstan-param mvc_model_bind_params $bindParams
+ * @phpstan-param mvc_model_bind_types $bindTypes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, having);
 /**
@@ -211,6 +246,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, having);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, innerJoin);
 /**
  * Appends an IN condition to the current conditions
+ *
+ * @phpstan-param array<array-key, mixed> $values
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, inWhere);
 /**
@@ -241,6 +278,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, limit);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, notBetweenWhere);
 /**
  * Appends a NOT IN condition to the current conditions
+ *
+ * @phpstan-param array<array-key, mixed> $values
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, notInWhere);
 /**
@@ -249,6 +288,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, notInWhere);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, offset);
 /**
  * Appends a condition to the current conditions using an OR operator
+ *
+ * @phpstan-param mvc_model_bind_params $bindParams
+ * @phpstan-param mvc_model_bind_types $bindTypes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, orWhere);
 /**
@@ -263,13 +305,20 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, orderBy);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, rightJoin);
 /**
  * Set default bind parameters
+ *
+ * @phpstan-param mvc_model_bind_params $bindParams
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, setBindParams);
 /**
  * Set default bind types
+ *
+ * @phpstan-param mvc_model_bind_types $bindTypes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, setBindTypes);
 /**
  * Sets conditions for the query
+ *
+ * @phpstan-param mvc_model_bind_params $bindParams
+ * @phpstan-param mvc_model_bind_types $bindTypes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, where);

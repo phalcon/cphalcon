@@ -45,6 +45,8 @@
  *
  * $app->mount($collection);
  *```
+ *
+ * @phpstan-import-type mvc_micro_handlers from MvcTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_Collection)
 {
@@ -56,6 +58,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_Collection)
 	zend_declare_property_null(phalcon_mvc_micro_collection_ce, SL("handler"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var array
+	 *
+	 * @phpstan-var mvc_micro_handlers
 	 */
 	zend_declare_property_null(phalcon_mvc_micro_collection_ce, SL("handlers"), ZEND_ACC_PROTECTED);
 	/**
@@ -177,6 +181,8 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandler)
 
 /**
  * Returns the registered handlers
+ *
+ * @phpstan-return mvc_micro_handlers
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandlers)
 {

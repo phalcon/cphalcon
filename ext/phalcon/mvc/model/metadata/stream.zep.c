@@ -45,6 +45,8 @@
  *     ]
  * );
  *```
+ *
+ * @phpstan-import-type mvc_metadata_index from MvcTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Stream)
 {
@@ -98,6 +100,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, __construct)
 
 /**
  * Reads meta-data from files
+ *
+ * @phpstan-return mvc_metadata_index|null
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, read)
 {
@@ -135,6 +139,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, read)
 
 /**
  * Writes the meta-data to files
+ *
+ * @phpstan-param mvc_metadata_index $data
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write)
 {
@@ -234,7 +240,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, getFilePath)
 	ZVAL_STRING(&_0, "_");
 	ZEPHIR_INIT_VAR(&name);
 	zephir_prepare_virtual_path(&name, &key_zv, &_0);
-	if (zephir_memnstr_str(&key_zv, SL("_"), "phalcon/Mvc/Model/MetaData/Stream.zep", 105)) {
+	if (zephir_memnstr_str(&key_zv, SL("_"), "phalcon/Mvc/Model/MetaData/Stream.zep", 112)) {
 		ZEPHIR_CALL_FUNCTION(&_1$$3, "sha1", NULL, 301, &key_zv);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -269,7 +275,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, throwWriteException)
 		object_init_ex(&_0$$3, phalcon_mvc_model_metadata_exceptions_metadatadirectorynotwritable_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Mvc/Model/MetaData/Stream.zep", 118);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Mvc/Model/MetaData/Stream.zep", 125);
 		ZEPHIR_MM_RESTORE();
 		return;
 	} else {
