@@ -10,6 +10,7 @@
 
 namespace Phalcon\Db;
 
+use Phalcon\Contracts\Db\DbTypes;
 use Phalcon\Db\Exceptions\InvalidIndexColumns;
 use Phalcon\Db\Exceptions\InvalidIndexDirections;
 use Phalcon\Db\Exceptions\InvalidIndexWhere;
@@ -56,6 +57,10 @@ use Phalcon\Db\Exceptions\InvalidIndexWhere;
  * $connection->addIndex("co_invoices", null, $primary);
  * $connection->addIndex("co_invoices", null, $hidden);
  *```
+ *
+ * @phpstan-import-type db_index_columns from DbTypes
+ * @phpstan-import-type db_index_definition from DbTypes
+ * @phpstan-import-type db_index_directions from DbTypes
  */
 class Index implements IndexInterface
 {
@@ -63,6 +68,8 @@ class Index implements IndexInterface
      * Index columns
      *
      * @var array
+     *
+     * @phpstan-var db_index_columns
      */
     protected columns;
 
@@ -83,6 +90,8 @@ class Index implements IndexInterface
      * the columns list default to `ASC` for the missing positions.
      *
      * @var array
+     *
+     * @phpstan-var db_index_directions
      */
     protected directions = [];
 
@@ -128,6 +137,8 @@ class Index implements IndexInterface
      * "invisible" => true, ...])`. Detection is based on the presence of a
      * `columns` key in the second argument; when present, the third
      * positional `type` argument is ignored in favor of the definition.
+     *
+     * @phpstan-param db_index_columns|db_index_definition $columnsOrDefinition
      */
     public function __construct( string name,  array columnsOrDefinition, string type = "")
     {
@@ -177,6 +188,8 @@ class Index implements IndexInterface
 
     /**
      * Index columns
+     *
+     * @phpstan-return db_index_columns
      */
     public function getColumns() -> array
     {
@@ -189,6 +202,8 @@ class Index implements IndexInterface
      * directions and dialects emit the columns plainly. When populated,
      * entries are aligned with `getColumns()`; missing trailing positions
      * default to `ASC` at emission time.
+     *
+     * @phpstan-return db_index_directions
      */
     public function getDirections() -> array
     {

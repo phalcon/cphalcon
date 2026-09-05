@@ -12,11 +12,15 @@ namespace Phalcon\Contracts\Db;
 
 /**
  * Canonical contract for Phalcon\Db\Reference.
+ *
+ * @phpstan-import-type db_column_names from DbTypes
  */
 interface Reference
 {
     /**
      * Gets local columns which reference is based
+     *
+     * @phpstan-return db_column_names
      */
     public function getColumns() -> array;
 
@@ -37,6 +41,8 @@ interface Reference
 
     /**
      * Gets referenced columns
+     *
+     * @phpstan-return db_column_names
      */
     public function getReferencedColumns() -> array;
 

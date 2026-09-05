@@ -10,10 +10,14 @@
 
 namespace Phalcon\Db\Profiler;
 
+use Phalcon\Contracts\Db\DbTypes;
 use Phalcon\Db\Traits\ElapsedTimeTrait;
 
 /**
  * This class identifies each profile in a Phalcon\Db\Profiler
+ *
+ * @phpstan-import-type db_bind_params from DbTypes
+ * @phpstan-import-type db_bind_types from DbTypes
  */
 class Item
 {
@@ -37,6 +41,8 @@ class Item
      * SQL bind types related to the profile
      *
      * @var array
+     *
+     * @phpstan-var db_bind_types
      */
     protected sqlBindTypes;
 
@@ -51,6 +57,8 @@ class Item
      * SQL variables related to the profile
      *
      * @var array
+     *
+     * @phpstan-var db_bind_params
      */
     protected sqlVariables;
 
@@ -72,6 +80,8 @@ class Item
 
     /**
      * Return the SQL bind types related to the profile
+     *
+     * @phpstan-return db_bind_types
      */
     public function getSqlBindTypes() -> array
     {
@@ -88,6 +98,8 @@ class Item
 
     /**
      * Return the SQL variables related to the profile
+     *
+     * @phpstan-return db_bind_params
      */
     public function getSqlVariables() -> array
     {
@@ -124,6 +136,8 @@ class Item
 
     /**
      * Return the SQL bind types related to the profile
+     *
+     * @phpstan-param db_bind_types $sqlBindTypes
      */
     public function setSqlBindTypes(array sqlBindTypes) -> <static>
     {
@@ -144,6 +158,8 @@ class Item
 
     /**
      * Return the SQL variables related to the profile
+     *
+     * @phpstan-param db_bind_params $sqlVariables
      */
     public function setSqlVariables(array sqlVariables) -> <static>
     {

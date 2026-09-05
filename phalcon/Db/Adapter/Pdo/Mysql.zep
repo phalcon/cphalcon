@@ -10,6 +10,7 @@
 
 namespace Phalcon\Db\Adapter\Pdo;
 
+use Phalcon\Contracts\Db\DbTypes;
 use Phalcon\Db\Adapter\Pdo\AbstractPdo as PdoAdapter;
 use Phalcon\Db\Column;
 use Phalcon\Db\ColumnInterface;
@@ -37,6 +38,8 @@ use Phalcon\Db\ReferenceInterface;
  *
  * $connection = new Mysql($config);
  *```
+ *
+ * @phpstan-import-type db_dsn_defaults from DbTypes
  */
 class Mysql extends PdoAdapter
 {
@@ -768,6 +771,8 @@ class Mysql extends PdoAdapter
 
     /**
      * Returns PDO adapter DSN defaults as a key-value map.
+     *
+     * @phpstan-return db_dsn_defaults
      */
     protected function getDsnDefaults() -> array
     {

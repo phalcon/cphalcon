@@ -13,6 +13,9 @@ namespace Phalcon\Contracts\Db;
 /**
  * Canonical contract for Phalcon\Db\Index.
  *
+ * @phpstan-import-type db_index_columns from DbTypes
+ * @phpstan-import-type db_index_directions from DbTypes
+ *
  * @todo v7 - these will become required interface members. They are
  *            omitted from the v5 line to avoid breaking third-party
  *            implementors:
@@ -20,11 +23,22 @@ namespace Phalcon\Contracts\Db;
  *              - getWhere()      : string
  *              - isConcurrent()  : bool
  *              - isInvisible()   : bool
+ *
+ * The dialects call the members above on the interface. They join the
+ * interface in the next major; until then the tags below record what all
+ * implementations provide.
+ *
+ * @method db_index_directions getDirections()
+ * @method string              getWhere()
+ * @method bool                isConcurrent()
+ * @method bool                isInvisible()
  */
 interface Index
 {
     /**
      * Gets the columns that corresponds the index
+     *
+     * @phpstan-return db_index_columns
      */
     public function getColumns() -> array;
 

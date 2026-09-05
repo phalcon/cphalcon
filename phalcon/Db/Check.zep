@@ -10,6 +10,7 @@
 
 namespace Phalcon\Db;
 
+use Phalcon\Contracts\Db\DbTypes;
 use Phalcon\Db\Exceptions\CheckExpressionRequired;
 use Phalcon\Db\Exceptions\InvalidCheckExpression;
 
@@ -42,6 +43,8 @@ use Phalcon\Db\Exceptions\InvalidCheckExpression;
  * // SQLite cannot add CHECK constraints to existing tables.
  * $connection->addCheck("products", null, $positivePrice);
  *```
+ *
+ * @phpstan-import-type db_check_definition from DbTypes
  */
 class Check implements CheckInterface
 {
@@ -63,6 +66,8 @@ class Check implements CheckInterface
 
     /**
      * Phalcon\Db\Check constructor
+     *
+     * @phpstan-param db_check_definition $definition
      */
     public function __construct( string name,  array definition)
     {

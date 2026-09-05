@@ -10,6 +10,7 @@
 
 namespace Phalcon\Db\Dialect;
 
+use Phalcon\Contracts\Db\DbTypes;
 use Phalcon\Db\CheckInterface;
 use Phalcon\Db\Column;
 use Phalcon\Db\ColumnInterface;
@@ -25,6 +26,8 @@ use Phalcon\Db\ReferenceInterface;
 
 /**
  * Generates database specific SQL for the PostgreSQL RDBMS
+ *
+ * @phpstan-import-type db_table_options from DbTypes
  */
 class Postgresql extends Dialect
 {
@@ -35,6 +38,8 @@ class Postgresql extends Dialect
 
     /**
      * @var array
+     *
+     * @phpstan-var list<string>
      */
     protected supportedOperators = ["@@", "@>", "<@", "&&", "||", "->", "->>", "#>", "#>>"];
 
@@ -1068,6 +1073,9 @@ class Postgresql extends Dialect
         return preparedValue;
     }
 
+    /**
+     * @phpstan-param array{options: db_table_options} $definition
+     */
     protected function getTableOptions( array definition) -> string
     {
         return "";

@@ -10,6 +10,7 @@
 
 namespace Phalcon\Db\Adapter;
 
+use Phalcon\Contracts\Db\DbTypes;
 use Phalcon\Db\CheckInterface;
 use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\DialectInterface;
@@ -76,6 +77,23 @@ use Phalcon\Support\Settings;
  *     echo $e->getMessage(), PHP_EOL;
  * }
  * ```
+ *
+ * @phpstan-import-type db_bind_params from DbTypes
+ * @phpstan-import-type db_bind_types from DbTypes
+ * @phpstan-import-type db_column_names from DbTypes
+ * @phpstan-import-type db_descriptor from DbTypes
+ * @phpstan-import-type db_identifier from DbTypes
+ * @phpstan-import-type db_indexes from DbTypes
+ * @phpstan-import-type db_limit_number from DbTypes
+ * @phpstan-import-type db_references from DbTypes
+ * @phpstan-import-type db_row from DbTypes
+ * @phpstan-import-type db_rows from DbTypes
+ * @phpstan-import-type db_setup_options from DbTypes
+ * @phpstan-import-type db_table_definition from DbTypes
+ * @phpstan-import-type db_table_names from DbTypes
+ * @phpstan-import-type db_table_options from DbTypes
+ * @phpstan-import-type db_value_placeholder from DbTypes
+ * @phpstan-import-type db_view_definition from DbTypes
  */
 abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 {
@@ -97,6 +115,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * Descriptor used to connect to a database
      *
      * @var array
+     *
+     * @phpstan-var db_descriptor
      */
     protected descriptor = [];
 
@@ -132,6 +152,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * Active SQL Bind Types
      *
      * @var array
+     *
+     * @phpstan-var db_bind_types
      */
     protected sqlBindTypes = [];
 
@@ -146,6 +168,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * Active SQL bound parameter variables
      *
      * @var array
+     *
+     * @phpstan-var db_bind_params
      */
     protected sqlVariables = [];
 
@@ -188,6 +212,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * Note: the `options` key is forwarded to the static `setup()` method,
      * which writes process-global settings affecting every connection in the
      * process. See `setup()`.
+     *
+     * @phpstan-param db_descriptor $descriptor
      */
     public function __construct( array descriptor)
     {
@@ -315,6 +341,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 
     /**
      * Creates a table
+     *
+     * @phpstan-param db_table_definition $definition
      */
     public function createTable( string tableName,  string schemaName,  array definition) -> bool
     {
@@ -624,6 +652,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *     ]
      * );
      *```
+     *
+     * @phpstan-param db_identifier $identifier
      */
     public function escapeIdentifier(var identifier) -> string
     {
@@ -660,6 +690,11 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *     print_r($invoice);
      * }
      *```
+     *
+     * @phpstan-param db_bind_params $bindParams
+     * @phpstan-param db_bind_types  $bindTypes
+     *
+     * @phpstan-return db_rows
      */
     public function fetchAll(string sqlQuery, int fetchMode = Enum::FETCH_ASSOC, array bindParams = [], array bindTypes = []) -> array
     {
@@ -829,6 +864,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 
     /**
      * Return descriptor used to connect to the active database
+     *
+     * @phpstan-return db_descriptor
      */
     public function getDescriptor() -> array
     {
@@ -877,6 +914,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 
     /**
      * Active SQL statement in the object
+     *
+     * @phpstan-return db_bind_types
      */
     public function getSQLBindTypes() -> array
     {
@@ -921,6 +960,10 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * // Next SQL sentence is sent to the database system
      * INSERT INTO `co_invoices` (`inv_title`, `inv_total`) VALUES ("Test Invoice", 100);
      * ```
+     *
+     * @phpstan-param db_bind_params      $values
+     * @phpstan-param db_column_names|null $fields
+     * @phpstan-param db_bind_types       $dataTypes
      */
     public function insert(string table,  array values, var fields = null, var dataTypes = null) -> bool
     {
@@ -1040,6 +1083,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * ```php
      * echo $connection->limit("SELECT * FROM co_invoices", 5);
      * ```
+     *
+     * @phpstan-param db_limit_number $number
      */
     public function limit( string sqlQuery, var number) -> string
     {
@@ -1054,6 +1099,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *     $connection->listTables("blog")
      * );
      *```
+     *
+     * @phpstan-return db_table_names
      */
     public function listTables( string schemaName = null) -> array
     {
@@ -1081,6 +1128,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *     $connection->listViews("blog")
      * );
      *```
+     *
+     * @phpstan-return db_table_names
      */
     public function listViews( string schemaName = null) -> array
     {
@@ -1199,6 +1248,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * constructor calls `setup()` whenever a descriptor carries an `options`
      * key, constructing one adapter with `options` can change the SQL another,
      * already-configured connection generates.
+     *
+     * @phpstan-param db_setup_options $options
      */
     public static function setup( array options) -> void
     {
@@ -1232,6 +1283,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Creates a materialized view (PostgreSQL only - MySQL and SQLite
      * throw via the dialect).
+     *
+     * @phpstan-param db_view_definition $definition
      */
     public function createMaterializedView( string viewName,  array definition, string schemaName = null) -> bool
     {
@@ -1277,6 +1330,9 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * Appends an `ON CONFLICT (...) DO UPDATE SET col = excluded.col`
      * upsert clause to the supplied INSERT statement. Supported by
      * PostgreSQL and SQLite 3.24+; MySQL throws.
+     *
+     * @phpstan-param db_column_names $conflictColumns
+     * @phpstan-param db_column_names $updateColumns
      */
     public function onConflictUpdate( string sqlQuery,  array conflictColumns,  array updateColumns) -> string
     {
@@ -1291,6 +1347,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * Appends a RETURNING clause to an INSERT/UPDATE/DELETE SQL statement
      * and returns the modified SQL. Supported by PostgreSQL and SQLite 3.35+;
      * MySQL throws (no RETURNING construct). Pass `["*"]` for `RETURNING *`.
+     *
+     * @phpstan-param db_column_names $columns
      */
     public function returning( string sqlQuery,  array columns) -> string
     {
@@ -1339,6 +1397,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *     $connection->tableOptions("co_invoices")
      * );
      *```
+     *
+     * @phpstan-return db_table_options
      */
     public function tableOptions( string tableName, string schemaName = null) -> array
     {
@@ -1581,6 +1641,10 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * @param mixed $dataTypes
      *
      * @return array
+     *
+     * @phpstan-param db_bind_types $dataTypes
+     *
+     * @phpstan-return db_value_placeholder
      */
     private function buildValuePlaceholder(var value, var position, var dataTypes) -> array
     {

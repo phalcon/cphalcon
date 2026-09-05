@@ -10,6 +10,7 @@
 
 namespace Phalcon\Db\Adapter\Pdo;
 
+use Phalcon\Contracts\Db\DbTypes;
 use Phalcon\Db\Adapter\Pdo\AbstractPdo as PdoAdapter;
 use Phalcon\Db\Column;
 use Phalcon\Db\ColumnInterface;
@@ -37,6 +38,10 @@ use Throwable;
  *
  * $connection = new Postgresql($config);
  * ```
+ *
+ * @phpstan-import-type db_descriptor from DbTypes
+ * @phpstan-import-type db_dsn_defaults from DbTypes
+ * @phpstan-import-type db_table_definition from DbTypes
  */
 class Postgresql extends PdoAdapter
 {
@@ -52,6 +57,8 @@ class Postgresql extends PdoAdapter
 
     /**
      * Constructor for Phalcon\Db\Adapter\Pdo\Postgresql
+     *
+     * @phpstan-param db_descriptor $descriptor
      */
     public function __construct( array descriptor)
     {
@@ -67,6 +74,8 @@ class Postgresql extends PdoAdapter
     /**
      * This method is automatically called in Phalcon\Db\Adapter\Pdo
      * constructor. Call it when you need to restore a database connection.
+     *
+     * @phpstan-param db_descriptor $descriptor
      */
     public function connect( array descriptor = []) -> void
     {
@@ -99,6 +108,8 @@ class Postgresql extends PdoAdapter
 
     /**
      * Creates a table
+     *
+     * @phpstan-param db_table_definition $definition
      */
     public function createTable( string tableName,  string schemaName,  array definition) -> bool
     {
@@ -783,6 +794,8 @@ class Postgresql extends PdoAdapter
 
     /**
      * Returns PDO adapter DSN defaults as a key-value map.
+     *
+     * @phpstan-return db_dsn_defaults
      */
     protected function getDsnDefaults() -> array
     {
