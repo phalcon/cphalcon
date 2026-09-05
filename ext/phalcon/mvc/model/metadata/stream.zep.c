@@ -52,17 +52,19 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Stream)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\MetaData, Stream, phalcon, mvc_model_metadata_stream, phalcon_mvc_model_metadata_ce, phalcon_mvc_model_metadata_stream_method_entry, 0);
 
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_mvc_model_metadata_stream_ce, SL("metaDataDir"), "./", ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "./", sizeof("./") - 1);
+		zephir_declare_typed_property(phalcon_mvc_model_metadata_stream_ce, SL("metaDataDir"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 
 /**
  * Phalcon\Mvc\Model\MetaData\Files constructor
  *
- * @param array options
+ * @param array<string, mixed> $options
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, __construct)
 {
@@ -240,7 +242,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, getFilePath)
 	ZVAL_STRING(&_0, "_");
 	ZEPHIR_INIT_VAR(&name);
 	zephir_prepare_virtual_path(&name, &key_zv, &_0);
-	if (zephir_memnstr_str(&key_zv, SL("_"), "phalcon/Mvc/Model/MetaData/Stream.zep", 112)) {
+	if (zephir_memnstr_str(&key_zv, SL("_"), "phalcon/Mvc/Model/MetaData/Stream.zep", 109)) {
 		ZEPHIR_CALL_FUNCTION(&_1$$3, "sha1", NULL, 301, &key_zv);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -275,7 +277,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, throwWriteException)
 		object_init_ex(&_0$$3, phalcon_mvc_model_metadata_exceptions_metadatadirectorynotwritable_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Mvc/Model/MetaData/Stream.zep", 125);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Mvc/Model/MetaData/Stream.zep", 122);
 		ZEPHIR_MM_RESTORE();
 		return;
 	} else {

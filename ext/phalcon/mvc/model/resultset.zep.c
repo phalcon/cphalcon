@@ -305,6 +305,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, __construct)
 
 /**
  * Counts how many rows are in the resultset
+ *
+ * @phpstan-return int
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, count)
 {
@@ -423,7 +425,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete)
 				object_init_ex(&_3$$5, phalcon_mvc_model_exceptions_invalidreturnedrecord_ce);
 				ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", &_4, 219);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_3$$5, "phalcon/Mvc/Model/Resultset.zep", 283);
+				zephir_throw_exception_debug(&_3$$5, "phalcon/Mvc/Model/Resultset.zep", 285);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -534,7 +536,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter)
 			zephir_check_call_status();
 			continue;
 		}
-		zephir_array_append(&records, &processedRecord, PH_SEPARATE, "phalcon/Mvc/Model/Resultset.zep", 379);
+		zephir_array_append(&records, &processedRecord, PH_SEPARATE, "phalcon/Mvc/Model/Resultset.zep", 381);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "next", &_5, 0);
 		zephir_check_call_status();
 	}
@@ -736,9 +738,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, jsonSerialize)
 		if (_3$$3) {
 			ZEPHIR_CALL_METHOD(&_4$$4, &current, "jsonserialize", NULL, 0);
 			zephir_check_call_status();
-			zephir_array_append(&records, &_4$$4, PH_SEPARATE, "phalcon/Mvc/Model/Resultset.zep", 512);
+			zephir_array_append(&records, &_4$$4, PH_SEPARATE, "phalcon/Mvc/Model/Resultset.zep", 514);
 		} else {
-			zephir_array_append(&records, &current, PH_SEPARATE, "phalcon/Mvc/Model/Resultset.zep", 514);
+			zephir_array_append(&records, &current, PH_SEPARATE, "phalcon/Mvc/Model/Resultset.zep", 516);
 		}
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "next", &_5, 0);
 		zephir_check_call_status();
@@ -948,7 +950,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet)
 		object_init_ex(&_1$$3, phalcon_mvc_model_exceptions_indexnotincursor_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 221);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Resultset.zep", 619);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Resultset.zep", 621);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -985,7 +987,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetSet)
 	object_init_ex(&_0, phalcon_mvc_model_exceptions_cursorisimmutable_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 222);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Resultset.zep", 638);
+	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Resultset.zep", 640);
 	ZEPHIR_MM_RESTORE();
 	return;
 }
@@ -1011,7 +1013,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetUnset)
 	object_init_ex(&_0, phalcon_mvc_model_exceptions_cursorisimmutable_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 222);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Resultset.zep", 646);
+	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Resultset.zep", 648);
 	ZEPHIR_MM_RESTORE();
 	return;
 }
@@ -1276,7 +1278,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, update)
 				object_init_ex(&_3$$5, phalcon_mvc_model_exceptions_invalidreturnedrecord_ce);
 				ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", &_4, 219);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_3$$5, "phalcon/Mvc/Model/Resultset.zep", 773);
+				zephir_throw_exception_debug(&_3$$5, "phalcon/Mvc/Model/Resultset.zep", 775);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}

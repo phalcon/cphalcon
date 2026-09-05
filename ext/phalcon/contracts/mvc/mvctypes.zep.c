@@ -221,7 +221,7 @@
  *     column: string,
  *     attributes: array<array-key, string>,
  *     columnMap: mvc_metadata_column_map|null,
- *     instance: object,
+ *     instance: ModelInterface,
  *     balias: string,
  *     eager?: mixed,
  *     keepSnapshots?: bool,

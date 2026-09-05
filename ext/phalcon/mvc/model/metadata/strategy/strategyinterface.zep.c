@@ -39,7 +39,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Strategy_StrategyInterface)
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_StrategyInterface, getColumnMaps);
 /**
- * The meta-data is obtained by reading the column descriptions from the database information schema
+ * The meta-data is obtained by reading the column descriptions from the
+ * database information schema
  *
  * @phpstan-return mvc_metadata_index
  */

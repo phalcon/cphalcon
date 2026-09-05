@@ -59,8 +59,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, andWhere);
 /**
  * Appends a BETWEEN condition to the current conditions
  *
- * @param mixed minimum
- * @param mixed maximum
+ * @param mixed  $minimum
+ * @param mixed  $maximum
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, betweenWhere);
 /**
@@ -84,15 +84,15 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, betweenWhere);
  * // Array, one column per element
  * $builder->columns(
  *     [
- *         "id",
- *         "name",
+ *         "inv_id",
+ *         "inv_title",
  *     ]
  * );
  *
  * // Array, named keys. The name of the key acts as an alias (`AS` clause)
  * $builder->columns(
  *     [
- *         "name",
+ *         "inv_title",
  *         "number" => "COUNT(*)",
  *     ]
  * );
@@ -130,8 +130,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, forUpdate);
 /**
  * Sets the models who makes part of the query
  *
- * @param string|array models
- *
  * @phpstan-param mvc_query_columns $models
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, from);
@@ -150,8 +148,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getBindTypes);
 /**
  * Return the columns to be queried
  *
- * @return string|array
- *
  * @phpstan-return mvc_query_columns|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getColumns);
@@ -161,8 +157,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getColumns);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getDistinct);
 /**
  * Return the models who makes part of the query
- *
- * @return string|array
  *
  * @phpstan-return mvc_query_columns|null
  */
@@ -186,8 +180,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getJoins);
 /**
  * Returns the current LIMIT clause
  *
- * @return string|array
- *
  * @phpstan-return array<array-key, mixed>|int|string|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getLimit);
@@ -204,8 +196,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getOffset);
 /**
  * Return the set ORDER BY clause
  *
- * @return string|array
- *
  * @phpstan-return array<array-key, int|string>|string|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getOrderBy);
@@ -220,15 +210,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getQuery);
 /**
  * Return the conditions for the query
  *
- * @return string|array
- *
  * @phpstan-return array<array-key, mixed>|string|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getWhere);
 /**
  * Sets a GROUP BY clause
- *
- * @param string|array group
  *
  * @phpstan-param array<array-key, string>|string|null $group
  */
@@ -252,11 +238,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, innerJoin);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, inWhere);
 /**
  * Adds an :type: join (by default type - INNER) to the query
- *
- * @param string model
- * @param string conditions
- * @param string alias
- * @return BuilderInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, join);
 /**
@@ -265,15 +246,10 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, join);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, leftJoin);
 /**
  * Sets a LIMIT clause
- *
- * @param int offset
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, limit);
 /**
  * Appends a NOT BETWEEN condition to the current conditions
- *
- * @param mixed minimum
- * @param mixed maximum
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, notBetweenWhere);
 /**
@@ -287,18 +263,16 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, notInWhere);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, offset);
 /**
+ * Sets an ORDER BY condition clause
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, orderBy);
+/**
  * Appends a condition to the current conditions using an OR operator
  *
  * @phpstan-param mvc_model_bind_params $bindParams
  * @phpstan-param mvc_model_bind_types $bindTypes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, orWhere);
-/**
- * Sets an ORDER BY condition clause
- *
- * @param array|string orderBy
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, orderBy);
 /**
  * Adds a RIGHT join to the query
  */

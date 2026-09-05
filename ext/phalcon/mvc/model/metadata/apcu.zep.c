@@ -57,7 +57,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Apcu)
 /**
  * Phalcon\Mvc\Model\MetaData\Apcu constructor
  *
- * @param array options
+ * @param array<string, mixed> $options
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apcu, __construct)
 {

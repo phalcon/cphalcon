@@ -30,18 +30,18 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Micro\LazyLoader
- *
  * Lazy-Load of handlers for Mvc\Micro using auto-loading
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_LazyLoader)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Micro, LazyLoader, phalcon, mvc_micro_lazyloader, phalcon_mvc_micro_lazyloader_method_entry, 0);
 
-	/**
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_mvc_micro_lazyloader_ce, SL("definition"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_mvc_micro_lazyloader_ce, SL("definition"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	/**
 	 * @var object|null
 	 */
@@ -74,8 +74,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct)
 /**
  * Calling __call method
  *
- * @param  array arguments
- * @return mixed
+ * @param array $arguments
  */
 PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
 {
@@ -137,7 +136,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
 			object_init_ex(&_1$$4, phalcon_mvc_micro_exceptions_lazyhandlernotfound_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 0, &definition);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_1$$4, "phalcon/Mvc/Micro/LazyLoader.zep", 56);
+			zephir_throw_exception_debug(&_1$$4, "phalcon/Mvc/Micro/LazyLoader.zep", 49);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -164,18 +163,12 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
 	RETURN_MM();
 }
 
-/**
- * @return string
- */
 PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, getDefinition)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "definition", IS_STRING);
 }
 
-/**
- * @return object|null
- */
 PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, getHandler)
 {
 
