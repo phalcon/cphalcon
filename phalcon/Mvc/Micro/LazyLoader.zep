@@ -14,17 +14,11 @@ use Phalcon\Mvc\Micro\Exceptions\LazyHandlerNotFound;
 use Phalcon\Mvc\Model\BinderInterface;
 
 /**
- * Phalcon\Mvc\Micro\LazyLoader
- *
  * Lazy-Load of handlers for Mvc\Micro using auto-loading
  */
 class LazyLoader
 {
-    /**
-     * @var string
-     */
-    protected definition;
-
+    protected string definition;
     /**
      * @var object|null
      */
@@ -33,7 +27,7 @@ class LazyLoader
     /**
      * Phalcon\Mvc\Micro\LazyLoader constructor
      */
-    public function __construct( string definition)
+    public function __construct(string definition)
     {
         let this->definition = definition;
     }
@@ -41,10 +35,9 @@ class LazyLoader
     /**
      * Calling __call method
      *
-     * @param  array arguments
-     * @return mixed
+     * @param array $arguments
      */
-    public function callMethod( string method, arguments, <BinderInterface> modelBinder = null)
+    public function callMethod(string method, arguments, <BinderInterface> modelBinder = null)
     {
          var handler, definition, bindCacheKey;
 
@@ -81,17 +74,11 @@ class LazyLoader
         );
     }
 
-    /**
-     * @return string
-     */
     public function getDefinition() -> string
     {
         return this->definition;
     }
 
-    /**
-     * @return object|null
-     */
     public function getHandler() -> object | null
     {
         return this->handler;

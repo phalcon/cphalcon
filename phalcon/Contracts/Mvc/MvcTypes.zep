@@ -11,6 +11,7 @@ namespace Phalcon\Contracts\Mvc;
 
 use Phalcon\Di\DiInterface;
 use Phalcon\Messages\MessageInterface;
+use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Router\RouteInterface;
 
 /**
@@ -214,7 +215,7 @@ use Phalcon\Mvc\Router\RouteInterface;
  *     column: string,
  *     attributes: array<array-key, string>,
  *     columnMap: mvc_metadata_column_map|null,
- *     instance: object,
+ *     instance: ModelInterface,
  *     balias: string,
  *     eager?: mixed,
  *     keepSnapshots?: bool,

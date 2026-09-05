@@ -35,15 +35,12 @@ class Stream extends MetaData
 {
     use FileTrait;
 
-    /**
-     * @var string
-     */
-    protected metaDataDir = "./";
+    protected string metaDataDir = "./";
 
     /**
      * Phalcon\Mvc\Model\MetaData\Files constructor
      *
-     * @param array options
+     * @param array<string, mixed> $options
      */
     public function __construct(array options = [])
     {

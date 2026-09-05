@@ -45,10 +45,7 @@ class Loader
      */
     const MAX_ROWS_PER_LEVEL = 100000;
 
-    /**
-     * @var ManagerInterface
-     */
-    protected manager;
+    protected <ManagerInterface> manager;
 
     public function __construct(<ManagerInterface> manager)
     {
@@ -67,7 +64,7 @@ class Loader
      *
      * @param object $record ModelInterface or Row
      *
-     * @phpstan-param mvc_eager_map                                $eagerMap
+     * @phpstan-param mvc_eager_map $eagerMap
      */
     public static function apply(var record, array eagerMap) -> void
     {
@@ -157,9 +154,6 @@ class Loader
 
     /**
      * Builds one level of the map.
-     *
-     * @param array $parents attribute-keyed row arrays at the root, or
-     *                       ModelInterface / Row instances below it
      *
      * @phpstan-param mvc_eager_parents    $parents
      * @phpstan-param array<string, mixed> $tree
@@ -476,10 +470,6 @@ class Loader
 
     /**
      * Distinct, non-null local key tuples across the parent set.
-     *
-     * @param array $parents attribute-keyed row arrays, ModelInterface or Row
-     *
-     * @return array list of value-tuples, deduped
      *
      * @phpstan-param mvc_eager_parents         $parents
      * @phpstan-param array<array-key, string>  $fields

@@ -239,6 +239,8 @@ abstract class Resultset
 
     /**
      * Counts how many rows are in the resultset
+     *
+     * @phpstan-return int
      */
     final public function count() -> int
     {

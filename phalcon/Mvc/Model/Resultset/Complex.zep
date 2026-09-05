@@ -122,6 +122,8 @@ class Complex extends Resultset
 
     /**
      * Returns current row in the resultset
+     *
+     * @phpstan-return mixed
      */
     final public function current() -> mixed
     {

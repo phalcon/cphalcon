@@ -29,7 +29,8 @@ interface StrategyInterface
     public function getColumnMaps(<ModelInterface> model, <DiInterface> container) -> array;
 
     /**
-     * The meta-data is obtained by reading the column descriptions from the database information schema
+     * The meta-data is obtained by reading the column descriptions from the
+     * database information schema
      *
      * @phpstan-return mvc_metadata_index
      */

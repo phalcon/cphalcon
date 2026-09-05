@@ -11,8 +11,6 @@
 namespace Phalcon\Mvc\Model\Binder;
 
 /**
- * Phalcon\Mvc\Model\Binder\BindableInterface
- *
  * Interface for bindable classes
  */
 interface BindableInterface
@@ -23,5 +21,5 @@ interface BindableInterface
      *
      * @phpstan-return array<array-key, string>|string
      */
-    public function getModelName() -> string | array;
+    public function getModelName() -> array | string;
 }

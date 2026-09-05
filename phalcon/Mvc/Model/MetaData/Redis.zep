@@ -43,7 +43,7 @@ class Redis extends MetaData
     /**
      * Phalcon\Mvc\Model\MetaData\Redis constructor
      *
-     * @param array options
+     * @param array<string, mixed> $options
      */
     public function __construct(<AdapterFactory> factory,  array options = [])
     {
