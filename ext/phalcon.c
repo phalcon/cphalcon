@@ -239,6 +239,7 @@ zend_class_entry *phalcon_auth_adapter_config_traits_modelconfigtrait_ce;
 zend_class_entry *phalcon_contracts_acl_acltypes_ce;
 zend_class_entry *phalcon_contracts_adr_action_ce;
 zend_class_entry *phalcon_contracts_adr_adrtypes_ce;
+zend_class_entry *phalcon_contracts_annotations_annotationstypes_ce;
 zend_class_entry *phalcon_contracts_application_applicationtypes_ce;
 zend_class_entry *phalcon_contracts_assets_assetstypes_ce;
 zend_class_entry *phalcon_contracts_auth_authremember_ce;
@@ -1860,6 +1861,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Contracts_ADR_ADRTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_ADR_Action);
 	ZEPHIR_INIT(Phalcon_Contracts_Acl_AclTypes);
+	ZEPHIR_INIT(Phalcon_Contracts_Annotations_AnnotationsTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Application_ApplicationTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Assets_AssetsTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Auth_AuthRemember);

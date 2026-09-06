@@ -29,6 +29,8 @@
  */
 /**
  * Factory to create annotations components
+ *
+ * @phpstan-import-type annotations_options from AnnotationsTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_AnnotationsFactory)
 {
@@ -39,6 +41,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_AnnotationsFactory)
 
 /**
  * AdapterFactory constructor.
+ *
+ * @phpstan-param array<string, class-string<AdapterInterface>> $services
  */
 PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, __construct)
 {
@@ -78,6 +82,8 @@ PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, __construct)
  * ]
  *
  * Factory to create an instance from a Config object
+ *
+ * @phpstan-return AdapterInterface
  */
 PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, load)
 {
@@ -108,7 +114,7 @@ PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, load)
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	zephir_memory_observe(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Annotations/AnnotationsFactory.zep", 53);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Annotations/AnnotationsFactory.zep", 60);
 	zephir_array_unset_string(config, SL("adapter"), PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	array_init(&_1);
@@ -129,6 +135,8 @@ PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, load)
  *     'lifetime' => 3600,
  *     'annotationsDir' => 'phalconDir'
  * ]
+ *
+ * @phpstan-param annotations_options $options
  */
 PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, newInstance)
 {

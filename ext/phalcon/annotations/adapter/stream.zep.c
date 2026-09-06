@@ -43,6 +43,8 @@
  *     ]
  * );
  *```
+ *
+ * @phpstan-import-type annotations_options from AnnotationsTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Stream)
 {
@@ -61,6 +63,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Stream)
  * ]
  *
  * Phalcon\Annotations\Adapter\Stream constructor
+ *
+ * @phpstan-param annotations_options $options
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Stream, __construct)
 {
@@ -170,7 +174,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, read)
 		object_init_ex(&_7$$5, phalcon_annotations_exceptions_cannotreadannotationdata_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_7$$5, "__construct", NULL, 361);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_7$$5, "phalcon/Annotations/Adapter/Stream.zep", 108);
+		zephir_throw_exception_debug(&_7$$5, "phalcon/Annotations/Adapter/Stream.zep", 113);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -214,7 +218,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, write)
 		object_init_ex(&_1$$3, phalcon_annotations_exceptions_annotationsdirectorynotwritable_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 362);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Annotations/Adapter/Stream.zep", 129);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Annotations/Adapter/Stream.zep", 134);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -256,7 +260,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, getFilePath)
 	ZVAL_STRING(&_0, "_");
 	ZEPHIR_INIT_VAR(&name);
 	zephir_prepare_virtual_path(&name, &key_zv, &_0);
-	if (zephir_memnstr_str(&key_zv, SL("_"), "phalcon/Annotations/Adapter/Stream.zep", 144)) {
+	if (zephir_memnstr_str(&key_zv, SL("_"), "phalcon/Annotations/Adapter/Stream.zep", 149)) {
 		ZEPHIR_CALL_FUNCTION(&_1$$3, "sha1", NULL, 301, &key_zv);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_2$$3);

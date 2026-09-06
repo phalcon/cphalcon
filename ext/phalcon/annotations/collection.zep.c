@@ -45,6 +45,14 @@
  * // Get an specific annotation in the collection
  * $annotation = $classAnnotations->get("Cacheable");
  *```
+ *
+ * The class cannot carry an `@implements Iterator<int, Annotation>` tag.
+ * `current()` returns `false` past the end of the collection, while Psalm's
+ * `Iterator` stub requires `TValue|null` there. Narrowing the iteration would
+ * mean changing that return to null, which is a v7 signature change.
+ *
+ * @phpstan-import-type annotations_list from AnnotationsTypes
+ * @phpstan-import-type annotations_node_list from AnnotationsTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Collection)
 {
@@ -52,6 +60,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Collection)
 
 	/**
 	 * @var array
+	 *
+	 * @phpstan-var annotations_list
 	 */
 	zend_declare_property_null(phalcon_annotations_collection_ce, SL("annotations"), ZEND_ACC_PROTECTED);
 	/**
@@ -65,6 +75,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Collection)
 
 /**
  * Phalcon\Annotations\Collection constructor
+ *
+ * @phpstan-param annotations_node_list $reflectionData
  */
 PHP_METHOD(Phalcon_Annotations_Collection, __construct)
 {
@@ -102,7 +114,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct)
 	}
 	ZEPHIR_INIT_VAR(&annotations);
 	array_init(&annotations);
-	zephir_is_iterable(&reflectionData, 0, "phalcon/Annotations/Collection.zep", 59);
+	zephir_is_iterable(&reflectionData, 0, "phalcon/Annotations/Collection.zep", 72);
 	if (Z_TYPE_P(&reflectionData) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&reflectionData), _0)
 		{
@@ -112,7 +124,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct)
 			object_init_ex(&_1$$3, phalcon_annotations_annotation_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", &_2, 364, &annotationData);
 			zephir_check_call_status();
-			zephir_array_append(&annotations, &_1$$3, PH_SEPARATE, "phalcon/Annotations/Collection.zep", 56);
+			zephir_array_append(&annotations, &_1$$3, PH_SEPARATE, "phalcon/Annotations/Collection.zep", 69);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &reflectionData, "rewind", NULL, 0);
@@ -136,7 +148,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct)
 				object_init_ex(&_5$$4, phalcon_annotations_annotation_ce);
 				ZEPHIR_CALL_METHOD(NULL, &_5$$4, "__construct", &_2, 364, &annotationData);
 				zephir_check_call_status();
-				zephir_array_append(&annotations, &_5$$4, PH_SEPARATE, "phalcon/Annotations/Collection.zep", 56);
+				zephir_array_append(&annotations, &_5$$4, PH_SEPARATE, "phalcon/Annotations/Collection.zep", 69);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&annotationData);
@@ -163,6 +175,8 @@ PHP_METHOD(Phalcon_Annotations_Collection, count)
 
 /**
  * Returns the current annotation in the iterator
+ *
+ * @phpstan-return Annotation|false
  */
 PHP_METHOD(Phalcon_Annotations_Collection, current)
 {
@@ -235,7 +249,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, get)
 	} else {
 		_1 = &annotations;
 	}
-	zephir_is_iterable(_1, 0, "phalcon/Annotations/Collection.zep", 99);
+	zephir_is_iterable(_1, 0, "phalcon/Annotations/Collection.zep", 114);
 	if (Z_TYPE_P(_1) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_1), _3)
 		{
@@ -277,13 +291,15 @@ PHP_METHOD(Phalcon_Annotations_Collection, get)
 	object_init_ex(&_8, phalcon_annotations_exceptions_annotationnotfound_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_8, "__construct", NULL, 366, &name_zv);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_8, "phalcon/Annotations/Collection.zep", 99);
+	zephir_throw_exception_debug(&_8, "phalcon/Annotations/Collection.zep", 114);
 	ZEPHIR_MM_RESTORE();
 	return;
 }
 
 /**
  * Returns all the annotations that match a name
+ *
+ * @phpstan-return annotations_list
  */
 PHP_METHOD(Phalcon_Annotations_Collection, getAll)
 {
@@ -327,7 +343,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAll)
 	} else {
 		_1 = &annotations;
 	}
-	zephir_is_iterable(_1, 0, "phalcon/Annotations/Collection.zep", 119);
+	zephir_is_iterable(_1, 0, "phalcon/Annotations/Collection.zep", 136);
 	if (Z_TYPE_P(_1) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_1), _3)
 		{
@@ -336,7 +352,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAll)
 			ZEPHIR_CALL_METHOD(&_4$$3, &annotation, "getname", NULL, 0);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_EQUAL(&name_zv, &_4$$3)) {
-				zephir_array_append(&found, &annotation, PH_SEPARATE, "phalcon/Annotations/Collection.zep", 115);
+				zephir_array_append(&found, &annotation, PH_SEPARATE, "phalcon/Annotations/Collection.zep", 132);
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
@@ -360,7 +376,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAll)
 				ZEPHIR_CALL_METHOD(&_7$$5, &annotation, "getname", NULL, 0);
 				zephir_check_call_status();
 				if (ZEPHIR_IS_EQUAL(&name_zv, &_7$$5)) {
-					zephir_array_append(&found, &annotation, PH_SEPARATE, "phalcon/Annotations/Collection.zep", 115);
+					zephir_array_append(&found, &annotation, PH_SEPARATE, "phalcon/Annotations/Collection.zep", 132);
 				}
 		}
 	}
@@ -370,6 +386,8 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAll)
 
 /**
  * Returns the internal annotations as an array
+ *
+ * @phpstan-return annotations_list
  */
 PHP_METHOD(Phalcon_Annotations_Collection, getAnnotations)
 {
@@ -418,7 +436,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, has)
 	} else {
 		_1 = &annotations;
 	}
-	zephir_is_iterable(_1, 0, "phalcon/Annotations/Collection.zep", 145);
+	zephir_is_iterable(_1, 0, "phalcon/Annotations/Collection.zep", 164);
 	if (Z_TYPE_P(_1) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_1), _3)
 		{

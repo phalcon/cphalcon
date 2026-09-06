@@ -1,0 +1,5 @@
+
+extern zend_class_entry *phalcon_contracts_annotations_annotationstypes_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Annotations_AnnotationsTypes);
+
