@@ -370,6 +370,7 @@ class Postgresql extends Dialect
          * stored generated columns in PostgreSQL 12+, 'NEVER' otherwise.
          * PostgreSQL only supports STORED generated columns.
          */
+
         return "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, "
             . "c.character_maximum_length AS Size, "
             . "c.numeric_precision AS NumericSize, "
@@ -382,7 +383,7 @@ class Postgresql extends Dialect
             . "c.is_generated AS IsGenerated, "
             . "c.generation_expression AS GenerationExpression "
             . "FROM information_schema.columns c "
-            . "LEFT JOIN (SELECT kcu.column_name, kcu.table_name, "
+            . "LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, "
             . "kcu.table_schema FROM information_schema.table_constraints tc "
             . "INNER JOIN information_schema.key_column_usage kcu on "
             . "(kcu.constraint_name = tc.constraint_name and "
@@ -392,11 +393,11 @@ class Postgresql extends Dialect
             . "ON (c.column_name=pkc.column_name AND "
             . "c.table_schema = pkc.table_schema AND "
             . "c.table_name=pkc.table_name) "
-            . "LEFT JOIN (SELECT objsubid, description, relname, nspname "
+            . "LEFT JOIN ( SELECT objsubid, description, relname, nspname "
             . "FROM pg_description "
             . "JOIN pg_class ON pg_description.objoid = pg_class.oid "
             . "JOIN pg_namespace ON pg_class.relnamespace = pg_namespace.oid "
-            . ") des ON (des.objsubid = C.ordinal_position "
+            . ") des ON ( des.objsubid = C.ordinal_position "
             . "AND C.table_schema = des.nspname "
             . "AND C.TABLE_NAME = des.relname ) "
             . "WHERE c.table_schema='" . this->escapeStringLiteral(schema) . "' "
