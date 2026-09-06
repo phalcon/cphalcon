@@ -10,6 +10,8 @@
 
 namespace Phalcon\Annotations;
 
+use Phalcon\Contracts\Annotations\AnnotationsTypes;
+
 /**
  * Allows to manipulate the annotations reflection in an OO manner
  *
@@ -27,6 +29,9 @@ namespace Phalcon\Annotations;
  * // Get the annotations in the class docblock
  * $classAnnotations = $reflection->getClassAnnotations();
  *```
+ *
+ * @phpstan-import-type annotations_collection_map from AnnotationsTypes
+ * @phpstan-import-type annotations_reflection_data from AnnotationsTypes
  */
 class Reflection
 {
@@ -37,24 +42,35 @@ class Reflection
 
     /**
      * @var array
+     *
+     * @phpstan-var annotations_collection_map
      */
     protected constantAnnotations = [];
 
     /**
      * @var array
+     *
+     * @phpstan-var annotations_collection_map
      */
     protected propertyAnnotations = [];
 
     /**
      * @var array
+     *
+     * @phpstan-var annotations_collection_map
      */
     protected methodAnnotations = [];
 
     /**
      * @var array
+     *
+     * @phpstan-var annotations_reflection_data
      */
     protected reflectionData = [];
 
+    /**
+     * @phpstan-param annotations_reflection_data $reflectionData
+     */
     public function __construct(array reflectionData = [])
     {
         let this->reflectionData = reflectionData;
@@ -82,6 +98,8 @@ class Reflection
      * Returns the annotations found in the constants' docblocks
      *
      * @return Collection[]
+     *
+     * @phpstan-return annotations_collection_map
      */
     public function getConstantsAnnotations() -> <Collection[]>
     {
@@ -104,6 +122,8 @@ class Reflection
      * Returns the annotations found in the properties' docblocks
      *
      * @return Collection[]
+     *
+     * @phpstan-return annotations_collection_map
      */
     public function getPropertiesAnnotations() -> <Collection[]>
     {
@@ -126,6 +146,8 @@ class Reflection
      * Returns the annotations found in the methods' docblocks
      *
      * @return Collection[]
+     *
+     * @phpstan-return annotations_collection_map
      */
     public function getMethodsAnnotations() -> <Collection[]>
     {
@@ -149,6 +171,8 @@ class Reflection
      * reflection
      *
      * @return array
+     *
+     * @phpstan-return annotations_reflection_data
      */
     public function getReflectionData() -> array
     {
