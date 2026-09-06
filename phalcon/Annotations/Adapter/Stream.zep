@@ -14,6 +14,7 @@ use Phalcon\Annotations\Exception;
 use Phalcon\Annotations\Exceptions\AnnotationsDirectoryNotWritable;
 use Phalcon\Annotations\Exceptions\CannotReadAnnotationData;
 use Phalcon\Annotations\Reflection;
+use Phalcon\Contracts\Annotations\AnnotationsTypes;
 use Phalcon\Traits\Php\FileTrait;
 use RuntimeException;
 
@@ -29,6 +30,8 @@ use RuntimeException;
  *     ]
  * );
  *```
+ *
+ * @phpstan-import-type annotations_options from AnnotationsTypes
  */
 class Stream extends AbstractAdapter
 {
@@ -45,6 +48,8 @@ class Stream extends AbstractAdapter
      * ]
      *
      * Phalcon\Annotations\Adapter\Stream constructor
+     *
+     * @phpstan-param annotations_options $options
      */
     public function __construct(array options = [])
     {

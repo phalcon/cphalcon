@@ -32,6 +32,9 @@
  */
 /**
  * Parses docblocks returning an array with the found annotations
+ *
+ * @phpstan-import-type annotations_node_list from AnnotationsTypes
+ * @phpstan-import-type annotations_reflection_data from AnnotationsTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Reader)
 {
@@ -43,6 +46,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Reader)
 
 /**
  * Reads annotations from the class docblocks, its methods and/or properties
+ *
+ * @phpstan-param class-string $className
+ *
+ * @phpstan-return annotations_reflection_data
  */
 PHP_METHOD(Phalcon_Annotations_Reader, parse)
 {
@@ -141,7 +148,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse)
 		} else {
 			_2$$5 = &arrayKeys;
 		}
-		zephir_is_iterable(_2$$5, 0, "phalcon/Annotations/Reader.zep", 92);
+		zephir_is_iterable(_2$$5, 0, "phalcon/Annotations/Reader.zep", 100);
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_2$$5), _4$$5)
 		{
 			ZEPHIR_INIT_NVAR(&constant);
@@ -180,7 +187,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse)
 		} else {
 			_8$$10 = &properties;
 		}
-		zephir_is_iterable(_8$$10, 0, "phalcon/Annotations/Reader.zep", 130);
+		zephir_is_iterable(_8$$10, 0, "phalcon/Annotations/Reader.zep", 138);
 		if (Z_TYPE_P(_8$$10) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_8$$10), _10$$10)
 			{
@@ -254,7 +261,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse)
 		} else {
 			_19$$18 = &methods;
 		}
-		zephir_is_iterable(_19$$18, 0, "phalcon/Annotations/Reader.zep", 164);
+		zephir_is_iterable(_19$$18, 0, "phalcon/Annotations/Reader.zep", 172);
 		if (Z_TYPE_P(_19$$18) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_19$$18), _21$$18)
 			{
@@ -323,6 +330,11 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse)
 
 /**
  * Parses a raw doc block returning the annotations found
+ *
+ * @phpstan-param string|null $file
+ * @phpstan-param int|null    $line
+ *
+ * @phpstan-return annotations_node_list
  */
 PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock)
 {

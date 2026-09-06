@@ -37,6 +37,8 @@
  *
  * $annotations = new Apcu();
  *```
+ *
+ * @phpstan-import-type annotations_options from AnnotationsTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Apcu)
 {
@@ -60,6 +62,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Apcu)
  * ]
  *
  * Phalcon\Annotations\Adapter\Apcu constructor
+ *
+ * @phpstan-param annotations_options $options
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, __construct)
 {

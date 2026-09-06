@@ -30,6 +30,9 @@
  */
 /**
  * This is the base class for Phalcon\Annotations adapters
+ *
+ * @phpstan-import-type annotations_cache from AnnotationsTypes
+ * @phpstan-import-type annotations_collection_map from AnnotationsTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_AbstractAdapter)
 {
@@ -37,6 +40,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_AbstractAdapter)
 
 	/**
 	 * @var array
+	 *
+	 * @phpstan-var annotations_cache
 	 */
 	zend_declare_property_null(phalcon_annotations_adapter_abstractadapter_ce, SL("annotations"), ZEND_ACC_PROTECTED);
 	/**
@@ -60,6 +65,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_AbstractAdapter)
 
 /**
  * Parses or retrieves all the annotations found in a class
+ *
+ * @phpstan-param object|string $className
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, get)
 {
@@ -105,7 +112,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, get)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 93, PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_value(&_0, &realClassName)) {
 		zephir_read_property_cached(&_1$$5, this_ptr, _zephir_prop_0, 93, PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&_2$$5, &_1$$5, &realClassName, PH_NOISY | PH_READONLY, "phalcon/Annotations/Adapter/AbstractAdapter.zep", 61);
+		zephir_array_fetch(&_2$$5, &_1$$5, &realClassName, PH_NOISY | PH_READONLY, "phalcon/Annotations/Adapter/AbstractAdapter.zep", 69);
 		RETURN_CTOR(&_2$$5);
 	}
 	ZEPHIR_CALL_METHOD(&classAnnotations, this_ptr, "read", NULL, 0, &realClassName);
@@ -190,6 +197,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getConstant)
 
 /**
  * Returns the annotations found in all the class' constants
+ *
+ * @phpstan-return annotations_collection_map
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getConstants)
 {
@@ -256,6 +265,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getProperty)
 
 /**
  * Returns the annotations found in all the class' properties
+ *
+ * @phpstan-return annotations_collection_map
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getProperties)
 {
@@ -331,7 +342,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getMethod)
 		} else {
 			_0$$3 = &methods;
 		}
-		zephir_is_iterable(_0$$3, 0, "phalcon/Annotations/Adapter/AbstractAdapter.zep", 194);
+		zephir_is_iterable(_0$$3, 0, "phalcon/Annotations/Adapter/AbstractAdapter.zep", 206);
 		if (Z_TYPE_P(_0$$3) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_0$$3), _3$$3, _4$$3, _2$$3)
 			{
@@ -387,6 +398,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getMethod)
 
 /**
  * Returns the annotations found in all the class' methods
+ *
+ * @phpstan-return annotations_collection_map
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getMethods)
 {

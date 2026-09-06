@@ -11,9 +11,15 @@
 namespace Phalcon\Annotations;
 
 use Phalcon\Annotations\Exceptions\UnknownAnnotationExpression;
+use Phalcon\Contracts\Annotations\AnnotationsTypes;
 
 /**
  * Represents a single annotation in an annotations collection
+ *
+ * @phpstan-import-type annotations_arguments from AnnotationsTypes
+ * @phpstan-import-type annotations_expression from AnnotationsTypes
+ * @phpstan-import-type annotations_node from AnnotationsTypes
+ * @phpstan-import-type annotations_resolved_arguments from AnnotationsTypes
  */
 class Annotation
 {
@@ -21,6 +27,8 @@ class Annotation
      * Annotation Arguments
      *
      * @var array
+     *
+     * @phpstan-var annotations_resolved_arguments
      */
     protected arguments = [];
 
@@ -28,6 +36,8 @@ class Annotation
      * Annotation ExprArguments
      *
      * @var array
+     *
+     * @phpstan-var annotations_arguments
      */
     protected exprArguments = [];
 
@@ -40,6 +50,8 @@ class Annotation
 
     /**
      * Phalcon\Annotations\Annotation constructor
+     *
+     * @phpstan-param annotations_node $reflectionData
      */
     public function __construct(array reflectionData)
     {
@@ -75,6 +87,8 @@ class Annotation
 
     /**
      * Returns an argument in a specific position
+     *
+     * @phpstan-param int|string $position
      */
     public function getArgument(var position) -> var | null
     {
@@ -89,6 +103,8 @@ class Annotation
 
     /**
      * Returns the expression arguments
+     *
+     * @phpstan-return annotations_resolved_arguments
      */
     public function getArguments() -> array
     {
@@ -97,6 +113,8 @@ class Annotation
 
     /**
      * Returns the expression arguments without resolving
+     *
+     * @phpstan-return annotations_arguments
      */
     public function getExprArguments() -> array
     {
@@ -105,6 +123,8 @@ class Annotation
 
     /**
      * Resolves an annotation expression
+     *
+     * @phpstan-param annotations_expression $expr
      */
     public function getExpression(array expr) -> var
     {
@@ -192,6 +212,8 @@ class Annotation
 
     /**
      * Returns an argument in a specific position
+     *
+     * @phpstan-param int|string $position
      */
     public function hasArgument(var position) -> bool
     {

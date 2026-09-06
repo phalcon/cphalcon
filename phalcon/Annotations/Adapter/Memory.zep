@@ -11,18 +11,29 @@
 namespace Phalcon\Annotations\Adapter;
 
 use Phalcon\Annotations\Reflection;
+use Phalcon\Contracts\Annotations\AnnotationsTypes;
 
 /**
  * Stores the parsed annotations in memory. This adapter is the suitable
  * development/testing
+ *
+ * @phpstan-import-type annotations_cache from AnnotationsTypes
+ * @phpstan-import-type annotations_options from AnnotationsTypes
  */
 class Memory extends AbstractAdapter
 {
     /**
+     * The property has no initializer, so it is null until the first write.
+     *
      * @var mixed
+     *
+     * @phpstan-var annotations_cache|null
      */
     protected data;
 
+    /**
+     * @phpstan-param annotations_options $options
+     */
     public function __construct(array options = [])
     {
     }

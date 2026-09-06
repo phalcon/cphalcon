@@ -14,11 +14,14 @@ use Phalcon\Annotations\Adapter\AdapterInterface;
 use Phalcon\Annotations\Adapter\Apcu;
 use Phalcon\Annotations\Adapter\Memory;
 use Phalcon\Annotations\Adapter\Stream;
+use Phalcon\Contracts\Annotations\AnnotationsTypes;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 
 /**
  * Factory to create annotations components
+ *
+ * @phpstan-import-type annotations_options from AnnotationsTypes
  */
 class AnnotationsFactory extends AbstractFactory
 {
@@ -26,6 +29,8 @@ class AnnotationsFactory extends AbstractFactory
 
     /**
      * AdapterFactory constructor.
+     *
+     * @phpstan-param array<string, class-string<AdapterInterface>> $services
      */
     public function __construct(array services = [])
     {
@@ -43,6 +48,8 @@ class AnnotationsFactory extends AbstractFactory
      * ]
      *
      * Factory to create an instance from a Config object
+     *
+     * @phpstan-return AdapterInterface
      */
     public function load(var config) -> var
     {
@@ -67,6 +74,8 @@ class AnnotationsFactory extends AbstractFactory
      *     'lifetime' => 3600,
      *     'annotationsDir' => 'phalconDir'
      * ]
+     *
+     * @phpstan-param annotations_options $options
      */
     public function newInstance(string name,  array options = []) -> <AdapterInterface>
     {

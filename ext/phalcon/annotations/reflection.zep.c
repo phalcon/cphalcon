@@ -45,6 +45,9 @@
  * // Get the annotations in the class docblock
  * $classAnnotations = $reflection->getClassAnnotations();
  *```
+ *
+ * @phpstan-import-type annotations_collection_map from AnnotationsTypes
+ * @phpstan-import-type annotations_reflection_data from AnnotationsTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Reflection)
 {
@@ -56,18 +59,26 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Reflection)
 	zend_declare_property_null(phalcon_annotations_reflection_ce, SL("classAnnotations"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var array
+	 *
+	 * @phpstan-var annotations_collection_map
 	 */
 	zend_declare_property_null(phalcon_annotations_reflection_ce, SL("constantAnnotations"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var array
+	 *
+	 * @phpstan-var annotations_collection_map
 	 */
 	zend_declare_property_null(phalcon_annotations_reflection_ce, SL("propertyAnnotations"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var array
+	 *
+	 * @phpstan-var annotations_collection_map
 	 */
 	zend_declare_property_null(phalcon_annotations_reflection_ce, SL("methodAnnotations"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var array
+	 *
+	 * @phpstan-var annotations_reflection_data
 	 */
 	zend_declare_property_null(phalcon_annotations_reflection_ce, SL("reflectionData"), ZEND_ACC_PROTECTED);
 	phalcon_annotations_reflection_ce->create_object = zephir_init_properties_Phalcon_Annotations_Reflection;
@@ -75,6 +86,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Reflection)
 	return SUCCESS;
 }
 
+/**
+ * @phpstan-param annotations_reflection_data $reflectionData
+ */
 PHP_METHOD(Phalcon_Annotations_Reflection, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -151,6 +165,8 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getClassAnnotations)
  * Returns the annotations found in the constants' docblocks
  *
  * @return Collection[]
+ *
+ * @phpstan-return annotations_collection_map
  */
 PHP_METHOD(Phalcon_Annotations_Reflection, getConstantsAnnotations)
 {
@@ -193,7 +209,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getConstantsAnnotations)
 			} else {
 				_2$$4 = &reflectionConstants;
 			}
-			zephir_is_iterable(_2$$4, 0, "phalcon/Annotations/Reflection.zep", 97);
+			zephir_is_iterable(_2$$4, 0, "phalcon/Annotations/Reflection.zep", 115);
 			if (Z_TYPE_P(_2$$4) == IS_ARRAY) {
 				ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_2$$4), _5$$4, _6$$4, _4$$4)
 				{
@@ -249,6 +265,8 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getConstantsAnnotations)
  * Returns the annotations found in the properties' docblocks
  *
  * @return Collection[]
+ *
+ * @phpstan-return annotations_collection_map
  */
 PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations)
 {
@@ -291,7 +309,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations)
 			} else {
 				_2$$4 = &reflectionProperties;
 			}
-			zephir_is_iterable(_2$$4, 0, "phalcon/Annotations/Reflection.zep", 119);
+			zephir_is_iterable(_2$$4, 0, "phalcon/Annotations/Reflection.zep", 139);
 			if (Z_TYPE_P(_2$$4) == IS_ARRAY) {
 				ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_2$$4), _5$$4, _6$$4, _4$$4)
 				{
@@ -347,6 +365,8 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations)
  * Returns the annotations found in the methods' docblocks
  *
  * @return Collection[]
+ *
+ * @phpstan-return annotations_collection_map
  */
 PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations)
 {
@@ -389,7 +409,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations)
 			} else {
 				_2$$4 = &reflectionMethods;
 			}
-			zephir_is_iterable(_2$$4, 0, "phalcon/Annotations/Reflection.zep", 141);
+			zephir_is_iterable(_2$$4, 0, "phalcon/Annotations/Reflection.zep", 163);
 			if (Z_TYPE_P(_2$$4) == IS_ARRAY) {
 				ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_2$$4), _5$$4, _6$$4, _4$$4)
 				{
@@ -446,6 +466,8 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations)
  * reflection
  *
  * @return array
+ *
+ * @phpstan-return annotations_reflection_data
  */
 PHP_METHOD(Phalcon_Annotations_Reflection, getReflectionData)
 {

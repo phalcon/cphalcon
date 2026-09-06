@@ -30,18 +30,28 @@
 /**
  * Stores the parsed annotations in memory. This adapter is the suitable
  * development/testing
+ *
+ * @phpstan-import-type annotations_cache from AnnotationsTypes
+ * @phpstan-import-type annotations_options from AnnotationsTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Memory)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Annotations\\Adapter, Memory, phalcon, annotations_adapter_memory, phalcon_annotations_adapter_abstractadapter_ce, phalcon_annotations_adapter_memory_method_entry, 0);
 
 	/**
+	 * The property has no initializer, so it is null until the first write.
+	 *
 	 * @var mixed
+	 *
+	 * @phpstan-var annotations_cache|null
 	 */
 	zend_declare_property_null(phalcon_annotations_adapter_memory_ce, SL("data"), ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
 
+/**
+ * @phpstan-param annotations_options $options
+ */
 PHP_METHOD(Phalcon_Annotations_Adapter_Memory, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
