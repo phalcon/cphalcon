@@ -31,36 +31,26 @@ interface Readable
 {
     /**
      * Gets the potential exception thrown in the domain layer
-     *
-     * @return Throwable|null
      */
     public function getException() -> <Throwable> | null;
 
     /**
      * Gets arbitrary extra values produced by the domain layer.
-     *
-     * @return mixed
      */
     public function getExtras() -> var;
 
     /**
      * Gets the input received by the domain layer.
-     *
-     * @return mixed
      */
     public function getInput() -> var;
 
     /**
      * Gets the messages produced by the domain layer.
-     *
-     * @return mixed
      */
     public function getMessages() -> var;
 
     /**
      * Gets the output produced from the domain layer.
-     *
-     * @return mixed
      */
     public function getOutput() -> var;
 
@@ -68,8 +58,6 @@ interface Readable
      * Gets the status of this payload.
      *
      * Status values are drawn from the `Status` vocabulary.
-     *
-     * @return mixed
      *
      * @see \Phalcon\Domain\Payload\Status
      */

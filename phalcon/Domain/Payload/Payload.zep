@@ -27,10 +27,8 @@ class Payload implements PayloadInterface
 {
     /**
      * Exception if any
-     *
-     * @var Throwable|null
      */
-    protected exception = null;
+    protected ?<Throwable> exception = null;
 
     /**
      * Extra information
@@ -54,13 +52,6 @@ class Payload implements PayloadInterface
     protected messages;
 
     /**
-     * Status
-     *
-     * @var mixed
-     */
-    protected status;
-
-    /**
      * Output
      *
      * @var mixed
@@ -68,9 +59,14 @@ class Payload implements PayloadInterface
     protected output;
 
     /**
-     * Gets the potential exception thrown in the domain layer
+     * Status
      *
-     * @return Throwable|null
+     * @var mixed
+     */
+    protected status;
+
+    /**
+     * Gets the potential exception thrown in the domain layer
      */
     public function getException() -> <Throwable> | null
     {
@@ -79,8 +75,6 @@ class Payload implements PayloadInterface
 
     /**
      * Extra information
-     *
-     * @return mixed
      */
     public function getExtras() -> var
     {
@@ -89,8 +83,6 @@ class Payload implements PayloadInterface
 
     /**
      * Input
-     *
-     * @return mixed
      */
     public function getInput() -> var
     {
@@ -99,8 +91,6 @@ class Payload implements PayloadInterface
 
     /**
      * Messages
-     *
-     * @return mixed
      */
     public function getMessages() -> var
     {
@@ -108,11 +98,17 @@ class Payload implements PayloadInterface
     }
 
     /**
+     * Output
+     */
+    public function getOutput() -> var
+    {
+        return this->output;
+    }
+
+    /**
      * Status
      *
      * Status values are drawn from the `Status` vocabulary.
-     *
-     * @return mixed
      *
      * @see Status
      */
@@ -122,21 +118,7 @@ class Payload implements PayloadInterface
     }
 
     /**
-     * Output
-     *
-     * @return mixed
-     */
-    public function getOutput() -> var
-    {
-        return this->output;
-    }
-
-    /**
      * Sets an exception thrown in the domain
-     *
-     * @param Throwable $exception
-     *
-     * @return PayloadInterface
      */
     public function setException(<Throwable> exception) -> <PayloadInterface>
     {
