@@ -41,10 +41,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Domain_Payload_Payload)
 
 	/**
 	 * Exception if any
-	 *
-	 * @var Throwable|null
 	 */
-	zend_declare_property_null(phalcon_domain_payload_payload_ce, SL("exception"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_domain_payload_payload_ce, SL("exception"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_NULL, SL("Throwable"));
+	}
+
 	/**
 	 * Extra information
 	 *
@@ -64,25 +67,23 @@ ZEPHIR_INIT_CLASS(Phalcon_Domain_Payload_Payload)
 	 */
 	zend_declare_property_null(phalcon_domain_payload_payload_ce, SL("messages"), ZEND_ACC_PROTECTED);
 	/**
-	 * Status
-	 *
-	 * @var mixed
-	 */
-	zend_declare_property_null(phalcon_domain_payload_payload_ce, SL("status"), ZEND_ACC_PROTECTED);
-	/**
 	 * Output
 	 *
 	 * @var mixed
 	 */
 	zend_declare_property_null(phalcon_domain_payload_payload_ce, SL("output"), ZEND_ACC_PROTECTED);
+	/**
+	 * Status
+	 *
+	 * @var mixed
+	 */
+	zend_declare_property_null(phalcon_domain_payload_payload_ce, SL("status"), ZEND_ACC_PROTECTED);
 	zend_class_implements(phalcon_domain_payload_payload_ce, 1, phalcon_domain_payload_payloadinterface_ce);
 	return SUCCESS;
 }
 
 /**
  * Gets the potential exception thrown in the domain layer
- *
- * @return Throwable|null
  */
 PHP_METHOD(Phalcon_Domain_Payload_Payload, getException)
 {
@@ -92,8 +93,6 @@ PHP_METHOD(Phalcon_Domain_Payload_Payload, getException)
 
 /**
  * Extra information
- *
- * @return mixed
  */
 PHP_METHOD(Phalcon_Domain_Payload_Payload, getExtras)
 {
@@ -103,8 +102,6 @@ PHP_METHOD(Phalcon_Domain_Payload_Payload, getExtras)
 
 /**
  * Input
- *
- * @return mixed
  */
 PHP_METHOD(Phalcon_Domain_Payload_Payload, getInput)
 {
@@ -114,8 +111,6 @@ PHP_METHOD(Phalcon_Domain_Payload_Payload, getInput)
 
 /**
  * Messages
- *
- * @return mixed
  */
 PHP_METHOD(Phalcon_Domain_Payload_Payload, getMessages)
 {
@@ -124,11 +119,18 @@ PHP_METHOD(Phalcon_Domain_Payload_Payload, getMessages)
 }
 
 /**
+ * Output
+ */
+PHP_METHOD(Phalcon_Domain_Payload_Payload, getOutput)
+{
+
+	RETURN_MEMBER(getThis(), "output");
+}
+
+/**
  * Status
  *
  * Status values are drawn from the `Status` vocabulary.
- *
- * @return mixed
  *
  * @see Status
  */
@@ -139,22 +141,7 @@ PHP_METHOD(Phalcon_Domain_Payload_Payload, getStatus)
 }
 
 /**
- * Output
- *
- * @return mixed
- */
-PHP_METHOD(Phalcon_Domain_Payload_Payload, getOutput)
-{
-
-	RETURN_MEMBER(getThis(), "output");
-}
-
-/**
  * Sets an exception thrown in the domain
- *
- * @param Throwable $exception
- *
- * @return PayloadInterface
  */
 PHP_METHOD(Phalcon_Domain_Payload_Payload, setException)
 {
