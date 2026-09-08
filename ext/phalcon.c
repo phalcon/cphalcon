@@ -1270,6 +1270,7 @@ zend_class_entry *phalcon_mvc_model_exceptions_unsupportedeagerresultset_ce;
 zend_class_entry *phalcon_mvc_model_exceptions_updatesnapshotdisabled_ce;
 zend_class_entry *phalcon_mvc_model_hydration_caseinsensitivecolumnmap_ce;
 zend_class_entry *phalcon_mvc_model_hydration_cloneresultmaphydrate_ce;
+zend_class_entry *phalcon_mvc_model_hydration_getprivateproperties_ce;
 zend_class_entry *phalcon_mvc_model_manager_ce;
 zend_class_entry *phalcon_mvc_model_metadata_apcu_ce;
 zend_class_entry *phalcon_mvc_model_metadata_exceptions_cannotobtaintablecolumns_ce;
@@ -2789,6 +2790,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Exceptions_UpdateSnapshotDisabled);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Hydration_CaseInsensitiveColumnMap);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Hydration_CloneResultMapHydrate);
+	ZEPHIR_INIT(Phalcon_Mvc_Model_Hydration_GetPrivateProperties);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Manager);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_MetaData_Apcu);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_MetaData_Exceptions_CannotObtainTableColumns);
@@ -3305,7 +3307,7 @@ static void php_zephir_init_module_globals(zend_phalcon_globals *phalcon_globals
 }
 
 void zephir_init_static_properties_Phalcon_Filter_Validation();
-void zephir_init_static_properties_Phalcon_Mvc_Model();
+void zephir_init_static_properties_Phalcon_Mvc_Model_Hydration_GetPrivateProperties();
 static PHP_RINIT_FUNCTION(phalcon)
 {
 	zend_phalcon_globals *phalcon_globals_ptr;
@@ -3315,7 +3317,7 @@ static PHP_RINIT_FUNCTION(phalcon)
 	zephir_initialize_memory(phalcon_globals_ptr);
 
 		zephir_init_static_properties_Phalcon_Filter_Validation();
-		zephir_init_static_properties_Phalcon_Mvc_Model();
+		zephir_init_static_properties_Phalcon_Mvc_Model_Hydration_GetPrivateProperties();
 	
 	return SUCCESS;
 }
