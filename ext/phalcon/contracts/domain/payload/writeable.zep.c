@@ -46,40 +46,30 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_Domain_Payload_Writeable)
  * Sets an exception produced by the domain layer.
  *
  * @param Throwable $exception The exception thrown in the domain layer
- *
- * @return Payload
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Domain_Payload_Writeable, setException);
 /**
  * Sets arbitrary extra values produced by the domain layer.
  *
  * @param mixed $extras Arbitrary extra values produced by the domain layer.
- *
- * @return Payload
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Domain_Payload_Writeable, setExtras);
 /**
  * Sets the input received by the domain layer.
  *
  * @param mixed $input The input received by the domain layer.
- *
- * @return Payload
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Domain_Payload_Writeable, setInput);
 /**
  * Sets the messages produced by the domain layer.
  *
  * @param mixed $messages The messages produced by the domain layer.
- *
- * @return Payload
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Domain_Payload_Writeable, setMessages);
 /**
  * Sets the output produced from the domain layer.
  *
  * @param mixed $output The output produced from the domain layer.
- *
- * @return Payload
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Domain_Payload_Writeable, setOutput);
 /**
@@ -88,8 +78,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Domain_Payload_Writeable, setOutput);
  * Status values are drawn from the `Status` vocabulary.
  *
  * @param mixed $status The status for this payload.
- *
- * @return Payload
  *
  * @see \Phalcon\Domain\Payload\Status
  */

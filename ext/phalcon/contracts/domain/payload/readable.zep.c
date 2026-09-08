@@ -44,40 +44,28 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_Domain_Payload_Readable)
 
 /**
  * Gets the potential exception thrown in the domain layer
- *
- * @return Throwable|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Domain_Payload_Readable, getException);
 /**
  * Gets arbitrary extra values produced by the domain layer.
- *
- * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Domain_Payload_Readable, getExtras);
 /**
  * Gets the input received by the domain layer.
- *
- * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Domain_Payload_Readable, getInput);
 /**
  * Gets the messages produced by the domain layer.
- *
- * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Domain_Payload_Readable, getMessages);
 /**
  * Gets the output produced from the domain layer.
- *
- * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Domain_Payload_Readable, getOutput);
 /**
  * Gets the status of this payload.
  *
  * Status values are drawn from the `Status` vocabulary.
- *
- * @return mixed
  *
  * @see \Phalcon\Domain\Payload\Status
  */
