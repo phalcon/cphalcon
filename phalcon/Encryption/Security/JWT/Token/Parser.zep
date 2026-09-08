@@ -11,6 +11,7 @@
 namespace Phalcon\Encryption\Security\JWT\Token;
 
 use InvalidArgumentException;
+use Phalcon\Contracts\Encryption\EncryptionTypes;
 use Phalcon\Encryption\Security\JWT\Exceptions\InvalidClaims;
 use Phalcon\Encryption\Security\JWT\Exceptions\InvalidHeader;
 use Phalcon\Encryption\Security\JWT\Exceptions\MalformedJwtString;
@@ -24,15 +25,14 @@ use Phalcon\Traits\Php\Base64Trait;
  * It parses a token by validating if it is formed properly and splits it into
  * three parts. The headers are decoded, then the claims and finally the
  * signature. It returns a token object populated with the decoded information.
+ *
+ * @phpstan-import-type encryption_jwt_payload from EncryptionTypes
  */
 class Parser
 {
     use Base64Trait;
 
-    /**
-     * @var Decode
-     */
-    private decode;
+    private <Decode> decode;
 
     public function __construct(<Decode> decode = null)
     {
@@ -48,10 +48,6 @@ class Parser
 
     /**
      * Parse a token and return it
-     *
-     * @param string $token
-     *
-     * @return Token
      */
     public function parse(string token) -> <Token>
     {
@@ -71,10 +67,6 @@ class Parser
 
     /**
      * Decode the claims
-     *
-     * @param string $claims
-     *
-     * @return Item
      */
     private function decodeClaims(string claims) -> <Item>
     {
@@ -98,10 +90,6 @@ class Parser
 
     /**
      * Decodes the headers
-     *
-     * @param string $headers
-     *
-     * @return Item
      */
     private function decodeHeaders(string headers) -> <Item>
     {
@@ -122,11 +110,6 @@ class Parser
 
     /**
      * Decodes the signature
-     *
-     * @param Item   $headers
-     * @param string $signature
-     *
-     * @return Signature
      */
     private function decodeSignature(<Item> headers,  string signature) -> <Signature>
     {
@@ -147,9 +130,7 @@ class Parser
     /**
      * Splits the token to its three parts;
      *
-     * @param string $token
-     *
-     * @return array
+     * @return array{0: string, 1: string, 2: string}
      */
     private function parseToken(string token) -> array
     {
@@ -163,5 +144,4 @@ class Parser
 
         return parts;
     }
-
 }

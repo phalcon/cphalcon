@@ -10,6 +10,7 @@
 
 namespace Phalcon\Encryption\Security\JWT\Token;
 
+use Phalcon\Contracts\Encryption\EncryptionTypes;
 use Phalcon\Encryption\Security\JWT\Signer\SignerInterface;
 use Phalcon\Encryption\Security\JWT\Validator;
 
@@ -24,30 +25,19 @@ use Phalcon\Encryption\Security\JWT\Validator;
  * @property Signature $signature
  *
  * @link https://tools.ietf.org/html/rfc7519
+ *
+ * @phpstan-import-type encryption_jwt_errors from EncryptionTypes
  */
 class Token
 {
-    /**
-     * @var Item
-     */
-    private claims;
+    private <Item> claims;
 
-    /**
-     * @var Item
-     */
-    private headers;
+    private <Item> headers;
 
-    /**
-     * @var Signature
-     */
-    private signature;
+    private <Signature> signature;
 
     /**
      * Token constructor.
-     *
-     * @param Item      $headers
-     * @param Item      $claims
-     * @param Signature $signature
      */
     public function __construct(
         <Item> headers,
@@ -61,8 +51,6 @@ class Token
 
     /**
      * Return the registered claims
-     *
-     * @return Item
      */
     public function getClaims() -> <Item>
     {
@@ -71,8 +59,6 @@ class Token
 
     /**
      * Return the registered headers
-     *
-     * @return Item
      */
     public function getHeaders() -> <Item>
     {
@@ -81,8 +67,6 @@ class Token
 
     /**
      * Return the payload
-     *
-     * @return string
      */
     public function getPayload() -> string
     {
@@ -91,8 +75,6 @@ class Token
 
     /**
      * Return the signature
-     *
-     * @return Signature
      */
     public function getSignature() -> <Signature>
     {
@@ -101,8 +83,6 @@ class Token
 
     /**
      * Return the token
-     *
-     * @return string
      */
     public function getToken() -> string
     {
@@ -121,9 +101,7 @@ class Token
      * an empty error array as valid only after the signature check passes.
      * A signature-aware default is planned for a future major version.
      *
-     * @param Validator $validator
-     *
-     * @return array
+     * @phpstan-return encryption_jwt_errors
      */
     public function validate(<Validator> validator) -> array
     {
@@ -151,11 +129,6 @@ class Token
 
     /**
      * Verify the signature
-     *
-     * @param SignerInterface $signer
-     * @param string          $key
-     *
-     * @return bool
      */
     public function verify(<SignerInterface> signer, string key) -> bool
     {

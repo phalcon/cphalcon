@@ -11,28 +11,15 @@
 namespace Phalcon\Encryption\Crypt\Padding;
 
 /**
- * Class Zero
- *
- * @package Phalcon\Encryption\Crypt\Padding
+ * Padding based on Zeros
  */
 class Zero implements PadInterface
 {
-    /**
-     * @param int $paddingSize
-     *
-     * @return string
-     */
     public function pad(int paddingSize) -> string
     {
         return str_repeat(chr(0), paddingSize);
     }
 
-    /**
-     * @param string $input
-     * @param int    $blockSize
-     *
-     * @return int
-     */
     public function unpad(string input, int blockSize) -> int
     {
         var length, inputArray;

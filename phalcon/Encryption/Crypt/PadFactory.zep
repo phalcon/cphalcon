@@ -10,6 +10,7 @@
 
 namespace Phalcon\Encryption\Crypt;
 
+use Exception as BaseException;
 use Phalcon\Encryption\Crypt;
 use Phalcon\Encryption\Crypt\Exception\Exception;
 use Phalcon\Encryption\Crypt\Padding\Ansi;
@@ -29,6 +30,8 @@ class PadFactory extends AbstractFactory
 {
     /**
      * AdapterFactory constructor.
+     *
+     * @param array<string, string> $services
      */
     public function __construct(array services = [])
     {
@@ -37,6 +40,8 @@ class PadFactory extends AbstractFactory
 
     /**
      * Create a new instance of the adapter
+     *
+     * @throws BaseException
      */
     public function newInstance(string name) -> <PadInterface>
     {
@@ -50,10 +55,6 @@ class PadFactory extends AbstractFactory
     /**
      * Gets a Crypt pad constant and returns the unique service name for the
      * padding class
-     *
-     * @param int $number
-     *
-     * @return string
      */
     public function padNumberToService(int number) -> string
     {

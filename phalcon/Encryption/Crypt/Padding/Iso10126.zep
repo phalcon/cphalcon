@@ -11,17 +11,10 @@
 namespace Phalcon\Encryption\Crypt\Padding;
 
 /**
- * Class Iso10126
- *
- * @package Phalcon\Encryption\Crypt\Padding
+ * Padding based on ISO10126
  */
 class Iso10126 implements PadInterface
 {
-    /**
-     * @param int $paddingSize
-     *
-     * @return string
-     */
     public function pad(int paddingSize) -> string
     {
         var counter, padding;
@@ -37,12 +30,6 @@ class Iso10126 implements PadInterface
         return padding;
     }
 
-    /**
-     * @param string $input
-     * @param int    $blockSize
-     *
-     * @return int
-     */
     public function unpad(string input, int blockSize) -> int
     {
         var last, length;
