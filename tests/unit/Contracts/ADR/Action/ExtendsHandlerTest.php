@@ -29,7 +29,7 @@ final class ExtendsHandlerTest extends AbstractUnitTestCase
     {
         $this->assertTrue(is_subclass_of(Action::class, Handler::class));
 
-        $action = new class implements Action {
+        $action = new class () implements Action {
             public function __invoke(AttributeRequest $request): ResponseInterface
             {
                 return new Response();

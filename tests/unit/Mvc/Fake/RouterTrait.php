@@ -110,6 +110,7 @@ trait RouterTrait
 
         return $router;
     }
+
     /**
      * get router and set methods
      */

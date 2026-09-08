@@ -56,6 +56,7 @@ final class ExceptionsTest extends AbstractUnitTestCase
 
         $adapter->get('test');
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
@@ -91,9 +92,9 @@ final class ExceptionsTest extends AbstractUnitTestCase
     public function testStorageAdapterRedisGetSetFailedSslLocalhost(): void
     {
         $this->expectException(StorageException::class);
-//        $this->expectExceptionMessage(
-//            'Connection refused'
-//        );
+        //        $this->expectExceptionMessage(
+        //            'Connection refused'
+        //        );
 
         $serializer      = new SerializerFactory();
         $options         = Talon::settings()->getServiceOptions('redis');

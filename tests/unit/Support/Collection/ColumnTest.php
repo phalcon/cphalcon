@@ -41,7 +41,7 @@ final class ColumnTest extends AbstractCollectionTestCase
      */
     public function testSupportCollectionColumnExtractsFromObjectMethod(): void
     {
-        $obj = new class {
+        $obj = new class () {
             public function name(): string
             {
                 return 'X';

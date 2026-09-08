@@ -27,7 +27,7 @@ class GetExtensionsTest extends AbstractUnitTestCase
         $compiler = new Compiler();
         $this->assertSame([], $compiler->getExtensions());
 
-        $extension = new class {
+        $extension = new class () {
         };
         $compiler->addExtension($extension);
 

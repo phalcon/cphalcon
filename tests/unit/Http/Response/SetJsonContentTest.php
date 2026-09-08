@@ -56,6 +56,7 @@ final class SetJsonContentTest extends AbstractUnitTestCase
         $actual   = $response->getContent();
         $this->assertSame($expected, $actual);
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2024-01-01

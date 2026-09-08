@@ -91,6 +91,7 @@ final class RegisterModulesTest extends AbstractUnitTestCase
         $actual   = $console->getModules();
         $this->assertArrayHasKey($expected, $actual);
     }
+
     /**
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-15

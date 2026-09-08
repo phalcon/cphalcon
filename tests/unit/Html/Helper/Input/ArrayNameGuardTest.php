@@ -34,6 +34,7 @@ final class ArrayNameGuardTest extends AbstractUnitTestCase
 
         $this->assertStringContainsString('id="opt-1"', $rendered);
     }
+
     public function testArrayNameSkipsAutoId(): void
     {
         $helper = new Generic(new Escaper(), new Doctype(), 'text');

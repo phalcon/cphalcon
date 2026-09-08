@@ -49,6 +49,7 @@ trait JWTTrait
             ->getToken()
         ;
     }
+
     /**
      * @param string $signerClass
      *

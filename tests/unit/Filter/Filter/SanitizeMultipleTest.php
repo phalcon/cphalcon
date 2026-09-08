@@ -33,8 +33,8 @@ final class SanitizeMultipleTest extends AbstractUnitTestCase
             [
                 [4, 2, 0],
                 [
-                    'sum'  => fn($input) => array_sum($input),
-                    'half' => fn($input) => $input / 2,
+                    'sum'  => fn ($input) => array_sum($input),
+                    'half' => fn ($input) => $input / 2,
                 ],
                 true,
                 3,
@@ -42,8 +42,8 @@ final class SanitizeMultipleTest extends AbstractUnitTestCase
             [
                 [4, 2, 0],
                 [
-                    'double'  => fn($input) => $input * 2,
-                    'inverse' => fn($input) => 0 - $input,
+                    'double'  => fn ($input) => $input * 2,
+                    'inverse' => fn ($input) => 0 - $input,
                 ],
                 false,
                 [-8, -4, 0],

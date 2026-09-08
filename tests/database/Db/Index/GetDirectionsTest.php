@@ -66,6 +66,7 @@ final class GetDirectionsTest extends AbstractDatabaseTestCase
             ]
         );
     }
+
     /**
      * Legacy positional constructor leaves `getDirections()` empty.
      *

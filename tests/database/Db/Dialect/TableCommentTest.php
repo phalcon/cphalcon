@@ -94,6 +94,7 @@ final class TableCommentTest extends AbstractDatabaseTestCase
 
         $this->assertStringNotContainsString('COMMENT', $sql);
     }
+
     private function definition(array $options = []): array
     {
         return [

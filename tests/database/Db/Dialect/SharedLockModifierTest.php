@@ -48,6 +48,7 @@ final class SharedLockModifierTest extends AbstractDatabaseTestCase
             $dialect->sharedLock($sql, DialectContract::LOCK_SKIP_LOCKED)
         );
     }
+
     /**
      * PostgreSQL - default emits `FOR SHARE`.
      *

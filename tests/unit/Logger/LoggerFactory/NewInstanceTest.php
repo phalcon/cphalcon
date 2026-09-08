@@ -49,6 +49,7 @@ final class NewInstanceTest extends AbstractUnitTestCase
         $this->assertInstanceOf(LoggerInterface::class, $logger);
         $this->assertInstanceOf(Logger::class, $logger);
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09

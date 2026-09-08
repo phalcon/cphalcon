@@ -61,6 +61,7 @@ final class GetSetPrefixTest extends AbstractUnitTestCase
 
         $this->assertSame($expected, $breadcrumbs->render());
     }
+
     /**
      * Tests getPrefix() / setPrefix() without a Url service.
      *

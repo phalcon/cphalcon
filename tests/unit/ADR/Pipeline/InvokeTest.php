@@ -29,7 +29,7 @@ final class InvokeTest extends AbstractUnitTestCase
      */
     public function testAdrPipelineInvokeMiddlewareCanShortCircuit(): void
     {
-        $shortCircuit = new class implements Middleware {
+        $shortCircuit = new class () implements Middleware {
             public function __invoke(AttributeRequest $request, Handler $next): ResponseInterface
             {
                 return (new Response())->setContent('short-circuit');
@@ -48,7 +48,7 @@ final class InvokeTest extends AbstractUnitTestCase
      */
     public function testAdrPipelineInvokeRunsMiddlewareOnion(): void
     {
-        $wrap = new class implements Middleware {
+        $wrap = new class () implements Middleware {
             public function __invoke(AttributeRequest $request, Handler $next): ResponseInterface
             {
                 $response = $next($request);
@@ -63,6 +63,7 @@ final class InvokeTest extends AbstractUnitTestCase
 
         $this->assertSame('[[T]]', $result->getContent());
     }
+
     /**
      * Unit Tests Phalcon\ADR\Pipeline :: __invoke() runs the terminal handler
      */

@@ -37,6 +37,7 @@ final class ForeignKeyColumnMapTest extends AbstractDatabaseTestCase
     use DiTrait;
 
     private bool $caseInsensitive = false;
+
     private bool $columnRenaming  = true;
 
     public function setUp(): void

@@ -51,6 +51,7 @@ final class SelectFieldTest extends AbstractTagTestCase
         // empty-option value must not break out of the value attribute
         $this->assertStringNotContainsString('<svg onload', $html);
     }
+
     public function testSelectFromResultsetWithAnArrayValue(): void
     {
         $resultset = new FakeResultset(

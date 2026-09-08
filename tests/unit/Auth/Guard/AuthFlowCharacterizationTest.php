@@ -27,9 +27,13 @@ use Phalcon\Tests\Unit\Auth\Fake\FakeSessionManager;
 final class AuthFlowCharacterizationTest extends AbstractUnitTestCase
 {
     private FakeRememberAdapter $adapter;
+
     private SessionGuardConfig $config;
+
     private FakeCookies $cookies;
+
     private FakeRequest $request;
+
     private FakeSessionManager $session;
 
     protected function setUp(): void

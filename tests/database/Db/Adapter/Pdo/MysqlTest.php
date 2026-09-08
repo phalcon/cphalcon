@@ -22,6 +22,7 @@ use PHPUnit\Framework\Attributes\Group;
 final class MysqlTest extends AbstractDatabaseTestCase
 {
     private const CHILD  = 'foreign_key_child';
+
     private const PARENT = 'foreign_key_parent';
 
     private ?Mysql $connection = null;

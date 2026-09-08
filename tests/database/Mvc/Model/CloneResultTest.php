@@ -66,19 +66,6 @@ final class CloneResultTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * afterFetch() fires on the returned clone and never on the base record.
-     */
-    public function testMvcModelCloneResultAfterFetchFiresOnCloneNotBase(): void
-    {
-        $base = new InvoicesCloneResultProbe();
-
-        $clone = Model::cloneResult($base, ['inv_id' => 1]);
-
-        $this->assertSame(0, $base->afterFetchCount);
-        $this->assertSame(1, $clone->afterFetchCount);
-    }
-
-    /**
      * afterFetch() fires exactly once - not once per key - and only after every
      * value in $data has been assigned.
      */
@@ -103,6 +90,19 @@ final class CloneResultTest extends AbstractDatabaseTestCase
             ],
             $clone->afterFetchSnapshot
         );
+    }
+
+    /**
+     * afterFetch() fires on the returned clone and never on the base record.
+     */
+    public function testMvcModelCloneResultAfterFetchFiresOnCloneNotBase(): void
+    {
+        $base = new InvoicesCloneResultProbe();
+
+        $clone = Model::cloneResult($base, ['inv_id' => 1]);
+
+        $this->assertSame(0, $base->afterFetchCount);
+        $this->assertSame(1, $clone->afterFetchCount);
     }
 
     /**

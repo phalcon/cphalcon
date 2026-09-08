@@ -44,6 +44,7 @@ final class PreloadTest extends AbstractUnitTestCase
         $this->assertStringContainsString('Link:', $joined);
         $this->assertStringContainsString('abc.css', $joined);
     }
+
     /**
      * Without a container the href is given back untouched instead of
      * raising an error on the missing container.

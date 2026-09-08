@@ -207,6 +207,7 @@ final class ParseTest extends AbstractUnitTestCase
         $reader = new Reader();
         $reader->parse('TestInvalid');
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2016-01-25

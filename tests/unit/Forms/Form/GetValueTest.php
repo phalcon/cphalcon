@@ -35,6 +35,7 @@ final class GetValueTest extends AbstractUnitTestCase
         $actual = $form->getValue('username');
         $this->assertSame('custom-username', $actual);
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2024-01-01

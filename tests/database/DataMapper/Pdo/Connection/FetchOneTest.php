@@ -86,6 +86,7 @@ final class FetchOneTest extends AbstractDatabaseTestCase
 
         return $data;
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-25

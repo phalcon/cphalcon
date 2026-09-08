@@ -228,6 +228,7 @@ final class FormTest extends AbstractUnitTestCase
         );
         $this->assertTrue($actual);
     }
+
     public function testLabels(): void
     {
         $factory = new TagFactory(new Escaper());

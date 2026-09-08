@@ -28,6 +28,7 @@ use function is_array;
 final class FakeUrl implements UrlInterface
 {
     private string $basePath = '';
+
     private string $baseUri  = '';
 
     public function get(

@@ -52,6 +52,7 @@ final class WhereTest extends AbstractDatabaseTestCase
         $actual   = $select->getBindValues();
         $this->assertEquals($expected, $actual);
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-20

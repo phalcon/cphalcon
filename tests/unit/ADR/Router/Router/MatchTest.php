@@ -24,6 +24,7 @@ use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 final class MatchTest extends AbstractUnitTestCase
 {
     private const BASE      = 'Phalcon\\Tests\\Support\\ADR\\Action';
+
     private const DIRECTORY = PATH_SUPPORT . 'ADR/Action';
 
     protected function tearDown(): void

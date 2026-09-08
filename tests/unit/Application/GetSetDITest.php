@@ -34,6 +34,7 @@ final class GetSetDITest extends AbstractUnitTestCase
         $actual   = $application->getDI();
         $this->assertSame($expected, $actual);
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09

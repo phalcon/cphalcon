@@ -31,6 +31,7 @@ final class FakeSelect extends Model
     {
         return $this->sel_text;
     }
+
     public function initialize(): void
     {
         $this->setSource('ph_select');

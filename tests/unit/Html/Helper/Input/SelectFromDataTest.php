@@ -78,6 +78,7 @@ final class SelectFromDataTest extends AbstractUnitTestCase
 
         $this->assertSame($expected, (string) $result);
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-17

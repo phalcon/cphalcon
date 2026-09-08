@@ -20,6 +20,7 @@ class FakeMessage implements MessageInterface
     protected int $code;
 
     protected string $field;
+
     protected string $message;
 
     protected array $metaData = [];

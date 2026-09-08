@@ -43,6 +43,7 @@ final class JoinTest extends AbstractDatabaseTestCase
         $actual   = $select->getStatement();
         $this->assertEquals($expected, $actual);
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-20

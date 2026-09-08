@@ -24,7 +24,7 @@ class FireExtensionEventTest extends AbstractUnitTestCase
      */
     public function testMvcViewEngineVoltCompilerFireExtensionEvent(): void
     {
-        $extension = new class {
+        $extension = new class () {
             public bool $called = false;
 
             public function compileFunction(array $expr, bool $extendsMode): mixed

@@ -47,7 +47,7 @@ final class RunTest extends AbstractUnitTestCase
 
             protected function getApplication(Container $container): ApplicationInterface
             {
-                return new class implements ApplicationInterface {
+                return new class () implements ApplicationInterface {
                     public function handle($request): ResponseInterface
                     {
                         return (new Response())->setContent('front-body');

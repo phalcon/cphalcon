@@ -77,6 +77,7 @@ final class GetSetTest extends AbstractUnitTestCase
             ],
         ];
     }
+
     /**
      * @return array[]
      */

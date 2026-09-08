@@ -75,6 +75,7 @@ final class EventsTest extends AbstractUnitTestCase
             ],
         ];
     }
+
     /**
      * @return array[]
      */

@@ -468,7 +468,6 @@ final class SaveTest extends AbstractDatabaseTestCase
         $this->assertFalse($customerSaved, 'Unmodified hasOne related record must not be saved');
     }
 
-
     /**
      * @issue  https://github.com/phalcon/cphalcon/issues/16395
      * @author Phalcon Team <team@phalcon.io>

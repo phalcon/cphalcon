@@ -28,6 +28,7 @@ final class IsEmptyTest extends AbstractCollectionTestCase
 
         $this->assertFalse($collection->isEmpty());
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-11

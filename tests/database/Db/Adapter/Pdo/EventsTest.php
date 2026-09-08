@@ -49,13 +49,14 @@ final class EventsTest extends AbstractUnitTestCase
         $manager = new Manager();
         $connection->setEventsManager($manager);
 
-        $listener = new class {
+        $listener = new class () {
             public array $events = [];
 
             public function commitTransaction($event, $adapter, mixed $data = null)
             {
                 $this->events[] = __FUNCTION__;
             }
+
             public function transactionCommitted($event, $adapter, mixed $data = null)
             {
                 $this->events[] = __FUNCTION__;
@@ -79,7 +80,7 @@ final class EventsTest extends AbstractUnitTestCase
         $manager = new Manager();
         $connection->setEventsManager($manager);
 
-        $listener = new class {
+        $listener = new class () {
             public array $events = [];
 
             public function beforeQuery($event, $adapter, mixed $data = null)

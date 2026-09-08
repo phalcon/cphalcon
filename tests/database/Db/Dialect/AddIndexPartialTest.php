@@ -44,6 +44,7 @@ final class AddIndexPartialTest extends AbstractDatabaseTestCase
 
         $this->assertStringNotContainsString('WHERE', $actual);
     }
+
     /**
      * PostgreSQL - emits `WHERE <expr>` for partial indexes.
      *

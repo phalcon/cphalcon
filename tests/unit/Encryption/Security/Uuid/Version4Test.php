@@ -39,6 +39,7 @@ final class Version4Test extends AbstractUnitTestCase
             Version4::TIME_OFFSET_INT
         );
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-29

@@ -63,6 +63,7 @@ final class LinkToTest extends AbstractTagTestCase
             )
         );
     }
+
     public function testLinkToWithNamedKeys(): void
     {
         $this->assertSame(

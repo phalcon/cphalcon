@@ -32,6 +32,7 @@ final class SelectStrictAndPlaceholderTest extends AbstractUnitTestCase
             $rendered
         );
     }
+
     public function testSelectLooseMatchesAcrossTypesByDefault(): void
     {
         $select = new Select(new Escaper(), new Doctype());

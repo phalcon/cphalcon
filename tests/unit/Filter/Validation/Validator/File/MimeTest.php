@@ -101,6 +101,7 @@ final class MimeTest extends AbstractUnitTestCase
         $this->expectExceptionMessage('Option \'allowedTypes\' must be an array');
         $validation->validate($_FILES);
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13

@@ -35,6 +35,7 @@ final class GetSubscribersTest extends AbstractUnitTestCase
         $this->assertCount(1, $registered);
         $this->assertSame($multiSubscriber, $registered[0]);
     }
+
     public function testGetSubscribersReturnsRegisteredInstances(): void
     {
         $manager = new Manager();

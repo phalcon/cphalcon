@@ -101,7 +101,7 @@ final class ValidationCoverageTest extends AbstractUnitTestCase
      */
     public function testFilterValidationConstructCallsInitialize(): void
     {
-        $validation = new class extends Validation {
+        $validation = new class () extends Validation {
             public bool $initialized = false;
 
             public function initialize(): void
@@ -121,7 +121,7 @@ final class ValidationCoverageTest extends AbstractUnitTestCase
      */
     public function testFilterValidationValidateAfterValidationCalled(): void
     {
-        $validation = new class extends Validation {
+        $validation = new class () extends Validation {
             public bool $afterCalled = false;
 
             public function afterValidation(mixed $data, mixed $entity): void
@@ -144,7 +144,7 @@ final class ValidationCoverageTest extends AbstractUnitTestCase
      */
     public function testFilterValidationValidateBeforeValidationReturnsFalse(): void
     {
-        $validation = new class extends Validation {
+        $validation = new class () extends Validation {
             public function beforeValidation(mixed $data, mixed $entity): bool
             {
                 return false;
@@ -216,7 +216,7 @@ final class ValidationCoverageTest extends AbstractUnitTestCase
      */
     public function testFilterValidationValidateCombinedScopeNotArrayThrows(): void
     {
-        $validation = new class extends Validation {
+        $validation = new class () extends Validation {
             public function setInvalidCombinedScope(): void
             {
                 $this->combinedFieldsValidators = ['not-an-array'];
@@ -237,7 +237,7 @@ final class ValidationCoverageTest extends AbstractUnitTestCase
      */
     public function testFilterValidationValidateCombinedValidatorNotObjectThrows(): void
     {
-        $validation = new class extends Validation {
+        $validation = new class () extends Validation {
             public function setNonObjectCombinedValidator(): void
             {
                 $this->combinedFieldsValidators = [['field', 'not-an-object']];

@@ -25,7 +25,7 @@ final class FilterTest extends AbstractUnitTestCase
      */
     public function testAdrAttributeFilterFilterAnchorsRegexFully(): void
     {
-        $action = new class {
+        $action = new class () {
             public static function params(): array
             {
                 return ['id' => ['match' => '\d+']];
@@ -42,7 +42,7 @@ final class FilterTest extends AbstractUnitTestCase
      */
     public function testAdrAttributeFilterFilterCastsFloat(): void
     {
-        $action = new class {
+        $action = new class () {
             public static function params(): array
             {
                 return ['ratio' => ['type' => 'float']];
@@ -59,7 +59,7 @@ final class FilterTest extends AbstractUnitTestCase
      */
     public function testAdrAttributeFilterFilterCastsInt(): void
     {
-        $action = new class {
+        $action = new class () {
             public static function params(): array
             {
                 return ['id' => ['match' => '\d+', 'type' => 'int']];
@@ -76,7 +76,7 @@ final class FilterTest extends AbstractUnitTestCase
      */
     public function testAdrAttributeFilterFilterConverterExceptionBubbles(): void
     {
-        $action = new class {
+        $action = new class () {
             public static function params(): array
             {
                 return ['id' => ['convert' => fn ($v) => throw new RuntimeException('boom')]];
@@ -93,7 +93,7 @@ final class FilterTest extends AbstractUnitTestCase
      */
     public function testAdrAttributeFilterFilterConverterReceivesCastValue(): void
     {
-        $action = new class {
+        $action = new class () {
             public static function params(): array
             {
                 return ['id' => ['type' => 'int', 'convert' => fn ($v) => is_int($v)]];
@@ -110,7 +110,7 @@ final class FilterTest extends AbstractUnitTestCase
      */
     public function testAdrAttributeFilterFilterNamesByDeclarationOrder(): void
     {
-        $action = new class {
+        $action = new class () {
             public static function params(): array
             {
                 return [
@@ -130,7 +130,7 @@ final class FilterTest extends AbstractUnitTestCase
      */
     public function testAdrAttributeFilterFilterPassesSurplusPositionally(): void
     {
-        $action = new class {
+        $action = new class () {
             public static function params(): array
             {
                 return ['id' => ['type' => 'int']];
@@ -147,7 +147,7 @@ final class FilterTest extends AbstractUnitTestCase
      */
     public function testAdrAttributeFilterFilterPassesThroughWhenNoParams(): void
     {
-        $action = new class {
+        $action = new class () {
         };
 
         $result = (new AttributeFilter())->filter($action::class, ['1', '2']);
@@ -160,7 +160,7 @@ final class FilterTest extends AbstractUnitTestCase
      */
     public function testAdrAttributeFilterFilterRejectsOnRegexMiss(): void
     {
-        $action = new class {
+        $action = new class () {
             public static function params(): array
             {
                 return ['id' => ['match' => '\d+', 'type' => 'int']];
@@ -177,7 +177,7 @@ final class FilterTest extends AbstractUnitTestCase
      */
     public function testAdrAttributeFilterFilterSkipsMissingParameter(): void
     {
-        $action = new class {
+        $action = new class () {
             public static function params(): array
             {
                 return [
@@ -198,7 +198,7 @@ final class FilterTest extends AbstractUnitTestCase
      */
     public function testAdrAttributeFilterFilterTreatsUnknownTypeAsString(): void
     {
-        $action = new class {
+        $action = new class () {
             public static function params(): array
             {
                 return ['x' => ['type' => 'weird']];

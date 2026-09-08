@@ -38,6 +38,7 @@ final class MaterializedViewTest extends AbstractDatabaseTestCase
 
         (new Mysql())->createMaterializedView('v', ['sql' => 'SELECT 1']);
     }
+
     /**
      * PostgreSQL - createMaterializedView.
      *

@@ -43,7 +43,7 @@ final class BindToHandlerTest extends AbstractDatabaseTestCase
      */
     public function testMvcModelBinderBindToHandler(): void
     {
-        $handler = new class {
+        $handler = new class () {
             public function action(Invoices $invoice): void
             {
             }
