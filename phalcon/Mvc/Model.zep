@@ -60,6 +60,7 @@ use Phalcon\Mvc\Model\Exceptions\UnsupportedEagerResultset;
 use Phalcon\Mvc\Model\Exceptions\UpdateSnapshotDisabled;
 use Phalcon\Mvc\Model\Hydration\CaseInsensitiveColumnMap;
 use Phalcon\Mvc\Model\Hydration\CloneResultMapHydrate;
+use Phalcon\Mvc\Model\Hydration\GetPrivateProperties;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Mvc\Model\MetaDataInterface;
 use Phalcon\Mvc\Model\Query;
@@ -80,8 +81,6 @@ use Phalcon\Filter\Validation\ValidationInterface;
 use Phalcon\Support\Collection;
 use Phalcon\Support\Collection\CollectionInterface;
 use Phalcon\Support\Settings;
-use ReflectionClass;
-use ReflectionProperty;
 
 /**
  * Phalcon\Mvc\Model
@@ -289,17 +288,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * @phpstan-var mvc_model_bind_types
      */
     protected uniqueTypes = [];
-
-    /**
-     * Per-process cache of declared private model properties as
-     * [class name => [property name => ReflectionProperty]], used during
-     * hydration - see getPrivateProperties()
-     *
-     * @var array
-     *
-     * @phpstan-var array<class-string, array<string, \ReflectionProperty>>
-     */
-    private static privatePropertiesCache = [];
 
     /**
      * Phalcon\Mvc\Model constructor
@@ -1084,9 +1072,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
         /**
          * Declared private properties must be written via reflection during
-         * hydration - see getPrivateProperties()
+         * hydration - see Hydration\GetPrivateProperties
          */
-        let privateProperties = self::getPrivateProperties(get_class(instance));
+        let privateProperties = GetPrivateProperties::getPrivateProperties(get_class(instance));
 
         /**
          * Mark the object as persistent
@@ -1153,9 +1141,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
         /**
          * Declared private properties must be written via reflection during
-         * hydration - see getPrivateProperties()
+         * hydration - see Hydration\GetPrivateProperties
          */
-        let privateProperties = self::getPrivateProperties(get_class(instance));
+        let privateProperties = GetPrivateProperties::getPrivateProperties(get_class(instance));
 
         if instance instanceof Model {
             let metaData = instance->getModelsMetaData();
@@ -6717,56 +6705,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     public function validationHasFailed() -> bool
     {
         return !empty this->errorMessages;
-    }
-
-    /**
-     * Returns the declared private properties of a class (including inherited
-     * ones) as [property name => ReflectionProperty], cached per class.
-     *
-     * Hydration (cloneResult/cloneResultMap) cannot write private properties
-     * directly: the engine write from Model scope falls back to __set(),
-     * which invokes a possible setter - or throws for a non-public property
-     * without one. Writing through ReflectionProperty stores the raw
-     * database value instead.
-     *
-     * @see https://github.com/phalcon/cphalcon/issues/16454
-     *
-     * @phpstan-param class-string $className
-     */
-    private static function getPrivateProperties(string className) -> array
-    {
-        var cache, privateProperties, propertyName, reflection,
-            reflectionProperties, reflectionProperty;
-
-        let cache = self::privatePropertiesCache;
-
-        if !isset cache[className] {
-            let privateProperties = [];
-            let reflection        = new ReflectionClass(className);
-
-            while typeof reflection === "object" {
-                let reflectionProperties = reflection->getProperties(ReflectionProperty::IS_PRIVATE);
-
-                for reflectionProperty in reflectionProperties {
-                    if reflectionProperty->isStatic() {
-                        continue;
-                    }
-
-                    let propertyName = reflectionProperty->getName();
-
-                    if !isset privateProperties[propertyName] {
-                        let privateProperties[propertyName] = reflectionProperty;
-                    }
-                }
-
-                let reflection = reflection->getParentClass();
-            }
-
-            let cache[className]             = privateProperties,
-                self::privatePropertiesCache = cache;
-        }
-
-        return cache[className];
     }
 
     /**
