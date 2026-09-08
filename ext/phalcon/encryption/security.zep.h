@@ -13,8 +13,8 @@ PHP_METHOD(Phalcon_Encryption_Security, getHashInformation);
 PHP_METHOD(Phalcon_Encryption_Security, getRandom);
 PHP_METHOD(Phalcon_Encryption_Security, getRandomBytes);
 PHP_METHOD(Phalcon_Encryption_Security, getRequestToken);
-PHP_METHOD(Phalcon_Encryption_Security, getSessionToken);
 PHP_METHOD(Phalcon_Encryption_Security, getSaltBytes);
+PHP_METHOD(Phalcon_Encryption_Security, getSessionToken);
 PHP_METHOD(Phalcon_Encryption_Security, getToken);
 PHP_METHOD(Phalcon_Encryption_Security, getTokenKey);
 PHP_METHOD(Phalcon_Encryption_Security, getWorkFactor);
@@ -78,11 +78,11 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_getrequesttoken, 0, 0, IS_STRING, 1)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_getsessiontoken, 0, 0, IS_STRING, 1)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_getsaltbytes, 0, 0, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, numberBytes, IS_LONG, 0, "0")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_getsessiontoken, 0, 0, IS_STRING, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_gettoken, 0, 0, IS_STRING, 1)
@@ -176,8 +176,8 @@ ZEPHIR_INIT_FUNCS(phalcon_encryption_security_method_entry) {
 	PHP_ME(Phalcon_Encryption_Security, getRandom, arginfo_phalcon_encryption_security_getrandom, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security, getRandomBytes, arginfo_phalcon_encryption_security_getrandombytes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security, getRequestToken, arginfo_phalcon_encryption_security_getrequesttoken, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Encryption_Security, getSessionToken, arginfo_phalcon_encryption_security_getsessiontoken, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security, getSaltBytes, arginfo_phalcon_encryption_security_getsaltbytes, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Encryption_Security, getSessionToken, arginfo_phalcon_encryption_security_getsessiontoken, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security, getToken, arginfo_phalcon_encryption_security_gettoken, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security, getTokenKey, arginfo_phalcon_encryption_security_gettokenkey, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security, getWorkFactor, arginfo_phalcon_encryption_security_getworkfactor, ZEND_ACC_PUBLIC)

@@ -35,38 +35,56 @@
  * JWT Builder
  *
  * @link https://tools.ietf.org/html/rfc7519
+ *
+ * @phpstan-import-type encryption_jwt_audience from EncryptionTypes
+ * @phpstan-import-type encryption_jwt_claims from EncryptionTypes
+ * @phpstan-import-type encryption_jwt_headers from EncryptionTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Builder)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Encryption\\Security\\JWT, Builder, phalcon, encryption_security_jwt_builder, phalcon_encryption_security_jwt_builder_method_entry, 0);
 
 	/**
-	 * @var CollectionInterface
+	 * @phpstan-var CollectionInterface<mixed>
 	 */
-	zend_declare_property_null(phalcon_encryption_security_jwt_builder_ce, SL("claims"), ZEND_ACC_PRIVATE);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_encryption_security_jwt_builder_ce, SL("claims"), &_zc0, ZEND_ACC_PRIVATE, 0, SL("Phalcon\\Support\\Collection\\CollectionInterface"));
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_encryption_security_jwt_builder_ce, SL("encode"), &_zc0, ZEND_ACC_PRIVATE, 0, SL("Phalcon\\Support\\Helper\\Json\\Encode"));
+	}
+
 	/**
-	 * @var Encode
+	 * @phpstan-var CollectionInterface<mixed>
 	 */
-	zend_declare_property_null(phalcon_encryption_security_jwt_builder_ce, SL("encode"), ZEND_ACC_PRIVATE);
-	/**
-	 * @var CollectionInterface
-	 */
-	zend_declare_property_null(phalcon_encryption_security_jwt_builder_ce, SL("jose"), ZEND_ACC_PRIVATE);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_encryption_security_jwt_builder_ce, SL("passphrase"), ZEND_ACC_PRIVATE);
-	/**
-	 * @var SignerInterface
-	 */
-	zend_declare_property_null(phalcon_encryption_security_jwt_builder_ce, SL("signer"), ZEND_ACC_PRIVATE);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_encryption_security_jwt_builder_ce, SL("jose"), &_zc0, ZEND_ACC_PRIVATE, 0, SL("Phalcon\\Support\\Collection\\CollectionInterface"));
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_encryption_security_jwt_builder_ce, SL("passphrase"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_STRING, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_encryption_security_jwt_builder_ce, SL("signer"), &_zc0, ZEND_ACC_PRIVATE, 0, SL("Phalcon\\Encryption\\Security\\JWT\\Signer\\SignerInterface"));
+	}
+
 	return SUCCESS;
 }
 
 /**
  * Builder constructor.
- *
- * @param SignerInterface $signer
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, __construct)
 {
@@ -124,11 +142,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, __construct)
 
 /**
  * Adds a custom claim
- *
- * @param string $name
- * @param mixed  $value
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, addClaim)
 {
@@ -163,11 +176,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, addClaim)
 
 /**
  * Adds a custom claim
- *
- * @param string $name
- * @param mixed  $value
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, addHeader)
 {
@@ -201,7 +209,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, addHeader)
 }
 
 /**
- * @return array|string
+ * @phpstan-return encryption_jwt_audience
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getAudience)
 {
@@ -231,7 +239,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getAudience)
 }
 
 /**
- * @return array
+ * @phpstan-return encryption_jwt_claims
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getClaims)
 {
@@ -254,9 +262,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getClaims)
 	RETURN_MM();
 }
 
-/**
- * @return string|null
- */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getContentType)
 {
 	zval _0, _1, _2, _3;
@@ -286,9 +291,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getContentType)
 	RETURN_MM();
 }
 
-/**
- * @return int|null
- */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getExpirationTime)
 {
 	zval _0, _1, _2, _3;
@@ -319,7 +321,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getExpirationTime)
 }
 
 /**
- * @return array
+ * @phpstan-return encryption_jwt_headers
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getHeaders)
 {
@@ -342,9 +344,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getHeaders)
 	RETURN_MM();
 }
 
-/**
- * @return string|null
- */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getId)
 {
 	zval _0, _1, _2, _3;
@@ -374,9 +373,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getId)
 	RETURN_MM();
 }
 
-/**
- * @return int|null
- */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getIssuedAt)
 {
 	zval _0, _1, _2, _3;
@@ -406,9 +402,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getIssuedAt)
 	RETURN_MM();
 }
 
-/**
- * @return string|null
- */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getIssuer)
 {
 	zval _0, _1, _2, _3;
@@ -438,9 +431,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getIssuer)
 	RETURN_MM();
 }
 
-/**
- * @return int|null
- */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getNotBefore)
 {
 	zval _0, _1, _2, _3;
@@ -470,18 +460,12 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getNotBefore)
 	RETURN_MM();
 }
 
-/**
- * @return string
- */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getPassphrase)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "passphrase", IS_STRING);
 }
 
-/**
- * @return string|null
- */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getSubject)
 {
 	zval _0, _1, _2, _3;
@@ -512,7 +496,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getSubject)
 }
 
 /**
- * @return Token
  * @throws ValidatorException
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getToken)
@@ -563,7 +546,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getToken)
 		object_init_ex(&_1$$3, phalcon_encryption_security_jwt_exceptions_emptypassphrase_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Encryption/Security/JWT/Builder.zep", 210);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Encryption/Security/JWT/Builder.zep", 169);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -611,9 +594,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, getToken)
 	RETURN_MM();
 }
 
-/**
- * @return static
- */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, init)
 {
 	zval _2;
@@ -674,9 +654,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, init)
  * interpretation of audience values is generally application specific.
  * Use of this claim is OPTIONAL.
  *
- * @param mixed $audience
- *
- * @return static
  * @throws ValidatorException
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setAudience)
@@ -706,7 +683,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setAudience)
 		object_init_ex(&_1$$3, phalcon_encryption_security_jwt_exceptions_invalidaudience_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Encryption/Security/JWT/Builder.zep", 267);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Encryption/Security/JWT/Builder.zep", 220);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -726,10 +703,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setAudience)
 
 /**
  * Sets the content type header 'cty'
- *
- * @param string $contentType
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setContentType)
 {
@@ -771,9 +744,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setContentType)
  * a few minutes, to account for clock skew.  Its value MUST be a number
  * containing a NumericDate value.  Use of this claim is OPTIONAL.
  *
- * @param int $timestamp
  *
- * @return static
  * @throws ValidatorException
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setExpirationTime)
@@ -800,7 +771,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setExpirationTime)
 		object_init_ex(&_1$$3, phalcon_encryption_security_jwt_exceptions_invalidexpirationtime_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Encryption/Security/JWT/Builder.zep", 310);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Encryption/Security/JWT/Builder.zep", 257);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -821,10 +792,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setExpirationTime)
  * produced by different issuers as well.  The "jti" claim can be used
  * to prevent the JWT from being replayed.  The "jti" value is a case-
  * sensitive string.  Use of this claim is OPTIONAL.
- *
- * @param string $jwtId
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setId)
 {
@@ -855,10 +822,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setId)
  * issued.  This claim can be used to determine the age of the JWT.  Its
  * value MUST be a number containing a NumericDate value.  Use of this
  * claim is OPTIONAL.
- *
- * @param int $timestamp
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setIssuedAt)
 {
@@ -888,10 +851,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setIssuedAt)
  * JWT.  The processing of this claim is generally application specific.
  * The "iss" value is a case-sensitive string containing a StringOrURI
  * value.  Use of this claim is OPTIONAL.
- *
- * @param string $issuer
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setIssuer)
 {
@@ -926,9 +885,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setIssuer)
  * account for clock skew.  Its value MUST be a number containing a
  * NumericDate value.  Use of this claim is OPTIONAL.
  *
- * @param int $timestamp
  *
- * @return static
  * @throws ValidatorException
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setNotBefore)
@@ -955,7 +912,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setNotBefore)
 		object_init_ex(&_1$$3, phalcon_encryption_security_jwt_exceptions_invalidnotbefore_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Encryption/Security/JWT/Builder.zep", 382);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Encryption/Security/JWT/Builder.zep", 315);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -968,9 +925,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setNotBefore)
 }
 
 /**
- * @param string $passphrase
  *
- * @return static
  * @throws ValidatorException
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setPassphrase)
@@ -1011,7 +966,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setPassphrase)
 		object_init_ex(&_4$$3, phalcon_encryption_security_jwt_exceptions_weakpassphrase_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$3, "phalcon/Encryption/Security/JWT/Builder.zep", 400);
+		zephir_throw_exception_debug(&_4$$3, "phalcon/Encryption/Security/JWT/Builder.zep", 331);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -1027,10 +982,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setPassphrase)
  * The processing of this claim is generally application specific.  The
  * "sub" value is a case-sensitive string containing a StringOrURI
  * value.  Use of this claim is OPTIONAL.
- *
- * @param string $subject
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setSubject)
 {
@@ -1058,11 +1009,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setSubject)
 
 /**
  * Sets a registered claim
- *
- * @param string $name
- * @param mixed  $value
- *
- * @return Builder
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setClaim)
 {

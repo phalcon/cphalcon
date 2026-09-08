@@ -41,6 +41,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Crypt_PadFactory)
 
 /**
  * AdapterFactory constructor.
+ *
+ * @param array<string, string> $services
  */
 PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, __construct)
 {
@@ -71,6 +73,8 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, __construct)
 
 /**
  * Create a new instance of the adapter
+ *
+ * @throws BaseException
  */
 PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, newInstance)
 {
@@ -99,10 +103,6 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, newInstance)
 /**
  * Gets a Crypt pad constant and returns the unique service name for the
  * padding class
- *
- * @param int $number
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, padNumberToService)
 {
@@ -140,11 +140,11 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, padNumberToService)
 		ZEPHIR_CONCAT_SV(&_2$$3, "Unknown padding constant ", &_1$$3);
 		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "getexception", NULL, 0, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Encryption/Crypt/PadFactory.zep", 75);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Encryption/Crypt/PadFactory.zep", 76);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_array_fetch_long(&_3, &map, number, PH_NOISY | PH_READONLY, "phalcon/Encryption/Crypt/PadFactory.zep", 78);
+	zephir_array_fetch_long(&_3, &map, number, PH_NOISY | PH_READONLY, "phalcon/Encryption/Crypt/PadFactory.zep", 79);
 	RETURN_CTOR(&_3);
 }
 

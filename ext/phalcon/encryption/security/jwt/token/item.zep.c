@@ -29,6 +29,8 @@
  */
 /**
  * Storage class for a Token Item
+ *
+ * @phpstan-import-type encryption_jwt_payload from EncryptionTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Token_Item)
 {
@@ -40,8 +42,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Token_Item)
 /**
  * Item constructor.
  *
- * @param array  $payload
- * @param string $encoded
+ * @phpstan-param encryption_jwt_payload $payload
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Item, __construct)
 {
@@ -75,9 +76,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Item, __construct)
 }
 
 /**
- * @param string     $name
- * @param mixed|null $defaultValue
- *
  * @return mixed|null
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Item, get)
@@ -130,7 +128,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Item, get)
 }
 
 /**
- * @return array
+ * @phpstan-return encryption_jwt_payload
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Item, getPayload)
 {
@@ -148,11 +146,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Item, getPayload)
 	RETURN_CTORW(&_1);
 }
 
-/**
- * @param string $name
- *
- * @return bool
- */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Item, has)
 {
 	zval name_zv, _0, _1;
@@ -172,7 +165,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Item, has)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&name_zv, name);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 713, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_1, &_0, SL("payload"), PH_READONLY, "phalcon/Encryption/Security/JWT/Token/Item.zep", 60);
+	zephir_array_fetch_string(&_1, &_0, SL("payload"), PH_READONLY, "phalcon/Encryption/Security/JWT/Token/Item.zep", 55);
 	RETURN_BOOL(zephir_array_isset_value(&_1, &name_zv));
 }
 

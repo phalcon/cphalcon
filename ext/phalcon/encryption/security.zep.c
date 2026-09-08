@@ -46,59 +46,84 @@
  *     }
  * }
  *```
+ *
+ * @phpstan-import-type encryption_hash_information from EncryptionTypes
+ * @phpstan-import-type encryption_hash_options from EncryptionTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Encryption, Security, phalcon, encryption_security, phalcon_di_abstractinjectionaware_ce, phalcon_encryption_security_method_entry, 0);
 
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_bool(phalcon_encryption_security_ce, SL("autoRefresh"), 1, ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_BOOL(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_encryption_security_ce, SL("autoRefresh"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
+
 	/**
 	 * @var int
 	 */
 	zend_declare_property_long(phalcon_encryption_security_ce, SL("defaultHash"), 0, ZEND_ACC_PROTECTED);
-	/**
-	 * @var int
-	 */
-	zend_declare_property_long(phalcon_encryption_security_ce, SL("numberBytes"), 16, ZEND_ACC_PROTECTED);
-	/**
-	 * @var Random
-	 */
-	zend_declare_property_null(phalcon_encryption_security_ce, SL("random"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var string|null
-	 */
-	zend_declare_property_null(phalcon_encryption_security_ce, SL("requestToken"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var string|null
-	 */
-	zend_declare_property_null(phalcon_encryption_security_ce, SL("token"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var string|null
-	 */
-	zend_declare_property_null(phalcon_encryption_security_ce, SL("tokenKey"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_encryption_security_ce, SL("tokenKeySessionId"), "$PHALCON/CSRF/KEY$", ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_encryption_security_ce, SL("tokenValueSessionId"), "$PHALCON/CSRF$", ZEND_ACC_PROTECTED);
-	/**
-	 * @var int
-	 */
-	zend_declare_property_long(phalcon_encryption_security_ce, SL("workFactor"), 10, ZEND_ACC_PROTECTED);
-	/**
-	 * @var SessionInterface|null
-	 */
-	zend_declare_property_null(phalcon_encryption_security_ce, SL("localSession"), ZEND_ACC_PRIVATE);
-	/**
-	 * @var RequestInterface|null
-	 */
-	zend_declare_property_null(phalcon_encryption_security_ce, SL("localRequest"), ZEND_ACC_PRIVATE);
+	{
+		zval _zc0;
+		ZVAL_LONG(&_zc0, 16);
+		zephir_declare_typed_property(phalcon_encryption_security_ce, SL("numberBytes"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_LONG, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_encryption_security_ce, SL("random"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Encryption\\Security\\Random"));
+	}
+
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_encryption_security_ce, SL("requestToken"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING|MAY_BE_NULL, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_encryption_security_ce, SL("token"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING|MAY_BE_NULL, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_encryption_security_ce, SL("tokenKey"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING|MAY_BE_NULL, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "$PHALCON/CSRF/KEY$", sizeof("$PHALCON/CSRF/KEY$") - 1);
+		zephir_declare_typed_property(phalcon_encryption_security_ce, SL("tokenKeySessionId"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "$PHALCON/CSRF$", sizeof("$PHALCON/CSRF$") - 1);
+		zephir_declare_typed_property(phalcon_encryption_security_ce, SL("tokenValueSessionId"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_LONG(&_zc0, 10);
+		zephir_declare_typed_property(phalcon_encryption_security_ce, SL("workFactor"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_LONG, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_encryption_security_ce, SL("localRequest"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_NULL, SL("Phalcon\\Http\\RequestInterface"));
+	}
+
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_encryption_security_ce, SL("localSession"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_NULL, SL("Phalcon\\Session\\ManagerInterface"));
+	}
+
 	/**
 	 * @var int
 	 */
@@ -190,9 +215,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security)
 
 /**
  * Security constructor.
- *
- * @param SessionInterface|null $session
- * @param RequestInterface|null $request
  */
 PHP_METHOD(Phalcon_Encryption_Security, __construct)
 {
@@ -251,12 +273,6 @@ PHP_METHOD(Phalcon_Encryption_Security, __construct)
 /**
  * Checks a plain text password and its hash version to check if the
  * password matches
- *
- * @param string $password
- * @param string $passwordHash
- * @param int    $maxPassLength
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Encryption_Security, checkHash)
 {
@@ -302,12 +318,6 @@ PHP_METHOD(Phalcon_Encryption_Security, checkHash)
 /**
  * Check if the CSRF token sent in the request is the same that the current
  * in session
- *
- * @param string|null $tokenKey
- * @param mixed|null  $tokenValue
- * @param bool        $destroyIfValid
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Encryption_Security, checkToken)
 {
@@ -381,12 +391,6 @@ PHP_METHOD(Phalcon_Encryption_Security, checkToken)
 /**
  * Computes a HMAC
  *
- * @param string $data
- * @param string $key
- * @param string $algo
- * @param bool   $raw
- *
- * @return string
  * @throws Exception
  */
 PHP_METHOD(Phalcon_Encryption_Security, computeHmac)
@@ -453,7 +457,7 @@ PHP_METHOD(Phalcon_Encryption_Security, computeHmac)
 			object_init_ex(&_3$$4, phalcon_encryption_security_exceptions_unknownhashalgorithm_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 0, &algorithm_zv);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_3$$4, "phalcon/Encryption/Security.zep", 283);
+			zephir_throw_exception_debug(&_3$$4, "phalcon/Encryption/Security.zep", 222);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -463,7 +467,7 @@ PHP_METHOD(Phalcon_Encryption_Security, computeHmac)
 		object_init_ex(&_4$$5, phalcon_encryption_security_exceptions_unknownhashalgorithm_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_4$$5, "__construct", NULL, 0, &algorithm_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$5, "phalcon/Encryption/Security.zep", 287);
+		zephir_throw_exception_debug(&_4$$5, "phalcon/Encryption/Security.zep", 226);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -531,8 +535,6 @@ PHP_METHOD(Phalcon_Encryption_Security, destroyToken)
 
 /**
  * Returns the default hash
- *
- * @return int
  */
 PHP_METHOD(Phalcon_Encryption_Security, getDefaultHash)
 {
@@ -543,9 +545,7 @@ PHP_METHOD(Phalcon_Encryption_Security, getDefaultHash)
 /**
  * Returns information regarding a hash
  *
- * @param string $hash
- *
- * @return array
+ * @phpstan-return encryption_hash_information
  */
 PHP_METHOD(Phalcon_Encryption_Security, getHashInformation)
 {
@@ -614,50 +614,10 @@ PHP_METHOD(Phalcon_Encryption_Security, getRequestToken)
 }
 
 /**
- * Returns the value of the CSRF token in session
- *
- * @return string|null
- */
-PHP_METHOD(Phalcon_Encryption_Security, getSessionToken)
-{
-	zval session, _0, _1, _2$$3;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&session);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2$$3);
-	static zend_string *_zephir_prop_0 = NULL;
-	if (UNEXPECTED(!_zephir_prop_0)) {
-		_zephir_prop_0 = zend_string_init("tokenValueSessionId", 19, 1);
-	}
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-
-	ZEPHIR_INIT_VAR(&_0);
-	ZVAL_STRING(&_0, "session");
-	ZEPHIR_INIT_VAR(&_1);
-	ZVAL_STRING(&_1, "localSession");
-	ZEPHIR_CALL_METHOD(&session, this_ptr, "getlocalservice", NULL, 0, &_0, &_1);
-	zephir_check_call_status();
-	if (UNEXPECTED(zephir_is_true(&session))) {
-		zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_0, 698, PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_RETURN_CALL_METHOD(&session, "get", NULL, 0, &_2$$3);
-		zephir_check_call_status();
-		RETURN_MM();
-	}
-	RETURN_MM_NULL();
-}
-
-/**
  * Generate a >22-length pseudo random string to be used as salt for
  * passwords
  *
- * @param int $numberBytes
  *
- * @return string
  * @throws Exception
  */
 PHP_METHOD(Phalcon_Encryption_Security, getSaltBytes)
@@ -715,10 +675,45 @@ PHP_METHOD(Phalcon_Encryption_Security, getSaltBytes)
 }
 
 /**
+ * Returns the value of the CSRF token in session
+ */
+PHP_METHOD(Phalcon_Encryption_Security, getSessionToken)
+{
+	zval session, _0, _1, _2$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&session);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2$$3);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("tokenValueSessionId", 19, 1);
+	}
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "session");
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "localSession");
+	ZEPHIR_CALL_METHOD(&session, this_ptr, "getlocalservice", NULL, 0, &_0, &_1);
+	zephir_check_call_status();
+	if (UNEXPECTED(zephir_is_true(&session))) {
+		zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_0, 698, PH_NOISY_CC | PH_READONLY);
+		ZEPHIR_RETURN_CALL_METHOD(&session, "get", NULL, 0, &_2$$3);
+		zephir_check_call_status();
+		RETURN_MM();
+	}
+	RETURN_MM_NULL();
+}
+
+/**
  * Generates a pseudo random token value to be used as input's value in a
  * CSRF check
  *
- * @return string
  * @throws Exception
  */
 PHP_METHOD(Phalcon_Encryption_Security, getToken)
@@ -814,7 +809,6 @@ PHP_METHOD(Phalcon_Encryption_Security, getToken)
  * Generates a pseudo random token key to be used as input's name in a CSRF
  * check
  *
- * @return string|null
  * @throws Exception
  */
 PHP_METHOD(Phalcon_Encryption_Security, getTokenKey)
@@ -892,9 +886,6 @@ PHP_METHOD(Phalcon_Encryption_Security, getTokenKey)
 	RETURN_MM_MEMBER(getThis(), "tokenKey");
 }
 
-/**
- * @return int
- */
 PHP_METHOD(Phalcon_Encryption_Security, getWorkFactor)
 {
 
@@ -907,10 +898,7 @@ PHP_METHOD(Phalcon_Encryption_Security, getWorkFactor)
  * Any `defaultHash` value that is not explicitly handled (including the
  * deprecated, unimplemented constants) resolves to bcrypt.
  *
- * @param string $password
- * @param array  $options
- *
- * @return string
+ * @phpstan-param encryption_hash_options $options
  */
 PHP_METHOD(Phalcon_Encryption_Security, hash)
 {
@@ -1031,10 +1019,6 @@ PHP_METHOD(Phalcon_Encryption_Security, hash)
 
 /**
  * Checks if a password hash is a valid bcrypt's hash
- *
- * @param string $passwordHash
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Encryption_Security, isLegacyHash)
 {
@@ -1054,8 +1038,6 @@ PHP_METHOD(Phalcon_Encryption_Security, isLegacyHash)
  * values to the session even when auto-refresh has been disabled. Useful
  * after a successful login or any other state change where rotating the
  * token is appropriate.
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Encryption_Security, refreshToken)
 {
@@ -1144,10 +1126,6 @@ PHP_METHOD(Phalcon_Encryption_Security, refreshToken)
  * `getToken()` / `getTokenKey()`. When set to `false`, existing session
  * values are reused (no session write), and a new token is only minted
  * when none is present or `refreshToken()` is called explicitly.
- *
- * @param bool $autoRefresh
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Encryption_Security, setAutoRefresh)
 {
@@ -1176,10 +1154,6 @@ PHP_METHOD(Phalcon_Encryption_Security, setAutoRefresh)
 
 /**
  * Sets the default hash
- *
- * @param int $defaultHash
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Encryption_Security, setDefaultHash)
 {
@@ -1206,10 +1180,6 @@ PHP_METHOD(Phalcon_Encryption_Security, setDefaultHash)
 /**
  * Sets a number of bytes to be generated by the openssl pseudo random
  * generator
- *
- * @param int $randomBytes
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Encryption_Security, setRandomBytes)
 {
@@ -1235,10 +1205,6 @@ PHP_METHOD(Phalcon_Encryption_Security, setRandomBytes)
 
 /**
  * Sets the work factor
- *
- * @param int $workFactor
- *
- * @return static
  */
 PHP_METHOD(Phalcon_Encryption_Security, setWorkFactor)
 {
@@ -1263,9 +1229,6 @@ PHP_METHOD(Phalcon_Encryption_Security, setWorkFactor)
 }
 
 /**
- * @param string $name
- * @param string $property
- *
  * @return RequestInterface|SessionInterface|null
  */
 PHP_METHOD(Phalcon_Encryption_Security, getLocalService)
@@ -1329,8 +1292,6 @@ PHP_METHOD(Phalcon_Encryption_Security, getLocalService)
 /**
  * Checks the algorithm for `password_hash`. If it is argon based, it
  * returns the relevant constant
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Encryption_Security, processAlgorithm)
 {
@@ -1368,9 +1329,8 @@ PHP_METHOD(Phalcon_Encryption_Security, processAlgorithm)
  * We check if the algorithm is Argon based. If yes, options are set for
  * `password_hash` such as `memory_cost`, `time_cost` and `threads`
  *
- * @param array $options
- *
- * @return array
+ * @phpstan-param  encryption_hash_options $options
+ * @phpstan-return encryption_hash_options
  */
 PHP_METHOD(Phalcon_Encryption_Security, processArgonOptions)
 {
@@ -1429,9 +1389,7 @@ PHP_METHOD(Phalcon_Encryption_Security, processArgonOptions)
  * Checks the options array for `cost`. If not defined it is set to 10.
  * It also checks the cost if it is between 4 and 31
  *
- * @param array $options
- *
- * @return int
+ * @phpstan-param encryption_hash_options $options
  */
 PHP_METHOD(Phalcon_Encryption_Security, processCost)
 {
@@ -1476,11 +1434,6 @@ PHP_METHOD(Phalcon_Encryption_Security, processCost)
 	RETURN_CCTOR(&cost);
 }
 
-/**
- * @param string|null $tokenKey
- *
- * @return string|null
- */
 PHP_METHOD(Phalcon_Encryption_Security, processTokenKey)
 {
 	zend_bool _2;
@@ -1533,12 +1486,6 @@ PHP_METHOD(Phalcon_Encryption_Security, processTokenKey)
 	RETURN_CCTOR(&key);
 }
 
-/**
- * @param string      $tokenKey
- * @param string|null $tokenValue
- *
- * @return string|null
- */
 PHP_METHOD(Phalcon_Encryption_Security, processUserToken)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;

@@ -26,9 +26,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Class Noop
- *
- * @package Phalcon\Encryption\Crypt\Padding
+ * No padding adapter
  */
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Crypt_Padding_Noop)
 {
@@ -38,11 +36,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Crypt_Padding_Noop)
 	return SUCCESS;
 }
 
-/**
- * @param int $paddingSize
- *
- * @return string
- */
 PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Noop, pad)
 {
 	zval *paddingSize_param = NULL;
@@ -55,12 +48,6 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Noop, pad)
 	RETURN_STRING("");
 }
 
-/**
- * @param string $input
- * @param int    $blockSize
- *
- * @return int
- */
 PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Noop, unpad)
 {
 	zend_long blockSize;

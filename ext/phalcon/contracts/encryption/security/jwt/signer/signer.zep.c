@@ -32,32 +32,17 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_Encryption_Security_JWT_Signer_Signer)
 
 /**
  * Return the value that is used for the "alg" header
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Encryption_Security_JWT_Signer_Signer, getAlgHeader);
 /**
  * Return the algorithm used
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Encryption_Security_JWT_Signer_Signer, getAlgorithm);
 /**
  * Sign a payload using the passphrase
- *
- * @param string $payload
- * @param string $passphrase
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Encryption_Security_JWT_Signer_Signer, sign);
 /**
  * Verify a passed source with a payload and passphrase
- *
- * @param string $source
- * @param string $payload
- * @param string $passphrase
- *
- * @return bool
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Encryption_Security_JWT_Signer_Signer, verify);

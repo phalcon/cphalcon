@@ -30,9 +30,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Class IsoIek
- *
- * @package Phalcon\Encryption\Crypt\Padding
+ * Padding based on ISO-IEK
  */
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Crypt_Padding_IsoIek)
 {
@@ -42,11 +40,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Crypt_Padding_IsoIek)
 	return SUCCESS;
 }
 
-/**
- * @param int $paddingSize
- *
- * @return string
- */
 PHP_METHOD(Phalcon_Encryption_Crypt_Padding_IsoIek, pad)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -76,12 +69,6 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_IsoIek, pad)
 	RETURN_MM();
 }
 
-/**
- * @param string $input
- * @param int    $blockSize
- *
- * @return int
- */
 PHP_METHOD(Phalcon_Encryption_Crypt_Padding_IsoIek, unpad)
 {
 	zend_bool _1, _3;
@@ -119,7 +106,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_IsoIek, unpad)
 	while (1) {
 		_1 = counter > 0;
 		if (_1) {
-			zephir_array_fetch_long(&_2, &inputArray, counter, PH_NOISY | PH_READONLY, "phalcon/Encryption/Crypt/Padding/IsoIek.zep", 49);
+			zephir_array_fetch_long(&_2, &inputArray, counter, PH_NOISY | PH_READONLY, "phalcon/Encryption/Crypt/Padding/IsoIek.zep", 36);
 			_1 = ZEPHIR_IS_IDENTICAL(&_2, &zero);
 		}
 		_3 = _1;
@@ -132,7 +119,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_IsoIek, unpad)
 		paddingSize++;
 		counter--;
 	}
-	zephir_array_fetch_long(&_4, &inputArray, counter, PH_NOISY | PH_READONLY, "phalcon/Encryption/Crypt/Padding/IsoIek.zep", 56);
+	zephir_array_fetch_long(&_4, &inputArray, counter, PH_NOISY | PH_READONLY, "phalcon/Encryption/Crypt/Padding/IsoIek.zep", 43);
 	ZVAL_LONG(&_0, 0x80);
 	ZEPHIR_CALL_FUNCTION(&_5, "chr", NULL, 0, &_0);
 	zephir_check_call_status();

@@ -51,10 +51,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_Uuid_SysNodeProvider)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Encryption\\Security\\Uuid, SysNodeProvider, phalcon, encryption_security_uuid_sysnodeprovider, phalcon_encryption_security_uuid_sysnodeprovider_method_entry, 0);
 
-	/**
-	 * @var string|null
-	 */
-	zend_declare_property_null(phalcon_encryption_security_uuid_sysnodeprovider_ce, SL("node"), ZEND_ACC_PRIVATE);
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_encryption_security_uuid_sysnodeprovider_ce, SL("node"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_STRING|MAY_BE_NULL, NULL, 0);
+	}
+
 	zend_class_implements(phalcon_encryption_security_uuid_sysnodeprovider_ce, 1, phalcon_encryption_security_uuid_nodeproviderinterface_ce);
 	return SUCCESS;
 }
@@ -169,7 +171,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, getNode)
 			} else {
 				_6$$7 = &addresses;
 			}
-			zephir_is_iterable(_6$$7, 0, "phalcon/Encryption/Security/Uuid/SysNodeProvider.zep", 81);
+			zephir_is_iterable(_6$$7, 0, "phalcon/Encryption/Security/Uuid/SysNodeProvider.zep", 78);
 			if (Z_TYPE_P(_6$$7) == IS_ARRAY) {
 				ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_6$$7), _8$$7)
 				{
@@ -271,7 +273,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, getNode)
 		ZVAL_STRING(&_31$$14, "/ether\\s+([0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2})/i");
 		zephir_preg_match(&_30$$14, &_31$$14, &output, &matches, 0, 0 , 0 );
 		if (zephir_is_true(&_30$$14)) {
-			zephir_array_fetch_long(&_32$$15, &matches, 1, PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/Uuid/SysNodeProvider.zep", 90);
+			zephir_array_fetch_long(&_32$$15, &matches, 1, PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/Uuid/SysNodeProvider.zep", 87);
 			ZEPHIR_INIT_VAR(&_33$$15);
 			ZVAL_STRING(&_33$$15, ":");
 			ZEPHIR_INIT_VAR(&_34$$15);
@@ -303,7 +305,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, getNode)
 		zephir_preg_match(&_38$$16, &_39$$16, &output, &matches, 0, 0 , 0 );
 		if (zephir_is_true(&_38$$16)) {
 			ZEPHIR_INIT_VAR(&_40$$17);
-			zephir_array_fetch_long(&_41$$17, &matches, 1, PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/Uuid/SysNodeProvider.zep", 100);
+			zephir_array_fetch_long(&_41$$17, &matches, 1, PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/Uuid/SysNodeProvider.zep", 97);
 			ZEPHIR_INIT_VAR(&_42$$17);
 			ZVAL_STRING(&_42$$17, "-");
 			ZEPHIR_INIT_VAR(&_43$$17);
@@ -335,7 +337,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, getNode)
 		ZVAL_STRING(&_48$$18, "/([0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2})/i");
 		zephir_preg_match(&_47$$18, &_48$$18, &output, &matches, 0, 0 , 0 );
 		if (zephir_is_true(&_47$$18)) {
-			zephir_array_fetch_long(&_49$$19, &matches, 1, PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/Uuid/SysNodeProvider.zep", 110);
+			zephir_array_fetch_long(&_49$$19, &matches, 1, PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/Uuid/SysNodeProvider.zep", 107);
 			ZEPHIR_INIT_VAR(&_50$$19);
 			ZVAL_STRING(&_50$$19, ":");
 			ZEPHIR_INIT_VAR(&_51$$19);
