@@ -28,9 +28,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Class Pkcs7
- *
- * @package Phalcon\Encryption\Crypt\Padding
+ * Padding based on Pkcs7
  */
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Crypt_Padding_Pkcs7)
 {
@@ -40,11 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Crypt_Padding_Pkcs7)
 	return SUCCESS;
 }
 
-/**
- * @param int $paddingSize
- *
- * @return string
- */
 PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Pkcs7, pad)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -68,12 +61,6 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Pkcs7, pad)
 	RETURN_MM();
 }
 
-/**
- * @param string $input
- * @param int    $blockSize
- *
- * @return int
- */
 PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Pkcs7, unpad)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;

@@ -29,9 +29,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Class Zero
- *
- * @package Phalcon\Encryption\Crypt\Padding
+ * Padding based on Zeros
  */
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Crypt_Padding_Zero)
 {
@@ -41,11 +39,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Crypt_Padding_Zero)
 	return SUCCESS;
 }
 
-/**
- * @param int $paddingSize
- *
- * @return string
- */
 PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Zero, pad)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -69,12 +62,6 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Zero, pad)
 	RETURN_MM();
 }
 
-/**
- * @param string $input
- * @param int    $blockSize
- *
- * @return int
- */
 PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Zero, unpad)
 {
 	zend_bool _0, _5;
@@ -108,7 +95,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Zero, unpad)
 	while (1) {
 		_0 = counter >= 0;
 		if (_0) {
-			zephir_array_fetch_long(&_1, &inputArray, counter, PH_NOISY | PH_READONLY, "phalcon/Encryption/Crypt/Padding/Zero.zep", 48);
+			zephir_array_fetch_long(&_1, &inputArray, counter, PH_NOISY | PH_READONLY, "phalcon/Encryption/Crypt/Padding/Zero.zep", 35);
 			ZVAL_LONG(&_2, 0);
 			ZEPHIR_CALL_FUNCTION(&_3, "chr", &_4, 0, &_2);
 			zephir_check_call_status();

@@ -10,6 +10,7 @@
 
 namespace Phalcon\Encryption;
 
+use Phalcon\Contracts\Encryption\EncryptionTypes;
 use Phalcon\Contracts\Encryption\Security\Security as SecurityContract;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\AbstractInjectionAware;
@@ -36,6 +37,9 @@ use Phalcon\Traits\Php\HashTrait;
  *     }
  * }
  *```
+ *
+ * @phpstan-import-type encryption_hash_information from EncryptionTypes
+ * @phpstan-import-type encryption_hash_options from EncryptionTypes
  */
 class Security extends AbstractInjectionAware implements SecurityContract
 {
@@ -114,71 +118,24 @@ class Security extends AbstractInjectionAware implements SecurityContract
      */
     const CRYPT_STD_DES    = 1;
 
-    /**
-     * @var bool
-     */
-    protected autoRefresh = true;
-
+    protected bool autoRefresh = true;
     /**
      * @var int
      */
     protected defaultHash = self::CRYPT_DEFAULT;
-
-    /**
-     * @var int
-     */
-    protected numberBytes = 16;
-
-    /**
-     * @var Random
-     */
-    protected random;
-
-    /**
-     * @var string|null
-     */
-    protected requestToken = null;
-
-    /**
-     * @var string|null
-     */
-    protected token = null;
-
-    /**
-     * @var string|null
-     */
-    protected tokenKey = null;
-
-    /**
-     * @var string
-     */
-    protected tokenKeySessionId = "$PHALCON/CSRF/KEY$";
-
-    /**
-     * @var string
-     */
-    protected tokenValueSessionId = "$PHALCON/CSRF$";
-
-    /**
-     * @var int
-     */
-    protected workFactor = 10;
-
-    /**
-     * @var SessionInterface|null
-     */
-    private localSession = null;
-
-    /**
-     * @var RequestInterface|null
-     */
-    private localRequest = null;
+    protected int numberBytes = 16;
+    protected <Random> random;
+    protected ?string requestToken = null;
+    protected ?string token = null;
+    protected ?string tokenKey = null;
+    protected string tokenKeySessionId = "$PHALCON/CSRF/KEY$";
+    protected string tokenValueSessionId = "$PHALCON/CSRF$";
+    protected int workFactor = 10;
+    private ?<RequestInterface> localRequest = null;
+    private ?<SessionInterface> localSession = null;
 
     /**
      * Security constructor.
-     *
-     * @param SessionInterface|null $session
-     * @param RequestInterface|null $request
      */
     public function __construct(
         <SessionInterface> session = null,
@@ -192,12 +149,6 @@ class Security extends AbstractInjectionAware implements SecurityContract
     /**
      * Checks a plain text password and its hash version to check if the
      * password matches
-     *
-     * @param string $password
-     * @param string $passwordHash
-     * @param int    $maxPassLength
-     *
-     * @return bool
      */
     public function checkHash(
         string password,
@@ -214,12 +165,6 @@ class Security extends AbstractInjectionAware implements SecurityContract
     /**
      * Check if the CSRF token sent in the request is the same that the current
      * in session
-     *
-     * @param string|null $tokenKey
-     * @param mixed|null  $tokenValue
-     * @param bool        $destroyIfValid
-     *
-     * @return bool
      */
     public function checkToken(
         string tokenKey = null,
@@ -261,12 +206,6 @@ class Security extends AbstractInjectionAware implements SecurityContract
     /**
      * Computes a HMAC
      *
-     * @param string $data
-     * @param string $key
-     * @param string $algo
-     * @param bool   $raw
-     *
-     * @return string
      * @throws Exception
      */
     public function computeHmac(
@@ -313,8 +252,6 @@ class Security extends AbstractInjectionAware implements SecurityContract
 
     /**
      * Returns the default hash
-     *
-     * @return int
      */
     public function getDefaultHash() -> int
     {
@@ -324,9 +261,7 @@ class Security extends AbstractInjectionAware implements SecurityContract
     /**
      * Returns information regarding a hash
      *
-     * @param string $hash
-     *
-     * @return array
+     * @phpstan-return encryption_hash_information
      */
     public function getHashInformation(string hash) -> array
     {
@@ -363,30 +298,10 @@ class Security extends AbstractInjectionAware implements SecurityContract
     }
 
     /**
-     * Returns the value of the CSRF token in session
-     *
-     * @return string|null
-     */
-    public function getSessionToken() -> string | null
-    {
-        var session;
-
-        let session = this->getLocalService("session", "localSession");
-
-        if likely session {
-            return session->get(this->tokenValueSessionId);
-        }
-
-        return null;
-    }
-
-    /**
      * Generate a >22-length pseudo random string to be used as salt for
      * passwords
      *
-     * @param int $numberBytes
      *
-     * @return string
      * @throws Exception
      */
     public function getSaltBytes(int numberBytes = 0) -> string
@@ -409,10 +324,25 @@ class Security extends AbstractInjectionAware implements SecurityContract
     }
 
     /**
+     * Returns the value of the CSRF token in session
+     */
+    public function getSessionToken() -> string | null
+    {
+        var session;
+
+        let session = this->getLocalService("session", "localSession");
+
+        if likely session {
+            return session->get(this->tokenValueSessionId);
+        }
+
+        return null;
+    }
+
+    /**
      * Generates a pseudo random token value to be used as input's value in a
      * CSRF check
      *
-     * @return string
      * @throws Exception
      */
     public function getToken() -> string | null
@@ -457,7 +387,6 @@ class Security extends AbstractInjectionAware implements SecurityContract
      * Generates a pseudo random token key to be used as input's name in a CSRF
      * check
      *
-     * @return string|null
      * @throws Exception
      */
     public function getTokenKey() -> string | null
@@ -492,9 +421,6 @@ class Security extends AbstractInjectionAware implements SecurityContract
         return this->tokenKey;
     }
 
-    /**
-     * @return int
-     */
     public function getWorkFactor() -> int
     {
         return this->workFactor;
@@ -506,10 +432,7 @@ class Security extends AbstractInjectionAware implements SecurityContract
      * Any `defaultHash` value that is not explicitly handled (including the
      * deprecated, unimplemented constants) resolves to bcrypt.
      *
-     * @param string $password
-     * @param array  $options
-     *
-     * @return string
+     * @phpstan-param encryption_hash_options $options
      */
     public function hash(string password, array options = []) -> string
     {
@@ -588,10 +511,6 @@ class Security extends AbstractInjectionAware implements SecurityContract
 
     /**
      * Checks if a password hash is a valid bcrypt's hash
-     *
-     * @param string $passwordHash
-     *
-     * @return bool
      */
     public function isLegacyHash(string passwordHash) -> bool
     {
@@ -603,8 +522,6 @@ class Security extends AbstractInjectionAware implements SecurityContract
      * values to the session even when auto-refresh has been disabled. Useful
      * after a successful login or any other state change where rotating the
      * token is appropriate.
-     *
-     * @return static
      */
     public function refreshToken() -> <static>
     {
@@ -629,10 +546,6 @@ class Security extends AbstractInjectionAware implements SecurityContract
      * `getToken()` / `getTokenKey()`. When set to `false`, existing session
      * values are reused (no session write), and a new token is only minted
      * when none is present or `refreshToken()` is called explicitly.
-     *
-     * @param bool $autoRefresh
-     *
-     * @return static
      */
     public function setAutoRefresh(bool autoRefresh) -> <static>
     {
@@ -643,10 +556,6 @@ class Security extends AbstractInjectionAware implements SecurityContract
 
     /**
      * Sets the default hash
-     *
-     * @param int $defaultHash
-     *
-     * @return static
      */
     public function setDefaultHash(int defaultHash) -> <static>
     {
@@ -658,10 +567,6 @@ class Security extends AbstractInjectionAware implements SecurityContract
     /**
      * Sets a number of bytes to be generated by the openssl pseudo random
      * generator
-     *
-     * @param int $randomBytes
-     *
-     * @return static
      */
     public function setRandomBytes(int randomBytes) -> <static>
     {
@@ -672,10 +577,6 @@ class Security extends AbstractInjectionAware implements SecurityContract
 
     /**
      * Sets the work factor
-     *
-     * @param int $workFactor
-     *
-     * @return static
      */
     public function setWorkFactor(int workFactor) -> <static>
     {
@@ -685,9 +586,6 @@ class Security extends AbstractInjectionAware implements SecurityContract
     }
 
     /**
-     * @param string $name
-     * @param string $property
-     *
      * @return RequestInterface|SessionInterface|null
      */
     protected function getLocalService(string name, string property)
@@ -706,8 +604,6 @@ class Security extends AbstractInjectionAware implements SecurityContract
     /**
      * Checks the algorithm for `password_hash`. If it is argon based, it
      * returns the relevant constant
-     *
-     * @return string
      */
     private function processAlgorithm() -> string
     {
@@ -728,9 +624,8 @@ class Security extends AbstractInjectionAware implements SecurityContract
      * We check if the algorithm is Argon based. If yes, options are set for
      * `password_hash` such as `memory_cost`, `time_cost` and `threads`
      *
-     * @param array $options
-     *
-     * @return array
+     * @phpstan-param  encryption_hash_options $options
+     * @phpstan-return encryption_hash_options
      */
     private function processArgonOptions(array options) -> array
     {
@@ -763,9 +658,7 @@ class Security extends AbstractInjectionAware implements SecurityContract
      * Checks the options array for `cost`. If not defined it is set to 10.
      * It also checks the cost if it is between 4 and 31
      *
-     * @param array $options
-     *
-     * @return int
+     * @phpstan-param encryption_hash_options $options
      */
     private function processCost(array options = []) -> int
     {
@@ -786,11 +679,6 @@ class Security extends AbstractInjectionAware implements SecurityContract
         return cost;
     }
 
-    /**
-     * @param string|null $tokenKey
-     *
-     * @return string|null
-     */
     private function processTokenKey(string tokenKey = null) -> string | null
     {
         var key, session;
@@ -804,12 +692,6 @@ class Security extends AbstractInjectionAware implements SecurityContract
         return key;
     }
 
-    /**
-     * @param string      $tokenKey
-     * @param string|null $tokenValue
-     *
-     * @return string|null
-     */
     private function processUserToken(
         string tokenKey,
         string tokenValue = null

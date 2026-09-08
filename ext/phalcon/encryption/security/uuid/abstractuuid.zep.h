@@ -5,10 +5,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_Uuid_AbstractUuid);
 
 PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, __toString);
 PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, jsonSerialize);
-PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, getNodeProvider);
-PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, uuidTimestampToDateTime);
 PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, format);
+PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, getNodeProvider);
 PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, namespaceToBytes);
+PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, uuidTimestampToDateTime);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_uuid_abstractuuid___tostring, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
@@ -16,27 +16,27 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_uuid_abstractuuid_jsonserialize, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_uuid_abstractuuid_getnodeprovider, 0, 0, Phalcon\\Encryption\\Security\\Uuid\\NodeProviderInterface, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_uuid_abstractuuid_uuidtimestamptodatetime, 0, 1, DateTimeImmutable, 0)
-	ZEND_ARG_INFO(0, timestamp)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_uuid_abstractuuid_format, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, hex, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_uuid_abstractuuid_getnodeprovider, 0, 0, Phalcon\\Encryption\\Security\\Uuid\\NodeProviderInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_uuid_abstractuuid_namespacetobytes, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, uuid, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_uuid_abstractuuid_uuidtimestamptodatetime, 0, 1, DateTimeImmutable, 0)
+	ZEND_ARG_INFO(0, timestamp)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_encryption_security_uuid_abstractuuid_method_entry) {
 	PHP_ME(Phalcon_Encryption_Security_Uuid_AbstractUuid, __toString, arginfo_phalcon_encryption_security_uuid_abstractuuid___tostring, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security_Uuid_AbstractUuid, jsonSerialize, arginfo_phalcon_encryption_security_uuid_abstractuuid_jsonserialize, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Encryption_Security_Uuid_AbstractUuid, getNodeProvider, arginfo_phalcon_encryption_security_uuid_abstractuuid_getnodeprovider, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Encryption_Security_Uuid_AbstractUuid, uuidTimestampToDateTime, arginfo_phalcon_encryption_security_uuid_abstractuuid_uuidtimestamptodatetime, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Encryption_Security_Uuid_AbstractUuid, format, arginfo_phalcon_encryption_security_uuid_abstractuuid_format, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Encryption_Security_Uuid_AbstractUuid, getNodeProvider, arginfo_phalcon_encryption_security_uuid_abstractuuid_getnodeprovider, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Encryption_Security_Uuid_AbstractUuid, namespaceToBytes, arginfo_phalcon_encryption_security_uuid_abstractuuid_namespacetobytes, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Encryption_Security_Uuid_AbstractUuid, uuidTimestampToDateTime, arginfo_phalcon_encryption_security_uuid_abstractuuid_uuidtimestamptodatetime, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };

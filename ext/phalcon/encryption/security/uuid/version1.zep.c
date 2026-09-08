@@ -52,6 +52,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_Uuid_Version1)
 	return SUCCESS;
 }
 
+/**
+ * @param string|null $node
+ */
 PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version1, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -205,13 +208,13 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version1, getDateTime)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 723, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&parts);
 	zephir_fast_explode_str(&parts, SL("-"), &_0, LONG_MAX);
-	zephir_array_fetch_long(&_1, &parts, 0, PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/Uuid/Version1.zep", 82);
+	zephir_array_fetch_long(&_1, &parts, 0, PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/Uuid/Version1.zep", 85);
 	ZEPHIR_CALL_FUNCTION(&hexTimeLow, "hexdec", NULL, 0, &_1);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_2, &parts, 1, PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/Uuid/Version1.zep", 83);
+	zephir_array_fetch_long(&_2, &parts, 1, PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/Uuid/Version1.zep", 86);
 	ZEPHIR_CALL_FUNCTION(&hexTimeMid, "hexdec", NULL, 0, &_2);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_3, &parts, 2, PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/Uuid/Version1.zep", 84);
+	zephir_array_fetch_long(&_3, &parts, 2, PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/Uuid/Version1.zep", 87);
 	ZEPHIR_CALL_FUNCTION(&_4, "hexdec", NULL, 0, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&hexTimeHi);

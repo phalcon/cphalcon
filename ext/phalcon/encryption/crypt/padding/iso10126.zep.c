@@ -28,9 +28,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Class Iso10126
- *
- * @package Phalcon\Encryption\Crypt\Padding
+ * Padding based on ISO10126
  */
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Crypt_Padding_Iso10126)
 {
@@ -40,11 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Crypt_Padding_Iso10126)
 	return SUCCESS;
 }
 
-/**
- * @param int $paddingSize
- *
- * @return string
- */
 PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Iso10126, pad)
 {
 	zend_bool _0;
@@ -95,12 +88,6 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Iso10126, pad)
 	RETURN_CCTOR(&padding);
 }
 
-/**
- * @param string $input
- * @param int    $blockSize
- *
- * @return int
- */
 PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Iso10126, unpad)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;

@@ -12,6 +12,10 @@ PHP_METHOD(Phalcon_Encryption_Security_Random, hex);
 PHP_METHOD(Phalcon_Encryption_Security_Random, number);
 PHP_METHOD(Phalcon_Encryption_Security_Random, uuid);
 PHP_METHOD(Phalcon_Encryption_Security_Random, base);
+PHP_METHOD(Phalcon_Encryption_Security_Random, doDecodeUrl);
+PHP_METHOD(Phalcon_Encryption_Security_Random, doEncodeUrl);
+PHP_METHOD(Phalcon_Encryption_Security_Random, phpBase64Decode);
+PHP_METHOD(Phalcon_Encryption_Security_Random, phpBase64Encode);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_random_base58, 0, 0, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, len, IS_LONG, 0, "16")
@@ -51,6 +55,23 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_rand
 	ZEND_ARG_INFO(0, number)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_random_dodecodeurl, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_random_doencodeurl, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_random_phpbase64decode, 0, 1, MAY_BE_STRING|MAY_BE_FALSE)
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, strict, _IS_BOOL, 0, "false")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_random_phpbase64encode, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_encryption_security_random_method_entry) {
 	PHP_ME(Phalcon_Encryption_Security_Random, base58, arginfo_phalcon_encryption_security_random_base58, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security_Random, base62, arginfo_phalcon_encryption_security_random_base62, ZEND_ACC_PUBLIC)
@@ -61,5 +82,9 @@ ZEPHIR_INIT_FUNCS(phalcon_encryption_security_random_method_entry) {
 	PHP_ME(Phalcon_Encryption_Security_Random, number, arginfo_phalcon_encryption_security_random_number, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security_Random, uuid, arginfo_phalcon_encryption_security_random_uuid, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security_Random, base, arginfo_phalcon_encryption_security_random_base, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Encryption_Security_Random, doDecodeUrl, arginfo_phalcon_encryption_security_random_dodecodeurl, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Encryption_Security_Random, doEncodeUrl, arginfo_phalcon_encryption_security_random_doencodeurl, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Encryption_Security_Random, phpBase64Decode, arginfo_phalcon_encryption_security_random_phpbase64decode, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Encryption_Security_Random, phpBase64Encode, arginfo_phalcon_encryption_security_random_phpbase64encode, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

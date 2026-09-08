@@ -36,10 +36,7 @@ class SysNodeProvider implements NodeProviderInterface
     use FileTrait;
     use InfoTrait;
 
-    /**
-     * @var string|null
-     */
-    private node = null;
+    private ?string node = null;
 
     /**
      * Returns the hardware MAC address as a 12-character hex string.

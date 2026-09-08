@@ -10,19 +10,20 @@
 
 namespace Phalcon\Encryption\Security\JWT\Token;
 
+use Phalcon\Contracts\Encryption\EncryptionTypes;
+
 /**
  * Abstract helper class for Tokens
+ *
+ * @phpstan-import-type encryption_jwt_item_data from EncryptionTypes
  */
 abstract class AbstractItem
 {
     /**
-     * @var array
+     * @phpstan-var encryption_jwt_item_data
      */
-    protected data = [];
+    protected array data = [];
 
-    /**
-     * @return string
-     */
     public function getEncoded() -> string
     {
         return this->data["encoded"];

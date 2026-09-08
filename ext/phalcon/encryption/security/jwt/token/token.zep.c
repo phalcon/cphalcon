@@ -39,32 +39,36 @@
  * @property Signature $signature
  *
  * @link https://tools.ietf.org/html/rfc7519
+ *
+ * @phpstan-import-type encryption_jwt_errors from EncryptionTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Token_Token)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Encryption\\Security\\JWT\\Token, Token, phalcon, encryption_security_jwt_token_token, phalcon_encryption_security_jwt_token_token_method_entry, 0);
 
-	/**
-	 * @var Item
-	 */
-	zend_declare_property_null(phalcon_encryption_security_jwt_token_token_ce, SL("claims"), ZEND_ACC_PRIVATE);
-	/**
-	 * @var Item
-	 */
-	zend_declare_property_null(phalcon_encryption_security_jwt_token_token_ce, SL("headers"), ZEND_ACC_PRIVATE);
-	/**
-	 * @var Signature
-	 */
-	zend_declare_property_null(phalcon_encryption_security_jwt_token_token_ce, SL("signature"), ZEND_ACC_PRIVATE);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_encryption_security_jwt_token_token_ce, SL("claims"), &_zc0, ZEND_ACC_PRIVATE, 0, SL("Phalcon\\Encryption\\Security\\JWT\\Token\\Item"));
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_encryption_security_jwt_token_token_ce, SL("headers"), &_zc0, ZEND_ACC_PRIVATE, 0, SL("Phalcon\\Encryption\\Security\\JWT\\Token\\Item"));
+	}
+
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_encryption_security_jwt_token_token_ce, SL("signature"), &_zc0, ZEND_ACC_PRIVATE, 0, SL("Phalcon\\Encryption\\Security\\JWT\\Token\\Signature"));
+	}
+
 	return SUCCESS;
 }
 
 /**
  * Token constructor.
- *
- * @param Item      $headers
- * @param Item      $claims
- * @param Signature $signature
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, __construct)
 {
@@ -100,8 +104,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, __construct)
 
 /**
  * Return the registered claims
- *
- * @return Item
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getClaims)
 {
@@ -111,8 +113,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getClaims)
 
 /**
  * Return the registered headers
- *
- * @return Item
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getHeaders)
 {
@@ -122,8 +122,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getHeaders)
 
 /**
  * Return the payload
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getPayload)
 {
@@ -159,8 +157,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getPayload)
 
 /**
  * Return the signature
- *
- * @return Signature
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getSignature)
 {
@@ -170,8 +166,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getSignature)
 
 /**
  * Return the token
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getToken)
 {
@@ -211,9 +205,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getToken)
  * an empty error array as valid only after the signature check passes.
  * A signature-aware default is planned for a future major version.
  *
- * @param Validator $validator
- *
- * @return array
+ * @phpstan-return encryption_jwt_errors
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, validate)
 {
@@ -273,7 +265,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, validate)
 	ZEPHIR_CALL_METHOD(&_0, validator, "get", NULL, 0, &_1);
 	zephir_check_call_status();
 	zephir_array_update_string(&methods, SL("validateSubject"), &_0, PH_COPY | PH_SEPARATE);
-	zephir_is_iterable(&methods, 0, "phalcon/Encryption/Security/JWT/Token/Token.zep", 149);
+	zephir_is_iterable(&methods, 0, "phalcon/Encryption/Security/JWT/Token/Token.zep", 127);
 	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&methods), _3, _4, _2)
 	{
 		ZEPHIR_INIT_NVAR(&method);
@@ -298,11 +290,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, validate)
 
 /**
  * Verify the signature
- *
- * @param SignerInterface $signer
- * @param string          $key
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, verify)
 {

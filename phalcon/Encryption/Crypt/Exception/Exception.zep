@@ -12,7 +12,7 @@
 namespace Phalcon\Encryption\Crypt\Exception;
 
 /**
- * Exceptions thrown in Phalcon\Crypt use this class
+ * Exceptions thrown in Phalcon\Encryption\Crypt use this class
  */
 class Exception extends \Exception
 {
