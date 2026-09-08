@@ -2274,6 +2274,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
         /**
          * Dispatch events to the global events manager
+         *
+         * v7: the model is sent as the event source. This is incorrect.
+         * The source must be the caller, that is this manager, and the
+         * model must be the data of the event. Change this in v7 only,
+         * because listeners that read the source will break. The custom
+         * events manager below has the same problem and must change with
+         * it.
          */
         let eventsManager = this->eventsManager;
 

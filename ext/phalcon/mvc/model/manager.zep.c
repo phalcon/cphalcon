@@ -4506,7 +4506,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, removeBehavior)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1020, PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_value(&_0, &entityName)) {
 		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_0, 1020, PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&_2$$3, &_1$$3, &entityName, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Manager.zep", 2343);
+		zephir_array_fetch(&_2$$3, &_1$$3, &entityName, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Manager.zep", 2350);
 		if (Z_TYPE_P(&_2$$3) == IS_STRING) {
 			ZEPHIR_INIT_VAR(&_4$$3);
 			zephir_string_to_char_array(&_4$$3, &_2$$3);
@@ -4514,7 +4514,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, removeBehavior)
 		} else {
 			_3$$3 = &_2$$3;
 		}
-		zephir_is_iterable(_3$$3, 0, "phalcon/Mvc/Model/Manager.zep", 2349);
+		zephir_is_iterable(_3$$3, 0, "phalcon/Mvc/Model/Manager.zep", 2356);
 		if (Z_TYPE_P(_3$$3) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_3$$3), _6$$3, _7$$3, _5$$3)
 			{
@@ -4530,7 +4530,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, removeBehavior)
 				zephir_get_class(&_8$$4, &behavior, 0);
 				if (ZEPHIR_IS_IDENTICAL(&_8$$4, &behaviorClass_zv)) {
 					zephir_read_property_cached(&_9$$5, this_ptr, _zephir_prop_0, 1020, PH_NOISY_CC | PH_READONLY);
-					zephir_array_fetch(&_10$$5, &_9$$5, &entityName, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Manager.zep", 2345);
+					zephir_array_fetch(&_10$$5, &_9$$5, &entityName, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Manager.zep", 2352);
 					zephir_array_unset(&_10$$5, &key, PH_SEPARATE);
 				}
 			} ZEND_HASH_FOREACH_END();
@@ -4558,7 +4558,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, removeBehavior)
 					zephir_get_class(&_13$$6, &behavior, 0);
 					if (ZEPHIR_IS_IDENTICAL(&_13$$6, &behaviorClass_zv)) {
 						zephir_read_property_cached(&_14$$7, this_ptr, _zephir_prop_0, 1020, PH_NOISY_CC | PH_READONLY);
-						zephir_array_fetch(&_15$$7, &_14$$7, &entityName, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Manager.zep", 2345);
+						zephir_array_fetch(&_15$$7, &_14$$7, &entityName, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Manager.zep", 2352);
 						zephir_array_unset(&_15$$7, &key, PH_SEPARATE);
 					}
 			}
@@ -4566,7 +4566,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, removeBehavior)
 		ZEPHIR_INIT_NVAR(&behavior);
 		ZEPHIR_INIT_NVAR(&key);
 		zephir_read_property_cached(&_16$$3, this_ptr, _zephir_prop_0, 1020, PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&_17$$3, &_16$$3, &entityName, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Manager.zep", 2349);
+		zephir_array_fetch(&_17$$3, &_16$$3, &entityName, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Manager.zep", 2356);
 		ZEPHIR_CALL_FUNCTION(&_18$$3, "array_values", NULL, 28, &_17$$3);
 		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("behaviors"), &entityName, &_18$$3);
@@ -5041,7 +5041,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getConnection)
 		object_init_ex(&_1$$3, phalcon_mvc_model_exceptions_managerormservicesunavailable_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Manager.zep", 2566);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Manager.zep", 2573);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -5053,7 +5053,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getConnection)
 		object_init_ex(&_3$$4, phalcon_mvc_model_exceptions_invalidconnectionservice_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_3$$4, "phalcon/Mvc/Model/Manager.zep", 2575);
+		zephir_throw_exception_debug(&_3$$4, "phalcon/Mvc/Model/Manager.zep", 2582);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
