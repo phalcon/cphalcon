@@ -17,7 +17,10 @@ use PDO;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cache\Cache;
 use Phalcon\Db\RawValue;
+use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model\Resultset\Simple;
+use Phalcon\Mvc\Model\Transaction\Manager;
 use Phalcon\Mvc\Router;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Talon\Talon;
@@ -115,6 +118,56 @@ final class FindTest extends AbstractDatabaseTestCase
         $this->assertStringNotContainsString($expected, $actual);
         $expected = 'Use of "static" in callables in deprecated';
         $this->assertStringNotContainsString($expected, $actual);
+    }
+
+    /**
+     * A row that a pending transaction created is not visible to a query that
+     * runs on another connection. SQLite locks the whole database file while a
+     * write transaction is open, so this one is for the servers only.
+     *
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since  2017-12-18
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    public function testMvcModelFindOutsideTransaction(): void
+    {
+        /** @var PDO $connection */
+        $connection = self::getPdoConnection();
+        (new InvoicesMigration($connection));
+
+        /**
+         * The transaction needs a connection of its own, otherwise the pending
+         * row is visible to every query that the default connection runs.
+         */
+        $this->container->setShared('dbTransaction', $this->newDbService());
+
+        $manager = new Manager();
+        $manager->setDbService('dbTransaction');
+        $transaction = $manager->get();
+
+        $title                    = uniqid('inv-');
+        $invoice                  = new Invoices();
+        $invoice->inv_cst_id      = 1;
+        $invoice->inv_status_flag = 1;
+        $invoice->inv_title       = $title;
+        $invoice->inv_total       = 100.12;
+        $invoice->setTransaction($transaction);
+
+        $this->assertTrue($invoice->save());
+
+        $invoices = Invoices::find(
+            [
+                'conditions' => 'inv_title = :title:',
+                'bind'       => ['title' => $title],
+            ]
+        );
+
+        $this->assertCount(0, $invoices);
+
+        $transaction->rollback();
+
+        $this->container->get('dbTransaction')->close();
     }
 
     /**
@@ -550,6 +603,43 @@ final class FindTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * An empty `conditions` string together with an empty `bind` array and a
+     * limit must still return every row.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/11919
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2016-07-29
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelFindWithEmptyConditions(): void
+    {
+        /** @var PDO $connection */
+        $connection = self::getPdoConnection();
+        $migration  = new InvoicesMigration($connection);
+        $migration->insert(1, 1, 0, 'empty-conditions-one');
+        $migration->insert(2, 1, 1, 'empty-conditions-two');
+
+        $invoices = Invoices::find(
+            [
+                'conditions' => '',
+                'bind'       => [],
+                'limit'      => 10,
+            ]
+        );
+
+        $this->assertInstanceOf(Simple::class, $invoices);
+        $this->assertCount(2, $invoices);
+
+        $invoice = $invoices->getFirst();
+
+        $this->assertInstanceOf(Invoices::class, $invoice);
+        $this->assertEquals(1, $invoice->inv_id);
+        $this->assertEquals('empty-conditions-one', $invoice->inv_title);
+    }
+
+    /**
      * @issue  https://github.com/phalcon/cphalcon/issues/16350
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-23
@@ -607,5 +697,50 @@ final class FindTest extends AbstractDatabaseTestCase
         $this->assertEquals(2, count($data));
         $this->assertEquals(1, $data[0]->obj_id);
         $this->assertEquals(2, $data[1]->obj_id);
+    }
+
+    /**
+     * The `transaction` parameter runs the query on the connection of that
+     * transaction, so a row that the transaction has not committed yet is
+     * visible to it.
+     *
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since  2017-12-18
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelFindWithTransaction(): void
+    {
+        /** @var PDO $connection */
+        $connection = self::getPdoConnection();
+        (new InvoicesMigration($connection));
+
+        $manager     = new Manager();
+        $transaction = $manager->get();
+
+        $title                    = uniqid('inv-');
+        $invoice                  = new Invoices();
+        $invoice->inv_cst_id      = 1;
+        $invoice->inv_status_flag = 1;
+        $invoice->inv_title       = $title;
+        $invoice->inv_total       = 100.12;
+        $invoice->setTransaction($transaction);
+
+        $this->assertTrue($invoice->save());
+
+        $invoices = Invoices::find(
+            [
+                'conditions'             => 'inv_title = :title:',
+                'bind'                   => ['title' => $title],
+                Model::TRANSACTION_INDEX => $transaction,
+            ]
+        );
+
+        $this->assertInstanceOf(Simple::class, $invoices);
+        $this->assertCount(1, $invoices);
+        $this->assertEquals($title, $invoices[0]->inv_title);
+
+        $transaction->rollback();
     }
 }

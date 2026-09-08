@@ -45,7 +45,7 @@ final class NotifyEventTest extends AbstractDatabaseTestCase
 
         $invoice = new Invoices();
 
-        // With no behaviors or events manager the event is not cancelled.
+        // With no behaviors or events manager the event is not canceled.
         $this->assertTrue($manager->notifyEvent('customEvent', $invoice));
     }
 }

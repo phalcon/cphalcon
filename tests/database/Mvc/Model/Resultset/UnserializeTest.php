@@ -31,7 +31,7 @@ final class UnserializeTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * A serialise/unserialise round-trip rebuilds an equivalent resultset.
+     * A serialize/unserialize round-trip rebuilds an equivalent resultset.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-06-22

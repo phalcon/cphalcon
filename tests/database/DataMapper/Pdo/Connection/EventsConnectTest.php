@@ -25,7 +25,7 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('sqlite')]
 final class EventsConnectTest extends AbstractDatabaseTestCase
 {
-    public function testDMPdoConnectionConnectCancelled(): void
+    public function testDMPdoConnectionConnectCanceled(): void
     {
         $manager = new Manager();
         $manager->attach(
@@ -81,7 +81,7 @@ final class EventsConnectTest extends AbstractDatabaseTestCase
         $this->assertSame(['before', 'after'], $fired);
     }
 
-    public function testDMPdoConnectionDisconnectCancelledStaysConnected(): void
+    public function testDMPdoConnectionDisconnectCanceledStaysConnected(): void
     {
         $manager = new Manager();
         $manager->attach(

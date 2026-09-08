@@ -24,7 +24,7 @@ final class GetSetPrefixTest extends AbstractUnitTestCase
     /**
      * Tests that the Url service injected in the constructor resolves links
      * through url->get(), which handles base URI prepending and double-slash
-     * normalisation automatically.
+     * normalization automatically.
      *
      * @see    https://github.com/phalcon/cphalcon/issues/14957
      *

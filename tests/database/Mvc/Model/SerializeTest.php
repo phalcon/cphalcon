@@ -82,7 +82,7 @@ final class SerializeTest extends AbstractDatabaseTestCase
      * Tests that serialize()/unserialize() round-trips a model with typed
      * properties correctly when a NOT NULL DB column returned NULL (leaving
      * the typed property uninitialized). The unserialized instance must not
-     * throw TypeError when the serialised value is null.
+     * throw TypeError when the serialized value is null.
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/15711
      * @author Phalcon Team <team@phalcon.io>

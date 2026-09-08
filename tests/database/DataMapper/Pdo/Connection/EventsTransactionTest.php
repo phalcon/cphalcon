@@ -25,7 +25,7 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('sqlite')]
 final class EventsTransactionTest extends AbstractDatabaseTestCase
 {
-    public function testDMPdoConnectionBeginTransactionCancelled(): void
+    public function testDMPdoConnectionBeginTransactionCanceled(): void
     {
         $manager = new Manager();
         $manager->attach(
@@ -49,7 +49,7 @@ final class EventsTransactionTest extends AbstractDatabaseTestCase
         $connection->beginTransaction();
     }
 
-    public function testDMPdoConnectionCommitCancelledLeavesTransactionOpen(): void
+    public function testDMPdoConnectionCommitCanceledLeavesTransactionOpen(): void
     {
         $manager = new Manager();
         $manager->attach(

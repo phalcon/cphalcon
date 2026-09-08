@@ -14,12 +14,14 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Mvc\Model\MetaData;
 
 use Phalcon\Mvc\Model\MetaData;
+use Phalcon\Mvc\Model\MetaData\Exceptions\CorruptedMetaData;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Models\InvoicesMap;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
+use ReflectionClass;
 
 final class GetColumnMapTest extends AbstractDatabaseTestCase
 {
@@ -106,5 +108,33 @@ final class GetColumnMapTest extends AbstractDatabaseTestCase
         $this->assertTrue($adapter->isEmpty());
 
         $this->assertEquals($expected, $adapter->getColumnMap($model));
+    }
+
+    /**
+     * A corrupt column-map slot raises `CorruptedMetaData` rather than a
+     * `TypeError` from the reader, matching cphalcon.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-04
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelMetaDataGetColumnMapCorrupt(): void
+    {
+        $model = new Invoices();
+        $meta  = new MetaData\Memory();
+        $key   = mb_strtolower(get_class($model));
+
+        $reflection = new ReflectionClass(MetaData::class);
+        $columnMap  = $reflection->getProperty('columnMap');
+        $columnMap->setValue(
+            $meta,
+            [$key => [MetaData::MODELS_COLUMN_MAP => 'not-an-array']]
+        );
+
+        $this->expectException(CorruptedMetaData::class);
+
+        $meta->getColumnMap($model);
     }
 }
