@@ -58,6 +58,7 @@ use Phalcon\Mvc\Model\Exceptions\StaticMethodRequiresOneArgument;
 use Phalcon\Mvc\Model\Exceptions\UnsupportedEagerHydration;
 use Phalcon\Mvc\Model\Exceptions\UnsupportedEagerResultset;
 use Phalcon\Mvc\Model\Exceptions\UpdateSnapshotDisabled;
+use Phalcon\Mvc\Model\Hydration\CaseInsensitiveColumnMap;
 use Phalcon\Mvc\Model\Hydration\CloneResultMapHydrate;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Mvc\Model\MetaDataInterface;
@@ -964,7 +965,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             if typeof columnMap == "array" &&
                !isset columnMap[attribute] &&
                Settings::get("orm.case_insensitive_column_map") {
-                let attribute = self::caseInsensitiveColumnMap(
+                let attribute = CaseInsensitiveColumnMap::caseInsensitiveColumnMap(
                     columnMap,
                     attribute
                 );
@@ -3423,7 +3424,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 if typeof columnMap == "array" &&
                    !isset columnMap[key] &&
                    Settings::get("orm.case_insensitive_column_map") {
-                    let key = self::caseInsensitiveColumnMap(columnMap, key);
+                    let key = CaseInsensitiveColumnMap::caseInsensitiveColumnMap(columnMap, key);
                 }
 
                 /**
@@ -3767,7 +3768,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             if typeof columnMap === "array" {
                 // Try to find case-insensitive key variant
                 if !isset columnMap[attribute] && Settings::get("orm.case_insensitive_column_map") {
-                    let attribute = self::caseInsensitiveColumnMap(
+                    let attribute = CaseInsensitiveColumnMap::caseInsensitiveColumnMap(
                         columnMap,
                         attribute
                     );
@@ -6716,22 +6717,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     public function validationHasFailed() -> bool
     {
         return !empty this->errorMessages;
-    }
-
-    /**
-     * Attempts to find key case-insensitively
-     */
-    private static function caseInsensitiveColumnMap(var columnMap, var key) -> string
-    {
-        var cmKey;
-
-        for cmKey in array_keys(columnMap) {
-            if strtolower(cmKey) == strtolower(key) {
-                return cmKey;
-            }
-        }
-
-        return key;
     }
 
     /**
