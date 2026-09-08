@@ -165,6 +165,10 @@
       "type": "bool",
       "default": true
     },
+    "orm.session_cache": {
+      "type": "bool",
+      "default": false
+    },
     "warning.enable": {
       "type": "bool",
       "default": true

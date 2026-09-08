@@ -160,6 +160,18 @@ abstract class Resultset
     protected result;
 
     /**
+     * @var \Phalcon\Mvc\Model\MetaData|null
+     */
+    protected metaData = null;
+
+    /**
+     * Thread cache.
+     *
+     * @var \Phalcon\Session\Adapter\AbstractAdapter|null
+     */
+     protected sessionCache = null;
+
+    /**
      * Phalcon\Mvc\Model\Resultset constructor
      *
      * @param ResultInterface|false $result
@@ -167,7 +179,7 @@ abstract class Resultset
      *
      * @phpstan-param \Phalcon\Contracts\Db\Result|false|null $result
      */
-    public function __construct(var result, var cache = null)
+    public function __construct(var result, var cache = null, sessionCache = null, metaData = null)
     {
         var prefetchRecords;
 
@@ -180,7 +192,14 @@ abstract class Resultset
 
             return;
         }
-
+        if true === globals_get("orm.session_cache") {
+            if null !== sessionCache {
+                let this->sessionCache = sessionCache;
+            }
+            if null !== metaData {
+                let this->metaData = metaData;
+            }
+        }
         /**
          * Valid resultsets are Phalcon\Db\ResultInterface instances
          */

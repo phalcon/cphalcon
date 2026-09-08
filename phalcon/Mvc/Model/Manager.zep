@@ -28,6 +28,7 @@ use Phalcon\Mvc\Model\Query\BuilderInterface;
 use Phalcon\Mvc\Model\Query\StatusInterface;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Support\Settings;
+use Phalcon\Storage\Adapter\AbstractAdapter;
 use ReflectionClass;
 use ReflectionProperty;
 
@@ -298,6 +299,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * @phpstan-var array<string, mixed>
      */
     protected reusable = [];
+
+    /**
+     * Thread cache.
+     *
+     * @var AbstractAdapter|null
+     */
+    protected sessionCache = null;
 
     /**
      * Destroys the current PHQL cache
@@ -2626,4 +2634,30 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
         return isset this->{collection}[keyRelation];
     }
+
+    /**
+     * Sets a cache for model working in memory
+     */
+    public function hasSessionCache() -> bool
+    {
+        return this->sessionCache !== null;
+    }
+
+
+     /**
+      * Sets a cache for model working in memory
+      */
+    public function setSessionCache(<AbstractAdapter> cache) -> void
+    {
+        let this->sessionCache = cache;
+    }
+
+     /**
+      * Returns a cache instance or null if not configured
+      */
+    public function getSessionCache() -> <AbstractAdapter> | null
+    {
+        return this->sessionCache;
+    }
+
 }
