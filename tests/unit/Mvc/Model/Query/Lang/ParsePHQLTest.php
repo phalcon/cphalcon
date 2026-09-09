@@ -115,6 +115,44 @@ final class ParsePHQLTest extends AbstractUnitTestCase
     }
 
     /**
+     * The scanner must resolve the escape sequences of a string literal, so
+     * that the dialect receives the real characters and escapes them for its
+     * own syntax. An unknown sequence keeps its backslash, the same as MySQL
+     * and PHP do, so a LIKE pattern such as "100\%" still matches a percent
+     * sign.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-09
+     * @issue  https://github.com/phalcon/cphalcon/issues/17585
+     */
+    public function testMvcModelQueryLangParsePHQLEscapeSequencesInString(): void
+    {
+        // PHQL sequence => the characters it stands for
+        $expected = [
+            '\n'   => "\n",
+            '\r'   => "\r",
+            '\t'   => "\t",
+            '\\\\' => '\\',
+            "\\'"  => "'",
+            '\"'   => '"',
+            '\%'   => '\%',
+            '\d'   => '\d',
+        ];
+
+        foreach ($expected as $sequence => $value) {
+            $ast = Lang::parsePHQL(
+                "SELECT * FROM Robots WHERE name = 'a" . $sequence . "b'"
+            );
+
+            $this->assertSame(
+                'a' . $value . 'b',
+                $ast['where']['right']['value'],
+                $sequence
+            );
+        }
+    }
+
+    /**
      * The IN list is built in linear time; 40,000 items used to take
      * seconds.
      *
