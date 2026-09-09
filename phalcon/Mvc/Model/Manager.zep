@@ -2342,19 +2342,30 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function removeBehavior(<ModelInterface> model,  string behaviorClass) -> void
     {
-        var entityName, key, behavior;
+        var behavior, entityName;
+        array remaining;
 
         let entityName = get_class_lower(model);
 
-        if isset this->behaviors[entityName] {
-            for key, behavior in this->behaviors[entityName] {
-                if get_class(behavior) === behaviorClass {
-                    unset this->behaviors[entityName][key];
-                }
-            }
-
-            let this->behaviors[entityName] = array_values(this->behaviors[entityName]);
+        if !isset this->behaviors[entityName] {
+            return;
         }
+
+        /**
+         * Collect the behaviors to keep and assign the result back in one
+         * statement. `unset this->behaviors[entityName][key]` cannot be used:
+         * a two-level unset on a property removes the key from a copy of the
+         * inner array, leaving the property unchanged.
+         */
+        let remaining = [];
+
+        for behavior in this->behaviors[entityName] {
+            if get_class(behavior) !== behaviorClass {
+                let remaining[] = behavior;
+            }
+        }
+
+        let this->behaviors[entityName] = remaining;
     }
 
     /**

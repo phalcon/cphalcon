@@ -2293,7 +2293,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
         var route, methods, method, methodSpecific, starRoutes,
             candidates, candidateRoute, candidatePattern, isRegex,
             bucketRoute, bucketPattern, staticUri, staticBucket,
-            staticRoutesList;
+            staticRoutesList, shadowBucket;
 
         let this->methodRoutes           = [],
             this->candidatesByMethod     = [],
@@ -2394,7 +2394,16 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                      * last-registered route must win.
                      */
                     if isset this->staticShadowedByMethod[method][bucketPattern] {
-                        unset this->staticShadowedByMethod[method][bucketPattern];
+                        /**
+                         * Assign the bucket back after the unset. A two-level
+                         * unset on a property removes the key from a copy of
+                         * the inner array and leaves the property unchanged.
+                         */
+                        let shadowBucket = this->staticShadowedByMethod[method];
+
+                        unset shadowBucket[bucketPattern];
+
+                        let this->staticShadowedByMethod[method] = shadowBucket;
                     }
                 } else {
                     if fetch staticBucket, this->staticByMethod[method] {
