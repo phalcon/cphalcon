@@ -95,6 +95,15 @@ jobs:
         with:
           php-version: '8.5'
 
+      - name: Setup APT Repositories
+        run: |
+          # Keep only the Ubuntu archives. The runner image also carries
+          # third-party repos (Google, Microsoft) that we install nothing
+          # from. Those servers are often unstable or offline, so they can
+          # only make the build fail. The Ubuntu archives are not a ".list"
+          # file, thus they stay.
+          sudo rm -f /etc/apt/sources.list.d/*.list
+
       - name: Install System Dependencies
         run: |
           sudo apt-get update --quiet --yes 1>/dev/null
@@ -145,10 +154,12 @@ jobs:
 
       - name: Setup APT Repositories
         run: |
-          # Remove Microsoft repos - our builds often fail due to
-          # unstable/offline Microsoft servers.
-          sudo rm -f /etc/apt/sources.list.d/dotnetdev.list
-          sudo rm -f /etc/apt/sources.list.d/azure*.list
+          # Keep only the Ubuntu archives. The runner image also carries
+          # third-party repos (Google, Microsoft) that we install nothing
+          # from. Those servers are often unstable or offline, so they can
+          # only make the build fail. The Ubuntu archives are not a ".list"
+          # file, thus they stay.
+          sudo rm -f /etc/apt/sources.list.d/*.list
 
       - name: Install System Dependencies
         run: |
@@ -227,10 +238,12 @@ jobs:
 
       - name: Setup APT Repositories
         run: |
-          # Remove Microsoft repos - our builds often fail due to
-          # unstable/offline Microsoft servers.
-          sudo rm -f /etc/apt/sources.list.d/dotnetdev.list
-          sudo rm -f /etc/apt/sources.list.d/azure*.list
+          # Keep only the Ubuntu archives. The runner image also carries
+          # third-party repos (Google, Microsoft) that we install nothing
+          # from. Those servers are often unstable or offline, so they can
+          # only make the build fail. The Ubuntu archives are not a ".list"
+          # file, thus they stay.
+          sudo rm -f /etc/apt/sources.list.d/*.list
 
       - name: Install System Dependencies
         run: |
@@ -589,6 +602,8 @@ jobs:
 
       - name: Test Redis Cluster
         run: |
+          # See "Setup APT Repositories" - third-party repos only break us.
+          sudo rm -f /etc/apt/sources.list.d/*.list
           sudo apt-get update
           sudo apt-get install -y redis-tools
           docker ps -a
