@@ -451,7 +451,8 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, paginate)
 		if (Z_TYPE_P(&modelClass) == IS_ARRAY) {
 			ZEPHIR_CALL_FUNCTION(&_31$$23, "array_values", NULL, 28, &modelClass);
 			zephir_check_call_status();
-			zephir_array_fetch_long(&_32$$23, &_31$$23, 0, PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 279);
+			zephir_memory_observe(&_32$$23);
+			zephir_array_fetch_long(&_32$$23, &_31$$23, 0, PH_NOISY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 279);
 			ZEPHIR_CPY_WRT(&modelClass, &_32$$23);
 		}
 		ZEPHIR_INIT_VAR(&model);
@@ -463,15 +464,18 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, paginate)
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&db, &_33$$21, "get", NULL, 0, &dbService);
 		zephir_check_call_status();
-		zephir_array_fetch_string(&_34$$21, &sql, SL("sql"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 287);
+		zephir_memory_observe(&_34$$21);
+		zephir_array_fetch_string(&_34$$21, &sql, SL("sql"), PH_NOISY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 287);
 		ZEPHIR_INIT_VAR(&_35$$21);
 		ZEPHIR_CONCAT_SVS(&_35$$21, "SELECT COUNT(*) as \"rowcount\" FROM (", &_34$$21, ") as T1");
-		zephir_array_fetch_string(&_36$$21, &sql, SL("bind"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 290);
+		zephir_memory_observe(&_36$$21);
+		zephir_array_fetch_string(&_36$$21, &sql, SL("bind"), PH_NOISY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 290);
 		ZVAL_LONG(&_37$$21, 2);
 		ZEPHIR_CALL_METHOD(&row, &db, "fetchone", NULL, 0, &_35$$21, &_37$$21, &_36$$21);
 		zephir_check_call_status();
 		if (zephir_is_true(&row)) {
-			zephir_array_fetch_string(&_38$$21, &row, SL("rowcount"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 292);
+			zephir_memory_observe(&_38$$21);
+			zephir_array_fetch_string(&_38$$21, &row, SL("rowcount"), PH_NOISY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 292);
 			ZVAL_LONG(&rowcount, zephir_get_intval(&_38$$21));
 		} else {
 			ZVAL_LONG(&rowcount, 0);

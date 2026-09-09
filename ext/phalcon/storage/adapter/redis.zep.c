@@ -939,7 +939,8 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, checkConnect)
 	if (1 != ZEPHIR_IS_EMPTY(&ssl)) {
 		zephir_array_update_string(&connectionOptions, SL("stream"), &ssl, PH_COPY | PH_SEPARATE);
 	}
-	zephir_array_fetch_string(&_1, &options, SL("persistent"), PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/Redis.zep", 421);
+	zephir_memory_observe(&_1);
+	zephir_array_fetch_string(&_1, &options, SL("persistent"), PH_NOISY, "phalcon/Storage/Adapter/Redis.zep", 421);
 	ZEPHIR_INIT_VAR(&method);
 	ZEPHIR_INIT_VAR(&parameter);
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_1)) {
@@ -953,7 +954,8 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, checkConnect)
 		if (!(ZEPHIR_IS_EMPTY(&persistentId))) {
 			ZEPHIR_CPY_WRT(&parameter, &persistentId);
 		} else {
-			zephir_array_fetch_string(&_3$$6, &options, SL("index"), PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/Redis.zep", 427);
+			zephir_memory_observe(&_3$$6);
+			zephir_array_fetch_string(&_3$$6, &options, SL("index"), PH_NOISY, "phalcon/Storage/Adapter/Redis.zep", 427);
 			ZEPHIR_CONCAT_SV(&parameter, "persistentId", &_3$$6);
 		}
 	}

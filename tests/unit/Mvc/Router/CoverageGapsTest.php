@@ -37,7 +37,7 @@ final class CoverageGapsTest extends AbstractUnitTestCase
     {
         $router = $this->getRouter(false);
         $router->add('/users/{id:[0-9]+}', ['controller' => 'users', 'id' => 1])
-            ->convert('id', static fn(string $v): int => (int) $v * 2);
+            ->convert('id', static fn (string $v): int => (int) $v * 2);
 
         $router->handle('/users/21');
 
@@ -57,7 +57,7 @@ final class CoverageGapsTest extends AbstractUnitTestCase
     {
         $router = $this->getRouter(false);
         $router->add('/items/{slug:[a-z-]+}', ['controller' => 'items', 'tag' => 99])
-            ->convert('tag', static fn(int $v): string => 'tag-' . $v);
+            ->convert('tag', static fn (int $v): string => 'tag-' . $v);
 
         $router->handle('/items/widget');
 
@@ -335,7 +335,7 @@ final class CoverageGapsTest extends AbstractUnitTestCase
     {
         $router   = $this->getRouter(false);
         $group    = new \Phalcon\Mvc\Router\Group();
-        $callback = static fn(): bool => false;
+        $callback = static fn (): bool => false;
         $group->beforeMatch($callback);
         $group->add('/admin', ['controller' => 'admin']);
 

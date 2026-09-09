@@ -843,7 +843,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, reConfigure)
 		ZEPHIR_INIT_VAR(&actionName);
 		ZVAL_NULL(&actionName);
 		ZEPHIR_INIT_VAR(&parts);
-		zephir_fast_explode_str(&parts, SL("::"), paths, LONG_MAX);
+		zephir_fast_explode_str(&parts, SL("::"), paths, ZEND_LONG_MAX);
 		_0$$4 = zephir_fast_count_int(&parts);
 		if (_0$$4 == 3) { goto zephir_switch_0_clause_0; }
 		if (_0$$4 == 2) { goto zephir_switch_0_clause_1; }
@@ -925,7 +925,8 @@ PHP_METHOD(Phalcon_Cli_Router_Route, reConfigure)
 			zephir_memory_observe(&pcrePattern);
 			zephir_array_fetch_long(&pcrePattern, &extracted, 0, PH_NOISY, "phalcon/Cli/Router/Route.zep", 497);
 			ZEPHIR_INIT_VAR(&_5$$18);
-			zephir_array_fetch_long(&_6$$18, &extracted, 1, PH_NOISY | PH_READONLY, "phalcon/Cli/Router/Route.zep", 498);
+			zephir_memory_observe(&_6$$18);
+			zephir_array_fetch_long(&_6$$18, &extracted, 1, PH_NOISY, "phalcon/Cli/Router/Route.zep", 498);
 			zephir_fast_array_merge(&_5$$18, &routePaths, &_6$$18);
 			ZEPHIR_CPY_WRT(&routePaths, &_5$$18);
 		} else {

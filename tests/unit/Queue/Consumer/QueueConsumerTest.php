@@ -32,7 +32,7 @@ final class QueueConsumerTest extends AbstractUnitTestCase
         $queue   = $context->createQueue('jobs');
         $context->createProducer()->send($queue, $context->createMessage('boom'));
 
-        $processor = new class implements Processor {
+        $processor = new class () implements Processor {
             public function process(Message $message, Context $context): object | string
             {
                 throw new RuntimeException('processor failed');
@@ -101,8 +101,9 @@ final class QueueConsumerTest extends AbstractUnitTestCase
 
     private function collectingProcessor(): Processor
     {
-        return new class implements Processor {
+        return new class () implements Processor {
             public array $seen    = [];
+
             public string $return = Processor::ACK;
 
             public function process(Message $message, Context $context): object | string

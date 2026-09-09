@@ -44,6 +44,7 @@ final class UserRememberTest extends AbstractUnitTestCase
 
         $this->assertNull($remember->getId());
     }
+
     public function testParsesArrayPayload(): void
     {
         $remember = new UserRemember([

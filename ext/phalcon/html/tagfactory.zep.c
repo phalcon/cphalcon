@@ -413,8 +413,9 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance)
 		zephir_update_property_array(this_ptr, SL("instances"), &name_zv, &_4$$4);
 	}
 	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_1, 867, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_6, &_5, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Html/TagFactory.zep", 211);
-	RETURN_CTOR(&_6);
+	zephir_memory_observe(&_6);
+	zephir_array_fetch(&_6, &_5, &name_zv, PH_NOISY, "phalcon/Html/TagFactory.zep", 211);
+	RETURN_CCTOR(&_6);
 }
 
 /**

@@ -351,7 +351,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Parser, parseToken)
 	zephir_memory_observe(&token_zv);
 	ZVAL_STR_COPY(&token_zv, token);
 	ZEPHIR_INIT_VAR(&parts);
-	zephir_fast_explode_str(&parts, SL("."), &token_zv, LONG_MAX);
+	zephir_fast_explode_str(&parts, SL("."), &token_zv, ZEND_LONG_MAX);
 	if (zephir_fast_count_int(&parts) != 3) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_encryption_security_jwt_exceptions_malformedjwtstring_ce);

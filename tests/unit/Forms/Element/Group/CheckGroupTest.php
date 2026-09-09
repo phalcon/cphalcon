@@ -42,7 +42,7 @@ final class CheckGroupTest extends AbstractUnitTestCase
     }
 
     // -----------------------------------------------------------------------
-    // Constructor - name normalisation
+    // Constructor - name normalization
     // -----------------------------------------------------------------------
 
     public function testConstructorAppendsArrayBracketsWhenMissing(): void
@@ -142,6 +142,7 @@ final class CheckGroupTest extends AbstractUnitTestCase
 
         $this->assertSame($element->render(), (string) $element);
     }
+
     private function factory(): TagFactory
     {
         return new TagFactory(new Escaper());

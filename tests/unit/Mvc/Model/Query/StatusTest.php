@@ -36,6 +36,7 @@ final class StatusTest extends AbstractUnitTestCase
         $this->assertSame($model, $status->getModel());
         $this->assertSame($messages, $status->getMessages());
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-06-06

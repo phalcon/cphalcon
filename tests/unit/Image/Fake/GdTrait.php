@@ -204,7 +204,6 @@ trait GdTrait
         return $images;
     }
 
-
     /**
      * @author https://github.com/xwiz/phash
      */

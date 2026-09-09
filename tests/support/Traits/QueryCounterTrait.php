@@ -26,7 +26,7 @@ use Phalcon\Events\Manager as EventsManager;
  * data is identical either way, only the number of round trips differs.
  *
  * Holding the statements rather than a bare tally means a failure reports the
- * SQL that actually ran, and lets the row-count probe below be recognised
+ * SQL that actually ran, and lets the row-count probe below be recognized
  * instead of skewing the total.
  */
 trait QueryCounterTrait

@@ -49,6 +49,7 @@ final class GetFieldsTest extends AbstractDatabaseTestCase
         $actual   = $relation->getFields();
         $this->assertSame($expected, $actual);
     }
+
     /**
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-18

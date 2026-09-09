@@ -47,9 +47,9 @@ class GetSetRenderLevelTest extends AbstractUnitTestCase
         $view->start();
         $view->render('currentrender', 'other');
         $view->finish();
-//         $this->assertEquals("lolhere\n", $view->getContent());
+        //         $this->assertEquals("lolhere\n", $view->getContent());
         $this->assertEquals('lolhere', $view->getContent());
-//         $this->assertEquals('1,3,5', $listener->getLevels());
+        //         $this->assertEquals('1,3,5', $listener->getLevels());
         $this->assertEquals('1,3', $listener->getLevels());
 
         $listener->reset();
@@ -57,9 +57,9 @@ class GetSetRenderLevelTest extends AbstractUnitTestCase
         $view->start();
         $view->render('currentrender', 'other');
         $view->finish();
-//         $this->assertEquals("zuplolhere\n", $view->getContent());
+        //         $this->assertEquals("zuplolhere\n", $view->getContent());
         $this->assertEquals('zuplolhere', $view->getContent());
-//         $this->assertEquals('1,3,4,5', $listener->getLevels());
+        //         $this->assertEquals('1,3,4,5', $listener->getLevels());
         $this->assertEquals('1,3,4', $listener->getLevels());
 
         $listener->reset();
@@ -69,9 +69,9 @@ class GetSetRenderLevelTest extends AbstractUnitTestCase
         $view->render('currentrender', 'other');
         $view->finish();
 
-//         $this->assertEquals("lolhere\n", $view->getContent());
+        //         $this->assertEquals("lolhere\n", $view->getContent());
         $this->assertEquals('lolhere', $view->getContent());
-//         $this->assertEquals('1,3,5', $listener->getLevels());
+        //         $this->assertEquals('1,3,5', $listener->getLevels());
         $this->assertEquals('1,3', $listener->getLevels());
 
         $listener->reset();

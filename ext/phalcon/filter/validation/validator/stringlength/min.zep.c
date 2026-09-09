@@ -193,7 +193,8 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength_Min, validate)
 	ZEPHIR_CALL_METHOD(&minimum, this_ptr, "getoption", NULL, 0, &_3);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&minimum) == IS_ARRAY) {
-		zephir_array_fetch(&_6$$7, &minimum, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/StringLength/Min.zep", 117);
+		zephir_memory_observe(&_6$$7);
+		zephir_array_fetch(&_6$$7, &minimum, field, PH_NOISY, "phalcon/Filter/Validation/Validator/StringLength/Min.zep", 117);
 		ZEPHIR_CPY_WRT(&minimum, &_6$$7);
 	}
 	ZEPHIR_INIT_VAR(&included);

@@ -128,6 +128,7 @@ final class ConstructTest extends AbstractUnitTestCase
         $adapter->close();
         $this->safeDeleteFile($outputPath);
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09

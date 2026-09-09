@@ -1111,6 +1111,7 @@
 #include "phalcon/mvc/model/exceptions/unsupportedeagerresultset.zep.h"
 #include "phalcon/mvc/model/exceptions/updatesnapshotdisabled.zep.h"
 #include "phalcon/mvc/model/hydration/caseinsensitivecolumnmap.zep.h"
+#include "phalcon/mvc/model/hydration/cloneresult.zep.h"
 #include "phalcon/mvc/model/hydration/cloneresultmaphydrate.zep.h"
 #include "phalcon/mvc/model/hydration/getprivateproperties.zep.h"
 #include "phalcon/mvc/model/manager.zep.h"

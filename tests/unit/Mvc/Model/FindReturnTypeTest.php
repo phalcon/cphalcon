@@ -54,6 +54,7 @@ final class FindReturnTypeTest extends AbstractUnitTestCase
             $this->addToAssertionCount(1);
         }
     }
+
     /**
      * Locks in the runtime return type of `Phalcon\Mvc\Model::find()`. The
      * type was inadvertently dropped in PR #16578 (Phalcon 5.7.0) while

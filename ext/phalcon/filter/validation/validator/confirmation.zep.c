@@ -152,7 +152,8 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, validate)
 	ZEPHIR_CALL_METHOD(&fieldWith, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&fieldWith) == IS_ARRAY) {
-		zephir_array_fetch(&_1$$3, &fieldWith, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Confirmation.zep", 90);
+		zephir_memory_observe(&_1$$3);
+		zephir_array_fetch(&_1$$3, &fieldWith, field, PH_NOISY, "phalcon/Filter/Validation/Validator/Confirmation.zep", 90);
 		ZEPHIR_CPY_WRT(&fieldWith, &_1$$3);
 	}
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
@@ -180,7 +181,8 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, validate)
 		ZEPHIR_CALL_METHOD(&labelWith, this_ptr, "getoption", NULL, 0, &_8$$5);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&labelWith) == IS_ARRAY) {
-			zephir_array_fetch(&_9$$6, &labelWith, &fieldWith, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Confirmation.zep", 104);
+			zephir_memory_observe(&_9$$6);
+			zephir_array_fetch(&_9$$6, &labelWith, &fieldWith, PH_NOISY, "phalcon/Filter/Validation/Validator/Confirmation.zep", 104);
 			ZEPHIR_CPY_WRT(&labelWith, &_9$$6);
 		}
 		if (ZEPHIR_IS_EMPTY(&labelWith)) {

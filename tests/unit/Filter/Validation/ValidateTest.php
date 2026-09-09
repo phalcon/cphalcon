@@ -38,6 +38,7 @@ final class ValidateTest extends AbstractUnitTestCase
     {
         Di::reset();
     }
+
     /**
      * @issue  https://github.com/phalcon/cphalcon/issues/10405
      * @author Phalcon Team <team@phalcon.io>

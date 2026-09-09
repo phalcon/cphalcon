@@ -18,6 +18,7 @@ use Phalcon\Db\RawValue;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Row;
+use Phalcon\Mvc\Model\Transaction\Manager;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\CustomersMigration;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
@@ -387,6 +388,52 @@ final class FindFirstTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * A row that a pending transaction created is not visible to a query that
+     * runs on another connection. SQLite locks the whole database file while a
+     * write transaction is open, so this one is for the servers only.
+     *
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since  2017-12-18
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    public function testMvcModelFindFirstOutsideTransaction(): void
+    {
+        /**
+         * The transaction needs a connection of its own, otherwise the pending
+         * row is visible to every query that the default connection runs.
+         */
+        $this->container->setShared('dbTransaction', $this->newDbService());
+
+        $manager = new Manager();
+        $manager->setDbService('dbTransaction');
+        $transaction = $manager->get();
+
+        $title                    = uniqid('inv-');
+        $invoice                  = new Invoices();
+        $invoice->inv_cst_id      = 1;
+        $invoice->inv_status_flag = 1;
+        $invoice->inv_title       = $title;
+        $invoice->inv_total       = 100.12;
+        $invoice->setTransaction($transaction);
+
+        $this->assertTrue($invoice->save());
+
+        $found = Invoices::findFirst(
+            [
+                'conditions' => 'inv_title = :title:',
+                'bind'       => ['title' => $title],
+            ]
+        );
+
+        $this->assertNull($found);
+
+        $transaction->rollback();
+
+        $this->container->get('dbTransaction')->close();
+    }
+
+    /**
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-27
      */
@@ -442,5 +489,45 @@ final class FindFirstTest extends AbstractDatabaseTestCase
         $expected = 4;
         $actual   = $invoice->inv_id;
         $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * The `transaction` parameter runs the query on the connection of that
+     * transaction, so a row that the transaction has not committed yet is
+     * visible to it.
+     *
+     * @author Jakob Oberhummer <cphalcon@chilimatic.com>
+     * @since  2017-12-18
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelFindFirstWithTransaction(): void
+    {
+        $manager     = new Manager();
+        $transaction = $manager->get();
+
+        $title                    = uniqid('inv-');
+        $invoice                  = new Invoices();
+        $invoice->inv_cst_id      = 1;
+        $invoice->inv_status_flag = 1;
+        $invoice->inv_title       = $title;
+        $invoice->inv_total       = 100.12;
+        $invoice->setTransaction($transaction);
+
+        $this->assertTrue($invoice->save());
+
+        $found = Invoices::findFirst(
+            [
+                'conditions'             => 'inv_title = :title:',
+                'bind'                   => ['title' => $title],
+                Model::TRANSACTION_INDEX => $transaction,
+            ]
+        );
+
+        $this->assertInstanceOf(Invoices::class, $found);
+        $this->assertEquals($title, $found->inv_title);
+
+        $transaction->rollback();
     }
 }

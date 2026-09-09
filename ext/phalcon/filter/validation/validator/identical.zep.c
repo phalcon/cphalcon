@@ -173,7 +173,8 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Identical, validate)
 	}
 	if (zephir_is_true(&accepted)) {
 		if (Z_TYPE_P(&accepted) == IS_ARRAY) {
-			zephir_array_fetch(&_6$$7, &accepted, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Identical.zep", 97);
+			zephir_memory_observe(&_6$$7);
+			zephir_array_fetch(&_6$$7, &accepted, field, PH_NOISY, "phalcon/Filter/Validation/Validator/Identical.zep", 97);
 			ZEPHIR_CPY_WRT(&accepted, &_6$$7);
 		}
 		valid = ZEPHIR_IS_EQUAL(&value, &accepted);

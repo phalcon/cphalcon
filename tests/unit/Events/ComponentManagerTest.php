@@ -58,6 +58,7 @@ final class ComponentManagerTest extends AbstractUnitTestCase
         $this->assertTrue($called);
         $this->assertSame('fired', $result);
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09

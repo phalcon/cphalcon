@@ -135,6 +135,7 @@ final class RadioGroupTest extends AbstractUnitTestCase
 
         $this->assertSame($element->render(), (string) $element);
     }
+
     private function factory(): TagFactory
     {
         return new TagFactory(new Escaper());

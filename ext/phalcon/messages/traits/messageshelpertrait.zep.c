@@ -98,10 +98,11 @@ PHP_METHOD(Phalcon_Messages_Traits_MessagesHelperTrait, current)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 961, PH_NOISY_CC | PH_READONLY);
+	zephir_memory_observe(&_1);
 	zephir_memory_observe(&_2);
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 962, PH_NOISY_CC);
-	zephir_array_fetch(&_1, &_0, &_2, PH_NOISY | PH_READONLY, "phalcon/Messages/Traits/MessagesHelperTrait.zep", 46);
-	RETURN_CTOR(&_1);
+	zephir_array_fetch(&_1, &_0, &_2, PH_NOISY, "phalcon/Messages/Traits/MessagesHelperTrait.zep", 46);
+	RETURN_CCTOR(&_1);
 }
 
 /**
@@ -250,14 +251,14 @@ PHP_METHOD(Phalcon_Messages_Traits_MessagesHelperTrait, offsetUnset)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval offset_sub, _0, _1$$3, _2$$3;
+	zval offset_sub, _0, _1$$3, *_2$$3, _3$$3;
 	zval *offset;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&offset_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_3$$3);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("messages", 8, 1);
@@ -271,11 +272,12 @@ PHP_METHOD(Phalcon_Messages_Traits_MessagesHelperTrait, offsetUnset)
 	zephir_fetch_params(1, 1, 0, &offset);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 961, PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_value(&_0, offset)) {
-		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_0, 961, PH_NOISY_CC | PH_READONLY);
-		ZVAL_LONG(&_2$$3, 1);
-		ZEPHIR_MAKE_REF(&_1$$3);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_splice", NULL, 0, &_1$$3, offset, &_2$$3);
-		ZEPHIR_UNREF(&_1$$3);
+		zephir_memory_observe(&_1$$3);
+		_2$$3 = zephir_fetch_property_write(this_ptr, _zephir_prop_0, &_1$$3);
+		ZVAL_LONG(&_3$$3, 1);
+		ZEPHIR_MAKE_WRITE_REF(_2$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_splice", NULL, 0, _2$$3, offset, &_3$$3);
+		ZEPHIR_UNREF_WRITE(_2$$3);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();

@@ -1269,6 +1269,7 @@ zend_class_entry *phalcon_mvc_model_exceptions_unsupportedeageroption_ce;
 zend_class_entry *phalcon_mvc_model_exceptions_unsupportedeagerresultset_ce;
 zend_class_entry *phalcon_mvc_model_exceptions_updatesnapshotdisabled_ce;
 zend_class_entry *phalcon_mvc_model_hydration_caseinsensitivecolumnmap_ce;
+zend_class_entry *phalcon_mvc_model_hydration_cloneresult_ce;
 zend_class_entry *phalcon_mvc_model_hydration_cloneresultmaphydrate_ce;
 zend_class_entry *phalcon_mvc_model_hydration_getprivateproperties_ce;
 zend_class_entry *phalcon_mvc_model_manager_ce;
@@ -2789,6 +2790,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Exceptions_UnsupportedEagerResultset);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Exceptions_UpdateSnapshotDisabled);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Hydration_CaseInsensitiveColumnMap);
+	ZEPHIR_INIT(Phalcon_Mvc_Model_Hydration_CloneResult);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Hydration_CloneResultMapHydrate);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Hydration_GetPrivateProperties);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Manager);
@@ -3239,15 +3241,25 @@ static PHP_MINIT_FUNCTION(phalcon)
 	return SUCCESS;
 }
 
-#ifndef ZEPHIR_RELEASE
 static PHP_MSHUTDOWN_FUNCTION(phalcon)
 {
+#ifndef ZEPHIR_RELEASE
 	
 	zephir_deinitialize_memory();
+#endif
+	/**
+	 * Both of these have to run in every build, release included.
+	 *
+	 * module_destructor() unregisters a module's INI entries for it only when
+	 * the module has no MSHUTDOWN of its own, so declaring one takes over that
+	 * duty; skipping it leaves zend_ini_entry records pointing into an
+	 * unloaded extension. And the kernel installs process-wide hooks that
+	 * point into this extension and must not outlive it.
+	 */
 	UNREGISTER_INI_ENTRIES();
+	zephir_module_shutdown();
 	return SUCCESS;
 }
-#endif
 
 /**
  * Initialize globals on each request or each thread started
@@ -3385,11 +3397,7 @@ zend_module_entry phalcon_module_entry = {
 	PHP_PHALCON_EXTNAME,
 	php_phalcon_functions,
 	PHP_MINIT(phalcon),
-#ifndef ZEPHIR_RELEASE
 	PHP_MSHUTDOWN(phalcon),
-#else
-	NULL,
-#endif
 	PHP_RINIT(phalcon),
 	PHP_RSHUTDOWN(phalcon),
 	PHP_MINFO(phalcon),

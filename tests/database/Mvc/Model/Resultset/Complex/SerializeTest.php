@@ -34,7 +34,7 @@ final class SerializeTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Serialising a complex resultset and restoring it preserves its rows.
+     * Serializing a complex resultset and restoring it preserves its rows.
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-06-22
@@ -50,14 +50,14 @@ final class SerializeTest extends AbstractDatabaseTestCase
         $restored->unserialize($original->serialize());
 
         // A complex resultset hydrates rows of models whose internal snapshot
-        // state is not part of the serialised payload, so compare the restored
+        // state is not part of the serialized payload, so compare the restored
         // row count rather than a deep object graph.
         $this->assertCount(4, $restored);
         $this->assertSame($original->count(), $restored->count());
     }
 
     /**
-     * A restored resultset that was serialised under HYDRATE_ARRAYS keeps its
+     * A restored resultset that was serialized under HYDRATE_ARRAYS keeps its
      * rows reachable too.
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/17574

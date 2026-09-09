@@ -106,7 +106,8 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_IsoIek, unpad)
 	while (1) {
 		_1 = counter > 0;
 		if (_1) {
-			zephir_array_fetch_long(&_2, &inputArray, counter, PH_NOISY | PH_READONLY, "phalcon/Encryption/Crypt/Padding/IsoIek.zep", 36);
+			ZEPHIR_OBS_NVAR(&_2);
+			zephir_array_fetch_long(&_2, &inputArray, counter, PH_NOISY, "phalcon/Encryption/Crypt/Padding/IsoIek.zep", 36);
 			_1 = ZEPHIR_IS_IDENTICAL(&_2, &zero);
 		}
 		_3 = _1;
@@ -119,7 +120,8 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_IsoIek, unpad)
 		paddingSize++;
 		counter--;
 	}
-	zephir_array_fetch_long(&_4, &inputArray, counter, PH_NOISY | PH_READONLY, "phalcon/Encryption/Crypt/Padding/IsoIek.zep", 43);
+	zephir_memory_observe(&_4);
+	zephir_array_fetch_long(&_4, &inputArray, counter, PH_NOISY, "phalcon/Encryption/Crypt/Padding/IsoIek.zep", 43);
 	ZVAL_LONG(&_0, 0x80);
 	ZEPHIR_CALL_FUNCTION(&_5, "chr", NULL, 0, &_0);
 	zephir_check_call_status();

@@ -46,7 +46,8 @@ PHP_METHOD(phalcon_96__closure, __invoke)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &matches);
 	ZEPHIR_INIT_VAR(&_0);
-	zephir_array_fetch_long(&_1, matches, 0, PH_NOISY | PH_READONLY, "phalcon/Mvc/View/Engine/Volt/Compiler.zep", 1492);
+	zephir_memory_observe(&_1);
+	zephir_array_fetch_long(&_1, matches, 0, PH_NOISY, "phalcon/Mvc/View/Engine/Volt/Compiler.zep", 1492);
 	ZVAL_LONG(&_2, 0);
 	ZVAL_LONG(&_3, 1);
 	ZEPHIR_INIT_NVAR(&_0);
@@ -57,7 +58,8 @@ PHP_METHOD(phalcon_96__closure, __invoke)
 		ZEPHIR_OBS_NVAR(&_0);
 		zephir_array_fetch_long(&_0, matches, 0, PH_NOISY, "phalcon/Mvc/View/Engine/Volt/Compiler.zep", 1494);
 	} else {
-		zephir_array_fetch_long(&_5, matches, 0, PH_NOISY | PH_READONLY, "phalcon/Mvc/View/Engine/Volt/Compiler.zep", 1494);
+		zephir_memory_observe(&_5);
+		zephir_array_fetch_long(&_5, matches, 0, PH_NOISY, "phalcon/Mvc/View/Engine/Volt/Compiler.zep", 1494);
 		ZEPHIR_INIT_NVAR(&_0);
 		ZEPHIR_CONCAT_SV(&_0, "\\", &_5);
 	}

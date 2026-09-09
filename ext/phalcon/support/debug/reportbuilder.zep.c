@@ -544,9 +544,11 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, resolveClassLink)
 	zephir_check_call_status();
 	if (zephir_is_true(&_1)) {
 		ZEPHIR_INIT_VAR(&parts);
-		zephir_fast_explode_str(&parts, SL("\\"), &className_zv, LONG_MAX);
-		zephir_array_fetch_long(&_2$$3, &parts, 0, PH_NOISY | PH_READONLY, "phalcon/Support/Debug/ReportBuilder.zep", 227);
-		zephir_array_fetch_long(&_3$$3, &parts, 1, PH_NOISY | PH_READONLY, "phalcon/Support/Debug/ReportBuilder.zep", 227);
+		zephir_fast_explode_str(&parts, SL("\\"), &className_zv, ZEND_LONG_MAX);
+		zephir_memory_observe(&_2$$3);
+		zephir_array_fetch_long(&_2$$3, &parts, 0, PH_NOISY, "phalcon/Support/Debug/ReportBuilder.zep", 227);
+		zephir_memory_observe(&_3$$3);
+		zephir_array_fetch_long(&_3$$3, &parts, 1, PH_NOISY, "phalcon/Support/Debug/ReportBuilder.zep", 227);
 		ZEPHIR_CONCAT_SVSV(return_value, "https://docs.phalcon.io/5.0/en/api/", &_2$$3, "_", &_3$$3);
 		RETURN_MM();
 	}

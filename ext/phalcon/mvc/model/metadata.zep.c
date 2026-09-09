@@ -1134,7 +1134,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, hasAttribute)
 	}
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "readmetadata", NULL, 52, model);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_1, &_0, 4, PH_READONLY, "phalcon/Mvc/Model/MetaData.zep", 689);
+	zephir_memory_observe(&_1);
+	zephir_array_fetch_long(&_1, &_0, 4, 0, "phalcon/Mvc/Model/MetaData.zep", 689);
 	RETURN_MM_BOOL(zephir_array_isset_value(&_1, &attribute_zv));
 }
 
@@ -1267,8 +1268,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap)
 	zephir_check_call_status();
 	if (EXPECTED(Z_TYPE_P(&keyName) != IS_NULL)) {
 		zephir_read_property_cached(&_2$$4, this_ptr, _zephir_prop_0, 62, PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&_3$$4, &_2$$4, &keyName, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/MetaData.zep", 746);
-		RETURN_CTOR(&_3$$4);
+		zephir_memory_observe(&_3$$4);
+		zephir_array_fetch(&_3$$4, &_2$$4, &keyName, PH_NOISY, "phalcon/Mvc/Model/MetaData.zep", 746);
+		RETURN_CCTOR(&_3$$4);
 	}
 	RETURN_MM_NULL();
 }
@@ -1324,9 +1326,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex)
 	zephir_check_call_status();
 	if (EXPECTED(Z_TYPE_P(&keyName) != IS_NULL)) {
 		zephir_read_property_cached(&_2$$4, this_ptr, _zephir_prop_0, 62, PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&_3$$4, &_2$$4, &keyName, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/MetaData.zep", 774);
-		zephir_array_fetch_long(&_4$$4, &_3$$4, index, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/MetaData.zep", 774);
-		RETURN_CTOR(&_4$$4);
+		zephir_memory_observe(&_3$$4);
+		zephir_array_fetch(&_3$$4, &_2$$4, &keyName, PH_NOISY, "phalcon/Mvc/Model/MetaData.zep", 774);
+		zephir_memory_observe(&_4$$4);
+		zephir_array_fetch_long(&_4$$4, &_3$$4, index, PH_NOISY, "phalcon/Mvc/Model/MetaData.zep", 774);
+		RETURN_CCTOR(&_4$$4);
 	}
 	RETURN_MM_NULL();
 }
@@ -1370,8 +1374,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData)
 	zephir_check_call_status();
 	if (EXPECTED(Z_TYPE_P(&key) != IS_NULL)) {
 		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 64, PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&_1$$3, &_0$$3, &key, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/MetaData.zep", 797);
-		RETURN_CTOR(&_1$$3);
+		zephir_memory_observe(&_1$$3);
+		zephir_array_fetch(&_1$$3, &_0$$3, &key, PH_NOISY, "phalcon/Mvc/Model/MetaData.zep", 797);
+		RETURN_CCTOR(&_1$$3);
 	}
 	RETURN_MM_NULL();
 }
@@ -1418,9 +1423,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex)
 	zephir_check_call_status();
 	if (EXPECTED(Z_TYPE_P(&key) != IS_NULL)) {
 		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 64, PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&_1$$3, &_0$$3, &key, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/MetaData.zep", 821);
-		zephir_array_fetch_long(&_2$$3, &_1$$3, index, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/MetaData.zep", 821);
-		RETURN_CTOR(&_2$$3);
+		zephir_memory_observe(&_1$$3);
+		zephir_array_fetch(&_1$$3, &_0$$3, &key, PH_NOISY, "phalcon/Mvc/Model/MetaData.zep", 821);
+		zephir_memory_observe(&_2$$3);
+		zephir_array_fetch_long(&_2$$3, &_1$$3, index, PH_NOISY, "phalcon/Mvc/Model/MetaData.zep", 821);
+		RETURN_CCTOR(&_2$$3);
 	}
 	RETURN_MM_NULL();
 }
@@ -1950,7 +1957,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, initializeMetaData)
 			zephir_read_property_cached(&_4$$4, this_ptr, _zephir_prop_1, 67, PH_NOISY_CC | PH_READONLY);
 			if (zephir_array_isset_value(&_4$$4, key)) {
 				zephir_read_property_cached(&_5$$10, this_ptr, _zephir_prop_1, 67, PH_NOISY_CC | PH_READONLY);
-				zephir_array_fetch(&_6$$10, &_5$$10, key, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/MetaData.zep", 1106);
+				zephir_memory_observe(&_6$$10);
+				zephir_array_fetch(&_6$$10, &_5$$10, key, PH_NOISY, "phalcon/Mvc/Model/MetaData.zep", 1106);
 				if (Z_TYPE_P(&_6$$10) == IS_STRING) {
 					ZEPHIR_INIT_VAR(&_8$$10);
 					zephir_string_to_char_array(&_8$$10, &_6$$10);

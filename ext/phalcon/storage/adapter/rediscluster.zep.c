@@ -257,13 +257,20 @@ PHP_METHOD(Phalcon_Storage_Adapter_RedisCluster, getAdapter)
 
 			ZEPHIR_INIT_VAR(&connection);
 			object_init_ex(&connection, zephir_get_internal_ce(SL("rediscluster")));
-			zephir_array_fetch_string(&_2$$4, &options, SL("name"), PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/RedisCluster.zep", 126);
-			zephir_array_fetch_string(&_3$$4, &options, SL("hosts"), PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/RedisCluster.zep", 127);
-			zephir_array_fetch_string(&_4$$4, &options, SL("timeout"), PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/RedisCluster.zep", 128);
-			zephir_array_fetch_string(&_5$$4, &options, SL("readTimeout"), PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/RedisCluster.zep", 129);
-			zephir_array_fetch_string(&_6$$4, &options, SL("persistent"), PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/RedisCluster.zep", 130);
-			zephir_array_fetch_string(&_7$$4, &options, SL("auth"), PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/RedisCluster.zep", 131);
-			zephir_array_fetch_string(&_8$$4, &options, SL("context"), PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/RedisCluster.zep", 133);
+			zephir_memory_observe(&_2$$4);
+			zephir_array_fetch_string(&_2$$4, &options, SL("name"), PH_NOISY, "phalcon/Storage/Adapter/RedisCluster.zep", 126);
+			zephir_memory_observe(&_3$$4);
+			zephir_array_fetch_string(&_3$$4, &options, SL("hosts"), PH_NOISY, "phalcon/Storage/Adapter/RedisCluster.zep", 127);
+			zephir_memory_observe(&_4$$4);
+			zephir_array_fetch_string(&_4$$4, &options, SL("timeout"), PH_NOISY, "phalcon/Storage/Adapter/RedisCluster.zep", 128);
+			zephir_memory_observe(&_5$$4);
+			zephir_array_fetch_string(&_5$$4, &options, SL("readTimeout"), PH_NOISY, "phalcon/Storage/Adapter/RedisCluster.zep", 129);
+			zephir_memory_observe(&_6$$4);
+			zephir_array_fetch_string(&_6$$4, &options, SL("persistent"), PH_NOISY, "phalcon/Storage/Adapter/RedisCluster.zep", 130);
+			zephir_memory_observe(&_7$$4);
+			zephir_array_fetch_string(&_7$$4, &options, SL("auth"), PH_NOISY, "phalcon/Storage/Adapter/RedisCluster.zep", 131);
+			zephir_memory_observe(&_8$$4);
+			zephir_array_fetch_string(&_8$$4, &options, SL("context"), PH_NOISY, "phalcon/Storage/Adapter/RedisCluster.zep", 133);
 			ZEPHIR_CALL_METHOD(NULL, &connection, "__construct", NULL, 0, &_2$$4, &_3$$4, &_4$$4, &_5$$4, &_6$$4, &_7$$4, &_8$$4);
 			zephir_check_call_status_or_jump(try_end_1);
 

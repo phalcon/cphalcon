@@ -58,6 +58,7 @@ final class ArrayDataTest extends AbstractUnitTestCase
         $actual   = $data->getOptions();
         $this->assertSame($expected, $actual);
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-17

@@ -73,7 +73,7 @@ final class GetSetEventsManagerTest extends AbstractDatabaseTestCase
         $this->assertSame('dm:connectionLost', Events::CONNECTION_LOST);
     }
 
-    public function testDMPdoOperationCancelledMessage(): void
+    public function testDMPdoOperationCanceledMessage(): void
     {
         $exception = new OperationCancelled(Events::BEFORE_PERFORM);
 

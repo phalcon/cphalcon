@@ -25,7 +25,9 @@ final class WkbParserTest extends AbstractUnitTestCase
 {
     // little-endian IEEE-754 doubles
     private const D0 = "0000000000000000"; // 0.0
+
     private const D1 = "000000000000F03F"; // 1.0
+
     private const D2 = "0000000000000040"; // 2.0
 
     /**

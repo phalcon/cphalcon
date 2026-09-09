@@ -56,6 +56,7 @@ final class PerContextEscaperTest extends AbstractUnitTestCase
         $this->assertNotSame('', $facade->css('hi'));
         $this->assertNotSame('', $facade->js('hi'));
     }
+
     public function testFacadeProvidesAllFiveContexts(): void
     {
         $facade = new Escaper();

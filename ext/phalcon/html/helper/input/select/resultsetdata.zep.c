@@ -232,8 +232,9 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, readField)
 		zephir_read_property_zval(&_0$$3, option, &field_zv, PH_NOISY_CC);
 		RETURN_CCTOR(&_0$$3);
 	}
-	zephir_array_fetch(&_1, option, &field_zv, PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 116);
-	RETURN_CTOR(&_1);
+	zephir_memory_observe(&_1);
+	zephir_array_fetch(&_1, option, &field_zv, PH_NOISY, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 116);
+	RETURN_CCTOR(&_1);
 }
 
 /**

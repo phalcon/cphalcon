@@ -50,4 +50,22 @@ final class ConstructTest extends AbstractDatabaseTestCase
             $invoice
         );
     }
+
+    /**
+     * A non-array `data` argument is ignored, as the Zephir source does,
+     * instead of reaching `assign()` and raising a `TypeError`.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-04
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelConstructIgnoresNonArrayData(): void
+    {
+        $invoice = new Invoices('nonsense');
+
+        $this->assertInstanceOf(ModelInterface::class, $invoice);
+        $this->assertNull($invoice->inv_title);
+    }
 }

@@ -13,6 +13,7 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
+#include "kernel/memory.h"
 #include "kernel/array.h"
 
 
@@ -48,6 +49,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Token_AbstractItem)
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_AbstractItem, getEncoded)
 {
 	zval _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
@@ -56,8 +58,12 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_AbstractItem, getEncoded)
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("data", 4, 1);
 	}
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 200, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_1, &_0, SL("encoded"), PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/JWT/Token/AbstractItem.zep", 29);
-	RETURN_CTORW(&_1);
+	zephir_memory_observe(&_1);
+	zephir_array_fetch_string(&_1, &_0, SL("encoded"), PH_NOISY, "phalcon/Encryption/Security/JWT/Token/AbstractItem.zep", 29);
+	RETURN_CCTOR(&_1);
 }
 

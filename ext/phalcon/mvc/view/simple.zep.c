@@ -898,7 +898,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, internalRender)
 	ZEPHIR_INIT_VAR(&_6);
 	ZVAL_STRING(&_6, "/");
 	zephir_fast_str_replace(&_4, &_5, &_6, &path);
-	zephir_fast_explode_str(&_3, SL("/"), &_4, LONG_MAX);
+	zephir_fast_explode_str(&_3, SL("/"), &_4, ZEND_LONG_MAX);
 	if (Z_TYPE_P(&_3) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_8);
 		zephir_string_to_char_array(&_8, &_3);

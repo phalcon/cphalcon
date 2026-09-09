@@ -2274,6 +2274,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
         /**
          * Dispatch events to the global events manager
+         *
+         * v7: the model is sent as the event source. This is incorrect.
+         * The source must be the caller, that is this manager, and the
+         * model must be the data of the event. Change this in v7 only,
+         * because listeners that read the source will break. The custom
+         * events manager below has the same problem and must change with
+         * it.
          */
         let eventsManager = this->eventsManager;
 
@@ -2335,19 +2342,30 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function removeBehavior(<ModelInterface> model,  string behaviorClass) -> void
     {
-        var entityName, key, behavior;
+        var behavior, entityName;
+        array remaining;
 
         let entityName = get_class_lower(model);
 
-        if isset this->behaviors[entityName] {
-            for key, behavior in this->behaviors[entityName] {
-                if get_class(behavior) === behaviorClass {
-                    unset this->behaviors[entityName][key];
-                }
-            }
-
-            let this->behaviors[entityName] = array_values(this->behaviors[entityName]);
+        if !isset this->behaviors[entityName] {
+            return;
         }
+
+        /**
+         * Collect the behaviors to keep and assign the result back in one
+         * statement. `unset this->behaviors[entityName][key]` cannot be used:
+         * a two-level unset on a property removes the key from a copy of the
+         * inner array, leaving the property unchanged.
+         */
+        let remaining = [];
+
+        for behavior in this->behaviors[entityName] {
+            if get_class(behavior) !== behaviorClass {
+                let remaining[] = behavior;
+            }
+        }
+
+        let this->behaviors[entityName] = remaining;
     }
 
     /**

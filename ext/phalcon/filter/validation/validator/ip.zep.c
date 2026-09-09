@@ -182,7 +182,8 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Ip, validate)
 	ZEPHIR_CALL_METHOD(&version, this_ptr, "getoption", NULL, 0, &_1, &_2);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&version) == IS_ARRAY) {
-		zephir_array_fetch(&_3$$4, &version, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Ip.zep", 111);
+		zephir_memory_observe(&_3$$4);
+		zephir_array_fetch(&_3$$4, &version, field, PH_NOISY, "phalcon/Filter/Validation/Validator/Ip.zep", 111);
 		ZEPHIR_CPY_WRT(&version, &_3$$4);
 	}
 	ZEPHIR_INIT_NVAR(&_1);
@@ -191,7 +192,8 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Ip, validate)
 	ZEPHIR_CALL_METHOD(&allowPrivate, this_ptr, "getoption", NULL, 0, &_1, &_2);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&allowPrivate) == IS_ARRAY) {
-		zephir_array_fetch(&_4$$5, &allowPrivate, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Ip.zep", 116);
+		zephir_memory_observe(&_4$$5);
+		zephir_array_fetch(&_4$$5, &allowPrivate, field, PH_NOISY, "phalcon/Filter/Validation/Validator/Ip.zep", 116);
 		ZEPHIR_CPY_WRT(&allowPrivate, &_4$$5);
 	}
 	ZEPHIR_INIT_VAR(&_5);
@@ -209,7 +211,8 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Ip, validate)
 	ZEPHIR_CALL_METHOD(&allowReserved, this_ptr, "getoption", NULL, 0, &_1, &_2);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&allowReserved) == IS_ARRAY) {
-		zephir_array_fetch(&_6$$6, &allowReserved, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Ip.zep", 122);
+		zephir_memory_observe(&_6$$6);
+		zephir_array_fetch(&_6$$6, &allowReserved, field, PH_NOISY, "phalcon/Filter/Validation/Validator/Ip.zep", 122);
 		ZEPHIR_CPY_WRT(&allowReserved, &_6$$6);
 	}
 	ZEPHIR_INIT_NVAR(&_5);

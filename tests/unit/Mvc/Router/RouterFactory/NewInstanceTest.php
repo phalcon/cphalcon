@@ -24,6 +24,7 @@ final class NewInstanceTest extends AbstractUnitTestCase
         $router = (new RouterFactory())->newInstance(false);
         $this->assertCount(0, $router->getRoutes());
     }
+
     public function testNewInstanceReturnsRouterWithDefaultRoutesByDefault(): void
     {
         $router = (new RouterFactory())->newInstance();

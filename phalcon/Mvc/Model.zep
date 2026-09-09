@@ -39,7 +39,6 @@ use Phalcon\Mvc\Model\Exceptions\ColumnNotInTableMap;
 use Phalcon\Mvc\Model\Exceptions\DataTypeNotDefined;
 use Phalcon\Mvc\Model\Exceptions\IdentityNotInColumnMap;
 use Phalcon\Mvc\Model\Exceptions\IdentityNotInTableColumns;
-use Phalcon\Mvc\Model\Exceptions\InvalidDumpResultKey;
 use Phalcon\Mvc\Model\Exceptions\InvalidEagerParameter;
 use Phalcon\Mvc\Model\Exceptions\InvalidFindParameters;
 use Phalcon\Mvc\Model\Exceptions\InvalidModelsManagerService;
@@ -59,6 +58,7 @@ use Phalcon\Mvc\Model\Exceptions\UnsupportedEagerHydration;
 use Phalcon\Mvc\Model\Exceptions\UnsupportedEagerResultset;
 use Phalcon\Mvc\Model\Exceptions\UpdateSnapshotDisabled;
 use Phalcon\Mvc\Model\Hydration\CaseInsensitiveColumnMap;
+use Phalcon\Mvc\Model\Hydration\CloneResult;
 use Phalcon\Mvc\Model\Hydration\CloneResultMapHydrate;
 use Phalcon\Mvc\Model\Hydration\GetPrivateProperties;
 use Phalcon\Mvc\Model\ManagerInterface;
@@ -1063,44 +1063,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public static function cloneResult(<ModelInterface> base,  array data, int dirtyState = 0) -> <ModelInterface>
     {
-        var instance, key, privateProperties, reflectionProperty, value;
-
-        /**
-         * Clone the base record
-         */
-        let instance = clone base;
-
-        /**
-         * Declared private properties must be written via reflection during
-         * hydration - see Hydration\GetPrivateProperties
-         */
-        let privateProperties = GetPrivateProperties::getPrivateProperties(get_class(instance));
-
-        /**
-         * Mark the object as persistent
-         */
-        instance->setDirtyState(dirtyState);
-
-        for key, value in data {
-            if unlikely typeof key !== "string" {
-                throw new InvalidDumpResultKey(get_class(base));
-            }
-
-            if unlikely isset privateProperties[key] {
-                let reflectionProperty = privateProperties[key];
-                reflectionProperty->setValue(instance, value);
-            } else {
-                let instance->{key} = value;
-            }
-        }
-
-        /**
-         * Call afterFetch, this allows the developer to execute actions after a
-         * record is fetched from the database
-         */
-        (<ModelInterface> instance)->fireEvent("afterFetch");
-
-        return instance;
+        return CloneResult::cloneResult(base, data, dirtyState);
     }
 
     /**

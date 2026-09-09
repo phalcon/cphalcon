@@ -82,6 +82,7 @@ final class AddSubscriberTest extends AbstractUnitTestCase
 
         $manager->addSubscriber(new InvalidSubscriber());
     }
+
     public function testAddSubscriberSimpleStringForm(): void
     {
         $manager    = new Manager();

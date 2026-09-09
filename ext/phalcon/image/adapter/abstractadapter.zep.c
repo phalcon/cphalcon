@@ -13,10 +13,10 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
+#include "kernel/memory.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
 #include "kernel/object.h"
-#include "kernel/memory.h"
 #include "kernel/math.h"
 #include "kernel/exception.h"
 #include "kernel/string.h"
@@ -154,9 +154,12 @@ PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, background)
 		}
 	ZEPHIR_CALL_METHOD(&colors, this_ptr, "parsecolor", NULL, 204, &color_zv);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_0, &colors, 0, PH_NOISY | PH_READONLY, "phalcon/Image/Adapter/AbstractAdapter.zep", 86);
-	zephir_array_fetch_long(&_1, &colors, 1, PH_NOISY | PH_READONLY, "phalcon/Image/Adapter/AbstractAdapter.zep", 86);
-	zephir_array_fetch_long(&_2, &colors, 2, PH_NOISY | PH_READONLY, "phalcon/Image/Adapter/AbstractAdapter.zep", 86);
+	zephir_memory_observe(&_0);
+	zephir_array_fetch_long(&_0, &colors, 0, PH_NOISY, "phalcon/Image/Adapter/AbstractAdapter.zep", 86);
+	zephir_memory_observe(&_1);
+	zephir_array_fetch_long(&_1, &colors, 1, PH_NOISY, "phalcon/Image/Adapter/AbstractAdapter.zep", 86);
+	zephir_memory_observe(&_2);
+	zephir_array_fetch_long(&_2, &colors, 2, PH_NOISY, "phalcon/Image/Adapter/AbstractAdapter.zep", 86);
 	ZVAL_LONG(&_3, opacity);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processbackground", NULL, 0, &_0, &_1, &_2, &_3);
 	zephir_check_call_status();
@@ -979,9 +982,12 @@ PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, text)
 	opacity = zephir_get_numberval(&_0);
 	ZEPHIR_CALL_METHOD(&colors, this_ptr, "parsecolor", NULL, 204, &color_zv);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_2, &colors, 0, PH_NOISY | PH_READONLY, "phalcon/Image/Adapter/AbstractAdapter.zep", 397);
-	zephir_array_fetch_long(&_3, &colors, 1, PH_NOISY | PH_READONLY, "phalcon/Image/Adapter/AbstractAdapter.zep", 398);
-	zephir_array_fetch_long(&_4, &colors, 2, PH_NOISY | PH_READONLY, "phalcon/Image/Adapter/AbstractAdapter.zep", 399);
+	zephir_memory_observe(&_2);
+	zephir_array_fetch_long(&_2, &colors, 0, PH_NOISY, "phalcon/Image/Adapter/AbstractAdapter.zep", 397);
+	zephir_memory_observe(&_3);
+	zephir_array_fetch_long(&_3, &colors, 1, PH_NOISY, "phalcon/Image/Adapter/AbstractAdapter.zep", 398);
+	zephir_memory_observe(&_4);
+	zephir_array_fetch_long(&_4, &colors, 2, PH_NOISY, "phalcon/Image/Adapter/AbstractAdapter.zep", 399);
 	ZVAL_LONG(&_1, opacity);
 	ZVAL_LONG(&_5, size);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processtext", NULL, 0, &text_zv, offsetX, offsetY, &_1, &_2, &_3, &_4, &_5, &fontFile_zv);

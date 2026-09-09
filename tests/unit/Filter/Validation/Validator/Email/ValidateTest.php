@@ -336,6 +336,7 @@ final class ValidateTest extends AbstractUnitTestCase
         $actual   = $messages->count();
         $this->assertSame($expected, $actual);
     }
+
     /**
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-08-19

@@ -112,8 +112,9 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, get)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 93, PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_value(&_0, &realClassName)) {
 		zephir_read_property_cached(&_1$$5, this_ptr, _zephir_prop_0, 93, PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&_2$$5, &_1$$5, &realClassName, PH_NOISY | PH_READONLY, "phalcon/Annotations/Adapter/AbstractAdapter.zep", 69);
-		RETURN_CTOR(&_2$$5);
+		zephir_memory_observe(&_2$$5);
+		zephir_array_fetch(&_2$$5, &_1$$5, &realClassName, PH_NOISY, "phalcon/Annotations/Adapter/AbstractAdapter.zep", 69);
+		RETURN_CCTOR(&_2$$5);
 	}
 	ZEPHIR_CALL_METHOD(&classAnnotations, this_ptr, "read", NULL, 0, &realClassName);
 	zephir_check_call_status();
@@ -186,13 +187,14 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getConstant)
 	ZVAL_STR_COPY(&constantName_zv, constantName);
 	ZEPHIR_CALL_METHOD(&constants, this_ptr, "getconstants", NULL, 0, &className_zv);
 	zephir_check_call_status();
-	if (!(zephir_array_isset_fetch(&constant, &constants, &constantName_zv, 1))) {
+	zephir_memory_observe(&constant);
+	if (!(zephir_array_isset_fetch(&constant, &constants, &constantName_zv, 0))) {
 		object_init_ex(return_value, phalcon_annotations_collection_ce);
 		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 86);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	RETURN_CTOR(&constant);
+	RETURN_CCTOR(&constant);
 }
 
 /**
@@ -254,13 +256,14 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getProperty)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&properties, &classAnnotations, "getpropertiesannotations", NULL, 0);
 	zephir_check_call_status();
-	if (!(zephir_array_isset_fetch(&property, &properties, &propertyName_zv, 1))) {
+	zephir_memory_observe(&property);
+	if (!(zephir_array_isset_fetch(&property, &properties, &propertyName_zv, 0))) {
 		object_init_ex(return_value, phalcon_annotations_collection_ce);
 		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 86);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	RETURN_CTOR(&property);
+	RETURN_CCTOR(&property);
 }
 
 /**

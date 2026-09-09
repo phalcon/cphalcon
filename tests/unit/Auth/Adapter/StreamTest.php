@@ -26,6 +26,7 @@ use Phalcon\Tests\Unit\Auth\Fake\FakeStreamAdapter;
 final class StreamTest extends AbstractUnitTestCase
 {
     private string $hashedPassword;
+
     private Security $security;
 
     protected function setUp(): void

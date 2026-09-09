@@ -519,7 +519,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection)
 			ZEPHIR_CALL_METHOD(&className, &reflectionClass, "getname", NULL, 0);
 			zephir_check_call_status();
 			if (!(zephir_array_isset_value(&params, &paramKey))) {
-				zephir_array_fetch(&_7$$7, &paramsKeys, &paramKey, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Binder.zep", 228);
+				ZEPHIR_OBS_NVAR(&_7$$7);
+				zephir_array_fetch(&_7$$7, &paramsKeys, &paramKey, PH_NOISY, "phalcon/Mvc/Model/Binder.zep", 228);
 				ZEPHIR_CPY_WRT(&paramKey, &_7$$7);
 			}
 			ZEPHIR_INIT_NVAR(&boundModel);
@@ -622,7 +623,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection)
 				ZEPHIR_CALL_METHOD(&className, &reflectionClass, "getname", NULL, 0);
 				zephir_check_call_status();
 				if (!(zephir_array_isset_value(&params, &paramKey))) {
-					zephir_array_fetch(&_22$$21, &paramsKeys, &paramKey, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Binder.zep", 228);
+					ZEPHIR_OBS_NVAR(&_22$$21);
+					zephir_array_fetch(&_22$$21, &paramsKeys, &paramKey, PH_NOISY, "phalcon/Mvc/Model/Binder.zep", 228);
 					ZEPHIR_CPY_WRT(&paramKey, &_22$$21);
 				}
 				ZEPHIR_INIT_NVAR(&boundModel);

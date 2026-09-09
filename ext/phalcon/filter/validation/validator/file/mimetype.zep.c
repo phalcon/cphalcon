@@ -174,7 +174,8 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_MimeType, validate)
 		ZEPHIR_CALL_FUNCTION(&tmp, "finfo_open", NULL, 0, &_4$$6);
 		zephir_check_call_status();
 		if (zephir_is_true(&tmp)) {
-			zephir_array_fetch_string(&_5$$7, &value, SL("tmp_name"), PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/File/MimeType.zep", 106);
+			zephir_memory_observe(&_5$$7);
+			zephir_array_fetch_string(&_5$$7, &value, SL("tmp_name"), PH_NOISY, "phalcon/Filter/Validation/Validator/File/MimeType.zep", 106);
 			ZEPHIR_CALL_FUNCTION(&mime, "finfo_file", NULL, 0, &tmp, &_5$$7);
 			zephir_check_call_status();
 		}

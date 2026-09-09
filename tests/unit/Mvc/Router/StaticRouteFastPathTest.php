@@ -124,7 +124,7 @@ final class StaticRouteFastPathTest extends AbstractUnitTestCase
     {
         $router = $this->getRouter(false);
         $router->add('/admin', ['controller' => 'admin'])
-            ->beforeMatch(static fn(): bool => false);
+            ->beforeMatch(static fn (): bool => false);
 
         $router->handle('/admin');
 

@@ -38,12 +38,13 @@ final class DispatchTest extends AbstractUnitTestCase
 
         $dispatcher->dispatch('NotAnAction', new Request());
     }
+
     /**
      * Unit Tests Phalcon\ADR\Dispatcher :: dispatch() resolves and runs the action
      */
     public function testAdrDispatcherDispatchRunsAction(): void
     {
-        $action = new class implements Action {
+        $action = new class () implements Action {
             public function __invoke(AttributeRequest $request): ResponseInterface
             {
                 return (new Response())->setContent('dispatched');

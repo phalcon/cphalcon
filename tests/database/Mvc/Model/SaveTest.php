@@ -23,6 +23,7 @@ use Phalcon\Tests\Support\Migrations\CustomersDefaultsMigration;
 use Phalcon\Tests\Support\Migrations\CustomersMigration;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Migrations\OnlyIdentityMigration;
+use Phalcon\Tests\Support\Migrations\PersonasMigration;
 use Phalcon\Tests\Support\Migrations\SourcesMigration;
 use Phalcon\Tests\Support\Models\Customers;
 use Phalcon\Tests\Support\Models\CustomersDefaults;
@@ -35,6 +36,7 @@ use Phalcon\Tests\Support\Models\InvoicesKeepSnapshots;
 use Phalcon\Tests\Support\Models\InvoicesSchema;
 use Phalcon\Tests\Support\Models\InvoicesValidationFails;
 use Phalcon\Tests\Support\Models\OnlyIdentity;
+use Phalcon\Tests\Support\Models\Personers;
 use Phalcon\Tests\Support\Models\Sources;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -468,6 +470,45 @@ final class SaveTest extends AbstractDatabaseTestCase
         $this->assertFalse($customerSaved, 'Unmodified hasOne related record must not be saved');
     }
 
+    /**
+     * A `not null` column whose default is the empty string accepts an empty
+     * string on create and on update. The not-null validation compares the
+     * value with the column default before it treats it as null.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/12507
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-08
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelSaveEmptyStringDefault(): void
+    {
+
+        /** @var PDO $connection */
+        $connection = self::getPdoConnection();
+        new PersonasMigration($connection);
+
+        $personers = new Personers(
+            [
+                'borgerId'     => 'C-12507',
+                'slagBorgerId' => 1,
+                'kredit'       => 2.3,
+                'status'       => 'A',
+            ]
+        );
+
+        $personers->navnes = '';
+        $this->assertTrue($personers->create());
+
+        $personers->navnes = 'save something!';
+        $this->assertTrue($personers->save());
+
+        $personers->navnes = '';
+        $this->assertTrue($personers->save());
+
+        $this->assertTrue($personers->delete());
+    }
 
     /**
      * @issue  https://github.com/phalcon/cphalcon/issues/16395

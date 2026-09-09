@@ -82,6 +82,7 @@ final class PaddingOracleTest extends AbstractUnitTestCase
         $this->expectException(Mismatch::class);
         $crypt->decrypt($tampered);
     }
+
     /**
      * The signed decrypt path must compute the HMAC even when the OpenSSL
      * decrypt fails, so that a padding failure and an HMAC mismatch cost the

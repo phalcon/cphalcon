@@ -51,6 +51,7 @@ final class SelectFieldTest extends AbstractTagTestCase
         // empty-option value must not break out of the value attribute
         $this->assertStringNotContainsString('<svg onload', $html);
     }
+
     public function testSelectFromResultsetWithAnArrayValue(): void
     {
         $resultset = new FakeResultset(
@@ -212,8 +213,8 @@ final class SelectFieldTest extends AbstractTagTestCase
     public function testSelectWithTrueEmptyTextRendersItCast(): void
     {
         /**
-         * `emptyText` is removed from the bag only for the literal `true`,
-         * which then reaches the markup cast to "1".
+         * `emptyText` is removed from the bag whenever it is present. A
+         * literal `true` reaches the markup cast to "1".
          */
         $html = Tag::selectStatic(
             [

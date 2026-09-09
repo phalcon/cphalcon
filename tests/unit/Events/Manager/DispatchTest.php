@@ -32,6 +32,7 @@ final class DispatchTest extends AbstractUnitTestCase
 
         $this->assertSame(['onSomething'], $listener->calls);
     }
+
     public function testDispatchByClassName(): void
     {
         $called  = false;

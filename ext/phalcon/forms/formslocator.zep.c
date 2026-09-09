@@ -296,8 +296,9 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, getElement)
 		return;
 	}
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 795, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_3, &_2, &type_zv, PH_NOISY | PH_READONLY, "phalcon/Forms/FormsLocator.zep", 130);
-	RETURN_CTOR(&_3);
+	zephir_memory_observe(&_3);
+	zephir_array_fetch(&_3, &_2, &type_zv, PH_NOISY, "phalcon/Forms/FormsLocator.zep", 130);
+	RETURN_CCTOR(&_3);
 }
 
 /**

@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, __construct)
 PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate)
 {
 	zval _6, _14, _5$$4, _11$$10;
-	zval config, modelClass, parameters, rowCountResult, pageItems, _0, _1, _2, _3, _7, _15, _4$$4, _8$$6, _9$$10, _10$$10, _12$$10, _13$$10;
+	zval config, modelClass, parameters, rowCountResult, pageItems, _0, _1, _2, _3, _7, _4$$4, _8$$6, _9$$10, _10$$10, _12$$10, _13$$10;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, pageNumber = 0, limit = 0, rowcount = 0, next = 0, totalPages = 0, previous = 0;
 	zval *this_ptr = getThis();
@@ -156,7 +156,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate)
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_7);
-	ZVAL_UNDEF(&_15);
 	ZVAL_UNDEF(&_4$$4);
 	ZVAL_UNDEF(&_8$$6);
 	ZVAL_UNDEF(&_9$$10);
@@ -192,7 +191,8 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate)
 	zephir_memory_observe(&_2);
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 1231, PH_NOISY_CC);
 	pageNumber = zephir_get_intval(&_2);
-	zephir_array_fetch_string(&_3, &config, SL("model"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/Model.zep", 117);
+	zephir_memory_observe(&_3);
+	zephir_array_fetch_string(&_3, &config, SL("model"), PH_NOISY, "phalcon/Paginator/Adapter/Model.zep", 117);
 	ZEPHIR_CPY_WRT(&modelClass, &_3);
 	zephir_memory_observe(&parameters);
 	if (!(zephir_array_isset_string_fetch(&parameters, &config, SL("parameters"), 0))) {
@@ -259,9 +259,9 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate)
 	ZEPHIR_INIT_NVAR(&_7);
 	ZVAL_LONG(&_7, rowcount);
 	zephir_array_update_string(&_14, SL("total_items"), &_7, PH_COPY | PH_SEPARATE);
-	zephir_memory_observe(&_15);
-	zephir_read_property_cached(&_15, this_ptr, _zephir_prop_0, 1229, PH_NOISY_CC);
-	zephir_array_update_string(&_14, SL("limit"), &_15, PH_COPY | PH_SEPARATE);
+	ZEPHIR_OBS_NVAR(&_3);
+	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 1229, PH_NOISY_CC);
+	zephir_array_update_string(&_14, SL("limit"), &_3, PH_COPY | PH_SEPARATE);
 	add_assoc_long_ex(&_14, SL("first"), 1);
 	ZEPHIR_INIT_NVAR(&_7);
 	ZVAL_LONG(&_7, previous);

@@ -821,7 +821,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getRoutePaths)
 		ZEPHIR_INIT_VAR(&actionName);
 		ZVAL_NULL(&actionName);
 		ZEPHIR_INIT_VAR(&parts);
-		zephir_fast_explode_str(&parts, SL("::"), paths, LONG_MAX);
+		zephir_fast_explode_str(&parts, SL("::"), paths, ZEND_LONG_MAX);
 		_0$$4 = zephir_fast_count_int(&parts);
 		if (_0$$4 == 3) { goto zephir_switch_0_clause_0; }
 		if (_0$$4 == 2) { goto zephir_switch_0_clause_1; }
@@ -976,7 +976,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure)
 			zephir_memory_observe(&pcrePattern);
 			zephir_array_fetch_long(&pcrePattern, &extracted, 0, PH_NOISY, "phalcon/Mvc/Router/Route.zep", 637);
 			ZEPHIR_INIT_VAR(&_0$$4);
-			zephir_array_fetch_long(&_1$$4, &extracted, 1, PH_NOISY | PH_READONLY, "phalcon/Mvc/Router/Route.zep", 638);
+			zephir_memory_observe(&_1$$4);
+			zephir_array_fetch_long(&_1$$4, &extracted, 1, PH_NOISY, "phalcon/Mvc/Router/Route.zep", 638);
 			zephir_fast_array_merge(&_0$$4, &routePaths, &_1$$4);
 			ZEPHIR_CPY_WRT(&routePaths, &_0$$4);
 		} else {

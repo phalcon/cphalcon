@@ -752,8 +752,9 @@ PHP_METHOD(Phalcon_Assets_Manager, get)
 		return;
 	}
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 419, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_3, &_2, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Assets/Manager.zep", 280);
-	RETURN_CTOR(&_3);
+	zephir_memory_observe(&_3);
+	zephir_array_fetch(&_3, &_2, &name_zv, PH_NOISY, "phalcon/Assets/Manager.zep", 280);
+	RETURN_CCTOR(&_3);
 }
 
 /**
@@ -1910,8 +1911,9 @@ PHP_METHOD(Phalcon_Assets_Manager, checkAndCreateCollection)
 		zephir_update_property_array(this_ptr, SL("collections"), &type_zv, &_1$$3);
 	}
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 419, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_3, &_2, &type_zv, PH_NOISY | PH_READONLY, "phalcon/Assets/Manager.zep", 818);
-	RETURN_CTOR(&_3);
+	zephir_memory_observe(&_3);
+	zephir_array_fetch(&_3, &_2, &type_zv, PH_NOISY, "phalcon/Assets/Manager.zep", 818);
+	RETURN_CCTOR(&_3);
 }
 
 /**
@@ -2406,7 +2408,8 @@ PHP_METHOD(Phalcon_Assets_Manager, processParameters)
 		ZVAL_STRING(&_6$$9, "");
 		zephir_array_update_zval(&params, &name_zv, &_6$$9, PH_COPY | PH_SEPARATE);
 		if (1 == zephir_array_isset_value_long(&params, 0)) {
-			zephir_array_fetch_long(&_7$$10, &params, 0, PH_NOISY | PH_READONLY, "phalcon/Assets/Manager.zep", 1059);
+			zephir_memory_observe(&_7$$10);
+			zephir_array_fetch_long(&_7$$10, &params, 0, PH_NOISY, "phalcon/Assets/Manager.zep", 1059);
 			zephir_array_update_zval(&params, &name_zv, &_7$$10, PH_COPY | PH_SEPARATE);
 			zephir_array_unset_long(&params, 0, PH_SEPARATE);
 		}

@@ -112,6 +112,7 @@ class FakePhpStream
                     return false;
                 }
 
+                // no break
             case SEEK_CUR:
                 if ($offset >= 0) {
                     $this->index += $offset;
@@ -121,6 +122,7 @@ class FakePhpStream
                     return false;
                 }
 
+                // no break
             case SEEK_END:
                 if ($this->length + $offset >= 0) {
                     $this->index = $this->length + $offset;
@@ -130,6 +132,7 @@ class FakePhpStream
                     return false;
                 }
 
+                // no break
             default:
                 return false;
         }
@@ -144,7 +147,6 @@ class FakePhpStream
     {
         return $this->index;
     }
-
 
     public function stream_write($data)
     {

@@ -22,6 +22,7 @@ final class EnvNotDefinedTest extends AbstractUnitTestCase
         $this->assertInstanceOf(ContainerThrowable::class, $exception);
         $this->assertInstanceOf(Throwable::class, $exception);
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-18

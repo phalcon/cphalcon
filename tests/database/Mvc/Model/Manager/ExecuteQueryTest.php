@@ -47,6 +47,7 @@ final class ExecuteQueryTest extends AbstractDatabaseTestCase
         $connection = self::getPdoConnection();
         (new InvoicesMigration($connection));
     }
+
     /**
      * @issue  https://github.com/phalcon/cphalcon/issues/15024
      * @author Phalcon Team <team@phalcon.io>

@@ -537,8 +537,9 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, getAdapter)
 		return;
 	}
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 279, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_3, &_2, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Logger/AbstractLogger.zep", 217);
-	RETURN_CTOR(&_3);
+	zephir_memory_observe(&_3);
+	zephir_array_fetch(&_3, &_2, &name_zv, PH_NOISY, "phalcon/Logger/AbstractLogger.zep", 217);
+	RETURN_CCTOR(&_3);
 }
 
 /**
@@ -951,8 +952,9 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, getLevelNumber)
 		ZEPHIR_CALL_FUNCTION(&levels, "array_flip", NULL, 265, &_0$$3);
 		zephir_check_call_status();
 		if (zephir_array_isset_value(&levels, &levelName)) {
-			zephir_array_fetch(&_1$$4, &levels, &levelName, PH_NOISY | PH_READONLY, "phalcon/Logger/AbstractLogger.zep", 371);
-			RETURN_CTOR(&_1$$4);
+			zephir_memory_observe(&_1$$4);
+			zephir_array_fetch(&_1$$4, &levels, &levelName, PH_NOISY, "phalcon/Logger/AbstractLogger.zep", 371);
+			RETURN_CCTOR(&_1$$4);
 		}
 	} else if (1 == zephir_is_numeric(level)) {
 		ZEPHIR_CALL_METHOD(&levels, this_ptr, "getlevels", NULL, 0);

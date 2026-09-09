@@ -46,6 +46,7 @@ final class FailedTest extends AbstractUnitTestCase
 
         $this->assertSame('the failure message', $failed->getRecordMessages());
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-06-06

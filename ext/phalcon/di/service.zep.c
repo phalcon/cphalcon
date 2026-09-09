@@ -152,10 +152,12 @@ PHP_METHOD(Phalcon_Di_Service, getParameter)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
+	zephir_memory_observe(&arguments);
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 672, PH_NOISY_CC | PH_READONLY);
-	if (zephir_array_isset_string_fetch(&arguments, &_2, SL("arguments"), 1)) {
-		if (zephir_array_isset_long_fetch(&parameter, &arguments, position, 1)) {
-			RETURN_CTOR(&parameter);
+	if (zephir_array_isset_string_fetch(&arguments, &_2, SL("arguments"), 0)) {
+		zephir_memory_observe(&parameter);
+		if (zephir_array_isset_long_fetch(&parameter, &arguments, position, 0)) {
+			RETURN_CCTOR(&parameter);
 		}
 	}
 	RETURN_MM_NULL();

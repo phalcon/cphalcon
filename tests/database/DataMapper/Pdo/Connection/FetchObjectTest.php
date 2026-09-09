@@ -55,6 +55,7 @@ final class FetchObjectTest extends AbstractDatabaseTestCase
         $this->assertEquals(1, $all->inv_id);
         $this->assertEquals(101, $all->inv_total);
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-25

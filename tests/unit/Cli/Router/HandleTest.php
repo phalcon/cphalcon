@@ -550,6 +550,7 @@ final class HandleTest extends AbstractUnitTestCase
             $params
         );
     }
+
     /**
      * @issue  https://github.com/phalcon/cphalcon/security/advisories/GHSA-x7rj-f32v-7jjg
      * @author https://github.com/nikkoenggaliano

@@ -29,6 +29,7 @@ final class MapTest extends AbstractCollectionTestCase
 
         $this->assertSame(['a' => 'a=1', 'b' => 'b=2'], $mapped->toArray());
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-12

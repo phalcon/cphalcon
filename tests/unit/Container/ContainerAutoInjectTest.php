@@ -54,6 +54,7 @@ final class ContainerAutoInjectTest extends AbstractUnitTestCase
         $obj = $container->get('stdClass');
         $this->assertInstanceOf(stdClass::class, $obj);
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-19

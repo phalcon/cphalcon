@@ -261,8 +261,9 @@ PHP_METHOD(Phalcon_Di_Di, attempt)
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("services"), &name_zv, &_1);
 	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 169, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_4, &_3, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Di/Di.zep", 169);
-	RETURN_CTOR(&_4);
+	zephir_memory_observe(&_4);
+	zephir_array_fetch(&_4, &_3, &name_zv, PH_NOISY, "phalcon/Di/Di.zep", 169);
+	RETURN_CCTOR(&_4);
 }
 
 /**
@@ -349,8 +350,9 @@ PHP_METHOD(Phalcon_Di_Di, get)
 		}
 		if (_2$$3) {
 			zephir_read_property_cached(&_4$$4, this_ptr, _zephir_prop_1, 170, PH_NOISY_CC | PH_READONLY);
-			zephir_array_fetch(&_5$$4, &_4$$4, &name, PH_NOISY | PH_READONLY, "phalcon/Di/Di.zep", 194);
-			RETURN_CTOR(&_5$$4);
+			zephir_memory_observe(&_5$$4);
+			zephir_array_fetch(&_5$$4, &_4$$4, &name, PH_NOISY, "phalcon/Di/Di.zep", 194);
+			RETURN_CCTOR(&_5$$4);
 		}
 	}
 	zephir_read_property_cached(&_6, this_ptr, _zephir_prop_2, 171, PH_NOISY_CC | PH_READONLY);
@@ -578,8 +580,9 @@ PHP_METHOD(Phalcon_Di_Di, getService)
 		return;
 	}
 	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 169, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_4, &_3, &name, PH_NOISY | PH_READONLY, "phalcon/Di/Di.zep", 329);
-	RETURN_CTOR(&_4);
+	zephir_memory_observe(&_4);
+	zephir_array_fetch(&_4, &_3, &name, PH_NOISY, "phalcon/Di/Di.zep", 329);
+	RETURN_CCTOR(&_4);
 }
 
 /**
@@ -640,8 +643,9 @@ PHP_METHOD(Phalcon_Di_Di, getShared)
 		zephir_update_property_array(this_ptr, SL("sharedInstances"), &name, &_2$$3);
 	}
 	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 170, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_4, &_3, &name, PH_NOISY | PH_READONLY, "phalcon/Di/Di.zep", 356);
-	RETURN_CTOR(&_4);
+	zephir_memory_observe(&_4);
+	zephir_array_fetch(&_4, &_3, &name, PH_NOISY, "phalcon/Di/Di.zep", 356);
+	RETURN_CCTOR(&_4);
 }
 
 /**
@@ -1319,8 +1323,9 @@ PHP_METHOD(Phalcon_Di_Di, set)
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("services"), &name, &_1);
 	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 169, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_4, &_3, &name, PH_NOISY | PH_READONLY, "phalcon/Di/Di.zep", 641);
-	RETURN_CTOR(&_4);
+	zephir_memory_observe(&_4);
+	zephir_array_fetch(&_4, &_3, &name, PH_NOISY, "phalcon/Di/Di.zep", 641);
+	RETURN_CCTOR(&_4);
 }
 
 /**
@@ -1623,7 +1628,8 @@ PHP_METHOD(Phalcon_Di_Di, resolveAlias)
 		}
 		zephir_array_update_zval(&seen, &current, &__$true, PH_COPY | PH_SEPARATE);
 		zephir_read_property_cached(&_3$$3, this_ptr, _zephir_prop_0, 172, PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&_4$$3, &_3$$3, &current, PH_NOISY | PH_READONLY, "phalcon/Di/Di.zep", 738);
+		ZEPHIR_OBS_NVAR(&_4$$3);
+		zephir_array_fetch(&_4$$3, &_3$$3, &current, PH_NOISY, "phalcon/Di/Di.zep", 738);
 		ZEPHIR_CPY_WRT(&current, &_4$$3);
 	}
 	RETURN_CCTOR(&current);

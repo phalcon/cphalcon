@@ -31,6 +31,7 @@ use Phalcon\Tests\Unit\Auth\Fake\FakeRedirectAccess;
 final class AuthDispatcherListenerTest extends AbstractUnitTestCase
 {
     private Dispatcher $dispatcher;
+
     private Event $event;
 
     protected function setUp(): void

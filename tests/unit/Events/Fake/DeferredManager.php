@@ -21,8 +21,11 @@ use Phalcon\Events\Manager;
 class DeferredManager extends Manager
 {
     public array $afterCalls    = [];
+
     public array $beforeCalls   = [];
+
     public bool $defer          = false;
+
     public bool $rewriteResult  = false;
 
     protected function afterFire(

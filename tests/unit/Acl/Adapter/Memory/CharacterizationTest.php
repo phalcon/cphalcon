@@ -42,6 +42,7 @@ final class CharacterizationTest extends AbstractUnitTestCase
 
         $this->assertTrue($acl->isAllowed('admin', 'posts', 'edit'));
     }
+
     public function testSpecificRuleOverridesWildcardForSingleRole(): void
     {
         $acl = new Memory();

@@ -53,6 +53,7 @@ final class EmailTest extends AbstractUnitTestCase
 
         $this->assertNotEmpty($validation->validate(['email' => 'test@-example.com']));
     }
+
     /**
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-08-19

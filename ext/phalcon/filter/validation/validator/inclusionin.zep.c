@@ -184,7 +184,8 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_InclusionIn, validate)
 		ZEPHIR_CALL_METHOD(&strict, this_ptr, "getoption", NULL, 0, &_4$$7);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&strict) == IS_ARRAY) {
-			zephir_array_fetch(&_5$$8, &strict, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/InclusionIn.zep", 111);
+			zephir_memory_observe(&_5$$8);
+			zephir_array_fetch(&_5$$8, &strict, field, PH_NOISY, "phalcon/Filter/Validation/Validator/InclusionIn.zep", 111);
 			ZEPHIR_CPY_WRT(&strict, &_5$$8);
 		}
 		if (UNEXPECTED(((Z_TYPE_P(&strict) == IS_TRUE || Z_TYPE_P(&strict) == IS_FALSE) != 1))) {

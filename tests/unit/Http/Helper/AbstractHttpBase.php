@@ -102,7 +102,6 @@ abstract class AbstractHttpBase extends AbstractUnitTestCase
         return $cookie;
     }
 
-
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05

@@ -179,7 +179,8 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, blockingPop)
 		_4 = zephir_fast_count_int(&result) >= 2;
 	}
 	if (_4) {
-		zephir_array_fetch_long(&_5$$3, &result, 1, PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 70);
+		zephir_memory_observe(&_5$$3);
+		zephir_array_fetch_long(&_5$$3, &result, 1, PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 70);
 		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "buildmessage", NULL, 0, &_5$$3);
 		zephir_check_call_status();
 		RETURN_MM();
@@ -494,9 +495,12 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, buildMessage)
 		RETURN_MM_NULL();
 	}
 	object_init_ex(return_value, phalcon_queue_adapter_redis_redismessage_ce);
-	zephir_array_fetch_string(&_0, &data, SL("body"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 166);
-	zephir_array_fetch_string(&_1, &data, SL("properties"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 166);
-	zephir_array_fetch_string(&_2, &data, SL("headers"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 166);
+	zephir_memory_observe(&_0);
+	zephir_array_fetch_string(&_0, &data, SL("body"), PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 166);
+	zephir_memory_observe(&_1);
+	zephir_array_fetch_string(&_1, &data, SL("properties"), PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 166);
+	zephir_memory_observe(&_2);
+	zephir_array_fetch_string(&_2, &data, SL("headers"), PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 166);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &_0, &_1, &_2);
 	zephir_check_call_status();
 	RETURN_MM();

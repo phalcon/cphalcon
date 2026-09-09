@@ -234,7 +234,7 @@ PHP_METHOD(Phalcon_Config_Config, path)
 		RETURN_MM();
 	}
 	ZEPHIR_INIT_VAR(&keys);
-	zephir_fast_explode(&keys, &pathDelimiter, &path_zv, LONG_MAX);
+	zephir_fast_explode(&keys, &pathDelimiter, &path_zv, ZEND_LONG_MAX);
 	while (1) {
 		if (!(1 != ZEPHIR_IS_EMPTY(&keys))) {
 			break;

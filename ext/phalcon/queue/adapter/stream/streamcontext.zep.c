@@ -312,7 +312,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, popMessage)
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_VAR(&_4);
 	ZEPHIR_GET_CONSTANT(&_4, "PHP_EOL");
-	zephir_fast_explode(&_1, &_4, &contents, LONG_MAX);
+	zephir_fast_explode(&_1, &_4, &contents, ZEND_LONG_MAX);
 	ZEPHIR_CALL_FUNCTION(&lines, "array_filter", NULL, 31, &_1);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(&lines)) {
@@ -359,9 +359,12 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, popMessage)
 		RETURN_MM_NULL();
 	}
 	object_init_ex(return_value, phalcon_queue_adapter_stream_streammessage_ce);
-	zephir_array_fetch_string(&_10, &data, SL("body"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Stream/StreamContext.zep", 141);
-	zephir_array_fetch_string(&_11, &data, SL("properties"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Stream/StreamContext.zep", 141);
-	zephir_array_fetch_string(&_12, &data, SL("headers"), PH_NOISY | PH_READONLY, "phalcon/Queue/Adapter/Stream/StreamContext.zep", 141);
+	zephir_memory_observe(&_10);
+	zephir_array_fetch_string(&_10, &data, SL("body"), PH_NOISY, "phalcon/Queue/Adapter/Stream/StreamContext.zep", 141);
+	zephir_memory_observe(&_11);
+	zephir_array_fetch_string(&_11, &data, SL("properties"), PH_NOISY, "phalcon/Queue/Adapter/Stream/StreamContext.zep", 141);
+	zephir_memory_observe(&_12);
+	zephir_array_fetch_string(&_12, &data, SL("headers"), PH_NOISY, "phalcon/Queue/Adapter/Stream/StreamContext.zep", 141);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &_10, &_11, &_12);
 	zephir_check_call_status();
 	RETURN_MM();

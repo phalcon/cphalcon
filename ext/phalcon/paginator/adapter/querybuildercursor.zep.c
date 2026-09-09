@@ -347,9 +347,10 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilderCursor, paginate)
 		zephir_check_call_status();
 		zephir_memory_observe(&lastItem);
 		zephir_array_fetch_long(&lastItem, &items, (zephir_fast_count_int(&items) - 1), PH_NOISY, "phalcon/Paginator/Adapter/QueryBuilderCursor.zep", 217);
+		zephir_memory_observe(&_7$$6);
 		zephir_memory_observe(&_8$$6);
 		zephir_read_property_cached(&_8$$6, this_ptr, _zephir_prop_3, 1239, PH_NOISY_CC);
-		zephir_array_fetch(&_7$$6, &lastItem, &_8$$6, PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilderCursor.zep", 223);
+		zephir_array_fetch(&_7$$6, &lastItem, &_8$$6, PH_NOISY, "phalcon/Paginator/Adapter/QueryBuilderCursor.zep", 223);
 		if (UNEXPECTED(!(zephir_is_numeric(&_7$$6)))) {
 			ZEPHIR_INIT_VAR(&_9$$7);
 			object_init_ex(&_9$$7, phalcon_paginator_exceptions_invalidcursorcolumn_ce);

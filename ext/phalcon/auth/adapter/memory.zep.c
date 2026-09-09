@@ -203,7 +203,8 @@ PHP_METHOD(Phalcon_Auth_Adapter_Memory, retrieveById)
 		RETURN_MM_NULL();
 	}
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 436, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_2, &_1, id, PH_NOISY | PH_READONLY, "phalcon/Auth/Adapter/Memory.zep", 70);
+	zephir_memory_observe(&_2);
+	zephir_array_fetch(&_2, &_1, id, PH_NOISY, "phalcon/Auth/Adapter/Memory.zep", 70);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "hydrate", NULL, 0, &_2);
 	zephir_check_call_status();
 	RETURN_MM();

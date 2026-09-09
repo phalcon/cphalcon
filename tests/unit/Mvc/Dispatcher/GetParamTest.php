@@ -39,6 +39,7 @@ class GetParamTest extends BaseDispatcher
         // Non-empty filters + null container → throwDispatchException at L943
         $dispatcher->getParameter('key', 'string');
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13

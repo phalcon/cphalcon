@@ -19,6 +19,7 @@ use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 final class GetNamedArgumentTest extends AbstractUnitTestCase
 {
     private int $PHANNOT_T_ARRAY  = 308;
+
     private int $PHANNOT_T_STRING = 303;
 
     /**

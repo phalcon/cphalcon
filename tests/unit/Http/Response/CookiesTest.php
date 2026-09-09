@@ -81,6 +81,7 @@ final class CookiesTest extends AbstractHttpBase
         $actual   = $cookieArray['x-user-id']->getValue();
         $this->assertSame($expected, $actual);
     }
+
     /**
      * @issue  https://github.com/phalcon/cphalcon/issues/12978
      * @author Phalcon Team <team@phalcon.io>

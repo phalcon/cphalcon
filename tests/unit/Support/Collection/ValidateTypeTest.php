@@ -30,6 +30,7 @@ final class ValidateTypeTest extends AbstractCollectionTestCase
 
         $this->assertInstanceOf(stdClass::class, $collection->get('a'));
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-12

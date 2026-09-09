@@ -100,8 +100,9 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, getService)
 		return;
 	}
 	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 12, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_4, &_3, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Factory/AbstractFactory.zep", 42);
-	RETURN_CTOR(&_4);
+	zephir_memory_observe(&_4);
+	zephir_array_fetch(&_4, &_3, &name_zv, PH_NOISY, "phalcon/Factory/AbstractFactory.zep", 42);
+	RETURN_CCTOR(&_4);
 }
 
 /**

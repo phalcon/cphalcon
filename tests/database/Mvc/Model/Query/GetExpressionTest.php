@@ -24,6 +24,7 @@ use ReflectionClass;
 final class GetExpressionTest extends AbstractDatabaseTestCase
 {
     private int $PHQL_T_AND = 266;
+
     private int $PHQL_T_OR  = 267;
 
     /**

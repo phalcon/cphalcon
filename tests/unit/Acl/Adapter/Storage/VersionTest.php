@@ -41,6 +41,7 @@ final class VersionTest extends AbstractUnitTestCase
 
         new Storage($backend, 'acl-ver');
     }
+
     public function testMissingVersionLoadsAsEmpty(): void
     {
         $backend = new StorageMemory(new SerializerFactory());

@@ -114,7 +114,7 @@ final class CachedDispatcherTest extends AbstractUnitTestCase
     {
         $router = $this->getRouter(false);
         $router->add('/admin', ['controller' => 'admin'])
-            ->beforeMatch(static fn(): bool => false);
+            ->beforeMatch(static fn (): bool => false);
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessageMatches('/Closure beforeMatch/i');
@@ -130,7 +130,7 @@ final class CachedDispatcherTest extends AbstractUnitTestCase
     {
         $router = $this->getRouter(false);
         $router->add('/users/{id}', ['controller' => 'users'])
-            ->convert('id', static fn(string $v): int => (int) $v);
+            ->convert('id', static fn (string $v): int => (int) $v);
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessageMatches('/Closure converter/i');

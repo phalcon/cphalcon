@@ -56,6 +56,7 @@ final class RefactorBuilderTest extends AbstractDatabaseTestCase
     {
         $this->markTestSkipped('Needs review - tocheck after migration');
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-02

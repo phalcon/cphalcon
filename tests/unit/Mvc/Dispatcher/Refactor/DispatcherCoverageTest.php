@@ -313,6 +313,7 @@ class DispatcherCoverageTest extends BaseDispatcher
         $result = $dispatcher->dispatch();
         $this->assertNull($result);
     }
+
     /**
      * Tests cyclic routing detection - exception thrown path (L289-293).
      *
@@ -456,7 +457,7 @@ class DispatcherCoverageTest extends BaseDispatcher
     {
         $dispatcher = $this->getDispatcher();
 
-        $binder = new class implements BinderInterface {
+        $binder = new class () implements BinderInterface {
             private ?\Phalcon\Cache\Adapter\AdapterInterface $cache = null;
 
             public function bindToHandler(

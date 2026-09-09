@@ -42,6 +42,7 @@ final class BeforeFireTest extends AbstractUnitTestCase
         $this->assertNull($result);
         $this->assertCount(1, $manager->beforeCalls);
     }
+
     public function testBeforeFireReceivesArguments(): void
     {
         $manager = new DeferredManager();

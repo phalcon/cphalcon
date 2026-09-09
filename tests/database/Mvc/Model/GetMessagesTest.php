@@ -15,7 +15,9 @@ namespace Phalcon\Tests\Database\Mvc\Model;
 
 use PDO;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Migrations\ObjectsMigration;
+use Phalcon\Tests\Support\Models\InvoicesValidationCode;
 use Phalcon\Tests\Support\Models\Objects;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
@@ -120,6 +122,40 @@ final class GetMessagesTest extends AbstractDatabaseTestCase
 
         $expected = 'obj_type is required';
         $actual   = $messages[1]->getMessage();
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * The `code` option of a validator used in the model validation() must
+     * reach the message that getMessages() returns.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/12645
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-03
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelGetMessagesWithValidationCode(): void
+    {
+        /** @var PDO $connection */
+        $connection = self::getPdoConnection();
+        (new InvoicesMigration($connection));
+
+        $invoice = new InvoicesValidationCode();
+
+        $this->assertFalse($invoice->create());
+
+        $messages = $invoice->getMessages();
+
+        $this->assertCount(1, $messages);
+
+        $expected = 'The title is required';
+        $actual   = $messages[0]->getMessage();
+        $this->assertSame($expected, $actual);
+
+        $expected = 20;
+        $actual   = $messages[0]->getCode();
         $this->assertSame($expected, $actual);
     }
 }

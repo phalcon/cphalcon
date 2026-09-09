@@ -43,7 +43,7 @@ final class GetBoundModelsTest extends AbstractDatabaseTestCase
      */
     public function testMvcModelBinderGetBoundModels(): void
     {
-        $handler = new class {
+        $handler = new class () {
             public function action(Invoices $invoice): void
             {
             }

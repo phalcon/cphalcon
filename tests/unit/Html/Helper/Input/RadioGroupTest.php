@@ -212,6 +212,7 @@ final class RadioGroupTest extends AbstractUnitTestCase
         $this->assertStringNotContainsString('name="gender"', $rendered);
         $this->assertStringNotContainsString('checked', $rendered);
     }
+
     private function helper(): RadioGroup
     {
         return new RadioGroup(new Escaper(), new Doctype());

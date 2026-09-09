@@ -167,8 +167,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Hydration_GetPrivateProperties, getPrivatePropertie
 		zephir_array_update_zval(&cache, &className_zv, &privateProperties, PH_COPY | PH_SEPARATE);
 		zephir_update_static_property_ce(phalcon_mvc_model_hydration_getprivateproperties_ce, ZEND_STRL("privatePropertiesCache"), &cache);
 	}
-	zephir_array_fetch(&_11, &cache, &className_zv, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Hydration/GetPrivateProperties.zep", 76);
-	RETURN_CTOR(&_11);
+	zephir_memory_observe(&_11);
+	zephir_array_fetch(&_11, &cache, &className_zv, PH_NOISY, "phalcon/Mvc/Model/Hydration/GetPrivateProperties.zep", 76);
+	RETURN_CCTOR(&_11);
 }
 
 void zephir_init_static_properties_Phalcon_Mvc_Model_Hydration_GetPrivateProperties()
