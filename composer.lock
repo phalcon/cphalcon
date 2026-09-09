@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6eb016ba07a6a336d6f7fb6843ee9ab2",
+    "content-hash": "0045718b687152be92b07555c842d909",
     "packages": [],
     "packages-dev": [
         {
@@ -2831,7 +2831,7 @@
         },
         {
             "name": "phalcon/zephir",
-            "version": "dev-development",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zephir-lang/zephir.git",
@@ -2868,7 +2868,6 @@
             "suggest": {
                 "ext-zephir_parser": "Optional native parser used as a fast path; the built-in pure-PHP parser is used when it is absent"
             },
-            "default-branch": true,
             "bin": [
                 "zephir"
             ],
@@ -8240,9 +8239,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "phalcon/zephir": 20
-    },
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
