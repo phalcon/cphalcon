@@ -343,7 +343,6 @@ final class CloneResultTest extends AbstractDatabaseTestCase
         );
 
         $property = new ReflectionProperty(Invoices::class, 'superSecret');
-        $property->setAccessible(true);
 
         $this->assertSame('hidden', $property->getValue($clone));
     }
