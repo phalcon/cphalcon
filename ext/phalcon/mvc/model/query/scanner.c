@@ -22,6 +22,55 @@
 #define PPLIMIT (s->end)
 #define PPMARKER marker
 
+/**
+ * Copies a string literal and replaces its escape sequences with the
+ * characters they name. The scanner must do this, because the dialect
+ * escapes the value again for the target database. An unknown sequence
+ * keeps its backslash, the same as MySQL and PHP do, so a LIKE pattern
+ * such as "\\%" continues to match a percent sign.
+ */
+static char *phql_unescape_string(const char *source, unsigned int length, unsigned int *result_length) {
+
+	char *result = emalloc(length + 1);
+	unsigned int i, j = 0;
+
+	for (i = 0; i < length; i++) {
+
+		if (source[i] != '\\' || i + 1 == length) {
+			result[j++] = source[i];
+			continue;
+		}
+
+		i++;
+
+		switch (source[i]) {
+			case 'n':
+				result[j++] = '\n';
+				break;
+			case 'r':
+				result[j++] = '\r';
+				break;
+			case 't':
+				result[j++] = '\t';
+				break;
+			case '\\':
+			case '\'':
+			case '"':
+				result[j++] = source[i];
+				break;
+			default:
+				result[j++] = '\\';
+				result[j++] = source[i];
+				break;
+		}
+	}
+
+	result[j] = '\0';
+	*result_length = j;
+
+	return result;
+}
+
 int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 
 	char *q = PPCURSOR;
@@ -1015,8 +1064,7 @@ pp71:
 			++PPCURSOR;
 			{
 			token->opcode = PHQL_T_STRING;
-			token->value = estrndup(q + 1, PPCURSOR - q - 2);
-			token->len = PPCURSOR - q - 2;
+			token->value = phql_unescape_string(q + 1, (unsigned int) (PPCURSOR - q - 2), &token->len);
 			q = PPCURSOR;
 			return 0;
 		}

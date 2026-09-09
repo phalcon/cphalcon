@@ -95,9 +95,24 @@ jobs:
         with:
           php-version: '8.5'
 
+      - name: Setup APT Repositories
+        run: |
+          # Keep only the Ubuntu archives. The runner image also carries
+          # third-party repos (Google, Microsoft) that we install nothing
+          # from. Those servers are often unstable or offline, so they can
+          # only make the build fail. Files are selected by content, because
+          # the names and the format (".list" or ".sources") change.
+          find /etc/apt/sources.list.d -maxdepth 1 -type f \
+              \( -name '*.list' -o -name '*.sources' \) \
+              -exec grep -LE 'ubuntu\.com|apt-mirrors\.txt' {} + \
+              | sudo xargs -r rm -f
+          ls -la /etc/apt/sources.list.d/
+
       - name: Install System Dependencies
         run: |
-          sudo apt-get update --quiet --yes 1>/dev/null
+          # A third-party repo that stays must not fail the step. The
+          # install below fails if the Ubuntu archives are really down.
+          sudo apt-get update --quiet --yes 1>/dev/null || true
           sudo apt-get install --no-install-recommends -q -y re2c
 
       - run: composer install --prefer-dist --ignore-platform-reqs
@@ -145,14 +160,22 @@ jobs:
 
       - name: Setup APT Repositories
         run: |
-          # Remove Microsoft repos - our builds often fail due to
-          # unstable/offline Microsoft servers.
-          sudo rm -f /etc/apt/sources.list.d/dotnetdev.list
-          sudo rm -f /etc/apt/sources.list.d/azure*.list
+          # Keep only the Ubuntu archives. The runner image also carries
+          # third-party repos (Google, Microsoft) that we install nothing
+          # from. Those servers are often unstable or offline, so they can
+          # only make the build fail. Files are selected by content, because
+          # the names and the format (".list" or ".sources") change.
+          find /etc/apt/sources.list.d -maxdepth 1 -type f \
+              \( -name '*.list' -o -name '*.sources' \) \
+              -exec grep -LE 'ubuntu\.com|apt-mirrors\.txt' {} + \
+              | sudo xargs -r rm -f
+          ls -la /etc/apt/sources.list.d/
 
       - name: Install System Dependencies
         run: |
-          sudo apt-get update --quiet --yes 1>/dev/null
+          # A third-party repo that stays must not fail the step. The
+          # install below fails if the Ubuntu archives are really down.
+          sudo apt-get update --quiet --yes 1>/dev/null || true
           sudo apt-get install --no-install-recommends -q -y re2c
 
       - run: composer install --ignore-platform-reqs
@@ -227,14 +250,22 @@ jobs:
 
       - name: Setup APT Repositories
         run: |
-          # Remove Microsoft repos - our builds often fail due to
-          # unstable/offline Microsoft servers.
-          sudo rm -f /etc/apt/sources.list.d/dotnetdev.list
-          sudo rm -f /etc/apt/sources.list.d/azure*.list
+          # Keep only the Ubuntu archives. The runner image also carries
+          # third-party repos (Google, Microsoft) that we install nothing
+          # from. Those servers are often unstable or offline, so they can
+          # only make the build fail. Files are selected by content, because
+          # the names and the format (".list" or ".sources") change.
+          find /etc/apt/sources.list.d -maxdepth 1 -type f \
+              \( -name '*.list' -o -name '*.sources' \) \
+              -exec grep -LE 'ubuntu\.com|apt-mirrors\.txt' {} + \
+              | sudo xargs -r rm -f
+          ls -la /etc/apt/sources.list.d/
 
       - name: Install System Dependencies
         run: |
-          sudo apt-get update --quiet --yes 1>/dev/null
+          # A third-party repo that stays must not fail the step. The
+          # install below fails if the Ubuntu archives are really down.
+          sudo apt-get update --quiet --yes 1>/dev/null || true
           sudo apt-get install --no-install-recommends -q -y re2c
 
       - run: composer install --ignore-platform-reqs
@@ -589,7 +620,12 @@ jobs:
 
       - name: Test Redis Cluster
         run: |
-          sudo apt-get update
+          # See "Setup APT Repositories" - third-party repos only break us.
+          find /etc/apt/sources.list.d -maxdepth 1 -type f \
+              \( -name '*.list' -o -name '*.sources' \) \
+              -exec grep -LE 'ubuntu\.com|apt-mirrors\.txt' {} + \
+              | sudo xargs -r rm -f
+          sudo apt-get update || true
           sudo apt-get install -y redis-tools
           docker ps -a
           redis-cli -h 127.0.0.1 -p 5000 ping
