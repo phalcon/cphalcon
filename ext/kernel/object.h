@@ -74,6 +74,20 @@ int zephir_return_property(zval *return_value, zval *object, char *property_name
 int zephir_fetch_property(zval *result, zval *object, const char *property_name, uint32_t property_length, int silent);
 int zephir_fetch_property_zval(zval *result, zval *object, zval *property, int silent);
 
+/**
+ * Reading properties in write context.
+ *
+ * These hand back the storage slot rather than a copy of it, which is what
+ * makes a by-reference call argument behave as PHP's does. `fallback` is an
+ * owned, memory-frame-registered zval the caller supplies for the case where
+ * the object has no slot to give.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2691
+ */
+zval *zephir_fetch_property_write(zval *object, zend_string *name, zval *fallback);
+zval *zephir_fetch_property_write_zval(zval *object, zval *property, zval *fallback);
+zval *zephir_fetch_static_property_write_ce(zend_class_entry *ce, const char *property, uint32_t property_length, zval *fallback);
+
 /** Updating properties */
 int zephir_update_property_zval_ex(zval *obj, const char *property_name, unsigned int property_length, zval *value);
 int zephir_update_property_zval(zval *obj, const char *property_name, unsigned int property_length, zval *value);
@@ -103,6 +117,10 @@ int zephir_create_closure_ex(zval *return_value, zval *this_ptr, zend_class_entr
 int zephir_create_closure_bound(zval *return_value, zval *bound_this, zval *scope_this, zend_class_entry *ce, const char *method_name, uint32_t method_length);
 int zephir_update_property_reference(zval *object, const char *property_name, uint32_t property_length, zval *value);
 void zephir_make_local_reference(zval *var);
+
+/** Rebinding a closure that owns a capture carrier (issue #2667) */
+void zephir_closure_module_init(void);
+void zephir_closure_module_shutdown(void);
 
 /** Create instances */
 int zephir_create_instance(zval *return_value, const zval *class_name);

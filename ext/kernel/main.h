@@ -29,6 +29,18 @@ extern zend_string* i_self;
 #define PH_NOISY 256
 #define PH_SILENT 1024
 #define PH_READONLY 4096
+/**
+ * A read whose value the caller is about to write through, which is what a
+ * by-reference call argument does. Mutually exclusive with PH_READONLY.
+ *
+ * The container it is applied to must own its value, because the write context
+ * separates it. The emitter guarantees that: a local variable, or a property
+ * slot from zephir_fetch_property_write().
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2682
+ * @see https://github.com/zephir-lang/zephir/issues/2691
+ */
+#define PH_WRITE 8192
 
 #define PH_NOISY_CC PH_NOISY
 #define PH_SILENT_CC PH_SILENT
@@ -411,6 +423,50 @@ int zephir_fetch_parameters_variadic(int num_args, int required_args, int option
 #define ZEPHIR_MAKE_REF(obj) ZVAL_NEW_REF(obj, obj);
 #define ZEPHIR_UNREF(obj) ZVAL_UNREF(obj);
 
+/**
+ * Hands a PH_WRITE subscript to a by-reference parameter.
+ *
+ * The fetch already returned a reference when the container was a native array,
+ * and the plain owned offsetGet() result when it was an ArrayAccess object. The
+ * callee needs a reference either way, and only the second case has to be
+ * wrapped.
+ *
+ * There is deliberately no matching unref. The memory frame owns the argument,
+ * so releasing it releases the reference, whereas ZEPHIR_UNREF() would efree a
+ * zend_reference the container is still pointing at.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2682
+ */
+#define ZEPHIR_MAKE_WRITE_REF(obj) do { \
+		if (!Z_ISREF_P(obj)) { \
+			ZVAL_NEW_REF(obj, obj); \
+		} \
+	} while (0)
+
+/**
+ * Unwraps a write-context slot once the callee is done with it.
+ *
+ * PHP leaves a property it sent by reference as a reference and relies on every
+ * read dereferencing. Zephir's property reads deliberately do not, because a
+ * `use (&x)` closure capture is stored in a property as a reference and has to
+ * come back as one, so the slot is unwrapped again here instead.
+ *
+ * The refcount test is PHP's own, from the overloaded-element branch of
+ * `zend_fetch_dimension_address()`: a reference the callee kept a hold of is
+ * left alone, and the storage stays shared with whatever kept it.
+ *
+ * Only ever applied to a slot, never to a value fetched out of a container:
+ * there the reference belongs to the container, and ZVAL_UNREF() would efree
+ * what it is still pointing at.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2691
+ */
+#define ZEPHIR_UNREF_WRITE(obj) do { \
+		if (Z_ISREF_P(obj) && Z_REFCOUNT_P(obj) == 1) { \
+			ZVAL_UNREF(obj); \
+		} \
+	} while (0)
+
 #define ZEPHIR_GET_CONSTANT(return_value, const_name) do { \
 	zval *_constant_ptr = zend_get_constant_str(SL(const_name)); \
 	if (_constant_ptr == NULL) { \
@@ -470,6 +526,7 @@ void zephir_get_arg(zval* return_value, zend_long idx);
 void zephir_get_args_from(zval* return_value, uint32_t skip);
 
 void zephir_module_init();
+void zephir_module_shutdown(void);
 
 /**
  * Z_PARAM_ARRAY(dest) expands to a call to zend_parse_arg_array(_arg, &dest, ...).

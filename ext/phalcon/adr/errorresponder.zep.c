@@ -423,8 +423,9 @@ PHP_METHOD(Phalcon_ADR_ErrorResponder, resolveStatus)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 349, PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_value(&_0, &className)) {
 		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_0, 349, PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&_2$$3, &_1$$3, &className, PH_NOISY | PH_READONLY, "phalcon/ADR/ErrorResponder.zep", 170);
-		RETURN_CTOR(&_2$$3);
+		zephir_memory_observe(&_2$$3);
+		zephir_array_fetch(&_2$$3, &_1$$3, &className, PH_NOISY, "phalcon/ADR/ErrorResponder.zep", 170);
+		RETURN_CCTOR(&_2$$3);
 	}
 	ZEPHIR_CALL_FUNCTION(&_3, "class_parents", NULL, 332, exception);
 	zephir_check_call_status();
@@ -451,8 +452,9 @@ PHP_METHOD(Phalcon_ADR_ErrorResponder, resolveStatus)
 		zephir_read_property_cached(&_10$$4, this_ptr, _zephir_prop_0, 349, PH_NOISY_CC | PH_READONLY);
 		if (zephir_array_isset_value(&_10$$4, &ancestor)) {
 			zephir_read_property_cached(&_11$$5, this_ptr, _zephir_prop_0, 349, PH_NOISY_CC | PH_READONLY);
-			zephir_array_fetch(&_12$$5, &_11$$5, &ancestor, PH_NOISY | PH_READONLY, "phalcon/ADR/ErrorResponder.zep", 180);
-			RETURN_CTOR(&_12$$5);
+			ZEPHIR_OBS_NVAR(&_12$$5);
+			zephir_array_fetch(&_12$$5, &_11$$5, &ancestor, PH_NOISY, "phalcon/ADR/ErrorResponder.zep", 180);
+			RETURN_CCTOR(&_12$$5);
 		}
 	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&ancestor);

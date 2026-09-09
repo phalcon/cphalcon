@@ -159,7 +159,8 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Regex, validate)
 	ZEPHIR_CALL_METHOD(&pattern, this_ptr, "getoption", NULL, 0, &_2);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&pattern) == IS_ARRAY) {
-		zephir_array_fetch(&_3$$5, &pattern, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Regex.zep", 99);
+		zephir_memory_observe(&_3$$5);
+		zephir_array_fetch(&_3$$5, &pattern, field, PH_NOISY, "phalcon/Filter/Validation/Validator/Regex.zep", 99);
 		ZEPHIR_CPY_WRT(&pattern, &_3$$5);
 	}
 	_4 = Z_TYPE_P(&value) != IS_NULL;
@@ -169,7 +170,8 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Regex, validate)
 		_4 = zephir_is_true(&_2);
 	}
 	if (_4) {
-		zephir_array_fetch_long(&_5$$6, &matches, 0, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Regex.zep", 106);
+		zephir_memory_observe(&_5$$6);
+		zephir_array_fetch_long(&_5$$6, &matches, 0, PH_NOISY, "phalcon/Filter/Validation/Validator/Regex.zep", 106);
 		failed = !ZEPHIR_IS_EQUAL(&_5$$6, &value);
 	} else {
 		failed = 1;

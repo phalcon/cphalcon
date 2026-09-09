@@ -880,21 +880,24 @@ PHP_METHOD(Phalcon_Db_Column, __construct)
 			zephir_update_property_zval_cached(this_ptr, _zephir_prop_16, 617, &generated);
 		}
 	}
-	if (zephir_array_isset_string_fetch(&generationStored, &definition, SL("generationStored"), 1)) {
+	zephir_memory_observe(&generationStored);
+	if (zephir_array_isset_string_fetch(&generationStored, &definition, SL("generationStored"), 0)) {
 		if (zephir_get_boolval(&generationStored)) {
 			zephir_update_property_zval_cached(this_ptr, _zephir_prop_17, 618, &__$true);
 		} else {
 			zephir_update_property_zval_cached(this_ptr, _zephir_prop_17, 618, &__$false);
 		}
 	}
-	if (zephir_array_isset_string_fetch(&invisible, &definition, SL("invisible"), 1)) {
+	zephir_memory_observe(&invisible);
+	if (zephir_array_isset_string_fetch(&invisible, &definition, SL("invisible"), 0)) {
 		if (zephir_get_boolval(&invisible)) {
 			zephir_update_property_zval_cached(this_ptr, _zephir_prop_18, 619, &__$true);
 		} else {
 			zephir_update_property_zval_cached(this_ptr, _zephir_prop_18, 619, &__$false);
 		}
 	}
-	if (zephir_array_isset_string_fetch(&isArray, &definition, SL("array"), 1)) {
+	zephir_memory_observe(&isArray);
+	if (zephir_array_isset_string_fetch(&isArray, &definition, SL("array"), 0)) {
 		if (zephir_get_boolval(&isArray)) {
 			zephir_update_property_zval_cached(this_ptr, _zephir_prop_19, 620, &__$true);
 		} else {

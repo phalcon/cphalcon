@@ -124,7 +124,8 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Files, isAllowEmpty)
 			}
 			_4$$4 = _3$$4;
 			if (_4$$4) {
-				zephir_array_fetch_string(&_5$$4, &single, SL("error"), PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Files.zep", 70);
+				ZEPHIR_OBS_NVAR(&_5$$4);
+				zephir_array_fetch_string(&_5$$4, &single, SL("error"), PH_NOISY, "phalcon/Filter/Validation/Validator/Files.zep", 70);
 				_4$$4 = ZEPHIR_IS_LONG_IDENTICAL(&_5$$4, 4);
 			}
 			if (!(_4$$4)) {
@@ -155,7 +156,8 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Files, isAllowEmpty)
 				}
 				_9$$6 = _8$$6;
 				if (_9$$6) {
-					zephir_array_fetch_string(&_10$$6, &single, SL("error"), PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Files.zep", 70);
+					ZEPHIR_OBS_NVAR(&_10$$6);
+					zephir_array_fetch_string(&_10$$6, &single, SL("error"), PH_NOISY, "phalcon/Filter/Validation/Validator/Files.zep", 70);
 					_9$$6 = ZEPHIR_IS_LONG_IDENTICAL(&_10$$6, 4);
 				}
 				if (!(_9$$6)) {

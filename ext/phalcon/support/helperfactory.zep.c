@@ -216,8 +216,9 @@ PHP_METHOD(Phalcon_Support_HelperFactory, newInstance)
 		zephir_update_property_array(this_ptr, SL("services"), &name_zv, &_1$$3);
 	}
 	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 1383, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_4, &_3, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Support/HelperFactory.zep", 179);
-	RETURN_CTOR(&_4);
+	zephir_memory_observe(&_4);
+	zephir_array_fetch(&_4, &_3, &name_zv, PH_NOISY, "phalcon/Support/HelperFactory.zep", 179);
+	RETURN_CCTOR(&_4);
 }
 
 /**

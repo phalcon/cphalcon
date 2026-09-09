@@ -94,7 +94,8 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Space, unpad)
 	while (1) {
 		_0 = counter >= 0;
 		if (_0) {
-			zephir_array_fetch_long(&_1, &inputArray, counter, PH_NOISY | PH_READONLY, "phalcon/Encryption/Crypt/Padding/Space.zep", 35);
+			ZEPHIR_OBS_NVAR(&_1);
+			zephir_array_fetch_long(&_1, &inputArray, counter, PH_NOISY, "phalcon/Encryption/Crypt/Padding/Space.zep", 35);
 			ZVAL_LONG(&_2, 32);
 			ZEPHIR_CALL_FUNCTION(&_3, "chr", &_4, 0, &_2);
 			zephir_check_call_status();

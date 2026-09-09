@@ -562,7 +562,8 @@ PHP_METHOD(Phalcon_Mvc_View, getActiveRenderPath)
 	zephir_read_property_cached(&activeRenderPath, this_ptr, _zephir_prop_0, 1173, PH_NOISY_CC);
 	if (Z_TYPE_P(&activeRenderPath) == IS_ARRAY) {
 		if (zephir_fast_count_int(&activeRenderPath) == 1) {
-			zephir_array_fetch_long(&_0$$4, &activeRenderPath, 0, PH_NOISY | PH_READONLY, "phalcon/Mvc/View.zep", 369);
+			zephir_memory_observe(&_0$$4);
+			zephir_array_fetch_long(&_0$$4, &activeRenderPath, 0, PH_NOISY, "phalcon/Mvc/View.zep", 369);
 			ZEPHIR_CPY_WRT(&activeRenderPath, &_0$$4);
 		} else if (ZEPHIR_IS_EMPTY(&activeRenderPath)) {
 			ZEPHIR_INIT_NVAR(&activeRenderPath);
@@ -1137,7 +1138,7 @@ PHP_METHOD(Phalcon_Mvc_View, partial)
 	ZEPHIR_INIT_VAR(&_6);
 	ZVAL_STRING(&_6, "/");
 	zephir_fast_str_replace(&_4, &_5, &_6, &partialPath);
-	zephir_fast_explode_str(&_3, SL("/"), &_4, LONG_MAX);
+	zephir_fast_explode_str(&_3, SL("/"), &_4, ZEND_LONG_MAX);
 	if (Z_TYPE_P(&_3) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_8);
 		zephir_string_to_char_array(&_8, &_3);
@@ -1223,7 +1224,7 @@ PHP_METHOD(Phalcon_Mvc_View, pick)
 		ZVAL_NULL(&layout);
 		if (zephir_memnstr_str(renderView, SL("/"), "phalcon/Mvc/View.zep", 701)) {
 			ZEPHIR_INIT_VAR(&parts);
-			zephir_fast_explode_str(&parts, SL("/"), renderView, LONG_MAX);
+			zephir_fast_explode_str(&parts, SL("/"), renderView, ZEND_LONG_MAX);
 			ZEPHIR_OBS_NVAR(&layout);
 			zephir_array_fetch_long(&layout, &parts, 0, PH_NOISY, "phalcon/Mvc/View.zep", 703);
 		}

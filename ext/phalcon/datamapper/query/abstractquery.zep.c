@@ -702,7 +702,8 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, buildFlags)
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 55, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_4, &_3, SL("FLAGS"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/AbstractQuery.zep", 272);
+	zephir_memory_observe(&_4);
+	zephir_array_fetch_string(&_4, &_3, SL("FLAGS"), PH_NOISY, "phalcon/DataMapper/Query/AbstractQuery.zep", 272);
 	zephir_array_keys(&_2, &_4);
 	zephir_fast_join_str(&_1, SL(" "), &_2);
 	ZEPHIR_CONCAT_SV(return_value, " ", &_1);
@@ -738,7 +739,8 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, buildReturning)
 		RETURN_MM_STRING("");
 	}
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 55, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_3, &_2, SL("RETURNING"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Query/AbstractQuery.zep", 286);
+	zephir_memory_observe(&_3);
+	zephir_array_fetch_string(&_3, &_2, SL("RETURNING"), PH_NOISY, "phalcon/DataMapper/Query/AbstractQuery.zep", 286);
 	ZEPHIR_INIT_VAR(&_4);
 	ZVAL_STRING(&_4, ",");
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "indent", NULL, 0, &_3, &_4);

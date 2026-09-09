@@ -268,7 +268,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, bind)
 	}
 	if (_5) {
 		zephir_read_property_cached(&_6$$4, this_ptr, _zephir_prop_0, 1016, PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch_string(&_7$$4, &_6$$4, SL("bind"), PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Criteria.zep", 147);
+		zephir_memory_observe(&_7$$4);
+		zephir_array_fetch_string(&_7$$4, &_6$$4, SL("bind"), PH_NOISY, "phalcon/Mvc/Model/Criteria.zep", 147);
 		ZEPHIR_INIT_VAR(&_8$$4);
 		zephir_add_function(&_8$$4, &_7$$4, &bindParams);
 		ZEPHIR_INIT_VAR(&_9$$4);
@@ -896,6 +897,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getConditions)
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getDI)
 {
 	zval _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
@@ -904,9 +906,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getDI)
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("params", 6, 1);
 	}
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1016, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_1, &_0, SL("di"), PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Criteria.zep", 468);
-	RETURN_CTORW(&_1);
+	zephir_memory_observe(&_1);
+	zephir_array_fetch_string(&_1, &_0, SL("di"), PH_NOISY, "phalcon/Mvc/Model/Criteria.zep", 468);
+	RETURN_CCTOR(&_1);
 }
 
 /**

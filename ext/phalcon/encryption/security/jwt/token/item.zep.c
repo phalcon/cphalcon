@@ -122,9 +122,11 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Item, get)
 		RETURN_MM();
 	}
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 713, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_2, &_1, SL("payload"), PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/JWT/Token/Item.zep", 42);
-	zephir_array_fetch(&_3, &_2, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/JWT/Token/Item.zep", 42);
-	RETURN_CTOR(&_3);
+	zephir_memory_observe(&_2);
+	zephir_array_fetch_string(&_2, &_1, SL("payload"), PH_NOISY, "phalcon/Encryption/Security/JWT/Token/Item.zep", 42);
+	zephir_memory_observe(&_3);
+	zephir_array_fetch(&_3, &_2, &name_zv, PH_NOISY, "phalcon/Encryption/Security/JWT/Token/Item.zep", 42);
+	RETURN_CCTOR(&_3);
 }
 
 /**
@@ -133,6 +135,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Item, get)
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Item, getPayload)
 {
 	zval _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
@@ -141,13 +144,18 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Item, getPayload)
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("data", 4, 1);
 	}
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 713, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_1, &_0, SL("payload"), PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/JWT/Token/Item.zep", 50);
-	RETURN_CTORW(&_1);
+	zephir_memory_observe(&_1);
+	zephir_array_fetch_string(&_1, &_0, SL("payload"), PH_NOISY, "phalcon/Encryption/Security/JWT/Token/Item.zep", 50);
+	RETURN_CCTOR(&_1);
 }
 
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Item, has)
 {
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval name_zv, _0, _1;
 	zend_string *name = NULL;
 	zval *this_ptr = getThis();
@@ -163,9 +171,13 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Item, has)
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
-	ZVAL_STR(&name_zv, name);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&name_zv);
+	ZVAL_STR_COPY(&name_zv, name);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 713, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_1, &_0, SL("payload"), PH_READONLY, "phalcon/Encryption/Security/JWT/Token/Item.zep", 55);
-	RETURN_BOOL(zephir_array_isset_value(&_1, &name_zv));
+	zephir_memory_observe(&_1);
+	zephir_array_fetch_string(&_1, &_0, SL("payload"), 0, "phalcon/Encryption/Security/JWT/Token/Item.zep", 55);
+	RETURN_MM_BOOL(zephir_array_isset_value(&_1, &name_zv));
 }
 

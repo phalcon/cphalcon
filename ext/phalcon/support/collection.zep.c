@@ -397,7 +397,8 @@ PHP_METHOD(Phalcon_Support_Collection, __unserialize)
 			ZVAL_NULL(&_2$$3);
 		}
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 42, &_2$$3);
-		zephir_array_fetch_string(&_3$$3, &data, SL("data"), PH_NOISY | PH_READONLY, "phalcon/Support/Collection.zep", 134);
+		zephir_memory_observe(&_3$$3);
+		zephir_array_fetch_string(&_3$$3, &data, SL("data"), PH_NOISY, "phalcon/Support/Collection.zep", 134);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &_3$$3);
 		zephir_check_call_status();
 		RETURN_MM_NULL();
@@ -790,8 +791,9 @@ PHP_METHOD(Phalcon_Support_Collection, first)
 	ZEPHIR_CALL_FUNCTION(&key, "array_key_first", NULL, 18, &_1);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 43, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_3, &_2, &key, PH_NOISY | PH_READONLY, "phalcon/Support/Collection.zep", 240);
-	RETURN_CTOR(&_3);
+	zephir_memory_observe(&_3);
+	zephir_array_fetch(&_3, &_2, &key, PH_NOISY, "phalcon/Support/Collection.zep", 240);
+	RETURN_CCTOR(&_3);
 }
 
 /**
@@ -1234,8 +1236,9 @@ PHP_METHOD(Phalcon_Support_Collection, last)
 	ZEPHIR_CALL_FUNCTION(&key, "array_key_last", NULL, 21, &_1);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 43, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_3, &_2, &key, PH_NOISY | PH_READONLY, "phalcon/Support/Collection.zep", 408);
-	RETURN_CTOR(&_3);
+	zephir_memory_observe(&_3);
+	zephir_array_fetch(&_3, &_2, &key, PH_NOISY, "phalcon/Support/Collection.zep", 408);
+	RETURN_CCTOR(&_3);
 }
 
 /**
@@ -1584,7 +1587,8 @@ PHP_METHOD(Phalcon_Support_Collection, remove)
 		zephir_check_call_status();
 		zephir_get_strval(&element, &_1$$3);
 		zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_0, 44, PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&value, &_2$$3, &element, PH_NOISY | PH_READONLY, "phalcon/Support/Collection.zep", 499);
+		zephir_memory_observe(&value);
+		zephir_array_fetch(&value, &_2$$3, &element, PH_NOISY, "phalcon/Support/Collection.zep", 499);
 		zephir_unset_property_array(this_ptr, ZEND_STRL("lowerKeys"), &element);
 		zephir_read_property_cached(&_3$$3, this_ptr, _zephir_prop_0, 44, PH_NOISY_CC | PH_READONLY);
 		zephir_array_unset(&_3$$3, &element, PH_SEPARATE);
@@ -2168,7 +2172,8 @@ PHP_METHOD(Phalcon_Support_Collection, setData)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 44, PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_value(&_0, &key)) {
 		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_0, 44, PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&original, &_1$$3, &key, PH_NOISY | PH_READONLY, "phalcon/Support/Collection.zep", 712);
+		zephir_memory_observe(&original);
+		zephir_array_fetch(&original, &_1$$3, &key, PH_NOISY, "phalcon/Support/Collection.zep", 712);
 		if (!ZEPHIR_IS_IDENTICAL(&original, &element_zv)) {
 			zephir_unset_property_array(this_ptr, ZEND_STRL("data"), &original);
 			zephir_read_property_cached(&_2$$4, this_ptr, _zephir_prop_1, 43, PH_NOISY_CC | PH_READONLY);

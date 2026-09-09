@@ -475,8 +475,9 @@ PHP_METHOD(Phalcon_Auth_Manager, guard)
 		return;
 	}
 	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_1, 466, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_5, &_4, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Auth/Manager.zep", 170);
-	RETURN_CTOR(&_5);
+	zephir_memory_observe(&_5);
+	zephir_array_fetch(&_5, &_4, &name_zv, PH_NOISY, "phalcon/Auth/Manager.zep", 170);
+	RETURN_CCTOR(&_5);
 }
 
 PHP_METHOD(Phalcon_Auth_Manager, id)

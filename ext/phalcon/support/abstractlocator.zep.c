@@ -456,8 +456,9 @@ PHP_METHOD(Phalcon_Support_AbstractLocator, getService)
 		return;
 	}
 	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_0, 131, PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_6, &_5, &name_zv, PH_NOISY | PH_READONLY, "phalcon/Support/AbstractLocator.zep", 184);
-	RETURN_CTOR(&_6);
+	zephir_memory_observe(&_6);
+	zephir_array_fetch(&_6, &_5, &name_zv, PH_NOISY, "phalcon/Support/AbstractLocator.zep", 184);
+	RETURN_CCTOR(&_6);
 }
 
 /**

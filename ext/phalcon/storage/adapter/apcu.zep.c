@@ -137,7 +137,8 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, clear)
 		{
 			ZEPHIR_ITERATOR_COPY(&item, _1);
 		}
-		zephir_array_fetch_string(&_3$$4, &item, SL("key"), PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/Apcu.zep", 69);
+		ZEPHIR_OBS_NVAR(&_3$$4);
+		zephir_array_fetch_string(&_3$$4, &item, SL("key"), PH_NOISY, "phalcon/Storage/Adapter/Apcu.zep", 69);
 		ZEPHIR_CALL_METHOD(&_2$$4, this_ptr, "phpapcudelete", &_4, 0, &_3$$4);
 		zephir_check_call_status();
 		if (!ZEPHIR_IS_TRUE_IDENTICAL(&_2$$4)) {
@@ -209,7 +210,8 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, getKeys)
 		{
 			ZEPHIR_ITERATOR_COPY(&item, _1);
 		}
-		zephir_array_fetch_string(&_2$$4, &item, SL("key"), PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/Apcu.zep", 97);
+		ZEPHIR_OBS_NVAR(&_2$$4);
+		zephir_array_fetch_string(&_2$$4, &item, SL("key"), PH_NOISY, "phalcon/Storage/Adapter/Apcu.zep", 97);
 		zephir_array_append(&results, &_2$$4, PH_SEPARATE, "phalcon/Storage/Adapter/Apcu.zep", 97);
 	}
 	zend_iterator_dtor(_1);

@@ -209,8 +209,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, getOption)
 		_1 = Z_TYPE_P(&value) == IS_ARRAY;
 	}
 	if (_1) {
-		if (zephir_array_isset_fetch(&fieldValue, &value, &key_zv, 1)) {
-			RETURN_CTOR(&fieldValue);
+		zephir_memory_observe(&fieldValue);
+		if (zephir_array_isset_fetch(&fieldValue, &value, &key_zv, 0)) {
+			RETURN_CCTOR(&fieldValue);
 		}
 	}
 	RETURN_CCTOR(&value);
@@ -317,8 +318,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, getColumnNameReal)
 	}
 	if (_9) {
 		zephir_read_property_cached(&_11$$4, this_ptr, _zephir_prop_0, 765, PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&_12$$4, &_11$$4, &field_zv, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Uniqueness.zep", 183);
-		RETURN_CTOR(&_12$$4);
+		zephir_memory_observe(&_12$$4);
+		zephir_array_fetch(&_12$$4, &_11$$4, &field_zv, PH_NOISY, "phalcon/Filter/Validation/Validator/Uniqueness.zep", 183);
+		RETURN_CCTOR(&_12$$4);
 	}
 	RETURN_MM_STR(zend_string_copy(field));
 }
@@ -929,7 +931,8 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 					ZEPHIR_INIT_NVAR(&fieldExcept);
 					ZEPHIR_INIT_NVAR(&singleField);
 				} else if (zephir_fast_count_int(&field) == 1) {
-					zephir_array_fetch_long(&_52$$18, &field, 0, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Uniqueness.zep", 304);
+					ZEPHIR_OBS_NVAR(&_52$$18);
+					zephir_array_fetch_long(&_52$$18, &field, 0, PH_NOISY, "phalcon/Filter/Validation/Validator/Uniqueness.zep", 304);
 					ZEPHIR_INIT_NVAR(&_53$$18);
 					ZVAL_STRING(&_53$$18, "attribute");
 					ZEPHIR_CALL_METHOD(&_51$$18, this_ptr, "getoption", NULL, 0, &_53$$18, &_52$$18);
@@ -1417,7 +1420,8 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 						ZEPHIR_INIT_NVAR(&fieldExcept);
 						ZEPHIR_INIT_NVAR(&singleField);
 					} else if (zephir_fast_count_int(&field) == 1) {
-						zephir_array_fetch_long(&_150$$49, &field, 0, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Uniqueness.zep", 304);
+						ZEPHIR_OBS_NVAR(&_150$$49);
+						zephir_array_fetch_long(&_150$$49, &field, 0, PH_NOISY, "phalcon/Filter/Validation/Validator/Uniqueness.zep", 304);
 						ZEPHIR_INIT_NVAR(&_151$$49);
 						ZVAL_STRING(&_151$$49, "attribute");
 						ZEPHIR_CALL_METHOD(&_149$$49, this_ptr, "getoption", NULL, 0, &_151$$49, &_150$$49);

@@ -136,7 +136,8 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct)
 			{
 				ZEPHIR_INIT_NVAR(&argument);
 				ZVAL_COPY(&argument, _3$$4);
-				zephir_array_fetch_string(&_4$$5, &argument, SL("expr"), PH_NOISY | PH_READONLY, "phalcon/Annotations/Annotation.zep", 74);
+				ZEPHIR_OBS_NVAR(&_4$$5);
+				zephir_array_fetch_string(&_4$$5, &argument, SL("expr"), PH_NOISY, "phalcon/Annotations/Annotation.zep", 74);
 				ZEPHIR_CALL_METHOD(&resolvedArgument, this_ptr, "getexpression", &_5, 0, &_4$$5);
 				zephir_check_call_status();
 				ZEPHIR_OBS_NVAR(&name);
@@ -164,7 +165,8 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct)
 				}
 				ZEPHIR_CALL_METHOD(&argument, _1$$4, "current", NULL, 0);
 				zephir_check_call_status();
-					zephir_array_fetch_string(&_8$$8, &argument, SL("expr"), PH_NOISY | PH_READONLY, "phalcon/Annotations/Annotation.zep", 74);
+					ZEPHIR_OBS_NVAR(&_8$$8);
+					zephir_array_fetch_string(&_8$$8, &argument, SL("expr"), PH_NOISY, "phalcon/Annotations/Annotation.zep", 74);
 					ZEPHIR_CALL_METHOD(&resolvedArgument, this_ptr, "getexpression", &_5, 0, &_8$$8);
 					zephir_check_call_status();
 					ZEPHIR_OBS_NVAR(&name);
@@ -322,7 +324,8 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression)
 			{
 				ZEPHIR_INIT_NVAR(&item);
 				ZVAL_COPY(&item, _3$$7);
-				zephir_array_fetch_string(&_4$$8, &item, SL("expr"), PH_NOISY | PH_READONLY, "phalcon/Annotations/Annotation.zep", 162);
+				ZEPHIR_OBS_NVAR(&_4$$8);
+				zephir_array_fetch_string(&_4$$8, &item, SL("expr"), PH_NOISY, "phalcon/Annotations/Annotation.zep", 162);
 				ZEPHIR_CALL_METHOD(&resolvedItem, this_ptr, "getexpression", &_5, 363, &_4$$8);
 				zephir_check_call_status();
 				ZEPHIR_OBS_NVAR(&name);
@@ -350,7 +353,8 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression)
 				}
 				ZEPHIR_CALL_METHOD(&item, _1$$7, "current", NULL, 0);
 				zephir_check_call_status();
-					zephir_array_fetch_string(&_8$$11, &item, SL("expr"), PH_NOISY | PH_READONLY, "phalcon/Annotations/Annotation.zep", 162);
+					ZEPHIR_OBS_NVAR(&_8$$11);
+					zephir_array_fetch_string(&_8$$11, &item, SL("expr"), PH_NOISY, "phalcon/Annotations/Annotation.zep", 162);
 					ZEPHIR_CALL_METHOD(&resolvedItem, this_ptr, "getexpression", &_5, 363, &_8$$11);
 					zephir_check_call_status();
 					ZEPHIR_OBS_NVAR(&name);

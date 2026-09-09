@@ -49,6 +49,8 @@
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
 
+#include <Zend/zend_exceptions.h>
+
 #define PH_RANDOM_ALNUM 0
 #define PH_RANDOM_ALPHA 1
 #define PH_RANDOM_HEXDEC 2
@@ -710,6 +712,84 @@ int zephir_memnstr_str(const zval *haystack, char *needle, unsigned int needle_l
 }
 
 /**
+ * Port of php_explode_negative_limit() from ext/standard/string.c, which is
+ * PHPAPI but carries no prototype in any php-src header and so cannot be
+ * linked against.
+ *
+ * A negative limit drops the last abs(limit) chunks. PHP records every chunk
+ * start in a grown array and then emits the first limit + found of them; two
+ * passes reach the same answer without the allocation.
+ */
+static void zephir_explode_negative_limit(const zend_string *delim, zend_string *str, zval *return_value, zend_long limit)
+{
+	const char *p1   = ZSTR_VAL(str);
+	const char *endp = ZSTR_VAL(str) + ZSTR_LEN(str);
+	const char *p2   = php_memnstr(p1, ZSTR_VAL(delim), ZSTR_LEN(delim), endp);
+	zend_long found  = 1, to_return, i;
+	zval tmp;
+
+	/* One chunk, and limit <= -1, so 1 + limit <= 0: PHP returns an empty array. */
+	if (p2 == NULL) {
+		return;
+	}
+
+	while (p2 != NULL) {
+		++found;
+		p2 = php_memnstr(p2 + ZSTR_LEN(delim), ZSTR_VAL(delim), ZSTR_LEN(delim), endp);
+	}
+
+	/* to_return <= found - 1, so the loop always stops on a delimiter. */
+	to_return = limit + found;
+	for (i = 0; i < to_return; i++) {
+		p2 = php_memnstr(p1, ZSTR_VAL(delim), ZSTR_LEN(delim), endp);
+		if (UNEXPECTED(p2 == NULL)) {
+			break;
+		}
+
+		ZVAL_STRINGL(&tmp, p1, p2 - p1);
+		zend_hash_next_index_insert_new(Z_ARRVAL_P(return_value), &tmp);
+		p1 = p2 + ZSTR_LEN(delim);
+	}
+}
+
+/**
+ * The body of PHP_FUNCTION(explode): php_explode() implements only the
+ * limit > 1 case, a negative limit drops trailing chunks, and a limit of 0 or
+ * 1 returns the subject whole.
+ *
+ * An empty separator is a ValueError. Its wording changed in PHP 8.4, and
+ * throwing it here rather than through zend_argument_value_error() keeps the
+ * "explode():" prefix that PHP prints, instead of naming the Zephir method
+ * that inlined the call.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2674
+ */
+static void zephir_explode_into(zval *return_value, zend_string *delimiter, zend_string *str, zend_long limit)
+{
+	zval tmp;
+
+	if (UNEXPECTED(ZSTR_LEN(delimiter) == 0)) {
+#if PHP_VERSION_ID >= 80400
+		zend_throw_error(zend_ce_value_error, "explode(): Argument #1 ($separator) must not be empty");
+#else
+		zend_throw_error(zend_ce_value_error, "explode(): Argument #1 ($separator) cannot be empty");
+#endif
+		return;
+	}
+
+	array_init(return_value);
+
+	if (limit > 1) {
+		php_explode(delimiter, str, return_value, limit);
+	} else if (limit < 0) {
+		zephir_explode_negative_limit(delimiter, str, return_value, limit);
+	} else {
+		ZVAL_STR_COPY(&tmp, str);
+		zend_hash_index_add_new(Z_ARRVAL_P(return_value), 0, &tmp);
+	}
+}
+
+/**
  * Fast call to explode php function
  */
 void zephir_fast_explode(zval *return_value, zval *delimiter, zval *str, zend_long limit)
@@ -719,8 +799,7 @@ void zephir_fast_explode(zval *return_value, zval *delimiter, zval *str, zend_lo
 		RETURN_EMPTY_STRING();
 	}
 
-	array_init(return_value);
-	php_explode(Z_STR_P(delimiter), Z_STR_P(str), return_value, limit);
+	zephir_explode_into(return_value, Z_STR_P(delimiter), Z_STR_P(str), limit);
 }
 
 /**
@@ -736,8 +815,7 @@ void zephir_fast_explode_str(zval *return_value, const char *delim, int delim_le
 	}
 
 	delimiter = zend_string_init(delim, delim_length, 0);
-	array_init(return_value);
-	php_explode(delimiter, Z_STR_P(str), return_value, limit);
+	zephir_explode_into(return_value, delimiter, Z_STR_P(str), limit);
 	zend_string_free(delimiter);
 }
 

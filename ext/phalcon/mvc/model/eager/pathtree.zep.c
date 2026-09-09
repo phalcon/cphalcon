@@ -155,7 +155,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Eager_PathTree, parse)
 			ZEPHIR_CALL_SELF(NULL, "assertoptions", &_8, 0, &options);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&segments);
-			zephir_fast_explode_str(&segments, SL("."), &path, LONG_MAX);
+			zephir_fast_explode_str(&segments, SL("."), &path, ZEND_LONG_MAX);
 			if (UNEXPECTED(zephir_fast_count_int(&segments) > 5)) {
 				ZEPHIR_INIT_NVAR(&_9$$8);
 				object_init_ex(&_9$$8, phalcon_mvc_model_exceptions_invalideagerpath_ce);
@@ -227,7 +227,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Eager_PathTree, parse)
 				ZEPHIR_CALL_SELF(NULL, "assertoptions", &_8, 0, &options);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&segments);
-				zephir_fast_explode_str(&segments, SL("."), &path, LONG_MAX);
+				zephir_fast_explode_str(&segments, SL("."), &path, ZEND_LONG_MAX);
 				if (UNEXPECTED(zephir_fast_count_int(&segments) > 5)) {
 					ZEPHIR_INIT_NVAR(&_19$$14);
 					object_init_ex(&_19$$14, phalcon_mvc_model_exceptions_invalideagerpath_ce);
@@ -336,7 +336,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Eager_PathTree, insert)
 	ZVAL_STR_COPY(&path_zv, path);
 	zephir_get_arrval(&segments, segments_param);
 	zephir_get_arrval(&options, options_param);
-	zephir_array_fetch_long(&_0, &segments, index, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Eager/PathTree.zep", 127);
+	zephir_memory_observe(&_0);
+	zephir_array_fetch_long(&_0, &segments, index, PH_NOISY, "phalcon/Mvc/Model/Eager/PathTree.zep", 127);
 	ZEPHIR_INIT_VAR(&segment);
 	zephir_fast_trim(&segment, &_0, NULL , ZEPHIR_TRIM_BOTH);
 	if (UNEXPECTED(ZEPHIR_IS_STRING_IDENTICAL(&segment, ""))) {
@@ -363,11 +364,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Eager_PathTree, insert)
 	isLast = (index + 1) >= zephir_fast_count_int(&segments);
 	if (isLast) {
 		ZEPHIR_INIT_VAR(&_4$$5);
-		zephir_array_fetch_string(&_5$$5, &node, SL("options"), PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Eager/PathTree.zep", 143);
+		zephir_memory_observe(&_5$$5);
+		zephir_array_fetch_string(&_5$$5, &node, SL("options"), PH_NOISY, "phalcon/Mvc/Model/Eager/PathTree.zep", 143);
 		zephir_fast_array_merge(&_4$$5, &_5$$5, &options);
 		zephir_array_update_string(&node, SL("options"), &_4$$5, PH_COPY | PH_SEPARATE);
 	} else {
-		zephir_array_fetch_string(&_8$$6, &node, SL("children"), PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/Eager/PathTree.zep", 146);
+		zephir_memory_observe(&_8$$6);
+		zephir_array_fetch_string(&_8$$6, &node, SL("children"), PH_NOISY, "phalcon/Mvc/Model/Eager/PathTree.zep", 146);
 		ZVAL_LONG(&_9$$6, (index + 1));
 		ZEPHIR_CALL_SELF(&_6$$6, "insert", &_7, 0, &_8$$6, &path_zv, &segments, &_9$$6, &options);
 		zephir_check_call_status();

@@ -634,6 +634,115 @@ int zephir_read_property_cached(
 }
 
 /**
+ * The property slot a write context writes through.
+ *
+ * PHP's `ZEND_FETCH_OBJ_W` hands the VM an IS_INDIRECT to the property itself
+ * (`zend_fetch_property_address()`, Zend/zend_execute.c). That is what lets a
+ * by-reference argument separate a shared array in place, create a missing
+ * element, and be replaced outright by a callee that assigns rather than
+ * mutates. A borrowed copy of the property loses all three, and the last one
+ * frees the array the property is still pointing at.
+ *
+ * `get_property_ptr_ptr` answers NULL when there is no slot to hand out: a
+ * magic __get, a readonly or asymmetrically visible property, or an object
+ * whose handlers do not offer one. PHP falls back to read_property() in write
+ * mode, and that is what raises "Indirect modification of overloaded property
+ * %s::$%s has no effect" (Zend/zend_object_handlers.c), so this does the same
+ * and lets the engine speak. The value goes into `fallback`, owned, which the
+ * caller has registered with the memory frame, and the write reaches no
+ * further than it.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2691
+ */
+zval *zephir_fetch_property_write(zval *object, zend_string *name, zval *fallback)
+{
+	zval tmp;
+	zval *res;
+
+	ZVAL_NULL(fallback);
+
+	if (UNEXPECTED(Z_TYPE_P(object) != IS_OBJECT)) {
+		php_error_docref(NULL, E_NOTICE, "Trying to get property '%s' of non-object", ZSTR_VAL(name));
+
+		return fallback;
+	}
+
+	if (EXPECTED(Z_OBJ_HT_P(object)->get_property_ptr_ptr != NULL)) {
+		res = Z_OBJ_HT_P(object)->get_property_ptr_ptr(Z_OBJ_P(object), name, BP_VAR_W, NULL);
+
+		if (EXPECTED(res != NULL && res != &EG(error_zval))) {
+			return res;
+		}
+	}
+
+	if (UNEXPECTED(!Z_OBJ_HT_P(object)->read_property)) {
+		return fallback;
+	}
+
+	ZVAL_UNDEF(&tmp);
+	res = Z_OBJ_HT_P(object)->read_property(Z_OBJ_P(object), name, BP_VAR_W, NULL, &tmp);
+
+	/* A getter builds its result in `tmp` and hands over what it owns, while a
+	 * real slot stays the object's and has to be addref'd. */
+	if (res == &tmp) {
+		ZVAL_COPY_VALUE(fallback, res);
+	} else {
+		ZVAL_COPY(fallback, res);
+	}
+
+	return fallback;
+}
+
+/**
+ * The same for a property named at runtime, `this->{name}`.
+ *
+ * PHP's `ZEND_FETCH_OBJ_W` takes the same path whether the name came from a
+ * literal or from a variable, so this one only has to turn the name into a
+ * zend_string and hand over.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2691
+ */
+zval *zephir_fetch_property_write_zval(zval *object, zval *property, zval *fallback)
+{
+	if (UNEXPECTED(Z_TYPE_P(property) != IS_STRING)) {
+		php_error_docref(NULL, E_NOTICE, "Cannot access empty property %d", Z_TYPE_P(property));
+
+		ZVAL_NULL(fallback);
+
+		return fallback;
+	}
+
+	return zephir_fetch_property_write(object, Z_STR_P(property), fallback);
+}
+
+/**
+ * The same for a static property, `ZEND_FETCH_STATIC_PROP_W`.
+ *
+ * zend_std_get_static_property() is the slot getter here, and it throws for a
+ * property that does not exist rather than answering NULL, so the fallback is
+ * only reached when an error is already pending.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2691
+ */
+zval *zephir_fetch_static_property_write_ce(zend_class_entry *ce, const char *property, uint32_t property_length, zval *fallback)
+{
+	zend_string *name;
+	zval *res;
+
+	ZVAL_NULL(fallback);
+
+	name = zend_string_init(property, property_length, 0);
+	res  = zend_std_get_static_property(ce, name, BP_VAR_W);
+	zend_string_release(name);
+
+	if (EXPECTED(res != NULL && res != &EG(error_zval))) {
+		return res;
+	}
+
+	return fallback;
+}
+
+/**
  * Fetches a property using a const char
  */
 int zephir_fetch_property(zval *result, zval *object, const char *property_name, uint32_t property_length, int silent)
@@ -1143,6 +1252,8 @@ int zephir_unset_property(zval* object, const char* name)
 	/* Restore original scope */
 	zephir_set_scope(scope);
 
+	zval_ptr_dtor(&member);
+
 	return SUCCESS;
 }
 
@@ -1496,6 +1607,510 @@ void zephir_make_local_reference(zval *var)
 }
 
 /**
+ * -------------------------------------------------------------------------
+ * Rebinding a closure that owns a capture carrier
+ * -------------------------------------------------------------------------
+ *
+ * The engine gives an internal-function closure exactly one owned per-instance
+ * slot, its bound `$this`, and a capturing closure spends it on the capture
+ * carrier. `bindTo()`, `Closure::bind()` and `Closure::call()` each rebuild the
+ * closure around a different `$this`, which drops the carrier: the captures
+ * read back as NULL and the generated prologue then reads a property off a
+ * NULL `this_ptr`.
+ *
+ * There is no second slot to move the captures into, so the three rebinding
+ * entry points are wrapped instead. Each one delegates to the engine's own
+ * handler, so scope resolution, validation and the version-specific
+ * diagnostics stay PHP's, and then re-points the closure the engine produced
+ * at a copy of the carrier.
+ *
+ * Zephir closures are tagged by giving them a private copy of Closure's object
+ * handler table; pointer identity of that table is the marker. A closure that
+ * is not ours reaches the saved original handler untouched.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2667
+ */
+#if PHP_VERSION_ID < 80600
+
+/** Carries the enclosing `$this` on a carrier whose body reads it. */
+#define ZEPHIR_CLOSURE_BOUND_THIS "__$zephir_this"
+
+/** Tag for closures that own a capture carrier; rebinding one copies it. */
+static zend_object_handlers zephir_closure_carrier_handlers;
+/** Tag for closures without captures, so var_dump() has somewhere to land. */
+static zend_object_handlers zephir_closure_plain_handlers;
+static int zephir_closure_handlers_ready = 0;
+
+static zend_object *(*zephir_closure_std_clone)(zend_object *object) = NULL;
+
+static zend_function *zephir_closure_bind_to_fn = NULL;
+
+static zif_handler zephir_closure_std_bind_to = NULL;
+static zif_handler zephir_closure_std_bind    = NULL;
+static zif_handler zephir_closure_std_call    = NULL;
+
+static int zephir_closure_is_ours(zval *closure)
+{
+	return closure != NULL
+		&& Z_TYPE_P(closure) == IS_OBJECT
+		&& (Z_OBJ_HT_P(closure) == &zephir_closure_carrier_handlers
+			|| Z_OBJ_HT_P(closure) == &zephir_closure_plain_handlers);
+}
+
+static int zephir_closure_has_carrier(zval *closure)
+{
+	return closure != NULL
+		&& Z_TYPE_P(closure) == IS_OBJECT
+		&& Z_OBJ_HT_P(closure) == &zephir_closure_carrier_handlers;
+}
+
+/**
+ * Rebinding a closure without captures needs no carrier, but the closure the
+ * engine returns is a fresh object carrying the engine's own handlers, so it
+ * has to be re-tagged or var_dump() of it would crash again.
+ */
+static void zephir_closure_delegate_plain(zval *rebound)
+{
+	if (!EG(exception) && Z_TYPE_P(rebound) == IS_OBJECT) {
+		Z_OBJ_P(rebound)->handlers = &zephir_closure_plain_handlers;
+	}
+}
+
+/**
+ * A clone keeps whichever tag its source carried, so `clone $closure` followed
+ * by a rebind still finds the carrier.
+ */
+static zend_object *zephir_closure_clone_obj(zend_object *object)
+{
+	const zend_object_handlers *handlers = object->handlers;
+	zend_object *clone = zephir_closure_std_clone(object);
+
+	if (clone != NULL) {
+		clone->handlers = handlers;
+	}
+
+	return clone;
+}
+
+/**
+ * zend_closure_get_debug_info() reads func.op_array.filename with no
+ * ZEND_USER_FUNCTION guard, and that field lies past the end of a
+ * zend_internal_function, so var_dump() of any closure compiled by Zephir used
+ * to hand zend_string_addref() a NULL pointer. Report the shape an internal
+ * closure actually has: its name, its captures, and the object its body sees
+ * as `$this` rather than the carrier holding it.
+ */
+static HashTable *zephir_closure_get_debug_info(zend_object *object, int *is_temp)
+{
+	const zend_function *func;
+	zend_object *carrier = NULL;
+	zend_string *name;
+	zend_property_info *info;
+	zval closure_zv, captures, value;
+	zval *bound;
+	HashTable *debug_info;
+
+	*is_temp   = 1;
+	debug_info = zend_new_array(4);
+	func       = zend_get_closure_method_def(object);
+
+	ZVAL_STR_COPY(&value, func->common.function_name);
+	zend_hash_str_update(debug_info, ZEND_STRL("name"), &value);
+
+	ZVAL_OBJ(&closure_zv, object);
+	bound = zend_get_closure_this_ptr(&closure_zv);
+
+	if (bound != NULL && Z_TYPE_P(bound) == IS_OBJECT) {
+		if (object->handlers == &zephir_closure_carrier_handlers) {
+			carrier = Z_OBJ_P(bound);
+		} else {
+			ZVAL_COPY(&value, bound);
+			zend_hash_str_update(debug_info, ZEND_STRL("this"), &value);
+		}
+	}
+
+	if (carrier == NULL) {
+		return debug_info;
+	}
+
+	array_init(&captures);
+
+	ZEND_HASH_FOREACH_STR_KEY_PTR(&carrier->ce->properties_info, name, info) {
+		zval *slot = OBJ_PROP(carrier, info->offset);
+
+		if (name == NULL || Z_TYPE_P(slot) == IS_UNDEF) {
+			continue;
+		}
+
+		if (zend_string_equals_literal(name, ZEPHIR_CLOSURE_BOUND_THIS)) {
+			if (Z_TYPE_P(slot) == IS_OBJECT) {
+				ZVAL_COPY(&value, slot);
+				zend_hash_str_update(debug_info, ZEND_STRL("this"), &value);
+			}
+
+			continue;
+		}
+
+		ZVAL_COPY(&value, Z_ISREF_P(slot) ? Z_REFVAL_P(slot) : slot);
+		zend_hash_update(Z_ARRVAL(captures), name, &value);
+	} ZEND_HASH_FOREACH_END();
+
+	if (zend_hash_num_elements(Z_ARRVAL(captures)) > 0) {
+		zend_hash_str_update(debug_info, ZEND_STRL("static"), &captures);
+	} else {
+		zval_ptr_dtor(&captures);
+	}
+
+	return debug_info;
+}
+
+/**
+ * Copies a capture carrier for a closure that is about to be rebound, and
+ * points the copy's enclosing `$this` at the new object.
+ */
+static zend_object *zephir_closure_copy_carrier(zend_object *carrier, zval *new_this)
+{
+	zval carrier_zv, bound;
+	zend_object *copy;
+	uint32_t i;
+
+	object_init_ex(&carrier_zv, carrier->ce);
+	copy = Z_OBJ(carrier_zv);
+
+	for (i = 0; i < (uint32_t) carrier->ce->default_properties_count; i++) {
+		zval *source = &carrier->properties_table[i];
+		zval *target = &copy->properties_table[i];
+
+		if (Z_TYPE_P(source) == IS_UNDEF) {
+			continue;
+		}
+
+		zval_ptr_dtor(target);
+
+		/**
+		 * The rule zend_array_dup_value() applies to a user closure's
+		 * `use (...)` slots on a rebind: a reference nobody else holds is
+		 * split off into a private copy, one that is still shared stays
+		 * shared. Matching it is what makes `use (&x)` behave the same in a
+		 * rebound Zephir closure as in a rebound PHP one.
+		 *
+		 * PHP dereferences the slot outright, which cannot be done here: the
+		 * generated body reads a by-reference capture through Z_REFVAL_P()
+		 * unconditionally, so the copy has to stay a reference. A brand new
+		 * one nobody else holds is indistinguishable from a plain value.
+		 */
+		if (Z_ISREF_P(source) && Z_REFCOUNT_P(source) == 1) {
+			zval inner;
+
+			ZVAL_COPY(&inner, Z_REFVAL_P(source));
+			ZVAL_NEW_REF(target, &inner);
+		} else {
+			ZVAL_COPY(target, source);
+		}
+	}
+
+	if (zend_hash_str_exists(&carrier->ce->properties_info, ZEND_STRL(ZEPHIR_CLOSURE_BOUND_THIS))) {
+		if (new_this != NULL && Z_TYPE_P(new_this) == IS_OBJECT) {
+			ZVAL_COPY_VALUE(&bound, new_this);
+		} else {
+			ZVAL_NULL(&bound);
+		}
+
+		zephir_update_property_zval(&carrier_zv, ZEND_STRL(ZEPHIR_CLOSURE_BOUND_THIS), &bound);
+	}
+
+	return copy;
+}
+
+/**
+ * Re-points a closure the engine has just built at a copy of `source`'s
+ * carrier, so it keeps the captures the rebind would otherwise have dropped.
+ */
+static void zephir_closure_adopt_carrier(zval *rebound, zval *source, zval *new_this)
+{
+	zval *bound = zend_get_closure_this_ptr(source);
+	zval *slot;
+
+	if (bound == NULL || Z_TYPE_P(bound) != IS_OBJECT) {
+		return;
+	}
+
+	slot = zend_get_closure_this_ptr(rebound);
+
+	if (slot == NULL) {
+		return;
+	}
+
+	/* Releases the `$this` the engine bound; safe on the IS_UNDEF an unbind leaves. */
+	zval_ptr_dtor(slot);
+	ZVAL_OBJ(slot, zephir_closure_copy_carrier(Z_OBJ_P(bound), new_this));
+
+	Z_OBJ_P(rebound)->handlers = &zephir_closure_carrier_handlers;
+}
+
+/**
+ * PHP refuses to unbind `$this` from a closure whose body reads it, but it
+ * gates that on ZEND_ACC_USES_THIS, a flag its compiler only ever sets on a
+ * user function. An internal-function closure can never carry it, so the check
+ * has to be made here. The carrier declaring ZEPHIR_CLOSURE_BOUND_THIS is
+ * exactly the compiler's record that the body reads `this`.
+ */
+static int zephir_closure_refuse_unbind(zval *closure, zval *new_this)
+{
+	zval *bound;
+
+	if (new_this != NULL && Z_TYPE_P(new_this) == IS_OBJECT) {
+		return 0;
+	}
+
+	bound = zend_get_closure_this_ptr(closure);
+
+	if (bound == NULL
+		|| Z_TYPE_P(bound) != IS_OBJECT
+		|| !zend_hash_str_exists(&Z_OBJCE_P(bound)->properties_info, ZEND_STRL(ZEPHIR_CLOSURE_BOUND_THIS))) {
+		return 0;
+	}
+
+#if PHP_VERSION_ID >= 80500
+	zend_error(E_WARNING, "Cannot unbind $this of closure using $this, this will be an error in PHP 9");
+#else
+	zend_error(E_WARNING, "Cannot unbind $this of closure using $this");
+#endif
+
+	return 1;
+}
+
+static ZEND_NAMED_FUNCTION(zephir_closure_bind_to)
+{
+	zval *closure  = getThis();
+	zval *new_this = NULL;
+
+	if (!zephir_closure_has_carrier(closure)) {
+		zephir_closure_std_bind_to(INTERNAL_FUNCTION_PARAM_PASSTHRU);
+
+		if (zephir_closure_is_ours(closure)) {
+			zephir_closure_delegate_plain(return_value);
+		}
+
+		return;
+	}
+
+	/**
+	 * Read the argument off the frame rather than parsing it: the delegated
+	 * handler parses the same frame, and parsing here as well would report a
+	 * bad argument twice.
+	 */
+	if (ZEND_NUM_ARGS() >= 1) {
+		new_this = ZEND_CALL_ARG(execute_data, 1);
+
+		if (zephir_closure_refuse_unbind(closure, new_this)) {
+			RETURN_NULL();
+		}
+	}
+
+	zephir_closure_std_bind_to(INTERNAL_FUNCTION_PARAM_PASSTHRU);
+
+	if (EG(exception) || Z_TYPE_P(return_value) != IS_OBJECT) {
+		return;
+	}
+
+	zephir_closure_adopt_carrier(return_value, closure, new_this);
+}
+
+static ZEND_NAMED_FUNCTION(zephir_closure_bind)
+{
+	zval *closure  = ZEND_NUM_ARGS() >= 1 ? ZEND_CALL_ARG(execute_data, 1) : NULL;
+	zval *new_this = NULL;
+
+	if (!zephir_closure_has_carrier(closure)) {
+		zephir_closure_std_bind(INTERNAL_FUNCTION_PARAM_PASSTHRU);
+
+		if (zephir_closure_is_ours(closure)) {
+			zephir_closure_delegate_plain(return_value);
+		}
+
+		return;
+	}
+
+	if (ZEND_NUM_ARGS() >= 2) {
+		new_this = ZEND_CALL_ARG(execute_data, 2);
+
+		if (zephir_closure_refuse_unbind(closure, new_this)) {
+			RETURN_NULL();
+		}
+	}
+
+	zephir_closure_std_bind(INTERNAL_FUNCTION_PARAM_PASSTHRU);
+
+	if (EG(exception) || Z_TYPE_P(return_value) != IS_OBJECT) {
+		return;
+	}
+
+	zephir_closure_adopt_carrier(return_value, closure, new_this);
+}
+
+static ZEND_NAMED_FUNCTION(zephir_closure_call)
+{
+	zval *closure  = getThis();
+	zval *new_this;
+	zval rebound, retval;
+	zend_fcall_info fci;
+	zend_fcall_info_cache fci_cache;
+	char *error = NULL;
+
+	if (!zephir_closure_has_carrier(closure)
+		|| zephir_closure_bind_to_fn == NULL
+		|| ZEND_NUM_ARGS() < 1
+		|| Z_TYPE_P(ZEND_CALL_ARG(execute_data, 1)) != IS_OBJECT) {
+		zephir_closure_std_call(INTERNAL_FUNCTION_PARAM_PASSTHRU);
+		return;
+	}
+
+	new_this = ZEND_CALL_ARG(execute_data, 1);
+
+	/**
+	 * Closure::call() builds no lasting closure of its own: it copies the
+	 * function onto the stack, delivers `$this` out of band and restores the
+	 * unwrapped internal handler, so there is nothing to re-point afterwards.
+	 * It binds the new object as both `$this` and the scope, which is what
+	 * bindTo($object, $object) does, so route it through there to get the
+	 * identical validation and diagnostics and then invoke the result.
+	 */
+	ZVAL_UNDEF(&rebound);
+	zend_call_known_instance_method_with_2_params(
+		zephir_closure_bind_to_fn,
+		Z_OBJ_P(closure),
+		&rebound,
+		new_this,
+		new_this
+	);
+
+	if (EG(exception) || Z_TYPE(rebound) != IS_OBJECT) {
+		zval_ptr_dtor(&rebound);
+		RETURN_NULL();
+	}
+
+	ZVAL_UNDEF(&retval);
+
+	if (zend_fcall_info_init(&rebound, 0, &fci, &fci_cache, NULL, &error) == SUCCESS) {
+		fci.retval       = &retval;
+		fci.param_count  = ZEND_NUM_ARGS() - 1;
+		fci.params       = fci.param_count > 0 ? ZEND_CALL_ARG(execute_data, 2) : NULL;
+		fci.named_params = (ZEND_CALL_INFO(execute_data) & ZEND_CALL_HAS_EXTRA_NAMED_PARAMS)
+			? EX(extra_named_params)
+			: NULL;
+
+		zend_call_function(&fci, &fci_cache);
+	}
+
+	if (error != NULL) {
+		efree(error);
+	}
+
+	zval_ptr_dtor(&rebound);
+
+	if (Z_TYPE(retval) != IS_UNDEF) {
+		if (Z_ISREF(retval)) {
+			zend_unwrap_reference(&retval);
+		}
+
+		ZVAL_COPY_VALUE(return_value, &retval);
+	}
+}
+
+static zif_handler zephir_closure_install(const char *name, size_t name_length, zif_handler handler, zend_function **function)
+{
+	zend_function *entry = zend_hash_str_find_ptr(&zend_ce_closure->function_table, name, name_length);
+	zif_handler previous;
+
+	if (entry == NULL || entry->type != ZEND_INTERNAL_FUNCTION) {
+		return NULL;
+	}
+
+	previous = entry->internal_function.handler;
+	entry->internal_function.handler = handler;
+
+	if (function != NULL) {
+		*function = entry;
+	}
+
+	return previous;
+}
+
+static void zephir_closure_restore(const char *name, size_t name_length, zif_handler ours, zif_handler previous)
+{
+	zend_function *entry;
+
+	if (previous == NULL) {
+		return;
+	}
+
+	entry = zend_hash_str_find_ptr(&zend_ce_closure->function_table, name, name_length);
+
+	/* Only when nobody wrapped us in turn, so two Zephir extensions unload safely. */
+	if (entry != NULL && entry->type == ZEND_INTERNAL_FUNCTION && entry->internal_function.handler == ours) {
+		entry->internal_function.handler = previous;
+	}
+}
+
+/**
+ * Tags a freshly created closure, snapshotting Closure's handler table the
+ * first time round.
+ *
+ * The snapshot cannot be taken at MINIT: the table is file-static in the
+ * engine, ce->default_object_handlers only exists from PHP 8.3, and a closure
+ * cannot be built before init_executor() has set up the object store. Threads
+ * racing here write identical bytes.
+ */
+static void zephir_closure_tag(zval *closure, int has_carrier)
+{
+	zend_object *object = Z_OBJ_P(closure);
+
+	if (!zephir_closure_handlers_ready) {
+		memcpy(&zephir_closure_carrier_handlers, object->handlers, sizeof(zend_object_handlers));
+
+		zephir_closure_std_clone = zephir_closure_carrier_handlers.clone_obj;
+
+		zephir_closure_carrier_handlers.clone_obj      = zephir_closure_clone_obj;
+		zephir_closure_carrier_handlers.get_debug_info = zephir_closure_get_debug_info;
+
+		memcpy(&zephir_closure_plain_handlers, &zephir_closure_carrier_handlers, sizeof(zend_object_handlers));
+
+		zephir_closure_handlers_ready = 1;
+	}
+
+	object->handlers = has_carrier
+		? &zephir_closure_carrier_handlers
+		: &zephir_closure_plain_handlers;
+}
+
+void zephir_closure_module_init(void)
+{
+	zephir_closure_std_bind_to = zephir_closure_install(ZEND_STRL("bindto"), zephir_closure_bind_to, &zephir_closure_bind_to_fn);
+	zephir_closure_std_bind    = zephir_closure_install(ZEND_STRL("bind"), zephir_closure_bind, NULL);
+	zephir_closure_std_call    = zephir_closure_install(ZEND_STRL("call"), zephir_closure_call, NULL);
+}
+
+void zephir_closure_module_shutdown(void)
+{
+	zephir_closure_restore(ZEND_STRL("bindto"), zephir_closure_bind_to, zephir_closure_std_bind_to);
+	zephir_closure_restore(ZEND_STRL("bind"), zephir_closure_bind, zephir_closure_std_bind);
+	zephir_closure_restore(ZEND_STRL("call"), zephir_closure_call, zephir_closure_std_call);
+
+	zephir_closure_std_bind_to = NULL;
+	zephir_closure_std_bind    = NULL;
+	zephir_closure_std_call    = NULL;
+	zephir_closure_bind_to_fn  = NULL;
+}
+
+#else
+
+void zephir_closure_module_init(void) {}
+void zephir_closure_module_shutdown(void) {}
+
+#endif /* PHP_VERSION_ID < 80600 */
+
+/**
  * Creates a closure bound to `bound_this`, scoped by `scope_this`.
  *
  * A closure with `use (...)` captures binds a per-creation capture carrier as
@@ -1503,8 +2118,12 @@ void zephir_make_local_reference(zval *var)
  * internal-function closure. The scope has to keep coming from the enclosing
  * object, or the body would lose access to its protected/private members.
  * The two are the same object for every other closure.
+ *
+ * `has_carrier` says which of the two it is. It is passed explicitly rather
+ * than inferred from the two arguments being different, because rebinding
+ * depends on it: only a carrier has to be copied across to the new closure.
  */
-int zephir_create_closure_bound(zval *return_value, zval *bound_this, zval *scope_this, zend_class_entry *ce, const char *method_name, uint32_t method_length)
+static int zephir_create_closure_impl(zval *return_value, zval *bound_this, zval *scope_this, zend_class_entry *ce, const char *method_name, uint32_t method_length, int has_carrier)
 {
 	zend_function *function_ptr;
 	zend_class_entry *scope_ce;
@@ -1532,7 +2151,20 @@ int zephir_create_closure_bound(zval *return_value, zval *bound_this, zval *scop
 	 */
 	zend_create_closure(return_value, function_ptr, scope_ce, scope_ce, bound_this);
 
+#if PHP_VERSION_ID < 80600
+	/* Marks the closure as ours, so a rebind can find its carrier. */
+	zephir_closure_tag(return_value, has_carrier);
+#endif
+
 	return SUCCESS;
+}
+
+/**
+ * Creates a closure bound to a per-creation capture carrier.
+ */
+int zephir_create_closure_bound(zval *return_value, zval *bound_this, zval *scope_this, zend_class_entry *ce, const char *method_name, uint32_t method_length)
+{
+	return zephir_create_closure_impl(return_value, bound_this, scope_this, ce, method_name, method_length, 1);
 }
 
 /**
@@ -1540,7 +2172,7 @@ int zephir_create_closure_bound(zval *return_value, zval *bound_this, zval *scop
  */
 int zephir_create_closure_ex(zval *return_value, zval *this_ptr, zend_class_entry *ce, const char *method_name, uint32_t method_length)
 {
-	return zephir_create_closure_bound(return_value, this_ptr, this_ptr, ce, method_name, method_length);
+	return zephir_create_closure_impl(return_value, this_ptr, this_ptr, ce, method_name, method_length, 0);
 }
 
 /**

@@ -396,14 +396,16 @@ PHP_METHOD(Phalcon_Container_Resolver_Resolver, resolveParameters)
 			ZEPHIR_CALL_METHOD(&name, &parameter, "getname", NULL, 0);
 			zephir_check_call_status();
 			if (zephir_array_key_exists(&arguments, &position)) {
-				zephir_array_fetch(&_4$$4, &arguments, &position, PH_NOISY | PH_READONLY, "phalcon/Container/Resolver/Resolver.zep", 200);
+				ZEPHIR_OBS_NVAR(&_4$$4);
+				zephir_array_fetch(&_4$$4, &arguments, &position, PH_NOISY, "phalcon/Container/Resolver/Resolver.zep", 200);
 				ZEPHIR_CALL_METHOD(&_3$$4, this_ptr, "resolvearg", &_5, 0, ioc, &_4$$4);
 				zephir_check_call_status();
 				zephir_array_update_zval(&resolved, &position, &_3$$4, PH_COPY | PH_SEPARATE);
 				continue;
 			}
 			if (zephir_array_key_exists(&arguments, &name)) {
-				zephir_array_fetch(&_7$$5, &arguments, &name, PH_NOISY | PH_READONLY, "phalcon/Container/Resolver/Resolver.zep", 205);
+				ZEPHIR_OBS_NVAR(&_7$$5);
+				zephir_array_fetch(&_7$$5, &arguments, &name, PH_NOISY, "phalcon/Container/Resolver/Resolver.zep", 205);
 				ZEPHIR_CALL_METHOD(&_6$$5, this_ptr, "resolvearg", &_5, 0, ioc, &_7$$5);
 				zephir_check_call_status();
 				zephir_array_update_zval(&resolved, &position, &_6$$5, PH_COPY | PH_SEPARATE);
@@ -436,14 +438,16 @@ PHP_METHOD(Phalcon_Container_Resolver_Resolver, resolveParameters)
 				ZEPHIR_CALL_METHOD(&name, &parameter, "getname", NULL, 0);
 				zephir_check_call_status();
 				if (zephir_array_key_exists(&arguments, &position)) {
-					zephir_array_fetch(&_13$$7, &arguments, &position, PH_NOISY | PH_READONLY, "phalcon/Container/Resolver/Resolver.zep", 200);
+					ZEPHIR_OBS_NVAR(&_13$$7);
+					zephir_array_fetch(&_13$$7, &arguments, &position, PH_NOISY, "phalcon/Container/Resolver/Resolver.zep", 200);
 					ZEPHIR_CALL_METHOD(&_12$$7, this_ptr, "resolvearg", &_5, 0, ioc, &_13$$7);
 					zephir_check_call_status();
 					zephir_array_update_zval(&resolved, &position, &_12$$7, PH_COPY | PH_SEPARATE);
 					continue;
 				}
 				if (zephir_array_key_exists(&arguments, &name)) {
-					zephir_array_fetch(&_15$$8, &arguments, &name, PH_NOISY | PH_READONLY, "phalcon/Container/Resolver/Resolver.zep", 205);
+					ZEPHIR_OBS_NVAR(&_15$$8);
+					zephir_array_fetch(&_15$$8, &arguments, &name, PH_NOISY, "phalcon/Container/Resolver/Resolver.zep", 205);
 					ZEPHIR_CALL_METHOD(&_14$$8, this_ptr, "resolvearg", &_5, 0, ioc, &_15$$8);
 					zephir_check_call_status();
 					zephir_array_update_zval(&resolved, &position, &_14$$8, PH_COPY | PH_SEPARATE);

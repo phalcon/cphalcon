@@ -29,6 +29,149 @@
 #include "kernel/fcall.h"
 #include "kernel/string.h"
 
+/**
+ * Prepares a container the write context is about to write through.
+ *
+ * PHP's `zend_fetch_dimension_address()` (Zend/zend_execute.c): a reference is
+ * followed, an undefined, null or false container becomes an array, and the
+ * table is separated *before* anything is looked up inside it, so the write
+ * reaches the container however many holders it had.
+ *
+ * SEPARATE_ARRAY() ends in GC_TRY_DELREF(), so it may only run on a zval that
+ * owns its value. That is the emitter's half of the bargain: a write context is
+ * never handed a borrowed container, only a local variable or an object's
+ * property slot, and separating one of those writes the new table back where
+ * its owner will find it.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2691
+ */
+static zval *zephir_array_write_container(zval *arr)
+{
+	ZVAL_DEREF(arr);
+
+	if (UNEXPECTED(Z_TYPE_P(arr) <= IS_FALSE)) {
+#if PHP_VERSION_ID >= 80100
+		const zend_bool was_false = Z_TYPE_P(arr) == IS_FALSE;
+#endif
+
+		array_init(arr);
+
+#if PHP_VERSION_ID >= 80100
+		/* Deprecated since 8.1, same wording through 8.5. */
+		if (UNEXPECTED(was_false)) {
+			zend_error(E_DEPRECATED, "Automatic conversion of false to array is deprecated");
+		}
+#endif
+
+		return arr;
+	}
+
+	if (EXPECTED(Z_TYPE_P(arr) == IS_ARRAY)) {
+		SEPARATE_ARRAY(arr);
+	}
+
+	return arr;
+}
+
+/**
+ * Creates the element a write context asked for and hands back its slot.
+ *
+ * A write context is a lookup-or-create: BP_VAR_W reaches `zend_hash_lookup()`
+ * in `zend_fetch_dimension_address_inner()`, which inserts a null and returns
+ * the new slot with no diagnostic at all. That function is not exported before
+ * 8.5, so the insert is spelled out, and each one uses the same hash family as
+ * the lookup it follows.
+ */
+static zval *zephir_array_write_create_index(HashTable *ht, zend_ulong index)
+{
+	zval null_value;
+
+	ZVAL_NULL(&null_value);
+
+	return zend_hash_index_update(ht, index, &null_value);
+}
+
+static zval *zephir_array_write_create_string(HashTable *ht, const char *index, uint32_t index_length)
+{
+	zval null_value;
+
+	ZVAL_NULL(&null_value);
+
+	return zend_hash_str_update(ht, index, index_length, &null_value);
+}
+
+static zval *zephir_array_write_create_symtable(HashTable *ht, const char *index, uint32_t index_length)
+{
+	zval null_value;
+
+	ZVAL_NULL(&null_value);
+
+	return zend_symtable_str_update(ht, index, index_length, &null_value);
+}
+
+/**
+ * Hands a found array element to the caller under one of three contracts.
+ *
+ * PH_WRITE is the write context. The element becomes a real reference, which is
+ * what `ZEND_SEND_REF` (Zend/zend_vm_def.h) does to the slot `ZEND_FETCH_DIM_W`
+ * produced, so the callee's write reaches the container, and a callee that
+ * replaces its argument rather than mutating it replaces what the container
+ * holds. Nobody else is watching that table: zephir_array_write_container()
+ * separated it first.
+ *
+ * PH_READONLY borrows: no addref, and the caller neither observes the target
+ * nor releases it, because the container owns the value.
+ *
+ * Otherwise the caller gets its own reference.
+ *
+ * Both read contracts follow a reference, as `ZEND_FETCH_DIM_R`'s
+ * ZVAL_COPY_DEREF() does, so an element an earlier write context turned into
+ * one still reads as its value rather than as a reference.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2682
+ * @see https://github.com/zephir-lang/zephir/issues/2691
+ */
+static void zephir_array_fetch_found(zval *return_value, zval *zv, int flags)
+{
+	if ((flags & PH_WRITE) == PH_WRITE) {
+		ZVAL_MAKE_REF(zv);
+		ZVAL_COPY(return_value, zv);
+
+		return;
+	}
+
+	ZVAL_DEREF(zv);
+
+	if ((flags & PH_READONLY) == PH_READONLY) {
+		ZVAL_COPY_VALUE(return_value, zv);
+
+		return;
+	}
+
+	ZVAL_COPY(return_value, zv);
+}
+
+/**
+ * PHP's warning for a write context it cannot honour.
+ *
+ * An ArrayAccess object builds the value inside offsetGet() and owns nothing
+ * afterwards, so unless it handed back a reference, or an object whose identity
+ * is the thing being modified, the caller is about to write into a temporary.
+ * Same condition and same wording as `zend_fetch_dimension_address_inner()`,
+ * which has not moved since 8.0.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2682
+ */
+static void zephir_array_fetch_overloaded_notice(const zval *arr, const zval *fetched)
+{
+	if (Z_ISREF_P(fetched) || Z_TYPE_P(fetched) == IS_OBJECT) {
+		return;
+	}
+
+	zend_error(E_NOTICE, "Indirect modification of overloaded element of %s has no effect",
+		ZSTR_VAL(Z_OBJCE_P(arr)->name));
+}
+
 void ZEPHIR_FASTCALL zephir_create_array(zval *return_value, uint32_t size, int initialize)
 {
 	uint32_t i;
@@ -87,21 +230,30 @@ int zephir_array_isset_fetch(zval *fetched, const zval *arr, zval *index, int re
 
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev((zval *)arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
 		zend_long ZEPHIR_LAST_CALL_STATUS;
-		zval exist;
-		ZVAL_UNDEF(&exist);
-		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(&exist, (zval *)arr, "offsetexists", NULL, 0, index);
-		if (ZEPHIR_LAST_CALL_STATUS != FAILURE && zend_is_true(&exist)) {
-			ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(fetched, (zval *)arr, "offsetget", NULL, 0, index);
-			if (readonly) {
-				Z_TRY_DELREF_P(fetched);
-			}
+		zval container, exist;
+		int found = 0;
 
-			return 1;
+		/* offsetExists() runs userland code that can drop the last reference
+		 * to the container, and zend_call_function() takes none for the call
+		 * frame, so own the container across both calls. PHP's own
+		 * zend_std_read_dimension() does the same. */
+		ZVAL_COPY(&container, (zval *)arr);
+		ZVAL_UNDEF(&exist);
+
+		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(&exist, &container, "offsetexists", NULL, 0, index);
+		if (ZEPHIR_LAST_CALL_STATUS != FAILURE && zend_is_true(&exist)) {
+			/* No `readonly` here: offsetGet() owns nothing once it has
+			 * returned, so its result is handed over owned. @see kernel/array.h */
+			ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(fetched, &container, "offsetget", NULL, 0, index);
+			found = 1;
+		} else {
+			ZVAL_NULL(fetched);
 		}
 
-		ZVAL_NULL(fetched);
+		zval_ptr_dtor(&exist);
+		zval_ptr_dtor(&container);
 
-		return 0;
+		return found;
 	} else if (UNEXPECTED(Z_TYPE_P(arr) == IS_STRING)) {
 		/* A `var` holding a string: PHP's isset() on a string offset is
 		 * silent for every illegal offset, so no diagnostic here. */
@@ -150,6 +302,12 @@ int zephir_array_isset_fetch(zval *fetched, const zval *arr, zval *index, int re
 	}
 
 	if (result != NULL) {
+		/* A write context leaves the element it wrote through as a reference,
+		 * exactly as PHP does, and every read of it dereferences, as
+		 * `ZEND_FETCH_DIM_R`'s ZVAL_COPY_DEREF() does. Without this the caller
+		 * is handed the reference and its copy is not a copy.
+		 * @see https://github.com/zephir-lang/zephir/issues/2691 */
+		ZVAL_DEREF(result);
 		zephir_ensure_array(result);
 
 		if (!readonly) {
@@ -171,25 +329,40 @@ int zephir_array_isset_string_fetch(zval *fetched, const zval *arr, char *index,
 	zval *zv;
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev((zval *)arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
 		zend_long ZEPHIR_LAST_CALL_STATUS;
-		zval exist, offset;
+		zval container, exist, offset;
+		int found = 0;
+
+		/* offsetExists() runs userland code that can drop the last reference
+		 * to the container, and zend_call_function() takes none for the call
+		 * frame, so own the container across both calls. PHP's own
+		 * zend_std_read_dimension() does the same. */
+		ZVAL_COPY(&container, (zval *)arr);
 		ZVAL_UNDEF(&exist);
+		/* The offset has to outlive offsetExists() too: releasing it here left
+		 * offsetGet() reading a freed zend_string, and the method-name string
+		 * allocated for that very call reused the slot, so the object silently
+		 * received the key "offsetget". */
 		ZVAL_STRINGL(&offset, index, index_length);
 
-		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(&exist, (zval *)arr, "offsetexists", NULL, 0, &offset);
-		zval_ptr_dtor(&offset);
+		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(&exist, &container, "offsetexists", NULL, 0, &offset);
 		if (ZEPHIR_LAST_CALL_STATUS != FAILURE && zend_is_true(&exist)) {
-			ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(fetched, (zval *)arr, "offsetget", NULL, 0, &offset);
-			if (readonly) {
-				Z_TRY_DELREF_P(fetched);
-			}
-			return 1;
+			/* No `readonly` here: offsetGet() owns nothing once it has
+			 * returned, so its result is handed over owned. @see kernel/array.h */
+			ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(fetched, &container, "offsetget", NULL, 0, &offset);
+			found = 1;
+		} else {
+			ZVAL_NULL(fetched);
 		}
 
-		ZVAL_NULL(fetched);
+		zval_ptr_dtor(&offset);
+		zval_ptr_dtor(&exist);
+		zval_ptr_dtor(&container);
 
-		return 0;
+		return found;
 	} else if (EXPECTED(Z_TYPE_P(arr) == IS_ARRAY)) {
 		if ((zv = zend_hash_str_find(Z_ARRVAL_P(arr), index, index_length)) != NULL) {
+			/* Dereferences for the same reason as zephir_array_isset_fetch(). */
+			ZVAL_DEREF(zv);
 			zephir_ensure_array(zv);
 
 			if (!readonly) {
@@ -228,24 +401,35 @@ int zephir_array_isset_long_fetch(zval *fetched, const zval *arr, zend_long inde
 
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev((zval *)arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
 		zend_long ZEPHIR_LAST_CALL_STATUS;
-		zval exist, offset;
+		zval container, exist, offset;
+		int found = 0;
+
+		/* offsetExists() runs userland code that can drop the last reference
+		 * to the container, and zend_call_function() takes none for the call
+		 * frame, so own the container across both calls. PHP's own
+		 * zend_std_read_dimension() does the same. */
+		ZVAL_COPY(&container, (zval *)arr);
 		ZVAL_UNDEF(&exist);
 		ZVAL_LONG(&offset, index);
-		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(&exist, (zval *)arr, "offsetexists", NULL, 0, &offset);
-		if (ZEPHIR_LAST_CALL_STATUS != FAILURE && zend_is_true(&exist)) {
-			ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(fetched, (zval *)arr, "offsetget", NULL, 0, &offset);
-			if (readonly) {
-				Z_TRY_DELREF_P(fetched);
-			}
 
-			return 1;
+		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(&exist, &container, "offsetexists", NULL, 0, &offset);
+		if (ZEPHIR_LAST_CALL_STATUS != FAILURE && zend_is_true(&exist)) {
+			/* No `readonly` here: offsetGet() owns nothing once it has
+			 * returned, so its result is handed over owned. @see kernel/array.h */
+			ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(fetched, &container, "offsetget", NULL, 0, &offset);
+			found = 1;
+		} else {
+			ZVAL_NULL(fetched);
 		}
 
-		ZVAL_NULL(fetched);
+		zval_ptr_dtor(&exist);
+		zval_ptr_dtor(&container);
 
-		return 0;
+		return found;
 	} else if (EXPECTED(Z_TYPE_P(arr) == IS_ARRAY)) {
 		if ((zv = zend_hash_index_find(Z_ARRVAL_P(arr), (zend_ulong) index)) != NULL) {
+			/* Dereferences for the same reason as zephir_array_isset_fetch(). */
+			ZVAL_DEREF(zv);
 			zephir_ensure_array(zv);
 
 			if (!readonly) {
@@ -278,14 +462,23 @@ int ZEPHIR_FASTCALL zephir_array_isset(const zval *arr, zval *index)
 
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev((zval *)arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
 		zend_long ZEPHIR_LAST_CALL_STATUS;
-		zval exist;
-		ZVAL_UNDEF(&exist);
-		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(&exist, (zval *)arr, "offsetexists", NULL, 0, index);
-		if (zend_is_true(&exist)) {
-			return 1;
-		}
+		zval container, exist;
+		int found;
 
-		return 0;
+		/* offsetExists() runs userland code that can drop the last reference
+		 * to the container, and zend_call_function() takes none for the call
+		 * frame, so own the container across both calls. PHP's own
+		 * zend_std_read_dimension() does the same. */
+		ZVAL_COPY(&container, (zval *)arr);
+		ZVAL_UNDEF(&exist);
+
+		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(&exist, &container, "offsetexists", NULL, 0, index);
+		found = ZEPHIR_LAST_CALL_STATUS != FAILURE && zend_is_true(&exist);
+
+		zval_ptr_dtor(&exist);
+		zval_ptr_dtor(&container);
+
+		return found;
 	} else if (UNEXPECTED(Z_TYPE_P(arr) == IS_STRING)) {
 		return zephir_string_offset_isset_zval(arr, index);
 	} else if (UNEXPECTED(Z_TYPE_P(arr) != IS_ARRAY)) {
@@ -321,16 +514,25 @@ int ZEPHIR_FASTCALL zephir_array_isset_string(const zval *arr, const char *index
 {
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev((zval *)arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
 		zend_long ZEPHIR_LAST_CALL_STATUS;
-		zval exist, offset;
+		zval container, exist, offset;
+		int found;
+
+		/* offsetExists() runs userland code that can drop the last reference
+		 * to the container, and zend_call_function() takes none for the call
+		 * frame, so own the container across both calls. PHP's own
+		 * zend_std_read_dimension() does the same. */
+		ZVAL_COPY(&container, (zval *)arr);
 		ZVAL_UNDEF(&exist);
 		ZVAL_STRINGL(&offset, index, index_length);
-		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(&exist, (zval *)arr, "offsetexists", NULL, 0, &offset);
-		zval_ptr_dtor(&offset);
-		if (ZEPHIR_LAST_CALL_STATUS != FAILURE && zend_is_true(&exist)) {
-			return 1;
-		}
 
-		return 0;
+		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(&exist, &container, "offsetexists", NULL, 0, &offset);
+		found = ZEPHIR_LAST_CALL_STATUS != FAILURE && zend_is_true(&exist);
+
+		zval_ptr_dtor(&offset);
+		zval_ptr_dtor(&exist);
+		zval_ptr_dtor(&container);
+
+		return found;
 	} else if (EXPECTED(Z_TYPE_P(arr) == IS_ARRAY)) {
 		return zend_hash_str_exists(Z_ARRVAL_P(arr), index, index_length);
 	} else if (UNEXPECTED(Z_TYPE_P(arr) == IS_STRING)) {
@@ -351,15 +553,24 @@ int ZEPHIR_FASTCALL zephir_array_isset_long(const zval *arr, zend_long index)
 {
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev((zval *)arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
 		zend_long ZEPHIR_LAST_CALL_STATUS;
-		zval exist, offset;
+		zval container, exist, offset;
+		int found;
+
+		/* offsetExists() runs userland code that can drop the last reference
+		 * to the container, and zend_call_function() takes none for the call
+		 * frame, so own the container across both calls. PHP's own
+		 * zend_std_read_dimension() does the same. */
+		ZVAL_COPY(&container, (zval *)arr);
 		ZVAL_UNDEF(&exist);
 		ZVAL_LONG(&offset, index);
-		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(&exist, (zval *)arr, "offsetexists", NULL, 0, &offset);
-		if (ZEPHIR_LAST_CALL_STATUS != FAILURE && zend_is_true(&exist)) {
-			return 1;
-		}
 
-		return 0;
+		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(&exist, &container, "offsetexists", NULL, 0, &offset);
+		found = ZEPHIR_LAST_CALL_STATUS != FAILURE && zend_is_true(&exist);
+
+		zval_ptr_dtor(&exist);
+		zval_ptr_dtor(&container);
+
+		return found;
 	} else if (EXPECTED(Z_TYPE_P(arr) == IS_ARRAY)) {
 		return zend_hash_index_exists(Z_ARRVAL_P(arr), (zend_ulong) index);
 	} else if (UNEXPECTED(Z_TYPE_P(arr) == IS_STRING)) {
@@ -673,14 +884,22 @@ int zephir_array_fetch(zval *return_value, zval *arr, zval *index, int flags ZEP
 	int result = SUCCESS, found = 0;
 	zend_ulong uidx = 0;
 	char *sidx = NULL;
+	uint32_t sidx_length = 0;
+
+	if ((flags & PH_WRITE) == PH_WRITE) {
+		arr = zephir_array_write_container(arr);
+	}
 
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev(arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
 		zend_long ZEPHIR_LAST_CALL_STATUS;
 		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(return_value, arr, "offsetget", NULL, 0, index);
 		if (ZEPHIR_LAST_CALL_STATUS != FAILURE) {
-			if ((flags & PH_READONLY) == PH_READONLY) {
-				Z_TRY_DELREF_P(return_value);
+			/* No PH_READONLY here: offsetGet() owns nothing once it has
+			 * returned, so its result is handed over owned. @see kernel/array.h */
+			if ((flags & PH_WRITE) == PH_WRITE) {
+				zephir_array_fetch_overloaded_notice(arr, return_value);
 			}
+
 			return SUCCESS;
 		}
 
@@ -715,8 +934,9 @@ int zephir_array_fetch(zval *return_value, zval *arr, zval *index, int flags ZEP
 				break;
 
 			case IS_STRING:
-				sidx   = Z_STRLEN_P(index) ? Z_STRVAL_P(index) : "";
-				found  = (zv = zend_symtable_str_find(ht, Z_STRVAL_P(index), Z_STRLEN_P(index))) != NULL;
+				sidx        = Z_STRLEN_P(index) ? Z_STRVAL_P(index) : "";
+				sidx_length = Z_STRLEN_P(index);
+				found       = (zv = zend_symtable_str_find(ht, Z_STRVAL_P(index), Z_STRLEN_P(index))) != NULL;
 				break;
 
 			default:
@@ -727,12 +947,16 @@ int zephir_array_fetch(zval *return_value, zval *arr, zval *index, int flags ZEP
 				break;
 		}
 
+		if (result != FAILURE && found == 0 && (flags & PH_WRITE) == PH_WRITE) {
+			zv    = (sidx != NULL)
+				? zephir_array_write_create_symtable(ht, sidx, sidx_length)
+				: zephir_array_write_create_index(ht, uidx);
+			found = zv != NULL;
+		}
+
 		if (result != FAILURE && found == 1) {
-			if ((flags & PH_READONLY) == PH_READONLY) {
-				ZVAL_COPY_VALUE(return_value, zv);
-			} else {
-				ZVAL_COPY(return_value, zv);
-			}
+			zephir_array_fetch_found(return_value, zv, flags);
+
 			return SUCCESS;
 		}
 
@@ -759,6 +983,10 @@ int zephir_array_fetch_string(zval *return_value, zval *arr, const char *index, 
 {
 	zval *zv;
 
+	if ((flags & PH_WRITE) == PH_WRITE) {
+		arr = zephir_array_write_container(arr);
+	}
+
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev(arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
 		zend_long ZEPHIR_LAST_CALL_STATUS;
 		zval offset;
@@ -766,21 +994,25 @@ int zephir_array_fetch_string(zval *return_value, zval *arr, const char *index, 
 		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(return_value, arr, "offsetget", NULL, 0, &offset);
 		zval_ptr_dtor(&offset);
 		if (ZEPHIR_LAST_CALL_STATUS != FAILURE) {
-			if ((flags & PH_READONLY) == PH_READONLY) {
-				Z_TRY_DELREF_P(return_value);
+			/* No PH_READONLY here: offsetGet() owns nothing once it has
+			 * returned, so its result is handed over owned. @see kernel/array.h */
+			if ((flags & PH_WRITE) == PH_WRITE) {
+				zephir_array_fetch_overloaded_notice(arr, return_value);
 			}
+
 			return SUCCESS;
 		}
 
 		return FAILURE;
 	} else if (EXPECTED(Z_TYPE_P(arr) == IS_ARRAY)) {
-		if ((zv = zend_hash_str_find(Z_ARRVAL_P(arr), index, index_length)) != NULL) {
+		if ((zv = zend_hash_str_find(Z_ARRVAL_P(arr), index, index_length)) == NULL
+			&& (flags & PH_WRITE) == PH_WRITE) {
+			zv = zephir_array_write_create_string(Z_ARRVAL_P(arr), index, index_length);
+		}
 
-			if ((flags & PH_READONLY) == PH_READONLY) {
-				ZVAL_COPY_VALUE(return_value, zv);
-			} else {
-				ZVAL_COPY(return_value, zv);
-			}
+		if (zv != NULL) {
+			zephir_array_fetch_found(return_value, zv, flags);
+
 			return SUCCESS;
 		}
 		if ((flags & PH_NOISY) == PH_NOISY) {
@@ -813,27 +1045,35 @@ int zephir_array_fetch_long(zval *return_value, zval *arr, zend_long index, int 
 {
 	zval *zv;
 
+	if ((flags & PH_WRITE) == PH_WRITE) {
+		arr = zephir_array_write_container(arr);
+	}
+
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev(arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
 		zend_long ZEPHIR_LAST_CALL_STATUS;
 		zval offset;
 		ZVAL_LONG(&offset, index);
 		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(return_value, arr, "offsetget", NULL, 0, &offset);
 		if (ZEPHIR_LAST_CALL_STATUS != FAILURE) {
-			if ((flags & PH_READONLY) == PH_READONLY) {
-				Z_TRY_DELREF_P(return_value);
+			/* No PH_READONLY here: offsetGet() owns nothing once it has
+			 * returned, so its result is handed over owned. @see kernel/array.h */
+			if ((flags & PH_WRITE) == PH_WRITE) {
+				zephir_array_fetch_overloaded_notice(arr, return_value);
 			}
+
 			return SUCCESS;
 		}
 
 		return FAILURE;
 	} else if (EXPECTED(Z_TYPE_P(arr) == IS_ARRAY)) {
-		if ((zv = zend_hash_index_find(Z_ARRVAL_P(arr), (zend_ulong) index)) != NULL) {
+		if ((zv = zend_hash_index_find(Z_ARRVAL_P(arr), (zend_ulong) index)) == NULL
+			&& (flags & PH_WRITE) == PH_WRITE) {
+			zv = zephir_array_write_create_index(Z_ARRVAL_P(arr), (zend_ulong) index);
+		}
 
-			if ((flags & PH_READONLY) == PH_READONLY) {
-				ZVAL_COPY_VALUE(return_value, zv);
-			} else {
-				ZVAL_COPY(return_value, zv);
-			}
+		if (zv != NULL) {
+			zephir_array_fetch_found(return_value, zv, flags);
+
 			return SUCCESS;
 		}
 		if ((flags & PH_NOISY) == PH_NOISY) {

@@ -244,7 +244,8 @@ PHP_METHOD(Phalcon_Support_Version, getPart)
 		zephir_cast_to_string(&_1$$3, &_0$$3);
 		RETURN_CTOR(&_1$$3);
 	zephir_switch_0_clause_4: ;
-		zephir_array_fetch_long(&_2$$4, &version, 3, PH_NOISY | PH_READONLY, "phalcon/Support/Version.zep", 165);
+		zephir_memory_observe(&_2$$4);
+		zephir_array_fetch_long(&_2$$4, &version, 3, PH_NOISY, "phalcon/Support/Version.zep", 165);
 		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getspecial", NULL, 0, &_2$$4);
 		zephir_check_call_status();
 		RETURN_MM();

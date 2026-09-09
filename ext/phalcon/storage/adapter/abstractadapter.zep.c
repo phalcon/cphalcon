@@ -243,7 +243,8 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, __construct)
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 33, &__$false);
 	}
 	if (zephir_array_isset_value_string(&options, SL("prefix"))) {
-		zephir_array_fetch_string(&prefix, &options, SL("prefix"), PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/AbstractAdapter.zep", 109);
+		zephir_memory_observe(&prefix);
+		zephir_array_fetch_string(&prefix, &options, SL("prefix"), PH_NOISY, "phalcon/Storage/Adapter/AbstractAdapter.zep", 109);
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_6, 34, &prefix);
 	}
 	zephir_array_unset_string(&options, SL("defaultSerializer"), PH_SEPARATE);

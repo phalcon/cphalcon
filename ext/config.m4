@@ -1116,6 +1116,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/model/exceptions/unsupportedeagerresultset.zep.c
 	phalcon/mvc/model/exceptions/updatesnapshotdisabled.zep.c
 	phalcon/mvc/model/hydration/caseinsensitivecolumnmap.zep.c
+	phalcon/mvc/model/hydration/cloneresult.zep.c
 	phalcon/mvc/model/hydration/cloneresultmaphydrate.zep.c
 	phalcon/mvc/model/hydration/getprivateproperties.zep.c
 	phalcon/mvc/model/manager.zep.c

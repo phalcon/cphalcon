@@ -162,6 +162,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, __construct)
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, get)
 {
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval claim_zv, _0, _1$$3, _2$$3;
 	zend_string *claim = NULL;
 	zval *this_ptr = getThis();
@@ -178,14 +179,18 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, get)
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(claim)
 	ZEND_PARSE_PARAMETERS_END();
-	ZVAL_STR(&claim_zv, claim);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&claim_zv);
+	ZVAL_STR_COPY(&claim_zv, claim);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 721, PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_value(&_0, &claim_zv)) {
 		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_0, 721, PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&_2$$3, &_1$$3, &claim_zv, PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/JWT/Validator.zep", 87);
-		RETURN_CTORW(&_2$$3);
+		zephir_memory_observe(&_2$$3);
+		zephir_array_fetch(&_2$$3, &_1$$3, &claim_zv, PH_NOISY, "phalcon/Encryption/Security/JWT/Validator.zep", 87);
+		RETURN_CCTOR(&_2$$3);
 	}
-	RETURN_NULL();
+	RETURN_MM_NULL();
 }
 
 /**

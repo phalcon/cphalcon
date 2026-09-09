@@ -113,9 +113,12 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, __toString)
 	add_assoc_stringl_ex(&_1, SL("text"), SL(""));
 	add_assoc_stringl_ex(&_1, SL("end"), SL(""));
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 212, &_1);
-	zephir_array_fetch_string(&_2, &label, SL("start"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Input/AbstractChecked.zep", 66);
-	zephir_array_fetch_string(&_3, &label, SL("text"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Input/AbstractChecked.zep", 68);
-	zephir_array_fetch_string(&_4, &label, SL("end"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Input/AbstractChecked.zep", 68);
+	zephir_memory_observe(&_2);
+	zephir_array_fetch_string(&_2, &label, SL("start"), PH_NOISY, "phalcon/Html/Helper/Input/AbstractChecked.zep", 66);
+	zephir_memory_observe(&_3);
+	zephir_array_fetch_string(&_3, &label, SL("text"), PH_NOISY, "phalcon/Html/Helper/Input/AbstractChecked.zep", 68);
+	zephir_memory_observe(&_4);
+	zephir_array_fetch_string(&_4, &label, SL("end"), PH_NOISY, "phalcon/Html/Helper/Input/AbstractChecked.zep", 68);
 	ZEPHIR_CONCAT_VVVVV(return_value, &unchecked, &_2, &element, &_3, &_4);
 	RETURN_MM();
 }

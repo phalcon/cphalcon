@@ -798,8 +798,9 @@ PHP_METHOD(Phalcon_Filter_Validation, getLabel)
 		zephir_fast_join_str(return_value, SL(", "), field);
 		RETURN_MM();
 	}
-	if (zephir_array_isset_fetch(&value, &labels, field, 1)) {
-		RETURN_CTOR(&value);
+	zephir_memory_observe(&value);
+	if (zephir_array_isset_fetch(&value, &labels, field, 0)) {
+		RETURN_CCTOR(&value);
 	}
 	RETVAL_ZVAL(field, 1, 0);
 	RETURN_MM();
@@ -1021,8 +1022,9 @@ PHP_METHOD(Phalcon_Filter_Validation, getValueByData)
 	}
 	if (Z_TYPE_P(data) == IS_ARRAY) {
 		if (zephir_array_isset_value(data, &field_zv)) {
-			zephir_array_fetch(&_1$$5, data, &field_zv, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation.zep", 507);
-			RETURN_CTOR(&_1$$5);
+			zephir_memory_observe(&_1$$5);
+			zephir_array_fetch(&_1$$5, data, &field_zv, PH_NOISY, "phalcon/Filter/Validation.zep", 507);
+			RETURN_CCTOR(&_1$$5);
 		}
 	}
 	if (Z_TYPE_P(data) == IS_OBJECT) {

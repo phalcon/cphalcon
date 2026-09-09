@@ -212,9 +212,10 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_Env, getEnv)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
+	zephir_memory_observe(&value);
 	zephir_memory_observe(&_4);
 	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 161, PH_NOISY_CC);
-	zephir_array_fetch(&value, &envs, &_4, PH_NOISY | PH_READONLY, "phalcon/Container/Resolver/Lazy/Env.zep", 84);
-	RETURN_CTOR(&value);
+	zephir_array_fetch(&value, &envs, &_4, PH_NOISY, "phalcon/Container/Resolver/Lazy/Env.zep", 84);
+	RETURN_CCTOR(&value);
 }
 

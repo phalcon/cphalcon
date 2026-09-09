@@ -161,11 +161,13 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Between, validate)
 		RETURN_MM_BOOL(1);
 	}
 	if (Z_TYPE_P(&minimum) == IS_ARRAY) {
-		zephir_array_fetch(&_2$$4, &minimum, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Between.zep", 97);
+		zephir_memory_observe(&_2$$4);
+		zephir_array_fetch(&_2$$4, &minimum, field, PH_NOISY, "phalcon/Filter/Validation/Validator/Between.zep", 97);
 		ZEPHIR_CPY_WRT(&minimum, &_2$$4);
 	}
 	if (Z_TYPE_P(&maximum) == IS_ARRAY) {
-		zephir_array_fetch(&_3$$5, &maximum, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Between.zep", 101);
+		zephir_memory_observe(&_3$$5);
+		zephir_array_fetch(&_3$$5, &maximum, field, PH_NOISY, "phalcon/Filter/Validation/Validator/Between.zep", 101);
 		ZEPHIR_CPY_WRT(&maximum, &_3$$5);
 	}
 	_4 = ZEPHIR_LT(&value, &minimum);

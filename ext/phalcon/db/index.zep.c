@@ -283,7 +283,8 @@ PHP_METHOD(Phalcon_Db_Index, __construct)
 			}
 			zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 644, &where);
 		}
-		if (zephir_array_isset_string_fetch(&concurrent, &columnsOrDefinition, SL("concurrently"), 1)) {
+		zephir_memory_observe(&concurrent);
+		if (zephir_array_isset_string_fetch(&concurrent, &columnsOrDefinition, SL("concurrently"), 0)) {
 			if (zephir_get_boolval(&concurrent)) {
 				zephir_update_property_zval_cached(this_ptr, _zephir_prop_6, 645, &__$true);
 			} else {

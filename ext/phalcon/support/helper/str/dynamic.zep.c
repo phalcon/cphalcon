@@ -161,14 +161,16 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Dynamic, __invoke)
 			if (_8$$6) {
 				continue;
 			}
-			zephir_array_fetch_long(&_9$$6, &match, 1, PH_NOISY | PH_READONLY, "phalcon/Support/Helper/Str/Dynamic.zep", 54);
+			ZEPHIR_OBS_NVAR(&_9$$6);
+			zephir_array_fetch_long(&_9$$6, &match, 1, PH_NOISY, "phalcon/Support/Helper/Str/Dynamic.zep", 54);
 			ZEPHIR_INIT_NVAR(&words);
-			zephir_fast_explode(&words, &separator_zv, &_9$$6, LONG_MAX);
+			zephir_fast_explode(&words, &separator_zv, &_9$$6, ZEND_LONG_MAX);
 			ZEPHIR_OBS_NVAR(&word);
 			ZEPHIR_CALL_FUNCTION(&_10$$6, "array_rand", &_11, 0, &words);
 			zephir_check_call_status();
 			zephir_array_fetch(&word, &words, &_10$$6, PH_NOISY, "phalcon/Support/Helper/Str/Dynamic.zep", 55);
-			zephir_array_fetch_long(&_12$$6, &match, 0, PH_NOISY | PH_READONLY, "phalcon/Support/Helper/Str/Dynamic.zep", 56);
+			ZEPHIR_OBS_NVAR(&_12$$6);
+			zephir_array_fetch_long(&_12$$6, &match, 0, PH_NOISY, "phalcon/Support/Helper/Str/Dynamic.zep", 56);
 			ZEPHIR_CALL_FUNCTION(&sub, "preg_quote", NULL, 0, &_12$$6, &separator_zv);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_13$$6);

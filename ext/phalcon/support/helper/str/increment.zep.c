@@ -73,14 +73,15 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Increment, __invoke)
 	ZVAL_STR_COPY(&separator_zv, separator);
 	}
 	ZEPHIR_INIT_VAR(&parts);
-	zephir_fast_explode(&parts, &separator_zv, &text_zv, LONG_MAX);
+	zephir_fast_explode(&parts, &separator_zv, &text_zv, ZEND_LONG_MAX);
 	number = 1;
 	if (1 == zephir_array_isset_value_long(&parts, 1)) {
 		zephir_memory_observe(&_0$$3);
 		zephir_array_fetch_long(&_0$$3, &parts, 1, PH_NOISY, "phalcon/Support/Helper/Str/Increment.zep", 32);
 		number = (zephir_get_intval(&_0$$3) + 1);
 	}
-	zephir_array_fetch_long(&_1, &parts, 0, PH_NOISY | PH_READONLY, "phalcon/Support/Helper/Str/Increment.zep", 35);
+	zephir_memory_observe(&_1);
+	zephir_array_fetch_long(&_1, &parts, 0, PH_NOISY, "phalcon/Support/Helper/Str/Increment.zep", 35);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_LONG(&_2, number);
 	ZEPHIR_CONCAT_VVV(return_value, &_1, &separator_zv, &_2);

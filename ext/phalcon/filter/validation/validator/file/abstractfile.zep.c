@@ -195,12 +195,14 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkUploadIsE
 	}
 	_2 = _1;
 	if (!(_2)) {
-		zephir_array_fetch_string(&_3, &value, SL("error"), PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 102);
+		zephir_memory_observe(&_3);
+		zephir_array_fetch_string(&_3, &value, SL("error"), PH_NOISY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 102);
 		_2 = !ZEPHIR_IS_LONG_IDENTICAL(&_3, 0);
 	}
 	_4 = _2;
 	if (!(_4)) {
-		zephir_array_fetch_string(&_6, &value, SL("tmp_name"), PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 103);
+		zephir_memory_observe(&_6);
+		zephir_array_fetch_string(&_6, &value, SL("tmp_name"), PH_NOISY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 103);
 		ZEPHIR_CALL_METHOD(&_5, this_ptr, "checkisuploadedfile", NULL, 0, &_6);
 		zephir_check_call_status();
 		_4 = !ZEPHIR_IS_TRUE_IDENTICAL(&_5);
@@ -375,7 +377,8 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkUploadMax
 		}
 		_6 = _5;
 		if (_6) {
-			zephir_array_fetch_string(&_7, &value, SL("error"), PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 194);
+			zephir_memory_observe(&_7);
+			zephir_array_fetch_string(&_7, &value, SL("error"), PH_NOISY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 194);
 			_6 = ZEPHIR_IS_LONG_IDENTICAL(&_7, 1);
 		}
 		_4 = _6;
@@ -470,7 +473,8 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, getFileSizeInB
 	}
 	ZEPHIR_CALL_FUNCTION(&_4, "floatval", NULL, 33, &value);
 	zephir_check_call_status();
-	zephir_array_fetch(&_5, &byteUnits, &unit, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 255);
+	zephir_memory_observe(&_5);
+	zephir_array_fetch(&_5, &byteUnits, &unit, PH_NOISY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 255);
 	ZVAL_LONG(&_6, 2);
 	ZEPHIR_CALL_FUNCTION(&_7, "pow", NULL, 34, &_6, &_5);
 	zephir_check_call_status();
@@ -541,7 +545,8 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, isAllowEmpty)
 		}
 		_2 = _1;
 		if (_2) {
-			zephir_array_fetch_string(&_3, &value, SL("error"), PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 296);
+			zephir_memory_observe(&_3);
+			zephir_array_fetch_string(&_3, &value, SL("error"), PH_NOISY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 296);
 			_2 = ZEPHIR_IS_LONG_IDENTICAL(&_3, 4);
 		}
 		_0 = _2;

@@ -461,6 +461,12 @@ int zephir_call_user_function(
 				zend_error(E_WARNING, "%s", is_callable_error);
 				efree(is_callable_error);
 
+				/* resolve_callable() built this; the tail that releases it is
+				 * below this early return. */
+				if (Z_TYPE(callable) != IS_UNDEF) {
+					zval_ptr_dtor(&callable);
+				}
+
 				return FAILURE;
 			}
 

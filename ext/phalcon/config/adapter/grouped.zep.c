@@ -208,7 +208,8 @@ PHP_METHOD(Phalcon_Config_Adapter_Grouped, __construct)
 			} else if (!(zephir_array_isset_value_string(&configInstance, SL("adapter")))) {
 				zephir_array_update_string(&configInstance, SL("adapter"), &defaultAdapter_zv, PH_COPY | PH_SEPARATE);
 			}
-			zephir_array_fetch_string(&_8$$4, &configInstance, SL("adapter"), PH_NOISY | PH_READONLY, "phalcon/Config/Adapter/Grouped.zep", 122);
+			ZEPHIR_OBS_NVAR(&_8$$4);
+			zephir_array_fetch_string(&_8$$4, &configInstance, SL("adapter"), PH_NOISY, "phalcon/Config/Adapter/Grouped.zep", 122);
 			ZEPHIR_INIT_NVAR(&_9$$4);
 			ZVAL_STRING(&_9$$4, "array");
 			if (ZEPHIR_IS_IDENTICAL(&_9$$4, &_8$$4)) {
@@ -281,7 +282,8 @@ PHP_METHOD(Phalcon_Config_Adapter_Grouped, __construct)
 				} else if (!(zephir_array_isset_value_string(&configInstance, SL("adapter")))) {
 					zephir_array_update_string(&configInstance, SL("adapter"), &defaultAdapter_zv, PH_COPY | PH_SEPARATE);
 				}
-				zephir_array_fetch_string(&_21$$12, &configInstance, SL("adapter"), PH_NOISY | PH_READONLY, "phalcon/Config/Adapter/Grouped.zep", 122);
+				ZEPHIR_OBS_NVAR(&_21$$12);
+				zephir_array_fetch_string(&_21$$12, &configInstance, SL("adapter"), PH_NOISY, "phalcon/Config/Adapter/Grouped.zep", 122);
 				ZEPHIR_INIT_NVAR(&_22$$12);
 				ZVAL_STRING(&_22$$12, "array");
 				if (ZEPHIR_IS_IDENTICAL(&_22$$12, &_21$$12)) {

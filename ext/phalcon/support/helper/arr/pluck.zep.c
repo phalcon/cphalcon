@@ -152,7 +152,8 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Pluck, checkArray)
 		_0 = zephir_array_isset_value(item, &element_zv);
 	}
 	if (_0) {
-		zephir_array_fetch(&_1$$3, item, &element_zv, PH_NOISY | PH_READONLY, "phalcon/Support/Helper/Arr/Pluck.zep", 47);
+		zephir_memory_observe(&_1$$3);
+		zephir_array_fetch(&_1$$3, item, &element_zv, PH_NOISY, "phalcon/Support/Helper/Arr/Pluck.zep", 47);
 		zephir_array_append(&filtered, &_1$$3, PH_SEPARATE, "phalcon/Support/Helper/Arr/Pluck.zep", 47);
 	}
 	RETURN_CTOR(&filtered);

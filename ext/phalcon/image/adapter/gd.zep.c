@@ -227,13 +227,17 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, __construct)
 			ZVAL_LONG(&_10$$4, zephir_get_intval(&_8$$4));
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "assertpixellimit", NULL, 0, &_9$$4, &_10$$4);
 			zephir_check_call_status();
-			zephir_array_fetch_long(&_11$$4, &imageInfo, 0, PH_NOISY | PH_READONLY, "phalcon/Image/Adapter/Gd.zep", 93);
+			zephir_memory_observe(&_11$$4);
+			zephir_array_fetch_long(&_11$$4, &imageInfo, 0, PH_NOISY, "phalcon/Image/Adapter/Gd.zep", 93);
 			zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 921, &_11$$4);
-			zephir_array_fetch_long(&_12$$4, &imageInfo, 1, PH_NOISY | PH_READONLY, "phalcon/Image/Adapter/Gd.zep", 94);
+			zephir_memory_observe(&_12$$4);
+			zephir_array_fetch_long(&_12$$4, &imageInfo, 1, PH_NOISY, "phalcon/Image/Adapter/Gd.zep", 94);
 			zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 922, &_12$$4);
-			zephir_array_fetch_long(&_13$$4, &imageInfo, 2, PH_NOISY | PH_READONLY, "phalcon/Image/Adapter/Gd.zep", 95);
+			zephir_memory_observe(&_13$$4);
+			zephir_array_fetch_long(&_13$$4, &imageInfo, 2, PH_NOISY, "phalcon/Image/Adapter/Gd.zep", 95);
 			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 918, &_13$$4);
-			zephir_array_fetch_string(&_14$$4, &imageInfo, SL("mime"), PH_NOISY | PH_READONLY, "phalcon/Image/Adapter/Gd.zep", 96);
+			zephir_memory_observe(&_14$$4);
+			zephir_array_fetch_string(&_14$$4, &imageInfo, SL("mime"), PH_NOISY, "phalcon/Image/Adapter/Gd.zep", 96);
 			zephir_update_property_zval_cached(this_ptr, _zephir_prop_6, 923, &_14$$4);
 		} else {
 			ZEPHIR_INIT_VAR(&_15$$5);
@@ -841,7 +845,8 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, processMask)
 			zephir_check_call_status();
 			ZEPHIR_CALL_FUNCTION(&color, "imagecolorsforindex", &_22, 0, &maskImage, &index);
 			zephir_check_call_status();
-			zephir_array_fetch_string(&_23$$5, &color, SL("red"), PH_NOISY | PH_READONLY, "phalcon/Image/Adapter/Gd.zep", 402);
+			ZEPHIR_OBS_NVAR(&_23$$5);
+			zephir_array_fetch_string(&_23$$5, &color, SL("red"), PH_NOISY, "phalcon/Image/Adapter/Gd.zep", 402);
 			ZVAL_DOUBLE(&_19$$5, zephir_safe_div_zval_long(&_23$$5, 2));
 			alpha = (127 - zephir_get_intval(&_19$$5));
 			ZVAL_LONG(&_20$$5, x);

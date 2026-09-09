@@ -830,4 +830,17 @@ void zephir_module_init()
 	i_self   = zend_new_interned_string(zend_string_init(ZEND_STRL("self"), 1));
 
 	zephir_generator_module_init();
+	zephir_closure_module_init();
+}
+
+/**
+ * Undoes what zephir_module_init() installed process-wide.
+ *
+ * Called unconditionally from MSHUTDOWN, release builds included: the closure
+ * rebinding hooks point at code inside this extension, so leaving them in
+ * place once it is unloaded would leave a dangling handler behind.
+ */
+void zephir_module_shutdown(void)
+{
+	zephir_closure_module_shutdown();
 }

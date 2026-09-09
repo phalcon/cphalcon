@@ -12,8 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/array.h"
 #include "kernel/memory.h"
+#include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
 
@@ -41,7 +41,8 @@ PHP_METHOD(phalcon_89__closure, __invoke)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &matches);
-	zephir_array_fetch_long(&_0, matches, 0, PH_NOISY | PH_READONLY, "phalcon/Logger/Formatter/Line.zep", 75);
+	zephir_memory_observe(&_0);
+	zephir_array_fetch_long(&_0, matches, 0, PH_NOISY, "phalcon/Logger/Formatter/Line.zep", 75);
 	ZEPHIR_CALL_FUNCTION(&_1, "ord", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);

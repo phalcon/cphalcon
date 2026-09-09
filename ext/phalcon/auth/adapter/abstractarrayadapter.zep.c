@@ -187,7 +187,8 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, retrieveById)
 			ZVAL_COPY(&row, _3);
 			_4$$3 = zephir_array_isset_value_string(&row, SL("id"));
 			if (_4$$3) {
-				zephir_array_fetch_string(&_5$$3, &row, SL("id"), PH_NOISY | PH_READONLY, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 71);
+				ZEPHIR_OBS_NVAR(&_5$$3);
+				zephir_array_fetch_string(&_5$$3, &row, SL("id"), PH_NOISY, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 71);
 				_4$$3 = ZEPHIR_IS_IDENTICAL(&_5$$3, id);
 			}
 			if (_4$$3) {
@@ -216,7 +217,8 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, retrieveById)
 			zephir_check_call_status();
 				_9$$5 = zephir_array_isset_value_string(&row, SL("id"));
 				if (_9$$5) {
-					zephir_array_fetch_string(&_10$$5, &row, SL("id"), PH_NOISY | PH_READONLY, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 71);
+					ZEPHIR_OBS_NVAR(&_10$$5);
+					zephir_array_fetch_string(&_10$$5, &row, SL("id"), PH_NOISY, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 71);
 					_9$$5 = ZEPHIR_IS_IDENTICAL(&_10$$5, id);
 				}
 				if (_9$$5) {
