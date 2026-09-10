@@ -12,6 +12,11 @@ namespace Phalcon\Traits\Php;
 
 /**
  * PHP serialize/unserialize wrapper methods
+ *
+ * @phpstan-type traits_unserialize_options array{
+ *     allowed_classes?: array<string>|bool,
+ *     max_depth?: int
+ * }
  */
 trait SerializeTrait
 {
@@ -28,8 +33,8 @@ trait SerializeTrait
     }
 
     /**
-     * @param string $data
-     * @param array  $options
+     * @param string                     $data
+     * @param traits_unserialize_options $options
      *
      * @return mixed
      *
