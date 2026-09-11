@@ -16,6 +16,7 @@ namespace Phalcon\Auth\Adapter;
 use Phalcon\Auth\AuthUser;
 use Phalcon\Auth\Exceptions\DoesNotImplement;
 use Phalcon\Contracts\Auth\Adapter\AdapterConfig;
+use Phalcon\Contracts\Auth\AuthTypes;
 use Phalcon\Contracts\Auth\AuthUser as AuthUserContract;
 
 /**
@@ -24,8 +25,8 @@ use Phalcon\Contracts\Auth\AuthUser as AuthUserContract;
  * everything else - credentials matching, hydration, the empty-credentials
  * guard, and a default linear retrieveById - is shared here.
  *
- * @phpstan-import-type AuthCredentials from \Phalcon\Contracts\Auth\Adapter\Adapter
- * @phpstan-type AuthUserRow array{id?: int|string}&array<string, mixed>
+ * @phpstan-import-type auth_credentials from AuthTypes
+ * @phpstan-import-type auth_user_row from AuthTypes
  *
  * @template TConfig of AdapterConfig
  * @extends AbstractAdapter<TConfig>
@@ -38,7 +39,7 @@ abstract class AbstractArrayAdapter extends AbstractAdapter
      * $credentials carries no identifying field at all (only 'password',
      * or empty) - protects callers from the silent "first row wins" footgun.
      *
-     * @phpstan-param AuthCredentials $credentials
+     * @phpstan-param auth_credentials $credentials
      */
     public function retrieveByCredentials(array credentials) -> <AuthUserContract> | null
     {
@@ -81,7 +82,7 @@ abstract class AbstractArrayAdapter extends AbstractAdapter
      * field (i.e. anything other than 'password'). An empty payload - or a
      * payload that only contains 'password' - is treated as "no lookup".
      *
-     * @phpstan-param AuthCredentials $credentials
+     * @phpstan-param auth_credentials $credentials
      */
     protected function hasIdentifyingField(array credentials) -> bool
     {
@@ -100,7 +101,7 @@ abstract class AbstractArrayAdapter extends AbstractAdapter
      * Hydrates a raw user row into either the configured model class or a
      * Phalcon\Auth\AuthUser value object.
      *
-     * @phpstan-param AuthUserRow $row
+     * @phpstan-param auth_user_row $row
      *
      * @throws DoesNotImplement
      */
@@ -134,7 +135,7 @@ abstract class AbstractArrayAdapter extends AbstractAdapter
      * Returns the source list of user rows. Concrete subclasses decide
      * where they come from (config array, JSON file, etc.).
      *
-     * @phpstan-return list<AuthUserRow>
+     * @phpstan-return list<auth_user_row>
      */
     abstract protected function loadUsers() -> array;
 
@@ -143,8 +144,8 @@ abstract class AbstractArrayAdapter extends AbstractAdapter
      * are compared as strings so typed row values (e.g. int id, bool active)
      * match the string input that arrives from an HTTP request.
      *
-     * @phpstan-param AuthUserRow     $row
-     * @phpstan-param AuthCredentials $credentials
+     * @phpstan-param auth_user_row     $row
+     * @phpstan-param auth_credentials $credentials
      */
     protected function matchesRow(array row, array credentials) -> bool
     {

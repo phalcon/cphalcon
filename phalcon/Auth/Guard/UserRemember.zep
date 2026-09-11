@@ -14,12 +14,13 @@
 namespace Phalcon\Auth\Guard;
 
 use InvalidArgumentException;
+use Phalcon\Contracts\Auth\AuthTypes;
 use Phalcon\Support\Helper\Json\Decode;
 
 /**
  * Value object representing the contents of a remember-me cookie.
  *
- * @phpstan-type RememberPayload array{id?: int|string, token?: string, user_agent?: string}
+ * @phpstan-import-type auth_remember_payload from AuthTypes
  */
 final class UserRemember
 {
@@ -55,7 +56,7 @@ final class UserRemember
             let data = [];
         }
 
-        /** @var RememberPayload $data */
+        /** @var auth_remember_payload $data */
         let rawId = isset(data["id"]) ? data["id"] : null;
 
         let this->id        = (typeof rawId === "int" || typeof rawId === "string") ? rawId : null;

@@ -20,6 +20,7 @@ use Phalcon\Auth\Exceptions\InvalidCredentialKey;
 use Phalcon\Auth\Internal\Options;
 use Phalcon\Contracts\Auth\Adapter\RememberAdapter;
 use Phalcon\Contracts\Auth\AuthRemember;
+use Phalcon\Contracts\Auth\AuthTypes;
 use Phalcon\Contracts\Auth\AuthUser;
 use Phalcon\Contracts\Auth\RememberToken;
 use Phalcon\Contracts\Encryption\Security\Security;
@@ -28,7 +29,7 @@ use Phalcon\Mvc\ModelInterface;
 /**
  * Phalcon Model-backed adapter.
  *
- * @phpstan-import-type AuthCredentials from \Phalcon\Contracts\Auth\Adapter\Adapter
+ * @phpstan-import-type auth_credentials from AuthTypes
  *
  * @extends AbstractAdapter<ModelAdapterConfig>
  */
@@ -73,7 +74,7 @@ class Model extends AbstractAdapter implements RememberAdapter
     /**
      * Find a user matching the given credentials (excluding 'password' key).
      *
-     * @phpstan-param AuthCredentials $credentials
+     * @phpstan-param auth_credentials $credentials
      */
     public function retrieveByCredentials(array credentials) -> <AuthUser> | null
     {
