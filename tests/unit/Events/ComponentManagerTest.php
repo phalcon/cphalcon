@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Events;
 
+use Phalcon\Cli\Dispatcher as CliDispatcher;
+use Phalcon\Di\Di;
 use Phalcon\Events\Manager;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Events\Fake\ComponentFireManager;
@@ -57,6 +59,26 @@ final class ComponentManagerTest extends AbstractUnitTestCase
         $result = $component->callFireManagerEvent('test:action');
         $this->assertTrue($called);
         $this->assertSame('fired', $result);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2024-01-01
+     */
+    public function testEventsAwareTraitSetEventsManagerRegistersWithContainer(): void
+    {
+        $di         = new Di();
+        $manager    = new Manager();
+        $dispatcher = new CliDispatcher();
+        $dispatcher->setDI($di);
+
+        $dispatcher->setEventsManager($manager);
+
+        // The manager is stored in the dispatcher
+        $this->assertSame($manager, $dispatcher->getEventsManager());
+
+        // The manager is also registered in the DI container
+        $this->assertSame($manager, $di->get('eventsManager'));
     }
 
     /**

@@ -82,7 +82,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Events_Event)
 /**
  * Phalcon\Events\Event constructor
  *
- * @param object source
+ * @throws InvalidEventSource
  */
 PHP_METHOD(Phalcon_Events_Event, __construct)
 {

@@ -256,6 +256,7 @@ zend_class_entry *phalcon_contracts_db_dbtypes_ce;
 zend_class_entry *phalcon_contracts_di_ditypes_ce;
 zend_class_entry *phalcon_contracts_dispatcher_dispatchertypes_ce;
 zend_class_entry *phalcon_contracts_encryption_encryptiontypes_ce;
+zend_class_entry *phalcon_contracts_events_eventstypes_ce;
 zend_class_entry *phalcon_contracts_events_subscriber_ce;
 zend_class_entry *phalcon_contracts_factory_factorytypes_ce;
 zend_class_entry *phalcon_contracts_filter_filtertypes_ce;
@@ -1882,6 +1883,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Contracts_Di_DiTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Dispatcher_DispatcherTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Encryption_EncryptionTypes);
+	ZEPHIR_INIT(Phalcon_Contracts_Events_EventsTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Events_Subscriber);
 	ZEPHIR_INIT(Phalcon_Contracts_Factory_FactoryTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Filter_FilterTypes);
