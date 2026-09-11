@@ -54,6 +54,8 @@ interface Cache
      * Obtains multiple cache items by their unique keys.
      *
      * @phpstan-param iterable<array-key, string> $keys
+     *
+     * @phpstan-return iterable<string, mixed>
      */
     public function getMultiple(var keys, var defaultValue = null);
 
