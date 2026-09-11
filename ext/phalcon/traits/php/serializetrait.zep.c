@@ -28,6 +28,11 @@
  */
 /**
  * PHP serialize/unserialize wrapper methods
+ *
+ * @phpstan-type traits_unserialize_options array{
+ *     allowed_classes?: array<string>|bool,
+ *     max_depth?: int
+ * }
  */
 ZEPHIR_INIT_CLASS(Phalcon_Traits_Php_SerializeTrait)
 {
@@ -62,8 +67,8 @@ PHP_METHOD(Phalcon_Traits_Php_SerializeTrait, phpSerialize)
 }
 
 /**
- * @param string $data
- * @param array  $options
+ * @param string                     $data
+ * @param traits_unserialize_options $options
  *
  * @return mixed
  *

@@ -1978,7 +1978,7 @@ PHP_METHOD(Phalcon_Http_Response, getPhrases)
  * @param string $url
  * @param int    $component
  *
- * @return array|bool|int|string|null
+ * @return bool|int|string|traits_parse_url|null
  *
  * @link https://php.net/manual/en/function.parse-url.php
  */

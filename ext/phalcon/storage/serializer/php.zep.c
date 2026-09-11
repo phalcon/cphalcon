@@ -247,8 +247,8 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, phpSerialize)
 }
 
 /**
- * @param string $data
- * @param array  $options
+ * @param string                     $data
+ * @param traits_unserialize_options $options
  *
  * @return mixed
  *
