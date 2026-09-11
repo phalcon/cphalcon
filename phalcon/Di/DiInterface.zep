@@ -14,6 +14,8 @@ use ArrayAccess;
 
 /**
  * Interface for Phalcon\Di\Di
+ *
+ * @extends ArrayAccess<string, mixed>
  */
 interface DiInterface extends ArrayAccess
 {
@@ -22,7 +24,7 @@ interface DiInterface extends ArrayAccess
      * Only is successful if a service hasn't been registered previously
      * with the same name
      *
-     * @param mixed definition
+     * @param mixed $definition
      */
     public function attempt(string name, definition, bool shared = false) -> <ServiceInterface> | bool;
 

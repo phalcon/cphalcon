@@ -13,6 +13,8 @@ namespace Phalcon\Di;
 use Phalcon\Config\Adapter\Php;
 use Phalcon\Config\Adapter\Yaml;
 use Phalcon\Config\ConfigInterface;
+use Phalcon\Contracts\Config\ConfigTypes;
+use Phalcon\Contracts\Di\DiTypes;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\Exception;
 use Phalcon\Di\Exception\ServiceResolutionException;
@@ -64,13 +66,16 @@ use Phalcon\Events\ManagerInterface;
  *
  * $request = $di->getRequest();
  *```
+ *
+ * @phpstan-import-type config_callbacks from ConfigTypes
+ * @phpstan-import-type di_parameters from DiTypes
  */
 class Di implements DiInterface
 {
     /**
      * List of service aliases
      *
-     * @var array
+     * @var array<string, string>
      */
     protected aliases = [];
 
@@ -98,7 +103,7 @@ class Di implements DiInterface
     /**
      * List of shared instances
      *
-     * @var array
+     * @var array<string, mixed>
      */
     protected sharedInstances = [];
 
@@ -114,6 +119,8 @@ class Di implements DiInterface
 
     /**
      * Magic method to get or set services using setters/getters
+     *
+     * @param list<mixed> $arguments
      */
     public function __call(string method, array arguments = []) -> var | null
     {
@@ -369,7 +376,7 @@ class Di implements DiInterface
             this->set(
                 name,
                 service,
-                isset service["shared"] && service["shared"]
+                typeof service === "array" && isset service["shared"] && service["shared"]
             );
         }
     }
@@ -445,6 +452,8 @@ class Di implements DiInterface
      * user:
      *    className: \Acme\User
      * ```
+     *
+     * @phpstan-param config_callbacks|null $callbacks
      *
      * @link https://docs.phalcon.io/latest/di/
      */
@@ -614,7 +623,9 @@ class Di implements DiInterface
          */
         if isset this->services[name] {
             let service = this->services[name];
-            service->setSharedInstance(null);
+            if service instanceof Service {
+                service->setSharedInstance(null);
+            }
         }
     }
 
@@ -644,8 +655,7 @@ class Di implements DiInterface
     /**
      * Sets one or more aliases to the given name.
      *
-     * @param string       $name
-     * @param string|array $aliases
+     * @param array<array-key, mixed>|string $aliases
      *
      * @return Di
      * @throws Exception
