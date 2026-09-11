@@ -585,6 +585,7 @@
 #include "phalcon/contracts/di/ditypes.zep.h"
 #include "phalcon/contracts/dispatcher/dispatchertypes.zep.h"
 #include "phalcon/contracts/encryption/encryptiontypes.zep.h"
+#include "phalcon/contracts/events/eventstypes.zep.h"
 #include "phalcon/contracts/events/subscriber.zep.h"
 #include "phalcon/contracts/factory/factorytypes.zep.h"
 #include "phalcon/contracts/filter/filtertypes.zep.h"

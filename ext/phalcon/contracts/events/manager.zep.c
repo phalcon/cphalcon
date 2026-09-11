@@ -47,8 +47,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Events_Manager, addSubscriber);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Events_Manager, arePrioritiesEnabled);
 /**
  * Attach a listener to the events manager.
- *
- * @param object|callable handler
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Events_Manager, attach);
 /**
@@ -62,8 +60,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Events_Manager, clearSubscribers);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Events_Manager, collectResponses);
 /**
  * Detach a listener from the events manager.
- *
- * @param object|callable handler
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Events_Manager, detach);
 /**
@@ -77,21 +73,27 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Events_Manager, enablePriorities);
 /**
  * Fires an event, notifying the active listeners.
  *
- * @param object source
- * @param mixed  data
+ * @param object $source
+ * @param mixed  $data
  * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Events_Manager, fire);
 /**
  * Returns all listeners attached to the given event type.
+ *
+ * @return array<array-key, mixed>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Events_Manager, getListeners);
 /**
  * Returns the responses recorded during the last fire (when collecting).
+ *
+ * @return array<array-key, mixed>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Events_Manager, getResponses);
 /**
  * Returns the list of registered subscriber instances.
+ *
+ * @phpstan-return list<Subscriber>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Events_Manager, getSubscribers);
 /**

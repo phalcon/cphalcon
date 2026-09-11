@@ -590,6 +590,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/contracts/di/ditypes.zep.c
 	phalcon/contracts/dispatcher/dispatchertypes.zep.c
 	phalcon/contracts/encryption/encryptiontypes.zep.c
+	phalcon/contracts/events/eventstypes.zep.c
 	phalcon/contracts/events/subscriber.zep.c
 	phalcon/contracts/factory/factorytypes.zep.c
 	phalcon/contracts/filter/filtertypes.zep.c
