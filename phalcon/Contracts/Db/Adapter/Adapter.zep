@@ -238,6 +238,8 @@ interface Adapter
      *```
      *
      * @phpstan-param db_bind_params $placeholders
+     *
+     * @phpstan-param int|string $column
      */
     public function fetchColumn(string sqlQuery, array placeholders = [], var column = 0) -> string | bool;
 

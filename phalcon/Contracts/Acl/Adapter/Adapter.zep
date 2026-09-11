@@ -64,6 +64,8 @@ interface Adapter
      * Allow access to a role on a component
      *
      * @phpstan-param acl_access_list $access
+     *
+     * @phpstan-param callable|null $func
      */
     public function allow(string roleName, string componentName, access, func = null) -> void;
 
@@ -71,6 +73,8 @@ interface Adapter
      * Deny access to a role on a component
      *
      * @phpstan-param acl_access_list $access
+     *
+     * @phpstan-param callable|null $func
      */
     public function deny(string roleName, string componentName, access, func = null) -> void;
 
