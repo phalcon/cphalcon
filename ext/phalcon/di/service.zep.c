@@ -40,6 +40,10 @@
  *
  * $request = service->resolve();
  *```
+ *
+ * @phpstan-import-type di_parameters from DiTypes
+ * @phpstan-import-type di_service_argument from DiTypes
+ * @phpstan-import-type di_service_definition from DiTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Di_Service)
 {
@@ -148,7 +152,7 @@ PHP_METHOD(Phalcon_Di_Service, getParameter)
 		object_init_ex(&_1$$3, phalcon_di_exceptions_definitionmustbearrayforread_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Di/Service.zep", 80);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Di/Service.zep", 85);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -184,7 +188,7 @@ PHP_METHOD(Phalcon_Di_Service, isShared)
 /**
  * Resolves the service
  *
- * @param array parameters
+ * @phpstan-param di_parameters|null $parameters
  */
 PHP_METHOD(Phalcon_Di_Service, resolve)
 {
@@ -316,7 +320,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve)
 		object_init_ex(&_7$$19, phalcon_di_exception_serviceresolutionexception_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_7$$19, "__construct", NULL, 9);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_7$$19, "phalcon/Di/Service.zep", 195);
+		zephir_throw_exception_debug(&_7$$19, "phalcon/Di/Service.zep", 200);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -355,6 +359,8 @@ PHP_METHOD(Phalcon_Di_Service, setDefinition)
 
 /**
  * Changes a parameter in the definition without resolve the service
+ *
+ * @phpstan-param di_service_argument $parameter
  */
 PHP_METHOD(Phalcon_Di_Service, setParameter)
 {
@@ -391,7 +397,7 @@ PHP_METHOD(Phalcon_Di_Service, setParameter)
 		object_init_ex(&_1$$3, phalcon_di_exceptions_definitionmustbearrayforupdate_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Di/Service.zep", 226);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Di/Service.zep", 233);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

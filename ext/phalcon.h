@@ -582,6 +582,7 @@
 #include "phalcon/contracts/container/service/definition.zep.h"
 #include "phalcon/contracts/datamapper/datamappertypes.zep.h"
 #include "phalcon/contracts/db/dbtypes.zep.h"
+#include "phalcon/contracts/di/ditypes.zep.h"
 #include "phalcon/contracts/dispatcher/dispatchertypes.zep.h"
 #include "phalcon/contracts/encryption/encryptiontypes.zep.h"
 #include "phalcon/contracts/events/subscriber.zep.h"

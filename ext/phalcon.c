@@ -253,6 +253,7 @@ zend_class_entry *phalcon_contracts_container_resolver_reflectionmethodresolver_
 zend_class_entry *phalcon_contracts_container_service_definition_ce;
 zend_class_entry *phalcon_contracts_datamapper_datamappertypes_ce;
 zend_class_entry *phalcon_contracts_db_dbtypes_ce;
+zend_class_entry *phalcon_contracts_di_ditypes_ce;
 zend_class_entry *phalcon_contracts_dispatcher_dispatchertypes_ce;
 zend_class_entry *phalcon_contracts_encryption_encryptiontypes_ce;
 zend_class_entry *phalcon_contracts_events_subscriber_ce;
@@ -1878,6 +1879,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Contracts_Container_Service_Definition);
 	ZEPHIR_INIT(Phalcon_Contracts_DataMapper_DataMapperTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Db_DbTypes);
+	ZEPHIR_INIT(Phalcon_Contracts_Di_DiTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Dispatcher_DispatcherTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Encryption_EncryptionTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Events_Subscriber);
