@@ -48,6 +48,8 @@
  * @property resource|null $handler
  * @property string        $mode
  * @property string        $name
+ *
+ * @phpstan-import-type logger_stream_options from LoggerTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_Stream)
 {
@@ -84,6 +86,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_Stream)
  * Stream constructor.
  *
  * @throws InvalidStreamMode
+ *
+ * @phpstan-param logger_stream_options $options
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct)
 {
@@ -129,7 +133,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct)
 	}
 	if (1 == zephir_array_isset_value_string(&options, SL("mode"))) {
 		zephir_memory_observe(&mode);
-		zephir_array_fetch_string(&mode, &options, SL("mode"), PH_NOISY, "phalcon/Logger/Adapter/Stream.zep", 71);
+		zephir_array_fetch_string(&mode, &options, SL("mode"), PH_NOISY, "phalcon/Logger/Adapter/Stream.zep", 76);
 	} else {
 		ZEPHIR_INIT_NVAR(&mode);
 		ZVAL_STRING(&mode, "ab");
@@ -143,7 +147,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct)
 		object_init_ex(&_2$$3, phalcon_logger_adapter_exceptions_invalidstreammode_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$3, "phalcon/Logger/Adapter/Stream.zep", 73);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/Logger/Adapter/Stream.zep", 78);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -250,7 +254,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, process)
 			zephir_read_property_cached(&_5$$4, this_ptr, _zephir_prop_2, 935, PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 0, &_4$$4, &_5$$4);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_3$$4, "phalcon/Logger/Adapter/Stream.zep", 117);
+			zephir_throw_exception_debug(&_3$$4, "phalcon/Logger/Adapter/Stream.zep", 122);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}

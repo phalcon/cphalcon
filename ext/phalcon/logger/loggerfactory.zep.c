@@ -31,6 +31,10 @@
  */
 /**
  * Factory creating logger objects
+ *
+ * @phpstan-import-type logger_adapter_config from LoggerTypes
+ * @phpstan-import-type logger_adapters from LoggerTypes
+ * @phpstan-import-type logger_factory_config from LoggerTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_LoggerFactory)
 {
@@ -83,6 +87,8 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, __construct)
  *         ],
  *     ]
  * ]
+ *
+ * @phpstan-param ConfigInterface|logger_factory_config $config
  */
 PHP_METHOD(Phalcon_Logger_LoggerFactory, load)
 {
@@ -142,7 +148,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, load)
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	zephir_memory_observe(&name);
-	zephir_array_fetch_string(&name, config, SL("name"), PH_NOISY, "phalcon/Logger/LoggerFactory.zep", 62);
+	zephir_array_fetch_string(&name, config, SL("name"), PH_NOISY, "phalcon/Logger/LoggerFactory.zep", 69);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "timezone");
 	ZEPHIR_CALL_METHOD(&timezone, this_ptr, "getarrval", NULL, 0, config, &_1);
@@ -166,7 +172,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, load)
 	} else {
 		_4 = &adapters;
 	}
-	zephir_is_iterable(_4, 0, "phalcon/Logger/LoggerFactory.zep", 81);
+	zephir_is_iterable(_4, 0, "phalcon/Logger/LoggerFactory.zep", 88);
 	if (Z_TYPE_P(_4) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_4), _6, _7, _5)
 		{
@@ -247,6 +253,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, load)
 /**
  * Returns a Logger object
  *
+ * @phpstan-param logger_adapters $adapters
  */
 PHP_METHOD(Phalcon_Logger_LoggerFactory, newInstance)
 {

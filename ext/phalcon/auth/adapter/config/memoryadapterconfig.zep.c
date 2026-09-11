@@ -30,7 +30,7 @@
  * @link    https://github.com/sinbadxiii/cphalcon-auth
  */
 /**
- * @phpstan-type AuthUserRow array{id?: int|string}&array<string, mixed>
+ * @phpstan-import-type auth_user_row from AuthTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Auth_Adapter_Config_MemoryAdapterConfig)
 {
@@ -46,7 +46,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Auth_Adapter_Config_MemoryAdapterConfig)
 }
 
 /**
- * @phpstan-param list<AuthUserRow> $users
+ * @phpstan-param list<auth_user_row> $users
  */
 PHP_METHOD(Phalcon_Auth_Adapter_Config_MemoryAdapterConfig, __construct)
 {
@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Config_MemoryAdapterConfig, __construct)
 }
 
 /**
- * @phpstan-return list<AuthUserRow>
+ * @phpstan-return list<auth_user_row>
  */
 PHP_METHOD(Phalcon_Auth_Adapter_Config_MemoryAdapterConfig, getUsers)
 {

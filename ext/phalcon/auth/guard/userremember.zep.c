@@ -35,7 +35,7 @@
 /**
  * Value object representing the contents of a remember-me cookie.
  *
- * @phpstan-type RememberPayload array{id?: int|string, token?: string, user_agent?: string}
+ * @phpstan-import-type auth_remember_payload from AuthTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Auth_Guard_UserRemember)
 {
@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Auth_Guard_UserRemember, __construct)
 		_0 = Z_TYPE_P(payload) != IS_STRING;
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(zend_ce_type_error, "The parameter must be 'array' or 'string'", "phalcon/Auth/Guard/UserRemember.zep", 43);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(zend_ce_type_error, "The parameter must be 'array' or 'string'", "phalcon/Auth/Guard/UserRemember.zep", 44);
 		return;
 	}
 
@@ -155,7 +155,7 @@ PHP_METHOD(Phalcon_Auth_Guard_UserRemember, __construct)
 	}
 	if (zephir_array_isset_value_string(&data, SL("id"))) {
 		zephir_memory_observe(&rawId);
-		zephir_array_fetch_string(&rawId, &data, SL("id"), PH_NOISY, "phalcon/Auth/Guard/UserRemember.zep", 59);
+		zephir_array_fetch_string(&rawId, &data, SL("id"), PH_NOISY, "phalcon/Auth/Guard/UserRemember.zep", 60);
 	} else {
 		ZEPHIR_INIT_NVAR(&rawId);
 		ZVAL_NULL(&rawId);
@@ -175,7 +175,7 @@ PHP_METHOD(Phalcon_Auth_Guard_UserRemember, __construct)
 	ZEPHIR_INIT_VAR(&_7);
 	if (zephir_array_isset_value_string(&data, SL("token"))) {
 		zephir_memory_observe(&_8);
-		zephir_array_fetch_string(&_8, &data, SL("token"), PH_NOISY, "phalcon/Auth/Guard/UserRemember.zep", 62);
+		zephir_array_fetch_string(&_8, &data, SL("token"), PH_NOISY, "phalcon/Auth/Guard/UserRemember.zep", 63);
 		zephir_cast_to_string(&_9, &_8);
 		ZEPHIR_CPY_WRT(&_7, &_9);
 	} else {
@@ -186,7 +186,7 @@ PHP_METHOD(Phalcon_Auth_Guard_UserRemember, __construct)
 	ZEPHIR_INIT_VAR(&_10);
 	if (zephir_array_isset_value_string(&data, SL("user_agent"))) {
 		zephir_memory_observe(&_11);
-		zephir_array_fetch_string(&_11, &data, SL("user_agent"), PH_NOISY, "phalcon/Auth/Guard/UserRemember.zep", 63);
+		zephir_array_fetch_string(&_11, &data, SL("user_agent"), PH_NOISY, "phalcon/Auth/Guard/UserRemember.zep", 64);
 		zephir_cast_to_string(&_12, &_11);
 		ZEPHIR_CPY_WRT(&_10, &_12);
 	} else {

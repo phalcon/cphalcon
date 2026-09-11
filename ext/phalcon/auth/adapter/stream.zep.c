@@ -38,7 +38,7 @@
  * The file must contain a JSON array of user records:
  *   [{"id":1,"email":"a@b","password":"<hashed>"}, ...]
  *
- * @phpstan-import-type AuthUserRow from AbstractArrayAdapter
+ * @phpstan-import-type auth_user_row from AuthTypes
  *
  * @extends AbstractArrayAdapter<StreamAdapterConfig>
  */
@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, fromOptions)
  * Loads and decodes the JSON users file. Re-read on every call - if you
  * need caching, wrap it.
  *
- * @phpstan-return list<AuthUserRow>
+ * @phpstan-return list<auth_user_row>
  *
  * @throws Exception
  */
@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, loadUsers)
 		object_init_ex(&_2$$3, phalcon_auth_exceptions_filedoesnotexist_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 408, &path);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$3, "phalcon/Auth/Adapter/Stream.zep", 73);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/Auth/Adapter/Stream.zep", 74);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -168,7 +168,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, loadUsers)
 		object_init_ex(&_3$$4, phalcon_auth_exceptions_filecannotread_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 409, &path);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_3$$4, "phalcon/Auth/Adapter/Stream.zep", 79);
+		zephir_throw_exception_debug(&_3$$4, "phalcon/Auth/Adapter/Stream.zep", 80);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -199,7 +199,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, loadUsers)
 			object_init_ex(&_7$$6, phalcon_auth_exceptions_filenotvalidjson_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_7$$6, "__construct", NULL, 411, &path, &ex);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_7$$6, "phalcon/Auth/Adapter/Stream.zep", 85);
+			zephir_throw_exception_debug(&_7$$6, "phalcon/Auth/Adapter/Stream.zep", 86);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, loadUsers)
 		object_init_ex(&_8$$7, phalcon_auth_exceptions_filedoesnotcontainjson_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_8$$7, "__construct", NULL, 412, &path);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_8$$7, "phalcon/Auth/Adapter/Stream.zep", 89);
+		zephir_throw_exception_debug(&_8$$7, "phalcon/Auth/Adapter/Stream.zep", 90);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

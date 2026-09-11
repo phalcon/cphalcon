@@ -38,7 +38,7 @@
  * Manager::guard(); callers narrow with instanceof against the
  * relevant capability interface (GuardStateful, BasicAuth, etc.).
  *
- * @phpstan-import-type AuthCredentials from Adapter
+ * @phpstan-import-type auth_credentials from AuthTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Auth_Manager)
 {
@@ -138,7 +138,7 @@ PHP_METHOD(Phalcon_Auth_Manager, access)
 		object_init_ex(&_2$$3, phalcon_auth_exceptions_accessnotregistered_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 429, &accessName_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$3, "phalcon/Auth/Manager.zep", 59);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/Auth/Manager.zep", 60);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -191,7 +191,7 @@ PHP_METHOD(Phalcon_Auth_Manager, addAccessList)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &accessList_param);
 	zephir_get_arrval(&accessList, accessList_param);
-	zephir_is_iterable(&accessList, 0, "phalcon/Auth/Manager.zep", 85);
+	zephir_is_iterable(&accessList, 0, "phalcon/Auth/Manager.zep", 86);
 	if (Z_TYPE_P(&accessList) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&accessList), _1, _2, _0)
 		{
@@ -274,7 +274,7 @@ PHP_METHOD(Phalcon_Auth_Manager, addGuard)
 }
 
 /**
- * @phpstan-param AuthCredentials $credentials
+ * @phpstan-param auth_credentials $credentials
  *
  * @throws Exception
  */
@@ -458,7 +458,7 @@ PHP_METHOD(Phalcon_Auth_Manager, guard)
 			object_init_ex(&_1$$4, phalcon_auth_exceptions_defaultguardnotregistered_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 432);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_1$$4, "phalcon/Auth/Manager.zep", 160);
+			zephir_throw_exception_debug(&_1$$4, "phalcon/Auth/Manager.zep", 161);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -470,13 +470,13 @@ PHP_METHOD(Phalcon_Auth_Manager, guard)
 		object_init_ex(&_3$$5, phalcon_auth_exceptions_guardnotdefined_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", NULL, 433, &name_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_3$$5, "phalcon/Auth/Manager.zep", 167);
+		zephir_throw_exception_debug(&_3$$5, "phalcon/Auth/Manager.zep", 168);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_1, 466, PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&_5);
-	zephir_array_fetch(&_5, &_4, &name_zv, PH_NOISY, "phalcon/Auth/Manager.zep", 170);
+	zephir_array_fetch(&_5, &_4, &name_zv, PH_NOISY, "phalcon/Auth/Manager.zep", 171);
 	RETURN_CCTOR(&_5);
 }
 
@@ -601,7 +601,7 @@ PHP_METHOD(Phalcon_Auth_Manager, user)
 }
 
 /**
- * @phpstan-param AuthCredentials $credentials
+ * @phpstan-param auth_credentials $credentials
  */
 PHP_METHOD(Phalcon_Auth_Manager, validate)
 {
@@ -658,7 +658,7 @@ PHP_METHOD(Phalcon_Auth_Manager, requireActiveAccess)
 		object_init_ex(&_1$$3, phalcon_auth_exceptions_activeaccessrequired_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 434);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Auth/Manager.zep", 226);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Auth/Manager.zep", 227);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

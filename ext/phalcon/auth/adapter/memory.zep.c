@@ -34,7 +34,7 @@
 /**
  * In-memory adapter - useful for tests and small read-only user lists.
  *
- * @phpstan-import-type AuthUserRow from AbstractArrayAdapter
+ * @phpstan-import-type auth_user_row from AuthTypes
  *
  * @extends AbstractArrayAdapter<MemoryAdapterConfig>
  */
@@ -45,7 +45,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Auth_Adapter_Memory)
 	/**
 	 * Map of id => user row for O(1) retrieveById lookup.
 	 *
-	 * @phpstan-var array<int|string, AuthUserRow>
+	 * @phpstan-var array<int|string, auth_user_row>
 	 */
 	{
 		zval _zc0;
@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Memory, __construct)
 	} else {
 		_1 = &_0;
 	}
-	zephir_is_iterable(_1, 0, "phalcon/Auth/Adapter/Memory.zep", 48);
+	zephir_is_iterable(_1, 0, "phalcon/Auth/Adapter/Memory.zep", 49);
 	if (Z_TYPE_P(_1) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_1), _3)
 		{
@@ -98,7 +98,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Memory, __construct)
 			ZVAL_COPY(&row, _3);
 			if (zephir_array_isset_value_string(&row, SL("id"))) {
 				ZEPHIR_OBS_NVAR(&_4$$4);
-				zephir_array_fetch_string(&_4$$4, &row, SL("id"), PH_NOISY, "phalcon/Auth/Adapter/Memory.zep", 45);
+				zephir_array_fetch_string(&_4$$4, &row, SL("id"), PH_NOISY, "phalcon/Auth/Adapter/Memory.zep", 46);
 				zephir_update_property_array(this_ptr, SL("idStore"), &_4$$4, &row);
 			}
 		} ZEND_HASH_FOREACH_END();
@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Memory, __construct)
 			zephir_check_call_status();
 				if (zephir_array_isset_value_string(&row, SL("id"))) {
 					ZEPHIR_OBS_NVAR(&_7$$6);
-					zephir_array_fetch_string(&_7$$6, &row, SL("id"), PH_NOISY, "phalcon/Auth/Adapter/Memory.zep", 45);
+					zephir_array_fetch_string(&_7$$6, &row, SL("id"), PH_NOISY, "phalcon/Auth/Adapter/Memory.zep", 46);
 					zephir_update_property_array(this_ptr, SL("idStore"), &_7$$6, &row);
 				}
 		}
@@ -204,14 +204,14 @@ PHP_METHOD(Phalcon_Auth_Adapter_Memory, retrieveById)
 	}
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 436, PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&_2);
-	zephir_array_fetch(&_2, &_1, id, PH_NOISY, "phalcon/Auth/Adapter/Memory.zep", 70);
+	zephir_array_fetch(&_2, &_1, id, PH_NOISY, "phalcon/Auth/Adapter/Memory.zep", 71);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "hydrate", NULL, 0, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }
 
 /**
- * @phpstan-return list<AuthUserRow>
+ * @phpstan-return list<auth_user_row>
  */
 PHP_METHOD(Phalcon_Auth_Adapter_Memory, loadUsers)
 {

@@ -29,6 +29,8 @@
  */
 /**
  * Factory used to create adapters used for Logging
+ *
+ * @phpstan-import-type logger_adapter_options from LoggerTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_AdapterFactory)
 {
@@ -78,6 +80,8 @@ PHP_METHOD(Phalcon_Logger_AdapterFactory, __construct)
  *
  * @return AdapterInterface
  * @throws BaseException
+ *
+ * @phpstan-param logger_adapter_options $options
  */
 PHP_METHOD(Phalcon_Logger_AdapterFactory, newInstance)
 {

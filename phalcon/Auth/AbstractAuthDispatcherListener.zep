@@ -15,6 +15,7 @@ namespace Phalcon\Auth;
 
 use Phalcon\Auth\Exceptions\AccessDenied;
 use Phalcon\Contracts\Auth\Access\Access;
+use Phalcon\Contracts\Auth\AuthTypes;
 use Phalcon\Contracts\Auth\Manager;
 
 /**
@@ -28,7 +29,7 @@ use Phalcon\Contracts\Auth\Manager;
  * activated via Manager::access() persists across forwards and nested
  * dispatches in the same request until it is replaced.
  *
- * @phpstan-import-type AccessContext from Access
+ * @phpstan-import-type auth_access_context from AuthTypes
  */
 abstract class AbstractAuthDispatcherListener
 {
@@ -47,7 +48,7 @@ abstract class AbstractAuthDispatcherListener
      * The guard is fetched only when an access is active, so the no-op
      * path works without a default guard.
      *
-     * @phpstan-param AccessContext $context
+     * @phpstan-param auth_access_context $context
      * @phpstan-param (callable(array<string, mixed>): void)|null $forwardHandler
      *
      * @throws Exception

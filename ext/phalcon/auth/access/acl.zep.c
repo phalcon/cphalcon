@@ -44,7 +44,8 @@
  * implementing Phalcon\Acl\RoleAwareInterface supplies its role name; any
  * other user is rejected with an exception.
  *
- * @phpstan-import-type AccessContext from Access
+ * @phpstan-import-type auth_access_context from AuthTypes
+ * @phpstan-import-type auth_acl_options from AuthTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Auth_Access_Acl)
 {
@@ -72,7 +73,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Auth_Access_Acl)
 }
 
 /**
- * @phpstan-param array{guestRole?: string, moduleSeparator?: string} $options
+ * @phpstan-param auth_acl_options $options
  */
 PHP_METHOD(Phalcon_Auth_Access_Acl, __construct)
 {
@@ -129,7 +130,7 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, __construct)
 }
 
 /**
- * @phpstan-param AccessContext $context
+ * @phpstan-param auth_access_context $context
  *
  * @throws Exception
  */
@@ -226,7 +227,7 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, isAllowed)
 		object_init_ex(&_7$$5, phalcon_auth_exceptions_missinghandlercontext_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_7$$5, "__construct", NULL, 398);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_7$$5, "phalcon/Auth/Access/Acl.zep", 82);
+		zephir_throw_exception_debug(&_7$$5, "phalcon/Auth/Access/Acl.zep", 84);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -312,7 +313,7 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, resolveRole)
 	ZVAL_STRING(&_2, "Phalcon\\Acl\\RoleAwareInterface");
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 399, &_1, &_2);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_0, "phalcon/Auth/Access/Acl.zep", 136);
+	zephir_throw_exception_debug(&_0, "phalcon/Auth/Access/Acl.zep", 138);
 	ZEPHIR_MM_RESTORE();
 	return;
 }

@@ -34,6 +34,8 @@
 /**
  * Internal option-parsing helpers shared by adapter / guard fromOptions()
  * implementations. Not part of the public API.
+ *
+ * @phpstan-import-type auth_user_row from AuthTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Auth_Internal_Options)
 {
@@ -43,10 +45,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Auth_Internal_Options)
 }
 
 /**
- * @phpstan-param array<string, mixed>                              $options
- * @phpstan-param list<array{id?: int|string}&array<string, mixed>> $defaultValue
+ * @phpstan-param array<string, mixed> $options
+ * @phpstan-param list<auth_user_row>  $defaultValue
  *
- * @phpstan-return list<array{id?: int|string}&array<string, mixed>>
+ * @phpstan-return list<auth_user_row>
  */
 PHP_METHOD(Phalcon_Auth_Internal_Options, arrayOption)
 {
@@ -75,7 +77,7 @@ PHP_METHOD(Phalcon_Auth_Internal_Options, arrayOption)
 	zephir_get_arrval(&defaultValue, defaultValue_param);
 	if (zephir_array_isset_value(&options, &key_zv)) {
 		zephir_memory_observe(&value);
-		zephir_array_fetch(&value, &options, &key_zv, PH_NOISY, "phalcon/Auth/Internal/Options.zep", 36);
+		zephir_array_fetch(&value, &options, &key_zv, PH_NOISY, "phalcon/Auth/Internal/Options.zep", 39);
 	} else {
 		ZEPHIR_CPY_WRT(&value, &defaultValue);
 	}
@@ -131,7 +133,7 @@ PHP_METHOD(Phalcon_Auth_Internal_Options, requireArray)
 		object_init_ex(&_1$$3, phalcon_auth_exceptions_optionrequiresarray_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 427, &context_zv, &key_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Auth/Internal/Options.zep", 59);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Auth/Internal/Options.zep", 62);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -181,7 +183,7 @@ PHP_METHOD(Phalcon_Auth_Internal_Options, requireString)
 		object_init_ex(&_1$$3, phalcon_auth_exceptions_optionrequiresstring_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 428, &context_zv, &key_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Auth/Internal/Options.zep", 77);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Auth/Internal/Options.zep", 80);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
