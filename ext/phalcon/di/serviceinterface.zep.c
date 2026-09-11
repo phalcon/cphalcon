@@ -22,6 +22,9 @@
  */
 /**
  * Represents a service in the services container
+ *
+ * @phpstan-import-type di_parameters from DiTypes
+ * @phpstan-import-type di_service_argument from DiTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Di_ServiceInterface)
 {
@@ -51,7 +54,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Di_ServiceInterface, isShared);
 /**
  * Resolves the service
  *
- * @param array parameters
+ * @phpstan-param di_parameters|null $parameters
  */
 ZEPHIR_DOC_METHOD(Phalcon_Di_ServiceInterface, resolve);
 /**
@@ -60,6 +63,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Di_ServiceInterface, resolve);
 ZEPHIR_DOC_METHOD(Phalcon_Di_ServiceInterface, setDefinition);
 /**
  * Changes a parameter in the definition without resolve the service
+ *
+ * @phpstan-param di_service_argument $parameter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Di_ServiceInterface, setParameter);
 /**

@@ -22,6 +22,8 @@
  */
 /**
  * Interface for Phalcon\Di\Di
+ *
+ * @extends ArrayAccess<string, mixed>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Di_DiInterface)
 {
@@ -36,7 +38,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_DiInterface)
  * Only is successful if a service hasn't been registered previously
  * with the same name
  *
- * @param mixed definition
+ * @param mixed $definition
  */
 ZEPHIR_DOC_METHOD(Phalcon_Di_DiInterface, attempt);
 /**
