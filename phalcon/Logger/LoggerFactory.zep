@@ -13,11 +13,16 @@ namespace Phalcon\Logger;
 use DateTimeZone;
 use Exception as BaseException;
 use Phalcon\Config\ConfigInterface;
+use Phalcon\Contracts\Logger\LoggerTypes;
 use Phalcon\Factory\AbstractConfigFactory;
 use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 
 /**
  * Factory creating logger objects
+ *
+ * @phpstan-import-type logger_adapter_config from LoggerTypes
+ * @phpstan-import-type logger_adapters from LoggerTypes
+ * @phpstan-import-type logger_factory_config from LoggerTypes
  */
 class LoggerFactory extends AbstractConfigFactory
 {
@@ -50,6 +55,8 @@ class LoggerFactory extends AbstractConfigFactory
      *         ],
      *     ]
      * ]
+     *
+     * @phpstan-param ConfigInterface|logger_factory_config $config
      */
     public function load(var config) -> <Logger>
     {
@@ -84,6 +91,7 @@ class LoggerFactory extends AbstractConfigFactory
     /**
      * Returns a Logger object
      *
+     * @phpstan-param logger_adapters $adapters
      */
     public function newInstance(
         string name,

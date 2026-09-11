@@ -10,6 +10,7 @@
 
 namespace Phalcon\Logger\Adapter;
 
+use Phalcon\Contracts\Logger\LoggerTypes;
 use Phalcon\Logger\Exceptions\DeserializationFailed;
 use Phalcon\Logger\Exceptions\SerializationFailed;
 use Phalcon\Logger\Exceptions\TransactionAlreadyActive;
@@ -20,6 +21,8 @@ use Phalcon\Logger\Item;
 
 /**
  * Class AbstractAdapter
+ *
+ * @phpstan-import-type logger_queue from LoggerTypes
  */
 abstract class AbstractAdapter implements AdapterInterface
 {
@@ -39,6 +42,8 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Array with messages queued in the transaction
+     *
+     * @phpstan-var logger_queue
      */
     protected array queue = [];
 

@@ -10,6 +10,7 @@
 
 namespace Phalcon\Logger\Adapter;
 
+use Phalcon\Contracts\Logger\LoggerTypes;
 use Phalcon\Logger\Adapter\Exceptions\SyslogOpenFailed;
 use Phalcon\Logger\Enum;
 use Phalcon\Logger\Item;
@@ -23,6 +24,8 @@ use Phalcon\Logger\Item;
  * @property string $name
  * @property bool   $opened
  * @property int    $option
+ *
+ * @phpstan-import-type logger_syslog_options from LoggerTypes
  */
 class Syslog extends AbstractAdapter
 {
@@ -36,6 +39,8 @@ class Syslog extends AbstractAdapter
      *
      * @param string $name
      * @param array  $options
+     *
+     * @phpstan-param logger_syslog_options $options
      */
     public function __construct(string name, array options = [])
     {

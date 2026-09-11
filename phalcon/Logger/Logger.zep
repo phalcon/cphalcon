@@ -10,6 +10,8 @@
 
 namespace Phalcon\Logger;
 
+use Phalcon\Contracts\Logger\LoggerTypes;
+
 /**
  * Phalcon Logger.
  *
@@ -18,6 +20,8 @@ namespace Phalcon\Logger;
  * easily using the built-in AdapterFactory. A LoggerFactory is also available
  * that allows developers to create new instances of the Logger or load them
  * from config files (see Phalcon\Config\Config object).
+ *
+ * @phpstan-import-type logger_context from LoggerTypes
  */
 class Logger extends AbstractLogger implements LoggerInterface
 {
@@ -28,6 +32,8 @@ class Logger extends AbstractLogger implements LoggerInterface
      * trigger the SMS alerts and wake you up.
      *
      * @throws Exception
+     *
+     * @phpstan-param logger_context $context
      */
     public function alert(string message, array context = []) -> void
     {
@@ -40,6 +46,8 @@ class Logger extends AbstractLogger implements LoggerInterface
      * Example: Application component unavailable, unexpected exception.
      *
      * @throws Exception
+     *
+     * @phpstan-param logger_context $context
      */
     public function critical(string message, array context = []) -> void
     {
@@ -50,6 +58,8 @@ class Logger extends AbstractLogger implements LoggerInterface
      * Detailed debug information.
      *
      * @throws Exception
+     *
+     * @phpstan-param logger_context $context
      */
     public function debug(string message, array context = []) -> void
     {
@@ -60,6 +70,8 @@ class Logger extends AbstractLogger implements LoggerInterface
      * System is unusable.
      *
      * @throws Exception
+     *
+     * @phpstan-param logger_context $context
      */
     public function emergency(string message, array context = []) -> void
     {
@@ -71,6 +83,8 @@ class Logger extends AbstractLogger implements LoggerInterface
      * be logged and monitored.
      *
      * @throws Exception
+     *
+     * @phpstan-param logger_context $context
      */
     public function error(string message, array context = []) -> void
     {
@@ -83,6 +97,8 @@ class Logger extends AbstractLogger implements LoggerInterface
      * Example: User logs in, SQL logs.
      *
      * @throws Exception
+     *
+     * @phpstan-param logger_context $context
      */
     public function info(string message, array context = []) -> void
     {
@@ -96,6 +112,8 @@ class Logger extends AbstractLogger implements LoggerInterface
      * to the CUSTOM level and is logged, rather than raising an exception.
      *
      * @throws Exception
+     *
+     * @phpstan-param logger_context $context
      */
     public function log(var level, string message, array context = []) -> void
     {
@@ -110,6 +128,8 @@ class Logger extends AbstractLogger implements LoggerInterface
      * Normal but significant events.
      *
      * @throws Exception
+     *
+     * @phpstan-param logger_context $context
      */
     public function notice(string message, array context = []) -> void
     {
@@ -124,6 +144,8 @@ class Logger extends AbstractLogger implements LoggerInterface
      * for DEBUG.
      *
      * @throws Exception
+     *
+     * @phpstan-param logger_context $context
      */
     public function trace(string message, array context = []) -> void
     {
@@ -137,6 +159,8 @@ class Logger extends AbstractLogger implements LoggerInterface
      * that are not necessarily wrong.
      *
      * @throws Exception
+     *
+     * @phpstan-param logger_context $context
      */
     public function warning(string message, array context = []) -> void
     {
