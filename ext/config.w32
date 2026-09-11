@@ -108,7 +108,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/auth/guard", "guard.zep.c guardconfig.zep.c basicauth.zep.c guardstateful.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/cache", "cache.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/forms", "schema.zep.c formstypes.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/logger", "logger.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/logger", "logger.zep.c loggertypes.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/support/debug", "templateaware.zep.c renderer.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/datamapper/pdo/exception", "exception.zep.c cannotdisconnect.zep.c connectionnotfound.zep.c drivernotsupported.zep.c operationcancelled.zep.c unknowndrivermethod.zep.c unknownquerymethod.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/db/adapter/pdo", "abstractpdo.zep.c mysql.zep.c postgresql.zep.c sqlite.zep.c", "phalcon");
@@ -150,7 +150,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/adr/emitter", "emitter.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/adr/payload", "payload.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/adr/router", "attributefilter.zep.c router.zep.c routermatch.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/auth", "authuser.zep.c manager.zep.c authremember.zep.c remembertoken.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/auth", "authuser.zep.c manager.zep.c authremember.zep.c authtypes.zep.c remembertoken.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/http", "attributerequest.zep.c httptypes.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/messages", "messages.zep.c messagestypes.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/view", "renderer.zep.c", "phalcon");

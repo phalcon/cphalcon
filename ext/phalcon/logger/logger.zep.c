@@ -34,6 +34,8 @@
  * easily using the built-in AdapterFactory. A LoggerFactory is also available
  * that allows developers to create new instances of the Logger or load them
  * from config files (see Phalcon\Config\Config object).
+ *
+ * @phpstan-import-type logger_context from LoggerTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Logger)
 {
@@ -50,6 +52,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Logger)
  * trigger the SMS alerts and wake you up.
  *
  * @throws Exception
+ *
+ * @phpstan-param logger_context $context
  */
 PHP_METHOD(Phalcon_Logger_Logger, alert)
 {
@@ -93,6 +97,8 @@ PHP_METHOD(Phalcon_Logger_Logger, alert)
  * Example: Application component unavailable, unexpected exception.
  *
  * @throws Exception
+ *
+ * @phpstan-param logger_context $context
  */
 PHP_METHOD(Phalcon_Logger_Logger, critical)
 {
@@ -134,6 +140,8 @@ PHP_METHOD(Phalcon_Logger_Logger, critical)
  * Detailed debug information.
  *
  * @throws Exception
+ *
+ * @phpstan-param logger_context $context
  */
 PHP_METHOD(Phalcon_Logger_Logger, debug)
 {
@@ -175,6 +183,8 @@ PHP_METHOD(Phalcon_Logger_Logger, debug)
  * System is unusable.
  *
  * @throws Exception
+ *
+ * @phpstan-param logger_context $context
  */
 PHP_METHOD(Phalcon_Logger_Logger, emergency)
 {
@@ -217,6 +227,8 @@ PHP_METHOD(Phalcon_Logger_Logger, emergency)
  * be logged and monitored.
  *
  * @throws Exception
+ *
+ * @phpstan-param logger_context $context
  */
 PHP_METHOD(Phalcon_Logger_Logger, error)
 {
@@ -260,6 +272,8 @@ PHP_METHOD(Phalcon_Logger_Logger, error)
  * Example: User logs in, SQL logs.
  *
  * @throws Exception
+ *
+ * @phpstan-param logger_context $context
  */
 PHP_METHOD(Phalcon_Logger_Logger, info)
 {
@@ -304,6 +318,8 @@ PHP_METHOD(Phalcon_Logger_Logger, info)
  * to the CUSTOM level and is logged, rather than raising an exception.
  *
  * @throws Exception
+ *
+ * @phpstan-param logger_context $context
  */
 PHP_METHOD(Phalcon_Logger_Logger, log)
 {
@@ -352,6 +368,8 @@ PHP_METHOD(Phalcon_Logger_Logger, log)
  * Normal but significant events.
  *
  * @throws Exception
+ *
+ * @phpstan-param logger_context $context
  */
 PHP_METHOD(Phalcon_Logger_Logger, notice)
 {
@@ -397,6 +415,8 @@ PHP_METHOD(Phalcon_Logger_Logger, notice)
  * for DEBUG.
  *
  * @throws Exception
+ *
+ * @phpstan-param logger_context $context
  */
 PHP_METHOD(Phalcon_Logger_Logger, trace)
 {
@@ -441,6 +461,8 @@ PHP_METHOD(Phalcon_Logger_Logger, trace)
  * that are not necessarily wrong.
  *
  * @throws Exception
+ *
+ * @phpstan-param logger_context $context
  */
 PHP_METHOD(Phalcon_Logger_Logger, warning)
 {

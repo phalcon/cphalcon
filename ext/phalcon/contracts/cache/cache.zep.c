@@ -62,6 +62,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Cache_Cache, get);
  * Obtains multiple cache items by their unique keys.
  *
  * @phpstan-param iterable<array-key, string> $keys
+ *
+ * @phpstan-return iterable<string, mixed>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Cache_Cache, getMultiple);
 /**

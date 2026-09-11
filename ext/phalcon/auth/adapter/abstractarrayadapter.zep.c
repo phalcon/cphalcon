@@ -37,8 +37,8 @@
  * everything else - credentials matching, hydration, the empty-credentials
  * guard, and a default linear retrieveById - is shared here.
  *
- * @phpstan-import-type AuthCredentials from \Phalcon\Contracts\Auth\Adapter\Adapter
- * @phpstan-type AuthUserRow array{id?: int|string}&array<string, mixed>
+ * @phpstan-import-type auth_credentials from AuthTypes
+ * @phpstan-import-type auth_user_row from AuthTypes
  *
  * @template TConfig of AdapterConfig
  * @extends AbstractAdapter<TConfig>
@@ -56,7 +56,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Auth_Adapter_AbstractArrayAdapter)
  * $credentials carries no identifying field at all (only 'password',
  * or empty) - protects callers from the silent "first row wins" footgun.
  *
- * @phpstan-param AuthCredentials $credentials
+ * @phpstan-param auth_credentials $credentials
  */
 PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, retrieveByCredentials)
 {
@@ -97,7 +97,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, retrieveByCredentials)
 	} else {
 		_2 = &_1;
 	}
-	zephir_is_iterable(_2, 0, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 57);
+	zephir_is_iterable(_2, 0, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 58);
 	if (Z_TYPE_P(_2) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_2), _4)
 		{
@@ -179,7 +179,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, retrieveById)
 	} else {
 		_1 = &_0;
 	}
-	zephir_is_iterable(_1, 0, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 76);
+	zephir_is_iterable(_1, 0, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 77);
 	if (Z_TYPE_P(_1) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_1), _3)
 		{
@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, retrieveById)
 			_4$$3 = zephir_array_isset_value_string(&row, SL("id"));
 			if (_4$$3) {
 				ZEPHIR_OBS_NVAR(&_5$$3);
-				zephir_array_fetch_string(&_5$$3, &row, SL("id"), PH_NOISY, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 71);
+				zephir_array_fetch_string(&_5$$3, &row, SL("id"), PH_NOISY, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 72);
 				_4$$3 = ZEPHIR_IS_IDENTICAL(&_5$$3, id);
 			}
 			if (_4$$3) {
@@ -218,7 +218,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, retrieveById)
 				_9$$5 = zephir_array_isset_value_string(&row, SL("id"));
 				if (_9$$5) {
 					ZEPHIR_OBS_NVAR(&_10$$5);
-					zephir_array_fetch_string(&_10$$5, &row, SL("id"), PH_NOISY, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 71);
+					zephir_array_fetch_string(&_10$$5, &row, SL("id"), PH_NOISY, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 72);
 					_9$$5 = ZEPHIR_IS_IDENTICAL(&_10$$5, id);
 				}
 				if (_9$$5) {
@@ -237,7 +237,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, retrieveById)
  * field (i.e. anything other than 'password'). An empty payload - or a
  * payload that only contains 'password' - is treated as "no lookup".
  *
- * @phpstan-param AuthCredentials $credentials
+ * @phpstan-param auth_credentials $credentials
  */
 PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, hasIdentifyingField)
 {
@@ -260,7 +260,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, hasIdentifyingField)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &credentials_param);
 	zephir_get_arrval(&credentials, credentials_param);
-	zephir_is_iterable(&credentials, 0, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 96);
+	zephir_is_iterable(&credentials, 0, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 97);
 	if (Z_TYPE_P(&credentials) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&credentials), _1, _2, _0)
 		{
@@ -310,7 +310,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, hasIdentifyingField)
  * Hydrates a raw user row into either the configured model class or a
  * Phalcon\Auth\AuthUser value object.
  *
- * @phpstan-param AuthUserRow $row
+ * @phpstan-param auth_user_row $row
  *
  * @throws DoesNotImplement
  */
@@ -385,7 +385,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, hydrate)
  * Returns the source list of user rows. Concrete subclasses decide
  * where they come from (config array, JSON file, etc.).
  *
- * @phpstan-return list<AuthUserRow>
+ * @phpstan-return list<auth_user_row>
  */
 PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, loadUsers)
 {
@@ -396,8 +396,8 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, loadUsers)
  * are compared as strings so typed row values (e.g. int id, bool active)
  * match the string input that arrives from an HTTP request.
  *
- * @phpstan-param AuthUserRow     $row
- * @phpstan-param AuthCredentials $credentials
+ * @phpstan-param auth_user_row     $row
+ * @phpstan-param auth_credentials $credentials
  */
 PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, matchesRow)
 {
@@ -432,7 +432,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, matchesRow)
 	zephir_fetch_params(1, 2, 0, &row_param, &credentials_param);
 	zephir_get_arrval(&row, row_param);
 	zephir_get_arrval(&credentials, credentials_param);
-	zephir_is_iterable(&credentials, 0, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 168);
+	zephir_is_iterable(&credentials, 0, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 169);
 	if (Z_TYPE_P(&credentials) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&credentials), _1, _2, _0)
 		{
@@ -451,7 +451,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, matchesRow)
 			if (!(_3$$3)) {
 				ZEPHIR_INIT_NVAR(&_4$$3);
 				ZEPHIR_OBS_NVAR(&_5$$3);
-				zephir_array_fetch(&_5$$3, &row, &key, PH_NOISY, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 163);
+				zephir_array_fetch(&_5$$3, &row, &key, PH_NOISY, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 164);
 				zephir_cast_to_string(&_6$$3, &_5$$3);
 				zephir_cast_to_string(&_7$$3, &value);
 				_3$$3 = !(zephir_hash_equals(&_6$$3, &_7$$3));
@@ -487,7 +487,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, matchesRow)
 				if (!(_10$$6)) {
 					ZEPHIR_INIT_NVAR(&_11$$6);
 					ZEPHIR_OBS_NVAR(&_12$$6);
-					zephir_array_fetch(&_12$$6, &row, &key, PH_NOISY, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 163);
+					zephir_array_fetch(&_12$$6, &row, &key, PH_NOISY, "phalcon/Auth/Adapter/AbstractArrayAdapter.zep", 164);
 					zephir_cast_to_string(&_13$$6, &_12$$6);
 					zephir_cast_to_string(&_14$$6, &value);
 					_10$$6 = !(zephir_hash_equals(&_13$$6, &_14$$6));

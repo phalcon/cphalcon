@@ -41,7 +41,7 @@
  * activated via Manager::access() persists across forwards and nested
  * dispatches in the same request until it is replaced.
  *
- * @phpstan-import-type AccessContext from Access
+ * @phpstan-import-type auth_access_context from AuthTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Auth_AbstractAuthDispatcherListener)
 {
@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Auth_AbstractAuthDispatcherListener, __construct)
  * The guard is fetched only when an access is active, so the no-op
  * path works without a default guard.
  *
- * @phpstan-param AccessContext $context
+ * @phpstan-param auth_access_context $context
  * @phpstan-param (callable(array<string, mixed>): void)|null $forwardHandler
  *
  * @throws Exception
@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_Auth_AbstractAuthDispatcherListener, enforce)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &_4, "__construct", NULL, 88, &_5, &actionName_zv);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_4, "phalcon/Auth/AbstractAuthDispatcherListener.zep", 80);
+	zephir_throw_exception_debug(&_4, "phalcon/Auth/AbstractAuthDispatcherListener.zep", 81);
 	ZEPHIR_MM_RESTORE();
 	return;
 }

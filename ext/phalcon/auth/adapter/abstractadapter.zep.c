@@ -31,7 +31,7 @@
  * @link    https://github.com/sinbadxiii/cphalcon-auth
  */
 /**
- * @phpstan-import-type AuthCredentials from Adapter
+ * @phpstan-import-type auth_credentials from AuthTypes
  *
  * @template TConfig of AdapterConfig
  */
@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractAdapter, getModel)
  * Concrete adapters share this implementation; if your data source needs
  * a different verification strategy, override it.
  *
- * @phpstan-param AuthCredentials $credentials
+ * @phpstan-param auth_credentials $credentials
  */
 PHP_METHOD(Phalcon_Auth_Adapter_AbstractAdapter, validateCredentials)
 {

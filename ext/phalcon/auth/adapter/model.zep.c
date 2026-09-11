@@ -36,7 +36,7 @@
 /**
  * Phalcon Model-backed adapter.
  *
- * @phpstan-import-type AuthCredentials from \Phalcon\Contracts\Auth\Adapter\Adapter
+ * @phpstan-import-type auth_credentials from AuthTypes
  *
  * @extends AbstractAdapter<ModelAdapterConfig>
  */
@@ -163,7 +163,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, createRememberToken)
 /**
  * Find a user matching the given credentials (excluding 'password' key).
  *
- * @phpstan-param AuthCredentials $credentials
+ * @phpstan-param auth_credentials $credentials
  */
 PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveByCredentials)
 {
@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveByCredentials)
 	array_init(&conditions);
 	ZEPHIR_INIT_VAR(&bind);
 	array_init(&bind);
-	zephir_is_iterable(&credentials, 0, "phalcon/Auth/Adapter/Model.zep", 103);
+	zephir_is_iterable(&credentials, 0, "phalcon/Auth/Adapter/Model.zep", 104);
 	if (Z_TYPE_P(&credentials) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&credentials), _1, _2, _0)
 		{
@@ -236,13 +236,13 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveByCredentials)
 				object_init_ex(&_7$$5, phalcon_auth_exceptions_invalidcredentialkey_ce);
 				ZEPHIR_CALL_METHOD(NULL, &_7$$5, "__construct", &_8, 404, &key);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_7$$5, "phalcon/Auth/Adapter/Model.zep", 96);
+				zephir_throw_exception_debug(&_7$$5, "phalcon/Auth/Adapter/Model.zep", 97);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
 			ZEPHIR_INIT_NVAR(&_9$$3);
 			ZEPHIR_CONCAT_SVSVS(&_9$$3, "[", &key, "] = :", &key, ":");
-			zephir_array_append(&conditions, &_9$$3, PH_SEPARATE, "phalcon/Auth/Adapter/Model.zep", 99);
+			zephir_array_append(&conditions, &_9$$3, PH_SEPARATE, "phalcon/Auth/Adapter/Model.zep", 100);
 			zephir_array_update_zval(&bind, &key, &value, PH_COPY | PH_SEPARATE);
 		} ZEND_HASH_FOREACH_END();
 	} else {
@@ -280,13 +280,13 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveByCredentials)
 					object_init_ex(&_16$$8, phalcon_auth_exceptions_invalidcredentialkey_ce);
 					ZEPHIR_CALL_METHOD(NULL, &_16$$8, "__construct", &_8, 404, &key);
 					zephir_check_call_status();
-					zephir_throw_exception_debug(&_16$$8, "phalcon/Auth/Adapter/Model.zep", 96);
+					zephir_throw_exception_debug(&_16$$8, "phalcon/Auth/Adapter/Model.zep", 97);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
 				ZEPHIR_INIT_NVAR(&_17$$6);
 				ZEPHIR_CONCAT_SVSVS(&_17$$6, "[", &key, "] = :", &key, ":");
-				zephir_array_append(&conditions, &_17$$6, PH_SEPARATE, "phalcon/Auth/Adapter/Model.zep", 99);
+				zephir_array_append(&conditions, &_17$$6, PH_SEPARATE, "phalcon/Auth/Adapter/Model.zep", 100);
 				zephir_array_update_zval(&bind, &key, &value, PH_COPY | PH_SEPARATE);
 		}
 	}

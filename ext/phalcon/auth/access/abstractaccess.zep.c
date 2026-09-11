@@ -30,8 +30,8 @@
  * @link    https://github.com/sinbadxiii/cphalcon-auth
  */
 /**
- * @phpstan-import-type ForwardTarget from Access
- * @phpstan-import-type AccessContext from Access
+ * @phpstan-import-type auth_forward_target from AuthTypes
+ * @phpstan-import-type auth_access_context from AuthTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Auth_Access_AbstractAccess)
 {
@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Auth_Access_AbstractAccess, getOnlyActions)
 }
 
 /**
- * @phpstan-param AccessContext $context
+ * @phpstan-param auth_access_context $context
  */
 PHP_METHOD(Phalcon_Auth_Access_AbstractAccess, isAllowed)
 {
@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Auth_Access_AbstractAccess, isAllowed)
 }
 
 /**
- * @phpstan-return ForwardTarget|null
+ * @phpstan-return auth_forward_target|null
  */
 PHP_METHOD(Phalcon_Auth_Access_AbstractAccess, redirectTo)
 {

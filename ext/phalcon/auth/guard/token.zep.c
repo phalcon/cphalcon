@@ -32,7 +32,7 @@
  * @link    https://github.com/sinbadxiii/cphalcon-auth
  */
 /**
- * @phpstan-import-type AuthCredentials from Adapter
+ * @phpstan-import-type auth_credentials from AuthTypes
  *
  * @extends AbstractGuard<TokenGuardConfig>
  */
@@ -302,7 +302,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Token, user)
 }
 
 /**
- * @phpstan-param AuthCredentials $credentials
+ * @phpstan-param auth_credentials $credentials
  */
 PHP_METHOD(Phalcon_Auth_Guard_Token, validate)
 {
@@ -350,7 +350,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Token, validate)
 		RETURN_MM_BOOL(0);
 	}
 	zephir_memory_observe(&token);
-	zephir_array_fetch(&token, &credentials, &inputKey, PH_NOISY, "phalcon/Auth/Guard/Token.zep", 145);
+	zephir_array_fetch(&token, &credentials, &inputKey, PH_NOISY, "phalcon/Auth/Guard/Token.zep", 146);
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 459, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_3);
 	zephir_create_array(&_3, 1, 0);

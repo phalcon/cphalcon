@@ -26,7 +26,7 @@
 /**
  * Implemented by guards backed by persistent state (sessions/cookies).
  *
- * @phpstan-import-type AuthCredentials from Adapter
+ * @phpstan-import-type auth_credentials from AuthTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Auth_Guard_GuardStateful)
 {
@@ -39,7 +39,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_Auth_Guard_GuardStateful)
  * Attempts to authenticate the user with the given credentials and, on
  * success, persists the resulting state on the guard.
  *
- * @phpstan-param AuthCredentials $credentials
+ * @phpstan-param auth_credentials $credentials
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Auth_Guard_GuardStateful, attempt);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Auth_Guard_GuardStateful, login);

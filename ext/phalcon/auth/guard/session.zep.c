@@ -31,7 +31,7 @@
  * @link    https://github.com/sinbadxiii/cphalcon-auth
  */
 /**
- * @phpstan-import-type AuthCredentials from Adapter
+ * @phpstan-import-type auth_credentials from AuthTypes
  *
  * @extends AbstractGuard<SessionGuardConfig>
  */
@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, fromOptions)
 	ZEPHIR_INIT_VAR(&_4);
 	if (zephir_array_isset_value_string(&options, SL("rememberTtl"))) {
 		zephir_memory_observe(&_5);
-		zephir_array_fetch_string(&_5, &options, SL("rememberTtl"), PH_NOISY, "phalcon/Auth/Guard/Session.zep", 87);
+		zephir_array_fetch_string(&_5, &options, SL("rememberTtl"), PH_NOISY, "phalcon/Auth/Guard/Session.zep", 88);
 		ZEPHIR_INIT_NVAR(&_4);
 		ZVAL_LONG(&_4, zephir_get_intval(&_5));
 	} else {
@@ -213,7 +213,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, fromOptions)
 	ZEPHIR_INIT_VAR(&_6);
 	if (zephir_array_isset_value_string(&options, SL("rememberSecure"))) {
 		zephir_memory_observe(&_7);
-		zephir_array_fetch_string(&_7, &options, SL("rememberSecure"), PH_NOISY, "phalcon/Auth/Guard/Session.zep", 88);
+		zephir_array_fetch_string(&_7, &options, SL("rememberSecure"), PH_NOISY, "phalcon/Auth/Guard/Session.zep", 89);
 		ZEPHIR_INIT_NVAR(&_6);
 		ZVAL_BOOL(&_6, zephir_get_boolval(&_7));
 	} else {
@@ -259,7 +259,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, fromOptions)
 }
 
 /**
- * @phpstan-param AuthCredentials $credentials
+ * @phpstan-param auth_credentials $credentials
  *
  * @throws Exception
  */
@@ -637,7 +637,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, logout)
 }
 
 /**
- * @phpstan-param AuthCredentials $credentials
+ * @phpstan-param auth_credentials $credentials
  */
 PHP_METHOD(Phalcon_Auth_Guard_Session, once)
 {
@@ -845,7 +845,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, user)
 }
 
 /**
- * @phpstan-param AuthCredentials $credentials
+ * @phpstan-param auth_credentials $credentials
  *
  * @phpstan-assert-if-true !null $this->lastUserAttempted
  */
@@ -980,10 +980,10 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, basicCredentials)
 	}
 	zephir_create_array(return_value, 2, 0);
 	zephir_memory_observe(&_1);
-	zephir_array_fetch_string(&_1, &basic, SL("username"), PH_NOISY, "phalcon/Auth/Guard/Session.zep", 372);
+	zephir_array_fetch_string(&_1, &basic, SL("username"), PH_NOISY, "phalcon/Auth/Guard/Session.zep", 373);
 	zephir_array_update_zval(return_value, &field_zv, &_1, PH_COPY);
 	ZEPHIR_OBS_NVAR(&_1);
-	zephir_array_fetch_string(&_1, &basic, SL("password"), PH_NOISY, "phalcon/Auth/Guard/Session.zep", 374);
+	zephir_array_fetch_string(&_1, &basic, SL("password"), PH_NOISY, "phalcon/Auth/Guard/Session.zep", 375);
 	zephir_array_update_string(return_value, SL("password"), &_1, PH_COPY | PH_SEPARATE);
 	RETURN_MM();
 }

@@ -31,6 +31,8 @@
  */
 /**
  * Class AbstractAdapter
+ *
+ * @phpstan-import-type logger_queue from LoggerTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_AbstractAdapter)
 {
@@ -65,6 +67,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_AbstractAdapter)
 
 	/**
 	 * Array with messages queued in the transaction
+	 *
+	 * @phpstan-var logger_queue
 	 */
 	{
 		zval _zc0;
@@ -137,7 +141,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, __serialize)
 	object_init_ex(&_0, phalcon_logger_exceptions_serializationfailed_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 135);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_0, "phalcon/Logger/Adapter/AbstractAdapter.zep", 74);
+	zephir_throw_exception_debug(&_0, "phalcon/Logger/Adapter/AbstractAdapter.zep", 79);
 	ZEPHIR_MM_RESTORE();
 	return;
 }
@@ -165,7 +169,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, __unserialize)
 	object_init_ex(&_0, phalcon_logger_exceptions_deserializationfailed_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 136);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_0, "phalcon/Logger/Adapter/AbstractAdapter.zep", 82);
+	zephir_throw_exception_debug(&_0, "phalcon/Logger/Adapter/AbstractAdapter.zep", 87);
 	ZEPHIR_MM_RESTORE();
 	return;
 }
@@ -258,7 +262,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, begin)
 		object_init_ex(&_1$$3, phalcon_logger_exceptions_transactionalreadyactive_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 137);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Logger/Adapter/AbstractAdapter.zep", 117);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Logger/Adapter/AbstractAdapter.zep", 122);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -317,7 +321,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, commit)
 	} else {
 		_1 = &queue;
 	}
-	zephir_is_iterable(_1, 0, "phalcon/Logger/Adapter/AbstractAdapter.zep", 154);
+	zephir_is_iterable(_1, 0, "phalcon/Logger/Adapter/AbstractAdapter.zep", 159);
 	if (Z_TYPE_P(_1) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_1), _3)
 		{
@@ -536,7 +540,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, checkTransaction)
 		object_init_ex(&_1$$3, phalcon_logger_exceptions_transactionnotactive_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 140);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Logger/Adapter/AbstractAdapter.zep", 248);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Logger/Adapter/AbstractAdapter.zep", 253);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

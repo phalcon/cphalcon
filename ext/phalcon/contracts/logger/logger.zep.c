@@ -22,6 +22,8 @@
  */
 /**
  * Canonical contract for Phalcon\Logger\Logger.
+ *
+ * @phpstan-import-type logger_context from LoggerTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Logger_Logger)
 {
@@ -40,6 +42,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_Logger_Logger)
  * @param array  $context
  *
  * @return void
+ *
+ * @phpstan-param logger_context $context
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Logger_Logger, alert);
 /**
@@ -51,6 +55,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Logger_Logger, alert);
  * @param array  $context
  *
  * @return void
+ *
+ * @phpstan-param logger_context $context
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Logger_Logger, critical);
 /**
@@ -60,6 +66,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Logger_Logger, critical);
  * @param array  $context
  *
  * @return void
+ *
+ * @phpstan-param logger_context $context
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Logger_Logger, debug);
 /**
@@ -69,6 +77,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Logger_Logger, debug);
  * @param array  $context
  *
  * @return void
+ *
+ * @phpstan-param logger_context $context
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Logger_Logger, emergency);
 /**
@@ -79,6 +89,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Logger_Logger, emergency);
  * @param array  $context
  *
  * @return void
+ *
+ * @phpstan-param logger_context $context
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Logger_Logger, error);
 /**
@@ -112,6 +124,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Logger_Logger, getName);
  * @param array  $context
  *
  * @return void
+ *
+ * @phpstan-param logger_context $context
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Logger_Logger, info);
 /**
@@ -125,6 +139,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Logger_Logger, info);
  * @param array  $context
  *
  * @return void
+ *
+ * @phpstan-param logger_context $context
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Logger_Logger, log);
 /**
@@ -134,6 +150,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Logger_Logger, log);
  * @param array  $context
  *
  * @return void
+ *
+ * @phpstan-param logger_context $context
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Logger_Logger, notice);
 /**
@@ -143,6 +161,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Logger_Logger, notice);
  * @param array  $context
  *
  * @return void
+ *
+ * @phpstan-param logger_context $context
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Logger_Logger, trace);
 /**
@@ -155,5 +175,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Logger_Logger, trace);
  * @param array  $context
  *
  * @return void
+ *
+ * @phpstan-param logger_context $context
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Logger_Logger, warning);

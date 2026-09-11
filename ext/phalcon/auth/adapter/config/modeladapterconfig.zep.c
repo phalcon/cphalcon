@@ -108,6 +108,6 @@ PHP_METHOD(Phalcon_Auth_Adapter_Config_ModelAdapterConfig, getIdColumn)
 PHP_METHOD(Phalcon_Auth_Adapter_Config_ModelAdapterConfig, getModel)
 {
 
-	RETURN_MEMBER_TYPED(getThis(), "model", IS_STRING);
+	RETURN_MEMBER(getThis(), "model");
 }
 

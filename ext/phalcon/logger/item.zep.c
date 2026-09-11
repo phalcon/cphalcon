@@ -30,6 +30,8 @@
  * Phalcon\Logger\Item
  *
  * Represents each item in a logging transaction
+ *
+ * @phpstan-import-type logger_context from LoggerTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Item)
 {
@@ -76,6 +78,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Item)
  * @param int               $level
  * @param DateTimeImmutable $dateTime
  * @param array             $context
+ *
+ * @phpstan-param logger_context $context
  */
 PHP_METHOD(Phalcon_Logger_Item, __construct)
 {
@@ -145,6 +149,9 @@ PHP_METHOD(Phalcon_Logger_Item, __construct)
 	ZEPHIR_MM_RESTORE();
 }
 
+/**
+ * @phpstan-return logger_context
+ */
 PHP_METHOD(Phalcon_Logger_Item, getContext)
 {
 

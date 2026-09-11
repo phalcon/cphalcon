@@ -30,7 +30,7 @@
  * @link    https://github.com/sinbadxiii/cphalcon-auth
  */
 /**
- * @phpstan-import-type AuthCredentials from Adapter
+ * @phpstan-import-type auth_credentials from AuthTypes
  *
  * @template TConfig of GuardConfig
  */
@@ -230,7 +230,7 @@ PHP_METHOD(Phalcon_Auth_Guard_AbstractGuard, setUser)
 
 /**
  * user should be ?AuthUser
- * @phpstan-param AuthCredentials $credentials
+ * @phpstan-param auth_credentials $credentials
  *
  * @phpstan-assert-if-true !null $user
  */
