@@ -47,7 +47,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_AdapterFactory)
 /**
  * AdapterFactory constructor.
  *
- * @param string[] $services
+ * @param array<string, string> $services
  */
 PHP_METHOD(Phalcon_Storage_AdapterFactory, __construct)
 {

@@ -54,6 +54,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Auth_Internal_ContainerResolver)
 /**
  * Validates that the value is a supported container.
  *
+ * @phpstan-assert Collection|DiInterface $container
+ *
  * @throws TypeError
  */
 PHP_METHOD(Phalcon_Auth_Internal_ContainerResolver, ensureContainer)
@@ -71,7 +73,7 @@ PHP_METHOD(Phalcon_Auth_Internal_ContainerResolver, ensureContainer)
 		_0 = !((zephir_instance_of_ev(container, phalcon_di_diinterface_ce)));
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(zend_ce_type_error, "The parameter must be an instance of Collection or DiInterface", "phalcon/Auth/Internal/ContainerResolver.zep", 46);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(zend_ce_type_error, "The parameter must be an instance of Collection or DiInterface", "phalcon/Auth/Internal/ContainerResolver.zep", 48);
 		return;
 	}
 }
@@ -120,7 +122,7 @@ PHP_METHOD(Phalcon_Auth_Internal_ContainerResolver, requireService)
 	ZVAL_STR_COPY(&context_zv, context);
 	ZEPHIR_CALL_SELF(NULL, "ensurecontainer", NULL, 0, container);
 	zephir_check_call_status();
-	zephir_is_iterable(&candidates, 0, "phalcon/Auth/Internal/ContainerResolver.zep", 72);
+	zephir_is_iterable(&candidates, 0, "phalcon/Auth/Internal/ContainerResolver.zep", 74);
 	if (Z_TYPE_P(&candidates) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&candidates), _0)
 		{
@@ -170,7 +172,7 @@ PHP_METHOD(Phalcon_Auth_Internal_ContainerResolver, requireService)
 	ZEPHIR_CONCAT_SVSSV(&_8, "Auth ", &context_zv, " requires service. None of the following are ", "bound in the container: ", &_7);
 	ZEPHIR_CALL_METHOD(NULL, &_6, "__construct", NULL, 9, &_8);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_6, "phalcon/Auth/Internal/ContainerResolver.zep", 75);
+	zephir_throw_exception_debug(&_6, "phalcon/Auth/Internal/ContainerResolver.zep", 77);
 	ZEPHIR_MM_RESTORE();
 	return;
 }
@@ -288,7 +290,7 @@ PHP_METHOD(Phalcon_Auth_Internal_ContainerResolver, resolveFresh)
 			ZEPHIR_CONCAT_SVS(&_2$$4, "Cannot resolve a fresh '", &name_zv, "': it is not bound in the container");
 			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 9, &_2$$4);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_1$$4, "phalcon/Auth/Internal/ContainerResolver.zep", 123);
+			zephir_throw_exception_debug(&_1$$4, "phalcon/Auth/Internal/ContainerResolver.zep", 125);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -309,7 +311,7 @@ PHP_METHOD(Phalcon_Auth_Internal_ContainerResolver, resolveFresh)
 		ZEPHIR_CONCAT_SVS(&_6$$5, "Cannot resolve a fresh '", &name_zv, "': it is not registered in the Di and is not an existing class");
 		ZEPHIR_CALL_METHOD(NULL, &_5$$5, "__construct", NULL, 9, &_6$$5);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_5$$5, "phalcon/Auth/Internal/ContainerResolver.zep", 133);
+		zephir_throw_exception_debug(&_5$$5, "phalcon/Auth/Internal/ContainerResolver.zep", 135);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -337,7 +339,7 @@ PHP_METHOD(Phalcon_Auth_Internal_ContainerResolver, resolveFresh)
 					ZEPHIR_CONCAT_SVS(&_11$$9, "Cannot resolve a fresh '", &name_zv, "': it is registered in the Di as a shared instance");
 					ZEPHIR_CALL_METHOD(NULL, &_10$$9, "__construct", NULL, 9, &_11$$9);
 					zephir_check_call_status_or_jump(try_end_1);
-					zephir_throw_exception_debug(&_10$$9, "phalcon/Auth/Internal/ContainerResolver.zep", 153);
+					zephir_throw_exception_debug(&_10$$9, "phalcon/Auth/Internal/ContainerResolver.zep", 155);
 					goto try_end_1;
 
 				}
@@ -372,7 +374,7 @@ PHP_METHOD(Phalcon_Auth_Internal_ContainerResolver, resolveFresh)
 			ZVAL_LONG(&_16$$10, 0);
 			ZEPHIR_CALL_METHOD(NULL, &_14$$10, "__construct", NULL, 9, &_15$$10, &_16$$10, &e);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_14$$10, "phalcon/Auth/Internal/ContainerResolver.zep", 168);
+			zephir_throw_exception_debug(&_14$$10, "phalcon/Auth/Internal/ContainerResolver.zep", 170);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -502,7 +504,7 @@ PHP_METHOD(Phalcon_Auth_Internal_ContainerResolver, resolveShared)
 			ZVAL_LONG(&_3$$5, 0);
 			ZEPHIR_CALL_METHOD(NULL, &_1$$5, "__construct", NULL, 9, &_2$$5, &_3$$5, &e);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_1$$5, "phalcon/Auth/Internal/ContainerResolver.zep", 222);
+			zephir_throw_exception_debug(&_1$$5, "phalcon/Auth/Internal/ContainerResolver.zep", 224);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}

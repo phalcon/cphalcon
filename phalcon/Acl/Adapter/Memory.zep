@@ -456,6 +456,8 @@ class Memory extends AbstractAdapter
      * // Allow access to any role to perform any action on any component
      * $acl->allow("*", "*", "*");
      * ```
+     *
+     * @phpstan-param callable|null $func
      */
     public function allow(
         string roleName,
@@ -500,6 +502,8 @@ class Memory extends AbstractAdapter
      * // Deny access to any role to perform any action on any component
      * $acl->deny("*", "*", "*");
      * ```
+     *
+     * @phpstan-param callable|null $func
      */
     public function deny(
         string roleName,

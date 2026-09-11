@@ -1991,7 +1991,7 @@ class Compiler implements InjectionAwareInterface
                 if typeof extendedBlocks == "array" {
                     let currentBlock = this->currentBlock;
 
-                    if fetch block, extendedBlocks[currentBlock] {
+                    if currentBlock !== null && fetch block, extendedBlocks[currentBlock] {
                         let exprLevel = this->exprLevel;
 
                         if typeof block == "array" {

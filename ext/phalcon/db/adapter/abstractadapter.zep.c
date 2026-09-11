@@ -1690,6 +1690,8 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, fetchAll)
  * );
  * print_r($invoice);
  *```
+ *
+ * @phpstan-param int|string $column
  */
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, fetchColumn)
 {
@@ -2218,7 +2220,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, insert)
 		object_init_ex(&_0$$3, phalcon_db_exceptions_cannotinsertwithoutdata_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 66, &table_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Db/Adapter/AbstractAdapter.zep", 980);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Db/Adapter/AbstractAdapter.zep", 982);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -2228,7 +2230,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, insert)
 	array_init(&insertValues);
 	ZEPHIR_INIT_VAR(&bindDataTypes);
 	array_init(&bindDataTypes);
-	zephir_is_iterable(&values, 0, "phalcon/Db/Adapter/AbstractAdapter.zep", 1005);
+	zephir_is_iterable(&values, 0, "phalcon/Db/Adapter/AbstractAdapter.zep", 1007);
 	if (Z_TYPE_P(&values) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&values), _2, _3, _1)
 		{
@@ -2243,20 +2245,20 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, insert)
 			ZEPHIR_CALL_METHOD(&placeholder, this_ptr, "buildvalueplaceholder", &_4, 67, &value, &position, dataTypes);
 			zephir_check_call_status();
 			ZEPHIR_OBS_NVAR(&_5$$4);
-			zephir_array_fetch_string(&_5$$4, &placeholder, SL("placeholder"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 994);
-			zephir_array_append(&placeholders, &_5$$4, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 994);
+			zephir_array_fetch_string(&_5$$4, &placeholder, SL("placeholder"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 996);
+			zephir_array_append(&placeholders, &_5$$4, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 996);
 			ZEPHIR_OBS_NVAR(&_6$$4);
-			zephir_array_fetch_string(&_6$$4, &placeholder, SL("bind"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 996);
+			zephir_array_fetch_string(&_6$$4, &placeholder, SL("bind"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 998);
 			if (zephir_is_true(&_6$$4)) {
 				ZEPHIR_OBS_NVAR(&_7$$5);
-				zephir_array_fetch_string(&_7$$5, &placeholder, SL("value"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 997);
-				zephir_array_append(&insertValues, &_7$$5, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 997);
+				zephir_array_fetch_string(&_7$$5, &placeholder, SL("value"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 999);
+				zephir_array_append(&insertValues, &_7$$5, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 999);
 				ZEPHIR_OBS_NVAR(&_8$$5);
-				zephir_array_fetch_string(&_8$$5, &placeholder, SL("hasBindType"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 999);
+				zephir_array_fetch_string(&_8$$5, &placeholder, SL("hasBindType"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1001);
 				if (zephir_is_true(&_8$$5)) {
 					ZEPHIR_OBS_NVAR(&_9$$6);
-					zephir_array_fetch_string(&_9$$6, &placeholder, SL("bindType"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1000);
-					zephir_array_append(&bindDataTypes, &_9$$6, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1000);
+					zephir_array_fetch_string(&_9$$6, &placeholder, SL("bindType"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1002);
+					zephir_array_append(&bindDataTypes, &_9$$6, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1002);
 				}
 			}
 		} ZEND_HASH_FOREACH_END();
@@ -2283,20 +2285,20 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, insert)
 				ZEPHIR_CALL_METHOD(&placeholder, this_ptr, "buildvalueplaceholder", &_4, 67, &value, &position, dataTypes);
 				zephir_check_call_status();
 				ZEPHIR_OBS_NVAR(&_12$$7);
-				zephir_array_fetch_string(&_12$$7, &placeholder, SL("placeholder"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 994);
-				zephir_array_append(&placeholders, &_12$$7, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 994);
+				zephir_array_fetch_string(&_12$$7, &placeholder, SL("placeholder"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 996);
+				zephir_array_append(&placeholders, &_12$$7, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 996);
 				ZEPHIR_OBS_NVAR(&_13$$7);
-				zephir_array_fetch_string(&_13$$7, &placeholder, SL("bind"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 996);
+				zephir_array_fetch_string(&_13$$7, &placeholder, SL("bind"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 998);
 				if (zephir_is_true(&_13$$7)) {
 					ZEPHIR_OBS_NVAR(&_14$$8);
-					zephir_array_fetch_string(&_14$$8, &placeholder, SL("value"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 997);
-					zephir_array_append(&insertValues, &_14$$8, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 997);
+					zephir_array_fetch_string(&_14$$8, &placeholder, SL("value"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 999);
+					zephir_array_append(&insertValues, &_14$$8, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 999);
 					ZEPHIR_OBS_NVAR(&_15$$8);
-					zephir_array_fetch_string(&_15$$8, &placeholder, SL("hasBindType"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 999);
+					zephir_array_fetch_string(&_15$$8, &placeholder, SL("hasBindType"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1001);
 					if (zephir_is_true(&_15$$8)) {
 						ZEPHIR_OBS_NVAR(&_16$$9);
-						zephir_array_fetch_string(&_16$$9, &placeholder, SL("bindType"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1000);
-						zephir_array_append(&bindDataTypes, &_16$$9, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1000);
+						zephir_array_fetch_string(&_16$$9, &placeholder, SL("bindType"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1002);
+						zephir_array_append(&bindDataTypes, &_16$$9, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1002);
 					}
 				}
 		}
@@ -2328,7 +2330,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, insert)
 		} else {
 			_19$$12 = fields;
 		}
-		zephir_is_iterable(_19$$12, 0, "phalcon/Db/Adapter/AbstractAdapter.zep", 1025);
+		zephir_is_iterable(_19$$12, 0, "phalcon/Db/Adapter/AbstractAdapter.zep", 1027);
 		if (Z_TYPE_P(_19$$12) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_19$$12), _21$$12)
 			{
@@ -2336,7 +2338,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, insert)
 				ZVAL_COPY(&field, _21$$12);
 				ZEPHIR_CALL_METHOD(&_22$$13, this_ptr, "escapeidentifier", NULL, 0, &field);
 				zephir_check_call_status();
-				zephir_array_append(&escapedFields, &_22$$13, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1022);
+				zephir_array_append(&escapedFields, &_22$$13, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1024);
 			} ZEND_HASH_FOREACH_END();
 		} else {
 			ZEPHIR_CALL_METHOD(NULL, _19$$12, "rewind", NULL, 0);
@@ -2358,7 +2360,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, insert)
 				zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(&_25$$14, this_ptr, "escapeidentifier", NULL, 0, &field);
 					zephir_check_call_status();
-					zephir_array_append(&escapedFields, &_25$$14, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1022);
+					zephir_array_append(&escapedFields, &_25$$14, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1024);
 			}
 		}
 		ZEPHIR_INIT_NVAR(&field);
@@ -2452,7 +2454,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, insertAsDict)
 	} else {
 		_1 = data;
 	}
-	zephir_is_iterable(_1, 0, "phalcon/Db/Adapter/AbstractAdapter.zep", 1071);
+	zephir_is_iterable(_1, 0, "phalcon/Db/Adapter/AbstractAdapter.zep", 1073);
 	if (Z_TYPE_P(_1) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_1), _4, _5, _3)
 		{
@@ -2464,8 +2466,8 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, insertAsDict)
 			}
 			ZEPHIR_INIT_NVAR(&value);
 			ZVAL_COPY(&value, _3);
-			zephir_array_append(&fields, &field, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1067);
-			zephir_array_append(&values, &value, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1068);
+			zephir_array_append(&fields, &field, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1069);
+			zephir_array_append(&values, &value, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1070);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, _1, "rewind", NULL, 0);
@@ -2487,8 +2489,8 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, insertAsDict)
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&value, _1, "current", NULL, 0);
 			zephir_check_call_status();
-				zephir_array_append(&fields, &field, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1067);
-				zephir_array_append(&values, &value, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1068);
+				zephir_array_append(&fields, &field, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1069);
+				zephir_array_append(&values, &value, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1070);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&value);
@@ -2611,15 +2613,15 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, listTables)
 	} else {
 		_3 = &tables;
 	}
-	zephir_is_iterable(_3, 0, "phalcon/Db/Adapter/AbstractAdapter.zep", 1122);
+	zephir_is_iterable(_3, 0, "phalcon/Db/Adapter/AbstractAdapter.zep", 1124);
 	if (Z_TYPE_P(_3) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_3), _5)
 		{
 			ZEPHIR_INIT_NVAR(&table);
 			ZVAL_COPY(&table, _5);
 			ZEPHIR_OBS_NVAR(&_6$$3);
-			zephir_array_fetch_long(&_6$$3, &table, 0, PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1119);
-			zephir_array_append(&allTables, &_6$$3, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1119);
+			zephir_array_fetch_long(&_6$$3, &table, 0, PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1121);
+			zephir_array_append(&allTables, &_6$$3, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1121);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, _3, "rewind", NULL, 0);
@@ -2640,8 +2642,8 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, listTables)
 			ZEPHIR_CALL_METHOD(&table, _3, "current", NULL, 0);
 			zephir_check_call_status();
 				ZEPHIR_OBS_NVAR(&_9$$4);
-				zephir_array_fetch_long(&_9$$4, &table, 0, PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1119);
-				zephir_array_append(&allTables, &_9$$4, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1119);
+				zephir_array_fetch_long(&_9$$4, &table, 0, PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1121);
+				zephir_array_append(&allTables, &_9$$4, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1121);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&table);
@@ -2712,15 +2714,15 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, listViews)
 	} else {
 		_3 = &tables;
 	}
-	zephir_is_iterable(_3, 0, "phalcon/Db/Adapter/AbstractAdapter.zep", 1151);
+	zephir_is_iterable(_3, 0, "phalcon/Db/Adapter/AbstractAdapter.zep", 1153);
 	if (Z_TYPE_P(_3) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_3), _5)
 		{
 			ZEPHIR_INIT_NVAR(&table);
 			ZVAL_COPY(&table, _5);
 			ZEPHIR_OBS_NVAR(&_6$$3);
-			zephir_array_fetch_long(&_6$$3, &table, 0, PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1148);
-			zephir_array_append(&allTables, &_6$$3, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1148);
+			zephir_array_fetch_long(&_6$$3, &table, 0, PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1150);
+			zephir_array_append(&allTables, &_6$$3, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1150);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, _3, "rewind", NULL, 0);
@@ -2741,8 +2743,8 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, listViews)
 			ZEPHIR_CALL_METHOD(&table, _3, "current", NULL, 0);
 			zephir_check_call_status();
 				ZEPHIR_OBS_NVAR(&_9$$4);
-				zephir_array_fetch_long(&_9$$4, &table, 0, PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1148);
-				zephir_array_append(&allTables, &_9$$4, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1148);
+				zephir_array_fetch_long(&_9$$4, &table, 0, PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1150);
+				zephir_array_append(&allTables, &_9$$4, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1150);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&table);
@@ -2841,7 +2843,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, releaseSavepoint)
 		object_init_ex(&_2$$3, phalcon_db_exceptions_savepointsnotsupported_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 61);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$3, "phalcon/Db/Adapter/AbstractAdapter.zep", 1179);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/Db/Adapter/AbstractAdapter.zep", 1181);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -2895,7 +2897,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, rollbackSavepoint)
 		object_init_ex(&_2$$3, phalcon_db_exceptions_savepointsnotsupported_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 61);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$3, "phalcon/Db/Adapter/AbstractAdapter.zep", 1201);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/Db/Adapter/AbstractAdapter.zep", 1203);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -2991,7 +2993,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, setNestedTransactionsWithSavepoin
 		object_init_ex(&_1$$3, phalcon_db_exceptions_nestedtransactionchangeblocked_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 68);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Db/Adapter/AbstractAdapter.zep", 1231);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Db/Adapter/AbstractAdapter.zep", 1233);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -3003,7 +3005,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, setNestedTransactionsWithSavepoin
 		object_init_ex(&_4$$4, phalcon_db_exceptions_savepointsnotsupported_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_4$$4, "__construct", NULL, 61);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$4, "phalcon/Db/Adapter/AbstractAdapter.zep", 1235);
+		zephir_throw_exception_debug(&_4$$4, "phalcon/Db/Adapter/AbstractAdapter.zep", 1237);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -3434,7 +3436,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, tableExists)
 		RETURN_MM_BOOL(0);
 	}
 	zephir_memory_observe(&_4);
-	zephir_array_fetch_long(&_4, &result, 0, PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1391);
+	zephir_array_fetch_long(&_4, &result, 0, PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1393);
 	RETURN_MM_BOOL(ZEPHIR_GT_LONG(&_4, 0));
 }
 
@@ -3500,7 +3502,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, tableOptions)
 		RETURN_MM();
 	}
 	zephir_memory_observe(&_2);
-	zephir_array_fetch_long(&_2, &options, 0, PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1421);
+	zephir_array_fetch_long(&_2, &options, 0, PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1423);
 	RETURN_CCTOR(&_2);
 }
 
@@ -3631,7 +3633,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, update)
 	} else {
 		_0 = values;
 	}
-	zephir_is_iterable(_0, 0, "phalcon/Db/Adapter/AbstractAdapter.zep", 1494);
+	zephir_is_iterable(_0, 0, "phalcon/Db/Adapter/AbstractAdapter.zep", 1496);
 	if (Z_TYPE_P(_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_0), _3, _4, _2)
 		{
@@ -3649,7 +3651,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, update)
 				object_init_ex(&_5$$4, phalcon_db_exceptions_updatefieldcountmismatch_ce);
 				ZEPHIR_CALL_METHOD(NULL, &_5$$4, "__construct", &_6, 69);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_5$$4, "phalcon/Db/Adapter/AbstractAdapter.zep", 1474);
+				zephir_throw_exception_debug(&_5$$4, "phalcon/Db/Adapter/AbstractAdapter.zep", 1476);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -3658,22 +3660,22 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, update)
 			ZEPHIR_CALL_METHOD(&placeholder, this_ptr, "buildvalueplaceholder", &_8, 67, &value, &position, dataTypes);
 			zephir_check_call_status();
 			ZEPHIR_OBS_NVAR(&_9$$3);
-			zephir_array_fetch_string(&_9$$3, &placeholder, SL("placeholder"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1480);
+			zephir_array_fetch_string(&_9$$3, &placeholder, SL("placeholder"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1482);
 			ZEPHIR_INIT_NVAR(&_10$$3);
 			ZEPHIR_CONCAT_VSV(&_10$$3, &escapedField, " = ", &_9$$3);
-			zephir_array_append(&placeholders, &_10$$3, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1480);
+			zephir_array_append(&placeholders, &_10$$3, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1482);
 			ZEPHIR_OBS_NVAR(&_11$$3);
-			zephir_array_fetch_string(&_11$$3, &placeholder, SL("bind"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1482);
+			zephir_array_fetch_string(&_11$$3, &placeholder, SL("bind"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1484);
 			if (zephir_is_true(&_11$$3)) {
 				ZEPHIR_OBS_NVAR(&_12$$5);
-				zephir_array_fetch_string(&_12$$5, &placeholder, SL("value"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1483);
-				zephir_array_append(&updateValues, &_12$$5, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1483);
+				zephir_array_fetch_string(&_12$$5, &placeholder, SL("value"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1485);
+				zephir_array_append(&updateValues, &_12$$5, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1485);
 				ZEPHIR_OBS_NVAR(&_13$$5);
-				zephir_array_fetch_string(&_13$$5, &placeholder, SL("hasBindType"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1485);
+				zephir_array_fetch_string(&_13$$5, &placeholder, SL("hasBindType"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1487);
 				if (zephir_is_true(&_13$$5)) {
 					ZEPHIR_OBS_NVAR(&_14$$6);
-					zephir_array_fetch_string(&_14$$6, &placeholder, SL("bindType"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1486);
-					zephir_array_append(&bindDataTypes, &_14$$6, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1486);
+					zephir_array_fetch_string(&_14$$6, &placeholder, SL("bindType"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1488);
+					zephir_array_append(&bindDataTypes, &_14$$6, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1488);
 				}
 			}
 		} ZEND_HASH_FOREACH_END();
@@ -3703,7 +3705,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, update)
 					object_init_ex(&_17$$8, phalcon_db_exceptions_updatefieldcountmismatch_ce);
 					ZEPHIR_CALL_METHOD(NULL, &_17$$8, "__construct", &_6, 69);
 					zephir_check_call_status();
-					zephir_throw_exception_debug(&_17$$8, "phalcon/Db/Adapter/AbstractAdapter.zep", 1474);
+					zephir_throw_exception_debug(&_17$$8, "phalcon/Db/Adapter/AbstractAdapter.zep", 1476);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
@@ -3712,22 +3714,22 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, update)
 				ZEPHIR_CALL_METHOD(&placeholder, this_ptr, "buildvalueplaceholder", &_8, 67, &value, &position, dataTypes);
 				zephir_check_call_status();
 				ZEPHIR_OBS_NVAR(&_18$$7);
-				zephir_array_fetch_string(&_18$$7, &placeholder, SL("placeholder"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1480);
+				zephir_array_fetch_string(&_18$$7, &placeholder, SL("placeholder"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1482);
 				ZEPHIR_INIT_NVAR(&_19$$7);
 				ZEPHIR_CONCAT_VSV(&_19$$7, &escapedField, " = ", &_18$$7);
-				zephir_array_append(&placeholders, &_19$$7, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1480);
+				zephir_array_append(&placeholders, &_19$$7, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1482);
 				ZEPHIR_OBS_NVAR(&_20$$7);
-				zephir_array_fetch_string(&_20$$7, &placeholder, SL("bind"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1482);
+				zephir_array_fetch_string(&_20$$7, &placeholder, SL("bind"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1484);
 				if (zephir_is_true(&_20$$7)) {
 					ZEPHIR_OBS_NVAR(&_21$$9);
-					zephir_array_fetch_string(&_21$$9, &placeholder, SL("value"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1483);
-					zephir_array_append(&updateValues, &_21$$9, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1483);
+					zephir_array_fetch_string(&_21$$9, &placeholder, SL("value"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1485);
+					zephir_array_append(&updateValues, &_21$$9, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1485);
 					ZEPHIR_OBS_NVAR(&_22$$9);
-					zephir_array_fetch_string(&_22$$9, &placeholder, SL("hasBindType"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1485);
+					zephir_array_fetch_string(&_22$$9, &placeholder, SL("hasBindType"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1487);
 					if (zephir_is_true(&_22$$9)) {
 						ZEPHIR_OBS_NVAR(&_23$$10);
-						zephir_array_fetch_string(&_23$$10, &placeholder, SL("bindType"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1486);
-						zephir_array_append(&bindDataTypes, &_23$$10, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1486);
+						zephir_array_fetch_string(&_23$$10, &placeholder, SL("bindType"), PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1488);
+						zephir_array_append(&bindDataTypes, &_23$$10, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1488);
 					}
 				}
 		}
@@ -3759,7 +3761,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, update)
 				object_init_ex(&_26$$16, phalcon_db_exceptions_invalidwhereconditions_ce);
 				ZEPHIR_CALL_METHOD(NULL, &_26$$16, "__construct", NULL, 70);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_26$$16, "phalcon/Db/Adapter/AbstractAdapter.zep", 1517);
+				zephir_throw_exception_debug(&_26$$16, "phalcon/Db/Adapter/AbstractAdapter.zep", 1519);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -3873,7 +3875,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, updateAsDict)
 	} else {
 		_1 = data;
 	}
-	zephir_is_iterable(_1, 0, "phalcon/Db/Adapter/AbstractAdapter.zep", 1590);
+	zephir_is_iterable(_1, 0, "phalcon/Db/Adapter/AbstractAdapter.zep", 1592);
 	if (Z_TYPE_P(_1) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_1), _4, _5, _3)
 		{
@@ -3885,8 +3887,8 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, updateAsDict)
 			}
 			ZEPHIR_INIT_NVAR(&value);
 			ZVAL_COPY(&value, _3);
-			zephir_array_append(&fields, &field, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1586);
-			zephir_array_append(&values, &value, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1587);
+			zephir_array_append(&fields, &field, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1588);
+			zephir_array_append(&values, &value, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1589);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, _1, "rewind", NULL, 0);
@@ -3908,8 +3910,8 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, updateAsDict)
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&value, _1, "current", NULL, 0);
 			zephir_check_call_status();
-				zephir_array_append(&fields, &field, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1586);
-				zephir_array_append(&values, &value, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1587);
+				zephir_array_append(&fields, &field, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1588);
+				zephir_array_append(&values, &value, PH_SEPARATE, "phalcon/Db/Adapter/AbstractAdapter.zep", 1589);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&value);
@@ -3993,7 +3995,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, viewExists)
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "fetchone", NULL, 0, &_2, &_3);
 	zephir_check_call_status();
 	zephir_memory_observe(&_4);
-	zephir_array_fetch_long(&_4, &_0, 0, PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1623);
+	zephir_array_fetch_long(&_4, &_0, 0, PH_NOISY, "phalcon/Db/Adapter/AbstractAdapter.zep", 1625);
 	RETURN_MM_BOOL(ZEPHIR_GT_LONG(&_4, 0));
 }
 
@@ -4018,7 +4020,8 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, viewExists)
  *
  * @return array
  *
- * @phpstan-param db_bind_types $dataTypes
+ * @phpstan-param int|string         $position
+ * @phpstan-param db_bind_types|null $dataTypes
  *
  * @phpstan-return db_value_placeholder
  */
@@ -4087,7 +4090,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, buildValuePlaceholder)
 			object_init_ex(&_3$$7, phalcon_db_exceptions_incompletebindtypes_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_3$$7, "__construct", NULL, 71);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_3$$7, "phalcon/Db/Adapter/AbstractAdapter.zep", 1685);
+			zephir_throw_exception_debug(&_3$$7, "phalcon/Db/Adapter/AbstractAdapter.zep", 1688);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}

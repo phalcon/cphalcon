@@ -37,7 +37,7 @@ class SerializerFactory extends AbstractFactory
     /**
      * SerializerFactory constructor.
      *
-     * @param string[] $services
+     * @param array<string, string> $services
      */
     public function __construct(array services = [])
     {

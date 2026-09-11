@@ -36,6 +36,8 @@ final class ContainerResolver
     /**
      * Validates that the value is a supported container.
      *
+     * @phpstan-assert Collection|DiInterface $container
+     *
      * @throws TypeError
      */
     public static function ensureContainer(var container) -> void

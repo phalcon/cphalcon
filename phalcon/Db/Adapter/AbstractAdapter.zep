@@ -730,6 +730,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * );
      * print_r($invoice);
      *```
+     *
+     * @phpstan-param int|string $column
      */
     public function fetchColumn(string sqlQuery, array placeholders = [], var column = 0) -> string | bool
     {
@@ -1644,7 +1646,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * @return array
      *
-     * @phpstan-param db_bind_types $dataTypes
+     * @phpstan-param int|string         $position
+     * @phpstan-param db_bind_types|null $dataTypes
      *
      * @phpstan-return db_value_placeholder
      */

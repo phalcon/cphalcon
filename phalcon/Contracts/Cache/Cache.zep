@@ -67,6 +67,8 @@ interface Cache
     /**
      * Persists data in the cache, uniquely referenced by a key with an optional
      * expiration TTL time.
+     *
+     * @phpstan-param DateInterval|int|null $ttl
      */
     public function set(string key, var value, var ttl = null) -> bool;
 
@@ -74,6 +76,8 @@ interface Cache
      * Persists a set of key => value pairs in the cache, with an optional TTL.
      *
      * @phpstan-param iterable<string, mixed> $values
+     *
+     * @phpstan-param DateInterval|int|null $ttl
      */
     public function setMultiple(var values, var ttl = null) -> bool;
 }

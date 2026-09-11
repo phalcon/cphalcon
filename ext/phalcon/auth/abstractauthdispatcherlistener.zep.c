@@ -42,6 +42,7 @@
  * dispatches in the same request until it is replaced.
  *
  * @phpstan-import-type auth_access_context from AuthTypes
+ * @phpstan-import-type auth_forward_target from AuthTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Auth_AbstractAuthDispatcherListener)
 {
@@ -83,7 +84,7 @@ PHP_METHOD(Phalcon_Auth_AbstractAuthDispatcherListener, __construct)
  * path works without a default guard.
  *
  * @phpstan-param auth_access_context $context
- * @phpstan-param (callable(array<string, mixed>): void)|null $forwardHandler
+ * @phpstan-param (callable(auth_forward_target): void)|null $forwardHandler
  *
  * @throws Exception
  */
@@ -169,7 +170,7 @@ PHP_METHOD(Phalcon_Auth_AbstractAuthDispatcherListener, enforce)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &_4, "__construct", NULL, 88, &_5, &actionName_zv);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_4, "phalcon/Auth/AbstractAuthDispatcherListener.zep", 81);
+	zephir_throw_exception_debug(&_4, "phalcon/Auth/AbstractAuthDispatcherListener.zep", 82);
 	ZEPHIR_MM_RESTORE();
 	return;
 }
