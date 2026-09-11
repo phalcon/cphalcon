@@ -16,9 +16,9 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
+#include "kernel/array.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
-#include "kernel/array.h"
 
 
 /**
@@ -31,6 +31,8 @@
  */
 /**
  * Class AbstractFormatter
+ *
+ * @phpstan-import-type logger_context from LoggerTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_AbstractFormatter)
 {
@@ -135,7 +137,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, getInterpolatedMessage)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_string *message = NULL;
-	zval *item, item_sub, message_zv, _0, _1, _2;
+	zval *item, item_sub, message_zv, _0, _1, _2, _3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&item_sub);
@@ -143,6 +145,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, getInterpolatedMessage)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -161,13 +164,130 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, getInterpolatedMessage)
 	item = ZEND_CALL_ARG(execute_data, 1);
 	zephir_memory_observe(&message_zv);
 	ZVAL_STR_COPY(&message_zv, message);
-	ZEPHIR_CALL_METHOD(&_0, item, "getcontext", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_1, item, "getcontext", NULL, 0);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 232, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 233, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "tointerpolate", NULL, 0, &message_zv, &_0, &_1, &_2);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "stringifycontext", NULL, 0, &_1);
+	zephir_check_call_status();
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 232, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_1, 233, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "tointerpolate", NULL, 0, &message_zv, &_0, &_2, &_3);
 	zephir_check_call_status();
 	RETURN_MM();
+}
+
+/**
+ * Reduces the log context to the string map interpolation requires.
+ *
+ * Log context is PSR-3 shaped, so its values are arbitrary, while
+ * interpolation replaces a placeholder with a string. Anything that
+ * cannot be expressed as one - an array, an object without
+ * `__toString()` - substitutes as an empty string, so a placeholder is
+ * never left dangling and a non-stringable value can never abort the
+ * formatter mid-log.
+ *
+ * @phpstan-param logger_context $context
+ *
+ * @return array<string, string>
+ */
+PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, stringifyContext)
+{
+	zval _5$$4, _11$$7;
+	zend_bool _8, _3$$3, _4$$3, _9$$6, _10$$6;
+	zend_string *_2;
+	zend_ulong _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *context_param = NULL, key, value, *_0, _7, _6$$5, _12$$8;
+	zval context, result;
+
+	ZVAL_UNDEF(&context);
+	ZVAL_UNDEF(&result);
+	ZVAL_UNDEF(&key);
+	ZVAL_UNDEF(&value);
+	ZVAL_UNDEF(&_7);
+	ZVAL_UNDEF(&_6$$5);
+	ZVAL_UNDEF(&_12$$8);
+	ZVAL_UNDEF(&_5$$4);
+	ZVAL_UNDEF(&_11$$7);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		ZEPHIR_Z_PARAM_ARRAY(context, context_param)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &context_param);
+	zephir_get_arrval(&context, context_param);
+	ZEPHIR_INIT_VAR(&result);
+	array_init(&result);
+	zephir_is_iterable(&context, 0, "phalcon/Logger/Formatter/AbstractFormatter.zep", 106);
+	if (Z_TYPE_P(&context) == IS_ARRAY) {
+		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&context), _1, _2, _0)
+		{
+			ZEPHIR_INIT_NVAR(&key);
+			if (_2 != NULL) { 
+				ZVAL_STR_COPY(&key, _2);
+			} else {
+				ZVAL_LONG(&key, _1);
+			}
+			ZEPHIR_INIT_NVAR(&value);
+			ZVAL_COPY(&value, _0);
+			_3$$3 = zephir_is_scalar(&value);
+			if (!(_3$$3)) {
+				_4$$3 = Z_TYPE_P(&value) == IS_OBJECT;
+				if (_4$$3) {
+					_4$$3 = zephir_is_instance_of(&value, SL("Stringable"));
+				}
+				_3$$3 = _4$$3;
+			}
+			if (_3$$3) {
+				zephir_cast_to_string(&_5$$4, &value);
+				zephir_array_update_zval(&result, &key, &_5$$4, PH_COPY | PH_SEPARATE);
+			} else {
+				ZEPHIR_INIT_NVAR(&_6$$5);
+				ZVAL_STRING(&_6$$5, "");
+				zephir_array_update_zval(&result, &key, &_6$$5, PH_COPY | PH_SEPARATE);
+			}
+		} ZEND_HASH_FOREACH_END();
+	} else {
+		ZEPHIR_CALL_METHOD(NULL, &context, "rewind", NULL, 0);
+		zephir_check_call_status();
+		_8 = 1;
+		while (1) {
+			if (_8) {
+				_8 = 0;
+			} else {
+				ZEPHIR_CALL_METHOD(NULL, &context, "next", NULL, 0);
+				zephir_check_call_status();
+			}
+			ZEPHIR_CALL_METHOD(&_7, &context, "valid", NULL, 0);
+			zephir_check_call_status();
+			if (!zend_is_true(&_7)) {
+				break;
+			}
+			ZEPHIR_CALL_METHOD(&key, &context, "key", NULL, 0);
+			zephir_check_call_status();
+			ZEPHIR_CALL_METHOD(&value, &context, "current", NULL, 0);
+			zephir_check_call_status();
+				_9$$6 = zephir_is_scalar(&value);
+				if (!(_9$$6)) {
+					_10$$6 = Z_TYPE_P(&value) == IS_OBJECT;
+					if (_10$$6) {
+						_10$$6 = zephir_is_instance_of(&value, SL("Stringable"));
+					}
+					_9$$6 = _10$$6;
+				}
+				if (_9$$6) {
+					zephir_cast_to_string(&_11$$7, &value);
+					zephir_array_update_zval(&result, &key, &_11$$7, PH_COPY | PH_SEPARATE);
+				} else {
+					ZEPHIR_INIT_NVAR(&_12$$8);
+					ZVAL_STRING(&_12$$8, "");
+					zephir_array_update_zval(&result, &key, &_12$$8, PH_COPY | PH_SEPARATE);
+				}
+		}
+	}
+	ZEPHIR_INIT_NVAR(&value);
+	ZEPHIR_INIT_NVAR(&key);
+	RETURN_CTOR(&result);
 }
 
 /**

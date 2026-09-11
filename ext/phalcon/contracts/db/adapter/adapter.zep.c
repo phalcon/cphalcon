@@ -213,6 +213,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, fetchAll);
  *```
  *
  * @phpstan-param db_bind_params $placeholders
+ *
+ * @phpstan-param int|string $column
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, fetchColumn);
 /**

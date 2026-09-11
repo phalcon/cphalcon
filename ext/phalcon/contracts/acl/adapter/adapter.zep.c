@@ -71,12 +71,16 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Acl_Adapter_Adapter, addComponentAccess);
  * Allow access to a role on a component
  *
  * @phpstan-param acl_access_list $access
+ *
+ * @phpstan-param callable|null $func
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Acl_Adapter_Adapter, allow);
 /**
  * Deny access to a role on a component
  *
  * @phpstan-param acl_access_list $access
+ *
+ * @phpstan-param callable|null $func
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Acl_Adapter_Adapter, deny);
 /**

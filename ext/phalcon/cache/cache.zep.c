@@ -206,6 +206,8 @@ PHP_METHOD(Phalcon_Cache_Cache, has)
 /**
  * Persists data in the cache, uniquely referenced by a key with an optional
  * expiration TTL time.
+ *
+ * @phpstan-param DateInterval|int|null $ttl
  */
 PHP_METHOD(Phalcon_Cache_Cache, set)
 {
@@ -247,6 +249,8 @@ PHP_METHOD(Phalcon_Cache_Cache, set)
  * Persists a set of key => value pairs in the cache, with an optional TTL.
  *
  * @phpstan-param iterable<string, mixed> $values
+ *
+ * @phpstan-param DateInterval|int|null $ttl
  */
 PHP_METHOD(Phalcon_Cache_Cache, setMultiple)
 {
