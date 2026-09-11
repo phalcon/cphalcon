@@ -12,6 +12,7 @@ namespace Phalcon\Events;
 
 use Closure;
 use Phalcon\Contracts\Events\Enumerable;
+use Phalcon\Contracts\Events\EventsTypes;
 use Phalcon\Contracts\Events\Stoppable;
 use Phalcon\Contracts\Events\Subscriber;
 use Phalcon\Events\Exceptions\InvalidEventHandler;
@@ -24,6 +25,13 @@ use Phalcon\Events\Exceptions\NoListenersForEvent;
  * needed, the normal flow of operation. With the EventsManager the developer
  * can create hooks or plugins that will offer monitoring of data, manipulation,
  * conditional execution and much more.
+ *
+ * @phpstan-import-type events_method_exists_cache from EventsTypes
+ * @phpstan-import-type events_name_cache from EventsTypes
+ * @phpstan-import-type events_queue from EventsTypes
+ * @phpstan-import-type events_storage from EventsTypes
+ * @phpstan-import-type events_subscriber_events_cache from EventsTypes
+ * @phpstan-import-type events_subscribers from EventsTypes
  */
 class Manager implements ManagerInterface, Enumerable
 {
@@ -88,7 +96,7 @@ class Manager implements ManagerInterface, Enumerable
      * application are well under 100 keys, and the cache never needs
      * invalidation (parse is deterministic for a given eventType string).
      *
-     * @var array
+     * @phpstan-var events_name_cache
      */
     protected eventNameCache = [];
 
@@ -97,7 +105,7 @@ class Manager implements ManagerInterface, Enumerable
      * path in dispatch(). Keyed by `handlerClass => [methodName => bool]`.
      * A class doesn't gain methods at runtime so the lookup is permanent.
      *
-     * @var array
+     * @phpstan-var events_method_exists_cache
      */
     protected methodExistsCache = [];
 
@@ -118,7 +126,7 @@ class Manager implements ManagerInterface, Enumerable
      * The static method's return is stable for the lifetime of a class
      * definition, so the cache never needs invalidation.
      *
-     * @var array
+     * @phpstan-var events_subscriber_events_cache
      */
     protected subscriberEventsCache = [];
 
@@ -149,7 +157,7 @@ class Manager implements ManagerInterface, Enumerable
      *   3 - generic callable (string fn name, invokable object,
      *       [class, staticMethod]): call_user_func_array
      *
-     * @var array
+     * @phpstan-var events_storage
      */
     protected events = [];
 
@@ -159,7 +167,7 @@ class Manager implements ManagerInterface, Enumerable
     protected responses = [];
 
     /**
-     * @var array
+     * @phpstan-var events_subscribers
      */
     protected subscribers = [];
 
@@ -193,8 +201,6 @@ class Manager implements ManagerInterface, Enumerable
 
     /**
      * Attach a listener to the events manager
-     *
-     * @param object|callable handler
      */
     final public function attach(
         string eventType,
@@ -283,8 +289,6 @@ class Manager implements ManagerInterface, Enumerable
 
     /**
      * Detach the listener from the events manager
-     *
-     * @param object|callable handler
      */
     public function detach(string eventType, var handler) -> void
     {
@@ -334,9 +338,9 @@ class Manager implements ManagerInterface, Enumerable
      * the event implements Phalcon\Contracts\Events\Stoppable and reports it
      * is stopped.
      *
-     * @param object       event
-     * @param string|array name
-     * @param object|null  source
+     * @param object               $event
+     * @param string|string[]|null $name
+     * @param object|null          $source
      *
      * @return mixed
      */
@@ -403,13 +407,13 @@ class Manager implements ManagerInterface, Enumerable
      * $eventsManager->fire("db", $connection);
      *```
      *
-     * @param object source
-     * @param mixed  data
-     * @param bool|null stopOnFalse Per-call override of setStopOnFalse():
-     *                              `true` makes a listener's `false` final
-     *                              for this fire only, `false` keeps
-     *                              last-wins, `null` uses the manager
-     *                              setting. Not part of ManagerInterface.
+     * @param object    $source
+     * @param mixed     $data
+     * @param bool|null $stopOnFalse Per-call override of setStopOnFalse():
+     *                               `true` makes a listener's `false` final
+     *                               for this fire only, `false` keeps
+     *                               last-wins, `null` uses the manager
+     *                               setting. Not part of ManagerInterface.
      * @return mixed
      */
     public function fire(
@@ -568,6 +572,8 @@ class Manager implements ManagerInterface, Enumerable
      *```php
      * $results = $eventsManager->fireAll("db:beforeQuery", $connection);
      *```
+     *
+     * @return array<array-key, mixed>
      */
     public function fireAll(
         string eventType,
@@ -684,6 +690,8 @@ class Manager implements ManagerInterface, Enumerable
      * re-extracting metadata from the Event; the framework's own fire()
      * path bypasses this wrapper and calls dispatch() with hoisted args.
      *
+     * @phpstan-param events_queue $queue
+     *
      * @return mixed
      */
     final public function fireQueue(array queue, <EventInterface> event)
@@ -724,6 +732,8 @@ class Manager implements ManagerInterface, Enumerable
      *
      * Unwrapping is delegated to getListeners() so the internal shape of
      * this->events is read in exactly one place.
+     *
+     * @return array<string, array<array-key, mixed>>
      */
     public function getListenerMap() -> array
     {
@@ -741,6 +751,8 @@ class Manager implements ManagerInterface, Enumerable
 
     /**
      * Returns all the attached listeners of a certain type
+     *
+     * @return array<array-key, mixed>
      */
     public function getListeners(string type) -> array
     {
@@ -770,6 +782,8 @@ class Manager implements ManagerInterface, Enumerable
     /**
      * Returns all the responses returned by every handler executed by the last
      * 'fire' executed
+     *
+     * @return array<array-key, mixed>
      */
     public function getResponses() -> array
     {
@@ -779,6 +793,8 @@ class Manager implements ManagerInterface, Enumerable
     /**
      * Returns the list of registered subscriber instances. Useful for
      * introspection and test setup/teardown.
+     *
+     * @phpstan-return list<Subscriber>
      */
     public function getSubscribers() -> array
     {
@@ -961,6 +977,9 @@ class Manager implements ManagerInterface, Enumerable
      * stops when the event implements Phalcon\Contracts\Events\Stoppable and
      * reports it is stopped.
      *
+     * @phpstan-param events_queue $queue
+     * @phpstan-param string|null  $methodName
+     *
      * @return mixed
      */
     private function runObjectQueue(array queue, object event, var methodName)
@@ -1029,6 +1048,8 @@ class Manager implements ManagerInterface, Enumerable
      * Appends every listener's return to $this->responses when
      * `collect` is true (the caller manages stashing/restoring around
      * nested fires).
+     *
+     * @phpstan-param events_queue $queue
      *
      * @return mixed
      */
@@ -1178,6 +1199,8 @@ class Manager implements ManagerInterface, Enumerable
      *
      * type=2 tuples carry a 4th element `className` so dispatch() can
      * skip the per-fire get_class() lookup against methodExistsCache.
+     *
+     * @phpstan-param string|null $className
      */
     private function insertHandlerEntry(
         string eventType,

@@ -67,7 +67,7 @@ class Event implements EventInterface, Stoppable
     /**
      * Phalcon\Events\Event constructor
      *
-     * @param object source
+     * @throws InvalidEventSource
      */
     public function __construct(
         string type,
