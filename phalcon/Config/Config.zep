@@ -11,6 +11,7 @@
 namespace Phalcon\Config;
 
 use Phalcon\Config\Exceptions\InvalidMergeData;
+use Phalcon\Contracts\Config\ConfigTypes;
 use Phalcon\Support\Collection;
 
 /**
@@ -37,6 +38,10 @@ use Phalcon\Support\Collection;
  *     ]
  * );
  *```
+ *
+ * @extends Collection<mixed>
+ *
+ * @phpstan-import-type config_data from ConfigTypes
  */
 class Config extends Collection implements ConfigInterface
 {
@@ -75,9 +80,8 @@ class Config extends Collection implements ConfigInterface
      * $globalConfig->merge($appConfig);
      *```
      *
-     * @param array|ConfigInterface $toMerge
+     * @phpstan-param config_data|ConfigInterface $toMerge
      *
-     * @return ConfigInterface
      * @throws Exception
      */
     public function merge(var toMerge) -> <ConfigInterface>
@@ -110,12 +114,6 @@ class Config extends Collection implements ConfigInterface
      *```php
      * echo $config->path("unknown.path", "default", ".");
      *```
-     *
-     * @param string      $path
-     * @param mixed|null  $defaultValue
-     * @param string|null $delimiter
-     *
-     * @return mixed
      */
     public function path(
         string path,
@@ -159,10 +157,6 @@ class Config extends Collection implements ConfigInterface
 
     /**
      * Sets the default path delimiter
-     *
-     * @param string|null $delimiter
-     *
-     * @return ConfigInterface
      */
     public function setPathDelimiter(string delimiter = null) -> <ConfigInterface>
     {
@@ -209,12 +203,10 @@ class Config extends Collection implements ConfigInterface
      * configuration of the current one. Clone-based instead of
      * constructor-based: adapter subclasses (Ini, Json, Php, Yaml, Grouped)
      * define file-loading constructors that are incompatible with the
-     * parent's `(array data, ...)` signature, so `filter()`, `map()`,
+     * parent's `(array $data, ...)` signature, so `filter()`, `map()`,
      * `sort()` and `where()` would otherwise fail on any adapter instance.
      *
      * @param array<int|string, mixed> $data
-     *
-     * @return static
      */
     protected function cloneEmpty(array data = []) -> <static>
     {
@@ -230,10 +222,10 @@ class Config extends Collection implements ConfigInterface
     /**
      * Performs a merge recursively
      *
-     * @param array $source
-     * @param array $target
+     * @param array<array-key, mixed> $source
+     * @param array<array-key, mixed> $target
      *
-     * @return array
+     * @return array<array-key, mixed>
      */
     final protected function internalMerge(array source, array target) -> array
     {
@@ -263,9 +255,6 @@ class Config extends Collection implements ConfigInterface
      * `strictNull` and `type` flags of this instance. The `type` guard is
      * applied to leaf values only - arrays are not validated themselves;
      * the nested Config validates its own leaves.
-     *
-     * @param mixed $element
-     * @param mixed $value
      */
     protected function setData(var element, var value) -> void
     {

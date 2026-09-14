@@ -33,7 +33,6 @@ class Route implements RouteInterface
      */
     protected static delimiterPath = self::DEFAULT_DELIMITER;
     protected static int uniqueId = 0;
-
     /**
      * @var mixed|null
      */

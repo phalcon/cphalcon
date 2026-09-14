@@ -13,12 +13,17 @@
 
 namespace Phalcon\ADR\Responder;
 
+use Phalcon\Contracts\ADR\Responder\Formatter\Formatter;
+
 /**
  * Base for content-type responders: composes Status, Redirect and Format
  * responders into a chain. Subclasses bind the formatter(s).
  */
 abstract class AbstractFormattedResponder extends ChainResponder
 {
+    /**
+     * @phpstan-param list<Formatter> $formatters
+     */
     public function __construct(array formatters = [])
     {
         parent::__construct(

@@ -26,17 +26,11 @@ use Phalcon\Contracts\DataMapper\DataMapperTypes;
  */
 class Bind
 {
+    protected int inlineCount = 0;
     /**
-     * @var int
-     */
-    protected inlineCount = 0;
-
-    /**
-     * @var array
-     *
      * @phpstan-var datamapper_bind_store
      */
-    protected store = [];
+    protected array store = [];
 
     /**
      * @param mixed $value
@@ -67,8 +61,6 @@ class Bind
 
     /**
      * Removes a value from the store
-     *
-     * @param string $key
      */
     public function remove(string key) -> void
     {
@@ -83,10 +75,6 @@ class Bind
 
     /**
      * Sets a value
-     *
-     * @param string $key
-     * @param mixed  $value
-     * @param int    $type
      */
     public function setValue(string key, var value, int type = -1) -> void
     {
@@ -103,9 +91,6 @@ class Bind
     /**
      * Sets values from an array
      *
-     * @param array $values
-     * @param int   $type
-     *
      * @phpstan-param datamapper_bind_values $values
      */
     public function setValues(array values, int type = -1) -> void
@@ -120,8 +105,6 @@ class Bind
     /**
      * Returns the internal collection
      *
-     * @return array
-     *
      * @phpstan-return datamapper_bind_store
      */
     public function toArray() -> array
@@ -131,10 +114,6 @@ class Bind
 
     /**
      * Auto detects the PDO type
-     *
-     * @param mixed $value
-     *
-     * @return int
      */
     protected function getType(var value) -> int
     {
@@ -155,11 +134,6 @@ class Bind
 
     /**
      * Processes an array - if passed as an `inline` parameter
-     *
-     * @param array $array
-     * @param int   $type
-     *
-     * @return string
      *
      * @phpstan-param datamapper_values $data
      */

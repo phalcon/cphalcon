@@ -17,6 +17,7 @@ use Phalcon\Acl\Role;
 use Phalcon\Contracts\Acl\AclTypes;
 use Phalcon\Contracts\Acl\Adapter\Persistable;
 use Phalcon\Storage\Adapter\AdapterInterface as StorageInterface;
+use Throwable;
 
 /**
  * ACL adapter that persists its policy to any Phalcon\Storage backend
@@ -139,7 +140,7 @@ class Storage extends Memory implements Persistable
             for name, description in data["components"] {
                 let rebuiltComponents[name] = new Component(name, description);
             }
-        } catch \Throwable, e {
+        } catch Throwable, e {
             throw new InvalidSnapshot(
                 "Malformed ACL snapshot element: " . e->getMessage()
             );

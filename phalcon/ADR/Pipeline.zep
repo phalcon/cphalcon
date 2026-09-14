@@ -14,6 +14,7 @@
 namespace Phalcon\ADR;
 
 use Phalcon\Contracts\ADR\Handler;
+use Phalcon\Contracts\ADR\Middleware;
 use Phalcon\Contracts\Http\AttributeRequest;
 use Phalcon\Http\ResponseInterface;
 
@@ -27,16 +28,12 @@ use Phalcon\Http\ResponseInterface;
 final class Pipeline implements Handler
 {
     protected int index = 0;
-    /**
-     * @var array
-     */
     protected array middleware = [];
-
-    /**
-     * @var Handler
-     */
     protected <Handler> terminal;
 
+    /**
+     * @phpstan-param list<Middleware> $middleware
+     */
     public function __construct(array middleware, <Handler> terminal, int index = 0)
     {
         let this->middleware = middleware,

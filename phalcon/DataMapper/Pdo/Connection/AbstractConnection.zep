@@ -16,6 +16,9 @@
 namespace Phalcon\DataMapper\Pdo\Connection;
 
 use BadMethodCallException;
+use PDO;
+use PDOException;
+use PDOStatement;
 use Phalcon\Contracts\DataMapper\DataMapperTypes;
 use Phalcon\Contracts\Events\EventsAware;
 use Phalcon\DataMapper\Pdo\Events;
@@ -24,6 +27,8 @@ use Phalcon\DataMapper\Pdo\Exception\UnknownDriverMethod;
 use Phalcon\DataMapper\Pdo\Profiler\ProfilerInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Events\Traits\EventsAwareTrait;
+use stdClass;
+use Throwable;
 
 /**
  * Provides array quoting, profiling, a new `perform()` method, new `fetch*()`
@@ -59,41 +64,30 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
     /**
      * Whether to transparently reconnect and retry once when a statement fails
      * because the connection was lost. Opt-in; off by default.
-     *
-     * @var bool
      */
-    protected autoReconnect = false;
-
+    protected bool autoReconnect = false;
     /**
      * @var \PDO|null
      */
     protected pdo;
-
-    /**
-     * @var ProfilerInterface
-     */
-    protected profiler;
+    protected <ProfilerInterface> profiler;
 
     /**
      * Current transaction nesting level. Tracked locally rather than via
      * PDO::inTransaction() because some drivers report a broken connection as
      * being "in transaction".
-     *
-     * @var int
      */
-    protected transactionLevel = 0;
+    protected int transactionLevel = 0;
 
     /**
      * Proxies to PDO methods created for specific drivers; in particular,
      * `sqlite` and `pgsql`.
      *
      * @param string $name
-     * @param array  $arguments
+     * @phpstan-param datamapper_call_arguments $arguments
      *
      * @return mixed
      * @throws BadMethodCallException
-     *
-     * @phpstan-param datamapper_call_arguments $arguments
      */
     public function __call(var name, array arguments)
     {
@@ -119,10 +113,22 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
     }
 
     /**
+     * Return an array of available PDO drivers (empty array if none available)
+     *
+     * @phpstan-return datamapper_drivers
+     */
+    public static function getAvailableDrivers() -> array
+    {
+        var drivers;
+
+        let drivers = \PDO::getAvailableDrivers();
+
+        return drivers;
+    }
+
+    /**
      * Begins a transaction. If the profiler is enabled, the operation will
      * be recorded.
-     *
-     * @return bool
      */
     public function beginTransaction() -> bool
     {
@@ -146,8 +152,6 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
     /**
      * Commits the existing transaction. If the profiler is enabled, the
      * operation will be recorded.
-     *
-     * @return bool
      */
     public function commit() -> bool
     {
@@ -197,8 +201,6 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
 
     /**
      * Gets the most recent error code.
-     *
-     * @return string|null
      */
     public function errorCode() -> string | null
     {
@@ -209,8 +211,6 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
 
     /**
      * Gets the most recent error info.
-     *
-     * @return array
      *
      * @phpstan-return datamapper_error_info
      */
@@ -228,10 +228,6 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
     /**
      * Executes an SQL statement and returns the number of affected rows. If
      * the profiler is enabled, the operation will be recorded.
-     *
-     * @param string $statement
-     *
-     * @return int
      */
     public function exec(string statement) -> int
     {
@@ -270,11 +266,6 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
     /**
      * Performs a statement and returns the number of affected rows.
      *
-     * @param string $statement
-     * @param array  $values
-     *
-     * @return int
-     *
      * @phpstan-param datamapper_values $values
      */
     public function fetchAffected(string statement, array values = []) -> int
@@ -289,11 +280,6 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
     /**
      * Fetches a sequential array of rows from the database; the rows are
      * returned as associative arrays.
-     *
-     * @param string $statement
-     * @param array  $values
-     *
-     * @return array
      *
      * @phpstan-param datamapper_values $values
      *
@@ -322,11 +308,6 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
      * that value will overwrite earlier rows. This method is more resource
      * intensive and should be avoided if possible.
      *
-     * @param string $statement
-     * @param array  $values
-     *
-     * @return array
-     *
      * @phpstan-param datamapper_values $values
      *
      * @phpstan-return datamapper_assoc_rows
@@ -350,12 +331,6 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
 
     /**
      * Fetches a column of rows as a sequential array (default first one).
-     *
-     * @param string $statement
-     * @param array  $values
-     * @param int    $column
-     *
-     * @return array
      *
      * @phpstan-param datamapper_values $values
      *
@@ -382,12 +357,6 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
      * Fetches multiple from the database as an associative array. The first
      * column will be the index key. The default flags are
      * PDO::FETCH_ASSOC | PDO::FETCH_GROUP
-     *
-     * @param string $statement
-     * @param array  $values
-     * @param int    $flags
-     *
-     * @return array
      *
      * @phpstan-param datamapper_values $values
      *
@@ -419,13 +388,6 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
      * interface declares `object`, so an empty `stdClass` is returned
      * instead. The `object|false` return type lands in v7.
      *
-     * @param string $statement
-     * @param array  $values
-     * @param string $class
-     * @param array  $arguments
-     *
-     * @return object
-     *
      * @phpstan-param datamapper_values                $values
      * @phpstan-param class-string|'stdClass'          $className
      * @phpstan-param datamapper_constructor_arguments $arguments
@@ -442,7 +404,7 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
 
         let result = sth->fetchObject(className, arguments);
         if false === result {
-            return new \stdClass();
+            return new stdClass();
         }
 
         return result;
@@ -457,13 +419,6 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
      * initializations for defaults that you potentially have in your object's
      * constructor, will override the values that have been injected by
      * `fetchObject`. The default object returned is `\stdClass`
-     *
-     * @param string $statement
-     * @param array  $values
-     * @param string $class
-     * @param array  $arguments
-     *
-     * @return array
      *
      * @phpstan-param datamapper_values                $values
      * @phpstan-param class-string|'stdClass'          $className
@@ -489,11 +444,6 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
     /**
      * Fetches one row from the database as an associative array.
      *
-     * @param string $statement
-     * @param array  $values
-     *
-     * @return array
-     *
      * @phpstan-param datamapper_values $values
      *
      * @phpstan-return datamapper_row
@@ -516,11 +466,6 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
      * Fetches an associative array of rows as key-value pairs (first column is
      * the key, second column is the value).
      *
-     * @param string $statement
-     * @param array  $values
-     *
-     * @return array
-     *
      * @phpstan-param datamapper_values $values
      *
      * @phpstan-return datamapper_pairs
@@ -538,9 +483,6 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
     /**
      * Fetches the very first value (i.e., first column of the first row).
      *
-     * @param string $statement
-     * @param array  $values
-     *
      * @return mixed
      *
      * @phpstan-param datamapper_values $values
@@ -556,8 +498,6 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
 
     /**
      * Return the inner PDO (if any)
-     *
-     * @return \PDO
      */
     public function getAdapter() -> <\PDO>
     {
@@ -569,8 +509,6 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
     /**
      * Retrieve a database connection attribute
      *
-     * @param int $attribute
-     *
      * @return mixed
      */
     public function getAttribute(int attribute) -> var
@@ -581,25 +519,7 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
     }
 
     /**
-     * Return an array of available PDO drivers (empty array if none available)
-     *
-     * @return array
-     *
-     * @phpstan-return datamapper_drivers
-     */
-    public static function getAvailableDrivers() -> array
-    {
-        var drivers;
-
-        let drivers = \PDO::getAvailableDrivers();
-
-        return drivers;
-    }
-
-    /**
      * Returns whether transparent auto-reconnect is enabled.
-     *
-     * @return bool
      */
     public function getAutoReconnect() -> bool
     {
@@ -608,8 +528,6 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
 
     /**
      * Return the driver name
-     *
-     * @return string
      */
     public function getDriverName() -> string
     {
@@ -624,8 +542,6 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
 
     /**
      * Returns the Profiler instance.
-     *
-     * @return ProfilerInterface
      */
     public function getProfiler() -> <ProfilerInterface>
     {
@@ -634,10 +550,6 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
 
     /**
      * Gets the quote parameters based on the driver
-     *
-     * @param string $driver
-     *
-     * @return array
      *
      * @phpstan-return datamapper_quote_names
      */
@@ -687,8 +599,6 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
      * Is a transaction currently active? If the profiler is enabled, the
      * operation will be recorded. If the profiler is enabled, the operation
      * will be recorded.
-     *
-     * @return bool
      */
     public function inTransaction() -> bool
     {
@@ -706,8 +616,6 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
 
     /**
      * Is the PDO connection active?
-     *
-     * @return bool
      */
     public function isConnected() -> bool
     {
@@ -717,10 +625,6 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
     /**
      * Returns the last inserted autoincrement sequence value. If the profiler
      * is enabled, the operation will be recorded.
-     *
-     * @param string $name
-     *
-     * @return string
      */
     public function lastInsertId(string name = null) -> string
     {
@@ -742,11 +646,6 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
      * PDOStatement; array values will be passed through `quote()` and their
      * respective placeholders will be replaced in the query string. If the
      * profiler is enabled, the operation will be recorded.
-     *
-     * @param string $statement
-     * @param array  $values
-     *
-     * @return \PDOStatement
      *
      * @phpstan-param datamapper_values $values
      */
@@ -814,11 +713,6 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
 
     /**
      * Prepares an SQL statement for execution.
-     *
-     * @param string $statement
-     * @param array  $options
-     *
-     * @return \PDOStatement|false
      *
      * @phpstan-param datamapper_pdo_options $options
      */
@@ -908,9 +802,6 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
      * comma-separated quoted values. The default type is `PDO::PARAM_STR`
      *
      * @param mixed $value
-     * @param int   $type
-     *
-     * @return string The quoted value.
      *
      * @phpstan-param datamapper_quote_value $value
      */
@@ -950,8 +841,6 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
     /**
      * Rolls back the current transaction, and restores autocommit mode. If the
      * profiler is enabled, the operation will be recorded.
-     *
-     * @return bool
      */
     public function rollBack() -> bool
     {
@@ -978,10 +867,7 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
     /**
      * Set a database connection attribute
      *
-     * @param int   $attribute
      * @param mixed $value
-     *
-     * @return bool
      */
     public function setAttribute(int attribute, var value) -> bool
     {
@@ -992,8 +878,6 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
 
     /**
      * Enables or disables transparent auto-reconnect on a lost connection.
-     *
-     * @param bool $autoReconnect
      */
     public function setAutoReconnect(bool autoReconnect) -> <static>
     {
@@ -1004,14 +888,49 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
 
     /**
      * Sets the Profiler instance.
-     *
-     * @param ProfilerInterface $profiler
      */
     public function setProfiler(<ProfilerInterface> profiler) -> <static>
     {
         let this->profiler = profiler;
 
         return this;
+    }
+
+    /**
+     * Helper method to get data from PDO based on the method passed
+     *
+     * @phpstan-param 'fetch'|'fetchAll'         $method
+     * @phpstan-param datamapper_fetch_arguments $arguments
+     * @phpstan-param datamapper_values          $values
+     *
+     * @phpstan-return datamapper_fetch_result
+     */
+    protected function fetchData(
+        string method,
+        array arguments,
+        string statement,
+        array values = []
+    ) -> array {
+        var result, sth;
+
+        let sth    = this->perform(statement, values),
+            result = call_user_func_array(
+                [
+                    sth,
+                    method
+                ],
+                arguments
+            );
+
+        /**
+         * If this returns boolean or anything other than an array, return
+         * an empty array back
+         */
+        if typeof result !== "array" {
+            let result = [];
+        }
+
+        return result;
     }
 
     /**
@@ -1029,6 +948,39 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
         if this->fireManagerEvent(eventName, data, true) === false {
             throw new OperationCancelled(eventName);
         }
+    }
+
+    /**
+     * Recognizes a lost ("gone away") connection. Detection is driver-agnostic:
+     * the driver name is not queried because the underlying connection may be
+     * dead by this point. The MySQL error codes and PostgreSQL SQLSTATEs do not
+     * overlap, so all known signatures are checked unconditionally.
+     */
+    protected function isConnectionError(<\Throwable> exception) -> bool
+    {
+        var errorInfo, driverCode, sqlState, message;
+
+        let errorInfo = exception->errorInfo;
+        if typeof errorInfo == "array" && isset errorInfo[1] {
+            let driverCode = (int) errorInfo[1];
+
+            if driverCode === 2006 || driverCode === 2013 {
+                return true;
+            }
+        }
+
+        let sqlState = (string) exception->getCode();
+        if sqlState === "08003" || sqlState === "08006" ||
+            sqlState === "57P01" || sqlState === "57P02" || sqlState === "57P03" {
+            return true;
+        }
+
+        let message = exception->getMessage();
+
+        return memstr(message, "server has gone away") ||
+            memstr(message, "Lost connection") ||
+            memstr(message, "server closed the connection unexpectedly") ||
+            memstr(message, "no connection to the server");
     }
 
     /**
@@ -1073,83 +1025,6 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
             ],
             parameters
         );
-    }
-
-    /**
-     * Helper method to get data from PDO based on the method passed
-     *
-     * @param string $method
-     * @param array  $arguments
-     * @param string $statement
-     * @param array  $values
-     *
-     * @return array
-     *
-     * @phpstan-param 'fetch'|'fetchAll'         $method
-     * @phpstan-param datamapper_fetch_arguments $arguments
-     * @phpstan-param datamapper_values          $values
-     *
-     * @phpstan-return datamapper_fetch_result
-     */
-    protected function fetchData(
-        string method,
-        array arguments,
-        string statement,
-        array values = []
-    ) -> array {
-        var result, sth;
-
-        let sth    = this->perform(statement, values),
-            result = call_user_func_array(
-                [
-                    sth,
-                    method
-                ],
-                arguments
-            );
-
-        /**
-         * If this returns boolean or anything other than an array, return
-         * an empty array back
-         */
-        if typeof result !== "array" {
-            let result = [];
-        }
-
-        return result;
-    }
-
-    /**
-     * Recognizes a lost ("gone away") connection. Detection is driver-agnostic:
-     * the driver name is not queried because the underlying connection may be
-     * dead by this point. The MySQL error codes and PostgreSQL SQLSTATEs do not
-     * overlap, so all known signatures are checked unconditionally.
-     */
-    protected function isConnectionError(<\Throwable> exception) -> bool
-    {
-        var errorInfo, driverCode, sqlState, message;
-
-        let errorInfo = exception->errorInfo;
-        if typeof errorInfo == "array" && isset errorInfo[1] {
-            let driverCode = (int) errorInfo[1];
-
-            if driverCode === 2006 || driverCode === 2013 {
-                return true;
-            }
-        }
-
-        let sqlState = (string) exception->getCode();
-        if sqlState === "08003" || sqlState === "08006" ||
-            sqlState === "57P01" || sqlState === "57P02" || sqlState === "57P03" {
-            return true;
-        }
-
-        let message = exception->getMessage();
-
-        return memstr(message, "server has gone away") ||
-            memstr(message, "Lost connection") ||
-            memstr(message, "server closed the connection unexpectedly") ||
-            memstr(message, "no connection to the server");
     }
 
     /**

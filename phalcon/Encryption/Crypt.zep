@@ -31,6 +31,7 @@ use Phalcon\Traits\Php\Base64Trait;
 use Phalcon\Traits\Php\HashTrait;
 use Phalcon\Traits\Php\InfoTrait;
 use Phalcon\Traits\Php\OpensslTrait;
+use Throwable;
 
 /**
  * Provides encryption capabilities to Phalcon applications.
@@ -332,7 +333,7 @@ class Crypt implements CryptInterface
 
         try {
             let iv = this->phpOpensslRandomPseudoBytes(ivLength);
-        } catch \Throwable {
+        } catch Throwable {
             throw new RandomBytesGenerationFailed();
         }
 
@@ -488,7 +489,6 @@ class Crypt implements CryptInterface
     }
 
     /**
-     *
      * @throws InvalidAuthTagLength
      */
     public function setAuthTagLength(int length) -> <CryptInterface>
@@ -505,7 +505,6 @@ class Crypt implements CryptInterface
     /**
      * Sets the cipher algorithm for data encryption and decryption.
      *
-     *
      * @throws Exception
      */
     public function setCipher(string cipher) -> <CryptInterface>
@@ -520,7 +519,6 @@ class Crypt implements CryptInterface
 
     /**
      * Set the name of hashing algorithm.
-     *
      *
      * @throws Exception
      */
@@ -578,7 +576,6 @@ class Crypt implements CryptInterface
     /**
      * Checks if a cipher or a hash algorithm is available
      *
-     *
      * @throws Exception
      */
     protected function checkCipherHashIsAvailable(string cipher, string type) -> void
@@ -601,7 +598,6 @@ class Crypt implements CryptInterface
     /**
      * Pads texts before encryption. See
      * [cryptopad](https://www.di-mgt.com.au/cryptopad.html)
-     *
      *
      * @throws Exception
      */
@@ -876,7 +872,6 @@ class Crypt implements CryptInterface
     /**
      * Returns the block size
      *
-     *
      * @throws Exception
      */
     private function getBlockSize(string mode) -> int
@@ -892,7 +887,6 @@ class Crypt implements CryptInterface
 
     /**
      * Initialize available cipher algorithms.
-     *
      *
      * @throws Exception
      */

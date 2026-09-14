@@ -106,98 +106,74 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 
     /**
      * Active connection ID
-     *
-     * @var int
      */
-    protected connectionId;
+    protected int connectionId;
 
     /**
      * Descriptor used to connect to a database
      *
-     * @var array
-     *
      * @phpstan-var db_descriptor
      */
-    protected descriptor = [];
+    protected array descriptor = [];
 
     /**
      * Dialect instance
-     *
-     * @var DialectInterface
      */
-    protected dialect;
+    protected <DialectInterface> dialect;
 
     /**
      * Name of the dialect used
-     *
-     * @var string
      */
-    protected dialectType;
+    protected string dialectType;
 
     /**
      * Event Manager
-     *
-     * @var ManagerInterface|null
      */
-    protected eventsManager = null;
+    protected ?<ManagerInterface> eventsManager = null;
 
     /**
      * The real SQL statement - what was executed
-     *
-     * @var string
      */
-    protected realSqlStatement;
+    protected string realSqlStatement;
 
     /**
      * Active SQL Bind Types
      *
-     * @var array
-     *
      * @phpstan-var db_bind_types
      */
-    protected sqlBindTypes = [];
+    protected array sqlBindTypes = [];
 
     /**
      * Active SQL Statement
-     *
-     * @var string
      */
-    protected sqlStatement;
+    protected string sqlStatement;
 
     /**
      * Active SQL bound parameter variables
      *
-     * @var array
-     *
      * @phpstan-var db_bind_params
      */
-    protected sqlVariables = [];
+    protected array sqlVariables = [];
 
     /**
      * Current transaction level
-     *
-     * @var int
      */
-    protected transactionLevel = 0;
+    protected int transactionLevel = 0;
 
     /**
      * Whether the database supports transactions with save points
-     *
-     * @var bool
      */
-    protected transactionsWithSavepoints = false;
+    protected bool transactionsWithSavepoints = false;
 
     /**
      * Type of database system the adapter is used for
-     *
-     * @var string
      */
-    protected type;
+    protected string type;
 
     /**
      * Phalcon\Db\Adapter constructor
      *
-     * @param array descriptor = [
+     * @param array $descriptor = [
      *     'host' => 'localhost',
      *     'port' => '3306',
      *     'dbname' => 'blog',
@@ -251,6 +227,56 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
+     * Enables/disables options in the Database component.
+     *
+     * The flags are stored as process-global `Phalcon\Support\Settings`
+     * (`db.escape_identifiers`, `db.force_casting`) and therefore affect every
+     * connection in the process at once, last-writer-wins. Call this once at
+     * bootstrap; it is not per-connection configuration. Because the
+     * constructor calls `setup()` whenever a descriptor carries an `options`
+     * key, constructing one adapter with `options` can change the SQL another,
+     * already-configured connection generates.
+     *
+     * @phpstan-param db_setup_options $options
+     */
+    public static function setup(array options) -> void
+    {
+        var escapeIdentifiers, forceCasting;
+
+        /**
+         * Enables/Disables globally the escaping of SQL identifiers
+         */
+        if fetch escapeIdentifiers, options["escapeSqlIdentifiers"] {
+            Settings::set("db.escape_identifiers", escapeIdentifiers);
+        }
+
+        /**
+         * Force cast bound values in the PHP userland
+         */
+        if fetch forceCasting, options["forceCasting"] {
+            Settings::set("db.force_casting", forceCasting);
+        }
+    }
+
+    /**
+     * Adds a CHECK constraint to a table. MySQL 8.0.16+ and PostgreSQL
+     * issue `ALTER TABLE ... ADD CONSTRAINT ... CHECK (...)`; SQLite throws.
+     */
+    public function addCheck(
+        string tableName,
+        string schemaName,
+        <CheckInterface> check
+    ) -> bool {
+        return this->{"execute"}(
+            this->dialect->addCheck(
+                tableName,
+                schemaName,
+                check
+            )
+        );
+    }
+
+    /**
      * Adds a column to a table
      */
     public function addColumn(string tableName,  string schemaName, <ColumnInterface> column) -> bool
@@ -260,21 +286,6 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
                 tableName,
                 schemaName,
                 column
-            )
-        );
-    }
-
-    /**
-     * Adds a CHECK constraint to a table. MySQL 8.0.16+ and PostgreSQL
-     * issue `ALTER TABLE ... ADD CONSTRAINT ... CHECK (...)`; SQLite throws.
-     */
-    public function addCheck(string tableName,  string schemaName, <CheckInterface> check) -> bool
-    {
-        return this->{"execute"}(
-            this->dialect->addCheck(
-                tableName,
-                schemaName,
-                check
             )
         );
     }
@@ -322,20 +333,36 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
+     * Creates a materialized view (PostgreSQL only - MySQL and SQLite
+     * throw via the dialect).
+     *
+     * @phpstan-param db_view_definition $definition
+     */
+    public function createMaterializedView(
+        string viewName,
+        array definition,
+        string schemaName = null
+    ) -> bool {
+        return this->{"execute"}(
+            this->dialect->createMaterializedView(
+                viewName,
+                definition,
+                schemaName
+            )
+        );
+    }
+
+    /**
      * Creates a new savepoint
+     *
+     * @throws SavepointsNotSupported
      */
     public function createSavepoint(string name) -> bool
     {
-        var dialect;
-
-        let dialect = this->dialect;
-
-        if unlikely !dialect->supportsSavePoints() {
-            throw new SavepointsNotSupported();
-        }
+        this->checkSavepoints();
 
         return this->{"execute"}(
-            dialect->createSavepoint(name)
+            this->dialect->createSavepoint(name)
         );
     }
 
@@ -343,6 +370,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * Creates a table
      *
      * @phpstan-param db_table_definition $definition
+     *
+     * @throws TableMustHaveColumn
      */
     public function createTable(string tableName,  string schemaName,  array definition) -> bool
     {
@@ -367,6 +396,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 
     /**
      * Creates a view
+     *
+     * @throws TableMustHaveColumn
      */
     public function createView(string viewName,  array definition, string schemaName = null) -> bool
     {
@@ -489,8 +520,10 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * PostgreSQL, SQLite) overrides it, so this base implementation has no
      * in-tree caller and effectively assumes the PostgreSQL row shape.
      */
-    public function describeReferences(string table,  string schema = null) -> <ReferenceInterface[]>
-    {
+    public function describeReferences(
+        string table,
+        string schema = null
+    ) -> <ReferenceInterface[]> {
         var references, reference, arrayReference, constraintName,
             referenceObjects, name, referencedSchema, referencedTable, columns,
             referencedColumns;
@@ -541,20 +574,6 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
-     * Drops a column from a table
-     */
-    public function dropColumn(string tableName,  string schemaName, string columnName) -> bool
-    {
-        return this->{"execute"}(
-            this->dialect->dropColumn(
-                tableName,
-                schemaName,
-                columnName
-            )
-        );
-    }
-
-    /**
      * Drops a CHECK constraint from a table. SQLite throws.
      */
     public function dropCheck(string tableName,  string schemaName,  string checkName) -> bool
@@ -564,6 +583,20 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
                 tableName,
                 schemaName,
                 checkName
+            )
+        );
+    }
+
+    /**
+     * Drops a column from a table
+     */
+    public function dropColumn(string tableName,  string schemaName, string columnName) -> bool
+    {
+        return this->{"execute"}(
+            this->dialect->dropColumn(
+                tableName,
+                schemaName,
+                columnName
             )
         );
     }
@@ -585,13 +618,30 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Drop an index from a table
      */
-    public function dropIndex(string tableName,  string schemaName, indexName) -> bool
-    {
+    public function dropIndex(
+        string tableName,
+        string schemaName,
+        indexName
+    ) -> bool {
         return this->{"execute"}(
             this->dialect->dropIndex(
                 tableName,
                 schemaName,
                 indexName
+            )
+        );
+    }
+
+    /**
+     * Drops a materialized view (PostgreSQL only).
+     */
+    public function dropMaterializedView(string viewName, string schemaName = null, bool ifExists = true) -> bool
+    {
+        return this->{"execute"}(
+            this->dialect->dropMaterializedView(
+                viewName,
+                schemaName,
+                ifExists
             )
         );
     }
@@ -969,7 +1019,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * @phpstan-param db_column_names|null $fields
      * @phpstan-param db_bind_types       $dataTypes
      */
-    public function insert(string table,  array values, var fields = null, var dataTypes = null) -> bool
+    public function insert(string table, array values, var fields = null, var dataTypes = null) -> bool
     {
         var bindDataTypes, escapedTable, escapedFields, field,
             insertSql, insertValues, joinedValues, placeholder, placeholders,
@@ -1105,6 +1155,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *```
      *
      * @phpstan-return db_table_names
+     *
+     * @todo optimize this
      */
     public function listTables(string schemaName = null) -> array
     {
@@ -1169,25 +1221,63 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
+     * Appends an `ON CONFLICT (...) DO UPDATE SET col = excluded.col`
+     * upsert clause to the supplied INSERT statement. Supported by
+     * PostgreSQL and SQLite 3.24+; MySQL throws.
+     *
+     * @phpstan-param db_column_names $conflictColumns
+     * @phpstan-param db_column_names $updateColumns
+     */
+    public function onConflictUpdate(string sqlQuery,  array conflictColumns,  array updateColumns) -> string
+    {
+        return this->dialect->onConflictUpdate(
+            sqlQuery,
+            conflictColumns,
+            updateColumns
+        );
+    }
+
+    /**
+     * Refreshes a materialized view (PostgreSQL only). Pass
+     * `concurrent = true` for non-blocking refresh.
+     */
+    public function refreshMaterializedView(string viewName, string schemaName = null, bool concurrent = false) -> bool
+    {
+        return this->{"execute"}(
+            this->dialect->refreshMaterializedView(
+                viewName,
+                schemaName,
+                concurrent
+            )
+        );
+    }
+
+    /**
      * Releases given savepoint
      */
     public function releaseSavepoint(string name) -> bool
     {
-        var dialect;
+        this->checkSavepoints();
 
-        let dialect = this->dialect;
-
-        if unlikely !dialect->supportsSavePoints() {
-            throw new SavepointsNotSupported();
-        }
-
-        if !dialect->supportsReleaseSavePoints() {
+        if !this->dialect->supportsReleaseSavePoints() {
             return false;
         }
 
         return this->{"execute"}(
-            dialect->releaseSavepoint(name)
+            this->dialect->releaseSavepoint(name)
         );
+    }
+
+    /**
+     * Appends a RETURNING clause to an INSERT/UPDATE/DELETE SQL statement
+     * and returns the modified SQL. Supported by PostgreSQL and SQLite 3.35+;
+     * MySQL throws (no RETURNING construct). Pass `["*"]` for `RETURNING *`.
+     *
+     * @phpstan-param db_column_names $columns
+     */
+    public function returning(string sqlQuery,  array columns) -> string
+    {
+        return this->dialect->returning(sqlQuery, columns);
     }
 
     /**
@@ -1195,16 +1285,10 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      */
     public function rollbackSavepoint(string name) -> bool
     {
-        var dialect;
-
-        let dialect = this->dialect;
-
-        if unlikely !dialect->supportsSavePoints() {
-            throw new SavepointsNotSupported();
-        }
+        this->checkSavepoints();
 
         return this->{"execute"}(
-            dialect->rollbackSavepoint(name)
+            this->dialect->rollbackSavepoint(name)
         );
     }
 
@@ -1243,38 +1327,6 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
-     * Enables/disables options in the Database component.
-     *
-     * The flags are stored as process-global `Phalcon\Support\Settings`
-     * (`db.escape_identifiers`, `db.force_casting`) and therefore affect every
-     * connection in the process at once, last-writer-wins. Call this once at
-     * bootstrap; it is not per-connection configuration. Because the
-     * constructor calls `setup()` whenever a descriptor carries an `options`
-     * key, constructing one adapter with `options` can change the SQL another,
-     * already-configured connection generates.
-     *
-     * @phpstan-param db_setup_options $options
-     */
-    public static function setup(array options) -> void
-    {
-        var escapeIdentifiers, forceCasting;
-
-        /**
-         * Enables/Disables globally the escaping of SQL identifiers
-         */
-        if fetch escapeIdentifiers, options["escapeSqlIdentifiers"] {
-            Settings::set("db.escape_identifiers", escapeIdentifiers);
-        }
-
-        /**
-         * Force cast bound values in the PHP userland
-         */
-        if fetch forceCasting, options["forceCasting"] {
-            Settings::set("db.force_casting", forceCasting);
-        }
-    }
-
-    /**
      * Returns a SQL modified with a shared-lock clause. The optional
      * `modifier` is passed straight to the dialect (use
      * `Dialect::LOCK_NOWAIT` / `Dialect::LOCK_SKIP_LOCKED` for PostgreSQL).
@@ -1285,78 +1337,14 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
-     * Creates a materialized view (PostgreSQL only - MySQL and SQLite
-     * throw via the dialect).
+     * Check whether the database system support the DEFAULT
+     * keyword (SQLite does not support it)
      *
-     * @phpstan-param db_view_definition $definition
+     * @deprecated Will be removed in a future major release.
      */
-    public function createMaterializedView(string viewName,  array definition, string schemaName = null) -> bool
+    public function supportsDefaultValue() -> bool
     {
-        return this->{"execute"}(
-            this->dialect->createMaterializedView(
-                viewName,
-                definition,
-                schemaName
-            )
-        );
-    }
-
-    /**
-     * Drops a materialized view (PostgreSQL only).
-     */
-    public function dropMaterializedView(string viewName, string schemaName = null, bool ifExists = true) -> bool
-    {
-        return this->{"execute"}(
-            this->dialect->dropMaterializedView(
-                viewName,
-                schemaName,
-                ifExists
-            )
-        );
-    }
-
-    /**
-     * Refreshes a materialized view (PostgreSQL only). Pass
-     * `concurrent = true` for non-blocking refresh.
-     */
-    public function refreshMaterializedView(string viewName, string schemaName = null, bool concurrent = false) -> bool
-    {
-        return this->{"execute"}(
-            this->dialect->refreshMaterializedView(
-                viewName,
-                schemaName,
-                concurrent
-            )
-        );
-    }
-
-    /**
-     * Appends an `ON CONFLICT (...) DO UPDATE SET col = excluded.col`
-     * upsert clause to the supplied INSERT statement. Supported by
-     * PostgreSQL and SQLite 3.24+; MySQL throws.
-     *
-     * @phpstan-param db_column_names $conflictColumns
-     * @phpstan-param db_column_names $updateColumns
-     */
-    public function onConflictUpdate(string sqlQuery,  array conflictColumns,  array updateColumns) -> string
-    {
-        return this->dialect->onConflictUpdate(
-            sqlQuery,
-            conflictColumns,
-            updateColumns
-        );
-    }
-
-    /**
-     * Appends a RETURNING clause to an INSERT/UPDATE/DELETE SQL statement
-     * and returns the modified SQL. Supported by PostgreSQL and SQLite 3.35+;
-     * MySQL throws (no RETURNING construct). Pass `["*"]` for `RETURNING *`.
-     *
-     * @phpstan-param db_column_names $columns
-     */
-    public function returning(string sqlQuery,  array columns) -> string
-    {
-        return this->dialect->returning(sqlQuery, columns);
+        return true;
     }
 
     /**
@@ -1455,7 +1443,9 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * ```
      *
-     * Warning! If $whereCondition is string it not escaped.
+     * Warning! If $whereCondition is string, it is not escaped.
+     *
+     * @throws Exception
      */
     public function update(string table, var fields, var values, var whereCondition = null, var dataTypes = null) -> bool
     {
@@ -1511,7 +1501,6 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
             if typeof whereCondition == "string" {
                 let updateSql .= whereCondition;
             } else {
-
                 /**
                  * Array conditions may have bound params and bound types
                  */
@@ -1602,16 +1591,6 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
-     * Check whether the database system support the DEFAULT
-     * keyword (SQLite does not support it)
-     *
-     * @deprecated Will be removed in a future major release.
-     */
-    public function supportsDefaultValue() -> bool {
-        return true;
-    }
-
-    /**
      * Generates SQL checking for the existence of a schema.view
      *
      *```php
@@ -1623,6 +1602,18 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     public function viewExists(string viewName,  string schemaName = null) -> bool
     {
         return this->fetchOne(this->dialect->viewExists(viewName, schemaName), Enum::FETCH_NUM)[0] > 0;
+    }
+
+    /**
+     * Check if savepoints are supported
+     *
+     * @throws Exception
+     */
+    protected function checkSavepoints() -> void
+    {
+        if (true !== this->dialect->supportsSavePoints()) {
+            throw new SavepointsNotSupported();
+        }
     }
 
     /**

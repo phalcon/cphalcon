@@ -28,6 +28,9 @@ use Phalcon\Http\ResponseInterface;
  * safe verb (`PUT`/`PATCH`/`DELETE`), so `_method` cannot spoof an arbitrary
  * method.
  *
+ * The flag lives on `Phalcon\Http\Request`, not on the request contract, so a
+ * request implementation that does not carry it is simply passed through.
+ *
  * @phpstan-import-type adr_allowed_methods from ADRTypes
  */
 class MethodOverrideMiddleware implements Middleware

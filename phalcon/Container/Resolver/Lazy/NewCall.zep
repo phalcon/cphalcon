@@ -49,7 +49,7 @@ class NewCall extends Lazy
     protected string method;
 
     /**
-     * @phpstan-param string|Lazy         $id
+     * @phpstan-param Lazy|string         $id
      * @phpstan-param container_arguments $arguments
      */
     public function __construct(var id, string method, array arguments)

@@ -10,6 +10,7 @@
 
 namespace Phalcon\Db\Adapter;
 
+use Phalcon\Config\ConfigInterface;
 use Phalcon\Contracts\Db\DbTypes;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Db\Adapter\Pdo\Postgresql;
@@ -39,7 +40,7 @@ class PdoFactory extends AbstractFactory
     /**
      * Factory to create an instance from a Config object
      *
-     * @param array|\Phalcon\Config\Config config = [
+     * @param array<string, mixed>|ConfigInterface config = [
      *     'adapter' => 'mysql',
      *     'options' => [
      *         'host' => 'localhost',

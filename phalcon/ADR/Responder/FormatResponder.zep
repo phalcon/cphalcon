@@ -14,6 +14,7 @@
 namespace Phalcon\ADR\Responder;
 
 use Phalcon\Contracts\ADR\Payload\Payload;
+use Phalcon\Contracts\ADR\Responder\Formatter\Formatter;
 use Phalcon\Contracts\ADR\Responder\Responder;
 use Phalcon\Http\RequestInterface;
 use Phalcon\Http\ResponseInterface;
@@ -28,7 +29,7 @@ use Phalcon\Http\ResponseInterface;
 class FormatResponder implements Responder
 {
     /**
-     * @var array
+     * @phpstan-param list<Formatter> $formatters
      */
     protected array formatters = [];
 

@@ -45,7 +45,7 @@ interface Processor
      * Processes the message and returns one of the ACK / REJECT / REQUEUE
      * constants, or an object whose string form is one of those values.
      *
-     * @return string|object
+     * @return object | string
      */
-    public function process(<Message> message, <Context> context) -> string | object;
+    public function process(<Message> message, <Context> context) -> object | string;
 }

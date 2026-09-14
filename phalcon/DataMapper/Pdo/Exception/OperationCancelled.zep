@@ -11,7 +11,7 @@
 namespace Phalcon\DataMapper\Pdo\Exception;
 
 /**
- * A listener cancelled a cancellable "before" event, so the operation did
+ * A listener canceled a cancelable "before" event, so the operation did
  * not run. This is a deliberate cancellation, not a database failure. Catch
  * this class to tell the two apart.
  */

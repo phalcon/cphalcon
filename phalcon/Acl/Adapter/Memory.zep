@@ -10,6 +10,7 @@
 
 namespace Phalcon\Acl\Adapter;
 
+use Closure;
 use Phalcon\Acl\Component;
 use Phalcon\Acl\ComponentAwareInterface;
 use Phalcon\Acl\ComponentInterface;
@@ -869,9 +870,10 @@ class Memory extends AbstractAdapter
      * Check whether a role is allowed to access an action from a component
      *
      * Returns the rule key that grants the access, or `false` when no rule
-     * matches. The native type is the wider `string | bool`.
+     * matches. The native type is the wider `bool|string` that the Zephir
+     * `string | bool` maps to.
      *
-     * @return string|false
+     * @return false|string
      */
     private function canAccess(
         string roleName,
@@ -1039,7 +1041,7 @@ class Memory extends AbstractAdapter
             reflectionType, userParametersSizeShouldBe;
         bool hasComponent = false, hasRole = false;
 
-        let reflectionFunction   = new ReflectionFunction(\Closure::fromCallable(funcAccess)),
+        let reflectionFunction   = new ReflectionFunction(Closure::fromCallable(funcAccess)),
             reflectionParameters = reflectionFunction->getParameters(),
             parameterNumber      = count(reflectionParameters);
 

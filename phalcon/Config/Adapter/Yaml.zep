@@ -60,7 +60,11 @@ class Yaml extends Config
     use YamlTrait;
 
     /**
-     * Phalcon\Config\Adapter\Yaml constructor
+     * Yaml constructor.
+     *
+     * @param array<string, callable>|null $callbacks
+     *
+     * @throws Exception
      */
     public function __construct(string filePath,  array callbacks = null)
     {

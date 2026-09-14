@@ -14,12 +14,13 @@ use Phalcon\Contracts\Encryption\EncryptionTypes;
 use Phalcon\Contracts\Encryption\Security\Security as SecurityContract;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\AbstractInjectionAware;
-use Phalcon\Http\RequestInterface;
 use Phalcon\Encryption\Security\Exception;
 use Phalcon\Encryption\Security\Exceptions\UnknownHashAlgorithm;
 use Phalcon\Encryption\Security\Random;
+use Phalcon\Http\RequestInterface;
 use Phalcon\Session\ManagerInterface as SessionInterface;
 use Phalcon\Traits\Php\HashTrait;
+use ValueError;
 
 /**
  * This component provides a set of functions to improve the security in Phalcon
@@ -218,7 +219,7 @@ class Security extends AbstractInjectionAware implements SecurityContract
 
         try {
             let hmac = this->phpHashHmac(algorithm, data, key, raw);
-        } catch \ValueError {
+        } catch ValueError {
             throw new UnknownHashAlgorithm(algorithm);
         }
 
@@ -300,7 +301,6 @@ class Security extends AbstractInjectionAware implements SecurityContract
     /**
      * Generate a >22-length pseudo random string to be used as salt for
      * passwords
-     *
      *
      * @throws Exception
      */
@@ -467,16 +467,16 @@ class Security extends AbstractInjectionAware implements SecurityContract
                 let prefix = "$6$",
                     bytes  = 16;
                 break;
-            /*
-             * Blowfish hashing with a salt as follows: "$2a$", "$2x$" or
-             * "$2y$", a two digit cost parameter, "$", and 22 characters
-             * from the alphabet "./0-9A-Za-z". Using characters outside
-             * this range in the salt will cause `crypt()` to return a
-             * zero-length string. The two digit cost parameter is the
-             * base-2 logarithm of the iteration count for the underlying
-             * Blowfish-based hashing algorithm and must be in range 04-31,
-             * values outside this range will cause crypt() to fail.
-             */
+                /*
+                 * Blowfish hashing with a salt as follows: "$2a$", "$2x$" or
+                 * "$2y$", a two digit cost parameter, "$", and 22 characters
+                 * from the alphabet "./0-9A-Za-z". Using characters outside
+                 * this range in the salt will cause `crypt()` to return a
+                 * zero-length string. The two digit cost parameter is the
+                 * base-2 logarithm of the iteration count for the underlying
+                 * Blowfish-based hashing algorithm and must be in range 04-31,
+                 * values outside this range will cause crypt() to fail.
+                 */
             case self::CRYPT_BLOWFISH_A:
                 let prefix = sprintf("$2a$%s$", formatted);
                 break;

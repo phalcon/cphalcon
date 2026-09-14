@@ -42,13 +42,13 @@ class StaticCall extends Lazy
      */
     protected array arguments;
     /**
-     * @var string|Lazy
+     * @var Lazy|string
      */
     protected className;
     protected string method;
 
     /**
-     * @phpstan-param string|Lazy         $className
+     * @phpstan-param Lazy|string         $className
      * @phpstan-param container_arguments $arguments
      */
     public function __construct(var className, string method, array arguments)
