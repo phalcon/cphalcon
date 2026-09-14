@@ -26,7 +26,7 @@
  * Lifecycle event names fired by the DataMapper connections through
  * Phalcon\Events\Manager. One public constant per event.
  *
- * The `before*` events are cancellable. To cancel an operation, a listener
+ * The `before*` events are cancelable. To cancel an operation, a listener
  * must stop the event and return false:
  *
  *     $manager->attach(
@@ -42,10 +42,10 @@
  * the listener's own value, which the connection cannot tell apart from
  * "no listeners". `return false` alone is replaced by any later non-null
  * return while the manager's stopOnFalse mode is off, which is the default.
- * A cancelled operation throws
+ * A canceled operation throws
  * Phalcon\DataMapper\Pdo\Exception\OperationCancelled.
  *
- * The `after*` events are not cancellable. The operation is complete when
+ * The `after*` events are not cancelable. The operation is complete when
  * they fire.
  *
  * There are two groups of events. The operation events - perform, exec,

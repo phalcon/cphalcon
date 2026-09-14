@@ -31,6 +31,9 @@
  */
 /**
  * Sets the response HTTP status code from the payload status, via StatusMapper.
+ *
+ * The payload status is untyped, so anything that cannot be expressed as a
+ * string - an array, an object - leaves the response status code untouched.
  */
 ZEPHIR_INIT_CLASS(Phalcon_ADR_Responder_StatusResponder)
 {

@@ -64,7 +64,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Container_Resolver_Lazy_StaticCall)
 	}
 
 	/**
-	 * @var string|Lazy
+	 * @var Lazy|string
 	 */
 	zend_declare_property_null(phalcon_container_resolver_lazy_staticcall_ce, SL("className"), ZEND_ACC_PROTECTED);
 	{
@@ -77,7 +77,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Container_Resolver_Lazy_StaticCall)
 }
 
 /**
- * @phpstan-param string|Lazy         $className
+ * @phpstan-param Lazy|string         $className
  * @phpstan-param container_arguments $arguments
  */
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_StaticCall, __construct)

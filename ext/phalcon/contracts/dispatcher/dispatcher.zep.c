@@ -70,8 +70,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Dispatcher_Dispatcher, getHandlerSuffix);
  *
  * @deprecated Use getParameter() instead
  *
- * Note: This signature omits the `defaultValue` argument the implementation
- * accepts; the two will be aligned in the next major version.
+ * Note: This signature omits the `$defaultValue` argument the
+ * implementation accepts; the two will be aligned in the next major
+ * version.
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Dispatcher_Dispatcher, getParam);
 /**
@@ -84,17 +85,17 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Dispatcher_Dispatcher, getParameter);
 /**
  * Gets action params
  *
+ * @phpstan-return dispatcher_params
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Contracts_Dispatcher_Dispatcher, getParameters);
+/**
+ * Gets action params
+ *
  * @deprecated Use getParameters() instead
  *
  * @phpstan-return dispatcher_params
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Dispatcher_Dispatcher, getParams);
-/**
- * Gets action params
- *
- * @phpstan-return dispatcher_params
- */
-ZEPHIR_DOC_METHOD(Phalcon_Contracts_Dispatcher_Dispatcher, getParameters);
 /**
  * Returns value returned by the latest dispatched action
  */
@@ -102,9 +103,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Dispatcher_Dispatcher, getReturnedValue);
 /**
  * Check if a param exists
  *
- * @deprecated Use hasParameter() instead
- *
  * @phpstan-param array-key $param
+ *
+ * @deprecated Use hasParameter() instead
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Dispatcher_Dispatcher, hasParam);
 /**
@@ -152,8 +153,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Dispatcher_Dispatcher, setParam);
 /**
  * Sets action params to be dispatched
  *
- * @deprecated Use setParameters() instead
- *
  * @phpstan-param dispatcher_params $params
+ *
+ * @deprecated Use setParameters() instead
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Dispatcher_Dispatcher, setParams);

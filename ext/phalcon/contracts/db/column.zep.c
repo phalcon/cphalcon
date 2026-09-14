@@ -98,7 +98,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Column, hasDefault);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Column, isAutoIncrement);
 /**
- * Check whether column have first position in table
+ * Check whether the column is the first in table
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Column, isFirst);
 /**
@@ -106,7 +106,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Column, isFirst);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Column, isNotNull);
 /**
- * Check whether column have an numeric type
+ * Check whether column have a numeric type
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Column, isNumeric);
 /**

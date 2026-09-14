@@ -39,13 +39,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler_Item)
 	/**
 	 * Timestamp when the profile ended
 	 *
-	 * @var double
+	 * @var float
 	 */
 	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("finalTime"), ZEND_ACC_PROTECTED);
 	/**
 	 * Timestamp when the profile started
 	 *
-	 * @var double
+	 * @var float
 	 */
 	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("initialTime"), ZEND_ACC_PROTECTED);
 	/**

@@ -47,18 +47,12 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Pipeline)
 		zephir_declare_typed_property(phalcon_adr_pipeline_ce, SL("index"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_LONG, NULL, 0);
 	}
 
-	/**
-	 * @var array
-	 */
 	{
 		zval _zc0;
 		array_init_size(&_zc0, 1);
 		zephir_declare_typed_property(phalcon_adr_pipeline_ce, SL("middleware"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
 	}
 
-	/**
-	 * @var Handler
-	 */
 	{
 		zval _zc0;
 		ZVAL_UNDEF(&_zc0);
@@ -69,6 +63,9 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Pipeline)
 	return SUCCESS;
 }
 
+/**
+ * @phpstan-param list<Middleware> $middleware
+ */
 PHP_METHOD(Phalcon_ADR_Pipeline, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -165,7 +162,7 @@ PHP_METHOD(Phalcon_ADR_Pipeline, __invoke)
 	zephir_memory_observe(&mw);
 	zephir_memory_observe(&_4);
 	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 361, PH_NOISY_CC);
-	zephir_array_fetch(&mw, &_3, &_4, PH_NOISY, "phalcon/ADR/Pipeline.zep", 55);
+	zephir_array_fetch(&mw, &_3, &_4, PH_NOISY, "phalcon/ADR/Pipeline.zep", 52);
 	ZEPHIR_INIT_VAR(&next);
 	object_init_ex(&next, phalcon_adr_pipeline_ce);
 	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_1, 359, PH_NOISY_CC | PH_READONLY);

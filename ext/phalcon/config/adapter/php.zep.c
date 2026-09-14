@@ -63,6 +63,8 @@
  * echo $config->phalcon->controllersDir;
  * echo $config->database->username;
  *```
+ *
+ * @phpstan-import-type config_data from ConfigTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Php)
 {
@@ -104,7 +106,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Php, __construct)
 		zephir_basename(&_2$$3, &filePath_zv);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 465, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Config/Adapter/Php.zep", 61);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Config/Adapter/Php.zep", 64);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

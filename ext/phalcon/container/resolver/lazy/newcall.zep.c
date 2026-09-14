@@ -77,7 +77,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Container_Resolver_Lazy_NewCall)
 }
 
 /**
- * @phpstan-param string|Lazy         $id
+ * @phpstan-param Lazy|string         $id
  * @phpstan-param container_arguments $arguments
  */
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_NewCall, __construct)

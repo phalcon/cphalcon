@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Assets_Collection, add)
 /**
  * Adds a CSS asset to the collection
  *
- * @param bool|null   $isLocal
+ * @param bool|null         $isLocal
  * @param assets_attributes $attributes
  */
 PHP_METHOD(Phalcon_Assets_Collection, addCss)
@@ -404,7 +404,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineJs)
 /**
  * Adds a JavaScript asset to the collection
  *
- * @param bool|null   $isLocal
+ * @param bool|null         $isLocal
  * @param assets_attributes $attributes
  */
 PHP_METHOD(Phalcon_Assets_Collection, addJs)
@@ -567,9 +567,6 @@ PHP_METHOD(Phalcon_Assets_Collection, getIterator)
 	RETURN_MM();
 }
 
-/**
- * @return bool
- */
 PHP_METHOD(Phalcon_Assets_Collection, getJoin)
 {
 
@@ -578,8 +575,6 @@ PHP_METHOD(Phalcon_Assets_Collection, getJoin)
 
 /**
  * Returns the prefix
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Assets_Collection, getPrefix)
 {
@@ -920,6 +915,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addAsset)
 /**
  * Adds an inline asset
  *
+ * @param bool|null         $isLocal
  * @param assets_attributes $attributes
  */
 PHP_METHOD(Phalcon_Assets_Collection, processAdd)

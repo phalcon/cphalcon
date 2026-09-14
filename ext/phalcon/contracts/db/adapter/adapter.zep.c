@@ -247,20 +247,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, getColumnList);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, getConnectionId);
 /**
- * Return descriptor used to connect to the active database
- *
- * @phpstan-return db_descriptor
- */
-ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, getDescriptor);
-/**
- * Returns internal dialect instance
- */
-ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, getDialect);
-/**
- * Returns the name of the dialect used
- */
-ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, getDialectType);
-/**
  * Return the default identity value to insert in an identity column
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, getDefaultIdValue);
@@ -286,6 +272,20 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, getDefaultIdValue);
  * @todo Return NULL if this is not supported by the adapter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, getDefaultValue);
+/**
+ * Return descriptor used to connect to the active database
+ *
+ * @phpstan-return db_descriptor
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, getDescriptor);
+/**
+ * Returns internal dialect instance
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, getDialect);
+/**
+ * Returns the name of the dialect used
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, getDialectType);
 /**
  * Return internal PDO handler
  */
@@ -359,7 +359,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, isUnderTransaction);
  * Returns insert id for the auto_increment column inserted in the last SQL
  * statement
  *
- * @param string|null $name Name of the sequence object from which the ID should be returned.
+ * @param string|null $name Name of the sequence object from which the ID
+ *                          should be returned.
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, lastInsertId);
 /**
@@ -406,6 +407,10 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, rollback);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, rollbackSavepoint);
 /**
+ * Set if nested transactions should use savepoints
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, setNestedTransactionsWithSavepoints);
+/**
  * Returns a SQL modified with a shared-lock clause. See the dialect's
  * `sharedLock()` for per-engine semantics. The optional `modifier` is
  * passed straight through (use `Dialect::LOCK_NOWAIT` /
@@ -413,9 +418,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, rollbackSavepoint);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, sharedLock);
 /**
- * Set if nested transactions should use savepoints
+ * SQLite does not support the DEFAULT keyword
+ *
+ * @deprecated Will re removed in the next version
  */
-ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, setNestedTransactionsWithSavepoints);
+ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, supportsDefaultValue);
 /**
  * Check whether the database system requires a sequence to produce
  * auto-numeric values
@@ -468,12 +475,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, updateAsDict);
  * columns
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, useExplicitIdValue);
-/**
- * SQLite does not support the DEFAULT keyword
- *
- * @deprecated Will re removed in the next version
- */
-ZEPHIR_DOC_METHOD(Phalcon_Contracts_Db_Adapter_Adapter, supportsDefaultValue);
 /**
  * Generates SQL checking for the existence of a schema.view
  */

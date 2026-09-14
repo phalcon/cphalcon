@@ -59,18 +59,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_Container_Ioc_IocContainer)
 }
 
 /**
- * Is the container able to return an instance of the `$serviceName`?
- *
- * - Notes:
- *
- *     - **The logic for this method is expressly unspecified.** The ability
- *       check may be accomplished by querying a service management subsystem,
- *       or by some other means.
- *
- * @param ioc_service_name_string $serviceName
- */
-ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Ioc_IocContainer, hasService);
-/**
  * Returns an instance of the `$serviceName`.
  *
  * - Directives:
@@ -88,7 +76,19 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Ioc_IocContainer, hasService);
  *       logic defines the service lifetime, not the container (per se) and
  *       not the caller requesting the service.
  *
- * @param ioc_service_name_string $serviceName
+ * @param  ioc_service_name_string $serviceName
  * @return ioc_service_object
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Ioc_IocContainer, getService);
+/**
+ * Is the container able to return an instance of the `$serviceName`?
+ *
+ * - Notes:
+ *
+ *     - **The logic for this method is expressly unspecified.** The ability
+ *       check may be accomplished by querying a service management subsystem,
+ *       or by some other means.
+ *
+ * @param ioc_service_name_string $serviceName
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Ioc_IocContainer, hasService);

@@ -230,6 +230,7 @@ PHP_METHOD(Phalcon_Auth_Guard_AbstractGuard, setUser)
 
 /**
  * user should be ?AuthUser
+ *
  * @phpstan-param auth_credentials $credentials
  *
  * @phpstan-assert-if-true !null $user

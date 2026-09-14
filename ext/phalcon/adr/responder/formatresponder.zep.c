@@ -43,7 +43,7 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Responder_FormatResponder)
 	ZEPHIR_REGISTER_CLASS(Phalcon\\ADR\\Responder, FormatResponder, phalcon, adr_responder_formatresponder, phalcon_adr_responder_formatresponder_method_entry, 0);
 
 	/**
-	 * @var array
+	 * @phpstan-param list<Formatter> $formatters
 	 */
 	{
 		zval _zc0;
@@ -146,7 +146,7 @@ PHP_METHOD(Phalcon_ADR_Responder_FormatResponder, __invoke)
 	} else {
 		_5 = &_4;
 	}
-	zephir_is_iterable(_5, 0, "phalcon/ADR/Responder/FormatResponder.zep", 60);
+	zephir_is_iterable(_5, 0, "phalcon/ADR/Responder/FormatResponder.zep", 61);
 	if (Z_TYPE_P(_5) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_5), _6)
 		{
@@ -189,7 +189,7 @@ PHP_METHOD(Phalcon_ADR_Responder_FormatResponder, __invoke)
 	if (Z_TYPE_P(&chosen) == IS_NULL) {
 		zephir_read_property_cached(&_11$$8, this_ptr, _zephir_prop_0, 362, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_NVAR(&chosen);
-		zephir_array_fetch_long(&chosen, &_11$$8, 0, PH_NOISY, "phalcon/ADR/Responder/FormatResponder.zep", 61);
+		zephir_array_fetch_long(&chosen, &_11$$8, 0, PH_NOISY, "phalcon/ADR/Responder/FormatResponder.zep", 62);
 	}
 	ZEPHIR_CALL_METHOD(&_13, &chosen, "contenttype", NULL, 0);
 	zephir_check_call_status();

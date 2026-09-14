@@ -4,21 +4,24 @@ extern zend_class_entry *phalcon_db_adapter_abstractadapter_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_AbstractAdapter);
 
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, __construct);
-PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, addColumn);
+PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, setup);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, addCheck);
+PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, addColumn);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, addForeignKey);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, addIndex);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, addPrimaryKey);
+PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, createMaterializedView);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, createSavepoint);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, createTable);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, createView);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, delete);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, describeIndexes);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, describeReferences);
-PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, dropColumn);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, dropCheck);
+PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, dropColumn);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, dropForeignKey);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, dropIndex);
+PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, dropMaterializedView);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, dropPrimaryKey);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, dropTable);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, dropView);
@@ -49,43 +52,45 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, limit);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, listTables);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, listViews);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, modifyColumn);
+PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, onConflictUpdate);
+PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, refreshMaterializedView);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, releaseSavepoint);
+PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, returning);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, rollbackSavepoint);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, setEventsManager);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, setDialect);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, setNestedTransactionsWithSavepoints);
-PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, setup);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, sharedLock);
-PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, createMaterializedView);
-PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, dropMaterializedView);
-PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, refreshMaterializedView);
-PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, onConflictUpdate);
-PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, returning);
+PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, supportsDefaultValue);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, supportSequences);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, tableExists);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, tableOptions);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, update);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, updateAsDict);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, useExplicitIdValue);
-PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, supportsDefaultValue);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, viewExists);
+PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, checkSavepoints);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, buildValuePlaceholder);
-zend_object *zephir_init_properties_Phalcon_Db_Adapter_AbstractAdapter(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter___construct, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, descriptor, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_addcolumn, 0, 3, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 0)
-	ZEND_ARG_OBJ_INFO(0, column, Phalcon\\Db\\ColumnInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_setup, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_ARRAY_INFO(0, options, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_addcheck, 0, 3, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 0)
 	ZEND_ARG_OBJ_INFO(0, check, Phalcon\\Db\\CheckInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_addcolumn, 0, 3, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 0)
+	ZEND_ARG_OBJ_INFO(0, column, Phalcon\\Db\\ColumnInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_addforeignkey, 0, 3, _IS_BOOL, 0)
@@ -104,6 +109,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapt
 	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 0)
 	ZEND_ARG_OBJ_INFO(0, index, Phalcon\\Db\\IndexInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_creatematerializedview, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, viewName, IS_STRING, 0)
+	ZEND_ARG_ARRAY_INFO(0, definition, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_createsavepoint, 0, 1, _IS_BOOL, 0)
@@ -139,16 +150,16 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapt
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schema, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_dropcolumn, 0, 3, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, columnName, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_dropcheck, 0, 3, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, checkName, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_dropcolumn, 0, 3, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, columnName, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_dropforeignkey, 0, 3, _IS_BOOL, 0)
@@ -161,6 +172,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapt
 	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 0)
 	ZEND_ARG_INFO(0, indexName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_dropmaterializedview, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, viewName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, ifExists, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_dropprimarykey, 0, 2, _IS_BOOL, 0)
@@ -292,8 +309,25 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapt
 	ZEND_ARG_OBJ_TYPE_MASK(0, currentColumn, Phalcon\\Db\\ColumnInterface, MAY_BE_NULL, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_onconflictupdate, 0, 3, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, sqlQuery, IS_STRING, 0)
+	ZEND_ARG_ARRAY_INFO(0, conflictColumns, 0)
+	ZEND_ARG_ARRAY_INFO(0, updateColumns, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_refreshmaterializedview, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, viewName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, concurrent, _IS_BOOL, 0, "false")
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_releasesavepoint, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_returning, 0, 2, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, sqlQuery, IS_STRING, 0)
+	ZEND_ARG_ARRAY_INFO(0, columns, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_rollbacksavepoint, 0, 1, _IS_BOOL, 0)
@@ -313,43 +347,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_db_adapter_abstractadapte
 	ZEND_ARG_TYPE_INFO(0, nestedTransactionsWithSavepoints, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_setup, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_ARRAY_INFO(0, options, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_sharedlock, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, sqlQuery, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, modifier, IS_STRING, 0, "''")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_creatematerializedview, 0, 2, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, viewName, IS_STRING, 0)
-	ZEND_ARG_ARRAY_INFO(0, definition, 0)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_dropmaterializedview, 0, 1, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, viewName, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, ifExists, _IS_BOOL, 0, "true")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_refreshmaterializedview, 0, 1, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, viewName, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, concurrent, _IS_BOOL, 0, "false")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_onconflictupdate, 0, 3, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, sqlQuery, IS_STRING, 0)
-	ZEND_ARG_ARRAY_INFO(0, conflictColumns, 0)
-	ZEND_ARG_ARRAY_INFO(0, updateColumns, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_returning, 0, 2, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, sqlQuery, IS_STRING, 0)
-	ZEND_ARG_ARRAY_INFO(0, columns, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_supportsdefaultvalue, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_supportsequences, 0, 0, _IS_BOOL, 0)
@@ -383,12 +386,12 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_useexplicitidvalue, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_supportsdefaultvalue, 0, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_viewexists, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, viewName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_checksavepoints, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_buildvalueplaceholder, 0, 3, IS_ARRAY, 0)
@@ -397,26 +400,26 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapt
 	ZEND_ARG_INFO(0, dataTypes)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_zephir_init_properties_phalcon_db_adapter_abstractadapter, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_db_adapter_abstractadapter_method_entry) {
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, __construct, arginfo_phalcon_db_adapter_abstractadapter___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, addColumn, arginfo_phalcon_db_adapter_abstractadapter_addcolumn, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, setup, arginfo_phalcon_db_adapter_abstractadapter_setup, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, addCheck, arginfo_phalcon_db_adapter_abstractadapter_addcheck, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, addColumn, arginfo_phalcon_db_adapter_abstractadapter_addcolumn, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, addForeignKey, arginfo_phalcon_db_adapter_abstractadapter_addforeignkey, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, addIndex, arginfo_phalcon_db_adapter_abstractadapter_addindex, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, addPrimaryKey, arginfo_phalcon_db_adapter_abstractadapter_addprimarykey, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, createMaterializedView, arginfo_phalcon_db_adapter_abstractadapter_creatematerializedview, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, createSavepoint, arginfo_phalcon_db_adapter_abstractadapter_createsavepoint, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, createTable, arginfo_phalcon_db_adapter_abstractadapter_createtable, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, createView, arginfo_phalcon_db_adapter_abstractadapter_createview, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, delete, arginfo_phalcon_db_adapter_abstractadapter_delete, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, describeIndexes, arginfo_phalcon_db_adapter_abstractadapter_describeindexes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, describeReferences, arginfo_phalcon_db_adapter_abstractadapter_describereferences, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, dropColumn, arginfo_phalcon_db_adapter_abstractadapter_dropcolumn, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, dropCheck, arginfo_phalcon_db_adapter_abstractadapter_dropcheck, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, dropColumn, arginfo_phalcon_db_adapter_abstractadapter_dropcolumn, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, dropForeignKey, arginfo_phalcon_db_adapter_abstractadapter_dropforeignkey, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, dropIndex, arginfo_phalcon_db_adapter_abstractadapter_dropindex, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, dropMaterializedView, arginfo_phalcon_db_adapter_abstractadapter_dropmaterializedview, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, dropPrimaryKey, arginfo_phalcon_db_adapter_abstractadapter_dropprimarykey, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, dropTable, arginfo_phalcon_db_adapter_abstractadapter_droptable, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, dropView, arginfo_phalcon_db_adapter_abstractadapter_dropview, ZEND_ACC_PUBLIC)
@@ -447,26 +450,24 @@ ZEPHIR_INIT_FUNCS(phalcon_db_adapter_abstractadapter_method_entry) {
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, listTables, arginfo_phalcon_db_adapter_abstractadapter_listtables, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, listViews, arginfo_phalcon_db_adapter_abstractadapter_listviews, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, modifyColumn, arginfo_phalcon_db_adapter_abstractadapter_modifycolumn, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, onConflictUpdate, arginfo_phalcon_db_adapter_abstractadapter_onconflictupdate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, refreshMaterializedView, arginfo_phalcon_db_adapter_abstractadapter_refreshmaterializedview, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, releaseSavepoint, arginfo_phalcon_db_adapter_abstractadapter_releasesavepoint, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, returning, arginfo_phalcon_db_adapter_abstractadapter_returning, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, rollbackSavepoint, arginfo_phalcon_db_adapter_abstractadapter_rollbacksavepoint, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, setEventsManager, arginfo_phalcon_db_adapter_abstractadapter_seteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, setDialect, arginfo_phalcon_db_adapter_abstractadapter_setdialect, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, setNestedTransactionsWithSavepoints, arginfo_phalcon_db_adapter_abstractadapter_setnestedtransactionswithsavepoints, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, setup, arginfo_phalcon_db_adapter_abstractadapter_setup, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, sharedLock, arginfo_phalcon_db_adapter_abstractadapter_sharedlock, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, createMaterializedView, arginfo_phalcon_db_adapter_abstractadapter_creatematerializedview, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, dropMaterializedView, arginfo_phalcon_db_adapter_abstractadapter_dropmaterializedview, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, refreshMaterializedView, arginfo_phalcon_db_adapter_abstractadapter_refreshmaterializedview, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, onConflictUpdate, arginfo_phalcon_db_adapter_abstractadapter_onconflictupdate, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, returning, arginfo_phalcon_db_adapter_abstractadapter_returning, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, supportsDefaultValue, arginfo_phalcon_db_adapter_abstractadapter_supportsdefaultvalue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, supportSequences, arginfo_phalcon_db_adapter_abstractadapter_supportsequences, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, tableExists, arginfo_phalcon_db_adapter_abstractadapter_tableexists, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, tableOptions, arginfo_phalcon_db_adapter_abstractadapter_tableoptions, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, update, arginfo_phalcon_db_adapter_abstractadapter_update, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, updateAsDict, arginfo_phalcon_db_adapter_abstractadapter_updateasdict, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, useExplicitIdValue, arginfo_phalcon_db_adapter_abstractadapter_useexplicitidvalue, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, supportsDefaultValue, arginfo_phalcon_db_adapter_abstractadapter_supportsdefaultvalue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, viewExists, arginfo_phalcon_db_adapter_abstractadapter_viewexists, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, checkSavepoints, arginfo_phalcon_db_adapter_abstractadapter_checksavepoints, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, buildValuePlaceholder, arginfo_phalcon_db_adapter_abstractadapter_buildvalueplaceholder, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };

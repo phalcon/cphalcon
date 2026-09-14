@@ -40,64 +40,38 @@ ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Profiler_ProfilerInterface)
 /**
  * Finishes and logs a profile entry.
  *
- * @param string $statement
- * @param array  $values
- *
  * @phpstan-param datamapper_values $values
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Profiler_ProfilerInterface, finish);
 /**
- * Returns the underlying logger instance.
- *
- * @return LoggerInterface
- */
-ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Profiler_ProfilerInterface, getLogger);
-/**
  * Returns the log message format string, with placeholders.
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Profiler_ProfilerInterface, getLogFormat);
 /**
+ * Returns the underlying logger instance.
+ */
+ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Profiler_ProfilerInterface, getLogger);
+/**
  * Returns the level at which to log profile messages.
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Profiler_ProfilerInterface, getLogLevel);
 /**
  * Returns true if logging is active.
- *
- * @return bool
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Profiler_ProfilerInterface, isActive);
 /**
  * Enable or disable profiler logging.
- *
- * @param bool $active
- *
- * @return ProfilerInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Profiler_ProfilerInterface, setActive);
 /**
  * Sets the log message format string, with placeholders.
- *
- * @param string $logFormat
- *
- * @return ProfilerInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Profiler_ProfilerInterface, setLogFormat);
 /**
  * Level at which to log profile messages.
- *
- * @param string $logLevel
- *
- * @return ProfilerInterface
- *
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Profiler_ProfilerInterface, setLogLevel);
 /**
  * Starts a profile entry.
- *
- * @param string $method
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Profiler_ProfilerInterface, start);

@@ -50,14 +50,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Container_Resolver_Lazy_NewInstance)
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Container\\Resolver\\Lazy, NewInstance, phalcon, container_resolver_lazy_newinstance, phalcon_container_resolver_lazy_lazy_ce, phalcon_container_resolver_lazy_newinstance_method_entry, 0);
 
 	/**
-	 * @var string|Lazy
+	 * @var Lazy|string
 	 */
 	zend_declare_property_null(phalcon_container_resolver_lazy_newinstance_ce, SL("id"), ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
 
 /**
- * @param string|Lazy $id
+ * @param Lazy|string $id
  */
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_NewInstance, __construct)
 {

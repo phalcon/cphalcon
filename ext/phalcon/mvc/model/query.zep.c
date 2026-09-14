@@ -1711,7 +1711,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeInsert)
 				object_init_ex(&insertValue, phalcon_db_rawvalue_ce);
 				ZEPHIR_CALL_METHOD(&_18$$13, &dialect, "getsqlexpression", &_19, 0, &exprValue);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(NULL, &insertValue, "__construct", &_20, 65, &_18$$13);
+				ZEPHIR_CALL_METHOD(NULL, &insertValue, "__construct", &_20, 64, &_18$$13);
 				zephir_check_call_status();
 				goto zephir_switch_0_end;
 			zephir_switch_0_end: ;
@@ -1807,7 +1807,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeInsert)
 					object_init_ex(&insertValue, phalcon_db_rawvalue_ce);
 					ZEPHIR_CALL_METHOD(&_33$$22, &dialect, "getsqlexpression", &_34, 0, &exprValue);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(NULL, &insertValue, "__construct", &_20, 65, &_33$$22);
+					ZEPHIR_CALL_METHOD(NULL, &insertValue, "__construct", &_20, 64, &_33$$22);
 					zephir_check_call_status();
 					goto zephir_switch_1_end;
 				zephir_switch_1_end: ;
@@ -3548,7 +3548,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeUpdate)
 				}
 				ZEPHIR_INIT_NVAR(&updateValue);
 				object_init_ex(&updateValue, phalcon_db_rawvalue_ce);
-				ZEPHIR_CALL_METHOD(NULL, &updateValue, "__construct", &_57, 65, &sqlExpr);
+				ZEPHIR_CALL_METHOD(NULL, &updateValue, "__construct", &_57, 64, &sqlExpr);
 				zephir_check_call_status();
 				goto zephir_switch_0_end;
 			zephir_switch_0_end: ;
@@ -3759,7 +3759,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeUpdate)
 					}
 					ZEPHIR_INIT_NVAR(&updateValue);
 					object_init_ex(&updateValue, phalcon_db_rawvalue_ce);
-					ZEPHIR_CALL_METHOD(NULL, &updateValue, "__construct", &_57, 65, &sqlExpr);
+					ZEPHIR_CALL_METHOD(NULL, &updateValue, "__construct", &_57, 64, &sqlExpr);
 					zephir_check_call_status();
 					goto zephir_switch_1_end;
 				zephir_switch_1_end: ;

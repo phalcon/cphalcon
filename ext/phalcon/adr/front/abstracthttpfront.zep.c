@@ -39,18 +39,12 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Front_AbstractHttpFront)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\ADR\\Front, AbstractHttpFront, phalcon, adr_front_abstracthttpfront, phalcon_adr_front_abstracthttpfront_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-	/**
-	 * @var Container|null
-	 */
 	{
 		zval _zc0;
 		ZVAL_NULL(&_zc0);
 		zephir_declare_typed_property(phalcon_adr_front_abstracthttpfront_ce, SL("container"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_NULL, SL("Phalcon\\Container\\Container"));
 	}
 
-	/**
-	 * @var string
-	 */
 	{
 		zval _zc0;
 		ZVAL_STRINGL(&_zc0, "", sizeof("") - 1);

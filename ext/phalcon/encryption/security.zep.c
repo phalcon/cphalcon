@@ -457,7 +457,7 @@ PHP_METHOD(Phalcon_Encryption_Security, computeHmac)
 			object_init_ex(&_3$$4, phalcon_encryption_security_exceptions_unknownhashalgorithm_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 0, &algorithm_zv);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_3$$4, "phalcon/Encryption/Security.zep", 222);
+			zephir_throw_exception_debug(&_3$$4, "phalcon/Encryption/Security.zep", 223);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -467,7 +467,7 @@ PHP_METHOD(Phalcon_Encryption_Security, computeHmac)
 		object_init_ex(&_4$$5, phalcon_encryption_security_exceptions_unknownhashalgorithm_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_4$$5, "__construct", NULL, 0, &algorithm_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$5, "phalcon/Encryption/Security.zep", 226);
+		zephir_throw_exception_debug(&_4$$5, "phalcon/Encryption/Security.zep", 227);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -616,7 +616,6 @@ PHP_METHOD(Phalcon_Encryption_Security, getRequestToken)
 /**
  * Generate a >22-length pseudo random string to be used as salt for
  * passwords
- *
  *
  * @throws Exception
  */

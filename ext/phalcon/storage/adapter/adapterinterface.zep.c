@@ -24,6 +24,12 @@
  * Interface for Phalcon\Logger adapters
  *
  * @phpstan-import-type storage_keys from StorageTypes
+ *
+ * The adapter classes carry this member and the framework calls it on
+ * the interface. It joins the contract in the next major; until then the
+ * tag below records what all implementations provide.
+ *
+ * @method int getLifetime()
  */
 ZEPHIR_INIT_CLASS(Phalcon_Storage_Adapter_AdapterInterface)
 {

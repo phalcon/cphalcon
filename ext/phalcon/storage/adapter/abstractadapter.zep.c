@@ -48,7 +48,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Adapter_AbstractAdapter)
 	 * Classes the "php" serializer may instantiate: true, false or a list
 	 * of class names (the "allowedClasses" option)
 	 *
-	 * @var bool|array<int, string>
+	 * @var array<int, string>|bool
 	 */
 	zend_declare_property_bool(phalcon_storage_adapter_abstractadapter_ce, SL("allowedClasses"), 1, ZEND_ACC_PROTECTED);
 	/**
@@ -733,9 +733,6 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, set)
 	RETURN_CCTOR(&result);
 }
 
-/**
- * @param string $serializer
- */
 PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, setDefaultSerializer)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -806,7 +803,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, doDeleteMultiple)
 	zephir_fetch_params(1, 1, 0, &keys_param);
 	zephir_get_arrval(&keys, keys_param);
 	result = 1;
-	zephir_is_iterable(&keys, 0, "phalcon/Storage/Adapter/AbstractAdapter.zep", 346);
+	zephir_is_iterable(&keys, 0, "phalcon/Storage/Adapter/AbstractAdapter.zep", 343);
 	if (Z_TYPE_P(&keys) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&keys), _0)
 		{
@@ -1020,14 +1017,14 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getFilteredKeys)
 	} else {
 		_2 = keys;
 	}
-	zephir_is_iterable(_2, 0, "phalcon/Storage/Adapter/AbstractAdapter.zep", 437);
+	zephir_is_iterable(_2, 0, "phalcon/Storage/Adapter/AbstractAdapter.zep", 434);
 	if (Z_TYPE_P(_2) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_2), _4)
 		{
 			ZEPHIR_INIT_NVAR(&key);
 			ZVAL_COPY(&key, _4);
 			if (zephir_start_with(&key, &pattern, NULL)) {
-				zephir_array_append(&results, &key, PH_SEPARATE, "phalcon/Storage/Adapter/AbstractAdapter.zep", 433);
+				zephir_array_append(&results, &key, PH_SEPARATE, "phalcon/Storage/Adapter/AbstractAdapter.zep", 430);
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
@@ -1049,7 +1046,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getFilteredKeys)
 			ZEPHIR_CALL_METHOD(&key, _2, "current", NULL, 0);
 			zephir_check_call_status();
 				if (zephir_start_with(&key, &pattern, NULL)) {
-					zephir_array_append(&results, &key, PH_SEPARATE, "phalcon/Storage/Adapter/AbstractAdapter.zep", 433);
+					zephir_array_append(&results, &key, PH_SEPARATE, "phalcon/Storage/Adapter/AbstractAdapter.zep", 430);
 				}
 		}
 	}

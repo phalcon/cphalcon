@@ -49,7 +49,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_ADR_Router_Router)
  * Namespace descent consults the filesystem, so the list depends on the
  * action directory.
  *
- * @return list<class-string>
+ * The names are derived, not resolved: a candidate is what the convention
+ * would call the class, whether or not that class exists.
+ *
+ * @return list<string>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_ADR_Router_Router, candidatesFor);
 /**
