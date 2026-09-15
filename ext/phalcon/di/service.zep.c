@@ -53,14 +53,18 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_Service)
 	 * @var mixed
 	 */
 	zend_declare_property_null(phalcon_di_service_ce, SL("definition"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_bool(phalcon_di_service_ce, SL("resolved"), 0, ZEND_ACC_PROTECTED);
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_bool(phalcon_di_service_ce, SL("shared"), 0, ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_BOOL(&_zc0, 0);
+		zephir_declare_typed_property(phalcon_di_service_ce, SL("resolved"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_BOOL(&_zc0, 0);
+		zephir_declare_typed_property(phalcon_di_service_ce, SL("shared"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
+
 	/**
 	 * @var mixed|null
 	 */
@@ -70,7 +74,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_Service)
 }
 
 /**
- * Phalcon\Di\Service
+ * Service constructor.
  */
 PHP_METHOD(Phalcon_Di_Service, __construct)
 {
@@ -152,7 +156,7 @@ PHP_METHOD(Phalcon_Di_Service, getParameter)
 		object_init_ex(&_1$$3, phalcon_di_exceptions_definitionmustbearrayforread_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Di/Service.zep", 85);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Di/Service.zep", 79);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -320,7 +324,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve)
 		object_init_ex(&_7$$19, phalcon_di_exception_serviceresolutionexception_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_7$$19, "__construct", NULL, 9);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_7$$19, "phalcon/Di/Service.zep", 200);
+		zephir_throw_exception_debug(&_7$$19, "phalcon/Di/Service.zep", 194);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -397,7 +401,7 @@ PHP_METHOD(Phalcon_Di_Service, setParameter)
 		object_init_ex(&_1$$3, phalcon_di_exceptions_definitionmustbearrayforupdate_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Di/Service.zep", 233);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Di/Service.zep", 227);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

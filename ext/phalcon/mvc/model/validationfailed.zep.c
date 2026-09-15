@@ -37,15 +37,17 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ValidationFailed)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model, ValidationFailed, phalcon, mvc_model_validationfailed, phalcon_mvc_model_exception_ce, phalcon_mvc_model_validationfailed_method_entry, 0);
 
-	/**
-	 * @var ModelInterface
-	 */
-	zend_declare_property_null(phalcon_mvc_model_validationfailed_ce, SL("model"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var array
-	 */
-	zend_declare_property_null(phalcon_mvc_model_validationfailed_ce, SL("validationMessages"), ZEND_ACC_PROTECTED);
-	phalcon_mvc_model_validationfailed_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_ValidationFailed;
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_mvc_model_validationfailed_ce, SL("model"), &_zc0, ZEND_ACC_PROTECTED, 0, SL("Phalcon\\Mvc\\ModelInterface"));
+	}
+
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_mvc_model_validationfailed_ce, SL("validationMessages"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
 
 	return SUCCESS;
 }
@@ -89,7 +91,7 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct)
 	zephir_get_arrval(&validationMessages, validationMessages_param);
 	if (!(ZEPHIR_IS_EMPTY(&validationMessages))) {
 		zephir_memory_observe(&message);
-		zephir_array_fetch_long(&message, &validationMessages, 0, PH_NOISY, "phalcon/Mvc/Model/ValidationFailed.zep", 51);
+		zephir_array_fetch_long(&message, &validationMessages, 0, PH_NOISY, "phalcon/Mvc/Model/ValidationFailed.zep", 45);
 		ZEPHIR_CALL_METHOD(&messageStr, &message, "getmessage", NULL, 0);
 		zephir_check_call_status();
 	} else {
@@ -121,30 +123,5 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, getModel)
 {
 
 	RETURN_MEMBER(getThis(), "model");
-}
-
-zend_object *zephir_init_properties_Phalcon_Mvc_Model_ValidationFailed(zend_class_entry *class_type)
-{
-		zval _0, _1$$3;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("validationMessages"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("validationMessages"), &_1$$3);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

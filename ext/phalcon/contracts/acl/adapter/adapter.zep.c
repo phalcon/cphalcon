@@ -110,7 +110,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Acl_Adapter_Adapter, getActiveRole);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Acl_Adapter_Adapter, getComponents);
 /**
- * Returns the default ACL access level
+ * Returns the default action
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Acl_Adapter_Adapter, getDefaultAction);
 /**

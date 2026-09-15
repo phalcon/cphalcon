@@ -85,9 +85,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_Stream)
 /**
  * Stream constructor.
  *
- * @throws InvalidStreamMode
- *
  * @phpstan-param logger_stream_options $options
+ *
+ * @throws InvalidStreamMode
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct)
 {

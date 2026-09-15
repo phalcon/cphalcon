@@ -83,6 +83,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Debug_Dump)
 		zephir_declare_typed_property(phalcon_support_debug_dump_ce, SL("encode"), &_zc0, ZEND_ACC_PRIVATE, 0, SL("Phalcon\\Support\\Helper\\Json\\Encode"));
 	}
 
+	/**
+	 * @phpstan-var support_debug_templates
+	 */
 	{
 		zval _zc0;
 		array_init_size(&_zc0, 1);
@@ -1747,11 +1750,6 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, toInterpolate)
 	RETURN_MM();
 }
 
-/**
- * @param string $name
- *
- * @return string
- */
 PHP_METHOD(Phalcon_Support_Debug_Dump, getTemplate)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -1781,7 +1779,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, getTemplate)
 	if (zephir_array_isset_value(&_1, &name_zv)) {
 		zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 1357, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_NVAR(&_0);
-		zephir_array_fetch(&_0, &_2, &name_zv, PH_NOISY, "phalcon/Support/Debug/Traits/TemplateAwareTrait.zep", 31);
+		zephir_array_fetch(&_0, &_2, &name_zv, PH_NOISY, "phalcon/Support/Debug/Traits/TemplateAwareTrait.zep", 33);
 	} else {
 		ZEPHIR_CALL_METHOD(&_0, this_ptr, "defaulttemplate", NULL, 0, &name_zv);
 		zephir_check_call_status();
@@ -1789,12 +1787,6 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, getTemplate)
 	RETURN_CCTOR(&_0);
 }
 
-/**
- * @param string $name
- * @param string $template
- *
- * @return static
- */
 PHP_METHOD(Phalcon_Support_Debug_Dump, setTemplate)
 {
 	zval name_zv, template_zv;

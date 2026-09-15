@@ -64,7 +64,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Container_Resolver_Lazy_NewCall)
 	}
 
 	/**
-	 * @var string|Lazy
+	 * @var Lazy|string
 	 */
 	zend_declare_property_null(phalcon_container_resolver_lazy_newcall_ce, SL("id"), ZEND_ACC_PROTECTED);
 	{

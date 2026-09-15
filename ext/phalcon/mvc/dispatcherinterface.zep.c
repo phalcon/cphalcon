@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\DispatcherInterface
- *
  * Interface for Phalcon\Mvc\Dispatcher
  *
  * @psalm-suppress DeprecatedInterface

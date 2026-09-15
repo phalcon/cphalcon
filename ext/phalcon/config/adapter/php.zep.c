@@ -74,7 +74,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Php)
 }
 
 /**
- * Phalcon\Config\Adapter\Php constructor
+ * Php constructor.
  *
  * @throws CannotLoadConfigFile
  */

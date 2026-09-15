@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\EntityInterface
- *
  * Interface for Phalcon\Mvc\Collection and Phalcon\Mvc\Model
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_EntityInterface)

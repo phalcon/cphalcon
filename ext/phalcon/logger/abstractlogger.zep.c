@@ -778,10 +778,10 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, setLogLevel)
 /**
  * Adds a message to each handler for processing
  *
+ * @phpstan-param logger_context $context
+ *
  * @throws Exception
  * @throws NoAdaptersConfigured
- *
- * @phpstan-param logger_context $context
  */
 PHP_METHOD(Phalcon_Logger_AbstractLogger, addMessage)
 {
@@ -857,7 +857,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, addMessage)
 			object_init_ex(&_2$$4, phalcon_logger_exceptions_noadaptersconfigured_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 263);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_2$$4, "phalcon/Logger/AbstractLogger.zep", 339);
+			zephir_throw_exception_debug(&_2$$4, "phalcon/Logger/AbstractLogger.zep", 338);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -865,10 +865,10 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, addMessage)
 		zephir_check_call_status();
 		if (1 == zephir_array_isset_value_long(&levels, level)) {
 			zephir_memory_observe(&levelName);
-			zephir_array_fetch_long(&levelName, &levels, level, PH_NOISY, "phalcon/Logger/AbstractLogger.zep", 343);
+			zephir_array_fetch_long(&levelName, &levels, level, PH_NOISY, "phalcon/Logger/AbstractLogger.zep", 342);
 		} else {
 			ZEPHIR_OBS_NVAR(&levelName);
-			zephir_array_fetch_long(&levelName, &levels, 8, PH_NOISY, "phalcon/Logger/AbstractLogger.zep", 343);
+			zephir_array_fetch_long(&levelName, &levels, 8, PH_NOISY, "phalcon/Logger/AbstractLogger.zep", 342);
 		}
 		ZEPHIR_INIT_VAR(&item);
 		object_init_ex(&item, phalcon_logger_item_ce);
@@ -889,7 +889,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, addMessage)
 		} else {
 			_7$$3 = &collection;
 		}
-		zephir_is_iterable(_7$$3, 0, "phalcon/Logger/AbstractLogger.zep", 364);
+		zephir_is_iterable(_7$$3, 0, "phalcon/Logger/AbstractLogger.zep", 363);
 		if (Z_TYPE_P(_7$$3) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_7$$3), _9$$3)
 			{
@@ -972,7 +972,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, getLevelNumber)
 		zephir_check_call_status();
 		if (zephir_array_isset_value(&levels, &levelName)) {
 			zephir_memory_observe(&_1$$4);
-			zephir_array_fetch(&_1$$4, &levels, &levelName, PH_NOISY, "phalcon/Logger/AbstractLogger.zep", 391);
+			zephir_array_fetch(&_1$$4, &levels, &levelName, PH_NOISY, "phalcon/Logger/AbstractLogger.zep", 390);
 			RETURN_CCTOR(&_1$$4);
 		}
 	} else if (1 == zephir_is_numeric(level)) {

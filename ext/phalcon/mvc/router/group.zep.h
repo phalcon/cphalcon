@@ -26,7 +26,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, setHostname);
 PHP_METHOD(Phalcon_Mvc_Router_Group, setPaths);
 PHP_METHOD(Phalcon_Mvc_Router_Group, setPrefix);
 PHP_METHOD(Phalcon_Mvc_Router_Group, addRoute);
-zend_object *zephir_init_properties_Phalcon_Mvc_Router_Group(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_group___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, paths)
@@ -126,9 +125,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_group_addroute
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
 	ZEND_ARG_INFO(0, paths)
 	ZEND_ARG_INFO(0, httpMethods)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_group_zephir_init_properties_phalcon_mvc_router_group, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_router_group_method_entry) {

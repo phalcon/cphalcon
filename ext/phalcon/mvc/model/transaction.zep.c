@@ -73,41 +73,54 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Transaction)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, Transaction, phalcon, mvc_model_transaction, phalcon_mvc_model_transaction_method_entry, 0);
 
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_bool(phalcon_mvc_model_transaction_ce, SL("activeTransaction"), 0, ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_BOOL(&_zc0, 0);
+		zephir_declare_typed_property(phalcon_mvc_model_transaction_ce, SL("activeTransaction"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
+
 	/**
 	 * @var AdapterInterface
 	 */
 	zend_declare_property_null(phalcon_mvc_model_transaction_ce, SL("connection"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_BOOL(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_mvc_model_transaction_ce, SL("isNewTransaction"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_mvc_model_transaction_ce, SL("manager"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_NULL, SL("Phalcon\\Mvc\\Model\\Transaction\\ManagerInterface"));
+	}
+
 	/**
-	 * @var bool
-	 */
-	zend_declare_property_bool(phalcon_mvc_model_transaction_ce, SL("isNewTransaction"), 1, ZEND_ACC_PROTECTED);
-	/**
-	 * @var ManagerInterface|null
-	 */
-	zend_declare_property_null(phalcon_mvc_model_transaction_ce, SL("manager"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var array
-	 *
 	 * @phpstan-var list<MessageInterface>
 	 */
-	zend_declare_property_null(phalcon_mvc_model_transaction_ce, SL("messages"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_bool(phalcon_mvc_model_transaction_ce, SL("rollbackOnAbort"), 0, ZEND_ACC_PROTECTED);
-	/**
-	 * @var ModelInterface|null
-	 */
-	zend_declare_property_null(phalcon_mvc_model_transaction_ce, SL("rollbackRecord"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_bool(phalcon_mvc_model_transaction_ce, SL("rollbackThrowException"), 0, ZEND_ACC_PROTECTED);
-	phalcon_mvc_model_transaction_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_Transaction;
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_mvc_model_transaction_ce, SL("messages"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_BOOL(&_zc0, 0);
+		zephir_declare_typed_property(phalcon_mvc_model_transaction_ce, SL("rollbackOnAbort"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_NULL(&_zc0);
+		zephir_declare_typed_property(phalcon_mvc_model_transaction_ce, SL("rollbackRecord"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_NULL, SL("Phalcon\\Mvc\\ModelInterface"));
+	}
+
+	{
+		zval _zc0;
+		ZVAL_BOOL(&_zc0, 0);
+		zephir_declare_typed_property(phalcon_mvc_model_transaction_ce, SL("rollbackThrowException"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
 
 	zend_class_implements(phalcon_mvc_model_transaction_ce, 1, phalcon_mvc_model_transactioninterface_ce);
 	return SUCCESS;
@@ -115,10 +128,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Transaction)
 
 /**
  * Phalcon\Mvc\Model\Transaction constructor
- *
- * @param DiInterface container
- * @param bool autoBegin
- * @param string service
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct)
 {
@@ -402,7 +411,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback)
 			zephir_read_property_cached(&_4$$7, this_ptr, _zephir_prop_2, 1127, PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CALL_METHOD(NULL, &_3$$7, "__construct", NULL, 0, &rollbackMessage, &_4$$7);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_3$$7, "phalcon/Mvc/Model/Transaction.zep", 216);
+			zephir_throw_exception_debug(&_3$$7, "phalcon/Mvc/Model/Transaction.zep", 192);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -438,6 +447,27 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setIsNewTransaction)
 }
 
 /**
+ * Sets object which generates rollback action
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackedRecord)
+{
+	zval *record, record_sub;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&record_sub);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("rollbackRecord", 14, 1);
+	}
+
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(record, phalcon_mvc_modelinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+	zephir_fetch_params_without_memory_grow(1, 0, &record);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1127, record);
+}
+
+/**
  * Sets flag to rollback on abort the HTTP connection
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackOnAbort)
@@ -462,27 +492,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackOnAbort)
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1126, &__$false);
 	}
-}
-
-/**
- * Sets object which generates rollback action
- */
-PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackedRecord)
-{
-	zval *record, record_sub;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&record_sub);
-	static zend_string *_zephir_prop_0 = NULL;
-	if (UNEXPECTED(!_zephir_prop_0)) {
-		_zephir_prop_0 = zend_string_init("rollbackRecord", 14, 1);
-	}
-
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_OBJECT_OF_CLASS(record, phalcon_mvc_modelinterface_ce)
-	ZEND_PARSE_PARAMETERS_END();
-	zephir_fetch_params_without_memory_grow(1, 0, &record);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1127, record);
 }
 
 /**
@@ -532,30 +541,5 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, throwRollbackException)
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1128, &__$false);
 	}
 	RETURN_THISW();
-}
-
-zend_object *zephir_init_properties_Phalcon_Mvc_Model_Transaction(zend_class_entry *class_type)
-{
-		zval _0, _1$$3;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("messages"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("messages"), &_1$$3);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

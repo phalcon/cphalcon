@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Model\ManagerInterface
- *
  * Interface for Phalcon\Mvc\Model\Manager
  *
  * @phpstan-import-type mvc_model_bind_params from MvcTypes

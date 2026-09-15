@@ -43,7 +43,7 @@ class NewCall extends Lazy
      */
     protected array arguments;
     /**
-     * @var string|Lazy
+     * @var Lazy|string
      */
     protected id;
     protected string method;

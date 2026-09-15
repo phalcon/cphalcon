@@ -45,12 +45,12 @@ use Phalcon\Support\Helper\Str\ReduceSlashes;
 class Url extends AbstractInjectionAware implements UrlInterface
 {
     /**
-     * @var null | string
+     * @var string | null
      */
     protected basePath = null;
 
     /**
-     * @var null | string
+     * @var string | null
      */
     protected baseUri = null;
 
@@ -60,7 +60,7 @@ class Url extends AbstractInjectionAware implements UrlInterface
     protected router = null;
 
     /**
-     * @var null | string
+     * @var string | null
      */
     protected staticBaseUri = null;
 

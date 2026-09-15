@@ -24,7 +24,7 @@ use Phalcon\Contracts\Mvc\MvcTypes;
  *     new PostsController()
  * );
  *
- * $collection->get("/posts/edit/{id}", "edit");
+ * $collection->get('/posts/edit/{id}', 'edit');
  *
  * $app->mount($collection);
  *```

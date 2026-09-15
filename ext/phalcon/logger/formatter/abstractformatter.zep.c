@@ -90,10 +90,6 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, setDateFormat)
 
 /**
  * Returns the date formatted for the logger.
- *
- * @param Item $item
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, getFormattedDate)
 {
@@ -126,11 +122,6 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, getFormattedDate)
 
 /**
  * Returns the interpolated message, replacing context placeholders.
- *
- * @param Item   $item
- * @param string $message
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, getInterpolatedMessage)
 {
@@ -218,7 +209,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, stringifyContext)
 	zephir_get_arrval(&context, context_param);
 	ZEPHIR_INIT_VAR(&result);
 	array_init(&result);
-	zephir_is_iterable(&context, 0, "phalcon/Logger/Formatter/AbstractFormatter.zep", 106);
+	zephir_is_iterable(&context, 0, "phalcon/Logger/Formatter/AbstractFormatter.zep", 97);
 	if (Z_TYPE_P(&context) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&context), _1, _2, _0)
 		{

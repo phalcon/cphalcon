@@ -54,7 +54,7 @@ use Phalcon\Contracts\Config\ConfigTypes;
 class Php extends Config
 {
     /**
-     * Phalcon\Config\Adapter\Php constructor
+     * Php constructor.
      *
      * @throws CannotLoadConfigFile
      */

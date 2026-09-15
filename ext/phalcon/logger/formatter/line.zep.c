@@ -48,11 +48,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Line)
 
 /**
  * Line constructor.
- *
- * @param string $format
- * @param string $dateFormat
- * @param string $interpolatorLeft
- * @param string $interpolatorRight
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Line, __construct)
 {

@@ -20,6 +20,22 @@ use ArrayAccess;
 interface DiInterface extends ArrayAccess
 {
     /**
+     * Return the last DI created
+     */
+    public static function getDefault() -> <DiInterface> | null;
+
+    /**
+     * Resets the internal default DI
+     */
+    public static function reset() -> void;
+
+    /**
+     * Set a default dependency injection container to be obtained into static
+     * methods
+     */
+    public static function setDefault(<DiInterface> container) -> void;
+
+    /**
      * Attempts to register a service in the services container
      * Only is successful if a service hasn't been registered previously
      * with the same name
@@ -32,11 +48,6 @@ interface DiInterface extends ArrayAccess
      * Resolves the service based on its configuration
      */
     public function get(string name, parameters = null) -> var;
-
-    /**
-     * Return the last DI created
-     */
-    public static function getDefault() -> <DiInterface> | null;
 
     /**
      * Returns a service definition without resolving
@@ -89,20 +100,9 @@ interface DiInterface extends ArrayAccess
     public function removeShared(string name) -> void;
 
     /**
-     * Resets the internal default DI
-     */
-    public static function reset() -> void;
-
-    /**
      * Registers a service in the services container
      */
     public function set(string name, definition, bool shared = false) -> <ServiceInterface>;
-
-    /**
-     * Set a default dependency injection container to be obtained into static
-     * methods
-     */
-    public static function setDefault(<DiInterface> container) -> void;
 
     /**
      * Sets a service using a raw Phalcon\Di\Service definition

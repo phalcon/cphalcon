@@ -73,9 +73,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_Syslog)
 /**
  * Syslog constructor.
  *
- * @param string $name
- * @param array  $options
- *
  * @phpstan-param logger_syslog_options $options
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct)
@@ -226,7 +223,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process)
 		zephir_read_property_cached(&_5$$3, this_ptr, _zephir_prop_2, 939, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 0, &_4$$3, &_5$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_3$$3, "phalcon/Logger/Adapter/Syslog.zep", 88);
+		zephir_throw_exception_debug(&_3$$3, "phalcon/Logger/Adapter/Syslog.zep", 85);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

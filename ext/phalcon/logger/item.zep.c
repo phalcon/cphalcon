@@ -73,12 +73,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Item)
 /**
  * Item constructor.
  *
- * @param string            $message
- * @param string            $levelName
- * @param int               $level
- * @param DateTimeImmutable $dateTime
- * @param array             $context
- *
  * @phpstan-param logger_context $context
  */
 PHP_METHOD(Phalcon_Logger_Item, __construct)

@@ -2171,9 +2171,9 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, fetchData)
 }
 
 /**
- * Fires a cancellable "before" event. A listener cancels by stopping the
+ * Fires a cancelable "before" event. A listener cancels by stopping the
  * event and returning false; see Phalcon\DataMapper\Pdo\Events for the
- * required idiom. The operation does not run when it is cancelled.
+ * required idiom. The operation does not run when it is canceled.
  *
  * @param string     $eventName
  * @param mixed|null $data

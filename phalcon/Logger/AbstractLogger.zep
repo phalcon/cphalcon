@@ -319,14 +319,13 @@ abstract class AbstractLogger
         return this;
     }
 
-
     /**
      * Adds a message to each handler for processing
      *
+     * @phpstan-param logger_context $context
+     *
      * @throws Exception
      * @throws NoAdaptersConfigured
-     *
-     * @phpstan-param logger_context $context
      */
     protected function addMessage(
         int level,

@@ -94,8 +94,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidationInterface, getValue);
 /**
  * Alias of `add` method
  *
- * @param string|array       $field
- * @param ValidatorInterface $validator
+ * @param array|string $field
  *
  * @phpstan-param mixed $field
  */
@@ -123,8 +122,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidationInterface, setLabels);
 /**
  * Validate a set of data according to a set of rules
  *
- * @param array|object  $data
- * @param object        $entity
+ * @param array|object $data
+ * @param object       $entity
  *
  * @phpstan-param mixed $data
  * @phpstan-param filter_validation_whitelist $whitelist

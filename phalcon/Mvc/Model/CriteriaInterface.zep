@@ -14,8 +14,6 @@ use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Di\DiInterface;
 
 /**
- * Phalcon\Mvc\Model\CriteriaInterface
- *
  * Interface for Phalcon\Mvc\Model\Criteria
  *
  * @phpstan-import-type mvc_model_bind_params from MvcTypes
@@ -95,7 +93,7 @@ interface CriteriaInterface
      *
      * @phpstan-return mvc_query_columns|null
      */
-    public function getColumns() -> string | array | null;
+    public function getColumns() -> array | string | null;
 
     /**
      * Returns the conditions parameter in the criteria
@@ -121,7 +119,7 @@ interface CriteriaInterface
      *
      * @phpstan-return array{number: int|string, offset?: int|string}|int|null
      */
-    public function getLimit() -> int | array | null;
+    public function getLimit() -> array | int | null;
 
     /**
      * Returns an internal model name on which the criteria will be applied
@@ -156,17 +154,6 @@ interface CriteriaInterface
     public function having(var having) -> <CriteriaInterface>;
 
     /**
-     * Appends an IN condition to the current conditions
-     *
-     *```php
-     * $criteria->inWhere("id", [1, 2, 3]);
-     *```
-     *
-     * @phpstan-param array<array-key, mixed> $values
-     */
-    public function inWhere(string expr,  array values) -> <CriteriaInterface>;
-
-    /**
      * Adds an INNER join to the query
      *
      *```php
@@ -187,6 +174,17 @@ interface CriteriaInterface
      *```
      */
     public function innerJoin(string model, var conditions = null, var alias = null) -> <CriteriaInterface>;
+
+    /**
+     * Appends an IN condition to the current conditions
+     *
+     *```php
+     * $criteria->inWhere("id", [1, 2, 3]);
+     *```
+     *
+     * @phpstan-param array<array-key, mixed> $values
+     */
+    public function inWhere(string expr,  array values) -> <CriteriaInterface>;
 
     /**
      * Adds a LEFT join to the query
@@ -230,17 +228,17 @@ interface CriteriaInterface
     public function notInWhere(string expr,  array values) -> <CriteriaInterface>;
 
     /**
+     * Adds the order-by parameter to the criteria
+     */
+    public function orderBy(string orderColumns) -> <CriteriaInterface>;
+
+    /**
      * Appends a condition to the current conditions using an OR operator
      *
      * @param array bindParams
      * @param array bindTypes
      */
     public function orWhere(string conditions, bindParams = null, bindTypes = null) -> <CriteriaInterface>;
-
-    /**
-     * Adds the order-by parameter to the criteria
-     */
-    public function orderBy(string orderColumns) -> <CriteriaInterface>;
 
     /**
      * Adds a RIGHT join to the query

@@ -40,9 +40,7 @@ use Phalcon\Mvc\Router\RouteInterface;
 use Throwable;
 
 /**
- * Phalcon\Mvc\Micro
- *
- * With Phalcon you can create "Micro-Framework like" applications. By doing
+ * With Phalcon, you can create "Micro-Framework like" applications. By doing
  * this, you only need to write a minimal amount of code to create a PHP
  * application. Micro applications are suitable to small applications, APIs and
  * prototypes in a practical way.
@@ -70,25 +68,19 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
     protected activeHandler = null;
 
     /**
-     * @var array
-     *
      * @phpstan-var list<mixed>
      */
-    protected afterBindingHandlers = [];
+    protected array afterBindingHandlers = [];
 
     /**
-     * @var array
-     *
      * @phpstan-var list<mixed>
      */
-    protected afterHandlers = [];
+    protected array afterHandlers = [];
 
     /**
-     * @var array
-     *
      * @phpstan-var list<mixed>
      */
-    protected beforeHandlers = [];
+    protected array beforeHandlers = [];
 
     /**
      * @var DiInterface|null
@@ -106,23 +98,16 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
     protected eventsManager = null;
 
     /**
-     * @var array
-     *
      * @phpstan-var list<mixed>
      */
-    protected finishHandlers = [];
+    protected array finishHandlers = [];
 
     /**
-     * @var array
-     *
      * @phpstan-var array<string, array<array-key, mixed>|callable>
      */
-    protected handlers = [];
+    protected array handlers = [];
 
-    /**
-     * @var BinderInterface|null
-     */
-    protected modelBinder = null;
+    protected ?<BinderInterface> modelBinder = null;
 
     /**
      * @var callable|null
@@ -139,15 +124,9 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      */
     protected returnedValue = null;
 
-    /**
-     * @var RouterInterface|null
-     */
-    protected router = null;
+    protected ?<RouterInterface> router = null;
 
-    /**
-     * @var bool
-     */
-    protected stopped = false;
+    protected bool stopped = false;
 
     /**
      * Phalcon\Mvc\Micro constructor
@@ -276,14 +255,6 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
     public function getEventsManager() -> <ManagerInterface> | null
     {
         return this->eventsManager;
-    }
-
-    /**
-     * Sets the events manager
-     */
-    public function setEventsManager(<ManagerInterface> eventsManager) -> void
-    {
-        let this->eventsManager = eventsManager;
     }
 
     /**
@@ -1004,6 +975,14 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
     public function setDI(<DiInterface> container) -> void
     {
         let this->container = container;
+    }
+
+    /**
+     * Sets the events manager
+     */
+    public function setEventsManager(<ManagerInterface> eventsManager) -> void
+    {
+        let this->eventsManager = eventsManager;
     }
 
     /**

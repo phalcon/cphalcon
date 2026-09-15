@@ -293,8 +293,11 @@ class Random
      * contain meaningful information such as MAC address, time, etc. See RFC
      * 4122 for details of UUID.
      *
-     * Delegates to `Phalcon\Encryption\Security\Uuid::v4()`. For other UUID
-     * versions or object-based access use that class directly.
+     * This algorithm sets the version number (4 bits) as well as two reserved
+     * bits. All other bits (the remaining 122 bits) are set using a random or
+     * pseudorandom data source. Version 4 UUIDs have the form
+     * xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx where x is any hexadecimal digit and
+     * y is one of 8, 9, A, or B (e.g., f47ac10b-58cc-4372-a567-0e02b2c3d479).
      *
      *```php
      * $random = new \Phalcon\Encryption\Security\Random();
@@ -310,7 +313,6 @@ class Random
     {
         return (string) (new Uuid())->v4();
     }
-
 
     /**
      * Generates a random string based on the number ($base) of characters

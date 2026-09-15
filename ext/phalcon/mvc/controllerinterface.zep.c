@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\ControllerInterface
- *
  * Interface for controller handlers
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_ControllerInterface)

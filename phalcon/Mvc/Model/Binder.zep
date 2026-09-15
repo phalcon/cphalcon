@@ -25,20 +25,16 @@ use ReflectionMethod;
 use ReflectionNamedType;
 
 /**
- * Phalcon\Mvc\Model\Binder
- *
- * This is an class for binding models into params for handler
+ * This is a class for binding models into params for handler
  */
 class Binder implements BinderInterface
 {
     /**
      * Array for storing active bound models
      *
-     * @var array
-     *
      * @phpstan-var array<array-key, ModelInterface>
      */
-    protected boundModels = [];
+    protected array boundModels = [];
 
     /**
      * Cache object used for caching parameters for model binding
@@ -50,20 +46,16 @@ class Binder implements BinderInterface
     /**
      * Internal cache for caching parameters for model binding during request
      *
-     * @var array
-     *
      * @phpstan-var array<string, array<array-key, string>>
      */
-    protected internalCache = [];
+    protected array internalCache = [];
 
     /**
      * Array for original values
      *
-     * @var array
-     *
      * @phpstan-var array<array-key, mixed>
      */
-    protected originalValues = [];
+    protected array originalValues = [];
 
     /**
      * Phalcon\Mvc\Model\Binder constructor

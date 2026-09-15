@@ -247,6 +247,10 @@ abstract class Select
 
     /**
      * Generate the OPTION tags based on a resultset
+     *
+     * ResultsetInterface does not extend Traversable, but every resultset
+     * this is handed is iterable - the concrete Resultset implements
+     * Iterator. The local annotation below states what the contract omits.
      */
     private static function optionsFromResultset(
         <ResultsetInterface> resultset,

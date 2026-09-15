@@ -57,8 +57,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Messages_Traits_MessagesHelperTrait)
 
 /**
  * Returns the number of messages in the list
- *
- * @return int
  */
 PHP_METHOD(Phalcon_Messages_Traits_MessagesHelperTrait, count)
 {
@@ -101,7 +99,7 @@ PHP_METHOD(Phalcon_Messages_Traits_MessagesHelperTrait, current)
 	zephir_memory_observe(&_1);
 	zephir_memory_observe(&_2);
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 962, PH_NOISY_CC);
-	zephir_array_fetch(&_1, &_0, &_2, PH_NOISY, "phalcon/Messages/Traits/MessagesHelperTrait.zep", 46);
+	zephir_array_fetch(&_1, &_0, &_2, PH_NOISY, "phalcon/Messages/Traits/MessagesHelperTrait.zep", 44);
 	RETURN_CCTOR(&_1);
 }
 
@@ -228,7 +226,7 @@ PHP_METHOD(Phalcon_Messages_Traits_MessagesHelperTrait, offsetSet)
 		object_init_ex(&_1$$3, phalcon_messages_exceptions_messagenotobject_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Messages/Traits/MessagesHelperTrait.zep", 111);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Messages/Traits/MessagesHelperTrait.zep", 109);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

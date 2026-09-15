@@ -17,8 +17,6 @@ use Phalcon\Mvc\Model\Query\BuilderInterface;
 use Phalcon\Mvc\Model\Query\StatusInterface;
 
 /**
- * Phalcon\Mvc\Model\ManagerInterface
- *
  * Interface for Phalcon\Mvc\Model\Manager
  *
  * @phpstan-import-type mvc_model_bind_params from MvcTypes

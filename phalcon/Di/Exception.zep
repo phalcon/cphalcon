@@ -29,17 +29,17 @@ class Exception extends \Exception
         );
     }
 
-    public static function unknownServiceInParameter(int position) -> <Exception>
-    {
-        return new Exception(
-            "Unknown service type in parameter on position " . position
-        );
-    }
-
     public static function undefinedMethod(string method) -> <Exception>
     {
         return new Exception(
             "Call to undefined method or service '" . method . "'"
+        );
+    }
+
+    public static function unknownServiceInParameter(int position) -> <Exception>
+    {
+        return new Exception(
+            "Unknown service type in parameter on position " . position
         );
     }
 }

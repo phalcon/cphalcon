@@ -41,10 +41,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Json)
 
 /**
  * Json constructor.
- *
- * @param string $dateFormat
- * @param string $interpolatorLeft
- * @param string $interpolatorRight
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Json, __construct)
 {
@@ -110,9 +106,6 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, __construct)
 /**
  * Applies a format to a message before sent it to the internal log
  *
- * @param Item $item
- *
- * @return string
  * @throws JsonException
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Json, format)

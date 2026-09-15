@@ -31,14 +31,14 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_transactionint
 	ZEND_ARG_TYPE_INFO(0, isNew, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_transactioninterface_setrollbackonabort, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_TYPE_INFO(0, rollbackOnAbort, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_transactioninterface_setrollbackedrecord, 0, 1, IS_VOID, 0)
 
 	ZEND_ARG_OBJ_INFO(0, record, Phalcon\\Mvc\\ModelInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_transactioninterface_setrollbackonabort, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO(0, rollbackOnAbort, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_transactioninterface_settransactionmanager, 0, 1, IS_VOID, 0)
@@ -59,8 +59,8 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_transactioninterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_TransactionInterface, isValid, arginfo_phalcon_mvc_model_transactioninterface_isvalid)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_TransactionInterface, rollback, arginfo_phalcon_mvc_model_transactioninterface_rollback)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_TransactionInterface, setIsNewTransaction, arginfo_phalcon_mvc_model_transactioninterface_setisnewtransaction)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_TransactionInterface, setRollbackOnAbort, arginfo_phalcon_mvc_model_transactioninterface_setrollbackonabort)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_TransactionInterface, setRollbackedRecord, arginfo_phalcon_mvc_model_transactioninterface_setrollbackedrecord)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_TransactionInterface, setRollbackOnAbort, arginfo_phalcon_mvc_model_transactioninterface_setrollbackonabort)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_TransactionInterface, setTransactionManager, arginfo_phalcon_mvc_model_transactioninterface_settransactionmanager)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_TransactionInterface, throwRollbackException, arginfo_phalcon_mvc_model_transactioninterface_throwrollbackexception)
 	PHP_FE_END

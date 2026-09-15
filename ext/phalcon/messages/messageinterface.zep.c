@@ -38,14 +38,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Messages_MessageInterface)
 ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, __toString);
 /**
  * Returns the message code related to this message
- *
- * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, getCode);
 /**
  * Returns field name related to message
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, getField);
 /**

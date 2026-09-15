@@ -14,7 +14,6 @@ use Iterator;
 use JsonSerializable;
 use Phalcon\Contracts\Messages\Messages as MessagesContract;
 use Phalcon\Contracts\Messages\MessagesTypes;
-use Phalcon\Messages\Exceptions\MessageNotObject;
 use Phalcon\Messages\Exceptions\MessagesNotIterable;
 use Phalcon\Messages\Traits\MessagesHelperTrait;
 use Traversable;
@@ -140,7 +139,7 @@ class Messages implements MessagesContract, JsonSerializable
     }
 
     /**
-     * Returns serialised message objects as array for json_encode. Calls
+     * Returns serialized message objects as array for json_encode. Calls
      * jsonSerialize on each object if present
      *
      *```php

@@ -11,8 +11,8 @@
 namespace Phalcon\Mvc\Model;
 
 use Phalcon\Contracts\Mvc\MvcTypes;
-use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\MetaData\Strategy\StrategyInterface;
+use Phalcon\Mvc\ModelInterface;
 
 /**
  * Phalcon\Mvc\Model\MetaDataInterface

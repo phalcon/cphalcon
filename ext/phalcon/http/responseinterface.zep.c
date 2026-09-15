@@ -38,62 +38,38 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_ResponseInterface)
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, appendContent);
 /**
  * Gets the HTTP response body
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, getContent);
 /**
  * Returns headers set by the user
- *
- * @return HeadersInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, getHeaders);
 /**
  * Returns the status code
- *
- * @return int|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, getStatusCode);
 /**
  * Checks if a header exists
- *
- * @param string $name
- *
- * @return bool
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, hasHeader);
 /**
  * Checks if the response was already sent
- *
- * @return bool
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, isSent);
 /**
  * Redirect by HTTP to another action or URL
- *
- * @param string|null $location
- * @param bool        $externalRedirect
- * @param int         $statusCode
- *
- * @return ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, redirect);
 /**
  * Resets all the established headers
- *
- * @return ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, resetHeaders);
 /**
  * Prints out HTTP response to the client
- *
- * @return ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, send);
 /**
  * Sends cookies to the client
- *
- * @return ResponseInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, sendCookies);
 /**

@@ -4,6 +4,7 @@ extern zend_class_entry *phalcon_mvc_model_manager_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Manager);
 
 PHP_METHOD(Phalcon_Mvc_Model_Manager, __destruct);
+PHP_METHOD(Phalcon_Mvc_Model_Manager, mergeFindParameters);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, addBehavior);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany);
@@ -59,7 +60,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, isUsingDynamicUpdate);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, isVisibleModelProperty);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, keepSnapshots);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, load);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, mergeFindParameters);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, missingMethod);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, registerWrite);
@@ -78,11 +78,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setSticky);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, setWriteConnectionService);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, useDynamicUpdate);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getConnection);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, getFieldsCount);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, checkHasRelationship);
-zend_object *zephir_init_properties_Phalcon_Mvc_Model_Manager(zend_class_entry *class_type);
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getFieldsCount);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager___destruct, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_mergefindparameters, 0, 2, IS_ARRAY, 0)
+	ZEND_ARG_INFO(0, findParamsOne)
+	ZEND_ARG_INFO(0, findParamsTwo)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_addbehavior, 0, 2, IS_VOID, 0)
@@ -360,11 +364,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_manager_load, 0
 	ZEND_ARG_TYPE_INFO(0, modelName, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_mergefindparameters, 0, 2, IS_ARRAY, 0)
-	ZEND_ARG_INFO(0, findParamsOne)
-	ZEND_ARG_INFO(0, findParamsTwo)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_missingmethod, 0, 0, 3)
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, eventName, IS_STRING, 0)
@@ -464,21 +463,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_manager_getconn
 	ZEND_ARG_ARRAY_INFO(0, connectionServices, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_getfieldscount, 0, 1, IS_LONG, 0)
-	ZEND_ARG_INFO(0, fields)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_checkhasrelationship, 0, 3, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, collection, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, modelName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, modelRelation, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_zephir_init_properties_phalcon_mvc_model_manager, 0, 0, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_getfieldscount, 0, 1, IS_LONG, 0)
+	ZEND_ARG_INFO(0, fields)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_manager_method_entry) {
 PHP_ME(Phalcon_Mvc_Model_Manager, __destruct, arginfo_phalcon_mvc_model_manager___destruct, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR)
+	PHP_ME(Phalcon_Mvc_Model_Manager, mergeFindParameters, arginfo_phalcon_mvc_model_manager_mergefindparameters, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, addBehavior, arginfo_phalcon_mvc_model_manager_addbehavior, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, addBelongsTo, arginfo_phalcon_mvc_model_manager_addbelongsto, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, addHasMany, arginfo_phalcon_mvc_model_manager_addhasmany, ZEND_ACC_PUBLIC)
@@ -534,7 +531,6 @@ PHP_ME(Phalcon_Mvc_Model_Manager, __destruct, arginfo_phalcon_mvc_model_manager_
 	PHP_ME(Phalcon_Mvc_Model_Manager, isVisibleModelProperty, arginfo_phalcon_mvc_model_manager_isvisiblemodelproperty, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, keepSnapshots, arginfo_phalcon_mvc_model_manager_keepsnapshots, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, load, arginfo_phalcon_mvc_model_manager_load, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Manager, mergeFindParameters, arginfo_phalcon_mvc_model_manager_mergefindparameters, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, missingMethod, arginfo_phalcon_mvc_model_manager_missingmethod, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, notifyEvent, arginfo_phalcon_mvc_model_manager_notifyevent, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, registerWrite, arginfo_phalcon_mvc_model_manager_registerwrite, ZEND_ACC_PUBLIC)
@@ -553,7 +549,7 @@ PHP_ME(Phalcon_Mvc_Model_Manager, __destruct, arginfo_phalcon_mvc_model_manager_
 	PHP_ME(Phalcon_Mvc_Model_Manager, setWriteConnectionService, arginfo_phalcon_mvc_model_manager_setwriteconnectionservice, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, useDynamicUpdate, arginfo_phalcon_mvc_model_manager_usedynamicupdate, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, getConnection, arginfo_phalcon_mvc_model_manager_getconnection, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Mvc_Model_Manager, getFieldsCount, arginfo_phalcon_mvc_model_manager_getfieldscount, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Mvc_Model_Manager, checkHasRelationship, arginfo_phalcon_mvc_model_manager_checkhasrelationship, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Mvc_Model_Manager, getFieldsCount, arginfo_phalcon_mvc_model_manager_getfieldscount, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };

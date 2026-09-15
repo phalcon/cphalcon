@@ -548,6 +548,10 @@ PHP_METHOD(Phalcon_Tag_Select, optionsFromArray)
 
 /**
  * Generate the OPTION tags based on a resultset
+ *
+ * ResultsetInterface does not extend Traversable, but every resultset
+ * this is handed is iterable - the concrete Resultset implements
+ * Iterator. The local annotation below states what the contract omits.
  */
 PHP_METHOD(Phalcon_Tag_Select, optionsFromResultset)
 {
@@ -612,15 +616,15 @@ PHP_METHOD(Phalcon_Tag_Select, optionsFromResultset)
 	ZVAL_STRING(&usingZero, "");
 	if (Z_TYPE_P(using) == IS_ARRAY) {
 		if (UNEXPECTED(zephir_fast_count_int(using) != 2)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_tag_exception_ce, "Parameter 'using' requires two values", "phalcon/Tag/Select.zep", 266);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_tag_exception_ce, "Parameter 'using' requires two values", "phalcon/Tag/Select.zep", 270);
 			return;
 		}
 		zephir_memory_observe(&_0$$3);
-		zephir_array_fetch_long(&_0$$3, using, 0, PH_NOISY, "phalcon/Tag/Select.zep", 269);
+		zephir_array_fetch_long(&_0$$3, using, 0, PH_NOISY, "phalcon/Tag/Select.zep", 273);
 		ZEPHIR_CALL_SELF(&usingZero, "tostringvalue", NULL, 0, &_0$$3);
 		zephir_check_call_status();
 		zephir_memory_observe(&_1$$3);
-		zephir_array_fetch_long(&_1$$3, using, 1, PH_NOISY, "phalcon/Tag/Select.zep", 270);
+		zephir_array_fetch_long(&_1$$3, using, 1, PH_NOISY, "phalcon/Tag/Select.zep", 274);
 		ZEPHIR_CALL_SELF(&usingOne, "tostringvalue", NULL, 0, &_1$$3);
 		zephir_check_call_status();
 	}
@@ -649,13 +653,13 @@ PHP_METHOD(Phalcon_Tag_Select, optionsFromResultset)
 				}
 			} else {
 				if (UNEXPECTED(Z_TYPE_P(&option) != IS_ARRAY)) {
-					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_tag_exception_ce, "Resultset returned an invalid value", "phalcon/Tag/Select.zep", 289);
+					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_tag_exception_ce, "Resultset returned an invalid value", "phalcon/Tag/Select.zep", 293);
 					return;
 				}
 				ZEPHIR_OBS_NVAR(&optionValue);
-				zephir_array_fetch(&optionValue, &option, &usingZero, PH_NOISY, "phalcon/Tag/Select.zep", 292);
+				zephir_array_fetch(&optionValue, &option, &usingZero, PH_NOISY, "phalcon/Tag/Select.zep", 296);
 				ZEPHIR_OBS_NVAR(&optionText);
-				zephir_array_fetch(&optionText, &option, &usingOne, PH_NOISY, "phalcon/Tag/Select.zep", 293);
+				zephir_array_fetch(&optionText, &option, &usingOne, PH_NOISY, "phalcon/Tag/Select.zep", 297);
 			}
 			ZEPHIR_CALL_SELF(&_4$$6, "tostringvalue", &_5, 0, &optionValue);
 			zephir_check_call_status();

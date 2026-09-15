@@ -56,11 +56,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Url)
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc, Url, phalcon, mvc_url, phalcon_di_abstractinjectionaware_ce, phalcon_mvc_url_method_entry, 0);
 
 	/**
-	 * @var null | string
+	 * @var string | null
 	 */
 	zend_declare_property_null(phalcon_mvc_url_ce, SL("basePath"), ZEND_ACC_PROTECTED);
 	/**
-	 * @var null | string
+	 * @var string | null
 	 */
 	zend_declare_property_null(phalcon_mvc_url_ce, SL("baseUri"), ZEND_ACC_PROTECTED);
 	/**
@@ -68,7 +68,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Url)
 	 */
 	zend_declare_property_null(phalcon_mvc_url_ce, SL("router"), ZEND_ACC_PROTECTED);
 	/**
-	 * @var null | string
+	 * @var string | null
 	 */
 	zend_declare_property_null(phalcon_mvc_url_ce, SL("staticBaseUri"), ZEND_ACC_PROTECTED);
 	zend_class_implements(phalcon_mvc_url_ce, 1, phalcon_mvc_url_urlinterface_ce);

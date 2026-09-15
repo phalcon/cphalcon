@@ -176,10 +176,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, __unserialize)
 
 /**
  * Adds a message to the queue
- *
- * @param Item $item
- *
- * @return AdapterInterface
  */
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, add)
 {
@@ -235,7 +231,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, add)
 /**
  * Starts a transaction
  *
- * @return AdapterInterface
  * @throws TransactionAlreadyActive
  */
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, begin)
@@ -262,7 +257,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, begin)
 		object_init_ex(&_1$$3, phalcon_logger_exceptions_transactionalreadyactive_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 137);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Logger/Adapter/AbstractAdapter.zep", 122);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Logger/Adapter/AbstractAdapter.zep", 117);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -276,8 +271,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, begin)
 
 /**
  * Closes the logger
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, close)
 {
@@ -286,7 +279,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, close)
 /**
  * Commits the internal transaction
  *
- * @return AdapterInterface
  * @throws TransactionNotActive
  */
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, commit)
@@ -321,7 +313,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, commit)
 	} else {
 		_1 = &queue;
 	}
-	zephir_is_iterable(_1, 0, "phalcon/Logger/Adapter/AbstractAdapter.zep", 159);
+	zephir_is_iterable(_1, 0, "phalcon/Logger/Adapter/AbstractAdapter.zep", 151);
 	if (Z_TYPE_P(_1) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_1), _3)
 		{
@@ -540,7 +532,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, checkTransaction)
 		object_init_ex(&_1$$3, phalcon_logger_exceptions_transactionnotactive_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 140);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Logger/Adapter/AbstractAdapter.zep", 253);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Logger/Adapter/AbstractAdapter.zep", 245);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

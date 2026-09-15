@@ -32,8 +32,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Application
- *
  * This component encapsulates all the complex operations behind instantiating
  * every component needed and integrating it with the rest to allow the MVC
  * pattern to operate as desired.
@@ -81,18 +79,24 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Application)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc, Application, phalcon, mvc_application, phalcon_application_abstractapplication_ce, phalcon_mvc_application_method_entry, 0);
 
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_bool(phalcon_mvc_application_ce, SL("implicitView"), 1, ZEND_ACC_PROTECTED);
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_bool(phalcon_mvc_application_ce, SL("sendCookies"), 1, ZEND_ACC_PROTECTED);
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_bool(phalcon_mvc_application_ce, SL("sendHeaders"), 1, ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_BOOL(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_mvc_application_ce, SL("implicitView"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_BOOL(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_mvc_application_ce, SL("sendCookies"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_BOOL(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_mvc_application_ce, SL("sendHeaders"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 
@@ -210,7 +214,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle)
 		object_init_ex(&_1$$3, phalcon_mvc_application_exceptions_containerrequired_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Application.zep", 105);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Application.zep", 94);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -305,7 +309,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle)
 			ZVAL_STRING(&_16$$14, "The module definition must be an array or an object");
 			ZEPHIR_CALL_METHOD(NULL, &_15$$14, "__construct", NULL, 0, &moduleName, &_16$$14);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_15$$14, "phalcon/Mvc/Application.zep", 204);
+			zephir_throw_exception_debug(&_15$$14, "phalcon/Mvc/Application.zep", 193);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -324,7 +328,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle)
 					object_init_ex(&_18$$18, phalcon_mvc_application_exceptions_moduledefinitionpathnotfound_ce);
 					ZEPHIR_CALL_METHOD(NULL, &_18$$18, "__construct", NULL, 0, &path);
 					zephir_check_call_status();
-					zephir_throw_exception_debug(&_18$$18, "phalcon/Mvc/Application.zep", 224);
+					zephir_throw_exception_debug(&_18$$18, "phalcon/Mvc/Application.zep", 213);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
@@ -349,7 +353,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle)
 				ZVAL_STRING(&_21$$21, "The module definition object must be a Closure");
 				ZEPHIR_CALL_METHOD(NULL, &_20$$21, "__construct", NULL, 0, &moduleName, &_21$$21);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_20$$21, "phalcon/Mvc/Application.zep", 248);
+				zephir_throw_exception_debug(&_20$$21, "phalcon/Mvc/Application.zep", 237);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}

@@ -73,22 +73,26 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, __construct)
 /**
  * Factory to create an instance from a Config object
  *
+ * The adapter list lives under `options`, not at the top level.
+ *
+ * @phpstan-param ConfigInterface|logger_factory_config $config
+ *
  * @param array|ConfigInterface $config = [
- *     'name'     => 'messages',
- *     'adapters' => [
- *         'adapter-name' => [
- *              'adapter' => 'stream',
- *              'name'    => 'file.log',
- *              'options' => [
- *                  'mode'     => 'ab',
- *                  'option'   => null,
- *                  'facility' => null
- *              ],
+ *     'name'    => 'messages',
+ *     'options' => [
+ *         'adapters' => [
+ *             'adapter-name' => [
+ *                 'adapter' => 'stream',
+ *                 'name'    => 'file.log',
+ *                 'options' => [
+ *                     'mode'     => 'ab',
+ *                     'option'   => null,
+ *                     'facility' => null
+ *                 ],
+ *             ],
  *         ],
  *     ]
  * ]
- *
- * @phpstan-param ConfigInterface|logger_factory_config $config
  */
 PHP_METHOD(Phalcon_Logger_LoggerFactory, load)
 {
@@ -148,7 +152,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, load)
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	zephir_memory_observe(&name);
-	zephir_array_fetch_string(&name, config, SL("name"), PH_NOISY, "phalcon/Logger/LoggerFactory.zep", 69);
+	zephir_array_fetch_string(&name, config, SL("name"), PH_NOISY, "phalcon/Logger/LoggerFactory.zep", 73);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "timezone");
 	ZEPHIR_CALL_METHOD(&timezone, this_ptr, "getarrval", NULL, 0, config, &_1);
@@ -172,7 +176,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, load)
 	} else {
 		_4 = &adapters;
 	}
-	zephir_is_iterable(_4, 0, "phalcon/Logger/LoggerFactory.zep", 88);
+	zephir_is_iterable(_4, 0, "phalcon/Logger/LoggerFactory.zep", 92);
 	if (Z_TYPE_P(_4) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_4), _6, _7, _5)
 		{

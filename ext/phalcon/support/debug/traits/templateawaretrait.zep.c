@@ -32,11 +32,16 @@
  *
  * Note: this trait has no Zephir equivalent; the cphalcon mirror duplicates
  * these members in each class until Zephir supports traits.
+ *
+ * @phpstan-import-type support_debug_templates from SupportTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Support_Debug_Traits_TemplateAwareTrait)
 {
 	ZEPHIR_REGISTER_TRAIT(Phalcon\\Support\\Debug\\Traits, TemplateAwareTrait, phalcon, support_debug_traits_templateawaretrait, phalcon_support_debug_traits_templateawaretrait_method_entry);
 
+	/**
+	 * @phpstan-var support_debug_templates
+	 */
 	{
 		zval _zc0;
 		array_init_size(&_zc0, 1);
@@ -46,11 +51,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Debug_Traits_TemplateAwareTrait)
 	return SUCCESS;
 }
 
-/**
- * @param string $name
- *
- * @return string
- */
 PHP_METHOD(Phalcon_Support_Debug_Traits_TemplateAwareTrait, getTemplate)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -80,7 +80,7 @@ PHP_METHOD(Phalcon_Support_Debug_Traits_TemplateAwareTrait, getTemplate)
 	if (zephir_array_isset_value(&_1, &name_zv)) {
 		zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 1382, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_NVAR(&_0);
-		zephir_array_fetch(&_0, &_2, &name_zv, PH_NOISY, "phalcon/Support/Debug/Traits/TemplateAwareTrait.zep", 31);
+		zephir_array_fetch(&_0, &_2, &name_zv, PH_NOISY, "phalcon/Support/Debug/Traits/TemplateAwareTrait.zep", 33);
 	} else {
 		ZEPHIR_CALL_METHOD(&_0, this_ptr, "defaulttemplate", NULL, 0, &name_zv);
 		zephir_check_call_status();
@@ -88,12 +88,6 @@ PHP_METHOD(Phalcon_Support_Debug_Traits_TemplateAwareTrait, getTemplate)
 	RETURN_CCTOR(&_0);
 }
 
-/**
- * @param string $name
- * @param string $template
- *
- * @return static
- */
 PHP_METHOD(Phalcon_Support_Debug_Traits_TemplateAwareTrait, setTemplate)
 {
 	zval name_zv, template_zv;
@@ -114,10 +108,6 @@ PHP_METHOD(Phalcon_Support_Debug_Traits_TemplateAwareTrait, setTemplate)
 
 /**
  * Returns the embedded default template for the given name.
- *
- * @param string $name
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Support_Debug_Traits_TemplateAwareTrait, defaultTemplate)
 {

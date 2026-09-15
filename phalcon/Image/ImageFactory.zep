@@ -44,11 +44,11 @@ class ImageFactory extends AbstractFactory
      *
      * @phpstan-param ConfigInterface|image_factory_config $config
      *
-     * @param array|ConfigInterface config = [
+     * @param array|ConfigInterface $config = [
      *     'adapter' => 'gd',
-     *     'file' => 'image.jpg',
-     *     'height' => null,
-     *     'width' => null
+     *     'file'    => 'image.jpg',
+     *     'height'  => null,
+     *     'width'   => null
      * ]
      */
     public function load(var config) -> <AdapterInterface>

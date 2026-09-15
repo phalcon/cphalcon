@@ -44,10 +44,6 @@ abstract class AbstractFormatter implements FormatterInterface
 
     /**
      * Returns the date formatted for the logger.
-     *
-     * @param Item $item
-     *
-     * @return string
      */
     protected function getFormattedDate(<Item> item) -> string
     {
@@ -56,11 +52,6 @@ abstract class AbstractFormatter implements FormatterInterface
 
     /**
      * Returns the interpolated message, replacing context placeholders.
-     *
-     * @param Item   $item
-     * @param string $message
-     *
-     * @return string
      */
     protected function getInterpolatedMessage(
         <Item> item,

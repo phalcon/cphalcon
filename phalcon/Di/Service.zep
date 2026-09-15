@@ -40,15 +40,9 @@ class Service implements ServiceInterface
      */
     protected definition;
 
-    /**
-     * @var bool
-     */
-    protected resolved = false;
+    protected bool resolved = false;
 
-    /**
-     * @var bool
-     */
-    protected shared = false;
+    protected bool shared = false;
 
     /**
      * @var mixed|null
@@ -56,7 +50,7 @@ class Service implements ServiceInterface
     protected sharedInstance = null;
 
     /**
-     * Phalcon\Di\Service
+     * Service constructor.
      */
     final public function __construct(var definition, bool shared = false)
     {

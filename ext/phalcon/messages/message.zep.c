@@ -177,27 +177,18 @@ PHP_METHOD(Phalcon_Messages_Message, __toString)
 	RETURN_MEMBER_TYPED(getThis(), "message", IS_STRING);
 }
 
-/**
- * @return int
- */
 PHP_METHOD(Phalcon_Messages_Message, getCode)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "code", IS_LONG);
 }
 
-/**
- * @return string
- */
 PHP_METHOD(Phalcon_Messages_Message, getField)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "field", IS_STRING);
 }
 
-/**
- * @return string
- */
 PHP_METHOD(Phalcon_Messages_Message, getMessage)
 {
 
@@ -213,9 +204,6 @@ PHP_METHOD(Phalcon_Messages_Message, getMetaData)
 	RETURN_MEMBER_TYPED(getThis(), "metaData", IS_ARRAY);
 }
 
-/**
- * @return string
- */
 PHP_METHOD(Phalcon_Messages_Message, getType)
 {
 

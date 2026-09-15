@@ -10,10 +10,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticUpdateAttributes);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getBindTypes);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getColumnMap);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getColumnMapUniqueKey);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDI);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypes);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDefaultValues);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDI);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getEmptyStringAttributes);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getIdentityField);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getMetaDataUniqueKey);
@@ -44,7 +44,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, initializeColumnMap);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, initializeMetaData);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, throwWriteException);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getArrVal);
-zend_object *zephir_init_properties_Phalcon_Mvc_Model_MetaData(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_metadata_getadapter, 0, 0, Phalcon\\Cache\\Adapter\\AdapterInterface, 1)
 ZEND_END_ARG_INFO()
@@ -73,9 +72,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_getco
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_metadata_getdi, 0, 0, Phalcon\\Di\\DiInterface, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_getdatatypes, 0, 1, IS_ARRAY, 0)
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 ZEND_END_ARG_INFO()
@@ -86,6 +82,9 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_getdefaultvalues, 0, 1, IS_ARRAY, 0)
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_metadata_getdi, 0, 0, Phalcon\\Di\\DiInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_getemptystringattributes, 0, 1, IS_ARRAY, 0)
@@ -232,9 +231,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_getarrval, 0, 0, 2)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, cast, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_zephir_init_properties_phalcon_mvc_model_metadata, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_metadata_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getAdapter, arginfo_phalcon_mvc_model_metadata_getadapter, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getAttributes, arginfo_phalcon_mvc_model_metadata_getattributes, ZEND_ACC_PUBLIC)
@@ -243,10 +239,10 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_metadata_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getBindTypes, arginfo_phalcon_mvc_model_metadata_getbindtypes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getColumnMap, arginfo_phalcon_mvc_model_metadata_getcolumnmap, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getColumnMapUniqueKey, arginfo_phalcon_mvc_model_metadata_getcolumnmapuniquekey, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Mvc_Model_MetaData, getDI, arginfo_phalcon_mvc_model_metadata_getdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getDataTypes, arginfo_phalcon_mvc_model_metadata_getdatatypes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric, arginfo_phalcon_mvc_model_metadata_getdatatypesnumeric, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getDefaultValues, arginfo_phalcon_mvc_model_metadata_getdefaultvalues, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, getDI, arginfo_phalcon_mvc_model_metadata_getdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getEmptyStringAttributes, arginfo_phalcon_mvc_model_metadata_getemptystringattributes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getIdentityField, arginfo_phalcon_mvc_model_metadata_getidentityfield, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getMetaDataUniqueKey, arginfo_phalcon_mvc_model_metadata_getmetadatauniquekey, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)

@@ -27,18 +27,18 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Model\Behavior
- *
  * This is an optional base class for ORM behaviors
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Behavior)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, Behavior, phalcon, mvc_model_behavior, phalcon_mvc_model_behavior_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-	/**
-	 * @var array
-	 */
-	zend_declare_property_null(phalcon_mvc_model_behavior_ce, SL("options"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_mvc_model_behavior_ce, SL("options"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
 	zend_class_implements(phalcon_mvc_model_behavior_ce, 1, phalcon_mvc_model_behaviorinterface_ce);
 	return SUCCESS;
 }

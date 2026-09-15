@@ -13,10 +13,10 @@ namespace Phalcon\Mvc\Model;
 use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Di\DiInterface;
 use Phalcon\Messages\MessageInterface;
-use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Transaction\Failed as TxFailed;
 use Phalcon\Mvc\Model\Transaction\ManagerInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
+use Phalcon\Mvc\ModelInterface;
 
 /**
  * Transactions are protective blocks where SQL statements are only permanent if
@@ -62,54 +62,30 @@ use Phalcon\Mvc\Model\TransactionInterface;
  */
 class Transaction implements TransactionInterface
 {
-    /**
-     * @var bool
-     */
-    protected activeTransaction = false;
+    protected bool activeTransaction = false;
 
     /**
      * @var AdapterInterface
      */
     protected connection;
 
-    /**
-     * @var bool
-     */
-    protected isNewTransaction = true;
+    protected bool isNewTransaction = true;
+
+    protected ?<ManagerInterface> manager = null;
 
     /**
-     * @var ManagerInterface|null
-     */
-    protected manager = null;
-
-    /**
-     * @var array
-     *
      * @phpstan-var list<MessageInterface>
      */
-    protected messages = [];
+    protected array messages = [];
 
-    /**
-     * @var bool
-     */
-    protected rollbackOnAbort = false;
+    protected bool rollbackOnAbort = false;
 
-    /**
-     * @var ModelInterface|null
-     */
-    protected rollbackRecord = null;
+    protected ?<ModelInterface> rollbackRecord = null;
 
-    /**
-     * @var bool
-     */
-    protected rollbackThrowException = false;
+    protected bool rollbackThrowException = false;
 
     /**
      * Phalcon\Mvc\Model\Transaction constructor
-     *
-     * @param DiInterface container
-     * @param bool autoBegin
-     * @param string service
      */
     public function __construct(<DiInterface> container, bool autoBegin = false, string service = "db")
     {
@@ -229,19 +205,19 @@ class Transaction implements TransactionInterface
     }
 
     /**
-     * Sets flag to rollback on abort the HTTP connection
-     */
-    public function setRollbackOnAbort(bool rollbackOnAbort) -> void
-    {
-        let this->rollbackOnAbort = rollbackOnAbort;
-    }
-
-    /**
      * Sets object which generates rollback action
      */
     public function setRollbackedRecord(<ModelInterface> record) -> void
     {
         let this->rollbackRecord = record;
+    }
+
+    /**
+     * Sets flag to rollback on abort the HTTP connection
+     */
+    public function setRollbackOnAbort(bool rollbackOnAbort) -> void
+    {
+        let this->rollbackOnAbort = rollbackOnAbort;
     }
 
     /**

@@ -13,8 +13,6 @@ namespace Phalcon\Mvc\Model;
 use Phalcon\Contracts\Mvc\MvcTypes;
 
 /**
- * Phalcon\Mvc\Model\RelationInterface
- *
  * Interface for Phalcon\Mvc\Model\Relation
  *
  * @phpstan-import-type mvc_model_parameters from MvcTypes
@@ -26,7 +24,7 @@ interface RelationInterface
     /**
      * Returns the fields
      *
-     * @return string|array
+     * @return array|string
      *
      * @phpstan-return mvc_relation_fields
      */
@@ -35,7 +33,7 @@ interface RelationInterface
     /**
      * Returns the foreign key configuration
      *
-     * @return string|array
+     * @return array|bool|string
      *
      * @phpstan-return array<string, mixed>|string|bool
      */
@@ -44,7 +42,7 @@ interface RelationInterface
     /**
      * Gets the intermediate fields for has-*-through relations
      *
-     * @return string|array
+     * @return array|string
      *
      * @phpstan-return mvc_relation_fields
      */
@@ -58,7 +56,7 @@ interface RelationInterface
     /**
      * Gets the intermediate referenced fields for has-*-through relations
      *
-     * @return string|array
+     * @return array|string
      *
      * @phpstan-return mvc_relation_fields
      */
@@ -89,7 +87,7 @@ interface RelationInterface
     /**
      * Returns the referenced fields
      *
-     * @return string|array
+     * @return array|string
      *
      * @phpstan-return mvc_relation_fields
      */
@@ -111,7 +109,8 @@ interface RelationInterface
     public function isForeignKey() -> bool;
 
     /**
-     * Check if records returned by getting belongs-to/has-many are implicitly cached during the current request
+     * Check if records returned by getting belongs-to/has-many are implicitly
+     * cached during the current request
      */
     public function isReusable() -> bool;
 

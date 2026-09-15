@@ -227,10 +227,6 @@ class Imagick extends AbstractAdapter
     /**
      * Sets the limit for a particular resource in megabytes
      *
-     * @param int $type
-     * @param int $limit
-     *
-     * @return void
      * @throws Exception
      * @throws ImagickException
      *
@@ -968,7 +964,6 @@ class Imagick extends AbstractAdapter
     /**
      * Checks if Imagick is enabled
      *
-     * @return void
      * @throws Exception
      */
     private function check() -> void

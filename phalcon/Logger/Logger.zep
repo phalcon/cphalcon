@@ -31,9 +31,9 @@ class Logger extends AbstractLogger implements LoggerInterface
      * Example: Entire website down, database unavailable, etc. This should
      * trigger the SMS alerts and wake you up.
      *
-     * @throws Exception
-     *
      * @phpstan-param logger_context $context
+     *
+     * @throws Exception
      */
     public function alert(string message, array context = []) -> void
     {
@@ -45,9 +45,9 @@ class Logger extends AbstractLogger implements LoggerInterface
      *
      * Example: Application component unavailable, unexpected exception.
      *
-     * @throws Exception
-     *
      * @phpstan-param logger_context $context
+     *
+     * @throws Exception
      */
     public function critical(string message, array context = []) -> void
     {
@@ -57,9 +57,9 @@ class Logger extends AbstractLogger implements LoggerInterface
     /**
      * Detailed debug information.
      *
-     * @throws Exception
-     *
      * @phpstan-param logger_context $context
+     *
+     * @throws Exception
      */
     public function debug(string message, array context = []) -> void
     {
@@ -69,9 +69,9 @@ class Logger extends AbstractLogger implements LoggerInterface
     /**
      * System is unusable.
      *
-     * @throws Exception
-     *
      * @phpstan-param logger_context $context
+     *
+     * @throws Exception
      */
     public function emergency(string message, array context = []) -> void
     {
@@ -82,9 +82,9 @@ class Logger extends AbstractLogger implements LoggerInterface
      * Runtime errors that do not require immediate action but should typically
      * be logged and monitored.
      *
-     * @throws Exception
-     *
      * @phpstan-param logger_context $context
+     *
+     * @throws Exception
      */
     public function error(string message, array context = []) -> void
     {
@@ -96,9 +96,9 @@ class Logger extends AbstractLogger implements LoggerInterface
      *
      * Example: User logs in, SQL logs.
      *
-     * @throws Exception
-     *
      * @phpstan-param logger_context $context
+     *
+     * @throws Exception
      */
     public function info(string message, array context = []) -> void
     {
@@ -111,9 +111,9 @@ class Logger extends AbstractLogger implements LoggerInterface
      * An unknown level (a typo or an unmapped value) is not rejected; it maps
      * to the CUSTOM level and is logged, rather than raising an exception.
      *
-     * @throws Exception
-     *
      * @phpstan-param logger_context $context
+     *
+     * @throws Exception
      */
     public function log(var level, string message, array context = []) -> void
     {
@@ -127,9 +127,9 @@ class Logger extends AbstractLogger implements LoggerInterface
     /**
      * Normal but significant events.
      *
-     * @throws Exception
-     *
      * @phpstan-param logger_context $context
+     *
+     * @throws Exception
      */
     public function notice(string message, array context = []) -> void
     {
@@ -143,9 +143,9 @@ class Logger extends AbstractLogger implements LoggerInterface
      * HTTP response bodies, or internal state transitions that are too noisy
      * for DEBUG.
      *
-     * @throws Exception
-     *
      * @phpstan-param logger_context $context
+     *
+     * @throws Exception
      */
     public function trace(string message, array context = []) -> void
     {
@@ -158,9 +158,9 @@ class Logger extends AbstractLogger implements LoggerInterface
      * Example: Use of deprecated APIs, poor use of an API, undesirable things
      * that are not necessarily wrong.
      *
-     * @throws Exception
-     *
      * @phpstan-param logger_context $context
+     *
+     * @throws Exception
      */
     public function warning(string message, array context = []) -> void
     {

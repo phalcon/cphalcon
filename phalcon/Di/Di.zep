@@ -31,7 +31,7 @@ use Phalcon\Events\ManagerInterface;
 
 /**
  * Phalcon\Di\Di is a component that implements Dependency Injection/Service
- * Location of services and it's itself a container for them.
+ * Location of services, and it's itself a container for them.
  *
  * Since Phalcon is highly decoupled, Phalcon\Di\Di is essential to integrate the
  * different components of the framework. The developer can also use this
@@ -77,7 +77,7 @@ class Di implements DiInterface
      *
      * @var array<string, string>
      */
-    protected aliases = [];
+    protected array aliases = [];
 
     /**
      * Latest DI build
@@ -88,24 +88,22 @@ class Di implements DiInterface
 
     /**
      * Events Manager
-     *
-     * @var ManagerInterface|null
      */
-    protected eventsManager = null;
+    protected ?<ManagerInterface> eventsManager = null;
 
     /**
      * List of registered services
      *
      * @var ServiceInterface[]
      */
-    protected services = [];
+    protected array services = [];
 
     /**
      * List of shared instances
      *
      * @var array<string, mixed>
      */
-    protected sharedInstances = [];
+    protected array sharedInstances = [];
 
     /**
      * Phalcon\Di\Di constructor
@@ -158,6 +156,31 @@ class Di implements DiInterface
         }
 
         throw Exception::undefinedMethod(method);
+    }
+
+    /**
+     * Return the latest DI created
+     */
+    public static function getDefault() -> <DiInterface> | null
+    {
+        return self::defaultContainer;
+    }
+
+    /**
+     * Resets the internal default DI
+     */
+    public static function reset() -> void
+    {
+        let self::defaultContainer = null;
+    }
+
+    /**
+     * Set a default dependency injection container to be obtained into static
+     * methods
+     */
+    public static function setDefault(<DiInterface> container) -> void
+    {
+        let self::defaultContainer = container;
     }
 
     /**
@@ -283,22 +306,10 @@ class Di implements DiInterface
     /**
      * Return the alias based on a passed key. Returns an empty string if
      * the alias does not exist
-     *
-     * @param string $name
-     *
-     * @return string
      */
     public function getAlias(string name) -> string
     {
         return isset(this->aliases[name]) ? this->aliases[name] : "";
-    }
-
-    /**
-     * Return the latest DI created
-     */
-    public static function getDefault() -> <DiInterface> | null
-    {
-        return self::defaultContainer;
     }
 
     /**
@@ -364,21 +375,33 @@ class Di implements DiInterface
     }
 
     /**
-     * Loads services from a Config object.
+     * Check whether the DI contains a service by a name
      */
-    protected function loadFromConfig(<ConfigInterface> config) -> void
+    public function has(string name) -> bool
     {
-        var services, name, service;
+        /**
+         * Resolve the alias, if any
+         */
+        let name = this->resolveAlias(name);
 
-        let services = config->toArray();
+        return isset(this->services[name]);
+    }
 
-        for name, service in services {
-            this->set(
-                name,
-                service,
-                typeof service === "array" && isset service["shared"] && service["shared"]
-            );
-        }
+    /**
+     * Check whether the DI has a cached shared instance for a service name.
+     *
+     * Unlike `has()`, which reports on the service *definition* registry,
+     * this method reports only on the resolved-instance cache populated by
+     * `getShared()`.
+     */
+    public function hasShared(string name) -> bool
+    {
+        /**
+         * Resolve the alias, if any
+         */
+        let name = this->resolveAlias(name);
+
+        return isset(this->sharedInstances[name]);
     }
 
     /**
@@ -467,33 +490,11 @@ class Di implements DiInterface
     }
 
     /**
-     * Check whether the DI contains a service by a name
+     * Check if a service is registered using the array syntax
      */
-    public function has(string name) -> bool
+    public function offsetExists(mixed name) -> bool
     {
-        /**
-         * Resolve the alias, if any
-         */
-        let name = this->resolveAlias(name);
-
-        return isset(this->services[name]);
-    }
-
-    /**
-     * Check whether the DI has a cached shared instance for a service name.
-     *
-     * Unlike `has()`, which reports on the service *definition* registry,
-     * this method reports only on the resolved-instance cache populated by
-     * `getShared()`.
-     */
-    public function hasShared(string name) -> bool
-    {
-        /**
-         * Resolve the alias, if any
-         */
-        let name = this->resolveAlias(name);
-
-        return isset(this->sharedInstances[name]);
+        return this->has(name);
     }
 
     /**
@@ -506,14 +507,6 @@ class Di implements DiInterface
     public function offsetGet(mixed name) -> mixed
     {
         return this->getShared(name);
-    }
-
-    /**
-     * Check if a service is registered using the array syntax
-     */
-    public function offsetExists(mixed name) -> bool
-    {
-        return this->has(name);
     }
 
     /**
@@ -630,14 +623,6 @@ class Di implements DiInterface
     }
 
     /**
-     * Resets the internal default DI
-     */
-    public static function reset() -> void
-    {
-        let self::defaultContainer = null;
-    }
-
-    /**
      * Registers a service in the services container
      */
     public function set(string name, var definition, bool shared = false) -> <ServiceInterface>
@@ -692,15 +677,6 @@ class Di implements DiInterface
     }
 
     /**
-     * Set a default dependency injection container to be obtained into static
-     * methods
-     */
-    public static function setDefault(<DiInterface> container) -> void
-    {
-        let self::defaultContainer = container;
-    }
-
-    /**
      * Sets the internal event manager
      */
     public function setInternalEventsManager(<ManagerInterface> eventsManager)
@@ -726,11 +702,26 @@ class Di implements DiInterface
         return this->set(name, definition, true);
     }
     /**
+     * Loads services from a Config object.
+     */
+    protected function loadFromConfig(<ConfigInterface> config) -> void
+    {
+        var services, name, service;
+
+        let services = config->toArray();
+
+        for name, service in services {
+            this->set(
+                name,
+                service,
+                typeof service === "array" && isset service["shared"] && service["shared"]
+            );
+        }
+    }
+
+    /**
      * Resolve an alias to its actual service name
      *
-     * @param string $name
-     *
-     * @return string
      * @throws Exception
      */
     private function resolveAlias(string name) -> string

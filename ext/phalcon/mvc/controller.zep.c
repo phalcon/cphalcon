@@ -27,8 +27,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Controller
- *
  * Every application controller should extend this class that encapsulates all
  * the controller functionality
  *

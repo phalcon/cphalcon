@@ -25,8 +25,6 @@ use Phalcon\Support\Settings;
 use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 
 /**
- * Phalcon\Mvc\Model\MetaData
- *
  * Because Phalcon\Mvc\Model requires meta-data like field names, data types,
  * primary keys, etc. This component collect them and store for further
  * querying by Phalcon\Mvc\Model. Phalcon\Mvc\Model\MetaData can also use
@@ -158,29 +156,19 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      */
     const MODELS_REVERSE_COLUMN_MAP = 1;
 
-    /**
-     * @var CacheAdapterInterface|null
-     */
-    protected adapter = null;
+    protected ?<CacheAdapterInterface> adapter = null;
 
     /**
-     * @var array
-     *
      * @phpstan-var mvc_metadata_column_map_store
      */
-    protected columnMap = [];
+    protected array columnMap = [];
+
+    protected ?<DiInterface> container = null;
 
     /**
-     * @var DiInterface|null
-     */
-    protected container = null;
-
-    /**
-     * @var array
-     *
      * @phpstan-var mvc_metadata_store
      */
-    protected metaData = [];
+    protected array metaData = [];
 
     /**
      * Holds metadata index writes that arrived before the model's metadata was
@@ -188,16 +176,11 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      * initialize() while the child's source had not yet been set).  Applied
      * inside initializeMetaData() after the real schema is loaded.
      *
-     * @var array
-     *
      * @phpstan-var mvc_metadata_store
      */
-    protected pendingMetaDataWrites = [];
+    protected array pendingMetaDataWrites = [];
 
-    /**
-     * @var StrategyInterface|null
-     */
-    protected strategy = null;
+    protected ?<StrategyInterface> strategy = null;
 
     /**
      * Return the internal cache adapter
@@ -364,22 +347,6 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     }
 
     /**
-     * Returns the DependencyInjector container
-     */
-    public function getDI() -> <DiInterface>
-    {
-        var container;
-
-        let container = <DiInterface> this->container;
-
-        if typeof container != "object" {
-            throw new ContainerRequired();
-        }
-
-        return container;
-    }
-
-    /**
      * Returns attributes and their data types
      *
      *```php
@@ -458,6 +425,22 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
         }
 
         return data;
+    }
+
+    /**
+     * Returns the DependencyInjector container
+     */
+    public function getDI() -> <DiInterface>
+    {
+        var container;
+
+        let container = <DiInterface> this->container;
+
+        if typeof container != "object" {
+            throw new ContainerRequired();
+        }
+
+        return container;
     }
 
     /**
@@ -692,11 +675,11 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     /**
      * Checks if the internal meta-data container is empty
      *
-     *```php
+     * ```php
      * var_dump(
      *     $metaData->isEmpty()
      * );
-     *```
+     * ```
      */
     public function isEmpty() -> bool
     {
