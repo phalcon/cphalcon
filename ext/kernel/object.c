@@ -17,6 +17,8 @@
 #include "php_ext.h"
 
 #include <Zend/zend_closures.h>
+#include <Zend/zend_constants.h>
+#include <Zend/zend_execute.h>
 #include <Zend/zend_string.h>
 #include <Zend/zend_interfaces.h>
 
@@ -104,6 +106,54 @@ void zephir_get_called_class(zval *return_value)
 	if (!zend_get_executed_scope())  {
 		php_error_docref(NULL, E_WARNING, "zephir_get_called_class() called from outside a class");
 	}
+}
+
+/**
+ * Reads a class constant into `return_value`.
+ *
+ * Emitted for `Foo::BAR` only when the `static-constant-class-folding`
+ * optimization is off, which is the one state where the value is not inlined
+ * at compile time. That branch has emitted a call to this function since
+ * before the current history, and the function has never existed, so the
+ * option could not be turned off without the generated C failing to compile.
+ *
+ * `ce` is passed as the scope, so the read ignores visibility exactly as the
+ * folding path does. Both halves of the option have to answer alike.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2711
+ */
+void zephir_get_class_constant(zval *return_value, zend_class_entry *ce, const char *constant_name, size_t constant_length)
+{
+	zend_string *name = zend_string_init(constant_name, constant_length, 0);
+
+#if PHP_VERSION_ID >= 80100
+	zval *value = zend_get_class_constant_ex(ce->name, name, ce, 0);
+
+	if (EXPECTED(value != NULL)) {
+		ZVAL_COPY(return_value, value);
+	} else {
+		ZVAL_NULL(return_value);
+	}
+#else
+	/* PHP 8.0 has neither zend_get_class_constant_ex() nor
+	 * CE_CONSTANTS_TABLE(), so the table is read directly. Inherited and
+	 * interface constants are copied into the child during inheritance, so
+	 * one lookup covers them. A constant still held as an AST is evaluated
+	 * in its own declaring scope, which is what the 8.0 VM does at
+	 * ZEND_FETCH_CLASS_CONSTANT. */
+	zend_class_constant *c = zend_hash_find_ptr(&ce->constants_table, name);
+
+	if (UNEXPECTED(c == NULL)) {
+		zend_throw_error(NULL, "Undefined constant %s::%s", ZSTR_VAL(ce->name), ZSTR_VAL(name));
+		ZVAL_NULL(return_value);
+	} else if (UNEXPECTED(zval_update_constant_ex(&c->value, c->ce) == FAILURE)) {
+		ZVAL_NULL(return_value);
+	} else {
+		ZVAL_COPY(return_value, &c->value);
+	}
+#endif
+
+	zend_string_release(name);
 }
 
 zend_class_entry *zephir_fetch_class_str_ex(const char *class_name, size_t length, int fetch_type)
@@ -987,10 +1037,14 @@ int zephir_update_property_array(zval *object, const char *property, uint32_t pr
 			}
 		}
 	} else {
+		/* ZVAL_DUP() hands back a fresh array at refcount 1: the single
+		 * reference tmp now holds, and the one the zval_ptr_dtor(&tmp)
+		 * below releases. Do not drop it here. The property does not take it
+		 * either, because zephir_update_property_zval() dups the value in.
+		 * See https://github.com/zephir-lang/zephir/issues/2698 */
 		zval new_zv;
 		ZVAL_DUP(&new_zv, &tmp);
 		ZVAL_COPY_VALUE(&tmp, &new_zv);
-		Z_TRY_DELREF(new_zv);
 		separated = 1;
 	}
 
@@ -1064,6 +1118,10 @@ int zephir_update_property_array_append(zval *object, char *property, unsigned i
 			}
 		}
 	} else {
+		/* Unlike its siblings this branch is balanced: the Z_TRY_DELREF() below
+		 * is put back by the Z_ADDREF() at the end of the block, so the
+		 * reference ZVAL_DUP() created survives to the zval_ptr_dtor(&tmp).
+		 * Removing either one alone reintroduces #2698. */
 		zval new_zv;
 		ZVAL_DUP(&new_zv, &tmp);
 		ZVAL_COPY_VALUE(&tmp, &new_zv);
@@ -1194,10 +1252,13 @@ int zephir_update_property_array_multi(zval *object, const char *property, uint3
 				}
 			}
 		} else {
+			/* ZVAL_DUP() hands back a fresh array at refcount 1: the single
+			 * reference tmp_arr now holds, and the one the
+			 * zval_ptr_dtor(&tmp_arr) below releases. Do not drop it here.
+			 * See https://github.com/zephir-lang/zephir/issues/2698 */
 			zval new_zv;
 			ZVAL_DUP(&new_zv, &tmp_arr);
 			ZVAL_COPY_VALUE(&tmp_arr, &new_zv);
-			Z_TRY_DELREF(new_zv);
 			separated = 1;
 		}
 
@@ -1296,18 +1357,23 @@ int zephir_unset_property_array(zval *object, char *property, unsigned int prope
 		if (Z_REFCOUNTED(tmp)) {
 			if (Z_REFCOUNT(tmp) > 1) {
 				if (!Z_ISREF(tmp)) {
+					/* Unlike zephir_update_property_array(), this branch never
+					 * put the reference back with Z_ADDREF(), so it leaked the
+					 * separated array on a shared property too. #2698 */
 					zval new_zv;
 					ZVAL_DUP(&new_zv, &tmp);
 					ZVAL_COPY_VALUE(&tmp, &new_zv);
-					Z_TRY_DELREF(new_zv);
 					separated = 1;
 				}
 			}
 		} else {
+			/* ZVAL_DUP() hands back a fresh array at refcount 1: the single
+			 * reference tmp now holds, and the one the zval_ptr_dtor(&tmp)
+			 * below releases. Do not drop it here.
+			 * See https://github.com/zephir-lang/zephir/issues/2698 */
 			zval new_zv;
 			ZVAL_DUP(&new_zv, &tmp);
 			ZVAL_COPY_VALUE(&tmp, &new_zv);
-			Z_TRY_DELREF(new_zv);
 			separated = 1;
 		}
 
@@ -1315,6 +1381,9 @@ int zephir_unset_property_array(zval *object, char *property, unsigned int prope
 
 		if (separated) {
 			zephir_update_property_zval(object, property, property_length, &tmp);
+			/* Only a separated tmp is ours. An unseparated one still aliases
+			 * the property's own array, which this function must not release. */
+			zval_ptr_dtor(&tmp);
 		}
 	}
 
@@ -1452,6 +1521,13 @@ int zephir_update_static_property_array_multi_ce(
 			}
 		}
 	} else {
+		/* This Z_TRY_DELREF() stays, unlike the one #2698 removed from the
+		 * instance-property helpers. Those write back with
+		 * zephir_update_property_zval(), which dups and leaves the caller
+		 * owning tmp; this one writes back with zend_update_static_property(),
+		 * which addrefs and then takes the reference
+		 * (zend_assign_to_variable(..., IS_TMP_VAR)). Keeping our reference
+		 * here would leave the array at refcount 2 with nothing to release it. */
 		zval new_zv;
 		ZVAL_DUP(&new_zv, &tmp_arr);
 		ZVAL_COPY_VALUE(&tmp_arr, &new_zv);

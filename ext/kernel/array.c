@@ -18,6 +18,7 @@
 #include <ext/standard/php_array.h>
 #include <Zend/zend_hash.h>
 #include <Zend/zend_interfaces.h>
+#include <Zend/zend_execute.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -81,6 +82,18 @@ static zval *zephir_array_write_container(zval *arr)
  * the new slot with no diagnostic at all. That function is not exported before
  * 8.5, so the insert is spelled out, and each one uses the same hash family as
  * the lookup it follows.
+ *
+ * A caller supplied string key always goes through the `zend_symtable_str_*`
+ * family, never `zend_hash_str_*`. PHP folds a constant numeric string
+ * subscript to an integer key while it compiles it (`zend_handle_numeric_dim()`
+ * in Zend/zend_compile.c), so `$a["3"]` is `$a[3]`, and `zend_symtable_str_*`
+ * is that same fold applied at runtime. Reaching for the raw hash instead is
+ * what made `zephir_array_update_string()` store a string key where the array
+ * literal beside it, emitted as `add_assoc_*_ex()`, stored an integer one.
+ * Only an ArrayAccess container keeps the original string, which is why every
+ * such branch below boxes `index` untouched rather than normalising it.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2708
  */
 static zval *zephir_array_write_create_index(HashTable *ht, zend_ulong index)
 {
@@ -89,15 +102,6 @@ static zval *zephir_array_write_create_index(HashTable *ht, zend_ulong index)
 	ZVAL_NULL(&null_value);
 
 	return zend_hash_index_update(ht, index, &null_value);
-}
-
-static zval *zephir_array_write_create_string(HashTable *ht, const char *index, uint32_t index_length)
-{
-	zval null_value;
-
-	ZVAL_NULL(&null_value);
-
-	return zend_hash_str_update(ht, index, index_length, &null_value);
 }
 
 static zval *zephir_array_write_create_symtable(HashTable *ht, const char *index, uint32_t index_length)
@@ -360,7 +364,7 @@ int zephir_array_isset_string_fetch(zval *fetched, const zval *arr, char *index,
 
 		return found;
 	} else if (EXPECTED(Z_TYPE_P(arr) == IS_ARRAY)) {
-		if ((zv = zend_hash_str_find(Z_ARRVAL_P(arr), index, index_length)) != NULL) {
+		if ((zv = zend_symtable_str_find(Z_ARRVAL_P(arr), index, index_length)) != NULL) {
 			/* Dereferences for the same reason as zephir_array_isset_fetch(). */
 			ZVAL_DEREF(zv);
 			zephir_ensure_array(zv);
@@ -534,7 +538,7 @@ int ZEPHIR_FASTCALL zephir_array_isset_string(const zval *arr, const char *index
 
 		return found;
 	} else if (EXPECTED(Z_TYPE_P(arr) == IS_ARRAY)) {
-		return zend_hash_str_exists(Z_ARRVAL_P(arr), index, index_length);
+		return zend_symtable_str_exists(Z_ARRVAL_P(arr), index, index_length);
 	} else if (UNEXPECTED(Z_TYPE_P(arr) == IS_STRING)) {
 		zval offset;
 		int  found;
@@ -660,7 +664,7 @@ int ZEPHIR_FASTCALL zephir_array_isset_value_string(const zval *arr, const char 
 		return 0;
 	}
 
-	entry = zend_hash_str_find(Z_ARRVAL_P(arr), index, index_length);
+	entry = zend_symtable_str_find(Z_ARRVAL_P(arr), index, index_length);
 	if (entry == NULL) {
 		return 0;
 	}
@@ -748,23 +752,63 @@ int zephir_isempty_dim_string(zval *container, char *offset, uint32_t offset_len
 	);
 }
 
+/**
+ * Reports the container errors PHP's ZEND_UNSET_DIM reports, in its order.
+ *
+ * Zend/zend_vm_def.h: an object without array access and a string are errors on
+ * every version, and from PHP 8.1 so is any other non-null scalar; `false` is
+ * deprecated there, while null and undefined stay silent everywhere. PHP 8.0
+ * has neither the scalar branch nor zend_false_to_array_deprecated(), so both
+ * are gated rather than back-ported.
+ *
+ * The caller has already established that the container is not an array and is
+ * not something it can handle itself.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2702
+ */
+static void zephir_unset_dim_illegal_container(zval *arr)
+{
+	if (Z_TYPE_P(arr) == IS_OBJECT) {
+		zend_throw_error(NULL, "Cannot use object of type %s as array", ZSTR_VAL(Z_OBJCE_P(arr)->name));
+
+		return;
+	}
+
+	if (Z_TYPE_P(arr) == IS_STRING) {
+		zend_throw_error(NULL, "Cannot unset string offsets");
+
+		return;
+	}
+
+#if PHP_VERSION_ID >= 80100
+	if (Z_TYPE_P(arr) > IS_FALSE) {
+		zend_throw_error(NULL, "Cannot unset offset in a non-array variable");
+	} else if (Z_TYPE_P(arr) == IS_FALSE) {
+		zend_false_to_array_deprecated();
+	}
+#endif
+}
+
 int ZEPHIR_FASTCALL zephir_array_unset(zval *arr, zval *index, int flags)
 {
 	HashTable *ht;
 
-	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev(arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
-		zend_long ZEPHIR_LAST_CALL_STATUS;
-		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(NULL, arr, "offsetunset", NULL, 0, index);
-		if (ZEPHIR_LAST_CALL_STATUS != FAILURE) {
-			return 1;
+	/* PHP follows the reference before it looks at the container. */
+	ZVAL_DEREF(arr);
+
+	if (UNEXPECTED(Z_TYPE_P(arr) != IS_ARRAY)) {
+		if (Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev(arr, (const zend_class_entry *)zend_ce_arrayaccess)) {
+			zend_long ZEPHIR_LAST_CALL_STATUS;
+			ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(NULL, arr, "offsetunset", NULL, 0, index);
+			if (ZEPHIR_LAST_CALL_STATUS != FAILURE) {
+				return 1;
+			}
+
+			return 0;
 		}
 
-		return 0;
-	} else if (UNEXPECTED(Z_TYPE_P(arr) == IS_STRING)) {
-		zend_throw_error(NULL, "Cannot unset string offsets");
+		zephir_unset_dim_illegal_container(arr);
 
-		return 0;
-	} else if (Z_TYPE_P(arr) != IS_ARRAY) {
 		return 0;
 	}
 
@@ -802,22 +846,24 @@ int ZEPHIR_FASTCALL zephir_array_unset(zval *arr, zval *index, int flags)
 
 int ZEPHIR_FASTCALL zephir_array_unset_string(zval *arr, const char *index, uint32_t index_length, int flags)
 {
-	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev(arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
-		zend_long ZEPHIR_LAST_CALL_STATUS;
-		zval offset;
-		ZVAL_STRINGL(&offset, index, index_length);
-		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(NULL, arr, "offsetunset", NULL, 0, &offset);
-		zval_ptr_dtor(&offset);
-		if (ZEPHIR_LAST_CALL_STATUS != FAILURE) {
-			return 1;
+	ZVAL_DEREF(arr);
+
+	if (UNEXPECTED(Z_TYPE_P(arr) != IS_ARRAY)) {
+		if (Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev(arr, (const zend_class_entry *)zend_ce_arrayaccess)) {
+			zend_long ZEPHIR_LAST_CALL_STATUS;
+			zval offset;
+			ZVAL_STRINGL(&offset, index, index_length);
+			ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(NULL, arr, "offsetunset", NULL, 0, &offset);
+			zval_ptr_dtor(&offset);
+			if (ZEPHIR_LAST_CALL_STATUS != FAILURE) {
+				return 1;
+			}
+
+			return 0;
 		}
 
-		return 0;
-	} else if (UNEXPECTED(Z_TYPE_P(arr) == IS_STRING)) {
-		zend_throw_error(NULL, "Cannot unset string offsets");
+		zephir_unset_dim_illegal_container(arr);
 
-		return 0;
-	} else if (Z_TYPE_P(arr) != IS_ARRAY) {
 		return 0;
 	}
 
@@ -825,27 +871,29 @@ int ZEPHIR_FASTCALL zephir_array_unset_string(zval *arr, const char *index, uint
 		SEPARATE_ZVAL(arr);
 	}
 
-	return zend_hash_str_del(Z_ARRVAL_P(arr), index, index_length);
+	return zend_symtable_str_del(Z_ARRVAL_P(arr), index, index_length);
 }
 
 int ZEPHIR_FASTCALL zephir_array_unset_long(zval *arr, zend_long index, int flags)
 {
-	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev(arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
-		zend_long ZEPHIR_LAST_CALL_STATUS;
-		zval offset;
-		ZVAL_LONG(&offset, index);
-		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(NULL, arr, "offsetunset", NULL, 0, &offset);
+	ZVAL_DEREF(arr);
 
-		if (ZEPHIR_LAST_CALL_STATUS != FAILURE) {
-			return 1;
+	if (UNEXPECTED(Z_TYPE_P(arr) != IS_ARRAY)) {
+		if (Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev(arr, (const zend_class_entry *)zend_ce_arrayaccess)) {
+			zend_long ZEPHIR_LAST_CALL_STATUS;
+			zval offset;
+			ZVAL_LONG(&offset, index);
+			ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(NULL, arr, "offsetunset", NULL, 0, &offset);
+
+			if (ZEPHIR_LAST_CALL_STATUS != FAILURE) {
+				return 1;
+			}
+
+			return 0;
 		}
 
-		return 0;
-	} else if (UNEXPECTED(Z_TYPE_P(arr) == IS_STRING)) {
-		zend_throw_error(NULL, "Cannot unset string offsets");
+		zephir_unset_dim_illegal_container(arr);
 
-		return 0;
-	} else if (Z_TYPE_P(arr) != IS_ARRAY) {
 		return 0;
 	}
 
@@ -1005,9 +1053,9 @@ int zephir_array_fetch_string(zval *return_value, zval *arr, const char *index, 
 
 		return FAILURE;
 	} else if (EXPECTED(Z_TYPE_P(arr) == IS_ARRAY)) {
-		if ((zv = zend_hash_str_find(Z_ARRVAL_P(arr), index, index_length)) == NULL
+		if ((zv = zend_symtable_str_find(Z_ARRVAL_P(arr), index, index_length)) == NULL
 			&& (flags & PH_WRITE) == PH_WRITE) {
-			zv = zephir_array_write_create_string(Z_ARRVAL_P(arr), index, index_length);
+			zv = zephir_array_write_create_symtable(Z_ARRVAL_P(arr), index, index_length);
 		}
 
 		if (zv != NULL) {
@@ -1234,7 +1282,7 @@ int zephir_array_update_string(zval *arr, const char *index, uint32_t index_leng
 		SEPARATE_ARRAY(arr);
 	}
 
-	return zend_hash_str_update(Z_ARRVAL_P(arr), index, index_length, value) ? SUCCESS : FAILURE;
+	return zend_symtable_str_update(Z_ARRVAL_P(arr), index, index_length, value) ? SUCCESS : FAILURE;
 }
 
 int zephir_array_update_long(zval *arr, zend_long index, zval *value, int flags ZEPHIR_DEBUG_PARAMS)

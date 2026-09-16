@@ -18,6 +18,7 @@
 #include <php_main.h>
 #include <Zend/zend_exceptions.h>
 #include <Zend/zend_interfaces.h>
+#include <Zend/zend_attributes.h>
 #include <ext/spl/spl_exceptions.h>
 
 #include "kernel/main.h"
@@ -427,6 +428,41 @@ int zephir_declare_class_constant(zend_class_entry *ce, const char *name, size_t
 }
 
 /**
+ * A string owned by the module for the life of the process: persistent, and
+ * marked interned so that nothing may addref or release it.
+ *
+ * The interned mark is what lets zephir_persist_constant_zval() below keep
+ * HASH_FLAG_STATIC_KEYS truthful. zend_string_addref(), zend_string_delref()
+ * and zend_string_release() are all gated on !ZSTR_IS_INTERNED
+ * (Zend/zend_string.h), so zend_hash_add_new() neither addrefs such a key nor
+ * clears the flag, and a copy of the table that later loses the flag still
+ * cannot free what it only borrowed.
+ *
+ * These strings are deliberately NOT registered in CG(interned_strings).
+ * zend_string_init_interned() is the permanent allocator only until
+ * php_request_startup() swaps in zend_string_init_interned_request(), which
+ * ignores its `permanent` argument and returns a string freed at the end of the
+ * request (Zend/zend_string.c; under ZEND_RC_DEBUG it asserts on `permanent`,
+ * commented "at least dl() may do this"). An extension loaded with dl() -- which
+ * is how tests/ext-bootstrap.php loads this one -- runs MINIT after that swap.
+ * Stamping the flags on memory we allocated ourselves keeps the string's
+ * lifetime equal to the table's no matter when MINIT runs. php-src does the same
+ * in opcache's zend_set_str_gc_flags(), whose file-cache branch marks a string
+ * it allocated IS_STR_INTERNED without interning it.
+ */
+static zend_string *zephir_persist_string(const char *val, size_t len)
+{
+	/* zend_string_init(..., 1) already sets IS_STR_PERSISTENT. */
+	zend_string *str = zend_string_init(val, len, 1);
+
+	GC_ADD_FLAGS(str, IS_STR_INTERNED | IS_STR_PERMANENT);
+	/* An interned string is expected to carry its hash. */
+	zend_string_hash_val(str);
+
+	return str;
+}
+
+/**
  * Deep-copies a (request) zval into persistent, immutable memory so it can be
  * stored as a constant or as a property default on a persistently-registered
  * (internal) class. Only the value kinds that may appear in a Zephir array
@@ -441,28 +477,29 @@ int zephir_declare_class_constant(zend_class_entry *ce, const char *name, size_t
  *      fires and a userland write duplicates instead of mutating this table.
  *      The count never moves: SEPARATE_ARRAY releases via GC_TRY_DELREF(), a
  *      no-op on GC_IMMUTABLE, and ZVAL_COPY never addrefs a non-refcounted zval.
- *   2. every string inside is non-refcounted, and
+ *   2. every string inside, key or value, is interned, and
  *   3. the table carries HASH_FLAG_STATIC_KEYS.
  *
  * (2) and (3) exist because zend_array_dup()'s immutable branch is a raw memcpy
  * of the buckets with no addref on keys or values, while the copy it produces
- * gets pDestructor = ZVAL_PTR_DTOR. A refcounted string value or a non-static
- * string key would therefore be released by a copy that never referenced it,
- * freeing memory this table still points at.
+ * gets pDestructor = ZVAL_PTR_DTOR and inherits HASH_FLAG_STATIC_KEYS. That copy
+ * therefore borrows every string this table owns, and it keeps the flag only
+ * until something inserts a key that is not interned. From then on, destroying
+ * it releases every key it holds -- including the borrowed ones -- freeing
+ * memory this table still points at.
  *
  * @see https://github.com/zephir-lang/zephir/issues/2533
  * @see https://github.com/zephir-lang/zephir/issues/2651
+ * @see https://github.com/zephir-lang/zephir/issues/2699
  */
 static void zephir_persist_constant_zval(zval *dst, zval *src)
 {
 	switch (Z_TYPE_P(src)) {
 		case IS_STRING:
-			ZVAL_STR(dst, zend_string_init(Z_STRVAL_P(src), Z_STRLEN_P(src), 1));
-			GC_ADD_FLAGS(Z_STR_P(dst), IS_STR_PERSISTENT);
-			/* Non-refcounted, like opcache's `Z_TYPE_FLAGS_P(z) = 0`: a copy of the
-			 * owning array borrows this string without an addref and must never
-			 * release it. */
-			Z_TYPE_INFO_P(dst) = IS_STRING;
+			/* ZVAL_STR reads ZSTR_IS_INTERNED and stores IS_INTERNED_STRING_EX,
+			 * which is plain IS_STRING: non-refcounted, so a copy of the owning
+			 * array borrows this string without an addref. */
+			ZVAL_STR(dst, zephir_persist_string(Z_STRVAL_P(src), Z_STRLEN_P(src)));
 			break;
 
 		case IS_ARRAY: {
@@ -478,20 +515,19 @@ static void zephir_persist_constant_zval(zval *dst, zval *src)
 				zval copy;
 				zephir_persist_constant_zval(&copy, val);
 				if (key) {
-					zend_string *pkey = zend_string_init(ZSTR_VAL(key), ZSTR_LEN(key), 1);
-					GC_ADD_FLAGS(pkey, IS_STR_PERSISTENT);
-					zend_hash_add_new(ht, pkey, &copy);
-					zend_string_release(pkey);
+					/* No release afterwards: an interned key is not addref'd by
+					 * the insert, so there is no reference of ours to give back.
+					 * The table holds this key until the process exits. */
+					zend_hash_add_new(ht, zephir_persist_string(ZSTR_VAL(key), ZSTR_LEN(key)), &copy);
 				} else {
 					zend_hash_index_add_new(ht, idx, &copy);
 				}
 			} ZEND_HASH_FOREACH_END();
 
 			ZVAL_ARR(dst, ht);
-			/* A non-interned key cleared this flag on every insert above. Restore it
-			 * (as zend_hash_persist() does) so neither this table nor a copy made by
-			 * zend_array_dup() releases keys it does not own; the flag is inside
-			 * HASH_FLAG_MASK, so the copy inherits it. */
+			/* Set by zend_hash_init() and left alone by every insert above, since
+			 * every key is interned. Stated here because a copy of this table
+			 * inherits the flag and its correctness depends on it. */
 			HT_FLAGS(ht) |= HASH_FLAG_STATIC_KEYS;
 			GC_SET_REFCOUNT(ht, 2);
 			GC_ADD_FLAGS(ht, IS_ARRAY_IMMUTABLE);
@@ -662,6 +698,325 @@ int zephir_declare_class_constant_stringl(zend_class_entry *ce, const char *name
 int zephir_declare_class_constant_string(zend_class_entry *ce, const char *name, size_t name_length, const char *value)
 {
 	return zephir_declare_class_constant_stringl(ce, name, name_length, value, strlen(value));
+}
+
+/**
+ * Attaches a PHP attribute to a Zephir class or to one of its members (#2466).
+ *
+ * A Zephir class is a ZEND_INTERNAL_CLASS, so every zend_add_*_attribute()
+ * wrapper sets ZEND_ATTRIBUTE_PERSISTENT on the record it creates.
+ * zend_add_attribute() copies the name into persistent memory itself, so the
+ * interned persistent key built here can be released immediately.
+ *
+ * The attribute class is NOT resolved: the engine keeps a plain name and looks
+ * the class up lazily, in ReflectionAttribute::newInstance().
+ */
+zend_attribute *zephir_add_class_attribute(zend_class_entry *ce, const char *name, size_t name_length, uint32_t argc)
+{
+	zend_attribute *attr;
+	zend_string *key;
+
+	if (UNEXPECTED(ce == NULL)) {
+		return NULL;
+	}
+
+	key  = zend_string_init_interned(name, name_length, 1);
+	attr = zend_add_class_attribute(ce, key, argc);
+	zend_string_release(key);
+
+	return attr;
+}
+
+/**
+ * Looks a declared method up so an attribute can be attached to it.
+ *
+ * ce->function_table is keyed by the LOWERCASED name (zend_register_functions
+ * interns it that way), while Zephir keeps the source spelling in PHP_ME, so
+ * the caller lowercases the name for us.
+ */
+static zend_function *zephir_attribute_method(zend_class_entry *ce, const char *method, size_t method_length, const char *name)
+{
+	zend_function *func = zend_hash_str_find_ptr(&ce->function_table, method, method_length);
+
+	if (UNEXPECTED(func == NULL)) {
+		zend_error(E_WARNING, "Zephir Error: cannot attach attribute #[%s] to %s::%s(): method not found",
+			name, ZSTR_VAL(ce->name), method);
+	}
+
+	return func;
+}
+
+zend_attribute *zephir_add_method_attribute(zend_class_entry *ce, const char *method, size_t method_length, const char *name, size_t name_length, uint32_t argc)
+{
+	zend_attribute *attr;
+	zend_function *func;
+	zend_string *key;
+
+	if (UNEXPECTED(ce == NULL)) {
+		return NULL;
+	}
+
+	func = zephir_attribute_method(ce, method, method_length, name);
+	if (UNEXPECTED(func == NULL)) {
+		return NULL;
+	}
+
+	key  = zend_string_init_interned(name, name_length, 1);
+	attr = zend_add_function_attribute(func, key, argc);
+	zend_string_release(key);
+
+	return attr;
+}
+
+zend_attribute *zephir_add_parameter_attribute(zend_class_entry *ce, const char *method, size_t method_length, uint32_t offset, const char *name, size_t name_length, uint32_t argc)
+{
+	zend_attribute *attr;
+	zend_function *func;
+	zend_string *key;
+
+	if (UNEXPECTED(ce == NULL)) {
+		return NULL;
+	}
+
+	func = zephir_attribute_method(ce, method, method_length, name);
+	if (UNEXPECTED(func == NULL)) {
+		return NULL;
+	}
+
+	/* zend_add_parameter_attribute() stores offset + 1, and every engine reader
+	 * (zend_get_parameter_attribute, ReflectionParameter, the sensitive-argument
+	 * check in a backtrace) adds the 1 too, so the plain 0-based declared
+	 * position is what belongs here. */
+	key  = zend_string_init_interned(name, name_length, 1);
+	attr = zend_add_parameter_attribute(func, offset, key, argc);
+	zend_string_release(key);
+
+	return attr;
+}
+
+zend_attribute *zephir_add_property_attribute(zend_class_entry *ce, const char *property, size_t property_length, const char *name, size_t name_length, uint32_t argc)
+{
+	zend_attribute *attr;
+	zend_property_info *info;
+	zend_string *key;
+
+	if (UNEXPECTED(ce == NULL)) {
+		return NULL;
+	}
+
+	/* ce->properties_info is keyed by the UNMANGLED name for every visibility --
+	 * zend_declare_typed_property() mangles property_info->name, not the hash
+	 * key -- so a private or protected property is found under the name written
+	 * in the .zep source. Looking the property up by name, rather than threading
+	 * through the zend_property_info* that zephir_declare_typed_property()
+	 * already returns, is what makes this work uniformly for typed,
+	 * union-typed, array-default and plain untyped properties. */
+	info = zend_hash_str_find_ptr(&ce->properties_info, property, property_length);
+	if (UNEXPECTED(info == NULL)) {
+		zend_error(E_WARNING, "Zephir Error: cannot attach attribute #[%s] to %s::$%s: property not found",
+			name, ZSTR_VAL(ce->name), property);
+		return NULL;
+	}
+
+	key  = zend_string_init_interned(name, name_length, 1);
+	attr = zend_add_property_attribute(ce, info, key, argc);
+	zend_string_release(key);
+
+	return attr;
+}
+
+zend_attribute *zephir_add_class_constant_attribute(zend_class_entry *ce, const char *constant, size_t constant_length, const char *name, size_t name_length, uint32_t argc)
+{
+	zend_attribute *attr;
+	zend_class_constant *c;
+	zend_string *key;
+
+	if (UNEXPECTED(ce == NULL)) {
+		return NULL;
+	}
+
+	c = zend_hash_str_find_ptr(&ce->constants_table, constant, constant_length);
+	if (UNEXPECTED(c == NULL)) {
+		zend_error(E_WARNING, "Zephir Error: cannot attach attribute #[%s] to %s::%s: class constant not found",
+			name, ZSTR_VAL(ce->name), constant);
+		return NULL;
+	}
+
+	key  = zend_string_init_interned(name, name_length, 1);
+	attr = zend_add_class_constant_attribute(ce, c, key, argc);
+	zend_string_release(key);
+
+	return attr;
+}
+
+/**
+ * Looks a module function up so an attribute can be attached to it.
+ *
+ * CG(function_table) is keyed by the lowercased name, and a namespaced function
+ * registered through ZEND_NS_NAMED_FE is interned as `<ns>\<name>`, so the
+ * caller passes the fully qualified lowercased name.
+ */
+static zend_function *zephir_attribute_function(const char *function, size_t function_length, const char *name)
+{
+	zend_function *func = zend_hash_str_find_ptr(CG(function_table), function, function_length);
+
+	if (UNEXPECTED(func == NULL)) {
+		zend_error(E_WARNING, "Zephir Error: cannot attach attribute #[%s] to %s(): function not found",
+			name, function);
+	}
+
+	return func;
+}
+
+zend_attribute *zephir_add_function_attribute(const char *function, size_t function_length, const char *name, size_t name_length, uint32_t argc)
+{
+	zend_attribute *attr;
+	zend_function *func;
+	zend_string *key;
+
+	func = zephir_attribute_function(function, function_length, name);
+	if (UNEXPECTED(func == NULL)) {
+		return NULL;
+	}
+
+	key  = zend_string_init_interned(name, name_length, 1);
+	attr = zend_add_function_attribute(func, key, argc);
+	zend_string_release(key);
+
+	return attr;
+}
+
+zend_attribute *zephir_add_function_parameter_attribute(const char *function, size_t function_length, uint32_t offset, const char *name, size_t name_length, uint32_t argc)
+{
+	zend_attribute *attr;
+	zend_function *func;
+	zend_string *key;
+
+	func = zephir_attribute_function(function, function_length, name);
+	if (UNEXPECTED(func == NULL)) {
+		return NULL;
+	}
+
+	key  = zend_string_init_interned(name, name_length, 1);
+	attr = zend_add_parameter_attribute(func, offset, key, argc);
+	zend_string_release(key);
+
+	return attr;
+}
+
+void zephir_mark_function_flags(const char *function, size_t function_length, uint32_t flags)
+{
+	zend_function *func;
+
+	if (flags == 0) {
+		return;
+	}
+
+	func = zend_hash_str_find_ptr(CG(function_table), function, function_length);
+	if (UNEXPECTED(func == NULL)) {
+		return;
+	}
+
+	func->common.fn_flags |= flags;
+}
+
+/**
+ * Sets the ZEND_ACC_* flag an attached PHP attribute would otherwise have had
+ * set for it by the engine's own attribute validator (#2466).
+ *
+ * A zero `flags` is a no-op, which is how the version gating in kernel/main.h
+ * keeps the generated C the same on every supported PHP.
+ */
+void zephir_mark_class_flags(zend_class_entry *ce, uint32_t flags)
+{
+	if (UNEXPECTED(ce == NULL) || flags == 0) {
+		return;
+	}
+
+	ce->ce_flags |= flags;
+}
+
+void zephir_mark_method_flags(zend_class_entry *ce, const char *method, size_t method_length, uint32_t flags)
+{
+	zend_function *func;
+
+	if (UNEXPECTED(ce == NULL) || flags == 0) {
+		return;
+	}
+
+	func = zend_hash_str_find_ptr(&ce->function_table, method, method_length);
+	if (UNEXPECTED(func == NULL)) {
+		return;
+	}
+
+	func->common.fn_flags |= flags;
+}
+
+void zephir_mark_class_constant_flags(zend_class_entry *ce, const char *constant, size_t constant_length, uint32_t flags)
+{
+	zend_class_constant *c;
+
+	if (UNEXPECTED(ce == NULL) || flags == 0) {
+		return;
+	}
+
+	c = zend_hash_str_find_ptr(&ce->constants_table, constant, constant_length);
+	if (UNEXPECTED(c == NULL)) {
+		return;
+	}
+
+	ZEND_CLASS_CONST_FLAGS(c) |= flags;
+}
+
+/**
+ * Writes one argument of an attribute record.
+ *
+ * A persistent attribute is freed by attr_free() (Zend/zend_attributes.c),
+ * which disposes of each argument value with zval_internal_ptr_dtor(). That
+ * function handles exactly two shapes (Zend/zend_variables.c): a non-refcounted
+ * value, or a persistent, non-interned, refcounted STRING. Handed a refcounted
+ * ARRAY it raises
+ *   E_CORE_ERROR "Internal zval's can't be arrays, objects, resources or reference"
+ * so the two interesting kinds are stored differently:
+ *
+ *   - a STRING becomes a persistent refcounted string, which attr_free() frees.
+ *     This is what php-src's own generated arginfo does; see
+ *     ext/pgsql/pgsql_arginfo.h. It must NOT be interned, because
+ *     zval_internal_ptr_dtor() asserts the string is not.
+ *   - an ARRAY becomes the shared-immutable, NON-refcounted table
+ *     zephir_persist_constant_zval() already builds for an array class constant
+ *     (refcount 2 + IS_ARRAY_IMMUTABLE + HASH_FLAG_STATIC_KEYS + interned,
+ *     non-refcounted nested strings), which zval_internal_ptr_dtor()
+ *     correctly leaves alone.
+ *   - a scalar is copied by value and needs no allocation at all.
+ *
+ * Readers go through zend_get_attribute_value()'s ZVAL_COPY_OR_DUP, which for a
+ * GC_PERSISTENT refcounted string duplicates into request memory rather than
+ * taking a cross-request reference, and for the non-refcounted immutable array
+ * makes a plain value copy that a userland write separates. Neither shape can
+ * be mutated or freed by a reader.
+ *
+ * A named argument's name is interned, so attr_free()'s zend_string_release()
+ * on it is a no-op.
+ */
+void zephir_attribute_set_arg(zend_attribute *attr, uint32_t offset, const char *name, size_t name_length, zval *value)
+{
+	if (UNEXPECTED(attr == NULL || offset >= attr->argc)) {
+		zval_ptr_dtor(value);
+		return;
+	}
+
+	if (name != NULL) {
+		attr->args[offset].name = zend_string_init_interned(name, name_length, 1);
+	}
+
+	if (Z_TYPE_P(value) == IS_STRING) {
+		ZVAL_STR(&attr->args[offset].value, zend_string_init(Z_STRVAL_P(value), Z_STRLEN_P(value), 1));
+	} else {
+		zephir_persist_constant_zval(&attr->args[offset].value, value);
+	}
+
+	zval_ptr_dtor(value);
 }
 
 /**

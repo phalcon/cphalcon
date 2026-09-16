@@ -135,7 +135,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet)
 }
 
 /**
- * Rows cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
+ * Rows cannot be changed. It has only been implemented to meet the
+ * definition of the ArrayAccess interface
  *
  * @param string|int offsetSet
  * @param ModelInterface value
@@ -161,13 +162,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet)
 	object_init_ex(&_0, phalcon_mvc_model_exceptions_rowisimmutable_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Row.zep", 76);
+	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Row.zep", 77);
 	ZEPHIR_MM_RESTORE();
 	return;
 }
 
 /**
- * Rows cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
+ * Rows cannot be changed. It has only been implemented to meet the
+ * definition of the ArrayAccess interface
  *
  * @param string|int offset
  */
@@ -190,7 +192,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset)
 	object_init_ex(&_0, phalcon_mvc_model_exceptions_rowisimmutable_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Row.zep", 86);
+	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Row.zep", 88);
 	ZEPHIR_MM_RESTORE();
 	return;
 }

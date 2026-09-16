@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Model\QueryInterface
- *
  * Interface for Phalcon\Mvc\Model\Query
  *
  * @phpstan-import-type mvc_model_bind_params from MvcTypes
@@ -88,8 +86,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_QueryInterface, getSql);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_QueryInterface, getUniqueRow);
 /**
- * Parses the intermediate code produced by Phalcon\Mvc\Model\Query\Lang generating another
- * intermediate representation that could be executed by Phalcon\Mvc\Model\Query
+ * Parses the intermediate code produced by Phalcon\Mvc\Model\Query\Lang
+ * generating another intermediate representation that could be executed
+ * by Phalcon\Mvc\Model\Query
  *
  * @phpstan-return mvc_query_ir
  */

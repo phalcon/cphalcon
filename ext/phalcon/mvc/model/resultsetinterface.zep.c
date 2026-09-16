@@ -75,7 +75,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getMessages);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getType);
 /**
- * Tell if the resultset if fresh or an old one cached
+ * Tell if the resultset is fresh or an old one cached
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, isFresh);
 /**

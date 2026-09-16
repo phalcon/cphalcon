@@ -210,7 +210,7 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doGetLinksByRel)
 	ZVAL_STR_COPY(&rel_zv, rel);
 	ZEPHIR_INIT_VAR(&filtered);
 	array_init(&filtered);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 225, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 224, PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_2);
 		zephir_string_to_char_array(&_2, &_0);
@@ -307,18 +307,12 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doWithoutLink)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *link, link_sub, key, newInstance, _0;
+	zval *link, link_sub, key, newInstance;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&link_sub);
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&newInstance);
-	ZVAL_UNDEF(&_0);
-	static zend_string *_zephir_prop_0 = NULL;
-	if (UNEXPECTED(!_zephir_prop_0)) {
-		_zephir_prop_0 = zend_string_init("links", 5, 1);
-	}
-
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(link)
 	ZEND_PARSE_PARAMETERS_END();
@@ -332,8 +326,6 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doWithoutLink)
 		RETURN_MM();
 	}
 	zephir_unset_property_array(&newInstance, ZEND_STRL("links"), &key);
-	zephir_read_property_cached(&_0, &newInstance, _zephir_prop_0, 0, PH_NOISY_CC | PH_READONLY);
-	zephir_array_unset(&_0, &key, PH_SEPARATE);
 	RETURN_CCTOR(&newInstance);
 }
 

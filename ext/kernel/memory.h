@@ -65,6 +65,7 @@ void zephir_create_symbol_table(zephir_method_globals *g);
 #define ZEPHIR_CREATE_SYMBOL_TABLE() zephir_create_symbol_table(ZEPHIR_METHOD_GLOBALS_PTR);
 
 int zephir_set_symbol(zval *key_name, zval *value);
+int zephir_set_symbol_str(const char *key_name, size_t key_length, zval *value);
 
 #define ZEPHIR_INIT_VAR(z) \
 	zephir_memory_observe(z); \

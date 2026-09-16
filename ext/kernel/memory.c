@@ -274,6 +274,36 @@ int zephir_set_symbol(zval *key_name, zval *value)
 	return SUCCESS;
 }
 
+/**
+ * Exports a symbol named by a C string literal to the active symbol table.
+ *
+ * Emitted for `let {"name"} = value`, the literal-name half of the dynamic
+ * variable export. Deleted in 0cfdd9040 as unused, because its only caller is
+ * a PHP string in the compiler rather than any C in this tree, and restored
+ * once that made `let {"name"} = value` emit C that does not link.
+ *
+ * `zend_hash_str_update()`, not `zend_symtable_str_update()`: a variable name
+ * is never folded to an integer key, which is why the zval-keyed twin above
+ * uses plain `zend_hash_update()` as well.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2710
+ */
+int zephir_set_symbol_str(const char *key_name, size_t key_length, zval *value)
+{
+	zend_array *symbol_table;
+
+	symbol_table = zend_rebuild_symbol_table();
+	if (!symbol_table) {
+		php_error_docref(NULL, E_WARNING, "Cannot find a valid symbol_table");
+		return FAILURE;
+	}
+
+	Z_TRY_ADDREF_P(value);
+	zend_hash_str_update(symbol_table, key_name, key_length, value);
+
+	return SUCCESS;
+}
+
 void ZEPHIR_FASTCALL zephir_do_memory_observe(zval *var, const zephir_method_globals *g)
 {
 	zephir_memory_entry *frame = g->active_memory;

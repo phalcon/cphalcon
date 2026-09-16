@@ -61,7 +61,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, phpIsDir);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, phpIsWritable);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, phpMkdir);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, phpUnlink);
-zend_object *zephir_init_properties_Phalcon_Mvc_View_Engine_Volt_Compiler(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler___construct, 0, 0, 0)
 	ZEND_ARG_OBJ_TYPE_MASK(0, view, Phalcon\\Mvc\\ViewBaseInterface, MAY_BE_NULL, "null")
@@ -326,9 +325,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_phpunlink, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
 	ZEND_ARG_INFO(0, context)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_zephir_init_properties_phalcon_mvc_view_engine_volt_compiler, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_view_engine_volt_compiler_method_entry) {

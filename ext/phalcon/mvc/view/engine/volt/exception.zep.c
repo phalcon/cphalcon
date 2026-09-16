@@ -36,12 +36,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt_Exception)
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\View\\Engine\\Volt, Exception, phalcon, mvc_view_engine_volt_exception, phalcon_mvc_view_exception_ce, phalcon_mvc_view_engine_volt_exception_method_entry, 0);
 
 	/**
-	 * @var array
-	 *
 	 * @phpstan-var mvc_volt_node
 	 */
-	zend_declare_property_null(phalcon_mvc_view_engine_volt_exception_ce, SL("statement"), ZEND_ACC_PROTECTED);
-	phalcon_mvc_view_engine_volt_exception_ce->create_object = zephir_init_properties_Phalcon_Mvc_View_Engine_Volt_Exception;
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_mvc_view_engine_volt_exception_ce, SL("statement"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
 
 	return SUCCESS;
 }
@@ -124,8 +125,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exception, __construct)
 /**
  * Gets currently parsed statement (if any).
  *
- * @return array
- *
  * @phpstan-return mvc_volt_node
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exception, getStatement)
@@ -150,30 +149,5 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exception, getStatement)
 		array_init(&statement);
 	}
 	RETURN_CCTOR(&statement);
-}
-
-zend_object *zephir_init_properties_Phalcon_Mvc_View_Engine_Volt_Exception(zend_class_entry *class_type)
-{
-		zval _0, _1$$3;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("statement"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("statement"), &_1$$3);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 
