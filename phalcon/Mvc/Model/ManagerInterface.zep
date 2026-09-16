@@ -202,7 +202,7 @@ interface ManagerInterface
         <ModelInterface> record,
         var parameters = null,
         string method = null
-    ) -> <ResultsetInterface> | bool;
+    ) -> bool | <ResultsetInterface>;
 
     /**
      * Gets hasManyToMany relations defined on a model
@@ -234,7 +234,7 @@ interface ManagerInterface
         <ModelInterface> record,
         var parameters = null,
         string method = null
-    ) -> <ModelInterface> | bool;
+    ) -> bool | <ModelInterface>;
 
     /**
      * Gets hasOneThrough relations defined on a model
@@ -374,7 +374,7 @@ interface ManagerInterface
      * ```php
      * $isPublic = $manager->isVisibleModelProperty(
      *     new Invoices(),
-     *     "name"
+     *     "inv_title"
      * );
      * ```
      */
@@ -401,8 +401,10 @@ interface ManagerInterface
     public function missingMethod(<ModelInterface> model,  string eventName, data);
 
     /**
-     * Receives events generated in the models and dispatches them to an events-manager if available
-     * Notify the behaviors that are listening in the model
+     * Receives events generated in the models and dispatches them to an
+     * events-manager if available. Notify the behaviors that are listening
+     * in the model
+     *
      */
     public function notifyEvent(string eventName, <ModelInterface> model);
 

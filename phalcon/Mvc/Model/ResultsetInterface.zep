@@ -72,7 +72,7 @@ interface ResultsetInterface
     public function getType() -> int;
 
     /**
-     * Tell if the resultset if fresh or an old one cached
+     * Tell if the resultset is fresh or an old one cached
      */
     public function isFresh() -> bool;
 

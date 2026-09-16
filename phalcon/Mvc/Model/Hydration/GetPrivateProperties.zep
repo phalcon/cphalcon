@@ -31,8 +31,8 @@ class GetPrivateProperties
      * ones) as [property name => ReflectionProperty], cached per class.
      *
      * Hydration (cloneResult/cloneResultMap) cannot write private properties
-     * directly: the engine write from Model scope falls back to __set(),
-     * which invokes a possible setter - or throws for a non-public property
+     * directly: the write from Model scope falls back to __set(), which
+     * invokes a possible setter - or throws for a non-public property
      * without one. Writing through ReflectionProperty stores the raw
      * database value instead.
      *

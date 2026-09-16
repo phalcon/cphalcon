@@ -13,13 +13,13 @@ namespace Phalcon\Mvc\Model;
 use Closure;
 use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Mvc\Controller\BindModelInterface;
-use Phalcon\Mvc\Model;
-use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Binder\BindableInterface;
 use Phalcon\Mvc\Model\Exceptions\HandlerMustImplementBindable;
 use Phalcon\Mvc\Model\Exceptions\InvalidGetModelNameReturn;
 use Phalcon\Mvc\Model\Exceptions\MissingMethodName;
 use Phalcon\Mvc\Model\Exceptions\MissingModelClassName;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\ModelInterface;
 use ReflectionFunction;
 use ReflectionMethod;
 use ReflectionNamedType;
@@ -38,10 +38,8 @@ class Binder implements BinderInterface
 
     /**
      * Cache object used for caching parameters for model binding
-     *
-     * @var AdapterInterface|null
      */
-    protected cache;
+    protected ?<AdapterInterface> cache;
 
     /**
      * Internal cache for caching parameters for model binding during request

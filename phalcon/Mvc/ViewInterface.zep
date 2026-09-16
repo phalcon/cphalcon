@@ -50,7 +50,7 @@ interface ViewInterface extends ViewBaseInterface
      *
      * @phpstan-return list<string>|string
      */
-    public function getActiveRenderPath() -> string | array;
+    public function getActiveRenderPath() -> array | string;
 
     /**
      * Gets base path
@@ -104,7 +104,7 @@ interface ViewInterface extends ViewBaseInterface
      *
      * @phpstan-param array<string, mixed> $params
      */
-    public function render(string controllerName,  string actionName, array params = []) -> <ViewInterface> | bool;
+    public function render(string controllerName, string actionName, array params = []) -> <ViewInterface> | bool;
 
     /**
      * Resets the view component to its factory default values

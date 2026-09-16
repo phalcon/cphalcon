@@ -92,10 +92,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      */
     protected errorHandler = null;
 
-    /**
-     * @var ManagerInterface|null
-     */
-    protected eventsManager = null;
+    protected ?<ManagerInterface> eventsManager = null;
 
     /**
      * @phpstan-var list<mixed>

@@ -21,11 +21,9 @@ use Phalcon\Mvc\View\Exception as BaseException;
 class Exception extends BaseException
 {
     /**
-     * @var array
-     *
      * @phpstan-var mvc_volt_node
      */
-    protected statement = [];
+    protected array statement = [];
 
     /**
      * @param string message
@@ -44,8 +42,6 @@ class Exception extends BaseException
 
     /**
      * Gets currently parsed statement (if any).
-     *
-     * @return array
      *
      * @phpstan-return mvc_volt_node
      */

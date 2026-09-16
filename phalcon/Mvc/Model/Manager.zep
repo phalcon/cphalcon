@@ -90,15 +90,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     protected array belongsToSingle = [];
 
-    /**
-     * @var BuilderInterface|null
-     */
     protected ?<BuilderInterface> builder = null;
 
-    /**
-     * @var DiInterface|null
-     */
-    protected container = null;
+    protected ?<DiInterface> container = null;
 
     /**
      * @phpstan-var array<string, EventsManagerInterface>
@@ -121,10 +115,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     protected array dynamicUpdate = [];
 
-    /**
-     * @var EventsManagerInterface|null
-     */
-    protected eventsManager = null;
+    protected ?<EventsManagerInterface> eventsManager = null;
 
     /**
      * Has many relations

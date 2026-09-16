@@ -493,7 +493,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *
      * @return string
      */
-    public final function getMetaDataUniqueKey(<ModelInterface> model) -> string | null
+    final public function getMetaDataUniqueKey(<ModelInterface> model) -> string | null
     {
         string key;
         let key = get_class_lower(model);
@@ -875,6 +875,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     }
 
     /**
+     * Initialize old behavior for compatability
+     *
      * Set the attributes that allow empty string values
      *
      *```php
@@ -1092,8 +1094,10 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
                     unset(this->pendingMetaDataWrites[key]);
                 }
             }
+
             return true;
         }
+
         return false;
     }
 

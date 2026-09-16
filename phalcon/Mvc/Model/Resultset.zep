@@ -29,12 +29,11 @@ use Phalcon\Support\Settings;
 use SeekableIterator;
 
 /**
- * Phalcon\Mvc\Model\Resultset
- *
- * This component allows to Phalcon\Mvc\Model returns large resultsets with the minimum memory consumption
- * Resultsets can be traversed using a standard foreach or a while statement. If a resultset is serialized
- * it will dump all the rows into a big array. Then unserialize will retrieve the rows as they were before
- * serializing.
+ * This component allows to Phalcon\Mvc\Model returns large resultsets with
+ * the minimum memory consumption. Resultsets can be traversed using a standard
+ * foreach or a while statement. If a resultset is serialized it will dump all
+ * the rows into a big array. Then unserialize will retrieve the rows as they
+ * were before serializing.
  *
  * ```php
  *
@@ -117,26 +116,24 @@ abstract class Resultset
     protected count = null;
 
     /**
-     * @var array
-     *
      * @phpstan-var array<array-key, MessageInterface>
      */
-    protected errorMessages = [];
+    protected array errorMessages = [];
+
+    protected int hydrateMode = 0;
+
+    protected bool isFresh = true;
+
+    protected int pointer = 0;
 
     /**
-     * @var int
+     * Phalcon\Db\ResultInterface or false for empty resultset
+     *
+     * @var ResultInterface|bool
+     *
+     * @phpstan-var bool|\Phalcon\Contracts\Db\Result|null
      */
-    protected hydrateMode = 0;
-
-    /**
-     * @var bool
-     */
-    protected isFresh = true;
-
-    /**
-     * @var int
-     */
-    protected pointer = 0;
+    protected result;
 
     /**
      * @var mixed|null
@@ -149,15 +146,6 @@ abstract class Resultset
      * @phpstan-var array<array-key, mixed>|null
      */
     protected rows = null;
-
-    /**
-     * Phalcon\Db\ResultInterface or false for empty resultset
-     *
-     * @var ResultInterface|bool
-     *
-     * @phpstan-var bool|\Phalcon\Contracts\Db\Result|null
-     */
-    protected result;
 
     /**
      * Phalcon\Mvc\Model\Resultset constructor
@@ -470,6 +458,11 @@ abstract class Resultset
         return this->errorMessages;
     }
 
+    public function getResult() -> var
+    {
+        return this->result;
+    }
+
     /**
      * Returns the internal type of data retrieval that the resultset is using
      */
@@ -646,6 +639,64 @@ abstract class Resultset
     public function offsetUnset(var offset) -> void
     {
         throw new CursorIsImmutable();
+    }
+
+    public function refresh() -> bool
+    {
+        var prefetchRecords, result, success;
+
+        /**
+         * 'false' is given as result for empty result-sets
+         */
+        if typeof this->result !== "object" {
+            let this->count = 0;
+            let this->rows = [];
+
+            return true;
+        }
+        let result = this->result;
+        let success = result->execute();
+        if false === success {
+            return false;
+        }
+
+        /**
+         * The statement has been replayed, so everything derived from the
+         * previous run has to go - including the cursor position
+         */
+        let this->isFresh   = true,
+            this->count     = null,
+            this->rows      = null,
+            this->row       = null,
+            this->activeRow = null,
+            this->pointer   = 0;
+
+        /**
+         * Consume the first row to tell an empty result-set from a populated
+         * one, the same way the constructor does
+         */
+        let this->row = result->$fetch();
+
+        /**
+         * Empty result-set
+         */
+        if typeof this->row != "array" {
+            let this->count = 0,
+                this->rows  = [];
+
+            return true;
+        }
+
+        /**
+         * Small result-sets with less equals 32 rows are fetched at once
+         */
+        let prefetchRecords = (int) Settings::get("orm.resultset_prefetch_records");
+
+        if prefetchRecords > 0 && this->count() <= prefetchRecords {
+            this->materialize();
+        }
+
+        return true;
     }
 
     /**
@@ -849,68 +900,5 @@ abstract class Resultset
          * complex resultset holds rows that are already hydrated objects.
          */
         return this->row !== null && this->row !== false;
-    }
-
-    public function refresh() -> bool
-    {
-        var prefetchRecords, result, success;
-
-        /**
-         * 'false' is given as result for empty result-sets
-         */
-        if typeof this->result !== "object" {
-            let this->count = 0;
-            let this->rows = [];
-
-            return true;
-        }
-        let result = this->result;
-        let success = result->execute();
-        if false === success {
-            return false;
-        }
-
-        /**
-         * The statement has been replayed, so everything derived from the
-         * previous run has to go - including the cursor position
-         */
-        let this->isFresh   = true,
-            this->count     = null,
-            this->rows      = null,
-            this->row       = null,
-            this->activeRow = null,
-            this->pointer   = 0;
-
-        /**
-         * Consume the first row to tell an empty result-set from a populated
-         * one, the same way the constructor does
-         */
-        let this->row = result->$fetch();
-
-        /**
-         * Empty result-set
-         */
-        if typeof this->row != "array" {
-            let this->count = 0,
-                this->rows  = [];
-
-            return true;
-        }
-
-        /**
-         * Small result-sets with less equals 32 rows are fetched at once
-         */
-        let prefetchRecords = (int) Settings::get("orm.resultset_prefetch_records");
-
-        if prefetchRecords > 0 && this->count() <= prefetchRecords {
-            this->materialize();
-        }
-
-        return true;
-    }
-
-    public function getResult() -> var
-    {
-        return this->result;
     }
 }

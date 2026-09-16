@@ -46,7 +46,7 @@ class Complex extends Resultset
     protected columnTypes;
 
     /**
-     * Unserialized result-set hydrated all rows already. unserialise() sets
+     * Unserialized result-set hydrated all rows already. unserialize() sets
      * disableHydration to true
      */
     protected bool disableHydration = false;

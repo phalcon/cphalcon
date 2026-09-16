@@ -22,10 +22,7 @@ use Phalcon\Mvc\ViewBaseInterface;
  */
 abstract class AbstractEngine extends Injectable implements EngineInterface, EventsAwareInterface
 {
-    /**
-     * @var ManagerInterface|null
-     */
-    protected eventsManager = null;
+    protected ?<ManagerInterface> eventsManager = null;
 
     /**
      * @var ViewBaseInterface
@@ -66,8 +63,6 @@ abstract class AbstractEngine extends Injectable implements EngineInterface, Eve
 
     /**
      * Returns the view component related to the adapter
-     *
-     * @return ViewBaseInterface
      */
     public function getView() -> <ViewBaseInterface>
     {

@@ -66,7 +66,8 @@ class Row extends \stdClass implements EntityInterface, ResultInterface, ArrayAc
     }
 
     /**
-     * Rows cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
+     * Rows cannot be changed. It has only been implemented to meet the
+     * definition of the ArrayAccess interface
      *
      * @param string|int offsetSet
      * @param ModelInterface value
@@ -77,7 +78,8 @@ class Row extends \stdClass implements EntityInterface, ResultInterface, ArrayAc
     }
 
     /**
-     * Rows cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
+     * Rows cannot be changed. It has only been implemented to meet the
+     * definition of the ArrayAccess interface
      *
      * @param string|int offset
      */

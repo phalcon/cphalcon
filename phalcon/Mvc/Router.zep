@@ -46,8 +46,6 @@ use Phalcon\Mvc\Router\RouteInterface;
 use Phalcon\Traits\Php\FileTrait;
 
 /**
- * Phalcon\Mvc\Router
- *
  * Phalcon\Mvc\Router is the standard framework router. Routing is the
  * process of taking a URI endpoint (that part of the URI which comes after the
  * base URL) and decomposing it into parameters to determine which module,
@@ -122,10 +120,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      */
     const URI_SOURCE_SERVER_REQUEST_URI = 1;
 
-    /**
-     * @var string
-     */
-    protected action = "";
+    protected string action = "";
 
     /**
      * Pre-merged per-method candidate buckets in attach order. For each HTTP
@@ -136,11 +131,127 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      *
      * Built in rebuildMethodIndex(); consumed by handle() in reverse.
      *
-     * @var array
-     *
      * @phpstan-var mvc_router_method_buckets
      */
-    protected candidatesByMethod = [];
+    protected array candidatesByMethod = [];
+
+    /**
+     * Combined PCRE pattern per method bucket (chunked list of strings).
+     * Each chunk uses (?|...) branch reset and (*:N) mark labels. Built
+     * only when the bucket has no hostname routes and all patterns are
+     * the standard `#^...$#u` shape.
+     *
+     * @phpstan-var mvc_router_regex_chunks
+     */
+    protected array combinedRegexByMethod = [];
+
+    /**
+     * Boolean per method bucket: true when the combined regex cannot be
+     * built (hostname route present, exotic pattern shape, etc.).
+     *
+     * @phpstan-var mvc_router_regex_disabled
+     */
+    protected array combinedRegexDisabled = [];
+
+    /**
+     * Map from MARK label back to the route index in
+     * candidatesByMethod[method]. One per chunk.
+     *
+     *   combinedRegexMarkMap[method][chunkIdx][markLabel] = routeIdx
+     *
+     * @phpstan-var mvc_router_regex_mark_map
+     */
+    protected array combinedRegexMarkMap = [];
+
+    protected string controller = "";
+
+    protected string defaultAction = "";
+
+    protected string defaultController = "";
+
+    protected string defaultModule = "";
+
+    protected string defaultNamespace = "";
+
+    /**
+     * @phpstan-var mvc_router_params
+     */
+    protected array defaultParams = [];
+
+    protected ?<ManagerInterface> eventsManager = null;
+
+    /**
+     * Per-method buckets of routes with hostname constraints, grouped by
+     * raw hostname string. Routes are referenced by their index into
+     * candidatesByMethod[method]. Built in rebuildMethodIndex().
+     *
+     * Shape: hostnameByMethod[method][hostname] = list of route indices.
+     *
+     * @phpstan-var mvc_router_hostname_buckets
+     */
+    protected array hostnameByMethod = [];
+
+    /**
+     * Per-method indices of routes without a hostname constraint, in
+     * attach order.
+     *
+     * Shape: hostnameLessByMethod[method] = list of route indices into
+     * candidatesByMethod[method].
+     * @phpstan-var mvc_router_index_buckets
+     */
+    protected array hostnameLessByMethod = [];
+
+    /**
+     * @phpstan-var array<array-key, int|string>
+     */
+    protected array keyRouteIds = [];
+
+    /**
+     * @phpstan-var array<string, int|string>
+     */
+    protected array keyRouteNames = [];
+
+    protected ?<RouteInterface> matchedRoute = null;
+
+    /**
+     * @phpstan-var mvc_router_matches
+     */
+    protected array matches = [];
+
+    /**
+     * @phpstan-var mvc_router_method_buckets
+     */
+    protected array methodRoutes = [];
+
+    protected bool methodRoutesDirty = true;
+
+    protected string module = "";
+
+    protected string namespaceName = "";
+
+    /**
+     * @var array|string|null
+     *
+     * @phpstan-var mvc_router_paths|string|null
+     */
+    protected notFoundPaths = null;
+
+    /**
+     * @phpstan-var mvc_router_params
+     */
+    protected array params = [];
+
+    /**
+     * Lazy-write cache target set by useCache(). When non-null, handle()
+     * writes buildDispatcherDump() to this cache after a successful
+     * rebuild on cache miss, then clears the property to skip subsequent
+     * writes.
+     */
+    protected ?<CacheAdapterInterface> pendingCache = null;
+
+    protected string pendingCacheKey = "";
+
+    protected bool removeExtraSlashes = false;
 
     /**
      * Single-source per-route metadata cache. One entry per route, keyed
@@ -155,208 +266,23 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      *     "beforeMatch": callable|null
      *   ]
      *
-     * @var array
-     *
      * @phpstan-var array<string, mvc_router_route_meta>
      */
-    protected routeMeta = [];
+    protected array routeMeta = [];
 
     /**
-     * Combined PCRE pattern per method bucket (chunked list of strings).
-     * Each chunk uses (?|...) branch reset and (*:N) mark labels. Built
-     * only when the bucket meets gating: no hostname routes; standard
-     * pattern shape.
-     *
-     * @var array
-     *
-     * @phpstan-var mvc_router_regex_chunks
-     */
-    protected combinedRegexByMethod = [];
-
-    /**
-     * Boolean per method bucket: true when the combined regex cannot be
-     * built (hostname route present, exotic pattern shape, etc.).
-     *
-     * @var array
-     *
-     * @phpstan-var mvc_router_regex_disabled
-     */
-    protected combinedRegexDisabled = [];
-
-    /**
-     * Map from MARK label back to the route index in
-     * candidatesByMethod[method]. One per chunk.
-     *
-     *   combinedRegexMarkMap[method][chunkIdx][markLabel] = routeIdx
-     *
-     * @var array
-     *
-     * @phpstan-var mvc_router_regex_mark_map
-     */
-    protected combinedRegexMarkMap = [];
-
-    /**
-     * @var string
-     */
-    protected controller = "";
-
-    /**
-     * @var string
-     */
-    protected defaultAction = "";
-
-    /**
-     * @var string
-     */
-    protected defaultController = "";
-
-    /**
-     * @var string
-     */
-    protected defaultModule = "";
-
-    /**
-     * @var string
-     */
-    protected defaultNamespace = "";
-
-    /**
-     * @var array
-     *
-     * @phpstan-var mvc_router_params
-     */
-    protected defaultParams = [];
-
-    /**
-     * @var ManagerInterface|null
-     */
-    protected eventsManager;
-
-    /**
-     * Per-method buckets of routes with hostname constraints, grouped by
-     * raw hostname string. Routes are referenced by their index into
-     * candidatesByMethod[method]. Built in rebuildMethodIndex().
-     *
-     * Shape: hostnameByMethod[method][hostname] = list of route indices.
-     *
-     * @var array
-     *
-     * @phpstan-var mvc_router_hostname_buckets
-     */
-    protected hostnameByMethod = [];
-
-    /**
-     * Per-method indices of routes without a hostname constraint, in
-     * attach order.
-     *
-     * Shape: hostnameLessByMethod[method] = list of route indices into
-     * candidatesByMethod[method].
-     *
-     * @var array
-     *
-     * @phpstan-var mvc_router_index_buckets
-     */
-    protected hostnameLessByMethod = [];
-
-    /**
-     * @var array
-     *
-     * @phpstan-var array<string, int|string>
-     */
-    protected keyRouteNames = [];
-
-    /**
-     * @var array
-     *
-     * @phpstan-var array<array-key, int|string>
-     */
-    protected keyRouteIds = [];
-
-    /**
-     * @var RouteInterface|null
-     */
-    protected matchedRoute = null;
-
-    /**
-     * @var array
-     *
-     * @phpstan-var mvc_router_matches
-     */
-    protected matches = [];
-
-    /**
-     * @var array
-     *
-     * @phpstan-var mvc_router_method_buckets
-     */
-    protected methodRoutes = [];
-
-    /**
-     * @var bool
-     */
-    protected methodRoutesDirty = true;
-
-    /**
-     * @var string
-     */
-    protected module = "";
-
-    /**
-     * @var string
-     */
-    protected namespaceName = "";
-
-    /**
-     * @var array|string|null
-     *
-     * @phpstan-var mvc_router_paths|string|null
-     */
-    protected notFoundPaths = null;
-
-    /**
-     * @var array
-     *
-     * @phpstan-var mvc_router_params
-     */
-    protected params = [];
-
-    /**
-     * Lazy-write cache target set by useCache(). When non-null, handle()
-     * writes buildDispatcherDump() to this cache after a successful
-     * rebuild on cache miss, then clears the property to skip subsequent
-     * writes.
-     *
-     * @var CacheAdapterInterface|null
-     */
-    protected pendingCache = null;
-
-    /**
-     * @var string
-     */
-    protected pendingCacheKey = "";
-
-    /**
-     * @var bool
-     */
-    protected removeExtraSlashes = false;
-
-    /**
-     * @var array
-     *
      * @phpstan-var list<RouteInterface>
      */
-    protected routes = [];
+    protected array routes = [];
 
     /**
      * Static-route hash, populated by rebuildMethodIndex(). For each method
      * bucket (including "*"), maps URI => list of routes whose compiled
      * pattern is a literal string equal to that URI.
      *
-     * @var array
-     *
      * @phpstan-var mvc_router_static_buckets
      */
-    protected staticByMethod = [];
+    protected array staticByMethod = [];
 
     /**
      * Shadow-detection map. If staticShadowedByMethod[method][uri] is set,
@@ -364,21 +290,16 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * route - the fast path MUST NOT be used; fall through to the dynamic
      * loop so the regex wins (reverse-iteration semantics).
      *
-     * @var array
-     *
      * @phpstan-var mvc_router_shadow_buckets
      */
-    protected staticShadowedByMethod = [];
+    protected array staticShadowedByMethod = [];
 
     /**
     * @var int
      */
     protected uriSource = self::URI_SOURCE_GET_URL;
 
-    /**
-     * @var bool
-     */
-    protected wasMatched = false;
+    protected bool wasMatched = false;
 
     /**
      * Phalcon\Mvc\Router constructor
@@ -734,25 +655,6 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     }
 
     /**
-     * Removes all the pre-defined routes
-     */
-    public function clear() -> void
-    {
-        let this->routes                 = [],
-            this->methodRoutes           = [],
-            this->candidatesByMethod     = [],
-            this->routeMeta              = [],
-            this->staticByMethod         = [],
-            this->staticShadowedByMethod = [],
-            this->hostnameByMethod       = [],
-            this->hostnameLessByMethod   = [],
-            this->combinedRegexByMethod  = [],
-            this->combinedRegexDisabled  = [],
-            this->combinedRegexMarkMap   = [],
-            this->methodRoutesDirty      = true;
-    }
-
-    /**
      * Produces a pure-data array describing every piece of state needed
      * to reconstruct this router. The returned array is var_export-able
      * (no objects, no closures). Used by dumpDispatcher() and by
@@ -863,114 +765,22 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     }
 
     /**
-     * Inverse of buildDispatcherDump(). Reconstructs every Route from the
-     * scalar `routes` entries (preserving subclass and routeId), restores
-     * every index, and marks the indexes clean so handle() skips rebuild.
-     *
-     * @throws \Phalcon\Mvc\Router\Exception
-     *
-     * @phpstan-param array<string, mixed> $dump
+     * Removes all the pre-defined routes
      */
-    public function loadDispatcherFromArray(array dump) -> void
+    public function clear() -> void
     {
-        var routeData, route, routeClass, beforeMatch, converters,
-            convName, converter, rebuiltRoutes, methodRoutesRehydrated,
-            candidatesRehydrated, staticRehydrated, innerKey, innerVal,
-            scalarIdx, scalarSubKey, mostInnerVal, mostInnerArr;
-        int dumpVersion;
-
-        if !isset dump["version"] {
-            throw new Exception("Router cache is missing 'version' field");
-        }
-
-        let dumpVersion = (int) dump["version"];
-
-        if dumpVersion !== 1 {
-            throw new Exception(
-                "Router cache version " . dumpVersion . " is not supported (this build supports version 1)"
-            );
-        }
-
-        if !isset dump["routes"] {
-            throw new Exception("Router cache is missing 'routes' field");
-        }
-
-        let rebuiltRoutes = [];
-
-        for routeData in dump["routes"] {
-            let routeClass = routeData["class"];
-            let route      = new {routeClass}(routeData["pattern"], routeData["paths"], routeData["methods"]);
-
-            if routeData["hostname"] !== null {
-                route->setHostname(routeData["hostname"]);
-            }
-
-            if routeData["name"] !== null {
-                route->setName(routeData["name"]);
-            }
-
-            route->setRouteId(routeData["id"]);
-
-            let beforeMatch = routeData["beforeMatch"];
-            if beforeMatch !== null {
-                route->beforeMatch(beforeMatch);
-            }
-
-            let converters = routeData["converters"];
-            if typeof converters === "array" {
-                for convName, converter in converters {
-                    route->convert(convName, converter);
-                }
-            }
-
-            let rebuiltRoutes[] = route;
-        }
-
-        let this->routes = rebuiltRoutes;
-
-        let methodRoutesRehydrated = [];
-        for innerKey, innerVal in dump["methodRoutes"] {
-            let mostInnerArr = [];
-            for scalarIdx in innerVal {
-                let mostInnerArr[] = this->routes[scalarIdx];
-            }
-            let methodRoutesRehydrated[innerKey] = mostInnerArr;
-        }
-
-        let candidatesRehydrated = [];
-        for innerKey, innerVal in dump["candidatesByMethod"] {
-            let mostInnerArr = [];
-            for scalarIdx in innerVal {
-                let mostInnerArr[] = this->routes[scalarIdx];
-            }
-            let candidatesRehydrated[innerKey] = mostInnerArr;
-        }
-
-        let staticRehydrated = [];
-        for innerKey, innerVal in dump["staticByMethod"] {
-            let staticRehydrated[innerKey] = [];
-            for scalarSubKey, mostInnerVal in innerVal {
-                let mostInnerArr = [];
-                for scalarIdx in mostInnerVal {
-                    let mostInnerArr[] = this->routes[scalarIdx];
-                }
-                let staticRehydrated[innerKey][scalarSubKey] = mostInnerArr;
-            }
-        }
-
-        let this->methodRoutes           = methodRoutesRehydrated,
-            this->candidatesByMethod     = candidatesRehydrated,
-            this->staticByMethod         = staticRehydrated,
-            this->staticShadowedByMethod = dump["staticShadowedByMethod"],
-            this->hostnameByMethod       = dump["hostnameByMethod"],
-            this->hostnameLessByMethod   = dump["hostnameLessByMethod"],
-            this->combinedRegexByMethod  = dump["combinedRegexByMethod"],
-            this->combinedRegexDisabled  = dump["combinedRegexDisabled"],
-            this->combinedRegexMarkMap   = dump["combinedRegexMarkMap"],
-            this->routeMeta              = dump["routeMeta"],
-            this->keyRouteIds            = [],
-            this->keyRouteNames          = [],
-            this->methodRoutesDirty      = false;
+        let this->routes                 = [],
+            this->methodRoutes           = [],
+            this->candidatesByMethod     = [],
+            this->routeMeta              = [],
+            this->staticByMethod         = [],
+            this->staticShadowedByMethod = [],
+            this->hostnameByMethod       = [],
+            this->hostnameLessByMethod   = [],
+            this->combinedRegexByMethod  = [],
+            this->combinedRegexDisabled  = [],
+            this->combinedRegexMarkMap   = [],
+            this->methodRoutesDirty      = true;
     }
 
     /**
@@ -996,68 +806,6 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             this->phpUnlink(tmpPath);
             throw new Exception("Failed to commit router cache: " . path);
         }
-    }
-
-    /**
-     * File-shaped helper around loadDispatcherFromArray(). Includes the
-     * file (opcache-friendly) and forwards the return value.
-     *
-     * @throws \Phalcon\Mvc\Router\Exception
-     */
-    public function loadDispatcher(string path) -> void
-    {
-        var dump;
-
-        if !this->phpFileExists(path) {
-            throw new Exception("Router cache not found: " . path);
-        }
-
-        let dump = require path;
-
-        if typeof dump !== "array" {
-            throw new Exception(
-                "Router cache is corrupt or invalid (expected array, got " . gettype(dump) . "): " . path
-            );
-        }
-
-        this->loadDispatcherFromArray(dump);
-    }
-
-    /**
-     * Cache-instance convenience wrapper. On cache hit, restores the
-     * dispatcher immediately. On miss, defers cache population until the
-     * next handle() completes - at which point buildDispatcherDump() is
-     * written to the cache key.
-     *
-     * @throws \Phalcon\Mvc\Router\Exception
-     */
-    public function useCache(<CacheAdapterInterface> cache,  string key = "phalcon.router.dispatcher") -> void
-    {
-        var stored;
-
-        if cache->has(key) {
-            let stored = cache->get(key);
-
-            if typeof stored !== "array" {
-                throw new Exception(
-                    "Router cache value at key '" . key . "' is not an array"
-                );
-            }
-
-            this->loadDispatcherFromArray(stored);
-            return;
-        }
-
-        let this->pendingCache    = cache,
-            this->pendingCacheKey = key;
-    }
-
-    /**
-     * Returns the internal event manager
-     */
-    public function getEventsManager() -> <ManagerInterface> | null
-    {
-        return this->eventsManager;
     }
 
     /**
@@ -1093,8 +841,14 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     }
 
     /**
-     * @return array
-     *
+     * Returns the internal event manager
+     */
+    public function getEventsManager() -> <ManagerInterface> | null
+    {
+        return this->eventsManager;
+    }
+
+    /**
      * @phpstan-return array<array-key, int|string>
      */
     public function getKeyRouteIds() -> array
@@ -1103,8 +857,6 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     }
 
     /**
-     * @return array
-     *
      * @phpstan-return array<string, int|string>
      */
     public function getKeyRouteNames() -> array
@@ -1133,8 +885,6 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     /**
      * Returns the routes indexed by HTTP method.
      * Routes with no HTTP constraint are stored under the "*" key.
-     *
-     * @return array
      *
      * @phpstan-return mvc_router_method_buckets
      */
@@ -1233,12 +983,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
     /**
      * Returns a route object by its name
-     *
-     * @param string name
-     *
-     * @return RouteInterface|bool
      */
-    public function getRouteByName(string name) -> <RouteInterface> | bool
+    public function getRouteByName(string name) -> bool | <RouteInterface>
     {
         var route, routeName, key;
 
@@ -1794,21 +1540,157 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     }
 
     /**
+     * File-shaped helper around loadDispatcherFromArray(). Includes the
+     * file (opcache-friendly) and forwards the return value.
+     *
+     * @throws \Phalcon\Mvc\Router\Exception
+     */
+    public function loadDispatcher(string path) -> void
+    {
+        var dump;
+
+        if !this->phpFileExists(path) {
+            throw new Exception("Router cache not found: " . path);
+        }
+
+        let dump = require path;
+
+        if typeof dump !== "array" {
+            throw new Exception(
+                "Router cache is corrupt or invalid (expected array, got " . gettype(dump) . "): " . path
+            );
+        }
+
+        this->loadDispatcherFromArray(dump);
+    }
+
+    /**
+     * Inverse of buildDispatcherDump(). Reconstructs every Route from the
+     * scalar `routes` entries (preserving subclass and routeId), restores
+     * every index, and marks the indexes clean so handle() skips rebuild.
+     *
+     * @throws \Phalcon\Mvc\Router\Exception
+     *
+     * @phpstan-param array<string, mixed> $dump
+     */
+    public function loadDispatcherFromArray(array dump) -> void
+    {
+        var routeData, route, routeClass, beforeMatch, converters,
+            convName, converter, rebuiltRoutes, methodRoutesRehydrated,
+            candidatesRehydrated, staticRehydrated, innerKey, innerVal,
+            scalarIdx, scalarSubKey, mostInnerVal, mostInnerArr;
+        int dumpVersion;
+
+        if !isset dump["version"] {
+            throw new Exception("Router cache is missing 'version' field");
+        }
+
+        let dumpVersion = (int) dump["version"];
+
+        if dumpVersion !== 1 {
+            throw new Exception(
+                "Router cache version " . dumpVersion . " is not supported (this build supports version 1)"
+            );
+        }
+
+        if !isset dump["routes"] {
+            throw new Exception("Router cache is missing 'routes' field");
+        }
+
+        let rebuiltRoutes = [];
+
+        for routeData in dump["routes"] {
+            let routeClass = routeData["class"];
+            let route      = new {routeClass}(routeData["pattern"], routeData["paths"], routeData["methods"]);
+
+            if routeData["hostname"] !== null {
+                route->setHostname(routeData["hostname"]);
+            }
+
+            if routeData["name"] !== null {
+                route->setName(routeData["name"]);
+            }
+
+            route->setRouteId(routeData["id"]);
+
+            let beforeMatch = routeData["beforeMatch"];
+            if beforeMatch !== null {
+                route->beforeMatch(beforeMatch);
+            }
+
+            let converters = routeData["converters"];
+            if typeof converters === "array" {
+                for convName, converter in converters {
+                    route->convert(convName, converter);
+                }
+            }
+
+            let rebuiltRoutes[] = route;
+        }
+
+        let this->routes = rebuiltRoutes;
+
+        let methodRoutesRehydrated = [];
+        for innerKey, innerVal in dump["methodRoutes"] {
+            let mostInnerArr = [];
+            for scalarIdx in innerVal {
+                let mostInnerArr[] = this->routes[scalarIdx];
+            }
+            let methodRoutesRehydrated[innerKey] = mostInnerArr;
+        }
+
+        let candidatesRehydrated = [];
+        for innerKey, innerVal in dump["candidatesByMethod"] {
+            let mostInnerArr = [];
+            for scalarIdx in innerVal {
+                let mostInnerArr[] = this->routes[scalarIdx];
+            }
+            let candidatesRehydrated[innerKey] = mostInnerArr;
+        }
+
+        let staticRehydrated = [];
+        for innerKey, innerVal in dump["staticByMethod"] {
+            let staticRehydrated[innerKey] = [];
+            for scalarSubKey, mostInnerVal in innerVal {
+                let mostInnerArr = [];
+                for scalarIdx in mostInnerVal {
+                    let mostInnerArr[] = this->routes[scalarIdx];
+                }
+                let staticRehydrated[innerKey][scalarSubKey] = mostInnerArr;
+            }
+        }
+
+        let this->methodRoutes           = methodRoutesRehydrated,
+            this->candidatesByMethod     = candidatesRehydrated,
+            this->staticByMethod         = staticRehydrated,
+            this->staticShadowedByMethod = dump["staticShadowedByMethod"],
+            this->hostnameByMethod       = dump["hostnameByMethod"],
+            this->hostnameLessByMethod   = dump["hostnameLessByMethod"],
+            this->combinedRegexByMethod  = dump["combinedRegexByMethod"],
+            this->combinedRegexDisabled  = dump["combinedRegexDisabled"],
+            this->combinedRegexMarkMap   = dump["combinedRegexMarkMap"],
+            this->routeMeta              = dump["routeMeta"],
+            this->keyRouteIds            = [],
+            this->keyRouteNames          = [],
+            this->methodRoutesDirty      = false;
+    }
+
+    /**
      * Loads routes from an array or Phalcon\Config\Config instance.
      *
-     *```php
+     * ```php
      * $router->loadFromConfig(
-     *      [
-     *          'routes' => [
-     *              [
-     *                  'method'  => 'get',
-     *                  'pattern' => '/users',
-     *                  'paths'   => 'Users::index',
-     *              ],
-     *          ],
-     *      ]
-     *  );
-     *```
+     *     [
+     *         'routes' => [
+     *             [
+     *                 'method'  => 'get',
+     *                 'pattern' => '/users',
+     *                 'paths'   => 'Users::index',
+     *             ],
+     *         ],
+     *     ]
+     * );
+     * ```
      *
      * @param array|ConfigInterface config
      *
@@ -2134,9 +2016,36 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     }
 
     /**
-     * Checks if the router matches any of the defined routes
+     * Cache-instance convenience wrapper. On cache hit, restores the
+     * dispatcher immediately. On miss, defers cache population until the
+     * next handle() completes - at which point buildDispatcherDump() is
+     * written to the cache key.
      *
-     * @return bool
+     * @throws \Phalcon\Mvc\Router\Exception
+     */
+    public function useCache(<CacheAdapterInterface> cache,  string key = "phalcon.router.dispatcher") -> void
+    {
+        var stored;
+
+        if cache->has(key) {
+            let stored = cache->get(key);
+
+            if typeof stored !== "array" {
+                throw new Exception(
+                    "Router cache value at key '" . key . "' is not an array"
+                );
+            }
+
+            this->loadDispatcherFromArray(stored);
+            return;
+        }
+
+        let this->pendingCache    = cache,
+            this->pendingCacheKey = key;
+    }
+
+    /**
+     * Checks if the router matches any of the defined routes
      */
     public function wasMatched() -> bool
     {

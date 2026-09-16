@@ -132,10 +132,10 @@ class Collection implements CollectionInterface
      *
      * ```php
      * $collection->mapVia(
-     *     "/test",
-     *     "indexAction",
-     *     ["POST", "GET"],
-     *     "test"
+     *     '/test',
+     *     'indexAction',
+     *     ['POST', 'GET'],
+     *     'test'
      * );
      * ```
      *

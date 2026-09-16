@@ -35,24 +35,6 @@ use Phalcon\Mvc\Model\TransactionInterface;
 interface ModelInterface
 {
     /**
-     * Appends a customized message on the validation process
-     */
-    public function appendMessage(<MessageInterface> message) ->  <ModelInterface>;
-
-    /**
-     * Assigns values to a model from an array
-     *
-     * @param array data
-     * @param mixed whiteList
-     * @param mixed dataColumnMap Array to transform keys of data to another
-     *
-     * @return ModelInterface
-     *
-     * @phpstan-param mvc_model_data $data
-     */
-    public function assign(array data, var whiteList = null, var dataColumnMap = null) -> <ModelInterface>;
-
-    /**
      * Allows to calculate the average value on a column matching the specified
      * conditions
      *
@@ -113,18 +95,6 @@ interface ModelInterface
     public static function count(var parameters = null) -> int | <ResultsetInterface>;
 
     /**
-     * Inserts a model instance. If the instance already exists in the
-     * persistence it will throw an exception. Returning true on success or
-     * false otherwise.
-     */
-    public function create() -> bool;
-
-    /**
-     * Deletes a model instance. Returning true on success or false otherwise.
-     */
-    public function delete() -> bool;
-
-    /**
      * Allows to query a set of records that match the specified conditions.
      *
      * This is one of four ways to express a query against a model, each with an
@@ -152,6 +122,67 @@ interface ModelInterface
      * @see https://github.com/phalcon/cphalcon/issues/15883
      */
     public static function findFirst(parameters = null) -> var | null;
+
+    /**
+     * Allows to get the maximum value of a column that match the specified
+     * conditions
+     *
+     * @param array parameters
+     * @return mixed
+     */
+    public static function maximum(parameters = null) -> var;
+
+    /**
+     * Allows to get the minimum value of a column that match the specified
+     * conditions
+     *
+     * @param array parameters
+     * @return mixed
+     */
+    public static function minimum(parameters = null) -> var;
+
+    /**
+     * Create a criteria for a specific model
+     */
+    public static function query(<DiInterface> container = null) -> <CriteriaInterface>;
+
+    /**
+     * Allows to calculate a sum on a column that match the specified conditions
+     *
+     * @param array parameters
+     * @return float|ResultsetInterface
+     */
+    public static function sum(parameters = null) -> float | <ResultsetInterface>;
+
+    /**
+     * Appends a customized message on the validation process
+     */
+    public function appendMessage(<MessageInterface> message) ->  <ModelInterface>;
+
+    /**
+     * Assigns values to a model from an array
+     *
+     * @param array data
+     * @param mixed whiteList
+     * @param mixed dataColumnMap Array to transform keys of data to another
+     *
+     * @return ModelInterface
+     *
+     * @phpstan-param mvc_model_data $data
+     */
+    public function assign(array data, var whiteList = null, var dataColumnMap = null) -> <ModelInterface>;
+
+    /**
+     * Inserts a model instance. If the instance already exists in the
+     * persistence it will throw an exception. Returning true on success or
+     * false otherwise.
+     */
+    public function create() -> bool;
+
+    /**
+     * Deletes a model instance. Returning true on success or false otherwise.
+     */
+    public function delete() -> bool;
 
     /**
      * Fires an event, implicitly calls behaviors and listeners in the events
@@ -228,29 +259,6 @@ interface ModelInterface
     public function getWriteConnectionService() -> string;
 
     /**
-     * Allows to get the maximum value of a column that match the specified
-     * conditions
-     *
-     * @param array parameters
-     * @return mixed
-     */
-    public static function maximum(parameters = null) -> var;
-
-    /**
-     * Allows to get the minimum value of a column that match the specified
-     * conditions
-     *
-     * @param array parameters
-     * @return mixed
-     */
-    public static function minimum(parameters = null) -> var;
-
-    /**
-     * Create a criteria for a specific model
-     */
-    public static function query(<DiInterface> container = null) -> <CriteriaInterface>;
-
-    /**
      * Refreshes the model attributes re-querying the record from the database
      */
     public function refresh() -> <ModelInterface>;
@@ -311,14 +319,6 @@ interface ModelInterface
      * Skips the current operation forcing a success state
      */
     public function skipOperation(bool skip) -> void;
-
-    /**
-     * Allows to calculate a sum on a column that match the specified conditions
-     *
-     * @param array parameters
-     * @return float|ResultsetInterface
-     */
-    public static function sum(parameters = null) -> float | <ResultsetInterface>;
 
     /**
      * Updates a model instance. If the instance does not exist in the

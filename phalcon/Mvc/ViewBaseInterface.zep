@@ -34,7 +34,7 @@ interface ViewBaseInterface
      *
      * @phpstan-return list<string>|string
      */
-    public function getViewsDir() -> string | array;
+    public function getViewsDir() -> array | string;
 
     /**
      * Renders a partial view

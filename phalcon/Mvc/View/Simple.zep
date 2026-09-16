@@ -69,10 +69,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
      */
     protected engines = false; // TODO: Change to default null or empty array
 
-    /**
-     * @var ManagerInterface|null
-     */
-    protected eventsManager;
+    protected ?<ManagerInterface> eventsManager = null;
 
     /**
      * @var array
