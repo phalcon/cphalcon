@@ -2,13 +2,15 @@
 
 All notable changes are documented here. The format is based on [Keep a Changelog][keep_a_changelog] and this project adheres to [Semantic Versioning][semantic_versioning].
 
-## [5.20.4](https://github.com/phalcon/cphalcon/releases/tag/v5.20.4) (2026-xx-xx)
+## [5.21.0](https://github.com/phalcon/cphalcon/releases/tag/v5.21.0) (2026-xx-xx)
 
 ### Tools
 
 - Zephir 1.4.0 (b2b2420)
 
 ### Changed
+
+- `Phalcon\Db\Adapter\Pdo\AbstractPdo::commit()` and `rollback()` now throw `Phalcon\Db\Exceptions\NoActiveTransaction` when the connection has no active transaction, instead of sending a commit, rollback or savepoint statement to the server. [#17546](https://github.com/phalcon/cphalcon/issues/17546) [[doc]](https://docs.phalcon.io/5.20/db-layer/)
 
 ### Added
 
@@ -18,6 +20,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 - PHQL `WITH` naming a model instead of a relation alias always throwing `RelationshipNotFound`; the fallback checked `Phalcon\Mvc\Model\Manager::getRelationsBetween()` for an object, but it returns an array. Ambiguous pairs now throw `AmbiguousJoinRelation`. [#17554](https://github.com/phalcon/cphalcon/issues/17554) [[doc]](https://docs.phalcon.io/5.20/db-models/)
 - PHQL string literals not resolving their escape sequences, so `\n` reached the database as a backslash and an `n`. [#17585](https://github.com/phalcon/cphalcon/issues/17585) [[doc]](https://docs.phalcon.io/5.20/db-phql/)
+- `Phalcon\Db\Adapter\Pdo\AbstractPdo` leaving the transaction nesting level wrong when `begin()`, `commit()` or `rollback()` fails. [#17546](https://github.com/phalcon/cphalcon/issues/17546) [[doc]](https://docs.phalcon.io/5.20/db-layer/)
 - `Phalcon\Filter\Validation\Validator\File\AbstractFile::checkUpload()` reporting success when the field value is not an uploaded file array; a missing file or a plain string now fails validation. [#17541](https://github.com/phalcon/cphalcon/issues/17541) [[doc]](https://docs.phalcon.io/5.20/filter-validation/)
 - `Phalcon\Filter\Validation\Validator\File\Resolution\Equal`, `Max`, `Min` and `AspectRatio` not checking the `false` returned by `getimagesize()`; a file that is not a readable image is now rejected. [#17542](https://github.com/phalcon/cphalcon/issues/17542) [[doc]](https://docs.phalcon.io/5.20/filter-validation/)
 - `Phalcon\Filter\Validation\Validator\Ip` ignoring per-field `allowPrivate` and `allowReserved` arrays; the option is now resolved for the field before it becomes a filter flag. [#17548](https://github.com/phalcon/cphalcon/issues/17548) [[doc]](https://docs.phalcon.io/5.20/filter-validation/)

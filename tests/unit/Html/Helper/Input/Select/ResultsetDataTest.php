@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Unit\Html\Helper\Input\Select;
 use InvalidArgumentException;
 use Phalcon\Html\Helper\Input\Select\ResultsetData;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Fake\FakeRow;
 use Phalcon\Tests\Unit\Html\Helper\Input\Select\Fake\FakeResultset;
 
 final class ResultsetDataTest extends AbstractUnitTestCase
@@ -167,17 +168,8 @@ final class ResultsetDataTest extends AbstractUnitTestCase
      */
     public function testGetOptionsReturnsValueLabelPairsFromObjects(): void
     {
-        $row1 = $this->getMockBuilder(\stdClass::class)
-                     ->addMethods(['readAttribute'])
-                     ->getMock();
-        $row1->method('readAttribute')
-             ->willReturnMap([['id', '1'], ['name', 'Ferrari']]);
-
-        $row2 = $this->getMockBuilder(\stdClass::class)
-                     ->addMethods(['readAttribute'])
-                     ->getMock();
-        $row2->method('readAttribute')
-             ->willReturnMap([['id', '2'], ['name', 'Ford']]);
+        $row1 = new FakeRow(['id' => '1', 'name' => 'Ferrari']);
+        $row2 = new FakeRow(['id' => '2', 'name' => 'Ford']);
 
         $data   = new ResultsetData(new FakeResultset([$row1, $row2]), ['id', 'name']);
         $actual = $data->getOptions();

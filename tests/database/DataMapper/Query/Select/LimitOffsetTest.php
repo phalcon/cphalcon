@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\DataMapper\Query\Select;
 
-use Phalcon\DataMapper\Pdo\Connection;
 use Phalcon\DataMapper\Query\QueryFactory;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Fake\FakeDataMapperConnection;
 use PHPUnit\Framework\Attributes\Group;
 
 #[Group('mysql')]
@@ -56,21 +56,15 @@ final class LimitOffsetTest extends AbstractDatabaseTestCase
     public function testDMQuerySelectLimitOffsetMssql(): void
     {
         $connection     = self::getDataMapperConnection();
-        $mockConnection = $this->getMockBuilder(Connection::class)
-            ->setConstructorArgs(
-                [
-                    self::getDatabaseDsn(),
-                    self::getDatabaseUsername(),
-                    self::getDatabasePassword(),
-                ]
-            )
-            ->onlyMethods(['getDriverName'])
-            ->getMock()
-        ;
-        $mockConnection->method('getDriverName')->willReturn('sqlsrv');
+        $fakeConnection = new FakeDataMapperConnection(
+            self::getDatabaseDsn(),
+            self::getDatabaseUsername(),
+            self::getDatabasePassword()
+        );
+        $fakeConnection->driverName = 'sqlsrv';
 
         $factory = new QueryFactory();
-        $select  = $factory->newSelect($mockConnection);
+        $select  = $factory->newSelect($fakeConnection);
 
         $select
             ->from('co_invoices')

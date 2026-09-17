@@ -679,6 +679,10 @@ jobs:
       - name: Run Unit Tests
         run: composer test-unit
 
+      - name: Run Segfault Smoke Test
+        # The test suites do not contain this file, thus CI runs it by path.
+        run: php -d extension=ext/modules/phalcon.so vendor/bin/phpunit -c resources/phpunit.xml.dist tests/MassMockTest.php
+
       - name: Check Release notes parser
         shell: bash
         run: |

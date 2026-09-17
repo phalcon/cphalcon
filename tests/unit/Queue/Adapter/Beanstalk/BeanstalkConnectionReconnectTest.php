@@ -15,60 +15,57 @@ namespace Phalcon\Tests\Unit\Queue\Adapter\Beanstalk;
 
 use Phalcon\Queue\Adapter\Beanstalk\BeanstalkConnection;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Fake\FakeBeanstalkConnection;
 use ReflectionMethod;
 
 use function array_slice;
 use function array_values;
 use function count;
-use function strlen;
 
 /**
  * Verifies that a reconnect replays the tube selection the caller established.
- * The socket is mocked, so no Beanstalkd server is needed: writes are captured
+ * The socket is faked, so no Beanstalkd server is needed: writes are captured
  * and status reads return a canned response.
  */
 final class BeanstalkConnectionReconnectTest extends AbstractUnitTestCase
 {
     public function testRestoreSessionDoesNothingForAFreshConnection(): void
     {
-        $commands   = [];
-        $connection = $this->spyConnection($commands, ['USING']);
+        $connection = $this->spyConnection(['USING']);
 
         $this->restoreSession($connection);
 
-        $this->assertSame([], $commands);
+        $this->assertSame([], $connection->commands);
     }
 
     public function testRestoreSessionReplaysTheUsedTube(): void
     {
-        $commands   = [];
-        $connection = $this->spyConnection($commands, ['USING']);
+        $connection = $this->spyConnection(['USING']);
 
         $connection->useTube('jobs');
-        $replayStart = count($commands);
+        $replayStart = count($connection->commands);
 
         $this->restoreSession($connection);
 
         $this->assertSame(
             ['use jobs'],
-            array_values(array_slice($commands, $replayStart))
+            array_values(array_slice($connection->commands, $replayStart))
         );
     }
 
     public function testRestoreSessionReplaysTheWatchedTubes(): void
     {
-        $commands   = [];
-        $connection = $this->spyConnection($commands, ['WATCHING']);
+        $connection = $this->spyConnection(['WATCHING']);
 
         $connection->watchTube('emails');
         $connection->ignoreTube('default');
-        $replayStart = count($commands);
+        $replayStart = count($connection->commands);
 
         $this->restoreSession($connection);
 
         $this->assertSame(
             ['watch emails', 'ignore default'],
-            array_values(array_slice($commands, $replayStart))
+            array_values(array_slice($connection->commands, $replayStart))
         );
     }
 
@@ -79,29 +76,15 @@ final class BeanstalkConnectionReconnectTest extends AbstractUnitTestCase
     }
 
     /**
-     * Builds a BeanstalkConnection whose socket writes are captured into
-     * $commands and whose status reads return $status, so the protocol layer
-     * runs without a server.
+     * Builds a connection that captures its socket writes and returns $status
+     * from every status read, so the protocol layer runs without a server.
      *
-     * @param string[] $commands captured command buffer (by reference)
-     * @param string[] $status   canned readStatus() response
+     * @param string[] $status canned readStatus() response
      */
-    private function spyConnection(array &$commands, array $status): BeanstalkConnection
+    private function spyConnection(array $status): FakeBeanstalkConnection
     {
-        $connection = $this->getMockBuilder(BeanstalkConnection::class)
-            ->setConstructorArgs(['127.0.0.1', 11300])
-            ->onlyMethods(['write', 'readStatus'])
-            ->getMock()
-        ;
-
-        $capture = function (string $data) use (&$commands): int {
-            $commands[] = $data;
-
-            return strlen($data);
-        };
-
-        $connection->method('write')->willReturnCallback($capture);
-        $connection->method('readStatus')->willReturn($status);
+        $connection         = new FakeBeanstalkConnection('127.0.0.1', 11300);
+        $connection->status = $status;
 
         return $connection;
     }

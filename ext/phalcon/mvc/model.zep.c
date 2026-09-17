@@ -1812,7 +1812,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap)
 				zephir_switch_0_clause_2: ;
 				zephir_switch_0_clause_3: ;
 					ZVAL_LONG(&_29$$34, 10);
-					ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_30, 96, &value, &_29$$34);
+					ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_30, 97, &value, &_29$$34);
 					zephir_check_call_status();
 					goto zephir_switch_0_end;
 				zephir_switch_0_clause_4: ;
@@ -2157,7 +2157,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap)
 					zephir_switch_2_clause_2: ;
 					zephir_switch_2_clause_3: ;
 						ZVAL_LONG(&_62$$81, 10);
-						ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_30, 96, &value, &_62$$81);
+						ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_30, 97, &value, &_62$$81);
 						zephir_check_call_status();
 						goto zephir_switch_2_end;
 					zephir_switch_2_clause_4: ;
@@ -3311,7 +3311,7 @@ PHP_METHOD(Phalcon_Mvc_Model, invokeFinder)
 	if (zephir_array_isset_value(&attributes, &extraMethod)) {
 		ZEPHIR_CPY_WRT(&field, &extraMethod);
 	} else {
-		ZEPHIR_CALL_FUNCTION(&extraMethodFirst, "lcfirst", NULL, 180, &extraMethod);
+		ZEPHIR_CALL_FUNCTION(&extraMethodFirst, "lcfirst", NULL, 181, &extraMethod);
 		zephir_check_call_status();
 		if (zephir_array_isset_value(&attributes, &extraMethodFirst)) {
 			ZEPHIR_CPY_WRT(&field, &extraMethodFirst);
@@ -4863,7 +4863,7 @@ PHP_METHOD(Phalcon_Mvc_Model, dump)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 359, this_ptr);
+	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 360, this_ptr);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -9540,7 +9540,7 @@ PHP_METHOD(Phalcon_Mvc_Model, doLowInsert)
 		zephir_check_call_status();
 		if (UNEXPECTED(zephir_is_true(&_59$$53))) {
 			ZVAL_LONG(&_61$$61, 10);
-			ZEPHIR_CALL_FUNCTION(&_62$$61, "intval", NULL, 96, &lastInsertedId, &_61$$61);
+			ZEPHIR_CALL_FUNCTION(&_62$$61, "intval", NULL, 97, &lastInsertedId, &_61$$61);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&lastInsertedId, &_62$$61);
 		}

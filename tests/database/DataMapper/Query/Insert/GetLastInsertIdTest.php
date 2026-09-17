@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\DataMapper\Query\Insert;
 
-use Phalcon\DataMapper\Pdo\Connection;
 use Phalcon\DataMapper\Query\QueryFactory;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Fake\FakeDataMapperConnection;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -33,21 +33,15 @@ final class GetLastInsertIdTest extends AbstractDatabaseTestCase
     public function testDMQueryInsertGetLastInsertId(): void
     {
         $connection     = self::getDataMapperConnection();
-        $mockConnection = $this->getMockBuilder(Connection::class)
-            ->setConstructorArgs(
-                [
-                    self::getDatabaseDsn(),
-                    self::getDatabaseUsername(),
-                    self::getDatabasePassword(),
-                ]
-            )
-            ->onlyMethods(['lastInsertId'])
-            ->getMock()
-        ;
-        $mockConnection->method('lastInsertId')->willReturn("12345");
+        $fakeConnection = new FakeDataMapperConnection(
+            self::getDatabaseDsn(),
+            self::getDatabaseUsername(),
+            self::getDatabasePassword()
+        );
+        $fakeConnection->insertId = "12345";
 
         $factory = new QueryFactory();
-        $insert  = $factory->newInsert($mockConnection);
+        $insert  = $factory->newInsert($fakeConnection);
 
         $name = uniqid('inv-');
         $insert
