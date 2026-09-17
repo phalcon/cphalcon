@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 
 use PDOException;
-use Phalcon\Db\Adapter\Pdo\Sqlite;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Fake\FakeSqlite;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
@@ -111,13 +111,7 @@ final class BeginTest extends AbstractDatabaseTestCase
     #[Group('sqlite')]
     public function testDbAdapterPdoBeginSavepointFailureRestoresLevel(): void
     {
-        $db = $this->getMockBuilder(Sqlite::class)
-            ->setConstructorArgs([['dbname' => ':memory:']])
-            ->onlyMethods(['createSavepoint'])
-            ->getMock();
-
-        $db->method('createSavepoint')
-            ->willThrowException(new PDOException('savepoint failed'));
+        $db = new FakeSqlite(['dbname' => ':memory:']);
 
         $db->setNestedTransactionsWithSavepoints(true);
 

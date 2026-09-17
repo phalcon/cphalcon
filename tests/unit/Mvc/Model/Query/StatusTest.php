@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc\Model\Query;
 
 use Phalcon\Mvc\Model\Query\Status;
-use Phalcon\Mvc\ModelInterface;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Fake\FakeModel;
 
 final class StatusTest extends AbstractUnitTestCase
 {
@@ -27,8 +27,7 @@ final class StatusTest extends AbstractUnitTestCase
     {
         $messages = ['validation failed'];
 
-        $model = $this->createMock(ModelInterface::class);
-        $model->method('getMessages')->willReturn($messages);
+        $model = new FakeModel($messages);
 
         $status = new Status(false, $model);
 

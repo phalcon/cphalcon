@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 
-use PDO;
 use Phalcon\Db\Adapter\Pdo\Sqlite;
 use Phalcon\Events\Manager;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Fake\FakePdo;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -28,13 +28,8 @@ final class EventsTest extends AbstractUnitTestCase
 
     public function testBadCommit(): void
     {
-        $mockPDO = $this->getMockBuilder(PDO::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['commit', 'inTransaction'])
-            ->getMock();
-
-        $mockPDO->method('inTransaction')->willReturn(true);
-        $mockPDO->expects($this->once())->method('commit')->willReturn(false);
+        $fakePDO               = new FakePdo();
+        $fakePDO->commitResult = false;
 
         $connection = new Sqlite([
             'dbname' => ':memory:',
@@ -42,7 +37,7 @@ final class EventsTest extends AbstractUnitTestCase
         $ref = new \ReflectionObject($connection);
 
         $property = $ref->getProperty('pdo');
-        $property->setValue($connection, $mockPDO);
+        $property->setValue($connection, $fakePDO);
 
         $property = $ref->getProperty('transactionLevel');
         $property->setValue($connection, 1);
@@ -67,6 +62,7 @@ final class EventsTest extends AbstractUnitTestCase
         $manager->attach('db', $listener);
 
         $connection->commit();
+        $this->assertSame(1, $fakePDO->commitCalls);
         $this->assertContains('commitTransaction', $listener->events);
         $this->assertNotContains('transactionCommitted', $listener->events);
     }

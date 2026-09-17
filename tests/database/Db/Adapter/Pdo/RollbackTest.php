@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 
-use PDO;
 use PDOException;
 use Phalcon\Db\Adapter\Pdo\Sqlite;
 use Phalcon\Db\Enum;
 use Phalcon\Db\Exceptions\NoActiveTransaction;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Fake\FakePdo;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -98,14 +98,8 @@ final class RollbackTest extends AbstractDatabaseTestCase
     #[Group('sqlite')]
     public function testDbAdapterPdoRollbackFailureReducesLevel(): void
     {
-        $pdo = $this->getMockBuilder(PDO::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['inTransaction', 'rollBack'])
-            ->getMock();
-
-        $pdo->method('inTransaction')->willReturn(true);
-        $pdo->method('rollBack')
-            ->willThrowException(new PDOException('rollback failed'));
+        $pdo                = new FakePdo();
+        $pdo->rollbackError = new PDOException('rollback failed');
 
         $db  = new Sqlite(['dbname' => ':memory:']);
         $ref = new ReflectionObject($db);

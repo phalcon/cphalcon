@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 
-use PDO;
 use PDOException;
 use Phalcon\Db\Adapter\Pdo\Sqlite;
 use Phalcon\Db\Enum;
 use Phalcon\Db\Exceptions\NoActiveTransaction;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Fake\FakePdo;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -98,14 +98,8 @@ final class CommitTest extends AbstractDatabaseTestCase
     #[Group('sqlite')]
     public function testDbAdapterPdoCommitFailureRestoresLevel(): void
     {
-        $pdo = $this->getMockBuilder(PDO::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['commit', 'inTransaction'])
-            ->getMock();
-
-        $pdo->method('inTransaction')->willReturn(true);
-        $pdo->method('commit')
-            ->willThrowException(new PDOException('commit failed'));
+        $pdo              = new FakePdo();
+        $pdo->commitError = new PDOException('commit failed');
 
         $db  = new Sqlite(['dbname' => ':memory:']);
         $ref = new ReflectionObject($db);
