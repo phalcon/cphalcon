@@ -30,9 +30,10 @@ final class EventsTest extends AbstractUnitTestCase
     {
         $mockPDO = $this->getMockBuilder(PDO::class)
             ->disableOriginalConstructor()
-            ->onlyMethods(['commit'])
+            ->onlyMethods(['commit', 'inTransaction'])
             ->getMock();
 
+        $mockPDO->method('inTransaction')->willReturn(true);
         $mockPDO->expects($this->once())->method('commit')->willReturn(false);
 
         $connection = new Sqlite([

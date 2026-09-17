@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Database\Mvc\Model\Resultset;
 
 use Phalcon\Mvc\Model\Exceptions\InvalidReturnedRecord;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Models\Invoices;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -47,6 +48,17 @@ final class DeleteTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * @return array<string, array{0: bool}>
+     */
+    public static function getTransactionExamples(): array
+    {
+        return [
+            'outer transaction'       => [false],
+            'stale transaction level' => [true],
+        ];
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-06-22
      */
@@ -67,5 +79,35 @@ final class DeleteTest extends AbstractDatabaseTestCase
         }
 
         $this->assertTrue($resultset->delete());
+    }
+
+    /**
+     * Deleting a resultset inside an outer transaction must not commit it
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-16
+     * @issue  https://github.com/phalcon/cphalcon/issues/17546
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getTransactionExamples')]
+    public function testMvcModelResultsetDeleteInsideTransaction(bool $stale): void
+    {
+        $db = $this->container->get('db');
+
+        if ($stale) {
+            $db->begin();
+            $db->getInternalHandler()->commit();
+        }
+
+        $this->assertTrue($db->begin());
+        $this->assertTrue($this->getResultset('simple')->delete());
+        $this->assertSame(0, Invoices::count());
+        $this->assertSame(1, $db->getTransactionLevel());
+        $this->assertTrue($db->isUnderTransaction());
+
+        $this->assertTrue($db->rollback());
+        $this->assertSame(3, Invoices::count());
     }
 }
