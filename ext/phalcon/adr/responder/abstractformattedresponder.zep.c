@@ -71,7 +71,7 @@ PHP_METHOD(Phalcon_ADR_Responder_AbstractFormattedResponder, __construct)
 	zephir_create_array(&_0, 3, 0);
 	ZEPHIR_INIT_VAR(&_1);
 	object_init_ex(&_1, phalcon_adr_responder_statusresponder_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 153);
+	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 154);
 	zephir_check_call_status();
 	zephir_array_fast_append(&_0, &_1);
 	ZEPHIR_INIT_NVAR(&_1);
@@ -84,7 +84,7 @@ PHP_METHOD(Phalcon_ADR_Responder_AbstractFormattedResponder, __construct)
 	zephir_array_fast_append(&_0, &_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	object_init_ex(&_1, phalcon_adr_responder_formatresponder_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 154, &formatters);
+	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 155, &formatters);
 	zephir_check_call_status();
 	zephir_array_fast_append(&_0, &_1);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_adr_responder_abstractformattedresponder_ce, getThis(), "__construct", NULL, 0, &_0);

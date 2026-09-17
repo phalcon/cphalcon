@@ -2120,7 +2120,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 		if (zephir_is_numeric(&number)) {
 			zephir_concat_self_str(&phql, SL(" LIMIT :APL0:"));
 			ZVAL_LONG(&_118$$91, 10);
-			ZEPHIR_CALL_FUNCTION(&_119$$91, "intval", NULL, 96, &number, &_118$$91);
+			ZEPHIR_CALL_FUNCTION(&_119$$91, "intval", NULL, 97, &number, &_118$$91);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&_120$$91);
 			ZVAL_STRING(&_120$$91, "APL0");
@@ -2137,7 +2137,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 			if (_123$$91) {
 				zephir_concat_self_str(&phql, SL(" OFFSET :APL1:"));
 				ZVAL_LONG(&_124$$92, 10);
-				ZEPHIR_CALL_FUNCTION(&_125$$92, "intval", NULL, 96, &offset, &_124$$92);
+				ZEPHIR_CALL_FUNCTION(&_125$$92, "intval", NULL, 97, &offset, &_124$$92);
 				zephir_check_call_status();
 				ZEPHIR_INIT_VAR(&_126$$92);
 				ZVAL_STRING(&_126$$92, "APL1");

@@ -572,7 +572,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute)
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_4$$3);
 		ZVAL_STRING(&_4$$3, "Phalcon\\Cache\\CacheInterface");
-		ZEPHIR_CALL_FUNCTION(&_5$$3, "is_a", NULL, 203, &cache, &_4$$3);
+		ZEPHIR_CALL_FUNCTION(&_5$$3, "is_a", NULL, 204, &cache, &_4$$3);
 		zephir_check_call_status();
 		if (UNEXPECTED(!ZEPHIR_IS_TRUE_IDENTICAL(&_5$$3))) {
 			ZEPHIR_INIT_VAR(&_6$$7);
@@ -1271,7 +1271,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setResultsetRowClass)
 	}
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "Phalcon\\Mvc\\Model\\Row");
-	ZEPHIR_CALL_FUNCTION(&_2, "is_subclass_of", NULL, 150, &resultsetRowClass_zv, &_1);
+	ZEPHIR_CALL_FUNCTION(&_2, "is_subclass_of", NULL, 151, &resultsetRowClass_zv, &_1);
 	zephir_check_call_status();
 	if (UNEXPECTED(!zephir_is_true(&_2))) {
 		ZEPHIR_INIT_VAR(&_3$$4);
@@ -3155,7 +3155,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeSelect)
 				}
 				ZEPHIR_INIT_VAR(&_175$$107);
 				ZVAL_STRING(&_175$$107, "Phalcon\\Mvc\\Model\\ResultsetInterface");
-				ZEPHIR_CALL_FUNCTION(&_176$$107, "is_subclass_of", NULL, 150, &resultsetClassName, &_175$$107);
+				ZEPHIR_CALL_FUNCTION(&_176$$107, "is_subclass_of", NULL, 151, &resultsetClassName, &_175$$107);
 				zephir_check_call_status();
 				if (UNEXPECTED(!zephir_is_true(&_176$$107))) {
 					ZEPHIR_INIT_VAR(&_177$$109);
@@ -3465,7 +3465,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeUpdate)
 				if (zephir_is_true(&_18$$12)) {
 					ZEPHIR_OBS_NVAR(&_20$$13);
 					zephir_array_fetch_long(&_20$$13, &namedParams, 1, PH_NOISY, "phalcon/Mvc/Model/Query.zep", 1663);
-					ZEPHIR_CALL_FUNCTION(&paramKeys, "array_unique", &_21, 442, &_20$$13);
+					ZEPHIR_CALL_FUNCTION(&paramKeys, "array_unique", &_21, 443, &_20$$13);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_22$$13);
 					ZEPHIR_INIT_NVAR(&_22$$13);
@@ -3676,7 +3676,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeUpdate)
 					if (zephir_is_true(&_69$$29)) {
 						ZEPHIR_OBS_NVAR(&_71$$30);
 						zephir_array_fetch_long(&_71$$30, &namedParams, 1, PH_NOISY, "phalcon/Mvc/Model/Query.zep", 1663);
-						ZEPHIR_CALL_FUNCTION(&paramKeys, "array_unique", &_21, 442, &_71$$30);
+						ZEPHIR_CALL_FUNCTION(&paramKeys, "array_unique", &_21, 443, &_71$$30);
 						zephir_check_call_status();
 						ZEPHIR_INIT_NVAR(&_72$$30);
 						ZEPHIR_INIT_NVAR(&_72$$30);
@@ -7265,7 +7265,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getSelectColumn)
 				if (!ZEPHIR_IS_FALSE_IDENTICAL(&_9$$5)) {
 					ZEPHIR_CPY_WRT(&_7$$5, &modelName);
 				} else {
-					ZEPHIR_CALL_FUNCTION(&_7$$5, "lcfirst", &_10, 180, &modelName);
+					ZEPHIR_CALL_FUNCTION(&_7$$5, "lcfirst", &_10, 181, &modelName);
 					zephir_check_call_status();
 				}
 				zephir_array_update_string(&sqlColumn, SL("balias"), &_7$$5, PH_COPY | PH_SEPARATE);
@@ -7309,7 +7309,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getSelectColumn)
 					if (!ZEPHIR_IS_FALSE_IDENTICAL(&_17$$7)) {
 						ZEPHIR_CPY_WRT(&_15$$7, &modelName);
 					} else {
-						ZEPHIR_CALL_FUNCTION(&_15$$7, "lcfirst", &_10, 180, &modelName);
+						ZEPHIR_CALL_FUNCTION(&_15$$7, "lcfirst", &_10, 181, &modelName);
 						zephir_check_call_status();
 					}
 					zephir_array_update_string(&_14$$7, SL("balias"), &_15$$7, PH_COPY | PH_SEPARATE);
@@ -7369,7 +7369,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getSelectColumn)
 				if (!ZEPHIR_IS_FALSE_IDENTICAL(&_25$$13)) {
 					ZEPHIR_CPY_WRT(&preparedAlias, &modelName);
 				} else {
-					ZEPHIR_CALL_FUNCTION(&preparedAlias, "lcfirst", &_10, 180, &modelName);
+					ZEPHIR_CALL_FUNCTION(&preparedAlias, "lcfirst", &_10, 181, &modelName);
 					zephir_check_call_status();
 				}
 			} else {
