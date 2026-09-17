@@ -309,8 +309,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, commit)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *nesting_param = NULL, e, eventsManager, savepointName, _0, _2, _7, _10, _12, _14, _1$$3, _3$$4, _6$$4, _4$$5, _5$$6, _11$$8, _13$$10;
-	zend_bool nesting, _8, _9;
+	zval *nesting_param = NULL, e, eventsManager, savepointName, _0, _2, _8, _10, _12, _1$$3, _3$$4, _6$$4, _4$$5, _5$$6, _9$$8, _11$$10;
+	zend_bool nesting, _7;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&e);
@@ -318,17 +318,16 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, commit)
 	ZVAL_UNDEF(&savepointName);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_7);
+	ZVAL_UNDEF(&_8);
 	ZVAL_UNDEF(&_10);
 	ZVAL_UNDEF(&_12);
-	ZVAL_UNDEF(&_14);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$4);
 	ZVAL_UNDEF(&_6$$4);
 	ZVAL_UNDEF(&_4$$5);
 	ZVAL_UNDEF(&_5$$6);
-	ZVAL_UNDEF(&_11$$8);
-	ZVAL_UNDEF(&_13$$10);
+	ZVAL_UNDEF(&_9$$8);
+	ZVAL_UNDEF(&_11$$10);
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	static zend_string *_zephir_prop_2 = NULL;
@@ -400,32 +399,27 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, commit)
 			}
 		}
 	}
-	zephir_read_property_cached(&_7, this_ptr, _zephir_prop_0, 101, PH_NOISY_CC | PH_READONLY);
-	_8 = ZEPHIR_IS_LONG_IDENTICAL(&_7, 0);
-	if (!(_8)) {
-		_8 = !nesting;
-	}
-	_9 = _8;
-	if (!(_9)) {
-		ZEPHIR_CALL_METHOD(&_10, this_ptr, "isnestedtransactionswithsavepoints", NULL, 0);
+	_7 = !nesting;
+	if (!(_7)) {
+		ZEPHIR_CALL_METHOD(&_8, this_ptr, "isnestedtransactionswithsavepoints", NULL, 0);
 		zephir_check_call_status();
-		_9 = !zephir_is_true(&_10);
+		_7 = !zephir_is_true(&_8);
 	}
-	if (_9) {
-		zephir_read_property_cached(&_11$$8, this_ptr, _zephir_prop_0, 101, PH_NOISY_CC | PH_READONLY);
-		if (ZEPHIR_GT_LONG(&_11$$8, 0)) {
+	if (_7) {
+		zephir_read_property_cached(&_9$$8, this_ptr, _zephir_prop_0, 101, PH_NOISY_CC | PH_READONLY);
+		if (ZEPHIR_GT_LONG(&_9$$8, 0)) {
 			RETURN_ON_FAILURE(zephir_property_decr(this_ptr, SL("transactionLevel")));
 		}
 		RETURN_MM_BOOL(0);
 	}
-	zephir_read_property_cached(&_12, this_ptr, _zephir_prop_1, 102, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CPY_WRT(&eventsManager, &_12);
+	zephir_read_property_cached(&_10, this_ptr, _zephir_prop_1, 102, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CPY_WRT(&eventsManager, &_10);
 	ZEPHIR_CALL_METHOD(&savepointName, this_ptr, "getnestedtransactionsavepointname", NULL, 0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&eventsManager) == IS_OBJECT) {
-		ZEPHIR_INIT_VAR(&_13$$10);
-		ZVAL_STRING(&_13$$10, "db:releaseSavepoint");
-		ZEPHIR_CALL_METHOD(NULL, &eventsManager, "fire", NULL, 0, &_13$$10, this_ptr, &savepointName);
+		ZEPHIR_INIT_VAR(&_11$$10);
+		ZVAL_STRING(&_11$$10, "db:releaseSavepoint");
+		ZEPHIR_CALL_METHOD(NULL, &eventsManager, "fire", NULL, 0, &_11$$10, this_ptr, &savepointName);
 		zephir_check_call_status();
 	}
 	RETURN_ON_FAILURE(zephir_property_decr(this_ptr, SL("transactionLevel")));
@@ -439,12 +433,12 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, commit)
 	try_end_2:
 
 	if (EG(exception)) {
-		ZEPHIR_INIT_VAR(&_14);
-		ZVAL_OBJ(&_14, EG(exception));
-		Z_ADDREF_P(&_14);
-		if (zephir_is_instance_of(&_14, SL("Throwable"))) {
+		ZEPHIR_INIT_VAR(&_12);
+		ZVAL_OBJ(&_12, EG(exception));
+		Z_ADDREF_P(&_12);
+		if (zephir_is_instance_of(&_12, SL("Throwable"))) {
 			zend_clear_exception();
-			ZEPHIR_CPY_WRT(&e, &_14);
+			ZEPHIR_CPY_WRT(&e, &_12);
 			RETURN_ON_FAILURE(zephir_property_incr(this_ptr, SL("transactionLevel")));
 			zephir_throw_exception_debug(&e, "phalcon/Db/Adapter/Pdo/AbstractPdo.zep", 275);
 			ZEPHIR_MM_RESTORE();
@@ -1920,22 +1914,21 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, rollback)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *nesting_param = NULL, eventsManager, savepointName, _0, _2, _5, _8, _10, _1$$3, _3$$4, _4$$5, _9$$6, _11$$8;
-	zend_bool nesting, _6, _7;
+	zval *nesting_param = NULL, eventsManager, savepointName, _0, _2, _6, _8, _1$$3, _3$$4, _4$$5, _7$$6, _9$$8;
+	zend_bool nesting, _5;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&eventsManager);
 	ZVAL_UNDEF(&savepointName);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_8);
-	ZVAL_UNDEF(&_10);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$4);
 	ZVAL_UNDEF(&_4$$5);
-	ZVAL_UNDEF(&_9$$6);
-	ZVAL_UNDEF(&_11$$8);
+	ZVAL_UNDEF(&_7$$6);
+	ZVAL_UNDEF(&_9$$8);
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	static zend_string *_zephir_prop_2 = NULL;
@@ -1988,32 +1981,27 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, rollback)
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_0, 101, PH_NOISY_CC | PH_READONLY);
-	_6 = ZEPHIR_IS_LONG_IDENTICAL(&_5, 0);
-	if (!(_6)) {
-		_6 = !nesting;
-	}
-	_7 = _6;
-	if (!(_7)) {
-		ZEPHIR_CALL_METHOD(&_8, this_ptr, "isnestedtransactionswithsavepoints", NULL, 0);
+	_5 = !nesting;
+	if (!(_5)) {
+		ZEPHIR_CALL_METHOD(&_6, this_ptr, "isnestedtransactionswithsavepoints", NULL, 0);
 		zephir_check_call_status();
-		_7 = !zephir_is_true(&_8);
+		_5 = !zephir_is_true(&_6);
 	}
-	if (_7) {
-		zephir_read_property_cached(&_9$$6, this_ptr, _zephir_prop_0, 101, PH_NOISY_CC | PH_READONLY);
-		if (ZEPHIR_GT_LONG(&_9$$6, 0)) {
+	if (_5) {
+		zephir_read_property_cached(&_7$$6, this_ptr, _zephir_prop_0, 101, PH_NOISY_CC | PH_READONLY);
+		if (ZEPHIR_GT_LONG(&_7$$6, 0)) {
 			RETURN_ON_FAILURE(zephir_property_decr(this_ptr, SL("transactionLevel")));
 		}
 		RETURN_MM_BOOL(0);
 	}
 	ZEPHIR_CALL_METHOD(&savepointName, this_ptr, "getnestedtransactionsavepointname", NULL, 0);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_10, this_ptr, _zephir_prop_1, 102, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CPY_WRT(&eventsManager, &_10);
+	zephir_read_property_cached(&_8, this_ptr, _zephir_prop_1, 102, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CPY_WRT(&eventsManager, &_8);
 	if (Z_TYPE_P(&eventsManager) == IS_OBJECT) {
-		ZEPHIR_INIT_VAR(&_11$$8);
-		ZVAL_STRING(&_11$$8, "db:rollbackSavepoint");
-		ZEPHIR_CALL_METHOD(NULL, &eventsManager, "fire", NULL, 0, &_11$$8, this_ptr, &savepointName);
+		ZEPHIR_INIT_VAR(&_9$$8);
+		ZVAL_STRING(&_9$$8, "db:rollbackSavepoint");
+		ZEPHIR_CALL_METHOD(NULL, &eventsManager, "fire", NULL, 0, &_9$$8, this_ptr, &savepointName);
 		zephir_check_call_status();
 	}
 	RETURN_ON_FAILURE(zephir_property_decr(this_ptr, SL("transactionLevel")));
