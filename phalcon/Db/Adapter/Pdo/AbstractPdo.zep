@@ -118,7 +118,9 @@ abstract class AbstractPdo extends AbstractAdapter
      */
     public function begin(bool nesting = true) -> bool
     {
-        var eventsManager, savepointName;
+        var e, eventsManager, savepointName;
+
+        this->resetStaleTransactionLevel();
 
         /**
          * Increase the transaction nesting level
@@ -137,7 +139,17 @@ abstract class AbstractPdo extends AbstractAdapter
                 eventsManager->fire("db:beginTransaction", this);
             }
 
-            return this->pdo->beginTransaction();
+            /**
+             * Decrease the transaction nesting level if the transaction
+             * does not start
+             */
+            try {
+                return this->pdo->beginTransaction();
+            } catch \Throwable, e {
+                let this->transactionLevel--;
+
+                throw e;
+            }
         }
 
         /**
@@ -157,7 +169,17 @@ abstract class AbstractPdo extends AbstractAdapter
             eventsManager->fire("db:createSavepoint", this, savepointName);
         }
 
-        return this->createSavepoint(savepointName);
+        /**
+         * Decrease the transaction nesting level if the savepoint is not
+         * created
+         */
+        try {
+            return this->createSavepoint(savepointName);
+        } catch \Throwable, e {
+            let this->transactionLevel--;
+
+            throw e;
+        }
     }
 
     /**
@@ -174,7 +196,9 @@ abstract class AbstractPdo extends AbstractAdapter
      */
     public function commit(bool nesting = true) -> bool
     {
-        var eventsManager, savepointName;
+        var e, eventsManager, savepointName;
+
+        this->resetStaleTransactionLevel();
 
         /**
          * Check the transaction nesting level
@@ -197,7 +221,17 @@ abstract class AbstractPdo extends AbstractAdapter
              */
             let this->transactionLevel--;
 
-            return this->pdo->commit();
+            /**
+             * Increase the transaction nesting level if the transaction
+             * does not commit
+             */
+            try {
+                return this->pdo->commit();
+            } catch \Throwable, e {
+                let this->transactionLevel++;
+
+                throw e;
+            }
         }
 
         /**
@@ -229,7 +263,17 @@ abstract class AbstractPdo extends AbstractAdapter
          */
         let this->transactionLevel--;
 
-        return this->releaseSavepoint(savepointName);
+        /**
+         * Increase the transaction nesting level if the savepoint is not
+         * released
+         */
+        try {
+            return this->releaseSavepoint(savepointName);
+        } catch \Throwable, e {
+            let this->transactionLevel++;
+
+            throw e;
+        }
     }
 
     /**
@@ -827,6 +871,8 @@ abstract class AbstractPdo extends AbstractAdapter
     {
         var eventsManager, savepointName;
 
+        this->resetStaleTransactionLevel();
+
         /**
          * Check the transaction nesting level
          */
@@ -844,7 +890,8 @@ abstract class AbstractPdo extends AbstractAdapter
             }
 
             /**
-             * Reduce the transaction nesting level
+             * Reduce the transaction nesting level. The level stays reduced
+             * if the rollback fails
              */
             let this->transactionLevel--;
 
@@ -876,7 +923,8 @@ abstract class AbstractPdo extends AbstractAdapter
         }
 
         /**
-         * Reduce the transaction nesting level
+         * Reduce the transaction nesting level. The level stays reduced if
+         * the rollback fails
          */
         let this->transactionLevel--;
 
@@ -1033,5 +1081,17 @@ abstract class AbstractPdo extends AbstractAdapter
         }
 
         return this->executePrepared(statement, params, types);
+    }
+
+    /**
+     * Resets the transaction nesting level when the connection has no active
+     * transaction. This occurs after an implicit commit, a reconnect or when
+     * the transaction ends outside of the adapter.
+     */
+    private function resetStaleTransactionLevel() -> void
+    {
+        if this->transactionLevel > 0 && typeof this->pdo == "object" && !this->pdo->inTransaction() {
+            let this->transactionLevel = 0;
+        }
     }
 }
