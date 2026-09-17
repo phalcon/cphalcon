@@ -88,11 +88,9 @@ class Group implements GroupInterface
     protected prefix = null;
 
     /**
-     * @var array
-     *
      * @phpstan-var list<RouteInterface>
      */
-    protected routes = [];
+    protected array routes = [];
 
     /**
      * Phalcon\Mvc\Router\Group constructor
@@ -119,14 +117,12 @@ class Group implements GroupInterface
      * $router->add("/about", "About::index");
      *```
      *
-     * @param string pattern
-     * @param string|array paths = [
-     *     'module => '',
-     *     'controller' => '',
-     *     'action' => '',
-     *     'namespace' => ''
-     * ]
-     * @param array|string|null httpMethods
+     * @param mixed $paths = [
+     *                     'module => '',
+     *                     'controller' => '',
+     *                     'action' => '',
+     *                     'namespace' => ''
+     *                     ]
      *
      * @return RouteInterface
      */
@@ -138,13 +134,12 @@ class Group implements GroupInterface
     /**
      * Adds a route to the router that only match if the HTTP method is CONNECT
      *
-     * @param string pattern
-     * @param string|array paths = [
-     *     'module => '',
-     *     'controller' => '',
-     *     'action' => '',
-     *     'namespace' => ''
-     * ]
+     * @param mixed $paths = [
+     *                     'module => '',
+     *                     'controller' => '',
+     *                     'action' => '',
+     *                     'namespace' => ''
+     *                     ]
      *
      * @return RouteInterface
      */
@@ -156,13 +151,12 @@ class Group implements GroupInterface
     /**
      * Adds a route to the router that only match if the HTTP method is DELETE
      *
-     * @param string pattern
-     * @param string|array paths = [
-     *     'module => '',
-     *     'controller' => '',
-     *     'action' => '',
-     *     'namespace' => ''
-     * ]
+     * @param mixed $paths = [
+     *                     'module => '',
+     *                     'controller' => '',
+     *                     'action' => '',
+     *                     'namespace' => ''
+     *                     ]
      *
      * @return RouteInterface
      */
@@ -174,13 +168,12 @@ class Group implements GroupInterface
     /**
      * Adds a route to the router that only match if the HTTP method is GET
      *
-     * @param string pattern
-     * @param string|array paths = [
-     *     'module => '',
-     *     'controller' => '',
-     *     'action' => '',
-     *     'namespace' => ''
-     * ]
+     * @param mixed $paths = [
+     *                     'module => '',
+     *                     'controller' => '',
+     *                     'action' => '',
+     *                     'namespace' => ''
+     *                     ]
      *
      * @return RouteInterface
      */
@@ -192,13 +185,12 @@ class Group implements GroupInterface
     /**
      * Adds a route to the router that only match if the HTTP method is HEAD
      *
-     * @param string pattern
-     * @param string|array paths = [
-     *     'module => '',
-     *     'controller' => '',
-     *     'action' => '',
-     *     'namespace' => ''
-     * ]
+     * @param mixed $paths = [
+     *                     'module => '',
+     *                     'controller' => '',
+     *                     'action' => '',
+     *                     'namespace' => ''
+     *                     ]
      *
      * @return RouteInterface
      */
@@ -210,13 +202,12 @@ class Group implements GroupInterface
     /**
      * Add a route to the router that only match if the HTTP method is OPTIONS
      *
-     * @param string pattern
-     * @param string|array paths = [
-     *     'module => '',
-     *     'controller' => '',
-     *     'action' => '',
-     *     'namespace' => ''
-     * ]
+     * @param mixed $paths = [
+     *                     'module => '',
+     *                     'controller' => '',
+     *                     'action' => '',
+     *                     'namespace' => ''
+     *                     ]
      *
      * @return RouteInterface
      */
@@ -228,13 +219,12 @@ class Group implements GroupInterface
     /**
      * Adds a route to the router that only match if the HTTP method is PATCH
      *
-     * @param string pattern
-     * @param string|array paths = [
-     *     'module => '',
-     *     'controller' => '',
-     *     'action' => '',
-     *     'namespace' => ''
-     * ]
+     * @param mixed $paths = [
+     *                     'module => '',
+     *                     'controller' => '',
+     *                     'action' => '',
+     *                     'namespace' => ''
+     *                     ]
      *
      * @return RouteInterface
      */
@@ -246,13 +236,12 @@ class Group implements GroupInterface
     /**
      * Adds a route to the router that only match if the HTTP method is POST
      *
-     * @param string pattern
-     * @param string|array paths = [
-     *     'module => '',
-     *     'controller' => '',
-     *     'action' => '',
-     *     'namespace' => ''
-     * ]
+     * @param mixed $paths = [
+     *                     'module => '',
+     *                     'controller' => '',
+     *                     'action' => '',
+     *                     'namespace' => ''
+     *                     ]
      *
      * @return RouteInterface
      */
@@ -264,13 +253,12 @@ class Group implements GroupInterface
     /**
      * Adds a route to the router that only match if the HTTP method is PURGE
      *
-     * @param string pattern
-     * @param string|array paths = [
-     *     'module => '',
-     *     'controller' => '',
-     *     'action' => '',
-     *     'namespace' => ''
-     * ]
+     * @param mixed $paths = [
+     *                     'module => '',
+     *                     'controller' => '',
+     *                     'action' => '',
+     *                     'namespace' => ''
+     *                     ]
      *
      * @return RouteInterface
      */
@@ -282,13 +270,12 @@ class Group implements GroupInterface
     /**
      * Adds a route to the router that only match if the HTTP method is PUT
      *
-     * @param string pattern
-     * @param string|array paths = [
-     *     'module => '',
-     *     'controller' => '',
-     *     'action' => '',
-     *     'namespace' => ''
-     * ]
+     * @param mixed $paths = [
+     *                     'module => '',
+     *                     'controller' => '',
+     *                     'action' => '',
+     *                     'namespace' => ''
+     *                     ]
      *
      * @return RouteInterface
      */
@@ -300,13 +287,12 @@ class Group implements GroupInterface
     /**
      * Adds a route to the router that only match if the HTTP method is TRACE
      *
-     * @param string pattern
-     * @param string|array paths = [
-     *     'module => '',
-     *     'controller' => '',
-     *     'action' => '',
-     *     'namespace' => ''
-     * ]
+     * @param mixed $paths = [
+     *                     'module => '',
+     *                     'controller' => '',
+     *                     'action' => '',
+     *                     'namespace' => ''
+     *                     ]
      *
      * @return RouteInterface
      */
@@ -385,10 +371,6 @@ class Group implements GroupInterface
 
     /**
      * Set a hostname restriction for all the routes in the group
-     *
-     * @param string hostname
-     *
-     * @return GroupInterface
      */
     public function setHostname(string hostname) -> <GroupInterface>
     {
@@ -413,10 +395,6 @@ class Group implements GroupInterface
 
     /**
      * Set a common uri prefix for all the routes in this group
-     *
-     * @param string prefix
-     *
-     * @return GroupInterface
      */
     public function setPrefix(string prefix) -> <GroupInterface>
     {
@@ -428,14 +406,12 @@ class Group implements GroupInterface
     /**
      * Adds a route applying the common attributes
      *
-     * @param string pattern
-     * @param string|array|null paths = [
-     *     'module => '',
-     *     'controller' => '',
-     *     'action' => '',
-     *     'namespace' => ''
-     * ]
-     * @param array|string|null httpMethods
+     * @param mixed $paths [
+     *                     'module => '',
+     *                     'controller' => '',
+     *                     'action' => '',
+     *                     'namespace' => ''
+     *                     ]
      *
      * @return RouteInterface
      */

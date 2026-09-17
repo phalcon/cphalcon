@@ -353,7 +353,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     /**
      * Sends headers to the client
      */
-    public function sendHeaders() -> <ResponseInterface> | boolean
+    public function sendHeaders() -> bool | <ResponseInterface>
     {
         var eventsManager, headers, result;
 

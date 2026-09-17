@@ -37,6 +37,7 @@
  * Phalcon Model-backed adapter.
  *
  * @phpstan-import-type auth_credentials from AuthTypes
+ * @phpstan-import-type mvc_model_find_parameters from MvcTypes
  *
  * @extends AbstractAdapter<ModelAdapterConfig>
  */
@@ -209,7 +210,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveByCredentials)
 	array_init(&conditions);
 	ZEPHIR_INIT_VAR(&bind);
 	array_init(&bind);
-	zephir_is_iterable(&credentials, 0, "phalcon/Auth/Adapter/Model.zep", 104);
+	zephir_is_iterable(&credentials, 0, "phalcon/Auth/Adapter/Model.zep", 106);
 	if (Z_TYPE_P(&credentials) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&credentials), _1, _2, _0)
 		{
@@ -236,13 +237,13 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveByCredentials)
 				object_init_ex(&_7$$5, phalcon_auth_exceptions_invalidcredentialkey_ce);
 				ZEPHIR_CALL_METHOD(NULL, &_7$$5, "__construct", &_8, 404, &key);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_7$$5, "phalcon/Auth/Adapter/Model.zep", 97);
+				zephir_throw_exception_debug(&_7$$5, "phalcon/Auth/Adapter/Model.zep", 99);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
 			ZEPHIR_INIT_NVAR(&_9$$3);
 			ZEPHIR_CONCAT_SVSVS(&_9$$3, "[", &key, "] = :", &key, ":");
-			zephir_array_append(&conditions, &_9$$3, PH_SEPARATE, "phalcon/Auth/Adapter/Model.zep", 100);
+			zephir_array_append(&conditions, &_9$$3, PH_SEPARATE, "phalcon/Auth/Adapter/Model.zep", 102);
 			zephir_array_update_zval(&bind, &key, &value, PH_COPY | PH_SEPARATE);
 		} ZEND_HASH_FOREACH_END();
 	} else {
@@ -280,13 +281,13 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveByCredentials)
 					object_init_ex(&_16$$8, phalcon_auth_exceptions_invalidcredentialkey_ce);
 					ZEPHIR_CALL_METHOD(NULL, &_16$$8, "__construct", &_8, 404, &key);
 					zephir_check_call_status();
-					zephir_throw_exception_debug(&_16$$8, "phalcon/Auth/Adapter/Model.zep", 97);
+					zephir_throw_exception_debug(&_16$$8, "phalcon/Auth/Adapter/Model.zep", 99);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
 				ZEPHIR_INIT_NVAR(&_17$$6);
 				ZEPHIR_CONCAT_SVSVS(&_17$$6, "[", &key, "] = :", &key, ":");
-				zephir_array_append(&conditions, &_17$$6, PH_SEPARATE, "phalcon/Auth/Adapter/Model.zep", 100);
+				zephir_array_append(&conditions, &_17$$6, PH_SEPARATE, "phalcon/Auth/Adapter/Model.zep", 102);
 				zephir_array_update_zval(&bind, &key, &value, PH_COPY | PH_SEPARATE);
 		}
 	}
@@ -340,7 +341,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveById)
 	zephir_fetch_params(1, 1, 0, &id);
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 2, 0);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 438, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 437, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_2, &_1, "getidcolumn", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_3);
@@ -423,7 +424,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveByToken)
  * an ?AuthUser: a missing record yields null, a record that is not an
  * AuthUser throws.
  *
- * @param array{conditions: string, bind: array<string, mixed>} $parameters
+ * @phpstan-param mvc_model_find_parameters $parameters
  *
  * @throws DoesNotImplement
  */
@@ -456,7 +457,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, findFirstAsAuthUser)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &parameters_param);
 	zephir_get_arrval(&parameters, parameters_param);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 438, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 437, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&modelClass, &_0, "getmodel", NULL, 0);
 	zephir_check_call_status();
 	_1 = zephir_fetch_class(&modelClass);

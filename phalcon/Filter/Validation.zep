@@ -35,6 +35,7 @@ use Phalcon\Messages\Messages;
 /**
  * Allows to validate data using custom or built-in validators
  *
+ * @phpstan-import-type filter_sanitizers from FilterTypes
  * @phpstan-import-type filter_validation_combined_validators from FilterTypes
  * @phpstan-import-type filter_validation_data from FilterTypes
  * @phpstan-import-type filter_validation_default_messages from FilterTypes
@@ -84,9 +85,6 @@ class Validation extends Injectable implements ValidationInterface
      */
     protected array labels = [];
 
-    /**
-     * @var Messages
-     */
     protected <Messages> messages;
 
     /**
@@ -142,10 +140,6 @@ class Validation extends Injectable implements ValidationInterface
     /**
      * Returns the default message registered for a validator class, or an
      * empty string when none has been registered.
-     *
-     * @param string $validatorClassName
-     *
-     * @return string
      */
     public static function getDefaultMessage(string validatorClassName) -> string
     {
@@ -182,8 +176,7 @@ class Validation extends Injectable implements ValidationInterface
     /**
      * Adds a validator to a field
      *
-     * @param string|array       $field
-     * @param ValidatorInterface $validator
+     * @param array|string $field
      *
      * @phpstan-param mixed $field
      *
@@ -320,9 +313,6 @@ class Validation extends Injectable implements ValidationInterface
         return false;
     }
 
-    /**
-     * @return mixed
-     */
     public function getData() -> var
     {
         return this->data;
@@ -405,9 +395,6 @@ class Validation extends Injectable implements ValidationInterface
     /**
      * Gets the value to validate in the array/object data source
      *
-     * @param string $field
-     *
-     * @return mixed
      * @throws ValidationException
      * @throws DiException
      */
@@ -544,7 +531,7 @@ class Validation extends Injectable implements ValidationInterface
     /**
      * Alias of `add` method
      *
-     * @param string|array       $field
+     * @param array|string $field
      *
      * @phpstan-param mixed $field
      *

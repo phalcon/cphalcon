@@ -16,6 +16,7 @@
 namespace Phalcon\Contracts\DataMapper;
 
 use Phalcon\DataMapper\Pdo\Connection\ConnectionInterface;
+use Stringable;
 
 /**
  * Central registry of the array shapes used across the DataMapper namespace.
@@ -43,7 +44,7 @@ use Phalcon\DataMapper\Pdo\Connection\ConnectionInterface;
  * @phpstan-type datamapper_grouped_rows array<array-key, mixed>
  * @phpstan-type datamapper_objects list<object>
  * @phpstan-type datamapper_pairs array<array-key, mixed>
- * @phpstan-type datamapper_quotable bool|float|int|string|\Stringable|null
+ * @phpstan-type datamapper_quotable bool|float|int|string|Stringable|null
  * @phpstan-type datamapper_quote_value datamapper_quotable|array<array-key, datamapper_quotable>
  * @phpstan-type datamapper_quote_names array{
  *     prefix: string,

@@ -26,14 +26,14 @@ class Item
     /**
      * Timestamp when the profile ended
      *
-     * @var double
+     * @var float
      */
     protected finalTime;
 
     /**
      * Timestamp when the profile started
      *
-     * @var double
+     * @var float
      */
     protected initialTime;
 
@@ -109,7 +109,7 @@ class Item
     /**
      * Returns the total time in nanoseconds spent by the profile
      */
-    public function getTotalElapsedNanoseconds() -> double
+    public function getTotalElapsedNanoseconds() -> float
     {
         return this->finalTime - this->initialTime;
     }
@@ -117,7 +117,7 @@ class Item
     /**
      * Return the timestamp when the profile ended
      */
-    public function setFinalTime(double finalTime) -> <static>
+    public function setFinalTime(float finalTime) -> <static>
     {
         let this->finalTime = finalTime;
 
@@ -127,7 +127,7 @@ class Item
     /**
      * Return the timestamp when the profile started
      */
-    public function setInitialTime(double initialTime) -> <static>
+    public function setInitialTime(float initialTime) -> <static>
     {
         let this->initialTime = initialTime;
 

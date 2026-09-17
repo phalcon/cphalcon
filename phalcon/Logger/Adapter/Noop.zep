@@ -29,8 +29,6 @@ class Noop extends AbstractAdapter
 
     /**
      * Processes the message i.e. writes it to the file
-     *
-     * @param Item $item
      */
     public function process(<Item> item) -> void
     {

@@ -28,8 +28,6 @@ use Phalcon\Support\Settings;
 use stdClass;
 
 /**
- * Phalcon\Mvc\Model\Resultset\Complex
- *
  * Complex resultsets may include complete objects and scalar values.
  * This class builds every complex row as it is required
  *
@@ -48,17 +46,12 @@ class Complex extends Resultset
     protected columnTypes;
 
     /**
-     * Unserialised result-set hydrated all rows already. unserialise() sets
+     * Unserialized result-set hydrated all rows already. unserialize() sets
      * disableHydration to true
-     *
-     * @var bool
      */
-    protected disableHydration = false;
+    protected bool disableHydration = false;
 
-    /**
-     * @var string
-     */
-    protected resultsetRowClass = "";
+    protected string resultsetRowClass = "";
 
     /**
      * Phalcon\Mvc\Model\Resultset\Complex constructor
@@ -106,6 +99,9 @@ class Complex extends Resultset
         ];
     }
 
+    /**
+     * @phpstan-param mvc_resultset_complex_state $data
+     */
     public function __unserialize(array data) -> void
     {
         /**
@@ -231,8 +227,9 @@ class Complex extends Resultset
                  * empty Model instance (all properties null) so existing
                  * applications keep working without changes. New code that
                  * prefers the cleaner "explicit null on no match" semantics
-                 * introduced in 5.12 can opt in by setting the flag to
-                 * `false` (via php.ini, .htaccess, or `Settings::set()`).
+                 * introduced in cphalcon#16239 can opt in by setting the
+                 * flag to `false` (via php.ini, .htaccess, or
+                 * `Settings::set()`).
                  */
                 let allNull = true;
                 for columnValue in rowModel {
@@ -403,7 +400,8 @@ class Complex extends Resultset
     }
 
     /**
-     * Unserializing a resultset will allow to only works on the rows present in the saved state
+     * Unserializing a resultset will allow to only works on the rows present
+     * in the saved state
      *
      * @phpstan-param string $data
      */

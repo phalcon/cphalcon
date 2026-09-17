@@ -65,6 +65,13 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     const LEVEL_ACTION_VIEW = 1;
 
     /**
+     * Render Level: Render to the templates "after"
+     *
+     * @var int
+     */
+    const LEVEL_AFTER_TEMPLATE = 4;
+
+    /**
      * Render Level: To the templates "before"
      *
      * @var int
@@ -93,13 +100,6 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     const LEVEL_NO_RENDER = 0;
 
     /**
-     * Render Level: Render to the templates "after"
-     *
-     * @var int
-     */
-    const LEVEL_AFTER_TEMPLATE = 4;
-
-    /**
      * @var string
      */
     protected actionName;
@@ -114,29 +114,21 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     /**
      * @var string
      */
-    protected basePath = "";
+    protected string basePath = "";
 
     /**
      * @var string
      */
     protected controllerName;
 
-    /**
-     * @var int
-     */
-    protected currentRenderLevel = 0;
+    protected int currentRenderLevel = 0;
+
+    protected bool disabled = false;
 
     /**
-     * @var bool
-     */
-    protected disabled = false;
-
-    /**
-     * @var array
-     *
      * @phpstan-var array<int, bool|int>
      */
-    protected disabledLevels = [];
+    protected array disabledLevels = [];
 
     /**
      * @var array|bool
@@ -145,37 +137,25 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      */
     protected engines = false; // TODO: Make always array
 
-    /**
-     * @var ManagerInterface|null
-     */
-    protected eventsManager;
+    protected ?<ManagerInterface> eventsManager = null;
 
     /**
      * @var string|null
      */
     protected layout = null;
 
-    /**
-     * @var string
-     */
-    protected layoutsDir = "";
+    protected string layoutsDir = "";
+
+    protected string mainView = "index";
+
+    protected array options = [];
 
     /**
-     * @var string
-     */
-    protected mainView = "index";
-
-    /**
-     * @var array
-     */
-    protected options = [];
-
-    /**
-     * @var array
-     *
      * @phpstan-var array<string, mixed>
      */
-    protected params = [];
+    protected array params = [];
+
+    protected string partialsDir = "";
 
     /**
      * @var array|null
@@ -184,29 +164,17 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      */
     protected pickView; // TODO: Make always array
 
-    /**
-     * @var string
-     */
-    protected partialsDir = "";
+    protected int renderLevel = 5;
 
     /**
-     * @var int
-     */
-    protected renderLevel = 5;
-
-    /**
-     * @var array
-     *
      * @phpstan-var list<string>
      */
-    protected templatesAfter = [];
+    protected array templatesAfter = [];
 
     /**
-     * @var array
-     *
      * @phpstan-var list<string>
      */
-    protected templatesBefore = [];
+    protected array templatesBefore = [];
 
     /**
      * @var array
@@ -536,9 +504,6 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
         return view->getContent();
     }
 
-    /**
-     * @return int
-     */
     public function getRenderLevel() -> int
     {
         return this->renderLevel;
@@ -549,7 +514,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
      *
      * @phpstan-return list<string>|string
      */
-    public function getViewsDir() -> string | array
+    public function getViewsDir() -> array | string
     {
         return this->viewsDirs;
     }

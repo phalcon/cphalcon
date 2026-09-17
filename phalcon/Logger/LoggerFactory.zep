@@ -41,22 +41,26 @@ class LoggerFactory extends AbstractConfigFactory
     /**
      * Factory to create an instance from a Config object
      *
+     * The adapter list lives under `options`, not at the top level.
+     *
+     * @phpstan-param ConfigInterface|logger_factory_config $config
+     *
      * @param array|ConfigInterface $config = [
-     *     'name'     => 'messages',
-     *     'adapters' => [
-     *         'adapter-name' => [
-     *              'adapter' => 'stream',
-     *              'name'    => 'file.log',
-     *              'options' => [
-     *                  'mode'     => 'ab',
-     *                  'option'   => null,
-     *                  'facility' => null
-     *              ],
+     *     'name'    => 'messages',
+     *     'options' => [
+     *         'adapters' => [
+     *             'adapter-name' => [
+     *                 'adapter' => 'stream',
+     *                 'name'    => 'file.log',
+     *                 'options' => [
+     *                     'mode'     => 'ab',
+     *                     'option'   => null,
+     *                     'facility' => null
+     *                 ],
+     *             ],
      *         ],
      *     ]
      * ]
-     *
-     * @phpstan-param ConfigInterface|logger_factory_config $config
      */
     public function load(var config) -> <Logger>
     {

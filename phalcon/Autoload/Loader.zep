@@ -60,7 +60,6 @@ class Loader
     protected ?string foundPath = null;
     protected bool isDebug = false;
     protected bool isRegistered = false;
-
     /**
      * @var autoload_namespaces
      */
@@ -260,8 +259,6 @@ class Loader
 
     /**
      * Get the path when a class was found
-     *
-     * @return string|null
      */
     public function getFoundPath() -> string | null
     {
@@ -343,9 +340,6 @@ class Loader
      * Register directories in which "not found" classes could be found
      *
      * @param autoload_strings $directories
-     * @param bool  $merge
-     *
-     * @return static
      */
     public function setDirectories(array directories, bool merge = false) -> <static>
     {

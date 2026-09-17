@@ -74,14 +74,9 @@ PHP_METHOD(Phalcon_Logger_AdapterFactory, __construct)
 /**
  * Create a new instance of the adapter
  *
- * @param string $name
- * @param string $fileName
- * @param array  $options
- *
- * @return AdapterInterface
- * @throws BaseException
- *
  * @phpstan-param logger_adapter_options $options
+ *
+ * @throws BaseException
  */
 PHP_METHOD(Phalcon_Logger_AdapterFactory, newInstance)
 {

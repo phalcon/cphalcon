@@ -18,6 +18,7 @@
 #include <ext/spl/spl_iterators.h>
 #include <Zend/zend_string.h>
 #include <Zend/zend.h>
+#include <Zend/zend_attributes.h>
 
 extern zend_string* i_parent;
 extern zend_string* i_static;
@@ -58,6 +59,13 @@ extern zend_string* i_self;
  * property, without write-once enforcement). Keeps generated C version-uniform. */
 #ifndef ZEND_ACC_READONLY
  #define ZEND_ACC_READONLY 0
+#endif
+
+/* Class-constant flags moved behind an accessor macro in PHP 8.3. The
+ * underlying Z_CONSTANT_FLAGS() has been there since 8.0, so this shim lets one
+ * expression address the field on every supported version (issue #2466). */
+#ifndef ZEND_CLASS_CONST_FLAGS
+ #define ZEND_CLASS_CONST_FLAGS(c) Z_CONSTANT_FLAGS((c)->value)
 #endif
 
 /* The float-to-int coercion PHP applies to a `%` operand. PHP 8.1 started
@@ -503,6 +511,75 @@ zend_property_info *zephir_declare_typed_property(zend_class_entry *ce, const ch
  * `<A> | <B> | null`. `type_mask` carries the scalar/null MAY_BE_* bits; the
  * `num_classes` class names (0, 1 or many) form the object part of the union. */
 zend_property_info *zephir_declare_typed_property_union(zend_class_entry *ce, const char *name, size_t name_length, zval *value, int access_type, uint32_t type_mask, const char **class_names, uint32_t num_classes);
+
+/* Four of PHP's own attributes get their behaviour from a compile-time
+ * validator in Zend/zend_attributes.c, which only runs while the engine
+ * compiles userland code. A Zephir class is registered at MINIT, so the
+ * validator never runs and merely attaching the attribute would do nothing:
+ * the matching ZEND_ACC_* flag has to be set too. That is what gen_stub.php
+ * emits for php-src's own internal classes.
+ *
+ * Each flag is defined as 0 on the versions where the attribute does not
+ * exist, so the generated C stays version-independent and zephir_mark_*_flags()
+ * with 0 is a no-op — Zephir must not be more deprecating than the PHP it runs
+ * on.
+ *
+ * `#[\Override]` is deliberately absent: ZEND_ACC_OVERRIDE is checked by a
+ * user-class-only path that asserts the function is not internal, so setting it
+ * here would trip that assert in a debug build. It is enforced at compile time
+ * instead. */
+#if PHP_VERSION_ID >= 80200
+# define ZEPHIR_ATTR_ALLOW_DYNAMIC_PROPERTIES ZEND_ACC_ALLOW_DYNAMIC_PROPERTIES
+#else
+# define ZEPHIR_ATTR_ALLOW_DYNAMIC_PROPERTIES 0
+#endif
+
+#if PHP_VERSION_ID >= 80400
+# define ZEPHIR_ATTR_DEPRECATED ZEND_ACC_DEPRECATED
+#else
+# define ZEPHIR_ATTR_DEPRECATED 0
+#endif
+
+#if PHP_VERSION_ID >= 80500
+# define ZEPHIR_ATTR_NODISCARD ZEND_ACC_NODISCARD
+#else
+# define ZEPHIR_ATTR_NODISCARD 0
+#endif
+
+void zephir_mark_class_flags(zend_class_entry *ce, uint32_t flags);
+void zephir_mark_method_flags(zend_class_entry *ce, const char *method, size_t method_length, uint32_t flags);
+void zephir_mark_class_constant_flags(zend_class_entry *ce, const char *constant, size_t constant_length, uint32_t flags);
+
+/* Attach a PHP attribute (`#[Foo(...)]`) to a class registered at MINIT, or to
+ * one of its members (issue #2466).
+ *
+ * The attribute CLASS is never looked up: the engine stores a plain name and
+ * resolves it lazily at reflection time, so an attribute may name a userland
+ * class this extension has never seen. `method` is the LOWERCASED method name,
+ * as interned in ce->function_table; `offset` is the 0-based declared parameter
+ * position (the engine's `+ 1` is applied for us).
+ *
+ * Every helper tolerates a missing target, warns and returns NULL, which
+ * zephir_attribute_set_arg() then absorbs. */
+zend_attribute *zephir_add_class_attribute(zend_class_entry *ce, const char *name, size_t name_length, uint32_t argc);
+zend_attribute *zephir_add_method_attribute(zend_class_entry *ce, const char *method, size_t method_length, const char *name, size_t name_length, uint32_t argc);
+zend_attribute *zephir_add_parameter_attribute(zend_class_entry *ce, const char *method, size_t method_length, uint32_t offset, const char *name, size_t name_length, uint32_t argc);
+zend_attribute *zephir_add_property_attribute(zend_class_entry *ce, const char *property, size_t property_length, const char *name, size_t name_length, uint32_t argc);
+zend_attribute *zephir_add_class_constant_attribute(zend_class_entry *ce, const char *constant, size_t constant_length, const char *name, size_t name_length, uint32_t argc);
+
+/* Attach a PHP attribute to a module function, or to one of its parameters.
+ * `function` is the LOWERCASED name as interned in CG(function_table), which
+ * for a namespaced function is `<ns>\<name>`. Safe to call from MINIT: the
+ * engine registers a module's functions in zend_register_module_ex(), before
+ * zend_startup_module_ex() calls MINIT. */
+zend_attribute *zephir_add_function_attribute(const char *function, size_t function_length, const char *name, size_t name_length, uint32_t argc);
+zend_attribute *zephir_add_function_parameter_attribute(const char *function, size_t function_length, uint32_t offset, const char *name, size_t name_length, uint32_t argc);
+void zephir_mark_function_flags(const char *function, size_t function_length, uint32_t flags);
+
+/* Write one argument of an attribute record. A non-NULL `name` makes it a named
+ * argument. `value` is a request-memory zval built by the generated code; it is
+ * consumed. */
+void zephir_attribute_set_arg(zend_attribute *attr, uint32_t offset, const char *name, size_t name_length, zval *value);
 
 int zephir_is_php_version(unsigned int id);
 

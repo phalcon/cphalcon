@@ -50,14 +50,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Container_Resolver_Lazy_NewInstance)
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Container\\Resolver\\Lazy, NewInstance, phalcon, container_resolver_lazy_newinstance, phalcon_container_resolver_lazy_lazy_ce, phalcon_container_resolver_lazy_newinstance_method_entry, 0);
 
 	/**
-	 * @var string|Lazy
+	 * @var Lazy|string
 	 */
 	zend_declare_property_null(phalcon_container_resolver_lazy_newinstance_ce, SL("id"), ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
 
 /**
- * @param string|Lazy $id
+ * @param Lazy|string $id
  */
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_NewInstance, __construct)
 {
@@ -74,7 +74,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_NewInstance, __construct)
 		Z_PARAM_ZVAL(id)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &id);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 561, id);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 560, id);
 }
 
 /**
@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_NewInstance, resolve)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &ioc);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 561, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 560, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&id, this_ptr, "resolveargument", NULL, 0, ioc, &_0);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(ioc, "new", NULL, 0, &id);

@@ -22,15 +22,9 @@ use Phalcon\Mvc\ModelInterface;
  */
 class ValidationFailed extends Exception
 {
-    /**
-     * @var ModelInterface
-     */
-    protected model;
+    protected <ModelInterface> model;
 
-    /**
-     * @var array
-     */
-    protected validationMessages = [];
+    protected array validationMessages = [];
 
     /**
      * Phalcon\Mvc\Model\ValidationFailed constructor

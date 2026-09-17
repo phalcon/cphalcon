@@ -30,9 +30,6 @@ class Delete extends AbstractConditions
 {
     /**
      * Delete constructor.
-     *
-     * @param Connection $connection
-     * @param Bind       $bind
      */
     public function __construct(<Connection> connection, <Bind> bind)
     {
@@ -44,10 +41,6 @@ class Delete extends AbstractConditions
 
     /**
      * Adds table(s) in the query
-     *
-     * @param string $table
-     *
-     * @return Delete
      */
     public function from(string table) -> <Delete>
     {
@@ -56,28 +49,6 @@ class Delete extends AbstractConditions
         return this;
     }
 
-    /**
-     * Adds the `RETURNING` clause
-     *
-     * @param array $columns
-     *
-     * @return Delete
-     *
-     * @phpstan-param datamapper_clauses $columns
-     */
-    public function returning(array columns) -> <Delete>
-    {
-        let this->store["RETURNING"] = array_merge(
-            this->store["RETURNING"],
-            columns
-        );
-
-        return this;
-    }
-
-    /**
-     * @return string
-     */
     public function getStatement() -> string
     {
         return "DELETE"
@@ -96,5 +67,20 @@ class Delete extends AbstractConditions
 
         let this->store["FROM"]      = "",
             this->store["RETURNING"] = [];
+    }
+
+    /**
+     * Adds the `RETURNING` clause
+     *
+     * @phpstan-param datamapper_clauses $columns
+     */
+    public function returning(array columns) -> <Delete>
+    {
+        let this->store["RETURNING"] = array_merge(
+            this->store["RETURNING"],
+            columns
+        );
+
+        return this;
     }
 }

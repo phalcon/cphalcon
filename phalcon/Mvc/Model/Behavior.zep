@@ -13,16 +13,11 @@ namespace Phalcon\Mvc\Model;
 use Phalcon\Mvc\ModelInterface;
 
 /**
- * Phalcon\Mvc\Model\Behavior
- *
  * This is an optional base class for ORM behaviors
  */
 abstract class Behavior implements BehaviorInterface
 {
-    /**
-     * @var array
-     */
-    protected options;
+    protected array options;
 
     /**
      * Phalcon\Mvc\Model\Behavior

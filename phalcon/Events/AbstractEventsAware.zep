@@ -17,10 +17,7 @@ use Phalcon\Events\ManagerInterface;
  */
 abstract class AbstractEventsAware
 {
-    /**
-     * @var ManagerInterface|null
-     */
-    protected eventsManager = null;
+    protected ?<ManagerInterface> eventsManager = null;
 
     /**
      * Returns the internal event manager

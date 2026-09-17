@@ -668,7 +668,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      *
      * @phpstan-return mvc_query_columns|null
      */
-    public function getModels() -> string | array | null
+    public function getModels() -> array | string | null
     {
         var models = this->models;
 

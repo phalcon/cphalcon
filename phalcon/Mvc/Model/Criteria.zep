@@ -45,23 +45,16 @@ use Phalcon\Mvc\Model\Query\BuilderInterface;
 class Criteria implements CriteriaInterface, InjectionAwareInterface
 {
     /**
-     * @var array
-     *
      * @phpstan-var mvc_model_bind_params
      */
-    protected bindParams;
+    protected array bindParams;
 
     /**
-     * @var array
-     *
      * @phpstan-var mvc_model_bind_types
      */
-    protected bindTypes;
+    protected array bindTypes;
 
-    /**
-     * @var int
-     */
-    protected hiddenParamNumber = 0;
+    protected int hiddenParamNumber = 0;
 
     /**
      * @var string|null
@@ -69,11 +62,94 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     protected model = null;
 
     /**
-     * @var array
-     *
      * @phpstan-var mvc_criteria_params
      */
-    protected params = [];
+    protected array params = [];
+
+    /**
+     * Builds a Phalcon\Mvc\Model\Criteria based on an input array like $_POST
+     *
+     * @phpstan-param array<string, mixed> $data
+     */
+    public static function fromInput(
+        <DiInterface> container,
+         string modelName,
+         array data,
+         string operator = "AND"
+    ) -> <CriteriaInterface> {
+        var attribute, field, value, type, metaData, model, dataTypes,
+            criteria, columnMap;
+        array conditions, bind = [];
+
+        let conditions = [];
+
+        if !empty data {
+            let metaData  = container->getShared("modelsMetadata"),
+                model     = create_instance_params(
+                    modelName,
+                    [
+                        null,
+                        container
+                    ]
+                ),
+                dataTypes = metaData->getDataTypes(model),
+                columnMap = metaData->getReverseColumnMap(model);
+
+            /**
+             * We look for attributes in the array passed as data
+             */
+            let bind = [];
+
+            for field, value in data {
+                if typeof columnMap == "array" && !empty columnMap {
+                    let attribute = columnMap[field];
+                } else {
+                    let attribute = field;
+                }
+
+                if fetch type, dataTypes[attribute] {
+                    if value !== null && value !== "" {
+                        if type == Column::TYPE_VARCHAR {
+                            /**
+                             * For varchar types we use LIKE operator
+                             */
+                            let conditions[] = "[" . field . "] LIKE :" . field . ":",
+                                bind[field] = "%" . value . "%";
+
+                            continue;
+                        }
+
+                        /**
+                         * For the rest of data types we use a plain = operator
+                         */
+                        let conditions[] = "[" . field . "] = :" . field . ":",
+                            bind[field] = value;
+                    }
+                }
+            }
+        }
+
+        /**
+         * Create an object instance and pass the parameters to it
+         */
+        let criteria = new self();
+        criteria->setDI(container);
+
+        if !empty conditions {
+            criteria->where(
+                join(
+                    " " . operator . " ",
+                    conditions
+                )
+            );
+
+            criteria->bind(bind);
+        }
+
+        criteria->setModelName(modelName);
+
+        return criteria;
+    }
 
     /**
      * Appends a condition to the current conditions using an AND operator
@@ -346,96 +422,11 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     }
 
     /**
-     * Builds a Phalcon\Mvc\Model\Criteria based on an input array like $_POST
-     *
-     * @phpstan-param array<string, mixed> $data
-     */
-    public static function fromInput(
-        <DiInterface> container,
-         string modelName,
-         array data,
-         string operator = "AND"
-    ) -> <CriteriaInterface> {
-        var attribute, field, value, type, metaData, model, dataTypes,
-            criteria, columnMap;
-        array conditions, bind = [];
-
-        let conditions = [];
-
-        if !empty data {
-            let metaData  = container->getShared("modelsMetadata"),
-                model     = create_instance_params(
-                    modelName,
-                    [
-                        null,
-                        container
-                    ]
-                ),
-                dataTypes = metaData->getDataTypes(model),
-                columnMap = metaData->getReverseColumnMap(model);
-
-            /**
-             * We look for attributes in the array passed as data
-             */
-            let bind = [];
-
-            for field, value in data {
-                if typeof columnMap == "array" && !empty columnMap {
-                    let attribute = columnMap[field];
-                } else {
-                    let attribute = field;
-                }
-
-                if fetch type, dataTypes[attribute] {
-                    if value !== null && value !== "" {
-                        if type == Column::TYPE_VARCHAR {
-                            /**
-                             * For varchar types we use LIKE operator
-                             */
-                            let conditions[] = "[" . field . "] LIKE :" . field . ":",
-                                bind[field] = "%" . value . "%";
-
-                            continue;
-                        }
-
-                        /**
-                         * For the rest of data types we use a plain = operator
-                         */
-                        let conditions[] = "[" . field . "] = :" . field . ":",
-                            bind[field] = value;
-                    }
-                }
-            }
-        }
-
-        /**
-         * Create an object instance and pass the parameters to it
-         */
-        let criteria = new self();
-        criteria->setDI(container);
-
-        if !empty conditions {
-            criteria->where(
-                join(
-                    " " . operator . " ",
-                    conditions
-                )
-            );
-
-            criteria->bind(bind);
-        }
-
-        criteria->setModelName(modelName);
-
-        return criteria;
-    }
-
-    /**
      * Returns the columns to be queried
      *
      * @phpstan-return mvc_query_columns|null
      */
-    public function getColumns() -> string | array | null
+    public function getColumns() -> array | string | null
     {
         var columns;
 
@@ -451,13 +442,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public function getConditions() -> string | null
     {
-        var conditions;
-
-        if !fetch conditions, this->params["conditions"] {
-            return null;
-        }
-
-        return conditions;
+        return this->getWhere();
     }
 
     /**
@@ -505,7 +490,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      *
      * @phpstan-return array{number: int|string, offset?: int|string}|int|null
      */
-    public function getLimit()  -> int | array | null
+    public function getLimit()  -> array | int | null
     {
         var limit;
 
@@ -583,6 +568,33 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     }
 
     /**
+     * Adds an INNER join to the query
+     *
+     *```php
+     * <?php
+     *
+     * $criteria->innerJoin(
+     *     Invoices::class
+     * );
+     *
+     * $criteria->innerJoin(
+     *     Invoices::class,
+     *     "inv_cst_id = Customers.cst_id"
+     * );
+     *
+     * $criteria->innerJoin(
+     *     Invoices::class,
+     *     "i.inv_cst_id = Customers.cst_id",
+     *     "i"
+     * );
+     *```
+     */
+    public function innerJoin(string model, var conditions = null, var alias = null) -> <CriteriaInterface>
+    {
+        return this->addJoinClause(model, conditions, alias, "INNER");
+    }
+
+    /**
      * Appends an IN condition to the current conditions
      *
      * ```php
@@ -634,33 +646,6 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
         let this->hiddenParamNumber = hiddenParam;
 
         return this;
-    }
-
-    /**
-     * Adds an INNER join to the query
-     *
-     *```php
-     * <?php
-     *
-     * $criteria->innerJoin(
-     *     Invoices::class
-     * );
-     *
-     * $criteria->innerJoin(
-     *     Invoices::class,
-     *     "inv_cst_id = Customers.cst_id"
-     * );
-     *
-     * $criteria->innerJoin(
-     *     Invoices::class,
-     *     "i.inv_cst_id = Customers.cst_id",
-     *     "i"
-     * );
-     *```
-     */
-    public function innerJoin(string model, var conditions = null, var alias = null) -> <CriteriaInterface>
-    {
-        return this->addJoinClause(model, conditions, alias, "INNER");
     }
 
     /**
@@ -836,6 +821,16 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     }
 
     /**
+     * Adds the order-by clause to the criteria
+     */
+    public function orderBy(string orderColumns) -> <CriteriaInterface>
+    {
+        let this->params["order"] = orderColumns;
+
+        return this;
+    }
+
+    /**
      * Appends a condition to the current conditions using an OR operator
      */
     public function orWhere(string conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>
@@ -847,16 +842,6 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
         }
 
         return this->where(conditions, bindParams, bindTypes);
-    }
-
-    /**
-     * Adds the order-by clause to the criteria
-     */
-    public function orderBy(string orderColumns) -> <CriteriaInterface>
-    {
-        let this->params["order"] = orderColumns;
-
-        return this;
     }
 
     /**
@@ -973,5 +958,4 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
         return this;
     }
-
 }

@@ -60,8 +60,9 @@ interface Dispatcher
      *
      * @deprecated Use getParameter() instead
      *
-     * Note: This signature omits the `defaultValue` argument the implementation
-     * accepts; the two will be aligned in the next major version.
+     * Note: This signature omits the `$defaultValue` argument the
+     * implementation accepts; the two will be aligned in the next major
+     * version.
      */
     public function getParam(var param, filters = null) -> var;
 
@@ -76,18 +77,18 @@ interface Dispatcher
     /**
      * Gets action params
      *
+     * @phpstan-return dispatcher_params
+     */
+    public function getParameters() -> array;
+
+    /**
+     * Gets action params
+     *
      * @deprecated Use getParameters() instead
      *
      * @phpstan-return dispatcher_params
      */
     public function getParams() -> array;
-
-    /**
-     * Gets action params
-     *
-     * @phpstan-return dispatcher_params
-     */
-    public function getParameters() -> array;
 
     /**
      * Returns value returned by the latest dispatched action
@@ -97,9 +98,9 @@ interface Dispatcher
     /**
      * Check if a param exists
      *
-     * @deprecated Use hasParameter() instead
-     *
      * @phpstan-param array-key $param
+     *
+     * @deprecated Use hasParameter() instead
      */
     public function hasParam(var param) -> bool;
 
@@ -157,9 +158,9 @@ interface Dispatcher
     /**
      * Sets action params to be dispatched
      *
-     * @deprecated Use setParameters() instead
-     *
      * @phpstan-param dispatcher_params $params
+     *
+     * @deprecated Use setParameters() instead
      */
     public function setParams(array params) -> void;
 }

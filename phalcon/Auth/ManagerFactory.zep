@@ -28,6 +28,7 @@ use Phalcon\Contracts\Container\Service\Collection;
 use Phalcon\Di\DiInterface;
 use Phalcon\Encryption\Security;
 use Phalcon\Traits\Factory\ConfigTrait;
+use Throwable;
 
 /**
  * Single entry-point factory that builds a fully wired Phalcon\Auth\Manager
@@ -142,7 +143,7 @@ class ManagerFactory
     }
 
     /**
-     * @param array{name: string, options?: array<string, mixed>} $cfg
+     * @param auth_adapter_config $cfg
      *
      * @throws Exception
      */
@@ -191,7 +192,7 @@ class ManagerFactory
     }
 
     /**
-     * @return string
+     * @return class-string<Throwable>
      */
     protected function getExceptionClass() -> string
     {

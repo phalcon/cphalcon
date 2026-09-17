@@ -40,7 +40,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_SerializerFactory)
 /**
  * SerializerFactory constructor.
  *
- * @param string[] $services
+ * @param array<string, string> $services
  */
 PHP_METHOD(Phalcon_Storage_SerializerFactory, __construct)
 {

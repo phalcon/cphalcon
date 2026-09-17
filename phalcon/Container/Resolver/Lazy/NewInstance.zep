@@ -35,12 +35,12 @@ use Phalcon\Contracts\Container\Service\Collection;
 class NewInstance extends Lazy
 {
     /**
-     * @var string|Lazy
+     * @var Lazy|string
      */
     protected id;
 
     /**
-     * @param string|Lazy $id
+     * @param Lazy|string $id
      */
     public function __construct(var id)
     {

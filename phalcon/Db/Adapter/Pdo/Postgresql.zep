@@ -45,15 +45,8 @@ use Throwable;
  */
 class Postgresql extends PdoAdapter
 {
-    /**
-     * @var string
-     */
-    protected dialectType = "postgresql";
-
-    /**
-     * @var string
-     */
-    protected type = "pgsql";
+    protected string dialectType = "postgresql";
+    protected string type = "pgsql";
 
     /**
      * Constructor for Phalcon\Db\Adapter\Pdo\Postgresql

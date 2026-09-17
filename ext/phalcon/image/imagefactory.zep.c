@@ -77,11 +77,11 @@ PHP_METHOD(Phalcon_Image_ImageFactory, __construct)
  *
  * @phpstan-param ConfigInterface|image_factory_config $config
  *
- * @param array|ConfigInterface config = [
+ * @param array|ConfigInterface $config = [
  *     'adapter' => 'gd',
- *     'file' => 'image.jpg',
- *     'height' => null,
- *     'width' => null
+ *     'file'    => 'image.jpg',
+ *     'height'  => null,
+ *     'width'   => null
  * ]
  */
 PHP_METHOD(Phalcon_Image_ImageFactory, load)

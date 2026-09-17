@@ -464,7 +464,7 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-     * Renders the supplied colour onto the image as the background. Channels
+     * Renders the supplied color onto the image as the background. Channels
      * are 0-255; the opacity is the validated 0-100 value.
      *
      * @phpstan-param image_channel $red

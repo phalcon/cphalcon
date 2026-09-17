@@ -51,9 +51,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Logger)
  * Example: Entire website down, database unavailable, etc. This should
  * trigger the SMS alerts and wake you up.
  *
- * @throws Exception
- *
  * @phpstan-param logger_context $context
+ *
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Logger_Logger, alert)
 {
@@ -96,9 +96,9 @@ PHP_METHOD(Phalcon_Logger_Logger, alert)
  *
  * Example: Application component unavailable, unexpected exception.
  *
- * @throws Exception
- *
  * @phpstan-param logger_context $context
+ *
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Logger_Logger, critical)
 {
@@ -139,9 +139,9 @@ PHP_METHOD(Phalcon_Logger_Logger, critical)
 /**
  * Detailed debug information.
  *
- * @throws Exception
- *
  * @phpstan-param logger_context $context
+ *
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Logger_Logger, debug)
 {
@@ -182,9 +182,9 @@ PHP_METHOD(Phalcon_Logger_Logger, debug)
 /**
  * System is unusable.
  *
- * @throws Exception
- *
  * @phpstan-param logger_context $context
+ *
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Logger_Logger, emergency)
 {
@@ -226,9 +226,9 @@ PHP_METHOD(Phalcon_Logger_Logger, emergency)
  * Runtime errors that do not require immediate action but should typically
  * be logged and monitored.
  *
- * @throws Exception
- *
  * @phpstan-param logger_context $context
+ *
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Logger_Logger, error)
 {
@@ -271,9 +271,9 @@ PHP_METHOD(Phalcon_Logger_Logger, error)
  *
  * Example: User logs in, SQL logs.
  *
- * @throws Exception
- *
  * @phpstan-param logger_context $context
+ *
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Logger_Logger, info)
 {
@@ -317,9 +317,9 @@ PHP_METHOD(Phalcon_Logger_Logger, info)
  * An unknown level (a typo or an unmapped value) is not rejected; it maps
  * to the CUSTOM level and is logged, rather than raising an exception.
  *
- * @throws Exception
- *
  * @phpstan-param logger_context $context
+ *
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Logger_Logger, log)
 {
@@ -367,9 +367,9 @@ PHP_METHOD(Phalcon_Logger_Logger, log)
 /**
  * Normal but significant events.
  *
- * @throws Exception
- *
  * @phpstan-param logger_context $context
+ *
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Logger_Logger, notice)
 {
@@ -414,9 +414,9 @@ PHP_METHOD(Phalcon_Logger_Logger, notice)
  * HTTP response bodies, or internal state transitions that are too noisy
  * for DEBUG.
  *
- * @throws Exception
- *
  * @phpstan-param logger_context $context
+ *
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Logger_Logger, trace)
 {
@@ -460,9 +460,9 @@ PHP_METHOD(Phalcon_Logger_Logger, trace)
  * Example: Use of deprecated APIs, poor use of an API, undesirable things
  * that are not necessarily wrong.
  *
- * @throws Exception
- *
  * @phpstan-param logger_context $context
+ *
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Logger_Logger, warning)
 {

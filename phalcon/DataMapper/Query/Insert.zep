@@ -31,9 +31,6 @@ class Insert extends AbstractQuery
 {
     /**
      * Insert constructor.
-     *
-     * @param Connection $connection
-     * @param Bind       $bind
      */
     public function __construct(<Connection> connection, <Bind> bind)
     {
@@ -45,10 +42,6 @@ class Insert extends AbstractQuery
 
     /**
      * Sets a column for the `INSERT` query
-     *
-     * @param string $column
-     *
-     * @return Insert
      */
     public function column(string column, var value = null, int type = -1) -> <Insert>
     {
@@ -63,10 +56,6 @@ class Insert extends AbstractQuery
 
     /**
      * Mass sets columns and values for the `INSERT`
-     *
-     * @param array $columns
-     *
-     * @return Insert
      *
      * @phpstan-param datamapper_column_values $columns
      */
@@ -86,34 +75,13 @@ class Insert extends AbstractQuery
     }
 
     /**
-     * Adds table(s) in the query
-     *
-     * @param string $table
-     *
-     * @return Insert
-     */
-    public function into(string table) -> <Insert>
-    {
-        let this->store["FROM"] = table;
-
-        return this;
-    }
-
-    /**
      * Returns the id of the last inserted record
-     *
-     * @param string|null $name
-     *
-     * @return string
      */
     public function getLastInsertId(string name = null) -> string
     {
         return this->connection->lastInsertId(name);
     }
 
-    /**
-     * @return string
-     */
     public function getStatement() -> string
     {
         return "INSERT"
@@ -124,20 +92,11 @@ class Insert extends AbstractQuery
     }
 
     /**
-     * Adds the `RETURNING` clause
-     *
-     * @param array $columns
-     *
-     * @return Insert
-     *
-     * @phpstan-param datamapper_clauses $columns
+     * Adds table(s) in the query
      */
-    public function returning(array columns) -> <Insert>
+    public function into(string table) -> <Insert>
     {
-        let this->store["RETURNING"] = array_merge(
-            this->store["RETURNING"],
-            columns
-        );
+        let this->store["FROM"] = table;
 
         return this;
     }
@@ -154,12 +113,22 @@ class Insert extends AbstractQuery
     }
 
     /**
+     * Adds the `RETURNING` clause
+     *
+     * @phpstan-param datamapper_clauses $columns
+     */
+    public function returning(array columns) -> <Insert>
+    {
+        let this->store["RETURNING"] = array_merge(
+            this->store["RETURNING"],
+            columns
+        );
+
+        return this;
+    }
+
+    /**
      * Sets a column = value condition
-     *
-     * @param string     $column
-     * @param mixed|null $value
-     *
-     * @return Insert
      *
      * @phpstan-param string|null $value
      */
@@ -178,8 +147,6 @@ class Insert extends AbstractQuery
 
     /**
      * Builds the column list
-     *
-     * @return string
      */
     private function buildColumns() -> string
     {

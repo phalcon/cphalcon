@@ -40,15 +40,8 @@ use Phalcon\Db\ReferenceInterface;
  */
 class Sqlite extends PdoAdapter
 {
-    /**
-     * @var string
-     */
-    protected dialectType = "sqlite";
-
-    /**
-     * @var string
-     */
-    protected type = "sqlite";
+    protected string dialectType = "sqlite";
+    protected string type = "sqlite";
 
     /**
      * Constructor for Phalcon\Db\Adapter\Pdo\Sqlite

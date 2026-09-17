@@ -13,8 +13,6 @@ namespace Phalcon\Mvc\Model;
 use Phalcon\Contracts\Mvc\MvcTypes;
 
 /**
- * Phalcon\Mvc\Model\Relation
- *
  * This class represents a relationship between two models
  *
  * @phpstan-import-type mvc_model_parameters from MvcTypes
@@ -80,25 +78,16 @@ class Relation implements RelationInterface
      */
     protected intermediateReferencedFields;
 
-    /**
-     * @var array
-     */
-    protected options = [];
+    protected array options = [];
 
     /**
      * @var array|string
      */
     protected referencedFields;
 
-    /**
-     * @var string
-     */
-    protected referencedModel;
+    protected string referencedModel;
 
-    /**
-     * @var int
-     */
-    protected type;
+    protected int type;
 
     /**
      * Phalcon\Mvc\Model\Relation constructor
@@ -238,14 +227,6 @@ class Relation implements RelationInterface
     }
 
     /**
-     * Returns the relation type
-     */
-    public function getType() -> int
-    {
-        return this->type;
-    }
-
-    /**
      * Returns the referenced fields
      *
      * @return array|string
@@ -266,6 +247,14 @@ class Relation implements RelationInterface
     }
 
     /**
+     * Returns the relation type
+     */
+    public function getType() -> int
+    {
+        return this->type;
+    }
+
+    /**
      * Check whether the relation act as a foreign key
      */
     public function isForeignKey() -> bool
@@ -277,18 +266,6 @@ class Relation implements RelationInterface
         }
 
         return (bool) foreignKey;
-    }
-
-    /**
-     * Check whether the relation is a 'many-to-many' relation or not
-     */
-    public function isThrough() -> bool
-    {
-        var type;
-
-        let type = this->type;
-
-        return type == self::HAS_ONE_THROUGH || type == self::HAS_MANY_THROUGH;
     }
 
     /**
@@ -305,6 +282,18 @@ class Relation implements RelationInterface
         }
 
         return reusable;
+    }
+
+    /**
+     * Check whether the relation is a 'many-to-many' relation or not
+     */
+    public function isThrough() -> bool
+    {
+        var type;
+
+        let type = this->type;
+
+        return type == self::HAS_ONE_THROUGH || type == self::HAS_MANY_THROUGH;
     }
 
     /**

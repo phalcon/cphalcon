@@ -17,7 +17,6 @@
 #include "kernel/memory.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
-#include "kernel/operators.h"
 
 
 /**
@@ -102,12 +101,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Group)
 	 */
 	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("prefix"), ZEND_ACC_PROTECTED);
 	/**
-	 * @var array
-	 *
 	 * @phpstan-var list<RouteInterface>
 	 */
-	zend_declare_property_null(phalcon_mvc_router_group_ce, SL("routes"), ZEND_ACC_PROTECTED);
-	phalcon_mvc_router_group_ce->create_object = zephir_init_properties_Phalcon_Mvc_Router_Group;
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_mvc_router_group_ce, SL("routes"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
 
 	zend_class_implements(phalcon_mvc_router_group_ce, 1, phalcon_mvc_router_groupinterface_ce);
 	return SUCCESS;
@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, __construct)
 		_0 = Z_TYPE_P(paths) == IS_STRING;
 	}
 	if (_0) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1145, paths);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1144, paths);
 	}
 	if ((zephir_method_exists_ex(this_ptr, ZEND_STRL("initialize")) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "initialize", NULL, 0, paths);
@@ -168,14 +168,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, __construct)
  * $router->add("/about", "About::index");
  *```
  *
- * @param string pattern
- * @param string|array paths = [
- *     'module => '',
- *     'controller' => '',
- *     'action' => '',
- *     'namespace' => ''
- * ]
- * @param array|string|null httpMethods
+ * @param mixed $paths = [
+ *                     'module => '',
+ *                     'controller' => '',
+ *                     'action' => '',
+ *                     'namespace' => ''
+ *                     ]
  *
  * @return RouteInterface
  */
@@ -224,13 +222,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, add)
 /**
  * Adds a route to the router that only match if the HTTP method is CONNECT
  *
- * @param string pattern
- * @param string|array paths = [
- *     'module => '',
- *     'controller' => '',
- *     'action' => '',
- *     'namespace' => ''
- * ]
+ * @param mixed $paths = [
+ *                     'module => '',
+ *                     'controller' => '',
+ *                     'action' => '',
+ *                     'namespace' => ''
+ *                     ]
  *
  * @return RouteInterface
  */
@@ -273,13 +270,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addConnect)
 /**
  * Adds a route to the router that only match if the HTTP method is DELETE
  *
- * @param string pattern
- * @param string|array paths = [
- *     'module => '',
- *     'controller' => '',
- *     'action' => '',
- *     'namespace' => ''
- * ]
+ * @param mixed $paths = [
+ *                     'module => '',
+ *                     'controller' => '',
+ *                     'action' => '',
+ *                     'namespace' => ''
+ *                     ]
  *
  * @return RouteInterface
  */
@@ -322,13 +318,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addDelete)
 /**
  * Adds a route to the router that only match if the HTTP method is GET
  *
- * @param string pattern
- * @param string|array paths = [
- *     'module => '',
- *     'controller' => '',
- *     'action' => '',
- *     'namespace' => ''
- * ]
+ * @param mixed $paths = [
+ *                     'module => '',
+ *                     'controller' => '',
+ *                     'action' => '',
+ *                     'namespace' => ''
+ *                     ]
  *
  * @return RouteInterface
  */
@@ -371,13 +366,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addGet)
 /**
  * Adds a route to the router that only match if the HTTP method is HEAD
  *
- * @param string pattern
- * @param string|array paths = [
- *     'module => '',
- *     'controller' => '',
- *     'action' => '',
- *     'namespace' => ''
- * ]
+ * @param mixed $paths = [
+ *                     'module => '',
+ *                     'controller' => '',
+ *                     'action' => '',
+ *                     'namespace' => ''
+ *                     ]
  *
  * @return RouteInterface
  */
@@ -420,13 +414,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addHead)
 /**
  * Add a route to the router that only match if the HTTP method is OPTIONS
  *
- * @param string pattern
- * @param string|array paths = [
- *     'module => '',
- *     'controller' => '',
- *     'action' => '',
- *     'namespace' => ''
- * ]
+ * @param mixed $paths = [
+ *                     'module => '',
+ *                     'controller' => '',
+ *                     'action' => '',
+ *                     'namespace' => ''
+ *                     ]
  *
  * @return RouteInterface
  */
@@ -469,13 +462,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addOptions)
 /**
  * Adds a route to the router that only match if the HTTP method is PATCH
  *
- * @param string pattern
- * @param string|array paths = [
- *     'module => '',
- *     'controller' => '',
- *     'action' => '',
- *     'namespace' => ''
- * ]
+ * @param mixed $paths = [
+ *                     'module => '',
+ *                     'controller' => '',
+ *                     'action' => '',
+ *                     'namespace' => ''
+ *                     ]
  *
  * @return RouteInterface
  */
@@ -518,13 +510,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addPatch)
 /**
  * Adds a route to the router that only match if the HTTP method is POST
  *
- * @param string pattern
- * @param string|array paths = [
- *     'module => '',
- *     'controller' => '',
- *     'action' => '',
- *     'namespace' => ''
- * ]
+ * @param mixed $paths = [
+ *                     'module => '',
+ *                     'controller' => '',
+ *                     'action' => '',
+ *                     'namespace' => ''
+ *                     ]
  *
  * @return RouteInterface
  */
@@ -567,13 +558,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addPost)
 /**
  * Adds a route to the router that only match if the HTTP method is PURGE
  *
- * @param string pattern
- * @param string|array paths = [
- *     'module => '',
- *     'controller' => '',
- *     'action' => '',
- *     'namespace' => ''
- * ]
+ * @param mixed $paths = [
+ *                     'module => '',
+ *                     'controller' => '',
+ *                     'action' => '',
+ *                     'namespace' => ''
+ *                     ]
  *
  * @return RouteInterface
  */
@@ -616,13 +606,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addPurge)
 /**
  * Adds a route to the router that only match if the HTTP method is PUT
  *
- * @param string pattern
- * @param string|array paths = [
- *     'module => '',
- *     'controller' => '',
- *     'action' => '',
- *     'namespace' => ''
- * ]
+ * @param mixed $paths = [
+ *                     'module => '',
+ *                     'controller' => '',
+ *                     'action' => '',
+ *                     'namespace' => ''
+ *                     ]
  *
  * @return RouteInterface
  */
@@ -665,13 +654,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addPut)
 /**
  * Adds a route to the router that only match if the HTTP method is TRACE
  *
- * @param string pattern
- * @param string|array paths = [
- *     'module => '',
- *     'controller' => '',
- *     'action' => '',
- *     'namespace' => ''
- * ]
+ * @param mixed $paths = [
+ *                     'module => '',
+ *                     'controller' => '',
+ *                     'action' => '',
+ *                     'namespace' => ''
+ *                     ]
  *
  * @return RouteInterface
  */
@@ -735,7 +723,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, beforeMatch)
 		Z_PARAM_ZVAL(beforeMatch)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &beforeMatch);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1146, beforeMatch);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1145, beforeMatch);
 	RETURN_THISW();
 }
 
@@ -758,7 +746,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, clear)
 
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1147, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1146, &_0);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -813,10 +801,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, getRoutes)
 
 /**
  * Set a hostname restriction for all the routes in the group
- *
- * @param string hostname
- *
- * @return GroupInterface
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, setHostname)
 {
@@ -834,7 +818,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, setHostname)
 		Z_PARAM_STR(hostname)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&hostname_zv, hostname);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1148, &hostname_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1147, &hostname_zv);
 	RETURN_THISW();
 }
 
@@ -860,16 +844,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, setPaths)
 		Z_PARAM_ZVAL(paths)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &paths);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1145, paths);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1144, paths);
 	RETURN_THISW();
 }
 
 /**
  * Set a common uri prefix for all the routes in this group
- *
- * @param string prefix
- *
- * @return GroupInterface
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, setPrefix)
 {
@@ -887,21 +867,19 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, setPrefix)
 		Z_PARAM_STR(prefix)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&prefix_zv, prefix);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1149, &prefix_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1148, &prefix_zv);
 	RETURN_THISW();
 }
 
 /**
  * Adds a route applying the common attributes
  *
- * @param string pattern
- * @param string|array|null paths = [
- *     'module => '',
- *     'controller' => '',
- *     'action' => '',
- *     'namespace' => ''
- * ]
- * @param array|string|null httpMethods
+ * @param mixed $paths [
+ *                     'module => '',
+ *                     'controller' => '',
+ *                     'action' => '',
+ *                     'namespace' => ''
+ *                     ]
  *
  * @return RouteInterface
  */
@@ -958,7 +936,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addRoute)
 		httpMethods = &__$null;
 	}
 	zephir_memory_observe(&defaultPaths);
-	zephir_read_property_cached(&defaultPaths, this_ptr, _zephir_prop_0, 1145, PH_NOISY_CC);
+	zephir_read_property_cached(&defaultPaths, this_ptr, _zephir_prop_0, 1144, PH_NOISY_CC);
 	if (Z_TYPE_P(&defaultPaths) == IS_ARRAY) {
 		if (Z_TYPE_P(paths) == IS_STRING) {
 			ZEPHIR_CALL_CE_STATIC(&processedPaths, phalcon_mvc_router_route_ce, "getroutepaths", NULL, 0, paths);
@@ -977,7 +955,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addRoute)
 	}
 	ZEPHIR_INIT_VAR(&route);
 	object_init_ex(&route, phalcon_mvc_router_route_ce);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 1149, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 1148, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_VV(&_1, &_0, &pattern_zv);
 	ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 266, &_1, &mergedPaths, httpMethods);
@@ -986,30 +964,5 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addRoute)
 	ZEPHIR_CALL_METHOD(NULL, &route, "setgroup", NULL, 0, this_ptr);
 	zephir_check_call_status();
 	RETURN_CCTOR(&route);
-}
-
-zend_object *zephir_init_properties_Phalcon_Mvc_Router_Group(zend_class_entry *class_type)
-{
-		zval _0, _1$$3;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("routes"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("routes"), &_1$$3);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

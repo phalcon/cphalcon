@@ -47,6 +47,8 @@
  * echo $config->phalcon->baseuri;
  * echo $config->models->metadata;
  *```
+ *
+ * @phpstan-import-type config_data from ConfigTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Json)
 {
@@ -56,7 +58,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Json)
 }
 
 /**
- * Phalcon\Config\Adapter\Json constructor
+ * Json constructor.
  *
  * @throws CannotLoadConfigFile
  */
@@ -91,7 +93,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, __construct)
 		zephir_basename(&_1$$3, &filePath_zv);
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 465, &_1$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Config/Adapter/Json.zep", 54);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Config/Adapter/Json.zep", 57);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

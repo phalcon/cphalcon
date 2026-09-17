@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Model\BehaviorInterface
- *
  * Interface for Phalcon\Mvc\Model\Behavior
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_BehaviorInterface)

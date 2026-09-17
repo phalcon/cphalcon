@@ -24,8 +24,6 @@ use Phalcon\Mvc\Router\RouteInterface;
 use Phalcon\Traits\Php\FileTrait;
 
 /**
- * Phalcon\Mvc\Application
- *
  * This component encapsulates all the complex operations behind instantiating
  * every component needed and integrating it with the rest to allow the MVC
  * pattern to operate as desired.
@@ -73,25 +71,16 @@ class Application extends AbstractApplication
 {
     use FileTrait;
 
-    /**
-     * @var bool
-     */
-    protected implicitView = true;
+    protected bool implicitView = true;
 
-    /**
-     * @var bool
-     */
-    protected sendCookies = true;
+    protected bool sendCookies = true;
 
-    /**
-     * @var bool
-     */
-    protected sendHeaders = true;
+    protected bool sendHeaders = true;
 
     /**
      * Handles a MVC request
      */
-    public function handle(string uri) -> <ResponseInterface> | bool
+    public function handle(string uri) -> bool | <ResponseInterface>
     {
         var className, container, controller, dispatcher, eventsManager,
             implicitView, match, matchedRoute, module, moduleName, moduleObject,
@@ -259,7 +248,7 @@ class Application extends AbstractApplication
             /**
              * The "afterStartModule" event is a notification fired once the
              * module has started. Its return value is intentionally ignored:
-             * the module is already booted, so handling cannot be cancelled
+             * the module is already booted, so handling cannot be canceled
              * here. (Phalcon\Cli\Console still honors a `false` return for
              * backward compatibility; the two are unified in the next major.)
              */
@@ -439,7 +428,6 @@ class Application extends AbstractApplication
 
         return this;
     }
-
 
     /**
      * Enables or disables sending headers by each request handling

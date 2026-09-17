@@ -16,12 +16,14 @@ use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Db\Column;
 use Phalcon\Db\DialectInterface;
 use Phalcon\Db\Enum;
+use Phalcon\Db\Exceptions\InvalidWkb;
 use Phalcon\Db\Geometry\WkbParser;
 use Phalcon\Db\RawValue;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
+use Phalcon\Filter\Validation\ValidationInterface;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\Model\BehaviorInterface;
@@ -83,8 +85,6 @@ use Phalcon\Support\Collection\CollectionInterface;
 use Phalcon\Support\Settings;
 
 /**
- * Phalcon\Mvc\Model
- *
  * Phalcon\Mvc\Model connects business objects and database tables to create a
  * persistable domain model where logic and data are presented in one wrapping.
  * It‘s an implementation of the object-relational mapping (ORM).
@@ -189,81 +189,52 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     const TRANSACTION_INDEX = "transaction";
 
     /**
-     * @var int
-     */
-    protected dirtyState = 1;
-
-    /**
-     * @var array
-     *
      * @phpstan-var mvc_model_related
      */
-    protected dirtyRelated = [];
+    protected array dirtyRelated = [];
+
+    protected int dirtyState = 1;
 
     /**
-     * @var array
-     *
      * @phpstan-var mvc_model_messages
      */
-    protected errorMessages = [];
+    protected array errorMessages = [];
+
+    protected ?<ManagerInterface> modelsManager = null;
+
+    protected ?<MetaDataInterface> modelsMetaData = null;
 
     /**
-     * @var ManagerInterface|null
-     */
-    protected modelsManager = null;
-
-    /**
-     * @var MetaDataInterface|null
-     */
-    protected modelsMetaData = null;
-
-    /**
-     * @var array
-     *
-     * @phpstan-var mvc_model_related
-     */
-    protected related = [];
-
-    /**
-     * @var int
-     */
-    protected operationMade = 0;
-
-    /**
-     * @var array
-     *
      * @phpstan-var mvc_model_snapshot
      */
-    protected oldSnapshot = [];
+    protected array oldSnapshot = [];
+
+    protected int operationMade = 0;
 
     /**
-     * @var array
-     *
      * @phpstan-var array<string, mixed>
      */
-    protected rawValues = [];
+    protected array rawValues = [];
 
     /**
-     * @var bool
+     * @phpstan-var mvc_model_related
      */
-    protected skipped = false;
+    protected array related = [];
+
+    protected bool skipped = false;
 
     /**
-     * @var array
-     *
      * @phpstan-var mvc_model_snapshot
      */
-    protected snapshot = [];
+    protected array snapshot = [];
 
     /**
      * Per-save many-to-many sync overrides, keyed by lowercased relation
      * alias (or "*" wildcard) => bool. Cleared after each save().
      *
-     * @var array
-     *
      * @phpstan-var mvc_model_sync_related
      */
-    protected syncRelated = [];
+    protected array syncRelated = [];
 
     /**
      * @var TransactionInterface|null
@@ -283,11 +254,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     protected uniqueParams = [];
 
     /**
-     * @var array
-     *
      * @phpstan-var mvc_model_bind_types
      */
-    protected uniqueTypes = [];
+    protected array uniqueTypes = [];
 
     /**
      * Phalcon\Mvc\Model constructor
@@ -414,7 +383,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          */
         throw new MethodNotFound(method, modelName);
     }
-
 
     /**
      * Magic method to get related records using the relation alias as a
@@ -791,207 +759,117 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     }
 
     /**
-     * Setups a behavior in a model
+     * Enables/disables options in the ORM.
      *
-     *```php
-     * use Phalcon\Mvc\Model;
-     * use Phalcon\Mvc\Model\Behavior\Timestampable;
+     * The options are written to process-global `Phalcon\Support\Settings`
+     * (`orm.*` flags) and therefore affect every model in the process at once.
+     * Call this once during bootstrap; it is not per-model or per-container
+     * configuration, and one application's `setup()` reconfigures the ORM for
+     * every other user in the same process.
      *
-     * class Invoices extends Model
-     * {
-     *     public function initialize()
-     *     {
-     *         $this->addBehavior(
-     *             new Timestampable(
-     *                 [
-     *                     "beforeCreate" => [
-     *                         "field"  => "created_at",
-     *                         "format" => "Y-m-d",
-     *                     ],
-     *                 ]
-     *             )
-     *         );
-     *
-     *         $this->addBehavior(
-     *             new Timestampable(
-     *                 [
-     *                     "beforeUpdate" => [
-     *                         "field"  => "updated_at",
-     *                         "format" => "Y-m-d",
-     *                     ],
-     *                 ]
-     *             )
-     *         );
-     *     }
-     * }
-     *```
+     * @phpstan-param array<string, mixed> $options
      */
-    public function addBehavior(<BehaviorInterface> behavior) -> void
+    public static function setup(array options) -> void
     {
-        (<ManagerInterface> this->modelsManager)->addBehavior(this, behavior);
-    }
+        var disableEvents, columnRenaming, notNullValidations,
+            exceptionOnFailedSave, exceptionOnFailedMetaDataSave, phqlLiterals,
+            virtualForeignKeys, lateStateBinding, castOnHydrate,
+            ignoreUnknownColumns, updateSnapshotOnSave, disableAssignSetters,
+            caseInsensitiveColumnMap, prefetchRecords, lastInsertId;
 
-    /**
-     * Appends a customized message on the validation process
-     *
-     * ```php
-     * use Phalcon\Mvc\Model;
-     * use Phalcon\Messages\Message as Message;
-     *
-     * class Invoices extends Model
-     * {
-     *     public function beforeSave()
-     *     {
-     *         if ($this->name === "Peter") {
-     *             $message = new Message(
-     *                 "Sorry, but an invoice cannot be named Peter"
-     *             );
-     *
-     *             $this->appendMessage($message);
-     *         }
-     *     }
-     * }
-     * ```
-     */
-    public function appendMessage(<MessageInterface> message) -> <ModelInterface>
-    {
-        let this->errorMessages[] = message;
-
-        return this;
-    }
-
-    /**
-     * Assigns values to a model from an array
-     *
-     * ```php
-     * $invoice->assign(
-     *     [
-     *         "type" => "mechanical",
-     *         "name" => "Test Invoice",
-     *         "year" => 1952,
-     *     ]
-     * );
-     *
-     * // Assign by db row, column map needed
-     * $invoice->assign(
-     *     $dbRow,
-     *     [
-     *         "db_type" => "type",
-     *         "db_name" => "name",
-     *         "db_year" => "year",
-     *     ]
-     * );
-     *
-     * // Allow assign only name and year
-     * $invoice->assign(
-     *     $_POST,
-     *     [
-     *         "name",
-     *         "year",
-     *     ]
-     * );
-     *
-     * // By default assign method will use setters if exist, you can disable it by using ini_set to directly use properties
-     *
-     * ini_set("phalcon.orm.disable_assign_setters", true);
-     *
-     * $invoice->assign(
-     *     $_POST,
-     *     [
-     *         "name",
-     *         "year",
-     *     ]
-     * );
-     * ```
-     *
-     * @param array data
-     * @param mixed whiteList
-     * @param mixed dataColumnMap Array to transform keys of data to another
-     *
-     * @return ModelInterface
-     *
-     * @phpstan-param mvc_model_data $data
-     */
-    public function assign(array data, var whiteList = null, var dataColumnMap = null) -> <ModelInterface>
-    {
-        var key, keyMapped, value, attribute, attributeField, metaData,
-            columnMap, disableAssignSetters, rawValues;
-        array dataMapped;
-
-        let rawValues       = [],
-            this->rawValues = rawValues;
-
-        let disableAssignSetters = Settings::get("orm.disable_assign_setters");
-
-        // apply column map for data, if exist
-        if typeof dataColumnMap === "array" {
-            let dataMapped = [];
-
-            for key, value in data {
-                if fetch keyMapped, dataColumnMap[key] {
-                    let dataMapped[keyMapped] = value;
-                }
-            }
-        } else {
-            let dataMapped = data;
+        /**
+         * Enables/Disables globally the internal events
+         */
+        if fetch disableEvents, options["events"] {
+            Settings::set("orm.events", (bool) disableEvents);
         }
 
-        if empty dataMapped {
-            return this;
+        /**
+         * Enables/Disables virtual foreign keys
+         */
+        if fetch virtualForeignKeys, options["virtualForeignKeys"] {
+            Settings::set("orm.virtual_foreign_keys", (bool) virtualForeignKeys);
         }
 
-        let metaData = this->getModelsMetaData();
-
-        if Settings::get("orm.column_renaming") {
-            let columnMap = metaData->getColumnMap(this);
-        } else {
-            let columnMap = null;
+        /**
+         * Enables/Disables column renaming
+         */
+        if fetch columnRenaming, options["columnRenaming"] {
+            Settings::set("orm.column_renaming", (bool) columnRenaming);
         }
 
-        for attribute in metaData->getAttributes(this) {
-            // Try to find case-insensitive key variant
-            if typeof columnMap == "array" &&
-               !isset columnMap[attribute] &&
-               Settings::get("orm.case_insensitive_column_map") {
-                let attribute = CaseInsensitiveColumnMap::caseInsensitiveColumnMap(
-                    columnMap,
-                    attribute
-                );
-            }
-
-            // Check if we need to rename the field
-            if typeof columnMap === "array" {
-                if !fetch attributeField, columnMap[attribute] {
-                    if unlikely !Settings::get("orm.ignore_unknown_columns") {
-                        throw new ColumnNotInMap(attribute, get_class(this));
-                    }
-
-                    continue;
-                }
-            } else {
-                let attributeField = attribute;
-            }
-
-            // The value in the array passed
-            // Check if we there is data for the field
-            if fetch value, dataMapped[attributeField] {
-                // If white-list exists check if the attribute is on that list
-                if typeof whiteList == "array" && !in_array(attributeField, whiteList) {
-                    continue;
-                }
-
-                // Try to find a possible getter
-                if typeof value == "object" && value instanceof RawValue {
-                    let rawValues[attributeField] = value;
-                } elseif disableAssignSetters || !this->possibleSetter(attributeField, value) {
-                    let this->{attributeField} = value;
-                }
-            }
+        /**
+         * Enables/Disables automatic not null validation
+         */
+        if fetch notNullValidations, options["notNullValidations"] {
+            Settings::set("orm.not_null_validations", (bool) notNullValidations);
         }
 
-        let this->rawValues = rawValues;
+        /**
+         * Enables/Disables throws an exception if the saving process fails
+         */
+        if fetch exceptionOnFailedSave, options["exceptionOnFailedSave"] {
+            Settings::set("orm.exception_on_failed_save", (bool) exceptionOnFailedSave);
+        }
 
-        return this;
+        /**
+         * Enables/Disables throws an exception if the saving process fails
+         */
+        if fetch exceptionOnFailedMetaDataSave, options["exceptionOnFailedMetaDataSave"] {
+            Settings::set("orm.exception_on_failed_metadata_save", (bool) exceptionOnFailedMetaDataSave);
+        }
+
+        /**
+         * Enables/Disables literals in PHQL this improves the security of
+         * applications
+         */
+        if fetch phqlLiterals, options["phqlLiterals"] {
+            Settings::set("orm.enable_literals", (bool) phqlLiterals);
+        }
+
+        /**
+         * Enables/Disables late state binding on model hydration
+         */
+        if fetch lateStateBinding, options["lateStateBinding"] {
+            Settings::set("orm.late_state_binding", (bool) lateStateBinding);
+        }
+
+        /**
+         * Enables/Disables automatic cast to original types on hydration
+         */
+        if fetch castOnHydrate, options["castOnHydrate"] {
+            Settings::set("orm.cast_on_hydrate", (bool) castOnHydrate);
+        }
+
+        /**
+         * Allows to ignore unknown columns when hydrating objects
+         */
+        if fetch ignoreUnknownColumns, options["ignoreUnknownColumns"] {
+            Settings::set("orm.ignore_unknown_columns", (bool) ignoreUnknownColumns);
+        }
+
+        if fetch caseInsensitiveColumnMap, options["caseInsensitiveColumnMap"] {
+            Settings::set(
+                "orm.case_insensitive_column_map",
+                (bool) caseInsensitiveColumnMap
+            );
+        }
+
+        if fetch updateSnapshotOnSave, options["updateSnapshotOnSave"] {
+            Settings::set("orm.update_snapshot_on_save", (bool) updateSnapshotOnSave);
+        }
+
+        if fetch disableAssignSetters, options["disableAssignSetters"] {
+            Settings::set("orm.disable_assign_setters", (bool) disableAssignSetters);
+        }
+
+        if fetch prefetchRecords, options["prefetchRecords"] {
+            Settings::set("orm.resultset_prefetch_records", (int) prefetchRecords);
+        }
+
+        if fetch lastInsertId, options["castLastInsertIdToInt"] {
+            Settings::set("orm.cast_last_insert_id_to_int", (bool) lastInsertId);
+        }
     }
 
     /**
@@ -1022,9 +900,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * echo "The average price of paid invoices is ", $average, "\n";
      * ```
-     *
-     * @param array parameters
-     * @return float | ResultsetInterface
      *
      * @phpstan-param mvc_model_parameters $parameters
      */
@@ -1161,6 +1036,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                                 let instance->{key} = value;
                             }
                         }
+
                         continue;
                     }
                 }
@@ -1213,6 +1089,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                                 let instance->{attribute} = value;
                             }
                         }
+
                         continue;
                     }
                 }
@@ -1302,6 +1179,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                             let instance->{attributeName} = castValue;
                         }
                     }
+
                     continue;
                 }
             }
@@ -1355,49 +1233,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     }
 
     /**
-     * Collects previously queried (belongs-to, has-one and has-one-through)
-     * related records along with freshly added one
-     *
-     * @return array Related records that should be saved
-     *
-     * @phpstan-return mvc_model_related
-     */
-    protected function collectRelatedToSave() -> array
-    {
-        var name, record;
-        array related, dirtyRelated;
-
-        /**
-         * Load previously queried related records
-         */
-        let related = this->related;
-
-        /**
-         * Load unsaved related records
-         */
-        let dirtyRelated = this->dirtyRelated;
-
-        for name, record in related {
-            if isset dirtyRelated[name] {
-                continue;
-            }
-
-            if typeof record !== "object" || !(record instanceof ModelInterface) {
-                continue;
-            }
-
-            if record->hasSnapshotData() && !record->hasChanged() {
-                continue;
-            }
-
-            record->setDirtyState(self::DIRTY_STATE_TRANSIENT);
-            let dirtyRelated[name] = record;
-        }
-
-        return dirtyRelated;
-    }
-
-    /**
      * Counts how many records match the specified conditions.
      *
      * Returns an integer for simple queries or a ResultsetInterface
@@ -1416,7 +1251,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * echo "There are ", $number, " paid invoices\n";
      * ```
      *
-     * @param array|string|null parameters
+     * @param array|string|null $parameters
      *
      * @phpstan-param mvc_model_parameters|string|null $parameters
      */
@@ -1438,260 +1273,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         }
 
         return result;
-    }
-
-    /**
-     * Inserts a model instance. If the instance already exists in the
-     * persistence it will throw an exception
-     * Returning true on success or false otherwise.
-     *
-     *```php
-     * // Creating a new invoice
-     * $invoice = new Invoices();
-     *
-     * $invoice->inv_status_flag = "mechanical";
-     * $invoice->inv_title = "Test Invoice";
-     * $invoice->inv_total = 1952;
-     *
-     * $invoice->create();
-     *
-     * // Passing an array to create
-     * $invoice = new Invoices();
-     *
-     * $invoice->assign(
-     *     [
-     *         "type" => "mechanical",
-     *         "name" => "Test Invoice",
-     *         "year" => 1952,
-     *     ]
-     * );
-     *
-     * $invoice->create();
-     *```
-     */
-    public function create() -> bool
-    {
-        var metaData;
-
-        let metaData = this->getModelsMetaData();
-
-        /**
-         * Get the current connection use write to prevent replica lag
-         * If the record already exists we must throw an exception
-         */
-        if this->has(metaData, this->getWriteConnection()) {
-            let this->errorMessages = [
-                new Message(
-                    "Record cannot be created because it already exists",
-                    "",
-                    "InvalidCreateAttempt",
-                    0,
-                    [
-                        "model": get_class(this)
-                    ]
-                )
-            ];
-
-            return false;
-        }
-
-        /**
-         * Using save() anyways
-         */
-        return this->save();
-    }
-
-    /**
-     * Deletes a model instance. Returning true on success or false otherwise.
-     *
-     * ```php
-     * $invoice = Invoices::findFirst("id=100");
-     *
-     * $invoice->delete();
-     *
-     * $invoices = Invoices::find("inv_status_flag = 1");
-     *
-     * foreach ($invoices as $invoice) {
-     *     $invoice->delete();
-     * }
-     * ```
-     */
-    public function delete() -> bool
-    {
-        var metaData, writeConnection, primaryKeys, bindDataTypes, columnMap,
-            attributeField, primaryKey, bindType, value, schema, source, table,
-            success;
-        array values, bindTypes, conditions;
-
-        let metaData        = this->getModelsMetaData(),
-            writeConnection = this->getWriteConnection();
-
-        /**
-         * Operation made is OP_DELETE
-         */
-        let this->operationMade = self::OP_DELETE,
-            this->errorMessages = [];
-
-        /**
-         * Check if deleting the record violates a virtual foreign key
-         */
-        if Settings::get("orm.virtual_foreign_keys") {
-            if this->checkForeignKeysReverseRestrict() === false {
-                return false;
-            }
-        }
-
-        let values     = [],
-            bindTypes  = [],
-            conditions = [];
-
-        let primaryKeys   = metaData->getPrimaryKeyAttributes(this),
-            bindDataTypes = metaData->getBindTypes(this);
-
-        if Settings::get("orm.column_renaming") {
-            let columnMap = metaData->getColumnMap(this);
-        } else {
-            let columnMap = null;
-        }
-
-        /**
-         * We can't create dynamic SQL without a primary key
-         */
-        if unlikely empty primaryKeys {
-            throw new PrimaryKeyRequired(get_class(this));
-        }
-
-        /**
-         * Create a condition from the primary keys
-         */
-        for primaryKey in primaryKeys {
-            /**
-             * Every column part of the primary key must be in the bind data
-             * types
-             */
-            if unlikely !fetch bindType, bindDataTypes[primaryKey] {
-                throw new BindTypeNotDefined(primaryKey, get_class(this));
-            }
-
-            /**
-             * Take the column values based on the column map if any
-             */
-            if typeof columnMap == "array" {
-                if unlikely !fetch attributeField, columnMap[primaryKey] {
-                    throw new ColumnNotInTableMap(primaryKey, get_class(this));
-                }
-            } else {
-                let attributeField = primaryKey;
-            }
-
-            /**
-             * If the attribute is currently set in the object add it to the
-             * conditions
-             */
-            if unlikely !fetch value, this->{attributeField} {
-                throw new PrimaryKeyAttributeNotSet(attributeField, get_class(this));
-            }
-
-            /**
-             * Escape the column identifier
-             */
-            let values[] = value,
-                conditions[] = writeConnection->escapeIdentifier(primaryKey) . " = ?",
-                bindTypes[] = bindType;
-        }
-
-        if Settings::get("orm.events") {
-            let this->skipped = false;
-
-            /**
-             * Fire the beforeDelete event
-             */
-            if this->fireEventCancel("beforeDelete") === false {
-                return false;
-            }
-
-            /**
-             * The operation can be skipped
-             */
-            if this->skipped === true {
-                return true;
-            }
-        }
-
-        let schema = this->getSchema(),
-            source = this->getSource();
-
-        if schema {
-            let table = [schema, source];
-        } else {
-            let table = source;
-        }
-
-        /**
-         * Join the conditions in the array using an AND operator
-         * Do the deletion
-         */
-        let success = writeConnection->delete(
-            table,
-            join(" AND ", conditions),
-            values,
-            bindTypes
-        );
-
-        /**
-         * Check if there is virtual foreign keys with cascade action
-         */
-        if Settings::get("orm.virtual_foreign_keys") {
-            if this->checkForeignKeysReverseCascade() === false {
-                return false;
-            }
-        }
-
-        if Settings::get("orm.events") {
-            if success {
-                this->fireEvent("afterDelete");
-            }
-        }
-
-        /**
-         * Clear related records from the internal cache so that next time
-         * we can get proper counts.
-         */
-        if (success) {
-            /**
-             * Mark the write connection service as written-to for the sticky
-             * connection mechanism.
-             */
-            this->modelsManager->registerWrite(this);
-
-            let this->related = [];
-            let this->dirtyRelated = [];
-            this->modelsManager->clearReusableObjects();
-        }
-
-        /**
-         * Force perform the record existence checking again
-         */
-        let this->dirtyState = self::DIRTY_STATE_DETACHED;
-
-        return success;
-    }
-
-    /**
-     * Returns a simple representation of the object that can be used with
-     * `var_dump()`
-     *
-     *```php
-     * var_dump(
-     *     $invoice->dump()
-     * );
-     *```
-     *
-     * @phpstan-return array<string, mixed>
-     */
-    public function dump() -> array
-    {
-        return get_object_vars(this);
     }
 
     /**
@@ -2050,6 +1631,1159 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     }
 
     /**
+     * Returns the maximum value of a column for a result-set of rows that match
+     * the specified conditions
+     *
+     * ```php
+     * // What is the maximum invoice id?
+     * $id = Invoices::maximum(
+     *     [
+     *         "column" => "id",
+     *     ]
+     * );
+     *
+     * echo "The maximum invoice id is: ", $id, "\n";
+     *
+     * // What is the maximum id of paid invoices?
+     * $sum = Invoices::maximum(
+     *     [
+     *         "inv_status_flag = 1",
+     *         "column" => "id",
+     *     ]
+     * );
+     *
+     * echo "The maximum invoice id of paid invoices is ", $id, "\n";
+     * ```
+     *
+     * @param array parameters
+     * @return mixed
+     *
+     * @phpstan-param mvc_model_parameters|string|null $parameters
+     */
+    public static function maximum(var parameters = null) -> var
+    {
+        return self::groupResult("MAX", "maximum", parameters);
+    }
+
+    /**
+     * Returns the minimum value of a column for a result-set of rows that match
+     * the specified conditions
+     *
+     * ```php
+     * // What is the minimum invoice id?
+     * $id = Invoices::minimum(
+     *     [
+     *         "column" => "id",
+     *     ]
+     * );
+     *
+     * echo "The minimum invoice id is: ", $id;
+     *
+     * // What is the minimum id of paid invoices?
+     * $sum = Invoices::minimum(
+     *     [
+     *         "inv_status_flag = 1",
+     *         "column" => "id",
+     *     ]
+     * );
+     *
+     * echo "The minimum invoice id of paid invoices is ", $id;
+     * ```
+     *
+     * @param array parameters
+     *
+     * @phpstan-param mvc_model_parameters|string|null $parameters
+     */
+    public static function minimum(parameters = null) -> var
+    {
+        return self::groupResult("MIN", "minimum", parameters);
+    }
+
+    /**
+     * Create a criteria for a specific model
+     */
+    public static function query(<DiInterface> container = null) -> <CriteriaInterface>
+    {
+        var criteria;
+
+        /**
+         * Use the global dependency injector if there is no one defined
+         */
+        if typeof container != "object" {
+            let container = Di::getDefault();
+        }
+
+        /**
+         * Gets Criteria instance from DI container
+         */
+        if container instanceof DiInterface {
+            let criteria = <CriteriaInterface> container->get(
+                Criteria::class
+            );
+        } else {
+            let criteria = new Criteria();
+
+            criteria->setDI(container);
+        }
+
+        criteria->setModelName(
+            get_called_class()
+        );
+
+        return criteria;
+    }
+
+    /**
+     * Calculates the sum on a column for a result-set of rows that match the
+     * specified conditions
+     *
+     * ```php
+     * // How much are all invoices?
+     * $sum = Invoices::sum(
+     *     [
+     *         "column" => "inv_total",
+     *     ]
+     * );
+     *
+     * echo "The total price of invoices is ", $sum, "\n";
+     *
+     * // How much are paid invoices?
+     * $sum = Invoices::sum(
+     *     [
+     *         "inv_status_flag = 1",
+     *         "column" => "inv_total",
+     *     ]
+     * );
+     *
+     * echo "The total price of paid invoices is  ", $sum, "\n";
+     * ```
+     *
+     * @param array parameters
+     * @return double | ResultsetInterface
+     *
+     * @phpstan-param mvc_model_parameters|string|null $parameters
+     */
+    public static function sum(var parameters = null) -> float | <ResultsetInterface>
+    {
+        var result;
+
+        let result = self::groupResult("SUM", "sumatory", parameters);
+
+        if typeof result === "string" {
+            return (float) result;
+        }
+
+        if result === null {
+            return 0.0;
+        }
+
+        return result;
+    }
+
+    /**
+     * Generate a PHQL SELECT statement for an aggregate
+     *
+     * @param string functionName
+     * @param string alias
+     * @param array|string|null parameters
+     *
+     * @return int|float|string|null|ResultsetInterface
+     */
+    protected static function groupResult(string functionName,  string alias, var parameters = null) -> var
+    {
+        var params, distinctColumn, groupColumn, columns,
+            resultset, cache, firstRow, groupColumns, builder, query, container,
+            manager, transaction;
+        var bindParams = [], bindTypes = [];
+
+        let container = Di::getDefault();
+        let manager = <ManagerInterface> container->getShared("modelsManager");
+
+        if typeof parameters !== "array" {
+            let params = [];
+
+            if parameters !== null {
+                let params[] = parameters;
+            }
+        } else {
+            let params = parameters;
+        }
+
+        if !fetch groupColumn, params["column"] {
+            let groupColumn = "*";
+        }
+
+        /**
+         * Builds the columns to query according to the received parameters
+         */
+        if fetch distinctColumn, params["distinct"] {
+            let columns = functionName . "(DISTINCT " . distinctColumn . ") AS " . alias;
+        } else {
+            if fetch groupColumns, params["group"] {
+                let columns = groupColumns . ", " . functionName . "(" . groupColumn . ") AS " . alias;
+            } else {
+                let columns = functionName . "(" . groupColumn . ") AS " . alias;
+            }
+        }
+
+        /**
+         * Builds a query with the passed parameters
+         */
+        let builder = <BuilderInterface> manager->createBuilder(params);
+
+        builder->columns(columns);
+        builder->from(get_called_class());
+
+        let query = <QueryInterface> builder->getQuery();
+
+        if fetch transaction, params[self::TRANSACTION_INDEX] {
+            if transaction instanceof TransactionInterface {
+                query->setTransaction(transaction);
+            }
+        }
+
+        /**
+         * Check for bind parameters
+         */
+        if isset params["bind"] {
+            let bindParams = params["bind"];
+
+            if isset params["bindTypes"] {
+                let bindTypes = params["bindTypes"];
+            }
+        }
+
+        /**
+         * Pass the cache options to the query
+         */
+        if fetch cache, params["cache"] {
+            query->cache(cache);
+        }
+
+        /**
+         * Execute the query
+         */
+        let resultset = query->execute(bindParams, bindTypes);
+
+        /**
+         * Return the full resultset if the query is grouped
+         */
+        if isset params["group"] {
+            return resultset;
+        }
+
+        /**
+         * Return only the value in the first result
+         */
+        let firstRow = resultset->getFirst();
+
+        return firstRow->{alias};
+    }
+
+    /**
+     * Try to check if the query must invoke a finder
+     *
+     * @return ModelInterface[]|ModelInterface|bool
+     *
+     * @phpstan-param array<array-key, mixed> $arguments
+     * @phpstan-return false|int|ResultsetInterface|Row|static|null
+     */
+    final protected static function invokeFinder(string method, array arguments)
+    {
+        var extraMethod, type, modelName, value, model, attributes, field,
+            extraMethodFirst, metaData, params;
+
+        let extraMethod = null;
+
+        /**
+         * Check if the method starts with "findFirst"
+         */
+        if starts_with(method, "findFirstBy") {
+            let type = "findFirst",
+                extraMethod = substr(method, 11);
+        }
+
+        /**
+         * Check if the method starts with "find"
+         */
+        elseif starts_with(method, "findBy") {
+            let type = "find",
+                extraMethod = substr(method, 6);
+        }
+
+        /**
+         * Check if the method starts with "count"
+         */
+        elseif starts_with(method, "countBy") {
+            let type = "count",
+                extraMethod = substr(method, 7);
+        }
+
+        /**
+         * The called class is the model
+         */
+        let modelName = get_called_class();
+
+        if !extraMethod {
+            return false;
+        }
+
+        if unlikely !array_key_exists(0, arguments) {
+            throw new StaticMethodRequiresOneArgument(method, get_called_class());
+        }
+
+        let model    = create_instance(modelName),
+            metaData = model->getModelsMetaData();
+
+        /**
+         * Get the attributes
+         */
+        let attributes = metaData->getReverseColumnMap(model);
+
+        if typeof attributes !== "array" {
+            let attributes = metaData->getDataTypes(model);
+        }
+
+        /**
+         * Check if the extra-method is an attribute
+         */
+        if isset attributes[extraMethod] {
+            let field = extraMethod;
+        } else {
+            /**
+             * Lowercase the first letter of the extra-method
+             */
+            let extraMethodFirst = lcfirst(extraMethod);
+
+            if isset attributes[extraMethodFirst] {
+                let field = extraMethodFirst;
+            } else {
+                /**
+                 * Get the possible real method name
+                 */
+                let field = uncamelize(extraMethod);
+
+                if unlikely !isset attributes[field] {
+                    throw new CannotResolveAttribute(extraMethod, get_called_class());
+                }
+            }
+        }
+
+        /**
+         * Check if we have "conditions" and "bind" defined
+         */
+        fetch value, arguments[0];
+
+        if value !== null {
+            let params = [
+                 "conditions": "[" . field . "] = ?0",
+                 "bind"      : [value]
+            ];
+        } else {
+            let params = [
+                 "conditions": "[" . field . "] IS NULL"
+            ];
+        }
+
+        /**
+         * Just in case remove 'conditions' and 'bind'
+         */
+        unset arguments[0];
+        unset arguments["conditions"];
+        unset arguments["bind"];
+
+        let params = array_merge(params, arguments);
+
+        /**
+         * Execute the query
+         */
+        return {modelName}::{type}(params);
+    }
+
+    /**
+     * shared prepare query logic for find and findFirst method
+     *
+     * @phpstan-param int|null $limit
+     */
+    private static function getPreparedQuery(var params, var limit = null) -> <QueryInterface>
+    {
+        var builder, bindParams, bindTypes, transaction, cache, manager, query,
+            container;
+
+        let container = Di::getDefault();
+        let manager = <ManagerInterface> container->getShared("modelsManager");
+
+        /**
+         * Builds a query with the passed parameters
+         */
+        let builder = <BuilderInterface> manager->createBuilder(params);
+
+        builder->from(
+            get_called_class()
+        );
+
+        if limit != null {
+            builder->limit(limit);
+        }
+
+        let query = <QueryInterface> builder->getQuery();
+
+        /**
+         * Check for bind parameters
+         */
+        if fetch bindParams, params["bind"] {
+            if typeof bindParams == "array" {
+                query->setBindParams(bindParams, true);
+            }
+
+            if fetch bindTypes, params["bindTypes"] {
+                if typeof bindTypes == "array" {
+                    query->setBindTypes(bindTypes, true);
+                }
+            }
+        }
+
+        if fetch transaction, params[self::TRANSACTION_INDEX] {
+            if transaction instanceof TransactionInterface {
+                query->setTransaction(transaction);
+            }
+        }
+
+        /**
+         * Pass the cache options to the query
+         */
+        if fetch cache, params["cache"] {
+            query->cache(cache);
+        }
+
+        return query;
+    }
+
+    /**
+     * shared prepare query logic for find and findFirst method
+     *
+     * @phpstan-param object $resultset
+     * @phpstan-param mvc_model_parameters $params
+     */
+    private static function loadEager(
+        var resultset,
+        var eager,
+        array params
+    ) -> void {
+        var container, hydration, loader, manager;
+
+        if unlikely typeof eager !== "array" {
+            throw new InvalidEagerParameter();
+        }
+
+        if unlikely !(resultset instanceof Simple) {
+            throw new UnsupportedEagerResultset(get_class(resultset));
+        }
+
+        if fetch hydration, params["hydration"] {
+            if unlikely hydration !== Resultset::HYDRATE_RECORDS {
+                throw new UnsupportedEagerHydration();
+            }
+        }
+
+        let container = Di::getDefault();
+        let manager   = <ManagerInterface> container->getShared("modelsManager");
+        let loader    = new Loader(manager);
+
+        loader->loadResultset(
+            resultset,
+            get_called_class(),
+            PathTree::parse(eager)
+        );
+    }
+
+    /**
+     * Setups a behavior in a model
+     *
+     *```php
+     * use Phalcon\Mvc\Model;
+     * use Phalcon\Mvc\Model\Behavior\Timestampable;
+     *
+     * class Invoices extends Model
+     * {
+     *     public function initialize()
+     *     {
+     *         $this->addBehavior(
+     *             new Timestampable(
+     *                 [
+     *                     "beforeCreate" => [
+     *                         "field"  => "created_at",
+     *                         "format" => "Y-m-d",
+     *                     ],
+     *                 ]
+     *             )
+     *         );
+     *
+     *         $this->addBehavior(
+     *             new Timestampable(
+     *                 [
+     *                     "beforeUpdate" => [
+     *                         "field"  => "updated_at",
+     *                         "format" => "Y-m-d",
+     *                     ],
+     *                 ]
+     *             )
+     *         );
+     *     }
+     * }
+     *```
+     */
+    public function addBehavior(<BehaviorInterface> behavior) -> void
+    {
+        (<ManagerInterface> this->modelsManager)->addBehavior(this, behavior);
+    }
+
+    /**
+     * Appends a customized message on the validation process
+     *
+     * ```php
+     * use Phalcon\Mvc\Model;
+     * use Phalcon\Messages\Message as Message;
+     *
+     * class Invoices extends Model
+     * {
+     *     public function beforeSave()
+     *     {
+     *         if ($this->name === "Peter") {
+     *             $message = new Message(
+     *                 "Sorry, but an invoice cannot be named Peter"
+     *             );
+     *
+     *             $this->appendMessage($message);
+     *         }
+     *     }
+     * }
+     * ```
+     */
+    public function appendMessage(<MessageInterface> message) -> <ModelInterface>
+    {
+        let this->errorMessages[] = message;
+
+        return this;
+    }
+
+    /**
+     * Append messages to this model from another Model.
+     */
+    public inline function appendMessagesFrom(var model) -> void
+    {
+        var messages, message;
+        let messages = model->getMessages();
+        if false === empty(messages) {
+            for message in messages {
+                if typeof message == "object" {
+                    message->setMetaData(
+                        [
+                            "model": model
+                        ]
+                    );
+                }
+                /**
+                 * Appends the messages to the current model
+                 */
+                this->appendMessage(message);
+            }
+        }
+    }
+
+    /**
+     * Assigns values to a model from an array
+     *
+     * ```php
+     * $invoice->assign(
+     *     [
+     *         "type" => "mechanical",
+     *         "name" => "Test Invoice",
+     *         "year" => 1952,
+     *     ]
+     * );
+     *
+     * // Assign by db row, column map needed
+     * $invoice->assign(
+     *     $dbRow,
+     *     [
+     *         "db_type" => "type",
+     *         "db_name" => "name",
+     *         "db_year" => "year",
+     *     ]
+     * );
+     *
+     * // Allow assign only name and year
+     * $invoice->assign(
+     *     $_POST,
+     *     [
+     *         "name",
+     *         "year",
+     *     ]
+     * );
+     *
+     * // By default assign method will use setters if exist, you can disable it by using ini_set to directly use properties
+     *
+     * ini_set("phalcon.orm.disable_assign_setters", true);
+     *
+     * $invoice->assign(
+     *     $_POST,
+     *     [
+     *         "name",
+     *         "year",
+     *     ]
+     * );
+     * ```
+     *
+     * @param array data
+     * @param mixed whiteList
+     * @param mixed dataColumnMap Array to transform keys of data to another
+     *
+     * @return ModelInterface
+     *
+     * @phpstan-param mvc_model_data $data
+     */
+    public function assign(array data, var whiteList = null, var dataColumnMap = null) -> <ModelInterface>
+    {
+        var key, keyMapped, value, attribute, attributeField, metaData,
+            columnMap, disableAssignSetters, rawValues;
+        array dataMapped;
+
+        let rawValues       = [],
+            this->rawValues = rawValues;
+
+        let disableAssignSetters = Settings::get("orm.disable_assign_setters");
+
+        // apply column map for data, if exist
+        if typeof dataColumnMap === "array" {
+            let dataMapped = [];
+
+            for key, value in data {
+                if fetch keyMapped, dataColumnMap[key] {
+                    let dataMapped[keyMapped] = value;
+                }
+            }
+        } else {
+            let dataMapped = data;
+        }
+
+        if empty dataMapped {
+            return this;
+        }
+
+        let metaData = this->getModelsMetaData();
+
+        if Settings::get("orm.column_renaming") {
+            let columnMap = metaData->getColumnMap(this);
+        } else {
+            let columnMap = null;
+        }
+
+        for attribute in metaData->getAttributes(this) {
+            // Try to find case-insensitive key variant
+            if typeof columnMap == "array" &&
+               !isset columnMap[attribute] &&
+               Settings::get("orm.case_insensitive_column_map") {
+                let attribute = CaseInsensitiveColumnMap::caseInsensitiveColumnMap(
+                    columnMap,
+                    attribute
+                );
+            }
+
+            // Check if we need to rename the field
+            if typeof columnMap === "array" {
+                if !fetch attributeField, columnMap[attribute] {
+                    if unlikely !Settings::get("orm.ignore_unknown_columns") {
+                        throw new ColumnNotInMap(attribute, get_class(this));
+                    }
+
+                    continue;
+                }
+            } else {
+                let attributeField = attribute;
+            }
+
+            // The value in the array passed
+            // Check if we there is data for the field
+            if fetch value, dataMapped[attributeField] {
+                // If white-list exists check if the attribute is on that list
+                if typeof whiteList == "array" && !in_array(attributeField, whiteList) {
+                    continue;
+                }
+
+                // Try to find a possible getter
+                if typeof value == "object" && value instanceof RawValue {
+                    let rawValues[attributeField] = value;
+                } elseif disableAssignSetters || !this->possibleSetter(attributeField, value) {
+                    let this->{attributeField} = value;
+                }
+            }
+        }
+
+        let this->rawValues = rawValues;
+
+        return this;
+    }
+
+    /**
+     * Inserts a model instance. If the instance already exists in the
+     * persistence it will throw an exception
+     * Returning true on success or false otherwise.
+     *
+     *```php
+     * // Creating a new invoice
+     * $invoice = new Invoices();
+     *
+     * $invoice->inv_status_flag = "mechanical";
+     * $invoice->inv_title = "Test Invoice";
+     * $invoice->inv_total = 1952;
+     *
+     * $invoice->create();
+     *
+     * // Passing an array to create
+     * $invoice = new Invoices();
+     *
+     * $invoice->assign(
+     *     [
+     *         "type" => "mechanical",
+     *         "name" => "Test Invoice",
+     *         "year" => 1952,
+     *     ]
+     * );
+     *
+     * $invoice->create();
+     *```
+     */
+    public function create() -> bool
+    {
+        var metaData;
+
+        let metaData = this->getModelsMetaData();
+
+        /**
+         * Get the current connection use write to prevent replica lag
+         * If the record already exists we must throw an exception
+         */
+        if this->has(metaData, this->getWriteConnection()) {
+            let this->errorMessages = [
+                new Message(
+                    "Record cannot be created because it already exists",
+                    "",
+                    "InvalidCreateAttempt",
+                    0,
+                    [
+                        "model": get_class(this)
+                    ]
+                )
+            ];
+
+            return false;
+        }
+
+        /**
+         * Using save() anyways
+         */
+        return this->save();
+    }
+
+    /**
+     * Deletes a model instance. Returning true on success or false otherwise.
+     *
+     * ```php
+     * $invoice = Invoices::findFirst("id=100");
+     *
+     * $invoice->delete();
+     *
+     * $invoices = Invoices::find("inv_status_flag = 1");
+     *
+     * foreach ($invoices as $invoice) {
+     *     $invoice->delete();
+     * }
+     * ```
+     */
+    public function delete() -> bool
+    {
+        var metaData, writeConnection, primaryKeys, bindDataTypes, columnMap,
+            attributeField, primaryKey, bindType, value, schema, source, table,
+            success;
+        array values, bindTypes, conditions;
+
+        let metaData        = this->getModelsMetaData(),
+            writeConnection = this->getWriteConnection();
+
+        /**
+         * Operation made is OP_DELETE
+         */
+        let this->operationMade = self::OP_DELETE,
+            this->errorMessages = [];
+
+        /**
+         * Check if deleting the record violates a virtual foreign key
+         */
+        if Settings::get("orm.virtual_foreign_keys") {
+            if this->checkForeignKeysReverseRestrict() === false {
+                return false;
+            }
+        }
+
+        let values     = [],
+            bindTypes  = [],
+            conditions = [];
+
+        let primaryKeys   = metaData->getPrimaryKeyAttributes(this),
+            bindDataTypes = metaData->getBindTypes(this);
+
+        if Settings::get("orm.column_renaming") {
+            let columnMap = metaData->getColumnMap(this);
+        } else {
+            let columnMap = null;
+        }
+
+        /**
+         * We can't create dynamic SQL without a primary key
+         */
+        if unlikely empty primaryKeys {
+            throw new PrimaryKeyRequired(get_class(this));
+        }
+
+        /**
+         * Create a condition from the primary keys
+         */
+        for primaryKey in primaryKeys {
+            /**
+             * Every column part of the primary key must be in the bind data
+             * types
+             */
+            if unlikely !fetch bindType, bindDataTypes[primaryKey] {
+                throw new BindTypeNotDefined(primaryKey, get_class(this));
+            }
+
+            /**
+             * Take the column values based on the column map if any
+             */
+            if typeof columnMap == "array" {
+                if unlikely !fetch attributeField, columnMap[primaryKey] {
+                    throw new ColumnNotInTableMap(primaryKey, get_class(this));
+                }
+            } else {
+                let attributeField = primaryKey;
+            }
+
+            /**
+             * If the attribute is currently set in the object add it to the
+             * conditions
+             */
+            if unlikely !fetch value, this->{attributeField} {
+                throw new PrimaryKeyAttributeNotSet(attributeField, get_class(this));
+            }
+
+            /**
+             * Escape the column identifier
+             */
+            let values[] = value,
+                conditions[] = writeConnection->escapeIdentifier(primaryKey) . " = ?",
+                bindTypes[] = bindType;
+        }
+
+        if Settings::get("orm.events") {
+            let this->skipped = false;
+
+            /**
+             * Fire the beforeDelete event
+             */
+            if this->fireEventCancel("beforeDelete") === false {
+                return false;
+            }
+
+            /**
+             * The operation can be skipped
+             */
+            if this->skipped === true {
+                return true;
+            }
+        }
+
+        let schema = this->getSchema(),
+            source = this->getSource();
+
+        if schema {
+            let table = [schema, source];
+        } else {
+            let table = source;
+        }
+
+        /**
+         * Join the conditions in the array using an AND operator
+         * Do the deletion
+         */
+        let success = writeConnection->delete(
+            table,
+            join(" AND ", conditions),
+            values,
+            bindTypes
+        );
+
+        /**
+         * Check if there is virtual foreign keys with cascade action
+         */
+        if Settings::get("orm.virtual_foreign_keys") {
+            if this->checkForeignKeysReverseCascade() === false {
+                return false;
+            }
+        }
+
+        if Settings::get("orm.events") {
+            if success {
+                this->fireEvent("afterDelete");
+            }
+        }
+
+        /**
+         * Clear related records from the internal cache so that next time
+         * we can get proper counts.
+         */
+        if (success) {
+            /**
+             * Mark the write connection service as written-to for the sticky
+             * connection mechanism.
+             */
+            this->modelsManager->registerWrite(this);
+
+            let this->related = [];
+            let this->dirtyRelated = [];
+            this->modelsManager->clearReusableObjects();
+        }
+
+        /**
+         * Force perform the record existence checking again
+         */
+        let this->dirtyState = self::DIRTY_STATE_DETACHED;
+
+        return success;
+    }
+
+    /**
+     * Inserted or updates model instance, expects a visited list of objects.
+     *
+     * @param CollectionInterface $visited
+     *
+     * @return bool
+     *
+     * @phpstan-param CollectionInterface<mixed> $visited
+     */
+    public function doSave(<CollectionInterface> visited) -> bool
+    {
+        var exists, identityField, manager, metaData, objId, relatedToSave,
+            schema, source, success, table, writeConnection,
+            savedSnapshot    = [],
+            savedOldSnapshot = [];
+        bool hasRelatedToSave;
+
+        let objId = spl_object_id(this);
+
+        if true === visited->has(objId) {
+            return true;
+        }
+
+        visited->set(objId, this);
+
+        let metaData = this->getModelsMetaData();
+
+        /**
+         * Create/Get the current database connection
+         */
+        let writeConnection = this->getWriteConnection();
+
+        /**
+         * Fire the start event
+         */
+        this->fireEvent("prepareSave");
+
+        /**
+         * Load unsaved related records and collect
+         * previously queried related records that
+         * may have been modified
+         */
+        let relatedToSave = this->collectRelatedToSave();
+
+        /**
+         * Does it have unsaved related records
+         */
+        let hasRelatedToSave = !empty relatedToSave;
+
+        if hasRelatedToSave {
+            if this->preSaveRelatedRecords(writeConnection, relatedToSave, visited) === false {
+                let this->syncRelated = [];
+
+                return false;
+            }
+        }
+
+        let schema = this->getSchema(),
+            source = this->getSource();
+
+        if schema {
+            let table = [schema, source];
+        } else {
+            let table = source;
+        }
+
+        /**
+         * We need to check if the record exists. Use the write connection
+         * to prevent replica lag
+         */
+        let exists = this->has(metaData, writeConnection);
+
+        if exists {
+            let this->operationMade = self::OP_UPDATE;
+        } else {
+            let this->operationMade = self::OP_CREATE;
+        }
+
+        /**
+         * Clean the messages
+         */
+        let this->errorMessages = [];
+
+        /**
+         * Query the identity field
+         */
+        let identityField = metaData->getIdentityField(this);
+
+        /**
+         * preSave() makes all the validations
+         */
+        if this->preSave(metaData, exists, identityField) === false {
+            /**
+             * Rollback the current transaction if there was validation errors
+             */
+            if hasRelatedToSave {
+                writeConnection->rollback(false);
+            }
+
+            let this->syncRelated = [];
+
+            /**
+             * Throw exceptions on failed saves?
+             */
+            if unlikely Settings::get("orm.exception_on_failed_save") {
+                /**
+                 * Launch a Phalcon\Mvc\Model\ValidationFailed to notify that
+                 * the save failed
+                 */
+                throw new ValidationFailed(
+                    this,
+                    this->getMessages()
+                );
+            }
+
+            return false;
+        }
+
+        /**
+         * Capture the current snapshot before the write so it can be restored
+         * if postSaveRelatedRecords later rolls back the transaction
+         */
+        let manager = this->getModelsManager();
+
+        if manager->isKeepingSnapshots(this) && Settings::get("orm.update_snapshot_on_save") {
+            let savedSnapshot    = this->snapshot,
+                savedOldSnapshot = this->oldSnapshot;
+        }
+
+        /**
+         * Depending if the record exists we do an update or an insert operation
+         */
+        if exists {
+            let success = this->doLowUpdate(metaData, writeConnection, table);
+        } else {
+            let success = this->doLowInsert(
+                metaData,
+                writeConnection,
+                table,
+                identityField
+            );
+        }
+
+        /**
+         * Change the dirty state to persistent
+         */
+        if true === success {
+            let this->dirtyState = self::DIRTY_STATE_PERSISTENT;
+        }
+
+        if hasRelatedToSave {
+            /**
+             * Rollbacks the implicit transaction if the master save has failed
+             */
+            if success === false {
+                writeConnection->rollback(false);
+            } else {
+                /**
+                 * Save the post-related records
+                 */
+                let success = this->postSaveRelatedRecords(
+                    writeConnection,
+                    relatedToSave,
+                    visited
+                );
+            }
+        }
+
+        /**
+         * postSave() invokes after* events if the operation was successful
+         */
+        if Settings::get("orm.events") {
+            let success = this->postSave(success, exists);
+        }
+
+        if success === false {
+            this->cancelOperation();
+
+            /**
+             * If the transaction was rolled back, restore the snapshot to its
+             * pre-save state so that Dynamic Update can detect changes correctly
+             * on the next save attempt
+             */
+            if manager->isKeepingSnapshots(this) && Settings::get("orm.update_snapshot_on_save") {
+                let this->snapshot    = savedSnapshot,
+                    this->oldSnapshot = savedOldSnapshot;
+            }
+        } else {
+            if hasRelatedToSave {
+                /**
+                 * Clear unsaved related records storage
+                 */
+                let this->dirtyRelated = [];
+            }
+            let this->related = [];
+            (<ManagerInterface> this->modelsManager)->clearReusableObjects();
+            this->fireEvent("afterSave");
+        }
+
+        let this->syncRelated = [];
+
+        return success;
+    }
+
+    /**
+     * Returns a simple representation of the object that can be used with
+     * `var_dump()`
+     *
+     *```php
+     * var_dump(
+     *     $invoice->dump()
+     * );
+     *```
+     *
+     * @phpstan-return array<string, mixed>
+     */
+    public function dump() -> array
+    {
+        return get_object_vars(this);
+    }
+
+    /**
      * Fires an event, implicitly calls behaviors and listeners in the events
      * manager are notified
      */
@@ -2291,15 +3025,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     }
 
     /**
-     * Returns the type of the latest operation performed by the ORM
-     * Returns one of the OP_* class constants
-     */
-    public function getOperationMade() -> int
-    {
-        return this->operationMade;
-    }
-
-    /**
      * Returns the internal old snapshot data
      *
      * @phpstan-return mvc_model_snapshot
@@ -2307,6 +3032,15 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     public function getOldSnapshotData() -> array
     {
         return this->oldSnapshot;
+    }
+
+    /**
+     * Returns the type of the latest operation performed by the ORM
+     * Returns one of the OP_* class constants
+     */
+    public function getOperationMade() -> int
+    {
+        return this->operationMade;
     }
 
     /**
@@ -2417,31 +3151,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     }
 
     /**
-     * Checks if saved related records have already been loaded.
-     *
-     * Only returns true if the records were previously fetched
-     * through the model without any additional parameters.
-     *
-     * ```php
-     * $invoice = Invoices::findFirst();
-     * var_dump($invoice->isRelationshipLoaded('ordersProducts')); // false
-     *
-     * $invoicesParts = $invoice->getOrdersProducts(['id > 0']);
-     * var_dump($invoice->isRelationshipLoaded('ordersProducts')); // false
-     *
-     * $invoicesParts = $invoice->getOrdersProducts(); // or $invoice->ordersProducts
-     * var_dump($invoice->isRelationshipLoaded('ordersProducts')); // true
-     *
-     * $invoice->ordersProducts = [new OrdersProducts()];
-     * var_dump($invoice->isRelationshipLoaded('ordersProducts')); // false
-     * ```
-     */
-    public function isRelationshipLoaded(string relationshipAlias) -> bool
-    {
-        return array_key_exists(strtolower(relationshipAlias), this->related);
-    }
-
-    /**
      * Returns schema name where the mapped table is located
      */
     final public function getSchema() -> string | null
@@ -2465,6 +3174,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     final public function getSource() -> string
     {
         return (<ManagerInterface> this->modelsManager)->getModelSource(this);
+    }
+
+    public function getTransaction() -> <TransactionInterface> | null
+    {
+        return this->transaction;
     }
 
     /**
@@ -2638,120 +3352,42 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     }
 
     /**
+     * Checks if saved related records have already been loaded.
+     *
+     * Only returns true if the records were previously fetched
+     * through the model without any additional parameters.
+     *
+     * ```php
+     * $invoice = Invoices::findFirst();
+     * var_dump($invoice->isRelationshipLoaded('ordersProducts')); // false
+     *
+     * $invoicesParts = $invoice->getOrdersProducts(['id > 0']);
+     * var_dump($invoice->isRelationshipLoaded('ordersProducts')); // false
+     *
+     * $invoicesParts = $invoice->getOrdersProducts(); // or $invoice->ordersProducts
+     * var_dump($invoice->isRelationshipLoaded('ordersProducts')); // true
+     *
+     * $invoice->ordersProducts = [new OrdersProducts()];
+     * var_dump($invoice->isRelationshipLoaded('ordersProducts')); // false
+     * ```
+     */
+    public function isRelationshipLoaded(string relationshipAlias) -> bool
+    {
+        return array_key_exists(strtolower(relationshipAlias), this->related);
+    }
+
+    /**
      * Serializes the object for json_encode
      *
-    *```php
+     *```php
      * echo json_encode($invoice);
-    *```
+     *```
      *
      * @phpstan-return array<string, mixed>
      */
     public function jsonSerialize() -> array
     {
         return this->toArray();
-    }
-
-    /**
-     * Returns the maximum value of a column for a result-set of rows that match
-     * the specified conditions
-     *
-     * ```php
-     * // What is the maximum invoice id?
-     * $id = Invoices::maximum(
-     *     [
-     *         "column" => "id",
-     *     ]
-     * );
-     *
-     * echo "The maximum invoice id is: ", $id, "\n";
-     *
-     * // What is the maximum id of paid invoices?
-     * $sum = Invoices::maximum(
-     *     [
-     *         "inv_status_flag = 1",
-     *         "column" => "id",
-     *     ]
-     * );
-     *
-     * echo "The maximum invoice id of paid invoices is ", $id, "\n";
-     * ```
-     *
-     * @param array parameters
-     * @return mixed
-     *
-     * @phpstan-param mvc_model_parameters|string|null $parameters
-     */
-    public static function maximum(var parameters = null) -> var
-    {
-        return self::groupResult("MAX", "maximum", parameters);
-    }
-
-    /**
-     * Returns the minimum value of a column for a result-set of rows that match
-     * the specified conditions
-     *
-     * ```php
-     * // What is the minimum invoice id?
-     * $id = Invoices::minimum(
-     *     [
-     *         "column" => "id",
-     *     ]
-     * );
-     *
-     * echo "The minimum invoice id is: ", $id;
-     *
-     * // What is the minimum id of paid invoices?
-     * $sum = Invoices::minimum(
-     *     [
-     *         "inv_status_flag = 1",
-     *         "column" => "id",
-     *     ]
-     * );
-     *
-     * echo "The minimum invoice id of paid invoices is ", $id;
-     * ```
-     *
-     * @param array parameters
-     *
-     * @phpstan-param mvc_model_parameters|string|null $parameters
-     */
-    public static function minimum(parameters = null) -> var
-    {
-        return self::groupResult("MIN", "minimum", parameters);
-    }
-
-    /**
-     * Create a criteria for a specific model
-     */
-    public static function query(<DiInterface> container = null) -> <CriteriaInterface>
-    {
-        var criteria;
-
-        /**
-         * Use the global dependency injector if there is no one defined
-         */
-        if typeof container != "object" {
-            let container = Di::getDefault();
-        }
-
-        /**
-         * Gets Criteria instance from DI container
-         */
-        if container instanceof DiInterface {
-            let criteria = <CriteriaInterface> container->get(
-                Criteria::class
-            );
-        } else {
-            let criteria = new Criteria();
-
-            criteria->setDI(container);
-        }
-
-        criteria->setModelName(
-            get_called_class()
-        );
-
-        return criteria;
     }
 
     /**
@@ -2885,218 +3521,12 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * $invoice->save();
      *```
      */
-
     public function save() -> bool
     {
         var visited;
         let visited = new Collection();
         return this->doSave(visited);
     }
-
-    /**
-     * Inserted or updates model instance, expects a visited list of objects.
-     *
-     * @param CollectionInterface $visited
-     *
-     * @return bool
-     *
-     * @phpstan-param CollectionInterface<mixed> $visited
-     */
-    public function doSave(<CollectionInterface> visited) -> bool
-    {
-        var exists, identityField, manager, metaData, objId, relatedToSave,
-            schema, source, success, table, writeConnection,
-            savedSnapshot    = [],
-            savedOldSnapshot = [];
-        bool hasRelatedToSave;
-
-        let objId = spl_object_id(this);
-
-        if true === visited->has(objId) {
-            return true;
-        }
-
-        visited->set(objId, this);
-
-        let metaData = this->getModelsMetaData();
-
-        /**
-         * Create/Get the current database connection
-         */
-        let writeConnection = this->getWriteConnection();
-
-        /**
-         * Fire the start event
-         */
-        this->fireEvent("prepareSave");
-
-        /**
-         * Load unsaved related records and collect
-         * previously queried related records that
-         * may have been modified
-         */
-        let relatedToSave = this->collectRelatedToSave();
-
-        /**
-         * Does it have unsaved related records
-         */
-        let hasRelatedToSave = !empty relatedToSave;
-
-        if hasRelatedToSave {
-            if this->preSaveRelatedRecords(writeConnection, relatedToSave, visited) === false {
-                let this->syncRelated = [];
-
-                return false;
-            }
-        }
-
-        let schema = this->getSchema(),
-            source = this->getSource();
-
-        if schema {
-            let table = [schema, source];
-        } else {
-            let table = source;
-        }
-
-        /**
-         * We need to check if the record exists. Use the write connection
-         * to prevent replica lag
-         */
-        let exists = this->has(metaData, writeConnection);
-
-        if exists {
-            let this->operationMade = self::OP_UPDATE;
-        } else {
-            let this->operationMade = self::OP_CREATE;
-        }
-
-        /**
-         * Clean the messages
-         */
-        let this->errorMessages = [];
-
-        /**
-         * Query the identity field
-         */
-        let identityField = metaData->getIdentityField(this);
-
-        /**
-         * preSave() makes all the validations
-         */
-        if this->preSave(metaData, exists, identityField) === false {
-            /**
-             * Rollback the current transaction if there was validation errors
-             */
-            if hasRelatedToSave {
-                writeConnection->rollback(false);
-            }
-
-            let this->syncRelated = [];
-
-            /**
-             * Throw exceptions on failed saves?
-             */
-            if unlikely Settings::get("orm.exception_on_failed_save") {
-                /**
-                 * Launch a Phalcon\Mvc\Model\ValidationFailed to notify that
-                 * the save failed
-                 */
-                throw new ValidationFailed(
-                    this,
-                    this->getMessages()
-                );
-            }
-
-            return false;
-        }
-
-        /**
-         * Capture the current snapshot before the write so it can be restored
-         * if postSaveRelatedRecords later rolls back the transaction
-         */
-        let manager = this->getModelsManager();
-
-        if manager->isKeepingSnapshots(this) && Settings::get("orm.update_snapshot_on_save") {
-            let savedSnapshot    = this->snapshot,
-                savedOldSnapshot = this->oldSnapshot;
-        }
-
-        /**
-         * Depending if the record exists we do an update or an insert operation
-         */
-        if exists {
-            let success = this->doLowUpdate(metaData, writeConnection, table);
-        } else {
-            let success = this->doLowInsert(
-                metaData,
-                writeConnection,
-                table,
-                identityField
-            );
-        }
-
-        /**
-         * Change the dirty state to persistent
-         */
-        if true === success {
-            let this->dirtyState = self::DIRTY_STATE_PERSISTENT;
-        }
-
-        if hasRelatedToSave {
-            /**
-             * Rollbacks the implicit transaction if the master save has failed
-             */
-            if success === false {
-                writeConnection->rollback(false);
-            } else {
-                /**
-                 * Save the post-related records
-                 */
-                let success = this->postSaveRelatedRecords(
-                    writeConnection,
-                    relatedToSave,
-                    visited
-                );
-            }
-        }
-
-        /**
-         * postSave() invokes after* events if the operation was successful
-         */
-        if Settings::get("orm.events") {
-            let success = this->postSave(success, exists);
-        }
-
-        if success === false {
-            this->cancelOperation();
-
-            /**
-             * If the transaction was rolled back, restore the snapshot to its
-             * pre-save state so that Dynamic Update can detect changes correctly
-             * on the next save attempt
-             */
-            if manager->isKeepingSnapshots(this) && Settings::get("orm.update_snapshot_on_save") {
-                let this->snapshot    = savedSnapshot,
-                    this->oldSnapshot = savedOldSnapshot;
-            }
-        } else {
-            if hasRelatedToSave {
-                /**
-                 * Clear unsaved related records storage
-                 */
-                let this->dirtyRelated = [];
-            }
-            let this->related = [];
-            (<ManagerInterface> this->modelsManager)->clearReusableObjects();
-            this->fireEvent("afterSave");
-        }
-
-        let this->syncRelated = [];
-
-        return success;
-    }
-
 
     /**
      * Serializes the object ignoring connections, services, related objects or
@@ -3124,6 +3554,391 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 "dirtyState":  dirtyState
             ]
         );
+    }
+
+    /**
+     * Sets the DependencyInjection connection service name
+     */
+    final public function setConnectionService(string connectionService) -> void
+    {
+        (<ManagerInterface> this->modelsManager)->setConnectionService(
+            this,
+            connectionService
+        );
+    }
+
+    /**
+     * Sets the dirty state of the object using one of the DIRTY_STATE_* constants
+     */
+    public function setDirtyState(int dirtyState) -> <ModelInterface> | bool
+    {
+        let this->dirtyState = dirtyState;
+
+        return this;
+    }
+
+    /**
+     * Sets a custom events manager
+     */
+    public function setEventsManager(<EventsManagerInterface> eventsManager)
+    {
+        this->modelsManager->setCustomEventsManager(this, eventsManager);
+    }
+
+    /**
+     * Sets the record's old snapshot data.
+     * This method is used internally to set old snapshot data when the model
+     * was set up to keep snapshot data
+     *
+     * @param array data
+     * @param array columnMap
+     *
+     * @phpstan-param array<string, mixed> $data
+     * @phpstan-param mvc_hydration_column_map|null $columnMap
+     */
+    public function setOldSnapshotData(array data, columnMap = null)
+    {
+        var key, value, attribute;
+        array snapshot;
+
+        /**
+         * Build the snapshot based on a column map
+         */
+        if typeof columnMap === "array" {
+            let snapshot = [];
+
+            for key, value in data {
+                /**
+                 * Use only strings
+                 */
+                if typeof key !== "string" {
+                    continue;
+                }
+
+                /**
+                 * Every field must be part of the column map
+                 */
+                if !fetch attribute, columnMap[key] {
+                    if unlikely !Settings::get("orm.ignore_unknown_columns") {
+                        throw new ColumnNotInMap(key, get_class(this));
+                    }
+
+                    continue;
+                }
+
+                if typeof attribute === "array" {
+                    if !fetch attribute, attribute[0] {
+                        if unlikely !Settings::get("orm.ignore_unknown_columns") {
+                            throw new ColumnNotInMap(key, get_class(this));
+                        }
+
+                        continue;
+                    }
+                }
+
+                let snapshot[attribute] = value;
+            }
+        } else {
+            let snapshot = data;
+        }
+
+        let this->oldSnapshot = snapshot;
+    }
+
+    /**
+     * Sets the DependencyInjection connection service name used to read data
+     */
+    final public function setReadConnectionService(string connectionService) -> void
+    {
+        (<ManagerInterface> this->modelsManager)->setReadConnectionService(
+            this,
+            connectionService
+        );
+    }
+
+    /**
+     * Stores related records in the relation cache, so that a subsequent
+     * getRelated() or property access returns them without querying.
+     *
+     * This is the write side of the cache getRelated() already reads. The value
+     * lands in `related`, never in `dirtyRelated`.
+     *
+     * That is not the same as leaving save() untouched. collectRelatedToSave()
+     * promotes a `related` entry into `dirtyRelated` when the entry is a single
+     * ModelInterface that is new or has changed, so passing such a record here
+     * does cascade on the next save(). Arrays, resultsets, and unchanged
+     * records carrying snapshot data are skipped - which is why eager loading,
+     * the caller this exists for, never triggers a cascade.
+     *
+     * @param mixed $records ModelInterface, Row, ResultsetInterface or null
+     */
+    public function setRelated(string alias, var records) -> <ModelInterface>
+    {
+        let this->related[strtolower(alias)] = records;
+
+        return this;
+    }
+
+    /**
+     * Sets the record's snapshot data.
+     * This method is used internally to set snapshot data when the model was
+     * set up to keep snapshot data
+     *
+     * @param array columnMap
+     *
+     * @phpstan-param mvc_model_data $data
+     */
+    public function setSnapshotData(array data, columnMap = null) -> void
+    {
+        var key, value, attribute;
+        array snapshot;
+
+        /**
+         * Build the snapshot based on a column map
+         */
+        if typeof columnMap === "array" {
+            let snapshot = [];
+
+            for key, value in data {
+                /**
+                 * Use only strings
+                 */
+                if typeof key != "string" {
+                    continue;
+                }
+
+                // Try to find case-insensitive key variant
+                if typeof columnMap == "array" &&
+                   !isset columnMap[key] &&
+                   Settings::get("orm.case_insensitive_column_map") {
+                    let key = CaseInsensitiveColumnMap::caseInsensitiveColumnMap(columnMap, key);
+                }
+
+                /**
+                 * Every field must be part of the column map
+                 */
+                if !fetch attribute, columnMap[key] {
+                    if unlikely !Settings::get("orm.ignore_unknown_columns") {
+                        throw new ColumnNotInMap(key, get_class(this));
+                    }
+
+                    continue;
+                }
+
+                if typeof attribute == "array" {
+                    if !fetch attribute, attribute[0] {
+                        if unlikely !Settings::get("orm.ignore_unknown_columns") {
+                            throw new ColumnNotInMap(key, get_class(this));
+                        }
+
+                        continue;
+                    }
+                }
+
+                let snapshot[attribute] = value;
+            }
+        } else {
+            let snapshot = data;
+        }
+
+
+        let this->snapshot = snapshot;
+    }
+
+    /**
+     * Marks one or more many-to-many relationships to be synchronized (or not)
+     * on the next save() call, overriding the relation's `sync` option for that
+     * save only. The flag is cleared after save().
+     *
+     * When syncing is enabled, intermediate rows for related records no longer
+     * present in the assigned array are deleted.
+     *
+     *```php
+     * // Sync only the "tags" relationship on this save
+     * $post->setSync("tags")->save();
+     *
+     * // Sync every many-to-many relationship on this save
+     * $post->setSync()->save();
+     *
+     * // Disable syncing for every relationship on this save
+     * $post->setSync("*", false)->save();
+     *
+     * // Disable syncing for specific relationships on this save
+     * $post->setSync(["tags", "categories"], false)->save();
+     *```
+     *
+     * @param array|string|null $elements
+     *
+     * @phpstan-param array<array-key, mixed> $elements
+     */
+    public function setSync(var elements = null, bool enabled = true) -> <ModelInterface>
+    {
+        var alias;
+
+        if elements === null || elements === "*" {
+            let this->syncRelated["*"] = enabled;
+
+            return this;
+        }
+
+        if typeof elements === "array" {
+            for alias in elements {
+                let this->syncRelated[strtolower(alias)] = enabled;
+            }
+
+            return this;
+        }
+
+        let this->syncRelated[strtolower(elements)] = enabled;
+
+        return this;
+    }
+
+    /**
+     * Sets a transaction related to the Model instance
+     *
+     *```php
+     * use Phalcon\Mvc\Model\Transaction\Manager as TxManager;
+     * use Phalcon\Mvc\Model\Transaction\Failed as TxFailed;
+     *
+     * try {
+     *     $txManager = new TxManager();
+     *
+     *     $transaction = $txManager->get();
+     *
+     *     $invoice = new Invoices();
+     *
+     *     $invoice->setTransaction($transaction);
+     *
+     *     $invoice->inv_title       = "WALL·E";
+     *     $invoice->created_at = date("Y-m-d");
+     *
+     *     if ($invoice->save() === false) {
+     *         $transaction->rollback("Can't save invoice");
+     *     }
+     *
+     *     $invoicePart = new OrdersProducts();
+     *
+     *     $invoicePart->setTransaction($transaction);
+     *
+     *     $invoicePart->type = "head";
+     *
+     *     if ($invoicePart->save() === false) {
+     *         $transaction->rollback("Invoices part cannot be saved");
+     *     }
+     *
+     *     $transaction->commit();
+     * } catch (TxFailed $e) {
+     *     echo "Failed, reason: ", $e->getMessage();
+     * }
+     *```
+     */
+    public function setTransaction(<TransactionInterface> transaction) -> <ModelInterface>
+    {
+        let this->transaction = transaction;
+
+        return this;
+    }
+
+    /**
+     * Sets the DependencyInjection connection service name used to write data
+     */
+    final public function setWriteConnectionService(string connectionService) -> void
+    {
+        (<ManagerInterface> this->modelsManager)->setWriteConnectionService(
+            this,
+            connectionService
+        );
+    }
+
+    /**
+     * Skips the current operation forcing a success state
+     */
+    public function skipOperation(bool skip) -> void
+    {
+        let this->skipped = skip;
+    }
+
+    /**
+     * Returns the instance as an array representation
+     *
+     *```php
+     * print_r(
+     *     $invoice->toArray()
+     * );
+     *```
+     *
+     * @param array $columns
+     *
+     * @phpstan-return array<string, mixed>
+     */
+    public function toArray(columns = null, useGetter = true) -> array
+    {
+        var attribute, attributeField, columnMap, metaData, method;
+        array data;
+
+        let data = [],
+            metaData = this->getModelsMetaData(),
+            columnMap = metaData->getColumnMap(this);
+
+        for attribute in metaData->getAttributes(this) {
+            /**
+             * Check if the columns must be renamed
+             */
+            if typeof columnMap === "array" {
+                // Try to find case-insensitive key variant
+                if !isset columnMap[attribute] && Settings::get("orm.case_insensitive_column_map") {
+                    let attribute = CaseInsensitiveColumnMap::caseInsensitiveColumnMap(
+                        columnMap,
+                        attribute
+                    );
+                }
+
+                if !fetch attributeField, columnMap[attribute] {
+                    if unlikely !Settings::get("orm.ignore_unknown_columns") {
+                        throw new ColumnNotInMap(attribute, get_class(this));
+                    }
+
+                    continue;
+                }
+            } else {
+                let attributeField = attribute;
+            }
+
+            if typeof columns === "array" {
+                if !in_array(attributeField, columns) {
+                    continue;
+                }
+            }
+
+            /**
+             * Check if there is a getter for this property
+             */
+            let method = "get" . camelize(attributeField);
+
+            /**
+             * Do not use the getter if the field name is `source` (getSource)
+             */
+            if true === useGetter && "getSource" !== method && method_exists(this, method) {
+                /**
+                 * A getter may access a typed property that was never
+                 * initialized (e.g. because cloneResultMap() skipped a null
+                 * value for a NOT NULL column). Catch the resulting Error and
+                 * return null rather than letting it propagate.
+                 */
+                try {
+                    let data[attributeField] = this->{method}();
+                } catch \Error {
+                    let data[attributeField] = null;
+                }
+            } elseif isset(this->{attributeField}) {
+                let data[attributeField] = this->{attributeField};
+            } else {
+                let data[attributeField] = null;
+            }
+        }
+
+        return data;
     }
 
     /**
@@ -3227,552 +4042,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     }
 
     /**
-     * Sets the DependencyInjection connection service name
-     */
-    final public function setConnectionService(string connectionService) -> void
-    {
-        (<ManagerInterface> this->modelsManager)->setConnectionService(
-            this,
-            connectionService
-        );
-    }
-
-    /**
-     * Sets the dirty state of the object using one of the DIRTY_STATE_* constants
-     */
-    public function setDirtyState(int dirtyState) -> <ModelInterface> | bool
-    {
-        let this->dirtyState = dirtyState;
-
-        return this;
-    }
-
-    /**
-     * Sets a custom events manager
-     */
-    public function setEventsManager(<EventsManagerInterface> eventsManager)
-    {
-        this->modelsManager->setCustomEventsManager(this, eventsManager);
-    }
-
-    /**
-     * Sets the DependencyInjection connection service name used to read data
-     */
-    final public function setReadConnectionService(string connectionService) -> void
-    {
-        (<ManagerInterface> this->modelsManager)->setReadConnectionService(
-            this,
-            connectionService
-        );
-    }
-
-    /**
-     * Sets the record's old snapshot data.
-     * This method is used internally to set old snapshot data when the model
-     * was set up to keep snapshot data
-     *
-     * @param array data
-     * @param array columnMap
-     *
-     * @phpstan-param array<string, mixed> $data
-     * @phpstan-param mvc_hydration_column_map|null $columnMap
-     */
-    public function setOldSnapshotData(array data, columnMap = null)
-    {
-        var key, value, attribute;
-        array snapshot;
-
-        /**
-         * Build the snapshot based on a column map
-         */
-        if typeof columnMap === "array" {
-            let snapshot = [];
-
-            for key, value in data {
-                /**
-                 * Use only strings
-                 */
-                if typeof key !== "string" {
-                    continue;
-                }
-
-                /**
-                 * Every field must be part of the column map
-                 */
-                if !fetch attribute, columnMap[key] {
-                    if unlikely !Settings::get("orm.ignore_unknown_columns") {
-                        throw new ColumnNotInMap(key, get_class(this));
-                    }
-
-                    continue;
-                }
-
-                if typeof attribute === "array" {
-                    if !fetch attribute, attribute[0] {
-                        if unlikely !Settings::get("orm.ignore_unknown_columns") {
-                            throw new ColumnNotInMap(key, get_class(this));
-                        }
-
-                        continue;
-                    }
-                }
-
-                let snapshot[attribute] = value;
-            }
-        } else {
-            let snapshot = data;
-        }
-
-        let this->oldSnapshot = snapshot;
-    }
-
-    /**
-     * Stores related records in the relation cache, so that a subsequent
-     * getRelated() or property access returns them without querying.
-     *
-     * This is the write side of the cache getRelated() already reads. It does
-     * not mark the record dirty: the value lands in `related`, never in
-     * `dirtyRelated`, so save() is unaffected.
-     *
-     * @param mixed $records ModelInterface, Row, ResultsetInterface or null
-     */
-    public function setRelated(string alias, var records) -> <ModelInterface>
-    {
-        let this->related[strtolower(alias)] = records;
-
-        return this;
-    }
-
-    /**
-     * Sets the record's snapshot data.
-     * This method is used internally to set snapshot data when the model was
-     * set up to keep snapshot data
-     *
-     * @param array columnMap
-     *
-     * @phpstan-param mvc_model_data $data
-     */
-    public function setSnapshotData(array data, columnMap = null) -> void
-    {
-        var key, value, attribute;
-        array snapshot;
-
-        /**
-         * Build the snapshot based on a column map
-         */
-        if typeof columnMap === "array" {
-            let snapshot = [];
-
-            for key, value in data {
-                /**
-                 * Use only strings
-                 */
-                if typeof key != "string" {
-                    continue;
-                }
-
-                // Try to find case-insensitive key variant
-                if typeof columnMap == "array" &&
-                   !isset columnMap[key] &&
-                   Settings::get("orm.case_insensitive_column_map") {
-                    let key = CaseInsensitiveColumnMap::caseInsensitiveColumnMap(columnMap, key);
-                }
-
-                /**
-                 * Every field must be part of the column map
-                 */
-                if !fetch attribute, columnMap[key] {
-                    if unlikely !Settings::get("orm.ignore_unknown_columns") {
-                        throw new ColumnNotInMap(key, get_class(this));
-                    }
-
-                    continue;
-                }
-
-                if typeof attribute == "array" {
-                    if !fetch attribute, attribute[0] {
-                        if unlikely !Settings::get("orm.ignore_unknown_columns") {
-                            throw new ColumnNotInMap(key, get_class(this));
-                        }
-
-                        continue;
-                    }
-                }
-
-                let snapshot[attribute] = value;
-            }
-        } else {
-            let snapshot = data;
-        }
-
-
-        let this->snapshot = snapshot;
-    }
-
-    /**
-     * Marks one or more many-to-many relationships to be synchronized (or not)
-     * on the next save() call, overriding the relation's `sync` option for that
-     * save only. The flag is cleared after save().
-     *
-     * When syncing is enabled, intermediate rows for related records no longer
-     * present in the assigned array are deleted.
-     *
-     *```php
-     * // Sync only the "tags" relationship on this save
-     * $post->setSync("tags")->save();
-     *
-     * // Sync every many-to-many relationship on this save
-     * $post->setSync()->save();
-     *
-     * // Disable syncing for every relationship on this save
-     * $post->setSync("*", false)->save();
-     *
-     * // Disable syncing for specific relationships on this save
-     * $post->setSync(["tags", "categories"], false)->save();
-     *```
-     *
-     * @param string|array|null elements
-     *
-     * @phpstan-param array<array-key, mixed> $elements
-     */
-    public function setSync(var elements = null, bool enabled = true) -> <ModelInterface>
-    {
-        var alias;
-
-        if elements === null || elements === "*" {
-            let this->syncRelated["*"] = enabled;
-
-            return this;
-        }
-
-        if typeof elements === "array" {
-            for alias in elements {
-                let this->syncRelated[strtolower(alias)] = enabled;
-            }
-
-            return this;
-        }
-
-        let this->syncRelated[strtolower(elements)] = enabled;
-
-        return this;
-    }
-
-    /**
-     * Sets a transaction related to the Model instance
-     *
-     *```php
-     * use Phalcon\Mvc\Model\Transaction\Manager as TxManager;
-     * use Phalcon\Mvc\Model\Transaction\Failed as TxFailed;
-     *
-     * try {
-     *     $txManager = new TxManager();
-     *
-     *     $transaction = $txManager->get();
-     *
-     *     $invoice = new Invoices();
-     *
-     *     $invoice->setTransaction($transaction);
-     *
-     *     $invoice->inv_title       = "WALL·E";
-     *     $invoice->created_at = date("Y-m-d");
-     *
-     *     if ($invoice->save() === false) {
-     *         $transaction->rollback("Can't save invoice");
-     *     }
-     *
-     *     $invoicePart = new OrdersProducts();
-     *
-     *     $invoicePart->setTransaction($transaction);
-     *
-     *     $invoicePart->type = "head";
-     *
-     *     if ($invoicePart->save() === false) {
-     *         $transaction->rollback("Invoices part cannot be saved");
-     *     }
-     *
-     *     $transaction->commit();
-     * } catch (TxFailed $e) {
-     *     echo "Failed, reason: ", $e->getMessage();
-     * }
-     *```
-     */
-    public function setTransaction(<TransactionInterface> transaction) -> <ModelInterface>
-    {
-        let this->transaction = transaction;
-
-        return this;
-    }
-
-    public function getTransaction() -> <TransactionInterface> | null
-    {
-        return this->transaction;
-    }
-
-    /**
-     * Enables/disables options in the ORM.
-     *
-     * The options are written to process-global `Phalcon\Support\Settings`
-     * (`orm.*` flags) and therefore affect every model in the process at once.
-     * Call this once during bootstrap; it is not per-model or per-container
-     * configuration, and one application's `setup()` reconfigures the ORM for
-     * every other user in the same process.
-     *
-     * @phpstan-param array<string, mixed> $options
-     */
-    public static function setup(array options) -> void
-    {
-        var disableEvents, columnRenaming, notNullValidations,
-            exceptionOnFailedSave, exceptionOnFailedMetaDataSave, phqlLiterals,
-            virtualForeignKeys, lateStateBinding, castOnHydrate,
-            ignoreUnknownColumns, updateSnapshotOnSave, disableAssignSetters,
-            caseInsensitiveColumnMap, prefetchRecords, lastInsertId;
-
-        /**
-         * Enables/Disables globally the internal events
-         */
-        if fetch disableEvents, options["events"] {
-            Settings::set("orm.events", (bool) disableEvents);
-        }
-
-        /**
-         * Enables/Disables virtual foreign keys
-         */
-        if fetch virtualForeignKeys, options["virtualForeignKeys"] {
-            Settings::set("orm.virtual_foreign_keys", (bool) virtualForeignKeys);
-        }
-
-        /**
-         * Enables/Disables column renaming
-         */
-        if fetch columnRenaming, options["columnRenaming"] {
-            Settings::set("orm.column_renaming", (bool) columnRenaming);
-        }
-
-        /**
-         * Enables/Disables automatic not null validation
-         */
-        if fetch notNullValidations, options["notNullValidations"] {
-            Settings::set("orm.not_null_validations", (bool) notNullValidations);
-        }
-
-        /**
-         * Enables/Disables throws an exception if the saving process fails
-         */
-        if fetch exceptionOnFailedSave, options["exceptionOnFailedSave"] {
-            Settings::set("orm.exception_on_failed_save", (bool) exceptionOnFailedSave);
-        }
-
-        /**
-         * Enables/Disables throws an exception if the saving process fails
-         */
-        if fetch exceptionOnFailedMetaDataSave, options["exceptionOnFailedMetaDataSave"] {
-            Settings::set("orm.exception_on_failed_metadata_save", (bool) exceptionOnFailedMetaDataSave);
-        }
-
-        /**
-         * Enables/Disables literals in PHQL this improves the security of
-         * applications
-         */
-        if fetch phqlLiterals, options["phqlLiterals"] {
-            Settings::set("orm.enable_literals", (bool) phqlLiterals);
-        }
-
-        /**
-         * Enables/Disables late state binding on model hydration
-         */
-        if fetch lateStateBinding, options["lateStateBinding"] {
-            Settings::set("orm.late_state_binding", (bool) lateStateBinding);
-        }
-
-        /**
-         * Enables/Disables automatic cast to original types on hydration
-         */
-        if fetch castOnHydrate, options["castOnHydrate"] {
-            Settings::set("orm.cast_on_hydrate", (bool) castOnHydrate);
-        }
-
-        /**
-         * Allows to ignore unknown columns when hydrating objects
-         */
-        if fetch ignoreUnknownColumns, options["ignoreUnknownColumns"] {
-            Settings::set("orm.ignore_unknown_columns", (bool) ignoreUnknownColumns);
-        }
-
-        if fetch caseInsensitiveColumnMap, options["caseInsensitiveColumnMap"] {
-            Settings::set(
-                "orm.case_insensitive_column_map",
-                (bool) caseInsensitiveColumnMap
-            );
-        }
-
-        if fetch updateSnapshotOnSave, options["updateSnapshotOnSave"] {
-            Settings::set("orm.update_snapshot_on_save", (bool) updateSnapshotOnSave);
-        }
-
-        if fetch disableAssignSetters, options["disableAssignSetters"] {
-            Settings::set("orm.disable_assign_setters", (bool) disableAssignSetters);
-        }
-
-        if fetch prefetchRecords, options["prefetchRecords"] {
-            Settings::set("orm.resultset_prefetch_records", (int) prefetchRecords);
-        }
-
-        if fetch lastInsertId, options["castLastInsertIdToInt"] {
-            Settings::set("orm.cast_last_insert_id_to_int", (bool) lastInsertId);
-        }
-    }
-
-    /**
-     * Sets the DependencyInjection connection service name used to write data
-     */
-    final public function setWriteConnectionService(string connectionService) -> void
-    {
-        (<ManagerInterface> this->modelsManager)->setWriteConnectionService(
-            this,
-            connectionService
-        );
-    }
-
-
-    /**
-     * Skips the current operation forcing a success state
-     */
-    public function skipOperation(bool skip) -> void
-    {
-        let this->skipped = skip;
-    }
-
-    /**
-     * Calculates the sum on a column for a result-set of rows that match the
-     * specified conditions
-     *
-     * ```php
-     * // How much are all invoices?
-     * $sum = Invoices::sum(
-     *     [
-     *         "column" => "inv_total",
-     *     ]
-     * );
-     *
-     * echo "The total price of invoices is ", $sum, "\n";
-     *
-     * // How much are paid invoices?
-     * $sum = Invoices::sum(
-     *     [
-     *         "inv_status_flag = 1",
-     *         "column" => "inv_total",
-     *     ]
-     * );
-     *
-     * echo "The total price of paid invoices is  ", $sum, "\n";
-     * ```
-     *
-     * @param array parameters
-     * @return double | ResultsetInterface
-     *
-     * @phpstan-param mvc_model_parameters|string|null $parameters
-     */
-    public static function sum(var parameters = null) -> float | <ResultsetInterface>
-    {
-        var result;
-
-        let result = self::groupResult("SUM", "sumatory", parameters);
-
-        if typeof result === "string" {
-            return (float) result;
-        }
-
-        if result === null {
-            return 0.0;
-        }
-
-        return result;
-    }
-
-    /**
-     * Returns the instance as an array representation
-     *
-     *```php
-     * print_r(
-     *     $invoice->toArray()
-     * );
-     *```
-     *
-     * @param array $columns
-     *
-     * @phpstan-return array<string, mixed>
-     */
-    public function toArray(columns = null, useGetter = true) -> array
-    {
-        var attribute, attributeField, columnMap, metaData, method;
-        array data;
-
-        let data = [],
-            metaData = this->getModelsMetaData(),
-            columnMap = metaData->getColumnMap(this);
-
-        for attribute in metaData->getAttributes(this) {
-            /**
-             * Check if the columns must be renamed
-             */
-            if typeof columnMap === "array" {
-                // Try to find case-insensitive key variant
-                if !isset columnMap[attribute] && Settings::get("orm.case_insensitive_column_map") {
-                    let attribute = CaseInsensitiveColumnMap::caseInsensitiveColumnMap(
-                        columnMap,
-                        attribute
-                    );
-                }
-
-                if !fetch attributeField, columnMap[attribute] {
-                    if unlikely !Settings::get("orm.ignore_unknown_columns") {
-                        throw new ColumnNotInMap(attribute, get_class(this));
-                    }
-
-                    continue;
-                }
-            } else {
-                let attributeField = attribute;
-            }
-
-            if typeof columns === "array" {
-                if !in_array(attributeField, columns) {
-                    continue;
-                }
-            }
-
-            /**
-             * Check if there is a getter for this property
-             */
-            let method = "get" . camelize(attributeField);
-
-            /**
-             * Do not use the getter if the field name is `source` (getSource)
-             */
-            if true === useGetter && "getSource" !== method && method_exists(this, method) {
-                /**
-                 * A getter may access a typed property that was never
-                 * initialized (e.g. because cloneResultMap() skipped a null
-                 * value for a NOT NULL column). Catch the resulting Error and
-                 * return null rather than letting it propagate.
-                 */
-                try {
-                    let data[attributeField] = this->{method}();
-                } catch \Error {
-                    let data[attributeField] = null;
-                }
-            } elseif isset(this->{attributeField}) {
-                let data[attributeField] = this->{attributeField};
-            } else {
-                let data[attributeField] = null;
-            }
-        }
-
-        return data;
-    }
-
-    /**
      * Updates a model instance. If the instance does not exist in the
      * persistence it will throw an exception. Returning `true` on success or
      * `false` otherwise.
@@ -3829,6 +4098,42 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     }
 
     /**
+     * Check whether validation process has generated any messages
+     *
+     *```php
+     * use Phalcon\Mvc\Model;
+     * use Phalcon\Filter\Validation;
+     * use Phalcon\Filter\Validation\Validator\ExclusionIn;
+     *
+     * class Subscriptors extends Model
+     * {
+     *     public function validation()
+     *     {
+     *         $validator = new Validation();
+     *
+     *         $validator->validate(
+     *             "status",
+     *             new ExclusionIn(
+     *                 [
+     *                     "domain" => [
+     *                         "A",
+     *                         "I",
+     *                     ],
+     *                 ]
+     *             )
+     *         );
+     *
+     *         return $this->validate($validator);
+     *     }
+     * }
+     *```
+     */
+    public function validationHasFailed() -> bool
+    {
+        return !empty this->errorMessages;
+    }
+
+    /**
      * Writes an attribute value by its name
      *
      *```php
@@ -3838,6 +4143,111 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     public function writeAttribute(string attribute, var value) -> void
     {
         let this->{attribute} = value;
+    }
+
+    /**
+     * Sets a list of attributes that must be skipped from the
+     * generated UPDATE statement
+     *
+     *```php
+     * class Invoices extends \Phalcon\Mvc\Model
+     * {
+     *     public function initialize()
+     *     {
+     *         $this->allowEmptyStringValues(
+     *             [
+     *                 "name",
+     *             ]
+     *         );
+     *     }
+     * }
+     *```
+     *
+     * @phpstan-param mvc_model_attributes $attributes
+     */
+    protected function allowEmptyStringValues(array attributes) -> void
+    {
+        var keysAttributes, attribute;
+
+        let keysAttributes = [];
+
+        for attribute in attributes {
+            let keysAttributes[attribute] = true;
+        }
+
+        this->getModelsMetaData()->setEmptyStringAttributes(
+            this,
+            keysAttributes
+        );
+    }
+
+    /**
+     * Setup a reverse 1-1 or n-1 relation between two models
+     *
+     *```php
+     * class OrdersProducts extends \Phalcon\Mvc\Model
+     * {
+     *     public function initialize()
+     *     {
+     *         $this->belongsTo(
+     *             "oxp_ord_id",
+     *             Invoices::class,
+     *             "id"
+     *         );
+     *     }
+     * }
+     *```
+     *
+     * @param array $options = [
+     *     'reusable' => false,
+     *     'alias' => 'someAlias',
+     *     'foreignKey' => [
+     *         'message' => null,
+     *         'allowNulls' => false,
+     *         'action' => null
+     *     ],
+     *     'params' => [
+     *         'conditions' => '',
+     *         'columns' => '',
+     *         'bind' => [],
+     *         'bindTypes' => [],
+     *         'order' => '',
+     *         'limit' => 10,
+     *         'offset' => 5,
+     *         'group' => 'name, status',
+     *         'for_update' => false,
+     *         'shared_lock' => false,
+     *         'cache' => [
+     *             'lifetime' => 3600,
+     *             'key' => 'my-find-key'
+     *         ],
+     *         'hydration' => null
+     *     ]
+     * ]
+     *
+     * @phpstan-param mvc_relation_options $options
+     */
+    protected function belongsTo(var fields,  string referenceModel, var referencedFields, array options = []) -> <Relation>
+    {
+        return (<ManagerInterface> this->modelsManager)->addBelongsTo(
+            this,
+            fields,
+            referenceModel,
+            referencedFields,
+            options
+        );
+    }
+
+    /**
+     * Cancel the current operation
+     */
+    protected function cancelOperation()
+    {
+        if this->operationMade == self::OP_DELETE {
+            this->fireEvent("notDeleted");
+        } else {
+            this->fireEvent("notSaved");
+        }
     }
 
     /**
@@ -4191,6 +4601,49 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         }
 
         return true;
+    }
+
+    /**
+     * Collects previously queried (belongs-to, has-one and has-one-through)
+     * related records along with freshly added one
+     *
+     * @return array Related records that should be saved
+     *
+     * @phpstan-return mvc_model_related
+     */
+    protected function collectRelatedToSave() -> array
+    {
+        var name, record;
+        array related, dirtyRelated;
+
+        /**
+         * Load previously queried related records
+         */
+        let related = this->related;
+
+        /**
+         * Load unsaved related records
+         */
+        let dirtyRelated = this->dirtyRelated;
+
+        for name, record in related {
+            if isset dirtyRelated[name] {
+                continue;
+            }
+
+            if typeof record !== "object" || !(record instanceof ModelInterface) {
+                continue;
+            }
+
+            if record->hasSnapshotData() && !record->hasChanged() {
+                continue;
+            }
+
+            record->setDirtyState(self::DIRTY_STATE_TRANSIENT);
+            let dirtyRelated[name] = record;
+        }
+
+        return dirtyRelated;
     }
 
     /**
@@ -4790,6 +5243,79 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     }
 
     /**
+     * Returns related records defined relations depending on the method name.
+     * Returns false if the relation is non-existent.
+     *
+     * @param string modelName
+     * @param string method
+     * @param array  arguments
+     *
+     * @return ResultsetInterface|ModelInterface|bool|null
+     *
+     * @phpstan-param list<mixed> $arguments
+     */
+    protected function getRelatedRecords(string modelName,  string method,  array arguments)
+    {
+        var manager, relation, queryMethod, extraArgs, alias;
+
+        let manager = <ManagerInterface> this->modelsManager;
+
+        let relation = false,
+            queryMethod = null;
+
+        fetch extraArgs, arguments[0];
+
+        /**
+         * Calling find/findFirst if the method starts with "get"
+         */
+        if starts_with(method, "get") {
+            let alias = substr(method, 3);
+            let relation = <RelationInterface> manager->getRelationByAlias(
+                    modelName,
+                    alias
+                );
+
+            /**
+             * Return if the relation was not found because getRelated()
+             * throws an exception if the relation is unknown
+             */
+            if typeof relation !== "object" {
+                return false;
+            }
+
+            return this->getRelated(alias, extraArgs);
+        }
+
+        /**
+         * Calling count if the method starts with "count"
+         */
+        if starts_with(method, "count") {
+            let queryMethod = "count";
+
+            let relation = <RelationInterface> manager->getRelationByAlias(
+                modelName,
+                substr(method, 5)
+            );
+
+            /**
+             * If the relation was found perform the query via the models manager
+             */
+            if typeof relation !== "object" {
+                return false;
+            }
+
+            return manager->getRelationRecords(
+                relation,
+                this,
+                extraArgs,
+                queryMethod
+            );
+        }
+
+        return false;
+    }
+
+    /**
      * Checks whether the current record already exists
      *
      * @return bool
@@ -4941,299 +5467,270 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
         return false;
     }
-
     /**
-     * Returns related records defined relations depending on the method name.
-     * Returns false if the relation is non-existent.
+     * Setup a 1-n relation between two models
      *
-     * @param string modelName
-     * @param string method
-     * @param array  arguments
+     *```php
+     * class Invoices extends \Phalcon\Mvc\Model
+     * {
+     *     public function initialize()
+     *     {
+     *         $this->hasMany(
+     *             "id",
+     *             OrdersProducts::class,
+     *             "oxp_ord_id"
+     *         );
+     *     }
+     * }
+     *```
      *
-     * @return ResultsetInterface|ModelInterface|bool|null
+     * @param array $options = [
+     *     'reusable' => false,
+     *     'alias' => 'someAlias',
+     *     'foreignKey' => [
+     *         'message' => null,
+     *         'allowNulls' => false,
+     *         'action' => null
+     *     ],
+     *     'params' => [
+     *         'conditions' => '',
+     *         'columns' => '',
+     *         'bind' => [],
+     *         'bindTypes' => [],
+     *         'order' => '',
+     *         'limit' => 10,
+     *         'offset' => 5,
+     *         'group' => 'name, status',
+     *         'for_update' => false,
+     *         'shared_lock' => false,
+     *         'cache' => [
+     *             'lifetime' => 3600,
+     *             'key' => 'my-find-key'
+     *         ],
+     *         'hydration' => null
+     *     ]
+     * ]
      *
-     * @phpstan-param list<mixed> $arguments
+     * @phpstan-param mvc_relation_options $options
+     * @phpstan-param mvc_relation_fields $referencedFields
      */
-    protected function getRelatedRecords(string modelName,  string method,  array arguments)
+    protected function hasMany(var fields,  string referenceModel, var referencedFields, array options = []) -> <Relation>
     {
-        var manager, relation, queryMethod, extraArgs, alias;
-
-        let manager = <ManagerInterface> this->modelsManager;
-
-        let relation = false,
-            queryMethod = null;
-
-        fetch extraArgs, arguments[0];
-
-        /**
-         * Calling find/findFirst if the method starts with "get"
-         */
-        if starts_with(method, "get") {
-            let alias = substr(method, 3);
-            let relation = <RelationInterface> manager->getRelationByAlias(
-                    modelName,
-                    alias
-                );
-
-            /**
-             * Return if the relation was not found because getRelated()
-             * throws an exception if the relation is unknown
-             */
-            if typeof relation !== "object" {
-                return false;
-            }
-
-            return this->getRelated(alias, extraArgs);
-        }
-
-        /**
-         * Calling count if the method starts with "count"
-         */
-        if starts_with(method, "count") {
-            let queryMethod = "count";
-
-            let relation = <RelationInterface> manager->getRelationByAlias(
-                modelName,
-                substr(method, 5)
-            );
-
-            /**
-             * If the relation was found perform the query via the models manager
-             */
-            if typeof relation !== "object" {
-                return false;
-            }
-
-            return manager->getRelationRecords(
-                relation,
-                this,
-                extraArgs,
-                queryMethod
-            );
-        }
-
-        return false;
+        return (<ManagerInterface> this->modelsManager)->addHasMany(
+            this,
+            fields,
+            referenceModel,
+            referencedFields,
+            options
+        );
     }
 
     /**
-     * Generate a PHQL SELECT statement for an aggregate
+     * Setup an n-n relation between two models, through an intermediate
+     * relation
      *
-     * @param string functionName
-     * @param string alias
-     * @param array|string|null parameters
+     *```php
+     * class Invoices extends \Phalcon\Mvc\Model
+     * {
+     *     public function initialize()
+     *     {
+     *         // Setup a many-to-many relation to Parts through OrdersProducts
+     *         $this->hasManyToMany(
+     *             "id",
+     *             OrdersProducts::class,
+     *             "oxp_ord_id",
+     *             "oxp_prd_id",
+     *             Products::class,
+     *             "id",
+     *         );
+     *     }
+     * }
+     *```
      *
-     * @return int|float|string|null|ResultsetInterface
+     * @param string|array fields
+     * @param string intermediateModel
+     * @param string|array intermediateFields
+     * @param string|array intermediateReferencedFields
+     * @param string referenceModel
+     * @param string|array referencedFields
+     * @param array $options = [
+     *     'reusable' => false,
+     *     'alias' => 'someAlias',
+     *     'foreignKey' => [
+     *         'message' => null,
+     *         'allowNulls' => false,
+     *         'action' => null
+     *     ],
+     *     'params' => [
+     *         'conditions' => '',
+     *         'columns' => '',
+     *         'bind' => [],
+     *         'bindTypes' => [],
+     *         'order' => '',
+     *         'limit' => 10,
+     *         'offset' => 5,
+     *         'group' => 'name, status',
+     *         'for_update' => false,
+     *         'shared_lock' => false,
+     *         'cache' => [
+     *             'lifetime' => 3600,
+     *             'key' => 'my-find-key'
+     *         ],
+     *         'hydration' => null
+     *     ]
+     * ]
+     *
+     * @phpstan-param mvc_relation_options $options
+     * @phpstan-param mvc_relation_fields $intermediateFields
+     * @phpstan-param mvc_relation_fields $intermediateReferencedFields
      */
-    protected static function groupResult(string functionName,  string alias, var parameters = null) -> var
+    protected function hasManyToMany(
+        var fields,
+         string intermediateModel,
+        var intermediateFields,
+        var intermediateReferencedFields,
+         string referenceModel,
+        var referencedFields,
+        array options = []
+    ) -> <Relation>
     {
-        var params, distinctColumn, groupColumn, columns,
-            resultset, cache, firstRow, groupColumns, builder, query, container,
-            manager, transaction;
-        var bindParams = [], bindTypes = [];
-
-        let container = Di::getDefault();
-        let manager = <ManagerInterface> container->getShared("modelsManager");
-
-        if typeof parameters !== "array" {
-            let params = [];
-
-            if parameters !== null {
-                let params[] = parameters;
-            }
-        } else {
-            let params = parameters;
-        }
-
-        if !fetch groupColumn, params["column"] {
-            let groupColumn = "*";
-        }
-
-        /**
-         * Builds the columns to query according to the received parameters
-         */
-        if fetch distinctColumn, params["distinct"] {
-            let columns = functionName . "(DISTINCT " . distinctColumn . ") AS " . alias;
-        } else {
-            if fetch groupColumns, params["group"] {
-                let columns = groupColumns . ", " . functionName . "(" . groupColumn . ") AS " . alias;
-            } else {
-                let columns = functionName . "(" . groupColumn . ") AS " . alias;
-            }
-        }
-
-        /**
-         * Builds a query with the passed parameters
-         */
-        let builder = <BuilderInterface> manager->createBuilder(params);
-
-        builder->columns(columns);
-        builder->from(get_called_class());
-
-        let query = <QueryInterface> builder->getQuery();
-
-        if fetch transaction, params[self::TRANSACTION_INDEX] {
-            if transaction instanceof TransactionInterface {
-                query->setTransaction(transaction);
-            }
-        }
-
-        /**
-         * Check for bind parameters
-         */
-        if isset params["bind"] {
-            let bindParams = params["bind"];
-
-            if isset params["bindTypes"] {
-                let bindTypes = params["bindTypes"];
-            }
-        }
-
-        /**
-         * Pass the cache options to the query
-         */
-        if fetch cache, params["cache"] {
-            query->cache(cache);
-        }
-
-        /**
-         * Execute the query
-         */
-        let resultset = query->execute(bindParams, bindTypes);
-
-        /**
-         * Return the full resultset if the query is grouped
-         */
-        if isset params["group"] {
-            return resultset;
-        }
-
-        /**
-         * Return only the value in the first result
-         */
-        let firstRow = resultset->getFirst();
-
-        return firstRow->{alias};
+        return (<ManagerInterface> this->modelsManager)->addHasManyToMany(
+            this,
+            fields,
+            intermediateModel,
+            intermediateFields,
+            intermediateReferencedFields,
+            referenceModel,
+            referencedFields,
+            options
+        );
     }
 
     /**
-     * Try to check if the query must invoke a finder
+     * Setup a 1-1 relation between two models
      *
-     * @return ModelInterface[]|ModelInterface|bool
+     *```php
+     * class Invoices extends \Phalcon\Mvc\Model
+     * {
+     *     public function initialize()
+     *     {
+     *         $this->hasOne(
+     *             "id",
+     *             InvoicesDescription::class,
+     *             "oxp_ord_id"
+     *         );
+     *     }
+     * }
+     *```
      *
-     * @phpstan-param array<array-key, mixed> $arguments
-     * @phpstan-return false|int|ResultsetInterface|Row|static|null
+     * @param array $options = [
+     *     'reusable' => false,
+     *     'alias' => 'someAlias',
+     *     'foreignKey' => [
+     *         'message' => null,
+     *         'allowNulls' => false,
+     *         'action' => null
+     *     ],
+     *     'params' => [
+     *         'conditions' => '',
+     *         'columns' => '',
+     *         'bind' => [],
+     *         'bindTypes' => [],
+     *         'order' => '',
+     *         'limit' => 10,
+     *         'offset' => 5,
+     *         'group' => 'name, status',
+     *         'for_update' => false,
+     *         'shared_lock' => false,
+     *         'cache' => [
+     *             'lifetime' => 3600,
+     *             'key' => 'my-find-key'
+     *         ],
+     *         'hydration' => null
+     *     ]
+     * ]
+     *
+     * @phpstan-param mvc_relation_options $options
      */
-    protected final static function invokeFinder(string method, array arguments)
+    protected function hasOne(var fields,  string referenceModel, var referencedFields, array options = []) -> <Relation>
     {
-        var extraMethod, type, modelName, value, model, attributes, field,
-            extraMethodFirst, metaData, params;
+        return (<ManagerInterface> this->modelsManager)->addHasOne(
+            this,
+            fields,
+            referenceModel,
+            referencedFields,
+            options
+        );
+    }
 
-        let extraMethod = null;
+    /**
+     * Setup a 1-1 relation between two models, through an intermediate
+     * relation
+     *
+     *```php
+     * class Invoices extends \Phalcon\Mvc\Model
+     * {
+     *     public function initialize()
+     *     {
+     *         // Setup a 1-1 relation to one item from Parts through OrdersProducts
+     *         $this->hasOneThrough(
+     *             "id",
+     *             OrdersProducts::class,
+     *             "oxp_ord_id",
+     *             "oxp_prd_id",
+     *             Products::class,
+     *             "id",
+     *         );
+     *     }
+     * }
+     *```
+     *
+     * @param    string|array $fields
+     * @param    string|array $intermediateFields
+     * @param    string|array $intermediateReferencedFields
+     * @param    string|array $referencedFields
+     * @param    array $options
+     *
+     * @phpstan-param mvc_relation_options $options
+     * @phpstan-param mvc_relation_fields $intermediateFields
+     * @phpstan-param mvc_relation_fields $intermediateReferencedFields
+     */
+    protected function hasOneThrough(var fields,  string intermediateModel, var intermediateFields, var intermediateReferencedFields,
+         string referenceModel, var referencedFields, array options = []) -> <Relation>
+    {
+        return (<ManagerInterface> this->modelsManager)->addHasOneThrough(
+            this,
+            fields,
+            intermediateModel,
+            intermediateFields,
+            intermediateReferencedFields,
+            referenceModel,
+            referencedFields,
+            options
+        );
+    }
 
-        /**
-         * Check if the method starts with "findFirst"
-         */
-        if starts_with(method, "findFirstBy") {
-            let type = "findFirst",
-                extraMethod = substr(method, 11);
-        }
-
-        /**
-         * Check if the method starts with "find"
-         */
-        elseif starts_with(method, "findBy") {
-            let type = "find",
-                extraMethod = substr(method, 6);
-        }
-
-        /**
-         * Check if the method starts with "count"
-         */
-        elseif starts_with(method, "countBy") {
-            let type = "count",
-                extraMethod = substr(method, 7);
-        }
-
-        /**
-         * The called class is the model
-         */
-        let modelName = get_called_class();
-
-        if !extraMethod {
-            return false;
-        }
-
-        if unlikely !array_key_exists(0, arguments) {
-            throw new StaticMethodRequiresOneArgument(method, get_called_class());
-        }
-
-        let model    = create_instance(modelName),
-            metaData = model->getModelsMetaData();
-
-        /**
-         * Get the attributes
-         */
-        let attributes = metaData->getReverseColumnMap(model);
-
-        if typeof attributes !== "array" {
-            let attributes = metaData->getDataTypes(model);
-        }
-
-        /**
-         * Check if the extra-method is an attribute
-         */
-        if isset attributes[extraMethod] {
-            let field = extraMethod;
-        } else {
-            /**
-             * Lowercase the first letter of the extra-method
-             */
-            let extraMethodFirst = lcfirst(extraMethod);
-
-            if isset attributes[extraMethodFirst] {
-                let field = extraMethodFirst;
-            } else {
-                /**
-                 * Get the possible real method name
-                 */
-                let field = uncamelize(extraMethod);
-
-                if unlikely !isset attributes[field] {
-                    throw new CannotResolveAttribute(extraMethod, get_called_class());
-                }
-            }
-        }
-
-        /**
-         * Check if we have "conditions" and "bind" defined
-         */
-        fetch value, arguments[0];
-
-        if value !== null {
-            let params = [
-                 "conditions": "[" . field . "] = ?0",
-                 "bind"      : [value]
-            ];
-
-        } else {
-            let params = [
-                 "conditions": "[" . field . "] IS NULL"
-            ];
-        }
-
-        /**
-         * Just in case remove 'conditions' and 'bind'
-         */
-        unset arguments[0];
-        unset arguments["conditions"];
-        unset arguments["bind"];
-
-        let params = array_merge(params, arguments);
-
-        /**
-         * Execute the query
-         */
-        return {modelName}::{type}(params);
+    /**
+     * Sets if the model must keep the original record snapshot in memory
+     *
+     *```php
+     * use Phalcon\Mvc\Model;
+     *
+     * class Invoices extends Model
+     * {
+     *     public function initialize()
+     *     {
+     *         $this->keepSnapshots(true);
+     *     }
+     * }
+     *```
+     */
+    protected function keepSnapshots(bool keepSnapshot) -> void
+    {
+        (<ManagerInterface> this->modelsManager)->keepSnapshots(
+            this,
+            keepSnapshot
+        );
     }
 
     /**
@@ -5272,341 +5769,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             this->{possibleSetter}(value);
         } catch \TypeError {
             let this->{property} = value;
-        }
-
-        return true;
-    }
-
-    /**
-     * Executes internal hooks before save a record
-     *
-     * @return bool
-     */
-    protected function preSave(<MetaDataInterface> metaData, bool exists, var identityField) -> bool
-    {
-        var notNull, columnMap, dataTypeNumeric, automaticAttributes,
-            defaultValues, field, attributeField, value, emptyStringValues;
-        bool error, isNull;
-        string eventName;
-
-        /**
-         * Run Validation Callbacks Before
-         */
-        if Settings::get("orm.events") {
-            /**
-             * Call the beforeValidation
-             */
-            if this->fireEventCancel("beforeValidation") === false {
-                return false;
-            }
-
-            /**
-             * Call the specific beforeValidation event for the current action
-             */
-            if exists {
-                let eventName = "beforeValidationOnUpdate";
-            } else {
-                let eventName = "beforeValidationOnCreate";
-            }
-
-            if this->fireEventCancel(eventName) === false {
-                return false;
-            }
-        }
-
-        /**
-         * Check for Virtual foreign keys
-         */
-        if Settings::get("orm.virtual_foreign_keys") {
-            if this->checkForeignKeysRestrict() === false {
-                return false;
-            }
-        }
-
-        /**
-         * Columns marked as not null are automatically validated by the ORM
-         */
-        if Settings::get("orm.not_null_validations") {
-            let notNull = metaData->getNotNullAttributes(this);
-
-            if typeof notNull === "array" {
-                /**
-                 * Gets the fields that are numeric, these are validated in a
-                 * different way
-                 */
-                let dataTypeNumeric = metaData->getDataTypesNumeric(this);
-
-                if Settings::get("orm.column_renaming") {
-                    let columnMap = metaData->getColumnMap(this);
-                } else {
-                    let columnMap = null;
-                }
-
-                /**
-                 * Get fields that must be omitted from the SQL generation
-                 */
-                if exists {
-                    let automaticAttributes = metaData->getAutomaticUpdateAttributes(this);
-                } else {
-                    let automaticAttributes = metaData->getAutomaticCreateAttributes(this);
-                }
-
-                let defaultValues = metaData->getDefaultValues(this);
-
-                /**
-                 * Get string attributes that allow empty strings as defaults
-                 */
-                let emptyStringValues = metaData->getEmptyStringAttributes(this);
-
-                let error = false;
-
-                for field in notNull {
-                    if typeof columnMap === "array" {
-                        if unlikely !fetch attributeField, columnMap[field] {
-                            if unlikely !Settings::get("orm.ignore_unknown_columns") {
-                                throw new ColumnNotInTableMap(field, get_class(this));
-                            }
-                        }
-                    } else {
-                        let attributeField = field;
-                    }
-
-                    /**
-                     * We don't check fields that must be omitted
-                     */
-                    if !array_key_exists(attributeField, automaticAttributes) {
-                        let isNull = false;
-
-                        /**
-                         * Field is null when: 1) is not set, 2) is numeric but
-                         * its value is not numeric, 3) is null or 4) is empty string
-                         * Read the attribute from the this_ptr using the real or renamed name
-                         */
-                        if fetch value, this->{attributeField} {
-                            /**
-                             * Objects are never treated as null, numeric fields
-                             * must be numeric to be accepted as not null
-                             */
-                            if typeof value !== "object" {
-                                if !isset dataTypeNumeric[field] {
-                                    if isset emptyStringValues[field] {
-                                        if value === null {
-                                            let isNull = true;
-                                        }
-                                    } else {
-                                        if value === null || (value === "" && (!isset defaultValues[field] || value !== defaultValues[field])) {
-                                            let isNull = true;
-                                        }
-                                    }
-                                } else {
-                                    if !is_numeric(value) {
-                                        let isNull = true;
-                                    }
-                                }
-                            }
-
-                        } else {
-                            let isNull = true;
-                        }
-
-                        if isNull {
-                            if !exists {
-                                /**
-                                 * The identity field can be null
-                                 */
-                                if field == identityField {
-                                    continue;
-                                }
-
-                                /**
-                                 * The field have default value can be null
-                                 */
-                                if isset defaultValues[field] {
-                                    continue;
-                                }
-                            }
-
-                            /**
-                             * An implicit PresenceOf message is created
-                             */
-                            let this->errorMessages[] = new Message(
-                                attributeField . " is required",
-                                attributeField,
-                                "PresenceOf",
-                                0,
-                                [
-                                    "model": get_class(this)
-                                ]
-                            );
-
-                            let error = true;
-                        }
-                    }
-                }
-
-                if error {
-                    if Settings::get("orm.events") {
-                        this->fireEvent("onValidationFails");
-                        this->cancelOperation();
-                    }
-
-                    return false;
-                }
-            }
-        }
-
-        /**
-         * Call the main validation event
-         */
-        if this->fireEventCancel("validation") === false {
-            if Settings::get("orm.events") {
-                this->fireEvent("onValidationFails");
-            }
-
-            return false;
-        }
-
-        /**
-         * Run Validation
-         */
-        if Settings::get("orm.events") {
-            /**
-             * Run Validation Callbacks After
-             */
-            if exists {
-                let eventName = "afterValidationOnUpdate";
-            } else {
-                let eventName = "afterValidationOnCreate";
-            }
-
-            if this->fireEventCancel(eventName) === false {
-                return false;
-            }
-
-            if this->fireEventCancel("afterValidation") === false {
-                return false;
-            }
-
-            /**
-             * Run Before Callbacks
-             */
-            if this->fireEventCancel("beforeSave") === false {
-                return false;
-            }
-
-            let this->skipped = false;
-
-            /**
-             * The operation can be skipped here
-             */
-            if exists {
-                let eventName = "beforeUpdate";
-            } else {
-                let eventName = "beforeCreate";
-            }
-
-            if this->fireEventCancel(eventName) === false {
-                return false;
-            }
-
-            /**
-             * Always return true if the operation is skipped
-             */
-            if this->skipped === true {
-                return true;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Saves related records that must be stored prior to save the master record
-     *
-     * @param ModelInterface[] related
-     * @param CollectionInterface visited
-     * @return bool
-     *
-     * @phpstan-param CollectionInterface<mixed> $visited
-     */
-
-    protected function preSaveRelatedRecords(<AdapterInterface> connection, related, <CollectionInterface> visited) -> bool
-    {
-        var className, manager, type, relation, columns, referencedFields, nesting, name, record, columnA, columnB;
-        int columnCount, i;
-        let nesting = false;
-
-        /**
-         * Start an implicit transaction
-         */
-        connection->begin(nesting);
-
-        let className = get_class(this),
-            manager = <ManagerInterface> this->getModelsManager();
-
-        for name, record in related {
-            /**
-             * Try to get a relation with the same name
-             */
-            let relation = <RelationInterface> manager->getRelationByAlias(
-                className,
-                name
-            );
-
-            if typeof relation === "object" {
-                /**
-                 * Get the relation type
-                 */
-                let type = relation->getType();
-
-                /**
-                 * Only belongsTo are stored before save the master record
-                 */
-                if type == Relation::BELONGS_TO {
-                    if unlikely typeof record !== "object" {
-                        connection->rollback(nesting);
-
-                        throw new BelongsToRequiresObject(get_class(this), name);
-                    }
-
-                    /**
-                     * If dynamic update is enabled, saving the record must not take any action.
-                     * Recursion through circular relations is prevented by the visited
-                     * collection inside doSave().
-                     */
-                    if !record->doSave(visited) {
-                        /**
-                         * Get the validation messages generated by the
-                         * referenced model
-                         */
-                        this->appendMessagesFrom(record);
-
-                        /**
-                         * Rollback the implicit transaction
-                         */
-                        connection->rollback(nesting);
-
-                        return false;
-                    }
-
-                    /**
-                     * Read the attribute from the referenced model and assign
-                     * it to the current model
-                     */
-                    let columns = relation->getFields(),
-                      referencedFields = relation->getReferencedFields();
-                    if unlikely typeof columns === "array" {
-                        let columnCount = count(columns) - 1;
-                        for i in range(0, columnCount) {
-                            let columnA = columns[i];
-                            let columnB = referencedFields[i];
-                            let this->{columnA} = record->{columnB};
-                        }
-                    } else {
-                        let this->{columns} = record->{referencedFields};
-                    }
-                }
-            }
         }
 
         return true;
@@ -5962,471 +6124,338 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     }
 
     /**
-     * Sets a list of attributes that must be skipped from the
-     * generated UPDATE statement
+     * Executes internal hooks before save a record
      *
-     *```php
-     * class Invoices extends \Phalcon\Mvc\Model
-     * {
-     *     public function initialize()
-     *     {
-     *         $this->allowEmptyStringValues(
-     *             [
-     *                 "name",
-     *             ]
-     *         );
-     *     }
-     * }
-     *```
-     *
-     * @phpstan-param mvc_model_attributes $attributes
+     * @return bool
      */
-    protected function allowEmptyStringValues(array attributes) -> void
+    protected function preSave(<MetaDataInterface> metaData, bool exists, var identityField) -> bool
     {
-        var keysAttributes, attribute;
+        var notNull, columnMap, dataTypeNumeric, automaticAttributes,
+            defaultValues, field, attributeField, value, emptyStringValues;
+        bool error, isNull;
+        string eventName;
 
-        let keysAttributes = [];
+        /**
+         * Run Validation Callbacks Before
+         */
+        if Settings::get("orm.events") {
+            /**
+             * Call the beforeValidation
+             */
+            if this->fireEventCancel("beforeValidation") === false {
+                return false;
+            }
 
-        for attribute in attributes {
-            let keysAttributes[attribute] = true;
-        }
+            /**
+             * Call the specific beforeValidation event for the current action
+             */
+            if exists {
+                let eventName = "beforeValidationOnUpdate";
+            } else {
+                let eventName = "beforeValidationOnCreate";
+            }
 
-        this->getModelsMetaData()->setEmptyStringAttributes(
-            this,
-            keysAttributes
-        );
-    }
-
-    /**
-     * Cancel the current operation
-     */
-    protected function cancelOperation()
-    {
-        if this->operationMade == self::OP_DELETE {
-            this->fireEvent("notDeleted");
-        } else {
-            this->fireEvent("notSaved");
-        }
-    }
-
-    /**
-     * Setup a reverse 1-1 or n-1 relation between two models
-     *
-     *```php
-     * class OrdersProducts extends \Phalcon\Mvc\Model
-     * {
-     *     public function initialize()
-     *     {
-     *         $this->belongsTo(
-     *             "oxp_ord_id",
-     *             Invoices::class,
-     *             "id"
-     *         );
-     *     }
-     * }
-     *```
-     *
-     * @param array $options = [
-     *     'reusable' => false,
-     *     'alias' => 'someAlias',
-     *     'foreignKey' => [
-     *         'message' => null,
-     *         'allowNulls' => false,
-     *         'action' => null
-     *     ],
-     *     'params' => [
-     *         'conditions' => '',
-     *         'columns' => '',
-     *         'bind' => [],
-     *         'bindTypes' => [],
-     *         'order' => '',
-     *         'limit' => 10,
-     *         'offset' => 5,
-     *         'group' => 'name, status',
-     *         'for_update' => false,
-     *         'shared_lock' => false,
-     *         'cache' => [
-     *             'lifetime' => 3600,
-     *             'key' => 'my-find-key'
-     *         ],
-     *         'hydration' => null
-     *     ]
-     * ]
-     *
-     * @phpstan-param mvc_relation_options $options
-     */
-    protected function belongsTo(var fields,  string referenceModel, var referencedFields, array options = []) -> <Relation>
-    {
-        return (<ManagerInterface> this->modelsManager)->addBelongsTo(
-            this,
-            fields,
-            referenceModel,
-            referencedFields,
-            options
-        );
-    }
-
-    /**
-     * shared prepare query logic for find and findFirst method
-     *
-     * @phpstan-param object $resultset
-     * @phpstan-param mvc_model_parameters $params
-     */
-    private static function loadEager(
-        var resultset,
-        var eager,
-        array params
-    ) -> void {
-        var container, hydration, loader, manager;
-
-        if unlikely typeof eager !== "array" {
-            throw new InvalidEagerParameter();
-        }
-
-        if unlikely !(resultset instanceof Simple) {
-            throw new UnsupportedEagerResultset(get_class(resultset));
-        }
-
-        if fetch hydration, params["hydration"] {
-            if unlikely hydration !== Resultset::HYDRATE_RECORDS {
-                throw new UnsupportedEagerHydration();
+            if this->fireEventCancel(eventName) === false {
+                return false;
             }
         }
 
-        let container = Di::getDefault();
-        let manager   = <ManagerInterface> container->getShared("modelsManager");
-        let loader    = new Loader(manager);
-
-        loader->loadResultset(
-            resultset,
-            get_called_class(),
-            PathTree::parse(eager)
-        );
-    }
-
-    /**
-     * shared prepare query logic for find and findFirst method
-     *
-     * @phpstan-param int|null $limit
-     */
-    private static function getPreparedQuery(var params, var limit = null) -> <QueryInterface>
-    {
-        var builder, bindParams, bindTypes, transaction, cache, manager, query,
-            container;
-
-        let container = Di::getDefault();
-        let manager = <ManagerInterface> container->getShared("modelsManager");
-
         /**
-         * Builds a query with the passed parameters
+         * Check for Virtual foreign keys
          */
-        let builder = <BuilderInterface> manager->createBuilder(params);
-
-        builder->from(
-            get_called_class()
-        );
-
-        if limit != null {
-            builder->limit(limit);
+        if Settings::get("orm.virtual_foreign_keys") {
+            if this->checkForeignKeysRestrict() === false {
+                return false;
+            }
         }
 
-        let query = <QueryInterface> builder->getQuery();
-
         /**
-         * Check for bind parameters
+         * Columns marked as not null are automatically validated by the ORM
          */
-        if fetch bindParams, params["bind"] {
-            if typeof bindParams == "array" {
-                query->setBindParams(bindParams, true);
-            }
+        if Settings::get("orm.not_null_validations") {
+            let notNull = metaData->getNotNullAttributes(this);
 
-            if fetch bindTypes, params["bindTypes"] {
-                if typeof bindTypes == "array" {
-                    query->setBindTypes(bindTypes, true);
+            if typeof notNull === "array" {
+                /**
+                 * Gets the fields that are numeric, these are validated in a
+                 * different way
+                 */
+                let dataTypeNumeric = metaData->getDataTypesNumeric(this);
+
+                if Settings::get("orm.column_renaming") {
+                    let columnMap = metaData->getColumnMap(this);
+                } else {
+                    let columnMap = null;
+                }
+
+                /**
+                 * Get fields that must be omitted from the SQL generation
+                 */
+                if exists {
+                    let automaticAttributes = metaData->getAutomaticUpdateAttributes(this);
+                } else {
+                    let automaticAttributes = metaData->getAutomaticCreateAttributes(this);
+                }
+
+                let defaultValues = metaData->getDefaultValues(this);
+
+                /**
+                 * Get string attributes that allow empty strings as defaults
+                 */
+                let emptyStringValues = metaData->getEmptyStringAttributes(this);
+
+                let error = false;
+
+                for field in notNull {
+                    if typeof columnMap === "array" {
+                        if unlikely !fetch attributeField, columnMap[field] {
+                            if unlikely !Settings::get("orm.ignore_unknown_columns") {
+                                throw new ColumnNotInTableMap(field, get_class(this));
+                            }
+                        }
+                    } else {
+                        let attributeField = field;
+                    }
+
+                    /**
+                     * We don't check fields that must be omitted
+                     */
+                    if !array_key_exists(attributeField, automaticAttributes) {
+                        let isNull = false;
+
+                        /**
+                         * Field is null when: 1) is not set, 2) is numeric but
+                         * its value is not numeric, 3) is null or 4) is empty string
+                         * Read the attribute from the this_ptr using the real or renamed name
+                         */
+                        if fetch value, this->{attributeField} {
+                            /**
+                             * Objects are never treated as null, numeric fields
+                             * must be numeric to be accepted as not null
+                             */
+                            if typeof value !== "object" {
+                                if !isset dataTypeNumeric[field] {
+                                    if isset emptyStringValues[field] {
+                                        if value === null {
+                                            let isNull = true;
+                                        }
+                                    } else {
+                                        if value === null || (value === "" && (!isset defaultValues[field] || value !== defaultValues[field])) {
+                                            let isNull = true;
+                                        }
+                                    }
+                                } else {
+                                    if !is_numeric(value) {
+                                        let isNull = true;
+                                    }
+                                }
+                            }
+
+                        } else {
+                            let isNull = true;
+                        }
+
+                        if isNull {
+                            if !exists {
+                                /**
+                                 * The identity field can be null
+                                 */
+                                if field == identityField {
+                                    continue;
+                                }
+
+                                /**
+                                 * The field have default value can be null
+                                 */
+                                if isset defaultValues[field] {
+                                    continue;
+                                }
+                            }
+
+                            /**
+                             * An implicit PresenceOf message is created
+                             */
+                            let this->errorMessages[] = new Message(
+                                attributeField . " is required",
+                                attributeField,
+                                "PresenceOf",
+                                0,
+                                [
+                                    "model": get_class(this)
+                                ]
+                            );
+
+                            let error = true;
+                        }
+                    }
+                }
+
+                if error {
+                    if Settings::get("orm.events") {
+                        this->fireEvent("onValidationFails");
+                        this->cancelOperation();
+                    }
+
+                    return false;
                 }
             }
         }
 
-        if fetch transaction, params[self::TRANSACTION_INDEX] {
-            if transaction instanceof TransactionInterface {
-                query->setTransaction(transaction);
+        /**
+         * Call the main validation event
+         */
+        if this->fireEventCancel("validation") === false {
+            if Settings::get("orm.events") {
+                this->fireEvent("onValidationFails");
             }
+
+            return false;
         }
 
         /**
-         * Pass the cache options to the query
+         * Run Validation
          */
-        if fetch cache, params["cache"] {
-            query->cache(cache);
+        if Settings::get("orm.events") {
+            /**
+             * Run Validation Callbacks After
+             */
+            if exists {
+                let eventName = "afterValidationOnUpdate";
+            } else {
+                let eventName = "afterValidationOnCreate";
+            }
+
+            if this->fireEventCancel(eventName) === false {
+                return false;
+            }
+
+            if this->fireEventCancel("afterValidation") === false {
+                return false;
+            }
+
+            /**
+             * Run Before Callbacks
+             */
+            if this->fireEventCancel("beforeSave") === false {
+                return false;
+            }
+
+            let this->skipped = false;
+
+            /**
+             * The operation can be skipped here
+             */
+            if exists {
+                let eventName = "beforeUpdate";
+            } else {
+                let eventName = "beforeCreate";
+            }
+
+            if this->fireEventCancel(eventName) === false {
+                return false;
+            }
+
+            /**
+             * Always return true if the operation is skipped
+             */
+            if this->skipped === true {
+                return true;
+            }
         }
 
-        return query;
+        return true;
     }
 
     /**
-     * Setup a 1-n relation between two models
+     * Saves related records that must be stored prior to save the master record
      *
-     *```php
-     * class Invoices extends \Phalcon\Mvc\Model
-     * {
-     *     public function initialize()
-     *     {
-     *         $this->hasMany(
-     *             "id",
-     *             OrdersProducts::class,
-     *             "oxp_ord_id"
-     *         );
-     *     }
-     * }
-     *```
+     * @param ModelInterface[] related
+     * @param CollectionInterface visited
+     * @return bool
      *
-     * @param array $options = [
-     *     'reusable' => false,
-     *     'alias' => 'someAlias',
-     *     'foreignKey' => [
-     *         'message' => null,
-     *         'allowNulls' => false,
-     *         'action' => null
-     *     ],
-     *     'params' => [
-     *         'conditions' => '',
-     *         'columns' => '',
-     *         'bind' => [],
-     *         'bindTypes' => [],
-     *         'order' => '',
-     *         'limit' => 10,
-     *         'offset' => 5,
-     *         'group' => 'name, status',
-     *         'for_update' => false,
-     *         'shared_lock' => false,
-     *         'cache' => [
-     *             'lifetime' => 3600,
-     *             'key' => 'my-find-key'
-     *         ],
-     *         'hydration' => null
-     *     ]
-     * ]
-     *
-     * @phpstan-param mvc_relation_options $options
-     * @phpstan-param mvc_relation_fields $referencedFields
+     * @phpstan-param CollectionInterface<mixed> $visited
      */
-    protected function hasMany(var fields,  string referenceModel, var referencedFields, array options = []) -> <Relation>
-    {
-        return (<ManagerInterface> this->modelsManager)->addHasMany(
-            this,
-            fields,
-            referenceModel,
-            referencedFields,
-            options
-        );
-    }
 
-    /**
-     * Setup an n-n relation between two models, through an intermediate
-     * relation
-     *
-     *```php
-     * class Invoices extends \Phalcon\Mvc\Model
-     * {
-     *     public function initialize()
-     *     {
-     *         // Setup a many-to-many relation to Parts through OrdersProducts
-     *         $this->hasManyToMany(
-     *             "id",
-     *             OrdersProducts::class,
-     *             "oxp_ord_id",
-     *             "oxp_prd_id",
-     *             Products::class,
-     *             "id",
-     *         );
-     *     }
-     * }
-     *```
-     *
-     * @param string|array fields
-     * @param string intermediateModel
-     * @param string|array intermediateFields
-     * @param string|array intermediateReferencedFields
-     * @param string referenceModel
-     * @param string|array referencedFields
-     * @param array $options = [
-     *     'reusable' => false,
-     *     'alias' => 'someAlias',
-     *     'foreignKey' => [
-     *         'message' => null,
-     *         'allowNulls' => false,
-     *         'action' => null
-     *     ],
-     *     'params' => [
-     *         'conditions' => '',
-     *         'columns' => '',
-     *         'bind' => [],
-     *         'bindTypes' => [],
-     *         'order' => '',
-     *         'limit' => 10,
-     *         'offset' => 5,
-     *         'group' => 'name, status',
-     *         'for_update' => false,
-     *         'shared_lock' => false,
-     *         'cache' => [
-     *             'lifetime' => 3600,
-     *             'key' => 'my-find-key'
-     *         ],
-     *         'hydration' => null
-     *     ]
-     * ]
-     *
-     * @phpstan-param mvc_relation_options $options
-     * @phpstan-param mvc_relation_fields $intermediateFields
-     * @phpstan-param mvc_relation_fields $intermediateReferencedFields
-     */
-    protected function hasManyToMany(
-        var fields,
-         string intermediateModel,
-        var intermediateFields,
-        var intermediateReferencedFields,
-         string referenceModel,
-        var referencedFields,
-        array options = []
-    ) -> <Relation>
+    protected function preSaveRelatedRecords(<AdapterInterface> connection, related, <CollectionInterface> visited) -> bool
     {
-        return (<ManagerInterface> this->modelsManager)->addHasManyToMany(
-            this,
-            fields,
-            intermediateModel,
-            intermediateFields,
-            intermediateReferencedFields,
-            referenceModel,
-            referencedFields,
-            options
-        );
-    }
+        var className, manager, type, relation, columns, referencedFields, nesting, name, record, columnA, columnB;
+        int columnCount, i;
+        let nesting = false;
 
-    /**
-     * Setup a 1-1 relation between two models
-     *
-     *```php
-     * class Invoices extends \Phalcon\Mvc\Model
-     * {
-     *     public function initialize()
-     *     {
-     *         $this->hasOne(
-     *             "id",
-     *             InvoicesDescription::class,
-     *             "oxp_ord_id"
-     *         );
-     *     }
-     * }
-     *```
-     *
-     * @param array $options = [
-     *     'reusable' => false,
-     *     'alias' => 'someAlias',
-     *     'foreignKey' => [
-     *         'message' => null,
-     *         'allowNulls' => false,
-     *         'action' => null
-     *     ],
-     *     'params' => [
-     *         'conditions' => '',
-     *         'columns' => '',
-     *         'bind' => [],
-     *         'bindTypes' => [],
-     *         'order' => '',
-     *         'limit' => 10,
-     *         'offset' => 5,
-     *         'group' => 'name, status',
-     *         'for_update' => false,
-     *         'shared_lock' => false,
-     *         'cache' => [
-     *             'lifetime' => 3600,
-     *             'key' => 'my-find-key'
-     *         ],
-     *         'hydration' => null
-     *     ]
-     * ]
-     *
-     * @phpstan-param mvc_relation_options $options
-     */
-    protected function hasOne(var fields,  string referenceModel, var referencedFields, array options = []) -> <Relation>
-    {
-        return (<ManagerInterface> this->modelsManager)->addHasOne(
-            this,
-            fields,
-            referenceModel,
-            referencedFields,
-            options
-        );
-    }
+        /**
+         * Start an implicit transaction
+         */
+        connection->begin(nesting);
 
-    /**
-     * Setup a 1-1 relation between two models, through an intermediate
-     * relation
-     *
-     *```php
-     * class Invoices extends \Phalcon\Mvc\Model
-     * {
-     *     public function initialize()
-     *     {
-     *         // Setup a 1-1 relation to one item from Parts through OrdersProducts
-     *         $this->hasOneThrough(
-     *             "id",
-     *             OrdersProducts::class,
-     *             "oxp_ord_id",
-     *             "oxp_prd_id",
-     *             Products::class,
-     *             "id",
-     *         );
-     *     }
-     * }
-     *```
-     *
-     * @param    string|array $fields
-     * @param    string|array $intermediateFields
-     * @param    string|array $intermediateReferencedFields
-     * @param    string|array $referencedFields
-     * @param    array $options
-     *
-     * @phpstan-param mvc_relation_options $options
-     * @phpstan-param mvc_relation_fields $intermediateFields
-     * @phpstan-param mvc_relation_fields $intermediateReferencedFields
-     */
-    protected function hasOneThrough(var fields,  string intermediateModel, var intermediateFields, var intermediateReferencedFields,
-         string referenceModel, var referencedFields, array options = []) -> <Relation>
-    {
-        return (<ManagerInterface> this->modelsManager)->addHasOneThrough(
-            this,
-            fields,
-            intermediateModel,
-            intermediateFields,
-            intermediateReferencedFields,
-            referenceModel,
-            referencedFields,
-            options
-        );
-    }
+        let className = get_class(this),
+            manager = <ManagerInterface> this->getModelsManager();
 
-    /**
-     * Sets if the model must keep the original record snapshot in memory
-     *
-     *```php
-     * use Phalcon\Mvc\Model;
-     *
-     * class Invoices extends Model
-     * {
-     *     public function initialize()
-     *     {
-     *         $this->keepSnapshots(true);
-     *     }
-     * }
-     *```
-     */
-    protected function keepSnapshots(bool keepSnapshot) -> void
-    {
-        (<ManagerInterface> this->modelsManager)->keepSnapshots(
-            this,
-            keepSnapshot
-        );
+        for name, record in related {
+            /**
+             * Try to get a relation with the same name
+             */
+            let relation = <RelationInterface> manager->getRelationByAlias(
+                className,
+                name
+            );
+
+            if typeof relation === "object" {
+                /**
+                 * Get the relation type
+                 */
+                let type = relation->getType();
+
+                /**
+                 * Only belongsTo are stored before save the master record
+                 */
+                if type == Relation::BELONGS_TO {
+                    if unlikely typeof record !== "object" {
+                        connection->rollback(nesting);
+
+                        throw new BelongsToRequiresObject(get_class(this), name);
+                    }
+
+                    /**
+                     * If dynamic update is enabled, saving the record must not take any action.
+                     * Recursion through circular relations is prevented by the visited
+                     * collection inside doSave().
+                     */
+                    if !record->doSave(visited) {
+                        /**
+                         * Get the validation messages generated by the
+                         * referenced model
+                         */
+                        this->appendMessagesFrom(record);
+
+                        /**
+                         * Rollback the implicit transaction
+                         */
+                        connection->rollback(nesting);
+
+                        return false;
+                    }
+
+                    /**
+                     * Read the attribute from the referenced model and assign
+                     * it to the current model
+                     */
+                    let columns = relation->getFields(),
+                      referencedFields = relation->getReferencedFields();
+                    if unlikely typeof columns === "array" {
+                        let columnCount = count(columns) - 1;
+                        for i in range(0, columnCount) {
+                            let columnA = columns[i];
+                            let columnB = referencedFields[i];
+                            let this->{columnA} = record->{columnB};
+                        }
+                    } else {
+                        let this->{columns} = record->{referencedFields};
+                    }
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -6632,65 +6661,5 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
         // If there is a message, it returns false otherwise true
         return !count(messages);
-    }
-
-    /**
-     * Check whether validation process has generated any messages
-     *
-     *```php
-     * use Phalcon\Mvc\Model;
-     * use Phalcon\Filter\Validation;
-     * use Phalcon\Filter\Validation\Validator\ExclusionIn;
-     *
-     * class Subscriptors extends Model
-     * {
-     *     public function validation()
-     *     {
-     *         $validator = new Validation();
-     *
-     *         $validator->validate(
-     *             "status",
-     *             new ExclusionIn(
-     *                 [
-     *                     "domain" => [
-     *                         "A",
-     *                         "I",
-     *                     ],
-     *                 ]
-     *             )
-     *         );
-     *
-     *         return $this->validate($validator);
-     *     }
-     * }
-     *```
-     */
-    public function validationHasFailed() -> bool
-    {
-        return !empty this->errorMessages;
-    }
-
-    /**
-     * Append messages to this model from another Model.
-     */
-    public inline function appendMessagesFrom(var model) -> void
-    {
-        var messages, message;
-        let messages = model->getMessages();
-        if false === empty(messages) {
-            for message in messages {
-                if typeof message == "object" {
-                    message->setMetaData(
-                        [
-                            "model": model
-                        ]
-                    );
-                }
-                /**
-                 * Appends the messages to the current model
-                 */
-                this->appendMessage(message);
-            }
-        }
     }
 }

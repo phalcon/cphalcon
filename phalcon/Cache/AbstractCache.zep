@@ -64,6 +64,8 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
     /**
      * Persists data in the cache, uniquely referenced by a key with an
      * optional expiration TTL time.
+     *
+     * @phpstan-param DateInterval|int|null $ttl
      */
     abstract public function set(
         string key,
@@ -270,6 +272,8 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
     /**
      * Persists data in the cache, uniquely referenced by a key with an optional
      * expiration TTL time.
+     *
+     * @phpstan-param DateInterval|int|null $ttl
      */
     protected function doSet(string key, var value, var ttl = null) -> bool
     {

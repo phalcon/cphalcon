@@ -36,6 +36,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_RouteInterface)
 }
 
 /**
+ * Resets the internal route id generator
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, reset);
+/**
  * Replaces placeholders from pattern returning a valid PCRE regular expression
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, compilePattern);
@@ -85,10 +89,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, getRouteId);
  * Reconfigure the route adding a new pattern and a set of paths
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, reConfigure);
-/**
- * Resets the internal route id generator
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, reset);
 /**
  * Sets a hostname restriction to the route
  */

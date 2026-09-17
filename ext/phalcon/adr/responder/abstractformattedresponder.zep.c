@@ -41,6 +41,9 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Responder_AbstractFormattedResponder)
 	return SUCCESS;
 }
 
+/**
+ * @phpstan-param list<Formatter> $formatters
+ */
 PHP_METHOD(Phalcon_ADR_Responder_AbstractFormattedResponder, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;

@@ -232,7 +232,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      *     ->getClientAddress(true);
      * ```
      */
-    public function getClientAddress(bool trustForwardedHeader = false) -> string | bool
+    public function getClientAddress(bool trustForwardedHeader = false) -> bool | string
     {
         var server, address, trustedProxyHeaderIp,
             forwarded, forwardedIps, reverseForwardedIps, forwardedIp,
@@ -661,7 +661,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      *
      * @phpstan-return array<array-key, mixed>|bool|stdClass
      */
-    public function getJsonRawBody(bool associative = false) -> <\stdClass> | array | bool
+    public function getJsonRawBody(bool associative = false) -> array | bool | <\stdClass>
     {
         var rawBody;
 
@@ -845,13 +845,13 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     }
 
     /**
-     * Gets a variable from the PUT request
+     * Gets a variable from put request
      *
      *```php
-     * // Returns value from PUT stream without sanitizing
+     * // Returns value from $_PUT["user_email"] without sanitizing
      * $userEmail = $request->getPut("user_email");
      *
-     * // Returns value from PUT stream with sanitizing
+     * // Returns value from $_PUT["user_email"] with sanitizing
      * $userEmail = $request->getPut("user_email", "email");
      *```
      */

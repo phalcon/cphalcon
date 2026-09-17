@@ -31,12 +31,6 @@ class Item
     /**
      * Item constructor.
      *
-     * @param string            $message
-     * @param string            $levelName
-     * @param int               $level
-     * @param DateTimeImmutable $dateTime
-     * @param array             $context
-     *
      * @phpstan-param logger_context $context
      */
     public function __construct(

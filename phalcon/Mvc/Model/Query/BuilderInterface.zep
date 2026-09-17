@@ -191,7 +191,7 @@ interface BuilderInterface
      *
      * @phpstan-return mvc_query_columns|null
      */
-    public function getModels() -> string | array | null;
+    public function getModels() -> array | string | null;
 
     /**
      * Returns the current OFFSET clause

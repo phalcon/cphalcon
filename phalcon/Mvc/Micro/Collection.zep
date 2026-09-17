@@ -24,7 +24,7 @@ use Phalcon\Contracts\Mvc\MvcTypes;
  *     new PostsController()
  * );
  *
- * $collection->get("/posts/edit/{id}", "edit");
+ * $collection->get('/posts/edit/{id}', 'edit');
  *
  * $app->mount($collection);
  *```
@@ -132,10 +132,10 @@ class Collection implements CollectionInterface
      *
      * ```php
      * $collection->mapVia(
-     *     "/test",
-     *     "indexAction",
-     *     ["POST", "GET"],
-     *     "test"
+     *     '/test',
+     *     'indexAction',
+     *     ['POST', 'GET'],
+     *     'test'
      * );
      * ```
      *

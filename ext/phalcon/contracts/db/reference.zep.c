@@ -21,7 +21,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Canonical contract for Phalcon\Db\Reference.
+ * Interface for Phalcon\Db\Reference
  *
  * @phpstan-import-type db_column_names from DbTypes
  */

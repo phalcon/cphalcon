@@ -14,7 +14,6 @@ PHP_METHOD(Phalcon_Mvc_Micro, get);
 PHP_METHOD(Phalcon_Mvc_Micro, getActiveHandler);
 PHP_METHOD(Phalcon_Mvc_Micro, getBoundModels);
 PHP_METHOD(Phalcon_Mvc_Micro, getEventsManager);
-PHP_METHOD(Phalcon_Mvc_Micro, setEventsManager);
 PHP_METHOD(Phalcon_Mvc_Micro, getHandlers);
 PHP_METHOD(Phalcon_Mvc_Micro, getModelBinder);
 PHP_METHOD(Phalcon_Mvc_Micro, getReturnedValue);
@@ -37,13 +36,13 @@ PHP_METHOD(Phalcon_Mvc_Micro, post);
 PHP_METHOD(Phalcon_Mvc_Micro, put);
 PHP_METHOD(Phalcon_Mvc_Micro, setActiveHandler);
 PHP_METHOD(Phalcon_Mvc_Micro, setDI);
+PHP_METHOD(Phalcon_Mvc_Micro, setEventsManager);
 PHP_METHOD(Phalcon_Mvc_Micro, setModelBinder);
 PHP_METHOD(Phalcon_Mvc_Micro, setResponseHandler);
 PHP_METHOD(Phalcon_Mvc_Micro, setService);
 PHP_METHOD(Phalcon_Mvc_Micro, stop);
 PHP_METHOD(Phalcon_Mvc_Micro, addRoute);
 PHP_METHOD(Phalcon_Mvc_Micro, checkDiContainer);
-zend_object *zephir_init_properties_Phalcon_Mvc_Micro(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro___construct, 0, 0, 0)
 	ZEND_ARG_OBJ_TYPE_MASK(0, container, Phalcon\\Di\\DiInterface, MAY_BE_NULL, "null")
@@ -86,11 +85,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_micro_getboundmodels
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_geteventsmanager, 0, 0, Phalcon\\Events\\ManagerInterface, 1)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_micro_seteventsmanager, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_micro_gethandlers, 0, 0, IS_ARRAY, 0)
@@ -187,6 +181,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_micro_setdi, 0, 1, I
 	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_micro_seteventsmanager, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_micro_setmodelbinder, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, modelBinder, Phalcon\\Mvc\\Model\\BinderInterface, 0)
 	ZEND_ARG_INFO(0, cache)
@@ -214,9 +213,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_micro_checkdicontainer, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_zephir_init_properties_phalcon_mvc_micro, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_mvc_micro_method_entry) {
 	PHP_ME(Phalcon_Mvc_Micro, __construct, arginfo_phalcon_mvc_micro___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Mvc_Micro, after, arginfo_phalcon_mvc_micro_after, ZEND_ACC_PUBLIC)
@@ -229,7 +225,6 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_micro_method_entry) {
 PHP_ME(Phalcon_Mvc_Micro, getActiveHandler, arginfo_phalcon_mvc_micro_getactivehandler, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, getBoundModels, arginfo_phalcon_mvc_micro_getboundmodels, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, getEventsManager, arginfo_phalcon_mvc_micro_geteventsmanager, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Micro, setEventsManager, arginfo_phalcon_mvc_micro_seteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, getHandlers, arginfo_phalcon_mvc_micro_gethandlers, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, getModelBinder, arginfo_phalcon_mvc_micro_getmodelbinder, ZEND_ACC_PUBLIC)
 PHP_ME(Phalcon_Mvc_Micro, getReturnedValue, arginfo_phalcon_mvc_micro_getreturnedvalue, ZEND_ACC_PUBLIC)
@@ -252,6 +247,7 @@ PHP_ME(Phalcon_Mvc_Micro, getReturnedValue, arginfo_phalcon_mvc_micro_getreturne
 	PHP_ME(Phalcon_Mvc_Micro, put, arginfo_phalcon_mvc_micro_put, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, setActiveHandler, arginfo_phalcon_mvc_micro_setactivehandler, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, setDI, arginfo_phalcon_mvc_micro_setdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro, setEventsManager, arginfo_phalcon_mvc_micro_seteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, setModelBinder, arginfo_phalcon_mvc_micro_setmodelbinder, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, setResponseHandler, arginfo_phalcon_mvc_micro_setresponsehandler, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, setService, arginfo_phalcon_mvc_micro_setservice, ZEND_ACC_PUBLIC)

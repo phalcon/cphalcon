@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Model\ManagerInterface
- *
  * Interface for Phalcon\Mvc\Model\Manager
  *
  * @phpstan-import-type mvc_model_bind_params from MvcTypes
@@ -281,7 +279,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, isUsingDynamicUpdate);
  * ```php
  * $isPublic = $manager->isVisibleModelProperty(
  *     new Invoices(),
- *     "name"
+ *     "inv_title"
  * );
  * ```
  */
@@ -304,8 +302,10 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, load);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, missingMethod);
 /**
- * Receives events generated in the models and dispatches them to an events-manager if available
- * Notify the behaviors that are listening in the model
+ * Receives events generated in the models and dispatches them to an
+ * events-manager if available. Notify the behaviors that are listening
+ * in the model
+ *
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, notifyEvent);
 /**

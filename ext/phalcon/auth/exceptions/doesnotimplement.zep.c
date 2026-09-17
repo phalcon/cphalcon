@@ -72,6 +72,7 @@ PHP_METHOD(Phalcon_Auth_Exceptions_DoesNotImplement, __construct)
  * Throws when value is not an instance of the given interface. Keeps the
  * "must implement" guard shared across adapters, guards and the manager
  * in one place.
+ *
  */
 PHP_METHOD(Phalcon_Auth_Exceptions_DoesNotImplement, assert)
 {
@@ -110,7 +111,7 @@ PHP_METHOD(Phalcon_Auth_Exceptions_DoesNotImplement, assert)
 		object_init_ex(&_1$$3, phalcon_auth_exceptions_doesnotimplement_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 399, &type_zv, &name_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Auth/Exceptions/DoesNotImplement.zep", 42);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Auth/Exceptions/DoesNotImplement.zep", 43);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

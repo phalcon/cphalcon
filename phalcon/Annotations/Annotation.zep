@@ -183,7 +183,7 @@ class Annotation
     /**
      * Returns the annotation's name
      */
-    public function getName() -> null | string
+    public function getName() -> string | null
     {
         return this->name;
     }

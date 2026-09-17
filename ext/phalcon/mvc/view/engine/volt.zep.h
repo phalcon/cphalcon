@@ -18,7 +18,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, sort);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, phpExtensionLoaded);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, phpFunctionExists);
-zend_object *zephir_init_properties_Phalcon_Mvc_View_Engine_Volt(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_callmacro, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
@@ -84,9 +83,6 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_phpfunctionexists, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, functionName, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_zephir_init_properties_phalcon_mvc_view_engine_volt, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_view_engine_volt_method_entry) {

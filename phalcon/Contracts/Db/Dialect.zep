@@ -158,7 +158,7 @@ interface Dialect
     public function dropForeignKey(string tableName,  string schemaName,  string referenceName) -> string;
 
     /**
-      * Generates SQL to delete an index from a table
+     * Generates SQL to delete an index from a table
      */
     public function dropIndex(string tableName,  string schemaName,  string indexName) -> string;
 

@@ -121,12 +121,12 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, getServices)
  */
 PHP_METHOD(Phalcon_Factory_AbstractFactory, init)
 {
-	zend_bool _7;
+	zend_bool _6;
 	zend_string *_4;
 	zend_ulong _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *services_param = NULL, adapters, name, service, _0, *_1, *_2, _6, _5$$3, _8$$4;
+	zval *services_param = NULL, adapters, name, service, _0, *_1, *_2, _5;
 	zval services;
 	zval *this_ptr = getThis();
 
@@ -135,14 +135,7 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, init)
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&service);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_6);
-	ZVAL_UNDEF(&_5$$3);
-	ZVAL_UNDEF(&_8$$4);
-	static zend_string *_zephir_prop_0 = NULL;
-	if (UNEXPECTED(!_zephir_prop_0)) {
-		_zephir_prop_0 = zend_string_init("services", 8, 1);
-	}
-
+	ZVAL_UNDEF(&_5);
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(services, services_param)
@@ -182,23 +175,21 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, init)
 			ZVAL_COPY(&service, _2);
 			zephir_update_property_array(this_ptr, SL("mapper"), &name, &service);
 			zephir_unset_property_array(this_ptr, ZEND_STRL("services"), &name);
-			zephir_read_property_cached(&_5$$3, this_ptr, _zephir_prop_0, 13, PH_NOISY_CC | PH_READONLY);
-			zephir_array_unset(&_5$$3, &name, PH_SEPARATE);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, _1, "rewind", NULL, 0);
 		zephir_check_call_status();
-		_7 = 1;
+		_6 = 1;
 		while (1) {
-			if (_7) {
-				_7 = 0;
+			if (_6) {
+				_6 = 0;
 			} else {
 				ZEPHIR_CALL_METHOD(NULL, _1, "next", NULL, 0);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_6, _1, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_5, _1, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_6)) {
+			if (!zend_is_true(&_5)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&name, _1, "key", NULL, 0);
@@ -207,8 +198,6 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, init)
 			zephir_check_call_status();
 				zephir_update_property_array(this_ptr, SL("mapper"), &name, &service);
 				zephir_unset_property_array(this_ptr, ZEND_STRL("services"), &name);
-				zephir_read_property_cached(&_8$$4, this_ptr, _zephir_prop_0, 13, PH_NOISY_CC | PH_READONLY);
-				zephir_array_unset(&_8$$4, &name, PH_SEPARATE);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&service);

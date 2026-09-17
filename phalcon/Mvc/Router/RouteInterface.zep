@@ -23,6 +23,11 @@ use Phalcon\Contracts\Mvc\MvcTypes;
 interface RouteInterface
 {
     /**
+     * Resets the internal route id generator
+     */
+    public static function reset() -> void;
+
+    /**
      * Replaces placeholders from pattern returning a valid PCRE regular expression
      */
     public function compilePattern(string pattern) -> string;
@@ -82,11 +87,6 @@ interface RouteInterface
      * Reconfigure the route adding a new pattern and a set of paths
      */
     public function reConfigure(string pattern, var paths = null) -> void;
-
-    /**
-     * Resets the internal route id generator
-     */
-    public static function reset() -> void;
 
     /**
      * Sets a hostname restriction to the route

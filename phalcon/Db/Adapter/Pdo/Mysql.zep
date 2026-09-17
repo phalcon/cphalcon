@@ -43,15 +43,8 @@ use Phalcon\Db\ReferenceInterface;
  */
 class Mysql extends PdoAdapter
 {
-    /**
-     * @var string
-     */
-    protected dialectType = "mysql";
-
-    /**
-     * @var string
-     */
-    protected type = "mysql";
+    protected string dialectType = "mysql";
+    protected string type = "mysql";
 
     /**
      * Adds a foreign key to a table
@@ -570,6 +563,10 @@ class Mysql extends PdoAdapter
 
             /**
              * Check if the column has comment
+             *
+             * MySQL returns an empty string (not null) when a column has no
+             * comment; treat that as "no comment" so the definition mirrors
+             * the cphalcon extension, which leaves the comment unset (null).
              */
              if field[8] !== null {
                 let definition["comment"] = field[8];

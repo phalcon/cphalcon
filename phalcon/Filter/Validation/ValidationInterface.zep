@@ -93,8 +93,7 @@ interface ValidationInterface
     /**
      * Alias of `add` method
      *
-     * @param string|array       $field
-     * @param ValidatorInterface $validator
+     * @param array|string $field
      *
      * @phpstan-param mixed $field
      */
@@ -126,8 +125,8 @@ interface ValidationInterface
     /**
      * Validate a set of data according to a set of rules
      *
-     * @param array|object  $data
-     * @param object        $entity
+     * @param array|object $data
+     * @param object       $entity
      *
      * @phpstan-param mixed $data
      * @phpstan-param filter_validation_whitelist $whitelist
@@ -138,5 +137,5 @@ interface ValidationInterface
         var data = null,
         var entity = null,
         array whitelist = []
-    ) -> <Messages> | bool;
+    ) -> bool | <Messages>;
 }

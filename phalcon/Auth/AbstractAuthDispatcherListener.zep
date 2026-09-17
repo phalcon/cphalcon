@@ -30,6 +30,7 @@ use Phalcon\Contracts\Auth\Manager;
  * dispatches in the same request until it is replaced.
  *
  * @phpstan-import-type auth_access_context from AuthTypes
+ * @phpstan-import-type auth_forward_target from AuthTypes
  */
 abstract class AbstractAuthDispatcherListener
 {
@@ -49,7 +50,7 @@ abstract class AbstractAuthDispatcherListener
      * path works without a default guard.
      *
      * @phpstan-param auth_access_context $context
-     * @phpstan-param (callable(array<string, mixed>): void)|null $forwardHandler
+     * @phpstan-param (callable(auth_forward_target): void)|null $forwardHandler
      *
      * @throws Exception
      */

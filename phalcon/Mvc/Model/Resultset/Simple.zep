@@ -26,8 +26,6 @@ use Phalcon\Storage\Serializer\SerializerInterface;
 use Phalcon\Support\Settings;
 
 /**
- * Phalcon\Mvc\Model\Resultset\Simple
- *
  * Simple resultsets only contains a complete objects
  * This class builds every complete object as it is required
  *
@@ -57,10 +55,7 @@ class Simple extends Resultset
      */
     protected model;
 
-    /**
-     * @var bool
-     */
-    protected keepSnapshots = false;
+    protected bool keepSnapshots = false;
 
     /**
      * Phalcon\Mvc\Model\Resultset\Simple constructor
@@ -104,6 +99,9 @@ class Simple extends Resultset
         ];
     }
 
+    /**
+     * @phpstan-param mvc_resultset_simple_state $data
+     */
     public function __unserialize(array data) -> void
     {
         var keepSnapshots;

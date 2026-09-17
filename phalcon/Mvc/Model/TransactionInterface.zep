@@ -61,14 +61,14 @@ interface TransactionInterface
     public function setIsNewTransaction(bool isNew) -> void;
 
     /**
-     * Sets flag to rollback on abort the HTTP connection
-     */
-    public function setRollbackOnAbort(bool rollbackOnAbort) -> void;
-
-    /**
      * Sets object which generates rollback action
      */
     public function setRollbackedRecord(<ModelInterface> record) -> void;
+
+    /**
+     * Sets flag to rollback on abort the HTTP connection
+     */
+    public function setRollbackOnAbort(bool rollbackOnAbort) -> void;
 
     /**
      * Sets transaction manager related to the transaction

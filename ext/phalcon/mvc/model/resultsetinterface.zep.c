@@ -21,8 +21,6 @@
  * LICENSE.txt file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Model\ResultsetInterface
- *
  * Interface for Phalcon\Mvc\Model\Resultset
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ResultsetInterface)
@@ -77,7 +75,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getMessages);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getType);
 /**
- * Tell if the resultset if fresh or an old one cached
+ * Tell if the resultset is fresh or an old one cached
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, isFresh);
 /**
@@ -89,8 +87,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, setHydrateMode);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, setIsFresh);
 /**
- * Returns a complete resultset as an array, if the resultset has a big number of rows
- * it could consume more memory than currently it does.
+ * Returns a complete resultset as an array, if the resultset has a big
+ * number of rows it could consume more memory than currently it does.
  *
  * @phpstan-return array<array-key, mixed>
  */

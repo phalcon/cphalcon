@@ -32,6 +32,9 @@
  */
 /**
  * Renders a payload as plain text.
+ *
+ * The payload is untyped, so anything that cannot be expressed as a string -
+ * an object without `__toString()`, for instance - renders as an empty body.
  */
 ZEPHIR_INIT_CLASS(Phalcon_ADR_Responder_Formatter_TextFormatter)
 {
@@ -72,7 +75,8 @@ PHP_METHOD(Phalcon_ADR_Responder_Formatter_TextFormatter, contentType)
 
 PHP_METHOD(Phalcon_ADR_Responder_Formatter_TextFormatter, format)
 {
-	zval _2, _1$$4;
+	zval _3, _1$$4;
+	zend_bool _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *payload, payload_sub, content, _0$$4;
@@ -80,7 +84,7 @@ PHP_METHOD(Phalcon_ADR_Responder_Formatter_TextFormatter, format)
 	ZVAL_UNDEF(&payload_sub);
 	ZVAL_UNDEF(&content);
 	ZVAL_UNDEF(&_0$$4);
-	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_1$$4);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(payload, phalcon_contracts_adr_payload_payload_ce)
@@ -100,7 +104,14 @@ PHP_METHOD(Phalcon_ADR_Responder_Formatter_TextFormatter, format)
 		zephir_cast_to_string(&_1$$4, &_0$$4);
 		RETURN_CTOR(&_1$$4);
 	}
-	zephir_cast_to_string(&_2, &content);
-	RETURN_CTOR(&_2);
+	_2 = !(zephir_is_scalar(&content));
+	if (_2) {
+		_2 = !((zephir_is_instance_of(&content, SL("Stringable"))));
+	}
+	if (_2) {
+		RETURN_MM_STRING("");
+	}
+	zephir_cast_to_string(&_3, &content);
+	RETURN_CTOR(&_3);
 }
 

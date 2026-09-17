@@ -23,10 +23,6 @@ class Json extends AbstractFormatter
 
     /**
      * Json constructor.
-     *
-     * @param string $dateFormat
-     * @param string $interpolatorLeft
-     * @param string $interpolatorRight
      */
     public function __construct(
         string dateFormat = "c",
@@ -41,9 +37,6 @@ class Json extends AbstractFormatter
     /**
      * Applies a format to a message before sent it to the internal log
      *
-     * @param Item $item
-     *
-     * @return string
      * @throws JsonException
      */
     public function format(<Item> item) -> string

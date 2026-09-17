@@ -81,8 +81,7 @@ interface Column
      *
      * @phpstan-return array<array-key, string>|int|string
      */
-    public function getTypeValues() -> array | string | int;
-
+    public function getTypeValues() -> array | int | string;
 
     /**
      * Check whether column has default value
@@ -95,7 +94,7 @@ interface Column
     public function isAutoIncrement() -> bool;
 
     /**
-     * Check whether column have first position in table
+     * Check whether the column is the first in table
      */
     public function isFirst() -> bool;
 
@@ -105,7 +104,7 @@ interface Column
     public function isNotNull() -> bool;
 
     /**
-     * Check whether column have an numeric type
+     * Check whether column have a numeric type
      */
     public function isNumeric() -> bool;
 

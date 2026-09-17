@@ -16,9 +16,9 @@
 namespace Phalcon\DataMapper\Pdo\Profiler;
 
 use Phalcon\Contracts\DataMapper\DataMapperTypes;
-use Phalcon\Logger\Enum;
 use Phalcon\Logger\Adapter\AdapterInterface;
 use Phalcon\Logger\Adapter\Noop;
+use Phalcon\Logger\Enum;
 use Phalcon\Logger\LoggerInterface;
 
 /**
@@ -29,14 +29,11 @@ use Phalcon\Logger\LoggerInterface;
 class MemoryLogger implements LoggerInterface
 {
     /**
-     * @var array
-     *
      * @phpstan-var datamapper_log_messages
      */
-    protected messages = [];
+    protected array messages = [];
 
     /**
-     * @param string message
      * @param mixed[] context
      */
     public function alert(string message, array context = []) -> void
@@ -45,7 +42,6 @@ class MemoryLogger implements LoggerInterface
     }
 
     /**
-     * @param string message
      * @param mixed[] context
      */
     public function critical(string message, array context = []) -> void
@@ -54,7 +50,6 @@ class MemoryLogger implements LoggerInterface
     }
 
     /**
-     * @param string message
      * @param mixed[] context
      */
     public function debug(string message, array context = []) -> void
@@ -63,7 +58,6 @@ class MemoryLogger implements LoggerInterface
     }
 
     /**
-     * @param string message
      * @param mixed[] context
      */
     public function emergency(string message, array context = []) -> void
@@ -72,7 +66,6 @@ class MemoryLogger implements LoggerInterface
     }
 
     /**
-     * @param string message
      * @param mixed[] context
      */
     public function error(string message, array context = []) -> void
@@ -82,10 +75,6 @@ class MemoryLogger implements LoggerInterface
 
     /**
      * Returns an adapter from the stack
-     *
-     * @param string $name The name of the adapter
-     *
-     * @return AdapterInterface
      */
     public function getAdapter(string name) -> <AdapterInterface>
     {
@@ -113,8 +102,6 @@ class MemoryLogger implements LoggerInterface
     /**
      * Returns the logged messages.
      *
-     * @return array
-     *
      * @phpstan-return datamapper_log_messages
      */
     public function getMessages() -> array
@@ -131,39 +118,11 @@ class MemoryLogger implements LoggerInterface
     }
 
     /**
-     * @param string message
      * @param mixed[] context
      */
     public function info(string message, array context = []) -> void
     {
         this->log(Enum::INFO, message, context);
-    }
-
-    /**
-     * @param string message
-     * @param mixed[] context
-     */
-    public function notice(string message, array context = []) -> void
-    {
-        this->log(Enum::NOTICE, message, context);
-    }
-
-    /**
-     * @param string message
-     * @param mixed[] context
-     */
-    public function trace(string message, array context = []) -> void
-    {
-        this->log(Enum::TRACE, message, context);
-    }
-
-    /**
-     * @param string message
-     * @param mixed[] context
-     */
-    public function warning(string message, array context = []) -> void
-    {
-        this->log(Enum::WARNING, message, context);
     }
 
     /**
@@ -183,5 +142,29 @@ class MemoryLogger implements LoggerInterface
         }
 
         let this->messages[] = strtr(message, replace);
+    }
+
+    /**
+     * @param mixed[] context
+     */
+    public function notice(string message, array context = []) -> void
+    {
+        this->log(Enum::NOTICE, message, context);
+    }
+
+    /**
+     * @param mixed[] context
+     */
+    public function trace(string message, array context = []) -> void
+    {
+        this->log(Enum::TRACE, message, context);
+    }
+
+    /**
+     * @param mixed[] context
+     */
+    public function warning(string message, array context = []) -> void
+    {
+        this->log(Enum::WARNING, message, context);
     }
 }

@@ -62,6 +62,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_Queue_Processor)
  * Processes the message and returns one of the ACK / REJECT / REQUEUE
  * constants, or an object whose string form is one of those values.
  *
- * @return string|object
+ * @return object | string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Queue_Processor, process);

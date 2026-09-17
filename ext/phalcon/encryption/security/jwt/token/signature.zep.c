@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Signature, getHash)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 715, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 714, PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&_1);
 	zephir_array_fetch_string(&_1, &_0, SL("hash"), PH_NOISY, "phalcon/Encryption/Security/JWT/Token/Signature.zep", 29);
 	RETURN_CCTOR(&_1);

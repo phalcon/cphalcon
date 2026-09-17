@@ -238,6 +238,8 @@ interface Adapter
      *```
      *
      * @phpstan-param db_bind_params $placeholders
+     *
+     * @phpstan-param int|string $column
      */
     public function fetchColumn(string sqlQuery, array placeholders = [], var column = 0) -> string | bool;
 
@@ -276,23 +278,6 @@ interface Adapter
     public function getConnectionId() -> int;
 
     /**
-     * Return descriptor used to connect to the active database
-     *
-     * @phpstan-return db_descriptor
-     */
-    public function getDescriptor() -> array;
-
-    /**
-     * Returns internal dialect instance
-     */
-    public function getDialect() -> <DialectInterface>;
-
-    /**
-     * Returns the name of the dialect used
-     */
-    public function getDialectType() -> string;
-
-    /**
      * Return the default identity value to insert in an identity column
      */
     public function getDefaultIdValue() -> <RawValue>;
@@ -319,6 +304,23 @@ interface Adapter
      * @todo Return NULL if this is not supported by the adapter
      */
     public function getDefaultValue() -> <RawValue> | null;
+
+    /**
+     * Return descriptor used to connect to the active database
+     *
+     * @phpstan-return db_descriptor
+     */
+    public function getDescriptor() -> array;
+
+    /**
+     * Returns internal dialect instance
+     */
+    public function getDialect() -> <DialectInterface>;
+
+    /**
+     * Returns the name of the dialect used
+     */
+    public function getDialectType() -> string;
 
     /**
      * Return internal PDO handler
@@ -404,9 +406,10 @@ interface Adapter
      * Returns insert id for the auto_increment column inserted in the last SQL
      * statement
      *
-     * @param string|null $name Name of the sequence object from which the ID should be returned.
+     * @param string|null $name Name of the sequence object from which the ID
+     *                          should be returned.
      */
-    public function lastInsertId(string name = null) -> string|bool;
+    public function lastInsertId(string name = null) -> bool | string;
 
     /**
      * Appends a LIMIT clause to sqlQuery argument
@@ -469,6 +472,11 @@ interface Adapter
     public function rollbackSavepoint(string name) -> bool;
 
     /**
+     * Set if nested transactions should use savepoints
+     */
+    public function setNestedTransactionsWithSavepoints(bool nestedTransactionsWithSavepoints) -> <\Phalcon\Db\Adapter\AdapterInterface>;
+
+    /**
      * Returns a SQL modified with a shared-lock clause. See the dialect's
      * `sharedLock()` for per-engine semantics. The optional `modifier` is
      * passed straight through (use `Dialect::LOCK_NOWAIT` /
@@ -477,9 +485,11 @@ interface Adapter
     public function sharedLock(string sqlQuery, string modifier = "") -> string;
 
     /**
-     * Set if nested transactions should use savepoints
+     * SQLite does not support the DEFAULT keyword
+     *
+     * @deprecated Will re removed in the next version
      */
-    public function setNestedTransactionsWithSavepoints(bool nestedTransactionsWithSavepoints) -> <\Phalcon\Db\Adapter\AdapterInterface>;
+    public function supportsDefaultValue() -> bool;
 
     /**
      * Check whether the database system requires a sequence to produce
@@ -538,13 +548,6 @@ interface Adapter
      * columns
      */
     public function useExplicitIdValue() -> bool;
-
-    /**
-     * SQLite does not support the DEFAULT keyword
-     *
-     * @deprecated Will re removed in the next version
-     */
-    public function supportsDefaultValue() -> bool;
 
     /**
      * Generates SQL checking for the existence of a schema.view

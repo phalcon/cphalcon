@@ -37,7 +37,10 @@ interface Router
      * Namespace descent consults the filesystem, so the list depends on the
      * action directory.
      *
-     * @return list<class-string>
+     * The names are derived, not resolved: a candidate is what the convention
+     * would call the class, whether or not that class exists.
+     *
+     * @return list<string>
      */
     public function candidatesFor(string method, string path) -> array;
 

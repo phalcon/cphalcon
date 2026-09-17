@@ -57,18 +57,13 @@ abstract class AbstractPdo extends AbstractAdapter
 
     /**
      * Last affected rows
-     *
-     * @var int
      */
-    protected affectedRows = 0;
-
+    protected int affectedRows = 0;
     /**
      * Whether to transparently reconnect and retry once when a query fails
      * because the connection was lost. Opt-in; off by default.
-     *
-     * @var bool
      */
-    protected autoReconnect = false;
+    protected bool autoReconnect = false;
 
     /**
      * PDO Handler
@@ -166,6 +161,15 @@ abstract class AbstractPdo extends AbstractAdapter
     }
 
     /**
+     * Closes the active connection returning success. Phalcon automatically
+     * closes and destroys active connections when the request ends
+     */
+    public function close() -> void
+    {
+        let this->pdo = null;
+    }
+
+    /**
      * Commits the active transaction in the connection
      */
     public function commit(bool nesting = true) -> bool
@@ -226,15 +230,6 @@ abstract class AbstractPdo extends AbstractAdapter
         let this->transactionLevel--;
 
         return this->releaseSavepoint(savepointName);
-    }
-
-    /**
-     * Closes the active connection returning success. Phalcon automatically
-     * closes and destroys active connections when the request ends
-     */
-    public function close() -> void
-    {
-        let this->pdo = null;
     }
 
     /**
@@ -402,6 +397,16 @@ abstract class AbstractPdo extends AbstractAdapter
     }
 
     /**
+     * Ensures the connection is alive, reconnecting in place if it is not.
+     */
+    public function ensureConnection() -> void
+    {
+        if !this->ping() {
+            this->connect();
+        }
+    }
+
+    /**
      * Escapes a value to avoid SQL injections according to the active charset
      * in the connection
      *
@@ -412,16 +417,6 @@ abstract class AbstractPdo extends AbstractAdapter
     public function escapeString(string str) -> string
     {
         return this->pdo->quote(str);
-    }
-
-    /**
-     * Ensures the connection is alive, reconnecting in place if it is not.
-     */
-    public function ensureConnection() -> void
-    {
-        if !this->ping() {
-            this->connect();
-        }
     }
 
     /**
@@ -1025,6 +1020,8 @@ abstract class AbstractPdo extends AbstractAdapter
      *
      * @phpstan-param db_bind_params $params
      * @phpstan-param db_bind_types  $types
+     *
+     * @throws CannotPrepareStatement
      */
     private function queryStatement(string sqlStatement, array params, array types) -> <\PDOStatement>
     {

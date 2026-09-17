@@ -31,5 +31,5 @@ interface BasicAuth
      *
      * @param array<string, mixed> $extraConditions
      */
-    public function onceBasic(string field = "email", array extraConditions = []) -> false | <AuthUser>;
+    public function onceBasic(string field = "email", array extraConditions = []) -> <AuthUser> | false;
 }

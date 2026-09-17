@@ -36,24 +36,17 @@ class Volt extends AbstractEngine implements EventsAwareInterface
      */
     protected compiler;
 
-    /**
-     * @var ManagerInterface|null
-     */
-    protected eventsManager;
+    protected ?<ManagerInterface> eventsManager = null;
 
     /**
-     * @var array
-     *
      * @phpstan-var array<string, callable>
      */
-    protected macros = [];
+    protected array macros = [];
 
     /**
-     * @var array
-     *
      * @phpstan-var array<string, mixed>
      */
-    protected options = [];
+    protected array options = [];
 
     /**
      * Checks if a macro is defined and calls it
@@ -92,8 +85,6 @@ class Volt extends AbstractEngine implements EventsAwareInterface
 
     /**
      * Returns the Volt's compiler
-     *
-     * @return Compiler
      */
     public function getCompiler() -> <Compiler>
     {
@@ -140,8 +131,6 @@ class Volt extends AbstractEngine implements EventsAwareInterface
 
     /**
      * Return Volt's options
-     *
-     * @return array
      *
      * @phpstan-return array<string, mixed>
      */
@@ -207,12 +196,14 @@ class Volt extends AbstractEngine implements EventsAwareInterface
 
     /**
      * Parses the preload element passed and sets the necessary link headers
-     * @todo find a better way to handle this
+
      *
      * @phpstan-param array{
      *     0?: string,
      *     1?: array<string, array<string>|bool|float|int|string|null>
      * }|string $parameters
+     *
+     * @todo find a better way to handle this
      */
     public function preload(var parameters) -> string
     {
@@ -331,11 +322,9 @@ class Volt extends AbstractEngine implements EventsAwareInterface
     /**
      * Set Volt's options
      *
-     * @param array options
+     * @phpstan-param array<string, mixed> $options
      *
      * @return void
-     *
-     * @phpstan-param array<string, mixed> $options
      */
     public function setOptions(array options)
     {

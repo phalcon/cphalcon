@@ -31,6 +31,7 @@ class DoesNotImplement extends Exception
      * Throws when value is not an instance of the given interface. Keeps the
      * "must implement" guard shared across adapters, guards and the manager
      * in one place.
+     *
      */
     public static function assert(
         var value,

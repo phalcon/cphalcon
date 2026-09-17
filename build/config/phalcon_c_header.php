@@ -71,6 +71,7 @@ return <<<HEADER
 #include <ext/session/php_session.h>
 
 #include <Zend/zend_API.h>
+#include <Zend/zend_attributes.h>
 #include <Zend/zend_operators.h>
 #include <Zend/zend_exceptions.h>
 #include <Zend/zend_interfaces.h>

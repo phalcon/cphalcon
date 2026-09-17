@@ -45,22 +45,19 @@ use Phalcon\Support\Helper\Str\ReduceSlashes;
 class Url extends AbstractInjectionAware implements UrlInterface
 {
     /**
-     * @var null | string
+     * @var string | null
      */
     protected basePath = null;
 
     /**
-     * @var null | string
+     * @var string | null
      */
     protected baseUri = null;
 
-    /**
-     * @var RouterInterface | null
-     */
-    protected router = null;
+    protected ?<RouterInterface> router = null;
 
     /**
-     * @var null | string
+     * @var string | null
      */
     protected staticBaseUri = null;
 
@@ -192,7 +189,7 @@ class Url extends AbstractInjectionAware implements UrlInterface
             /**
              * If the route has a hostname restriction, prepend it as a
              * protocol-relative URL so the generated link works under
-             * both HTTP and HTTPS.  The baseUri is not prepended in this
+             * both HTTP and HTTPS. The baseUri is not prepended in this
              * case because the hostname already provides the authority.
              */
             let hostname = route->getHostname();

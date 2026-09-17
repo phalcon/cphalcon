@@ -30,8 +30,6 @@ trait MessagesHelperTrait
 
     /**
      * Returns the number of messages in the list
-     *
-     * @return int
      */
     public function count() -> int
     {
@@ -108,7 +106,7 @@ trait MessagesHelperTrait
     public function offsetSet(mixed offset, var value) -> void
     {
         if typeof value !== "object" || !(value instanceof MessageInterface) {
-            throw new MessageNotObject();
+            throw new \Phalcon\Messages\Exceptions\MessageNotObject();
         }
 
         if (offset === null) {

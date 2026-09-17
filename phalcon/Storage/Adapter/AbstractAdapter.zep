@@ -40,7 +40,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * Classes the "php" serializer may instantiate: true, false or a list
      * of class names (the "allowedClasses" option)
      *
-     * @var bool|array<int, string>
+     * @var array<int, string>|bool
      */
     protected var allowedClasses = true;
 
@@ -309,9 +309,6 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
         return result;
     }
 
-    /**
-     * @param string $serializer
-     */
     public function setDefaultSerializer(string serializer) -> void
     {
         let this->defaultSerializer = mb_strtolower(serializer);

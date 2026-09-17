@@ -14,8 +14,6 @@ use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Mvc\ModelInterface;
 
 /**
- * Phalcon\Mvc\Model\QueryInterface
- *
  * Interface for Phalcon\Mvc\Model\Query
  *
  * @phpstan-import-type mvc_model_bind_params from MvcTypes
@@ -84,8 +82,9 @@ interface QueryInterface
     public function getUniqueRow() -> bool;
 
     /**
-     * Parses the intermediate code produced by Phalcon\Mvc\Model\Query\Lang generating another
-     * intermediate representation that could be executed by Phalcon\Mvc\Model\Query
+     * Parses the intermediate code produced by Phalcon\Mvc\Model\Query\Lang
+     * generating another intermediate representation that could be executed
+     * by Phalcon\Mvc\Model\Query
      *
      * @phpstan-return mvc_query_ir
      */

@@ -15,8 +15,6 @@ use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\ModelInterface;
 
 /**
- * Phalcon\Mvc\Model\ResultsetInterface
- *
  * Interface for Phalcon\Mvc\Model\Resultset
  */
 interface ResultsetInterface
@@ -74,7 +72,7 @@ interface ResultsetInterface
     public function getType() -> int;
 
     /**
-     * Tell if the resultset if fresh or an old one cached
+     * Tell if the resultset is fresh or an old one cached
      */
     public function isFresh() -> bool;
 
@@ -89,8 +87,8 @@ interface ResultsetInterface
     public function setIsFresh(bool isFresh) -> <ResultsetInterface>;
 
     /**
-     * Returns a complete resultset as an array, if the resultset has a big number of rows
-     * it could consume more memory than currently it does.
+     * Returns a complete resultset as an array, if the resultset has a big
+     * number of rows it could consume more memory than currently it does.
      *
      * @phpstan-return array<array-key, mixed>
      */

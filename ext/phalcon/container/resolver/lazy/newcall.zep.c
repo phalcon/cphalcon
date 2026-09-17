@@ -64,7 +64,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Container_Resolver_Lazy_NewCall)
 	}
 
 	/**
-	 * @var string|Lazy
+	 * @var Lazy|string
 	 */
 	zend_declare_property_null(phalcon_container_resolver_lazy_newcall_ce, SL("id"), ZEND_ACC_PROTECTED);
 	{
@@ -77,7 +77,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Container_Resolver_Lazy_NewCall)
 }
 
 /**
- * @phpstan-param string|Lazy         $id
+ * @phpstan-param Lazy|string         $id
  * @phpstan-param container_arguments $arguments
  */
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_NewCall, __construct)
@@ -115,9 +115,9 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_NewCall, __construct)
 	arguments_param = ZEND_CALL_ARG(execute_data, 3);
 	ZVAL_STR(&method_zv, method);
 	zephir_get_arrval(&arguments, arguments_param);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 558, id);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 559, &method_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 560, &arguments);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 557, id);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 558, &method_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 559, &arguments);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -158,10 +158,10 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_NewCall, resolve)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &ioc);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 558, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 557, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&id, this_ptr, "resolveargument", NULL, 0, ioc, &_0);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 560, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 559, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&arguments, this_ptr, "resolvearguments", NULL, 0, ioc, &_1);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&service, ioc, "new", NULL, 0, &id);
@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_NewCall, resolve)
 	zephir_create_array(&callback, 2, 0);
 	zephir_array_fast_append(&callback, &service);
 	zephir_memory_observe(&_2);
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 559, PH_NOISY_CC);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 558, PH_NOISY_CC);
 	zephir_array_fast_append(&callback, &_2);
 	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &callback, &arguments);
 	zephir_check_call_status();

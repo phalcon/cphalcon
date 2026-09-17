@@ -29,6 +29,7 @@
 int zephir_class_exists(zval *class_name, int autoload);
 int zephir_interface_exists(zval *interface_name, int autoload);
 void zephir_get_called_class(zval *return_value);
+void zephir_get_class_constant(zval *return_value, zend_class_entry *ce, const char *constant_name, size_t constant_length);
 zend_class_entry *zephir_fetch_class(zval *class_name);
 zend_class_entry *zephir_fetch_class_str_ex(const char *class_name, size_t length, int fetch_type);
 void zephir_get_class(zval *result, zval *object, int lower);

@@ -85,7 +85,7 @@ interface RequestInterface
      * $_SERVER["REMOTE_ADDR"] and optionally in
      * $_SERVER["HTTP_X_FORWARDED_FOR"]
      */
-    public function getClientAddress(bool trustForwardedHeader = false) -> string | bool;
+    public function getClientAddress(bool trustForwardedHeader = false) -> bool | string;
 
     /**
      * Return a charset array and their quality accepted by the browser/client
