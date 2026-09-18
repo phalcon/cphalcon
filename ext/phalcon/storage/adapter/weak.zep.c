@@ -252,6 +252,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Weak, setDefaultSerializer)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &serializer_param);
 	zephir_get_strval(&serializer, serializer_param);
+	ZEPHIR_MM_RESTORE();
 }
 
 /**

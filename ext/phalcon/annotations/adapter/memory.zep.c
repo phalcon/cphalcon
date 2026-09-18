@@ -72,6 +72,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, __construct)
 	} else {
 		zephir_get_arrval(&options, options_param);
 	}
+	ZEPHIR_MM_RESTORE();
 }
 
 /**
