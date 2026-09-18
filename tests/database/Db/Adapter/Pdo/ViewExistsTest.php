@@ -22,6 +22,7 @@ final class ViewExistsTest extends AbstractDatabaseTestCase
     use DiTrait;
 
     private const SRC  = 'co_scratch_viewexists_src';
+
     private const VIEW = 'co_scratch_viewexists';
 
     public function setUp(): void

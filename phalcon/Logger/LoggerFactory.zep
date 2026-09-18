@@ -13,12 +13,16 @@ namespace Phalcon\Logger;
 use DateTimeZone;
 use Exception as BaseException;
 use Phalcon\Config\ConfigInterface;
+use Phalcon\Contracts\Logger\LoggerTypes;
 use Phalcon\Factory\AbstractConfigFactory;
 use Phalcon\Traits\Support\Helper\Arr\GetTrait;
-use Throwable;
 
 /**
  * Factory creating logger objects
+ *
+ * @phpstan-import-type logger_adapter_config from LoggerTypes
+ * @phpstan-import-type logger_adapters from LoggerTypes
+ * @phpstan-import-type logger_factory_config from LoggerTypes
  */
 class LoggerFactory extends AbstractConfigFactory
 {
@@ -37,17 +41,23 @@ class LoggerFactory extends AbstractConfigFactory
     /**
      * Factory to create an instance from a Config object
      *
+     * The adapter list lives under `options`, not at the top level.
+     *
+     * @phpstan-param ConfigInterface|logger_factory_config $config
+     *
      * @param array|ConfigInterface $config = [
-     *     'name'     => 'messages',
-     *     'adapters' => [
-     *         'adapter-name' => [
-     *              'adapter' => 'stream',
-     *              'name'    => 'file.log',
-     *              'options' => [
-     *                  'mode'     => 'ab',
-     *                  'option'   => null,
-     *                  'facility' => null
-     *              ],
+     *     'name'    => 'messages',
+     *     'options' => [
+     *         'adapters' => [
+     *             'adapter-name' => [
+     *                 'adapter' => 'stream',
+     *                 'name'    => 'file.log',
+     *                 'options' => [
+     *                     'mode'     => 'ab',
+     *                     'option'   => null,
+     *                     'facility' => null
+     *                 ],
+     *             ],
      *         ],
      *     ]
      * ]
@@ -85,6 +95,7 @@ class LoggerFactory extends AbstractConfigFactory
     /**
      * Returns a Logger object
      *
+     * @phpstan-param logger_adapters $adapters
      */
     public function newInstance(
         string name,
@@ -95,7 +106,7 @@ class LoggerFactory extends AbstractConfigFactory
     }
 
     /**
-     * @return class-string<Throwable>
+     * @return class-string<\Exception>
      */
     protected function getExceptionClass() -> string
     {

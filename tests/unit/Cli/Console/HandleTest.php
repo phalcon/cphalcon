@@ -34,9 +34,6 @@ use function shell_exec;
 
 final class HandleTest extends AbstractUnitTestCase
 {
-    /**
-     * @return array
-     */
     public static function getExamplesHandle(): array
     {
         return [

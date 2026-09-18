@@ -259,6 +259,7 @@ final class CheckboxGroupTest extends AbstractUnitTestCase
         $this->assertStringNotContainsString('name="colors"', $rendered2);
         $this->assertStringNotContainsString('checked', $rendered2);
     }
+
     private function helper(): CheckboxGroup
     {
         return new CheckboxGroup(new Escaper(), new Doctype());

@@ -42,7 +42,6 @@ use Phalcon\Contracts\Encryption\Security\Security as SecurityContract;
 use Phalcon\Encryption\Security;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
-use Phalcon\Filter\Filter;
 use Phalcon\Filter\FilterFactory;
 use Phalcon\Filter\FilterInterface;
 use Phalcon\Html\Escaper;

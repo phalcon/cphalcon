@@ -17,7 +17,8 @@ class HandlerMustImplementBindable extends Exception
     public function __construct()
     {
         parent::__construct(
-            "Handler must implement Phalcon\\Mvc\\Model\\Binder\\BindableInterface in order to use Phalcon\\Mvc\\Model as parameter"
+            "Handler must implement Phalcon\\Mvc\\Model\\Binder\\BindableInterface "
+            . "in order to use Phalcon\\Mvc\\Model as parameter"
         );
     }
 }

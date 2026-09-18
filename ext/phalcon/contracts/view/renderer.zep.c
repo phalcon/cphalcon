@@ -36,5 +36,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_View_Renderer)
 
 /**
  * Renders the template and returns the output.
+ *
+ * @phpstan-param array<string, mixed> $params
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_View_Renderer, render);

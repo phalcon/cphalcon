@@ -10,6 +10,8 @@
 
 namespace Phalcon\Mvc\Router;
 
+use Phalcon\Contracts\Mvc\MvcTypes;
+
 /**
  *```php
  * $router = new \Phalcon\Mvc\Router();
@@ -53,6 +55,9 @@ namespace Phalcon\Mvc\Router;
  * // Add the group to the router
  * $router->mount($blog);
  *```
+ *
+ * @phpstan-import-type mvc_router_http_methods from MvcTypes
+ * @phpstan-import-type mvc_router_paths from MvcTypes
  */
 interface GroupInterface
 {
@@ -69,7 +74,7 @@ interface GroupInterface
      *
      * @return RouteInterface
      */
-    public function add( string pattern, var paths = null, var httpMethods = null) -> <RouteInterface>;
+    public function add(string pattern, var paths = null, var httpMethods = null) -> <RouteInterface>;
 
     /**
      * Adds a route to the router that only match if the HTTP method is CONNECT
@@ -79,7 +84,7 @@ interface GroupInterface
      *
      * @return RouteInterface
      */
-    public function addConnect( string pattern, var paths = null) -> <RouteInterface>;
+    public function addConnect(string pattern, var paths = null) -> <RouteInterface>;
 
     /**
      * Adds a route to the router that only match if the HTTP method is DELETE
@@ -89,7 +94,7 @@ interface GroupInterface
      *
      * @return RouteInterface
      */
-    public function addDelete( string pattern, var paths = null) -> <RouteInterface>;
+    public function addDelete(string pattern, var paths = null) -> <RouteInterface>;
 
     /**
      * Adds a route to the router that only match if the HTTP method is GET
@@ -99,7 +104,7 @@ interface GroupInterface
      *
      * @return RouteInterface
      */
-    public function addGet( string pattern, var paths = null) -> <RouteInterface>;
+    public function addGet(string pattern, var paths = null) -> <RouteInterface>;
 
     /**
      * Adds a route to the router that only match if the HTTP method is HEAD
@@ -109,7 +114,7 @@ interface GroupInterface
      *
      * @return RouteInterface
      */
-    public function addHead( string pattern, var paths = null) -> <RouteInterface>;
+    public function addHead(string pattern, var paths = null) -> <RouteInterface>;
 
     /**
      * Add a route to the router that only match if the HTTP method is OPTIONS
@@ -119,7 +124,7 @@ interface GroupInterface
      *
      * @return RouteInterface
      */
-    public function addOptions( string pattern, var paths = null) -> <RouteInterface>;
+    public function addOptions(string pattern, var paths = null) -> <RouteInterface>;
 
     /**
      * Adds a route to the router that only match if the HTTP method is PATCH
@@ -129,7 +134,7 @@ interface GroupInterface
      *
      * @return RouteInterface
      */
-    public function addPatch( string pattern, var paths = null) -> <RouteInterface>;
+    public function addPatch(string pattern, var paths = null) -> <RouteInterface>;
 
     /**
      * Adds a route to the router that only match if the HTTP method is POST
@@ -139,7 +144,7 @@ interface GroupInterface
      *
      * @return RouteInterface
      */
-    public function addPost( string pattern, var paths = null) -> <RouteInterface>;
+    public function addPost(string pattern, var paths = null) -> <RouteInterface>;
 
     /**
      * Adds a route to the router that only match if the HTTP method is PURGE
@@ -149,7 +154,7 @@ interface GroupInterface
      *
      * @return RouteInterface
      */
-    public function addPurge( string pattern, var paths = null) -> <RouteInterface>;
+    public function addPurge(string pattern, var paths = null) -> <RouteInterface>;
 
     /**
      * Adds a route to the router that only match if the HTTP method is PUT
@@ -159,7 +164,7 @@ interface GroupInterface
      *
      * @return RouteInterface
      */
-    public function addPut( string pattern, var paths = null) -> <RouteInterface>;
+    public function addPut(string pattern, var paths = null) -> <RouteInterface>;
 
     /**
      * Adds a route to the router that only match if the HTTP method is TRACE
@@ -169,7 +174,7 @@ interface GroupInterface
      *
      * @return RouteInterface
      */
-    public function addTrace( string pattern, var paths = null) -> <RouteInterface>;
+    public function addTrace(string pattern, var paths = null) -> <RouteInterface>;
 
     /**
      * Sets a callback that is called if the route is matched.
@@ -195,6 +200,8 @@ interface GroupInterface
 
     /**
      * Returns the common paths defined for this group
+     *
+     * @phpstan-return mvc_router_paths|string|null
      */
     public function getPaths() -> array | string | null;
 
@@ -205,6 +212,8 @@ interface GroupInterface
 
     /**
      * Returns the routes added to the group
+     *
+     * @phpstan-return list<RouteInterface>
      */
     public function getRoutes() -> <RouteInterface[]>;
 

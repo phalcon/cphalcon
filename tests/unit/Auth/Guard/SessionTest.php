@@ -35,9 +35,13 @@ use Phalcon\Time\Clock\FrozenClock;
 final class SessionTest extends AbstractUnitTestCase
 {
     private Memory $adapter;
+
     private FakeCookies $cookies;
+
     private FakeRequest $request;
+
     private Security $security;
+
     private FakeSessionManager $session;
 
     protected function setUp(): void

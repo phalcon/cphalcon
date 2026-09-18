@@ -34,7 +34,7 @@ final class CombinedRegexTest extends AbstractUnitTestCase
     {
         $router = $this->getRouter(false);
         $router->add('/users/{id:[0-9]+}', ['controller' => 'users'])
-            ->beforeMatch(static fn(): bool => false);
+            ->beforeMatch(static fn (): bool => false);
 
         $router->handle('/users/42');
 
@@ -100,7 +100,7 @@ final class CombinedRegexTest extends AbstractUnitTestCase
     {
         $router = $this->getRouter(false);
         $router->add('/users/{id:[0-9]+}', ['controller' => 'users', 'id' => 1])
-            ->convert('id', static fn(string $v): int => (int) $v);
+            ->convert('id', static fn (string $v): int => (int) $v);
 
         $router->handle('/users/42');
 

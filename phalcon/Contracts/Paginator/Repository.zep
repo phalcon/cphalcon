@@ -73,15 +73,11 @@ interface Repository
      *
      * Cursor adapters store the cursor value used for the current page here
      * (0 on the first page), not a sequential page number.
-     *
-     * @return int
      */
     public function getCurrent() -> int;
 
     /**
      * Gets number of the first page
-     *
-     * @return int
      */
     public function getFirst() -> int;
 
@@ -94,15 +90,11 @@ interface Repository
      * Gets number of the last page
      *
      * Cursor adapters do not compute this and return 0.
-     *
-     * @return int
      */
     public function getLast() -> int;
 
     /**
      * Gets current rows limit
-     *
-     * @return int
      */
     public function getLimit() -> int;
 
@@ -111,8 +103,6 @@ interface Repository
      *
      * Cursor adapters store the next cursor value here rather than a page
      * number; 0 means there is no next page.
-     *
-     * @return int
      */
     public function getNext() -> int;
 
@@ -120,8 +110,6 @@ interface Repository
      * Gets number of the previous page
      *
      * Cursor adapters do not compute this and return 0.
-     *
-     * @return int
      */
     public function getPrevious() -> int;
 
@@ -129,8 +117,6 @@ interface Repository
      * Gets the total number of items
      *
      * Cursor adapters do not compute this and return 0.
-     *
-     * @return int
      */
     public function getTotalItems() -> int;
 
@@ -138,8 +124,6 @@ interface Repository
      * Sets the aliases for properties repository
      *
      * @param paginator_aliases $aliases
-     *
-     * @return Repository
      */
     public function setAliases(array aliases) -> <Repository>;
 
@@ -147,8 +131,6 @@ interface Repository
      * Sets values for properties of the repository
      *
      * @param paginator_properties $properties
-     *
-     * @return Repository
      */
     public function setProperties(array properties) -> <Repository>;
 }

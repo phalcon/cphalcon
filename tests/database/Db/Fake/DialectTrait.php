@@ -28,8 +28,8 @@ trait DialectTrait
             'column1'  => new Column(
                 'column1',
                 [
-                    'type' => Column::TYPE_VARCHAR,
-                    'size' => 10,
+                    'type'    => Column::TYPE_VARCHAR,
+                    'size'    => 10,
                     'notNull' => true,
                 ]
             ),
@@ -169,14 +169,14 @@ trait DialectTrait
             'column18' => new Column(
                 'column18',
                 [
-                    'type' => Column::TYPE_BOOLEAN,
+                    'type'    => Column::TYPE_BOOLEAN,
                     'notNull' => true,
                 ]
             ),
             'column19' => new Column(
                 'column19',
                 [
-                    'type' => Column::TYPE_DOUBLE,
+                    'type'    => Column::TYPE_DOUBLE,
                     'notNull' => true,
                 ]
             ),
@@ -192,7 +192,7 @@ trait DialectTrait
                 [
                     'type'          => Column::TYPE_BIGINTEGER,
                     'autoIncrement' => true,
-                    'notNull' => true,
+                    'notNull'       => true,
                 ]
             ),
             'column22' => new Column(
@@ -200,7 +200,7 @@ trait DialectTrait
                 [
                     'type'          => Column::TYPE_BIGINTEGER,
                     'autoIncrement' => false,
-                    'notNull' => true,
+                    'notNull'       => true,
                 ]
             ),
             'column23' => new Column(
@@ -208,7 +208,7 @@ trait DialectTrait
                 [
                     'type'          => Column::TYPE_INTEGER,
                     'autoIncrement' => true,
-                    'notNull' => true,
+                    'notNull'       => true,
                 ]
             ),
             'column24' => new Column(

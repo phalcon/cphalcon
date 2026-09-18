@@ -21,29 +21,28 @@ PHP_METHOD(Phalcon_Forms_Form, getMessagesFor);
 PHP_METHOD(Phalcon_Forms_Form, getTagFactory);
 PHP_METHOD(Phalcon_Forms_Form, getUserOption);
 PHP_METHOD(Phalcon_Forms_Form, getUserOptions);
-PHP_METHOD(Phalcon_Forms_Form, getValue);
 PHP_METHOD(Phalcon_Forms_Form, getValidation);
+PHP_METHOD(Phalcon_Forms_Form, getValue);
 PHP_METHOD(Phalcon_Forms_Form, getWhitelist);
 PHP_METHOD(Phalcon_Forms_Form, has);
 PHP_METHOD(Phalcon_Forms_Form, hasMessagesFor);
 PHP_METHOD(Phalcon_Forms_Form, isValid);
 PHP_METHOD(Phalcon_Forms_Form, key);
-PHP_METHOD(Phalcon_Forms_Form, load);
 PHP_METHOD(Phalcon_Forms_Form, label);
+PHP_METHOD(Phalcon_Forms_Form, load);
 PHP_METHOD(Phalcon_Forms_Form, next);
-PHP_METHOD(Phalcon_Forms_Form, render);
 PHP_METHOD(Phalcon_Forms_Form, remove);
+PHP_METHOD(Phalcon_Forms_Form, render);
 PHP_METHOD(Phalcon_Forms_Form, rewind);
 PHP_METHOD(Phalcon_Forms_Form, setAction);
 PHP_METHOD(Phalcon_Forms_Form, setAttributes);
 PHP_METHOD(Phalcon_Forms_Form, setEntity);
 PHP_METHOD(Phalcon_Forms_Form, setTagFactory);
-PHP_METHOD(Phalcon_Forms_Form, setValidation);
-PHP_METHOD(Phalcon_Forms_Form, setWhitelist);
 PHP_METHOD(Phalcon_Forms_Form, setUserOption);
 PHP_METHOD(Phalcon_Forms_Form, setUserOptions);
+PHP_METHOD(Phalcon_Forms_Form, setValidation);
+PHP_METHOD(Phalcon_Forms_Form, setWhitelist);
 PHP_METHOD(Phalcon_Forms_Form, valid);
-zend_object *zephir_init_properties_Phalcon_Forms_Form(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, entity)
@@ -114,11 +113,11 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_getuseroptions, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_getvalue, 0, 0, 1)
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_form_getvalidation, 0, 0, Phalcon\\Filter\\Validation\\ValidationInterface, 1)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_form_getvalidation, 0, 0, Phalcon\\Filter\\Validation\\ValidationInterface, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_getvalue, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_getwhitelist, 0, 0, IS_ARRAY, 0)
@@ -141,26 +140,26 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_key, 0, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_forms_form_load, 0, 2, MAY_BE_STATIC)
-	ZEND_ARG_OBJ_INFO(0, schema, Phalcon\\Contracts\\Forms\\Schema, 0)
-	ZEND_ARG_OBJ_INFO(0, locator, Phalcon\\Forms\\FormsLocator, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_label, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_forms_form_load, 0, 2, MAY_BE_STATIC)
+	ZEND_ARG_OBJ_INFO(0, schema, Phalcon\\Contracts\\Forms\\Schema, 0)
+	ZEND_ARG_OBJ_INFO(0, locator, Phalcon\\Forms\\FormsLocator, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_next, 0, 0, IS_VOID, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_remove, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_render, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_remove, 0, 1, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_rewind, 0, 0, IS_VOID, 0)
@@ -182,14 +181,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_forms_form_settagfactory
 	ZEND_ARG_OBJ_INFO(0, tagFactory, Phalcon\\Html\\TagFactory, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_forms_form_setvalidation, 0, 1, MAY_BE_STATIC)
-	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Filter\\Validation\\ValidationInterface, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_forms_form_setwhitelist, 0, 1, MAY_BE_STATIC)
-	ZEND_ARG_ARRAY_INFO(0, whitelist, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_forms_form_setuseroption, 0, 2, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, option, IS_STRING, 0)
 	ZEND_ARG_INFO(0, value)
@@ -199,10 +190,15 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_forms_form_setuseroption
 	ZEND_ARG_ARRAY_INFO(0, options, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_valid, 0, 0, _IS_BOOL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_forms_form_setvalidation, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Filter\\Validation\\ValidationInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_zephir_init_properties_phalcon_forms_form, 0, 0, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_forms_form_setwhitelist, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_ARRAY_INFO(0, whitelist, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_valid, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_forms_form_method_entry) {
@@ -224,27 +220,27 @@ PHP_ME(Phalcon_Forms_Form, getEntity, arginfo_phalcon_forms_form_getentity, ZEND
 	PHP_ME(Phalcon_Forms_Form, getTagFactory, arginfo_phalcon_forms_form_gettagfactory, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, getUserOption, arginfo_phalcon_forms_form_getuseroption, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, getUserOptions, arginfo_phalcon_forms_form_getuseroptions, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Forms_Form, getValue, arginfo_phalcon_forms_form_getvalue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, getValidation, arginfo_phalcon_forms_form_getvalidation, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Forms_Form, getValue, arginfo_phalcon_forms_form_getvalue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, getWhitelist, arginfo_phalcon_forms_form_getwhitelist, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, has, arginfo_phalcon_forms_form_has, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, hasMessagesFor, arginfo_phalcon_forms_form_hasmessagesfor, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, isValid, arginfo_phalcon_forms_form_isvalid, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, key, arginfo_phalcon_forms_form_key, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Forms_Form, load, arginfo_phalcon_forms_form_load, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, label, arginfo_phalcon_forms_form_label, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Forms_Form, load, arginfo_phalcon_forms_form_load, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, next, arginfo_phalcon_forms_form_next, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Forms_Form, render, arginfo_phalcon_forms_form_render, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, remove, arginfo_phalcon_forms_form_remove, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Forms_Form, render, arginfo_phalcon_forms_form_render, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, rewind, arginfo_phalcon_forms_form_rewind, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, setAction, arginfo_phalcon_forms_form_setaction, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, setAttributes, arginfo_phalcon_forms_form_setattributes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, setEntity, arginfo_phalcon_forms_form_setentity, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, setTagFactory, arginfo_phalcon_forms_form_settagfactory, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Forms_Form, setValidation, arginfo_phalcon_forms_form_setvalidation, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Forms_Form, setWhitelist, arginfo_phalcon_forms_form_setwhitelist, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, setUserOption, arginfo_phalcon_forms_form_setuseroption, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, setUserOptions, arginfo_phalcon_forms_form_setuseroptions, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Forms_Form, setValidation, arginfo_phalcon_forms_form_setvalidation, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Forms_Form, setWhitelist, arginfo_phalcon_forms_form_setwhitelist, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, valid, arginfo_phalcon_forms_form_valid, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

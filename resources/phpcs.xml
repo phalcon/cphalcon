@@ -10,10 +10,7 @@
     <arg name="colors"/>
     <arg value="ps"/>
 
-    <!-- Exclude specific PSR2 rule regarding underscore prefixes -->
-    <rule ref="PSR12">
-        <exclude name="PSR2.Methods.MethodDeclaration.Underscore"/>
-    </rule>
+    <rule ref="Phalcon"/>
 
     <!-- Files to scan -->
     <file>../tests/database</file>

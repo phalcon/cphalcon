@@ -24,7 +24,7 @@ final class DebugVarTest extends AbstractUnitTestCase
      */
     public function testSupportDebugDebugVar(): void
     {
-        $debug = new Debug();
+        $debug  = new Debug();
         $result = $debug->debugVar('test variable');
 
         $this->assertInstanceOf(Debug::class, $result);

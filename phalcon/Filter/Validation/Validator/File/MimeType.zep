@@ -10,10 +10,9 @@
 
 namespace Phalcon\Filter\Validation\Validator\File;
 
+use Phalcon\Contracts\Filter\FilterTypes;
 use Phalcon\Filter\Validation;
-use Phalcon\Filter\Validation\Exception;
 use Phalcon\Filter\Validation\Exceptions\InvalidAllowedTypes;
-use Phalcon\Messages\Message;
 use Phalcon\Traits\Php\InfoTrait;
 
 /**
@@ -63,25 +62,26 @@ use Phalcon\Traits\Php\InfoTrait;
  *     )
  * );
  * ```
+ *
+ * @phpstan-import-type filter_uploaded_file from FilterTypes
  */
 class MimeType extends AbstractFile
 {
     use InfoTrait;
 
+    /**
+     * @var string|null
+     */
     protected template = "File :field must be of type: :types";
 
     /**
      * Executes the validation
-     *
-     * @param Validation $validation
-     * @param mixed $field
-     * @return bool
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var allowWildcards, fieldTypes,
+        var allowWildcards, fieldTypes, replacePairs, tmp, type, types, value,
             matched = false,
-            mime, replacePairs, tmp, type, types, value;
+            mime    = null;
 
         // Check file upload
         if this->checkUpload(validation, field) === false {

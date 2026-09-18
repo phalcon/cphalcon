@@ -31,18 +31,22 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Check)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Check, phalcon, forms_element_check, phalcon_forms_element_abstractelement_ce, phalcon_forms_element_check_method_entry, 0);
 
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_forms_element_check_ce, SL("method"), "inputCheckbox", ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "inputCheckbox", sizeof("inputCheckbox") - 1);
+		zephir_declare_typed_property(phalcon_forms_element_check_ce, SL("method"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	/**
 	 * @var mixed
 	 */
 	zend_declare_property_null(phalcon_forms_element_check_ce, SL("uncheckedValue"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_bool(phalcon_forms_element_check_ce, SL("uncheckedValueSet"), 0, ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_BOOL(&_zc0, 0);
+		zephir_declare_typed_property(phalcon_forms_element_check_ce, SL("uncheckedValueSet"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 
@@ -92,11 +96,11 @@ PHP_METHOD(Phalcon_Forms_Element_Check, setUncheckedValue)
 		Z_PARAM_ZVAL(value)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &value);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 774, value);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 771, value);
 	if (1) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 775, &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 772, &__$true);
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 775, &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 772, &__$false);
 	}
 	RETURN_THISW();
 }

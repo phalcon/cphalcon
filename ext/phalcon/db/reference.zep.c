@@ -48,6 +48,9 @@
  *     ]
  * );
  *```
+ *
+ * @phpstan-import-type db_column_names from DbTypes
+ * @phpstan-import-type db_reference_definition from DbTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Reference)
 {
@@ -57,6 +60,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Reference)
 	 * Local reference columns
 	 *
 	 * @var array
+	 *
+	 * @phpstan-var db_column_names
 	 */
 	zend_declare_property_null(phalcon_db_reference_ce, SL("columns"), ZEND_ACC_PROTECTED);
 	/**
@@ -69,6 +74,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Reference)
 	 * Referenced Columns
 	 *
 	 * @var array
+	 *
+	 * @phpstan-var db_column_names
 	 */
 	zend_declare_property_null(phalcon_db_reference_ce, SL("referencedColumns"), ZEND_ACC_PROTECTED);
 	/**
@@ -107,6 +114,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Reference)
 
 /**
  * Phalcon\Db\Reference constructor
+ *
+ * @phpstan-param db_reference_definition $definition
  */
 PHP_METHOD(Phalcon_Db_Reference, __construct)
 {
@@ -173,62 +182,62 @@ PHP_METHOD(Phalcon_Db_Reference, __construct)
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	zephir_get_arrval(&definition, definition_param);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 657, &name_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 655, &name_zv);
 	zephir_memory_observe(&referencedTable);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&referencedTable, &definition, SL("referencedTable"), 0)))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_db_exceptions_referencedtablerequired_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Db/Reference.zep", 108);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Db/Reference.zep", 118);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 658, &referencedTable);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 656, &referencedTable);
 	zephir_memory_observe(&columns);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&columns, &definition, SL("columns"), 0)))) {
 		ZEPHIR_INIT_VAR(&_1$$4);
 		object_init_ex(&_1$$4, phalcon_db_exceptions_foreignkeycolumnsrequired_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$4, "phalcon/Db/Reference.zep", 114);
+		zephir_throw_exception_debug(&_1$$4, "phalcon/Db/Reference.zep", 124);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 659, &columns);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 657, &columns);
 	zephir_memory_observe(&referencedColumns);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&referencedColumns, &definition, SL("referencedColumns"), 0)))) {
 		ZEPHIR_INIT_VAR(&_2$$5);
 		object_init_ex(&_2$$5, phalcon_db_exceptions_referencedcolumnsrequired_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_2$$5, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$5, "phalcon/Db/Reference.zep", 120);
+		zephir_throw_exception_debug(&_2$$5, "phalcon/Db/Reference.zep", 130);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 660, &referencedColumns);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 658, &referencedColumns);
 	zephir_memory_observe(&schema);
 	if (zephir_array_isset_string_fetch(&schema, &definition, SL("schema"), 0)) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 661, &schema);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 659, &schema);
 	}
 	zephir_memory_observe(&referencedSchema);
 	if (zephir_array_isset_string_fetch(&referencedSchema, &definition, SL("referencedSchema"), 0)) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 662, &referencedSchema);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 660, &referencedSchema);
 	}
 	zephir_memory_observe(&onDelete);
 	if (zephir_array_isset_string_fetch(&onDelete, &definition, SL("onDelete"), 0)) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_6, 663, &onDelete);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_6, 661, &onDelete);
 	}
 	zephir_memory_observe(&onUpdate);
 	if (zephir_array_isset_string_fetch(&onUpdate, &definition, SL("onUpdate"), 0)) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_7, 664, &onUpdate);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_7, 662, &onUpdate);
 	}
 	if (UNEXPECTED(zephir_fast_count_int(&columns) != zephir_fast_count_int(&referencedColumns))) {
 		ZEPHIR_INIT_VAR(&_3$$10);
 		object_init_ex(&_3$$10, phalcon_db_exceptions_referencedcolumncountmismatch_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_3$$10, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_3$$10, "phalcon/Db/Reference.zep", 142);
+		zephir_throw_exception_debug(&_3$$10, "phalcon/Db/Reference.zep", 152);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -237,6 +246,8 @@ PHP_METHOD(Phalcon_Db_Reference, __construct)
 
 /**
  * Local reference columns
+ *
+ * @phpstan-return db_column_names
  */
 PHP_METHOD(Phalcon_Db_Reference, getColumns)
 {
@@ -255,6 +266,8 @@ PHP_METHOD(Phalcon_Db_Reference, getName)
 
 /**
  * Referenced Columns
+ *
+ * @phpstan-return db_column_names
  */
 PHP_METHOD(Phalcon_Db_Reference, getReferencedColumns)
 {

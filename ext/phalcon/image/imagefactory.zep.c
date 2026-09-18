@@ -77,11 +77,11 @@ PHP_METHOD(Phalcon_Image_ImageFactory, __construct)
  *
  * @phpstan-param ConfigInterface|image_factory_config $config
  *
- * @param array|ConfigInterface config = [
+ * @param array|ConfigInterface $config = [
  *     'adapter' => 'gd',
- *     'file' => 'image.jpg',
- *     'height' => null,
- *     'width' => null
+ *     'file'    => 'image.jpg',
+ *     'height'  => null,
+ *     'width'   => null
  * ]
  */
 PHP_METHOD(Phalcon_Image_ImageFactory, load)
@@ -120,7 +120,7 @@ PHP_METHOD(Phalcon_Image_ImageFactory, load)
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	zephir_memory_observe(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Image/ImageFactory.zep", 64);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Image/ImageFactory.zep", 63);
 	zephir_array_unset_string(config, SL("adapter"), PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "file");
@@ -205,7 +205,7 @@ PHP_METHOD(Phalcon_Image_ImageFactory, newInstance)
 }
 
 /**
- * @return class-string<Throwable>
+ * @return class-string<\Exception>
  */
 PHP_METHOD(Phalcon_Image_ImageFactory, getExceptionClass)
 {

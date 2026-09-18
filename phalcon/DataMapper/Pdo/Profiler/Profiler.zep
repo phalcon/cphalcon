@@ -15,6 +15,7 @@
 
 namespace Phalcon\DataMapper\Pdo\Profiler;
 
+use Phalcon\Contracts\DataMapper\DataMapperTypes;
 use Phalcon\DataMapper\Pdo\Exception\Exception;
 use Phalcon\Logger\Enum;
 use Phalcon\Logger\LoggerInterface;
@@ -22,6 +23,9 @@ use Phalcon\Support\Helper\Json\Encode;
 
 /**
  * Sends query profiles to a logger.
+ *
+ * @phpstan-import-type datamapper_profiler_context from DataMapperTypes
+ * @phpstan-import-type datamapper_values from DataMapperTypes
  */
 class Profiler implements ProfilerInterface
 {
@@ -32,6 +36,8 @@ class Profiler implements ProfilerInterface
 
     /**
      * @var array
+     *
+     * @phpstan-var datamapper_profiler_context
      */
     protected context = [];
 
@@ -77,18 +83,21 @@ class Profiler implements ProfilerInterface
      *
      * @param string $statement
      * @param array  $values
+     *
+     * @phpstan-param datamapper_values $values
      */
     public function finish(string statement = null, array values = []) -> void
     {
-        var ex, finish;
+        var ex, finish, start;
 
         if unlikely this->active {
             let ex     = new Exception(),
-                finish = hrtime(true);
+                finish = hrtime(true),
+                start  = this->context["start"];
 
 
             let this->context["backtrace"] = ex->getTraceAsString(),
-                this->context["duration"]  = finish - this->context["start"],
+                this->context["duration"]  = finish - start,
                 this->context["finish"]    = finish,
                 this->context["statement"] = statement,
                 this->context["values"]    = empty(values) ? "" : this->encode->__invoke(values);

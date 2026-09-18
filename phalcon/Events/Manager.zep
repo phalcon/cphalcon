@@ -12,6 +12,7 @@ namespace Phalcon\Events;
 
 use Closure;
 use Phalcon\Contracts\Events\Enumerable;
+use Phalcon\Contracts\Events\EventsTypes;
 use Phalcon\Contracts\Events\Stoppable;
 use Phalcon\Contracts\Events\Subscriber;
 use Phalcon\Events\Exceptions\InvalidEventHandler;
@@ -24,57 +25,20 @@ use Phalcon\Events\Exceptions\NoListenersForEvent;
  * needed, the normal flow of operation. With the EventsManager the developer
  * can create hooks or plugins that will offer monitoring of data, manipulation,
  * conditional execution and much more.
+ *
+ * @phpstan-import-type events_method_exists_cache from EventsTypes
+ * @phpstan-import-type events_name_cache from EventsTypes
+ * @phpstan-import-type events_queue from EventsTypes
+ * @phpstan-import-type events_storage from EventsTypes
+ * @phpstan-import-type events_subscriber_events_cache from EventsTypes
+ * @phpstan-import-type events_subscriber_listener from EventsTypes
+ * @phpstan-import-type events_subscribers from EventsTypes
  */
 class Manager implements ManagerInterface, Enumerable
 {
-    /**
-     * @var bool
-     */
-    protected collect = false;
+    protected bool collect = false;
 
-    /**
-     * @var bool
-     */
-    protected enablePriorities = false;
-
-    /**
-     * Re-entrancy depth of fire()/fireAll(). 0 means no fire is in
-     * progress. Incremented on every fire entry, decremented on exit.
-     * Used to keep nested fire() calls from clobbering the outer
-     * caller's `$this->responses` accumulator.
-     *
-     * @var int
-     */
-    protected fireDepth = 0;
-
-    /**
-     * Manager-level kill switch. When true, every fire()/fireAll()/
-     * fireQueue() call returns immediately (null or empty array) without
-     * dispatching. Cleared by resume(). Survives across fire() calls,
-     * unlike Event::stop() which only stops the current dispatch chain.
-     *
-     * @var bool
-     */
-    protected halted = false;
-
-    /**
-     * When true, a listener returning literal `false` (with the event's
-     * `cancelable` flag on) short-circuits the dispatch loop and pins
-     * the fire() return as `false`. Default off - preserves the pre-5.13
-     * "last-wins" contract for codebases that rely on later listeners
-     * overriding an earlier false return [#17019].
-     *
-     * @var bool
-     */
-    protected stopOnFalse = false;
-
-    /**
-     * When true, fire()/fireAll() throw on dispatch of an event that
-     * has zero matching listeners. Catches typos in dev. Default off.
-     *
-     * @var bool
-     */
-    protected strict = false;
+    protected bool enablePriorities = false;
 
     /**
      * Parsed-eventType cache. Memoizes the strpos + substr work done in
@@ -88,39 +52,9 @@ class Manager implements ManagerInterface, Enumerable
      * application are well under 100 keys, and the cache never needs
      * invalidation (parse is deterministic for a given eventType string).
      *
-     * @var array
+     * @phpstan-var events_name_cache
      */
-    protected eventNameCache = [];
-
-    /**
-     * Memoized method_exists() results for the OBJECT_METHOD dispatch
-     * path in dispatch(). Keyed by `handlerClass => [methodName => bool]`.
-     * A class doesn't gain methods at runtime so the lookup is permanent.
-     *
-     * @var array
-     */
-    protected methodExistsCache = [];
-
-    /**
-     * Maximum number of distinct handler classes retained in
-     * methodExistsCache. 0 (default) keeps the original unbounded
-     * behavior; a positive value clears the cache when adding a new
-     * class would exceed it. Re-warming is cheap (method_exists is
-     * O(1)) and the cap is meant for very long-lived workers that see
-     * many distinct listener classes over time.
-     *
-     * @var int
-     */
-    protected methodExistsCacheLimit = 0;
-
-    /**
-     * Memoized getSubscribedEvents() maps keyed by Subscriber class name.
-     * The static method's return is stable for the lifetime of a class
-     * definition, so the cache never needs invalidation.
-     *
-     * @var array
-     */
-    protected subscriberEventsCache = [];
+    protected array eventNameCache = [];
 
     /**
      * Listener storage. Shape:
@@ -149,19 +83,80 @@ class Manager implements ManagerInterface, Enumerable
      *   3 - generic callable (string fn name, invokable object,
      *       [class, staticMethod]): call_user_func_array
      *
-     * @var array
+     * @phpstan-var events_storage
      */
-    protected events = [];
+    protected array events = [];
+
+    /**
+     * Re-entrancy depth of fire()/fireAll(). 0 means no fire is in
+     * progress. Incremented on every fire entry, decremented on exit.
+     * Used to keep nested fire() calls from clobbering the outer
+     * caller's `$this->responses` accumulator.
+     */
+    protected int fireDepth = 0;
+
+    /**
+     * Manager-level kill switch. When true, every fire()/fireAll()/
+     * fireQueue() call returns immediately (null or empty array) without
+     * dispatching. Cleared by resume(). Survives across fire() calls,
+     * unlike Event::stop() which only stops the current dispatch chain.
+     */
+    protected bool halted = false;
+
+    /**
+     * Memoized method_exists() results for the OBJECT_METHOD dispatch
+     * path in dispatch(). Keyed by `handlerClass => [methodName => bool]`.
+     * A class doesn't gain methods at runtime so the lookup is permanent.
+     *
+     * @phpstan-var events_method_exists_cache
+     */
+    protected array methodExistsCache = [];
+
+    /**
+     * Maximum number of distinct handler classes retained in
+     * methodExistsCache. 0 (default) keeps the original unbounded
+     * behavior; a positive value clears the cache when adding a new
+     * class would exceed it. Re-warming is cheap (method_exists is
+     * O(1)) and the cap is meant for very long-lived workers that see
+     * many distinct listener classes over time.
+     *
+     * @var int
+     */
+    protected int methodExistsCacheLimit = 0;
 
     /**
      * @var array
      */
-    protected responses = [];
+    protected array responses = [];
 
     /**
-     * @var array
+     * When true, a listener returning literal `false` (with the event's
+     * `cancelable` flag on) short-circuits the dispatch loop and pins
+     * the fire() return as `false`. Default off - preserves the pre-5.13
+     * "last-wins" contract for codebases that rely on later listeners
+     * overriding an earlier false return [#17019].
      */
-    protected subscribers = [];
+    protected bool stopOnFalse = false;
+
+    /**
+     * When true, fire()/fireAll() throw on dispatch of an event that
+     * has zero matching listeners. Catches typos in dev. Default off.
+     */
+    protected bool strict = false;
+
+    /**
+     * Memoized getSubscribedEvents() maps keyed by Subscriber class name.
+     * The static method's return is stable for the lifetime of a class
+     * definition, so the cache never needs invalidation.
+     *
+     * @phpstan-var events_subscriber_events_cache
+     */
+    protected array subscriberEventsCache = [];
+
+    /**
+     * @phpstan-var events_subscribers
+     */
+    protected array subscribers = [];
 
     /**
      * Registers an event subscriber. The subscriber's getSubscribedEvents()
@@ -192,16 +187,22 @@ class Manager implements ManagerInterface, Enumerable
     }
 
     /**
+     * Returns if priorities are enabled
+     */
+    public function arePrioritiesEnabled() -> bool
+    {
+        return this->enablePriorities;
+    }
+
+    /**
      * Attach a listener to the events manager
-     *
-     * @param object|callable handler
      */
     final public function attach(
         string eventType,
         var handler,
         int priority = self::DEFAULT_PRIORITY
     ) -> void {
-        int type;
+        int type = 2;
 
         // Classify the handler type ONCE so fireQueue() doesn't have to
         // run instanceof / is_callable per fire per listener.
@@ -247,14 +248,6 @@ class Manager implements ManagerInterface, Enumerable
     }
 
     /**
-     * Returns if priorities are enabled
-     */
-    public function arePrioritiesEnabled() -> bool
-    {
-        return this->enablePriorities;
-    }
-
-    /**
      * Removes every registered subscriber and detaches each listener they
      * contributed. Listeners attached via attach() are untouched.
      *
@@ -283,8 +276,6 @@ class Manager implements ManagerInterface, Enumerable
 
     /**
      * Detach the listener from the events manager
-     *
-     * @param object|callable handler
      */
     public function detach(string eventType, var handler) -> void
     {
@@ -334,9 +325,9 @@ class Manager implements ManagerInterface, Enumerable
      * the event implements Phalcon\Contracts\Events\Stoppable and reports it
      * is stopped.
      *
-     * @param object       event
-     * @param string|array name
-     * @param object|null  source
+     * @param object               $event
+     * @param string|string[]|null $name
+     * @param object|null          $source
      *
      * @return mixed
      */
@@ -403,13 +394,13 @@ class Manager implements ManagerInterface, Enumerable
      * $eventsManager->fire("db", $connection);
      *```
      *
-     * @param object source
-     * @param mixed  data
-     * @param bool|null stopOnFalse Per-call override of setStopOnFalse():
-     *                              `true` makes a listener's `false` final
-     *                              for this fire only, `false` keeps
-     *                              last-wins, `null` uses the manager
-     *                              setting. Not part of ManagerInterface.
+     * @param object    $source
+     * @param mixed     $data
+     * @param bool|null $stopOnFalse Per-call override of setStopOnFalse():
+     *                               `true` makes a listener's `false` final
+     *                               for this fire only, `false` keeps
+     *                               last-wins, `null` uses the manager
+     *                               setting. Not part of ManagerInterface.
      * @return mixed
      */
     public function fire(
@@ -419,8 +410,9 @@ class Manager implements ManagerInterface, Enumerable
         bool cancelable = true,
         var stopOnFalse = null
     ) {
-        var cached, colonPos, event, eventName, ex, fireEvents, stashed,
-            status, stop, type, wasDepth;
+        var cached, colonPos, event, eventName, ex, fireEvents, status, stop,
+            type, wasDepth,
+            stashed = [];
         bool collect, hasFullQueue, hasTypeQueue;
 
         if stopOnFalse === null {
@@ -567,6 +559,8 @@ class Manager implements ManagerInterface, Enumerable
      *```php
      * $results = $eventsManager->fireAll("db:beforeQuery", $connection);
      *```
+     *
+     * @return array<array-key, mixed>
      */
     public function fireAll(
         string eventType,
@@ -683,6 +677,8 @@ class Manager implements ManagerInterface, Enumerable
      * re-extracting metadata from the Event; the framework's own fire()
      * path bypasses this wrapper and calls dispatch() with hoisted args.
      *
+     * @phpstan-param events_queue $queue
+     *
      * @return mixed
      */
     final public function fireQueue(array queue, <EventInterface> event)
@@ -704,25 +700,15 @@ class Manager implements ManagerInterface, Enumerable
     }
 
     /**
-     * Manager-level kill switch. After halt(), every fire()/fireAll()/
-     * fireQueue() call returns immediately without dispatching, until
-     * resume() is called. Use this when a listener needs to abort all
-     * subsequent event activity for the lifetime of the manager (e.g.
-     * a security check that cancels everything downstream).
-     */
-    public function halt() -> void
-    {
-        let this->halted = true;
-    }
-
-    /**
      * Returns every event type that currently has at least one listener,
      * mapped to that type's listeners. Types contributed by subscribers are
      * included, because addSubscriber() attaches through the regular listener
      * pipeline.
      *
      * Unwrapping is delegated to getListeners() so the internal shape of
-     * this->events is read in exactly one place.
+     * $this->events is read in exactly one place.
+     *
+     * @return array<string, array<array-key, mixed>>
      */
     public function getListenerMap() -> array
     {
@@ -740,6 +726,8 @@ class Manager implements ManagerInterface, Enumerable
 
     /**
      * Returns all the attached listeners of a certain type
+     *
+     * @return array<array-key, mixed>
      */
     public function getListeners(string type) -> array
     {
@@ -769,6 +757,8 @@ class Manager implements ManagerInterface, Enumerable
     /**
      * Returns all the responses returned by every handler executed by the last
      * 'fire' executed
+     *
+     * @return array<array-key, mixed>
      */
     public function getResponses() -> array
     {
@@ -778,6 +768,8 @@ class Manager implements ManagerInterface, Enumerable
     /**
      * Returns the list of registered subscriber instances. Useful for
      * introspection and test setup/teardown.
+     *
+     * @phpstan-return list<Subscriber>
      */
     public function getSubscribers() -> array
     {
@@ -785,9 +777,21 @@ class Manager implements ManagerInterface, Enumerable
     }
 
     /**
+     * Manager-level kill switch. After halt(), every fire()/fireAll()/
+     * fireQueue() call returns immediately without dispatching, until
+     * resume() is called. Use this when a listener needs to abort all
+     * subsequent event activity for the lifetime of the manager (e.g.
+     * a security check that cancels everything downstream).
+     */
+    public function halt() -> void
+    {
+        let this->halted = true;
+    }
+
+    /**
      * Check whether certain type of event has listeners
      */
-    public function hasListeners( string type) -> bool
+    public function hasListeners(string type) -> bool
     {
         return isset this->events[type];
     }
@@ -954,17 +958,174 @@ class Manager implements ManagerInterface, Enumerable
     }
 
     /**
+     * Stores a pre-classified listener tuple in the queue for an event
+     * type. Bypasses attach()'s type classification - callers that
+     * already know the type (the subscriber path) skip the instanceof /
+     * is_callable cascade.
+     *
+     * type=2 tuples carry a 4th element `className` so dispatch() can
+     * skip the per-fire get_class() lookup against methodExistsCache.
+     *
+     * @phpstan-param string|null $className
+     */
+    private function insertHandlerEntry(
+        string eventType,
+        var handler,
+        int type,
+        int priority,
+        var className = null
+    ) -> void {
+        var existing, index, queue, tuple, prioritiesOn;
+        int insertAt;
+
+        let prioritiesOn = this->enablePriorities;
+
+        if !prioritiesOn {
+            let priority = self::DEFAULT_PRIORITY;
+        }
+
+        if type == 2 {
+            let tuple = [handler, type, priority, className];
+        } else {
+            let tuple = [handler, type, priority];
+        }
+
+        if !fetch queue, this->events[eventType] {
+            let this->events[eventType] = [tuple];
+            return;
+        }
+
+        // Priorities disabled (the default): every existing element has
+        // identical priority, so the sorted-insert is wasted work.
+        // Append and return.
+        if !prioritiesOn {
+            let queue[] = tuple;
+            let this->events[eventType] = queue;
+            return;
+        }
+
+        // Sorted-insert: descending priority, FIFO within same priority.
+        let insertAt = -1;
+
+        for index, existing in queue {
+            if existing[2] < priority {
+                let insertAt = index;
+                break;
+            }
+        }
+
+        if insertAt == -1 {
+            let queue[] = tuple;
+            let this->events[eventType] = queue;
+            return;
+        }
+
+        array_splice(queue, insertAt, 0, [tuple]);
+        let this->events[eventType] = queue;
+    }
+
+    /**
+     * Parses one entry of a subscriber's getSubscribedEvents() map and either
+     * attaches or detaches the resulting listeners depending on `detaching`.
+     *
+     * @throws InvalidSubscriberConfiguration
+     */
+    private function processSubscriberEntry(
+        object subscriber,
+        string eventName,
+        var params,
+        bool detaching
+    ) -> void {
+        var firstParam, listener, methodName, priority;
+
+        if typeof params == "string" {
+            if detaching {
+                this->detach(eventName, [subscriber, params]);
+            } else {
+                this->insertHandlerEntry(
+                    eventName,
+                    [subscriber, params],
+                    1,
+                    self::DEFAULT_PRIORITY
+                );
+            }
+
+            return;
+        }
+
+        if unlikely typeof params != "array" {
+            throw new InvalidSubscriberConfiguration(eventName);
+        }
+
+        if !fetch firstParam, params[0] {
+            throw new InvalidSubscriberConfiguration(eventName);
+        }
+
+        if typeof firstParam == "string" {
+            let methodName = firstParam;
+            let priority   = self::DEFAULT_PRIORITY;
+
+            if isset params[1] {
+                let priority = params[1];
+            }
+
+            if detaching {
+                this->detach(eventName, [subscriber, methodName]);
+            } else {
+                this->insertHandlerEntry(
+                    eventName,
+                    [subscriber, methodName],
+                    1,
+                    priority
+                );
+            }
+
+            return;
+        }
+
+        if typeof firstParam == "array" {
+            for listener in params {
+                let methodName = listener[0];
+                let priority   = self::DEFAULT_PRIORITY;
+
+                if isset listener[1] {
+                    let priority = listener[1];
+                }
+
+                if detaching {
+                    this->detach(eventName, [subscriber, methodName]);
+                } else {
+                    this->insertHandlerEntry(
+                        eventName,
+                        [subscriber, methodName],
+                        1,
+                        priority
+                    );
+                }
+            }
+
+            return;
+        }
+
+        throw new InvalidSubscriberConfiguration(eventName);
+    }
+
+    /**
      * Object-event dispatch loop used by dispatch(). Closure/callable handlers
      * receive the event object; plain-object handlers call the method named by
      * the dispatch name (when provided) or fall back to __invoke. Propagation
      * stops when the event implements Phalcon\Contracts\Events\Stoppable and
      * reports it is stopped.
      *
+     * @phpstan-param events_queue $queue
+     * @phpstan-param string|null  $methodName
+     *
      * @return mixed
      */
     private function runObjectQueue(array queue, object event, var methodName)
     {
-        var handler, handlerCallable, handlerObject, ret, status, tuple, type;
+        var handler, handlerCallable, handlerObject, status, tuple, type,
+            ret = null;
         bool collect;
 
         let status  = null;
@@ -1027,6 +1188,11 @@ class Manager implements ManagerInterface, Enumerable
      * Appends every listener's return to $this->responses when
      * `collect` is true (the caller manages stashing/restoring around
      * nested fires).
+     *
+     * The listener type that attach() sets gives the handler shape. PHPStan
+     * cannot follow that link, thus each branch declares the shape.
+     *
+     * @phpstan-param events_queue $queue
      *
      * @return mixed
      */
@@ -1166,154 +1332,5 @@ class Manager implements ManagerInterface, Enumerable
         }
 
         return status;
-    }
-
-    /**
-     * Stores a pre-classified listener tuple in the queue for an event
-     * type. Bypasses attach()'s type classification - callers that
-     * already know the type (the subscriber path) skip the instanceof /
-     * is_callable cascade.
-     *
-     * type=2 tuples carry a 4th element `className` so dispatch() can
-     * skip the per-fire get_class() lookup against methodExistsCache.
-     */
-    private function insertHandlerEntry(
-        string eventType,
-        var handler,
-        int type,
-        int priority,
-        var className = null
-    ) -> void {
-        var existing, index, queue, tuple, prioritiesOn;
-        int insertAt;
-
-        let prioritiesOn = this->enablePriorities;
-
-        if !prioritiesOn {
-            let priority = self::DEFAULT_PRIORITY;
-        }
-
-        if type == 2 {
-            let tuple = [handler, type, priority, className];
-        } else {
-            let tuple = [handler, type, priority];
-        }
-
-        if !fetch queue, this->events[eventType] {
-            let this->events[eventType] = [tuple];
-            return;
-        }
-
-        // Priorities disabled (the default): every existing element has
-        // identical priority, so the sorted-insert is wasted work.
-        // Append and return.
-        if !prioritiesOn {
-            let queue[] = tuple;
-            let this->events[eventType] = queue;
-            return;
-        }
-
-        // Sorted-insert: descending priority, FIFO within same priority.
-        let insertAt = -1;
-
-        for index, existing in queue {
-            if existing[2] < priority {
-                let insertAt = index;
-                break;
-            }
-        }
-
-        if insertAt == -1 {
-            let queue[] = tuple;
-            let this->events[eventType] = queue;
-            return;
-        }
-
-        array_splice(queue, insertAt, 0, [tuple]);
-        let this->events[eventType] = queue;
-    }
-
-    /**
-     * Parses one entry of a subscriber's getSubscribedEvents() map and either
-     * attaches or detaches the resulting listeners depending on `detaching`.
-     */
-    private function processSubscriberEntry(
-        object subscriber,
-        string eventName,
-        var params,
-        bool detaching
-    ) -> void {
-        var firstParam, listener, methodName, priority;
-
-        if typeof params == "string" {
-            if detaching {
-                this->detach(eventName, [subscriber, params]);
-            } else {
-                this->insertHandlerEntry(
-                    eventName,
-                    [subscriber, params],
-                    1,
-                    self::DEFAULT_PRIORITY
-                );
-            }
-
-            return;
-        }
-
-        if unlikely typeof params != "array" {
-            throw new InvalidSubscriberConfiguration(eventName);
-        }
-
-        if !fetch firstParam, params[0] {
-            throw new InvalidSubscriberConfiguration(eventName);
-        }
-
-        if typeof firstParam == "string" {
-            let methodName = firstParam;
-            let priority   = self::DEFAULT_PRIORITY;
-
-            if isset params[1] {
-                let priority = params[1];
-            }
-
-            if detaching {
-                this->detach(eventName, [subscriber, methodName]);
-            } else {
-                this->insertHandlerEntry(
-                    eventName,
-                    [subscriber, methodName],
-                    1,
-                    priority
-                );
-            }
-
-            return;
-        }
-
-        if typeof firstParam == "array" {
-            for listener in params {
-                let methodName = listener[0];
-                let priority   = self::DEFAULT_PRIORITY;
-
-                if isset listener[1] {
-                    let priority = listener[1];
-                }
-
-                if detaching {
-                    this->detach(eventName, [subscriber, methodName]);
-                } else {
-                    this->insertHandlerEntry(
-                        eventName,
-                        [subscriber, methodName],
-                        1,
-                        priority
-                    );
-                }
-            }
-
-            return;
-        }
-
-        throw new InvalidSubscriberConfiguration(eventName);
     }
 }

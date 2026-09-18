@@ -408,7 +408,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface, Stringab
     /**
      * Sets the domain that the cookie is available to
      */
-    public function setDomain( string domain) -> <CookieInterface>
+    public function setDomain(string domain) -> <CookieInterface>
     {
         this->checkRestored();
 
@@ -446,7 +446,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface, Stringab
      *
      * @phpstan-param http_cookie_options $options
      */
-    public function setOptions( array options) -> <CookieInterface>
+    public function setOptions(array options) -> <CookieInterface>
     {
         let this->options = options;
 
@@ -456,7 +456,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface, Stringab
     /**
      * Sets the cookie's path
      */
-    public function setPath( string path) -> <CookieInterface>
+    public function setPath(string path) -> <CookieInterface>
     {
         this->checkRestored();
 
@@ -525,7 +525,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface, Stringab
      *
      * @throws \Phalcon\Http\Cookie\Exception
      */
-    protected function assertSignKeyIsLongEnough( string signKey) -> void
+    protected function assertSignKeyIsLongEnough(string signKey) -> void
     {
         var length;
 
@@ -552,7 +552,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface, Stringab
     private function getCookieOptions(int expiresDefault) -> array
     {
         array options;
-        
+
         let options             = this->options;
         let options["expires"]  = this->getArrVal(options, "expires", expiresDefault);
         let options["domain"]   = this->getArrVal(options, "domain", this->domain);

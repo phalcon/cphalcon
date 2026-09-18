@@ -27,8 +27,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Filter\Sanitize\Upper
- *
  * Sanitizes a value to uppercase
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Upper)

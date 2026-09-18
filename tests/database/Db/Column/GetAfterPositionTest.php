@@ -24,8 +24,6 @@ final class GetAfterPositionTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Column :: getAfterPosition()
      *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      */

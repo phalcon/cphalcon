@@ -11,7 +11,7 @@
 namespace Phalcon\Encryption\Crypt\Exception;
 
 /**
- * Exceptions thrown in Phalcon\Crypt will use this class.
+ * Exceptions thrown in Phalcon\Encryption\Crypt will use this class.
  */
 class Mismatch extends Exception
 {

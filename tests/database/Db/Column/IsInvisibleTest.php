@@ -41,6 +41,7 @@ final class IsInvisibleTest extends AbstractDatabaseTestCase
 
         $this->assertFalse($column->isInvisible());
     }
+
     /**
      * Tests Phalcon\Db\Column :: isInvisible() - defaults to false when
      * the `invisible` key is not provided.

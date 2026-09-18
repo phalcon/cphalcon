@@ -38,6 +38,7 @@ final class ValidateTest extends AbstractUnitTestCase
     {
         Di::reset();
     }
+
     /**
      * @issue  https://github.com/phalcon/cphalcon/issues/10405
      * @author Phalcon Team <team@phalcon.io>
@@ -68,9 +69,9 @@ final class ValidateTest extends AbstractUnitTestCase
         $validation->bind(
             new stdClass(),
             [
-                'day' => date('d'),
+                'day'   => date('d'),
                 'month' => date('m'),
-                'year' => (string)(intval(date('Y')) + 1),
+                'year'  => (string)(intval(date('Y')) + 1),
             ]
         );
 

@@ -92,6 +92,7 @@ final class ValidateTest extends AbstractUnitTestCase
 
         $this->assertCount(0, $messages);
     }
+
     /**
      * Multiple files, the first one invalid -> one message, fail-fast.
      *

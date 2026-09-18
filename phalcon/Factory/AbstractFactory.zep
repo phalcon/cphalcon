@@ -10,24 +10,30 @@
 
 namespace Phalcon\Factory;
 
+use Exception as BaseException;
 use Phalcon\Config\ConfigInterface;
+use Phalcon\Contracts\Factory\FactoryTypes;
 
+/**
+ * @phpstan-import-type factory_instances from FactoryTypes
+ * @phpstan-import-type factory_services from FactoryTypes
+ */
 abstract class AbstractFactory extends AbstractConfigFactory
 {
     /**
-     * @var array
+     * @phpstan-var factory_services
      */
-    protected mapper = [];
+    protected array mapper = [];
 
     /**
-     * @var array
+     * @phpstan-var factory_instances
      */
-    protected services = [];
+    protected array services = [];
 
     /**
      * Checks if a service exists and throws an exception
      */
-    protected function getService( string name) -> var
+    protected function getService(string name) -> var
     {
         if unlikely !isset this->mapper[name] {
             throw this->getException("Service " . name . " is not registered");
@@ -39,14 +45,16 @@ abstract class AbstractFactory extends AbstractConfigFactory
     /**
      * Returns the adapters for the factory
      *
-     * @return string[]
+     * @phpstan-return factory_services
      */
     abstract protected function getServices() -> array;
 
     /**
      * Initialize services/add new services
+     *
+     * @phpstan-param factory_services $services
      */
-    protected function init( array services = []) -> void
+    protected function init(array services = []) -> void
     {
         var adapters, name, service;
 

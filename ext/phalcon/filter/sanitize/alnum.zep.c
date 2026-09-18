@@ -26,8 +26,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Filter\Sanitize\Alnum
- *
  * Sanitizes a value to an alphanumeric value
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Alnum)
@@ -39,7 +37,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Alnum)
 }
 
 /**
- * @param mixed $input The text to sanitize
+ * @param string|string[] $input The text to sanitize
  *
  * @return string|string[]|null
  */

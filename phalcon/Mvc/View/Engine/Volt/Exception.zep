@@ -10,23 +10,28 @@
 
 namespace Phalcon\Mvc\View\Engine\Volt;
 
+use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Mvc\View\Exception as BaseException;
 
 /**
  * Class for exceptions thrown by Phalcon\Mvc\View
+ *
+ * @phpstan-import-type mvc_volt_node from MvcTypes
  */
 class Exception extends BaseException
 {
     /**
-     * @var array
+     * @phpstan-var mvc_volt_node
      */
-    protected statement = [];
+    protected array statement = [];
 
     /**
      * @param string message
      * @param array statement
      * @param int code
      * @param \Exception|null previous
+     *
+     * @phpstan-param mvc_volt_node $statement
      */
     public function __construct(string message = "", array statement = [], int code = 0, <\Exception> previous = null)
     {
@@ -38,7 +43,7 @@ class Exception extends BaseException
     /**
      * Gets currently parsed statement (if any).
      *
-     * @return array
+     * @phpstan-return mvc_volt_node
      */
     public function getStatement() -> array
     {

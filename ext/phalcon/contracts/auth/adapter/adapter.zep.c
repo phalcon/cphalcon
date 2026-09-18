@@ -32,7 +32,7 @@
  * optional `password` entry that is ignored during the row match and
  * consumed only by validateCredentials().
  *
- * @phpstan-type AuthCredentials array<string, mixed>
+ * @phpstan-import-type auth_credentials from AuthTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Auth_Adapter_Adapter)
 {
@@ -54,7 +54,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Auth_Adapter_Adapter, fromOptions);
  * The 'password' key, if present, is ignored during the lookup.
  * Returns null if no user matches.
  *
- * @phpstan-param AuthCredentials $credentials
+ * @phpstan-param auth_credentials $credentials
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Auth_Adapter_Adapter, retrieveByCredentials);
 /**
@@ -66,6 +66,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Auth_Adapter_Adapter, retrieveById);
  * Implementations typically verify the password hash held under the
  * 'password' key.
  *
- * @phpstan-param AuthCredentials $credentials
+ * @phpstan-param auth_credentials $credentials
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Auth_Adapter_Adapter, validateCredentials);

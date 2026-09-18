@@ -550,6 +550,7 @@ final class HandleTest extends AbstractUnitTestCase
             $params
         );
     }
+
     /**
      * @issue  https://github.com/phalcon/cphalcon/security/advisories/GHSA-x7rj-f32v-7jjg
      * @author https://github.com/nikkoenggaliano
@@ -651,9 +652,6 @@ final class HandleTest extends AbstractUnitTestCase
         );
     }
 
-    /**
-     * @return void
-     */
     public function testCliRouterHandleRouterInvalidPathsException(): void
     {
         $this->expectException(Exception::class);
@@ -690,9 +688,6 @@ final class HandleTest extends AbstractUnitTestCase
         );
     }
 
-    /**
-     * @return void
-     */
     private function assertParameters(
         Router $router,
         array | string $uri,

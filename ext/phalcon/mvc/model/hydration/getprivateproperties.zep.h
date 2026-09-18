@@ -1,0 +1,18 @@
+
+extern zend_class_entry *phalcon_mvc_model_hydration_getprivateproperties_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Hydration_GetPrivateProperties);
+
+PHP_METHOD(Phalcon_Mvc_Model_Hydration_GetPrivateProperties, getPrivateProperties);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_hydration_getprivateproperties_getprivateproperties, 0, 1, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, className, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_hydration_getprivateproperties_zephir_init_static_properties_phalcon_mvc_model_hydration_getprivateproperties, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_mvc_model_hydration_getprivateproperties_method_entry) {
+	PHP_ME(Phalcon_Mvc_Model_Hydration_GetPrivateProperties, getPrivateProperties, arginfo_phalcon_mvc_model_hydration_getprivateproperties_getprivateproperties, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_FE_END
+};

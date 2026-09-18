@@ -28,8 +28,6 @@ final class ExecInsertTest extends AbstractDatabaseTestCase
 
     /**
      * Executed before each test
-     *
-     * @return void
      */
     public function setUp(): void
     {
@@ -44,8 +42,6 @@ final class ExecInsertTest extends AbstractDatabaseTestCase
 
     /**
      * Tests Phalcon\Db\Adapter\Pdo :: describeColumns()
-     *
-     * @return void
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-04-20

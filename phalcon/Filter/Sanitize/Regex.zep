@@ -13,16 +13,14 @@ namespace Phalcon\Filter\Sanitize;
 use Phalcon\Contracts\Filter\Sanitizer;
 
 /**
- * Phalcon\Filter\Sanitize\Regex
- *
  * Sanitizes a value performing preg_replace
  */
 class Regex implements Sanitizer
 {
     /**
-     * @param mixed $input
-     * @param mixed $pattern
-     * @param mixed $replace
+     * @param string|string[] $input
+     * @param string|string[] $pattern
+     * @param string|string[] $replace
      *
      * @return string|string[]|null
      */

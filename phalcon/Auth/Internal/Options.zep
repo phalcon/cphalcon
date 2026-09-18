@@ -16,18 +16,21 @@ namespace Phalcon\Auth\Internal;
 use Phalcon\Auth\Exception;
 use Phalcon\Auth\Exceptions\OptionRequiresArray;
 use Phalcon\Auth\Exceptions\OptionRequiresString;
+use Phalcon\Contracts\Auth\AuthTypes;
 
 /**
  * Internal option-parsing helpers shared by adapter / guard fromOptions()
  * implementations. Not part of the public API.
+ *
+ * @phpstan-import-type auth_user_row from AuthTypes
  */
 final class Options
 {
     /**
-     * @phpstan-param array<string, mixed>                              $options
-     * @phpstan-param list<array{id?: int|string}&array<string, mixed>> $defaultValue
+     * @phpstan-param array<string, mixed> $options
+     * @phpstan-param list<auth_user_row>  $defaultValue
      *
-     * @phpstan-return list<array{id?: int|string}&array<string, mixed>>
+     * @phpstan-return list<auth_user_row>
      */
     public static function arrayOption(array options, string key, array defaultValue) -> array
     {
@@ -39,7 +42,7 @@ final class Options
             return defaultValue;
         }
 
-        /** @var list<array{id?: int|string}&array<string, mixed>> */
+        /** @var list<auth_user_row> */
         return array_values(value);
     }
 

@@ -32,19 +32,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Image_Adapter_AdapterInterface)
 
 /**
  * Add a background to an image
- *
- * @param string $color
- * @param int    $opacity
- *
- * @return AdapterInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, background);
 /**
  * Blur an image
- *
- * @param int $radius
- *
- * @return AdapterInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, blur);
 /**
@@ -60,44 +51,20 @@ ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, blur);
 ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, crop);
 /**
  * Flip an image
- *
- * @param int $direction
- *
- * @return AdapterInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, flip);
-/**
- * @return int
- */
 ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, getHeight);
-/**
- * @return int
- */
 ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, getWidth);
 /**
  * Add a mask to an image
- *
- * @param AdapterInterface $mask
- *
- * @return AdapterInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, mask);
 /**
  * Pixelate an image
- *
- * @param int $amount
- *
- * @return AdapterInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, pixelate);
 /**
  * Reflect an image
- *
- * @param int  $height
- * @param int  $opacity
- * @param bool $fadeIn
- *
- * @return AdapterInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, reflection);
 /**
@@ -121,10 +88,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, render);
 ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, resize);
 /**
  * Rotate an image
- *
- * @param int $degrees
- *
- * @return AdapterInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, rotate);
 /**
@@ -138,34 +101,13 @@ ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, rotate);
 ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, save);
 /**
  * Sharpen an image
- *
- * @param int $amount
- *
- * @return AdapterInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, sharpen);
 /**
  * Adds text on an image
- *
- * @param string      $text
- * @param int         $offsetX
- * @param int         $offsetY
- * @param int         $opacity
- * @param string      $color
- * @param int         $size
- * @param string|null $fontFile
- *
- * @return AdapterInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, text);
 /**
  * Add a watermark on an image
- *
- * @param AdapterInterface $watermark
- * @param int              $offsetX
- * @param int              $offsetY
- * @param int              $opacity
- *
- * @return AdapterInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, watermark);

@@ -50,6 +50,7 @@ final class HasSharedTest extends AbstractUnitTestCase
 
         $this->assertTrue($container->hasShared('escaper'));
     }
+
     /**
      * @issue https://github.com/phalcon/cphalcon/issues/13440
      */

@@ -10,6 +10,7 @@
 
 namespace Phalcon\Encryption\Security\JWT;
 
+use Phalcon\Contracts\Encryption\EncryptionTypes;
 use Phalcon\Encryption\Security\JWT\Exceptions\EmptyPassphrase;
 use Phalcon\Encryption\Security\JWT\Exceptions\InvalidAudience;
 use Phalcon\Encryption\Security\JWT\Exceptions\InvalidExpirationTime;
@@ -30,40 +31,33 @@ use Phalcon\Traits\Php\Base64Trait;
  * JWT Builder
  *
  * @link https://tools.ietf.org/html/rfc7519
+ *
+ * @phpstan-import-type encryption_jwt_audience from EncryptionTypes
+ * @phpstan-import-type encryption_jwt_claims from EncryptionTypes
+ * @phpstan-import-type encryption_jwt_headers from EncryptionTypes
  */
 class Builder
 {
     use Base64Trait;
 
     /**
-     * @var CollectionInterface
+     * @phpstan-var CollectionInterface<mixed>
      */
-    private claims;
+    private <CollectionInterface> claims;
+
+    private <Encode> encode;
 
     /**
-     * @var Encode
+     * @phpstan-var CollectionInterface<mixed>
      */
-    private encode;
+    private <CollectionInterface> jose;
 
-    /**
-     * @var CollectionInterface
-     */
-    private jose;
+    private string passphrase;
 
-    /**
-     * @var string
-     */
-    private passphrase;
-
-    /**
-     * @var SignerInterface
-     */
-    private signer;
+    private <SignerInterface> signer;
 
     /**
      * Builder constructor.
-     *
-     * @param SignerInterface $signer
      */
     public function __construct(
         <SignerInterface> signer
@@ -81,13 +75,8 @@ class Builder
 
     /**
      * Adds a custom claim
-     *
-     * @param string $name
-     * @param mixed  $value
-     *
-     * @return static
      */
-    public function addClaim( string name, var value) -> <static>
+    public function addClaim(string name, var value) -> <static>
     {
         this->claims->set(name, value);
 
@@ -96,13 +85,8 @@ class Builder
 
     /**
      * Adds a custom claim
-     *
-     * @param string $name
-     * @param mixed  $value
-     *
-     * @return static
      */
-    public function addHeader( string name, var value) -> <static>
+    public function addHeader(string name, var value) -> <static>
     {
         this->jose->set(name, value);
 
@@ -110,7 +94,7 @@ class Builder
     }
 
     /**
-     * @return array|string
+     * @phpstan-return encryption_jwt_audience
      */
     public function getAudience()
     {
@@ -118,87 +102,62 @@ class Builder
     }
 
     /**
-     * @return array
+     * @phpstan-return encryption_jwt_claims
      */
     public function getClaims() -> array
     {
         return this->claims->toArray();
     }
 
-    /**
-     * @return string|null
-     */
     public function getContentType() -> string | null
     {
         return this->jose->get(Enum::CONTENT_TYPE, null, "string");
     }
 
-    /**
-     * @return int|null
-     */
     public function getExpirationTime() -> int | null
     {
         return this->claims->get(Enum::EXPIRATION_TIME, null, "int");
     }
 
     /**
-     * @return array
+     * @phpstan-return encryption_jwt_headers
      */
     public function getHeaders() -> array
     {
         return this->jose->toArray();
     }
 
-    /**
-     * @return string|null
-     */
     public function getId() -> string | null
     {
         return this->claims->get(Enum::ID, null, "string");
     }
 
-    /**
-     * @return int|null
-     */
     public function getIssuedAt() -> int | null
     {
         return this->claims->get(Enum::ISSUED_AT, null, "int");
     }
 
-    /**
-     * @return string|null
-     */
     public function getIssuer() -> string | null
     {
         return this->claims->get(Enum::ISSUER, null, "string");
     }
 
-    /**
-     * @return int|null
-     */
     public function getNotBefore() -> int | null
     {
         return this->claims->get(Enum::NOT_BEFORE, null, "int");
     }
 
-    /**
-     * @return string
-     */
     public function getPassphrase() -> string
     {
         return this->passphrase;
     }
 
-    /**
-     * @return string|null
-     */
     public function getSubject() -> string | null
     {
         return this->claims->get(Enum::SUBJECT, null, "string");
     }
 
     /**
-     * @return Token
      * @throws ValidatorException
      */
     public function getToken() -> <Token>
@@ -224,9 +183,6 @@ class Builder
         return new Token(headers, claims, signature);
     }
 
-    /**
-     * @return static
-     */
     public function init() -> <static>
     {
         let this->passphrase = "",
@@ -254,9 +210,6 @@ class Builder
      * interpretation of audience values is generally application specific.
      * Use of this claim is OPTIONAL.
      *
-     * @param mixed $audience
-     *
-     * @return static
      * @throws ValidatorException
      */
     public function setAudience(var audience) -> <static>
@@ -278,10 +231,6 @@ class Builder
 
     /**
      * Sets the content type header 'cty'
-     *
-     * @param string $contentType
-     *
-     * @return static
      */
     public function setContentType(string contentType) -> <static>
     {
@@ -299,9 +248,7 @@ class Builder
      * a few minutes, to account for clock skew.  Its value MUST be a number
      * containing a NumericDate value.  Use of this claim is OPTIONAL.
      *
-     * @param int $timestamp
      *
-     * @return static
      * @throws ValidatorException
      */
     public function setExpirationTime(int timestamp) -> <static>
@@ -322,12 +269,8 @@ class Builder
      * produced by different issuers as well.  The "jti" claim can be used
      * to prevent the JWT from being replayed.  The "jti" value is a case-
      * sensitive string.  Use of this claim is OPTIONAL.
-     *
-     * @param string $jwtId
-     *
-     * @return static
      */
-    public function setId( string jwtId) -> <static>
+    public function setId(string jwtId) -> <static>
     {
         return this->setClaim(Enum::ID, jwtId);
     }
@@ -337,12 +280,8 @@ class Builder
      * issued.  This claim can be used to determine the age of the JWT.  Its
      * value MUST be a number containing a NumericDate value.  Use of this
      * claim is OPTIONAL.
-     *
-     * @param int $timestamp
-     *
-     * @return static
      */
-    public function setIssuedAt( int timestamp) -> <static>
+    public function setIssuedAt(int timestamp) -> <static>
     {
         return this->setClaim(Enum::ISSUED_AT, timestamp);
     }
@@ -352,12 +291,8 @@ class Builder
      * JWT.  The processing of this claim is generally application specific.
      * The "iss" value is a case-sensitive string containing a StringOrURI
      * value.  Use of this claim is OPTIONAL.
-     *
-     * @param string $issuer
-     *
-     * @return static
      */
-    public function setIssuer( string issuer) -> <static>
+    public function setIssuer(string issuer) -> <static>
     {
         return this->setClaim(Enum::ISSUER, issuer);
     }
@@ -371,12 +306,10 @@ class Builder
      * account for clock skew.  Its value MUST be a number containing a
      * NumericDate value.  Use of this claim is OPTIONAL.
      *
-     * @param int $timestamp
      *
-     * @return static
      * @throws ValidatorException
      */
-    public function setNotBefore( int timestamp) -> <static>
+    public function setNotBefore(int timestamp) -> <static>
     {
         if timestamp > time() {
             throw new InvalidNotBefore();
@@ -386,12 +319,10 @@ class Builder
     }
 
     /**
-     * @param string $passphrase
      *
-     * @return static
      * @throws ValidatorException
      */
-    public function setPassphrase( string passphrase) -> <static>
+    public function setPassphrase(string passphrase) -> <static>
     {
         if !preg_match(
             "/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{16,}$/",
@@ -413,25 +344,16 @@ class Builder
      * The processing of this claim is generally application specific.  The
      * "sub" value is a case-sensitive string containing a StringOrURI
      * value.  Use of this claim is OPTIONAL.
-     *
-     * @param string $subject
-     *
-     * @return static
      */
-    public function setSubject( string subject) -> <static>
+    public function setSubject(string subject) -> <static>
     {
         return this->setClaim(Enum::SUBJECT, subject);
     }
 
     /**
      * Sets a registered claim
-     *
-     * @param string $name
-     * @param mixed  $value
-     *
-     * @return Builder
      */
-    protected function setClaim( string name, var value) -> <Builder>
+    protected function setClaim(string name, var value) -> <Builder>
     {
         this->claims->set(name, value);
 

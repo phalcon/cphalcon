@@ -20,6 +20,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\CustomersMigration;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
+use Phalcon\Tests\Support\Models\InvoicesMap;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -138,5 +139,48 @@ final class UnderscoreCallStaticTest extends AbstractDatabaseTestCase
         );
 
         Invoices::countByUnknownField(1);
+    }
+
+    /**
+     * With a column map in place, the magic finders take the mapped attribute
+     * name and not the column name.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-08
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelUnderscoreCallStaticWithColumnMap(): void
+    {
+        /** @var PDO $connection */
+        $connection = self::getPdoConnection();
+
+        $invoicesMigration = new InvoicesMigration($connection);
+        $invoicesMigration->insert(1, 1, 1, uniqid('inv-'));
+        $invoicesMigration->insert(2, 1, 1, uniqid('inv-'));
+        $invoicesMigration->insert(3, 1, 0, uniqid('inv-'));
+
+        /**
+         * Testing Model::findFirstByField()
+         */
+        $invoice = InvoicesMap::findFirstById(1);
+
+        $this->assertInstanceOf(InvoicesMap::class, $invoice);
+        $this->assertEquals(1, $invoice->id);
+
+        /**
+         * Testing Model::findByField()
+         */
+        $invoices = InvoicesMap::findByStatusFlag(1);
+
+        $this->assertInstanceOf(Resultset\Simple::class, $invoices);
+        $this->assertCount(2, $invoices);
+        $this->assertEquals(1, $invoices[0]->id);
+
+        /**
+         * Testing Model::countByField()
+         */
+        $this->assertEquals(2, InvoicesMap::countByStatusFlag(1));
     }
 }

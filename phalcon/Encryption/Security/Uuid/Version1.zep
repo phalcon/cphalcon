@@ -25,6 +25,9 @@ namespace Phalcon\Encryption\Security\Uuid;
  */
 class Version1 extends AbstractUuid implements TimeBasedUuidInterface
 {
+    /**
+     * @param string|null $node
+     */
     public function __construct(<\DateTimeInterface> dateTime = null, var node = null)
     {
         var nowSec, nowUsec, dateTimestamp, dateUsec, timeLow, timeMid, timeHi,

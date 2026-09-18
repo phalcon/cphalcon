@@ -31,8 +31,6 @@ final class ExecuteQueryTest extends AbstractDatabaseTestCase
 
     /**
      * Executed before each test
-     *
-     * @return void
      */
     public function setUp(): void
     {
@@ -49,6 +47,7 @@ final class ExecuteQueryTest extends AbstractDatabaseTestCase
         $connection = self::getPdoConnection();
         (new InvoicesMigration($connection));
     }
+
     /**
      * @issue  https://github.com/phalcon/cphalcon/issues/15024
      * @author Phalcon Team <team@phalcon.io>
@@ -61,7 +60,7 @@ final class ExecuteQueryTest extends AbstractDatabaseTestCase
     {
         /** @var ManagerInterface $manager */
         $manager = $this->getService("modelsManager");
-        $sql = sprintf("SELECT * FROM [%s]", Invoices::class);
+        $sql     = sprintf("SELECT * FROM [%s]", Invoices::class);
         $this->assertInstanceOf(Simple::class, $manager->executeQuery($sql));
         $sql = sprintf("SELECT SUM(inv_total) AS s FROM [%s]", Invoices::class);
         $this->assertInstanceOf(Simple::class, $manager->executeQuery($sql));

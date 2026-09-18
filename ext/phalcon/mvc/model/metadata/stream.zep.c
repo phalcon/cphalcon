@@ -45,22 +45,26 @@
  *     ]
  * );
  *```
+ *
+ * @phpstan-import-type mvc_metadata_index from MvcTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Stream)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\MetaData, Stream, phalcon, mvc_model_metadata_stream, phalcon_mvc_model_metadata_ce, phalcon_mvc_model_metadata_stream_method_entry, 0);
 
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_mvc_model_metadata_stream_ce, SL("metaDataDir"), "./", ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "./", sizeof("./") - 1);
+		zephir_declare_typed_property(phalcon_mvc_model_metadata_stream_ce, SL("metaDataDir"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 
 /**
  * Phalcon\Mvc\Model\MetaData\Files constructor
  *
- * @param array options
+ * @param array<string, mixed> $options
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, __construct)
 {
@@ -91,13 +95,15 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, __construct)
 	}
 	zephir_memory_observe(&metaDataDir);
 	if (zephir_array_isset_string_fetch(&metaDataDir, &options, SL("metaDataDir"), 0)) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1055, &metaDataDir);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1052, &metaDataDir);
 	}
 	ZEPHIR_MM_RESTORE();
 }
 
 /**
  * Reads meta-data from files
+ *
+ * @phpstan-return mvc_metadata_index|null
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, read)
 {
@@ -135,6 +141,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, read)
 
 /**
  * Writes the meta-data to files
+ *
+ * @phpstan-param mvc_metadata_index $data
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write)
 {
@@ -234,14 +242,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, getFilePath)
 	ZVAL_STRING(&_0, "_");
 	ZEPHIR_INIT_VAR(&name);
 	zephir_prepare_virtual_path(&name, &key_zv, &_0);
-	if (zephir_memnstr_str(&key_zv, SL("_"), "phalcon/Mvc/Model/MetaData/Stream.zep", 105)) {
-		ZEPHIR_CALL_FUNCTION(&_1$$3, "sha1", NULL, 299, &key_zv);
+	if (zephir_memnstr_str(&key_zv, SL("_"), "phalcon/Mvc/Model/MetaData/Stream.zep", 109)) {
+		ZEPHIR_CALL_FUNCTION(&_1$$3, "sha1", NULL, 302, &key_zv);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_CONCAT_VSV(&_2$$3, &name, "_", &_1$$3);
 		ZEPHIR_CPY_WRT(&name, &_2$$3);
 	}
-	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 1055, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 1052, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CONCAT_VVS(return_value, &_3, &name, ".php");
 	RETURN_MM();
 }
@@ -269,7 +277,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, throwWriteException)
 		object_init_ex(&_0$$3, phalcon_mvc_model_metadata_exceptions_metadatadirectorynotwritable_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Mvc/Model/MetaData/Stream.zep", 118);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Mvc/Model/MetaData/Stream.zep", 122);
 		ZEPHIR_MM_RESTORE();
 		return;
 	} else {
@@ -382,7 +390,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, phpFgetCsv)
 		ZVAL_STRING(escape, "\\");
 	}
 	ZVAL_LONG(&_0, length);
-	ZEPHIR_RETURN_CALL_FUNCTION("fgetcsv", NULL, 161, stream, &_0, &separator_zv, enclosure, escape);
+	ZEPHIR_RETURN_CALL_FUNCTION("fgetcsv", NULL, 162, stream, &_0, &separator_zv, enclosure, escape);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -478,14 +486,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, phpFileGetContents)
 	if (0 == length) {
 		ZVAL_BOOL(&_0$$3, (useIncludePath ? 1 : 0));
 		ZVAL_LONG(&_1$$3, offset);
-		ZEPHIR_RETURN_CALL_FUNCTION("file_get_contents", NULL, 162, &filename_zv, &_0$$3, context, &_1$$3);
+		ZEPHIR_RETURN_CALL_FUNCTION("file_get_contents", NULL, 163, &filename_zv, &_0$$3, context, &_1$$3);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
 	ZVAL_BOOL(&_2, (useIncludePath ? 1 : 0));
 	ZVAL_LONG(&_3, offset);
 	ZVAL_LONG(&_4, length);
-	ZEPHIR_RETURN_CALL_FUNCTION("file_get_contents", NULL, 162, &filename_zv, &_2, context, &_3, &_4);
+	ZEPHIR_RETURN_CALL_FUNCTION("file_get_contents", NULL, 163, &filename_zv, &_2, context, &_3, &_4);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -540,7 +548,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, phpFilePutContents)
 		context = &__$null;
 	}
 	ZVAL_LONG(&_0, flags);
-	ZEPHIR_RETURN_CALL_FUNCTION("file_put_contents", NULL, 163, &filename_zv, data, &_0, context);
+	ZEPHIR_RETURN_CALL_FUNCTION("file_put_contents", NULL, 164, &filename_zv, data, &_0, context);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -597,7 +605,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, phpFopen)
 		context = &__$null;
 	}
 	ZVAL_BOOL(&_0, (useIncludePath ? 1 : 0));
-	ZEPHIR_RETURN_CALL_FUNCTION("fopen", NULL, 164, &filename_zv, &mode_zv, &_0, context);
+	ZEPHIR_RETURN_CALL_FUNCTION("fopen", NULL, 165, &filename_zv, &mode_zv, &_0, context);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -647,7 +655,36 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, phpFwrite)
 		RETURN_MM();
 	}
 	ZVAL_LONG(&_0, length);
-	ZEPHIR_RETURN_CALL_FUNCTION("fwrite", NULL, 165, handle, &data_zv, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("fwrite", NULL, 166, handle, &data_zv, &_0);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
+ * Tells whether the filename is a directory
+ *
+ * @param string $filename
+ *
+ * @return bool
+ *
+ * @link https://php.net/manual/en/function.is-dir.php
+ */
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, phpIsDir)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval filename_zv;
+	zend_string *filename = NULL;
+
+	ZVAL_UNDEF(&filename_zv);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(filename)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&filename_zv);
+	ZVAL_STR_COPY(&filename_zv, filename);
+	ZEPHIR_RETURN_CALL_FUNCTION("is_dir", NULL, 167, &filename_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -676,7 +713,72 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, phpIsWritable)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&filename_zv);
 	ZVAL_STR_COPY(&filename_zv, filename);
-	ZEPHIR_RETURN_CALL_FUNCTION("is_writable", NULL, 166, &filename_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("is_writable", NULL, 168, &filename_zv);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+/**
+ * Makes a directory
+ *
+ * @param string        $directory
+ * @param int           $permissions
+ * @param bool          $recursive
+ * @param resource|null $context
+ *
+ * @return bool
+ *
+ * @link https://php.net/manual/en/function.mkdir.php
+ */
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, phpMkdir)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_bool recursive;
+	zend_long permissions, ZEPHIR_LAST_CALL_STATUS;
+	zval directory_zv, *permissions_param = NULL, *recursive_param = NULL, *context = NULL, context_sub, __$null, _0, _1;
+	zend_string *directory = NULL;
+
+	ZVAL_UNDEF(&directory_zv);
+	ZVAL_UNDEF(&context_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 4)
+		Z_PARAM_STR(directory)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_LONG(permissions)
+		Z_PARAM_BOOL(recursive)
+		Z_PARAM_ZVAL_OR_NULL(context)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	if (ZEND_NUM_ARGS() > 1) {
+		permissions_param = ZEND_CALL_ARG(execute_data, 2);
+	}
+	if (ZEND_NUM_ARGS() > 2) {
+		recursive_param = ZEND_CALL_ARG(execute_data, 3);
+	}
+	if (ZEND_NUM_ARGS() > 3) {
+		context = ZEND_CALL_ARG(execute_data, 4);
+	}
+	zephir_memory_observe(&directory_zv);
+	ZVAL_STR_COPY(&directory_zv, directory);
+	if (!permissions_param) {
+		permissions = 0777;
+	} else {
+		}
+	if (!recursive_param) {
+		recursive = 0;
+	} else {
+		}
+	if (!context) {
+		context = &context_sub;
+		context = &__$null;
+	}
+	ZVAL_LONG(&_0, permissions);
+	ZVAL_BOOL(&_1, (recursive ? 1 : 0));
+	ZEPHIR_RETURN_CALL_FUNCTION("mkdir", NULL, 169, &directory_zv, &_0, &_1, context);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -716,7 +818,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, phpUnlink)
 		context = &context_sub;
 		context = &__$null;
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("unlink", NULL, 167, &filename_zv, context);
+	ZEPHIR_RETURN_CALL_FUNCTION("unlink", NULL, 170, &filename_zv, context);
 	zephir_check_call_status();
 	RETURN_MM();
 }

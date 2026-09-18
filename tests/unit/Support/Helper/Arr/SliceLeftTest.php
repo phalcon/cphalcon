@@ -24,7 +24,7 @@ final class SliceLeftTest extends AbstractUnitTestCase
      */
     public function testSupportHelperArrSliceLeft(): void
     {
-        $object = new SliceLeft();
+        $object     = new SliceLeft();
         $collection = [
             'Phalcon',
             'Framework',

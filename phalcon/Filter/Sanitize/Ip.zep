@@ -13,8 +13,6 @@ namespace Phalcon\Filter\Sanitize;
 use Phalcon\Contracts\Filter\Sanitizer;
 
 /**
- * Phalcon\Filter\Sanitize\IP
- *
  * Sanitizes a value to an ip address or CIDR range
  */
 class Ip implements Sanitizer
@@ -24,7 +22,7 @@ class Ip implements Sanitizer
      * @param int $filter
      * @return false|string
      */
-    public function __invoke(string input, int filter = 0) -> string | false
+    public function __invoke(string input, int filter = 0) -> false | string
     {
         var parts, ip, mask, maxMask, filtered, ipInput;
 
@@ -32,7 +30,7 @@ class Ip implements Sanitizer
 
         // CIDR notation (e.g., 192.168.1.0/24)
         if memstr(ipInput, "/") {
-            let parts       = explode("/", input, 2),
+            let parts       = explode("/", ipInput, 2),
                 ip          = parts[0],
                 mask        = parts[1];
 

@@ -17,8 +17,6 @@ use Phalcon\Mvc\ModelInterface;
 use Phalcon\Support\Settings;
 
 /**
- * Phalcon\Mvc\Model\Behavior\SoftDelete
- *
  * Instead of permanently delete a record it marks the record as deleted
  * changing the value of a flag column
  */
@@ -26,8 +24,10 @@ class SoftDelete extends Behavior
 {
     /**
      * Listens for notifications from the models manager
+     *
+     * @phpstan-return mixed
      */
-    public function notify( string type, <ModelInterface> model)
+    public function notify(string type, <ModelInterface> model)
     {
         var options, value, field, updateModel, message, modelsManager, metaData;
 

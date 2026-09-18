@@ -28,7 +28,6 @@ use Phalcon\Storage\Serializer\RedisMsgpack;
 use Phalcon\Storage\Serializer\RedisNone;
 use Phalcon\Storage\Serializer\RedisPhp;
 use Phalcon\Storage\Serializer\SerializerInterface;
-use Throwable;
 
 /**
  * @phpstan-import-type storage_services from StorageTypes
@@ -38,9 +37,9 @@ class SerializerFactory extends AbstractFactory
     /**
      * SerializerFactory constructor.
      *
-     * @param string[] $services
+     * @param array<string, string> $services
      */
-    public function __construct( array services = [])
+    public function __construct(array services = [])
     {
         this->init(services);
     }
@@ -51,7 +50,7 @@ class SerializerFactory extends AbstractFactory
      * @return SerializerInterface
      * @throws BaseException
      */
-    public function newInstance( string name) -> <SerializerInterface>
+    public function newInstance(string name) -> <SerializerInterface>
     {
         var definition;
 
@@ -62,7 +61,7 @@ class SerializerFactory extends AbstractFactory
     }
 
     /**
-     * @return class-string<Throwable>
+     * @return class-string<\Exception>
      */
     protected function getExceptionClass() -> string
     {

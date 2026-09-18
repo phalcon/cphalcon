@@ -37,6 +37,7 @@ final class HandleTest extends AbstractUnitTestCase
 
         $this->assertStringContainsString('No route matched the request.', $response->getContent());
     }
+
     /**
      * Unit Tests Phalcon\ADR\ErrorResponder :: handle() hides the exception behind
      * the message that goes with the status

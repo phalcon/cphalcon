@@ -26,9 +26,6 @@ final class GetRequestTokenTest extends AbstractUnitTestCase
 {
     use DiTrait;
 
-    /**
-     * @var array
-     */
     protected array $store = [];
 
     /**

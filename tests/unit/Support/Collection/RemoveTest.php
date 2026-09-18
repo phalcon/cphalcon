@@ -25,11 +25,11 @@ final class RemoveTest extends AbstractCollectionTestCase
      */
     public function testSupportCollectionRemove(): void
     {
-        $data = $this->getData();
+        $data       = $this->getData();
         $collection = new Collection($data);
 
         $expected = $data;
-        $actual = $collection->toArray();
+        $actual   = $collection->toArray();
         $this->assertSame($expected, $actual);
 
         $collection->remove('five');
@@ -82,7 +82,7 @@ final class RemoveTest extends AbstractCollectionTestCase
      */
     public function testSupportCollectionRemoveException(): void
     {
-        $data = $this->getData();
+        $data       = $this->getData();
         $collection = new ReadOnlyCollection($data);
 
         $this->expectException(Exception::class);
@@ -96,7 +96,7 @@ final class RemoveTest extends AbstractCollectionTestCase
      */
     public function testSupportCollectionRemoveInsensitiveException(): void
     {
-        $data = $this->getData();
+        $data       = $this->getData();
         $collection = new ReadOnlyCollection($data);
 
         $this->expectException(Exception::class);
@@ -110,7 +110,7 @@ final class RemoveTest extends AbstractCollectionTestCase
      */
     public function testSupportCollectionRemoveOffsetUnsetException(): void
     {
-        $data = $this->getData();
+        $data       = $this->getData();
         $collection = new ReadOnlyCollection($data);
 
         $this->expectException(Exception::class);
@@ -124,7 +124,7 @@ final class RemoveTest extends AbstractCollectionTestCase
      */
     public function testSupportCollectionRemoveUnderscoreUnsetException(): void
     {
-        $data = $this->getData();
+        $data       = $this->getData();
         $collection = new ReadOnlyCollection($data);
 
         $this->expectException(Exception::class);
@@ -138,7 +138,7 @@ final class RemoveTest extends AbstractCollectionTestCase
      */
     public function testSupportCollectionRemoveUnsetException(): void
     {
-        $data = $this->getData();
+        $data       = $this->getData();
         $collection = new ReadOnlyCollection($data);
 
         $this->expectException(Exception::class);

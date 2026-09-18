@@ -32,6 +32,7 @@ use function strlen;
 final class ModelTest extends AbstractUnitTestCase
 {
     private Model $adapter;
+
     private Security $security;
 
     protected function setUp(): void

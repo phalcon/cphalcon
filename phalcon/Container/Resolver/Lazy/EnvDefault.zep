@@ -53,10 +53,6 @@ class EnvDefault extends Env
 
     /**
      * Resolve an environment variable, returning the default if not defined
-     *
-     * @param object $ioc
-     *
-     * @return mixed
      */
     public function resolve(object ioc) -> mixed
     {

@@ -22,6 +22,12 @@
  */
 /**
  * Interface for Phalcon\Forms\Element classes
+ *
+ * @phpstan-import-type forms_attributes from FormsTypes
+ * @phpstan-import-type forms_filters from FormsTypes
+ * @phpstan-import-type forms_options from FormsTypes
+ * @phpstan-import-type forms_validators from FormsTypes
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_ElementInterface)
 {
@@ -41,10 +47,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, addValidator);
 /**
  * Adds a group of validators
  *
- * @param \Phalcon\Filter\Validation\ValidatorInterface[] validators
- * @param bool merge
- *
- * @return ElementInterface
+ * @phpstan-param array<array-key, mixed> $validators
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, addValidators);
 /**
@@ -61,6 +64,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, clear);
 ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, getAttribute);
 /**
  * Returns the default attributes for the element
+ *
+ * @phpstan-return forms_attributes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, getAttributes);
 /**
@@ -70,7 +75,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, getDefault);
 /**
  * Returns the element's filters
  *
- * @return mixed
+ * @phpstan-return forms_filters
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, getFilters);
 /**
@@ -96,10 +101,14 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, getName);
 ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, getUserOption);
 /**
  * Returns the options for the element
+ *
+ * @phpstan-return forms_options
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, getUserOptions);
 /**
  * Returns the validators registered for the element
+ *
+ * @phpstan-return forms_validators
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, getValidators);
 /**
@@ -116,6 +125,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, hasMessages);
 ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, label);
 /**
  * Renders the element widget
+ *
+ * @phpstan-param html_attributes $attributes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, render);
 /**
@@ -124,6 +135,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, render);
 ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, setAttribute);
 /**
  * Sets default attributes for the element
+ *
+ * @phpstan-param forms_attributes $attributes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, setAttributes);
 /**
@@ -134,7 +147,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, setDefault);
 /**
  * Sets the element's filters
  *
- * @param array|string filters
+ * @phpstan-param forms_filters|string $filters
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, setFilters);
 /**
@@ -159,5 +172,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, setName);
 ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, setUserOption);
 /**
  * Sets options for the element
+ *
+ * @phpstan-param forms_options $options
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, setUserOptions);

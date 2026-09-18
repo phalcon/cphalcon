@@ -47,8 +47,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_Noop, close)
 
 /**
  * Processes the message i.e. writes it to the file
- *
- * @param Item $item
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Noop, process)
 {

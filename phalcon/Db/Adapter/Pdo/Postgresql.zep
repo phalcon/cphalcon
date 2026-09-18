@@ -10,6 +10,7 @@
 
 namespace Phalcon\Db\Adapter\Pdo;
 
+use Phalcon\Contracts\Db\DbTypes;
 use Phalcon\Db\Adapter\Pdo\AbstractPdo as PdoAdapter;
 use Phalcon\Db\Column;
 use Phalcon\Db\ColumnInterface;
@@ -37,23 +38,22 @@ use Throwable;
  *
  * $connection = new Postgresql($config);
  * ```
+ *
+ * @phpstan-import-type db_descriptor from DbTypes
+ * @phpstan-import-type db_dsn_defaults from DbTypes
+ * @phpstan-import-type db_table_definition from DbTypes
  */
 class Postgresql extends PdoAdapter
 {
-    /**
-     * @var string
-     */
-    protected dialectType = "postgresql";
-
-    /**
-     * @var string
-     */
-    protected type = "pgsql";
+    protected string dialectType = "postgresql";
+    protected string type = "pgsql";
 
     /**
      * Constructor for Phalcon\Db\Adapter\Pdo\Postgresql
+     *
+     * @phpstan-param db_descriptor $descriptor
      */
-    public function __construct( array descriptor)
+    public function __construct(array descriptor)
     {
         if isset descriptor["charset"] {
             trigger_error(
@@ -67,8 +67,10 @@ class Postgresql extends PdoAdapter
     /**
      * This method is automatically called in Phalcon\Db\Adapter\Pdo
      * constructor. Call it when you need to restore a database connection.
+     *
+     * @phpstan-param db_descriptor $descriptor
      */
-    public function connect( array descriptor = []) -> void
+    public function connect(array descriptor = []) -> void
     {
         var schema, sql;
 
@@ -82,10 +84,10 @@ class Postgresql extends PdoAdapter
             let schema = null;
         }
 
-        if isset descriptor["password"] {
-            if typeof descriptor["password"] == "string" && strlen(descriptor["password"]) == 0 {
-                let descriptor["password"] = null;
-            }
+        if isset descriptor["password"] &&
+            typeof descriptor["password"] == "string" &&
+            strlen(descriptor["password"]) == 0 {
+            let descriptor["password"] = null;
         }
 
         parent::connect(descriptor);
@@ -99,8 +101,10 @@ class Postgresql extends PdoAdapter
 
     /**
      * Creates a table
+     *
+     * @phpstan-param db_table_definition $definition
      */
-    public function createTable( string tableName,  string schemaName,  array definition) -> bool
+    public function createTable(string tableName,  string schemaName,  array definition) -> bool
     {
         var sql, queries, query, exception, columns;
 
@@ -638,7 +642,7 @@ class Postgresql extends PdoAdapter
      * );
      *```
      */
-    public function describeReferences( string table,  string schema = null) -> <ReferenceInterface[]>
+    public function describeReferences(string table,  string schema = null) -> <ReferenceInterface[]>
     {
         var references, reference, arrayReference, constraintName,
             referenceObjects, name, referencedSchema, referencedTable, columns,
@@ -725,7 +729,7 @@ class Postgresql extends PdoAdapter
     /**
      * Modifies a table column based on a definition
      */
-    public function modifyColumn( string tableName,  string schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> bool
+    public function modifyColumn(string tableName,  string schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> bool
     {
         var sql, queries, query, exception;
 
@@ -783,6 +787,8 @@ class Postgresql extends PdoAdapter
 
     /**
      * Returns PDO adapter DSN defaults as a key-value map.
+     *
+     * @phpstan-return db_dsn_defaults
      */
     protected function getDsnDefaults() -> array
     {

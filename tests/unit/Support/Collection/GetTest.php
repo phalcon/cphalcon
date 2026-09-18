@@ -30,9 +30,9 @@ final class GetTest extends AbstractCollectionTestCase
     public function testSupportCollectionGet(
         string $class,
     ): void {
-        $data = $this->getDataForGet();
+        $data       = $this->getDataForGet();
         $collection = new $class($data);
-        $expected = 'four';
+        $expected   = 'four';
 
         $actual = $collection->get('three');
         $this->assertSame($expected, $actual);
@@ -53,15 +53,15 @@ final class GetTest extends AbstractCollectionTestCase
         $this->assertSame($expected, $actual);
 
         $expected = 'two';
-        $actual = $collection->get('one', 'fallback');
+        $actual   = $collection->get('one', 'fallback');
         $this->assertSame($expected, $actual);
 
         $expected = '';
-        $actual = $collection->get('seven', 'fallback');
+        $actual   = $collection->get('seven', 'fallback');
         $this->assertSame($expected, $actual);
 
         $expected = 'fallback';
-        $actual = $collection->get('eight', 'fallback');
+        $actual   = $collection->get('eight', 'fallback');
         $this->assertSame($expected, $actual);
     }
 
@@ -94,7 +94,7 @@ final class GetTest extends AbstractCollectionTestCase
      */
     public function testSupportCollectionGetCastArrayUnwrapsToArrayObjects(): void
     {
-        $nested = new Collection(['inKey' => 'inValue']);
+        $nested     = new Collection(['inKey' => 'inValue']);
         $collection = new Collection(['outKey' => $nested]);
 
         $extractedArray = $collection->get('outKey', [], 'array');

@@ -11,6 +11,7 @@
 namespace Phalcon\Mvc\Model;
 
 use Phalcon\Cache\Adapter\AdapterInterface as CacheAdapterInterface;
+use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\MetaData\Exceptions\ContainerRequired;
@@ -24,8 +25,6 @@ use Phalcon\Support\Settings;
 use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 
 /**
- * Phalcon\Mvc\Model\MetaData
- *
  * Because Phalcon\Mvc\Model requires meta-data like field names, data types,
  * primary keys, etc. This component collect them and store for further
  * querying by Phalcon\Mvc\Model. Phalcon\Mvc\Model\MetaData can also use
@@ -76,6 +75,17 @@ use Phalcon\Traits\Support\Helper\Arr\GetTrait;
  * |------|-----------------------------|---------------------|
  * | 0    | `MODELS_COLUMN_MAP`         | column => attribute |
  * | 1    | `MODELS_REVERSE_COLUMN_MAP` | attribute => column |
+ *
+ * @phpstan-import-type mvc_metadata_column_map from MvcTypes
+ * @phpstan-import-type mvc_metadata_column_map_store from MvcTypes
+ * @phpstan-import-type mvc_metadata_column_maps from MvcTypes
+ * @phpstan-import-type mvc_metadata_default_values from MvcTypes
+ * @phpstan-import-type mvc_metadata_index from MvcTypes
+ * @phpstan-import-type mvc_metadata_model from MvcTypes
+ * @phpstan-import-type mvc_metadata_slot from MvcTypes
+ * @phpstan-import-type mvc_metadata_store from MvcTypes
+ * @phpstan-import-type mvc_metadata_types from MvcTypes
+ * @phpstan-import-type mvc_model_attributes from MvcTypes
  */
 abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 {
@@ -146,25 +156,19 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      */
     const MODELS_REVERSE_COLUMN_MAP = 1;
 
-    /**
-     * @var CacheAdapterInterface|null
-     */
-    protected adapter = null;
+    protected ?<CacheAdapterInterface> adapter = null;
 
     /**
-     * @var array
+     * @phpstan-var mvc_metadata_column_map_store
      */
-    protected columnMap = [];
+    protected array columnMap = [];
+
+    protected ?<DiInterface> container = null;
 
     /**
-     * @var DiInterface|null
+     * @phpstan-var mvc_metadata_store
      */
-    protected container = null;
-
-    /**
-     * @var array
-     */
-    protected metaData = [];
+    protected array metaData = [];
 
     /**
      * Holds metadata index writes that arrived before the model's metadata was
@@ -172,14 +176,11 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      * initialize() while the child's source had not yet been set).  Applied
      * inside initializeMetaData() after the real schema is loaded.
      *
-     * @var array
+     * @phpstan-var mvc_metadata_store
      */
-    protected pendingMetaDataWrites = [];
+    protected array pendingMetaDataWrites = [];
 
-    /**
-     * @var StrategyInterface|null
-     */
-    protected strategy = null;
+    protected ?<StrategyInterface> strategy = null;
 
     /**
      * Return the internal cache adapter
@@ -199,6 +200,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return mvc_model_attributes
      */
     public function getAttributes(<ModelInterface> model) -> array
     {
@@ -223,6 +226,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return array<string, mixed>
      */
     public function getAutomaticCreateAttributes(<ModelInterface> model) -> array
     {
@@ -250,6 +255,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return array<string, mixed>
      */
     public function getAutomaticUpdateAttributes(<ModelInterface> model) -> array
     {
@@ -277,6 +284,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return mvc_metadata_types
      */
     public function getBindTypes(<ModelInterface> model) -> array
     {
@@ -304,6 +313,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return mvc_metadata_column_map|null
      */
     public function getColumnMap(<ModelInterface> model) -> array | null
     {
@@ -336,22 +347,6 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     }
 
     /**
-     * Returns the DependencyInjector container
-     */
-    public function getDI() -> <DiInterface>
-    {
-        var container;
-
-        let container = <DiInterface> this->container;
-
-        if typeof container != "object" {
-            throw new ContainerRequired();
-        }
-
-        return container;
-    }
-
-    /**
      * Returns attributes and their data types
      *
      *```php
@@ -361,6 +356,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return mvc_metadata_types
      */
     public function getDataTypes(<ModelInterface> model) -> array
     {
@@ -385,6 +382,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return mvc_metadata_types
      */
     public function getDataTypesNumeric(<ModelInterface> model) -> array
     {
@@ -412,6 +411,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return mvc_metadata_default_values
      */
     public function getDefaultValues(<ModelInterface> model) -> array
     {
@@ -427,6 +428,22 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     }
 
     /**
+     * Returns the DependencyInjector container
+     */
+    public function getDI() -> <DiInterface>
+    {
+        var container;
+
+        let container = <DiInterface> this->container;
+
+        if typeof container != "object" {
+            throw new ContainerRequired();
+        }
+
+        return container;
+    }
+
+    /**
      * Returns attributes allow empty strings
      *
      *```php
@@ -436,6 +453,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return array<string, mixed>
      */
     public function getEmptyStringAttributes(<ModelInterface> model) -> array
     {
@@ -474,7 +493,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *
      * @return string
      */
-    public final function getMetaDataUniqueKey(<ModelInterface> model) -> string | null
+    final public function getMetaDataUniqueKey(<ModelInterface> model) -> string | null
     {
         string key;
         let key = get_class_lower(model);
@@ -488,6 +507,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
     /**
      * Returns the model UniqueID based on model and array row primary key(s) value(s)
+     *
+     * @phpstan-param array<string, scalar|null> $row
      */
     public function getModelUUID(<ModelInterface> model, array row) -> string | null
     {
@@ -517,6 +538,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return mvc_model_attributes
      */
     public function getNonPrimaryKeyAttributes(<ModelInterface> model) -> array
     {
@@ -541,6 +564,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return mvc_model_attributes
      */
     public function getNotNullAttributes(<ModelInterface> model) -> array
     {
@@ -565,6 +590,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return mvc_model_attributes
      */
     public function getPrimaryKeyAttributes(<ModelInterface> model) -> array
     {
@@ -589,6 +616,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return mvc_metadata_column_map|null
      */
     public function getReverseColumnMap(<ModelInterface> model) -> array | null
     {
@@ -646,11 +675,11 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     /**
      * Checks if the internal meta-data container is empty
      *
-     *```php
+     * ```php
      * var_dump(
      *     $metaData->isEmpty()
      * );
-     *```
+     * ```
      */
     public function isEmpty() -> bool
     {
@@ -667,6 +696,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
     /**
      * Reads metadata from the adapter
+     *
+     * @phpstan-return mvc_metadata_index|null
      */
     public function read(var key) -> array | null
     {
@@ -683,6 +714,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return mvc_metadata_column_maps|null
      */
     final public function readColumnMap(<ModelInterface> model) -> array | null
     {
@@ -709,8 +742,10 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return mvc_metadata_slot
      */
-    final public function readColumnMapIndex(<ModelInterface> model, int index) -> array | null
+    final public function readColumnMapIndex(<ModelInterface> model, int index) -> array | bool | string | null
     {
         var keyName;
 
@@ -734,6 +769,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return mvc_metadata_model|null
      */
     final public function readMetaData(<ModelInterface> model) -> array | null
     {
@@ -756,8 +793,10 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     )
      * );
      *```
+     *
+     * @phpstan-return mvc_metadata_slot
      */
-    final public function readMetaDataIndex(<ModelInterface> model, int index) -> array | string | null
+    final public function readMetaDataIndex(<ModelInterface> model, int index) -> array | bool | string | null
     {
         var key;
         let key = this->getMetaDataUniqueKey(model);
@@ -792,6 +831,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     ]
      * );
      *```
+     *
+     * @phpstan-param array<string, mixed> $attributes
      */
     public function setAutomaticCreateAttributes(<ModelInterface> model, array attributes) -> void
     {
@@ -813,6 +854,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     ]
      * );
      *```
+     *
+     * @phpstan-param array<string, mixed> $attributes
      */
     public function setAutomaticUpdateAttributes(<ModelInterface> model, array attributes) -> void
     {
@@ -832,6 +875,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     }
 
     /**
+     * Initialize old behavior for compatability
+     *
      * Set the attributes that allow empty string values
      *
      *```php
@@ -842,6 +887,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      *     ]
      * );
      *```
+     *
+     * @phpstan-param array<string, mixed> $attributes
      */
     public function setEmptyStringAttributes(<ModelInterface> model, array attributes) -> void
     {
@@ -862,8 +909,10 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
     /**
      * Writes the metadata to adapter
+     *
+     * @phpstan-param mvc_metadata_index $data
      */
-    public function write( string key, array data) -> void
+    public function write(string key, array data) -> void
     {
         var result, option;
 
@@ -1045,8 +1094,10 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
                     unset(this->pendingMetaDataWrites[key]);
                 }
             }
+
             return true;
         }
+
         return false;
     }
 

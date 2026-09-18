@@ -378,6 +378,7 @@ final class ValidateTest extends AbstractUnitTestCase
         $messages = $validation->validate(['name' => 'Tests']);
         $this->assertSame(1, $messages->count());
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2013-03-09

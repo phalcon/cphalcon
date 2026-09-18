@@ -31,7 +31,7 @@ final class CredentialTimingTest extends AbstractUnitTestCase
      */
     public function testFoundAndNotFoundPerformEqualHashWork(): void
     {
-        $hasher = new class extends Security {
+        $hasher = new class () extends Security {
             public int $checkHashCalls = 0;
 
             public function checkHash(

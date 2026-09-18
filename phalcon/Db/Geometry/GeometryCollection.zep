@@ -16,9 +16,14 @@ class GeometryCollection extends AbstractGeometry
 {
     /**
      * @var array
+     *
+     * @phpstan-var list<GeometryInterface>
      */
     protected geometries;
 
+    /**
+     * @phpstan-param list<GeometryInterface> $geometries
+     */
     public function __construct(array geometries, int srid = 0)
     {
         let this->geometries = geometries,
@@ -30,6 +35,9 @@ class GeometryCollection extends AbstractGeometry
         return Column::TYPE_GEOMETRYCOLLECTION;
     }
 
+    /**
+     * @phpstan-return list<GeometryInterface>
+     */
     public function getGeometries() -> array
     {
         return this->geometries;

@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Db\Column;
 use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
@@ -33,23 +34,27 @@ use Phalcon\Mvc\Model\Query\BuilderInterface;
  *     ->orderBy("inv_title")
  *     ->execute();
  * ```
+ *
+ * @phpstan-import-type mvc_criteria_params from MvcTypes
+ * @phpstan-import-type mvc_model_bind_params from MvcTypes
+ * @phpstan-import-type mvc_model_bind_types from MvcTypes
+ * @phpstan-import-type mvc_model_cache_options from MvcTypes
+ * @phpstan-import-type mvc_model_parameters from MvcTypes
+ * @phpstan-import-type mvc_query_columns from MvcTypes
  */
 class Criteria implements CriteriaInterface, InjectionAwareInterface
 {
     /**
-     * @var array
+     * @phpstan-var mvc_model_bind_params
      */
-    protected bindParams;
+    protected array bindParams;
 
     /**
-     * @var array
+     * @phpstan-var mvc_model_bind_types
      */
-    protected bindTypes;
+    protected array bindTypes;
 
-    /**
-     * @var int
-     */
-    protected hiddenParamNumber = 0;
+    protected int hiddenParamNumber = 0;
 
     /**
      * @var string|null
@@ -57,274 +62,14 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     protected model = null;
 
     /**
-     * @var array
+     * @phpstan-var mvc_criteria_params
      */
-    protected params = [];
-
-    /**
-     * Appends a condition to the current conditions using an AND operator
-     */
-    public function andWhere( string conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>
-    {
-        var currentConditions;
-
-        if fetch currentConditions, this->params["conditions"] {
-            let conditions = "(" . currentConditions . ") AND (" . conditions . ")";
-        }
-
-        return this->where(conditions, bindParams, bindTypes);
-    }
-
-    /**
-     * Appends a BETWEEN condition to the current conditions
-     *
-     *```php
-     * $criteria->betweenWhere("price", 100.25, 200.50);
-     *```
-     */
-    public function betweenWhere( string expr, var minimum, var maximum) -> <CriteriaInterface>
-    {
-        var hiddenParam, minimumKey, nextHiddenParam, maximumKey;
-
-        let hiddenParam = this->hiddenParamNumber,
-            nextHiddenParam = hiddenParam + 1;
-
-        /**
-         * Minimum key with auto bind-params
-         */
-        let minimumKey = "ACP" . hiddenParam;
-
-        /**
-         * Maximum key with auto bind-params
-         */
-        let maximumKey = "ACP" . nextHiddenParam;
-
-        /**
-         * Create a standard BETWEEN condition with bind params
-         * Append the BETWEEN to the current conditions using and "and"
-         */
-        this->andWhere(
-            expr . " BETWEEN :" . minimumKey . ": AND :" . maximumKey . ":",
-            [
-                minimumKey: minimum,
-                maximumKey: maximum
-            ]
-        );
-
-        let nextHiddenParam++,
-            this->hiddenParamNumber = nextHiddenParam;
-
-        return this;
-    }
-
-    /**
-     * Sets the bound parameters in the criteria
-     * This method replaces all previously set bound parameters
-     */
-    public function bind( array bindParams, bool merge = false) -> <CriteriaInterface>
-    {
-        if !isset this->params["bind"] {
-            let this->params["bind"] = [];
-        }
-
-        if typeof this->params["bind"] == "array" && merge {
-            let this->params["bind"] = this->params["bind"] + bindParams;
-        } else {
-            let this->params["bind"] = bindParams;
-        }
-
-        return this;
-    }
-
-    /**
-     * Sets the bind types in the criteria
-     * This method replaces all previously set bound parameters
-     */
-    public function bindTypes( array bindTypes) -> <CriteriaInterface>
-    {
-        let this->params["bindTypes"] = bindTypes;
-
-        return this;
-    }
-
-    /**
-     * Sets the cache options in the criteria
-     * This method replaces all previously set cache options
-     */
-    public function cache( array cache) -> <CriteriaInterface>
-    {
-        let this->params["cache"] = cache;
-
-        return this;
-    }
-
-    /**
-     * Sets the columns to be queried. The columns can be either a `string` or
-     * an `array` of strings. If the argument is a (single, non-embedded) string,
-     * its content can specify one or more columns, separated by commas, the same
-     * way that one uses the SQL select statement. You can use aliases, aggregate
-     * functions, etc. If you need to reference other models you will need to
-     * reference them with their namespaces.
-     *
-     * When using an array as a parameter, you will need to specify one field
-     * per array element. If a non-numeric key is defined in the array, it will
-     * be used as the alias in the query
-     *
-     *```php
-     * <?php
-     *
-     * // String, comma separated values
-     * $criteria->columns("id, category");
-     *
-     * // Array, one column per element
-     * $criteria->columns(
-     *     [
-     *         "inv_id",
-     *         "inv_total",
-     *     ]
-     * );
-     *
-     * // Array with named key. The name of the key acts as an
-     * // alias (`AS` clause)
-     * $criteria->columns(
-     *     [
-     *         "inv_cst_id",
-     *         "total_invoices" => "COUNT(*)",
-     *     ]
-     * );
-     *
-     * // Different models
-     * $criteria->columns(
-     *     [
-     *         "\Phalcon\Models\Invoices.*",
-     *         "\Phalcon\Models\Customers.cst_name_first",
-     *         "\Phalcon\Models\Customers.cst_name_last",
-     *     ]
-     * );
-     *```
-     *
-     * @param string|array $columns
-     */
-    public function columns(var columns) -> <CriteriaInterface>
-    {
-        let this->params["columns"] = columns;
-
-        return this;
-    }
-
-    /**
-     * Adds the conditions parameter to the criteria
-     */
-    public function conditions( string conditions) -> <CriteriaInterface>
-    {
-        let this->params["conditions"] = conditions;
-
-        return this;
-    }
-
-    /**
-     * Creates a query builder from criteria.
-     *
-     * ```php
-     * <?php
-     *
-     * $invoices = Invoices::query()
-     *     ->where("inv_cst_id = :customerId:")
-     *     ->bind(["customerId" => 1])
-     *     ->createBuilder();
-     * ```
-     */
-    public function createBuilder() -> <BuilderInterface>
-    {
-        var container, manager, builder;
-
-        let container = this->getDI();
-
-        if typeof container != "object" {
-            let container = Di::getDefault();
-
-            this->setDI(container);
-        }
-
-        let manager = <ManagerInterface> container->getShared("modelsManager");
-
-        /**
-         * Builds a query with the passed parameters
-         */
-        let builder = manager->createBuilder(this->params);
-
-        builder->from(this->model);
-
-        return builder;
-    }
-
-    /**
-     * Sets SELECT DISTINCT / SELECT ALL flag
-     */
-     public function distinct(var distinct) -> <CriteriaInterface>
-     {
-         let this->params["distinct"] = distinct;
-
-         return this;
-     }
-
-    /**
-     * Pre-loads the named relations when the criteria is executed
-     *
-     *```php
-     * $invoices = Invoices::query()
-     *     ->eager(["customer"])
-     *     ->where("inv_total > 100")
-     *     ->execute();
-     *```
-     *
-     * execute() forwards the parameters to Model::find(), which owns the
-     * loading, so this is a pass-through and takes the same shape: an array of
-     * dot-delimited relation paths, optionally `path => options`.
-     *
-     * Returns the concrete criteria rather than the interface because the
-     * method is deliberately not part of CriteriaInterface - adding it there
-     * would break every userland implementation.
-     *
-     * @param array $paths relation paths
-     */
-    public function eager(array paths) -> <Criteria>
-    {
-        let this->params["eager"] = paths;
-
-        return this;
-    }
-
-    /**
-     * Executes a find using the parameters built with the criteria
-     */
-    public function execute() -> <ResultsetInterface>
-    {
-        var model;
-
-        let model = this->getModelName();
-
-        if unlikely typeof model != "string" {
-            throw new InvalidModelName();
-        }
-
-        return {model}::find(
-            this->getParams()
-        );
-    }
-
-    /**
-     * Adds the "for_update" parameter to the criteria
-     */
-    public function forUpdate(bool forUpdate = true) -> <CriteriaInterface>
-    {
-        let this->params["for_update"] = forUpdate;
-
-        return this;
-    }
+    protected array params = [];
 
     /**
      * Builds a Phalcon\Mvc\Model\Criteria based on an input array like $_POST
+     *
+     * @phpstan-param array<string, mixed> $data
      */
     public static function fromInput(
         <DiInterface> container,
@@ -334,7 +79,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     ) -> <CriteriaInterface> {
         var attribute, field, value, type, metaData, model, dataTypes,
             criteria, columnMap;
-        array conditions, bind;
+        array conditions, bind = [];
 
         let conditions = [];
 
@@ -407,9 +152,281 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     }
 
     /**
-     * Returns the columns to be queried
+     * Appends a condition to the current conditions using an AND operator
      */
-    public function getColumns() -> string | array | null
+    public function andWhere(string conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>
+    {
+        var currentConditions;
+
+        if fetch currentConditions, this->params["conditions"] {
+            let conditions = "(" . currentConditions . ") AND (" . conditions . ")";
+        }
+
+        return this->where(conditions, bindParams, bindTypes);
+    }
+
+    /**
+     * Appends a BETWEEN condition to the current conditions
+     *
+     *```php
+     * $criteria->betweenWhere("price", 100.25, 200.50);
+     *```
+     */
+    public function betweenWhere(string expr, var minimum, var maximum) -> <CriteriaInterface>
+    {
+        var hiddenParam, minimumKey, nextHiddenParam, maximumKey;
+
+        let hiddenParam = this->hiddenParamNumber,
+            nextHiddenParam = hiddenParam + 1;
+
+        /**
+         * Minimum key with auto bind-params
+         */
+        let minimumKey = "ACP" . hiddenParam;
+
+        /**
+         * Maximum key with auto bind-params
+         */
+        let maximumKey = "ACP" . nextHiddenParam;
+
+        /**
+         * Create a standard BETWEEN condition with bind params
+         * Append the BETWEEN to the current conditions using and "and"
+         */
+        this->andWhere(
+            expr . " BETWEEN :" . minimumKey . ": AND :" . maximumKey . ":",
+            [
+                minimumKey: minimum,
+                maximumKey: maximum
+            ]
+        );
+
+        let nextHiddenParam++,
+            this->hiddenParamNumber = nextHiddenParam;
+
+        return this;
+    }
+
+    /**
+     * Sets the bound parameters in the criteria
+     * This method replaces all previously set bound parameters
+     *
+     * @phpstan-param mvc_model_bind_params $bindParams
+     */
+    public function bind(array bindParams, bool merge = false) -> <CriteriaInterface>
+    {
+        if !isset this->params["bind"] {
+            let this->params["bind"] = [];
+        }
+
+        if typeof this->params["bind"] == "array" && merge {
+            let this->params["bind"] = this->params["bind"] + bindParams;
+        } else {
+            let this->params["bind"] = bindParams;
+        }
+
+        return this;
+    }
+
+    /**
+     * Sets the bind types in the criteria
+     * This method replaces all previously set bound parameters
+     *
+     * @phpstan-param mvc_model_bind_types $bindTypes
+     */
+    public function bindTypes(array bindTypes) -> <CriteriaInterface>
+    {
+        let this->params["bindTypes"] = bindTypes;
+
+        return this;
+    }
+
+    /**
+     * Sets the cache options in the criteria
+     * This method replaces all previously set cache options
+     *
+     * @phpstan-param mvc_model_cache_options $cache
+     */
+    public function cache(array cache) -> <CriteriaInterface>
+    {
+        let this->params["cache"] = cache;
+
+        return this;
+    }
+
+    /**
+     * Sets the columns to be queried. The columns can be either a `string` or
+     * an `array` of strings. If the argument is a (single, non-embedded) string,
+     * its content can specify one or more columns, separated by commas, the same
+     * way that one uses the SQL select statement. You can use aliases, aggregate
+     * functions, etc. If you need to reference other models you will need to
+     * reference them with their namespaces.
+     *
+     * When using an array as a parameter, you will need to specify one field
+     * per array element. If a non-numeric key is defined in the array, it will
+     * be used as the alias in the query
+     *
+     *```php
+     * <?php
+     *
+     * // String, comma separated values
+     * $criteria->columns("id, category");
+     *
+     * // Array, one column per element
+     * $criteria->columns(
+     *     [
+     *         "inv_id",
+     *         "inv_total",
+     *     ]
+     * );
+     *
+     * // Array with named key. The name of the key acts as an
+     * // alias (`AS` clause)
+     * $criteria->columns(
+     *     [
+     *         "inv_cst_id",
+     *         "total_invoices" => "COUNT(*)",
+     *     ]
+     * );
+     *
+     * // Different models
+     * $criteria->columns(
+     *     [
+     *         "\Phalcon\Models\Invoices.*",
+     *         "\Phalcon\Models\Customers.cst_name_first",
+     *         "\Phalcon\Models\Customers.cst_name_last",
+     *     ]
+     * );
+     *```
+     *
+     * @param string|array $columns
+     */
+    public function columns(var columns) -> <CriteriaInterface>
+    {
+        let this->params["columns"] = columns;
+
+        return this;
+    }
+
+    /**
+     * Adds the conditions parameter to the criteria
+     */
+    public function conditions(string conditions) -> <CriteriaInterface>
+    {
+        let this->params["conditions"] = conditions;
+
+        return this;
+    }
+
+    /**
+     * Creates a query builder from criteria.
+     *
+     * ```php
+     * <?php
+     *
+     * $invoices = Invoices::query()
+     *     ->where("inv_cst_id = :customerId:")
+     *     ->bind(["customerId" => 1])
+     *     ->createBuilder();
+     * ```
+     */
+    public function createBuilder() -> <BuilderInterface>
+    {
+        var container, manager, builder;
+
+        let container = this->getDI();
+
+        if typeof container != "object" {
+            let container = Di::getDefault();
+
+            this->setDI(container);
+        }
+
+        let manager = <ManagerInterface> container->getShared("modelsManager");
+
+        /**
+         * Builds a query with the passed parameters
+         */
+        let builder = manager->createBuilder(this->params);
+
+        builder->from(this->model);
+
+        return builder;
+    }
+
+    /**
+     * Sets SELECT DISTINCT / SELECT ALL flag
+     */
+     public function distinct(var distinct) -> <CriteriaInterface>
+     {
+         let this->params["distinct"] = distinct;
+
+         return this;
+     }
+
+    /**
+     * Pre-loads the named relations when the criteria is executed
+     *
+     *```php
+     * $invoices = Invoices::query()
+     *     ->eager(["customer"])
+     *     ->where("inv_total > 100")
+     *     ->execute();
+     *```
+     *
+     * execute() forwards the parameters to Model::find(), which owns the
+     * loading, so this is a pass-through and takes the same shape: an array of
+     * dot-delimited relation paths, optionally `path => options`.
+     *
+     * Returns the concrete criteria rather than the interface because the
+     * method is deliberately not part of CriteriaInterface - adding it there
+     * would break every userland implementation.
+     *
+     * @param array $paths relation paths
+     *
+     * @phpstan-param array<array-key, mixed> $paths
+     */
+    public function eager(array paths) -> <Criteria>
+    {
+        let this->params["eager"] = paths;
+
+        return this;
+    }
+
+    /**
+     * Executes a find using the parameters built with the criteria
+     */
+    public function execute() -> <ResultsetInterface>
+    {
+        var model;
+
+        let model = this->getModelName();
+
+        if unlikely typeof model != "string" {
+            throw new InvalidModelName();
+        }
+
+        return {model}::find(
+            this->getParams()
+        );
+    }
+
+    /**
+     * Adds the "for_update" parameter to the criteria
+     */
+    public function forUpdate(bool forUpdate = true) -> <CriteriaInterface>
+    {
+        let this->params["for_update"] = forUpdate;
+
+        return this;
+    }
+
+    /**
+     * Returns the columns to be queried
+     *
+     * @phpstan-return mvc_query_columns|null
+     */
+    public function getColumns() -> array | string | null
     {
         var columns;
 
@@ -425,13 +442,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public function getConditions() -> string | null
     {
-        var conditions;
-
-        if !fetch conditions, this->params["conditions"] {
-            return null;
-        }
-
-        return conditions;
+        return this->getWhere();
     }
 
     /**
@@ -476,8 +487,10 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * - An integer if 'limit' was set without an 'offset'
      * - An array with 'number' and 'offset' keys if an offset was set with the limit
      * - NULL if limit has not been set
+     *
+     * @phpstan-return array{number: int|string, offset?: int|string}|int|null
      */
-    public function getLimit()  -> int | array | null
+    public function getLimit()  -> array | int | null
     {
         var limit;
 
@@ -512,6 +525,8 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
     /**
      * Returns all the parameters defined in the criteria
+     *
+     * @phpstan-return mvc_criteria_params
      */
     public function getParams() -> array
     {
@@ -553,13 +568,42 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     }
 
     /**
+     * Adds an INNER join to the query
+     *
+     *```php
+     * <?php
+     *
+     * $criteria->innerJoin(
+     *     Invoices::class
+     * );
+     *
+     * $criteria->innerJoin(
+     *     Invoices::class,
+     *     "inv_cst_id = Customers.cst_id"
+     * );
+     *
+     * $criteria->innerJoin(
+     *     Invoices::class,
+     *     "i.inv_cst_id = Customers.cst_id",
+     *     "i"
+     * );
+     *```
+     */
+    public function innerJoin(string model, var conditions = null, var alias = null) -> <CriteriaInterface>
+    {
+        return this->addJoinClause(model, conditions, alias, "INNER");
+    }
+
+    /**
      * Appends an IN condition to the current conditions
      *
      * ```php
      * $criteria->inWhere("id", [1, 2, 3]);
      * ```
+     *
+     * @phpstan-param array<array-key, mixed> $values
      */
-    public function inWhere( string expr,  array values) -> <CriteriaInterface>
+    public function inWhere(string expr,  array values) -> <CriteriaInterface>
     {
         var hiddenParam, value;
         array bindParams, bindKeys;
@@ -610,33 +654,6 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      *```php
      * <?php
      *
-     * $criteria->innerJoin(
-     *     Invoices::class
-     * );
-     *
-     * $criteria->innerJoin(
-     *     Invoices::class,
-     *     "inv_cst_id = Customers.cst_id"
-     * );
-     *
-     * $criteria->innerJoin(
-     *     Invoices::class,
-     *     "i.inv_cst_id = Customers.cst_id",
-     *     "i"
-     * );
-     *```
-     */
-    public function innerJoin( string model, var conditions = null, var alias = null) -> <CriteriaInterface>
-    {
-        return this->addJoinClause(model, conditions, alias, "INNER");
-    }
-
-    /**
-     * Adds an INNER join to the query
-     *
-     *```php
-     * <?php
-     *
      * $criteria->join(
      *     Invoices::class
      * );
@@ -660,7 +677,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * );
      *```
      */
-    public function join( string model, var conditions = null, var alias = null, var type = null) -> <CriteriaInterface>
+    public function join(string model, var conditions = null, var alias = null, var type = null) -> <CriteriaInterface>
     {
         return this->addJoinClause(model, conditions, alias, type);
     }
@@ -678,7 +695,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * );
      *```
      */
-    public function leftJoin( string model, var conditions = null, var alias = null) -> <CriteriaInterface>
+    public function leftJoin(string model, var conditions = null, var alias = null) -> <CriteriaInterface>
     {
         return this->addJoinClause(model, conditions, alias, "LEFT");
     }
@@ -720,7 +737,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * $criteria->notBetweenWhere("price", 100.25, 200.50);
      *```
      */
-    public function notBetweenWhere( string expr, var minimum, var maximum) -> <CriteriaInterface>
+    public function notBetweenWhere(string expr, var minimum, var maximum) -> <CriteriaInterface>
     {
         var hiddenParam, nextHiddenParam;
         string minimumKey, maximumKey;
@@ -764,8 +781,10 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      *```php
      * $criteria->notInWhere("id", [1, 2, 3]);
      *```
+     *
+     * @phpstan-param array<array-key, mixed> $values
      */
-    public function notInWhere( string expr,  array values) -> <CriteriaInterface>
+    public function notInWhere(string expr,  array values) -> <CriteriaInterface>
     {
         var hiddenParam, value;
         array bindParams, bindKeys;
@@ -802,9 +821,19 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     }
 
     /**
+     * Adds the order-by clause to the criteria
+     */
+    public function orderBy(string orderColumns) -> <CriteriaInterface>
+    {
+        let this->params["order"] = orderColumns;
+
+        return this;
+    }
+
+    /**
      * Appends a condition to the current conditions using an OR operator
      */
-    public function orWhere( string conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>
+    public function orWhere(string conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>
     {
         var currentConditions;
 
@@ -813,16 +842,6 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
         }
 
         return this->where(conditions, bindParams, bindTypes);
-    }
-
-    /**
-     * Adds the order-by clause to the criteria
-     */
-    public function orderBy( string orderColumns) -> <CriteriaInterface>
-    {
-        let this->params["order"] = orderColumns;
-
-        return this;
     }
 
     /**
@@ -838,7 +857,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * );
      *```
      */
-    public function rightJoin( string model, conditions = null, alias = null) -> <CriteriaInterface>
+    public function rightJoin(string model, conditions = null, alias = null) -> <CriteriaInterface>
     {
         return this->addJoinClause(model, conditions, alias, "RIGHT");
     }
@@ -854,7 +873,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Set a model on which the query will be executed
      */
-    public function setModelName( string modelName) -> <CriteriaInterface>
+    public function setModelName(string modelName) -> <CriteriaInterface>
     {
         let this->model = modelName;
 
@@ -874,7 +893,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Sets the conditions parameter in the criteria
      */
-    public function where( string conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>
+    public function where(string conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>
     {
         var currentBindParams, currentBindTypes;
 
@@ -918,7 +937,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * name collision between the public `join()` method and PHP's
      * built-in `join()` function.
      */
-    private function addJoinClause( string model, var conditions = null, var alias = null, var type = null) -> <CriteriaInterface>
+    private function addJoinClause(string model, var conditions = null, var alias = null, var type = null) -> <CriteriaInterface>
     {
         var mergedJoins, currentJoins;
         array join;
@@ -939,5 +958,4 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
         return this;
     }
-
 }

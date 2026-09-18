@@ -196,9 +196,6 @@ final class MergeTest extends AbstractUnitTestCase
         $this->assertSame($expected, $actual);
     }
 
-    /**
-     * @return Config
-     */
     private function getMergedByConfig(): Config
     {
         $config = new Config();

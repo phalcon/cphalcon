@@ -33,6 +33,7 @@ use function usleep;
 final class BeanstalkVisibilityTest extends AbstractUnitTestCase
 {
     private array $options = [];
+
     private string $tube   = '';
 
     protected function setUp(): void

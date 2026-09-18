@@ -30,6 +30,7 @@ final class FakeRequest implements RequestInterface
      * @var array<string, string>
      */
     private array $headers = [];
+
     /**
      * @var array<string, mixed>
      */

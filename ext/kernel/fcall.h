@@ -318,6 +318,8 @@ ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_return_call_function(
 	zval rv, *rvp = return_value ? return_value : &rv;
 	int status;
 
+	ZVAL_UNDEF(&rv);
+
 	if (return_value) {
 		zval_ptr_dtor(return_value);
 		ZVAL_UNDEF(return_value);
@@ -326,8 +328,12 @@ ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_return_call_function(
 	status = zephir_call_func_aparams(rvp, func, func_len, cache_entry, cache_slot, param_count, params);
 
 	if (status == FAILURE) {
-		if (return_value && EG(exception)) {
-			ZVAL_NULL(return_value);
+		if (return_value) {
+			if (EG(exception)) {
+				ZVAL_NULL(return_value);
+			}
+		} else {
+			zval_ptr_dtor(&rv);
 		}
 
 		return FAILURE;
@@ -346,6 +352,8 @@ ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_return_call_zval_functio
 	zval rv, *rvp = return_value ? return_value : &rv;
 	int status;
 
+	ZVAL_UNDEF(&rv);
+
 	if (return_value) {
 		zval_ptr_dtor(return_value);
 		ZVAL_UNDEF(return_value);
@@ -354,8 +362,12 @@ ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_return_call_zval_functio
 	status = zephir_call_zval_func_aparams(rvp, func, cache_entry, cache_slot, param_count, params);
 
 	if (status == FAILURE) {
-		if (return_value && EG(exception)) {
-			ZVAL_NULL(return_value);
+		if (return_value) {
+			if (EG(exception)) {
+				ZVAL_NULL(return_value);
+			}
+		} else {
+			zval_ptr_dtor(&rv);
 		}
 
 		return FAILURE;
@@ -393,8 +405,12 @@ ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_return_call_class_method
 	status = zephir_call_class_method_aparams(rvp, ce, type, object, method_name, method_len, cache_entry, cache_slot, param_count, params);
 
 	if (status == FAILURE) {
-		if (return_value && EG(exception)) {
-			ZVAL_NULL(return_value);
+		if (return_value) {
+			if (EG(exception)) {
+				ZVAL_NULL(return_value);
+			}
+		} else {
+			zval_ptr_dtor(&rv);
 		}
 
 		return FAILURE;

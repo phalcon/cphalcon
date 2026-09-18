@@ -70,7 +70,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version4, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZVAL_LONG(&_0, 16);
-	ZEPHIR_CALL_FUNCTION(&_1, "random_bytes", NULL, 327, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "random_bytes", NULL, 330, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "N1a/n1b/n1c/n1d/n1e/N1f");
@@ -78,13 +78,15 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version4, __construct)
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&ary, "array_values", NULL, 28, &_3);
 	zephir_check_call_status();
-	zephir_array_fetch_long(&_4, &ary, 2, PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/Uuid/Version4.zep", 34);
+	zephir_memory_observe(&_4);
+	zephir_array_fetch_long(&_4, &ary, 2, PH_NOISY, "phalcon/Encryption/Security/Uuid/Version4.zep", 34);
 	ZEPHIR_INIT_NVAR(&_2);
-	ZVAL_LONG(&_2, ((((int) (zephir_get_numberval(&_4)) & 0x0fff)) | 0x4000));
+	ZVAL_LONG(&_2, (((int) (zephir_get_numberval(&_4)) & 0x0fff) | 0x4000));
 	zephir_array_update_long(&ary, 2, &_2, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
-	zephir_array_fetch_long(&_5, &ary, 3, PH_NOISY | PH_READONLY, "phalcon/Encryption/Security/Uuid/Version4.zep", 35);
+	zephir_memory_observe(&_5);
+	zephir_array_fetch_long(&_5, &ary, 3, PH_NOISY, "phalcon/Encryption/Security/Uuid/Version4.zep", 35);
 	ZEPHIR_INIT_VAR(&_6);
-	ZVAL_LONG(&_6, ((((int) (zephir_get_numberval(&_5)) & 0x3fff)) | 0x8000));
+	ZVAL_LONG(&_6, (((int) (zephir_get_numberval(&_5)) & 0x3fff) | 0x8000));
 	zephir_array_update_long(&ary, 3, &_6, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
 	ZEPHIR_INIT_VAR(&_7);
 	ZVAL_STRING(&_7, "%08x-%04x-%04x-%04x-%04x%08x");
@@ -97,7 +99,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version4, __construct)
 	ZVAL_STRING(&_8, "sprintf");
 	ZEPHIR_CALL_USER_FUNC_ARRAY(&_7, &_8, &ary);
 	zephir_check_call_status();
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 727, &_7);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 724, &_7);
 	ZEPHIR_MM_RESTORE();
 }
 

@@ -22,9 +22,6 @@ final class TTest extends AbstractUnitTestCase
     use TranslateNativeArrayHelperTrait;
     use TranslateNativeArrayTrait;
 
-    /**
-     * @return string
-     */
     protected function func(): string
     {
 

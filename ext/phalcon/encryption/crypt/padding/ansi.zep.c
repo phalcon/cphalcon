@@ -29,9 +29,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Class Ansi
- *
- * @package Phalcon\Encryption\Crypt\Padding
+ * Padding based on Ansi
  */
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Crypt_Padding_Ansi)
 {
@@ -41,11 +39,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Crypt_Padding_Ansi)
 	return SUCCESS;
 }
 
-/**
- * @param int $paddingSize
- *
- * @return string
- */
 PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Ansi, pad)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -75,12 +68,6 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Ansi, pad)
 	RETURN_MM();
 }
 
-/**
- * @param string $input
- * @param int    $blockSize
- *
- * @return int
- */
 PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Ansi, unpad)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;

@@ -49,14 +49,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Container_Resolver_Lazy_CallableGet)
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Container\\Resolver\\Lazy, CallableGet, phalcon, container_resolver_lazy_callableget, phalcon_container_resolver_lazy_lazy_ce, phalcon_container_resolver_lazy_callableget_method_entry, 0);
 
 	/**
-	 * @var string|Lazy
+	 * @var Lazy|string
 	 */
 	zend_declare_property_null(phalcon_container_resolver_lazy_callableget_ce, SL("id"), ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
 
 /**
- * @param string|Lazy $id
+ * @param Lazy|string $id
  */
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_CallableGet, __construct)
 {
@@ -73,33 +73,33 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_CallableGet, __construct)
 		Z_PARAM_ZVAL(id)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &id);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 549, id);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 547, id);
 }
 
 /**
  * Resolve to a closure on a get()
- *
- * @param object $ioc
- *
- * @return mixed
  */
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_CallableGet, resolve)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *ioc, ioc_sub, instance;
+	zval *ioc, ioc_sub, instance, _0;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&ioc_sub);
 	ZVAL_UNDEF(&instance);
+	ZVAL_UNDEF(&_0);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT(ioc)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &ioc);
+	ZEPHIR_INIT_VAR(&_0);
+	object_init_ex(&_0, phalcon_16__closure_ce);
+	zephir_update_property_zval(&_0, SL("ioc"), ioc);
+	zephir_update_property_zval(&_0, SL("__$zephir_this"), this_ptr);
 	ZEPHIR_INIT_VAR(&instance);
-	zephir_create_closure_ex(&instance, this_ptr, phalcon_16__closure_ce, SL("__invoke"));
-	zephir_update_static_property_ce(phalcon_16__closure_ce, ZEND_STRL("ioc"), ioc);
+	zephir_create_closure_bound(&instance, &_0, this_ptr, phalcon_16__closure_ce, SL("__invoke"));
 	RETURN_CCTOR(&instance);
 }
 

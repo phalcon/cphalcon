@@ -13,8 +13,6 @@ namespace Phalcon\Mvc;
 use Phalcon\Contracts\Mvc\Dispatcher as DispatcherContract;
 
 /**
- * Phalcon\Mvc\DispatcherInterface
- *
  * Interface for Phalcon\Mvc\Dispatcher
  *
  * @psalm-suppress DeprecatedInterface

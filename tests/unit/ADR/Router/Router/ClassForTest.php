@@ -20,6 +20,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 final class ClassForTest extends AbstractUnitTestCase
 {
     private const BASE      = 'Phalcon\\Tests\\Support\\ADR\\Action';
+
     private const DIRECTORY = PATH_SUPPORT . 'ADR/Action';
 
     /**

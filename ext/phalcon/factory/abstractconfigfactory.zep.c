@@ -29,6 +29,9 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+/**
+ * @phpstan-import-type factory_config from FactoryTypes
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Factory_AbstractConfigFactory)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Factory, AbstractConfigFactory, phalcon, factory_abstractconfigfactory, phalcon_factory_abstractconfigfactory_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
@@ -38,6 +41,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Factory_AbstractConfigFactory)
 
 /**
  * Checks the config if it is a valid object
+ *
+ * @param array<string, mixed>|ConfigInterface $config
+ *
+ * @phpstan-param factory_config|ConfigInterface $config
+ *
+ * @phpstan-return factory_config
+ * @throws BaseException
  */
 PHP_METHOD(Phalcon_Factory_AbstractConfigFactory, checkConfig)
 {
@@ -72,7 +82,7 @@ PHP_METHOD(Phalcon_Factory_AbstractConfigFactory, checkConfig)
 		ZVAL_STRING(&_3$$4, "Config must be array or Phalcon\\Config\\Config object");
 		ZEPHIR_CALL_METHOD(&_2$$4, this_ptr, "getexception", NULL, 0, &_3$$4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$4, "phalcon/Factory/AbstractConfigFactory.zep", 29);
+		zephir_throw_exception_debug(&_2$$4, "phalcon/Factory/AbstractConfigFactory.zep", 42);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -82,6 +92,15 @@ PHP_METHOD(Phalcon_Factory_AbstractConfigFactory, checkConfig)
 
 /**
  * Checks if the config has "adapter"
+ *
+ * @param array<string, mixed> $config
+ * @param string               $element
+ *
+ * @phpstan-param factory_config $config
+ *
+ * @return array<string, mixed>
+ * @phpstan-return factory_config
+ * @throws BaseException
  */
 PHP_METHOD(Phalcon_Factory_AbstractConfigFactory, checkConfigElement)
 {
@@ -112,7 +131,7 @@ PHP_METHOD(Phalcon_Factory_AbstractConfigFactory, checkConfigElement)
 		ZEPHIR_CONCAT_SVS(&_1$$3, "You must provide the '", &element_zv, "' option in the factory config parameter.");
 		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "getexception", NULL, 0, &_1$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Factory/AbstractConfigFactory.zep", 43);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Factory/AbstractConfigFactory.zep", 65);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -158,6 +177,7 @@ PHP_METHOD(Phalcon_Factory_AbstractConfigFactory, getException)
 
 /**
  * @return string
+ * @phpstan-return class-string<\Exception>
  */
 PHP_METHOD(Phalcon_Factory_AbstractConfigFactory, getExceptionClass)
 {

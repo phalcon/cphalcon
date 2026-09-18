@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Decrement, __invoke)
 	}
 	number = 0;
 	ZEPHIR_INIT_VAR(&parts);
-	zephir_fast_explode(&parts, &separator_zv, &text_zv, LONG_MAX);
+	zephir_fast_explode(&parts, &separator_zv, &text_zv, ZEND_LONG_MAX);
 	ZEPHIR_INIT_VAR(&_0);
 	if (Z_TYPE_P(&parts) != IS_ARRAY) {
 		ZEPHIR_INIT_NVAR(&_0);
@@ -91,11 +91,13 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Decrement, __invoke)
 		number = zephir_get_intval(&_1$$3);
 		number--;
 		if (number <= 0) {
-			zephir_array_fetch_long(&_2$$4, &parts, 0, PH_NOISY | PH_READONLY, "phalcon/Support/Helper/Str/Decrement.zep", 36);
-			RETURN_CTOR(&_2$$4);
+			zephir_memory_observe(&_2$$4);
+			zephir_array_fetch_long(&_2$$4, &parts, 0, PH_NOISY, "phalcon/Support/Helper/Str/Decrement.zep", 36);
+			RETURN_CCTOR(&_2$$4);
 		}
 	}
-	zephir_array_fetch_long(&_3, &parts, 0, PH_NOISY | PH_READONLY, "phalcon/Support/Helper/Str/Decrement.zep", 40);
+	zephir_memory_observe(&_3);
+	zephir_array_fetch_long(&_3, &parts, 0, PH_NOISY, "phalcon/Support/Helper/Str/Decrement.zep", 40);
 	ZEPHIR_INIT_VAR(&_4);
 	ZVAL_LONG(&_4, number);
 	ZEPHIR_CONCAT_VVV(return_value, &_3, &separator_zv, &_4);

@@ -24,10 +24,6 @@ class FakeCryptOpensslRandomPseudoBytes extends Crypt
      * Crypt::encrypt() catches and rethrows as RandomBytesGenerationFailed
      * ("Cannot calculate Random Pseudo Bytes").
      *
-     * @param int $length
-     *
-     * @return string
-     *
      * @link https://php.net/manual/en/function.openssl-random-pseudo-bytes
      */
     protected static function phpOpensslRandomPseudoBytes(int $length): string

@@ -39,7 +39,7 @@ final class ExtractRealUriTest extends AbstractUnitTestCase
         $this->assertSame($expected, $actual);
 
         $expected = '/admin/private/businesses/list/my/123';
-        $actual = $router->protectedExtractRealUri(
+        $actual   = $router->protectedExtractRealUri(
             '/admin/private/businesses/list/my/123'
         );
         $this->assertSame($expected, $actual);

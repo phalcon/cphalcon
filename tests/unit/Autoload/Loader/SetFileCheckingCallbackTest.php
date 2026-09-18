@@ -27,9 +27,6 @@ final class SetFileCheckingCallbackTest extends AbstractUnitTestCase
 {
     use LoaderTrait;
 
-    /**
-     * @return array
-     */
     public static function getExamples(): array
     {
         return [

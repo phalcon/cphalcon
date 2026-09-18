@@ -27,8 +27,8 @@ final class DecodeTest extends AbstractUnitTestCase
      */
     public function testSupportHelperJsonDecode(): void
     {
-        $object = new Decode();
-        $data = '{"one":"two","0":"three"}';
+        $object   = new Decode();
+        $data     = '{"one":"two","0":"three"}';
         $expected = [
             'one' => 'two',
             'three',

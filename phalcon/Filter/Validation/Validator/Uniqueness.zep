@@ -10,18 +10,17 @@
 
 namespace Phalcon\Filter\Validation\Validator;
 
-use Phalcon\Messages\Message;
-use Phalcon\Mvc\Model;
-use Phalcon\Mvc\ModelInterface;
+use Phalcon\Contracts\Filter\FilterTypes;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\AbstractCombinedFieldsValidator;
 use Phalcon\Filter\Validation\Exception;
 use Phalcon\Filter\Validation\Exceptions\UniquenessConversionMustBeArray;
 use Phalcon\Filter\Validation\Exceptions\UniquenessModelRequired;
 use Phalcon\Filter\Validation\Exceptions\UniquenessOnlyForPhalconModel;
+use Phalcon\Messages\Message;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\ModelInterface;
 use Phalcon\Support\Settings;
-//use Phalcon\Mvc\CollectionInterface;
-//use Phalcon\Mvc\Collection;
 
 /**
  * Check that a field is unique in the related table
@@ -92,29 +91,31 @@ use Phalcon\Support\Settings;
  *     )
  * );
  * ```
+ *
+ * @phpstan-import-type filter_uniqueness_column_map from FilterTypes
+ * @phpstan-import-type filter_uniqueness_fields from FilterTypes
+ * @phpstan-import-type filter_uniqueness_params from FilterTypes
+ * @phpstan-import-type filter_uniqueness_values from FilterTypes
+ * @phpstan-import-type filter_validator_options from FilterTypes
  */
 class Uniqueness extends AbstractCombinedFieldsValidator
 {
+    /**
+     * @var string|null
+     */
     protected template = "Field :field must be unique";
 
     /**
-     * @var array|null
+     * @phpstan-var filter_uniqueness_column_map|null
      */
     private columnMap = null;
 
     /**
      * Constructor
      *
-     * @param array $options = [
-     *     'message'    => '',
-     *     'template'   => '',
-     *     'allowEmpty' => false,
-     *     'convert'    => null,
-     *     'model'      => null,
-     *     'except'     => null
-     * ]
+     * @phpstan-param filter_validator_options $options
      */
-    public function __construct( array options = [])
+    public function __construct(array options = [])
     {
         parent::__construct(options);
     }
@@ -187,11 +188,8 @@ class Uniqueness extends AbstractCombinedFieldsValidator
 
     protected function isUniqueness(<Validation> validation, var field) -> bool
     {
-        var values, convert, record, params, className, isModel, singleField;
-//
-// @todo: Restore when new Collection is reintroduced
-//
-//        var isDocument;
+        var className, convert, isModel, record, singleField, values,
+            params = [];
 
         if typeof field != "array" {
             let singleField = field,
@@ -227,26 +225,11 @@ class Uniqueness extends AbstractCombinedFieldsValidator
         }
 
         let isModel = record instanceof ModelInterface;
-//
-// @todo: Restore when new Collection is reintroduced
-//
-//        let isDocument = record instanceof CollectionInterface;
 
         if isModel {
             let params = this->isUniquenessModel(record, field, values);
-//
-// @todo: Restore when new Collection is reintroduced
-//
-//        } elseif isDocument {
-//            let params = this->isUniquenessCollection(record, field, values);
         } else {
             throw new UniquenessOnlyForPhalconModel();
-//
-// @todo: Restore when new Collection is reintroduced
-//
-//            throw new Exception(
-//                "The uniqueness validator works only with Phalcon\\Mvc\\Model or Phalcon\\Mvc\\Collection"
-//            );
         }
 
         let className = get_class(record);
@@ -254,84 +237,13 @@ class Uniqueness extends AbstractCombinedFieldsValidator
         return {className}::count(params) == 0;
     }
 
-
-//
-// @todo: Restore when new Collection is reintroduced
-//
-//    /**
-//     * Uniqueness method used for collection
-//     */
-//    protected function isUniquenessCollection(var record, array field, array values)
-//    {
-//        var exceptConditions, fieldExcept, notInValues, value, singleField,
-//            params, except, singleExcept;
-//
-//        let exceptConditions = [];
-//        let params = [
-//            "conditions" : []
-//        ];
-//
-//        for singleField in field {
-//            let fieldExcept = null;
-//            let notInValues = [];
-//            let value = values[singleField];
-//
-//            let except = this->getOption("except");
-//
-//            let params["conditions"][singleField] = value;
-//
-//            if except {
-//                if typeof except == "array" && count(field) > 1 {
-//                    if isset except[singleField] {
-//                        let fieldExcept = except[singleField];
-//                    }
-//                }
-//
-//                if fieldExcept != null {
-//                    if typeof fieldExcept == "array" {
-//                        for singleExcept in fieldExcept {
-//                            let notInValues[] = singleExcept;
-//                        }
-//
-//                        let exceptConditions[singleField] = [
-//                            "$nin": notInValues
-//                        ];
-//                    } else {
-//                        let exceptConditions[singleField] = [
-//                            "$ne": fieldExcept
-//                        ];
-//                    }
-//                } elseif typeof except == "array" && count(field) == 1 {
-//                    for singleExcept in except {
-//                        let notInValues[] = singleExcept;
-//                    }
-//
-//                    let params["conditions"][singleField] = [
-//                        "$nin": notInValues
-//                    ];
-//                } elseif count(field) == 1 {
-//                    let params["conditions"][singleField] = [
-//                        "$ne": except
-//                    ];
-//                }
-//            }
-//        }
-//
-//        if record->getDirtyState() == Collection::DIRTY_STATE_PERSISTENT {
-//            let params["conditions"]["_id"] = [
-//                "$ne": record->getId()
-//            ];
-//        }
-//
-//        if !empty exceptConditions {
-//            let params["conditions"]["$or"] = [exceptConditions];
-//        }
-//
-//        return params;
-//    }
-
     /**
      * Uniqueness method used for model
+     *
+     * @phpstan-param filter_uniqueness_fields $field
+     * @phpstan-param filter_uniqueness_values $values
+     *
+     * @phpstan-return filter_uniqueness_params
      */
     protected function isUniquenessModel(var record, array field, array values)
     {

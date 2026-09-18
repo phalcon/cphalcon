@@ -28,8 +28,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Micro\Collection
- *
  * Groups Micro-Mvc handlers as controllers
  *
  *```php
@@ -41,10 +39,12 @@
  *     new PostsController()
  * );
  *
- * $collection->get("/posts/edit/{id}", "edit");
+ * $collection->get('/posts/edit/{id}', 'edit');
  *
  * $app->mount($collection);
  *```
+ *
+ * @phpstan-import-type mvc_micro_handlers from MvcTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_Collection)
 {
@@ -55,18 +55,25 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_Collection)
 	 */
 	zend_declare_property_null(phalcon_mvc_micro_collection_ce, SL("handler"), ZEND_ACC_PROTECTED);
 	/**
-	 * @var array
+	 * @phpstan-var mvc_micro_handlers
 	 */
-	zend_declare_property_null(phalcon_mvc_micro_collection_ce, SL("handlers"), ZEND_ACC_PROTECTED);
-	/**
-	 * @var bool
-	 */
-	zend_declare_property_bool(phalcon_mvc_micro_collection_ce, SL("isLazy"), 0, ZEND_ACC_PROTECTED);
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_mvc_micro_collection_ce, SL("prefix"), "", ZEND_ACC_PROTECTED);
-	phalcon_mvc_micro_collection_ce->create_object = zephir_init_properties_Phalcon_Mvc_Micro_Collection;
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_mvc_micro_collection_ce, SL("handlers"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_BOOL(&_zc0, 0);
+		zephir_declare_typed_property(phalcon_mvc_micro_collection_ce, SL("isLazy"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
+	}
+
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "", sizeof("") - 1);
+		zephir_declare_typed_property(phalcon_mvc_micro_collection_ce, SL("prefix"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
 
 	zend_class_implements(phalcon_mvc_micro_collection_ce, 1, phalcon_mvc_micro_collectioninterface_ce);
 	return SUCCESS;
@@ -75,11 +82,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_Collection)
 /**
  * Maps a route to a handler that only matches if the HTTP method is DELETE.
  *
- * @param string routePattern
- * @param callable handler
- * @param string|null name
- *
- * @return CollectionInterface
+ * @param mixed $handler
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, delete)
 {
@@ -121,11 +124,8 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, delete)
 /**
  * Maps a route to a handler that only matches if the HTTP method is GET.
  *
- * @param string routePattern
- * @param callable handler
- * @param string|null name
  *
- * @return CollectionInterface
+ * @param mixed $handler
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, get)
 {
@@ -166,8 +166,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, get)
 
 /**
  * Returns the main handler
- *
- * @return mixed
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandler)
 {
@@ -177,6 +175,8 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandler)
 
 /**
  * Returns the registered handlers
+ *
+ * @phpstan-return mvc_micro_handlers
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandlers)
 {
@@ -196,11 +196,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, getPrefix)
 /**
  * Maps a route to a handler that only matches if the HTTP method is HEAD.
  *
- * @param string routePattern
- * @param callable|string handler
- * @param string|null name
- *
- * @return CollectionInterface
+ * @param mixed $handler
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, head)
 {
@@ -251,11 +247,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, isLazy)
 /**
  * Maps a route to a handler.
  *
- * @param string routePattern
- * @param callable handler
- * @param string|null name
- *
- * @return CollectionInterface
+ * @param mixed $handler
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, map)
 {
@@ -298,19 +290,15 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, map)
  *
  * ```php
  * $collection->mapVia(
- *     "/test",
- *     "indexAction",
- *     ["POST", "GET"],
- *     "test"
+ *     '/test',
+ *     'indexAction',
+ *     ['POST', 'GET'],
+ *     'test'
  * );
  * ```
  *
- * @param string routePattern
- * @param callable handler
- * @param string|array method
- * @param string|null name
- *
- * @return CollectionInterface
+ * @param callable     $handler
+ * @param string|array $method
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, mapVia)
 {
@@ -353,11 +341,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, mapVia)
  * Maps a route to a handler that only matches if the HTTP method is
  * OPTIONS.
  *
- * @param string routePattern
- * @param callable handler
- * @param string|null name
- *
- * @return CollectionInterface
+ * @param callable $handler
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, options)
 {
@@ -399,11 +383,8 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, options)
 /**
  * Maps a route to a handler that only matches if the HTTP method is PATCH.
  *
- * @param string routePattern
- * @param callable handler
- * @param string|null name
  *
- * @return CollectionInterface
+ * @param callable $handler
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, patch)
 {
@@ -445,11 +426,8 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, patch)
 /**
  * Maps a route to a handler that only matches if the HTTP method is POST.
  *
- * @param string routePattern
- * @param callable handler
- * @param string|null name
  *
- * @return CollectionInterface
+ * @param callable $handler
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, post)
 {
@@ -491,11 +469,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, post)
 /**
  * Maps a route to a handler that only matches if the HTTP method is PUT.
  *
- * @param string routePattern
- * @param callable handler
- * @param string|null name
- *
- * @return CollectionInterface
+ * @param callable $handler
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, put)
 {
@@ -536,11 +510,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, put)
 
 /**
  * Sets the main handler.
- *
- * @param mixed handler
- * @param bool isLazy
- *
- * @return CollectionInterface
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler)
 {
@@ -570,21 +539,17 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler)
 		isLazy = 0;
 	} else {
 		}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 992, handler);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 989, handler);
 	if (isLazy) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 993, &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 990, &__$true);
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 993, &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 990, &__$false);
 	}
 	RETURN_THISW();
 }
 
 /**
  * Sets if the main handler must be lazy loaded
- *
- * @param bool isLazy
- *
- * @return CollectionInterface
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, setLazy)
 {
@@ -604,19 +569,15 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setLazy)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &isLazy_param);
 	if (isLazy) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 993, &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 990, &__$true);
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 993, &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 990, &__$false);
 	}
 	RETURN_THISW();
 }
 
 /**
  * Sets a prefix for all routes added to the collection
- *
- * @param string prefix
- *
- * @return CollectionInterface
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, setPrefix)
 {
@@ -634,17 +595,15 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setPrefix)
 		Z_PARAM_STR(prefix)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&prefix_zv, prefix);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 994, &prefix_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 991, &prefix_zv);
 	RETURN_THISW();
 }
 
 /**
  * Internal function to add a handler to the group.
  *
- * @param string|array method
- * @param string routePattern
- * @param callable handler
- * @param string|null name
+ * @param string|array $method
+ * @param callable     $handler
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, addMap)
 {
@@ -687,30 +646,5 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, addMap)
 	zephir_array_fast_append(&_0, &name_zv);
 	zephir_update_property_array_append(this_ptr, SL("handlers"), &_0);
 	ZEPHIR_MM_RESTORE();
-}
-
-zend_object *zephir_init_properties_Phalcon_Mvc_Micro_Collection(zend_class_entry *class_type)
-{
-		zval _0, _1$$3;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("handlers"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("handlers"), &_1$$3);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

@@ -29,18 +29,8 @@
  * identity (the guard) and the request context on every call; gates hold no
  * reference to the auth manager.
  *
- * @phpstan-type ForwardTarget array{
- *     controller?: string,
- *     action?: string,
- *     params?: array<int|string, mixed>,
- *     namespace?: string,
- *     task?: string,
- * }&array<string, mixed>
- * @phpstan-type AccessContext array{
- *     handler?: string,
- *     module?: string,
- *     params?: array<int|string, mixed>,
- * }
+ * @phpstan-import-type auth_access_context from AuthTypes
+ * @phpstan-import-type auth_forward_target from AuthTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Auth_Access_Access)
 {
@@ -60,11 +50,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Auth_Access_Access, getOnlyActions);
 /**
  * Whether the identity behind the guard may run the action.
  *
- * @phpstan-param AccessContext $context
+ * @phpstan-param auth_access_context $context
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Auth_Access_Access, isAllowed);
 /**
- * @phpstan-return ForwardTarget|null
+ * @phpstan-return auth_forward_target|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Auth_Access_Access, redirectTo);
 /**

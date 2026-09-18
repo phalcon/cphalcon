@@ -18,7 +18,6 @@ use Phalcon\Image\Adapter\AdapterInterface;
 use Phalcon\Image\Adapter\Gd;
 use Phalcon\Image\Adapter\Imagick;
 use Phalcon\Traits\Support\Helper\Arr\GetTrait;
-use Throwable;
 
 /**
  * Factory to create adapters for image manipulation
@@ -35,7 +34,7 @@ class ImageFactory extends AbstractFactory
      *
      * @phpstan-param image_factory_services $services
      */
-    public function __construct( array services = [])
+    public function __construct(array services = [])
     {
         this->init(services);
     }
@@ -45,11 +44,11 @@ class ImageFactory extends AbstractFactory
      *
      * @phpstan-param ConfigInterface|image_factory_config $config
      *
-     * @param array|ConfigInterface config = [
+     * @param array|ConfigInterface $config = [
      *     'adapter' => 'gd',
-     *     'file' => 'image.jpg',
-     *     'height' => null,
-     *     'width' => null
+     *     'file'    => 'image.jpg',
+     *     'height'  => null,
+     *     'width'   => null
      * ]
      */
     public function load(var config) -> <AdapterInterface>
@@ -99,7 +98,7 @@ class ImageFactory extends AbstractFactory
     }
 
     /**
-     * @return class-string<Throwable>
+     * @return class-string<\Exception>
      */
     protected function getExceptionClass() -> string
     {

@@ -61,6 +61,7 @@ final class ReturningTest extends AbstractDatabaseTestCase
             []
         );
     }
+
     /**
      * PostgreSQL - RETURNING list.
      *

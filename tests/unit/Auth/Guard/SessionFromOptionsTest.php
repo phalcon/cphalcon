@@ -34,6 +34,7 @@ use Phalcon\Tests\Unit\Auth\Fake\FakeSessionManager;
 final class SessionFromOptionsTest extends AbstractUnitTestCase
 {
     private Memory $adapter;
+
     private Container $container;
 
     protected function setUp(): void

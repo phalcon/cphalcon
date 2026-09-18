@@ -25,7 +25,7 @@ final class GroupTest extends AbstractUnitTestCase
      */
     public function testSupportHelperArrGroup(): void
     {
-        $object = new Group();
+        $object     = new Group();
         $collection = [
             [
                 'name' => 'Paul',
@@ -72,7 +72,7 @@ final class GroupTest extends AbstractUnitTestCase
      */
     public function testSupportHelperArrGroupFunction(): void
     {
-        $object = new Group();
+        $object     = new Group();
         $collection = ['one', 'two', 'three'];
 
         $expected = [
@@ -89,14 +89,14 @@ final class GroupTest extends AbstractUnitTestCase
      */
     public function testSupportHelperArrGroupObject(): void
     {
-        $object = new Group();
-        $peter = new stdClass();
+        $object      = new Group();
+        $peter       = new stdClass();
         $peter->name = 'Peter';
-        $peter->age = 34;
+        $peter->age  = 34;
 
-        $paul = new stdClass();
+        $paul       = new stdClass();
         $paul->name = 'Paul';
-        $paul->age = 31;
+        $paul->age  = 31;
 
         $collection = [
             'peter' => $peter,

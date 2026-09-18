@@ -57,8 +57,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Messages_Traits_MessagesHelperTrait)
 
 /**
  * Returns the number of messages in the list
- *
- * @return int
  */
 PHP_METHOD(Phalcon_Messages_Traits_MessagesHelperTrait, count)
 {
@@ -70,7 +68,7 @@ PHP_METHOD(Phalcon_Messages_Traits_MessagesHelperTrait, count)
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("messages", 8, 1);
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 963, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 960, PH_NOISY_CC | PH_READONLY);
 	RETURN_LONG(zephir_fast_count_int(&_0));
 }
 
@@ -97,11 +95,12 @@ PHP_METHOD(Phalcon_Messages_Traits_MessagesHelperTrait, current)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 963, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 960, PH_NOISY_CC | PH_READONLY);
+	zephir_memory_observe(&_1);
 	zephir_memory_observe(&_2);
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 964, PH_NOISY_CC);
-	zephir_array_fetch(&_1, &_0, &_2, PH_NOISY | PH_READONLY, "phalcon/Messages/Traits/MessagesHelperTrait.zep", 46);
-	RETURN_CTOR(&_1);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 961, PH_NOISY_CC);
+	zephir_array_fetch(&_1, &_0, &_2, PH_NOISY, "phalcon/Messages/Traits/MessagesHelperTrait.zep", 44);
+	RETURN_CCTOR(&_1);
 }
 
 /**
@@ -148,7 +147,7 @@ PHP_METHOD(Phalcon_Messages_Traits_MessagesHelperTrait, offsetExists)
 		Z_PARAM_ZVAL(offset)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &offset);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 963, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 960, PH_NOISY_CC | PH_READONLY);
 	RETURN_BOOL(zephir_array_isset_value(&_0, offset));
 }
 
@@ -183,7 +182,7 @@ PHP_METHOD(Phalcon_Messages_Traits_MessagesHelperTrait, offsetGet)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &offset);
 	zephir_memory_observe(&message);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 963, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 960, PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_fetch(&message, &_0, offset, 0)) {
 		RETURN_CCTOR(&message);
 	}
@@ -227,7 +226,7 @@ PHP_METHOD(Phalcon_Messages_Traits_MessagesHelperTrait, offsetSet)
 		object_init_ex(&_1$$3, phalcon_messages_exceptions_messagenotobject_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Messages/Traits/MessagesHelperTrait.zep", 111);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Messages/Traits/MessagesHelperTrait.zep", 109);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -250,14 +249,14 @@ PHP_METHOD(Phalcon_Messages_Traits_MessagesHelperTrait, offsetUnset)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval offset_sub, _0, _1$$3, _2$$3;
+	zval offset_sub, _0, _1$$3, *_2$$3, _3$$3;
 	zval *offset;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&offset_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_3$$3);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("messages", 8, 1);
@@ -269,13 +268,14 @@ PHP_METHOD(Phalcon_Messages_Traits_MessagesHelperTrait, offsetUnset)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &offset);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 963, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 960, PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_value(&_0, offset)) {
-		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_0, 963, PH_NOISY_CC | PH_READONLY);
-		ZVAL_LONG(&_2$$3, 1);
-		ZEPHIR_MAKE_REF(&_1$$3);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_splice", NULL, 0, &_1$$3, offset, &_2$$3);
-		ZEPHIR_UNREF(&_1$$3);
+		zephir_memory_observe(&_1$$3);
+		_2$$3 = zephir_fetch_property_write(this_ptr, _zephir_prop_0, &_1$$3);
+		ZVAL_LONG(&_3$$3, 1);
+		ZEPHIR_MAKE_WRITE_REF(_2$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_splice", NULL, 0, _2$$3, offset, &_3$$3);
+		ZEPHIR_UNREF_WRITE(_2$$3);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
@@ -296,7 +296,7 @@ PHP_METHOD(Phalcon_Messages_Traits_MessagesHelperTrait, rewind)
 	}
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, 0);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 964, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 961, &_0);
 }
 
 /**
@@ -317,8 +317,8 @@ PHP_METHOD(Phalcon_Messages_Traits_MessagesHelperTrait, valid)
 	if (UNEXPECTED(!_zephir_prop_1)) {
 		_zephir_prop_1 = zend_string_init("position", 8, 1);
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 963, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 964, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 960, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 961, PH_NOISY_CC | PH_READONLY);
 	RETURN_BOOL(zephir_array_isset_value(&_0, &_1));
 }
 

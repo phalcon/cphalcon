@@ -28,6 +28,7 @@ use Phalcon\Tests\Unit\Auth\Fake\FakeNotAuthUserModel;
 final class MemoryTest extends AbstractUnitTestCase
 {
     private string $hashedPassword;
+
     private Security $security;
 
     protected function setUp(): void

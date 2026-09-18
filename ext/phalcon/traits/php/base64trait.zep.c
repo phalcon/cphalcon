@@ -69,7 +69,7 @@ PHP_METHOD(Phalcon_Traits_Php_Base64Trait, doDecodeUrl)
 	zephir_get_strval(&input, input_param);
 	ZEPHIR_CALL_FUNCTION(&_0, "mb_strlen", NULL, 0, &input);
 	zephir_check_call_status();
-	remainder = (long) (zephir_safe_mod_zval_long(&_0, 4));
+	remainder = zephir_safe_mod_zval_long(&_0, 4);
 	if (remainder) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "=");

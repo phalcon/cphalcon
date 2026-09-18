@@ -27,8 +27,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Filter\Sanitize\UpperWords
- *
  * Sanitizes a value to uppercase the first character of each word
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_UpperWords)

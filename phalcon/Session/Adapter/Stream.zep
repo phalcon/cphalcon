@@ -77,7 +77,7 @@ class Stream extends Noop
      * @throws InvalidSavePath
      * @throws SavePathUnavailable
      */
-    public function __construct( array options = [])
+    public function __construct(array options = [])
     {
         var path;
 

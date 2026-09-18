@@ -109,7 +109,7 @@ final class SetDefaultMessagesTest extends AbstractUnitTestCase
          * A second call merges rather than replaces
          */
         $expected = [
-            PresenceOf::class    => 'One :field',
+            PresenceOf::class     => 'One :field',
             'Some\Fake\Validator' => 'Two',
         ];
         $actual = Validation::setDefaultMessages(

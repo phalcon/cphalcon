@@ -37,6 +37,8 @@
  *
  * $annotations = new Apcu();
  *```
+ *
+ * @phpstan-import-type annotations_options from AnnotationsTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Apcu)
 {
@@ -60,6 +62,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Apcu)
  * ]
  *
  * Phalcon\Annotations\Adapter\Apcu constructor
+ *
+ * @phpstan-param annotations_options $options
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, __construct)
 {
@@ -95,11 +99,11 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, __construct)
 	}
 	zephir_memory_observe(&prefix);
 	if (zephir_array_isset_string_fetch(&prefix, &options, SL("prefix"), 0)) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 395, &prefix);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 393, &prefix);
 	}
 	zephir_memory_observe(&ttl);
 	if (zephir_array_isset_string_fetch(&ttl, &options, SL("lifetime"), 0)) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 396, &ttl);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 394, &ttl);
 	}
 	ZEPHIR_MM_RESTORE();
 }
@@ -132,11 +136,11 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, read)
 	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
 	ZEPHIR_INIT_VAR(&_0);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 395, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 393, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_CONCAT_SVV(&_2, "_PHAN", &_1, &key_zv);
 	zephir_fast_strtolower(&_0, &_2);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_fetch", NULL, 284, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_fetch", NULL, 287, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -177,12 +181,12 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, write)
 	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
 	ZEPHIR_INIT_VAR(&_0);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 395, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 393, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_CONCAT_SVV(&_2, "_PHAN", &_1, &key_zv);
 	zephir_fast_strtolower(&_0, &_2);
-	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_1, 396, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_store", NULL, 286, &_0, data, &_3);
+	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_1, 394, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_store", NULL, 289, &_0, data, &_3);
 	zephir_check_call_status();
 	RETURN_MM();
 }

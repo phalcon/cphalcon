@@ -10,20 +10,32 @@
 
 namespace Phalcon\Mvc\Router;
 
+use Phalcon\Contracts\Mvc\MvcTypes;
+
 /**
  * Interface for Phalcon\Mvc\Router\Route
+ *
+ * @phpstan-import-type mvc_router_http_methods from MvcTypes
+ * @phpstan-import-type mvc_router_paths from MvcTypes
+ * @phpstan-import-type mvc_router_converters from MvcTypes
+ * @phpstan-import-type mvc_router_reversed_paths from MvcTypes
  */
 interface RouteInterface
 {
     /**
+     * Resets the internal route id generator
+     */
+    public static function reset() -> void;
+
+    /**
      * Replaces placeholders from pattern returning a valid PCRE regular expression
      */
-    public function compilePattern( string pattern) -> string;
+    public function compilePattern(string pattern) -> string;
 
     /**
      * Adds a converter to perform an additional transformation for certain parameter.
      */
-    public function convert( string name, var converter) -> <RouteInterface>;
+    public function convert(string name, var converter) -> <RouteInterface>;
 
     /**
      * Returns the route's pattern
@@ -37,6 +49,8 @@ interface RouteInterface
 
     /**
      * Returns the HTTP methods that constraint matching the route
+     *
+     * @phpstan-return mvc_router_http_methods|string|null
      */
     public function getHttpMethods() -> array | string | null;
 
@@ -47,6 +61,8 @@ interface RouteInterface
 
     /**
      * Returns the paths
+     *
+     * @phpstan-return mvc_router_paths
      */
     public function getPaths() -> array;
 
@@ -57,6 +73,8 @@ interface RouteInterface
 
     /**
      * Returns the paths using positions as keys and names as values
+     *
+     * @phpstan-return mvc_router_reversed_paths
      */
     public function getReversedPaths() -> array;
 
@@ -68,12 +86,7 @@ interface RouteInterface
     /**
      * Reconfigure the route adding a new pattern and a set of paths
      */
-    public function reConfigure( string pattern, var paths = null) -> void;
-
-    /**
-     * Resets the internal route id generator
-     */
-    public static function reset() -> void;
+    public function reConfigure(string pattern, var paths = null) -> void;
 
     /**
      * Sets a hostname restriction to the route
@@ -93,7 +106,7 @@ interface RouteInterface
     /**
      * Sets the route's id (intended for restoring cached routes)
      */
-    public function setRouteId( string routeId) -> <RouteInterface>;
+    public function setRouteId(string routeId) -> <RouteInterface>;
 
     /**
      * Set one or more HTTP methods that constraint the matching of the route

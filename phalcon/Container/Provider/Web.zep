@@ -41,7 +41,6 @@ use Phalcon\Encryption\Crypt\CryptInterface;
 use Phalcon\Encryption\Security;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
-use Phalcon\Filter\Filter;
 use Phalcon\Filter\FilterFactory;
 use Phalcon\Filter\FilterInterface;
 use Phalcon\Flash\Direct;

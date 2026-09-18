@@ -10,15 +10,29 @@
 
 namespace Phalcon\Mvc\Router;
 
+use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Mvc\Router\Exceptions\InvalidRoutePaths;
 
 /**
  * This class represents every route added to the router
+ *
+ * @phpstan-import-type mvc_router_converters from MvcTypes
+ * @phpstan-import-type mvc_router_http_methods from MvcTypes
+ * @phpstan-import-type mvc_router_named_params from MvcTypes
+ * @phpstan-import-type mvc_router_paths from MvcTypes
+ * @phpstan-import-type mvc_router_reversed_paths from MvcTypes
  */
 class Route implements RouteInterface
 {
     /**
+     * @var int
+     */
+    protected static uniqueId = 0;
+
+    /**
      * @var callable|null
+     *
+     * @phpstan-var callable|null
      */
     protected beforeMatch = null;
 
@@ -38,6 +52,8 @@ class Route implements RouteInterface
 
     /**
      * @var array
+     *
+     * @phpstan-var mvc_router_converters
      */
     protected converters = [];
 
@@ -53,11 +69,15 @@ class Route implements RouteInterface
 
     /**
      * @var callable|null
+     *
+     * @phpstan-var callable|null
      */
     protected match = null;
 
     /**
      * @var array|string|null
+     *
+     * @phpstan-var mvc_router_http_methods|string|null
      */
     protected methods = [];
 
@@ -68,6 +88,8 @@ class Route implements RouteInterface
 
     /**
      * @var array
+     *
+     * @phpstan-var mvc_router_paths
      */
     protected paths = [];
 
@@ -82,14 +104,9 @@ class Route implements RouteInterface
     protected routeId = "";
 
     /**
-     * @var int
-     */
-    protected static uniqueId = 0;
-
-    /**
      * Phalcon\Mvc\Router\Route constructor
      */
-    public function __construct( string pattern, var paths = null, var httpMethods = null) // TODO: Make paths array
+    public function __construct(string pattern, var paths = null, var httpMethods = null) // TODO: Make paths array
     {
         var uniqueId;
 
@@ -105,6 +122,98 @@ class Route implements RouteInterface
         // TODO: Add a function that increase static members
         let this->routeId  = (string) uniqueId,
             self::uniqueId = uniqueId + 1;
+    }
+
+    /**
+     * Returns routePaths
+     *
+     * @phpstan-return mvc_router_paths
+     */
+    public static function getRoutePaths(var paths = null) -> array
+    {
+        var moduleName, controllerName, actionName, parts, routePaths,
+            realClassName, namespaceName;
+
+        if paths === null {
+            let paths = [];
+        }
+
+        if typeof paths == "string" {
+            let moduleName = null,
+                controllerName = null,
+                actionName = null;
+
+            // Explode the short paths using the :: separator
+            let parts = explode("::", paths);
+
+            // Create the array paths dynamically
+            switch count(parts) {
+
+                case 3:
+                    let moduleName = parts[0],
+                        controllerName = parts[1],
+                        actionName = parts[2];
+                    break;
+
+                case 2:
+                    let controllerName = parts[0],
+                        actionName = parts[1];
+                    break;
+
+                case 1:
+                    let controllerName = parts[0];
+                    break;
+            }
+
+            let routePaths = [];
+
+            // Process module name
+            if moduleName !== null {
+                let routePaths["module"] = moduleName;
+            }
+
+            // Process controller name
+            if controllerName !== null {
+                // Check if we need to obtain the namespace
+                if memstr(controllerName, "\\") {
+                    // Extract the real class name from the namespaced class
+                    let realClassName = get_class_ns(controllerName);
+
+                    // Extract the namespace from the namespaced class
+                    let namespaceName = get_ns_class(controllerName);
+
+                    // Update the namespace
+                    if namespaceName {
+                        let routePaths["namespace"] = namespaceName;
+                    }
+                } else {
+                    let realClassName = controllerName;
+                }
+
+                let routePaths["controller"] = realClassName;
+            }
+
+            // Process action name
+            if actionName !== null {
+                let routePaths["action"] = actionName;
+            }
+        } else {
+            let routePaths = paths;
+        }
+
+        if unlikely typeof routePaths !== "array" {
+            throw new InvalidRoutePaths();
+        }
+
+        return routePaths;
+    }
+
+    /**
+     * Resets the internal route id generator
+     */
+    public static function reset() -> void
+    {
+        let self::uniqueId = 0;
     }
 
     /**
@@ -141,7 +250,7 @@ class Route implements RouteInterface
     /**
      * Replaces placeholders from pattern returning a valid PCRE regular expression
      */
-    public function compilePattern( string pattern) -> string
+    public function compilePattern(string pattern) -> string
     {
         string idPattern;
 
@@ -197,7 +306,7 @@ class Route implements RouteInterface
     /**
      * {@inheritdoc}
      */
-    public function convert( string name, var converter) -> <RouteInterface>
+    public function convert(string name, var converter) -> <RouteInterface>
     {
         let this->converters[name] = converter;
 
@@ -206,8 +315,10 @@ class Route implements RouteInterface
 
     /**
      * Extracts parameters from a string
+     *
+     * @phpstan-return mvc_router_named_params|false
      */
-    public function extractNamedParams( string pattern) -> array | bool
+    public function extractNamedParams(string pattern) -> array | bool
     {
         char ch, prevCh = '\0';
         var tmp, matches;
@@ -404,6 +515,8 @@ class Route implements RouteInterface
 
     /**
      * Returns the router converter
+     *
+     * @phpstan-return mvc_router_converters
      */
     public function getConverters() -> array
     {
@@ -428,6 +541,8 @@ class Route implements RouteInterface
 
     /**
      * Returns the HTTP methods that constraint matching the route
+     *
+     * @phpstan-return mvc_router_http_methods|string|null
      */
     public function getHttpMethods() -> array | string | null
     {
@@ -452,6 +567,8 @@ class Route implements RouteInterface
 
     /**
      * Returns the paths
+     *
+     * @phpstan-return mvc_router_paths
      */
     public function getPaths() -> array
     {
@@ -468,6 +585,8 @@ class Route implements RouteInterface
 
     /**
      * Returns the paths using positions as keys and names as values
+     *
+     * @phpstan-return mvc_router_reversed_paths
      */
     public function getReversedPaths() -> array
     {
@@ -482,88 +601,6 @@ class Route implements RouteInterface
     public function getRouteId() -> string
     {
         return this->routeId;
-    }
-
-    /**
-     * Returns routePaths
-     */
-    public static function getRoutePaths(var paths = null) -> array
-    {
-        var moduleName, controllerName, actionName, parts, routePaths,
-            realClassName, namespaceName;
-
-        if paths === null {
-            let paths = [];
-        }
-
-        if typeof paths == "string" {
-            let moduleName = null,
-                controllerName = null,
-                actionName = null;
-
-            // Explode the short paths using the :: separator
-            let parts = explode("::", paths);
-
-            // Create the array paths dynamically
-            switch count(parts) {
-
-                case 3:
-                    let moduleName = parts[0],
-                        controllerName = parts[1],
-                        actionName = parts[2];
-                    break;
-
-                case 2:
-                    let controllerName = parts[0],
-                        actionName = parts[1];
-                    break;
-
-                case 1:
-                    let controllerName = parts[0];
-                    break;
-            }
-
-            let routePaths = [];
-
-            // Process module name
-            if moduleName !== null {
-                let routePaths["module"] = moduleName;
-            }
-
-            // Process controller name
-            if controllerName !== null {
-                // Check if we need to obtain the namespace
-                if memstr(controllerName, "\\") {
-                    // Extract the real class name from the namespaced class
-                    let realClassName = get_class_ns(controllerName);
-
-                    // Extract the namespace from the namespaced class
-                    let namespaceName = get_ns_class(controllerName);
-
-                    // Update the namespace
-                    if namespaceName {
-                        let routePaths["namespace"] = namespaceName;
-                    }
-                } else {
-                    let realClassName = controllerName;
-                }
-
-                let routePaths["controller"] = realClassName;
-            }
-
-            // Process action name
-            if actionName !== null {
-                let routePaths["action"] = actionName;
-            }
-        } else {
-            let routePaths = paths;
-        }
-
-        if unlikely typeof routePaths !== "array" {
-            throw new InvalidRoutePaths();
-        }
-
-        return routePaths;
     }
 
     /**
@@ -590,7 +627,7 @@ class Route implements RouteInterface
     /**
      * Reconfigure the route adding a new pattern and a set of paths
      */
-    public function reConfigure( string pattern, var paths = null) -> void
+    public function reConfigure(string pattern, var paths = null) -> void
     {
         var routePaths, pcrePattern, compiledPattern, extracted;
 
@@ -636,14 +673,6 @@ class Route implements RouteInterface
     }
 
     /**
-     * Resets the internal route id generator
-     */
-    public static function reset() -> void
-    {
-        let self::uniqueId = 0;
-    }
-
-    /**
      * Sets the group associated with the route
      */
     public function setGroup(<GroupInterface> group) -> <RouteInterface>
@@ -660,7 +689,7 @@ class Route implements RouteInterface
      * $route->setHostname("localhost");
      *```
      */
-    public function setHostname( string hostname) -> <RouteInterface>
+    public function setHostname(string hostname) -> <RouteInterface>
     {
         let this->hostname        = hostname,
             this->compiledHostName = false;
@@ -711,7 +740,7 @@ class Route implements RouteInterface
      * applications should rely on the auto-incrementing id assigned by
      * the constructor.
      */
-    public function setRouteId( string routeId) -> <RouteInterface>
+    public function setRouteId(string routeId) -> <RouteInterface>
     {
         let this->routeId = routeId;
 

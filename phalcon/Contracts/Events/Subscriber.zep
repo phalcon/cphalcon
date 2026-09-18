@@ -32,12 +32,16 @@ namespace Phalcon\Contracts\Events;
  * subscribe to every event of a component, use the prefix as the key:
  *
  *   'db' => 'onAnyDbEvent'   // fires for db:beforeQuery, db:afterQuery, ...
+ *
+ * @phpstan-import-type events_subscribed_events from EventsTypes
  */
 interface Subscriber
 {
     /**
      * Returns a map of event name => listener config. Called once per
      * Manager::addSubscriber() / removeSubscriber() call.
+     *
+     * @phpstan-return events_subscribed_events
      */
     public static function getSubscribedEvents() -> array;
 }

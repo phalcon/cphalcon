@@ -24,7 +24,7 @@ class AddExtensionTest extends AbstractUnitTestCase
      */
     public function testMvcViewEngineVoltCompilerAddExtension(): void
     {
-        $extension = new class {
+        $extension = new class () {
         };
 
         $compiler = new Compiler();

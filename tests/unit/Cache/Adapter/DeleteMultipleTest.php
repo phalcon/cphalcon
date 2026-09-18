@@ -44,7 +44,7 @@ final class DeleteMultipleTest extends AbstractUnitTestCase
             [
                 Libmemcached::class,
                 [
-                    'client' => [],
+                    'client'  => [],
                     'servers' => [
                         Talon::settings()->getServiceOptions('memcached')
                     ]

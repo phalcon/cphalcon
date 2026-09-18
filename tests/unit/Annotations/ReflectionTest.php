@@ -22,9 +22,6 @@ use Phalcon\Talon\Talon;
 
 final class ReflectionTest extends AbstractUnitTestCase
 {
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();

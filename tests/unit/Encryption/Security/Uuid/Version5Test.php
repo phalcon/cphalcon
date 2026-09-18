@@ -54,6 +54,7 @@ final class Version5Test extends AbstractUnitTestCase
 
         $this->assertNotSame((string) $uuid1, (string) $uuid2);
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-29

@@ -10,30 +10,30 @@
 
 namespace Phalcon\Encryption\Security\JWT\Token;
 
+use Phalcon\Contracts\Encryption\EncryptionTypes;
+
 /**
  * Storage class for a Token Item
+ *
+ * @phpstan-import-type encryption_jwt_payload from EncryptionTypes
  */
 class Item extends AbstractItem
 {
     /**
      * Item constructor.
      *
-     * @param array  $payload
-     * @param string $encoded
+     * @phpstan-param encryption_jwt_payload $payload
      */
-    public function __construct( array payload,  string encoded)
+    public function __construct(array payload,  string encoded)
     {
         let this->data["encoded"] = encoded,
             this->data["payload"] = payload;
     }
 
     /**
-     * @param string     $name
-     * @param mixed|null $defaultValue
-     *
      * @return mixed|null
      */
-    public function get( string name, var defaultValue = null) -> var | null
+    public function get(string name, var defaultValue = null) -> var | null
     {
         if !this->has(name) {
             return defaultValue;
@@ -43,19 +43,14 @@ class Item extends AbstractItem
     }
 
     /**
-     * @return array
+     * @phpstan-return encryption_jwt_payload
      */
     public function getPayload() -> array
     {
         return this->data["payload"];
     }
 
-    /**
-     * @param string $name
-     *
-     * @return bool
-     */
-    public function has( string name) -> bool
+    public function has(string name) -> bool
     {
         return isset this->data["payload"][name];
     }

@@ -15,27 +15,29 @@
 
 namespace Phalcon\DataMapper\Query;
 
+use Phalcon\Contracts\DataMapper\DataMapperTypes;
 use Phalcon\DataMapper\Pdo\Connection;
 
 /**
  * Class AbstractQuery
+ *
+ * @phpstan-import-type datamapper_bind_store from DataMapperTypes
+ * @phpstan-import-type datamapper_bind_values from DataMapperTypes
+ * @phpstan-import-type datamapper_clauses from DataMapperTypes
+ * @phpstan-import-type datamapper_query_store from DataMapperTypes
  */
 abstract class AbstractQuery
 {
-    /**
-     * @var Bind
-     */
-    protected bind;
-
-    /**
-     * @var Connection
-     */
-    protected connection;
+    protected <Bind> bind;
+    protected <Connection> connection;
 
     /**
      * @var array
+     *
+     * @phpstan-var datamapper_query_store
+     * @psalm-suppress InvalidPropertyAssignmentValue
      */
-    protected store = [];
+    protected array store = [];
 
     /**
      * AbstractQuery constructor.
@@ -54,11 +56,6 @@ abstract class AbstractQuery
 
     /**
      * Binds a value inline
-     *
-     * @param mixed $value
-     * @param int   $type
-     *
-     * @return string
      */
     public function bindInline(var value, int type = -1) -> string
     {
@@ -90,6 +87,8 @@ abstract class AbstractQuery
      * @param array $values
      *
      * @return AbstractQuery
+     *
+     * @phpstan-param datamapper_bind_values $values
      */
     public function bindValues(array values) -> <AbstractQuery>
     {
@@ -101,7 +100,7 @@ abstract class AbstractQuery
     /**
      * Returns all the bound values
      *
-     * @return array
+     * @phpstan-return datamapper_bind_store
      */
     public function getBindValues() -> array
     {
@@ -110,8 +109,6 @@ abstract class AbstractQuery
 
     /**
      * Return the generated statement
-     *
-     * @return string
      */
     abstract public function getStatement() -> string;
 
@@ -129,33 +126,7 @@ abstract class AbstractQuery
     }
 
     /**
-     * Sets a flag for the query such as "DISTINCT"
-     *
-     * @param string $flag
-     * @param bool   $enable
-     */
-    public function setFlag(string flag, bool enable = true) -> void
-    {
-        var flags;
-
-        if enable {
-            let this->store["FLAGS"][flag] = true;
-        } else {
-            let flags = this->store["FLAGS"];
-
-            unset flags[flag];
-
-            let this->store["FLAGS"] = flags;
-        }
-    }
-
-    /**
      * Quotes the identifier
-     *
-     * @param string $name
-     * @param int    $type
-     *
-     * @return string
      */
     public function quoteIdentifier(
         string name,
@@ -189,19 +160,19 @@ abstract class AbstractQuery
     }
 
     /**
+     * Resets the flags
+     */
+    public function resetFlags() -> void
+    {
+        let this->store["FLAGS"] = [];
+    }
+
+    /**
      * Resets the from
      */
     public function resetFrom() -> void
     {
         let this->store["FROM"] = [];
-    }
-
-    /**
-     * Resets the where
-     */
-    public function resetWhere() -> void
-    {
-        let this->store["WHERE"] = [];
     }
 
     /**
@@ -221,14 +192,6 @@ abstract class AbstractQuery
     }
 
     /**
-     * Resets the order by
-     */
-    public function resetOrderBy() -> void
-    {
-        let this->store["ORDER"] = [];
-    }
-
-    /**
      * Resets the limit and offset
      */
     public function resetLimit() -> void
@@ -238,11 +201,37 @@ abstract class AbstractQuery
     }
 
     /**
-     * Resets the flags
+     * Resets the order by
      */
-    public function resetFlags() -> void
+    public function resetOrderBy() -> void
     {
-        let this->store["FLAGS"] = [];
+        let this->store["ORDER"] = [];
+    }
+
+    /**
+     * Resets the where
+     */
+    public function resetWhere() -> void
+    {
+        let this->store["WHERE"] = [];
+    }
+
+    /**
+     * Sets a flag for the query such as "DISTINCT"
+     */
+    public function setFlag(string flag, bool enable = true) -> void
+    {
+        var flags;
+
+        if enable {
+            let this->store["FLAGS"][flag] = true;
+        } else {
+            let flags = this->store["FLAGS"];
+
+            unset flags[flag];
+
+            let this->store["FLAGS"] = flags;
+        }
     }
 
     /**
@@ -261,8 +250,6 @@ abstract class AbstractQuery
 
     /**
      * Builds the `RETURNING` clause
-     *
-     * @return string
      */
     protected function buildReturning() -> string
     {
@@ -276,10 +263,7 @@ abstract class AbstractQuery
     /**
      * Indents a collection
      *
-     * @param array  $collection
-     * @param string $glue
-     *
-     * @return string
+     * @phpstan-param datamapper_clauses $collection
      */
     protected function indent(array collection, string glue = "") -> string
     {

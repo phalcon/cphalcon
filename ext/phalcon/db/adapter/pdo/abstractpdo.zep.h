@@ -6,12 +6,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_Pdo_AbstractPdo);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, __construct);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, affectedRows);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, begin);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, commit);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, close);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, commit);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, connect);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, convertBoundParams);
-PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, escapeString);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, ensureConnection);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, escapeString);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, execute);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, executePrepared);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, getAutoReconnect);
@@ -32,6 +32,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, canReconnect);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, executeStatement);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, handleConnectionLost);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, queryStatement);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, resetStaleTransactionLevel);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo___construct, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, descriptor, 0)
@@ -44,11 +45,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractp
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, nesting, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_commit, 0, 0, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, nesting, _IS_BOOL, 0, "true")
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_close, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_close, 0, 0, IS_VOID, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_commit, 0, 0, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, nesting, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_connect, 0, 0, IS_VOID, 0)
@@ -61,11 +62,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractp
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, params, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_escapestring, 0, 1, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, str, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_ensureconnection, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_ensureconnection, 0, 0, IS_VOID, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_escapestring, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, str, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_execute, 0, 1, _IS_BOOL, 0)
@@ -152,16 +153,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpd
 	ZEND_ARG_ARRAY_INFO(0, types, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_resetstaletransactionlevel, 0, 0, IS_VOID, 0)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_db_adapter_pdo_abstractpdo_method_entry) {
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, __construct, arginfo_phalcon_db_adapter_pdo_abstractpdo___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, affectedRows, arginfo_phalcon_db_adapter_pdo_abstractpdo_affectedrows, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, begin, arginfo_phalcon_db_adapter_pdo_abstractpdo_begin, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, commit, arginfo_phalcon_db_adapter_pdo_abstractpdo_commit, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, close, arginfo_phalcon_db_adapter_pdo_abstractpdo_close, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, commit, arginfo_phalcon_db_adapter_pdo_abstractpdo_commit, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, connect, arginfo_phalcon_db_adapter_pdo_abstractpdo_connect, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, convertBoundParams, arginfo_phalcon_db_adapter_pdo_abstractpdo_convertboundparams, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, escapeString, arginfo_phalcon_db_adapter_pdo_abstractpdo_escapestring, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, ensureConnection, arginfo_phalcon_db_adapter_pdo_abstractpdo_ensureconnection, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, escapeString, arginfo_phalcon_db_adapter_pdo_abstractpdo_escapestring, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, execute, arginfo_phalcon_db_adapter_pdo_abstractpdo_execute, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, executePrepared, arginfo_phalcon_db_adapter_pdo_abstractpdo_executeprepared, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, getAutoReconnect, arginfo_phalcon_db_adapter_pdo_abstractpdo_getautoreconnect, ZEND_ACC_PUBLIC)
@@ -182,5 +186,6 @@ PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, getInternalHandler, arginfo_phalcon_d
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, executeStatement, arginfo_phalcon_db_adapter_pdo_abstractpdo_executestatement, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, handleConnectionLost, arginfo_phalcon_db_adapter_pdo_abstractpdo_handleconnectionlost, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, queryStatement, arginfo_phalcon_db_adapter_pdo_abstractpdo_querystatement, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, resetStaleTransactionLevel, arginfo_phalcon_db_adapter_pdo_abstractpdo_resetstaletransactionlevel, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };

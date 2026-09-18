@@ -15,11 +15,12 @@ namespace Phalcon\Auth\Adapter;
 
 use Phalcon\Contracts\Auth\Adapter\Adapter;
 use Phalcon\Contracts\Auth\Adapter\AdapterConfig;
+use Phalcon\Contracts\Auth\AuthTypes;
 use Phalcon\Contracts\Auth\AuthUser;
 use Phalcon\Contracts\Encryption\Security\Security;
 
 /**
- * @phpstan-import-type AuthCredentials from Adapter
+ * @phpstan-import-type auth_credentials from AuthTypes
  *
  * @template TConfig of AdapterConfig
  */
@@ -69,7 +70,7 @@ abstract class AbstractAdapter implements Adapter
      * Concrete adapters share this implementation; if your data source needs
      * a different verification strategy, override it.
      *
-     * @phpstan-param AuthCredentials $credentials
+     * @phpstan-param auth_credentials $credentials
      */
     public function validateCredentials(<AuthUser> user, array credentials) -> bool
     {

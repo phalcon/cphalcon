@@ -77,6 +77,7 @@ final class AddColumnGeneratedTest extends AbstractDatabaseTestCase
         $this->assertStringNotContainsString(' DEFAULT ', $actual);
         $this->assertStringNotContainsString(' AUTO_INCREMENT', $actual);
     }
+
     /**
      * MySQL VIRTUAL.
      *

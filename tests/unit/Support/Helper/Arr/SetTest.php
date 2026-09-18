@@ -24,7 +24,7 @@ final class SetTest extends AbstractUnitTestCase
      */
     public function testSupportHelperArrSetNoIndex(): void
     {
-        $object = new Set();
+        $object     = new Set();
         $collection = [];
 
         $expected = [
@@ -40,7 +40,7 @@ final class SetTest extends AbstractUnitTestCase
      */
     public function testSupportHelperArrSetNumeric(): void
     {
-        $object = new Set();
+        $object     = new Set();
         $collection = [];
 
         $expected = [
@@ -56,7 +56,7 @@ final class SetTest extends AbstractUnitTestCase
      */
     public function testSupportHelperArrSetOverwride(): void
     {
-        $object = new Set();
+        $object     = new Set();
         $collection = [
             1 => 'Phalcon',
         ];
@@ -74,7 +74,7 @@ final class SetTest extends AbstractUnitTestCase
      */
     public function testSupportHelperArrSetString(): void
     {
-        $object = new Set();
+        $object     = new Set();
         $collection = [];
 
         $expected = [

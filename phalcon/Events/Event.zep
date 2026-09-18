@@ -31,10 +31,8 @@ class Event implements EventInterface, Stoppable
 {
     /**
      * Is event cancelable?
-     *
-     * @var bool
      */
-    protected cancelable;
+    protected bool cancelable;
 
     /**
      * Event data
@@ -52,22 +50,18 @@ class Event implements EventInterface, Stoppable
 
     /**
      * Is event propagation stopped?
-     *
-     * @var bool
      */
-    protected stopped = false;
+    protected bool stopped = false;
 
     /**
      * Event type
-     *
-     * @var string
      */
-    protected type;
+    protected string type;
 
     /**
-     * Phalcon\Events\Event constructor
+     * Event constructor.
      *
-     * @param object source
+     * @throws InvalidEventSource
      */
     public function __construct(
         string type,
@@ -144,7 +138,7 @@ class Event implements EventInterface, Stoppable
     /**
      * Sets event type.
      */
-    public function setType( string type) -> <EventInterface>
+    public function setType(string type) -> <EventInterface>
     {
         let this->type = type;
 
@@ -159,6 +153,8 @@ class Event implements EventInterface, Stoppable
      *     $event->stop();
      * }
      * ```
+     *
+     * @throws EventNotCancelable
      */
     public function stop() -> <EventInterface>
     {

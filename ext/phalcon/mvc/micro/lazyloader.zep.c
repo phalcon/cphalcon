@@ -30,18 +30,18 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Micro\LazyLoader
- *
  * Lazy-Load of handlers for Mvc\Micro using auto-loading
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_LazyLoader)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Micro, LazyLoader, phalcon, mvc_micro_lazyloader, phalcon_mvc_micro_lazyloader_method_entry, 0);
 
-	/**
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_mvc_micro_lazyloader_ce, SL("definition"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_mvc_micro_lazyloader_ce, SL("definition"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	/**
 	 * @var object|null
 	 */
@@ -68,14 +68,13 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct)
 		Z_PARAM_STR(definition)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&definition_zv, definition);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 995, &definition_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 992, &definition_zv);
 }
 
 /**
  * Calling __call method
  *
- * @param  array arguments
- * @return mixed
+ * @param array $arguments
  */
 PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
 {
@@ -127,9 +126,9 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
 		modelBinder = &modelBinder_sub;
 		modelBinder = &__$null;
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 996, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 993, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&handler, &_0);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 995, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 992, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&definition, &_0);
 	if (Z_TYPE_P(&handler) != IS_OBJECT) {
 		if (!(zephir_class_exists(&definition, 1))) {
@@ -137,14 +136,14 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
 			object_init_ex(&_1$$4, phalcon_mvc_micro_exceptions_lazyhandlernotfound_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 0, &definition);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_1$$4, "phalcon/Mvc/Micro/LazyLoader.zep", 56);
+			zephir_throw_exception_debug(&_1$$4, "phalcon/Mvc/Micro/LazyLoader.zep", 49);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
 		ZEPHIR_INIT_NVAR(&handler);
 		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(&handler, &definition);
 		zephir_check_call_status();
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 996, &handler);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 993, &handler);
 	}
 	if (Z_TYPE_P(modelBinder) != IS_NULL) {
 		ZEPHIR_INIT_VAR(&bindCacheKey);
@@ -164,18 +163,12 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
 	RETURN_MM();
 }
 
-/**
- * @return string
- */
 PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, getDefinition)
 {
 
 	RETURN_MEMBER_TYPED(getThis(), "definition", IS_STRING);
 }
 
-/**
- * @return object|null
- */
 PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, getHandler)
 {
 

@@ -65,11 +65,16 @@
  *     )
  * );
  * ```
+ *
+ * @phpstan-import-type filter_validator_options from FilterTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_Identical)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Filter\\Validation\\Validator, Identical, phalcon, filter_validation_validator_identical, phalcon_filter_validation_abstractvalidator_ce, phalcon_filter_validation_validator_identical_method_entry, 0);
 
+	/**
+	 * @var string|null
+	 */
 	zend_declare_property_string(phalcon_filter_validation_validator_identical_ce, SL("template"), "Field :field does not have the expected value", ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
@@ -77,13 +82,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_Identical)
 /**
  * Constructor
  *
- * @param array options = [
- *     'message' => '',
- *     'template' => '',
- *     'accepted' => '',
- *     'value' => '',
- *     'allowEmpty' => false
- * ]
+ * @phpstan-param filter_validator_options $options
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_Identical, __construct)
 {
@@ -116,7 +115,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Identical, __construct)
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_Identical, validate)
 {
-	zend_bool valid = 0;
+	zend_bool valid;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validation, validation_sub, *field, field_sub, value, accepted, _0, _1, _2, _3, _4$$4, _5$$5, _6$$7, _7$$8;
@@ -141,6 +140,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Identical, validate)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &validation, &field);
+	ZEPHIR_INIT_VAR(&accepted);
+	ZVAL_NULL(&accepted);
+	valid = 0;
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "allowempty", NULL, 0, field, &value);
@@ -171,7 +173,8 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Identical, validate)
 	}
 	if (zephir_is_true(&accepted)) {
 		if (Z_TYPE_P(&accepted) == IS_ARRAY) {
-			zephir_array_fetch(&_6$$7, &accepted, field, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/Identical.zep", 97);
+			zephir_memory_observe(&_6$$7);
+			zephir_array_fetch(&_6$$7, &accepted, field, PH_NOISY, "phalcon/Filter/Validation/Validator/Identical.zep", 97);
 			ZEPHIR_CPY_WRT(&accepted, &_6$$7);
 		}
 		valid = ZEPHIR_IS_EQUAL(&value, &accepted);

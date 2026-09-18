@@ -26,7 +26,7 @@ interface RouterInterface
      *
      * @phpstan-param mixed $paths
      */
-    public function add( string pattern, var paths = null) -> <RouteInterface>;
+    public function add(string pattern, var paths = null) -> <RouteInterface>;
 
     /**
      * Returns processed action name
@@ -77,7 +77,7 @@ interface RouterInterface
     /**
      * Returns a route object by its name
      */
-    public function getRouteByName( string name) -> bool | <RouteInterface>;
+    public function getRouteByName(string name) -> bool | <RouteInterface>;
 
     /**
      * Return all the routes defined in the router
@@ -105,24 +105,24 @@ interface RouterInterface
     /**
      * Sets the default action name
      */
-    public function setDefaultAction( string actionName) -> <RouterInterface>;
+    public function setDefaultAction(string actionName) -> <RouterInterface>;
 
     /**
      * Sets the name of the default module
      */
-    public function setDefaultModule( string moduleName) -> <RouterInterface>;
+    public function setDefaultModule(string moduleName) -> <RouterInterface>;
 
     /**
      * Sets an array of default paths
      *
      * @phpstan-param cli_router_defaults $defaults
      */
-    public function setDefaults( array defaults) -> <RouterInterface>;
+    public function setDefaults(array defaults) -> <RouterInterface>;
 
     /**
      * Sets the default task name
      */
-    public function setDefaultTask( string taskName) -> <RouterInterface>;
+    public function setDefaultTask(string taskName) -> <RouterInterface>;
 
     /**
      * Check if the router matches any of the defined routes

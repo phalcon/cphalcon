@@ -44,6 +44,7 @@ final class LoadTest extends AbstractUnitTestCase
 
         $this->assertCount(3, $router->getRoutes());
     }
+
     public function testLoadFromArrayWithoutDefaultRoutes(): void
     {
         $router = (new RouterFactory())->load([

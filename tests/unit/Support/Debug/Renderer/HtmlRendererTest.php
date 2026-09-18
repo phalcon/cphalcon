@@ -160,7 +160,7 @@ final class HtmlRendererTest extends AbstractUnitTestCase
 
     public function testVarDumpAndArrayDumpBranches(): void
     {
-        $renderer = new class extends HtmlRenderer {
+        $renderer = new class () extends HtmlRenderer {
             public function dumpVar(mixed $value): string
             {
                 return $this->getVarDump($value);
@@ -172,7 +172,7 @@ final class HtmlRendererTest extends AbstractUnitTestCase
             }
         };
 
-        $object = new class {
+        $object = new class () {
             public function dump(): array
             {
                 return ['k' => 'v'];

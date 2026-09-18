@@ -22,9 +22,6 @@ final class TTest extends AbstractUnitTestCase
     use TranslateGettextHelperTrait;
     use TranslateGettextTrait;
 
-    /**
-     * @return string
-     */
     protected function func(): string
     {
 

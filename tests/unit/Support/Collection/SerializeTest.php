@@ -27,7 +27,7 @@ final class SerializeTest extends AbstractCollectionTestCase
     public function testSupportCollectionSerialize(
         string $class,
     ): void {
-        $data = $this->getData();
+        $data       = $this->getData();
         $collection = new $class($data);
 
         $expected = serialize([
@@ -46,7 +46,7 @@ final class SerializeTest extends AbstractCollectionTestCase
      */
     public function testSupportCollectionSerializeUnderscore(): void
     {
-        $data = $this->getData();
+        $data       = $this->getData();
         $collection = new Collection($data);
 
         // __serialize() now emits a structured array with data + flags.

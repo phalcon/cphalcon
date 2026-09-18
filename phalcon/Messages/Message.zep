@@ -56,25 +56,16 @@ class Message implements MessageInterface, JsonSerializable
         return this->message;
     }
 
-    /**
-     * @return int
-     */
     public function getCode() -> int
     {
         return this->code;
     }
 
-    /**
-     * @return string
-     */
     public function getField() -> string
     {
         return this->field;
     }
 
-    /**
-     * @return string
-     */
     public function getMessage() -> string
     {
         return this->message;
@@ -88,9 +79,6 @@ class Message implements MessageInterface, JsonSerializable
         return this->metaData;
     }
 
-    /**
-     * @return string
-     */
     public function getType() -> string
     {
         return this->type;
@@ -125,7 +113,7 @@ class Message implements MessageInterface, JsonSerializable
     /**
      * Sets field name related to message
      */
-    public function setField( string field) -> <MessageInterface>
+    public function setField(string field) -> <MessageInterface>
     {
         let this->field = field;
 
@@ -135,7 +123,7 @@ class Message implements MessageInterface, JsonSerializable
     /**
      * Sets verbose message
      */
-    public function setMessage( string message) -> <MessageInterface>
+    public function setMessage(string message) -> <MessageInterface>
     {
         let this->message = message;
 
@@ -147,7 +135,7 @@ class Message implements MessageInterface, JsonSerializable
      *
      * @param messages_metadata $metaData
      */
-    public function setMetaData( array metaData) -> <MessageInterface>
+    public function setMetaData(array metaData) -> <MessageInterface>
     {
         let this->metaData = metaData;
 
@@ -157,7 +145,7 @@ class Message implements MessageInterface, JsonSerializable
     /**
      * Sets message type
      */
-    public function setType( string type) -> <MessageInterface>
+    public function setType(string type) -> <MessageInterface>
     {
         let this->type = type;
 

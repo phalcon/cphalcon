@@ -1,0 +1,5 @@
+
+extern zend_class_entry *phalcon_contracts_flash_flashtypes_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Flash_FlashTypes);
+

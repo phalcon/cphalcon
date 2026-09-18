@@ -14,7 +14,7 @@ namespace Phalcon\Tests\Unit\Html\Helper\Preload;
 use Phalcon\Html\Escaper;
 use Phalcon\Html\Helper\Preload;
 use Phalcon\Html\TagFactory;
-use Phalcon\Http\ResponseInterface;
+use Phalcon\Http\Response;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -66,18 +66,16 @@ final class UnderscoreInvokeTest extends AbstractUnitTestCase
     public function testHtmlHelperPreloadSetsResponseHeader(): void
     {
         $escaper  = new Escaper();
-        $response = $this->createMock(ResponseInterface::class);
-
-        $response
-            ->expects($this->once())
-            ->method('setRawHeader')
-            ->with('Link: </my-font.woff2>; rel="preload"; as="font"')
-        ;
+        $response = new Response();
 
         $helper = new Preload($escaper, $response);
         $actual = $helper('/my-font.woff2', 'font');
 
         $this->assertSame('<link rel="preload" href="/my-font.woff2" as="font" />', $actual);
+        $this->assertSame(
+            ['Link: </my-font.woff2>; rel="preload"; as="font"' => null],
+            $response->getHeaders()->toArray()
+        );
     }
 
     /**
@@ -87,18 +85,16 @@ final class UnderscoreInvokeTest extends AbstractUnitTestCase
     public function testHtmlHelperPreloadSetsResponseHeaderViaTagFactory(): void
     {
         $escaper  = new Escaper();
-        $response = $this->createMock(ResponseInterface::class);
-
-        $response
-            ->expects($this->once())
-            ->method('setRawHeader')
-            ->with('Link: </my-style.css>; rel="preload"; as="style"')
-        ;
+        $response = new Response();
 
         $factory = new TagFactory($escaper, [], $response);
         $actual  = $factory->preload('/my-style.css', 'style');
 
         $this->assertSame('<link rel="preload" href="/my-style.css" as="style" />', $actual);
+        $this->assertSame(
+            ['Link: </my-style.css>; rel="preload"; as="style"' => null],
+            $response->getHeaders()->toArray()
+        );
     }
 
     /**

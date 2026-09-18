@@ -89,6 +89,7 @@ final class LimitTest extends AbstractUnitTestCase
         unset($actual['id']);
         $this->assertSame($expected, $actual);
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-10

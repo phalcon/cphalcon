@@ -39,6 +39,7 @@ final class ConstructTest extends AbstractUnitTestCase
         $actual = $task->onConstructExecuted;
         $this->assertTrue($actual);
     }
+
     public function testEchoTask(): void
     {
         $task = new EchoTask();

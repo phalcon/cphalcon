@@ -23,9 +23,6 @@ use function sprintf;
 
 final class UnderscoreInvokeTest extends AbstractUnitTestCase
 {
-    /**
-     * @return array
-     */
     public static function getClasses(): array
     {
         return [
@@ -51,9 +48,6 @@ final class UnderscoreInvokeTest extends AbstractUnitTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     public static function getExamples(): array
     {
         return [

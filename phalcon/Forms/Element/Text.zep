@@ -10,8 +10,6 @@
 
 namespace Phalcon\Forms\Element;
 
-use Phalcon\Forms\Exception;
-
 /**
  * Component INPUT[type=text] for forms
  */

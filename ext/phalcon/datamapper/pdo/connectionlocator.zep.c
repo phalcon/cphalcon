@@ -39,6 +39,10 @@
  *
  * The locator gives its events manager to each connection that it returns,
  * so connections that are built on demand also fire the DataMapper events.
+ *
+ * @phpstan-import-type datamapper_connection_factories from DataMapperTypes
+ * @phpstan-import-type datamapper_connection_factory from DataMapperTypes
+ * @phpstan-import-type datamapper_connection_instances from DataMapperTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_ConnectionLocator)
 {
@@ -54,18 +58,24 @@ ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_ConnectionLocator)
 	 * A registry of Connection "read" factories/instances.
 	 *
 	 * @var array
+	 *
+	 * @phpstan-var datamapper_connection_factories
 	 */
 	zend_declare_property_null(phalcon_datamapper_pdo_connectionlocator_ce, SL("read"), ZEND_ACC_PROTECTED);
 	/**
 	 * A registry of Connection "write" factories/instances.
 	 *
 	 * @var array
+	 *
+	 * @phpstan-var datamapper_connection_factories
 	 */
 	zend_declare_property_null(phalcon_datamapper_pdo_connectionlocator_ce, SL("write"), ZEND_ACC_PROTECTED);
 	/**
 	 * A collection of resolved instances
 	 *
 	 * @var array
+	 *
+	 * @phpstan-var datamapper_connection_instances
 	 */
 	zend_declare_property_null(phalcon_datamapper_pdo_connectionlocator_ce, SL("instances"), ZEND_ACC_PRIVATE);
 	{
@@ -87,6 +97,9 @@ ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_ConnectionLocator)
  * @param ConnectionInterface $master
  * @param array               $read
  * @param array               $write
+ *
+ * @phpstan-param datamapper_connection_factories $read
+ * @phpstan-param datamapper_connection_factories $write
  */
 PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, __construct)
 {
@@ -130,7 +143,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, __construct)
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setmaster", NULL, 0, master);
 	zephir_check_call_status();
-	zephir_is_iterable(&read, 0, "phalcon/DataMapper/Pdo/ConnectionLocator.zep", 82);
+	zephir_is_iterable(&read, 0, "phalcon/DataMapper/Pdo/ConnectionLocator.zep", 96);
 	if (Z_TYPE_P(&read) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&read), _1, _2, _0)
 		{
@@ -171,7 +184,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, __construct)
 	}
 	ZEPHIR_INIT_NVAR(&callableObject);
 	ZEPHIR_INIT_NVAR(&name);
-	zephir_is_iterable(&write, 0, "phalcon/DataMapper/Pdo/ConnectionLocator.zep", 85);
+	zephir_is_iterable(&write, 0, "phalcon/DataMapper/Pdo/ConnectionLocator.zep", 99);
 	if (Z_TYPE_P(&write) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&write), _7, _8, _6)
 		{
@@ -235,7 +248,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, getMaster)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 570, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 568, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "applyeventsmanager", NULL, 0, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -345,7 +358,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, setMaster)
 		Z_PARAM_OBJECT_OF_CLASS(callableObject, phalcon_datamapper_pdo_connection_connectioninterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &callableObject);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 570, callableObject);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 568, callableObject);
 	RETURN_THISW();
 }
 
@@ -356,6 +369,8 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, setMaster)
  * @param callable $callable
  *
  * @return static
+ *
+ * @phpstan-param datamapper_connection_factory $callableObject
  */
 PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, setRead)
 {
@@ -382,6 +397,8 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, setRead)
  * @param callable $callable
  *
  * @return static
+ *
+ * @phpstan-param datamapper_connection_factory $callableObject
  */
 PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, setWrite)
 {
@@ -409,6 +426,8 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, setWrite)
  *
  * @return ConnectionInterface
  * @throws ConnectionNotFound
+ *
+ * @phpstan-param 'read'|'write' $type
  */
 PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, getConnection)
 {
@@ -456,7 +475,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, getConnection)
 	zephir_memory_observe(&collection);
 	zephir_read_property_zval(&collection, this_ptr, &type_zv, PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(&requested, &name_zv);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 571, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 569, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&instances, &_0);
 	if (ZEPHIR_IS_EMPTY(&collection)) {
 		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getmaster", NULL, 0);
@@ -476,7 +495,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, getConnection)
 		ZEPHIR_CONCAT_SVSV(&_3$$5, "Connection not found: ", &type_zv, ":", &requested);
 		ZEPHIR_CALL_METHOD(NULL, &_2$$5, "__construct", NULL, 9, &_3$$5);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$5, "phalcon/DataMapper/Pdo/ConnectionLocator.zep", 214);
+		zephir_throw_exception_debug(&_2$$5, "phalcon/DataMapper/Pdo/ConnectionLocator.zep", 234);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -484,13 +503,15 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, getConnection)
 	ZEPHIR_CONCAT_VSV(&instanceName, &type_zv, "-", &requested);
 	if (!(zephir_array_isset_value(&instances, &instanceName))) {
 		ZEPHIR_INIT_VAR(&_4$$6);
-		zephir_array_fetch(&_5$$6, &collection, &requested, PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/ConnectionLocator.zep", 225);
+		zephir_memory_observe(&_5$$6);
+		zephir_array_fetch(&_5$$6, &collection, &requested, PH_NOISY, "phalcon/DataMapper/Pdo/ConnectionLocator.zep", 245);
 		ZEPHIR_CALL_USER_FUNC(&_4$$6, &_5$$6);
 		zephir_check_call_status();
 		zephir_array_update_zval(&instances, &instanceName, &_4$$6, PH_COPY | PH_SEPARATE);
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 571, &instances);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 569, &instances);
 	}
-	zephir_array_fetch(&_6, &instances, &instanceName, PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/ConnectionLocator.zep", 229);
+	zephir_memory_observe(&_6);
+	zephir_array_fetch(&_6, &instances, &instanceName, PH_NOISY, "phalcon/DataMapper/Pdo/ConnectionLocator.zep", 249);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "applyeventsmanager", NULL, 0, &_6);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -527,13 +548,13 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, applyEventsManager)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &connection);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 572, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 570, PH_NOISY_CC | PH_READONLY);
 	_1 = Z_TYPE_P(&_0) != IS_NULL;
 	if (_1) {
 		_1 = zephir_instance_of_ev(connection, phalcon_contracts_events_eventsaware_ce);
 	}
 	if (_1) {
-		zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_0, 572, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_0, 570, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(NULL, connection, "seteventsmanager", NULL, 0, &_2$$3);
 		zephir_check_call_status();
 	}
@@ -590,19 +611,19 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, setEventsManager)
 	_2 = ZEPHIR_IS_TRUE_IDENTICAL(&_1);
 	if (_2) {
 		zephir_memory_observe(&_3);
-		zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 573, PH_NOISY_CC);
+		zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 571, PH_NOISY_CC);
 		_2 = Z_TYPE_P(&_3) != IS_NULL;
 	}
 	if (_2) {
 		zephir_memory_observe(&_4$$3);
-		zephir_read_property_cached(&_4$$3, this_ptr, _zephir_prop_0, 573, PH_NOISY_CC);
+		zephir_read_property_cached(&_4$$3, this_ptr, _zephir_prop_0, 571, PH_NOISY_CC);
 		ZEPHIR_INIT_VAR(&_5$$3);
 		ZVAL_STRING(&_5$$3, "eventsManager");
 		ZVAL_BOOL(&_6$$3, 1);
 		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "set", NULL, 0, &_5$$3, eventsManager, &_6$$3);
 		zephir_check_call_status();
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 572, eventsManager);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 570, eventsManager);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -668,16 +689,16 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, fireManagerEvent)
 		stopOnFalse = 0;
 	} else {
 		}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 572, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 570, PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) != IS_NULL) {
 		_1$$3 = stopOnFalse;
 		if (_1$$3) {
 			zephir_memory_observe(&_2$$3);
-			zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_0, 572, PH_NOISY_CC);
+			zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_0, 570, PH_NOISY_CC);
 			_1$$3 = zephir_instance_of_ev(&_2$$3, phalcon_events_manager_ce);
 		}
 		if (_1$$3) {
-			zephir_read_property_cached(&_3$$4, this_ptr, _zephir_prop_0, 572, PH_NOISY_CC | PH_READONLY);
+			zephir_read_property_cached(&_3$$4, this_ptr, _zephir_prop_0, 570, PH_NOISY_CC | PH_READONLY);
 			if (cancellable) {
 				ZVAL_BOOL(&_4$$4, 1);
 			} else {
@@ -688,7 +709,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, fireManagerEvent)
 			zephir_check_call_status();
 			RETURN_MM();
 		}
-		zephir_read_property_cached(&_6$$3, this_ptr, _zephir_prop_0, 572, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_6$$3, this_ptr, _zephir_prop_0, 570, PH_NOISY_CC | PH_READONLY);
 		if (cancellable) {
 			ZVAL_BOOL(&_7$$3, 1);
 		} else {

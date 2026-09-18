@@ -55,7 +55,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Exceptions_RelationRequiresObjectOrArray, __constru
 	zephir_memory_observe(&relationName_zv);
 	ZVAL_STR_COPY(&relationName_zv, relationName);
 	ZEPHIR_INIT_VAR(&_0);
-	ZEPHIR_CONCAT_SVSV(&_0, "Only objects/arrays can be stored as part of has-many/has-one/has-one-through/has-many-to-many relations on model ", &className_zv, " on Relation ", &relationName_zv);
+	ZEPHIR_CONCAT_SSVSV(&_0, "Only objects/arrays can be stored as part of ", "has-many/has-one/has-one-through/has-many-to-many relations on model ", &className_zv, " on Relation ", &relationName_zv);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_exceptions_relationrequiresobjectorarray_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

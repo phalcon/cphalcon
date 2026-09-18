@@ -22,6 +22,8 @@
  */
 /**
  * Interface for Phalcon\Session\Bag
+ *
+ * @phpstan-import-type session_bag_data from SessionTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Session_BagInterface)
 {
@@ -37,6 +39,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, __unset);
 ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, clear);
 ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, get);
 ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, has);
+/**
+ * @phpstan-param session_bag_data $data
+ */
 ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, init);
 ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, remove);
 ZEPHIR_DOC_METHOD(Phalcon_Session_BagInterface, set);

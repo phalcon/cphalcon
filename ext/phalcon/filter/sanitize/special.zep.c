@@ -26,8 +26,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Filter\Sanitize\Special
- *
  * Sanitizes a value special characters
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Special)
@@ -41,7 +39,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Special)
 /**
  * @param mixed $input The text to sanitize
  *
- * @return mixed
+ * @return string
  */
 PHP_METHOD(Phalcon_Filter_Sanitize_Special, __invoke)
 {

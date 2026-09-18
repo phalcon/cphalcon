@@ -20,11 +20,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 
 final class CheckboxUnderscoreInvokeTest extends AbstractUnitTestCase
 {
-    /**
-     * @param string $type
-     *
-     * @return array
-     */
     public static function getExamples(string $type): array
     {
         return [
@@ -159,17 +154,11 @@ final class CheckboxUnderscoreInvokeTest extends AbstractUnitTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     public static function getExamplesCheckbox(): array
     {
         return self::getExamples('checkbox');
     }
 
-    /**
-     * @return array
-     */
     public static function getExamplesRadio(): array
     {
         return self::getExamples('radio');

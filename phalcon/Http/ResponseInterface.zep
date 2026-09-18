@@ -27,70 +27,46 @@ interface ResponseInterface
 
     /**
      * Gets the HTTP response body
-     *
-     * @return string
      */
     public function getContent() -> string;
 
     /**
      * Returns headers set by the user
-     *
-     * @return HeadersInterface
      */
     public function getHeaders() -> <HeadersInterface>;
 
     /**
      * Returns the status code
-     *
-     * @return int|null
      */
     public function getStatusCode() -> int | null;
 
     /**
      * Checks if a header exists
-     *
-     * @param string $name
-     *
-     * @return bool
      */
     public function hasHeader(string name) -> bool;
 
     /**
      * Checks if the response was already sent
-     *
-     * @return bool
      */
     public function isSent() -> bool;
 
     /**
      * Redirect by HTTP to another action or URL
-     *
-     * @param string|null $location
-     * @param bool        $externalRedirect
-     * @param int         $statusCode
-     *
-     * @return ResponseInterface
      */
     public function redirect(string location = null, bool externalRedirect = false, int statusCode = 302) -> <ResponseInterface>;
 
     /**
      * Resets all the established headers
-     *
-     * @return ResponseInterface
      */
     public function resetHeaders() -> <ResponseInterface>;
 
     /**
      * Prints out HTTP response to the client
-     *
-     * @return ResponseInterface
      */
     public function send() -> <ResponseInterface>;
 
     /**
      * Sends cookies to the client
-     *
-     * @return ResponseInterface
      */
     public function sendCookies() -> <ResponseInterface>;
 

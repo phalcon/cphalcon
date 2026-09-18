@@ -30,25 +30,27 @@
 
 namespace Phalcon\Container\Resolver\Lazy;
 
+use Phalcon\Contracts\Container\ContainerTypes;
+use Phalcon\Contracts\Container\Service\Collection;
+
+/**
+ * @phpstan-import-type container_arguments from ContainerTypes
+ */
 class GetCall extends Lazy
 {
     /**
-     * @var array<array-key, mixed>
+     * @phpstan-var container_arguments
      */
-    protected arguments;
+    protected array arguments;
     /**
-     * @var string|Lazy
+     * @var Lazy|string
      */
     protected id;
-    /**
-     * @var string
-     */
-    protected method;
+    protected string method;
 
     /**
-     * @param string|Lazy             $id
-     * @param string                  $method
-     * @param array<array-key, mixed> $arguments
+     * @phpstan-param Lazy|string         $id
+     * @phpstan-param container_arguments $arguments
      */
     public function __construct(var id, string method, array arguments)
     {
@@ -59,19 +61,22 @@ class GetCall extends Lazy
 
     /**
      * Resolve a shared instance method call
-     *
-     * @param object $ioc
-     *
-     * @return mixed
      */
     public function resolve(object ioc) -> mixed
     {
-        var id, arguments, service;
+        var id, arguments, service, callback;
 
+        /** @var string $id */
         let id        = this->resolveArgument(ioc, this->id);
         let arguments = this->resolveArguments(ioc, this->arguments);
+        /**
+         * @var Collection $ioc
+         * @var object     $service
+         */
         let service   = ioc->get(id);
+        /** @var callable $callback */
+        let callback  = [service, this->method];
 
-        return call_user_func_array([service, this->method], arguments);
+        return call_user_func_array(callback, arguments);
     }
 }

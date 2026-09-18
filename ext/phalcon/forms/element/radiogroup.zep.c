@@ -34,16 +34,23 @@
  *   ['value' => 'Label']
  * or with per-item attributes:
  *   ['value' => ['label' => 'Label', 'disabled' => true]]
+ *
+ * @phpstan-import-type forms_attributes from FormsTypes
+ * @phpstan-import-type forms_group_options from FormsTypes
+ * @phpstan-import-type html_attributes from HtmlTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_RadioGroup)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, RadioGroup, phalcon, forms_element_radiogroup, phalcon_forms_element_abstractelement_ce, phalcon_forms_element_radiogroup_method_entry, 0);
 
 	/**
-	 * @var array
+	 * @phpstan-var forms_group_options
 	 */
-	zend_declare_property_null(phalcon_forms_element_radiogroup_ce, SL("options"), ZEND_ACC_PROTECTED);
-	phalcon_forms_element_radiogroup_ce->create_object = zephir_init_properties_Phalcon_Forms_Element_RadioGroup;
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_forms_element_radiogroup_ce, SL("optionsValues"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
 
 	return SUCCESS;
 }
@@ -51,9 +58,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_RadioGroup)
 /**
  * Constructor
  *
- * @param string $name
- * @param array  $options
- * @param array  $attributes
+ * @phpstan-param forms_group_options $options
+ * @phpstan-param forms_attributes $attributes
  */
 PHP_METHOD(Phalcon_Forms_Element_RadioGroup, __construct)
 {
@@ -69,7 +75,7 @@ PHP_METHOD(Phalcon_Forms_Element_RadioGroup, __construct)
 	ZVAL_UNDEF(&attributes);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
-		_zephir_prop_0 = zend_string_init("options", 7, 1);
+		_zephir_prop_0 = zend_string_init("optionsValues", 13, 1);
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 3)
@@ -100,7 +106,7 @@ PHP_METHOD(Phalcon_Forms_Element_RadioGroup, __construct)
 	} else {
 		zephir_get_arrval(&attributes, attributes_param);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 779, &options);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 776, &options);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_forms_element_radiogroup_ce, getThis(), "__construct", NULL, 0, &name_zv, &attributes);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -109,20 +115,18 @@ PHP_METHOD(Phalcon_Forms_Element_RadioGroup, __construct)
 /**
  * Returns the group options
  *
- * @return array
+ * @phpstan-return forms_group_options
  */
 PHP_METHOD(Phalcon_Forms_Element_RadioGroup, getOptions)
 {
 
-	RETURN_MEMBER_TYPED(getThis(), "options", IS_ARRAY);
+	RETURN_MEMBER_TYPED(getThis(), "optionsValues", IS_ARRAY);
 }
 
 /**
  * Renders the radio group returning HTML
  *
- * @param array $attributes
- *
- * @return string
+ * @phpstan-param html_attributes $attributes
  */
 PHP_METHOD(Phalcon_Forms_Element_RadioGroup, render)
 {
@@ -154,7 +158,7 @@ PHP_METHOD(Phalcon_Forms_Element_RadioGroup, render)
 		_zephir_prop_1 = zend_string_init("name", 4, 1);
 	}
 	if (UNEXPECTED(!_zephir_prop_2)) {
-		_zephir_prop_2 = zend_string_init("options", 7, 1);
+		_zephir_prop_2 = zend_string_init("optionsValues", 13, 1);
 	}
 
 	ZEND_PARSE_PARAMETERS_START(0, 1)
@@ -172,7 +176,7 @@ PHP_METHOD(Phalcon_Forms_Element_RadioGroup, render)
 	}
 	ZEPHIR_CALL_METHOD(&value, this_ptr, "getvalue", NULL, 0);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 780, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 777, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&merged);
 	zephir_fast_array_merge(&merged, &_0, &attributes);
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getlocaltagfactory", NULL, 0);
@@ -181,8 +185,8 @@ PHP_METHOD(Phalcon_Forms_Element_RadioGroup, render)
 	ZVAL_STRING(&_2, "inputRadioGroup");
 	ZEPHIR_CALL_METHOD(&helper, &_1, "newinstance", NULL, 0, &_2);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_1, 781, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_2, 779, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_1, 778, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_2, 776, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_3, &helper, "__invoke", NULL, 0, &_4, &_5, &value, &merged);
 	zephir_check_call_status();
 	zephir_cast_to_string(&_6, &_3);
@@ -192,9 +196,7 @@ PHP_METHOD(Phalcon_Forms_Element_RadioGroup, render)
 /**
  * Sets the group options
  *
- * @param array $options
- *
- * @return ElementInterface
+ * @phpstan-param forms_group_options $options
  */
 PHP_METHOD(Phalcon_Forms_Element_RadioGroup, setOptions)
 {
@@ -206,7 +208,7 @@ PHP_METHOD(Phalcon_Forms_Element_RadioGroup, setOptions)
 	ZVAL_UNDEF(&options);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
-		_zephir_prop_0 = zend_string_init("options", 7, 1);
+		_zephir_prop_0 = zend_string_init("optionsValues", 13, 1);
 	}
 
 	ZEND_PARSE_PARAMETERS_START(1, 1)
@@ -216,56 +218,7 @@ PHP_METHOD(Phalcon_Forms_Element_RadioGroup, setOptions)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &options_param);
 	zephir_get_arrval(&options, options_param);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 779, &options);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 776, &options);
 	RETURN_THIS();
-}
-
-zend_object *zephir_init_properties_Phalcon_Forms_Element_RadioGroup(zend_class_entry *class_type)
-{
-		zval _0, _2, _4, _6, _1$$3, _3$$4, _5$$5, _7$$6;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_6);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$4);
-	ZVAL_UNDEF(&_5$$5);
-	ZVAL_UNDEF(&_7$$6);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("validators"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("validators"), &_1$$3);
-		}
-		zephir_read_property_ex(&_2, this_ptr, ZEND_STRL("filters"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_2) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_3$$4);
-			array_init(&_3$$4);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("filters"), &_3$$4);
-		}
-		zephir_read_property_ex(&_4, this_ptr, ZEND_STRL("attributes"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_4) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_5$$5);
-			array_init(&_5$$5);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("attributes"), &_5$$5);
-		}
-		zephir_read_property_ex(&_6, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_6) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_7$$6);
-			array_init(&_7$$6);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("options"), &_7$$6);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

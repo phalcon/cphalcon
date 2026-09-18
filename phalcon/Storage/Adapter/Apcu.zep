@@ -79,7 +79,7 @@ class Apcu extends AbstractAdapter
      *
      * @phpstan-return storage_keys
      */
-    public function getKeys( string prefix = "") -> array
+    public function getKeys(string prefix = "") -> array
     {
         var item, pattern, apc = null;
         array results;
@@ -104,7 +104,7 @@ class Apcu extends AbstractAdapter
      * Stores data in the adapter forever. The key needs to manually deleted
      * from the adapter.
      */
-    public function setForever( string key, var data) -> bool
+    public function setForever(string key, var data) -> bool
     {
         var result;
 
@@ -119,7 +119,7 @@ class Apcu extends AbstractAdapter
     /**
      * Decrements a stored number
      */
-    protected function doDecrement( string key, int value = 1) -> false | int
+    protected function doDecrement(string key, int value = 1) -> false | int
     {
         var result;
 
@@ -131,7 +131,7 @@ class Apcu extends AbstractAdapter
     /**
      * Deletes data from the adapter
      */
-    protected function doDelete( string key) -> bool
+    protected function doDelete(string key) -> bool
     {
         return (bool) this->phpApcuDelete(this->getPrefixedKey(key));
     }
@@ -163,7 +163,7 @@ class Apcu extends AbstractAdapter
     /**
      * Checks if an element exists in the cache
      */
-    protected function doHas( string key) -> bool
+    protected function doHas(string key) -> bool
     {
         var result;
 
@@ -175,7 +175,7 @@ class Apcu extends AbstractAdapter
     /**
      * Increments a stored number
      */
-    protected function doIncrement( string key, int value = 1) -> false | int
+    protected function doIncrement(string key, int value = 1) -> false | int
     {
         var result;
 
@@ -193,7 +193,7 @@ class Apcu extends AbstractAdapter
      *
      * @throws Exception
      */
-    protected function doSet( string key, var value, var ttl = null) -> bool
+    protected function doSet(string key, var value, var ttl = null) -> bool
     {
         var result;
 

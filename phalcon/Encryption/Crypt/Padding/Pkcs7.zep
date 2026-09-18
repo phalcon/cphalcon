@@ -11,31 +11,20 @@
 namespace Phalcon\Encryption\Crypt\Padding;
 
 /**
- * Class Pkcs7
- *
- * @package Phalcon\Encryption\Crypt\Padding
+ * Padding based on Pkcs7
  */
 class Pkcs7 implements PadInterface
 {
-    /**
-     * @param int $paddingSize
-     *
-     * @return string
-     */
     public function pad(int paddingSize) -> string
     {
         return str_repeat(chr(paddingSize), paddingSize);
     }
 
-    /**
-     * @param string $input
-     * @param int    $blockSize
-     *
-     * @return int
-     */
     public function unpad(string input, int blockSize) -> int
     {
-        var last, length, ord, padding, paddingSize;
+        var length, ord, padding,
+            paddingSize = 0,
+            last        = "";
 
         let length = strlen(input),
             last   = substr(input, length - 1, 1),

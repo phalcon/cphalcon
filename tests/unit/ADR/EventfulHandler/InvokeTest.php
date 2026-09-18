@@ -29,7 +29,7 @@ final class InvokeTest extends AbstractUnitTestCase
      */
     public function testAdrEventfulHandlerInvokeFiresEvents(): void
     {
-        $action = new class implements Action {
+        $action = new class () implements Action {
             public function __invoke(AttributeRequest $request): ResponseInterface
             {
                 return new Response();

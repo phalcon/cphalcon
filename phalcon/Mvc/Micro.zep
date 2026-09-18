@@ -40,9 +40,7 @@ use Phalcon\Mvc\Router\RouteInterface;
 use Throwable;
 
 /**
- * Phalcon\Mvc\Micro
- *
- * With Phalcon you can create "Micro-Framework like" applications. By doing
+ * With Phalcon, you can create "Micro-Framework like" applications. By doing
  * this, you only need to write a minimal amount of code to create a PHP
  * application. Micro applications are suitable to small applications, APIs and
  * prototypes in a practical way.
@@ -64,23 +62,25 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
 {
     /**
      * @var callable|null
+     *
+     * @phpstan-var array<array-key, mixed>|callable|null
      */
     protected activeHandler = null;
 
     /**
-     * @var array
+     * @phpstan-var list<mixed>
      */
-    protected afterBindingHandlers = [];
+    protected array afterBindingHandlers = [];
 
     /**
-     * @var array
+     * @phpstan-var list<mixed>
      */
-    protected afterHandlers = [];
+    protected array afterHandlers = [];
 
     /**
-     * @var array
+     * @phpstan-var list<mixed>
      */
-    protected beforeHandlers = [];
+    protected array beforeHandlers = [];
 
     /**
      * @var DiInterface|null
@@ -92,25 +92,19 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      */
     protected errorHandler = null;
 
-    /**
-     * @var ManagerInterface|null
-     */
-    protected eventsManager = null;
+    protected ?<ManagerInterface> eventsManager = null;
 
     /**
-     * @var array
+     * @phpstan-var list<mixed>
      */
-    protected finishHandlers = [];
+    protected array finishHandlers = [];
 
     /**
-     * @var array
+     * @phpstan-var array<string, array<array-key, mixed>|callable>
      */
-    protected handlers = [];
+    protected array handlers = [];
 
-    /**
-     * @var BinderInterface|null
-     */
-    protected modelBinder = null;
+    protected ?<BinderInterface> modelBinder = null;
 
     /**
      * @var callable|null
@@ -127,15 +121,9 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      */
     protected returnedValue = null;
 
-    /**
-     * @var RouterInterface|null
-     */
-    protected router = null;
+    protected ?<RouterInterface> router = null;
 
-    /**
-     * @var bool
-     */
-    protected stopped = false;
+    protected bool stopped = false;
 
     /**
      * Phalcon\Mvc\Micro constructor
@@ -188,7 +176,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *
      * @param callable handler
      */
-    public function delete( string routePattern, handler) -> <RouteInterface>
+    public function delete(string routePattern, handler) -> <RouteInterface>
     {
         return this->addRoute("addDelete", routePattern, handler);
     }
@@ -223,7 +211,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *
      * @param callable handler
      */
-    public function get( string routePattern, handler) -> <RouteInterface>
+    public function get(string routePattern, handler) -> <RouteInterface>
     {
         return this->addRoute("addGet", routePattern, handler);
     }
@@ -232,6 +220,8 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      * Return the handler that will be called for the matched route
      *
      * @return callable
+     *
+     * @phpstan-return array<array-key, mixed>|callable|null
      */
     public function getActiveHandler()
     {
@@ -240,6 +230,8 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
 
     /**
      * Returns bound models from binder instance
+     *
+     * @phpstan-return array<array-key, mixed>
      */
     public function getBoundModels() -> array
     {
@@ -263,15 +255,9 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
     }
 
     /**
-     * Sets the events manager
-     */
-    public function setEventsManager(<ManagerInterface> eventsManager) -> void
-    {
-        let this->eventsManager = eventsManager;
-    }
-
-    /**
      * Returns the internal handlers attached to the application
+     *
+     * @phpstan-return array<string, array<array-key, mixed>|callable>
      */
     public function getHandlers() -> array
     {
@@ -323,7 +309,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *
      * @return object
      */
-    public function getService( string serviceName)
+    public function getService(string serviceName)
     {
         this->checkDiContainer();
 
@@ -335,7 +321,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *
      * @return mixed
      */
-    public function getSharedService( string serviceName)
+    public function getSharedService(string serviceName)
     {
         this->checkDiContainer();
 
@@ -348,13 +334,15 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      * @param string uri
      * @return mixed
      */
-    public function handle( string uri)
+    public function handle(string uri)
     {
-        var container, status = null, router, matchedRoute,
-            handler, beforeHandlers, params, returnedValue, e,
-            afterHandlers, notFoundHandler, finishHandlers, finish, before,
-            after, response, modelBinder, routeName, realHandler = null,
-            methodName, lazyReturned, afterBindingHandlers, afterBinding;
+        var after, afterBinding, afterBindingHandlers, afterHandlers, before,
+            beforeHandlers, container, e, finish, finishHandlers, handler,
+            lazyReturned, matchedRoute, methodName, modelBinder, notFoundHandler,
+            params, response, routeName, router,
+            realHandler   = null,
+            returnedValue = null,
+            status        = null;
         string bindCacheKey;
 
         let container = this->container;
@@ -753,7 +741,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
     /**
      * Checks if a service is registered in the DI
      */
-    public function hasService( string serviceName) -> bool
+    public function hasService(string serviceName) -> bool
     {
         this->checkDiContainer();
 
@@ -765,7 +753,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *
      * @param callable handler
      */
-    public function head( string routePattern, handler) -> <RouteInterface>
+    public function head(string routePattern, handler) -> <RouteInterface>
     {
         return this->addRoute("addHead", routePattern, handler);
     }
@@ -775,7 +763,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *
      * @param callable handler
      */
-    public function map( string routePattern, handler) -> <RouteInterface>
+    public function map(string routePattern, handler) -> <RouteInterface>
     {
         return this->addRoute("add", routePattern, handler);
     }
@@ -929,7 +917,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *
      * @param callable handler
      */
-    public function options( string routePattern, handler) -> <RouteInterface>
+    public function options(string routePattern, handler) -> <RouteInterface>
     {
         return this->addRoute("addOptions", routePattern, handler);
     }
@@ -939,7 +927,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *
      * @param callable $handler
      */
-    public function patch( string routePattern, handler) -> <RouteInterface>
+    public function patch(string routePattern, handler) -> <RouteInterface>
     {
         return this->addRoute("addPatch", routePattern, handler);
     }
@@ -949,7 +937,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *
      * @param callable handler
      */
-    public function post( string routePattern, handler) -> <RouteInterface>
+    public function post(string routePattern, handler) -> <RouteInterface>
     {
         return this->addRoute("addPost", routePattern, handler);
     }
@@ -959,7 +947,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *
      * @param callable $handler
      */
-    public function put( string routePattern, handler) -> <RouteInterface>
+    public function put(string routePattern, handler) -> <RouteInterface>
     {
         return this->addRoute("addPut", routePattern, handler);
     }
@@ -968,6 +956,8 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      * Sets externally the handler that must be called by the matched route
      *
      * @param callable activeHandler
+     *
+     * @phpstan-return static
      */
     public function setActiveHandler(activeHandler) -> <self>
     {
@@ -982,6 +972,14 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
     public function setDI(<DiInterface> container) -> void
     {
         let this->container = container;
+    }
+
+    /**
+     * Sets the events manager
+     */
+    public function setEventsManager(<ManagerInterface> eventsManager) -> void
+    {
+        let this->eventsManager = eventsManager;
     }
 
     /**
@@ -1027,7 +1025,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
     /**
      * Sets a service from the DI
      */
-    public function setService( string serviceName, var definition, bool isShared = false) -> <ServiceInterface>
+    public function setService(string serviceName, var definition, bool isShared = false) -> <ServiceInterface>
     {
         this->checkDiContainer();
 
@@ -1052,7 +1050,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      *
      * @return RouteInterface
      */
-    private function addRoute( string method,  string routePattern, handler) -> <RouteInterface>
+    private function addRoute(string method,  string routePattern, handler) -> <RouteInterface>
     {
         var router, route;
 

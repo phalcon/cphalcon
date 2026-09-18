@@ -11,9 +11,15 @@
 namespace Phalcon\Annotations;
 
 use Phalcon\Annotations\Exceptions\UnknownAnnotationExpression;
+use Phalcon\Contracts\Annotations\AnnotationsTypes;
 
 /**
  * Represents a single annotation in an annotations collection
+ *
+ * @phpstan-import-type annotations_arguments from AnnotationsTypes
+ * @phpstan-import-type annotations_expression from AnnotationsTypes
+ * @phpstan-import-type annotations_node from AnnotationsTypes
+ * @phpstan-import-type annotations_resolved_arguments from AnnotationsTypes
  */
 class Annotation
 {
@@ -21,6 +27,8 @@ class Annotation
      * Annotation Arguments
      *
      * @var array
+     *
+     * @phpstan-var annotations_resolved_arguments
      */
     protected arguments = [];
 
@@ -28,6 +36,8 @@ class Annotation
      * Annotation ExprArguments
      *
      * @var array
+     *
+     * @phpstan-var annotations_arguments
      */
     protected exprArguments = [];
 
@@ -40,8 +50,10 @@ class Annotation
 
     /**
      * Phalcon\Annotations\Annotation constructor
+     *
+     * @phpstan-param annotations_node $reflectionData
      */
-    public function __construct( array reflectionData)
+    public function __construct(array reflectionData)
     {
         var name, exprArguments, argument, resolvedArgument;
         array arguments;
@@ -75,6 +87,8 @@ class Annotation
 
     /**
      * Returns an argument in a specific position
+     *
+     * @phpstan-param int|string $position
      */
     public function getArgument(var position) -> var | null
     {
@@ -89,6 +103,8 @@ class Annotation
 
     /**
      * Returns the expression arguments
+     *
+     * @phpstan-return annotations_resolved_arguments
      */
     public function getArguments() -> array
     {
@@ -97,6 +113,8 @@ class Annotation
 
     /**
      * Returns the expression arguments without resolving
+     *
+     * @phpstan-return annotations_arguments
      */
     public function getExprArguments() -> array
     {
@@ -105,10 +123,13 @@ class Annotation
 
     /**
      * Resolves an annotation expression
+     *
+     * @phpstan-param annotations_expression $expr
      */
-    public function getExpression( array expr) -> var
+    public function getExpression(array expr) -> var
     {
-        var value, item, resolvedItem, arrayValue, name, type;
+        var item, resolvedItem, arrayValue, name, type,
+            value = null;
 
         let type = expr["type"];
 
@@ -162,7 +183,7 @@ class Annotation
     /**
      * Returns the annotation's name
      */
-    public function getName() -> null | string
+    public function getName() -> string | null
     {
         return this->name;
     }
@@ -170,7 +191,7 @@ class Annotation
     /**
      * Returns a named argument
      */
-    public function getNamedArgument( string name) -> var | null
+    public function getNamedArgument(string name) -> var | null
     {
         var argument;
 
@@ -184,13 +205,15 @@ class Annotation
     /**
      * Returns a named parameter
      */
-    public function getNamedParameter( string name) -> var
+    public function getNamedParameter(string name) -> var
     {
         return this->getNamedArgument(name);
     }
 
     /**
      * Returns an argument in a specific position
+     *
+     * @phpstan-param int|string $position
      */
     public function hasArgument(var position) -> bool
     {

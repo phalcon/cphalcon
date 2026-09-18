@@ -21,9 +21,9 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Micro\CollectionInterface
- *
  * Interface for Phalcon\Mvc\Micro\Collection
+ *
+ * @phpstan-import-type mvc_micro_handlers from MvcTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_CollectionInterface)
 {
@@ -46,6 +46,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, get);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, getHandler);
 /**
  * Returns the registered handlers
+ *
+ * @phpstan-return mvc_micro_handlers
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, getHandlers);
 /**
@@ -82,11 +84,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, post);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, put);
 /**
  * Sets the main handler
- *
- * @param mixed $handler
- * @param bool  $isLazy
- *
- * @return CollectionInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, setHandler);
 /**

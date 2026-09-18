@@ -14,8 +14,6 @@ use Phalcon\Contracts\Filter\Sanitizer;
 use Phalcon\Traits\Php\MbCaseTrait;
 
 /**
- * Phalcon\Filter\Sanitize\Upper
- *
  * Sanitizes a value to uppercase
  */
 class Upper implements Sanitizer
@@ -27,7 +25,7 @@ class Upper implements Sanitizer
      *
      * @return false|string|string[]
      */
-    public function __invoke( string input)
+    public function __invoke(string input)
     {
         return this->phpMbConvertCase(input, MB_CASE_UPPER);
     }

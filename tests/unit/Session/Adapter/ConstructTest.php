@@ -55,7 +55,7 @@ final class ConstructTest extends AbstractUnitTestCase
     public function testSessionAdapterLibmemcachedConstructWithPrefix(): void
     {
         $options           = [
-            'client' => [],
+            'client'  => [],
             'servers' => [
                 Talon::settings()->getServiceOptions('memcached')
             ]

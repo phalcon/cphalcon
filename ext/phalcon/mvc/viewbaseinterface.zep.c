@@ -36,10 +36,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_ViewBaseInterface)
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, getContent);
 /**
  * Returns parameters to views
+ *
+ * @phpstan-return array<string, mixed>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, getParamsToView);
 /**
  * Gets views directory
+ *
+ * @phpstan-return list<string>|string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, getViewsDir);
 /**

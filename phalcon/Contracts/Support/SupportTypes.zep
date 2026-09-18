@@ -50,6 +50,7 @@ namespace Phalcon\Contracts\Support;
  *     args?: array<array-key, mixed>,
  *     object?: object,
  * }
+ * @phpstan-type support_group_return array<array-key, list<mixed>>
  */
 interface SupportTypes
 {

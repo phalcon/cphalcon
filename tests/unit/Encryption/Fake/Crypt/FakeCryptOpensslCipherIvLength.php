@@ -27,10 +27,6 @@ class FakeCryptOpensslCipherIvLength extends Crypt
     }
 
     /**
-     * @param string $cipher
-     *
-     * @return false|int
-     *
      * @link https://www.php.net/manual/en/function.openssl-cipher-iv-length
      */
     public static function phpOpensslCipherIvLength(string $cipher): false | int

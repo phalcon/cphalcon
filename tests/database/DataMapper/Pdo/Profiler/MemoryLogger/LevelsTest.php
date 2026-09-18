@@ -36,6 +36,7 @@ final class LevelsTest extends AbstractDatabaseTestCase
             ['warning'],
         ];
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-25

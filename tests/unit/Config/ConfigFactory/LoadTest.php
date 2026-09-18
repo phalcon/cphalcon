@@ -29,9 +29,6 @@ final class LoadTest extends AbstractUnitTestCase
 {
     use FactoryTrait;
 
-    /**
-     * @return void
-     */
     public function setUp(): void
     {
         $this->init();

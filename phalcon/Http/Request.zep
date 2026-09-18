@@ -232,7 +232,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      *     ->getClientAddress(true);
      * ```
      */
-    public function getClientAddress(bool trustForwardedHeader = false) -> string | bool
+    public function getClientAddress(bool trustForwardedHeader = false) -> bool | string
     {
         var server, address, trustedProxyHeaderIp,
             forwarded, forwardedIps, reverseForwardedIps, forwardedIp,
@@ -450,7 +450,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Gets HTTP header from request data
      */
-    public function getHeader( string header) -> string
+    public function getHeader(string header) -> string
     {
         var value, name, server;
 
@@ -474,7 +474,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Returns the available headers in the request
      *
-     * <code>
+     * ```php
      * $_SERVER = [
      *     "PHP_AUTH_USER" => "phalcon",
      *     "PHP_AUTH_PW"   => "secret",
@@ -483,7 +483,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      * $headers = $request->getHeaders();
      *
      * echo $headers["Authorization"]; // Basic cGhhbGNvbjpzZWNyZXQ=
-     * </code>
+     * ```
      *
      * @phpstan-return http_request_headers
      */
@@ -661,7 +661,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      *
      * @phpstan-return array<array-key, mixed>|bool|stdClass
      */
-    public function getJsonRawBody(bool associative = false) -> <\stdClass> | array | bool
+    public function getJsonRawBody(bool associative = false) -> array | bool | <\stdClass>
     {
         var rawBody;
 
@@ -845,13 +845,13 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     }
 
     /**
-     * Gets a variable from the PUT request
+     * Gets a variable from put request
      *
      *```php
-     * // Returns value from PUT stream without sanitizing
+     * // Returns value from $_PUT["user_email"] without sanitizing
      * $userEmail = $request->getPut("user_email");
      *
-     * // Returns value from PUT stream with sanitizing
+     * // Returns value from $_PUT["user_email"] with sanitizing
      * $userEmail = $request->getPut("user_email", "email");
      *```
      */
@@ -948,7 +948,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Gets variable from $_SERVER superglobal
      */
-    public function getServer( string name) -> string | null
+    public function getServer(string name) -> string | null
     {
         var serverValue, server;
 
@@ -1094,7 +1094,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Checks whether $_REQUEST superglobal has certain index
      */
-    public function has( string name) -> bool
+    public function has(string name) -> bool
     {
         return array_key_exists(name, _REQUEST);
     }
@@ -1110,7 +1110,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Checks whether headers has certain index
      */
-    final public function hasHeader( string header) -> bool
+    final public function hasHeader(string header) -> bool
     {
         var name;
 
@@ -1122,7 +1122,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Checks whether the PATCH data has certain index
      */
-    public function hasPatch( string name) -> bool
+    public function hasPatch(string name) -> bool
     {
         var patch;
 
@@ -1134,7 +1134,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Checks whether $_POST superglobal has certain index
      */
-    public function hasPost( string name) -> bool
+    public function hasPost(string name) -> bool
     {
         var post;
 
@@ -1146,7 +1146,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Checks whether the PUT data has certain index
      */
-    public function hasPut( string name) -> bool
+    public function hasPut(string name) -> bool
     {
         var put;
 
@@ -1158,7 +1158,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Checks whether $_GET superglobal has certain index
      */
-    public function hasQuery( string name) -> bool
+    public function hasQuery(string name) -> bool
     {
         return array_key_exists(name, _GET);
     }
@@ -1166,7 +1166,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     /**
      * Checks whether $_SERVER superglobal has certain index
      */
-    final public function hasServer( string name) -> bool
+    final public function hasServer(string name) -> bool
     {
         var server;
 
@@ -1729,8 +1729,10 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      */
     protected function resolveAuthorizationHeaders() -> array
     {
-        var resolved, eventsManager, hasEventsManager, container, exploded,
-            digest, authHeader = null, server;
+        var container, digest, exploded, resolved, server,
+            authHeader       = null,
+            eventsManager    = null,
+            hasEventsManager = false;
         array headers = [];
 
         let container = <DiInterface> this->getDI(),

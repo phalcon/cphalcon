@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Model\BehaviorInterface
- *
  * Interface for Phalcon\Mvc\Model\Behavior
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_BehaviorInterface)
@@ -34,6 +32,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_BehaviorInterface)
 
 /**
  * Calls a method when it's missing in the model
+ *
+ * @phpstan-param array<array-key, mixed> $arguments
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_BehaviorInterface, missingMethod);
 /**

@@ -55,6 +55,7 @@ final class InvokeTest extends AbstractUnitTestCase
             $this->assertSame('/', $result->getHeaders()->get('Location'));
         }
     }
+
     /**
      * Unit Tests Phalcon\ADR\Responder\RedirectResponder :: __invoke()
      */

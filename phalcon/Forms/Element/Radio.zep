@@ -10,15 +10,10 @@
 
 namespace Phalcon\Forms\Element;
 
-use Phalcon\Tag;
-
 /**
  * Component INPUT[type=radio] for forms
  */
 class Radio extends AbstractElement
 {
-    /**
-     * @var string
-     */
-    protected method = "inputRadio";
+    protected string method = "inputRadio";
 }

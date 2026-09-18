@@ -73,7 +73,7 @@ class ContainerFactoryTest extends TestCase
      */
     public function testNewContainerReturnsAContainer(): void
     {
-        $factory = new ContainerFactory();
+        $factory   = new ContainerFactory();
         $container = $factory->newContainer();
 
         $this->assertInstanceOf(Container::class, $container);
@@ -85,7 +85,7 @@ class ContainerFactoryTest extends TestCase
      */
     public function testNewContainerReturnsDifferentInstances(): void
     {
-        $factory  = new ContainerFactory();
+        $factory    = new ContainerFactory();
         $container1 = $factory->newContainer();
         $container2 = $factory->newContainer();
 

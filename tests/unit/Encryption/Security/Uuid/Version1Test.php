@@ -33,6 +33,7 @@ final class Version1Test extends AbstractUnitTestCase
 
         $this->assertSame($dt->getTimestamp(), $result->getTimestamp());
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-29

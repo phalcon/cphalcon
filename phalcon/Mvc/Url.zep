@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\Router\RouteInterface;
@@ -37,26 +38,26 @@ use Phalcon\Support\Helper\Str\ReduceSlashes;
  *     ]
  * );
  *```
+ *
+ * @phpstan-import-type mvc_router_paths from MvcTypes
+ * @phpstan-import-type mvc_router_reversed_paths from MvcTypes
  */
 class Url extends AbstractInjectionAware implements UrlInterface
 {
     /**
-     * @var null | string
+     * @var string | null
      */
     protected basePath = null;
 
     /**
-     * @var null | string
+     * @var string | null
      */
     protected baseUri = null;
 
-    /**
-     * @var RouterInterface | null
-     */
-    protected router = null;
+    protected ?<RouterInterface> router = null;
 
     /**
-     * @var null | string
+     * @var string | null
      */
     protected staticBaseUri = null;
 
@@ -188,7 +189,7 @@ class Url extends AbstractInjectionAware implements UrlInterface
             /**
              * If the route has a hostname restriction, prepend it as a
              * protocol-relative URL so the generated link works under
-             * both HTTP and HTTPS.  The baseUri is not prepended in this
+             * both HTTP and HTTPS. The baseUri is not prepended in this
              * case because the hostname already provides the authority.
              */
             let hostname = route->getHostname();
@@ -332,7 +333,7 @@ class Url extends AbstractInjectionAware implements UrlInterface
      * $url->setBasePath("/var/www/htdocs/");
      *```
      */
-    public function setBasePath( string basePath) -> <UrlInterface>
+    public function setBasePath(string basePath) -> <UrlInterface>
     {
         let this->basePath = basePath;
 
@@ -348,7 +349,7 @@ class Url extends AbstractInjectionAware implements UrlInterface
      * $url->setBaseUri("/invo/index.php/");
      *```
      */
-    public function setBaseUri( string baseUri) -> <UrlInterface>
+    public function setBaseUri(string baseUri) -> <UrlInterface>
     {
         let this->baseUri = baseUri;
 
@@ -366,7 +367,7 @@ class Url extends AbstractInjectionAware implements UrlInterface
      * $url->setStaticBaseUri("/invo/");
      *```
      */
-    public function setStaticBaseUri( string staticBaseUri) -> <UrlInterface>
+    public function setStaticBaseUri(string staticBaseUri) -> <UrlInterface>
     {
         let this->staticBaseUri = staticBaseUri;
 

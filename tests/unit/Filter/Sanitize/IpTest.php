@@ -47,6 +47,7 @@ final class IpTest extends AbstractUnitTestCase
         // Invalid: IPv6 mask exceeds 128
         $this->assertFalse($sanitizer('2001:db8::/129'));
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-01-19

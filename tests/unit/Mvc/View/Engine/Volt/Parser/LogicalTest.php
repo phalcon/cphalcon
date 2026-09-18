@@ -38,16 +38,16 @@ final class LogicalTest extends AbstractUnitTestCase
                 'expr' => [
                     'type' => 266,
                     'left' => [
-                        'type' => 265,
+                        'type'  => 265,
                         'value' => 'a',
-                        'file' => 'eval code',
-                        'line' => 1,
+                        'file'  => 'eval code',
+                        'line'  => 1,
                     ],
                     'right' => [
-                        'type' => 265,
+                        'type'  => 265,
                         'value' => 'b',
-                        'file' => 'eval code',
-                        'line' => 1,
+                        'file'  => 'eval code',
+                        'line'  => 1,
                     ],
                     'file' => 'eval code',
                     'line' => 1,
@@ -71,12 +71,12 @@ final class LogicalTest extends AbstractUnitTestCase
             [
                 'type' => 359,
                 'expr' => [
-                    'type' => 33,
+                    'type'  => 33,
                     'right' => [
-                        'type' => 265,
+                        'type'  => 265,
                         'value' => 'a',
-                        'file' => 'eval code',
-                        'line' => 1,
+                        'file'  => 'eval code',
+                        'line'  => 1,
                     ],
                     'file' => 'eval code',
                     'line' => 1,
@@ -100,12 +100,12 @@ final class LogicalTest extends AbstractUnitTestCase
             [
                 'type' => 359,
                 'expr' => [
-                    'type' => 33,
+                    'type'  => 33,
                     'right' => [
-                        'type' => 265,
+                        'type'  => 265,
                         'value' => 'a',
-                        'file' => 'eval code',
-                        'line' => 1,
+                        'file'  => 'eval code',
+                        'line'  => 1,
                     ],
                     'file' => 'eval code',
                     'line' => 1,
@@ -131,16 +131,16 @@ final class LogicalTest extends AbstractUnitTestCase
                 'expr' => [
                     'type' => 267,
                     'left' => [
-                        'type' => 265,
+                        'type'  => 265,
                         'value' => 'a',
-                        'file' => 'eval code',
-                        'line' => 1,
+                        'file'  => 'eval code',
+                        'line'  => 1,
                     ],
                     'right' => [
-                        'type' => 265,
+                        'type'  => 265,
                         'value' => 'b',
-                        'file' => 'eval code',
-                        'line' => 1,
+                        'file'  => 'eval code',
+                        'line'  => 1,
                     ],
                     'file' => 'eval code',
                     'line' => 1,

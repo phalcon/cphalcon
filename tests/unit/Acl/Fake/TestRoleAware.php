@@ -17,19 +17,12 @@ use Phalcon\Acl\RoleAwareInterface;
 
 class TestRoleAware implements RoleAwareInterface
 {
-    /**
-     * @param int    $id
-     * @param string $roleName
-     */
     public function __construct(
         protected int $id,
         protected string $roleName
     ) {
     }
 
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;

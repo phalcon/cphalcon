@@ -26,11 +26,11 @@ final class JsonSerializeTest extends AbstractCollectionTestCase
     #[DataProvider('getClasses')]
     public function testSupportCollectionJsonSerialize(string $class): void
     {
-        $data = $this->getData();
+        $data       = $this->getData();
         $collection = new $class($data);
 
         $expected = $data;
-        $actual = $collection->jsonSerialize();
+        $actual   = $collection->jsonSerialize();
         $this->assertSame($expected, $actual);
 
         $data = [

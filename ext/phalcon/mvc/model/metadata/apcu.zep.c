@@ -44,6 +44,8 @@
  *     ]
  * );
  *```
+ *
+ * @phpstan-import-type storage_adapter_options from StorageTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Apcu)
 {
@@ -55,7 +57,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Apcu)
 /**
  * Phalcon\Mvc\Model\MetaData\Apcu constructor
  *
- * @param array options
+ * @param array<string, mixed> $options
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apcu, __construct)
 {
@@ -109,7 +111,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apcu, __construct)
 	ZVAL_STRING(&_1, "apcu");
 	ZEPHIR_CALL_METHOD(&_5, factory, "newinstance", NULL, 0, &_1, &options);
 	zephir_check_call_status();
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1052, &_5);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1049, &_5);
 	ZEPHIR_MM_RESTORE();
 }
 

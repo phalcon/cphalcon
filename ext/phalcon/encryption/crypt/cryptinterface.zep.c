@@ -21,7 +21,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Interface for Phalcon\Crypt
+ * Interface for Phalcon\Encryption\Crypt
  *
  * @psalm-suppress DeprecatedInterface
  * @deprecated Will be removed in a future major release.

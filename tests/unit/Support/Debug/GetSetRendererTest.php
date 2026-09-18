@@ -28,7 +28,7 @@ final class GetSetRendererTest extends AbstractUnitTestCase
 
     public function testSetRendererIsUsedForRendering(): void
     {
-        $fake = new class extends HtmlRenderer {
+        $fake = new class () extends HtmlRenderer {
             public function render(ExceptionReport $report): string
             {
                 return 'FAKE_OUTPUT';

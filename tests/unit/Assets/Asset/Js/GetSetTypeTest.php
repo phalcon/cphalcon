@@ -27,7 +27,6 @@ final class GetSetTypeTest extends AbstractUnitTestCase
      * @since  2020-09-09
      */
     #[DataProvider('providerJs')]
-
     public function testAssetsAssetJsGetSetType(
         string $path,
         bool $local

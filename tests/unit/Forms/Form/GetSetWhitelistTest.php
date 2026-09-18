@@ -43,6 +43,7 @@ final class GetSetWhitelistTest extends AbstractUnitTestCase
 
         $this->assertSame(['first', 'last'], $result);
     }
+
     public function testGetWhitelistReturnsEmptyArrayByDefault(): void
     {
         $form = new Form();

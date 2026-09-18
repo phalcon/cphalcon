@@ -26,11 +26,11 @@ final class ToArrayTest extends AbstractCollectionTestCase
     public function testSupportCollectionToArray(
         string $class,
     ): void {
-        $data = $this->getData();
+        $data       = $this->getData();
         $collection = new $class($data);
 
         $expected = $data;
-        $actual = $collection->toArray();
+        $actual   = $collection->toArray();
         $this->assertSame($expected, $actual);
     }
 }

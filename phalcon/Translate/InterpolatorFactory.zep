@@ -15,14 +15,13 @@ use Phalcon\Translate\Exceptions\InterpolatorNotRegistered;
 use Phalcon\Translate\Interpolator\AssociativeArray;
 use Phalcon\Translate\Interpolator\IndexedArray;
 use Phalcon\Translate\Interpolator\InterpolatorInterface;
-use Throwable;
 
 class InterpolatorFactory extends AbstractFactory
 {
     /**
      * @phpstan-param array<string, string> $services
      */
-    public function __construct( array services = [])
+    public function __construct(array services = [])
     {
         this->init(services);
     }
@@ -30,7 +29,7 @@ class InterpolatorFactory extends AbstractFactory
     /**
      * Create a new instance of the adapter
      */
-    public function newInstance( string name) -> <InterpolatorInterface>
+    public function newInstance(string name) -> <InterpolatorInterface>
     {
         var definition;
 
@@ -40,7 +39,7 @@ class InterpolatorFactory extends AbstractFactory
     }
 
     /**
-     * @return class-string<Throwable>
+     * @return class-string<\Exception>
      */
     protected function getExceptionClass() -> string
     {
@@ -50,7 +49,7 @@ class InterpolatorFactory extends AbstractFactory
     /**
      * Returns the available adapters
      *
-     * @return string[]
+     * @return array<string, string>
      */
     protected function getServices() -> array
     {

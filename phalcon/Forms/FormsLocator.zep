@@ -10,11 +10,11 @@
 
 namespace Phalcon\Forms;
 
+use Phalcon\Contracts\Forms\FormsTypes;
 use Phalcon\Forms\Element\Check;
 use Phalcon\Forms\Element\CheckGroup;
-use Phalcon\Forms\Exceptions\FormNotInLocator;
-use Phalcon\Forms\Exceptions\UnknownFormElementType;
 use Phalcon\Forms\Element\Date;
+use Phalcon\Forms\Element\ElementInterface;
 use Phalcon\Forms\Element\Email;
 use Phalcon\Forms\Element\File;
 use Phalcon\Forms\Element\Hidden;
@@ -26,6 +26,8 @@ use Phalcon\Forms\Element\Select;
 use Phalcon\Forms\Element\Submit;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Element\TextArea;
+use Phalcon\Forms\Exceptions\FormNotInLocator;
+use Phalcon\Forms\Exceptions\UnknownFormElementType;
 
 /**
  * A closure-based registry for named forms and element type factories.
@@ -39,32 +41,37 @@ use Phalcon\Forms\Element\TextArea;
  * Each callable has the signature `fn(string $name, array $options, array $attributes): ElementInterface`.
  * Default types are seeded by `getDefaultServices()`. Users may add or override
  * types with `setElement()`.
+ *
+ * @phpstan-import-type forms_locator_element_factory from FormsTypes
+ * @phpstan-import-type forms_locator_elements from FormsTypes
+ * @phpstan-import-type forms_locator_factories from FormsTypes
+ * @phpstan-import-type forms_locator_factory from FormsTypes
  */
 class FormsLocator
 {
     /**
      * Element type → factory callable.
      *
-     * @var array
+     * @phpstan-var forms_locator_elements
      */
-    private elements = [];
+    private array elements = [];
 
     /**
      * Form name → factory callable.
      *
-     * @var array
+     * @phpstan-var forms_locator_factories
      */
-    private factories = [];
+    private array factories = [];
 
     /**
      * Cached entity-less form instances.
      *
-     * @var array
+     * @phpstan-var array<string, Form>
      */
-    private instances = [];
+    private array instances = [];
 
     /**
-     * @param array $definitions  name → callable map for the form registry
+     * @phpstan-param forms_locator_factories $definitions
      */
     public function __construct(array definitions = [])
     {
@@ -83,10 +90,8 @@ class FormsLocator
      * Without an entity the result is lazily created and cached.
      * With an entity a fresh form is always produced.
      *
-     * @param string      $name
      * @param object|null $entity
      *
-     * @return Form
      * @throws Exception
      */
     public function get(string name, var entity = null) -> <Form>
@@ -114,10 +119,7 @@ class FormsLocator
     /**
      * Returns the factory callable for the given element type.
      *
-     * @param string $type
-     *
-     * @return callable
-     * @throws Exception
+     * @phpstan-return forms_locator_element_factory
      */
     public function getElement(string type)
     {
@@ -130,10 +132,6 @@ class FormsLocator
 
     /**
      * Checks whether a named form factory is registered.
-     *
-     * @param string $name
-     *
-     * @return bool
      */
     public function has(string name) -> bool
     {
@@ -142,10 +140,6 @@ class FormsLocator
 
     /**
      * Checks whether an element type is registered.
-     *
-     * @param string $type
-     *
-     * @return bool
      */
     public function hasElement(string type) -> bool
     {
@@ -159,8 +153,7 @@ class FormsLocator
      * Form instance. Replacing a registration clears any cached instance so
      * the next get() call rebuilds from the new factory.
      *
-     * @param string   $name
-     * @param callable $factory
+     * @phpstan-param forms_locator_factory $factory
      */
     public function set(string name, var factory) -> void
     {
@@ -174,8 +167,7 @@ class FormsLocator
      * The callable must accept (string $name, array $options, array $attributes)
      * and return an ElementInterface instance.
      *
-     * @param string   $type
-     * @param callable $factory
+     * @phpstan-param forms_locator_element_factory $factory
      */
     public function setElement(string type, var factory) -> void
     {
@@ -187,7 +179,7 @@ class FormsLocator
      *
      * Each value is a callable: fn(string $name, array $options, array $attributes): ElementInterface
      *
-     * @return array
+     * @phpstan-return forms_locator_elements
      */
     protected function getDefaultServices() -> array
     {

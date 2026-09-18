@@ -10,6 +10,12 @@
 
 namespace Phalcon\Contracts\Encryption\Security;
 
+use Phalcon\Contracts\Encryption\EncryptionTypes;
+
+/**
+ * @phpstan-import-type encryption_hash_information from EncryptionTypes
+ * @phpstan-import-type encryption_hash_options from EncryptionTypes
+ */
 interface PasswordSecurity
 {
     public function checkHash(
@@ -18,17 +24,23 @@ interface PasswordSecurity
         int maxPassLength = 0
     ) -> bool;
 
+    public function getDefaultHash() -> int;
+
+    /**
+     * @phpstan-return encryption_hash_information
+     */
+    public function getHashInformation(string hash) -> array;
+
+    public function getWorkFactor() -> int;
+
+    /**
+     * @phpstan-param encryption_hash_options $options
+     */
     public function hash(string password, array options = []) -> string;
 
     public function isLegacyHash(string passwordHash) -> bool;
 
-    public function getHashInformation(string hash) -> array;
-
-    public function getDefaultHash() -> int;
-
     public function setDefaultHash(int defaultHash) -> <Security>;
-
-    public function getWorkFactor() -> int;
 
     public function setWorkFactor(int workFactor) -> <Security>;
 }

@@ -43,7 +43,7 @@ final class GetOriginalValuesTest extends AbstractDatabaseTestCase
      */
     public function testMvcModelBinderGetOriginalValues(): void
     {
-        $handler = new class {
+        $handler = new class () {
             public function action(Invoices $invoice): void
             {
             }

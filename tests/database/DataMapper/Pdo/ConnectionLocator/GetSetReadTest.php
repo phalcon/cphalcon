@@ -91,6 +91,7 @@ final class GetSetReadTest extends AbstractDatabaseTestCase
         $actual = $locator->getRead();
         $this->assertTrue(in_array(spl_object_hash($actual), $hashes));
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-25

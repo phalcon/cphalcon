@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_EnvDefault, __construct)
 		zephir_memory_observe(&vartype_zv);
 	ZVAL_STR_COPY(&vartype_zv, vartype);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 552, defaultValue);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 550, defaultValue);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_container_resolver_lazy_envdefault_ce, getThis(), "__construct", NULL, 0, &varname_zv, &vartype_zv);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -103,10 +103,6 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_EnvDefault, __construct)
 
 /**
  * Resolve an environment variable, returning the default if not defined
- *
- * @param object $ioc
- *
- * @return mixed
  */
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_EnvDefault, resolve)
 {

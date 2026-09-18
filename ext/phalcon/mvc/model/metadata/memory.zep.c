@@ -26,10 +26,8 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Model\MetaData\Memory
- *
- * Stores model meta-data in memory. Data will be erased when the request finishes
- *
+ * Stores model meta-data in memory. Data will be erased when the request
+ * finishes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Memory)
 {

@@ -35,7 +35,7 @@ class Headers implements HeadersInterface, IteratorAggregate
      * @return bool|string|null
      * @todo change the raw headers not to return null
      */
-    public function get(string name) -> string | bool | null
+    public function get(string name) -> bool | string | null
     {
         var headers, headerValue;
 

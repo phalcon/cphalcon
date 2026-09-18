@@ -39,7 +39,7 @@ final class InvokeTest extends AbstractUnitTestCase
 
     private function next(): Handler
     {
-        return new class implements Handler {
+        return new class () implements Handler {
             public function __invoke(AttributeRequest $request): ResponseInterface
             {
                 return new Response();

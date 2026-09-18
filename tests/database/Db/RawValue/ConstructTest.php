@@ -44,6 +44,7 @@ final class ConstructTest extends AbstractDatabaseTestCase
             ],
         ];
     }
+
     /**
      * Tests Phalcon\Db\RawValue :: __construct()
      *

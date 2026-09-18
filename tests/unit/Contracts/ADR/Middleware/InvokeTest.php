@@ -26,7 +26,7 @@ final class InvokeTest extends AbstractUnitTestCase
      */
     public function testContractsAdrMiddlewareInvokeShape(): void
     {
-        $middleware = new class implements Middleware {
+        $middleware = new class () implements Middleware {
             public function __invoke(AttributeRequest $request, Handler $next): ResponseInterface
             {
                 return $next($request);

@@ -29,12 +29,11 @@ use Phalcon\Support\Settings;
 use SeekableIterator;
 
 /**
- * Phalcon\Mvc\Model\Resultset
- *
- * This component allows to Phalcon\Mvc\Model returns large resultsets with the minimum memory consumption
- * Resultsets can be traversed using a standard foreach or a while statement. If a resultset is serialized
- * it will dump all the rows into a big array. Then unserialize will retrieve the rows as they were before
- * serializing.
+ * This component allows to Phalcon\Mvc\Model returns large resultsets with
+ * the minimum memory consumption. Resultsets can be traversed using a standard
+ * foreach or a while statement. If a resultset is serialized it will dump all
+ * the rows into a big array. Then unserialize will retrieve the rows as they
+ * were before serializing.
  *
  * ```php
  *
@@ -68,7 +67,7 @@ use SeekableIterator;
  *     $invoices->next();
  * }
  * ```
- * @template TKey
+ * @template TKey of int
  * @template TValue
  * @implements Iterator<TKey, TValue>
  * @implements ArrayAccess<TKey, TValue>
@@ -117,24 +116,24 @@ abstract class Resultset
     protected count = null;
 
     /**
-     * @var array
+     * @phpstan-var array<array-key, MessageInterface>
      */
-    protected errorMessages = [];
+    protected array errorMessages = [];
+
+    protected int hydrateMode = 0;
+
+    protected bool isFresh = true;
+
+    protected int pointer = 0;
 
     /**
-     * @var int
+     * Phalcon\Db\ResultInterface or false for empty resultset
+     *
+     * @var ResultInterface|bool
+     *
+     * @phpstan-var bool|\Phalcon\Contracts\Db\Result|null
      */
-    protected hydrateMode = 0;
-
-    /**
-     * @var bool
-     */
-    protected isFresh = true;
-
-    /**
-     * @var int
-     */
-    protected pointer = 0;
+    protected result;
 
     /**
      * @var mixed|null
@@ -143,21 +142,18 @@ abstract class Resultset
 
     /**
      * @var array|null
+     *
+     * @phpstan-var array<array-key, mixed>|null
      */
     protected rows = null;
-
-    /**
-     * Phalcon\Db\ResultInterface or false for empty resultset
-     *
-     * @var ResultInterface|bool
-     */
-    protected result;
 
     /**
      * Phalcon\Mvc\Model\Resultset constructor
      *
      * @param ResultInterface|false $result
      * @param mixed|null            $cache
+     *
+     * @phpstan-param \Phalcon\Contracts\Db\Result|false|null $result
      */
     public function __construct(var result, var cache = null)
     {
@@ -231,6 +227,8 @@ abstract class Resultset
 
     /**
      * Counts how many rows are in the resultset
+     *
+     * @phpstan-return int
      */
     final public function count() -> int
     {
@@ -337,6 +335,8 @@ abstract class Resultset
      *     }
      * );
      *```
+     *
+     * @phpstan-return list<array<array-key, mixed>|object>
      */
     public function filter(callable filter) -> <ModelInterface[]>
     {
@@ -450,10 +450,17 @@ abstract class Resultset
 
     /**
      * Returns the error messages produced by a batch operation
+     *
+     * @phpstan-return array<array-key, MessageInterface>
      */
     public function getMessages() -> <MessageInterface[]>
     {
         return this->errorMessages;
+    }
+
+    public function getResult() -> var
+    {
+        return this->result;
     }
 
     /**
@@ -481,6 +488,8 @@ abstract class Resultset
      *
      * echo json_encode($invoices);
      *```
+     *
+     * @phpstan-return array<array-key, mixed>
      */
     public function jsonSerialize() -> array
     {
@@ -586,6 +595,8 @@ abstract class Resultset
 
     /**
      * Checks whether offset exists in the resultset
+     *
+     * @phpstan-param int $index
      */
     public function offsetExists(var index) -> bool
     {
@@ -594,6 +605,8 @@ abstract class Resultset
 
     /**
      * Gets row in a specific position of the resultset
+     *
+     * @phpstan-param int $index
      */
     public function offsetGet(mixed index) -> mixed
     {
@@ -628,6 +641,64 @@ abstract class Resultset
         throw new CursorIsImmutable();
     }
 
+    public function refresh() -> bool
+    {
+        var prefetchRecords, result, success;
+
+        /**
+         * 'false' is given as result for empty result-sets
+         */
+        if typeof this->result !== "object" {
+            let this->count = 0;
+            let this->rows = [];
+
+            return true;
+        }
+        let result = this->result;
+        let success = result->execute();
+        if false === success {
+            return false;
+        }
+
+        /**
+         * The statement has been replayed, so everything derived from the
+         * previous run has to go - including the cursor position
+         */
+        let this->isFresh   = true,
+            this->count     = null,
+            this->rows      = null,
+            this->row       = null,
+            this->activeRow = null,
+            this->pointer   = 0;
+
+        /**
+         * Consume the first row to tell an empty result-set from a populated
+         * one, the same way the constructor does
+         */
+        let this->row = result->$fetch();
+
+        /**
+         * Empty result-set
+         */
+        if typeof this->row != "array" {
+            let this->count = 0,
+                this->rows  = [];
+
+            return true;
+        }
+
+        /**
+         * Small result-sets with less equals 32 rows are fetched at once
+         */
+        let prefetchRecords = (int) Settings::get("orm.resultset_prefetch_records");
+
+        if prefetchRecords > 0 && this->count() <= prefetchRecords {
+            this->materialize();
+        }
+
+        return true;
+    }
+
     /**
      * Rewinds resultset to its beginning
      */
@@ -639,6 +710,8 @@ abstract class Resultset
     /**
      * Changes the internal pointer to a specific position in the resultset.
      * Set the new position if required, and then set this->row
+     *
+     * @phpstan-param int $position
      */
     final public function seek(var position) -> void
     {
@@ -730,6 +803,8 @@ abstract class Resultset
      * Updates every record in the resultset
      *
      * @param array data
+     *
+     * @phpstan-param array<array-key, mixed> $data
      */
     public function update(var data, <Closure> conditionCallback = null) -> bool
     {
@@ -819,69 +894,11 @@ abstract class Resultset
             this->seek(this->pointer);
         }
 
-        return typeof this->row == "array";
-    }
-
-    public function refresh() -> bool
-    {
-        var prefetchRecords, result, success;
-
         /**
-         * 'false' is given as result for empty result-sets
+         * `null` and `false` are the two sentinels seek() leaves behind for
+         * "no row here". The row itself can be of any type - an unserialised
+         * complex resultset holds rows that are already hydrated objects.
          */
-        if typeof this->result !== "object" {
-            let this->count = 0;
-            let this->rows = [];
-
-            return true;
-        }
-        let result = this->result;
-        let success = result->execute();
-        if false === success {
-            return false;
-        }
-
-        /**
-         * The statement has been replayed, so everything derived from the
-         * previous run has to go - including the cursor position
-         */
-        let this->isFresh   = true,
-            this->count     = null,
-            this->rows      = null,
-            this->row       = null,
-            this->activeRow = null,
-            this->pointer   = 0;
-
-        /**
-         * Consume the first row to tell an empty result-set from a populated
-         * one, the same way the constructor does
-         */
-        let this->row = result->$fetch();
-
-        /**
-         * Empty result-set
-         */
-        if typeof this->row != "array" {
-            let this->count = 0,
-                this->rows  = [];
-
-            return true;
-        }
-
-        /**
-         * Small result-sets with less equals 32 rows are fetched at once
-         */
-        let prefetchRecords = (int) Settings::get("orm.resultset_prefetch_records");
-
-        if prefetchRecords > 0 && this->count() <= prefetchRecords {
-            this->materialize();
-        }
-
-        return true;
-    }
-
-    public function getResult() -> var
-    {
-        return this->result;
+        return this->row !== null && this->row !== false;
     }
 }

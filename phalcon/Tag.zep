@@ -202,7 +202,7 @@ class Tag
     /**
      * Alias of Phalcon\Tag::setDefault()
      */
-    public static function displayTo( string id, value) -> void
+    public static function displayTo(string id, value) -> void
     {
         self::setDefault(id, value);
     }
@@ -960,7 +960,7 @@ class Tag
      *
      * @phpstan-param tag_attributes $attributes
      */
-    public static function renderAttributes( string code,  array attributes) -> string
+    public static function renderAttributes(string code,  array attributes) -> string
     {
         var order, escaper, attrs, attribute, value, escaped, key;
         array attrParts;
@@ -1122,7 +1122,7 @@ class Tag
     /**
      * Assigns default values to generated tags by helpers
      */
-    public static function setDefault( string id, value) -> void
+    public static function setDefault(string id, value) -> void
     {
         if value !== null {
             if unlikely (typeof value == "array" || typeof value == "object") {
@@ -1140,7 +1140,7 @@ class Tag
      *
      * @phpstan-param tag_display_values $values
      */
-    public static function setDefaults( array values, bool merge = false) -> void
+    public static function setDefaults(array values, bool merge = false) -> void
     {
         if merge && typeof self::displayValues == "array" {
             let self::displayValues = array_merge(self::displayValues, values);

@@ -29,7 +29,8 @@ abstract class AbstractUuid implements UuidInterface
     const NIL = "00000000-0000-0000-0000-000000000000";
 
     /**
-     * 100-nanosecond intervals between UUID epoch (1582-10-15) and Unix epoch (1970-01-01).
+     * 100-nanosecond intervals between UUID epoch (1582-10-15)
+     * and Unix epoch (1970-01-01).
      *
      * @var int
      */
@@ -37,17 +38,13 @@ abstract class AbstractUuid implements UuidInterface
 
     /**
      * Cached SysNodeProvider instance - shared within the request via static.
-     *
-     * @var NodeProviderInterface|null
      */
-    protected static nodeProvider = null;
+    protected static ?<NodeProviderInterface> nodeProvider = null;
 
     /**
      * The generated UUID string.
-     *
-     * @var string
      */
-    protected uid = "";
+    protected string uid = "";
 
     /**
      * Returns the UUID string.
@@ -63,37 +60,6 @@ abstract class AbstractUuid implements UuidInterface
     public function jsonSerialize() -> string
     {
         return this->uid;
-    }
-
-    /**
-     * Returns the shared SysNodeProvider instance, creating it on first call.
-     * The static property means one discovery per request regardless of how
-     * many VersionN objects are constructed.
-     */
-    protected function getNodeProvider() -> <NodeProviderInterface>
-    {
-        if self::nodeProvider === null {
-            let self::nodeProvider = new SysNodeProvider();
-        }
-
-        return self::nodeProvider;
-    }
-
-    /**
-     * Converts a 60-bit UUID timestamp (100-ns intervals since UUID epoch) to
-     * a DateTimeImmutable. Used by Version1 and Version6.
-     */
-    protected function uuidTimestampToDateTime(var timestamp) -> <\DateTimeImmutable>
-    {
-        var sec, usec;
-
-        let sec  = intdiv(timestamp, 10000000) - 12219292800;
-        let usec = intdiv(timestamp % 10000000, 10);
-
-        return \DateTimeImmutable::createFromFormat(
-            "U u",
-            sec . " " . str_pad(usec, 6, "0", STR_PAD_LEFT)
-        );
     }
 
     /**
@@ -113,12 +79,45 @@ abstract class AbstractUuid implements UuidInterface
     }
 
     /**
+     * Returns the shared SysNodeProvider instance, creating it on first call.
+     * The static property means one discovery per request regardless of how
+     * many VersionN objects are constructed.
+     */
+    protected function getNodeProvider() -> <NodeProviderInterface>
+    {
+        if self::nodeProvider === null {
+            let self::nodeProvider = new SysNodeProvider();
+        }
+
+        return self::nodeProvider;
+    }
+
+    /**
      * Converts a canonical UUID string to its 16-byte binary representation.
      */
     protected function namespaceToBytes(string uuid) -> string
     {
         return hex2bin(
             str_replace("-", "", uuid)
+        );
+    }
+
+    /**
+     * Converts a 60-bit UUID timestamp (100-ns intervals since UUID epoch) to
+     * a DateTimeImmutable. Used by Version1 and Version6.
+     *
+     * @param int $timestamp
+     */
+    protected function uuidTimestampToDateTime(var timestamp) -> <\DateTimeImmutable>
+    {
+        var sec, usec;
+
+        let sec  = intdiv(timestamp, 10000000) - 12219292800;
+        let usec = intdiv(timestamp % 10000000, 10);
+
+        return \DateTimeImmutable::createFromFormat(
+            "U u",
+            sec . " " . str_pad(usec, 6, "0", STR_PAD_LEFT)
         );
     }
 }

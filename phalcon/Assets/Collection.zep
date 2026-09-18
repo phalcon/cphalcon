@@ -67,7 +67,7 @@ class Collection implements Countable, IteratorAggregate
     /**
      * Adds a CSS asset to the collection
      *
-     * @param bool|null   $isLocal
+     * @param bool|null         $isLocal
      * @param assets_attributes $attributes
      */
     public function addCss(
@@ -138,7 +138,7 @@ class Collection implements Countable, IteratorAggregate
     /**
      * Adds a JavaScript asset to the collection
      *
-     * @param bool|null   $isLocal
+     * @param bool|null         $isLocal
      * @param assets_attributes $attributes
      */
     public function addJs(
@@ -206,9 +206,6 @@ class Collection implements Countable, IteratorAggregate
         return new ArrayIterator(this->assets);
     }
 
-    /**
-     * @return bool
-     */
     public function getJoin() -> bool
     {
         return this->join;
@@ -216,8 +213,6 @@ class Collection implements Countable, IteratorAggregate
 
     /**
      * Returns the prefix
-     *
-     * @return string
      */
     public function getPrefix() -> string
     {
@@ -228,7 +223,7 @@ class Collection implements Countable, IteratorAggregate
      * Returns the complete location where the joined/filtered collection must
      * be written
      */
-    public function getRealTargetPath( string basePath) -> string
+    public function getRealTargetPath(string basePath) -> string
     {
         var completePath;
 
@@ -391,6 +386,7 @@ class Collection implements Countable, IteratorAggregate
     /**
      * Adds an inline asset
      *
+     * @param bool|null         $isLocal
      * @param assets_attributes $attributes
      */
     private function processAdd(

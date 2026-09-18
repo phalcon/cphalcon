@@ -34,13 +34,6 @@ class FakeCryptHashHmacCounter extends Crypt
     /**
      * Generate a keyed hash value using the HMAC method
      *
-     * @param string $algorithm
-     * @param string $data
-     * @param string $key
-     * @param bool   $binary
-     *
-     * @return string
-     *
      * @link https://php.net/manual/en/function.hash-hmac.php
      */
     protected static function phpHashHmac(

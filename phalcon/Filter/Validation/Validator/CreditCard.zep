@@ -10,7 +10,7 @@
 
 namespace Phalcon\Filter\Validation\Validator;
 
-use Phalcon\Messages\Message;
+use Phalcon\Contracts\Filter\FilterTypes;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\AbstractValidator;
 
@@ -47,21 +47,22 @@ use Phalcon\Filter\Validation\AbstractValidator;
  *     )
  * );
  * ```
+ *
+ * @phpstan-import-type filter_validator_options from FilterTypes
  */
 class CreditCard extends AbstractValidator
 {
+    /**
+     * @var string|null
+     */
     protected template = "Field :field is not valid for a credit card number";
 
     /**
      * Constructor
      *
-     * @param array options = [
-     *     'message' => '',
-     *     'template' => '',
-     *     'allowEmpty' => false
-     * ]
+     * @phpstan-param filter_validator_options $options
      */
-    public function __construct( array options = [])
+    public function __construct(array options = [])
     {
         parent::__construct(options);
     }
@@ -117,6 +118,6 @@ class CreditCard extends AbstractValidator
             str_split(hash)
         );
 
-        return (result % 10 == 0);
+        return result % 10 == 0;
     }
 }

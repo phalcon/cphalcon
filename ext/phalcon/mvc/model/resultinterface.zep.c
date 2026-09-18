@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Model\ResultInterface
- *
  * All single objects passed as base objects to Resultsets must implement this interface
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ResultInterface)

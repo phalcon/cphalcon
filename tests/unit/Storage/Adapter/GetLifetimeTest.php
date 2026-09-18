@@ -43,7 +43,7 @@ final class GetLifetimeTest extends AbstractUnitTestCase
             [
                 Libmemcached::class,
                 [
-                    'client' => [],
+                    'client'  => [],
                     'servers' => [
                         Talon::settings()->getServiceOptions('memcached')
                     ]

@@ -20,9 +20,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 
 final class ComputeHmacTest extends AbstractUnitTestCase
 {
-    /**
-     * @return array
-     */
     public static function hmacProvider(): array
     {
         $data = [];
@@ -66,6 +63,7 @@ final class ComputeHmacTest extends AbstractUnitTestCase
             $security->computeHmac($text, $keys[2], 'md5')
         );
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2022-08-25

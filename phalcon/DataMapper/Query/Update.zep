@@ -15,18 +15,22 @@
 
 namespace Phalcon\DataMapper\Query;
 
+use Phalcon\Contracts\DataMapper\DataMapperTypes;
 use Phalcon\DataMapper\Pdo\Connection;
 
 /**
  * Update Query
+ *
+ * @phpstan-import-type datamapper_clauses from DataMapperTypes
+ * @phpstan-import-type datamapper_column_values from DataMapperTypes
+ * @phpstan-import-type datamapper_write_store from DataMapperTypes
+ *
+ * @property datamapper_write_store $store
  */
 class Update extends AbstractConditions
 {
     /**
      * Update constructor.
-     *
-     * @param Connection $connection
-     * @param Bind       $bind
      */
     public function __construct(<Connection> connection, <Bind> bind)
     {
@@ -38,10 +42,6 @@ class Update extends AbstractConditions
 
     /**
      * Sets a column for the `UPDATE` query
-     *
-     * @param string $column
-     *
-     * @return Update
      */
     public function column(string column, var value = null, int type = -1) -> <Update>
     {
@@ -57,9 +57,7 @@ class Update extends AbstractConditions
     /**
      * Mass sets columns and values for the `UPDATE`
      *
-     * @param array $columns
-     *
-     * @return Update
+     * @phpstan-param datamapper_column_values $columns
      */
     public function columns(array columns) -> <Update>
     {
@@ -78,10 +76,6 @@ class Update extends AbstractConditions
 
     /**
      * Adds table(s) in the query
-     *
-     * @param string $table
-     *
-     * @return Update
      */
     public function from(string table) -> <Update>
     {
@@ -90,9 +84,6 @@ class Update extends AbstractConditions
         return this;
     }
 
-    /**
-     * @return string
-     */
     public function getStatement() -> string
     {
         return "UPDATE"
@@ -105,29 +96,10 @@ class Update extends AbstractConditions
 
     /**
      * Whether the query has columns or not
-     *
-     * @return bool
      */
     public function hasColumns() -> bool
     {
         return !empty this->store["COLUMNS"];
-    }
-
-    /**
-     * Adds the `RETURNING` clause
-     *
-     * @param array $columns
-     *
-     * @return Update
-     */
-    public function returning(array columns) -> <Update>
-    {
-        let this->store["RETURNING"] = array_merge(
-            this->store["RETURNING"],
-            columns
-        );
-
-        return this;
     }
 
     /**
@@ -142,12 +114,24 @@ class Update extends AbstractConditions
     }
 
     /**
+     * Adds the `RETURNING` clause
+     *
+     * @phpstan-param datamapper_clauses $columns
+     */
+    public function returning(array columns) -> <Update>
+    {
+        let this->store["RETURNING"] = array_merge(
+            this->store["RETURNING"],
+            columns
+        );
+
+        return this;
+    }
+
+    /**
      * Sets a column = value condition
      *
-     * @param string     $column
-     * @param mixed|null $value
-     *
-     * @return Update
+     * @phpstan-param string|null $value
      */
     public function set(string column, var value = null) -> <Update>
     {
@@ -164,8 +148,6 @@ class Update extends AbstractConditions
 
     /**
      * Builds the column list
-     *
-     * @return string
      */
     private function buildColumns() -> string
     {

@@ -18,6 +18,7 @@
 #include <ext/standard/php_array.h>
 #include <Zend/zend_hash.h>
 #include <Zend/zend_interfaces.h>
+#include <Zend/zend_execute.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -27,6 +28,153 @@
 #include "kernel/backtrace.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
+#include "kernel/string.h"
+
+/**
+ * Prepares a container the write context is about to write through.
+ *
+ * PHP's `zend_fetch_dimension_address()` (Zend/zend_execute.c): a reference is
+ * followed, an undefined, null or false container becomes an array, and the
+ * table is separated *before* anything is looked up inside it, so the write
+ * reaches the container however many holders it had.
+ *
+ * SEPARATE_ARRAY() ends in GC_TRY_DELREF(), so it may only run on a zval that
+ * owns its value. That is the emitter's half of the bargain: a write context is
+ * never handed a borrowed container, only a local variable or an object's
+ * property slot, and separating one of those writes the new table back where
+ * its owner will find it.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2691
+ */
+static zval *zephir_array_write_container(zval *arr)
+{
+	ZVAL_DEREF(arr);
+
+	if (UNEXPECTED(Z_TYPE_P(arr) <= IS_FALSE)) {
+#if PHP_VERSION_ID >= 80100
+		const zend_bool was_false = Z_TYPE_P(arr) == IS_FALSE;
+#endif
+
+		array_init(arr);
+
+#if PHP_VERSION_ID >= 80100
+		/* Deprecated since 8.1, same wording through 8.5. */
+		if (UNEXPECTED(was_false)) {
+			zend_error(E_DEPRECATED, "Automatic conversion of false to array is deprecated");
+		}
+#endif
+
+		return arr;
+	}
+
+	if (EXPECTED(Z_TYPE_P(arr) == IS_ARRAY)) {
+		SEPARATE_ARRAY(arr);
+	}
+
+	return arr;
+}
+
+/**
+ * Creates the element a write context asked for and hands back its slot.
+ *
+ * A write context is a lookup-or-create: BP_VAR_W reaches `zend_hash_lookup()`
+ * in `zend_fetch_dimension_address_inner()`, which inserts a null and returns
+ * the new slot with no diagnostic at all. That function is not exported before
+ * 8.5, so the insert is spelled out, and each one uses the same hash family as
+ * the lookup it follows.
+ *
+ * A caller supplied string key always goes through the `zend_symtable_str_*`
+ * family, never `zend_hash_str_*`. PHP folds a constant numeric string
+ * subscript to an integer key while it compiles it (`zend_handle_numeric_dim()`
+ * in Zend/zend_compile.c), so `$a["3"]` is `$a[3]`, and `zend_symtable_str_*`
+ * is that same fold applied at runtime. Reaching for the raw hash instead is
+ * what made `zephir_array_update_string()` store a string key where the array
+ * literal beside it, emitted as `add_assoc_*_ex()`, stored an integer one.
+ * Only an ArrayAccess container keeps the original string, which is why every
+ * such branch below boxes `index` untouched rather than normalising it.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2708
+ */
+static zval *zephir_array_write_create_index(HashTable *ht, zend_ulong index)
+{
+	zval null_value;
+
+	ZVAL_NULL(&null_value);
+
+	return zend_hash_index_update(ht, index, &null_value);
+}
+
+static zval *zephir_array_write_create_symtable(HashTable *ht, const char *index, uint32_t index_length)
+{
+	zval null_value;
+
+	ZVAL_NULL(&null_value);
+
+	return zend_symtable_str_update(ht, index, index_length, &null_value);
+}
+
+/**
+ * Hands a found array element to the caller under one of three contracts.
+ *
+ * PH_WRITE is the write context. The element becomes a real reference, which is
+ * what `ZEND_SEND_REF` (Zend/zend_vm_def.h) does to the slot `ZEND_FETCH_DIM_W`
+ * produced, so the callee's write reaches the container, and a callee that
+ * replaces its argument rather than mutating it replaces what the container
+ * holds. Nobody else is watching that table: zephir_array_write_container()
+ * separated it first.
+ *
+ * PH_READONLY borrows: no addref, and the caller neither observes the target
+ * nor releases it, because the container owns the value.
+ *
+ * Otherwise the caller gets its own reference.
+ *
+ * Both read contracts follow a reference, as `ZEND_FETCH_DIM_R`'s
+ * ZVAL_COPY_DEREF() does, so an element an earlier write context turned into
+ * one still reads as its value rather than as a reference.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2682
+ * @see https://github.com/zephir-lang/zephir/issues/2691
+ */
+static void zephir_array_fetch_found(zval *return_value, zval *zv, int flags)
+{
+	if ((flags & PH_WRITE) == PH_WRITE) {
+		ZVAL_MAKE_REF(zv);
+		ZVAL_COPY(return_value, zv);
+
+		return;
+	}
+
+	ZVAL_DEREF(zv);
+
+	if ((flags & PH_READONLY) == PH_READONLY) {
+		ZVAL_COPY_VALUE(return_value, zv);
+
+		return;
+	}
+
+	ZVAL_COPY(return_value, zv);
+}
+
+/**
+ * PHP's warning for a write context it cannot honour.
+ *
+ * An ArrayAccess object builds the value inside offsetGet() and owns nothing
+ * afterwards, so unless it handed back a reference, or an object whose identity
+ * is the thing being modified, the caller is about to write into a temporary.
+ * Same condition and same wording as `zend_fetch_dimension_address_inner()`,
+ * which has not moved since 8.0.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2682
+ */
+static void zephir_array_fetch_overloaded_notice(const zval *arr, const zval *fetched)
+{
+	if (Z_ISREF_P(fetched) || Z_TYPE_P(fetched) == IS_OBJECT) {
+		return;
+	}
+
+	zend_error(E_NOTICE, "Indirect modification of overloaded element of %s has no effect",
+		ZSTR_VAL(Z_OBJCE_P(arr)->name));
+}
 
 void ZEPHIR_FASTCALL zephir_create_array(zval *return_value, uint32_t size, int initialize)
 {
@@ -86,21 +234,42 @@ int zephir_array_isset_fetch(zval *fetched, const zval *arr, zval *index, int re
 
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev((zval *)arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
 		zend_long ZEPHIR_LAST_CALL_STATUS;
-		zval exist;
-		ZVAL_UNDEF(&exist);
-		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(&exist, (zval *)arr, "offsetexists", NULL, 0, index);
-		if (ZEPHIR_LAST_CALL_STATUS != FAILURE && zend_is_true(&exist)) {
-			ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(fetched, (zval *)arr, "offsetget", NULL, 0, index);
-			if (readonly) {
-				Z_TRY_DELREF_P(fetched);
-			}
+		zval container, exist;
+		int found = 0;
 
-			return 1;
+		/* offsetExists() runs userland code that can drop the last reference
+		 * to the container, and zend_call_function() takes none for the call
+		 * frame, so own the container across both calls. PHP's own
+		 * zend_std_read_dimension() does the same. */
+		ZVAL_COPY(&container, (zval *)arr);
+		ZVAL_UNDEF(&exist);
+
+		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(&exist, &container, "offsetexists", NULL, 0, index);
+		if (ZEPHIR_LAST_CALL_STATUS != FAILURE && zend_is_true(&exist)) {
+			/* No `readonly` here: offsetGet() owns nothing once it has
+			 * returned, so its result is handed over owned. @see kernel/array.h */
+			ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(fetched, &container, "offsetget", NULL, 0, index);
+			found = 1;
+		} else {
+			ZVAL_NULL(fetched);
 		}
 
-		ZVAL_NULL(fetched);
+		zval_ptr_dtor(&exist);
+		zval_ptr_dtor(&container);
 
-		return 0;
+		return found;
+	} else if (UNEXPECTED(Z_TYPE_P(arr) == IS_STRING)) {
+		/* A `var` holding a string: PHP's isset() on a string offset is
+		 * silent for every illegal offset, so no diagnostic here. */
+		if (!zephir_string_offset_isset_zval(arr, index)) {
+			ZVAL_NULL(fetched);
+
+			return 0;
+		}
+
+		zephir_string_offset_read_zval(fetched, (zval *) arr, index, 0);
+
+		return 1;
 	} else if (UNEXPECTED(Z_TYPE_P(arr) != IS_ARRAY)) {
 		ZVAL_NULL(fetched);
 
@@ -137,6 +306,12 @@ int zephir_array_isset_fetch(zval *fetched, const zval *arr, zval *index, int re
 	}
 
 	if (result != NULL) {
+		/* A write context leaves the element it wrote through as a reference,
+		 * exactly as PHP does, and every read of it dereferences, as
+		 * `ZEND_FETCH_DIM_R`'s ZVAL_COPY_DEREF() does. Without this the caller
+		 * is handed the reference and its copy is not a copy.
+		 * @see https://github.com/zephir-lang/zephir/issues/2691 */
+		ZVAL_DEREF(result);
 		zephir_ensure_array(result);
 
 		if (!readonly) {
@@ -158,25 +333,40 @@ int zephir_array_isset_string_fetch(zval *fetched, const zval *arr, char *index,
 	zval *zv;
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev((zval *)arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
 		zend_long ZEPHIR_LAST_CALL_STATUS;
-		zval exist, offset;
+		zval container, exist, offset;
+		int found = 0;
+
+		/* offsetExists() runs userland code that can drop the last reference
+		 * to the container, and zend_call_function() takes none for the call
+		 * frame, so own the container across both calls. PHP's own
+		 * zend_std_read_dimension() does the same. */
+		ZVAL_COPY(&container, (zval *)arr);
 		ZVAL_UNDEF(&exist);
+		/* The offset has to outlive offsetExists() too: releasing it here left
+		 * offsetGet() reading a freed zend_string, and the method-name string
+		 * allocated for that very call reused the slot, so the object silently
+		 * received the key "offsetget". */
 		ZVAL_STRINGL(&offset, index, index_length);
 
-		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(&exist, (zval *)arr, "offsetexists", NULL, 0, &offset);
-		zval_ptr_dtor(&offset);
+		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(&exist, &container, "offsetexists", NULL, 0, &offset);
 		if (ZEPHIR_LAST_CALL_STATUS != FAILURE && zend_is_true(&exist)) {
-			ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(fetched, (zval *)arr, "offsetget", NULL, 0, &offset);
-			if (readonly) {
-				Z_TRY_DELREF_P(fetched);
-			}
-			return 1;
+			/* No `readonly` here: offsetGet() owns nothing once it has
+			 * returned, so its result is handed over owned. @see kernel/array.h */
+			ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(fetched, &container, "offsetget", NULL, 0, &offset);
+			found = 1;
+		} else {
+			ZVAL_NULL(fetched);
 		}
 
-		ZVAL_NULL(fetched);
+		zval_ptr_dtor(&offset);
+		zval_ptr_dtor(&exist);
+		zval_ptr_dtor(&container);
 
-		return 0;
+		return found;
 	} else if (EXPECTED(Z_TYPE_P(arr) == IS_ARRAY)) {
-		if ((zv = zend_hash_str_find(Z_ARRVAL_P(arr), index, index_length)) != NULL) {
+		if ((zv = zend_symtable_str_find(Z_ARRVAL_P(arr), index, index_length)) != NULL) {
+			/* Dereferences for the same reason as zephir_array_isset_fetch(). */
+			ZVAL_DEREF(zv);
 			zephir_ensure_array(zv);
 
 			if (!readonly) {
@@ -184,6 +374,22 @@ int zephir_array_isset_string_fetch(zval *fetched, const zval *arr, char *index,
 			} else {
 				ZVAL_COPY_VALUE(fetched, zv);
 			}
+			return 1;
+		}
+	} else if (UNEXPECTED(Z_TYPE_P(arr) == IS_STRING)) {
+		zval offset;
+		int  found;
+
+		ZVAL_STRINGL(&offset, index, index_length);
+		found = zephir_string_offset_isset_zval(arr, &offset);
+
+		if (found) {
+			zephir_string_offset_read_zval(fetched, (zval *) arr, &offset, 0);
+		}
+
+		zval_ptr_dtor(&offset);
+
+		if (found) {
 			return 1;
 		}
 	}
@@ -193,30 +399,41 @@ int zephir_array_isset_string_fetch(zval *fetched, const zval *arr, char *index,
 	return 0;
 }
 
-int zephir_array_isset_long_fetch(zval *fetched, const zval *arr, unsigned long index, int readonly)
+int zephir_array_isset_long_fetch(zval *fetched, const zval *arr, zend_long index, int readonly)
 {
 	zval *zv;
 
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev((zval *)arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
 		zend_long ZEPHIR_LAST_CALL_STATUS;
-		zval exist, offset;
+		zval container, exist, offset;
+		int found = 0;
+
+		/* offsetExists() runs userland code that can drop the last reference
+		 * to the container, and zend_call_function() takes none for the call
+		 * frame, so own the container across both calls. PHP's own
+		 * zend_std_read_dimension() does the same. */
+		ZVAL_COPY(&container, (zval *)arr);
 		ZVAL_UNDEF(&exist);
 		ZVAL_LONG(&offset, index);
-		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(&exist, (zval *)arr, "offsetexists", NULL, 0, &offset);
-		if (ZEPHIR_LAST_CALL_STATUS != FAILURE && zend_is_true(&exist)) {
-			ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(fetched, (zval *)arr, "offsetget", NULL, 0, &offset);
-			if (readonly) {
-				Z_TRY_DELREF_P(fetched);
-			}
 
-			return 1;
+		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(&exist, &container, "offsetexists", NULL, 0, &offset);
+		if (ZEPHIR_LAST_CALL_STATUS != FAILURE && zend_is_true(&exist)) {
+			/* No `readonly` here: offsetGet() owns nothing once it has
+			 * returned, so its result is handed over owned. @see kernel/array.h */
+			ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(fetched, &container, "offsetget", NULL, 0, &offset);
+			found = 1;
+		} else {
+			ZVAL_NULL(fetched);
 		}
 
-		ZVAL_NULL(fetched);
+		zval_ptr_dtor(&exist);
+		zval_ptr_dtor(&container);
 
-		return 0;
+		return found;
 	} else if (EXPECTED(Z_TYPE_P(arr) == IS_ARRAY)) {
-		if ((zv = zend_hash_index_find(Z_ARRVAL_P(arr), index)) != NULL) {
+		if ((zv = zend_hash_index_find(Z_ARRVAL_P(arr), (zend_ulong) index)) != NULL) {
+			/* Dereferences for the same reason as zephir_array_isset_fetch(). */
+			ZVAL_DEREF(zv);
 			zephir_ensure_array(zv);
 
 			if (!readonly) {
@@ -224,6 +441,12 @@ int zephir_array_isset_long_fetch(zval *fetched, const zval *arr, unsigned long 
 			} else {
 				ZVAL_COPY_VALUE(fetched, zv);
 			}
+			return 1;
+		}
+	} else if (UNEXPECTED(Z_TYPE_P(arr) == IS_STRING)) {
+		if (zephir_string_offset_isset(arr, index)) {
+			zephir_string_offset_read(fetched, (zval *) arr, index, 0);
+
 			return 1;
 		}
 	}
@@ -243,14 +466,25 @@ int ZEPHIR_FASTCALL zephir_array_isset(const zval *arr, zval *index)
 
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev((zval *)arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
 		zend_long ZEPHIR_LAST_CALL_STATUS;
-		zval exist;
-		ZVAL_UNDEF(&exist);
-		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(&exist, (zval *)arr, "offsetexists", NULL, 0, index);
-		if (zend_is_true(&exist)) {
-			return 1;
-		}
+		zval container, exist;
+		int found;
 
-		return 0;
+		/* offsetExists() runs userland code that can drop the last reference
+		 * to the container, and zend_call_function() takes none for the call
+		 * frame, so own the container across both calls. PHP's own
+		 * zend_std_read_dimension() does the same. */
+		ZVAL_COPY(&container, (zval *)arr);
+		ZVAL_UNDEF(&exist);
+
+		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(&exist, &container, "offsetexists", NULL, 0, index);
+		found = ZEPHIR_LAST_CALL_STATUS != FAILURE && zend_is_true(&exist);
+
+		zval_ptr_dtor(&exist);
+		zval_ptr_dtor(&container);
+
+		return found;
+	} else if (UNEXPECTED(Z_TYPE_P(arr) == IS_STRING)) {
+		return zephir_string_offset_isset_zval(arr, index);
 	} else if (UNEXPECTED(Z_TYPE_P(arr) != IS_ARRAY)) {
 		return 0;
 	}
@@ -284,38 +518,67 @@ int ZEPHIR_FASTCALL zephir_array_isset_string(const zval *arr, const char *index
 {
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev((zval *)arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
 		zend_long ZEPHIR_LAST_CALL_STATUS;
-		zval exist, offset;
+		zval container, exist, offset;
+		int found;
+
+		/* offsetExists() runs userland code that can drop the last reference
+		 * to the container, and zend_call_function() takes none for the call
+		 * frame, so own the container across both calls. PHP's own
+		 * zend_std_read_dimension() does the same. */
+		ZVAL_COPY(&container, (zval *)arr);
 		ZVAL_UNDEF(&exist);
 		ZVAL_STRINGL(&offset, index, index_length);
-		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(&exist, (zval *)arr, "offsetexists", NULL, 0, &offset);
-		zval_ptr_dtor(&offset);
-		if (ZEPHIR_LAST_CALL_STATUS != FAILURE && zend_is_true(&exist)) {
-			return 1;
-		}
 
-		return 0;
+		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(&exist, &container, "offsetexists", NULL, 0, &offset);
+		found = ZEPHIR_LAST_CALL_STATUS != FAILURE && zend_is_true(&exist);
+
+		zval_ptr_dtor(&offset);
+		zval_ptr_dtor(&exist);
+		zval_ptr_dtor(&container);
+
+		return found;
 	} else if (EXPECTED(Z_TYPE_P(arr) == IS_ARRAY)) {
-		return zend_hash_str_exists(Z_ARRVAL_P(arr), index, index_length);
+		return zend_symtable_str_exists(Z_ARRVAL_P(arr), index, index_length);
+	} else if (UNEXPECTED(Z_TYPE_P(arr) == IS_STRING)) {
+		zval offset;
+		int  found;
+
+		ZVAL_STRINGL(&offset, index, index_length);
+		found = zephir_string_offset_isset_zval(arr, &offset);
+		zval_ptr_dtor(&offset);
+
+		return found;
 	}
 
 	return 0;
 }
 
-int ZEPHIR_FASTCALL zephir_array_isset_long(const zval *arr, unsigned long index)
+int ZEPHIR_FASTCALL zephir_array_isset_long(const zval *arr, zend_long index)
 {
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev((zval *)arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
 		zend_long ZEPHIR_LAST_CALL_STATUS;
-		zval exist, offset;
+		zval container, exist, offset;
+		int found;
+
+		/* offsetExists() runs userland code that can drop the last reference
+		 * to the container, and zend_call_function() takes none for the call
+		 * frame, so own the container across both calls. PHP's own
+		 * zend_std_read_dimension() does the same. */
+		ZVAL_COPY(&container, (zval *)arr);
 		ZVAL_UNDEF(&exist);
 		ZVAL_LONG(&offset, index);
-		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(&exist, (zval *)arr, "offsetexists", NULL, 0, &offset);
-		if (ZEPHIR_LAST_CALL_STATUS != FAILURE && zend_is_true(&exist)) {
-			return 1;
-		}
 
-		return 0;
+		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(&exist, &container, "offsetexists", NULL, 0, &offset);
+		found = ZEPHIR_LAST_CALL_STATUS != FAILURE && zend_is_true(&exist);
+
+		zval_ptr_dtor(&exist);
+		zval_ptr_dtor(&container);
+
+		return found;
 	} else if (EXPECTED(Z_TYPE_P(arr) == IS_ARRAY)) {
-		return zend_hash_index_exists(Z_ARRVAL_P(arr), index);
+		return zend_hash_index_exists(Z_ARRVAL_P(arr), (zend_ulong) index);
+	} else if (UNEXPECTED(Z_TYPE_P(arr) == IS_STRING)) {
+		return zephir_string_offset_isset(arr, index);
 	}
 
 	return 0;
@@ -339,6 +602,11 @@ int ZEPHIR_FASTCALL zephir_array_isset_value(const zval *arr, zval *index)
 	}
 
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev((zval *)arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
+		return zephir_array_isset(arr, index);
+	}
+
+	if (UNEXPECTED(Z_TYPE_P(arr) == IS_STRING)) {
+		/* A byte is never null, so isset() is the whole answer. */
 		return zephir_array_isset(arr, index);
 	}
 
@@ -387,11 +655,16 @@ int ZEPHIR_FASTCALL zephir_array_isset_value_string(const zval *arr, const char 
 		return zephir_array_isset_string(arr, index, index_length);
 	}
 
+	if (UNEXPECTED(Z_TYPE_P(arr) == IS_STRING)) {
+		/* A byte is never null, so isset() is the whole answer. */
+		return zephir_array_isset_string(arr, index, index_length);
+	}
+
 	if (UNEXPECTED(Z_TYPE_P(arr) != IS_ARRAY)) {
 		return 0;
 	}
 
-	entry = zend_hash_str_find(Z_ARRVAL_P(arr), index, index_length);
+	entry = zend_symtable_str_find(Z_ARRVAL_P(arr), index, index_length);
 	if (entry == NULL) {
 		return 0;
 	}
@@ -400,7 +673,7 @@ int ZEPHIR_FASTCALL zephir_array_isset_value_string(const zval *arr, const char 
 	return Z_TYPE_P(entry) != IS_NULL;
 }
 
-int ZEPHIR_FASTCALL zephir_array_isset_value_long(const zval *arr, unsigned long index)
+int ZEPHIR_FASTCALL zephir_array_isset_value_long(const zval *arr, zend_long index)
 {
 	zval *entry;
 
@@ -408,11 +681,16 @@ int ZEPHIR_FASTCALL zephir_array_isset_value_long(const zval *arr, unsigned long
 		return zephir_array_isset_long(arr, index);
 	}
 
+	if (UNEXPECTED(Z_TYPE_P(arr) == IS_STRING)) {
+		/* A byte is never null, so isset() is the whole answer. */
+		return zephir_array_isset_long(arr, index);
+	}
+
 	if (UNEXPECTED(Z_TYPE_P(arr) != IS_ARRAY)) {
 		return 0;
 	}
 
-	entry = zend_hash_index_find(Z_ARRVAL_P(arr), index);
+	entry = zend_hash_index_find(Z_ARRVAL_P(arr), (zend_ulong) index);
 	if (entry == NULL) {
 		return 0;
 	}
@@ -421,19 +699,116 @@ int ZEPHIR_FASTCALL zephir_array_isset_value_long(const zval *arr, unsigned long
 	return Z_TYPE_P(entry) != IS_NULL;
 }
 
+/**
+ * `empty($container[$offset])`.
+ *
+ * PHP does not compose this out of a read plus a truthiness test: it has a
+ * dedicated silent handler (`zend_isempty_dim_slow`) that reports nothing for
+ * a missing key, an out-of-range string offset or an illegal offset type, and
+ * answers "empty" for all of them. Reusing the isset-fetch helpers gets the
+ * same answer for arrays, strings and ArrayAccess alike.
+ */
+static int zephir_isempty_dim_fetched(int found, zval *fetched)
+{
+	int result;
+
+	if (!found) {
+		return 1;
+	}
+
+	result = !zend_is_true(fetched);
+	zval_ptr_dtor(fetched);
+
+	return result;
+}
+
+int zephir_isempty_dim(zval *container, zval *offset)
+{
+	zval fetched;
+
+	ZVAL_UNDEF(&fetched);
+
+	return zephir_isempty_dim_fetched(zephir_array_isset_fetch(&fetched, container, offset, 0), &fetched);
+}
+
+int zephir_isempty_dim_long(zval *container, zend_long offset)
+{
+	zval fetched;
+
+	ZVAL_UNDEF(&fetched);
+
+	return zephir_isempty_dim_fetched(zephir_array_isset_long_fetch(&fetched, container, offset, 0), &fetched);
+}
+
+int zephir_isempty_dim_string(zval *container, char *offset, uint32_t offset_length)
+{
+	zval fetched;
+
+	ZVAL_UNDEF(&fetched);
+
+	return zephir_isempty_dim_fetched(
+		zephir_array_isset_string_fetch(&fetched, container, offset, offset_length, 0),
+		&fetched
+	);
+}
+
+/**
+ * Reports the container errors PHP's ZEND_UNSET_DIM reports, in its order.
+ *
+ * Zend/zend_vm_def.h: an object without array access and a string are errors on
+ * every version, and from PHP 8.1 so is any other non-null scalar; `false` is
+ * deprecated there, while null and undefined stay silent everywhere. PHP 8.0
+ * has neither the scalar branch nor zend_false_to_array_deprecated(), so both
+ * are gated rather than back-ported.
+ *
+ * The caller has already established that the container is not an array and is
+ * not something it can handle itself.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2702
+ */
+static void zephir_unset_dim_illegal_container(zval *arr)
+{
+	if (Z_TYPE_P(arr) == IS_OBJECT) {
+		zend_throw_error(NULL, "Cannot use object of type %s as array", ZSTR_VAL(Z_OBJCE_P(arr)->name));
+
+		return;
+	}
+
+	if (Z_TYPE_P(arr) == IS_STRING) {
+		zend_throw_error(NULL, "Cannot unset string offsets");
+
+		return;
+	}
+
+#if PHP_VERSION_ID >= 80100
+	if (Z_TYPE_P(arr) > IS_FALSE) {
+		zend_throw_error(NULL, "Cannot unset offset in a non-array variable");
+	} else if (Z_TYPE_P(arr) == IS_FALSE) {
+		zend_false_to_array_deprecated();
+	}
+#endif
+}
+
 int ZEPHIR_FASTCALL zephir_array_unset(zval *arr, zval *index, int flags)
 {
 	HashTable *ht;
 
-	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev(arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
-		zend_long ZEPHIR_LAST_CALL_STATUS;
-		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(NULL, arr, "offsetunset", NULL, 0, index);
-		if (ZEPHIR_LAST_CALL_STATUS != FAILURE) {
-			return 1;
+	/* PHP follows the reference before it looks at the container. */
+	ZVAL_DEREF(arr);
+
+	if (UNEXPECTED(Z_TYPE_P(arr) != IS_ARRAY)) {
+		if (Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev(arr, (const zend_class_entry *)zend_ce_arrayaccess)) {
+			zend_long ZEPHIR_LAST_CALL_STATUS;
+			ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(NULL, arr, "offsetunset", NULL, 0, index);
+			if (ZEPHIR_LAST_CALL_STATUS != FAILURE) {
+				return 1;
+			}
+
+			return 0;
 		}
 
-		return 0;
-	} else if (Z_TYPE_P(arr) != IS_ARRAY) {
+		zephir_unset_dim_illegal_container(arr);
+
 		return 0;
 	}
 
@@ -471,18 +846,24 @@ int ZEPHIR_FASTCALL zephir_array_unset(zval *arr, zval *index, int flags)
 
 int ZEPHIR_FASTCALL zephir_array_unset_string(zval *arr, const char *index, uint32_t index_length, int flags)
 {
-	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev(arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
-		zend_long ZEPHIR_LAST_CALL_STATUS;
-		zval offset;
-		ZVAL_STRINGL(&offset, index, index_length);
-		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(NULL, arr, "offsetunset", NULL, 0, &offset);
-		zval_ptr_dtor(&offset);
-		if (ZEPHIR_LAST_CALL_STATUS != FAILURE) {
-			return 1;
+	ZVAL_DEREF(arr);
+
+	if (UNEXPECTED(Z_TYPE_P(arr) != IS_ARRAY)) {
+		if (Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev(arr, (const zend_class_entry *)zend_ce_arrayaccess)) {
+			zend_long ZEPHIR_LAST_CALL_STATUS;
+			zval offset;
+			ZVAL_STRINGL(&offset, index, index_length);
+			ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(NULL, arr, "offsetunset", NULL, 0, &offset);
+			zval_ptr_dtor(&offset);
+			if (ZEPHIR_LAST_CALL_STATUS != FAILURE) {
+				return 1;
+			}
+
+			return 0;
 		}
 
-		return 0;
-	} else if (Z_TYPE_P(arr) != IS_ARRAY) {
+		zephir_unset_dim_illegal_container(arr);
+
 		return 0;
 	}
 
@@ -490,23 +871,29 @@ int ZEPHIR_FASTCALL zephir_array_unset_string(zval *arr, const char *index, uint
 		SEPARATE_ZVAL(arr);
 	}
 
-	return zend_hash_str_del(Z_ARRVAL_P(arr), index, index_length);
+	return zend_symtable_str_del(Z_ARRVAL_P(arr), index, index_length);
 }
 
-int ZEPHIR_FASTCALL zephir_array_unset_long(zval *arr, unsigned long index, int flags)
+int ZEPHIR_FASTCALL zephir_array_unset_long(zval *arr, zend_long index, int flags)
 {
-	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev(arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
-		zend_long ZEPHIR_LAST_CALL_STATUS;
-		zval offset;
-		ZVAL_LONG(&offset, index);
-		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(NULL, arr, "offsetunset", NULL, 0, &offset);
+	ZVAL_DEREF(arr);
 
-		if (ZEPHIR_LAST_CALL_STATUS != FAILURE) {
-			return 1;
+	if (UNEXPECTED(Z_TYPE_P(arr) != IS_ARRAY)) {
+		if (Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev(arr, (const zend_class_entry *)zend_ce_arrayaccess)) {
+			zend_long ZEPHIR_LAST_CALL_STATUS;
+			zval offset;
+			ZVAL_LONG(&offset, index);
+			ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(NULL, arr, "offsetunset", NULL, 0, &offset);
+
+			if (ZEPHIR_LAST_CALL_STATUS != FAILURE) {
+				return 1;
+			}
+
+			return 0;
 		}
 
-		return 0;
-	} else if (Z_TYPE_P(arr) != IS_ARRAY) {
+		zephir_unset_dim_illegal_container(arr);
+
 		return 0;
 	}
 
@@ -514,11 +901,17 @@ int ZEPHIR_FASTCALL zephir_array_unset_long(zval *arr, unsigned long index, int 
 		SEPARATE_ARRAY(arr);
 	}
 
-	return zend_hash_index_del(Z_ARRVAL_P(arr), index);
+	return zend_hash_index_del(Z_ARRVAL_P(arr), (zend_ulong) index);
 }
 
 int zephir_array_append(zval *arr, zval *value, int flags ZEPHIR_DEBUG_PARAMS)
 {
+	if (UNEXPECTED(Z_TYPE_P(arr) == IS_STRING)) {
+		zend_throw_error(NULL, "[] operator not supported for strings");
+
+		return FAILURE;
+	}
+
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
 		zend_error(E_WARNING, "Cannot use a scalar value as an array in %s on line %d", file, line);
 		return FAILURE;
@@ -539,14 +932,22 @@ int zephir_array_fetch(zval *return_value, zval *arr, zval *index, int flags ZEP
 	int result = SUCCESS, found = 0;
 	zend_ulong uidx = 0;
 	char *sidx = NULL;
+	uint32_t sidx_length = 0;
+
+	if ((flags & PH_WRITE) == PH_WRITE) {
+		arr = zephir_array_write_container(arr);
+	}
 
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev(arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
 		zend_long ZEPHIR_LAST_CALL_STATUS;
 		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(return_value, arr, "offsetget", NULL, 0, index);
 		if (ZEPHIR_LAST_CALL_STATUS != FAILURE) {
-			if ((flags & PH_READONLY) == PH_READONLY) {
-				Z_TRY_DELREF_P(return_value);
+			/* No PH_READONLY here: offsetGet() owns nothing once it has
+			 * returned, so its result is handed over owned. @see kernel/array.h */
+			if ((flags & PH_WRITE) == PH_WRITE) {
+				zephir_array_fetch_overloaded_notice(arr, return_value);
 			}
+
 			return SUCCESS;
 		}
 
@@ -581,8 +982,9 @@ int zephir_array_fetch(zval *return_value, zval *arr, zval *index, int flags ZEP
 				break;
 
 			case IS_STRING:
-				sidx   = Z_STRLEN_P(index) ? Z_STRVAL_P(index) : "";
-				found  = (zv = zend_symtable_str_find(ht, Z_STRVAL_P(index), Z_STRLEN_P(index))) != NULL;
+				sidx        = Z_STRLEN_P(index) ? Z_STRVAL_P(index) : "";
+				sidx_length = Z_STRLEN_P(index);
+				found       = (zv = zend_symtable_str_find(ht, Z_STRVAL_P(index), Z_STRLEN_P(index))) != NULL;
 				break;
 
 			default:
@@ -593,22 +995,32 @@ int zephir_array_fetch(zval *return_value, zval *arr, zval *index, int flags ZEP
 				break;
 		}
 
+		if (result != FAILURE && found == 0 && (flags & PH_WRITE) == PH_WRITE) {
+			zv    = (sidx != NULL)
+				? zephir_array_write_create_symtable(ht, sidx, sidx_length)
+				: zephir_array_write_create_index(ht, uidx);
+			found = zv != NULL;
+		}
+
 		if (result != FAILURE && found == 1) {
-			if ((flags & PH_READONLY) == PH_READONLY) {
-				ZVAL_COPY_VALUE(return_value, zv);
-			} else {
-				ZVAL_COPY(return_value, zv);
-			}
+			zephir_array_fetch_found(return_value, zv, flags);
+
 			return SUCCESS;
 		}
 
 		if ((flags & PH_NOISY) == PH_NOISY) {
 			if (sidx == NULL) {
-				zend_error(E_NOTICE, "Undefined index: %ld in %s on line %d", uidx, file, line);
+				zend_error(E_NOTICE, "Undefined index: " ZEND_LONG_FMT " in %s on line %d", (zend_long) uidx, file, line);
 			} else {
 				zend_error(E_NOTICE, "Undefined index: %s in %s on line %d", sidx, file, line);
 			}
 		}
+	}
+
+	if (UNEXPECTED(Z_TYPE_P(arr) == IS_STRING)) {
+		zephir_string_offset_read_zval(return_value, arr, index, flags);
+
+		return EG(exception) ? FAILURE : SUCCESS;
 	}
 
 	ZVAL_NULL(return_value);
@@ -619,6 +1031,10 @@ int zephir_array_fetch_string(zval *return_value, zval *arr, const char *index, 
 {
 	zval *zv;
 
+	if ((flags & PH_WRITE) == PH_WRITE) {
+		arr = zephir_array_write_container(arr);
+	}
+
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev(arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
 		zend_long ZEPHIR_LAST_CALL_STATUS;
 		zval offset;
@@ -626,26 +1042,38 @@ int zephir_array_fetch_string(zval *return_value, zval *arr, const char *index, 
 		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(return_value, arr, "offsetget", NULL, 0, &offset);
 		zval_ptr_dtor(&offset);
 		if (ZEPHIR_LAST_CALL_STATUS != FAILURE) {
-			if ((flags & PH_READONLY) == PH_READONLY) {
-				Z_TRY_DELREF_P(return_value);
+			/* No PH_READONLY here: offsetGet() owns nothing once it has
+			 * returned, so its result is handed over owned. @see kernel/array.h */
+			if ((flags & PH_WRITE) == PH_WRITE) {
+				zephir_array_fetch_overloaded_notice(arr, return_value);
 			}
+
 			return SUCCESS;
 		}
 
 		return FAILURE;
 	} else if (EXPECTED(Z_TYPE_P(arr) == IS_ARRAY)) {
-		if ((zv = zend_hash_str_find(Z_ARRVAL_P(arr), index, index_length)) != NULL) {
+		if ((zv = zend_symtable_str_find(Z_ARRVAL_P(arr), index, index_length)) == NULL
+			&& (flags & PH_WRITE) == PH_WRITE) {
+			zv = zephir_array_write_create_symtable(Z_ARRVAL_P(arr), index, index_length);
+		}
 
-			if ((flags & PH_READONLY) == PH_READONLY) {
-				ZVAL_COPY_VALUE(return_value, zv);
-			} else {
-				ZVAL_COPY(return_value, zv);
-			}
+		if (zv != NULL) {
+			zephir_array_fetch_found(return_value, zv, flags);
+
 			return SUCCESS;
 		}
 		if ((flags & PH_NOISY) == PH_NOISY) {
 			zend_error(E_NOTICE, "Undefined index: %s", index);
 		}
+	} else if (UNEXPECTED(Z_TYPE_P(arr) == IS_STRING)) {
+		zval offset;
+
+		ZVAL_STRINGL(&offset, index, index_length);
+		zephir_string_offset_read_zval(return_value, arr, &offset, flags);
+		zval_ptr_dtor(&offset);
+
+		return EG(exception) ? FAILURE : SUCCESS;
 	} else {
 		if ((flags & PH_NOISY) == PH_NOISY) {
 			zend_error(E_NOTICE, "Cannot use a scalar value as an array in %s on line %d", file, line);
@@ -661,9 +1089,13 @@ int zephir_array_fetch_string(zval *return_value, zval *arr, const char *index, 
 	return FAILURE;
 }
 
-int zephir_array_fetch_long(zval *return_value, zval *arr, unsigned long index, int flags ZEPHIR_DEBUG_PARAMS)
+int zephir_array_fetch_long(zval *return_value, zval *arr, zend_long index, int flags ZEPHIR_DEBUG_PARAMS)
 {
 	zval *zv;
+
+	if ((flags & PH_WRITE) == PH_WRITE) {
+		arr = zephir_array_write_container(arr);
+	}
 
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev(arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
 		zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -671,26 +1103,36 @@ int zephir_array_fetch_long(zval *return_value, zval *arr, unsigned long index, 
 		ZVAL_LONG(&offset, index);
 		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(return_value, arr, "offsetget", NULL, 0, &offset);
 		if (ZEPHIR_LAST_CALL_STATUS != FAILURE) {
-			if ((flags & PH_READONLY) == PH_READONLY) {
-				Z_TRY_DELREF_P(return_value);
+			/* No PH_READONLY here: offsetGet() owns nothing once it has
+			 * returned, so its result is handed over owned. @see kernel/array.h */
+			if ((flags & PH_WRITE) == PH_WRITE) {
+				zephir_array_fetch_overloaded_notice(arr, return_value);
 			}
+
 			return SUCCESS;
 		}
 
 		return FAILURE;
 	} else if (EXPECTED(Z_TYPE_P(arr) == IS_ARRAY)) {
-		if ((zv = zend_hash_index_find(Z_ARRVAL_P(arr), index)) != NULL) {
+		if ((zv = zend_hash_index_find(Z_ARRVAL_P(arr), (zend_ulong) index)) == NULL
+			&& (flags & PH_WRITE) == PH_WRITE) {
+			zv = zephir_array_write_create_index(Z_ARRVAL_P(arr), (zend_ulong) index);
+		}
 
-			if ((flags & PH_READONLY) == PH_READONLY) {
-				ZVAL_COPY_VALUE(return_value, zv);
-			} else {
-				ZVAL_COPY(return_value, zv);
-			}
+		if (zv != NULL) {
+			zephir_array_fetch_found(return_value, zv, flags);
+
 			return SUCCESS;
 		}
 		if ((flags & PH_NOISY) == PH_NOISY) {
-			zend_error(E_NOTICE, "Undefined index: %lu", index);
+			zend_error(E_NOTICE, "Undefined index: " ZEND_LONG_FMT, index);
 		}
+	} else if (UNEXPECTED(Z_TYPE_P(arr) == IS_STRING)) {
+		/* The compiler cannot prove a `var` holds a string, so the string
+		 * offset is dispatched here. */
+		zephir_string_offset_read(return_value, arr, index, flags);
+
+		return SUCCESS;
 	} else {
 		if ((flags & PH_NOISY) == PH_NOISY) {
 			zend_error(E_NOTICE, "Cannot use a scalar value as an array in %s on line %d", file, line);
@@ -745,6 +1187,10 @@ int zephir_array_update_zval(zval *arr, zval *index, zval *value, int flags)
 		}
 
 		return FAILURE;
+	} else if (UNEXPECTED(Z_TYPE_P(arr) == IS_STRING)) {
+		zephir_string_offset_write_zval(arr, index, value);
+
+		return EG(exception) ? FAILURE : SUCCESS;
 	} else if (Z_TYPE_P(arr) != IS_ARRAY) {
 		zend_error(E_WARNING, "Cannot use a scalar value as an array (2)");
 		return FAILURE;
@@ -810,6 +1256,14 @@ int zephir_array_update_string(zval *arr, const char *index, uint32_t index_leng
 		}
 
 		return FAILURE;
+	} else if (UNEXPECTED(Z_TYPE_P(arr) == IS_STRING)) {
+		zval offset;
+
+		ZVAL_STRINGL(&offset, index, index_length);
+		zephir_string_offset_write_zval(arr, &offset, value);
+		zval_ptr_dtor(&offset);
+
+		return EG(exception) ? FAILURE : SUCCESS;
 	} else if (Z_TYPE_P(arr) != IS_ARRAY) {
 		zend_error(E_WARNING, "Cannot use a scalar value as an array (3)");
 		return FAILURE;
@@ -828,10 +1282,10 @@ int zephir_array_update_string(zval *arr, const char *index, uint32_t index_leng
 		SEPARATE_ARRAY(arr);
 	}
 
-	return zend_hash_str_update(Z_ARRVAL_P(arr), index, index_length, value) ? SUCCESS : FAILURE;
+	return zend_symtable_str_update(Z_ARRVAL_P(arr), index, index_length, value) ? SUCCESS : FAILURE;
 }
 
-int zephir_array_update_long(zval *arr, unsigned long index, zval *value, int flags ZEPHIR_DEBUG_PARAMS)
+int zephir_array_update_long(zval *arr, zend_long index, zval *value, int flags ZEPHIR_DEBUG_PARAMS)
 {
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev(arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
 		zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -843,6 +1297,10 @@ int zephir_array_update_long(zval *arr, unsigned long index, zval *value, int fl
 		}
 
 		return FAILURE;
+	} else if (UNEXPECTED(Z_TYPE_P(arr) == IS_STRING)) {
+		zephir_string_offset_write(arr, index, value);
+
+		return EG(exception) ? FAILURE : SUCCESS;
 	} else if (Z_TYPE_P(arr) != IS_ARRAY) {
 		zend_error(E_WARNING, "Cannot use a scalar value as an array in %s on line %d", file, line);
 		return FAILURE;
@@ -861,7 +1319,7 @@ int zephir_array_update_long(zval *arr, unsigned long index, zval *value, int fl
 		SEPARATE_ARRAY(arr);
 	}
 
-	return zend_hash_index_update(Z_ARRVAL_P(arr), index, value) ? SUCCESS : FAILURE;
+	return zend_hash_index_update(Z_ARRVAL_P(arr), (zend_ulong) index, value) ? SUCCESS : FAILURE;
 }
 
 void zephir_array_keys(zval *return_value, zval *input)
@@ -894,7 +1352,16 @@ void zephir_array_keys(zval *return_value, zval *input)
 
 int zephir_array_key_exists(zval *arr, zval *key)
 {
-	HashTable *h = Z_ARRVAL_P(arr);
+	HashTable *h;
+
+	/* Reachable with any dynamically typed container, and reading Z_ARRVAL of
+	 * a string would reinterpret the zend_string as a HashTable. Every other
+	 * helper here answers 0 for a non-array, so this one does too. */
+	if (UNEXPECTED(Z_TYPE_P(arr) != IS_ARRAY)) {
+		return 0;
+	}
+
+	h = Z_ARRVAL_P(arr);
 	if (h) {
 		switch (Z_TYPE_P(key)) {
 			case IS_STRING:
@@ -924,7 +1391,11 @@ void zephir_array_update_multi_ex(zval *arr, zval *value, const char *types, int
 	zval *item;
 	zval pzv;
 	zend_array *p;
-	int i, l, ll, re_update, must_continue, wrap_tmp;
+	int i, re_update, must_continue, wrap_tmp;
+	zend_long ll;
+	/* SL() yields sizeof(...) - 1, a size_t, so that is what the variadic
+	 * slot holds. Reading it back as `int` was reading half of it. */
+	size_t l;
 
 	ZVAL_UNDEF(&pzv);
 
@@ -948,7 +1419,7 @@ void zephir_array_update_multi_ex(zval *arr, zval *value, const char *types, int
 
 			case 's':
 				s = va_arg(ap, char*);
-				l = va_arg(ap, int);
+				l = va_arg(ap, size_t);
 
 				/*
 				 * Issue #1884: the final offset overwrites its slot regardless of
@@ -993,7 +1464,7 @@ void zephir_array_update_multi_ex(zval *arr, zval *value, const char *types, int
 				break;
 
 			case 'l':
-				ll = va_arg(ap, long);
+				ll = va_arg(ap, zend_long);
 
 				/* Issue #1884: final offset always overwrites -> store directly. */
 				if (i == (types_length - 1)) {

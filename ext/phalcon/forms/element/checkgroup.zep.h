@@ -7,7 +7,6 @@ PHP_METHOD(Phalcon_Forms_Element_CheckGroup, __construct);
 PHP_METHOD(Phalcon_Forms_Element_CheckGroup, getOptions);
 PHP_METHOD(Phalcon_Forms_Element_CheckGroup, render);
 PHP_METHOD(Phalcon_Forms_Element_CheckGroup, setOptions);
-zend_object *zephir_init_properties_Phalcon_Forms_Element_CheckGroup(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_checkgroup___construct, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
@@ -24,9 +23,6 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_element_checkgroup_setoptions, 0, 1, Phalcon\\Forms\\Element\\ElementInterface, 0)
 	ZEND_ARG_ARRAY_INFO(0, options, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_checkgroup_zephir_init_properties_phalcon_forms_element_checkgroup, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_forms_element_checkgroup_method_entry) {

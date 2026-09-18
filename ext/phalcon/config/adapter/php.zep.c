@@ -63,6 +63,8 @@
  * echo $config->phalcon->controllersDir;
  * echo $config->database->username;
  *```
+ *
+ * @phpstan-import-type config_data from ConfigTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Php)
 {
@@ -72,7 +74,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Php)
 }
 
 /**
- * Phalcon\Config\Adapter\Php constructor
+ * Php constructor.
  *
  * @throws CannotLoadConfigFile
  */
@@ -95,16 +97,16 @@ PHP_METHOD(Phalcon_Config_Adapter_Php, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&filePath_zv);
 	ZVAL_STR_COPY(&filePath_zv, filePath);
-	ZEPHIR_CALL_FUNCTION(&_0, "is_file", NULL, 467, &filePath_zv);
+	ZEPHIR_CALL_FUNCTION(&_0, "is_file", NULL, 470, &filePath_zv);
 	zephir_check_call_status();
 	if (UNEXPECTED(!ZEPHIR_IS_TRUE_IDENTICAL(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_config_exceptions_cannotloadconfigfile_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		zephir_basename(&_2$$3, &filePath_zv);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 463, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 466, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Config/Adapter/Php.zep", 61);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Config/Adapter/Php.zep", 64);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

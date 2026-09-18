@@ -129,7 +129,7 @@ final class BindTest extends AbstractUnitTestCase
         $form = new Form();
         $form->add((new Check('ours'))->setUncheckedValue(0));
 
-        $entity = new stdClass();
+        $entity       = new stdClass();
         $entity->ours = 1;
         $form->bind([], $entity);
 
@@ -145,7 +145,7 @@ final class BindTest extends AbstractUnitTestCase
         $form = new Form();
         $form->add(new Check('ours'));
 
-        $entity = new stdClass();
+        $entity       = new stdClass();
         $entity->ours = 1;
         $form->bind([], $entity);
 

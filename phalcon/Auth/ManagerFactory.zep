@@ -22,11 +22,13 @@ use Phalcon\Auth\Internal\Options;
 use Phalcon\Config\ConfigInterface;
 use Phalcon\Contracts\Auth\Access\Access;
 use Phalcon\Contracts\Auth\Adapter\Adapter;
+use Phalcon\Contracts\Auth\AuthTypes;
 use Phalcon\Contracts\Auth\Guard\Guard;
 use Phalcon\Contracts\Container\Service\Collection;
 use Phalcon\Di\DiInterface;
 use Phalcon\Encryption\Security;
 use Phalcon\Traits\Factory\ConfigTrait;
+use Throwable;
 
 /**
  * Single entry-point factory that builds a fully wired Phalcon\Auth\Manager
@@ -68,17 +70,9 @@ use Phalcon\Traits\Factory\ConfigTrait;
  *      ],
  *  ]
  *
- * @phpstan-type GuardConfig array{
- *     type: string,
- *     default?: bool,
- *     adapter: array{name: string, options?: array<string, mixed>},
- *     options?: array<string, mixed>,
- * }
- *
- * @phpstan-type AuthConfig array{
- *     guards?: array<string, GuardConfig>,
- *     access?: array<string, class-string<Access>>,
- * }
+ * @phpstan-import-type auth_adapter_config from AuthTypes
+ * @phpstan-import-type auth_config from AuthTypes
+ * @phpstan-import-type auth_guard_config from AuthTypes
  */
 class ManagerFactory
 {
@@ -105,7 +99,7 @@ class ManagerFactory
     }
 
     /**
-     * @phpstan-param AuthConfig|ConfigInterface $config
+     * @phpstan-param auth_config|ConfigInterface $config
      *
      * @throws Exception
      */
@@ -113,12 +107,12 @@ class ManagerFactory
     {
         var accessList, adapter, gconf, guard, guards, manager, name;
 
-        /** @var AuthConfig $config */
+        /** @var auth_config $config */
         let config = this->checkConfig(config);
 
         let manager = new Manager(this->accessLocator);
 
-        /** @var array<string, GuardConfig> $guards */
+        /** @var array<string, auth_guard_config> $guards */
         let guards = isset(config["guards"]) ? config["guards"] : [];
 
         for name, gconf in guards {
@@ -149,7 +143,7 @@ class ManagerFactory
     }
 
     /**
-     * @param array{name: string, options?: array<string, mixed>} $cfg
+     * @param auth_adapter_config $cfg
      *
      * @throws Exception
      */
@@ -198,7 +192,7 @@ class ManagerFactory
     }
 
     /**
-     * @return string
+     * @return class-string<Throwable>
      */
     protected function getExceptionClass() -> string
     {

@@ -53,9 +53,6 @@ final class CloneResultMapTest extends AbstractDatabaseTestCase
         parent::tearDown();
     }
 
-    /**
-     * @return array
-     */
     public static function modelDataProvider(): array
     {
         return [

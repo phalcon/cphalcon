@@ -87,31 +87,6 @@ PHP_METHOD(Phalcon_Di_Exception, serviceNotFound)
 	RETURN_MM();
 }
 
-PHP_METHOD(Phalcon_Di_Exception, unknownServiceInParameter)
-{
-	zval _1;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *position_param = NULL, _0;
-	zend_long position, ZEPHIR_LAST_CALL_STATUS;
-
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_LONG(position)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 0, &position_param);
-	object_init_ex(return_value, phalcon_di_exception_ce);
-	ZEPHIR_INIT_VAR(&_0);
-	ZVAL_LONG(&_0, position);
-	ZEPHIR_INIT_VAR(&_1);
-	ZEPHIR_CONCAT_SV(&_1, "Unknown service type in parameter on position ", &_0);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 9, &_1);
-	zephir_check_call_status();
-	RETURN_MM();
-}
-
 PHP_METHOD(Phalcon_Di_Exception, undefinedMethod)
 {
 	zval _0;
@@ -133,6 +108,31 @@ PHP_METHOD(Phalcon_Di_Exception, undefinedMethod)
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "Call to undefined method or service '", &method_zv, "'");
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 9, &_0);
+	zephir_check_call_status();
+	RETURN_MM();
+}
+
+PHP_METHOD(Phalcon_Di_Exception, unknownServiceInParameter)
+{
+	zval _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *position_param = NULL, _0;
+	zend_long position, ZEPHIR_LAST_CALL_STATUS;
+
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_LONG(position)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &position_param);
+	object_init_ex(return_value, phalcon_di_exception_ce);
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_LONG(&_0, position);
+	ZEPHIR_INIT_VAR(&_1);
+	ZEPHIR_CONCAT_SV(&_1, "Unknown service type in parameter on position ", &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 9, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }

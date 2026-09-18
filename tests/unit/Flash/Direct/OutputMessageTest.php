@@ -23,9 +23,6 @@ use const PHP_EOL;
 
 final class OutputMessageTest extends AbstractUnitTestCase
 {
-    /**
-     * @return array
-     */
     public static function getExamples(): array
     {
         return [

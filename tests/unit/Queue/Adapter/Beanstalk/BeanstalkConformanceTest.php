@@ -29,6 +29,7 @@ use function uniqid;
 final class BeanstalkConformanceTest extends AbstractUnitTestCase
 {
     private array $options = [];
+
     private string $tube   = '';
 
     protected function setUp(): void

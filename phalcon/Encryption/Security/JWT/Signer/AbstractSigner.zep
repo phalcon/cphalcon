@@ -16,10 +16,7 @@ namespace Phalcon\Encryption\Security\JWT\Signer;
  */
 abstract class AbstractSigner implements SignerInterface
 {
-    /**
-     * @var string
-     */
-    protected algorithm = "";
+    protected string algorithm = "";
 
     public function getAlgorithm() -> string
     {

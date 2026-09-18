@@ -34,13 +34,13 @@ final class LoopControlTest extends AbstractUnitTestCase
         $source   = '{% for item in items %}{% if item.skip %}{% break %}{% endif %}{{ item }}{% endfor %}';
         $expected = [
             [
-                'type' => 304,
+                'type'     => 304,
                 'variable' => 'item',
-                'expr' => [
-                    'type' => 265,
+                'expr'     => [
+                    'type'  => 265,
                     'value' => 'items',
-                    'file' => 'eval code',
-                    'line' => 1,
+                    'file'  => 'eval code',
+                    'line'  => 1,
                 ],
                 'block_statements' => [
                     [
@@ -48,16 +48,16 @@ final class LoopControlTest extends AbstractUnitTestCase
                         'expr' => [
                             'type' => 46,
                             'left' => [
-                                'type' => 265,
+                                'type'  => 265,
                                 'value' => 'item',
-                                'file' => 'eval code',
-                                'line' => 1,
+                                'file'  => 'eval code',
+                                'line'  => 1,
                             ],
                             'right' => [
-                                'type' => 265,
+                                'type'  => 265,
                                 'value' => 'skip',
-                                'file' => 'eval code',
-                                'line' => 1,
+                                'file'  => 'eval code',
+                                'line'  => 1,
                             ],
                             'file' => 'eval code',
                             'line' => 1,
@@ -75,10 +75,10 @@ final class LoopControlTest extends AbstractUnitTestCase
                     [
                         'type' => 359,
                         'expr' => [
-                            'type' => 265,
+                            'type'  => 265,
                             'value' => 'item',
-                            'file' => 'eval code',
-                            'line' => 1,
+                            'file'  => 'eval code',
+                            'line'  => 1,
                         ],
                         'file' => 'eval code',
                         'line' => 1,
@@ -101,13 +101,13 @@ final class LoopControlTest extends AbstractUnitTestCase
         $source   = '{% for item in items %}{% if item.skip %}{% continue %}{% endif %}{{ item }}{% endfor %}';
         $expected = [
             [
-                'type' => 304,
+                'type'     => 304,
                 'variable' => 'item',
-                'expr' => [
-                    'type' => 265,
+                'expr'     => [
+                    'type'  => 265,
                     'value' => 'items',
-                    'file' => 'eval code',
-                    'line' => 1,
+                    'file'  => 'eval code',
+                    'line'  => 1,
                 ],
                 'block_statements' => [
                     [
@@ -115,16 +115,16 @@ final class LoopControlTest extends AbstractUnitTestCase
                         'expr' => [
                             'type' => 46,
                             'left' => [
-                                'type' => 265,
+                                'type'  => 265,
                                 'value' => 'item',
-                                'file' => 'eval code',
-                                'line' => 1,
+                                'file'  => 'eval code',
+                                'line'  => 1,
                             ],
                             'right' => [
-                                'type' => 265,
+                                'type'  => 265,
                                 'value' => 'skip',
-                                'file' => 'eval code',
-                                'line' => 1,
+                                'file'  => 'eval code',
+                                'line'  => 1,
                             ],
                             'file' => 'eval code',
                             'line' => 1,
@@ -142,10 +142,10 @@ final class LoopControlTest extends AbstractUnitTestCase
                     [
                         'type' => 359,
                         'expr' => [
-                            'type' => 265,
+                            'type'  => 265,
                             'value' => 'item',
-                            'file' => 'eval code',
-                            'line' => 1,
+                            'file'  => 'eval code',
+                            'line'  => 1,
                         ],
                         'file' => 'eval code',
                         'line' => 1,

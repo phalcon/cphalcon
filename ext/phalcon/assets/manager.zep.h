@@ -48,7 +48,9 @@ PHP_METHOD(Phalcon_Assets_Manager, phpFileGetContents);
 PHP_METHOD(Phalcon_Assets_Manager, phpFilePutContents);
 PHP_METHOD(Phalcon_Assets_Manager, phpFopen);
 PHP_METHOD(Phalcon_Assets_Manager, phpFwrite);
+PHP_METHOD(Phalcon_Assets_Manager, phpIsDir);
 PHP_METHOD(Phalcon_Assets_Manager, phpIsWritable);
+PHP_METHOD(Phalcon_Assets_Manager, phpMkdir);
 PHP_METHOD(Phalcon_Assets_Manager, phpUnlink);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_manager___construct, 0, 0, 1)
@@ -285,8 +287,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_manager_phpfwrite
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -340,7 +353,9 @@ ZEPHIR_INIT_FUNCS(phalcon_assets_manager_method_entry) {
 	PHP_ME(Phalcon_Assets_Manager, phpFilePutContents, arginfo_phalcon_assets_manager_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Assets_Manager, phpFopen, arginfo_phalcon_assets_manager_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Assets_Manager, phpFwrite, arginfo_phalcon_assets_manager_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Assets_Manager, phpIsDir, arginfo_phalcon_assets_manager_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Assets_Manager, phpIsWritable, arginfo_phalcon_assets_manager_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Assets_Manager, phpMkdir, arginfo_phalcon_assets_manager_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Assets_Manager, phpUnlink, arginfo_phalcon_assets_manager_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

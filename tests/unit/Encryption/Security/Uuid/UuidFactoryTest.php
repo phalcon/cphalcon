@@ -51,6 +51,7 @@ final class UuidFactoryTest extends AbstractUnitTestCase
             UuidInterface::NAMESPACE_X500
         );
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-29

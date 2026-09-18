@@ -17,11 +17,12 @@ use Phalcon\Auth\Guard\Config\TokenGuardConfig;
 use Phalcon\Auth\Internal\ContainerResolver;
 use Phalcon\Auth\Internal\Options;
 use Phalcon\Contracts\Auth\Adapter\Adapter;
+use Phalcon\Contracts\Auth\AuthTypes;
 use Phalcon\Contracts\Auth\AuthUser;
 use Phalcon\Http\RequestInterface;
 
 /**
- * @phpstan-import-type AuthCredentials from Adapter
+ * @phpstan-import-type auth_credentials from AuthTypes
  *
  * @extends AbstractGuard<TokenGuardConfig>
  */
@@ -130,7 +131,7 @@ class Token extends AbstractGuard
     }
 
     /**
-     * @phpstan-param AuthCredentials $credentials
+     * @phpstan-param auth_credentials $credentials
      */
     public function validate(array credentials = []) -> bool
     {

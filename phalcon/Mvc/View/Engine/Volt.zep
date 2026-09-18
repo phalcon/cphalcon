@@ -10,6 +10,8 @@
 
 namespace Phalcon\Mvc\View\Engine;
 
+use Countable;
+use Iterator;
 use Phalcon\Di\DiInterface;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
@@ -34,20 +36,17 @@ class Volt extends AbstractEngine implements EventsAwareInterface
      */
     protected compiler;
 
-    /**
-     * @var ManagerInterface|null
-     */
-    protected eventsManager;
+    protected ?<ManagerInterface> eventsManager = null;
 
     /**
-     * @var array
+     * @phpstan-var array<string, callable>
      */
-    protected macros = [];
+    protected array macros = [];
 
     /**
-     * @var array
+     * @phpstan-var array<string, mixed>
      */
-    protected options = [];
+    protected array options = [];
 
     /**
      * Checks if a macro is defined and calls it
@@ -56,8 +55,10 @@ class Volt extends AbstractEngine implements EventsAwareInterface
      * @params array arguments
      *
      * @return mixed
+     *
+     * @phpstan-param array<array-key, mixed> $arguments
      */
-    public function callMacro( string name, array arguments = []) -> var
+    public function callMacro(string name, array arguments = []) -> var
     {
         var macro;
 
@@ -84,8 +85,6 @@ class Volt extends AbstractEngine implements EventsAwareInterface
 
     /**
      * Returns the Volt's compiler
-     *
-     * @return Compiler
      */
     public function getCompiler() -> <Compiler>
     {
@@ -133,7 +132,7 @@ class Volt extends AbstractEngine implements EventsAwareInterface
     /**
      * Return Volt's options
      *
-     * @return array
+     * @phpstan-return array<string, mixed>
      */
     public function getOptions() -> array
     {
@@ -175,6 +174,8 @@ class Volt extends AbstractEngine implements EventsAwareInterface
      * @param mixed item
      *
      * @return int
+     *
+     * @phpstan-param array<array-key, mixed>|Countable|string|null $item
      */
     public function length(var item) -> int
     {
@@ -195,6 +196,13 @@ class Volt extends AbstractEngine implements EventsAwareInterface
 
     /**
      * Parses the preload element passed and sets the necessary link headers
+
+     *
+     * @phpstan-param array{
+     *     0?: string,
+     *     1?: array<string, array<string>|bool|float|int|string|null>
+     * }|string $parameters
+     *
      * @todo find a better way to handle this
      */
     public function preload(var parameters) -> string
@@ -217,9 +225,10 @@ class Volt extends AbstractEngine implements EventsAwareInterface
         let container = this->container;
 
         /**
-         * Check if we have the response object in the container
+         * Check if we have the response object in the container. Without a
+         * container the href is given back as it is.
          */
-        if container->has("response") {
+        if container !== null && container->has("response") {
             if isset params[1] {
                 let attributes = params[1];
             } else {
@@ -252,7 +261,7 @@ class Volt extends AbstractEngine implements EventsAwareInterface
      *
      * @return void
      */
-    public function render( string path, var params, bool mustClean = false) // TODO: Make params array
+    public function render(string path, var params, bool mustClean = false) // TODO: Make params array
     {
         var compiler, compiledTemplatePath, eventsManager, key, value;
 
@@ -313,17 +322,21 @@ class Volt extends AbstractEngine implements EventsAwareInterface
     /**
      * Set Volt's options
      *
-     * @param array options
+     * @phpstan-param array<string, mixed> $options
      *
      * @return void
      */
-    public function setOptions( array options)
+    public function setOptions(array options)
     {
         let this->options = options;
     }
 
     /**
      * Extracts a slice from a string/array/traversable object value
+     *
+     * @phpstan-param array<array-key, mixed>|string|(Countable&Iterator<array-key, mixed>) $value
+     * @phpstan-param int|null $end
+     * @phpstan-return array<array-key, mixed>|string
      */
     public function slice(var value, int start = 0, var end = null)
     {
@@ -396,6 +409,9 @@ class Volt extends AbstractEngine implements EventsAwareInterface
 
     /**
      * Sorts an array
+     *
+     * @phpstan-param array<array-key, mixed> $value
+     * @phpstan-return array<array-key, mixed>
      */
     public function sort(array value) -> array
     {

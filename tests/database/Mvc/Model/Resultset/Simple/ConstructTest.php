@@ -29,9 +29,6 @@ final class ConstructTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
 
-    /**
-     * @return void
-     */
     public function setUp(): void
     {
         try {
@@ -54,9 +51,6 @@ final class ConstructTest extends AbstractDatabaseTestCase
         $this->cleanCacheKey('test-resultset');
     }
 
-    /**
-     * @return void
-     */
     public function tearDown(): void
     {
         $this->cleanCacheKey('test-resultset');
@@ -147,10 +141,6 @@ final class ConstructTest extends AbstractDatabaseTestCase
 
     /**
      * Removes the stream cache file for a given cache key.
-     *
-     * @param string $key
-     *
-     * @return void
      */
     private function cleanCacheKey(string $key): void
     {

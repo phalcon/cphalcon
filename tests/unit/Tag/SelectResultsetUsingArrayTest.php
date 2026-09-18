@@ -129,12 +129,14 @@ final class SelectResultsetUsingArrayTest extends AbstractUnitTestCase
     {
         $resultset = new FakeResultset(
             [
-                new class {
+                new class () {
                     public int $id      = 1;
+
                     public string $name = 'One';
                 },
-                new class {
+                new class () {
                     public int $id      = 2;
+
                     public string $name = 'Two';
                 },
             ]
@@ -156,7 +158,7 @@ final class SelectResultsetUsingArrayTest extends AbstractUnitTestCase
     {
         $resultset = new FakeResultset(
             [
-                new class {
+                new class () {
                     /**
                      * @var array<string, mixed>
                      */

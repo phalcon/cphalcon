@@ -32,7 +32,6 @@ class Libmemcached extends CacheLibmemcached
     /**
      * @param DateInterval|int|null $ttl
      *
-     * @return int
      * @throws Exception
      */
     public function getTtl($ttl = null): int

@@ -10,20 +10,29 @@
 
 namespace Phalcon\Mvc\Model\MetaData\Strategy;
 
+use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\ModelInterface;
 
+/**
+ * @phpstan-import-type mvc_metadata_index from MvcTypes
+ */
 interface StrategyInterface
 {
     /**
      * Read the model's column map, this can't be inferred
      *
      * @todo Not implemented
+     *
+     * @phpstan-return mvc_metadata_index
      */
     public function getColumnMaps(<ModelInterface> model, <DiInterface> container) -> array;
 
     /**
-     * The meta-data is obtained by reading the column descriptions from the database information schema
+     * The meta-data is obtained by reading the column descriptions from the
+     * database information schema
+     *
+     * @phpstan-return mvc_metadata_index
      */
     public function getMetaData(<ModelInterface> model, <DiInterface> container) -> array;
 }

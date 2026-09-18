@@ -77,6 +77,10 @@
  * echo "Final Time: ", $profile->getFinalTime(), "\n";
  * echo "Total Elapsed Time: ", $profile->getTotalElapsedSeconds(), "\n";
  * ```
+ *
+ * @phpstan-import-type db_bind_params from DbTypes
+ * @phpstan-import-type db_bind_types from DbTypes
+ * @phpstan-import-type db_profiler_items from DbTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler)
 {
@@ -92,6 +96,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler)
 	 * All the Items in the active profile
 	 *
 	 * @var Item[]
+	 *
+	 * @phpstan-var db_profiler_items
 	 */
 	zend_declare_property_null(phalcon_db_profiler_ce, SL("allProfiles"), ZEND_ACC_PROTECTED);
 	/**
@@ -143,7 +149,7 @@ PHP_METHOD(Phalcon_Db_Profiler, getNumberTotalStatements)
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("allProfiles", 11, 1);
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 647, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 645, PH_NOISY_CC | PH_READONLY);
 	RETURN_LONG(zephir_fast_count_int(&_0));
 }
 
@@ -184,7 +190,7 @@ PHP_METHOD(Phalcon_Db_Profiler, reset)
 
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 647, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 645, &_0);
 	RETURN_THIS();
 }
 
@@ -210,12 +216,15 @@ PHP_METHOD(Phalcon_Db_Profiler, setMaxProfiles)
 	zephir_fetch_params_without_memory_grow(1, 0, &maxProfiles_param);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, maxProfiles);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 648, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 646, &_0);
 	RETURN_THISW();
 }
 
 /**
  * Starts the profile of a SQL sentence
+ *
+ * @phpstan-param db_bind_params $sqlVariables
+ * @phpstan-param db_bind_types  $sqlBindTypes
  */
 PHP_METHOD(Phalcon_Db_Profiler, startProfile)
 {
@@ -286,7 +295,7 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile)
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "beforestartprofile", NULL, 0, &activeProfile);
 		zephir_check_call_status();
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 649, &activeProfile);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 647, &activeProfile);
 	RETURN_THIS();
 }
 
@@ -298,7 +307,7 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile)
 	zend_bool _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval __$true, activeProfile, firstKey, _0, _1, _3, _4, _7, _8, _9, _5$$3, _6$$4;
+	zval __$true, activeProfile, firstKey, _0, _1, _3, _4, _6, _7, _8, _5$$3;
 	zval *this_ptr = getThis();
 
 	ZVAL_BOOL(&__$true, 1);
@@ -308,11 +317,10 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_7);
 	ZVAL_UNDEF(&_8);
-	ZVAL_UNDEF(&_9);
 	ZVAL_UNDEF(&_5$$3);
-	ZVAL_UNDEF(&_6$$4);
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	static zend_string *_zephir_prop_2 = NULL;
@@ -332,35 +340,33 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 649, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 647, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&activeProfile, &_0);
 	ZEPHIR_CALL_FUNCTION(&_1, "hrtime", NULL, 0, &__$true);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &activeProfile, "setfinaltime", NULL, 0, &_1);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 648, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 646, PH_NOISY_CC | PH_READONLY);
 	_2 = ZEPHIR_GT_LONG(&_0, 0);
 	if (_2) {
-		zephir_read_property_cached(&_3, this_ptr, _zephir_prop_2, 647, PH_NOISY_CC | PH_READONLY);
-		zephir_read_property_cached(&_4, this_ptr, _zephir_prop_1, 648, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_3, this_ptr, _zephir_prop_2, 645, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_4, this_ptr, _zephir_prop_1, 646, PH_NOISY_CC | PH_READONLY);
 		_2 = ZEPHIR_LE_LONG(&_4, zephir_fast_count_int(&_3));
 	}
 	if (_2) {
-		zephir_read_property_cached(&_5$$3, this_ptr, _zephir_prop_2, 647, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_5$$3, this_ptr, _zephir_prop_2, 645, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_FUNCTION(&firstKey, "array_key_first", NULL, 18, &_5$$3);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&firstKey) != IS_NULL) {
 			zephir_unset_property_array(this_ptr, ZEND_STRL("allProfiles"), &firstKey);
-			zephir_read_property_cached(&_6$$4, this_ptr, _zephir_prop_2, 647, PH_NOISY_CC | PH_READONLY);
-			zephir_array_unset(&_6$$4, &firstKey, PH_SEPARATE);
 		}
 	}
-	zephir_read_property_cached(&_7, this_ptr, _zephir_prop_3, 650, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_8, &activeProfile, "gettotalelapsednanoseconds", NULL, 0);
+	zephir_read_property_cached(&_6, this_ptr, _zephir_prop_3, 648, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(&_7, &activeProfile, "gettotalelapsednanoseconds", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_9);
-	zephir_add_function(&_9, &_7, &_8);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 650, &_9);
+	ZEPHIR_INIT_VAR(&_8);
+	zephir_add_function(&_8, &_6, &_7);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 648, &_8);
 	zephir_update_property_array_append(this_ptr, SL("allProfiles"), &activeProfile);
 	if ((zephir_method_exists_ex(this_ptr, ZEND_STRL("afterendprofile")) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "afterendprofile", NULL, 0, &activeProfile);

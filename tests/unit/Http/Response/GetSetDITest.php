@@ -51,6 +51,7 @@ final class GetSetDITest extends AbstractUnitTestCase
         $this->expectExceptionMessage("A dependency injection container is required");
         $response->getDI();
     }
+
     /**
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2019-12-07

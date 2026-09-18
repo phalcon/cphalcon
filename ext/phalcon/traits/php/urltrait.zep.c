@@ -28,6 +28,17 @@
  */
 /**
  * URL based wrapper methods
+ *
+ * @phpstan-type traits_parse_url array{
+ *       scheme?: string,
+ *       host?: string,
+ *       port?: int<0, 65535>,
+ *       user?: string,
+ *       pass?: string,
+ *       path?: string,
+ *       query?: string,
+ *       fragment?: string
+ *  }
  */
 ZEPHIR_INIT_CLASS(Phalcon_Traits_Php_UrlTrait)
 {
@@ -40,7 +51,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Traits_Php_UrlTrait)
  * @param string $url
  * @param int    $component
  *
- * @return array|bool|int|string|null
+ * @return bool|int|string|traits_parse_url|null
  *
  * @link https://php.net/manual/en/function.parse-url.php
  */

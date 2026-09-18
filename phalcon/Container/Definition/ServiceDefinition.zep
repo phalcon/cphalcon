@@ -34,47 +34,43 @@ use Phalcon\Container\Exceptions\FrozenDefinition;
 use Phalcon\Container\Exceptions\InvalidExtender;
 use Phalcon\Container\Exceptions\NoClassSet;
 use Phalcon\Container\Exceptions\NoFactorySet;
+use Phalcon\Contracts\Container\ContainerTypes;
+use Phalcon\Contracts\Container\Ioc\IocContainer;
 use Phalcon\Contracts\Container\Resolver\Resolvable;
+use Phalcon\Contracts\Container\Service\Collection;
 use ReflectionClass;
 use ReflectionException;
 
+/**
+ * @phpstan-import-type container_arguments from ContainerTypes
+ * @phpstan-import-type container_extenders from ContainerTypes
+ * @phpstan-import-type container_tags from ContainerTypes
+ */
 class ServiceDefinition
 {
     /**
-     * @phpstan-var array<array-key, mixed>
-     * @var array
+     * @phpstan-var container_arguments
      */
     protected arguments = [];
+    protected ?string className = null;
+    /**
+     * @phpstan-var container_arguments
+     */
+    protected array constructorArgs = [];
     /**
      * @var object | null
      */
     protected container = null;
-
     /**
-     * @var string | null
+     * @phpstan-var container_extenders
      */
-    protected className = null;
-    /**
-     * @var array
-     */
-    protected constructorArgs = [];
-    /**
-     * @var array<array-key, callable>
-     */
-    protected extenders  = [];
-
+    protected array extenders  = [];
     /**
      * @var callable | null
      */
     protected factory = null;
-    /**
-     * @var bool
-     */
-    protected frozen = false;
-    /**
-     * @var bool
-     */
-    protected isCacheable = false;
+    protected bool frozen = false;
+    protected bool isCacheable = false;
     /**
      * @var string
      */
@@ -83,19 +79,12 @@ class ServiceDefinition
      *  @var mixed
      */
     protected raw = null;
+    protected string serviceName;
     /**
-     *  @var string
+     * @phpstan-var container_tags
      */
-    protected serviceName;
-    /**
-     * @phpstan-var array<array-key, string>
-     * @var array
-     */
-    protected tags = [];
-    /**
-     *  @var string
-     */
-    protected type;
+    protected array tags = [];
+    protected string type;
 
     public function __construct(
         string serviceName,
@@ -110,9 +99,6 @@ class ServiceDefinition
     /**
      * Adds an extender
      *
-     * @param callable $extender
-     *
-     * @return static
      * @throws FrozenDefinition
      */
     public function addExtender(callable extender) -> <static>
@@ -126,9 +112,6 @@ class ServiceDefinition
     /**
      * Adds a tag
      *
-     * @param string $tag
-     *
-     * @return static
      * @throws FrozenDefinition
      */
     public function addTag(string tag) -> <static>
@@ -152,9 +135,6 @@ class ServiceDefinition
     /**
      * Builds a service and returns the instance back
      *
-     * @param object $container
-     *
-     * @return object
      * @throws ReflectionException
      */
     public function buildService(object container) -> object
@@ -162,9 +142,12 @@ class ServiceDefinition
         var args, className, extender, factory, instance, reflection;
 
         if (this->hasFactory()) {
+            /** @var callable $factory */
             let factory  = this->factory;
+            /** @var object $instance */
             let instance = {factory}(container);
         } else {
+            /** @var class-string $className */
             let className  = this->className !== null ? this->className : this->serviceName;
             let args       = this->resolveArgs(container, this->constructorArgs);
             let reflection = new ReflectionClass(className);
@@ -172,6 +155,7 @@ class ServiceDefinition
         }
 
         for extender in this->extenders {
+            /** @var object $instance */
             let instance = {extender}(instance, container);
         }
 
@@ -181,9 +165,6 @@ class ServiceDefinition
     /**
      * Freezes the container
      *
-     * @param object $container
-     *
-     * @return void
      * @throws ReflectionException
      */
     public function freeze(object container) -> void
@@ -199,12 +180,14 @@ class ServiceDefinition
             method_exists(container, "isAutowireEnabled") &&
             container->isAutowireEnabled()
         ) {
+            /** @var class-string $className */
             let className   = this->className !== null ? this->className : this->serviceName;
             let reflection  = new ReflectionClass(className);
             let constructor = reflection->getConstructor();
             let params      = constructor !== null ? constructor->getParameters() : [];
 
             if (method_exists(container, "getResolver")) {
+                /** @var Collection $container */
                 let this->constructorArgs = container->getResolver()->resolveParameters(
                     container,
                     params,
@@ -221,7 +204,7 @@ class ServiceDefinition
     /**
      * Returns the arguments
      *
-     * @return array
+     * @phpstan-return container_arguments
      */
     public function getArguments() -> array
     {
@@ -231,7 +214,6 @@ class ServiceDefinition
     /**
      * Returns the class
      *
-     * @return string
      * @throws NoClassSet
      */
     public function getClass() -> string
@@ -246,7 +228,7 @@ class ServiceDefinition
     /**
      * Returns the constructor arguments
      *
-     * @return array
+     * @phpstan-return container_arguments
      */
     public function getConstructorArgs() -> array
     {
@@ -256,7 +238,7 @@ class ServiceDefinition
     /**
      * Returns the extenders
      *
-     * @return array<array-key, callable>
+     * @phpstan-return container_extenders
      */
     public function getExtenders() -> array
     {
@@ -266,7 +248,6 @@ class ServiceDefinition
     /**
      * Returns the factory
      *
-     * @return callable
      * @throws NoFactorySet
      */
     public function getFactory() -> callable
@@ -280,8 +261,6 @@ class ServiceDefinition
 
     /**
      * Returns the lifetime
-     *
-     * @return string
      */
     public function getLifetime() -> string
     {
@@ -290,8 +269,6 @@ class ServiceDefinition
 
     /**
      * Returns the name of the service
-     *
-     * @return string
      */
     public function getServiceName() -> string
     {
@@ -301,7 +278,7 @@ class ServiceDefinition
     /**
      * Returns the tags
      *
-     * @return array<array-key, string>
+     * @phpstan-return container_tags
      */
     public function getTags() -> array
     {
@@ -310,8 +287,6 @@ class ServiceDefinition
 
     /**
      * Returns the type
-     *
-     * @return string
      */
     public function getType() -> string
     {
@@ -320,8 +295,6 @@ class ServiceDefinition
 
     /**
      * Does it have a class
-     *
-     * @return bool
      */
     public function hasClass() -> bool
     {
@@ -330,8 +303,6 @@ class ServiceDefinition
 
     /**
      * Do we have extenders
-     *
-     * @return bool
      */
     public function hasExtenders() -> bool
     {
@@ -340,8 +311,6 @@ class ServiceDefinition
 
     /**
      * Does it have a factory
-     *
-     * @return bool
      */
     public function hasFactory() -> bool
     {
@@ -350,8 +319,6 @@ class ServiceDefinition
 
     /**
      * Is it cacheable
-     *
-     * @return bool
      */
     public function isCacheable() -> bool
     {
@@ -360,8 +327,6 @@ class ServiceDefinition
 
     /**
      * Is it frozen
-     *
-     * @return bool
      */
     public function isFrozen() -> bool
     {
@@ -374,7 +339,6 @@ class ServiceDefinition
      * @param int|string $param
      * @param mixed      $value
      *
-     * @return static
      * @throws FrozenDefinition
      */
     public function setArgument(var param, var value) -> <static>
@@ -386,25 +350,10 @@ class ServiceDefinition
     }
 
     /**
-     * Set the container
-     *
-     * @param object $container
-     *
-     * @return static
-     */
-    public function setContainer(object container) -> <static>
-    {
-        let this->container = container;
-
-        return this;
-    }
-
-    /**
      * Set a class
      *
      * @param string $className
      *
-     * @return static
      * @throws FrozenDefinition
      */
     public function setClass(string className) -> <static>
@@ -416,11 +365,20 @@ class ServiceDefinition
     }
 
     /**
+     * Set the container
+     */
+    public function setContainer(object container) -> <static>
+    {
+        let this->container = container;
+
+        return this;
+    }
+
+    /**
      * Set extenders
      *
-     * @param array<array-key, callable> $extenders
+     * @phpstan-param container_arguments $extenders
      *
-     * @return static
      * @throws FrozenDefinition
      * @throws InvalidExtender
      */
@@ -436,6 +394,7 @@ class ServiceDefinition
             }
         }
 
+        /** @var container_extenders $extenders */
         let this->extenders = extenders;
 
         return this;
@@ -444,9 +403,6 @@ class ServiceDefinition
     /**
      * Set a factory
      *
-     * @param callable $factory
-     *
-     * @return static
      * @throws FrozenDefinition
      */
     public function setFactory(callable factory) -> <static>
@@ -459,9 +415,7 @@ class ServiceDefinition
 
     /**
      * Set cachable
-     * @param bool $isCacheable
      *
-     * @return static
      * @throws FrozenDefinition
      */
     public function setIsCacheable(bool isCacheable) -> <static>
@@ -475,9 +429,6 @@ class ServiceDefinition
     /**
      * Set lifetime
      *
-     * @param string $lifetime
-     *
-     * @return static
      * @throws FrozenDefinition
      */
     public function setLifetime(string lifetime) -> <static>
@@ -491,7 +442,6 @@ class ServiceDefinition
     /**
      * Unset class
      *
-     * @return static
      * @throws FrozenDefinition
      */
     public function unsetClass() -> <static>
@@ -505,7 +455,6 @@ class ServiceDefinition
     /**
      * Unset extenders
      *
-     * @return static
      * @throws FrozenDefinition
      */
     public function unsetExtenders() -> <static>
@@ -519,7 +468,6 @@ class ServiceDefinition
     /**
      * Unset the factory
      *
-     * @return static
      * @throws FrozenDefinition
      */
     public function unsetFactory() -> <static>
@@ -533,7 +481,6 @@ class ServiceDefinition
     /**
      * Check if frozen
      *
-     * @return void
      * @throws FrozenDefinition
      */
     protected function checkFrozen() -> void
@@ -546,10 +493,8 @@ class ServiceDefinition
     /**
      * Resolve arguments
      *
-     * @param object $container
-     * @param array  $args
-     *
-     * @return array
+     * @phpstan-param  container_arguments $args
+     * @phpstan-return container_arguments
      */
     private function resolveArgs(object container, array args) -> array
     {
@@ -566,6 +511,7 @@ class ServiceDefinition
              * this scope.
              */
             if (typeof argument == "object" && argument instanceof Resolvable) {
+                /** @var IocContainer $container */
                 let resolved[key] = argument->resolve(container);
             } else {
                 let resolved[key] = argument;

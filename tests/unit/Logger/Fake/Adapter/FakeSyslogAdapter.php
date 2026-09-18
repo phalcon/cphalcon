@@ -21,12 +21,6 @@ final class FakeSyslogAdapter extends Syslog
      * Open connection to system logger
      *
      * @link https://php.net/manual/en/function.openlog.php
-     *
-     * @param string $ident
-     * @param int    $option
-     * @param int    $facility
-     *
-     * @return bool
      */
     protected function openlog(string $ident, int $option, int $facility): bool
     {

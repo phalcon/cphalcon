@@ -35,9 +35,6 @@ use function version_compare;
 
 final class GetKeysTest extends AbstractUnitTestCase
 {
-    /**
-     *
-     */
     public static function getAdapters(): array
     {
         return [
@@ -137,7 +134,7 @@ final class GetKeysTest extends AbstractUnitTestCase
         $adapter    = new Libmemcached(
             $serializer,
             [
-                'client' => [],
+                'client'  => [],
                 'servers' => [
                     Talon::settings()->getServiceOptions('memcached')
                 ]

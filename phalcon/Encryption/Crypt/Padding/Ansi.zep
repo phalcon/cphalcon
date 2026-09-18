@@ -12,28 +12,15 @@
 namespace Phalcon\Encryption\Crypt\Padding;
 
 /**
- * Class Ansi
- *
- * @package Phalcon\Encryption\Crypt\Padding
+ * Padding based on Ansi
  */
 class Ansi implements PadInterface
 {
-    /**
-     * @param int $paddingSize
-     *
-     * @return string
-     */
     public function pad(int paddingSize) -> string
     {
         return str_repeat(chr(0), paddingSize - 1) . chr(paddingSize);
     }
 
-    /**
-     * @param string $input
-     * @param int    $blockSize
-     *
-     * @return int
-     */
     public function unpad(string input, int blockSize) -> int
     {
         var last, length, ord, padding, paddingSize, repeat;

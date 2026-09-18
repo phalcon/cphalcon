@@ -20,14 +20,10 @@ use Phalcon\Forms\Form;
 class Manager
 {
     /**
-     * @var array
+     * @phpstan-var array<string, Form>
      */
-    protected forms = [];
-
-    /**
-     * @var FormsLocator
-     */
-    protected locator;
+    protected array forms = [];
+    protected <FormsLocator> locator;
 
     /**
      * Manager constructor.
@@ -45,8 +41,6 @@ class Manager
 
     /**
      * Creates a form registering it in the forms manager
-     *
-     * @param object entity
      */
     public function create(string name, entity = null) -> <Form>
     {
@@ -92,15 +86,13 @@ class Manager
      * Creates a form from a Schema source, registers it in the manager,
      * and registers a factory in the locator for entity-aware retrieval.
      *
-     * @param string      $name
-     * @param Schema      $schema
-     * @param object|null $entity
-     *
-     * @return Form
      * @throws Exception
      */
-    public function loadForm(string name, <Schema> schema, var entity = null) -> <Form>
-    {
+    public function loadForm(
+        string name,
+        <Schema> schema,
+        var entity = null
+    ) -> <Form> {
         var form, locator;
 
         let locator           = this->locator,

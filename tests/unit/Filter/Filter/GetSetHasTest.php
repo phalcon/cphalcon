@@ -35,6 +35,7 @@ final class GetSetHasTest extends AbstractUnitTestCase
         $actual = $locator->trim('  hello world  ');
         $this->assertSame('hello world', $actual);
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09

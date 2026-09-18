@@ -23,7 +23,7 @@ class StringValLegacy implements Sanitizer
     /**
      * @param string $input The text to sanitize
      *
-     * @return string|false
+     * @return false|string
      */
     public function __invoke(mixed input)
     {

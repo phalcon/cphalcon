@@ -26,9 +26,9 @@ final class CallTest extends AbstractUnitTestCase
     {
         $factory = new HelperFactory();
 
-        $source = 'Phalcon';
+        $source   = 'Phalcon';
         $expected = 7;
-        $actual = $factory->len($source);
+        $actual   = $factory->len($source);
         $this->assertSame($expected, $actual);
     }
 }

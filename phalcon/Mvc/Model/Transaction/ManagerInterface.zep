@@ -40,7 +40,8 @@ interface ManagerInterface
     public function getDbService() -> string;
 
     /**
-     * Check if the transaction manager is registering a shutdown function to clean up pendent transactions
+     * Check if the transaction manager is registering a shutdown function to
+     * clean up pendent transactions
      */
     public function getRollbackPendent() -> bool;
 
@@ -73,7 +74,7 @@ interface ManagerInterface
     /**
      * Sets the database service used to run the isolated transactions
      */
-    public function setDbService( string service) -> <ManagerInterface>;
+    public function setDbService(string service) -> <ManagerInterface>;
 
     /**
      * Set if the transaction manager must register a shutdown function to clean up pendent transactions

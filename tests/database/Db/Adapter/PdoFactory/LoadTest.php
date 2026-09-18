@@ -165,10 +165,6 @@ final class LoadTest extends AbstractDatabaseTestCase
         ];
     }
 
-    /**
-     * @param mixed $options
-     * @param array $data
-     */
     private function runTests(string $class, mixed $options, array $data): void
     {
         $factory = new PdoFactory();

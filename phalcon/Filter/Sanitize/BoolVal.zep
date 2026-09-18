@@ -13,8 +13,6 @@ namespace Phalcon\Filter\Sanitize;
 use Phalcon\Contracts\Filter\Sanitizer;
 
 /**
- * Phalcon\Filter\Sanitize\BoolVal
- *
  * Sanitizes a value to boolean
  */
 class BoolVal implements Sanitizer

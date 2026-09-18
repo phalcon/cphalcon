@@ -57,32 +57,22 @@ abstract class AbstractFile extends AbstractValidator
 {
     /**
      * Empty is empty
-     *
-     * @var string
      */
-    protected messageFileEmpty = "Field :field must not be empty";
+    protected string messageFileEmpty = "Field :field must not be empty";
 
     /**
      * File exceeds the file size set in PHP configuration
-     *
-     * @var string
      */
-    protected messageIniSize = "File :field exceeds the maximum file size";
+    protected string messageIniSize = "File :field exceeds the maximum file size";
 
     /**
      * File is not valid
-     *
-     * @var string
      */
-    protected messageValid = "Field :field is not valid";
+    protected string messageValid = "Field :field is not valid";
 
     /**
      * Check upload
      *
-     * @param Validation $validation
-     * @param string     $field
-     *
-     * @return bool
      * @throws Validation\Exception
      */
     public function checkUpload(<Validation> validation, string field) -> bool
@@ -95,10 +85,6 @@ abstract class AbstractFile extends AbstractValidator
     /**
      * Check if upload is empty
      *
-     * @param Validation $validation
-     * @param string     $field
-     *
-     * @return bool
      * @throws Validation\Exception
      */
     public function checkUploadIsEmpty(
@@ -110,13 +96,11 @@ abstract class AbstractFile extends AbstractValidator
         let value = validation->getValue(field);
 
         if (
-            is_array(value) &&
-            (
-                true !== isset(value["error"]) ||
-                true !== isset(value["tmp_name"]) ||
-                value["error"] !== UPLOAD_ERR_OK ||
-                true !== this->checkIsUploadedFile(value["tmp_name"])
-            )
+            true !== is_array(value) ||
+            true !== isset(value["error"]) ||
+            true !== isset(value["tmp_name"]) ||
+            value["error"] !== UPLOAD_ERR_OK ||
+            true !== this->checkIsUploadedFile(value["tmp_name"])
         ) {
             let label        = this->prepareLabel(validation, field);
             let replacePairs = [
@@ -141,41 +125,23 @@ abstract class AbstractFile extends AbstractValidator
     /**
      * Check if upload is valid
      *
-     * @param Validation $validation
-     * @param string     $field
-     *
-     * @return bool
      * @throws Validation\Exception
      */
     public function checkUploadIsValid(
         <Validation> validation,
         string field
     ) -> bool {
-        var label, replacePairs, value;
+        var value;
 
         let value = validation->getValue(field);
 
         if (
-            is_array(value) &&
-            (
-                true !== isset(value["name"]) ||
-                true !== isset(value["type"]) ||
-                true !== isset(value["size"])
-            )
+            true !== is_array(value) ||
+            true !== isset(value["name"]) ||
+            true !== isset(value["type"]) ||
+            true !== isset(value["size"])
         ) {
-            let label        = this->prepareLabel(validation, field);
-            let replacePairs = [
-                ":field" : label
-            ];
-
-            validation->appendMessage(
-                new Message(
-                    strtr(this->getMessageValid(), replacePairs),
-                    field,
-                    get_class(this),
-                    this->prepareCode(field)
-                )
-            );
+            this->appendMessageValid(validation, field);
 
             return false;
         }
@@ -186,10 +152,6 @@ abstract class AbstractFile extends AbstractValidator
     /**
      * Check if uploaded file is larger than PHP allowed size
      *
-     * @param Validation $validation
-     * @param string     $field
-     *
-     * @return bool
      * @throws Validation\Exception
      */
     public function checkUploadMaxSize(
@@ -253,14 +215,10 @@ abstract class AbstractFile extends AbstractValidator
 
     /**
      * Convert a string like "2.5MB" in bytes
-     *
-     * @param string $size
-     *
-     * @return float
      */
     public function getFileSizeInBytes(string size) -> float
     {
-        var byteUnits, matches, unit;
+        var byteUnits, matches, unit, value;
 
         let byteUnits = [
             "B"  : 0,
@@ -274,6 +232,7 @@ abstract class AbstractFile extends AbstractValidator
             "TB" : 40
         ];
         let unit    = "B";
+        let value   = 0;
         let matches = [];
 
         preg_match(
@@ -288,13 +247,16 @@ abstract class AbstractFile extends AbstractValidator
             let unit = matches[2];
         }
 
-        return floatval(matches[1]) * pow(2, byteUnits[unit]);
+        // The regex finds no match when the size does not start with digits
+        if (true === isset(matches[1])) {
+            let value = matches[1];
+        }
+
+        return floatval(value) * pow(2, byteUnits[unit]);
     }
 
     /**
      * Empty is empty
-     *
-     * @return string
      */
     public function getMessageFileEmpty() -> string
     {
@@ -303,8 +265,6 @@ abstract class AbstractFile extends AbstractValidator
 
     /**
      * File exceeds the file size set in PHP configuration
-     *
-     * @return string
      */
     public function getMessageIniSize() -> string
     {
@@ -313,8 +273,6 @@ abstract class AbstractFile extends AbstractValidator
 
     /**
      * File is not valid
-     *
-     * @return string
      */
     public function getMessageValid() -> string
     {
@@ -324,10 +282,6 @@ abstract class AbstractFile extends AbstractValidator
     /**
      * Check on empty
      *
-     * @param Validation $validation
-     * @param string     $field
-     *
-     * @return bool
      * @throws Validation\Exception
      */
     public function isAllowEmpty(<Validation> validation, string field) -> bool
@@ -344,10 +298,6 @@ abstract class AbstractFile extends AbstractValidator
 
     /**
      * Empty is empty
-     *
-     * @param string $message
-     *
-     * @return void
      */
     public function setMessageFileEmpty(string message) -> void
     {
@@ -356,10 +306,6 @@ abstract class AbstractFile extends AbstractValidator
 
     /**
      * File exceeds the file size set in PHP configuration
-     *
-     * @param string $message
-     *
-     * @return void
      */
     public function setMessageIniSize(string message) -> void
     {
@@ -368,10 +314,6 @@ abstract class AbstractFile extends AbstractValidator
 
     /**
      * File is not valid
-     *
-     * @param string $message
-     *
-     * @return void
      */
     public function setMessageValid(string message) -> void
     {
@@ -379,12 +321,32 @@ abstract class AbstractFile extends AbstractValidator
     }
 
     /**
+     * Appends the "file is not valid" message for the field
+     */
+    protected function appendMessageValid(
+        <Validation> validation,
+        string field
+    ) -> void {
+        var label, replacePairs;
+
+        let label        = this->prepareLabel(validation, field);
+        let replacePairs = [
+            ":field" : label
+        ];
+
+        validation->appendMessage(
+            new Message(
+                strtr(this->getMessageValid(), replacePairs),
+                field,
+                get_class(this),
+                this->prepareCode(field)
+            )
+        );
+    }
+
+    /**
      * Checks if a file has been uploaded; Internal check that can be
      * overridden in a subclass if you do not want to check uploaded files
-     *
-     * @param string $name
-     *
-     * @return bool
      */
     protected function checkIsUploadedFile(string name) -> bool
     {

@@ -59,7 +59,7 @@ final class GetPrefixTest extends AbstractUnitTestCase
                 Libmemcached::class,
                 array_merge(
                     [
-                        'client' => [],
+                        'client'  => [],
                         'servers' => [
                             Talon::settings()->getServiceOptions('memcached')
                         ]
@@ -74,7 +74,7 @@ final class GetPrefixTest extends AbstractUnitTestCase
                 Libmemcached::class,
                 array_merge(
                     [
-                        'client' => [],
+                        'client'  => [],
                         'servers' => [
                             Talon::settings()->getServiceOptions('memcached')
                         ]
@@ -90,7 +90,7 @@ final class GetPrefixTest extends AbstractUnitTestCase
                 Libmemcached::class,
                 array_merge(
                     [
-                        'client' => [],
+                        'client'  => [],
                         'servers' => [
                             Talon::settings()->getServiceOptions('memcached')
                         ]

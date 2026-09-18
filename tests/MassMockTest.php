@@ -11,17 +11,25 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Tests\Unit;
+namespace Phalcon\Tests;
 
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
 /**
- * This test is executed manually.
- * Its main purpose to check if there
- * are no segmentation faults.
+ * Mocks every non final Phalcon class, to make sure that the reflection the
+ * mock generator does on the extension causes no segmentation fault.
+ *
+ * The test suites do not contain this file. CI runs it by path in its own
+ * step, because a crash stops the process and thus removes the report of the
+ * other tests.
+ *
+ * The PHPUnit mocks are intentional. The mock generator is what this test
+ * examines, thus do not replace them with fakes.
  */
+#[Group('smoke')]
 class MassMockTest extends TestCase
 {
     public function testSegFaults(): void

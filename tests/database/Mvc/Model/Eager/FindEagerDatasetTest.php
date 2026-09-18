@@ -208,7 +208,7 @@ final class FindEagerDatasetTest extends AbstractDatabaseTestCase
 
         $this->attachQueryCounter($this->getService('db'));
 
-        $seen = 0;
+        $seen  = 0;
         $found = InvoicesBelongsToCustomers::find(
             [
                 'order' => 'inv_id',

@@ -24,7 +24,7 @@ final class OrderTest extends AbstractUnitTestCase
      */
     public function testSupportHelperArrOrder(): void
     {
-        $object = new Order();
+        $object     = new Order();
         $collection = [
             [
                 'id'   => 2,

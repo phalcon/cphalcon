@@ -25,8 +25,6 @@ final class FromInputTest extends AbstractDatabaseTestCase
 
     /**
      * Executed before each test
-     *
-     * @return void
      */
     public function setUp(): void
     {

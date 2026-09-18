@@ -34,18 +34,18 @@
  * Builds a Router from an array or ConfigInterface and loads routes via
  * Router::loadFromConfig.
  *
- *```php
+ * ```php
  * use Phalcon\Mvc\Router\RouterFactory;
  *
  * $router = (new RouterFactory())->load(
  *     [
- *         "defaultRoutes" : false,
- *         "routes" : [
- *             ["method" : "get", "pattern" : "/users", "paths" : "Users::index"]
+ *         'defaultRoutes' => false,
+ *         'routes' => [
+ *             ['method' => 'get', 'pattern' => '/users', 'paths' => 'Users::index']
  *         ]
  *     ]
  * );
- *```
+ * ```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_RouterFactory)
 {
@@ -57,9 +57,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_RouterFactory)
 /**
  * Builds a Router from a config array or ConfigInterface and loads routes.
  *
- * @param array|\Phalcon\Config\ConfigInterface config
+ * @param array|ConfigInterface $config
  *
  * @return RouterInterface
+ *
+ * @phpstan-param array<array-key, mixed>|ConfigInterface $config
  */
 PHP_METHOD(Phalcon_Mvc_Router_RouterFactory, load)
 {
@@ -89,7 +91,7 @@ PHP_METHOD(Phalcon_Mvc_Router_RouterFactory, load)
 			object_init_ex(&_0$$4, phalcon_mvc_router_exceptions_invalidrouterfactoryconfig_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_0$$4, "__construct", NULL, 0);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_0$$4, "phalcon/Mvc/Router/RouterFactory.zep", 52);
+			zephir_throw_exception_debug(&_0$$4, "phalcon/Mvc/Router/RouterFactory.zep", 54);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -102,14 +104,14 @@ PHP_METHOD(Phalcon_Mvc_Router_RouterFactory, load)
 		object_init_ex(&_2$$5, phalcon_mvc_router_exceptions_invalidrouterfactoryconfig_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_2$$5, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$5, "phalcon/Mvc/Router/RouterFactory.zep", 58);
+		zephir_throw_exception_debug(&_2$$5, "phalcon/Mvc/Router/RouterFactory.zep", 60);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	defaultRoutes = 1;
 	if (zephir_array_isset_value_string(config, SL("defaultRoutes"))) {
 		zephir_memory_observe(&_3$$6);
-		zephir_array_fetch_string(&_3$$6, config, SL("defaultRoutes"), PH_NOISY, "phalcon/Mvc/Router/RouterFactory.zep", 63);
+		zephir_array_fetch_string(&_3$$6, config, SL("defaultRoutes"), PH_NOISY, "phalcon/Mvc/Router/RouterFactory.zep", 65);
 		defaultRoutes = zephir_get_boolval(&_3$$6);
 	}
 	if (defaultRoutes) {

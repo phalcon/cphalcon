@@ -29,8 +29,6 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
 
     /**
      * Executed before each test
-     *
-     * @return void
      */
     public function setUp(): void
     {
@@ -121,8 +119,6 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Adapter\Pdo :: describeColumns()
      *
-     * @return void
-     *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-03-09
      */
@@ -146,8 +142,6 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
      * Runs on both engines on purpose: MySQL resolves these literals itself and
      * so pins the true value, MariaDB has to unquote its way back to the same
      * answer.
-     *
-     * @return void
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/17417
      * @author Phalcon Team <team@phalcon.io>
@@ -194,8 +188,6 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Adapter\Pdo :: describeColumns()
      *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-02
      */
@@ -222,8 +214,6 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
 
     /**
      * Tests Phalcon\Db\Adapter\Pdo :: describeColumns() - supported
-     *
-     * @return void
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-04-20
@@ -256,11 +246,6 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
         }
     }
 
-    /**
-     * @param Column $column
-     *
-     * @return array
-     */
     private function getActual(Column $column): array
     {
         return [

@@ -30,6 +30,7 @@ use Phalcon\Contracts\Encryption\Security\Security;
 final class FakeRememberAdapter extends Memory implements RememberAdapter
 {
     public ?string $lastUserAgent = null;
+
     /**
      * Adapter-level token store keyed by token value, so token entries
      * survive across the fresh user instances Memory hydrates on each call.
@@ -45,8 +46,8 @@ final class FakeRememberAdapter extends Memory implements RememberAdapter
 
     public function createRememberToken(AuthUser $user): RememberToken
     {
-        $token              = 'test-token-' . $user->getAuthIdentifier();
-        $entry              = new FakeRememberToken($token);
+        $token                    = 'test-token-' . $user->getAuthIdentifier();
+        $entry                    = new FakeRememberToken($token);
         $this->tokenStore[$token] = $entry;
 
         return $entry;

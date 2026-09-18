@@ -42,7 +42,7 @@ final class CheckGroupTest extends AbstractUnitTestCase
     }
 
     // -----------------------------------------------------------------------
-    // Constructor - name normalisation
+    // Constructor - name normalization
     // -----------------------------------------------------------------------
 
     public function testConstructorAppendsArrayBracketsWhenMissing(): void
@@ -125,6 +125,16 @@ final class CheckGroupTest extends AbstractUnitTestCase
         $this->assertSame($element, $result);
     }
 
+    public function testSetUserOptionDoesNotChangeOptions(): void
+    {
+        $element = new CheckGroup('colors', ['red' => 'Red']);
+        $element->setUserOption('foo', 'bar');
+        $element->setOptions(['blue' => 'Blue']);
+
+        $this->assertSame(['blue' => 'Blue'], $element->getOptions());
+        $this->assertSame(['foo' => 'bar'], $element->getUserOptions());
+    }
+
     public function testToStringEqualsRender(): void
     {
         $element = new CheckGroup('colors', ['red' => 'Red']);
@@ -132,6 +142,7 @@ final class CheckGroupTest extends AbstractUnitTestCase
 
         $this->assertSame($element->render(), (string) $element);
     }
+
     private function factory(): TagFactory
     {
         return new TagFactory(new Escaper());

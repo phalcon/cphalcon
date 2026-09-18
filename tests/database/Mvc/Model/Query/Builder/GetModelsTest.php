@@ -24,9 +24,6 @@ final class GetModelsTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
 
-    /**
-     * @return void
-     */
     public function setUp(): void
     {
         try {

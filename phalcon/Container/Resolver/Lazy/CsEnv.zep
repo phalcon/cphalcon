@@ -31,15 +31,17 @@
 namespace Phalcon\Container\Resolver\Lazy;
 
 use Phalcon\Container\Exceptions\EnvNotDefined;
+use Phalcon\Contracts\Container\ContainerTypes;
 
+/**
+ * @phpstan-import-type container_csv_values from ContainerTypes
+ */
 class CsEnv extends Env
 {
     /**
      * Resolve the getEnv() from keys as a comma separated list
      *
-     * @param object $ioc
-     *
-     * @return array
+     * @phpstan-return container_csv_values
      * @throws EnvNotDefined
      */
     public function resolve(object ioc) -> array

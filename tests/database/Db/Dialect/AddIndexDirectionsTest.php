@@ -65,6 +65,7 @@ final class AddIndexDirectionsTest extends AbstractDatabaseTestCase
 
         $this->assertSame($expected, $actual);
     }
+
     /**
      * MySQL - explicit per-column directions are emitted.
      *

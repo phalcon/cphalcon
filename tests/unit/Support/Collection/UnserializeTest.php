@@ -26,14 +26,14 @@ final class UnserializeTest extends AbstractCollectionTestCase
     public function testSupportCollectionUnserialize(
         string $class,
     ): void {
-        $data = $this->getData();
+        $data       = $this->getData();
         $serialized = serialize($data);
         $collection = new $class();
 
         $collection->unserialize($serialized);
 
         $expected = $data;
-        $actual = $collection->toArray();
+        $actual   = $collection->toArray();
         $this->assertSame($expected, $actual);
     }
 

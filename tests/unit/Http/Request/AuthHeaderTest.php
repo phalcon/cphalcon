@@ -104,9 +104,6 @@ final class AuthHeaderTest extends AbstractHttpBase
         ];
     }
 
-    /**
-     * @return array
-     */
     public static function basicAuthProvider(): array
     {
         return [

@@ -15,20 +15,12 @@ namespace Phalcon\Forms\Element;
  */
 class Check extends AbstractElement
 {
-    /**
-     * @var string
-     */
-    protected method = "inputCheckbox";
-
+    protected string method = "inputCheckbox";
     /**
      * @var mixed
      */
     protected uncheckedValue = null;
-
-    /**
-     * @var bool
-     */
-    protected uncheckedValueSet = false;
+    protected bool uncheckedValueSet = false;
 
     /**
      * Returns the value to bind when the checkbox is absent from submitted

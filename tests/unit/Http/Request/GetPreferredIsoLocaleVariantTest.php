@@ -18,9 +18,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 
 final class GetPreferredIsoLocaleVariantTest extends AbstractHttpBase
 {
-    /**
-     * @return array
-     */
     public static function getExamples(): array
     {
         return [

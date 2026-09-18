@@ -24,7 +24,7 @@ final class SliceRightTest extends AbstractUnitTestCase
      */
     public function testSupportHelperArrSliceRight(): void
     {
-        $object = new SliceRight();
+        $object     = new SliceRight();
         $collection = [
             'Phalcon',
             'Framework',

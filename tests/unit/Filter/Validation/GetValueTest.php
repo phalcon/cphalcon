@@ -54,7 +54,7 @@ final class GetValueTest extends AbstractUnitTestCase
             ->add('email', $email);
 
         $expected = 'Leonidas';
-        $value = $validation->getValue('name');
+        $value    = $validation->getValue('name');
         $this->assertSame($expected, $value);
     }
 
@@ -150,8 +150,8 @@ final class GetValueTest extends AbstractUnitTestCase
     {
         $this->setNewFactoryDefault();
 
-        $alpha = new Alpha();
-        $email = new Email();
+        $alpha  = new Alpha();
+        $email  = new Email();
         $entity = new FakeValueAttribute(' Leonidas ');
 
         $validation = new Validation();
@@ -181,8 +181,8 @@ final class GetValueTest extends AbstractUnitTestCase
     {
         $this->setNewFactoryDefault();
 
-        $alpha = new Alpha();
-        $email = new Email();
+        $alpha  = new Alpha();
+        $email  = new Email();
         $entity = new FakeValueMethod(' Leonidas ');
 
         $validation = new Validation();
@@ -212,8 +212,8 @@ final class GetValueTest extends AbstractUnitTestCase
     {
         $this->setNewFactoryDefault();
 
-        $alpha = new Alpha();
-        $email = new Email();
+        $alpha  = new Alpha();
+        $email  = new Email();
         $entity = new FakeValueProperty(' Leonidas ');
 
         $validation = new Validation();
@@ -287,7 +287,7 @@ final class GetValueTest extends AbstractUnitTestCase
             ->add('email', $email);
 
         $expected = 'Leonidas';
-        $value = $validation->getValue('name');
+        $value    = $validation->getValue('name');
         $this->assertSame($expected, $value);
     }
 }

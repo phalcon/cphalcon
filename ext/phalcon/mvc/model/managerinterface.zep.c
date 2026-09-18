@@ -21,9 +21,12 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Model\ManagerInterface
- *
  * Interface for Phalcon\Mvc\Model\Manager
+ *
+ * @phpstan-import-type mvc_model_bind_params from MvcTypes
+ * @phpstan-import-type mvc_model_bind_types from MvcTypes
+ * @phpstan-import-type mvc_model_parameters from MvcTypes
+ * @phpstan-import-type mvc_relation_options from MvcTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ManagerInterface)
 {
@@ -42,6 +45,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addBehavior);
  * @param    mixed  fields
  * @param    mixed  referencedFields
  * @param    array  options
+ *
+ * @phpstan-param mvc_relation_options $options
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addBelongsTo);
 /**
@@ -50,6 +55,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addBelongsTo);
  * @param    mixed  fields
  * @param    mixed  referencedFields
  * @param    array  options
+ *
+ * @phpstan-param mvc_relation_options $options
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addHasMany);
 /**
@@ -60,6 +67,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addHasMany);
  * @param    string intermediateReferencedFields
  * @param    string referencedFields
  * @param   array options
+ *
+ * @phpstan-param mvc_relation_options $options
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addHasManyToMany);
 /**
@@ -68,6 +77,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addHasManyToMany);
  * @param    mixed  fields
  * @param    mixed  referencedFields
  * @param    array  options
+ *
+ * @phpstan-param mvc_relation_options $options
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addHasOne);
 /**
@@ -78,6 +89,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addHasOne);
  * @param    string intermediateReferencedFields
  * @param    string referencedFields
  * @param   array options
+ *
+ * @phpstan-param mvc_relation_options $options
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addHasOneThrough);
 /**
@@ -266,7 +279,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, isUsingDynamicUpdate);
  * ```php
  * $isPublic = $manager->isVisibleModelProperty(
  *     new Invoices(),
- *     "name"
+ *     "inv_title"
  * );
  * ```
  */
@@ -289,8 +302,10 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, load);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, missingMethod);
 /**
- * Receives events generated in the models and dispatches them to an events-manager if available
- * Notify the behaviors that are listening in the model
+ * Receives events generated in the models and dispatches them to an
+ * events-manager if available. Notify the behaviors that are listening
+ * in the model
+ *
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, notifyEvent);
 /**

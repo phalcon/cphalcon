@@ -26,7 +26,7 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('sqlite')]
 final class EventsQueryTest extends AbstractDatabaseTestCase
 {
-    public function testDMPdoConnectionExecCancelled(): void
+    public function testDMPdoConnectionExecCanceled(): void
     {
         $manager = new Manager();
         $manager->attach(
@@ -91,7 +91,7 @@ final class EventsQueryTest extends AbstractDatabaseTestCase
         $this->assertEquals(2, $fired['after']['affectedRows']);
     }
 
-    public function testDMPdoConnectionPerformCancelled(): void
+    public function testDMPdoConnectionPerformCanceled(): void
     {
         $manager = new Manager();
         $manager->attach(
@@ -192,7 +192,7 @@ final class EventsQueryTest extends AbstractDatabaseTestCase
         $this->assertSame([], $fired);
     }
 
-    public function testDMPdoConnectionQueryCancelled(): void
+    public function testDMPdoConnectionQueryCanceled(): void
     {
         $manager = new Manager();
         $manager->attach(

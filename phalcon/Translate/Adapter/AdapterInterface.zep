@@ -45,5 +45,5 @@ interface AdapterInterface
      *
      * @phpstan-param array<string, string> $placeholders
      */
-    public function t( string translateKey, array placeholders = []) -> string;
+    public function t(string translateKey, array placeholders = []) -> string;
 }

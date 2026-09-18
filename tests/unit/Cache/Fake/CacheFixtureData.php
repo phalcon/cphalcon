@@ -17,7 +17,6 @@ use stdClass;
 
 /**
  * Phalcon\Tests\Fixtures\Cache
- *
  */
 class CacheFixtureData
 {

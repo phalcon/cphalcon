@@ -28,11 +28,11 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Model\MetaData\Libmemcached
- *
  * Stores model meta-data in the Memcache.
  *
  * By default meta-data is stored for 48 hours (172800 seconds)
+ *
+ * @phpstan-import-type storage_adapter_options from StorageTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Libmemcached)
 {
@@ -44,7 +44,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Libmemcached)
 /**
  * Phalcon\Mvc\Model\MetaData\Libmemcached constructor
  *
- * @param array options
+ * @param array<string, mixed> $options
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, __construct)
 {
@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, __construct)
 	ZVAL_STRING(&_1, "libmemcached");
 	ZEPHIR_CALL_METHOD(&_6, factory, "newinstance", NULL, 0, &_1, &options);
 	zephir_check_call_status();
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1053, &_6);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1050, &_6);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, reset)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1053, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1050, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "clear", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_metadata_libmemcached_ce, getThis(), "reset", NULL, 0);

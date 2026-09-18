@@ -13,8 +13,6 @@ namespace Phalcon\Filter\Sanitize;
 use Phalcon\Contracts\Filter\Sanitizer;
 
 /**
- * Phalcon\Filter\Sanitize\AbsInt
- *
  * Sanitizes a value to absolute integer
  */
 class AbsInt implements Sanitizer

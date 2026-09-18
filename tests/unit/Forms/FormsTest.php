@@ -38,6 +38,7 @@ final class FormsTest extends AbstractUnitTestCase
 
         $this->assertCount(1, $element->getMessages());
     }
+
     public function testFormElementRender(): void
     {
         $factory = new TagFactory(new Escaper());

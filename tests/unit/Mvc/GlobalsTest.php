@@ -47,6 +47,7 @@ final class GlobalsTest extends AbstractUnitTestCase
             ['phalcon.orm.dynamic_update', '1'],
         ];
     }
+
     /**
      * @issue  https://github.com/phalcon/cphalcon/issues/15269
      * @author       Phalcon Team <team@phalcon.io>

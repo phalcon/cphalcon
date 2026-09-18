@@ -40,6 +40,7 @@ use Phalcon\Tests\Unit\Auth\Fake\FakeSessionManager;
 final class ManagerTest extends AbstractUnitTestCase
 {
     private Memory $adapter;
+
     private Security $security;
 
     protected function setUp(): void

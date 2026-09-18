@@ -32,7 +32,6 @@ final class FakeLibmemcached extends StorageLibmemcached
     /**
      * @param DateInterval|int|null $ttl
      *
-     * @return int
      * @throws Exception
      */
     public function getTtl($ttl = null): int

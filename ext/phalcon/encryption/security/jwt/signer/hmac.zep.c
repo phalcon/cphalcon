@@ -43,8 +43,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Signer_Hmac)
 /**
  * Hmac constructor.
  *
- * @param string $algo
- *
  * @throws UnsupportedAlgorithmException
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_Hmac, __construct)
@@ -88,18 +86,16 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_Hmac, __construct)
 		object_init_ex(&_0$$3, phalcon_encryption_security_jwt_exceptions_unsupportedhmacalgorithm_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Encryption/Security/JWT/Signer/Hmac.zep", 42);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Encryption/Security/JWT/Signer/Hmac.zep", 40);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 714, &algo_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 711, &algo_zv);
 	ZEPHIR_MM_RESTORE();
 }
 
 /**
  * Return the value that is used for the "alg" header
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_Hmac, getAlgHeader)
 {
@@ -119,7 +115,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_Hmac, getAlgHeader)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZEPHIR_INIT_VAR(&_0);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 714, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 711, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "sha");
 	ZEPHIR_INIT_VAR(&_3);
@@ -131,11 +127,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_Hmac, getAlgHeader)
 
 /**
  * Sign a payload using the passphrase
- *
- * @param string $payload
- * @param string $passphrase
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_Hmac, sign)
 {
@@ -164,12 +155,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_Hmac, sign)
 
 /**
  * Verify a passed source with a payload and passphrase
- *
- * @param string $source
- * @param string $payload
- * @param string $passphrase
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_Hmac, verify)
 {
@@ -205,11 +190,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_Hmac, verify)
 
 /**
  * Calculates a hash from the passed parameters
- *
- * @param string $payload
- * @param string $passphrase
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_Hmac, getHash)
 {
@@ -281,7 +261,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_Hmac, phpHash)
 	} else {
 		}
 	ZVAL_BOOL(&_0, (binary ? 1 : 0));
-	ZEPHIR_RETURN_CALL_FUNCTION("hash", NULL, 168, &algorithm_zv, &data_zv, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("hash", NULL, 171, &algorithm_zv, &data_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -355,7 +335,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_Hmac, phpHashHmac)
 	} else {
 		}
 	ZVAL_BOOL(&_0, (binary ? 1 : 0));
-	ZEPHIR_RETURN_CALL_FUNCTION("hash_hmac", NULL, 169, &algorithm_zv, &data_zv, &key_zv, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("hash_hmac", NULL, 172, &algorithm_zv, &data_zv, &key_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -27,6 +27,9 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+/**
+ * @phpstan-import-type mvc_volt_node from MvcTypes
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt_Exceptions_InvalidStatement)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\View\\Engine\\Volt\\Exceptions, InvalidStatement, phalcon, mvc_view_engine_volt_exceptions_invalidstatement, phalcon_mvc_view_engine_volt_exception_ce, phalcon_mvc_view_engine_volt_exceptions_invalidstatement_method_entry, 0);

@@ -17,6 +17,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 
 #[Group('phql')]
@@ -41,6 +42,17 @@ final class UpdateTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * @return array<string, array{0: bool}>
+     */
+    public static function getTransactionExamples(): array
+    {
+        return [
+            'outer transaction'       => [false],
+            'stale transaction level' => [true],
+        ];
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -58,6 +70,41 @@ final class UpdateTest extends AbstractDatabaseTestCase
         $this->assertTrue(
             $invoices->update(['inv_status_flag' => 1])
         );
+    }
+
+    /**
+     * Updating a resultset inside an outer transaction must not commit it
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-16
+     * @issue  https://github.com/phalcon/cphalcon/issues/17546
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getTransactionExamples')]
+    public function testMvcModelResultsetUpdateInsideTransaction(bool $stale): void
+    {
+        $db         = $this->container->get('db');
+        $parameters = [
+            'conditions' => 'inv_status_flag = 0',
+        ];
+
+        if ($stale) {
+            $db->begin();
+            $db->getInternalHandler()->commit();
+        }
+
+        $this->assertTrue($db->begin());
+        $this->assertTrue(
+            Invoices::find($parameters)->update(['inv_status_flag' => 1])
+        );
+        $this->assertSame(0, Invoices::count($parameters));
+        $this->assertSame(1, $db->getTransactionLevel());
+        $this->assertTrue($db->isUnderTransaction());
+
+        $this->assertTrue($db->rollback());
+        $this->assertSame(2, Invoices::count($parameters));
     }
 
     /**

@@ -36,7 +36,7 @@ final class InterfaceGuardTest extends AbstractUnitTestCase
     {
         // Non-null getDescription() (narrower than the contract's ?string) must
         // still satisfy the bridge + contract. A declaration failure errors here.
-        $role = new class implements RoleInterface {
+        $role = new class () implements RoleInterface {
             public function __toString(): string
             {
                 return 'admin';

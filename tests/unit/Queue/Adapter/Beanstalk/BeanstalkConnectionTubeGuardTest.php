@@ -67,10 +67,10 @@ final class BeanstalkConnectionTubeGuardTest extends AbstractUnitTestCase
         $payload    = "default\r\nput 0 0 0 5\r\nhello";
 
         $operations = [
-            fn() => $connection->useTube($payload),
-            fn() => $connection->watchTube($payload),
-            fn() => $connection->ignoreTube($payload),
-            fn() => $connection->statsTube($payload),
+            fn () => $connection->useTube($payload),
+            fn () => $connection->watchTube($payload),
+            fn () => $connection->ignoreTube($payload),
+            fn () => $connection->statsTube($payload),
         ];
 
         foreach ($operations as $operation) {

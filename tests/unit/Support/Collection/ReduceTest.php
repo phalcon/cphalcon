@@ -46,6 +46,7 @@ final class ReduceTest extends AbstractCollectionTestCase
             $collection->reduce(static fn ($a, $v) => $v, 'seed')
         );
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-12

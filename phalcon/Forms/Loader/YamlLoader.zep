@@ -28,10 +28,7 @@ class YamlLoader implements Schema
 {
     use InfoTrait;
 
-    /**
-     * @var string
-     */
-    protected source;
+    protected string source;
 
     /**
      * @param string $source YAML string or path to a YAML file

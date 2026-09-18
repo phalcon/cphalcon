@@ -36,9 +36,6 @@ final class SetBaseUriTest extends AbstractUnitTestCase
         $this->setupRoutes();
     }
 
-    /**
-     * @return array
-     */
     public static function getDataToSetDi(): array
     {
         return [
@@ -151,9 +148,6 @@ final class SetBaseUriTest extends AbstractUnitTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     public static function getUrlToSetServer(): array
     {
         return [

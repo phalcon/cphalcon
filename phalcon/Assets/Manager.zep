@@ -85,7 +85,7 @@ class Manager extends AbstractInjectionAware
      * @param string $type
      * @param Asset  $asset
      */
-    public function addAssetByType( string type, <Asset> asset) -> <static>
+    public function addAssetByType(string type, <Asset> asset) -> <static>
     {
         var collection;
 
@@ -139,7 +139,7 @@ class Manager extends AbstractInjectionAware
      * @param string $type
      * @param Inline $code
      */
-    public function addInlineCodeByType( string type, <$Inline> code) -> <static>
+    public function addInlineCodeByType(string type, <$Inline> code) -> <static>
     {
         var collection;
 
@@ -259,7 +259,7 @@ class Manager extends AbstractInjectionAware
      *
      * @deprecated
      */
-    public function exists( string name) -> bool
+    public function exists(string name) -> bool
     {
         return this->has(name);
     }
@@ -271,7 +271,7 @@ class Manager extends AbstractInjectionAware
      * $scripts = $assets->get("js");
      * ```
      */
-    public function get( string name) -> <Collection>
+    public function get(string name) -> <Collection>
     {
         if unlikely true !== isset(this->collections[name]) {
             throw new CollectionNotFound(name);
@@ -326,7 +326,7 @@ class Manager extends AbstractInjectionAware
      * }
      * ```
      */
-    public function has( string name) -> bool
+    public function has(string name) -> bool
     {
         return isset this->collections[name];
     }
@@ -336,24 +336,22 @@ class Manager extends AbstractInjectionAware
      */
     public function output(<Collection> collection, string type) -> string | null
     {
-        string output;
-        bool filterNeeded;
         var asset, assets, callback, callbackMethod, collectionSourcePath,
-            collectionTargetPath, completeSourcePath, completeTargetPath,
-            content, filters, filteredContent, filteredJoinedContent,
-            html, join, mustFilter, options, prefixedPath, sourceBasePath,
-            sourcePath, targetBasePath, targetPath, typeCss;
-
-        let completeSourcePath    = "",
+            collectionTargetPath, content, filters, html, mustFilter, options,
+            prefixedPath, sourceBasePath, sourcePath, targetBasePath,
+            typeCss,
+            completeSourcePath    = "",
             completeTargetPath    = "",
             filteredContent       = "",
             filteredJoinedContent = "",
             join                  = false,
-            output                = "",
-            options               = this->options;
+            targetPath            = "";
+        string output = "";
+        bool filterNeeded;
 
         let callbackMethod = ("css" === type) ? "cssLink" : "jsLink",
-            callback       = [this, callbackMethod];
+            callback       = [this, callbackMethod],
+            options        = this->options;
 
         /**
          * Get the assets as an array
@@ -605,13 +603,13 @@ class Manager extends AbstractInjectionAware
      */
     public function outputInline(<Collection> collection, type) -> string
     {
-        string html, joinedContent, output;
-        var attributes, code, codes, content, filters, join;
+        var code, codes, content, filters, join,
+            attributes = null;
+        string html          = "",
+               joinedContent = "",
+               output        = "";
 
-        let output        = "",
-            html          = "",
-            joinedContent = "",
-            codes         = collection->getCodes(),
+        let codes         = collection->getCodes(),
             filters       = collection->getFilters(),
             join          = collection->getJoin();
 
@@ -713,7 +711,7 @@ class Manager extends AbstractInjectionAware
      * $assets->set("js", $collection);
      *```
      */
-    public function set( string name, <Collection> collection) -> <static>
+    public function set(string name, <Collection> collection) -> <static>
     {
         let this->collections[name] = collection;
 

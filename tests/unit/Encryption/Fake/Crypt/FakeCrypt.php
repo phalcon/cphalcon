@@ -21,12 +21,6 @@ class FakeCrypt extends Crypt
     /**
      * Makes this method public
      *
-     * @param string $input
-     * @param string $mode
-     * @param int    $blockSize
-     * @param int    $paddingType
-     *
-     * @return string
      * @throws Exception
      */
     public function cryptPadText(
@@ -39,12 +33,6 @@ class FakeCrypt extends Crypt
     }
 
     /**
-     * @param string $input
-     * @param string $mode
-     * @param int    $blockSize
-     * @param int    $paddingType
-     *
-     * @return string
      * @throws Exception
      */
     public function cryptUnpadText(

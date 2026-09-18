@@ -22,9 +22,6 @@ class FunctionCallTest extends AbstractUnitTestCase
 {
     use DiTrait;
 
-    /**
-     * @return array
-     */
     public static function getExamples(): array
     {
         return [

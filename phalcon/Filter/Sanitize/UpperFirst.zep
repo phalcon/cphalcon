@@ -13,8 +13,6 @@ namespace Phalcon\Filter\Sanitize;
 use Phalcon\Contracts\Filter\Sanitizer;
 
 /**
- * Phalcon\Filter\Sanitize\UpperFirst
- *
  * Sanitizes a value to ucfirst
  */
 class UpperFirst implements Sanitizer
@@ -24,7 +22,7 @@ class UpperFirst implements Sanitizer
      *
      * @return string
      */
-    public function __invoke( string input)
+    public function __invoke(string input)
     {
         return ucfirst(input);
     }

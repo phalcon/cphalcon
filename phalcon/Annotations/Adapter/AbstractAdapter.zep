@@ -15,14 +15,20 @@ use Phalcon\Annotations\Exception;
 use Phalcon\Annotations\Collection;
 use Phalcon\Annotations\Reflection;
 use Phalcon\Annotations\ReaderInterface;
+use Phalcon\Contracts\Annotations\AnnotationsTypes;
 
 /**
  * This is the base class for Phalcon\Annotations adapters
+ *
+ * @phpstan-import-type annotations_cache from AnnotationsTypes
+ * @phpstan-import-type annotations_collection_map from AnnotationsTypes
  */
 abstract class AbstractAdapter implements AdapterInterface
 {
     /**
      * @var array
+     *
+     * @phpstan-var annotations_cache
      */
     protected annotations = [];
 
@@ -43,6 +49,8 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Parses or retrieves all the annotations found in a class
+     *
+     * @phpstan-param object|string $className
      */
     public function get(var className) -> <Reflection>
     {
@@ -115,6 +123,8 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Returns the annotations found in all the class' constants
+     *
+     * @phpstan-return annotations_collection_map
      */
     public function getConstants(string className) -> array
     {
@@ -154,6 +164,8 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Returns the annotations found in all the class' properties
+     *
+     * @phpstan-return annotations_collection_map
      */
     public function getProperties(string className) -> array
     {
@@ -201,6 +213,8 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Returns the annotations found in all the class' methods
+     *
+     * @phpstan-return annotations_collection_map
      */
     public function getMethods(string className) -> array
     {

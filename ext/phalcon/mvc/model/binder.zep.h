@@ -12,7 +12,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, setCache);
 PHP_METHOD(Phalcon_Mvc_Model_Binder, findBoundModel);
 PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromCache);
 PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection);
-zend_object *zephir_init_properties_Phalcon_Mvc_Model_Binder(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_binder___construct, 0, 0, 0)
 	ZEND_ARG_OBJ_TYPE_MASK(0, cache, Phalcon\\Cache\\Adapter\\AdapterInterface, MAY_BE_NULL, "null")
@@ -52,9 +51,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_binder_getpara
 	ZEND_ARG_ARRAY_INFO(0, params, 0)
 	ZEND_ARG_TYPE_INFO(0, cacheKey, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, methodName, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_binder_zephir_init_properties_phalcon_mvc_model_binder, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_binder_method_entry) {

@@ -73,13 +73,8 @@ final class VerifyTest extends AbstractUnitTestCase
             ->getToken()
         ;
 
-        $mock = $this->createMock(Hmac::class);
-        $mock
-            ->method('getAlgHeader')
-            ->willReturn('xyz')
-        ;
-
-        $actual = $token->verify($mock, $passphrase);
+        $other  = new Hmac('sha256');
+        $actual = $token->verify($other, $passphrase);
         $this->assertFalse($actual);
     }
 }

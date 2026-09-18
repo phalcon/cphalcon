@@ -70,6 +70,7 @@ final class FetchObjectsTest extends AbstractDatabaseTestCase
         $this->assertEquals('darth', $all[2]->calculated);
         $this->assertEquals('darth', $all[3]->calculated);
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-25

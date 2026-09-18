@@ -75,7 +75,7 @@ final class CustomMessagesTest extends AbstractUnitTestCase
     public function testFilterValidationValidatorFileEqualSize(): void
     {
         $options = [
-            'equalSize'       => '1M',
+            'equalSize'        => '1M',
             'messageEqualSize' => 'File does not have the expected size',
         ];
         $file       = new File($options);

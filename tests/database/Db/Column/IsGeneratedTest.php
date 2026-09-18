@@ -101,6 +101,7 @@ final class IsGeneratedTest extends AbstractDatabaseTestCase
             ]
         );
     }
+
     /**
      * Tests Phalcon\Db\Column :: isGenerated() - defaults to false when the
      * `generated` key is not provided in the definition array.

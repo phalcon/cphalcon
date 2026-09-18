@@ -47,6 +47,9 @@
  * @link    https://github.com/resolver-interop/interface/tree/1.x
  * @license https://github.com/resolver-interop/interface/blob/1.x/LICENSE.md
  */
+/**
+ * @phpstan-import-type container_arguments from ContainerTypes
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Container_Resolver_Lazy_Lazy)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Container\\Resolver\\Lazy, Lazy, phalcon, container_resolver_lazy_lazy, phalcon_container_resolver_lazy_lazy_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
@@ -108,10 +111,8 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_Lazy, resolveArgument)
 }
 
 /**
- * @param object                  $ioc
- * @param array<array-key, mixed> $arguments
- *
- * @return array<array-key, mixed>
+ * @phpstan-param  container_arguments $arguments
+ * @phpstan-return container_arguments
  */
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_Lazy, resolveArguments)
 {
@@ -143,7 +144,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_Lazy, resolveArguments)
 	zephir_get_arrval(&arguments, arguments_param);
 	ZEPHIR_INIT_VAR(&resolved);
 	array_init(&resolved);
-	zephir_is_iterable(&arguments, 0, "phalcon/Container/Resolver/Lazy/Lazy.zep", 69);
+	zephir_is_iterable(&arguments, 0, "phalcon/Container/Resolver/Lazy/Lazy.zep", 71);
 	if (Z_TYPE_P(&arguments) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&arguments), _1, _2, _0)
 		{

@@ -22,11 +22,6 @@ trait RouterTrait
 {
     /**
      * Add method and return route
-     *
-     * @param Router $router
-     * @param array  $data
-     *
-     * @return Route
      */
     protected function getRouteAndSetRouteMethod(Router $router, array $data): Route
     {
@@ -115,6 +110,7 @@ trait RouterTrait
 
         return $router;
     }
+
     /**
      * get router and set methods
      */

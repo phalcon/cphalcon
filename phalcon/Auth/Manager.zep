@@ -21,6 +21,7 @@ use Phalcon\Auth\Exceptions\DoesNotImplement;
 use Phalcon\Auth\Exceptions\GuardNotDefined;
 use Phalcon\Contracts\Auth\Access\Access;
 use Phalcon\Contracts\Auth\Adapter\Adapter;
+use Phalcon\Contracts\Auth\AuthTypes;
 use Phalcon\Contracts\Auth\AuthUser;
 use Phalcon\Contracts\Auth\Guard\Guard;
 use Phalcon\Contracts\Auth\Guard\GuardStateful;
@@ -32,7 +33,7 @@ use Phalcon\Contracts\Auth\Manager as ManagerContract;
  * Manager::guard(); callers narrow with instanceof against the
  * relevant capability interface (GuardStateful, BasicAuth, etc.).
  *
- * @phpstan-import-type AuthCredentials from Adapter
+ * @phpstan-import-type auth_credentials from AuthTypes
  */
 class Manager implements ManagerContract
 {
@@ -100,7 +101,7 @@ class Manager implements ManagerContract
     }
 
     /**
-     * @phpstan-param AuthCredentials $credentials
+     * @phpstan-param auth_credentials $credentials
      *
      * @throws Exception
      */
@@ -210,7 +211,7 @@ class Manager implements ManagerContract
     }
 
     /**
-     * @phpstan-param AuthCredentials $credentials
+     * @phpstan-param auth_credentials $credentials
      */
     public function validate(array credentials = []) -> bool
     {

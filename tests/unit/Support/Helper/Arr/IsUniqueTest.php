@@ -24,7 +24,7 @@ final class IsUniqueTest extends AbstractUnitTestCase
      */
     public function testSupportHelperArrIsUnique(): void
     {
-        $object = new IsUnique();
+        $object     = new IsUnique();
         $collection = [
             'Phalcon',
             'Framework',

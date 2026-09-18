@@ -33,6 +33,7 @@ final class StopTest extends AbstractUnitTestCase
 
         $event->stop();
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2012-11-11

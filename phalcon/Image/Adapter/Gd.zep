@@ -70,7 +70,8 @@ class Gd extends AbstractAdapter
         int height = null,
         int maxPixels = 0
     ) {
-        var image, imageInfo;
+        var imageInfo,
+            image = null;
 
         this->check();
 

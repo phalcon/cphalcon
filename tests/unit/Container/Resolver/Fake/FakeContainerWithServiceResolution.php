@@ -50,7 +50,6 @@ class FakeContainerWithServiceResolution
         return $this->service;
     }
 
-
     public function new(string $name): mixed
     {
         $this->lastId = $name;

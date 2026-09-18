@@ -458,13 +458,59 @@ int zephir_call_user_function(
 		if (obj_ce || !zend_is_callable_at_frame(&callable, fci.object, frame, 0, &fcic, &is_callable_error)) {
 #endif
 			if (is_callable_error) {
-				zend_error(E_WARNING, "%s", is_callable_error);
+				/* zend_is_callable_ex() fills this in to explain the failure to
+				 * whoever throws; PHP itself raises no diagnostic before the
+				 * error, so neither do we. The caller turns this FAILURE into
+				 * the same Error PHP would throw (#2712). */
 				efree(is_callable_error);
+
+				/* resolve_callable() built this; the tail that releases it is
+				 * below this early return. */
+				if (Z_TYPE(callable) != IS_UNDEF) {
+					zval_ptr_dtor(&callable);
+				}
 
 				return FAILURE;
 			}
 
 			populate_fcic(&fcic, type, obj_ce, object_pp, function_name, called_scope, NULL);
+
+			/**
+			 * PHP reports a method the class does not have as
+			 * "Call to undefined method C::m()". Left to zend_call_function(),
+			 * the very same condition arrives as "Invalid callback ...",
+			 * because that path cannot tell a missing method apart from any
+			 * other value that is not callable.
+			 *
+			 * populate_fcic() has just looked the method up in the scope PHP
+			 * would name, so throw here and let every other failure, visibility
+			 * included, keep flowing through the engine. A class with __call()
+			 * or __callStatic() never reaches "undefined" at all, so it is left
+			 * to dispatch as before.
+			 *
+			 * @see https://github.com/zephir-lang/zephir/issues/2712
+			 */
+			if (
+				!fcic.function_handler
+				&& type != zephir_fcall_function
+				&& Z_TYPE_P(function_name) == IS_STRING
+				&& fcic.calling_scope
+				&& !fcic.calling_scope->__call
+				&& !fcic.calling_scope->__callstatic
+			) {
+				zend_throw_error(
+					NULL,
+					"Call to undefined method %s::%s()",
+					ZSTR_VAL(fcic.calling_scope->name),
+					Z_STRVAL_P(function_name)
+				);
+
+				if (Z_TYPE(callable) != IS_UNDEF) {
+					zval_ptr_dtor(&callable);
+				}
+
+				return FAILURE;
+			}
 		}
 	}
 
@@ -557,7 +603,8 @@ int zephir_call_func_aparams(
 	zval_ptr_dtor(&f);
 
 	if (status == FAILURE && !EG(exception)) {
-		zephir_throw_exception_format(spl_ce_RuntimeException, "Call to undefined function %s()", func_name);
+		/* PHP throws Error here, not an SPL exception (#2712). */
+		zend_throw_error(NULL, "Call to undefined function %s()", func_name);
 	} else if (EG(exception)) {
 		status = FAILURE;
 	}
@@ -593,7 +640,8 @@ int zephir_call_zval_func_aparams(
 	status = zephir_call_user_function(NULL, NULL, zephir_fcall_function, func_name, rvp, cache_entry, cache_slot, param_count, params);
 
 	if (status == FAILURE && !EG(exception)) {
-		zephir_throw_exception_format(spl_ce_RuntimeException, "Call to undefined function %s()", Z_TYPE_P(func_name) == IS_STRING ? Z_STRVAL_P(func_name) : "undefined");
+		/* PHP throws Error here, not an SPL exception (#2712). */
+		zend_throw_error(NULL, "Call to undefined function %s()", Z_TYPE_P(func_name) == IS_STRING ? Z_STRVAL_P(func_name) : "undefined");
 	} else if (EG(exception)) {
 		status = FAILURE;
 	}
@@ -628,7 +676,21 @@ int zephir_call_class_method_aparams(
 #endif
 
 	if (object && Z_TYPE_P(object) != IS_OBJECT) {
-		zephir_throw_exception_format(spl_ce_RuntimeException, "Trying to call method %s on a non-object", method_name);
+		/**
+		 * Same sentence and same throwable as zend_invalid_method_call(). The
+		 * tail is the value name from 8.3 on and the type name before it, so
+		 * `true` reads as "on true" there and "on bool" here (#2712).
+		 */
+		zend_throw_error(
+			NULL,
+			"Call to a member function %s() on %s",
+			method_name,
+#if PHP_VERSION_ID >= 80300
+			zend_zval_value_name(object)
+#else
+			zend_zval_type_name(object)
+#endif
+		);
 		if (return_value) {
 			ZVAL_NULL(return_value);
 		}
@@ -641,26 +703,35 @@ int zephir_call_class_method_aparams(
 	zval_ptr_dtor(&method);
 
 	if (status == FAILURE && !EG(exception)) {
+		/**
+		 * PHP never names the keyword, it names the class the lookup actually
+		 * used: `parent::` reports the parent, `self::` and `static::` report
+		 * the resolved class. Mirror the scope populate_fcic() looks in, and
+		 * throw the Error PHP throws (#2712).
+		 */
+		zend_class_entry *scope;
+
 		switch (type) {
 			case zephir_fcall_parent:
-				zephir_throw_exception_format(spl_ce_RuntimeException, "Call to undefined method parent::%s()", method_name);
-				break;
-
-			case zephir_fcall_self:
-				zephir_throw_exception_format(spl_ce_RuntimeException, "Call to undefined method self::%s()", method_name);
+				scope = ce ? ce->parent : NULL;
 				break;
 
 			case zephir_fcall_static:
-				zephir_throw_exception_format(spl_ce_RuntimeException, "Call to undefined method static::%s()", method_name);
-				break;
-
-			case zephir_fcall_ce:
-			case zephir_fcall_method:
-				zephir_throw_exception_format(spl_ce_RuntimeException, "Call to undefined method %s::%s()", ZSTR_VAL(ce->name), method_name);
+				scope = zend_get_called_scope(EG(current_execute_data));
+				if (!scope) {
+					scope = ce;
+				}
 				break;
 
 			default:
-				zephir_throw_exception_format(spl_ce_RuntimeException, "Call to undefined method ?::%s()", method_name);
+				scope = ce;
+				break;
+		}
+
+		if (scope) {
+			zend_throw_error(NULL, "Call to undefined method %s::%s()", ZSTR_VAL(scope->name), method_name);
+		} else {
+			zend_throw_error(NULL, "Call to undefined method %s()", method_name);
 		}
 	} else if (EG(exception)) {
 		status = FAILURE;

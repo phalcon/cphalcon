@@ -21,9 +21,6 @@ use Phalcon\Talon\Talon;
 
 final class GetPropertiesAnnotationsTest extends AbstractUnitTestCase
 {
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();

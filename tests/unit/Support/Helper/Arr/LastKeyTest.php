@@ -26,14 +26,14 @@ final class LastKeyTest extends AbstractUnitTestCase
      */
     public function testSupportHelperArrLastKey(): void
     {
-        $object = new LastKey();
+        $object     = new LastKey();
         $collection = [
             1 => 'Phalcon',
             3 => 'Framework',
         ];
 
         $expected = 3;
-        $actual = $object($collection);
+        $actual   = $object($collection);
         $this->assertSame($expected, $actual);
     }
 
@@ -43,14 +43,14 @@ final class LastKeyTest extends AbstractUnitTestCase
      */
     public function testSupportHelperArrLastKeyFunction(): void
     {
-        $object = new LastKey();
+        $object     = new LastKey();
         $collection = [
             1 => 'Phalcon',
             3 => 'Framework',
         ];
 
         $expected = 1;
-        $actual = $object(
+        $actual   = $object(
             $collection,
             function ($element) {
                 return strlen($element) < 8;

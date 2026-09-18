@@ -11,7 +11,9 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, phpFileGetContents);
 PHP_METHOD(Phalcon_Config_Adapter_Json, phpFilePutContents);
 PHP_METHOD(Phalcon_Config_Adapter_Json, phpFopen);
 PHP_METHOD(Phalcon_Config_Adapter_Json, phpFwrite);
+PHP_METHOD(Phalcon_Config_Adapter_Json, phpIsDir);
 PHP_METHOD(Phalcon_Config_Adapter_Json, phpIsWritable);
+PHP_METHOD(Phalcon_Config_Adapter_Json, phpMkdir);
 PHP_METHOD(Phalcon_Config_Adapter_Json, phpUnlink);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_adapter_json___construct, 0, 0, 1)
@@ -62,8 +64,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_config_adapter_json_phpf
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_config_adapter_json_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_config_adapter_json_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_config_adapter_json_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_config_adapter_json_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -80,7 +93,9 @@ ZEPHIR_INIT_FUNCS(phalcon_config_adapter_json_method_entry) {
 	PHP_ME(Phalcon_Config_Adapter_Json, phpFilePutContents, arginfo_phalcon_config_adapter_json_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Config_Adapter_Json, phpFopen, arginfo_phalcon_config_adapter_json_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Config_Adapter_Json, phpFwrite, arginfo_phalcon_config_adapter_json_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Config_Adapter_Json, phpIsDir, arginfo_phalcon_config_adapter_json_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Config_Adapter_Json, phpIsWritable, arginfo_phalcon_config_adapter_json_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Config_Adapter_Json, phpMkdir, arginfo_phalcon_config_adapter_json_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Config_Adapter_Json, phpUnlink, arginfo_phalcon_config_adapter_json_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

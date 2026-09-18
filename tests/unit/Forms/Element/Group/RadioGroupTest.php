@@ -118,6 +118,16 @@ final class RadioGroupTest extends AbstractUnitTestCase
         $this->assertSame($element, $result);
     }
 
+    public function testSetUserOptionDoesNotChangeOptions(): void
+    {
+        $element = new RadioGroup('gender', ['m' => 'Male']);
+        $element->setUserOption('foo', 'bar');
+        $element->setOptions(['f' => 'Female']);
+
+        $this->assertSame(['f' => 'Female'], $element->getOptions());
+        $this->assertSame(['foo' => 'bar'], $element->getUserOptions());
+    }
+
     public function testToStringEqualsRender(): void
     {
         $element = new RadioGroup('gender', ['m' => 'Male']);
@@ -125,6 +135,7 @@ final class RadioGroupTest extends AbstractUnitTestCase
 
         $this->assertSame($element->render(), (string) $element);
     }
+
     private function factory(): TagFactory
     {
         return new TagFactory(new Escaper());

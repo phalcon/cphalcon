@@ -38,17 +38,17 @@ ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Query_QueryFactory)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\DataMapper\\Query, QueryFactory, phalcon, datamapper_query_queryfactory, phalcon_datamapper_query_queryfactory_method_entry, 0);
 
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_datamapper_query_queryfactory_ce, SL("selectClass"), "", ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "", sizeof("") - 1);
+		zephir_declare_typed_property(phalcon_datamapper_query_queryfactory_ce, SL("selectClass"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 
 /**
  * QueryFactory constructor.
- *
- * @param string $selectClass
  */
 PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, __construct)
 {
@@ -80,14 +80,12 @@ PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, __construct)
 		ZEPHIR_INIT_NVAR(&selectClass);
 		ZVAL_STRING(&selectClass, "Phalcon\\DataMapper\\Query\\Select");
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 586, &selectClass);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 584, &selectClass);
 	ZEPHIR_MM_RESTORE();
 }
 
 /**
  * Create a new Bind object
- *
- * @return Bind
  */
 PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, newBind)
 {
@@ -107,10 +105,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, newBind)
 
 /**
  * Create a new Delete object
- *
- * @param <Connection> connection
- *
- * @return Delete
  */
 PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, newDelete)
 {
@@ -137,10 +131,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, newDelete)
 
 /**
  * Create a new Insert object
- *
- * @param <Connection> connection
- *
- * @return Insert
  */
 PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, newInsert)
 {
@@ -167,10 +157,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, newInsert)
 
 /**
  * Create a new Select object
- *
- * @param <Connection> connection
- *
- * @return Select
  */
 PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, newSelect)
 {
@@ -197,7 +183,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, newSelect)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &connection);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 586, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 584, PH_NOISY_CC | PH_READONLY);
 	zephir_get_strval(&selectClass, &_0);
 	zephir_fetch_safe_class(&_1, &selectClass);
 	_2 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_1), Z_STRLEN_P(&_1), ZEND_FETCH_CLASS_AUTO);
@@ -219,10 +205,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, newSelect)
 
 /**
  * Create a new Update object
- *
- * @param <Connection> connection
- *
- * @return Update
  */
 PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, newUpdate)
 {

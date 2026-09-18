@@ -113,7 +113,7 @@ class Weak extends AbstractAdapter
     /**
      * Decrements a stored number - not supported for WeakReference
      */
-    protected function doDecrement( string key, int value = 1) -> false | int
+    protected function doDecrement(string key, int value = 1) -> false | int
     {
         return false;
     }
@@ -121,7 +121,7 @@ class Weak extends AbstractAdapter
     /**
      * Deletes data from the adapter
      */
-    protected function doDelete( string key) -> bool
+    protected function doDelete(string key) -> bool
     {
         var exists;
 
@@ -173,7 +173,7 @@ class Weak extends AbstractAdapter
     /**
      * Checks if an element exists in the cache
      */
-    protected function doHas( string key) -> bool
+    protected function doHas(string key) -> bool
     {
         return isset this->weakList[key];
     }
@@ -181,7 +181,7 @@ class Weak extends AbstractAdapter
     /**
      * Increments a stored number - not supported for WeakReference
      */
-    protected function doIncrement( string key, int value = 1) -> false | int
+    protected function doIncrement(string key, int value = 1) -> false | int
     {
         return false;
     }
@@ -195,7 +195,7 @@ class Weak extends AbstractAdapter
      *
      * @throws BaseException
      */
-    protected function doSet( string key, var value, var ttl = null) -> bool
+    protected function doSet(string key, var value, var ttl = null) -> bool
     {
         if typeof value !== "object" {
             return false;

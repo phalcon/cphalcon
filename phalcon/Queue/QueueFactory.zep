@@ -76,7 +76,7 @@ class QueueFactory extends AbstractConfigFactory
      *
      * @phpstan-param queue_connection_options $options
      */
-    public function newInstance( string name,  array options = []) -> <ContextInterface>
+    public function newInstance(string name,  array options = []) -> <ContextInterface>
     {
         var connectionFactory;
 
@@ -88,7 +88,7 @@ class QueueFactory extends AbstractConfigFactory
     /**
      * Returns the exception class for the factory
      *
-     * @return class-string<\Throwable>
+     * @return class-string<\Exception>
      */
     protected function getExceptionClass() -> string
     {

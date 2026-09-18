@@ -19,11 +19,6 @@ use Phalcon\Encryption\Security\JWT\Token\Token;
 trait JWTTrait
 {
     /**
-     * @param string $builderClass
-     * @param string $signerClass
-     * @param int    $issDrift
-     *
-     * @return Token
      * @throws ValidatorException
      */
     protected function generateToken(
@@ -54,11 +49,10 @@ trait JWTTrait
             ->getToken()
         ;
     }
+
     /**
      * @param string $signerClass
-     * @param int    $issDrift
      *
-     * @return Token
      * @throws ValidatorException
      */
     protected function newToken($signerClass = Hmac::class, int $issDrift = 0): Token

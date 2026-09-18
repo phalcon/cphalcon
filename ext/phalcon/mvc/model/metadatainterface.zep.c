@@ -24,6 +24,14 @@
  * Phalcon\Mvc\Model\MetaDataInterface
  *
  * Interface for Phalcon\Mvc\Model\MetaData
+ *
+ * @phpstan-import-type mvc_model_attributes from MvcTypes
+ * @phpstan-import-type mvc_metadata_column_map from MvcTypes
+ * @phpstan-import-type mvc_metadata_default_values from MvcTypes
+ * @phpstan-import-type mvc_metadata_index from MvcTypes
+ * @phpstan-import-type mvc_metadata_model from MvcTypes
+ * @phpstan-import-type mvc_metadata_slot from MvcTypes
+ * @phpstan-import-type mvc_metadata_types from MvcTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaDataInterface)
 {
@@ -34,38 +42,56 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaDataInterface)
 
 /**
  * Returns table attributes names (fields)
+ *
+ * @phpstan-return mvc_model_attributes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getAttributes);
 /**
  * Returns attributes that must be ignored from the INSERT SQL generation
+ *
+ * @phpstan-return array<string, mixed>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getAutomaticCreateAttributes);
 /**
  * Returns attributes that must be ignored from the UPDATE SQL generation
+ *
+ * @phpstan-return array<string, mixed>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getAutomaticUpdateAttributes);
 /**
  * Returns attributes and their bind data types
+ *
+ * @phpstan-return array<string, mixed>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getBindTypes);
 /**
  * Returns the column map if any
+ *
+ * @phpstan-return mvc_metadata_column_map|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getColumnMap);
 /**
  * Returns attributes and their data types
+ *
+ * @phpstan-return mvc_metadata_types
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getDataTypes);
 /**
  * Returns attributes which types are numerical
+ *
+ * @phpstan-return array<string, mixed>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getDataTypesNumeric);
 /**
  * Returns attributes (which have default values) and their default values
+ *
+ * @phpstan-return mvc_metadata_default_values
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getDefaultValues);
 /**
  * Returns attributes allow empty strings
+ *
+ * @phpstan-return array<string, mixed>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getEmptyStringAttributes);
 /**
@@ -74,18 +100,26 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getEmptyStringAttributes)
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getIdentityField);
 /**
  * Returns an array of fields which are not part of the primary key
+ *
+ * @phpstan-return mvc_model_attributes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getNonPrimaryKeyAttributes);
 /**
  * Returns an array of not null attributes
+ *
+ * @phpstan-return mvc_model_attributes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getNotNullAttributes);
 /**
  * Returns an array of fields which are part of the primary key
+ *
+ * @phpstan-return mvc_model_attributes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getPrimaryKeyAttributes);
 /**
  * Returns the reverse column map if any
+ *
+ * @phpstan-return mvc_metadata_column_map|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getReverseColumnMap);
 /**
@@ -102,22 +136,32 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, hasAttribute);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, isEmpty);
 /**
  * Reads meta-data from the adapter
+ *
+ * @phpstan-return mvc_metadata_index|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, read);
 /**
  * Reads the ordered/reversed column map for certain model
+ *
+ * @phpstan-return mvc_metadata_index|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, readColumnMap);
 /**
  * Reads column-map information for certain model using a MODEL_* constant
+ *
+ * @phpstan-return mvc_metadata_slot
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, readColumnMapIndex);
 /**
  * Reads meta-data for certain model
+ *
+ * @phpstan-return mvc_metadata_model|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, readMetaData);
 /**
  * Reads meta-data for certain model using a MODEL_* constant
+ *
+ * @phpstan-return mvc_metadata_slot
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, readMetaDataIndex);
 /**
@@ -126,14 +170,20 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, readMetaDataIndex);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, reset);
 /**
  * Set the attributes that must be ignored from the INSERT SQL generation
+ *
+ * @phpstan-param array<string, mixed> $attributes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setAutomaticCreateAttributes);
 /**
  * Set the attributes that must be ignored from the UPDATE SQL generation
+ *
+ * @phpstan-param array<string, mixed> $attributes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setAutomaticUpdateAttributes);
 /**
  * Set the attributes that allow empty string values
+ *
+ * @phpstan-param array<string, mixed> $attributes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setEmptyStringAttributes);
 /**
@@ -142,6 +192,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setEmptyStringAttributes)
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setStrategy);
 /**
  * Writes meta-data to the adapter
+ *
+ * @phpstan-param mvc_metadata_index $data
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, write);
 /**

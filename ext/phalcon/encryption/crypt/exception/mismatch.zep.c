@@ -23,7 +23,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Exceptions thrown in Phalcon\Crypt will use this class.
+ * Exceptions thrown in Phalcon\Encryption\Crypt will use this class.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Crypt_Exception_Mismatch)
 {

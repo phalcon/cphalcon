@@ -10,9 +10,10 @@
 
 namespace Phalcon\Filter\Validation\Validator\File\Resolution;
 
-use Phalcon\Messages\Message;
+use Phalcon\Contracts\Filter\FilterTypes;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\Validator\File\AbstractFile;
+use Phalcon\Messages\Message;
 
 /**
  * Checks if a file has the right resolution
@@ -52,21 +53,23 @@ use Phalcon\Filter\Validation\Validator\File\AbstractFile;
  *     )
  * );
  * ```
+ *
+ * @phpstan-import-type filter_validator_options from FilterTypes
+ * @phpstan-import-type filter_uploaded_file from FilterTypes
  */
 class Equal extends AbstractFile
 {
+    /**
+     * @var string|null
+     */
     protected template = "The resolution of the field :field has to be equal :resolution";
 
     /**
      * Constructor
      *
-     * @param array options = [
-     *     'message' => '',
-     *     'template' => '',
-     *     'resolution' => '1000x1000'
-     * ]
+     * @phpstan-param filter_validator_options $options
      */
-    public function __construct( array options = [])
+    public function __construct(array options = [])
     {
         parent::__construct(options);
     }
@@ -84,9 +87,17 @@ class Equal extends AbstractFile
             return false;
         }
 
-        let value  = validation->getValue(field),
-            tmp    = getimagesize(value["tmp_name"]),
-            width  = tmp[0],
+        let value = validation->getValue(field),
+            tmp   = getimagesize(value["tmp_name"]);
+
+        // The file cannot be read as an image
+        if (false === tmp) {
+            this->appendMessageValid(validation, field);
+
+            return false;
+        }
+
+        let width  = tmp[0],
             height = tmp[1];
 
         let resolution = this->getOption("resolution");
@@ -99,11 +110,7 @@ class Equal extends AbstractFile
             equalWidth = resolutionArray[0],
             equalHeight = resolutionArray[1];
 
-        if typeof resolution == "array" {
-            let resolution = resolution[field];
-        }
-
-        if width != equalWidth || height != equalHeight {
+       if width != equalWidth || height != equalHeight {
             let replacePairs = [
                 ":resolution" : resolution
             ];

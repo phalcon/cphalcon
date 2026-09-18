@@ -15,39 +15,16 @@
 
 namespace Phalcon\DataMapper\Query;
 
+use Phalcon\Contracts\DataMapper\DataMapperTypes;
+
 /**
  * Class AbstractConditions
+ *
+ * @phpstan-import-type datamapper_clauses from DataMapperTypes
+ * @phpstan-import-type datamapper_column_values from DataMapperTypes
  */
 abstract class AbstractConditions extends AbstractQuery
 {
-    /**
-     * Sets the `LIMIT` clause
-     *
-     * @param int $limit
-     *
-     * @return AbstractConditions
-     */
-    public function limit(int limit) -> <AbstractConditions>
-    {
-        let this->store["LIMIT"] = limit;
-
-        return this;
-    }
-
-    /**
-     * Sets the `OFFSET` clause
-     *
-     * @param int $offset
-     *
-     * @return AbstractConditions
-     */
-    public function offset(int offset) -> <AbstractConditions>
-    {
-        let this->store["OFFSET"] = offset;
-
-        return this;
-    }
-
     /**
      * Sets a `AND` for a `WHERE` condition
      *
@@ -87,11 +64,33 @@ abstract class AbstractConditions extends AbstractQuery
     }
 
     /**
+     * Sets the `LIMIT` clause
+     */
+    public function limit(int limit) -> <AbstractConditions>
+    {
+        let this->store["LIMIT"] = limit;
+
+        return this;
+    }
+
+    /**
+     * Sets the `OFFSET` clause
+     */
+    public function offset(int offset) -> <AbstractConditions>
+    {
+        let this->store["OFFSET"] = offset;
+
+        return this;
+    }
+
+    /**
      * Sets the `ORDER BY`
      *
      * @param array|string $orderBy
      *
      * @return AbstractConditions
+     *
+     * @phpstan-param datamapper_clauses|string $orderBy
      */
     public function orderBy(var orderBy) -> <AbstractConditions>
     {
@@ -102,12 +101,6 @@ abstract class AbstractConditions extends AbstractQuery
 
     /**
      * Sets a `OR` for a `WHERE` condition
-     *
-     * @param string     $condition
-     * @param mixed|null $value
-     * @param int        $type
-     *
-     * @return AbstractConditions
      */
     public function orWhere(
         string condition,
@@ -121,12 +114,6 @@ abstract class AbstractConditions extends AbstractQuery
 
     /**
      * Sets a `WHERE` condition
-     *
-     * @param string     $condition
-     * @param mixed|null $value
-     * @param int        $type
-     *
-     * @return AbstractConditions
      */
     public function where(
         string condition,
@@ -139,9 +126,7 @@ abstract class AbstractConditions extends AbstractQuery
     }
 
     /**
-     * @param array $columnsValues
-     *
-     * @return AbstractConditions
+     * @phpstan-param datamapper_column_values $columnsValues
      */
     public function whereEquals(array columnsValues) -> <AbstractConditions>
     {
@@ -165,11 +150,7 @@ abstract class AbstractConditions extends AbstractQuery
     /**
      * Appends a conditional
      *
-     * @param string     $store
-     * @param string     $andor
-     * @param string     $condition
-     * @param mixed|null $value
-     * @param int        $type
+     * @phpstan-param 'HAVING'|'WHERE' $store
      */
     protected function addCondition(
         string store,
@@ -190,127 +171,9 @@ abstract class AbstractConditions extends AbstractQuery
     }
 
     /**
-     * Builds a `BY` list
-     *
-     * @param string $type
-     *
-     * @return string
-     */
-    protected function buildBy(string type) -> string
-    {
-        if empty this->store[type] {
-            return "";
-        }
-
-        return " " . type . " BY"
-            . this->indent(this->store[type], ",");
-    }
-
-    /**
-     * Builds the conditional string
-     *
-     * @param string $type
-     *
-     * @return string
-     */
-    protected function buildCondition(string type) -> string
-    {
-        if empty this->store[type] {
-            return "";
-        }
-
-        return " " . type
-            . this->indent(this->store[type]);
-    }
-
-    /**
-     * Builds the early `LIMIT` clause - MS SQLServer
-     *
-     * @return string
-     */
-    protected function buildLimitEarly() -> string
-    {
-        string limit = "";
-
-        if (
-            "sqlsrv" === this->connection->getDriverName() &&
-            this->store["LIMIT"] > 0 &&
-            0 === this->store["OFFSET"]
-        ) {
-            let limit = " TOP " . this->store["LIMIT"];
-        }
-
-        return limit;
-    }
-
-    /**
-     * Builds the `LIMIT` clause
-     *
-     * @return string
-     */
-    protected function buildLimit() -> string
-    {
-        var method, suffix;
-
-        let suffix = this->connection->getDriverName();
-
-        if "sqlsrv" !== suffix {
-            let suffix = "common";
-        }
-
-        let method = "buildLimit" . ucfirst(suffix);
-
-        return this->{method}();
-    }
-
-    /**
-     * Builds the `LIMIT` clause for all drivers
-     *
-     * @return string
-     */
-    protected function buildLimitCommon() -> string
-    {
-        var limit = "";
-
-        if 0 !== this->store["LIMIT"] {
-            let limit .= "LIMIT " . this->store["LIMIT"];
-        }
-
-        if 0 !== this->store["OFFSET"] {
-            let limit .= " OFFSET " . this->store["OFFSET"];
-        }
-
-        if "" !== limit {
-            let limit = " " . ltrim(limit);
-        }
-
-        return limit;
-    }
-
-    /**
-     * Builds the `LIMIT` clause for MSSQLServer
-     *
-     * @return string
-     */
-    protected function buildLimitSqlsrv() -> string
-    {
-        string limit = "";
-
-        if this->store["LIMIT"] > 0 && this->store["OFFSET"] > 0 {
-            let limit = " OFFSET " . this->store["OFFSET"] . " ROWS"
-                . " FETCH NEXT " . this->store["LIMIT"] . " ROWS ONLY";
-        }
-
-        return limit;
-    }
-
-    /**
      * Concatenates a conditional
      *
-     * @param string $store
-     * @param string $condition
-     * @param mixed  $value
-     * @param int    $type
+     * @phpstan-param 'HAVING'|'WHERE' $store
      */
     protected function appendCondition(
         string store,
@@ -334,10 +197,116 @@ abstract class AbstractConditions extends AbstractQuery
     }
 
     /**
+     * Builds a `BY` list
+     *
+     * @phpstan-param 'GROUP'|'ORDER' $type
+     */
+    protected function buildBy(string type) -> string
+    {
+        if empty this->store[type] {
+            return "";
+        }
+
+        return " " . type . " BY"
+            . this->indent(this->store[type], ",");
+    }
+
+    /**
+     * Builds the conditional string
+     *
+     * @phpstan-param 'HAVING'|'WHERE' $type
+     */
+    protected function buildCondition(string type) -> string
+    {
+        if empty this->store[type] {
+            return "";
+        }
+
+        return " " . type
+            . this->indent(this->store[type]);
+    }
+
+    /**
+     * Builds the `LIMIT` clause
+     */
+    protected function buildLimit() -> string
+    {
+        var method, suffix;
+
+        let suffix = this->connection->getDriverName();
+
+        if "sqlsrv" !== suffix {
+            let suffix = "common";
+        }
+
+        let method = "buildLimit" . ucfirst(suffix);
+
+        return this->{method}();
+    }
+
+    /**
+     * Builds the `LIMIT` clause for all drivers
+     */
+    protected function buildLimitCommon() -> string
+    {
+        var limit = "";
+
+        if 0 !== this->store["LIMIT"] {
+            let limit .= "LIMIT " . this->store["LIMIT"];
+        }
+
+        if 0 !== this->store["OFFSET"] {
+            let limit .= " OFFSET " . this->store["OFFSET"];
+        }
+
+        if "" !== limit {
+            let limit = " " . ltrim(limit);
+        }
+
+        return limit;
+    }
+
+    /**
+     * Builds the early `LIMIT` clause - MS SQLServer
+     */
+    protected function buildLimitEarly() -> string
+    {
+        string limit = "";
+
+        if (
+            "sqlsrv" === this->connection->getDriverName() &&
+            this->store["LIMIT"] > 0 &&
+            0 === this->store["OFFSET"]
+        ) {
+            let limit = " TOP " . this->store["LIMIT"];
+        }
+
+        return limit;
+    }
+
+    /**
+     * Builds the `LIMIT` clause for MSSQLServer
+     */
+    protected function buildLimitSqlsrv() -> string
+    {
+        string limit = "";
+
+        if this->store["LIMIT"] > 0 && this->store["OFFSET"] > 0 {
+            let limit = " OFFSET " . this->store["OFFSET"] . " ROWS"
+                . " FETCH NEXT " . this->store["LIMIT"] . " ROWS ONLY";
+        }
+
+        return limit;
+    }
+
+    /**
      * Processes a value (array or string) and merges it with the store
      *
      * @param string       $store
      * @param array|string $data
+     *
+     * @phpstan-param 'GROUP'|'ORDER'           $store
+     * @phpstan-param datamapper_clauses|string $data
      */
     protected function processValue(string store, var data) -> void
     {

@@ -161,6 +161,9 @@ class WkbParser
         return new Point(x, y, srid);
     }
 
+    /**
+     * @phpstan-return list<Point>
+     */
     protected function readPointList(bool little, bool hasZ, bool hasM) -> array
     {
         var count, i, x, y, points = [];
@@ -181,6 +184,9 @@ class WkbParser
         return points;
     }
 
+    /**
+     * @phpstan-return list<list<Point>>
+     */
     protected function readRingList(bool little, bool hasZ, bool hasM) -> array
     {
         var count, i, rings = [];

@@ -45,7 +45,6 @@ class FakeContainerWithService
         return $this->service;
     }
 
-
     public function new(string $name): mixed
     {
         return $this->service;

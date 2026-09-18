@@ -20,7 +20,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler);
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, setLazy);
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, setPrefix);
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, addMap);
-zend_object *zephir_init_properties_Phalcon_Mvc_Micro_Collection(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_collection_delete, 0, 2, Phalcon\\Mvc\\Micro\\CollectionInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, routePattern, IS_STRING, 0)
@@ -108,9 +107,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_micro_collection_add
 	ZEND_ARG_TYPE_INFO(0, routePattern, IS_STRING, 0)
 	ZEND_ARG_INFO(0, handler)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, name, IS_STRING, 1, "null")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_collection_zephir_init_properties_phalcon_mvc_micro_collection, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_micro_collection_method_entry) {

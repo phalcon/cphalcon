@@ -34,7 +34,7 @@ final class FormElementsTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Tests cancelling validation on first fail
+     * Tests canceling validation on first fail
      *
      * @author Phalcon Team <team@phalcon.io>
      * @issue  https://github.com/phalcon/cphalcon/issues/13149

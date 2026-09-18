@@ -116,6 +116,7 @@ final class SeriesPositionTest extends AbstractUnitTestCase
         $this->assertStringContainsString('console.log("hi");', $rendered);
         $this->assertStringContainsString('</script>', $rendered);
     }
+
     public function testStyleEntriesSortByPosition(): void
     {
         $style = new Style(new Escaper());

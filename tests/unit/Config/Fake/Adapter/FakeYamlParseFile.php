@@ -20,12 +20,6 @@ final class FakeYamlParseFile extends Yaml
     /**
      * Parse a YAML stream from a file
      *
-     * @param string $filename
-     * @param int    $pos
-     * @param array  $callbacks
-     *
-     * @return mixed
-     *
      * @link https://php.net/manual/en/function.yaml-parse-file.php
      */
     protected static function phpYamlParseFile(

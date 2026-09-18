@@ -18,7 +18,6 @@ use Phalcon\Assets\FilterInterface;
  *
  * > NOTE: This functionality is not currently available; `filter()` returns
  * > the content unchanged.
- * {: .alert .alert-info }
  *
  * @deprecated Use Phalcon\Assets\Filters\None, or a custom
  *             Phalcon\Assets\FilterInterface wrapping a real CSS minifier.
@@ -28,7 +27,7 @@ class Cssmin implements FilterInterface
     /**
      * Filters the content using CSSMIN
      */
-    public function filter( string content) -> string
+    public function filter(string content) -> string
     {
         return content;
     }

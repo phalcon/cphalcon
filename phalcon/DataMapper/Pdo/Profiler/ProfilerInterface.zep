@@ -15,81 +15,60 @@
 
 namespace Phalcon\DataMapper\Pdo\Profiler;
 
+use Phalcon\Contracts\DataMapper\DataMapperTypes;
 use Phalcon\Logger\LoggerInterface;
 
 /**
  * Interface to send query profiles to a logger.
+ *
+ * @phpstan-import-type datamapper_values from DataMapperTypes
  */
 interface ProfilerInterface
 {
     /**
      * Finishes and logs a profile entry.
      *
-     * @param string $statement
-     * @param array  $values
+     * @phpstan-param datamapper_values $values
      */
     public function finish(string statement = null, array values = []) -> void;
 
     /**
-     * Returns the underlying logger instance.
-     *
-     * @return LoggerInterface
-     */
-    public function getLogger() -> <LoggerInterface>;
-
-    /**
      * Returns the log message format string, with placeholders.
-     *
-     * @return string
      */
     public function getLogFormat() -> string;
 
     /**
+     * Returns the underlying logger instance.
+     */
+    public function getLogger() -> <LoggerInterface>;
+
+    /**
      * Returns the level at which to log profile messages.
-     *
-     * @return string
      */
     public function getLogLevel() -> string;
 
     /**
      * Returns true if logging is active.
-     *
-     * @return bool
      */
     public function isActive() -> bool;
 
     /**
      * Enable or disable profiler logging.
-     *
-     * @param bool $active
-     *
-     * @return ProfilerInterface
      */
     public function setActive(bool active) -> <ProfilerInterface>;
 
     /**
      * Sets the log message format string, with placeholders.
-     *
-     * @param string $logFormat
-     *
-     * @return ProfilerInterface
      */
     public function setLogFormat(string logFormat) -> <ProfilerInterface>;
 
     /**
      * Level at which to log profile messages.
-     *
-     * @param string $logLevel
-     *
-     * @return ProfilerInterface
-     *
      */
     public function setLogLevel(string logLevel) -> <ProfilerInterface>;
 
     /**
      * Starts a profile entry.
-     *
-     * @param string $method
      */
     public function start(string method) -> void;
 }

@@ -52,6 +52,7 @@ final class AddColumnDefaultExpressionTest extends AbstractDatabaseTestCase
             $actual
         );
     }
+
     /**
      * MySQL - a RawValue default is emitted unquoted (used for expressions
      * like `(UUID())` introduced in MySQL 8.0.13).

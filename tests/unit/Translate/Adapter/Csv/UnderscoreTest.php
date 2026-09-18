@@ -22,9 +22,6 @@ final class UnderscoreTest extends AbstractUnitTestCase
     use TranslateCsvHelperTrait;
     use TranslateCsvTrait;
 
-    /**
-     * @return string
-     */
     protected function func(): string
     {
 

@@ -42,7 +42,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Url_UrlInterface, get);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Url_UrlInterface, getBasePath);
 /**
- * Returns the prefix for all the generated urls. By default /
+ * Returns the prefix for all the generated urls. By default, /
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Url_UrlInterface, getBaseUri);
 /**

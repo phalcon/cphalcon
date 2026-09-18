@@ -92,6 +92,7 @@ final class IsInvisibleTest extends AbstractDatabaseTestCase
         $this->assertSame('UNIQUE', $index->getType());
         $this->assertTrue($index->isInvisible());
     }
+
     /**
      * Legacy positional constructor - `isInvisible()` defaults to false.
      *

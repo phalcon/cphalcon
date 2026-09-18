@@ -41,6 +41,7 @@ use Phalcon\Tests\Unit\Auth\Fake\FakeSessionManager;
 final class ManagerFactoryTest extends AbstractUnitTestCase
 {
     private Container $container;
+
     private Security $security;
 
     protected function setUp(): void
@@ -282,7 +283,7 @@ final class ManagerFactoryTest extends AbstractUnitTestCase
             adapterLocator: $adapterLocator,
         );
 
-        $config = $this->singleSessionConfig();
+        $config                                     = $this->singleSessionConfig();
         $config['guards']['web']['adapter']['name'] = 'aliased_memory';
 
         $manager = $factory->load($config);
@@ -303,7 +304,7 @@ final class ManagerFactoryTest extends AbstractUnitTestCase
             guardLocator: $guardLocator,
         );
 
-        $config = $this->singleSessionConfig();
+        $config                          = $this->singleSessionConfig();
         $config['guards']['web']['type'] = 'aliased_session';
 
         $manager = $factory->load($config);

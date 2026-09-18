@@ -10,6 +10,7 @@
 
 namespace Phalcon\Di\Service;
 
+use Phalcon\Contracts\Di\DiTypes;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\Exception;
 use Phalcon\Di\Exceptions\ArgumentTypeRequired;
@@ -30,13 +31,19 @@ use Phalcon\Di\Exceptions\UnknownServiceType;
  * Phalcon\Di\Service\Builder
  *
  * This class builds instances based on complex definitions
+ *
+ * @phpstan-import-type di_parameters from DiTypes
+ * @phpstan-import-type di_service_argument from DiTypes
+ * @phpstan-import-type di_service_definition from DiTypes
  */
 class Builder
 {
     /**
      * Builds a service using a complex service definition
      *
-     * @param array parameters
+     * @phpstan-param di_service_definition $definition
+     * @phpstan-param di_parameters|null    $parameters
+     *
      * @return mixed
      */
     public function build(<DiInterface> container,  array definition, parameters = null)
@@ -196,6 +203,8 @@ class Builder
     /**
      * Resolves a constructor/call parameter
      *
+     * @phpstan-param di_service_argument $argument
+     *
      * @return mixed
      */
     private function buildParameter(<DiInterface> container, int position,  array argument)
@@ -262,6 +271,10 @@ class Builder
 
     /**
      * Resolves an array of parameters
+     *
+     * @phpstan-param array<int, di_service_argument> $arguments
+     *
+     * @phpstan-return list<mixed>
      */
     private function buildParameters(<DiInterface> container,  array arguments) -> array
     {

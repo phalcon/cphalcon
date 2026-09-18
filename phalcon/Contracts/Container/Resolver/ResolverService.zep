@@ -29,21 +29,40 @@
 
 namespace Phalcon\Contracts\Container\Resolver;
 
+use Phalcon\Contracts\Container\ContainerTypes;
 use Phalcon\Contracts\Container\Ioc\IocContainer;
 use ReflectionMethod;
 use ReflectionParameter;
 use ReflectionType;
 
+/**
+ * @phpstan-import-type container_arguments from ContainerTypes
+ * @phpstan-import-type container_reflection_parameters from ContainerTypes
+ * @phpstan-import-type container_resolved_arguments from ContainerTypes
+ */
 interface ResolverService extends ReflectionParameterResolver
 {
     public function isResolvableClass(string className) -> bool;
 
+    /**
+     * @phpstan-param container_arguments $arguments
+     */
     public function resolveCall(<IocContainer> ioc, callable callableObject, array arguments) -> mixed;
 
+    /**
+     * @phpstan-param class-string         $className
+     * @phpstan-param container_arguments $arguments
+     */
     public function resolveClass(<IocContainer> ioc, string className, array arguments) -> object;
 
     public function resolveMethod(<IocContainer> ioc, <ReflectionMethod> method, object instance) -> void;
 
+    /**
+     * @phpstan-param container_reflection_parameters $parameters
+     * @phpstan-param container_arguments             $arguments
+     *
+     * @phpstan-return container_resolved_arguments
+     */
     public function resolveParameters(<IocContainer> ioc, array parameters, array arguments) -> array;
 
     public function resolveType(<IocContainer> ioc, <ReflectionType> type) -> mixed;

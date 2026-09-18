@@ -23,9 +23,6 @@ final class FakeEntityWithWriteAttribute
      */
     private array $attributes = [];
 
-    /**
-     * @return mixed
-     */
     public function readAttribute(string $name): mixed
     {
         return $this->attributes[$name] ?? null;

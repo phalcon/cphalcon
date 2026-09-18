@@ -18,6 +18,7 @@ use Phalcon\Cache\Cache;
 use Phalcon\Cache\Exception\InvalidArgumentException;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Fake\FakeCache;
 
 use function uniqid;
 
@@ -35,8 +36,8 @@ final class SetMultipleTest extends AbstractUnitTestCase
 
         $adapter = new Cache($instance);
 
-        $key1 = uniqid();
-        $key2 = uniqid();
+        $key1   = uniqid();
+        $key2   = uniqid();
         $actual = $adapter->setMultiple(
             [
                 $key1 => 'test1',
@@ -90,17 +91,11 @@ final class SetMultipleTest extends AbstractUnitTestCase
         $factory    = new AdapterFactory($serializer);
         $instance   = $factory->newInstance('apcu');
 
-        $mock = $this
-            ->getMockBuilder(Cache::class)
-            ->setConstructorArgs([$instance])
-            ->onlyMethods(['set'])
-            ->getMock()
-        ;
-        $mock->method('set')->willReturn(false);
+        $adapter = new FakeCache($instance);
 
         $key1   = uniqid();
         $key2   = uniqid();
-        $actual = $mock->setMultiple(
+        $actual = $adapter->setMultiple(
             [
                 $key1 => 'test1',
                 $key2 => 'test2',

@@ -535,7 +535,8 @@ PHP_METHOD(Phalcon_Support_Registry, toArray)
  *
  * The default string uses the following options for json_encode
  *
- * JSON_HEX_TAG, JSON_HEX_APOS, JSON_HEX_AMP, JSON_HEX_QUOT, JSON_UNESCAPED_SLASHES
+ * JSON_HEX_TAG, JSON_HEX_APOS, JSON_HEX_AMP, JSON_HEX_QUOT,
+ * JSON_UNESCAPED_SLASHES, JSON_THROW_ON_ERROR
  */
 PHP_METHOD(Phalcon_Support_Registry, toJson)
 {
@@ -552,7 +553,7 @@ PHP_METHOD(Phalcon_Support_Registry, toJson)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 0, 1, &options_param);
 	if (!options_param) {
-		options = 79;
+		options = 4194383;
 	} else {
 		}
 	ZVAL_LONG(&_0, options);

@@ -14,8 +14,6 @@ use Phalcon\Contracts\Filter\Sanitizer;
 use Phalcon\Traits\Php\MbCaseTrait;
 
 /**
- * Phalcon\Filter\Sanitize\UpperWords
- *
  * Sanitizes a value to uppercase the first character of each word
  */
 class UpperWords implements Sanitizer
@@ -27,7 +25,7 @@ class UpperWords implements Sanitizer
      *
      * @return false|string|string[]
      */
-    public function __invoke( string input)
+    public function __invoke(string input)
     {
         return this->phpMbConvertCase(input, MB_CASE_TITLE);
     }

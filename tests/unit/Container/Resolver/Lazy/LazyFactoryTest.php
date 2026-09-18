@@ -38,7 +38,7 @@ final class LazyFactoryTest extends AbstractUnitTestCase
      */
     public function testContainerResolverLazyFactoryCall(): void
     {
-        $callable = fn() => 'test';
+        $callable = fn () => 'test';
         $result   = LazyFactory::call($callable);
         $this->assertInstanceOf(Call::class, $result);
     }

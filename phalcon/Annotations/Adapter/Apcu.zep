@@ -11,6 +11,7 @@
 namespace Phalcon\Annotations\Adapter;
 
 use Phalcon\Annotations\Reflection;
+use Phalcon\Contracts\Annotations\AnnotationsTypes;
 
 /**
  * Stores the parsed annotations in APCu. This adapter is suitable for production
@@ -20,6 +21,8 @@ use Phalcon\Annotations\Reflection;
  *
  * $annotations = new Apcu();
  *```
+ *
+ * @phpstan-import-type annotations_options from AnnotationsTypes
  */
 class Apcu extends AbstractAdapter
 {
@@ -40,6 +43,8 @@ class Apcu extends AbstractAdapter
      * ]
      *
      * Phalcon\Annotations\Adapter\Apcu constructor
+     *
+     * @phpstan-param annotations_options $options
      */
     public function __construct(array options = [])
     {
@@ -57,7 +62,7 @@ class Apcu extends AbstractAdapter
     /**
      * Reads parsed annotations from APCu
      */
-    public function read( string key) -> <Reflection> | bool
+    public function read(string key) -> <Reflection> | bool
     {
         return apcu_fetch(
             strtolower(
@@ -69,7 +74,7 @@ class Apcu extends AbstractAdapter
     /**
      * Writes parsed annotations to APCu
      */
-    public function write( string key, <Reflection> data) -> bool
+    public function write(string key, <Reflection> data) -> bool
     {
         return apcu_store(
             strtolower(

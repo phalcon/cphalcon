@@ -52,7 +52,7 @@ final class BlackListTest extends AbstractUnitTestCase
             'key-3',
         ];
 
-        $object = new Blacklist();
+        $object   = new Blacklist();
         $expected = [
             'value-1',
             12        => 'value-5',

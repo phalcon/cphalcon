@@ -69,6 +69,7 @@ final class ViewTest extends AbstractDatabaseTestCase
         // $view->render('test5', 'missing');
         // $view->finish();
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2013-01-07

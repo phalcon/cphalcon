@@ -20,8 +20,11 @@ use ReflectionClass;
 final class GetExpressionTest extends AbstractUnitTestCase
 {
     private int $PHQL_T_AND         = 266;
+
     private int $PHQL_T_BETWEEN     = 331;
+
     private int $PHQL_T_BETWEEN_NOT = 332;
+
     private int $PHQL_T_OR          = 267;
 
     /**

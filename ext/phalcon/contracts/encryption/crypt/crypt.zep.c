@@ -45,56 +45,30 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_Encryption_Crypt_Crypt)
 
 /**
  * Decrypts a text
- *
- * @param string      $input
- * @param string|null $key
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Encryption_Crypt_Crypt, decrypt);
 /**
  * Decrypt a text that is coded as a base64 string
- *
- * @param string      $input
- * @param string|null $key
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Encryption_Crypt_Crypt, decryptBase64);
 /**
  * Encrypts a text
- *
- * @param string      $input
- * @param string|null $key
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Encryption_Crypt_Crypt, encrypt);
 /**
  * Encrypts a text returning the result as a base64 string
- *
- * @param string      $input
- * @param string|null $key
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Encryption_Crypt_Crypt, encryptBase64);
 /**
  * Returns authentication data
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Encryption_Crypt_Crypt, getAuthData);
 /**
  * Returns the authentication tag
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Encryption_Crypt_Crypt, getAuthTag);
 /**
  * Returns the authentication tag length
- *
- * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Encryption_Crypt_Crypt, getAuthTagLength);
 /**
@@ -105,69 +79,37 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Encryption_Crypt_Crypt, getAuthTagLength);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Encryption_Crypt_Crypt, getAvailableCiphers);
 /**
  * Returns the current cipher
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Encryption_Crypt_Crypt, getCipher);
 /**
  * Returns the encryption key
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Encryption_Crypt_Crypt, getKey);
 /**
  * Sets authentication data
- *
- * @param string $data
- *
- * @return Crypt
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Encryption_Crypt_Crypt, setAuthData);
 /**
  * Sets the authentication tag
- *
- * @param string $tag
- *
- * @return Crypt
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Encryption_Crypt_Crypt, setAuthTag);
 /**
  * Sets the authentication tag length
- *
- * @param int $length
- *
- * @return Crypt
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Encryption_Crypt_Crypt, setAuthTagLength);
 /**
  * Sets the cipher algorithm
- *
- * @param string $cipher
- *
- * @return Crypt
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Encryption_Crypt_Crypt, setCipher);
 /**
  * Sets the encryption key
- *
- * @param string $key
- *
- * @return Crypt
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Encryption_Crypt_Crypt, setKey);
 /**
  * Changes the padding scheme used.
- *
- * @param int $scheme
- *
- * @return Crypt
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Encryption_Crypt_Crypt, setPadding);
 /**
  * Sets if the calculating message digest must be used.
- *
- * @param bool $useSigning
- *
- * @return Crypt
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Encryption_Crypt_Crypt, useSigning);

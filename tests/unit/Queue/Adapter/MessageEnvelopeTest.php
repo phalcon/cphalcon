@@ -25,6 +25,7 @@ final class MessageEnvelopeTest extends AbstractUnitTestCase
     {
         $this->assertNull(MessageEnvelope::decode(serialize('not-an-array')));
     }
+
     public function testEncodeDecodeRoundTripPreservesBodyPropertiesHeaders(): void
     {
         $message = new MemoryMessage(

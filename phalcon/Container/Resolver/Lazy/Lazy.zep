@@ -30,8 +30,12 @@
 
 namespace Phalcon\Container\Resolver\Lazy;
 
+use Phalcon\Contracts\Container\ContainerTypes;
 use Phalcon\Contracts\Container\Resolver\Resolvable;
 
+/**
+ * @phpstan-import-type container_arguments from ContainerTypes
+ */
 abstract class Lazy implements Resolvable
 {
     public function __invoke(object ioc) -> mixed
@@ -51,10 +55,8 @@ abstract class Lazy implements Resolvable
     }
 
     /**
-     * @param object                  $ioc
-     * @param array<array-key, mixed> $arguments
-     *
-     * @return array<array-key, mixed>
+     * @phpstan-param  container_arguments $arguments
+     * @phpstan-return container_arguments
      */
     protected function resolveArguments(object ioc, array arguments) -> array
     {

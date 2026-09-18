@@ -45,7 +45,7 @@ final class GetAdapterTest extends AbstractUnitTestCase
             [
                 Libmemcached::class,
                 [
-                    'client' => [],
+                    'client'  => [],
                     'servers' => [
                         Talon::settings()->getServiceOptions('memcached')
                     ]

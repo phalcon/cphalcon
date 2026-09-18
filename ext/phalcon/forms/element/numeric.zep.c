@@ -29,10 +29,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Numeric)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Numeric, phalcon, forms_element_numeric, phalcon_forms_element_abstractelement_ce, NULL, 0);
 
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_forms_element_numeric_ce, SL("method"), "inputNumeric", ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "inputNumeric", sizeof("inputNumeric") - 1);
+		zephir_declare_typed_property(phalcon_forms_element_numeric_ce, SL("method"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 

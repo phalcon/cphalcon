@@ -44,19 +44,6 @@ namespace Phalcon\Contracts\Container\Ioc;
 interface IocContainer
 {
     /**
-     * Is the container able to return an instance of the `$serviceName`?
-     *
-     * - Notes:
-     *
-     *     - **The logic for this method is expressly unspecified.** The ability
-     *       check may be accomplished by querying a service management subsystem,
-     *       or by some other means.
-     *
-     * @param ioc_service_name_string $serviceName
-     */
-    public function hasService(string serviceName) -> bool;
-
-    /**
      * Returns an instance of the `$serviceName`.
      *
      * - Directives:
@@ -74,8 +61,21 @@ interface IocContainer
      *       logic defines the service lifetime, not the container (per se) and
      *       not the caller requesting the service.
      *
-     * @param ioc_service_name_string $serviceName
+     * @param  ioc_service_name_string $serviceName
      * @return ioc_service_object
      */
     public function getService(string serviceName) -> object;
+
+    /**
+     * Is the container able to return an instance of the `$serviceName`?
+     *
+     * - Notes:
+     *
+     *     - **The logic for this method is expressly unspecified.** The ability
+     *       check may be accomplished by querying a service management subsystem,
+     *       or by some other means.
+     *
+     * @param ioc_service_name_string $serviceName
+     */
+    public function hasService(string serviceName) -> bool;
 }

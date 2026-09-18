@@ -56,7 +56,7 @@ class File implements FileInterface
      *
      * @phpstan-param http_uploaded_file $file
      */
-    public function __construct( array file, string key = "")
+    public function __construct(array file, string key = "")
     {
         var name;
 
@@ -163,7 +163,7 @@ class File implements FileInterface
     /**
      * Moves the temporary file to a destination within the application
      */
-    public function moveTo( string destination) -> bool
+    public function moveTo(string destination) -> bool
     {
         return move_uploaded_file(this->tmpName, destination);
     }

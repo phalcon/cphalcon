@@ -32,6 +32,7 @@ final class RemoveSubscriberTest extends AbstractUnitTestCase
 
         $this->assertCount(0, $manager->getListeners('test:multi'));
     }
+
     public function testRemoveSubscriberDetachesSimpleForm(): void
     {
         $manager          = new Manager();

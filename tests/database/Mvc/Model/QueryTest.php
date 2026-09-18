@@ -35,20 +35,12 @@ final class QueryTest extends AbstractDatabaseTestCase
     use DiTrait;
     use RecordsTrait;
 
-    /**
-     * @var CustomersMigration
-     */
     private CustomersMigration $customerMigration;
 
-    /**
-     * @var InvoicesMigration
-     */
     private InvoicesMigration $invoiceMigration;
 
     /**
      * Executed before each test
-     *
-     * @return void
      */
     public function setUp(): void
     {
@@ -158,8 +150,6 @@ final class QueryTest extends AbstractDatabaseTestCase
 
     /**
      * Seed Invoices' table by some data.
-     *
-     * @return void
      */
     private function addTestData(): void
     {

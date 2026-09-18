@@ -154,7 +154,7 @@ final class PrefetchTest extends AbstractDatabaseTestCase
     #[Group('mysql')]
     #[Group('pgsql')]
     #[Group('sqlite')]
-    public function testMvcModelResultsetPrefetchSettingIsRecognised(): void
+    public function testMvcModelResultsetPrefetchSettingIsRecognized(): void
     {
         Settings::set('orm.resultset_prefetch_records', 7);
 

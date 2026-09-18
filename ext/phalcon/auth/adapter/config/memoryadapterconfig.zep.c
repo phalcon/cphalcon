@@ -30,7 +30,7 @@
  * @link    https://github.com/sinbadxiii/cphalcon-auth
  */
 /**
- * @phpstan-type AuthUserRow array{id?: int|string}&array<string, mixed>
+ * @phpstan-import-type auth_user_row from AuthTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Auth_Adapter_Config_MemoryAdapterConfig)
 {
@@ -46,7 +46,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Auth_Adapter_Config_MemoryAdapterConfig)
 }
 
 /**
- * @phpstan-param list<AuthUserRow> $users
+ * @phpstan-param list<auth_user_row> $users
  */
 PHP_METHOD(Phalcon_Auth_Adapter_Config_MemoryAdapterConfig, __construct)
 {
@@ -87,14 +87,14 @@ PHP_METHOD(Phalcon_Auth_Adapter_Config_MemoryAdapterConfig, __construct)
 		zephir_memory_observe(&model_zv);
 	ZVAL_STR_COPY(&model_zv, model);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 434, &users);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 432, &users);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_auth_adapter_config_memoryadapterconfig_ce, getThis(), "__construct", NULL, 0, &model_zv);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
 
 /**
- * @phpstan-return list<AuthUserRow>
+ * @phpstan-return list<auth_user_row>
  */
 PHP_METHOD(Phalcon_Auth_Adapter_Config_MemoryAdapterConfig, getUsers)
 {

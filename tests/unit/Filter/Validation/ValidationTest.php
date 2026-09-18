@@ -230,7 +230,7 @@ final class ValidationTest extends AbstractUnitTestCase
      */
     public function testFilterValidationConstructCallsInitialize(): void
     {
-        $validation = new class extends Validation {
+        $validation = new class () extends Validation {
             public bool $initialized = false;
 
             public function initialize(): void
@@ -248,7 +248,7 @@ final class ValidationTest extends AbstractUnitTestCase
      */
     public function testFilterValidationValidateAfterValidationCalled(): void
     {
-        $validation = new class extends Validation {
+        $validation = new class () extends Validation {
             public bool $afterCalled = false;
 
             public function afterValidation(mixed $data, mixed $entity): void
@@ -269,7 +269,7 @@ final class ValidationTest extends AbstractUnitTestCase
      */
     public function testFilterValidationValidateBeforeValidationReturnsFalse(): void
     {
-        $validation = new class extends Validation {
+        $validation = new class () extends Validation {
             public function beforeValidation(mixed $data, mixed $entity): bool
             {
                 return false;
@@ -302,7 +302,7 @@ final class ValidationTest extends AbstractUnitTestCase
      */
     public function testFilterValidationValidateCombinedCancelOnFailBreaks(): void
     {
-        $validator = new class extends AbstractCombinedFieldsValidator {
+        $validator = new class () extends AbstractCombinedFieldsValidator {
             public function validate(Validation $validation, $field): bool
             {
                 return false;
@@ -337,7 +337,7 @@ final class ValidationTest extends AbstractUnitTestCase
      */
     public function testFilterValidationValidateCombinedScopeNotArrayThrows(): void
     {
-        $validation = new class extends Validation {
+        $validation = new class () extends Validation {
             public function setInvalidCombinedScope(): void
             {
                 $this->combinedFieldsValidators = ['not-an-array'];
@@ -356,7 +356,7 @@ final class ValidationTest extends AbstractUnitTestCase
      */
     public function testFilterValidationValidateCombinedValidatorNotObjectThrows(): void
     {
-        $validation = new class extends Validation {
+        $validation = new class () extends Validation {
             public function setNonObjectCombinedValidator(): void
             {
                 $this->combinedFieldsValidators = [['field', 'not-an-object']];

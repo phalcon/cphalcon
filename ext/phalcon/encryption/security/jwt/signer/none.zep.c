@@ -38,8 +38,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Signer_None)
 
 /**
  * Return the value that is used for the "alg" header
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_None, getAlgHeader)
 {
@@ -49,8 +47,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_None, getAlgHeader)
 
 /**
  * Return the algorithm used
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_None, getAlgorithm)
 {
@@ -60,11 +56,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_None, getAlgorithm)
 
 /**
  * Sign a payload using the passphrase
- *
- * @param string $payload
- * @param string $passphrase
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_None, sign)
 {
@@ -84,12 +75,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_None, sign)
 
 /**
  * Verify a passed source with a payload and passphrase
- *
- * @param string $source
- * @param string $payload
- * @param string $passphrase
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_None, verify)
 {

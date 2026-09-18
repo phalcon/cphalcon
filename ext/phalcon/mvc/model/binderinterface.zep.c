@@ -34,10 +34,15 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_BinderInterface)
 
 /**
  * Bind models into params in proper handler
+ *
+ * @phpstan-param array<array-key, mixed> $params
+ * @phpstan-return array<array-key, mixed>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_BinderInterface, bindToHandler);
 /**
  * Gets active bound models
+ *
+ * @phpstan-return array<array-key, mixed>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_BinderInterface, getBoundModels);
 /**

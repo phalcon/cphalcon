@@ -17,7 +17,8 @@ class ModelOrmServicesUnavailable extends Exception
     public function __construct(string className)
     {
         parent::__construct(
-            "A dependency injection container is required to access the services related to the ODM in '" . className . "'"
+            "A dependency injection container is required to access "
+            . "the services related to the ODM in '" . className . "'"
         );
     }
 }

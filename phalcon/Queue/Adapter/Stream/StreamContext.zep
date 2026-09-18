@@ -171,8 +171,17 @@ class StreamContext extends AbstractContext
 
     private function ensureDir() -> void
     {
-        if !is_dir(this->storageDir) {
-            mkdir(this->storageDir, 0777, true);
+        var errorLevel;
+
+        /**
+         * A different process can make the directory after the test. Do not
+         * report the "File exists" warning that this condition causes.
+         */
+        if !this->phpIsDir(this->storageDir) {
+            let errorLevel = error_reporting(0);
+            this->phpMkdir(this->storageDir, 0777, true);
+            error_clear_last();
+            error_reporting(errorLevel);
         }
     }
 

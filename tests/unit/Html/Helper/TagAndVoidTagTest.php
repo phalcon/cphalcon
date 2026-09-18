@@ -39,6 +39,7 @@ final class TagAndVoidTagTest extends AbstractUnitTestCase
             $tag('x><script>alert(1)</script>')
         );
     }
+
     public function testTagRendersOpenTagOnly(): void
     {
         $tag = new Tag(new Escaper());

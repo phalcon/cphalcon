@@ -21,7 +21,6 @@ use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Storage\Adapter\RedisCluster;
 use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\Adapter\Weak;
-use Throwable;
 
 /**
  * @phpstan-import-type storage_options from StorageTypes
@@ -34,7 +33,7 @@ class AdapterFactory extends AbstractFactory
     /**
      * AdapterFactory constructor.
      *
-     * @param string[] $services
+     * @param array<string, string> $services
      */
     public function __construct(<SerializerFactory> factory,  array services = [])
     {
@@ -72,7 +71,7 @@ class AdapterFactory extends AbstractFactory
      * @return AdapterInterface
      * @throws BaseException
      */
-    public function newInstance( string name,  array options = []) -> <AdapterInterface>
+    public function newInstance(string name,  array options = []) -> <AdapterInterface>
     {
         var definition;
 
@@ -89,7 +88,7 @@ class AdapterFactory extends AbstractFactory
     }
 
     /**
-     * @return class-string<Throwable>
+     * @return class-string<\Exception>
      */
     protected function getExceptionClass() -> string
     {

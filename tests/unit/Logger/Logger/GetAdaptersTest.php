@@ -26,12 +26,12 @@ final class GetAdaptersTest extends AbstractUnitTestCase
      */
     public function testLoggerGetAdapters(): void
     {
-        $fileName1  = $this->getNewFileName('log', 'log');
-        $fileName2  = $this->getNewFileName('log', 'log');
+        $fileName1   = $this->getNewFileName('log', 'log');
+        $fileName2   = $this->getNewFileName('log', 'log');
         $outputPath1 = Talon::settings()->outputPath('tests/logs/' . $fileName1);
         $outputPath2 = Talon::settings()->outputPath('tests/logs/' . $fileName1);
-        $adapter1   = new Stream($outputPath1);
-        $adapter2   = new Stream($outputPath2);
+        $adapter1    = new Stream($outputPath1);
+        $adapter2    = new Stream($outputPath2);
 
         $logger = new Logger(
             'my-logger',

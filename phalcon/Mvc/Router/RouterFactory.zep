@@ -21,27 +21,29 @@ use Phalcon\Mvc\RouterInterface;
  * Builds a Router from an array or ConfigInterface and loads routes via
  * Router::loadFromConfig.
  *
- *```php
+ * ```php
  * use Phalcon\Mvc\Router\RouterFactory;
  *
  * $router = (new RouterFactory())->load(
  *     [
- *         "defaultRoutes" : false,
- *         "routes" : [
- *             ["method" : "get", "pattern" : "/users", "paths" : "Users::index"]
+ *         'defaultRoutes' => false,
+ *         'routes' => [
+ *             ['method' => 'get', 'pattern' => '/users', 'paths' => 'Users::index']
  *         ]
  *     ]
  * );
- *```
+ * ```
  */
 class RouterFactory
 {
     /**
      * Builds a Router from a config array or ConfigInterface and loads routes.
      *
-     * @param array|\Phalcon\Config\ConfigInterface config
+     * @param array|ConfigInterface $config
      *
      * @return RouterInterface
+     *
+     * @phpstan-param array<array-key, mixed>|ConfigInterface $config
      */
     public function load(var config) -> <RouterInterface>
     {

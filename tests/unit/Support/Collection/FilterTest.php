@@ -31,6 +31,7 @@ final class FilterTest extends AbstractCollectionTestCase
 
         $this->assertSame(['bb' => 2, 'ccc' => 3], $filtered->toArray());
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-12

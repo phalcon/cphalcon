@@ -26,11 +26,11 @@ final class GetValuesTest extends AbstractCollectionTestCase
     public function testSupportCollectionGetValues(
         string $class,
     ): void {
-        $data = $this->getData();
+        $data       = $this->getData();
         $collection = new $class($data);
 
         $expected = $this->getDataValues();
-        $actual = $collection->getValues();
+        $actual   = $collection->getValues();
         $this->assertSame($expected, $actual);
     }
 }

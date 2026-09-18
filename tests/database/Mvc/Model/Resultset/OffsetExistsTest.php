@@ -38,13 +38,13 @@ final class OffsetExistsTest extends AbstractDatabaseTestCase
     public static function getExamples(): array
     {
         return [
-            'simple-first'   => ['simple', 0, true],
-            'simple-last'    => ['simple', 2, true],
-            'simple-missing' => ['simple', 3, false],
-            'complex-first'  => ['complex', 0, true],
-            'complex-last'   => ['complex', 3, true],
+            'simple-first'    => ['simple', 0, true],
+            'simple-last'     => ['simple', 2, true],
+            'simple-missing'  => ['simple', 3, false],
+            'complex-first'   => ['complex', 0, true],
+            'complex-last'    => ['complex', 3, true],
             'complex-missing' => ['complex', 4, false],
-            'empty-missing'  => ['empty', 0, false],
+            'empty-missing'   => ['empty', 0, false],
         ];
     }
 

@@ -13,8 +13,6 @@ namespace Phalcon\Filter\Sanitize;
 use Phalcon\Contracts\Filter\Sanitizer;
 
 /**
- * Phalcon\Filter\Sanitize\LowerFirst
- *
  * Sanitizes a value to lcfirst
  */
 class LowerFirst implements Sanitizer
@@ -24,7 +22,7 @@ class LowerFirst implements Sanitizer
      *
      * @return string
      */
-    public function __invoke( string input)
+    public function __invoke(string input)
     {
         return lcfirst(input);
     }

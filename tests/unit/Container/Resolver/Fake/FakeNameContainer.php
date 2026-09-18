@@ -48,9 +48,9 @@ class FakeNameContainer
     public function get(string $name): mixed
     {
         $this->lastId = $name;
-        $class = new stdClass();
-        $class->name = $name;
-        $class->type = "get";
+        $class        = new stdClass();
+        $class->name  = $name;
+        $class->type  = "get";
 
         return $class;
     }
@@ -73,9 +73,9 @@ class FakeNameContainer
     public function new(string $name): mixed
     {
         $this->lastId = $name;
-        $class = new stdClass();
-        $class->name = $name;
-        $class->type = "new";
+        $class        = new stdClass();
+        $class->name  = $name;
+        $class->type  = "new";
 
         return $class;
     }

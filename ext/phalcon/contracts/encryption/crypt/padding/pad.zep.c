@@ -38,15 +38,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_Encryption_Crypt_Padding_Pad)
 }
 
 /**
- * @param int $paddingSize
- *
- * @return string
+ * @phpstan-param int<0, 255> $paddingSize
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Encryption_Crypt_Padding_Pad, pad);
-/**
- * @param string $input
- * @param int    $blockSize
- *
- * @return int
- */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Encryption_Crypt_Padding_Pad, unpad);

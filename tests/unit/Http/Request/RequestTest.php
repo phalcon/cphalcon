@@ -55,6 +55,7 @@ final class RequestTest extends AbstractHttpBase
         unset($_GET['test']);
         $this->assertSame($expected, $actual);
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04

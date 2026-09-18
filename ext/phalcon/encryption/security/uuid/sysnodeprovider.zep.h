@@ -12,7 +12,9 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpFileGetContents)
 PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpFilePutContents);
 PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpFopen);
 PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpFwrite);
+PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpIsDir);
 PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpIsWritable);
+PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpMkdir);
 PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpUnlink);
 PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpExtensionLoaded);
 PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpFunctionExists);
@@ -68,8 +70,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_uuid
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -95,7 +108,9 @@ ZEPHIR_INIT_FUNCS(phalcon_encryption_security_uuid_sysnodeprovider_method_entry)
 	PHP_ME(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpFilePutContents, arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpFopen, arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpFwrite, arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpIsDir, arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpIsWritable, arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpMkdir, arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpUnlink, arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpExtensionLoaded, arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpextensionloaded, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpFunctionExists, arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpfunctionexists, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)

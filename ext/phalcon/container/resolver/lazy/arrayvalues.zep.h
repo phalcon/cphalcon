@@ -14,7 +14,6 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, offsetUnset);
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, resolve);
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, resolveValue);
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, resolveValues);
-zend_object *zephir_init_properties_Phalcon_Container_Resolver_Lazy_ArrayValues(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_container_resolver_lazy_arrayvalues___construct, 0, 0, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, values, IS_ARRAY, 0, "[]")
@@ -62,9 +61,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_resolver_lazy_arrayvalues_resolvevalues, 0, 2, IS_ARRAY, 0)
 	ZEND_ARG_INFO(0, ioc)
 	ZEND_ARG_ARRAY_INFO(0, values, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_container_resolver_lazy_arrayvalues_zephir_init_properties_phalcon_container_resolver_lazy_arrayvalues, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_container_resolver_lazy_arrayvalues_method_entry) {

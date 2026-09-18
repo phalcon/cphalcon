@@ -29,7 +29,6 @@ final class GetAssetKeyTest extends AbstractUnitTestCase
      * @since  2020-09-09
      */
     #[DataProvider('providerAssets')]
-
     public function testAssetsAssetGetAssetKey(
         string $type,
         string $path

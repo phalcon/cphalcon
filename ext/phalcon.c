@@ -239,25 +239,39 @@ zend_class_entry *phalcon_auth_adapter_config_traits_modelconfigtrait_ce;
 zend_class_entry *phalcon_contracts_acl_acltypes_ce;
 zend_class_entry *phalcon_contracts_adr_action_ce;
 zend_class_entry *phalcon_contracts_adr_adrtypes_ce;
+zend_class_entry *phalcon_contracts_annotations_annotationstypes_ce;
 zend_class_entry *phalcon_contracts_application_applicationtypes_ce;
 zend_class_entry *phalcon_contracts_assets_assetstypes_ce;
 zend_class_entry *phalcon_contracts_auth_authremember_ce;
+zend_class_entry *phalcon_contracts_auth_authtypes_ce;
 zend_class_entry *phalcon_contracts_auth_remembertoken_ce;
 zend_class_entry *phalcon_contracts_autoload_autoloadtypes_ce;
 zend_class_entry *phalcon_contracts_cli_clitypes_ce;
 zend_class_entry *phalcon_contracts_config_configtypes_ce;
+zend_class_entry *phalcon_contracts_container_containertypes_ce;
 zend_class_entry *phalcon_contracts_container_ioc_ioctypealiases_ce;
 zend_class_entry *phalcon_contracts_container_resolver_reflectionmethodresolver_ce;
 zend_class_entry *phalcon_contracts_container_service_definition_ce;
+zend_class_entry *phalcon_contracts_datamapper_datamappertypes_ce;
+zend_class_entry *phalcon_contracts_db_dbtypes_ce;
+zend_class_entry *phalcon_contracts_di_ditypes_ce;
 zend_class_entry *phalcon_contracts_dispatcher_dispatchertypes_ce;
+zend_class_entry *phalcon_contracts_encryption_encryptiontypes_ce;
+zend_class_entry *phalcon_contracts_events_eventstypes_ce;
 zend_class_entry *phalcon_contracts_events_subscriber_ce;
+zend_class_entry *phalcon_contracts_factory_factorytypes_ce;
+zend_class_entry *phalcon_contracts_filter_filtertypes_ce;
+zend_class_entry *phalcon_contracts_flash_flashtypes_ce;
+zend_class_entry *phalcon_contracts_forms_formstypes_ce;
 zend_class_entry *phalcon_contracts_front_fronttypealiases_ce;
 zend_class_entry *phalcon_contracts_html_htmltypes_ce;
 zend_class_entry *phalcon_contracts_html_link_linktypes_ce;
 zend_class_entry *phalcon_contracts_http_httptypes_ce;
 zend_class_entry *phalcon_contracts_image_imagetypes_ce;
+zend_class_entry *phalcon_contracts_logger_loggertypes_ce;
 zend_class_entry *phalcon_contracts_messages_messagestypes_ce;
 zend_class_entry *phalcon_contracts_mvc_model_relation_cachekeyprovider_ce;
+zend_class_entry *phalcon_contracts_mvc_mvctypes_ce;
 zend_class_entry *phalcon_contracts_paginator_paginatortypes_ce;
 zend_class_entry *phalcon_contracts_queue_processor_ce;
 zend_class_entry *phalcon_contracts_queue_queuetypes_ce;
@@ -1259,7 +1273,9 @@ zend_class_entry *phalcon_mvc_model_exceptions_unsupportedeageroption_ce;
 zend_class_entry *phalcon_mvc_model_exceptions_unsupportedeagerresultset_ce;
 zend_class_entry *phalcon_mvc_model_exceptions_updatesnapshotdisabled_ce;
 zend_class_entry *phalcon_mvc_model_hydration_caseinsensitivecolumnmap_ce;
+zend_class_entry *phalcon_mvc_model_hydration_cloneresult_ce;
 zend_class_entry *phalcon_mvc_model_hydration_cloneresultmaphydrate_ce;
+zend_class_entry *phalcon_mvc_model_hydration_getprivateproperties_ce;
 zend_class_entry *phalcon_mvc_model_manager_ce;
 zend_class_entry *phalcon_mvc_model_metadata_apcu_ce;
 zend_class_entry *phalcon_mvc_model_metadata_exceptions_cannotobtaintablecolumns_ce;
@@ -1852,25 +1868,39 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Contracts_ADR_ADRTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_ADR_Action);
 	ZEPHIR_INIT(Phalcon_Contracts_Acl_AclTypes);
+	ZEPHIR_INIT(Phalcon_Contracts_Annotations_AnnotationsTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Application_ApplicationTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Assets_AssetsTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Auth_AuthRemember);
+	ZEPHIR_INIT(Phalcon_Contracts_Auth_AuthTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Auth_RememberToken);
 	ZEPHIR_INIT(Phalcon_Contracts_Autoload_AutoloadTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Cli_CliTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Config_ConfigTypes);
+	ZEPHIR_INIT(Phalcon_Contracts_Container_ContainerTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Container_Ioc_IocTypeAliases);
 	ZEPHIR_INIT(Phalcon_Contracts_Container_Resolver_ReflectionMethodResolver);
 	ZEPHIR_INIT(Phalcon_Contracts_Container_Service_Definition);
+	ZEPHIR_INIT(Phalcon_Contracts_DataMapper_DataMapperTypes);
+	ZEPHIR_INIT(Phalcon_Contracts_Db_DbTypes);
+	ZEPHIR_INIT(Phalcon_Contracts_Di_DiTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Dispatcher_DispatcherTypes);
+	ZEPHIR_INIT(Phalcon_Contracts_Encryption_EncryptionTypes);
+	ZEPHIR_INIT(Phalcon_Contracts_Events_EventsTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Events_Subscriber);
+	ZEPHIR_INIT(Phalcon_Contracts_Factory_FactoryTypes);
+	ZEPHIR_INIT(Phalcon_Contracts_Filter_FilterTypes);
+	ZEPHIR_INIT(Phalcon_Contracts_Flash_FlashTypes);
+	ZEPHIR_INIT(Phalcon_Contracts_Forms_FormsTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Front_FrontTypeAliases);
 	ZEPHIR_INIT(Phalcon_Contracts_Html_HtmlTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Html_Link_LinkTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Http_HttpTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Image_ImageTypes);
+	ZEPHIR_INIT(Phalcon_Contracts_Logger_LoggerTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Messages_MessagesTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Mvc_Model_Relation_CacheKeyProvider);
+	ZEPHIR_INIT(Phalcon_Contracts_Mvc_MvcTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Paginator_PaginatorTypes);
 	ZEPHIR_INIT(Phalcon_Contracts_Queue_Processor);
 	ZEPHIR_INIT(Phalcon_Contracts_Queue_QueueTypes);
@@ -2768,7 +2798,9 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Exceptions_UnsupportedEagerResultset);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Exceptions_UpdateSnapshotDisabled);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Hydration_CaseInsensitiveColumnMap);
+	ZEPHIR_INIT(Phalcon_Mvc_Model_Hydration_CloneResult);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Hydration_CloneResultMapHydrate);
+	ZEPHIR_INIT(Phalcon_Mvc_Model_Hydration_GetPrivateProperties);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_Manager);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_MetaData_Apcu);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_MetaData_Exceptions_CannotObtainTableColumns);
@@ -3217,15 +3249,25 @@ static PHP_MINIT_FUNCTION(phalcon)
 	return SUCCESS;
 }
 
-#ifndef ZEPHIR_RELEASE
 static PHP_MSHUTDOWN_FUNCTION(phalcon)
 {
+#ifndef ZEPHIR_RELEASE
 	
 	zephir_deinitialize_memory();
+#endif
+	/**
+	 * Both of these have to run in every build, release included.
+	 *
+	 * module_destructor() unregisters a module's INI entries for it only when
+	 * the module has no MSHUTDOWN of its own, so declaring one takes over that
+	 * duty; skipping it leaves zend_ini_entry records pointing into an
+	 * unloaded extension. And the kernel installs process-wide hooks that
+	 * point into this extension and must not outlive it.
+	 */
 	UNREGISTER_INI_ENTRIES();
+	zephir_module_shutdown();
 	return SUCCESS;
 }
-#endif
 
 /**
  * Initialize globals on each request or each thread started
@@ -3285,7 +3327,7 @@ static void php_zephir_init_module_globals(zend_phalcon_globals *phalcon_globals
 }
 
 void zephir_init_static_properties_Phalcon_Filter_Validation();
-void zephir_init_static_properties_Phalcon_Mvc_Model();
+void zephir_init_static_properties_Phalcon_Mvc_Model_Hydration_GetPrivateProperties();
 static PHP_RINIT_FUNCTION(phalcon)
 {
 	zend_phalcon_globals *phalcon_globals_ptr;
@@ -3295,7 +3337,7 @@ static PHP_RINIT_FUNCTION(phalcon)
 	zephir_initialize_memory(phalcon_globals_ptr);
 
 		zephir_init_static_properties_Phalcon_Filter_Validation();
-		zephir_init_static_properties_Phalcon_Mvc_Model();
+		zephir_init_static_properties_Phalcon_Mvc_Model_Hydration_GetPrivateProperties();
 	
 	return SUCCESS;
 }
@@ -3363,11 +3405,7 @@ zend_module_entry phalcon_module_entry = {
 	PHP_PHALCON_EXTNAME,
 	php_phalcon_functions,
 	PHP_MINIT(phalcon),
-#ifndef ZEPHIR_RELEASE
 	PHP_MSHUTDOWN(phalcon),
-#else
-	NULL,
-#endif
 	PHP_RINIT(phalcon),
 	PHP_RSHUTDOWN(phalcon),
 	PHP_MINFO(phalcon),

@@ -29,6 +29,8 @@
  */
 /**
  * Factory used to create adapters used for Logging
+ *
+ * @phpstan-import-type logger_adapter_options from LoggerTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_AdapterFactory)
 {
@@ -72,11 +74,8 @@ PHP_METHOD(Phalcon_Logger_AdapterFactory, __construct)
 /**
  * Create a new instance of the adapter
  *
- * @param string $name
- * @param string $fileName
- * @param array  $options
+ * @phpstan-param logger_adapter_options $options
  *
- * @return AdapterInterface
  * @throws BaseException
  */
 PHP_METHOD(Phalcon_Logger_AdapterFactory, newInstance)
@@ -126,7 +125,7 @@ PHP_METHOD(Phalcon_Logger_AdapterFactory, newInstance)
 }
 
 /**
- * @return class-string<Throwable>
+ * @return class-string<\Exception>
  */
 PHP_METHOD(Phalcon_Logger_AdapterFactory, getExceptionClass)
 {
@@ -137,7 +136,7 @@ PHP_METHOD(Phalcon_Logger_AdapterFactory, getExceptionClass)
 /**
  * Returns the available adapters
  *
- * @return string[]
+ * @return array<string, string>
  */
 PHP_METHOD(Phalcon_Logger_AdapterFactory, getServices)
 {

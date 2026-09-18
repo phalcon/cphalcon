@@ -82,12 +82,13 @@ final class LocatorTest extends AbstractUnitTestCase
     {
         $schema  = $this->schema();
         $locator = new FormsLocator([
-            'login' => fn(?object $e) => (new Form($e))->load($schema, new FormsLocator()),
+            'login' => fn (?object $e) => (new Form($e))->load($schema, new FormsLocator()),
         ]);
 
         $this->assertTrue($locator->has('login'));
         $this->assertInstanceOf(Form::class, $locator->get('login'));
     }
+
     private function schema(): ArrayLoader
     {
         return new ArrayLoader([

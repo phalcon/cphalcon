@@ -34,19 +34,9 @@ use Phalcon\Container\Exceptions\EnvNotDefined;
 
 class Env extends Lazy
 {
-    /**
-     * @var string
-     */
-    protected varname;
-    /**
-     * @var string|null
-     */
-    protected vartype = null;
+    protected string varname;
+    protected ?string vartype = null;
 
-    /**
-     * @param string      $varname
-     * @param string|null $vartype
-     */
     public function __construct(string varname, string vartype = null)
     {
         let this->varname = varname;
@@ -56,9 +46,6 @@ class Env extends Lazy
     /**
      * Resolve an environment variable
      *
-     * @param object $ioc
-     *
-     * @return mixed
      * @throws EnvNotDefined
      */
     public function resolve(object ioc) -> mixed
@@ -68,10 +55,6 @@ class Env extends Lazy
 
     /**
      * Cast a value to the defined type (if any)
-     *
-     * @param string $value
-     *
-     * @return mixed
      */
     protected function cast(var value) -> mixed
     {
@@ -85,12 +68,11 @@ class Env extends Lazy
     /**
      * Return the env value
      *
-     * @return string
      * @throws EnvNotDefined
      */
     protected function getEnv() -> string
     {
-        var envs;
+        var envs, value;
 
         let envs = array_merge(_ENV, getenv());
 
@@ -98,6 +80,9 @@ class Env extends Lazy
             throw new EnvNotDefined(this->varname);
         }
 
-        return envs[this->varname];
+        /** @var string $value */
+        let value = envs[this->varname];
+
+        return value;
     }
 }

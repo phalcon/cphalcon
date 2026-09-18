@@ -24,8 +24,6 @@ final class GetSizeTest extends AbstractDatabaseTestCase
     /**
      * Tests Phalcon\Db\Column :: getSize()
      *
-     * @return void
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      */

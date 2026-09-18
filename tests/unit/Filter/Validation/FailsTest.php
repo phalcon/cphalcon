@@ -33,6 +33,7 @@ final class FailsTest extends AbstractUnitTestCase
         $validation->validate(['email' => 'user@example.com']);
         $this->assertFalse($validation->fails());
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2025-08-02

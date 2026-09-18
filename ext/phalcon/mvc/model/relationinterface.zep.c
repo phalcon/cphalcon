@@ -21,9 +21,11 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Model\RelationInterface
- *
  * Interface for Phalcon\Mvc\Model\Relation
+ *
+ * @phpstan-import-type mvc_model_parameters from MvcTypes
+ * @phpstan-import-type mvc_relation_fields from MvcTypes
+ * @phpstan-import-type mvc_relation_options from MvcTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_RelationInterface)
 {
@@ -35,19 +37,25 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_RelationInterface)
 /**
  * Returns the fields
  *
- * @return string|array
+ * @return array|string
+ *
+ * @phpstan-return mvc_relation_fields
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getFields);
 /**
  * Returns the foreign key configuration
  *
- * @return string|array
+ * @return array|bool|string
+ *
+ * @phpstan-return array<string, mixed>|string|bool
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getForeignKey);
 /**
  * Gets the intermediate fields for has-*-through relations
  *
- * @return string|array
+ * @return array|string
+ *
+ * @phpstan-return mvc_relation_fields
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getIntermediateFields);
 /**
@@ -57,7 +65,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getIntermediateModel);
 /**
  * Gets the intermediate referenced fields for has-*-through relations
  *
- * @return string|array
+ * @return array|string
+ *
+ * @phpstan-return mvc_relation_fields
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getIntermediateReferencedFields);
 /**
@@ -67,18 +77,24 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getIntermediateReferenced
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getOption);
 /**
  * Returns the options
+ *
+ * @phpstan-return mvc_relation_options
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getOptions);
 /**
  * Returns parameters that must be always used when the related records are obtained
  *
  * @return array
+ *
+ * @phpstan-return mvc_model_parameters|false
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getParams);
 /**
  * Returns the referenced fields
  *
- * @return string|array
+ * @return array|string
+ *
+ * @phpstan-return mvc_relation_fields
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getReferencedFields);
 /**
@@ -94,7 +110,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getType);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, isForeignKey);
 /**
- * Check if records returned by getting belongs-to/has-many are implicitly cached during the current request
+ * Check if records returned by getting belongs-to/has-many are implicitly
+ * cached during the current request
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, isReusable);
 /**

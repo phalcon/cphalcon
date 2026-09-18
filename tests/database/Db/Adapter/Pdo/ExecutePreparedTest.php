@@ -48,7 +48,7 @@ final class ExecutePreparedTest extends AbstractDatabaseTestCase
         $migration->insert(1, 1, 1, 'prepared 1', 11.0);
         $migration->insert(2, 1, 1, 'prepared 2', 22.0);
 
-        $stmt = $db->prepare('SELECT inv_title FROM co_invoices WHERE inv_id = ?');
+        $stmt   = $db->prepare('SELECT inv_title FROM co_invoices WHERE inv_id = ?');
         $result = $db->executePrepared(
             $stmt,
             [0 => 2],

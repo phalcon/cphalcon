@@ -24,37 +24,41 @@ interface ViewBaseInterface
 
     /**
      * Returns parameters to views
+     *
+     * @phpstan-return array<string, mixed>
      */
     public function getParamsToView() -> array;
 
     /**
      * Gets views directory
+     *
+     * @phpstan-return list<string>|string
      */
-    public function getViewsDir() -> string | array;
+    public function getViewsDir() -> array | string;
 
     /**
      * Renders a partial view
      */
-    public function partial( string partialPath, var params = null);
+    public function partial(string partialPath, var params = null);
 
     /**
      * Externally sets the view content
      */
-    public function setContent( string content);
+    public function setContent(string content);
 
     /**
      * Adds parameters to views (alias of setVar)
      */
-    public function setParamToView( string key, var value);
+    public function setParamToView(string key, var value);
 
     /**
      * Adds parameters to views
      */
-    public function setVar( string key, var value);
+    public function setVar(string key, var value);
 
     /**
      * Sets views directory. Depending of your platform, always add a trailing
      * slash or backslash
      */
-    public function setViewsDir( string viewsDir);
+    public function setViewsDir(string viewsDir);
 }

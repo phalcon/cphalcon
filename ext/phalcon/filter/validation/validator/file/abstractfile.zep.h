@@ -15,6 +15,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, isAllowEmpty);
 PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, setMessageFileEmpty);
 PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, setMessageIniSize);
 PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, setMessageValid);
+PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, appendMessageValid);
 PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkIsUploadedFile);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validator_file_abstractfile_checkupload, 0, 2, _IS_BOOL, 0)
@@ -70,6 +71,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_valida
 	ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validator_file_abstractfile_appendmessagevalid, 0, 2, IS_VOID, 0)
+
+	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Filter\\Validation, 0)
+	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validator_file_abstractfile_checkisuploadedfile, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
@@ -87,6 +94,7 @@ ZEPHIR_INIT_FUNCS(phalcon_filter_validation_validator_file_abstractfile_method_e
 	PHP_ME(Phalcon_Filter_Validation_Validator_File_AbstractFile, setMessageFileEmpty, arginfo_phalcon_filter_validation_validator_file_abstractfile_setmessagefileempty, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation_Validator_File_AbstractFile, setMessageIniSize, arginfo_phalcon_filter_validation_validator_file_abstractfile_setmessageinisize, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation_Validator_File_AbstractFile, setMessageValid, arginfo_phalcon_filter_validation_validator_file_abstractfile_setmessagevalid, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Filter_Validation_Validator_File_AbstractFile, appendMessageValid, arginfo_phalcon_filter_validation_validator_file_abstractfile_appendmessagevalid, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkIsUploadedFile, arginfo_phalcon_filter_validation_validator_file_abstractfile_checkisuploadedfile, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };

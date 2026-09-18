@@ -22,6 +22,7 @@ final class DropViewTest extends AbstractDatabaseTestCase
     use DiTrait;
 
     private const SRC  = 'co_scratch_dropview_src';
+
     private const VIEW = 'co_scratch_dropview';
 
     public function setUp(): void

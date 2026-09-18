@@ -17,7 +17,7 @@ on:
 
 env:
   # All versions should be declared here
-  PHALCON_VERSION: 5.20.3
+  PHALCON_VERSION: 5.21.0
   # For tests
   LANG: en_US.UTF-8
   LANGUAGE: en_US.UTF-8
@@ -58,6 +58,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          persist-credentials: false
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
           token: ${{ github.token }}
@@ -84,6 +85,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          persist-credentials: false
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
           token: ${{ github.token }}
@@ -93,9 +95,24 @@ jobs:
         with:
           php-version: '8.5'
 
+      - name: Setup APT Repositories
+        run: |
+          # Keep only the Ubuntu archives. The runner image also carries
+          # third-party repos (Google, Microsoft) that we install nothing
+          # from. Those servers are often unstable or offline, so they can
+          # only make the build fail. Files are selected by content, because
+          # the names and the format (".list" or ".sources") change.
+          find /etc/apt/sources.list.d -maxdepth 1 -type f \
+              \( -name '*.list' -o -name '*.sources' \) \
+              -exec grep -LE 'ubuntu\.com|apt-mirrors\.txt' {} + \
+              | sudo xargs -r rm -f
+          ls -la /etc/apt/sources.list.d/
+
       - name: Install System Dependencies
         run: |
-          sudo apt-get update --quiet --yes 1>/dev/null
+          # A third-party repo that stays must not fail the step. The
+          # install below fails if the Ubuntu archives are really down.
+          sudo apt-get update --quiet --yes 1>/dev/null || true
           sudo apt-get install --no-install-recommends -q -y re2c
 
       - run: composer install --prefer-dist --ignore-platform-reqs
@@ -128,6 +145,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          persist-credentials: false
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
           token: ${{ github.token }}
@@ -142,14 +160,22 @@ jobs:
 
       - name: Setup APT Repositories
         run: |
-          # Remove Microsoft repos - our builds often fail due to
-          # unstable/offline Microsoft servers.
-          sudo rm -f /etc/apt/sources.list.d/dotnetdev.list
-          sudo rm -f /etc/apt/sources.list.d/azure*.list
+          # Keep only the Ubuntu archives. The runner image also carries
+          # third-party repos (Google, Microsoft) that we install nothing
+          # from. Those servers are often unstable or offline, so they can
+          # only make the build fail. Files are selected by content, because
+          # the names and the format (".list" or ".sources") change.
+          find /etc/apt/sources.list.d -maxdepth 1 -type f \
+              \( -name '*.list' -o -name '*.sources' \) \
+              -exec grep -LE 'ubuntu\.com|apt-mirrors\.txt' {} + \
+              | sudo xargs -r rm -f
+          ls -la /etc/apt/sources.list.d/
 
       - name: Install System Dependencies
         run: |
-          sudo apt-get update --quiet --yes 1>/dev/null
+          # A third-party repo that stays must not fail the step. The
+          # install below fails if the Ubuntu archives are really down.
+          sudo apt-get update --quiet --yes 1>/dev/null || true
           sudo apt-get install --no-install-recommends -q -y re2c
 
       - run: composer install --ignore-platform-reqs
@@ -210,6 +236,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          persist-credentials: false
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
           token: ${{ github.token }}
@@ -223,14 +250,22 @@ jobs:
 
       - name: Setup APT Repositories
         run: |
-          # Remove Microsoft repos - our builds often fail due to
-          # unstable/offline Microsoft servers.
-          sudo rm -f /etc/apt/sources.list.d/dotnetdev.list
-          sudo rm -f /etc/apt/sources.list.d/azure*.list
+          # Keep only the Ubuntu archives. The runner image also carries
+          # third-party repos (Google, Microsoft) that we install nothing
+          # from. Those servers are often unstable or offline, so they can
+          # only make the build fail. Files are selected by content, because
+          # the names and the format (".list" or ".sources") change.
+          find /etc/apt/sources.list.d -maxdepth 1 -type f \
+              \( -name '*.list' -o -name '*.sources' \) \
+              -exec grep -LE 'ubuntu\.com|apt-mirrors\.txt' {} + \
+              | sudo xargs -r rm -f
+          ls -la /etc/apt/sources.list.d/
 
       - name: Install System Dependencies
         run: |
-          sudo apt-get update --quiet --yes 1>/dev/null
+          # A third-party repo that stays must not fail the step. The
+          # install below fails if the Ubuntu archives are really down.
+          sudo apt-get update --quiet --yes 1>/dev/null || true
           sudo apt-get install --no-install-recommends -q -y re2c
 
       - run: composer install --ignore-platform-reqs
@@ -283,6 +318,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          persist-credentials: false
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
           token: ${{ github.token }}
@@ -338,6 +374,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          persist-credentials: false
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
           token: ${{ github.token }}
@@ -411,6 +448,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          persist-credentials: false
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
           token: ${{ github.token }}
@@ -557,6 +595,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          persist-credentials: false
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 0
           token: ${{ github.token }}
@@ -581,7 +620,12 @@ jobs:
 
       - name: Test Redis Cluster
         run: |
-          sudo apt-get update
+          # See "Setup APT Repositories" - third-party repos only break us.
+          find /etc/apt/sources.list.d -maxdepth 1 -type f \
+              \( -name '*.list' -o -name '*.sources' \) \
+              -exec grep -LE 'ubuntu\.com|apt-mirrors\.txt' {} + \
+              | sudo xargs -r rm -f
+          sudo apt-get update || true
           sudo apt-get install -y redis-tools
           docker ps -a
           redis-cli -h 127.0.0.1 -p 5000 ping
@@ -635,6 +679,10 @@ jobs:
       - name: Run Unit Tests
         run: composer test-unit
 
+      - name: Run Segfault Smoke Test
+        # The test suites do not contain this file, thus CI runs it by path.
+        run: php -d extension=ext/modules/phalcon.so vendor/bin/phpunit -c resources/phpunit.xml.dist tests/MassMockTest.php
+
       - name: Check Release notes parser
         shell: bash
         run: |
@@ -687,6 +735,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          persist-credentials: false
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
           token: ${{ github.token }}
@@ -792,6 +841,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          persist-credentials: false
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
           token: ${{ github.token }}
@@ -883,6 +933,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          persist-credentials: false
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
           token: ${{ github.token }}
@@ -985,6 +1036,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          persist-credentials: false
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
           token: ${{ github.token }}
@@ -1091,6 +1143,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          persist-credentials: false
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
           token: ${{ github.token }}
@@ -1117,6 +1170,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          persist-credentials: false
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
           token: ${{ github.token }}
@@ -1163,6 +1217,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          persist-credentials: false
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
           token: ${{ github.token }}
@@ -1209,6 +1264,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          persist-credentials: false
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 1
           token: ${{ github.token }}
@@ -1222,6 +1278,7 @@ jobs:
       - name: Checkout phalcon-ide-stubs
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          persist-credentials: true
           repository: phalcon/ide-stubs
           token: ${{ secrets.STUBS_REPO_TOKEN }}
           path: phalcon-ide-stubs

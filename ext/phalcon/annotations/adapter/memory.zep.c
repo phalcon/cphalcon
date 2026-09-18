@@ -30,18 +30,28 @@
 /**
  * Stores the parsed annotations in memory. This adapter is the suitable
  * development/testing
+ *
+ * @phpstan-import-type annotations_cache from AnnotationsTypes
+ * @phpstan-import-type annotations_options from AnnotationsTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Memory)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Annotations\\Adapter, Memory, phalcon, annotations_adapter_memory, phalcon_annotations_adapter_abstractadapter_ce, phalcon_annotations_adapter_memory_method_entry, 0);
 
 	/**
+	 * The property has no initializer, so it is null until the first write.
+	 *
 	 * @var mixed
+	 *
+	 * @phpstan-var annotations_cache|null
 	 */
 	zend_declare_property_null(phalcon_annotations_adapter_memory_ce, SL("data"), ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
 
+/**
+ * @phpstan-param annotations_options $options
+ */
 PHP_METHOD(Phalcon_Annotations_Adapter_Memory, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -62,6 +72,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, __construct)
 	} else {
 		zephir_get_arrval(&options, options_param);
 	}
+	ZEPHIR_MM_RESTORE();
 }
 
 /**
@@ -91,7 +102,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read)
 	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
 	zephir_memory_observe(&data);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 397, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 395, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_fast_strtolower(&_1, &key_zv);
 	if (!(zephir_array_isset_fetch(&data, &_0, &_1, 0))) {

@@ -27,11 +27,11 @@ final class DirSeparatorTest extends AbstractUnitTestCase
         $object = new DirSeparator();
 
         $expected = '/home/phalcon/';
-        $actual = $object('/home/phalcon');
+        $actual   = $object('/home/phalcon');
         $this->assertSame($expected, $actual);
 
         $expected = '/home/phalcon/';
-        $actual = $object('/home/phalcon//');
+        $actual   = $object('/home/phalcon//');
         $this->assertSame($expected, $actual);
     }
 
@@ -42,10 +42,10 @@ final class DirSeparatorTest extends AbstractUnitTestCase
     public function testSupportHelperStrFolderSeparatorEmptyString(): void
     {
         $fileName = '';
-        $object = new DirSeparator();
+        $object   = new DirSeparator();
 
         $expected = "/";
-        $actual = $object($fileName);
+        $actual   = $object($fileName);
         $this->assertSame($expected, $actual);
     }
 }

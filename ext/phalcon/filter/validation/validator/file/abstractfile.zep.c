@@ -74,32 +74,37 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_File_AbstractFile)
 
 	/**
 	 * Empty is empty
-	 *
-	 * @var string
 	 */
-	zend_declare_property_string(phalcon_filter_validation_validator_file_abstractfile_ce, SL("messageFileEmpty"), "Field :field must not be empty", ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "Field :field must not be empty", sizeof("Field :field must not be empty") - 1);
+		zephir_declare_typed_property(phalcon_filter_validation_validator_file_abstractfile_ce, SL("messageFileEmpty"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	/**
 	 * File exceeds the file size set in PHP configuration
-	 *
-	 * @var string
 	 */
-	zend_declare_property_string(phalcon_filter_validation_validator_file_abstractfile_ce, SL("messageIniSize"), "File :field exceeds the maximum file size", ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "File :field exceeds the maximum file size", sizeof("File :field exceeds the maximum file size") - 1);
+		zephir_declare_typed_property(phalcon_filter_validation_validator_file_abstractfile_ce, SL("messageIniSize"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	/**
 	 * File is not valid
-	 *
-	 * @var string
 	 */
-	zend_declare_property_string(phalcon_filter_validation_validator_file_abstractfile_ce, SL("messageValid"), "Field :field is not valid", ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "Field :field is not valid", sizeof("Field :field is not valid") - 1);
+		zephir_declare_typed_property(phalcon_filter_validation_validator_file_abstractfile_ce, SL("messageValid"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	return SUCCESS;
 }
 
 /**
  * Check upload
  *
- * @param Validation $validation
- * @param string     $field
- *
- * @return bool
  * @throws Validation\Exception
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkUpload)
@@ -145,10 +150,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkUpload)
 /**
  * Check if upload is empty
  *
- * @param Validation $validation
- * @param string     $field
- *
- * @return bool
  * @throws Validation\Exception
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkUploadIsEmpty)
@@ -184,27 +185,29 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkUploadIsE
 	ZVAL_STR_COPY(&field_zv, field);
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, &field_zv);
 	zephir_check_call_status();
-	_0 = Z_TYPE_P(&value) == IS_ARRAY;
-	if (_0) {
-		_1 = 1 != zephir_array_isset_value_string(&value, SL("error"));
-		if (!(_1)) {
-			_1 = 1 != zephir_array_isset_value_string(&value, SL("tmp_name"));
-		}
-		_2 = _1;
-		if (!(_2)) {
-			zephir_array_fetch_string(&_3, &value, SL("error"), PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 117);
-			_2 = !ZEPHIR_IS_LONG_IDENTICAL(&_3, 0);
-		}
-		_4 = _2;
-		if (!(_4)) {
-			zephir_array_fetch_string(&_6, &value, SL("tmp_name"), PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 118);
-			ZEPHIR_CALL_METHOD(&_5, this_ptr, "checkisuploadedfile", NULL, 0, &_6);
-			zephir_check_call_status();
-			_4 = !ZEPHIR_IS_TRUE_IDENTICAL(&_5);
-		}
-		_0 = _4;
+	_0 = 1 != Z_TYPE_P(&value) == IS_ARRAY;
+	if (!(_0)) {
+		_0 = 1 != zephir_array_isset_value_string(&value, SL("error"));
 	}
-	if (_0) {
+	_1 = _0;
+	if (!(_1)) {
+		_1 = 1 != zephir_array_isset_value_string(&value, SL("tmp_name"));
+	}
+	_2 = _1;
+	if (!(_2)) {
+		zephir_memory_observe(&_3);
+		zephir_array_fetch_string(&_3, &value, SL("error"), PH_NOISY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 102);
+		_2 = !ZEPHIR_IS_LONG_IDENTICAL(&_3, 0);
+	}
+	_4 = _2;
+	if (!(_4)) {
+		zephir_memory_observe(&_6);
+		zephir_array_fetch_string(&_6, &value, SL("tmp_name"), PH_NOISY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 103);
+		ZEPHIR_CALL_METHOD(&_5, this_ptr, "checkisuploadedfile", NULL, 0, &_6);
+		zephir_check_call_status();
+		_4 = !ZEPHIR_IS_TRUE_IDENTICAL(&_5);
+	}
+	if (_4) {
 		ZEPHIR_CALL_METHOD(&label, this_ptr, "preparelabel", NULL, 0, validation, &field_zv);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&replacePairs);
@@ -232,10 +235,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkUploadIsE
 /**
  * Check if upload is valid
  *
- * @param Validation $validation
- * @param string     $field
- *
- * @return bool
  * @throws Validation\Exception
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkUploadIsValid)
@@ -244,19 +243,12 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkUploadIsV
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_string *field = NULL;
-	zval *validation, validation_sub, field_zv, label, replacePairs, value, _3$$3, _4$$3, _5$$3, _6$$3, _7$$3;
+	zval *validation, validation_sub, field_zv, value;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
 	ZVAL_UNDEF(&field_zv);
-	ZVAL_UNDEF(&label);
-	ZVAL_UNDEF(&replacePairs);
 	ZVAL_UNDEF(&value);
-	ZVAL_UNDEF(&_3$$3);
-	ZVAL_UNDEF(&_4$$3);
-	ZVAL_UNDEF(&_5$$3);
-	ZVAL_UNDEF(&_6$$3);
-	ZVAL_UNDEF(&_7$$3);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
 		Z_PARAM_STR(field)
@@ -268,37 +260,20 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkUploadIsV
 	ZVAL_STR_COPY(&field_zv, field);
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, &field_zv);
 	zephir_check_call_status();
-	_0 = Z_TYPE_P(&value) == IS_ARRAY;
-	if (_0) {
-		_1 = 1 != zephir_array_isset_value_string(&value, SL("name"));
-		if (!(_1)) {
-			_1 = 1 != zephir_array_isset_value_string(&value, SL("type"));
-		}
-		_2 = _1;
-		if (!(_2)) {
-			_2 = 1 != zephir_array_isset_value_string(&value, SL("size"));
-		}
-		_0 = _2;
+	_0 = 1 != Z_TYPE_P(&value) == IS_ARRAY;
+	if (!(_0)) {
+		_0 = 1 != zephir_array_isset_value_string(&value, SL("name"));
 	}
-	if (_0) {
-		ZEPHIR_CALL_METHOD(&label, this_ptr, "preparelabel", NULL, 0, validation, &field_zv);
-		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(&replacePairs);
-		zephir_create_array(&replacePairs, 1, 0);
-		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
-		ZEPHIR_INIT_VAR(&_3$$3);
-		object_init_ex(&_3$$3, phalcon_messages_message_ce);
-		ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "getmessagevalid", NULL, 0);
-		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&_5$$3, "strtr", NULL, 4, &_4$$3, &replacePairs);
-		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(&_6$$3);
-		zephir_get_class(&_6$$3, this_ptr, 0);
-		ZEPHIR_CALL_METHOD(&_7$$3, this_ptr, "preparecode", NULL, 0, &field_zv);
-		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 5, &_5$$3, &field_zv, &_6$$3, &_7$$3);
-		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_3$$3);
+	_1 = _0;
+	if (!(_1)) {
+		_1 = 1 != zephir_array_isset_value_string(&value, SL("type"));
+	}
+	_2 = _1;
+	if (!(_2)) {
+		_2 = 1 != zephir_array_isset_value_string(&value, SL("size"));
+	}
+	if (_2) {
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessagevalid", NULL, 0, validation, &field_zv);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}
@@ -308,10 +283,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkUploadIsV
 /**
  * Check if uploaded file is larger than PHP allowed size
  *
- * @param Validation $validation
- * @param string     $field
- *
- * @return bool
  * @throws Validation\Exception
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkUploadMaxSize)
@@ -378,11 +349,11 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkUploadMax
 	}
 	if (zephir_array_isset_value_string(&server, SL("REQUEST_METHOD"))) {
 		ZEPHIR_OBS_NVAR(&method);
-		zephir_array_fetch_string(&method, &server, SL("REQUEST_METHOD"), PH_NOISY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 218);
+		zephir_array_fetch_string(&method, &server, SL("REQUEST_METHOD"), PH_NOISY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 180);
 	}
 	if (zephir_array_isset_value_string(&server, SL("CONTENT_LENGTH"))) {
 		ZEPHIR_OBS_NVAR(&length);
-		zephir_array_fetch_string(&length, &server, SL("CONTENT_LENGTH"), PH_NOISY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 221);
+		zephir_array_fetch_string(&length, &server, SL("CONTENT_LENGTH"), PH_NOISY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 183);
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "POST");
@@ -406,7 +377,8 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkUploadMax
 		}
 		_6 = _5;
 		if (_6) {
-			zephir_array_fetch_string(&_7, &value, SL("error"), PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 232);
+			zephir_memory_observe(&_7);
+			zephir_array_fetch_string(&_7, &value, SL("error"), PH_NOISY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 194);
 			_6 = ZEPHIR_IS_LONG_IDENTICAL(&_7, 1);
 		}
 		_4 = _6;
@@ -438,22 +410,19 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkUploadMax
 
 /**
  * Convert a string like "2.5MB" in bytes
- *
- * @param string $size
- *
- * @return float
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, getFileSizeInBytes)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval size_zv, byteUnits, matches, unit, _0, _1, _2, _3, _4, _5, _6, _7, _8;
+	zval size_zv, byteUnits, matches, unit, value, _0, _1, _2, _3, _4, _5, _6, _7;
 	zend_string *size = NULL;
 
 	ZVAL_UNDEF(&size_zv);
 	ZVAL_UNDEF(&byteUnits);
 	ZVAL_UNDEF(&matches);
 	ZVAL_UNDEF(&unit);
+	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
@@ -462,7 +431,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, getFileSizeInB
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_7);
-	ZVAL_UNDEF(&_8);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(size)
 	ZEND_PARSE_PARAMETERS_END();
@@ -483,6 +451,8 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, getFileSizeInB
 	add_assoc_long_ex(&byteUnits, SL("TB"), 40);
 	ZEPHIR_INIT_VAR(&unit);
 	ZVAL_STRING(&unit, "B");
+	ZEPHIR_INIT_VAR(&value);
+	ZVAL_LONG(&value, 0);
 	ZEPHIR_INIT_VAR(&matches);
 	array_init(&matches);
 	ZEPHIR_INIT_VAR(&_0);
@@ -495,23 +465,25 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, getFileSizeInB
 	zephir_preg_match(&_3, &_2, &size_zv, &matches, 0, 0 , 0 );
 	if (1 == zephir_array_isset_value_long(&matches, 2)) {
 		ZEPHIR_OBS_NVAR(&unit);
-		zephir_array_fetch_long(&unit, &matches, 2, PH_NOISY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 288);
+		zephir_array_fetch_long(&unit, &matches, 2, PH_NOISY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 247);
 	}
-	zephir_array_fetch_long(&_4, &matches, 1, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 291);
-	ZEPHIR_CALL_FUNCTION(&_5, "floatval", NULL, 33, &_4);
+	if (1 == zephir_array_isset_value_long(&matches, 1)) {
+		ZEPHIR_OBS_NVAR(&value);
+		zephir_array_fetch_long(&value, &matches, 1, PH_NOISY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 252);
+	}
+	ZEPHIR_CALL_FUNCTION(&_4, "floatval", NULL, 33, &value);
 	zephir_check_call_status();
-	zephir_array_fetch(&_6, &byteUnits, &unit, PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 291);
-	ZVAL_LONG(&_7, 2);
-	ZEPHIR_CALL_FUNCTION(&_8, "pow", NULL, 34, &_7, &_6);
+	zephir_memory_observe(&_5);
+	zephir_array_fetch(&_5, &byteUnits, &unit, PH_NOISY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 255);
+	ZVAL_LONG(&_6, 2);
+	ZEPHIR_CALL_FUNCTION(&_7, "pow", NULL, 34, &_6, &_5);
 	zephir_check_call_status();
-	mul_function(return_value, &_5, &_8);
+	mul_function(return_value, &_4, &_7);
 	RETURN_MM();
 }
 
 /**
  * Empty is empty
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, getMessageFileEmpty)
 {
@@ -521,8 +493,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, getMessageFile
 
 /**
  * File exceeds the file size set in PHP configuration
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, getMessageIniSize)
 {
@@ -532,8 +502,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, getMessageIniS
 
 /**
  * File is not valid
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, getMessageValid)
 {
@@ -544,10 +512,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, getMessageVali
 /**
  * Check on empty
  *
- * @param Validation $validation
- * @param string     $field
- *
- * @return bool
  * @throws Validation\Exception
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, isAllowEmpty)
@@ -581,7 +545,8 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, isAllowEmpty)
 		}
 		_2 = _1;
 		if (_2) {
-			zephir_array_fetch_string(&_3, &value, SL("error"), PH_NOISY | PH_READONLY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 342);
+			zephir_memory_observe(&_3);
+			zephir_array_fetch_string(&_3, &value, SL("error"), PH_NOISY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 296);
 			_2 = ZEPHIR_IS_LONG_IDENTICAL(&_3, 4);
 		}
 		_0 = _2;
@@ -591,10 +556,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, isAllowEmpty)
 
 /**
  * Empty is empty
- *
- * @param string $message
- *
- * @return void
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, setMessageFileEmpty)
 {
@@ -612,15 +573,11 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, setMessageFile
 		Z_PARAM_STR(message)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&message_zv, message);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 45, &message_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 44, &message_zv);
 }
 
 /**
  * File exceeds the file size set in PHP configuration
- *
- * @param string $message
- *
- * @return void
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, setMessageIniSize)
 {
@@ -638,15 +595,11 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, setMessageIniS
 		Z_PARAM_STR(message)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&message_zv, message);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 46, &message_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 45, &message_zv);
 }
 
 /**
  * File is not valid
- *
- * @param string $message
- *
- * @return void
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, setMessageValid)
 {
@@ -664,16 +617,63 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, setMessageVali
 		Z_PARAM_STR(message)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&message_zv, message);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 47, &message_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 46, &message_zv);
+}
+
+/**
+ * Appends the "file is not valid" message for the field
+ */
+PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, appendMessageValid)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zend_string *field = NULL;
+	zval *validation, validation_sub, field_zv, label, replacePairs, _0, _1, _2, _3, _4;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&validation_sub);
+	ZVAL_UNDEF(&field_zv);
+	ZVAL_UNDEF(&label);
+	ZVAL_UNDEF(&replacePairs);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
+		Z_PARAM_STR(field)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	validation = ZEND_CALL_ARG(execute_data, 1);
+	zephir_memory_observe(&field_zv);
+	ZVAL_STR_COPY(&field_zv, field);
+	ZEPHIR_CALL_METHOD(&label, this_ptr, "preparelabel", NULL, 0, validation, &field_zv);
+	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(&replacePairs);
+	zephir_create_array(&replacePairs, 1, 0);
+	zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_VAR(&_0);
+	object_init_ex(&_0, phalcon_messages_message_ce);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getmessagevalid", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_CALL_FUNCTION(&_2, "strtr", NULL, 4, &_1, &replacePairs);
+	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(&_3);
+	zephir_get_class(&_3, this_ptr, 0);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "preparecode", NULL, 0, &field_zv);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 5, &_2, &field_zv, &_3, &_4);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_0);
+	zephir_check_call_status();
+	ZEPHIR_MM_RESTORE();
 }
 
 /**
  * Checks if a file has been uploaded; Internal check that can be
  * overridden in a subclass if you do not want to check uploaded files
- *
- * @param string $name
- *
- * @return bool
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkIsUploadedFile)
 {

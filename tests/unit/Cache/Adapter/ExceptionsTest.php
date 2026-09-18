@@ -55,6 +55,7 @@ final class ExceptionsTest extends AbstractUnitTestCase
 
         $adapter->get('test');
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09

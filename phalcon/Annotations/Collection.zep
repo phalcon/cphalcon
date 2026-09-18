@@ -13,6 +13,7 @@ namespace Phalcon\Annotations;
 use Countable;
 use Iterator;
 use Phalcon\Annotations\Exceptions\AnnotationNotFound;
+use Phalcon\Contracts\Annotations\AnnotationsTypes;
 
 /**
  * Represents a collection of annotations. This class allows to traverse a group
@@ -30,11 +31,21 @@ use Phalcon\Annotations\Exceptions\AnnotationNotFound;
  * // Get an specific annotation in the collection
  * $annotation = $classAnnotations->get("Cacheable");
  *```
+ *
+ * The class cannot carry an `@implements Iterator<int, Annotation>` tag.
+ * `current()` returns `false` past the end of the collection, while Psalm's
+ * `Iterator` stub requires `TValue|null` there. Narrowing the iteration would
+ * mean changing that return to null, which is a v7 signature change.
+ *
+ * @phpstan-import-type annotations_list from AnnotationsTypes
+ * @phpstan-import-type annotations_node_list from AnnotationsTypes
  */
 class Collection implements Iterator, Countable
 {
     /**
      * @var array
+     *
+     * @phpstan-var annotations_list
      */
     protected annotations;
 
@@ -45,6 +56,8 @@ class Collection implements Iterator, Countable
 
     /**
      * Phalcon\Annotations\Collection constructor
+     *
+     * @phpstan-param annotations_node_list $reflectionData
      */
     public function __construct(array reflectionData = [])
     {
@@ -69,6 +82,8 @@ class Collection implements Iterator, Countable
 
     /**
      * Returns the current annotation in the iterator
+     *
+     * @phpstan-return Annotation|false
      */
     public function current() -> mixed
     {
@@ -101,6 +116,8 @@ class Collection implements Iterator, Countable
 
     /**
      * Returns all the annotations that match a name
+     *
+     * @phpstan-return annotations_list
      */
     public function getAll(string name) -> <Annotation[]>
     {
@@ -121,6 +138,8 @@ class Collection implements Iterator, Countable
 
     /**
      * Returns the internal annotations as an array
+     *
+     * @phpstan-return annotations_list
      */
     public function getAnnotations() -> <Annotation[]>
     {

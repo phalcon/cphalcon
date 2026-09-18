@@ -40,6 +40,7 @@ final class GeometryWktTest extends AbstractUnitTestCase
         $this->assertSame(Column::TYPE_LINESTRING, $line->getType());
         $this->assertSame("LINESTRING(0 0, 1 1)", $line->toWkt());
     }
+
     public function testPointWkt(): void
     {
         $point = new Point(1.0, 2.0, 4326);

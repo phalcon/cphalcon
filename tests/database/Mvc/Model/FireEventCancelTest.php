@@ -53,7 +53,7 @@ final class FireEventCancelTest extends AbstractDatabaseTestCase
         // A listener returning false cancels the event
         $this->assertFalse($invoice->fireEventCancel('customCancelEvent'));
 
-        // An event with no cancelling listener is not cancelled
+        // An event with no canceling listener is not canceled
         $this->assertNotFalse($invoice->fireEventCancel('someOtherEvent'));
     }
 }

@@ -10,11 +10,12 @@
 
 namespace Phalcon\Filter\Validation\Validator;
 
-use Phalcon\Messages\Message;
+use Phalcon\Contracts\Filter\FilterTypes;
 use Phalcon\Filter\Validation\AbstractValidatorComposite;
 use Phalcon\Filter\Validation\Validator\StringLength\Max;
 use Phalcon\Filter\Validation\Validator\StringLength\Min;
 use Phalcon\Filter\Validation\Exception;
+use Phalcon\Messages\Message;
 
 /**
  * Validates that a string has the specified maximum and minimum constraints
@@ -82,28 +83,25 @@ use Phalcon\Filter\Validation\Exception;
  *     )
  * );
  * ```
+ *
+ * @phpstan-import-type filter_validator_options from FilterTypes
  */
 class StringLength extends AbstractValidatorComposite
 {
     /**
      * Constructor
      *
-     * @param array options = [
-     *     'min' => 100,
-     *     'message' => '',
-     *     'messageMinimum' => '',
-     *     'included' => true,
-     *     'includedMinimum' => true,
-     *     'max' => 1000,
-     *     'messageMaximum' => '',
-     *     'includedMaximum' => true
-     * ]
+     * @phpstan-param filter_validator_options $options
      */
-    public function __construct( array options = [])
+    public function __construct(array options = [])
     {
-        var hasIncluded = false, hasMessage = false, included = null,
-            includedMaximum, includedMinimum, key, message = null,
-            messageMaximum, messageMinimum, validator, value;
+        var includedMaximum, includedMinimum, key, messageMaximum,
+            messageMinimum, value,
+            hasIncluded = false,
+            hasMessage  = false,
+            included    = null,
+            message     = null,
+            validator   = null;
 
         // the generic options apply to both validators. Read them before the
         // loop, because each branch removes them from the options

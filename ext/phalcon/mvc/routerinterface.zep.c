@@ -22,6 +22,12 @@
  */
 /**
  * Interface for Phalcon\Mvc\Router
+ *
+ * @phpstan-import-type mvc_router_defaults from MvcTypes
+ * @phpstan-import-type mvc_router_http_methods from MvcTypes
+ * @phpstan-import-type mvc_router_matches from MvcTypes
+ * @phpstan-import-type mvc_router_params from MvcTypes
+ * @phpstan-import-type mvc_router_paths from MvcTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_RouterInterface)
 {
@@ -158,6 +164,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, getControllerName);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, getMatchedRoute);
 /**
  * Return the sub expressions in the regular expression matched
+ *
+ * @phpstan-return mvc_router_matches
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, getMatches);
 /**
@@ -170,6 +178,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, getModuleName);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, getNamespaceName);
 /**
  * Returns processed extra params
+ *
+ * @phpstan-return mvc_router_params
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, getParams);
 /**
@@ -218,6 +228,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, setDefaultController);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, setDefaultModule);
 /**
  * Sets an array of default paths
+ *
+ * @phpstan-param mvc_router_defaults $defaults
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_RouterInterface, setDefaults);
 /**

@@ -18,5 +18,6 @@ use Phalcon\Mvc\Model;
 class FakeUsersModel extends Model
 {
     public $id;
+
     public $name;
 }

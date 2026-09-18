@@ -16,8 +16,8 @@ namespace Phalcon\Tests\Database\Mvc\Model\MetaData\Strategy;
 use Phalcon\Mvc\Model\Exception as ModelException;
 use Phalcon\Mvc\Model\MetaData\Strategy\Introspection;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Fake\FakeInvoicesMap;
 use Phalcon\Tests\Support\Models\Invoices;
-use Phalcon\Tests\Support\Models\InvoicesMap;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -118,14 +118,7 @@ final class IntrospectionTest extends AbstractDatabaseTestCase
         $this->setDatabase();
 
         $strategy = new Introspection();
-        $invoice = $this
-            ->getMockBuilder(InvoicesMap::class)
-            ->getMock()
-        ;
-        $invoice
-            ->method('columnMap')
-            ->willReturn(false)
-        ;
+        $invoice  = new FakeInvoicesMap();
 
         $this->expectException(ModelException::class);
         $this->expectExceptionMessage('columnMap() not returned an array');

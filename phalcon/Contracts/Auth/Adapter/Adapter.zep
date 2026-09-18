@@ -13,6 +13,7 @@
 
 namespace Phalcon\Contracts\Auth\Adapter;
 
+use Phalcon\Contracts\Auth\AuthTypes;
 use Phalcon\Contracts\Auth\AuthUser;
 use Phalcon\Contracts\Encryption\Security\Security;
 
@@ -25,7 +26,7 @@ use Phalcon\Contracts\Encryption\Security\Security;
  * optional `password` entry that is ignored during the row match and
  * consumed only by validateCredentials().
  *
- * @phpstan-type AuthCredentials array<string, mixed>
+ * @phpstan-import-type auth_credentials from AuthTypes
  */
 interface Adapter
 {
@@ -43,7 +44,7 @@ interface Adapter
      * The 'password' key, if present, is ignored during the lookup.
      * Returns null if no user matches.
      *
-     * @phpstan-param AuthCredentials $credentials
+     * @phpstan-param auth_credentials $credentials
      */
     public function retrieveByCredentials(array credentials) -> <AuthUser> | null;
 
@@ -57,7 +58,7 @@ interface Adapter
      * Implementations typically verify the password hash held under the
      * 'password' key.
      *
-     * @phpstan-param AuthCredentials $credentials
+     * @phpstan-param auth_credentials $credentials
      */
     public function validateCredentials(<AuthUser> user, array credentials) -> bool;
 }

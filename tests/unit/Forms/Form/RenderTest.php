@@ -30,7 +30,7 @@ final class RenderTest extends AbstractUnitTestCase
      */
     public function testFormsFormRenderEscaped(): void
     {
-        $object = new stdClass();
+        $object        = new stdClass();
         $object->title = 'Hello "world!"';
 
         $form = new Form($object);

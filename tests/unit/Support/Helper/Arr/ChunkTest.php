@@ -33,7 +33,7 @@ final class ChunkTest extends AbstractUnitTestCase
             'k6' => 6,
         ];
 
-        $object = new Chunk();
+        $object   = new Chunk();
         $expected = [
             [1, 2],
             [3, 4],
@@ -58,7 +58,7 @@ final class ChunkTest extends AbstractUnitTestCase
             'k6' => 6,
         ];
 
-        $object = new Chunk();
+        $object   = new Chunk();
         $expected = [
             [
                 'k1' => 1,

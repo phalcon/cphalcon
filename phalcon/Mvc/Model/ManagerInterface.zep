@@ -10,15 +10,19 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
 use Phalcon\Mvc\Model\Query\StatusInterface;
 
 /**
- * Phalcon\Mvc\Model\ManagerInterface
- *
  * Interface for Phalcon\Mvc\Model\Manager
+ *
+ * @phpstan-import-type mvc_model_bind_params from MvcTypes
+ * @phpstan-import-type mvc_model_bind_types from MvcTypes
+ * @phpstan-import-type mvc_model_parameters from MvcTypes
+ * @phpstan-import-type mvc_relation_options from MvcTypes
  */
 interface ManagerInterface
 {
@@ -36,6 +40,8 @@ interface ManagerInterface
      * @param    mixed  fields
      * @param    mixed  referencedFields
      * @param    array  options
+     *
+     * @phpstan-param mvc_relation_options $options
      */
     public function addBelongsTo(
         <ModelInterface> model,
@@ -51,6 +57,8 @@ interface ManagerInterface
      * @param    mixed  fields
      * @param    mixed  referencedFields
      * @param    array  options
+     *
+     * @phpstan-param mvc_relation_options $options
      */
     public function addHasMany(
         <ModelInterface> model,
@@ -68,6 +76,8 @@ interface ManagerInterface
      * @param    string intermediateReferencedFields
      * @param    string referencedFields
      * @param   array options
+     *
+     * @phpstan-param mvc_relation_options $options
      */
     public function addHasManyToMany(
         <ModelInterface> model,
@@ -86,6 +96,8 @@ interface ManagerInterface
      * @param    mixed  fields
      * @param    mixed  referencedFields
      * @param    array  options
+     *
+     * @phpstan-param mvc_relation_options $options
      */
     public function addHasOne(
         <ModelInterface> model,
@@ -103,6 +115,8 @@ interface ManagerInterface
      * @param    string intermediateReferencedFields
      * @param    string referencedFields
      * @param   array options
+     *
+     * @phpstan-param mvc_relation_options $options
      */
     public function addHasOneThrough(
         <ModelInterface> model,
@@ -130,7 +144,7 @@ interface ManagerInterface
     /**
      * Creates a Phalcon\Mvc\Model\Query without execute it
      */
-    public function createQuery( string phql) -> <QueryInterface>;
+    public function createQuery(string phql) -> <QueryInterface>;
 
     /**
      * Creates a Phalcon\Mvc\Model\Query and execute it
@@ -139,7 +153,7 @@ interface ManagerInterface
      * @param array|null $types
      * @return ResultsetInterface|StatusInterface
      */
-    public function executeQuery( string phql, var placeholders = null, var types = null) -> var;
+    public function executeQuery(string phql, var placeholders = null, var types = null) -> var;
 
     /**
      * Gets belongsTo relations defined on a model
@@ -188,7 +202,7 @@ interface ManagerInterface
         <ModelInterface> record,
         var parameters = null,
         string method = null
-    ) -> <ResultsetInterface> | bool;
+    ) -> bool | <ResultsetInterface>;
 
     /**
      * Gets hasManyToMany relations defined on a model
@@ -220,7 +234,7 @@ interface ManagerInterface
         <ModelInterface> record,
         var parameters = null,
         string method = null
-    ) -> <ModelInterface> | bool;
+    ) -> bool | <ModelInterface>;
 
     /**
      * Gets hasOneThrough relations defined on a model
@@ -265,7 +279,7 @@ interface ManagerInterface
      *
      * @return RelationInterface|bool
      */
-    public function getRelationByAlias( string modelName,  string alias) -> <RelationInterface> | bool;
+    public function getRelationByAlias(string modelName,  string alias) -> <RelationInterface> | bool;
 
     /**
      * Helper method to query records based on a relation definition
@@ -282,12 +296,12 @@ interface ManagerInterface
     /**
      * Query all the relationships defined on a model
      */
-    public function getRelations( string modelName) -> <RelationInterface[]>;
+    public function getRelations(string modelName) -> <RelationInterface[]>;
 
     /**
      * Query the relations between two models
      */
-    public function getRelationsBetween( string first,  string second) -> <RelationInterface[]> | bool;
+    public function getRelationsBetween(string first,  string second) -> <RelationInterface[]> | bool;
 
     /**
      * Returns a reusable object from the internal list
@@ -297,7 +311,7 @@ interface ManagerInterface
      *
      * @return mixed
      */
-    public function getReusableRecords( string modelName,  string key);
+    public function getReusableRecords(string modelName,  string key);
 
     /**
      * Returns the connection to write data related to a model
@@ -312,27 +326,27 @@ interface ManagerInterface
     /**
      * Checks whether a model has a belongsTo relation with another model
      */
-    public function hasBelongsTo( string modelName,  string modelRelation) -> bool;
+    public function hasBelongsTo(string modelName,  string modelRelation) -> bool;
 
     /**
      * Checks whether a model has a hasMany relation with another model
      */
-    public function hasHasMany( string modelName,  string modelRelation) -> bool;
+    public function hasHasMany(string modelName,  string modelRelation) -> bool;
 
     /**
      * Checks whether a model has a hasManyToMany relation with another model
      */
-    public function hasHasManyToMany( string modelName,  string modelRelation) -> bool;
+    public function hasHasManyToMany(string modelName,  string modelRelation) -> bool;
 
     /**
      * Checks whether a model has a hasOne relation with another model
      */
-    public function hasHasOne( string modelName,  string modelRelation) -> bool;
+    public function hasHasOne(string modelName,  string modelRelation) -> bool;
 
     /**
      * Checks whether a model has a hasOneThrough relation with another model
      */
-    public function hasHasOneThrough( string modelName,  string modelRelation) -> bool;
+    public function hasHasOneThrough(string modelName,  string modelRelation) -> bool;
 
     /**
      * Initializes a model in the model manager
@@ -342,7 +356,7 @@ interface ManagerInterface
     /**
      * Check of a model is already initialized
      */
-    public function isInitialized( string className) -> bool;
+    public function isInitialized(string className) -> bool;
 
     /**
      * Checks if a model is keeping snapshots for the queried records
@@ -360,7 +374,7 @@ interface ManagerInterface
      * ```php
      * $isPublic = $manager->isVisibleModelProperty(
      *     new Invoices(),
-     *     "name"
+     *     "inv_title"
      * );
      * ```
      */
@@ -387,10 +401,12 @@ interface ManagerInterface
     public function missingMethod(<ModelInterface> model,  string eventName, data);
 
     /**
-     * Receives events generated in the models and dispatches them to an events-manager if available
-     * Notify the behaviors that are listening in the model
+     * Receives events generated in the models and dispatches them to an
+     * events-manager if available. Notify the behaviors that are listening
+     * in the model
+     *
      */
-    public function notifyEvent( string eventName, <ModelInterface> model);
+    public function notifyEvent(string eventName, <ModelInterface> model);
 
     /**
      * Marks the model's write connection service as written-to for the
@@ -437,7 +453,7 @@ interface ManagerInterface
      *
      * @return void
      */
-    public function setReusableRecords( string modelName,  string key, var records) -> void;
+    public function setReusableRecords(string modelName,  string key, var records) -> void;
 
     /**
      * Enables or disables sticky connections

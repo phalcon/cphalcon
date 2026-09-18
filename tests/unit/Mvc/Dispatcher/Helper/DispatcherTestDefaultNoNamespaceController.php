@@ -13,6 +13,7 @@ use Phalcon\Mvc\Controller;
 class DispatcherTestDefaultNoNamespaceController extends Controller
 {
     public const RETURN_VALUE_INT    = 5;
+
     public const RETURN_VALUE_STRING = 'string';
 
     public function afterExecuteRoute()

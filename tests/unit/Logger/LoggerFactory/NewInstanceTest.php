@@ -35,11 +35,11 @@ final class NewInstanceTest extends AbstractUnitTestCase
      */
     public function testLoggerLoggerFactoryNewInstance(): void
     {
-        $logPath = Talon::settings()->outputPath('tests/logs/');
+        $logPath  = Talon::settings()->outputPath('tests/logs/');
         $fileName = $this->getNewFileName('log', 'log');
-        $adapter = new Stream($logPath . $fileName);
-        $factory = new LoggerFactory(new AdapterFactory());
-        $logger = $factory->newInstance(
+        $adapter  = new Stream($logPath . $fileName);
+        $factory  = new LoggerFactory(new AdapterFactory());
+        $logger   = $factory->newInstance(
             'my-logger',
             [
                 'one' => $adapter,
@@ -49,6 +49,7 @@ final class NewInstanceTest extends AbstractUnitTestCase
         $this->assertInstanceOf(LoggerInterface::class, $logger);
         $this->assertInstanceOf(Logger::class, $logger);
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09

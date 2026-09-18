@@ -36,6 +36,9 @@
  * Container, so it depends on a published contract rather than on an
  * implementation detail that is free to change.
  */
+/**
+ * @phpstan-import-type container_service_names from ContainerTypes
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Container_Service_Enumerable)
 {
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Contracts\\Container\\Service, Enumerable, phalcon, contracts_container_service_enumerable, phalcon_contracts_container_service_enumerable_method_entry);
@@ -47,5 +50,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_Container_Service_Enumerable)
  * Returns the names of every registered service definition. Names that
  * only exist as an alias, a pre-set instance or a parameter are not
  * included.
+ *
+ * @phpstan-return container_service_names
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Container_Service_Enumerable, getServiceNames);

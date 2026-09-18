@@ -31,6 +31,7 @@ use Phalcon\Tests\Unit\Auth\Fake\FakeRequest;
 final class TokenFromOptionsTest extends AbstractUnitTestCase
 {
     private Memory $adapter;
+
     private Container $container;
 
     protected function setUp(): void

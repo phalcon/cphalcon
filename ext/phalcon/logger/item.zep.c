@@ -30,6 +30,8 @@
  * Phalcon\Logger\Item
  *
  * Represents each item in a logging transaction
+ *
+ * @phpstan-import-type logger_context from LoggerTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Item)
 {
@@ -71,11 +73,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Item)
 /**
  * Item constructor.
  *
- * @param string            $message
- * @param string            $levelName
- * @param int               $level
- * @param DateTimeImmutable $dateTime
- * @param array             $context
+ * @phpstan-param logger_context $context
  */
 PHP_METHOD(Phalcon_Logger_Item, __construct)
 {
@@ -135,16 +133,19 @@ PHP_METHOD(Phalcon_Logger_Item, __construct)
 	} else {
 		zephir_get_arrval(&context, context_param);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 950, &message_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 951, &levelName_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 947, &message_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 948, &levelName_zv);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, level);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 952, &_0);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 953, dateTime);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 954, &context);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 949, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 950, dateTime);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 951, &context);
 	ZEPHIR_MM_RESTORE();
 }
 
+/**
+ * @phpstan-return logger_context
+ */
 PHP_METHOD(Phalcon_Logger_Item, getContext)
 {
 

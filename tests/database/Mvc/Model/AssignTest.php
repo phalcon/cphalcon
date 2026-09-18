@@ -13,11 +13,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model;
 
+use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Transaction\Manager;
+use Phalcon\Support\Settings;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Migrations\SourcesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
+use Phalcon\Tests\Support\Models\InvoicesMap;
+use Phalcon\Tests\Support\Models\InvoicesWithSetters;
 use Phalcon\Tests\Support\Models\Sources;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
@@ -35,6 +39,13 @@ final class AssignTest extends AbstractDatabaseTestCase
 
         $connection = self::getPdoConnection();
         (new InvoicesMigration($connection));
+    }
+
+    public function tearDown(): void
+    {
+        Settings::reset();
+
+        $this->tearDownDatabase();
     }
 
     /**
@@ -173,6 +184,127 @@ final class AssignTest extends AbstractDatabaseTestCase
         $this->assertSame('darth', $record->readAttribute('username'));
         $this->assertSame($value, $record->readAttribute('source'));
         $this->assertSame('co_sources', $record->getSource());
+    }
+
+    /**
+     * assign() calls a matching setter by default. `disableAssignSetters`
+     * makes it write the property directly instead.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/12645
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-03-23
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelAssignSettersDisabled(): void
+    {
+        $invoice = new InvoicesWithSetters();
+        $invoice->assign(['inv_title' => 'test']);
+
+        $this->assertSame('SET:test', $invoice->inv_title);
+
+        Model::setup(['disableAssignSetters' => true]);
+
+        $invoice = new InvoicesWithSetters();
+        $invoice->assign(['inv_title' => 'test']);
+
+        $this->assertSame('test', $invoice->inv_title);
+    }
+
+    /**
+     * The white list keeps every field outside it unassigned, and the data
+     * column map renames the incoming keys before the white list applies.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-08
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelAssignWhiteList(): void
+    {
+        $invoice = new Invoices();
+        $invoice->assign(
+            [
+                'inv_cst_id' => 2,
+                'inv_title'  => 'white list',
+            ],
+            ['inv_title']
+        );
+
+        $this->assertSame('white list', $invoice->inv_title);
+        $this->assertNull($invoice->inv_cst_id);
+
+        /**
+         * A key that is not an attribute of the model never reaches it.
+         */
+        $invoice = new Invoices();
+        $invoice->assign(
+            [
+                'field1' => 'one',
+                'field2' => 'two',
+            ]
+        );
+
+        $this->assertObjectNotHasProperty('field1', $invoice);
+        $this->assertObjectNotHasProperty('field2', $invoice);
+
+        /**
+         * The third argument renames the keys first, so the white list holds
+         * the model attribute name and not the incoming one.
+         */
+        $invoice = new Invoices();
+        $invoice->assign(
+            [
+                'cstIdFromClient' => 2,
+                'titleFromClient' => 'renamed',
+            ],
+            ['inv_title'],
+            [
+                'cstIdFromClient' => 'inv_cst_id',
+                'titleFromClient' => 'inv_title',
+            ]
+        );
+
+        $this->assertSame('renamed', $invoice->inv_title);
+        $this->assertNull($invoice->inv_cst_id);
+    }
+
+    /**
+     * With a column map in place, assign() and its white list both work on the
+     * mapped attribute names.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-08
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelAssignWithColumnMap(): void
+    {
+        $invoice = new InvoicesMap();
+        $invoice->assign(
+            [
+                'title' => 'mapped title',
+                'total' => 100.12,
+            ]
+        );
+
+        $this->assertSame('mapped title', $invoice->title);
+        $this->assertSame(100.12, $invoice->total);
+
+        $invoice = new InvoicesMap();
+        $invoice->assign(
+            [
+                'title' => 'mapped title',
+                'total' => 100.12,
+            ],
+            ['title']
+        );
+
+        $this->assertSame('mapped title', $invoice->title);
+        $this->assertNull($invoice->total);
     }
 
     /**

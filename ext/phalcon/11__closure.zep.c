@@ -13,24 +13,30 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
+#include "kernel/memory.h"
 
 
 ZEPHIR_INIT_CLASS(phalcon_11__closure)
 {
 	ZEPHIR_REGISTER_CLASS(phalcon, 11__closure, phalcon, 11__closure, phalcon_11__closure_method_entry, ZEND_ACC_FINAL_CLASS);
 
-	zend_declare_property_null(phalcon_11__closure_ce, SL("definition"), ZEND_ACC_PUBLIC|ZEND_ACC_STATIC);
+	zend_declare_property_null(phalcon_11__closure_ce, SL("definition"), ZEND_ACC_PUBLIC);
 	return SUCCESS;
 }
 
 PHP_METHOD(phalcon_11__closure, __invoke)
 {
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval definition;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&definition);
-	zephir_read_static_property_ce(&definition, phalcon_11__closure_ce, SL("definition"), PH_NOISY_CC);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&definition);
+	zephir_read_property(&definition, this_ptr, SL("definition"), PH_NOISY_CC);
 
 	RETVAL_ZVAL(&definition, 1, 0);
-	return;
+	RETURN_MM();
 }
 

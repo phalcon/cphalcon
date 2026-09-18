@@ -23,8 +23,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Dispatcher\Exception
- *
  * Exceptions thrown in Phalcon\Mvc\Dispatcher will use this class
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Dispatcher_Exception)

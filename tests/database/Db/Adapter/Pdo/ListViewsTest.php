@@ -22,6 +22,7 @@ final class ListViewsTest extends AbstractDatabaseTestCase
     use DiTrait;
 
     private const SRC  = 'co_scratch_listviews_src';
+
     private const VIEW = 'co_scratch_listviews';
 
     public function setUp(): void

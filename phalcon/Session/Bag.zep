@@ -96,7 +96,7 @@ class Bag extends Collection implements BagInterface, InjectionAwareInterface
      *
      * @phpstan-param session_bag_data $data
      */
-    public function init( array data = []) -> void
+    public function init(array data = []) -> void
     {
         parent::init(data);
 
@@ -106,7 +106,7 @@ class Bag extends Collection implements BagInterface, InjectionAwareInterface
     /**
      * Removes a property from the internal bag
      */
-    public function remove( string element) -> void
+    public function remove(string element) -> void
     {
         parent::remove(element);
 
@@ -116,7 +116,7 @@ class Bag extends Collection implements BagInterface, InjectionAwareInterface
     /**
      * Sets a value in the session bag
      */
-    public function set( string element, var value) -> void
+    public function set(string element, var value) -> void
     {
         parent::set(element, value);
 

@@ -41,10 +41,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Json)
 
 /**
  * Json constructor.
- *
- * @param string $dateFormat
- * @param string $interpolatorLeft
- * @param string $interpolatorRight
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Json, __construct)
 {
@@ -101,18 +97,15 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, __construct)
 		zephir_memory_observe(&interpolatorRight_zv);
 	ZVAL_STR_COPY(&interpolatorRight_zv, interpolatorRight);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 943, &dateFormat_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 944, &interpolatorLeft_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 945, &interpolatorRight_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 940, &dateFormat_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 941, &interpolatorLeft_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 942, &interpolatorRight_zv);
 	ZEPHIR_MM_RESTORE();
 }
 
 /**
  * Applies a format to a message before sent it to the internal log
  *
- * @param Item $item
- *
- * @return string
  * @throws JsonException
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Json, format)

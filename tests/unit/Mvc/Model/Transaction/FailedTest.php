@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc\Model\Transaction;
 
 use Phalcon\Mvc\Model\Transaction\Failed;
-use Phalcon\Mvc\ModelInterface;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Fake\FakeModel;
 
 final class FailedTest extends AbstractUnitTestCase
 {
@@ -27,8 +27,7 @@ final class FailedTest extends AbstractUnitTestCase
     {
         $messages = ['first', 'second'];
 
-        $record = $this->createMock(ModelInterface::class);
-        $record->method('getMessages')->willReturn($messages);
+        $record = new FakeModel($messages);
 
         $failed = new Failed('failed', $record);
 
@@ -46,6 +45,7 @@ final class FailedTest extends AbstractUnitTestCase
 
         $this->assertSame('the failure message', $failed->getRecordMessages());
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-06-06

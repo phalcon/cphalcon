@@ -10,15 +10,10 @@
 
 namespace Phalcon\Forms\Element;
 
-use Phalcon\Tag;
-
 /**
  * Component INPUT[type=submit] for forms
  */
 class Submit extends AbstractElement
 {
-    /**
-     * @var string
-     */
-    protected method = "inputSubmit";
+    protected string method = "inputSubmit";
 }

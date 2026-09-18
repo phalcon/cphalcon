@@ -20,10 +20,7 @@ use Phalcon\Forms\Exceptions\SchemaEntryNotArray;
  */
 class ArrayLoader implements Schema
 {
-    /**
-     * @var array
-     */
-    protected definitions;
+    protected array definitions;
 
     /**
      * @param array $definitions
@@ -49,9 +46,6 @@ class ArrayLoader implements Schema
     }
 
     /**
-     * @param mixed $definition
-     * @param int   $index
-     *
      * @throws Exception
      */
     protected function validateDefinition(var definition, int index) -> void

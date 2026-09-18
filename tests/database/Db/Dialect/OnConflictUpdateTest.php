@@ -42,6 +42,7 @@ final class OnConflictUpdateTest extends AbstractDatabaseTestCase
             ['name']
         );
     }
+
     /**
      * PostgreSQL - emits `ON CONFLICT (col) DO UPDATE SET ...`.
      *

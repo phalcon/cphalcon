@@ -47,6 +47,8 @@ class Annotations extends Router
 
     /**
      * @var callable|string|null
+     *
+     * @phpstan-var callable|string|null
      */
     protected actionPreformatCallback = null;
 
@@ -57,6 +59,8 @@ class Annotations extends Router
 
     /**
      * @var array
+     *
+     * @phpstan-var list<array{0: string|null, 1: string, 2?: string}>
      */
     protected handlers = [];
 
@@ -69,8 +73,10 @@ class Annotations extends Router
      * Adds a resource to the annotations handler
      * A resource is a class that contains routing annotations
      * The class is located in a module
+     *
+     * @phpstan-return static
      */
-    public function addModuleResource( string module,  string handler,  string prefix = null) -> <static>
+    public function addModuleResource(string module,  string handler,  string prefix = null) -> <static>
     {
         let this->handlers[] = [prefix, handler, module];
 
@@ -80,8 +86,10 @@ class Annotations extends Router
     /**
      * Adds a resource to the annotations handler
      * A resource is a class that contains routing annotations
+     *
+     * @phpstan-return static
      */
-    public function addResource( string handler,  string prefix = null) -> <static>
+    public function addResource(string handler,  string prefix = null) -> <static>
     {
         let this->handlers[] = [prefix, handler];
 
@@ -90,6 +98,8 @@ class Annotations extends Router
 
     /**
      * Return the registered resources
+     *
+     * @phpstan-return list<array{0: string|null, 1: string, 2?: string}>
      */
     public function getResources() -> array
     {
@@ -99,7 +109,7 @@ class Annotations extends Router
     /**
      * Produce the routing parameters from the rewrite information
      */
-    public function handle( string uri) -> void
+    public function handle(string uri) -> void
     {
         var annotationsService, handlers, controllerSuffix, scope, prefix,
             route, compiledPattern, container, handler, controllerName,
@@ -418,7 +428,7 @@ class Annotations extends Router
     /**
      * Checks for annotations in the controller docblock
      */
-    public function processControllerAnnotation( string handler, <Annotation> annotation)
+    public function processControllerAnnotation(string handler, <Annotation> annotation)
     {
         /**
          * @RoutePrefix add a prefix for all the routes defined in the model
@@ -430,8 +440,10 @@ class Annotations extends Router
 
     /**
      * Changes the action method suffix
+     *
+     * @phpstan-return static
      */
-    public function setActionSuffix( string actionSuffix) -> <self>
+    public function setActionSuffix(string actionSuffix) -> <self>
     {
         let this->actionSuffix = actionSuffix;
 
@@ -466,6 +478,8 @@ class Annotations extends Router
      * ```
      *
      * @param callable|string|null $callback
+     *
+     * @phpstan-return static
      */
     public function setActionPreformatCallback(var callback = null) -> <self>
     {
@@ -492,8 +506,10 @@ class Annotations extends Router
 
     /**
      * Changes the controller class suffix
+     *
+     * @phpstan-return static
      */
-    public function setControllerSuffix( string controllerSuffix) -> <self>
+    public function setControllerSuffix(string controllerSuffix) -> <self>
     {
         let this->controllerSuffix = controllerSuffix;
 

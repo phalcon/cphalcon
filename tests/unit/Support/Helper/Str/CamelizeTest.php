@@ -19,9 +19,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 
 final class CamelizeTest extends AbstractUnitTestCase
 {
-    /**
-     * @return array
-     */
     public static function getSources(): array
     {
         return [

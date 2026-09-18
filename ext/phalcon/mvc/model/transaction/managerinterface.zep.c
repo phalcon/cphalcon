@@ -49,7 +49,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Transaction_ManagerInterface, get);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Transaction_ManagerInterface, getDbService);
 /**
- * Check if the transaction manager is registering a shutdown function to clean up pendent transactions
+ * Check if the transaction manager is registering a shutdown function to
+ * clean up pendent transactions
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Transaction_ManagerInterface, getRollbackPendent);
 /**

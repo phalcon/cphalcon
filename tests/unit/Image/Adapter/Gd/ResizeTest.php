@@ -185,7 +185,7 @@ final class ResizeTest extends AbstractUnitTestCase
 
         $source = Talon::settings()->supportPath('assets/images/example-jpg.jpg');
 
-        $original = new Gd($source);
+        $original     = new Gd($source);
         $sourceWidth  = $original->getWidth();
         $sourceHeight = $original->getHeight();
 

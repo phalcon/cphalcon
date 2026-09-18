@@ -82,7 +82,7 @@ interface CookieInterface
     /**
      * Sets the domain that the cookie is available to
      */
-    public function setDomain( string domain) -> <CookieInterface>;
+    public function setDomain(string domain) -> <CookieInterface>;
 
     /**
      * Sets the cookie's expiration time
@@ -99,12 +99,12 @@ interface CookieInterface
      *
      * @phpstan-param http_cookie_options $options
      */
-    public function setOptions( array options) -> <CookieInterface>;
+    public function setOptions(array options) -> <CookieInterface>;
 
     /**
      * Sets the cookie's expiration time
      */
-    public function setPath( string path) -> <CookieInterface>;
+    public function setPath(string path) -> <CookieInterface>;
 
     /**
      * Sets if the cookie must only be sent when the connection is secure

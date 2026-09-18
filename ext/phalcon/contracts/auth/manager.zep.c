@@ -24,7 +24,7 @@
  * @link    https://github.com/sinbadxiii/cphalcon-auth
  */
 /**
- * @phpstan-import-type AuthCredentials from Adapter
+ * @phpstan-import-type auth_credentials from AuthTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Auth_Manager)
 {
@@ -50,7 +50,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Auth_Manager, access);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Auth_Manager, addAccessList);
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Auth_Manager, addGuard);
 /**
- * @phpstan-param AuthCredentials $credentials
+ * @phpstan-param auth_credentials $credentials
  *
  * @throws Exception
  */
@@ -106,6 +106,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Auth_Manager, user);
  * Validates the given credentials against the default guard without
  * logging in.
  *
- * @phpstan-param AuthCredentials $credentials
+ * @phpstan-param auth_credentials $credentials
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Auth_Manager, validate);

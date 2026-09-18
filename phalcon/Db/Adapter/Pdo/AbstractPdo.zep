@@ -10,6 +10,7 @@
 
 namespace Phalcon\Db\Adapter\Pdo;
 
+use Phalcon\Contracts\Db\DbTypes;
 use Phalcon\Db\Adapter\AbstractAdapter;
 use Phalcon\Db\Column;
 use Phalcon\Db\Exception;
@@ -39,6 +40,13 @@ use Phalcon\Support\Settings;
  *
  * $connection = new Mysql($config);
  *```
+ *
+ * @phpstan-import-type db_bind_params from DbTypes
+ * @phpstan-import-type db_bind_types from DbTypes
+ * @phpstan-import-type db_descriptor from DbTypes
+ * @phpstan-import-type db_dsn_defaults from DbTypes
+ * @phpstan-import-type db_error_info from DbTypes
+ * @phpstan-import-type db_pdo_options from DbTypes
  */
 abstract class AbstractPdo extends AbstractAdapter
 {
@@ -49,18 +57,13 @@ abstract class AbstractPdo extends AbstractAdapter
 
     /**
      * Last affected rows
-     *
-     * @var int
      */
-    protected affectedRows = 0;
-
+    protected int affectedRows = 0;
     /**
      * Whether to transparently reconnect and retry once when a query fails
      * because the connection was lost. Opt-in; off by default.
-     *
-     * @var bool
      */
-    protected autoReconnect = false;
+    protected bool autoReconnect = false;
 
     /**
      * PDO Handler
@@ -83,8 +86,10 @@ abstract class AbstractPdo extends AbstractAdapter
      *     'dsn' => null,
      *     'charset' => 'utf8mb4'
      * ]
+     *
+     * @phpstan-param db_descriptor $descriptor
      */
-    public function __construct( array descriptor)
+    public function __construct(array descriptor)
     {
         this->connect(descriptor);
 
@@ -113,7 +118,9 @@ abstract class AbstractPdo extends AbstractAdapter
      */
     public function begin(bool nesting = true) -> bool
     {
-        var eventsManager, savepointName;
+        var e, eventsManager, savepointName;
+
+        this->resetStaleTransactionLevel();
 
         /**
          * Increase the transaction nesting level
@@ -132,7 +139,17 @@ abstract class AbstractPdo extends AbstractAdapter
                 eventsManager->fire("db:beginTransaction", this);
             }
 
-            return this->pdo->beginTransaction();
+            /**
+             * Decrease the transaction nesting level if the transaction
+             * does not start
+             */
+            try {
+                return this->pdo->beginTransaction();
+            } catch \Throwable, e {
+                let this->transactionLevel--;
+
+                throw e;
+            }
         }
 
         /**
@@ -152,7 +169,26 @@ abstract class AbstractPdo extends AbstractAdapter
             eventsManager->fire("db:createSavepoint", this, savepointName);
         }
 
-        return this->createSavepoint(savepointName);
+        /**
+         * Decrease the transaction nesting level if the savepoint is not
+         * created
+         */
+        try {
+            return this->createSavepoint(savepointName);
+        } catch \Throwable, e {
+            let this->transactionLevel--;
+
+            throw e;
+        }
+    }
+
+    /**
+     * Closes the active connection returning success. Phalcon automatically
+     * closes and destroys active connections when the request ends
+     */
+    public function close() -> void
+    {
+        let this->pdo = null;
     }
 
     /**
@@ -160,7 +196,9 @@ abstract class AbstractPdo extends AbstractAdapter
      */
     public function commit(bool nesting = true) -> bool
     {
-        var eventsManager, savepointName;
+        var e, eventsManager, savepointName;
+
+        this->resetStaleTransactionLevel();
 
         /**
          * Check the transaction nesting level
@@ -183,13 +221,23 @@ abstract class AbstractPdo extends AbstractAdapter
              */
             let this->transactionLevel--;
 
-            return this->pdo->commit();
+            /**
+             * Increase the transaction nesting level if the transaction
+             * does not commit
+             */
+            try {
+                return this->pdo->commit();
+            } catch \Throwable, e {
+                let this->transactionLevel++;
+
+                throw e;
+            }
         }
 
         /**
          * Check if the current database system supports nested transactions
          */
-        if this->transactionLevel === 0 || !nesting || !this->isNestedTransactionsWithSavepoints() {
+        if !nesting || !this->isNestedTransactionsWithSavepoints() {
             /**
              * Reduce the transaction nesting level
              */
@@ -215,16 +263,17 @@ abstract class AbstractPdo extends AbstractAdapter
          */
         let this->transactionLevel--;
 
-        return this->releaseSavepoint(savepointName);
-    }
+        /**
+         * Increase the transaction nesting level if the savepoint is not
+         * released
+         */
+        try {
+            return this->releaseSavepoint(savepointName);
+        } catch \Throwable, e {
+            let this->transactionLevel++;
 
-    /**
-     * Closes the active connection returning success. Phalcon automatically
-     * closes and destroys active connections when the request ends
-     */
-    public function close() -> void
-    {
-        let this->pdo = null;
+            throw e;
+        }
     }
 
     /**
@@ -250,8 +299,10 @@ abstract class AbstractPdo extends AbstractAdapter
      * // Reconnect
      * $connection->connect();
      * ```
+     *
+     * @phpstan-param db_descriptor $descriptor
      */
-    public function connect( array descriptor = []) -> void
+    public function connect(array descriptor = []) -> void
     {
         var username, password, dsnAttributes, dsnAttributesCustomRaw,
             dsnAttributesMap, key, options, persistent, value, autoReconnect;
@@ -348,8 +399,12 @@ abstract class AbstractPdo extends AbstractAdapter
      *     )
      * );
      *```
+     *
+     * @phpstan-param db_bind_params $params
+     *
+     * @phpstan-return array{sql: string, params: list<mixed>}
      */
-    public function convertBoundParams( string sql, array params = []) -> array
+    public function convertBoundParams(string sql, array params = []) -> array
     {
         var boundSql, placeHolders, bindPattern, matches, setOrder, placeMatch,
             value;
@@ -386,6 +441,16 @@ abstract class AbstractPdo extends AbstractAdapter
     }
 
     /**
+     * Ensures the connection is alive, reconnecting in place if it is not.
+     */
+    public function ensureConnection() -> void
+    {
+        if !this->ping() {
+            this->connect();
+        }
+    }
+
+    /**
      * Escapes a value to avoid SQL injections according to the active charset
      * in the connection
      *
@@ -396,16 +461,6 @@ abstract class AbstractPdo extends AbstractAdapter
     public function escapeString(string str) -> string
     {
         return this->pdo->quote(str);
-    }
-
-    /**
-     * Ensures the connection is alive, reconnecting in place if it is not.
-     */
-    public function ensureConnection() -> void
-    {
-        if !this->ping() {
-            this->connect();
-        }
     }
 
     /**
@@ -427,8 +482,11 @@ abstract class AbstractPdo extends AbstractAdapter
      *     ]
      * );
      *```
+     *
+     * @phpstan-param db_bind_params $bindParams
+     * @phpstan-param db_bind_types  $bindTypes
      */
-    public function execute( string sqlStatement,  array bindParams = [],  array bindTypes = []) -> bool
+    public function execute(string sqlStatement,  array bindParams = [],  array bindTypes = []) -> bool
     {
         var eventsManager, affectedRows, e;
 
@@ -500,10 +558,14 @@ abstract class AbstractPdo extends AbstractAdapter
      *     ]
      * );
      *```
+     *
+     * @phpstan-param db_bind_params $placeholders
+     * @phpstan-param db_bind_types  $dataTypes
      */
     public function executePrepared(<\PDOStatement> statement,  array placeholders, array dataTypes = []) -> <\PDOStatement>
     {
-        var wildcard, value, type, castValue, parameter, position, itemValue;
+        var castValue, itemValue, position, type, value, wildcard,
+            parameter = null;
 
         for wildcard, value in placeholders {
             if typeof wildcard == "integer" {
@@ -606,6 +668,8 @@ abstract class AbstractPdo extends AbstractAdapter
 
     /**
      * Return the error info, if any
+     *
+     * @phpstan-return db_error_info
      */
     public function getErrorInfo() -> array
     {
@@ -670,7 +734,7 @@ abstract class AbstractPdo extends AbstractAdapter
      * @param string|null $name
      * @return string|bool
      */
-    public function lastInsertId( string name = null) -> string | bool
+    public function lastInsertId(string name = null) -> string | bool
     {
         return this->pdo->lastInsertId(name);
     }
@@ -715,7 +779,7 @@ abstract class AbstractPdo extends AbstractAdapter
      * );
      *```
      */
-    public function prepare( string sqlStatement) -> <\PDOStatement>
+    public function prepare(string sqlStatement) -> <\PDOStatement>
     {
         return this->pdo->prepare(sqlStatement);
     }
@@ -739,7 +803,7 @@ abstract class AbstractPdo extends AbstractAdapter
      * );
      *```
      */
-    public function query( string sqlStatement,  array bindParams = [],  array bindTypes = []) -> <ResultInterface> | bool
+    public function query(string sqlStatement,  array bindParams = [],  array bindTypes = []) -> <ResultInterface> | bool
     {
         var eventsManager, statement, params, types, e;
 
@@ -807,6 +871,8 @@ abstract class AbstractPdo extends AbstractAdapter
     {
         var eventsManager, savepointName;
 
+        this->resetStaleTransactionLevel();
+
         /**
          * Check the transaction nesting level
          */
@@ -824,7 +890,8 @@ abstract class AbstractPdo extends AbstractAdapter
             }
 
             /**
-             * Reduce the transaction nesting level
+             * Reduce the transaction nesting level. The level stays reduced
+             * if the rollback fails
              */
             let this->transactionLevel--;
 
@@ -834,7 +901,7 @@ abstract class AbstractPdo extends AbstractAdapter
         /**
          * Check if the current database system supports nested transactions
          */
-        if this->transactionLevel === 0 || !nesting || !this->isNestedTransactionsWithSavepoints() {
+        if !nesting || !this->isNestedTransactionsWithSavepoints() {
             /**
              * Reduce the transaction nesting level
              */
@@ -856,7 +923,8 @@ abstract class AbstractPdo extends AbstractAdapter
         }
 
         /**
-         * Reduce the transaction nesting level
+         * Reduce the transaction nesting level. The level stays reduced if
+         * the rollback fails
          */
         let this->transactionLevel--;
 
@@ -875,6 +943,8 @@ abstract class AbstractPdo extends AbstractAdapter
 
     /**
      * Returns PDO adapter DSN defaults as a key-value map.
+     *
+     * @phpstan-return db_dsn_defaults
      */
     abstract protected function getDsnDefaults() -> array;
 
@@ -892,6 +962,8 @@ abstract class AbstractPdo extends AbstractAdapter
      * Constructs the SQL statement (with parameters)
      *
      * @see https://stackoverflow.com/a/8403150
+     *
+     * @phpstan-param db_bind_params $parameters
      */
     protected function prepareRealSql(string statement, array parameters) -> void
     {
@@ -947,6 +1019,9 @@ abstract class AbstractPdo extends AbstractAdapter
     /**
      * Runs the actual write against PDO and returns the affected-rows count
      * (or the raw exec() return for unprepared statements).
+     *
+     * @phpstan-param db_bind_params $bindParams
+     * @phpstan-param db_bind_types  $bindTypes
      */
     private function executeStatement(string sqlStatement, array bindParams, array bindTypes) -> var
     {
@@ -990,6 +1065,11 @@ abstract class AbstractPdo extends AbstractAdapter
 
     /**
      * Prepares and executes a read statement, returning the live PDOStatement.
+     *
+     * @phpstan-param db_bind_params $params
+     * @phpstan-param db_bind_types  $types
+     *
+     * @throws CannotPrepareStatement
      */
     private function queryStatement(string sqlStatement, array params, array types) -> <\PDOStatement>
     {
@@ -1001,5 +1081,17 @@ abstract class AbstractPdo extends AbstractAdapter
         }
 
         return this->executePrepared(statement, params, types);
+    }
+
+    /**
+     * Resets the transaction nesting level when the connection has no active
+     * transaction. This occurs after an implicit commit, a reconnect or when
+     * the transaction ends outside of the adapter.
+     */
+    private function resetStaleTransactionLevel() -> void
+    {
+        if this->transactionLevel > 0 && typeof this->pdo == "object" && !this->pdo->inTransaction() {
+            let this->transactionLevel = 0;
+        }
     }
 }

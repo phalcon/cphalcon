@@ -67,6 +67,7 @@ final class ConstructTest extends AbstractUnitTestCase
         $actual = $acl->isAllowed($roleAdmin->getName(), 'payment', '*');
         $this->assertTrue($actual);
     }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13

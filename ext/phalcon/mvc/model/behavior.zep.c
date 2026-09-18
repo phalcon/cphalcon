@@ -27,24 +27,26 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Model\Behavior
- *
  * This is an optional base class for ORM behaviors
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Behavior)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, Behavior, phalcon, mvc_model_behavior, phalcon_mvc_model_behavior_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-	/**
-	 * @var array
-	 */
-	zend_declare_property_null(phalcon_mvc_model_behavior_ce, SL("options"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_UNDEF(&_zc0);
+		zephir_declare_typed_property(phalcon_mvc_model_behavior_ce, SL("options"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
+	}
+
 	zend_class_implements(phalcon_mvc_model_behavior_ce, 1, phalcon_mvc_model_behaviorinterface_ce);
 	return SUCCESS;
 }
 
 /**
  * Phalcon\Mvc\Model\Behavior
+ *
+ * @phpstan-param array<string, mixed> $options
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior, __construct)
 {
@@ -72,12 +74,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, __construct)
 	} else {
 		zephir_get_arrval(&options, options_param);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 235, &options);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 233, &options);
 	ZEPHIR_MM_RESTORE();
 }
 
 /**
  * Acts as fallbacks when a missing method is called on the model
+ *
+ * @phpstan-param array<array-key, mixed> $arguments
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior, missingMethod)
 {
@@ -113,6 +117,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, missingMethod)
 
 /**
  * This method receives the notifications from the EventsManager
+ *
+ * @phpstan-return mixed
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior, notify)
 {
@@ -134,6 +140,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, notify)
  * Returns the behavior options related to an event
  *
  * @return array
+ *
+ * @phpstan-return array<string, mixed>|mixed
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions)
 {
@@ -164,7 +172,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions)
 		zephir_memory_observe(&eventName_zv);
 	ZVAL_STR_COPY(&eventName_zv, eventName);
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 235, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 233, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&options, &_0);
 	if (!ZEPHIR_IS_NULL(&eventName_zv)) {
 		zephir_memory_observe(&eventOptions);
@@ -196,7 +204,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction)
 		Z_PARAM_STR(eventName)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&eventName_zv, eventName);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 235, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 233, PH_NOISY_CC | PH_READONLY);
 	RETURN_BOOL(zephir_array_isset_value(&_0, &eventName_zv));
 }
 

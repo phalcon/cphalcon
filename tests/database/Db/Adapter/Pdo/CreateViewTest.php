@@ -22,6 +22,7 @@ final class CreateViewTest extends AbstractDatabaseTestCase
     use DiTrait;
 
     private const SRC  = 'co_scratch_createview_src';
+
     private const VIEW = 'co_scratch_createview';
 
     public function setUp(): void

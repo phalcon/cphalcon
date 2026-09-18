@@ -16,9 +16,14 @@ class MultiLineString extends AbstractGeometry
 {
     /**
      * @var array
+     *
+     * @phpstan-var list<LineString>
      */
     protected lineStrings;
 
+    /**
+     * @phpstan-param list<LineString> $lineStrings
+     */
     public function __construct(array lineStrings, int srid = 0)
     {
         let this->lineStrings = lineStrings,
@@ -30,6 +35,9 @@ class MultiLineString extends AbstractGeometry
         return Column::TYPE_MULTILINESTRING;
     }
 
+    /**
+     * @phpstan-return list<LineString>
+     */
     public function getLineStrings() -> array
     {
         return this->lineStrings;

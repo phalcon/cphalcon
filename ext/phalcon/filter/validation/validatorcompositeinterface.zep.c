@@ -22,6 +22,8 @@
  */
 /**
  * This is a base class for combined fields validators
+ *
+ * @phpstan-import-type filter_validators from FilterTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_ValidatorCompositeInterface)
 {
@@ -32,6 +34,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_ValidatorCompositeInterface)
 
 /**
  * Executes the validation
+ *
+ * @phpstan-return filter_validators
  */
 ZEPHIR_DOC_METHOD(Phalcon_Filter_Validation_ValidatorCompositeInterface, getValidators);
 /**

@@ -467,7 +467,7 @@ class Router extends AbstractInjectionAware implements RouterInterface
      *
      * @phpstan-param cli_router_defaults $defaults
      */
-    public function setDefaults( array defaults) -> <static>
+    public function setDefaults(array defaults) -> <static>
     {
         var module, task, action, params;
 

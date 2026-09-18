@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Controller\BindModelInterface
- *
  * Interface for Phalcon\Mvc\Controller
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Controller_BindModelInterface)

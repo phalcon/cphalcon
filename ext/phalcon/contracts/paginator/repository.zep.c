@@ -94,14 +94,10 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Repository, getAliases);
  *
  * Cursor adapters store the cursor value used for the current page here
  * (0 on the first page), not a sequential page number.
- *
- * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Repository, getCurrent);
 /**
  * Gets number of the first page
- *
- * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Repository, getFirst);
 /**
@@ -112,14 +108,10 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Repository, getItems);
  * Gets number of the last page
  *
  * Cursor adapters do not compute this and return 0.
- *
- * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Repository, getLast);
 /**
  * Gets current rows limit
- *
- * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Repository, getLimit);
 /**
@@ -127,39 +119,29 @@ ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Repository, getLimit);
  *
  * Cursor adapters store the next cursor value here rather than a page
  * number; 0 means there is no next page.
- *
- * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Repository, getNext);
 /**
  * Gets number of the previous page
  *
  * Cursor adapters do not compute this and return 0.
- *
- * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Repository, getPrevious);
 /**
  * Gets the total number of items
  *
  * Cursor adapters do not compute this and return 0.
- *
- * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Repository, getTotalItems);
 /**
  * Sets the aliases for properties repository
  *
  * @param paginator_aliases $aliases
- *
- * @return Repository
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Repository, setAliases);
 /**
  * Sets values for properties of the repository
  *
  * @param paginator_properties $properties
- *
- * @return Repository
  */
 ZEPHIR_DOC_METHOD(Phalcon_Contracts_Paginator_Repository, setProperties);

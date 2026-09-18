@@ -28,6 +28,9 @@
  */
 /**
  * This class identifies each profile in a Phalcon\Db\Profiler
+ *
+ * @phpstan-import-type db_bind_params from DbTypes
+ * @phpstan-import-type db_bind_types from DbTypes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler_Item)
 {
@@ -36,19 +39,21 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler_Item)
 	/**
 	 * Timestamp when the profile ended
 	 *
-	 * @var double
+	 * @var float
 	 */
 	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("finalTime"), ZEND_ACC_PROTECTED);
 	/**
 	 * Timestamp when the profile started
 	 *
-	 * @var double
+	 * @var float
 	 */
 	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("initialTime"), ZEND_ACC_PROTECTED);
 	/**
 	 * SQL bind types related to the profile
 	 *
 	 * @var array
+	 *
+	 * @phpstan-var db_bind_types
 	 */
 	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("sqlBindTypes"), ZEND_ACC_PROTECTED);
 	/**
@@ -61,6 +66,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler_Item)
 	 * SQL variables related to the profile
 	 *
 	 * @var array
+	 *
+	 * @phpstan-var db_bind_params
 	 */
 	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("sqlVariables"), ZEND_ACC_PROTECTED);
 	return SUCCESS;
@@ -86,6 +93,8 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getInitialTime)
 
 /**
  * Return the SQL bind types related to the profile
+ *
+ * @phpstan-return db_bind_types
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlBindTypes)
 {
@@ -104,6 +113,8 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlStatement)
 
 /**
  * Return the SQL variables related to the profile
+ *
+ * @phpstan-return db_bind_params
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlVariables)
 {
@@ -129,8 +140,8 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getTotalElapsedNanoseconds)
 	if (UNEXPECTED(!_zephir_prop_1)) {
 		_zephir_prop_1 = zend_string_init("initialTime", 11, 1);
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 651, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 652, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 649, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 650, PH_NOISY_CC | PH_READONLY);
 	zephir_sub_function(return_value, &_0, &_1);
 	return;
 }
@@ -157,7 +168,7 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setFinalTime)
 	finalTime = zephir_get_doubleval(finalTime_param);
 	ZVAL_UNDEF(&_0);
 	ZVAL_DOUBLE(&_0, finalTime);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 651, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 649, &_0);
 	RETURN_THISW();
 }
 
@@ -183,12 +194,14 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setInitialTime)
 	initialTime = zephir_get_doubleval(initialTime_param);
 	ZVAL_UNDEF(&_0);
 	ZVAL_DOUBLE(&_0, initialTime);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 652, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 650, &_0);
 	RETURN_THISW();
 }
 
 /**
  * Return the SQL bind types related to the profile
+ *
+ * @phpstan-param db_bind_types $sqlBindTypes
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlBindTypes)
 {
@@ -210,7 +223,7 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlBindTypes)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &sqlBindTypes_param);
 	zephir_get_arrval(&sqlBindTypes, sqlBindTypes_param);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 653, &sqlBindTypes);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 651, &sqlBindTypes);
 	RETURN_THIS();
 }
 
@@ -233,12 +246,14 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlStatement)
 		Z_PARAM_STR(sqlStatement)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&sqlStatement_zv, sqlStatement);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 654, &sqlStatement_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 652, &sqlStatement_zv);
 	RETURN_THISW();
 }
 
 /**
  * Return the SQL variables related to the profile
+ *
+ * @phpstan-param db_bind_params $sqlVariables
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlVariables)
 {
@@ -260,7 +275,7 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlVariables)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &sqlVariables_param);
 	zephir_get_arrval(&sqlVariables, sqlVariables_param);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 655, &sqlVariables);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 653, &sqlVariables);
 	RETURN_THIS();
 }
 

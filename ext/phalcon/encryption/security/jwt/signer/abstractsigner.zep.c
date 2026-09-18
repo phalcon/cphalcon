@@ -30,10 +30,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Signer_AbstractSigner)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Encryption\\Security\\JWT\\Signer, AbstractSigner, phalcon, encryption_security_jwt_signer_abstractsigner, phalcon_encryption_security_jwt_signer_abstractsigner_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-	/**
-	 * @var string
-	 */
-	zend_declare_property_string(phalcon_encryption_security_jwt_signer_abstractsigner_ce, SL("algorithm"), "", ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		ZVAL_STRINGL(&_zc0, "", sizeof("") - 1);
+		zephir_declare_typed_property(phalcon_encryption_security_jwt_signer_abstractsigner_ce, SL("algorithm"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_STRING, NULL, 0);
+	}
+
 	zend_class_implements(phalcon_encryption_security_jwt_signer_abstractsigner_ce, 1, phalcon_encryption_security_jwt_signer_signerinterface_ce);
 	return SUCCESS;
 }

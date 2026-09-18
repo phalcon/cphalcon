@@ -149,7 +149,7 @@ class Redis extends AbstractAdapter
      *
      * @phpstan-return storage_keys
      */
-    public function getKeys( string prefix = "") -> array
+    public function getKeys(string prefix = "") -> array
     {
         var adapter, cursor, keys, pattern, result, scanKeys;
 
@@ -185,10 +185,8 @@ class Redis extends AbstractAdapter
                 break;
             }
 
-            if (fetch scanKeys, result[1]) {
-                if (typeof scanKeys === "array") {
-                    let keys = array_merge(keys, scanKeys);
-                }
+            if fetch scanKeys, result[1] && typeof scanKeys === "array" {
+                let keys = array_merge(keys, scanKeys);
             }
 
             if (cursor === "0" || cursor === 0) {
@@ -207,7 +205,7 @@ class Redis extends AbstractAdapter
      * @throws StorageException
      * @throws RedisException
      */
-    public function setForever( string key, var data) -> bool
+    public function setForever(string key, var data) -> bool
     {
         var adapter, result;
 
@@ -229,7 +227,7 @@ class Redis extends AbstractAdapter
      * @throws RedisException
      * @throws StorageException
      */
-    protected function doDecrement( string key, int value = 1) -> false | int
+    protected function doDecrement(string key, int value = 1) -> false | int
     {
         var adapter;
 
@@ -245,7 +243,7 @@ class Redis extends AbstractAdapter
      * @throws RedisException
      * @throws StorageException
      */
-    protected function doDelete( string key) -> bool
+    protected function doDelete(string key) -> bool
     {
         var adapter;
 
@@ -281,7 +279,7 @@ class Redis extends AbstractAdapter
      * @throws RedisException
      * @throws StorageException
      */
-    protected function doHas( string key) -> bool
+    protected function doHas(string key) -> bool
     {
         var adapter;
 
@@ -297,7 +295,7 @@ class Redis extends AbstractAdapter
      * @throws RedisException
      * @throws StorageException
      */
-    protected function doIncrement( string key, int value = 1) -> false | int
+    protected function doIncrement(string key, int value = 1) -> false | int
     {
         var adapter;
 
@@ -321,7 +319,7 @@ class Redis extends AbstractAdapter
      * @return bool
      * @throws BaseException
      */
-    protected function doSet( string key, var value, var ttl = null) -> bool
+    protected function doSet(string key, var value, var ttl = null) -> bool
     {
         var adapter, result;
 

@@ -44,6 +44,7 @@ final class AddIndexConcurrentlyTest extends AbstractDatabaseTestCase
 
         $this->assertStringNotContainsString('CONCURRENTLY', $actual);
     }
+
     /**
      * PostgreSQL - emits `CONCURRENTLY` between `INDEX` and the name.
      *

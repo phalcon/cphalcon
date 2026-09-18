@@ -42,7 +42,7 @@ final class EventsTest extends AbstractUnitTestCase
             [
                 Libmemcached::class,
                 [
-                    'client' => [],
+                    'client'  => [],
                     'servers' => [
                         Talon::settings()->getServiceOptions('memcached')
                     ]
@@ -73,6 +73,7 @@ final class EventsTest extends AbstractUnitTestCase
             ],
         ];
     }
+
     /**
      * @return array[]
      */
@@ -88,7 +89,7 @@ final class EventsTest extends AbstractUnitTestCase
                 'memcached',
                 Libmemcached::class,
                 [
-                    'client' => [],
+                    'client'  => [],
                     'servers' => [
                         Talon::settings()->getServiceOptions('memcached')
                     ]

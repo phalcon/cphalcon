@@ -325,7 +325,7 @@ class Debug
     /**
      * Change the base URI for static resources
      */
-    public function setUri( string uri) -> <static>
+    public function setUri(string uri) -> <static>
     {
         let this->uri = uri;
 

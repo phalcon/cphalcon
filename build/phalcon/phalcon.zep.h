@@ -37,17 +37,17 @@ zend_class_entry *phalcon_di_injectionawareinterface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Di_InjectionAwareInterface);
 
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_injectionawareinterface_getdi, 0, 0, Phalcon\\Di\\DiInterface, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_injectionawareinterface_setdi, 0, 1, IS_VOID, 0)
 
 	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_injectionawareinterface_getdi, 0, 0, Phalcon\\Di\\DiInterface, 0)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_di_injectionawareinterface_method_entry) {
-	PHP_ABSTRACT_ME(Phalcon_Di_InjectionAwareInterface, setDI, arginfo_phalcon_di_injectionawareinterface_setdi)
 	PHP_ABSTRACT_ME(Phalcon_Di_InjectionAwareInterface, getDI, arginfo_phalcon_di_injectionawareinterface_getdi)
+	PHP_ABSTRACT_ME(Phalcon_Di_InjectionAwareInterface, setDI, arginfo_phalcon_di_injectionawareinterface_setdi)
 	PHP_FE_END
 };
 
@@ -120,7 +120,6 @@ static PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, checkArray);
 static PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, prepareCode);
 static PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, prepareLabel);
 static PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, rejectNonStringable);
-zend_object *zephir_init_properties_Phalcon_Filter_Validation_AbstractValidator(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator___construct, 0, 0, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
@@ -195,9 +194,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_abstra
 	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Filter\\Validation, 0)
 	ZEND_ARG_INFO(0, field)
 	ZEND_ARG_INFO(0, value)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator_zephir_init_properties_phalcon_filter_validation_abstractvalidator, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_filter_validation_abstractvalidator_method_entry) {
@@ -324,7 +320,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt_Exception);
 
 static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exception, __construct);
 static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exception, getStatement);
-zend_object *zephir_init_properties_Phalcon_Mvc_View_Engine_Volt_Exception(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_exception___construct, 0, 0, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, message, IS_STRING, 0, "''")
@@ -334,9 +329,6 @@ ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, statement, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_exception_getstatement, 0, 0, IS_ARRAY, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_exception_zephir_init_properties_phalcon_mvc_view_engine_volt_exception, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_view_engine_volt_exception_method_entry) {
@@ -427,8 +419,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_Exception);
 
 static PHP_METHOD(Phalcon_Di_Exception, serviceCannotBeResolved);
 static PHP_METHOD(Phalcon_Di_Exception, serviceNotFound);
-static PHP_METHOD(Phalcon_Di_Exception, unknownServiceInParameter);
 static PHP_METHOD(Phalcon_Di_Exception, undefinedMethod);
+static PHP_METHOD(Phalcon_Di_Exception, unknownServiceInParameter);
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_exception_servicecannotberesolved, 0, 1, Phalcon\\Di\\Exception, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
@@ -438,19 +430,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_exception_servicenotfo
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_exception_unknownserviceinparameter, 0, 1, Phalcon\\Di\\Exception, 0)
-	ZEND_ARG_TYPE_INFO(0, position, IS_LONG, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_exception_undefinedmethod, 0, 1, Phalcon\\Di\\Exception, 0)
 	ZEND_ARG_TYPE_INFO(0, method, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_exception_unknownserviceinparameter, 0, 1, Phalcon\\Di\\Exception, 0)
+	ZEND_ARG_TYPE_INFO(0, position, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_di_exception_method_entry) {
 	PHP_ME(Phalcon_Di_Exception, serviceCannotBeResolved, arginfo_phalcon_di_exception_servicecannotberesolved, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Di_Exception, serviceNotFound, arginfo_phalcon_di_exception_servicenotfound, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
-	PHP_ME(Phalcon_Di_Exception, unknownServiceInParameter, arginfo_phalcon_di_exception_unknownserviceinparameter, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Di_Exception, undefinedMethod, arginfo_phalcon_di_exception_undefinedmethod, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Di_Exception, unknownServiceInParameter, arginfo_phalcon_di_exception_unknownserviceinparameter, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
 
@@ -703,7 +695,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Factory_AbstractFactory);
 static PHP_METHOD(Phalcon_Factory_AbstractFactory, getService);
 static PHP_METHOD(Phalcon_Factory_AbstractFactory, getServices);
 static PHP_METHOD(Phalcon_Factory_AbstractFactory, init);
-zend_object *zephir_init_properties_Phalcon_Factory_AbstractFactory(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_factory_abstractfactory_getservice, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
@@ -715,9 +706,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_factory_abstractfactory_init, 0, 0, IS_VOID, 0)
 
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, services, IS_ARRAY, 0, "[]")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_factory_abstractfactory_zephir_init_properties_phalcon_factory_abstractfactory, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_factory_abstractfactory_method_entry) {
@@ -995,7 +983,6 @@ static PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setTagFactory);
 static PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setUserOption);
 static PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setUserOptions);
 static PHP_METHOD(Phalcon_Forms_Element_AbstractElement, getLocalTagFactory);
-zend_object *zephir_init_properties_Phalcon_Forms_Element_AbstractElement(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_abstractelement___construct, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
@@ -1126,9 +1113,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_element_abstractele
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_element_abstractelement_getlocaltagfactory, 0, 0, Phalcon\\Html\\TagFactory, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_abstractelement_zephir_init_properties_phalcon_forms_element_abstractelement, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_forms_element_abstractelement_method_entry) {
@@ -1557,10 +1541,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_contracts_dispatcher_dispatcher_getparame
 	ZEND_ARG_INFO(0, filters)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_dispatcher_dispatcher_getparams, 0, 0, IS_ARRAY, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_dispatcher_dispatcher_getparameters, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_dispatcher_dispatcher_getparameters, 0, 0, IS_ARRAY, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_dispatcher_dispatcher_getparams, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_contracts_dispatcher_dispatcher_getreturnedvalue, 0, 0, 0)
@@ -1627,8 +1611,8 @@ ZEPHIR_INIT_FUNCS(phalcon_contracts_dispatcher_dispatcher_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Dispatcher_Dispatcher, getHandlerSuffix, arginfo_phalcon_contracts_dispatcher_dispatcher_gethandlersuffix)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Dispatcher_Dispatcher, getParam, arginfo_phalcon_contracts_dispatcher_dispatcher_getparam)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Dispatcher_Dispatcher, getParameter, arginfo_phalcon_contracts_dispatcher_dispatcher_getparameter)
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Dispatcher_Dispatcher, getParams, arginfo_phalcon_contracts_dispatcher_dispatcher_getparams)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Dispatcher_Dispatcher, getParameters, arginfo_phalcon_contracts_dispatcher_dispatcher_getparameters)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Dispatcher_Dispatcher, getParams, arginfo_phalcon_contracts_dispatcher_dispatcher_getparams)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Dispatcher_Dispatcher, getReturnedValue, arginfo_phalcon_contracts_dispatcher_dispatcher_getreturnedvalue)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Dispatcher_Dispatcher, hasParam, arginfo_phalcon_contracts_dispatcher_dispatcher_hasparam)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Dispatcher_Dispatcher, isFinished, arginfo_phalcon_contracts_dispatcher_dispatcher_isfinished)
@@ -2115,6 +2099,7 @@ static PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, isAllow
 static PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, setMessageFileEmpty);
 static PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, setMessageIniSize);
 static PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, setMessageValid);
+static PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, appendMessageValid);
 static PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkIsUploadedFile);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validator_file_abstractfile_checkupload, 0, 2, _IS_BOOL, 0)
@@ -2170,6 +2155,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_valida
 	ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validator_file_abstractfile_appendmessagevalid, 0, 2, IS_VOID, 0)
+
+	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Filter\\Validation, 0)
+	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validator_file_abstractfile_checkisuploadedfile, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
@@ -2187,6 +2178,7 @@ ZEPHIR_INIT_FUNCS(phalcon_filter_validation_validator_file_abstractfile_method_e
 	PHP_ME(Phalcon_Filter_Validation_Validator_File_AbstractFile, setMessageFileEmpty, arginfo_phalcon_filter_validation_validator_file_abstractfile_setmessagefileempty, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation_Validator_File_AbstractFile, setMessageIniSize, arginfo_phalcon_filter_validation_validator_file_abstractfile_setmessageinisize, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation_Validator_File_AbstractFile, setMessageValid, arginfo_phalcon_filter_validation_validator_file_abstractfile_setmessagevalid, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Filter_Validation_Validator_File_AbstractFile, appendMessageValid, arginfo_phalcon_filter_validation_validator_file_abstractfile_appendmessagevalid, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkIsUploadedFile, arginfo_phalcon_filter_validation_validator_file_abstractfile_checkisuploadedfile, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };
@@ -2564,6 +2556,12 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_getconnectionid, 0, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_getdefaultidvalue, 0, 0, Phalcon\\Db\\RawValue, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_getdefaultvalue, 0, 0, Phalcon\\Db\\RawValue, 1)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_getdescriptor, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
@@ -2571,12 +2569,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_db_adapter_adap
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_getdialecttype, 0, 0, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_getdefaultidvalue, 0, 0, Phalcon\\Db\\RawValue, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_getdefaultvalue, 0, 0, Phalcon\\Db\\RawValue, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_getinternalhandler, 0, 0, 0)
@@ -2619,7 +2611,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_isundertransaction, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_contracts_db_adapter_adapter_lastinsertid, 0, 0, MAY_BE_STRING|MAY_BE_BOOL)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_contracts_db_adapter_adapter_lastinsertid, 0, 0, MAY_BE_BOOL|MAY_BE_STRING)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, name, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
@@ -2661,13 +2653,16 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_ada
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_setnestedtransactionswithsavepoints, 0, 1, Phalcon\\Db\\Adapter\\AdapterInterface, 0)
+	ZEND_ARG_TYPE_INFO(0, nestedTransactionsWithSavepoints, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_sharedlock, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, sqlQuery, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, modifier, IS_STRING, 0, "''")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_setnestedtransactionswithsavepoints, 0, 1, Phalcon\\Db\\Adapter\\AdapterInterface, 0)
-	ZEND_ARG_TYPE_INFO(0, nestedTransactionsWithSavepoints, _IS_BOOL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_supportsdefaultvalue, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_supportsequences, 0, 0, _IS_BOOL, 0)
@@ -2699,9 +2694,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_ada
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_useexplicitidvalue, 0, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_supportsdefaultvalue, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_adapter_adapter_viewexists, 0, 1, _IS_BOOL, 0)
@@ -2742,11 +2734,11 @@ ZEPHIR_INIT_FUNCS(phalcon_contracts_db_adapter_adapter_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, getColumnDefinition, arginfo_phalcon_contracts_db_adapter_adapter_getcolumndefinition)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, getColumnList, arginfo_phalcon_contracts_db_adapter_adapter_getcolumnlist)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, getConnectionId, arginfo_phalcon_contracts_db_adapter_adapter_getconnectionid)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, getDefaultIdValue, arginfo_phalcon_contracts_db_adapter_adapter_getdefaultidvalue)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, getDefaultValue, arginfo_phalcon_contracts_db_adapter_adapter_getdefaultvalue)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, getDescriptor, arginfo_phalcon_contracts_db_adapter_adapter_getdescriptor)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, getDialect, arginfo_phalcon_contracts_db_adapter_adapter_getdialect)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, getDialectType, arginfo_phalcon_contracts_db_adapter_adapter_getdialecttype)
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, getDefaultIdValue, arginfo_phalcon_contracts_db_adapter_adapter_getdefaultidvalue)
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, getDefaultValue, arginfo_phalcon_contracts_db_adapter_adapter_getdefaultvalue)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, getInternalHandler, arginfo_phalcon_contracts_db_adapter_adapter_getinternalhandler)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, getNestedTransactionSavepointName, arginfo_phalcon_contracts_db_adapter_adapter_getnestedtransactionsavepointname)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, getRealSQLStatement, arginfo_phalcon_contracts_db_adapter_adapter_getrealsqlstatement)
@@ -2767,15 +2759,15 @@ ZEPHIR_INIT_FUNCS(phalcon_contracts_db_adapter_adapter_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, releaseSavepoint, arginfo_phalcon_contracts_db_adapter_adapter_releasesavepoint)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, rollback, arginfo_phalcon_contracts_db_adapter_adapter_rollback)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, rollbackSavepoint, arginfo_phalcon_contracts_db_adapter_adapter_rollbacksavepoint)
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, sharedLock, arginfo_phalcon_contracts_db_adapter_adapter_sharedlock)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, setNestedTransactionsWithSavepoints, arginfo_phalcon_contracts_db_adapter_adapter_setnestedtransactionswithsavepoints)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, sharedLock, arginfo_phalcon_contracts_db_adapter_adapter_sharedlock)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, supportsDefaultValue, arginfo_phalcon_contracts_db_adapter_adapter_supportsdefaultvalue)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, supportSequences, arginfo_phalcon_contracts_db_adapter_adapter_supportsequences)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, tableExists, arginfo_phalcon_contracts_db_adapter_adapter_tableexists)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, tableOptions, arginfo_phalcon_contracts_db_adapter_adapter_tableoptions)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, update, arginfo_phalcon_contracts_db_adapter_adapter_update)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, updateAsDict, arginfo_phalcon_contracts_db_adapter_adapter_updateasdict)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, useExplicitIdValue, arginfo_phalcon_contracts_db_adapter_adapter_useexplicitidvalue)
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, supportsDefaultValue, arginfo_phalcon_contracts_db_adapter_adapter_supportsdefaultvalue)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Db_Adapter_Adapter, viewExists, arginfo_phalcon_contracts_db_adapter_adapter_viewexists)
 	PHP_FE_END
 };
@@ -2887,10 +2879,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_Uuid_AbstractUuid);
 
 static PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, __toString);
 static PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, jsonSerialize);
-static PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, getNodeProvider);
-static PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, uuidTimestampToDateTime);
 static PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, format);
+static PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, getNodeProvider);
 static PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, namespaceToBytes);
+static PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, uuidTimestampToDateTime);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_uuid_abstractuuid___tostring, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
@@ -2898,28 +2890,28 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_uuid_abstractuuid_jsonserialize, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_uuid_abstractuuid_getnodeprovider, 0, 0, Phalcon\\Encryption\\Security\\Uuid\\NodeProviderInterface, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_uuid_abstractuuid_uuidtimestamptodatetime, 0, 1, DateTimeImmutable, 0)
-	ZEND_ARG_INFO(0, timestamp)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_uuid_abstractuuid_format, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, hex, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_uuid_abstractuuid_getnodeprovider, 0, 0, Phalcon\\Encryption\\Security\\Uuid\\NodeProviderInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_uuid_abstractuuid_namespacetobytes, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, uuid, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_uuid_abstractuuid_uuidtimestamptodatetime, 0, 1, DateTimeImmutable, 0)
+	ZEND_ARG_INFO(0, timestamp)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_encryption_security_uuid_abstractuuid_method_entry) {
 	PHP_ME(Phalcon_Encryption_Security_Uuid_AbstractUuid, __toString, arginfo_phalcon_encryption_security_uuid_abstractuuid___tostring, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security_Uuid_AbstractUuid, jsonSerialize, arginfo_phalcon_encryption_security_uuid_abstractuuid_jsonserialize, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Encryption_Security_Uuid_AbstractUuid, getNodeProvider, arginfo_phalcon_encryption_security_uuid_abstractuuid_getnodeprovider, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Encryption_Security_Uuid_AbstractUuid, uuidTimestampToDateTime, arginfo_phalcon_encryption_security_uuid_abstractuuid_uuidtimestamptodatetime, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Encryption_Security_Uuid_AbstractUuid, format, arginfo_phalcon_encryption_security_uuid_abstractuuid_format, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Encryption_Security_Uuid_AbstractUuid, getNodeProvider, arginfo_phalcon_encryption_security_uuid_abstractuuid_getnodeprovider, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Encryption_Security_Uuid_AbstractUuid, namespaceToBytes, arginfo_phalcon_encryption_security_uuid_abstractuuid_namespacetobytes, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Encryption_Security_Uuid_AbstractUuid, uuidTimestampToDateTime, arginfo_phalcon_encryption_security_uuid_abstractuuid_uuidtimestamptodatetime, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };
 
@@ -3007,7 +2999,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadatainterf
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadatainterface_readcolumnmapindex, 0, 2, IS_ARRAY, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_model_metadatainterface_readcolumnmapindex, 0, 2, MAY_BE_NULL|MAY_BE_ARRAY|MAY_BE_BOOL|MAY_BE_STRING)
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, index, IS_LONG, 0)
 ZEND_END_ARG_INFO()
@@ -3016,7 +3008,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadatainterf
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_model_metadatainterface_readmetadataindex, 0, 2, MAY_BE_NULL|MAY_BE_ARRAY|MAY_BE_STRING)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_model_metadatainterface_readmetadataindex, 0, 2, MAY_BE_NULL|MAY_BE_ARRAY|MAY_BE_BOOL|MAY_BE_STRING)
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, index, IS_LONG, 0)
 ZEND_END_ARG_INFO()
@@ -3699,21 +3691,20 @@ static PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, bindValues);
 static PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, getBindValues);
 static PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, getStatement);
 static PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, perform);
-static PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, setFlag);
 static PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, quoteIdentifier);
 static PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, reset);
 static PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, resetColumns);
+static PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, resetFlags);
 static PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, resetFrom);
-static PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, resetWhere);
 static PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, resetGroupBy);
 static PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, resetHaving);
-static PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, resetOrderBy);
 static PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, resetLimit);
-static PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, resetFlags);
+static PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, resetOrderBy);
+static PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, resetWhere);
+static PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, setFlag);
 static PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, buildFlags);
 static PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, buildReturning);
 static PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, indent);
-zend_object *zephir_init_properties_Phalcon_DataMapper_Query_AbstractQuery(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery___construct, 0, 0, 2)
 	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\DataMapper\\Pdo\\Connection, 0)
@@ -3744,12 +3735,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_perform, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_setflag, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_TYPE_INFO(0, flag, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, enable, _IS_BOOL, 0, "true")
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_quoteidentifier, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, type, IS_LONG, 0, "2")
@@ -3761,10 +3746,10 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_resetcolumns, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_resetfrom, 0, 0, IS_VOID, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_resetflags, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_resetwhere, 0, 0, IS_VOID, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_resetfrom, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_resetgroupby, 0, 0, IS_VOID, 0)
@@ -3773,13 +3758,19 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_resethaving, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_resetorderby, 0, 0, IS_VOID, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_resetlimit, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_resetflags, 0, 0, IS_VOID, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_resetorderby, 0, 0, IS_VOID, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_resetwhere, 0, 0, IS_VOID, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_setflag, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO(0, flag, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, enable, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_buildflags, 0, 0, 0)
@@ -3793,9 +3784,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstrac
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, glue, IS_STRING, 0, "''")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_query_abstractquery_zephir_init_properties_phalcon_datamapper_query_abstractquery, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_datamapper_query_abstractquery_method_entry) {
 	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, __construct, arginfo_phalcon_datamapper_query_abstractquery___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, bindInline, arginfo_phalcon_datamapper_query_abstractquery_bindinline, ZEND_ACC_PUBLIC)
@@ -3804,17 +3792,17 @@ ZEPHIR_INIT_FUNCS(phalcon_datamapper_query_abstractquery_method_entry) {
 	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, getBindValues, arginfo_phalcon_datamapper_query_abstractquery_getbindvalues, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, getStatement, arginfo_phalcon_datamapper_query_abstractquery_getstatement, ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, perform, arginfo_phalcon_datamapper_query_abstractquery_perform, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, setFlag, arginfo_phalcon_datamapper_query_abstractquery_setflag, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, quoteIdentifier, arginfo_phalcon_datamapper_query_abstractquery_quoteidentifier, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, reset, arginfo_phalcon_datamapper_query_abstractquery_reset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, resetColumns, arginfo_phalcon_datamapper_query_abstractquery_resetcolumns, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, resetFlags, arginfo_phalcon_datamapper_query_abstractquery_resetflags, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, resetFrom, arginfo_phalcon_datamapper_query_abstractquery_resetfrom, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, resetWhere, arginfo_phalcon_datamapper_query_abstractquery_resetwhere, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, resetGroupBy, arginfo_phalcon_datamapper_query_abstractquery_resetgroupby, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, resetHaving, arginfo_phalcon_datamapper_query_abstractquery_resethaving, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, resetOrderBy, arginfo_phalcon_datamapper_query_abstractquery_resetorderby, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, resetLimit, arginfo_phalcon_datamapper_query_abstractquery_resetlimit, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, resetFlags, arginfo_phalcon_datamapper_query_abstractquery_resetflags, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, resetOrderBy, arginfo_phalcon_datamapper_query_abstractquery_resetorderby, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, resetWhere, arginfo_phalcon_datamapper_query_abstractquery_resetwhere, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, setFlag, arginfo_phalcon_datamapper_query_abstractquery_setflag, ZEND_ACC_PUBLIC)
 PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, buildFlags, arginfo_phalcon_datamapper_query_abstractquery_buildflags, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, buildReturning, arginfo_phalcon_datamapper_query_abstractquery_buildreturning, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractQuery, indent, arginfo_phalcon_datamapper_query_abstractquery_indent, ZEND_ACC_PROTECTED)
@@ -3924,10 +3912,10 @@ static PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticUpdateAttributes);
 static PHP_METHOD(Phalcon_Mvc_Model_MetaData, getBindTypes);
 static PHP_METHOD(Phalcon_Mvc_Model_MetaData, getColumnMap);
 static PHP_METHOD(Phalcon_Mvc_Model_MetaData, getColumnMapUniqueKey);
-static PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDI);
 static PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypes);
 static PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric);
 static PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDefaultValues);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDI);
 static PHP_METHOD(Phalcon_Mvc_Model_MetaData, getEmptyStringAttributes);
 static PHP_METHOD(Phalcon_Mvc_Model_MetaData, getIdentityField);
 static PHP_METHOD(Phalcon_Mvc_Model_MetaData, getMetaDataUniqueKey);
@@ -3958,7 +3946,6 @@ static PHP_METHOD(Phalcon_Mvc_Model_MetaData, initializeColumnMap);
 static PHP_METHOD(Phalcon_Mvc_Model_MetaData, initializeMetaData);
 static PHP_METHOD(Phalcon_Mvc_Model_MetaData, throwWriteException);
 static PHP_METHOD(Phalcon_Mvc_Model_MetaData, getArrVal);
-zend_object *zephir_init_properties_Phalcon_Mvc_Model_MetaData(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_metadata_getadapter, 0, 0, Phalcon\\Cache\\Adapter\\AdapterInterface, 1)
 ZEND_END_ARG_INFO()
@@ -3987,9 +3974,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_getco
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_metadata_getdi, 0, 0, Phalcon\\Di\\DiInterface, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_getdatatypes, 0, 1, IS_ARRAY, 0)
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 ZEND_END_ARG_INFO()
@@ -4000,6 +3984,9 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_getdefaultvalues, 0, 1, IS_ARRAY, 0)
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_metadata_getdi, 0, 0, Phalcon\\Di\\DiInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_getemptystringattributes, 0, 1, IS_ARRAY, 0)
@@ -4059,7 +4046,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_readc
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_readcolumnmapindex, 0, 2, IS_ARRAY, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_model_metadata_readcolumnmapindex, 0, 2, MAY_BE_NULL|MAY_BE_ARRAY|MAY_BE_BOOL|MAY_BE_STRING)
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, index, IS_LONG, 0)
 ZEND_END_ARG_INFO()
@@ -4068,7 +4055,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_readm
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_model_metadata_readmetadataindex, 0, 2, MAY_BE_NULL|MAY_BE_ARRAY|MAY_BE_STRING)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_model_metadata_readmetadataindex, 0, 2, MAY_BE_NULL|MAY_BE_ARRAY|MAY_BE_BOOL|MAY_BE_STRING)
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, index, IS_LONG, 0)
 ZEND_END_ARG_INFO()
@@ -4146,9 +4133,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_getarrval, 0, 0, 2)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, cast, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_zephir_init_properties_phalcon_mvc_model_metadata, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_metadata_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getAdapter, arginfo_phalcon_mvc_model_metadata_getadapter, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getAttributes, arginfo_phalcon_mvc_model_metadata_getattributes, ZEND_ACC_PUBLIC)
@@ -4157,13 +4141,13 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_metadata_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getBindTypes, arginfo_phalcon_mvc_model_metadata_getbindtypes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getColumnMap, arginfo_phalcon_mvc_model_metadata_getcolumnmap, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getColumnMapUniqueKey, arginfo_phalcon_mvc_model_metadata_getcolumnmapuniquekey, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Mvc_Model_MetaData, getDI, arginfo_phalcon_mvc_model_metadata_getdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getDataTypes, arginfo_phalcon_mvc_model_metadata_getdatatypes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric, arginfo_phalcon_mvc_model_metadata_getdatatypesnumeric, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getDefaultValues, arginfo_phalcon_mvc_model_metadata_getdefaultvalues, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, getDI, arginfo_phalcon_mvc_model_metadata_getdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getEmptyStringAttributes, arginfo_phalcon_mvc_model_metadata_getemptystringattributes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getIdentityField, arginfo_phalcon_mvc_model_metadata_getidentityfield, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_MetaData, getMetaDataUniqueKey, arginfo_phalcon_mvc_model_metadata_getmetadatauniquekey, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, getMetaDataUniqueKey, arginfo_phalcon_mvc_model_metadata_getmetadatauniquekey, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getModelUUID, arginfo_phalcon_mvc_model_metadata_getmodeluuid, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getNonPrimaryKeyAttributes, arginfo_phalcon_mvc_model_metadata_getnonprimarykeyattributes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getNotNullAttributes, arginfo_phalcon_mvc_model_metadata_getnotnullattributes, ZEND_ACC_PUBLIC)
@@ -4330,16 +4314,6 @@ zend_class_entry *phalcon_contracts_acl_adapter_adapter_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Acl_Adapter_Adapter);
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_acl_adapter_adapter_addinherit, 0, 2, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, roleName, IS_STRING, 0)
-	ZEND_ARG_INFO(0, roleToInherits)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_acl_adapter_adapter_addrole, 0, 1, _IS_BOOL, 0)
-	ZEND_ARG_INFO(0, role)
-	ZEND_ARG_INFO(0, accessInherits)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_acl_adapter_adapter_addcomponent, 0, 2, _IS_BOOL, 0)
 	ZEND_ARG_INFO(0, componentValue)
 	ZEND_ARG_INFO(0, accessList)
@@ -4348,6 +4322,16 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_acl_adapter_adapter_addcomponentaccess, 0, 2, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, componentName, IS_STRING, 0)
 	ZEND_ARG_INFO(0, accessList)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_acl_adapter_adapter_addinherit, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, roleName, IS_STRING, 0)
+	ZEND_ARG_INFO(0, roleToInherits)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_acl_adapter_adapter_addrole, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_INFO(0, role)
+	ZEND_ARG_INFO(0, accessInherits)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_acl_adapter_adapter_allow, 0, 3, IS_VOID, 0)
@@ -4375,10 +4359,10 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_acl_adapter_adapter_getactiveaccess, 0, 0, IS_STRING, 1)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_acl_adapter_adapter_getactiverole, 0, 0, IS_STRING, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_acl_adapter_adapter_getactivecomponent, 0, 0, IS_STRING, 1)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_acl_adapter_adapter_getactivecomponent, 0, 0, IS_STRING, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_acl_adapter_adapter_getactiverole, 0, 0, IS_STRING, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_acl_adapter_adapter_getcomponents, 0, 0, IS_ARRAY, 0)
@@ -4423,16 +4407,16 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_acl_adapter_ad
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_contracts_acl_adapter_adapter_method_entry) {
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Acl_Adapter_Adapter, addInherit, arginfo_phalcon_contracts_acl_adapter_adapter_addinherit)
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Acl_Adapter_Adapter, addRole, arginfo_phalcon_contracts_acl_adapter_adapter_addrole)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Acl_Adapter_Adapter, addComponent, arginfo_phalcon_contracts_acl_adapter_adapter_addcomponent)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Acl_Adapter_Adapter, addComponentAccess, arginfo_phalcon_contracts_acl_adapter_adapter_addcomponentaccess)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Acl_Adapter_Adapter, addInherit, arginfo_phalcon_contracts_acl_adapter_adapter_addinherit)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Acl_Adapter_Adapter, addRole, arginfo_phalcon_contracts_acl_adapter_adapter_addrole)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Acl_Adapter_Adapter, allow, arginfo_phalcon_contracts_acl_adapter_adapter_allow)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Acl_Adapter_Adapter, deny, arginfo_phalcon_contracts_acl_adapter_adapter_deny)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Acl_Adapter_Adapter, dropComponentAccess, arginfo_phalcon_contracts_acl_adapter_adapter_dropcomponentaccess)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Acl_Adapter_Adapter, getActiveAccess, arginfo_phalcon_contracts_acl_adapter_adapter_getactiveaccess)
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Acl_Adapter_Adapter, getActiveRole, arginfo_phalcon_contracts_acl_adapter_adapter_getactiverole)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Acl_Adapter_Adapter, getActiveComponent, arginfo_phalcon_contracts_acl_adapter_adapter_getactivecomponent)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Acl_Adapter_Adapter, getActiveRole, arginfo_phalcon_contracts_acl_adapter_adapter_getactiverole)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Acl_Adapter_Adapter, getComponents, arginfo_phalcon_contracts_acl_adapter_adapter_getcomponents)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Acl_Adapter_Adapter, getDefaultAction, arginfo_phalcon_contracts_acl_adapter_adapter_getdefaultaction)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Acl_Adapter_Adapter, getInheritedRoles, arginfo_phalcon_contracts_acl_adapter_adapter_getinheritedroles)
@@ -4607,6 +4591,9 @@ zend_class_entry *phalcon_datamapper_pdo_connection_pdointerface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Connection_PdoInterface);
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_pdointerface_getavailabledrivers, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_pdointerface_begintransaction, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
@@ -4625,9 +4612,6 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_pdointerface_getattribute, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, attribute, IS_LONG, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_pdointerface_getavailabledrivers, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_pdointerface_intransaction, 0, 0, _IS_BOOL, 0)
@@ -4660,13 +4644,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connectio
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_datamapper_pdo_connection_pdointerface_method_entry) {
+	ZEND_FENTRY(getAvailableDrivers, NULL, arginfo_phalcon_datamapper_pdo_connection_pdointerface_getavailabledrivers, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ABSTRACT_ME(Phalcon_DataMapper_Pdo_Connection_PdoInterface, beginTransaction, arginfo_phalcon_datamapper_pdo_connection_pdointerface_begintransaction)
 	PHP_ABSTRACT_ME(Phalcon_DataMapper_Pdo_Connection_PdoInterface, commit, arginfo_phalcon_datamapper_pdo_connection_pdointerface_commit)
 	PHP_ABSTRACT_ME(Phalcon_DataMapper_Pdo_Connection_PdoInterface, errorCode, arginfo_phalcon_datamapper_pdo_connection_pdointerface_errorcode)
 	PHP_ABSTRACT_ME(Phalcon_DataMapper_Pdo_Connection_PdoInterface, errorInfo, arginfo_phalcon_datamapper_pdo_connection_pdointerface_errorinfo)
 	PHP_ABSTRACT_ME(Phalcon_DataMapper_Pdo_Connection_PdoInterface, exec, arginfo_phalcon_datamapper_pdo_connection_pdointerface_exec)
 	PHP_ABSTRACT_ME(Phalcon_DataMapper_Pdo_Connection_PdoInterface, getAttribute, arginfo_phalcon_datamapper_pdo_connection_pdointerface_getattribute)
-	ZEND_FENTRY(getAvailableDrivers, NULL, arginfo_phalcon_datamapper_pdo_connection_pdointerface_getavailabledrivers, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ABSTRACT_ME(Phalcon_DataMapper_Pdo_Connection_PdoInterface, inTransaction, arginfo_phalcon_datamapper_pdo_connection_pdointerface_intransaction)
 	PHP_ABSTRACT_ME(Phalcon_DataMapper_Pdo_Connection_PdoInterface, lastInsertId, arginfo_phalcon_datamapper_pdo_connection_pdointerface_lastinsertid)
 	PHP_ABSTRACT_ME(Phalcon_DataMapper_Pdo_Connection_PdoInterface, prepare, arginfo_phalcon_datamapper_pdo_connection_pdointerface_prepare)
@@ -4682,21 +4666,24 @@ zend_class_entry *phalcon_db_adapter_abstractadapter_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_AbstractAdapter);
 
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, __construct);
-static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, addColumn);
+static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, setup);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, addCheck);
+static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, addColumn);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, addForeignKey);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, addIndex);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, addPrimaryKey);
+static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, createMaterializedView);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, createSavepoint);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, createTable);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, createView);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, delete);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, describeIndexes);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, describeReferences);
-static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, dropColumn);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, dropCheck);
+static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, dropColumn);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, dropForeignKey);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, dropIndex);
+static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, dropMaterializedView);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, dropPrimaryKey);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, dropTable);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, dropView);
@@ -4727,43 +4714,45 @@ static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, limit);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, listTables);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, listViews);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, modifyColumn);
+static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, onConflictUpdate);
+static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, refreshMaterializedView);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, releaseSavepoint);
+static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, returning);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, rollbackSavepoint);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, setEventsManager);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, setDialect);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, setNestedTransactionsWithSavepoints);
-static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, setup);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, sharedLock);
-static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, createMaterializedView);
-static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, dropMaterializedView);
-static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, refreshMaterializedView);
-static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, onConflictUpdate);
-static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, returning);
+static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, supportsDefaultValue);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, supportSequences);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, tableExists);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, tableOptions);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, update);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, updateAsDict);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, useExplicitIdValue);
-static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, supportsDefaultValue);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, viewExists);
+static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, checkSavepoints);
 static PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, buildValuePlaceholder);
-zend_object *zephir_init_properties_Phalcon_Db_Adapter_AbstractAdapter(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter___construct, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, descriptor, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_addcolumn, 0, 3, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 0)
-	ZEND_ARG_OBJ_INFO(0, column, Phalcon\\Db\\ColumnInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_setup, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_ARRAY_INFO(0, options, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_addcheck, 0, 3, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 0)
 	ZEND_ARG_OBJ_INFO(0, check, Phalcon\\Db\\CheckInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_addcolumn, 0, 3, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 0)
+	ZEND_ARG_OBJ_INFO(0, column, Phalcon\\Db\\ColumnInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_addforeignkey, 0, 3, _IS_BOOL, 0)
@@ -4782,6 +4771,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapt
 	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 0)
 	ZEND_ARG_OBJ_INFO(0, index, Phalcon\\Db\\IndexInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_creatematerializedview, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, viewName, IS_STRING, 0)
+	ZEND_ARG_ARRAY_INFO(0, definition, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_createsavepoint, 0, 1, _IS_BOOL, 0)
@@ -4817,16 +4812,16 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapt
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schema, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_dropcolumn, 0, 3, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, columnName, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_dropcheck, 0, 3, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, checkName, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_dropcolumn, 0, 3, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, columnName, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_dropforeignkey, 0, 3, _IS_BOOL, 0)
@@ -4839,6 +4834,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapt
 	ZEND_ARG_TYPE_INFO(0, tableName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, schemaName, IS_STRING, 0)
 	ZEND_ARG_INFO(0, indexName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_dropmaterializedview, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, viewName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, ifExists, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_dropprimarykey, 0, 2, _IS_BOOL, 0)
@@ -4970,8 +4971,25 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapt
 	ZEND_ARG_OBJ_TYPE_MASK(0, currentColumn, Phalcon\\Db\\ColumnInterface, MAY_BE_NULL, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_onconflictupdate, 0, 3, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, sqlQuery, IS_STRING, 0)
+	ZEND_ARG_ARRAY_INFO(0, conflictColumns, 0)
+	ZEND_ARG_ARRAY_INFO(0, updateColumns, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_refreshmaterializedview, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, viewName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, concurrent, _IS_BOOL, 0, "false")
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_releasesavepoint, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_returning, 0, 2, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, sqlQuery, IS_STRING, 0)
+	ZEND_ARG_ARRAY_INFO(0, columns, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_rollbacksavepoint, 0, 1, _IS_BOOL, 0)
@@ -4991,43 +5009,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_db_adapter_abstractadapte
 	ZEND_ARG_TYPE_INFO(0, nestedTransactionsWithSavepoints, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_setup, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_ARRAY_INFO(0, options, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_sharedlock, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, sqlQuery, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, modifier, IS_STRING, 0, "''")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_creatematerializedview, 0, 2, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, viewName, IS_STRING, 0)
-	ZEND_ARG_ARRAY_INFO(0, definition, 0)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_dropmaterializedview, 0, 1, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, viewName, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, ifExists, _IS_BOOL, 0, "true")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_refreshmaterializedview, 0, 1, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, viewName, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, concurrent, _IS_BOOL, 0, "false")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_onconflictupdate, 0, 3, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, sqlQuery, IS_STRING, 0)
-	ZEND_ARG_ARRAY_INFO(0, conflictColumns, 0)
-	ZEND_ARG_ARRAY_INFO(0, updateColumns, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_returning, 0, 2, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, sqlQuery, IS_STRING, 0)
-	ZEND_ARG_ARRAY_INFO(0, columns, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_supportsdefaultvalue, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_supportsequences, 0, 0, _IS_BOOL, 0)
@@ -5061,12 +5048,12 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_useexplicitidvalue, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_supportsdefaultvalue, 0, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_viewexists, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, viewName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, schemaName, IS_STRING, 1, "null")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_checksavepoints, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_buildvalueplaceholder, 0, 3, IS_ARRAY, 0)
@@ -5075,26 +5062,26 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapt
 	ZEND_ARG_INFO(0, dataTypes)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_zephir_init_properties_phalcon_db_adapter_abstractadapter, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_db_adapter_abstractadapter_method_entry) {
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, __construct, arginfo_phalcon_db_adapter_abstractadapter___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, addColumn, arginfo_phalcon_db_adapter_abstractadapter_addcolumn, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, setup, arginfo_phalcon_db_adapter_abstractadapter_setup, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, addCheck, arginfo_phalcon_db_adapter_abstractadapter_addcheck, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, addColumn, arginfo_phalcon_db_adapter_abstractadapter_addcolumn, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, addForeignKey, arginfo_phalcon_db_adapter_abstractadapter_addforeignkey, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, addIndex, arginfo_phalcon_db_adapter_abstractadapter_addindex, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, addPrimaryKey, arginfo_phalcon_db_adapter_abstractadapter_addprimarykey, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, createMaterializedView, arginfo_phalcon_db_adapter_abstractadapter_creatematerializedview, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, createSavepoint, arginfo_phalcon_db_adapter_abstractadapter_createsavepoint, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, createTable, arginfo_phalcon_db_adapter_abstractadapter_createtable, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, createView, arginfo_phalcon_db_adapter_abstractadapter_createview, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, delete, arginfo_phalcon_db_adapter_abstractadapter_delete, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, describeIndexes, arginfo_phalcon_db_adapter_abstractadapter_describeindexes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, describeReferences, arginfo_phalcon_db_adapter_abstractadapter_describereferences, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, dropColumn, arginfo_phalcon_db_adapter_abstractadapter_dropcolumn, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, dropCheck, arginfo_phalcon_db_adapter_abstractadapter_dropcheck, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, dropColumn, arginfo_phalcon_db_adapter_abstractadapter_dropcolumn, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, dropForeignKey, arginfo_phalcon_db_adapter_abstractadapter_dropforeignkey, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, dropIndex, arginfo_phalcon_db_adapter_abstractadapter_dropindex, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, dropMaterializedView, arginfo_phalcon_db_adapter_abstractadapter_dropmaterializedview, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, dropPrimaryKey, arginfo_phalcon_db_adapter_abstractadapter_dropprimarykey, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, dropTable, arginfo_phalcon_db_adapter_abstractadapter_droptable, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, dropView, arginfo_phalcon_db_adapter_abstractadapter_dropview, ZEND_ACC_PUBLIC)
@@ -5125,26 +5112,24 @@ ZEPHIR_INIT_FUNCS(phalcon_db_adapter_abstractadapter_method_entry) {
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, listTables, arginfo_phalcon_db_adapter_abstractadapter_listtables, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, listViews, arginfo_phalcon_db_adapter_abstractadapter_listviews, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, modifyColumn, arginfo_phalcon_db_adapter_abstractadapter_modifycolumn, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, onConflictUpdate, arginfo_phalcon_db_adapter_abstractadapter_onconflictupdate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, refreshMaterializedView, arginfo_phalcon_db_adapter_abstractadapter_refreshmaterializedview, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, releaseSavepoint, arginfo_phalcon_db_adapter_abstractadapter_releasesavepoint, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, returning, arginfo_phalcon_db_adapter_abstractadapter_returning, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, rollbackSavepoint, arginfo_phalcon_db_adapter_abstractadapter_rollbacksavepoint, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, setEventsManager, arginfo_phalcon_db_adapter_abstractadapter_seteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, setDialect, arginfo_phalcon_db_adapter_abstractadapter_setdialect, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, setNestedTransactionsWithSavepoints, arginfo_phalcon_db_adapter_abstractadapter_setnestedtransactionswithsavepoints, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, setup, arginfo_phalcon_db_adapter_abstractadapter_setup, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, sharedLock, arginfo_phalcon_db_adapter_abstractadapter_sharedlock, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, createMaterializedView, arginfo_phalcon_db_adapter_abstractadapter_creatematerializedview, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, dropMaterializedView, arginfo_phalcon_db_adapter_abstractadapter_dropmaterializedview, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, refreshMaterializedView, arginfo_phalcon_db_adapter_abstractadapter_refreshmaterializedview, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, onConflictUpdate, arginfo_phalcon_db_adapter_abstractadapter_onconflictupdate, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, returning, arginfo_phalcon_db_adapter_abstractadapter_returning, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, supportsDefaultValue, arginfo_phalcon_db_adapter_abstractadapter_supportsdefaultvalue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, supportSequences, arginfo_phalcon_db_adapter_abstractadapter_supportsequences, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, tableExists, arginfo_phalcon_db_adapter_abstractadapter_tableexists, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, tableOptions, arginfo_phalcon_db_adapter_abstractadapter_tableoptions, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, update, arginfo_phalcon_db_adapter_abstractadapter_update, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, updateAsDict, arginfo_phalcon_db_adapter_abstractadapter_updateasdict, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, useExplicitIdValue, arginfo_phalcon_db_adapter_abstractadapter_useexplicitidvalue, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, supportsDefaultValue, arginfo_phalcon_db_adapter_abstractadapter_supportsdefaultvalue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, viewExists, arginfo_phalcon_db_adapter_abstractadapter_viewexists, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, checkSavepoints, arginfo_phalcon_db_adapter_abstractadapter_checksavepoints, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, buildValuePlaceholder, arginfo_phalcon_db_adapter_abstractadapter_buildvalueplaceholder, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };
@@ -6307,31 +6292,23 @@ zend_class_entry *phalcon_datamapper_query_abstractconditions_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Query_AbstractConditions);
 
-static PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, limit);
-static PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, offset);
 static PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, andWhere);
 static PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, appendWhere);
+static PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, limit);
+static PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, offset);
 static PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, orderBy);
 static PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, orWhere);
 static PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, where);
 static PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, whereEquals);
 static PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, addCondition);
+static PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, appendCondition);
 static PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, buildBy);
 static PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, buildCondition);
-static PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, buildLimitEarly);
 static PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, buildLimit);
 static PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, buildLimitCommon);
+static PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, buildLimitEarly);
 static PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, buildLimitSqlsrv);
-static PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, appendCondition);
 static PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, processValue);
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_abstractconditions_limit, 0, 1, Phalcon\\DataMapper\\Query\\AbstractConditions, 0)
-	ZEND_ARG_TYPE_INFO(0, limit, IS_LONG, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_abstractconditions_offset, 0, 1, Phalcon\\DataMapper\\Query\\AbstractConditions, 0)
-	ZEND_ARG_TYPE_INFO(0, offset, IS_LONG, 0)
-ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_abstractconditions_andwhere, 0, 1, Phalcon\\DataMapper\\Query\\AbstractConditions, 0)
 	ZEND_ARG_TYPE_INFO(0, condition, IS_STRING, 0)
@@ -6343,6 +6320,14 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_abstract
 	ZEND_ARG_TYPE_INFO(0, condition, IS_STRING, 0)
 	ZEND_ARG_INFO(0, value)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, type, IS_LONG, 0, "-1")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_abstractconditions_limit, 0, 1, Phalcon\\DataMapper\\Query\\AbstractConditions, 0)
+	ZEND_ARG_TYPE_INFO(0, limit, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_abstractconditions_offset, 0, 1, Phalcon\\DataMapper\\Query\\AbstractConditions, 0)
+	ZEND_ARG_TYPE_INFO(0, offset, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_abstractconditions_orderby, 0, 1, Phalcon\\DataMapper\\Query\\AbstractConditions, 0)
@@ -6374,6 +6359,14 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstrac
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, type, IS_LONG, 0, "-1")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractconditions_appendcondition, 0, 2, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO(0, store, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, condition, IS_STRING, 0)
+	ZEND_ARG_INFO(0, value)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, type, IS_LONG, 0, "-1")
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractconditions_buildby, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, type, IS_STRING, 0)
 ZEND_END_ARG_INFO()
@@ -6382,24 +6375,16 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstrac
 	ZEND_ARG_TYPE_INFO(0, type, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractconditions_buildlimitearly, 0, 0, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractconditions_buildlimit, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractconditions_buildlimitcommon, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractconditions_buildlimitsqlsrv, 0, 0, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractconditions_buildlimitearly, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractconditions_appendcondition, 0, 2, IS_VOID, 0)
-
-	ZEND_ARG_TYPE_INFO(0, store, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, condition, IS_STRING, 0)
-	ZEND_ARG_INFO(0, value)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, type, IS_LONG, 0, "-1")
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractconditions_buildlimitsqlsrv, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstractconditions_processvalue, 0, 2, IS_VOID, 0)
@@ -6409,22 +6394,22 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstrac
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_datamapper_query_abstractconditions_method_entry) {
-	PHP_ME(Phalcon_DataMapper_Query_AbstractConditions, limit, arginfo_phalcon_datamapper_query_abstractconditions_limit, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_DataMapper_Query_AbstractConditions, offset, arginfo_phalcon_datamapper_query_abstractconditions_offset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractConditions, andWhere, arginfo_phalcon_datamapper_query_abstractconditions_andwhere, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractConditions, appendWhere, arginfo_phalcon_datamapper_query_abstractconditions_appendwhere, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DataMapper_Query_AbstractConditions, limit, arginfo_phalcon_datamapper_query_abstractconditions_limit, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DataMapper_Query_AbstractConditions, offset, arginfo_phalcon_datamapper_query_abstractconditions_offset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractConditions, orderBy, arginfo_phalcon_datamapper_query_abstractconditions_orderby, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractConditions, orWhere, arginfo_phalcon_datamapper_query_abstractconditions_orwhere, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractConditions, where, arginfo_phalcon_datamapper_query_abstractconditions_where, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractConditions, whereEquals, arginfo_phalcon_datamapper_query_abstractconditions_whereequals, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractConditions, addCondition, arginfo_phalcon_datamapper_query_abstractconditions_addcondition, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_DataMapper_Query_AbstractConditions, appendCondition, arginfo_phalcon_datamapper_query_abstractconditions_appendcondition, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractConditions, buildBy, arginfo_phalcon_datamapper_query_abstractconditions_buildby, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractConditions, buildCondition, arginfo_phalcon_datamapper_query_abstractconditions_buildcondition, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_DataMapper_Query_AbstractConditions, buildLimitEarly, arginfo_phalcon_datamapper_query_abstractconditions_buildlimitearly, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractConditions, buildLimit, arginfo_phalcon_datamapper_query_abstractconditions_buildlimit, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractConditions, buildLimitCommon, arginfo_phalcon_datamapper_query_abstractconditions_buildlimitcommon, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_DataMapper_Query_AbstractConditions, buildLimitEarly, arginfo_phalcon_datamapper_query_abstractconditions_buildlimitearly, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractConditions, buildLimitSqlsrv, arginfo_phalcon_datamapper_query_abstractconditions_buildlimitsqlsrv, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_DataMapper_Query_AbstractConditions, appendCondition, arginfo_phalcon_datamapper_query_abstractconditions_appendcondition, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_DataMapper_Query_AbstractConditions, processValue, arginfo_phalcon_datamapper_query_abstractconditions_processvalue, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };
@@ -6436,12 +6421,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_Pdo_AbstractPdo);
 static PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, __construct);
 static PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, affectedRows);
 static PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, begin);
-static PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, commit);
 static PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, close);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, commit);
 static PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, connect);
 static PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, convertBoundParams);
-static PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, escapeString);
 static PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, ensureConnection);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, escapeString);
 static PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, execute);
 static PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, executePrepared);
 static PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, getAutoReconnect);
@@ -6462,6 +6447,7 @@ static PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, canReconnect);
 static PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, executeStatement);
 static PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, handleConnectionLost);
 static PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, queryStatement);
+static PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, resetStaleTransactionLevel);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo___construct, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, descriptor, 0)
@@ -6474,11 +6460,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractp
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, nesting, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_commit, 0, 0, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, nesting, _IS_BOOL, 0, "true")
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_close, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_close, 0, 0, IS_VOID, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_commit, 0, 0, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, nesting, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_connect, 0, 0, IS_VOID, 0)
@@ -6491,11 +6477,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractp
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, params, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_escapestring, 0, 1, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, str, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_ensureconnection, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_ensureconnection, 0, 0, IS_VOID, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_escapestring, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, str, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_execute, 0, 1, _IS_BOOL, 0)
@@ -6582,16 +6568,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpd
 	ZEND_ARG_ARRAY_INFO(0, types, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_resetstaletransactionlevel, 0, 0, IS_VOID, 0)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_db_adapter_pdo_abstractpdo_method_entry) {
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, __construct, arginfo_phalcon_db_adapter_pdo_abstractpdo___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, affectedRows, arginfo_phalcon_db_adapter_pdo_abstractpdo_affectedrows, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, begin, arginfo_phalcon_db_adapter_pdo_abstractpdo_begin, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, commit, arginfo_phalcon_db_adapter_pdo_abstractpdo_commit, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, close, arginfo_phalcon_db_adapter_pdo_abstractpdo_close, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, commit, arginfo_phalcon_db_adapter_pdo_abstractpdo_commit, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, connect, arginfo_phalcon_db_adapter_pdo_abstractpdo_connect, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, convertBoundParams, arginfo_phalcon_db_adapter_pdo_abstractpdo_convertboundparams, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, escapeString, arginfo_phalcon_db_adapter_pdo_abstractpdo_escapestring, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, ensureConnection, arginfo_phalcon_db_adapter_pdo_abstractpdo_ensureconnection, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, escapeString, arginfo_phalcon_db_adapter_pdo_abstractpdo_escapestring, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, execute, arginfo_phalcon_db_adapter_pdo_abstractpdo_execute, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, executePrepared, arginfo_phalcon_db_adapter_pdo_abstractpdo_executeprepared, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, getAutoReconnect, arginfo_phalcon_db_adapter_pdo_abstractpdo_getautoreconnect, ZEND_ACC_PUBLIC)
@@ -6612,6 +6601,7 @@ PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, getInternalHandler, arginfo_phalcon_d
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, executeStatement, arginfo_phalcon_db_adapter_pdo_abstractpdo_executestatement, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, handleConnectionLost, arginfo_phalcon_db_adapter_pdo_abstractpdo_handleconnectionlost, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, queryStatement, arginfo_phalcon_db_adapter_pdo_abstractpdo_querystatement, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, resetStaleTransactionLevel, arginfo_phalcon_db_adapter_pdo_abstractpdo_resetstaletransactionlevel, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };
 
@@ -7019,6 +7009,17 @@ zend_class_entry *phalcon_di_diinterface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Di_DiInterface);
 
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_diinterface_getdefault, 0, 0, Phalcon\\Di\\DiInterface, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_diinterface_reset, 0, 0, IS_VOID, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_diinterface_setdefault, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_phalcon_di_diinterface_attempt, 0, 2, Phalcon\\Di\\ServiceInterface, MAY_BE_BOOL)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 	ZEND_ARG_INFO(0, definition)
@@ -7028,9 +7029,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_diinterface_get, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 	ZEND_ARG_INFO(0, parameters)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_diinterface_getdefault, 0, 0, Phalcon\\Di\\DiInterface, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_diinterface_getraw, 0, 0, 1)
@@ -7067,18 +7065,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_diinterface_removesha
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_diinterface_reset, 0, 0, IS_VOID, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_diinterface_set, 0, 2, Phalcon\\Di\\ServiceInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 	ZEND_ARG_INFO(0, definition)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, shared, _IS_BOOL, 0, "false")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_diinterface_setdefault, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_diinterface_setservice, 0, 2, Phalcon\\Di\\ServiceInterface, 0)
@@ -7092,9 +7082,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_diinterface_setshared,
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_di_diinterface_method_entry) {
+	ZEND_FENTRY(getDefault, NULL, arginfo_phalcon_di_diinterface_getdefault, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
+	ZEND_FENTRY(reset, NULL, arginfo_phalcon_di_diinterface_reset, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
+	ZEND_FENTRY(setDefault, NULL, arginfo_phalcon_di_diinterface_setdefault, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ABSTRACT_ME(Phalcon_Di_DiInterface, attempt, arginfo_phalcon_di_diinterface_attempt)
 	PHP_ABSTRACT_ME(Phalcon_Di_DiInterface, get, arginfo_phalcon_di_diinterface_get)
-	ZEND_FENTRY(getDefault, NULL, arginfo_phalcon_di_diinterface_getdefault, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ABSTRACT_ME(Phalcon_Di_DiInterface, getRaw, arginfo_phalcon_di_diinterface_getraw)
 	PHP_ABSTRACT_ME(Phalcon_Di_DiInterface, getService, arginfo_phalcon_di_diinterface_getservice)
 	PHP_ABSTRACT_ME(Phalcon_Di_DiInterface, getServices, arginfo_phalcon_di_diinterface_getservices)
@@ -7103,9 +7095,7 @@ ZEPHIR_INIT_FUNCS(phalcon_di_diinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Di_DiInterface, hasShared, arginfo_phalcon_di_diinterface_hasshared)
 	PHP_ABSTRACT_ME(Phalcon_Di_DiInterface, remove, arginfo_phalcon_di_diinterface_remove)
 	PHP_ABSTRACT_ME(Phalcon_Di_DiInterface, removeShared, arginfo_phalcon_di_diinterface_removeshared)
-	ZEND_FENTRY(reset, NULL, arginfo_phalcon_di_diinterface_reset, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ABSTRACT_ME(Phalcon_Di_DiInterface, set, arginfo_phalcon_di_diinterface_set)
-	ZEND_FENTRY(setDefault, NULL, arginfo_phalcon_di_diinterface_setdefault, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ABSTRACT_ME(Phalcon_Di_DiInterface, setService, arginfo_phalcon_di_diinterface_setservice)
 	PHP_ABSTRACT_ME(Phalcon_Di_DiInterface, setShared, arginfo_phalcon_di_diinterface_setshared)
 	PHP_FE_END
@@ -7208,7 +7198,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_requestinterface_getbestlanguage, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_http_requestinterface_getclientaddress, 0, 0, MAY_BE_STRING|MAY_BE_BOOL)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_http_requestinterface_getclientaddress, 0, 0, MAY_BE_BOOL|MAY_BE_STRING)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, trustForwardedHeader, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
@@ -7770,7 +7760,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_viewbaseinterface_getparamstoview, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_viewbaseinterface_getviewsdir, 0, 0, MAY_BE_STRING|MAY_BE_ARRAY)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_viewbaseinterface_getviewsdir, 0, 0, MAY_BE_ARRAY|MAY_BE_STRING)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_viewbaseinterface_partial, 0, 0, 1)
@@ -8226,7 +8216,9 @@ static PHP_METHOD(Phalcon_Assets_Asset, phpFileGetContents);
 static PHP_METHOD(Phalcon_Assets_Asset, phpFilePutContents);
 static PHP_METHOD(Phalcon_Assets_Asset, phpFopen);
 static PHP_METHOD(Phalcon_Assets_Asset, phpFwrite);
+static PHP_METHOD(Phalcon_Assets_Asset, phpIsDir);
 static PHP_METHOD(Phalcon_Assets_Asset, phpIsWritable);
+static PHP_METHOD(Phalcon_Assets_Asset, phpMkdir);
 static PHP_METHOD(Phalcon_Assets_Asset, phpUnlink);
 static PHP_METHOD(Phalcon_Assets_Asset, phpHash);
 static PHP_METHOD(Phalcon_Assets_Asset, phpHashEquals);
@@ -8363,8 +8355,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_asset_phpfwrite, 
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_asset_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_asset_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_asset_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_asset_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -8446,7 +8449,9 @@ ZEPHIR_INIT_FUNCS(phalcon_assets_asset_method_entry) {
 	PHP_ME(Phalcon_Assets_Asset, phpFilePutContents, arginfo_phalcon_assets_asset_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Assets_Asset, phpFopen, arginfo_phalcon_assets_asset_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Assets_Asset, phpFwrite, arginfo_phalcon_assets_asset_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Assets_Asset, phpIsDir, arginfo_phalcon_assets_asset_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Assets_Asset, phpIsWritable, arginfo_phalcon_assets_asset_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Assets_Asset, phpMkdir, arginfo_phalcon_assets_asset_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Assets_Asset, phpUnlink, arginfo_phalcon_assets_asset_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Assets_Asset, phpHash, arginfo_phalcon_assets_asset_phphash, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Assets_Asset, phpHashEquals, arginfo_phalcon_assets_asset_phphashequals, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
@@ -8854,17 +8859,17 @@ zend_class_entry *phalcon_contracts_container_ioc_ioccontainer_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Container_Ioc_IocContainer);
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_container_ioc_ioccontainer_hasservice, 0, 1, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, serviceName, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_contracts_container_ioc_ioccontainer_getservice, 0, 1, MAY_BE_OBJECT)
 	ZEND_ARG_TYPE_INFO(0, serviceName, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_container_ioc_ioccontainer_hasservice, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, serviceName, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_contracts_container_ioc_ioccontainer_method_entry) {
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Ioc_IocContainer, hasService, arginfo_phalcon_contracts_container_ioc_ioccontainer_hasservice)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Ioc_IocContainer, getService, arginfo_phalcon_contracts_container_ioc_ioccontainer_getservice)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Ioc_IocContainer, hasService, arginfo_phalcon_contracts_container_ioc_ioccontainer_hasservice)
 	PHP_FE_END
 };
 
@@ -8926,7 +8931,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_column_gettypereference, 0, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_contracts_db_column_gettypevalues, 0, 0, MAY_BE_ARRAY|MAY_BE_STRING|MAY_BE_LONG)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_contracts_db_column_gettypevalues, 0, 0, MAY_BE_ARRAY|MAY_BE_LONG|MAY_BE_STRING)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_db_column_hasdefault, 0, 0, _IS_BOOL, 0)
@@ -9185,32 +9190,26 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_encryption_security_cryptoutils_getrandombytes, 0, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_encryption_security_cryptoutils_setrandombytes, 0, 1, Phalcon\\Contracts\\Encryption\\Security\\Security, 0)
-	ZEND_ARG_TYPE_INFO(0, randomBytes, IS_LONG, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_encryption_security_cryptoutils_getsaltbytes, 0, 0, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, numberBytes, IS_LONG, 0, "0")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_encryption_security_cryptoutils_setrandombytes, 0, 1, Phalcon\\Contracts\\Encryption\\Security\\Security, 0)
+	ZEND_ARG_TYPE_INFO(0, randomBytes, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_contracts_encryption_security_cryptoutils_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_CryptoUtils, computeHmac, arginfo_phalcon_contracts_encryption_security_cryptoutils_computehmac)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_CryptoUtils, getRandom, arginfo_phalcon_contracts_encryption_security_cryptoutils_getrandom)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_CryptoUtils, getRandomBytes, arginfo_phalcon_contracts_encryption_security_cryptoutils_getrandombytes)
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_CryptoUtils, setRandomBytes, arginfo_phalcon_contracts_encryption_security_cryptoutils_setrandombytes)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_CryptoUtils, getSaltBytes, arginfo_phalcon_contracts_encryption_security_cryptoutils_getsaltbytes)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_CryptoUtils, setRandomBytes, arginfo_phalcon_contracts_encryption_security_cryptoutils_setrandombytes)
 	PHP_FE_END
 };
 
 zend_class_entry *phalcon_contracts_encryption_security_csrfprotection_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Encryption_Security_CsrfProtection);
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_encryption_security_csrfprotection_gettoken, 0, 0, IS_STRING, 1)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_encryption_security_csrfprotection_gettokenkey, 0, 0, IS_STRING, 1)
-ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_encryption_security_csrfprotection_checktoken, 0, 0, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, tokenKey, IS_STRING, 1, "null")
@@ -9227,13 +9226,19 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_encryption_security_csrfprotection_getsessiontoken, 0, 0, IS_STRING, 1)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_encryption_security_csrfprotection_gettoken, 0, 0, IS_STRING, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_encryption_security_csrfprotection_gettokenkey, 0, 0, IS_STRING, 1)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_contracts_encryption_security_csrfprotection_method_entry) {
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_CsrfProtection, getToken, arginfo_phalcon_contracts_encryption_security_csrfprotection_gettoken)
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_CsrfProtection, getTokenKey, arginfo_phalcon_contracts_encryption_security_csrfprotection_gettokenkey)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_CsrfProtection, checkToken, arginfo_phalcon_contracts_encryption_security_csrfprotection_checktoken)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_CsrfProtection, destroyToken, arginfo_phalcon_contracts_encryption_security_csrfprotection_destroytoken)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_CsrfProtection, getRequestToken, arginfo_phalcon_contracts_encryption_security_csrfprotection_getrequesttoken)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_CsrfProtection, getSessionToken, arginfo_phalcon_contracts_encryption_security_csrfprotection_getsessiontoken)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_CsrfProtection, getToken, arginfo_phalcon_contracts_encryption_security_csrfprotection_gettoken)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_CsrfProtection, getTokenKey, arginfo_phalcon_contracts_encryption_security_csrfprotection_gettokenkey)
 	PHP_FE_END
 };
 
@@ -9247,6 +9252,16 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_encryption_sec
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, maxPassLength, IS_LONG, 0, "0")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_encryption_security_passwordsecurity_getdefaulthash, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_encryption_security_passwordsecurity_gethashinformation, 0, 1, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, hash, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_encryption_security_passwordsecurity_getworkfactor, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_encryption_security_passwordsecurity_hash, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, password, IS_STRING, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
@@ -9256,18 +9271,8 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_encryption_sec
 	ZEND_ARG_TYPE_INFO(0, passwordHash, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_encryption_security_passwordsecurity_gethashinformation, 0, 1, IS_ARRAY, 0)
-	ZEND_ARG_TYPE_INFO(0, hash, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_encryption_security_passwordsecurity_getdefaulthash, 0, 0, IS_LONG, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_encryption_security_passwordsecurity_setdefaulthash, 0, 1, Phalcon\\Contracts\\Encryption\\Security\\Security, 0)
 	ZEND_ARG_TYPE_INFO(0, defaultHash, IS_LONG, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_encryption_security_passwordsecurity_getworkfactor, 0, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_encryption_security_passwordsecurity_setworkfactor, 0, 1, Phalcon\\Contracts\\Encryption\\Security\\Security, 0)
@@ -9276,12 +9281,12 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_contracts_encryption_security_passwordsecurity_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_PasswordSecurity, checkHash, arginfo_phalcon_contracts_encryption_security_passwordsecurity_checkhash)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_PasswordSecurity, getDefaultHash, arginfo_phalcon_contracts_encryption_security_passwordsecurity_getdefaulthash)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_PasswordSecurity, getHashInformation, arginfo_phalcon_contracts_encryption_security_passwordsecurity_gethashinformation)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_PasswordSecurity, getWorkFactor, arginfo_phalcon_contracts_encryption_security_passwordsecurity_getworkfactor)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_PasswordSecurity, hash, arginfo_phalcon_contracts_encryption_security_passwordsecurity_hash)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_PasswordSecurity, isLegacyHash, arginfo_phalcon_contracts_encryption_security_passwordsecurity_islegacyhash)
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_PasswordSecurity, getHashInformation, arginfo_phalcon_contracts_encryption_security_passwordsecurity_gethashinformation)
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_PasswordSecurity, getDefaultHash, arginfo_phalcon_contracts_encryption_security_passwordsecurity_getdefaulthash)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_PasswordSecurity, setDefaultHash, arginfo_phalcon_contracts_encryption_security_passwordsecurity_setdefaulthash)
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_PasswordSecurity, getWorkFactor, arginfo_phalcon_contracts_encryption_security_passwordsecurity_getworkfactor)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Encryption_Security_PasswordSecurity, setWorkFactor, arginfo_phalcon_contracts_encryption_security_passwordsecurity_setworkfactor)
 	PHP_FE_END
 };
@@ -9542,6 +9547,7 @@ zend_class_entry *phalcon_datamapper_pdo_connection_abstractconnection_ce;
 ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Connection_AbstractConnection);
 
 static PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, __call);
+static PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, getAvailableDrivers);
 static PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, beginTransaction);
 static PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, commit);
 static PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, connect);
@@ -9562,7 +9568,6 @@ static PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, fetchPai
 static PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, fetchValue);
 static PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, getAdapter);
 static PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, getAttribute);
-static PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, getAvailableDrivers);
 static PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, getAutoReconnect);
 static PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, getDriverName);
 static PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, getProfiler);
@@ -9579,10 +9584,10 @@ static PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, rollBack
 static PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, setAttribute);
 static PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, setAutoReconnect);
 static PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, setProfiler);
-static PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, fireBefore);
-static PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, performBind);
 static PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, fetchData);
+static PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, fireBefore);
 static PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, isConnectionError);
+static PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, performBind);
 static PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, canReconnect);
 static PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, performStatement);
 static PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, reconnect);
@@ -9593,6 +9598,9 @@ static PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, fireMana
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_abstractconnection___call, 0, 0, 2)
 	ZEND_ARG_INFO(0, name)
 	ZEND_ARG_ARRAY_INFO(0, arguments, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_abstractconnection_getavailabledrivers, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_abstractconnection_begintransaction, 0, 0, _IS_BOOL, 0)
@@ -9683,9 +9691,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_abstractconnect
 	ZEND_ARG_TYPE_INFO(0, attribute, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_abstractconnection_getavailabledrivers, 0, 0, IS_ARRAY, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_abstractconnection_getautoreconnect, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
@@ -9747,19 +9752,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_datamapper_pdo_connectio
 	ZEND_ARG_OBJ_INFO(0, profiler, Phalcon\\DataMapper\\Pdo\\Profiler\\ProfilerInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_abstractconnection_firebefore, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_TYPE_INFO(0, eventName, IS_STRING, 0)
-	ZEND_ARG_INFO(0, data)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_abstractconnection_performbind, 0, 3, IS_VOID, 0)
-
-	ZEND_ARG_OBJ_INFO(0, statement, PDOStatement, 0)
-	ZEND_ARG_INFO(0, name)
-	ZEND_ARG_INFO(0, arguments)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_abstractconnection_fetchdata, 0, 3, IS_ARRAY, 0)
 	ZEND_ARG_TYPE_INFO(0, method, IS_STRING, 0)
 	ZEND_ARG_ARRAY_INFO(0, arguments, 0)
@@ -9767,8 +9759,21 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connectio
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, values, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_abstractconnection_firebefore, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO(0, eventName, IS_STRING, 0)
+	ZEND_ARG_INFO(0, data)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_abstractconnection_isconnectionerror, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_OBJ_INFO(0, exception, Throwable, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_abstractconnection_performbind, 0, 3, IS_VOID, 0)
+
+	ZEND_ARG_OBJ_INFO(0, statement, PDOStatement, 0)
+	ZEND_ARG_INFO(0, name)
+	ZEND_ARG_INFO(0, arguments)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_abstractconnection_canreconnect, 0, 1, _IS_BOOL, 0)
@@ -9800,6 +9805,7 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_datamapper_pdo_connection_abstractconnection_method_entry) {
 	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, __call, arginfo_phalcon_datamapper_pdo_connection_abstractconnection___call, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, getAvailableDrivers, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_getavailabledrivers, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, beginTransaction, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_begintransaction, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, commit, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_commit, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, connect, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_connect, ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
@@ -9820,7 +9826,6 @@ ZEPHIR_INIT_FUNCS(phalcon_datamapper_pdo_connection_abstractconnection_method_en
 	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, fetchValue, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_fetchvalue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, getAdapter, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_getadapter, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, getAttribute, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_getattribute, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, getAvailableDrivers, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_getavailabledrivers, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, getAutoReconnect, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_getautoreconnect, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, getDriverName, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_getdrivername, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, getProfiler, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_getprofiler, ZEND_ACC_PUBLIC)
@@ -9837,10 +9842,10 @@ ZEPHIR_INIT_FUNCS(phalcon_datamapper_pdo_connection_abstractconnection_method_en
 	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, setAttribute, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_setattribute, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, setAutoReconnect, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_setautoreconnect, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, setProfiler, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_setprofiler, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, fireBefore, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_firebefore, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, performBind, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_performbind, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, fetchData, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_fetchdata, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, fireBefore, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_firebefore, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, isConnectionError, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_isconnectionerror, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, performBind, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_performbind, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, canReconnect, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_canreconnect, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, performStatement, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_performstatement, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, reconnect, arginfo_phalcon_datamapper_pdo_connection_abstractconnection_reconnect, ZEND_ACC_PRIVATE)
@@ -9856,36 +9861,35 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_Di);
 
 static PHP_METHOD(Phalcon_Di_Di, __construct);
 static PHP_METHOD(Phalcon_Di_Di, __call);
+static PHP_METHOD(Phalcon_Di_Di, getDefault);
+static PHP_METHOD(Phalcon_Di_Di, reset);
+static PHP_METHOD(Phalcon_Di_Di, setDefault);
 static PHP_METHOD(Phalcon_Di_Di, attempt);
 static PHP_METHOD(Phalcon_Di_Di, get);
 static PHP_METHOD(Phalcon_Di_Di, getAlias);
-static PHP_METHOD(Phalcon_Di_Di, getDefault);
 static PHP_METHOD(Phalcon_Di_Di, getInternalEventsManager);
 static PHP_METHOD(Phalcon_Di_Di, getRaw);
 static PHP_METHOD(Phalcon_Di_Di, getService);
 static PHP_METHOD(Phalcon_Di_Di, getServices);
 static PHP_METHOD(Phalcon_Di_Di, getShared);
-static PHP_METHOD(Phalcon_Di_Di, loadFromConfig);
-static PHP_METHOD(Phalcon_Di_Di, loadFromPhp);
-static PHP_METHOD(Phalcon_Di_Di, loadFromYaml);
 static PHP_METHOD(Phalcon_Di_Di, has);
 static PHP_METHOD(Phalcon_Di_Di, hasShared);
-static PHP_METHOD(Phalcon_Di_Di, offsetGet);
+static PHP_METHOD(Phalcon_Di_Di, loadFromPhp);
+static PHP_METHOD(Phalcon_Di_Di, loadFromYaml);
 static PHP_METHOD(Phalcon_Di_Di, offsetExists);
+static PHP_METHOD(Phalcon_Di_Di, offsetGet);
 static PHP_METHOD(Phalcon_Di_Di, offsetSet);
 static PHP_METHOD(Phalcon_Di_Di, offsetUnset);
 static PHP_METHOD(Phalcon_Di_Di, register);
 static PHP_METHOD(Phalcon_Di_Di, remove);
 static PHP_METHOD(Phalcon_Di_Di, removeShared);
-static PHP_METHOD(Phalcon_Di_Di, reset);
 static PHP_METHOD(Phalcon_Di_Di, set);
 static PHP_METHOD(Phalcon_Di_Di, setAlias);
-static PHP_METHOD(Phalcon_Di_Di, setDefault);
 static PHP_METHOD(Phalcon_Di_Di, setInternalEventsManager);
 static PHP_METHOD(Phalcon_Di_Di, setService);
 static PHP_METHOD(Phalcon_Di_Di, setShared);
+static PHP_METHOD(Phalcon_Di_Di, loadFromConfig);
 static PHP_METHOD(Phalcon_Di_Di, resolveAlias);
-zend_object *zephir_init_properties_Phalcon_Di_Di(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_di___construct, 0, 0, 0)
 ZEND_END_ARG_INFO()
@@ -9893,6 +9897,17 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_di___call, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, method, IS_STRING, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, arguments, IS_ARRAY, 0, "[]")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_di_getdefault, 0, 0, Phalcon\\Di\\DiInterface, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_reset, 0, 0, IS_VOID, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_setdefault, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_phalcon_di_di_attempt, 0, 2, Phalcon\\Di\\ServiceInterface, MAY_BE_BOOL)
@@ -9908,9 +9923,6 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_getalias, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_di_getdefault, 0, 0, Phalcon\\Di\\DiInterface, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_di_getinternaleventsmanager, 0, 0, Phalcon\\Events\\ManagerInterface, 1)
@@ -9932,9 +9944,12 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_di_getshared, 0, 0, 1)
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_loadfromconfig, 0, 1, IS_VOID, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_has, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
 
-	ZEND_ARG_OBJ_INFO(0, config, Phalcon\\Config\\ConfigInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_hasshared, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_loadfromphp, 0, 1, IS_VOID, 0)
@@ -9948,19 +9963,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_loadfromyaml, 0, 1
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, callbacks, IS_ARRAY, 1, "[]")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_has, 0, 1, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_hasshared, 0, 1, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_offsetget, 0, 1, IS_MIXED, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_offsetexists, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_offsetexists, 0, 1, _IS_BOOL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_offsetget, 0, 1, IS_MIXED, 0)
 	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
 
@@ -9990,9 +9997,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_removeshared, 0, 1
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_reset, 0, 0, IS_VOID, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_di_set, 0, 2, Phalcon\\Di\\ServiceInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 	ZEND_ARG_INFO(0, definition)
@@ -10002,11 +10006,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_di_setalias, 0, 2, self, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 	ZEND_ARG_INFO(0, aliases)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_setdefault, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_di_setinternaleventsmanager, 0, 0, 1)
@@ -10023,44 +10022,46 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_di_setshared, 0, 2, Ph
 	ZEND_ARG_INFO(0, definition)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_resolvealias, 0, 1, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_loadfromconfig, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_OBJ_INFO(0, config, Phalcon\\Config\\ConfigInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_di_zephir_init_properties_phalcon_di_di, 0, 0, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_di_resolvealias, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_di_di_method_entry) {
 PHP_ME(Phalcon_Di_Di, __construct, arginfo_phalcon_di_di___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Di_Di, __call, arginfo_phalcon_di_di___call, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Di_Di, getDefault, arginfo_phalcon_di_di_getdefault, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Di_Di, reset, arginfo_phalcon_di_di_reset, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Di_Di, setDefault, arginfo_phalcon_di_di_setdefault, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Di_Di, attempt, arginfo_phalcon_di_di_attempt, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Di, get, arginfo_phalcon_di_di_get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Di, getAlias, arginfo_phalcon_di_di_getalias, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Di_Di, getDefault, arginfo_phalcon_di_di_getdefault, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Di_Di, getInternalEventsManager, arginfo_phalcon_di_di_getinternaleventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Di, getRaw, arginfo_phalcon_di_di_getraw, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Di, getService, arginfo_phalcon_di_di_getservice, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Di, getServices, arginfo_phalcon_di_di_getservices, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Di, getShared, arginfo_phalcon_di_di_getshared, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Di_Di, loadFromConfig, arginfo_phalcon_di_di_loadfromconfig, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Di_Di, loadFromPhp, arginfo_phalcon_di_di_loadfromphp, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Di_Di, loadFromYaml, arginfo_phalcon_di_di_loadfromyaml, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Di, has, arginfo_phalcon_di_di_has, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Di, hasShared, arginfo_phalcon_di_di_hasshared, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Di_Di, offsetGet, arginfo_phalcon_di_di_offsetget, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Di_Di, loadFromPhp, arginfo_phalcon_di_di_loadfromphp, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Di_Di, loadFromYaml, arginfo_phalcon_di_di_loadfromyaml, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Di, offsetExists, arginfo_phalcon_di_di_offsetexists, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Di_Di, offsetGet, arginfo_phalcon_di_di_offsetget, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Di, offsetSet, arginfo_phalcon_di_di_offsetset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Di, offsetUnset, arginfo_phalcon_di_di_offsetunset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Di, register, arginfo_phalcon_di_di_register, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Di, remove, arginfo_phalcon_di_di_remove, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Di, removeShared, arginfo_phalcon_di_di_removeshared, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Di_Di, reset, arginfo_phalcon_di_di_reset, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Di_Di, set, arginfo_phalcon_di_di_set, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Di, setAlias, arginfo_phalcon_di_di_setalias, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Di_Di, setDefault, arginfo_phalcon_di_di_setdefault, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Di_Di, setInternalEventsManager, arginfo_phalcon_di_di_setinternaleventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Di, setService, arginfo_phalcon_di_di_setservice, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Di, setShared, arginfo_phalcon_di_di_setshared, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Di_Di, loadFromConfig, arginfo_phalcon_di_di_loadfromconfig, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Di_Di, resolveAlias, arginfo_phalcon_di_di_resolvealias, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };
@@ -10370,12 +10371,8 @@ zend_class_entry *phalcon_encryption_security_jwt_token_abstractitem_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Token_AbstractItem);
 
 static PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_AbstractItem, getEncoded);
-zend_object *zephir_init_properties_Phalcon_Encryption_Security_JWT_Token_AbstractItem(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_jwt_token_abstractitem_getencoded, 0, 0, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_encryption_security_jwt_token_abstractitem_zephir_init_properties_phalcon_encryption_security_jwt_token_abstractitem, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_encryption_security_jwt_token_abstractitem_method_entry) {
@@ -10453,6 +10450,7 @@ static PHP_METHOD(Phalcon_Flash_AbstractFlash, getCustomTemplate);
 static PHP_METHOD(Phalcon_Flash_AbstractFlash, getEscaperService);
 static PHP_METHOD(Phalcon_Flash_AbstractFlash, message);
 static PHP_METHOD(Phalcon_Flash_AbstractFlash, notice);
+static PHP_METHOD(Phalcon_Flash_AbstractFlash, outputMessage);
 static PHP_METHOD(Phalcon_Flash_AbstractFlash, setAutoescape);
 static PHP_METHOD(Phalcon_Flash_AbstractFlash, setAutomaticHtml);
 static PHP_METHOD(Phalcon_Flash_AbstractFlash, setCssClasses);
@@ -10461,13 +10459,12 @@ static PHP_METHOD(Phalcon_Flash_AbstractFlash, setCustomTemplate);
 static PHP_METHOD(Phalcon_Flash_AbstractFlash, setEscaperService);
 static PHP_METHOD(Phalcon_Flash_AbstractFlash, setImplicitFlush);
 static PHP_METHOD(Phalcon_Flash_AbstractFlash, success);
-static PHP_METHOD(Phalcon_Flash_AbstractFlash, outputMessage);
 static PHP_METHOD(Phalcon_Flash_AbstractFlash, warning);
+static PHP_METHOD(Phalcon_Flash_AbstractFlash, checkClasses);
 static PHP_METHOD(Phalcon_Flash_AbstractFlash, getTemplate);
 static PHP_METHOD(Phalcon_Flash_AbstractFlash, prepareEscapedMessage);
 static PHP_METHOD(Phalcon_Flash_AbstractFlash, prepareHtmlMessage);
-static PHP_METHOD(Phalcon_Flash_AbstractFlash, checkClasses);
-zend_object *zephir_init_properties_Phalcon_Flash_AbstractFlash(zend_class_entry *class_type);
+static PHP_METHOD(Phalcon_Flash_AbstractFlash, toInterpolate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash_abstractflash___construct, 0, 0, 0)
 	ZEND_ARG_OBJ_TYPE_MASK(0, escaper, Phalcon\\Html\\Escaper\\EscaperInterface, MAY_BE_NULL, "null")
@@ -10508,6 +10505,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_noti
 	ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_outputmessage, 0, 2, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO(0, type, IS_STRING, 0)
+	ZEND_ARG_INFO(0, message)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_flash_abstractflash_setautoescape, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, autoescape, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
@@ -10540,13 +10542,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_succ
 	ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_outputmessage, 0, 2, IS_STRING, 1)
-	ZEND_ARG_TYPE_INFO(0, type, IS_STRING, 0)
-	ZEND_ARG_INFO(0, message)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_warning, 0, 1, IS_STRING, 1)
 	ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_checkclasses, 0, 2, IS_STRING, 0)
+	ZEND_ARG_ARRAY_INFO(0, collection, 0)
+	ZEND_ARG_TYPE_INFO(0, type, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_gettemplate, 0, 2, IS_STRING, 0)
@@ -10563,12 +10565,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_prep
 	ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_checkclasses, 0, 2, IS_STRING, 0)
-	ZEND_ARG_ARRAY_INFO(0, collection, 0)
-	ZEND_ARG_TYPE_INFO(0, type, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash_abstractflash_zephir_init_properties_phalcon_flash_abstractflash, 0, 0, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_tointerpolate, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, context, IS_ARRAY, 0, "[]")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, left, IS_STRING, 0, "'%'")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, right, IS_STRING, 0, "'%'")
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_flash_abstractflash_method_entry) {
@@ -10583,6 +10584,7 @@ ZEPHIR_INIT_FUNCS(phalcon_flash_abstractflash_method_entry) {
 	PHP_ME(Phalcon_Flash_AbstractFlash, getEscaperService, arginfo_phalcon_flash_abstractflash_getescaperservice, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_AbstractFlash, message, arginfo_phalcon_flash_abstractflash_message, ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_AbstractFlash, notice, arginfo_phalcon_flash_abstractflash_notice, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Flash_AbstractFlash, outputMessage, arginfo_phalcon_flash_abstractflash_outputmessage, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_AbstractFlash, setAutoescape, arginfo_phalcon_flash_abstractflash_setautoescape, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_AbstractFlash, setAutomaticHtml, arginfo_phalcon_flash_abstractflash_setautomatichtml, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_AbstractFlash, setCssClasses, arginfo_phalcon_flash_abstractflash_setcssclasses, ZEND_ACC_PUBLIC)
@@ -10591,12 +10593,12 @@ ZEPHIR_INIT_FUNCS(phalcon_flash_abstractflash_method_entry) {
 	PHP_ME(Phalcon_Flash_AbstractFlash, setEscaperService, arginfo_phalcon_flash_abstractflash_setescaperservice, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_AbstractFlash, setImplicitFlush, arginfo_phalcon_flash_abstractflash_setimplicitflush, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_AbstractFlash, success, arginfo_phalcon_flash_abstractflash_success, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Flash_AbstractFlash, outputMessage, arginfo_phalcon_flash_abstractflash_outputmessage, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_AbstractFlash, warning, arginfo_phalcon_flash_abstractflash_warning, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Flash_AbstractFlash, checkClasses, arginfo_phalcon_flash_abstractflash_checkclasses, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Flash_AbstractFlash, getTemplate, arginfo_phalcon_flash_abstractflash_gettemplate, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Flash_AbstractFlash, prepareEscapedMessage, arginfo_phalcon_flash_abstractflash_prepareescapedmessage, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Flash_AbstractFlash, prepareHtmlMessage, arginfo_phalcon_flash_abstractflash_preparehtmlmessage, ZEND_ACC_PRIVATE)
-	PHP_ME(Phalcon_Flash_AbstractFlash, checkClasses, arginfo_phalcon_flash_abstractflash_checkclasses, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Flash_AbstractFlash, toInterpolate, arginfo_phalcon_flash_abstractflash_tointerpolate, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
 
@@ -11096,6 +11098,7 @@ static PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, getDateFormat);
 static PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, setDateFormat);
 static PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, getFormattedDate);
 static PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, getInterpolatedMessage);
+static PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, stringifyContext);
 static PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, toInterpolate);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_formatter_abstractformatter_getdateformat, 0, 0, IS_STRING, 0)
@@ -11115,6 +11118,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_formatter_abstrac
 	ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_formatter_abstractformatter_stringifycontext, 0, 1, IS_ARRAY, 0)
+	ZEND_ARG_ARRAY_INFO(0, context, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_formatter_abstractformatter_tointerpolate, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, context, IS_ARRAY, 0, "[]")
@@ -11127,6 +11134,7 @@ ZEPHIR_INIT_FUNCS(phalcon_logger_formatter_abstractformatter_method_entry) {
 	PHP_ME(Phalcon_Logger_Formatter_AbstractFormatter, setDateFormat, arginfo_phalcon_logger_formatter_abstractformatter_setdateformat, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Formatter_AbstractFormatter, getFormattedDate, arginfo_phalcon_logger_formatter_abstractformatter_getformatteddate, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Logger_Formatter_AbstractFormatter, getInterpolatedMessage, arginfo_phalcon_logger_formatter_abstractformatter_getinterpolatedmessage, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Logger_Formatter_AbstractFormatter, stringifyContext, arginfo_phalcon_logger_formatter_abstractformatter_stringifycontext, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Logger_Formatter_AbstractFormatter, toInterpolate, arginfo_phalcon_logger_formatter_abstractformatter_tointerpolate, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
@@ -11248,6 +11256,7 @@ static PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst);
 static PHP_METHOD(Phalcon_Mvc_Model_Resultset, getHydrateMode);
 static PHP_METHOD(Phalcon_Mvc_Model_Resultset, getLast);
 static PHP_METHOD(Phalcon_Mvc_Model_Resultset, getMessages);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset, getResult);
 static PHP_METHOD(Phalcon_Mvc_Model_Resultset, getType);
 static PHP_METHOD(Phalcon_Mvc_Model_Resultset, isFresh);
 static PHP_METHOD(Phalcon_Mvc_Model_Resultset, jsonSerialize);
@@ -11258,15 +11267,13 @@ static PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetExists);
 static PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet);
 static PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetSet);
 static PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetUnset);
+static PHP_METHOD(Phalcon_Mvc_Model_Resultset, refresh);
 static PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind);
 static PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek);
 static PHP_METHOD(Phalcon_Mvc_Model_Resultset, setHydrateMode);
 static PHP_METHOD(Phalcon_Mvc_Model_Resultset, setIsFresh);
 static PHP_METHOD(Phalcon_Mvc_Model_Resultset, update);
 static PHP_METHOD(Phalcon_Mvc_Model_Resultset, valid);
-static PHP_METHOD(Phalcon_Mvc_Model_Resultset, refresh);
-static PHP_METHOD(Phalcon_Mvc_Model_Resultset, getResult);
-zend_object *zephir_init_properties_Phalcon_Mvc_Model_Resultset(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, result)
@@ -11297,6 +11304,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_resultset_getla
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultset_getmessages, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_getresult, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultset_gettype, 0, 0, IS_LONG, 0)
@@ -11336,6 +11346,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultset_offs
 	ZEND_ARG_INFO(0, offset)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultset_refresh, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultset_rewind, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
@@ -11360,15 +11373,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultset_valid, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultset_refresh, 0, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_getresult, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_zephir_init_properties_phalcon_mvc_model_resultset, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_resultset_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Resultset, __construct, arginfo_phalcon_mvc_model_resultset___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, count, arginfo_phalcon_mvc_model_resultset_count, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
@@ -11379,6 +11383,7 @@ PHP_ME(Phalcon_Mvc_Model_Resultset, getFirst, arginfo_phalcon_mvc_model_resultse
 	PHP_ME(Phalcon_Mvc_Model_Resultset, getHydrateMode, arginfo_phalcon_mvc_model_resultset_gethydratemode, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, getLast, arginfo_phalcon_mvc_model_resultset_getlast, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, getMessages, arginfo_phalcon_mvc_model_resultset_getmessages, ZEND_ACC_PUBLIC)
+PHP_ME(Phalcon_Mvc_Model_Resultset, getResult, arginfo_phalcon_mvc_model_resultset_getresult, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, getType, arginfo_phalcon_mvc_model_resultset_gettype, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, isFresh, arginfo_phalcon_mvc_model_resultset_isfresh, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, jsonSerialize, arginfo_phalcon_mvc_model_resultset_jsonserialize, ZEND_ACC_PUBLIC)
@@ -11389,14 +11394,13 @@ PHP_ME(Phalcon_Mvc_Model_Resultset, getFirst, arginfo_phalcon_mvc_model_resultse
 	PHP_ME(Phalcon_Mvc_Model_Resultset, offsetGet, arginfo_phalcon_mvc_model_resultset_offsetget, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, offsetSet, arginfo_phalcon_mvc_model_resultset_offsetset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, offsetUnset, arginfo_phalcon_mvc_model_resultset_offsetunset, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Resultset, refresh, arginfo_phalcon_mvc_model_resultset_refresh, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, rewind, arginfo_phalcon_mvc_model_resultset_rewind, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, seek, arginfo_phalcon_mvc_model_resultset_seek, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, setHydrateMode, arginfo_phalcon_mvc_model_resultset_sethydratemode, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, setIsFresh, arginfo_phalcon_mvc_model_resultset_setisfresh, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, update, arginfo_phalcon_mvc_model_resultset_update, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Resultset, valid, arginfo_phalcon_mvc_model_resultset_valid, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Resultset, refresh, arginfo_phalcon_mvc_model_resultset_refresh, ZEND_ACC_PUBLIC)
-PHP_ME(Phalcon_Mvc_Model_Resultset, getResult, arginfo_phalcon_mvc_model_resultset_getresult, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -12846,88 +12850,6 @@ zend_class_entry *phalcon_contracts_container_service_collection_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Container_Service_Collection);
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_container_service_collection_getalias, 0, 1, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_container_service_collection_hasalias, 0, 1, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_contracts_container_service_collection_setalias, 0, 2, MAY_BE_STATIC)
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, alias, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_container_service_collection_unsetalias, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_container_service_collection_getdefinition, 0, 1, Phalcon\\Container\\Definition\\ServiceDefinition, 0)
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_container_service_collection_hasdefinition, 0, 1, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_container_service_collection_newdefinition, 0, 1, Phalcon\\Container\\Definition\\ServiceDefinition, 0)
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_contracts_container_service_collection_setdefinition, 0, 2, MAY_BE_STATIC)
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-	ZEND_ARG_OBJ_INFO(0, definition, Phalcon\\Container\\Definition\\ServiceDefinition, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_container_service_collection_unsetdefinition, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_contracts_container_service_collection_getinstance, 0, 1, MAY_BE_OBJECT)
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_container_service_collection_hasinstance, 0, 1, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_contracts_container_service_collection_setinstance, 0, 3, MAY_BE_STATIC)
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-	ZEND_ARG_INFO(0, instance)
-	ZEND_ARG_TYPE_INFO(0, lifetime, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_container_service_collection_unsetinstance, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_container_service_collection_unsetinstances, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_TYPE_INFO(0, lifetime, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_container_service_collection_getparameter, 0, 1, IS_MIXED, 0)
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_container_service_collection_hasparameter, 0, 1, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_contracts_container_service_collection_setparameter, 0, 2, MAY_BE_STATIC)
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-	ZEND_ARG_INFO(0, value)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_container_service_collection_unsetparameter, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_container_service_collection_bind, 0, 2, Phalcon\\Container\\Definition\\ServiceDefinition, 0)
 	ZEND_ARG_TYPE_INFO(0, interfaceName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, concrete, IS_STRING, 0)
@@ -12951,14 +12873,46 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_container_serv
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_container_service_collection_getalias, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_container_service_collection_getbytag, 0, 1, IS_ARRAY, 0)
 	ZEND_ARG_TYPE_INFO(0, tag, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_container_service_collection_getdefinition, 0, 1, Phalcon\\Container\\Definition\\ServiceDefinition, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_contracts_container_service_collection_getinstance, 0, 1, MAY_BE_OBJECT)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_container_service_collection_getparameter, 0, 1, IS_MIXED, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_container_service_collection_getresolver, 0, 0, Phalcon\\Container\\Resolver\\Resolver, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_container_service_collection_has, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_container_service_collection_hasalias, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_container_service_collection_hasdefinition, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_container_service_collection_hasinstance, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_container_service_collection_hasparameter, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
@@ -12969,46 +12923,96 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_container_serv
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_container_service_collection_newdefinition, 0, 1, Phalcon\\Container\\Definition\\ServiceDefinition, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_container_service_collection_set, 0, 2, Phalcon\\Container\\Definition\\ServiceDefinition, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 	ZEND_ARG_INFO(0, definition)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_contracts_container_service_collection_setalias, 0, 2, MAY_BE_STATIC)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, alias, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_contracts_container_service_collection_setautowire, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, enabled, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_contracts_container_service_collection_setdefinition, 0, 2, MAY_BE_STATIC)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+	ZEND_ARG_OBJ_INFO(0, definition, Phalcon\\Container\\Definition\\ServiceDefinition, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_contracts_container_service_collection_setinstance, 0, 3, MAY_BE_STATIC)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+	ZEND_ARG_INFO(0, instance)
+	ZEND_ARG_TYPE_INFO(0, lifetime, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_contracts_container_service_collection_setparameter, 0, 2, MAY_BE_STATIC)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_container_service_collection_unsetalias, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_container_service_collection_unsetdefinition, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_container_service_collection_unsetinstance, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_container_service_collection_unsetinstances, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO(0, lifetime, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_container_service_collection_unsetparameter, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_contracts_container_service_collection_method_entry) {
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, getAlias, arginfo_phalcon_contracts_container_service_collection_getalias)
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, hasAlias, arginfo_phalcon_contracts_container_service_collection_hasalias)
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, setAlias, arginfo_phalcon_contracts_container_service_collection_setalias)
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, unsetAlias, arginfo_phalcon_contracts_container_service_collection_unsetalias)
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, getDefinition, arginfo_phalcon_contracts_container_service_collection_getdefinition)
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, hasDefinition, arginfo_phalcon_contracts_container_service_collection_hasdefinition)
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, newDefinition, arginfo_phalcon_contracts_container_service_collection_newdefinition)
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, setDefinition, arginfo_phalcon_contracts_container_service_collection_setdefinition)
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, unsetDefinition, arginfo_phalcon_contracts_container_service_collection_unsetdefinition)
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, getInstance, arginfo_phalcon_contracts_container_service_collection_getinstance)
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, hasInstance, arginfo_phalcon_contracts_container_service_collection_hasinstance)
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, setInstance, arginfo_phalcon_contracts_container_service_collection_setinstance)
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, unsetInstance, arginfo_phalcon_contracts_container_service_collection_unsetinstance)
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, unsetInstances, arginfo_phalcon_contracts_container_service_collection_unsetinstances)
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, getParameter, arginfo_phalcon_contracts_container_service_collection_getparameter)
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, hasParameter, arginfo_phalcon_contracts_container_service_collection_hasparameter)
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, setParameter, arginfo_phalcon_contracts_container_service_collection_setparameter)
-	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, unsetParameter, arginfo_phalcon_contracts_container_service_collection_unsetparameter)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, bind, arginfo_phalcon_contracts_container_service_collection_bind)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, callableGet, arginfo_phalcon_contracts_container_service_collection_callableget)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, callableNew, arginfo_phalcon_contracts_container_service_collection_callablenew)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, extend, arginfo_phalcon_contracts_container_service_collection_extend)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, get, arginfo_phalcon_contracts_container_service_collection_get)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, getAlias, arginfo_phalcon_contracts_container_service_collection_getalias)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, getByTag, arginfo_phalcon_contracts_container_service_collection_getbytag)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, getDefinition, arginfo_phalcon_contracts_container_service_collection_getdefinition)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, getInstance, arginfo_phalcon_contracts_container_service_collection_getinstance)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, getParameter, arginfo_phalcon_contracts_container_service_collection_getparameter)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, getResolver, arginfo_phalcon_contracts_container_service_collection_getresolver)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, has, arginfo_phalcon_contracts_container_service_collection_has)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, hasAlias, arginfo_phalcon_contracts_container_service_collection_hasalias)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, hasDefinition, arginfo_phalcon_contracts_container_service_collection_hasdefinition)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, hasInstance, arginfo_phalcon_contracts_container_service_collection_hasinstance)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, hasParameter, arginfo_phalcon_contracts_container_service_collection_hasparameter)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, isAutowireEnabled, arginfo_phalcon_contracts_container_service_collection_isautowireenabled)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, new, arginfo_phalcon_contracts_container_service_collection_new)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, newDefinition, arginfo_phalcon_contracts_container_service_collection_newdefinition)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, set, arginfo_phalcon_contracts_container_service_collection_set)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, setAlias, arginfo_phalcon_contracts_container_service_collection_setalias)
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, setAutowire, arginfo_phalcon_contracts_container_service_collection_setautowire)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, setDefinition, arginfo_phalcon_contracts_container_service_collection_setdefinition)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, setInstance, arginfo_phalcon_contracts_container_service_collection_setinstance)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, setParameter, arginfo_phalcon_contracts_container_service_collection_setparameter)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, unsetAlias, arginfo_phalcon_contracts_container_service_collection_unsetalias)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, unsetDefinition, arginfo_phalcon_contracts_container_service_collection_unsetdefinition)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, unsetInstance, arginfo_phalcon_contracts_container_service_collection_unsetinstance)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, unsetInstances, arginfo_phalcon_contracts_container_service_collection_unsetinstances)
+	PHP_ABSTRACT_ME(Phalcon_Contracts_Container_Service_Collection, unsetParameter, arginfo_phalcon_contracts_container_service_collection_unsetparameter)
 	PHP_FE_END
 };
 
@@ -13221,10 +13225,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_profiler_
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, values, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_pdo_profiler_profilerinterface_getlogger, 0, 0, Phalcon\\Logger\\LoggerInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_profiler_profilerinterface_getlogformat, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_profiler_profilerinterface_getlogformat, 0, 0, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_pdo_profiler_profilerinterface_getlogger, 0, 0, Phalcon\\Logger\\LoggerInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_profiler_profilerinterface_getloglevel, 0, 0, IS_STRING, 0)
@@ -13252,8 +13256,8 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_datamapper_pdo_profiler_profilerinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_DataMapper_Pdo_Profiler_ProfilerInterface, finish, arginfo_phalcon_datamapper_pdo_profiler_profilerinterface_finish)
-	PHP_ABSTRACT_ME(Phalcon_DataMapper_Pdo_Profiler_ProfilerInterface, getLogger, arginfo_phalcon_datamapper_pdo_profiler_profilerinterface_getlogger)
 	PHP_ABSTRACT_ME(Phalcon_DataMapper_Pdo_Profiler_ProfilerInterface, getLogFormat, arginfo_phalcon_datamapper_pdo_profiler_profilerinterface_getlogformat)
+	PHP_ABSTRACT_ME(Phalcon_DataMapper_Pdo_Profiler_ProfilerInterface, getLogger, arginfo_phalcon_datamapper_pdo_profiler_profilerinterface_getlogger)
 	PHP_ABSTRACT_ME(Phalcon_DataMapper_Pdo_Profiler_ProfilerInterface, getLogLevel, arginfo_phalcon_datamapper_pdo_profiler_profilerinterface_getloglevel)
 	PHP_ABSTRACT_ME(Phalcon_DataMapper_Pdo_Profiler_ProfilerInterface, isActive, arginfo_phalcon_datamapper_pdo_profiler_profilerinterface_isactive)
 	PHP_ABSTRACT_ME(Phalcon_DataMapper_Pdo_Profiler_ProfilerInterface, setActive, arginfo_phalcon_datamapper_pdo_profiler_profilerinterface_setactive)
@@ -14573,7 +14577,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteriainterfa
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, forUpdate, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_model_criteriainterface_getcolumns, 0, 0, MAY_BE_NULL|MAY_BE_STRING|MAY_BE_ARRAY)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_model_criteriainterface_getcolumns, 0, 0, MAY_BE_NULL|MAY_BE_ARRAY|MAY_BE_STRING)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_getconditions, 0, 0, IS_STRING, 1)
@@ -14585,7 +14589,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_gethaving, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_model_criteriainterface_getlimit, 0, 0, MAY_BE_NULL|MAY_BE_LONG|MAY_BE_ARRAY)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_model_criteriainterface_getlimit, 0, 0, MAY_BE_NULL|MAY_BE_ARRAY|MAY_BE_LONG)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_getmodelname, 0, 0, IS_STRING, 0)
@@ -14608,15 +14612,15 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteriainterfa
 	ZEND_ARG_INFO(0, having)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_inwhere, 0, 2, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
-	ZEND_ARG_TYPE_INFO(0, expr, IS_STRING, 0)
-	ZEND_ARG_ARRAY_INFO(0, values, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_innerjoin, 0, 1, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, model, IS_STRING, 0)
 	ZEND_ARG_INFO(0, conditions)
 	ZEND_ARG_INFO(0, alias)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_inwhere, 0, 2, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
+	ZEND_ARG_TYPE_INFO(0, expr, IS_STRING, 0)
+	ZEND_ARG_ARRAY_INFO(0, values, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_leftjoin, 0, 1, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
@@ -14641,14 +14645,14 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteriainterfa
 	ZEND_ARG_ARRAY_INFO(0, values, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_orderby, 0, 1, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
+	ZEND_ARG_TYPE_INFO(0, orderColumns, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_orwhere, 0, 1, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, conditions, IS_STRING, 0)
 	ZEND_ARG_INFO(0, bindParams)
 	ZEND_ARG_INFO(0, bindTypes)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_orderby, 0, 1, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
-	ZEND_ARG_TYPE_INFO(0, orderColumns, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_rightjoin, 0, 1, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
@@ -14692,14 +14696,14 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_criteriainterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getWhere, arginfo_phalcon_mvc_model_criteriainterface_getwhere)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, groupBy, arginfo_phalcon_mvc_model_criteriainterface_groupby)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, having, arginfo_phalcon_mvc_model_criteriainterface_having)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, inWhere, arginfo_phalcon_mvc_model_criteriainterface_inwhere)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, innerJoin, arginfo_phalcon_mvc_model_criteriainterface_innerjoin)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, inWhere, arginfo_phalcon_mvc_model_criteriainterface_inwhere)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, leftJoin, arginfo_phalcon_mvc_model_criteriainterface_leftjoin)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, limit, arginfo_phalcon_mvc_model_criteriainterface_limit)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, notBetweenWhere, arginfo_phalcon_mvc_model_criteriainterface_notbetweenwhere)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, notInWhere, arginfo_phalcon_mvc_model_criteriainterface_notinwhere)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, orWhere, arginfo_phalcon_mvc_model_criteriainterface_orwhere)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, orderBy, arginfo_phalcon_mvc_model_criteriainterface_orderby)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, orWhere, arginfo_phalcon_mvc_model_criteriainterface_orwhere)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, rightJoin, arginfo_phalcon_mvc_model_criteriainterface_rightjoin)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, setModelName, arginfo_phalcon_mvc_model_criteriainterface_setmodelname)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, sharedLock, arginfo_phalcon_mvc_model_criteriainterface_sharedlock)
@@ -15142,7 +15146,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builderinterface_getlimit, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_model_query_builderinterface_getmodels, 0, 0, MAY_BE_NULL|MAY_BE_STRING|MAY_BE_ARRAY)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_model_query_builderinterface_getmodels, 0, 0, MAY_BE_NULL|MAY_BE_ARRAY|MAY_BE_STRING)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builderinterface_getoffset, 0, 0, IS_LONG, 0)
@@ -15216,14 +15220,14 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builderin
 	ZEND_ARG_TYPE_INFO(0, offset, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builderinterface_orderby, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
+	ZEND_ARG_INFO(0, orderBy)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builderinterface_orwhere, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, conditions, IS_STRING, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindParams, IS_ARRAY, 0, "[]")
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindTypes, IS_ARRAY, 0, "[]")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builderinterface_orderby, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-	ZEND_ARG_INFO(0, orderBy)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builderinterface_rightjoin, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
@@ -15281,8 +15285,8 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_query_builderinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, notBetweenWhere, arginfo_phalcon_mvc_model_query_builderinterface_notbetweenwhere)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, notInWhere, arginfo_phalcon_mvc_model_query_builderinterface_notinwhere)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, offset, arginfo_phalcon_mvc_model_query_builderinterface_offset)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, orWhere, arginfo_phalcon_mvc_model_query_builderinterface_orwhere)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, orderBy, arginfo_phalcon_mvc_model_query_builderinterface_orderby)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, orWhere, arginfo_phalcon_mvc_model_query_builderinterface_orwhere)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, rightJoin, arginfo_phalcon_mvc_model_query_builderinterface_rightjoin)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, setBindParams, arginfo_phalcon_mvc_model_query_builderinterface_setbindparams)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Query_BuilderInterface, setBindTypes, arginfo_phalcon_mvc_model_query_builderinterface_setbindtypes)
@@ -15555,14 +15559,14 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_transactionint
 	ZEND_ARG_TYPE_INFO(0, isNew, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_transactioninterface_setrollbackonabort, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_TYPE_INFO(0, rollbackOnAbort, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_transactioninterface_setrollbackedrecord, 0, 1, IS_VOID, 0)
 
 	ZEND_ARG_OBJ_INFO(0, record, Phalcon\\Mvc\\ModelInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_transactioninterface_setrollbackonabort, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO(0, rollbackOnAbort, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_transactioninterface_settransactionmanager, 0, 1, IS_VOID, 0)
@@ -15583,8 +15587,8 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_transactioninterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_TransactionInterface, isValid, arginfo_phalcon_mvc_model_transactioninterface_isvalid)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_TransactionInterface, rollback, arginfo_phalcon_mvc_model_transactioninterface_rollback)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_TransactionInterface, setIsNewTransaction, arginfo_phalcon_mvc_model_transactioninterface_setisnewtransaction)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_TransactionInterface, setRollbackOnAbort, arginfo_phalcon_mvc_model_transactioninterface_setrollbackonabort)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_TransactionInterface, setRollbackedRecord, arginfo_phalcon_mvc_model_transactioninterface_setrollbackedrecord)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_TransactionInterface, setRollbackOnAbort, arginfo_phalcon_mvc_model_transactioninterface_setrollbackonabort)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_TransactionInterface, setTransactionManager, arginfo_phalcon_mvc_model_transactioninterface_settransactionmanager)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_TransactionInterface, throwRollbackException, arginfo_phalcon_mvc_model_transactioninterface_throwrollbackexception)
 	PHP_FE_END
@@ -15593,16 +15597,6 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_transactioninterface_method_entry) {
 zend_class_entry *phalcon_mvc_modelinterface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_ModelInterface);
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_modelinterface_appendmessage, 0, 1, Phalcon\\Mvc\\ModelInterface, 0)
-	ZEND_ARG_OBJ_INFO(0, message, Phalcon\\Messages\\MessageInterface, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_modelinterface_assign, 0, 1, Phalcon\\Mvc\\ModelInterface, 0)
-	ZEND_ARG_ARRAY_INFO(0, data, 0)
-	ZEND_ARG_INFO(0, whiteList)
-	ZEND_ARG_INFO(0, dataColumnMap)
-ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_phalcon_mvc_modelinterface_average, 0, 0, Phalcon\\Mvc\\Model\\ResultsetInterface, MAY_BE_DOUBLE)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, parameters, IS_ARRAY, 0, "[]")
@@ -15632,18 +15626,44 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_phalcon_mvc_modelinterface_c
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_modelinterface_create, 0, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_modelinterface_delete, 0, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_find, 0, 0, 0)
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_findfirst, 0, 0, 0)
 	ZEND_ARG_INFO(0, parameters)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_maximum, 0, 0, 0)
+	ZEND_ARG_INFO(0, parameters)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_minimum, 0, 0, 0)
+	ZEND_ARG_INFO(0, parameters)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_modelinterface_query, 0, 0, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
+	ZEND_ARG_OBJ_TYPE_MASK(0, container, Phalcon\\Di\\DiInterface, MAY_BE_NULL, "null")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_phalcon_mvc_modelinterface_sum, 0, 0, Phalcon\\Mvc\\Model\\ResultsetInterface, MAY_BE_DOUBLE)
+	ZEND_ARG_INFO(0, parameters)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_modelinterface_appendmessage, 0, 1, Phalcon\\Mvc\\ModelInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, message, Phalcon\\Messages\\MessageInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_modelinterface_assign, 0, 1, Phalcon\\Mvc\\ModelInterface, 0)
+	ZEND_ARG_ARRAY_INFO(0, data, 0)
+	ZEND_ARG_INFO(0, whiteList)
+	ZEND_ARG_INFO(0, dataColumnMap)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_modelinterface_create, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_modelinterface_delete, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_modelinterface_fireevent, 0, 1, _IS_BOOL, 0)
@@ -15687,18 +15707,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_modelinterface_getwri
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_modelinterface_getwriteconnectionservice, 0, 0, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_maximum, 0, 0, 0)
-	ZEND_ARG_INFO(0, parameters)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_minimum, 0, 0, 0)
-	ZEND_ARG_INFO(0, parameters)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_modelinterface_query, 0, 0, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
-	ZEND_ARG_OBJ_TYPE_MASK(0, container, Phalcon\\Di\\DiInterface, MAY_BE_NULL, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_modelinterface_refresh, 0, 0, Phalcon\\Mvc\\ModelInterface, 0)
@@ -15746,10 +15754,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_modelinterface_skipo
 	ZEND_ARG_TYPE_INFO(0, skip, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_phalcon_mvc_modelinterface_sum, 0, 0, Phalcon\\Mvc\\Model\\ResultsetInterface, MAY_BE_DOUBLE)
-	ZEND_ARG_INFO(0, parameters)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_modelinterface_update, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
@@ -15757,17 +15761,21 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_modelinterface_valid
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_modelinterface_method_entry) {
-	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, appendMessage, arginfo_phalcon_mvc_modelinterface_appendmessage)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, assign, arginfo_phalcon_mvc_modelinterface_assign)
 	ZEND_FENTRY(average, NULL, arginfo_phalcon_mvc_modelinterface_average, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	ZEND_FENTRY(cloneResult, NULL, arginfo_phalcon_mvc_modelinterface_cloneresult, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	ZEND_FENTRY(cloneResultMap, NULL, arginfo_phalcon_mvc_modelinterface_cloneresultmap, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	ZEND_FENTRY(cloneResultMapHydrate, NULL, arginfo_phalcon_mvc_modelinterface_cloneresultmaphydrate, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	ZEND_FENTRY(count, NULL, arginfo_phalcon_mvc_modelinterface_count, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, create, arginfo_phalcon_mvc_modelinterface_create)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, delete, arginfo_phalcon_mvc_modelinterface_delete)
 	ZEND_FENTRY(find, NULL, arginfo_phalcon_mvc_modelinterface_find, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	ZEND_FENTRY(findFirst, NULL, arginfo_phalcon_mvc_modelinterface_findfirst, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
+	ZEND_FENTRY(maximum, NULL, arginfo_phalcon_mvc_modelinterface_maximum, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
+	ZEND_FENTRY(minimum, NULL, arginfo_phalcon_mvc_modelinterface_minimum, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
+	ZEND_FENTRY(query, NULL, arginfo_phalcon_mvc_modelinterface_query, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
+	ZEND_FENTRY(sum, NULL, arginfo_phalcon_mvc_modelinterface_sum, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, appendMessage, arginfo_phalcon_mvc_modelinterface_appendmessage)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, assign, arginfo_phalcon_mvc_modelinterface_assign)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, create, arginfo_phalcon_mvc_modelinterface_create)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, delete, arginfo_phalcon_mvc_modelinterface_delete)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, fireEvent, arginfo_phalcon_mvc_modelinterface_fireevent)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, fireEventCancel, arginfo_phalcon_mvc_modelinterface_fireeventcancel)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, getDirtyState, arginfo_phalcon_mvc_modelinterface_getdirtystate)
@@ -15781,9 +15789,6 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_modelinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, getSource, arginfo_phalcon_mvc_modelinterface_getsource)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, getWriteConnection, arginfo_phalcon_mvc_modelinterface_getwriteconnection)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, getWriteConnectionService, arginfo_phalcon_mvc_modelinterface_getwriteconnectionservice)
-	ZEND_FENTRY(maximum, NULL, arginfo_phalcon_mvc_modelinterface_maximum, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
-	ZEND_FENTRY(minimum, NULL, arginfo_phalcon_mvc_modelinterface_minimum, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
-	ZEND_FENTRY(query, NULL, arginfo_phalcon_mvc_modelinterface_query, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, refresh, arginfo_phalcon_mvc_modelinterface_refresh)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, save, arginfo_phalcon_mvc_modelinterface_save)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, setConnectionService, arginfo_phalcon_mvc_modelinterface_setconnectionservice)
@@ -15794,7 +15799,6 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_modelinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, setTransaction, arginfo_phalcon_mvc_modelinterface_settransaction)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, setWriteConnectionService, arginfo_phalcon_mvc_modelinterface_setwriteconnectionservice)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, skipOperation, arginfo_phalcon_mvc_modelinterface_skipoperation)
-	ZEND_FENTRY(sum, NULL, arginfo_phalcon_mvc_modelinterface_sum, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, update, arginfo_phalcon_mvc_modelinterface_update)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, validationHasFailed, arginfo_phalcon_mvc_modelinterface_validationhasfailed)
 	PHP_FE_END
@@ -15817,16 +15821,13 @@ static PHP_METHOD(Phalcon_Mvc_Router, addPurge);
 static PHP_METHOD(Phalcon_Mvc_Router, addPut);
 static PHP_METHOD(Phalcon_Mvc_Router, addTrace);
 static PHP_METHOD(Phalcon_Mvc_Router, attach);
-static PHP_METHOD(Phalcon_Mvc_Router, clear);
 static PHP_METHOD(Phalcon_Mvc_Router, buildDispatcherDump);
-static PHP_METHOD(Phalcon_Mvc_Router, loadDispatcherFromArray);
+static PHP_METHOD(Phalcon_Mvc_Router, clear);
 static PHP_METHOD(Phalcon_Mvc_Router, dumpDispatcher);
-static PHP_METHOD(Phalcon_Mvc_Router, loadDispatcher);
-static PHP_METHOD(Phalcon_Mvc_Router, useCache);
-static PHP_METHOD(Phalcon_Mvc_Router, getEventsManager);
 static PHP_METHOD(Phalcon_Mvc_Router, getActionName);
 static PHP_METHOD(Phalcon_Mvc_Router, getControllerName);
 static PHP_METHOD(Phalcon_Mvc_Router, getDefaults);
+static PHP_METHOD(Phalcon_Mvc_Router, getEventsManager);
 static PHP_METHOD(Phalcon_Mvc_Router, getKeyRouteIds);
 static PHP_METHOD(Phalcon_Mvc_Router, getKeyRouteNames);
 static PHP_METHOD(Phalcon_Mvc_Router, getMatchedRoute);
@@ -15841,6 +15842,8 @@ static PHP_METHOD(Phalcon_Mvc_Router, getRouteByName);
 static PHP_METHOD(Phalcon_Mvc_Router, getRoutes);
 static PHP_METHOD(Phalcon_Mvc_Router, handle);
 static PHP_METHOD(Phalcon_Mvc_Router, isExactControllerName);
+static PHP_METHOD(Phalcon_Mvc_Router, loadDispatcher);
+static PHP_METHOD(Phalcon_Mvc_Router, loadDispatcherFromArray);
 static PHP_METHOD(Phalcon_Mvc_Router, loadFromConfig);
 static PHP_METHOD(Phalcon_Mvc_Router, mount);
 static PHP_METHOD(Phalcon_Mvc_Router, notFound);
@@ -15854,6 +15857,7 @@ static PHP_METHOD(Phalcon_Mvc_Router, setEventsManager);
 static PHP_METHOD(Phalcon_Mvc_Router, setKeyRouteIds);
 static PHP_METHOD(Phalcon_Mvc_Router, setKeyRouteNames);
 static PHP_METHOD(Phalcon_Mvc_Router, setUriSource);
+static PHP_METHOD(Phalcon_Mvc_Router, useCache);
 static PHP_METHOD(Phalcon_Mvc_Router, wasMatched);
 static PHP_METHOD(Phalcon_Mvc_Router, addRouteFromConfig);
 static PHP_METHOD(Phalcon_Mvc_Router, extractRealUri);
@@ -15866,9 +15870,10 @@ static PHP_METHOD(Phalcon_Mvc_Router, phpFileGetContents);
 static PHP_METHOD(Phalcon_Mvc_Router, phpFilePutContents);
 static PHP_METHOD(Phalcon_Mvc_Router, phpFopen);
 static PHP_METHOD(Phalcon_Mvc_Router, phpFwrite);
+static PHP_METHOD(Phalcon_Mvc_Router, phpIsDir);
 static PHP_METHOD(Phalcon_Mvc_Router, phpIsWritable);
+static PHP_METHOD(Phalcon_Mvc_Router, phpMkdir);
 static PHP_METHOD(Phalcon_Mvc_Router, phpUnlink);
-zend_object *zephir_init_properties_Phalcon_Mvc_Router(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router___construct, 0, 0, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, defaultRoutes, _IS_BOOL, 0, "true")
@@ -15946,34 +15951,15 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_attach, 0, 1,
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, position, IS_LONG, 0, "1")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_clear, 0, 0, IS_VOID, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_builddispatcherdump, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_loaddispatcherfromarray, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_ARRAY_INFO(0, dump, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_clear, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_dumpdispatcher, 0, 1, IS_VOID, 0)
 
 	ZEND_ARG_TYPE_INFO(0, path, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_loaddispatcher, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_TYPE_INFO(0, path, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_usecache, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_OBJ_INFO(0, cache, Phalcon\\Cache\\Adapter\\AdapterInterface, 0)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, key, IS_STRING, 0, "'phalcon.router.dispatcher'")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_geteventsmanager, 0, 0, Phalcon\\Events\\ManagerInterface, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_getactionname, 0, 0, IS_STRING, 0)
@@ -15983,6 +15969,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_getcontroller
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_getdefaults, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_geteventsmanager, 0, 0, Phalcon\\Events\\ManagerInterface, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_getkeyrouteids, 0, 0, IS_ARRAY, 0)
@@ -16029,6 +16018,16 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_handle, 0, 1,
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_isexactcontrollername, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_loaddispatcher, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO(0, path, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_loaddispatcherfromarray, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_ARRAY_INFO(0, dump, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_loadfromconfig, 0, 1, MAY_BE_STATIC)
@@ -16082,6 +16081,12 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_seturisource, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, uriSource, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_usecache, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_OBJ_INFO(0, cache, Phalcon\\Cache\\Adapter\\AdapterInterface, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, key, IS_STRING, 0, "'phalcon.router.dispatcher'")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_wasmatched, 0, 0, _IS_BOOL, 0)
@@ -16148,16 +16153,24 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_phpfwrite, 0,
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_phpunlink, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
 	ZEND_ARG_INFO(0, context)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_zephir_init_properties_phalcon_mvc_router, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_router_method_entry) {
@@ -16174,16 +16187,13 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_router_method_entry) {
 	PHP_ME(Phalcon_Mvc_Router, addPut, arginfo_phalcon_mvc_router_addput, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, addTrace, arginfo_phalcon_mvc_router_addtrace, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, attach, arginfo_phalcon_mvc_router_attach, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Router, clear, arginfo_phalcon_mvc_router_clear, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, buildDispatcherDump, arginfo_phalcon_mvc_router_builddispatcherdump, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Router, loadDispatcherFromArray, arginfo_phalcon_mvc_router_loaddispatcherfromarray, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router, clear, arginfo_phalcon_mvc_router_clear, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, dumpDispatcher, arginfo_phalcon_mvc_router_dumpdispatcher, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Router, loadDispatcher, arginfo_phalcon_mvc_router_loaddispatcher, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Router, useCache, arginfo_phalcon_mvc_router_usecache, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Router, getEventsManager, arginfo_phalcon_mvc_router_geteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, getActionName, arginfo_phalcon_mvc_router_getactionname, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, getControllerName, arginfo_phalcon_mvc_router_getcontrollername, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, getDefaults, arginfo_phalcon_mvc_router_getdefaults, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router, getEventsManager, arginfo_phalcon_mvc_router_geteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, getKeyRouteIds, arginfo_phalcon_mvc_router_getkeyrouteids, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, getKeyRouteNames, arginfo_phalcon_mvc_router_getkeyroutenames, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, getMatchedRoute, arginfo_phalcon_mvc_router_getmatchedroute, ZEND_ACC_PUBLIC)
@@ -16198,6 +16208,8 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_router_method_entry) {
 	PHP_ME(Phalcon_Mvc_Router, getRoutes, arginfo_phalcon_mvc_router_getroutes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, handle, arginfo_phalcon_mvc_router_handle, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, isExactControllerName, arginfo_phalcon_mvc_router_isexactcontrollername, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router, loadDispatcher, arginfo_phalcon_mvc_router_loaddispatcher, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router, loadDispatcherFromArray, arginfo_phalcon_mvc_router_loaddispatcherfromarray, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, loadFromConfig, arginfo_phalcon_mvc_router_loadfromconfig, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, mount, arginfo_phalcon_mvc_router_mount, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, notFound, arginfo_phalcon_mvc_router_notfound, ZEND_ACC_PUBLIC)
@@ -16211,6 +16223,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_router_method_entry) {
 	PHP_ME(Phalcon_Mvc_Router, setKeyRouteIds, arginfo_phalcon_mvc_router_setkeyrouteids, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, setKeyRouteNames, arginfo_phalcon_mvc_router_setkeyroutenames, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, setUriSource, arginfo_phalcon_mvc_router_seturisource, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router, useCache, arginfo_phalcon_mvc_router_usecache, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, wasMatched, arginfo_phalcon_mvc_router_wasmatched, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router, addRouteFromConfig, arginfo_phalcon_mvc_router_addroutefromconfig, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Router, extractRealUri, arginfo_phalcon_mvc_router_extractrealuri, ZEND_ACC_PROTECTED)
@@ -16223,7 +16236,9 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_router_method_entry) {
 	PHP_ME(Phalcon_Mvc_Router, phpFilePutContents, arginfo_phalcon_mvc_router_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Router, phpFopen, arginfo_phalcon_mvc_router_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Router, phpFwrite, arginfo_phalcon_mvc_router_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Router, phpIsDir, arginfo_phalcon_mvc_router_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Router, phpIsWritable, arginfo_phalcon_mvc_router_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Router, phpMkdir, arginfo_phalcon_mvc_router_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Router, phpUnlink, arginfo_phalcon_mvc_router_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
@@ -16351,6 +16366,9 @@ zend_class_entry *phalcon_mvc_router_routeinterface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_RouteInterface);
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_routeinterface_reset, 0, 0, IS_VOID, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_routeinterface_compilepattern, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
 ZEND_END_ARG_INFO()
@@ -16390,9 +16408,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_routeinterfac
 	ZEND_ARG_INFO(0, paths)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_routeinterface_reset, 0, 0, IS_VOID, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_routeinterface_sethostname, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, hostname, IS_STRING, 0)
 ZEND_END_ARG_INFO()
@@ -16414,6 +16429,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_routeinterface
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_router_routeinterface_method_entry) {
+	ZEND_FENTRY(reset, NULL, arginfo_phalcon_mvc_router_routeinterface_reset, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, compilePattern, arginfo_phalcon_mvc_router_routeinterface_compilepattern)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, convert, arginfo_phalcon_mvc_router_routeinterface_convert)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, getCompiledPattern, arginfo_phalcon_mvc_router_routeinterface_getcompiledpattern)
@@ -16425,7 +16441,6 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_router_routeinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, getReversedPaths, arginfo_phalcon_mvc_router_routeinterface_getreversedpaths)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, getRouteId, arginfo_phalcon_mvc_router_routeinterface_getrouteid)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, reConfigure, arginfo_phalcon_mvc_router_routeinterface_reconfigure)
-	ZEND_FENTRY(reset, NULL, arginfo_phalcon_mvc_router_routeinterface_reset, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, setHostname, arginfo_phalcon_mvc_router_routeinterface_sethostname)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, setHttpMethods, arginfo_phalcon_mvc_router_routeinterface_sethttpmethods)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, setName, arginfo_phalcon_mvc_router_routeinterface_setname)
@@ -16496,7 +16511,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_viewinterface_getactionname, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_viewinterface_getactiverenderpath, 0, 0, MAY_BE_STRING|MAY_BE_ARRAY)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_viewinterface_getactiverenderpath, 0, 0, MAY_BE_ARRAY|MAY_BE_STRING)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_viewinterface_getbasepath, 0, 0, IS_STRING, 0)
@@ -17240,7 +17255,9 @@ static PHP_METHOD(Phalcon_Storage_Adapter_Stream, phpFileGetContents);
 static PHP_METHOD(Phalcon_Storage_Adapter_Stream, phpFilePutContents);
 static PHP_METHOD(Phalcon_Storage_Adapter_Stream, phpFopen);
 static PHP_METHOD(Phalcon_Storage_Adapter_Stream, phpFwrite);
+static PHP_METHOD(Phalcon_Storage_Adapter_Stream, phpIsDir);
 static PHP_METHOD(Phalcon_Storage_Adapter_Stream, phpIsWritable);
+static PHP_METHOD(Phalcon_Storage_Adapter_Stream, phpMkdir);
 static PHP_METHOD(Phalcon_Storage_Adapter_Stream, phpUnlink);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_stream___construct, 0, 0, 1)
@@ -17367,8 +17384,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_storage_adapter_stream_p
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_stream_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_stream_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_stream_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_stream_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -17402,7 +17430,9 @@ ZEPHIR_INIT_FUNCS(phalcon_storage_adapter_stream_method_entry) {
 	PHP_ME(Phalcon_Storage_Adapter_Stream, phpFilePutContents, arginfo_phalcon_storage_adapter_stream_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Storage_Adapter_Stream, phpFopen, arginfo_phalcon_storage_adapter_stream_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Storage_Adapter_Stream, phpFwrite, arginfo_phalcon_storage_adapter_stream_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Storage_Adapter_Stream, phpIsDir, arginfo_phalcon_storage_adapter_stream_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Storage_Adapter_Stream, phpIsWritable, arginfo_phalcon_storage_adapter_stream_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Storage_Adapter_Stream, phpMkdir, arginfo_phalcon_storage_adapter_stream_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Storage_Adapter_Stream, phpUnlink, arginfo_phalcon_storage_adapter_stream_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
@@ -19133,7 +19163,9 @@ static PHP_METHOD(Phalcon_Annotations_Adapter_Stream, phpFileGetContents);
 static PHP_METHOD(Phalcon_Annotations_Adapter_Stream, phpFilePutContents);
 static PHP_METHOD(Phalcon_Annotations_Adapter_Stream, phpFopen);
 static PHP_METHOD(Phalcon_Annotations_Adapter_Stream, phpFwrite);
+static PHP_METHOD(Phalcon_Annotations_Adapter_Stream, phpIsDir);
 static PHP_METHOD(Phalcon_Annotations_Adapter_Stream, phpIsWritable);
+static PHP_METHOD(Phalcon_Annotations_Adapter_Stream, phpMkdir);
 static PHP_METHOD(Phalcon_Annotations_Adapter_Stream, phpUnlink);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapter_stream___construct, 0, 0, 0)
@@ -19198,8 +19230,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_annotations_adapter_stre
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_annotations_adapter_stream_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_annotations_adapter_stream_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_annotations_adapter_stream_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_annotations_adapter_stream_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -19219,7 +19262,9 @@ ZEPHIR_INIT_FUNCS(phalcon_annotations_adapter_stream_method_entry) {
 	PHP_ME(Phalcon_Annotations_Adapter_Stream, phpFilePutContents, arginfo_phalcon_annotations_adapter_stream_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Annotations_Adapter_Stream, phpFopen, arginfo_phalcon_annotations_adapter_stream_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Annotations_Adapter_Stream, phpFwrite, arginfo_phalcon_annotations_adapter_stream_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Annotations_Adapter_Stream, phpIsDir, arginfo_phalcon_annotations_adapter_stream_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Annotations_Adapter_Stream, phpIsWritable, arginfo_phalcon_annotations_adapter_stream_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Annotations_Adapter_Stream, phpMkdir, arginfo_phalcon_annotations_adapter_stream_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Annotations_Adapter_Stream, phpUnlink, arginfo_phalcon_annotations_adapter_stream_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
@@ -19630,7 +19675,9 @@ static PHP_METHOD(Phalcon_Assets_Collection, phpFileGetContents);
 static PHP_METHOD(Phalcon_Assets_Collection, phpFilePutContents);
 static PHP_METHOD(Phalcon_Assets_Collection, phpFopen);
 static PHP_METHOD(Phalcon_Assets_Collection, phpFwrite);
+static PHP_METHOD(Phalcon_Assets_Collection, phpIsDir);
 static PHP_METHOD(Phalcon_Assets_Collection, phpIsWritable);
+static PHP_METHOD(Phalcon_Assets_Collection, phpMkdir);
 static PHP_METHOD(Phalcon_Assets_Collection, phpUnlink);
 static PHP_METHOD(Phalcon_Assets_Collection, getSourcePath);
 static PHP_METHOD(Phalcon_Assets_Collection, getTargetPath);
@@ -19821,8 +19868,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_collection_phpfwr
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_collection_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_collection_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_collection_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_collection_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -19897,7 +19955,9 @@ ZEPHIR_INIT_FUNCS(phalcon_assets_collection_method_entry) {
 	PHP_ME(Phalcon_Assets_Collection, phpFilePutContents, arginfo_phalcon_assets_collection_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Assets_Collection, phpFopen, arginfo_phalcon_assets_collection_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Assets_Collection, phpFwrite, arginfo_phalcon_assets_collection_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Assets_Collection, phpIsDir, arginfo_phalcon_assets_collection_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Assets_Collection, phpIsWritable, arginfo_phalcon_assets_collection_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Assets_Collection, phpMkdir, arginfo_phalcon_assets_collection_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Assets_Collection, phpUnlink, arginfo_phalcon_assets_collection_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Assets_Collection, getSourcePath, arginfo_phalcon_assets_collection_getsourcepath, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Collection, getTargetPath, arginfo_phalcon_assets_collection_gettargetpath, ZEND_ACC_PUBLIC)
@@ -20157,7 +20217,9 @@ static PHP_METHOD(Phalcon_Assets_Manager, phpFileGetContents);
 static PHP_METHOD(Phalcon_Assets_Manager, phpFilePutContents);
 static PHP_METHOD(Phalcon_Assets_Manager, phpFopen);
 static PHP_METHOD(Phalcon_Assets_Manager, phpFwrite);
+static PHP_METHOD(Phalcon_Assets_Manager, phpIsDir);
 static PHP_METHOD(Phalcon_Assets_Manager, phpIsWritable);
+static PHP_METHOD(Phalcon_Assets_Manager, phpMkdir);
 static PHP_METHOD(Phalcon_Assets_Manager, phpUnlink);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_manager___construct, 0, 0, 1)
@@ -20394,8 +20456,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_assets_manager_phpfwrite
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -20449,7 +20522,9 @@ ZEPHIR_INIT_FUNCS(phalcon_assets_manager_method_entry) {
 	PHP_ME(Phalcon_Assets_Manager, phpFilePutContents, arginfo_phalcon_assets_manager_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Assets_Manager, phpFopen, arginfo_phalcon_assets_manager_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Assets_Manager, phpFwrite, arginfo_phalcon_assets_manager_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Assets_Manager, phpIsDir, arginfo_phalcon_assets_manager_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Assets_Manager, phpIsWritable, arginfo_phalcon_assets_manager_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Assets_Manager, phpMkdir, arginfo_phalcon_assets_manager_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Assets_Manager, phpUnlink, arginfo_phalcon_assets_manager_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
@@ -20678,7 +20753,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_auth_adapter_config_modeladapterconfig_getidcolumn, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_auth_adapter_config_modeladapterconfig_getmodel, 0, 0, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_auth_adapter_config_modeladapterconfig_getmodel, 0, 0, IS_STRING, 1)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_auth_adapter_config_modeladapterconfig_method_entry) {
@@ -20826,7 +20901,9 @@ static PHP_METHOD(Phalcon_Auth_Adapter_Stream, phpFileGetContents);
 static PHP_METHOD(Phalcon_Auth_Adapter_Stream, phpFilePutContents);
 static PHP_METHOD(Phalcon_Auth_Adapter_Stream, phpFopen);
 static PHP_METHOD(Phalcon_Auth_Adapter_Stream, phpFwrite);
+static PHP_METHOD(Phalcon_Auth_Adapter_Stream, phpIsDir);
 static PHP_METHOD(Phalcon_Auth_Adapter_Stream, phpIsWritable);
+static PHP_METHOD(Phalcon_Auth_Adapter_Stream, phpMkdir);
 static PHP_METHOD(Phalcon_Auth_Adapter_Stream, phpUnlink);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_auth_adapter_stream___construct, 0, 0, 2)
@@ -20886,8 +20963,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_auth_adapter_stream_phpf
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_auth_adapter_stream_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_auth_adapter_stream_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_auth_adapter_stream_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_auth_adapter_stream_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -20906,7 +20994,9 @@ ZEPHIR_INIT_FUNCS(phalcon_auth_adapter_stream_method_entry) {
 	PHP_ME(Phalcon_Auth_Adapter_Stream, phpFilePutContents, arginfo_phalcon_auth_adapter_stream_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Auth_Adapter_Stream, phpFopen, arginfo_phalcon_auth_adapter_stream_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Auth_Adapter_Stream, phpFwrite, arginfo_phalcon_auth_adapter_stream_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Auth_Adapter_Stream, phpIsDir, arginfo_phalcon_auth_adapter_stream_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Auth_Adapter_Stream, phpIsWritable, arginfo_phalcon_auth_adapter_stream_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Auth_Adapter_Stream, phpMkdir, arginfo_phalcon_auth_adapter_stream_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Auth_Adapter_Stream, phpUnlink, arginfo_phalcon_auth_adapter_stream_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
@@ -22374,7 +22464,9 @@ static PHP_METHOD(Phalcon_Cli_Console, phpFileGetContents);
 static PHP_METHOD(Phalcon_Cli_Console, phpFilePutContents);
 static PHP_METHOD(Phalcon_Cli_Console, phpFopen);
 static PHP_METHOD(Phalcon_Cli_Console, phpFwrite);
+static PHP_METHOD(Phalcon_Cli_Console, phpIsDir);
 static PHP_METHOD(Phalcon_Cli_Console, phpIsWritable);
+static PHP_METHOD(Phalcon_Cli_Console, phpMkdir);
 static PHP_METHOD(Phalcon_Cli_Console, phpUnlink);
 zend_object *zephir_init_properties_Phalcon_Cli_Console(zend_class_entry *class_type);
 
@@ -22432,8 +22524,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_cli_console_phpfwrite, 0
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_console_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_console_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_console_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_console_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -22454,7 +22557,9 @@ ZEPHIR_INIT_FUNCS(phalcon_cli_console_method_entry) {
 	PHP_ME(Phalcon_Cli_Console, phpFilePutContents, arginfo_phalcon_cli_console_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Cli_Console, phpFopen, arginfo_phalcon_cli_console_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Cli_Console, phpFwrite, arginfo_phalcon_cli_console_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Cli_Console, phpIsDir, arginfo_phalcon_cli_console_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Cli_Console, phpIsWritable, arginfo_phalcon_cli_console_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Cli_Console, phpMkdir, arginfo_phalcon_cli_console_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Cli_Console, phpUnlink, arginfo_phalcon_cli_console_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
@@ -22976,7 +23081,9 @@ static PHP_METHOD(Phalcon_Config_Adapter_Json, phpFileGetContents);
 static PHP_METHOD(Phalcon_Config_Adapter_Json, phpFilePutContents);
 static PHP_METHOD(Phalcon_Config_Adapter_Json, phpFopen);
 static PHP_METHOD(Phalcon_Config_Adapter_Json, phpFwrite);
+static PHP_METHOD(Phalcon_Config_Adapter_Json, phpIsDir);
 static PHP_METHOD(Phalcon_Config_Adapter_Json, phpIsWritable);
+static PHP_METHOD(Phalcon_Config_Adapter_Json, phpMkdir);
 static PHP_METHOD(Phalcon_Config_Adapter_Json, phpUnlink);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_adapter_json___construct, 0, 0, 1)
@@ -23027,8 +23134,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_config_adapter_json_phpf
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_config_adapter_json_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_config_adapter_json_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_config_adapter_json_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_config_adapter_json_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -23045,7 +23163,9 @@ ZEPHIR_INIT_FUNCS(phalcon_config_adapter_json_method_entry) {
 	PHP_ME(Phalcon_Config_Adapter_Json, phpFilePutContents, arginfo_phalcon_config_adapter_json_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Config_Adapter_Json, phpFopen, arginfo_phalcon_config_adapter_json_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Config_Adapter_Json, phpFwrite, arginfo_phalcon_config_adapter_json_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Config_Adapter_Json, phpIsDir, arginfo_phalcon_config_adapter_json_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Config_Adapter_Json, phpIsWritable, arginfo_phalcon_config_adapter_json_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Config_Adapter_Json, phpMkdir, arginfo_phalcon_config_adapter_json_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Config_Adapter_Json, phpUnlink, arginfo_phalcon_config_adapter_json_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
@@ -23317,7 +23437,6 @@ static PHP_METHOD(Phalcon_Container_Container, findProcessor);
 static PHP_METHOD(Phalcon_Container_Container, resolve);
 static PHP_METHOD(Phalcon_Container_Container, resolveAlias);
 static PHP_METHOD(Phalcon_Container_Container, resolveParameter);
-zend_object *zephir_init_properties_Phalcon_Container_Container(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_container_container___construct, 0, 0, 0)
 ZEND_END_ARG_INFO()
@@ -23494,9 +23613,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_container_reso
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_container_container_zephir_init_properties_phalcon_container_container, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_container_container_method_entry) {
 PHP_ME(Phalcon_Container_Container, __construct, arginfo_phalcon_container_container___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Container_Container, bind, arginfo_phalcon_container_container_bind, ZEND_ACC_PUBLIC)
@@ -23547,16 +23663,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Container_ContainerFactory);
 
 static PHP_METHOD(Phalcon_Container_ContainerFactory, addProvider);
 static PHP_METHOD(Phalcon_Container_ContainerFactory, newContainer);
-zend_object *zephir_init_properties_Phalcon_Container_ContainerFactory(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_container_containerfactory_addprovider, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, provider, Phalcon\\Contracts\\Container\\Service\\Provider, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_container_containerfactory_newcontainer, 0, 0, Phalcon\\Container\\Container, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_container_containerfactory_zephir_init_properties_phalcon_container_containerfactory, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_container_containerfactory_method_entry) {
@@ -23686,8 +23798,8 @@ static PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, hasFactory);
 static PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, isCacheable);
 static PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, isFrozen);
 static PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setArgument);
-static PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setContainer);
 static PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setClass);
+static PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setContainer);
 static PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setExtenders);
 static PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setFactory);
 static PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, setIsCacheable);
@@ -23769,12 +23881,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_container_definition_ser
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_container_definition_servicedefinition_setcontainer, 0, 1, MAY_BE_STATIC)
-	ZEND_ARG_INFO(0, container)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_container_definition_servicedefinition_setclass, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, className, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_container_definition_servicedefinition_setcontainer, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_INFO(0, container)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_container_definition_servicedefinition_setextenders, 0, 1, MAY_BE_STATIC)
@@ -23834,8 +23946,8 @@ PHP_ME(Phalcon_Container_Definition_ServiceDefinition, getFactory, arginfo_phalc
 	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, isCacheable, arginfo_phalcon_container_definition_servicedefinition_iscacheable, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, isFrozen, arginfo_phalcon_container_definition_servicedefinition_isfrozen, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, setArgument, arginfo_phalcon_container_definition_servicedefinition_setargument, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, setContainer, arginfo_phalcon_container_definition_servicedefinition_setcontainer, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, setClass, arginfo_phalcon_container_definition_servicedefinition_setclass, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, setContainer, arginfo_phalcon_container_definition_servicedefinition_setcontainer, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, setExtenders, arginfo_phalcon_container_definition_servicedefinition_setextenders, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, setFactory, arginfo_phalcon_container_definition_servicedefinition_setfactory, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Container_Definition_ServiceDefinition, setIsCacheable, arginfo_phalcon_container_definition_servicedefinition_setiscacheable, ZEND_ACC_PUBLIC)
@@ -24096,7 +24208,6 @@ static PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, offsetUnset);
 static PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, resolve);
 static PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, resolveValue);
 static PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, resolveValues);
-zend_object *zephir_init_properties_Phalcon_Container_Resolver_Lazy_ArrayValues(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_container_resolver_lazy_arrayvalues___construct, 0, 0, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, values, IS_ARRAY, 0, "[]")
@@ -24144,9 +24255,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_resolver_lazy_arrayvalues_resolvevalues, 0, 2, IS_ARRAY, 0)
 	ZEND_ARG_INFO(0, ioc)
 	ZEND_ARG_ARRAY_INFO(0, values, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_container_resolver_lazy_arrayvalues_zephir_init_properties_phalcon_container_resolver_lazy_arrayvalues, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_container_resolver_lazy_arrayvalues_method_entry) {
@@ -24580,6 +24688,11 @@ zend_class_entry *phalcon_contracts_acl_acltypes_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Acl_AclTypes);
 
 
+zend_class_entry *phalcon_contracts_annotations_annotationstypes_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Annotations_AnnotationsTypes);
+
+
 zend_class_entry *phalcon_contracts_application_applicationtypes_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Application_ApplicationTypes);
@@ -24608,6 +24721,11 @@ ZEPHIR_INIT_FUNCS(phalcon_contracts_auth_authremember_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Auth_AuthRemember, getRememberToken, arginfo_phalcon_contracts_auth_authremember_getremembertoken)
 	PHP_FE_END
 };
+
+zend_class_entry *phalcon_contracts_auth_authtypes_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Auth_AuthTypes);
+
 
 zend_class_entry *phalcon_contracts_auth_remembertoken_ce;
 
@@ -24642,6 +24760,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_Cli_CliTypes);
 zend_class_entry *phalcon_contracts_config_configtypes_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Config_ConfigTypes);
+
+
+zend_class_entry *phalcon_contracts_container_containertypes_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Container_ContainerTypes);
 
 
 zend_class_entry *phalcon_contracts_container_ioc_ioctypealiases_ce;
@@ -24747,9 +24870,34 @@ ZEPHIR_INIT_FUNCS(phalcon_contracts_container_service_definition_method_entry) {
 	PHP_FE_END
 };
 
+zend_class_entry *phalcon_contracts_datamapper_datamappertypes_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_DataMapper_DataMapperTypes);
+
+
+zend_class_entry *phalcon_contracts_db_dbtypes_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Db_DbTypes);
+
+
+zend_class_entry *phalcon_contracts_di_ditypes_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Di_DiTypes);
+
+
 zend_class_entry *phalcon_contracts_dispatcher_dispatchertypes_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Dispatcher_DispatcherTypes);
+
+
+zend_class_entry *phalcon_contracts_encryption_encryptiontypes_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Encryption_EncryptionTypes);
+
+
+zend_class_entry *phalcon_contracts_events_eventstypes_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Events_EventsTypes);
 
 
 zend_class_entry *phalcon_contracts_events_subscriber_ce;
@@ -24763,6 +24911,26 @@ ZEPHIR_INIT_FUNCS(phalcon_contracts_events_subscriber_method_entry) {
 	ZEND_FENTRY(getSubscribedEvents, NULL, arginfo_phalcon_contracts_events_subscriber_getsubscribedevents, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
+
+zend_class_entry *phalcon_contracts_factory_factorytypes_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Factory_FactoryTypes);
+
+
+zend_class_entry *phalcon_contracts_filter_filtertypes_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Filter_FilterTypes);
+
+
+zend_class_entry *phalcon_contracts_flash_flashtypes_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Flash_FlashTypes);
+
+
+zend_class_entry *phalcon_contracts_forms_formstypes_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Forms_FormsTypes);
+
 
 zend_class_entry *phalcon_contracts_front_fronttypealiases_ce;
 
@@ -24789,6 +24957,11 @@ zend_class_entry *phalcon_contracts_image_imagetypes_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Image_ImageTypes);
 
 
+zend_class_entry *phalcon_contracts_logger_loggertypes_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Logger_LoggerTypes);
+
+
 zend_class_entry *phalcon_contracts_messages_messagestypes_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Messages_MessagesTypes);
@@ -24805,6 +24978,11 @@ ZEPHIR_INIT_FUNCS(phalcon_contracts_mvc_model_relation_cachekeyprovider_method_e
 	PHP_ABSTRACT_ME(Phalcon_Contracts_Mvc_Model_Relation_CacheKeyProvider, getUniqueKey, arginfo_phalcon_contracts_mvc_model_relation_cachekeyprovider_getuniquekey)
 	PHP_FE_END
 };
+
+zend_class_entry *phalcon_contracts_mvc_mvctypes_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Contracts_Mvc_MvcTypes);
+
 
 zend_class_entry *phalcon_contracts_paginator_paginatortypes_ce;
 
@@ -25097,11 +25275,10 @@ static PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, getLogLevel);
 static PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, getMessages);
 static PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, getName);
 static PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, info);
+static PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, log);
 static PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, notice);
 static PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, trace);
 static PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, warning);
-static PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, log);
-zend_object *zephir_init_properties_Phalcon_DataMapper_Pdo_Profiler_MemoryLogger(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_profiler_memorylogger_alert, 0, 1, IS_VOID, 0)
 
@@ -25155,6 +25332,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_profiler_
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, context, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_profiler_memorylogger_log, 0, 2, IS_VOID, 0)
+
+	ZEND_ARG_INFO(0, level)
+	ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 0)
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, context, IS_ARRAY, 0, "[]")
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_profiler_memorylogger_notice, 0, 1, IS_VOID, 0)
 
 	ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 0)
@@ -25173,16 +25357,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_profiler_
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, context, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_profiler_memorylogger_log, 0, 2, IS_VOID, 0)
-
-	ZEND_ARG_INFO(0, level)
-	ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 0)
-ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, context, IS_ARRAY, 0, "[]")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_pdo_profiler_memorylogger_zephir_init_properties_phalcon_datamapper_pdo_profiler_memorylogger, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_datamapper_pdo_profiler_memorylogger_method_entry) {
 	PHP_ME(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, alert, arginfo_phalcon_datamapper_pdo_profiler_memorylogger_alert, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, critical, arginfo_phalcon_datamapper_pdo_profiler_memorylogger_critical, ZEND_ACC_PUBLIC)
@@ -25195,10 +25369,10 @@ ZEPHIR_INIT_FUNCS(phalcon_datamapper_pdo_profiler_memorylogger_method_entry) {
 	PHP_ME(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, getMessages, arginfo_phalcon_datamapper_pdo_profiler_memorylogger_getmessages, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, getName, arginfo_phalcon_datamapper_pdo_profiler_memorylogger_getname, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, info, arginfo_phalcon_datamapper_pdo_profiler_memorylogger_info, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, log, arginfo_phalcon_datamapper_pdo_profiler_memorylogger_log, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, notice, arginfo_phalcon_datamapper_pdo_profiler_memorylogger_notice, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, trace, arginfo_phalcon_datamapper_pdo_profiler_memorylogger_trace, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, warning, arginfo_phalcon_datamapper_pdo_profiler_memorylogger_warning, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, log, arginfo_phalcon_datamapper_pdo_profiler_memorylogger_log, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -25285,7 +25459,6 @@ static PHP_METHOD(Phalcon_DataMapper_Query_Bind, setValues);
 static PHP_METHOD(Phalcon_DataMapper_Query_Bind, toArray);
 static PHP_METHOD(Phalcon_DataMapper_Query_Bind, getType);
 static PHP_METHOD(Phalcon_DataMapper_Query_Bind, inlineArray);
-zend_object *zephir_init_properties_Phalcon_DataMapper_Query_Bind(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_bind_bindinline, 0, 1, IS_STRING, 0)
 	ZEND_ARG_INFO(0, value)
@@ -25322,9 +25495,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_bind_in
 	ZEND_ARG_TYPE_INFO(0, type, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_query_bind_zephir_init_properties_phalcon_datamapper_query_bind, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_datamapper_query_bind_method_entry) {
 	PHP_ME(Phalcon_DataMapper_Query_Bind, bindInline, arginfo_phalcon_datamapper_query_bind_bindinline, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_Bind, remove, arginfo_phalcon_datamapper_query_bind_remove, ZEND_ACC_PUBLIC)
@@ -25342,9 +25512,9 @@ ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Query_Delete);
 
 static PHP_METHOD(Phalcon_DataMapper_Query_Delete, __construct);
 static PHP_METHOD(Phalcon_DataMapper_Query_Delete, from);
-static PHP_METHOD(Phalcon_DataMapper_Query_Delete, returning);
 static PHP_METHOD(Phalcon_DataMapper_Query_Delete, getStatement);
 static PHP_METHOD(Phalcon_DataMapper_Query_Delete, reset);
+static PHP_METHOD(Phalcon_DataMapper_Query_Delete, returning);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_query_delete___construct, 0, 0, 2)
 	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\DataMapper\\Pdo\\Connection, 0)
@@ -25355,22 +25525,22 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_delete_f
 	ZEND_ARG_TYPE_INFO(0, table, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_delete_returning, 0, 1, Phalcon\\DataMapper\\Query\\Delete, 0)
-	ZEND_ARG_ARRAY_INFO(0, columns, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_delete_getstatement, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_delete_reset, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_delete_returning, 0, 1, Phalcon\\DataMapper\\Query\\Delete, 0)
+	ZEND_ARG_ARRAY_INFO(0, columns, 0)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_datamapper_query_delete_method_entry) {
 	PHP_ME(Phalcon_DataMapper_Query_Delete, __construct, arginfo_phalcon_datamapper_query_delete___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_DataMapper_Query_Delete, from, arginfo_phalcon_datamapper_query_delete_from, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_DataMapper_Query_Delete, returning, arginfo_phalcon_datamapper_query_delete_returning, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_Delete, getStatement, arginfo_phalcon_datamapper_query_delete_getstatement, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_Delete, reset, arginfo_phalcon_datamapper_query_delete_reset, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DataMapper_Query_Delete, returning, arginfo_phalcon_datamapper_query_delete_returning, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -25381,11 +25551,11 @@ ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Query_Insert);
 static PHP_METHOD(Phalcon_DataMapper_Query_Insert, __construct);
 static PHP_METHOD(Phalcon_DataMapper_Query_Insert, column);
 static PHP_METHOD(Phalcon_DataMapper_Query_Insert, columns);
-static PHP_METHOD(Phalcon_DataMapper_Query_Insert, into);
 static PHP_METHOD(Phalcon_DataMapper_Query_Insert, getLastInsertId);
 static PHP_METHOD(Phalcon_DataMapper_Query_Insert, getStatement);
-static PHP_METHOD(Phalcon_DataMapper_Query_Insert, returning);
+static PHP_METHOD(Phalcon_DataMapper_Query_Insert, into);
 static PHP_METHOD(Phalcon_DataMapper_Query_Insert, reset);
+static PHP_METHOD(Phalcon_DataMapper_Query_Insert, returning);
 static PHP_METHOD(Phalcon_DataMapper_Query_Insert, set);
 static PHP_METHOD(Phalcon_DataMapper_Query_Insert, buildColumns);
 
@@ -25404,10 +25574,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_insert_c
 	ZEND_ARG_ARRAY_INFO(0, columns, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_insert_into, 0, 1, Phalcon\\DataMapper\\Query\\Insert, 0)
-	ZEND_ARG_TYPE_INFO(0, table, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_insert_getlastinsertid, 0, 0, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, name, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
@@ -25415,11 +25581,15 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_insert_getstatement, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_insert_returning, 0, 1, Phalcon\\DataMapper\\Query\\Insert, 0)
-	ZEND_ARG_ARRAY_INFO(0, columns, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_insert_into, 0, 1, Phalcon\\DataMapper\\Query\\Insert, 0)
+	ZEND_ARG_TYPE_INFO(0, table, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_insert_reset, 0, 0, IS_VOID, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_insert_returning, 0, 1, Phalcon\\DataMapper\\Query\\Insert, 0)
+	ZEND_ARG_ARRAY_INFO(0, columns, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_insert_set, 0, 1, Phalcon\\DataMapper\\Query\\Insert, 0)
@@ -25434,11 +25604,11 @@ ZEPHIR_INIT_FUNCS(phalcon_datamapper_query_insert_method_entry) {
 	PHP_ME(Phalcon_DataMapper_Query_Insert, __construct, arginfo_phalcon_datamapper_query_insert___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_DataMapper_Query_Insert, column, arginfo_phalcon_datamapper_query_insert_column, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_Insert, columns, arginfo_phalcon_datamapper_query_insert_columns, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_DataMapper_Query_Insert, into, arginfo_phalcon_datamapper_query_insert_into, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_Insert, getLastInsertId, arginfo_phalcon_datamapper_query_insert_getlastinsertid, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_Insert, getStatement, arginfo_phalcon_datamapper_query_insert_getstatement, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_DataMapper_Query_Insert, returning, arginfo_phalcon_datamapper_query_insert_returning, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DataMapper_Query_Insert, into, arginfo_phalcon_datamapper_query_insert_into, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_Insert, reset, arginfo_phalcon_datamapper_query_insert_reset, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DataMapper_Query_Insert, returning, arginfo_phalcon_datamapper_query_insert_returning, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_Insert, set, arginfo_phalcon_datamapper_query_insert_set, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_Insert, buildColumns, arginfo_phalcon_datamapper_query_insert_buildcolumns, ZEND_ACC_PRIVATE)
 	PHP_FE_END
@@ -25494,13 +25664,13 @@ ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Query_Select);
 
 static PHP_METHOD(Phalcon_DataMapper_Query_Select, __call);
 static PHP_METHOD(Phalcon_DataMapper_Query_Select, andHaving);
-static PHP_METHOD(Phalcon_DataMapper_Query_Select, asAlias);
 static PHP_METHOD(Phalcon_DataMapper_Query_Select, appendHaving);
 static PHP_METHOD(Phalcon_DataMapper_Query_Select, appendJoin);
+static PHP_METHOD(Phalcon_DataMapper_Query_Select, asAlias);
 static PHP_METHOD(Phalcon_DataMapper_Query_Select, columns);
 static PHP_METHOD(Phalcon_DataMapper_Query_Select, distinct);
-static PHP_METHOD(Phalcon_DataMapper_Query_Select, from);
 static PHP_METHOD(Phalcon_DataMapper_Query_Select, forUpdate);
+static PHP_METHOD(Phalcon_DataMapper_Query_Select, from);
 static PHP_METHOD(Phalcon_DataMapper_Query_Select, getStatement);
 static PHP_METHOD(Phalcon_DataMapper_Query_Select, groupBy);
 static PHP_METHOD(Phalcon_DataMapper_Query_Select, hasColumns);
@@ -25526,10 +25696,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_select_a
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, type, IS_LONG, 0, "-1")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_select_asalias, 0, 1, Phalcon\\DataMapper\\Query\\Select, 0)
-	ZEND_ARG_TYPE_INFO(0, asAlias, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_select_appendhaving, 0, 1, Phalcon\\DataMapper\\Query\\Select, 0)
 	ZEND_ARG_TYPE_INFO(0, condition, IS_STRING, 0)
 	ZEND_ARG_INFO(0, value)
@@ -25542,6 +25708,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_select_a
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, type, IS_LONG, 0, "-1")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_select_asalias, 0, 1, Phalcon\\DataMapper\\Query\\Select, 0)
+	ZEND_ARG_TYPE_INFO(0, asAlias, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_select_columns, 0, 1, Phalcon\\DataMapper\\Query\\Select, 0)
 	ZEND_ARG_ARRAY_INFO(0, columns, 0)
 ZEND_END_ARG_INFO()
@@ -25550,12 +25720,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_select_d
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, enable, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_select_from, 0, 1, Phalcon\\DataMapper\\Query\\Select, 0)
-	ZEND_ARG_TYPE_INFO(0, table, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_select_forupdate, 0, 0, Phalcon\\DataMapper\\Query\\Select, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, enable, _IS_BOOL, 0, "true")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_select_from, 0, 1, Phalcon\\DataMapper\\Query\\Select, 0)
+	ZEND_ARG_TYPE_INFO(0, table, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_select_getstatement, 0, 0, IS_STRING, 0)
@@ -25613,13 +25783,13 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_datamapper_query_select_method_entry) {
 	PHP_ME(Phalcon_DataMapper_Query_Select, __call, arginfo_phalcon_datamapper_query_select___call, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_Select, andHaving, arginfo_phalcon_datamapper_query_select_andhaving, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_DataMapper_Query_Select, asAlias, arginfo_phalcon_datamapper_query_select_asalias, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_Select, appendHaving, arginfo_phalcon_datamapper_query_select_appendhaving, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_Select, appendJoin, arginfo_phalcon_datamapper_query_select_appendjoin, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DataMapper_Query_Select, asAlias, arginfo_phalcon_datamapper_query_select_asalias, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_Select, columns, arginfo_phalcon_datamapper_query_select_columns, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_Select, distinct, arginfo_phalcon_datamapper_query_select_distinct, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_DataMapper_Query_Select, from, arginfo_phalcon_datamapper_query_select_from, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_Select, forUpdate, arginfo_phalcon_datamapper_query_select_forupdate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DataMapper_Query_Select, from, arginfo_phalcon_datamapper_query_select_from, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_Select, getStatement, arginfo_phalcon_datamapper_query_select_getstatement, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_Select, groupBy, arginfo_phalcon_datamapper_query_select_groupby, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_Select, hasColumns, arginfo_phalcon_datamapper_query_select_hascolumns, ZEND_ACC_PUBLIC)
@@ -25646,8 +25816,8 @@ static PHP_METHOD(Phalcon_DataMapper_Query_Update, columns);
 static PHP_METHOD(Phalcon_DataMapper_Query_Update, from);
 static PHP_METHOD(Phalcon_DataMapper_Query_Update, getStatement);
 static PHP_METHOD(Phalcon_DataMapper_Query_Update, hasColumns);
-static PHP_METHOD(Phalcon_DataMapper_Query_Update, returning);
 static PHP_METHOD(Phalcon_DataMapper_Query_Update, reset);
+static PHP_METHOD(Phalcon_DataMapper_Query_Update, returning);
 static PHP_METHOD(Phalcon_DataMapper_Query_Update, set);
 static PHP_METHOD(Phalcon_DataMapper_Query_Update, buildColumns);
 
@@ -25676,11 +25846,11 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_update_hascolumns, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_update_returning, 0, 1, Phalcon\\DataMapper\\Query\\Update, 0)
-	ZEND_ARG_ARRAY_INFO(0, columns, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_update_reset, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_update_reset, 0, 0, IS_VOID, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_update_returning, 0, 1, Phalcon\\DataMapper\\Query\\Update, 0)
+	ZEND_ARG_ARRAY_INFO(0, columns, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_update_set, 0, 1, Phalcon\\DataMapper\\Query\\Update, 0)
@@ -25698,8 +25868,8 @@ ZEPHIR_INIT_FUNCS(phalcon_datamapper_query_update_method_entry) {
 	PHP_ME(Phalcon_DataMapper_Query_Update, from, arginfo_phalcon_datamapper_query_update_from, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_Update, getStatement, arginfo_phalcon_datamapper_query_update_getstatement, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_Update, hasColumns, arginfo_phalcon_datamapper_query_update_hascolumns, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_DataMapper_Query_Update, returning, arginfo_phalcon_datamapper_query_update_returning, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_Update, reset, arginfo_phalcon_datamapper_query_update_reset, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_DataMapper_Query_Update, returning, arginfo_phalcon_datamapper_query_update_returning, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_Update, set, arginfo_phalcon_datamapper_query_update_set, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_DataMapper_Query_Update, buildColumns, arginfo_phalcon_datamapper_query_update_buildcolumns, ZEND_ACC_PRIVATE)
 	PHP_FE_END
@@ -26039,7 +26209,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_column_gettypereference, 0, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_db_column_gettypevalues, 0, 0, MAY_BE_ARRAY|MAY_BE_STRING)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_db_column_gettypevalues, 0, 0, MAY_BE_ARRAY|MAY_BE_STRING|MAY_BE_LONG)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_column_hasdefault, 0, 0, _IS_BOOL, 0)
@@ -28757,8 +28927,8 @@ static PHP_METHOD(Phalcon_Domain_Payload_Payload, getException);
 static PHP_METHOD(Phalcon_Domain_Payload_Payload, getExtras);
 static PHP_METHOD(Phalcon_Domain_Payload_Payload, getInput);
 static PHP_METHOD(Phalcon_Domain_Payload_Payload, getMessages);
-static PHP_METHOD(Phalcon_Domain_Payload_Payload, getStatus);
 static PHP_METHOD(Phalcon_Domain_Payload_Payload, getOutput);
+static PHP_METHOD(Phalcon_Domain_Payload_Payload, getStatus);
 static PHP_METHOD(Phalcon_Domain_Payload_Payload, setException);
 static PHP_METHOD(Phalcon_Domain_Payload_Payload, setExtras);
 static PHP_METHOD(Phalcon_Domain_Payload_Payload, setInput);
@@ -28778,10 +28948,10 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_domain_payload_payload_getmessages, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_domain_payload_payload_getstatus, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_domain_payload_payload_getoutput, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_domain_payload_payload_getoutput, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_domain_payload_payload_getstatus, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_domain_payload_payload_setexception, 0, 1, Phalcon\\Domain\\Payload\\PayloadInterface, 0)
@@ -28813,8 +28983,8 @@ ZEPHIR_INIT_FUNCS(phalcon_domain_payload_payload_method_entry) {
 PHP_ME(Phalcon_Domain_Payload_Payload, getExtras, arginfo_phalcon_domain_payload_payload_getextras, ZEND_ACC_PUBLIC)
 PHP_ME(Phalcon_Domain_Payload_Payload, getInput, arginfo_phalcon_domain_payload_payload_getinput, ZEND_ACC_PUBLIC)
 PHP_ME(Phalcon_Domain_Payload_Payload, getMessages, arginfo_phalcon_domain_payload_payload_getmessages, ZEND_ACC_PUBLIC)
-PHP_ME(Phalcon_Domain_Payload_Payload, getStatus, arginfo_phalcon_domain_payload_payload_getstatus, ZEND_ACC_PUBLIC)
 PHP_ME(Phalcon_Domain_Payload_Payload, getOutput, arginfo_phalcon_domain_payload_payload_getoutput, ZEND_ACC_PUBLIC)
+PHP_ME(Phalcon_Domain_Payload_Payload, getStatus, arginfo_phalcon_domain_payload_payload_getstatus, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Domain_Payload_Payload, setException, arginfo_phalcon_domain_payload_payload_setexception, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Domain_Payload_Payload, setExtras, arginfo_phalcon_domain_payload_payload_setextras, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Domain_Payload_Payload, setInput, arginfo_phalcon_domain_payload_payload_setinput, ZEND_ACC_PUBLIC)
@@ -28861,30 +29031,30 @@ static PHP_METHOD(Phalcon_Encryption_Crypt, decrypt);
 static PHP_METHOD(Phalcon_Encryption_Crypt, decryptBase64);
 static PHP_METHOD(Phalcon_Encryption_Crypt, encrypt);
 static PHP_METHOD(Phalcon_Encryption_Crypt, encryptBase64);
-static PHP_METHOD(Phalcon_Encryption_Crypt, getAvailableCiphers);
 static PHP_METHOD(Phalcon_Encryption_Crypt, getAuthData);
 static PHP_METHOD(Phalcon_Encryption_Crypt, getAuthTag);
 static PHP_METHOD(Phalcon_Encryption_Crypt, getAuthTagLength);
+static PHP_METHOD(Phalcon_Encryption_Crypt, getAvailableCiphers);
 static PHP_METHOD(Phalcon_Encryption_Crypt, getAvailableHashAlgorithms);
-static PHP_METHOD(Phalcon_Encryption_Crypt, getHashAlgorithm);
 static PHP_METHOD(Phalcon_Encryption_Crypt, getCipher);
+static PHP_METHOD(Phalcon_Encryption_Crypt, getHashAlgorithm);
 static PHP_METHOD(Phalcon_Encryption_Crypt, getKey);
 static PHP_METHOD(Phalcon_Encryption_Crypt, isValidDecryptLength);
 static PHP_METHOD(Phalcon_Encryption_Crypt, setAuthData);
 static PHP_METHOD(Phalcon_Encryption_Crypt, setAuthTag);
 static PHP_METHOD(Phalcon_Encryption_Crypt, setAuthTagLength);
 static PHP_METHOD(Phalcon_Encryption_Crypt, setCipher);
-static PHP_METHOD(Phalcon_Encryption_Crypt, setKey);
 static PHP_METHOD(Phalcon_Encryption_Crypt, setHashAlgorithm);
+static PHP_METHOD(Phalcon_Encryption_Crypt, setKey);
 static PHP_METHOD(Phalcon_Encryption_Crypt, setPadding);
 static PHP_METHOD(Phalcon_Encryption_Crypt, useSigning);
 static PHP_METHOD(Phalcon_Encryption_Crypt, checkCipherHashIsAvailable);
 static PHP_METHOD(Phalcon_Encryption_Crypt, cryptPadText);
 static PHP_METHOD(Phalcon_Encryption_Crypt, cryptUnpadText);
-static PHP_METHOD(Phalcon_Encryption_Crypt, decryptGetUnpadded);
 static PHP_METHOD(Phalcon_Encryption_Crypt, decryptGcmCcmAuth);
-static PHP_METHOD(Phalcon_Encryption_Crypt, encryptGetPadded);
+static PHP_METHOD(Phalcon_Encryption_Crypt, decryptGetUnpadded);
 static PHP_METHOD(Phalcon_Encryption_Crypt, encryptGcmCcm);
+static PHP_METHOD(Phalcon_Encryption_Crypt, encryptGetPadded);
 static PHP_METHOD(Phalcon_Encryption_Crypt, initializeAvailableCiphers);
 static PHP_METHOD(Phalcon_Encryption_Crypt, checkIsMode);
 static PHP_METHOD(Phalcon_Encryption_Crypt, getBlockSize);
@@ -28901,7 +29071,6 @@ static PHP_METHOD(Phalcon_Encryption_Crypt, phpExtensionLoaded);
 static PHP_METHOD(Phalcon_Encryption_Crypt, phpFunctionExists);
 static PHP_METHOD(Phalcon_Encryption_Crypt, phpOpensslCipherIvLength);
 static PHP_METHOD(Phalcon_Encryption_Crypt, phpOpensslRandomPseudoBytes);
-zend_object *zephir_init_properties_Phalcon_Encryption_Crypt(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_encryption_crypt___construct, 0, 0, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, cipher, IS_STRING, 0, "'aes-256-cfb'")
@@ -28931,9 +29100,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_crypt_encrypt
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, safe, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_crypt_getavailableciphers, 0, 0, IS_ARRAY, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_crypt_getauthdata, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
@@ -28943,13 +29109,16 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_crypt_getauthtaglength, 0, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_crypt_getavailableciphers, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_crypt_getavailablehashalgorithms, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_crypt_gethashalgorithm, 0, 0, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_crypt_getcipher, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_crypt_getcipher, 0, 0, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_crypt_gethashalgorithm, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_crypt_getkey, 0, 0, IS_STRING, 0)
@@ -28975,12 +29144,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_crypt_setciphe
 	ZEND_ARG_TYPE_INFO(0, cipher, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_crypt_setkey, 0, 1, Phalcon\\Encryption\\Crypt\\CryptInterface, 0)
-	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_crypt_sethashalgorithm, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, hashAlgorithm, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_crypt_setkey, 0, 1, Phalcon\\Encryption\\Crypt\\CryptInterface, 0)
+	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_crypt_setpadding, 0, 1, Phalcon\\Encryption\\Crypt\\CryptInterface, 0)
@@ -29011,12 +29180,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_crypt_cryptun
 	ZEND_ARG_TYPE_INFO(0, paddingType, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_crypt_decryptgetunpadded, 0, 3, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, mode, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, blockSize, IS_LONG, 0)
-	ZEND_ARG_TYPE_INFO(0, decrypted, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_crypt_decryptgcmccmauth, 0, 4, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, mode, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, cipherText, IS_STRING, 0)
@@ -29024,10 +29187,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_crypt_decrypt
 	ZEND_ARG_TYPE_INFO(0, iv, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_crypt_encryptgetpadded, 0, 3, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_crypt_decryptgetunpadded, 0, 3, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, mode, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, blockSize, IS_LONG, 0)
+	ZEND_ARG_TYPE_INFO(0, decrypted, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_crypt_encryptgcmccm, 0, 4, IS_STRING, 0)
@@ -29035,6 +29198,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_crypt_encrypt
 	ZEND_ARG_TYPE_INFO(0, padded, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, encryptKey, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, iv, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_crypt_encryptgetpadded, 0, 3, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, mode, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, blockSize, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_crypt_initializeavailableciphers, 0, 0, MAY_BE_STATIC)
@@ -29107,39 +29276,36 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_encryption_crypt_phpopensslrandompseudoby
 	ZEND_ARG_TYPE_INFO(0, length, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_encryption_crypt_zephir_init_properties_phalcon_encryption_crypt, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_encryption_crypt_method_entry) {
 	PHP_ME(Phalcon_Encryption_Crypt, __construct, arginfo_phalcon_encryption_crypt___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Encryption_Crypt, decrypt, arginfo_phalcon_encryption_crypt_decrypt, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Crypt, decryptBase64, arginfo_phalcon_encryption_crypt_decryptbase64, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Crypt, encrypt, arginfo_phalcon_encryption_crypt_encrypt, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Crypt, encryptBase64, arginfo_phalcon_encryption_crypt_encryptbase64, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Encryption_Crypt, getAvailableCiphers, arginfo_phalcon_encryption_crypt_getavailableciphers, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Crypt, getAuthData, arginfo_phalcon_encryption_crypt_getauthdata, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Crypt, getAuthTag, arginfo_phalcon_encryption_crypt_getauthtag, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Crypt, getAuthTagLength, arginfo_phalcon_encryption_crypt_getauthtaglength, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Encryption_Crypt, getAvailableCiphers, arginfo_phalcon_encryption_crypt_getavailableciphers, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Crypt, getAvailableHashAlgorithms, arginfo_phalcon_encryption_crypt_getavailablehashalgorithms, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Encryption_Crypt, getHashAlgorithm, arginfo_phalcon_encryption_crypt_gethashalgorithm, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Crypt, getCipher, arginfo_phalcon_encryption_crypt_getcipher, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Encryption_Crypt, getHashAlgorithm, arginfo_phalcon_encryption_crypt_gethashalgorithm, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Crypt, getKey, arginfo_phalcon_encryption_crypt_getkey, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Crypt, isValidDecryptLength, arginfo_phalcon_encryption_crypt_isvaliddecryptlength, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Crypt, setAuthData, arginfo_phalcon_encryption_crypt_setauthdata, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Crypt, setAuthTag, arginfo_phalcon_encryption_crypt_setauthtag, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Crypt, setAuthTagLength, arginfo_phalcon_encryption_crypt_setauthtaglength, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Crypt, setCipher, arginfo_phalcon_encryption_crypt_setcipher, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Encryption_Crypt, setKey, arginfo_phalcon_encryption_crypt_setkey, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Crypt, setHashAlgorithm, arginfo_phalcon_encryption_crypt_sethashalgorithm, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Encryption_Crypt, setKey, arginfo_phalcon_encryption_crypt_setkey, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Crypt, setPadding, arginfo_phalcon_encryption_crypt_setpadding, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Crypt, useSigning, arginfo_phalcon_encryption_crypt_usesigning, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Crypt, checkCipherHashIsAvailable, arginfo_phalcon_encryption_crypt_checkcipherhashisavailable, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Encryption_Crypt, cryptPadText, arginfo_phalcon_encryption_crypt_cryptpadtext, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Encryption_Crypt, cryptUnpadText, arginfo_phalcon_encryption_crypt_cryptunpadtext, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Encryption_Crypt, decryptGetUnpadded, arginfo_phalcon_encryption_crypt_decryptgetunpadded, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Encryption_Crypt, decryptGcmCcmAuth, arginfo_phalcon_encryption_crypt_decryptgcmccmauth, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Encryption_Crypt, encryptGetPadded, arginfo_phalcon_encryption_crypt_encryptgetpadded, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Encryption_Crypt, decryptGetUnpadded, arginfo_phalcon_encryption_crypt_decryptgetunpadded, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Encryption_Crypt, encryptGcmCcm, arginfo_phalcon_encryption_crypt_encryptgcmccm, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Encryption_Crypt, encryptGetPadded, arginfo_phalcon_encryption_crypt_encryptgetpadded, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Encryption_Crypt, initializeAvailableCiphers, arginfo_phalcon_encryption_crypt_initializeavailableciphers, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Encryption_Crypt, checkIsMode, arginfo_phalcon_encryption_crypt_checkismode, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Encryption_Crypt, getBlockSize, arginfo_phalcon_encryption_crypt_getblocksize, ZEND_ACC_PRIVATE)
@@ -29341,6 +29507,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Crypt_PadFactory);
 static PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, __construct);
 static PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, newInstance);
 static PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, padNumberToService);
+static PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, getExceptionClass);
 static PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, getServices);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_encryption_crypt_padfactory___construct, 0, 0, 0)
@@ -29355,6 +29522,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_crypt_padfact
 	ZEND_ARG_TYPE_INFO(0, number, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_crypt_padfactory_getexceptionclass, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_crypt_padfactory_getservices, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
@@ -29362,6 +29532,7 @@ ZEPHIR_INIT_FUNCS(phalcon_encryption_crypt_padfactory_method_entry) {
 	PHP_ME(Phalcon_Encryption_Crypt_PadFactory, __construct, arginfo_phalcon_encryption_crypt_padfactory___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Encryption_Crypt_PadFactory, newInstance, arginfo_phalcon_encryption_crypt_padfactory_newinstance, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Crypt_PadFactory, padNumberToService, arginfo_phalcon_encryption_crypt_padfactory_padnumbertoservice, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Encryption_Crypt_PadFactory, getExceptionClass, arginfo_phalcon_encryption_crypt_padfactory_getexceptionclass, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Encryption_Crypt_PadFactory, getServices, arginfo_phalcon_encryption_crypt_padfactory_getservices, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };
@@ -29534,8 +29705,8 @@ static PHP_METHOD(Phalcon_Encryption_Security, getHashInformation);
 static PHP_METHOD(Phalcon_Encryption_Security, getRandom);
 static PHP_METHOD(Phalcon_Encryption_Security, getRandomBytes);
 static PHP_METHOD(Phalcon_Encryption_Security, getRequestToken);
-static PHP_METHOD(Phalcon_Encryption_Security, getSessionToken);
 static PHP_METHOD(Phalcon_Encryption_Security, getSaltBytes);
+static PHP_METHOD(Phalcon_Encryption_Security, getSessionToken);
 static PHP_METHOD(Phalcon_Encryption_Security, getToken);
 static PHP_METHOD(Phalcon_Encryption_Security, getTokenKey);
 static PHP_METHOD(Phalcon_Encryption_Security, getWorkFactor);
@@ -29599,11 +29770,11 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_getrequesttoken, 0, 0, IS_STRING, 1)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_getsessiontoken, 0, 0, IS_STRING, 1)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_getsaltbytes, 0, 0, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, numberBytes, IS_LONG, 0, "0")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_getsessiontoken, 0, 0, IS_STRING, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_gettoken, 0, 0, IS_STRING, 1)
@@ -29697,8 +29868,8 @@ ZEPHIR_INIT_FUNCS(phalcon_encryption_security_method_entry) {
 	PHP_ME(Phalcon_Encryption_Security, getRandom, arginfo_phalcon_encryption_security_getrandom, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security, getRandomBytes, arginfo_phalcon_encryption_security_getrandombytes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security, getRequestToken, arginfo_phalcon_encryption_security_getrequesttoken, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Encryption_Security, getSessionToken, arginfo_phalcon_encryption_security_getsessiontoken, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security, getSaltBytes, arginfo_phalcon_encryption_security_getsaltbytes, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Encryption_Security, getSessionToken, arginfo_phalcon_encryption_security_getsessiontoken, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security, getToken, arginfo_phalcon_encryption_security_gettoken, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security, getTokenKey, arginfo_phalcon_encryption_security_gettokenkey, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security, getWorkFactor, arginfo_phalcon_encryption_security_getworkfactor, ZEND_ACC_PUBLIC)
@@ -30375,12 +30546,12 @@ zend_class_entry *phalcon_encryption_security_jwt_validator_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Validator);
 
 static PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, __construct);
-static PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, getErrors);
 static PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, get);
+static PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, getErrors);
 static PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, set);
 static PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, setToken);
-static PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateClaim);
 static PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateAudience);
+static PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateClaim);
 static PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateExpiration);
 static PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateId);
 static PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateIssuedAt);
@@ -30389,7 +30560,6 @@ static PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateNotBefore);
 static PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateSignature);
 static PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateSubject);
 static PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, getTimestamp);
-zend_object *zephir_init_properties_Phalcon_Encryption_Security_JWT_Validator(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_encryption_security_jwt_validator___construct, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, token, Phalcon\\Encryption\\Security\\JWT\\Token\\Token, 0)
@@ -30397,11 +30567,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_encryption_security_jwt_validator___const
 	ZEND_ARG_OBJ_TYPE_MASK(0, clock, Phalcon\\Time\\Clock\\ClockInterface, MAY_BE_NULL, "null")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_jwt_validator_geterrors, 0, 0, IS_ARRAY, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_jwt_validator_get, 0, 1, IS_MIXED, 1)
 	ZEND_ARG_TYPE_INFO(0, claim, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_jwt_validator_geterrors, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_validator_set, 0, 2, MAY_BE_STATIC)
@@ -30413,13 +30583,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_
 	ZEND_ARG_OBJ_INFO(0, token, Phalcon\\Encryption\\Security\\JWT\\Token\\Token, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_validator_validateaudience, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_INFO(0, audience)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_validator_validateclaim, 0, 2, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 	ZEND_ARG_INFO(0, value)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_validator_validateaudience, 0, 1, MAY_BE_STATIC)
-	ZEND_ARG_INFO(0, audience)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_jwt_validator_validateexpiration, 0, 1, MAY_BE_STATIC)
@@ -30455,17 +30625,14 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_jwt_
 	ZEND_ARG_TYPE_INFO(0, timestamp, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_encryption_security_jwt_validator_zephir_init_properties_phalcon_encryption_security_jwt_validator, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_encryption_security_jwt_validator_method_entry) {
 	PHP_ME(Phalcon_Encryption_Security_JWT_Validator, __construct, arginfo_phalcon_encryption_security_jwt_validator___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(Phalcon_Encryption_Security_JWT_Validator, getErrors, arginfo_phalcon_encryption_security_jwt_validator_geterrors, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security_JWT_Validator, get, arginfo_phalcon_encryption_security_jwt_validator_get, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Encryption_Security_JWT_Validator, getErrors, arginfo_phalcon_encryption_security_jwt_validator_geterrors, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security_JWT_Validator, set, arginfo_phalcon_encryption_security_jwt_validator_set, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security_JWT_Validator, setToken, arginfo_phalcon_encryption_security_jwt_validator_settoken, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Encryption_Security_JWT_Validator, validateClaim, arginfo_phalcon_encryption_security_jwt_validator_validateclaim, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security_JWT_Validator, validateAudience, arginfo_phalcon_encryption_security_jwt_validator_validateaudience, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Encryption_Security_JWT_Validator, validateClaim, arginfo_phalcon_encryption_security_jwt_validator_validateclaim, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security_JWT_Validator, validateExpiration, arginfo_phalcon_encryption_security_jwt_validator_validateexpiration, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security_JWT_Validator, validateId, arginfo_phalcon_encryption_security_jwt_validator_validateid, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security_JWT_Validator, validateIssuedAt, arginfo_phalcon_encryption_security_jwt_validator_validateissuedat, ZEND_ACC_PUBLIC)
@@ -30490,6 +30657,10 @@ static PHP_METHOD(Phalcon_Encryption_Security_Random, hex);
 static PHP_METHOD(Phalcon_Encryption_Security_Random, number);
 static PHP_METHOD(Phalcon_Encryption_Security_Random, uuid);
 static PHP_METHOD(Phalcon_Encryption_Security_Random, base);
+static PHP_METHOD(Phalcon_Encryption_Security_Random, doDecodeUrl);
+static PHP_METHOD(Phalcon_Encryption_Security_Random, doEncodeUrl);
+static PHP_METHOD(Phalcon_Encryption_Security_Random, phpBase64Decode);
+static PHP_METHOD(Phalcon_Encryption_Security_Random, phpBase64Encode);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_random_base58, 0, 0, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, len, IS_LONG, 0, "16")
@@ -30529,6 +30700,23 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_rand
 	ZEND_ARG_INFO(0, number)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_random_dodecodeurl, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_random_doencodeurl, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_random_phpbase64decode, 0, 1, MAY_BE_STRING|MAY_BE_FALSE)
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, strict, _IS_BOOL, 0, "false")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_random_phpbase64encode, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_encryption_security_random_method_entry) {
 	PHP_ME(Phalcon_Encryption_Security_Random, base58, arginfo_phalcon_encryption_security_random_base58, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security_Random, base62, arginfo_phalcon_encryption_security_random_base62, ZEND_ACC_PUBLIC)
@@ -30539,6 +30727,10 @@ ZEPHIR_INIT_FUNCS(phalcon_encryption_security_random_method_entry) {
 	PHP_ME(Phalcon_Encryption_Security_Random, number, arginfo_phalcon_encryption_security_random_number, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security_Random, uuid, arginfo_phalcon_encryption_security_random_uuid, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Encryption_Security_Random, base, arginfo_phalcon_encryption_security_random_base, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Encryption_Security_Random, doDecodeUrl, arginfo_phalcon_encryption_security_random_dodecodeurl, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Encryption_Security_Random, doEncodeUrl, arginfo_phalcon_encryption_security_random_doencodeurl, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Encryption_Security_Random, phpBase64Decode, arginfo_phalcon_encryption_security_random_phpbase64decode, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Encryption_Security_Random, phpBase64Encode, arginfo_phalcon_encryption_security_random_phpbase64encode, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
 
@@ -30612,7 +30804,9 @@ static PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpFileGetCo
 static PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpFilePutContents);
 static PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpFopen);
 static PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpFwrite);
+static PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpIsDir);
 static PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpIsWritable);
+static PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpMkdir);
 static PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpUnlink);
 static PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpExtensionLoaded);
 static PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpFunctionExists);
@@ -30668,8 +30862,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_encryption_security_uuid
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -30695,7 +30900,9 @@ ZEPHIR_INIT_FUNCS(phalcon_encryption_security_uuid_sysnodeprovider_method_entry)
 	PHP_ME(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpFilePutContents, arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpFopen, arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpFwrite, arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpIsDir, arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpIsWritable, arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpMkdir, arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpUnlink, arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpExtensionLoaded, arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpextensionloaded, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpFunctionExists, arginfo_phalcon_encryption_security_uuid_sysnodeprovider_phpfunctionexists, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
@@ -30971,8 +31178,8 @@ zend_class_entry *phalcon_events_manager_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Events_Manager);
 
 static PHP_METHOD(Phalcon_Events_Manager, addSubscriber);
-static PHP_METHOD(Phalcon_Events_Manager, attach);
 static PHP_METHOD(Phalcon_Events_Manager, arePrioritiesEnabled);
+static PHP_METHOD(Phalcon_Events_Manager, attach);
 static PHP_METHOD(Phalcon_Events_Manager, clearSubscribers);
 static PHP_METHOD(Phalcon_Events_Manager, collectResponses);
 static PHP_METHOD(Phalcon_Events_Manager, detach);
@@ -30982,12 +31189,12 @@ static PHP_METHOD(Phalcon_Events_Manager, enablePriorities);
 static PHP_METHOD(Phalcon_Events_Manager, fire);
 static PHP_METHOD(Phalcon_Events_Manager, fireAll);
 static PHP_METHOD(Phalcon_Events_Manager, fireQueue);
-static PHP_METHOD(Phalcon_Events_Manager, halt);
 static PHP_METHOD(Phalcon_Events_Manager, getListenerMap);
 static PHP_METHOD(Phalcon_Events_Manager, getListeners);
 static PHP_METHOD(Phalcon_Events_Manager, getMethodExistsCacheLimit);
 static PHP_METHOD(Phalcon_Events_Manager, getResponses);
 static PHP_METHOD(Phalcon_Events_Manager, getSubscribers);
+static PHP_METHOD(Phalcon_Events_Manager, halt);
 static PHP_METHOD(Phalcon_Events_Manager, hasListeners);
 static PHP_METHOD(Phalcon_Events_Manager, isCollecting);
 static PHP_METHOD(Phalcon_Events_Manager, isHalted);
@@ -31001,15 +31208,17 @@ static PHP_METHOD(Phalcon_Events_Manager, setStopOnFalse);
 static PHP_METHOD(Phalcon_Events_Manager, setStrict);
 static PHP_METHOD(Phalcon_Events_Manager, afterFire);
 static PHP_METHOD(Phalcon_Events_Manager, beforeFire);
-static PHP_METHOD(Phalcon_Events_Manager, runObjectQueue);
-static PHP_METHOD(Phalcon_Events_Manager, runQueue);
 static PHP_METHOD(Phalcon_Events_Manager, insertHandlerEntry);
 static PHP_METHOD(Phalcon_Events_Manager, processSubscriberEntry);
-zend_object *zephir_init_properties_Phalcon_Events_Manager(zend_class_entry *class_type);
+static PHP_METHOD(Phalcon_Events_Manager, runObjectQueue);
+static PHP_METHOD(Phalcon_Events_Manager, runQueue);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_events_manager_addsubscriber, 0, 1, IS_VOID, 0)
 
 	ZEND_ARG_OBJ_INFO(0, subscriber, Phalcon\\Contracts\\Events\\Subscriber, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_events_manager_areprioritiesenabled, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_events_manager_attach, 0, 2, IS_VOID, 0)
@@ -31017,9 +31226,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_events_manager_attach, 0
 	ZEND_ARG_TYPE_INFO(0, eventType, IS_STRING, 0)
 	ZEND_ARG_INFO(0, handler)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, priority, IS_LONG, 0, "100")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_events_manager_areprioritiesenabled, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_events_manager_clearsubscribers, 0, 0, IS_VOID, 0)
@@ -31072,9 +31278,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_firequeue, 0, 0, 2)
 	ZEND_ARG_OBJ_INFO(0, event, Phalcon\\Events\\EventInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_events_manager_halt, 0, 0, IS_VOID, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_events_manager_getlistenermap, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
@@ -31089,6 +31292,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_events_manager_getrespon
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_events_manager_getsubscribers, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_events_manager_halt, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_events_manager_haslisteners, 0, 1, _IS_BOOL, 0)
@@ -31149,23 +31355,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_events_manager_beforefir
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, cancelable, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_runobjectqueue, 0, 0, 3)
-	ZEND_ARG_ARRAY_INFO(0, queue, 0)
-	ZEND_ARG_INFO(0, event)
-	ZEND_ARG_INFO(0, methodName)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_runqueue, 0, 0, 8)
-	ZEND_ARG_ARRAY_INFO(0, queue, 0)
-	ZEND_ARG_OBJ_INFO(0, event, Phalcon\\Events\\EventInterface, 0)
-	ZEND_ARG_TYPE_INFO(0, eventName, IS_STRING, 0)
-	ZEND_ARG_INFO(0, source)
-	ZEND_ARG_INFO(0, data)
-	ZEND_ARG_TYPE_INFO(0, cancelable, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, collect, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, stopOnFalse, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_events_manager_inserthandlerentry, 0, 4, IS_VOID, 0)
 
 	ZEND_ARG_TYPE_INFO(0, eventType, IS_STRING, 0)
@@ -31183,13 +31372,27 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_events_manager_processsu
 	ZEND_ARG_TYPE_INFO(0, detaching, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_zephir_init_properties_phalcon_events_manager, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_runobjectqueue, 0, 0, 3)
+	ZEND_ARG_ARRAY_INFO(0, queue, 0)
+	ZEND_ARG_INFO(0, event)
+	ZEND_ARG_INFO(0, methodName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_runqueue, 0, 0, 8)
+	ZEND_ARG_ARRAY_INFO(0, queue, 0)
+	ZEND_ARG_OBJ_INFO(0, event, Phalcon\\Events\\EventInterface, 0)
+	ZEND_ARG_TYPE_INFO(0, eventName, IS_STRING, 0)
+	ZEND_ARG_INFO(0, source)
+	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_TYPE_INFO(0, cancelable, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, collect, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, stopOnFalse, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_events_manager_method_entry) {
 	PHP_ME(Phalcon_Events_Manager, addSubscriber, arginfo_phalcon_events_manager_addsubscriber, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Events_Manager, attach, arginfo_phalcon_events_manager_attach, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Manager, arePrioritiesEnabled, arginfo_phalcon_events_manager_areprioritiesenabled, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Manager, attach, arginfo_phalcon_events_manager_attach, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Manager, clearSubscribers, arginfo_phalcon_events_manager_clearsubscribers, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Manager, collectResponses, arginfo_phalcon_events_manager_collectresponses, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Manager, detach, arginfo_phalcon_events_manager_detach, ZEND_ACC_PUBLIC)
@@ -31199,12 +31402,12 @@ ZEPHIR_INIT_FUNCS(phalcon_events_manager_method_entry) {
 	PHP_ME(Phalcon_Events_Manager, fire, arginfo_phalcon_events_manager_fire, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Manager, fireAll, arginfo_phalcon_events_manager_fireall, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Manager, fireQueue, arginfo_phalcon_events_manager_firequeue, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Events_Manager, halt, arginfo_phalcon_events_manager_halt, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Manager, getListenerMap, arginfo_phalcon_events_manager_getlistenermap, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Manager, getListeners, arginfo_phalcon_events_manager_getlisteners, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Manager, getMethodExistsCacheLimit, arginfo_phalcon_events_manager_getmethodexistscachelimit, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Manager, getResponses, arginfo_phalcon_events_manager_getresponses, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Manager, getSubscribers, arginfo_phalcon_events_manager_getsubscribers, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Events_Manager, halt, arginfo_phalcon_events_manager_halt, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Manager, hasListeners, arginfo_phalcon_events_manager_haslisteners, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Manager, isCollecting, arginfo_phalcon_events_manager_iscollecting, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Manager, isHalted, arginfo_phalcon_events_manager_ishalted, ZEND_ACC_PUBLIC)
@@ -31218,10 +31421,10 @@ ZEPHIR_INIT_FUNCS(phalcon_events_manager_method_entry) {
 	PHP_ME(Phalcon_Events_Manager, setStrict, arginfo_phalcon_events_manager_setstrict, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Manager, afterFire, arginfo_phalcon_events_manager_afterfire, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Events_Manager, beforeFire, arginfo_phalcon_events_manager_beforefire, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Events_Manager, runObjectQueue, arginfo_phalcon_events_manager_runobjectqueue, ZEND_ACC_PRIVATE)
-	PHP_ME(Phalcon_Events_Manager, runQueue, arginfo_phalcon_events_manager_runqueue, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Events_Manager, insertHandlerEntry, arginfo_phalcon_events_manager_inserthandlerentry, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Events_Manager, processSubscriberEntry, arginfo_phalcon_events_manager_processsubscriberentry, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Events_Manager, runObjectQueue, arginfo_phalcon_events_manager_runobjectqueue, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Events_Manager, runQueue, arginfo_phalcon_events_manager_runqueue, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };
 
@@ -31281,8 +31484,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Filter);
 
 static PHP_METHOD(Phalcon_Filter_Filter, __construct);
 static PHP_METHOD(Phalcon_Filter_Filter, __call);
-static PHP_METHOD(Phalcon_Filter_Filter, get);
 static PHP_METHOD(Phalcon_Filter_Filter, getDefaultMapper);
+static PHP_METHOD(Phalcon_Filter_Filter, get);
 static PHP_METHOD(Phalcon_Filter_Filter, has);
 static PHP_METHOD(Phalcon_Filter_Filter, sanitize);
 static PHP_METHOD(Phalcon_Filter_Filter, set);
@@ -31290,11 +31493,10 @@ static PHP_METHOD(Phalcon_Filter_Filter, init);
 static PHP_METHOD(Phalcon_Filter_Filter, createInstance);
 static PHP_METHOD(Phalcon_Filter_Filter, processArraySanitizers);
 static PHP_METHOD(Phalcon_Filter_Filter, processArrayValues);
-static PHP_METHOD(Phalcon_Filter_Filter, sanitizer);
 static PHP_METHOD(Phalcon_Filter_Filter, processValueIsArray);
 static PHP_METHOD(Phalcon_Filter_Filter, processValueIsNotArray);
+static PHP_METHOD(Phalcon_Filter_Filter, sanitizer);
 static PHP_METHOD(Phalcon_Filter_Filter, splitSanitizerParameters);
-zend_object *zephir_init_properties_Phalcon_Filter_Filter(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_filter___construct, 0, 0, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, mapper, IS_ARRAY, 0, "[]")
@@ -31305,11 +31507,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_filter___call, 0, 0, 2)
 	ZEND_ARG_ARRAY_INFO(0, args, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_filter_get, 0, 0, 1)
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_filter_getdefaultmapper, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_filter_getdefaultmapper, 0, 0, IS_ARRAY, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_filter_get, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_filter_has, 0, 1, _IS_BOOL, 0)
@@ -31349,12 +31551,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_filter_processarr
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, sanitizerParams, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_filter_sanitizer, 0, 0, 2)
-	ZEND_ARG_INFO(0, value)
-	ZEND_ARG_TYPE_INFO(0, sanitizerName, IS_STRING, 0)
-ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, sanitizerParams, IS_ARRAY, 0, "[]")
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_filter_processvalueisarray, 0, 0, 4)
 	ZEND_ARG_INFO(0, value)
 	ZEND_ARG_TYPE_INFO(0, sanitizerName, IS_STRING, 0)
@@ -31368,19 +31564,22 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_filter_processvalueisnotarray, 0, 
 	ZEND_ARG_ARRAY_INFO(0, sanitizerParams, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_filter_sanitizer, 0, 0, 2)
+	ZEND_ARG_INFO(0, value)
+	ZEND_ARG_TYPE_INFO(0, sanitizerName, IS_STRING, 0)
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, sanitizerParams, IS_ARRAY, 0, "[]")
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_filter_splitsanitizerparameters, 0, 2, IS_ARRAY, 0)
 	ZEND_ARG_INFO(0, sanitizerKey)
 	ZEND_ARG_INFO(0, sanitizer)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_filter_zephir_init_properties_phalcon_filter_filter, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_filter_filter_method_entry) {
 	PHP_ME(Phalcon_Filter_Filter, __construct, arginfo_phalcon_filter_filter___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Filter_Filter, __call, arginfo_phalcon_filter_filter___call, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Filter_Filter, get, arginfo_phalcon_filter_filter_get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Filter, getDefaultMapper, arginfo_phalcon_filter_filter_getdefaultmapper, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Filter_Filter, get, arginfo_phalcon_filter_filter_get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Filter, has, arginfo_phalcon_filter_filter_has, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Filter, sanitize, arginfo_phalcon_filter_filter_sanitize, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Filter, set, arginfo_phalcon_filter_filter_set, ZEND_ACC_PUBLIC)
@@ -31388,9 +31587,9 @@ ZEPHIR_INIT_FUNCS(phalcon_filter_filter_method_entry) {
 	PHP_ME(Phalcon_Filter_Filter, createInstance, arginfo_phalcon_filter_filter_createinstance, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Filter_Filter, processArraySanitizers, arginfo_phalcon_filter_filter_processarraysanitizers, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Filter_Filter, processArrayValues, arginfo_phalcon_filter_filter_processarrayvalues, ZEND_ACC_PRIVATE)
-	PHP_ME(Phalcon_Filter_Filter, sanitizer, arginfo_phalcon_filter_filter_sanitizer, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Filter_Filter, processValueIsArray, arginfo_phalcon_filter_filter_processvalueisarray, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Filter_Filter, processValueIsNotArray, arginfo_phalcon_filter_filter_processvalueisnotarray, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Filter_Filter, sanitizer, arginfo_phalcon_filter_filter_sanitizer, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Filter_Filter, splitSanitizerParameters, arginfo_phalcon_filter_filter_splitsanitizerparameters, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };
@@ -31525,7 +31724,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Ip);
 
 static PHP_METHOD(Phalcon_Filter_Sanitize_Ip, __invoke);
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_filter_sanitize_ip___invoke, 0, 1, MAY_BE_STRING|MAY_BE_FALSE)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_filter_sanitize_ip___invoke, 0, 1, MAY_BE_FALSE|MAY_BE_STRING)
 	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, filter, IS_LONG, 0, "0")
 ZEND_END_ARG_INFO()
@@ -31792,33 +31991,40 @@ zend_class_entry *phalcon_filter_validation_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation);
 
 static PHP_METHOD(Phalcon_Filter_Validation, __construct);
+static PHP_METHOD(Phalcon_Filter_Validation, getDefaultMessage);
+static PHP_METHOD(Phalcon_Filter_Validation, setDefaultMessages);
 static PHP_METHOD(Phalcon_Filter_Validation, add);
 static PHP_METHOD(Phalcon_Filter_Validation, appendMessage);
 static PHP_METHOD(Phalcon_Filter_Validation, bind);
+static PHP_METHOD(Phalcon_Filter_Validation, fails);
 static PHP_METHOD(Phalcon_Filter_Validation, getData);
-static PHP_METHOD(Phalcon_Filter_Validation, getDefaultMessage);
 static PHP_METHOD(Phalcon_Filter_Validation, getEntity);
 static PHP_METHOD(Phalcon_Filter_Validation, getFilters);
 static PHP_METHOD(Phalcon_Filter_Validation, getLabel);
 static PHP_METHOD(Phalcon_Filter_Validation, getMessages);
 static PHP_METHOD(Phalcon_Filter_Validation, getValidators);
-static PHP_METHOD(Phalcon_Filter_Validation, getValueByEntity);
-static PHP_METHOD(Phalcon_Filter_Validation, getValueByData);
 static PHP_METHOD(Phalcon_Filter_Validation, getValue);
+static PHP_METHOD(Phalcon_Filter_Validation, getValueByData);
+static PHP_METHOD(Phalcon_Filter_Validation, getValueByEntity);
 static PHP_METHOD(Phalcon_Filter_Validation, rule);
 static PHP_METHOD(Phalcon_Filter_Validation, rules);
-static PHP_METHOD(Phalcon_Filter_Validation, setDefaultMessages);
 static PHP_METHOD(Phalcon_Filter_Validation, setEntity);
 static PHP_METHOD(Phalcon_Filter_Validation, setFilters);
 static PHP_METHOD(Phalcon_Filter_Validation, setLabels);
 static PHP_METHOD(Phalcon_Filter_Validation, setValidators);
 static PHP_METHOD(Phalcon_Filter_Validation, validate);
-static PHP_METHOD(Phalcon_Filter_Validation, fails);
 static PHP_METHOD(Phalcon_Filter_Validation, preChecking);
-zend_object *zephir_init_properties_Phalcon_Filter_Validation(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation___construct, 0, 0, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, validators, IS_ARRAY, 0, "[]")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_getdefaultmessage, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, validatorClassName, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_setdefaultmessages, 0, 0, IS_ARRAY, 0)
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, messages, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_filter_validation_add, 0, 2, MAY_BE_STATIC)
@@ -31836,11 +32042,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_filter_validation_bind, 
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, whitelist, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_getdata, 0, 0, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_fails, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_getdefaultmessage, 0, 1, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, validatorClassName, IS_STRING, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_getdata, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_getentity, 0, 0, 0)
@@ -31860,8 +32065,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_getvalidators, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_getvaluebyentity, 0, 0, 2)
-	ZEND_ARG_INFO(0, entity)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_getvalue, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
@@ -31870,7 +32074,8 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_getvaluebydata, 0, 0, 2
 	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_getvalue, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_getvaluebyentity, 0, 0, 2)
+	ZEND_ARG_INFO(0, entity)
 	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
@@ -31882,10 +32087,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_filter_validation_rules, 0, 2, MAY_BE_STATIC)
 	ZEND_ARG_INFO(0, field)
 	ZEND_ARG_ARRAY_INFO(0, validators, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_setdefaultmessages, 0, 0, IS_ARRAY, 0)
-ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, messages, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_setentity, 0, 1, IS_VOID, 0)
@@ -31913,15 +32114,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_phalcon_filter_validation_va
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, whitelist, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_fails, 0, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_prechecking, 0, 2, _IS_BOOL, 0)
 	ZEND_ARG_INFO(0, field)
 	ZEND_ARG_OBJ_INFO(0, validator, Phalcon\\Filter\\Validation\\ValidatorInterface, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_zephir_init_properties_phalcon_filter_validation, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_zephir_init_static_properties_phalcon_filter_validation, 0, 0, 0)
@@ -31929,28 +32124,28 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_filter_validation_method_entry) {
 	PHP_ME(Phalcon_Filter_Validation, __construct, arginfo_phalcon_filter_validation___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Filter_Validation, getDefaultMessage, arginfo_phalcon_filter_validation_getdefaultmessage, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Filter_Validation, setDefaultMessages, arginfo_phalcon_filter_validation_setdefaultmessages, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Filter_Validation, add, arginfo_phalcon_filter_validation_add, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation, appendMessage, arginfo_phalcon_filter_validation_appendmessage, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation, bind, arginfo_phalcon_filter_validation_bind, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Filter_Validation, fails, arginfo_phalcon_filter_validation_fails, ZEND_ACC_PUBLIC)
 PHP_ME(Phalcon_Filter_Validation, getData, arginfo_phalcon_filter_validation_getdata, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Filter_Validation, getDefaultMessage, arginfo_phalcon_filter_validation_getdefaultmessage, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 PHP_ME(Phalcon_Filter_Validation, getEntity, arginfo_phalcon_filter_validation_getentity, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation, getFilters, arginfo_phalcon_filter_validation_getfilters, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation, getLabel, arginfo_phalcon_filter_validation_getlabel, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation, getMessages, arginfo_phalcon_filter_validation_getmessages, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation, getValidators, arginfo_phalcon_filter_validation_getvalidators, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Filter_Validation, getValueByEntity, arginfo_phalcon_filter_validation_getvaluebyentity, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Filter_Validation, getValueByData, arginfo_phalcon_filter_validation_getvaluebydata, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation, getValue, arginfo_phalcon_filter_validation_getvalue, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Filter_Validation, getValueByData, arginfo_phalcon_filter_validation_getvaluebydata, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Filter_Validation, getValueByEntity, arginfo_phalcon_filter_validation_getvaluebyentity, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation, rule, arginfo_phalcon_filter_validation_rule, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation, rules, arginfo_phalcon_filter_validation_rules, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Filter_Validation, setDefaultMessages, arginfo_phalcon_filter_validation_setdefaultmessages, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Filter_Validation, setEntity, arginfo_phalcon_filter_validation_setentity, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation, setFilters, arginfo_phalcon_filter_validation_setfilters, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation, setLabels, arginfo_phalcon_filter_validation_setlabels, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation, setValidators, arginfo_phalcon_filter_validation_setvalidators, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation, validate, arginfo_phalcon_filter_validation_validate, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Filter_Validation, fails, arginfo_phalcon_filter_validation_fails, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation, preChecking, arginfo_phalcon_filter_validation_prechecking, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };
@@ -33094,12 +33289,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Flash_Session);
 static PHP_METHOD(Phalcon_Flash_Session, __construct);
 static PHP_METHOD(Phalcon_Flash_Session, clear);
 static PHP_METHOD(Phalcon_Flash_Session, getMessages);
+static PHP_METHOD(Phalcon_Flash_Session, getSessionService);
 static PHP_METHOD(Phalcon_Flash_Session, has);
 static PHP_METHOD(Phalcon_Flash_Session, message);
 static PHP_METHOD(Phalcon_Flash_Session, output);
 static PHP_METHOD(Phalcon_Flash_Session, getSessionMessages);
 static PHP_METHOD(Phalcon_Flash_Session, setSessionMessages);
-static PHP_METHOD(Phalcon_Flash_Session, getSessionService);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash_session___construct, 0, 0, 0)
 	ZEND_ARG_OBJ_TYPE_MASK(0, escaper, Phalcon\\Html\\Escaper\\EscaperInterface, MAY_BE_NULL, "null")
@@ -33113,6 +33308,9 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_session_getmessages, 0, 0, IS_ARRAY, 0)
 	ZEND_ARG_INFO(0, type)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, remove, _IS_BOOL, 0, "true")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_flash_session_getsessionservice, 0, 0, Phalcon\\Session\\ManagerInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_session_has, 0, 0, _IS_BOOL, 0)
@@ -33138,19 +33336,16 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_session_setsession
 	ZEND_ARG_ARRAY_INFO(0, messages, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_flash_session_getsessionservice, 0, 0, Phalcon\\Session\\ManagerInterface, 0)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_flash_session_method_entry) {
 	PHP_ME(Phalcon_Flash_Session, __construct, arginfo_phalcon_flash_session___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Flash_Session, clear, arginfo_phalcon_flash_session_clear, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_Session, getMessages, arginfo_phalcon_flash_session_getmessages, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Flash_Session, getSessionService, arginfo_phalcon_flash_session_getsessionservice, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_Session, has, arginfo_phalcon_flash_session_has, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_Session, message, arginfo_phalcon_flash_session_message, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_Session, output, arginfo_phalcon_flash_session_output, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_Session, getSessionMessages, arginfo_phalcon_flash_session_getsessionmessages, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Flash_Session, setSessionMessages, arginfo_phalcon_flash_session_setsessionmessages, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Flash_Session, getSessionService, arginfo_phalcon_flash_session_getsessionservice, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -33187,7 +33382,6 @@ static PHP_METHOD(Phalcon_Forms_Element_CheckGroup, __construct);
 static PHP_METHOD(Phalcon_Forms_Element_CheckGroup, getOptions);
 static PHP_METHOD(Phalcon_Forms_Element_CheckGroup, render);
 static PHP_METHOD(Phalcon_Forms_Element_CheckGroup, setOptions);
-zend_object *zephir_init_properties_Phalcon_Forms_Element_CheckGroup(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_checkgroup___construct, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
@@ -33204,9 +33398,6 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_element_checkgroup_setoptions, 0, 1, Phalcon\\Forms\\Element\\ElementInterface, 0)
 	ZEND_ARG_ARRAY_INFO(0, options, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_checkgroup_zephir_init_properties_phalcon_forms_element_checkgroup, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_forms_element_checkgroup_method_entry) {
@@ -33260,7 +33451,6 @@ static PHP_METHOD(Phalcon_Forms_Element_RadioGroup, __construct);
 static PHP_METHOD(Phalcon_Forms_Element_RadioGroup, getOptions);
 static PHP_METHOD(Phalcon_Forms_Element_RadioGroup, render);
 static PHP_METHOD(Phalcon_Forms_Element_RadioGroup, setOptions);
-zend_object *zephir_init_properties_Phalcon_Forms_Element_RadioGroup(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_radiogroup___construct, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
@@ -33277,9 +33467,6 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_element_radiogroup_setoptions, 0, 1, Phalcon\\Forms\\Element\\ElementInterface, 0)
 	ZEND_ARG_ARRAY_INFO(0, options, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_radiogroup_zephir_init_properties_phalcon_forms_element_radiogroup, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_forms_element_radiogroup_method_entry) {
@@ -33577,29 +33764,28 @@ static PHP_METHOD(Phalcon_Forms_Form, getMessagesFor);
 static PHP_METHOD(Phalcon_Forms_Form, getTagFactory);
 static PHP_METHOD(Phalcon_Forms_Form, getUserOption);
 static PHP_METHOD(Phalcon_Forms_Form, getUserOptions);
-static PHP_METHOD(Phalcon_Forms_Form, getValue);
 static PHP_METHOD(Phalcon_Forms_Form, getValidation);
+static PHP_METHOD(Phalcon_Forms_Form, getValue);
 static PHP_METHOD(Phalcon_Forms_Form, getWhitelist);
 static PHP_METHOD(Phalcon_Forms_Form, has);
 static PHP_METHOD(Phalcon_Forms_Form, hasMessagesFor);
 static PHP_METHOD(Phalcon_Forms_Form, isValid);
 static PHP_METHOD(Phalcon_Forms_Form, key);
-static PHP_METHOD(Phalcon_Forms_Form, load);
 static PHP_METHOD(Phalcon_Forms_Form, label);
+static PHP_METHOD(Phalcon_Forms_Form, load);
 static PHP_METHOD(Phalcon_Forms_Form, next);
-static PHP_METHOD(Phalcon_Forms_Form, render);
 static PHP_METHOD(Phalcon_Forms_Form, remove);
+static PHP_METHOD(Phalcon_Forms_Form, render);
 static PHP_METHOD(Phalcon_Forms_Form, rewind);
 static PHP_METHOD(Phalcon_Forms_Form, setAction);
 static PHP_METHOD(Phalcon_Forms_Form, setAttributes);
 static PHP_METHOD(Phalcon_Forms_Form, setEntity);
 static PHP_METHOD(Phalcon_Forms_Form, setTagFactory);
-static PHP_METHOD(Phalcon_Forms_Form, setValidation);
-static PHP_METHOD(Phalcon_Forms_Form, setWhitelist);
 static PHP_METHOD(Phalcon_Forms_Form, setUserOption);
 static PHP_METHOD(Phalcon_Forms_Form, setUserOptions);
+static PHP_METHOD(Phalcon_Forms_Form, setValidation);
+static PHP_METHOD(Phalcon_Forms_Form, setWhitelist);
 static PHP_METHOD(Phalcon_Forms_Form, valid);
-zend_object *zephir_init_properties_Phalcon_Forms_Form(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, entity)
@@ -33670,11 +33856,11 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_getuseroptions, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_getvalue, 0, 0, 1)
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_form_getvalidation, 0, 0, Phalcon\\Filter\\Validation\\ValidationInterface, 1)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_form_getvalidation, 0, 0, Phalcon\\Filter\\Validation\\ValidationInterface, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_getvalue, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_getwhitelist, 0, 0, IS_ARRAY, 0)
@@ -33697,26 +33883,26 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_key, 0, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_forms_form_load, 0, 2, MAY_BE_STATIC)
-	ZEND_ARG_OBJ_INFO(0, schema, Phalcon\\Contracts\\Forms\\Schema, 0)
-	ZEND_ARG_OBJ_INFO(0, locator, Phalcon\\Forms\\FormsLocator, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_label, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_forms_form_load, 0, 2, MAY_BE_STATIC)
+	ZEND_ARG_OBJ_INFO(0, schema, Phalcon\\Contracts\\Forms\\Schema, 0)
+	ZEND_ARG_OBJ_INFO(0, locator, Phalcon\\Forms\\FormsLocator, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_next, 0, 0, IS_VOID, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_remove, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_render, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_remove, 0, 1, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_rewind, 0, 0, IS_VOID, 0)
@@ -33738,14 +33924,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_forms_form_settagfactory
 	ZEND_ARG_OBJ_INFO(0, tagFactory, Phalcon\\Html\\TagFactory, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_forms_form_setvalidation, 0, 1, MAY_BE_STATIC)
-	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Filter\\Validation\\ValidationInterface, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_forms_form_setwhitelist, 0, 1, MAY_BE_STATIC)
-	ZEND_ARG_ARRAY_INFO(0, whitelist, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_forms_form_setuseroption, 0, 2, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, option, IS_STRING, 0)
 	ZEND_ARG_INFO(0, value)
@@ -33755,10 +33933,15 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_forms_form_setuseroption
 	ZEND_ARG_ARRAY_INFO(0, options, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_valid, 0, 0, _IS_BOOL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_forms_form_setvalidation, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Filter\\Validation\\ValidationInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_zephir_init_properties_phalcon_forms_form, 0, 0, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_forms_form_setwhitelist, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_ARRAY_INFO(0, whitelist, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_valid, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_forms_form_method_entry) {
@@ -33780,27 +33963,27 @@ PHP_ME(Phalcon_Forms_Form, getEntity, arginfo_phalcon_forms_form_getentity, ZEND
 	PHP_ME(Phalcon_Forms_Form, getTagFactory, arginfo_phalcon_forms_form_gettagfactory, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, getUserOption, arginfo_phalcon_forms_form_getuseroption, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, getUserOptions, arginfo_phalcon_forms_form_getuseroptions, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Forms_Form, getValue, arginfo_phalcon_forms_form_getvalue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, getValidation, arginfo_phalcon_forms_form_getvalidation, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Forms_Form, getValue, arginfo_phalcon_forms_form_getvalue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, getWhitelist, arginfo_phalcon_forms_form_getwhitelist, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, has, arginfo_phalcon_forms_form_has, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, hasMessagesFor, arginfo_phalcon_forms_form_hasmessagesfor, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, isValid, arginfo_phalcon_forms_form_isvalid, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, key, arginfo_phalcon_forms_form_key, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Forms_Form, load, arginfo_phalcon_forms_form_load, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, label, arginfo_phalcon_forms_form_label, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Forms_Form, load, arginfo_phalcon_forms_form_load, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, next, arginfo_phalcon_forms_form_next, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Forms_Form, render, arginfo_phalcon_forms_form_render, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, remove, arginfo_phalcon_forms_form_remove, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Forms_Form, render, arginfo_phalcon_forms_form_render, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, rewind, arginfo_phalcon_forms_form_rewind, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, setAction, arginfo_phalcon_forms_form_setaction, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, setAttributes, arginfo_phalcon_forms_form_setattributes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, setEntity, arginfo_phalcon_forms_form_setentity, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, setTagFactory, arginfo_phalcon_forms_form_settagfactory, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Forms_Form, setValidation, arginfo_phalcon_forms_form_setvalidation, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Forms_Form, setWhitelist, arginfo_phalcon_forms_form_setwhitelist, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, setUserOption, arginfo_phalcon_forms_form_setuseroption, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, setUserOptions, arginfo_phalcon_forms_form_setuseroptions, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Forms_Form, setValidation, arginfo_phalcon_forms_form_setvalidation, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Forms_Form, setWhitelist, arginfo_phalcon_forms_form_setwhitelist, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, valid, arginfo_phalcon_forms_form_valid, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
@@ -33817,7 +34000,6 @@ static PHP_METHOD(Phalcon_Forms_FormsLocator, hasElement);
 static PHP_METHOD(Phalcon_Forms_FormsLocator, set);
 static PHP_METHOD(Phalcon_Forms_FormsLocator, setElement);
 static PHP_METHOD(Phalcon_Forms_FormsLocator, getDefaultServices);
-zend_object *zephir_init_properties_Phalcon_Forms_FormsLocator(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_formslocator___construct, 0, 0, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, definitions, IS_ARRAY, 0, "[]")
@@ -33853,9 +34035,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_formslocator_setel
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_formslocator_getdefaultservices, 0, 0, IS_ARRAY, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_formslocator_zephir_init_properties_phalcon_forms_formslocator, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_forms_formslocator_method_entry) {
@@ -33911,7 +34090,9 @@ static PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, phpFileGetContents);
 static PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, phpFilePutContents);
 static PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, phpFopen);
 static PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, phpFwrite);
+static PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, phpIsDir);
 static PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, phpIsWritable);
+static PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, phpMkdir);
 static PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, phpUnlink);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_loader_jsonloader___construct, 0, 0, 1)
@@ -33965,8 +34146,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_forms_loader_jsonloader_
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_loader_jsonloader_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_loader_jsonloader_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_loader_jsonloader_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_loader_jsonloader_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -33984,7 +34176,9 @@ ZEPHIR_INIT_FUNCS(phalcon_forms_loader_jsonloader_method_entry) {
 	PHP_ME(Phalcon_Forms_Loader_JsonLoader, phpFilePutContents, arginfo_phalcon_forms_loader_jsonloader_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Forms_Loader_JsonLoader, phpFopen, arginfo_phalcon_forms_loader_jsonloader_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Forms_Loader_JsonLoader, phpFwrite, arginfo_phalcon_forms_loader_jsonloader_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Forms_Loader_JsonLoader, phpIsDir, arginfo_phalcon_forms_loader_jsonloader_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Forms_Loader_JsonLoader, phpIsWritable, arginfo_phalcon_forms_loader_jsonloader_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Forms_Loader_JsonLoader, phpMkdir, arginfo_phalcon_forms_loader_jsonloader_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Forms_Loader_JsonLoader, phpUnlink, arginfo_phalcon_forms_loader_jsonloader_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
@@ -34032,7 +34226,6 @@ static PHP_METHOD(Phalcon_Forms_Manager, getLocator);
 static PHP_METHOD(Phalcon_Forms_Manager, has);
 static PHP_METHOD(Phalcon_Forms_Manager, loadForm);
 static PHP_METHOD(Phalcon_Forms_Manager, set);
-zend_object *zephir_init_properties_Phalcon_Forms_Manager(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_manager___construct, 0, 0, 0)
 	ZEND_ARG_OBJ_TYPE_MASK(0, locator, Phalcon\\Forms\\FormsLocator, MAY_BE_NULL, "null")
@@ -34063,9 +34256,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_forms_manager_set, 0, 2, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 	ZEND_ARG_OBJ_INFO(0, form, Phalcon\\Forms\\Form, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_manager_zephir_init_properties_phalcon_forms_manager, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_forms_manager_method_entry) {
@@ -35928,7 +36118,9 @@ static PHP_METHOD(Phalcon_Http_Request, phpFileGetContents);
 static PHP_METHOD(Phalcon_Http_Request, phpFilePutContents);
 static PHP_METHOD(Phalcon_Http_Request, phpFopen);
 static PHP_METHOD(Phalcon_Http_Request, phpFwrite);
+static PHP_METHOD(Phalcon_Http_Request, phpIsDir);
 static PHP_METHOD(Phalcon_Http_Request, phpIsWritable);
+static PHP_METHOD(Phalcon_Http_Request, phpMkdir);
 static PHP_METHOD(Phalcon_Http_Request, phpUnlink);
 zend_object *zephir_init_properties_Phalcon_Http_Request(zend_class_entry *class_type);
 
@@ -35958,7 +36150,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getbestlanguage, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_http_request_getclientaddress, 0, 0, MAY_BE_STRING|MAY_BE_BOOL)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_http_request_getclientaddress, 0, 0, MAY_BE_BOOL|MAY_BE_STRING)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, trustForwardedHeader, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
@@ -36339,8 +36531,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_http_request_phpfwrite, 
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -36445,7 +36648,9 @@ ZEPHIR_INIT_FUNCS(phalcon_http_request_method_entry) {
 	PHP_ME(Phalcon_Http_Request, phpFilePutContents, arginfo_phalcon_http_request_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Http_Request, phpFopen, arginfo_phalcon_http_request_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Http_Request, phpFwrite, arginfo_phalcon_http_request_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Http_Request, phpIsDir, arginfo_phalcon_http_request_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Http_Request, phpIsWritable, arginfo_phalcon_http_request_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Http_Request, phpMkdir, arginfo_phalcon_http_request_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Http_Request, phpUnlink, arginfo_phalcon_http_request_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
@@ -37038,7 +37243,7 @@ static PHP_METHOD(Phalcon_Http_Response_Headers, setRaw);
 static PHP_METHOD(Phalcon_Http_Response_Headers, toArray);
 zend_object *zephir_init_properties_Phalcon_Http_Response_Headers(zend_class_entry *class_type);
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_http_response_headers_get, 0, 1, MAY_BE_NULL|MAY_BE_STRING|MAY_BE_BOOL)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_http_response_headers_get, 0, 1, MAY_BE_NULL|MAY_BE_BOOL|MAY_BE_STRING)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
@@ -37150,7 +37355,9 @@ static PHP_METHOD(Phalcon_Image_Adapter_Gd, phpFileGetContents);
 static PHP_METHOD(Phalcon_Image_Adapter_Gd, phpFilePutContents);
 static PHP_METHOD(Phalcon_Image_Adapter_Gd, phpFopen);
 static PHP_METHOD(Phalcon_Image_Adapter_Gd, phpFwrite);
+static PHP_METHOD(Phalcon_Image_Adapter_Gd, phpIsDir);
 static PHP_METHOD(Phalcon_Image_Adapter_Gd, phpIsWritable);
+static PHP_METHOD(Phalcon_Image_Adapter_Gd, phpMkdir);
 static PHP_METHOD(Phalcon_Image_Adapter_Gd, phpUnlink);
 static PHP_METHOD(Phalcon_Image_Adapter_Gd, phpExtensionLoaded);
 static PHP_METHOD(Phalcon_Image_Adapter_Gd, phpFunctionExists);
@@ -37314,8 +37521,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_image_adapter_gd_phpfwri
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_gd_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_gd_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_gd_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_gd_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -37359,7 +37577,9 @@ PHP_ME(Phalcon_Image_Adapter_Gd, __destruct, arginfo_phalcon_image_adapter_gd___
 	PHP_ME(Phalcon_Image_Adapter_Gd, phpFilePutContents, arginfo_phalcon_image_adapter_gd_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Image_Adapter_Gd, phpFopen, arginfo_phalcon_image_adapter_gd_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Image_Adapter_Gd, phpFwrite, arginfo_phalcon_image_adapter_gd_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Image_Adapter_Gd, phpIsDir, arginfo_phalcon_image_adapter_gd_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Image_Adapter_Gd, phpIsWritable, arginfo_phalcon_image_adapter_gd_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Image_Adapter_Gd, phpMkdir, arginfo_phalcon_image_adapter_gd_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Image_Adapter_Gd, phpUnlink, arginfo_phalcon_image_adapter_gd_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Image_Adapter_Gd, phpExtensionLoaded, arginfo_phalcon_image_adapter_gd_phpextensionloaded, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Image_Adapter_Gd, phpFunctionExists, arginfo_phalcon_image_adapter_gd_phpfunctionexists, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
@@ -37398,7 +37618,9 @@ static PHP_METHOD(Phalcon_Image_Adapter_Imagick, phpFileGetContents);
 static PHP_METHOD(Phalcon_Image_Adapter_Imagick, phpFilePutContents);
 static PHP_METHOD(Phalcon_Image_Adapter_Imagick, phpFopen);
 static PHP_METHOD(Phalcon_Image_Adapter_Imagick, phpFwrite);
+static PHP_METHOD(Phalcon_Image_Adapter_Imagick, phpIsDir);
 static PHP_METHOD(Phalcon_Image_Adapter_Imagick, phpIsWritable);
+static PHP_METHOD(Phalcon_Image_Adapter_Imagick, phpMkdir);
 static PHP_METHOD(Phalcon_Image_Adapter_Imagick, phpUnlink);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_imagick___construct, 0, 0, 1)
@@ -37572,8 +37794,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_image_adapter_imagick_ph
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_imagick_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_imagick_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_imagick_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_imagick_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -37610,7 +37843,9 @@ PHP_ME(Phalcon_Image_Adapter_Imagick, __destruct, arginfo_phalcon_image_adapter_
 	PHP_ME(Phalcon_Image_Adapter_Imagick, phpFilePutContents, arginfo_phalcon_image_adapter_imagick_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Image_Adapter_Imagick, phpFopen, arginfo_phalcon_image_adapter_imagick_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Image_Adapter_Imagick, phpFwrite, arginfo_phalcon_image_adapter_imagick_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Image_Adapter_Imagick, phpIsDir, arginfo_phalcon_image_adapter_imagick_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Image_Adapter_Imagick, phpIsWritable, arginfo_phalcon_image_adapter_imagick_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Image_Adapter_Imagick, phpMkdir, arginfo_phalcon_image_adapter_imagick_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Image_Adapter_Imagick, phpUnlink, arginfo_phalcon_image_adapter_imagick_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
@@ -37940,7 +38175,9 @@ static PHP_METHOD(Phalcon_Logger_Adapter_Stream, phpFileGetContents);
 static PHP_METHOD(Phalcon_Logger_Adapter_Stream, phpFilePutContents);
 static PHP_METHOD(Phalcon_Logger_Adapter_Stream, phpFopen);
 static PHP_METHOD(Phalcon_Logger_Adapter_Stream, phpFwrite);
+static PHP_METHOD(Phalcon_Logger_Adapter_Stream, phpIsDir);
 static PHP_METHOD(Phalcon_Logger_Adapter_Stream, phpIsWritable);
+static PHP_METHOD(Phalcon_Logger_Adapter_Stream, phpMkdir);
 static PHP_METHOD(Phalcon_Logger_Adapter_Stream, phpUnlink);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_stream___construct, 0, 0, 1)
@@ -38003,8 +38240,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_logger_adapter_stream_ph
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_adapter_stream_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_adapter_stream_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_adapter_stream_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_adapter_stream_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -38024,7 +38272,9 @@ ZEPHIR_INIT_FUNCS(phalcon_logger_adapter_stream_method_entry) {
 	PHP_ME(Phalcon_Logger_Adapter_Stream, phpFilePutContents, arginfo_phalcon_logger_adapter_stream_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Logger_Adapter_Stream, phpFopen, arginfo_phalcon_logger_adapter_stream_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Logger_Adapter_Stream, phpFwrite, arginfo_phalcon_logger_adapter_stream_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Logger_Adapter_Stream, phpIsDir, arginfo_phalcon_logger_adapter_stream_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Logger_Adapter_Stream, phpIsWritable, arginfo_phalcon_logger_adapter_stream_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Logger_Adapter_Stream, phpMkdir, arginfo_phalcon_logger_adapter_stream_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Logger_Adapter_Stream, phpUnlink, arginfo_phalcon_logger_adapter_stream_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
@@ -38732,7 +38982,9 @@ static PHP_METHOD(Phalcon_Mvc_Application, phpFileGetContents);
 static PHP_METHOD(Phalcon_Mvc_Application, phpFilePutContents);
 static PHP_METHOD(Phalcon_Mvc_Application, phpFopen);
 static PHP_METHOD(Phalcon_Mvc_Application, phpFwrite);
+static PHP_METHOD(Phalcon_Mvc_Application, phpIsDir);
 static PHP_METHOD(Phalcon_Mvc_Application, phpIsWritable);
+static PHP_METHOD(Phalcon_Mvc_Application, phpMkdir);
 static PHP_METHOD(Phalcon_Mvc_Application, phpUnlink);
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_phalcon_mvc_application_handle, 0, 1, Phalcon\\Http\\ResponseInterface, MAY_BE_BOOL)
@@ -38795,8 +39047,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_application_phpfwrit
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_application_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_application_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_application_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_application_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -38816,7 +39079,9 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_application_method_entry) {
 	PHP_ME(Phalcon_Mvc_Application, phpFilePutContents, arginfo_phalcon_mvc_application_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Application, phpFopen, arginfo_phalcon_mvc_application_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Application, phpFwrite, arginfo_phalcon_mvc_application_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Application, phpIsDir, arginfo_phalcon_mvc_application_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Application, phpIsWritable, arginfo_phalcon_mvc_application_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Application, phpMkdir, arginfo_phalcon_mvc_application_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Application, phpUnlink, arginfo_phalcon_mvc_application_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
@@ -39013,7 +39278,6 @@ static PHP_METHOD(Phalcon_Mvc_Micro, get);
 static PHP_METHOD(Phalcon_Mvc_Micro, getActiveHandler);
 static PHP_METHOD(Phalcon_Mvc_Micro, getBoundModels);
 static PHP_METHOD(Phalcon_Mvc_Micro, getEventsManager);
-static PHP_METHOD(Phalcon_Mvc_Micro, setEventsManager);
 static PHP_METHOD(Phalcon_Mvc_Micro, getHandlers);
 static PHP_METHOD(Phalcon_Mvc_Micro, getModelBinder);
 static PHP_METHOD(Phalcon_Mvc_Micro, getReturnedValue);
@@ -39036,13 +39300,13 @@ static PHP_METHOD(Phalcon_Mvc_Micro, post);
 static PHP_METHOD(Phalcon_Mvc_Micro, put);
 static PHP_METHOD(Phalcon_Mvc_Micro, setActiveHandler);
 static PHP_METHOD(Phalcon_Mvc_Micro, setDI);
+static PHP_METHOD(Phalcon_Mvc_Micro, setEventsManager);
 static PHP_METHOD(Phalcon_Mvc_Micro, setModelBinder);
 static PHP_METHOD(Phalcon_Mvc_Micro, setResponseHandler);
 static PHP_METHOD(Phalcon_Mvc_Micro, setService);
 static PHP_METHOD(Phalcon_Mvc_Micro, stop);
 static PHP_METHOD(Phalcon_Mvc_Micro, addRoute);
 static PHP_METHOD(Phalcon_Mvc_Micro, checkDiContainer);
-zend_object *zephir_init_properties_Phalcon_Mvc_Micro(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro___construct, 0, 0, 0)
 	ZEND_ARG_OBJ_TYPE_MASK(0, container, Phalcon\\Di\\DiInterface, MAY_BE_NULL, "null")
@@ -39085,11 +39349,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_micro_getboundmodels
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_geteventsmanager, 0, 0, Phalcon\\Events\\ManagerInterface, 1)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_micro_seteventsmanager, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_micro_gethandlers, 0, 0, IS_ARRAY, 0)
@@ -39186,6 +39445,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_micro_setdi, 0, 1, I
 	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_micro_seteventsmanager, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_micro_setmodelbinder, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, modelBinder, Phalcon\\Mvc\\Model\\BinderInterface, 0)
 	ZEND_ARG_INFO(0, cache)
@@ -39213,9 +39477,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_micro_checkdicontainer, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_zephir_init_properties_phalcon_mvc_micro, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_mvc_micro_method_entry) {
 	PHP_ME(Phalcon_Mvc_Micro, __construct, arginfo_phalcon_mvc_micro___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Mvc_Micro, after, arginfo_phalcon_mvc_micro_after, ZEND_ACC_PUBLIC)
@@ -39228,7 +39489,6 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_micro_method_entry) {
 PHP_ME(Phalcon_Mvc_Micro, getActiveHandler, arginfo_phalcon_mvc_micro_getactivehandler, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, getBoundModels, arginfo_phalcon_mvc_micro_getboundmodels, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, getEventsManager, arginfo_phalcon_mvc_micro_geteventsmanager, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Micro, setEventsManager, arginfo_phalcon_mvc_micro_seteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, getHandlers, arginfo_phalcon_mvc_micro_gethandlers, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, getModelBinder, arginfo_phalcon_mvc_micro_getmodelbinder, ZEND_ACC_PUBLIC)
 PHP_ME(Phalcon_Mvc_Micro, getReturnedValue, arginfo_phalcon_mvc_micro_getreturnedvalue, ZEND_ACC_PUBLIC)
@@ -39251,6 +39511,7 @@ PHP_ME(Phalcon_Mvc_Micro, getReturnedValue, arginfo_phalcon_mvc_micro_getreturne
 	PHP_ME(Phalcon_Mvc_Micro, put, arginfo_phalcon_mvc_micro_put, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, setActiveHandler, arginfo_phalcon_mvc_micro_setactivehandler, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, setDI, arginfo_phalcon_mvc_micro_setdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro, setEventsManager, arginfo_phalcon_mvc_micro_seteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, setModelBinder, arginfo_phalcon_mvc_micro_setmodelbinder, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, setResponseHandler, arginfo_phalcon_mvc_micro_setresponsehandler, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, setService, arginfo_phalcon_mvc_micro_setservice, ZEND_ACC_PUBLIC)
@@ -39281,7 +39542,6 @@ static PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler);
 static PHP_METHOD(Phalcon_Mvc_Micro_Collection, setLazy);
 static PHP_METHOD(Phalcon_Mvc_Micro_Collection, setPrefix);
 static PHP_METHOD(Phalcon_Mvc_Micro_Collection, addMap);
-zend_object *zephir_init_properties_Phalcon_Mvc_Micro_Collection(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_collection_delete, 0, 2, Phalcon\\Mvc\\Micro\\CollectionInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, routePattern, IS_STRING, 0)
@@ -39369,9 +39629,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_micro_collection_add
 	ZEND_ARG_TYPE_INFO(0, routePattern, IS_STRING, 0)
 	ZEND_ARG_INFO(0, handler)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, name, IS_STRING, 1, "null")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_collection_zephir_init_properties_phalcon_mvc_micro_collection, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_micro_collection_method_entry) {
@@ -39595,20 +39852,30 @@ static PHP_METHOD(Phalcon_Mvc_Model, __isset);
 static PHP_METHOD(Phalcon_Mvc_Model, __serialize);
 static PHP_METHOD(Phalcon_Mvc_Model, __set);
 static PHP_METHOD(Phalcon_Mvc_Model, __unserialize);
-static PHP_METHOD(Phalcon_Mvc_Model, addBehavior);
-static PHP_METHOD(Phalcon_Mvc_Model, appendMessage);
-static PHP_METHOD(Phalcon_Mvc_Model, assign);
+static PHP_METHOD(Phalcon_Mvc_Model, setup);
 static PHP_METHOD(Phalcon_Mvc_Model, average);
 static PHP_METHOD(Phalcon_Mvc_Model, cloneResult);
 static PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap);
 static PHP_METHOD(Phalcon_Mvc_Model, cloneResultMapHydrate);
-static PHP_METHOD(Phalcon_Mvc_Model, collectRelatedToSave);
 static PHP_METHOD(Phalcon_Mvc_Model, count);
-static PHP_METHOD(Phalcon_Mvc_Model, create);
-static PHP_METHOD(Phalcon_Mvc_Model, delete);
-static PHP_METHOD(Phalcon_Mvc_Model, dump);
 static PHP_METHOD(Phalcon_Mvc_Model, find);
 static PHP_METHOD(Phalcon_Mvc_Model, findFirst);
+static PHP_METHOD(Phalcon_Mvc_Model, maximum);
+static PHP_METHOD(Phalcon_Mvc_Model, minimum);
+static PHP_METHOD(Phalcon_Mvc_Model, query);
+static PHP_METHOD(Phalcon_Mvc_Model, sum);
+static PHP_METHOD(Phalcon_Mvc_Model, groupResult);
+static PHP_METHOD(Phalcon_Mvc_Model, invokeFinder);
+static PHP_METHOD(Phalcon_Mvc_Model, getPreparedQuery);
+static PHP_METHOD(Phalcon_Mvc_Model, loadEager);
+static PHP_METHOD(Phalcon_Mvc_Model, addBehavior);
+static PHP_METHOD(Phalcon_Mvc_Model, appendMessage);
+static PHP_METHOD(Phalcon_Mvc_Model, appendMessagesFrom);
+static PHP_METHOD(Phalcon_Mvc_Model, assign);
+static PHP_METHOD(Phalcon_Mvc_Model, create);
+static PHP_METHOD(Phalcon_Mvc_Model, delete);
+static PHP_METHOD(Phalcon_Mvc_Model, doSave);
+static PHP_METHOD(Phalcon_Mvc_Model, dump);
 static PHP_METHOD(Phalcon_Mvc_Model, fireEvent);
 static PHP_METHOD(Phalcon_Mvc_Model, fireEventCancel);
 static PHP_METHOD(Phalcon_Mvc_Model, getChangedFields);
@@ -39617,72 +39884,64 @@ static PHP_METHOD(Phalcon_Mvc_Model, getEventsManager);
 static PHP_METHOD(Phalcon_Mvc_Model, getMessages);
 static PHP_METHOD(Phalcon_Mvc_Model, getModelsManager);
 static PHP_METHOD(Phalcon_Mvc_Model, getModelsMetaData);
-static PHP_METHOD(Phalcon_Mvc_Model, getOperationMade);
 static PHP_METHOD(Phalcon_Mvc_Model, getOldSnapshotData);
+static PHP_METHOD(Phalcon_Mvc_Model, getOperationMade);
 static PHP_METHOD(Phalcon_Mvc_Model, getReadConnection);
 static PHP_METHOD(Phalcon_Mvc_Model, getReadConnectionService);
 static PHP_METHOD(Phalcon_Mvc_Model, getRelated);
-static PHP_METHOD(Phalcon_Mvc_Model, isRelationshipLoaded);
 static PHP_METHOD(Phalcon_Mvc_Model, getSchema);
 static PHP_METHOD(Phalcon_Mvc_Model, getSnapshotData);
 static PHP_METHOD(Phalcon_Mvc_Model, getSource);
+static PHP_METHOD(Phalcon_Mvc_Model, getTransaction);
 static PHP_METHOD(Phalcon_Mvc_Model, getUpdatedFields);
 static PHP_METHOD(Phalcon_Mvc_Model, getWriteConnection);
 static PHP_METHOD(Phalcon_Mvc_Model, getWriteConnectionService);
 static PHP_METHOD(Phalcon_Mvc_Model, hasChanged);
 static PHP_METHOD(Phalcon_Mvc_Model, hasSnapshotData);
 static PHP_METHOD(Phalcon_Mvc_Model, hasUpdated);
+static PHP_METHOD(Phalcon_Mvc_Model, isRelationshipLoaded);
 static PHP_METHOD(Phalcon_Mvc_Model, jsonSerialize);
-static PHP_METHOD(Phalcon_Mvc_Model, maximum);
-static PHP_METHOD(Phalcon_Mvc_Model, minimum);
-static PHP_METHOD(Phalcon_Mvc_Model, query);
 static PHP_METHOD(Phalcon_Mvc_Model, readAttribute);
 static PHP_METHOD(Phalcon_Mvc_Model, refresh);
 static PHP_METHOD(Phalcon_Mvc_Model, save);
-static PHP_METHOD(Phalcon_Mvc_Model, doSave);
 static PHP_METHOD(Phalcon_Mvc_Model, serialize);
-static PHP_METHOD(Phalcon_Mvc_Model, unserialize);
 static PHP_METHOD(Phalcon_Mvc_Model, setConnectionService);
 static PHP_METHOD(Phalcon_Mvc_Model, setDirtyState);
 static PHP_METHOD(Phalcon_Mvc_Model, setEventsManager);
-static PHP_METHOD(Phalcon_Mvc_Model, setReadConnectionService);
 static PHP_METHOD(Phalcon_Mvc_Model, setOldSnapshotData);
+static PHP_METHOD(Phalcon_Mvc_Model, setReadConnectionService);
 static PHP_METHOD(Phalcon_Mvc_Model, setRelated);
 static PHP_METHOD(Phalcon_Mvc_Model, setSnapshotData);
 static PHP_METHOD(Phalcon_Mvc_Model, setSync);
 static PHP_METHOD(Phalcon_Mvc_Model, setTransaction);
-static PHP_METHOD(Phalcon_Mvc_Model, getTransaction);
-static PHP_METHOD(Phalcon_Mvc_Model, setup);
 static PHP_METHOD(Phalcon_Mvc_Model, setWriteConnectionService);
 static PHP_METHOD(Phalcon_Mvc_Model, skipOperation);
-static PHP_METHOD(Phalcon_Mvc_Model, sum);
 static PHP_METHOD(Phalcon_Mvc_Model, toArray);
+static PHP_METHOD(Phalcon_Mvc_Model, unserialize);
 static PHP_METHOD(Phalcon_Mvc_Model, update);
+static PHP_METHOD(Phalcon_Mvc_Model, validationHasFailed);
 static PHP_METHOD(Phalcon_Mvc_Model, writeAttribute);
+static PHP_METHOD(Phalcon_Mvc_Model, allowEmptyStringValues);
+static PHP_METHOD(Phalcon_Mvc_Model, belongsTo);
+static PHP_METHOD(Phalcon_Mvc_Model, cancelOperation);
 static PHP_METHOD(Phalcon_Mvc_Model, checkForeignKeysRestrict);
 static PHP_METHOD(Phalcon_Mvc_Model, checkForeignKeysReverseCascade);
 static PHP_METHOD(Phalcon_Mvc_Model, checkForeignKeysReverseRestrict);
+static PHP_METHOD(Phalcon_Mvc_Model, collectRelatedToSave);
 static PHP_METHOD(Phalcon_Mvc_Model, doLowInsert);
 static PHP_METHOD(Phalcon_Mvc_Model, doLowUpdate);
-static PHP_METHOD(Phalcon_Mvc_Model, has);
 static PHP_METHOD(Phalcon_Mvc_Model, getRelatedRecords);
-static PHP_METHOD(Phalcon_Mvc_Model, groupResult);
-static PHP_METHOD(Phalcon_Mvc_Model, invokeFinder);
-static PHP_METHOD(Phalcon_Mvc_Model, possibleSetter);
-static PHP_METHOD(Phalcon_Mvc_Model, preSave);
-static PHP_METHOD(Phalcon_Mvc_Model, preSaveRelatedRecords);
-static PHP_METHOD(Phalcon_Mvc_Model, postSave);
-static PHP_METHOD(Phalcon_Mvc_Model, postSaveRelatedRecords);
-static PHP_METHOD(Phalcon_Mvc_Model, allowEmptyStringValues);
-static PHP_METHOD(Phalcon_Mvc_Model, cancelOperation);
-static PHP_METHOD(Phalcon_Mvc_Model, belongsTo);
-static PHP_METHOD(Phalcon_Mvc_Model, loadEager);
-static PHP_METHOD(Phalcon_Mvc_Model, getPreparedQuery);
+static PHP_METHOD(Phalcon_Mvc_Model, has);
 static PHP_METHOD(Phalcon_Mvc_Model, hasMany);
 static PHP_METHOD(Phalcon_Mvc_Model, hasManyToMany);
 static PHP_METHOD(Phalcon_Mvc_Model, hasOne);
 static PHP_METHOD(Phalcon_Mvc_Model, hasOneThrough);
 static PHP_METHOD(Phalcon_Mvc_Model, keepSnapshots);
+static PHP_METHOD(Phalcon_Mvc_Model, possibleSetter);
+static PHP_METHOD(Phalcon_Mvc_Model, postSave);
+static PHP_METHOD(Phalcon_Mvc_Model, postSaveRelatedRecords);
+static PHP_METHOD(Phalcon_Mvc_Model, preSave);
+static PHP_METHOD(Phalcon_Mvc_Model, preSaveRelatedRecords);
 static PHP_METHOD(Phalcon_Mvc_Model, setSchema);
 static PHP_METHOD(Phalcon_Mvc_Model, setSource);
 static PHP_METHOD(Phalcon_Mvc_Model, skipAttributes);
@@ -39690,10 +39949,6 @@ static PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnCreate);
 static PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnUpdate);
 static PHP_METHOD(Phalcon_Mvc_Model, useDynamicUpdate);
 static PHP_METHOD(Phalcon_Mvc_Model, validate);
-static PHP_METHOD(Phalcon_Mvc_Model, validationHasFailed);
-static PHP_METHOD(Phalcon_Mvc_Model, caseInsensitiveColumnMap);
-static PHP_METHOD(Phalcon_Mvc_Model, getPrivateProperties);
-static PHP_METHOD(Phalcon_Mvc_Model, appendMessagesFrom);
 zend_object *zephir_init_properties_Phalcon_Mvc_Model(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model___construct, 0, 0, 0)
@@ -39733,19 +39988,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model___unserialize,
 	ZEND_ARG_ARRAY_INFO(0, data, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_addbehavior, 0, 1, IS_VOID, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_setup, 0, 1, IS_VOID, 0)
 
-	ZEND_ARG_OBJ_INFO(0, behavior, Phalcon\\Mvc\\Model\\BehaviorInterface, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_appendmessage, 0, 1, Phalcon\\Mvc\\ModelInterface, 0)
-	ZEND_ARG_OBJ_INFO(0, message, Phalcon\\Messages\\MessageInterface, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_assign, 0, 1, Phalcon\\Mvc\\ModelInterface, 0)
-	ZEND_ARG_ARRAY_INFO(0, data, 0)
-	ZEND_ARG_INFO(0, whiteList)
-	ZEND_ARG_INFO(0, dataColumnMap)
+	ZEND_ARG_ARRAY_INFO(0, options, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_phalcon_mvc_model_average, 0, 0, Phalcon\\Mvc\\Model\\ResultsetInterface, MAY_BE_DOUBLE)
@@ -39772,20 +40017,8 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_cloneresultmaphydrate, 0, 0, 3)
 	ZEND_ARG_TYPE_INFO(0, hydrationMode, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_collectrelatedtosave, 0, 0, IS_ARRAY, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_phalcon_mvc_model_count, 0, 0, Phalcon\\Mvc\\Model\\ResultsetInterface, MAY_BE_LONG)
 	ZEND_ARG_INFO(0, parameters)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_create, 0, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_delete, 0, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_dump, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_find, 0, 0, Phalcon\\Mvc\\Model\\ResultsetInterface, 0)
@@ -39794,6 +40027,78 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_findfirst, 0, 0, 0)
 	ZEND_ARG_INFO(0, parameters)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_maximum, 0, 0, 0)
+	ZEND_ARG_INFO(0, parameters)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_minimum, 0, 0, 0)
+	ZEND_ARG_INFO(0, parameters)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query, 0, 0, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
+	ZEND_ARG_OBJ_TYPE_MASK(0, container, Phalcon\\Di\\DiInterface, MAY_BE_NULL, "null")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_phalcon_mvc_model_sum, 0, 0, Phalcon\\Mvc\\Model\\ResultsetInterface, MAY_BE_DOUBLE)
+	ZEND_ARG_INFO(0, parameters)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_groupresult, 0, 0, 2)
+	ZEND_ARG_TYPE_INFO(0, functionName, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, alias, IS_STRING, 0)
+	ZEND_ARG_INFO(0, parameters)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_invokefinder, 0, 0, 2)
+	ZEND_ARG_TYPE_INFO(0, method, IS_STRING, 0)
+	ZEND_ARG_ARRAY_INFO(0, arguments, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_getpreparedquery, 0, 1, Phalcon\\Mvc\\Model\\QueryInterface, 0)
+	ZEND_ARG_INFO(0, params)
+	ZEND_ARG_INFO(0, limit)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_loadeager, 0, 3, IS_VOID, 0)
+
+	ZEND_ARG_INFO(0, resultset)
+	ZEND_ARG_INFO(0, eager)
+	ZEND_ARG_ARRAY_INFO(0, params, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_addbehavior, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_OBJ_INFO(0, behavior, Phalcon\\Mvc\\Model\\BehaviorInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_appendmessage, 0, 1, Phalcon\\Mvc\\ModelInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, message, Phalcon\\Messages\\MessageInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_appendmessagesfrom, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_INFO(0, model)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_assign, 0, 1, Phalcon\\Mvc\\ModelInterface, 0)
+	ZEND_ARG_ARRAY_INFO(0, data, 0)
+	ZEND_ARG_INFO(0, whiteList)
+	ZEND_ARG_INFO(0, dataColumnMap)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_create, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_delete, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_dosave, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_OBJ_INFO(0, visited, Phalcon\\Support\\Collection\\CollectionInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_dump, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_fireevent, 0, 1, _IS_BOOL, 0)
@@ -39823,10 +40128,10 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_getmodelsmetadata, 0, 0, Phalcon\\Mvc\\Model\\MetaDataInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_getoperationmade, 0, 0, IS_LONG, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_getoldsnapshotdata, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_getoldsnapshotdata, 0, 0, IS_ARRAY, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_getoperationmade, 0, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_getreadconnection, 0, 0, Phalcon\\Db\\Adapter\\AdapterInterface, 0)
@@ -39840,10 +40145,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_getrelated, 0, 0, 1)
 	ZEND_ARG_INFO(0, arguments)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_isrelationshiploaded, 0, 1, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, relationshipAlias, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_getschema, 0, 0, IS_STRING, 1)
 ZEND_END_ARG_INFO()
 
@@ -39851,6 +40152,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_getsnapshotdat
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_getsource, 0, 0, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_gettransaction, 0, 0, Phalcon\\Mvc\\Model\\TransactionInterface, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_getupdatedfields, 0, 0, IS_ARRAY, 0)
@@ -39875,19 +40179,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_hasupdated, 0,
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, allFields, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_isrelationshiploaded, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, relationshipAlias, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_jsonserialize, 0, 0, IS_ARRAY, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_maximum, 0, 0, 0)
-	ZEND_ARG_INFO(0, parameters)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_minimum, 0, 0, 0)
-	ZEND_ARG_INFO(0, parameters)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query, 0, 0, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
-	ZEND_ARG_OBJ_TYPE_MASK(0, container, Phalcon\\Di\\DiInterface, MAY_BE_NULL, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_readattribute, 0, 0, 1)
@@ -39900,16 +40196,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_save, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_dosave, 0, 1, _IS_BOOL, 0)
-	ZEND_ARG_OBJ_INFO(0, visited, Phalcon\\Support\\Collection\\CollectionInterface, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_serialize, 0, 0, IS_STRING, 1)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_unserialize, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_TYPE_INFO(0, data, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_setconnectionservice, 0, 1, IS_VOID, 0)
@@ -39925,14 +40212,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_seteventsmanager, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_setreadconnectionservice, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_TYPE_INFO(0, connectionService, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_setoldsnapshotdata, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, data, 0)
 	ZEND_ARG_INFO(0, columnMap)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_setreadconnectionservice, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO(0, connectionService, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_setrelated, 0, 2, Phalcon\\Mvc\\ModelInterface, 0)
@@ -39955,14 +40242,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_settransaction,
 	ZEND_ARG_OBJ_INFO(0, transaction, Phalcon\\Mvc\\Model\\TransactionInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_gettransaction, 0, 0, Phalcon\\Mvc\\Model\\TransactionInterface, 1)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_setup, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_ARRAY_INFO(0, options, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_setwriteconnectionservice, 0, 1, IS_VOID, 0)
 
 	ZEND_ARG_TYPE_INFO(0, connectionService, IS_STRING, 0)
@@ -39973,22 +40252,41 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_skipoperation,
 	ZEND_ARG_TYPE_INFO(0, skip, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_phalcon_mvc_model_sum, 0, 0, Phalcon\\Mvc\\Model\\ResultsetInterface, MAY_BE_DOUBLE)
-	ZEND_ARG_INFO(0, parameters)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_toarray, 0, 0, IS_ARRAY, 0)
 	ZEND_ARG_INFO(0, columns)
 	ZEND_ARG_INFO(0, useGetter)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_unserialize, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO(0, data, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_update, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_validationhasfailed, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_writeattribute, 0, 2, IS_VOID, 0)
 
 	ZEND_ARG_TYPE_INFO(0, attribute, IS_STRING, 0)
 	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_allowemptystringvalues, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_belongsto, 0, 3, Phalcon\\Mvc\\Model\\Relation, 0)
+	ZEND_ARG_INFO(0, fields)
+	ZEND_ARG_TYPE_INFO(0, referenceModel, IS_STRING, 0)
+	ZEND_ARG_INFO(0, referencedFields)
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_canceloperation, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_checkforeignkeysrestrict, 0, 0, _IS_BOOL, 0)
@@ -39998,6 +40296,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_checkforeignke
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_checkforeignkeysreverserestrict, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_collectrelatedtosave, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_dolowinsert, 0, 4, _IS_BOOL, 0)
@@ -40013,81 +40314,15 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_dolowupdate, 0
 	ZEND_ARG_INFO(0, table)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_has, 0, 2, _IS_BOOL, 0)
-	ZEND_ARG_OBJ_INFO(0, metaData, Phalcon\\Mvc\\Model\\MetaDataInterface, 0)
-	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\Db\\Adapter\\AdapterInterface, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_getrelatedrecords, 0, 0, 3)
 	ZEND_ARG_TYPE_INFO(0, modelName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, method, IS_STRING, 0)
 	ZEND_ARG_ARRAY_INFO(0, arguments, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_groupresult, 0, 0, 2)
-	ZEND_ARG_TYPE_INFO(0, functionName, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, alias, IS_STRING, 0)
-	ZEND_ARG_INFO(0, parameters)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_invokefinder, 0, 0, 2)
-	ZEND_ARG_TYPE_INFO(0, method, IS_STRING, 0)
-	ZEND_ARG_ARRAY_INFO(0, arguments, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_possiblesetter, 0, 2, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, property, IS_STRING, 0)
-	ZEND_ARG_INFO(0, value)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_presave, 0, 3, _IS_BOOL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_has, 0, 2, _IS_BOOL, 0)
 	ZEND_ARG_OBJ_INFO(0, metaData, Phalcon\\Mvc\\Model\\MetaDataInterface, 0)
-	ZEND_ARG_TYPE_INFO(0, exists, _IS_BOOL, 0)
-	ZEND_ARG_INFO(0, identityField)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_presaverelatedrecords, 0, 3, _IS_BOOL, 0)
 	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\Db\\Adapter\\AdapterInterface, 0)
-	ZEND_ARG_INFO(0, related)
-	ZEND_ARG_OBJ_INFO(0, visited, Phalcon\\Support\\Collection\\CollectionInterface, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_postsave, 0, 2, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, success, _IS_BOOL, 0)
-	ZEND_ARG_TYPE_INFO(0, exists, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_postsaverelatedrecords, 0, 3, _IS_BOOL, 0)
-	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\Db\\Adapter\\AdapterInterface, 0)
-	ZEND_ARG_INFO(0, related)
-	ZEND_ARG_OBJ_INFO(0, visited, Phalcon\\Support\\Collection\\CollectionInterface, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_allowemptystringvalues, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_canceloperation, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_belongsto, 0, 3, Phalcon\\Mvc\\Model\\Relation, 0)
-	ZEND_ARG_INFO(0, fields)
-	ZEND_ARG_TYPE_INFO(0, referenceModel, IS_STRING, 0)
-	ZEND_ARG_INFO(0, referencedFields)
-ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_loadeager, 0, 3, IS_VOID, 0)
-
-	ZEND_ARG_INFO(0, resultset)
-	ZEND_ARG_INFO(0, eager)
-	ZEND_ARG_ARRAY_INFO(0, params, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_getpreparedquery, 0, 1, Phalcon\\Mvc\\Model\\QueryInterface, 0)
-	ZEND_ARG_INFO(0, params)
-	ZEND_ARG_INFO(0, limit)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_hasmany, 0, 3, Phalcon\\Mvc\\Model\\Relation, 0)
@@ -40129,6 +40364,34 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_keepsnapshots,
 	ZEND_ARG_TYPE_INFO(0, keepSnapshot, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_possiblesetter, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, property, IS_STRING, 0)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_postsave, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, success, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, exists, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_postsaverelatedrecords, 0, 3, _IS_BOOL, 0)
+	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\Db\\Adapter\\AdapterInterface, 0)
+	ZEND_ARG_INFO(0, related)
+	ZEND_ARG_OBJ_INFO(0, visited, Phalcon\\Support\\Collection\\CollectionInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_presave, 0, 3, _IS_BOOL, 0)
+	ZEND_ARG_OBJ_INFO(0, metaData, Phalcon\\Mvc\\Model\\MetaDataInterface, 0)
+	ZEND_ARG_TYPE_INFO(0, exists, _IS_BOOL, 0)
+	ZEND_ARG_INFO(0, identityField)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_presaverelatedrecords, 0, 3, _IS_BOOL, 0)
+	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\Db\\Adapter\\AdapterInterface, 0)
+	ZEND_ARG_INFO(0, related)
+	ZEND_ARG_OBJ_INFO(0, visited, Phalcon\\Support\\Collection\\CollectionInterface, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_setschema, 0, 1, Phalcon\\Mvc\\ModelInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, schema, IS_STRING, 0)
 ZEND_END_ARG_INFO()
@@ -40161,27 +40424,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_validate, 0, 1
 	ZEND_ARG_OBJ_INFO(0, validator, Phalcon\\Filter\\Validation\\ValidationInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_validationhasfailed, 0, 0, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_caseinsensitivecolumnmap, 0, 2, IS_STRING, 0)
-	ZEND_ARG_INFO(0, columnMap)
-	ZEND_ARG_INFO(0, key)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_getprivateproperties, 0, 1, IS_ARRAY, 0)
-	ZEND_ARG_TYPE_INFO(0, className, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_appendmessagesfrom, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_INFO(0, model)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_zephir_init_properties_phalcon_mvc_model, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_zephir_init_static_properties_phalcon_mvc_model, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_method_entry) {
@@ -40193,20 +40436,30 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model, __serialize, arginfo_phalcon_mvc_model___serialize, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, __set, arginfo_phalcon_mvc_model___set, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, __unserialize, arginfo_phalcon_mvc_model___unserialize, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model, addBehavior, arginfo_phalcon_mvc_model_addbehavior, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model, appendMessage, arginfo_phalcon_mvc_model_appendmessage, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model, assign, arginfo_phalcon_mvc_model_assign, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, setup, arginfo_phalcon_mvc_model_setup, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model, average, arginfo_phalcon_mvc_model_average, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model, cloneResult, arginfo_phalcon_mvc_model_cloneresult, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model, cloneResultMap, arginfo_phalcon_mvc_model_cloneresultmap, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model, cloneResultMapHydrate, arginfo_phalcon_mvc_model_cloneresultmaphydrate, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
-	PHP_ME(Phalcon_Mvc_Model, collectRelatedToSave, arginfo_phalcon_mvc_model_collectrelatedtosave, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, count, arginfo_phalcon_mvc_model_count, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
-	PHP_ME(Phalcon_Mvc_Model, create, arginfo_phalcon_mvc_model_create, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model, delete, arginfo_phalcon_mvc_model_delete, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model, dump, arginfo_phalcon_mvc_model_dump, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, find, arginfo_phalcon_mvc_model_find, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model, findFirst, arginfo_phalcon_mvc_model_findfirst, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Model, maximum, arginfo_phalcon_mvc_model_maximum, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Model, minimum, arginfo_phalcon_mvc_model_minimum, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Model, query, arginfo_phalcon_mvc_model_query, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Model, sum, arginfo_phalcon_mvc_model_sum, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Model, groupResult, arginfo_phalcon_mvc_model_groupresult, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Model, invokeFinder, arginfo_phalcon_mvc_model_invokefinder, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Model, getPreparedQuery, arginfo_phalcon_mvc_model_getpreparedquery, ZEND_ACC_PRIVATE|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Model, loadEager, arginfo_phalcon_mvc_model_loadeager, ZEND_ACC_PRIVATE|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Model, addBehavior, arginfo_phalcon_mvc_model_addbehavior, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, appendMessage, arginfo_phalcon_mvc_model_appendmessage, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, appendMessagesFrom, arginfo_phalcon_mvc_model_appendmessagesfrom, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, assign, arginfo_phalcon_mvc_model_assign, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, create, arginfo_phalcon_mvc_model_create, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, delete, arginfo_phalcon_mvc_model_delete, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, doSave, arginfo_phalcon_mvc_model_dosave, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, dump, arginfo_phalcon_mvc_model_dump, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, fireEvent, arginfo_phalcon_mvc_model_fireevent, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, fireEventCancel, arginfo_phalcon_mvc_model_fireeventcancel, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, getChangedFields, arginfo_phalcon_mvc_model_getchangedfields, ZEND_ACC_PUBLIC)
@@ -40215,72 +40468,64 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model, getMessages, arginfo_phalcon_mvc_model_getmessages, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, getModelsManager, arginfo_phalcon_mvc_model_getmodelsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, getModelsMetaData, arginfo_phalcon_mvc_model_getmodelsmetadata, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model, getOperationMade, arginfo_phalcon_mvc_model_getoperationmade, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, getOldSnapshotData, arginfo_phalcon_mvc_model_getoldsnapshotdata, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, getOperationMade, arginfo_phalcon_mvc_model_getoperationmade, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, getReadConnection, arginfo_phalcon_mvc_model_getreadconnection, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, getReadConnectionService, arginfo_phalcon_mvc_model_getreadconnectionservice, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, getRelated, arginfo_phalcon_mvc_model_getrelated, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model, isRelationshipLoaded, arginfo_phalcon_mvc_model_isrelationshiploaded, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, getSchema, arginfo_phalcon_mvc_model_getschema, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, getSnapshotData, arginfo_phalcon_mvc_model_getsnapshotdata, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, getSource, arginfo_phalcon_mvc_model_getsource, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, getTransaction, arginfo_phalcon_mvc_model_gettransaction, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, getUpdatedFields, arginfo_phalcon_mvc_model_getupdatedfields, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, getWriteConnection, arginfo_phalcon_mvc_model_getwriteconnection, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, getWriteConnectionService, arginfo_phalcon_mvc_model_getwriteconnectionservice, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, hasChanged, arginfo_phalcon_mvc_model_haschanged, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, hasSnapshotData, arginfo_phalcon_mvc_model_hassnapshotdata, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, hasUpdated, arginfo_phalcon_mvc_model_hasupdated, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, isRelationshipLoaded, arginfo_phalcon_mvc_model_isrelationshiploaded, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, jsonSerialize, arginfo_phalcon_mvc_model_jsonserialize, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model, maximum, arginfo_phalcon_mvc_model_maximum, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
-	PHP_ME(Phalcon_Mvc_Model, minimum, arginfo_phalcon_mvc_model_minimum, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
-	PHP_ME(Phalcon_Mvc_Model, query, arginfo_phalcon_mvc_model_query, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model, readAttribute, arginfo_phalcon_mvc_model_readattribute, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, refresh, arginfo_phalcon_mvc_model_refresh, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, save, arginfo_phalcon_mvc_model_save, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model, doSave, arginfo_phalcon_mvc_model_dosave, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, serialize, arginfo_phalcon_mvc_model_serialize, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model, unserialize, arginfo_phalcon_mvc_model_unserialize, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, setConnectionService, arginfo_phalcon_mvc_model_setconnectionservice, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, setDirtyState, arginfo_phalcon_mvc_model_setdirtystate, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, setEventsManager, arginfo_phalcon_mvc_model_seteventsmanager, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model, setReadConnectionService, arginfo_phalcon_mvc_model_setreadconnectionservice, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, setOldSnapshotData, arginfo_phalcon_mvc_model_setoldsnapshotdata, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, setReadConnectionService, arginfo_phalcon_mvc_model_setreadconnectionservice, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, setRelated, arginfo_phalcon_mvc_model_setrelated, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, setSnapshotData, arginfo_phalcon_mvc_model_setsnapshotdata, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, setSync, arginfo_phalcon_mvc_model_setsync, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, setTransaction, arginfo_phalcon_mvc_model_settransaction, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model, getTransaction, arginfo_phalcon_mvc_model_gettransaction, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model, setup, arginfo_phalcon_mvc_model_setup, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model, setWriteConnectionService, arginfo_phalcon_mvc_model_setwriteconnectionservice, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, skipOperation, arginfo_phalcon_mvc_model_skipoperation, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model, sum, arginfo_phalcon_mvc_model_sum, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model, toArray, arginfo_phalcon_mvc_model_toarray, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, unserialize, arginfo_phalcon_mvc_model_unserialize, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, update, arginfo_phalcon_mvc_model_update, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, validationHasFailed, arginfo_phalcon_mvc_model_validationhasfailed, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, writeAttribute, arginfo_phalcon_mvc_model_writeattribute, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model, allowEmptyStringValues, arginfo_phalcon_mvc_model_allowemptystringvalues, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model, belongsTo, arginfo_phalcon_mvc_model_belongsto, ZEND_ACC_PROTECTED)
+PHP_ME(Phalcon_Mvc_Model, cancelOperation, arginfo_phalcon_mvc_model_canceloperation, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, checkForeignKeysRestrict, arginfo_phalcon_mvc_model_checkforeignkeysrestrict, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, checkForeignKeysReverseCascade, arginfo_phalcon_mvc_model_checkforeignkeysreversecascade, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, checkForeignKeysReverseRestrict, arginfo_phalcon_mvc_model_checkforeignkeysreverserestrict, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model, collectRelatedToSave, arginfo_phalcon_mvc_model_collectrelatedtosave, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, doLowInsert, arginfo_phalcon_mvc_model_dolowinsert, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, doLowUpdate, arginfo_phalcon_mvc_model_dolowupdate, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Mvc_Model, has, arginfo_phalcon_mvc_model_has, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, getRelatedRecords, arginfo_phalcon_mvc_model_getrelatedrecords, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Mvc_Model, groupResult, arginfo_phalcon_mvc_model_groupresult, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
-	PHP_ME(Phalcon_Mvc_Model, invokeFinder, arginfo_phalcon_mvc_model_invokefinder, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL|ZEND_ACC_STATIC)
-	PHP_ME(Phalcon_Mvc_Model, possibleSetter, arginfo_phalcon_mvc_model_possiblesetter, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Mvc_Model, preSave, arginfo_phalcon_mvc_model_presave, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Mvc_Model, preSaveRelatedRecords, arginfo_phalcon_mvc_model_presaverelatedrecords, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Mvc_Model, postSave, arginfo_phalcon_mvc_model_postsave, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Mvc_Model, postSaveRelatedRecords, arginfo_phalcon_mvc_model_postsaverelatedrecords, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Mvc_Model, allowEmptyStringValues, arginfo_phalcon_mvc_model_allowemptystringvalues, ZEND_ACC_PROTECTED)
-PHP_ME(Phalcon_Mvc_Model, cancelOperation, arginfo_phalcon_mvc_model_canceloperation, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Mvc_Model, belongsTo, arginfo_phalcon_mvc_model_belongsto, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Mvc_Model, loadEager, arginfo_phalcon_mvc_model_loadeager, ZEND_ACC_PRIVATE|ZEND_ACC_STATIC)
-	PHP_ME(Phalcon_Mvc_Model, getPreparedQuery, arginfo_phalcon_mvc_model_getpreparedquery, ZEND_ACC_PRIVATE|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Model, has, arginfo_phalcon_mvc_model_has, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, hasMany, arginfo_phalcon_mvc_model_hasmany, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, hasManyToMany, arginfo_phalcon_mvc_model_hasmanytomany, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, hasOne, arginfo_phalcon_mvc_model_hasone, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, hasOneThrough, arginfo_phalcon_mvc_model_hasonethrough, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, keepSnapshots, arginfo_phalcon_mvc_model_keepsnapshots, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model, possibleSetter, arginfo_phalcon_mvc_model_possiblesetter, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model, postSave, arginfo_phalcon_mvc_model_postsave, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model, postSaveRelatedRecords, arginfo_phalcon_mvc_model_postsaverelatedrecords, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model, preSave, arginfo_phalcon_mvc_model_presave, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model, preSaveRelatedRecords, arginfo_phalcon_mvc_model_presaverelatedrecords, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, setSchema, arginfo_phalcon_mvc_model_setschema, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, setSource, arginfo_phalcon_mvc_model_setsource, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, skipAttributes, arginfo_phalcon_mvc_model_skipattributes, ZEND_ACC_PROTECTED)
@@ -40288,10 +40533,6 @@ PHP_ME(Phalcon_Mvc_Model, cancelOperation, arginfo_phalcon_mvc_model_cancelopera
 	PHP_ME(Phalcon_Mvc_Model, skipAttributesOnUpdate, arginfo_phalcon_mvc_model_skipattributesonupdate, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, useDynamicUpdate, arginfo_phalcon_mvc_model_usedynamicupdate, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, validate, arginfo_phalcon_mvc_model_validate, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Mvc_Model, validationHasFailed, arginfo_phalcon_mvc_model_validationhasfailed, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model, caseInsensitiveColumnMap, arginfo_phalcon_mvc_model_caseinsensitivecolumnmap, ZEND_ACC_PRIVATE|ZEND_ACC_STATIC)
-	PHP_ME(Phalcon_Mvc_Model, getPrivateProperties, arginfo_phalcon_mvc_model_getprivateproperties, ZEND_ACC_PRIVATE|ZEND_ACC_STATIC)
-	PHP_ME(Phalcon_Mvc_Model, appendMessagesFrom, arginfo_phalcon_mvc_model_appendmessagesfrom, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -40361,7 +40602,6 @@ static PHP_METHOD(Phalcon_Mvc_Model_Binder, setCache);
 static PHP_METHOD(Phalcon_Mvc_Model_Binder, findBoundModel);
 static PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromCache);
 static PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection);
-zend_object *zephir_init_properties_Phalcon_Mvc_Model_Binder(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_binder___construct, 0, 0, 0)
 	ZEND_ARG_OBJ_TYPE_MASK(0, cache, Phalcon\\Cache\\Adapter\\AdapterInterface, MAY_BE_NULL, "null")
@@ -40403,9 +40643,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_binder_getpara
 	ZEND_ARG_TYPE_INFO(0, methodName, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_binder_zephir_init_properties_phalcon_mvc_model_binder, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_binder_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Binder, __construct, arginfo_phalcon_mvc_model_binder___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Mvc_Model_Binder, bindToHandler, arginfo_phalcon_mvc_model_binder_bindtohandler, ZEND_ACC_PUBLIC)
@@ -40423,7 +40660,7 @@ zend_class_entry *phalcon_mvc_model_binder_bindableinterface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Binder_BindableInterface);
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_model_binder_bindableinterface_getmodelname, 0, 0, MAY_BE_STRING|MAY_BE_ARRAY)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_model_binder_bindableinterface_getmodelname, 0, 0, MAY_BE_ARRAY|MAY_BE_STRING)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_binder_bindableinterface_method_entry) {
@@ -40435,6 +40672,7 @@ zend_class_entry *phalcon_mvc_model_criteria_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Criteria);
 
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput);
 static PHP_METHOD(Phalcon_Mvc_Model_Criteria, andWhere);
 static PHP_METHOD(Phalcon_Mvc_Model_Criteria, betweenWhere);
 static PHP_METHOD(Phalcon_Mvc_Model_Criteria, bind);
@@ -40447,7 +40685,6 @@ static PHP_METHOD(Phalcon_Mvc_Model_Criteria, distinct);
 static PHP_METHOD(Phalcon_Mvc_Model_Criteria, eager);
 static PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute);
 static PHP_METHOD(Phalcon_Mvc_Model_Criteria, forUpdate);
-static PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput);
 static PHP_METHOD(Phalcon_Mvc_Model_Criteria, getColumns);
 static PHP_METHOD(Phalcon_Mvc_Model_Criteria, getConditions);
 static PHP_METHOD(Phalcon_Mvc_Model_Criteria, getDI);
@@ -40460,22 +40697,28 @@ static PHP_METHOD(Phalcon_Mvc_Model_Criteria, getParams);
 static PHP_METHOD(Phalcon_Mvc_Model_Criteria, getWhere);
 static PHP_METHOD(Phalcon_Mvc_Model_Criteria, groupBy);
 static PHP_METHOD(Phalcon_Mvc_Model_Criteria, having);
-static PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere);
 static PHP_METHOD(Phalcon_Mvc_Model_Criteria, innerJoin);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere);
 static PHP_METHOD(Phalcon_Mvc_Model_Criteria, join);
 static PHP_METHOD(Phalcon_Mvc_Model_Criteria, leftJoin);
 static PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit);
 static PHP_METHOD(Phalcon_Mvc_Model_Criteria, notBetweenWhere);
 static PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere);
-static PHP_METHOD(Phalcon_Mvc_Model_Criteria, orWhere);
 static PHP_METHOD(Phalcon_Mvc_Model_Criteria, orderBy);
+static PHP_METHOD(Phalcon_Mvc_Model_Criteria, orWhere);
 static PHP_METHOD(Phalcon_Mvc_Model_Criteria, rightJoin);
 static PHP_METHOD(Phalcon_Mvc_Model_Criteria, setDI);
 static PHP_METHOD(Phalcon_Mvc_Model_Criteria, setModelName);
 static PHP_METHOD(Phalcon_Mvc_Model_Criteria, sharedLock);
 static PHP_METHOD(Phalcon_Mvc_Model_Criteria, where);
 static PHP_METHOD(Phalcon_Mvc_Model_Criteria, addJoinClause);
-zend_object *zephir_init_properties_Phalcon_Mvc_Model_Criteria(zend_class_entry *class_type);
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_frominput, 0, 3, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 0)
+	ZEND_ARG_TYPE_INFO(0, modelName, IS_STRING, 0)
+	ZEND_ARG_ARRAY_INFO(0, data, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, operator, IS_STRING, 0, "'AND'")
+ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_andwhere, 0, 1, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, conditions, IS_STRING, 0)
@@ -40528,14 +40771,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_forupd
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, forUpdate, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_frominput, 0, 3, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
-	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 0)
-	ZEND_ARG_TYPE_INFO(0, modelName, IS_STRING, 0)
-	ZEND_ARG_ARRAY_INFO(0, data, 0)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, operator, IS_STRING, 0, "'AND'")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_model_criteria_getcolumns, 0, 0, MAY_BE_NULL|MAY_BE_STRING|MAY_BE_ARRAY)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_model_criteria_getcolumns, 0, 0, MAY_BE_NULL|MAY_BE_ARRAY|MAY_BE_STRING)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_criteria_getconditions, 0, 0, IS_STRING, 1)
@@ -40550,7 +40786,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteria_gethaving, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_model_criteria_getlimit, 0, 0, MAY_BE_NULL|MAY_BE_LONG|MAY_BE_ARRAY)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_model_criteria_getlimit, 0, 0, MAY_BE_NULL|MAY_BE_ARRAY|MAY_BE_LONG)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_criteria_getmodelname, 0, 0, IS_STRING, 0)
@@ -40573,15 +40809,15 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_having
 	ZEND_ARG_INFO(0, having)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_inwhere, 0, 2, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
-	ZEND_ARG_TYPE_INFO(0, expr, IS_STRING, 0)
-	ZEND_ARG_ARRAY_INFO(0, values, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_innerjoin, 0, 1, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, model, IS_STRING, 0)
 	ZEND_ARG_INFO(0, conditions)
 	ZEND_ARG_INFO(0, alias)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_inwhere, 0, 2, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
+	ZEND_ARG_TYPE_INFO(0, expr, IS_STRING, 0)
+	ZEND_ARG_ARRAY_INFO(0, values, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_join, 0, 1, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
@@ -40613,14 +40849,14 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_notinw
 	ZEND_ARG_ARRAY_INFO(0, values, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_orderby, 0, 1, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
+	ZEND_ARG_TYPE_INFO(0, orderColumns, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_orwhere, 0, 1, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, conditions, IS_STRING, 0)
 	ZEND_ARG_INFO(0, bindParams)
 	ZEND_ARG_INFO(0, bindTypes)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_orderby, 0, 1, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
-	ZEND_ARG_TYPE_INFO(0, orderColumns, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_rightjoin, 0, 1, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
@@ -40655,10 +40891,8 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_addjoi
 	ZEND_ARG_INFO(0, type)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteria_zephir_init_properties_phalcon_mvc_model_criteria, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_criteria_method_entry) {
+	PHP_ME(Phalcon_Mvc_Model_Criteria, fromInput, arginfo_phalcon_mvc_model_criteria_frominput, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, andWhere, arginfo_phalcon_mvc_model_criteria_andwhere, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, betweenWhere, arginfo_phalcon_mvc_model_criteria_betweenwhere, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, bind, arginfo_phalcon_mvc_model_criteria_bind, ZEND_ACC_PUBLIC)
@@ -40671,7 +40905,6 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_criteria_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Criteria, eager, arginfo_phalcon_mvc_model_criteria_eager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, execute, arginfo_phalcon_mvc_model_criteria_execute, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, forUpdate, arginfo_phalcon_mvc_model_criteria_forupdate, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Criteria, fromInput, arginfo_phalcon_mvc_model_criteria_frominput, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, getColumns, arginfo_phalcon_mvc_model_criteria_getcolumns, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, getConditions, arginfo_phalcon_mvc_model_criteria_getconditions, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, getDI, arginfo_phalcon_mvc_model_criteria_getdi, ZEND_ACC_PUBLIC)
@@ -40684,15 +40917,15 @@ PHP_ME(Phalcon_Mvc_Model_Criteria, getHaving, arginfo_phalcon_mvc_model_criteria
 	PHP_ME(Phalcon_Mvc_Model_Criteria, getWhere, arginfo_phalcon_mvc_model_criteria_getwhere, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, groupBy, arginfo_phalcon_mvc_model_criteria_groupby, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, having, arginfo_phalcon_mvc_model_criteria_having, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Criteria, inWhere, arginfo_phalcon_mvc_model_criteria_inwhere, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, innerJoin, arginfo_phalcon_mvc_model_criteria_innerjoin, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, inWhere, arginfo_phalcon_mvc_model_criteria_inwhere, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, join, arginfo_phalcon_mvc_model_criteria_join, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, leftJoin, arginfo_phalcon_mvc_model_criteria_leftjoin, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, limit, arginfo_phalcon_mvc_model_criteria_limit, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, notBetweenWhere, arginfo_phalcon_mvc_model_criteria_notbetweenwhere, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, notInWhere, arginfo_phalcon_mvc_model_criteria_notinwhere, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Criteria, orWhere, arginfo_phalcon_mvc_model_criteria_orwhere, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, orderBy, arginfo_phalcon_mvc_model_criteria_orderby, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Criteria, orWhere, arginfo_phalcon_mvc_model_criteria_orwhere, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, rightJoin, arginfo_phalcon_mvc_model_criteria_rightjoin, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, setDI, arginfo_phalcon_mvc_model_criteria_setdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Criteria, setModelName, arginfo_phalcon_mvc_model_criteria_setmodelname, ZEND_ACC_PUBLIC)
@@ -41659,6 +41892,23 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_hydration_caseinsensitivecolumnmap_method_en
 	PHP_FE_END
 };
 
+zend_class_entry *phalcon_mvc_model_hydration_cloneresult_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Hydration_CloneResult);
+
+static PHP_METHOD(Phalcon_Mvc_Model_Hydration_CloneResult, cloneResult);
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_hydration_cloneresult_cloneresult, 0, 2, Phalcon\\Mvc\\ModelInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, base, Phalcon\\Mvc\\ModelInterface, 0)
+	ZEND_ARG_ARRAY_INFO(0, data, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, dirtyState, IS_LONG, 0, "0")
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_mvc_model_hydration_cloneresult_method_entry) {
+	PHP_ME(Phalcon_Mvc_Model_Hydration_CloneResult, cloneResult, arginfo_phalcon_mvc_model_hydration_cloneresult_cloneresult, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_FE_END
+};
+
 zend_class_entry *phalcon_mvc_model_hydration_cloneresultmaphydrate_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Hydration_CloneResultMapHydrate);
@@ -41677,11 +41927,30 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_hydration_cloneresultmaphydrate_method_entry
 	PHP_FE_END
 };
 
+zend_class_entry *phalcon_mvc_model_hydration_getprivateproperties_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Hydration_GetPrivateProperties);
+
+static PHP_METHOD(Phalcon_Mvc_Model_Hydration_GetPrivateProperties, getPrivateProperties);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_hydration_getprivateproperties_getprivateproperties, 0, 1, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, className, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_hydration_getprivateproperties_zephir_init_static_properties_phalcon_mvc_model_hydration_getprivateproperties, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_mvc_model_hydration_getprivateproperties_method_entry) {
+	PHP_ME(Phalcon_Mvc_Model_Hydration_GetPrivateProperties, getPrivateProperties, arginfo_phalcon_mvc_model_hydration_getprivateproperties_getprivateproperties, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_FE_END
+};
+
 zend_class_entry *phalcon_mvc_model_manager_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Manager);
 
 static PHP_METHOD(Phalcon_Mvc_Model_Manager, __destruct);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, mergeFindParameters);
 static PHP_METHOD(Phalcon_Mvc_Model_Manager, addBehavior);
 static PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo);
 static PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany);
@@ -41737,7 +42006,6 @@ static PHP_METHOD(Phalcon_Mvc_Model_Manager, isUsingDynamicUpdate);
 static PHP_METHOD(Phalcon_Mvc_Model_Manager, isVisibleModelProperty);
 static PHP_METHOD(Phalcon_Mvc_Model_Manager, keepSnapshots);
 static PHP_METHOD(Phalcon_Mvc_Model_Manager, load);
-static PHP_METHOD(Phalcon_Mvc_Model_Manager, mergeFindParameters);
 static PHP_METHOD(Phalcon_Mvc_Model_Manager, missingMethod);
 static PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent);
 static PHP_METHOD(Phalcon_Mvc_Model_Manager, registerWrite);
@@ -41757,9 +42025,14 @@ static PHP_METHOD(Phalcon_Mvc_Model_Manager, setWriteConnectionService);
 static PHP_METHOD(Phalcon_Mvc_Model_Manager, useDynamicUpdate);
 static PHP_METHOD(Phalcon_Mvc_Model_Manager, getConnection);
 static PHP_METHOD(Phalcon_Mvc_Model_Manager, checkHasRelationship);
-zend_object *zephir_init_properties_Phalcon_Mvc_Model_Manager(zend_class_entry *class_type);
+static PHP_METHOD(Phalcon_Mvc_Model_Manager, getFieldsCount);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager___destruct, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_mergefindparameters, 0, 2, IS_ARRAY, 0)
+	ZEND_ARG_INFO(0, findParamsOne)
+	ZEND_ARG_INFO(0, findParamsTwo)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_addbehavior, 0, 2, IS_VOID, 0)
@@ -42037,11 +42310,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_manager_load, 0
 	ZEND_ARG_TYPE_INFO(0, modelName, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_mergefindparameters, 0, 2, IS_ARRAY, 0)
-	ZEND_ARG_INFO(0, findParamsOne)
-	ZEND_ARG_INFO(0, findParamsTwo)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_missingmethod, 0, 0, 3)
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, eventName, IS_STRING, 0)
@@ -42147,11 +42415,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_checkh
 	ZEND_ARG_TYPE_INFO(0, modelRelation, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_zephir_init_properties_phalcon_mvc_model_manager, 0, 0, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_getfieldscount, 0, 1, IS_LONG, 0)
+	ZEND_ARG_INFO(0, fields)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_manager_method_entry) {
 PHP_ME(Phalcon_Mvc_Model_Manager, __destruct, arginfo_phalcon_mvc_model_manager___destruct, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR)
+	PHP_ME(Phalcon_Mvc_Model_Manager, mergeFindParameters, arginfo_phalcon_mvc_model_manager_mergefindparameters, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, addBehavior, arginfo_phalcon_mvc_model_manager_addbehavior, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, addBelongsTo, arginfo_phalcon_mvc_model_manager_addbelongsto, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, addHasMany, arginfo_phalcon_mvc_model_manager_addhasmany, ZEND_ACC_PUBLIC)
@@ -42207,7 +42477,6 @@ PHP_ME(Phalcon_Mvc_Model_Manager, __destruct, arginfo_phalcon_mvc_model_manager_
 	PHP_ME(Phalcon_Mvc_Model_Manager, isVisibleModelProperty, arginfo_phalcon_mvc_model_manager_isvisiblemodelproperty, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, keepSnapshots, arginfo_phalcon_mvc_model_manager_keepsnapshots, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, load, arginfo_phalcon_mvc_model_manager_load, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Manager, mergeFindParameters, arginfo_phalcon_mvc_model_manager_mergefindparameters, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, missingMethod, arginfo_phalcon_mvc_model_manager_missingmethod, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, notifyEvent, arginfo_phalcon_mvc_model_manager_notifyevent, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, registerWrite, arginfo_phalcon_mvc_model_manager_registerwrite, ZEND_ACC_PUBLIC)
@@ -42227,6 +42496,7 @@ PHP_ME(Phalcon_Mvc_Model_Manager, __destruct, arginfo_phalcon_mvc_model_manager_
 	PHP_ME(Phalcon_Mvc_Model_Manager, useDynamicUpdate, arginfo_phalcon_mvc_model_manager_usedynamicupdate, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Manager, getConnection, arginfo_phalcon_mvc_model_manager_getconnection, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model_Manager, checkHasRelationship, arginfo_phalcon_mvc_model_manager_checkhasrelationship, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Mvc_Model_Manager, getFieldsCount, arginfo_phalcon_mvc_model_manager_getfieldscount, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };
 
@@ -42535,7 +42805,9 @@ static PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, phpFileGetContents);
 static PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, phpFilePutContents);
 static PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, phpFopen);
 static PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, phpFwrite);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, phpIsDir);
 static PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, phpIsWritable);
+static PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, phpMkdir);
 static PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, phpUnlink);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_stream___construct, 0, 0, 0)
@@ -42605,8 +42877,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_model_metadata_strea
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_stream_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_stream_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_stream_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_stream_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -42627,7 +42910,9 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_metadata_stream_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_MetaData_Stream, phpFilePutContents, arginfo_phalcon_mvc_model_metadata_stream_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData_Stream, phpFopen, arginfo_phalcon_mvc_model_metadata_stream_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData_Stream, phpFwrite, arginfo_phalcon_mvc_model_metadata_stream_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData_Stream, phpIsDir, arginfo_phalcon_mvc_model_metadata_stream_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData_Stream, phpIsWritable, arginfo_phalcon_mvc_model_metadata_stream_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData_Stream, phpMkdir, arginfo_phalcon_mvc_model_metadata_stream_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData_Stream, phpUnlink, arginfo_phalcon_mvc_model_metadata_stream_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
@@ -42637,8 +42922,8 @@ zend_class_entry *phalcon_mvc_model_query_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query);
 
 static PHP_METHOD(Phalcon_Mvc_Model_Query, __construct);
-static PHP_METHOD(Phalcon_Mvc_Model_Query, cache);
 static PHP_METHOD(Phalcon_Mvc_Model_Query, clean);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, cache);
 static PHP_METHOD(Phalcon_Mvc_Model_Query, execute);
 static PHP_METHOD(Phalcon_Mvc_Model_Query, getBindParams);
 static PHP_METHOD(Phalcon_Mvc_Model_Query, getBindTypes);
@@ -42657,10 +42942,10 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, setBindParams);
 static PHP_METHOD(Phalcon_Mvc_Model_Query, setBindTypes);
 static PHP_METHOD(Phalcon_Mvc_Model_Query, setDI);
 static PHP_METHOD(Phalcon_Mvc_Model_Query, setIntermediate);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, setResultsetRowClass);
 static PHP_METHOD(Phalcon_Mvc_Model_Query, setSharedLock);
 static PHP_METHOD(Phalcon_Mvc_Model_Query, setTransaction);
 static PHP_METHOD(Phalcon_Mvc_Model_Query, setType);
-static PHP_METHOD(Phalcon_Mvc_Model_Query, setResultsetRowClass);
 static PHP_METHOD(Phalcon_Mvc_Model_Query, setUniqueRow);
 static PHP_METHOD(Phalcon_Mvc_Model_Query, executeDelete);
 static PHP_METHOD(Phalcon_Mvc_Model_Query, executeInsert);
@@ -42672,8 +42957,8 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query, getExpression);
 static PHP_METHOD(Phalcon_Mvc_Model_Query, getFunctionCall);
 static PHP_METHOD(Phalcon_Mvc_Model_Query, getGroupClause);
 static PHP_METHOD(Phalcon_Mvc_Model_Query, getJoin);
-static PHP_METHOD(Phalcon_Mvc_Model_Query, getJoinType);
 static PHP_METHOD(Phalcon_Mvc_Model_Query, getJoins);
+static PHP_METHOD(Phalcon_Mvc_Model_Query, getJoinType);
 static PHP_METHOD(Phalcon_Mvc_Model_Query, getLimitClause);
 static PHP_METHOD(Phalcon_Mvc_Model_Query, getMultiJoin);
 static PHP_METHOD(Phalcon_Mvc_Model_Query, getOrderClause);
@@ -42697,11 +42982,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query___construct, 0, 0, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_cache, 0, 1, Phalcon\\Mvc\\Model\\QueryInterface, 0)
-	ZEND_ARG_ARRAY_INFO(0, cacheOptions, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_clean, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_clean, 0, 0, IS_VOID, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_cache, 0, 1, Phalcon\\Mvc\\Model\\QueryInterface, 0)
+	ZEND_ARG_ARRAY_INFO(0, cacheOptions, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_execute, 0, 0, 0)
@@ -42769,6 +43054,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_setinterm
 	ZEND_ARG_ARRAY_INFO(0, intermediate, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_setresultsetrowclass, 0, 1, Phalcon\\Mvc\\Model\\QueryInterface, 0)
+	ZEND_ARG_TYPE_INFO(0, resultsetRowClass, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_setsharedlock, 0, 0, Phalcon\\Mvc\\Model\\QueryInterface, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, sharedLock, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
@@ -42779,10 +43068,6 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_settype, 0, 1, Phalcon\\Mvc\\Model\\QueryInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, type, IS_LONG, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_setresultsetrowclass, 0, 1, Phalcon\\Mvc\\Model\\QueryInterface, 0)
-	ZEND_ARG_TYPE_INFO(0, resultsetRowClass, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_setuniquerow, 0, 1, Phalcon\\Mvc\\Model\\QueryInterface, 0)
@@ -42840,12 +43125,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_getjoin,
 	ZEND_ARG_ARRAY_INFO(0, join, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_getjointype, 0, 1, IS_STRING, 0)
-	ZEND_ARG_ARRAY_INFO(0, join, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_getjoins, 0, 1, IS_ARRAY, 0)
 	ZEND_ARG_ARRAY_INFO(0, select, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_getjointype, 0, 1, IS_STRING, 0)
+	ZEND_ARG_ARRAY_INFO(0, join, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_getlimitclause, 0, 1, IS_ARRAY, 0)
@@ -42929,8 +43214,8 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_query_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Query, __construct, arginfo_phalcon_mvc_model_query___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(Phalcon_Mvc_Model_Query, cache, arginfo_phalcon_mvc_model_query_cache, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, clean, arginfo_phalcon_mvc_model_query_clean, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Model_Query, cache, arginfo_phalcon_mvc_model_query_cache, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, execute, arginfo_phalcon_mvc_model_query_execute, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, getBindParams, arginfo_phalcon_mvc_model_query_getbindparams, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, getBindTypes, arginfo_phalcon_mvc_model_query_getbindtypes, ZEND_ACC_PUBLIC)
@@ -42949,10 +43234,10 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_query_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Query, setBindTypes, arginfo_phalcon_mvc_model_query_setbindtypes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, setDI, arginfo_phalcon_mvc_model_query_setdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, setIntermediate, arginfo_phalcon_mvc_model_query_setintermediate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Query, setResultsetRowClass, arginfo_phalcon_mvc_model_query_setresultsetrowclass, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, setSharedLock, arginfo_phalcon_mvc_model_query_setsharedlock, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, setTransaction, arginfo_phalcon_mvc_model_query_settransaction, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, setType, arginfo_phalcon_mvc_model_query_settype, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Query, setResultsetRowClass, arginfo_phalcon_mvc_model_query_setresultsetrowclass, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, setUniqueRow, arginfo_phalcon_mvc_model_query_setuniquerow, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, executeDelete, arginfo_phalcon_mvc_model_query_executedelete, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model_Query, executeInsert, arginfo_phalcon_mvc_model_query_executeinsert, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
@@ -42964,8 +43249,8 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_query_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Query, getFunctionCall, arginfo_phalcon_mvc_model_query_getfunctioncall, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model_Query, getGroupClause, arginfo_phalcon_mvc_model_query_getgroupclause, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model_Query, getJoin, arginfo_phalcon_mvc_model_query_getjoin, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Mvc_Model_Query, getJoinType, arginfo_phalcon_mvc_model_query_getjointype, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model_Query, getJoins, arginfo_phalcon_mvc_model_query_getjoins, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Query, getJoinType, arginfo_phalcon_mvc_model_query_getjointype, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model_Query, getLimitClause, arginfo_phalcon_mvc_model_query_getlimitclause, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model_Query, getMultiJoin, arginfo_phalcon_mvc_model_query_getmultijoin, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model_Query, getOrderClause, arginfo_phalcon_mvc_model_query_getorderclause, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
@@ -43019,8 +43304,8 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getWhere);
 static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, groupBy);
 static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, having);
 static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, inHaving);
-static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, inWhere);
 static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, innerJoin);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, inWhere);
 static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, join);
 static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, leftJoin);
 static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit);
@@ -43029,9 +43314,9 @@ static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notBetweenWhere);
 static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notInHaving);
 static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, notInWhere);
 static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, offset);
+static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, orderBy);
 static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, orHaving);
 static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, orWhere);
-static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, orderBy);
 static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, rightJoin);
 static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setBindParams);
 static PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setBindTypes);
@@ -43130,7 +43415,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder_getlimit, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_model_query_builder_getmodels, 0, 0, MAY_BE_NULL|MAY_BE_STRING|MAY_BE_ARRAY)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_model_query_builder_getmodels, 0, 0, MAY_BE_NULL|MAY_BE_ARRAY|MAY_BE_STRING)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_getoffset, 0, 0, IS_LONG, 0)
@@ -43167,16 +43452,16 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_i
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, operator, IS_STRING, 0, "'and'")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_inwhere, 0, 2, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-	ZEND_ARG_TYPE_INFO(0, expr, IS_STRING, 0)
-	ZEND_ARG_ARRAY_INFO(0, values, 0)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, operator, IS_STRING, 0, "'and'")
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_innerjoin, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, model, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, conditions, IS_STRING, 1, "null")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, alias, IS_STRING, 1, "null")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_inwhere, 0, 2, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
+	ZEND_ARG_TYPE_INFO(0, expr, IS_STRING, 0)
+	ZEND_ARG_ARRAY_INFO(0, values, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, operator, IS_STRING, 0, "'and'")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_join, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
@@ -43227,6 +43512,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_o
 	ZEND_ARG_TYPE_INFO(0, offset, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_orderby, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
+	ZEND_ARG_INFO(0, orderBy)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_orhaving, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, conditions, IS_STRING, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindParams, IS_ARRAY, 0, "[]")
@@ -43237,10 +43526,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_o
 	ZEND_ARG_TYPE_INFO(0, conditions, IS_STRING, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindParams, IS_ARRAY, 0, "[]")
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, bindTypes, IS_ARRAY, 0, "[]")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_orderby, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-	ZEND_ARG_INFO(0, orderBy)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_rightjoin, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
@@ -43339,8 +43624,8 @@ PHP_ME(Phalcon_Mvc_Model_Query_Builder, getWhere, arginfo_phalcon_mvc_model_quer
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, groupBy, arginfo_phalcon_mvc_model_query_builder_groupby, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, having, arginfo_phalcon_mvc_model_query_builder_having, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, inHaving, arginfo_phalcon_mvc_model_query_builder_inhaving, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Query_Builder, inWhere, arginfo_phalcon_mvc_model_query_builder_inwhere, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, innerJoin, arginfo_phalcon_mvc_model_query_builder_innerjoin, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Query_Builder, inWhere, arginfo_phalcon_mvc_model_query_builder_inwhere, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, join, arginfo_phalcon_mvc_model_query_builder_join, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, leftJoin, arginfo_phalcon_mvc_model_query_builder_leftjoin, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, limit, arginfo_phalcon_mvc_model_query_builder_limit, ZEND_ACC_PUBLIC)
@@ -43349,9 +43634,9 @@ PHP_ME(Phalcon_Mvc_Model_Query_Builder, getWhere, arginfo_phalcon_mvc_model_quer
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, notInHaving, arginfo_phalcon_mvc_model_query_builder_notinhaving, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, notInWhere, arginfo_phalcon_mvc_model_query_builder_notinwhere, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, offset, arginfo_phalcon_mvc_model_query_builder_offset, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Query_Builder, orderBy, arginfo_phalcon_mvc_model_query_builder_orderby, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, orHaving, arginfo_phalcon_mvc_model_query_builder_orhaving, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, orWhere, arginfo_phalcon_mvc_model_query_builder_orwhere, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Query_Builder, orderBy, arginfo_phalcon_mvc_model_query_builder_orderby, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, rightJoin, arginfo_phalcon_mvc_model_query_builder_rightjoin, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, setBindParams, arginfo_phalcon_mvc_model_query_builder_setbindparams, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, setBindTypes, arginfo_phalcon_mvc_model_query_builder_setbindtypes, ZEND_ACC_PUBLIC)
@@ -44258,14 +44543,13 @@ static PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateReferencedFields);
 static PHP_METHOD(Phalcon_Mvc_Model_Relation, getOption);
 static PHP_METHOD(Phalcon_Mvc_Model_Relation, getOptions);
 static PHP_METHOD(Phalcon_Mvc_Model_Relation, getParams);
-static PHP_METHOD(Phalcon_Mvc_Model_Relation, getType);
 static PHP_METHOD(Phalcon_Mvc_Model_Relation, getReferencedFields);
 static PHP_METHOD(Phalcon_Mvc_Model_Relation, getReferencedModel);
+static PHP_METHOD(Phalcon_Mvc_Model_Relation, getType);
 static PHP_METHOD(Phalcon_Mvc_Model_Relation, isForeignKey);
-static PHP_METHOD(Phalcon_Mvc_Model_Relation, isThrough);
 static PHP_METHOD(Phalcon_Mvc_Model_Relation, isReusable);
+static PHP_METHOD(Phalcon_Mvc_Model_Relation, isThrough);
 static PHP_METHOD(Phalcon_Mvc_Model_Relation, setIntermediateRelation);
-zend_object *zephir_init_properties_Phalcon_Mvc_Model_Relation(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_relation___construct, 0, 0, 4)
 	ZEND_ARG_TYPE_INFO(0, type, IS_LONG, 0)
@@ -44300,31 +44584,28 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_relation_getparams, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_relation_gettype, 0, 0, IS_LONG, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_relation_getreferencedfields, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_relation_getreferencedmodel, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_relation_gettype, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_relation_isforeignkey, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_relation_isthrough, 0, 0, _IS_BOOL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_relation_isreusable, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_relation_isreusable, 0, 0, _IS_BOOL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_relation_isthrough, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_relation_setintermediaterelation, 0, 0, 3)
 	ZEND_ARG_INFO(0, intermediateFields)
 	ZEND_ARG_TYPE_INFO(0, intermediateModel, IS_STRING, 0)
 	ZEND_ARG_INFO(0, intermediateReferencedFields)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_relation_zephir_init_properties_phalcon_mvc_model_relation, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_relation_method_entry) {
@@ -44337,12 +44618,12 @@ PHP_ME(Phalcon_Mvc_Model_Relation, getIntermediateReferencedFields, arginfo_phal
 	PHP_ME(Phalcon_Mvc_Model_Relation, getOption, arginfo_phalcon_mvc_model_relation_getoption, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Relation, getOptions, arginfo_phalcon_mvc_model_relation_getoptions, ZEND_ACC_PUBLIC)
 PHP_ME(Phalcon_Mvc_Model_Relation, getParams, arginfo_phalcon_mvc_model_relation_getparams, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Relation, getType, arginfo_phalcon_mvc_model_relation_gettype, ZEND_ACC_PUBLIC)
 PHP_ME(Phalcon_Mvc_Model_Relation, getReferencedFields, arginfo_phalcon_mvc_model_relation_getreferencedfields, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Relation, getReferencedModel, arginfo_phalcon_mvc_model_relation_getreferencedmodel, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Relation, getType, arginfo_phalcon_mvc_model_relation_gettype, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Relation, isForeignKey, arginfo_phalcon_mvc_model_relation_isforeignkey, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Relation, isThrough, arginfo_phalcon_mvc_model_relation_isthrough, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Relation, isReusable, arginfo_phalcon_mvc_model_relation_isreusable, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Relation, isThrough, arginfo_phalcon_mvc_model_relation_isthrough, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Relation, setIntermediateRelation, arginfo_phalcon_mvc_model_relation_setintermediaterelation, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
@@ -44545,11 +44826,10 @@ static PHP_METHOD(Phalcon_Mvc_Model_Transaction, isManaged);
 static PHP_METHOD(Phalcon_Mvc_Model_Transaction, isValid);
 static PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback);
 static PHP_METHOD(Phalcon_Mvc_Model_Transaction, setIsNewTransaction);
-static PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackOnAbort);
 static PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackedRecord);
+static PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackOnAbort);
 static PHP_METHOD(Phalcon_Mvc_Model_Transaction, setTransactionManager);
 static PHP_METHOD(Phalcon_Mvc_Model_Transaction, throwRollbackException);
-zend_object *zephir_init_properties_Phalcon_Mvc_Model_Transaction(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_transaction___construct, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 0)
@@ -44585,14 +44865,14 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_transaction_se
 	ZEND_ARG_TYPE_INFO(0, isNew, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_transaction_setrollbackonabort, 0, 1, IS_VOID, 0)
-
-	ZEND_ARG_TYPE_INFO(0, rollbackOnAbort, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_transaction_setrollbackedrecord, 0, 1, IS_VOID, 0)
 
 	ZEND_ARG_OBJ_INFO(0, record, Phalcon\\Mvc\\ModelInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_transaction_setrollbackonabort, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_TYPE_INFO(0, rollbackOnAbort, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_transaction_settransactionmanager, 0, 1, IS_VOID, 0)
@@ -44602,9 +44882,6 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_transaction_throwrollbackexception, 0, 1, Phalcon\\Mvc\\Model\\TransactionInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, status, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_transaction_zephir_init_properties_phalcon_mvc_model_transaction, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_transaction_method_entry) {
@@ -44617,8 +44894,8 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_transaction_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Transaction, isValid, arginfo_phalcon_mvc_model_transaction_isvalid, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Transaction, rollback, arginfo_phalcon_mvc_model_transaction_rollback, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Transaction, setIsNewTransaction, arginfo_phalcon_mvc_model_transaction_setisnewtransaction, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Transaction, setRollbackOnAbort, arginfo_phalcon_mvc_model_transaction_setrollbackonabort, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Transaction, setRollbackedRecord, arginfo_phalcon_mvc_model_transaction_setrollbackedrecord, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Transaction, setRollbackOnAbort, arginfo_phalcon_mvc_model_transaction_setrollbackonabort, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Transaction, setTransactionManager, arginfo_phalcon_mvc_model_transaction_settransactionmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Transaction, throwRollbackException, arginfo_phalcon_mvc_model_transaction_throwrollbackexception, ZEND_ACC_PUBLIC)
 	PHP_FE_END
@@ -44671,7 +44948,6 @@ static PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setDbService);
 static PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setDI);
 static PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setRollbackPendent);
 static PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, collectTransaction);
-zend_object *zephir_init_properties_Phalcon_Mvc_Model_Transaction_Manager(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_transaction_manager___construct, 0, 0, 0)
 	ZEND_ARG_OBJ_TYPE_MASK(0, container, Phalcon\\Di\\DiInterface, MAY_BE_NULL, "null")
@@ -44739,9 +45015,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_transaction_ma
 	ZEND_ARG_OBJ_INFO(0, transaction, Phalcon\\Mvc\\Model\\TransactionInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_transaction_manager_zephir_init_properties_phalcon_mvc_model_transaction_manager, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_transaction_manager_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Transaction_Manager, __construct, arginfo_phalcon_mvc_model_transaction_manager___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Mvc_Model_Transaction_Manager, collectTransactions, arginfo_phalcon_mvc_model_transaction_manager_collecttransactions, ZEND_ACC_PUBLIC)
@@ -44770,7 +45043,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ValidationFailed);
 static PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct);
 static PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, getMessages);
 static PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, getModel);
-zend_object *zephir_init_properties_Phalcon_Mvc_Model_ValidationFailed(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validationfailed___construct, 0, 0, 2)
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
@@ -44781,9 +45053,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_validationfail
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_validationfailed_getmodel, 0, 0, Phalcon\\Mvc\\ModelInterface, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validationfailed_zephir_init_properties_phalcon_mvc_model_validationfailed, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_validationfailed_method_entry) {
@@ -45148,7 +45417,6 @@ static PHP_METHOD(Phalcon_Mvc_Router_Group, setHostname);
 static PHP_METHOD(Phalcon_Mvc_Router_Group, setPaths);
 static PHP_METHOD(Phalcon_Mvc_Router_Group, setPrefix);
 static PHP_METHOD(Phalcon_Mvc_Router_Group, addRoute);
-zend_object *zephir_init_properties_Phalcon_Mvc_Router_Group(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_group___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, paths)
@@ -45250,9 +45518,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_group_addroute
 	ZEND_ARG_INFO(0, httpMethods)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_group_zephir_init_properties_phalcon_mvc_router_group, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_mvc_router_group_method_entry) {
 	PHP_ME(Phalcon_Mvc_Router_Group, __construct, arginfo_phalcon_mvc_router_group___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Mvc_Router_Group, add, arginfo_phalcon_mvc_router_group_add, ZEND_ACC_PUBLIC)
@@ -45285,6 +45550,8 @@ zend_class_entry *phalcon_mvc_router_route_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Route);
 
 static PHP_METHOD(Phalcon_Mvc_Router_Route, __construct);
+static PHP_METHOD(Phalcon_Mvc_Router_Route, getRoutePaths);
+static PHP_METHOD(Phalcon_Mvc_Router_Route, reset);
 static PHP_METHOD(Phalcon_Mvc_Router_Route, beforeMatch);
 static PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern);
 static PHP_METHOD(Phalcon_Mvc_Router_Route, convert);
@@ -45302,10 +45569,8 @@ static PHP_METHOD(Phalcon_Mvc_Router_Route, getPaths);
 static PHP_METHOD(Phalcon_Mvc_Router_Route, getPattern);
 static PHP_METHOD(Phalcon_Mvc_Router_Route, getReversedPaths);
 static PHP_METHOD(Phalcon_Mvc_Router_Route, getRouteId);
-static PHP_METHOD(Phalcon_Mvc_Router_Route, getRoutePaths);
 static PHP_METHOD(Phalcon_Mvc_Router_Route, match);
 static PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure);
-static PHP_METHOD(Phalcon_Mvc_Router_Route, reset);
 static PHP_METHOD(Phalcon_Mvc_Router_Route, setGroup);
 static PHP_METHOD(Phalcon_Mvc_Router_Route, setHostname);
 static PHP_METHOD(Phalcon_Mvc_Router_Route, setHttpMethods);
@@ -45318,6 +45583,13 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_route___construct, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
 	ZEND_ARG_INFO(0, paths)
 	ZEND_ARG_INFO(0, httpMethods)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_route_getroutepaths, 0, 0, IS_ARRAY, 0)
+	ZEND_ARG_INFO(0, paths)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_route_reset, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_route_beforematch, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, 0)
@@ -45376,10 +45648,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_route_getrouteid, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_route_getroutepaths, 0, 0, IS_ARRAY, 0)
-	ZEND_ARG_INFO(0, paths)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_route_match, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, 0)
 	ZEND_ARG_INFO(0, callback)
 ZEND_END_ARG_INFO()
@@ -45388,9 +45656,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_route_reconfi
 
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
 	ZEND_ARG_INFO(0, paths)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_route_reset, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_route_setgroup, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, 0)
@@ -45422,6 +45687,8 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_router_route_method_entry) {
 	PHP_ME(Phalcon_Mvc_Router_Route, __construct, arginfo_phalcon_mvc_router_route___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Mvc_Router_Route, getRoutePaths, arginfo_phalcon_mvc_router_route_getroutepaths, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Router_Route, reset, arginfo_phalcon_mvc_router_route_reset, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Router_Route, beforeMatch, arginfo_phalcon_mvc_router_route_beforematch, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Route, compilePattern, arginfo_phalcon_mvc_router_route_compilepattern, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Route, convert, arginfo_phalcon_mvc_router_route_convert, ZEND_ACC_PUBLIC)
@@ -45439,10 +45706,8 @@ PHP_ME(Phalcon_Mvc_Router_Route, getMatch, arginfo_phalcon_mvc_router_route_getm
 	PHP_ME(Phalcon_Mvc_Router_Route, getPattern, arginfo_phalcon_mvc_router_route_getpattern, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Route, getReversedPaths, arginfo_phalcon_mvc_router_route_getreversedpaths, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Route, getRouteId, arginfo_phalcon_mvc_router_route_getrouteid, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Router_Route, getRoutePaths, arginfo_phalcon_mvc_router_route_getroutepaths, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Router_Route, match, arginfo_phalcon_mvc_router_route_match, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Route, reConfigure, arginfo_phalcon_mvc_router_route_reconfigure, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Router_Route, reset, arginfo_phalcon_mvc_router_route_reset, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Router_Route, setGroup, arginfo_phalcon_mvc_router_route_setgroup, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Route, setHostname, arginfo_phalcon_mvc_router_route_sethostname, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Route, setHttpMethods, arginfo_phalcon_mvc_router_route_sethttpmethods, ZEND_ACC_PUBLIC)
@@ -45649,7 +45914,9 @@ static PHP_METHOD(Phalcon_Mvc_View, phpFileGetContents);
 static PHP_METHOD(Phalcon_Mvc_View, phpFilePutContents);
 static PHP_METHOD(Phalcon_Mvc_View, phpFopen);
 static PHP_METHOD(Phalcon_Mvc_View, phpFwrite);
+static PHP_METHOD(Phalcon_Mvc_View, phpIsDir);
 static PHP_METHOD(Phalcon_Mvc_View, phpIsWritable);
+static PHP_METHOD(Phalcon_Mvc_View, phpMkdir);
 static PHP_METHOD(Phalcon_Mvc_View, phpUnlink);
 static PHP_METHOD(Phalcon_Mvc_View, getContent);
 static PHP_METHOD(Phalcon_Mvc_View, getParamsToView);
@@ -45744,7 +46011,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_getrenderlevel, 0, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_view_getviewsdir, 0, 0, MAY_BE_STRING|MAY_BE_ARRAY)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_view_getviewsdir, 0, 0, MAY_BE_ARRAY|MAY_BE_STRING)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_has, 0, 1, _IS_BOOL, 0)
@@ -45908,8 +46175,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_view_phpfwrite, 0, 2
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -46002,7 +46280,9 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_view_method_entry) {
 	PHP_ME(Phalcon_Mvc_View, phpFilePutContents, arginfo_phalcon_mvc_view_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_View, phpFopen, arginfo_phalcon_mvc_view_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_View, phpFwrite, arginfo_phalcon_mvc_view_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_View, phpIsDir, arginfo_phalcon_mvc_view_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_View, phpIsWritable, arginfo_phalcon_mvc_view_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_View, phpMkdir, arginfo_phalcon_mvc_view_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_View, phpUnlink, arginfo_phalcon_mvc_view_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_View, getContent, arginfo_phalcon_mvc_view_getcontent, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getParamsToView, arginfo_phalcon_mvc_view_getparamstoview, ZEND_ACC_PUBLIC)
@@ -46049,7 +46329,6 @@ static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice);
 static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, sort);
 static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, phpExtensionLoaded);
 static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, phpFunctionExists);
-zend_object *zephir_init_properties_Phalcon_Mvc_View_Engine_Volt(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_callmacro, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
@@ -46115,9 +46394,6 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_phpfunctionexists, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, functionName, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_zephir_init_properties_phalcon_mvc_view_engine_volt, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_view_engine_volt_method_entry) {
@@ -46197,9 +46473,10 @@ static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, phpFileGetContents);
 static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, phpFilePutContents);
 static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, phpFopen);
 static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, phpFwrite);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, phpIsDir);
 static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, phpIsWritable);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, phpMkdir);
 static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, phpUnlink);
-zend_object *zephir_init_properties_Phalcon_Mvc_View_Engine_Volt_Compiler(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler___construct, 0, 0, 0)
 	ZEND_ARG_OBJ_TYPE_MASK(0, view, Phalcon\\Mvc\\ViewBaseInterface, MAY_BE_NULL, "null")
@@ -46446,16 +46723,24 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_view_engine_volt_com
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_phpunlink, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
 	ZEND_ARG_INFO(0, context)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_zephir_init_properties_phalcon_mvc_view_engine_volt_compiler, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_view_engine_volt_compiler_method_entry) {
@@ -46513,7 +46798,9 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_view_engine_volt_compiler_method_entry) {
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, phpFilePutContents, arginfo_phalcon_mvc_view_engine_volt_compiler_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, phpFopen, arginfo_phalcon_mvc_view_engine_volt_compiler_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, phpFwrite, arginfo_phalcon_mvc_view_engine_volt_compiler_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, phpIsDir, arginfo_phalcon_mvc_view_engine_volt_compiler_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, phpIsWritable, arginfo_phalcon_mvc_view_engine_volt_compiler_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, phpMkdir, arginfo_phalcon_mvc_view_engine_volt_compiler_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, phpUnlink, arginfo_phalcon_mvc_view_engine_volt_compiler_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
@@ -47010,7 +47297,9 @@ static PHP_METHOD(Phalcon_Mvc_View_Simple, phpFileGetContents);
 static PHP_METHOD(Phalcon_Mvc_View_Simple, phpFilePutContents);
 static PHP_METHOD(Phalcon_Mvc_View_Simple, phpFopen);
 static PHP_METHOD(Phalcon_Mvc_View_Simple, phpFwrite);
+static PHP_METHOD(Phalcon_Mvc_View_Simple, phpIsDir);
 static PHP_METHOD(Phalcon_Mvc_View_Simple, phpIsWritable);
+static PHP_METHOD(Phalcon_Mvc_View_Simple, phpMkdir);
 static PHP_METHOD(Phalcon_Mvc_View_Simple, phpUnlink);
 static PHP_METHOD(Phalcon_Mvc_View_Simple, getContent);
 static PHP_METHOD(Phalcon_Mvc_View_Simple, getParamsToView);
@@ -47136,8 +47425,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_view_simple_phpfwrit
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_simple_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_simple_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_simple_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_simple_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -47194,7 +47494,9 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_view_simple_method_entry) {
 	PHP_ME(Phalcon_Mvc_View_Simple, phpFilePutContents, arginfo_phalcon_mvc_view_simple_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, phpFopen, arginfo_phalcon_mvc_view_simple_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, phpFwrite, arginfo_phalcon_mvc_view_simple_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_View_Simple, phpIsDir, arginfo_phalcon_mvc_view_simple_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, phpIsWritable, arginfo_phalcon_mvc_view_simple_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_View_Simple, phpMkdir, arginfo_phalcon_mvc_view_simple_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, phpUnlink, arginfo_phalcon_mvc_view_simple_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, getContent, arginfo_phalcon_mvc_view_simple_getcontent, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, getParamsToView, arginfo_phalcon_mvc_view_simple_getparamstoview, ZEND_ACC_PUBLIC)
@@ -47632,7 +47934,9 @@ static PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, phpFileGe
 static PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, phpFilePutContents);
 static PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, phpFopen);
 static PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, phpFwrite);
+static PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, phpIsDir);
 static PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, phpIsWritable);
+static PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, phpMkdir);
 static PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, phpUnlink);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalkconnection___construct, 0, 0, 0)
@@ -47760,8 +48064,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_queue_adapter_beanstalk_
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalkconnection_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalkconnection_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalkconnection_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_beanstalk_beanstalkconnection_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -47796,7 +48111,9 @@ PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, connect, arginfo_pha
 	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, phpFilePutContents, arginfo_phalcon_queue_adapter_beanstalk_beanstalkconnection_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, phpFopen, arginfo_phalcon_queue_adapter_beanstalk_beanstalkconnection_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, phpFwrite, arginfo_phalcon_queue_adapter_beanstalk_beanstalkconnection_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, phpIsDir, arginfo_phalcon_queue_adapter_beanstalk_beanstalkconnection_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, phpIsWritable, arginfo_phalcon_queue_adapter_beanstalk_beanstalkconnection_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, phpMkdir, arginfo_phalcon_queue_adapter_beanstalk_beanstalkconnection_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, phpUnlink, arginfo_phalcon_queue_adapter_beanstalk_beanstalkconnection_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
@@ -48587,7 +48904,9 @@ static PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, phpFileGetContents
 static PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, phpFilePutContents);
 static PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, phpFopen);
 static PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, phpFwrite);
+static PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, phpIsDir);
 static PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, phpIsWritable);
+static PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, phpMkdir);
 static PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, phpUnlink);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_queue_adapter_stream_streamcontext___construct, 0, 0, 1)
@@ -48680,8 +48999,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_queue_adapter_stream_str
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_stream_streamcontext_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_stream_streamcontext_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_stream_streamcontext_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_queue_adapter_stream_streamcontext_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -48708,7 +49038,9 @@ ZEPHIR_INIT_FUNCS(phalcon_queue_adapter_stream_streamcontext_method_entry) {
 	PHP_ME(Phalcon_Queue_Adapter_Stream_StreamContext, phpFilePutContents, arginfo_phalcon_queue_adapter_stream_streamcontext_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Queue_Adapter_Stream_StreamContext, phpFopen, arginfo_phalcon_queue_adapter_stream_streamcontext_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Queue_Adapter_Stream_StreamContext, phpFwrite, arginfo_phalcon_queue_adapter_stream_streamcontext_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Queue_Adapter_Stream_StreamContext, phpIsDir, arginfo_phalcon_queue_adapter_stream_streamcontext_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Queue_Adapter_Stream_StreamContext, phpIsWritable, arginfo_phalcon_queue_adapter_stream_streamcontext_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Queue_Adapter_Stream_StreamContext, phpMkdir, arginfo_phalcon_queue_adapter_stream_streamcontext_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Queue_Adapter_Stream_StreamContext, phpUnlink, arginfo_phalcon_queue_adapter_stream_streamcontext_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
@@ -49468,7 +49800,9 @@ static PHP_METHOD(Phalcon_Session_Adapter_Stream, phpFileGetContents);
 static PHP_METHOD(Phalcon_Session_Adapter_Stream, phpFilePutContents);
 static PHP_METHOD(Phalcon_Session_Adapter_Stream, phpFopen);
 static PHP_METHOD(Phalcon_Session_Adapter_Stream, phpFwrite);
+static PHP_METHOD(Phalcon_Session_Adapter_Stream, phpIsDir);
 static PHP_METHOD(Phalcon_Session_Adapter_Stream, phpIsWritable);
+static PHP_METHOD(Phalcon_Session_Adapter_Stream, phpMkdir);
 static PHP_METHOD(Phalcon_Session_Adapter_Stream, phpUnlink);
 static PHP_METHOD(Phalcon_Session_Adapter_Stream, getArrVal);
 static PHP_METHOD(Phalcon_Session_Adapter_Stream, phpIniGet);
@@ -49567,8 +49901,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_session_adapter_stream_p
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_adapter_stream_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_adapter_stream_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_adapter_stream_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_adapter_stream_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -49623,7 +49968,9 @@ ZEPHIR_INIT_FUNCS(phalcon_session_adapter_stream_method_entry) {
 	PHP_ME(Phalcon_Session_Adapter_Stream, phpFilePutContents, arginfo_phalcon_session_adapter_stream_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Session_Adapter_Stream, phpFopen, arginfo_phalcon_session_adapter_stream_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Session_Adapter_Stream, phpFwrite, arginfo_phalcon_session_adapter_stream_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Session_Adapter_Stream, phpIsDir, arginfo_phalcon_session_adapter_stream_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Session_Adapter_Stream, phpIsWritable, arginfo_phalcon_session_adapter_stream_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Session_Adapter_Stream, phpMkdir, arginfo_phalcon_session_adapter_stream_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Session_Adapter_Stream, phpUnlink, arginfo_phalcon_session_adapter_stream_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Session_Adapter_Stream, getArrVal, arginfo_phalcon_session_adapter_stream_getarrval, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Session_Adapter_Stream, phpIniGet, arginfo_phalcon_session_adapter_stream_phpiniget, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
@@ -52407,7 +52754,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_registry_toarray
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_registry_tojson, 0, 0, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_LONG, 0, "79")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_LONG, 0, "4194383")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_registry_unserialize, 0, 1, IS_VOID, 0)
@@ -53208,7 +53555,9 @@ static PHP_METHOD(Phalcon_Traits_Php_FileTrait, phpFileGetContents);
 static PHP_METHOD(Phalcon_Traits_Php_FileTrait, phpFilePutContents);
 static PHP_METHOD(Phalcon_Traits_Php_FileTrait, phpFopen);
 static PHP_METHOD(Phalcon_Traits_Php_FileTrait, phpFwrite);
+static PHP_METHOD(Phalcon_Traits_Php_FileTrait, phpIsDir);
 static PHP_METHOD(Phalcon_Traits_Php_FileTrait, phpIsWritable);
+static PHP_METHOD(Phalcon_Traits_Php_FileTrait, phpMkdir);
 static PHP_METHOD(Phalcon_Traits_Php_FileTrait, phpUnlink);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_traits_php_filetrait_phpfclose, 0, 1, _IS_BOOL, 0)
@@ -53255,8 +53604,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_traits_php_filetrait_php
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_traits_php_filetrait_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_traits_php_filetrait_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_traits_php_filetrait_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_traits_php_filetrait_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -53272,7 +53632,9 @@ ZEPHIR_INIT_FUNCS(phalcon_traits_php_filetrait_method_entry) {
 	PHP_ME(Phalcon_Traits_Php_FileTrait, phpFilePutContents, arginfo_phalcon_traits_php_filetrait_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Traits_Php_FileTrait, phpFopen, arginfo_phalcon_traits_php_filetrait_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Traits_Php_FileTrait, phpFwrite, arginfo_phalcon_traits_php_filetrait_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Traits_Php_FileTrait, phpIsDir, arginfo_phalcon_traits_php_filetrait_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Traits_Php_FileTrait, phpIsWritable, arginfo_phalcon_traits_php_filetrait_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Traits_Php_FileTrait, phpMkdir, arginfo_phalcon_traits_php_filetrait_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Traits_Php_FileTrait, phpUnlink, arginfo_phalcon_traits_php_filetrait_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };
@@ -53763,7 +54125,9 @@ static PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpFileGetContents);
 static PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpFilePutContents);
 static PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpFopen);
 static PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpFwrite);
+static PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpIsDir);
 static PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpIsWritable);
+static PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpMkdir);
 static PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpUnlink);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_csv___construct, 0, 0, 2)
@@ -53840,8 +54204,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_translate_adapter_csv_ph
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_csv_phpisdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_csv_phpiswritable, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, filename, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_csv_phpmkdir, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, permissions, IS_LONG, 0, "0777")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, recursive, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_csv_phpunlink, 0, 1, _IS_BOOL, 0)
@@ -53863,7 +54238,9 @@ ZEPHIR_INIT_FUNCS(phalcon_translate_adapter_csv_method_entry) {
 	PHP_ME(Phalcon_Translate_Adapter_Csv, phpFilePutContents, arginfo_phalcon_translate_adapter_csv_phpfileputcontents, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Translate_Adapter_Csv, phpFopen, arginfo_phalcon_translate_adapter_csv_phpfopen, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Translate_Adapter_Csv, phpFwrite, arginfo_phalcon_translate_adapter_csv_phpfwrite, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Translate_Adapter_Csv, phpIsDir, arginfo_phalcon_translate_adapter_csv_phpisdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Translate_Adapter_Csv, phpIsWritable, arginfo_phalcon_translate_adapter_csv_phpiswritable, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Translate_Adapter_Csv, phpMkdir, arginfo_phalcon_translate_adapter_csv_phpmkdir, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Translate_Adapter_Csv, phpUnlink, arginfo_phalcon_translate_adapter_csv_phpunlink, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

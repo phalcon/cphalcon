@@ -23,15 +23,15 @@ final class CountTest extends AbstractRegistryTestCase
      */
     public function testSupportRegistryCount(): void
     {
-        $data = $this->getData();
+        $data     = $this->getData();
         $registry = new Registry($data);
 
         $expected = 3;
-        $actual = $registry->toArray();
+        $actual   = $registry->toArray();
         $this->assertCount($expected, $actual);
 
         $expected = 3;
-        $actual = $registry->count();
+        $actual   = $registry->count();
         $this->assertSame($expected, $actual);
     }
 }
