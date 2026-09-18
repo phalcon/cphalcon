@@ -608,17 +608,9 @@ jobs:
           Write-Output "SESSION_SAVE_PATH=$SessionSavePath" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Redis Cluster
-        uses: vishnudxb/redis-cluster@e29c352fa58527003afc982e96db437c0c49e6aa # 1.10.0
-        with:
-          master1-port: 5000
-          master2-port: 5001
-          master3-port: 5002
-          slave1-port: 5003
-          slave2-port: 5004
-          slave3-port: 5005
-          sleep-duration: 5
-
-      - name: Test Redis Cluster
+        # Six local nodes on ports 5000-5005: three masters and three
+        # replicas. The packages come from the Ubuntu archive, so this step
+        # does not pull an image from a container registry.
         run: |
           # See "Setup APT Repositories" - third-party repos only break us.
           find /etc/apt/sources.list.d -maxdepth 1 -type f \
@@ -626,9 +618,56 @@ jobs:
               -exec grep -LE 'ubuntu\.com|apt-mirrors\.txt' {} + \
               | sudo xargs -r rm -f
           sudo apt-get update || true
-          sudo apt-get install -y redis-tools
-          docker ps -a
+
+          # The package starts its own server on port 6379, which the redis
+          # service container uses. policy-rc.d stops that start.
+          printf '#!/bin/sh\nexit 101\n' | sudo tee /usr/sbin/policy-rc.d > /dev/null
+          sudo chmod +x /usr/sbin/policy-rc.d
+          sudo apt-get install -y redis-server redis-tools
+          sudo rm -f /usr/sbin/policy-rc.d
+
+          ports="5000 5001 5002 5003 5004 5005"
+          nodes=""
+
+          for port in $ports; do
+              dir="${RUNNER_TEMP}/redis-cluster/${port}"
+              mkdir -p "$dir"
+              redis-server \
+                  --port "$port" \
+                  --bind 127.0.0.1 \
+                  --cluster-enabled yes \
+                  --cluster-config-file "nodes-${port}.conf" \
+                  --cluster-node-timeout 5000 \
+                  --appendonly no \
+                  --save '' \
+                  --dir "$dir" \
+                  --logfile "${dir}/redis.log" \
+                  --daemonize yes
+              nodes="$nodes 127.0.0.1:${port}"
+          done
+
+          for port in $ports; do
+              for attempt in $(seq 1 50); do
+                  redis-cli -p "$port" ping 2>/dev/null | grep -q PONG && break
+                  sleep 0.2
+              done
+          done
+
+          redis-cli --cluster create $nodes --cluster-replicas 1 --cluster-yes
+
+          # Wait until the cluster is healthy and each replica knows its role.
+          for attempt in $(seq 1 50); do
+              redis-cli -p 5000 cluster info | grep -q 'cluster_state:ok' \
+                  && [ "$(redis-cli -p 5000 cluster nodes | grep -c slave)" -eq 3 ] \
+                  && break
+              sleep 0.2
+          done
+
+      - name: Test Redis Cluster
+        run: |
           redis-cli -h 127.0.0.1 -p 5000 ping
+          redis-cli -h 127.0.0.1 -p 5000 cluster info | grep 'cluster_state:ok'
+          [ "$(redis-cli -h 127.0.0.1 -p 5000 cluster nodes | grep -c slave)" -eq 3 ]
           redis-cli -h 127.0.0.1 -p 5000 cluster nodes
 
       - name: Setup PHP
