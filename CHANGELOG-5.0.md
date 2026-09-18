@@ -102,8 +102,8 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 ### Changed
 
-- The PHPUnit configuration now fails the run on notices, deprecations and PHPUnit deprecations, and prints the details of every triggering test.
 - Added regression tests for the hardening changes released in 5.20.0 and 5.20.1 that had no failing-on-revert coverage.
+- The PHPUnit configuration now fails the run on notices, deprecations and PHPUnit deprecations, and prints the details of every triggering test.
 
 ### Added
 
