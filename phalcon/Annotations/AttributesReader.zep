@@ -206,11 +206,7 @@ class AttributesReader implements ReaderInterface
         let nodes = [];
 
         for attribute in attributes {
-            let name = attribute->getName();
-
-            if starts_with(name, self::PHALCON_NAMESPACE) {
-                let name = get_class_ns(name);
-            }
+            let name = this->resolveName(attribute->getName());
 
             /**
              * The node carries the same keys as the one the parser builds,
@@ -234,5 +230,25 @@ class AttributesReader implements ReaderInterface
         }
 
         return nodes;
+    }
+
+    /**
+     * Gives the name that the collection matches on.
+     *
+     * An attribute of the Phalcon\Annotations namespace gets the short name,
+     * so that `#[Column]` and `@Column` give the same name. Every other
+     * attribute keeps the full class name, so that an attribute of another
+     * library cannot take the place of a Phalcon one.
+     *
+     * Extend this reader and override this method to give the same short
+     * name to the attributes of your own namespace.
+     */
+    protected function resolveName(string name) -> string
+    {
+        if starts_with(name, self::PHALCON_NAMESPACE) {
+            return get_class_ns(name);
+        }
+
+        return name;
     }
 }
