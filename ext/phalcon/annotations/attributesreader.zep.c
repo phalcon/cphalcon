@@ -477,10 +477,10 @@ PHP_METHOD(Phalcon_Annotations_AttributesReader, buildNodes)
 {
 	zend_bool _7;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_5 = NULL;
+	zephir_fcall_cache_entry *_2 = NULL, *_5 = NULL;
 	zend_long line, ZEPHIR_LAST_CALL_STATUS;
 	zend_string *file = NULL;
-	zval *attributes_param = NULL, file_zv, *line_param = NULL, attribute, name, attributeArguments, node, *_0, _6, _1$$3, _3$$3, _2$$4, _4$$5, _8$$6, _10$$6, _11$$6, _9$$7, _12$$8;
+	zval *attributes_param = NULL, file_zv, *line_param = NULL, attribute, name, attributeArguments, node, *_0, _6, _1$$3, _3$$3, _4$$4, _8$$5, _9$$5, _10$$5, _11$$6;
 	zval attributes, nodes;
 	zval *this_ptr = getThis();
 
@@ -494,13 +494,11 @@ PHP_METHOD(Phalcon_Annotations_AttributesReader, buildNodes)
 	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$3);
-	ZVAL_UNDEF(&_2$$4);
-	ZVAL_UNDEF(&_4$$5);
-	ZVAL_UNDEF(&_8$$6);
-	ZVAL_UNDEF(&_10$$6);
+	ZVAL_UNDEF(&_4$$4);
+	ZVAL_UNDEF(&_8$$5);
+	ZVAL_UNDEF(&_9$$5);
+	ZVAL_UNDEF(&_10$$5);
 	ZVAL_UNDEF(&_11$$6);
-	ZVAL_UNDEF(&_9$$7);
-	ZVAL_UNDEF(&_12$$8);
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		ZEPHIR_Z_PARAM_ARRAY(attributes, attributes_param)
 		Z_PARAM_STR(file)
@@ -515,21 +513,16 @@ PHP_METHOD(Phalcon_Annotations_AttributesReader, buildNodes)
 	ZVAL_STR_COPY(&file_zv, file);
 	ZEPHIR_INIT_VAR(&nodes);
 	array_init(&nodes);
-	zephir_is_iterable(&attributes, 0, "phalcon/Annotations/AttributesReader.zep", 236);
+	zephir_is_iterable(&attributes, 0, "phalcon/Annotations/AttributesReader.zep", 232);
 	if (Z_TYPE_P(&attributes) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&attributes), _0)
 		{
 			ZEPHIR_INIT_NVAR(&attribute);
 			ZVAL_COPY(&attribute, _0);
-			ZEPHIR_CALL_METHOD(&name, &attribute, "getname", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_1$$3, &attribute, "getname", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_INIT_NVAR(&_1$$3);
-			ZVAL_STRING(&_1$$3, "Phalcon\\Annotations\\");
-			if (zephir_start_with(&name, &_1$$3, NULL)) {
-				ZEPHIR_INIT_NVAR(&_2$$4);
-				zephir_get_class_ns(&_2$$4, &name, 0);
-				ZEPHIR_CPY_WRT(&name, &_2$$4);
-			}
+			ZEPHIR_CALL_METHOD(&name, this_ptr, "resolvename", &_2, 0, &_1$$3);
+			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&node);
 			zephir_create_array(&node, 4, 0);
 			add_assoc_long_ex(&node, SL("type"), 300);
@@ -541,11 +534,11 @@ PHP_METHOD(Phalcon_Annotations_AttributesReader, buildNodes)
 			ZEPHIR_CALL_METHOD(&attributeArguments, &attribute, "getarguments", NULL, 0);
 			zephir_check_call_status();
 			if (!(ZEPHIR_IS_EMPTY(&attributeArguments))) {
-				ZEPHIR_CALL_METHOD(&_4$$5, this_ptr, "buildarguments", &_5, 0, &attributeArguments);
+				ZEPHIR_CALL_METHOD(&_4$$4, this_ptr, "buildarguments", &_5, 0, &attributeArguments);
 				zephir_check_call_status();
-				zephir_array_update_string(&node, SL("arguments"), &_4$$5, PH_COPY | PH_SEPARATE);
+				zephir_array_update_string(&node, SL("arguments"), &_4$$4, PH_COPY | PH_SEPARATE);
 			}
-			zephir_array_append(&nodes, &node, PH_SEPARATE, "phalcon/Annotations/AttributesReader.zep", 233);
+			zephir_array_append(&nodes, &node, PH_SEPARATE, "phalcon/Annotations/AttributesReader.zep", 229);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &attributes, "rewind", NULL, 0);
@@ -565,35 +558,65 @@ PHP_METHOD(Phalcon_Annotations_AttributesReader, buildNodes)
 			}
 			ZEPHIR_CALL_METHOD(&attribute, &attributes, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&name, &attribute, "getname", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_8$$5, &attribute, "getname", NULL, 0);
 				zephir_check_call_status();
-				ZEPHIR_INIT_NVAR(&_8$$6);
-				ZVAL_STRING(&_8$$6, "Phalcon\\Annotations\\");
-				if (zephir_start_with(&name, &_8$$6, NULL)) {
-					ZEPHIR_INIT_NVAR(&_9$$7);
-					zephir_get_class_ns(&_9$$7, &name, 0);
-					ZEPHIR_CPY_WRT(&name, &_9$$7);
-				}
-				ZEPHIR_INIT_NVAR(&_10$$6);
-				zephir_create_array(&_10$$6, 4, 0);
-				add_assoc_long_ex(&_10$$6, SL("type"), 300);
-				zephir_array_update_string(&_10$$6, SL("name"), &name, PH_COPY | PH_SEPARATE);
-				zephir_array_update_string(&_10$$6, SL("file"), &file_zv, PH_COPY | PH_SEPARATE);
-				ZEPHIR_INIT_NVAR(&_11$$6);
-				ZVAL_LONG(&_11$$6, line);
-				zephir_array_update_string(&_10$$6, SL("line"), &_11$$6, PH_COPY | PH_SEPARATE);
-				ZEPHIR_CPY_WRT(&node, &_10$$6);
+				ZEPHIR_CALL_METHOD(&name, this_ptr, "resolvename", &_2, 0, &_8$$5);
+				zephir_check_call_status();
+				ZEPHIR_INIT_NVAR(&_9$$5);
+				zephir_create_array(&_9$$5, 4, 0);
+				add_assoc_long_ex(&_9$$5, SL("type"), 300);
+				zephir_array_update_string(&_9$$5, SL("name"), &name, PH_COPY | PH_SEPARATE);
+				zephir_array_update_string(&_9$$5, SL("file"), &file_zv, PH_COPY | PH_SEPARATE);
+				ZEPHIR_INIT_NVAR(&_10$$5);
+				ZVAL_LONG(&_10$$5, line);
+				zephir_array_update_string(&_9$$5, SL("line"), &_10$$5, PH_COPY | PH_SEPARATE);
+				ZEPHIR_CPY_WRT(&node, &_9$$5);
 				ZEPHIR_CALL_METHOD(&attributeArguments, &attribute, "getarguments", NULL, 0);
 				zephir_check_call_status();
 				if (!(ZEPHIR_IS_EMPTY(&attributeArguments))) {
-					ZEPHIR_CALL_METHOD(&_12$$8, this_ptr, "buildarguments", &_5, 0, &attributeArguments);
+					ZEPHIR_CALL_METHOD(&_11$$6, this_ptr, "buildarguments", &_5, 0, &attributeArguments);
 					zephir_check_call_status();
-					zephir_array_update_string(&node, SL("arguments"), &_12$$8, PH_COPY | PH_SEPARATE);
+					zephir_array_update_string(&node, SL("arguments"), &_11$$6, PH_COPY | PH_SEPARATE);
 				}
-				zephir_array_append(&nodes, &node, PH_SEPARATE, "phalcon/Annotations/AttributesReader.zep", 233);
+				zephir_array_append(&nodes, &node, PH_SEPARATE, "phalcon/Annotations/AttributesReader.zep", 229);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&attribute);
 	RETURN_CTOR(&nodes);
+}
+
+/**
+ * Gives the name that the collection matches on.
+ *
+ * An attribute of the Phalcon\Annotations namespace gets the short name,
+ * so that `#[Column]` and `@Column` give the same name. Every other
+ * attribute keeps the full class name, so that an attribute of another
+ * library cannot take the place of a Phalcon one.
+ *
+ * Extend this reader and override this method to give the same short
+ * name to the attributes of your own namespace.
+ */
+PHP_METHOD(Phalcon_Annotations_AttributesReader, resolveName)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval name_zv, _0;
+	zend_string *name = NULL;
+
+	ZVAL_UNDEF(&name_zv);
+	ZVAL_UNDEF(&_0);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&name_zv);
+	ZVAL_STR_COPY(&name_zv, name);
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "Phalcon\\Annotations\\");
+	if (zephir_start_with(&name_zv, &_0, NULL)) {
+		zephir_get_class_ns(return_value, &name_zv, 0);
+		RETURN_MM();
+	}
+	RETURN_MM_STR(zend_string_copy(name));
 }
 
