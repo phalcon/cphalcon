@@ -77,6 +77,10 @@
  *     properties?: annotations_node_map,
  * }
  * @phpstan-type annotations_resolved_arguments array<array-key, mixed>
+ * @phpstan-type annotations_route_before_match array<array-key, mixed>|string|null
+ * @phpstan-type annotations_route_converters array<array-key, mixed>
+ * @phpstan-type annotations_route_methods array<array-key, string>|string|null
+ * @phpstan-type annotations_route_paths array<array-key, mixed>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Annotations_AnnotationsTypes)
 {

@@ -142,10 +142,10 @@ PHP_METHOD(Phalcon_ADR_Router_RouterMatch, __construct)
 		zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 374, &action_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 375, &attributes);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 376, &middleware);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 377, &name_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 380, &action_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 381, &attributes);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 382, &middleware);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 383, &name_zv);
 	ZEPHIR_MM_RESTORE();
 }
 

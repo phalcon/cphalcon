@@ -1,0 +1,5 @@
+
+extern zend_class_entry *phalcon_annotations_models_metadata_primary_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Annotations_Models_MetaData_Primary);
+

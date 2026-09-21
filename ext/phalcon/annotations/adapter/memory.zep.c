@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read)
 	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
 	zephir_memory_observe(&data);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 395, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 401, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_fast_strtolower(&_1, &key_zv);
 	if (!(zephir_array_isset_fetch(&data, &_0, &_1, 0))) {

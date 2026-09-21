@@ -104,14 +104,14 @@ PHP_METHOD(Phalcon_ADR_Responder_Redirect, __construct)
 		external = 0;
 	} else {
 		}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 362, &url_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 368, &url_zv);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, status);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 363, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 369, &_0);
 	if (external) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 364, &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 370, &__$true);
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 364, &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 370, &__$false);
 	}
 }
 
