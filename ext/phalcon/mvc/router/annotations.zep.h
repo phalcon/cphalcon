@@ -13,6 +13,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, setActionSuffix);
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, setActionPreformatCallback);
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, getActionPreformatCallback);
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, setControllerSuffix);
+PHP_METHOD(Phalcon_Mvc_Router_Annotations, resolveArgument);
 zend_object *zephir_init_properties_Phalcon_Mvc_Router_Annotations(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_annotations_addmoduleresource, 0, 2, MAY_BE_STATIC)
@@ -63,6 +64,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_annotations_se
 	ZEND_ARG_TYPE_INFO(0, controllerSuffix, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_annotations_resolveargument, 0, 0, 2)
+	ZEND_ARG_OBJ_INFO(0, annotation, Phalcon\\Annotations\\Annotation, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_annotations_zephir_init_properties_phalcon_mvc_router_annotations, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
@@ -77,5 +83,6 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_router_annotations_method_entry) {
 	PHP_ME(Phalcon_Mvc_Router_Annotations, setActionPreformatCallback, arginfo_phalcon_mvc_router_annotations_setactionpreformatcallback, ZEND_ACC_PUBLIC)
 PHP_ME(Phalcon_Mvc_Router_Annotations, getActionPreformatCallback, arginfo_phalcon_mvc_router_annotations_getactionpreformatcallback, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Annotations, setControllerSuffix, arginfo_phalcon_mvc_router_annotations_setcontrollersuffix, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Annotations, resolveArgument, arginfo_phalcon_mvc_router_annotations_resolveargument, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };

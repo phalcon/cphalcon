@@ -350,22 +350,28 @@ class Annotations implements StrategyInterface
 
             /**
              * Column will be skipped on INSERT operation
+             *
+             * A docblock writes snake_case. An attribute writes camelCase,
+             * because PSR-12 does not allow snake_case parameter names.
              */
-            if columnAnnotation->getNamedParameter("skip_on_insert") {
+            if columnAnnotation->getNamedParameter("skip_on_insert") ||
+               columnAnnotation->getNamedParameter("skipOnInsert") {
                 let skipOnInsert[columnName] = true;
             }
 
             /**
              * Column will be skipped on UPDATE operation
              */
-            if columnAnnotation->getNamedParameter("skip_on_update") {
+            if columnAnnotation->getNamedParameter("skip_on_update") ||
+               columnAnnotation->getNamedParameter("skipOnUpdate") {
                 let skipOnUpdate[columnName] = true;
             }
 
             /**
              * Allow empty strings for column
              */
-            if columnAnnotation->getNamedParameter("allow_empty_string") {
+            if columnAnnotation->getNamedParameter("allow_empty_string") ||
+               columnAnnotation->getNamedParameter("allowEmptyString") {
                 let emptyStringValues[columnName] = columnName;
             }
 
@@ -381,6 +387,15 @@ class Annotations implements StrategyInterface
              * value is null
              */
             let defaultValue = columnAnnotation->getNamedParameter("default");
+
+            /**
+             * `default` is a Zephir keyword, so the attribute names it
+             * `defaultValue`.
+             */
+            if defaultValue === null {
+                let defaultValue = columnAnnotation->getNamedParameter("defaultValue");
+            }
+
             if defaultValue !== null || columnAnnotation->getNamedParameter("nullable") {
                 let defaultValues[columnName] = defaultValue;
             }

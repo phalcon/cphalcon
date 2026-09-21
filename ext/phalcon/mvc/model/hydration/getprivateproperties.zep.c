@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Hydration_GetPrivateProperties, getPrivatePropertie
 				break;
 			}
 			ZVAL_LONG(&_0$$4, 4);
-			ZEPHIR_CALL_METHOD(&reflectionProperties, &reflection, "getproperties", &_1, 373, &_0$$4);
+			ZEPHIR_CALL_METHOD(&reflectionProperties, &reflection, "getproperties", &_1, 371, &_0$$4);
 			zephir_check_call_status();
 			if (Z_TYPE_P(&reflectionProperties) == IS_STRING) {
 				ZEPHIR_INIT_NVAR(&_3$$4);

@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Auth_Internal_ContainerResolver, requireService)
 			ZEPHIR_CALL_METHOD(&_1$$3, container, "has", NULL, 0, &name);
 			zephir_check_call_status();
 			if (zephir_is_true(&_1$$3)) {
-				ZEPHIR_RETURN_CALL_SELF("resolveshared", &_2, 426, container, &name);
+				ZEPHIR_RETURN_CALL_SELF("resolveshared", &_2, 428, container, &name);
 				zephir_check_call_status();
 				RETURN_MM();
 			}
@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_Auth_Internal_ContainerResolver, requireService)
 				ZEPHIR_CALL_METHOD(&_5$$5, container, "has", NULL, 0, &name);
 				zephir_check_call_status();
 				if (zephir_is_true(&_5$$5)) {
-					ZEPHIR_RETURN_CALL_SELF("resolveshared", &_2, 426, container, &name);
+					ZEPHIR_RETURN_CALL_SELF("resolveshared", &_2, 428, container, &name);
 					zephir_check_call_status();
 					RETURN_MM();
 				}
@@ -349,7 +349,7 @@ PHP_METHOD(Phalcon_Auth_Internal_ContainerResolver, resolveFresh)
 				ZEPHIR_CALL_METHOD(NULL, &fresh, "__construct", NULL, 182, &definition, &_12$$8);
 				zephir_check_call_status_or_jump(try_end_1);
 				ZVAL_NULL(&_12$$8);
-				ZEPHIR_RETURN_CALL_METHOD(&fresh, "resolve", NULL, 427, &_12$$8, container);
+				ZEPHIR_RETURN_CALL_METHOD(&fresh, "resolve", NULL, 429, &_12$$8, container);
 				zephir_check_call_status_or_jump(try_end_1);
 				RETURN_MM();
 			}

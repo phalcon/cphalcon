@@ -81,9 +81,9 @@ PHP_METHOD(Phalcon_ADR_Responder_StatusResponder, __construct)
 		object_init_ex(&_0$$3, phalcon_adr_responder_statusmapper_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 339);
 		zephir_check_call_status();
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 366, &_0$$3);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 372, &_0$$3);
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 366, mapper);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 372, mapper);
 	}
 	ZEPHIR_MM_RESTORE();
 }
@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_ADR_Responder_StatusResponder, __invoke)
 	ZEPHIR_CALL_METHOD(&status, payload, "getstatus", NULL, 0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&status) != IS_NULL) {
-		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 366, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 372, PH_NOISY_CC | PH_READONLY);
 		zephir_cast_to_string(&_2$$3, &status);
 		ZEPHIR_CALL_METHOD(&_1$$3, &_0$$3, "tohttpcode", NULL, 0, &_2$$3);
 		zephir_check_call_status();

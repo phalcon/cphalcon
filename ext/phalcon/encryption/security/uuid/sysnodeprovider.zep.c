@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, getNode)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 721, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 737, PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) != IS_NULL) {
 		RETURN_MM_MEMBER_TYPED(getThis(), "node", IS_STRING);
 	}
@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, getNode)
 		ZEPHIR_CALL_FUNCTION(&cached, "apcu_fetch", NULL, 287, &_3$$4);
 		zephir_check_call_status();
 		if (!ZEPHIR_IS_FALSE_IDENTICAL(&cached)) {
-			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 721, &cached);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 737, &cached);
 			RETURN_MM_MEMBER_TYPED(getThis(), "node", IS_STRING);
 		}
 	}
@@ -366,13 +366,13 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, getNode)
 		ZEPHIR_CALL_METHOD(&node, &_54$$20, "getnode", NULL, 0);
 		zephir_check_call_status();
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 721, &node);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 737, &node);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "apcu_store");
 	ZEPHIR_CALL_METHOD(&_55, this_ptr, "phpfunctionexists", NULL, 0, &_2);
 	zephir_check_call_status();
 	if (zephir_is_true(&_55)) {
-		zephir_read_property_cached(&_56$$21, this_ptr, _zephir_prop_0, 721, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_56$$21, this_ptr, _zephir_prop_0, 737, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_INIT_VAR(&_57$$21);
 		ZVAL_STRING(&_57$$21, "__phalcon_uuid_node");
 		ZEPHIR_CALL_FUNCTION(NULL, "apcu_store", NULL, 289, &_57$$21, &_56$$21);
@@ -977,7 +977,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, phpExtensionLoaded)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 472, &name_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 474, &name_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

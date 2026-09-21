@@ -46,13 +46,13 @@ class Robot extends Model
     /**
      * @Column(type="varchar", length=32, default="mechanical")
      */
-    #[Column(type: 'varchar', length: 32, default: 'mechanical')]
+    #[Column(type: 'varchar', length: 32, defaultValue: 'mechanical')]
     protected $type;
 
     /**
      * @Column(type="integer", default=1900)
      */
-    #[Column(type: 'integer', default: 1900)]
+    #[Column(type: 'integer', defaultValue: 1900)]
     protected $year;
 
     /**
