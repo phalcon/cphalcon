@@ -30,3 +30,19 @@ class TestClassAttributes
     {
     }
 }
+
+/**
+ * A class with constants, properties and methods, and no attribute on any of
+ * them. It cannot be an internal class such as stdClass, because PHP gives
+ * stdClass the AllowDynamicProperties attribute from 8.2 on.
+ */
+class TestClassNoAttributes
+{
+    public const STATUS = 'active';
+
+    protected $name;
+
+    public function indexAction()
+    {
+    }
+}

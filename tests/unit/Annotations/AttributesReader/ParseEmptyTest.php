@@ -15,11 +15,20 @@ namespace Phalcon\Tests\Unit\Annotations\AttributesReader;
 
 use Phalcon\Annotations\AttributesReader;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use ReflectionException;
-use stdClass;
 
 final class ParseEmptyTest extends AbstractUnitTestCase
 {
+    public function setUp(): void
+    {
+        $includeFile = Talon::settings()
+                            ->supportPath('assets/Annotations/TestClassAttributes.php')
+        ;
+
+        require_once $includeFile;
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-09-20
@@ -28,7 +37,7 @@ final class ParseEmptyTest extends AbstractUnitTestCase
     {
         $reader = new AttributesReader();
 
-        $this->assertSame([], $reader->parse(stdClass::class));
+        $this->assertSame([], $reader->parse('TestClassNoAttributes'));
     }
 
     /**
