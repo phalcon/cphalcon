@@ -212,7 +212,13 @@ class AttributesReader implements ReaderInterface
                 let name = get_class_ns(name);
             }
 
+            /**
+             * The node carries the same keys as the one the parser builds,
+             * so that Reflection::getReflectionData() gives one shape
+             * whichever reader filled it.
+             */
             let node = [
+                "type": PHANNOT_T_ANNOTATION,
                 "name": name,
                 "file": file,
                 "line": line

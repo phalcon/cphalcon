@@ -118,6 +118,22 @@ final class ParseTest extends AbstractUnitTestCase
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-09-20
      */
+    public function testParseSetsTheAnnotationNodeType(): void
+    {
+        $reader  = new AttributesReader();
+        $parsing = $reader->parse('TestClassAttributes');
+
+        /**
+         * A node carries the same keys as the one the parser builds, so the
+         * node type is the annotation type and not the resolved type. Only
+         * an argument expression uses Annotation::T_RESOLVED.
+         */
+        $this->assertSame(300, $parsing['class'][0]['type']);
+        $this->assertSame(300, $parsing['constants']['STATUS'][0]['type']);
+        $this->assertSame(300, $parsing['properties']['name'][0]['type']);
+        $this->assertSame(300, $parsing['methods']['indexAction'][0]['type']);
+    }
+
     public function testParseSetsTheFileAndTheLine(): void
     {
         $reader  = new AttributesReader();

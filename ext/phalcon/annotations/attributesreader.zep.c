@@ -515,7 +515,7 @@ PHP_METHOD(Phalcon_Annotations_AttributesReader, buildNodes)
 	ZVAL_STR_COPY(&file_zv, file);
 	ZEPHIR_INIT_VAR(&nodes);
 	array_init(&nodes);
-	zephir_is_iterable(&attributes, 0, "phalcon/Annotations/AttributesReader.zep", 230);
+	zephir_is_iterable(&attributes, 0, "phalcon/Annotations/AttributesReader.zep", 236);
 	if (Z_TYPE_P(&attributes) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&attributes), _0)
 		{
@@ -531,7 +531,8 @@ PHP_METHOD(Phalcon_Annotations_AttributesReader, buildNodes)
 				ZEPHIR_CPY_WRT(&name, &_2$$4);
 			}
 			ZEPHIR_INIT_NVAR(&node);
-			zephir_create_array(&node, 3, 0);
+			zephir_create_array(&node, 4, 0);
+			add_assoc_long_ex(&node, SL("type"), 300);
 			zephir_array_update_string(&node, SL("name"), &name, PH_COPY | PH_SEPARATE);
 			zephir_array_update_string(&node, SL("file"), &file_zv, PH_COPY | PH_SEPARATE);
 			ZEPHIR_INIT_NVAR(&_3$$3);
@@ -544,7 +545,7 @@ PHP_METHOD(Phalcon_Annotations_AttributesReader, buildNodes)
 				zephir_check_call_status();
 				zephir_array_update_string(&node, SL("arguments"), &_4$$5, PH_COPY | PH_SEPARATE);
 			}
-			zephir_array_append(&nodes, &node, PH_SEPARATE, "phalcon/Annotations/AttributesReader.zep", 227);
+			zephir_array_append(&nodes, &node, PH_SEPARATE, "phalcon/Annotations/AttributesReader.zep", 233);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &attributes, "rewind", NULL, 0);
@@ -574,7 +575,8 @@ PHP_METHOD(Phalcon_Annotations_AttributesReader, buildNodes)
 					ZEPHIR_CPY_WRT(&name, &_9$$7);
 				}
 				ZEPHIR_INIT_NVAR(&_10$$6);
-				zephir_create_array(&_10$$6, 3, 0);
+				zephir_create_array(&_10$$6, 4, 0);
+				add_assoc_long_ex(&_10$$6, SL("type"), 300);
 				zephir_array_update_string(&_10$$6, SL("name"), &name, PH_COPY | PH_SEPARATE);
 				zephir_array_update_string(&_10$$6, SL("file"), &file_zv, PH_COPY | PH_SEPARATE);
 				ZEPHIR_INIT_NVAR(&_11$$6);
@@ -588,7 +590,7 @@ PHP_METHOD(Phalcon_Annotations_AttributesReader, buildNodes)
 					zephir_check_call_status();
 					zephir_array_update_string(&node, SL("arguments"), &_12$$8, PH_COPY | PH_SEPARATE);
 				}
-				zephir_array_append(&nodes, &node, PH_SEPARATE, "phalcon/Annotations/AttributesReader.zep", 227);
+				zephir_array_append(&nodes, &node, PH_SEPARATE, "phalcon/Annotations/AttributesReader.zep", 233);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&attribute);
