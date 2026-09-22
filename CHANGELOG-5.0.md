@@ -2,6 +2,28 @@
 
 All notable changes are documented here. The format is based on [Keep a Changelog][keep_a_changelog] and this project adheres to [Semantic Versioning][semantic_versioning].
 
+## [5.22.0](https://github.com/phalcon/cphalcon/releases/tag/v5.22.0) (2026-09-22)
+
+### Tools
+
+- Zephir 1.5.0
+
+### Changed
+
+- `Phalcon\Annotations\ReaderInterface` no longer declares the static `parseDocBlock()`; it stays a public static method of `Phalcon\Annotations\Reader`. [#17601](https://github.com/phalcon/cphalcon/issues/17601) [[doc]](https://docs.phalcon.io/5.22/annotations/)
+- `Phalcon\Mvc\Model\MetaData\Strategy\Annotations` reads `skipOnInsert`, `skipOnUpdate`, `allowEmptyString` and `defaultValue` next to the `skip_on_insert`, `skip_on_update`, `allow_empty_string` and `default` it already read. [#17601](https://github.com/phalcon/cphalcon/issues/17601) [[doc]](https://docs.phalcon.io/5.22/db-models-metadata/)
+
+### Added
+
+- `Phalcon\Annotations\AttributesReader` reads PHP attributes instead of docblocks; `setReader()` on the annotations adapter selects it and `Phalcon\Annotations\Reader` stays the default. [#17601](https://github.com/phalcon/cphalcon/issues/17601) [[doc]](https://docs.phalcon.io/5.22/annotations/)
+- `Phalcon\Annotations\Router\Route`, `Connect`, `Delete`, `Get`, `Head`, `Options`, `Patch`, `Post`, `Purge`, `Put`, `Trace`, `RoutePrefix` and `Phalcon\Annotations\Models\MetaData\Column`, `Identity`, `Primary`, `Source` give the attribute form of the router and model metadata annotations. [#17601](https://github.com/phalcon/cphalcon/issues/17601) [[doc]](https://docs.phalcon.io/5.22/annotations/)
+
+### Fixed
+
+
+### Removed
+
+
 ## [5.21.0](https://github.com/phalcon/cphalcon/releases/tag/v5.21.0) (2026-09-18)
 
 ### Tools

@@ -1510,6 +1510,26 @@ zend_class_entry *phalcon_image_exception_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Image_Exception);
 
 
+zend_class_entry *phalcon_annotations_router_route_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Annotations_Router_Route);
+
+static PHP_METHOD(Phalcon_Annotations_Router_Route, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_router_route___construct, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, route, IS_STRING, 0)
+	ZEND_ARG_INFO(0, methods)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, name, IS_STRING, 1, "null")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, paths, IS_ARRAY, 0, "[]")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, converters, IS_ARRAY, 0, "[]")
+	ZEND_ARG_INFO(0, beforeMatch)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_annotations_router_route_method_entry) {
+	PHP_ME(Phalcon_Annotations_Router_Route, __construct, arginfo_phalcon_annotations_router_route___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};
+
 zend_class_entry *phalcon_contracts_dispatcher_dispatcher_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Contracts_Dispatcher_Dispatcher);
@@ -8120,6 +8140,19 @@ ZEPHIR_INIT_FUNCS(phalcon_acl_adapter_abstractadapter_method_entry) {
 	PHP_FE_END
 };
 
+zend_class_entry *phalcon_annotations_readerinterface_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Annotations_ReaderInterface);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_annotations_readerinterface_parse, 0, 1, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, className, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_annotations_readerinterface_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Annotations_ReaderInterface, parse, arginfo_phalcon_annotations_readerinterface_parse)
+	PHP_FE_END
+};
+
 zend_class_entry *phalcon_application_abstractapplication_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Application_AbstractApplication);
@@ -12021,26 +12054,6 @@ zend_class_entry *phalcon_acl_roleinterface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Acl_RoleInterface);
 
-
-zend_class_entry *phalcon_annotations_readerinterface_ce;
-
-ZEPHIR_INIT_CLASS(Phalcon_Annotations_ReaderInterface);
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_annotations_readerinterface_parse, 0, 1, IS_ARRAY, 0)
-	ZEND_ARG_TYPE_INFO(0, className, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_annotations_readerinterface_parsedocblock, 0, 1, IS_ARRAY, 0)
-	ZEND_ARG_TYPE_INFO(0, docBlock, IS_STRING, 0)
-	ZEND_ARG_INFO(0, file)
-	ZEND_ARG_INFO(0, line)
-ZEND_END_ARG_INFO()
-
-ZEPHIR_INIT_FUNCS(phalcon_annotations_readerinterface_method_entry) {
-	PHP_ABSTRACT_ME(Phalcon_Annotations_ReaderInterface, parse, arginfo_phalcon_annotations_readerinterface_parse)
-	ZEND_FENTRY(parseDocBlock, NULL, arginfo_phalcon_annotations_readerinterface_parsedocblock, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
-	PHP_FE_END
-};
 
 zend_class_entry *phalcon_cache_abstractcache_ce;
 
@@ -19385,6 +19398,41 @@ ZEPHIR_INIT_FUNCS(phalcon_annotations_annotationsfactory_method_entry) {
 	PHP_FE_END
 };
 
+zend_class_entry *phalcon_annotations_attributesreader_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Annotations_AttributesReader);
+
+static PHP_METHOD(Phalcon_Annotations_AttributesReader, parse);
+static PHP_METHOD(Phalcon_Annotations_AttributesReader, buildArguments);
+static PHP_METHOD(Phalcon_Annotations_AttributesReader, buildNodes);
+static PHP_METHOD(Phalcon_Annotations_AttributesReader, resolveName);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_annotations_attributesreader_parse, 0, 1, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, className, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_annotations_attributesreader_buildarguments, 0, 1, IS_ARRAY, 0)
+	ZEND_ARG_ARRAY_INFO(0, attributeArguments, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_annotations_attributesreader_buildnodes, 0, 3, IS_ARRAY, 0)
+	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
+	ZEND_ARG_TYPE_INFO(0, file, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, line, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_annotations_attributesreader_resolvename, 0, 1, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_annotations_attributesreader_method_entry) {
+	PHP_ME(Phalcon_Annotations_AttributesReader, parse, arginfo_phalcon_annotations_attributesreader_parse, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Annotations_AttributesReader, buildArguments, arginfo_phalcon_annotations_attributesreader_buildarguments, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Annotations_AttributesReader, buildNodes, arginfo_phalcon_annotations_attributesreader_buildnodes, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Annotations_AttributesReader, resolveName, arginfo_phalcon_annotations_attributesreader_resolvename, ZEND_ACC_PROTECTED)
+	PHP_FE_END
+};
+
 zend_class_entry *phalcon_annotations_collection_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Collection);
@@ -19511,6 +19559,53 @@ ZEPHIR_INIT_FUNCS(phalcon_annotations_exceptions_unknownannotationexpression_met
 	PHP_FE_END
 };
 
+zend_class_entry *phalcon_annotations_models_metadata_column_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Annotations_Models_MetaData_Column);
+
+static PHP_METHOD(Phalcon_Annotations_Models_MetaData_Column, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_models_metadata_column___construct, 0, 0, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, column, IS_STRING, 1, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, type, IS_STRING, 0, "'string'")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, length, IS_LONG, 1, "null")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, nullable, _IS_BOOL, 0, "false")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, skipOnInsert, _IS_BOOL, 0, "false")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, skipOnUpdate, _IS_BOOL, 0, "false")
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, allowEmptyString, _IS_BOOL, 0, "false")
+	ZEND_ARG_INFO(0, defaultValue)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_annotations_models_metadata_column_method_entry) {
+	PHP_ME(Phalcon_Annotations_Models_MetaData_Column, __construct, arginfo_phalcon_annotations_models_metadata_column___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_annotations_models_metadata_identity_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Annotations_Models_MetaData_Identity);
+
+
+zend_class_entry *phalcon_annotations_models_metadata_primary_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Annotations_Models_MetaData_Primary);
+
+
+zend_class_entry *phalcon_annotations_models_metadata_source_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Annotations_Models_MetaData_Source);
+
+static PHP_METHOD(Phalcon_Annotations_Models_MetaData_Source, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_models_metadata_source___construct, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, table, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_annotations_models_metadata_source_method_entry) {
+	PHP_ME(Phalcon_Annotations_Models_MetaData_Source, __construct, arginfo_phalcon_annotations_models_metadata_source___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};
+
 zend_class_entry *phalcon_annotations_reader_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Reader);
@@ -19575,6 +19670,211 @@ ZEPHIR_INIT_FUNCS(phalcon_annotations_reflection_method_entry) {
 	PHP_ME(Phalcon_Annotations_Reflection, getPropertiesAnnotations, arginfo_phalcon_annotations_reflection_getpropertiesannotations, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Annotations_Reflection, getMethodsAnnotations, arginfo_phalcon_annotations_reflection_getmethodsannotations, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Annotations_Reflection, getReflectionData, arginfo_phalcon_annotations_reflection_getreflectiondata, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_annotations_router_connect_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Annotations_Router_Connect);
+
+static PHP_METHOD(Phalcon_Annotations_Router_Connect, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_router_connect___construct, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, route, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, name, IS_STRING, 1, "null")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, paths, IS_ARRAY, 0, "[]")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, converters, IS_ARRAY, 0, "[]")
+	ZEND_ARG_INFO(0, beforeMatch)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_annotations_router_connect_method_entry) {
+	PHP_ME(Phalcon_Annotations_Router_Connect, __construct, arginfo_phalcon_annotations_router_connect___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_annotations_router_delete_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Annotations_Router_Delete);
+
+static PHP_METHOD(Phalcon_Annotations_Router_Delete, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_router_delete___construct, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, route, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, name, IS_STRING, 1, "null")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, paths, IS_ARRAY, 0, "[]")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, converters, IS_ARRAY, 0, "[]")
+	ZEND_ARG_INFO(0, beforeMatch)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_annotations_router_delete_method_entry) {
+	PHP_ME(Phalcon_Annotations_Router_Delete, __construct, arginfo_phalcon_annotations_router_delete___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_annotations_router_get_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Annotations_Router_Get);
+
+static PHP_METHOD(Phalcon_Annotations_Router_Get, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_router_get___construct, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, route, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, name, IS_STRING, 1, "null")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, paths, IS_ARRAY, 0, "[]")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, converters, IS_ARRAY, 0, "[]")
+	ZEND_ARG_INFO(0, beforeMatch)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_annotations_router_get_method_entry) {
+	PHP_ME(Phalcon_Annotations_Router_Get, __construct, arginfo_phalcon_annotations_router_get___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_annotations_router_head_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Annotations_Router_Head);
+
+static PHP_METHOD(Phalcon_Annotations_Router_Head, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_router_head___construct, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, route, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, name, IS_STRING, 1, "null")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, paths, IS_ARRAY, 0, "[]")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, converters, IS_ARRAY, 0, "[]")
+	ZEND_ARG_INFO(0, beforeMatch)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_annotations_router_head_method_entry) {
+	PHP_ME(Phalcon_Annotations_Router_Head, __construct, arginfo_phalcon_annotations_router_head___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_annotations_router_options_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Annotations_Router_Options);
+
+static PHP_METHOD(Phalcon_Annotations_Router_Options, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_router_options___construct, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, route, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, name, IS_STRING, 1, "null")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, paths, IS_ARRAY, 0, "[]")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, converters, IS_ARRAY, 0, "[]")
+	ZEND_ARG_INFO(0, beforeMatch)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_annotations_router_options_method_entry) {
+	PHP_ME(Phalcon_Annotations_Router_Options, __construct, arginfo_phalcon_annotations_router_options___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_annotations_router_patch_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Annotations_Router_Patch);
+
+static PHP_METHOD(Phalcon_Annotations_Router_Patch, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_router_patch___construct, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, route, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, name, IS_STRING, 1, "null")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, paths, IS_ARRAY, 0, "[]")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, converters, IS_ARRAY, 0, "[]")
+	ZEND_ARG_INFO(0, beforeMatch)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_annotations_router_patch_method_entry) {
+	PHP_ME(Phalcon_Annotations_Router_Patch, __construct, arginfo_phalcon_annotations_router_patch___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_annotations_router_post_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Annotations_Router_Post);
+
+static PHP_METHOD(Phalcon_Annotations_Router_Post, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_router_post___construct, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, route, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, name, IS_STRING, 1, "null")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, paths, IS_ARRAY, 0, "[]")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, converters, IS_ARRAY, 0, "[]")
+	ZEND_ARG_INFO(0, beforeMatch)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_annotations_router_post_method_entry) {
+	PHP_ME(Phalcon_Annotations_Router_Post, __construct, arginfo_phalcon_annotations_router_post___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_annotations_router_purge_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Annotations_Router_Purge);
+
+static PHP_METHOD(Phalcon_Annotations_Router_Purge, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_router_purge___construct, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, route, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, name, IS_STRING, 1, "null")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, paths, IS_ARRAY, 0, "[]")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, converters, IS_ARRAY, 0, "[]")
+	ZEND_ARG_INFO(0, beforeMatch)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_annotations_router_purge_method_entry) {
+	PHP_ME(Phalcon_Annotations_Router_Purge, __construct, arginfo_phalcon_annotations_router_purge___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_annotations_router_put_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Annotations_Router_Put);
+
+static PHP_METHOD(Phalcon_Annotations_Router_Put, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_router_put___construct, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, route, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, name, IS_STRING, 1, "null")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, paths, IS_ARRAY, 0, "[]")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, converters, IS_ARRAY, 0, "[]")
+	ZEND_ARG_INFO(0, beforeMatch)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_annotations_router_put_method_entry) {
+	PHP_ME(Phalcon_Annotations_Router_Put, __construct, arginfo_phalcon_annotations_router_put___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_annotations_router_routeprefix_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Annotations_Router_RoutePrefix);
+
+static PHP_METHOD(Phalcon_Annotations_Router_RoutePrefix, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_router_routeprefix___construct, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, prefix, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_annotations_router_routeprefix_method_entry) {
+	PHP_ME(Phalcon_Annotations_Router_RoutePrefix, __construct, arginfo_phalcon_annotations_router_routeprefix___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_annotations_router_trace_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Annotations_Router_Trace);
+
+static PHP_METHOD(Phalcon_Annotations_Router_Trace, __construct);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_router_trace___construct, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, route, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, name, IS_STRING, 1, "null")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, paths, IS_ARRAY, 0, "[]")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, converters, IS_ARRAY, 0, "[]")
+	ZEND_ARG_INFO(0, beforeMatch)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_annotations_router_trace_method_entry) {
+	PHP_ME(Phalcon_Annotations_Router_Trace, __construct, arginfo_phalcon_annotations_router_trace___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_FE_END
 };
 
@@ -45094,6 +45394,7 @@ static PHP_METHOD(Phalcon_Mvc_Router_Annotations, setActionSuffix);
 static PHP_METHOD(Phalcon_Mvc_Router_Annotations, setActionPreformatCallback);
 static PHP_METHOD(Phalcon_Mvc_Router_Annotations, getActionPreformatCallback);
 static PHP_METHOD(Phalcon_Mvc_Router_Annotations, setControllerSuffix);
+static PHP_METHOD(Phalcon_Mvc_Router_Annotations, resolveArgument);
 zend_object *zephir_init_properties_Phalcon_Mvc_Router_Annotations(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_annotations_addmoduleresource, 0, 2, MAY_BE_STATIC)
@@ -45144,6 +45445,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_annotations_se
 	ZEND_ARG_TYPE_INFO(0, controllerSuffix, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_annotations_resolveargument, 0, 0, 2)
+	ZEND_ARG_OBJ_INFO(0, annotation, Phalcon\\Annotations\\Annotation, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_annotations_zephir_init_properties_phalcon_mvc_router_annotations, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
@@ -45158,6 +45464,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_router_annotations_method_entry) {
 	PHP_ME(Phalcon_Mvc_Router_Annotations, setActionPreformatCallback, arginfo_phalcon_mvc_router_annotations_setactionpreformatcallback, ZEND_ACC_PUBLIC)
 PHP_ME(Phalcon_Mvc_Router_Annotations, getActionPreformatCallback, arginfo_phalcon_mvc_router_annotations_getactionpreformatcallback, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Annotations, setControllerSuffix, arginfo_phalcon_mvc_router_annotations_setcontrollersuffix, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Annotations, resolveArgument, arginfo_phalcon_mvc_router_annotations_resolveargument, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };
 

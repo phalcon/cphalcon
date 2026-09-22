@@ -352,7 +352,7 @@ class Annotations extends Router
         let paths["controller"] = controller,
             paths["action"] = actionName;
 
-        let value = annotation->getArgument(0);
+        let value = this->resolveArgument(annotation, "route");
 
         /**
          * Create the route using the prefix
@@ -434,7 +434,7 @@ class Annotations extends Router
          * @RoutePrefix add a prefix for all the routes defined in the model
          */
         if annotation->getName() == "RoutePrefix" {
-            let this->routePrefix = annotation->getArgument(0);
+            let this->routePrefix = this->resolveArgument(annotation, "prefix");
         }
     }
 
@@ -514,5 +514,26 @@ class Annotations extends Router
         let this->controllerSuffix = controllerSuffix;
 
         return this;
+    }
+
+    /**
+     * Returns the argument at position 0, or the named one when position 0
+     * is not there.
+     *
+     * A docblock puts the value at position 0. An attribute puts it at
+     * position 0 too, unless the developer writes the name as a named
+     * argument.
+     */
+    protected function resolveArgument(<Annotation> annotation, string name) -> var
+    {
+        var value;
+
+        let value = annotation->getArgument(0);
+
+        if value === null {
+            let value = annotation->getArgument(name);
+        }
+
+        return value;
     }
 }

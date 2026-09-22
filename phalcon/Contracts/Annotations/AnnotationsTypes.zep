@@ -34,12 +34,6 @@ use Phalcon\Annotations\Reflection;
  * invisible until the stubs are analyzed. `annotations_expression` is hoisted
  * for that reason.
  *
- * These shapes are this project's own. The Annotations namespace is the one
- * namespace whose implementation differs between cphalcon and phalcon:
- * cphalcon parses docblocks with `phannot_parse_annotations()` and hands the
- * raw parser nodes around, while phalcon reads native PHP attributes and hands
- * `ReflectionAttribute` objects around. Do not mirror the two registries.
- *
  * The node shapes below are what `ext/phalcon/annotations/parser.php.inc.h`
  * builds: `phannot_ret_annotation()`, `phannot_ret_named_item()`,
  * `phannot_ret_literal_zval()` and `phannot_ret_array()`.
@@ -77,6 +71,10 @@ use Phalcon\Annotations\Reflection;
  *     properties?: annotations_node_map,
  * }
  * @phpstan-type annotations_resolved_arguments array<array-key, mixed>
+ * @phpstan-type annotations_route_before_match array<array-key, mixed>|string|null
+ * @phpstan-type annotations_route_converters array<array-key, mixed>
+ * @phpstan-type annotations_route_methods array<array-key, string>|string|null
+ * @phpstan-type annotations_route_paths array<array-key, mixed>
  */
 interface AnnotationsTypes
 {
