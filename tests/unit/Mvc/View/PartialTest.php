@@ -148,6 +148,34 @@ class PartialTest extends AbstractUnitTestCase
     }
 
     /**
+     * A `..` that stays inside the partial path removes the previous segment
+     * and is not dropped.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17606
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-23
+     */
+    public function testMvcViewPartialParentSegment(): void
+    {
+        $container = new Di();
+        $view      = new View();
+
+        $view->setViewsDir(
+            $this->getDirSeparator(Talon::settings()->supportPath('assets/views'))
+        );
+        $view->setDI($container);
+
+        ob_start();
+        $view->partial(
+            'currentrender/../partials/partial',
+            ['cool_var' => 'abcde']
+        );
+        $actual = ob_get_clean();
+
+        $this->assertSame('Hey, this is a partial, also abcde', $actual);
+    }
+
+    /**
      * Dropping the `.` and `..` segments must keep a legitimate sub-directory
      * partial working.
      *
