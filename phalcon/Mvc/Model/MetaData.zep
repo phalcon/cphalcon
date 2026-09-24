@@ -998,7 +998,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
         let prefixKey = "map-" . key,
             data = this->{"read"}(prefixKey);
 
-        if data !== null {
+        if typeof data == "array" {
             let this->columnMap[key] = data;
 
             return true;
@@ -1045,7 +1045,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
                 let prefixKey = "meta-" . key,
                     data = this->{"read"}(prefixKey);
 
-                if data !== null {
+                if typeof data == "array" {
                     let this->metaData[key] = data;
                 } else {
                     /**

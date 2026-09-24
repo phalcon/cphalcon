@@ -7,6 +7,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, __construct);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, read);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, getFilePath);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, requireFile);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, throwWriteException);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, phpFclose);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, phpFgetCsv);
@@ -36,6 +37,10 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_stream_getfilepath, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_stream_requirefile, 0, 0, 1)
+	ZEND_ARG_TYPE_INFO(0, path, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_stream_throwwriteexception, 0, 1, IS_VOID, 0)
@@ -112,6 +117,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_metadata_stream_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_MetaData_Stream, read, arginfo_phalcon_mvc_model_metadata_stream_read, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData_Stream, write, arginfo_phalcon_mvc_model_metadata_stream_write, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData_Stream, getFilePath, arginfo_phalcon_mvc_model_metadata_stream_getfilepath, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Mvc_Model_MetaData_Stream, requireFile, arginfo_phalcon_mvc_model_metadata_stream_requirefile, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Mvc_Model_MetaData_Stream, throwWriteException, arginfo_phalcon_mvc_model_metadata_stream_throwwriteexception, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Mvc_Model_MetaData_Stream, phpFclose, arginfo_phalcon_mvc_model_metadata_stream_phpfclose, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData_Stream, phpFgetCsv, arginfo_phalcon_mvc_model_metadata_stream_phpfgetcsv, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
