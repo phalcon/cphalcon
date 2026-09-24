@@ -458,16 +458,28 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
             mustClean = true;
 
         /**
-         * Drop "." and ".." path segments so a crafted view path cannot climb
-         * out of the views directory, while still allowing sub-directories and
-         * absolute paths (CWE-22). Backslashes are separators on Windows, so
-         * they are normalized first.
+         * Resolve "." and ".." path segments so a crafted view path cannot
+         * climb out of the views directory, while still allowing
+         * sub-directories and absolute paths (CWE-22). A ".." removes the
+         * previous segment. At the top level, or at the root of an absolute
+         * path, the ".." is dropped. Backslashes are separators on Windows,
+         * so they are normalized first.
          */
         let segments = [];
         for segment in explode("/", str_replace("\\", "/", path)) {
-            if segment !== "." && segment !== ".." {
-                let segments[] = segment;
+            if segment === "." {
+                continue;
             }
+
+            if segment === ".." {
+                if count(segments) > 0 && segments[count(segments) - 1] !== "" {
+                    array_pop(segments);
+                }
+
+                continue;
+            }
+
+            let segments[] = segment;
         }
 
         let path = implode("/", segments);
