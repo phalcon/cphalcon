@@ -90,4 +90,22 @@ final class RenderTraversalTest extends AbstractUnitTestCase
 
         $this->assertSame($expected, $actual);
     }
+
+    /**
+     * A `..` that stays inside the render path removes the previous segment
+     * and is not dropped.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17606
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-23
+     */
+    public function testMvcViewSimpleRenderParentSegment(): void
+    {
+        $view = $this->container->get('viewSimple');
+
+        $expected = 'here';
+        $actual   = $view->render('partials/../currentrender/other');
+
+        $this->assertSame($expected, $actual);
+    }
 }
