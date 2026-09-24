@@ -553,36 +553,38 @@ jobs:
           # A tag keeps its builds for 30 days, other runs for 5
           retention-days: ${{ startsWith(github.ref, 'refs/tags/') && 30 || 5 }}
 
-  build_extension_macos:
-    permissions:
-      contents: read
+  # The macOS builds fail on most runs. They are disabled until the
+  # macOS runners are stable again.
+  # build_extension_macos:
+  #   permissions:
+  #     contents: read
 
-    name: Build / PHP-${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.name }}-${{ matrix.arch }}
-    needs: [generate_source]
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 30
-    strategy:
-      fail-fast: false
-      matrix:
-        php:
-          - '8.1'
-          - '8.2'
-          - '8.3'
-          - '8.4'
-          - '8.5'
-        ts:
-          - 'nts'
-          - 'ts'
-        arch:
-          - 'arm64'
+  #   name: Build / PHP-${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.name }}-${{ matrix.arch }}
+  #   needs: [generate_source]
+  #   runs-on: ${{ matrix.os }}
+  #   timeout-minutes: 30
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       php:
+  #         - '8.1'
+  #         - '8.2'
+  #         - '8.3'
+  #         - '8.4'
+  #         - '8.5'
+  #       ts:
+  #         - 'nts'
+  #         - 'ts'
+  #       arch:
+  #         - 'arm64'
 
-        name:
-          - macos-clang
+  #       name:
+  #         - macos-clang
 
-        include:
-          - { name: macos-clang, arch: arm64, os: macos-14, compiler: clang }
+  #       include:
+  #         - { name: macos-clang, arch: arm64, os: macos-14, compiler: clang }
 
-    steps: *build_extension_steps
+  #   steps: *build_extension_steps
 
   unit_test:
     permissions:
@@ -1223,7 +1225,7 @@ jobs:
       - generate_source
       - generate_pecl
       - build_extension
-      - build_extension_macos
+      # - build_extension_macos
       - build_extension_windows
       - unit_test
       - database_mariadb_test
