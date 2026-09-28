@@ -15,11 +15,11 @@ use Phalcon\Filter\Validation\ValidatorInterface;
 /**
  * Central registry of the array shapes used across the Filter namespace.
  *
- * @phpstan-type filter_mapper array<string, class-string<Sanitizer>|Sanitizer>
+ * @phpstan-type filter_mapper array<string, callable-array|callable-object|class-string<Sanitizer>|Sanitizer>
  * @phpstan-type filter_sanitizer_params array<array-key, mixed>
  * @phpstan-type filter_sanitizers array<array-key, array<array-key, mixed>|string>
  * @phpstan-type filter_sanitizer_split array{0: string, 1: filter_sanitizer_params}
- * @phpstan-type filter_services array<string, Sanitizer>
+ * @phpstan-type filter_services array<string, callable-array|callable-object|Sanitizer>
  * @phpstan-type filter_values array<array-key, mixed>
  * @phpstan-type filter_uploaded_file array{
  *     name: string,
