@@ -1,10 +1,12 @@
 # syntax=docker/dockerfile:1
 ARG PHP_VERSION=8.4
+# Optional base image digest (sha256:...). If empty, the tag is used.
+ARG PHP_DIGEST=
 
 ############################################################
 # base - runtime image: PHP-FPM + Phalcon runtime extensions
 ############################################################
-FROM php:${PHP_VERSION}-fpm AS base
+FROM php:${PHP_VERSION}-fpm${PHP_DIGEST:+@${PHP_DIGEST}} AS base
 
 ARG UID=1000
 ARG GID=1000
@@ -142,6 +144,37 @@ chown -R "${USER}:${GROUP}" "$(php-config --extension-dir)" "$(php-config --incl
 # Own the WORKDIR so the user can create `.zephir`/`ext` dirs during `zephir build`
 mkdir -p /srv
 chown "${USER}:${GROUP}" /srv
+# Cleanup
+rm -rf /tmp/* /var/tmp/*
+EOT
+
+WORKDIR /srv
+USER ${USER}
+
+############################################################
+# bench - benchmark runner: no Xdebug, no compile toolchain
+############################################################
+FROM base AS bench
+
+ARG USER=phalcon
+
+# Temp files go to the mounted work folder, not to /tmp
+ENV TMPDIR=/srv/.local/bench/temp
+
+COPY resources/docker/develop/bench.ini /usr/local/etc/php/conf.d/zz-bench.ini
+
+SHELL [ "/bin/bash", "-o", "pipefail", "-c" ]
+
+# hadolint ignore=DL3008
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt/lists,sharing=locked <<EOT
+set -eux
+# Profilers and the interpreters for their report scripts
+apt-get update
+apt-get install -yq --no-install-recommends \
+    perl \
+    python3 \
+    valgrind
 # Cleanup
 rm -rf /tmp/* /var/tmp/*
 EOT

@@ -59,6 +59,7 @@ services:
       target: dev
       args:
         PHP_VERSION: 8.4
+        PHP_DIGEST: sha256:b0d7dff8f2d57155aebb5150dfcb5056a8c8d977aac3c2e21cfce32b8a4b004d
         UID: ${UID:-1000}
         GID: ${GID:-1000}
     working_dir: /srv
@@ -82,6 +83,23 @@ services:
       - .:/srv
     extra_hosts:
       - "host.docker.internal:host-gateway"
+
+  cphalcon-bench-8.4:
+    container_name: ${PROJECT_PREFIX:-cphalcon}-bench-8.4
+    hostname: ${PROJECT_PREFIX:-cphalcon}-bench-84
+    profiles:
+      - bench
+    build:
+      dockerfile: resources/docker/develop/Dockerfile
+      target: bench
+      args:
+        PHP_VERSION: 8.4
+        PHP_DIGEST: sha256:b0d7dff8f2d57155aebb5150dfcb5056a8c8d977aac3c2e21cfce32b8a4b004d
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    working_dir: /srv
+    volumes:
+      - .:/srv
 
   mariadb:
     container_name: ${PROJECT_PREFIX:-cphalcon}-dev-mariadb
