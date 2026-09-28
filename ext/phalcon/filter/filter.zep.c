@@ -332,7 +332,7 @@ PHP_METHOD(Phalcon_Filter_Filter, getDefaultMapper)
  *
  * @return mixed
  *
- * @phpstan-return Sanitizer
+ * @phpstan-return callable-array|callable-object|Sanitizer
  *
  * @throws Exception
  */
@@ -489,7 +489,7 @@ PHP_METHOD(Phalcon_Filter_Filter, sanitize)
 /**
  * Set a new service to the mapper array
  *
- * @phpstan-param class-string<Sanitizer>|Sanitizer $service
+ * @phpstan-param callable-array|callable-object|class-string<Sanitizer>|Sanitizer $service
  */
 PHP_METHOD(Phalcon_Filter_Filter, set)
 {
@@ -582,9 +582,9 @@ PHP_METHOD(Phalcon_Filter_Filter, init)
 }
 
 /**
- * @phpstan-param class-string<Sanitizer>|Sanitizer $definition
+ * @phpstan-param callable-array|callable-object|class-string<Sanitizer>|Sanitizer $definition
  *
- * @phpstan-return Sanitizer
+ * @phpstan-return callable-array|callable-object|Sanitizer
  */
 PHP_METHOD(Phalcon_Filter_Filter, createInstance)
 {
@@ -939,9 +939,9 @@ PHP_METHOD(Phalcon_Filter_Filter, sanitizer)
 	zval _1$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval sanitizerParams, _3, _4;
+	zval sanitizerParams, _3;
 	zend_string *sanitizerName = NULL;
-	zval *value, value_sub, sanitizerName_zv, *sanitizerParams_param = NULL, params, sanitizerObject, _0, _5, _2$$4;
+	zval *value, value_sub, sanitizerName_zv, *sanitizerParams_param = NULL, params, sanitizerObject, _0, _2$$4;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&value_sub);
@@ -949,11 +949,9 @@ PHP_METHOD(Phalcon_Filter_Filter, sanitizer)
 	ZVAL_UNDEF(&params);
 	ZVAL_UNDEF(&sanitizerObject);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&sanitizerParams);
 	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_1$$4);
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_ZVAL(value)
@@ -995,13 +993,7 @@ PHP_METHOD(Phalcon_Filter_Filter, sanitizer)
 	zephir_array_fast_append(&_3, value);
 	ZEPHIR_INIT_VAR(&params);
 	zephir_fast_array_merge(&params, &_3, &sanitizerParams);
-	ZEPHIR_INIT_VAR(&_4);
-	zephir_create_array(&_4, 2, 0);
-	zephir_array_fast_append(&_4, &sanitizerObject);
-	ZEPHIR_INIT_VAR(&_5);
-	ZVAL_STRING(&_5, "__invoke");
-	zephir_array_fast_append(&_4, &_5);
-	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_4, &params);
+	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &sanitizerObject, &params);
 	zephir_check_call_status();
 	RETURN_MM();
 }
