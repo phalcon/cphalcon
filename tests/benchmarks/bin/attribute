@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+#
+# This file is part of the Phalcon Framework.
+#
+# (c) Phalcon Team <team@phalcon.io>
+#
+# For the full copyright and license information, please view
+# the LICENSE.txt file that was distributed with this source code.
+
+# Shows the own cost of each Phalcon method in one warm call of a benchmark subject, with valgrind
+# (callgrind with caller chains). Run this script in the cphalcon-bench-* container.
+#
+# Usage: tests/benchmarks/bin/attribute <build> <class> <method> [k]
+#
+# The own cost of a method is its self Ir plus the Ir of the helpers and engine functions that it calls. The
+# cost of the Phalcon methods and the userland code that it calls is not part of it. Each Ir is counted one
+# time only, so the own costs add up to the total of the call.
+#
+# The script runs the subject one time without valgrind (warm-up: file caches). Then it runs the subject
+# 1 and 1+k times under callgrind (k is 20 if not given). warm = (1+k calls minus 1 call) / k.
+#
+# Result: .local/bench/out/attribute/<build>/<class with dots>-<method>.md (and .tsv)
+
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
+readonly ROOT
+readonly BIN="${ROOT}/tests/benchmarks/bin"
+# The number of callers in a context. A longer chain loses its cost to "(unattributed)". The SQLite library
+# (REST apps, Db subjects) needs about 50.
+readonly CALLERS=50
+
+usage() {
+    echo "Usage: $0 <build> <class> <method> [k]  (k: a positive integer, default 20)" >&2
+    exit 2
+}
+
+[[ $# -ge 3 && $# -le 4 ]] || usage
+
+build="$1"
+class="$2"
+method="$3"
+k="${4:-20}"
+
+[[ "${k}" =~ ^[1-9][0-9]{0,6}$ ]] || usage
+
+out="${ROOT}/.local/bench/out/attribute/${build}"
+name="${class//\\/.}-${method}"
+mkdir -p "${out}"
+
+# Warm-up run without valgrind. It creates the file caches (for example compiled views and model
+# metadata), so that no measured run creates them.
+warm_up_errors="${out}/${name}-warm-up.stderr"
+if ! "${BIN}/php-bench" "${build}" "${BIN}/subject.php" "${class}" "${method}" "$(printf '%09d' 1)" \
+    > /dev/null 2> "${warm_up_errors}"; then
+    echo "Error: the warm-up run failed. See ${warm_up_errors}" >&2
+    exit 1
+fi
+
+# Prints the path of the callgrind file of one run with <count> subject calls.
+profile() {
+    # Fixed width: the argument length changes the instruction count
+    local count
+    count="$(printf '%09d' "$1")"
+    local file="${out}/${name}-n${count}.callgrind"
+    local errors="${out}/${name}-n${count}.stderr"
+
+    rm -f "${file}"
+    if ! "${BIN}/php-bench" \
+        --prefix "valgrind --tool=callgrind --vgdb=no --separate-callers=${CALLERS} --separate-recs=1 --callgrind-out-file=${file}" \
+        "${build}" "${BIN}/subject.php" "${class}" "${method}" "${count}" > /dev/null 2> "${errors}"; then
+        echo "Error: the run with ${count} calls failed. See ${errors}" >&2
+        return 1
+    fi
+
+    echo "${file}"
+}
+
+file_1="$(profile 1)"
+file_k="$(profile $((k + 1)))"
+
+report="${out}/${name}.md"
+"${BIN}/php-bench" "${build}" "${BIN}/attribute.php" "${file_1}" "${file_k}" "${k}" \
+    "${class}::${method} (build ${build}, k=${k})" "${out}/${name}.tsv" > "${report}"
+
+echo "Report: ${report}"

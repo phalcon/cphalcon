@@ -13,6 +13,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 ### Added
 
 - Benchmark suite in `tests/benchmarks` (PHPBench, instruction counts, memory, reference apps) and a `bench` Docker service to compare builds of the extension. [#17613](https://github.com/phalcon/cphalcon/issues/17613)
+- Own-cost attribution and static scan tools for the benchmark suite (`tests/benchmarks/bin`). [#17615](https://github.com/phalcon/cphalcon/issues/17615)
 
 ### Fixed
 
