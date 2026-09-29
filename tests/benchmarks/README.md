@@ -189,6 +189,29 @@ the micro subjects that measure each method:
 docker exec cphalcon-bench-8.4 php tests/benchmarks/bin/rank.php .local/bench/out/attribute/<build>
 ```
 
+It also writes `_scores.tsv` (the score of each method) and `_helpers.tsv` (the score of each helper) for the
+static scans.
+
+## Static scans
+
+Two scanners look for code patterns that can cost time, and join each finding to the score of its method
+(`_scores.tsv` of `bin/rank.php`). The hot methods (rank 1 to 50) come first in the reports.
+
+```bash
+docker exec cphalcon-bench-8.4 php tests/benchmarks/bin/scan-zep.php .local/bench/out/attribute/<build>/_scores.tsv .local/bench/out/scan/<build>
+docker exec cphalcon-bench-8.4 php tests/benchmarks/bin/scan-c.php .local/bench/out/attribute/<build>/_scores.tsv .local/bench/out/attribute/<build>/_helpers.tsv .local/bench/out/scan/<build>
+```
+
+- `bin/scan-zep.php` reads `phalcon/**/*.zep`: property array writes and unsets (in loops), property reads in
+  loops, `isset` then a read of the same key, method calls in loops, the same method called at two or more places,
+  dynamic calls, some built-in functions in loops, untyped variables (Z1 to Z10).
+- `bin/scan-c.php` reads `ext/phalcon/**/*.zep.c`: method calls by name with no cache (`NULL, 0`), property
+  defaults set on each object creation (`zephir_init_properties_*`), memory frames in small methods, property
+  array updates (C1 to C4).
+
+Each scanner writes a TSV file and a report (`zep-findings.tsv`, `zep-report.md`, `c-findings.tsv`,
+`c-report.md`). The scanners are line-based: a finding is a candidate. Read the source before a change.
+
 ## Memory
 
 Allocations (valgrind DHAT, with `USE_ZEND_ALLOC=0`, so each `emalloc` is one allocation):
@@ -282,7 +305,10 @@ The A/B loop for a change:
 | `bin/store-build`  | dev       | Stores the build in `.local/bench/so/` with a manifest                |
 | `bin/php-bench`    | bench     | Runs PHP under fixed conditions (the only way to run PHP here)        |
 | `bin/phpbench-php` | bench     | PHPBench runs this as its PHP binary; calls `php-bench`               |
-| `bin/rank.php`     | bench     | Ranks the methods of all `bin/attribute` results (`_ranking.md`)      |
+| `bin/rank.php`     | bench     | Ranks the methods of all `bin/attribute` results (`_ranking.md`, `_scores.tsv`, `_helpers.tsv`) |
+| `bin/scan-c.php`   | bench     | Scans the generated C for patterns, joined to the method scores       |
+| `bin/scan-zep.php` | bench     | Scans the Zephir source for patterns, joined to the method scores     |
+| `bin/lib/scan.php` | bench     | Shared code of the two scanners                                       |
 | `bin/run-all`      | bench     | instr, memory and allocs for all subjects into a results folder       |
 | `bin/run-time`     | bench     | PHPBench wall time for all subjects into a results folder             |
 | `bin/instr`        | bench     | Cold and warm instruction counts of one subject                       |

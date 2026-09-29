@@ -20,6 +20,10 @@ declare(strict_types=1);
  * 4. helpers by score;
  * 5. the micro subjects in which a top method has 5% or more of the subject total.
  *
+ * It also writes the scores for other tools (bin/scan-zep.php, bin/scan-c.php):
+ * - <folder>/_scores.tsv: method, score, apps, rank (all Phalcon methods, score order);
+ * - <folder>/_helpers.tsv: helper, score, Ir and calls (apps summed; all helpers, score order).
+ *
  * Usage: php tests/benchmarks/bin/rank.php <folder>
  */
 
@@ -32,7 +36,8 @@ if (2 !== $argc) {
 }
 
 $folder = rtrim($argv[1], '/');
-$files  = glob($folder . '/*.tsv') ?: [];
+// The files that start with "_" are the outputs of this script
+$files = glob($folder . '/[!_]*.tsv') ?: [];
 if ([] === $files) {
     fwrite(STDERR, sprintf('Error: no TSV file in %s.', $folder) . PHP_EOL);
     exit(1);
@@ -263,5 +268,26 @@ foreach (array_keys($topMethods) as $method) {
 
 $ranking = $folder . '/_ranking.md';
 file_put_contents($ranking, implode(PHP_EOL, $lines) . PHP_EOL);
+
+$scores = ["method\tscore\tapps\trank"];
+$rank   = 0;
+foreach ($methods as $method => $values) {
+    $count = 0;
+    foreach ($values['own'] as $own) {
+        if ($own >= 0.5) {
+            $count++;
+        }
+    }
+
+    $scores[] = $method . "\t" . round($values['score'], 4) . "\t" . $count . "\t" . ++$rank;
+}
+file_put_contents($folder . '/_scores.tsv', implode(PHP_EOL, $scores) . PHP_EOL);
+
+$helperRows = ["helper\tscore\tir\tcalls"];
+foreach ($helpers as $helper => $values) {
+    $helperRows[] = $helper . "\t" . round($values['score'], 4) . "\t" . round($values['self'], 1) . "\t"
+        . round($values['calls'], 1);
+}
+file_put_contents($folder . '/_helpers.tsv', implode(PHP_EOL, $helperRows) . PHP_EOL);
 
 echo 'Ranking: ', $ranking, PHP_EOL;
