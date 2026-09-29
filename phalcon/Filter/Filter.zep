@@ -372,10 +372,10 @@ class Filter implements FilterInterface
      */
     protected function init(array mapper) -> void
     {
-        var name, service;
+        let this->mapper = array_replace(this->mapper, mapper);
 
-        for name, service in mapper {
-            this->set(name, service);
+        if !empty this->services {
+            let this->services = array_diff_key(this->services, mapper);
         }
     }
 
