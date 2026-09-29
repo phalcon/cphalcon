@@ -96,9 +96,10 @@ docker exec cphalcon-bench-8.4 callgrind_annotate --auto=no --inclusive=yes /srv
 
 - The fixtures (SQLite database, compiled Volt files, model metadata) are in `.local/bench/fixtures/`.
   `setUp` creates them if they are missing. The measured runs use these cache files, as in production.
-- For the apps, `cold_ir` is the main number. It is the first request in a new process, which is the closest
-  to one php-fpm request. `warm_ir` is a request in a process that already ran requests (request-scoped
-  caches, for example the PHQL cache, are full). It is a lower limit.
+- `cold_ir` is the first request in a new process. It includes one-time process costs that php-fpm pays once
+  for each worker (PHP script compile, regex compile). `warm_ir` is a request in a process that already ran
+  requests: all caches are full, also request-scoped caches (for example the PHQL cache) that php-fpm empties
+  after each request. A php-fpm request is between the two.
 - A request is much heavier than a micro subject. Use a smaller k:
 
 ```bash
@@ -111,6 +112,27 @@ docker exec cphalcon-bench-8.4 tests/benchmarks/bin/instr <build> 'Phalcon\Tests
 docker exec -e PHP_BENCH_BUILD=<build> cphalcon-bench-8.4 \
     vendor/bin/phpbench run --config=resources/phpbench.json --report=aggregate tests/benchmarks/Apps
 ```
+
+## Coverage (which code runs)
+
+`bin/coverage` shows which functions run in one call of a subject, and their cost. It runs the subject under
+callgrind with 0, 1 and 1+k calls (k is 20 if not given):
+
+```bash
+docker exec cphalcon-bench-8.4 tests/benchmarks/bin/coverage <build> 'Phalcon\Tests\Benchmarks\Apps\Mvc\MvcBench' benchPage
+```
+
+The report is in `.local/bench/out/coverage/<build>/`. For the cold and the warm call it shows the calls, the
+self Ir and the inclusive Ir: by component, the top Phalcon methods (`Class::method`), the top `zephir_*`
+runtime helpers and the top other functions.
+
+Limits:
+
+- The compiler folds identical small methods. The other copies jump to the kept copy, so their cost shows
+  under the name of the kept copy (for example `Mvc\View::phpFileExists` shows as
+  `Assets\Asset::phpFileExists`).
+- The `php` binary has no symbols. Its functions (for example the script compiler) show as addresses.
+- Recursive functions count some inclusive cost twice.
 
 ## Write a benchmark
 
@@ -132,6 +154,8 @@ docker exec -e PHP_BENCH_BUILD=<build> cphalcon-bench-8.4 \
 | Script             | Container | Purpose                                                               |
 |--------------------|-----------|-----------------------------------------------------------------------|
 | `bin/build-so`     | dev       | Compiles the extension with the release flags plus `-g`               |
+| `bin/coverage`     | bench     | Functions that run in one call of a subject, with their cost          |
+| `bin/coverage.php` | bench     | Reads the callgrind files and writes the coverage report              |
 | `bin/store-build`  | dev       | Stores the build in `.local/bench/so/` with a manifest                |
 | `bin/php-bench`    | bench     | Runs PHP under fixed conditions (the only way to run PHP here)        |
 | `bin/phpbench-php` | bench     | PHPBench runs this as its PHP binary; calls `php-bench`               |
