@@ -164,6 +164,31 @@ Limits:
 - The `php` binary has no symbols. Its functions (for example the script compiler) show as addresses.
 - Recursive functions count some inclusive cost twice.
 
+## Attribution (own cost)
+
+`bin/attribute` shows the own cost of each Phalcon method in one warm call of a subject. The own cost is the
+self Ir of the method plus the helpers and engine functions that it calls (`zephir_*`, method calls by name,
+hashing, memory). It does not include the Phalcon methods and the userland code that the method calls. Each Ir
+is counted one time only, so the own costs add up to the total of the call.
+
+```bash
+docker exec cphalcon-bench-8.4 tests/benchmarks/bin/attribute <build> 'Phalcon\Tests\Benchmarks\Apps\Mvc\MvcBench' benchPage
+```
+
+The script runs the subject under callgrind with caller chains (`--separate-callers=50`) with 1 and 1+k calls
+(k is 20 if not given). Each cost goes to the nearest of these in its chain: a Phalcon method, `(userland)` (PHP
+code), `(shutdown)` (objects freed at the end of the request) or `(gc)` (the garbage collector). A chain with
+none of these is `(unattributed)`. The report and a TSV file are in `.local/bench/out/attribute/<build>/`. One
+run takes about 30 seconds and writes two callgrind files of about 130 MB.
+
+`bin/rank.php` reads all TSV files in a folder and writes `_ranking.md`: the totals for each app, the Phalcon
+methods by score (the sum of their shares of the app requests), the parts of their own cost, the helpers, and
+the micro subjects that measure each method:
+
+```bash
+docker exec cphalcon-bench-8.4 php tests/benchmarks/bin/rank.php .local/bench/out/attribute/<build>
+```
+
 ## Memory
 
 Allocations (valgrind DHAT, with `USE_ZEND_ALLOC=0`, so each `emalloc` is one allocation):
@@ -248,6 +273,8 @@ The A/B loop for a change:
 | Script             | Container | Purpose                                                               |
 |--------------------|-----------|-----------------------------------------------------------------------|
 | `bin/allocs`       | bench     | Allocations of one subject (DHAT)                                     |
+| `bin/attribute`    | bench     | Own cost of each Phalcon method in one warm call of a subject         |
+| `bin/attribute.php` | bench    | Reads the callgrind files and writes the own cost report              |
 | `bin/build-so`     | dev       | Compiles the extension with the release flags plus `-g`               |
 | `bin/compare.php`  | bench     | Compares two results folders (better, worse, noise)                   |
 | `bin/coverage`     | bench     | Functions that run in one call of a subject, with their cost          |
@@ -255,6 +282,7 @@ The A/B loop for a change:
 | `bin/store-build`  | dev       | Stores the build in `.local/bench/so/` with a manifest                |
 | `bin/php-bench`    | bench     | Runs PHP under fixed conditions (the only way to run PHP here)        |
 | `bin/phpbench-php` | bench     | PHPBench runs this as its PHP binary; calls `php-bench`               |
+| `bin/rank.php`     | bench     | Ranks the methods of all `bin/attribute` results (`_ranking.md`)      |
 | `bin/run-all`      | bench     | instr, memory and allocs for all subjects into a results folder       |
 | `bin/run-time`     | bench     | PHPBench wall time for all subjects into a results folder             |
 | `bin/instr`        | bench     | Cold and warm instruction counts of one subject                       |
