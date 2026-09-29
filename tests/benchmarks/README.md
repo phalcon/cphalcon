@@ -9,7 +9,8 @@ This folder has the benchmarks for the Phalcon extension. Use them to compare tw
   executes. The count changes very little from run to run, also in a virtual machine.
 - **Wall time is the second metric.** [PHPBench](https://phpbench.readthedocs.io/) measures it. Wall time
   changes with the load on the machine, so use it for large differences only.
-- **Cold and warm counts.** `bin/instr` runs a subject 0, 1 and 1+k times:
+- **Cold and warm counts.** `bin/instr` runs a subject one time without valgrind (a warm-up, so that file
+  caches exist), then 0, 1 and 1+k times under valgrind:
   - `cold_ir = Ir(1) - Ir(0)`: the first call, with lazy setup.
   - `warm_ir = (Ir(1+k) - Ir(1)) / k`: one call after the first call.
 
@@ -81,6 +82,36 @@ docker exec cphalcon-bench-8.4 tests/benchmarks/bin/php-bench --debug \
 docker exec cphalcon-bench-8.4 callgrind_annotate --auto=no --inclusive=yes /srv/.local/bench/out/profile.callgrind
 ```
 
+## Reference apps
+
+`Apps/` has four small apps. Each subject call is one request: a new container and a new application,
+`handle()`, `send()` into an output buffer, and a check of the body.
+
+| App           | Subjects                                                        |
+|---------------|-----------------------------------------------------------------|
+| Micro         | `Apps\Micro\MicroBench::benchHello`                             |
+| ADR           | `Apps\Adr\AdrBench::benchHello`                                 |
+| MVC + Volt    | `Apps\Mvc\MvcBench::benchPage`                                  |
+| REST + SQLite | `Apps\Rest\RestBench::benchList`, `benchShow`, `benchCreate`    |
+
+- The fixtures (SQLite database, compiled Volt files, model metadata) are in `.local/bench/fixtures/`.
+  `setUp` creates them if they are missing. The measured runs use these cache files, as in production.
+- For the apps, `cold_ir` is the main number. It is the first request in a new process, which is the closest
+  to one php-fpm request. `warm_ir` is a request in a process that already ran requests (request-scoped
+  caches, for example the PHQL cache, are full). It is a lower limit.
+- A request is much heavier than a micro subject. Use a smaller k:
+
+```bash
+docker exec cphalcon-bench-8.4 tests/benchmarks/bin/instr <build> 'Phalcon\Tests\Benchmarks\Apps\Mvc\MvcBench' benchPage 200
+```
+
+- PHPBench for the apps only:
+
+```bash
+docker exec -e PHP_BENCH_BUILD=<build> cphalcon-bench-8.4 \
+    vendor/bin/phpbench run --config=resources/phpbench.json --report=aggregate tests/benchmarks/Apps
+```
+
 ## Write a benchmark
 
 - One class for each area, in `tests/benchmarks/<Component>/<Name>Bench.php`, namespace
@@ -88,6 +119,12 @@ docker exec cphalcon-bench-8.4 callgrind_annotate --auto=no --inclusive=yes /srv
 - Subject methods start with `bench`. Put the setup in a method named in `#[BeforeMethods(...)]`.
 - Each subject checks its result and throws `RuntimeException` if it is wrong.
 - `#[ParamProviders]` is not supported by `bin/instr`.
+- A subject must not print output (PHPBench reads the output of its child process). Put `send()` between
+  `ob_start()` and `ob_get_clean()`.
+- An app subject calls `Di::reset()` before `new FactoryDefault()`. php-fpm clears the default container at
+  the end of each request. Without the reset, the models use the container of the first request.
+- Micro and the container bind closures to an object. Do not use `static` closures for route handlers or
+  services.
 - The code style is the same as for the tests (phpcs, php-cs-fixer).
 
 ## Scripts

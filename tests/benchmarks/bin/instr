@@ -12,7 +12,8 @@
 #
 # Usage: tests/benchmarks/bin/instr <build> <class> <method> [k]
 #
-# The script runs the subject 0, 1 and 1+k times (k is 1000 if not given):
+# The script runs the subject one time without valgrind (warm-up: file caches). Then it runs the subject
+# 0, 1 and 1+k times under valgrind (k is 1000 if not given):
 #   cold_ir = Ir(1) - Ir(0)            the first call, with lazy setup
 #   warm_ir = (Ir(1+k) - Ir(1)) / k    one call after the first call
 # The process start, the extension start and the script compile cancel out.
@@ -68,6 +69,15 @@ count_ir() {
 
     echo "${ir}"
 }
+
+# Warm-up run without valgrind. It creates the file caches (for example compiled views and model
+# metadata), so that no measured run creates them.
+warm_up_errors="${out}/${name}-warm-up.stderr"
+if ! "${BIN}/php-bench" "${build}" "${BIN}/subject.php" "${class}" "${method}" "$(printf '%09d' 1)" \
+    > /dev/null 2> "${warm_up_errors}"; then
+    echo "Error: the warm-up run failed. See ${warm_up_errors}" >&2
+    exit 1
+fi
 
 ir_0="$(count_ir 0)"
 ir_1="$(count_ir 1)"
