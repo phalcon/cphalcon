@@ -19,9 +19,11 @@ use Phalcon\Mvc\Url;
 use Phalcon\Mvc\View;
 use Phalcon\Tests\Benchmarks\Apps\Mvc\Fixture;
 use PhpBench\Attributes\BeforeMethods;
+use PhpBench\Attributes\Revs;
 use RuntimeException;
 
 #[BeforeMethods('setUp')]
+#[Revs(200)]
 final class ViewBench
 {
     private const EXPECTED_PARTIAL = '<li>Item &lt;1&gt; &amp; &quot;more&quot;: 10</li>' . "\n";

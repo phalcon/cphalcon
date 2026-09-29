@@ -17,6 +17,7 @@ use Phalcon\Di\Di;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Html\Escaper;
 use PhpBench\Attributes\BeforeMethods;
+use PhpBench\Attributes\Revs;
 use RuntimeException;
 
 #[BeforeMethods('setUp')]
@@ -39,6 +40,7 @@ final class DiBench
     /**
      * The default container of each request: all the services of FactoryDefault.
      */
+    #[Revs(200)]
     public function benchFactoryDefault(): void
     {
         Di::reset();

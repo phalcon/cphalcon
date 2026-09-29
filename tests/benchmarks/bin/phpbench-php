@@ -8,9 +8,10 @@
 # the LICENSE.txt file that was distributed with this source code.
 
 # PHPBench runs this script as its PHP binary (see resources/phpbench.json).
-# It runs PHP through php-bench. The build name comes from PHP_BENCH_BUILD.
+# It runs PHP through php-bench. The build name comes from PHP_BENCH_BUILD. If PHP_BENCH_CPU is set,
+# each child process runs on that CPU only.
 #
-# Usage: PHP_BENCH_BUILD=<build> vendor/bin/phpbench run --config=resources/phpbench.json ...
+# Usage: PHP_BENCH_BUILD=<build> [PHP_BENCH_CPU=<n>] vendor/bin/phpbench run --config=resources/phpbench.json ...
 
 set -euo pipefail
 
@@ -19,4 +20,9 @@ if [[ -z "${PHP_BENCH_BUILD:-}" ]]; then
     exit 2
 fi
 
-exec "$(dirname "$0")/php-bench" "${PHP_BENCH_BUILD}" "$@"
+cpu_option=()
+if [[ -n "${PHP_BENCH_CPU:-}" ]]; then
+    cpu_option=(--cpu "${PHP_BENCH_CPU}")
+fi
+
+exec "$(dirname "$0")/php-bench" "${cpu_option[@]}" "${PHP_BENCH_BUILD}" "$@"

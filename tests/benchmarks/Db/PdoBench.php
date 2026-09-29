@@ -17,9 +17,11 @@ use Phalcon\Db\Adapter\Pdo\Sqlite;
 use Phalcon\Db\Enum;
 use Phalcon\Tests\Benchmarks\Apps\Rest\Fixture;
 use PhpBench\Attributes\BeforeMethods;
+use PhpBench\Attributes\Revs;
 use RuntimeException;
 
 #[BeforeMethods('setUp')]
+#[Revs(200)]
 final class PdoBench
 {
     private Sqlite $connection;

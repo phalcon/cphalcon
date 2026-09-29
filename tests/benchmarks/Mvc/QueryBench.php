@@ -18,9 +18,11 @@ use Phalcon\Mvc\Model\Query;
 use Phalcon\Tests\Benchmarks\Apps\Rest\Fixture;
 use Phalcon\Tests\Benchmarks\Apps\Rest\Models\Robots;
 use PhpBench\Attributes\BeforeMethods;
+use PhpBench\Attributes\Revs;
 use RuntimeException;
 
 #[BeforeMethods('setUp')]
+#[Revs(200)]
 final class QueryBench
 {
     private const PHQL = 'SELECT r.id, r.name FROM ' . Robots::class . ' r'

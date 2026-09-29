@@ -188,6 +188,44 @@ docker exec cphalcon-bench-8.4 tests/benchmarks/bin/memory <build> 'Phalcon\Test
 
 The results are in `.local/bench/out/allocs/<build>/` and `.local/bench/out/memory/<build>/`.
 
+## Full run and A/B comparison
+
+`bin/run-all` runs `bin/instr`, `bin/memory` and `bin/allocs` for all subjects and writes one row for each
+subject into `.local/bench/results/<build>/<label>/metrics.tsv`. A full run takes about 20 minutes. A filter
+(a regular expression on `<class>::<method>`) runs a part; a new run of a subject replaces its row.
+
+```bash
+docker exec cphalcon-bench-8.4 tests/benchmarks/bin/run-all <build> <label>
+docker exec cphalcon-bench-8.4 tests/benchmarks/bin/run-all <build> <label> 'Benchmarks.Apps.'
+```
+
+`bin/run-time` runs PHPBench one time for all subjects and writes `time.tsv` into the same folder. Stop the
+other containers first, and pin to one CPU (here CPU 5): pinning halves the noise.
+
+```bash
+docker exec cphalcon-bench-8.4 tests/benchmarks/bin/run-time <build> <label> 5
+```
+
+`bin/compare.php` compares two results folders (A = before, B = after). Each difference is better, worse or
+noise:
+
+```bash
+docker exec cphalcon-bench-8.4 php tests/benchmarks/bin/compare.php \
+    /srv/.local/bench/results/<build-a>/<label-a> /srv/.local/bench/results/<build-b>/<label-b>
+```
+
+A difference counts only if it is at or above both thresholds of its metric (3 times the largest difference
+of an A/A run, with relative floors): `warm_ir` 0.5% and 70 Ir, `cold_ir` 1% and 7,500 Ir, warm allocations 1,
+cold allocations 6, warm bytes 1% and 3 bytes, peak, retained and leaked 1% and 64 bytes, cycles 1, wall time 5%.
+Two runs of the same build give only noise.
+
+The A/B loop for a change:
+
+1. Store the build before the change and run `run-all` (and `run-time`) with a label.
+2. Make the change, `bin/build-so`, `bin/store-build <label>`.
+3. Run `run-all` (and `run-time`) on the new build.
+4. `compare.php` before and after. Keep the change if it is better and nothing is worse.
+
 ## Write a benchmark
 
 - One class for each area, in `tests/benchmarks/<Component>/<Name>Bench.php`, namespace
@@ -195,6 +233,8 @@ The results are in `.local/bench/out/allocs/<build>/` and `.local/bench/out/memo
 - Subject methods start with `bench`. Put the setup in a method named in `#[BeforeMethods(...)]`.
 - Each subject checks its result and throws `RuntimeException` if it is wrong.
 - `#[ParamProviders]` is not supported by `bin/instr`.
+- `#[Revs]` sets the PHPBench revs and the k of `bin/instr` in `bin/run-all`. The default is 1000. Use
+  `#[Revs(200)]` (or 100 for a full request) for heavy subjects.
 - A subject must not print output (PHPBench reads the output of its child process). Put `send()` between
   `ob_start()` and `ob_get_clean()`.
 - An app subject calls `Di::reset()` before `new FactoryDefault()`. php-fpm clears the default container at
@@ -209,13 +249,17 @@ The results are in `.local/bench/out/allocs/<build>/` and `.local/bench/out/memo
 |--------------------|-----------|-----------------------------------------------------------------------|
 | `bin/allocs`       | bench     | Allocations of one subject (DHAT)                                     |
 | `bin/build-so`     | dev       | Compiles the extension with the release flags plus `-g`               |
+| `bin/compare.php`  | bench     | Compares two results folders (better, worse, noise)                   |
 | `bin/coverage`     | bench     | Functions that run in one call of a subject, with their cost          |
 | `bin/coverage.php` | bench     | Reads the callgrind files and writes the coverage report              |
 | `bin/store-build`  | dev       | Stores the build in `.local/bench/so/` with a manifest                |
 | `bin/php-bench`    | bench     | Runs PHP under fixed conditions (the only way to run PHP here)        |
 | `bin/phpbench-php` | bench     | PHPBench runs this as its PHP binary; calls `php-bench`               |
+| `bin/run-all`      | bench     | instr, memory and allocs for all subjects into a results folder       |
+| `bin/run-time`     | bench     | PHPBench wall time for all subjects into a results folder             |
 | `bin/instr`        | bench     | Cold and warm instruction counts of one subject                       |
 | `bin/lib/subject.php` | bench  | Creates a benchmark class and runs its setup (used by the drivers)    |
 | `bin/memory`       | bench     | Peak, retained and leaked memory, reference cycles of one subject     |
 | `bin/memory.php`   | bench     | The memory driver (`bin/memory` runs it)                              |
 | `bin/subject.php`  | bench     | Runs one subject N times (`bin/instr` uses it)                        |
+| `bin/subjects.php` | bench     | Lists all subjects and their revs (`bin/run-all` uses it)             |

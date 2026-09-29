@@ -18,6 +18,7 @@ use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Router;
 use Phalcon\Tests\Benchmarks\Apps\Mvc\Fixture;
 use PhpBench\Attributes\BeforeMethods;
+use PhpBench\Attributes\Revs;
 use RuntimeException;
 
 #[BeforeMethods('setUp')]
@@ -51,6 +52,7 @@ final class RouterBench
     /**
      * 50 routes and the first match (with the build of the route index), as in each MVC request.
      */
+    #[Revs(200)]
     public function benchDefineAndHandle(): void
     {
         $router = $this->fixture->router();
