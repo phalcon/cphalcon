@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+#
+# This file is part of the Phalcon Framework.
+#
+# (c) Phalcon Team <team@phalcon.io>
+#
+# For the full copyright and license information, please view
+# the LICENSE.txt file that was distributed with this source code.
+
+# Counts the instructions of one benchmark subject with valgrind (cachegrind).
+# Run this script in the cphalcon-bench-* container.
+#
+# Usage: tests/benchmarks/bin/instr <build> <class> <method> [k]
+#
+# The script runs the subject 0, 1 and 1+k times (k is 1000 if not given):
+#   cold_ir = Ir(1) - Ir(0)            the first call, with lazy setup
+#   warm_ir = (Ir(1+k) - Ir(1)) / k    one call after the first call
+# The process start, the extension start and the script compile cancel out.
+#
+# Result: .local/bench/out/instr/<build>/<class with dots>-<method>.txt
+
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
+readonly ROOT
+readonly BIN="${ROOT}/tests/benchmarks/bin"
+
+usage() {
+    echo "Usage: $0 <build> <class> <method> [k]  (k: a positive integer, default 1000)" >&2
+    exit 2
+}
+
+[[ $# -ge 3 && $# -le 4 ]] || usage
+
+build="$1"
+class="$2"
+method="$3"
+k="${4:-1000}"
+
+[[ "${k}" =~ ^[1-9][0-9]{0,6}$ ]] || usage
+
+out="${ROOT}/.local/bench/out/instr/${build}"
+name="${class//\\/.}-${method}"
+mkdir -p "${out}"
+
+# Prints the Ir of one run with <count> subject calls.
+count_ir() {
+    # Fixed width: the argument length changes the instruction count
+    local count
+    count="$(printf '%09d' "$1")"
+    local file="${out}/${name}-n${count}.cg"
+    local errors="${out}/${name}-n${count}.stderr"
+
+    rm -f "${file}"
+    if ! "${BIN}/php-bench" \
+        --prefix "valgrind --tool=cachegrind --cache-sim=no --vgdb=no --cachegrind-out-file=${file}" \
+        "${build}" "${BIN}/subject.php" "${class}" "${method}" "${count}" > /dev/null 2> "${errors}"; then
+        echo "Error: the run with ${count} calls failed. See ${errors}" >&2
+        return 1
+    fi
+
+    local ir
+    ir="$(sed -n 's/^summary: //p' "${file}")"
+    if [[ ! "${ir}" =~ ^[0-9]+$ ]]; then
+        echo "Error: no instruction count in ${file}" >&2
+        return 1
+    fi
+
+    echo "${ir}"
+}
+
+ir_0="$(count_ir 0)"
+ir_1="$(count_ir 1)"
+ir_k="$(count_ir $((k + 1)))"
+
+cold_ir=$((ir_1 - ir_0))
+warm_ir="$(awk -v high="${ir_k}" -v low="${ir_1}" -v k="${k}" 'BEGIN { printf "%.1f", (high - low) / k }')"
+
+{
+    echo "build=${build}"
+    echo "subject=${class}::${method}"
+    echo "k=${k}"
+    echo "ir_0=${ir_0}"
+    echo "ir_1=${ir_1}"
+    echo "ir_1k=${ir_k}"
+    echo "cold_ir=${cold_ir}"
+    echo "warm_ir=${warm_ir}"
+    echo "date=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+    "${BIN}/php-bench" --manifest "${build}" | sed 's/^/run./'
+} > "${out}/${name}.txt"
+
+echo "subject=${class}::${method}"
+echo "cold_ir=${cold_ir}"
+echo "warm_ir=${warm_ir}"

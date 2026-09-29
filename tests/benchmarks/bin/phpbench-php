@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+#
+# This file is part of the Phalcon Framework.
+#
+# (c) Phalcon Team <team@phalcon.io>
+#
+# For the full copyright and license information, please view
+# the LICENSE.txt file that was distributed with this source code.
+
+# PHPBench runs this script as its PHP binary (see resources/phpbench.json).
+# It runs PHP through php-bench. The build name comes from PHP_BENCH_BUILD.
+#
+# Usage: PHP_BENCH_BUILD=<build> vendor/bin/phpbench run --config=resources/phpbench.json ...
+
+set -euo pipefail
+
+if [[ -z "${PHP_BENCH_BUILD:-}" ]]; then
+    echo "Error: set PHP_BENCH_BUILD to a build name in .local/bench/so/." >&2
+    exit 2
+fi
+
+exec "$(dirname "$0")/php-bench" "${PHP_BENCH_BUILD}" "$@"
