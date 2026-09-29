@@ -14,26 +14,12 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Benchmarks\Apps\Mvc\Controllers;
 
 use Phalcon\Mvc\Controller;
+use Phalcon\Tests\Benchmarks\Apps\Mvc\Fixture;
 
 final class ProductsController extends Controller
 {
     public function showAction(string $id): void
     {
-        $items = [];
-        for ($index = 1; $index <= 10; $index++) {
-            $items[] = [
-                'name'  => 'Item <' . $index . '> & "more"',
-                'price' => $index * 10,
-            ];
-        }
-
-        $this->view->setVars(
-            [
-                'id'    => (int) $id,
-                'items' => $items,
-                'name'  => 'Product <b>' . $id . '</b> & "friends"',
-                'title' => 'Product ' . $id,
-            ]
-        );
+        $this->view->setVars((new Fixture())->productVars($id));
     }
 }

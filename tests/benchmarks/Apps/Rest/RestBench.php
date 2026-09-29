@@ -13,13 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Benchmarks\Apps\Rest;
 
-use PDO;
-use Phalcon\Db\Adapter\Pdo\Sqlite;
-use Phalcon\Di\Di;
-use Phalcon\Di\FactoryDefault;
 use Phalcon\Http\ResponseInterface;
 use Phalcon\Mvc\Micro;
-use Phalcon\Mvc\Model\MetaData\Stream;
 use Phalcon\Tests\Benchmarks\Apps\Rest\Models\Robots;
 use PhpBench\Attributes\BeforeMethods;
 use PhpBench\Attributes\Revs;
@@ -34,31 +29,21 @@ final class RestBench
 {
     private const EXPECTED_CREATE = 'a92f2cfba39f3ef5da4fde808c217cf686d50bd7';
 
-    private const EXPECTED_LIST   = '4a63cad4e32d423c8cc1e605a4d97d1475552dea';
+    private const EXPECTED_LIST = '4a63cad4e32d423c8cc1e605a4d97d1475552dea';
 
-    private const EXPECTED_SHOW   = 'fcbb54f542bcb030833edb6008d1c2d269f46538';
-
-    private const ROWS            = 50;
-
-    private const TYPES           = ['droid', 'mechanical', 'virtual'];
+    private const EXPECTED_SHOW = 'fcbb54f542bcb030833edb6008d1c2d269f46538';
 
     private string $database = '';
+
+    private Fixture $fixture;
 
     private string $metadata = '';
 
     public function setUp(): void
     {
-        $fixtures       = dirname(__DIR__, 4) . '/.local/bench/fixtures/rest';
-        $this->database = $fixtures . '/rest.sqlite';
-        $this->metadata = $fixtures . '/metadata/';
-
-        if (!is_dir($this->metadata)) {
-            mkdir($this->metadata, 0777, true);
-        }
-
-        if (!file_exists($this->database)) {
-            $this->createDatabase();
-        }
+        $this->fixture  = new Fixture();
+        $this->database = $this->fixture->database();
+        $this->metadata = $this->fixture->metadata();
     }
 
     public function benchCreate(): void
@@ -78,28 +63,7 @@ final class RestBench
 
     private function application(): Micro
     {
-        /**
-         * A new request: php-fpm clears the default container at the end of each request.
-         * Without this, the models use the container (and the connection) of the first request.
-         */
-        Di::reset();
-
-        $container = new FactoryDefault();
-        $database  = $this->database;
-        $metadata  = $this->metadata;
-
-        $container->setShared(
-            'db',
-            function () use ($database): Sqlite {
-                return new Sqlite(['dbname' => $database]);
-            }
-        );
-        $container->setShared(
-            'modelsMetadata',
-            function () use ($metadata): Stream {
-                return new Stream(['metaDataDir' => $metadata]);
-            }
-        );
+        $container = $this->fixture->container($this->database, $this->metadata);
 
         /**
          * Micro binds the handlers to the application. Static closures cannot be bound.
@@ -164,35 +128,6 @@ final class RestBench
         );
 
         return $application;
-    }
-
-    private function createDatabase(): void
-    {
-        $temporary = $this->database . '.new';
-        if (file_exists($temporary)) {
-            unlink($temporary);
-        }
-
-        $connection = new PDO('sqlite:' . $temporary);
-        $connection->exec((string) file_get_contents(__DIR__ . '/schema.sql'));
-
-        $statement = $connection->prepare(
-            'INSERT INTO robots (name, type, year) VALUES (:name, :type, :year)'
-        );
-        $connection->beginTransaction();
-        for ($index = 1; $index <= self::ROWS; $index++) {
-            $statement->execute(
-                [
-                    'name' => 'Robot ' . $index,
-                    'type' => self::TYPES[$index % 3],
-                    'year' => 1950 + $index,
-                ]
-            );
-        }
-        $connection->commit();
-
-        unset($statement, $connection);
-        rename($temporary, $this->database);
     }
 
     private function request(string $method, string $uri, string $expected): void

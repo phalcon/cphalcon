@@ -18,10 +18,7 @@ use Phalcon\Di\FactoryDefault;
 use Phalcon\Events\Manager;
 use Phalcon\Mvc\Application;
 use Phalcon\Mvc\Dispatcher;
-use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Url;
-use Phalcon\Mvc\View;
-use Phalcon\Mvc\View\Engine\Volt;
 use PhpBench\Attributes\BeforeMethods;
 use PhpBench\Attributes\Revs;
 use RuntimeException;
@@ -35,19 +32,19 @@ final class MvcBench
 {
     private const EXPECTED_SHA1 = '097b4cff39daf3b03773bc354ea2cbd828a8b4d5';
 
-    private const URI           = '/products/show/7';
+    private const URI = '/products/show/7';
 
     private string $compiledPath = '';
+
+    private Fixture $fixture;
 
     public function setUp(): void
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_SERVER['REQUEST_URI']    = self::URI;
 
-        $this->compiledPath = dirname(__DIR__, 4) . '/.local/bench/fixtures/mvc/volt/';
-        if (!is_dir($this->compiledPath)) {
-            mkdir($this->compiledPath, 0777, true);
-        }
+        $this->fixture      = new Fixture();
+        $this->compiledPath = $this->fixture->compiledPath();
     }
 
     public function benchPage(): void
@@ -58,30 +55,7 @@ final class MvcBench
         Di::reset();
 
         $container = new FactoryDefault();
-
-        /**
-         * 50 routes. Routes are tried from the last added to the first added,
-         * so the route that matches is added first.
-         */
-        $router = new Router(false);
-        $router->setDefaultNamespace(__NAMESPACE__ . '\\Controllers');
-        $router->add(
-            '/products/show/{id:[0-9]+}',
-            [
-                'controller' => 'products',
-                'action'     => 'show',
-            ]
-        );
-        for ($index = 1; $index < 50; $index++) {
-            $router->add(
-                '/section' . $index . '/{slug}',
-                [
-                    'controller' => 'section' . $index,
-                    'action'     => 'index',
-                ]
-            );
-        }
-        $container->setShared('router', $router);
+        $container->setShared('router', $this->fixture->router());
 
         $eventsManager = new Manager();
         $eventsManager->attach(
@@ -98,25 +72,7 @@ final class MvcBench
         $url->setBaseUri('/');
         $container->setShared('url', $url);
 
-        $compiledPath = $this->compiledPath;
-        $view         = new View();
-        $view->setViewsDir(__DIR__ . '/views/');
-        $view->registerEngines(
-            [
-                '.volt' => function (View $view) use ($compiledPath, $container): Volt {
-                    $volt = new Volt($view, $container);
-                    $volt->setOptions(
-                        [
-                            'path'      => $compiledPath,
-                            'separator' => '_',
-                        ]
-                    );
-
-                    return $volt;
-                },
-            ]
-        );
-        $container->setShared('view', $view);
+        $container->setShared('view', $this->fixture->view($container, $this->compiledPath));
 
         $application = new Application($container);
 

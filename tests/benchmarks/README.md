@@ -15,6 +15,8 @@ This folder has the benchmarks for the Phalcon extension. Use them to compare tw
   - `warm_ir = (Ir(1+k) - Ir(1)) / k`: one call after the first call.
 
   The process start, the extension start and the script compile cancel out.
+- **Main number: `warm_ir`.** Compare builds with `warm_ir`: it has no script compile and no regex compile in
+  it. `cold_ir` is the second number (first-call and lazy-setup effects). A php-fpm run is the final check.
 - **Fixed conditions.** All runs use the same:
   - container (`cphalcon-bench-8.4`): no Xdebug, OPcache on for the CLI, JIT off, pinned PHP image
   - environment variables (`env -i`)
@@ -81,6 +83,34 @@ docker exec cphalcon-bench-8.4 tests/benchmarks/bin/php-bench --debug \
     <build> tests/benchmarks/bin/subject.php 'Phalcon\Tests\Benchmarks\Support\CollectionBench' benchGet 000001000
 docker exec cphalcon-bench-8.4 callgrind_annotate --auto=no --inclusive=yes /srv/.local/bench/out/profile.callgrind
 ```
+
+## Micro subjects
+
+One subject for each component entry point that the reference apps run (selected with the coverage data).
+
+| Class                        | Subjects                                                   |
+|------------------------------|------------------------------------------------------------|
+| `Container\ContainerBench`   | `benchGet`                                                 |
+| `Db\PdoBench`                | `benchFetchAll`, `benchFetchOneBound`                      |
+| `Di\DiBench`                 | `benchFactoryDefault`, `benchGetNew`, `benchGetShared`     |
+| `Events\ManagerBench`        | `benchFire`, `benchFireNoListener`                         |
+| `Filter\FilterBench`         | `benchSanitize`                                            |
+| `Html\EscaperBench`          | `benchHtml`                                                |
+| `Http\ResponseBench`         | `benchSend`, `benchSetJsonContent`                         |
+| `Mvc\DispatcherBench`        | `benchDispatch`                                            |
+| `Mvc\ModelBench`             | `benchFind`, `benchFindFirst`, `benchSave`, `benchToArray` |
+| `Mvc\QueryBench`             | `benchParseCold`, `benchParseWarm`                         |
+| `Mvc\RouterBench`            | `benchDefineAndHandle`, `benchHandle`                      |
+| `Mvc\ViewBench`              | `benchPartial`, `benchRender`                              |
+| `Mvc\VoltBench`              | `benchCompileString`                                       |
+| `Support\CollectionBench`    | `benchGet`                                                 |
+| `Support\JsonBench`          | `benchEncode`                                              |
+
+- The subjects use the fixtures of the reference apps (`Apps\Mvc\Fixture`, `Apps\Rest\Fixture`).
+- `benchParseCold` uses a new PHQL string for each call, so both PHQL caches miss. The caches grow during
+  the run.
+- For heavy subjects (Router, View, Model, Query, Db, `benchFactoryDefault`), use a smaller k (for example
+  200) with `bin/instr`.
 
 ## Reference apps
 
