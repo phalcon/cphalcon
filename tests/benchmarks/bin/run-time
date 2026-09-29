@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+#
+# This file is part of the Phalcon Framework.
+#
+# (c) Phalcon Team <team@phalcon.io>
+#
+# For the full copyright and license information, please view
+# the LICENSE.txt file that was distributed with this source code.
+
+# Runs PHPBench one time for all benchmark subjects (wall time) and writes time.tsv into a results folder.
+# Run this script in the cphalcon-bench-* container. Stop the other containers first: they add noise.
+#
+# Usage: tests/benchmarks/bin/run-time <build> <label> [cpu]
+#
+# <label> names the results folder: .local/bench/results/<build>/<label>/
+# [cpu]   runs each PHPBench child process on this CPU only (taskset).
+
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
+readonly ROOT
+
+usage() {
+    echo "Usage: $0 <build> <label> [cpu]  (label: letters, digits, '.', '-', '_')" >&2
+    exit 2
+}
+
+[[ $# -ge 2 && $# -le 3 ]] || usage
+
+build="$1"
+label="$2"
+cpu="${3:-}"
+
+[[ "${label}" =~ ^[A-Za-z0-9._-]+$ ]] || usage
+[[ -z "${cpu}" || "${cpu}" =~ ^[0-9]+$ ]] || usage
+
+out="${ROOT}/.local/bench/results/${build}/${label}"
+mkdir -p "${out}"
+
+export PHP_BENCH_BUILD="${build}"
+if [[ -n "${cpu}" ]]; then
+    export PHP_BENCH_CPU="${cpu}"
+fi
+
+cd "${ROOT}"
+if ! raw="$(vendor/bin/phpbench run --config=resources/phpbench.json --report=aggregate \
+    --output=delimited --progress=none 2> "${out}/time.stderr")"; then
+    echo "Error: PHPBench failed. See ${out}/time.stderr" >&2
+    exit 1
+fi
+
+{
+    printf 'subject\trevs\tmode_us\trstdev_pct\tmem_peak\n'
+    awk -F'\t' 'NR > 1 && NF >= 8 { print $1 "::" $2 "\t" $4 "\t" $7 "\t" $8 "\t" $6 }' <<< "${raw}"
+} > "${out}/time.tsv"
+
+{
+    echo "cpu=${cpu:-none}"
+    echo "date=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+} > "${out}/time.txt"
+
+echo "Results: ${out}/time.tsv ($(($(wc -l < "${out}/time.tsv") - 1)) subjects)"

@@ -1,0 +1,114 @@
+#!/usr/bin/env bash
+#
+# This file is part of the Phalcon Framework.
+#
+# (c) Phalcon Team <team@phalcon.io>
+#
+# For the full copyright and license information, please view
+# the LICENSE.txt file that was distributed with this source code.
+
+# Stores the compiled extension for benchmark runs.
+# Run this script in the cphalcon-dev-* container that compiled the build.
+#
+# Usage: tests/benchmarks/bin/store-build <label>
+#
+# Result: .local/bench/so/<commit>-<label>.so (no debug information, for measurements),
+# .local/bench/so/<commit>-<label>.debug.so (only if the build has debug information, for profiles)
+# and .local/bench/so/<commit>-<label>.manifest.
+# <commit> is the last commit that changed phalcon/ or ext/.
+
+set -euo pipefail
+
+cd "$(dirname "$0")/../../.."
+
+readonly SOURCE="ext/modules/phalcon.so"
+readonly STORE=".local/bench/so"
+readonly WORK=".local/bench/temp"
+
+if [[ $# -ne 1 || ! "$1" =~ ^[a-z0-9][a-z0-9-]*$ ]]; then
+    echo "Usage: $0 <label>  (label: lowercase letters, digits and dashes)" >&2
+    exit 2
+fi
+
+if [[ ! -f "${SOURCE}" ]]; then
+    echo "Error: ${SOURCE} does not exist. Compile the extension first." >&2
+    exit 1
+fi
+
+if ! php -d extension="${SOURCE}" -r 'exit(false === phpversion("phalcon") ? 1 : 0);' > /dev/null 2>&1; then
+    echo "Error: ${SOURCE} does not load in PHP $(php -r 'echo PHP_VERSION;')." >&2
+    exit 1
+fi
+
+commit="$(git log -1 --format=%h -- phalcon ext)"
+name="${commit}-$1"
+target="${STORE}/${name}.so"
+debug_target="${STORE}/${name}.debug.so"
+manifest="${STORE}/${name}.manifest"
+source_checksum="$(sha256sum "${SOURCE}" | cut -d ' ' -f 1)"
+
+if [[ -e "${target}" || -e "${manifest}" ]]; then
+    if [[ -f "${manifest}" && "$(sed -n 's/^source_sha256=//p' "${manifest}")" == "${source_checksum}" ]]; then
+        echo "Already stored: ${target} (same source checksum)"
+        exit 0
+    fi
+
+    echo "Error: ${name} exists with a different source checksum, or it is incomplete." >&2
+    echo "       Use a different label." >&2
+    exit 1
+fi
+
+mkdir -p "${STORE}" "${WORK}"
+
+dirty="no"
+dirty_checksum=""
+if [[ -n "$(git status --porcelain -- phalcon ext)" ]]; then
+    dirty="yes"
+    dirty_checksum="$(
+        {
+            git status --porcelain -- phalcon ext
+            git diff HEAD -- phalcon ext
+            git ls-files --others --exclude-standard -z -- phalcon ext | xargs -0 -r cat
+        } | sha256sum | cut -d ' ' -f 1
+    )"
+fi
+
+# Checksum of the machine code only. Debug information does not change it.
+text="$(mktemp -p "${WORK}" text.XXXXXX)"
+objcopy -O binary --only-section=.text "${SOURCE}" "${text}"
+text_checksum="$(sha256sum "${text}" | cut -d ' ' -f 1)"
+rm -f "${text}"
+
+# Measurements use a file without debug information. Under valgrind, debug information
+# in the file changes the instruction count, but not the machine code.
+objcopy --strip-debug "${SOURCE}" "${target}"
+
+debug_so="no"
+if readelf -S "${SOURCE}" | grep -q '\.debug_info'; then
+    debug_so="yes"
+    cp "${SOURCE}" "${debug_target}"
+fi
+
+# The manifest is written last. A build without a manifest is incomplete.
+{
+    echo "name=${name}"
+    echo "source_commit=${commit}"
+    echo "head_commit=$(git rev-parse --short HEAD)"
+    echo "branch=$(git branch --show-current)"
+    echo "dirty=${dirty}"
+    echo "dirty_sha256=${dirty_checksum}"
+    echo "cflags=$(sed -n 's/^CFLAGS = //p' ext/Makefile)"
+    echo "gcc=$(gcc --version | head -n 1)"
+    echo "php=$(php -v | head -n 1)"
+    echo "php_extension_api=$(php -i | sed -n 's/^PHP Extension => //p')"
+    echo "phalcon=$(php -d extension="${SOURCE}" -r 'echo phpversion("phalcon");')"
+    echo "source_sha256=${source_checksum}"
+    echo "so_sha256=$(sha256sum "${target}" | cut -d ' ' -f 1)"
+    echo "so_size=$(stat -c %s "${target}")"
+    echo "debug_so=${debug_so}"
+    echo "text_sha256=${text_checksum}"
+    echo "stored_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+} > "${manifest}"
+
+echo "Stored: ${target}"
+cat "${manifest}"

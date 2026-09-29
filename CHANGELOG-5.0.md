@@ -12,6 +12,8 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 ### Added
 
+- Benchmark suite in `tests/benchmarks` (PHPBench, instruction counts, memory, reference apps) and a `bench` Docker service to compare builds of the extension. [#17613](https://github.com/phalcon/cphalcon/issues/17613)
+
 ### Fixed
 
 - `Phalcon\Mvc\View::partial()` and `Phalcon\Mvc\View\Simple::render()` dropping a `..` path segment instead of resolving it. [#17606](https://github.com/phalcon/cphalcon/issues/17606) [[doc]](https://docs.phalcon.io/5.22/views/)
