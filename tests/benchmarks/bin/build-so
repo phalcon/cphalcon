@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+#
+# This file is part of the Phalcon Framework.
+#
+# (c) Phalcon Team <team@phalcon.io>
+#
+# For the full copyright and license information, please view
+# the LICENSE.txt file that was distributed with this source code.
+
+# Compiles the extension for benchmark runs: the release flags plus -g.
+# Run this script in the cphalcon-dev-* container.
+#
+# Usage: tests/benchmarks/bin/build-so
+#
+# The script does the same steps as "cpl": zephir fullclean, zephir generate and ext/install.
+# It runs a copy of ext/install with -g added to CFLAGS. The tracked ext/install does not change.
+
+set -euo pipefail
+
+cd "$(dirname "$0")/../../.."
+
+readonly WORK="${PWD}/.local/bench/temp"
+readonly COPY="${WORK}/install-bench"
+
+if [[ $# -ne 0 ]]; then
+    echo "Usage: $0" >&2
+    exit 2
+fi
+
+# .bashrc sets MAKEFLAGS only for interactive shells
+export MAKEFLAGS="${MAKEFLAGS:--j$(nproc)}"
+
+vendor/bin/zephir fullclean
+vendor/bin/zephir generate
+
+mkdir -p "${WORK}"
+trap 'rm -f "${COPY}"' EXIT
+
+sed 's/^export CFLAGS="\(.*\)"$/export CFLAGS="\1 -g"/' ext/install > "${COPY}"
+
+# Exactly one line must be different. If the Zephir template changes, stop here.
+changed="$(diff ext/install "${COPY}" | grep -c '^>' || true)"
+if [[ "${changed}" -ne 1 ]]; then
+    echo "Error: the CFLAGS line in ext/install was not found. Check the Zephir install template." >&2
+    exit 1
+fi
+
+grep '^export CFLAGS=' "${COPY}"
+
+(cd ext && bash "${COPY}")
+
+echo "Build flags: $(sed -n 's/^CFLAGS = //p' ext/Makefile)"
