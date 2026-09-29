@@ -164,6 +164,30 @@ Limits:
 - The `php` binary has no symbols. Its functions (for example the script compiler) show as addresses.
 - Recursive functions count some inclusive cost twice.
 
+## Memory
+
+Allocations (valgrind DHAT, with `USE_ZEND_ALLOC=0`, so each `emalloc` is one allocation):
+
+```bash
+docker exec cphalcon-bench-8.4 tests/benchmarks/bin/allocs <build> 'Phalcon\Tests\Benchmarks\Apps\Micro\MicroBench' benchHello
+```
+
+It prints the allocations and the bytes of the cold call and of one warm call (k is 100 if not given).
+The counts are the same in each run.
+
+Peak, retained and leaked memory, and reference cycles (no valgrind, fast):
+
+```bash
+docker exec cphalcon-bench-8.4 tests/benchmarks/bin/memory <build> 'Phalcon\Tests\Benchmarks\Apps\Mvc\MvcBench' benchPage
+```
+
+- `peak_bytes`: the peak of one call, above the memory before the call.
+- `retained_bytes_per_call`: the memory that stays after k calls, for each call, before a garbage collection.
+- `leaked_bytes_per_call`: the same after a garbage collection (memory that is still referenced).
+- `cycles_per_call`: the reference cycles that the garbage collector collected, for each call.
+
+The results are in `.local/bench/out/allocs/<build>/` and `.local/bench/out/memory/<build>/`.
+
 ## Write a benchmark
 
 - One class for each area, in `tests/benchmarks/<Component>/<Name>Bench.php`, namespace
@@ -183,6 +207,7 @@ Limits:
 
 | Script             | Container | Purpose                                                               |
 |--------------------|-----------|-----------------------------------------------------------------------|
+| `bin/allocs`       | bench     | Allocations of one subject (DHAT)                                     |
 | `bin/build-so`     | dev       | Compiles the extension with the release flags plus `-g`               |
 | `bin/coverage`     | bench     | Functions that run in one call of a subject, with their cost          |
 | `bin/coverage.php` | bench     | Reads the callgrind files and writes the coverage report              |
@@ -190,4 +215,7 @@ Limits:
 | `bin/php-bench`    | bench     | Runs PHP under fixed conditions (the only way to run PHP here)        |
 | `bin/phpbench-php` | bench     | PHPBench runs this as its PHP binary; calls `php-bench`               |
 | `bin/instr`        | bench     | Cold and warm instruction counts of one subject                       |
+| `bin/lib/subject.php` | bench  | Creates a benchmark class and runs its setup (used by the drivers)    |
+| `bin/memory`       | bench     | Peak, retained and leaked memory, reference cycles of one subject     |
+| `bin/memory.php`   | bench     | The memory driver (`bin/memory` runs it)                              |
 | `bin/subject.php`  | bench     | Runs one subject N times (`bin/instr` uses it)                        |

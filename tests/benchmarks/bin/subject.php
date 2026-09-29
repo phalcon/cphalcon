@@ -20,9 +20,10 @@ declare(strict_types=1);
  * subject <count> times. <count> can be 0. A subject throws an exception if its result is wrong.
  */
 
-use PhpBench\Attributes\BeforeMethods;
+use function Phalcon\Tests\Benchmarks\Bin\prepareSubject;
 
 require dirname(__DIR__, 3) . '/vendor/autoload.php';
+require __DIR__ . '/lib/subject.php';
 
 if (4 !== $argc || !ctype_digit($argv[3])) {
     fwrite(STDERR, 'Usage: php tests/benchmarks/bin/subject.php <class> <method> <count>' . PHP_EOL);
@@ -36,18 +37,7 @@ if (!method_exists($class, $method)) {
     exit(1);
 }
 
-$subjectMethod = new ReflectionMethod($class, $method);
-$setUpMethods  = [];
-foreach ([$subjectMethod->getDeclaringClass(), $subjectMethod] as $source) {
-    foreach ($source->getAttributes(BeforeMethods::class) as $attribute) {
-        array_push($setUpMethods, ...$attribute->newInstance()->methods);
-    }
-}
-
-$subject = new $class();
-foreach ($setUpMethods as $setUpMethod) {
-    $subject->$setUpMethod();
-}
+$subject = prepareSubject($class, $method);
 
 $count = (int) $count;
 for ($index = 0; $index < $count; $index++) {
