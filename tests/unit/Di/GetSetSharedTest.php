@@ -105,4 +105,42 @@ final class GetSetSharedTest extends AbstractUnitTestCase
         $actual    = spl_object_hash($objectTwo);
         $this->assertSame($expected, $actual);
     }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-29
+     */
+    public function testDiGetSharedMethodNullResolvesAgain(): void
+    {
+        $container = new Di();
+        $count     = 0;
+
+        $container->setShared(
+            'nullService',
+            function () use (&$count) {
+                $count++;
+
+                return null;
+            }
+        );
+
+        $this->assertNull($container->getShared('nullService'));
+        $this->assertNull($container->getShared('nullService'));
+        $this->assertSame(2, $count);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-29
+     */
+    public function testDiGetSharedMethodServiceNotShared(): void
+    {
+        $container = new Di();
+        $container->set('escaper', Escaper::class);
+
+        $first = $container->getShared('escaper');
+
+        $this->assertSame($first, $container->getShared('escaper'));
+        $this->assertNotSame($first, $container->get('escaper'));
+    }
 }

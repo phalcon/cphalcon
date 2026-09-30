@@ -516,20 +516,27 @@ PHP_METHOD(Phalcon_Filter_Filter, set)
  */
 PHP_METHOD(Phalcon_Filter_Filter, init)
 {
-	zend_bool _5;
-	zend_string *_2;
-	zend_ulong _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *mapper_param = NULL, name, service, *_0, _4;
+	zval *mapper_param = NULL, _0, _1, _2, _3$$3, _4$$3;
 	zval mapper;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&mapper);
-	ZVAL_UNDEF(&name);
-	ZVAL_UNDEF(&service);
-	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3$$3);
+	ZVAL_UNDEF(&_4$$3);
+	static zend_string *_zephir_prop_0 = NULL;
+	static zend_string *_zephir_prop_1 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("mapper", 6, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_1)) {
+		_zephir_prop_1 = zend_string_init("services", 8, 1);
+	}
+
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		ZEPHIR_Z_PARAM_ARRAY(mapper, mapper_param)
 	ZEND_PARSE_PARAMETERS_END();
@@ -537,47 +544,17 @@ PHP_METHOD(Phalcon_Filter_Filter, init)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &mapper_param);
 	zephir_get_arrval(&mapper, mapper_param);
-	zephir_is_iterable(&mapper, 0, "phalcon/Filter/Filter.zep", 380);
-	if (Z_TYPE_P(&mapper) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&mapper), _1, _2, _0)
-		{
-			ZEPHIR_INIT_NVAR(&name);
-			if (_2 != NULL) { 
-				ZVAL_STR_COPY(&name, _2);
-			} else {
-				ZVAL_LONG(&name, _1);
-			}
-			ZEPHIR_INIT_NVAR(&service);
-			ZVAL_COPY(&service, _0);
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "set", &_3, 0, &name, &service);
-			zephir_check_call_status();
-		} ZEND_HASH_FOREACH_END();
-	} else {
-		ZEPHIR_CALL_METHOD(NULL, &mapper, "rewind", NULL, 0);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 764, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_FUNCTION(&_1, "array_replace", NULL, 289, &_0, &mapper);
+	zephir_check_call_status();
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 764, &_1);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 765, PH_NOISY_CC | PH_READONLY);
+	if (!(ZEPHIR_IS_EMPTY(&_2))) {
+		zephir_read_property_cached(&_3$$3, this_ptr, _zephir_prop_1, 765, PH_NOISY_CC | PH_READONLY);
+		ZEPHIR_CALL_FUNCTION(&_4$$3, "array_diff_key", NULL, 261, &_3$$3, &mapper);
 		zephir_check_call_status();
-		_5 = 1;
-		while (1) {
-			if (_5) {
-				_5 = 0;
-			} else {
-				ZEPHIR_CALL_METHOD(NULL, &mapper, "next", NULL, 0);
-				zephir_check_call_status();
-			}
-			ZEPHIR_CALL_METHOD(&_4, &mapper, "valid", NULL, 0);
-			zephir_check_call_status();
-			if (!zend_is_true(&_4)) {
-				break;
-			}
-			ZEPHIR_CALL_METHOD(&name, &mapper, "key", NULL, 0);
-			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&service, &mapper, "current", NULL, 0);
-			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "set", &_3, 0, &name, &service);
-				zephir_check_call_status();
-		}
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 765, &_4$$3);
 	}
-	ZEPHIR_INIT_NVAR(&service);
-	ZEPHIR_INIT_NVAR(&name);
 	ZEPHIR_MM_RESTORE();
 }
 

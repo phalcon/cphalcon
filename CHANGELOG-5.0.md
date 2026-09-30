@@ -10,6 +10,9 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 ### Changed
 
+- Faster creation of `Phalcon\Di\FactoryDefault` and faster shared service lookups in `Phalcon\Di\Di`. [#17617](https://github.com/phalcon/cphalcon/issues/17617)
+- Faster creation of `Phalcon\Filter\Filter`. [#17617](https://github.com/phalcon/cphalcon/issues/17617)
+
 ### Added
 
 - Benchmark suite in `tests/benchmarks` (PHPBench, instruction counts, memory, reference apps) and a `bench` Docker service to compare builds of the extension. [#17613](https://github.com/phalcon/cphalcon/issues/17613)

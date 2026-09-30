@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Di\FactoryDefault\Cli;
 
 use Phalcon\Di\FactoryDefault\Cli;
+use Phalcon\Filter\Filter;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Di\Fake\CliTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -34,6 +35,46 @@ final class ConstructTest extends AbstractUnitTestCase
         $expected = count($services);
         $actual   = count($container->getServices());
         $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-29
+     */
+    public function testDiFactoryDefaultCliConstructFilterHasDefaultMapper(): void
+    {
+        $container = new Cli();
+        $filter    = $container->getShared('filter');
+
+        $this->assertInstanceOf(Filter::class, $filter);
+        $this->assertSame($filter, $container->getShared('filter'));
+
+        foreach (array_keys(Filter::getDefaultMapper()) as $name) {
+            $this->assertTrue($filter->has($name));
+        }
+
+        $this->assertSame('hello', $filter->sanitize('  hello  ', 'trim'));
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-29
+     */
+    public function testDiFactoryDefaultCliConstructFilterIsLazy(): void
+    {
+        $container = new Cli();
+
+        $expected = [
+            'className' => Filter::class,
+            'arguments' => [
+                [
+                    'type'  => 'parameter',
+                    'value' => Filter::getDefaultMapper(),
+                ],
+            ],
+        ];
+        $actual   = $container->getService('filter')->getDefinition();
+        $this->assertSame($expected, $actual);
     }
 
     /**

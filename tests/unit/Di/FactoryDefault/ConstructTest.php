@@ -153,6 +153,46 @@ final class ConstructTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-29
+     */
+    public function testDiFactoryDefaultConstructFilterHasDefaultMapper(): void
+    {
+        $container = new FactoryDefault();
+        $filter    = $container->getShared('filter');
+
+        $this->assertInstanceOf(Filter::class, $filter);
+        $this->assertSame($filter, $container->getShared('filter'));
+
+        foreach (array_keys(Filter::getDefaultMapper()) as $name) {
+            $this->assertTrue($filter->has($name));
+        }
+
+        $this->assertSame('hello', $filter->sanitize('  hello  ', 'trim'));
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-29
+     */
+    public function testDiFactoryDefaultConstructFilterIsLazy(): void
+    {
+        $container = new FactoryDefault();
+
+        $expected = [
+            'className' => Filter::class,
+            'arguments' => [
+                [
+                    'type'  => 'parameter',
+                    'value' => Filter::getDefaultMapper(),
+                ],
+            ],
+        ];
+        $actual   = $container->getService('filter')->getDefinition();
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     #[DataProvider('getServices')]
