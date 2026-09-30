@@ -135,7 +135,7 @@ class Route implements RouteInterface
             realClassName, namespaceName;
 
         if paths === null {
-            let paths = [];
+            return [];
         }
 
         if typeof paths == "string" {

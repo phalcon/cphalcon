@@ -30,4 +30,14 @@ final class GetRoutePathsTest extends AbstractUnitTestCase
         $this->assertSame($arrayDefinition, Route::getRoutePaths($arrayDefinition));
         $this->assertSame($arrayDefinition, Route::getRoutePaths($stringDefinition));
     }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-30
+     */
+    public function testMvcRouterRouteGetRoutePathsNull(): void
+    {
+        $this->assertSame([], Route::getRoutePaths());
+        $this->assertSame([], Route::getRoutePaths(null));
+    }
 }
