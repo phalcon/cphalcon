@@ -88,23 +88,23 @@ docker exec cphalcon-bench-8.4 callgrind_annotate --auto=no --inclusive=yes /srv
 
 One subject for each component entry point that the reference apps run (selected with the coverage data).
 
-| Class                        | Subjects                                                   |
-|------------------------------|------------------------------------------------------------|
-| `Container\ContainerBench`   | `benchGet`                                                 |
-| `Db\PdoBench`                | `benchFetchAll`, `benchFetchOneBound`                      |
-| `Di\DiBench`                 | `benchFactoryDefault`, `benchGetNew`, `benchGetShared`     |
-| `Events\ManagerBench`        | `benchFire`, `benchFireNoListener`                         |
-| `Filter\FilterBench`         | `benchSanitize`                                            |
-| `Html\EscaperBench`          | `benchHtml`                                                |
-| `Http\ResponseBench`         | `benchSend`, `benchSetJsonContent`                         |
-| `Mvc\DispatcherBench`        | `benchDispatch`                                            |
-| `Mvc\ModelBench`             | `benchFind`, `benchFindFirst`, `benchSave`, `benchToArray` |
-| `Mvc\QueryBench`             | `benchParseCold`, `benchParseWarm`                         |
-| `Mvc\RouterBench`            | `benchDefineAndHandle`, `benchHandle`                      |
-| `Mvc\ViewBench`              | `benchPartial`, `benchRender`                              |
-| `Mvc\VoltBench`              | `benchCompileString`                                       |
-| `Support\CollectionBench`    | `benchGet`                                                 |
-| `Support\JsonBench`          | `benchEncode`                                              |
+| Class                        | Subjects                                                                       |
+|------------------------------|--------------------------------------------------------------------------------|
+| `Container\ContainerBench`   | `benchGet`                                                                     |
+| `Db\PdoBench`                | `benchFetchAll`, `benchFetchOneBound`                                          |
+| `Di\DiBench`                 | `benchFactoryDefault`, `benchGetNew`, `benchGetShared`, `benchGetSharedMethod` |
+| `Events\ManagerBench`        | `benchFire`, `benchFireNoListener`                                             |
+| `Filter\FilterBench`         | `benchSanitize`                                                                |
+| `Html\EscaperBench`          | `benchHtml`                                                                    |
+| `Http\ResponseBench`         | `benchSend`, `benchSetJsonContent`                                             |
+| `Mvc\DispatcherBench`        | `benchDispatch`                                                                |
+| `Mvc\ModelBench`             | `benchFind`, `benchFindFirst`, `benchSave`, `benchToArray`                     |
+| `Mvc\QueryBench`             | `benchParseCold`, `benchParseWarm`                                             |
+| `Mvc\RouterBench`            | `benchDefineAndHandle`, `benchHandle`                                          |
+| `Mvc\ViewBench`              | `benchPartial`, `benchRender`                                                  |
+| `Mvc\VoltBench`              | `benchCompileString`                                                           |
+| `Support\CollectionBench`    | `benchGet`                                                                     |
+| `Support\JsonBench`          | `benchEncode`                                                                  |
 
 - The subjects use the fixtures of the reference apps (`Apps\Mvc\Fixture`, `Apps\Rest\Fixture`).
 - `benchParseCold` uses a new PHQL string for each call, so both PHQL caches miss. The caches grow during

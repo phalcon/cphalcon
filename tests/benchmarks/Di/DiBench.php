@@ -67,4 +67,14 @@ final class DiBench
             throw new RuntimeException('Di::get() returned an unexpected value');
         }
     }
+
+    /**
+     * A shared service through getShared(): the method that the apps use (Injectable::__get()).
+     */
+    public function benchGetSharedMethod(): void
+    {
+        if (!$this->container->getShared('escaper') instanceof Escaper) {
+            throw new RuntimeException('Di::getShared() returned an unexpected value');
+        }
+    }
 }

@@ -129,4 +129,27 @@ final class GetTest extends AbstractUnitTestCase
         $actual   = spl_object_hash($actual);
         $this->assertSame($expected, $actual);
     }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-29
+     */
+    public function testDiGetSharedNullResolvesAgain(): void
+    {
+        $container = new Di();
+        $count     = 0;
+
+        $container->setShared(
+            'nullService',
+            function () use (&$count) {
+                $count++;
+
+                return null;
+            }
+        );
+
+        $this->assertNull($container->get('nullService'));
+        $this->assertNull($container->get('nullService'));
+        $this->assertSame(2, $count);
+    }
 }
