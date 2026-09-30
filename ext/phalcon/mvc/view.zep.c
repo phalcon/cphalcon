@@ -1195,7 +1195,7 @@ PHP_METHOD(Phalcon_Mvc_View, partial)
 			}
 			if (_10$$6) {
 				ZEPHIR_MAKE_REF(&segments);
-				ZEPHIR_CALL_FUNCTION(NULL, "array_pop", &_12, 353, &segments);
+				ZEPHIR_CALL_FUNCTION(NULL, "array_pop", &_12, 352, &segments);
 				ZEPHIR_UNREF(&segments);
 				zephir_check_call_status();
 			}

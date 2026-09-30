@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write)
 
 		ZEPHIR_CALL_METHOD(&path, this_ptr, "getfilepath", NULL, 0, key);
 		zephir_check_call_status_or_jump(try_end_1);
-		ZEPHIR_CALL_FUNCTION(&_1$$3, "getmypid", NULL, 269);
+		ZEPHIR_CALL_FUNCTION(&_1$$3, "getmypid", NULL, 268);
 		zephir_check_call_status_or_jump(try_end_1);
 		zephir_cast_to_string(&_2$$3, &_1$$3);
 		ZEPHIR_INIT_VAR(&tmpPath);
@@ -219,7 +219,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write)
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 0, &option);
 			zephir_check_call_status_or_jump(try_end_1);
 		} else {
-			ZEPHIR_CALL_FUNCTION(&_6$$3, "rename", NULL, 270, &tmpPath, &path);
+			ZEPHIR_CALL_FUNCTION(&_6$$3, "rename", NULL, 269, &tmpPath, &path);
 			zephir_check_call_status_or_jump(try_end_1);
 			if (!(zephir_is_true(&_6$$3))) {
 				ZEPHIR_CALL_METHOD(NULL, this_ptr, "phpunlink", NULL, 0, &tmpPath);
@@ -282,7 +282,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, getFilePath)
 	ZEPHIR_INIT_VAR(&name);
 	zephir_prepare_virtual_path(&name, &key_zv, &_0);
 	if (zephir_memnstr_str(&key_zv, SL("_"), "phalcon/Mvc/Model/MetaData/Stream.zep", 130)) {
-		ZEPHIR_CALL_FUNCTION(&_1$$3, "sha1", NULL, 302, &key_zv);
+		ZEPHIR_CALL_FUNCTION(&_1$$3, "sha1", NULL, 301, &key_zv);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_CONCAT_VSV(&_2$$3, &name, "_", &_1$$3);

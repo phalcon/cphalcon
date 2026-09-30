@@ -923,7 +923,7 @@ PHP_METHOD(Phalcon_Tag, getTitle)
 		zephir_read_static_property_ce(&_4$$3, phalcon_tag_ce, SL("documentPrependTitle"), PH_NOISY_CC);
 		ZEPHIR_CPY_WRT(&documentPrependTitle, &_4$$3);
 		if (!(ZEPHIR_IS_EMPTY(&documentPrependTitle))) {
-			ZEPHIR_CALL_FUNCTION(&tmp$$4, "array_reverse", NULL, 274, &documentPrependTitle);
+			ZEPHIR_CALL_FUNCTION(&tmp$$4, "array_reverse", NULL, 273, &documentPrependTitle);
 			zephir_check_call_status();
 			if (Z_TYPE_P(&tmp$$4) == IS_STRING) {
 				ZEPHIR_INIT_VAR(&_6$$4);
