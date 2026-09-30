@@ -1,0 +1,702 @@
+{
+    "version": 1,
+    "routes": [
+        {
+            "class": "Phalcon\\Mvc\\Router\\Route",
+            "pattern": "/",
+            "paths": {
+                "controller": "index"
+            },
+            "methods": null,
+            "hostname": null,
+            "name": null,
+            "id": 0,
+            "beforeMatch": null,
+            "converters": []
+        },
+        {
+            "class": "Phalcon\\Mvc\\Router\\Route",
+            "pattern": "/about",
+            "paths": {
+                "controller": "about"
+            },
+            "methods": "GET",
+            "hostname": null,
+            "name": null,
+            "id": 1,
+            "beforeMatch": null,
+            "converters": []
+        },
+        {
+            "class": "Phalcon\\Mvc\\Router\\Route",
+            "pattern": "/about",
+            "paths": {
+                "controller": "about",
+                "action": "save"
+            },
+            "methods": "POST",
+            "hostname": null,
+            "name": null,
+            "id": 2,
+            "beforeMatch": null,
+            "converters": []
+        },
+        {
+            "class": "Phalcon\\Mvc\\Router\\Route",
+            "pattern": "/users/{id:[0-9]+}",
+            "paths": {
+                "controller": "users",
+                "id": 1
+            },
+            "methods": null,
+            "hostname": null,
+            "name": null,
+            "id": 3,
+            "beforeMatch": null,
+            "converters": []
+        },
+        {
+            "class": "Phalcon\\Mvc\\Router\\Route",
+            "pattern": "/products/{slug}",
+            "paths": {
+                "controller": "products",
+                "slug": 1
+            },
+            "methods": [
+                "GET",
+                "POST"
+            ],
+            "hostname": null,
+            "name": null,
+            "id": 4,
+            "beforeMatch": null,
+            "converters": []
+        },
+        {
+            "class": "Phalcon\\Mvc\\Router\\Route",
+            "pattern": "/ping",
+            "paths": {
+                "controller": "ping"
+            },
+            "methods": "HEAD",
+            "hostname": null,
+            "name": null,
+            "id": 5,
+            "beforeMatch": null,
+            "converters": []
+        },
+        {
+            "class": "Phalcon\\Mvc\\Router\\Route",
+            "pattern": "/{page}",
+            "paths": {
+                "controller": "pages",
+                "page": 1
+            },
+            "methods": "GET",
+            "hostname": null,
+            "name": null,
+            "id": 6,
+            "beforeMatch": null,
+            "converters": []
+        },
+        {
+            "class": "Phalcon\\Mvc\\Router\\Route",
+            "pattern": "/about",
+            "paths": {
+                "controller": "about",
+                "action": "again"
+            },
+            "methods": "GET",
+            "hostname": null,
+            "name": null,
+            "id": 7,
+            "beforeMatch": null,
+            "converters": []
+        },
+        {
+            "class": "Phalcon\\Mvc\\Router\\Route",
+            "pattern": "/admin",
+            "paths": {
+                "controller": "admin"
+            },
+            "methods": "PUT",
+            "hostname": "admin.example.com",
+            "name": null,
+            "id": 8,
+            "beforeMatch": null,
+            "converters": []
+        },
+        {
+            "class": "Phalcon\\Mvc\\Router\\Route",
+            "pattern": "/search",
+            "paths": {
+                "controller": "search"
+            },
+            "methods": "GET",
+            "hostname": null,
+            "name": null,
+            "id": 9,
+            "beforeMatch": "is_string",
+            "converters": []
+        },
+        {
+            "class": "Phalcon\\Mvc\\Router\\Route",
+            "pattern": "/items/1/{id:[0-9]+}",
+            "paths": {
+                "controller": "items",
+                "id": 1
+            },
+            "methods": "PATCH",
+            "hostname": null,
+            "name": null,
+            "id": 10,
+            "beforeMatch": null,
+            "converters": []
+        },
+        {
+            "class": "Phalcon\\Mvc\\Router\\Route",
+            "pattern": "/items/2/{id:[0-9]+}",
+            "paths": {
+                "controller": "items",
+                "id": 1
+            },
+            "methods": "PATCH",
+            "hostname": null,
+            "name": null,
+            "id": 11,
+            "beforeMatch": null,
+            "converters": []
+        },
+        {
+            "class": "Phalcon\\Mvc\\Router\\Route",
+            "pattern": "/items/3/{id:[0-9]+}",
+            "paths": {
+                "controller": "items",
+                "id": 1
+            },
+            "methods": "PATCH",
+            "hostname": null,
+            "name": null,
+            "id": 12,
+            "beforeMatch": null,
+            "converters": []
+        },
+        {
+            "class": "Phalcon\\Mvc\\Router\\Route",
+            "pattern": "/items/4/{id:[0-9]+}",
+            "paths": {
+                "controller": "items",
+                "id": 1
+            },
+            "methods": "PATCH",
+            "hostname": null,
+            "name": null,
+            "id": 13,
+            "beforeMatch": null,
+            "converters": []
+        },
+        {
+            "class": "Phalcon\\Mvc\\Router\\Route",
+            "pattern": "/items/5/{id:[0-9]+}",
+            "paths": {
+                "controller": "items",
+                "id": 1
+            },
+            "methods": "PATCH",
+            "hostname": null,
+            "name": null,
+            "id": 14,
+            "beforeMatch": null,
+            "converters": []
+        },
+        {
+            "class": "Phalcon\\Mvc\\Router\\Route",
+            "pattern": "/items/6/{id:[0-9]+}",
+            "paths": {
+                "controller": "items",
+                "id": 1
+            },
+            "methods": "PATCH",
+            "hostname": null,
+            "name": null,
+            "id": 15,
+            "beforeMatch": null,
+            "converters": []
+        },
+        {
+            "class": "Phalcon\\Mvc\\Router\\Route",
+            "pattern": "/items/7/{id:[0-9]+}",
+            "paths": {
+                "controller": "items",
+                "id": 1
+            },
+            "methods": "PATCH",
+            "hostname": null,
+            "name": null,
+            "id": 16,
+            "beforeMatch": null,
+            "converters": []
+        },
+        {
+            "class": "Phalcon\\Mvc\\Router\\Route",
+            "pattern": "/items/8/{id:[0-9]+}",
+            "paths": {
+                "controller": "items",
+                "id": 1
+            },
+            "methods": "PATCH",
+            "hostname": null,
+            "name": null,
+            "id": 17,
+            "beforeMatch": null,
+            "converters": []
+        },
+        {
+            "class": "Phalcon\\Mvc\\Router\\Route",
+            "pattern": "/items/9/{id:[0-9]+}",
+            "paths": {
+                "controller": "items",
+                "id": 1
+            },
+            "methods": "PATCH",
+            "hostname": null,
+            "name": null,
+            "id": 18,
+            "beforeMatch": null,
+            "converters": []
+        },
+        {
+            "class": "Phalcon\\Mvc\\Router\\Route",
+            "pattern": "/items/10/{id:[0-9]+}",
+            "paths": {
+                "controller": "items",
+                "id": 1
+            },
+            "methods": "PATCH",
+            "hostname": null,
+            "name": null,
+            "id": 19,
+            "beforeMatch": null,
+            "converters": []
+        },
+        {
+            "class": "Phalcon\\Mvc\\Router\\Route",
+            "pattern": "/items/11/{id:[0-9]+}",
+            "paths": {
+                "controller": "items",
+                "id": 1
+            },
+            "methods": "PATCH",
+            "hostname": null,
+            "name": null,
+            "id": 20,
+            "beforeMatch": null,
+            "converters": []
+        }
+    ],
+    "methodRoutes": {
+        "*": [
+            0,
+            3
+        ],
+        "GET": [
+            1,
+            4,
+            6,
+            7,
+            9
+        ],
+        "POST": [
+            2,
+            4
+        ],
+        "HEAD": [
+            5
+        ],
+        "PUT": [
+            8
+        ],
+        "PATCH": [
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20
+        ]
+    },
+    "candidatesByMethod": {
+        "*": [
+            0,
+            3
+        ],
+        "GET": [
+            0,
+            1,
+            3,
+            4,
+            6,
+            7,
+            9
+        ],
+        "POST": [
+            0,
+            2,
+            3,
+            4
+        ],
+        "HEAD": [
+            0,
+            3,
+            5
+        ],
+        "PUT": [
+            0,
+            3,
+            8
+        ],
+        "PATCH": [
+            0,
+            3,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20
+        ]
+    },
+    "staticByMethod": {
+        "*": {
+            "/": [
+                0
+            ]
+        },
+        "GET": {
+            "/": [
+                0
+            ],
+            "/about": [
+                1,
+                7
+            ],
+            "/search": [
+                9
+            ]
+        },
+        "POST": {
+            "/": [
+                0
+            ],
+            "/about": [
+                2
+            ]
+        },
+        "HEAD": {
+            "/": [
+                0
+            ],
+            "/ping": [
+                5
+            ]
+        },
+        "PUT": {
+            "/": [
+                0
+            ],
+            "/admin": [
+                8
+            ]
+        },
+        "PATCH": {
+            "/": [
+                0
+            ]
+        }
+    },
+    "staticShadowedByMethod": {
+        "GET": {
+            "/": true
+        }
+    },
+    "hostnameByMethod": {
+        "*": [],
+        "GET": [],
+        "POST": [],
+        "HEAD": [],
+        "PUT": {
+            "admin.example.com": [
+                2
+            ]
+        },
+        "PATCH": []
+    },
+    "hostnameLessByMethod": {
+        "*": [
+            0,
+            1
+        ],
+        "GET": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+        ],
+        "POST": [
+            0,
+            1,
+            2,
+            3
+        ],
+        "HEAD": [
+            0,
+            1,
+            2
+        ],
+        "PUT": [
+            0,
+            1
+        ],
+        "PATCH": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+        ]
+    },
+    "combinedRegexByMethod": {
+        "*": [
+            "#^(?|/users/([0-9]+)(*:1))$#u"
+        ],
+        "GET": [
+            "#^(?|/([^/]*)(*:4)|/products/([^/]*)(*:3)|/users/([0-9]+)(*:2))$#u"
+        ],
+        "POST": [
+            "#^(?|/products/([^/]*)(*:3)|/users/([0-9]+)(*:2))$#u"
+        ],
+        "HEAD": [
+            "#^(?|/users/([0-9]+)(*:1))$#u"
+        ],
+        "PATCH": [
+            "#^(?|/items/11/([0-9]+)(*:12)|/items/10/([0-9]+)(*:11)|/items/9/([0-9]+)(*:10)|/items/8/([0-9]+)(*:9)|/items/7/([0-9]+)(*:8)|/items/6/([0-9]+)(*:7)|/items/5/([0-9]+)(*:6)|/items/4/([0-9]+)(*:5)|/items/3/([0-9]+)(*:4)|/items/2/([0-9]+)(*:3))$#u",
+            "#^(?|/items/1/([0-9]+)(*:2)|/users/([0-9]+)(*:1))$#u"
+        ]
+    },
+    "combinedRegexDisabled": {
+        "PUT": true
+    },
+    "combinedRegexMarkMap": {
+        "*": [
+            {
+                "1": 1
+            }
+        ],
+        "GET": [
+            {
+                "4": 4,
+                "3": 3,
+                "2": 2
+            }
+        ],
+        "POST": [
+            {
+                "3": 3,
+                "2": 2
+            }
+        ],
+        "HEAD": [
+            {
+                "1": 1
+            }
+        ],
+        "PATCH": [
+            {
+                "12": 12,
+                "11": 11,
+                "10": 10,
+                "9": 9,
+                "8": 8,
+                "7": 7,
+                "6": 6,
+                "5": 5,
+                "4": 4,
+                "3": 3
+            },
+            {
+                "2": 2,
+                "1": 1
+            }
+        ]
+    },
+    "routeMeta": [
+        {
+            "pattern": "/",
+            "isRegex": false,
+            "hostname": null,
+            "hostRegex": null,
+            "beforeMatch": null
+        },
+        {
+            "pattern": "/about",
+            "isRegex": false,
+            "hostname": null,
+            "hostRegex": null,
+            "beforeMatch": null
+        },
+        {
+            "pattern": "/about",
+            "isRegex": false,
+            "hostname": null,
+            "hostRegex": null,
+            "beforeMatch": null
+        },
+        {
+            "pattern": "#^/users/([0-9]+)$#u",
+            "isRegex": true,
+            "hostname": null,
+            "hostRegex": null,
+            "beforeMatch": null
+        },
+        {
+            "pattern": "#^/products/([^/]*)$#u",
+            "isRegex": true,
+            "hostname": null,
+            "hostRegex": null,
+            "beforeMatch": null
+        },
+        {
+            "pattern": "/ping",
+            "isRegex": false,
+            "hostname": null,
+            "hostRegex": null,
+            "beforeMatch": null
+        },
+        {
+            "pattern": "#^/([^/]*)$#u",
+            "isRegex": true,
+            "hostname": null,
+            "hostRegex": null,
+            "beforeMatch": null
+        },
+        {
+            "pattern": "/about",
+            "isRegex": false,
+            "hostname": null,
+            "hostRegex": null,
+            "beforeMatch": null
+        },
+        {
+            "pattern": "/admin",
+            "isRegex": false,
+            "hostname": "admin.example.com",
+            "hostRegex": null,
+            "beforeMatch": null
+        },
+        {
+            "pattern": "/search",
+            "isRegex": false,
+            "hostname": null,
+            "hostRegex": null,
+            "beforeMatch": "is_string"
+        },
+        {
+            "pattern": "#^/items/1/([0-9]+)$#u",
+            "isRegex": true,
+            "hostname": null,
+            "hostRegex": null,
+            "beforeMatch": null
+        },
+        {
+            "pattern": "#^/items/2/([0-9]+)$#u",
+            "isRegex": true,
+            "hostname": null,
+            "hostRegex": null,
+            "beforeMatch": null
+        },
+        {
+            "pattern": "#^/items/3/([0-9]+)$#u",
+            "isRegex": true,
+            "hostname": null,
+            "hostRegex": null,
+            "beforeMatch": null
+        },
+        {
+            "pattern": "#^/items/4/([0-9]+)$#u",
+            "isRegex": true,
+            "hostname": null,
+            "hostRegex": null,
+            "beforeMatch": null
+        },
+        {
+            "pattern": "#^/items/5/([0-9]+)$#u",
+            "isRegex": true,
+            "hostname": null,
+            "hostRegex": null,
+            "beforeMatch": null
+        },
+        {
+            "pattern": "#^/items/6/([0-9]+)$#u",
+            "isRegex": true,
+            "hostname": null,
+            "hostRegex": null,
+            "beforeMatch": null
+        },
+        {
+            "pattern": "#^/items/7/([0-9]+)$#u",
+            "isRegex": true,
+            "hostname": null,
+            "hostRegex": null,
+            "beforeMatch": null
+        },
+        {
+            "pattern": "#^/items/8/([0-9]+)$#u",
+            "isRegex": true,
+            "hostname": null,
+            "hostRegex": null,
+            "beforeMatch": null
+        },
+        {
+            "pattern": "#^/items/9/([0-9]+)$#u",
+            "isRegex": true,
+            "hostname": null,
+            "hostRegex": null,
+            "beforeMatch": null
+        },
+        {
+            "pattern": "#^/items/10/([0-9]+)$#u",
+            "isRegex": true,
+            "hostname": null,
+            "hostRegex": null,
+            "beforeMatch": null
+        },
+        {
+            "pattern": "#^/items/11/([0-9]+)$#u",
+            "isRegex": true,
+            "hostname": null,
+            "hostRegex": null,
+            "beforeMatch": null
+        }
+    ]
+}

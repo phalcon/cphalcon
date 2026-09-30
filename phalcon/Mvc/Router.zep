@@ -2202,35 +2202,37 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
         var route, methods, method, methodSpecific, starRoutes,
             candidates, candidateRoute, candidatePattern, isRegex,
             bucketRoute, bucketPattern, staticUri, staticBucket,
-            staticRoutesList, shadowBucket;
+            staticRoutesList, shadowBucket, bucket, methodRoutes,
+            candidatesByMethod, routeMeta, staticByMethod,
+            staticShadowedByMethod, hostnameByMethod, hostnameLessByMethod,
+            combinedRegexByMethod, combinedRegexMarkMap, combinedRegexDisabled;
 
-        let this->methodRoutes           = [],
-            this->candidatesByMethod     = [],
-            this->routeMeta              = [],
-            this->staticByMethod         = [],
-            this->staticShadowedByMethod = [];
+        let methodRoutes           = [],
+            candidatesByMethod     = [],
+            staticByMethod         = [],
+            staticShadowedByMethod = [];
 
         for route in this->routes {
             let methods = route->getHttpMethods();
 
             if methods === null {
-                let this->methodRoutes["*"][] = route;
+                let methodRoutes["*"][] = route;
             } elseif typeof methods == "string" {
-                let this->methodRoutes[methods][] = route;
+                let methodRoutes[methods][] = route;
             } else {
                 for method in methods {
-                    let this->methodRoutes[method][] = route;
+                    let methodRoutes[method][] = route;
                 }
             }
         }
 
-        if !fetch starRoutes, this->methodRoutes["*"] {
+        if !fetch starRoutes, methodRoutes["*"] {
             let starRoutes = [];
         }
 
-        for method, methodSpecific in this->methodRoutes {
+        for method, methodSpecific in methodRoutes {
             if method == "*" {
-                let this->candidatesByMethod["*"] = starRoutes;
+                let candidatesByMethod["*"] = starRoutes;
                 continue;
             }
 
@@ -2242,21 +2244,23 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
              * when each was attached, inverting the reverse-iteration
              * priority that route matching relies on (see #17062).
              */
-            let this->candidatesByMethod[method] = [];
+            let bucket = [];
 
             for route in this->routes {
                 let methods = route->getHttpMethods();
 
                 if methods === null {
-                    let this->candidatesByMethod[method][] = route;
+                    let bucket[] = route;
                 } elseif typeof methods == "string" {
                     if methods === method {
-                        let this->candidatesByMethod[method][] = route;
+                        let bucket[] = route;
                     }
                 } elseif in_array(method, methods) {
-                    let this->candidatesByMethod[method][] = route;
+                    let bucket[] = route;
                 }
             }
+
+            let candidatesByMethod[method] = bucket;
         }
 
         /**
@@ -2264,7 +2268,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
          * route's intrinsic id. One entry per route - replaces the previous
          * per-method-bucket replication.
          */
-        let this->routeMeta = [];
+        let routeMeta = [];
 
         for candidateRoute in this->routes {
             let candidatePattern = candidateRoute->getCompiledPattern();
@@ -2274,7 +2278,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                 let isRegex = true;
             }
 
-            let this->routeMeta[candidateRoute->getRouteId()] = [
+            let routeMeta[candidateRoute->getRouteId()] = [
                 "pattern":     candidatePattern,
                 "isRegex":     isRegex,
                 "hostname":    candidateRoute->getHostName(),
@@ -2290,35 +2294,34 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
          * it would match as shadowed. The fast path consults staticByMethod
          * only when staticShadowedByMethod has no entry for that URI.
          */
-        for method, candidates in this->candidatesByMethod {
+        for method, candidates in candidatesByMethod {
             for bucketRoute in candidates {
                 let bucketPattern = bucketRoute->getCompiledPattern();
 
                 if !memstr(bucketPattern, "^") {
-                    let this->staticByMethod[method][bucketPattern][] = bucketRoute;
+                    let staticByMethod[method][bucketPattern][] = bucketRoute;
 
                     /**
                      * A later static route for a URI overrides an earlier regex
                      * that shadowed it, so clear any stale shadow flag - the
                      * last-registered route must win.
                      */
-                    if isset this->staticShadowedByMethod[method][bucketPattern] {
+                    if isset staticShadowedByMethod[method][bucketPattern] {
                         /**
-                         * Assign the bucket back after the unset. A two-level
-                         * unset on a property removes the key from a copy of
-                         * the inner array and leaves the property unchanged.
+                         * Remove the key from a copy of the bucket, then
+                         * assign the bucket back.
                          */
-                        let shadowBucket = this->staticShadowedByMethod[method];
+                        let shadowBucket = staticShadowedByMethod[method];
 
                         unset shadowBucket[bucketPattern];
 
-                        let this->staticShadowedByMethod[method] = shadowBucket;
+                        let staticShadowedByMethod[method] = shadowBucket;
                     }
                 } else {
-                    if fetch staticBucket, this->staticByMethod[method] {
+                    if fetch staticBucket, staticByMethod[method] {
                         for staticUri, staticRoutesList in staticBucket {
                             if preg_match(bucketPattern, staticUri) {
-                                let this->staticShadowedByMethod[method][staticUri] = true;
+                                let staticShadowedByMethod[method][staticUri] = true;
                             }
                         }
                     }
@@ -2333,20 +2336,20 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
          */
         var bucketIdx, bucketHostname;
 
-        let this->hostnameByMethod     = [],
-            this->hostnameLessByMethod = [];
+        let hostnameByMethod     = [],
+            hostnameLessByMethod = [];
 
-        for method, candidates in this->candidatesByMethod {
-            let this->hostnameByMethod[method]     = [],
-                this->hostnameLessByMethod[method] = [];
+        for method, candidates in candidatesByMethod {
+            let hostnameByMethod[method]     = [],
+                hostnameLessByMethod[method] = [];
 
             for bucketIdx, bucketRoute in candidates {
                 let bucketHostname = bucketRoute->getHostName();
 
                 if bucketHostname === null {
-                    let this->hostnameLessByMethod[method][] = bucketIdx;
+                    let hostnameLessByMethod[method][] = bucketIdx;
                 } else {
-                    let this->hostnameByMethod[method][bucketHostname][] = bucketIdx;
+                    let hostnameByMethod[method][bucketHostname][] = bucketIdx;
                 }
             }
         }
@@ -2361,15 +2364,15 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
         var combinedAlternatives, combinedMark, combinedBody,
             combinedBodyMatch, combinedShape, hostnameBucketRef;
 
-        let this->combinedRegexByMethod = [],
-            this->combinedRegexMarkMap  = [],
-            this->combinedRegexDisabled = [];
+        let combinedRegexByMethod = [],
+            combinedRegexMarkMap  = [],
+            combinedRegexDisabled = [];
 
-        for method, candidates in this->candidatesByMethod {
-            let hostnameBucketRef = this->hostnameByMethod[method];
+        for method, candidates in candidatesByMethod {
+            let hostnameBucketRef = hostnameByMethod[method];
 
             if !empty hostnameBucketRef {
-                let this->combinedRegexDisabled[method] = true;
+                let combinedRegexDisabled[method] = true;
                 continue;
             }
 
@@ -2387,7 +2390,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                 let combinedShape = preg_match("/^#\\^(.+)\\$#u$/", bucketPattern, combinedBodyMatch);
 
                 if !combinedShape {
-                    let this->combinedRegexDisabled[method] = true;
+                    let combinedRegexDisabled[method] = true;
                     let combinedAlternatives = [];
                     break;
                 }
@@ -2397,7 +2400,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                 let combinedMark[(string) bucketIdx] = bucketIdx;
             }
 
-            if isset this->combinedRegexDisabled[method] {
+            if isset combinedRegexDisabled[method] {
                 continue;
             }
 
@@ -2436,10 +2439,20 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                 let chunkOffset += self::REGEX_CHUNK_SIZE;
             }
 
-            let this->combinedRegexByMethod[method] = chunkedPatterns;
-            let this->combinedRegexMarkMap[method]  = chunkedMarkMaps;
+            let combinedRegexByMethod[method] = chunkedPatterns;
+            let combinedRegexMarkMap[method]  = chunkedMarkMaps;
         }
 
-        let this->methodRoutesDirty = false;
+        let this->methodRoutes           = methodRoutes,
+            this->candidatesByMethod     = candidatesByMethod,
+            this->routeMeta              = routeMeta,
+            this->staticByMethod         = staticByMethod,
+            this->staticShadowedByMethod = staticShadowedByMethod,
+            this->hostnameByMethod       = hostnameByMethod,
+            this->hostnameLessByMethod   = hostnameLessByMethod,
+            this->combinedRegexByMethod  = combinedRegexByMethod,
+            this->combinedRegexMarkMap   = combinedRegexMarkMap,
+            this->combinedRegexDisabled  = combinedRegexDisabled,
+            this->methodRoutesDirty      = false;
     }
 }
