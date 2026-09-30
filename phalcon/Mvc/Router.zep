@@ -2206,23 +2206,38 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             candidatesByMethod, routeMeta, staticByMethod,
             staticShadowedByMethod, hostnameByMethod, hostnameLessByMethod,
             combinedRegexByMethod, combinedRegexMarkMap, combinedRegexDisabled,
-            routePatterns, routeHosts, routeKey, candidateHost;
+            routePatterns, routeHosts, routeKey, candidateHost, routeMethods,
+            routeIndex;
 
         let methodRoutes           = [],
             candidatesByMethod     = [],
             staticByMethod         = [],
             staticShadowedByMethod = [];
 
-        for route in this->routes {
+        let routeMethods = null;
+
+        for routeIndex, route in this->routes {
             let methods = route->getHttpMethods();
 
             if methods === null {
                 let methodRoutes["*"][] = route;
-            } elseif typeof methods == "string" {
-                let methodRoutes[methods][] = route;
             } else {
-                for method in methods {
-                    let methodRoutes[method][] = route;
+                /**
+                 * Keep the methods of each route that has methods, for the
+                 * method buckets below. A route with no entry has no methods.
+                 */
+                if routeMethods === null {
+                    let routeMethods = [];
+                }
+
+                let routeMethods[routeIndex] = methods;
+
+                if typeof methods == "string" {
+                    let methodRoutes[methods][] = route;
+                } else {
+                    for method in methods {
+                        let methodRoutes[method][] = route;
+                    }
                 }
             }
         }
@@ -2247,8 +2262,10 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
              */
             let bucket = [];
 
-            for route in this->routes {
-                let methods = route->getHttpMethods();
+            for routeIndex, route in this->routes {
+                if !fetch methods, routeMethods[routeIndex] {
+                    let methods = null;
+                }
 
                 if methods === null {
                     let bucket[] = route;
