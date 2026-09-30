@@ -2205,7 +2205,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             staticRoutesList, shadowBucket, bucket, methodRoutes,
             candidatesByMethod, routeMeta, staticByMethod,
             staticShadowedByMethod, hostnameByMethod, hostnameLessByMethod,
-            combinedRegexByMethod, combinedRegexMarkMap, combinedRegexDisabled;
+            combinedRegexByMethod, combinedRegexMarkMap, combinedRegexDisabled,
+            routePatterns, routeHosts, routeKey, candidateHost;
 
         let methodRoutes           = [],
             candidatesByMethod     = [],
@@ -2268,10 +2269,14 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
          * route's intrinsic id. One entry per route - replaces the previous
          * per-method-bucket replication.
          */
-        let routeMeta = [];
+        let routeMeta     = [],
+            routePatterns = [],
+            routeHosts    = [];
 
         for candidateRoute in this->routes {
-            let candidatePattern = candidateRoute->getCompiledPattern();
+            let candidatePattern = candidateRoute->getCompiledPattern(),
+                candidateHost    = candidateRoute->getHostName(),
+                routeKey         = spl_object_id(candidateRoute);
             let isRegex          = false;
 
             if memstr(candidatePattern, "^") {
@@ -2281,10 +2286,18 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             let routeMeta[candidateRoute->getRouteId()] = [
                 "pattern":     candidatePattern,
                 "isRegex":     isRegex,
-                "hostname":    candidateRoute->getHostName(),
+                "hostname":    candidateHost,
                 "hostRegex":   candidateRoute->getCompiledHostName(),
                 "beforeMatch": candidateRoute->getBeforeMatch()
             ];
+
+            /**
+             * Keep the pattern and the host name of each route for the
+             * passes below. They then do not call the getters again for
+             * each method bucket.
+             */
+            let routePatterns[routeKey] = candidatePattern,
+                routeHosts[routeKey]    = candidateHost;
         }
 
         /**
@@ -2296,7 +2309,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
          */
         for method, candidates in candidatesByMethod {
             for bucketRoute in candidates {
-                let bucketPattern = bucketRoute->getCompiledPattern();
+                let routeKey      = spl_object_id(bucketRoute),
+                    bucketPattern = routePatterns[routeKey];
 
                 if !memstr(bucketPattern, "^") {
                     let staticByMethod[method][bucketPattern][] = bucketRoute;
@@ -2344,7 +2358,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                 hostnameLessByMethod[method] = [];
 
             for bucketIdx, bucketRoute in candidates {
-                let bucketHostname = bucketRoute->getHostName();
+                let routeKey       = spl_object_id(bucketRoute),
+                    bucketHostname = routeHosts[routeKey];
 
                 if bucketHostname === null {
                     let hostnameLessByMethod[method][] = bucketIdx;
@@ -2380,7 +2395,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                 combinedMark         = [];
 
             for bucketIdx, bucketRoute in candidates {
-                let bucketPattern = bucketRoute->getCompiledPattern();
+                let routeKey      = spl_object_id(bucketRoute),
+                    bucketPattern = routePatterns[routeKey];
 
                 if !memstr(bucketPattern, "^") {
                     continue;
