@@ -15,7 +15,7 @@ use Phalcon\Assets\Manager as AssetsManager;
 use Phalcon\Encryption\Crypt;
 use Phalcon\Encryption\Security;
 use Phalcon\Events\Manager as EventsManager;
-use Phalcon\Filter\FilterFactory;
+use Phalcon\Filter\Filter;
 use Phalcon\Flash\Direct;
 use Phalcon\Flash\Session;
 use Phalcon\Html\Escaper;
@@ -46,11 +46,7 @@ class FactoryDefault extends \Phalcon\Di\Di
      */
     public function __construct()
     {
-        var filter;
-
         parent::__construct();
-
-        let filter = new FilterFactory();
 
         let this->services = [
             "annotations"        : new Service(AnnotationsMemory::class, true),
@@ -73,7 +69,18 @@ class FactoryDefault extends \Phalcon\Di\Di
             "eventsManager"      : new Service(EventsManager::class, true),
             "flash"              : new Service(Direct::class, true),
             "flashSession"       : new Service(Session::class, true),
-            "filter"             : new Service(filter->newInstance(), true),
+            "filter"             : new Service(
+                [
+                    "className" : Filter::class,
+                    "arguments" : [
+                        [
+                            "type"  : "parameter",
+                            "value" : Filter::getDefaultMapper()
+                        ]
+                    ]
+                ],
+                true
+            ),
             "helper"             : new Service(HelperFactory::class, true),
             "settings"           : new Service(Settings::class, true),
             "modelsManager"      : new Service(ModelManager::class, true),
@@ -98,31 +105,5 @@ class FactoryDefault extends \Phalcon\Di\Di
             "transactionManager" : new Service(TransactionManager::class, true),
             "url"                : new Service(Url::class, true)
         ];
-
-//        this->setShared(
-//            "assets",
-//            [
-//                "className" : "Phalcon\\Assets\\Manager",
-//                "arguments" : [
-//                    [
-//                        "type" : "service",
-//                        "name" : "tag"
-//                    ]
-//                ]
-//            ]
-//        );
-//
-//        this->setShared(
-//            "tag",
-//            [
-//                "className" : "Phalcon\\Html\\TagFactory",
-//                "arguments" : [
-//                    [
-//                        "type" : "service",
-//                        "name" : "escaper"
-//                    ]
-//                ]
-//            ]
-//        );
     }
 }
