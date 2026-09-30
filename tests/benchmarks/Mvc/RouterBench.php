@@ -24,6 +24,8 @@ use RuntimeException;
 #[BeforeMethods('setUp')]
 final class RouterBench
 {
+    private const METHODS_URI = '/resource7/7';
+
     private const URI = '/products/show/7';
 
     private FactoryDefault $container;
@@ -63,6 +65,21 @@ final class RouterBench
     }
 
     /**
+     * 50 routes with HTTP methods (10 resources: GET and POST on the list,
+     * GET, PUT and DELETE on an item) and the first match, as in a REST
+     * application.
+     */
+    #[Revs(200)]
+    public function benchDefineAndHandleMethods(): void
+    {
+        $router = $this->methodRouter();
+        $router->setDI($this->container);
+        $router->handle(self::METHODS_URI);
+
+        $this->checkMethods($router);
+    }
+
+    /**
      * A match on a router that is already built.
      */
     public function benchHandle(): void
@@ -83,5 +100,41 @@ final class RouterBench
                 )
             );
         }
+    }
+
+    private function checkMethods(Router $router): void
+    {
+        if (
+            'resource7' !== $router->getControllerName()
+            || 'show' !== $router->getActionName()
+            || ['id' => '7'] !== $router->getParams()
+        ) {
+            throw new RuntimeException(
+                sprintf(
+                    'Unexpected match: %s %s %s',
+                    $router->getControllerName(),
+                    $router->getActionName(),
+                    json_encode($router->getParams())
+                )
+            );
+        }
+    }
+
+    private function methodRouter(): Router
+    {
+        $router = new Router(false);
+
+        for ($index = 1; $index <= 10; $index++) {
+            $prefix     = '/resource' . $index;
+            $controller = 'resource' . $index;
+
+            $router->addGet($prefix, ['controller' => $controller, 'action' => 'list']);
+            $router->addPost($prefix, ['controller' => $controller, 'action' => 'create']);
+            $router->addGet($prefix . '/{id:[0-9]+}', ['controller' => $controller, 'action' => 'show']);
+            $router->addPut($prefix . '/{id:[0-9]+}', ['controller' => $controller, 'action' => 'update']);
+            $router->addDelete($prefix . '/{id:[0-9]+}', ['controller' => $controller, 'action' => 'delete']);
+        }
+
+        return $router;
     }
 }
