@@ -2200,27 +2200,63 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     protected function rebuildMethodIndex() -> void
     {
         var route, methods, method, methodSpecific, starRoutes,
-            candidates, candidateRoute, candidatePattern, isRegex,
+            candidates, candidatePattern, isRegex,
             bucketRoute, bucketPattern, staticUri, staticBucket,
             staticRoutesList, shadowBucket, bucket, methodRoutes,
             candidatesByMethod, routeMeta, staticByMethod,
             staticShadowedByMethod, hostnameByMethod, hostnameLessByMethod,
             combinedRegexByMethod, combinedRegexMarkMap, combinedRegexDisabled,
-            routePatterns, routeHosts, routeKey, candidateHost, routeMethods,
-            routeIndex;
+            routePatterns, routeHosts, candidateHost, routeMethods,
+            routeIndex, starPositions, positions, positionsByMethod, bucketIdx;
 
         let methodRoutes           = [],
             candidatesByMethod     = [],
+            positionsByMethod      = [],
             staticByMethod         = [],
             staticShadowedByMethod = [];
 
-        let routeMethods = null;
+        /**
+         * One pass over the routes: the methods of each route, the
+         * single-source per-route metadata cache (keyed by the route's
+         * intrinsic id), and the compiled pattern and the host name of each
+         * route by its key in the routes array. The passes below read them
+         * by position, so they do not call the getters again for each method
+         * bucket.
+         */
+        let routeMethods  = null,
+            starPositions = null,
+            routeMeta     = [],
+            routePatterns = [],
+            routeHosts    = [];
 
         for routeIndex, route in this->routes {
-            let methods = route->getHttpMethods();
+            let methods          = route->getHttpMethods(),
+                candidatePattern = route->getCompiledPattern(),
+                candidateHost    = route->getHostName();
+            let isRegex          = false;
+
+            if memstr(candidatePattern, "^") {
+                let isRegex = true;
+            }
+
+            let routeMeta[route->getRouteId()] = [
+                "pattern":     candidatePattern,
+                "isRegex":     isRegex,
+                "hostname":    candidateHost,
+                "hostRegex":   route->getCompiledHostName(),
+                "beforeMatch": route->getBeforeMatch()
+            ];
+
+            let routePatterns[routeIndex] = candidatePattern,
+                routeHosts[routeIndex]    = candidateHost;
 
             if methods === null {
-                let methodRoutes["*"][] = route;
+                if starPositions === null {
+                    let starPositions = [];
+                }
+
+                let methodRoutes["*"][] = route,
+                    starPositions[]     = routeIndex;
             } else {
                 /**
                  * Keep the methods of each route that has methods, for the
@@ -2248,7 +2284,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
         for method, methodSpecific in methodRoutes {
             if method == "*" {
-                let candidatesByMethod["*"] = starRoutes;
+                let candidatesByMethod["*"] = starRoutes,
+                    positionsByMethod["*"]  = starPositions;
                 continue;
             }
 
@@ -2260,7 +2297,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
              * when each was attached, inverting the reverse-iteration
              * priority that route matching relies on (see #17062).
              */
-            let bucket = [];
+            let bucket    = [],
+                positions = [];
 
             for routeIndex, route in this->routes {
                 if !fetch methods, routeMethods[routeIndex] {
@@ -2268,53 +2306,21 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                 }
 
                 if methods === null {
-                    let bucket[] = route;
+                    let bucket[]    = route,
+                        positions[] = routeIndex;
                 } elseif typeof methods == "string" {
                     if methods === method {
-                        let bucket[] = route;
+                        let bucket[]    = route,
+                            positions[] = routeIndex;
                     }
                 } elseif in_array(method, methods) {
-                    let bucket[] = route;
+                    let bucket[]    = route,
+                        positions[] = routeIndex;
                 }
             }
 
-            let candidatesByMethod[method] = bucket;
-        }
-
-        /**
-         * Build the single-source per-route metadata cache, keyed by the
-         * route's intrinsic id. One entry per route - replaces the previous
-         * per-method-bucket replication.
-         */
-        let routeMeta     = [],
-            routePatterns = [],
-            routeHosts    = [];
-
-        for candidateRoute in this->routes {
-            let candidatePattern = candidateRoute->getCompiledPattern(),
-                candidateHost    = candidateRoute->getHostName(),
-                routeKey         = spl_object_id(candidateRoute);
-            let isRegex          = false;
-
-            if memstr(candidatePattern, "^") {
-                let isRegex = true;
-            }
-
-            let routeMeta[candidateRoute->getRouteId()] = [
-                "pattern":     candidatePattern,
-                "isRegex":     isRegex,
-                "hostname":    candidateHost,
-                "hostRegex":   candidateRoute->getCompiledHostName(),
-                "beforeMatch": candidateRoute->getBeforeMatch()
-            ];
-
-            /**
-             * Keep the pattern and the host name of each route for the
-             * passes below. They then do not call the getters again for
-             * each method bucket.
-             */
-            let routePatterns[routeKey] = candidatePattern,
-                routeHosts[routeKey]    = candidateHost;
+            let candidatesByMethod[method] = bucket,
+                positionsByMethod[method]  = positions;
         }
 
         /**
@@ -2325,9 +2331,11 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
          * only when staticShadowedByMethod has no entry for that URI.
          */
         for method, candidates in candidatesByMethod {
-            for bucketRoute in candidates {
-                let routeKey      = spl_object_id(bucketRoute),
-                    bucketPattern = routePatterns[routeKey];
+            let positions = positionsByMethod[method];
+
+            for bucketIdx, bucketRoute in candidates {
+                let routeIndex    = positions[bucketIdx],
+                    bucketPattern = routePatterns[routeIndex];
 
                 if !memstr(bucketPattern, "^") {
                     let staticByMethod[method][bucketPattern][] = bucketRoute;
@@ -2365,18 +2373,17 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
          * sub-buckets and a hostname-less list. Routes are referenced by
          * their integer index into candidatesByMethod[method].
          */
-        var bucketIdx, bucketHostname;
+        var bucketHostname;
 
         let hostnameByMethod     = [],
             hostnameLessByMethod = [];
 
-        for method, candidates in candidatesByMethod {
+        for method, positions in positionsByMethod {
             let hostnameByMethod[method]     = [],
                 hostnameLessByMethod[method] = [];
 
-            for bucketIdx, bucketRoute in candidates {
-                let routeKey       = spl_object_id(bucketRoute),
-                    bucketHostname = routeHosts[routeKey];
+            for bucketIdx, routeIndex in positions {
+                let bucketHostname = routeHosts[routeIndex];
 
                 if bucketHostname === null {
                     let hostnameLessByMethod[method][] = bucketIdx;
@@ -2400,7 +2407,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             combinedRegexMarkMap  = [],
             combinedRegexDisabled = [];
 
-        for method, candidates in candidatesByMethod {
+        for method, positions in positionsByMethod {
             let hostnameBucketRef = hostnameByMethod[method];
 
             if !empty hostnameBucketRef {
@@ -2411,9 +2418,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             let combinedAlternatives = [],
                 combinedMark         = [];
 
-            for bucketIdx, bucketRoute in candidates {
-                let routeKey      = spl_object_id(bucketRoute),
-                    bucketPattern = routePatterns[routeKey];
+            for bucketIdx, routeIndex in positions {
+                let bucketPattern = routePatterns[routeIndex];
 
                 if !memstr(bucketPattern, "^") {
                     continue;
