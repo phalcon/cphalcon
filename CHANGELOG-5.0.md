@@ -12,6 +12,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 - Faster creation of `Phalcon\Di\FactoryDefault` and faster shared service lookups in `Phalcon\Di\Di`. [#17617](https://github.com/phalcon/cphalcon/issues/17617)
 - Faster creation of `Phalcon\Filter\Filter`. [#17617](https://github.com/phalcon/cphalcon/issues/17617)
+- Faster route definition and route index build in `Phalcon\Mvc\Router`. [#17618](https://github.com/phalcon/cphalcon/issues/17618)
 
 ### Added
 
