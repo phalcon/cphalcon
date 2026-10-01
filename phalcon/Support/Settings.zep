@@ -65,61 +65,12 @@ class Settings
             return localOverrides[key];
         }
 
-        // Fall back to the C-level global (null for unknown keys)
-        return self::readGlobal(key);
-    }
-
-    /**
-     * Overrides a setting at the PHP level.
-     *
-     * Does NOT call globals_set(), so the C-level struct is not modified and
-     * no other project sharing this PHP process is affected.
-     *
-     * Unknown keys are silently ignored.
-     */
-    public static function set(string key, var value) -> void
-    {
-        var localOverrides;
-
         /**
-         * Silently ignore unknown keys. A known key always resolves to a
-         * bool/int through readGlobal(), so a null result means the key is
-         * not part of the whitelist.
+         * Fall back to the C-level global, with the cast of each key. This is
+         * the single list of known settings: set() uses it through get().
+         * globals_get() requires a string literal, so each key is read
+         * explicitly. An unknown key returns null.
          */
-        if null === self::readGlobal(key) {
-            return;
-        }
-
-        let localOverrides = self::overrides;
-
-        if empty localOverrides {
-            let localOverrides = [];
-        }
-
-        let localOverrides[key] = value;
-        let self::overrides     = localOverrides;
-    }
-
-    /**
-     * Clears all PHP-level overrides, restoring get() to return globals_get()
-     * fallback values (as configured in php.ini or .htaccess).
-     */
-    public static function reset() -> void
-    {
-        let self::overrides = [];
-    }
-
-    /**
-     * The single authoritative whitelist. Reads a known setting from its
-     * C-level global, applying the per-key cast, and returns null for any
-     * unknown key. Both get() and set() consult this method so the list of
-     * valid settings lives in one place.
-     *
-     * globals_get() requires a string literal, so each key is read
-     * explicitly rather than by a variable lookup.
-     */
-    private static function readGlobal(string key) -> mixed
-    {
         switch key {
             case "db.escape_identifiers":
                 return (bool) globals_get("db.escape_identifiers");
@@ -189,6 +140,46 @@ class Settings
         }
 
         return null;
+    }
+
+    /**
+     * Overrides a setting at the PHP level.
+     *
+     * Does NOT call globals_set(), so the C-level struct is not modified and
+     * no other project sharing this PHP process is affected.
+     *
+     * Unknown keys are silently ignored.
+     */
+    public static function set(string key, var value) -> void
+    {
+        var localOverrides;
+
+        /**
+         * Silently ignore unknown keys. get() returns null only for an
+         * unknown key: a known key returns its override (isset is false
+         * for null) or a bool/int from the C-level global.
+         */
+        if null === self::get(key) {
+            return;
+        }
+
+        let localOverrides = self::overrides;
+
+        if empty localOverrides {
+            let localOverrides = [];
+        }
+
+        let localOverrides[key] = value;
+        let self::overrides     = localOverrides;
+    }
+
+    /**
+     * Clears all PHP-level overrides, restoring get() to return globals_get()
+     * fallback values (as configured in php.ini or .htaccess).
+     */
+    public static function reset() -> void
+    {
+        let self::overrides = [];
     }
 }
 
