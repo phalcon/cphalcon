@@ -198,7 +198,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_CreditCard, verifyByLuhnAlgorithm
 	}
 	ZEPHIR_CALL_FUNCTION(&_1, "str_split", NULL, 216, &number_zv);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&digits, "array_reverse", NULL, 274, &_1);
+	ZEPHIR_CALL_FUNCTION(&digits, "array_reverse", NULL, 273, &_1);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&digits) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_3);

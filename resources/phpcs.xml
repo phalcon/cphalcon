@@ -13,6 +13,7 @@
     <rule ref="Phalcon"/>
 
     <!-- Files to scan -->
+    <file>../tests/benchmarks</file>
     <file>../tests/database</file>
     <file>../tests/unit</file>
 </ruleset>

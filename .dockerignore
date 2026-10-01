@@ -22,6 +22,9 @@ ext/**/*.lo
 ext/**/*.gcno
 ext/**/*.gcda
 
+# Local work files (benchmark builds and results)
+.local
+
 # Docker / compose (not needed inside the image)
 docker-compose.yml
 .dockerignore

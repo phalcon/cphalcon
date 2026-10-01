@@ -2,6 +2,36 @@
 
 All notable changes are documented here. The format is based on [Keep a Changelog][keep_a_changelog] and this project adheres to [Semantic Versioning][semantic_versioning].
 
+## [Unreleased](https://github.com/phalcon/cphalcon/releases/tag/vx.x.x) (2026-xx-xx)
+
+### Tools
+
+- Zephir 1.5.0
+
+### Changed
+
+- Faster creation of `Phalcon\Di\FactoryDefault` and faster shared service lookups in `Phalcon\Di\Di`. [#17617](https://github.com/phalcon/cphalcon/issues/17617)
+- Faster creation of `Phalcon\Filter\Filter`. [#17617](https://github.com/phalcon/cphalcon/issues/17617)
+- Faster route definition and route index build in `Phalcon\Mvc\Router`. [#17618](https://github.com/phalcon/cphalcon/issues/17618)
+- Faster service definition and alias lookups in `Phalcon\Container\Container`. [#17619](https://github.com/phalcon/cphalcon/issues/17619)
+- Faster `Phalcon\Support\Settings::get()`. [#17620](https://github.com/phalcon/cphalcon/issues/17620)
+
+### Added
+
+- Benchmark suite in `tests/benchmarks` (PHPBench, instruction counts, memory, reference apps) and a `bench` Docker service to compare builds of the extension. [#17613](https://github.com/phalcon/cphalcon/issues/17613)
+- Own-cost attribution and static scan tools for the benchmark suite (`tests/benchmarks/bin`). [#17615](https://github.com/phalcon/cphalcon/issues/17615)
+
+### Fixed
+
+- `Phalcon\Mvc\View::partial()` and `Phalcon\Mvc\View\Simple::render()` dropping a `..` path segment instead of resolving it. [#17606](https://github.com/phalcon/cphalcon/issues/17606) [[doc]](https://docs.phalcon.io/5.22/views/)
+- `Phalcon\Mvc\View::partial()` not detecting a Windows absolute path (`C:\...`) as absolute. [#17606](https://github.com/phalcon/cphalcon/issues/17606) [[doc]](https://docs.phalcon.io/5.22/views/)
+- `Phalcon\Mvc\Model\MetaData\Stream` letting other processes read a partially written cache file. [#17608](https://github.com/phalcon/cphalcon/issues/17608) [[doc]](https://docs.phalcon.io/5.22/db-models-metadata/)
+- `Phalcon\Mvc\Model\MetaData` storing a cached value that is not an array as the model meta-data. [#17608](https://github.com/phalcon/cphalcon/issues/17608) [[doc]](https://docs.phalcon.io/5.22/db-models-metadata/)
+- `Phalcon\Filter\Filter::sanitize()` not calling array callables registered with `set()`. [#17610](https://github.com/phalcon/cphalcon/issues/17610) [[doc]](https://docs.phalcon.io/5.22/filter-filter/)
+
+### Removed
+
+
 ## [5.22.0](https://github.com/phalcon/cphalcon/releases/tag/v5.22.0) (2026-09-22)
 
 ### Tools

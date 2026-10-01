@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+#
+# This file is part of the Phalcon Framework.
+#
+# (c) Phalcon Team <team@phalcon.io>
+#
+# For the full copyright and license information, please view
+# the LICENSE.txt file that was distributed with this source code.
+
+# Measures the memory of one benchmark subject: the peak of one call, the memory that stays after k calls
+# (before and after a garbage collection) and the reference cycles. No valgrind.
+# Run this script in the cphalcon-bench-* container.
+#
+# Usage: tests/benchmarks/bin/memory <build> <class> <method> [k]
+#
+# k is 100 if not given. See bin/memory.php for the meaning of each value.
+#
+# Result: .local/bench/out/memory/<build>/<class with dots>-<method>.txt
+
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
+readonly ROOT
+readonly BIN="${ROOT}/tests/benchmarks/bin"
+
+usage() {
+    echo "Usage: $0 <build> <class> <method> [k]  (k: a positive integer, default 100)" >&2
+    exit 2
+}
+
+[[ $# -ge 3 && $# -le 4 ]] || usage
+
+build="$1"
+class="$2"
+method="$3"
+k="${4:-100}"
+
+[[ "${k}" =~ ^[1-9][0-9]{0,6}$ ]] || usage
+
+out="${ROOT}/.local/bench/out/memory/${build}"
+name="${class//\\/.}-${method}"
+errors="${out}/${name}.stderr"
+mkdir -p "${out}"
+
+if ! values="$("${BIN}/php-bench" "${build}" "${BIN}/memory.php" "${class}" "${method}" "${k}" 2> "${errors}")"; then
+    echo "Error: the run failed. See ${errors}" >&2
+    exit 1
+fi
+
+{
+    echo "build=${build}"
+    echo "subject=${class}::${method}"
+    echo "${values}"
+    echo "date=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+} > "${out}/${name}.txt"
+
+echo "subject=${class}::${method}"
+echo "${values}"

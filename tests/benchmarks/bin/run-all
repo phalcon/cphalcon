@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+#
+# This file is part of the Phalcon Framework.
+#
+# (c) Phalcon Team <team@phalcon.io>
+#
+# For the full copyright and license information, please view
+# the LICENSE.txt file that was distributed with this source code.
+
+# Runs the instruction counter (bin/instr), the memory tool (bin/memory) and the allocation counter
+# (bin/allocs) for all benchmark subjects, and writes one row for each subject into a results folder.
+# Run this script in the cphalcon-bench-* container.
+#
+# Usage: tests/benchmarks/bin/run-all <build> <label> [filter]
+#
+# <label>  names the results folder: .local/bench/results/<build>/<label>/
+# [filter] is a regular expression on "<class>::<method>" (for batches). A new run of a subject replaces
+#          its row, so batches add to the same folder.
+#
+# bin/instr uses k = the PHPBench revs of the subject. bin/memory and bin/allocs use k = 100.
+
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
+readonly ROOT
+readonly BIN="${ROOT}/tests/benchmarks/bin"
+readonly HEADER=$'subject\tk\twarm_ir\tcold_ir\twarm_allocations\tcold_allocations\twarm_bytes\tpeak_bytes\tretained_bytes_per_call\tleaked_bytes_per_call\tcycles_per_call'
+
+usage() {
+    echo "Usage: $0 <build> <label> [filter]  (label: letters, digits, '.', '-', '_')" >&2
+    exit 2
+}
+
+[[ $# -ge 2 && $# -le 3 ]] || usage
+
+build="$1"
+label="$2"
+filter="${3:-}"
+
+[[ "${label}" =~ ^[A-Za-z0-9._-]+$ ]] || usage
+
+out="${ROOT}/.local/bench/results/${build}/${label}"
+metrics="${out}/metrics.tsv"
+mkdir -p "${out}"
+
+subject_args=()
+if [[ -n "${filter}" ]]; then
+    subject_args=("${filter}")
+fi
+subjects="$("${BIN}/php-bench" "${build}" "${BIN}/subjects.php" "${subject_args[@]}")"
+if [[ -z "${subjects}" ]]; then
+    echo "Error: no subject matches the filter." >&2
+    exit 1
+fi
+
+"${BIN}/php-bench" --manifest "${build}" > "${out}/manifest.txt"
+if [[ ! -f "${metrics}" ]]; then
+    echo "${HEADER}" > "${metrics}"
+fi
+
+# Prints the value of <key> from key=value lines.
+value() {
+    sed -n "s/^$1=//p" <<< "$2"
+}
+
+while IFS=$'\t' read -r class method revs; do
+    name="${class}::${method}"
+    echo "${name} (k=${revs})"
+
+    ir="$("${BIN}/instr" "${build}" "${class}" "${method}" "${revs}")"
+    memory="$("${BIN}/memory" "${build}" "${class}" "${method}")"
+    allocs="$("${BIN}/allocs" "${build}" "${class}" "${method}")"
+
+    row="$(printf '%s\t' \
+        "${name}" \
+        "${revs}" \
+        "$(value warm_ir "${ir}")" \
+        "$(value cold_ir "${ir}")" \
+        "$(value warm_allocations "${allocs}")" \
+        "$(value cold_allocations "${allocs}")" \
+        "$(value warm_bytes "${allocs}")" \
+        "$(value peak_bytes "${memory}")" \
+        "$(value retained_bytes_per_call "${memory}")" \
+        "$(value leaked_bytes_per_call "${memory}")" \
+        "$(value cycles_per_call "${memory}")")"
+
+    # Replace the row of this subject (the name is followed by a tab)
+    { grep -v -F "${name}"$'\t' "${metrics}" || true; echo "${row%$'\t'}"; } > "${metrics}.new"
+    mv "${metrics}.new" "${metrics}"
+done <<< "${subjects}"
+
+echo "Results: ${metrics}"

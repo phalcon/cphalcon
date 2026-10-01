@@ -47,11 +47,12 @@
     "ext-xml": "*",
     "friendsofphp/php-cs-fixer": "^3.95",
     "mustache/mustache": "^3.2",
+    "phalcon/code-quality": "^1.0",
     "phalcon/ide-stubs": "^5.13.0",
     "phalcon/quill": "^0.5.0",
     "phalcon/talon": "^1.0.0",
-    "phalcon/code-quality": "^1.0",
     "phalcon/zephir": "^1.5.0",
+    "phpbench/phpbench": "^1.4",
     "phpstan/phpstan": "^2.2",
     "phpunit/phpunit": "^10.5",
     "predis/predis": "^3.4",
@@ -73,6 +74,7 @@
     "psr-4": {
       "Zephir\\Optimizers\\FunctionCall\\": "optimizers/",
       "Phalcon\\Tests\\": "tests/",
+      "Phalcon\\Tests\\Benchmarks\\": "tests/benchmarks/",
       "Phalcon\\Tests\\Support\\": "tests/support/",
       "Phalcon\\Tests\\Unit\\": "tests/unit/",
       "Phalcon\\Tests\\Database\\": "tests/database/"

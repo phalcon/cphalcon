@@ -1862,7 +1862,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, initializeColumnMap)
 	zephir_get_strval(&prefixKey, &_3);
 	ZEPHIR_CALL_METHOD(&data, this_ptr, "read", NULL, 0, &prefixKey);
 	zephir_check_call_status();
-	if (Z_TYPE_P(&data) != IS_NULL) {
+	if (Z_TYPE_P(&data) == IS_ARRAY) {
 		zephir_update_property_array(this_ptr, SL("columnMap"), key, &data);
 		RETURN_MM_BOOL(1);
 	}
@@ -1938,7 +1938,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, initializeMetaData)
 			zephir_get_strval(&prefixKey, &_1$$4);
 			ZEPHIR_CALL_METHOD(&data, this_ptr, "read", NULL, 0, &prefixKey);
 			zephir_check_call_status();
-			if (Z_TYPE_P(&data) != IS_NULL) {
+			if (Z_TYPE_P(&data) == IS_ARRAY) {
 				zephir_update_property_array(this_ptr, SL("metaData"), key, &data);
 			} else {
 				if ((zephir_method_exists_ex(model, ZEND_STRL("metadata")) == SUCCESS)) {

@@ -220,8 +220,8 @@ class Di implements DiInterface
         if fetch service, this->services[name] {
             let isShared = service->isShared();
 
-            if isShared && isset this->sharedInstances[name] {
-                return this->sharedInstances[name];
+            if isShared && (fetch instance, this->sharedInstances[name]) && instance !== null {
+                return instance;
             }
         }
 
@@ -361,17 +361,22 @@ class Di implements DiInterface
      */
     public function getShared(string name, parameters = null) -> var
     {
+        var instance;
+
         /**
          * Resolve the alias, if any
          */
         let name = this->resolveAlias(name);
 
-        if (!isset(this->sharedInstances[name])) {
-            // Store the instance in the shared instances cache.
-            let this->sharedInstances[name] = this->get(name, parameters);
+        if (fetch instance, this->sharedInstances[name]) && instance !== null {
+            return instance;
         }
 
-        return this->sharedInstances[name];
+        // Store the instance in the shared instances cache.
+        let instance                    = this->get(name, parameters),
+            this->sharedInstances[name] = instance;
+
+        return instance;
     }
 
     /**

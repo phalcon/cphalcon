@@ -604,16 +604,28 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
          * partial
          */
         /**
-         * Drop "." and ".." path segments so a crafted partial path cannot
+         * Resolve "." and ".." path segments so a crafted partial path cannot
          * climb out of the partials directory, while still allowing
-         * sub-directories and absolute paths (CWE-22). Backslashes are
-         * separators on Windows, so they are normalized first.
+         * sub-directories and absolute paths (CWE-22). A ".." removes the
+         * previous segment. At the top level, or at the root of an absolute
+         * path, the ".." is dropped. Backslashes are separators on Windows,
+         * so they are normalized first.
          */
         let segments = [];
         for segment in explode("/", str_replace("\\", "/", partialPath)) {
-            if segment !== "." && segment !== ".." {
-                let segments[] = segment;
+            if segment === "." {
+                continue;
             }
+
+            if segment === ".." {
+                if count(segments) > 0 && segments[count(segments) - 1] !== "" {
+                    array_pop(segments);
+                }
+
+                continue;
+            }
+
+            let segments[] = segment;
         }
 
         let partialPath = implode("/", segments);
@@ -1298,7 +1310,8 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     final protected function isAbsolutePath(string path)
     {
         if PHP_OS === "WINNT" {
-            return strlen(path) >= 3 && substr(path, 1, 2) === ":\\";
+            return strlen(path) >= 3
+                && (substr(path, 1, 2) === ":\\" || substr(path, 1, 2) === ":/");
         }
 
         return str_starts_with(path, "/");

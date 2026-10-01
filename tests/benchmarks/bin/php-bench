@@ -1,0 +1,183 @@
+#!/usr/bin/env bash
+#
+# This file is part of the Phalcon Framework.
+#
+# (c) Phalcon Team <team@phalcon.io>
+#
+# For the full copyright and license information, please view
+# the LICENSE.txt file that was distributed with this source code.
+
+# Runs PHP for benchmarks with fixed conditions.
+# Run this script in the cphalcon-bench-* container only.
+#
+# Usage:
+#   tests/benchmarks/bin/php-bench [options] <build> [php arguments]
+#   tests/benchmarks/bin/php-bench --manifest <build>
+#
+# <build> is a name in .local/bench/so/ without ".so". store-build makes it.
+#
+# Options:
+#   --cpu <n>         Run on CPU <n> only (taskset).
+#   --debug           Load <build>.debug.so (with debug information) for callgrind profiles with
+#                     file and line. Do not use it for measurements.
+#   --no-zend-alloc   Set USE_ZEND_ALLOC=0 (for valgrind DHAT).
+#   --prefix "<cmd>"  Put <cmd> in front of php, for example a valgrind command.
+#                     The words of <cmd> are split on spaces.
+#   --manifest        Print the run conditions and the build manifest. Do not run PHP.
+
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
+readonly ROOT
+readonly STORE="${ROOT}/.local/bench/so"
+readonly TEMP_DIR="${ROOT}/.local/bench/temp"
+readonly FIXED_PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+usage() {
+    echo "Usage: $0 [--cpu <n>] [--debug] [--no-zend-alloc] [--prefix \"<cmd>\"] <build> [php arguments]" >&2
+    echo "       $0 --manifest <build>" >&2
+    exit 2
+}
+
+cpu=""
+debug="no"
+prefix=""
+zend_alloc=""
+show_manifest="no"
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --cpu)
+            [[ $# -ge 2 && "$2" =~ ^[0-9]+$ ]] || usage
+            cpu="$2"
+            shift 2
+            ;;
+        --debug)
+            debug="yes"
+            shift
+            ;;
+        --no-zend-alloc)
+            zend_alloc="0"
+            shift
+            ;;
+        --prefix)
+            [[ $# -ge 2 && -n "$2" ]] || usage
+            prefix="$2"
+            shift 2
+            ;;
+        --manifest)
+            show_manifest="yes"
+            shift
+            ;;
+        -*)
+            usage
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+[[ $# -ge 1 ]] || usage
+
+build="$1"
+shift
+
+so="${STORE}/${build}.so"
+manifest="${STORE}/${build}.manifest"
+
+if [[ ! -f "${so}" ]]; then
+    echo "Error: build not found: ${so}" >&2
+    exit 1
+fi
+
+if [[ ! -f "${manifest}" ]]; then
+    echo "Error: build has no manifest: ${manifest}. Store builds with store-build." >&2
+    exit 1
+fi
+
+if [[ "${debug}" == "yes" ]]; then
+    so="${STORE}/${build}.debug.so"
+    if [[ ! -f "${so}" ]]; then
+        echo "Error: build has no debug file: ${so}" >&2
+        exit 1
+    fi
+fi
+
+# Load the build through a path of fixed length. The path length changes the instruction count.
+checksum="$(sed -n 's/^so_sha256=//p' "${manifest}")"
+if [[ ! "${checksum}" =~ ^[0-9a-f]{64}$ ]]; then
+    echo "Error: the manifest has no so_sha256 value: ${manifest}" >&2
+    exit 1
+fi
+
+load="${TEMP_DIR}/${checksum:0:16}-m.so"
+if [[ "${debug}" == "yes" ]]; then
+    load="${TEMP_DIR}/${checksum:0:16}-d.so"
+fi
+
+mkdir -p "${TEMP_DIR}"
+ln -sfn "${so}" "${load}"
+
+# Fixed environment. The environment size changes the stack position and the instruction counts.
+run_env=(env -i "PATH=${FIXED_PATH}" "HOME=/app" "TMPDIR=${TEMP_DIR}")
+if [[ -n "${zend_alloc}" ]]; then
+    run_env+=("USE_ZEND_ALLOC=${zend_alloc}")
+fi
+
+status=0
+"${run_env[@]}" php -d extension="${load}" \
+    -r 'exit(extension_loaded("xdebug") ? 3 : (false === phpversion("phalcon") ? 4 : 0));' \
+    > /dev/null 2>&1 || status=$?
+
+case "${status}" in
+    0)
+        ;;
+    3)
+        echo "Error: Xdebug is loaded. Use the cphalcon-bench-* container." >&2
+        exit 1
+        ;;
+    4)
+        echo "Error: the build does not load in this PHP: ${so}" >&2
+        exit 1
+        ;;
+    *)
+        echo "Error: the PHP check failed with exit code ${status}." >&2
+        exit 1
+        ;;
+esac
+
+if [[ "${show_manifest}" == "yes" ]]; then
+    echo "build=${build}"
+    echo "file=$(basename "${so}")"
+    echo "load=${load}"
+    echo "php=$("${run_env[@]}" php -v | head -n 1)"
+    "${run_env[@]}" php -d extension="${load}" -r '
+        foreach (["opcache.enable_cli", "opcache.jit", "zend.assertions", "memory_limit", "sys_temp_dir"] as $key) {
+            echo $key, "=", ini_get($key), PHP_EOL;
+        }
+        $extensions = get_loaded_extensions();
+        sort($extensions);
+        echo "extensions=", implode(",", $extensions), PHP_EOL;
+    '
+    echo "valgrind=$(valgrind --version)"
+    echo "cpu_model=$(sed -n 's/^model name[[:space:]]*: //p' /proc/cpuinfo | head -n 1)"
+    echo "cpus=$(nproc)"
+    echo "kernel=$(uname -r)"
+    echo "date=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+    sed 's/^/build./' "${manifest}"
+    exit 0
+fi
+
+run_command=()
+if [[ -n "${cpu}" ]]; then
+    run_command+=(taskset -c "${cpu}")
+fi
+if [[ -n "${prefix}" ]]; then
+    read -r -a prefix_words <<< "${prefix}"
+    run_command+=("${prefix_words[@]}")
+fi
+run_command+=(php -d extension="${load}" "$@")
+
+cd "${ROOT}"
+exec "${run_env[@]}" "${run_command[@]}"

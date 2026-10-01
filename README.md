@@ -100,6 +100,8 @@ Support us with a monthly donation and help us continue our activities. [[Become
 <img src="https://opencollective.com/phalcon/tiers/backers.svg?avatarHeight=48&width=800&height=200" alt="OpenCollective Backers">
 </a>
 
+![Alt](https://repobeats.axiom.co/api/embed/8ab44186e80c2f075c6b51603fd7cf2a80a2cb33.svg "Repobeats analytics image")
+
 ## License
 
 Phalcon is open-source software licensed under the BSD 3-Clause License.

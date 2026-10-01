@@ -17,6 +17,7 @@ $root = dirname(__DIR__);
 
 return ConfigFactory::create(
     [
+        $root . '/tests/benchmarks',
         $root . '/tests/unit',
         $root . '/tests/database',
     ],

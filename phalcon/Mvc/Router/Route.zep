@@ -135,7 +135,7 @@ class Route implements RouteInterface
             realClassName, namespaceName;
 
         if paths === null {
-            let paths = [];
+            return [];
         }
 
         if typeof paths == "string" {
@@ -324,7 +324,7 @@ class Route implements RouteInterface
         var tmp, matches;
         bool notValid;
         int cursor, cursorVar, marker, bracketCount = 0, parenthesesCount = 0, foundPattern = 0;
-        int intermediate = 0, numberMatches = 0;
+        int intermediate = 0, numberMatches = 0, runStart = -1;
         string route, item, variable, regexp;
 
         if strlen(pattern) === 0 {
@@ -437,17 +437,45 @@ class Route implements RouteInterface
             }
 
             if bracketCount > 0 {
+                /**
+                 * A character in braces does not go into the route. Append
+                 * the open run of plain characters first.
+                 */
+                if runStart >= 0 {
+                    let route   .= substr(pattern, runStart, cursor - runStart),
+                        runStart = -1;
+                }
+
                 let intermediate++;
             } else {
                 if parenthesesCount == 0 && prevCh != '\\' {
                     if ch == '.' || ch == '+' || ch == '|' || ch == '#' {
-                        let route .= '\\';
+                        /**
+                         * Append the open run, then the escape character. The
+                         * escaped character starts a new run.
+                         */
+                        if runStart >= 0 {
+                            let route .= substr(pattern, runStart, cursor - runStart);
+                        }
+
+                        let route   .= '\\',
+                            runStart = cursor;
                     }
                 }
 
-                let route .= ch,
-                    prevCh = ch;
+                if runStart < 0 {
+                    let runStart = cursor;
+                }
+
+                let prevCh = ch;
             }
+        }
+
+        /**
+         * Append the last run of plain characters.
+         */
+        if runStart >= 0 {
+            let route .= substr(pattern, runStart);
         }
 
         return [route, matches];

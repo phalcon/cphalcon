@@ -253,7 +253,7 @@ class Filter implements FilterInterface
      *
      * @return mixed
      *
-     * @phpstan-return Sanitizer
+     * @phpstan-return callable-array|callable-object|Sanitizer
      *
      * @throws Exception
      */
@@ -356,7 +356,7 @@ class Filter implements FilterInterface
     /**
      * Set a new service to the mapper array
      *
-     * @phpstan-param class-string<Sanitizer>|Sanitizer $service
+     * @phpstan-param callable-array|callable-object|class-string<Sanitizer>|Sanitizer $service
      */
     public function set(string name, var service) -> void
     {
@@ -372,17 +372,17 @@ class Filter implements FilterInterface
      */
     protected function init(array mapper) -> void
     {
-        var name, service;
+        let this->mapper = array_replace(this->mapper, mapper);
 
-        for name, service in mapper {
-            this->set(name, service);
+        if !empty this->services {
+            let this->services = array_diff_key(this->services, mapper);
         }
     }
 
     /**
-     * @phpstan-param class-string<Sanitizer>|Sanitizer $definition
+     * @phpstan-param callable-array|callable-object|class-string<Sanitizer>|Sanitizer $definition
      *
-     * @phpstan-return Sanitizer
+     * @phpstan-return callable-array|callable-object|Sanitizer
      */
     private function createInstance(var definition)
     {
@@ -558,10 +558,11 @@ class Filter implements FilterInterface
             return value;
         }
 
+        /** @var callable $sanitizerObject */
         let sanitizerObject = this->get(sanitizerName),
             params          = array_merge([value], sanitizerParams);
 
-        return call_user_func_array([sanitizerObject, "__invoke"], params);
+        return call_user_func_array(sanitizerObject, params);
     }
 
     /**

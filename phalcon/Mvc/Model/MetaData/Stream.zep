@@ -58,7 +58,7 @@ class Stream extends MetaData
      */
     public function read(var key) -> array | null
     {
-        var path;
+        var data, path;
 
         if null === key {
             return null;
@@ -70,7 +70,20 @@ class Stream extends MetaData
             return null;
         }
 
-        return require path;
+        /**
+         * A file that is not valid is a cache miss
+         */
+        try {
+            let data = this->requireFile(path);
+        } catch \ParseError {
+            return null;
+        }
+
+        if typeof data != "array" {
+            return null;
+        }
+
+        return data;
     }
 
     /**
@@ -80,14 +93,22 @@ class Stream extends MetaData
      */
     public function write(var key, array data) -> void
     {
-        var option, path;
+        var option, path, tmpPath;
 
         let option = Settings::get("orm.exception_on_failed_metadata_save");
 
         try {
-            let path = this->getFilePath(key);
+            let path    = this->getFilePath(key),
+                tmpPath = path . ".tmp." . (string) getmypid();
 
-            if false === this->phpFilePutContents(path, "<?php return " . var_export(data, true) . "; ") {
+            /**
+             * Write to a temporary file, then move it into place with one
+             * rename(). Other processes then never read a partial file.
+             */
+            if false === this->phpFilePutContents(tmpPath, "<?php return " . var_export(data, true) . "; ") {
+                this->throwWriteException(option);
+            } elseif !rename(tmpPath, path) {
+                this->phpUnlink(tmpPath);
                 this->throwWriteException(option);
             }
         } catch \Exception {
@@ -111,6 +132,15 @@ class Stream extends MetaData
         }
 
         return this->metaDataDir . name . ".php";
+    }
+
+    /**
+     * Returns the value of a PHP file. The require is in a separate method,
+     * because the caller must be able to catch a ParseError.
+     */
+    private function requireFile(string path) -> var
+    {
+        return require path;
     }
 
     /**
