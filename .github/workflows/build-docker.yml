@@ -4,6 +4,12 @@ on:
   push:
     tags:
       - v*
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release tag for the image names, for example v5.22.1'
+        required: true
+        type: string
 
 jobs:
   build:
@@ -49,10 +55,10 @@ jobs:
           push: true
           file: resources/docker/develop/Dockerfile
           tags: |
-            phalconphp/cphalcon:${{ github.ref_name }}-php${{ matrix.php }}
-            ghcr.io/phalcon/cphalcon:${{ github.ref_name }}-php${{ matrix.php }}
+            phalconphp/cphalcon:${{ inputs.version || github.ref_name }}-php${{ matrix.php }}
+            ghcr.io/phalcon/cphalcon:${{ inputs.version || github.ref_name }}-php${{ matrix.php }}
           build-args: |
             PHP_VERSION=${{ matrix.php }}
-            PHALCON_VERSION=${{ github.ref_name }}
+            PHALCON_VERSION=${{ inputs.version || github.ref_name }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
