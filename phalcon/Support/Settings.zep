@@ -56,10 +56,6 @@ class Settings
 
         let localOverrides = self::overrides;
 
-        if empty localOverrides {
-            let localOverrides = [];
-        }
-
         // PHP-level override takes priority
         if isset localOverrides[key] {
             return localOverrides[key];
@@ -164,10 +160,6 @@ class Settings
         }
 
         let localOverrides = self::overrides;
-
-        if empty localOverrides {
-            let localOverrides = [];
-        }
 
         let localOverrides[key] = value;
         let self::overrides     = localOverrides;
