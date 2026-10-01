@@ -14,6 +14,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - Faster creation of `Phalcon\Filter\Filter`. [#17617](https://github.com/phalcon/cphalcon/issues/17617)
 - Faster route definition and route index build in `Phalcon\Mvc\Router`. [#17618](https://github.com/phalcon/cphalcon/issues/17618)
 - Faster service definition and alias lookups in `Phalcon\Container\Container`. [#17619](https://github.com/phalcon/cphalcon/issues/17619)
+- Faster `Phalcon\Support\Settings::get()`. [#17620](https://github.com/phalcon/cphalcon/issues/17620)
 
 ### Added
 

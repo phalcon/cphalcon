@@ -123,6 +123,27 @@ final class SettingsGetSetTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-30
+     */
+    public function testSupportSettingsGetSeesRuntimeIniSet(): void
+    {
+        $previous = ini_get('phalcon.orm.events');
+
+        try {
+            $this->assertTrue(Settings::get('orm.events'));
+
+            ini_set('phalcon.orm.events', '0');
+            $this->assertFalse(Settings::get('orm.events'));
+
+            ini_set('phalcon.orm.events', '1');
+            $this->assertTrue(Settings::get('orm.events'));
+        } finally {
+            ini_set('phalcon.orm.events', $previous);
+        }
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
     public function testSupportSettingsGetSet(): void
@@ -202,6 +223,36 @@ final class SettingsGetSetTest extends AbstractUnitTestCase
             Settings::reset();
             $this->assertSame($original, Settings::get($key));
         }
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-30
+     */
+    public function testSupportSettingsSetNullOverrideUsesGlobal(): void
+    {
+        Settings::set('orm.events', null);
+        $this->assertTrue(Settings::get('orm.events'));
+
+        Settings::set('orm.events', false);
+        $this->assertFalse(Settings::get('orm.events'));
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-30
+     */
+    public function testSupportSettingsSetTwiceKeepsLastValue(): void
+    {
+        Settings::set('orm.resultset_prefetch_records', 5);
+        $this->assertSame(5, Settings::get('orm.resultset_prefetch_records'));
+
+        Settings::set('orm.resultset_prefetch_records', 10);
+        $this->assertSame(10, Settings::get('orm.resultset_prefetch_records'));
+
+        Settings::set('orm.events', false);
+        Settings::set('orm.events', true);
+        $this->assertTrue(Settings::get('orm.events'));
     }
 
     /**
