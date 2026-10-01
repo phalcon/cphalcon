@@ -14,8 +14,8 @@
 #include "kernel/main.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
-#include "kernel/operators.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/fcall.h"
 
 
@@ -79,14 +79,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Settings)
 PHP_METHOD(Phalcon_Support_Settings, get)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_1 = NULL;
-	zval key_zv, localOverrides, _0$$4;
+	zval key_zv, localOverrides, _0$$3, _1$$23;
 	zend_string *key = NULL;
 
 	ZVAL_UNDEF(&key_zv);
 	ZVAL_UNDEF(&localOverrides);
-	ZVAL_UNDEF(&_0$$4);
+	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_1$$23);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(key)
 	ZEND_PARSE_PARAMETERS_END();
@@ -96,108 +95,11 @@ PHP_METHOD(Phalcon_Support_Settings, get)
 	ZVAL_STR_COPY(&key_zv, key);
 	zephir_memory_observe(&localOverrides);
 	zephir_read_static_property_ce(&localOverrides, phalcon_support_settings_ce, SL("overrides"), PH_NOISY_CC);
-	if (ZEPHIR_IS_EMPTY(&localOverrides)) {
-		ZEPHIR_INIT_NVAR(&localOverrides);
-		array_init(&localOverrides);
-	}
 	if (zephir_array_isset_value(&localOverrides, &key_zv)) {
-		zephir_memory_observe(&_0$$4);
-		zephir_array_fetch(&_0$$4, &localOverrides, &key_zv, PH_NOISY, "phalcon/Support/Settings.zep", 65);
-		RETURN_CCTOR(&_0$$4);
+		zephir_memory_observe(&_0$$3);
+		zephir_array_fetch(&_0$$3, &localOverrides, &key_zv, PH_NOISY, "phalcon/Support/Settings.zep", 61);
+		RETURN_CCTOR(&_0$$3);
 	}
-	ZEPHIR_RETURN_CALL_SELF("readglobal", &_1, 0, &key_zv);
-	zephir_check_call_status();
-	RETURN_MM();
-}
-
-/**
- * Overrides a setting at the PHP level.
- *
- * Does NOT call globals_set(), so the C-level struct is not modified and
- * no other project sharing this PHP process is affected.
- *
- * Unknown keys are silently ignored.
- */
-PHP_METHOD(Phalcon_Support_Settings, set)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_1 = NULL;
-	zval key_zv, *value, value_sub, localOverrides, _0;
-	zend_string *key = NULL;
-
-	ZVAL_UNDEF(&key_zv);
-	ZVAL_UNDEF(&value_sub);
-	ZVAL_UNDEF(&localOverrides);
-	ZVAL_UNDEF(&_0);
-	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_STR(key)
-		Z_PARAM_ZVAL(value)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	value = ZEND_CALL_ARG(execute_data, 2);
-	zephir_memory_observe(&key_zv);
-	ZVAL_STR_COPY(&key_zv, key);
-	ZEPHIR_CALL_SELF(&_0, "readglobal", &_1, 0, &key_zv);
-	zephir_check_call_status();
-	if (Z_TYPE_P(&_0) == IS_NULL) {
-		RETURN_MM_NULL();
-	}
-	zephir_memory_observe(&localOverrides);
-	zephir_read_static_property_ce(&localOverrides, phalcon_support_settings_ce, SL("overrides"), PH_NOISY_CC);
-	if (ZEPHIR_IS_EMPTY(&localOverrides)) {
-		ZEPHIR_INIT_NVAR(&localOverrides);
-		array_init(&localOverrides);
-	}
-	zephir_array_update_zval(&localOverrides, &key_zv, value, PH_COPY | PH_SEPARATE);
-	zephir_update_static_property_ce(phalcon_support_settings_ce, ZEND_STRL("overrides"), &localOverrides);
-	ZEPHIR_MM_RESTORE();
-}
-
-/**
- * Clears all PHP-level overrides, restoring get() to return globals_get()
- * fallback values (as configured in php.ini or .htaccess).
- */
-PHP_METHOD(Phalcon_Support_Settings, reset)
-{
-	zval _0;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-
-	ZVAL_UNDEF(&_0);
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-
-	ZEPHIR_INIT_VAR(&_0);
-	array_init(&_0);
-	zephir_update_static_property_ce(phalcon_support_settings_ce, ZEND_STRL("overrides"), &_0);
-	ZEPHIR_MM_RESTORE();
-}
-
-/**
- * The single authoritative whitelist. Reads a known setting from its
- * C-level global, applying the per-key cast, and returns null for any
- * unknown key. Both get() and set() consult this method so the list of
- * valid settings lives in one place.
- *
- * globals_get() requires a string literal, so each key is read
- * explicitly rather than by a variable lookup.
- */
-PHP_METHOD(Phalcon_Support_Settings, readGlobal)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval key_zv, _0$$22;
-	zend_string *key = NULL;
-
-	ZVAL_UNDEF(&key_zv);
-	ZVAL_UNDEF(&_0$$22);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(key)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_memory_observe(&key_zv);
-	ZVAL_STR_COPY(&key_zv, key);
 	if (ZEPHIR_IS_STRING(&key_zv, "db.escape_identifiers")) { goto zephir_switch_0_clause_0; }
 	if (ZEPHIR_IS_STRING(&key_zv, "db.force_casting")) { goto zephir_switch_0_clause_1; }
 	if (ZEPHIR_IS_STRING(&key_zv, "form.strict_entity_property_check")) { goto zephir_switch_0_clause_2; }
@@ -260,9 +162,9 @@ PHP_METHOD(Phalcon_Support_Settings, readGlobal)
 	zephir_switch_0_clause_18: ;
 		RETURN_MM_BOOL(ZEPHIR_GLOBAL(orm).resultset_empty_left_join_model);
 	zephir_switch_0_clause_19: ;
-		ZEPHIR_INIT_VAR(&_0$$22);
-		ZVAL_STRING(&_0$$22, "ZEPHIR_GLOBAL(orm).resultset_prefetch_records");
-		RETURN_MM_LONG(zephir_get_intval(&_0$$22));
+		ZEPHIR_INIT_VAR(&_1$$23);
+		ZVAL_STRING(&_1$$23, "ZEPHIR_GLOBAL(orm).resultset_prefetch_records");
+		RETURN_MM_LONG(zephir_get_intval(&_1$$23));
 	zephir_switch_0_clause_20: ;
 		RETURN_MM_BOOL(ZEPHIR_GLOBAL(orm).update_snapshot_on_save);
 	zephir_switch_0_clause_21: ;
@@ -270,5 +172,64 @@ PHP_METHOD(Phalcon_Support_Settings, readGlobal)
 	zephir_switch_0_end: ;
 
 	RETURN_MM_NULL();
+}
+
+/**
+ * Overrides a setting at the PHP level.
+ *
+ * Does NOT call globals_set(), so the C-level struct is not modified and
+ * no other project sharing this PHP process is affected.
+ *
+ * Unknown keys are silently ignored.
+ */
+PHP_METHOD(Phalcon_Support_Settings, set)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval key_zv, *value, value_sub, localOverrides, _0;
+	zend_string *key = NULL;
+
+	ZVAL_UNDEF(&key_zv);
+	ZVAL_UNDEF(&value_sub);
+	ZVAL_UNDEF(&localOverrides);
+	ZVAL_UNDEF(&_0);
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(key)
+		Z_PARAM_ZVAL(value)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	value = ZEND_CALL_ARG(execute_data, 2);
+	zephir_memory_observe(&key_zv);
+	ZVAL_STR_COPY(&key_zv, key);
+	ZEPHIR_CALL_SELF(&_0, "get", NULL, 0, &key_zv);
+	zephir_check_call_status();
+	if (Z_TYPE_P(&_0) == IS_NULL) {
+		RETURN_MM_NULL();
+	}
+	zephir_memory_observe(&localOverrides);
+	zephir_read_static_property_ce(&localOverrides, phalcon_support_settings_ce, SL("overrides"), PH_NOISY_CC);
+	zephir_array_update_zval(&localOverrides, &key_zv, value, PH_COPY | PH_SEPARATE);
+	zephir_update_static_property_ce(phalcon_support_settings_ce, ZEND_STRL("overrides"), &localOverrides);
+	ZEPHIR_MM_RESTORE();
+}
+
+/**
+ * Clears all PHP-level overrides, restoring get() to return globals_get()
+ * fallback values (as configured in php.ini or .htaccess).
+ */
+PHP_METHOD(Phalcon_Support_Settings, reset)
+{
+	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+
+	ZVAL_UNDEF(&_0);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+
+	ZEPHIR_INIT_VAR(&_0);
+	array_init(&_0);
+	zephir_update_static_property_ce(phalcon_support_settings_ce, ZEND_STRL("overrides"), &_0);
+	ZEPHIR_MM_RESTORE();
 }
 
