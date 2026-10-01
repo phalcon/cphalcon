@@ -541,18 +541,24 @@ class Container implements Collection, Enumerable
         var current, seen;
 
         let current = target;
-        let seen    = [];
+        let seen    = null;
 
         while (true) {
             if (current === alias) {
                 throw new CircularAliasFound(alias);
             }
 
-            if (array_key_exists(current, seen)) {
+            if (!array_key_exists(current, this->aliases)) {
                 break;
             }
 
-            if (!array_key_exists(current, this->aliases)) {
+            /**
+             * Create the list of names at the first step only. Most
+             * names are not aliases and the loop stops above.
+             */
+            if (seen === null) {
+                let seen = [];
+            } elseif (array_key_exists(current, seen)) {
                 break;
             }
 
@@ -630,11 +636,17 @@ class Container implements Collection, Enumerable
     {
         var seen, current;
 
-        let seen    = [];
+        let seen    = null;
         let current = name;
 
         while (array_key_exists(current, this->aliases)) {
-            if (array_key_exists(current, seen)) {
+            /**
+             * Create the list of names at the first step only. Most
+             * names are not aliases and the loop does not run.
+             */
+            if (seen === null) {
+                let seen = [];
+            } elseif (array_key_exists(current, seen)) {
                 throw new CircularAliasFound(name);
             }
 
