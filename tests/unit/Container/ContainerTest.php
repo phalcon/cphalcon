@@ -35,6 +35,7 @@ namespace Phalcon\Tests\Unit\Container;
 
 use Closure;
 use Phalcon\Container\Container;
+use Phalcon\Container\Definition\DefinitionType;
 use Phalcon\Container\Definition\ServiceDefinition;
 use Phalcon\Container\Definition\ServiceLifetime;
 use Phalcon\Container\Exceptions\CannotExtendResolved;
@@ -222,6 +223,64 @@ final class ContainerTest extends AbstractUnitTestCase
         $bucket->extend('fake', static function (FakeService $svc): FakeService {
             return $svc;
         });
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-30
+     */
+    public function testContainerFindProcessorChoosesByDefinition(): void
+    {
+        $bucket    = new Container();
+        $invokable = new class () {
+            public function __invoke(): string
+            {
+                return 'invoked';
+            }
+        };
+
+        $this->assertSame(
+            DefinitionType::STRING_TYPE,
+            $bucket->set('string', FakeService::class)->getType()
+        );
+        $this->assertSame(
+            DefinitionType::CLOSURE_TYPE,
+            $bucket->set('closure', static fn (): FakeService => new FakeService())->getType()
+        );
+        $this->assertSame(
+            DefinitionType::OBJECT_TYPE,
+            $bucket->set('object', new FakeService())->getType()
+        );
+        $this->assertSame(
+            DefinitionType::OBJECT_TYPE,
+            $bucket->set('invokable', $invokable)->getType()
+        );
+        $this->assertSame(
+            DefinitionType::STRING_TYPE,
+            $bucket->set('closureName', Closure::class)->getType()
+        );
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-30
+     */
+    public function testContainerFindProcessorThrowsForArray(): void
+    {
+        $bucket = new Container();
+        $this->expectException(NoProcessorFound::class);
+        $bucket->set('svc', [FakeService::class]);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-30
+     */
+    public function testContainerFindProcessorThrowsForUnknownClassString(): void
+    {
+        $bucket = new Container();
+        $this->expectException(NoProcessorFound::class);
+        $bucket->set('svc', 'Phalcon\Tests\Unit\Container\Fake\NoSuchClass');
     }
 
     /**

@@ -99,10 +99,15 @@ class Container implements Collection, Enumerable
     public function __construct()
     {
         let this->resolver   = new Resolver();
+
+        /**
+         * The checks of the processors exclude each other. Most
+         * definitions are class names, so the string processor is first.
+         */
         let this->processors = [
-            new ObjectProcessor(),
+            new StringProcessor(),
             new ClosureProcessor(),
-            new StringProcessor()
+            new ObjectProcessor()
         ];
     }
 
