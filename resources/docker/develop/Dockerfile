@@ -197,7 +197,9 @@ set -eux
 rm -rf /srv/vendor
 # Cleanup from any previous (host) build
 find /srv -type f -iname '*.dep' -exec rm -f {} \;
-composer global require phalcon/zephir:dev-development
+# Use the Zephir version from composer.lock. Stop if it is not there.
+composer show --locked --no-ansi phalcon/zephir | grep -q '^versions : \* [0-9]'
+composer global require "phalcon/zephir:$(composer show --locked --no-ansi phalcon/zephir | sed -n 's/^versions : \* //p')"
 "${COMPOSER_HOME}/vendor/bin/zephir" fullclean
 "${COMPOSER_HOME}/vendor/bin/zephir" build
 cat compile-errors.log
