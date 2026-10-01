@@ -10,6 +10,24 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 ### Changed
 
+
+### Added
+
+
+### Fixed
+
+
+### Removed
+
+
+## [5.22.1](https://github.com/phalcon/cphalcon/releases/tag/v5.22.1) (2026-10-01)
+
+### Tools
+
+- Zephir 1.5.0
+
+### Changed
+
 - Faster creation of `Phalcon\Di\FactoryDefault` and faster shared service lookups in `Phalcon\Di\Di`. [#17617](https://github.com/phalcon/cphalcon/issues/17617)
 - Faster creation of `Phalcon\Filter\Filter`. [#17617](https://github.com/phalcon/cphalcon/issues/17617)
 - Faster route definition and route index build in `Phalcon\Mvc\Router`. [#17618](https://github.com/phalcon/cphalcon/issues/17618)
