@@ -35,6 +35,7 @@ namespace Phalcon\Tests\Unit\Container;
 
 use Closure;
 use Phalcon\Container\Container;
+use Phalcon\Container\Definition\DefinitionType;
 use Phalcon\Container\Definition\ServiceDefinition;
 use Phalcon\Container\Definition\ServiceLifetime;
 use Phalcon\Container\Exceptions\CannotExtendResolved;
@@ -70,6 +71,39 @@ final class ContainerTest extends AbstractUnitTestCase
         $bucket->setAlias('b', 'c');
         $bucket->setAlias('c', 'd');
         $this->assertInstanceOf(FakeService::class, $bucket->get('d'));
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-30
+     */
+    public function testContainerAliasChainResolvesForHasAndNew(): void
+    {
+        $bucket = new Container();
+        $bucket->set('service', FakeService::class);
+        $bucket->setAlias('service', 'first');
+        $bucket->setAlias('first', 'second');
+
+        $this->assertTrue($bucket->has('second'));
+        $this->assertFalse($bucket->has('unknown'));
+        $this->assertInstanceOf(FakeService::class, $bucket->new('second'));
+        $this->assertNotSame($bucket->new('second'), $bucket->new('second'));
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-30
+     */
+    public function testContainerAliasChainWithNumericNames(): void
+    {
+        $bucket = new Container();
+        $bucket->set('1', FakeService::class);
+        $bucket->setAlias('1', '2');
+        $bucket->setAlias('2', '3');
+
+        $this->assertSame('2', $bucket->getAlias('3'));
+        $this->assertTrue($bucket->has('3'));
+        $this->assertInstanceOf(FakeService::class, $bucket->get('3'));
     }
 
     /**
@@ -143,6 +177,23 @@ final class ContainerTest extends AbstractUnitTestCase
 
         $this->assertInstanceOf(Closure::class, $callable);
         $this->assertNotSame($callable(), $callable());
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-30
+     */
+    public function testContainerCircularAliasThrowsForLongChain(): void
+    {
+        $bucket = new Container();
+        $bucket->set('a', FakeService::class);
+        $bucket->setAlias('a', 'b');
+        $bucket->setAlias('b', 'c');
+
+        $this->expectException(CircularAliasFound::class);
+        $this->expectExceptionMessage("Circular alias detected: 'a'");
+
+        $bucket->setAlias('c', 'a');
     }
 
     /**
@@ -222,6 +273,64 @@ final class ContainerTest extends AbstractUnitTestCase
         $bucket->extend('fake', static function (FakeService $svc): FakeService {
             return $svc;
         });
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-30
+     */
+    public function testContainerFindProcessorChoosesByDefinition(): void
+    {
+        $bucket    = new Container();
+        $invokable = new class () {
+            public function __invoke(): string
+            {
+                return 'invoked';
+            }
+        };
+
+        $this->assertSame(
+            DefinitionType::STRING_TYPE,
+            $bucket->set('string', FakeService::class)->getType()
+        );
+        $this->assertSame(
+            DefinitionType::CLOSURE_TYPE,
+            $bucket->set('closure', static fn (): FakeService => new FakeService())->getType()
+        );
+        $this->assertSame(
+            DefinitionType::OBJECT_TYPE,
+            $bucket->set('object', new FakeService())->getType()
+        );
+        $this->assertSame(
+            DefinitionType::OBJECT_TYPE,
+            $bucket->set('invokable', $invokable)->getType()
+        );
+        $this->assertSame(
+            DefinitionType::STRING_TYPE,
+            $bucket->set('closureName', Closure::class)->getType()
+        );
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-30
+     */
+    public function testContainerFindProcessorThrowsForArray(): void
+    {
+        $bucket = new Container();
+        $this->expectException(NoProcessorFound::class);
+        $bucket->set('svc', [FakeService::class]);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-30
+     */
+    public function testContainerFindProcessorThrowsForUnknownClassString(): void
+    {
+        $bucket = new Container();
+        $this->expectException(NoProcessorFound::class);
+        $bucket->set('svc', 'Phalcon\Tests\Unit\Container\Fake\NoSuchClass');
     }
 
     /**
@@ -679,6 +788,21 @@ final class ContainerTest extends AbstractUnitTestCase
         $this->setProtectedProperty($bucket, 'aliases', ['a' => 'b', 'b' => 'a']);
         $this->expectException(CircularAliasFound::class);
         $bucket->get('a');
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-30
+     */
+    public function testContainerResolveAliasThrowsOnLongCyclicChain(): void
+    {
+        $bucket = new Container();
+        $this->setProtectedProperty($bucket, 'aliases', ['a' => 'b', 'b' => 'c', 'c' => 'a']);
+
+        $this->expectException(CircularAliasFound::class);
+        $this->expectExceptionMessage("Circular alias detected: 'b'");
+
+        $bucket->get('b');
     }
 
     /**
