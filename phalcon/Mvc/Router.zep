@@ -1036,9 +1036,9 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             handledUri, hostname, matched, matches, matchPosition,
             module, notFoundPaths, params, paramsStr, part, parts, paths,
             pattern, position, realUri, regexHostName, request, requestMethod,
-            route, routeFound, routeIdx, routeMeta, staticBeforeMatch,
+            route, routeFound, routeId, routeIdx, routeMeta, staticBeforeMatch,
             staticBucket, staticBucketMethod, staticHostname, staticHostRegex,
-            staticMatched, staticRoute, strParams, vetoedRoute, vnamespace;
+            staticMatched, staticRoute, strParams, vetoedRoutes, vnamespace;
 
         if !uri {
             /**
@@ -1067,6 +1067,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             parts = [],
             params = [],
             matches = null,
+            vetoedRoutes = [],
             this->wasMatched = false,
             this->matchedRoute = null;
 
@@ -1174,6 +1175,12 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                         let routeFound = {staticBeforeMatch}(handledUri, staticRoute, this);
 
                         if !routeFound {
+                            /**
+                             * The per-route loop does not call this
+                             * beforeMatch again.
+                             */
+                            let vetoedRoutes[staticRoute->getRouteId()] = true;
+
                             continue;
                         }
                     }
@@ -1198,8 +1205,6 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             combinedRoute, combinedRouteMeta, combinedBeforeMatch,
             combinedPaths, combinedConverters, combinedPart, combinedPosition,
             combinedMatchPosition, combinedConverter;
-
-        let vetoedRoute = null;
 
         if !routeFound
             && eventsManager === null
@@ -1243,7 +1248,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                      * chunk, which the next chunk does not have.
                      */
                     if !{combinedBeforeMatch}(handledUri, combinedRoute, this) {
-                        let vetoedRoute = combinedRoute;
+                        let vetoedRoutes[combinedRoute->getRouteId()] = true;
 
                         break;
                     }
@@ -1292,15 +1297,17 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
          */
         if !routeFound {
             for routeIdx, route in array_reverse(candidateRoutes, true) {
+            let routeId = route->getRouteId();
+
             /**
-             * The fast path called the beforeMatch of this route, and it
+             * A fast path called the beforeMatch of this route, and it
              * returned false.
              */
-            if route === vetoedRoute {
+            if isset vetoedRoutes[routeId] {
                 continue;
             }
 
-            let routeMeta = this->routeMeta[route->getRouteId()],
+            let routeMeta = this->routeMeta[routeId],
                 params    = [],
                 matches   = null;
 

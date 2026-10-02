@@ -16,11 +16,23 @@ namespace Phalcon\Tests\Unit\Mvc\Router;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Mvc\Fake\RouterTrait;
 use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 #[BackupGlobals(true)]
 final class StaticRouteFastPathTest extends AbstractUnitTestCase
 {
     use RouterTrait;
+
+    /**
+     * @return array<string, array{0: string}>
+     */
+    public static function getAddMethods(): array
+    {
+        return [
+            'add'    => ['add'],
+            'addGet' => ['addGet'],
+        ];
+    }
 
     /**
      * A no-method ("*") regex attached after a method-specific static must
@@ -73,6 +85,43 @@ final class StaticRouteFastPathTest extends AbstractUnitTestCase
 
         $this->assertTrue($router->wasMatched());
         $this->assertSame('about', $router->getControllerName());
+    }
+
+    /**
+     * A beforeMatch veto on the static fast path and a beforeMatch veto on
+     * the combined-regex fast path in the same request. Each callback runs
+     * one time.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-01
+     */
+    #[DataProvider('getAddMethods')]
+    public function testStaticAndRegexVetoesRunEachCallbackOnce(string $addMethod): void
+    {
+        $calls  = ['regex' => 0, 'static' => 0];
+        $router = $this->getRouter(false);
+        $router->$addMethod('/items/{id:[0-9]+}', ['controller' => 'regex'])
+            ->beforeMatch(
+                static function () use (&$calls): bool {
+                    $calls['regex']++;
+
+                    return false;
+                }
+            );
+        $router->$addMethod('/items/5', ['controller' => 'static'])
+            ->beforeMatch(
+                static function () use (&$calls): bool {
+                    $calls['static']++;
+
+                    return false;
+                }
+            );
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $router->handle('/items/5');
+
+        $this->assertFalse($router->wasMatched());
+        $this->assertSame(['regex' => 1, 'static' => 1], $calls);
     }
 
     /**
@@ -148,5 +197,100 @@ final class StaticRouteFastPathTest extends AbstractUnitTestCase
         $router->handle('/api');
 
         $this->assertFalse($router->wasMatched());
+    }
+
+    /**
+     * A beforeMatch veto on the static fast path falls back to an
+     * earlier-attached route that matches. The vetoing callback runs one
+     * time.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-01
+     */
+    #[DataProvider('getAddMethods')]
+    public function testStaticFastPathVetoFallsBackToEarlierRoute(string $addMethod): void
+    {
+        $calls  = 0;
+        $router = $this->getRouter(false);
+        $router->$addMethod('/{page:[a-z]+}', ['controller' => 'page']);
+        $router->$addMethod('/about', ['controller' => 'about'])
+            ->beforeMatch(
+                static function () use (&$calls): bool {
+                    $calls++;
+
+                    return false;
+                }
+            );
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $router->handle('/about');
+
+        $this->assertTrue($router->wasMatched());
+        $this->assertSame('page', $router->getControllerName());
+        $this->assertSame(1, $calls);
+    }
+
+    /**
+     * Two static routes for the same URI that both veto. Each callback runs
+     * one time.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-01
+     */
+    #[DataProvider('getAddMethods')]
+    public function testStaticFastPathVetoOfTwoRoutesRunsEachCallbackOnce(string $addMethod): void
+    {
+        $calls  = ['first' => 0, 'second' => 0];
+        $router = $this->getRouter(false);
+        $router->$addMethod('/about', ['controller' => 'first'])
+            ->beforeMatch(
+                static function () use (&$calls): bool {
+                    $calls['first']++;
+
+                    return false;
+                }
+            );
+        $router->$addMethod('/about', ['controller' => 'second'])
+            ->beforeMatch(
+                static function () use (&$calls): bool {
+                    $calls['second']++;
+
+                    return false;
+                }
+            );
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $router->handle('/about');
+
+        $this->assertFalse($router->wasMatched());
+        $this->assertSame(['first' => 1, 'second' => 1], $calls);
+    }
+
+    /**
+     * A beforeMatch veto on the static fast path with no other match runs
+     * the callback one time.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-01
+     */
+    #[DataProvider('getAddMethods')]
+    public function testStaticFastPathVetoRunsCallbackOnce(string $addMethod): void
+    {
+        $calls  = 0;
+        $router = $this->getRouter(false);
+        $router->$addMethod('/about', ['controller' => 'about'])
+            ->beforeMatch(
+                static function () use (&$calls): bool {
+                    $calls++;
+
+                    return false;
+                }
+            );
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $router->handle('/about');
+
+        $this->assertFalse($router->wasMatched());
+        $this->assertSame(1, $calls);
     }
 }
