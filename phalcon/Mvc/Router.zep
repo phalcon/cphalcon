@@ -1204,7 +1204,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
         /**
          * Combined-regex fast path: one preg_match per chunk replaces N
          * per-route preg_matches. Disabled when events are attached or the
-         * bucket has hostname constraints or named groups.
+         * bucket has hostname constraints, named groups or a "|" outside a
+         * group.
          */
         var combinedChunks, combinedMarkMaps, combinedChunkIdx, combinedChunk,
             combinedMatchesLocal, combinedMarkLabel, combinedRouteIdx,
@@ -2482,6 +2483,18 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                 }
 
                 let combinedBody = combinedBodyMatch[1];
+
+                /**
+                 * A "|" outside a group splits the route into two alternatives
+                 * of the chunk. Both are anchored at the two ends, and only the
+                 * last one has the label. The bucket is not combined.
+                 */
+                if memstr(combinedBody, "|") && this->hasTopLevelAlternation(combinedBody) {
+                    let combinedRegexDisabled[method] = true;
+                    let combinedAlternatives = [];
+                    break;
+                }
+
                 let combinedAlternatives[] = combinedBody . "(*:" . bucketIdx . ")";
                 let combinedMark[(string) bucketIdx] = bucketIdx;
             }
@@ -2560,5 +2573,64 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             this->combinedRegexMarkMap   = combinedRegexMarkMap,
             this->combinedRegexDisabled  = combinedRegexDisabled,
             this->methodRoutesDirty      = false;
+    }
+
+    /**
+     * Checks if a regular expression body has a "|" outside a group. The
+     * check skips escaped characters and character classes.
+     */
+    private function hasTopLevelAlternation(string body) -> bool
+    {
+        char ch;
+        bool classNegated = false, escaped = false, inClass = false;
+        int classLength = 0, depth = 0;
+
+        for ch in body {
+            if escaped {
+                let escaped = false;
+
+                if inClass {
+                    let classLength++;
+                }
+
+                continue;
+            }
+
+            if ch == '\\' {
+                let escaped = true;
+
+                continue;
+            }
+
+            if inClass {
+                /**
+                 * A "]" directly after "[" or "[^" is a character of the
+                 * class.
+                 */
+                if ch == '^' && classLength == 0 && !classNegated {
+                    let classNegated = true;
+                } elseif ch == ']' && classLength > 0 {
+                    let inClass = false;
+                } else {
+                    let classLength++;
+                }
+
+                continue;
+            }
+
+            if ch == '[' {
+                let inClass      = true,
+                    classLength  = 0,
+                    classNegated = false;
+            } elseif ch == '(' {
+                let depth++;
+            } elseif ch == ')' {
+                let depth--;
+            } elseif ch == '|' && depth == 0 {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

@@ -4018,7 +4018,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, isVisibleModelProperty)
 		ZEPHIR_CALL_METHOD(NULL, &classReflection, "__construct", NULL, 252, &className);
 		zephir_check_call_status();
 		ZVAL_LONG(&_1$$3, 1);
-		ZEPHIR_CALL_METHOD(&reflectionProperties, &classReflection, "getproperties", NULL, 370, &_1$$3);
+		ZEPHIR_CALL_METHOD(&reflectionProperties, &classReflection, "getproperties", NULL, 371, &_1$$3);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&reflectionProperties) == IS_STRING) {
 			ZEPHIR_INIT_VAR(&_3$$3);

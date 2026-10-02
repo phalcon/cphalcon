@@ -124,6 +124,33 @@ final class FastPathEquivalenceTest extends AbstractUnitTestCase
                 '/raw/4',
                 'raw',
             ],
+            // #17645
+            'pipe outside a group'                             => [
+                [
+                    ['pattern' => '/{a}/{b}/{c}', 'paths' => ['controller' => 'first']],
+                    [
+                        'pattern' => '/(files|products)/(v1|v2)/c|d',
+                        'paths'   => ['controller' => 'pipe'],
+                        'methods' => 'GET',
+                    ],
+                ],
+                'GET',
+                '/products/v1/c|d',
+                'pipe',
+            ],
+            'pipe outside a group, first part'                 => [
+                [
+                    ['pattern' => '/{a}/{b}/{c}', 'paths' => ['controller' => 'first']],
+                    [
+                        'pattern' => '/(files|products)/(v1|v2)/c|d',
+                        'paths'   => ['controller' => 'pipe'],
+                        'methods' => 'GET',
+                    ],
+                ],
+                'GET',
+                '/products/v1/c',
+                'pipe',
+            ],
         ];
     }
 

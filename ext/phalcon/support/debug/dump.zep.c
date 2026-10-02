@@ -1036,7 +1036,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 				_47$$9 = zephir_is_instance_of(variable, SL("stdClass"));
 			}
 			if (_47$$9) {
-				ZEPHIR_CALL_FUNCTION(&vars, "get_object_vars", NULL, 359, variable);
+				ZEPHIR_CALL_FUNCTION(&vars, "get_object_vars", NULL, 360, variable);
 				zephir_check_call_status();
 				if (Z_TYPE_P(&vars) == IS_STRING) {
 					ZEPHIR_INIT_VAR(&_52$$12);
@@ -1142,7 +1142,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 				ZEPHIR_CALL_METHOD(NULL, &reflect, "__construct", NULL, 252, variable);
 				zephir_check_call_status();
 				ZVAL_LONG(&_72$$15, ((1 | 2) | 4));
-				ZEPHIR_CALL_METHOD(&props, &reflect, "getproperties", NULL, 370, &_72$$15);
+				ZEPHIR_CALL_METHOD(&props, &reflect, "getproperties", NULL, 371, &_72$$15);
 				zephir_check_call_status();
 				if (Z_TYPE_P(&props) == IS_STRING) {
 					ZEPHIR_INIT_VAR(&_74$$15);
