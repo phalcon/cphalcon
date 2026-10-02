@@ -1198,7 +1198,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
         /**
          * Combined-regex fast path: one preg_match per chunk replaces N
          * per-route preg_matches. Disabled when events are attached or the
-         * bucket has hostname constraints.
+         * bucket has hostname constraints or named groups.
          */
         var combinedChunks, combinedMarkMaps, combinedChunkIdx, combinedChunk,
             combinedMatchesLocal, combinedMarkLabel, combinedRouteIdx,
@@ -2456,7 +2456,13 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                 }
 
                 let combinedBodyMatch = [];
-                let combinedShape = preg_match("/^#\\^(.+)\\$#u$/", bucketPattern, combinedBodyMatch);
+
+                /**
+                 * A named group disables the bucket: in a (?|...) group two
+                 * names on one group number do not compile, and a name of one
+                 * route goes into the matches of another route.
+                 */
+                let combinedShape = preg_match("/^#\\^(?!.*\\(\\?(?:P?<[^=!]|'))(.+)\\$#u$/", bucketPattern, combinedBodyMatch);
 
                 if !combinedShape {
                     let combinedRegexDisabled[method] = true;

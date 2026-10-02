@@ -305,4 +305,63 @@ final class CombinedRegexTest extends AbstractUnitTestCase
         $params = $router->getParams();
         $this->assertSame('widget', $params['slug']);
     }
+
+    /**
+     * A group name of a raw route does not go into the matches of a
+     * different route.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-02
+     */
+    #[DataProvider('getAddMethods')]
+    public function testNamedGroupDoesNotLeakIntoOtherRoutes(string $addMethod): void
+    {
+        $router = $this->getRouter(false);
+        $router->$addMethod('#^/a/(?P<id>[0-9]+)$#u', ['controller' => 'a']);
+        $router->$addMethod('/b/{slug}', ['controller' => 'b']);
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $router->handle('/b/x');
+
+        $matches = $router->getMatches();
+
+        $this->assertSame('b', $router->getControllerName());
+        $this->assertArrayNotHasKey('id', $matches);
+        $this->assertSame('x', $matches[1]);
+    }
+
+    /**
+     * Raw routes with different group names do not cause a warning.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-02
+     */
+    #[DataProvider('getAddMethods')]
+    public function testNamedGroupsWithDifferentNamesDoNotWarn(string $addMethod): void
+    {
+        $router = $this->getRouter(false);
+        $router->$addMethod('#^/users/(?P<id>[0-9]+)$#u', ['controller' => 'users']);
+        $router->$addMethod('#^/posts/(?P<slug>[a-z]+)$#u', ['controller' => 'posts']);
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+
+        $warnings = [];
+        set_error_handler(
+            static function (int $number, string $message) use (&$warnings): bool {
+                $warnings[] = $message;
+
+                return true;
+            }
+        );
+
+        try {
+            $router->handle('/posts/abc');
+        } finally {
+            restore_error_handler();
+        }
+
+        $this->assertSame([], $warnings);
+        $this->assertSame('posts', $router->getControllerName());
+        $this->assertSame([0 => '/posts/abc', 'slug' => 'abc', 1 => 'abc'], $router->getMatches());
+    }
 }
