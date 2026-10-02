@@ -19,6 +19,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - `Phalcon\Mvc\Router::getMatches()` returning the internal `MARK` key after a combined-regex match. [#17634](https://github.com/phalcon/cphalcon/issues/17634)
 - `Phalcon\Mvc\Router` combined-regex matching skipping a route after a `beforeMatch` veto and calling the callback two times. [#17635](https://github.com/phalcon/cphalcon/issues/17635)
 - `Phalcon\Mvc\Router` static-route matching calling a `beforeMatch` callback two times after a veto. [#17638](https://github.com/phalcon/cphalcon/issues/17638)
+- `Phalcon\Mvc\Router` combined-regex matching failing to compile or mixing matches for routes with named groups. [#17636](https://github.com/phalcon/cphalcon/issues/17636)
 
 ### Removed
 
