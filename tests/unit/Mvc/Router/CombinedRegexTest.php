@@ -36,6 +36,23 @@ final class CombinedRegexTest extends AbstractUnitTestCase
     }
 
     /**
+     * @return array<string, array{0: string, 1: bool}>
+     */
+    public static function getPipePatterns(): array
+    {
+        return [
+            'pipe outside a group'                 => ['/(files|products)/c|d', true],
+            'raw pipe outside a group'             => ['#^/a|/b$#u', true],
+            'pipe in a group'                      => ['/(files|products)/c', false],
+            'pipe in a placeholder'                => ['/{a:(x|y)}/b', false],
+            'pipe in a class'                      => ['#^/a[|]b$#u', false],
+            'escaped pipe'                         => ['#^/a\|b$#u', false],
+            'class with a leading bracket'         => ['#^/a[]|]b$#u', false],
+            'negated class with a leading bracket' => ['#^/a[^]|]b$#u', false],
+        ];
+    }
+
+    /**
      * A beforeMatch veto on a combined-regex hit falls back to the next
      * route in reverse attach order, also when that route is in the same
      * chunk and a later chunk has another match. The vetoing callback runs
@@ -363,5 +380,24 @@ final class CombinedRegexTest extends AbstractUnitTestCase
         $this->assertSame([], $warnings);
         $this->assertSame('posts', $router->getControllerName());
         $this->assertSame([0 => '/posts/abc', 'slug' => 'abc', 1 => 'abc'], $router->getMatches());
+    }
+
+    /**
+     * A "|" outside a group turns off the combined regex of the bucket. A
+     * "|" in a group, in a character class or escaped does not.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-02
+     */
+    #[DataProvider('getPipePatterns')]
+    public function testPipeOutsideGroupDisablesCombinedRegex(string $pattern, bool $disabled): void
+    {
+        $router = $this->getRouter(false);
+        $router->addGet($pattern, ['controller' => 'pipe']);
+
+        $dump = $router->buildDispatcherDump();
+
+        $this->assertSame($disabled, isset($dump['combinedRegexDisabled']['GET']));
+        $this->assertSame(!$disabled, isset($dump['combinedRegexByMethod']['GET']));
     }
 }
