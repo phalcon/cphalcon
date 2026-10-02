@@ -33,6 +33,15 @@ final class FastPathEquivalenceTest extends AbstractUnitTestCase
      */
     public static function getCases(): array
     {
+        $fillers = [];
+        for ($index = 0; $index < 9; $index++) {
+            $fillers[] = [
+                'pattern' => '/filler' . $index . '/{id:[0-9]+}',
+                'paths'   => ['controller' => 'filler'],
+                'methods' => 'GET',
+            ];
+        }
+
         return [
             // #17642
             'static "*" route, later regex route of the method' => [
@@ -100,6 +109,21 @@ final class FastPathEquivalenceTest extends AbstractUnitTestCase
                 '/',
                 'last',
             ],
+            // #17644: 12 regex routes in the GET bucket. Chunk 0 has "raw",
+            // "broken" and 8 fillers; chunk 1 has a filler and "first".
+            'pattern that does not compile in a chunk'         => [
+                array_merge(
+                    [['pattern' => '/{a}/{b}', 'paths' => ['controller' => 'first'], 'methods' => 'GET']],
+                    $fillers,
+                    [
+                        ['pattern' => '/(x|e#f)/broken', 'paths' => ['controller' => 'broken'], 'methods' => 'GET'],
+                        ['pattern' => '/raw/{id}', 'paths' => ['controller' => 'raw'], 'methods' => 'GET'],
+                    ]
+                ),
+                'GET',
+                '/raw/4',
+                'raw',
+            ],
         ];
     }
 
@@ -160,7 +184,21 @@ final class FastPathEquivalenceTest extends AbstractUnitTestCase
 
         $_SERVER['REQUEST_METHOD'] = $method;
         $_SERVER['HTTP_HOST']      = $host;
-        $router->handle($uri);
+
+        $warnings = [];
+        set_error_handler(
+            static function (int $number, string $message) use (&$warnings): bool {
+                $warnings[] = $message;
+
+                return true;
+            }
+        );
+
+        try {
+            $router->handle($uri);
+        } finally {
+            restore_error_handler();
+        }
 
         return [
             'controller' => $router->getControllerName(),
@@ -168,6 +206,7 @@ final class FastPathEquivalenceTest extends AbstractUnitTestCase
             'matches'    => $router->getMatches(),
             'params'     => $router->getParams(),
             'pattern'    => $router->getMatchedRoute()?->getPattern(),
+            'warnings'   => $warnings,
         ];
     }
 }
