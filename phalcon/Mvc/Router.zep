@@ -1038,7 +1038,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             pattern, position, realUri, regexHostName, request, requestMethod,
             route, routeFound, routeIdx, routeMeta, staticBeforeMatch,
             staticBucket, staticBucketMethod, staticHostname, staticHostRegex,
-            staticMatched, staticRoute, strParams, vnamespace;
+            staticMatched, staticRoute, strParams, vetoedRoute, vnamespace;
 
         if !uri {
             /**
@@ -1199,6 +1199,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             combinedPaths, combinedConverters, combinedPart, combinedPosition,
             combinedMatchPosition, combinedConverter;
 
+        let vetoedRoute = null;
+
         if !routeFound
             && eventsManager === null
             && !isset this->combinedRegexDisabled[requestMethod]
@@ -1235,8 +1237,15 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                         throw new BeforeMatchNotCallable();
                     }
 
+                    /**
+                     * A veto sends the request to the per-route loop. The
+                     * next match can be an earlier-attached route of this
+                     * chunk, which the next chunk does not have.
+                     */
                     if !{combinedBeforeMatch}(handledUri, combinedRoute, this) {
-                        continue;
+                        let vetoedRoute = combinedRoute;
+
+                        break;
                     }
                 }
 
@@ -1283,6 +1292,14 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
          */
         if !routeFound {
             for routeIdx, route in array_reverse(candidateRoutes, true) {
+            /**
+             * The fast path called the beforeMatch of this route, and it
+             * returned false.
+             */
+            if route === vetoedRoute {
+                continue;
+            }
+
             let routeMeta = this->routeMeta[route->getRouteId()],
                 params    = [],
                 matches   = null;

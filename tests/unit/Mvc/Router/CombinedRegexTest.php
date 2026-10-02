@@ -36,6 +36,44 @@ final class CombinedRegexTest extends AbstractUnitTestCase
     }
 
     /**
+     * A beforeMatch veto on a combined-regex hit falls back to the next
+     * route in reverse attach order, also when that route is in the same
+     * chunk and a later chunk has another match. The vetoing callback runs
+     * one time.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-01
+     */
+    #[DataProvider('getAddMethods')]
+    public function testBeforeMatchVetoFallsBackToEarlierRouteInSameChunk(string $addMethod): void
+    {
+        $calls  = 0;
+        $router = $this->getRouter(false);
+        $router->$addMethod('/items/{name:[a-z0-9]+}', ['controller' => 'first']);
+
+        for ($index = 0; $index < 10; $index++) {
+            $router->$addMethod('/filler' . $index . '/{id:[0-9]+}', ['controller' => 'filler' . $index]);
+        }
+
+        $router->$addMethod('/items/{id:[0-9]+}', ['controller' => 'second']);
+        $router->$addMethod('/items/{slug:[a-z0-9]+}', ['controller' => 'third'])
+            ->beforeMatch(
+                static function () use (&$calls): bool {
+                    $calls++;
+
+                    return false;
+                }
+            );
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $router->handle('/items/5');
+
+        $this->assertTrue($router->wasMatched());
+        $this->assertSame('second', $router->getControllerName());
+        $this->assertSame(1, $calls);
+    }
+
+    /**
      * beforeMatch returning false on a combined-regex hit vetoes the
      * match.
      *
@@ -51,6 +89,34 @@ final class CombinedRegexTest extends AbstractUnitTestCase
         $router->handle('/users/42');
 
         $this->assertFalse($router->wasMatched());
+    }
+
+    /**
+     * A beforeMatch veto on a combined-regex hit with no other match runs
+     * the callback one time.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-01
+     */
+    #[DataProvider('getAddMethods')]
+    public function testBeforeMatchVetoRunsCallbackOnce(string $addMethod): void
+    {
+        $calls  = 0;
+        $router = $this->getRouter(false);
+        $router->$addMethod('/users/{id:[0-9]+}', ['controller' => 'users'])
+            ->beforeMatch(
+                static function () use (&$calls): bool {
+                    $calls++;
+
+                    return false;
+                }
+            );
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $router->handle('/users/42');
+
+        $this->assertFalse($router->wasMatched());
+        $this->assertSame(1, $calls);
     }
 
     /**
