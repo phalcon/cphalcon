@@ -49,4 +49,29 @@ final class GetMatchesTest extends AbstractUnitTestCase
         $actual   = $router->getMatches();
         $this->assertSame($expected, $actual);
     }
+
+    /**
+     * getMatches() has only the matches of the last request: it is empty
+     * after a static-route match and after no match.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-02
+     */
+    public function testCliRouterGetMatchesIsResetForEachRequest(): void
+    {
+        $router = new Router(false);
+        $router->add('users {id:[0-9]+}', ['task' => 'users']);
+        $router->add('about', ['task' => 'about']);
+
+        $router->handle('users 42');
+        $this->assertSame([0 => 'users 42', 1 => '42'], $router->getMatches());
+
+        $router->handle('about');
+        $this->assertSame('about', $router->getTaskName());
+        $this->assertSame([], $router->getMatches());
+
+        $router->handle('none');
+        $this->assertFalse($router->wasMatched());
+        $this->assertSame([], $router->getMatches());
+    }
 }

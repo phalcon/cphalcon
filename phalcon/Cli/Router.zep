@@ -231,6 +231,7 @@ class Router extends AbstractInjectionAware implements RouterInterface
             parts = [],
             params = [],
             matches = null,
+            this->matches = [],
             this->wasMatched = false,
             this->matchedRoute = null;
 
