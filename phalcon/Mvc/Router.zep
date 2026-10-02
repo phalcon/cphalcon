@@ -1215,6 +1215,12 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
                 let combinedMarkLabel = combinedMatchesLocal["MARK"];
 
+                /**
+                 * The label is internal. The matches of the per-route loop
+                 * do not have it.
+                 */
+                unset combinedMatchesLocal["MARK"];
+
                 if !fetch combinedRouteIdx, combinedMarkMaps[combinedChunkIdx][combinedMarkLabel] {
                     continue;
                 }

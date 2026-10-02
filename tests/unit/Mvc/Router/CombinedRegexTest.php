@@ -17,11 +17,23 @@ use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Mvc\Fake\RouterTrait;
 use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 #[BackupGlobals(true)]
 final class CombinedRegexTest extends AbstractUnitTestCase
 {
     use RouterTrait;
+
+    /**
+     * @return array<string, array{0: string}>
+     */
+    public static function getAddMethods(): array
+    {
+        return [
+            'add'    => ['add'],
+            'addGet' => ['addGet'],
+        ];
+    }
 
     /**
      * beforeMatch returning false on a combined-regex hit vetoes the
@@ -189,6 +201,25 @@ final class CombinedRegexTest extends AbstractUnitTestCase
 
         $this->assertTrue($router->wasMatched());
         $this->assertSame('users', $router->getControllerName());
+    }
+
+    /**
+     * The matches of a combined-regex hit are the matches of the route
+     * pattern. The internal MARK label is not in them.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-01
+     */
+    #[DataProvider('getAddMethods')]
+    public function testMatchesHaveNoMarkLabel(string $addMethod): void
+    {
+        $router = $this->getRouter(false);
+        $router->$addMethod('/users/{id:[0-9]+}', ['controller' => 'users', 'id' => 1]);
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $router->handle('/users/42');
+
+        $this->assertSame([0 => '/users/42', 1 => '42'], $router->getMatches());
     }
 
     /**
