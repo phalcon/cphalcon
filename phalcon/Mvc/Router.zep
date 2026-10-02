@@ -1031,7 +1031,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      */
     public function handle(string uri) -> void
     {
-        var action, beforeMatch, candidateRoutes, container,
+        var action, beforeMatch, candidateMethod, candidateRoutes, container,
             controller, converter, converters, currentHostName, eventsManager,
             handledUri, hostname, matched, matches, matchPosition,
             module, notFoundPaths, params, paramsStr, part, parts, paths,
@@ -1097,9 +1097,16 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
         }
 
         let requestMethod   = request->getMethod(),
+            candidateMethod = requestMethod,
             candidateRoutes = [];
 
+        /**
+         * The combined-regex fast path below reads the bucket that gave the
+         * candidates. A method with no bucket of its own uses the "*" bucket.
+         */
         if !fetch candidateRoutes, this->candidatesByMethod[requestMethod] {
+            let candidateMethod = "*";
+
             fetch candidateRoutes, this->candidatesByMethod["*"];
         }
 
@@ -1216,10 +1223,10 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
         if !routeFound
             && eventsManager === null
-            && !isset this->combinedRegexDisabled[requestMethod]
-            && fetch combinedChunks, this->combinedRegexByMethod[requestMethod]
+            && !isset this->combinedRegexDisabled[candidateMethod]
+            && fetch combinedChunks, this->combinedRegexByMethod[candidateMethod]
         {
-            let combinedMarkMaps = this->combinedRegexMarkMap[requestMethod];
+            let combinedMarkMaps = this->combinedRegexMarkMap[candidateMethod];
 
             for combinedChunkIdx, combinedChunk in combinedChunks {
                 let combinedMatchesLocal = [];
