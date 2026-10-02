@@ -1132,8 +1132,14 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             if isset this->staticByMethod[requestMethod][handledUri]
                 && !isset this->staticShadowedByMethod[requestMethod][handledUri] {
                 let staticBucketMethod = requestMethod;
-            } elseif isset this->staticByMethod["*"][handledUri]
+            } elseif !isset this->candidatesByMethod[requestMethod]
+                && isset this->staticByMethod["*"][handledUri]
                 && !isset this->staticShadowedByMethod["*"][handledUri] {
+                /**
+                 * Only a method with no bucket of its own uses the "*"
+                 * bucket. A method bucket has the "*" routes too, and its
+                 * shadow flags apply.
+                 */
                 let staticBucketMethod = "*";
             }
 
