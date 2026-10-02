@@ -17,10 +17,11 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 ### Fixed
 
 - `Phalcon\Mvc\Router::getMatches()` returning the internal `MARK` key after a combined-regex match. [#17634](https://github.com/phalcon/cphalcon/issues/17634)
+- `Phalcon\Mvc\Router` combined-regex matching failing to compile or mixing matches for routes with named groups. [#17636](https://github.com/phalcon/cphalcon/issues/17636)
 - `Phalcon\Mvc\Router` combined-regex matching skipping a route after a `beforeMatch` veto and calling the callback two times. [#17635](https://github.com/phalcon/cphalcon/issues/17635)
 - `Phalcon\Mvc\Router` static-route matching calling a `beforeMatch` callback two times after a veto. [#17638](https://github.com/phalcon/cphalcon/issues/17638)
-- `Phalcon\Mvc\Router` combined-regex matching failing to compile or mixing matches for routes with named groups. [#17636](https://github.com/phalcon/cphalcon/issues/17636)
 - `Phalcon\Mvc\Router` static-route matching ignoring a later-attached regex route of the request method. [#17642](https://github.com/phalcon/cphalcon/issues/17642)
+- `Phalcon\Mvc\Router` static-route matching passing over a regex route when a later static route is skipped by its host name or `beforeMatch`. [#17643](https://github.com/phalcon/cphalcon/issues/17643)
 
 ### Removed
 
@@ -33,11 +34,11 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 ### Changed
 
+- Faster `Phalcon\Support\Settings::get()`. [#17620](https://github.com/phalcon/cphalcon/issues/17620)
 - Faster creation of `Phalcon\Di\FactoryDefault` and faster shared service lookups in `Phalcon\Di\Di`. [#17617](https://github.com/phalcon/cphalcon/issues/17617)
 - Faster creation of `Phalcon\Filter\Filter`. [#17617](https://github.com/phalcon/cphalcon/issues/17617)
 - Faster route definition and route index build in `Phalcon\Mvc\Router`. [#17618](https://github.com/phalcon/cphalcon/issues/17618)
 - Faster service definition and alias lookups in `Phalcon\Container\Container`. [#17619](https://github.com/phalcon/cphalcon/issues/17619)
-- Faster `Phalcon\Support\Settings::get()`. [#17620](https://github.com/phalcon/cphalcon/issues/17620)
 
 ### Added
 
@@ -46,11 +47,11 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 ### Fixed
 
-- `Phalcon\Mvc\View::partial()` and `Phalcon\Mvc\View\Simple::render()` dropping a `..` path segment instead of resolving it. [#17606](https://github.com/phalcon/cphalcon/issues/17606) [[doc]](https://docs.phalcon.io/5.22/views/)
-- `Phalcon\Mvc\View::partial()` not detecting a Windows absolute path (`C:\...`) as absolute. [#17606](https://github.com/phalcon/cphalcon/issues/17606) [[doc]](https://docs.phalcon.io/5.22/views/)
+- `Phalcon\Filter\Filter::sanitize()` not calling array callables registered with `set()`. [#17610](https://github.com/phalcon/cphalcon/issues/17610) [[doc]](https://docs.phalcon.io/5.22/filter-filter/)
 - `Phalcon\Mvc\Model\MetaData\Stream` letting other processes read a partially written cache file. [#17608](https://github.com/phalcon/cphalcon/issues/17608) [[doc]](https://docs.phalcon.io/5.22/db-models-metadata/)
 - `Phalcon\Mvc\Model\MetaData` storing a cached value that is not an array as the model meta-data. [#17608](https://github.com/phalcon/cphalcon/issues/17608) [[doc]](https://docs.phalcon.io/5.22/db-models-metadata/)
-- `Phalcon\Filter\Filter::sanitize()` not calling array callables registered with `set()`. [#17610](https://github.com/phalcon/cphalcon/issues/17610) [[doc]](https://docs.phalcon.io/5.22/filter-filter/)
+- `Phalcon\Mvc\View::partial()` and `Phalcon\Mvc\View\Simple::render()` dropping a `..` path segment instead of resolving it. [#17606](https://github.com/phalcon/cphalcon/issues/17606) [[doc]](https://docs.phalcon.io/5.22/views/)
+- `Phalcon\Mvc\View::partial()` not detecting a Windows absolute path (`C:\...`) as absolute. [#17606](https://github.com/phalcon/cphalcon/issues/17606) [[doc]](https://docs.phalcon.io/5.22/views/)
 
 ### Removed
 

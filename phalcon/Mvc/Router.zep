@@ -2379,9 +2379,14 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                     /**
                      * A later static route for a URI overrides an earlier regex
                      * that shadowed it, so clear any stale shadow flag - the
-                     * last-registered route must win.
+                     * last-registered route must win. Only a route with no host
+                     * name and no beforeMatch always wins. The fast path can
+                     * skip the other routes, and then go to an earlier static
+                     * route past the regex route.
                      */
-                    if isset staticShadowedByMethod[method][bucketPattern] {
+                    if isset staticShadowedByMethod[method][bucketPattern]
+                        && routeHosts[routeIndex] === null
+                        && routeMeta[bucketRoute->getRouteId()]["beforeMatch"] === null {
                         /**
                          * Remove the key from a copy of the bucket, then
                          * assign the bucket back.

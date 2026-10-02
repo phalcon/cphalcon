@@ -25,10 +25,11 @@ final class FastPathEquivalenceTest extends AbstractUnitTestCase
     use RouterTrait;
 
     /**
-     * Each case: the routes in attach order, the request method, the URI
-     * and the controller of the expected route.
+     * Each case: the routes in attach order, the request method, the URI,
+     * the controller of the expected route and (optional) the host name of
+     * the request.
      *
-     * @return array<string, array{0: array<int, array<string, mixed>>, 1: string, 2: string, 3: string}>
+     * @return array<string, array{0: array<int, array<string, mixed>>, 1: string, 2: string, 3: string, 4?: string}>
      */
     public static function getCases(): array
     {
@@ -52,6 +53,53 @@ final class FastPathEquivalenceTest extends AbstractUnitTestCase
                 '/',
                 'index',
             ],
+            // #17643
+            'later static route skipped by host name'          => [
+                [
+                    ['pattern' => '/', 'paths' => ['controller' => 'first'], 'methods' => 'PUT'],
+                    ['pattern' => '/{page}', 'paths' => ['controller' => 'page'], 'methods' => 'PUT'],
+                    ['pattern' => '/', 'paths' => ['controller' => 'admin'], 'hostname' => 'admin.example.com'],
+                ],
+                'PUT',
+                '/',
+                'page',
+                'api.example.com',
+            ],
+            'later static route vetoed by beforeMatch'         => [
+                [
+                    ['pattern' => '/', 'paths' => ['controller' => 'first']],
+                    ['pattern' => '/{page}', 'paths' => ['controller' => 'page']],
+                    [
+                        'pattern'     => '/',
+                        'paths'       => ['controller' => 'vetoed'],
+                        'beforeMatch' => static fn (): bool => false,
+                    ],
+                ],
+                'GET',
+                '/',
+                'page',
+            ],
+            'later static route with a matching host name'    => [
+                [
+                    ['pattern' => '/', 'paths' => ['controller' => 'first'], 'methods' => 'PUT'],
+                    ['pattern' => '/{page}', 'paths' => ['controller' => 'page'], 'methods' => 'PUT'],
+                    ['pattern' => '/', 'paths' => ['controller' => 'admin'], 'hostname' => 'admin.example.com'],
+                ],
+                'PUT',
+                '/',
+                'admin',
+                'admin.example.com',
+            ],
+            'later static route with no constraints'           => [
+                [
+                    ['pattern' => '/', 'paths' => ['controller' => 'first']],
+                    ['pattern' => '/{page}', 'paths' => ['controller' => 'page']],
+                    ['pattern' => '/', 'paths' => ['controller' => 'last']],
+                ],
+                'GET',
+                '/',
+                'last',
+            ],
         ];
     }
 
@@ -71,10 +119,11 @@ final class FastPathEquivalenceTest extends AbstractUnitTestCase
         array $routes,
         string $method,
         string $uri,
-        string $controller
+        string $controller,
+        string $host = 'www.example.com'
     ): void {
-        $expected = $this->handleRoutes($routes, $method, $uri, true);
-        $actual   = $this->handleRoutes($routes, $method, $uri, false);
+        $expected = $this->handleRoutes($routes, $method, $uri, $host, true);
+        $actual   = $this->handleRoutes($routes, $method, $uri, $host, false);
 
         $this->assertSame($controller, $expected['controller']);
         $this->assertSame($expected, $actual);
@@ -85,18 +134,32 @@ final class FastPathEquivalenceTest extends AbstractUnitTestCase
      *
      * @return array<string, mixed>
      */
-    private function handleRoutes(array $routes, string $method, string $uri, bool $withEvents): array
-    {
+    private function handleRoutes(
+        array $routes,
+        string $method,
+        string $uri,
+        string $host,
+        bool $withEvents
+    ): array {
         $router = $this->getRouter(false);
         if ($withEvents) {
             $router->setEventsManager(new EventsManager());
         }
 
         foreach ($routes as $route) {
-            $router->add($route['pattern'], $route['paths'], $route['methods'] ?? null);
+            $added = $router->add($route['pattern'], $route['paths'], $route['methods'] ?? null);
+
+            if (isset($route['hostname'])) {
+                $added->setHostname($route['hostname']);
+            }
+
+            if (isset($route['beforeMatch'])) {
+                $added->beforeMatch($route['beforeMatch']);
+            }
         }
 
         $_SERVER['REQUEST_METHOD'] = $method;
+        $_SERVER['HTTP_HOST']      = $host;
         $router->handle($uri);
 
         return [
