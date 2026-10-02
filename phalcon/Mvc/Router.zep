@@ -2502,7 +2502,8 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
              * - handle() tries chunks 0..N in order.
              */
             var chunkedPatterns, chunkedMarkMaps, chunkOffset, chunkSlice,
-                chunkSliceMap, chunkMarkSubset, reversedMarkIds, chunkMarkId;
+                chunkSliceMap, chunkMarkSubset, reversedMarkIds, chunkMarkId,
+                chunkPattern;
 
             let combinedAlternatives = array_reverse(combinedAlternatives);
             let reversedMarkIds      = array_reverse(array_keys(combinedMark));
@@ -2520,9 +2521,28 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                     let chunkSliceMap[chunkMarkId] = combinedMark[chunkMarkId];
                 }
 
-                let chunkedPatterns[] = "#^(?|" . implode("|", chunkSlice) . ")$#u";
+                let chunkPattern = "#^(?|" . implode("|", chunkSlice) . ")$#u";
+
+                /**
+                 * A route pattern that does not compile breaks its chunk, and
+                 * the fast path would go to the next chunk. The per-route loop
+                 * must try the routes of this bucket in order, so the bucket
+                 * is not combined. A chunk that compiles here stays in the
+                 * PCRE cache for handle().
+                 */
+                if preg_match(chunkPattern, "") === false {
+                    let combinedRegexDisabled[method] = true;
+
+                    break;
+                }
+
+                let chunkedPatterns[] = chunkPattern;
                 let chunkedMarkMaps[] = chunkSliceMap;
                 let chunkOffset += self::REGEX_CHUNK_SIZE;
+            }
+
+            if isset combinedRegexDisabled[method] {
+                continue;
             }
 
             let combinedRegexByMethod[method] = chunkedPatterns;
