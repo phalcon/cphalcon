@@ -58,6 +58,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addRouteFromConfig);
 PHP_METHOD(Phalcon_Mvc_Router, extractRealUri);
 PHP_METHOD(Phalcon_Mvc_Router, mountGroupFromConfig);
 PHP_METHOD(Phalcon_Mvc_Router, rebuildMethodIndex);
+PHP_METHOD(Phalcon_Mvc_Router, hasTopLevelAlternation);
 PHP_METHOD(Phalcon_Mvc_Router, phpFclose);
 PHP_METHOD(Phalcon_Mvc_Router, phpFgetCsv);
 PHP_METHOD(Phalcon_Mvc_Router, phpFileExists);
@@ -304,6 +305,10 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_rebuildmethodindex, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_hastoplevelalternation, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, body, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_phpfclose, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_INFO(0, handle)
 ZEND_END_ARG_INFO()
@@ -424,6 +429,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_router_method_entry) {
 	PHP_ME(Phalcon_Mvc_Router, extractRealUri, arginfo_phalcon_mvc_router_extractrealuri, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Router, mountGroupFromConfig, arginfo_phalcon_mvc_router_mountgroupfromconfig, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Router, rebuildMethodIndex, arginfo_phalcon_mvc_router_rebuildmethodindex, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Router, hasTopLevelAlternation, arginfo_phalcon_mvc_router_hastoplevelalternation, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Mvc_Router, phpFclose, arginfo_phalcon_mvc_router_phpfclose, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Router, phpFgetCsv, arginfo_phalcon_mvc_router_phpfgetcsv, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Router, phpFileExists, arginfo_phalcon_mvc_router_phpfileexists, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
