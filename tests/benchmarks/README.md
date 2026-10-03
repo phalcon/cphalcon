@@ -100,13 +100,15 @@ One subject for each component entry point that the reference apps run (selected
 | `Mvc\DispatcherBench`      | `benchDispatch`                                                                |
 | `Mvc\ModelBench`           | `benchFind`, `benchFindFirst`, `benchSave`, `benchToArray`                     |
 | `Mvc\QueryBench`           | `benchParseCold`, `benchParseWarm`                                             |
-| `Mvc\RouterBench`          | `benchDefineAndHandle`, `benchDefineAndHandleMethods`, `benchHandle`           |
+| `Mvc\RouterBench`          | `benchDefineAndHandle`, `benchDefineAndHandleMethods`, `benchHandle`, `benchHandleWithEvents` |
 | `Mvc\ViewBench`            | `benchPartial`, `benchRender`                                                  |
 | `Mvc\VoltBench`            | `benchCompileString`                                                           |
 | `Support\CollectionBench`  | `benchGet`                                                                     |
 | `Support\JsonBench`        | `benchEncode`                                                                  |
 
 - The subjects use the fixtures of the reference apps (`Apps\Mvc\Fixture`, `Apps\Rest\Fixture`).
+- `benchHandleWithEvents` uses the MVC fixture router with an events manager and one listener on `router`, so
+  `handle()` runs the per-route loop (no fast path).
 - `benchParseCold` uses a new PHQL string for each call, so both PHQL caches miss. The caches grow during
   the run.
 - For heavy subjects (Router, View, Model, Query, Db, `benchFactoryDefault`), use a smaller k (for example
