@@ -11,6 +11,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 ### Changed
 
 - Faster route matching and route index build in `Phalcon\Mvc\Router`. [#17628](https://github.com/phalcon/cphalcon/issues/17628)
+- Faster service resolution in `Phalcon\Di\Di` for service names with no alias. [#17629](https://github.com/phalcon/cphalcon/issues/17629)
 
 ### Added
 
