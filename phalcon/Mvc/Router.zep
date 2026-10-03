@@ -2251,7 +2251,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             candidatesByMethod, routeMeta, staticByMethod,
             staticShadowedByMethod, hostnameByMethod, hostnameLessByMethod,
             combinedRegexByMethod, combinedRegexMarkMap, combinedRegexDisabled,
-            routePatterns, routeHosts, candidateHost, routeMethods,
+            routePatterns, routeHosts, candidateHost, routeData, routeMethods,
             routeIndex, starPositions, positions, positionsByMethod, bucketIdx;
 
         let methodRoutes           = [],
@@ -2275,21 +2275,26 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             routeHosts    = [];
 
         for routeIndex, route in this->routes {
-            let methods          = route->getHttpMethods(),
-                candidatePattern = route->getCompiledPattern(),
-                candidateHost    = route->getHostName();
+            /**
+             * One call for the data of the route: the route is the loop
+             * variable, so each method call here has no call cache.
+             */
+            let routeData        = route->getIndexData(),
+                methods          = routeData[0],
+                candidatePattern = routeData[1],
+                candidateHost    = routeData[2];
             let isRegex          = false;
 
             if memstr(candidatePattern, "^") {
                 let isRegex = true;
             }
 
-            let routeMeta[route->getRouteId()] = [
+            let routeMeta[routeData[5]] = [
                 "pattern":     candidatePattern,
                 "isRegex":     isRegex,
                 "hostname":    candidateHost,
-                "hostRegex":   route->getCompiledHostName(),
-                "beforeMatch": route->getBeforeMatch()
+                "hostRegex":   routeData[3],
+                "beforeMatch": routeData[4]
             ];
 
             let routePatterns[routeIndex] = candidatePattern,

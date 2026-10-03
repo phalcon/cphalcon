@@ -578,6 +578,24 @@ class Route implements RouteInterface
     }
 
     /**
+     * Returns the data that the router needs for its method index, with
+     * one call: the HTTP methods, the compiled pattern, the host name, the
+     * compiled host name, the beforeMatch callback and the route id, in
+     * this order.
+     */
+    public function getIndexData() -> array
+    {
+        return [
+            this->methods,
+            this->compiledPattern,
+            this->hostname,
+            this->getCompiledHostName(),
+            this->beforeMatch,
+            this->routeId
+        ];
+    }
+
+    /**
      * Returns the 'match' callback if any
      */
     public function getMatch() -> callable | null
