@@ -113,8 +113,11 @@ class Route implements RouteInterface
         // Configure the route (extract parameters, paths, etc)
         this->reConfigure(pattern, paths);
 
-        // Update the HTTP method constraints
-        this->via(httpMethods);
+        /**
+         * Update the HTTP method constraints. The same as via(), with no
+         * method call.
+         */
+        let this->methods = httpMethods;
 
         // Get the unique Id from the static member uniqueId
         let uniqueId = self::uniqueId;
@@ -575,6 +578,24 @@ class Route implements RouteInterface
     public function getHttpMethods() -> array | string | null
     {
         return this->methods;
+    }
+
+    /**
+     * Returns the data that the router needs for its method index, with
+     * one call: the HTTP methods, the compiled pattern, the host name, the
+     * compiled host name, the beforeMatch callback and the route id, in
+     * this order.
+     */
+    public function getIndexData() -> array
+    {
+        return [
+            this->methods,
+            this->compiledPattern,
+            this->hostname,
+            this->getCompiledHostName(),
+            this->beforeMatch,
+            this->routeId
+        ];
     }
 
     /**

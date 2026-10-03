@@ -1031,7 +1031,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      */
     public function handle(string uri) -> void
     {
-        var action, beforeMatch, candidateRoutes, container,
+        var action, beforeMatch, candidateMethod, candidateRoutes, container,
             controller, converter, converters, currentHostName, eventsManager,
             handledUri, hostname, matched, matches, matchPosition,
             module, notFoundPaths, params, paramsStr, part, parts, paths,
@@ -1097,9 +1097,16 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
         }
 
         let requestMethod   = request->getMethod(),
+            candidateMethod = requestMethod,
             candidateRoutes = [];
 
+        /**
+         * The combined-regex fast path below reads the bucket that gave the
+         * candidates. A method with no bucket of its own uses the "*" bucket.
+         */
         if !fetch candidateRoutes, this->candidatesByMethod[requestMethod] {
+            let candidateMethod = "*";
+
             fetch candidateRoutes, this->candidatesByMethod["*"];
         }
 
@@ -1216,10 +1223,10 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
 
         if !routeFound
             && eventsManager === null
-            && !isset this->combinedRegexDisabled[requestMethod]
-            && fetch combinedChunks, this->combinedRegexByMethod[requestMethod]
+            && !isset this->combinedRegexDisabled[candidateMethod]
+            && fetch combinedChunks, this->combinedRegexByMethod[candidateMethod]
         {
-            let combinedMarkMaps = this->combinedRegexMarkMap[requestMethod];
+            let combinedMarkMaps = this->combinedRegexMarkMap[candidateMethod];
 
             for combinedChunkIdx, combinedChunk in combinedChunks {
                 let combinedMatchesLocal = [];
@@ -2244,7 +2251,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             candidatesByMethod, routeMeta, staticByMethod,
             staticShadowedByMethod, hostnameByMethod, hostnameLessByMethod,
             combinedRegexByMethod, combinedRegexMarkMap, combinedRegexDisabled,
-            routePatterns, routeHosts, candidateHost, routeMethods,
+            routePatterns, routeHosts, candidateHost, routeData, routeMethods,
             routeIndex, starPositions, positions, positionsByMethod, bucketIdx;
 
         let methodRoutes           = [],
@@ -2268,21 +2275,26 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             routeHosts    = [];
 
         for routeIndex, route in this->routes {
-            let methods          = route->getHttpMethods(),
-                candidatePattern = route->getCompiledPattern(),
-                candidateHost    = route->getHostName();
+            /**
+             * One call for the data of the route: the route is the loop
+             * variable, so each method call here has no call cache.
+             */
+            let routeData        = route->getIndexData(),
+                methods          = routeData[0],
+                candidatePattern = routeData[1],
+                candidateHost    = routeData[2];
             let isRegex          = false;
 
             if memstr(candidatePattern, "^") {
                 let isRegex = true;
             }
 
-            let routeMeta[route->getRouteId()] = [
+            let routeMeta[routeData[5]] = [
                 "pattern":     candidatePattern,
                 "isRegex":     isRegex,
                 "hostname":    candidateHost,
-                "hostRegex":   route->getCompiledHostName(),
-                "beforeMatch": route->getBeforeMatch()
+                "hostRegex":   routeData[3],
+                "beforeMatch": routeData[4]
             ];
 
             let routePatterns[routeIndex] = candidatePattern,
@@ -2444,7 +2456,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
          * yields reverse-iteration semantics.
          */
         var combinedAlternatives, combinedMark, combinedBody,
-            combinedBodyMatch, combinedShape, hostnameBucketRef;
+            hostnameBucketRef;
 
         let combinedRegexByMethod = [],
             combinedRegexMarkMap  = [],
@@ -2468,22 +2480,33 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                     continue;
                 }
 
-                let combinedBodyMatch = [];
-
                 /**
-                 * A named group disables the bucket: in a (?|...) group two
-                 * names on one group number do not compile, and a name of one
-                 * route goes into the matches of another route.
+                 * The pattern must have the shape "#^<body>$#u", the shape of
+                 * the compiled route patterns. Another shape disables the
+                 * bucket.
                  */
-                let combinedShape = preg_match("/^#\\^(?!.*\\(\\?(?:P?<[^=!]|'))(.+)\\$#u$/", bucketPattern, combinedBodyMatch);
-
-                if !combinedShape {
+                if !starts_with(bucketPattern, "#^") || !ends_with(bucketPattern, "$#u") {
                     let combinedRegexDisabled[method] = true;
                     let combinedAlternatives = [];
                     break;
                 }
 
-                let combinedBody = combinedBodyMatch[1];
+                let combinedBody = substr(bucketPattern, 2, -3);
+
+                /**
+                 * An empty body, a body on more than one line or a named group
+                 * disables the bucket. In a (?|...) group two names on one
+                 * group number do not compile, and a name of one route goes
+                 * into the matches of another route. A named group starts with
+                 * "(?", so the regular expression runs only for such a body.
+                 */
+                if combinedBody === ""
+                    || memstr(combinedBody, "\n")
+                    || (memstr(combinedBody, "(?") && preg_match("/\\(\\?(?:P?<[^=!]|')/", combinedBody)) {
+                    let combinedRegexDisabled[method] = true;
+                    let combinedAlternatives = [];
+                    break;
+                }
 
                 /**
                  * A "|" outside a group splits the route into two alternatives
