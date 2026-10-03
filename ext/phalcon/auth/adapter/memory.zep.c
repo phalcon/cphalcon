@@ -81,7 +81,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Memory, __construct)
 	zephir_fetch_params(1, 2, 0, &hasher, &config);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_auth_adapter_memory_ce, getThis(), "__construct", NULL, 0, hasher, config);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "loadUsers", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "loadusers", NULL, 0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&_0) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_2);
@@ -160,11 +160,11 @@ PHP_METHOD(Phalcon_Auth_Adapter_Memory, fromOptions)
 	array_init(&_2);
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "users");
-	ZEPHIR_CALL_CE_STATIC(&_1, phalcon_auth_internal_options_ce, "arrayOption", NULL, 0, &options, &_3, &_2);
+	ZEPHIR_CALL_CE_STATIC(&_1, phalcon_auth_internal_options_ce, "arrayoption", NULL, 0, &options, &_3, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "model");
-	ZEPHIR_CALL_CE_STATIC(&_4, phalcon_auth_internal_options_ce, "stringOrNull", NULL, 0, &options, &_3);
+	ZEPHIR_CALL_CE_STATIC(&_4, phalcon_auth_internal_options_ce, "stringornull", NULL, 0, &options, &_3);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 403, &_1, &_4);
 	zephir_check_call_status();
@@ -229,7 +229,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Memory, loadUsers)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 452, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "getUsers", NULL, 0);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "getusers", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

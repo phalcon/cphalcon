@@ -99,11 +99,11 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, __toString)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processChecked", NULL, 0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processchecked", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&unchecked, this_ptr, "processUnchecked", NULL, 0);
+	ZEPHIR_CALL_METHOD(&unchecked, this_ptr, "processunchecked", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_PARENT(&element, phalcon_html_helper_input_abstractchecked_ce, getThis(), "__toString", NULL, 0);
+	ZEPHIR_CALL_PARENT(&element, phalcon_html_helper_input_abstractchecked_ce, getThis(), "__tostring", NULL, 0);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 217, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&label, &_0);
@@ -200,7 +200,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, label)
 	zephir_create_array(&_6, 3, 0);
 	ZEPHIR_INIT_VAR(&_8);
 	ZVAL_STRING(&_8, "label");
-	ZEPHIR_CALL_METHOD(&_7, this_ptr, "renderTag", NULL, 0, &_8, &attributes);
+	ZEPHIR_CALL_METHOD(&_7, this_ptr, "rendertag", NULL, 0, &_8, &attributes);
 	zephir_check_call_status();
 	zephir_array_update_string(&_6, SL("start"), &_7, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_6, SL("text"), &text, PH_COPY | PH_SEPARATE);
@@ -368,7 +368,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, processUnchecked)
 		zephir_array_update_string(&_1$$4, SL("value"), &unchecked, PH_COPY | PH_SEPARATE);
 		ZEPHIR_INIT_VAR(&_4$$4);
 		ZVAL_STRING(&_4$$4, "hidden");
-		ZEPHIR_CALL_METHOD(&unchecked, this_ptr, "renderTag", NULL, 0, &_4$$4, &_1$$4);
+		ZEPHIR_CALL_METHOD(&unchecked, this_ptr, "rendertag", NULL, 0, &_4$$4, &_1$$4);
 		zephir_check_call_status();
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 219, &attributes);

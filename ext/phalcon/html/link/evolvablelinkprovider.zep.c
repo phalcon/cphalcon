@@ -61,7 +61,7 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLinkProvider, withLink)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &link);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "doWithLink", NULL, 0, link);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "dowithlink", NULL, 0, link);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLinkProvider, withoutLink)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &link);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "doWithoutLink", NULL, 0, link);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "dowithoutlink", NULL, 0, link);
 	zephir_check_call_status();
 	RETURN_MM();
 }

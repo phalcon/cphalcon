@@ -96,14 +96,14 @@ PHP_METHOD(Phalcon_ADR_Middleware_MethodOverrideMiddleware, __invoke)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &request, &next);
-	ZEPHIR_CALL_METHOD(&_0, request, "getMethod", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_0, request, "getmethod", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "POST");
 	if (ZEPHIR_IS_IDENTICAL(&_1, &_0)) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZVAL_STRING(&_3$$3, "_method");
-		ZEPHIR_CALL_METHOD(&_2$$3, request, "getPost", NULL, 0, &_3$$3);
+		ZEPHIR_CALL_METHOD(&_2$$3, request, "getpost", NULL, 0, &_3$$3);
 		zephir_check_call_status();
 		zephir_cast_to_string(&_4$$3, &_2$$3);
 		ZEPHIR_INIT_VAR(&spoofed);
@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_ADR_Middleware_MethodOverrideMiddleware, __invoke)
 		zephir_check_call_status();
 		if (zephir_is_true(&_6$$3)) {
 			ZVAL_BOOL(&_7$$4, 1);
-			ZEPHIR_CALL_METHOD(NULL, request, "setHttpMethodParameterOverride", NULL, 0, &_7$$4);
+			ZEPHIR_CALL_METHOD(NULL, request, "sethttpmethodparameteroverride", NULL, 0, &_7$$4);
 			zephir_check_call_status();
 		}
 	}

@@ -66,12 +66,12 @@ PHP_METHOD(Phalcon_Traits_Factory_ConfigTrait, checkConfig)
 		_0 = zephir_instance_of_ev(config, phalcon_config_configinterface_ce);
 	}
 	if (_0) {
-		ZEPHIR_RETURN_CALL_METHOD(config, "toArray", NULL, 0);
+		ZEPHIR_RETURN_CALL_METHOD(config, "toarray", NULL, 0);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
 	if (Z_TYPE_P(config) != IS_ARRAY) {
-		ZEPHIR_CALL_METHOD(&exceptionClass, this_ptr, "getExceptionClass", NULL, 0);
+		ZEPHIR_CALL_METHOD(&exceptionClass, this_ptr, "getexceptionclass", NULL, 0);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_1$$4);
 		zephir_fetch_safe_class(&_2$$4, &exceptionClass);
@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Traits_Factory_ConfigTrait, checkConfigElement)
 	zephir_memory_observe(&element_zv);
 	ZVAL_STR_COPY(&element_zv, element);
 	if (!(zephir_array_isset_value(&config, &element_zv))) {
-		ZEPHIR_CALL_METHOD(&exceptionClass, this_ptr, "getExceptionClass", NULL, 0);
+		ZEPHIR_CALL_METHOD(&exceptionClass, this_ptr, "getexceptionclass", NULL, 0);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_0$$3);
 		zephir_fetch_safe_class(&_1$$3, &exceptionClass);

@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Db_Geometry_MultiLineString, toWkt)
 		{
 			ZEPHIR_INIT_NVAR(&line);
 			ZVAL_COPY(&line, _3);
-			ZEPHIR_CALL_METHOD(&_4$$3, &line, "pointsWkt", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_4$$3, &line, "pointswkt", NULL, 0);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_5$$3);
 			ZEPHIR_CONCAT_SVS(&_5$$3, "(", &_4$$3, ")");
@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Db_Geometry_MultiLineString, toWkt)
 			}
 			ZEPHIR_CALL_METHOD(&line, _1, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_8$$4, &line, "pointsWkt", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_8$$4, &line, "pointswkt", NULL, 0);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_9$$4);
 				ZEPHIR_CONCAT_SVS(&_9$$4, "(", &_8$$4, ")");

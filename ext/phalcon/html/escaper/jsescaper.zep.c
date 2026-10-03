@@ -104,9 +104,9 @@ PHP_METHOD(Phalcon_Html_Escaper_JsEscaper, escape)
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "\\\\");
 	zephir_fast_str_replace(&_1, &_2, &_3, &input_zv);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "normalizeEncoding", NULL, 0, &_1);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "normalizeencoding", NULL, 0, &_1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&result, this_ptr, "doEscapeJs", NULL, 0, &_0);
+	ZEPHIR_CALL_METHOD(&result, this_ptr, "doescapejs", NULL, 0, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&result) != IS_STRING) {
 		RETURN_MM_STRING("");

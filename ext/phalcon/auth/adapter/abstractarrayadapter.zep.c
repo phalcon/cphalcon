@@ -83,12 +83,12 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, retrieveByCredentials)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &credentials_param);
 	zephir_get_arrval(&credentials, credentials_param);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "hasIdentifyingField", NULL, 0, &credentials);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "hasidentifyingfield", NULL, 0, &credentials);
 	zephir_check_call_status();
 	if (!zephir_is_true(&_0)) {
 		RETURN_MM_NULL();
 	}
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "loadUsers", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "loadusers", NULL, 0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&_1) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_3);
@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, retrieveByCredentials)
 		{
 			ZEPHIR_INIT_NVAR(&row);
 			ZVAL_COPY(&row, _4);
-			ZEPHIR_CALL_METHOD(&_5$$4, this_ptr, "matchesRow", &_6, 0, &row, &credentials);
+			ZEPHIR_CALL_METHOD(&_5$$4, this_ptr, "matchesrow", &_6, 0, &row, &credentials);
 			zephir_check_call_status();
 			if (zephir_is_true(&_5$$4)) {
 				ZEPHIR_RETURN_CALL_METHOD(this_ptr, "hydrate", &_7, 0, &row);
@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, retrieveByCredentials)
 			}
 			ZEPHIR_CALL_METHOD(&row, _2, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_10$$6, this_ptr, "matchesRow", &_6, 0, &row, &credentials);
+				ZEPHIR_CALL_METHOD(&_10$$6, this_ptr, "matchesrow", &_6, 0, &row, &credentials);
 				zephir_check_call_status();
 				if (zephir_is_true(&_10$$6)) {
 					ZEPHIR_RETURN_CALL_METHOD(this_ptr, "hydrate", &_7, 0, &row);
@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, retrieveByCredentials)
 		}
 	}
 	ZEPHIR_INIT_NVAR(&row);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "burnHash", NULL, 0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "burnhash", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM_NULL();
 }
@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, retrieveById)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &id);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "loadUsers", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "loadusers", NULL, 0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&_0) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_2);
@@ -344,7 +344,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, hydrate)
 	zephir_fetch_params(1, 1, 0, &row_param);
 	zephir_get_arrval(&row, row_param);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 160, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&modelClass, &_0, "getModel", NULL, 0);
+	ZEPHIR_CALL_METHOD(&modelClass, &_0, "getmodel", NULL, 0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&modelClass) != IS_NULL) {
 		ZEPHIR_INIT_VAR(&instance);

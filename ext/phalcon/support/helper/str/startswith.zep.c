@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_StartsWith, __invoke)
 	} else {
 		ZVAL_BOOL(&_0, 0);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "toStartsWith", NULL, 0, &haystack_zv, &needle_zv, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "tostartswith", NULL, 0, &haystack_zv, &needle_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

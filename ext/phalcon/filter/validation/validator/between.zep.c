@@ -145,17 +145,17 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Between, validate)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &validation, &field);
-	ZEPHIR_CALL_METHOD(&value, validation, "getValue", NULL, 0, field);
+	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "minimum");
-	ZEPHIR_CALL_METHOD(&minimum, this_ptr, "getOption", NULL, 0, &_0);
+	ZEPHIR_CALL_METHOD(&minimum, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "maximum");
-	ZEPHIR_CALL_METHOD(&maximum, this_ptr, "getOption", NULL, 0, &_0);
+	ZEPHIR_CALL_METHOD(&maximum, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "allowEmpty", NULL, 0, field, &value);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "allowempty", NULL, 0, field, &value);
 	zephir_check_call_status();
 	if (zephir_is_true(&_1)) {
 		RETURN_MM_BOOL(1);
@@ -179,9 +179,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Between, validate)
 		zephir_create_array(&replacePairs, 2, 0);
 		zephir_array_update_string(&replacePairs, SL(":min"), &minimum, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&replacePairs, SL(":max"), &maximum, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_METHOD(&_5$$6, this_ptr, "messageFactory", NULL, 0, validation, field, &replacePairs);
+		ZEPHIR_CALL_METHOD(&_5$$6, this_ptr, "messagefactory", NULL, 0, validation, field, &replacePairs);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendMessage", NULL, 0, &_5$$6);
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_5$$6);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}

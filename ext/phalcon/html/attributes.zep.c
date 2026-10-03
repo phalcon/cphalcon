@@ -77,9 +77,9 @@ PHP_METHOD(Phalcon_Html_Attributes, render)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "toArray", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "toarray", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderAttributes", NULL, 0, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderattributes", NULL, 0, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Html_Attributes, renderAttributes)
 	}
 
 	ZVAL_LONG(&_0, 3);
-	ZEPHIR_CALL_METHOD(NULL, &escaper, "setFlags", NULL, 0, &_0);
+	ZEPHIR_CALL_METHOD(NULL, &escaper, "setflags", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&result);
 	ZVAL_STRING(&result, "");

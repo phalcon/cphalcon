@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Hydration_CloneResultMapHydrate, cloneResultMapHydr
 					_3$$7 = zephir_is_true(&_4$$7);
 				}
 				if (_3$$7) {
-					ZEPHIR_CALL_CE_STATIC(&_7$$8, phalcon_mvc_model_hydration_caseinsensitivecolumnmap_ce, "caseInsensitiveColumnMap", &_8, 0, columnMap, &key);
+					ZEPHIR_CALL_CE_STATIC(&_7$$8, phalcon_mvc_model_hydration_caseinsensitivecolumnmap_ce, "caseinsensitivecolumnmap", &_8, 0, columnMap, &key);
 					zephir_check_call_status();
 					ZEPHIR_CPY_WRT(&key, &_7$$8);
 				}
@@ -194,7 +194,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Hydration_CloneResultMapHydrate, cloneResultMapHydr
 						_15$$16 = zephir_is_true(&_16$$16);
 					}
 					if (_15$$16) {
-						ZEPHIR_CALL_CE_STATIC(&_18$$17, phalcon_mvc_model_hydration_caseinsensitivecolumnmap_ce, "caseInsensitiveColumnMap", &_8, 0, columnMap, &key);
+						ZEPHIR_CALL_CE_STATIC(&_18$$17, phalcon_mvc_model_hydration_caseinsensitivecolumnmap_ce, "caseinsensitivecolumnmap", &_8, 0, columnMap, &key);
 						zephir_check_call_status();
 						ZEPHIR_CPY_WRT(&key, &_18$$17);
 					}

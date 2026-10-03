@@ -147,10 +147,10 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, __call)
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_INIT_VAR(&_3$$3);
 		zephir_create_array(&_3$$3, 2, 0);
-		ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "getStatement", NULL, 0);
+		ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "getstatement", NULL, 0);
 		zephir_check_call_status();
 		zephir_array_fast_append(&_3$$3, &_4$$3);
-		ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "getBindValues", NULL, 0);
+		ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "getbindvalues", NULL, 0);
 		zephir_check_call_status();
 		zephir_array_fast_append(&_3$$3, &_4$$3);
 		zephir_fast_array_merge(&_2$$3, &_3$$3, &params);
@@ -257,7 +257,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, appendHaving)
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "HAVING");
 	ZVAL_LONG(&_1, type);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendCondition", NULL, 0, &_0, &condition_zv, value, &_1);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendcondition", NULL, 0, &_0, &condition_zv, value, &_1);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -322,7 +322,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, appendJoin)
 	if (!(ZEPHIR_IS_EMPTY(value))) {
 		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 602, PH_NOISY_CC | PH_READONLY);
 		ZVAL_LONG(&_2$$3, type);
-		ZEPHIR_CALL_METHOD(&_1$$3, &_0$$3, "bindInline", NULL, 0, value, &_2$$3);
+		ZEPHIR_CALL_METHOD(&_1$$3, &_0$$3, "bindinline", NULL, 0, value, &_2$$3);
 		zephir_check_call_status();
 		zephir_concat_self(&condition, &_1$$3);
 	}
@@ -506,7 +506,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, distinct)
 	} else {
 		ZVAL_BOOL(&_1, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setFlag", NULL, 0, &_0, &_1);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setflag", NULL, 0, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -597,7 +597,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, getStatement)
 	zephir_memory_observe(&_2);
 	zephir_array_fetch_string(&_2, &_1, SL("UNION"), PH_NOISY, "phalcon/DataMapper/Query/Select.zep", 214);
 	zephir_fast_join_str(&_0, SL(""), &_2);
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getCurrentStatement", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getcurrentstatement", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_VV(return_value, &_0, &_3);
 	RETURN_MM();
@@ -625,7 +625,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, groupBy)
 	zephir_fetch_params(1, 1, 0, &groupBy);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "GROUP");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processValue", NULL, 0, &_0, groupBy);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processvalue", NULL, 0, &_0, groupBy);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -694,7 +694,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, having)
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "AND ");
 	ZVAL_LONG(&_2, type);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addCondition", NULL, 0, &_0, &_1, &condition_zv, value, &_2);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addcondition", NULL, 0, &_0, &_1, &condition_zv, value, &_2);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -821,7 +821,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, join)
 	if (!(ZEPHIR_IS_EMPTY(value))) {
 		zephir_read_property_cached(&_16$$5, this_ptr, _zephir_prop_0, 602, PH_NOISY_CC | PH_READONLY);
 		ZVAL_LONG(&_18$$5, type);
-		ZEPHIR_CALL_METHOD(&_17$$5, &_16$$5, "bindInline", NULL, 0, value, &_18$$5);
+		ZEPHIR_CALL_METHOD(&_17$$5, &_16$$5, "bindinline", NULL, 0, value, &_18$$5);
 		zephir_check_call_status();
 		zephir_concat_self(&condition, &_17$$5);
 	}
@@ -883,7 +883,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, orHaving)
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "OR ");
 	ZVAL_LONG(&_2, type);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addCondition", NULL, 0, &_0, &_1, &condition_zv, value, &_2);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addcondition", NULL, 0, &_0, &_1, &condition_zv, value, &_2);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -974,7 +974,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, union)
 
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, " UNION ");
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getCurrentStatement", NULL, 0, &_1);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getcurrentstatement", NULL, 0, &_1);
 	zephir_check_call_status();
 	zephir_update_property_array_multi(this_ptr, SL("store"), &_0, SL("sa"), 3, SL("UNION"));
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "reset", NULL, 0);
@@ -999,7 +999,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, unionAll)
 
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, " UNION ALL ");
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getCurrentStatement", NULL, 0, &_1);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getcurrentstatement", NULL, 0, &_1);
 	zephir_check_call_status();
 	zephir_update_property_array_multi(this_ptr, SL("store"), &_0, SL("sa"), 3, SL("UNION"));
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "reset", NULL, 0);
@@ -1067,31 +1067,31 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, getCurrentStatement)
 		ZEPHIR_INIT_NVAR(&forUpdate);
 		ZVAL_STRING(&forUpdate, " FOR UPDATE");
 	}
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "buildFlags", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "buildflags", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "buildLimitEarly", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "buildlimitearly", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "buildColumns", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "buildcolumns", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "buildFrom", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "buildfrom", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_6);
 	ZVAL_STRING(&_6, "WHERE");
-	ZEPHIR_CALL_METHOD(&_5, this_ptr, "buildCondition", NULL, 0, &_6);
+	ZEPHIR_CALL_METHOD(&_5, this_ptr, "buildcondition", NULL, 0, &_6);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_6);
 	ZVAL_STRING(&_6, "GROUP");
-	ZEPHIR_CALL_METHOD(&_7, this_ptr, "buildBy", NULL, 0, &_6);
+	ZEPHIR_CALL_METHOD(&_7, this_ptr, "buildby", NULL, 0, &_6);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_6);
 	ZVAL_STRING(&_6, "HAVING");
-	ZEPHIR_CALL_METHOD(&_8, this_ptr, "buildCondition", NULL, 0, &_6);
+	ZEPHIR_CALL_METHOD(&_8, this_ptr, "buildcondition", NULL, 0, &_6);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_6);
 	ZVAL_STRING(&_6, "ORDER");
-	ZEPHIR_CALL_METHOD(&_9, this_ptr, "buildBy", NULL, 0, &_6);
+	ZEPHIR_CALL_METHOD(&_9, this_ptr, "buildby", NULL, 0, &_6);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_10, this_ptr, "buildLimit", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_10, this_ptr, "buildlimit", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&statement);
 	ZEPHIR_CONCAT_SVVVVVVVVVV(&statement, "SELECT", &_1, &_2, &_3, &_4, &_5, &_7, &_8, &_9, &_10, &forUpdate);
@@ -1130,7 +1130,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, buildColumns)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "hasColumns", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "hascolumns", NULL, 0);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&columns);

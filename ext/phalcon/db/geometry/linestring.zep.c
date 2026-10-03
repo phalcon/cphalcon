@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Db_Geometry_LineString, toWkt)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "pointsWkt", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "pointswkt", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_SVS(return_value, "LINESTRING(", &_0, ")");
 	RETURN_MM();
@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Db_Geometry_LineString, pointsWkt)
 		{
 			ZEPHIR_INIT_NVAR(&point);
 			ZVAL_COPY(&point, _3);
-			ZEPHIR_CALL_METHOD(&_4$$3, &point, "coordsWkt", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_4$$3, &point, "coordswkt", NULL, 0);
 			zephir_check_call_status();
 			zephir_array_append(&parts, &_4$$3, PH_SEPARATE, "phalcon/Db/Geometry/LineString.zep", 56);
 		} ZEND_HASH_FOREACH_END();
@@ -176,7 +176,7 @@ PHP_METHOD(Phalcon_Db_Geometry_LineString, pointsWkt)
 			}
 			ZEPHIR_CALL_METHOD(&point, _1, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_7$$4, &point, "coordsWkt", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_7$$4, &point, "coordswkt", NULL, 0);
 				zephir_check_call_status();
 				zephir_array_append(&parts, &_7$$4, PH_SEPARATE, "phalcon/Db/Geometry/LineString.zep", 56);
 		}

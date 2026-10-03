@@ -73,12 +73,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify)
 	model = ZEND_CALL_ARG(execute_data, 2);
 	zephir_memory_observe(&type_zv);
 	ZVAL_STR_COPY(&type_zv, type);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "mustTakeAction", NULL, 0, &type_zv);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "musttakeaction", NULL, 0, &type_zv);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
 		RETURN_MM_NULL();
 	}
-	ZEPHIR_CALL_METHOD(&options, this_ptr, "getOptions", NULL, 0, &type_zv);
+	ZEPHIR_CALL_METHOD(&options, this_ptr, "getoptions", NULL, 0, &type_zv);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&options) != IS_ARRAY) {
 		RETURN_MM_NULL();
@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify)
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_behavior_exceptions_missingrequiredoption_ce, "field", "phalcon/Mvc/Model/Behavior/Timestampable.zep", 49);
 		return;
 	}
-	ZEPHIR_CALL_METHOD(&timestamp, this_ptr, "getTimestamp", NULL, 0, &options);
+	ZEPHIR_CALL_METHOD(&timestamp, this_ptr, "gettimestamp", NULL, 0, &options);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(&field) == IS_ARRAY)) {
 		if (Z_TYPE_P(&field) == IS_STRING) {
@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify)
 			{
 				ZEPHIR_INIT_NVAR(&singleField);
 				ZVAL_COPY(&singleField, _3$$6);
-				ZEPHIR_CALL_METHOD(NULL, model, "writeAttribute", &_4, 0, &singleField, &timestamp);
+				ZEPHIR_CALL_METHOD(NULL, model, "writeattribute", &_4, 0, &singleField, &timestamp);
 				zephir_check_call_status();
 			} ZEND_HASH_FOREACH_END();
 		} else {
@@ -125,13 +125,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify)
 				}
 				ZEPHIR_CALL_METHOD(&singleField, _1$$6, "current", NULL, 0);
 				zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(NULL, model, "writeAttribute", &_7, 0, &singleField, &timestamp);
+					ZEPHIR_CALL_METHOD(NULL, model, "writeattribute", &_7, 0, &singleField, &timestamp);
 					zephir_check_call_status();
 			}
 		}
 		ZEPHIR_INIT_NVAR(&singleField);
 	} else {
-		ZEPHIR_CALL_METHOD(NULL, model, "writeAttribute", NULL, 0, &field, &timestamp);
+		ZEPHIR_CALL_METHOD(NULL, model, "writeattribute", NULL, 0, &field, &timestamp);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();

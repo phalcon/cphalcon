@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Support_Helper_Json_Encode, __invoke)
 
 		ZVAL_LONG(&_0$$3, options);
 		ZVAL_LONG(&_1$$3, depth);
-		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "toEncode", NULL, 0, data, &_0$$3, &_1$$3);
+		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "toencode", NULL, 0, data, &_0$$3, &_1$$3);
 		zephir_check_call_status_or_jump(try_end_1);
 		RETURN_MM();
 
@@ -107,9 +107,9 @@ PHP_METHOD(Phalcon_Support_Helper_Json_Encode, __invoke)
 			ZEPHIR_CPY_WRT(&ex, &_2);
 			ZEPHIR_INIT_VAR(&_3$$4);
 			object_init_ex(&_3$$4, phalcon_support_helper_json_exceptions_jsonencodeerror_ce);
-			ZEPHIR_CALL_METHOD(&_4$$4, &ex, "getMessage", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_4$$4, &ex, "getmessage", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_5$$4, &ex, "getCode", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_5$$4, &ex, "getcode", NULL, 0);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 0, &_4$$4, &_5$$4, &ex);
 			zephir_check_call_status();

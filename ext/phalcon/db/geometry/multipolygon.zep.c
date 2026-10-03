@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Db_Geometry_MultiPolygon, toWkt)
 		{
 			ZEPHIR_INIT_NVAR(&polygon);
 			ZVAL_COPY(&polygon, _3);
-			ZEPHIR_CALL_METHOD(&_4$$3, &polygon, "ringsWkt", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_4$$3, &polygon, "ringswkt", NULL, 0);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_5$$3);
 			ZEPHIR_CONCAT_SVS(&_5$$3, "(", &_4$$3, ")");
@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Db_Geometry_MultiPolygon, toWkt)
 			}
 			ZEPHIR_CALL_METHOD(&polygon, _1, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_8$$4, &polygon, "ringsWkt", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_8$$4, &polygon, "ringswkt", NULL, 0);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_9$$4);
 				ZEPHIR_CONCAT_SVS(&_9$$4, "(", &_8$$4, ")");

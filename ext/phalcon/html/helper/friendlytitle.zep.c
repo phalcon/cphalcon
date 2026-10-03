@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Html_Helper_FriendlyTitle, __invoke)
 			ZEPHIR_CPY_WRT(&ex, &_2);
 			ZEPHIR_INIT_VAR(&_3$$4);
 			object_init_ex(&_3$$4, phalcon_html_exceptions_friendlytitleconversionfailed_ce);
-			ZEPHIR_CALL_METHOD(&_4$$4, &ex, "getMessage", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_4$$4, &ex, "getmessage", NULL, 0);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 0, &_4$$4);
 			zephir_check_call_status();

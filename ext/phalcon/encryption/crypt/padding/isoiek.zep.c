@@ -71,10 +71,10 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_IsoIek, pad)
 
 PHP_METHOD(Phalcon_Encryption_Crypt_Padding_IsoIek, unpad)
 {
-	zend_bool _3, _5;
+	zend_bool _1, _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long blockSize, ZEPHIR_LAST_CALL_STATUS, counter = 0, paddingSize = 0;
-	zval input_zv, *blockSize_param = NULL, length, inputArray, zero, _0, _1, _2, _4, _6, _7;
+	zval input_zv, *blockSize_param = NULL, length, inputArray, zero, _0, _2, _4, _5;
 	zend_string *input = NULL;
 
 	ZVAL_UNDEF(&input_zv);
@@ -82,11 +82,9 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_IsoIek, unpad)
 	ZVAL_UNDEF(&inputArray);
 	ZVAL_UNDEF(&zero);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_6);
-	ZVAL_UNDEF(&_7);
+	ZVAL_UNDEF(&_5);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(input)
 		Z_PARAM_LONG(blockSize)
@@ -104,34 +102,30 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_IsoIek, unpad)
 	ZVAL_LONG(&length, zephir_fast_strlen_ev(&input_zv));
 	ZEPHIR_CALL_FUNCTION(&inputArray, "str_split", NULL, 216, &input_zv);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_1);
-	ZVAL_LONG(&_1, 1);
-	ZEPHIR_INIT_VAR(&_2);
-	zephir_sub_function(&_2, &length, &_1);
-	counter = zephir_get_intval(&_2);
+	counter = (zephir_get_numberval(&length) - 1);
 	while (1) {
-		_3 = counter > 0;
+		_1 = counter > 0;
+		if (_1) {
+			ZEPHIR_OBS_NVAR(&_2);
+			zephir_array_fetch_long(&_2, &inputArray, counter, PH_NOISY, "phalcon/Encryption/Crypt/Padding/IsoIek.zep", 36);
+			_1 = ZEPHIR_IS_IDENTICAL(&_2, &zero);
+		}
+		_3 = _1;
 		if (_3) {
-			ZEPHIR_OBS_NVAR(&_4);
-			zephir_array_fetch_long(&_4, &inputArray, counter, PH_NOISY, "phalcon/Encryption/Crypt/Padding/IsoIek.zep", 36);
-			_3 = ZEPHIR_IS_IDENTICAL(&_4, &zero);
+			_3 = paddingSize < blockSize;
 		}
-		_5 = _3;
-		if (_5) {
-			_5 = paddingSize < blockSize;
-		}
-		if (!(_5)) {
+		if (!(_3)) {
 			break;
 		}
 		paddingSize++;
 		counter--;
 	}
-	zephir_memory_observe(&_6);
-	zephir_array_fetch_long(&_6, &inputArray, counter, PH_NOISY, "phalcon/Encryption/Crypt/Padding/IsoIek.zep", 43);
+	zephir_memory_observe(&_4);
+	zephir_array_fetch_long(&_4, &inputArray, counter, PH_NOISY, "phalcon/Encryption/Crypt/Padding/IsoIek.zep", 43);
 	ZVAL_LONG(&_0, 0x80);
-	ZEPHIR_CALL_FUNCTION(&_7, "chr", NULL, 0, &_0);
+	ZEPHIR_CALL_FUNCTION(&_5, "chr", NULL, 0, &_0);
 	zephir_check_call_status();
-	if (ZEPHIR_IS_EQUAL(&_6, &_7)) {
+	if (ZEPHIR_IS_EQUAL(&_4, &_5)) {
 		paddingSize++;
 	} else {
 		paddingSize = 0;

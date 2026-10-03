@@ -143,24 +143,24 @@ PHP_METHOD(Phalcon_Annotations_AttributesReader, parse)
 	object_init_ex(&reflection, zephir_get_internal_ce(SL("reflectionclass")));
 	ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 252, &className_zv);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&file, &reflection, "getFileName", NULL, 367);
+	ZEPHIR_CALL_METHOD(&file, &reflection, "getfilename", NULL, 367);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&file) != IS_STRING) {
 		ZEPHIR_INIT_NVAR(&file);
 		ZVAL_STRING(&file, "eval code");
 	}
-	ZEPHIR_CALL_METHOD(&_0, &reflection, "getStartLine", NULL, 368);
+	ZEPHIR_CALL_METHOD(&_0, &reflection, "getstartline", NULL, 368);
 	zephir_check_call_status();
 	line = zephir_get_intval(&_0);
-	ZEPHIR_CALL_METHOD(&_1, &reflection, "getAttributes", NULL, 369);
+	ZEPHIR_CALL_METHOD(&_1, &reflection, "getattributes", NULL, 369);
 	zephir_check_call_status();
 	ZVAL_LONG(&_2, line);
-	ZEPHIR_CALL_METHOD(&classAttributes, this_ptr, "buildNodes", NULL, 0, &_1, &file, &_2);
+	ZEPHIR_CALL_METHOD(&classAttributes, this_ptr, "buildnodes", NULL, 0, &_1, &file, &_2);
 	zephir_check_call_status();
 	if (!(ZEPHIR_IS_EMPTY(&classAttributes))) {
 		zephir_array_update_string(&annotations, SL("class"), &classAttributes, PH_COPY | PH_SEPARATE);
 	}
-	ZEPHIR_CALL_METHOD(&constants, &reflection, "getReflectionConstants", NULL, 370);
+	ZEPHIR_CALL_METHOD(&constants, &reflection, "getreflectionconstants", NULL, 370);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&annotationsConstants);
 	array_init(&annotationsConstants);
@@ -177,13 +177,13 @@ PHP_METHOD(Phalcon_Annotations_AttributesReader, parse)
 		{
 			ZEPHIR_INIT_NVAR(&constant);
 			ZVAL_COPY(&constant, _5);
-			ZEPHIR_CALL_METHOD(&_6$$5, &constant, "getAttributes", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_6$$5, &constant, "getattributes", NULL, 0);
 			zephir_check_call_status();
 			ZVAL_LONG(&_7$$5, 1);
-			ZEPHIR_CALL_METHOD(&constantAttributes, this_ptr, "buildNodes", NULL, 0, &_6$$5, &file, &_7$$5);
+			ZEPHIR_CALL_METHOD(&constantAttributes, this_ptr, "buildnodes", NULL, 0, &_6$$5, &file, &_7$$5);
 			zephir_check_call_status();
 			if (!(ZEPHIR_IS_EMPTY(&constantAttributes))) {
-				ZEPHIR_CALL_METHOD(&_8$$6, &constant, "getName", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_8$$6, &constant, "getname", NULL, 0);
 				zephir_check_call_status();
 				zephir_array_update_zval(&annotationsConstants, &_8$$6, &constantAttributes, PH_COPY | PH_SEPARATE);
 			}
@@ -206,13 +206,13 @@ PHP_METHOD(Phalcon_Annotations_AttributesReader, parse)
 			}
 			ZEPHIR_CALL_METHOD(&constant, _3, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_11$$7, &constant, "getAttributes", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_11$$7, &constant, "getattributes", NULL, 0);
 				zephir_check_call_status();
 				ZVAL_LONG(&_12$$7, 1);
-				ZEPHIR_CALL_METHOD(&constantAttributes, this_ptr, "buildNodes", NULL, 0, &_11$$7, &file, &_12$$7);
+				ZEPHIR_CALL_METHOD(&constantAttributes, this_ptr, "buildnodes", NULL, 0, &_11$$7, &file, &_12$$7);
 				zephir_check_call_status();
 				if (!(ZEPHIR_IS_EMPTY(&constantAttributes))) {
-					ZEPHIR_CALL_METHOD(&_13$$8, &constant, "getName", NULL, 0);
+					ZEPHIR_CALL_METHOD(&_13$$8, &constant, "getname", NULL, 0);
 					zephir_check_call_status();
 					zephir_array_update_zval(&annotationsConstants, &_13$$8, &constantAttributes, PH_COPY | PH_SEPARATE);
 				}
@@ -222,7 +222,7 @@ PHP_METHOD(Phalcon_Annotations_AttributesReader, parse)
 	if (!(ZEPHIR_IS_EMPTY(&annotationsConstants))) {
 		zephir_array_update_string(&annotations, SL("constants"), &annotationsConstants, PH_COPY | PH_SEPARATE);
 	}
-	ZEPHIR_CALL_METHOD(&properties, &reflection, "getProperties", NULL, 371);
+	ZEPHIR_CALL_METHOD(&properties, &reflection, "getproperties", NULL, 371);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&annotationsProperties);
 	array_init(&annotationsProperties);
@@ -239,10 +239,10 @@ PHP_METHOD(Phalcon_Annotations_AttributesReader, parse)
 		{
 			ZEPHIR_INIT_NVAR(&property);
 			ZVAL_COPY(&property, _16);
-			ZEPHIR_CALL_METHOD(&_17$$10, &property, "getAttributes", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_17$$10, &property, "getattributes", NULL, 0);
 			zephir_check_call_status();
 			ZVAL_LONG(&_18$$10, 1);
-			ZEPHIR_CALL_METHOD(&propertyAttributes, this_ptr, "buildNodes", NULL, 0, &_17$$10, &file, &_18$$10);
+			ZEPHIR_CALL_METHOD(&propertyAttributes, this_ptr, "buildnodes", NULL, 0, &_17$$10, &file, &_18$$10);
 			zephir_check_call_status();
 			if (!(ZEPHIR_IS_EMPTY(&propertyAttributes))) {
 				ZEPHIR_OBS_NVAR(&_19$$11);
@@ -268,10 +268,10 @@ PHP_METHOD(Phalcon_Annotations_AttributesReader, parse)
 			}
 			ZEPHIR_CALL_METHOD(&property, _14, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_22$$12, &property, "getAttributes", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_22$$12, &property, "getattributes", NULL, 0);
 				zephir_check_call_status();
 				ZVAL_LONG(&_23$$12, 1);
-				ZEPHIR_CALL_METHOD(&propertyAttributes, this_ptr, "buildNodes", NULL, 0, &_22$$12, &file, &_23$$12);
+				ZEPHIR_CALL_METHOD(&propertyAttributes, this_ptr, "buildnodes", NULL, 0, &_22$$12, &file, &_23$$12);
 				zephir_check_call_status();
 				if (!(ZEPHIR_IS_EMPTY(&propertyAttributes))) {
 					ZEPHIR_OBS_NVAR(&_24$$13);
@@ -284,7 +284,7 @@ PHP_METHOD(Phalcon_Annotations_AttributesReader, parse)
 	if (!(ZEPHIR_IS_EMPTY(&annotationsProperties))) {
 		zephir_array_update_string(&annotations, SL("properties"), &annotationsProperties, PH_COPY | PH_SEPARATE);
 	}
-	ZEPHIR_CALL_METHOD(&methods, &reflection, "getMethods", NULL, 372);
+	ZEPHIR_CALL_METHOD(&methods, &reflection, "getmethods", NULL, 372);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&annotationsMethods);
 	array_init(&annotationsMethods);
@@ -301,18 +301,18 @@ PHP_METHOD(Phalcon_Annotations_AttributesReader, parse)
 		{
 			ZEPHIR_INIT_NVAR(&method);
 			ZVAL_COPY(&method, _27);
-			ZEPHIR_CALL_METHOD(&methodFile, &method, "getFileName", NULL, 0);
+			ZEPHIR_CALL_METHOD(&methodFile, &method, "getfilename", NULL, 0);
 			zephir_check_call_status();
 			if (Z_TYPE_P(&methodFile) != IS_STRING) {
 				ZEPHIR_INIT_NVAR(&methodFile);
 				ZVAL_STRING(&methodFile, "eval code");
 			}
-			ZEPHIR_CALL_METHOD(&_28$$15, &method, "getAttributes", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_28$$15, &method, "getattributes", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_29$$15, &method, "getStartLine", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_29$$15, &method, "getstartline", NULL, 0);
 			zephir_check_call_status();
 			ZVAL_LONG(&_30$$15, zephir_get_intval(&_29$$15));
-			ZEPHIR_CALL_METHOD(&methodAttributes, this_ptr, "buildNodes", NULL, 0, &_28$$15, &methodFile, &_30$$15);
+			ZEPHIR_CALL_METHOD(&methodAttributes, this_ptr, "buildnodes", NULL, 0, &_28$$15, &methodFile, &_30$$15);
 			zephir_check_call_status();
 			if (!(ZEPHIR_IS_EMPTY(&methodAttributes))) {
 				ZEPHIR_OBS_NVAR(&_31$$17);
@@ -338,18 +338,18 @@ PHP_METHOD(Phalcon_Annotations_AttributesReader, parse)
 			}
 			ZEPHIR_CALL_METHOD(&method, _25, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&methodFile, &method, "getFileName", NULL, 0);
+				ZEPHIR_CALL_METHOD(&methodFile, &method, "getfilename", NULL, 0);
 				zephir_check_call_status();
 				if (Z_TYPE_P(&methodFile) != IS_STRING) {
 					ZEPHIR_INIT_NVAR(&methodFile);
 					ZVAL_STRING(&methodFile, "eval code");
 				}
-				ZEPHIR_CALL_METHOD(&_34$$18, &method, "getAttributes", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_34$$18, &method, "getattributes", NULL, 0);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_35$$18, &method, "getStartLine", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_35$$18, &method, "getstartline", NULL, 0);
 				zephir_check_call_status();
 				ZVAL_LONG(&_36$$18, zephir_get_intval(&_35$$18));
-				ZEPHIR_CALL_METHOD(&methodAttributes, this_ptr, "buildNodes", NULL, 0, &_34$$18, &methodFile, &_36$$18);
+				ZEPHIR_CALL_METHOD(&methodAttributes, this_ptr, "buildnodes", NULL, 0, &_34$$18, &methodFile, &_36$$18);
 				zephir_check_call_status();
 				if (!(ZEPHIR_IS_EMPTY(&methodAttributes))) {
 					ZEPHIR_OBS_NVAR(&_37$$20);
@@ -519,9 +519,9 @@ PHP_METHOD(Phalcon_Annotations_AttributesReader, buildNodes)
 		{
 			ZEPHIR_INIT_NVAR(&attribute);
 			ZVAL_COPY(&attribute, _0);
-			ZEPHIR_CALL_METHOD(&_1$$3, &attribute, "getName", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_1$$3, &attribute, "getname", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&name, this_ptr, "resolveName", &_2, 0, &_1$$3);
+			ZEPHIR_CALL_METHOD(&name, this_ptr, "resolvename", &_2, 0, &_1$$3);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&node);
 			zephir_create_array(&node, 4, 0);
@@ -531,10 +531,10 @@ PHP_METHOD(Phalcon_Annotations_AttributesReader, buildNodes)
 			ZEPHIR_INIT_NVAR(&_3$$3);
 			ZVAL_LONG(&_3$$3, line);
 			zephir_array_update_string(&node, SL("line"), &_3$$3, PH_COPY | PH_SEPARATE);
-			ZEPHIR_CALL_METHOD(&attributeArguments, &attribute, "getArguments", NULL, 0);
+			ZEPHIR_CALL_METHOD(&attributeArguments, &attribute, "getarguments", NULL, 0);
 			zephir_check_call_status();
 			if (!(ZEPHIR_IS_EMPTY(&attributeArguments))) {
-				ZEPHIR_CALL_METHOD(&_4$$4, this_ptr, "buildArguments", &_5, 0, &attributeArguments);
+				ZEPHIR_CALL_METHOD(&_4$$4, this_ptr, "buildarguments", &_5, 0, &attributeArguments);
 				zephir_check_call_status();
 				zephir_array_update_string(&node, SL("arguments"), &_4$$4, PH_COPY | PH_SEPARATE);
 			}
@@ -558,9 +558,9 @@ PHP_METHOD(Phalcon_Annotations_AttributesReader, buildNodes)
 			}
 			ZEPHIR_CALL_METHOD(&attribute, &attributes, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_8$$5, &attribute, "getName", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_8$$5, &attribute, "getname", NULL, 0);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&name, this_ptr, "resolveName", &_2, 0, &_8$$5);
+				ZEPHIR_CALL_METHOD(&name, this_ptr, "resolvename", &_2, 0, &_8$$5);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_9$$5);
 				zephir_create_array(&_9$$5, 4, 0);
@@ -571,10 +571,10 @@ PHP_METHOD(Phalcon_Annotations_AttributesReader, buildNodes)
 				ZVAL_LONG(&_10$$5, line);
 				zephir_array_update_string(&_9$$5, SL("line"), &_10$$5, PH_COPY | PH_SEPARATE);
 				ZEPHIR_CPY_WRT(&node, &_9$$5);
-				ZEPHIR_CALL_METHOD(&attributeArguments, &attribute, "getArguments", NULL, 0);
+				ZEPHIR_CALL_METHOD(&attributeArguments, &attribute, "getarguments", NULL, 0);
 				zephir_check_call_status();
 				if (!(ZEPHIR_IS_EMPTY(&attributeArguments))) {
-					ZEPHIR_CALL_METHOD(&_11$$6, this_ptr, "buildArguments", &_5, 0, &attributeArguments);
+					ZEPHIR_CALL_METHOD(&_11$$6, this_ptr, "buildarguments", &_5, 0, &attributeArguments);
 					zephir_check_call_status();
 					zephir_array_update_string(&node, SL("arguments"), &_11$$6, PH_COPY | PH_SEPARATE);
 				}

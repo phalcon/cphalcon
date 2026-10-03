@@ -134,7 +134,7 @@ PHP_METHOD(Phalcon_ADR_Responder_FormatResponder, __invoke)
 	}
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "Accept");
-	ZEPHIR_CALL_METHOD(&_1, request, "getHeader", NULL, 0, &_2);
+	ZEPHIR_CALL_METHOD(&_1, request, "getheader", NULL, 0, &_2);
 	zephir_check_call_status();
 	zephir_cast_to_string(&_3, &_1);
 	ZEPHIR_CPY_WRT(&accept, &_3);
@@ -191,13 +191,13 @@ PHP_METHOD(Phalcon_ADR_Responder_FormatResponder, __invoke)
 		ZEPHIR_OBS_NVAR(&chosen);
 		zephir_array_fetch_long(&chosen, &_11$$8, 0, PH_NOISY, "phalcon/ADR/Responder/FormatResponder.zep", 62);
 	}
-	ZEPHIR_CALL_METHOD(&_13, &chosen, "contentType", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_13, &chosen, "contenttype", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_12, response, "setContentType", NULL, 0, &_13);
+	ZEPHIR_CALL_METHOD(&_12, response, "setcontenttype", NULL, 0, &_13);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_14, &chosen, "format", NULL, 0, payload);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &_12, "setContent", NULL, 0, &_14);
+	ZEPHIR_CALL_METHOD(NULL, &_12, "setcontent", NULL, 0, &_14);
 	zephir_check_call_status();
 	RETVAL_ZVAL(response, 1, 0);
 	RETURN_MM();

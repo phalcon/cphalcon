@@ -40,7 +40,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Models_MetaData_Column)
 	{
 		zend_attribute *_za = zephir_add_class_attribute(phalcon_annotations_models_metadata_column_ce, SL("Attribute"), 1);
 		zval _zc0;
-		ZVAL_LONG(&_zc0, ZEND_ATTRIBUTE_TARGET_PROPERTY);
+		ZVAL_LONG(&_zc0, 8);
 		zephir_attribute_set_arg(_za, 0, NULL, 0, &_zc0);
 	}
 

@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Container_Definition_Processor_ObjectProcessor, process)
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	zephir_create_closure_bound(&_1, &_0, NULL, phalcon_11__closure_ce, SL("__invoke"));
-	ZEPHIR_CALL_METHOD(NULL, &def, "setFactory", NULL, 492, &_1);
+	ZEPHIR_CALL_METHOD(NULL, &def, "setfactory", NULL, 492, &_1);
 	zephir_check_call_status();
 	RETURN_CCTOR(&def);
 }

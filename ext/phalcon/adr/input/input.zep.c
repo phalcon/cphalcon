@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_ADR_Input_Input, fromRequest)
 	zephir_fetch_params(1, 1, 0, &request);
 	ZEPHIR_INIT_VAR(&json);
 	array_init(&json);
-	ZEPHIR_CALL_METHOD(&_0, request, "getContentType", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_0, request, "getcontenttype", NULL, 0);
 	zephir_check_call_status();
 	zephir_cast_to_string(&_1, &_0);
 	ZEPHIR_INIT_VAR(&_2);
@@ -150,18 +150,18 @@ PHP_METHOD(Phalcon_ADR_Input_Input, fromRequest)
 	zephir_check_call_status();
 	if (zephir_is_true(&_3)) {
 		ZVAL_BOOL(&_4$$3, 1);
-		ZEPHIR_CALL_METHOD(&decoded, request, "getJsonRawBody", NULL, 0, &_4$$3);
+		ZEPHIR_CALL_METHOD(&decoded, request, "getjsonrawbody", NULL, 0, &_4$$3);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&decoded) == IS_ARRAY) {
 			ZEPHIR_CPY_WRT(&json, &decoded);
 		}
 	}
 	object_init_ex(return_value, zend_get_called_scope(execute_data));
-	ZEPHIR_CALL_METHOD(&_5, request, "getQuery", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_5, request, "getquery", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_6, request, "getPost", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_6, request, "getpost", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_7, request, "getAttributes", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_7, request, "getattributes", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_8, &_7, "all", NULL, 0);
 	zephir_check_call_status();

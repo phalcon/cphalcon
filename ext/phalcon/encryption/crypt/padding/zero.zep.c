@@ -64,21 +64,19 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Zero, pad)
 
 PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Zero, unpad)
 {
-	zend_bool _2, _7;
+	zend_bool _0, _5;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_6 = NULL;
+	zephir_fcall_cache_entry *_4 = NULL;
 	zend_long blockSize, ZEPHIR_LAST_CALL_STATUS, counter = 0, paddingSize = 0;
-	zval input_zv, *blockSize_param = NULL, length, inputArray, _0, _1, _3, _4, _5;
+	zval input_zv, *blockSize_param = NULL, length, inputArray, _1, _2, _3;
 	zend_string *input = NULL;
 
 	ZVAL_UNDEF(&input_zv);
 	ZVAL_UNDEF(&length);
 	ZVAL_UNDEF(&inputArray);
-	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_5);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(input)
 		Z_PARAM_LONG(blockSize)
@@ -92,27 +90,23 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Zero, unpad)
 	ZVAL_LONG(&length, zephir_fast_strlen_ev(&input_zv));
 	ZEPHIR_CALL_FUNCTION(&inputArray, "str_split", NULL, 216, &input_zv);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_0);
-	ZVAL_LONG(&_0, 1);
-	ZEPHIR_INIT_VAR(&_1);
-	zephir_sub_function(&_1, &length, &_0);
-	counter = zephir_get_intval(&_1);
+	counter = (zephir_get_numberval(&length) - 1);
 	paddingSize = 0;
 	while (1) {
-		_2 = counter >= 0;
-		if (_2) {
-			ZEPHIR_OBS_NVAR(&_3);
-			zephir_array_fetch_long(&_3, &inputArray, counter, PH_NOISY, "phalcon/Encryption/Crypt/Padding/Zero.zep", 35);
-			ZVAL_LONG(&_4, 0);
-			ZEPHIR_CALL_FUNCTION(&_5, "chr", &_6, 0, &_4);
+		_0 = counter >= 0;
+		if (_0) {
+			ZEPHIR_OBS_NVAR(&_1);
+			zephir_array_fetch_long(&_1, &inputArray, counter, PH_NOISY, "phalcon/Encryption/Crypt/Padding/Zero.zep", 35);
+			ZVAL_LONG(&_2, 0);
+			ZEPHIR_CALL_FUNCTION(&_3, "chr", &_4, 0, &_2);
 			zephir_check_call_status();
-			_2 = ZEPHIR_IS_EQUAL(&_3, &_5);
+			_0 = ZEPHIR_IS_EQUAL(&_1, &_3);
 		}
-		_7 = _2;
-		if (_7) {
-			_7 = paddingSize <= blockSize;
+		_5 = _0;
+		if (_5) {
+			_5 = paddingSize <= blockSize;
 		}
-		if (!(_7)) {
+		if (!(_5)) {
 			break;
 		}
 		paddingSize++;

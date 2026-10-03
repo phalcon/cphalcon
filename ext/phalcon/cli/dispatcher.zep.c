@@ -242,12 +242,12 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, getOption)
 		ZEPHIR_INIT_VAR(&_1$$5);
 		ZVAL_STRING(&_1$$5, "A dependency injection container is required to access the 'filter' service");
 		ZVAL_LONG(&_2$$5, 0);
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwDispatchException", NULL, 0, &_1$$5, &_2$$5);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwdispatchexception", NULL, 0, &_1$$5, &_2$$5);
 		zephir_check_call_status();
 	}
 	ZEPHIR_INIT_VAR(&_4);
 	ZVAL_STRING(&_4, "filter");
-	ZEPHIR_CALL_METHOD(&_3, &container, "getShared", NULL, 0, &_4);
+	ZEPHIR_CALL_METHOD(&_3, &container, "getshared", NULL, 0, &_4);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&filter, &_3);
 	ZEPHIR_RETURN_CALL_METHOD(&filter, "sanitize", NULL, 0, &optionValue, filters);
@@ -480,7 +480,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, throwDispatchException)
 	ZVAL_LONG(&_0, exceptionCode);
 	ZEPHIR_CALL_METHOD(NULL, &exception, "__construct", NULL, 9, &message_zv, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "handleException", NULL, 0, &exception);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "handleexception", NULL, 0, &exception);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_1)) {
 		RETURN_MM_BOOL(0);

@@ -162,7 +162,7 @@ PHP_METHOD(Phalcon_Support_HelperFactory, __call)
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	zephir_get_arrval(&arguments, arguments_param);
-	ZEPHIR_CALL_METHOD(&helper, this_ptr, "newInstance", NULL, 0, &name_zv);
+	ZEPHIR_CALL_METHOD(&helper, this_ptr, "newinstance", NULL, 0, &name_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 2, 0);
@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Support_HelperFactory, newInstance)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1398, PH_NOISY_CC | PH_READONLY);
 	if (1 != zephir_array_isset_value(&_0, &name_zv)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
-		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "getService", NULL, 0, &name_zv);
+		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "getservice", NULL, 0, &name_zv);
 		zephir_check_call_status();
 		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(&_1$$3, &_2$$3);
 		zephir_check_call_status();

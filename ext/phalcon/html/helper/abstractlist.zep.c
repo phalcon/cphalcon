@@ -190,15 +190,15 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractList, __toString)
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 123, PH_NOISY_CC | PH_READONLY);
 	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 125, PH_NOISY_CC | PH_READONLY);
 	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_1, 123, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "renderArrayElements", NULL, 0, &_3, &_4);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "renderarrayelements", NULL, 0, &_3, &_4);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&contents);
 	ZEPHIR_CONCAT_VV(&contents, &_1, &_2);
-	ZEPHIR_CALL_METHOD(&_5, this_ptr, "getTag", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_5, this_ptr, "gettag", NULL, 0);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_6, this_ptr, _zephir_prop_2, 122, PH_NOISY_CC | PH_READONLY);
 	ZVAL_BOOL(&_7, 1);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderFullElement", NULL, 0, &_5, &contents, &_6, &_7);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderfullelement", NULL, 0, &_5, &contents, &_6, &_7);
 	zephir_check_call_status();
 	RETURN_MM();
 }

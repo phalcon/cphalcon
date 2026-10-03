@@ -71,7 +71,7 @@ PHP_METHOD(Phalcon_ADR_Responder_RedirectResponder, __invoke)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 3, 0, &request, &response, &payload);
-	ZEPHIR_CALL_METHOD(&result, payload, "getResult", NULL, 0);
+	ZEPHIR_CALL_METHOD(&result, payload, "getresult", NULL, 0);
 	zephir_check_call_status();
 	_0 = Z_TYPE_P(&result) == IS_OBJECT;
 	if (_0) {
@@ -99,11 +99,11 @@ PHP_METHOD(Phalcon_ADR_Responder_RedirectResponder, __invoke)
 		}
 		ZEPHIR_CALL_METHOD(&_8$$3, &result, "status", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&_7$$3, response, "setStatusCode", NULL, 0, &_8$$3);
+		ZEPHIR_CALL_METHOD(&_7$$3, response, "setstatuscode", NULL, 0, &_8$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_9$$3);
 		ZVAL_STRING(&_9$$3, "Location");
-		ZEPHIR_CALL_METHOD(NULL, &_7$$3, "setHeader", NULL, 0, &_9$$3, &url);
+		ZEPHIR_CALL_METHOD(NULL, &_7$$3, "setheader", NULL, 0, &_9$$3, &url);
 		zephir_check_call_status();
 	}
 	RETVAL_ZVAL(response, 1, 0);

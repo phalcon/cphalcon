@@ -64,12 +64,14 @@ PHP_METHOD(Phalcon_Db_Geometry_Point, __construct)
 	}
 
 	ZEND_PARSE_PARAMETERS_START(2, 3)
-		Z_PARAM_DOUBLE(x)
-		Z_PARAM_DOUBLE(y)
+		Z_PARAM_ZVAL(x_param)
+		Z_PARAM_ZVAL(y_param)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_LONG(srid)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(2, 1, &x_param, &y_param, &srid_param);
+	x = zephir_get_doubleval(x_param);
+	y = zephir_get_doubleval(y_param);
 	if (!srid_param) {
 		srid = 0;
 	} else {
@@ -114,7 +116,7 @@ PHP_METHOD(Phalcon_Db_Geometry_Point, toWkt)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "coordsWkt", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "coordswkt", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_SVS(return_value, "POINT(", &_0, ")");
 	RETURN_MM();

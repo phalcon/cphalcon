@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Eager_PathTree, parse)
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			ZEPHIR_CALL_SELF(NULL, "assertOptions", &_8, 0, &options);
+			ZEPHIR_CALL_SELF(NULL, "assertoptions", &_8, 0, &options);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&segments);
 			zephir_fast_explode_str(&segments, SL("."), &path, ZEND_LONG_MAX);
@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Eager_PathTree, parse)
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
-				ZEPHIR_CALL_SELF(NULL, "assertOptions", &_8, 0, &options);
+				ZEPHIR_CALL_SELF(NULL, "assertoptions", &_8, 0, &options);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&segments);
 				zephir_fast_explode_str(&segments, SL("."), &path, ZEND_LONG_MAX);

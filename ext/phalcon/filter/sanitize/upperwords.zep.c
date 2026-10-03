@@ -60,7 +60,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_UpperWords, __invoke)
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
 	ZVAL_LONG(&_0, 2);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "phpMbConvertCase", NULL, 0, &input_zv, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "phpmbconvertcase", NULL, 0, &input_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

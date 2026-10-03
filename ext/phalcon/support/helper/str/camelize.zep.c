@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Camelize, __invoke)
 	} else {
 		ZVAL_BOOL(&_0, 0);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "toCamelize", NULL, 0, &text_zv, &delimiters, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "tocamelize", NULL, 0, &text_zv, &delimiters, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -162,15 +162,15 @@ PHP_METHOD(Phalcon_Auth_Guard_Config_SessionGuardConfig, __construct)
 		}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "suffix");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "validateNonEmpty", NULL, 418, &_0, &suffix_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "validatenonempty", NULL, 418, &_0, &suffix_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "name");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "validateNonEmpty", NULL, 418, &_0, &name_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "validatenonempty", NULL, 418, &_0, &name_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "rememberName");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "validateNonEmpty", NULL, 418, &_0, &rememberName_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "validatenonempty", NULL, 418, &_0, &rememberName_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	if (Z_TYPE_P(&name_zv) != IS_NULL) {

@@ -98,10 +98,10 @@ PHP_METHOD(Phalcon_ADR_Responder_Formatter_JsonFormatter, format)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &payload);
-	ZEPHIR_CALL_METHOD(&content, payload, "getResult", NULL, 0);
+	ZEPHIR_CALL_METHOD(&content, payload, "getresult", NULL, 0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&content) == IS_NULL) {
-		ZEPHIR_CALL_METHOD(&content, payload, "getMessages", NULL, 0);
+		ZEPHIR_CALL_METHOD(&content, payload, "getmessages", NULL, 0);
 		zephir_check_call_status();
 	}
 	ZEPHIR_INIT_VAR(&_0);

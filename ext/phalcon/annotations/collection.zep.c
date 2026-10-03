@@ -255,7 +255,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, get)
 		{
 			ZEPHIR_INIT_NVAR(&annotation);
 			ZVAL_COPY(&annotation, _3);
-			ZEPHIR_CALL_METHOD(&_4$$3, &annotation, "getName", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_4$$3, &annotation, "getname", NULL, 0);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_EQUAL(&name_zv, &_4$$3)) {
 				RETURN_CCTOR(&annotation);
@@ -279,7 +279,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, get)
 			}
 			ZEPHIR_CALL_METHOD(&annotation, _1, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_7$$5, &annotation, "getName", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_7$$5, &annotation, "getname", NULL, 0);
 				zephir_check_call_status();
 				if (ZEPHIR_IS_EQUAL(&name_zv, &_7$$5)) {
 					RETURN_CCTOR(&annotation);
@@ -349,7 +349,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAll)
 		{
 			ZEPHIR_INIT_NVAR(&annotation);
 			ZVAL_COPY(&annotation, _3);
-			ZEPHIR_CALL_METHOD(&_4$$3, &annotation, "getName", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_4$$3, &annotation, "getname", NULL, 0);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_EQUAL(&name_zv, &_4$$3)) {
 				zephir_array_append(&found, &annotation, PH_SEPARATE, "phalcon/Annotations/Collection.zep", 132);
@@ -373,7 +373,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAll)
 			}
 			ZEPHIR_CALL_METHOD(&annotation, _1, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_7$$5, &annotation, "getName", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_7$$5, &annotation, "getname", NULL, 0);
 				zephir_check_call_status();
 				if (ZEPHIR_IS_EQUAL(&name_zv, &_7$$5)) {
 					zephir_array_append(&found, &annotation, PH_SEPARATE, "phalcon/Annotations/Collection.zep", 132);
@@ -442,7 +442,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, has)
 		{
 			ZEPHIR_INIT_NVAR(&annotation);
 			ZVAL_COPY(&annotation, _3);
-			ZEPHIR_CALL_METHOD(&_4$$3, &annotation, "getName", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_4$$3, &annotation, "getname", NULL, 0);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_EQUAL(&name_zv, &_4$$3)) {
 				RETURN_MM_BOOL(1);
@@ -466,7 +466,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, has)
 			}
 			ZEPHIR_CALL_METHOD(&annotation, _1, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_7$$5, &annotation, "getName", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_7$$5, &annotation, "getname", NULL, 0);
 				zephir_check_call_status();
 				if (ZEPHIR_IS_EQUAL(&name_zv, &_7$$5)) {
 					RETURN_MM_BOOL(1);

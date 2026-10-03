@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, __construct)
 				_4$$3 = ZEPHIR_IS_TRUE_IDENTICAL(&_5$$3);
 			}
 			if (_4$$3) {
-				ZEPHIR_CALL_METHOD(&_6$$4, this_ptr, "getKey", &_7, 0, &link);
+				ZEPHIR_CALL_METHOD(&_6$$4, this_ptr, "getkey", &_7, 0, &link);
 				zephir_check_call_status();
 				zephir_update_property_array(this_ptr, SL("links"), &_6$$4, &link);
 			}
@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, __construct)
 					_12$$5 = ZEPHIR_IS_TRUE_IDENTICAL(&_13$$5);
 				}
 				if (_12$$5) {
-					ZEPHIR_CALL_METHOD(&_14$$6, this_ptr, "getKey", &_7, 0, &link);
+					ZEPHIR_CALL_METHOD(&_14$$6, this_ptr, "getkey", &_7, 0, &link);
 					zephir_check_call_status();
 					zephir_update_property_array(this_ptr, SL("links"), &_14$$6, &link);
 				}
@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doGetLinksByRel)
 		{
 			ZEPHIR_INIT_NVAR(&link);
 			ZVAL_COPY(&link, _3);
-			ZEPHIR_CALL_METHOD(&rels, &link, "getRels", NULL, 0);
+			ZEPHIR_CALL_METHOD(&rels, &link, "getrels", NULL, 0);
 			zephir_check_call_status();
 			if (1 == zephir_fast_in_array(&rel_zv, &rels)) {
 				zephir_array_append(&filtered, &link, PH_SEPARATE, "phalcon/Html/Link/AbstractLinkProvider.zep", 81);
@@ -248,7 +248,7 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doGetLinksByRel)
 			}
 			ZEPHIR_CALL_METHOD(&link, _1, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&rels, &link, "getRels", NULL, 0);
+				ZEPHIR_CALL_METHOD(&rels, &link, "getrels", NULL, 0);
 				zephir_check_call_status();
 				if (1 == zephir_fast_in_array(&rel_zv, &rels)) {
 					zephir_array_append(&filtered, &link, PH_SEPARATE, "phalcon/Html/Link/AbstractLinkProvider.zep", 81);
@@ -284,7 +284,7 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doWithLink)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &link);
-	ZEPHIR_CALL_METHOD(&key, this_ptr, "getKey", NULL, 0, link);
+	ZEPHIR_CALL_METHOD(&key, this_ptr, "getkey", NULL, 0, link);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&newInstance);
 	if (zephir_clone(&newInstance, this_ptr) == FAILURE) {
@@ -319,7 +319,7 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doWithoutLink)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &link);
-	ZEPHIR_CALL_METHOD(&key, this_ptr, "getKey", NULL, 0, link);
+	ZEPHIR_CALL_METHOD(&key, this_ptr, "getkey", NULL, 0, link);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&newInstance);
 	if (zephir_clone(&newInstance, this_ptr) == FAILURE) {

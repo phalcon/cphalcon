@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, __invoke)
 		{
 			ZEPHIR_INIT_NVAR(&item);
 			ZVAL_COPY(&item, _0);
-			ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "processNotArray", &_2, 0, &data, &item);
+			ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "processnotarray", &_2, 0, &data, &item);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&data, &_1$$3);
 			if (deep) {
@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, __invoke)
 			} else {
 				ZVAL_BOOL(&_3$$3, 0);
 			}
-			ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "processArrayDeep", &_4, 0, &data, &item, &_3$$3);
+			ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "processarraydeep", &_4, 0, &data, &item, &_3$$3);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&data, &_1$$3);
 			if (deep) {
@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, __invoke)
 			} else {
 				ZVAL_BOOL(&_5$$3, 0);
 			}
-			ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "processArray", &_6, 0, &data, &item, &_5$$3);
+			ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "processarray", &_6, 0, &data, &item, &_5$$3);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&data, &_1$$3);
 		} ZEND_HASH_FOREACH_END();
@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, __invoke)
 			}
 			ZEPHIR_CALL_METHOD(&item, &collection, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_9$$4, this_ptr, "processNotArray", &_2, 0, &data, &item);
+				ZEPHIR_CALL_METHOD(&_9$$4, this_ptr, "processnotarray", &_2, 0, &data, &item);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(&data, &_9$$4);
 				if (deep) {
@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, __invoke)
 				} else {
 					ZVAL_BOOL(&_10$$4, 0);
 				}
-				ZEPHIR_CALL_METHOD(&_9$$4, this_ptr, "processArrayDeep", &_4, 0, &data, &item, &_10$$4);
+				ZEPHIR_CALL_METHOD(&_9$$4, this_ptr, "processarraydeep", &_4, 0, &data, &item, &_10$$4);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(&data, &_9$$4);
 				if (deep) {
@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, __invoke)
 				} else {
 					ZVAL_BOOL(&_11$$4, 0);
 				}
-				ZEPHIR_CALL_METHOD(&_9$$4, this_ptr, "processArray", &_6, 0, &data, &item, &_11$$4);
+				ZEPHIR_CALL_METHOD(&_9$$4, this_ptr, "processarray", &_6, 0, &data, &item, &_11$$4);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(&data, &_9$$4);
 		}

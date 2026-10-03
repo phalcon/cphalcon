@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Auth_AbstractAuthDispatcherListener, enforce)
 		forwardHandler = &__$null;
 	}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 101, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&access, &_0, "getAccess", NULL, 0);
+	ZEPHIR_CALL_METHOD(&access, &_0, "getaccess", NULL, 0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&access) == IS_NULL) {
 		RETURN_MM_BOOL(1);
@@ -150,13 +150,13 @@ PHP_METHOD(Phalcon_Auth_AbstractAuthDispatcherListener, enforce)
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 101, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_3, &_2, "guard", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, &access, "isAllowed", NULL, 0, &_3, &actionName_zv, &context);
+	ZEPHIR_CALL_METHOD(&_1, &access, "isallowed", NULL, 0, &_3, &actionName_zv, &context);
 	zephir_check_call_status();
 	if (zephir_is_true(&_1)) {
 		RETURN_MM_BOOL(1);
 	}
 	if (Z_TYPE_P(forwardHandler) != IS_NULL) {
-		ZEPHIR_CALL_METHOD(&target, &access, "redirectTo", NULL, 0);
+		ZEPHIR_CALL_METHOD(&target, &access, "redirectto", NULL, 0);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&target) != IS_NULL) {
 			ZEPHIR_CALL_ZVAL_FUNCTION(NULL, forwardHandler, NULL, 0, &target);
@@ -166,7 +166,7 @@ PHP_METHOD(Phalcon_Auth_AbstractAuthDispatcherListener, enforce)
 	}
 	ZEPHIR_INIT_VAR(&_4);
 	object_init_ex(&_4, phalcon_auth_exceptions_accessdenied_ce);
-	ZEPHIR_CALL_METHOD(&_5, this_ptr, "getActionType", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_5, this_ptr, "getactiontype", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &_4, "__construct", NULL, 88, &_5, &actionName_zv);
 	zephir_check_call_status();

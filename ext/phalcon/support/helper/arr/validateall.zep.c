@@ -62,7 +62,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_ValidateAll, __invoke)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &collection_param, &method);
 	zephir_get_arrval(&collection, collection_param);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "toFilter", NULL, 0, &collection, method);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "tofilter", NULL, 0, &collection, method);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(zephir_fast_count_int(&_0) == zephir_fast_count_int(&collection));
 }

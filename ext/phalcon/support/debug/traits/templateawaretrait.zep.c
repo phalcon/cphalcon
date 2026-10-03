@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Support_Debug_Traits_TemplateAwareTrait, getTemplate)
 		ZEPHIR_OBS_NVAR(&_0);
 		zephir_array_fetch(&_0, &_2, &name_zv, PH_NOISY, "phalcon/Support/Debug/Traits/TemplateAwareTrait.zep", 33);
 	} else {
-		ZEPHIR_CALL_METHOD(&_0, this_ptr, "defaultTemplate", NULL, 0, &name_zv);
+		ZEPHIR_CALL_METHOD(&_0, this_ptr, "defaulttemplate", NULL, 0, &name_zv);
 		zephir_check_call_status();
 	}
 	RETURN_CCTOR(&_0);

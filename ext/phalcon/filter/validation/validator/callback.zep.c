@@ -164,13 +164,13 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Callback, validate)
 	zephir_fetch_params(1, 2, 0, &validation, &field);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "callback");
-	ZEPHIR_CALL_METHOD(&callback, this_ptr, "getOption", NULL, 0, &_0);
+	ZEPHIR_CALL_METHOD(&callback, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
 	if (zephir_is_callable(&callback)) {
-		ZEPHIR_CALL_METHOD(&data, validation, "getEntity", NULL, 0);
+		ZEPHIR_CALL_METHOD(&data, validation, "getentity", NULL, 0);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_EMPTY(&data)) {
-			ZEPHIR_CALL_METHOD(&data, validation, "getData", NULL, 0);
+			ZEPHIR_CALL_METHOD(&data, validation, "getdata", NULL, 0);
 			zephir_check_call_status();
 		}
 		zephir_memory_observe(&savedTemplate);
@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Callback, validate)
 			object_init_ex(&reflection, zephir_get_internal_ce(SL("reflectionfunction")));
 			ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 249, &callback);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_1$$5, &reflection, "getNumberOfParameters", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_1$$5, &reflection, "getnumberofparameters", NULL, 0);
 			zephir_check_call_status();
 			if (ZEPHIR_GT_LONG(&_1$$5, 1)) {
 				zephir_array_append(&arguments, this_ptr, PH_SEPARATE, "phalcon/Filter/Validation/Validator/Callback.zep", 123);
@@ -201,9 +201,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Callback, validate)
 			_2$$3 = !zephir_is_true(&returnedValue);
 		}
 		if (_2$$3) {
-			ZEPHIR_CALL_METHOD(&_3$$7, this_ptr, "messageFactory", NULL, 0, validation, field);
+			ZEPHIR_CALL_METHOD(&_3$$7, this_ptr, "messagefactory", NULL, 0, validation, field);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, validation, "appendMessage", NULL, 0, &_3$$7);
+			ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_3$$7);
 			zephir_check_call_status();
 		}
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 776, &savedTemplate);

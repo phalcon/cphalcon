@@ -179,16 +179,16 @@ PHP_METHOD(Phalcon_Forms_Element_CheckGroup, render)
 	} else {
 		zephir_get_arrval(&attributes, attributes_param);
 	}
-	ZEPHIR_CALL_METHOD(&value, this_ptr, "getValue", NULL, 0);
+	ZEPHIR_CALL_METHOD(&value, this_ptr, "getvalue", NULL, 0);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 790, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&merged);
 	zephir_fast_array_merge(&merged, &_0, &attributes);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getLocalTagFactory", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getlocaltagfactory", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "inputCheckboxGroup");
-	ZEPHIR_CALL_METHOD(&helper, &_1, "newInstance", NULL, 0, &_2);
+	ZEPHIR_CALL_METHOD(&helper, &_1, "newinstance", NULL, 0, &_2);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_1, 791, PH_NOISY_CC | PH_READONLY);
 	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_2, 789, PH_NOISY_CC | PH_READONLY);

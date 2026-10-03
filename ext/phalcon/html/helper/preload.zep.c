@@ -179,12 +179,12 @@ PHP_METHOD(Phalcon_Html_Helper_Preload, __invoke)
 		ZEPHIR_INIT_VAR(&header);
 		ZEPHIR_CONCAT_SV(&header, "Link: ", &_4$$3);
 		zephir_read_property_cached(&_6$$3, this_ptr, _zephir_prop_0, 868, PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_METHOD(NULL, &_6$$3, "setRawHeader", NULL, 0, &header);
+		ZEPHIR_CALL_METHOD(NULL, &_6$$3, "setrawheader", NULL, 0, &header);
 		zephir_check_call_status();
 	}
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "link");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "selfClose", NULL, 0, &_0, &overrides);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "selfclose", NULL, 0, &_0, &overrides);
 	zephir_check_call_status();
 	RETURN_MM();
 }

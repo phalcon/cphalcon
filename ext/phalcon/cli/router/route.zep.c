@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, __construct)
 	zval _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval pattern_zv, *paths = NULL, paths_sub, __$null, routeId, uniqueId, _0, _1, _3, _4;
+	zval pattern_zv, *paths = NULL, paths_sub, __$null, routeId, uniqueId, _0, _1;
 	zend_string *pattern = NULL;
 	zval *this_ptr = getThis();
 
@@ -140,8 +140,6 @@ PHP_METHOD(Phalcon_Cli_Router_Route, __construct)
 	ZVAL_UNDEF(&uniqueId);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_2);
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
@@ -172,7 +170,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, __construct)
 	zephir_memory_observe(&_0);
 	zephir_read_static_property_ce(&_0, phalcon_cli_router_route_ce, SL("delimiterPath"), PH_NOISY_CC);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 527, &_0);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "reConfigure", NULL, 0, &pattern_zv, paths);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "reconfigure", NULL, 0, &pattern_zv, paths);
 	zephir_check_call_status();
 	zephir_memory_observe(&_1);
 	zephir_read_static_property_ce(&_1, phalcon_cli_router_route_ce, SL("uniqueId"), PH_NOISY_CC);
@@ -180,11 +178,9 @@ PHP_METHOD(Phalcon_Cli_Router_Route, __construct)
 	ZEPHIR_CPY_WRT(&routeId, &uniqueId);
 	zephir_cast_to_string(&_2, &routeId);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 528, &_2);
-	ZEPHIR_INIT_VAR(&_3);
-	ZVAL_LONG(&_3, 1);
-	ZEPHIR_INIT_VAR(&_4);
-	zephir_add_function(&_4, &uniqueId, &_3);
-	zephir_update_static_property_ce(phalcon_cli_router_route_ce, ZEND_STRL("uniqueId"), &_4);
+	ZVAL_UNDEF(&_1);
+	ZVAL_LONG(&_1, (zephir_get_numberval(&uniqueId) + 1));
+	zephir_update_static_property_ce(phalcon_cli_router_route_ce, ZEND_STRL("uniqueId"), &_1);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -924,7 +920,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, reConfigure)
 	}
 	if (!(zephir_start_with_str(&pattern, SL("#")))) {
 		if (zephir_memnstr_str(&pattern, SL("{"), "phalcon/Cli/Router/Route.zep", 491)) {
-			ZEPHIR_CALL_METHOD(&extracted, this_ptr, "extractNamedParams", NULL, 0, &pattern);
+			ZEPHIR_CALL_METHOD(&extracted, this_ptr, "extractnamedparams", NULL, 0, &pattern);
 			zephir_check_call_status();
 			zephir_memory_observe(&pcrePattern);
 			zephir_array_fetch_long(&pcrePattern, &extracted, 0, PH_NOISY, "phalcon/Cli/Router/Route.zep", 496);
@@ -936,7 +932,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, reConfigure)
 		} else {
 			ZEPHIR_CPY_WRT(&pcrePattern, &pattern);
 		}
-		ZEPHIR_CALL_METHOD(&compiledPattern, this_ptr, "compilePattern", NULL, 0, &pcrePattern);
+		ZEPHIR_CALL_METHOD(&compiledPattern, this_ptr, "compilepattern", NULL, 0, &pcrePattern);
 		zephir_check_call_status();
 	} else {
 		if (zephir_memnstr_str(&pattern, SL(":delimiter"), "phalcon/Cli/Router/Route.zep", 508)) {

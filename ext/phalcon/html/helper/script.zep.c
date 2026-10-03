@@ -97,13 +97,13 @@ PHP_METHOD(Phalcon_Html_Helper_Script, add)
 	zephir_array_fast_append(&_0, &_1);
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_create_array(&_2, 3, 0);
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getTag", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "gettag", NULL, 0);
 	zephir_check_call_status();
 	zephir_array_fast_append(&_2, &_3);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "");
 	zephir_array_fast_append(&_2, &_1);
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getAttributes", NULL, 0, &url_zv, &attributes);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getattributes", NULL, 0, &url_zv, &attributes);
 	zephir_check_call_status();
 	zephir_array_fast_append(&_2, &_3);
 	zephir_array_fast_append(&_0, &_2);
@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Html_Helper_Script, add)
 	zephir_check_call_status();
 	zephir_array_fast_append(&_0, &_3);
 	ZVAL_LONG(&_4, position);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "pushOrPlace", NULL, 0, &_0, &_4);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "pushorplace", NULL, 0, &_0, &_4);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -189,7 +189,7 @@ PHP_METHOD(Phalcon_Html_Helper_Script, endInternal)
 	zephir_array_fast_append(&_2, &_3);
 	ZEPHIR_INIT_VAR(&_4);
 	zephir_create_array(&_4, 4, 0);
-	ZEPHIR_CALL_METHOD(&_5, this_ptr, "getTag", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_5, this_ptr, "gettag", NULL, 0);
 	zephir_check_call_status();
 	zephir_array_fast_append(&_4, &_5);
 	zephir_array_fast_append(&_4, &content);
@@ -200,7 +200,7 @@ PHP_METHOD(Phalcon_Html_Helper_Script, endInternal)
 	zephir_check_call_status();
 	zephir_array_fast_append(&_2, &_5);
 	ZVAL_LONG(&_6, position);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "pushOrPlace", NULL, 0, &_2, &_6);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "pushorplace", NULL, 0, &_2, &_6);
 	zephir_check_call_status();
 	RETURN_THIS();
 }

@@ -46,7 +46,7 @@ PHP_METHOD(Phalcon_ADR_Middleware_TimingMiddleware, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *request, request_sub, *next, next_sub, __$true, start, response, elapsed, _0, _1, _2, _3;
+	zval *request, request_sub, *next, next_sub, __$true, start, response, elapsed, _0, _1, _2;
 
 	ZVAL_UNDEF(&request_sub);
 	ZVAL_UNDEF(&next_sub);
@@ -57,7 +57,6 @@ PHP_METHOD(Phalcon_ADR_Middleware_TimingMiddleware, __invoke)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_3);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(request, phalcon_contracts_http_attributerequest_ce)
 		Z_PARAM_OBJECT_OF_CLASS(next, phalcon_contracts_adr_handler_ce)
@@ -73,17 +72,15 @@ PHP_METHOD(Phalcon_ADR_Middleware_TimingMiddleware, __invoke)
 	zephir_microtime(&_0, &__$true);
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_sub_function(&_1, &_0, &start);
-	ZEPHIR_INIT_VAR(&_2);
-	ZVAL_DOUBLE(&_2, 1000.0);
 	ZEPHIR_INIT_VAR(&elapsed);
-	mul_function(&elapsed, &_1, &_2);
+	ZVAL_DOUBLE(&elapsed, (zephir_get_numberval(&_1) * 1000.0));
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "%.2fms");
-	ZEPHIR_CALL_FUNCTION(&_3, "sprintf", NULL, 147, &_0, &elapsed);
+	ZEPHIR_CALL_FUNCTION(&_2, "sprintf", NULL, 147, &_0, &elapsed);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "X-Response-Time");
-	ZEPHIR_CALL_METHOD(NULL, &response, "setHeader", NULL, 0, &_0, &_3);
+	ZEPHIR_CALL_METHOD(NULL, &response, "setheader", NULL, 0, &_0, &_2);
 	zephir_check_call_status();
 	RETURN_CCTOR(&response);
 }

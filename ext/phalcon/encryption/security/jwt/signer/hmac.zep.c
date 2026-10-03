@@ -148,7 +148,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_Hmac, sign)
 	ZVAL_STR_COPY(&payload_zv, payload);
 	zephir_memory_observe(&passphrase_zv);
 	ZVAL_STR_COPY(&passphrase_zv, passphrase);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getHash", NULL, 0, &payload_zv, &passphrase_zv);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "gethash", NULL, 0, &payload_zv, &passphrase_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -181,9 +181,9 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_Hmac, verify)
 	ZVAL_STR_COPY(&payload_zv, payload);
 	zephir_memory_observe(&passphrase_zv);
 	ZVAL_STR_COPY(&passphrase_zv, passphrase);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getHash", NULL, 0, &payload_zv, &passphrase_zv);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "gethash", NULL, 0, &payload_zv, &passphrase_zv);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "phpHashEquals", NULL, 0, &source_zv, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "phphashequals", NULL, 0, &source_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -213,10 +213,10 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_Hmac, getHash)
 	ZVAL_STR_COPY(&payload_zv, payload);
 	zephir_memory_observe(&passphrase_zv);
 	ZVAL_STR_COPY(&passphrase_zv, passphrase);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getAlgorithm", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getalgorithm", NULL, 0);
 	zephir_check_call_status();
 	ZVAL_BOOL(&_1, 1);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "phpHashHmac", NULL, 0, &_0, &payload_zv, &passphrase_zv, &_1);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "phphashhmac", NULL, 0, &_0, &payload_zv, &passphrase_zv, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }

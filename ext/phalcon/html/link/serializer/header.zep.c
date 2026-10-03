@@ -147,14 +147,14 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 		{
 			ZEPHIR_INIT_NVAR(&link);
 			ZVAL_COPY(&link, _0);
-			ZEPHIR_CALL_METHOD(&_1$$3, &link, "isTemplated", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_1$$3, &link, "istemplated", NULL, 0);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_TRUE_IDENTICAL(&_1$$3)) {
 				continue;
 			}
-			ZEPHIR_CALL_METHOD(&attributes, &link, "getAttributes", NULL, 0);
+			ZEPHIR_CALL_METHOD(&attributes, &link, "getattributes", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&rels, &link, "getRels", NULL, 0);
+			ZEPHIR_CALL_METHOD(&rels, &link, "getrels", NULL, 0);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&parts);
 			zephir_create_array(&parts, 2, 0);
@@ -336,7 +336,7 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 			}
 			ZEPHIR_INIT_NVAR(&value);
 			ZEPHIR_INIT_NVAR(&key);
-			ZEPHIR_CALL_METHOD(&_40$$3, &link, "getHref", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_40$$3, &link, "gethref", NULL, 0);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_41$$3);
 			zephir_fast_join_str(&_41$$3, SL("; "), &parts);
@@ -362,14 +362,14 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 			}
 			ZEPHIR_CALL_METHOD(&link, &links, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_44$$17, &link, "isTemplated", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_44$$17, &link, "istemplated", NULL, 0);
 				zephir_check_call_status();
 				if (ZEPHIR_IS_TRUE_IDENTICAL(&_44$$17)) {
 					continue;
 				}
-				ZEPHIR_CALL_METHOD(&attributes, &link, "getAttributes", NULL, 0);
+				ZEPHIR_CALL_METHOD(&attributes, &link, "getattributes", NULL, 0);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&rels, &link, "getRels", NULL, 0);
+				ZEPHIR_CALL_METHOD(&rels, &link, "getrels", NULL, 0);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_45$$17);
 				zephir_create_array(&_45$$17, 2, 0);
@@ -552,7 +552,7 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 				}
 				ZEPHIR_INIT_NVAR(&value);
 				ZEPHIR_INIT_NVAR(&key);
-				ZEPHIR_CALL_METHOD(&_83$$17, &link, "getHref", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_83$$17, &link, "gethref", NULL, 0);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_84$$17);
 				zephir_fast_join_str(&_84$$17, SL("; "), &parts);

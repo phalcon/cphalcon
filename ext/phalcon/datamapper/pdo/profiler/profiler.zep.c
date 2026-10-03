@@ -246,7 +246,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, finish)
 		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_1, 593, PH_NOISY_CC | PH_READONLY);
 		zephir_memory_observe(&start);
 		zephir_array_fetch_string(&start, &_1$$3, SL("start"), PH_NOISY, "phalcon/DataMapper/Pdo/Profiler/Profiler.zep", 96);
-		ZEPHIR_CALL_METHOD(&_2$$3, &ex, "getTraceAsString", NULL, 0);
+		ZEPHIR_CALL_METHOD(&_2$$3, &ex, "gettraceasstring", NULL, 0);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZVAL_STRING(&_3$$3, "backtrace");

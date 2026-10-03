@@ -84,7 +84,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&filePath_zv);
 	ZVAL_STR_COPY(&filePath_zv, filePath);
-	ZEPHIR_CALL_METHOD(&content, this_ptr, "phpFileGetContents", NULL, 0, &filePath_zv);
+	ZEPHIR_CALL_METHOD(&content, this_ptr, "phpfilegetcontents", NULL, 0, &filePath_zv);
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&content))) {
 		ZEPHIR_INIT_VAR(&_0$$3);

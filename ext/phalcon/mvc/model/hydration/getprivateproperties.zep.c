@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Hydration_GetPrivateProperties, getPrivatePropertie
 				break;
 			}
 			ZVAL_LONG(&_0$$4, 4);
-			ZEPHIR_CALL_METHOD(&reflectionProperties, &reflection, "getProperties", &_1, 371, &_0$$4);
+			ZEPHIR_CALL_METHOD(&reflectionProperties, &reflection, "getproperties", &_1, 371, &_0$$4);
 			zephir_check_call_status();
 			if (Z_TYPE_P(&reflectionProperties) == IS_STRING) {
 				ZEPHIR_INIT_NVAR(&_3$$4);
@@ -118,12 +118,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Hydration_GetPrivateProperties, getPrivatePropertie
 				{
 					ZEPHIR_INIT_NVAR(&reflectionProperty);
 					ZVAL_COPY(&reflectionProperty, _4$$4);
-					ZEPHIR_CALL_METHOD(&_5$$5, &reflectionProperty, "isStatic", NULL, 0);
+					ZEPHIR_CALL_METHOD(&_5$$5, &reflectionProperty, "isstatic", NULL, 0);
 					zephir_check_call_status();
 					if (zephir_is_true(&_5$$5)) {
 						continue;
 					}
-					ZEPHIR_CALL_METHOD(&propertyName, &reflectionProperty, "getName", NULL, 0);
+					ZEPHIR_CALL_METHOD(&propertyName, &reflectionProperty, "getname", NULL, 0);
 					zephir_check_call_status();
 					if (!(zephir_array_isset_value(&privateProperties, &propertyName))) {
 						zephir_array_update_zval(&privateProperties, &propertyName, &reflectionProperty, PH_COPY | PH_SEPARATE);
@@ -147,12 +147,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Hydration_GetPrivateProperties, getPrivatePropertie
 					}
 					ZEPHIR_CALL_METHOD(&reflectionProperty, _2$$4, "current", NULL, 0);
 					zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(&_8$$8, &reflectionProperty, "isStatic", NULL, 0);
+						ZEPHIR_CALL_METHOD(&_8$$8, &reflectionProperty, "isstatic", NULL, 0);
 						zephir_check_call_status();
 						if (zephir_is_true(&_8$$8)) {
 							continue;
 						}
-						ZEPHIR_CALL_METHOD(&propertyName, &reflectionProperty, "getName", NULL, 0);
+						ZEPHIR_CALL_METHOD(&propertyName, &reflectionProperty, "getname", NULL, 0);
 						zephir_check_call_status();
 						if (!(zephir_array_isset_value(&privateProperties, &propertyName))) {
 							zephir_array_update_zval(&privateProperties, &propertyName, &reflectionProperty, PH_COPY | PH_SEPARATE);
@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Hydration_GetPrivateProperties, getPrivatePropertie
 				}
 			}
 			ZEPHIR_INIT_NVAR(&reflectionProperty);
-			ZEPHIR_CALL_METHOD(&_9$$4, &reflection, "getParentClass", &_10, 0);
+			ZEPHIR_CALL_METHOD(&_9$$4, &reflection, "getparentclass", &_10, 0);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&reflection, &_9$$4);
 		}

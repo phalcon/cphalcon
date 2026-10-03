@@ -138,7 +138,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_FunctionCall, resolve)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &ioc);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 568, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&arguments, this_ptr, "resolveArguments", NULL, 0, ioc, &_0);
+	ZEPHIR_CALL_METHOD(&arguments, this_ptr, "resolvearguments", NULL, 0, ioc, &_0);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 567, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_1, &arguments);

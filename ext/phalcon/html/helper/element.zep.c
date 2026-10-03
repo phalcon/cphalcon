@@ -155,7 +155,7 @@ PHP_METHOD(Phalcon_Html_Helper_Element, __invoke)
 		_0 = zephir_is_true(&_1);
 	}
 	ZVAL_BOOL(&_2, _0);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderFullElement", NULL, 0, &tag_zv, &text_zv, &attributes, &_2);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderfullelement", NULL, 0, &tag_zv, &text_zv, &attributes, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }

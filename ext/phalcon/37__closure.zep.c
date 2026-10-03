@@ -47,7 +47,7 @@ PHP_METHOD(phalcon_37__closure, __invoke)
 	object_init_ex(return_value, phalcon_html_helper_base_ce);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "doctype");
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "newInstance", NULL, 0, &_1);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "newinstance", NULL, 0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &escaper, &_0);
 	zephir_check_call_status();

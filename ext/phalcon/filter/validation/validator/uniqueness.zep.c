@@ -196,13 +196,13 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, getOption)
 		defaultValue = &defaultValue_sub;
 		defaultValue = &__$null;
 	}
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "hasOption", NULL, 0, &key_zv);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "hasoption", NULL, 0, &key_zv);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_0))) {
 		RETVAL_ZVAL(defaultValue, 1, 0);
 		RETURN_MM();
 	}
-	ZEPHIR_CALL_PARENT(&value, phalcon_filter_validation_validator_uniqueness_ce, getThis(), "getOption", NULL, 0, &key_zv, defaultValue);
+	ZEPHIR_CALL_PARENT(&value, phalcon_filter_validation_validator_uniqueness_ce, getThis(), "getoption", NULL, 0, &key_zv, defaultValue);
 	zephir_check_call_status();
 	_1 = ZEPHIR_IS_STRING_IDENTICAL(&key_zv, "attribute");
 	if (_1) {
@@ -238,12 +238,12 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, validate)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &validation, &field);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isUniqueness", NULL, 0, validation, field);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isuniqueness", NULL, 0, validation, field);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_0))) {
-		ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "messageFactory", NULL, 0, validation, field);
+		ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "messagefactory", NULL, 0, validation, field);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendMessage", NULL, 0, &_1$$3);
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_1$$3);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}
@@ -299,13 +299,13 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, getColumnNameReal)
 		_2 = !zephir_is_true(&_3);
 	}
 	if (_2) {
-		ZEPHIR_CALL_METHOD(&_4$$3, record, "getDI", NULL, 0);
+		ZEPHIR_CALL_METHOD(&_4$$3, record, "getdi", NULL, 0);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_6$$3);
 		ZVAL_STRING(&_6$$3, "modelsMetadata");
-		ZEPHIR_CALL_METHOD(&_5$$3, &_4$$3, "getShared", NULL, 0, &_6$$3);
+		ZEPHIR_CALL_METHOD(&_5$$3, &_4$$3, "getshared", NULL, 0, &_6$$3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&_7$$3, &_5$$3, "getColumnMap", NULL, 0, record);
+		ZEPHIR_CALL_METHOD(&_7$$3, &_5$$3, "getcolumnmap", NULL, 0, record);
 		zephir_check_call_status();
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 780, &_7$$3);
 	}
@@ -373,7 +373,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniqueness)
 	array_init(&values);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "convert");
-	ZEPHIR_CALL_METHOD(&convert, this_ptr, "getOption", NULL, 0, &_0);
+	ZEPHIR_CALL_METHOD(&convert, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(field) == IS_STRING) {
 		ZEPHIR_INIT_NVAR(&_0);
@@ -388,7 +388,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniqueness)
 		{
 			ZEPHIR_INIT_NVAR(&singleField);
 			ZVAL_COPY(&singleField, _2);
-			ZEPHIR_CALL_METHOD(&_3$$4, validation, "getValue", &_4, 0, &singleField);
+			ZEPHIR_CALL_METHOD(&_3$$4, validation, "getvalue", &_4, 0, &singleField);
 			zephir_check_call_status();
 			zephir_array_update_zval(&values, &singleField, &_3$$4, PH_COPY | PH_SEPARATE);
 		} ZEND_HASH_FOREACH_END();
@@ -410,7 +410,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniqueness)
 			}
 			ZEPHIR_CALL_METHOD(&singleField, _1, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_7$$5, validation, "getValue", &_4, 0, &singleField);
+				ZEPHIR_CALL_METHOD(&_7$$5, validation, "getvalue", &_4, 0, &singleField);
 				zephir_check_call_status();
 				zephir_array_update_zval(&values, &singleField, &_7$$5, PH_COPY | PH_SEPARATE);
 		}
@@ -432,14 +432,14 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniqueness)
 	}
 	ZEPHIR_INIT_VAR(&_10);
 	ZVAL_STRING(&_10, "model");
-	ZEPHIR_CALL_METHOD(&record, this_ptr, "getOption", NULL, 0, &_10);
+	ZEPHIR_CALL_METHOD(&record, this_ptr, "getoption", NULL, 0, &_10);
 	zephir_check_call_status();
 	_11 = ZEPHIR_IS_EMPTY(&record);
 	if (!(_11)) {
 		_11 = Z_TYPE_P(&record) != IS_OBJECT;
 	}
 	if (_11) {
-		ZEPHIR_CALL_METHOD(&record, validation, "getEntity", NULL, 0);
+		ZEPHIR_CALL_METHOD(&record, validation, "getentity", NULL, 0);
 		zephir_check_call_status();
 		if (UNEXPECTED(ZEPHIR_IS_EMPTY(&record))) {
 			ZEPHIR_INIT_VAR(&_12$$9);
@@ -453,7 +453,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniqueness)
 	}
 	isModel = zephir_instance_of_ev(&record, phalcon_mvc_modelinterface_ce);
 	if (isModel) {
-		ZEPHIR_CALL_METHOD(&params, this_ptr, "isUniquenessModel", NULL, 0, &record, field, &values);
+		ZEPHIR_CALL_METHOD(&params, this_ptr, "isuniquenessmodel", NULL, 0, &record, field, &values);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_INIT_VAR(&_13$$11);
@@ -696,7 +696,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 	zephir_array_update_string(&params, SL("bind"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "except");
-	ZEPHIR_CALL_METHOD(&except, this_ptr, "getOption", NULL, 0, &_0);
+	ZEPHIR_CALL_METHOD(&except, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
 	zephir_is_iterable(&field, 0, "phalcon/Filter/Validation/Validator/Uniqueness.zep", 348);
 	if (Z_TYPE_P(&field) == IS_ARRAY) {
@@ -712,9 +712,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 			zephir_array_fetch(&value, &values, &singleField, PH_NOISY, "phalcon/Filter/Validation/Validator/Uniqueness.zep", 265);
 			ZEPHIR_INIT_NVAR(&_2$$3);
 			ZVAL_STRING(&_2$$3, "attribute");
-			ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getOption", NULL, 0, &_2$$3, &singleField);
+			ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getoption", NULL, 0, &_2$$3, &singleField);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_3$$3, this_ptr, "getColumnNameReal", &_4, 0, record, &attribute);
+			ZEPHIR_CALL_METHOD(&_3$$3, this_ptr, "getcolumnnamereal", &_4, 0, record, &attribute);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&attribute, &_3$$3);
 			if (Z_TYPE_P(&value) != IS_NULL) {
@@ -765,9 +765,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 							array_init(&notInValues);
 							ZEPHIR_INIT_NVAR(&_20$$8);
 							ZVAL_STRING(&_20$$8, "attribute");
-							ZEPHIR_CALL_METHOD(&_19$$8, this_ptr, "getOption", NULL, 0, &_20$$8, &singleField);
+							ZEPHIR_CALL_METHOD(&_19$$8, this_ptr, "getoption", NULL, 0, &_20$$8, &singleField);
 							zephir_check_call_status();
-							ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getColumnNameReal", &_4, 0, record, &_19$$8);
+							ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getcolumnnamereal", &_4, 0, record, &_19$$8);
 							zephir_check_call_status();
 							if (Z_TYPE_P(&fieldExcept) == IS_ARRAY) {
 								if (Z_TYPE_P(&fieldExcept) == IS_STRING) {
@@ -858,9 +858,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 								array_init(&notInValues);
 								ZEPHIR_INIT_NVAR(&_37$$13);
 								ZVAL_STRING(&_37$$13, "attribute");
-								ZEPHIR_CALL_METHOD(&_36$$13, this_ptr, "getOption", NULL, 0, &_37$$13, &singleField);
+								ZEPHIR_CALL_METHOD(&_36$$13, this_ptr, "getoption", NULL, 0, &_37$$13, &singleField);
 								zephir_check_call_status();
-								ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getColumnNameReal", &_4, 0, record, &_36$$13);
+								ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getcolumnnamereal", &_4, 0, record, &_36$$13);
 								zephir_check_call_status();
 								if (Z_TYPE_P(&fieldExcept) == IS_ARRAY) {
 									if (Z_TYPE_P(&fieldExcept) == IS_STRING) {
@@ -935,9 +935,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 					zephir_array_fetch_long(&_52$$18, &field, 0, PH_NOISY, "phalcon/Filter/Validation/Validator/Uniqueness.zep", 304);
 					ZEPHIR_INIT_NVAR(&_53$$18);
 					ZVAL_STRING(&_53$$18, "attribute");
-					ZEPHIR_CALL_METHOD(&_51$$18, this_ptr, "getOption", NULL, 0, &_53$$18, &_52$$18);
+					ZEPHIR_CALL_METHOD(&_51$$18, this_ptr, "getoption", NULL, 0, &_53$$18, &_52$$18);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getColumnNameReal", &_4, 0, record, &_51$$18);
+					ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getcolumnnamereal", &_4, 0, record, &_51$$18);
 					zephir_check_call_status();
 					if (Z_TYPE_P(&except) == IS_ARRAY) {
 						if (Z_TYPE_P(&except) == IS_STRING) {
@@ -1012,9 +1012,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 							ZVAL_COPY(&singleField, _67$$23);
 							ZEPHIR_INIT_NVAR(&_69$$24);
 							ZVAL_STRING(&_69$$24, "attribute");
-							ZEPHIR_CALL_METHOD(&_68$$24, this_ptr, "getOption", NULL, 0, &_69$$24, &singleField);
+							ZEPHIR_CALL_METHOD(&_68$$24, this_ptr, "getoption", NULL, 0, &_69$$24, &singleField);
 							zephir_check_call_status();
-							ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getColumnNameReal", &_4, 0, record, &_68$$24);
+							ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getcolumnnamereal", &_4, 0, record, &_68$$24);
 							zephir_check_call_status();
 							if (Z_TYPE_P(&except) == IS_ARRAY) {
 								if (Z_TYPE_P(&except) == IS_STRING) {
@@ -1101,9 +1101,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 							zephir_check_call_status();
 								ZEPHIR_INIT_NVAR(&_86$$29);
 								ZVAL_STRING(&_86$$29, "attribute");
-								ZEPHIR_CALL_METHOD(&_85$$29, this_ptr, "getOption", NULL, 0, &_86$$29, &singleField);
+								ZEPHIR_CALL_METHOD(&_85$$29, this_ptr, "getoption", NULL, 0, &_86$$29, &singleField);
 								zephir_check_call_status();
-								ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getColumnNameReal", &_4, 0, record, &_85$$29);
+								ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getcolumnnamereal", &_4, 0, record, &_85$$29);
 								zephir_check_call_status();
 								if (Z_TYPE_P(&except) == IS_ARRAY) {
 									if (Z_TYPE_P(&except) == IS_STRING) {
@@ -1201,9 +1201,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 				zephir_array_fetch(&value, &values, &singleField, PH_NOISY, "phalcon/Filter/Validation/Validator/Uniqueness.zep", 265);
 				ZEPHIR_INIT_NVAR(&_102$$34);
 				ZVAL_STRING(&_102$$34, "attribute");
-				ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getOption", NULL, 0, &_102$$34, &singleField);
+				ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getoption", NULL, 0, &_102$$34, &singleField);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_103$$34, this_ptr, "getColumnNameReal", &_4, 0, record, &attribute);
+				ZEPHIR_CALL_METHOD(&_103$$34, this_ptr, "getcolumnnamereal", &_4, 0, record, &attribute);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(&attribute, &_103$$34);
 				if (Z_TYPE_P(&value) != IS_NULL) {
@@ -1254,9 +1254,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 								array_init(&notInValues);
 								ZEPHIR_INIT_NVAR(&_118$$39);
 								ZVAL_STRING(&_118$$39, "attribute");
-								ZEPHIR_CALL_METHOD(&_117$$39, this_ptr, "getOption", NULL, 0, &_118$$39, &singleField);
+								ZEPHIR_CALL_METHOD(&_117$$39, this_ptr, "getoption", NULL, 0, &_118$$39, &singleField);
 								zephir_check_call_status();
-								ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getColumnNameReal", &_4, 0, record, &_117$$39);
+								ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getcolumnnamereal", &_4, 0, record, &_117$$39);
 								zephir_check_call_status();
 								if (Z_TYPE_P(&fieldExcept) == IS_ARRAY) {
 									if (Z_TYPE_P(&fieldExcept) == IS_STRING) {
@@ -1347,9 +1347,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 									array_init(&notInValues);
 									ZEPHIR_INIT_NVAR(&_135$$44);
 									ZVAL_STRING(&_135$$44, "attribute");
-									ZEPHIR_CALL_METHOD(&_134$$44, this_ptr, "getOption", NULL, 0, &_135$$44, &singleField);
+									ZEPHIR_CALL_METHOD(&_134$$44, this_ptr, "getoption", NULL, 0, &_135$$44, &singleField);
 									zephir_check_call_status();
-									ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getColumnNameReal", &_4, 0, record, &_134$$44);
+									ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getcolumnnamereal", &_4, 0, record, &_134$$44);
 									zephir_check_call_status();
 									if (Z_TYPE_P(&fieldExcept) == IS_ARRAY) {
 										if (Z_TYPE_P(&fieldExcept) == IS_STRING) {
@@ -1424,9 +1424,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 						zephir_array_fetch_long(&_150$$49, &field, 0, PH_NOISY, "phalcon/Filter/Validation/Validator/Uniqueness.zep", 304);
 						ZEPHIR_INIT_NVAR(&_151$$49);
 						ZVAL_STRING(&_151$$49, "attribute");
-						ZEPHIR_CALL_METHOD(&_149$$49, this_ptr, "getOption", NULL, 0, &_151$$49, &_150$$49);
+						ZEPHIR_CALL_METHOD(&_149$$49, this_ptr, "getoption", NULL, 0, &_151$$49, &_150$$49);
 						zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getColumnNameReal", &_4, 0, record, &_149$$49);
+						ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getcolumnnamereal", &_4, 0, record, &_149$$49);
 						zephir_check_call_status();
 						if (Z_TYPE_P(&except) == IS_ARRAY) {
 							if (Z_TYPE_P(&except) == IS_STRING) {
@@ -1501,9 +1501,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 								ZVAL_COPY(&singleField, _165$$54);
 								ZEPHIR_INIT_NVAR(&_167$$55);
 								ZVAL_STRING(&_167$$55, "attribute");
-								ZEPHIR_CALL_METHOD(&_166$$55, this_ptr, "getOption", NULL, 0, &_167$$55, &singleField);
+								ZEPHIR_CALL_METHOD(&_166$$55, this_ptr, "getoption", NULL, 0, &_167$$55, &singleField);
 								zephir_check_call_status();
-								ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getColumnNameReal", &_4, 0, record, &_166$$55);
+								ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getcolumnnamereal", &_4, 0, record, &_166$$55);
 								zephir_check_call_status();
 								if (Z_TYPE_P(&except) == IS_ARRAY) {
 									if (Z_TYPE_P(&except) == IS_STRING) {
@@ -1590,9 +1590,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 								zephir_check_call_status();
 									ZEPHIR_INIT_NVAR(&_184$$60);
 									ZVAL_STRING(&_184$$60, "attribute");
-									ZEPHIR_CALL_METHOD(&_183$$60, this_ptr, "getOption", NULL, 0, &_184$$60, &singleField);
+									ZEPHIR_CALL_METHOD(&_183$$60, this_ptr, "getoption", NULL, 0, &_184$$60, &singleField);
 									zephir_check_call_status();
-									ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getColumnNameReal", &_4, 0, record, &_183$$60);
+									ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getcolumnnamereal", &_4, 0, record, &_183$$60);
 									zephir_check_call_status();
 									if (Z_TYPE_P(&except) == IS_ARRAY) {
 										if (Z_TYPE_P(&except) == IS_STRING) {
@@ -1666,16 +1666,16 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 		}
 	}
 	ZEPHIR_INIT_NVAR(&singleField);
-	ZEPHIR_CALL_METHOD(&_198, record, "getDirtyState", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_198, record, "getdirtystate", NULL, 0);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_LONG(&_198, 0)) {
-		ZEPHIR_CALL_METHOD(&_199$$65, record, "getDI", NULL, 0);
+		ZEPHIR_CALL_METHOD(&_199$$65, record, "getdi", NULL, 0);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_200$$65);
 		ZVAL_STRING(&_200$$65, "modelsMetadata");
-		ZEPHIR_CALL_METHOD(&metaData, &_199$$65, "getShared", NULL, 0, &_200$$65);
+		ZEPHIR_CALL_METHOD(&metaData, &_199$$65, "getshared", NULL, 0, &_200$$65);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&_201$$65, &metaData, "getPrimaryKeyAttributes", NULL, 0, record);
+		ZEPHIR_CALL_METHOD(&_201$$65, &metaData, "getprimarykeyattributes", NULL, 0, record);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&_201$$65) == IS_STRING) {
 			ZEPHIR_INIT_NVAR(&_200$$65);
@@ -1690,16 +1690,16 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 			{
 				ZEPHIR_INIT_NVAR(&primaryField);
 				ZVAL_COPY(&primaryField, _203$$65);
-				ZEPHIR_CALL_METHOD(&_204$$66, this_ptr, "getColumnNameReal", &_4, 0, record, &primaryField);
+				ZEPHIR_CALL_METHOD(&_204$$66, this_ptr, "getcolumnnamereal", &_4, 0, record, &primaryField);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_205$$66);
 				ZVAL_LONG(&_205$$66, index);
 				ZEPHIR_INIT_NVAR(&_206$$66);
 				ZEPHIR_CONCAT_VSV(&_206$$66, &_204$$66, " <> ?", &_205$$66);
 				zephir_array_update_multi(&params, &_206$$66, SL("sa"), 3, SL("conditions"));
-				ZEPHIR_CALL_METHOD(&_208$$66, this_ptr, "getColumnNameReal", &_4, 0, record, &primaryField);
+				ZEPHIR_CALL_METHOD(&_208$$66, this_ptr, "getcolumnnamereal", &_4, 0, record, &primaryField);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_207$$66, record, "readAttribute", NULL, 0, &_208$$66);
+				ZEPHIR_CALL_METHOD(&_207$$66, record, "readattribute", NULL, 0, &_208$$66);
 				zephir_check_call_status();
 				zephir_array_update_multi(&params, &_207$$66, SL("sa"), 3, SL("bind"));
 				index++;
@@ -1722,16 +1722,16 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 				}
 				ZEPHIR_CALL_METHOD(&primaryField, _202$$65, "current", NULL, 0);
 				zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_211$$67, this_ptr, "getColumnNameReal", &_4, 0, record, &primaryField);
+					ZEPHIR_CALL_METHOD(&_211$$67, this_ptr, "getcolumnnamereal", &_4, 0, record, &primaryField);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_212$$67);
 					ZVAL_LONG(&_212$$67, index);
 					ZEPHIR_INIT_NVAR(&_213$$67);
 					ZEPHIR_CONCAT_VSV(&_213$$67, &_211$$67, " <> ?", &_212$$67);
 					zephir_array_update_multi(&params, &_213$$67, SL("sa"), 3, SL("conditions"));
-					ZEPHIR_CALL_METHOD(&_215$$67, this_ptr, "getColumnNameReal", &_4, 0, record, &primaryField);
+					ZEPHIR_CALL_METHOD(&_215$$67, this_ptr, "getcolumnnamereal", &_4, 0, record, &primaryField);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_214$$67, record, "readAttribute", NULL, 0, &_215$$67);
+					ZEPHIR_CALL_METHOD(&_214$$67, record, "readattribute", NULL, 0, &_215$$67);
 					zephir_check_call_status();
 					zephir_array_update_multi(&params, &_214$$67, SL("sa"), 3, SL("bind"));
 					index++;

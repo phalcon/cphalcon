@@ -100,10 +100,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Hydration_CloneResult, cloneResult)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_get_class(&_0, &instance, 0);
-	ZEPHIR_CALL_CE_STATIC(&privateProperties, phalcon_mvc_model_hydration_getprivateproperties_ce, "getPrivateProperties", NULL, 0, &_0);
+	ZEPHIR_CALL_CE_STATIC(&privateProperties, phalcon_mvc_model_hydration_getprivateproperties_ce, "getprivateproperties", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZVAL_LONG(&_1, dirtyState);
-	ZEPHIR_CALL_METHOD(NULL, &instance, "setDirtyState", NULL, 0, &_1);
+	ZEPHIR_CALL_METHOD(NULL, &instance, "setdirtystate", NULL, 0, &_1);
 	zephir_check_call_status();
 	zephir_is_iterable(&data, 0, "phalcon/Mvc/Model/Hydration/CloneResult.zep", 75);
 	if (Z_TYPE_P(&data) == IS_ARRAY) {
@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Hydration_CloneResult, cloneResult)
 			if (UNEXPECTED(zephir_array_isset_value(&privateProperties, &key))) {
 				ZEPHIR_OBS_NVAR(&reflectionProperty);
 				zephir_array_fetch(&reflectionProperty, &privateProperties, &key, PH_NOISY, "phalcon/Mvc/Model/Hydration/CloneResult.zep", 64);
-				ZEPHIR_CALL_METHOD(NULL, &reflectionProperty, "setValue", NULL, 0, &instance, &value);
+				ZEPHIR_CALL_METHOD(NULL, &reflectionProperty, "setvalue", NULL, 0, &instance, &value);
 				zephir_check_call_status();
 			} else {
 				zephir_update_property_zval_zval(&instance, &key, &value);
@@ -171,7 +171,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Hydration_CloneResult, cloneResult)
 				if (UNEXPECTED(zephir_array_isset_value(&privateProperties, &key))) {
 					ZEPHIR_OBS_NVAR(&reflectionProperty);
 					zephir_array_fetch(&reflectionProperty, &privateProperties, &key, PH_NOISY, "phalcon/Mvc/Model/Hydration/CloneResult.zep", 64);
-					ZEPHIR_CALL_METHOD(NULL, &reflectionProperty, "setValue", NULL, 0, &instance, &value);
+					ZEPHIR_CALL_METHOD(NULL, &reflectionProperty, "setvalue", NULL, 0, &instance, &value);
 					zephir_check_call_status();
 				} else {
 					zephir_update_property_zval_zval(&instance, &key, &value);
@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Hydration_CloneResult, cloneResult)
 	ZEPHIR_INIT_NVAR(&key);
 	ZEPHIR_INIT_VAR(&_12);
 	ZVAL_STRING(&_12, "afterFetch");
-	ZEPHIR_CALL_METHOD(NULL, &instance, "fireEvent", NULL, 0, &_12);
+	ZEPHIR_CALL_METHOD(NULL, &instance, "fireevent", NULL, 0, &_12);
 	zephir_check_call_status();
 	RETURN_CCTOR(&instance);
 }

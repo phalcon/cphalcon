@@ -131,16 +131,16 @@ PHP_METHOD(Phalcon_DataMapper_Query_Delete, getStatement)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "buildFlags", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "buildflags", NULL, 0);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 596, PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&_2);
 	zephir_array_fetch_string(&_2, &_1, SL("FROM"), PH_NOISY, "phalcon/DataMapper/Query/Delete.zep", 57);
 	ZEPHIR_INIT_VAR(&_4);
 	ZVAL_STRING(&_4, "WHERE");
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "buildCondition", NULL, 0, &_4);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "buildcondition", NULL, 0, &_4);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_5, this_ptr, "buildReturning", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_5, this_ptr, "buildreturning", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_SVSVVV(return_value, "DELETE", &_0, " FROM ", &_2, &_3, &_5);
 	RETURN_MM();

@@ -230,7 +230,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1140, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&manager, &_0);
 	if (Z_TYPE_P(&manager) == IS_OBJECT) {
-		ZEPHIR_CALL_METHOD(NULL, &manager, "notifyCommit", NULL, 0, this_ptr);
+		ZEPHIR_CALL_METHOD(NULL, &manager, "notifycommit", NULL, 0, this_ptr);
 		zephir_check_call_status();
 	}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 1139, PH_NOISY_CC | PH_READONLY);
@@ -325,7 +325,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, isValid)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1139, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "isUnderTransaction", NULL, 0);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "isundertransaction", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -389,7 +389,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1140, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&manager, &_0);
 	if (Z_TYPE_P(&manager) == IS_OBJECT) {
-		ZEPHIR_CALL_METHOD(NULL, &manager, "notifyRollback", NULL, 0, this_ptr);
+		ZEPHIR_CALL_METHOD(NULL, &manager, "notifyrollback", NULL, 0, this_ptr);
 		zephir_check_call_status();
 	}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 1139, PH_NOISY_CC | PH_READONLY);

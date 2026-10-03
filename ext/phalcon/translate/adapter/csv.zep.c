@@ -210,10 +210,10 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, query)
 	zephir_memory_observe(&translation);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1403, PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset_fetch(&translation, &_0, &translateKey_zv, 0))) {
-		ZEPHIR_CALL_METHOD(&translation, this_ptr, "notFound", NULL, 0, &translateKey_zv);
+		ZEPHIR_CALL_METHOD(&translation, this_ptr, "notfound", NULL, 0, &translateKey_zv);
 		zephir_check_call_status();
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "replacePlaceholders", NULL, 0, &translation, &placeholders);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "replaceplaceholders", NULL, 0, &translation, &placeholders);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -283,7 +283,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, load)
 	ZVAL_STR_COPY(&escape_zv, escape);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "rb");
-	ZEPHIR_CALL_METHOD(&fileHandler, this_ptr, "phpFopen", NULL, 0, &file_zv, &_0);
+	ZEPHIR_CALL_METHOD(&fileHandler, this_ptr, "phpfopen", NULL, 0, &file_zv, &_0);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(&fileHandler) != IS_RESOURCE)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
@@ -296,7 +296,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, load)
 	}
 	while (1) {
 		ZVAL_LONG(&_2$$4, length);
-		ZEPHIR_CALL_METHOD(&data, this_ptr, "phpFgetCsv", &_3, 0, &fileHandler, &_2$$4, &delimiter_zv, &enclosure_zv, &escape_zv);
+		ZEPHIR_CALL_METHOD(&data, this_ptr, "phpfgetcsv", &_3, 0, &fileHandler, &_2$$4, &delimiter_zv, &enclosure_zv, &escape_zv);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_FALSE_IDENTICAL(&data)) {
 			break;
@@ -320,7 +320,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, load)
 		zephir_array_fetch_long(&_9$$4, &data, 0, PH_NOISY, "phalcon/Translate/Adapter/Csv.zep", 154);
 		zephir_update_property_array(this_ptr, SL("translate"), &_9$$4, &_8$$4);
 	}
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "phpFclose", NULL, 0, &fileHandler);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "phpfclose", NULL, 0, &fileHandler);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

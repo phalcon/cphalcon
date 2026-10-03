@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify)
 	if (!ZEPHIR_IS_STRING_IDENTICAL(&type_zv, "beforeDelete")) {
 		RETURN_MM_NULL();
 	}
-	ZEPHIR_CALL_METHOD(&options, this_ptr, "getOptions", NULL, 0);
+	ZEPHIR_CALL_METHOD(&options, this_ptr, "getoptions", NULL, 0);
 	zephir_check_call_status();
 	zephir_memory_observe(&value);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&value, &options, SL("value"), 0)))) {
@@ -100,25 +100,25 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify)
 		return;
 	}
 	ZVAL_BOOL(&_0, 1);
-	ZEPHIR_CALL_METHOD(NULL, model, "skipOperation", NULL, 0, &_0);
+	ZEPHIR_CALL_METHOD(NULL, model, "skipoperation", NULL, 0, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, model, "readAttribute", NULL, 0, &field);
+	ZEPHIR_CALL_METHOD(&_1, model, "readattribute", NULL, 0, &field);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_IDENTICAL(&_1, &value)) {
 		RETURN_MM_NULL();
 	}
-	ZEPHIR_CALL_METHOD(&modelsManager, model, "getModelsManager", NULL, 0);
+	ZEPHIR_CALL_METHOD(&modelsManager, model, "getmodelsmanager", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&updateModel);
 	if (zephir_clone(&updateModel, model) == FAILURE) {
 		RETURN_MM();
 	}
-	ZEPHIR_CALL_METHOD(NULL, &updateModel, "writeAttribute", NULL, 0, &field, &value);
+	ZEPHIR_CALL_METHOD(NULL, &updateModel, "writeattribute", NULL, 0, &field, &value);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_2, &updateModel, "save", NULL, 0);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_2))) {
-		ZEPHIR_CALL_METHOD(&_3$$7, &updateModel, "getMessages", NULL, 0);
+		ZEPHIR_CALL_METHOD(&_3$$7, &updateModel, "getmessages", NULL, 0);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&_3$$7) == IS_STRING) {
 			ZEPHIR_INIT_VAR(&_5$$7);
@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify)
 			{
 				ZEPHIR_INIT_NVAR(&message);
 				ZVAL_COPY(&message, _6$$7);
-				ZEPHIR_CALL_METHOD(NULL, model, "appendMessage", &_7, 0, &message);
+				ZEPHIR_CALL_METHOD(NULL, model, "appendmessage", &_7, 0, &message);
 				zephir_check_call_status();
 			} ZEND_HASH_FOREACH_END();
 		} else {
@@ -154,16 +154,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify)
 				}
 				ZEPHIR_CALL_METHOD(&message, _4$$7, "current", NULL, 0);
 				zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(NULL, model, "appendMessage", &_10, 0, &message);
+					ZEPHIR_CALL_METHOD(NULL, model, "appendmessage", &_10, 0, &message);
 					zephir_check_call_status();
 			}
 		}
 		ZEPHIR_INIT_NVAR(&message);
 		RETURN_MM_BOOL(0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, model, "writeAttribute", NULL, 0, &field, &value);
+	ZEPHIR_CALL_METHOD(NULL, model, "writeattribute", NULL, 0, &field, &value);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_11, &modelsManager, "isKeepingSnapshots", NULL, 0, model);
+	ZEPHIR_CALL_METHOD(&_11, &modelsManager, "iskeepingsnapshots", NULL, 0, model);
 	zephir_check_call_status();
 	_12 = zephir_is_true(&_11);
 	if (_12) {
@@ -174,15 +174,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify)
 		_12 = zephir_is_true(&_13);
 	}
 	if (_12) {
-		ZEPHIR_CALL_METHOD(&metaData, model, "getModelsMetaData", NULL, 0);
+		ZEPHIR_CALL_METHOD(&metaData, model, "getmodelsmetadata", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&_15$$10, &updateModel, "getSnapshotData", NULL, 0);
+		ZEPHIR_CALL_METHOD(&_15$$10, &updateModel, "getsnapshotdata", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, model, "setSnapshotData", NULL, 0, &_15$$10);
+		ZEPHIR_CALL_METHOD(NULL, model, "setsnapshotdata", NULL, 0, &_15$$10);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&_16$$10, &updateModel, "getOldSnapshotData", NULL, 0);
+		ZEPHIR_CALL_METHOD(&_16$$10, &updateModel, "getoldsnapshotdata", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, model, "setOldSnapshotData", NULL, 0, &_16$$10);
+		ZEPHIR_CALL_METHOD(NULL, model, "setoldsnapshotdata", NULL, 0, &_16$$10);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();

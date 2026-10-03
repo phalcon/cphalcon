@@ -54,7 +54,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version6, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, sec = 0, usec = 0, timestamp = 0;
-	zval __$true, nowSec, nowUsec, timeHigh32, timeMid16, timeLow12, clockSeqBytes, clockSeqHiRes, clockSeqLow, nodeStr, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13;
+	zval __$true, nowSec, nowUsec, timeHigh32, timeMid16, timeLow12, clockSeqBytes, clockSeqHiRes, clockSeqLow, nodeStr, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12;
 	zval *this_ptr = getThis();
 
 	ZVAL_BOOL(&__$true, 1);
@@ -80,7 +80,6 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version6, __construct)
 	ZVAL_UNDEF(&_10);
 	ZVAL_UNDEF(&_11);
 	ZVAL_UNDEF(&_12);
-	ZVAL_UNDEF(&_13);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("uid", 3, 1);
@@ -90,22 +89,15 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version6, __construct)
 
 	ZEPHIR_INIT_VAR(&nowSec);
 	zephir_time(&nowSec);
-	sec = zephir_get_intval(&nowSec);
+	sec = zephir_get_numberval(&nowSec);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_microtime(&_1, &__$true);
-	ZEPHIR_INIT_VAR(&_2);
-	ZVAL_DOUBLE(&_2, zephir_get_doubleval(&nowSec));
-	ZEPHIR_INIT_VAR(&_3);
-	zephir_sub_function(&_3, &_1, &_2);
-	ZEPHIR_INIT_NVAR(&_2);
-	ZVAL_DOUBLE(&_2, 10000000.0);
-	ZEPHIR_INIT_VAR(&_4);
-	mul_function(&_4, &_3, &_2);
-	zephir_round(&_0, &_4, NULL, NULL);
+	ZVAL_DOUBLE(&_2, ((zephir_get_numberval(&_1) - zephir_get_doubleval(&nowSec)) * 10000000.0));
+	zephir_round(&_0, &_2, NULL, NULL);
 	ZEPHIR_INIT_VAR(&nowUsec);
 	ZVAL_LONG(&nowUsec, zephir_get_intval(&_0));
-	usec = zephir_get_intval(&nowUsec);
+	usec = zephir_get_numberval(&nowUsec);
 	timestamp = ((((sec + 12219292800)) * 10000000) + usec);
 	ZEPHIR_INIT_VAR(&timeHigh32);
 	ZVAL_LONG(&timeHigh32, (((timestamp >> 28)) & 0xffffffff));
@@ -113,32 +105,32 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version6, __construct)
 	ZVAL_LONG(&timeMid16, (((timestamp >> 12)) & 0xffff));
 	ZEPHIR_INIT_VAR(&timeLow12);
 	ZVAL_LONG(&timeLow12, (0x6000 | ((timestamp & 0x0fff))));
-	ZVAL_LONG(&_5, 2);
-	ZEPHIR_CALL_FUNCTION(&clockSeqBytes, "random_bytes", NULL, 330, &_5);
+	ZVAL_LONG(&_3, 2);
+	ZEPHIR_CALL_FUNCTION(&clockSeqBytes, "random_bytes", NULL, 330, &_3);
 	zephir_check_call_status();
-	ZVAL_LONG(&_5, 0);
-	ZVAL_LONG(&_6, 1);
-	ZEPHIR_INIT_NVAR(&_1);
-	zephir_substr(&_1, &clockSeqBytes, 0 , 1 , 0);
-	ZEPHIR_CALL_FUNCTION(&_7, "ord", NULL, 0, &_1);
+	ZVAL_LONG(&_3, 0);
+	ZVAL_LONG(&_4, 1);
+	ZEPHIR_INIT_VAR(&_5);
+	zephir_substr(&_5, &clockSeqBytes, 0 , 1 , 0);
+	ZEPHIR_CALL_FUNCTION(&_6, "ord", NULL, 0, &_5);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&clockSeqHiRes);
-	ZVAL_LONG(&clockSeqHiRes, ((zephir_get_intval(&_7) & 0x3f) | 0x80));
+	ZVAL_LONG(&clockSeqHiRes, (((int) (zephir_get_numberval(&_6)) & 0x3f) | 0x80));
+	ZVAL_LONG(&_7, 1);
 	ZVAL_LONG(&_8, 1);
-	ZVAL_LONG(&_9, 1);
-	ZEPHIR_INIT_VAR(&_10);
-	zephir_substr(&_10, &clockSeqBytes, 1 , 1 , 0);
-	ZEPHIR_CALL_FUNCTION(&clockSeqLow, "ord", NULL, 0, &_10);
+	ZEPHIR_INIT_VAR(&_9);
+	zephir_substr(&_9, &clockSeqBytes, 1 , 1 , 0);
+	ZEPHIR_CALL_FUNCTION(&clockSeqLow, "ord", NULL, 0, &_9);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_11, this_ptr, "getNodeProvider", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_10, this_ptr, "getnodeprovider", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&nodeStr, &_11, "getNode", NULL, 0);
+	ZEPHIR_CALL_METHOD(&nodeStr, &_10, "getnode", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_12);
-	ZVAL_STRING(&_12, "%08x-%04x-%04x-%02x%02x-%s");
-	ZEPHIR_CALL_FUNCTION(&_13, "sprintf", NULL, 147, &_12, &timeHigh32, &timeMid16, &timeLow12, &clockSeqHiRes, &clockSeqLow, &nodeStr);
+	ZEPHIR_INIT_VAR(&_11);
+	ZVAL_STRING(&_11, "%08x-%04x-%04x-%02x%02x-%s");
+	ZEPHIR_CALL_FUNCTION(&_12, "sprintf", NULL, 147, &_11, &timeHigh32, &timeMid16, &timeLow12, &clockSeqHiRes, &clockSeqLow, &nodeStr);
 	zephir_check_call_status();
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 742, &_13);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 742, &_12);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -185,13 +177,13 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version6, getDateTime)
 	ZEPHIR_CALL_FUNCTION(&_4, "hexdec", NULL, 0, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&hexLow12);
-	ZVAL_LONG(&hexLow12, (zephir_get_intval(&_4) & 0x0fff));
-	timeHigh32 = zephir_get_intval(&hexHigh32);
-	timeMid16 = zephir_get_intval(&hexMid16);
-	timeLow12 = zephir_get_intval(&hexLow12);
+	ZVAL_LONG(&hexLow12, ((int) (zephir_get_numberval(&_4)) & 0x0fff));
+	timeHigh32 = zephir_get_numberval(&hexHigh32);
+	timeMid16 = zephir_get_numberval(&hexMid16);
+	timeLow12 = zephir_get_numberval(&hexLow12);
 	timestamp = ((((timeHigh32 << 28)) | ((timeMid16 << 12))) | timeLow12);
 	ZVAL_LONG(&_5, timestamp);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "uuidTimestampToDateTime", NULL, 0, &_5);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "uuidtimestamptodatetime", NULL, 0, &_5);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -98,12 +98,12 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Files, isAllowEmpty)
 	validation = ZEND_CALL_ARG(execute_data, 1);
 	zephir_memory_observe(&field_zv);
 	ZVAL_STR_COPY(&field_zv, field);
-	ZEPHIR_CALL_METHOD(&value, validation, "getValue", NULL, 0, &field_zv);
+	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, &field_zv);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(&value)) {
 		RETURN_MM_BOOL(1);
 	}
-	ZEPHIR_CALL_METHOD(&files, this_ptr, "normalizeFiles", NULL, 0, &value);
+	ZEPHIR_CALL_METHOD(&files, this_ptr, "normalizefiles", NULL, 0, &value);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&files) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_1);
@@ -215,9 +215,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Files, validate)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &validation, &field);
-	ZEPHIR_CALL_METHOD(&value, validation, "getValue", NULL, 0, field);
+	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&files, this_ptr, "normalizeFiles", NULL, 0, &value);
+	ZEPHIR_CALL_METHOD(&files, this_ptr, "normalizefiles", NULL, 0, &value);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&validator);
 	object_init_ex(&validator, phalcon_filter_validation_validator_file_ce);
@@ -258,7 +258,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Files, validate)
 					{
 						ZEPHIR_ITERATOR_COPY(&message, _9$$4);
 					}
-					ZEPHIR_CALL_METHOD(NULL, validation, "appendMessage", &_10, 0, &message);
+					ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", &_10, 0, &message);
 					zephir_check_call_status();
 				}
 				zend_iterator_dtor(_9$$4);
@@ -305,7 +305,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Files, validate)
 						{
 							ZEPHIR_ITERATOR_COPY(&message, _14$$7);
 						}
-						ZEPHIR_CALL_METHOD(NULL, validation, "appendMessage", &_10, 0, &message);
+						ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", &_10, 0, &message);
 						zephir_check_call_status();
 					}
 					zend_iterator_dtor(_14$$7);

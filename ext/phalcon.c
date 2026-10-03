@@ -1640,7 +1640,8 @@ PHP_INI_BEGIN()
 	STD_PHP_INI_BOOLEAN("phalcon.db.escape_identifiers", "1", PHP_INI_ALL, OnUpdateBool, db.escape_identifiers, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.db.force_casting", "0", PHP_INI_ALL, OnUpdateBool, db.force_casting, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.form.strict_entity_property_check", "0", PHP_INI_ALL, OnUpdateBool, form.strict_entity_property_check, zend_phalcon_globals, phalcon_globals)
-	STD_PHP_INI_ENTRY("phalcon.orm.cache_level", "3", PHP_INI_ALL, OnUpdateLong, orm.cache_level, zend_phalcon_globals, phalcon_globals)
+	
+	
 	STD_PHP_INI_BOOLEAN("phalcon.orm.call_setters_on_hydration", "0", PHP_INI_ALL, OnUpdateBool, orm.call_setters_on_hydration, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.orm.case_insensitive_column_map", "0", PHP_INI_ALL, OnUpdateBool, orm.case_insensitive_column_map, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.orm.cast_last_insert_id_to_int", "0", PHP_INI_ALL, OnUpdateBool, orm.cast_last_insert_id_to_int, zend_phalcon_globals, phalcon_globals)
@@ -1655,50 +1656,15 @@ PHP_INI_BEGIN()
 	STD_PHP_INI_BOOLEAN("phalcon.orm.ignore_unknown_columns", "0", PHP_INI_ALL, OnUpdateBool, orm.ignore_unknown_columns, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.orm.late_state_binding", "0", PHP_INI_ALL, OnUpdateBool, orm.late_state_binding, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.orm.not_null_validations", "1", PHP_INI_ALL, OnUpdateBool, orm.not_null_validations, zend_phalcon_globals, phalcon_globals)
+	
 	STD_PHP_INI_BOOLEAN("phalcon.orm.resultset_empty_left_join_model", "1", PHP_INI_ALL, OnUpdateBool, orm.resultset_empty_left_join_model, zend_phalcon_globals, phalcon_globals)
-	STD_PHP_INI_ENTRY("phalcon.orm.resultset_prefetch_records", "0", PHP_INI_ALL, OnUpdateString, orm.resultset_prefetch_records, zend_phalcon_globals, phalcon_globals)
-	STD_PHP_INI_ENTRY("phalcon.orm.unique_cache_id", "3", PHP_INI_ALL, OnUpdateLong, orm.unique_cache_id, zend_phalcon_globals, phalcon_globals)
+	STD_PHP_INI_ENTRY("phalcon.orm.resultset_prefetch_records", "0", PHP_INI_ALL, NULL, orm.resultset_prefetch_records, zend_phalcon_globals, phalcon_globals)
+	
 	STD_PHP_INI_BOOLEAN("phalcon.orm.update_snapshot_on_save", "1", PHP_INI_ALL, OnUpdateBool, orm.update_snapshot_on_save, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.orm.virtual_foreign_keys", "1", PHP_INI_ALL, OnUpdateBool, orm.virtual_foreign_keys, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.orm.dynamic_update", "1", PHP_INI_ALL, OnUpdateBool, orm.dynamic_update, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.warning.enable", "1", PHP_INI_ALL, OnUpdateBool, warning.enable, zend_phalcon_globals, phalcon_globals)
 PHP_INI_END()
-
-/**
- * Directives whose globals are put back to their php.ini value at the start
- * of every request. globals_set() writes the struct member directly, so the
- * engine cannot restore it the way it restores an ini_set(); without this the
- * value would survive into the next request. Module-scoped globals are
- * deliberately absent: they are set up once per process.
- */
-static const char *const zephir_request_ini_entries[] = {
-	"phalcon.db.escape_identifiers",
-	"phalcon.db.force_casting",
-	"phalcon.form.strict_entity_property_check",
-	"phalcon.orm.cache_level",
-	"phalcon.orm.call_setters_on_hydration",
-	"phalcon.orm.case_insensitive_column_map",
-	"phalcon.orm.cast_last_insert_id_to_int",
-	"phalcon.orm.cast_on_hydrate",
-	"phalcon.orm.column_renaming",
-	"phalcon.orm.disable_assign_setters",
-	"phalcon.orm.enable_implicit_joins",
-	"phalcon.orm.enable_literals",
-	"phalcon.orm.events",
-	"phalcon.orm.exception_on_failed_save",
-	"phalcon.orm.exception_on_failed_metadata_save",
-	"phalcon.orm.ignore_unknown_columns",
-	"phalcon.orm.late_state_binding",
-	"phalcon.orm.not_null_validations",
-	"phalcon.orm.resultset_empty_left_join_model",
-	"phalcon.orm.resultset_prefetch_records",
-	"phalcon.orm.unique_cache_id",
-	"phalcon.orm.update_snapshot_on_save",
-	"phalcon.orm.virtual_foreign_keys",
-	"phalcon.orm.dynamic_update",
-	"phalcon.warning.enable",
-	NULL
-};
 
 static PHP_MINIT_FUNCTION(phalcon)
 {
@@ -3356,8 +3322,33 @@ static void php_zephir_init_globals(zend_phalcon_globals *phalcon_globals)
 	/* Inline property cache (per-request reset defeats stale-ce/ABA reuse) */
 	memset(phalcon_globals->pcache, '\0', sizeof(void*) * ZEPHIR_MAX_PROPERTY_CACHE_SLOTS * ZEPHIR_PROPERTY_CACHE_SLOT_SIZE);
 
+	
+
+
 	phalcon_globals->orm.ast_cache = NULL;
+	phalcon_globals->orm.cache_level = 3;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	phalcon_globals->orm.parser_cache = NULL;
+
+	phalcon_globals->orm.resultset_prefetch_records = ZSTR_VAL(zend_string_init(ZEND_STRL("0"), 0));
+	phalcon_globals->orm.unique_cache_id = 3;
+
+
+
+
 	
 }
 
@@ -3377,7 +3368,6 @@ static PHP_RINIT_FUNCTION(phalcon)
 	phalcon_globals_ptr = ZEPHIR_VGLOBAL;
 
 	php_zephir_init_globals(phalcon_globals_ptr);
-	zephir_ini_activate_globals(zephir_request_ini_entries);
 	zephir_initialize_memory(phalcon_globals_ptr);
 
 		zephir_init_static_properties_Phalcon_Filter_Validation();

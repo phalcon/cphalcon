@@ -138,7 +138,7 @@ PHP_METHOD(Phalcon_Db_Geometry_MultiPoint, toWkt)
 		{
 			ZEPHIR_INIT_NVAR(&point);
 			ZVAL_COPY(&point, _3);
-			ZEPHIR_CALL_METHOD(&_4$$3, &point, "coordsWkt", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_4$$3, &point, "coordswkt", NULL, 0);
 			zephir_check_call_status();
 			zephir_array_append(&parts, &_4$$3, PH_SEPARATE, "phalcon/Db/Geometry/MultiPoint.zep", 51);
 		} ZEND_HASH_FOREACH_END();
@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Db_Geometry_MultiPoint, toWkt)
 			}
 			ZEPHIR_CALL_METHOD(&point, _1, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_7$$4, &point, "coordsWkt", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_7$$4, &point, "coordswkt", NULL, 0);
 				zephir_check_call_status();
 				zephir_array_append(&parts, &_7$$4, PH_SEPARATE, "phalcon/Db/Geometry/MultiPoint.zep", 51);
 		}

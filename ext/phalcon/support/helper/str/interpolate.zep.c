@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Interpolate, __invoke)
 		zephir_memory_observe(&rightToken_zv);
 	ZVAL_STR_COPY(&rightToken_zv, rightToken);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "toInterpolate", NULL, 0, &message_zv, &context, &leftToken_zv, &rightToken_zv);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "tointerpolate", NULL, 0, &message_zv, &context, &leftToken_zv, &rightToken_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

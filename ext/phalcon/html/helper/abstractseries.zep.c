@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, __toString)
 	ZEPHIR_UNREF(&sorted);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 83, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderArrayElements", NULL, 0, &sorted, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderarrayelements", NULL, 0, &sorted, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

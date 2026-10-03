@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Container_Definition_Processor_ClosureProcessor, process)
 	ZVAL_STRING(&_0, "closure");
 	ZEPHIR_CALL_METHOD(NULL, &def, "__construct", NULL, 487, &name_zv, &_0, definition);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &def, "setFactory", NULL, 492, definition);
+	ZEPHIR_CALL_METHOD(NULL, &def, "setfactory", NULL, 492, definition);
 	zephir_check_call_status();
 	RETURN_CCTOR(&def);
 }

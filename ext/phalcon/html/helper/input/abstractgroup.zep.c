@@ -235,7 +235,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractGroup, __toString)
 				continue;
 			}
 			zephir_cast_to_string(&_8$$3, &value);
-			ZEPHIR_CALL_METHOD(&_7$$3, this_ptr, "renderItem", &_9, 0, &_8$$3, &definition);
+			ZEPHIR_CALL_METHOD(&_7$$3, this_ptr, "renderitem", &_9, 0, &_8$$3, &definition);
 			zephir_check_call_status();
 			zephir_array_append(&lines, &_7$$3, PH_SEPARATE, "phalcon/Html/Helper/Input/AbstractGroup.zep", 86);
 		} ZEND_HASH_FOREACH_END();
@@ -267,7 +267,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractGroup, __toString)
 					continue;
 				}
 				zephir_cast_to_string(&_14$$5, &value);
-				ZEPHIR_CALL_METHOD(&_13$$5, this_ptr, "renderItem", &_9, 0, &_14$$5, &definition);
+				ZEPHIR_CALL_METHOD(&_13$$5, this_ptr, "renderitem", &_9, 0, &_14$$5, &definition);
 				zephir_check_call_status();
 				zephir_array_append(&lines, &_13$$5, PH_SEPARATE, "phalcon/Html/Helper/Input/AbstractGroup.zep", 86);
 		}
@@ -424,7 +424,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractGroup, renderItem)
 	zephir_array_update_string(&_10, SL("value"), &value_zv, PH_COPY | PH_SEPARATE);
 	ZEPHIR_CALL_FUNCTION(&inputAttrs, "array_merge", NULL, 202, &_9, &itemExtras, &_10);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_13, this_ptr, "isChecked", NULL, 0, &value_zv);
+	ZEPHIR_CALL_METHOD(&_13, this_ptr, "ischecked", NULL, 0, &value_zv);
 	zephir_check_call_status();
 	if (zephir_is_true(&_13)) {
 		ZEPHIR_INIT_VAR(&_14$$7);
@@ -443,7 +443,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractGroup, renderItem)
 	ZEPHIR_CPY_WRT(&inputAttrs, &_15);
 	ZEPHIR_INIT_NVAR(&_15);
 	ZVAL_STRING(&_15, "input");
-	ZEPHIR_CALL_METHOD(&input, this_ptr, "renderTag", NULL, 0, &_15, &inputAttrs);
+	ZEPHIR_CALL_METHOD(&input, this_ptr, "rendertag", NULL, 0, &_15, &inputAttrs);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_17);
 	zephir_create_array(&_17, 1, 0);
@@ -452,7 +452,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractGroup, renderItem)
 	zephir_array_update_string(&_17, SL("for"), &_12, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_15);
 	ZVAL_STRING(&_15, "label");
-	ZEPHIR_CALL_METHOD(&label, this_ptr, "renderFullElement", NULL, 0, &_15, &labelText, &_17);
+	ZEPHIR_CALL_METHOD(&label, this_ptr, "renderfullelement", NULL, 0, &_15, &labelText, &_17);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_VV(return_value, &input, &label);
 	RETURN_MM();

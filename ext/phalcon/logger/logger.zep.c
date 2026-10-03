@@ -86,7 +86,7 @@ PHP_METHOD(Phalcon_Logger_Logger, alert)
 		zephir_get_arrval(&context, context_param);
 	}
 	ZVAL_LONG(&_0, 2);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addMessage", NULL, 0, &_0, &message_zv, &context);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmessage", NULL, 0, &_0, &message_zv, &context);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Logger_Logger, critical)
 		zephir_get_arrval(&context, context_param);
 	}
 	ZVAL_LONG(&_0, 1);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addMessage", NULL, 0, &_0, &message_zv, &context);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmessage", NULL, 0, &_0, &message_zv, &context);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_Logger_Logger, debug)
 		zephir_get_arrval(&context, context_param);
 	}
 	ZVAL_LONG(&_0, 7);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addMessage", NULL, 0, &_0, &message_zv, &context);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmessage", NULL, 0, &_0, &message_zv, &context);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -217,7 +217,7 @@ PHP_METHOD(Phalcon_Logger_Logger, emergency)
 		zephir_get_arrval(&context, context_param);
 	}
 	ZVAL_LONG(&_0, 0);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addMessage", NULL, 0, &_0, &message_zv, &context);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmessage", NULL, 0, &_0, &message_zv, &context);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -261,7 +261,7 @@ PHP_METHOD(Phalcon_Logger_Logger, error)
 		zephir_get_arrval(&context, context_param);
 	}
 	ZVAL_LONG(&_0, 3);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addMessage", NULL, 0, &_0, &message_zv, &context);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmessage", NULL, 0, &_0, &message_zv, &context);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -306,7 +306,7 @@ PHP_METHOD(Phalcon_Logger_Logger, info)
 		zephir_get_arrval(&context, context_param);
 	}
 	ZVAL_LONG(&_0, 6);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addMessage", NULL, 0, &_0, &message_zv, &context);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmessage", NULL, 0, &_0, &message_zv, &context);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -356,10 +356,10 @@ PHP_METHOD(Phalcon_Logger_Logger, log)
 	} else {
 		zephir_get_arrval(&context, context_param);
 	}
-	ZEPHIR_CALL_METHOD(&intLevel, this_ptr, "getLevelNumber", NULL, 0, level);
+	ZEPHIR_CALL_METHOD(&intLevel, this_ptr, "getlevelnumber", NULL, 0, level);
 	zephir_check_call_status();
 	zephir_cast_to_string(&_0, &message_zv);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addMessage", NULL, 0, &intLevel, &_0, &context);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmessage", NULL, 0, &intLevel, &_0, &context);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -402,7 +402,7 @@ PHP_METHOD(Phalcon_Logger_Logger, notice)
 		zephir_get_arrval(&context, context_param);
 	}
 	ZVAL_LONG(&_0, 5);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addMessage", NULL, 0, &_0, &message_zv, &context);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmessage", NULL, 0, &_0, &message_zv, &context);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -449,7 +449,7 @@ PHP_METHOD(Phalcon_Logger_Logger, trace)
 		zephir_get_arrval(&context, context_param);
 	}
 	ZVAL_LONG(&_0, 9);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addMessage", NULL, 0, &_0, &message_zv, &context);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmessage", NULL, 0, &_0, &message_zv, &context);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -495,7 +495,7 @@ PHP_METHOD(Phalcon_Logger_Logger, warning)
 		zephir_get_arrval(&context, context_param);
 	}
 	ZVAL_LONG(&_0, 4);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addMessage", NULL, 0, &_0, &message_zv, &context);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmessage", NULL, 0, &_0, &message_zv, &context);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

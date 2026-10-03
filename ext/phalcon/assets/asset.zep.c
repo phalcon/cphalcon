@@ -252,15 +252,15 @@ PHP_METHOD(Phalcon_Assets_Asset, getAssetKey)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getType", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "gettype", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getPath", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getpath", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&key);
 	ZEPHIR_CONCAT_VSV(&key, &_0, ":", &_1);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "sha256");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "phpHash", NULL, 0, &_2, &key);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "phphash", NULL, 0, &_2, &key);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -305,25 +305,25 @@ PHP_METHOD(Phalcon_Assets_Asset, getContent)
 	}
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "sourcePath");
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkPath", NULL, 157, &_1);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkpath", NULL, 157, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&completePath);
 	ZEPHIR_CONCAT_VV(&completePath, &basePath_zv, &_0);
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 148, PH_NOISY_CC | PH_READONLY);
 	_3 = ZEPHIR_IS_TRUE_IDENTICAL(&_2);
 	if (_3) {
-		ZEPHIR_CALL_METHOD(&_4, this_ptr, "phpFileExists", NULL, 0, &completePath);
+		ZEPHIR_CALL_METHOD(&_4, this_ptr, "phpfileexists", NULL, 0, &completePath);
 		zephir_check_call_status();
 		_3 = !ZEPHIR_IS_TRUE_IDENTICAL(&_4);
 	}
 	if (_3) {
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwException", NULL, 158, &completePath);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwexception", NULL, 158, &completePath);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(&content, this_ptr, "phpFileGetContents", NULL, 0, &completePath);
+	ZEPHIR_CALL_METHOD(&content, this_ptr, "phpfilegetcontents", NULL, 0, &completePath);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&content)) {
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwException", NULL, 158, &completePath);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwexception", NULL, 158, &completePath);
 		zephir_check_call_status();
 	}
 	RETURN_CCTOR(&content);
@@ -386,7 +386,7 @@ PHP_METHOD(Phalcon_Assets_Asset, getRealSourcePath)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "sourcePath");
-	ZEPHIR_CALL_METHOD(&source, this_ptr, "checkPath", NULL, 157, &_0);
+	ZEPHIR_CALL_METHOD(&source, this_ptr, "checkpath", NULL, 157, &_0);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 148, PH_NOISY_CC | PH_READONLY);
 	if (zephir_is_true(&_1)) {
@@ -439,13 +439,13 @@ PHP_METHOD(Phalcon_Assets_Asset, getRealTargetPath)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "targetPath");
-	ZEPHIR_CALL_METHOD(&target, this_ptr, "checkPath", NULL, 157, &_0);
+	ZEPHIR_CALL_METHOD(&target, this_ptr, "checkpath", NULL, 157, &_0);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 148, PH_NOISY_CC | PH_READONLY);
 	if (zephir_is_true(&_1)) {
 		ZEPHIR_INIT_VAR(&completePath);
 		ZEPHIR_CONCAT_VV(&completePath, &basePath_zv, &target);
-		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "phpFileExists", NULL, 0, &completePath);
+		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "phpfileexists", NULL, 0, &completePath);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_TRUE_IDENTICAL(&_2$$3)) {
 			ZEPHIR_CALL_FUNCTION(&_3$$4, "is_link", NULL, 160, &completePath);
@@ -503,7 +503,7 @@ PHP_METHOD(Phalcon_Assets_Asset, getRealTargetUri)
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "targetUri");
-	ZEPHIR_CALL_METHOD(&target, this_ptr, "checkPath", NULL, 157, &_0);
+	ZEPHIR_CALL_METHOD(&target, this_ptr, "checkpath", NULL, 157, &_0);
 	zephir_check_call_status();
 	zephir_memory_observe(&ver);
 	zephir_read_property_cached(&ver, this_ptr, _zephir_prop_0, 151, PH_NOISY_CC);
@@ -514,7 +514,7 @@ PHP_METHOD(Phalcon_Assets_Asset, getRealTargetUri)
 		_2 = zephir_is_true(&_3);
 	}
 	if (_2) {
-		ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "getRealSourcePath", NULL, 0);
+		ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "getrealsourcepath", NULL, 0);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&modTime);
 		zephir_filemtime(&modTime, &_4$$3);

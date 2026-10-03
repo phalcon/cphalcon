@@ -128,20 +128,20 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Size_Equal, validate)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &validation, &field);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkUpload", NULL, 0, validation, field);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkupload", NULL, 0, validation, field);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
 		RETURN_MM_BOOL(0);
 	}
-	ZEPHIR_CALL_METHOD(&value, validation, "getValue", NULL, 0, field);
+	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "size");
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getOption", NULL, 0, &_2);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getoption", NULL, 0, &_2);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&size, this_ptr, "checkArray", NULL, 0, &_1, field);
+	ZEPHIR_CALL_METHOD(&size, this_ptr, "checkarray", NULL, 0, &_1, field);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getFileSizeInBytes", NULL, 0, &size);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getfilesizeinbytes", NULL, 0, &size);
 	zephir_check_call_status();
 	ZVAL_LONG(&_4, 6);
 	ZEPHIR_INIT_VAR(&bytes);
@@ -156,9 +156,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Size_Equal, validate)
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "included");
 	ZVAL_BOOL(&_10, 0);
-	ZEPHIR_CALL_METHOD(&_9, this_ptr, "getOption", NULL, 0, &_2, &_10);
+	ZEPHIR_CALL_METHOD(&_9, this_ptr, "getoption", NULL, 0, &_2, &_10);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_8, this_ptr, "checkArray", NULL, 0, &_9, field);
+	ZEPHIR_CALL_METHOD(&_8, this_ptr, "checkarray", NULL, 0, &_9, field);
 	zephir_check_call_status();
 	included = zephir_get_boolval(&_8);
 	if (included) {
@@ -166,15 +166,15 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Size_Equal, validate)
 	} else {
 		ZVAL_BOOL(&_10, 0);
 	}
-	ZEPHIR_CALL_METHOD(&_8, this_ptr, "getConditional", NULL, 0, &bytes, &fileSize, &_10);
+	ZEPHIR_CALL_METHOD(&_8, this_ptr, "getconditional", NULL, 0, &bytes, &fileSize, &_10);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_8)) {
 		ZEPHIR_INIT_VAR(&replacePairs);
 		zephir_create_array(&replacePairs, 1, 0);
 		zephir_array_update_string(&replacePairs, SL(":size"), &size, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_METHOD(&_11$$4, this_ptr, "messageFactory", NULL, 0, validation, field, &replacePairs);
+		ZEPHIR_CALL_METHOD(&_11$$4, this_ptr, "messagefactory", NULL, 0, validation, field, &replacePairs);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendMessage", NULL, 0, &_11$$4);
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_11$$4);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}
@@ -197,12 +197,14 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Size_Equal, getConditional)
 	double source, target;
 
 	ZEND_PARSE_PARAMETERS_START(2, 3)
-		Z_PARAM_DOUBLE(source)
-		Z_PARAM_DOUBLE(target)
+		Z_PARAM_ZVAL(source_param)
+		Z_PARAM_ZVAL(target_param)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_BOOL(included)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(2, 1, &source_param, &target_param, &included_param);
+	source = zephir_get_doubleval(source_param);
+	target = zephir_get_doubleval(target_param);
 	if (!included_param) {
 		included = 0;
 	} else {

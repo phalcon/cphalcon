@@ -510,7 +510,7 @@ PHP_METHOD(Phalcon_Html_Helper_Breadcrumbs, render)
 			zephir_read_property_cached(&_6$$4, this_ptr, _zephir_prop_1, 841, PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_OBS_NVAR(&_7$$4);
 			zephir_array_fetch_string(&_7$$4, &_6$$4, SL("line"), PH_NOISY, "phalcon/Html/Helper/Breadcrumbs.zep", 234);
-			ZEPHIR_CALL_METHOD(&_5$$4, this_ptr, "getLink", &_8, 0, &_7$$4, &element);
+			ZEPHIR_CALL_METHOD(&_5$$4, this_ptr, "getlink", &_8, 0, &_7$$4, &element);
 			zephir_check_call_status();
 			zephir_array_append(&output, &_5$$4, PH_SEPARATE, "phalcon/Html/Helper/Breadcrumbs.zep", 234);
 		} ZEND_HASH_FOREACH_END();
@@ -535,7 +535,7 @@ PHP_METHOD(Phalcon_Html_Helper_Breadcrumbs, render)
 				zephir_read_property_cached(&_12$$5, this_ptr, _zephir_prop_1, 841, PH_NOISY_CC | PH_READONLY);
 				ZEPHIR_OBS_NVAR(&_13$$5);
 				zephir_array_fetch_string(&_13$$5, &_12$$5, SL("line"), PH_NOISY, "phalcon/Html/Helper/Breadcrumbs.zep", 234);
-				ZEPHIR_CALL_METHOD(&_11$$5, this_ptr, "getLink", &_8, 0, &_13$$5, &element);
+				ZEPHIR_CALL_METHOD(&_11$$5, this_ptr, "getlink", &_8, 0, &_13$$5, &element);
 				zephir_check_call_status();
 				zephir_array_append(&output, &_11$$5, PH_SEPARATE, "phalcon/Html/Helper/Breadcrumbs.zep", 234);
 		}
@@ -544,7 +544,7 @@ PHP_METHOD(Phalcon_Html_Helper_Breadcrumbs, render)
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 841, PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&_15);
 	zephir_array_fetch_string(&_15, &_1, SL("last"), PH_NOISY, "phalcon/Html/Helper/Breadcrumbs.zep", 240);
-	ZEPHIR_CALL_METHOD(&_14, this_ptr, "getLink", &_8, 0, &_15, &lastElement);
+	ZEPHIR_CALL_METHOD(&_14, this_ptr, "getlink", &_8, 0, &_15, &lastElement);
 	zephir_check_call_status();
 	zephir_array_append(&output, &_14, PH_SEPARATE, "phalcon/Html/Helper/Breadcrumbs.zep", 240);
 	zephir_read_property_cached(&_16, this_ptr, _zephir_prop_1, 841, PH_NOISY_CC | PH_READONLY);
@@ -553,7 +553,7 @@ PHP_METHOD(Phalcon_Html_Helper_Breadcrumbs, render)
 	ZEPHIR_INIT_VAR(&_18);
 	zephir_create_array(&_18, 4, 0);
 	zephir_read_property_cached(&_20, this_ptr, _zephir_prop_2, 840, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_19, this_ptr, "processAttributes", NULL, 0, &_20);
+	ZEPHIR_CALL_METHOD(&_19, this_ptr, "processattributes", NULL, 0, &_20);
 	zephir_check_call_status();
 	zephir_array_update_string(&_18, SL("attributes"), &_19, PH_COPY | PH_SEPARATE);
 	zephir_memory_observe(&_21);
@@ -570,7 +570,7 @@ PHP_METHOD(Phalcon_Html_Helper_Breadcrumbs, render)
 	ZEPHIR_CONCAT_VVV(&_26, &_23, &_24, &_25);
 	zephir_fast_join(&_22, &_26, &output);
 	zephir_array_update_string(&_18, SL("items"), &_22, PH_COPY | PH_SEPARATE);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "toInterpolate", NULL, 0, &_17, &_18);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "tointerpolate", NULL, 0, &_17, &_18);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -803,7 +803,7 @@ PHP_METHOD(Phalcon_Html_Helper_Breadcrumbs, getLink)
 	ZEPHIR_INIT_VAR(&_10);
 	zephir_create_array(&_10, 4, 0);
 	zephir_array_fetch_string(&_12, &element, SL("attributes"), PH_NOISY | PH_READONLY, "phalcon/Html/Helper/Breadcrumbs.zep", 338);
-	ZEPHIR_CALL_METHOD(&_11, this_ptr, "processAttributes", NULL, 0, &_12);
+	ZEPHIR_CALL_METHOD(&_11, this_ptr, "processattributes", NULL, 0, &_12);
 	zephir_check_call_status();
 	zephir_array_update_string(&_10, SL("attributes"), &_11, PH_COPY | PH_SEPARATE);
 	zephir_memory_observe(&_13);
@@ -818,7 +818,7 @@ PHP_METHOD(Phalcon_Html_Helper_Breadcrumbs, getLink)
 	ZEPHIR_CALL_METHOD(&_11, &_16, "attributes", NULL, 0, &link);
 	zephir_check_call_status();
 	zephir_array_update_string(&_10, SL("link"), &_11, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(&_9, this_ptr, "toInterpolate", NULL, 0, &template_zv, &_10);
+	ZEPHIR_CALL_METHOD(&_9, this_ptr, "tointerpolate", NULL, 0, &template_zv, &_10);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_17, this_ptr, _zephir_prop_4, 837, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CONCAT_VVV(return_value, &_8, &_9, &_17);
@@ -848,7 +848,7 @@ PHP_METHOD(Phalcon_Html_Helper_Breadcrumbs, processAttributes)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &attributes_param);
 	zephir_get_arrval(&attributes, attributes_param);
-	ZEPHIR_CALL_METHOD(&attributesRendered, this_ptr, "renderAttributes", NULL, 0, &attributes);
+	ZEPHIR_CALL_METHOD(&attributesRendered, this_ptr, "renderattributes", NULL, 0, &attributes);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	if (!(ZEPHIR_IS_EMPTY(&attributesRendered))) {

@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Html_Helper_Anchor, __invoke)
 		}
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "href");
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "injectAttribute", NULL, 0, &_1, &href_zv, &attributes);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "injectattribute", NULL, 0, &_1, &href_zv, &attributes);
 	zephir_check_call_status();
 	_2 = raw;
 	if (!(_2)) {
@@ -163,7 +163,7 @@ PHP_METHOD(Phalcon_Html_Helper_Anchor, __invoke)
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "a");
 	ZVAL_BOOL(&_4, _2);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderFullElement", NULL, 0, &_1, &text_zv, &_0, &_4);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderfullelement", NULL, 0, &_1, &text_zv, &_0, &_4);
 	zephir_check_call_status();
 	RETURN_MM();
 }

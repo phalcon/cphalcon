@@ -57,7 +57,7 @@ PHP_METHOD(Phalcon_Filter_FilterFactory, newInstance)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	object_init_ex(return_value, phalcon_filter_filter_ce);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getServices", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getservices", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Filter_FilterFactory, getServices)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_filter_filter_ce, "getDefaultMapper", NULL, 0);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_filter_filter_ce, "getdefaultmapper", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

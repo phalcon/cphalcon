@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Random, __invoke)
 		ZEPHIR_INIT_NVAR(&_0);
 		ZVAL_LONG(&_0, type);
 	}
-	type = zephir_get_intval(&_0);
+	type = zephir_get_numberval(&_0);
 	ZEPHIR_INIT_VAR(&pools);
 	zephir_create_array(&pools, 6, 0);
 	ZEPHIR_INIT_VAR(&_2);

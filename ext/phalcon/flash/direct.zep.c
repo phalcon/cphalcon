@@ -63,7 +63,7 @@ PHP_METHOD(Phalcon_Flash_Direct, message)
 	message = ZEND_CALL_ARG(execute_data, 2);
 	zephir_memory_observe(&type_zv);
 	ZVAL_STR_COPY(&type_zv, type);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "outputMessage", NULL, 0, &type_zv, message);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "outputmessage", NULL, 0, &type_zv, message);
 	zephir_check_call_status();
 	RETURN_MM();
 }

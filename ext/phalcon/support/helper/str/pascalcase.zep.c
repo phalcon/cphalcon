@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_PascalCase, __invoke)
 		zephir_memory_observe(&delimiters_zv);
 	ZVAL_STR_COPY(&delimiters_zv, delimiters);
 	}
-	ZEPHIR_CALL_METHOD(&exploded, this_ptr, "processArray", NULL, 0, &text_zv, &delimiters_zv);
+	ZEPHIR_CALL_METHOD(&exploded, this_ptr, "processarray", NULL, 0, &text_zv, &delimiters_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&output);
 	ZVAL_STRING(&output, "");

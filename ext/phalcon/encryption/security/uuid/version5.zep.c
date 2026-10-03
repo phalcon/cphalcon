@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version5, __construct)
 	ZVAL_STR_COPY(&namespaceName_zv, namespaceName);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "namespaceToBytes", NULL, 0, &namespaceName_zv);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "namespacetobytes", NULL, 0, &namespaceName_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_VV(&_1, &_0, &name_zv);
@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version5, __construct)
 	zephir_substr(&_7, &hash, 6 , 1 , 0);
 	ZEPHIR_CALL_FUNCTION(&_8, "ord", NULL, 0, &_7);
 	zephir_check_call_status();
-	ZVAL_LONG(&_9, ((zephir_get_intval(&_8) & 0x0f) | 0x50));
+	ZVAL_LONG(&_9, (((int) (zephir_get_numberval(&_8)) & 0x0f) | 0x50));
 	ZEPHIR_CALL_FUNCTION(&_10, "chr", NULL, 0, &_9);
 	zephir_check_call_status();
 	ZVAL_LONG(&_9, 6);
@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version5, __construct)
 	zephir_substr(&_13, &hash, 8 , 1 , 0);
 	ZEPHIR_CALL_FUNCTION(&_12, "ord", NULL, 0, &_13);
 	zephir_check_call_status();
-	ZVAL_LONG(&_14, ((zephir_get_intval(&_12) & 0x3f) | 0x80));
+	ZVAL_LONG(&_14, (((int) (zephir_get_numberval(&_12)) & 0x3f) | 0x80));
 	ZEPHIR_CALL_FUNCTION(&_15, "chr", NULL, 0, &_14);
 	zephir_check_call_status();
 	ZVAL_LONG(&_14, 8);

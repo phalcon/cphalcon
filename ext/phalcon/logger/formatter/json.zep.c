@@ -128,22 +128,22 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, format)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &item);
-	ZEPHIR_CALL_METHOD(&_0, item, "getMessage", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_0, item, "getmessage", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&message, this_ptr, "getInterpolatedMessage", NULL, 0, item, &_0);
+	ZEPHIR_CALL_METHOD(&message, this_ptr, "getinterpolatedmessage", NULL, 0, item, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&options);
 	ZVAL_LONG(&options, (((((1 + 4) + 2) + 8) + 64) + 4194304));
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_create_array(&_1, 3, 0);
-	ZEPHIR_CALL_METHOD(&_2, item, "getLevelName", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_2, item, "getlevelname", NULL, 0);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("level"), &_2, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_1, SL("message"), &message, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getFormattedDate", NULL, 0, item);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getformatteddate", NULL, 0, item);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("timestamp"), &_2, PH_COPY | PH_SEPARATE);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "toEncode", NULL, 0, &_1, &options);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "toencode", NULL, 0, &_1, &options);
 	zephir_check_call_status();
 	RETURN_MM();
 }

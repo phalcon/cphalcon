@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Auth_Access_AbstractAccess, isAllowed)
 	} else {
 		zephir_get_arrval(&context, context_param);
 	}
-	ZEPHIR_CALL_METHOD(&allowed, this_ptr, "allowedIf", NULL, 0, guard);
+	ZEPHIR_CALL_METHOD(&allowed, this_ptr, "allowedif", NULL, 0, guard);
 	zephir_check_call_status();
 	zephir_memory_observe(&_0);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 102, PH_NOISY_CC);

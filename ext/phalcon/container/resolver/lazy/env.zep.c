@@ -126,7 +126,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_Env, resolve)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &ioc);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getEnv", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getenv", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cast", NULL, 0, &_0);
 	zephir_check_call_status();

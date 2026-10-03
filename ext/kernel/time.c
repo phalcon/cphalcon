@@ -26,7 +26,6 @@
 
 #include "php.h"
 #include "php_ext.h"
-#include <ext/date/php_date.h>
 
 #include "kernel/main.h"
 #include "kernel/time.h"
@@ -34,8 +33,7 @@
 
 void zephir_time(zval *return_value)
 {
-	/* php_time() reads gettimeofday(), like PHP time(); C time(NULL) can lag a second behind */
-	RETURN_LONG((zend_long) php_time());
+	RETURN_LONG(time(NULL));
 }
 
 void zephir_microtime(zval *return_value, zval *get_as_float)

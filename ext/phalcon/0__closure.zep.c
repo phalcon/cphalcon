@@ -38,7 +38,7 @@ PHP_METHOD(phalcon_0__closure, __invoke)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &value);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "checkSerializable", NULL, 0, value);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "checkserializable", NULL, 0, value);
 	zephir_check_call_status();
 	RETURN_MM();
 }

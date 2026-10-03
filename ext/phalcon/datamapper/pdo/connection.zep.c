@@ -197,7 +197,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __construct)
 		ZEPHIR_CALL_METHOD(NULL, profiler, "__construct", NULL, 0);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setProfiler", NULL, 0, profiler);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setprofiler", NULL, 0, profiler);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -304,7 +304,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, connect)
 	if (!(zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "dm:beforeConnect");
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "fireBefore", NULL, 0, &_1$$3);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "firebefore", NULL, 0, &_1$$3);
 		zephir_check_call_status();
 		zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_1, 582, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_INIT_NVAR(&_1$$3);
@@ -338,7 +338,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, connect)
 		ZVAL_STRING(&_9$$3, "dm:afterConnect");
 		ZVAL_NULL(&_10$$3);
 		ZVAL_BOOL(&_11$$3, 0);
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "fireManagerEvent", NULL, 0, &_9$$3, &_10$$3, &_11$$3);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "firemanagerevent", NULL, 0, &_9$$3, &_10$$3, &_11$$3);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&queries) == IS_STRING) {
 			ZEPHIR_INIT_NVAR(&_9$$3);
@@ -412,7 +412,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, disconnect)
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "dm:beforeDisconnect");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "fireBefore", NULL, 0, &_0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "firebefore", NULL, 0, &_0);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 582, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_NVAR(&_0);
@@ -427,7 +427,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, disconnect)
 	ZVAL_STRING(&_0, "dm:afterDisconnect");
 	ZVAL_NULL(&_3);
 	ZVAL_BOOL(&_4, 0);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "fireManagerEvent", NULL, 0, &_0, &_3, &_4);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "firemanagerevent", NULL, 0, &_0, &_3, &_4);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

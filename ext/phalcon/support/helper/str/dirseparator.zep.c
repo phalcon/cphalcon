@@ -54,7 +54,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_DirSeparator, __invoke)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&directory_zv);
 	ZVAL_STR_COPY(&directory_zv, directory);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "toDirSeparator", NULL, 0, &directory_zv);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "todirseparator", NULL, 0, &directory_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

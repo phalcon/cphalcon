@@ -79,12 +79,12 @@ PHP_METHOD(Phalcon_Html_Helper_Form, __invoke)
 	zephir_create_array(&overrides, 2, 0);
 	add_assoc_stringl_ex(&overrides, SL("method"), SL("post"));
 	add_assoc_stringl_ex(&overrides, SL("enctype"), SL("multipart/form-data"));
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "orderAttributes", NULL, 0, &overrides, &attributes);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "orderattributes", NULL, 0, &overrides, &attributes);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&overrides, &_0);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "form");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderElement", NULL, 0, &_1, &overrides);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderelement", NULL, 0, &_1, &overrides);
 	zephir_check_call_status();
 	RETURN_MM();
 }

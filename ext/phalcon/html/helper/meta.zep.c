@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, add)
 	zephir_array_fast_append(&_0, &_1);
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_create_array(&_2, 2, 0);
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getTag", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "gettag", NULL, 0);
 	zephir_check_call_status();
 	zephir_array_fast_append(&_2, &_3);
 	zephir_array_fast_append(&_2, &attributes);
@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, add)
 	zephir_check_call_status();
 	zephir_array_fast_append(&_0, &_3);
 	ZVAL_LONG(&_4, position);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "pushOrPlace", NULL, 0, &_0, &_4);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "pushorplace", NULL, 0, &_0, &_4);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -135,7 +135,7 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addHttp)
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "http-equiv");
 	ZVAL_LONG(&_1, position);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "addElement", NULL, 0, &_0, &httpEquiv_zv, &content_zv, &_1);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "addelement", NULL, 0, &_0, &httpEquiv_zv, &content_zv, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addName)
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "name");
 	ZVAL_LONG(&_1, position);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addElement", NULL, 0, &_0, &name_zv, &content_zv, &_1);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addelement", NULL, 0, &_0, &name_zv, &content_zv, &_1);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -213,7 +213,7 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addProperty)
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "property");
 	ZVAL_LONG(&_1, position);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addElement", NULL, 0, &_0, &name_zv, &content_zv, &_1);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addelement", NULL, 0, &_0, &name_zv, &content_zv, &_1);
 	zephir_check_call_status();
 	RETURN_THIS();
 }

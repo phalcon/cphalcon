@@ -70,9 +70,9 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Set, __invoke)
 		index = &index_sub;
 		index = &__$null;
 	}
-	ZEPHIR_CALL_METHOD(&source, this_ptr, "checkNull", NULL, 0, &collection, value, index);
+	ZEPHIR_CALL_METHOD(&source, this_ptr, "checknull", NULL, 0, &collection, value, index);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "checkNotNull", NULL, 0, &source, value, index);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "checknotnull", NULL, 0, &source, value, index);
 	zephir_check_call_status();
 	RETURN_MM();
 }

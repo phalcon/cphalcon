@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractAdapter, getModel)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 74, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "getModel", NULL, 0);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "getmodel", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -165,9 +165,9 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractAdapter, validateCredentials)
 		RETURN_MM_BOOL(0);
 	}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 73, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_1, user, "getAuthPassword", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_1, user, "getauthpassword", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "checkHash", NULL, 0, &password, &_1);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "checkhash", NULL, 0, &password, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -199,7 +199,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractAdapter, burnHash)
 	ZVAL_STRING(&_1, "phalcon-auth-timing");
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "$2y$10$YMmGMSXz.5U3bjjJ2qx45uElzUrlaBiS8L70VaVnmsKYFJVcam8gW");
-	ZEPHIR_CALL_METHOD(NULL, &_0, "checkHash", NULL, 0, &_1, &_2);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "checkhash", NULL, 0, &_1, &_2);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
