@@ -13,8 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/operators.h"
 #include "kernel/time.h"
 #include "kernel/fcall.h"
 
@@ -93,10 +93,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractConsumer, getQueue)
  */
 PHP_METHOD(Phalcon_Queue_Adapter_AbstractConsumer, receive)
 {
-	zend_bool _3$$3;
+	zend_bool _6$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_2 = NULL, *_6 = NULL;
-	zval *timeout_param = NULL, __$true, message, _0, _1, _4$$3, _5$$3;
+	zephir_fcall_cache_entry *_5 = NULL, *_11 = NULL;
+	zval *timeout_param = NULL, __$true, message, _0, _1, _2, _3, _4, _7$$3, _8$$3, _9$$3, _10$$3;
 	zend_long timeout, ZEPHIR_LAST_CALL_STATUS, startTime = 0, sleep = 0;
 	zval *this_ptr = getThis();
 
@@ -104,8 +104,13 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractConsumer, receive)
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_4$$3);
-	ZVAL_UNDEF(&_5$$3);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_7$$3);
+	ZVAL_UNDEF(&_8$$3);
+	ZVAL_UNDEF(&_9$$3);
+	ZVAL_UNDEF(&_10$$3);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("pollInterval", 12, 1);
@@ -123,27 +128,39 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractConsumer, receive)
 	} else {
 		}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 90, PH_NOISY_CC | PH_READONLY);
-	sleep = (zephir_get_numberval(&_0) * 1000);
 	ZEPHIR_INIT_VAR(&_1);
-	zephir_microtime(&_1, &__$true);
-	startTime = (zephir_get_numberval(&_1) * 1000);
+	ZVAL_LONG(&_1, 1000);
+	ZEPHIR_INIT_VAR(&_2);
+	mul_function(&_2, &_0, &_1);
+	sleep = zephir_get_intval(&_2);
+	ZEPHIR_INIT_VAR(&_3);
+	zephir_microtime(&_3, &__$true);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_LONG(&_1, 1000);
+	ZEPHIR_INIT_VAR(&_4);
+	mul_function(&_4, &_3, &_1);
+	startTime = zephir_get_intval(&_4);
 	while (1) {
-		ZEPHIR_CALL_METHOD(&message, this_ptr, "receivenowait", &_2, 0);
+		ZEPHIR_CALL_METHOD(&message, this_ptr, "receiveNoWait", &_5, 0);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&message) != IS_NULL) {
 			RETURN_CCTOR(&message);
 		}
-		_3$$3 = timeout > 0;
-		if (_3$$3) {
-			ZEPHIR_INIT_NVAR(&_4$$3);
-			zephir_microtime(&_4$$3, &__$true);
-			_3$$3 = ((zephir_get_numberval(&_4$$3) * 1000) - startTime) >= timeout;
+		_6$$3 = timeout > 0;
+		if (_6$$3) {
+			ZEPHIR_INIT_NVAR(&_7$$3);
+			zephir_microtime(&_7$$3, &__$true);
+			ZEPHIR_INIT_NVAR(&_8$$3);
+			ZVAL_LONG(&_8$$3, 1000);
+			ZEPHIR_INIT_NVAR(&_9$$3);
+			mul_function(&_9$$3, &_7$$3, &_8$$3);
+			_6$$3 = (zephir_get_intval(&_9$$3) - startTime) >= timeout;
 		}
-		if (_3$$3) {
+		if (_6$$3) {
 			RETURN_MM_NULL();
 		}
-		ZVAL_LONG(&_5$$3, sleep);
-		ZEPHIR_CALL_FUNCTION(NULL, "usleep", &_6, 74, &_5$$3);
+		ZVAL_LONG(&_10$$3, sleep);
+		ZEPHIR_CALL_FUNCTION(NULL, "usleep", &_11, 74, &_10$$3);
 		zephir_check_call_status();
 	}
 	RETURN_MM_NULL();

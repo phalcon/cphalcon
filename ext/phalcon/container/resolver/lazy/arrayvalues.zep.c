@@ -347,7 +347,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, resolve)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &ioc);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 561, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "resolvevalues", NULL, 0, ioc, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "resolveValues", NULL, 0, ioc, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -379,7 +379,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, resolveValue)
 		RETURN_MM();
 	}
 	if (Z_TYPE_P(value) == IS_ARRAY) {
-		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "resolvevalues", NULL, 0, ioc, value);
+		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "resolveValues", NULL, 0, ioc, value);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -433,7 +433,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, resolveValues)
 			}
 			ZEPHIR_INIT_NVAR(&value);
 			ZVAL_COPY(&value, _0);
-			ZEPHIR_CALL_METHOD(&_3$$3, this_ptr, "resolvevalue", &_4, 0, ioc, &value);
+			ZEPHIR_CALL_METHOD(&_3$$3, this_ptr, "resolveValue", &_4, 0, ioc, &value);
 			zephir_check_call_status();
 			zephir_array_update_zval(&result, &key, &_3$$3, PH_COPY | PH_SEPARATE);
 		} ZEND_HASH_FOREACH_END();
@@ -457,7 +457,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, resolveValues)
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&value, &values, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_7$$4, this_ptr, "resolvevalue", &_4, 0, ioc, &value);
+				ZEPHIR_CALL_METHOD(&_7$$4, this_ptr, "resolveValue", &_4, 0, ioc, &value);
 				zephir_check_call_status();
 				zephir_array_update_zval(&result, &key, &_7$$4, PH_COPY | PH_SEPARATE);
 		}

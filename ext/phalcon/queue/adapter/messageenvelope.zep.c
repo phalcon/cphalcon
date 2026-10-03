@@ -135,13 +135,13 @@ PHP_METHOD(Phalcon_Queue_Adapter_MessageEnvelope, encode)
 	zephir_fetch_params(1, 1, 0, &message);
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 3, 0);
-	ZEPHIR_CALL_METHOD(&_1, message, "getbody", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_1, message, "getBody", NULL, 0);
 	zephir_check_call_status();
 	zephir_array_update_string(&_0, SL("body"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(&_1, message, "getproperties", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_1, message, "getProperties", NULL, 0);
 	zephir_check_call_status();
 	zephir_array_update_string(&_0, SL("properties"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(&_1, message, "getheaders", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_1, message, "getHeaders", NULL, 0);
 	zephir_check_call_status();
 	zephir_array_update_string(&_0, SL("headers"), &_1, PH_COPY | PH_SEPARATE);
 	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 22, &_0);

@@ -24,6 +24,7 @@
 #include "kernel/memory.h"
 #include "kernel/debug.h"
 #include "kernel/array.h"
+#include "kernel/buffer.h"
 #include "kernel/operators.h"
 #include "kernel/backtrace.h"
 #include "kernel/object.h"
@@ -464,6 +465,12 @@ int ZEPHIR_FASTCALL zephir_array_isset(const zval *arr, zval *index)
 		return 0;
 	}
 
+#ifdef ZEPHIR_BUFFER_ENABLED
+	if (UNEXPECTED(zephir_is_buffer(arr))) {
+		return zephir_buffer_dim_isset(arr, index);
+	}
+#endif
+
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev((zval *)arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
 		zend_long ZEPHIR_LAST_CALL_STATUS;
 		zval container, exist;
@@ -555,6 +562,12 @@ int ZEPHIR_FASTCALL zephir_array_isset_string(const zval *arr, const char *index
 
 int ZEPHIR_FASTCALL zephir_array_isset_long(const zval *arr, zend_long index)
 {
+#ifdef ZEPHIR_BUFFER_ENABLED
+	if (UNEXPECTED(zephir_is_buffer(arr))) {
+		return zephir_buffer_dim_isset_long(arr, index);
+	}
+#endif
+
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev((zval *)arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
 		zend_long ZEPHIR_LAST_CALL_STATUS;
 		zval container, exist, offset;
@@ -938,6 +951,12 @@ int zephir_array_fetch(zval *return_value, zval *arr, zval *index, int flags ZEP
 		arr = zephir_array_write_container(arr);
 	}
 
+#ifdef ZEPHIR_BUFFER_ENABLED
+	if (UNEXPECTED(zephir_is_buffer(arr)) && (flags & PH_WRITE) != PH_WRITE) {
+		return zephir_buffer_dim_read(return_value, arr, index);
+	}
+#endif
+
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev(arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
 		zend_long ZEPHIR_LAST_CALL_STATUS;
 		ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(return_value, arr, "offsetget", NULL, 0, index);
@@ -1097,6 +1116,16 @@ int zephir_array_fetch_long(zval *return_value, zval *arr, zend_long index, int 
 		arr = zephir_array_write_container(arr);
 	}
 
+#ifdef ZEPHIR_BUFFER_ENABLED
+	/* A <Ns>\Buffer element is a raw C scalar: one class-entry pointer compare
+	 * and a direct load, instead of an offsetGet() call. A write-context fetch
+	 * deliberately falls through to the ArrayAccess path below, so the engine
+	 * still reports the element as unmodifiable. */
+	if (UNEXPECTED(zephir_is_buffer(arr)) && (flags & PH_WRITE) != PH_WRITE) {
+		return zephir_buffer_dim_read_long(return_value, arr, index);
+	}
+#endif
+
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev(arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
 		zend_long ZEPHIR_LAST_CALL_STATUS;
 		zval offset;
@@ -1178,6 +1207,12 @@ int zephir_array_update_zval(zval *arr, zval *index, zval *value, int flags)
 {
 	HashTable *ht;
 	zval *ret = NULL;
+
+#ifdef ZEPHIR_BUFFER_ENABLED
+	if (UNEXPECTED(zephir_is_buffer(arr))) {
+		return zephir_buffer_dim_write(arr, index, value);
+	}
+#endif
 
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev(arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
 		zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -1287,6 +1322,12 @@ int zephir_array_update_string(zval *arr, const char *index, uint32_t index_leng
 
 int zephir_array_update_long(zval *arr, zend_long index, zval *value, int flags ZEPHIR_DEBUG_PARAMS)
 {
+#ifdef ZEPHIR_BUFFER_ENABLED
+	if (UNEXPECTED(zephir_is_buffer(arr))) {
+		return zephir_buffer_dim_write_long(arr, index, value);
+	}
+#endif
+
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev(arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
 		zend_long ZEPHIR_LAST_CALL_STATUS;
 		zval offset;

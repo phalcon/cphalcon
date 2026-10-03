@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &item);
-	ZEPHIR_CALL_METHOD(&message, this_ptr, "getformatteditem", NULL, 0, item);
+	ZEPHIR_CALL_METHOD(&message, this_ptr, "getFormattedItem", NULL, 0, item);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 952, PH_NOISY_CC | PH_READONLY);
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 953, PH_NOISY_CC | PH_READONLY);
@@ -232,9 +232,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process)
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 955, &__$false);
 	}
-	ZEPHIR_CALL_METHOD(&_6, item, "getlevel", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_6, item, "getLevel", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&level, this_ptr, "logleveltosyslog", NULL, 0, &_6);
+	ZEPHIR_CALL_METHOD(&level, this_ptr, "logLevelToSyslog", NULL, 0, &_6);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(NULL, "syslog", NULL, 0, &level, &message);
 	zephir_check_call_status();

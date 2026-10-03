@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __construct)
 		data = &data_sub;
 		data = &__$null;
 	}
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setdata", NULL, 0, data);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setData", NULL, 0, data);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

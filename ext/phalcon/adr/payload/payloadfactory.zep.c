@@ -325,7 +325,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, notAccepted)
 		messages = &messages_sub;
 		messages = &__$null;
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_adr_payload_payload_ce, "notaccepted", NULL, 0, messages);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_adr_payload_payload_ce, "notAccepted", NULL, 0, messages);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -353,7 +353,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, notCreated)
 		messages = &messages_sub;
 		messages = &__$null;
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_adr_payload_payload_ce, "notcreated", NULL, 0, messages);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_adr_payload_payload_ce, "notCreated", NULL, 0, messages);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -381,7 +381,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, notDeleted)
 		messages = &messages_sub;
 		messages = &__$null;
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_adr_payload_payload_ce, "notdeleted", NULL, 0, messages);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_adr_payload_payload_ce, "notDeleted", NULL, 0, messages);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -409,7 +409,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, notFound)
 		messages = &messages_sub;
 		messages = &__$null;
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_adr_payload_payload_ce, "notfound", NULL, 0, messages);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_adr_payload_payload_ce, "notFound", NULL, 0, messages);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -437,7 +437,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, notUpdated)
 		messages = &messages_sub;
 		messages = &__$null;
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_adr_payload_payload_ce, "notupdated", NULL, 0, messages);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_adr_payload_payload_ce, "notUpdated", NULL, 0, messages);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -136,16 +136,16 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Date, validate)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &validation, &field);
-	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
+	ZEPHIR_CALL_METHOD(&value, validation, "getValue", NULL, 0, field);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "allowempty", NULL, 0, field, &value);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "allowEmpty", NULL, 0, field, &value);
 	zephir_check_call_status();
 	if (zephir_is_true(&_0)) {
 		RETURN_MM_BOOL(1);
 	}
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "format");
-	ZEPHIR_CALL_METHOD(&format, this_ptr, "getoption", NULL, 0, &_1);
+	ZEPHIR_CALL_METHOD(&format, this_ptr, "getOption", NULL, 0, &_1);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&format) == IS_ARRAY) {
 		zephir_memory_observe(&_2$$4);
@@ -156,12 +156,12 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Date, validate)
 		ZEPHIR_INIT_NVAR(&format);
 		ZVAL_STRING(&format, "Y-m-d");
 	}
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "checkdate", NULL, 0, &value, &format);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "checkDate", NULL, 0, &value, &format);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_3))) {
-		ZEPHIR_CALL_METHOD(&_4$$6, this_ptr, "messagefactory", NULL, 0, validation, field);
+		ZEPHIR_CALL_METHOD(&_4$$6, this_ptr, "messageFactory", NULL, 0, validation, field);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_4$$6);
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendMessage", NULL, 0, &_4$$6);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}
@@ -196,10 +196,10 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Date, checkDate)
 		RETURN_MM_BOOL(0);
 	}
 	_0 = zephir_fetch_class_str_ex(SL("DateTime"), ZEND_FETCH_CLASS_AUTO);
-	ZEPHIR_CALL_CE_STATIC(&date, _0, "createfromformat", NULL, 0, format, value);
+	ZEPHIR_CALL_CE_STATIC(&date, _0, "createFromFormat", NULL, 0, format, value);
 	zephir_check_call_status();
 	_1 = zephir_fetch_class_str_ex(SL("DateTime"), ZEND_FETCH_CLASS_AUTO);
-	ZEPHIR_CALL_CE_STATIC(&errors, _1, "getlasterrors", NULL, 0);
+	ZEPHIR_CALL_CE_STATIC(&errors, _1, "getLastErrors", NULL, 0);
 	zephir_check_call_status();
 	_2 = ZEPHIR_IS_FALSE_IDENTICAL(&errors);
 	if (!(_2)) {

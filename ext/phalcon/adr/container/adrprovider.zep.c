@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_ADR_Container_AdrProvider, provide)
 	ZVAL_STRING(&_0, "Phalcon\\Contracts\\Events\\Manager");
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "eventsManager");
-	ZEPHIR_CALL_METHOD(NULL, services, "setalias", NULL, 0, &_0, &_1);
+	ZEPHIR_CALL_METHOD(NULL, services, "setAlias", NULL, 0, &_0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "Phalcon\\Contracts\\Http\\AttributeRequest");
@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_ADR_Container_AdrProvider, provide)
 	ZVAL_STRING(&_0, "Phalcon\\Contracts\\Http\\AttributeRequest");
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "request");
-	ZEPHIR_CALL_METHOD(NULL, services, "setalias", NULL, 0, &_0, &_1);
+	ZEPHIR_CALL_METHOD(NULL, services, "setAlias", NULL, 0, &_0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "Phalcon\\Http\\ResponseInterface");
@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_ADR_Container_AdrProvider, provide)
 	ZVAL_STRING(&_0, "Phalcon\\Http\\ResponseInterface");
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "response");
-	ZEPHIR_CALL_METHOD(NULL, services, "setalias", NULL, 0, &_0, &_1);
+	ZEPHIR_CALL_METHOD(NULL, services, "setAlias", NULL, 0, &_0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "Phalcon\\Html\\Escaper\\EscaperInterface");
@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_ADR_Container_AdrProvider, provide)
 	ZVAL_STRING(&_0, "Phalcon\\Html\\Escaper\\EscaperInterface");
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "escaper");
-	ZEPHIR_CALL_METHOD(NULL, services, "setalias", NULL, 0, &_0, &_1);
+	ZEPHIR_CALL_METHOD(NULL, services, "setAlias", NULL, 0, &_0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "Phalcon\\Html\\TagFactory");
@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_ADR_Container_AdrProvider, provide)
 	ZVAL_STRING(&_0, "Phalcon\\Html\\TagFactory");
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "tag");
-	ZEPHIR_CALL_METHOD(NULL, services, "setalias", NULL, 0, &_0, &_1);
+	ZEPHIR_CALL_METHOD(NULL, services, "setAlias", NULL, 0, &_0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_ADR_Container_AdrProvider, provide)
 	ZVAL_STRING(&_1, "Phalcon\\Contracts\\ADR\\Responder\\Responder");
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "responder");
-	ZEPHIR_CALL_METHOD(NULL, services, "setalias", NULL, 0, &_1, &_2);
+	ZEPHIR_CALL_METHOD(NULL, services, "setAlias", NULL, 0, &_1, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
@@ -155,7 +155,7 @@ PHP_METHOD(Phalcon_ADR_Container_AdrProvider, provide)
 	ZVAL_STRING(&_2, "Phalcon\\Contracts\\ADR\\Dispatcher");
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "dispatcher");
-	ZEPHIR_CALL_METHOD(NULL, services, "setalias", NULL, 0, &_2, &_3);
+	ZEPHIR_CALL_METHOD(NULL, services, "setAlias", NULL, 0, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "Phalcon\\Contracts\\ADR\\Router\\AttributeFilter");
@@ -167,7 +167,7 @@ PHP_METHOD(Phalcon_ADR_Container_AdrProvider, provide)
 	ZVAL_STRING(&_2, "Phalcon\\Contracts\\ADR\\Router\\AttributeFilter");
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "attributeFilter");
-	ZEPHIR_CALL_METHOD(NULL, services, "setalias", NULL, 0, &_2, &_3);
+	ZEPHIR_CALL_METHOD(NULL, services, "setAlias", NULL, 0, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "Phalcon\\Contracts\\ADR\\Router\\Router");
@@ -179,7 +179,7 @@ PHP_METHOD(Phalcon_ADR_Container_AdrProvider, provide)
 	ZVAL_STRING(&_2, "Phalcon\\Contracts\\ADR\\Router\\Router");
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "router");
-	ZEPHIR_CALL_METHOD(NULL, services, "setalias", NULL, 0, &_2, &_3);
+	ZEPHIR_CALL_METHOD(NULL, services, "setAlias", NULL, 0, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "Phalcon\\Contracts\\ADR\\Emitter\\Emitter");
@@ -191,7 +191,7 @@ PHP_METHOD(Phalcon_ADR_Container_AdrProvider, provide)
 	ZVAL_STRING(&_2, "Phalcon\\Contracts\\ADR\\Emitter\\Emitter");
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "emitter");
-	ZEPHIR_CALL_METHOD(NULL, services, "setalias", NULL, 0, &_2, &_3);
+	ZEPHIR_CALL_METHOD(NULL, services, "setAlias", NULL, 0, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

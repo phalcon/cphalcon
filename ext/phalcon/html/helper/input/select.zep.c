@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, add)
 		raw = 0;
 	} else {
 		}
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "processvalue", NULL, 0, &attributes, &value_zv);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "processValue", NULL, 0, &attributes, &value_zv);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&attributes, &_0);
 	ZEPHIR_INIT_VAR(&_1);
@@ -302,9 +302,9 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, fromData)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &data);
-	ZEPHIR_CALL_METHOD(&attributes, data, "getattributes", NULL, 0);
+	ZEPHIR_CALL_METHOD(&attributes, data, "getAttributes", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_0, data, "getoptions", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_0, data, "getOptions", NULL, 0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&_0) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_2);
@@ -327,7 +327,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, fromData)
 			ZVAL_COPY(&value, _3);
 			if (Z_TYPE_P(&value) == IS_ARRAY) {
 				zephir_cast_to_string(&_6$$4, &key);
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "optgroup", &_7, 0, &_6$$4);
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "optGroup", &_7, 0, &_6$$4);
 				zephir_check_call_status();
 				if (Z_TYPE_P(&value) == IS_STRING) {
 					ZEPHIR_INIT_NVAR(&_9$$4);
@@ -396,7 +396,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, fromData)
 				ZEPHIR_INIT_NVAR(&subValue);
 				ZEPHIR_INIT_NVAR(&subKey);
 				zephir_cast_to_string(&_20$$4, &key);
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "optgroup", &_7, 0, &_20$$4);
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "optGroup", &_7, 0, &_20$$4);
 				zephir_check_call_status();
 			} else {
 				if (zephir_array_isset_value(&attributes, &key)) {
@@ -434,7 +434,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, fromData)
 			zephir_check_call_status();
 				if (Z_TYPE_P(&value) == IS_ARRAY) {
 					zephir_cast_to_string(&_25$$9, &key);
-					ZEPHIR_CALL_METHOD(NULL, this_ptr, "optgroup", &_7, 0, &_25$$9);
+					ZEPHIR_CALL_METHOD(NULL, this_ptr, "optGroup", &_7, 0, &_25$$9);
 					zephir_check_call_status();
 					if (Z_TYPE_P(&value) == IS_STRING) {
 						ZEPHIR_INIT_NVAR(&_27$$9);
@@ -503,7 +503,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, fromData)
 					ZEPHIR_INIT_NVAR(&subValue);
 					ZEPHIR_INIT_NVAR(&subKey);
 					zephir_cast_to_string(&_37$$9, &key);
-					ZEPHIR_CALL_METHOD(NULL, this_ptr, "optgroup", &_7, 0, &_37$$9);
+					ZEPHIR_CALL_METHOD(NULL, this_ptr, "optGroup", &_7, 0, &_37$$9);
 					zephir_check_call_status();
 				} else {
 					if (zephir_array_isset_value(&attributes, &key)) {
@@ -794,7 +794,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, optGroupStart)
 	zephir_array_update_string(&attributes, SL("label"), &label_zv, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "optgroup");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "rendertag", NULL, 0, &_0, &attributes);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderTag", NULL, 0, &_0, &attributes);
 	zephir_check_call_status();
 	RETURN_MM();
 }

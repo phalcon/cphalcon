@@ -63,7 +63,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Uncamelize, __invoke)
 		zephir_memory_observe(&delimiter_zv);
 	ZVAL_STR_COPY(&delimiter_zv, delimiter);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "touncamelize", NULL, 0, &text_zv, &delimiter_zv);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "toUncamelize", NULL, 0, &text_zv, &delimiter_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

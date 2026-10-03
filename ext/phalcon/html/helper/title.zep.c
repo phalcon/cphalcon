@@ -210,7 +210,7 @@ PHP_METHOD(Phalcon_Html_Helper_Title, __toString)
 	ZEPHIR_INIT_VAR(&_11);
 	ZVAL_STRING(&_11, "title");
 	ZVAL_BOOL(&_12, 1);
-	ZEPHIR_CALL_METHOD(&_8, this_ptr, "renderfullelement", NULL, 0, &_11, &_6, &_10, &_12);
+	ZEPHIR_CALL_METHOD(&_8, this_ptr, "renderFullElement", NULL, 0, &_11, &_6, &_10, &_12);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_12, this_ptr, _zephir_prop_5, 869, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CONCAT_VVV(return_value, &_7, &_8, &_12);

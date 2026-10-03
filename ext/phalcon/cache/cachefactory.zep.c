@@ -115,12 +115,12 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, load)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &config);
 	ZEPHIR_SEPARATE_PARAM(config);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkconfig", NULL, 0, config);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkConfig", NULL, 0, config);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "adapter");
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkconfigelement", NULL, 0, config, &_1);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkConfigElement", NULL, 0, config, &_1);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	zephir_memory_observe(&name);
@@ -134,7 +134,7 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, load)
 		ZEPHIR_INIT_NVAR(&options);
 		array_init(&options);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &name, &options);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newInstance", NULL, 0, &name, &options);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -205,7 +205,7 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, newInstance)
 		zephir_get_arrval(&options, options_param);
 	}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 503, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&adapter, &_0, "newinstance", NULL, 0, &name_zv, &options);
+	ZEPHIR_CALL_METHOD(&adapter, &_0, "newInstance", NULL, 0, &name_zv, &options);
 	zephir_check_call_status();
 	object_init_ex(return_value, phalcon_cache_cache_ce);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 456, &adapter);

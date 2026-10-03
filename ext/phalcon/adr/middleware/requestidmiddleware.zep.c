@@ -64,7 +64,7 @@ PHP_METHOD(Phalcon_ADR_Middleware_RequestIdMiddleware, __invoke)
 	zephir_fetch_params(1, 2, 0, &request, &next);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "X-Request-Id");
-	ZEPHIR_CALL_METHOD(&id, request, "getheader", NULL, 0, &_0);
+	ZEPHIR_CALL_METHOD(&id, request, "getHeader", NULL, 0, &_0);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(&id)) {
 		ZVAL_LONG(&_1$$3, 16);
@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_ADR_Middleware_RequestIdMiddleware, __invoke)
 		ZEPHIR_CALL_FUNCTION(&id, "bin2hex", NULL, 331, &_2$$3);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(&_3, request, "getattributes", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_3, request, "getAttributes", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "requestId");
@@ -83,7 +83,7 @@ PHP_METHOD(Phalcon_ADR_Middleware_RequestIdMiddleware, __invoke)
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "X-Request-Id");
-	ZEPHIR_CALL_METHOD(NULL, &response, "setheader", NULL, 0, &_0, &id);
+	ZEPHIR_CALL_METHOD(NULL, &response, "setHeader", NULL, 0, &_0, &id);
 	zephir_check_call_status();
 	RETURN_CCTOR(&response);
 }

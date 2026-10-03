@@ -247,10 +247,10 @@ PHP_METHOD(Phalcon_Forms_Element_Select, render)
 	} else {
 		zephir_get_arrval(&attributes, attributes_param);
 	}
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "prepareattributes", NULL, 0, &attributes);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "prepareAttributes", NULL, 0, &attributes);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 795, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_tag_select_ce, "selectfield", NULL, 0, &_0, &_1);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_tag_select_ce, "selectField", NULL, 0, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -329,7 +329,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, prepareAttributes)
 	zephir_read_property_cached(&defaultAttributes, this_ptr, _zephir_prop_1, 797, PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(&mergedAttributes);
 	zephir_fast_array_merge(&mergedAttributes, &defaultAttributes, &attributes);
-	ZEPHIR_CALL_METHOD(&value, this_ptr, "getvalue", NULL, 0);
+	ZEPHIR_CALL_METHOD(&value, this_ptr, "getValue", NULL, 0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&value) != IS_NULL) {
 		zephir_array_update_string(&mergedAttributes, SL("value"), &value, PH_COPY | PH_SEPARATE);

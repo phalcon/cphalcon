@@ -330,7 +330,7 @@ PHP_METHOD(Phalcon_Container_Container, extend)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &name_param, &callableObject);
 	zephir_get_strval(&name, name_param);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "resolvealias", NULL, 479, &name);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "resolveAlias", NULL, 479, &name);
 	zephir_check_call_status();
 	zephir_get_strval(&name, &_0);
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 540, PH_NOISY_CC | PH_READONLY);
@@ -356,7 +356,7 @@ PHP_METHOD(Phalcon_Container_Container, extend)
 	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_1, 541, PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&_6);
 	zephir_array_fetch(&_6, &_5, &name, PH_NOISY, "phalcon/Container/Container.zep", 168);
-	ZEPHIR_CALL_METHOD(NULL, &_6, "addextender", NULL, 0, callableObject);
+	ZEPHIR_CALL_METHOD(NULL, &_6, "addExtender", NULL, 0, callableObject);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -397,12 +397,12 @@ PHP_METHOD(Phalcon_Container_Container, get)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &name_param);
 	zephir_get_strval(&name, name_param);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "resolvealias", NULL, 479, &name);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "resolveAlias", NULL, 479, &name);
 	zephir_check_call_status();
 	zephir_get_strval(&name, &_0);
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 542, PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_key_exists(&_1, &name)) {
-		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "resolveparameter", NULL, 482, &name);
+		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "resolveParameter", NULL, 482, &name);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -670,7 +670,7 @@ PHP_METHOD(Phalcon_Container_Container, getParameter)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "resolveparameter", NULL, 482, &name_zv);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "resolveParameter", NULL, 482, &name_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -794,7 +794,7 @@ PHP_METHOD(Phalcon_Container_Container, has)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &name_param);
 	zephir_get_strval(&name, name_param);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "resolvealias", NULL, 479, &name);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "resolveAlias", NULL, 479, &name);
 	zephir_check_call_status();
 	zephir_get_strval(&name, &_0);
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 542, PH_NOISY_CC | PH_READONLY);
@@ -815,7 +815,7 @@ PHP_METHOD(Phalcon_Container_Container, has)
 	_7 = zephir_is_true(&_6);
 	if (_7) {
 		zephir_read_property_cached(&_8, this_ptr, _zephir_prop_4, 538, PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_METHOD(&_9, &_8, "isresolvableclass", NULL, 0, &name);
+		ZEPHIR_CALL_METHOD(&_9, &_8, "isResolvableClass", NULL, 0, &name);
 		zephir_check_call_status();
 		_7 = zephir_is_true(&_9);
 	}
@@ -978,7 +978,7 @@ PHP_METHOD(Phalcon_Container_Container, new)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &name_param);
 	zephir_get_strval(&name, name_param);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "resolvealias", NULL, 479, &name);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "resolveAlias", NULL, 479, &name);
 	zephir_check_call_status();
 	zephir_get_strval(&name, &_0);
 	ZVAL_BOOL(&_1, 0);
@@ -1040,11 +1040,11 @@ PHP_METHOD(Phalcon_Container_Container, set)
 	definition = ZEND_CALL_ARG(execute_data, 2);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_CALL_METHOD(&processor, this_ptr, "findprocessor", NULL, 488, definition);
+	ZEPHIR_CALL_METHOD(&processor, this_ptr, "findProcessor", NULL, 488, definition);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&def, &processor, "process", NULL, 0, &name_zv, definition, this_ptr);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &def, "setcontainer", NULL, 0, this_ptr);
+	ZEPHIR_CALL_METHOD(NULL, &def, "setContainer", NULL, 0, this_ptr);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("services"), &name_zv, &def);
 	RETURN_CCTOR(&def);
@@ -1075,7 +1075,7 @@ PHP_METHOD(Phalcon_Container_Container, setAlias)
 	ZVAL_STR_COPY(&name_zv, name);
 	zephir_memory_observe(&alias_zv);
 	ZVAL_STR_COPY(&alias_zv, alias);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "detectcircularalias", NULL, 489, &alias_zv, &name_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "detectCircularAlias", NULL, 489, &alias_zv, &name_zv);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("aliases"), &alias_zv, &name_zv);
 	RETURN_THIS();
@@ -1502,7 +1502,7 @@ PHP_METHOD(Phalcon_Container_Container, findProcessor)
 		{
 			ZEPHIR_INIT_NVAR(&processor);
 			ZVAL_COPY(&processor, _3);
-			ZEPHIR_CALL_METHOD(&_4$$3, &processor, "canprocess", NULL, 0, definition);
+			ZEPHIR_CALL_METHOD(&_4$$3, &processor, "canProcess", NULL, 0, definition);
 			zephir_check_call_status();
 			if (zephir_is_true(&_4$$3)) {
 				RETURN_CCTOR(&processor);
@@ -1526,7 +1526,7 @@ PHP_METHOD(Phalcon_Container_Container, findProcessor)
 			}
 			ZEPHIR_CALL_METHOD(&processor, _1, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_7$$5, &processor, "canprocess", NULL, 0, definition);
+				ZEPHIR_CALL_METHOD(&_7$$5, &processor, "canProcess", NULL, 0, definition);
 				zephir_check_call_status();
 				if (zephir_is_true(&_7$$5)) {
 					RETURN_CCTOR(&processor);
@@ -1609,9 +1609,9 @@ PHP_METHOD(Phalcon_Container_Container, resolve)
 	zephir_array_fetch(&definition, &_4, &name_zv, PH_NOISY, "phalcon/Container/Container.zep", 606);
 	ZEPHIR_CALL_METHOD(NULL, &definition, "freeze", NULL, 0, this_ptr);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&instance, &definition, "buildservice", NULL, 0, this_ptr);
+	ZEPHIR_CALL_METHOD(&instance, &definition, "buildService", NULL, 0, this_ptr);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&lifetime, &definition, "getlifetime", NULL, 0);
+	ZEPHIR_CALL_METHOD(&lifetime, &definition, "getLifetime", NULL, 0);
 	zephir_check_call_status();
 	_5 = cache;
 	if (_5) {

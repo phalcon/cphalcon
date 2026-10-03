@@ -211,7 +211,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, buryJob)
 	ZEPHIR_CONCAT_SVSV(&_1, "bury ", &id_zv, " ", &_0);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, 0, &_1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "readstatus", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "readStatus", NULL, 0);
 	zephir_check_call_status();
 	zephir_memory_observe(&_3);
 	zephir_array_fetch_long(&_3, &_2, 0, PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnection.zep", 79);
@@ -304,7 +304,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, connect)
 	ZEPHIR_CALL_FUNCTION(NULL, "stream_set_timeout", NULL, 0, &connection, &_9, &_10);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1265, &connection);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "restoresession", NULL, 0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "restoreSession", NULL, 0);
 	zephir_check_call_status();
 	RETURN_CCTOR(&connection);
 }
@@ -336,7 +336,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, deleteJob)
 	ZEPHIR_CONCAT_SV(&_0, "delete ", &id_zv);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, 0, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "readstatus", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "readStatus", NULL, 0);
 	zephir_check_call_status();
 	zephir_memory_observe(&_2);
 	zephir_array_fetch_long(&_2, &_1, 0, PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnection.zep", 130);
@@ -368,7 +368,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, disconnect)
 	if (Z_TYPE_P(&connection) != IS_RESOURCE) {
 		RETURN_MM_BOOL(0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "phpfclose", NULL, 0, &connection);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "phpFclose", NULL, 0, &connection);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1265, &__$null);
 	RETURN_MM_BOOL(1);
@@ -398,13 +398,13 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, ignoreTube)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&tube_zv);
 	ZVAL_STR_COPY(&tube_zv, tube);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "assertvalidtube", NULL, 0, &tube_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "assertValidTube", NULL, 0, &tube_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SV(&_0, "ignore ", &tube_zv);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, 0, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "readstatus", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "readStatus", NULL, 0);
 	zephir_check_call_status();
 	zephir_memory_observe(&_2);
 	zephir_array_fetch_long(&_2, &_1, 0, PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnection.zep", 163);
@@ -464,7 +464,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, put)
 	ZEPHIR_CONCAT_SVSVSVSVSV(&_4, "put ", &_0, " ", &_1, " ", &_2, " ", &_3, "\r\n", &data_zv);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, 0, &_4);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&response, this_ptr, "readstatus", NULL, 0);
+	ZEPHIR_CALL_METHOD(&response, this_ptr, "readStatus", NULL, 0);
 	zephir_check_call_status();
 	if (!(zephir_array_isset_value_long(&response, 0))) {
 		RETURN_MM_BOOL(0);
@@ -634,7 +634,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, releaseJob)
 	ZEPHIR_CONCAT_SVSVSV(&_2, "release ", &id_zv, " ", &_0, " ", &_1);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, 0, &_2);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "readstatus", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "readStatus", NULL, 0);
 	zephir_check_call_status();
 	zephir_memory_observe(&_4);
 	zephir_array_fetch_long(&_4, &_3, 0, PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnection.zep", 273);
@@ -691,7 +691,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, reserve)
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, 0, &command);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&response, this_ptr, "readstatus", NULL, 0);
+	ZEPHIR_CALL_METHOD(&response, this_ptr, "readStatus", NULL, 0);
 	zephir_check_call_status();
 	_2 = !(zephir_array_isset_value_long(&response, 0));
 	if (!(_2)) {
@@ -745,13 +745,13 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, statsTube)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&tube_zv);
 	ZVAL_STR_COPY(&tube_zv, tube);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "assertvalidtube", NULL, 0, &tube_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "assertValidTube", NULL, 0, &tube_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SV(&_0, "stats-tube ", &tube_zv);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, 0, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&response, this_ptr, "readstatus", NULL, 0);
+	ZEPHIR_CALL_METHOD(&response, this_ptr, "readStatus", NULL, 0);
 	zephir_check_call_status();
 	_1 = !(zephir_array_isset_value_long(&response, 0));
 	if (!(_1)) {
@@ -767,7 +767,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, statsTube)
 	ZVAL_LONG(&_4, zephir_get_intval(&_3));
 	ZEPHIR_CALL_METHOD(&body, this_ptr, "read", NULL, 0, &_4);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "parsedictionary", NULL, 0, &body);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "parseDictionary", NULL, 0, &body);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -799,7 +799,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, touchJob)
 	ZEPHIR_CONCAT_SV(&_0, "touch ", &id_zv);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, 0, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "readstatus", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "readStatus", NULL, 0);
 	zephir_check_call_status();
 	zephir_memory_observe(&_2);
 	zephir_array_fetch_long(&_2, &_1, 0, PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnection.zep", 335);
@@ -835,13 +835,13 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, useTube)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&tube_zv);
 	ZVAL_STR_COPY(&tube_zv, tube);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "assertvalidtube", NULL, 0, &tube_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "assertValidTube", NULL, 0, &tube_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SV(&_0, "use ", &tube_zv);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, 0, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "readstatus", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "readStatus", NULL, 0);
 	zephir_check_call_status();
 	zephir_memory_observe(&_2);
 	zephir_array_fetch_long(&_2, &_1, 0, PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnection.zep", 348);
@@ -877,13 +877,13 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, watchTube)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&tube_zv);
 	ZVAL_STR_COPY(&tube_zv, tube);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "assertvalidtube", NULL, 0, &tube_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "assertValidTube", NULL, 0, &tube_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SV(&_0, "watch ", &tube_zv);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, 0, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "readstatus", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "readStatus", NULL, 0);
 	zephir_check_call_status();
 	zephir_memory_observe(&_2);
 	zephir_array_fetch_long(&_2, &_1, 0, PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConnection.zep", 367);
@@ -933,7 +933,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, write)
 	ZEPHIR_CONCAT_VS(&_1, &data_zv, "\r\n");
 	ZEPHIR_CPY_WRT(&packet, &_1);
 	ZVAL_LONG(&_0, zephir_fast_strlen_ev(&packet));
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "phpfwrite", NULL, 0, &connection, &packet, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "phpFwrite", NULL, 0, &connection, &packet, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -1113,7 +1113,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, restoreSession)
 		ZEPHIR_CONCAT_SV(&_2$$3, "use ", &_1$$3);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, 0, &_2$$3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "readstatus", NULL, 0);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "readStatus", NULL, 0);
 		zephir_check_call_status();
 	}
 	ZEPHIR_INIT_VAR(&_3);
@@ -1136,7 +1136,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, restoreSession)
 			ZEPHIR_CONCAT_SV(&_8$$5, "watch ", &tube);
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, 0, &_8$$5);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "readstatus", NULL, 0);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "readStatus", NULL, 0);
 			zephir_check_call_status();
 		}
 	} ZEND_HASH_FOREACH_END();
@@ -1147,7 +1147,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnection, restoreSession)
 		ZVAL_STRING(&_10$$6, "ignore default");
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, 0, &_10$$6);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "readstatus", NULL, 0);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "readStatus", NULL, 0);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();

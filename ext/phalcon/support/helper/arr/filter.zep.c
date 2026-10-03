@@ -68,7 +68,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Filter, __invoke)
 		method = &method_sub;
 		method = &__$null;
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "tofilter", NULL, 0, &collection, method);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "toFilter", NULL, 0, &collection, method);
 	zephir_check_call_status();
 	RETURN_MM();
 }

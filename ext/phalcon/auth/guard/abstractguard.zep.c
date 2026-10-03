@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_Auth_Guard_AbstractGuard, id)
 	if (Z_TYPE_P(&current) == IS_NULL) {
 		RETURN_MM_NULL();
 	}
-	ZEPHIR_RETURN_CALL_METHOD(&current, "getauthidentifier", NULL, 0);
+	ZEPHIR_RETURN_CALL_METHOD(&current, "getAuthIdentifier", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -263,7 +263,7 @@ PHP_METHOD(Phalcon_Auth_Guard_AbstractGuard, hasValidCredentials)
 		RETURN_MM_BOOL(0);
 	}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 161, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "validatecredentials", NULL, 0, user, &credentials);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "validateCredentials", NULL, 0, user, &credentials);
 	zephir_check_call_status();
 	RETURN_MM();
 }

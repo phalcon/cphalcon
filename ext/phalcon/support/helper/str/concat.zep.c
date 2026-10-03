@@ -111,13 +111,13 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Concat, __invoke)
 	ZEPHIR_UNREF(&many);
 	zephir_check_call_status();
 	ZVAL_BOOL(&_2, 0);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "tostartswith", NULL, 0, &first, &delimiter_zv, &_2);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "toStartsWith", NULL, 0, &first, &delimiter_zv, &_2);
 	zephir_check_call_status();
 	if (zephir_is_true(&_1)) {
 		ZEPHIR_CPY_WRT(&prefix, &delimiter_zv);
 	}
 	ZVAL_BOOL(&_2, 0);
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "toendswith", NULL, 0, &last, &delimiter_zv, &_2);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "toEndsWith", NULL, 0, &last, &delimiter_zv, &_2);
 	zephir_check_call_status();
 	if (zephir_is_true(&_3)) {
 		ZEPHIR_CPY_WRT(&suffix, &delimiter_zv);

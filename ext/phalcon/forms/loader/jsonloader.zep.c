@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, load)
 		_1 = zephir_is_true(&_2);
 	}
 	if (_1) {
-		ZEPHIR_CALL_METHOD(&_3$$3, this_ptr, "phpfilegetcontents", NULL, 0, &json);
+		ZEPHIR_CALL_METHOD(&_3$$3, this_ptr, "phpFileGetContents", NULL, 0, &json);
 		zephir_check_call_status();
 		zephir_cast_to_string(&_4$$3, &_3$$3);
 		ZEPHIR_CPY_WRT(&json, &_4$$3);
@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, load)
 			ZEPHIR_CPY_WRT(&ex, &_9);
 			ZEPHIR_INIT_VAR(&_10$$5);
 			object_init_ex(&_10$$5, phalcon_forms_exceptions_invalidjsonschema_ce);
-			ZEPHIR_CALL_METHOD(&_11$$5, &ex, "getmessage", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_11$$5, &ex, "getMessage", NULL, 0);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, &_10$$5, "__construct", NULL, 0, &_11$$5);
 			zephir_check_call_status();

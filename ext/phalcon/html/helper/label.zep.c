@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Html_Helper_Label, __invoke)
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "label");
 	ZVAL_BOOL(&_3, _0);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderfullelement", NULL, 0, &_2, &label_zv, &attributes, &_3);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderFullElement", NULL, 0, &_2, &label_zv, &attributes, &_3);
 	zephir_check_call_status();
 	RETURN_MM();
 }

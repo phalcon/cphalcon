@@ -98,11 +98,11 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, fromOptions)
 	ZVAL_STRING(&_2, "file");
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "stream adapter");
-	ZEPHIR_CALL_CE_STATIC(&_1, phalcon_auth_internal_options_ce, "requirestring", NULL, 0, &options, &_2, &_3);
+	ZEPHIR_CALL_CE_STATIC(&_1, phalcon_auth_internal_options_ce, "requireString", NULL, 0, &options, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "model");
-	ZEPHIR_CALL_CE_STATIC(&_4, phalcon_auth_internal_options_ce, "stringornull", NULL, 0, &options, &_2);
+	ZEPHIR_CALL_CE_STATIC(&_4, phalcon_auth_internal_options_ce, "stringOrNull", NULL, 0, &options, &_2);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 409, &_1, &_4);
 	zephir_check_call_status();
@@ -148,9 +148,9 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, loadUsers)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 454, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&path, &_0, "getfile", NULL, 0);
+	ZEPHIR_CALL_METHOD(&path, &_0, "getFile", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "phpfileexists", NULL, 0, &path);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "phpFileExists", NULL, 0, &path);
 	zephir_check_call_status();
 	if (!zephir_is_true(&_1)) {
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, loadUsers)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_METHOD(&contents, this_ptr, "phpfilegetcontents", NULL, 0, &path);
+	ZEPHIR_CALL_METHOD(&contents, this_ptr, "phpFileGetContents", NULL, 0, &path);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&contents)) {
 		ZEPHIR_INIT_VAR(&_3$$4);

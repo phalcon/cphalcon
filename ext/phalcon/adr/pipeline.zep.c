@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_ADR_Pipeline, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *request, request_sub, mw, next, _0, _1, _3, _4, _5, _6, _7, _8, _2$$3;
+	zval *request, request_sub, mw, next, _0, _1, _3, _4, _5, _6, _7, _8, _9, _2$$3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&request_sub);
@@ -130,6 +130,7 @@ PHP_METHOD(Phalcon_ADR_Pipeline, __invoke)
 	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_7);
 	ZVAL_UNDEF(&_8);
+	ZVAL_UNDEF(&_9);
 	ZVAL_UNDEF(&_2$$3);
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
@@ -168,8 +169,11 @@ PHP_METHOD(Phalcon_ADR_Pipeline, __invoke)
 	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_1, 364, PH_NOISY_CC | PH_READONLY);
 	zephir_read_property_cached(&_6, this_ptr, _zephir_prop_2, 365, PH_NOISY_CC | PH_READONLY);
 	zephir_read_property_cached(&_7, this_ptr, _zephir_prop_0, 366, PH_NOISY_CC | PH_READONLY);
-	ZVAL_LONG(&_8, (zephir_get_numberval(&_7) + 1));
-	ZEPHIR_CALL_METHOD(NULL, &next, "__construct", NULL, 322, &_5, &_6, &_8);
+	ZEPHIR_INIT_VAR(&_8);
+	ZVAL_LONG(&_8, 1);
+	ZEPHIR_INIT_VAR(&_9);
+	zephir_add_function(&_9, &_7, &_8);
+	ZEPHIR_CALL_METHOD(NULL, &next, "__construct", NULL, 322, &_5, &_6, &_9);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&mw, "__invoke", NULL, 0, request, &next);
 	zephir_check_call_status();

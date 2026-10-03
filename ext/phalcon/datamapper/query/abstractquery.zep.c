@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, bindInline)
 		}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 58, PH_NOISY_CC | PH_READONLY);
 	ZVAL_LONG(&_1, type);
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "bindinline", NULL, 0, value, &_1);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "bindInline", NULL, 0, value, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -201,7 +201,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, bindValue)
 		}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 58, PH_NOISY_CC | PH_READONLY);
 	ZVAL_LONG(&_1, type);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "setvalue", NULL, 0, &key_zv, value, &_1);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "setValue", NULL, 0, &key_zv, value, &_1);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -238,7 +238,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, bindValues)
 	zephir_fetch_params(1, 1, 0, &values_param);
 	zephir_get_arrval(&values, values_param);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 58, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "setvalues", NULL, 0, &values);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "setValues", NULL, 0, &values);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -264,7 +264,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, getBindValues)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 58, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "toarray", NULL, 0);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "toArray", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -299,9 +299,9 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, perform)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 59, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getstatement", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getStatement", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getbindvalues", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getBindValues", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "perform", NULL, 0, &_1, &_2);
 	zephir_check_call_status();

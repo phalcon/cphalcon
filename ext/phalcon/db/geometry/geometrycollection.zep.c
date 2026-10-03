@@ -138,7 +138,7 @@ PHP_METHOD(Phalcon_Db_Geometry_GeometryCollection, toWkt)
 		{
 			ZEPHIR_INIT_NVAR(&geometry);
 			ZVAL_COPY(&geometry, _3);
-			ZEPHIR_CALL_METHOD(&_4$$3, &geometry, "towkt", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_4$$3, &geometry, "toWkt", NULL, 0);
 			zephir_check_call_status();
 			zephir_array_append(&parts, &_4$$3, PH_SEPARATE, "phalcon/Db/Geometry/GeometryCollection.zep", 51);
 		} ZEND_HASH_FOREACH_END();
@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Db_Geometry_GeometryCollection, toWkt)
 			}
 			ZEPHIR_CALL_METHOD(&geometry, _1, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_7$$4, &geometry, "towkt", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_7$$4, &geometry, "toWkt", NULL, 0);
 				zephir_check_call_status();
 				zephir_array_append(&parts, &_7$$4, PH_SEPARATE, "phalcon/Db/Geometry/GeometryCollection.zep", 51);
 		}

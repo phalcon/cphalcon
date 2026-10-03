@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, get)
 		_3 = ZEPHIR_IS_FALSE_IDENTICAL(&classAnnotations);
 	}
 	if (_3) {
-		ZEPHIR_CALL_METHOD(&reader, this_ptr, "getreader", NULL, 0);
+		ZEPHIR_CALL_METHOD(&reader, this_ptr, "getReader", NULL, 0);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&parsedAnnotations, &reader, "parse", NULL, 0, &realClassName);
 		zephir_check_call_status();
@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getConstant)
 	ZVAL_STR_COPY(&className_zv, className);
 	zephir_memory_observe(&constantName_zv);
 	ZVAL_STR_COPY(&constantName_zv, constantName);
-	ZEPHIR_CALL_METHOD(&constants, this_ptr, "getconstants", NULL, 0, &className_zv);
+	ZEPHIR_CALL_METHOD(&constants, this_ptr, "getConstants", NULL, 0, &className_zv);
 	zephir_check_call_status();
 	zephir_memory_observe(&constant);
 	if (!(zephir_array_isset_fetch(&constant, &constants, &constantName_zv, 0))) {
@@ -221,7 +221,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getConstants)
 	ZVAL_STR_COPY(&className_zv, className);
 	ZEPHIR_CALL_METHOD(&classAnnotations, this_ptr, "get", NULL, 0, &className_zv);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(&classAnnotations, "getconstantsannotations", NULL, 0);
+	ZEPHIR_RETURN_CALL_METHOD(&classAnnotations, "getConstantsAnnotations", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -254,7 +254,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getProperty)
 	ZVAL_STR_COPY(&propertyName_zv, propertyName);
 	ZEPHIR_CALL_METHOD(&classAnnotations, this_ptr, "get", NULL, 0, &className_zv);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&properties, &classAnnotations, "getpropertiesannotations", NULL, 0);
+	ZEPHIR_CALL_METHOD(&properties, &classAnnotations, "getPropertiesAnnotations", NULL, 0);
 	zephir_check_call_status();
 	zephir_memory_observe(&property);
 	if (!(zephir_array_isset_fetch(&property, &properties, &propertyName_zv, 0))) {
@@ -290,7 +290,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getProperties)
 	ZVAL_STR_COPY(&className_zv, className);
 	ZEPHIR_CALL_METHOD(&classAnnotations, this_ptr, "get", NULL, 0, &className_zv);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(&classAnnotations, "getpropertiesannotations", NULL, 0);
+	ZEPHIR_RETURN_CALL_METHOD(&classAnnotations, "getPropertiesAnnotations", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -331,7 +331,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getMethod)
 	ZVAL_STR_COPY(&methodName_zv, methodName);
 	ZEPHIR_CALL_METHOD(&classAnnotations, this_ptr, "get", NULL, 0, &className_zv);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&methods, &classAnnotations, "getmethodsannotations", NULL, 0);
+	ZEPHIR_CALL_METHOD(&methods, &classAnnotations, "getMethodsAnnotations", NULL, 0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&methods) == IS_ARRAY) {
 		zephir_memory_observe(&method);
@@ -423,7 +423,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getMethods)
 	ZVAL_STR_COPY(&className_zv, className);
 	ZEPHIR_CALL_METHOD(&classAnnotations, this_ptr, "get", NULL, 0, &className_zv);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(&classAnnotations, "getmethodsannotations", NULL, 0);
+	ZEPHIR_RETURN_CALL_METHOD(&classAnnotations, "getMethodsAnnotations", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

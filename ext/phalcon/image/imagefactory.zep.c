@@ -106,17 +106,17 @@ PHP_METHOD(Phalcon_Image_ImageFactory, load)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &config);
 	ZEPHIR_SEPARATE_PARAM(config);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkconfig", NULL, 0, config);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkConfig", NULL, 0, config);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "adapter");
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkconfigelement", NULL, 0, config, &_1);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkConfigElement", NULL, 0, config, &_1);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "file");
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkconfigelement", NULL, 0, config, &_1);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkConfigElement", NULL, 0, config, &_1);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	zephir_memory_observe(&name);
@@ -124,19 +124,19 @@ PHP_METHOD(Phalcon_Image_ImageFactory, load)
 	zephir_array_unset_string(config, SL("adapter"), PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "file");
-	ZEPHIR_CALL_METHOD(&file, this_ptr, "getarrval", NULL, 0, config, &_1);
+	ZEPHIR_CALL_METHOD(&file, this_ptr, "getArrVal", NULL, 0, config, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "height");
 	ZVAL_NULL(&_2);
-	ZEPHIR_CALL_METHOD(&height, this_ptr, "getarrval", NULL, 0, config, &_1, &_2);
+	ZEPHIR_CALL_METHOD(&height, this_ptr, "getArrVal", NULL, 0, config, &_1, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "width");
 	ZVAL_NULL(&_2);
-	ZEPHIR_CALL_METHOD(&width, this_ptr, "getarrval", NULL, 0, config, &_1, &_2);
+	ZEPHIR_CALL_METHOD(&width, this_ptr, "getArrVal", NULL, 0, config, &_1, &_2);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &name, &file, &width, &height);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newInstance", NULL, 0, &name, &file, &width, &height);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Image_ImageFactory, newInstance)
 		height = 0;
 	} else {
 		}
-	ZEPHIR_CALL_METHOD(&definition, this_ptr, "getservice", NULL, 0, &name_zv);
+	ZEPHIR_CALL_METHOD(&definition, this_ptr, "getService", NULL, 0, &name_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 3, 0);

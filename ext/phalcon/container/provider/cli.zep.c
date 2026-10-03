@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Container_Provider_Cli, provide)
 	ZVAL_STRING(&_0, "Phalcon\\Cli\\DispatcherInterface");
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "dispatcher");
-	ZEPHIR_CALL_METHOD(NULL, services, "setalias", NULL, 0, &_0, &_1);
+	ZEPHIR_CALL_METHOD(NULL, services, "setAlias", NULL, 0, &_0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "Phalcon\\Html\\Escaper\\EscaperInterface");
@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Container_Provider_Cli, provide)
 	ZVAL_STRING(&_0, "Phalcon\\Html\\Escaper\\EscaperInterface");
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "escaper");
-	ZEPHIR_CALL_METHOD(NULL, services, "setalias", NULL, 0, &_0, &_1);
+	ZEPHIR_CALL_METHOD(NULL, services, "setAlias", NULL, 0, &_0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "Phalcon\\Events\\ManagerInterface");
@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Container_Provider_Cli, provide)
 	ZVAL_STRING(&_0, "Phalcon\\Events\\ManagerInterface");
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "eventsManager");
-	ZEPHIR_CALL_METHOD(NULL, services, "setalias", NULL, 0, &_0, &_1);
+	ZEPHIR_CALL_METHOD(NULL, services, "setAlias", NULL, 0, &_0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Container_Provider_Cli, provide)
 	ZVAL_STRING(&_1, "Phalcon\\Filter\\FilterInterface");
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "filter");
-	ZEPHIR_CALL_METHOD(NULL, services, "setalias", NULL, 0, &_1, &_2);
+	ZEPHIR_CALL_METHOD(NULL, services, "setAlias", NULL, 0, &_1, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "Phalcon\\Mvc\\Model\\ManagerInterface");
@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Container_Provider_Cli, provide)
 	ZVAL_STRING(&_1, "Phalcon\\Mvc\\Model\\ManagerInterface");
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "modelsManager");
-	ZEPHIR_CALL_METHOD(NULL, services, "setalias", NULL, 0, &_1, &_2);
+	ZEPHIR_CALL_METHOD(NULL, services, "setAlias", NULL, 0, &_1, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "Phalcon\\Mvc\\Model\\MetaDataInterface");
@@ -148,7 +148,7 @@ PHP_METHOD(Phalcon_Container_Provider_Cli, provide)
 	ZVAL_STRING(&_1, "Phalcon\\Mvc\\Model\\MetaDataInterface");
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "modelsMetadata");
-	ZEPHIR_CALL_METHOD(NULL, services, "setalias", NULL, 0, &_1, &_2);
+	ZEPHIR_CALL_METHOD(NULL, services, "setAlias", NULL, 0, &_1, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "Phalcon\\Cli\\RouterInterface");
@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Container_Provider_Cli, provide)
 	ZVAL_STRING(&_1, "Phalcon\\Cli\\RouterInterface");
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "router");
-	ZEPHIR_CALL_METHOD(NULL, services, "setalias", NULL, 0, &_1, &_2);
+	ZEPHIR_CALL_METHOD(NULL, services, "setAlias", NULL, 0, &_1, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "Phalcon\\Mvc\\Model\\Transaction\\ManagerInterface");
@@ -172,7 +172,7 @@ PHP_METHOD(Phalcon_Container_Provider_Cli, provide)
 	ZVAL_STRING(&_1, "Phalcon\\Mvc\\Model\\Transaction\\ManagerInterface");
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "transactionManager");
-	ZEPHIR_CALL_METHOD(NULL, services, "setalias", NULL, 0, &_1, &_2);
+	ZEPHIR_CALL_METHOD(NULL, services, "setAlias", NULL, 0, &_1, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
@@ -191,7 +191,7 @@ PHP_METHOD(Phalcon_Container_Provider_Cli, provide)
 	ZVAL_STRING(&_2, "Phalcon\\Annotations\\Adapter\\Memory");
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "annotationsMemory");
-	ZEPHIR_CALL_METHOD(NULL, services, "setalias", NULL, 0, &_2, &_3);
+	ZEPHIR_CALL_METHOD(NULL, services, "setAlias", NULL, 0, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "Phalcon\\Support\\HelperFactory");
@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Container_Provider_Cli, provide)
 	ZVAL_STRING(&_2, "Phalcon\\Support\\HelperFactory");
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "helper");
-	ZEPHIR_CALL_METHOD(NULL, services, "setalias", NULL, 0, &_2, &_3);
+	ZEPHIR_CALL_METHOD(NULL, services, "setAlias", NULL, 0, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "Phalcon\\Contracts\\Encryption\\Security\\Security");
@@ -215,7 +215,7 @@ PHP_METHOD(Phalcon_Container_Provider_Cli, provide)
 	ZVAL_STRING(&_2, "Phalcon\\Contracts\\Encryption\\Security\\Security");
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "security");
-	ZEPHIR_CALL_METHOD(NULL, services, "setalias", NULL, 0, &_2, &_3);
+	ZEPHIR_CALL_METHOD(NULL, services, "setAlias", NULL, 0, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "Phalcon\\Storage\\SerializerFactory");
@@ -227,7 +227,7 @@ PHP_METHOD(Phalcon_Container_Provider_Cli, provide)
 	ZVAL_STRING(&_2, "Phalcon\\Storage\\SerializerFactory");
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "storageSerializer");
-	ZEPHIR_CALL_METHOD(NULL, services, "setalias", NULL, 0, &_2, &_3);
+	ZEPHIR_CALL_METHOD(NULL, services, "setAlias", NULL, 0, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "Phalcon\\Support\\Settings");
@@ -239,7 +239,7 @@ PHP_METHOD(Phalcon_Container_Provider_Cli, provide)
 	ZVAL_STRING(&_2, "Phalcon\\Support\\Settings");
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "settings");
-	ZEPHIR_CALL_METHOD(NULL, services, "setalias", NULL, 0, &_2, &_3);
+	ZEPHIR_CALL_METHOD(NULL, services, "setAlias", NULL, 0, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "Phalcon\\Html\\TagFactory");
@@ -251,7 +251,7 @@ PHP_METHOD(Phalcon_Container_Provider_Cli, provide)
 	ZVAL_STRING(&_2, "Phalcon\\Html\\TagFactory");
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "tag");
-	ZEPHIR_CALL_METHOD(NULL, services, "setalias", NULL, 0, &_2, &_3);
+	ZEPHIR_CALL_METHOD(NULL, services, "setAlias", NULL, 0, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

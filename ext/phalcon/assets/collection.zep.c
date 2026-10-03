@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Assets_Collection, add)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &asset);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addasset", NULL, 377, asset);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addAsset", NULL, 377, asset);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -243,7 +243,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addCss)
 	} else {
 		ZVAL_BOOL(&_2, 0);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "processadd", NULL, 378, &_0, &path_zv, isLocal, &_1, &attributes, &version_zv, &_2);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "processAdd", NULL, 378, &_0, &path_zv, isLocal, &_1, &attributes, &version_zv, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -282,7 +282,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInline)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &code);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addasset", NULL, 377, code);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addAsset", NULL, 377, code);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -339,7 +339,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineCss)
 	} else {
 		ZVAL_BOOL(&_1, 0);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "processaddinline", NULL, 379, &_0, &content_zv, &_1, &attributes);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "processAddInline", NULL, 379, &_0, &content_zv, &_1, &attributes);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -396,7 +396,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineJs)
 	} else {
 		ZVAL_BOOL(&_1, 0);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "processaddinline", NULL, 379, &_0, &content_zv, &_1, &attributes);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "processAddInline", NULL, 379, &_0, &content_zv, &_1, &attributes);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -487,7 +487,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addJs)
 	} else {
 		ZVAL_BOOL(&_2, 0);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "processadd", NULL, 378, &_0, &path_zv, isLocal, &_1, &attributes, &version_zv, &_2);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "processAdd", NULL, 378, &_0, &path_zv, isLocal, &_1, &attributes, &version_zv, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -613,10 +613,10 @@ PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 421, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&completePath);
 	ZEPHIR_CONCAT_VV(&completePath, &basePath_zv, &_0);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "phpfileexists", NULL, 0, &completePath);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "phpFileExists", NULL, 0, &completePath);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_1)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("realpath", NULL, 159, &completePath);
+		ZEPHIR_RETURN_CALL_FUNCTION("realPath", NULL, 159, &completePath);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -677,7 +677,7 @@ PHP_METHOD(Phalcon_Assets_Collection, has)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &asset);
-	ZEPHIR_CALL_METHOD(&key, asset, "getassetkey", NULL, 0);
+	ZEPHIR_CALL_METHOD(&key, asset, "getAssetKey", NULL, 0);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 420, PH_NOISY_CC | PH_READONLY);
 	RETURN_MM_BOOL(zephir_array_isset_value(&_0, &key));
@@ -903,7 +903,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addAsset)
 		RETURN_MM_BOOL(0);
 	}
 	if (zephir_instance_of_ev(asset, phalcon_assets_asset_ce)) {
-		ZEPHIR_CALL_METHOD(&_1$$4, asset, "getassetkey", NULL, 0);
+		ZEPHIR_CALL_METHOD(&_1$$4, asset, "getAssetKey", NULL, 0);
 		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("assets"), &_1$$4, asset);
 		RETURN_MM_BOOL(1);
@@ -1007,7 +1007,7 @@ PHP_METHOD(Phalcon_Assets_Collection, processAdd)
 	ZEPHIR_CPY_WRT(&name, &_0);
 	zephir_memory_observe(&flag);
 	zephir_read_property_cached(&flag, this_ptr, _zephir_prop_0, 429, PH_NOISY_CC);
-	ZEPHIR_CALL_METHOD(&attrs, this_ptr, "processattributes", NULL, 380, &attributes);
+	ZEPHIR_CALL_METHOD(&attrs, this_ptr, "processAttributes", NULL, 380, &attributes);
 	zephir_check_call_status();
 	if (Z_TYPE_P(isLocal) != IS_NULL) {
 		ZEPHIR_INIT_NVAR(&flag);
@@ -1101,7 +1101,7 @@ PHP_METHOD(Phalcon_Assets_Collection, processAddInline)
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SV(&_0, "Phalcon\\Assets\\Inline\\", &className_zv);
 	ZEPHIR_CPY_WRT(&name, &_0);
-	ZEPHIR_CALL_METHOD(&attrs, this_ptr, "processattributes", NULL, 380, &attributes);
+	ZEPHIR_CALL_METHOD(&attrs, this_ptr, "processAttributes", NULL, 380, &attributes);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&asset);
 	zephir_fetch_safe_class(&_1, &name);
@@ -1122,7 +1122,7 @@ PHP_METHOD(Phalcon_Assets_Collection, processAddInline)
 		zephir_check_call_status();
 	}
 
-	ZEPHIR_CALL_METHOD(&_4, &asset, "getassetkey", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_4, &asset, "getAssetKey", NULL, 0);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("codes"), &_4, &asset);
 	RETURN_THIS();

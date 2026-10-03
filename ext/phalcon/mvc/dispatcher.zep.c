@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerClass)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "gethandlerclass", NULL, 0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getHandlerClass", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -389,20 +389,20 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, throwDispatchException)
 	}
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "response");
-	ZEPHIR_CALL_METHOD(&_2, &container, "getshared", NULL, 0, &_3);
+	ZEPHIR_CALL_METHOD(&_2, &container, "getShared", NULL, 0, &_3);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&response, &_2);
 	ZVAL_LONG(&_0, 404);
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "Not Found");
-	ZEPHIR_CALL_METHOD(NULL, &response, "setstatuscode", NULL, 0, &_0, &_3);
+	ZEPHIR_CALL_METHOD(NULL, &response, "setStatusCode", NULL, 0, &_0, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&exception);
 	object_init_ex(&exception, phalcon_mvc_dispatcher_exception_ce);
 	ZVAL_LONG(&_0, exceptionCode);
 	ZEPHIR_CALL_METHOD(NULL, &exception, "__construct", NULL, 9, &message_zv, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "handleexception", NULL, 0, &exception);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "handleException", NULL, 0, &exception);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_2)) {
 		RETURN_MM_BOOL(0);

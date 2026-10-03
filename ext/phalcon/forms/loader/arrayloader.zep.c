@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Forms_Loader_ArrayLoader, load)
 			ZEPHIR_INIT_NVAR(&definition);
 			ZVAL_COPY(&definition, _3);
 			ZVAL_LONG(&_6$$3, zephir_get_intval(&index));
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "validatedefinition", &_7, 0, &definition, &_6$$3);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "validateDefinition", &_7, 0, &definition, &_6$$3);
 			zephir_check_call_status();
 		} ZEND_HASH_FOREACH_END();
 	} else {
@@ -147,7 +147,7 @@ PHP_METHOD(Phalcon_Forms_Loader_ArrayLoader, load)
 			ZEPHIR_CALL_METHOD(&definition, _1, "current", NULL, 0);
 			zephir_check_call_status();
 				ZVAL_LONG(&_10$$4, zephir_get_intval(&index));
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "validatedefinition", &_7, 0, &definition, &_10$$4);
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "validateDefinition", &_7, 0, &definition, &_10$$4);
 				zephir_check_call_status();
 		}
 	}

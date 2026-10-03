@@ -141,16 +141,16 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_MimeType, validate)
 	ZVAL_BOOL(&matched, 0);
 	ZEPHIR_INIT_VAR(&mime);
 	ZVAL_NULL(&mime);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkupload", NULL, 0, validation, field);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkUpload", NULL, 0, validation, field);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_0)) {
 		RETURN_MM_BOOL(0);
 	}
-	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
+	ZEPHIR_CALL_METHOD(&value, validation, "getValue", NULL, 0, field);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "types");
-	ZEPHIR_CALL_METHOD(&types, this_ptr, "getoption", NULL, 0, &_1);
+	ZEPHIR_CALL_METHOD(&types, this_ptr, "getOption", NULL, 0, &_1);
 	zephir_check_call_status();
 	zephir_memory_observe(&fieldTypes);
 	if (zephir_array_isset_fetch(&fieldTypes, &types, field, 0)) {
@@ -167,7 +167,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_MimeType, validate)
 	}
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "finfo_open");
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "phpfunctionexists", NULL, 0, &_1);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "phpFunctionExists", NULL, 0, &_1);
 	zephir_check_call_status();
 	if (zephir_is_true(&_3)) {
 		ZVAL_LONG(&_4$$6, 16);
@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_MimeType, validate)
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "allowWildcards");
 	ZVAL_BOOL(&_7, 0);
-	ZEPHIR_CALL_METHOD(&_6, this_ptr, "getoption", NULL, 0, &_1, &_7);
+	ZEPHIR_CALL_METHOD(&_6, this_ptr, "getOption", NULL, 0, &_1, &_7);
 	zephir_check_call_status();
 	allowWildcards = zephir_get_boolval(&_6);
 	if (allowWildcards) {
@@ -264,9 +264,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_MimeType, validate)
 		ZEPHIR_INIT_VAR(&_21$$15);
 		zephir_fast_join_str(&_21$$15, SL(", "), &types);
 		zephir_array_update_string(&replacePairs, SL(":types"), &_21$$15, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_METHOD(&_22$$15, this_ptr, "messagefactory", NULL, 0, validation, field, &replacePairs);
+		ZEPHIR_CALL_METHOD(&_22$$15, this_ptr, "messageFactory", NULL, 0, validation, field, &replacePairs);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_22$$15);
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendMessage", NULL, 0, &_22$$15);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}

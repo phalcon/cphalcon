@@ -120,9 +120,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryConsumer, receiveNoWait)
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1285, PH_NOISY_CC | PH_READONLY);
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 1286, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_2, &_1, "getqueuename", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_2, &_1, "getQueueName", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "popmessage", NULL, 0, &_2);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "popMessage", NULL, 0, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -166,9 +166,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryConsumer, reject)
 	if (requeue) {
 		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 1285, PH_NOISY_CC | PH_READONLY);
 		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_1, 1286, PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_METHOD(&_2$$3, &_1$$3, "getqueuename", NULL, 0);
+		ZEPHIR_CALL_METHOD(&_2$$3, &_1$$3, "getQueueName", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "pushmessage", NULL, 0, &_2$$3, message);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "pushMessage", NULL, 0, &_2$$3, message);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();

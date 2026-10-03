@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Session_Bag, __construct)
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1342, session);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1343, &name_zv);
 	if ((zephir_method_exists_ex(session, ZEND_STRL("getdi")) == SUCCESS)) {
-		ZEPHIR_CALL_METHOD(&_0$$3, session, "getdi", NULL, 0);
+		ZEPHIR_CALL_METHOD(&_0$$3, session, "getDI", NULL, 0);
 		zephir_check_call_status();
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1344, &_0$$3);
 	}

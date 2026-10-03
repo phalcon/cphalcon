@@ -210,12 +210,12 @@ PHP_METHOD(Phalcon_Html_Escaper, __construct)
 	ZEPHIR_INIT_VAR(&_5);
 	ZVAL_STRING(&_5, "utf-8");
 	if (!ZEPHIR_IS_IDENTICAL(&_5, &encoding_zv)) {
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setencoding", NULL, 0, &encoding_zv);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setEncoding", NULL, 0, &encoding_zv);
 		zephir_check_call_status();
 	}
 	if (11 != flags) {
 		ZVAL_LONG(&_6$$4, flags);
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setflags", NULL, 0, &_6$$4);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setFlags", NULL, 0, &_6$$4);
 		zephir_check_call_status();
 	}
 	if (doubleEncode != 1) {
@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Html_Escaper, __construct)
 		} else {
 			ZVAL_BOOL(&_7$$5, 0);
 		}
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setdoubleencode", NULL, 0, &_7$$5);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setDoubleEncode", NULL, 0, &_7$$5);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
@@ -325,7 +325,7 @@ PHP_METHOD(Phalcon_Html_Escaper, detectEncoding)
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 823, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "detectencoding", NULL, 0, &input_zv);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "detectEncoding", NULL, 0, &input_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -505,7 +505,7 @@ PHP_METHOD(Phalcon_Html_Escaper, getEncoding)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 823, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "getencoding", NULL, 0);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "getEncoding", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -529,7 +529,7 @@ PHP_METHOD(Phalcon_Html_Escaper, getFlags)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 823, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "getflags", NULL, 0);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "getFlags", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -659,7 +659,7 @@ PHP_METHOD(Phalcon_Html_Escaper, normalizeEncoding)
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 823, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "normalizeencoding", NULL, 0, &input_zv);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "normalizeEncoding", NULL, 0, &input_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -762,7 +762,7 @@ PHP_METHOD(Phalcon_Html_Escaper, setDoubleEncode)
 	} else {
 		ZVAL_BOOL(&_1, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, &_0, "setdoubleencode", NULL, 0, &_1);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "setDoubleEncode", NULL, 0, &_1);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 822, PH_NOISY_CC | PH_READONLY);
 	if (doubleEncode) {
@@ -770,7 +770,7 @@ PHP_METHOD(Phalcon_Html_Escaper, setDoubleEncode)
 	} else {
 		ZVAL_BOOL(&_3, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, &_2, "setdoubleencode", NULL, 0, &_3);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "setDoubleEncode", NULL, 0, &_3);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_2, 823, PH_NOISY_CC | PH_READONLY);
 	if (doubleEncode) {
@@ -778,7 +778,7 @@ PHP_METHOD(Phalcon_Html_Escaper, setDoubleEncode)
 	} else {
 		ZVAL_BOOL(&_5, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, &_4, "setdoubleencode", NULL, 0, &_5);
+	ZEPHIR_CALL_METHOD(NULL, &_4, "setDoubleEncode", NULL, 0, &_5);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_6, this_ptr, _zephir_prop_3, 824, PH_NOISY_CC | PH_READONLY);
 	if (doubleEncode) {
@@ -786,7 +786,7 @@ PHP_METHOD(Phalcon_Html_Escaper, setDoubleEncode)
 	} else {
 		ZVAL_BOOL(&_7, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, &_6, "setdoubleencode", NULL, 0, &_7);
+	ZEPHIR_CALL_METHOD(NULL, &_6, "setDoubleEncode", NULL, 0, &_7);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_8, this_ptr, _zephir_prop_4, 825, PH_NOISY_CC | PH_READONLY);
 	if (doubleEncode) {
@@ -794,7 +794,7 @@ PHP_METHOD(Phalcon_Html_Escaper, setDoubleEncode)
 	} else {
 		ZVAL_BOOL(&_9, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, &_8, "setdoubleencode", NULL, 0, &_9);
+	ZEPHIR_CALL_METHOD(NULL, &_8, "setDoubleEncode", NULL, 0, &_9);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -845,19 +845,19 @@ PHP_METHOD(Phalcon_Html_Escaper, setEncoding)
 	zephir_memory_observe(&encoding_zv);
 	ZVAL_STR_COPY(&encoding_zv, encoding);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 821, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "setencoding", NULL, 0, &encoding_zv);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "setEncoding", NULL, 0, &encoding_zv);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 822, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(NULL, &_1, "setencoding", NULL, 0, &encoding_zv);
+	ZEPHIR_CALL_METHOD(NULL, &_1, "setEncoding", NULL, 0, &encoding_zv);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 823, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(NULL, &_2, "setencoding", NULL, 0, &encoding_zv);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "setEncoding", NULL, 0, &encoding_zv);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_3, 824, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(NULL, &_3, "setencoding", NULL, 0, &encoding_zv);
+	ZEPHIR_CALL_METHOD(NULL, &_3, "setEncoding", NULL, 0, &encoding_zv);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_4, 825, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(NULL, &_4, "setencoding", NULL, 0, &encoding_zv);
+	ZEPHIR_CALL_METHOD(NULL, &_4, "setEncoding", NULL, 0, &encoding_zv);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -907,23 +907,23 @@ PHP_METHOD(Phalcon_Html_Escaper, setFlags)
 	zephir_fetch_params(1, 1, 0, &flags_param);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 821, PH_NOISY_CC | PH_READONLY);
 	ZVAL_LONG(&_1, flags);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "setflags", NULL, 0, &_1);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "setFlags", NULL, 0, &_1);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 822, PH_NOISY_CC | PH_READONLY);
 	ZVAL_LONG(&_2, flags);
-	ZEPHIR_CALL_METHOD(NULL, &_1, "setflags", NULL, 0, &_2);
+	ZEPHIR_CALL_METHOD(NULL, &_1, "setFlags", NULL, 0, &_2);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 823, PH_NOISY_CC | PH_READONLY);
 	ZVAL_LONG(&_3, flags);
-	ZEPHIR_CALL_METHOD(NULL, &_2, "setflags", NULL, 0, &_3);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "setFlags", NULL, 0, &_3);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_3, 824, PH_NOISY_CC | PH_READONLY);
 	ZVAL_LONG(&_4, flags);
-	ZEPHIR_CALL_METHOD(NULL, &_3, "setflags", NULL, 0, &_4);
+	ZEPHIR_CALL_METHOD(NULL, &_3, "setFlags", NULL, 0, &_4);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_4, 825, PH_NOISY_CC | PH_READONLY);
 	ZVAL_LONG(&_5, flags);
-	ZEPHIR_CALL_METHOD(NULL, &_4, "setflags", NULL, 0, &_5);
+	ZEPHIR_CALL_METHOD(NULL, &_4, "setFlags", NULL, 0, &_5);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -970,7 +970,7 @@ PHP_METHOD(Phalcon_Html_Escaper, setHtmlQuoteType)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &flags_param);
 	ZVAL_LONG(&_0, flags);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "setflags", NULL, 0, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "setFlags", NULL, 0, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

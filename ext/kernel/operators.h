@@ -85,6 +85,8 @@ void zephir_concat_self(zval *left, zval *right);
 void zephir_concat_self_str(zval *left, const char *right, int right_length);
 void zephir_concat_self_long(zval *left, const zend_long right);
 void zephir_concat_self_char(zval *left, unsigned char right);
+void zephir_concat_self_double(zval *left, const double right);
+void zephir_concat_self_bool(zval *left, const zend_bool right);
 
 /** Strict comparing */
 int zephir_compare_strict_string(zval *op1, const char *op2, int op2_length);
@@ -135,19 +137,27 @@ int zephir_greater_equal(zval *op1, zval *op2);
 int zephir_greater_equal_long(zval *op1, zend_long op2);
 
 /*
- * A zero divisor throws DivisionByZeroError, as PHP 8 does; the helper still
- * returns 0 because it has no way to abort its caller, so the rest of the
- * generated method body runs with the exception pending and the engine
- * discards the return value on the way out.
+ * PHP's `/`: an exact integer quotient is an int, anything else a float. The
+ * zval operand variants go through div_function(), so a TypeError or a
+ * DivisionByZeroError is the one PHP throws.
+ */
+void zephir_div_long_long(zval *result, zend_long op1, zend_long op2);
+void zephir_div_zval_long(zval *result, zval *op1, zend_long op2);
+void zephir_div_long_zval(zval *result, zend_long op1, zval *op2);
+void zephir_div_zval_double(zval *result, zval *op1, double op2);
+void zephir_div_double_zval(zval *result, double op1, zval *op2);
+
+/*
+ * `/` for a C double result: a double operand, or two integers whose consumer
+ * is a C double. A zero divisor throws DivisionByZeroError, as PHP 8 does; the
+ * helper still returns 0 because it has no way to abort its caller, so the
+ * rest of the generated method body runs with the exception pending and the
+ * engine discards the return value on the way out.
  */
 double zephir_safe_div_long_long(zend_long op1, zend_long op2);
 double zephir_safe_div_long_double(zend_long op1, double op2);
 double zephir_safe_div_double_long(double op1, zend_long op2);
 double zephir_safe_div_double_double(double op1, double op2);
-double zephir_safe_div_zval_long(zval *op1, zend_long op2);
-double zephir_safe_div_zval_double(zval *op1, double op2);
-double zephir_safe_div_long_zval(zend_long op1, zval *op2);
-double zephir_safe_div_double_zval(double op1, zval *op2);
 
 /*
  * PHP's `%` converts both operands to `zend_long` and yields a `zend_long`.
@@ -158,10 +168,15 @@ zend_long zephir_safe_mod_long_long(zend_long op1, zend_long op2);
 zend_long zephir_safe_mod_long_double(zend_long op1, double op2);
 zend_long zephir_safe_mod_double_long(double op1, zend_long op2);
 zend_long zephir_safe_mod_double_double(double op1, double op2);
-zend_long zephir_safe_mod_zval_long(zval *op1, zend_long op2);
-zend_long zephir_safe_mod_zval_double(zval *op1, double op2);
-zend_long zephir_safe_mod_long_zval(zend_long op1, zval *op2);
-zend_long zephir_safe_mod_double_zval(double op1, zval *op2);
+
+/*
+ * `%` with a zval operand goes through mod_function(), so a TypeError or a
+ * DivisionByZeroError is the one PHP throws.
+ */
+void zephir_mod_zval_long(zval *result, zval *op1, zend_long op2);
+void zephir_mod_long_zval(zval *result, zend_long op1, zval *op2);
+void zephir_mod_zval_double(zval *result, zval *op1, double op2);
+void zephir_mod_double_zval(zval *result, double op1, zval *op2);
 
 #define zephir_get_numberval(z) (Z_TYPE_P(z) == IS_LONG ? Z_LVAL_P(z) : zephir_get_doubleval(z))
 #define zephir_get_intval(z) (Z_TYPE_P(z) == IS_LONG ? Z_LVAL_P(z) : zephir_get_intval_ex(z))
@@ -200,31 +215,26 @@ zend_long zephir_safe_mod_double_zval(double op1, zval *op2);
 		}  \
 	}
 
+/**
+ * The result replaces the whole value: it can change type (int overflow to
+ * float, a numeric string to a number), and a failed operation has thrown
+ * and leaves the operand untouched.
+ */
 #define ZEPHIR_SUB_ASSIGN(z, v)  \
 	{  \
 		zval tmp;  \
-		SEPARATE_ZVAL(z);  \
-		sub_function(&tmp, z, v);  \
-		if (Z_TYPE(tmp) == IS_LONG) {  \
-			Z_LVAL_P(z) = Z_LVAL(tmp);  \
-		} else {  \
-			if (Z_TYPE(tmp) == IS_DOUBLE) {  \
-				Z_DVAL_P(z) = Z_DVAL(tmp);  \
-			}  \
+		if (sub_function(&tmp, z, v) == SUCCESS) {  \
+			zval_ptr_dtor(z);  \
+			ZVAL_COPY_VALUE(z, &tmp);  \
 		}  \
 	}
 
 #define ZEPHIR_MUL_ASSIGN(z, v)  \
 	{  \
 		zval tmp;  \
-		SEPARATE_ZVAL(z);  \
-		mul_function(&tmp, z, v);  \
-		if (Z_TYPE(tmp) == IS_LONG) {  \
-			Z_LVAL_P(z) = Z_LVAL(tmp);  \
-		} else {  \
-			if (Z_TYPE(tmp) == IS_DOUBLE) {  \
-				Z_DVAL_P(z) = Z_DVAL(tmp);  \
-			}  \
+		if (mul_function(&tmp, z, v) == SUCCESS) {  \
+			zval_ptr_dtor(z);  \
+			ZVAL_COPY_VALUE(z, &tmp);  \
 		}  \
 	}
 

@@ -131,14 +131,14 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, read)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
-	ZEPHIR_CALL_METHOD(&path, this_ptr, "getfilepath", NULL, 361, &key_zv);
+	ZEPHIR_CALL_METHOD(&path, this_ptr, "getFilePath", NULL, 361, &key_zv);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "phpfileexists", NULL, 0, &path);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "phpFileExists", NULL, 0, &path);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_0))) {
 		RETURN_MM_BOOL(0);
 	}
-	ZEPHIR_CALL_METHOD(&contents, this_ptr, "phpfilegetcontents", NULL, 0, &path);
+	ZEPHIR_CALL_METHOD(&contents, this_ptr, "phpFileGetContents", NULL, 0, &path);
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_IS_EMPTY(&contents))) {
 		RETURN_MM_BOOL(0);
@@ -207,11 +207,11 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, write)
 	data = ZEND_CALL_ARG(execute_data, 2);
 	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
-	ZEPHIR_CALL_METHOD(&path, this_ptr, "getfilepath", NULL, 361, &key_zv);
+	ZEPHIR_CALL_METHOD(&path, this_ptr, "getFilePath", NULL, 361, &key_zv);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&code, "serialize", NULL, 22, data);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "phpfileputcontents", NULL, 0, &path, &code);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "phpFilePutContents", NULL, 0, &path, &code);
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);

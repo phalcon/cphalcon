@@ -120,7 +120,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisProducer, send)
 	zephir_fetch_params(1, 2, 0, &destination, &message);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "send to");
-	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_queue_adapter_queuedestinationguard_ce, "assertqueue", NULL, 0, destination, &_0);
+	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_queue_adapter_queuedestinationguard_ce, "assertQueue", NULL, 0, destination, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 1297, PH_NOISY_CC | PH_READONLY);
@@ -133,12 +133,12 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisProducer, send)
 		ZEPHIR_INIT_NVAR(&_1);
 		ZVAL_LONG(&_1, zephir_get_intval(&_3));
 	}
-	delay = zephir_get_numberval(&_1);
+	delay = zephir_get_intval(&_1);
 	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_1, 1296, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_5, destination, "getqueuename", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_5, destination, "getQueueName", NULL, 0);
 	zephir_check_call_status();
 	ZVAL_LONG(&_6, delay);
-	ZEPHIR_CALL_METHOD(NULL, &_4, "pushmessage", NULL, 0, &_5, message, &_6);
+	ZEPHIR_CALL_METHOD(NULL, &_4, "pushMessage", NULL, 0, &_5, message, &_6);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

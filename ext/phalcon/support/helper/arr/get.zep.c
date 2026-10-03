@@ -83,7 +83,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Get, __invoke)
 		zephir_memory_observe(&cast_zv);
 	ZVAL_STR_COPY(&cast_zv, cast);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getarrval", NULL, 0, &collection, index, defaultValue, &cast_zv);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getArrVal", NULL, 0, &collection, index, defaultValue, &cast_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

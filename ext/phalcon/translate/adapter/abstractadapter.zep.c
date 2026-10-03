@@ -414,12 +414,12 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, replacePlaceholders)
 	if (Z_TYPE_P(&_0) == IS_NULL) {
 		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_1, 138, PH_NOISY_CC | PH_READONLY);
 		zephir_read_property_cached(&_3$$3, this_ptr, _zephir_prop_2, 137, PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_METHOD(&_2$$3, &_1$$3, "newinstance", NULL, 0, &_3$$3);
+		ZEPHIR_CALL_METHOD(&_2$$3, &_1$$3, "newInstance", NULL, 0, &_3$$3);
 		zephir_check_call_status();
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 140, &_2$$3);
 	}
 	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 140, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_METHOD(&_4, "replaceplaceholders", NULL, 0, &translation_zv, &placeholders);
+	ZEPHIR_RETURN_CALL_METHOD(&_4, "replacePlaceholders", NULL, 0, &translation_zv, &placeholders);
 	zephir_check_call_status();
 	RETURN_MM();
 }

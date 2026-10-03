@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Db_Geometry_Polygon, toWkt)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "ringswkt", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "ringsWkt", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_SVS(return_value, "POLYGON(", &_0, ")");
 	RETURN_MM();
@@ -181,7 +181,7 @@ PHP_METHOD(Phalcon_Db_Geometry_Polygon, ringsWkt)
 				{
 					ZEPHIR_INIT_NVAR(&point);
 					ZVAL_COPY(&point, _6$$3);
-					ZEPHIR_CALL_METHOD(&_7$$4, &point, "coordswkt", NULL, 0);
+					ZEPHIR_CALL_METHOD(&_7$$4, &point, "coordsWkt", NULL, 0);
 					zephir_check_call_status();
 					zephir_array_append(&ringParts, &_7$$4, PH_SEPARATE, "phalcon/Db/Geometry/Polygon.zep", 59);
 				} ZEND_HASH_FOREACH_END();
@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Db_Geometry_Polygon, ringsWkt)
 					}
 					ZEPHIR_CALL_METHOD(&point, _4$$3, "current", NULL, 0);
 					zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(&_10$$5, &point, "coordswkt", NULL, 0);
+						ZEPHIR_CALL_METHOD(&_10$$5, &point, "coordsWkt", NULL, 0);
 						zephir_check_call_status();
 						zephir_array_append(&ringParts, &_10$$5, PH_SEPARATE, "phalcon/Db/Geometry/Polygon.zep", 59);
 				}
@@ -248,7 +248,7 @@ PHP_METHOD(Phalcon_Db_Geometry_Polygon, ringsWkt)
 					{
 						ZEPHIR_INIT_NVAR(&point);
 						ZVAL_COPY(&point, _17$$6);
-						ZEPHIR_CALL_METHOD(&_18$$7, &point, "coordswkt", NULL, 0);
+						ZEPHIR_CALL_METHOD(&_18$$7, &point, "coordsWkt", NULL, 0);
 						zephir_check_call_status();
 						zephir_array_append(&ringParts, &_18$$7, PH_SEPARATE, "phalcon/Db/Geometry/Polygon.zep", 59);
 					} ZEND_HASH_FOREACH_END();
@@ -270,7 +270,7 @@ PHP_METHOD(Phalcon_Db_Geometry_Polygon, ringsWkt)
 						}
 						ZEPHIR_CALL_METHOD(&point, _15$$6, "current", NULL, 0);
 						zephir_check_call_status();
-							ZEPHIR_CALL_METHOD(&_21$$8, &point, "coordswkt", NULL, 0);
+							ZEPHIR_CALL_METHOD(&_21$$8, &point, "coordsWkt", NULL, 0);
 							zephir_check_call_status();
 							zephir_array_append(&ringParts, &_21$$8, PH_SEPARATE, "phalcon/Db/Geometry/Polygon.zep", 59);
 					}

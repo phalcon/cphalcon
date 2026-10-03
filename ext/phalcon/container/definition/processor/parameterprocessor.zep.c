@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Container_Definition_Processor_ParameterProcessor, process)
 	} else {
 		ZVAL_BOOL(&_2, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, &def, "setiscacheable", NULL, 493, &_2);
+	ZEPHIR_CALL_METHOD(NULL, &def, "setIsCacheable", NULL, 493, &_2);
 	zephir_check_call_status();
 	RETURN_CCTOR(&def);
 }

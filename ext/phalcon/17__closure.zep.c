@@ -49,7 +49,7 @@ PHP_METHOD(phalcon_17__closure, __invoke)
 	this_ptr = &__$zephir_this;
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1412, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&id, this_ptr, "resolveargument", NULL, 0, &ioc, &_0);
+	ZEPHIR_CALL_METHOD(&id, this_ptr, "resolveArgument", NULL, 0, &ioc, &_0);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&ioc, "new", NULL, 0, &id);
 	zephir_check_call_status();

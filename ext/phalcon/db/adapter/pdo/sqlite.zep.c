@@ -294,10 +294,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns)
 	ZEPHIR_INIT_VAR(&columns);
 	array_init(&columns);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 613, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_1, &_0, "describecolumns", NULL, 0, &table_zv, &schema_zv);
+	ZEPHIR_CALL_METHOD(&_1, &_0, "describeColumns", NULL, 0, &table_zv, &schema_zv);
 	zephir_check_call_status();
 	ZVAL_LONG(&_2, 3);
-	ZEPHIR_CALL_METHOD(&fields, this_ptr, "fetchall", NULL, 0, &_1, &_2);
+	ZEPHIR_CALL_METHOD(&fields, this_ptr, "fetchAll", NULL, 0, &_1, &_2);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&fields) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_4);
@@ -807,10 +807,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes)
 	ZEPHIR_INIT_VAR(&indexes);
 	array_init(&indexes);
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 613, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_2, &_1, "describeindexes", NULL, 0, &table_zv, &schema_zv);
+	ZEPHIR_CALL_METHOD(&_2, &_1, "describeIndexes", NULL, 0, &table_zv, &schema_zv);
 	zephir_check_call_status();
 	ZVAL_LONG(&_3, 2);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "fetchall", NULL, 0, &_2, &_3);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "fetchAll", NULL, 0, &_2, &_3);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&_0) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_5);
@@ -842,10 +842,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes)
 				zephir_array_fetch_string(&columns, &_9$$6, SL("columns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 360);
 			}
 			zephir_read_property_cached(&_10$$3, this_ptr, _zephir_prop_0, 613, PH_NOISY_CC | PH_READONLY);
-			ZEPHIR_CALL_METHOD(&_11$$3, &_10$$3, "describeindex", NULL, 0, &keyName);
+			ZEPHIR_CALL_METHOD(&_11$$3, &_10$$3, "describeIndex", NULL, 0, &keyName);
 			zephir_check_call_status();
 			ZVAL_LONG(&_12$$3, 2);
-			ZEPHIR_CALL_METHOD(&describeIndexes, this_ptr, "fetchall", NULL, 0, &_11$$3, &_12$$3);
+			ZEPHIR_CALL_METHOD(&describeIndexes, this_ptr, "fetchAll", NULL, 0, &_11$$3, &_12$$3);
 			zephir_check_call_status();
 			if (Z_TYPE_P(&describeIndexes) == IS_STRING) {
 				ZEPHIR_INIT_NVAR(&_14$$3);
@@ -890,9 +890,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes)
 			ZEPHIR_INIT_NVAR(&describeIndex);
 			zephir_array_update_multi(&indexes, &columns, SL("zs"), 3, &keyName, SL("columns"));
 			zephir_read_property_cached(&_12$$3, this_ptr, _zephir_prop_0, 613, PH_NOISY_CC | PH_READONLY);
-			ZEPHIR_CALL_METHOD(&_20$$3, &_12$$3, "listindexessql", NULL, 0, &table_zv, &schema_zv, &keyName);
+			ZEPHIR_CALL_METHOD(&_20$$3, &_12$$3, "listIndexesSql", NULL, 0, &table_zv, &schema_zv, &keyName);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&indexSql, this_ptr, "fetchcolumn", &_21, 0, &_20$$3);
+			ZEPHIR_CALL_METHOD(&indexSql, this_ptr, "fetchColumn", &_21, 0, &_20$$3);
 			zephir_check_call_status();
 			ZEPHIR_OBS_NVAR(&_22$$3);
 			zephir_array_fetch_string(&_22$$3, &index, SL("unique"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 378);
@@ -954,10 +954,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes)
 					zephir_array_fetch_string(&columns, &_34$$16, SL("columns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 360);
 				}
 				zephir_read_property_cached(&_35$$13, this_ptr, _zephir_prop_0, 613, PH_NOISY_CC | PH_READONLY);
-				ZEPHIR_CALL_METHOD(&_36$$13, &_35$$13, "describeindex", NULL, 0, &keyName);
+				ZEPHIR_CALL_METHOD(&_36$$13, &_35$$13, "describeIndex", NULL, 0, &keyName);
 				zephir_check_call_status();
 				ZVAL_LONG(&_37$$13, 2);
-				ZEPHIR_CALL_METHOD(&describeIndexes, this_ptr, "fetchall", NULL, 0, &_36$$13, &_37$$13);
+				ZEPHIR_CALL_METHOD(&describeIndexes, this_ptr, "fetchAll", NULL, 0, &_36$$13, &_37$$13);
 				zephir_check_call_status();
 				if (Z_TYPE_P(&describeIndexes) == IS_STRING) {
 					ZEPHIR_INIT_NVAR(&_39$$13);
@@ -1002,9 +1002,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes)
 				ZEPHIR_INIT_NVAR(&describeIndex);
 				zephir_array_update_multi(&indexes, &columns, SL("zs"), 3, &keyName, SL("columns"));
 				zephir_read_property_cached(&_37$$13, this_ptr, _zephir_prop_0, 613, PH_NOISY_CC | PH_READONLY);
-				ZEPHIR_CALL_METHOD(&_45$$13, &_37$$13, "listindexessql", NULL, 0, &table_zv, &schema_zv, &keyName);
+				ZEPHIR_CALL_METHOD(&_45$$13, &_37$$13, "listIndexesSql", NULL, 0, &table_zv, &schema_zv, &keyName);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&indexSql, this_ptr, "fetchcolumn", &_21, 0, &_45$$13);
+				ZEPHIR_CALL_METHOD(&indexSql, this_ptr, "fetchColumn", &_21, 0, &_45$$13);
 				zephir_check_call_status();
 				ZEPHIR_OBS_NVAR(&_46$$13);
 				zephir_array_fetch_string(&_46$$13, &index, SL("unique"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 378);
@@ -1144,10 +1144,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences)
 	ZEPHIR_INIT_VAR(&references);
 	array_init(&references);
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 613, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_2, &_1, "describereferences", NULL, 0, &table_zv, &schema_zv);
+	ZEPHIR_CALL_METHOD(&_2, &_1, "describeReferences", NULL, 0, &table_zv, &schema_zv);
 	zephir_check_call_status();
 	ZVAL_LONG(&_3, 3);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "fetchall", NULL, 0, &_2, &_3);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "fetchAll", NULL, 0, &_2, &_3);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&_0) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_5);

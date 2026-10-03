@@ -125,21 +125,21 @@ PHP_METHOD(Phalcon_Auth_Micro_AuthMicroListener, beforeExecuteRoute)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &event, &application);
-	ZEPHIR_CALL_METHOD(&router, application, "getrouter", NULL, 0);
+	ZEPHIR_CALL_METHOD(&router, application, "getRouter", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&route, &router, "getmatchedroute", NULL, 0);
+	ZEPHIR_CALL_METHOD(&route, &router, "getMatchedRoute", NULL, 0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&route) == IS_NULL) {
 		RETURN_MM_BOOL(1);
 	}
-	ZEPHIR_CALL_METHOD(&actionName, &route, "getname", NULL, 0);
+	ZEPHIR_CALL_METHOD(&actionName, &route, "getName", NULL, 0);
 	zephir_check_call_status();
 	_0 = Z_TYPE_P(&actionName) == IS_NULL;
 	if (!(_0)) {
 		_0 = ZEPHIR_IS_STRING_IDENTICAL(&actionName, "");
 	}
 	if (_0) {
-		ZEPHIR_CALL_METHOD(&actionName, &route, "getpattern", NULL, 0);
+		ZEPHIR_CALL_METHOD(&actionName, &route, "getPattern", NULL, 0);
 		zephir_check_call_status();
 	}
 	zephir_cast_to_string(&_1, &actionName);
@@ -148,7 +148,7 @@ PHP_METHOD(Phalcon_Auth_Micro_AuthMicroListener, beforeExecuteRoute)
 	zephir_memory_observe(&_3);
 	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 487, PH_NOISY_CC);
 	zephir_array_update_string(&_2, SL("handler"), &_3, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(&_4, &router, "getparams", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_4, &router, "getParams", NULL, 0);
 	zephir_check_call_status();
 	zephir_array_update_string(&_2, SL("params"), &_4, PH_COPY | PH_SEPARATE);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "enforce", NULL, 0, &_1, &_2);

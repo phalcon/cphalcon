@@ -107,14 +107,14 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, __invoke)
 		ZEPHIR_SEPARATE_PARAM(replace);
 	}
 	if (zephir_is_true(replace)) {
-		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "checkreplace", NULL, 0, replace);
+		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "checkReplace", NULL, 0, replace);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(replace, &_0$$3);
 	} else {
 		ZEPHIR_INIT_NVAR(replace);
 		array_init(replace);
 	}
-	ZEPHIR_CALL_METHOD(&matrix, this_ptr, "getmatrix", NULL, 0, replace);
+	ZEPHIR_CALL_METHOD(&matrix, this_ptr, "getMatrix", NULL, 0, replace);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_INIT_VAR(&_2);
@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, __invoke)
 	ZEPHIR_CALL_FUNCTION(&friendly, "preg_replace", NULL, 6, &_4, &_5, &text);
 	zephir_check_call_status();
 	if (lowercase) {
-		ZEPHIR_CALL_METHOD(&_6$$5, this_ptr, "tolower", NULL, 0, &friendly);
+		ZEPHIR_CALL_METHOD(&_6$$5, this_ptr, "toLower", NULL, 0, &friendly);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&friendly, &_6$$5);
 	}

@@ -108,7 +108,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_AbstractEngine, getContent)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 250, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "getcontent", NULL, 0);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "getContent", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

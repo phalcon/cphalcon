@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Db_Result_PdoResult, dataSeek)
 	zephir_fetch_params(1, 1, 0, &number_param);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 679, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&connection, &_0);
-	ZEPHIR_CALL_METHOD(&pdo, &connection, "getinternalhandler", NULL, 0);
+	ZEPHIR_CALL_METHOD(&pdo, &connection, "getInternalHandler", NULL, 0);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 681, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&sqlStatement, &_0);
@@ -252,7 +252,7 @@ PHP_METHOD(Phalcon_Db_Result_PdoResult, dataSeek)
 		zephir_check_call_status();
 		if (Z_TYPE_P(&statement) == IS_OBJECT) {
 			zephir_read_property_cached(&_2$$4, this_ptr, _zephir_prop_3, 683, PH_NOISY_CC | PH_READONLY);
-			ZEPHIR_CALL_METHOD(&_1$$4, &connection, "executeprepared", NULL, 0, &statement, &bindParams, &_2$$4);
+			ZEPHIR_CALL_METHOD(&_1$$4, &connection, "executePrepared", NULL, 0, &statement, &bindParams, &_2$$4);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&statement, &_1$$4);
 		}
@@ -450,7 +450,7 @@ PHP_METHOD(Phalcon_Db_Result_PdoResult, fetchAll)
 	if (mode == 8) {
 		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 680, PH_NOISY_CC | PH_READONLY);
 		ZVAL_LONG(&_1$$3, mode);
-		ZEPHIR_RETURN_CALL_METHOD(&_0$$3, "fetchall", NULL, 0, &_1$$3, fetchArgument, constructorArgs);
+		ZEPHIR_RETURN_CALL_METHOD(&_0$$3, "fetchAll", NULL, 0, &_1$$3, fetchArgument, constructorArgs);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -461,13 +461,13 @@ PHP_METHOD(Phalcon_Db_Result_PdoResult, fetchAll)
 	if (_2) {
 		zephir_read_property_cached(&_3$$4, this_ptr, _zephir_prop_0, 680, PH_NOISY_CC | PH_READONLY);
 		ZVAL_LONG(&_4$$4, mode);
-		ZEPHIR_RETURN_CALL_METHOD(&_3$$4, "fetchall", NULL, 0, &_4$$4, fetchArgument);
+		ZEPHIR_RETURN_CALL_METHOD(&_3$$4, "fetchAll", NULL, 0, &_4$$4, fetchArgument);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
 	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_0, 680, PH_NOISY_CC | PH_READONLY);
 	ZVAL_LONG(&_6, mode);
-	ZEPHIR_RETURN_CALL_METHOD(&_5, "fetchall", NULL, 0, &_6);
+	ZEPHIR_RETURN_CALL_METHOD(&_5, "fetchAll", NULL, 0, &_6);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -591,7 +591,7 @@ PHP_METHOD(Phalcon_Db_Result_PdoResult, numRows)
 	}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 679, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&connection, &_0);
-	ZEPHIR_CALL_METHOD(&type, &connection, "gettype", NULL, 0);
+	ZEPHIR_CALL_METHOD(&type, &connection, "getType", NULL, 0);
 	zephir_check_call_status();
 	_1 = ZEPHIR_IS_STRING_IDENTICAL(&type, "mysql");
 	if (!(_1)) {
@@ -600,7 +600,7 @@ PHP_METHOD(Phalcon_Db_Result_PdoResult, numRows)
 	if (_1) {
 		zephir_read_property_cached(&_2$$4, this_ptr, _zephir_prop_2, 680, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CPY_WRT(&pdoStatement, &_2$$4);
-		ZEPHIR_CALL_METHOD(&_3$$4, &pdoStatement, "rowcount", NULL, 0);
+		ZEPHIR_CALL_METHOD(&_3$$4, &pdoStatement, "rowCount", NULL, 0);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&rowCount);
 		ZVAL_LONG(&rowCount, zephir_get_intval(&_3$$4));
@@ -704,21 +704,21 @@ PHP_METHOD(Phalcon_Db_Result_PdoResult, setFetchMode)
 	}
 	if (_1) {
 		ZVAL_LONG(&_3$$3, fetchMode);
-		ZEPHIR_CALL_METHOD(&_2$$3, &pdoStatement, "setfetchmode", NULL, 0, &_3$$3, colNoOrClassNameOrObject, ctorargs);
+		ZEPHIR_CALL_METHOD(&_2$$3, &pdoStatement, "setFetchMode", NULL, 0, &_3$$3, colNoOrClassNameOrObject, ctorargs);
 		zephir_check_call_status();
 		if (!(zephir_is_true(&_2$$3))) {
 			RETURN_MM_BOOL(0);
 		}
 	} else if (fetchMode == 7) {
 		ZVAL_LONG(&_5$$5, fetchMode);
-		ZEPHIR_CALL_METHOD(&_4$$5, &pdoStatement, "setfetchmode", NULL, 0, &_5$$5, colNoOrClassNameOrObject);
+		ZEPHIR_CALL_METHOD(&_4$$5, &pdoStatement, "setFetchMode", NULL, 0, &_5$$5, colNoOrClassNameOrObject);
 		zephir_check_call_status();
 		if (!(zephir_is_true(&_4$$5))) {
 			RETURN_MM_BOOL(0);
 		}
 	} else {
 		ZVAL_LONG(&_7$$7, fetchMode);
-		ZEPHIR_CALL_METHOD(&_6$$7, &pdoStatement, "setfetchmode", NULL, 0, &_7$$7);
+		ZEPHIR_CALL_METHOD(&_6$$7, &pdoStatement, "setFetchMode", NULL, 0, &_7$$7);
 		zephir_check_call_status();
 		if (!(zephir_is_true(&_6$$7))) {
 			RETURN_MM_BOOL(0);

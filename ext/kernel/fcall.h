@@ -150,37 +150,43 @@ extern zend_internal_function zephir_internal_call_frame_func;
 		ZEPHIR_LAST_CALL_STATUS = zephir_call_class_method_aparams(return_value_ptr, Z_TYPE_P(object) == IS_OBJECT ? Z_OBJCE_P(object) : NULL, zephir_fcall_method, object, method, strlen(method), cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
 	} while (0)
 
+/**
+ * The `_ZVAL` macros take the method name from a variable, and pass it on as it
+ * was spelled: `__call()` is defined to receive the name as written, and the
+ * lookup that dispatches the call folds the case itself (see populate_fcic()
+ * in kernel/fcall.c). They used to lower-case it into a copy on every call.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2715
+ */
 #define ZEPHIR_RETURN_CALL_METHOD_ZVAL(object, method, cache, cache_slot, ...) \
 	do { \
-		char *method_name; \
-		int method_len; \
+		const char *method_name; \
+		uint32_t method_len; \
 		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
 		if (Z_TYPE_P(method) == IS_STRING) { \
 			method_len = Z_STRLEN_P(method); \
-			method_name = zend_str_tolower_dup(Z_STRVAL_P(method), method_len); \
+			method_name = Z_STRVAL_P(method); \
 		} else { \
 			method_len = 0; \
-			method_name = zend_str_tolower_dup("", 0); \
+			method_name = ""; \
 		} \
 		ZEPHIR_LAST_CALL_STATUS = zephir_return_call_class_method(return_value, Z_TYPE_P(object) == IS_OBJECT ? Z_OBJCE_P(object) : NULL, zephir_fcall_method, object, method_name, method_len, cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
-		efree(method_name); \
 	} while (0)
 
 #define ZEPHIR_CALL_METHOD_ZVAL(return_value_ptr, object, method, cache, cache_slot, ...) \
 	do { \
-		char *method_name; \
-		int method_len; \
+		const char *method_name; \
+		uint32_t method_len; \
 		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
 		if (Z_TYPE_P(method) == IS_STRING) { \
 			method_len = Z_STRLEN_P(method); \
-			method_name = zend_str_tolower_dup(Z_STRVAL_P(method), method_len); \
+			method_name = Z_STRVAL_P(method); \
 		} else { \
 			method_len = 0; \
-			method_name = zend_str_tolower_dup("", 0); \
+			method_name = ""; \
 		} \
 		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
 		ZEPHIR_LAST_CALL_STATUS = zephir_call_class_method_aparams(return_value_ptr, Z_TYPE_P(object) == IS_OBJECT ? Z_OBJCE_P(object) : NULL, zephir_fcall_method, object, method_name, method_len, cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
-		efree(method_name); \
 	} while (0)
 
 #define ZEPHIR_CALL_PARENT(return_value_ptr, class_entry, this_ptr, method, cache, cache_slot, ...) \
@@ -243,35 +249,33 @@ extern zend_internal_function zephir_internal_call_frame_func;
 
 #define ZEPHIR_CALL_CE_STATIC_ZVAL(return_value_ptr, class_entry, method, cache, cache_slot, ...) \
 	do { \
-		char *method_name; \
-		int method_len; \
+		const char *method_name; \
+		uint32_t method_len; \
 		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
 		if (Z_TYPE(method) == IS_STRING) { \
 			method_len = Z_STRLEN(method); \
-			method_name = zend_str_tolower_dup(Z_STRVAL(method), method_len); \
+			method_name = Z_STRVAL(method); \
 		} else { \
 			method_len = 0; \
-			method_name = zend_str_tolower_dup("", 0); \
+			method_name = ""; \
 		} \
 		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
 		ZEPHIR_LAST_CALL_STATUS = zephir_call_class_method_aparams(return_value_ptr, class_entry, zephir_fcall_ce, NULL, method_name, method_len, cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
-		efree(method_name); \
 	} while (0)
 
 #define ZEPHIR_RETURN_CALL_CE_STATIC_ZVAL(class_entry, method, cache, cache_slot, ...) \
 	do { \
-		char *method_name; \
-		int method_len; \
+		const char *method_name; \
+		uint32_t method_len; \
 		zval *params_[] = { ZEPHIR_FETCH_VA_ARGS __VA_ARGS__ }; \
 		if (Z_TYPE(method) == IS_STRING) { \
 			method_len = Z_STRLEN(method); \
-			method_name = zend_str_tolower_dup(Z_STRVAL(method), method_len); \
+			method_name = Z_STRVAL(method); \
 		} else { \
 			method_len = 0; \
-			method_name = zend_str_tolower_dup("", 0); \
+			method_name = ""; \
 		} \
 		ZEPHIR_LAST_CALL_STATUS = zephir_return_call_class_method(return_value, class_entry, zephir_fcall_ce, NULL, method_name, method_len, cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
-		efree(method_name); \
 	} while (0)
 
 /** Use these functions to call functions in the PHP userland using an arbitrary zval as callable */

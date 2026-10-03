@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Traits_Factory_FactoryTrait, getCachedInstance)
 	zephir_get_args_from(&arguments, 1);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1401, PH_NOISY_CC | PH_READONLY);
 	if (1 != zephir_array_isset_value(&_0, &name_zv)) {
-		ZEPHIR_CALL_METHOD(&definition, this_ptr, "getservice", NULL, 0, &name_zv);
+		ZEPHIR_CALL_METHOD(&definition, this_ptr, "getService", NULL, 0, &name_zv);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(&_1$$3, &definition, &arguments);
@@ -156,7 +156,7 @@ PHP_METHOD(Phalcon_Traits_Factory_FactoryTrait, getService)
 	ZVAL_STR_COPY(&name_zv, name);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1402, PH_NOISY_CC | PH_READONLY);
 	if (1 != zephir_array_isset_value(&_0, &name_zv)) {
-		ZEPHIR_CALL_METHOD(&exceptionClass, this_ptr, "getexceptionclass", NULL, 0);
+		ZEPHIR_CALL_METHOD(&exceptionClass, this_ptr, "getExceptionClass", NULL, 0);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_1$$3);
 		zephir_fetch_safe_class(&_2$$3, &exceptionClass);
@@ -228,7 +228,7 @@ PHP_METHOD(Phalcon_Traits_Factory_FactoryTrait, init)
 		zephir_get_arrval(&services, services_param);
 	}
 	ZEPHIR_INIT_VAR(&_0);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getservices", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getServices", NULL, 0);
 	zephir_check_call_status();
 	zephir_fast_array_merge(&_0, &_1, &services);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1402, &_0);

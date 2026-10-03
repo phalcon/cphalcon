@@ -119,11 +119,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1145, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&record, &_0);
 	if (Z_TYPE_P(&record) != IS_NULL) {
-		ZEPHIR_RETURN_CALL_METHOD(&record, "getmessages", NULL, 0);
+		ZEPHIR_RETURN_CALL_METHOD(&record, "getMessages", NULL, 0);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getmessage", NULL, 0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getMessage", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

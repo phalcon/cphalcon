@@ -206,11 +206,11 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query)
 	zephir_memory_observe(&translation);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1408, PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset_fetch(&translation, &_0, &translateKey_zv, 0))) {
-		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "notfound", NULL, 0, &translateKey_zv);
+		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "notFound", NULL, 0, &translateKey_zv);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "replaceplaceholders", NULL, 0, &translation, &placeholders);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "replacePlaceholders", NULL, 0, &translation, &placeholders);
 	zephir_check_call_status();
 	RETURN_MM();
 }

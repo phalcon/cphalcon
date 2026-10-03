@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, close)
 		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_0, 951, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CPY_WRT(&handler, &_1$$3);
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 951, &__$null);
-		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "phpfclose", NULL, 0, &handler);
+		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "phpFclose", NULL, 0, &handler);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -244,7 +244,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, process)
 	if (!(Z_TYPE_P(&_0) == IS_RESOURCE)) {
 		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_1, 949, PH_NOISY_CC | PH_READONLY);
 		zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_2, 950, PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_METHOD(&fileHandler, this_ptr, "phpfopen", NULL, 0, &_1$$3, &_2$$3);
+		ZEPHIR_CALL_METHOD(&fileHandler, this_ptr, "phpFopen", NULL, 0, &_1$$3, &_2$$3);
 		zephir_check_call_status();
 		if (!(Z_TYPE_P(&fileHandler) == IS_RESOURCE)) {
 			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 951, &__$null);
@@ -260,14 +260,14 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, process)
 		}
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 951, &fileHandler);
 	}
-	ZEPHIR_CALL_METHOD(&_6, this_ptr, "getformatteditem", NULL, 0, item);
+	ZEPHIR_CALL_METHOD(&_6, this_ptr, "getFormattedItem", NULL, 0, item);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_7);
 	ZEPHIR_GET_CONSTANT(&_7, "PHP_EOL");
 	ZEPHIR_INIT_VAR(&message);
 	ZEPHIR_CONCAT_VV(&message, &_6, &_7);
 	zephir_read_property_cached(&_8, this_ptr, _zephir_prop_0, 951, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "phpfwrite", NULL, 0, &_8, &message);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "phpFwrite", NULL, 0, &_8, &message);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

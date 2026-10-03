@@ -138,7 +138,7 @@ PHP_METHOD(Phalcon_Flash_Session, clear)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZVAL_BOOL(&_0, 1);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "getsessionmessages", NULL, 0, &_0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "getSessionMessages", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_PARENT(NULL, phalcon_flash_session_ce, getThis(), "clear", NULL, 0);
 	zephir_check_call_status();
@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages)
 	} else {
 		ZVAL_BOOL(&_0, 0);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getsessionmessages", NULL, 0, &_0, type);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getSessionMessages", NULL, 0, &_0, type);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -243,7 +243,7 @@ PHP_METHOD(Phalcon_Flash_Session, getSessionService)
 		zephir_read_property_cached(&_6$$4, this_ptr, _zephir_prop_1, 785, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_INIT_VAR(&_8$$4);
 		ZVAL_STRING(&_8$$4, "session");
-		ZEPHIR_CALL_METHOD(&_7$$4, &_6$$4, "getshared", NULL, 0, &_8$$4);
+		ZEPHIR_CALL_METHOD(&_7$$4, &_6$$4, "getShared", NULL, 0, &_8$$4);
 		zephir_check_call_status();
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 784, &_7$$4);
 		RETURN_MM_MEMBER(getThis(), "sessionService");
@@ -287,7 +287,7 @@ PHP_METHOD(Phalcon_Flash_Session, has)
 	ZVAL_STR_COPY(&type_zv, type);
 	}
 	ZVAL_BOOL(&_0, 0);
-	ZEPHIR_CALL_METHOD(&messages, this_ptr, "getsessionmessages", NULL, 0, &_0);
+	ZEPHIR_CALL_METHOD(&messages, this_ptr, "getSessionMessages", NULL, 0, &_0);
 	zephir_check_call_status();
 	if (!(!(ZEPHIR_IS_EMPTY(&type_zv)))) {
 		RETURN_MM_BOOL(1 != ZEPHIR_IS_EMPTY(&messages));
@@ -323,7 +323,7 @@ PHP_METHOD(Phalcon_Flash_Session, message)
 	zephir_memory_observe(&type_zv);
 	ZVAL_STR_COPY(&type_zv, type);
 	ZVAL_BOOL(&_0, 0);
-	ZEPHIR_CALL_METHOD(&messages, this_ptr, "getsessionmessages", NULL, 0, &_0);
+	ZEPHIR_CALL_METHOD(&messages, this_ptr, "getSessionMessages", NULL, 0, &_0);
 	zephir_check_call_status();
 	if (1 != zephir_array_isset_value(&messages, &type_zv)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
@@ -331,7 +331,7 @@ PHP_METHOD(Phalcon_Flash_Session, message)
 		zephir_array_update_zval(&messages, &type_zv, &_1$$3, PH_COPY | PH_SEPARATE);
 	}
 	zephir_array_update_multi(&messages, message, SL("za"), 2, &type_zv);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setsessionmessages", NULL, 0, &messages);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setSessionMessages", NULL, 0, &messages);
 	zephir_check_call_status();
 	RETURN_MM_NULL();
 }
@@ -380,7 +380,7 @@ PHP_METHOD(Phalcon_Flash_Session, output)
 	} else {
 		ZVAL_BOOL(&_0, 0);
 	}
-	ZEPHIR_CALL_METHOD(&messages, this_ptr, "getsessionmessages", NULL, 0, &_0);
+	ZEPHIR_CALL_METHOD(&messages, this_ptr, "getSessionMessages", NULL, 0, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&messages) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_2);
@@ -401,7 +401,7 @@ PHP_METHOD(Phalcon_Flash_Session, output)
 			}
 			ZEPHIR_INIT_NVAR(&message);
 			ZVAL_COPY(&message, _3);
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "outputmessage", &_6, 0, &type, &message);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "outputMessage", &_6, 0, &type, &message);
 			zephir_check_call_status();
 		} ZEND_HASH_FOREACH_END();
 	} else {
@@ -424,7 +424,7 @@ PHP_METHOD(Phalcon_Flash_Session, output)
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&message, _1, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "outputmessage", &_6, 0, &type, &message);
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "outputMessage", &_6, 0, &type, &message);
 				zephir_check_call_status();
 		}
 	}
@@ -483,7 +483,7 @@ PHP_METHOD(Phalcon_Flash_Session, getSessionMessages)
 		zephir_memory_observe(&type_zv);
 	ZVAL_STR_COPY(&type_zv, type);
 	}
-	ZEPHIR_CALL_METHOD(&session, this_ptr, "getsessionservice", NULL, 0);
+	ZEPHIR_CALL_METHOD(&session, this_ptr, "getSessionService", NULL, 0);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 783, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&messages, &session, "get", NULL, 0, &_0);
@@ -545,7 +545,7 @@ PHP_METHOD(Phalcon_Flash_Session, setSessionMessages)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &messages_param);
 	zephir_get_arrval(&messages, messages_param);
-	ZEPHIR_CALL_METHOD(&session, this_ptr, "getsessionservice", NULL, 0);
+	ZEPHIR_CALL_METHOD(&session, this_ptr, "getSessionService", NULL, 0);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 783, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, &session, "set", NULL, 0, &_0, &messages);

@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Resolution_AspectRatio, vali
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, ratioHeight = 0, ratioWidth = 0;
-	zval *validation, validation_sub, *field, field_sub, height, ratio, ratioArray, replacePairs, tmp, value, width, _0, _1, _2, _4, _5, _3$$5, _6$$6;
+	zval *validation, validation_sub, *field, field_sub, height, ratio, ratioArray, replacePairs, tmp, value, width, _0, _1, _2, _4, _5, _6, _7, _8, _3$$5, _9$$6;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
@@ -140,8 +140,11 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Resolution_AspectRatio, vali
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_7);
+	ZVAL_UNDEF(&_8);
 	ZVAL_UNDEF(&_3$$5);
-	ZVAL_UNDEF(&_6$$6);
+	ZVAL_UNDEF(&_9$$6);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
 		Z_PARAM_ZVAL(field)
@@ -149,19 +152,19 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Resolution_AspectRatio, vali
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &validation, &field);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkupload", NULL, 0, validation, field);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkUpload", NULL, 0, validation, field);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_0)) {
 		RETURN_MM_BOOL(0);
 	}
-	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
+	ZEPHIR_CALL_METHOD(&value, validation, "getValue", NULL, 0, field);
 	zephir_check_call_status();
 	zephir_memory_observe(&_1);
 	zephir_array_fetch_string(&_1, &value, SL("tmp_name"), PH_NOISY, "phalcon/Filter/Validation/Validator/File/Resolution/AspectRatio.zep", 94);
 	ZEPHIR_CALL_FUNCTION(&tmp, "getimagesize", NULL, 0, &_1);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&tmp)) {
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessagevalid", NULL, 0, validation, field);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendMessageValid", NULL, 0, validation, field);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}
@@ -171,7 +174,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Resolution_AspectRatio, vali
 	zephir_array_fetch_long(&height, &tmp, 1, PH_NOISY, "phalcon/Filter/Validation/Validator/File/Resolution/AspectRatio.zep", 104);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "ratio");
-	ZEPHIR_CALL_METHOD(&ratio, this_ptr, "getoption", NULL, 0, &_2);
+	ZEPHIR_CALL_METHOD(&ratio, this_ptr, "getOption", NULL, 0, &_2);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&ratio) == IS_ARRAY) {
 		zephir_memory_observe(&_3$$5);
@@ -186,13 +189,21 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Resolution_AspectRatio, vali
 	zephir_memory_observe(&_5);
 	zephir_array_fetch_long(&_5, &ratioArray, 1, PH_NOISY, "phalcon/Filter/Validation/Validator/File/Resolution/AspectRatio.zep", 114);
 	ratioHeight = zephir_get_intval(&_5);
-	if ((zephir_get_numberval(&width) * ratioHeight) != (zephir_get_numberval(&height) * ratioWidth)) {
+	ZEPHIR_INIT_VAR(&_6);
+	ZVAL_LONG(&_6, ratioHeight);
+	ZEPHIR_INIT_VAR(&_7);
+	mul_function(&_7, &width, &_6);
+	ZEPHIR_INIT_NVAR(&_6);
+	ZVAL_LONG(&_6, ratioWidth);
+	ZEPHIR_INIT_VAR(&_8);
+	mul_function(&_8, &height, &_6);
+	if (!ZEPHIR_IS_EQUAL(&_7, &_8)) {
 		ZEPHIR_INIT_VAR(&replacePairs);
 		zephir_create_array(&replacePairs, 1, 0);
 		zephir_array_update_string(&replacePairs, SL(":ratio"), &ratio, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_METHOD(&_6$$6, this_ptr, "messagefactory", NULL, 0, validation, field, &replacePairs);
+		ZEPHIR_CALL_METHOD(&_9$$6, this_ptr, "messageFactory", NULL, 0, validation, field, &replacePairs);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_6$$6);
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendMessage", NULL, 0, &_9$$6);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}

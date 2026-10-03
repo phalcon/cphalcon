@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, __construct)
 	} else {
 		zephir_get_arrval(&definitions, definitions_param);
 	}
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getdefaultservices", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getDefaultServices", NULL, 0);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 810, &_0);
 	zephir_is_iterable(&definitions, 0, "phalcon/Forms/FormsLocator.zep", 85);

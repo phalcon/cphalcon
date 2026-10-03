@@ -156,7 +156,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_Lazy, resolveArguments)
 			}
 			ZEPHIR_INIT_NVAR(&argument);
 			ZVAL_COPY(&argument, _0);
-			ZEPHIR_CALL_METHOD(&_3$$3, this_ptr, "resolveargument", &_4, 0, ioc, &argument);
+			ZEPHIR_CALL_METHOD(&_3$$3, this_ptr, "resolveArgument", &_4, 0, ioc, &argument);
 			zephir_check_call_status();
 			zephir_array_update_zval(&resolved, &key, &_3$$3, PH_COPY | PH_SEPARATE);
 		} ZEND_HASH_FOREACH_END();
@@ -180,7 +180,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_Lazy, resolveArguments)
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&argument, &arguments, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_7$$4, this_ptr, "resolveargument", &_4, 0, ioc, &argument);
+				ZEPHIR_CALL_METHOD(&_7$$4, this_ptr, "resolveArgument", &_4, 0, ioc, &argument);
 				zephir_check_call_status();
 				zephir_array_update_zval(&resolved, &key, &_7$$4, PH_COPY | PH_SEPARATE);
 		}

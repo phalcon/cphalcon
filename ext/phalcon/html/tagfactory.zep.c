@@ -238,7 +238,7 @@ PHP_METHOD(Phalcon_Html_TagFactory, __construct)
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 880, &_0);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getdefaultservices", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getDefaultServices", NULL, 0);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 881, &_1);
 	zephir_is_iterable(&services, 0, "phalcon/Html/TagFactory.zep", 166);
@@ -316,7 +316,7 @@ PHP_METHOD(Phalcon_Html_TagFactory, __call)
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	zephir_get_arrval(&arguments, arguments_param);
-	ZEPHIR_CALL_METHOD(&helper, this_ptr, "newinstance", NULL, 0, &name_zv);
+	ZEPHIR_CALL_METHOD(&helper, this_ptr, "newInstance", NULL, 0, &name_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 2, 0);

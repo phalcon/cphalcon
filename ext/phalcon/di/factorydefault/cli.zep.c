@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault_Cli, __construct)
 	ZEPHIR_INIT_VAR(&_6);
 	zephir_create_array(&_6, 2, 0);
 	add_assoc_stringl_ex(&_6, SL("type"), SL("parameter"));
-	ZEPHIR_CALL_CE_STATIC(&_7, phalcon_filter_filter_ce, "getdefaultmapper", NULL, 0);
+	ZEPHIR_CALL_CE_STATIC(&_7, phalcon_filter_filter_ce, "getDefaultMapper", NULL, 0);
 	zephir_check_call_status();
 	zephir_array_update_string(&_6, SL("value"), &_7, PH_COPY | PH_SEPARATE);
 	zephir_array_fast_append(&_5, &_6);

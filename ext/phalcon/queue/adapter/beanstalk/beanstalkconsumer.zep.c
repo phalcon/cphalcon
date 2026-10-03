@@ -93,14 +93,14 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, __construct)
 	zephir_fetch_params(1, 2, 0, &connection, &queue);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1268, connection);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1269, queue);
-	ZEPHIR_CALL_METHOD(&tube, queue, "getqueuename", NULL, 0);
+	ZEPHIR_CALL_METHOD(&tube, queue, "getQueueName", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, connection, "watchtube", NULL, 0, &tube);
+	ZEPHIR_CALL_METHOD(NULL, connection, "watchTube", NULL, 0, &tube);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_STRING(&tube, "default")) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZVAL_STRING(&_0$$3, "default");
-		ZEPHIR_CALL_METHOD(NULL, connection, "ignoretube", NULL, 0, &_0$$3);
+		ZEPHIR_CALL_METHOD(NULL, connection, "ignoreTube", NULL, 0, &_0$$3);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
@@ -128,9 +128,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, acknowledge)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &message);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1268, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "resolvejobid", NULL, 0, message);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "resolveJobId", NULL, 0, message);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &_0, "deletejob", NULL, 0, &_1);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "deleteJob", NULL, 0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -138,13 +138,14 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, acknowledge)
 PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, receive)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *timeout_param = NULL, seconds, _0, _1;
+	zval *timeout_param = NULL, seconds, _1, _2, _0$$4;
 	zend_long timeout, ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&seconds);
-	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_0$$4);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("connection", 10, 1);
@@ -165,12 +166,14 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, receive)
 	if (timeout <= 0) {
 		ZVAL_NULL(&seconds);
 	} else {
-		ZVAL_LONG(&seconds, (int) (zephir_safe_div_long_long(((timeout + 999)), 1000)));
+		ZEPHIR_INIT_VAR(&_0$$4);
+		zephir_div_long_long(&_0$$4, ((timeout + 999)), 1000);
+		ZVAL_LONG(&seconds, zephir_get_intval(&_0$$4));
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1268, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_1, &_0, "reserve", NULL, 0, &seconds);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1268, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(&_2, &_1, "reserve", NULL, 0, &seconds);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "buildmessage", NULL, 0, &_1);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "buildMessage", NULL, 0, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -196,7 +199,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, receiveNoWait)
 	ZVAL_LONG(&_2, 0);
 	ZEPHIR_CALL_METHOD(&_1, &_0, "reserve", NULL, 0, &_2);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "buildmessage", NULL, 0, &_1);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "buildMessage", NULL, 0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -233,18 +236,18 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, reject)
 		requeue = 0;
 	} else {
 		}
-	ZEPHIR_CALL_METHOD(&id, this_ptr, "resolvejobid", NULL, 0, message);
+	ZEPHIR_CALL_METHOD(&id, this_ptr, "resolveJobId", NULL, 0, message);
 	zephir_check_call_status();
 	if (requeue) {
 		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 1268, PH_NOISY_CC | PH_READONLY);
 		ZVAL_LONG(&_1$$3, 100);
 		ZVAL_LONG(&_2$$3, 0);
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "releasejob", NULL, 0, &id, &_1$$3, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "releaseJob", NULL, 0, &id, &_1$$3, &_2$$3);
 		zephir_check_call_status();
 	} else {
 		zephir_read_property_cached(&_3$$4, this_ptr, _zephir_prop_0, 1268, PH_NOISY_CC | PH_READONLY);
 		ZVAL_LONG(&_4$$4, 100);
-		ZEPHIR_CALL_METHOD(NULL, &_3$$4, "buryjob", NULL, 0, &id, &_4$$4);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$4, "buryJob", NULL, 0, &id, &_4$$4);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
@@ -275,9 +278,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, touch)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &message);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1268, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "resolvejobid", NULL, 0, message);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "resolveJobId", NULL, 0, message);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "touchjob", NULL, 0, &_1);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "touchJob", NULL, 0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -336,7 +339,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, buildMessage)
 	zephir_check_call_status();
 	zephir_memory_observe(&_4);
 	zephir_array_fetch_long(&_4, job, 0, PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkConsumer.zep", 128);
-	ZEPHIR_CALL_METHOD(NULL, &message, "setjobid", NULL, 0, &_4);
+	ZEPHIR_CALL_METHOD(NULL, &message, "setJobId", NULL, 0, &_4);
 	zephir_check_call_status();
 	RETURN_CCTOR(&message);
 }
@@ -362,7 +365,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, resolveJobId)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &message);
 	if (zephir_instance_of_ev(message, phalcon_queue_adapter_beanstalk_beanstalkmessage_ce)) {
-		ZEPHIR_CALL_METHOD(&_0$$3, message, "getjobid", NULL, 0);
+		ZEPHIR_CALL_METHOD(&_0$$3, message, "getJobId", NULL, 0);
 		zephir_check_call_status();
 		zephir_cast_to_string(&_1$$3, &_0$$3);
 		RETURN_CTOR(&_1$$3);

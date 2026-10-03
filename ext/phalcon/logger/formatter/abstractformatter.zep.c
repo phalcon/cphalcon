@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, getFormattedDate)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &item);
-	ZEPHIR_CALL_METHOD(&_0, item, "getdatetime", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_0, item, "getDateTime", NULL, 0);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 236, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "format", NULL, 0, &_1);
@@ -155,13 +155,13 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, getInterpolatedMessage)
 	item = ZEND_CALL_ARG(execute_data, 1);
 	zephir_memory_observe(&message_zv);
 	ZVAL_STR_COPY(&message_zv, message);
-	ZEPHIR_CALL_METHOD(&_1, item, "getcontext", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_1, item, "getContext", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "stringifycontext", NULL, 0, &_1);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "stringifyContext", NULL, 0, &_1);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 237, PH_NOISY_CC | PH_READONLY);
 	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_1, 238, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "tointerpolate", NULL, 0, &message_zv, &_0, &_2, &_3);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "toInterpolate", NULL, 0, &message_zv, &_0, &_2, &_3);
 	zephir_check_call_status();
 	RETURN_MM();
 }
