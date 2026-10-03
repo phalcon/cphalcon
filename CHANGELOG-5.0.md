@@ -10,6 +10,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 ### Changed
 
+- Faster route matching and route index build in `Phalcon\Mvc\Router`. [#17628](https://github.com/phalcon/cphalcon/issues/17628)
 
 ### Added
 
