@@ -2456,7 +2456,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
          * yields reverse-iteration semantics.
          */
         var combinedAlternatives, combinedMark, combinedBody,
-            combinedBodyMatch, combinedShape, hostnameBucketRef;
+            hostnameBucketRef;
 
         let combinedRegexByMethod = [],
             combinedRegexMarkMap  = [],
@@ -2480,22 +2480,33 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
                     continue;
                 }
 
-                let combinedBodyMatch = [];
-
                 /**
-                 * A named group disables the bucket: in a (?|...) group two
-                 * names on one group number do not compile, and a name of one
-                 * route goes into the matches of another route.
+                 * The pattern must have the shape "#^<body>$#u", the shape of
+                 * the compiled route patterns. Another shape disables the
+                 * bucket.
                  */
-                let combinedShape = preg_match("/^#\\^(?!.*\\(\\?(?:P?<[^=!]|'))(.+)\\$#u$/", bucketPattern, combinedBodyMatch);
-
-                if !combinedShape {
+                if !starts_with(bucketPattern, "#^") || !ends_with(bucketPattern, "$#u") {
                     let combinedRegexDisabled[method] = true;
                     let combinedAlternatives = [];
                     break;
                 }
 
-                let combinedBody = combinedBodyMatch[1];
+                let combinedBody = substr(bucketPattern, 2, -3);
+
+                /**
+                 * An empty body, a body on more than one line or a named group
+                 * disables the bucket. In a (?|...) group two names on one
+                 * group number do not compile, and a name of one route goes
+                 * into the matches of another route. A named group starts with
+                 * "(?", so the regular expression runs only for such a body.
+                 */
+                if combinedBody === ""
+                    || memstr(combinedBody, "\n")
+                    || (memstr(combinedBody, "(?") && preg_match("/\\(\\?(?:P?<[^=!]|')/", combinedBody)) {
+                    let combinedRegexDisabled[method] = true;
+                    let combinedAlternatives = [];
+                    break;
+                }
 
                 /**
                  * A "|" outside a group splits the route into two alternatives

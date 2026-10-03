@@ -53,6 +53,22 @@ final class CombinedRegexTest extends AbstractUnitTestCase
     }
 
     /**
+     * @return array<string, array{0: string, 1: bool}>
+     */
+    public static function getShapePatterns(): array
+    {
+        return [
+            'compiled route pattern' => ['/users/{id:[0-9]+}', false],
+            'raw pattern'            => ['#^/a/([0-9]+)$#u', false],
+            'other modifier'         => ['#^/a$#ui', true],
+            'no u modifier'          => ['#^/a$#', true],
+            'lookbehind'             => ['#^/a(?<=a)$#u', false],
+            'named group'            => ['#^/a/(?<id>[0-9]+)$#u', true],
+            'quoted named group'     => ["#^/a/(?'id'[0-9]+)\$#u", true],
+        ];
+    }
+
+    /**
      * A beforeMatch veto on a combined-regex hit falls back to the next
      * route in reverse attach order, also when that route is in the same
      * chunk and a later chunk has another match. The vetoing callback runs
@@ -394,6 +410,25 @@ final class CombinedRegexTest extends AbstractUnitTestCase
     {
         $router = $this->getRouter(false);
         $router->addGet($pattern, ['controller' => 'pipe']);
+
+        $dump = $router->buildDispatcherDump();
+
+        $this->assertSame($disabled, isset($dump['combinedRegexDisabled']['GET']));
+        $this->assertSame(!$disabled, isset($dump['combinedRegexByMethod']['GET']));
+    }
+
+    /**
+     * A bucket is combined only for patterns of the shape "#^<body>$#u"
+     * with no named group.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-03
+     */
+    #[DataProvider('getShapePatterns')]
+    public function testShapeOfPatternDisablesCombinedRegex(string $pattern, bool $disabled): void
+    {
+        $router = $this->getRouter(false);
+        $router->addGet($pattern, ['controller' => 'shape']);
 
         $dump = $router->buildDispatcherDump();
 
