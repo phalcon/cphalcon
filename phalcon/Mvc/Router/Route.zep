@@ -113,8 +113,11 @@ class Route implements RouteInterface
         // Configure the route (extract parameters, paths, etc)
         this->reConfigure(pattern, paths);
 
-        // Update the HTTP method constraints
-        this->via(httpMethods);
+        /**
+         * Update the HTTP method constraints. The same as via(), with no
+         * method call.
+         */
+        let this->methods = httpMethods;
 
         // Get the unique Id from the static member uniqueId
         let uniqueId = self::uniqueId;
