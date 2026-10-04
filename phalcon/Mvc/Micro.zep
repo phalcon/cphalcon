@@ -287,8 +287,23 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
      */
     public function getRouter() -> <RouterInterface>
     {
+        var container;
+
         if this->router === null {
-            let this->router = this->getSharedService("router");
+            this->checkDiContainer();
+
+            let container = this->container;
+
+            /**
+             * Get the default router service (the Router class name) without
+             * its two default routes. clear() removes them anyway. Get all
+             * other definitions as before.
+             */
+            if container->has("router") && container->getService("router")->getDefinition() === Router::class {
+                let this->router = container->getShared("router", [false]);
+            } else {
+                let this->router = this->getSharedService("router");
+            }
 
             /**
              * Clear the set routes if any
