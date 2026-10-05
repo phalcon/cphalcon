@@ -983,13 +983,12 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          */
         let privateProperties = GetPrivateProperties::getPrivateProperties(get_class(instance));
 
-        if instance instanceof Model {
-            let metaData = instance->getModelsMetaData();
-            let notNullAttributes = metaData->getNotNullAttributes(instance);
-        } else {
-            let metaData = null;
-            let notNullAttributes = [];
-        }
+        /**
+         * Read the not null attributes at the first null value only. Most
+         * rows have no null value.
+         */
+        let metaData          = null,
+            notNullAttributes = null;
 
         // Change the dirty state to persistent
         instance->setDirtyState(dirtyState);
@@ -1018,8 +1017,22 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 continue;
             }
 
-            if value === null && in_array(key, notNullAttributes) {
-                continue;
+            if value === null {
+                if notNullAttributes === null {
+                    if instance instanceof Model {
+                        if metaData === null {
+                            let metaData = instance->getModelsMetaData();
+                        }
+
+                        let notNullAttributes = metaData->getNotNullAttributes(instance);
+                    } else {
+                        let notNullAttributes = [];
+                    }
+                }
+
+                if in_array(key, notNullAttributes) {
+                    continue;
+                }
             }
 
             if typeof columnMap !== "array" {
