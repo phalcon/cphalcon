@@ -44,6 +44,7 @@ use Phalcon\Container\Exceptions\NoFactorySet;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Container\Definition\Fake\FakeServiceWithResolve;
 use Phalcon\Tests\Unit\Container\Fake\FakeContainer;
+use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
 
 use function restore_error_handler;
@@ -53,6 +54,29 @@ use const E_WARNING;
 
 final class ServiceDefinitionTest extends AbstractUnitTestCase
 {
+    /**
+     * @return array<string, array{0: string, 1: array<int, mixed>}>
+     */
+    public static function getSetterCalls(): array
+    {
+        $extender = static fn (object $instance, object $c): object => $instance;
+        $factory  = static fn (): stdClass => new stdClass();
+
+        return [
+            'addExtender'    => ['addExtender', [$extender]],
+            'addTag'         => ['addTag', ['notifier']],
+            'setArgument'    => ['setArgument', [0, 'value']],
+            'setClass'       => ['setClass', ['SomeClass']],
+            'setExtenders'   => ['setExtenders', [[$extender]]],
+            'setFactory'     => ['setFactory', [$factory]],
+            'setIsCacheable' => ['setIsCacheable', [true]],
+            'setLifetime'    => ['setLifetime', [ServiceLifetime::SINGLETON]],
+            'unsetClass'     => ['unsetClass', []],
+            'unsetExtenders' => ['unsetExtenders', []],
+            'unsetFactory'   => ['unsetFactory', []],
+        ];
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-18
@@ -227,6 +251,28 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
                 $method . '() must throw FrozenDefinition when frozen'
             );
         }
+    }
+
+    /**
+     * Each setter of a frozen definition throws with the service name.
+     *
+     * @param array<int, mixed> $arguments
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-05
+     */
+    #[DataProvider('getSetterCalls')]
+    public function testContainerDefinitionServiceDefinitionFrozenSettersThrowWithName(
+        string $method,
+        array $arguments
+    ): void {
+        $def = new ServiceDefinition('logger', DefinitionType::CLOSURE_TYPE);
+        $def->freeze(new FakeContainer());
+
+        $this->expectException(FrozenDefinition::class);
+        $this->expectExceptionMessage("Cannot modify frozen definition 'logger'");
+
+        $def->$method(...$arguments);
     }
 
     /**
@@ -417,6 +463,26 @@ final class ServiceDefinitionTest extends AbstractUnitTestCase
         $def = new ServiceDefinition('logger', DefinitionType::STRING_TYPE);
         $def->setLifetime(ServiceLifetime::SINGLETON);
         $this->assertSame(ServiceLifetime::SINGLETON, $def->getLifetime());
+    }
+
+    /**
+     * Each setter of a definition that is not frozen returns the same
+     * definition.
+     *
+     * @param array<int, mixed> $arguments
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-05
+     */
+    #[DataProvider('getSetterCalls')]
+    public function testContainerDefinitionServiceDefinitionSettersReturnSelfWhenNotFrozen(
+        string $method,
+        array $arguments
+    ): void {
+        $def = new ServiceDefinition('logger', DefinitionType::CLOSURE_TYPE);
+
+        $this->assertFalse($def->isFrozen());
+        $this->assertSame($def, $def->$method(...$arguments));
     }
 
     /**
