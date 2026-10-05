@@ -155,7 +155,9 @@ class Container implements Collection, Enumerable
      */
     public function extend(string name, callable callableObject) -> void
     {
-        let name = this->resolveAlias(name);
+        if (array_key_exists(name, this->aliases)) {
+            let name = this->resolveAlias(name);
+        }
 
         if (array_key_exists(name, this->instances)) {
             throw new CannotExtendResolved(name);
@@ -175,7 +177,9 @@ class Container implements Collection, Enumerable
      */
     public function get(string name) -> mixed
     {
-        let name = this->resolveAlias(name);
+        if (array_key_exists(name, this->aliases)) {
+            let name = this->resolveAlias(name);
+        }
 
         if (array_key_exists(name, this->parameters)) {
             return this->resolveParameter(name);
@@ -312,7 +316,9 @@ class Container implements Collection, Enumerable
      */
     public function has(string name) -> bool
     {
-        let name = this->resolveAlias(name);
+        if (array_key_exists(name, this->aliases)) {
+            let name = this->resolveAlias(name);
+        }
 
         if (
             array_key_exists(name, this->parameters)
@@ -384,7 +390,9 @@ class Container implements Collection, Enumerable
      */
     public function $new(string name) -> mixed
     {
-        let name = this->resolveAlias(name);
+        if (array_key_exists(name, this->aliases)) {
+            let name = this->resolveAlias(name);
+        }
 
         return this->resolve(name, false);
     }
@@ -422,7 +430,14 @@ class Container implements Collection, Enumerable
      */
     public function setAlias(string name, string alias) -> <static>
     {
-        this->detectCircularAlias(alias, name);
+        /**
+         * Check for a circular alias only when the name is the alias or is
+         * an alias itself. For all other names the check returns at once.
+         */
+        if (name === alias || array_key_exists(name, this->aliases)) {
+            this->detectCircularAlias(alias, name);
+        }
+
         let this->aliases[alias] = name;
 
         return this;
