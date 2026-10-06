@@ -82,6 +82,27 @@ final class ModelBench
     }
 
     /**
+     * A PHQL self-join of the first 20 robots: a complex resultset with two
+     * models in each row.
+     */
+    public function benchQueryJoin(): void
+    {
+        $years = 0;
+        $rows  = $this->container->getShared('modelsManager')->executeQuery(
+            'SELECT robot.*, copy.* FROM ' . Robots::class . ' robot '
+            . 'JOIN ' . Robots::class . ' copy ON copy.id = robot.id '
+            . 'ORDER BY robot.id LIMIT 20'
+        );
+        foreach ($rows as $row) {
+            $years += $row->robot->year + $row->copy->year;
+        }
+
+        if (2 * self::EXPECTED_YEARS !== $years) {
+            throw new RuntimeException(sprintf('Unexpected sum of years: %d', $years));
+        }
+    }
+
+    /**
      * assign(), validation and save() in a transaction that rolls back.
      */
     public function benchSave(): void

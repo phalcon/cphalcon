@@ -973,7 +973,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     ) -> <ModelInterface> {
         var instance, attribute, key, value, castValue, attributeName, metaData, reverseMap, notNullAttributes,
             callSetters, privateProperties, reflectionProperty, setter;
-        array localMethods;
+        var localMethods = null;
 
         let instance = clone base;
 
@@ -983,31 +983,36 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          */
         let privateProperties = GetPrivateProperties::getPrivateProperties(get_class(instance));
 
-        if instance instanceof Model {
-            let metaData = instance->getModelsMetaData();
-            let notNullAttributes = metaData->getNotNullAttributes(instance);
-        } else {
-            let metaData = null;
-            let notNullAttributes = [];
-        }
+        /**
+         * Read the not null attributes at the first null value only. Most
+         * rows have no null value.
+         */
+        let metaData          = null,
+            notNullAttributes = null;
 
         // Change the dirty state to persistent
         instance->setDirtyState(dirtyState);
 
         let callSetters = (bool) Settings::get("orm.call_setters_on_hydration");
 
-        let localMethods = [
-            "setConnectionService"      : 1,
-            "setDirtyState"             : 1,
-            "setEventsManager"          : 1,
-            "setReadConnectionService"  : 1,
-            "setOldSnapshotData"        : 1,
-            "setSchema"                 : 1,
-            "setSnapshotData"           : 1,
-            "setSource"                 : 1,
-            "setTransaction"            : 1,
-            "setWriteConnectionService" : 1
-        ];
+        /**
+         * The list of the local methods is used only when the setters are
+         * called. The setting is off by default.
+         */
+        if callSetters {
+            let localMethods = [
+                "setConnectionService"      : 1,
+                "setDirtyState"             : 1,
+                "setEventsManager"          : 1,
+                "setReadConnectionService"  : 1,
+                "setOldSnapshotData"        : 1,
+                "setSchema"                 : 1,
+                "setSnapshotData"           : 1,
+                "setSource"                 : 1,
+                "setTransaction"            : 1,
+                "setWriteConnectionService" : 1
+            ];
+        }
 
         /**
          * Assign the data in the model
@@ -1018,8 +1023,22 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 continue;
             }
 
-            if value === null && in_array(key, notNullAttributes) {
-                continue;
+            if value === null {
+                if notNullAttributes === null {
+                    if instance instanceof Model {
+                        if metaData === null {
+                            let metaData = instance->getModelsMetaData();
+                        }
+
+                        let notNullAttributes = metaData->getNotNullAttributes(instance);
+                    } else {
+                        let notNullAttributes = [];
+                    }
+                }
+
+                if in_array(key, notNullAttributes) {
+                    continue;
+                }
             }
 
             if typeof columnMap !== "array" {
