@@ -14,6 +14,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - Faster service resolution in `Phalcon\Di\Di` for service names with no alias. [#17629](https://github.com/phalcon/cphalcon/issues/17629)
 - Faster router setup in `Phalcon\Mvc\Micro`: the default router is created without its default routes. [#17630](https://github.com/phalcon/cphalcon/issues/17630)
 - Faster service registration and resolution in `Phalcon\Container\Container`. [#17631](https://github.com/phalcon/cphalcon/issues/17631)
+- Faster model hydration in `Phalcon\Mvc\Model` and `Phalcon\Mvc\Model\Resultset\Complex`. [#17632](https://github.com/phalcon/cphalcon/issues/17632)
 
 ### Added
 
