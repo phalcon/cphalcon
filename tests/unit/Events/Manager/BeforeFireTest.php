@@ -62,6 +62,23 @@ final class BeforeFireTest extends AbstractUnitTestCase
         $this->assertSame($expected, $manager->beforeCalls);
     }
 
+    public function testBeforeFireRunsOnEachFire(): void
+    {
+        $manager = new DeferredManager();
+
+        $manager->attach(
+            'test:event',
+            function () {
+                return 'handled';
+            }
+        );
+
+        $manager->fire('test:event', new stdClass());
+        $manager->fire('test:event', new stdClass());
+
+        $this->assertCount(2, $manager->beforeCalls);
+    }
+
     public function testBeforeFireRunsWithoutListeners(): void
     {
         $manager = new DeferredManager();

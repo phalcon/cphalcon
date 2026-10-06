@@ -96,6 +96,12 @@ class Manager implements ManagerInterface, Enumerable
     protected int fireDepth = 0;
 
     /**
+     * True when the object is a subclass of this class: fire() then calls
+     * the beforeFire() and afterFire() hooks. Null until the first fire.
+     */
+    protected fireHooks = null;
+
+    /**
      * Manager-level kill switch. When true, every fire()/fireAll()/
      * fireQueue() call returns immediately (null or empty array) without
      * dispatching. Cleared by resume(). Survives across fire() calls,
@@ -410,8 +416,8 @@ class Manager implements ManagerInterface, Enumerable
         bool cancelable = true,
         var stopOnFalse = null
     ) {
-        var cached, colonPos, event, eventName, ex, fireEvents, status, stop,
-            type, wasDepth,
+        var cached, colonPos, event, eventName, ex, fireEvents, fireHooks,
+            status, stop, type, wasDepth,
             stashed = [];
         bool collect, hasFullQueue, hasTypeQueue;
 
@@ -427,7 +433,19 @@ class Manager implements ManagerInterface, Enumerable
             return null;
         }
 
-        if this->beforeFire(eventType, source, data, cancelable) === false {
+        /**
+         * The beforeFire() and afterFire() hooks do nothing in this class.
+         * Call them only for a subclass. The class of the object does not
+         * change, so the check runs once.
+         */
+        let fireHooks = this->fireHooks;
+
+        if fireHooks === null {
+            let fireHooks       = get_class(this) !== "Phalcon\\Events\\Manager",
+                this->fireHooks = fireHooks;
+        }
+
+        if fireHooks && this->beforeFire(eventType, source, data, cancelable) === false {
             return null;
         }
 
@@ -547,7 +565,11 @@ class Manager implements ManagerInterface, Enumerable
 
         let this->fireDepth = wasDepth;
 
-        return this->afterFire(status, eventType, source, data, cancelable);
+        if fireHooks {
+            return this->afterFire(status, eventType, source, data, cancelable);
+        }
+
+        return status;
     }
 
     /**

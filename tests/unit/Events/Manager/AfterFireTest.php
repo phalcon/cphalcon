@@ -39,6 +39,23 @@ final class AfterFireTest extends AbstractUnitTestCase
         $this->assertSame('handled', $result);
     }
 
+    public function testAfterFireCalledOnEachFire(): void
+    {
+        $manager = new DeferredManager();
+
+        $manager->attach(
+            'test:event',
+            function () {
+                return 'handled';
+            }
+        );
+
+        $manager->fire('test:event', new stdClass());
+        $manager->fire('test:event', new stdClass());
+
+        $this->assertCount(2, $manager->afterCalls);
+    }
+
     public function testAfterFireCanTransformResult(): void
     {
         $manager                = new DeferredManager();
