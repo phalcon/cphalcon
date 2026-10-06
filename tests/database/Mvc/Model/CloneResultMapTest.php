@@ -177,6 +177,36 @@ final class CloneResultMapTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * With the setters on, a column whose setter is a local method of the
+     * model (setConnectionService) is set as a property, and the method is
+     * not called.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-05
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelCloneResultMapDoesNotCallLocalMethodAsSetter(): void
+    {
+        Settings::set('orm.call_setters_on_hydration', true);
+
+        $base = new class () extends Model {
+            public string $connection_service = '';
+        };
+
+        $model = Model::cloneResultMap(
+            $base,
+            [
+                'connection_service' => 'db2',
+            ],
+            null
+        );
+
+        $this->assertSame('db2', $model->connection_service);
+    }
+
+    /**
      * Tests that cloneResultMap() does NOT call model setters during hydration
      * at default settings (orm.call_setters_on_hydration is false), restoring
      * the pre-5.12 behavior and preventing setter side effects on hydration.

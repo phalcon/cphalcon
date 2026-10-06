@@ -973,7 +973,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     ) -> <ModelInterface> {
         var instance, attribute, key, value, castValue, attributeName, metaData, reverseMap, notNullAttributes,
             callSetters, privateProperties, reflectionProperty, setter;
-        array localMethods;
+        var localMethods = null;
 
         let instance = clone base;
 
@@ -995,18 +995,24 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
         let callSetters = (bool) Settings::get("orm.call_setters_on_hydration");
 
-        let localMethods = [
-            "setConnectionService"      : 1,
-            "setDirtyState"             : 1,
-            "setEventsManager"          : 1,
-            "setReadConnectionService"  : 1,
-            "setOldSnapshotData"        : 1,
-            "setSchema"                 : 1,
-            "setSnapshotData"           : 1,
-            "setSource"                 : 1,
-            "setTransaction"            : 1,
-            "setWriteConnectionService" : 1
-        ];
+        /**
+         * The list of the local methods is used only when the setters are
+         * called. The setting is off by default.
+         */
+        if callSetters {
+            let localMethods = [
+                "setConnectionService"      : 1,
+                "setDirtyState"             : 1,
+                "setEventsManager"          : 1,
+                "setReadConnectionService"  : 1,
+                "setOldSnapshotData"        : 1,
+                "setSchema"                 : 1,
+                "setSnapshotData"           : 1,
+                "setSource"                 : 1,
+                "setTransaction"            : 1,
+                "setWriteConnectionService" : 1
+            ];
+        }
 
         /**
          * Assign the data in the model
