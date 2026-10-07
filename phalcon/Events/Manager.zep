@@ -534,9 +534,11 @@ class Manager implements ManagerInterface, Enumerable
             // stopOnFalse propagation: dispatch already short-circuited
             // its queue; skip the fully-qualified queue too and pin
             // the fire() return as false.
+            // A new event is not stopped: only a listener of the type
+            // queue can stop it before the fully-qualified queue.
             if !(stop && cancelable && status === false)
                 && hasFullQueue
-                && (!cancelable || !event->isStopped())
+                && (!cancelable || !hasTypeQueue || !event->isStopped())
             {
                 let fireEvents = this->events[eventType];
                 let status     = this->runQueue(
@@ -662,9 +664,11 @@ class Manager implements ManagerInterface, Enumerable
             }
 
             // stopOnFalse propagation across the two dispatch legs.
+            // A new event is not stopped: only a listener of the type
+            // queue can stop it before the fully-qualified queue.
             if !(this->stopOnFalse && cancelable && dispatchStatus === false)
                 && hasFullQueue
-                && (!cancelable || !event->isStopped())
+                && (!cancelable || !hasTypeQueue || !event->isStopped())
             {
                 let fireEvents = this->events[eventType];
                 this->runQueue(
