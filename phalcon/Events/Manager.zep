@@ -98,6 +98,8 @@ class Manager implements ManagerInterface, Enumerable
     /**
      * True when the object is a subclass of this class: fire() then calls
      * the beforeFire() and afterFire() hooks. Null until the first fire.
+     *
+     * @var bool|null
      */
     protected fireHooks = null;
 

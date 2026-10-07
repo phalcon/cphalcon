@@ -130,6 +130,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Events_Manager)
 	/**
 	 * True when the object is a subclass of this class: fire() then calls
 	 * the beforeFire() and afterFire() hooks. Null until the first fire.
+	 *
+	 * @var bool|null
 	 */
 	zend_declare_property_null(phalcon_events_manager_ce, SL("fireHooks"), ZEND_ACC_PROTECTED);
 	/**
@@ -291,7 +293,7 @@ PHP_METHOD(Phalcon_Events_Manager, addSubscriber)
 	} else {
 		_3 = &events;
 	}
-	zephir_is_iterable(_3, 0, "phalcon/Events/Manager.zep", 193);
+	zephir_is_iterable(_3, 0, "phalcon/Events/Manager.zep", 195);
 	if (Z_TYPE_P(_3) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_3), _6, _7, _5)
 		{
@@ -401,13 +403,13 @@ PHP_METHOD(Phalcon_Events_Manager, attach)
 		_2 = _1;
 		if (_2) {
 			zephir_memory_observe(&_3);
-			zephir_array_fetch_long(&_3, handler, 0, PH_NOISY, "phalcon/Events/Manager.zep", 226);
+			zephir_array_fetch_long(&_3, handler, 0, PH_NOISY, "phalcon/Events/Manager.zep", 228);
 			_2 = Z_TYPE_P(&_3) == IS_OBJECT;
 		}
 		_4 = _2;
 		if (_4) {
 			zephir_memory_observe(&_5);
-			zephir_array_fetch_long(&_5, handler, 1, PH_NOISY, "phalcon/Events/Manager.zep", 227);
+			zephir_array_fetch_long(&_5, handler, 1, PH_NOISY, "phalcon/Events/Manager.zep", 229);
 			_4 = Z_TYPE_P(&_5) == IS_STRING;
 		}
 		if (_4) {
@@ -431,7 +433,7 @@ PHP_METHOD(Phalcon_Events_Manager, attach)
 			object_init_ex(&_9$$9, phalcon_events_exceptions_invalideventhandler_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_9$$9, "__construct", NULL, 0);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_9$$9, "phalcon/Events/Manager.zep", 250);
+			zephir_throw_exception_debug(&_9$$9, "phalcon/Events/Manager.zep", 252);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -479,7 +481,7 @@ PHP_METHOD(Phalcon_Events_Manager, clearSubscribers)
 	} else {
 		_0 = &snapshot;
 	}
-	zephir_is_iterable(_0, 0, "phalcon/Events/Manager.zep", 272);
+	zephir_is_iterable(_0, 0, "phalcon/Events/Manager.zep", 274);
 	if (Z_TYPE_P(_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_0), _2)
 		{
@@ -587,7 +589,7 @@ PHP_METHOD(Phalcon_Events_Manager, detach)
 		object_init_ex(&_1$$3, phalcon_events_exceptions_invalideventhandler_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Events/Manager.zep", 291);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Events/Manager.zep", 293);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -603,16 +605,16 @@ PHP_METHOD(Phalcon_Events_Manager, detach)
 		} else {
 			_3$$4 = &queue;
 		}
-		zephir_is_iterable(_3$$4, 0, "phalcon/Events/Manager.zep", 305);
+		zephir_is_iterable(_3$$4, 0, "phalcon/Events/Manager.zep", 307);
 		if (Z_TYPE_P(_3$$4) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_3$$4), _5$$4)
 			{
 				ZEPHIR_INIT_NVAR(&existing);
 				ZVAL_COPY(&existing, _5$$4);
 				ZEPHIR_OBS_NVAR(&_6$$5);
-				zephir_array_fetch_long(&_6$$5, &existing, 0, PH_NOISY, "phalcon/Events/Manager.zep", 298);
+				zephir_array_fetch_long(&_6$$5, &existing, 0, PH_NOISY, "phalcon/Events/Manager.zep", 300);
 				if (!ZEPHIR_IS_IDENTICAL(&_6$$5, handler)) {
-					zephir_array_append(&newQueue, &existing, PH_SEPARATE, "phalcon/Events/Manager.zep", 299);
+					zephir_array_append(&newQueue, &existing, PH_SEPARATE, "phalcon/Events/Manager.zep", 301);
 				}
 			} ZEND_HASH_FOREACH_END();
 		} else {
@@ -634,9 +636,9 @@ PHP_METHOD(Phalcon_Events_Manager, detach)
 				ZEPHIR_CALL_METHOD(&existing, _3$$4, "current", NULL, 0);
 				zephir_check_call_status();
 					ZEPHIR_OBS_NVAR(&_9$$7);
-					zephir_array_fetch_long(&_9$$7, &existing, 0, PH_NOISY, "phalcon/Events/Manager.zep", 298);
+					zephir_array_fetch_long(&_9$$7, &existing, 0, PH_NOISY, "phalcon/Events/Manager.zep", 300);
 					if (!ZEPHIR_IS_IDENTICAL(&_9$$7, handler)) {
-						zephir_array_append(&newQueue, &existing, PH_SEPARATE, "phalcon/Events/Manager.zep", 299);
+						zephir_array_append(&newQueue, &existing, PH_SEPARATE, "phalcon/Events/Manager.zep", 301);
 					}
 			}
 		}
@@ -763,7 +765,7 @@ PHP_METHOD(Phalcon_Events_Manager, dispatch)
 	if (Z_TYPE_P(name) == IS_ARRAY) {
 		if (zephir_array_isset_value_long(name, 1)) {
 			ZEPHIR_OBS_NVAR(&methodName);
-			zephir_array_fetch_long(&methodName, name, 1, PH_NOISY, "phalcon/Events/Manager.zep", 352);
+			zephir_array_fetch_long(&methodName, name, 1, PH_NOISY, "phalcon/Events/Manager.zep", 354);
 		}
 		ZEPHIR_INIT_VAR(&_1$$4);
 		zephir_fast_join_str(&_1$$4, SL(":"), name);
@@ -1029,7 +1031,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire)
 			object_init_ex(&_7$$9, phalcon_events_exceptions_nolistenersforevent_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_7$$9, "__construct", NULL, 0, &eventType_zv);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_7$$9, "phalcon/Events/Manager.zep", 458);
+			zephir_throw_exception_debug(&_7$$9, "phalcon/Events/Manager.zep", 460);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -1039,9 +1041,9 @@ PHP_METHOD(Phalcon_Events_Manager, fire)
 	zephir_read_property_cached(&_8, this_ptr, _zephir_prop_5, 758, PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_fetch(&cached, &_8, &eventType_zv, 0)) {
 		zephir_memory_observe(&type);
-		zephir_array_fetch_long(&type, &cached, 0, PH_NOISY, "phalcon/Events/Manager.zep", 468);
+		zephir_array_fetch_long(&type, &cached, 0, PH_NOISY, "phalcon/Events/Manager.zep", 470);
 		zephir_memory_observe(&eventName);
-		zephir_array_fetch_long(&eventName, &cached, 1, PH_NOISY, "phalcon/Events/Manager.zep", 469);
+		zephir_array_fetch_long(&eventName, &cached, 1, PH_NOISY, "phalcon/Events/Manager.zep", 471);
 	} else {
 		ZEPHIR_INIT_VAR(&_9$$11);
 		ZVAL_STRING(&_9$$11, ":");
@@ -1052,7 +1054,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire)
 			object_init_ex(&_10$$12, phalcon_events_exceptions_invalideventtype_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_10$$12, "__construct", NULL, 0, &eventType_zv);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_10$$12, "phalcon/Events/Manager.zep", 474);
+			zephir_throw_exception_debug(&_10$$12, "phalcon/Events/Manager.zep", 476);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -1083,7 +1085,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire)
 			object_init_ex(&_18$$14, phalcon_events_exceptions_nolistenersforevent_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_18$$14, "__construct", NULL, 0, &eventType_zv);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_18$$14, "phalcon/Events/Manager.zep", 491);
+			zephir_throw_exception_debug(&_18$$14, "phalcon/Events/Manager.zep", 493);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -1122,7 +1124,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire)
 		if (hasTypeQueue) {
 			zephir_read_property_cached(&_22$$18, this_ptr, _zephir_prop_3, 752, PH_NOISY_CC | PH_READONLY);
 			zephir_memory_observe(&fireEvents);
-			zephir_array_fetch(&fireEvents, &_22$$18, &type, PH_NOISY, "phalcon/Events/Manager.zep", 521);
+			zephir_array_fetch(&fireEvents, &_22$$18, &type, PH_NOISY, "phalcon/Events/Manager.zep", 523);
 			if (cancelable) {
 				ZVAL_BOOL(&_23$$18, 1);
 			} else {
@@ -1165,7 +1167,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire)
 		if (_28$$17) {
 			zephir_read_property_cached(&_32$$19, this_ptr, _zephir_prop_3, 752, PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_OBS_NVAR(&fireEvents);
-			zephir_array_fetch(&fireEvents, &_32$$19, &eventType_zv, PH_NOISY, "phalcon/Events/Manager.zep", 543);
+			zephir_array_fetch(&fireEvents, &_32$$19, &eventType_zv, PH_NOISY, "phalcon/Events/Manager.zep", 545);
 			if (cancelable) {
 				ZVAL_BOOL(&_33$$19, 1);
 			} else {
@@ -1197,7 +1199,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire)
 				zephir_update_property_zval_cached(this_ptr, _zephir_prop_8, 760, &stashed);
 			}
 			zephir_update_property_zval_cached(this_ptr, _zephir_prop_6, 759, &wasDepth);
-			zephir_throw_exception_debug(&ex, "phalcon/Events/Manager.zep", 561);
+			zephir_throw_exception_debug(&ex, "phalcon/Events/Manager.zep", 563);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -1357,7 +1359,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireAll)
 			object_init_ex(&_3$$5, phalcon_events_exceptions_nolistenersforevent_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", NULL, 0, &eventType_zv);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_3$$5, "phalcon/Events/Manager.zep", 608);
+			zephir_throw_exception_debug(&_3$$5, "phalcon/Events/Manager.zep", 610);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -1368,9 +1370,9 @@ PHP_METHOD(Phalcon_Events_Manager, fireAll)
 	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_3, 758, PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_fetch(&cached, &_4, &eventType_zv, 0)) {
 		zephir_memory_observe(&type);
-		zephir_array_fetch_long(&type, &cached, 0, PH_NOISY, "phalcon/Events/Manager.zep", 615);
+		zephir_array_fetch_long(&type, &cached, 0, PH_NOISY, "phalcon/Events/Manager.zep", 617);
 		zephir_memory_observe(&eventName);
-		zephir_array_fetch_long(&eventName, &cached, 1, PH_NOISY, "phalcon/Events/Manager.zep", 616);
+		zephir_array_fetch_long(&eventName, &cached, 1, PH_NOISY, "phalcon/Events/Manager.zep", 618);
 	} else {
 		ZEPHIR_INIT_VAR(&_5$$7);
 		ZVAL_STRING(&_5$$7, ":");
@@ -1381,7 +1383,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireAll)
 			object_init_ex(&_6$$8, phalcon_events_exceptions_invalideventtype_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_6$$8, "__construct", NULL, 0, &eventType_zv);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_6$$8, "phalcon/Events/Manager.zep", 621);
+			zephir_throw_exception_debug(&_6$$8, "phalcon/Events/Manager.zep", 623);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -1412,7 +1414,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireAll)
 			object_init_ex(&_14$$10, phalcon_events_exceptions_nolistenersforevent_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_14$$10, "__construct", NULL, 0, &eventType_zv);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_14$$10, "phalcon/Events/Manager.zep", 635);
+			zephir_throw_exception_debug(&_14$$10, "phalcon/Events/Manager.zep", 637);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -1446,7 +1448,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireAll)
 		if (hasTypeQueue) {
 			zephir_read_property_cached(&_18$$12, this_ptr, _zephir_prop_1, 752, PH_NOISY_CC | PH_READONLY);
 			zephir_memory_observe(&fireEvents);
-			zephir_array_fetch(&fireEvents, &_18$$12, &type, PH_NOISY, "phalcon/Events/Manager.zep", 653);
+			zephir_array_fetch(&fireEvents, &_18$$12, &type, PH_NOISY, "phalcon/Events/Manager.zep", 655);
 			zephir_read_property_cached(&_19$$12, this_ptr, _zephir_prop_6, 754, PH_NOISY_CC | PH_READONLY);
 			if (cancelable) {
 				ZVAL_BOOL(&_20$$12, 1);
@@ -1488,7 +1490,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireAll)
 		if (_26$$11) {
 			zephir_read_property_cached(&_30$$13, this_ptr, _zephir_prop_1, 752, PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_OBS_NVAR(&fireEvents);
-			zephir_array_fetch(&fireEvents, &_30$$13, &eventType_zv, PH_NOISY, "phalcon/Events/Manager.zep", 673);
+			zephir_array_fetch(&fireEvents, &_30$$13, &eventType_zv, PH_NOISY, "phalcon/Events/Manager.zep", 675);
 			zephir_read_property_cached(&_31$$13, this_ptr, _zephir_prop_6, 754, PH_NOISY_CC | PH_READONLY);
 			if (cancelable) {
 				ZVAL_BOOL(&_32$$13, 1);
@@ -1511,7 +1513,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireAll)
 			ZEPHIR_CPY_WRT(&ex, &_34);
 			zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 760, &stashed);
 			zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 759, &wasDepth);
-			zephir_throw_exception_debug(&ex, "phalcon/Events/Manager.zep", 688);
+			zephir_throw_exception_debug(&ex, "phalcon/Events/Manager.zep", 690);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -1637,7 +1639,7 @@ PHP_METHOD(Phalcon_Events_Manager, getListenerMap)
 	} else {
 		_2 = &_0;
 	}
-	zephir_is_iterable(_2, 0, "phalcon/Events/Manager.zep", 750);
+	zephir_is_iterable(_2, 0, "phalcon/Events/Manager.zep", 752);
 	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_2), _4)
 	{
 		ZEPHIR_INIT_NVAR(&type);
@@ -1698,15 +1700,15 @@ PHP_METHOD(Phalcon_Events_Manager, getListeners)
 		} else {
 			_1$$3 = &queue;
 		}
-		zephir_is_iterable(_1$$3, 0, "phalcon/Events/Manager.zep", 769);
+		zephir_is_iterable(_1$$3, 0, "phalcon/Events/Manager.zep", 771);
 		if (Z_TYPE_P(_1$$3) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_1$$3), _3$$3)
 			{
 				ZEPHIR_INIT_NVAR(&existing);
 				ZVAL_COPY(&existing, _3$$3);
 				ZEPHIR_OBS_NVAR(&_4$$4);
-				zephir_array_fetch_long(&_4$$4, &existing, 0, PH_NOISY, "phalcon/Events/Manager.zep", 767);
-				zephir_array_append(&listeners, &_4$$4, PH_SEPARATE, "phalcon/Events/Manager.zep", 767);
+				zephir_array_fetch_long(&_4$$4, &existing, 0, PH_NOISY, "phalcon/Events/Manager.zep", 769);
+				zephir_array_append(&listeners, &_4$$4, PH_SEPARATE, "phalcon/Events/Manager.zep", 769);
 			} ZEND_HASH_FOREACH_END();
 		} else {
 			ZEPHIR_CALL_METHOD(NULL, _1$$3, "rewind", NULL, 0);
@@ -1727,8 +1729,8 @@ PHP_METHOD(Phalcon_Events_Manager, getListeners)
 				ZEPHIR_CALL_METHOD(&existing, _1$$3, "current", NULL, 0);
 				zephir_check_call_status();
 					ZEPHIR_OBS_NVAR(&_7$$5);
-					zephir_array_fetch_long(&_7$$5, &existing, 0, PH_NOISY, "phalcon/Events/Manager.zep", 767);
-					zephir_array_append(&listeners, &_7$$5, PH_SEPARATE, "phalcon/Events/Manager.zep", 767);
+					zephir_array_fetch_long(&_7$$5, &existing, 0, PH_NOISY, "phalcon/Events/Manager.zep", 769);
+					zephir_array_append(&listeners, &_7$$5, PH_SEPARATE, "phalcon/Events/Manager.zep", 769);
 			}
 		}
 		ZEPHIR_INIT_NVAR(&existing);
@@ -1962,7 +1964,7 @@ PHP_METHOD(Phalcon_Events_Manager, removeSubscriber)
 	} else {
 		_3 = &events;
 	}
-	zephir_is_iterable(_3, 0, "phalcon/Events/Manager.zep", 902);
+	zephir_is_iterable(_3, 0, "phalcon/Events/Manager.zep", 904);
 	if (Z_TYPE_P(_3) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_3), _6, _7, _5)
 		{
@@ -2332,7 +2334,7 @@ PHP_METHOD(Phalcon_Events_Manager, insertHandlerEntry)
 		RETURN_MM_NULL();
 	}
 	if (!(zephir_is_true(&prioritiesOn))) {
-		zephir_array_append(&queue, &tuple, PH_SEPARATE, "phalcon/Events/Manager.zep", 1028);
+		zephir_array_append(&queue, &tuple, PH_SEPARATE, "phalcon/Events/Manager.zep", 1030);
 		zephir_update_property_array(this_ptr, SL("events"), &eventType_zv, &queue);
 		RETURN_MM_NULL();
 	}
@@ -2344,7 +2346,7 @@ PHP_METHOD(Phalcon_Events_Manager, insertHandlerEntry)
 	} else {
 		_6 = &queue;
 	}
-	zephir_is_iterable(_6, 0, "phalcon/Events/Manager.zep", 1043);
+	zephir_is_iterable(_6, 0, "phalcon/Events/Manager.zep", 1045);
 	if (Z_TYPE_P(_6) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_6), _9, _10, _8)
 		{
@@ -2357,7 +2359,7 @@ PHP_METHOD(Phalcon_Events_Manager, insertHandlerEntry)
 			ZEPHIR_INIT_NVAR(&existing);
 			ZVAL_COPY(&existing, _8);
 			ZEPHIR_OBS_NVAR(&_11$$8);
-			zephir_array_fetch_long(&_11$$8, &existing, 2, PH_NOISY, "phalcon/Events/Manager.zep", 1037);
+			zephir_array_fetch_long(&_11$$8, &existing, 2, PH_NOISY, "phalcon/Events/Manager.zep", 1039);
 			if (ZEPHIR_LT_LONG(&_11$$8, priority)) {
 				insertAt = zephir_get_numberval(&index);
 				break;
@@ -2384,7 +2386,7 @@ PHP_METHOD(Phalcon_Events_Manager, insertHandlerEntry)
 			ZEPHIR_CALL_METHOD(&existing, _6, "current", NULL, 0);
 			zephir_check_call_status();
 				ZEPHIR_OBS_NVAR(&_14$$10);
-				zephir_array_fetch_long(&_14$$10, &existing, 2, PH_NOISY, "phalcon/Events/Manager.zep", 1037);
+				zephir_array_fetch_long(&_14$$10, &existing, 2, PH_NOISY, "phalcon/Events/Manager.zep", 1039);
 				if (ZEPHIR_LT_LONG(&_14$$10, priority)) {
 					insertAt = zephir_get_numberval(&index);
 					break;
@@ -2394,7 +2396,7 @@ PHP_METHOD(Phalcon_Events_Manager, insertHandlerEntry)
 	ZEPHIR_INIT_NVAR(&existing);
 	ZEPHIR_INIT_NVAR(&index);
 	if (insertAt == -1) {
-		zephir_array_append(&queue, &tuple, PH_SEPARATE, "phalcon/Events/Manager.zep", 1044);
+		zephir_array_append(&queue, &tuple, PH_SEPARATE, "phalcon/Events/Manager.zep", 1046);
 		zephir_update_property_array(this_ptr, SL("events"), &eventType_zv, &queue);
 		RETURN_MM_NULL();
 	}
@@ -2490,7 +2492,7 @@ PHP_METHOD(Phalcon_Events_Manager, processSubscriberEntry)
 		object_init_ex(&_4$$6, phalcon_events_exceptions_invalidsubscriberconfiguration_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_4$$6, "__construct", NULL, 0, &eventName_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$6, "phalcon/Events/Manager.zep", 1083);
+		zephir_throw_exception_debug(&_4$$6, "phalcon/Events/Manager.zep", 1085);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -2500,7 +2502,7 @@ PHP_METHOD(Phalcon_Events_Manager, processSubscriberEntry)
 		object_init_ex(&_5$$7, phalcon_events_exceptions_invalidsubscriberconfiguration_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_5$$7, "__construct", NULL, 0, &eventName_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_5$$7, "phalcon/Events/Manager.zep", 1087);
+		zephir_throw_exception_debug(&_5$$7, "phalcon/Events/Manager.zep", 1089);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -2510,7 +2512,7 @@ PHP_METHOD(Phalcon_Events_Manager, processSubscriberEntry)
 		ZVAL_LONG(&priority, 100);
 		if (zephir_array_isset_value_long(params, 1)) {
 			ZEPHIR_OBS_NVAR(&priority);
-			zephir_array_fetch_long(&priority, params, 1, PH_NOISY, "phalcon/Events/Manager.zep", 1095);
+			zephir_array_fetch_long(&priority, params, 1, PH_NOISY, "phalcon/Events/Manager.zep", 1097);
 		}
 		if (detaching) {
 			ZEPHIR_INIT_VAR(&_6$$10);
@@ -2538,19 +2540,19 @@ PHP_METHOD(Phalcon_Events_Manager, processSubscriberEntry)
 		} else {
 			_9$$12 = params;
 		}
-		zephir_is_iterable(_9$$12, 0, "phalcon/Events/Manager.zep", 1133);
+		zephir_is_iterable(_9$$12, 0, "phalcon/Events/Manager.zep", 1135);
 		if (Z_TYPE_P(_9$$12) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_9$$12), _11$$12)
 			{
 				ZEPHIR_INIT_NVAR(&listener);
 				ZVAL_COPY(&listener, _11$$12);
 				ZEPHIR_OBS_NVAR(&methodName);
-				zephir_array_fetch_long(&methodName, &listener, 0, PH_NOISY, "phalcon/Events/Manager.zep", 1114);
+				zephir_array_fetch_long(&methodName, &listener, 0, PH_NOISY, "phalcon/Events/Manager.zep", 1116);
 				ZEPHIR_INIT_NVAR(&priority);
 				ZVAL_LONG(&priority, 100);
 				if (zephir_array_isset_value_long(&listener, 1)) {
 					ZEPHIR_OBS_NVAR(&priority);
-					zephir_array_fetch_long(&priority, &listener, 1, PH_NOISY, "phalcon/Events/Manager.zep", 1118);
+					zephir_array_fetch_long(&priority, &listener, 1, PH_NOISY, "phalcon/Events/Manager.zep", 1120);
 				}
 				if (detaching) {
 					ZEPHIR_INIT_NVAR(&_12$$15);
@@ -2588,12 +2590,12 @@ PHP_METHOD(Phalcon_Events_Manager, processSubscriberEntry)
 				ZEPHIR_CALL_METHOD(&listener, _9$$12, "current", NULL, 0);
 				zephir_check_call_status();
 					ZEPHIR_OBS_NVAR(&methodName);
-					zephir_array_fetch_long(&methodName, &listener, 0, PH_NOISY, "phalcon/Events/Manager.zep", 1114);
+					zephir_array_fetch_long(&methodName, &listener, 0, PH_NOISY, "phalcon/Events/Manager.zep", 1116);
 					ZEPHIR_INIT_NVAR(&priority);
 					ZVAL_LONG(&priority, 100);
 					if (zephir_array_isset_value_long(&listener, 1)) {
 						ZEPHIR_OBS_NVAR(&priority);
-						zephir_array_fetch_long(&priority, &listener, 1, PH_NOISY, "phalcon/Events/Manager.zep", 1118);
+						zephir_array_fetch_long(&priority, &listener, 1, PH_NOISY, "phalcon/Events/Manager.zep", 1120);
 					}
 					if (detaching) {
 						ZEPHIR_INIT_NVAR(&_17$$19);
@@ -2620,7 +2622,7 @@ PHP_METHOD(Phalcon_Events_Manager, processSubscriberEntry)
 	object_init_ex(&_20, phalcon_events_exceptions_invalidsubscriberconfiguration_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_20, "__construct", NULL, 0, &eventName_zv);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_20, "phalcon/Events/Manager.zep", 1136);
+	zephir_throw_exception_debug(&_20, "phalcon/Events/Manager.zep", 1138);
 	ZEPHIR_MM_RESTORE();
 	return;
 }
@@ -2681,24 +2683,24 @@ PHP_METHOD(Phalcon_Events_Manager, runObjectQueue)
 	ZVAL_NULL(&status);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 751, PH_NOISY_CC | PH_READONLY);
 	collect = zephir_is_true(&_0);
-	zephir_is_iterable(&queue, 0, "phalcon/Events/Manager.zep", 1193);
+	zephir_is_iterable(&queue, 0, "phalcon/Events/Manager.zep", 1195);
 	if (Z_TYPE_P(&queue) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&queue), _1)
 		{
 			ZEPHIR_INIT_NVAR(&tuple);
 			ZVAL_COPY(&tuple, _1);
 			ZEPHIR_OBS_NVAR(&handler);
-			zephir_array_fetch_long(&handler, &tuple, 0, PH_NOISY, "phalcon/Events/Manager.zep", 1161);
+			zephir_array_fetch_long(&handler, &tuple, 0, PH_NOISY, "phalcon/Events/Manager.zep", 1163);
 			ZEPHIR_OBS_NVAR(&type);
-			zephir_array_fetch_long(&type, &tuple, 1, PH_NOISY, "phalcon/Events/Manager.zep", 1162);
+			zephir_array_fetch_long(&type, &tuple, 1, PH_NOISY, "phalcon/Events/Manager.zep", 1164);
 			if (ZEPHIR_IS_LONG(&type, 0)) {
 				ZEPHIR_CALL_ZVAL_FUNCTION(&ret, &handler, NULL, 0, event);
 				zephir_check_call_status();
 			} else if (ZEPHIR_IS_LONG(&type, 1)) {
 				ZEPHIR_OBS_NVAR(&handlerObject);
-				zephir_array_fetch_long(&handlerObject, &handler, 0, PH_NOISY, "phalcon/Events/Manager.zep", 1167);
+				zephir_array_fetch_long(&handlerObject, &handler, 0, PH_NOISY, "phalcon/Events/Manager.zep", 1169);
 				ZEPHIR_OBS_NVAR(&handlerCallable);
-				zephir_array_fetch_long(&handlerCallable, &handler, 1, PH_NOISY, "phalcon/Events/Manager.zep", 1168);
+				zephir_array_fetch_long(&handlerCallable, &handler, 1, PH_NOISY, "phalcon/Events/Manager.zep", 1170);
 				ZEPHIR_CALL_METHOD_ZVAL(&ret, &handlerObject, &handlerCallable, NULL, 0, event);
 				zephir_check_call_status();
 			} else if (ZEPHIR_IS_LONG(&type, 3)) {
@@ -2752,17 +2754,17 @@ PHP_METHOD(Phalcon_Events_Manager, runObjectQueue)
 			ZEPHIR_CALL_METHOD(&tuple, &queue, "current", NULL, 0);
 			zephir_check_call_status();
 				ZEPHIR_OBS_NVAR(&handler);
-				zephir_array_fetch_long(&handler, &tuple, 0, PH_NOISY, "phalcon/Events/Manager.zep", 1161);
+				zephir_array_fetch_long(&handler, &tuple, 0, PH_NOISY, "phalcon/Events/Manager.zep", 1163);
 				ZEPHIR_OBS_NVAR(&type);
-				zephir_array_fetch_long(&type, &tuple, 1, PH_NOISY, "phalcon/Events/Manager.zep", 1162);
+				zephir_array_fetch_long(&type, &tuple, 1, PH_NOISY, "phalcon/Events/Manager.zep", 1164);
 				if (ZEPHIR_IS_LONG(&type, 0)) {
 					ZEPHIR_CALL_ZVAL_FUNCTION(&ret, &handler, NULL, 0, event);
 					zephir_check_call_status();
 				} else if (ZEPHIR_IS_LONG(&type, 1)) {
 					ZEPHIR_OBS_NVAR(&handlerObject);
-					zephir_array_fetch_long(&handlerObject, &handler, 0, PH_NOISY, "phalcon/Events/Manager.zep", 1167);
+					zephir_array_fetch_long(&handlerObject, &handler, 0, PH_NOISY, "phalcon/Events/Manager.zep", 1169);
 					ZEPHIR_OBS_NVAR(&handlerCallable);
-					zephir_array_fetch_long(&handlerCallable, &handler, 1, PH_NOISY, "phalcon/Events/Manager.zep", 1168);
+					zephir_array_fetch_long(&handlerCallable, &handler, 1, PH_NOISY, "phalcon/Events/Manager.zep", 1170);
 					ZEPHIR_CALL_METHOD_ZVAL(&ret, &handlerObject, &handlerCallable, NULL, 0, event);
 					zephir_check_call_status();
 				} else if (ZEPHIR_IS_LONG(&type, 3)) {
@@ -2929,27 +2931,27 @@ PHP_METHOD(Phalcon_Events_Manager, runQueue)
 	queueSize = zephir_fast_count_int(&queue);
 	if (queueSize == 1) {
 		zephir_memory_observe(&tuple);
-		zephir_array_fetch_long(&tuple, &queue, 0, PH_NOISY, "phalcon/Events/Manager.zep", 1245);
+		zephir_array_fetch_long(&tuple, &queue, 0, PH_NOISY, "phalcon/Events/Manager.zep", 1247);
 		zephir_memory_observe(&handler);
-		zephir_array_fetch_long(&handler, &tuple, 0, PH_NOISY, "phalcon/Events/Manager.zep", 1246);
+		zephir_array_fetch_long(&handler, &tuple, 0, PH_NOISY, "phalcon/Events/Manager.zep", 1248);
 		zephir_memory_observe(&type);
-		zephir_array_fetch_long(&type, &tuple, 1, PH_NOISY, "phalcon/Events/Manager.zep", 1247);
+		zephir_array_fetch_long(&type, &tuple, 1, PH_NOISY, "phalcon/Events/Manager.zep", 1249);
 		if (ZEPHIR_IS_LONG(&type, 0)) {
 			ZEPHIR_CALL_ZVAL_FUNCTION(&ret, &handler, NULL, 0, event, source, data);
 			zephir_check_call_status();
 		} else if (ZEPHIR_IS_LONG(&type, 1)) {
 			zephir_memory_observe(&handlerObject);
-			zephir_array_fetch_long(&handlerObject, &handler, 0, PH_NOISY, "phalcon/Events/Manager.zep", 1252);
+			zephir_array_fetch_long(&handlerObject, &handler, 0, PH_NOISY, "phalcon/Events/Manager.zep", 1254);
 			zephir_memory_observe(&handlerCallable);
-			zephir_array_fetch_long(&handlerCallable, &handler, 1, PH_NOISY, "phalcon/Events/Manager.zep", 1253);
+			zephir_array_fetch_long(&handlerCallable, &handler, 1, PH_NOISY, "phalcon/Events/Manager.zep", 1255);
 			ZEPHIR_CALL_METHOD_ZVAL(&ret, &handlerObject, &handlerCallable, NULL, 0, event, source, data);
 			zephir_check_call_status();
 		} else if (ZEPHIR_IS_LONG(&type, 2)) {
 			zephir_memory_observe(&handlerClass);
-			zephir_array_fetch_long(&handlerClass, &tuple, 3, PH_NOISY, "phalcon/Events/Manager.zep", 1256);
+			zephir_array_fetch_long(&handlerClass, &tuple, 3, PH_NOISY, "phalcon/Events/Manager.zep", 1258);
 			zephir_read_property_cached(&_0$$6, this_ptr, _zephir_prop_0, 762, PH_NOISY_CC | PH_READONLY);
 			zephir_memory_observe(&_1$$6);
-			zephir_array_fetch(&_1$$6, &_0$$6, &handlerClass, 0, "phalcon/Events/Manager.zep", 1258);
+			zephir_array_fetch(&_1$$6, &_0$$6, &handlerClass, 0, "phalcon/Events/Manager.zep", 1260);
 			if (!(zephir_array_isset_value(&_1$$6, &eventName_zv))) {
 				zephir_read_property_cached(&_2$$7, this_ptr, _zephir_prop_0, 762, PH_NOISY_CC | PH_READONLY);
 				_3$$7 = !(zephir_array_isset_value(&_2$$7, &handlerClass));
@@ -2974,9 +2976,9 @@ PHP_METHOD(Phalcon_Events_Manager, runQueue)
 			}
 			zephir_read_property_cached(&_10$$6, this_ptr, _zephir_prop_0, 762, PH_NOISY_CC | PH_READONLY);
 			zephir_memory_observe(&_11$$6);
-			zephir_array_fetch(&_11$$6, &_10$$6, &handlerClass, PH_NOISY, "phalcon/Events/Manager.zep", 1267);
+			zephir_array_fetch(&_11$$6, &_10$$6, &handlerClass, PH_NOISY, "phalcon/Events/Manager.zep", 1269);
 			zephir_memory_observe(&_12$$6);
-			zephir_array_fetch(&_12$$6, &_11$$6, &eventName_zv, PH_NOISY, "phalcon/Events/Manager.zep", 1267);
+			zephir_array_fetch(&_12$$6, &_11$$6, &eventName_zv, PH_NOISY, "phalcon/Events/Manager.zep", 1269);
 			if (!(zephir_is_true(&_12$$6))) {
 				RETURN_CCTOR(&status);
 			}
@@ -3008,32 +3010,32 @@ PHP_METHOD(Phalcon_Events_Manager, runQueue)
 		}
 		RETURN_CCTOR(&ret);
 	}
-	zephir_is_iterable(&queue, 0, "phalcon/Events/Manager.zep", 1360);
+	zephir_is_iterable(&queue, 0, "phalcon/Events/Manager.zep", 1362);
 	if (Z_TYPE_P(&queue) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&queue), _16)
 		{
 			ZEPHIR_INIT_NVAR(&tuple);
 			ZVAL_COPY(&tuple, _16);
 			ZEPHIR_OBS_NVAR(&handler);
-			zephir_array_fetch_long(&handler, &tuple, 0, PH_NOISY, "phalcon/Events/Manager.zep", 1289);
+			zephir_array_fetch_long(&handler, &tuple, 0, PH_NOISY, "phalcon/Events/Manager.zep", 1291);
 			ZEPHIR_OBS_NVAR(&type);
-			zephir_array_fetch_long(&type, &tuple, 1, PH_NOISY, "phalcon/Events/Manager.zep", 1290);
+			zephir_array_fetch_long(&type, &tuple, 1, PH_NOISY, "phalcon/Events/Manager.zep", 1292);
 			if (ZEPHIR_IS_LONG(&type, 0)) {
 				ZEPHIR_CALL_ZVAL_FUNCTION(&ret, &handler, NULL, 0, event, source, data);
 				zephir_check_call_status();
 			} else if (ZEPHIR_IS_LONG(&type, 1)) {
 				ZEPHIR_OBS_NVAR(&handlerObject);
-				zephir_array_fetch_long(&handlerObject, &handler, 0, PH_NOISY, "phalcon/Events/Manager.zep", 1302);
+				zephir_array_fetch_long(&handlerObject, &handler, 0, PH_NOISY, "phalcon/Events/Manager.zep", 1304);
 				ZEPHIR_OBS_NVAR(&handlerCallable);
-				zephir_array_fetch_long(&handlerCallable, &handler, 1, PH_NOISY, "phalcon/Events/Manager.zep", 1303);
+				zephir_array_fetch_long(&handlerCallable, &handler, 1, PH_NOISY, "phalcon/Events/Manager.zep", 1305);
 				ZEPHIR_CALL_METHOD_ZVAL(&ret, &handlerObject, &handlerCallable, NULL, 0, event, source, data);
 				zephir_check_call_status();
 			} else if (ZEPHIR_IS_LONG(&type, 2)) {
 				ZEPHIR_OBS_NVAR(&handlerClass);
-				zephir_array_fetch_long(&handlerClass, &tuple, 3, PH_NOISY, "phalcon/Events/Manager.zep", 1310);
+				zephir_array_fetch_long(&handlerClass, &tuple, 3, PH_NOISY, "phalcon/Events/Manager.zep", 1312);
 				zephir_read_property_cached(&_17$$16, this_ptr, _zephir_prop_0, 762, PH_NOISY_CC | PH_READONLY);
 				ZEPHIR_OBS_NVAR(&_18$$16);
-				zephir_array_fetch(&_18$$16, &_17$$16, &handlerClass, 0, "phalcon/Events/Manager.zep", 1312);
+				zephir_array_fetch(&_18$$16, &_17$$16, &handlerClass, 0, "phalcon/Events/Manager.zep", 1314);
 				if (!(zephir_array_isset_value(&_18$$16, &eventName_zv))) {
 					zephir_read_property_cached(&_19$$17, this_ptr, _zephir_prop_0, 762, PH_NOISY_CC | PH_READONLY);
 					_20$$17 = !(zephir_array_isset_value(&_19$$17, &handlerClass));
@@ -3058,9 +3060,9 @@ PHP_METHOD(Phalcon_Events_Manager, runQueue)
 				}
 				zephir_read_property_cached(&_27$$16, this_ptr, _zephir_prop_0, 762, PH_NOISY_CC | PH_READONLY);
 				ZEPHIR_OBS_NVAR(&_28$$16);
-				zephir_array_fetch(&_28$$16, &_27$$16, &handlerClass, PH_NOISY, "phalcon/Events/Manager.zep", 1321);
+				zephir_array_fetch(&_28$$16, &_27$$16, &handlerClass, PH_NOISY, "phalcon/Events/Manager.zep", 1323);
 				ZEPHIR_OBS_NVAR(&_29$$16);
-				zephir_array_fetch(&_29$$16, &_28$$16, &eventName_zv, PH_NOISY, "phalcon/Events/Manager.zep", 1321);
+				zephir_array_fetch(&_29$$16, &_28$$16, &eventName_zv, PH_NOISY, "phalcon/Events/Manager.zep", 1323);
 				if (!(zephir_is_true(&_29$$16))) {
 					continue;
 				}
@@ -3122,25 +3124,25 @@ PHP_METHOD(Phalcon_Events_Manager, runQueue)
 			ZEPHIR_CALL_METHOD(&tuple, &queue, "current", NULL, 0);
 			zephir_check_call_status();
 				ZEPHIR_OBS_NVAR(&handler);
-				zephir_array_fetch_long(&handler, &tuple, 0, PH_NOISY, "phalcon/Events/Manager.zep", 1289);
+				zephir_array_fetch_long(&handler, &tuple, 0, PH_NOISY, "phalcon/Events/Manager.zep", 1291);
 				ZEPHIR_OBS_NVAR(&type);
-				zephir_array_fetch_long(&type, &tuple, 1, PH_NOISY, "phalcon/Events/Manager.zep", 1290);
+				zephir_array_fetch_long(&type, &tuple, 1, PH_NOISY, "phalcon/Events/Manager.zep", 1292);
 				if (ZEPHIR_IS_LONG(&type, 0)) {
 					ZEPHIR_CALL_ZVAL_FUNCTION(&ret, &handler, NULL, 0, event, source, data);
 					zephir_check_call_status();
 				} else if (ZEPHIR_IS_LONG(&type, 1)) {
 					ZEPHIR_OBS_NVAR(&handlerObject);
-					zephir_array_fetch_long(&handlerObject, &handler, 0, PH_NOISY, "phalcon/Events/Manager.zep", 1302);
+					zephir_array_fetch_long(&handlerObject, &handler, 0, PH_NOISY, "phalcon/Events/Manager.zep", 1304);
 					ZEPHIR_OBS_NVAR(&handlerCallable);
-					zephir_array_fetch_long(&handlerCallable, &handler, 1, PH_NOISY, "phalcon/Events/Manager.zep", 1303);
+					zephir_array_fetch_long(&handlerCallable, &handler, 1, PH_NOISY, "phalcon/Events/Manager.zep", 1305);
 					ZEPHIR_CALL_METHOD_ZVAL(&ret, &handlerObject, &handlerCallable, NULL, 0, event, source, data);
 					zephir_check_call_status();
 				} else if (ZEPHIR_IS_LONG(&type, 2)) {
 					ZEPHIR_OBS_NVAR(&handlerClass);
-					zephir_array_fetch_long(&handlerClass, &tuple, 3, PH_NOISY, "phalcon/Events/Manager.zep", 1310);
+					zephir_array_fetch_long(&handlerClass, &tuple, 3, PH_NOISY, "phalcon/Events/Manager.zep", 1312);
 					zephir_read_property_cached(&_37$$28, this_ptr, _zephir_prop_0, 762, PH_NOISY_CC | PH_READONLY);
 					ZEPHIR_OBS_NVAR(&_38$$28);
-					zephir_array_fetch(&_38$$28, &_37$$28, &handlerClass, 0, "phalcon/Events/Manager.zep", 1312);
+					zephir_array_fetch(&_38$$28, &_37$$28, &handlerClass, 0, "phalcon/Events/Manager.zep", 1314);
 					if (!(zephir_array_isset_value(&_38$$28, &eventName_zv))) {
 						zephir_read_property_cached(&_39$$29, this_ptr, _zephir_prop_0, 762, PH_NOISY_CC | PH_READONLY);
 						_40$$29 = !(zephir_array_isset_value(&_39$$29, &handlerClass));
@@ -3165,9 +3167,9 @@ PHP_METHOD(Phalcon_Events_Manager, runQueue)
 					}
 					zephir_read_property_cached(&_47$$28, this_ptr, _zephir_prop_0, 762, PH_NOISY_CC | PH_READONLY);
 					ZEPHIR_OBS_NVAR(&_48$$28);
-					zephir_array_fetch(&_48$$28, &_47$$28, &handlerClass, PH_NOISY, "phalcon/Events/Manager.zep", 1321);
+					zephir_array_fetch(&_48$$28, &_47$$28, &handlerClass, PH_NOISY, "phalcon/Events/Manager.zep", 1323);
 					ZEPHIR_OBS_NVAR(&_49$$28);
-					zephir_array_fetch(&_49$$28, &_48$$28, &eventName_zv, PH_NOISY, "phalcon/Events/Manager.zep", 1321);
+					zephir_array_fetch(&_49$$28, &_48$$28, &eventName_zv, PH_NOISY, "phalcon/Events/Manager.zep", 1323);
 					if (!(zephir_is_true(&_49$$28))) {
 						continue;
 					}
