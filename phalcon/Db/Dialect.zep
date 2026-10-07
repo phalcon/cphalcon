@@ -88,7 +88,7 @@ abstract class Dialect implements DialectInterface
      */
     final public function escape(string str, string escapeChar = null) -> string
     {
-        var parts, key, part, newParts;
+        var parts, key, part, newParts, trimmed;
 
         if !Settings::get("db.escape_identifiers") {
             return str;
@@ -106,7 +106,25 @@ abstract class Dialect implements DialectInterface
             return str;
         }
 
-        let parts = (array) explode(".", trim(str, escapeChar));
+        let trimmed = trim(str, escapeChar);
+
+        /**
+         * A name with no escape character, no "*" and no empty part: put the
+         * escape character on the two sides of each part with one
+         * str_replace(). The result is the same as the result of the loop
+         * below, and no array is necessary.
+         */
+        if escapeChar != "" &&
+            trimmed !== "" &&
+            !memstr(trimmed, escapeChar) &&
+            !memstr(trimmed, "*") &&
+            !memstr(trimmed, "..") &&
+            !starts_with(trimmed, ".") &&
+            !ends_with(trimmed, ".") {
+            return escapeChar . str_replace(".", escapeChar . "." . escapeChar, trimmed) . escapeChar;
+        }
+
+        let parts = (array) explode(".", trimmed);
 
         let newParts = parts;
 
