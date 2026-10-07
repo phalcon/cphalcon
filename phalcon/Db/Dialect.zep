@@ -214,7 +214,7 @@ abstract class Dialect implements DialectInterface
      */
     final public function getSqlColumn(var column, string escapeChar = null,  array bindCounts = []) -> string
     {
-        var columnExpression, columnAlias, columnField, columnDomain;
+        var columnExpression, columnAlias, columnField, columnDomain, columnSql;
 
         if typeof column !== "array" {
             return this->prepareQualified(column, null, escapeChar);
@@ -236,10 +236,34 @@ abstract class Dialect implements DialectInterface
                     "type": "all"
                 ];
             } else {
-                let columnExpression = [
-                    "type": "qualified",
-                    "name": columnField
-                ];
+                /**
+                 * A plain column. prepareQualified() gives the same SQL as
+                 * getSqlExpression() for a "qualified" expression. Thus, no
+                 * expression array is necessary.
+                 *
+                 * The index "1" is the domain column. An empty domain is no
+                 * domain.
+                 */
+                fetch columnDomain, column[1];
+
+                if columnDomain === "" {
+                    let columnDomain = null;
+                }
+
+                let columnSql = this->prepareQualified(
+                    columnField,
+                    columnDomain,
+                    escapeChar
+                );
+
+                /**
+                 * The index "2" is the column alias
+                 */
+                if fetch columnAlias, column[2] && columnAlias {
+                    return this->prepareColumnAlias(columnSql, columnAlias, escapeChar);
+                }
+
+                return this->prepareColumnAlias(columnSql, null, escapeChar);
             }
 
             /**
@@ -262,7 +286,7 @@ abstract class Dialect implements DialectInterface
         /**
          * Resolve column expressions
          */
-        let column = this->getSqlExpression(
+        let columnSql = this->getSqlExpression(
             columnExpression,
             escapeChar,
             bindCounts
@@ -272,10 +296,10 @@ abstract class Dialect implements DialectInterface
          * Escape alias and concatenate to value SQL
          */
         if fetch columnAlias, columnExpression["sqlAlias"] || fetch columnAlias, columnExpression["alias"] {
-            return this->prepareColumnAlias(column, columnAlias, escapeChar);
+            return this->prepareColumnAlias(columnSql, columnAlias, escapeChar);
         }
 
-        return this->prepareColumnAlias(column, null, escapeChar);
+        return this->prepareColumnAlias(columnSql, null, escapeChar);
     }
 
     /**
