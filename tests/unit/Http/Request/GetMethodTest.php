@@ -35,6 +35,23 @@ final class GetMethodTest extends AbstractHttpBase
     }
 
     /**
+     * An empty $_SERVER gives the default method.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-06
+     */
+    public function testHttpRequestGetMethodEmptyServer(): void
+    {
+        $_SERVER = [];
+
+        $request = $this->getRequestObject();
+
+        $expected = Http::METHOD_GET;
+        $actual   = $request->getMethod();
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-17
      */
@@ -78,6 +95,23 @@ final class GetMethodTest extends AbstractHttpBase
         $request->setHttpMethodParameterOverride(true);
 
         $expected = Http::METHOD_CONNECT;
+        $actual   = $request->getMethod();
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * A lowercase method is returned in uppercase.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-06
+     */
+    public function testHttpRequestGetMethodLowercase(): void
+    {
+        $_SERVER['REQUEST_METHOD'] = 'put';
+
+        $request = $this->getRequestObject();
+
+        $expected = Http::METHOD_PUT;
         $actual   = $request->getMethod();
         $this->assertSame($expected, $actual);
     }

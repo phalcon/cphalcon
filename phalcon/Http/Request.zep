@@ -168,7 +168,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     {
         var password, server, username;
 
-        let server = this->getServerArray();
+        let server = _SERVER;
 
         if !fetch username, server["PHP_AUTH_USER"] {
             return null;
@@ -238,7 +238,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
             forwarded, forwardedIps, reverseForwardedIps, forwardedIp,
             filteredIp;
 
-        let server = this->getServerArray();
+        let server = _SERVER;
 
         fetch address, server["REMOTE_ADDR"];
 
@@ -301,7 +301,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     {
         var contentType, server;
 
-        let server = this->getServerArray();
+        let server = _SERVER;
 
         if !fetch contentType, server["CONTENT_TYPE"] {
             return null;
@@ -321,7 +321,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         var digest, matches, match, server;
         array auth = [];
 
-        let server = this->getServerArray();
+        let server = _SERVER;
 
         if fetch digest, server["PHP_AUTH_DIGEST"] {
             let matches = [];
@@ -458,7 +458,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
             strtr(header, "-", "_")
         );
 
-        let server = this->getServerArray();
+        let server = _SERVER;
 
         if fetch value, server[name] {
             return value;
@@ -499,7 +499,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
             "CONTENT_MD5":    true
         ];
 
-        let server = this->getServerArray();
+        let server = _SERVER;
 
         for name, value in server {
             // Note: The starts_with uses case insensitive search here
@@ -647,7 +647,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     {
         var httpReferer, server;
 
-        let server = this->getServerArray();
+        let server = _SERVER;
 
         if !fetch httpReferer, server["HTTP_REFERER"] {
             return "";
@@ -702,12 +702,14 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
      */
     public function getMethod() -> string
     {
-        var overridedMethod, spoofedMethod, requestMethod, server;
+        var overridedMethod, spoofedMethod, requestMethod;
         string returnMethod = "";
 
-        let server = this->getServerArray();
-
-        if likely fetch requestMethod, server["REQUEST_METHOD"] {
+        /**
+         * Read the key from the superglobal directly, with no copy of the
+         * array.
+         */
+        if likely fetch requestMethod, _SERVER["REQUEST_METHOD"] {
             let returnMethod = strtoupper(requestMethod);
         } else {
             return self::METHOD_GET;
@@ -952,7 +954,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     {
         var serverValue, server;
 
-        let server = this->getServerArray();
+        let server = _SERVER;
 
         if !fetch serverValue, server[name] {
             return null;
@@ -1170,7 +1172,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
     {
         var server;
 
-        let server = this->getServerArray();
+        let server = _SERVER;
 
         return array_key_exists(name, server);
     }
@@ -1736,7 +1738,7 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         array headers = [];
 
         let container = <DiInterface> this->getDI(),
-            server    = this->getServerArray();
+            server    = _SERVER;
 
         // TODO: Make Request implements EventsAwareInterface for v4.0.0
         if container !== null {
@@ -2015,15 +2017,6 @@ class Request extends AbstractInjectionAware implements RequestInterface, Reques
         }
 
         return result;
-    }
-
-    private function getServerArray() -> array
-    {
-        if _SERVER {
-            return _SERVER;
-        }
-
-        return [];
     }
 
     /**
