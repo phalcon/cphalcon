@@ -88,7 +88,7 @@ abstract class Dialect implements DialectInterface
      */
     final public function escape(string str, string escapeChar = null) -> string
     {
-        var parts, key, part, newParts;
+        var parts, key, part, newParts, trimmed;
 
         if !Settings::get("db.escape_identifiers") {
             return str;
@@ -106,7 +106,25 @@ abstract class Dialect implements DialectInterface
             return str;
         }
 
-        let parts = (array) explode(".", trim(str, escapeChar));
+        let trimmed = trim(str, escapeChar);
+
+        /**
+         * A name with no escape character, no "*" and no empty part: put the
+         * escape character on the two sides of each part with one
+         * str_replace(). The result is the same as the result of the loop
+         * below, and no array is necessary.
+         */
+        if escapeChar != "" &&
+            trimmed !== "" &&
+            !memstr(trimmed, escapeChar) &&
+            !memstr(trimmed, "*") &&
+            !memstr(trimmed, "..") &&
+            !starts_with(trimmed, ".") &&
+            !ends_with(trimmed, ".") {
+            return escapeChar . str_replace(".", escapeChar . "." . escapeChar, trimmed) . escapeChar;
+        }
+
+        let parts = (array) explode(".", trimmed);
 
         let newParts = parts;
 
@@ -214,7 +232,8 @@ abstract class Dialect implements DialectInterface
      */
     final public function getSqlColumn(var column, string escapeChar = null,  array bindCounts = []) -> string
     {
-        var columnExpression, columnAlias, columnField, columnDomain;
+        var columnExpression = null,
+            columnAlias, columnField, columnDomain, columnSql;
 
         if typeof column !== "array" {
             return this->prepareQualified(column, null, escapeChar);
@@ -236,10 +255,38 @@ abstract class Dialect implements DialectInterface
                     "type": "all"
                 ];
             } else {
-                let columnExpression = [
-                    "type": "qualified",
-                    "name": columnField
-                ];
+                /**
+                 * A plain column. prepareQualified() gives the same SQL as
+                 * getSqlExpression() for a "qualified" expression. Thus, no
+                 * expression array is necessary.
+                 *
+                 * The index "1" is the domain column. An empty domain is no
+                 * domain.
+                 */
+                fetch columnDomain, column[1];
+
+                if columnDomain === "" {
+                    let columnDomain = null;
+                }
+
+                let columnSql = this->prepareQualified(
+                    columnField,
+                    columnDomain,
+                    escapeChar
+                );
+
+                /**
+                 * The index "2" is the column alias
+                 */
+                if fetch columnAlias, column[2] && columnAlias {
+                    return this->prepareColumnAlias(columnSql, columnAlias, escapeChar);
+                }
+
+                /**
+                 * With no alias, prepareColumnAlias() returns the SQL
+                 * unchanged
+                 */
+                return columnSql;
             }
 
             /**
@@ -262,7 +309,7 @@ abstract class Dialect implements DialectInterface
         /**
          * Resolve column expressions
          */
-        let column = this->getSqlExpression(
+        let columnSql = this->getSqlExpression(
             columnExpression,
             escapeChar,
             bindCounts
@@ -272,10 +319,13 @@ abstract class Dialect implements DialectInterface
          * Escape alias and concatenate to value SQL
          */
         if fetch columnAlias, columnExpression["sqlAlias"] || fetch columnAlias, columnExpression["alias"] {
-            return this->prepareColumnAlias(column, columnAlias, escapeChar);
+            return this->prepareColumnAlias(columnSql, columnAlias, escapeChar);
         }
 
-        return this->prepareColumnAlias(column, null, escapeChar);
+        /**
+         * With no alias, prepareColumnAlias() returns the SQL unchanged
+         */
+        return columnSql;
     }
 
     /**

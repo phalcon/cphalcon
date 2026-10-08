@@ -11,7 +11,7 @@
  *
  * @link    https://github.com/Nyholm/psr7
  * @license https://github.com/Nyholm/psr7/blob/master/LICENSE
- * @link    https://github.com/laminas/laminas-diactoros
+ * @link    https://github.com/zendframework/zend-diactoros
  * @license https://github.com/zendframework/zend-diactoros/blob/master/LICENSE.md
  */
 
