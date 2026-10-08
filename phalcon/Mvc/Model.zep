@@ -643,6 +643,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
                 let this->{property} = null;
 
+                // Use possible setter.
+                this->possibleSetter(property, null);
+
                 return null;
             }
         }

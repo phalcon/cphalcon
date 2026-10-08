@@ -23,6 +23,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 ### Fixed
 
+- `Phalcon\Mvc\Model::__set()` skipping the user-defined setter when `null` is assigned to a relationship alias. [#17662](https://github.com/phalcon/cphalcon/issues/17662)
 - `Phalcon\Mvc\Router::getMatches()` and `Phalcon\Cli\Router::getMatches()` returning the matches of an earlier request after a static-route match or no match. [#17646](https://github.com/phalcon/cphalcon/issues/17646)
 - `Phalcon\Mvc\Router::getMatches()` returning the internal `MARK` key after a combined-regex match. [#17634](https://github.com/phalcon/cphalcon/issues/17634)
 - `Phalcon\Mvc\Router` combined-regex matching changing the meaning of a route pattern with `|` outside a group. [#17645](https://github.com/phalcon/cphalcon/issues/17645)

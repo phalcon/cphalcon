@@ -137,6 +137,28 @@ final class UnderscoreSetTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-08
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17662
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelUnderscoreSetNullRelatedIsUsingSetter(): void
+    {
+        $invoice = new Models\InvoicesBelongsToCustomers();
+
+        $invoice->inv_cst_id = 1;
+
+        // setCustomer(null) also clears the foreign key.
+        $invoice->customer = null;
+
+        $this->assertNull($invoice->customer);
+        $this->assertNull($invoice->inv_cst_id);
+    }
+
+    /**
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-02
      */
