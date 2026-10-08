@@ -232,7 +232,8 @@ abstract class Dialect implements DialectInterface
      */
     final public function getSqlColumn(var column, string escapeChar = null,  array bindCounts = []) -> string
     {
-        var columnExpression, columnAlias, columnField, columnDomain, columnSql;
+        var columnExpression = null,
+            columnAlias, columnField, columnDomain, columnSql;
 
         if typeof column !== "array" {
             return this->prepareQualified(column, null, escapeChar);
@@ -281,7 +282,11 @@ abstract class Dialect implements DialectInterface
                     return this->prepareColumnAlias(columnSql, columnAlias, escapeChar);
                 }
 
-                return this->prepareColumnAlias(columnSql, null, escapeChar);
+                /**
+                 * With no alias, prepareColumnAlias() returns the SQL
+                 * unchanged
+                 */
+                return columnSql;
             }
 
             /**
@@ -317,7 +322,10 @@ abstract class Dialect implements DialectInterface
             return this->prepareColumnAlias(columnSql, columnAlias, escapeChar);
         }
 
-        return this->prepareColumnAlias(columnSql, null, escapeChar);
+        /**
+         * With no alias, prepareColumnAlias() returns the SQL unchanged
+         */
+        return columnSql;
     }
 
     /**

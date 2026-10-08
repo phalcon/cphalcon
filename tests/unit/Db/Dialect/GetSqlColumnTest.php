@@ -62,6 +62,78 @@ final class GetSqlColumnTest extends AbstractUnitTestCase
     }
 
     /**
+     * getSqlColumn() calls prepareColumnAlias() only for a column with an
+     * alias.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-07
+     */
+    public function testDbDialectGetSqlColumnCallsPrepareColumnAliasOnlyWithAlias(): void
+    {
+        $dialect = new class () extends Mysql {
+            public array $aliases = [];
+
+            protected function prepareColumnAlias(
+                string $qualified,
+                ?string $alias = null,
+                ?string $escapeChar = null
+            ): string {
+                $this->aliases[] = $alias;
+
+                return parent::prepareColumnAlias(
+                    $qualified,
+                    $alias,
+                    $escapeChar
+                );
+            }
+        };
+
+        $this->assertSame(
+            '`r`.`name`',
+            $dialect->getSqlColumn(['name', 'r'])
+        );
+        $this->assertSame(
+            '`r`.`name`',
+            $dialect->getSqlColumn(
+                [
+                    'type'   => 'qualified',
+                    'name'   => 'name',
+                    'domain' => 'r',
+                ]
+            )
+        );
+        $this->assertSame([], $dialect->aliases);
+
+        $this->assertSame(
+            '`r`.`name` AS `nick`',
+            $dialect->getSqlColumn(['name', 'r', 'nick'])
+        );
+        $this->assertSame(
+            '`r`.`name` AS `nick`',
+            $dialect->getSqlColumn(
+                [
+                    'type'   => 'qualified',
+                    'name'   => 'name',
+                    'domain' => 'r',
+                    'alias'  => 'nick',
+                ]
+            )
+        );
+        $this->assertSame(
+            '`r`.`name`',
+            $dialect->getSqlColumn(
+                [
+                    'type'   => 'qualified',
+                    'name'   => 'name',
+                    'domain' => 'r',
+                    'alias'  => '',
+                ]
+            )
+        );
+        $this->assertSame(['nick', 'nick', ''], $dialect->aliases);
+    }
+
+    /**
      * For a plain column, getSqlColumn() calls prepareQualified() with the
      * field, the domain (null for an empty domain) and the escape character.
      *
