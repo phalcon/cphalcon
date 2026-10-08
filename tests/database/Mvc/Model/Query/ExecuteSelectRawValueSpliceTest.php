@@ -96,4 +96,57 @@ final class ExecuteSelectRawValueSpliceTest extends AbstractDatabaseTestCase
         $this->assertSame(7, (int) $found->inv_cst_id);
         $this->assertSame('spliced', $found->inv_title);
     }
+
+    /**
+     * Two RawValues with a common prefix (":p:" and ":p1:") are both spliced
+     * inline (the longer name first), so the row is found by the two
+     * values.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-07
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelQueryExecuteSelectRawValueSpliceTwoRawValues(): void
+    {
+        $manager = $this->getService('modelsManager');
+
+        $insert = sprintf(
+            "INSERT INTO [%s] (inv_cst_id, inv_status_flag, inv_title, inv_total) "
+            . "VALUES (:cst_id:, :status:, :title:, :total:)",
+            InvoicesRawValue::class
+        );
+
+        /** @var StatusInterface $status */
+        $status = $manager->executeQuery(
+            $insert,
+            [
+                'cst_id' => 7,
+                'status' => 1,
+                'title'  => 'spliced',
+                'total'  => 10.0,
+            ]
+        );
+        $this->assertTrue($status->success());
+
+        $phql = sprintf(
+            "SELECT * FROM [%s] WHERE inv_status_flag = :p: AND inv_cst_id = :p1:",
+            InvoicesRawValue::class
+        );
+
+        $result = $manager->executeQuery(
+            $phql,
+            [
+                'p'  => new RawValue('1'),
+                'p1' => new RawValue('7'),
+            ]
+        );
+
+        $found = $result->getFirst();
+
+        $this->assertNotNull($found);
+        $this->assertSame(7, (int) $found->inv_cst_id);
+        $this->assertSame('spliced', $found->inv_title);
+    }
 }
