@@ -595,17 +595,20 @@ jobs:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
 
+    # The service images come from mirror.gcr.io, a mirror of Docker Hub.
+    # Docker Hub limits pulls without a login, and the runners share IP
+    # addresses, so the pulls from Docker Hub fail on busy runs.
     services:
       redis:
-        image: redis:8-alpine
+        image: mirror.gcr.io/library/redis:8-alpine
         ports:
           - "6379:6379"
       memcached:
-        image: memcached:1.6-alpine
+        image: mirror.gcr.io/library/memcached:1.6-alpine
         ports:
           - "11211:11211"
       beanstalkd:
-        image: schickling/beanstalkd:latest
+        image: mirror.gcr.io/schickling/beanstalkd:latest
         ports:
           - "11300:11300"
 
@@ -717,7 +720,7 @@ jobs:
 
     services:
       mariadb:
-        image: mariadb:10.6
+        image: mirror.gcr.io/library/mariadb:10.6
         ports:
           - "3306:3306"
         env:
@@ -731,11 +734,11 @@ jobs:
           --health-timeout 5s
           --health-retries 5
       redis:
-        image: redis:8-alpine
+        image: mirror.gcr.io/library/redis:8-alpine
         ports:
           - "6379:6379"
       memcached:
-        image: memcached:1.6-alpine
+        image: mirror.gcr.io/library/memcached:1.6-alpine
         ports:
           - "11211:11211"
 
@@ -823,7 +826,7 @@ jobs:
 
     services:
       mysql:
-        image: mysql:8.0
+        image: mirror.gcr.io/library/mysql:8.0
         ports:
           - "3306:3306"
         env:
@@ -837,11 +840,11 @@ jobs:
           --health-timeout 5s
           --health-retries 5
       redis:
-        image: redis:8-alpine
+        image: mirror.gcr.io/library/redis:8-alpine
         ports:
           - "6379:6379"
       memcached:
-        image: memcached:1.6-alpine
+        image: mirror.gcr.io/library/memcached:1.6-alpine
         ports:
           - "11211:11211"
 
@@ -929,11 +932,11 @@ jobs:
 
     services:
       redis:
-        image: redis:8-alpine
+        image: mirror.gcr.io/library/redis:8-alpine
         ports:
           - "6379:6379"
       memcached:
-        image: memcached:1.6-alpine
+        image: mirror.gcr.io/library/memcached:1.6-alpine
         ports:
           - "11211:11211"
 
@@ -1019,7 +1022,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:18-alpine
+        image: mirror.gcr.io/library/postgres:18-alpine
         ports:
           - "5432:5432"
         env:
@@ -1032,11 +1035,11 @@ jobs:
           --health-timeout 5s
           --health-retries 5
       redis:
-        image: redis:8-alpine
+        image: mirror.gcr.io/library/redis:8-alpine
         ports:
           - "6379:6379"
       memcached:
-        image: memcached:1.6-alpine
+        image: mirror.gcr.io/library/memcached:1.6-alpine
         ports:
           - "11211:11211"
 
