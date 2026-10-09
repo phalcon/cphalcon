@@ -1,0 +1,20 @@
+# Rebuilds the roster in README.md every day from the phalcon/assets roster.
+# The reusable workflow of phalcon/assets does the work. When the roster
+# changed, it opens a pull request "Updating the backers roster" to master.
+# phalcon/assets publishes its roster after 04:17 UTC, so this job runs one
+# hour later.
+name: Update backers
+
+on:
+  schedule:
+    - cron: "17 5 * * *"
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  backers:
+    uses: phalcon/assets/.github/workflows/backers.yml@6730fae1db4ca9bb081bd697f18e0987bffa0862 # master
