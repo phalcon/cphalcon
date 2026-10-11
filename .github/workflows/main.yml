@@ -354,7 +354,7 @@ jobs:
           echo "PIE metadata OK: type=$TYPE, extension-name=$EXT_NAME, build-path=$BUILD_PATH"
 
       - name: Download source artifact
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           name: phalcon-source-php${{ matrix.php }}
           path: ./phalcon-source
@@ -400,7 +400,7 @@ jobs:
           tools: phpize, php-config
 
       - name: Download source artifact
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           name: phalcon-source-php${{ matrix.php }}
           path: ./build/phalcon
@@ -476,7 +476,7 @@ jobs:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download source artifact
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           name: phalcon-source-php${{ matrix.php }}
           path: ./phalcon-source
@@ -663,7 +663,7 @@ jobs:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download compiled Phalcon extension
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           name: phalcon-so-php${{ matrix.php }}-${{ matrix.ts }}-linux-x64
           path: ./phalcon-so
@@ -774,7 +774,7 @@ jobs:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download compiled Phalcon extension
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           name: phalcon-so-php${{ matrix.php }}-nts-linux-x64
           path: ./phalcon-so
@@ -880,7 +880,7 @@ jobs:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download compiled Phalcon extension
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           name: phalcon-so-php${{ matrix.php }}-nts-linux-x64
           path: ./phalcon-so
@@ -972,7 +972,7 @@ jobs:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download compiled Phalcon extension
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           name: phalcon-so-php${{ matrix.php }}-nts-linux-x64
           path: ./phalcon-so
@@ -1075,7 +1075,7 @@ jobs:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download compiled Phalcon extension
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           name: phalcon-so-php${{ matrix.php }}-nts-linux-x64
           path: ./phalcon-so
@@ -1133,7 +1133,7 @@ jobs:
 #          mkdir -p reports
 #
 #      - name: "Download coverage files"
-#        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+#        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
 #        with:
 #          path: reports
 #          pattern: coverage-*
@@ -1249,7 +1249,7 @@ jobs:
 
       - name: Download Phalcon build artifacts
         id: download
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           path: ./build-artifacts
 
@@ -1296,7 +1296,7 @@ jobs:
           token: ${{ github.token }}
 
       - name: Download IDE stubs artifact
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           name: phalcon-ide-stubs
           path: ./ide-stubs
