@@ -142,7 +142,7 @@ jobs:
         run: vendor/bin/phpcbf --standard=resources/phpcs.xml ide/${{ env.PHALCON_VERSION }}/ || true
 
       - name: Upload IDE stubs artifact
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: phalcon-ide-stubs
           path: ide/${{ env.PHALCON_VERSION }}/Phalcon/
@@ -201,7 +201,7 @@ jobs:
           (cd build && php gen-build.php)
 
       - name: Upload compile-errors.log
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         if: failure()
         with:
           name: compile-errors
@@ -223,7 +223,7 @@ jobs:
         run: pecl package-validate phalcon-pecl.tgz
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: 'phalcon-pecl'
           path: phalcon-pecl.tgz
@@ -291,14 +291,14 @@ jobs:
           (cd build && php gen-build.php)
 
       - name: Upload compile-errors.log
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         if: failure()
         with:
           name: compile-errors
           path: compile-errors.log
 
       - name: Upload source artifact
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: phalcon-source-php${{ matrix.php }}
           path: build/phalcon/
@@ -491,7 +491,7 @@ jobs:
 
       - name: Upload compiled Phalcon extension (Linux)
         if: runner.os == 'Linux'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: phalcon-so-php${{ matrix.php }}-${{ matrix.ts }}-linux-${{ matrix.arch }}
           path: ${{ steps.linux-build.outputs.extension-dir }}/phalcon.so
@@ -546,7 +546,7 @@ jobs:
           & 7z a "$TargetName.zip" *
 
       - name: Upload Phalcon Extension Artifact
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: phalcon-php${{ matrix.php }}-${{ matrix.ts }}-${{ matrix.name }}-${{ matrix.arch }}.zip
           path: ./build-artifacts/phalcon*.zip
