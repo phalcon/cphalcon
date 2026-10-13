@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Html_Helper_Body, __invoke)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "body");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderelement", NULL, 0, &_0, &attributes);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderElement", NULL, 0, &_0, &attributes);
 	zephir_check_call_status();
 	RETURN_MM();
 }

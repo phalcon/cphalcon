@@ -59,9 +59,10 @@ PHP_METHOD(Phalcon_Db_Traits_ElapsedTimeTrait, getTotalElapsedMilliseconds)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "gettotalelapsednanoseconds", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getTotalElapsedNanoseconds", NULL, 0);
 	zephir_check_call_status();
-	RETURN_MM_DOUBLE(zephir_safe_div_zval_long(&_0, 1000000));
+	zephir_div_zval_long(return_value, &_0, 1000000);
+	RETURN_MM();
 }
 
 /**
@@ -78,8 +79,9 @@ PHP_METHOD(Phalcon_Db_Traits_ElapsedTimeTrait, getTotalElapsedSeconds)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "gettotalelapsedmilliseconds", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getTotalElapsedMilliseconds", NULL, 0);
 	zephir_check_call_status();
-	RETURN_MM_DOUBLE(zephir_safe_div_zval_long(&_0, 1000));
+	zephir_div_zval_long(return_value, &_0, 1000);
+	RETURN_MM();
 }
 

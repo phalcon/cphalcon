@@ -14,8 +14,10 @@
 #define PHP_PHALCON_VERSION     "5.22.1"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
-#define PHP_PHALCON_ZEPVERSION  "1.5.0-$Id$"
+#define PHP_PHALCON_ZEPVERSION  "1.6.1-$Id$"
 #define PHP_PHALCON_DESCRIPTION "Phalcon is a full stack PHP framework, delivered as a PHP extension, offering lower resource consumption and high performance."
+
+
 
 
 
@@ -29,8 +31,8 @@ typedef struct _zephir_struct_form {
 } zephir_struct_form;
 
 typedef struct _zephir_struct_orm { 
-	HashTable*  ast_cache;
-	int cache_level;
+	HashTable * ast_cache;
+	zend_long cache_level;
 	zend_bool call_setters_on_hydration;
 	zend_bool case_insensitive_column_map;
 	zend_bool cast_last_insert_id_to_int;
@@ -45,10 +47,10 @@ typedef struct _zephir_struct_orm {
 	zend_bool ignore_unknown_columns;
 	zend_bool late_state_binding;
 	zend_bool not_null_validations;
-	HashTable*  parser_cache;
+	HashTable * parser_cache;
 	zend_bool resultset_empty_left_join_model;
 	char * resultset_prefetch_records;
-	int unique_cache_id;
+	zend_long unique_cache_id;
 	zend_bool update_snapshot_on_save;
 	zend_bool virtual_foreign_keys;
 	zend_bool dynamic_update;

@@ -76,13 +76,13 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, __invoke)
 		{
 			ZEPHIR_INIT_NVAR(&element);
 			ZVAL_COPY(&element, _0);
-			ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "processcallable", &_2, 0, &filtered, method, &element);
+			ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "processCallable", &_2, 0, &filtered, method, &element);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&filtered, &_1$$3);
-			ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "processobject", &_3, 0, &filtered, method, &element);
+			ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "processObject", &_3, 0, &filtered, method, &element);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&filtered, &_1$$3);
-			ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "processother", &_4, 0, &filtered, method, &element);
+			ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "processOther", &_4, 0, &filtered, method, &element);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&filtered, &_1$$3);
 		} ZEND_HASH_FOREACH_END();
@@ -104,13 +104,13 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, __invoke)
 			}
 			ZEPHIR_CALL_METHOD(&element, &collection, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_7$$4, this_ptr, "processcallable", &_2, 0, &filtered, method, &element);
+				ZEPHIR_CALL_METHOD(&_7$$4, this_ptr, "processCallable", &_2, 0, &filtered, method, &element);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(&filtered, &_7$$4);
-				ZEPHIR_CALL_METHOD(&_7$$4, this_ptr, "processobject", &_3, 0, &filtered, method, &element);
+				ZEPHIR_CALL_METHOD(&_7$$4, this_ptr, "processObject", &_3, 0, &filtered, method, &element);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(&filtered, &_7$$4);
-				ZEPHIR_CALL_METHOD(&_7$$4, this_ptr, "processother", &_4, 0, &filtered, method, &element);
+				ZEPHIR_CALL_METHOD(&_7$$4, this_ptr, "processOther", &_4, 0, &filtered, method, &element);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(&filtered, &_7$$4);
 		}
@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, isCallable)
 	if (!(_0)) {
 		_1 = Z_TYPE_P(method) == IS_STRING;
 		if (_1) {
-			ZEPHIR_CALL_METHOD(&_2, this_ptr, "phpfunctionexists", NULL, 0, method);
+			ZEPHIR_CALL_METHOD(&_2, this_ptr, "phpFunctionExists", NULL, 0, method);
 			zephir_check_call_status();
 			_1 = ZEPHIR_IS_TRUE_IDENTICAL(&_2);
 		}
@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, processCallable)
 	zephir_fetch_params(1, 3, 0, &filtered_param, &method, &element);
 	zephir_get_arrval(&filtered, filtered_param);
 	ZEPHIR_CPY_WRT(&output, &filtered);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "iscallable", NULL, 0, method);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isCallable", NULL, 0, method);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
 		ZEPHIR_CALL_FUNCTION(&key, "call_user_func", NULL, 82, method, element);
@@ -239,11 +239,11 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, processObject)
 	zephir_fetch_params(1, 3, 0, &filtered_param, &method, &element);
 	zephir_get_arrval(&filtered, filtered_param);
 	ZEPHIR_CPY_WRT(&output, &filtered);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "iscallable", NULL, 0, method);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isCallable", NULL, 0, method);
 	zephir_check_call_status();
 	_1 = !ZEPHIR_IS_TRUE_IDENTICAL(&_0);
 	if (_1) {
-		ZEPHIR_CALL_METHOD(&_2, this_ptr, "isobject", NULL, 0, element);
+		ZEPHIR_CALL_METHOD(&_2, this_ptr, "isObject", NULL, 0, element);
 		zephir_check_call_status();
 		_1 = ZEPHIR_IS_TRUE_IDENTICAL(&_2);
 	}
@@ -289,11 +289,11 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, processOther)
 	zephir_fetch_params(1, 3, 0, &filtered_param, &method, &element);
 	zephir_get_arrval(&filtered, filtered_param);
 	ZEPHIR_CPY_WRT(&output, &filtered);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "iscallable", NULL, 0, method);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isCallable", NULL, 0, method);
 	zephir_check_call_status();
 	_1 = !ZEPHIR_IS_TRUE_IDENTICAL(&_0);
 	if (_1) {
-		ZEPHIR_CALL_METHOD(&_2, this_ptr, "isobject", NULL, 0, element);
+		ZEPHIR_CALL_METHOD(&_2, this_ptr, "isObject", NULL, 0, element);
 		zephir_check_call_status();
 		_1 = !ZEPHIR_IS_TRUE_IDENTICAL(&_2);
 	}

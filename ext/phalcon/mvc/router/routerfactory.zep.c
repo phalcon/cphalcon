@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Mvc_Router_RouterFactory, load)
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZEPHIR_CALL_METHOD(&_1$$3, config, "toarray", NULL, 0);
+		ZEPHIR_CALL_METHOD(&_1$$3, config, "toArray", NULL, 0);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(config, &_1$$3);
 	}
@@ -119,9 +119,9 @@ PHP_METHOD(Phalcon_Mvc_Router_RouterFactory, load)
 	} else {
 		ZVAL_BOOL(&_4, 0);
 	}
-	ZEPHIR_CALL_METHOD(&router, this_ptr, "newinstance", NULL, 0, &_4);
+	ZEPHIR_CALL_METHOD(&router, this_ptr, "newInstance", NULL, 0, &_4);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &router, "loadfromconfig", NULL, 0, config);
+	ZEPHIR_CALL_METHOD(NULL, &router, "loadFromConfig", NULL, 0, config);
 	zephir_check_call_status();
 	RETURN_CCTOR(&router);
 }

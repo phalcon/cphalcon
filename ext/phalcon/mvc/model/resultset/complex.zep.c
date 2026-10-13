@@ -165,7 +165,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __serialize)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_METHOD(&records, this_ptr, "toarray", NULL, 0);
+	ZEPHIR_CALL_METHOD(&records, this_ptr, "toArray", NULL, 0);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1123, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&cache, &_0);
@@ -559,18 +559,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, current)
 							zephir_array_fetch_string(&_28$$23, &column, SL("instance"), PH_NOISY, "phalcon/Mvc/Model/Resultset/Complex.zep", 273);
 							ZVAL_LONG(&_29$$23, dirtyState);
 							_30$$23 = zephir_fetch_class(&modelName);
-							ZEPHIR_CALL_CE_STATIC(&value, _30$$23, "cloneresultmap", NULL, 0, &_28$$23, &rowModel, &columnMap, &_29$$23, &keepSnapshots);
+							ZEPHIR_CALL_CE_STATIC(&value, _30$$23, "cloneResultMap", NULL, 0, &_28$$23, &rowModel, &columnMap, &_29$$23, &keepSnapshots);
 							zephir_check_call_status();
 						} else {
 							ZEPHIR_OBS_NVAR(&_32$$26);
 							zephir_array_fetch_string(&_32$$26, &column, SL("instance"), PH_NOISY, "phalcon/Mvc/Model/Resultset/Complex.zep", 285);
 							ZVAL_LONG(&_33$$26, dirtyState);
-							ZEPHIR_CALL_CE_STATIC(&value, phalcon_mvc_model_ce, "cloneresultmap", &_31, 0, &_32$$26, &rowModel, &columnMap, &_33$$26, &keepSnapshots);
+							ZEPHIR_CALL_CE_STATIC(&value, phalcon_mvc_model_ce, "cloneResultMap", &_31, 0, &_32$$26, &rowModel, &columnMap, &_33$$26, &keepSnapshots);
 							zephir_check_call_status();
 						}
 						goto zephir_switch_1_end;
 					zephir_switch_1_clause_1: ;
-						ZEPHIR_CALL_CE_STATIC(&value, phalcon_mvc_model_ce, "cloneresultmaphydrate", &_34, 0, &rowModel, &columnMap, &hydrateMode);
+						ZEPHIR_CALL_CE_STATIC(&value, phalcon_mvc_model_ce, "cloneResultMapHydrate", &_34, 0, &rowModel, &columnMap, &hydrateMode);
 						zephir_check_call_status();
 						goto zephir_switch_1_end;
 					zephir_switch_1_end: ;
@@ -758,18 +758,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, current)
 								zephir_array_fetch_string(&_56$$48, &column, SL("instance"), PH_NOISY, "phalcon/Mvc/Model/Resultset/Complex.zep", 273);
 								ZVAL_LONG(&_57$$48, dirtyState);
 								_58$$48 = zephir_fetch_class(&modelName);
-								ZEPHIR_CALL_CE_STATIC(&value, _58$$48, "cloneresultmap", NULL, 0, &_56$$48, &rowModel, &columnMap, &_57$$48, &keepSnapshots);
+								ZEPHIR_CALL_CE_STATIC(&value, _58$$48, "cloneResultMap", NULL, 0, &_56$$48, &rowModel, &columnMap, &_57$$48, &keepSnapshots);
 								zephir_check_call_status();
 							} else {
 								ZEPHIR_OBS_NVAR(&_59$$51);
 								zephir_array_fetch_string(&_59$$51, &column, SL("instance"), PH_NOISY, "phalcon/Mvc/Model/Resultset/Complex.zep", 285);
 								ZVAL_LONG(&_60$$51, dirtyState);
-								ZEPHIR_CALL_CE_STATIC(&value, phalcon_mvc_model_ce, "cloneresultmap", &_31, 0, &_59$$51, &rowModel, &columnMap, &_60$$51, &keepSnapshots);
+								ZEPHIR_CALL_CE_STATIC(&value, phalcon_mvc_model_ce, "cloneResultMap", &_31, 0, &_59$$51, &rowModel, &columnMap, &_60$$51, &keepSnapshots);
 								zephir_check_call_status();
 							}
 							goto zephir_switch_3_end;
 						zephir_switch_3_clause_1: ;
-							ZEPHIR_CALL_CE_STATIC(&value, phalcon_mvc_model_ce, "cloneresultmaphydrate", &_34, 0, &rowModel, &columnMap, &hydrateMode);
+							ZEPHIR_CALL_CE_STATIC(&value, phalcon_mvc_model_ce, "cloneResultMapHydrate", &_34, 0, &rowModel, &columnMap, &hydrateMode);
 							zephir_check_call_status();
 							goto zephir_switch_3_end;
 						zephir_switch_3_end: ;
@@ -854,7 +854,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_CE_STATIC(&container, phalcon_di_di_ce, "getdefault", NULL, 0);
+	ZEPHIR_CALL_CE_STATIC(&container, phalcon_di_di_ce, "getDefault", NULL, 0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&container) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_0$$3);
@@ -870,7 +870,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize)
 	zephir_memory_observe(&_1);
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1123, PH_NOISY_CC);
 	zephir_array_update_string(&data, SL("cache"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "toarray", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "toArray", NULL, 0);
 	zephir_check_call_status();
 	zephir_array_update_string(&data, SL("rows"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_OBS_NVAR(&_1);
@@ -886,10 +886,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize)
 	if (zephir_is_true(&_2)) {
 		ZEPHIR_INIT_VAR(&_5$$4);
 		ZVAL_STRING(&_5$$4, "serializer");
-		ZEPHIR_CALL_METHOD(&_4$$4, &container, "getshared", NULL, 0, &_5$$4);
+		ZEPHIR_CALL_METHOD(&_4$$4, &container, "getShared", NULL, 0, &_5$$4);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&serializer, &_4$$4);
-		ZEPHIR_CALL_METHOD(NULL, &serializer, "setdata", NULL, 0, &data);
+		ZEPHIR_CALL_METHOD(NULL, &serializer, "setData", NULL, 0, &data);
 		zephir_check_call_status();
 		ZEPHIR_RETURN_CALL_METHOD(&serializer, "serialize", NULL, 0);
 		zephir_check_call_status();
@@ -1007,7 +1007,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, unserialize)
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1125, &__$false);
 	}
-	ZEPHIR_CALL_CE_STATIC(&container, phalcon_di_di_ce, "getdefault", NULL, 0);
+	ZEPHIR_CALL_CE_STATIC(&container, phalcon_di_di_ce, "getDefault", NULL, 0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&container) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_0$$3);
@@ -1025,12 +1025,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, unserialize)
 	if (zephir_is_true(&_1)) {
 		ZEPHIR_INIT_VAR(&_4$$4);
 		ZVAL_STRING(&_4$$4, "serializer");
-		ZEPHIR_CALL_METHOD(&_3$$4, &container, "getshared", NULL, 0, &_4$$4);
+		ZEPHIR_CALL_METHOD(&_3$$4, &container, "getShared", NULL, 0, &_4$$4);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&serializer, &_3$$4);
 		ZEPHIR_CALL_METHOD(NULL, &serializer, "unserialize", NULL, 0, data);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&resultset, &serializer, "getdata", NULL, 0);
+		ZEPHIR_CALL_METHOD(&resultset, &serializer, "getData", NULL, 0);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_CALL_FUNCTION(&resultset, "unserialize", NULL, 27, data);

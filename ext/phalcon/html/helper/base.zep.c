@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Html_Helper_Base, __invoke)
 	if (!(ZEPHIR_IS_EMPTY(&href_zv))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "href");
-		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "injectattribute", NULL, 0, &_1$$3, &href_zv, &attributes);
+		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "injectAttribute", NULL, 0, &_1$$3, &href_zv, &attributes);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&attributes, &_0$$3);
 	} else {
@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Html_Helper_Base, __invoke)
 	}
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "base");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderelement", NULL, 0, &_2, &attributes);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderElement", NULL, 0, &_2, &attributes);
 	zephir_check_call_status();
 	RETURN_MM();
 }

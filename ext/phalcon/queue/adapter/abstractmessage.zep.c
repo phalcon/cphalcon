@@ -166,7 +166,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, getCorrelationId)
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "correlation_id");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getheaderasstring", NULL, 78, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getHeaderAsString", NULL, 78, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -247,7 +247,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, getMessageId)
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "message_id");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getheader", NULL, 0, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getHeader", NULL, 0, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -328,7 +328,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, getReplyTo)
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "reply_to");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getheaderasstring", NULL, 78, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getHeaderAsString", NULL, 78, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -350,7 +350,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, getTimestamp)
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "timestamp");
-	ZEPHIR_CALL_METHOD(&value, this_ptr, "getheader", NULL, 0, &_0);
+	ZEPHIR_CALL_METHOD(&value, this_ptr, "getHeader", NULL, 0, &_0);
 	zephir_check_call_status();
 	if (!(zephir_is_scalar(&value))) {
 		RETURN_MM_NULL();
@@ -411,7 +411,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, setCorrelationId)
 	ZVAL_STR_COPY(&correlationId_zv, correlationId);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "correlation_id");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setheader", NULL, 0, &_0, &correlationId_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setHeader", NULL, 0, &_0, &correlationId_zv);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -487,7 +487,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, setMessageId)
 	ZVAL_STR_COPY(&messageId_zv, messageId);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "message_id");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setheader", NULL, 0, &_0, &messageId_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setHeader", NULL, 0, &_0, &messageId_zv);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -590,7 +590,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, setReplyTo)
 	ZVAL_STR_COPY(&replyTo_zv, replyTo);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "reply_to");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setheader", NULL, 0, &_0, &replyTo_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setHeader", NULL, 0, &_0, &replyTo_zv);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -616,7 +616,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, setTimestamp)
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "timestamp");
 	ZVAL_LONG(&_1, timestamp);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setheader", NULL, 0, &_0, &_1);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setHeader", NULL, 0, &_0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -645,7 +645,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, getHeaderAsString)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_CALL_METHOD(&value, this_ptr, "getheader", NULL, 0, &name_zv);
+	ZEPHIR_CALL_METHOD(&value, this_ptr, "getHeader", NULL, 0, &name_zv);
 	zephir_check_call_status();
 	if (!(zephir_is_scalar(&value))) {
 		RETURN_MM_NULL();

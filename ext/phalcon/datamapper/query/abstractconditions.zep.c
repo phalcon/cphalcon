@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, appendWhere)
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "WHERE");
 	ZVAL_LONG(&_1, type);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendcondition", NULL, 0, &_0, &condition_zv, value, &_1);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendCondition", NULL, 0, &_0, &condition_zv, value, &_1);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -232,7 +232,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, orderBy)
 	zephir_fetch_params(1, 1, 0, &orderBy);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "ORDER");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processvalue", NULL, 0, &_0, orderBy);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processValue", NULL, 0, &_0, orderBy);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -284,7 +284,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, orWhere)
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "OR ");
 	ZVAL_LONG(&_2, type);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addcondition", NULL, 0, &_0, &_1, &condition_zv, value, &_2);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addCondition", NULL, 0, &_0, &_1, &condition_zv, value, &_2);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -336,7 +336,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, where)
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "AND ");
 	ZVAL_LONG(&_2, type);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addcondition", NULL, 0, &_0, &_1, &condition_zv, value, &_2);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addCondition", NULL, 0, &_0, &_1, &condition_zv, value, &_2);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -512,7 +512,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, addCondition)
 		}
 	if (!(ZEPHIR_IS_EMPTY(value))) {
 		ZVAL_LONG(&_1$$3, type);
-		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "bindinline", NULL, 0, value, &_1$$3);
+		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "bindInline", NULL, 0, value, &_1$$3);
 		zephir_check_call_status();
 		zephir_concat_self(&condition, &_0$$3);
 	}
@@ -591,7 +591,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, appendCondition)
 		}
 	if (!(ZEPHIR_IS_EMPTY(value))) {
 		ZVAL_LONG(&_1$$3, type);
-		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "bindinline", NULL, 0, value, &_1$$3);
+		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "bindInline", NULL, 0, value, &_1$$3);
 		zephir_check_call_status();
 		zephir_concat_self(&condition, &_0$$3);
 	}
@@ -729,7 +729,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, buildLimit)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 106, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&suffix, &_0, "getdrivername", NULL, 0);
+	ZEPHIR_CALL_METHOD(&suffix, &_0, "getDriverName", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "sqlsrv");
@@ -849,7 +849,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, buildLimitEarly)
 	ZEPHIR_INIT_VAR(&limit);
 	ZVAL_STRING(&limit, "");
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 106, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_1, &_0, "getdrivername", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_1, &_0, "getDriverName", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "sqlsrv");

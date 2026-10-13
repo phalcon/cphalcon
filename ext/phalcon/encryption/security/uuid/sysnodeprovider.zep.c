@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, getNode)
 	}
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "apcu_fetch");
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "phpfunctionexists", NULL, 0, &_2);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "phpFunctionExists", NULL, 0, &_2);
 	zephir_check_call_status();
 	if (zephir_is_true(&_1)) {
 		ZEPHIR_INIT_VAR(&_3$$4);
@@ -184,7 +184,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, getNode)
 					if (!ZEPHIR_IS_FALSE_IDENTICAL(&_10$$8)) {
 						continue;
 					}
-					ZEPHIR_CALL_METHOD(&_11$$8, this_ptr, "phpfilegetcontents", &_12, 0, &address);
+					ZEPHIR_CALL_METHOD(&_11$$8, this_ptr, "phpFileGetContents", &_12, 0, &address);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&node);
 					zephir_fast_trim(&node, &_11$$8, NULL , ZEPHIR_TRIM_BOTH);
@@ -195,7 +195,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, getNode)
 					ZVAL_STRING(&_15$$8, "");
 					zephir_fast_str_replace(&_13$$8, &_14$$8, &_15$$8, &node);
 					ZEPHIR_CPY_WRT(&node, &_13$$8);
-					ZEPHIR_CALL_METHOD(&_16$$8, this_ptr, "isvalidnode", &_17, 0, &node);
+					ZEPHIR_CALL_METHOD(&_16$$8, this_ptr, "isValidNode", &_17, 0, &node);
 					zephir_check_call_status();
 					if (zephir_is_true(&_16$$8)) {
 						break;
@@ -228,7 +228,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, getNode)
 						if (!ZEPHIR_IS_FALSE_IDENTICAL(&_21$$11)) {
 							continue;
 						}
-						ZEPHIR_CALL_METHOD(&_22$$11, this_ptr, "phpfilegetcontents", &_12, 0, &address);
+						ZEPHIR_CALL_METHOD(&_22$$11, this_ptr, "phpFileGetContents", &_12, 0, &address);
 						zephir_check_call_status();
 						ZEPHIR_INIT_NVAR(&node);
 						zephir_fast_trim(&node, &_22$$11, NULL , ZEPHIR_TRIM_BOTH);
@@ -239,7 +239,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, getNode)
 						ZVAL_STRING(&_25$$11, "");
 						zephir_fast_str_replace(&_23$$11, &_24$$11, &_25$$11, &node);
 						ZEPHIR_CPY_WRT(&node, &_23$$11);
-						ZEPHIR_CALL_METHOD(&_26$$11, this_ptr, "isvalidnode", &_17, 0, &node);
+						ZEPHIR_CALL_METHOD(&_26$$11, this_ptr, "isValidNode", &_17, 0, &node);
 						zephir_check_call_status();
 						if (zephir_is_true(&_26$$11)) {
 							break;
@@ -351,7 +351,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, getNode)
 	}
 	_52 = Z_TYPE_P(&node) == IS_NULL;
 	if (!(_52)) {
-		ZEPHIR_CALL_METHOD(&_53, this_ptr, "isvalidnode", &_17, 0, &node);
+		ZEPHIR_CALL_METHOD(&_53, this_ptr, "isValidNode", &_17, 0, &node);
 		zephir_check_call_status();
 		_52 = !zephir_is_true(&_53);
 	}
@@ -363,13 +363,13 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_SysNodeProvider, getNode)
 			zephir_check_call_status();
 		}
 
-		ZEPHIR_CALL_METHOD(&node, &_54$$20, "getnode", NULL, 0);
+		ZEPHIR_CALL_METHOD(&node, &_54$$20, "getNode", NULL, 0);
 		zephir_check_call_status();
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 737, &node);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "apcu_store");
-	ZEPHIR_CALL_METHOD(&_55, this_ptr, "phpfunctionexists", NULL, 0, &_2);
+	ZEPHIR_CALL_METHOD(&_55, this_ptr, "phpFunctionExists", NULL, 0, &_2);
 	zephir_check_call_status();
 	if (zephir_is_true(&_55)) {
 		zephir_read_property_cached(&_56$$21, this_ptr, _zephir_prop_0, 737, PH_NOISY_CC | PH_READONLY);

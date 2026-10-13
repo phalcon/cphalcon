@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Traits_ValidatorCompositeTrait, validate)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &validation, &field);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getvalidators", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getValidators", NULL, 0);
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_IS_EMPTY(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Traits_ValidatorCompositeTrait, validate)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getvalidators", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getValidators", NULL, 0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&_3) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_5);

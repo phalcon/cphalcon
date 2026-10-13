@@ -127,9 +127,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, read)
 	if (Z_TYPE_P(key) == IS_NULL) {
 		RETURN_MM_NULL();
 	}
-	ZEPHIR_CALL_METHOD(&path, this_ptr, "getfilepath", NULL, 0, key);
+	ZEPHIR_CALL_METHOD(&path, this_ptr, "getFilePath", NULL, 0, key);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "phpfileexists", NULL, 0, &path);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "phpFileExists", NULL, 0, &path);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_0))) {
 		RETURN_MM_NULL();
@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, read)
 
 	/* try_start_1: */
 
-		ZEPHIR_CALL_METHOD(&data, this_ptr, "requirefile", NULL, 0, &path);
+		ZEPHIR_CALL_METHOD(&data, this_ptr, "requireFile", NULL, 0, &path);
 		zephir_check_call_status_or_jump(try_end_1);
 
 	try_end_1:
@@ -201,7 +201,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write)
 
 	/* try_start_1: */
 
-		ZEPHIR_CALL_METHOD(&path, this_ptr, "getfilepath", NULL, 0, key);
+		ZEPHIR_CALL_METHOD(&path, this_ptr, "getFilePath", NULL, 0, key);
 		zephir_check_call_status_or_jump(try_end_1);
 		ZEPHIR_CALL_FUNCTION(&_1$$3, "getmypid", NULL, 268);
 		zephir_check_call_status_or_jump(try_end_1);
@@ -213,18 +213,18 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write)
 		zephir_var_export_ex(&_4$$3, &data);
 		ZEPHIR_INIT_VAR(&_5$$3);
 		ZEPHIR_CONCAT_SVS(&_5$$3, "<?php return ", &_4$$3, "; ");
-		ZEPHIR_CALL_METHOD(&_3$$3, this_ptr, "phpfileputcontents", NULL, 0, &tmpPath, &_5$$3);
+		ZEPHIR_CALL_METHOD(&_3$$3, this_ptr, "phpFilePutContents", NULL, 0, &tmpPath, &_5$$3);
 		zephir_check_call_status_or_jump(try_end_1);
 		if (ZEPHIR_IS_FALSE_IDENTICAL(&_3$$3)) {
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 0, &option);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwWriteException", NULL, 0, &option);
 			zephir_check_call_status_or_jump(try_end_1);
 		} else {
 			ZEPHIR_CALL_FUNCTION(&_6$$3, "rename", NULL, 269, &tmpPath, &path);
 			zephir_check_call_status_or_jump(try_end_1);
 			if (!(zephir_is_true(&_6$$3))) {
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "phpunlink", NULL, 0, &tmpPath);
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "phpUnlink", NULL, 0, &tmpPath);
 				zephir_check_call_status_or_jump(try_end_1);
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 0, &option);
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwWriteException", NULL, 0, &option);
 				zephir_check_call_status_or_jump(try_end_1);
 			}
 		}
@@ -239,7 +239,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write)
 		if (zephir_is_instance_of(&_0, SL("Exception"))) {
 			zend_clear_exception();
 			ZEPHIR_CPY_WRT(&_7, &_0);
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 0, &option);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwWriteException", NULL, 0, &option);
 			zephir_check_call_status();
 		}
 	}

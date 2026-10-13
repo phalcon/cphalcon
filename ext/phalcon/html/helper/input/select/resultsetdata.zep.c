@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, readField)
 	ZVAL_STR_COPY(&field_zv, field);
 	if (Z_TYPE_P(option) == IS_OBJECT) {
 		if ((zephir_method_exists_ex(option, ZEND_STRL("readattribute")) == SUCCESS)) {
-			ZEPHIR_RETURN_CALL_METHOD(option, "readattribute", NULL, 0, &field_zv);
+			ZEPHIR_RETURN_CALL_METHOD(option, "readAttribute", NULL, 0, &field_zv);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
@@ -345,9 +345,9 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, resolve)
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			ZEPHIR_CALL_METHOD(&optionValue, this_ptr, "readfield", &_9, 0, &option, &usingZero);
+			ZEPHIR_CALL_METHOD(&optionValue, this_ptr, "readField", &_9, 0, &option, &usingZero);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&optionText, this_ptr, "readfield", &_9, 0, &option, &usingOne);
+			ZEPHIR_CALL_METHOD(&optionText, this_ptr, "readField", &_9, 0, &option, &usingOne);
 			zephir_check_call_status();
 			zephir_array_update_zval(&options, &optionValue, &optionText, PH_COPY | PH_SEPARATE);
 			ZEPHIR_OBS_NVAR(&_10$$3);
@@ -464,9 +464,9 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, resolve)
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
-				ZEPHIR_CALL_METHOD(&optionValue, this_ptr, "readfield", &_9, 0, &option, &usingZero);
+				ZEPHIR_CALL_METHOD(&optionValue, this_ptr, "readField", &_9, 0, &option, &usingZero);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&optionText, this_ptr, "readfield", &_9, 0, &option, &usingOne);
+				ZEPHIR_CALL_METHOD(&optionText, this_ptr, "readField", &_9, 0, &option, &usingOne);
 				zephir_check_call_status();
 				zephir_array_update_zval(&options, &optionValue, &optionText, PH_COPY | PH_SEPARATE);
 				ZEPHIR_OBS_NVAR(&_28$$15);

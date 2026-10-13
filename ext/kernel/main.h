@@ -19,6 +19,8 @@
 #include <Zend/zend_string.h>
 #include <Zend/zend.h>
 #include <Zend/zend_attributes.h>
+/* ZEND_INI_MH and ZEND_INI_GET_ADDR; <php.h> does not pull this in. */
+#include <Zend/zend_ini.h>
 
 extern zend_string* i_parent;
 extern zend_string* i_static;
@@ -604,6 +606,34 @@ void zephir_get_args_from(zval* return_value, uint32_t skip);
 
 void zephir_module_init();
 void zephir_module_shutdown(void);
+
+/**
+ * Update handler for an extension global declared as `char` or `uchar`.
+ *
+ * The engine exports no handler writing a single character: the stock set
+ * covers bool, zend_long, double, char* and zend_string* only. ext/soap's
+ * OnUpdateCacheMode is the same four lines for the same reason.
+ */
+ZEND_INI_MH(zephir_OnUpdateChar);
+
+/**
+ * Re-applies the current value of each named ini directive to the global it
+ * backs, at the start of a request.
+ *
+ * REGISTER_INI_ENTRIES() already seeds every INI-backed global at MINIT, and
+ * the engine restores anything ini_set() touched at request shutdown. What it
+ * cannot see is globals_set(), which writes the struct member directly; that
+ * value would otherwise survive into the next request. Re-running each
+ * entry's own on_modify handler resets exactly those, for every type, without
+ * the generated code having to know which type each global is.
+ *
+ * Mirrors zend_ini_refresh_caches(), which the engine runs for the same
+ * reason when a new thread starts.
+ *
+ * @param names NULL-terminated list of directive names
+ * @see https://github.com/zephir-lang/zephir/issues/2449
+ */
+void zephir_ini_activate_globals(const char *const *names);
 
 /**
  * Z_PARAM_ARRAY(dest) expands to a call to zend_parse_arg_array(_arg, &dest, ...).

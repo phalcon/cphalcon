@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_METHOD(&propertiesAnnotations, &reflection, "getpropertiesannotations", NULL, 0);
+	ZEPHIR_CALL_METHOD(&propertiesAnnotations, &reflection, "getPropertiesAnnotations", NULL, 0);
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_IS_EMPTY(&propertiesAnnotations))) {
 		ZEPHIR_INIT_VAR(&_3$$5);
@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps)
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_9$$6);
 			ZVAL_STRING(&_9$$6, "column");
-			ZEPHIR_CALL_METHOD(&columnName, &columnAnnotation, "getnamedparameter", NULL, 0, &_9$$6);
+			ZEPHIR_CALL_METHOD(&columnName, &columnAnnotation, "getNamedParameter", NULL, 0, &_9$$6);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_EMPTY(&columnName)) {
 				ZEPHIR_CPY_WRT(&columnName, &property);
@@ -206,7 +206,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps)
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_14$$10);
 				ZVAL_STRING(&_14$$10, "column");
-				ZEPHIR_CALL_METHOD(&columnName, &columnAnnotation, "getnamedparameter", NULL, 0, &_14$$10);
+				ZEPHIR_CALL_METHOD(&columnName, &columnAnnotation, "getNamedParameter", NULL, 0, &_14$$10);
 				zephir_check_call_status();
 				if (ZEPHIR_IS_EMPTY(&columnName)) {
 					ZEPHIR_CPY_WRT(&columnName, &property);
@@ -447,7 +447,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_METHOD(&propertiesAnnotations, &reflection, "getpropertiesannotations", NULL, 0);
+	ZEPHIR_CALL_METHOD(&propertiesAnnotations, &reflection, "getPropertiesAnnotations", NULL, 0);
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_IS_EMPTY(&propertiesAnnotations))) {
 		ZEPHIR_INIT_VAR(&_3$$5);
@@ -514,14 +514,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_9$$6);
 			ZVAL_STRING(&_9$$6, "column");
-			ZEPHIR_CALL_METHOD(&columnName, &columnAnnotation, "getnamedparameter", NULL, 0, &_9$$6);
+			ZEPHIR_CALL_METHOD(&columnName, &columnAnnotation, "getNamedParameter", NULL, 0, &_9$$6);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_EMPTY(&columnName)) {
 				ZEPHIR_CPY_WRT(&columnName, &property);
 			}
 			ZEPHIR_INIT_NVAR(&_9$$6);
 			ZVAL_STRING(&_9$$6, "type");
-			ZEPHIR_CALL_METHOD(&feature, &columnAnnotation, "getnamedparameter", NULL, 0, &_9$$6);
+			ZEPHIR_CALL_METHOD(&feature, &columnAnnotation, "getNamedParameter", NULL, 0, &_9$$6);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_STRING(&feature, "biginteger")) { goto zephir_switch_0_clause_0; }
 			if (ZEPHIR_IS_STRING(&feature, "bit")) { goto zephir_switch_0_clause_1; }
@@ -795,13 +795,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 			}
 			ZEPHIR_INIT_NVAR(&_9$$6);
 			ZVAL_STRING(&_9$$6, "skip_on_insert");
-			ZEPHIR_CALL_METHOD(&_66$$6, &columnAnnotation, "getnamedparameter", NULL, 0, &_9$$6);
+			ZEPHIR_CALL_METHOD(&_66$$6, &columnAnnotation, "getNamedParameter", NULL, 0, &_9$$6);
 			zephir_check_call_status();
 			_67$$6 = zephir_is_true(&_66$$6);
 			if (!(_67$$6)) {
 				ZEPHIR_INIT_NVAR(&_9$$6);
 				ZVAL_STRING(&_9$$6, "skipOnInsert");
-				ZEPHIR_CALL_METHOD(&_68$$6, &columnAnnotation, "getnamedparameter", NULL, 0, &_9$$6);
+				ZEPHIR_CALL_METHOD(&_68$$6, &columnAnnotation, "getNamedParameter", NULL, 0, &_9$$6);
 				zephir_check_call_status();
 				_67$$6 = zephir_is_true(&_68$$6);
 			}
@@ -810,13 +810,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 			}
 			ZEPHIR_INIT_NVAR(&_9$$6);
 			ZVAL_STRING(&_9$$6, "skip_on_update");
-			ZEPHIR_CALL_METHOD(&_69$$6, &columnAnnotation, "getnamedparameter", NULL, 0, &_9$$6);
+			ZEPHIR_CALL_METHOD(&_69$$6, &columnAnnotation, "getNamedParameter", NULL, 0, &_9$$6);
 			zephir_check_call_status();
 			_70$$6 = zephir_is_true(&_69$$6);
 			if (!(_70$$6)) {
 				ZEPHIR_INIT_NVAR(&_9$$6);
 				ZVAL_STRING(&_9$$6, "skipOnUpdate");
-				ZEPHIR_CALL_METHOD(&_71$$6, &columnAnnotation, "getnamedparameter", NULL, 0, &_9$$6);
+				ZEPHIR_CALL_METHOD(&_71$$6, &columnAnnotation, "getNamedParameter", NULL, 0, &_9$$6);
 				zephir_check_call_status();
 				_70$$6 = zephir_is_true(&_71$$6);
 			}
@@ -825,13 +825,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 			}
 			ZEPHIR_INIT_NVAR(&_9$$6);
 			ZVAL_STRING(&_9$$6, "allow_empty_string");
-			ZEPHIR_CALL_METHOD(&_72$$6, &columnAnnotation, "getnamedparameter", NULL, 0, &_9$$6);
+			ZEPHIR_CALL_METHOD(&_72$$6, &columnAnnotation, "getNamedParameter", NULL, 0, &_9$$6);
 			zephir_check_call_status();
 			_73$$6 = zephir_is_true(&_72$$6);
 			if (!(_73$$6)) {
 				ZEPHIR_INIT_NVAR(&_9$$6);
 				ZVAL_STRING(&_9$$6, "allowEmptyString");
-				ZEPHIR_CALL_METHOD(&_74$$6, &columnAnnotation, "getnamedparameter", NULL, 0, &_9$$6);
+				ZEPHIR_CALL_METHOD(&_74$$6, &columnAnnotation, "getNamedParameter", NULL, 0, &_9$$6);
 				zephir_check_call_status();
 				_73$$6 = zephir_is_true(&_74$$6);
 			}
@@ -840,26 +840,26 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 			}
 			ZEPHIR_INIT_NVAR(&_9$$6);
 			ZVAL_STRING(&_9$$6, "nullable");
-			ZEPHIR_CALL_METHOD(&_75$$6, &columnAnnotation, "getnamedparameter", NULL, 0, &_9$$6);
+			ZEPHIR_CALL_METHOD(&_75$$6, &columnAnnotation, "getNamedParameter", NULL, 0, &_9$$6);
 			zephir_check_call_status();
 			if (!(zephir_is_true(&_75$$6))) {
 				zephir_array_append(&notNull, &columnName, PH_SEPARATE, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 382);
 			}
 			ZEPHIR_INIT_NVAR(&_9$$6);
 			ZVAL_STRING(&_9$$6, "default");
-			ZEPHIR_CALL_METHOD(&defaultValue, &columnAnnotation, "getnamedparameter", NULL, 0, &_9$$6);
+			ZEPHIR_CALL_METHOD(&defaultValue, &columnAnnotation, "getNamedParameter", NULL, 0, &_9$$6);
 			zephir_check_call_status();
 			if (Z_TYPE_P(&defaultValue) == IS_NULL) {
 				ZEPHIR_INIT_NVAR(&_76$$43);
 				ZVAL_STRING(&_76$$43, "defaultValue");
-				ZEPHIR_CALL_METHOD(&defaultValue, &columnAnnotation, "getnamedparameter", NULL, 0, &_76$$43);
+				ZEPHIR_CALL_METHOD(&defaultValue, &columnAnnotation, "getNamedParameter", NULL, 0, &_76$$43);
 				zephir_check_call_status();
 			}
 			_77$$6 = Z_TYPE_P(&defaultValue) != IS_NULL;
 			if (!(_77$$6)) {
 				ZEPHIR_INIT_NVAR(&_9$$6);
 				ZVAL_STRING(&_9$$6, "nullable");
-				ZEPHIR_CALL_METHOD(&_78$$6, &columnAnnotation, "getnamedparameter", NULL, 0, &_9$$6);
+				ZEPHIR_CALL_METHOD(&_78$$6, &columnAnnotation, "getNamedParameter", NULL, 0, &_9$$6);
 				zephir_check_call_status();
 				_77$$6 = zephir_is_true(&_78$$6);
 			}
@@ -901,14 +901,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_82$$45);
 				ZVAL_STRING(&_82$$45, "column");
-				ZEPHIR_CALL_METHOD(&columnName, &columnAnnotation, "getnamedparameter", NULL, 0, &_82$$45);
+				ZEPHIR_CALL_METHOD(&columnName, &columnAnnotation, "getNamedParameter", NULL, 0, &_82$$45);
 				zephir_check_call_status();
 				if (ZEPHIR_IS_EMPTY(&columnName)) {
 					ZEPHIR_CPY_WRT(&columnName, &property);
 				}
 				ZEPHIR_INIT_NVAR(&_82$$45);
 				ZVAL_STRING(&_82$$45, "type");
-				ZEPHIR_CALL_METHOD(&feature, &columnAnnotation, "getnamedparameter", NULL, 0, &_82$$45);
+				ZEPHIR_CALL_METHOD(&feature, &columnAnnotation, "getNamedParameter", NULL, 0, &_82$$45);
 				zephir_check_call_status();
 				if (ZEPHIR_IS_STRING(&feature, "biginteger")) { goto zephir_switch_1_clause_0; }
 				if (ZEPHIR_IS_STRING(&feature, "bit")) { goto zephir_switch_1_clause_1; }
@@ -1182,13 +1182,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 				}
 				ZEPHIR_INIT_NVAR(&_82$$45);
 				ZVAL_STRING(&_82$$45, "skip_on_insert");
-				ZEPHIR_CALL_METHOD(&_139$$45, &columnAnnotation, "getnamedparameter", NULL, 0, &_82$$45);
+				ZEPHIR_CALL_METHOD(&_139$$45, &columnAnnotation, "getNamedParameter", NULL, 0, &_82$$45);
 				zephir_check_call_status();
 				_140$$45 = zephir_is_true(&_139$$45);
 				if (!(_140$$45)) {
 					ZEPHIR_INIT_NVAR(&_82$$45);
 					ZVAL_STRING(&_82$$45, "skipOnInsert");
-					ZEPHIR_CALL_METHOD(&_141$$45, &columnAnnotation, "getnamedparameter", NULL, 0, &_82$$45);
+					ZEPHIR_CALL_METHOD(&_141$$45, &columnAnnotation, "getNamedParameter", NULL, 0, &_82$$45);
 					zephir_check_call_status();
 					_140$$45 = zephir_is_true(&_141$$45);
 				}
@@ -1197,13 +1197,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 				}
 				ZEPHIR_INIT_NVAR(&_82$$45);
 				ZVAL_STRING(&_82$$45, "skip_on_update");
-				ZEPHIR_CALL_METHOD(&_142$$45, &columnAnnotation, "getnamedparameter", NULL, 0, &_82$$45);
+				ZEPHIR_CALL_METHOD(&_142$$45, &columnAnnotation, "getNamedParameter", NULL, 0, &_82$$45);
 				zephir_check_call_status();
 				_143$$45 = zephir_is_true(&_142$$45);
 				if (!(_143$$45)) {
 					ZEPHIR_INIT_NVAR(&_82$$45);
 					ZVAL_STRING(&_82$$45, "skipOnUpdate");
-					ZEPHIR_CALL_METHOD(&_144$$45, &columnAnnotation, "getnamedparameter", NULL, 0, &_82$$45);
+					ZEPHIR_CALL_METHOD(&_144$$45, &columnAnnotation, "getNamedParameter", NULL, 0, &_82$$45);
 					zephir_check_call_status();
 					_143$$45 = zephir_is_true(&_144$$45);
 				}
@@ -1212,13 +1212,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 				}
 				ZEPHIR_INIT_NVAR(&_82$$45);
 				ZVAL_STRING(&_82$$45, "allow_empty_string");
-				ZEPHIR_CALL_METHOD(&_145$$45, &columnAnnotation, "getnamedparameter", NULL, 0, &_82$$45);
+				ZEPHIR_CALL_METHOD(&_145$$45, &columnAnnotation, "getNamedParameter", NULL, 0, &_82$$45);
 				zephir_check_call_status();
 				_146$$45 = zephir_is_true(&_145$$45);
 				if (!(_146$$45)) {
 					ZEPHIR_INIT_NVAR(&_82$$45);
 					ZVAL_STRING(&_82$$45, "allowEmptyString");
-					ZEPHIR_CALL_METHOD(&_147$$45, &columnAnnotation, "getnamedparameter", NULL, 0, &_82$$45);
+					ZEPHIR_CALL_METHOD(&_147$$45, &columnAnnotation, "getNamedParameter", NULL, 0, &_82$$45);
 					zephir_check_call_status();
 					_146$$45 = zephir_is_true(&_147$$45);
 				}
@@ -1227,26 +1227,26 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 				}
 				ZEPHIR_INIT_NVAR(&_82$$45);
 				ZVAL_STRING(&_82$$45, "nullable");
-				ZEPHIR_CALL_METHOD(&_148$$45, &columnAnnotation, "getnamedparameter", NULL, 0, &_82$$45);
+				ZEPHIR_CALL_METHOD(&_148$$45, &columnAnnotation, "getNamedParameter", NULL, 0, &_82$$45);
 				zephir_check_call_status();
 				if (!(zephir_is_true(&_148$$45))) {
 					zephir_array_append(&notNull, &columnName, PH_SEPARATE, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 382);
 				}
 				ZEPHIR_INIT_NVAR(&_82$$45);
 				ZVAL_STRING(&_82$$45, "default");
-				ZEPHIR_CALL_METHOD(&defaultValue, &columnAnnotation, "getnamedparameter", NULL, 0, &_82$$45);
+				ZEPHIR_CALL_METHOD(&defaultValue, &columnAnnotation, "getNamedParameter", NULL, 0, &_82$$45);
 				zephir_check_call_status();
 				if (Z_TYPE_P(&defaultValue) == IS_NULL) {
 					ZEPHIR_INIT_NVAR(&_149$$82);
 					ZVAL_STRING(&_149$$82, "defaultValue");
-					ZEPHIR_CALL_METHOD(&defaultValue, &columnAnnotation, "getnamedparameter", NULL, 0, &_149$$82);
+					ZEPHIR_CALL_METHOD(&defaultValue, &columnAnnotation, "getNamedParameter", NULL, 0, &_149$$82);
 					zephir_check_call_status();
 				}
 				_150$$45 = Z_TYPE_P(&defaultValue) != IS_NULL;
 				if (!(_150$$45)) {
 					ZEPHIR_INIT_NVAR(&_82$$45);
 					ZVAL_STRING(&_82$$45, "nullable");
-					ZEPHIR_CALL_METHOD(&_151$$45, &columnAnnotation, "getnamedparameter", NULL, 0, &_82$$45);
+					ZEPHIR_CALL_METHOD(&_151$$45, &columnAnnotation, "getNamedParameter", NULL, 0, &_82$$45);
 					zephir_check_call_status();
 					_150$$45 = zephir_is_true(&_151$$45);
 				}

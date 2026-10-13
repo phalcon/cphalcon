@@ -61,7 +61,7 @@ PHP_METHOD(phalcon_1__closure, __invoke)
 	zephir_check_call_status();
 	_0 = 1 == (zephir_method_exists_ex(&serializer, ZEND_STRL("issuccess")) == SUCCESS);
 	if (_0) {
-		ZEPHIR_CALL_METHOD(&_1, &serializer, "issuccess", NULL, 0);
+		ZEPHIR_CALL_METHOD(&_1, &serializer, "isSuccess", NULL, 0);
 		zephir_check_call_status();
 		_0 = !ZEPHIR_IS_TRUE_IDENTICAL(&_1);
 	}
@@ -69,7 +69,7 @@ PHP_METHOD(phalcon_1__closure, __invoke)
 		RETVAL_ZVAL(&defaultValue, 1, 0);
 		RETURN_MM();
 	}
-	ZEPHIR_RETURN_CALL_METHOD(&serializer, "getdata", NULL, 0);
+	ZEPHIR_RETURN_CALL_METHOD(&serializer, "getData", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

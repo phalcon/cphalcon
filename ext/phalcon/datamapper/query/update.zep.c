@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Update, column)
 	if (Z_TYPE_P(value) != IS_NULL) {
 		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_0, 606, PH_NOISY_CC | PH_READONLY);
 		ZVAL_LONG(&_2$$3, type);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "setvalue", NULL, 0, &column_zv, value, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "setValue", NULL, 0, &column_zv, value, &_2$$3);
 		zephir_check_call_status();
 	}
 	RETURN_THIS();
@@ -276,18 +276,18 @@ PHP_METHOD(Phalcon_DataMapper_Query_Update, getStatement)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "buildflags", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "buildFlags", NULL, 0);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 607, PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&_2);
 	zephir_array_fetch_string(&_2, &_1, SL("FROM"), PH_NOISY, "phalcon/DataMapper/Query/Update.zep", 92);
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "buildcolumns", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "buildColumns", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_5);
 	ZVAL_STRING(&_5, "WHERE");
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "buildcondition", NULL, 0, &_5);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "buildCondition", NULL, 0, &_5);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_6, this_ptr, "buildreturning", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_6, this_ptr, "buildReturning", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_SVSVVVV(return_value, "UPDATE", &_0, " ", &_2, &_3, &_4, &_6);
 	RETURN_MM();
@@ -493,7 +493,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Update, buildColumns)
 			}
 			ZEPHIR_INIT_NVAR(&value);
 			ZVAL_COPY(&value, _4);
-			ZEPHIR_CALL_METHOD(&_7$$3, this_ptr, "quoteidentifier", &_8, 0, &column);
+			ZEPHIR_CALL_METHOD(&_7$$3, this_ptr, "quoteIdentifier", &_8, 0, &column);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_9$$3);
 			ZEPHIR_CONCAT_VSV(&_9$$3, &_7$$3, " = ", &value);
@@ -519,7 +519,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Update, buildColumns)
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&value, _2, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_12$$4, this_ptr, "quoteidentifier", &_8, 0, &column);
+				ZEPHIR_CALL_METHOD(&_12$$4, this_ptr, "quoteIdentifier", &_8, 0, &column);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_13$$4);
 				ZEPHIR_CONCAT_VSV(&_13$$4, &_12$$4, " = ", &value);

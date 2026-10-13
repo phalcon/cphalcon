@@ -63,7 +63,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_KebabCase, __invoke)
 		zephir_memory_observe(&delimiters_zv);
 	ZVAL_STR_COPY(&delimiters_zv, delimiters);
 	}
-	ZEPHIR_CALL_METHOD(&output, this_ptr, "processarray", NULL, 0, &text_zv, &delimiters_zv);
+	ZEPHIR_CALL_METHOD(&output, this_ptr, "processArray", NULL, 0, &text_zv, &delimiters_zv);
 	zephir_check_call_status();
 	zephir_fast_join_str(return_value, SL("-"), &output);
 	RETURN_MM();

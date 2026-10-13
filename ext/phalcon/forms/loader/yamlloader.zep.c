@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Forms_Loader_YamlLoader, load)
 
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "yaml");
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "phpextensionloaded", NULL, 0, &_1);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "phpExtensionLoaded", NULL, 0, &_1);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_2$$3);

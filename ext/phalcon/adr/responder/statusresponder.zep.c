@@ -116,14 +116,14 @@ PHP_METHOD(Phalcon_ADR_Responder_StatusResponder, __invoke)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 3, 0, &request, &response, &payload);
-	ZEPHIR_CALL_METHOD(&status, payload, "getstatus", NULL, 0);
+	ZEPHIR_CALL_METHOD(&status, payload, "getStatus", NULL, 0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&status) != IS_NULL) {
 		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 372, PH_NOISY_CC | PH_READONLY);
 		zephir_cast_to_string(&_2$$3, &status);
-		ZEPHIR_CALL_METHOD(&_1$$3, &_0$$3, "tohttpcode", NULL, 0, &_2$$3);
+		ZEPHIR_CALL_METHOD(&_1$$3, &_0$$3, "toHttpCode", NULL, 0, &_2$$3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, response, "setstatuscode", NULL, 0, &_1$$3);
+		ZEPHIR_CALL_METHOD(NULL, response, "setStatusCode", NULL, 0, &_1$$3);
 		zephir_check_call_status();
 	}
 	RETVAL_ZVAL(response, 1, 0);

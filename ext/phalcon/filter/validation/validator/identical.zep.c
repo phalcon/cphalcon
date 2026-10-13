@@ -143,31 +143,31 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Identical, validate)
 	ZEPHIR_INIT_VAR(&accepted);
 	ZVAL_NULL(&accepted);
 	valid = 0;
-	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
+	ZEPHIR_CALL_METHOD(&value, validation, "getValue", NULL, 0, field);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "allowempty", NULL, 0, field, &value);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "allowEmpty", NULL, 0, field, &value);
 	zephir_check_call_status();
 	if (zephir_is_true(&_0)) {
 		RETURN_MM_BOOL(1);
 	}
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "accepted");
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "hasoption", NULL, 0, &_2);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "hasOption", NULL, 0, &_2);
 	zephir_check_call_status();
 	if (zephir_is_true(&_1)) {
 		ZEPHIR_INIT_VAR(&_4$$4);
 		ZVAL_STRING(&_4$$4, "accepted");
-		ZEPHIR_CALL_METHOD(&accepted, this_ptr, "getoption", NULL, 0, &_4$$4);
+		ZEPHIR_CALL_METHOD(&accepted, this_ptr, "getOption", NULL, 0, &_4$$4);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_INIT_NVAR(&_2);
 		ZVAL_STRING(&_2, "value");
-		ZEPHIR_CALL_METHOD(&_3, this_ptr, "hasoption", NULL, 0, &_2);
+		ZEPHIR_CALL_METHOD(&_3, this_ptr, "hasOption", NULL, 0, &_2);
 		zephir_check_call_status();
 		if (zephir_is_true(&_3)) {
 			ZEPHIR_INIT_VAR(&_5$$5);
 			ZVAL_STRING(&_5$$5, "value");
-			ZEPHIR_CALL_METHOD(&accepted, this_ptr, "getoption", NULL, 0, &_5$$5);
+			ZEPHIR_CALL_METHOD(&accepted, this_ptr, "getOption", NULL, 0, &_5$$5);
 			zephir_check_call_status();
 		}
 	}
@@ -180,9 +180,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Identical, validate)
 		valid = ZEPHIR_IS_EQUAL(&value, &accepted);
 	}
 	if (!(valid)) {
-		ZEPHIR_CALL_METHOD(&_7$$8, this_ptr, "messagefactory", NULL, 0, validation, field);
+		ZEPHIR_CALL_METHOD(&_7$$8, this_ptr, "messageFactory", NULL, 0, validation, field);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_7$$8);
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendMessage", NULL, 0, &_7$$8);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}

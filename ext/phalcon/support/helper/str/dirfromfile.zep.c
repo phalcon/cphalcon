@@ -55,7 +55,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_DirFromFile, __invoke)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&file_zv);
 	ZVAL_STR_COPY(&file_zv, file);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "todirfromfile", NULL, 0, &file_zv);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "toDirFromFile", NULL, 0, &file_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
