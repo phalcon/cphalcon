@@ -17,7 +17,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - Faster model hydration in `Phalcon\Mvc\Model` and `Phalcon\Mvc\Model\Resultset\Complex`. [#17632](https://github.com/phalcon/cphalcon/issues/17632)
 - Faster event dispatch in `Phalcon\Events\Manager`, method detection in `Phalcon\Http\Request` and header sending in `Phalcon\Http\Response`. [#17633](https://github.com/phalcon/cphalcon/issues/17633)
 - Faster SQL generation in `Phalcon\Db\Dialect` and select execution in `Phalcon\Mvc\Model\Query`. [#17660](https://github.com/phalcon/cphalcon/issues/17660)
-- Faster rendering in `Phalcon\Mvc\View` and `Phalcon\Mvc\View\Engine\Volt\Compiler`. [#17668](https://github.com/phalcon/cphalcon/issues/17668)
+- Faster rendering and template compilation in `Phalcon\Mvc\View` and `Phalcon\Mvc\View\Engine\Volt\Compiler`. [#17668](https://github.com/phalcon/cphalcon/issues/17668)
 
 ### Added
 
