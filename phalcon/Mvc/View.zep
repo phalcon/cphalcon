@@ -1317,7 +1317,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
                 && (substr(path, 1, 2) === ":\\" || substr(path, 1, 2) === ":/");
         }
 
-        return str_starts_with(path, "/");
+        return starts_with(path, "/");
     }
 
     /**
