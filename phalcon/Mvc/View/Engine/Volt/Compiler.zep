@@ -1412,7 +1412,7 @@ class Compiler implements InjectionAwareInterface
         let extensions = this->extensions;
 
         loop {
-            if typeof extensions === "array" {
+            if !empty extensions {
                 /**
                  * Notify the extensions about being resolving an expression
                  */
@@ -1871,7 +1871,7 @@ class Compiler implements InjectionAwareInterface
              */
             let extensions = this->extensions;
 
-            if typeof extensions == "array" {
+            if !empty extensions {
                 /**
                  * Notify the extensions about being compiling a function
                  */
@@ -2592,7 +2592,7 @@ class Compiler implements InjectionAwareInterface
          */
         let extensions = this->extensions;
 
-        if typeof extensions == "array" {
+        if !empty extensions {
             /**
              * Notify the extensions about being compiling a function
              */
@@ -2742,8 +2742,6 @@ class Compiler implements InjectionAwareInterface
 
         let compilation = null;
 
-        let extensions = this->extensions;
-
         for statement in statements {
             /**
              * All statements must be arrays
@@ -2761,9 +2759,12 @@ class Compiler implements InjectionAwareInterface
 
             /**
              * Check if extensions have implemented custom compilation for this
-             * statement
+             * statement. Read the property for each statement: a function or
+             * a filter can add an extension during the compilation.
              */
-            if typeof extensions == "array" {
+            let extensions = this->extensions;
+
+            if !empty extensions {
                 /**
                  * Notify the extensions about being resolving a statement
                  */
