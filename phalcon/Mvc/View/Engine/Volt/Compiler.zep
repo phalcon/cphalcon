@@ -151,6 +151,13 @@ class Compiler implements InjectionAwareInterface
     protected view;
 
     /**
+     * The virtual path of each template path (see compile())
+     *
+     * @phpstan-var array<string, string>
+     */
+    protected array virtualPaths = [];
+
+    /**
      * Phalcon\Mvc\View\Engine\Volt\Compiler
      *
      * @param ViewBaseInterface|null view
@@ -297,8 +304,8 @@ class Compiler implements InjectionAwareInterface
     public function compile(string templatePath, bool extendsMode = false)
     {
         var blocksCode, compilation, compileAlways, compiledExtension,
-            compiledPath, compiledSeparator, options, prefix, stat, templateSepPath,
-            compiledTemplatePath = "";
+            compiledPath, compiledSeparator, options, prefix, realTemplatePath,
+            stat, templateSepPath, compiledTemplatePath = "";
 
         /**
          * Re-initialize some properties already initialized when the object is
@@ -413,12 +420,20 @@ class Compiler implements InjectionAwareInterface
             if !empty compiledPath {
                 /**
                  * Create the virtual path replacing the directory separator by
-                 * the compiled separator
+                 * the compiled separator. Keep it for the next calls when the
+                 * template file exists.
                  */
-                let templateSepPath = prepare_virtual_path(
-                    realpath(templatePath),
-                    compiledSeparator
-                );
+                if !fetch templateSepPath, this->virtualPaths[templatePath] {
+                    let realTemplatePath = realpath(templatePath);
+                    let templateSepPath = prepare_virtual_path(
+                        realTemplatePath,
+                        compiledSeparator
+                    );
+
+                    if typeof realTemplatePath == "string" {
+                        let this->virtualPaths[templatePath] = templateSepPath;
+                    }
+                }
             } else {
                 let templateSepPath = templatePath;
             }
@@ -2281,6 +2296,11 @@ class Compiler implements InjectionAwareInterface
     {
         let this->options[option] = value;
 
+        /**
+         * The virtual paths use the "separator" option
+         */
+        let this->virtualPaths = [];
+
         return this;
     }
 
@@ -2292,6 +2312,11 @@ class Compiler implements InjectionAwareInterface
     public function setOptions(array options) -> <static>
     {
         let this->options = options;
+
+        /**
+         * The virtual paths use the "separator" option
+         */
+        let this->virtualPaths = [];
 
         return this;
     }
