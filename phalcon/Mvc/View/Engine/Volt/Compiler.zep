@@ -307,18 +307,6 @@ class Compiler implements InjectionAwareInterface
             compiledPath, compiledSeparator, options, prefix, realTemplatePath,
             stat, templateSepPath, compiledTemplatePath = "";
 
-        /**
-         * Re-initialize some properties already initialized when the object is
-         * cloned
-         */
-        let this->extended = false;
-        let this->extendedBlocks = false;
-        let this->blocks = null;
-        let this->level = 0;
-        let this->foreachLevel = 0;
-        let this->blockLevel = 0;
-        let this->exprLevel = 0;
-
         let compilation = null;
 
         let options = this->options;
@@ -2341,6 +2329,18 @@ class Compiler implements InjectionAwareInterface
         var currentPath, intermediate, extended, finalCompilation, blocks,
             extendedBlocks, name, block, blockCompilation, localBlock,
             compilation, options, autoescape;
+
+        /**
+         * Reset the compilation state. A clone (extends, include) also gets
+         * the state of its parent.
+         */
+        let this->extended = false;
+        let this->extendedBlocks = false;
+        let this->blocks = null;
+        let this->level = 0;
+        let this->foreachLevel = 0;
+        let this->blockLevel = 0;
+        let this->exprLevel = 0;
 
         let currentPath = this->currentPath;
 

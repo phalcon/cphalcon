@@ -4,6 +4,11 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 ## [Unreleased](https://github.com/phalcon/cphalcon/releases/tag/vx.x.x) (2026-xx-xx)
 
+### Upgrade notes
+
+- `Phalcon\Mvc\View\Engine\Volt\Compiler` resets the compilation state (`extended`, `extendedBlocks`, `blocks`, `level`, `foreachLevel`, `blockLevel`, `exprLevel`) at the start of each compilation in `compileSource()`, which `compileFile()` and `compileString()` call, and not at the start of each `compile()` call. When `compile()` uses the compiled file, the state stays from the last compilation: a subclass that reads these protected properties after such a `compile()` call sees that state (before: the reset values). A subclass that overrides `compileSource()` and does not call the parent method does not get the reset. [#17668](https://github.com/phalcon/cphalcon/issues/17668)
+- The Volt output can change. When one compiler compiles more than one template (the Volt engine of `Phalcon\Mvc\View` keeps one compiler), a template no longer gets the blocks or the `{% extends %}` state of an earlier template. Example: `login.volt` extends `base.volt` and makes the `header` block empty; `main.volt` extends `base.volt` and does not change `header`. Before, `main.volt` compiled after `login.volt` had an empty `header`; now it has the `header` of `base.volt`. Compiled files made before the upgrade can have the old output: remove them after the upgrade, so that the compiler makes them again. [#17668](https://github.com/phalcon/cphalcon/issues/17668)
+
 ### Tools
 
 - Zephir 1.5.0
@@ -34,6 +39,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - `Phalcon\Mvc\Router` static-route matching calling a `beforeMatch` callback two times after a veto. [#17638](https://github.com/phalcon/cphalcon/issues/17638)
 - `Phalcon\Mvc\Router` static-route matching ignoring a later-attached regex route of the request method. [#17642](https://github.com/phalcon/cphalcon/issues/17642)
 - `Phalcon\Mvc\Router` static-route matching passing over a regex route when a later static route is skipped by its host name or `beforeMatch`. [#17643](https://github.com/phalcon/cphalcon/issues/17643)
+- `Phalcon\Mvc\View\Engine\Volt\Compiler` using the blocks and the `{% extends %}` state of an earlier template when one compiler compiles more than one template. [#17668](https://github.com/phalcon/cphalcon/issues/17668)
 
 ### Removed
 

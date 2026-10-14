@@ -91,7 +91,7 @@ class CompilerFilesTest extends AbstractUnitTestCase
             . '    <meta name="viewport" content="width=device-width, initial-scale=1.0" />' . PHP_EOL
             . '</head>' . PHP_EOL
             . '<body>' . PHP_EOL
-            . PHP_EOL
+            . '%s' . PHP_EOL
             . PHP_EOL
             . PHP_EOL
             . '%s' . PHP_EOL
@@ -121,7 +121,7 @@ class CompilerFilesTest extends AbstractUnitTestCase
         );
 
         $file     = Talon::settings()->supportPath('assets/views/blocks/index/login.volt.php');
-        $expected = sprintf($template, '<p>This is the login page</p>');
+        $expected = sprintf($template, '', '<p>This is the login page</p>');
         $this->assertFileContentsEqual($file, $expected);
 
         /**
@@ -134,7 +134,11 @@ class CompilerFilesTest extends AbstractUnitTestCase
 
         $file = Talon::settings()->supportPath('assets/views/blocks/index/main.volt.php');
 
-        $expected = sprintf($template, '<p>This is the main page</p>');
+        $expected = sprintf(
+            $template,
+            PHP_EOL . '<?= $this->partial(\'blocks/partials/header\') ?>' . PHP_EOL,
+            '<p>This is the main page</p>'
+        );
         $this->assertFileContentsEqual($file, $expected);
     }
 
