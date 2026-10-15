@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc\View;
 
 use Phalcon\Di\Di;
+use Phalcon\Events\Event;
+use Phalcon\Events\Manager;
 use Phalcon\Mvc\View;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Talon\Talon;
@@ -173,6 +175,64 @@ class PartialTest extends AbstractUnitTestCase
         $actual = ob_get_clean();
 
         $this->assertSame('Hey, this is a partial, also abcde', $actual);
+    }
+
+    /**
+     * A plain path does not change. A "." segment and a ".." segment are
+     * resolved, a segment with a "." in a name stays, and a backslash is a
+     * separator.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-13
+     */
+    public function testMvcViewPartialResolvedPath(): void
+    {
+        $container = new Di();
+        $manager   = new Manager();
+        $view      = new View();
+        $paths     = [];
+
+        $manager->attach(
+            'view:beforeRenderView',
+            function (Event $event, View $source, string $path) use (&$paths): void {
+                $paths[] = $path;
+            }
+        );
+
+        $view->setViewsDir(
+            $this->getDirSeparator(Talon::settings()->supportPath('assets/views'))
+        );
+        $view->setDI($container);
+        $view->setEventsManager($manager);
+
+        $partials = [
+            'partials/partial',
+            'partials//partial',
+            './partials/partial',
+            'partials/./partial',
+            'other/../partials/partial',
+            'x.y/../partials/partial',
+            'partials\\partial',
+        ];
+
+        foreach ($partials as $partial) {
+            ob_start();
+            $view->partial($partial, ['cool_var' => 'abcde']);
+            ob_end_clean();
+        }
+
+        $viewsDir = $view->getViewsDir();
+        $expected = [
+            $viewsDir . 'partials/partial.phtml',
+            $viewsDir . 'partials//partial.phtml',
+            $viewsDir . 'partials/partial.phtml',
+            $viewsDir . 'partials/partial.phtml',
+            $viewsDir . 'partials/partial.phtml',
+            $viewsDir . 'partials/partial.phtml',
+            $viewsDir . 'partials/partial.phtml',
+        ];
+
+        $this->assertSame($expected, $paths);
     }
 
     /**

@@ -17,6 +17,7 @@ use Phalcon\Html\TagFactory;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Mvc\View\Exception;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Talon\Talon;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -655,6 +656,72 @@ class CompileStringTest extends AbstractUnitTestCase
 
         $actual = $volt->compileString($param);
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * compileString() after a compile() that compiled a template with
+     * "extends" and a compile() that used the compiled file gives the
+     * correct output.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-14
+     */
+    public function testMvcViewEngineVoltCompilerCompileStringAfterCompile(): void
+    {
+        $dir   = Talon::settings()->outputPath('tests/volt-compile-state-compile/');
+        $cache = $dir . 'cache/';
+
+        $this->safeDeleteDirectory($dir);
+        mkdir($cache, 0777, true);
+        file_put_contents($dir . 'parent.volt', '[P[{% block body %}{% endblock %}]]');
+        file_put_contents(
+            $dir . 'child.volt',
+            "{% extends '" . $dir . "parent.volt' %}{% block body %}[C]{% endblock %}"
+        );
+        file_put_contents($dir . 'plain.volt', 'plain');
+
+        $compiler = new Compiler();
+        $compiler->setOptions(['path' => $cache, 'separator' => '_', 'stat' => false]);
+
+        $compiler->compile($dir . 'plain.volt');
+        $compiler->compile($dir . 'child.volt');
+        $compiler->compile($dir . 'plain.volt');
+
+        $actual = $compiler->compileString('{{ "x" }}');
+
+        $this->safeDeleteDirectory($dir);
+
+        $this->assertSame("<?= 'x' ?>", $actual);
+    }
+
+    /**
+     * compileString() after a compileString() of a template with "extends"
+     * gives the correct output.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-14
+     */
+    public function testMvcViewEngineVoltCompilerCompileStringAfterExtends(): void
+    {
+        $dir   = Talon::settings()->outputPath('tests/volt-compile-state-extends/');
+        $cache = $dir . 'cache/';
+
+        $this->safeDeleteDirectory($dir);
+        mkdir($cache, 0777, true);
+        file_put_contents($dir . 'parent.volt', '[P[{% block body %}{% endblock %}]]');
+
+        $compiler = new Compiler();
+        $compiler->setOptions(['path' => $cache, 'separator' => '_']);
+
+        $extends = $compiler->compileString(
+            "{% extends '" . $dir . "parent.volt' %}{% block body %}[C]{% endblock %}"
+        );
+        $actual  = $compiler->compileString('{{ "x" }}');
+
+        $this->safeDeleteDirectory($dir);
+
+        $this->assertSame('[P[[C]]]', $extends);
+        $this->assertSame("<?= 'x' ?>", $actual);
     }
 
     /**
