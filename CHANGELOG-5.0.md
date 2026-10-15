@@ -2,44 +2,39 @@
 
 All notable changes are documented here. The format is based on [Keep a Changelog][keep_a_changelog] and this project adheres to [Semantic Versioning][semantic_versioning].
 
-## [Unreleased](https://github.com/phalcon/cphalcon/releases/tag/vx.x.x) (2026-xx-xx)
-
-### Upgrade notes
-
-- `Phalcon\Mvc\View\Engine\Volt\Compiler` resets the compilation state (`extended`, `extendedBlocks`, `blocks`, `level`, `foreachLevel`, `blockLevel`, `exprLevel`) at the start of each compilation in `compileSource()`, which `compileFile()` and `compileString()` call, and not at the start of each `compile()` call. When `compile()` uses the compiled file, the state stays from the last compilation: a subclass that reads these protected properties after such a `compile()` call sees that state (before: the reset values). A subclass that overrides `compileSource()` and does not call the parent method does not get the reset. [#17668](https://github.com/phalcon/cphalcon/issues/17668)
-- The Volt output can change. When one compiler compiles more than one template (the Volt engine of `Phalcon\Mvc\View` keeps one compiler), a template no longer gets the blocks or the `{% extends %}` state of an earlier template. Example: `login.volt` extends `base.volt` and makes the `header` block empty; `main.volt` extends `base.volt` and does not change `header`. Before, `main.volt` compiled after `login.volt` had an empty `header`; now it has the `header` of `base.volt`. Compiled files made before the upgrade can have the old output: remove them after the upgrade, so that the compiler makes them again. [#17668](https://github.com/phalcon/cphalcon/issues/17668)
+## [5.23.0](https://github.com/phalcon/cphalcon/releases/tag/v5.23.0) (2026-10-15)
 
 ### Tools
 
-- Zephir 1.5.0
+- Zephir 1.6.1
 
 ### Changed
 
-- Faster route matching and route index build in `Phalcon\Mvc\Router`. [#17628](https://github.com/phalcon/cphalcon/issues/17628)
-- Faster service resolution in `Phalcon\Di\Di` for service names with no alias. [#17629](https://github.com/phalcon/cphalcon/issues/17629)
-- Faster router setup in `Phalcon\Mvc\Micro`: the default router is created without its default routes. [#17630](https://github.com/phalcon/cphalcon/issues/17630)
-- Faster service registration and resolution in `Phalcon\Container\Container`. [#17631](https://github.com/phalcon/cphalcon/issues/17631)
-- Faster model hydration in `Phalcon\Mvc\Model` and `Phalcon\Mvc\Model\Resultset\Complex`. [#17632](https://github.com/phalcon/cphalcon/issues/17632)
-- Faster event dispatch in `Phalcon\Events\Manager`, method detection in `Phalcon\Http\Request` and header sending in `Phalcon\Http\Response`. [#17633](https://github.com/phalcon/cphalcon/issues/17633)
-- Faster SQL generation in `Phalcon\Db\Dialect` and select execution in `Phalcon\Mvc\Model\Query`. [#17660](https://github.com/phalcon/cphalcon/issues/17660)
-- Faster rendering and template compilation in `Phalcon\Mvc\View` and `Phalcon\Mvc\View\Engine\Volt\Compiler`. [#17668](https://github.com/phalcon/cphalcon/issues/17668)
+- Faster SQL generation in `Phalcon\Db\Dialect` and select execution in `Phalcon\Mvc\Model\Query`. [#17660](https://github.com/phalcon/cphalcon/issues/17660) [[doc]](https://docs.phalcon.io/5.23/db-layer/) [[doc]](https://docs.phalcon.io/5.23/db-phql/)
+- Faster event dispatch in `Phalcon\Events\Manager`, method detection in `Phalcon\Http\Request` and header sending in `Phalcon\Http\Response`. [#17633](https://github.com/phalcon/cphalcon/issues/17633) [[doc]](https://docs.phalcon.io/5.23/events/) [[doc]](https://docs.phalcon.io/5.23/request/) [[doc]](https://docs.phalcon.io/5.23/response/)
+- Faster model hydration in `Phalcon\Mvc\Model` and `Phalcon\Mvc\Model\Resultset\Complex`. [#17632](https://github.com/phalcon/cphalcon/issues/17632) [[doc]](https://docs.phalcon.io/5.23/db-models/)
+- Faster rendering and template compilation in `Phalcon\Mvc\View` and `Phalcon\Mvc\View\Engine\Volt\Compiler`. [#17668](https://github.com/phalcon/cphalcon/issues/17668) [[doc]](https://docs.phalcon.io/5.23/views/) [[doc]](https://docs.phalcon.io/5.23/volt/)
+- Faster route matching and route index build in `Phalcon\Mvc\Router`. [#17628](https://github.com/phalcon/cphalcon/issues/17628) [[doc]](https://docs.phalcon.io/5.23/routing/)
+- Faster router setup in `Phalcon\Mvc\Micro`: the default router is created without its default routes. [#17630](https://github.com/phalcon/cphalcon/issues/17630) [[doc]](https://docs.phalcon.io/5.23/application-micro/)
+- Faster service registration and resolution in `Phalcon\Container\Container`. [#17631](https://github.com/phalcon/cphalcon/issues/17631) [[doc]](https://docs.phalcon.io/5.23/container/)
+- Faster service resolution in `Phalcon\Di\Di` for service names with no alias. [#17629](https://github.com/phalcon/cphalcon/issues/17629) [[doc]](https://docs.phalcon.io/5.23/di/)
 
 ### Added
 
 
 ### Fixed
 
-- `Phalcon\Mvc\Model::__set()` skipping the user-defined setter when `null` is assigned to a relationship alias. [#17662](https://github.com/phalcon/cphalcon/issues/17662)
-- `Phalcon\Mvc\Router::getMatches()` and `Phalcon\Cli\Router::getMatches()` returning the matches of an earlier request after a static-route match or no match. [#17646](https://github.com/phalcon/cphalcon/issues/17646)
-- `Phalcon\Mvc\Router::getMatches()` returning the internal `MARK` key after a combined-regex match. [#17634](https://github.com/phalcon/cphalcon/issues/17634)
-- `Phalcon\Mvc\Router` combined-regex matching changing the meaning of a route pattern with `|` outside a group. [#17645](https://github.com/phalcon/cphalcon/issues/17645)
-- `Phalcon\Mvc\Router` combined-regex matching failing to compile or mixing matches for routes with named groups. [#17636](https://github.com/phalcon/cphalcon/issues/17636)
-- `Phalcon\Mvc\Router` combined-regex matching returning a wrong route when a route pattern in the same chunk does not compile. [#17644](https://github.com/phalcon/cphalcon/issues/17644)
-- `Phalcon\Mvc\Router` combined-regex matching skipping a route after a `beforeMatch` veto and calling the callback two times. [#17635](https://github.com/phalcon/cphalcon/issues/17635)
-- `Phalcon\Mvc\Router` static-route matching calling a `beforeMatch` callback two times after a veto. [#17638](https://github.com/phalcon/cphalcon/issues/17638)
-- `Phalcon\Mvc\Router` static-route matching ignoring a later-attached regex route of the request method. [#17642](https://github.com/phalcon/cphalcon/issues/17642)
-- `Phalcon\Mvc\Router` static-route matching passing over a regex route when a later static route is skipped by its host name or `beforeMatch`. [#17643](https://github.com/phalcon/cphalcon/issues/17643)
-- `Phalcon\Mvc\View\Engine\Volt\Compiler` using the blocks and the `{% extends %}` state of an earlier template when one compiler compiles more than one template. [#17668](https://github.com/phalcon/cphalcon/issues/17668)
+- `Phalcon\Mvc\Model::__set()` skipping the user-defined setter when `null` is assigned to a relationship alias. [#17662](https://github.com/phalcon/cphalcon/issues/17662) [[doc]](https://docs.phalcon.io/5.23/db-models-relationships/)
+- `Phalcon\Mvc\Router::getMatches()` and `Phalcon\Cli\Router::getMatches()` returning the matches of an earlier request after a static-route match or no match. [#17646](https://github.com/phalcon/cphalcon/issues/17646) [[doc]](https://docs.phalcon.io/5.23/routing/) [[doc]](https://docs.phalcon.io/5.23/application-cli/)
+- `Phalcon\Mvc\Router::getMatches()` returning the internal `MARK` key after a combined-regex match. [#17634](https://github.com/phalcon/cphalcon/issues/17634) [[doc]](https://docs.phalcon.io/5.23/routing/)
+- `Phalcon\Mvc\Router` combined-regex matching changing the meaning of a route pattern with `|` outside a group. [#17645](https://github.com/phalcon/cphalcon/issues/17645) [[doc]](https://docs.phalcon.io/5.23/routing/)
+- `Phalcon\Mvc\Router` combined-regex matching failing to compile or mixing matches for routes with named groups. [#17636](https://github.com/phalcon/cphalcon/issues/17636) [[doc]](https://docs.phalcon.io/5.23/routing/)
+- `Phalcon\Mvc\Router` combined-regex matching returning a wrong route when a route pattern in the same chunk does not compile. [#17644](https://github.com/phalcon/cphalcon/issues/17644) [[doc]](https://docs.phalcon.io/5.23/routing/)
+- `Phalcon\Mvc\Router` combined-regex matching skipping a route after a `beforeMatch` veto and calling the callback two times. [#17635](https://github.com/phalcon/cphalcon/issues/17635) [[doc]](https://docs.phalcon.io/5.23/routing/)
+- `Phalcon\Mvc\Router` static-route matching calling a `beforeMatch` callback two times after a veto. [#17638](https://github.com/phalcon/cphalcon/issues/17638) [[doc]](https://docs.phalcon.io/5.23/routing/)
+- `Phalcon\Mvc\Router` static-route matching ignoring a later-attached regex route of the request method. [#17642](https://github.com/phalcon/cphalcon/issues/17642) [[doc]](https://docs.phalcon.io/5.23/routing/)
+- `Phalcon\Mvc\Router` static-route matching passing over a regex route when a later static route is skipped by its host name or `beforeMatch`. [#17643](https://github.com/phalcon/cphalcon/issues/17643) [[doc]](https://docs.phalcon.io/5.23/routing/)
+- `Phalcon\Mvc\View\Engine\Volt\Compiler` using the blocks and the `{% extends %}` state of an earlier template when one compiler compiles more than one template. [#17668](https://github.com/phalcon/cphalcon/issues/17668) [[doc]](https://docs.phalcon.io/5.23/volt/)
 
 ### Removed
 
