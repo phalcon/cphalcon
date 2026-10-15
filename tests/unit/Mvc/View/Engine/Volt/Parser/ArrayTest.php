@@ -227,4 +227,106 @@ final class ArrayTest extends AbstractUnitTestCase
         $actual   = $this->compiler->parse($source);
         $this->assertSame($expected, $actual);
     }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-15
+     */
+    public function testMvcViewEngineVoltParserExprArrayTrailingComma(): void
+    {
+        $source   = '{{ [1, 2, 3,] }}';
+        $expected = [
+            [
+                'type' => 359,
+                'expr' => [
+                    'type' => 360,
+                    'left' => [
+                        [
+                            'expr' => [
+                                'type' => 258,
+                                'value' => '1',
+                                'file' => 'eval code',
+                                'line' => 1,
+                            ],
+                            'file' => 'eval code',
+                            'line' => 1,
+                        ],
+                        [
+                            'expr' => [
+                                'type' => 258,
+                                'value' => '2',
+                                'file' => 'eval code',
+                                'line' => 1,
+                            ],
+                            'file' => 'eval code',
+                            'line' => 1,
+                        ],
+                        [
+                            'expr' => [
+                                'type' => 258,
+                                'value' => '3',
+                                'file' => 'eval code',
+                                'line' => 1,
+                            ],
+                            'file' => 'eval code',
+                            'line' => 1,
+                        ],
+                    ],
+                    'file' => 'eval code',
+                    'line' => 1,
+                ],
+                'file' => 'eval code',
+                'line' => 1,
+            ],
+        ];
+        $actual   = $this->compiler->parse($source);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-15
+     */
+    public function testMvcViewEngineVoltParserExprHashTrailingComma(): void
+    {
+        $source   = '{{ {\'key\': \'value\', \'num\': 42,} }}';
+        $expected = [
+            [
+                'type' => 359,
+                'expr' => [
+                    'type' => 360,
+                    'left' => [
+                        [
+                            'expr' => [
+                                'type' => 260,
+                                'value' => 'value',
+                                'file' => 'eval code',
+                                'line' => 1,
+                            ],
+                            'name' => 'key',
+                            'file' => 'eval code',
+                            'line' => 1,
+                        ],
+                        [
+                            'expr' => [
+                                'type' => 258,
+                                'value' => '42',
+                                'file' => 'eval code',
+                                'line' => 1,
+                            ],
+                            'name' => 'num',
+                            'file' => 'eval code',
+                            'line' => 1,
+                        ],
+                    ],
+                    'file' => 'eval code',
+                    'line' => 1,
+                ],
+                'file' => 'eval code',
+                'line' => 1,
+            ],
+        ];
+        $actual   = $this->compiler->parse($source);
+        $this->assertSame($expected, $actual);
+    }
 }

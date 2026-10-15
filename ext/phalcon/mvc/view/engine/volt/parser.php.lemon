@@ -395,6 +395,11 @@ macro_statement(R) ::= OPEN_DELIMITER MACRO IDENTIFIER(I) PARENTHESES_OPEN macro
 	phvolt_ret_macro_statement(&R, I, &P, &T, status->scanner_state);
 }
 
+/* {% macro NAME(PARAM, PARAM, ) %} STMT {% endmacro %} trailing comma */
+macro_statement(R) ::= OPEN_DELIMITER MACRO IDENTIFIER(I) PARENTHESES_OPEN macro_parameters(P) COMMA PARENTHESES_CLOSE CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ENDMACRO CLOSE_DELIMITER . {
+	phvolt_ret_macro_statement(&R, I, &P, &T, status->scanner_state);
+}
+
 macro_parameters(R) ::= macro_parameters(L) COMMA macro_parameter(I) . {
 	phvolt_ret_zval_list(&R, &L, &I);
 }
@@ -436,6 +441,11 @@ macro_parameter_default(R) ::= TRUE . {
 }
 
 macro_call_statement(R) ::= OPEN_DELIMITER CALL expr(E) PARENTHESES_OPEN argument_list(L) PARENTHESES_CLOSE CLOSE_DELIMITER statement_list(C) OPEN_DELIMITER ENDCALL CLOSE_DELIMITER . {
+	phvolt_ret_macro_call_statement(&R, &E, &L, &C, status->scanner_state);
+}
+
+/* {% call EXPR(ARG, ARG, ) %} STMT {% endcall %} trailing comma */
+macro_call_statement(R) ::= OPEN_DELIMITER CALL expr(E) PARENTHESES_OPEN argument_list(L) COMMA PARENTHESES_CLOSE CLOSE_DELIMITER statement_list(C) OPEN_DELIMITER ENDCALL CLOSE_DELIMITER . {
 	phvolt_ret_macro_call_statement(&R, &E, &L, &C, status->scanner_state);
 }
 
@@ -703,11 +713,21 @@ expr(R) ::= SBRACKET_OPEN array_list(A) SBRACKET_CLOSE . {
 	phvolt_ret_expr(&R, PHVOLT_T_ARRAY, &A, NULL, NULL, status->scanner_state);
 }
 
+/* [ ITEM, ITEM, ] trailing comma */
+expr(R) ::= SBRACKET_OPEN array_list(A) COMMA SBRACKET_CLOSE . {
+	phvolt_ret_expr(&R, PHVOLT_T_ARRAY, &A, NULL, NULL, status->scanner_state);
+}
+
 expr(R) ::= CBRACKET_OPEN CBRACKET_CLOSE . {
 	phvolt_ret_expr(&R, PHVOLT_T_ARRAY, NULL, NULL, NULL, status->scanner_state);
 }
 
 expr(R) ::= CBRACKET_OPEN array_list(A) CBRACKET_CLOSE . {
+	phvolt_ret_expr(&R, PHVOLT_T_ARRAY, &A, NULL, NULL, status->scanner_state);
+}
+
+/* { ITEM, ITEM, } trailing comma */
+expr(R) ::= CBRACKET_OPEN array_list(A) COMMA CBRACKET_CLOSE . {
 	phvolt_ret_expr(&R, PHVOLT_T_ARRAY, &A, NULL, NULL, status->scanner_state);
 }
 
@@ -760,6 +780,11 @@ expr(R) ::= function_call(F) . {
 }
 
 function_call(R) ::= expr(E) PARENTHESES_OPEN argument_list(L) PARENTHESES_CLOSE . {
+	phvolt_ret_func_call(&R, &E, &L, status->scanner_state);
+}
+
+/* EXPR(ARG, ARG, ) trailing comma */
+function_call(R) ::= expr(E) PARENTHESES_OPEN argument_list(L) COMMA PARENTHESES_CLOSE . {
 	phvolt_ret_func_call(&R, &E, &L, status->scanner_state);
 }
 

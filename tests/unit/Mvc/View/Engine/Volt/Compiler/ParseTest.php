@@ -193,6 +193,15 @@ class ParseTest extends AbstractUnitTestCase
             ['{{ test.is() }}', 1],
             ['{{ test.is(true) }}', 1],
             ['{{ cookie().is(true) }}', 1],
+            //Issue 17652 trailing commas
+            ['{{ [1, 2, 3,] }}', 1],
+            ['{{ {\'a\': 1, \'b\': 2,} }}', 1],
+            ['{{ partial(\'page/display-course-buttons\', [\'size\': \'large\', \'course\': course, ]) }}', 1],
+            ['{{ slice(text, 0, 50,) }}', 1],
+            ['{{ myFunc(\'key\': value,) }}', 1],
+            ['{% macro input(name, value,) %}content{% endmacro %}', 1],
+            ['{% call render(item,) %}content{% endcall %}', 1],
+            ['{% for k, v in [1, 2, 3,] %} hello {% endfor %}', 1],
         ];
     }
 
@@ -259,6 +268,31 @@ class ParseTest extends AbstractUnitTestCase
                 '\'{{ link_to("album/" ~ album.id ~ "/" ~ $album.uri, ' .
                 '"<img src=\"" ~ album.url ~ "\" alt=\"" ~ album.name ~ "\"/>") }}\'',
                 "Scanning error before 'album.uri, \"<img...' in eval code on line 1",
+            ],
+            //Issue 17652 only one trailing comma is allowed
+            [
+                '{{ [1, 2,,] }}',
+                'Syntax error, unexpected token COMMA in eval code on line 1',
+            ],
+            [
+                '{{ [,] }}',
+                'Syntax error, unexpected token COMMA in eval code on line 1',
+            ],
+            [
+                '{{ [1,,2] }}',
+                'Syntax error, unexpected token COMMA in eval code on line 1',
+            ],
+            [
+                '{{ myFunc(,) }}',
+                'Syntax error, unexpected token COMMA in eval code on line 1',
+            ],
+            [
+                '{{ myFunc(a,,) }}',
+                'Syntax error, unexpected token COMMA in eval code on line 1',
+            ],
+            [
+                '{% macro input(,) %}{% endmacro %}',
+                'Syntax error, unexpected token COMMA in eval code on line 1',
             ],
         ];
     }

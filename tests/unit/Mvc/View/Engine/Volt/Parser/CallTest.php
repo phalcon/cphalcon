@@ -92,4 +92,48 @@ final class CallTest extends AbstractUnitTestCase
         $actual   = $this->compiler->parse($source);
         $this->assertSame($expected, $actual);
     }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-15
+     */
+    public function testMvcViewEngineVoltParserCallWithArgsTrailingComma(): void
+    {
+        $source   = '{% call render(item,) %}block content{% endcall %}';
+        $expected = [
+            [
+                'type' => 325,
+                'name' => [
+                    'type' => 265,
+                    'value' => 'render',
+                    'file' => 'eval code',
+                    'line' => 1,
+                ],
+                'arguments' => [
+                    [
+                        'expr' => [
+                            'type' => 265,
+                            'value' => 'item',
+                            'file' => 'eval code',
+                            'line' => 1,
+                        ],
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                ],
+                'caller' => [
+                    [
+                        'type' => 357,
+                        'value' => 'block content',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                ],
+                'file' => 'eval code',
+                'line' => 1,
+            ],
+        ];
+        $actual   = $this->compiler->parse($source);
+        $this->assertSame($expected, $actual);
+    }
 }

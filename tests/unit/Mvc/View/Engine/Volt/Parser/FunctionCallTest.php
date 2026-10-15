@@ -248,4 +248,107 @@ final class FunctionCallTest extends AbstractUnitTestCase
         $actual   = $this->compiler->parse($source);
         $this->assertSame($expected, $actual);
     }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-15
+     */
+    public function testMvcViewEngineVoltParserExprFuncMultiArgsTrailingComma(): void
+    {
+        $source   = '{{ slice(text, 0, 50,) }}';
+        $expected = [
+            [
+                'type' => 359,
+                'expr' => [
+                    'type' => 350,
+                    'name' => [
+                        'type' => 265,
+                        'value' => 'slice',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    'arguments' => [
+                        [
+                            'expr' => [
+                                'type' => 265,
+                                'value' => 'text',
+                                'file' => 'eval code',
+                                'line' => 1,
+                            ],
+                            'file' => 'eval code',
+                            'line' => 1,
+                        ],
+                        [
+                            'expr' => [
+                                'type' => 258,
+                                'value' => '0',
+                                'file' => 'eval code',
+                                'line' => 1,
+                            ],
+                            'file' => 'eval code',
+                            'line' => 1,
+                        ],
+                        [
+                            'expr' => [
+                                'type' => 258,
+                                'value' => '50',
+                                'file' => 'eval code',
+                                'line' => 1,
+                            ],
+                            'file' => 'eval code',
+                            'line' => 1,
+                        ],
+                    ],
+                    'file' => 'eval code',
+                    'line' => 1,
+                ],
+                'file' => 'eval code',
+                'line' => 1,
+            ],
+        ];
+        $actual   = $this->compiler->parse($source);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-15
+     */
+    public function testMvcViewEngineVoltParserExprFuncNamedArgsTrailingComma(): void
+    {
+        $source   = '{{ myFunc(\'key\': value,) }}';
+        $expected = [
+            [
+                'type' => 359,
+                'expr' => [
+                    'type' => 350,
+                    'name' => [
+                        'type' => 265,
+                        'value' => 'myFunc',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    'arguments' => [
+                        [
+                            'expr' => [
+                                'type' => 265,
+                                'value' => 'value',
+                                'file' => 'eval code',
+                                'line' => 1,
+                            ],
+                            'name' => 'key',
+                            'file' => 'eval code',
+                            'line' => 1,
+                        ],
+                    ],
+                    'file' => 'eval code',
+                    'line' => 1,
+                ],
+                'file' => 'eval code',
+                'line' => 1,
+            ],
+        ];
+        $actual   = $this->compiler->parse($source);
+        $this->assertSame($expected, $actual);
+    }
 }

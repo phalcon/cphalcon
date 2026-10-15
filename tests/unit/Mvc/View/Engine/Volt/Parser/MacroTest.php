@@ -397,4 +397,77 @@ final class MacroTest extends AbstractUnitTestCase
         $actual   = $this->compiler->parse($source);
         $this->assertSame($expected, $actual);
     }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-15
+     */
+    public function testMvcViewEngineVoltParserMacroMultiParamsTrailingComma(): void
+    {
+        $source   = '{% macro input(name, value,) %}<input name="{{ name }}" value="{{ value }}">{% endmacro %}';
+        $expected = [
+            [
+                'type' => 322,
+                'name' => 'input',
+                'parameters' => [
+                    [
+                        'variable' => 'name',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    [
+                        'variable' => 'value',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                ],
+                'block_statements' => [
+                    [
+                        'type' => 357,
+                        'value' => '<input name="',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    [
+                        'type' => 359,
+                        'expr' => [
+                            'type' => 265,
+                            'value' => 'name',
+                            'file' => 'eval code',
+                            'line' => 1,
+                        ],
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    [
+                        'type' => 357,
+                        'value' => '" value="',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    [
+                        'type' => 359,
+                        'expr' => [
+                            'type' => 265,
+                            'value' => 'value',
+                            'file' => 'eval code',
+                            'line' => 1,
+                        ],
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                    [
+                        'type' => 357,
+                        'value' => '">',
+                        'file' => 'eval code',
+                        'line' => 1,
+                    ],
+                ],
+                'file' => 'eval code',
+                'line' => 1,
+            ],
+        ];
+        $actual   = $this->compiler->parse($source);
+        $this->assertSame($expected, $actual);
+    }
 }
