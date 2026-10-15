@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Html_Helper_Tag, __invoke)
 	} else {
 		zephir_get_arrval(&attributes, attributes_param);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "rendertag", NULL, 0, &name_zv, &attributes);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderTag", NULL, 0, &name_zv, &attributes);
 	zephir_check_call_status();
 	RETURN_MM();
 }

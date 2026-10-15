@@ -47,19 +47,20 @@ ZEPHIR_INIT_CLASS(Phalcon_Traits_Php_Base64Trait)
 PHP_METHOD(Phalcon_Traits_Php_Base64Trait, doDecodeUrl)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS, remainder = 0;
-	zval *input_param = NULL, data, _0, _4, _5, _6, _1$$3, _2$$3, _3$$3;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *input_param = NULL, data, remainder, _0, _5, _6, _1$$3, _2$$3, _3$$3, _4$$3;
 	zval input;
 
 	ZVAL_UNDEF(&input);
 	ZVAL_UNDEF(&data);
+	ZVAL_UNDEF(&remainder);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$3);
+	ZVAL_UNDEF(&_4$$3);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(input_param)
 	ZEND_PARSE_PARAMETERS_END();
@@ -69,22 +70,26 @@ PHP_METHOD(Phalcon_Traits_Php_Base64Trait, doDecodeUrl)
 	zephir_get_strval(&input, input_param);
 	ZEPHIR_CALL_FUNCTION(&_0, "mb_strlen", NULL, 0, &input);
 	zephir_check_call_status();
-	remainder = zephir_safe_mod_zval_long(&_0, 4);
-	if (remainder) {
+	ZEPHIR_INIT_VAR(&remainder);
+	zephir_mod_zval_long(&remainder, &_0, 4);
+	if (zephir_is_true(&remainder)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
-		ZVAL_STRING(&_1$$3, "=");
-		ZVAL_LONG(&_2$$3, (4 - remainder));
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "str_repeat", NULL, 7, &_1$$3, &_2$$3);
+		ZVAL_LONG(&_1$$3, 4);
+		ZEPHIR_INIT_VAR(&_2$$3);
+		zephir_sub_function(&_2$$3, &_1$$3, &remainder);
+		ZEPHIR_INIT_VAR(&_3$$3);
+		ZVAL_STRING(&_3$$3, "=");
+		ZEPHIR_CALL_FUNCTION(&_4$$3, "str_repeat", NULL, 7, &_3$$3, &_2$$3);
 		zephir_check_call_status();
-		zephir_concat_self(&input, &_3$$3);
+		zephir_concat_self(&input, &_4$$3);
 	}
-	ZEPHIR_INIT_VAR(&_4);
-	ZVAL_STRING(&_4, "-_");
 	ZEPHIR_INIT_VAR(&_5);
-	ZVAL_STRING(&_5, "+/");
-	ZEPHIR_CALL_FUNCTION(&_6, "strtr", NULL, 4, &input, &_4, &_5);
+	ZVAL_STRING(&_5, "-_");
+	ZEPHIR_INIT_VAR(&_6);
+	ZVAL_STRING(&_6, "+/");
+	ZEPHIR_CALL_FUNCTION(&_0, "strtr", NULL, 4, &input, &_5, &_6);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&data, "base64_decode", NULL, 0, &_6);
+	ZEPHIR_CALL_FUNCTION(&data, "base64_decode", NULL, 0, &_0);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&data)) {
 		ZEPHIR_INIT_NVAR(&data);

@@ -84,7 +84,8 @@ rm -f "${text}"
 objcopy --strip-debug "${SOURCE}" "${target}"
 
 debug_so="no"
-if readelf -S "${SOURCE}" | grep -q '\.debug_info'; then
+# Do not use "grep -q". It can stop before readelf ends, and with pipefail the SIGPIPE makes the check fail.
+if readelf -S "${SOURCE}" | grep '\.debug_info' > /dev/null; then
     debug_so="yes"
     cp "${SOURCE}" "${debug_target}"
 fi
@@ -102,6 +103,7 @@ fi
     echo "php=$(php -v | head -n 1)"
     echo "php_extension_api=$(php -i | sed -n 's/^PHP Extension => //p')"
     echo "phalcon=$(php -d extension="${SOURCE}" -r 'echo phpversion("phalcon");')"
+    echo "zephir=$(sed -n 's/^#define PHP_PHALCON_ZEPVERSION *"\([^"$-]*\).*/\1/p' ext/php_phalcon.h)"
     echo "source_sha256=${source_checksum}"
     echo "so_sha256=$(sha256sum "${target}" | cut -d ' ' -f 1)"
     echo "so_size=$(stat -c %s "${target}")"

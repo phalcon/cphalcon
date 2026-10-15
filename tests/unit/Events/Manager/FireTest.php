@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Events\Manager;
 
+use Phalcon\Events\Event;
 use Phalcon\Events\Exception;
 use Phalcon\Events\Manager;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
@@ -113,6 +114,62 @@ final class FireTest extends AbstractUnitTestCase
         $manager->setStopOnFalse(true);
         $this->assertFalse($manager->fire('auth:check', $source));
         $this->assertTrue($manager->fire('auth:check', $source, null, true, false));
+    }
+
+    /**
+     * A type listener that does not stop the event: the fully-qualified
+     * listener runs.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-06
+     */
+    public function testEventsManagerFireTypeQueueNotStoppedRunsFullQueue(): void
+    {
+        $manager   = new Manager();
+        $fullCalls = 0;
+
+        $manager->attach('some', function () {
+            return 'type';
+        });
+        $manager->attach('some:event', function () use (&$fullCalls) {
+            $fullCalls++;
+
+            return 'full';
+        });
+
+        $actual = $manager->fire('some:event', new stdClass());
+
+        $this->assertSame(1, $fullCalls);
+        $this->assertSame('full', $actual);
+    }
+
+    /**
+     * A type listener that stops the event: the fully-qualified listener
+     * does not run.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-06
+     */
+    public function testEventsManagerFireTypeQueueStopSkipsFullQueue(): void
+    {
+        $manager   = new Manager();
+        $fullCalls = 0;
+
+        $manager->attach('some', function (Event $event) {
+            $event->stop();
+
+            return 'type';
+        });
+        $manager->attach('some:event', function () use (&$fullCalls) {
+            $fullCalls++;
+
+            return 'full';
+        });
+
+        $actual = $manager->fire('some:event', new stdClass());
+
+        $this->assertSame(0, $fullCalls);
+        $this->assertSame('type', $actual);
     }
 
     /**

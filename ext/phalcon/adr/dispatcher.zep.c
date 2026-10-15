@@ -186,38 +186,38 @@ PHP_METHOD(Phalcon_ADR_Dispatcher, dispatch)
 		zephir_get_arrval(&routeMiddleware, routeMiddleware_param);
 	}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 347, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&action, &_0, "getservice", NULL, 0, &actionClass_zv);
+	ZEPHIR_CALL_METHOD(&action, &_0, "getService", NULL, 0, &actionClass_zv);
 	zephir_check_call_status();
 	if (!(zephir_instance_of_ev(&action, phalcon_contracts_adr_action_ce))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_adr_exceptions_notanaction_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 317, &actionClass_zv);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 318, &actionClass_zv);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/ADR/Dispatcher.zep", 77);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "resolveglobal", NULL, 318);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "resolveGlobal", NULL, 319);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "resolveall", NULL, 319, &routeMiddleware);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "resolveAll", NULL, 320, &routeMiddleware);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&middleware);
 	zephir_fast_array_merge(&middleware, &_2, &_3);
 	ZEPHIR_INIT_VAR(&terminal);
 	object_init_ex(&terminal, phalcon_adr_eventfulhandler_ce);
 	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_1, 348, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(NULL, &terminal, "__construct", NULL, 320, &action, &_4);
+	ZEPHIR_CALL_METHOD(NULL, &terminal, "__construct", NULL, 321, &action, &_4);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&pipeline);
 	object_init_ex(&pipeline, phalcon_adr_pipeline_ce);
-	ZEPHIR_CALL_METHOD(NULL, &pipeline, "__construct", NULL, 321, &middleware, &terminal);
+	ZEPHIR_CALL_METHOD(NULL, &pipeline, "__construct", NULL, 322, &middleware, &terminal);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_1, 348, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_6);
 	ZVAL_STRING(&_6, "pipeline:beforeDispatch");
 	ZEPHIR_CALL_METHOD(NULL, &_5, "fire", NULL, 0, &_6, this_ptr, request);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&response, &pipeline, "__invoke", NULL, 322, request);
+	ZEPHIR_CALL_METHOD(&response, &pipeline, "__invoke", NULL, 323, request);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_7, this_ptr, _zephir_prop_1, 348, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_NVAR(&_6);
@@ -265,7 +265,7 @@ PHP_METHOD(Phalcon_ADR_Dispatcher, resolveAll)
 			ZEPHIR_INIT_NVAR(&className);
 			ZVAL_COPY(&className, _0);
 			zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_0, 347, PH_NOISY_CC | PH_READONLY);
-			ZEPHIR_CALL_METHOD(&_2$$3, &_1$$3, "getservice", NULL, 0, &className);
+			ZEPHIR_CALL_METHOD(&_2$$3, &_1$$3, "getService", NULL, 0, &className);
 			zephir_check_call_status();
 			zephir_array_append(&result, &_2$$3, PH_SEPARATE, "phalcon/ADR/Dispatcher.zep", 99);
 		} ZEND_HASH_FOREACH_END();
@@ -288,7 +288,7 @@ PHP_METHOD(Phalcon_ADR_Dispatcher, resolveAll)
 			ZEPHIR_CALL_METHOD(&className, &classes, "current", NULL, 0);
 			zephir_check_call_status();
 				zephir_read_property_cached(&_5$$4, this_ptr, _zephir_prop_0, 347, PH_NOISY_CC | PH_READONLY);
-				ZEPHIR_CALL_METHOD(&_6$$4, &_5$$4, "getservice", NULL, 0, &className);
+				ZEPHIR_CALL_METHOD(&_6$$4, &_5$$4, "getService", NULL, 0, &className);
 				zephir_check_call_status();
 				zephir_array_append(&result, &_6$$4, PH_SEPARATE, "phalcon/ADR/Dispatcher.zep", 99);
 		}
@@ -321,7 +321,7 @@ PHP_METHOD(Phalcon_ADR_Dispatcher, resolveGlobal)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 350, PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) == IS_NULL) {
 		zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_1, 349, PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "resolveall", NULL, 319, &_2$$3);
+		ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "resolveAll", NULL, 320, &_2$$3);
 		zephir_check_call_status();
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 350, &_1$$3);
 	}

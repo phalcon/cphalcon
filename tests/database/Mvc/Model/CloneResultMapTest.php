@@ -53,6 +53,17 @@ final class CloneResultMapTest extends AbstractDatabaseTestCase
         parent::tearDown();
     }
 
+    /**
+     * @return array<string, array{0: class-string<Model>, 1: string, 2: string, 3: bool}>
+     */
+    public static function getNullValueModels(): array
+    {
+        return [
+            'no column map' => [Invoices::class, 'inv_id', 'inv_title', false],
+            'column map'    => [InvoicesMap::class, 'id', 'title', true],
+        ];
+    }
+
     public static function modelDataProvider(): array
     {
         return [
@@ -166,6 +177,36 @@ final class CloneResultMapTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * With the setters on, a column whose setter is a local method of the
+     * model (setConnectionService) is set as a property, and the method is
+     * not called.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-05
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelCloneResultMapDoesNotCallLocalMethodAsSetter(): void
+    {
+        Settings::set('orm.call_setters_on_hydration', true);
+
+        $base = new class () extends Model {
+            public string $connection_service = '';
+        };
+
+        $model = Model::cloneResultMap(
+            $base,
+            [
+                'connection_service' => 'db2',
+            ],
+            null
+        );
+
+        $this->assertSame('db2', $model->connection_service);
+    }
+
+    /**
      * Tests that cloneResultMap() does NOT call model setters during hydration
      * at default settings (orm.call_setters_on_hydration is false), restoring
      * the pre-5.12 behavior and preventing setter side effects on hydration.
@@ -196,6 +237,47 @@ final class CloneResultMapTest extends AbstractDatabaseTestCase
         // Default settings: setters are skipped, so the raw values remain.
         $this->assertSame('original-title', $invoice->inv_title);
         $this->assertSame(10.0, (float) $invoice->inv_total);
+    }
+
+    /**
+     * A null value of a not null column (inv_id) does not change the model.
+     * A null value of a nullable column (inv_title) is set. The nullable
+     * column comes first, so the not null list is read there and used again.
+     *
+     * @param class-string<Model> $className
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-05
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getNullValueModels')]
+    public function testMvcModelCloneResultMapNullValues(
+        string $className,
+        string $idProperty,
+        string $titleProperty,
+        bool $mapped
+    ): void {
+        $base                 = new $className();
+        $base->$idProperty    = 99;
+        $base->$titleProperty = 'base';
+
+        $columnMap = $mapped
+            ? $base->getModelsMetaData()->getColumnMap($base)
+            : null;
+
+        $invoice = Model::cloneResultMap(
+            $base,
+            [
+                'inv_title' => null,
+                'inv_id'    => null,
+            ],
+            $columnMap
+        );
+
+        $this->assertSame(99, $invoice->$idProperty);
+        $this->assertNull($invoice->$titleProperty);
     }
 
     /**

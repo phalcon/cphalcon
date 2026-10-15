@@ -125,7 +125,7 @@ class Complex extends Resultset
     {
         var row, hydrateMode, eager, dirtyState, alias, activeRow, type, column,
             columnValue, value, attribute, source, attributes, columnMap,
-            rowModel, keepSnapshots, sqlAlias, modelName;
+            rowModel, keepSnapshots, sqlAlias, modelName, lateStateBinding;
         bool allNull;
 
         let activeRow = this->activeRow;
@@ -190,6 +190,12 @@ class Complex extends Resultset
         let dirtyState = 0;
 
         /**
+         * The first hydrated model of the row reads the late state binding
+         * setting. The next models of the row use the same value.
+         */
+        let lateStateBinding = null;
+
+        /**
          * Create every record according to the column types
          */
         for alias, column in this->columnTypes {
@@ -252,7 +258,11 @@ class Complex extends Resultset
                                 let keepSnapshots = false;
                             }
 
-                            if Settings::get("orm.late_state_binding") {
+                            if lateStateBinding === null {
+                                let lateStateBinding = Settings::get("orm.late_state_binding");
+                            }
+
+                            if lateStateBinding {
                                 if column["instance"] instanceof Model {
                                     let modelName = get_class(column["instance"]);
                                 } else {

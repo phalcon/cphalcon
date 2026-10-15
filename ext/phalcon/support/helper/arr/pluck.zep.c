@@ -79,10 +79,10 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Pluck, __invoke)
 		{
 			ZEPHIR_INIT_NVAR(&item);
 			ZVAL_COPY(&item, _0);
-			ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "checkobject", &_2, 0, &filtered, &element_zv, &item);
+			ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "checkObject", &_2, 0, &filtered, &element_zv, &item);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&filtered, &_1$$3);
-			ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "checkarray", &_3, 0, &filtered, &element_zv, &item);
+			ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "checkArray", &_3, 0, &filtered, &element_zv, &item);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&filtered, &_1$$3);
 		} ZEND_HASH_FOREACH_END();
@@ -104,10 +104,10 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Pluck, __invoke)
 			}
 			ZEPHIR_CALL_METHOD(&item, &collection, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_6$$4, this_ptr, "checkobject", &_2, 0, &filtered, &element_zv, &item);
+				ZEPHIR_CALL_METHOD(&_6$$4, this_ptr, "checkObject", &_2, 0, &filtered, &element_zv, &item);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(&filtered, &_6$$4);
-				ZEPHIR_CALL_METHOD(&_6$$4, this_ptr, "checkarray", &_3, 0, &filtered, &element_zv, &item);
+				ZEPHIR_CALL_METHOD(&_6$$4, this_ptr, "checkArray", &_3, 0, &filtered, &element_zv, &item);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(&filtered, &_6$$4);
 		}

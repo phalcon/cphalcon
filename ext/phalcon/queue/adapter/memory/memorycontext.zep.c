@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, close)
 
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1287, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1289, &_0);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, createConsumer)
 	zephir_fetch_params(1, 1, 0, &destination);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "consume from");
-	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_queue_adapter_queuedestinationguard_ce, "assertqueue", NULL, 0, destination, &_0);
+	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_queue_adapter_queuedestinationguard_ce, "assertQueue", NULL, 0, destination, &_0);
 	zephir_check_call_status();
 	object_init_ex(return_value, phalcon_queue_adapter_memory_memoryconsumer_ce);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, this_ptr, destination);
@@ -227,7 +227,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, popMessage)
 	zephir_memory_observe(&queueName_zv);
 	ZVAL_STR_COPY(&queueName_zv, queueName);
 	zephir_memory_observe(&messages);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1287, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1289, PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset_fetch(&messages, &_0, &queueName_zv, 0))) {
 		RETURN_MM_NULL();
 	}
@@ -263,7 +263,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, purgeQueue)
 	zephir_fetch_params(1, 1, 0, &queue);
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
-	ZEPHIR_CALL_METHOD(&_1, queue, "getqueuename", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_1, queue, "getQueueName", NULL, 0);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("queues"), &_1, &_0);
 	ZEPHIR_MM_RESTORE();
@@ -299,7 +299,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, pushMessage)
 	zephir_memory_observe(&queueName_zv);
 	ZVAL_STR_COPY(&queueName_zv, queueName);
 	zephir_memory_observe(&messages);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1287, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1289, PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset_fetch(&messages, &_0, &queueName_zv, 0))) {
 		ZEPHIR_INIT_NVAR(&messages);
 		array_init(&messages);

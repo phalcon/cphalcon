@@ -98,15 +98,15 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, fromOptions)
 	ZVAL_STRING(&_2, "file");
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "stream adapter");
-	ZEPHIR_CALL_CE_STATIC(&_1, phalcon_auth_internal_options_ce, "requirestring", NULL, 0, &options, &_2, &_3);
+	ZEPHIR_CALL_CE_STATIC(&_1, phalcon_auth_internal_options_ce, "requireString", NULL, 0, &options, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "model");
-	ZEPHIR_CALL_CE_STATIC(&_4, phalcon_auth_internal_options_ce, "stringornull", NULL, 0, &options, &_2);
+	ZEPHIR_CALL_CE_STATIC(&_4, phalcon_auth_internal_options_ce, "stringOrNull", NULL, 0, &options, &_2);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 408, &_1, &_4);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 409, &_1, &_4);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 409, hasher, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 410, hasher, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -148,25 +148,25 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, loadUsers)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 454, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&path, &_0, "getfile", NULL, 0);
+	ZEPHIR_CALL_METHOD(&path, &_0, "getFile", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "phpfileexists", NULL, 0, &path);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "phpFileExists", NULL, 0, &path);
 	zephir_check_call_status();
 	if (!zephir_is_true(&_1)) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		object_init_ex(&_2$$3, phalcon_auth_exceptions_filedoesnotexist_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 410, &path);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 411, &path);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_2$$3, "phalcon/Auth/Adapter/Stream.zep", 74);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_METHOD(&contents, this_ptr, "phpfilegetcontents", NULL, 0, &path);
+	ZEPHIR_CALL_METHOD(&contents, this_ptr, "phpFileGetContents", NULL, 0, &path);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&contents)) {
 		ZEPHIR_INIT_VAR(&_3$$4);
 		object_init_ex(&_3$$4, phalcon_auth_exceptions_filecannotread_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 411, &path);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 412, &path);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_3$$4, "phalcon/Auth/Adapter/Stream.zep", 80);
 		ZEPHIR_MM_RESTORE();
@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, loadUsers)
 		}
 
 		ZVAL_BOOL(&_5$$5, 1);
-		ZEPHIR_CALL_METHOD(&data, &_4$$5, "__invoke", NULL, 412, &contents, &_5$$5);
+		ZEPHIR_CALL_METHOD(&data, &_4$$5, "__invoke", NULL, 413, &contents, &_5$$5);
 		zephir_check_call_status_or_jump(try_end_1);
 
 	try_end_1:
@@ -197,7 +197,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, loadUsers)
 			ZEPHIR_CPY_WRT(&ex, &_6);
 			ZEPHIR_INIT_VAR(&_7$$6);
 			object_init_ex(&_7$$6, phalcon_auth_exceptions_filenotvalidjson_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_7$$6, "__construct", NULL, 413, &path, &ex);
+			ZEPHIR_CALL_METHOD(NULL, &_7$$6, "__construct", NULL, 414, &path, &ex);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_7$$6, "phalcon/Auth/Adapter/Stream.zep", 86);
 			ZEPHIR_MM_RESTORE();
@@ -207,7 +207,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, loadUsers)
 	if (Z_TYPE_P(&data) != IS_ARRAY) {
 		ZEPHIR_INIT_VAR(&_8$$7);
 		object_init_ex(&_8$$7, phalcon_auth_exceptions_filedoesnotcontainjson_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_8$$7, "__construct", NULL, 414, &path);
+		ZEPHIR_CALL_METHOD(NULL, &_8$$7, "__construct", NULL, 415, &path);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_8$$7, "phalcon/Auth/Adapter/Stream.zep", 90);
 		ZEPHIR_MM_RESTORE();

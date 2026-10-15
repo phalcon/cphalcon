@@ -40,7 +40,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Router_Post)
 	{
 		zend_attribute *_za = zephir_add_class_attribute(phalcon_annotations_router_post_ce, SL("Attribute"), 1);
 		zval _zc0;
-		ZVAL_LONG(&_zc0, 68);
+		ZVAL_LONG(&_zc0, ZEND_ATTRIBUTE_TARGET_METHOD | ZEND_ATTRIBUTE_IS_REPEATABLE);
 		zephir_attribute_set_arg(_za, 0, NULL, 0, &_zc0);
 	}
 

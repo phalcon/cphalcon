@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_Decorated, __construct)
 		ZEPHIR_CALL_METHOD(NULL, profiler, "__construct", NULL, 0);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setprofiler", NULL, 0, profiler);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setProfiler", NULL, 0, profiler);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

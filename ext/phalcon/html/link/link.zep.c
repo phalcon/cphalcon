@@ -56,7 +56,7 @@ PHP_METHOD(Phalcon_Html_Link_Link, getAttributes)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "dogetattributes", NULL, 0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "doGetAttributes", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -80,7 +80,7 @@ PHP_METHOD(Phalcon_Html_Link_Link, getHref)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "dogethref", NULL, 0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "doGetHref", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Html_Link_Link, getRels)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "dogetrels", NULL, 0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "doGetRels", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -117,7 +117,7 @@ PHP_METHOD(Phalcon_Html_Link_Link, isTemplated)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "doistemplated", NULL, 0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "doIsTemplated", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

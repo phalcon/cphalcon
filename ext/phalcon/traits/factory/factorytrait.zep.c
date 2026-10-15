@@ -94,16 +94,16 @@ PHP_METHOD(Phalcon_Traits_Factory_FactoryTrait, getCachedInstance)
 	ZVAL_STR_COPY(&name_zv, name);
 	ZEPHIR_INIT_VAR(&arguments);
 	zephir_get_args_from(&arguments, 1);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1401, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1403, PH_NOISY_CC | PH_READONLY);
 	if (1 != zephir_array_isset_value(&_0, &name_zv)) {
-		ZEPHIR_CALL_METHOD(&definition, this_ptr, "getservice", NULL, 0, &name_zv);
+		ZEPHIR_CALL_METHOD(&definition, this_ptr, "getService", NULL, 0, &name_zv);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(&_1$$3, &definition, &arguments);
 		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("instances"), &name_zv, &_1$$3);
 	}
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 1401, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 1403, PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&_3);
 	zephir_array_fetch(&_3, &_2, &name_zv, PH_NOISY, "phalcon/Traits/Factory/FactoryTrait.zep", 46);
 	RETURN_CCTOR(&_3);
@@ -154,9 +154,9 @@ PHP_METHOD(Phalcon_Traits_Factory_FactoryTrait, getService)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1402, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1404, PH_NOISY_CC | PH_READONLY);
 	if (1 != zephir_array_isset_value(&_0, &name_zv)) {
-		ZEPHIR_CALL_METHOD(&exceptionClass, this_ptr, "getexceptionclass", NULL, 0);
+		ZEPHIR_CALL_METHOD(&exceptionClass, this_ptr, "getExceptionClass", NULL, 0);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_1$$3);
 		zephir_fetch_safe_class(&_2$$3, &exceptionClass);
@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Traits_Factory_FactoryTrait, getService)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_0, 1402, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_0, 1404, PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&_6);
 	zephir_array_fetch(&_6, &_5, &name_zv, PH_NOISY, "phalcon/Traits/Factory/FactoryTrait.zep", 73);
 	RETURN_CCTOR(&_6);
@@ -228,10 +228,10 @@ PHP_METHOD(Phalcon_Traits_Factory_FactoryTrait, init)
 		zephir_get_arrval(&services, services_param);
 	}
 	ZEPHIR_INIT_VAR(&_0);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getservices", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getServices", NULL, 0);
 	zephir_check_call_status();
 	zephir_fast_array_merge(&_0, &_1, &services);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1402, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1404, &_0);
 	ZEPHIR_MM_RESTORE();
 }
 

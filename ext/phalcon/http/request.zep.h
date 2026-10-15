@@ -82,7 +82,6 @@ PHP_METHOD(Phalcon_Http_Request, smoothFiles);
 PHP_METHOD(Phalcon_Http_Request, getFilterService);
 PHP_METHOD(Phalcon_Http_Request, getFormData);
 PHP_METHOD(Phalcon_Http_Request, getPostData);
-PHP_METHOD(Phalcon_Http_Request, getServerArray);
 PHP_METHOD(Phalcon_Http_Request, isProxyTrusted);
 PHP_METHOD(Phalcon_Http_Request, isValidPublicIp);
 PHP_METHOD(Phalcon_Http_Request, processFiles);
@@ -432,9 +431,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getpostdata
 	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getserverarray, 0, 0, IS_ARRAY, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_isproxytrusted, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, ip, IS_STRING, 0)
 ZEND_END_ARG_INFO()
@@ -612,7 +608,6 @@ ZEPHIR_INIT_FUNCS(phalcon_http_request_method_entry) {
 	PHP_ME(Phalcon_Http_Request, getFilterService, arginfo_phalcon_http_request_getfilterservice, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Request, getFormData, arginfo_phalcon_http_request_getformdata, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Request, getPostData, arginfo_phalcon_http_request_getpostdata, ZEND_ACC_PRIVATE)
-	PHP_ME(Phalcon_Http_Request, getServerArray, arginfo_phalcon_http_request_getserverarray, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Request, isProxyTrusted, arginfo_phalcon_http_request_isproxytrusted, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Request, isValidPublicIp, arginfo_phalcon_http_request_isvalidpublicip, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Request, processFiles, arginfo_phalcon_http_request_processfiles, ZEND_ACC_PRIVATE)

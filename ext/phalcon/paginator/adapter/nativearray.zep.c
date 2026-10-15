@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1247, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1249, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&config, &_0);
 	zephir_memory_observe(&items);
 	zephir_array_fetch_string(&items, &config, SL("data"), PH_NOISY, "phalcon/Paginator/Adapter/NativeArray.zep", 49);
@@ -109,10 +109,10 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate)
 		return;
 	}
 	zephir_memory_observe(&_2);
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 1248, PH_NOISY_CC);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 1250, PH_NOISY_CC);
 	show = zephir_get_intval(&_2);
 	zephir_memory_observe(&_3);
-	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_2, 1249, PH_NOISY_CC);
+	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_2, 1251, PH_NOISY_CC);
 	pageNumber = zephir_get_intval(&_3);
 	if (pageNumber <= 0) {
 		pageNumber = 1;
@@ -121,16 +121,18 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate)
 	ZVAL_LONG(&_0, show);
 	ZEPHIR_CALL_FUNCTION(&_4, "floatval", NULL, 33, &_0);
 	zephir_check_call_status();
-	roundedTotal =  (zephir_safe_div_long_zval(number, &_4));
+	ZEPHIR_INIT_VAR(&_5);
+	zephir_div_long_zval(&_5, number, &_4);
+	roundedTotal = zephir_get_numberval(&_5);
 	totalPages = (int) roundedTotal;
 	if (totalPages != roundedTotal) {
 		totalPages++;
 	}
 	ZVAL_LONG(&_0, (show * ((pageNumber - 1))));
-	ZVAL_LONG(&_5, show);
-	ZEPHIR_CALL_FUNCTION(&_6, "array_slice", NULL, 282, &items, &_0, &_5);
+	ZVAL_LONG(&_6, show);
+	ZEPHIR_CALL_FUNCTION(&_4, "array_slice", NULL, 283, &items, &_0, &_6);
 	zephir_check_call_status();
-	ZEPHIR_CPY_WRT(&items, &_6);
+	ZEPHIR_CPY_WRT(&items, &_4);
 	if (pageNumber < totalPages) {
 		next = (pageNumber + 1);
 	} else {
@@ -148,7 +150,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate)
 	ZVAL_LONG(&_8, number);
 	zephir_array_update_string(&_7, SL("total_items"), &_8, PH_COPY | PH_SEPARATE);
 	zephir_memory_observe(&_9);
-	zephir_read_property_cached(&_9, this_ptr, _zephir_prop_1, 1248, PH_NOISY_CC);
+	zephir_read_property_cached(&_9, this_ptr, _zephir_prop_1, 1250, PH_NOISY_CC);
 	zephir_array_update_string(&_7, SL("limit"), &_9, PH_COPY | PH_SEPARATE);
 	add_assoc_long_ex(&_7, SL("first"), 1);
 	ZEPHIR_INIT_NVAR(&_8);
@@ -163,7 +165,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate)
 	ZEPHIR_INIT_NVAR(&_8);
 	ZVAL_LONG(&_8, totalPages);
 	zephir_array_update_string(&_7, SL("last"), &_8, PH_COPY | PH_SEPARATE);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getrepository", NULL, 0, &_7);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getRepository", NULL, 0, &_7);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -100,14 +100,14 @@ PHP_METHOD(Phalcon_ADR_Front_AbstractHttpFront, boot)
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 255, PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) == IS_NULL) {
-		ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "buildcontainer", NULL, 0);
+		ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "buildContainer", NULL, 0);
 		zephir_check_call_status();
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 255, &_1$$3);
 		zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_0, 255, PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "loadenvironment", NULL, 0, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "loadEnvironment", NULL, 0, &_2$$3);
 		zephir_check_call_status();
 		zephir_read_property_cached(&_3$$3, this_ptr, _zephir_prop_0, 255, PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "registerproviders", NULL, 0, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "registerProviders", NULL, 0, &_3$$3);
 		zephir_check_call_status();
 	}
 	RETURN_MM_MEMBER(getThis(), "container");
@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_ADR_Front_AbstractHttpFront, run)
 		ZVAL_STRING(&_0$$3, "Phalcon\\Contracts\\Http\\AttributeRequest");
 		ZEPHIR_CALL_METHOD(&request, &container, "get", NULL, 0, &_0$$3);
 		zephir_check_call_status_or_jump(try_end_1);
-		ZEPHIR_CALL_METHOD(&application, this_ptr, "getapplication", NULL, 0, &container);
+		ZEPHIR_CALL_METHOD(&application, this_ptr, "getApplication", NULL, 0, &container);
 		zephir_check_call_status_or_jump(try_end_1);
 		ZEPHIR_CALL_METHOD(&response, &application, "handle", NULL, 0, &request);
 		zephir_check_call_status_or_jump(try_end_1);
@@ -162,7 +162,7 @@ PHP_METHOD(Phalcon_ADR_Front_AbstractHttpFront, run)
 		if (zephir_is_instance_of(&_2, SL("Throwable"))) {
 			zend_clear_exception();
 			ZEPHIR_CPY_WRT(&exception, &_2);
-			ZEPHIR_RETURN_CALL_METHOD(this_ptr, "handlebooterror", NULL, 0, &exception);
+			ZEPHIR_RETURN_CALL_METHOD(this_ptr, "handleBootError", NULL, 0, &exception);
 			zephir_check_call_status();
 			RETURN_MM();
 		}

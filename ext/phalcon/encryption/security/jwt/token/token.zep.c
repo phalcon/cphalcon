@@ -146,10 +146,10 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getPayload)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 731, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_1, &_0, "getencoded", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_1, &_0, "getEncoded", NULL, 0);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 732, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_3, &_2, "getencoded", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_3, &_2, "getEncoded", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_VSV(return_value, &_1, ".", &_3);
 	RETURN_MM();
@@ -184,10 +184,10 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getToken)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getpayload", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getPayload", NULL, 0);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 733, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_2, &_1, "getencoded", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_2, &_1, "getEncoded", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_VSV(return_value, &_0, ".", &_2);
 	RETURN_MM();
@@ -283,7 +283,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, validate)
 	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&claimValue);
 	ZEPHIR_INIT_NVAR(&method);
-	ZEPHIR_RETURN_CALL_METHOD(validator, "geterrors", NULL, 0);
+	ZEPHIR_RETURN_CALL_METHOD(validator, "getErrors", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -322,9 +322,9 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, verify)
 	signer = ZEND_CALL_ARG(execute_data, 1);
 	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
-	ZEPHIR_CALL_METHOD(&_0, signer, "getalgheader", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_0, signer, "getAlgHeader", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getheaders", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getHeaders", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "alg");
@@ -334,9 +334,9 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, verify)
 		RETURN_MM_BOOL(0);
 	}
 	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 733, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_5, &_4, "gethash", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_5, &_4, "getHash", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_6, this_ptr, "getpayload", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_6, this_ptr, "getPayload", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(signer, "verify", NULL, 0, &_5, &_6, &key_zv);
 	zephir_check_call_status();

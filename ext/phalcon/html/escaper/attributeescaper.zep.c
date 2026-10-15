@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Html_Escaper_AttributeEscaper, escape)
 			RETURN_MM_STRING("");
 		}
 		zephir_cast_to_string(&_0$$3, input);
-		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "escapevalue", NULL, 0, &_0$$3);
+		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "escapeValue", NULL, 0, &_0$$3);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -179,12 +179,12 @@ PHP_METHOD(Phalcon_Html_Escaper_AttributeEscaper, escape)
 				ZEPHIR_CPY_WRT(&value, &_11$$7);
 			}
 			zephir_cast_to_string(&_12$$5, &key);
-			ZEPHIR_CALL_METHOD(&_9$$5, this_ptr, "escapevalue", NULL, 0, &_12$$5);
+			ZEPHIR_CALL_METHOD(&_9$$5, this_ptr, "escapeValue", NULL, 0, &_12$$5);
 			zephir_check_call_status();
 			zephir_concat_self(&result, &_9$$5);
 			if (!ZEPHIR_IS_TRUE_IDENTICAL(&value)) {
 				zephir_cast_to_string(&_14$$8, &value);
-				ZEPHIR_CALL_METHOD(&_13$$8, this_ptr, "escapevalue", NULL, 0, &_14$$8);
+				ZEPHIR_CALL_METHOD(&_13$$8, this_ptr, "escapeValue", NULL, 0, &_14$$8);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_15$$8);
 				ZEPHIR_CONCAT_SVS(&_15$$8, "=\"", &_13$$8, "\"");
@@ -235,12 +235,12 @@ PHP_METHOD(Phalcon_Html_Escaper_AttributeEscaper, escape)
 					ZEPHIR_CPY_WRT(&value, &_22$$11);
 				}
 				zephir_cast_to_string(&_23$$9, &key);
-				ZEPHIR_CALL_METHOD(&_21$$9, this_ptr, "escapevalue", NULL, 0, &_23$$9);
+				ZEPHIR_CALL_METHOD(&_21$$9, this_ptr, "escapeValue", NULL, 0, &_23$$9);
 				zephir_check_call_status();
 				zephir_concat_self(&result, &_21$$9);
 				if (!ZEPHIR_IS_TRUE_IDENTICAL(&value)) {
 					zephir_cast_to_string(&_25$$12, &value);
-					ZEPHIR_CALL_METHOD(&_24$$12, this_ptr, "escapevalue", NULL, 0, &_25$$12);
+					ZEPHIR_CALL_METHOD(&_24$$12, this_ptr, "escapeValue", NULL, 0, &_25$$12);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_26$$12);
 					ZEPHIR_CONCAT_SVS(&_26$$12, "=\"", &_24$$12, "\"");
@@ -290,9 +290,9 @@ PHP_METHOD(Phalcon_Html_Escaper_AttributeEscaper, escapeValue)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 826, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 827, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 828, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 827, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 828, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 829, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_FUNCTION("htmlspecialchars", NULL, 200, &input_zv, &_0, &_1, &_2);
 	zephir_check_call_status();
 	RETURN_MM();

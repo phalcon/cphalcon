@@ -366,12 +366,16 @@ class Stream extends AbstractAdapter
             return [];
         }
 
+        /**
+         * unserialize() reports a broken payload with E_NOTICE before PHP
+         * 8.3 and with E_WARNING from PHP 8.3.
+         */
         globals_set("warning.enable", false);
         set_error_handler(
             function (number, message, file, line) {
                 globals_set("warning.enable", true);
             },
-            E_NOTICE
+            E_NOTICE | E_WARNING
         );
 
         /**

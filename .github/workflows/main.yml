@@ -28,7 +28,7 @@ on:
 
 env:
   # All versions should be declared here
-  PHALCON_VERSION: 5.22.1
+  PHALCON_VERSION: 5.23.0
   # For tests
   LANG: en_US.UTF-8
   LANGUAGE: en_US.UTF-8
@@ -582,7 +582,7 @@ jobs:
   #         - macos-clang
 
   #       include:
-  #         - { name: macos-clang, arch: arm64, os: macos-14, compiler: clang }
+  #         - { name: macos-clang, arch: arm64, os: macos-15, compiler: clang }
 
   #   steps: *build_extension_steps
 

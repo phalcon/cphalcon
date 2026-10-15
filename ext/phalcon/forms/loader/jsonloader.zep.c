@@ -68,7 +68,7 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, __construct)
 		Z_PARAM_STR(source)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&source_zv, source);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 814, &source_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 815, &source_zv);
 }
 
 /**
@@ -109,8 +109,8 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, load)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_memory_observe(&json);
-	zephir_read_property_cached(&json, this_ptr, _zephir_prop_0, 814, PH_NOISY_CC);
-	ZEPHIR_CALL_FUNCTION(&_0, "is_file", NULL, 471, &json);
+	zephir_read_property_cached(&json, this_ptr, _zephir_prop_0, 815, PH_NOISY_CC);
+	ZEPHIR_CALL_FUNCTION(&_0, "is_file", NULL, 472, &json);
 	zephir_check_call_status();
 	_1 = zephir_is_true(&_0);
 	if (_1) {
@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, load)
 		_1 = zephir_is_true(&_2);
 	}
 	if (_1) {
-		ZEPHIR_CALL_METHOD(&_3$$3, this_ptr, "phpfilegetcontents", NULL, 0, &json);
+		ZEPHIR_CALL_METHOD(&_3$$3, this_ptr, "phpFileGetContents", NULL, 0, &json);
 		zephir_check_call_status();
 		zephir_cast_to_string(&_4$$3, &_3$$3);
 		ZEPHIR_CPY_WRT(&json, &_4$$3);
@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, load)
 		ZVAL_BOOL(&_6$$4, 1);
 		ZVAL_LONG(&_7$$4, 512);
 		ZVAL_LONG(&_8$$4, 4194304);
-		ZEPHIR_CALL_METHOD(&definitions, &_5$$4, "__invoke", NULL, 412, &json, &_6$$4, &_7$$4, &_8$$4);
+		ZEPHIR_CALL_METHOD(&definitions, &_5$$4, "__invoke", NULL, 413, &json, &_6$$4, &_7$$4, &_8$$4);
 		zephir_check_call_status_or_jump(try_end_1);
 
 	try_end_1:
@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, load)
 			ZEPHIR_CPY_WRT(&ex, &_9);
 			ZEPHIR_INIT_VAR(&_10$$5);
 			object_init_ex(&_10$$5, phalcon_forms_exceptions_invalidjsonschema_ce);
-			ZEPHIR_CALL_METHOD(&_11$$5, &ex, "getmessage", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_11$$5, &ex, "getMessage", NULL, 0);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, &_10$$5, "__construct", NULL, 0, &_11$$5);
 			zephir_check_call_status();

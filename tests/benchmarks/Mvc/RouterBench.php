@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Benchmarks\Mvc;
 
 use Phalcon\Di\Di;
 use Phalcon\Di\FactoryDefault;
+use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Mvc\Router;
 use Phalcon\Tests\Benchmarks\Apps\Mvc\Fixture;
 use PhpBench\Attributes\BeforeMethods;
@@ -30,9 +31,13 @@ final class RouterBench
 
     private FactoryDefault $container;
 
+    private Router $eventsRouter;
+
     private Fixture $fixture;
 
     private Router $router;
+
+    private int $routerEvents = 0;
 
     public function setUp(): void
     {
@@ -49,6 +54,23 @@ final class RouterBench
         $this->router = $this->fixture->router();
         $this->router->setDI($this->container);
         $this->router->handle(self::URI);
+
+        /**
+         * The same router with an events manager and one listener on the
+         * router events: handle() runs the per-route loop.
+         */
+        $manager = new EventsManager();
+        $manager->attach(
+            'router',
+            function (): void {
+                $this->routerEvents++;
+            }
+        );
+
+        $this->eventsRouter = $this->fixture->router();
+        $this->eventsRouter->setDI($this->container);
+        $this->eventsRouter->setEventsManager($manager);
+        $this->eventsRouter->handle(self::URI);
     }
 
     /**
@@ -87,6 +109,24 @@ final class RouterBench
         $this->router->handle(self::URI);
 
         $this->check($this->router);
+    }
+
+    /**
+     * A match on a built router with an events manager: the per-route loop
+     * tries the 50 routes and fires the router events.
+     */
+    #[Revs(200)]
+    public function benchHandleWithEvents(): void
+    {
+        $events = $this->routerEvents;
+
+        $this->eventsRouter->handle(self::URI);
+
+        $this->check($this->eventsRouter);
+
+        if ($this->routerEvents === $events) {
+            throw new RuntimeException('The router events did not fire');
+        }
     }
 
     private function check(Router $router): void

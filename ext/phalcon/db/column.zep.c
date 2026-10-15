@@ -1028,7 +1028,7 @@ PHP_METHOD(Phalcon_Db_Column, hasDefault)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isautoincrement", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isAutoIncrement", NULL, 0);
 	zephir_check_call_status();
 	if (zephir_is_true(&_0)) {
 		RETURN_MM_BOOL(0);

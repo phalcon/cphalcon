@@ -52,10 +52,28 @@ use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Container\Fake\FakeService;
 use Phalcon\Tests\Unit\Container\Fake\FakeServiceWithDependency;
 use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 #[BackupGlobals(true)]
 final class ContainerTest extends AbstractUnitTestCase
 {
+    /**
+     * @return array<string, array{0: callable(Container): mixed}>
+     */
+    public static function getCyclicAliasCalls(): array
+    {
+        return [
+            'extend' => [
+                static fn (Container $bucket): mixed => $bucket->extend(
+                    'a',
+                    static fn (object $svc): object => $svc
+                ),
+            ],
+            'has'    => [static fn (Container $bucket): mixed => $bucket->has('a')],
+            'new'    => [static fn (Container $bucket): mixed => $bucket->new('a')],
+        ];
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-18
@@ -71,6 +89,28 @@ final class ContainerTest extends AbstractUnitTestCase
         $bucket->setAlias('b', 'c');
         $bucket->setAlias('c', 'd');
         $this->assertInstanceOf(FakeService::class, $bucket->get('d'));
+    }
+
+    /**
+     * An alias chain resolves to the service in extend().
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-04
+     */
+    public function testContainerAliasChainResolvesForExtend(): void
+    {
+        $bucket = new Container();
+        $bucket->set('service', FakeService::class);
+        $bucket->setAlias('service', 'first');
+        $bucket->setAlias('first', 'second');
+
+        $bucket->extend('second', static function (FakeService $svc): FakeService {
+            $svc->value = 'extended';
+
+            return $svc;
+        });
+
+        $this->assertSame('extended', $bucket->get('service')->value);
     }
 
     /**
@@ -791,6 +831,24 @@ final class ContainerTest extends AbstractUnitTestCase
     }
 
     /**
+     * A cycle in the aliases stops has(), new() and extend().
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-04
+     */
+    #[DataProvider('getCyclicAliasCalls')]
+    public function testContainerResolveAliasThrowsOnCyclicChainMethods(callable $call): void
+    {
+        $bucket = new Container();
+        $this->setProtectedProperty($bucket, 'aliases', ['a' => 'b', 'b' => 'a']);
+
+        $this->expectException(CircularAliasFound::class);
+        $this->expectExceptionMessage("Circular alias detected: 'a'");
+
+        $call($bucket);
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-09-30
      */
@@ -816,6 +874,23 @@ final class ContainerTest extends AbstractUnitTestCase
         $bucket->setAlias('fake', 'alias');
 
         $this->assertSame('fake', $bucket->getAlias('alias'));
+    }
+
+    /**
+     * A name cannot be its own alias.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-04
+     */
+    public function testContainerSetAliasToItselfThrows(): void
+    {
+        $bucket = new Container();
+        $bucket->set('a', FakeService::class);
+
+        $this->expectException(CircularAliasFound::class);
+        $this->expectExceptionMessage("Circular alias detected: 'a'");
+
+        $bucket->setAlias('a', 'a');
     }
 
     /**

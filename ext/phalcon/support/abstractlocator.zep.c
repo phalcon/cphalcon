@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Support_AbstractLocator, __construct)
 		return;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 135, container);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getservices", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getServices", NULL, 0);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 136, &_1);
 	zephir_is_iterable(&services, 0, "phalcon/Support/AbstractLocator.zep", 59);
@@ -195,7 +195,7 @@ PHP_METHOD(Phalcon_Support_AbstractLocator, getClass)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getservice", NULL, 0, &name_zv);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getService", NULL, 0, &name_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -268,13 +268,13 @@ PHP_METHOD(Phalcon_Support_AbstractLocator, newInstance)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_CALL_METHOD(&definition, this_ptr, "getservice", NULL, 0, &name_zv);
+	ZEPHIR_CALL_METHOD(&definition, this_ptr, "getService", NULL, 0, &name_zv);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 135, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_1, &_0, "has", NULL, 0, &definition);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_1)) {
-		ZEPHIR_CALL_METHOD(&exceptionClass, this_ptr, "getexceptionclass", NULL, 0);
+		ZEPHIR_CALL_METHOD(&exceptionClass, this_ptr, "getExceptionClass", NULL, 0);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_2$$3);
 		zephir_fetch_safe_class(&_3$$3, &exceptionClass);
@@ -300,7 +300,7 @@ PHP_METHOD(Phalcon_Support_AbstractLocator, newInstance)
 	zephir_read_property_cached(&_6, this_ptr, _zephir_prop_0, 135, PH_NOISY_CC);
 	if (zephir_instance_of_ev(&_6, phalcon_di_diinterface_ce)) {
 		zephir_read_property_cached(&_7$$4, this_ptr, _zephir_prop_0, 135, PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_RETURN_CALL_METHOD(&_7$$4, "getshared", NULL, 0, &definition);
+		ZEPHIR_RETURN_CALL_METHOD(&_7$$4, "getShared", NULL, 0, &definition);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -344,12 +344,12 @@ PHP_METHOD(Phalcon_Support_AbstractLocator, register)
 	ZVAL_STR_COPY(&name_zv, name);
 	zephir_memory_observe(&definition_zv);
 	ZVAL_STR_COPY(&definition_zv, definition);
-	ZEPHIR_CALL_METHOD(&interfaceClass, this_ptr, "getinterfaceclass", NULL, 0);
+	ZEPHIR_CALL_METHOD(&interfaceClass, this_ptr, "getInterfaceClass", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&_0, "is_subclass_of", NULL, 151, &definition_zv, &interfaceClass);
 	zephir_check_call_status();
 	if (!zephir_is_true(&_0)) {
-		ZEPHIR_CALL_METHOD(&exceptionClass, this_ptr, "getexceptionclass", NULL, 0);
+		ZEPHIR_CALL_METHOD(&exceptionClass, this_ptr, "getExceptionClass", NULL, 0);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_1$$3);
 		zephir_fetch_safe_class(&_2$$3, &exceptionClass);
@@ -433,7 +433,7 @@ PHP_METHOD(Phalcon_Support_AbstractLocator, getService)
 	ZVAL_STR_COPY(&name_zv, name);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 136, PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset_value(&_0, &name_zv))) {
-		ZEPHIR_CALL_METHOD(&exceptionClass, this_ptr, "getexceptionclass", NULL, 0);
+		ZEPHIR_CALL_METHOD(&exceptionClass, this_ptr, "getExceptionClass", NULL, 0);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_1$$3);
 		zephir_fetch_safe_class(&_2$$3, &exceptionClass);

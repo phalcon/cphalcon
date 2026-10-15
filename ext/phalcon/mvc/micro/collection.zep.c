@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, delete)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "DELETE");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmap", NULL, 0, &_0, &routePattern_zv, handler, &name_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addMap", NULL, 0, &_0, &routePattern_zv, handler, &name_zv);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, get)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "GET");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmap", NULL, 0, &_0, &routePattern_zv, handler, &name_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addMap", NULL, 0, &_0, &routePattern_zv, handler, &name_zv);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -230,7 +230,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, head)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "HEAD");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmap", NULL, 0, &_0, &routePattern_zv, handler, &name_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addMap", NULL, 0, &_0, &routePattern_zv, handler, &name_zv);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -280,7 +280,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, map)
 	ZVAL_STR_COPY(&name_zv, name);
 	}
 	ZVAL_NULL(&_0);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmap", NULL, 0, &_0, &routePattern_zv, handler, &name_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addMap", NULL, 0, &_0, &routePattern_zv, handler, &name_zv);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -332,7 +332,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, mapVia)
 		zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	}
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmap", NULL, 0, method, &routePattern_zv, handler, &name_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addMap", NULL, 0, method, &routePattern_zv, handler, &name_zv);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -375,7 +375,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, options)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "OPTIONS");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmap", NULL, 0, &_0, &routePattern_zv, handler, &name_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addMap", NULL, 0, &_0, &routePattern_zv, handler, &name_zv);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -418,7 +418,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, patch)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "PATCH");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmap", NULL, 0, &_0, &routePattern_zv, handler, &name_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addMap", NULL, 0, &_0, &routePattern_zv, handler, &name_zv);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -461,7 +461,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, post)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "POST");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmap", NULL, 0, &_0, &routePattern_zv, handler, &name_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addMap", NULL, 0, &_0, &routePattern_zv, handler, &name_zv);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -503,7 +503,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, put)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "PUT");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmap", NULL, 0, &_0, &routePattern_zv, handler, &name_zv);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addMap", NULL, 0, &_0, &routePattern_zv, handler, &name_zv);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -539,11 +539,11 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler)
 		isLazy = 0;
 	} else {
 		}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1005, handler);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1006, handler);
 	if (isLazy) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1006, &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1007, &__$true);
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1006, &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1007, &__$false);
 	}
 	RETURN_THISW();
 }
@@ -569,9 +569,9 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setLazy)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &isLazy_param);
 	if (isLazy) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1006, &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1007, &__$true);
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1006, &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1007, &__$false);
 	}
 	RETURN_THISW();
 }
@@ -595,7 +595,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setPrefix)
 		Z_PARAM_STR(prefix)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&prefix_zv, prefix);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1007, &prefix_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1008, &prefix_zv);
 	RETURN_THISW();
 }
 

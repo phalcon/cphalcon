@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Http\Response;
 
 use Phalcon\Events\Event;
+use Phalcon\Http\Response;
 use Phalcon\Http\Response\Headers;
 use Phalcon\Http\Response\HeadersInterface;
 use Phalcon\Tests\Support\Page\Http;
@@ -109,6 +110,55 @@ final class HeadersTest extends AbstractHttpBase
 
         $actual = $response->sendHeaders();
         $this->assertFalse($actual);
+    }
+
+    /**
+     * With no events manager, sendHeaders() sends the headers and returns
+     * the response.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-06
+     */
+    public function testEventSendHeadersWithoutEventsManager(): void
+    {
+        $response = new Response();
+
+        $actual = $response->sendHeaders();
+        $this->assertSame($response, $actual);
+    }
+
+    /**
+     * With no events manager, sendHeaders() does not call
+     * fireManagerEvent().
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-06
+     */
+    public function testEventSendHeadersWithoutEventsManagerSkipsFire(): void
+    {
+        $response = new class () extends Response {
+            public array $fired = [];
+
+            protected function fireManagerEvent(
+                string $eventName,
+                mixed $data = null,
+                bool $cancellable = true,
+                bool $stopOnFalse = false
+            ): mixed {
+                $this->fired[] = $eventName;
+
+                return parent::fireManagerEvent(
+                    $eventName,
+                    $data,
+                    $cancellable,
+                    $stopOnFalse
+                );
+            }
+        };
+
+        $response->sendHeaders();
+
+        $this->assertSame([], $response->fired);
     }
 
     /**

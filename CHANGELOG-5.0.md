@@ -2,7 +2,44 @@
 
 All notable changes are documented here. The format is based on [Keep a Changelog][keep_a_changelog] and this project adheres to [Semantic Versioning][semantic_versioning].
 
-## [Unreleased](https://github.com/phalcon/cphalcon/releases/tag/vx.x.x) (2026-xx-xx)
+## [5.23.0](https://github.com/phalcon/cphalcon/releases/tag/v5.23.0) (2026-10-15)
+
+### Tools
+
+- Zephir 1.6.1
+
+### Changed
+
+- Faster SQL generation in `Phalcon\Db\Dialect` and select execution in `Phalcon\Mvc\Model\Query`. [#17660](https://github.com/phalcon/cphalcon/issues/17660) [[doc]](https://docs.phalcon.io/5.23/db-layer/) [[doc]](https://docs.phalcon.io/5.23/db-phql/)
+- Faster event dispatch in `Phalcon\Events\Manager`, method detection in `Phalcon\Http\Request` and header sending in `Phalcon\Http\Response`. [#17633](https://github.com/phalcon/cphalcon/issues/17633) [[doc]](https://docs.phalcon.io/5.23/events/) [[doc]](https://docs.phalcon.io/5.23/request/) [[doc]](https://docs.phalcon.io/5.23/response/)
+- Faster model hydration in `Phalcon\Mvc\Model` and `Phalcon\Mvc\Model\Resultset\Complex`. [#17632](https://github.com/phalcon/cphalcon/issues/17632) [[doc]](https://docs.phalcon.io/5.23/db-models/)
+- Faster rendering and template compilation in `Phalcon\Mvc\View` and `Phalcon\Mvc\View\Engine\Volt\Compiler`. [#17668](https://github.com/phalcon/cphalcon/issues/17668) [[doc]](https://docs.phalcon.io/5.23/views/) [[doc]](https://docs.phalcon.io/5.23/volt/)
+- Faster route matching and route index build in `Phalcon\Mvc\Router`. [#17628](https://github.com/phalcon/cphalcon/issues/17628) [[doc]](https://docs.phalcon.io/5.23/routing/)
+- Faster router setup in `Phalcon\Mvc\Micro`: the default router is created without its default routes. [#17630](https://github.com/phalcon/cphalcon/issues/17630) [[doc]](https://docs.phalcon.io/5.23/application-micro/)
+- Faster service registration and resolution in `Phalcon\Container\Container`. [#17631](https://github.com/phalcon/cphalcon/issues/17631) [[doc]](https://docs.phalcon.io/5.23/container/)
+- Faster service resolution in `Phalcon\Di\Di` for service names with no alias. [#17629](https://github.com/phalcon/cphalcon/issues/17629) [[doc]](https://docs.phalcon.io/5.23/di/)
+
+### Added
+
+
+### Fixed
+
+- `Phalcon\Mvc\Model::__set()` skipping the user-defined setter when `null` is assigned to a relationship alias. [#17662](https://github.com/phalcon/cphalcon/issues/17662) [[doc]](https://docs.phalcon.io/5.23/db-models-relationships/)
+- `Phalcon\Mvc\Router::getMatches()` and `Phalcon\Cli\Router::getMatches()` returning the matches of an earlier request after a static-route match or no match. [#17646](https://github.com/phalcon/cphalcon/issues/17646) [[doc]](https://docs.phalcon.io/5.23/routing/) [[doc]](https://docs.phalcon.io/5.23/application-cli/)
+- `Phalcon\Mvc\Router::getMatches()` returning the internal `MARK` key after a combined-regex match. [#17634](https://github.com/phalcon/cphalcon/issues/17634) [[doc]](https://docs.phalcon.io/5.23/routing/)
+- `Phalcon\Mvc\Router` combined-regex matching changing the meaning of a route pattern with `|` outside a group. [#17645](https://github.com/phalcon/cphalcon/issues/17645) [[doc]](https://docs.phalcon.io/5.23/routing/)
+- `Phalcon\Mvc\Router` combined-regex matching failing to compile or mixing matches for routes with named groups. [#17636](https://github.com/phalcon/cphalcon/issues/17636) [[doc]](https://docs.phalcon.io/5.23/routing/)
+- `Phalcon\Mvc\Router` combined-regex matching returning a wrong route when a route pattern in the same chunk does not compile. [#17644](https://github.com/phalcon/cphalcon/issues/17644) [[doc]](https://docs.phalcon.io/5.23/routing/)
+- `Phalcon\Mvc\Router` combined-regex matching skipping a route after a `beforeMatch` veto and calling the callback two times. [#17635](https://github.com/phalcon/cphalcon/issues/17635) [[doc]](https://docs.phalcon.io/5.23/routing/)
+- `Phalcon\Mvc\Router` static-route matching calling a `beforeMatch` callback two times after a veto. [#17638](https://github.com/phalcon/cphalcon/issues/17638) [[doc]](https://docs.phalcon.io/5.23/routing/)
+- `Phalcon\Mvc\Router` static-route matching ignoring a later-attached regex route of the request method. [#17642](https://github.com/phalcon/cphalcon/issues/17642) [[doc]](https://docs.phalcon.io/5.23/routing/)
+- `Phalcon\Mvc\Router` static-route matching passing over a regex route when a later static route is skipped by its host name or `beforeMatch`. [#17643](https://github.com/phalcon/cphalcon/issues/17643) [[doc]](https://docs.phalcon.io/5.23/routing/)
+- `Phalcon\Mvc\View\Engine\Volt\Compiler` using the blocks and the `{% extends %}` state of an earlier template when one compiler compiles more than one template. [#17668](https://github.com/phalcon/cphalcon/issues/17668) [[doc]](https://docs.phalcon.io/5.23/volt/)
+
+### Removed
+
+
+## [5.22.1](https://github.com/phalcon/cphalcon/releases/tag/v5.22.1) (2026-10-01)
 
 ### Tools
 
@@ -10,11 +47,11 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 ### Changed
 
+- Faster `Phalcon\Support\Settings::get()`. [#17620](https://github.com/phalcon/cphalcon/issues/17620)
 - Faster creation of `Phalcon\Di\FactoryDefault` and faster shared service lookups in `Phalcon\Di\Di`. [#17617](https://github.com/phalcon/cphalcon/issues/17617)
 - Faster creation of `Phalcon\Filter\Filter`. [#17617](https://github.com/phalcon/cphalcon/issues/17617)
 - Faster route definition and route index build in `Phalcon\Mvc\Router`. [#17618](https://github.com/phalcon/cphalcon/issues/17618)
 - Faster service definition and alias lookups in `Phalcon\Container\Container`. [#17619](https://github.com/phalcon/cphalcon/issues/17619)
-- Faster `Phalcon\Support\Settings::get()`. [#17620](https://github.com/phalcon/cphalcon/issues/17620)
 
 ### Added
 
@@ -23,11 +60,11 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 ### Fixed
 
-- `Phalcon\Mvc\View::partial()` and `Phalcon\Mvc\View\Simple::render()` dropping a `..` path segment instead of resolving it. [#17606](https://github.com/phalcon/cphalcon/issues/17606) [[doc]](https://docs.phalcon.io/5.22/views/)
-- `Phalcon\Mvc\View::partial()` not detecting a Windows absolute path (`C:\...`) as absolute. [#17606](https://github.com/phalcon/cphalcon/issues/17606) [[doc]](https://docs.phalcon.io/5.22/views/)
+- `Phalcon\Filter\Filter::sanitize()` not calling array callables registered with `set()`. [#17610](https://github.com/phalcon/cphalcon/issues/17610) [[doc]](https://docs.phalcon.io/5.22/filter-filter/)
 - `Phalcon\Mvc\Model\MetaData\Stream` letting other processes read a partially written cache file. [#17608](https://github.com/phalcon/cphalcon/issues/17608) [[doc]](https://docs.phalcon.io/5.22/db-models-metadata/)
 - `Phalcon\Mvc\Model\MetaData` storing a cached value that is not an array as the model meta-data. [#17608](https://github.com/phalcon/cphalcon/issues/17608) [[doc]](https://docs.phalcon.io/5.22/db-models-metadata/)
-- `Phalcon\Filter\Filter::sanitize()` not calling array callables registered with `set()`. [#17610](https://github.com/phalcon/cphalcon/issues/17610) [[doc]](https://docs.phalcon.io/5.22/filter-filter/)
+- `Phalcon\Mvc\View::partial()` and `Phalcon\Mvc\View\Simple::render()` dropping a `..` path segment instead of resolving it. [#17606](https://github.com/phalcon/cphalcon/issues/17606) [[doc]](https://docs.phalcon.io/5.22/views/)
+- `Phalcon\Mvc\View::partial()` not detecting a Windows absolute path (`C:\...`) as absolute. [#17606](https://github.com/phalcon/cphalcon/issues/17606) [[doc]](https://docs.phalcon.io/5.22/views/)
 
 ### Removed
 

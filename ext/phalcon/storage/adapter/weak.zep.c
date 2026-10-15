@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Weak, __construct)
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "lifetime");
 	ZVAL_LONG(&_2, 3600);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getarrval", NULL, 0, &options, &_0, &_2);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getArrVal", NULL, 0, &options, &_0, &_2);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 335, &_1);
 	ZEPHIR_INIT_NVAR(&_0);

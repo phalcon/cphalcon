@@ -17,6 +17,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getConverters);
 PHP_METHOD(Phalcon_Mvc_Router_Route, getGroup);
 PHP_METHOD(Phalcon_Mvc_Router_Route, getHostname);
 PHP_METHOD(Phalcon_Mvc_Router_Route, getHttpMethods);
+PHP_METHOD(Phalcon_Mvc_Router_Route, getIndexData);
 PHP_METHOD(Phalcon_Mvc_Router_Route, getMatch);
 PHP_METHOD(Phalcon_Mvc_Router_Route, getName);
 PHP_METHOD(Phalcon_Mvc_Router_Route, getPaths);
@@ -82,6 +83,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_route_gethost
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_route_gethttpmethods, 0, 0, MAY_BE_NULL|MAY_BE_ARRAY|MAY_BE_STRING)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_route_getindexdata, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_route_getmatch, 0, 0, 0)
@@ -154,6 +158,7 @@ PHP_ME(Phalcon_Mvc_Router_Route, getBeforeMatch, arginfo_phalcon_mvc_router_rout
 	PHP_ME(Phalcon_Mvc_Router_Route, getGroup, arginfo_phalcon_mvc_router_route_getgroup, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Route, getHostname, arginfo_phalcon_mvc_router_route_gethostname, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Route, getHttpMethods, arginfo_phalcon_mvc_router_route_gethttpmethods, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Route, getIndexData, arginfo_phalcon_mvc_router_route_getindexdata, ZEND_ACC_PUBLIC)
 PHP_ME(Phalcon_Mvc_Router_Route, getMatch, arginfo_phalcon_mvc_router_route_getmatch, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Route, getName, arginfo_phalcon_mvc_router_route_getname, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Route, getPaths, arginfo_phalcon_mvc_router_route_getpaths, ZEND_ACC_PUBLIC)

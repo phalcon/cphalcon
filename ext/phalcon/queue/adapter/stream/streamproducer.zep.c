@@ -70,7 +70,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamProducer, __construct)
 		Z_PARAM_OBJECT_OF_CLASS(context, phalcon_queue_adapter_stream_streamcontext_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &context);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1306, context);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1308, context);
 }
 
 PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamProducer, send)
@@ -99,12 +99,12 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamProducer, send)
 	zephir_fetch_params(1, 2, 0, &destination, &message);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "send to");
-	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_queue_adapter_queuedestinationguard_ce, "assertqueue", NULL, 0, destination, &_0);
+	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_queue_adapter_queuedestinationguard_ce, "assertQueue", NULL, 0, destination, &_0);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1306, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_2, destination, "getqueuename", NULL, 0);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1308, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(&_2, destination, "getQueueName", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &_1, "pushmessage", NULL, 0, &_2, message);
+	ZEPHIR_CALL_METHOD(NULL, &_1, "pushMessage", NULL, 0, &_2, message);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

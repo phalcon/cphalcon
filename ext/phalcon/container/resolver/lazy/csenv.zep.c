@@ -100,7 +100,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_CsEnv, resolve)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &ioc);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getenv", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getEnv", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, ",");
@@ -108,7 +108,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_CsEnv, resolve)
 	ZVAL_STRING(&_2, "\"");
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "\\");
-	ZEPHIR_CALL_FUNCTION(&values, "str_getcsv", NULL, 501, &_0, &_1, &_2, &_3);
+	ZEPHIR_CALL_FUNCTION(&values, "str_getcsv", NULL, 502, &_0, &_1, &_2, &_3);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 565, PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_4) != IS_NULL) {

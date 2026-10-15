@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1408, &data);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1410, &data);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -156,7 +156,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, has)
 		Z_PARAM_STR(index)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&index_zv, index);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1408, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1410, PH_NOISY_CC | PH_READONLY);
 	RETURN_BOOL(zephir_array_isset_value(&_0, &index_zv));
 }
 
@@ -204,13 +204,13 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query)
 		zephir_get_arrval(&placeholders, placeholders_param);
 	}
 	zephir_memory_observe(&translation);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1408, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1410, PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset_fetch(&translation, &_0, &translateKey_zv, 0))) {
-		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "notfound", NULL, 0, &translateKey_zv);
+		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "notFound", NULL, 0, &translateKey_zv);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "replaceplaceholders", NULL, 0, &translation, &placeholders);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "replacePlaceholders", NULL, 0, &translation, &placeholders);
 	zephir_check_call_status();
 	RETURN_MM();
 }

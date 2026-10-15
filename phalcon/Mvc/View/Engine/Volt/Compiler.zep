@@ -151,6 +151,13 @@ class Compiler implements InjectionAwareInterface
     protected view;
 
     /**
+     * The virtual path of each template path (see compile())
+     *
+     * @phpstan-var array<string, string>
+     */
+    protected array virtualPaths = [];
+
+    /**
      * Phalcon\Mvc\View\Engine\Volt\Compiler
      *
      * @param ViewBaseInterface|null view
@@ -297,20 +304,8 @@ class Compiler implements InjectionAwareInterface
     public function compile(string templatePath, bool extendsMode = false)
     {
         var blocksCode, compilation, compileAlways, compiledExtension,
-            compiledPath, compiledSeparator, options, prefix, stat, templateSepPath,
-            compiledTemplatePath = "";
-
-        /**
-         * Re-initialize some properties already initialized when the object is
-         * cloned
-         */
-        let this->extended = false;
-        let this->extendedBlocks = false;
-        let this->blocks = null;
-        let this->level = 0;
-        let this->foreachLevel = 0;
-        let this->blockLevel = 0;
-        let this->exprLevel = 0;
+            compiledPath, compiledSeparator, options, prefix, realTemplatePath,
+            stat, templateSepPath, compiledTemplatePath = "";
 
         let compilation = null;
 
@@ -413,12 +408,20 @@ class Compiler implements InjectionAwareInterface
             if !empty compiledPath {
                 /**
                  * Create the virtual path replacing the directory separator by
-                 * the compiled separator
+                 * the compiled separator. Keep it for the next calls when the
+                 * template file exists.
                  */
-                let templateSepPath = prepare_virtual_path(
-                    realpath(templatePath),
-                    compiledSeparator
-                );
+                if !fetch templateSepPath, this->virtualPaths[templatePath] {
+                    let realTemplatePath = realpath(templatePath);
+                    let templateSepPath = prepare_virtual_path(
+                        realTemplatePath,
+                        compiledSeparator
+                    );
+
+                    if typeof realTemplatePath == "string" {
+                        let this->virtualPaths[templatePath] = templateSepPath;
+                    }
+                }
             } else {
                 let templateSepPath = templatePath;
             }
@@ -1397,7 +1400,7 @@ class Compiler implements InjectionAwareInterface
         let extensions = this->extensions;
 
         loop {
-            if typeof extensions === "array" {
+            if !empty extensions {
                 /**
                  * Notify the extensions about being resolving an expression
                  */
@@ -1856,7 +1859,7 @@ class Compiler implements InjectionAwareInterface
              */
             let extensions = this->extensions;
 
-            if typeof extensions == "array" {
+            if !empty extensions {
                 /**
                  * Notify the extensions about being compiling a function
                  */
@@ -2281,6 +2284,11 @@ class Compiler implements InjectionAwareInterface
     {
         let this->options[option] = value;
 
+        /**
+         * The virtual paths use the "separator" option
+         */
+        let this->virtualPaths = [];
+
         return this;
     }
 
@@ -2292,6 +2300,11 @@ class Compiler implements InjectionAwareInterface
     public function setOptions(array options) -> <static>
     {
         let this->options = options;
+
+        /**
+         * The virtual paths use the "separator" option
+         */
+        let this->virtualPaths = [];
 
         return this;
     }
@@ -2316,6 +2329,18 @@ class Compiler implements InjectionAwareInterface
         var currentPath, intermediate, extended, finalCompilation, blocks,
             extendedBlocks, name, block, blockCompilation, localBlock,
             compilation, options, autoescape;
+
+        /**
+         * Reset the compilation state. A clone (extends, include) also gets
+         * the state of its parent.
+         */
+        let this->extended = false;
+        let this->extendedBlocks = false;
+        let this->blocks = null;
+        let this->level = 0;
+        let this->foreachLevel = 0;
+        let this->blockLevel = 0;
+        let this->exprLevel = 0;
 
         let currentPath = this->currentPath;
 
@@ -2567,7 +2592,7 @@ class Compiler implements InjectionAwareInterface
          */
         let extensions = this->extensions;
 
-        if typeof extensions == "array" {
+        if !empty extensions {
             /**
              * Notify the extensions about being compiling a function
              */
@@ -2717,8 +2742,6 @@ class Compiler implements InjectionAwareInterface
 
         let compilation = null;
 
-        let extensions = this->extensions;
-
         for statement in statements {
             /**
              * All statements must be arrays
@@ -2736,9 +2759,12 @@ class Compiler implements InjectionAwareInterface
 
             /**
              * Check if extensions have implemented custom compilation for this
-             * statement
+             * statement. Read the property for each statement: a function or
+             * a filter can add an extension during the compilation.
              */
-            if typeof extensions == "array" {
+            let extensions = this->extensions;
+
+            if !empty extensions {
                 /**
                  * Notify the extensions about being resolving a statement
                  */

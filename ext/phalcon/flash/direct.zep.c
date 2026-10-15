@@ -63,7 +63,7 @@ PHP_METHOD(Phalcon_Flash_Direct, message)
 	message = ZEND_CALL_ARG(execute_data, 2);
 	zephir_memory_observe(&type_zv);
 	ZVAL_STR_COPY(&type_zv, type);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "outputmessage", NULL, 0, &type_zv, message);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "outputMessage", NULL, 0, &type_zv, message);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Flash_Direct, output)
 		remove = 1;
 	} else {
 		}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 782, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 783, PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_2);
 		zephir_string_to_char_array(&_2, &_0);

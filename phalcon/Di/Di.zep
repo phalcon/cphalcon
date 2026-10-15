@@ -209,9 +209,12 @@ class Di implements DiInterface
             instance = null;
 
         /**
-         * Resolve the alias, if any
+         * Resolve the alias, if any. Call resolveAlias() only when the name
+         * has an alias.
          */
-        let name = this->resolveAlias(name);
+        if isset this->aliases[name] {
+            let name = this->resolveAlias(name);
+        }
 
         /**
          * If the service is shared and it already has a cached instance then
@@ -364,9 +367,12 @@ class Di implements DiInterface
         var instance;
 
         /**
-         * Resolve the alias, if any
+         * Resolve the alias, if any. Call resolveAlias() only when the name
+         * has an alias.
          */
-        let name = this->resolveAlias(name);
+        if isset this->aliases[name] {
+            let name = this->resolveAlias(name);
+        }
 
         if (fetch instance, this->sharedInstances[name]) && instance !== null {
             return instance;
@@ -385,9 +391,12 @@ class Di implements DiInterface
     public function has(string name) -> bool
     {
         /**
-         * Resolve the alias, if any
+         * Resolve the alias, if any. Call resolveAlias() only when the name
+         * has an alias.
          */
-        let name = this->resolveAlias(name);
+        if isset this->aliases[name] {
+            let name = this->resolveAlias(name);
+        }
 
         return isset(this->services[name]);
     }
@@ -633,9 +642,12 @@ class Di implements DiInterface
     public function set(string name, var definition, bool shared = false) -> <ServiceInterface>
     {
         /**
-         * Resolve the alias, if any
+         * Resolve the alias, if any. Call resolveAlias() only when the name
+         * has an alias.
          */
-        let name = this->resolveAlias(name);
+        if isset this->aliases[name] {
+            let name = this->resolveAlias(name);
+        }
 
         let this->services[name] = new Service(definition, shared);
 

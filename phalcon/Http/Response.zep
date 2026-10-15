@@ -360,7 +360,11 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         let headers       = this->headers,
             eventsManager = this->eventsManager;
 
-        if this->fireManagerEvent("response:beforeSendHeaders") === false {
+        /**
+         * Fire the events only when an events manager is set. With no events
+         * manager, fireManagerEvent() does nothing.
+         */
+        if eventsManager !== null && this->fireManagerEvent("response:beforeSendHeaders") === false {
             return false;
         }
 
@@ -369,7 +373,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
          */
         let result = headers->send();
 
-        if true === result  {
+        if true === result && eventsManager !== null {
             this->fireManagerEvent("response:afterSendHeaders");
         }
 

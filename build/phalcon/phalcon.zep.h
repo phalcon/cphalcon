@@ -15876,6 +15876,7 @@ static PHP_METHOD(Phalcon_Mvc_Router, addRouteFromConfig);
 static PHP_METHOD(Phalcon_Mvc_Router, extractRealUri);
 static PHP_METHOD(Phalcon_Mvc_Router, mountGroupFromConfig);
 static PHP_METHOD(Phalcon_Mvc_Router, rebuildMethodIndex);
+static PHP_METHOD(Phalcon_Mvc_Router, hasTopLevelAlternation);
 static PHP_METHOD(Phalcon_Mvc_Router, phpFclose);
 static PHP_METHOD(Phalcon_Mvc_Router, phpFgetCsv);
 static PHP_METHOD(Phalcon_Mvc_Router, phpFileExists);
@@ -16122,6 +16123,10 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_rebuildmethodindex, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_hastoplevelalternation, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, body, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_phpfclose, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_INFO(0, handle)
 ZEND_END_ARG_INFO()
@@ -16242,6 +16247,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_router_method_entry) {
 	PHP_ME(Phalcon_Mvc_Router, extractRealUri, arginfo_phalcon_mvc_router_extractrealuri, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Router, mountGroupFromConfig, arginfo_phalcon_mvc_router_mountgroupfromconfig, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Router, rebuildMethodIndex, arginfo_phalcon_mvc_router_rebuildmethodindex, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Router, hasTopLevelAlternation, arginfo_phalcon_mvc_router_hastoplevelalternation, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Mvc_Router, phpFclose, arginfo_phalcon_mvc_router_phpfclose, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Router, phpFgetCsv, arginfo_phalcon_mvc_router_phpfgetcsv, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Router, phpFileExists, arginfo_phalcon_mvc_router_phpfileexists, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
@@ -36404,7 +36410,6 @@ static PHP_METHOD(Phalcon_Http_Request, smoothFiles);
 static PHP_METHOD(Phalcon_Http_Request, getFilterService);
 static PHP_METHOD(Phalcon_Http_Request, getFormData);
 static PHP_METHOD(Phalcon_Http_Request, getPostData);
-static PHP_METHOD(Phalcon_Http_Request, getServerArray);
 static PHP_METHOD(Phalcon_Http_Request, isProxyTrusted);
 static PHP_METHOD(Phalcon_Http_Request, isValidPublicIp);
 static PHP_METHOD(Phalcon_Http_Request, processFiles);
@@ -36754,9 +36759,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getpostdata
 	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getserverarray, 0, 0, IS_ARRAY, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_isproxytrusted, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, ip, IS_STRING, 0)
 ZEND_END_ARG_INFO()
@@ -36934,7 +36936,6 @@ ZEPHIR_INIT_FUNCS(phalcon_http_request_method_entry) {
 	PHP_ME(Phalcon_Http_Request, getFilterService, arginfo_phalcon_http_request_getfilterservice, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Request, getFormData, arginfo_phalcon_http_request_getformdata, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Request, getPostData, arginfo_phalcon_http_request_getpostdata, ZEND_ACC_PRIVATE)
-	PHP_ME(Phalcon_Http_Request, getServerArray, arginfo_phalcon_http_request_getserverarray, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Request, isProxyTrusted, arginfo_phalcon_http_request_isproxytrusted, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Request, isValidPublicIp, arginfo_phalcon_http_request_isvalidpublicip, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Request, processFiles, arginfo_phalcon_http_request_processfiles, ZEND_ACC_PRIVATE)
@@ -45876,6 +45877,7 @@ static PHP_METHOD(Phalcon_Mvc_Router_Route, getConverters);
 static PHP_METHOD(Phalcon_Mvc_Router_Route, getGroup);
 static PHP_METHOD(Phalcon_Mvc_Router_Route, getHostname);
 static PHP_METHOD(Phalcon_Mvc_Router_Route, getHttpMethods);
+static PHP_METHOD(Phalcon_Mvc_Router_Route, getIndexData);
 static PHP_METHOD(Phalcon_Mvc_Router_Route, getMatch);
 static PHP_METHOD(Phalcon_Mvc_Router_Route, getName);
 static PHP_METHOD(Phalcon_Mvc_Router_Route, getPaths);
@@ -45941,6 +45943,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_route_gethost
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_router_route_gethttpmethods, 0, 0, MAY_BE_NULL|MAY_BE_ARRAY|MAY_BE_STRING)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_route_getindexdata, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_route_getmatch, 0, 0, 0)
@@ -46013,6 +46018,7 @@ PHP_ME(Phalcon_Mvc_Router_Route, getBeforeMatch, arginfo_phalcon_mvc_router_rout
 	PHP_ME(Phalcon_Mvc_Router_Route, getGroup, arginfo_phalcon_mvc_router_route_getgroup, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Route, getHostname, arginfo_phalcon_mvc_router_route_gethostname, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Route, getHttpMethods, arginfo_phalcon_mvc_router_route_gethttpmethods, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Route, getIndexData, arginfo_phalcon_mvc_router_route_getindexdata, ZEND_ACC_PUBLIC)
 PHP_ME(Phalcon_Mvc_Router_Route, getMatch, arginfo_phalcon_mvc_router_route_getmatch, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Route, getName, arginfo_phalcon_mvc_router_route_getname, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Route, getPaths, arginfo_phalcon_mvc_router_route_getpaths, ZEND_ACC_PUBLIC)
