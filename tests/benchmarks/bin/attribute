@@ -4,8 +4,8 @@
 #
 # (c) Phalcon Team <team@phalcon.io>
 #
-# For the full copyright and license information, please view
-# the LICENSE.txt file that was distributed with this source code.
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
 
 # Shows the own cost of each Phalcon method in one warm call of a benchmark subject, with valgrind
 # (callgrind with caller chains). Run this script in the cphalcon-bench-* container.
