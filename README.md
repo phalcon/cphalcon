@@ -144,7 +144,7 @@ Phalcon is open-source software licensed under the BSD 3-Clause License.
 
 Copyright © 2011-present, Phalcon Team.
 
-See the [LICENSE](https://github.com/phalcon/cphalcon/blob/master/LICENSE.txt) file or [license.phalcon.io](https://license.phalcon.io) for details. The licenses of the packages that Phalcon uses, is inspired by, or has adapted are also in the [3rdparty/licenses](https://github.com/phalcon/cphalcon/blob/master/3rdparty/licenses) directory.
+See the [LICENSE](https://github.com/phalcon/cphalcon/blob/master/LICENSE) file or [license.phalcon.io](https://license.phalcon.io) for details. The licenses of the packages that Phalcon uses, is inspired by, or has adapted are also in the [3rdparty/licenses](https://github.com/phalcon/cphalcon/blob/master/3rdparty/licenses) directory.
 
 
 <!-- Badges: package -->
@@ -154,7 +154,7 @@ See the [LICENSE](https://github.com/phalcon/cphalcon/blob/master/LICENSE.txt) f
 [packagist-downloads-link]:  https://packagist.org/packages/phalcon/cphalcon/stats
 [php-version-badge]:          https://img.shields.io/packagist/php-v/phalcon/cphalcon?style=flat-square&logo=php&logoColor=white
 [license-badge]:             https://img.shields.io/github/license/phalcon/cphalcon?style=flat-square&logo=opensourceinitiative&logoColor=white
-[license-link]:              https://github.com/phalcon/cphalcon/blob/master/LICENSE.txt
+[license-link]:              https://github.com/phalcon/cphalcon/blob/master/LICENSE
 
 <!-- Badges: quality & build -->
 [phalcon-5x-badge]:         https://github.com/phalcon/cphalcon/actions/workflows/main.yml/badge.svg?branch=5.0.x

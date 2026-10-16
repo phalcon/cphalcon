@@ -1050,13 +1050,13 @@ void phannot_(
   }while( aamajor!=AANOCODE && aapParser->aaidx>=0 );
   return;
 }
-/* base.c
+/**
  * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 const phannot_token_names phannot_tokens[] =
