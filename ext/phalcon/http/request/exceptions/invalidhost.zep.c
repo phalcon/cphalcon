@@ -24,7 +24,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Request_Exceptions_InvalidHost)
