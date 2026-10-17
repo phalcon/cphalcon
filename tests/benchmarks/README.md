@@ -103,7 +103,7 @@ One subject for each component entry point that the reference apps run (selected
 | `Mvc\RouterBench`          | `benchDefineAndHandle`, `benchDefineAndHandleMethods`, `benchHandle`, `benchHandleWithEvents` |
 | `Mvc\ViewBench`            | `benchPartial`, `benchRender`                                                  |
 | `Mvc\VoltBench`            | `benchCompileString`                                                           |
-| `Support\CollectionBench`  | `benchGet`                                                                     |
+| `Support\CollectionBench`  | `benchConstruct`, `benchFilter`, `benchGet`, `benchOffsetGet`, `benchRemove`, `benchSet`, `benchToJson` |
 | `Support\JsonBench`        | `benchEncode`                                                                  |
 
 - The subjects use the fixtures of the reference apps (`Apps\Mvc\Fixture`, `Apps\Rest\Fixture`).
@@ -111,6 +111,9 @@ One subject for each component entry point that the reference apps run (selected
   `handle()` runs the per-route loop (no fast path).
 - `benchQueryJoin` runs a PHQL self-join of the robots table (two models in each row), so the rows go through a
   complex resultset (`Resultset\Complex`).
+- The `Support\CollectionBench` subjects use a collection with 3 items (`get`, `offsetGet`, `set`, `remove`) and a
+  collection with 10 items (`filter`, `toJson`). `benchConstruct` makes a new collection with 10 items on each
+  call. `benchRemove` sets the key and then removes it, so each call does the same work.
 - `benchParseCold` uses a new PHQL string for each call, so both PHQL caches miss. The caches grow during
   the run.
 - For heavy subjects (Router, View, Model, Query, Db, `benchFactoryDefault`), use a smaller k (for example
