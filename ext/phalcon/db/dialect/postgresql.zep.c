@@ -1263,7 +1263,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeReferences)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "escapeStringLiteral", NULL, 0, &table_zv);
 	zephir_check_call_status();
-	ZEPHIR_CONCAT_SVSVS(return_value, "SELECT DISTINCT tc.table_name AS TABLE_NAME, kcu.column_name AS COLUMN_NAME, tc.constraint_name AS CONSTRAINT_NAME, tc.table_catalog AS REFERENCED_TABLE_SCHEMA, ccu.table_name AS REFERENCED_TABLE_NAME, ccu.column_name AS REFERENCED_COLUMN_NAME, rc.update_rule AS UPDATE_RULE, rc.delete_rule AS DELETE_RULE FROM information_schema.table_constraints AS tc JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name JOIN information_schema.referential_constraints rc ON tc.constraint_catalog = rc.constraint_catalog AND tc.constraint_schema = rc.constraint_schema AND tc.constraint_name = rc.constraint_name AND tc.constraint_type = 'FOREIGN KEY' WHERE constraint_type = 'FOREIGN KEY' AND tc.table_schema = '", &_0, "' AND tc.table_name='", &_1, "'");
+	ZEPHIR_CONCAT_SSSSSSSSSSSSSSSSSSSSSSSSSSVSSVSS(return_value, "SELECT c.relname AS TABLE_NAME, ", "a.attname AS COLUMN_NAME, ", "con.conname AS CONSTRAINT_NAME, ", "current_database() AS REFERENCED_TABLE_SCHEMA, ", "fc.relname AS REFERENCED_TABLE_NAME, ", "fa.attname AS REFERENCED_COLUMN_NAME, ", "CASE con.confupdtype WHEN 'c' THEN 'CASCADE' ", "WHEN 'n' THEN 'SET NULL' WHEN 'd' THEN 'SET DEFAULT' ", "WHEN 'r' THEN 'RESTRICT' WHEN 'a' THEN 'NO ACTION' ", "END AS UPDATE_RULE, ", "CASE con.confdeltype WHEN 'c' THEN 'CASCADE' ", "WHEN 'n' THEN 'SET NULL' WHEN 'd' THEN 'SET DEFAULT' ", "WHEN 'r' THEN 'RESTRICT' WHEN 'a' THEN 'NO ACTION' ", "END AS DELETE_RULE ", "FROM pg_catalog.pg_constraint AS con ", "JOIN pg_catalog.pg_class AS c ON c.oid = con.conrelid ", "JOIN pg_catalog.pg_namespace AS n ON n.oid = c.relnamespace ", "JOIN pg_catalog.pg_class AS fc ON fc.oid = con.confrelid ", "CROSS JOIN LATERAL unnest(con.conkey, con.confkey) ", "WITH ORDINALITY AS k(colnum, refcolnum, colpos) ", "JOIN pg_catalog.pg_attribute AS a ", "ON a.attrelid = con.conrelid AND a.attnum = k.colnum ", "JOIN pg_catalog.pg_attribute AS fa ", "ON fa.attrelid = con.confrelid AND fa.attnum = k.refcolnum ", "WHERE con.contype = 'f' ", "AND n.nspname = '", &_0, "' ", "AND c.relname = '", &_1, "' ", "ORDER BY con.conname, k.colpos");
 	RETURN_MM();
 }
 
@@ -1900,7 +1900,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition)
 			ZVAL_STRING(&_7$$74, "PostgreSQL");
 			ZEPHIR_CALL_METHOD(NULL, &_5$$74, "__construct", NULL, 0, &_7$$74, &_6$$74);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_5$$74, "phalcon/Db/Dialect/Postgresql.zep", 793);
+			zephir_throw_exception_debug(&_5$$74, "phalcon/Db/Dialect/Postgresql.zep", 828);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -1917,7 +1917,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition)
 				} else {
 					_8$$76 = &typeValues;
 				}
-				zephir_is_iterable(_8$$76, 0, "phalcon/Db/Dialect/Postgresql.zep", 808);
+				zephir_is_iterable(_8$$76, 0, "phalcon/Db/Dialect/Postgresql.zep", 843);
 				if (Z_TYPE_P(_8$$76) == IS_ARRAY) {
 					ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_8$$76), _10$$76)
 					{
@@ -2286,13 +2286,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, returning)
 		object_init_ex(&_0$$3, phalcon_db_exceptions_returningrequirescolumn_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Db/Dialect/Postgresql.zep", 917);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Db/Dialect/Postgresql.zep", 952);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	if (zephir_fast_count_int(&columns) == 1) {
 		zephir_memory_observe(&_1$$4);
-		zephir_array_fetch_long(&_1$$4, &columns, 0, PH_NOISY, "phalcon/Db/Dialect/Postgresql.zep", 921);
+		zephir_array_fetch_long(&_1$$4, &columns, 0, PH_NOISY, "phalcon/Db/Dialect/Postgresql.zep", 956);
 		zephir_cast_to_string(&_2$$4, &_1$$4);
 		ZEPHIR_CPY_WRT(&first, &_2$$4);
 		if (ZEPHIR_IS_STRING(&first, "*")) {
@@ -2601,7 +2601,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, castDefault)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_fast_strtoupper(&_1, &columnDefinition);
-	if (zephir_memnstr_str(&_1, SL("BOOLEAN"), "phalcon/Db/Dialect/Postgresql.zep", 1054)) {
+	if (zephir_memnstr_str(&_1, SL("BOOLEAN"), "phalcon/Db/Dialect/Postgresql.zep", 1089)) {
 		zephir_cast_to_string(&_2$$4, &defaultValue);
 		ZEPHIR_INIT_VAR(&boolStr$$4);
 		zephir_fast_strtolower(&boolStr$$4, &_2$$4);
@@ -2626,7 +2626,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, castDefault)
 	}
 	ZEPHIR_INIT_VAR(&_6);
 	zephir_fast_strtoupper(&_6, &defaultValue);
-	if (zephir_memnstr_str(&_6, SL("CURRENT_TIMESTAMP"), "phalcon/Db/Dialect/Postgresql.zep", 1060)) {
+	if (zephir_memnstr_str(&_6, SL("CURRENT_TIMESTAMP"), "phalcon/Db/Dialect/Postgresql.zep", 1095)) {
 		RETURN_MM_STRING("CURRENT_TIMESTAMP");
 	}
 	_7 = ZEPHIR_IS_LONG_IDENTICAL(&columnType, 0);
