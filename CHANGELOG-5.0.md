@@ -16,6 +16,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 ### Fixed
 
+- `Phalcon\Db\Adapter\Pdo\Postgresql::describeReferences()` returning wrong column pairs for composite foreign keys. [#17680](https://github.com/phalcon/cphalcon/issues/17680)
 
 ### Removed
 

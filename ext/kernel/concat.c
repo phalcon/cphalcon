@@ -357,6 +357,228 @@ zephir_concat_cleanup:
 
 }
 
+void zephir_concat_ssssssssssssssssssssssssssvssvss(zval *result, const char *op1, uint32_t op1_len, const char *op2, uint32_t op2_len, const char *op3, uint32_t op3_len, const char *op4, uint32_t op4_len, const char *op5, uint32_t op5_len, const char *op6, uint32_t op6_len, const char *op7, uint32_t op7_len, const char *op8, uint32_t op8_len, const char *op9, uint32_t op9_len, const char *op10, uint32_t op10_len, const char *op11, uint32_t op11_len, const char *op12, uint32_t op12_len, const char *op13, uint32_t op13_len, const char *op14, uint32_t op14_len, const char *op15, uint32_t op15_len, const char *op16, uint32_t op16_len, const char *op17, uint32_t op17_len, const char *op18, uint32_t op18_len, const char *op19, uint32_t op19_len, const char *op20, uint32_t op20_len, const char *op21, uint32_t op21_len, const char *op22, uint32_t op22_len, const char *op23, uint32_t op23_len, const char *op24, uint32_t op24_len, const char *op25, uint32_t op25_len, const char *op26, uint32_t op26_len, zval *op27, const char *op28, uint32_t op28_len, const char *op29, uint32_t op29_len, zval *op30, const char *op31, uint32_t op31_len, const char *op32, uint32_t op32_len, int self_var){
+
+	zval result_copy, op27_copy, op30_copy;
+	int use_copy = 0, use_copy27 = 0, use_copy30 = 0;
+	size_t offset = 0, length;
+
+	if (Z_TYPE_P(op27) != IS_STRING) {
+	   use_copy27 = zend_make_printable_zval(op27, &op27_copy);
+	   if (use_copy27) {
+	       op27 = &op27_copy;
+	   }
+	}
+
+	if (Z_TYPE_P(op30) != IS_STRING) {
+	   use_copy30 = zend_make_printable_zval(op30, &op30_copy);
+	   if (use_copy30) {
+	       op30 = &op30_copy;
+	   }
+	}
+
+	length = op1_len;
+	if (UNEXPECTED(op2_len > ZSTR_MAX_LEN - length)) {
+		goto zephir_concat_overflow;
+	}
+	length += op2_len;
+	if (UNEXPECTED(op3_len > ZSTR_MAX_LEN - length)) {
+		goto zephir_concat_overflow;
+	}
+	length += op3_len;
+	if (UNEXPECTED(op4_len > ZSTR_MAX_LEN - length)) {
+		goto zephir_concat_overflow;
+	}
+	length += op4_len;
+	if (UNEXPECTED(op5_len > ZSTR_MAX_LEN - length)) {
+		goto zephir_concat_overflow;
+	}
+	length += op5_len;
+	if (UNEXPECTED(op6_len > ZSTR_MAX_LEN - length)) {
+		goto zephir_concat_overflow;
+	}
+	length += op6_len;
+	if (UNEXPECTED(op7_len > ZSTR_MAX_LEN - length)) {
+		goto zephir_concat_overflow;
+	}
+	length += op7_len;
+	if (UNEXPECTED(op8_len > ZSTR_MAX_LEN - length)) {
+		goto zephir_concat_overflow;
+	}
+	length += op8_len;
+	if (UNEXPECTED(op9_len > ZSTR_MAX_LEN - length)) {
+		goto zephir_concat_overflow;
+	}
+	length += op9_len;
+	if (UNEXPECTED(op10_len > ZSTR_MAX_LEN - length)) {
+		goto zephir_concat_overflow;
+	}
+	length += op10_len;
+	if (UNEXPECTED(op11_len > ZSTR_MAX_LEN - length)) {
+		goto zephir_concat_overflow;
+	}
+	length += op11_len;
+	if (UNEXPECTED(op12_len > ZSTR_MAX_LEN - length)) {
+		goto zephir_concat_overflow;
+	}
+	length += op12_len;
+	if (UNEXPECTED(op13_len > ZSTR_MAX_LEN - length)) {
+		goto zephir_concat_overflow;
+	}
+	length += op13_len;
+	if (UNEXPECTED(op14_len > ZSTR_MAX_LEN - length)) {
+		goto zephir_concat_overflow;
+	}
+	length += op14_len;
+	if (UNEXPECTED(op15_len > ZSTR_MAX_LEN - length)) {
+		goto zephir_concat_overflow;
+	}
+	length += op15_len;
+	if (UNEXPECTED(op16_len > ZSTR_MAX_LEN - length)) {
+		goto zephir_concat_overflow;
+	}
+	length += op16_len;
+	if (UNEXPECTED(op17_len > ZSTR_MAX_LEN - length)) {
+		goto zephir_concat_overflow;
+	}
+	length += op17_len;
+	if (UNEXPECTED(op18_len > ZSTR_MAX_LEN - length)) {
+		goto zephir_concat_overflow;
+	}
+	length += op18_len;
+	if (UNEXPECTED(op19_len > ZSTR_MAX_LEN - length)) {
+		goto zephir_concat_overflow;
+	}
+	length += op19_len;
+	if (UNEXPECTED(op20_len > ZSTR_MAX_LEN - length)) {
+		goto zephir_concat_overflow;
+	}
+	length += op20_len;
+	if (UNEXPECTED(op21_len > ZSTR_MAX_LEN - length)) {
+		goto zephir_concat_overflow;
+	}
+	length += op21_len;
+	if (UNEXPECTED(op22_len > ZSTR_MAX_LEN - length)) {
+		goto zephir_concat_overflow;
+	}
+	length += op22_len;
+	if (UNEXPECTED(op23_len > ZSTR_MAX_LEN - length)) {
+		goto zephir_concat_overflow;
+	}
+	length += op23_len;
+	if (UNEXPECTED(op24_len > ZSTR_MAX_LEN - length)) {
+		goto zephir_concat_overflow;
+	}
+	length += op24_len;
+	if (UNEXPECTED(op25_len > ZSTR_MAX_LEN - length)) {
+		goto zephir_concat_overflow;
+	}
+	length += op25_len;
+	if (UNEXPECTED(op26_len > ZSTR_MAX_LEN - length)) {
+		goto zephir_concat_overflow;
+	}
+	length += op26_len;
+	if (UNEXPECTED(Z_STRLEN_P(op27) > ZSTR_MAX_LEN - length)) {
+		goto zephir_concat_overflow;
+	}
+	length += Z_STRLEN_P(op27);
+	if (UNEXPECTED(op28_len > ZSTR_MAX_LEN - length)) {
+		goto zephir_concat_overflow;
+	}
+	length += op28_len;
+	if (UNEXPECTED(op29_len > ZSTR_MAX_LEN - length)) {
+		goto zephir_concat_overflow;
+	}
+	length += op29_len;
+	if (UNEXPECTED(Z_STRLEN_P(op30) > ZSTR_MAX_LEN - length)) {
+		goto zephir_concat_overflow;
+	}
+	length += Z_STRLEN_P(op30);
+	if (UNEXPECTED(op31_len > ZSTR_MAX_LEN - length)) {
+		goto zephir_concat_overflow;
+	}
+	length += op31_len;
+	if (UNEXPECTED(op32_len > ZSTR_MAX_LEN - length)) {
+		goto zephir_concat_overflow;
+	}
+	length += op32_len;
+	if (self_var) {
+
+		if (Z_TYPE_P(result) != IS_STRING) {
+			use_copy = zend_make_printable_zval(result, &result_copy);
+			if (use_copy) {
+				ZEPHIR_CPY_WRT_CTOR(result, (&result_copy));
+			}
+		}
+
+		offset = Z_STRLEN_P(result);
+		if (UNEXPECTED(offset > ZSTR_MAX_LEN - length)) {
+			goto zephir_concat_overflow;
+		}
+		length += offset;
+		Z_STR_P(result) = zend_string_realloc(Z_STR_P(result), length, 0);
+
+	} else {
+		ZVAL_STR(result, zend_string_alloc(length, 0));
+	}
+
+	memcpy(Z_STRVAL_P(result) + offset, op1, op1_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len, op2, op2_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len + op2_len, op3, op3_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len + op2_len + op3_len, op4, op4_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len + op2_len + op3_len + op4_len, op5, op5_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len + op2_len + op3_len + op4_len + op5_len, op6, op6_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len + op2_len + op3_len + op4_len + op5_len + op6_len, op7, op7_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len + op2_len + op3_len + op4_len + op5_len + op6_len + op7_len, op8, op8_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len + op2_len + op3_len + op4_len + op5_len + op6_len + op7_len + op8_len, op9, op9_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len + op2_len + op3_len + op4_len + op5_len + op6_len + op7_len + op8_len + op9_len, op10, op10_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len + op2_len + op3_len + op4_len + op5_len + op6_len + op7_len + op8_len + op9_len + op10_len, op11, op11_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len + op2_len + op3_len + op4_len + op5_len + op6_len + op7_len + op8_len + op9_len + op10_len + op11_len, op12, op12_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len + op2_len + op3_len + op4_len + op5_len + op6_len + op7_len + op8_len + op9_len + op10_len + op11_len + op12_len, op13, op13_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len + op2_len + op3_len + op4_len + op5_len + op6_len + op7_len + op8_len + op9_len + op10_len + op11_len + op12_len + op13_len, op14, op14_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len + op2_len + op3_len + op4_len + op5_len + op6_len + op7_len + op8_len + op9_len + op10_len + op11_len + op12_len + op13_len + op14_len, op15, op15_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len + op2_len + op3_len + op4_len + op5_len + op6_len + op7_len + op8_len + op9_len + op10_len + op11_len + op12_len + op13_len + op14_len + op15_len, op16, op16_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len + op2_len + op3_len + op4_len + op5_len + op6_len + op7_len + op8_len + op9_len + op10_len + op11_len + op12_len + op13_len + op14_len + op15_len + op16_len, op17, op17_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len + op2_len + op3_len + op4_len + op5_len + op6_len + op7_len + op8_len + op9_len + op10_len + op11_len + op12_len + op13_len + op14_len + op15_len + op16_len + op17_len, op18, op18_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len + op2_len + op3_len + op4_len + op5_len + op6_len + op7_len + op8_len + op9_len + op10_len + op11_len + op12_len + op13_len + op14_len + op15_len + op16_len + op17_len + op18_len, op19, op19_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len + op2_len + op3_len + op4_len + op5_len + op6_len + op7_len + op8_len + op9_len + op10_len + op11_len + op12_len + op13_len + op14_len + op15_len + op16_len + op17_len + op18_len + op19_len, op20, op20_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len + op2_len + op3_len + op4_len + op5_len + op6_len + op7_len + op8_len + op9_len + op10_len + op11_len + op12_len + op13_len + op14_len + op15_len + op16_len + op17_len + op18_len + op19_len + op20_len, op21, op21_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len + op2_len + op3_len + op4_len + op5_len + op6_len + op7_len + op8_len + op9_len + op10_len + op11_len + op12_len + op13_len + op14_len + op15_len + op16_len + op17_len + op18_len + op19_len + op20_len + op21_len, op22, op22_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len + op2_len + op3_len + op4_len + op5_len + op6_len + op7_len + op8_len + op9_len + op10_len + op11_len + op12_len + op13_len + op14_len + op15_len + op16_len + op17_len + op18_len + op19_len + op20_len + op21_len + op22_len, op23, op23_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len + op2_len + op3_len + op4_len + op5_len + op6_len + op7_len + op8_len + op9_len + op10_len + op11_len + op12_len + op13_len + op14_len + op15_len + op16_len + op17_len + op18_len + op19_len + op20_len + op21_len + op22_len + op23_len, op24, op24_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len + op2_len + op3_len + op4_len + op5_len + op6_len + op7_len + op8_len + op9_len + op10_len + op11_len + op12_len + op13_len + op14_len + op15_len + op16_len + op17_len + op18_len + op19_len + op20_len + op21_len + op22_len + op23_len + op24_len, op25, op25_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len + op2_len + op3_len + op4_len + op5_len + op6_len + op7_len + op8_len + op9_len + op10_len + op11_len + op12_len + op13_len + op14_len + op15_len + op16_len + op17_len + op18_len + op19_len + op20_len + op21_len + op22_len + op23_len + op24_len + op25_len, op26, op26_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len + op2_len + op3_len + op4_len + op5_len + op6_len + op7_len + op8_len + op9_len + op10_len + op11_len + op12_len + op13_len + op14_len + op15_len + op16_len + op17_len + op18_len + op19_len + op20_len + op21_len + op22_len + op23_len + op24_len + op25_len + op26_len, Z_STRVAL_P(op27), Z_STRLEN_P(op27));
+	memcpy(Z_STRVAL_P(result) + offset + op1_len + op2_len + op3_len + op4_len + op5_len + op6_len + op7_len + op8_len + op9_len + op10_len + op11_len + op12_len + op13_len + op14_len + op15_len + op16_len + op17_len + op18_len + op19_len + op20_len + op21_len + op22_len + op23_len + op24_len + op25_len + op26_len + Z_STRLEN_P(op27), op28, op28_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len + op2_len + op3_len + op4_len + op5_len + op6_len + op7_len + op8_len + op9_len + op10_len + op11_len + op12_len + op13_len + op14_len + op15_len + op16_len + op17_len + op18_len + op19_len + op20_len + op21_len + op22_len + op23_len + op24_len + op25_len + op26_len + Z_STRLEN_P(op27) + op28_len, op29, op29_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len + op2_len + op3_len + op4_len + op5_len + op6_len + op7_len + op8_len + op9_len + op10_len + op11_len + op12_len + op13_len + op14_len + op15_len + op16_len + op17_len + op18_len + op19_len + op20_len + op21_len + op22_len + op23_len + op24_len + op25_len + op26_len + Z_STRLEN_P(op27) + op28_len + op29_len, Z_STRVAL_P(op30), Z_STRLEN_P(op30));
+	memcpy(Z_STRVAL_P(result) + offset + op1_len + op2_len + op3_len + op4_len + op5_len + op6_len + op7_len + op8_len + op9_len + op10_len + op11_len + op12_len + op13_len + op14_len + op15_len + op16_len + op17_len + op18_len + op19_len + op20_len + op21_len + op22_len + op23_len + op24_len + op25_len + op26_len + Z_STRLEN_P(op27) + op28_len + op29_len + Z_STRLEN_P(op30), op31, op31_len);
+	memcpy(Z_STRVAL_P(result) + offset + op1_len + op2_len + op3_len + op4_len + op5_len + op6_len + op7_len + op8_len + op9_len + op10_len + op11_len + op12_len + op13_len + op14_len + op15_len + op16_len + op17_len + op18_len + op19_len + op20_len + op21_len + op22_len + op23_len + op24_len + op25_len + op26_len + Z_STRLEN_P(op27) + op28_len + op29_len + Z_STRLEN_P(op30) + op31_len, op32, op32_len);
+	Z_STRVAL_P(result)[length] = 0;
+	zend_string_forget_hash_val(Z_STR_P(result));
+	goto zephir_concat_cleanup;
+
+zephir_concat_overflow:
+	zend_throw_error(NULL, "String size overflow");
+	if (!self_var) {
+		ZVAL_UNDEF(result);
+	}
+
+zephir_concat_cleanup:
+	if (use_copy27) {
+	   zval_dtor(op27);
+	}
+
+	if (use_copy30) {
+	   zval_dtor(op30);
+	}
+
+	if (use_copy) {
+	   zval_dtor(&result_copy);
+	}
+
+}
+
 void zephir_concat_ssssssssvssvss(zval *result, const char *op1, uint32_t op1_len, const char *op2, uint32_t op2_len, const char *op3, uint32_t op3_len, const char *op4, uint32_t op4_len, const char *op5, uint32_t op5_len, const char *op6, uint32_t op6_len, const char *op7, uint32_t op7_len, const char *op8, uint32_t op8_len, zval *op9, const char *op10, uint32_t op10_len, const char *op11, uint32_t op11_len, zval *op12, const char *op13, uint32_t op13_len, const char *op14, uint32_t op14_len, int self_var){
 
 	zval result_copy, op9_copy, op12_copy;
