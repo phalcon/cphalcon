@@ -17,11 +17,23 @@ use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Mvc\View\Engine\Volt\Exceptions\TemplateFileNotFound;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Talon\Talon;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use const PHP_OS;
 
 class CompileTest extends AbstractUnitTestCase
 {
+    /**
+     * @return array<int, array{0: bool}>
+     */
+    public static function provideStat(): array
+    {
+        return [
+            [true],
+            [false],
+        ];
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -113,6 +125,256 @@ class CompileTest extends AbstractUnitTestCase
         $this->assertSame($cache . $virtual . '.php', $first);
         $this->assertSame($first, $second);
         $this->assertSame($cache . $virtual . '_e_.php', $extends);
+    }
+
+    /**
+     * With "stat" false, the extends mode uses the compiled blocks file when
+     * it exists. A change of the template does not compile it again.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-17
+     *
+     * @see    https://github.com/phalcon/cphalcon/issues/17674
+     */
+    public function testMvcViewEngineVoltCompilerCompileExtendsModeStatFalse(): void
+    {
+        $dir      = Talon::settings()->outputPath('tests/volt-compile-extends-stat-false/');
+        $cache    = $dir . 'cache/';
+        $template = $dir . 'layout.volt';
+
+        $this->safeDeleteDirectory($dir);
+        mkdir($cache, 0777, true);
+        file_put_contents($template, '<p>{% block a %}PA{% endblock %}</p>');
+
+        $compiler = new Compiler();
+        $compiler->setOptions(['path' => $cache, 'separator' => '_', 'stat' => false]);
+
+        $first = $compiler->compile($template, true);
+
+        file_put_contents($template, '<p>{% block a %}NEW{% endblock %}</p>');
+        touch($template, time() + 10);
+        clearstatcache(true);
+
+        $second = $compiler->compile($template, true);
+
+        $this->safeDeleteDirectory($dir);
+
+        $expected = [
+            0   => '<p>',
+            'a' => [
+                [
+                    'type'  => 357,
+                    'value' => 'PA',
+                    'file'  => $template,
+                    'line'  => 1,
+                ],
+            ],
+            1   => '</p>',
+        ];
+
+        $this->assertSame($expected, $first);
+        $this->assertSame($expected, $second);
+    }
+
+    /**
+     * With "stat" false, a compiled blocks file that does not hold an array
+     * is not used. The template is compiled again and the file is replaced.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-17
+     *
+     * @see    https://github.com/phalcon/cphalcon/issues/17674
+     */
+    public function testMvcViewEngineVoltCompilerCompileExtendsModeStatFalsePlantedCache(): void
+    {
+        $dir      = Talon::settings()->outputPath('tests/volt-compile-extends-stat-false-planted/');
+        $cache    = $dir . 'cache/';
+        $template = $dir . 'layout.volt';
+
+        $this->safeDeleteDirectory($dir);
+        mkdir($cache, 0777, true);
+        file_put_contents($template, '<p>{% block a %}PA{% endblock %}</p>');
+
+        $virtual = str_replace(['/', '\\', ':'], '_', strtolower((string) realpath($template)));
+        $path    = $cache . $virtual . '_e_.php';
+
+        file_put_contents($path, 'O:8:"stdClass":0:{}');
+
+        $compiler = new Compiler();
+        $compiler->setOptions(['path' => $cache, 'separator' => '_', 'stat' => false]);
+
+        $actual = $compiler->compile($template, true);
+        $stored = unserialize((string) file_get_contents($path), ['allowed_classes' => false]);
+
+        $this->safeDeleteDirectory($dir);
+
+        $expected = [
+            0   => '<p>',
+            'a' => [
+                [
+                    'type'  => 357,
+                    'value' => 'PA',
+                    'file'  => $template,
+                    'line'  => 1,
+                ],
+            ],
+            1   => '</p>',
+        ];
+
+        $this->assertSame($expected, $actual);
+        $this->assertSame($expected, $stored);
+    }
+
+    /**
+     * With "stat" true, the extends mode uses the compiled blocks file when
+     * it is newer than the template.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-17
+     *
+     * @see    https://github.com/phalcon/cphalcon/issues/17674
+     */
+    public function testMvcViewEngineVoltCompilerCompileExtendsModeStatTrueCached(): void
+    {
+        $dir      = Talon::settings()->outputPath('tests/volt-compile-extends-stat-true-cached/');
+        $cache    = $dir . 'cache/';
+        $template = $dir . 'layout.volt';
+
+        $this->safeDeleteDirectory($dir);
+        mkdir($cache, 0777, true);
+        file_put_contents($template, '<p>{% block a %}PA{% endblock %}</p>');
+
+        $compiler = new Compiler();
+        $compiler->setOptions(['path' => $cache, 'separator' => '_', 'stat' => true]);
+
+        $compiler->compile($template, true);
+        $path = $compiler->getCompiledTemplatePath();
+
+        file_put_contents($template, '<p>{% block a %}NEW{% endblock %}</p>');
+        clearstatcache(true);
+        touch($path, filemtime($template) + 10);
+        clearstatcache(true);
+
+        $actual = $compiler->compile($template, true);
+
+        $this->safeDeleteDirectory($dir);
+
+        $expected = [
+            0   => '<p>',
+            'a' => [
+                [
+                    'type'  => 357,
+                    'value' => 'PA',
+                    'file'  => $template,
+                    'line'  => 1,
+                ],
+            ],
+            1   => '</p>',
+        ];
+
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * With "stat" true, the extends mode compiles the template again when
+     * the compiled blocks file is older than the template.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-17
+     *
+     * @see    https://github.com/phalcon/cphalcon/issues/17674
+     */
+    public function testMvcViewEngineVoltCompilerCompileExtendsModeStatTrueStale(): void
+    {
+        $dir      = Talon::settings()->outputPath('tests/volt-compile-extends-stat-true-stale/');
+        $cache    = $dir . 'cache/';
+        $template = $dir . 'layout.volt';
+
+        $this->safeDeleteDirectory($dir);
+        mkdir($cache, 0777, true);
+        file_put_contents($template, '<p>{% block a %}PA{% endblock %}</p>');
+
+        $compiler = new Compiler();
+        $compiler->setOptions(['path' => $cache, 'separator' => '_', 'stat' => true]);
+
+        $compiler->compile($template, true);
+        $path = $compiler->getCompiledTemplatePath();
+
+        file_put_contents($template, '<p>{% block a %}NEW{% endblock %}</p>');
+        clearstatcache(true);
+        touch($path, filemtime($template) - 10);
+        clearstatcache(true);
+
+        $actual = $compiler->compile($template, true);
+
+        $this->safeDeleteDirectory($dir);
+
+        $expected = [
+            0   => '<p>',
+            'a' => [
+                [
+                    'type'  => 357,
+                    'value' => 'NEW',
+                    'file'  => $template,
+                    'line'  => 1,
+                ],
+            ],
+            1   => '</p>',
+        ];
+
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * Two templates extend the same layout. The second template uses the
+     * compiled blocks file of the layout and gives the correct output.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-17
+     *
+     * @see    https://github.com/phalcon/cphalcon/issues/17674
+     */
+    #[DataProvider('provideStat')]
+    public function testMvcViewEngineVoltCompilerCompileExtendsSecondChild(bool $stat): void
+    {
+        $dir   = Talon::settings()->outputPath('tests/volt-compile-extends-second-child/');
+        $cache = $dir . 'cache/';
+
+        $this->safeDeleteDirectory($dir);
+        mkdir($cache, 0777, true);
+        file_put_contents(
+            $dir . 'layout.volt',
+            '<p>{% block a %}PA{% endblock %}|{% block b %}PB{% endblock %}</p>'
+        );
+        file_put_contents(
+            $dir . 'one.volt',
+            "{% extends '" . $dir . "layout.volt' %}{% block a %}ONE{% endblock %}"
+        );
+        file_put_contents(
+            $dir . 'two.volt',
+            "{% extends '" . $dir . "layout.volt' %}{% block b %}TWO{% endblock %}"
+        );
+
+        $compiler = new Compiler();
+        $compiler->setOptions(
+            [
+                'always'    => false,
+                'path'      => $cache,
+                'separator' => '_',
+                'stat'      => $stat,
+            ]
+        );
+
+        $compiler->compile($dir . 'one.volt');
+        $one = file_get_contents($compiler->getCompiledTemplatePath());
+
+        $compiler->compile($dir . 'two.volt');
+        $two = file_get_contents($compiler->getCompiledTemplatePath());
+
+        $this->safeDeleteDirectory($dir);
+
+        $this->assertSame('<p>ONE|PB</p>', $one);
+        $this->assertSame('<p>PA|TWO</p>', $two);
     }
 
     /**
@@ -251,5 +513,41 @@ class CompileTest extends AbstractUnitTestCase
         $this->assertSame($cache . str_replace(['/', '\\', ':'], '_', $real) . '.php', $underscore);
         $this->assertSame($cache . str_replace(['/', '\\', ':'], '-', $real) . '.php', $dash);
         $this->assertSame($cache . str_replace(['/', '\\', ':'], '+', $real) . '.php', $plus);
+    }
+
+    /**
+     * With "stat" false, a template with a compiled file is not compiled
+     * again. The call returns null and the compiled file does not change.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-17
+     *
+     * @see    https://github.com/phalcon/cphalcon/issues/17674
+     */
+    public function testMvcViewEngineVoltCompilerCompileStatFalseCompiledFileExists(): void
+    {
+        $dir      = Talon::settings()->outputPath('tests/volt-compile-stat-false/');
+        $cache    = $dir . 'cache/';
+        $template = $dir . 'index.volt';
+
+        $this->safeDeleteDirectory($dir);
+        mkdir($cache, 0777, true);
+        file_put_contents($template, 'Hello');
+
+        $compiler = new Compiler();
+        $compiler->setOptions(['path' => $cache, 'separator' => '_', 'stat' => false]);
+
+        $compiler->compile($template);
+        $path = $compiler->getCompiledTemplatePath();
+
+        file_put_contents($path, 'CACHED');
+
+        $actual   = $compiler->compile($template);
+        $contents = file_get_contents($path);
+
+        $this->safeDeleteDirectory($dir);
+
+        $this->assertNull($actual);
+        $this->assertSame('CACHED', $contents);
     }
 }
