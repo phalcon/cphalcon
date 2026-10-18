@@ -699,7 +699,12 @@ class Collection implements
     {
         var key, original;
 
-        this->validateType(value);
+        /**
+         * validateType() does nothing when there is no type.
+         */
+        if (null !== this->type) {
+            this->validateType(value);
+        }
 
         let key = this->processKey(element);
 
