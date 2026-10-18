@@ -492,11 +492,9 @@ class Collection implements
     {
         var value;
 
-        if (this->has(element)) {
-            let element = this->processKey(element);
+        let element = this->processKey(element);
 
-            let value = this->lowerKeys[element];
-
+        if fetch value, this->lowerKeys[element] {
             unset(this->lowerKeys[element]);
             unset(this->data[value]);
         }
