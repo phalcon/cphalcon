@@ -257,11 +257,10 @@ class Collection implements
         /**
          * If the key is not set, return the default value
          */
-        if unlikely true !== isset(this->lowerKeys[element]) {
+        if unlikely !fetch key, this->lowerKeys[element] {
             return defaultValue;
         }
 
-        let key   = this->lowerKeys[element];
         let value = this->data[key];
 
         /**
