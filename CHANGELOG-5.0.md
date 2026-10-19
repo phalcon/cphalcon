@@ -19,6 +19,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 - `Phalcon\Db\Adapter\Pdo\Postgresql::describeReferences()` returning wrong column pairs for composite foreign keys. [#17680](https://github.com/phalcon/cphalcon/issues/17680)
 - `Phalcon\Mvc\View\Engine\Volt\Compiler::compile()` rendering serialized blocks for the second child of a layout when `stat` is `false`. [#17674](https://github.com/phalcon/cphalcon/issues/17674)
+- `Phalcon\Mvc\View\Engine\Volt\Compiler::compileCall()` silently dropping `{% call %}` blocks instead of throwing an exception. [#17676](https://github.com/phalcon/cphalcon/issues/17676)
 
 ### Removed
 
