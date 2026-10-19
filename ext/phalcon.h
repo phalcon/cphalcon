@@ -1251,6 +1251,7 @@
 #include "phalcon/mvc/view/engine/php.zep.h"
 #include "phalcon/mvc/view/engine/volt.zep.h"
 #include "phalcon/mvc/view/engine/volt/compiler.zep.h"
+#include "phalcon/mvc/view/engine/volt/exceptions/callnotsupported.zep.h"
 #include "phalcon/mvc/view/engine/volt/exceptions/cannotopencompiledfile.zep.h"
 #include "phalcon/mvc/view/engine/volt/exceptions/corruptedstatement.zep.h"
 #include "phalcon/mvc/view/engine/volt/exceptions/corruptedstatementwithdata.zep.h"

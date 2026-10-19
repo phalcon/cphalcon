@@ -1256,6 +1256,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/view/engine/php.zep.c
 	phalcon/mvc/view/engine/volt.zep.c
 	phalcon/mvc/view/engine/volt/compiler.zep.c
+	phalcon/mvc/view/engine/volt/exceptions/callnotsupported.zep.c
 	phalcon/mvc/view/engine/volt/exceptions/cannotopencompiledfile.zep.c
 	phalcon/mvc/view/engine/volt/exceptions/corruptedstatement.zep.c
 	phalcon/mvc/view/engine/volt/exceptions/corruptedstatementwithdata.zep.c
