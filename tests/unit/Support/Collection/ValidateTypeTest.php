@@ -81,6 +81,55 @@ final class ValidateTypeTest extends AbstractCollectionTestCase
     }
 
     /**
+     * With a type, setData() calls validateType() for each constructor item
+     * and for each set().
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-17
+     */
+    public function testSupportCollectionSetDataCallsValidateTypeWithType(): void
+    {
+        $collection = new class (['a' => 1, 'b' => 2], true, false, 'int') extends Collection {
+            public int $validateTypeCalls = 0;
+
+            protected function validateType(mixed $value): void
+            {
+                $this->validateTypeCalls++;
+
+                parent::validateType($value);
+            }
+        };
+
+        $collection->set('c', 3);
+
+        $this->assertSame(3, $collection->validateTypeCalls);
+    }
+
+    /**
+     * With no type, setData() does not call validateType().
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-17
+     */
+    public function testSupportCollectionSetDataSkipsValidateTypeWithoutType(): void
+    {
+        $collection = new class (['a' => 1, 'b' => 2]) extends Collection {
+            public int $validateTypeCalls = 0;
+
+            protected function validateType(mixed $value): void
+            {
+                $this->validateTypeCalls++;
+
+                parent::validateType($value);
+            }
+        };
+
+        $collection->set('c', 3);
+
+        $this->assertSame(0, $collection->validateTypeCalls);
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-12
      */

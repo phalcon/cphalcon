@@ -13,14 +13,16 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
-#include "kernel/memory.h"
 #include "kernel/object.h"
+#include "kernel/memory.h"
 
 
 ZEPHIR_INIT_CLASS(phalcon_15__closure)
 {
 	ZEPHIR_REGISTER_CLASS(phalcon, 15__closure, phalcon, 15__closure, phalcon_15__closure_method_entry, ZEND_ACC_FINAL_CLASS);
 
+	zend_declare_property_null(phalcon_15__closure_ce, SL("ioc"), ZEND_ACC_PUBLIC);
+	zend_declare_property_null(phalcon_15__closure_ce, SL("__$zephir_this"), ZEND_ACC_PUBLIC);
 	return SUCCESS;
 }
 
@@ -28,17 +30,28 @@ PHP_METHOD(phalcon_15__closure, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *container, container_sub;
+	zval ioc, __$zephir_this, id, _0;
+	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&container_sub);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(container)
-	ZEND_PARSE_PARAMETERS_END();
+	ZVAL_UNDEF(&ioc);
+	ZVAL_UNDEF(&__$zephir_this);
+	ZVAL_UNDEF(&id);
+	ZVAL_UNDEF(&_0);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("id", 2, 1);
+	}
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 0, &container);
-	object_init_ex(return_value, phalcon_auth_access_accesslocator_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 438, container);
+	zephir_read_property(&__$zephir_this, this_ptr, SL("__$zephir_this"), PH_NOISY_CC | PH_READONLY);
+	zephir_memory_observe(&ioc);
+	zephir_read_property(&ioc, this_ptr, SL("ioc"), PH_NOISY_CC);
+	this_ptr = &__$zephir_this;
+
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1413, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(&id, this_ptr, "resolveArgument", NULL, 0, &ioc, &_0);
+	zephir_check_call_status();
+	ZEPHIR_RETURN_CALL_METHOD(&ioc, "get", NULL, 0, &id);
 	zephir_check_call_status();
 	RETURN_MM();
 }

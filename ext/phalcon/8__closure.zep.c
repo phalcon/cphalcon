@@ -12,26 +12,38 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
+#include "kernel/fcall.h"
 #include "kernel/object.h"
+#include "kernel/memory.h"
 
 
 ZEPHIR_INIT_CLASS(phalcon_8__closure)
 {
 	ZEPHIR_REGISTER_CLASS(phalcon, 8__closure, phalcon, 8__closure, phalcon_8__closure_method_entry, ZEND_ACC_FINAL_CLASS);
 
+	zend_declare_property_null(phalcon_8__closure_ce, SL("serviceName"), ZEND_ACC_PUBLIC);
+	zend_declare_property_null(phalcon_8__closure_ce, SL("__$zephir_this"), ZEND_ACC_PUBLIC);
 	return SUCCESS;
 }
 
 PHP_METHOD(phalcon_8__closure, __invoke)
 {
-	zval *file, file_sub;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval serviceName, __$zephir_this;
+	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&file_sub);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(file)
-	ZEND_PARSE_PARAMETERS_END();
-	zephir_fetch_params_without_memory_grow(1, 0, &file);
-	RETURN_BOOL(1);
+	ZVAL_UNDEF(&serviceName);
+	ZVAL_UNDEF(&__$zephir_this);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_read_property(&__$zephir_this, this_ptr, SL("__$zephir_this"), PH_NOISY_CC | PH_READONLY);
+	zephir_memory_observe(&serviceName);
+	zephir_read_property(&serviceName, this_ptr, SL("serviceName"), PH_NOISY_CC);
+	this_ptr = &__$zephir_this;
+
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "get", NULL, 0, &serviceName);
+	zephir_check_call_status();
+	RETURN_MM();
 }
 

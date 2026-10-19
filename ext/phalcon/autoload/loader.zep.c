@@ -961,7 +961,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, setFileCheckingCallback)
 	} else if (Z_TYPE_P(method) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_0$$4);
 		ZEPHIR_INIT_NVAR(&_0$$4);
-		zephir_create_closure_ex(&_0$$4, NULL, phalcon_8__closure_ce, SL("__invoke"));
+		zephir_create_closure_ex(&_0$$4, NULL, phalcon_7__closure_ce, SL("__invoke"));
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 497, &_0$$4);
 	} else {
 		ZEPHIR_INIT_VAR(&_1$$5);
@@ -1189,7 +1189,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, requireFile)
 	zephir_memory_observe(&file_zv);
 	ZVAL_STR_COPY(&file_zv, file);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 497, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_FUNCTION(&_1, "call_user_func", NULL, 82, &_0, &file_zv);
+	ZEPHIR_CALL_FUNCTION(&_1, "call_user_func", NULL, 81, &_0, &file_zv);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_FALSE_IDENTICAL(&_1)) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 498, &file_zv);

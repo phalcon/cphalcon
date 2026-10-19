@@ -553,7 +553,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Insert, buildColumns)
 	zephir_read_property_cached(&_17, this_ptr, _zephir_prop_0, 599, PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&_18);
 	zephir_array_fetch_string(&_18, &_17, SL("COLUMNS"), PH_NOISY, "phalcon/DataMapper/Query/Insert.zep", 163);
-	ZEPHIR_CALL_FUNCTION(&_19, "array_values", NULL, 28, &_18);
+	ZEPHIR_CALL_FUNCTION(&_19, "array_values", NULL, 27, &_18);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_20);
 	ZVAL_STRING(&_20, ",");

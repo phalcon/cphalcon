@@ -1551,7 +1551,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeIndexes)
 		ZVAL_BOOL(&_59$$31, invisible);
 		zephir_array_update_string(&_57$$31, SL("invisible"), &_59$$31, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_57$$31, SL("directions"), &directions, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_METHOD(NULL, &_56$$31, "__construct", &_60, 62, &name, &_57$$31);
+		ZEPHIR_CALL_METHOD(NULL, &_56$$31, "__construct", &_60, 61, &name, &_57$$31);
 		zephir_check_call_status();
 		zephir_array_update_zval(&indexObjects, &name, &_56$$31, PH_COPY | PH_SEPARATE);
 	} ZEND_HASH_FOREACH_END();
@@ -1821,7 +1821,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeReferences)
 		ZEPHIR_OBS_NVAR(&_32$$9);
 		zephir_array_fetch_string(&_32$$9, &arrayReference, SL("onDelete"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Mysql.zep", 762);
 		zephir_array_update_string(&_31$$9, SL("onDelete"), &_32$$9, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_METHOD(NULL, &_30$$9, "__construct", &_33, 63, &name, &_31$$9);
+		ZEPHIR_CALL_METHOD(NULL, &_30$$9, "__construct", &_33, 62, &name, &_31$$9);
 		zephir_check_call_status();
 		zephir_array_update_zval(&referenceObjects, &name, &_30$$9, PH_COPY | PH_SEPARATE);
 	} ZEND_HASH_FOREACH_END();

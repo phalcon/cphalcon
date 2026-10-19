@@ -44,7 +44,7 @@ PHP_METHOD(phalcon_85__closure, __invoke)
 	zephir_read_property(&escaper, this_ptr, SL("escaper"), PH_NOISY_CC);
 	this_ptr = &__$zephir_this;
 
-	object_init_ex(return_value, phalcon_html_helper_title_ce);
+	object_init_ex(return_value, phalcon_html_helper_ul_ce);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "doctype");
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "newInstance", NULL, 0, &_1);

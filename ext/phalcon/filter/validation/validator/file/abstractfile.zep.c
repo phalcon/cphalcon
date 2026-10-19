@@ -471,12 +471,12 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, getFileSizeInB
 		ZEPHIR_OBS_NVAR(&value);
 		zephir_array_fetch_long(&value, &matches, 1, PH_NOISY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 252);
 	}
-	ZEPHIR_CALL_FUNCTION(&_4, "floatval", NULL, 33, &value);
+	ZEPHIR_CALL_FUNCTION(&_4, "floatval", NULL, 32, &value);
 	zephir_check_call_status();
 	zephir_memory_observe(&_5);
 	zephir_array_fetch(&_5, &byteUnits, &unit, PH_NOISY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 255);
 	ZVAL_LONG(&_6, 2);
-	ZEPHIR_CALL_FUNCTION(&_7, "pow", NULL, 34, &_6, &_5);
+	ZEPHIR_CALL_FUNCTION(&_7, "pow", NULL, 33, &_6, &_5);
 	zephir_check_call_status();
 	mul_function(return_value, &_4, &_7);
 	RETURN_MM();
@@ -690,7 +690,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkIsUploade
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_RETURN_CALL_FUNCTION("is_uploaded_file", NULL, 35, &name_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("is_uploaded_file", NULL, 34, &name_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

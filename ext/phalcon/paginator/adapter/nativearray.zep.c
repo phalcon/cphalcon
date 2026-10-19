@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate)
 	}
 	number = zephir_fast_count_int(&items);
 	ZVAL_LONG(&_0, show);
-	ZEPHIR_CALL_FUNCTION(&_4, "floatval", NULL, 33, &_0);
+	ZEPHIR_CALL_FUNCTION(&_4, "floatval", NULL, 32, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_5);
 	zephir_div_long_zval(&_5, number, &_4);

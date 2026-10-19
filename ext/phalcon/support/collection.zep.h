@@ -48,7 +48,6 @@ PHP_METHOD(Phalcon_Support_Collection, extractValue);
 PHP_METHOD(Phalcon_Support_Collection, processKey);
 PHP_METHOD(Phalcon_Support_Collection, setData);
 PHP_METHOD(Phalcon_Support_Collection, validateType);
-PHP_METHOD(Phalcon_Support_Collection, checkSerializable);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_support_collection___construct, 0, 0, 0)
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, data, IS_ARRAY, 0, "[]")
@@ -242,10 +241,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_collection_valid
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_collection_checkserializable, 0, 1, IS_MIXED, 0)
-	ZEND_ARG_INFO(0, value)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_support_collection_method_entry) {
 	PHP_ME(Phalcon_Support_Collection, __construct, arginfo_phalcon_support_collection___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Support_Collection, __get, arginfo_phalcon_support_collection___get, ZEND_ACC_PUBLIC)
@@ -292,6 +287,5 @@ ZEPHIR_INIT_FUNCS(phalcon_support_collection_method_entry) {
 	PHP_ME(Phalcon_Support_Collection, processKey, arginfo_phalcon_support_collection_processkey, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Support_Collection, setData, arginfo_phalcon_support_collection_setdata, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Support_Collection, validateType, arginfo_phalcon_support_collection_validatetype, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Support_Collection, checkSerializable, arginfo_phalcon_support_collection_checkserializable, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };

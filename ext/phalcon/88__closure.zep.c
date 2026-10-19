@@ -12,8 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/fcall.h"
 #include "kernel/memory.h"
+#include "kernel/array.h"
+#include "kernel/fcall.h"
 #include "kernel/object.h"
 
 
@@ -21,8 +22,6 @@ ZEPHIR_INIT_CLASS(phalcon_88__closure)
 {
 	ZEPHIR_REGISTER_CLASS(phalcon, 88__closure, phalcon, 88__closure, phalcon_88__closure_method_entry, ZEND_ACC_FINAL_CLASS);
 
-	zend_declare_property_null(phalcon_88__closure_ce, SL("escaper"), ZEND_ACC_PUBLIC);
-	zend_declare_property_null(phalcon_88__closure_ce, SL("__$zephir_this"), ZEND_ACC_PUBLIC);
 	return SUCCESS;
 }
 
@@ -30,26 +29,25 @@ PHP_METHOD(phalcon_88__closure, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval escaper, __$zephir_this, _0, _1;
-	zval *this_ptr = getThis();
+	zval *matches, matches_sub, _0, _1, _2;
 
-	ZVAL_UNDEF(&escaper);
-	ZVAL_UNDEF(&__$zephir_this);
+	ZVAL_UNDEF(&matches_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(matches)
+	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_read_property(&__$zephir_this, this_ptr, SL("__$zephir_this"), PH_NOISY_CC | PH_READONLY);
-	zephir_memory_observe(&escaper);
-	zephir_read_property(&escaper, this_ptr, SL("escaper"), PH_NOISY_CC);
-	this_ptr = &__$zephir_this;
-
-	object_init_ex(return_value, phalcon_html_helper_voidtag_ce);
-	ZEPHIR_INIT_VAR(&_1);
-	ZVAL_STRING(&_1, "doctype");
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "newInstance", NULL, 0, &_1);
+	zephir_fetch_params(1, 1, 0, &matches);
+	zephir_memory_observe(&_0);
+	zephir_array_fetch_long(&_0, matches, 0, PH_NOISY, "phalcon/Logger/Formatter/Line.zep", 70);
+	ZEPHIR_CALL_FUNCTION(&_1, "ord", NULL, 0, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &escaper, &_0);
+	ZEPHIR_INIT_VAR(&_2);
+	ZVAL_STRING(&_2, "\\x%02X");
+	ZEPHIR_RETURN_CALL_FUNCTION("sprintf", NULL, 146, &_2, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }

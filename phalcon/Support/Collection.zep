@@ -257,11 +257,10 @@ class Collection implements
         /**
          * If the key is not set, return the default value
          */
-        if unlikely true !== isset(this->lowerKeys[element]) {
+        if unlikely !fetch key, this->lowerKeys[element] {
             return defaultValue;
         }
 
-        let key   = this->lowerKeys[element];
         let value = this->data[key];
 
         /**
@@ -368,12 +367,21 @@ class Collection implements
      */
     public function jsonSerialize() -> array
     {
-        return array_map(
-            function (value) {
-                return this->checkSerializable(value);
-            },
-            this->data
-        );
+        var key, value;
+        array records = [];
+
+        for key, value in this->data {
+            if (
+                typeof value === "object" &&
+                true === method_exists(value, "jsonSerialize")
+            ) {
+                let records[key] = value->jsonSerialize();
+            } else {
+                let records[key] = value;
+            }
+        }
+
+        return records;
     }
 
     /**
@@ -493,11 +501,9 @@ class Collection implements
     {
         var value;
 
-        if (this->has(element)) {
-            let element = this->processKey(element);
+        let element = this->processKey(element);
 
-            let value = this->lowerKeys[element];
-
+        if fetch value, this->lowerKeys[element] {
             unset(this->lowerKeys[element]);
             unset(this->data[value]);
         }
@@ -699,7 +705,12 @@ class Collection implements
     {
         var key, original;
 
-        this->validateType(value);
+        /**
+         * validateType() does nothing when there is no type.
+         */
+        if (null !== this->type) {
+            this->validateType(value);
+        }
 
         let key = this->processKey(element);
 
@@ -764,20 +775,5 @@ class Collection implements
         if (!ok) {
             throw new InvalidValueType(this->type, value);
         }
-    }
-
-    /**
-     * @param mixed $value
-     */
-    private function checkSerializable(var value) -> mixed
-    {
-        if (
-            typeof value === "object" &&
-            true === method_exists(value, "jsonSerialize")
-        ) {
-            return value->jsonSerialize();
-        }
-
-        return value;
     }
 }

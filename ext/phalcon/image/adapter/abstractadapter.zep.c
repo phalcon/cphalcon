@@ -1591,7 +1591,7 @@ PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, parseColor)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_17);
 	ZVAL_STRING(&_17, "hexdec");
-	ZEPHIR_CALL_FUNCTION(&channels, "array_map", NULL, 20, &_17, &_16);
+	ZEPHIR_CALL_FUNCTION(&channels, "array_map", NULL, 193, &_17, &_16);
 	zephir_check_call_status();
 	RETURN_CCTOR(&channels);
 }

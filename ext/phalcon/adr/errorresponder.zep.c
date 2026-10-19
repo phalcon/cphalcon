@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_ADR_ErrorResponder, handle)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_5);
 	ZVAL_STRING(&_5, "%s: %s in %s:%d");
-	ZEPHIR_CALL_FUNCTION(&_6, "sprintf", NULL, 147, &_5, &_1, &_2, &_3, &_4);
+	ZEPHIR_CALL_FUNCTION(&_6, "sprintf", NULL, 146, &_5, &_1, &_2, &_3, &_4);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_7);
 	zephir_create_array(&_7, 2, 0);
@@ -429,11 +429,11 @@ PHP_METHOD(Phalcon_ADR_ErrorResponder, resolveStatus)
 	}
 	ZEPHIR_CALL_FUNCTION(&_3, "class_parents", NULL, 333, exception);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_4, "array_values", NULL, 28, &_3);
+	ZEPHIR_CALL_FUNCTION(&_4, "array_values", NULL, 27, &_3);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&_5, "class_implements", NULL, 334, exception);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_6, "array_values", NULL, 28, &_5);
+	ZEPHIR_CALL_FUNCTION(&_6, "array_values", NULL, 27, &_5);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&ancestors);
 	zephir_fast_array_merge(&ancestors, &_4, &_6);

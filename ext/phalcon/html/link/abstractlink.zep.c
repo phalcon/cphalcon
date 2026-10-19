@@ -142,12 +142,12 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLink, __construct)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_support_collection_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 42, &attributes);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 41, &attributes);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 226, &_0);
 	ZEPHIR_INIT_VAR(&_1);
 	object_init_ex(&_1, phalcon_support_collection_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 42);
+	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 41);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 227, &_1);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 228, &href_zv);

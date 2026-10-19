@@ -87,11 +87,11 @@ PHP_METHOD(Phalcon_Auth_Mvc_AuthDispatcherListener, beforeExecuteRoute)
 	zephir_check_call_status();
 	zephir_array_update_string(&_2, SL("params"), &_3, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_VAR(&_4);
-	object_init_ex(&_4, phalcon_7__closure_ce);
+	object_init_ex(&_4, phalcon_6__closure_ce);
 	zephir_update_property_zval(&_4, SL("dispatcher"), dispatcher);
 	ZEPHIR_INIT_VAR(&_5);
 	ZEPHIR_INIT_NVAR(&_5);
-	zephir_create_closure_bound(&_5, &_4, NULL, phalcon_7__closure_ce, SL("__invoke"));
+	zephir_create_closure_bound(&_5, &_4, NULL, phalcon_6__closure_ce, SL("__invoke"));
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "enforce", NULL, 0, &_1, &_2, &_5);
 	zephir_check_call_status();
 	RETURN_MM();

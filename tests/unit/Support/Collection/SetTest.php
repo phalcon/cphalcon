@@ -88,6 +88,31 @@ final class SetTest extends AbstractCollectionTestCase
     }
 
     /**
+     * set() of a key that exists with other letter case removes the old
+     * entry. The same case overwrites. A case-sensitive collection keeps
+     * both keys.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-17
+     */
+    public function testSupportCollectionSetKeyWithOtherCase(): void
+    {
+        $collection = new Collection(['Foo' => 1]);
+
+        $collection->set('foo', 2);
+        $this->assertSame(['foo' => 2], $collection->toArray());
+        $this->assertSame(2, $collection->get('FOO'));
+
+        $collection->set('foo', 3);
+        $this->assertSame(['foo' => 3], $collection->toArray());
+
+        $sensitive = new Collection(['Foo' => 1], false);
+
+        $sensitive->set('foo', 2);
+        $this->assertSame(['Foo' => 1, 'foo' => 2], $sensitive->toArray());
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

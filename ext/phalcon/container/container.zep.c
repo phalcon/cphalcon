@@ -254,10 +254,10 @@ PHP_METHOD(Phalcon_Container_Container, callableGet)
 	ZVAL_STR_COPY(&name_zv, name);
 	ZEPHIR_CPY_WRT(&serviceName, &name_zv);
 	ZEPHIR_INIT_VAR(&_0);
-	object_init_ex(&_0, phalcon_9__closure_ce);
+	object_init_ex(&_0, phalcon_8__closure_ce);
 	zephir_update_property_zval(&_0, SL("serviceName"), &serviceName);
 	zephir_update_property_zval(&_0, SL("__$zephir_this"), this_ptr);
-	zephir_create_closure_bound(return_value, &_0, this_ptr, phalcon_9__closure_ce, SL("__invoke"));
+	zephir_create_closure_bound(return_value, &_0, this_ptr, phalcon_8__closure_ce, SL("__invoke"));
 	RETURN_MM();
 }
 
@@ -283,10 +283,10 @@ PHP_METHOD(Phalcon_Container_Container, callableNew)
 	ZVAL_STR_COPY(&name_zv, name);
 	ZEPHIR_CPY_WRT(&serviceName, &name_zv);
 	ZEPHIR_INIT_VAR(&_0);
-	object_init_ex(&_0, phalcon_10__closure_ce);
+	object_init_ex(&_0, phalcon_9__closure_ce);
 	zephir_update_property_zval(&_0, SL("serviceName"), &serviceName);
 	zephir_update_property_zval(&_0, SL("__$zephir_this"), this_ptr);
-	zephir_create_closure_bound(return_value, &_0, this_ptr, phalcon_10__closure_ce, SL("__invoke"));
+	zephir_create_closure_bound(return_value, &_0, this_ptr, phalcon_9__closure_ce, SL("__invoke"));
 	RETURN_MM();
 }
 
@@ -1266,7 +1266,7 @@ PHP_METHOD(Phalcon_Container_Container, setTag)
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 544, PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&_3);
 	zephir_array_fetch(&_3, &_2, &tag_zv, PH_NOISY, "phalcon/Container/Container.zep", 496);
-	ZEPHIR_CALL_FUNCTION(&_4, "in_array", NULL, 89, &serviceName_zv, &_3, &__$true);
+	ZEPHIR_CALL_FUNCTION(&_4, "in_array", NULL, 88, &serviceName_zv, &_3, &__$true);
 	zephir_check_call_status();
 	if (!zephir_is_true(&_4)) {
 		zephir_update_property_array_multi(this_ptr, SL("tags"), &serviceName_zv, SL("za"), 2, &tag_zv);

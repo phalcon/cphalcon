@@ -12,6 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
 
@@ -20,25 +21,29 @@ ZEPHIR_INIT_CLASS(phalcon_6__closure)
 {
 	ZEPHIR_REGISTER_CLASS(phalcon, 6__closure, phalcon, 6__closure, phalcon_6__closure_method_entry, ZEND_ACC_FINAL_CLASS);
 
+	zend_declare_property_null(phalcon_6__closure_ce, SL("dispatcher"), ZEND_ACC_PUBLIC);
 	return SUCCESS;
 }
 
 PHP_METHOD(phalcon_6__closure, __invoke)
 {
-	zval *number, number_sub, *message, message_sub, *file, file_sub, *line, line_sub, __$true;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval dispatcher, *target, target_sub;
+	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&number_sub);
-	ZVAL_UNDEF(&message_sub);
-	ZVAL_UNDEF(&file_sub);
-	ZVAL_UNDEF(&line_sub);
-	ZVAL_BOOL(&__$true, 1);
-	ZEND_PARSE_PARAMETERS_START(4, 4)
-		Z_PARAM_ZVAL(number)
-		Z_PARAM_ZVAL(message)
-		Z_PARAM_ZVAL(file)
-		Z_PARAM_ZVAL(line)
+	ZVAL_UNDEF(&dispatcher);
+	ZVAL_UNDEF(&target_sub);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(target)
 	ZEND_PARSE_PARAMETERS_END();
-	zephir_fetch_params_without_memory_grow(4, 0, &number, &message, &file, &line);
-	ZEPHIR_GLOBAL(warning).enable = zend_is_true(&__$true);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_memory_observe(&dispatcher);
+	zephir_read_property(&dispatcher, this_ptr, SL("dispatcher"), PH_NOISY_CC);
+	zephir_fetch_params(1, 1, 0, &target);
+	ZEPHIR_CALL_METHOD(NULL, &dispatcher, "forward", NULL, 0, target);
+	zephir_check_call_status();
+	ZEPHIR_MM_RESTORE();
 }
 

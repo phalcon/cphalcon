@@ -359,7 +359,7 @@ PHP_METHOD(Phalcon_ADR_Middleware_CorsMiddleware, applyHeaders)
 	_1 = zephir_is_true(&_0);
 	if (_1) {
 		zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 358, PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_FUNCTION(&_3, "in_array", NULL, 89, &origin_zv, &_2, &__$true);
+		ZEPHIR_CALL_FUNCTION(&_3, "in_array", NULL, 88, &origin_zv, &_2, &__$true);
 		zephir_check_call_status();
 		_1 = !zephir_is_true(&_3);
 	}
@@ -411,13 +411,13 @@ PHP_METHOD(Phalcon_ADR_Middleware_CorsMiddleware, isAllowed)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 358, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "*");
-	ZEPHIR_CALL_FUNCTION(&_2, "in_array", NULL, 89, &_1, &_0, &__$true);
+	ZEPHIR_CALL_FUNCTION(&_2, "in_array", NULL, 88, &_1, &_0, &__$true);
 	zephir_check_call_status();
 	if (zephir_is_true(&_2)) {
 		RETURN_MM_BOOL(1);
 	}
 	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 358, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("in_array", NULL, 89, &origin_zv, &_3, &__$true);
+	ZEPHIR_RETURN_CALL_FUNCTION("in_array", NULL, 88, &origin_zv, &_3, &__$true);
 	zephir_check_call_status();
 	RETURN_MM();
 }

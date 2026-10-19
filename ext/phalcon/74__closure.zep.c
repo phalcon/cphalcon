@@ -44,14 +44,12 @@ PHP_METHOD(phalcon_74__closure, __invoke)
 	zephir_read_property(&escaper, this_ptr, SL("escaper"), PH_NOISY_CC);
 	this_ptr = &__$zephir_this;
 
-	object_init_ex(return_value, phalcon_html_helper_input_generic_ce);
+	object_init_ex(return_value, phalcon_html_helper_label_ce);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "doctype");
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "newInstance", NULL, 0, &_1);
 	zephir_check_call_status();
-	ZEPHIR_INIT_NVAR(&_1);
-	ZVAL_STRING(&_1, "week");
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &escaper, &_0, &_1);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &escaper, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

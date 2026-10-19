@@ -42,7 +42,7 @@ PHP_METHOD(phalcon_9__closure, __invoke)
 	zephir_read_property(&serviceName, this_ptr, SL("serviceName"), PH_NOISY_CC);
 	this_ptr = &__$zephir_this;
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "get", NULL, 0, &serviceName);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "new", NULL, 0, &serviceName);
 	zephir_check_call_status();
 	RETURN_MM();
 }

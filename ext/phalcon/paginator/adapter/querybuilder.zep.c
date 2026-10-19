@@ -452,7 +452,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, paginate)
 			return;
 		}
 		if (Z_TYPE_P(&modelClass) == IS_ARRAY) {
-			ZEPHIR_CALL_FUNCTION(&_32$$23, "array_values", NULL, 28, &modelClass);
+			ZEPHIR_CALL_FUNCTION(&_32$$23, "array_values", NULL, 27, &modelClass);
 			zephir_check_call_status();
 			zephir_memory_observe(&_33$$23);
 			zephir_array_fetch_long(&_33$$23, &_32$$23, 0, PH_NOISY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 279);

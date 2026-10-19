@@ -217,7 +217,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate)
 	ZEPHIR_INIT_VAR(&_7);
 	ZVAL_STRING(&_7, "count");
 	zephir_array_fast_append(&_6, &_7);
-	ZEPHIR_CALL_FUNCTION(&rowCountResult, "call_user_func", NULL, 82, &_6, &parameters);
+	ZEPHIR_CALL_FUNCTION(&rowCountResult, "call_user_func", NULL, 81, &_6, &parameters);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&rowCountResult) == IS_OBJECT) {
 		ZEPHIR_CALL_METHOD(&_8$$6, &rowCountResult, "count", NULL, 0);
@@ -252,7 +252,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate)
 		ZEPHIR_INIT_VAR(&_16$$10);
 		ZVAL_STRING(&_16$$10, "find");
 		zephir_array_fast_append(&_15$$10, &_16$$10);
-		ZEPHIR_CALL_FUNCTION(&_17$$10, "call_user_func", NULL, 82, &_15$$10, &parameters);
+		ZEPHIR_CALL_FUNCTION(&_17$$10, "call_user_func", NULL, 81, &_15$$10, &parameters);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&pageItems, &_17$$10);
 	}
