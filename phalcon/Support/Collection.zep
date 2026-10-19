@@ -367,12 +367,21 @@ class Collection implements
      */
     public function jsonSerialize() -> array
     {
-        return array_map(
-            function (value) {
-                return this->checkSerializable(value);
-            },
-            this->data
-        );
+        var key, value;
+        array records = [];
+
+        for key, value in this->data {
+            if (
+                typeof value === "object" &&
+                true === method_exists(value, "jsonSerialize")
+            ) {
+                let records[key] = value->jsonSerialize();
+            } else {
+                let records[key] = value;
+            }
+        }
+
+        return records;
     }
 
     /**
@@ -766,20 +775,5 @@ class Collection implements
         if (!ok) {
             throw new InvalidValueType(this->type, value);
         }
-    }
-
-    /**
-     * @param mixed $value
-     */
-    private function checkSerializable(var value) -> mixed
-    {
-        if (
-            typeof value === "object" &&
-            true === method_exists(value, "jsonSerialize")
-        ) {
-            return value->jsonSerialize();
-        }
-
-        return value;
     }
 }

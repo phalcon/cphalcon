@@ -13,8 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Support\Collection;
 
+use Phalcon\Support\Collection;
 use Phalcon\Tests\Unit\Support\Fake\FakeJson;
 use PHPUnit\Framework\Attributes\DataProvider;
+use stdClass;
 
 final class JsonSerializeTest extends AbstractCollectionTestCase
 {
@@ -53,5 +55,51 @@ final class JsonSerializeTest extends AbstractCollectionTestCase
 
         $actual = $collection->jsonSerialize();
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * jsonSerialize() keeps the keys and their order. It uses the result of
+     * jsonSerialize() for each object that has this method. All other values
+     * stay as they are.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-18
+     */
+    public function testSupportCollectionJsonSerializeKeysAndValues(): void
+    {
+        $method = new class () {
+            public function jsonSerialize(): array
+            {
+                return ['three' => 'four'];
+            }
+        };
+        $nested = [new FakeJson()];
+        $object = new stdClass();
+
+        $collection = new Collection(
+            [
+                2        => 'two',
+                0        => 'zero',
+                'json'   => new FakeJson(),
+                'method' => $method,
+                'object' => $object,
+                'nested' => $nested,
+                'null'   => null,
+            ]
+        );
+
+        $expected = [
+            2        => 'two',
+            0        => 'zero',
+            'json'   => ['one' => 'two'],
+            'method' => ['three' => 'four'],
+            'object' => $object,
+            'nested' => $nested,
+            'null'   => null,
+        ];
+        $this->assertSame($expected, $collection->jsonSerialize());
+
+        $collection = new Collection();
+        $this->assertSame([], $collection->jsonSerialize());
     }
 }
