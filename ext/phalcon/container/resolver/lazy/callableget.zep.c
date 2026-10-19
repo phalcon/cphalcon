@@ -95,11 +95,11 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_CallableGet, resolve)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &ioc);
 	ZEPHIR_INIT_VAR(&_0);
-	object_init_ex(&_0, phalcon_16__closure_ce);
+	object_init_ex(&_0, phalcon_15__closure_ce);
 	zephir_update_property_zval(&_0, SL("ioc"), ioc);
 	zephir_update_property_zval(&_0, SL("__$zephir_this"), this_ptr);
 	ZEPHIR_INIT_VAR(&instance);
-	zephir_create_closure_bound(&instance, &_0, this_ptr, phalcon_16__closure_ce, SL("__invoke"));
+	zephir_create_closure_bound(&instance, &_0, this_ptr, phalcon_15__closure_ce, SL("__invoke"));
 	RETURN_CCTOR(&instance);
 }
 

@@ -232,7 +232,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, createTable)
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&columns, &definition, SL("columns"), 0)))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_db_exceptions_tablemusthavecolumn_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 61);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 60);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_0$$3, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 112);
 		ZEPHIR_MM_RESTORE();
@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, createTable)
 	if (UNEXPECTED(ZEPHIR_IS_EMPTY(&columns))) {
 		ZEPHIR_INIT_VAR(&_1$$4);
 		object_init_ex(&_1$$4, phalcon_db_exceptions_tablemusthavecolumn_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 61);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 60);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$4, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 116);
 		ZEPHIR_MM_RESTORE();
@@ -892,7 +892,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 					zephir_array_fetch_string(&_70$$54, &definition, SL("default"), PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 612);
 					ZEPHIR_INIT_NVAR(&_66$$54);
 					ZVAL_STRING(&_66$$54, "null");
-					ZEPHIR_CALL_FUNCTION(&_71$$54, "strcasecmp", &_72, 87, &_70$$54, &_66$$54);
+					ZEPHIR_CALL_FUNCTION(&_71$$54, "strcasecmp", &_72, 86, &_70$$54, &_66$$54);
 					zephir_check_call_status();
 					if (ZEPHIR_IS_LONG(&_71$$54, 0)) {
 						zephir_array_update_string(&definition, SL("default"), &__$null, PH_COPY | PH_SEPARATE);
@@ -1300,7 +1300,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 						zephir_array_fetch_string(&_143$$108, &definition, SL("default"), PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 612);
 						ZEPHIR_INIT_NVAR(&_140$$108);
 						ZVAL_STRING(&_140$$108, "null");
-						ZEPHIR_CALL_FUNCTION(&_144$$108, "strcasecmp", &_72, 87, &_143$$108, &_140$$108);
+						ZEPHIR_CALL_FUNCTION(&_144$$108, "strcasecmp", &_72, 86, &_143$$108, &_140$$108);
 						zephir_check_call_status();
 						if (ZEPHIR_IS_LONG(&_144$$108, 0)) {
 							zephir_array_update_string(&definition, SL("default"), &__$null, PH_COPY | PH_SEPARATE);
@@ -1597,7 +1597,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeReferences)
 		ZEPHIR_OBS_NVAR(&_34$$9);
 		zephir_array_fetch_string(&_34$$9, &arrayReference, SL("onDelete"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 697);
 		zephir_array_update_string(&_33$$9, SL("onDelete"), &_34$$9, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_METHOD(NULL, &_32$$9, "__construct", &_35, 63, &name, &_33$$9);
+		ZEPHIR_CALL_METHOD(NULL, &_32$$9, "__construct", &_35, 62, &name, &_33$$9);
 		zephir_check_call_status();
 		zephir_array_update_zval(&referenceObjects, &name, &_32$$9, PH_COPY | PH_SEPARATE);
 	} ZEND_HASH_FOREACH_END();
@@ -1639,7 +1639,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, getDefaultIdValue)
 	object_init_ex(return_value, phalcon_db_rawvalue_ce);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "DEFAULT");
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 64, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 63, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

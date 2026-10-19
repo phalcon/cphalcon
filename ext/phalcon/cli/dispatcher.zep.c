@@ -135,7 +135,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, callActionMethod)
 	} else {
 		zephir_get_arrval(&params, params_param);
 	}
-	ZEPHIR_CALL_FUNCTION(&localParams, "array_values", NULL, 28, &params);
+	ZEPHIR_CALL_FUNCTION(&localParams, "array_values", NULL, 27, &params);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 509, PH_NOISY_CC | PH_READONLY);

@@ -988,7 +988,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation)
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 1160, PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_2) != IS_NULL) {
 		zephir_read_property_cached(&_3$$6, this_ptr, _zephir_prop_2, 1160, PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_FUNCTION(&_4$$6, "call_user_func", NULL, 82, &_3$$6, &proxyActionName);
+		ZEPHIR_CALL_FUNCTION(&_4$$6, "call_user_func", NULL, 81, &_3$$6, &proxyActionName);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&proxyActionName, &_4$$6);
 	}
@@ -1307,7 +1307,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, setActionPreformatCallback)
 	} else if (Z_TYPE_P(callback) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_0$$4);
 		ZEPHIR_INIT_NVAR(&_0$$4);
-		zephir_create_closure_ex(&_0$$4, NULL, phalcon_95__closure_ce, SL("__invoke"));
+		zephir_create_closure_ex(&_0$$4, NULL, phalcon_94__closure_ce, SL("__invoke"));
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1160, &_0$$4);
 	} else {
 		ZEPHIR_INIT_VAR(&_1$$5);

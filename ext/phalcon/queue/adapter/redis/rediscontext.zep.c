@@ -455,7 +455,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, pushMessage)
 		score = zephir_get_intval(&_2$$3);
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZVAL_STRING(&_3$$3, "");
-		ZEPHIR_CALL_FUNCTION(&_0$$3, "uniqid", NULL, 76, &_3$$3, &__$true);
+		ZEPHIR_CALL_FUNCTION(&_0$$3, "uniqid", NULL, 75, &_3$$3, &__$true);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&member);
 		ZEPHIR_CONCAT_VSV(&member, &_0$$3, "|", &payload);

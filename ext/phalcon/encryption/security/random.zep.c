@@ -416,7 +416,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Random, hex)
 	ZEPHIR_CALL_FUNCTION(&_3, "unpack", NULL, 0, &_2, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MAKE_REF(&_3);
-	ZEPHIR_RETURN_CALL_FUNCTION("array_shift", NULL, 41, &_3);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_shift", NULL, 40, &_3);
 	ZEPHIR_UNREF(&_3);
 	zephir_check_call_status();
 	RETURN_MM();

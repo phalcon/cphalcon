@@ -12,9 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/fcall.h"
 #include "kernel/object.h"
 
 
@@ -22,6 +21,8 @@ ZEPHIR_INIT_CLASS(phalcon_33__closure)
 {
 	ZEPHIR_REGISTER_CLASS(phalcon, 33__closure, phalcon, 33__closure, phalcon_33__closure_method_entry, ZEND_ACC_FINAL_CLASS);
 
+	zend_declare_property_null(phalcon_33__closure_ce, SL("schema"), ZEND_ACC_PUBLIC);
+	zend_declare_property_null(phalcon_33__closure_ce, SL("locator"), ZEND_ACC_PUBLIC);
 	return SUCCESS;
 }
 
@@ -29,26 +30,28 @@ PHP_METHOD(phalcon_33__closure, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval options, attributes;
-	zval *name_param = NULL, *options_param = NULL, *attributes_param = NULL;
-	zval name;
+	zval schema, locator, *e, e_sub, _0;
+	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&name);
-	ZVAL_UNDEF(&options);
-	ZVAL_UNDEF(&attributes);
-	ZEND_PARSE_PARAMETERS_START(3, 3)
-		Z_PARAM_ZVAL(name_param)
-		ZEPHIR_Z_PARAM_ARRAY(options, options_param)
-		ZEPHIR_Z_PARAM_ARRAY(attributes, attributes_param)
+	ZVAL_UNDEF(&schema);
+	ZVAL_UNDEF(&locator);
+	ZVAL_UNDEF(&e_sub);
+	ZVAL_UNDEF(&_0);
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(e)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 3, 0, &name_param, &options_param, &attributes_param);
-	zephir_get_strval(&name, name_param);
-	zephir_get_arrval(&options, options_param);
-	zephir_get_arrval(&attributes, attributes_param);
-	object_init_ex(return_value, phalcon_forms_element_textarea_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &name, &attributes);
+	zephir_memory_observe(&locator);
+	zephir_read_property(&locator, this_ptr, SL("locator"), PH_NOISY_CC);
+	zephir_memory_observe(&schema);
+	zephir_read_property(&schema, this_ptr, SL("schema"), PH_NOISY_CC);
+	zephir_fetch_params(1, 1, 0, &e);
+	ZEPHIR_INIT_VAR(&_0);
+	object_init_ex(&_0, phalcon_forms_form_ce);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0, e);
+	zephir_check_call_status();
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "load", NULL, 0, &schema, &locator);
 	zephir_check_call_status();
 	RETURN_MM();
 }

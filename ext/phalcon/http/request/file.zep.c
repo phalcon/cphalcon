@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct)
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 909, &name);
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZVAL_STRING(&_0$$3, "PATHINFO_EXTENSION");
-		ZEPHIR_CALL_FUNCTION(&_1$$3, "defined", NULL, 149, &_0$$3);
+		ZEPHIR_CALL_FUNCTION(&_1$$3, "defined", NULL, 148, &_0$$3);
 		zephir_check_call_status();
 		if (zephir_is_true(&_1$$3)) {
 			ZVAL_LONG(&_2$$4, 4);
@@ -343,7 +343,7 @@ PHP_METHOD(Phalcon_Http_Request_File, isUploadedFile)
 	zephir_read_property_cached(&name, this_ptr, _zephir_prop_0, 911, PH_NOISY_CC);
 	_0 = !(ZEPHIR_IS_EMPTY(&name));
 	if (_0) {
-		ZEPHIR_CALL_FUNCTION(&_1, "is_uploaded_file", NULL, 35, &name);
+		ZEPHIR_CALL_FUNCTION(&_1, "is_uploaded_file", NULL, 34, &name);
 		zephir_check_call_status();
 		_0 = zephir_is_true(&_1);
 	}

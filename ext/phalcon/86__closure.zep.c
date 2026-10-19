@@ -30,13 +30,14 @@ PHP_METHOD(phalcon_86__closure, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval escaper, __$zephir_this, _0, _1;
+	zval escaper, __$zephir_this, _0, _1, _2;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&escaper);
 	ZVAL_UNDEF(&__$zephir_this);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_read_property(&__$zephir_this, this_ptr, SL("__$zephir_this"), PH_NOISY_CC | PH_READONLY);
@@ -49,7 +50,8 @@ PHP_METHOD(phalcon_86__closure, __invoke)
 	ZVAL_STRING(&_1, "doctype");
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "newInstance", NULL, 0, &_1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &escaper, &_0);
+	ZVAL_BOOL(&_2, 1);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &escaper, &_0, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }

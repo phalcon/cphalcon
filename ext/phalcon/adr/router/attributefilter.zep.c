@@ -176,7 +176,7 @@ PHP_METHOD(Phalcon_ADR_Router_AttributeFilter, filter)
 			if (zephir_array_isset_value_string(&rule, SL("convert"))) {
 				ZEPHIR_OBS_NVAR(&convert);
 				zephir_array_fetch_string(&convert, &rule, SL("convert"), PH_NOISY, "phalcon/ADR/Router/AttributeFilter.zep", 76);
-				ZEPHIR_CALL_FUNCTION(&_12$$9, "call_user_func", &_13, 82, &convert, &value);
+				ZEPHIR_CALL_FUNCTION(&_12$$9, "call_user_func", &_13, 81, &convert, &value);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(&value, &_12$$9);
 			}
@@ -257,7 +257,7 @@ PHP_METHOD(Phalcon_ADR_Router_AttributeFilter, cast)
 	zephir_switch_0_clause_0: ;
 		RETURN_MM_LONG(zephir_get_intval(&value_zv));
 	zephir_switch_0_clause_1: ;
-		ZEPHIR_RETURN_CALL_FUNCTION("floatval", NULL, 33, &value_zv);
+		ZEPHIR_RETURN_CALL_FUNCTION("floatval", NULL, 32, &value_zv);
 		zephir_check_call_status();
 		RETURN_MM();
 	zephir_switch_0_clause_2: ;

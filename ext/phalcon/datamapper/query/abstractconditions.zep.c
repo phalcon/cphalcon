@@ -604,7 +604,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, appendCondition)
 	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 105, PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&_5);
 	zephir_array_fetch(&_5, &_4, &store_zv, PH_NOISY, "phalcon/DataMapper/Query/AbstractConditions.zep", 194);
-	ZEPHIR_CALL_FUNCTION(&key, "array_key_last", NULL, 21, &_5);
+	ZEPHIR_CALL_FUNCTION(&key, "array_key_last", NULL, 20, &_5);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_6, this_ptr, _zephir_prop_0, 105, PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&_7);

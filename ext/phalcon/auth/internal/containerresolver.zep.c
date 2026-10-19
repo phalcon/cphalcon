@@ -346,7 +346,7 @@ PHP_METHOD(Phalcon_Auth_Internal_ContainerResolver, resolveFresh)
 				ZEPHIR_INIT_VAR(&fresh);
 				object_init_ex(&fresh, phalcon_di_service_ce);
 				ZVAL_BOOL(&_12$$8, 0);
-				ZEPHIR_CALL_METHOD(NULL, &fresh, "__construct", NULL, 182, &definition, &_12$$8);
+				ZEPHIR_CALL_METHOD(NULL, &fresh, "__construct", NULL, 181, &definition, &_12$$8);
 				zephir_check_call_status_or_jump(try_end_1);
 				ZVAL_NULL(&_12$$8);
 				ZEPHIR_RETURN_CALL_METHOD(&fresh, "resolve", NULL, 429, &_12$$8, container);

@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Traits_SubscriptionConsumerTrait, consume)
 				ZEPHIR_CALL_METHOD(&message, &consumer, "receiveNoWait", NULL, 0);
 				zephir_check_call_status();
 				if (Z_TYPE_P(&message) != IS_NULL) {
-					ZEPHIR_CALL_FUNCTION(&result, "call_user_func", &_9, 82, &callback, &message, &consumer);
+					ZEPHIR_CALL_FUNCTION(&result, "call_user_func", &_9, 81, &callback, &message, &consumer);
 					zephir_check_call_status();
 					if (ZEPHIR_IS_FALSE_IDENTICAL(&result)) {
 						RETURN_MM_NULL();
@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Traits_SubscriptionConsumerTrait, consume)
 					ZEPHIR_CALL_METHOD(&message, &consumer, "receiveNoWait", NULL, 0);
 					zephir_check_call_status();
 					if (Z_TYPE_P(&message) != IS_NULL) {
-						ZEPHIR_CALL_FUNCTION(&result, "call_user_func", &_9, 82, &callback, &message, &consumer);
+						ZEPHIR_CALL_FUNCTION(&result, "call_user_func", &_9, 81, &callback, &message, &consumer);
 						zephir_check_call_status();
 						if (ZEPHIR_IS_FALSE_IDENTICAL(&result)) {
 							RETURN_MM_NULL();
@@ -216,7 +216,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Traits_SubscriptionConsumerTrait, consume)
 			RETURN_MM_NULL();
 		}
 		ZVAL_LONG(&_16$$4, sleep);
-		ZEPHIR_CALL_FUNCTION(NULL, "usleep", &_17, 74, &_16$$4);
+		ZEPHIR_CALL_FUNCTION(NULL, "usleep", &_17, 73, &_16$$4);
 		zephir_check_call_status();
 	}
 }
