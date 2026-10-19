@@ -1407,6 +1407,7 @@ zend_class_entry *phalcon_mvc_view_ce;
 zend_class_entry *phalcon_mvc_view_engine_php_ce;
 zend_class_entry *phalcon_mvc_view_engine_volt_ce;
 zend_class_entry *phalcon_mvc_view_engine_volt_compiler_ce;
+zend_class_entry *phalcon_mvc_view_engine_volt_exceptions_callnotsupported_ce;
 zend_class_entry *phalcon_mvc_view_engine_volt_exceptions_cannotopencompiledfile_ce;
 zend_class_entry *phalcon_mvc_view_engine_volt_exceptions_corruptedstatement_ce;
 zend_class_entry *phalcon_mvc_view_engine_volt_exceptions_corruptedstatementwithdata_ce;
@@ -2983,6 +2984,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Mvc_View_Engine_Php);
 	ZEPHIR_INIT(Phalcon_Mvc_View_Engine_Volt);
 	ZEPHIR_INIT(Phalcon_Mvc_View_Engine_Volt_Compiler);
+	ZEPHIR_INIT(Phalcon_Mvc_View_Engine_Volt_Exceptions_CallNotSupported);
 	ZEPHIR_INIT(Phalcon_Mvc_View_Engine_Volt_Exceptions_CannotOpenCompiledFile);
 	ZEPHIR_INIT(Phalcon_Mvc_View_Engine_Volt_Exceptions_CorruptedStatement);
 	ZEPHIR_INIT(Phalcon_Mvc_View_Engine_Volt_Exceptions_CorruptedStatementWithData);
