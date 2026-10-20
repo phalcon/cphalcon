@@ -23,6 +23,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 ### Removed
 
+- Removed the `{% cache %}`/`{% endcache %}` Volt tag from the parser; it now raises a syntax error. [#17677](https://github.com/phalcon/cphalcon/issues/17677)
 
 ## [5.23.0](https://github.com/phalcon/cphalcon/releases/tag/v5.23.0) (2026-10-15)
 
