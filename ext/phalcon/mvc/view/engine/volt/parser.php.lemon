@@ -234,10 +234,6 @@ statement(R) ::= block_statement(E) . {
 	R = E;
 }
 
-statement(R) ::= cache_statement(E) . {
-	R = E;
-}
-
 statement(R) ::= extends_statement(E) . {
 	R = E;
 }
@@ -465,22 +461,6 @@ block_statement(R) ::= OPEN_DELIMITER BLOCK IDENTIFIER(I) CLOSE_DELIMITER statem
 
 block_statement(R) ::= OPEN_DELIMITER BLOCK IDENTIFIER(I) CLOSE_DELIMITER OPEN_DELIMITER ENDBLOCK CLOSE_DELIMITER . {
 	phvolt_ret_block_statement(&R, I, NULL, status->scanner_state);
-}
-
-cache_statement(R) ::= OPEN_DELIMITER CACHE expr(E) CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ENDCACHE CLOSE_DELIMITER . {
-	phvolt_ret_cache_statement(&R, &E, NULL, &T, status->scanner_state);
-}
-
-cache_statement(R) ::= OPEN_DELIMITER CACHE expr(E) cache_lifetime(N) CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ENDCACHE CLOSE_DELIMITER . {
-	phvolt_ret_cache_statement(&R, &E, &N, &T, status->scanner_state);
-}
-
-cache_lifetime(R) ::= INTEGER(I) . {
-	phvolt_ret_literal_zval(&R, PHVOLT_T_INTEGER, I, status->scanner_state);
-}
-
-cache_lifetime(R) ::= IDENTIFIER(I) . {
-	phvolt_ret_literal_zval(&R, PHVOLT_T_IDENTIFIER, I, status->scanner_state);
 }
 
 verbatim_statement(R) ::= OPEN_DELIMITER VERBATIM CLOSE_DELIMITER raw_fragment(F) OPEN_DELIMITER ENDVERBATIM CLOSE_DELIMITER . {

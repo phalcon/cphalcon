@@ -1105,26 +1105,24 @@ vv93:
 vv94:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'C':
-				case 'c': goto vv143;
 				case 'L':
-				case 'l': goto vv144;
+				case 'l': goto vv143;
 				case 'S':
-				case 's': goto vv145;
+				case 's': goto vv144;
 				default: goto vv44;
 			}
 vv95:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'N':
-				case 'n': goto vv146;
+				case 'n': goto vv145;
 				default: goto vv44;
 			}
 vv96:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'F':
-				case 'f': goto vv147;
+				case 'f': goto vv146;
 				default: goto vv44;
 			}
 vv97:
@@ -1206,49 +1204,49 @@ vv99:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'S':
-				case 's': goto vv148;
+				case 's': goto vv147;
 				default: goto vv44;
 			}
 vv100:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'P':
-				case 'p': goto vv149;
+				case 'p': goto vv148;
 				default: goto vv44;
 			}
 vv101:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'D':
-				case 'd': goto vv150;
+				case 'd': goto vv149;
 				default: goto vv44;
 			}
 vv102:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'E':
-				case 'e': goto vv151;
+				case 'e': goto vv150;
 				default: goto vv44;
 			}
 vv103:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'T':
-				case 't': goto vv152;
+				case 't': goto vv151;
 				default: goto vv44;
 			}
 vv104:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'L':
-				case 'l': goto vv153;
+				case 'l': goto vv152;
 				default: goto vv44;
 			}
 vv105:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'R':
-				case 'r': goto vv154;
+				case 'r': goto vv153;
 				default: goto vv44;
 			}
 vv106:
@@ -1392,7 +1390,7 @@ vv108:
 				case 'y':
 				case 'z': goto vv43;
 				case 'C':
-				case 'c': goto vv156;
+				case 'c': goto vv155;
 				default: goto vv109;
 			}
 vv109:
@@ -1404,7 +1402,7 @@ vv110:
 			vvaccept = 3;
 			vvch = *(VVMARKER = ++VVCURSOR);
 			switch (vvch) {
-				case ' ': goto vv157;
+				case ' ': goto vv156;
 				case '0':
 				case '1':
 				case '2':
@@ -1488,37 +1486,37 @@ vv112:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'E':
-				case 'e': goto vv158;
+				case 'e': goto vv157;
 				default: goto vv44;
 			}
 vv113:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'C':
-				case 'c': goto vv159;
+				case 'c': goto vv158;
 				default: goto vv44;
 			}
 vv114:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'T':
-				case 't': goto vv160;
+				case 't': goto vv159;
 				default: goto vv44;
 			}
 vv115:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'L':
-				case 'l': goto vv162;
+				case 'l': goto vv161;
 				case 'M':
-				case 'm': goto vv163;
+				case 'm': goto vv162;
 				default: goto vv44;
 			}
 vv116:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'D':
-				case 'd': goto vv164;
+				case 'd': goto vv163;
 				default: goto vv44;
 			}
 vv117:
@@ -1599,56 +1597,56 @@ vv119:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'T':
-				case 't': goto vv166;
+				case 't': goto vv165;
 				default: goto vv44;
 			}
 vv120:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'A':
-				case 'a': goto vv167;
+				case 'a': goto vv166;
 				default: goto vv44;
 			}
 vv121:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'T':
-				case 't': goto vv168;
+				case 't': goto vv167;
 				default: goto vv44;
 			}
 vv122:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'I':
-				case 'i': goto vv170;
+				case 'i': goto vv169;
 				default: goto vv44;
 			}
 vv123:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'U':
-				case 'u': goto vv171;
+				case 'u': goto vv170;
 				default: goto vv44;
 			}
 vv124:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'R':
-				case 'r': goto vv172;
+				case 'r': goto vv171;
 				default: goto vv44;
 			}
 vv125:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'T':
-				case 't': goto vv173;
+				case 't': goto vv172;
 				default: goto vv44;
 			}
 vv126:
 			vvaccept = 3;
 			vvch = *(VVMARKER = ++VVCURSOR);
 			switch (vvch) {
-				case ' ': goto vv174;
+				case ' ': goto vv173;
 				case '0':
 				case '1':
 				case '2':
@@ -1718,7 +1716,7 @@ vv126:
 vv127:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case '-': goto vv175;
+				case '-': goto vv174;
 				default: goto vv128;
 			}
 vv128:
@@ -1730,7 +1728,7 @@ vv128:
 vv129:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case '-': goto vv176;
+				case '-': goto vv175;
 				default: goto vv130;
 			}
 vv130:
@@ -1882,119 +1880,112 @@ vv140:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'O':
-				case 'o': goto vv177;
+				case 'o': goto vv176;
 				default: goto vv44;
 			}
 vv141:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'C':
-				case 'c': goto vv178;
+				case 'c': goto vv177;
 				default: goto vv44;
 			}
 vv142:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'A':
-				case 'a': goto vv179;
+				case 'a': goto vv178;
 				default: goto vv44;
 			}
 vv143:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'H':
-				case 'h': goto vv180;
+				case 'L':
+				case 'l': goto vv179;
 				default: goto vv44;
 			}
 vv144:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'L':
-				case 'l': goto vv181;
+				case 'E':
+				case 'e': goto vv181;
 				default: goto vv44;
 			}
 vv145:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'E':
-				case 'e': goto vv183;
+				case 'T':
+				case 't': goto vv183;
 				default: goto vv44;
 			}
 vv146:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'T':
-				case 't': goto vv185;
+				case 'A':
+				case 'a': goto vv184;
+				case 'I':
+				case 'i': goto vv185;
 				default: goto vv44;
 			}
 vv147:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'A':
-				case 'a': goto vv186;
-				case 'I':
-				case 'i': goto vv187;
+				case 'E':
+				case 'e': goto vv186;
 				default: goto vv44;
 			}
 vv148:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'E':
-				case 'e': goto vv188;
+				case 'T':
+				case 't': goto vv188;
 				default: goto vv44;
 			}
 vv149:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'T':
-				case 't': goto vv190;
+				case 'A':
+				case 'a': goto vv189;
+				case 'B':
+				case 'b': goto vv190;
+				case 'C':
+				case 'c': goto vv191;
+				case 'F':
+				case 'f': goto vv192;
+				case 'I':
+				case 'i': goto vv193;
+				case 'M':
+				case 'm': goto vv194;
+				case 'S':
+				case 's': goto vv195;
+				case 'V':
+				case 'v': goto vv196;
 				default: goto vv44;
 			}
 vv150:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'A':
-				case 'a': goto vv191;
-				case 'B':
-				case 'b': goto vv192;
-				case 'C':
-				case 'c': goto vv193;
-				case 'F':
-				case 'f': goto vv194;
-				case 'I':
-				case 'i': goto vv195;
-				case 'M':
-				case 'm': goto vv196;
-				case 'S':
-				case 's': goto vv197;
-				case 'V':
-				case 'v': goto vv198;
+				case 'N':
+				case 'n': goto vv197;
 				default: goto vv44;
 			}
 vv151:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'N':
-				case 'n': goto vv199;
+				case 'E':
+				case 'e': goto vv199;
 				default: goto vv44;
 			}
 vv152:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'E':
-				case 'e': goto vv201;
+				case 'S':
+				case 's': goto vv200;
 				default: goto vv44;
 			}
 vv153:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'S':
-				case 's': goto vv202;
-				default: goto vv44;
-			}
-vv154:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
 				case '0':
 				case '1':
 				case '2':
@@ -2059,45 +2050,45 @@ vv154:
 				case 'x':
 				case 'y':
 				case 'z': goto vv43;
-				default: goto vv155;
+				default: goto vv154;
 			}
-vv155:
+vv154:
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_FOR;
 			return 0;
 		}
-vv156:
+vv155:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'L':
-				case 'l': goto vv203;
+				case 'l': goto vv201;
 				default: goto vv44;
+			}
+vv156:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case 'N':
+				case 'n': goto vv202;
+				default: goto vv68;
 			}
 vv157:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'N':
-				case 'n': goto vv204;
-				default: goto vv68;
+				case 'R':
+				case 'r': goto vv203;
+				default: goto vv44;
 			}
 vv158:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'R':
-				case 'r': goto vv205;
+				case 'r': goto vv204;
 				default: goto vv44;
 			}
 vv159:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'R':
-				case 'r': goto vv206;
-				default: goto vv44;
-			}
-vv160:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
 				case '0':
 				case '1':
 				case '2':
@@ -2162,31 +2153,31 @@ vv160:
 				case 'x':
 				case 'y':
 				case 'z': goto vv43;
-				default: goto vv161;
+				default: goto vv160;
 			}
-vv161:
+vv160:
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_NOT;
 			return 0;
 		}
-vv162:
+vv161:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'L':
-				case 'l': goto vv207;
+				case 'l': goto vv205;
+				default: goto vv44;
+			}
+vv162:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case 'E':
+				case 'e': goto vv207;
 				default: goto vv44;
 			}
 vv163:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'E':
-				case 'e': goto vv209;
-				default: goto vv44;
-			}
-vv164:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
 				case '0':
 				case '1':
 				case '2':
@@ -2251,29 +2242,29 @@ vv164:
 				case 'x':
 				case 'y':
 				case 'z': goto vv43;
-				default: goto vv165;
+				default: goto vv164;
 			}
-vv165:
+vv164:
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_ODD;
 			return 0;
 		}
-vv166:
+vv165:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'U':
-				case 'u': goto vv210;
+				case 'u': goto vv208;
 				default: goto vv44;
 			}
-vv167:
+vv166:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'L':
-				case 'l': goto vv211;
+				case 'l': goto vv209;
 				default: goto vv44;
 			}
-vv168:
+vv167:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case '0':
@@ -2340,9 +2331,9 @@ vv168:
 				case 'x':
 				case 'y':
 				case 'z': goto vv43;
-				default: goto vv169;
+				default: goto vv168;
 			}
-vv169:
+vv168:
 			{
 			if (s->active_token == PHVOLT_T_DOT) {
 				token->opcode = PHVOLT_T_IDENTIFIER;
@@ -2354,49 +2345,49 @@ vv169:
 
 			return 0;
 		}
-vv170:
+vv169:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'T':
-				case 't': goto vv212;
+				case 't': goto vv210;
+				default: goto vv44;
+			}
+vv170:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case 'E':
+				case 'e': goto vv211;
 				default: goto vv44;
 			}
 vv171:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'E':
-				case 'e': goto vv213;
+				case 'B':
+				case 'b': goto vv213;
 				default: goto vv44;
 			}
 vv172:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'B':
-				case 'b': goto vv215;
+				case 'H':
+				case 'h': goto vv214;
 				default: goto vv44;
 			}
 vv173:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'H':
-				case 'h': goto vv216;
-				default: goto vv44;
+				case 'N':
+				case 'n': goto vv202;
+				default: goto vv217;
 			}
 vv174:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case 'N':
-				case 'n': goto vv204;
-				default: goto vv219;
-			}
-vv175:
 			++VVCURSOR;
 			{
 			s->whitespace_control = 0;
 			token->opcode = PHVOLT_T_OPEN_DELIMITER;
 			return 0;
 		}
-vv176:
+vv175:
 			++VVCURSOR;
 			{
 			s->whitespace_control = 0;
@@ -2404,11 +2395,18 @@ vv176:
 			token->opcode = PHVOLT_T_OPEN_EDELIMITER;
 			return 0;
 		}
-vv177:
+vv176:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'E':
-				case 'e': goto vv220;
+				case 'e': goto vv218;
+				default: goto vv44;
+			}
+vv177:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case 'K':
+				case 'k': goto vv219;
 				default: goto vv44;
 			}
 vv178:
@@ -2421,17 +2419,78 @@ vv178:
 vv179:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
+				case '0':
+				case '1':
+				case '2':
+				case '3':
+				case '4':
+				case '5':
+				case '6':
+				case '7':
+				case '8':
+				case '9':
+				case 'A':
+				case 'B':
+				case 'C':
+				case 'D':
+				case 'E':
+				case 'F':
+				case 'G':
+				case 'H':
+				case 'I':
+				case 'J':
 				case 'K':
-				case 'k': goto vv223;
-				default: goto vv44;
+				case 'L':
+				case 'M':
+				case 'N':
+				case 'O':
+				case 'P':
+				case 'Q':
+				case 'R':
+				case 'S':
+				case 'T':
+				case 'U':
+				case 'V':
+				case 'W':
+				case 'X':
+				case 'Y':
+				case 'Z':
+				case '\\':
+				case '_':
+				case 'a':
+				case 'b':
+				case 'c':
+				case 'd':
+				case 'e':
+				case 'f':
+				case 'g':
+				case 'h':
+				case 'i':
+				case 'j':
+				case 'k':
+				case 'l':
+				case 'm':
+				case 'n':
+				case 'o':
+				case 'p':
+				case 'q':
+				case 'r':
+				case 's':
+				case 't':
+				case 'u':
+				case 'v':
+				case 'w':
+				case 'x':
+				case 'y':
+				case 'z': goto vv43;
+				default: goto vv180;
 			}
 vv180:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case 'E':
-				case 'e': goto vv225;
-				default: goto vv44;
-			}
+			{
+			s->statement_position++;
+			token->opcode = PHVOLT_T_CALL;
+			return 0;
+		}
 vv181:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
@@ -2503,108 +2562,33 @@ vv181:
 			}
 vv182:
 			{
-			s->statement_position++;
-			token->opcode = PHVOLT_T_CALL;
+			token->opcode = PHVOLT_T_CASE;
 			return 0;
 		}
 vv183:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case '0':
-				case '1':
-				case '2':
-				case '3':
-				case '4':
-				case '5':
-				case '6':
-				case '7':
-				case '8':
-				case '9':
-				case 'A':
-				case 'B':
-				case 'C':
-				case 'D':
-				case 'E':
-				case 'F':
-				case 'G':
-				case 'H':
 				case 'I':
-				case 'J':
-				case 'K':
-				case 'L':
-				case 'M':
-				case 'N':
-				case 'O':
-				case 'P':
-				case 'Q':
-				case 'R':
-				case 'S':
-				case 'T':
-				case 'U':
-				case 'V':
-				case 'W':
-				case 'X':
-				case 'Y':
-				case 'Z':
-				case '\\':
-				case '_':
-				case 'a':
-				case 'b':
-				case 'c':
-				case 'd':
-				case 'e':
-				case 'f':
-				case 'g':
-				case 'h':
-				case 'i':
-				case 'j':
-				case 'k':
-				case 'l':
-				case 'm':
-				case 'n':
-				case 'o':
-				case 'p':
-				case 'q':
-				case 'r':
-				case 's':
-				case 't':
-				case 'u':
-				case 'v':
-				case 'w':
-				case 'x':
-				case 'y':
-				case 'z': goto vv43;
-				default: goto vv184;
+				case 'i': goto vv223;
+				default: goto vv44;
 			}
 vv184:
-			{
-			token->opcode = PHVOLT_T_CASE;
-			return 0;
-		}
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case 'U':
+				case 'u': goto vv224;
+				default: goto vv44;
+			}
 vv185:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'I':
-				case 'i': goto vv227;
+				case 'N':
+				case 'n': goto vv225;
 				default: goto vv44;
 			}
 vv186:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'U':
-				case 'u': goto vv228;
-				default: goto vv44;
-			}
-vv187:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case 'N':
-				case 'n': goto vv229;
-				default: goto vv44;
-			}
-vv188:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
 				case '0':
 				case '1':
 				case '2':
@@ -2666,80 +2650,80 @@ vv188:
 				case 'y':
 				case 'z': goto vv43;
 				case 'F':
-				case 'f': goto vv230;
+				case 'f': goto vv226;
 				case 'I':
-				case 'i': goto vv231;
-				default: goto vv189;
+				case 'i': goto vv227;
+				default: goto vv187;
 			}
-vv189:
+vv187:
 			{
 			token->opcode = PHVOLT_T_ELSE;
 			return 0;
 		}
-vv190:
+vv188:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'Y':
-				case 'y': goto vv232;
+				case 'y': goto vv228;
+				default: goto vv44;
+			}
+vv189:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case 'U':
+				case 'u': goto vv230;
+				default: goto vv44;
+			}
+vv190:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case 'L':
+				case 'l': goto vv231;
 				default: goto vv44;
 			}
 vv191:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'U':
-				case 'u': goto vv234;
+				case 'A':
+				case 'a': goto vv232;
 				default: goto vv44;
 			}
 vv192:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'L':
-				case 'l': goto vv235;
+				case 'O':
+				case 'o': goto vv233;
 				default: goto vv44;
 			}
 vv193:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case 'F':
+				case 'f': goto vv234;
+				default: goto vv44;
+			}
+vv194:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'A':
 				case 'a': goto vv236;
 				default: goto vv44;
 			}
-vv194:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case 'O':
-				case 'o': goto vv237;
-				default: goto vv44;
-			}
 vv195:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'F':
-				case 'f': goto vv238;
+				case 'W':
+				case 'w': goto vv237;
 				default: goto vv44;
 			}
 vv196:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'A':
-				case 'a': goto vv240;
+				case 'E':
+				case 'e': goto vv238;
 				default: goto vv44;
 			}
 vv197:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case 'W':
-				case 'w': goto vv241;
-				default: goto vv44;
-			}
-vv198:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case 'E':
-				case 'e': goto vv242;
-				default: goto vv44;
-			}
-vv199:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case '0':
@@ -2806,57 +2790,57 @@ vv199:
 				case 'x':
 				case 'y':
 				case 'z': goto vv43;
-				default: goto vv200;
+				default: goto vv198;
 			}
-vv200:
+vv198:
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_EVEN;
 			return 0;
 		}
-vv201:
+vv199:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'N':
-				case 'n': goto vv243;
+				case 'n': goto vv239;
+				default: goto vv44;
+			}
+vv200:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case 'E':
+				case 'e': goto vv240;
+				default: goto vv44;
+			}
+vv201:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case 'U':
+				case 'u': goto vv242;
 				default: goto vv44;
 			}
 vv202:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'E':
-				case 'e': goto vv244;
-				default: goto vv44;
+				case 'O':
+				case 'o': goto vv243;
+				default: goto vv68;
 			}
 vv203:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'U':
-				case 'u': goto vv246;
+				case 'A':
+				case 'a': goto vv244;
 				default: goto vv44;
 			}
 vv204:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'O':
-				case 'o': goto vv247;
-				default: goto vv68;
+				case 'o': goto vv245;
+				default: goto vv44;
 			}
 vv205:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case 'A':
-				case 'a': goto vv248;
-				default: goto vv44;
-			}
-vv206:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case 'O':
-				case 'o': goto vv249;
-				default: goto vv44;
-			}
-vv207:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case '0':
@@ -2923,44 +2907,44 @@ vv207:
 				case 'x':
 				case 'y':
 				case 'z': goto vv43;
-				default: goto vv208;
+				default: goto vv206;
 			}
-vv208:
+vv206:
 			{
 			token->opcode = PHVOLT_T_NULL;
 			return 0;
 		}
-vv209:
+vv207:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'R':
-				case 'r': goto vv251;
+				case 'r': goto vv247;
+				default: goto vv44;
+			}
+vv208:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case 'R':
+				case 'r': goto vv248;
+				default: goto vv44;
+			}
+vv209:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case 'A':
+				case 'a': goto vv249;
 				default: goto vv44;
 			}
 vv210:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'R':
-				case 'r': goto vv252;
+				case 'C':
+				case 'c': goto vv250;
 				default: goto vv44;
 			}
 vv211:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'A':
-				case 'a': goto vv253;
-				default: goto vv44;
-			}
-vv212:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case 'C':
-				case 'c': goto vv254;
-				default: goto vv44;
-			}
-vv213:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
 				case '0':
 				case '1':
 				case '2':
@@ -3025,21 +3009,21 @@ vv213:
 				case 'x':
 				case 'y':
 				case 'z': goto vv43;
-				default: goto vv214;
+				default: goto vv212;
 			}
-vv214:
+vv212:
 			{
 			token->opcode = PHVOLT_T_TRUE;
 			return 0;
 		}
-vv215:
+vv213:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'A':
-				case 'a': goto vv255;
+				case 'a': goto vv251;
 				default: goto vv44;
 			}
-vv216:
+vv214:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case '0':
@@ -3106,28 +3090,103 @@ vv216:
 				case 'x':
 				case 'y':
 				case 'z': goto vv43;
-				default: goto vv217;
+				default: goto vv215;
 			}
-vv217:
+vv215:
 			{
 			token->opcode = PHVOLT_T_WITH;
 			return 0;
 		}
-vv218:
+vv216:
 			vvch = *++VVCURSOR;
-vv219:
+vv217:
 			switch (vvch) {
-				case ' ': goto vv218;
-				case 'n': goto vv256;
+				case ' ': goto vv216;
+				case 'n': goto vv252;
 				default: goto vv68;
 			}
-vv220:
+vv218:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'S':
-				case 's': goto vv257;
+				case 's': goto vv253;
 				default: goto vv44;
 			}
+vv219:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case '0':
+				case '1':
+				case '2':
+				case '3':
+				case '4':
+				case '5':
+				case '6':
+				case '7':
+				case '8':
+				case '9':
+				case 'A':
+				case 'B':
+				case 'C':
+				case 'D':
+				case 'E':
+				case 'F':
+				case 'G':
+				case 'H':
+				case 'I':
+				case 'J':
+				case 'K':
+				case 'L':
+				case 'M':
+				case 'N':
+				case 'O':
+				case 'P':
+				case 'Q':
+				case 'R':
+				case 'S':
+				case 'T':
+				case 'U':
+				case 'V':
+				case 'W':
+				case 'X':
+				case 'Y':
+				case 'Z':
+				case '\\':
+				case '_':
+				case 'a':
+				case 'b':
+				case 'c':
+				case 'd':
+				case 'e':
+				case 'f':
+				case 'g':
+				case 'h':
+				case 'i':
+				case 'j':
+				case 'k':
+				case 'l':
+				case 'm':
+				case 'n':
+				case 'o':
+				case 'p':
+				case 'q':
+				case 'r':
+				case 's':
+				case 't':
+				case 'u':
+				case 'v':
+				case 'w':
+				case 'x':
+				case 'y':
+				case 'z': goto vv43;
+				default: goto vv220;
+			}
+vv220:
+			{
+			s->statement_position++;
+			token->opcode = PHVOLT_T_BLOCK;
+			return 0;
+		}
 vv221:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
@@ -3200,195 +3259,148 @@ vv221:
 vv222:
 			{
 			s->statement_position++;
-			token->opcode = PHVOLT_T_BLOCK;
+			token->opcode = PHVOLT_T_BREAK;
 			return 0;
 		}
 vv223:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case '0':
-				case '1':
-				case '2':
-				case '3':
-				case '4':
-				case '5':
-				case '6':
-				case '7':
-				case '8':
-				case '9':
-				case 'A':
-				case 'B':
-				case 'C':
-				case 'D':
-				case 'E':
-				case 'F':
-				case 'G':
-				case 'H':
-				case 'I':
-				case 'J':
-				case 'K':
-				case 'L':
-				case 'M':
 				case 'N':
-				case 'O':
-				case 'P':
-				case 'Q':
-				case 'R':
-				case 'S':
-				case 'T':
-				case 'U':
-				case 'V':
-				case 'W':
-				case 'X':
-				case 'Y':
-				case 'Z':
-				case '\\':
-				case '_':
-				case 'a':
-				case 'b':
-				case 'c':
-				case 'd':
-				case 'e':
-				case 'f':
-				case 'g':
-				case 'h':
-				case 'i':
-				case 'j':
-				case 'k':
-				case 'l':
-				case 'm':
-				case 'n':
-				case 'o':
-				case 'p':
-				case 'q':
-				case 'r':
-				case 's':
-				case 't':
-				case 'u':
-				case 'v':
-				case 'w':
-				case 'x':
-				case 'y':
-				case 'z': goto vv43;
-				default: goto vv224;
+				case 'n': goto vv254;
+				default: goto vv44;
 			}
 vv224:
-			{
-			s->statement_position++;
-			token->opcode = PHVOLT_T_BREAK;
-			return 0;
-		}
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case 'L':
+				case 'l': goto vv255;
+				default: goto vv44;
+			}
 vv225:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case '0':
-				case '1':
-				case '2':
-				case '3':
-				case '4':
-				case '5':
-				case '6':
-				case '7':
-				case '8':
-				case '9':
-				case 'A':
-				case 'B':
-				case 'C':
-				case 'D':
 				case 'E':
-				case 'F':
-				case 'G':
-				case 'H':
-				case 'I':
-				case 'J':
-				case 'K':
-				case 'L':
-				case 'M':
-				case 'N':
-				case 'O':
-				case 'P':
-				case 'Q':
-				case 'R':
-				case 'S':
-				case 'T':
-				case 'U':
-				case 'V':
-				case 'W':
-				case 'X':
-				case 'Y':
-				case 'Z':
-				case '\\':
-				case '_':
-				case 'a':
-				case 'b':
-				case 'c':
-				case 'd':
-				case 'e':
-				case 'f':
-				case 'g':
-				case 'h':
-				case 'i':
-				case 'j':
-				case 'k':
-				case 'l':
-				case 'm':
-				case 'n':
-				case 'o':
-				case 'p':
-				case 'q':
-				case 'r':
-				case 's':
-				case 't':
-				case 'u':
-				case 'v':
-				case 'w':
-				case 'x':
-				case 'y':
-				case 'z': goto vv43;
-				default: goto vv226;
+				case 'e': goto vv256;
+				default: goto vv44;
 			}
 vv226:
-			{
-			s->statement_position++;
-			token->opcode = PHVOLT_T_CACHE;
-			return 0;
-		}
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case 'O':
+				case 'o': goto vv257;
+				default: goto vv44;
+			}
 vv227:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'N':
-				case 'n': goto vv258;
+				case 'F':
+				case 'f': goto vv258;
 				default: goto vv44;
 			}
 vv228:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
+				case '0':
+				case '1':
+				case '2':
+				case '3':
+				case '4':
+				case '5':
+				case '6':
+				case '7':
+				case '8':
+				case '9':
+				case 'A':
+				case 'B':
+				case 'C':
+				case 'D':
+				case 'E':
+				case 'F':
+				case 'G':
+				case 'H':
+				case 'I':
+				case 'J':
+				case 'K':
 				case 'L':
-				case 'l': goto vv259;
-				default: goto vv44;
+				case 'M':
+				case 'N':
+				case 'O':
+				case 'P':
+				case 'Q':
+				case 'R':
+				case 'S':
+				case 'T':
+				case 'U':
+				case 'V':
+				case 'W':
+				case 'X':
+				case 'Y':
+				case 'Z':
+				case '\\':
+				case '_':
+				case 'a':
+				case 'b':
+				case 'c':
+				case 'd':
+				case 'e':
+				case 'f':
+				case 'g':
+				case 'h':
+				case 'i':
+				case 'j':
+				case 'k':
+				case 'l':
+				case 'm':
+				case 'n':
+				case 'o':
+				case 'p':
+				case 'q':
+				case 'r':
+				case 's':
+				case 't':
+				case 'u':
+				case 'v':
+				case 'w':
+				case 'x':
+				case 'y':
+				case 'z': goto vv43;
+				default: goto vv229;
 			}
 vv229:
+			{
+			s->statement_position++;
+			token->opcode = PHVOLT_T_EMPTY;
+			return 0;
+		}
+vv230:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'E':
-				case 'e': goto vv260;
+				case 'T':
+				case 't': goto vv260;
 				default: goto vv44;
 			}
-vv230:
+vv231:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'O':
 				case 'o': goto vv261;
 				default: goto vv44;
 			}
-vv231:
+vv232:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'F':
-				case 'f': goto vv262;
+				case 'L':
+				case 'l': goto vv262;
 				default: goto vv44;
 			}
-vv232:
+vv233:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case 'R':
+				case 'r': goto vv263;
+				default: goto vv44;
+			}
+vv234:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case '0':
@@ -3455,47 +3467,44 @@ vv232:
 				case 'x':
 				case 'y':
 				case 'z': goto vv43;
-				default: goto vv233;
-			}
-vv233:
-			{
-			s->statement_position++;
-			token->opcode = PHVOLT_T_EMPTY;
-			return 0;
-		}
-vv234:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case 'T':
-				case 't': goto vv264;
-				default: goto vv44;
+				default: goto vv235;
 			}
 vv235:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case 'O':
-				case 'o': goto vv265;
-				default: goto vv44;
-			}
+			{
+			token->opcode = PHVOLT_T_ENDIF;
+			return 0;
+		}
 vv236:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'C':
-				case 'c': goto vv266;
-				case 'L':
-				case 'l': goto vv267;
+				case 'c': goto vv265;
 				default: goto vv44;
 			}
 vv237:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'R':
-				case 'r': goto vv268;
+				case 'I':
+				case 'i': goto vv266;
 				default: goto vv44;
 			}
 vv238:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
+				case 'R':
+				case 'r': goto vv267;
+				default: goto vv44;
+			}
+vv239:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case 'D':
+				case 'd': goto vv268;
+				default: goto vv44;
+			}
+vv240:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
 				case '0':
 				case '1':
 				case '2':
@@ -3560,137 +3569,35 @@ vv238:
 				case 'x':
 				case 'y':
 				case 'z': goto vv43;
-				default: goto vv239;
-			}
-vv239:
-			{
-			token->opcode = PHVOLT_T_ENDIF;
-			return 0;
-		}
-vv240:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case 'C':
-				case 'c': goto vv270;
-				default: goto vv44;
+				default: goto vv241;
 			}
 vv241:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case 'I':
-				case 'i': goto vv271;
-				default: goto vv44;
-			}
+			{
+			token->opcode = PHVOLT_T_FALSE;
+			return 0;
+		}
 vv242:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'R':
-				case 'r': goto vv272;
+				case 'D':
+				case 'd': goto vv269;
 				default: goto vv44;
 			}
 vv243:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'D':
-				case 'd': goto vv273;
-				default: goto vv44;
+				case 'T':
+				case 't': goto vv270;
+				default: goto vv68;
 			}
 vv244:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case '0':
-				case '1':
-				case '2':
-				case '3':
-				case '4':
-				case '5':
-				case '6':
-				case '7':
-				case '8':
-				case '9':
-				case 'A':
 				case 'B':
-				case 'C':
-				case 'D':
-				case 'E':
-				case 'F':
-				case 'G':
-				case 'H':
-				case 'I':
-				case 'J':
-				case 'K':
-				case 'L':
-				case 'M':
-				case 'N':
-				case 'O':
-				case 'P':
-				case 'Q':
-				case 'R':
-				case 'S':
-				case 'T':
-				case 'U':
-				case 'V':
-				case 'W':
-				case 'X':
-				case 'Y':
-				case 'Z':
-				case '\\':
-				case '_':
-				case 'a':
-				case 'b':
-				case 'c':
-				case 'd':
-				case 'e':
-				case 'f':
-				case 'g':
-				case 'h':
-				case 'i':
-				case 'j':
-				case 'k':
-				case 'l':
-				case 'm':
-				case 'n':
-				case 'o':
-				case 'p':
-				case 'q':
-				case 'r':
-				case 's':
-				case 't':
-				case 'u':
-				case 'v':
-				case 'w':
-				case 'x':
-				case 'y':
-				case 'z': goto vv43;
-				default: goto vv245;
+				case 'b': goto vv271;
+				default: goto vv44;
 			}
 vv245:
-			{
-			token->opcode = PHVOLT_T_FALSE;
-			return 0;
-		}
-vv246:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case 'D':
-				case 'd': goto vv274;
-				default: goto vv44;
-			}
-vv247:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case 'T':
-				case 't': goto vv275;
-				default: goto vv68;
-			}
-vv248:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case 'B':
-				case 'b': goto vv276;
-				default: goto vv44;
-			}
-vv249:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case '0':
@@ -3757,93 +3664,188 @@ vv249:
 				case 'x':
 				case 'y':
 				case 'z': goto vv43;
-				default: goto vv250;
+				default: goto vv246;
 			}
-vv250:
+vv246:
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_MACRO;
 			return 0;
 		}
-vv251:
+vv247:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'I':
-				case 'i': goto vv277;
+				case 'i': goto vv272;
+				default: goto vv44;
+			}
+vv248:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case 'N':
+				case 'n': goto vv273;
+				default: goto vv44;
+			}
+vv249:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case 'R':
+				case 'r': goto vv275;
+				default: goto vv44;
+			}
+vv250:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case 'H':
+				case 'h': goto vv277;
+				default: goto vv44;
+			}
+vv251:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case 'T':
+				case 't': goto vv279;
 				default: goto vv44;
 			}
 vv252:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'N':
-				case 'n': goto vv278;
-				default: goto vv44;
+				case 'o': goto vv280;
+				default: goto vv68;
 			}
 vv253:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'R':
-				case 'r': goto vv280;
+				case 'C':
+				case 'c': goto vv281;
 				default: goto vv44;
 			}
 vv254:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'H':
-				case 'h': goto vv282;
+				case 'U':
+				case 'u': goto vv282;
 				default: goto vv44;
 			}
 vv255:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'T':
-				case 't': goto vv284;
+				case 't': goto vv283;
 				default: goto vv44;
 			}
 vv256:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'o': goto vv285;
-				default: goto vv68;
+				case 'D':
+				case 'd': goto vv285;
+				default: goto vv44;
 			}
 vv257:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'C':
-				case 'c': goto vv286;
+				case 'R':
+				case 'r': goto vv287;
 				default: goto vv44;
 			}
 vv258:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
+				case '0':
+				case '1':
+				case '2':
+				case '3':
+				case '4':
+				case '5':
+				case '6':
+				case '7':
+				case '8':
+				case '9':
+				case 'A':
+				case 'B':
+				case 'C':
+				case 'D':
+				case 'E':
+				case 'F':
+				case 'G':
+				case 'H':
+				case 'I':
+				case 'J':
+				case 'K':
+				case 'L':
+				case 'M':
+				case 'N':
+				case 'O':
+				case 'P':
+				case 'Q':
+				case 'R':
+				case 'S':
+				case 'T':
 				case 'U':
-				case 'u': goto vv287;
-				default: goto vv44;
+				case 'V':
+				case 'W':
+				case 'X':
+				case 'Y':
+				case 'Z':
+				case '\\':
+				case '_':
+				case 'a':
+				case 'b':
+				case 'c':
+				case 'd':
+				case 'e':
+				case 'f':
+				case 'g':
+				case 'h':
+				case 'i':
+				case 'j':
+				case 'k':
+				case 'l':
+				case 'm':
+				case 'n':
+				case 'o':
+				case 'p':
+				case 'q':
+				case 'r':
+				case 's':
+				case 't':
+				case 'u':
+				case 'v':
+				case 'w':
+				case 'x':
+				case 'y':
+				case 'z': goto vv43;
+				default: goto vv259;
 			}
 vv259:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case 'T':
-				case 't': goto vv288;
-				default: goto vv44;
-			}
+			{
+			token->opcode = PHVOLT_T_ELSEIF;
+			return 0;
+		}
 vv260:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'D':
-				case 'd': goto vv290;
+				case 'O':
+				case 'o': goto vv289;
 				default: goto vv44;
 			}
 vv261:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'R':
-				case 'r': goto vv292;
+				case 'C':
+				case 'c': goto vv290;
 				default: goto vv44;
 			}
 vv262:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
+				case 'L':
+				case 'l': goto vv291;
+				default: goto vv44;
+			}
+vv263:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
 				case '0':
 				case '1':
 				case '2':
@@ -3908,172 +3910,70 @@ vv262:
 				case 'x':
 				case 'y':
 				case 'z': goto vv43;
-				default: goto vv263;
+				default: goto vv264;
 			}
-vv263:
+vv264:
 			{
-			token->opcode = PHVOLT_T_ELSEIF;
+			token->opcode = PHVOLT_T_ENDFOR;
 			return 0;
 		}
-vv264:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case 'O':
-				case 'o': goto vv294;
-				default: goto vv44;
-			}
 vv265:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'C':
-				case 'c': goto vv295;
+				case 'R':
+				case 'r': goto vv293;
 				default: goto vv44;
 			}
 vv266:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'H':
-				case 'h': goto vv296;
+				case 'T':
+				case 't': goto vv294;
 				default: goto vv44;
 			}
 vv267:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'L':
-				case 'l': goto vv297;
+				case 'B':
+				case 'b': goto vv295;
 				default: goto vv44;
 			}
 vv268:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case '0':
-				case '1':
-				case '2':
-				case '3':
-				case '4':
-				case '5':
-				case '6':
-				case '7':
-				case '8':
-				case '9':
-				case 'A':
-				case 'B':
-				case 'C':
-				case 'D':
-				case 'E':
-				case 'F':
-				case 'G':
-				case 'H':
-				case 'I':
-				case 'J':
-				case 'K':
-				case 'L':
-				case 'M':
-				case 'N':
-				case 'O':
-				case 'P':
-				case 'Q':
-				case 'R':
 				case 'S':
-				case 'T':
-				case 'U':
-				case 'V':
-				case 'W':
-				case 'X':
-				case 'Y':
-				case 'Z':
-				case '\\':
-				case '_':
-				case 'a':
-				case 'b':
-				case 'c':
-				case 'd':
-				case 'e':
-				case 'f':
-				case 'g':
-				case 'h':
-				case 'i':
-				case 'j':
-				case 'k':
-				case 'l':
-				case 'm':
-				case 'n':
-				case 'o':
-				case 'p':
-				case 'q':
-				case 'r':
-				case 's':
-				case 't':
-				case 'u':
-				case 'v':
-				case 'w':
-				case 'x':
-				case 'y':
-				case 'z': goto vv43;
-				default: goto vv269;
+				case 's': goto vv296;
+				default: goto vv44;
 			}
 vv269:
-			{
-			token->opcode = PHVOLT_T_ENDFOR;
-			return 0;
-		}
-vv270:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case 'R':
-				case 'r': goto vv299;
-				default: goto vv44;
-			}
-vv271:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case 'T':
-				case 't': goto vv300;
-				default: goto vv44;
-			}
-vv272:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case 'B':
-				case 'b': goto vv301;
-				default: goto vv44;
-			}
-vv273:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case 'S':
-				case 's': goto vv302;
-				default: goto vv44;
-			}
-vv274:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'E':
-				case 'e': goto vv304;
+				case 'e': goto vv298;
 				default: goto vv44;
 			}
-vv275:
+vv270:
 			++VVCURSOR;
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_NOTEQUALS;
 			return 0;
 		}
-vv276:
+vv271:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'L':
-				case 'l': goto vv306;
+				case 'l': goto vv300;
 				default: goto vv44;
 			}
-vv277:
+vv272:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'C':
-				case 'c': goto vv307;
+				case 'c': goto vv301;
 				default: goto vv44;
 			}
-vv278:
+vv273:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case '0':
@@ -4140,14 +4040,14 @@ vv278:
 				case 'x':
 				case 'y':
 				case 'z': goto vv43;
-				default: goto vv279;
+				default: goto vv274;
 			}
-vv279:
+vv274:
 			{
 			token->opcode = PHVOLT_T_RETURN;
 			return 0;
 		}
-vv280:
+vv275:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case '0':
@@ -4214,15 +4114,15 @@ vv280:
 				case 'x':
 				case 'y':
 				case 'z': goto vv43;
-				default: goto vv281;
+				default: goto vv276;
 			}
-vv281:
+vv276:
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_SCALAR;
 			return 0;
 		}
-vv282:
+vv277:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case '0':
@@ -4289,42 +4189,42 @@ vv282:
 				case 'x':
 				case 'y':
 				case 'z': goto vv43;
-				default: goto vv283;
+				default: goto vv278;
 			}
-vv283:
+vv278:
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_SWITCH;
 			return 0;
 		}
-vv284:
+vv279:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'I':
-				case 'i': goto vv309;
+				case 'i': goto vv303;
 				default: goto vv44;
 			}
-vv285:
+vv280:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 't': goto vv310;
+				case 't': goto vv304;
 				default: goto vv68;
 			}
-vv286:
+vv281:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'A':
-				case 'a': goto vv311;
+				case 'a': goto vv305;
 				default: goto vv44;
 			}
-vv287:
+vv282:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'E':
-				case 'e': goto vv312;
+				case 'e': goto vv306;
 				default: goto vv44;
 			}
-vv288:
+vv283:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case '0':
@@ -4391,16 +4291,16 @@ vv288:
 				case 'x':
 				case 'y':
 				case 'z': goto vv43;
-				default: goto vv289;
+				default: goto vv284;
 			}
-vv289:
+vv284:
 			{
 			token->opcode = PHVOLT_T_DEFAULT;
 			token->value = estrndup(start, VVCURSOR - start);
 			token->len = VVCURSOR - start;
 			return 0;
 		}
-vv290:
+vv285:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case '0':
@@ -4467,15 +4367,15 @@ vv290:
 				case 'x':
 				case 'y':
 				case 'z': goto vv43;
-				default: goto vv291;
+				default: goto vv286;
 			}
-vv291:
+vv286:
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_DEFINED;
 			return 0;
 		}
-vv292:
+vv287:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case '0':
@@ -4542,205 +4442,198 @@ vv292:
 				case 'x':
 				case 'y':
 				case 'z': goto vv43;
-				default: goto vv293;
+				default: goto vv288;
 			}
-vv293:
+vv288:
 			{
 			token->opcode = PHVOLT_T_ELSEFOR;
 			return 0;
 		}
-vv294:
+vv289:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'E':
-				case 'e': goto vv314;
+				case 'e': goto vv308;
+				default: goto vv44;
+			}
+vv290:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case 'K':
+				case 'k': goto vv309;
+				default: goto vv44;
+			}
+vv291:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case '0':
+				case '1':
+				case '2':
+				case '3':
+				case '4':
+				case '5':
+				case '6':
+				case '7':
+				case '8':
+				case '9':
+				case 'A':
+				case 'B':
+				case 'C':
+				case 'D':
+				case 'E':
+				case 'F':
+				case 'G':
+				case 'H':
+				case 'I':
+				case 'J':
+				case 'K':
+				case 'L':
+				case 'M':
+				case 'N':
+				case 'O':
+				case 'P':
+				case 'Q':
+				case 'R':
+				case 'S':
+				case 'T':
+				case 'U':
+				case 'V':
+				case 'W':
+				case 'X':
+				case 'Y':
+				case 'Z':
+				case '\\':
+				case '_':
+				case 'a':
+				case 'b':
+				case 'c':
+				case 'd':
+				case 'e':
+				case 'f':
+				case 'g':
+				case 'h':
+				case 'i':
+				case 'j':
+				case 'k':
+				case 'l':
+				case 'm':
+				case 'n':
+				case 'o':
+				case 'p':
+				case 'q':
+				case 'r':
+				case 's':
+				case 't':
+				case 'u':
+				case 'v':
+				case 'w':
+				case 'x':
+				case 'y':
+				case 'z': goto vv43;
+				default: goto vv292;
+			}
+vv292:
+			{
+			token->opcode = PHVOLT_T_ENDCALL;
+			return 0;
+		}
+vv293:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case 'O':
+				case 'o': goto vv311;
+				default: goto vv44;
+			}
+vv294:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case 'C':
+				case 'c': goto vv313;
 				default: goto vv44;
 			}
 vv295:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'K':
-				case 'k': goto vv315;
+				case 'A':
+				case 'a': goto vv314;
 				default: goto vv44;
 			}
 vv296:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
+				case '0':
+				case '1':
+				case '2':
+				case '3':
+				case '4':
+				case '5':
+				case '6':
+				case '7':
+				case '8':
+				case '9':
+				case 'A':
+				case 'B':
+				case 'C':
+				case 'D':
 				case 'E':
-				case 'e': goto vv317;
-				default: goto vv44;
+				case 'F':
+				case 'G':
+				case 'H':
+				case 'I':
+				case 'J':
+				case 'K':
+				case 'L':
+				case 'M':
+				case 'N':
+				case 'O':
+				case 'P':
+				case 'Q':
+				case 'R':
+				case 'S':
+				case 'T':
+				case 'U':
+				case 'V':
+				case 'W':
+				case 'X':
+				case 'Y':
+				case 'Z':
+				case '\\':
+				case '_':
+				case 'a':
+				case 'b':
+				case 'c':
+				case 'd':
+				case 'e':
+				case 'f':
+				case 'g':
+				case 'h':
+				case 'i':
+				case 'j':
+				case 'k':
+				case 'l':
+				case 'm':
+				case 'n':
+				case 'o':
+				case 'p':
+				case 'q':
+				case 'r':
+				case 's':
+				case 't':
+				case 'u':
+				case 'v':
+				case 'w':
+				case 'x':
+				case 'y':
+				case 'z': goto vv43;
+				default: goto vv297;
 			}
 vv297:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case '0':
-				case '1':
-				case '2':
-				case '3':
-				case '4':
-				case '5':
-				case '6':
-				case '7':
-				case '8':
-				case '9':
-				case 'A':
-				case 'B':
-				case 'C':
-				case 'D':
-				case 'E':
-				case 'F':
-				case 'G':
-				case 'H':
-				case 'I':
-				case 'J':
-				case 'K':
-				case 'L':
-				case 'M':
-				case 'N':
-				case 'O':
-				case 'P':
-				case 'Q':
-				case 'R':
-				case 'S':
-				case 'T':
-				case 'U':
-				case 'V':
-				case 'W':
-				case 'X':
-				case 'Y':
-				case 'Z':
-				case '\\':
-				case '_':
-				case 'a':
-				case 'b':
-				case 'c':
-				case 'd':
-				case 'e':
-				case 'f':
-				case 'g':
-				case 'h':
-				case 'i':
-				case 'j':
-				case 'k':
-				case 'l':
-				case 'm':
-				case 'n':
-				case 'o':
-				case 'p':
-				case 'q':
-				case 'r':
-				case 's':
-				case 't':
-				case 'u':
-				case 'v':
-				case 'w':
-				case 'x':
-				case 'y':
-				case 'z': goto vv43;
-				default: goto vv298;
-			}
-vv298:
-			{
-			token->opcode = PHVOLT_T_ENDCALL;
-			return 0;
-		}
-vv299:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case 'O':
-				case 'o': goto vv319;
-				default: goto vv44;
-			}
-vv300:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case 'C':
-				case 'c': goto vv321;
-				default: goto vv44;
-			}
-vv301:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case 'A':
-				case 'a': goto vv322;
-				default: goto vv44;
-			}
-vv302:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case '0':
-				case '1':
-				case '2':
-				case '3':
-				case '4':
-				case '5':
-				case '6':
-				case '7':
-				case '8':
-				case '9':
-				case 'A':
-				case 'B':
-				case 'C':
-				case 'D':
-				case 'E':
-				case 'F':
-				case 'G':
-				case 'H':
-				case 'I':
-				case 'J':
-				case 'K':
-				case 'L':
-				case 'M':
-				case 'N':
-				case 'O':
-				case 'P':
-				case 'Q':
-				case 'R':
-				case 'S':
-				case 'T':
-				case 'U':
-				case 'V':
-				case 'W':
-				case 'X':
-				case 'Y':
-				case 'Z':
-				case '\\':
-				case '_':
-				case 'a':
-				case 'b':
-				case 'c':
-				case 'd':
-				case 'e':
-				case 'f':
-				case 'g':
-				case 'h':
-				case 'i':
-				case 'j':
-				case 'k':
-				case 'l':
-				case 'm':
-				case 'n':
-				case 'o':
-				case 'p':
-				case 'q':
-				case 'r':
-				case 's':
-				case 't':
-				case 'u':
-				case 'v':
-				case 'w':
-				case 'x':
-				case 'y':
-				case 'z': goto vv43;
-				default: goto vv303;
-			}
-vv303:
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_EXTENDS;
 			return 0;
 		}
-vv304:
+vv298:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case '0':
@@ -4807,22 +4700,22 @@ vv304:
 				case 'x':
 				case 'y':
 				case 'z': goto vv43;
-				default: goto vv305;
+				default: goto vv299;
 			}
-vv305:
+vv299:
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_INCLUDE;
 			return 0;
 		}
-vv306:
+vv300:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'E':
-				case 'e': goto vv323;
+				case 'e': goto vv315;
 				default: goto vv44;
 			}
-vv307:
+vv301:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case '0':
@@ -4889,36 +4782,36 @@ vv307:
 				case 'x':
 				case 'y':
 				case 'z': goto vv43;
-				default: goto vv308;
+				default: goto vv302;
 			}
-vv308:
+vv302:
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_NUMERIC;
 			return 0;
 		}
-vv309:
+vv303:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'M':
-				case 'm': goto vv325;
+				case 'm': goto vv317;
 				default: goto vv44;
 			}
-vv310:
+vv304:
 			++VVCURSOR;
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_NOTEQUALS;
 			return 0;
 		}
-vv311:
+vv305:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'P':
-				case 'p': goto vv327;
+				case 'p': goto vv319;
 				default: goto vv44;
 			}
-vv312:
+vv306:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case '0':
@@ -4985,19 +4878,181 @@ vv312:
 				case 'x':
 				case 'y':
 				case 'z': goto vv43;
-				default: goto vv313;
+				default: goto vv307;
 			}
-vv313:
+vv307:
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_CONTINUE;
 			return 0;
 		}
-vv314:
+vv308:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'S':
-				case 's': goto vv328;
+				case 's': goto vv320;
+				default: goto vv44;
+			}
+vv309:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case '0':
+				case '1':
+				case '2':
+				case '3':
+				case '4':
+				case '5':
+				case '6':
+				case '7':
+				case '8':
+				case '9':
+				case 'A':
+				case 'B':
+				case 'C':
+				case 'D':
+				case 'E':
+				case 'F':
+				case 'G':
+				case 'H':
+				case 'I':
+				case 'J':
+				case 'K':
+				case 'L':
+				case 'M':
+				case 'N':
+				case 'O':
+				case 'P':
+				case 'Q':
+				case 'R':
+				case 'S':
+				case 'T':
+				case 'U':
+				case 'V':
+				case 'W':
+				case 'X':
+				case 'Y':
+				case 'Z':
+				case '\\':
+				case '_':
+				case 'a':
+				case 'b':
+				case 'c':
+				case 'd':
+				case 'e':
+				case 'f':
+				case 'g':
+				case 'h':
+				case 'i':
+				case 'j':
+				case 'k':
+				case 'l':
+				case 'm':
+				case 'n':
+				case 'o':
+				case 'p':
+				case 'q':
+				case 'r':
+				case 's':
+				case 't':
+				case 'u':
+				case 'v':
+				case 'w':
+				case 'x':
+				case 'y':
+				case 'z': goto vv43;
+				default: goto vv310;
+			}
+vv310:
+			{
+			token->opcode = PHVOLT_T_ENDBLOCK;
+			return 0;
+		}
+vv311:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case '0':
+				case '1':
+				case '2':
+				case '3':
+				case '4':
+				case '5':
+				case '6':
+				case '7':
+				case '8':
+				case '9':
+				case 'A':
+				case 'B':
+				case 'C':
+				case 'D':
+				case 'E':
+				case 'F':
+				case 'G':
+				case 'H':
+				case 'I':
+				case 'J':
+				case 'K':
+				case 'L':
+				case 'M':
+				case 'N':
+				case 'O':
+				case 'P':
+				case 'Q':
+				case 'R':
+				case 'S':
+				case 'T':
+				case 'U':
+				case 'V':
+				case 'W':
+				case 'X':
+				case 'Y':
+				case 'Z':
+				case '\\':
+				case '_':
+				case 'a':
+				case 'b':
+				case 'c':
+				case 'd':
+				case 'e':
+				case 'f':
+				case 'g':
+				case 'h':
+				case 'i':
+				case 'j':
+				case 'k':
+				case 'l':
+				case 'm':
+				case 'n':
+				case 'o':
+				case 'p':
+				case 'q':
+				case 'r':
+				case 's':
+				case 't':
+				case 'u':
+				case 'v':
+				case 'w':
+				case 'x':
+				case 'y':
+				case 'z': goto vv43;
+				default: goto vv312;
+			}
+vv312:
+			{
+			token->opcode = PHVOLT_T_ENDMACRO;
+			return 0;
+		}
+vv313:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case 'H':
+				case 'h': goto vv321;
+				default: goto vv44;
+			}
+vv314:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case 'T':
+				case 't': goto vv323;
 				default: goto vv44;
 			}
 vv315:
@@ -5071,7 +5126,8 @@ vv315:
 			}
 vv316:
 			{
-			token->opcode = PHVOLT_T_ENDBLOCK;
+			s->statement_position++;
+			token->opcode = PHVOLT_T_ITERABLE;
 			return 0;
 		}
 vv317:
@@ -5145,260 +5201,200 @@ vv317:
 			}
 vv318:
 			{
-			token->opcode = PHVOLT_T_ENDCACHE;
-			return 0;
-		}
-vv319:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case '0':
-				case '1':
-				case '2':
-				case '3':
-				case '4':
-				case '5':
-				case '6':
-				case '7':
-				case '8':
-				case '9':
-				case 'A':
-				case 'B':
-				case 'C':
-				case 'D':
-				case 'E':
-				case 'F':
-				case 'G':
-				case 'H':
-				case 'I':
-				case 'J':
-				case 'K':
-				case 'L':
-				case 'M':
-				case 'N':
-				case 'O':
-				case 'P':
-				case 'Q':
-				case 'R':
-				case 'S':
-				case 'T':
-				case 'U':
-				case 'V':
-				case 'W':
-				case 'X':
-				case 'Y':
-				case 'Z':
-				case '\\':
-				case '_':
-				case 'a':
-				case 'b':
-				case 'c':
-				case 'd':
-				case 'e':
-				case 'f':
-				case 'g':
-				case 'h':
-				case 'i':
-				case 'j':
-				case 'k':
-				case 'l':
-				case 'm':
-				case 'n':
-				case 'o':
-				case 'p':
-				case 'q':
-				case 'r':
-				case 's':
-				case 't':
-				case 'u':
-				case 'v':
-				case 'w':
-				case 'x':
-				case 'y':
-				case 'z': goto vv43;
-				default: goto vv320;
-			}
-vv320:
-			{
-			token->opcode = PHVOLT_T_ENDMACRO;
-			return 0;
-		}
-vv321:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case 'H':
-				case 'h': goto vv329;
-				default: goto vv44;
-			}
-vv322:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case 'T':
-				case 't': goto vv331;
-				default: goto vv44;
-			}
-vv323:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case '0':
-				case '1':
-				case '2':
-				case '3':
-				case '4':
-				case '5':
-				case '6':
-				case '7':
-				case '8':
-				case '9':
-				case 'A':
-				case 'B':
-				case 'C':
-				case 'D':
-				case 'E':
-				case 'F':
-				case 'G':
-				case 'H':
-				case 'I':
-				case 'J':
-				case 'K':
-				case 'L':
-				case 'M':
-				case 'N':
-				case 'O':
-				case 'P':
-				case 'Q':
-				case 'R':
-				case 'S':
-				case 'T':
-				case 'U':
-				case 'V':
-				case 'W':
-				case 'X':
-				case 'Y':
-				case 'Z':
-				case '\\':
-				case '_':
-				case 'a':
-				case 'b':
-				case 'c':
-				case 'd':
-				case 'e':
-				case 'f':
-				case 'g':
-				case 'h':
-				case 'i':
-				case 'j':
-				case 'k':
-				case 'l':
-				case 'm':
-				case 'n':
-				case 'o':
-				case 'p':
-				case 'q':
-				case 'r':
-				case 's':
-				case 't':
-				case 'u':
-				case 'v':
-				case 'w':
-				case 'x':
-				case 'y':
-				case 'z': goto vv43;
-				default: goto vv324;
-			}
-vv324:
-			{
-			s->statement_position++;
-			token->opcode = PHVOLT_T_ITERABLE;
-			return 0;
-		}
-vv325:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case '0':
-				case '1':
-				case '2':
-				case '3':
-				case '4':
-				case '5':
-				case '6':
-				case '7':
-				case '8':
-				case '9':
-				case 'A':
-				case 'B':
-				case 'C':
-				case 'D':
-				case 'E':
-				case 'F':
-				case 'G':
-				case 'H':
-				case 'I':
-				case 'J':
-				case 'K':
-				case 'L':
-				case 'M':
-				case 'N':
-				case 'O':
-				case 'P':
-				case 'Q':
-				case 'R':
-				case 'S':
-				case 'T':
-				case 'U':
-				case 'V':
-				case 'W':
-				case 'X':
-				case 'Y':
-				case 'Z':
-				case '\\':
-				case '_':
-				case 'a':
-				case 'b':
-				case 'c':
-				case 'd':
-				case 'e':
-				case 'f':
-				case 'g':
-				case 'h':
-				case 'i':
-				case 'j':
-				case 'k':
-				case 'l':
-				case 'm':
-				case 'n':
-				case 'o':
-				case 'p':
-				case 'q':
-				case 'r':
-				case 's':
-				case 't':
-				case 'u':
-				case 'v':
-				case 'w':
-				case 'x':
-				case 'y':
-				case 'z': goto vv43;
-				default: goto vv326;
-			}
-vv326:
-			{
 			s->statement_position++;
 			s->verbatim = 1;
 			token->opcode = PHVOLT_T_VERBATIM;
 			return 0;
 		}
-vv327:
+vv319:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
 				case 'E':
-				case 'e': goto vv332;
+				case 'e': goto vv324;
+				default: goto vv44;
+			}
+vv320:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case 'C':
+				case 'c': goto vv326;
+				default: goto vv44;
+			}
+vv321:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case '0':
+				case '1':
+				case '2':
+				case '3':
+				case '4':
+				case '5':
+				case '6':
+				case '7':
+				case '8':
+				case '9':
+				case 'A':
+				case 'B':
+				case 'C':
+				case 'D':
+				case 'E':
+				case 'F':
+				case 'G':
+				case 'H':
+				case 'I':
+				case 'J':
+				case 'K':
+				case 'L':
+				case 'M':
+				case 'N':
+				case 'O':
+				case 'P':
+				case 'Q':
+				case 'R':
+				case 'S':
+				case 'T':
+				case 'U':
+				case 'V':
+				case 'W':
+				case 'X':
+				case 'Y':
+				case 'Z':
+				case '\\':
+				case '_':
+				case 'a':
+				case 'b':
+				case 'c':
+				case 'd':
+				case 'e':
+				case 'f':
+				case 'g':
+				case 'h':
+				case 'i':
+				case 'j':
+				case 'k':
+				case 'l':
+				case 'm':
+				case 'n':
+				case 'o':
+				case 'p':
+				case 'q':
+				case 'r':
+				case 's':
+				case 't':
+				case 'u':
+				case 'v':
+				case 'w':
+				case 'x':
+				case 'y':
+				case 'z': goto vv43;
+				default: goto vv322;
+			}
+vv322:
+			{
+			token->opcode = PHVOLT_T_ENDSWITCH;
+			return 0;
+		}
+vv323:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case 'I':
+				case 'i': goto vv327;
+				default: goto vv44;
+			}
+vv324:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case '0':
+				case '1':
+				case '2':
+				case '3':
+				case '4':
+				case '5':
+				case '6':
+				case '7':
+				case '8':
+				case '9':
+				case 'A':
+				case 'B':
+				case 'C':
+				case 'D':
+				case 'E':
+				case 'F':
+				case 'G':
+				case 'H':
+				case 'I':
+				case 'J':
+				case 'K':
+				case 'L':
+				case 'M':
+				case 'N':
+				case 'O':
+				case 'P':
+				case 'Q':
+				case 'R':
+				case 'S':
+				case 'T':
+				case 'U':
+				case 'V':
+				case 'W':
+				case 'X':
+				case 'Y':
+				case 'Z':
+				case '\\':
+				case '_':
+				case 'a':
+				case 'b':
+				case 'c':
+				case 'd':
+				case 'e':
+				case 'f':
+				case 'g':
+				case 'h':
+				case 'i':
+				case 'j':
+				case 'k':
+				case 'l':
+				case 'm':
+				case 'n':
+				case 'o':
+				case 'p':
+				case 'q':
+				case 'r':
+				case 's':
+				case 't':
+				case 'u':
+				case 'v':
+				case 'w':
+				case 'x':
+				case 'y':
+				case 'z': goto vv43;
+				default: goto vv325;
+			}
+vv325:
+			{
+			s->statement_position++;
+			token->opcode = PHVOLT_T_AUTOESCAPE;
+			return 0;
+		}
+vv326:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case 'A':
+				case 'a': goto vv328;
+				default: goto vv44;
+			}
+vv327:
+			vvch = *++VVCURSOR;
+			switch (vvch) {
+				case 'M':
+				case 'm': goto vv329;
 				default: goto vv44;
 			}
 vv328:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'C':
-				case 'c': goto vv334;
+				case 'P':
+				case 'p': goto vv331;
 				default: goto vv44;
 			}
 vv329:
@@ -5472,14 +5468,15 @@ vv329:
 			}
 vv330:
 			{
-			token->opcode = PHVOLT_T_ENDSWITCH;
+			s->statement_position++;
+			token->opcode = PHVOLT_T_ENDVERBATIM;
 			return 0;
 		}
 vv331:
 			vvch = *++VVCURSOR;
 			switch (vvch) {
-				case 'I':
-				case 'i': goto vv335;
+				case 'E':
+				case 'e': goto vv332;
 				default: goto vv44;
 			}
 vv332:
@@ -5552,184 +5549,6 @@ vv332:
 				default: goto vv333;
 			}
 vv333:
-			{
-			s->statement_position++;
-			token->opcode = PHVOLT_T_AUTOESCAPE;
-			return 0;
-		}
-vv334:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case 'A':
-				case 'a': goto vv336;
-				default: goto vv44;
-			}
-vv335:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case 'M':
-				case 'm': goto vv337;
-				default: goto vv44;
-			}
-vv336:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case 'P':
-				case 'p': goto vv339;
-				default: goto vv44;
-			}
-vv337:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case '0':
-				case '1':
-				case '2':
-				case '3':
-				case '4':
-				case '5':
-				case '6':
-				case '7':
-				case '8':
-				case '9':
-				case 'A':
-				case 'B':
-				case 'C':
-				case 'D':
-				case 'E':
-				case 'F':
-				case 'G':
-				case 'H':
-				case 'I':
-				case 'J':
-				case 'K':
-				case 'L':
-				case 'M':
-				case 'N':
-				case 'O':
-				case 'P':
-				case 'Q':
-				case 'R':
-				case 'S':
-				case 'T':
-				case 'U':
-				case 'V':
-				case 'W':
-				case 'X':
-				case 'Y':
-				case 'Z':
-				case '\\':
-				case '_':
-				case 'a':
-				case 'b':
-				case 'c':
-				case 'd':
-				case 'e':
-				case 'f':
-				case 'g':
-				case 'h':
-				case 'i':
-				case 'j':
-				case 'k':
-				case 'l':
-				case 'm':
-				case 'n':
-				case 'o':
-				case 'p':
-				case 'q':
-				case 'r':
-				case 's':
-				case 't':
-				case 'u':
-				case 'v':
-				case 'w':
-				case 'x':
-				case 'y':
-				case 'z': goto vv43;
-				default: goto vv338;
-			}
-vv338:
-			{
-			s->statement_position++;
-			token->opcode = PHVOLT_T_ENDVERBATIM;
-			return 0;
-		}
-vv339:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case 'E':
-				case 'e': goto vv340;
-				default: goto vv44;
-			}
-vv340:
-			vvch = *++VVCURSOR;
-			switch (vvch) {
-				case '0':
-				case '1':
-				case '2':
-				case '3':
-				case '4':
-				case '5':
-				case '6':
-				case '7':
-				case '8':
-				case '9':
-				case 'A':
-				case 'B':
-				case 'C':
-				case 'D':
-				case 'E':
-				case 'F':
-				case 'G':
-				case 'H':
-				case 'I':
-				case 'J':
-				case 'K':
-				case 'L':
-				case 'M':
-				case 'N':
-				case 'O':
-				case 'P':
-				case 'Q':
-				case 'R':
-				case 'S':
-				case 'T':
-				case 'U':
-				case 'V':
-				case 'W':
-				case 'X':
-				case 'Y':
-				case 'Z':
-				case '\\':
-				case '_':
-				case 'a':
-				case 'b':
-				case 'c':
-				case 'd':
-				case 'e':
-				case 'f':
-				case 'g':
-				case 'h':
-				case 'i':
-				case 'j':
-				case 'k':
-				case 'l':
-				case 'm':
-				case 'n':
-				case 'o':
-				case 'p':
-				case 'q':
-				case 'r':
-				case 's':
-				case 't':
-				case 'u':
-				case 'v':
-				case 'w':
-				case 'x':
-				case 'y':
-				case 'z': goto vv43;
-				default: goto vv341;
-			}
-vv341:
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_ENDAUTOESCAPE;

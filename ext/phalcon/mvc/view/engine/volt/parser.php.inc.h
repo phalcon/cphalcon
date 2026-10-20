@@ -161,26 +161,6 @@ static void phvolt_ret_for_statement(zval *ret, phvolt_parser_token *variable, p
 }
 /* }}} */
 
-/* {{{ phvolt_ret_cache_statement */
-static void phvolt_ret_cache_statement(zval *ret, zval *expr, zval *lifetime, zval *block_statements,
-	phvolt_scanner_state *state)
-{
-	array_init(ret);
-
-	add_assoc_long(ret, "type", PHVOLT_T_CACHE);
-	add_assoc_zval(ret, "expr", expr);
-
-	if (lifetime) {
-		add_assoc_zval(ret, "lifetime", lifetime);
-	}
-	add_assoc_zval(ret, "block_statements", block_statements);
-
-	Z_TRY_ADDREF_P(state->active_file);
-	add_assoc_zval(ret, "file", state->active_file);
-	add_assoc_long(ret, "line", state->active_line);
-}
-/* }}} */
-
 /* {{{ phvolt_ret_set_statement */
 static void phvolt_ret_set_statement(zval *ret, zval *assignments)
 {

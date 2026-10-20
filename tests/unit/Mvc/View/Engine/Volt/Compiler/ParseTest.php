@@ -184,9 +184,6 @@ class ParseTest extends AbstractUnitTestCase
             ['{% extends "some/file.volt" %}', 1],
             //Include
             ['{% include "some/file.volt" %}', 1],
-            //Cache
-            ['{% cache sidebar %} hello {% endcache %}', 1],
-            ['{% cache sidebar 500 %} hello {% endcache %}', 1],
             //Mixed
             ['{# some comment #}{{ "hello" }}{# other comment }}', 1],
             //Issue 14288 use set() & is()
@@ -260,6 +257,14 @@ class ParseTest extends AbstractUnitTestCase
                 '\'{{ link_to("album/" ~ album.id ~ "/" ~ $album.uri, ' .
                 '"<img src=\"" ~ album.url ~ "\" alt=\"" ~ album.name ~ "\"/>") }}\'',
                 "Scanning error before 'album.uri, \"<img...' in eval code on line 1",
+            ],
+            [
+                '{% cache sidebar %} hello {% endcache %}',
+                'Syntax error, unexpected token IDENTIFIER(cache) in eval code on line 1',
+            ],
+            [
+                '{% cache sidebar 500 %} hello {% endcache %}',
+                'Syntax error, unexpected token IDENTIFIER(cache) in eval code on line 1',
             ],
         ];
     }
