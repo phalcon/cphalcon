@@ -508,17 +508,6 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			return 0;
 		}
 
-		'cache' {
-			s->statement_position++;
-			token->opcode = PHVOLT_T_CACHE;
-			return 0;
-		}
-
-		'endcache' {
-			token->opcode = PHVOLT_T_ENDCACHE;
-			return 0;
-		}
-
 		'do' {
 			s->statement_position++;
 			token->opcode = PHVOLT_T_DO;

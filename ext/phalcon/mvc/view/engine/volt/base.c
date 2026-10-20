@@ -69,8 +69,6 @@ const phvolt_token_names phvolt_tokens[] =
   { SL("--"),            PHVOLT_T_DECR },
   { SL("BLOCK"),         PHVOLT_T_BLOCK },
   { SL("ENDBLOCK"),      PHVOLT_T_ENDBLOCK },
-  { SL("CACHE"),         PHVOLT_T_CACHE },
-  { SL("ENDCACHE"),      PHVOLT_T_ENDCACHE },
   { SL("EXTENDS"),       PHVOLT_T_EXTENDS },
   { SL("IS"),            PHVOLT_T_IS },
   { SL("DEFINED"),       PHVOLT_T_DEFINED },
@@ -686,13 +684,6 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				break;
 			case PHVOLT_T_ENDCALL:
 				phvolt_(phvolt_parser, PHVOLT_ENDCALL, NULL, parser_status);
-				break;
-
-			case PHVOLT_T_CACHE:
-				phvolt_(phvolt_parser, PHVOLT_CACHE, NULL, parser_status);
-				break;
-			case PHVOLT_T_ENDCACHE:
-				phvolt_(phvolt_parser, PHVOLT_ENDCACHE, NULL, parser_status);
 				break;
 
 			case PHVOLT_T_VERBATIM:
