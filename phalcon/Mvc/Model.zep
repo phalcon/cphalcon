@@ -1138,7 +1138,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                     case Column::TYPE_DECIMAL:
                     case Column::TYPE_DOUBLE:
                     case Column::TYPE_FLOAT:
-                        let castValue = doubleval(value);
+                        let castValue = floatval(value);
                         break;
 
                     case Column::TYPE_BOOLEAN:

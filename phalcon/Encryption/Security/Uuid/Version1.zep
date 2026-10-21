@@ -42,7 +42,7 @@ class Version1 extends AbstractUuid implements TimeBasedUuidInterface
         } else {
             let nowSec  = time();
             let sec     = nowSec;
-            let nowUsec = intval(round((microtime(true) - doubleval(nowSec)) * 10000000.0));
+            let nowUsec = intval(round((microtime(true) - floatval(nowSec)) * 10000000.0));
             let usec    = nowUsec;
         }
 
