@@ -17,7 +17,7 @@ use Phalcon\Di\Service;
 use Phalcon\Html\Escaper;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
-use function spl_object_hash;
+use function spl_object_id;
 
 final class SetSharedInstanceTest extends AbstractUnitTestCase
 {
@@ -31,8 +31,8 @@ final class SetSharedInstanceTest extends AbstractUnitTestCase
         $service = new Service($escaper, true);
         $service->setSharedInstance($escaper);
 
-        $expected = spl_object_hash($escaper);
-        $actual   = spl_object_hash($service->resolve());
+        $expected = spl_object_id($escaper);
+        $actual   = spl_object_id($service->resolve());
         $this->assertSame($expected, $actual);
     }
 }

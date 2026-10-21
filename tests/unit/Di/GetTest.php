@@ -20,7 +20,7 @@ use Phalcon\Di\ServiceInterface;
 use Phalcon\Html\Escaper;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
-use function spl_object_hash;
+use function spl_object_id;
 
 final class GetTest extends AbstractUnitTestCase
 {
@@ -51,8 +51,8 @@ final class GetTest extends AbstractUnitTestCase
         $class = Escaper::class;
         $this->assertInstanceOf($class, $actual);
 
-        $expected = spl_object_hash(new Escaper());
-        $actual   = spl_object_hash($actual);
+        $expected = spl_object_id(new Escaper());
+        $actual   = spl_object_id($actual);
         $this->assertNotEquals($expected, $actual);
     }
 
@@ -125,8 +125,8 @@ final class GetTest extends AbstractUnitTestCase
         $actual = $container->get('escaper');
         $actual = $container->get('escaper');
 
-        $expected = spl_object_hash($escaper);
-        $actual   = spl_object_hash($actual);
+        $expected = spl_object_id($escaper);
+        $actual   = spl_object_id($actual);
         $this->assertSame($expected, $actual);
     }
 

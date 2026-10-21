@@ -19,7 +19,7 @@ use Phalcon\Html\Escaper;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 
-use function spl_object_hash;
+use function spl_object_id;
 
 final class GetSetEscaperServiceTest extends AbstractUnitTestCase
 {
@@ -60,14 +60,14 @@ final class GetSetEscaperServiceTest extends AbstractUnitTestCase
         $flash   = new Session($escaper);
 
         $actual = $flash->getEscaperService();
-        $this->assertSame(spl_object_hash($escaper), spl_object_hash($actual));
+        $this->assertSame(spl_object_id($escaper), spl_object_id($actual));
 
         $newEscaper = new Escaper();
         $actual     = $flash->setEscaperService($newEscaper);
         $this->assertInstanceOf(Session::class, $actual);
 
         $actual = $flash->getEscaperService();
-        $this->assertSame(spl_object_hash($newEscaper), spl_object_hash($actual));
+        $this->assertSame(spl_object_id($newEscaper), spl_object_id($actual));
 
         $session->destroy();
     }
@@ -85,6 +85,6 @@ final class GetSetEscaperServiceTest extends AbstractUnitTestCase
         $flash->setDI($this->container);
 
         $actual = $flash->getEscaperService();
-        $this->assertSame(spl_object_hash($escaper), spl_object_hash($actual));
+        $this->assertSame(spl_object_id($escaper), spl_object_id($actual));
     }
 }

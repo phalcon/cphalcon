@@ -19,7 +19,7 @@ use Phalcon\Flash\Exception;
 use Phalcon\Html\Escaper;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
-use function spl_object_hash;
+use function spl_object_id;
 
 final class GetSetEscaperServiceTest extends AbstractUnitTestCase
 {
@@ -49,14 +49,14 @@ final class GetSetEscaperServiceTest extends AbstractUnitTestCase
         $flash   = new Direct($escaper);
 
         $actual = $flash->getEscaperService();
-        $this->assertSame(spl_object_hash($escaper), spl_object_hash($actual));
+        $this->assertSame(spl_object_id($escaper), spl_object_id($actual));
 
         $newEscaper = new Escaper();
         $actual     = $flash->setEscaperService($newEscaper);
         $this->assertInstanceOf(Direct::class, $actual);
 
         $actual = $flash->getEscaperService();
-        $this->assertSame(spl_object_hash($newEscaper), spl_object_hash($actual));
+        $this->assertSame(spl_object_id($newEscaper), spl_object_id($actual));
     }
 
     /**
@@ -72,6 +72,6 @@ final class GetSetEscaperServiceTest extends AbstractUnitTestCase
         $flash->setDI($container);
 
         $actual = $flash->getEscaperService();
-        $this->assertSame(spl_object_hash($escaper), spl_object_hash($actual));
+        $this->assertSame(spl_object_id($escaper), spl_object_id($actual));
     }
 }
