@@ -44,13 +44,10 @@ final class DecodeTest extends AbstractUnitTestCase
     public function testSupportHelperJsonDecodeException(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            "json_decode error: Control character error, " .
-            "possibly incorrectly encoded",
-        );
-        $this->expectExceptionCode(3);
+        $this->expectExceptionMessage('json_decode error: Syntax error');
+        $this->expectExceptionCode(4);
 
-        $data = '{"one';
+        $data = '{"one"';
         (new Decode())($data);
     }
 
@@ -61,13 +58,10 @@ final class DecodeTest extends AbstractUnitTestCase
     public function testSupportHelperJsonDecodeExceptionWithThrowOnError(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            "json_decode error: Control character error, " .
-            "possibly incorrectly encoded",
-        );
-        $this->expectExceptionCode(3);
+        $this->expectExceptionMessage('json_decode error: Syntax error');
+        $this->expectExceptionCode(4);
 
-        $data = '{"one';
+        $data = '{"one"';
         (new Decode())($data, false, 512, JSON_THROW_ON_ERROR);
     }
 }
