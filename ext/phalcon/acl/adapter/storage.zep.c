@@ -505,7 +505,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Storage, load)
 				ZVAL_COPY(&description, _45$$21);
 				ZEPHIR_INIT_NVAR(&_48$$22);
 				object_init_ex(&_48$$22, phalcon_acl_role_ce);
-				ZEPHIR_CALL_METHOD(NULL, &_48$$22, "__construct", &_49, 240, &name, &description);
+				ZEPHIR_CALL_METHOD(NULL, &_48$$22, "__construct", &_49, 242, &name, &description);
 				zephir_check_call_status_or_jump(try_end_1);
 				zephir_array_update_zval(&rebuiltRoles, &name, &_48$$22, PH_COPY | PH_SEPARATE);
 			} ZEND_HASH_FOREACH_END();
@@ -531,7 +531,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Storage, load)
 				zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_52$$23);
 					object_init_ex(&_52$$23, phalcon_acl_role_ce);
-					ZEPHIR_CALL_METHOD(NULL, &_52$$23, "__construct", &_49, 240, &name, &description);
+					ZEPHIR_CALL_METHOD(NULL, &_52$$23, "__construct", &_49, 242, &name, &description);
 					zephir_check_call_status_or_jump(try_end_1);
 					zephir_array_update_zval(&rebuiltRoles, &name, &_52$$23, PH_COPY | PH_SEPARATE);
 			}
@@ -563,7 +563,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Storage, load)
 				ZVAL_COPY(&description, _56$$21);
 				ZEPHIR_INIT_NVAR(&_59$$24);
 				object_init_ex(&_59$$24, phalcon_acl_component_ce);
-				ZEPHIR_CALL_METHOD(NULL, &_59$$24, "__construct", &_60, 231, &name, &description);
+				ZEPHIR_CALL_METHOD(NULL, &_59$$24, "__construct", &_60, 233, &name, &description);
 				zephir_check_call_status_or_jump(try_end_1);
 				zephir_array_update_zval(&rebuiltComponents, &name, &_59$$24, PH_COPY | PH_SEPARATE);
 			} ZEND_HASH_FOREACH_END();
@@ -589,7 +589,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Storage, load)
 				zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_63$$25);
 					object_init_ex(&_63$$25, phalcon_acl_component_ce);
-					ZEPHIR_CALL_METHOD(NULL, &_63$$25, "__construct", &_60, 231, &name, &description);
+					ZEPHIR_CALL_METHOD(NULL, &_63$$25, "__construct", &_60, 233, &name, &description);
 					zephir_check_call_status_or_jump(try_end_1);
 					zephir_array_update_zval(&rebuiltComponents, &name, &_63$$25, PH_COPY | PH_SEPARATE);
 			}

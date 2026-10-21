@@ -371,7 +371,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, buildService)
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&reflection);
 		object_init_ex(&reflection, zephir_get_internal_ce(SL("reflectionclass")));
-		ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 251, &className);
+		ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 253, &className);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&instance, &reflection, "newInstanceArgs", NULL, 495, &args);
 		zephir_check_call_status();
@@ -511,7 +511,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, freeze)
 		ZEPHIR_CPY_WRT(&className, &_8$$4);
 		ZEPHIR_INIT_VAR(&reflection);
 		object_init_ex(&reflection, zephir_get_internal_ce(SL("reflectionclass")));
-		ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 251, &className);
+		ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 253, &className);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&constructor, &reflection, "getConstructor", NULL, 496);
 		zephir_check_call_status();

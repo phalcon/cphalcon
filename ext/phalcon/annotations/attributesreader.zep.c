@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_Annotations_AttributesReader, parse)
 	array_init(&annotations);
 	ZEPHIR_INIT_VAR(&reflection);
 	object_init_ex(&reflection, zephir_get_internal_ce(SL("reflectionclass")));
-	ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 251, &className_zv);
+	ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 253, &className_zv);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&file, &reflection, "getFileName", NULL, 366);
 	zephir_check_call_status();

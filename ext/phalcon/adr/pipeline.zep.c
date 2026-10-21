@@ -173,7 +173,7 @@ PHP_METHOD(Phalcon_ADR_Pipeline, __invoke)
 	ZVAL_LONG(&_8, 1);
 	ZEPHIR_INIT_VAR(&_9);
 	zephir_add_function(&_9, &_7, &_8);
-	ZEPHIR_CALL_METHOD(NULL, &next, "__construct", NULL, 321, &_5, &_6, &_9);
+	ZEPHIR_CALL_METHOD(NULL, &next, "__construct", NULL, 323, &_5, &_6, &_9);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&mw, "__invoke", NULL, 0, request, &next);
 	zephir_check_call_status();

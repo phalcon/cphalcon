@@ -1060,9 +1060,9 @@ PHP_METHOD(Phalcon_ADR_Router_Router, locate)
 			object_init_ex(&reflection, zephir_get_internal_ce(SL("reflectionclass")));
 			ZEPHIR_OBS_NVAR(&_4$$3);
 			zephir_array_fetch_long(&_4$$3, &candidate, 0, PH_NOISY, "phalcon/ADR/Router/Router.zep", 402);
-			ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", &_5, 251, &_4$$3);
+			ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", &_5, 253, &_4$$3);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_6$$3, &reflection, "getName", &_7, 253);
+			ZEPHIR_CALL_METHOD(&_6$$3, &reflection, "getName", &_7, 255);
 			zephir_check_call_status();
 			ZEPHIR_OBS_NVAR(&_8$$3);
 			zephir_array_fetch_long(&_8$$3, &candidate, 0, PH_NOISY, "phalcon/ADR/Router/Router.zep", 403);
@@ -1097,9 +1097,9 @@ PHP_METHOD(Phalcon_ADR_Router_Router, locate)
 				object_init_ex(&reflection, zephir_get_internal_ce(SL("reflectionclass")));
 				ZEPHIR_OBS_NVAR(&_12$$6);
 				zephir_array_fetch_long(&_12$$6, &candidate, 0, PH_NOISY, "phalcon/ADR/Router/Router.zep", 402);
-				ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", &_5, 251, &_12$$6);
+				ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", &_5, 253, &_12$$6);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_13$$6, &reflection, "getName", &_7, 253);
+				ZEPHIR_CALL_METHOD(&_13$$6, &reflection, "getName", &_7, 255);
 				zephir_check_call_status();
 				ZEPHIR_OBS_NVAR(&_14$$6);
 				zephir_array_fetch_long(&_14$$6, &candidate, 0, PH_NOISY, "phalcon/ADR/Router/Router.zep", 403);

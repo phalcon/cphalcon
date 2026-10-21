@@ -460,7 +460,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, read)
 		ZEPHIR_CALL_METHOD(&pointer, this_ptr, "phpFopen", NULL, 0, &name, &_3$$3);
 		zephir_check_call_status();
 		ZVAL_LONG(&_4$$3, 1);
-		ZEPHIR_CALL_FUNCTION(&_5$$3, "flock", NULL, 304, &pointer, &_4$$3);
+		ZEPHIR_CALL_FUNCTION(&_5$$3, "flock", NULL, 306, &pointer, &_4$$3);
 		zephir_check_call_status();
 		if (zephir_is_true(&_5$$3)) {
 			ZEPHIR_CALL_METHOD(&data, this_ptr, "phpFileGetContents", NULL, 0, &name);
@@ -622,13 +622,13 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, getGlobFiles)
 	zephir_memory_observe(&pattern_zv);
 	ZVAL_STR_COPY(&pattern_zv, pattern);
 	ZVAL_LONG(&_0, 0);
-	ZEPHIR_CALL_FUNCTION(&errorLevel, "error_reporting", NULL, 307, &_0);
+	ZEPHIR_CALL_FUNCTION(&errorLevel, "error_reporting", NULL, 309, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(NULL, "error_clear_last", NULL, 308);
+	ZEPHIR_CALL_FUNCTION(NULL, "error_clear_last", NULL, 310);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&glob, "glob", NULL, 0, &pattern_zv);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(NULL, "error_reporting", NULL, 307, &errorLevel);
+	ZEPHIR_CALL_FUNCTION(NULL, "error_reporting", NULL, 309, &errorLevel);
 	zephir_check_call_status();
 	RETURN_CCTOR(&glob);
 }

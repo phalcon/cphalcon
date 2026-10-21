@@ -278,10 +278,10 @@ PHP_METHOD(Phalcon_ADR_Middleware_CorsMiddleware, __invoke)
 	if (ZEPHIR_IS_IDENTICAL(&_4, &_3)) {
 		ZEPHIR_INIT_VAR(&response);
 		object_init_ex(&response, phalcon_http_response_ce);
-		ZEPHIR_CALL_METHOD(NULL, &response, "__construct", NULL, 315);
+		ZEPHIR_CALL_METHOD(NULL, &response, "__construct", NULL, 317);
 		zephir_check_call_status();
 		ZVAL_LONG(&_5$$4, 204);
-		ZEPHIR_CALL_METHOD(NULL, &response, "setStatusCode", NULL, 316, &_5$$4);
+		ZEPHIR_CALL_METHOD(NULL, &response, "setStatusCode", NULL, 318, &_5$$4);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "applyHeaders", NULL, 0, &response, &origin);
 		zephir_check_call_status();

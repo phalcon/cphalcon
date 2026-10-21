@@ -152,9 +152,9 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, createRememberToken)
 	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_auth_exceptions_doesnotimplement_ce, "assert", NULL, 0, user, &_0, &_1, &_2);
 	zephir_check_call_status();
 	ZVAL_LONG(&_3, 30);
-	ZEPHIR_CALL_FUNCTION(&_4, "random_bytes", NULL, 329, &_3);
+	ZEPHIR_CALL_FUNCTION(&_4, "random_bytes", NULL, 223, &_3);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_5, "bin2hex", NULL, 330, &_4);
+	ZEPHIR_CALL_FUNCTION(&_5, "bin2hex", NULL, 224, &_4);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(user, "createRememberToken", NULL, 0, &_5);
 	zephir_check_call_status();

@@ -511,7 +511,7 @@ PHP_METHOD(Phalcon_Http_Request, getClientAddress)
 			ZVAL_STRING(&_6$$8, "trim");
 			ZEPHIR_CALL_FUNCTION(&forwardedIps, "array_map", NULL, 192, &_6$$8, &_5$$8);
 			zephir_check_call_status();
-			ZEPHIR_CALL_FUNCTION(&reverseForwardedIps, "array_reverse", NULL, 272, &forwardedIps);
+			ZEPHIR_CALL_FUNCTION(&reverseForwardedIps, "array_reverse", NULL, 274, &forwardedIps);
 			zephir_check_call_status();
 			if (Z_TYPE_P(&reverseForwardedIps) == IS_STRING) {
 				ZEPHIR_INIT_NVAR(&_6$$8);

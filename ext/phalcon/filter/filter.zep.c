@@ -545,13 +545,13 @@ PHP_METHOD(Phalcon_Filter_Filter, init)
 	zephir_fetch_params(1, 1, 0, &mapper_param);
 	zephir_get_arrval(&mapper, mapper_param);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 765, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_FUNCTION(&_1, "array_replace", NULL, 289, &_0, &mapper);
+	ZEPHIR_CALL_FUNCTION(&_1, "array_replace", NULL, 291, &_0, &mapper);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 765, &_1);
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 766, PH_NOISY_CC | PH_READONLY);
 	if (!(ZEPHIR_IS_EMPTY(&_2))) {
 		zephir_read_property_cached(&_3$$3, this_ptr, _zephir_prop_1, 766, PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_FUNCTION(&_4$$3, "array_diff_key", NULL, 260, &_3$$3, &mapper);
+		ZEPHIR_CALL_FUNCTION(&_4$$3, "array_diff_key", NULL, 262, &_3$$3, &mapper);
 		zephir_check_call_status();
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 766, &_4$$3);
 	}

@@ -1139,7 +1139,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 			} else {
 				ZEPHIR_INIT_VAR(&reflect);
 				object_init_ex(&reflect, zephir_get_internal_ce(SL("reflectionclass")));
-				ZEPHIR_CALL_METHOD(NULL, &reflect, "__construct", NULL, 251, variable);
+				ZEPHIR_CALL_METHOD(NULL, &reflect, "__construct", NULL, 253, variable);
 				zephir_check_call_status();
 				ZVAL_LONG(&_72$$15, ((1 | 2) | 4));
 				ZEPHIR_CALL_METHOD(&props, &reflect, "getProperties", NULL, 370, &_72$$15);
