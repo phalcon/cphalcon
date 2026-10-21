@@ -369,7 +369,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
             }
 
             // Check if the handler is new (hasn't been initialized).
-            let handlerHash = spl_object_hash(handler);
+            let handlerHash = spl_object_id(handler);
             let isNewHandler = !(isset this->handlerHashes[handlerHash]);
 
             if isNewHandler {
