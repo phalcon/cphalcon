@@ -4,6 +4,10 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 ## [Unreleased](https://github.com/phalcon/cphalcon/releases/tag/xxxx) (xxxx-xx-xx)
 
+> **Upgrade note:** `Phalcon\Html\Link\LinkProvider::getLinks()` and `Phalcon\Html\Link\EvolvableLinkProvider::getLinks()` now return arrays keyed by `spl_object_id()` (integers) instead of `spl_object_hash()` (strings). Code that builds or looks up these keys with `spl_object_hash()` must use `spl_object_id()`. `getLinksByRel()` is not affected. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
+
+> **Upgrade note:** `Phalcon\Session\Adapter\AbstractAdapter` and `Phalcon\Session\Adapter\Noop` now implement `SessionIdInterface` with `create_sid(): string`. Subclasses that override `create_sid()` must declare the `string` return type. New session IDs now come from the adapter as 32 hex characters, so `session.sid_length` and `session.sid_bits_per_character` no longer apply to these adapters. Custom handlers that implement `SessionHandlerInterface` directly must add `create_sid()` and `validateId()` to avoid the PHP 8.6 deprecation. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
+
 ### Tools
 
 - Zephir 1.6.1
@@ -20,6 +24,9 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - `Phalcon\Db\Adapter\Pdo\Postgresql::describeReferences()` returning wrong column pairs for composite foreign keys. [#17680](https://github.com/phalcon/cphalcon/issues/17680)
 - `Phalcon\Mvc\View\Engine\Volt\Compiler::compile()` rendering serialized blocks for the second child of a layout when `stat` is `false`. [#17674](https://github.com/phalcon/cphalcon/issues/17674)
 - `Phalcon\Mvc\View\Engine\Volt\Compiler::compileCall()` silently dropping `{% call %}` blocks instead of throwing an exception. [#17676](https://github.com/phalcon/cphalcon/issues/17676)
+- PHP 8.6 deprecation for session handlers without `create_sid()`: `Phalcon\Session\Adapter\AbstractAdapter` and `Phalcon\Session\Adapter\Noop` now implement `SessionIdInterface` and `create_sid()`. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
+- PHP 8.6 deprecation of `spl_object_hash()`: `Phalcon\Dispatcher\AbstractDispatcher` and `Phalcon\Html\Link\AbstractLinkProvider` now use `spl_object_id()`; the keys returned by `getLinks()` are now integers. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
+- PHP 8.6 deprecation of `doubleval()`: `Phalcon\Encryption\Security\Uuid\Version1`, `Phalcon\Encryption\Security\Uuid\Version6` and `Phalcon\Mvc\Model` now use `floatval()`. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
 
 ### Removed
 
