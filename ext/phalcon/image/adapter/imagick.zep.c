@@ -1681,7 +1681,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processSave)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 942, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&image, &_0);
 	ZVAL_LONG(&_0, 4);
-	ZEPHIR_CALL_FUNCTION(&extension, "pathinfo", NULL, 206, &file_zv, &_0);
+	ZEPHIR_CALL_FUNCTION(&extension, "pathinfo", NULL, 205, &file_zv, &_0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &image, "setFormat", NULL, 0, &extension);
 	zephir_check_call_status();
