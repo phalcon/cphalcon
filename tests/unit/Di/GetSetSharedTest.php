@@ -18,7 +18,7 @@ use Phalcon\Html\Escaper;
 use Phalcon\Html\Escaper\EscaperInterface;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
-use function spl_object_hash;
+use function spl_object_id;
 
 final class GetSetSharedTest extends AbstractUnitTestCase
 {
@@ -75,12 +75,12 @@ final class GetSetSharedTest extends AbstractUnitTestCase
 
         $object = $container->getShared('escaper');
 
-        $expected = spl_object_hash($class);
-        $actual   = spl_object_hash($object);
+        $expected = spl_object_id($class);
+        $actual   = spl_object_id($object);
         $this->assertSame($expected, $actual);
 
         $objectTwo = $container->getShared('escaper');
-        $actual    = spl_object_hash($objectTwo);
+        $actual    = spl_object_id($objectTwo);
         $this->assertSame($expected, $actual);
     }
 
@@ -97,12 +97,12 @@ final class GetSetSharedTest extends AbstractUnitTestCase
 
         $object = $container->getShared('escaper');
 
-        $expected = spl_object_hash($class);
-        $actual   = spl_object_hash($object);
+        $expected = spl_object_id($class);
+        $actual   = spl_object_id($object);
         $this->assertSame($expected, $actual);
 
         $objectTwo = $container->getShared('escaper');
-        $actual    = spl_object_hash($objectTwo);
+        $actual    = spl_object_id($objectTwo);
         $this->assertSame($expected, $actual);
     }
 

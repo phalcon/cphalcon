@@ -14,8 +14,9 @@
 #include "kernel/main.h"
 #include "ext/session/php_session.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/fcall.h"
+#include "kernel/operators.h"
 
 
 /**
@@ -47,6 +48,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Noop)
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Session\\Adapter, Noop, phalcon, session_adapter_noop, phalcon_session_adapter_noop_method_entry, 0);
 
 	zend_class_implements(phalcon_session_adapter_noop_ce, 1, php_session_iface_entry);
+	zend_class_implements(phalcon_session_adapter_noop_ce, 1, php_session_id_iface_entry);
 	zend_class_implements(phalcon_session_adapter_noop_ce, 1, php_session_update_timestamp_iface_entry);
 	return SUCCESS;
 }
@@ -58,6 +60,28 @@ PHP_METHOD(Phalcon_Session_Adapter_Noop, close)
 {
 
 	RETURN_BOOL(1);
+}
+
+/**
+ * Create a new session id
+ */
+PHP_METHOD(Phalcon_Session_Adapter_Noop, create_sid)
+{
+	zval _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+
+	ZVAL_LONG(&_0, 16);
+	ZEPHIR_CALL_FUNCTION(&_1, "random_bytes", NULL, 223, &_0);
+	zephir_check_call_status();
+	ZEPHIR_RETURN_CALL_FUNCTION("bin2hex", NULL, 224, &_1);
+	zephir_check_call_status();
+	RETURN_MM();
 }
 
 /**

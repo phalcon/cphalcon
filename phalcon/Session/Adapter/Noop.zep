@@ -11,6 +11,7 @@
 namespace Phalcon\Session\Adapter;
 
 use SessionHandlerInterface;
+use SessionIdInterface;
 use SessionUpdateTimestampHandlerInterface;
 
 /**
@@ -29,7 +30,7 @@ use SessionUpdateTimestampHandlerInterface;
  * $session->setAdapter(new Noop());
  * ```
  */
-class Noop implements SessionHandlerInterface, SessionUpdateTimestampHandlerInterface
+class Noop implements SessionHandlerInterface, SessionIdInterface, SessionUpdateTimestampHandlerInterface
 {
     /**
      * Close
@@ -37,6 +38,14 @@ class Noop implements SessionHandlerInterface, SessionUpdateTimestampHandlerInte
     public function close() -> bool
     {
         return true;
+    }
+
+    /**
+     * Create a new session id
+     */
+    public function create_sid() -> string
+    {
+        return bin2hex(random_bytes(16));
     }
 
     /**
