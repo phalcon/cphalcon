@@ -17,7 +17,7 @@ use Phalcon\Html\Link\EvolvableLinkProvider;
 use Phalcon\Html\Link\Link;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
-use function spl_object_hash;
+use function spl_object_id;
 
 final class WithLinkTest extends AbstractUnitTestCase
 {
@@ -38,8 +38,8 @@ final class WithLinkTest extends AbstractUnitTestCase
         $this->assertNotSame($instance, $newInstance);
 
         $expected = [
-            spl_object_hash($links[0]) => $links[0],
-            spl_object_hash($link)     => $link,
+            spl_object_id($links[0]) => $links[0],
+            spl_object_id($link)     => $link,
         ];
 
         $this->assertSame($expected, $newInstance->getLinks());

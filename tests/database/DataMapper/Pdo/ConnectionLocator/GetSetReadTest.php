@@ -19,7 +19,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\Group;
 
 use function in_array;
-use function spl_object_hash;
+use function spl_object_id;
 
 #[Group('mysql')]
 #[Group('pgsql')]
@@ -36,7 +36,7 @@ final class GetSetReadTest extends AbstractDatabaseTestCase
         $locator = new ConnectionLocator($master);
 
         $actual = $locator->getRead("read1");
-        $this->assertEquals(spl_object_hash($master), spl_object_hash($actual));
+        $this->assertEquals(spl_object_id($master), spl_object_id($actual));
     }
 
     /**
@@ -84,12 +84,12 @@ final class GetSetReadTest extends AbstractDatabaseTestCase
         );
 
         $hashes = [
-            spl_object_hash($read1),
-            spl_object_hash($read2),
+            spl_object_id($read1),
+            spl_object_id($read2),
         ];
 
         $actual = $locator->getRead();
-        $this->assertTrue(in_array(spl_object_hash($actual), $hashes));
+        $this->assertTrue(in_array(spl_object_id($actual), $hashes));
     }
 
     /**
@@ -114,9 +114,9 @@ final class GetSetReadTest extends AbstractDatabaseTestCase
         );
 
         $actual = $locator->getRead("read1");
-        $this->assertEquals(spl_object_hash($read1), spl_object_hash($actual));
+        $this->assertEquals(spl_object_id($read1), spl_object_id($actual));
 
         $actual = $locator->getRead("read2");
-        $this->assertEquals(spl_object_hash($read2), spl_object_hash($actual));
+        $this->assertEquals(spl_object_id($read2), spl_object_id($actual));
     }
 }
