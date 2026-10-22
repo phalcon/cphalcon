@@ -18,6 +18,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 
 use function date;
@@ -35,6 +36,17 @@ final class CreateTest extends AbstractDatabaseTestCase
         /** @var PDO $connection */
         $connection = self::getPdoConnection();
         (new InvoicesMigration($connection));
+    }
+
+    /**
+     * @return array<string, array{0: int|string}>
+     */
+    public static function zeroIdentityProvider(): array
+    {
+        return [
+            'int'    => [0],
+            'string' => ['0'],
+        ];
     }
 
     /**
@@ -151,6 +163,30 @@ final class CreateTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * An explicit identity value is kept as set on the model (same value and
+     * type) on MySQL and SQLite.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17689
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-22
+     */
+    #[Group('mysql')]
+    #[Group('sqlite')]
+    public function testMvcModelCreateWithExplicitIdMysqlSqlite(): void
+    {
+        $invoice                  = new Invoices();
+        $invoice->inv_id          = 77;
+        $invoice->inv_cst_id      = 2;
+        $invoice->inv_status_flag = 1;
+        $invoice->inv_title       = uniqid('inv-');
+        $invoice->inv_total       = 50.00;
+        $invoice->inv_created_at  = date('Y-m-d H:i:s');
+
+        $this->assertNotFalse($invoice->create());
+        $this->assertSame(77, $invoice->inv_id);
+    }
+
+    /**
      * Inserting with an explicit primary key on PostgreSQL must not throw a
      * "currval of sequence not yet defined in this session" error.
      *
@@ -174,5 +210,35 @@ final class CreateTest extends AbstractDatabaseTestCase
 
         $this->assertNotFalse($result);
         $this->assertSame(77, (int) $invoice->inv_id);
+    }
+
+    /**
+     * On MySQL, an identity left at 0 is replaced by a generated id; the
+     * model must read it back with lastInsertId() instead of keeping 0.
+     * Assumes the default sql_mode (no NO_AUTO_VALUE_ON_ZERO).
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17689
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-22
+     */
+    #[DataProvider('zeroIdentityProvider')]
+    #[Group('mysql')]
+    public function testMvcModelCreateWithZeroIdentityMysql(int | string $zero): void
+    {
+        $invoice                  = new Invoices();
+        $invoice->inv_id          = $zero;
+        $invoice->inv_cst_id      = 2;
+        $invoice->inv_status_flag = 1;
+        $invoice->inv_title       = uniqid('inv-');
+        $invoice->inv_total       = 50.00;
+        $invoice->inv_created_at  = date('Y-m-d H:i:s');
+
+        $this->assertNotFalse($invoice->create());
+
+        $stored = Invoices::findFirst();
+
+        $this->assertNotNull($stored);
+        $this->assertGreaterThan(0, (int) $stored->inv_id);
+        $this->assertEquals($stored->inv_id, $invoice->inv_id);
     }
 }
