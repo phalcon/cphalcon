@@ -223,7 +223,7 @@ final class CreateTest extends AbstractDatabaseTestCase
      */
     #[DataProvider('zeroIdentityProvider')]
     #[Group('mysql')]
-    public function testMvcModelCreateWithZeroIdentityMysql(int | string $zero): void
+    public function testMvcModelCreateWithZeroIdentityMysql(int|string $zero): void
     {
         $invoice                  = new Invoices();
         $invoice->inv_id          = $zero;
@@ -240,5 +240,35 @@ final class CreateTest extends AbstractDatabaseTestCase
         $this->assertNotNull($stored);
         $this->assertGreaterThan(0, (int) $stored->inv_id);
         $this->assertEquals($stored->inv_id, $invoice->inv_id);
+        $this->assertSame((int) $stored->inv_id, (int) $invoice->inv_id);
+    }
+
+    /**
+     * On SQLite, an identity of 0 is stored as given; the model reads it
+     * back with lastInsertId(), which returns it as a string.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17689
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-26
+     */
+    #[DataProvider('zeroIdentityProvider')]
+    #[Group('sqlite')]
+    public function testMvcModelCreateWithZeroIdentitySqlite(int|string $zero): void
+    {
+        $invoice                  = new Invoices();
+        $invoice->inv_id          = $zero;
+        $invoice->inv_cst_id      = 2;
+        $invoice->inv_status_flag = 1;
+        $invoice->inv_title       = uniqid('inv-');
+        $invoice->inv_total       = 50.00;
+        $invoice->inv_created_at  = date('Y-m-d H:i:s');
+
+        $this->assertNotFalse($invoice->create());
+
+        $stored = Invoices::findFirst();
+
+        $this->assertNotNull($stored);
+        $this->assertSame(0, (int) $stored->inv_id);
+        $this->assertSame('0', $invoice->inv_id);
     }
 }

@@ -4904,8 +4904,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
              * used, so calling lastInsertId() would fail on PostgreSQL because
              * currval() requires nextval() to have been called in the session.
              * Reuse the value already present on the model in that case.
-             * Without sequences, 0 is not an explicit value: MySQL replaces it
-             * with a generated id, which only lastInsertId() returns.
+             * Without sequences, lastInsertId() returns the stored id. MySQL
+             * can replace 0 with a generated id.
              */
             fetch value, this->{attributeField};
 
