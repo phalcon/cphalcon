@@ -4690,7 +4690,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             unsetDefaultValues = [],
             value              = null,
             values             = [];
-        bool useExplicitIdentity;
+        bool useExplicitIdentity, useSequences;
 
         let bindSkip            = Column::BIND_SKIP,
             manager             = <ManagerInterface> this->modelsManager,
@@ -4880,9 +4880,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             /**
              * We check if the model have sequences
              */
-            let sequenceName = null;
+            let sequenceName = null,
+                useSequences = (bool) connection->supportSequences();
 
-            if connection->supportSequences() {
+            if useSequences {
                 if method_exists(this, "getSequenceName") {
                     let sequenceName = this->{"getSequenceName"}();
                 } else {
@@ -4903,10 +4904,12 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
              * used, so calling lastInsertId() would fail on PostgreSQL because
              * currval() requires nextval() to have been called in the session.
              * Reuse the value already present on the model in that case.
+             * Without sequences, lastInsertId() returns the stored id. MySQL
+             * can replace 0 with a generated id.
              */
             fetch value, this->{attributeField};
 
-            if value !== null && value !== "" {
+            if value !== null && value !== "" && (useSequences || value != 0) {
                 let lastInsertedId = value;
             } else {
                 let lastInsertedId = connection->lastInsertId(sequenceName);
