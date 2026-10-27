@@ -86,23 +86,35 @@ docker exec cphalcon-bench-8.4 callgrind_annotate --auto=no --inclusive=yes /srv
 
 ## Micro subjects
 
-One subject for each component entry point that the reference apps run (selected with the coverage data).
+One subject for each component entry point that the reference apps run (selected with the coverage data), and
+subjects for components that no reference app uses (Acl, Cache, Config, Encryption, Flash, Forms, Logger,
+Session and Validation).
 
 | Class                      | Subjects                                                                       |
 |----------------------------|--------------------------------------------------------------------------------|
+| `Acl\AclBench`             | `benchBuild`, `benchIsAllowed`, `benchIsAllowedInherited`, `benchIsDenied`     |
+| `Cache\CacheBench`         | `benchCreate`, `benchGet`, `benchSet`                                          |
+| `Config\ConfigBench`       | `benchConstruct`, `benchPath`                                                  |
 | `Container\ContainerBench` | `benchGet`                                                                     |
 | `Db\PdoBench`              | `benchFetchAll`, `benchFetchOneBound`                                          |
 | `Di\DiBench`               | `benchFactoryDefault`, `benchGetNew`, `benchGetShared`, `benchGetSharedMethod` |
+| `Encryption\JwtBench`      | `benchBuild`, `benchParse`                                                     |
+| `Encryption\SecurityBench` | `benchCsrf`                                                                    |
 | `Events\ManagerBench`      | `benchFire`, `benchFireNoListener`                                             |
 | `Filter\FilterBench`       | `benchSanitize`                                                                |
+| `Filter\ValidationBench`   | `benchValidate`, `benchValidateFails`                                          |
+| `Flash\FlashBench`         | `benchMessages`                                                                |
+| `Forms\FormBench`          | `benchConstruct`, `benchIsValid`, `benchRender`                                |
 | `Html\EscaperBench`        | `benchHtml`                                                                    |
 | `Http\ResponseBench`       | `benchSend`, `benchSetJsonContent`                                             |
+| `Logger\LoggerBench`       | `benchDebugSkipped`, `benchInfo`                                               |
 | `Mvc\DispatcherBench`      | `benchDispatch`                                                                |
 | `Mvc\ModelBench`           | `benchFind`, `benchFindFirst`, `benchQueryJoin`, `benchSave`, `benchToArray`   |
 | `Mvc\QueryBench`           | `benchParseCold`, `benchParseWarm`                                             |
 | `Mvc\RouterBench`          | `benchDefineAndHandle`, `benchDefineAndHandleMethods`, `benchHandle`, `benchHandleWithEvents` |
 | `Mvc\ViewBench`            | `benchPartial`, `benchRender`                                                  |
 | `Mvc\VoltBench`            | `benchCompileString`                                                           |
+| `Session\SessionBench`     | `benchBagSet`, `benchGet`, `benchSet`                                          |
 | `Support\CollectionBench`  | `benchConstruct`, `benchFilter`, `benchGet`, `benchOffsetGet`, `benchRemove`, `benchSet`, `benchToJson` |
 | `Support\JsonBench`        | `benchEncode`                                                                  |
 
@@ -116,8 +128,12 @@ One subject for each component entry point that the reference apps run (selected
   call. `benchRemove` sets the key and then removes it, so each call does the same work.
 - `benchParseCold` uses a new PHQL string for each call, so both PHQL caches miss. The caches grow during
   the run.
-- For heavy subjects (Router, View, Model, Query, Db, `benchFactoryDefault`), use a smaller k (for example
-  200) with `bin/instr`.
+- The component subjects use no network: Session uses the `Noop` adapter, Cache the `memory` adapter, Logger the
+  bench adapter `LastLineAdapter`.
+- `Forms\FormBench` sets a default container with only `escaper`: `Select::render()` uses `Phalcon\Tag`, which
+  reads this service.
+- For heavy subjects (Router, View, Model, Query, Db, `benchFactoryDefault`, Forms, JWT, `Acl\AclBench::benchBuild`),
+  use a smaller k (for example 200) with `bin/instr`.
 
 ## Reference apps
 
@@ -253,6 +269,17 @@ subject into `.local/bench/results/<build>/<label>/metrics.tsv`. A full run take
 docker exec cphalcon-bench-8.4 tests/benchmarks/bin/run-all <build> <label>
 docker exec cphalcon-bench-8.4 tests/benchmarks/bin/run-all <build> <label> 'Benchmarks.Apps.'
 ```
+
+To keep each `docker exec` short, run all subjects in 8 batches, with these filters:
+
+1. `'Benchmarks.Apps.'`
+2. `'Benchmarks.Mvc.(Router|View|Volt|Dispatcher)'`
+3. `'Benchmarks.Mvc.(Model|Query)'`
+4. `'Benchmarks.(Db|Di|Container|Events).'`
+5. `'Benchmarks.(Filter.FilterBench|Html|Http|Support).'`
+6. `'Benchmarks.(Session|Cache|Config|Flash).'`
+7. `'Benchmarks.(Forms|Acl).'`
+8. `'Benchmarks.(Encryption.|Logger.|Filter.ValidationBench)'`
 
 `bin/run-time` runs PHPBench one time for all subjects and writes `time.tsv` into the same folder. Stop the
 other containers first, and pin to one CPU (here CPU 5): pinning halves the noise.
