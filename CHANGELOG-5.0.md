@@ -15,6 +15,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 ### Changed
 
 - Faster item storage, lookup, removal and JSON serialization in `Phalcon\Support\Collection`. [#17683](https://github.com/phalcon/cphalcon/issues/17683)
+- Faster route index build in `Phalcon\Mvc\Router` for routes with no host name. [#17693](https://github.com/phalcon/cphalcon/issues/17693)
 
 ### Added
 
