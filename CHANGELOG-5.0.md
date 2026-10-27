@@ -19,6 +19,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 ### Added
 
+- Benchmark subjects for Acl, Cache, Config, Flash, Forms, Jwt, Logger, Security, Session and Validation in `tests/benchmarks`. [#17695](https://github.com/phalcon/cphalcon/issues/17695)
 
 ### Fixed
 
