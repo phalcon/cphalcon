@@ -14,7 +14,6 @@ use Phalcon\Contracts\Filter\FilterTypes;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\Exceptions\FieldNotPrintable;
 use Phalcon\Messages\Message;
-use Phalcon\Support\Helper\Arr\Whitelist;
 
 /**
  * This is a base class for validators
@@ -60,10 +59,17 @@ abstract class AbstractValidator implements ValidatorInterface
      */
     public function __construct(array options = [])
     {
-        var template, whitelist;
+        var key, value,
+            template = false;
 
-        let whitelist = new Whitelist(),
-            template  = current(whitelist->__invoke(options, ["template", "message", 0]));
+        // Find the first "template", "message" or 0 key, in the order of the options
+        for key, value in options {
+            if key === "template" || key === "message" || key === 0 {
+                let template = options[key];
+
+                break;
+            }
+        }
 
         if typeof template == "array" {
             this->setTemplates(template);
