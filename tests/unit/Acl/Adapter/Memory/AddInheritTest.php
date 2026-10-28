@@ -185,6 +185,9 @@ final class AddInheritTest extends AbstractUnitTestCase
     public function testAclAdapterMemoryAddInheritUnknownRoleName(): void
     {
         $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            "Role 'unknown' does not exist in the role list"
+        );
 
         $acl = new Memory();
         $acl->addRole(new Role('administrator'));
