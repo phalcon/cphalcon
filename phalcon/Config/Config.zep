@@ -260,7 +260,10 @@ class Config extends Collection implements ConfigInterface
     {
         var key;
 
-        if typeof value !== "array" {
+        /**
+         * validateType() does nothing when there is no type.
+         */
+        if typeof value !== "array" && null !== this->type {
             this->validateType(value);
         }
 
