@@ -632,7 +632,7 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle)
 			object_init_ex(&_3$$4, phalcon_tag_exception_ce);
 			ZEPHIR_CALL_METHOD(&_4$$4, &ex, "getMessage", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 9, &_4$$4);
+			ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 7, &_4$$4);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_3$$4, "phalcon/Tag.zep", 327);
 			ZEPHIR_MM_RESTORE();
@@ -1552,7 +1552,7 @@ PHP_METHOD(Phalcon_Tag, linkTo)
 	zephir_check_call_status();
 	ZEPHIR_CALL_SELF(&_2, "toStringValue", &_3, 0, text);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_4, "htmlspecialchars", NULL, 199, &_2);
+	ZEPHIR_CALL_FUNCTION(&_4, "htmlspecialchars", NULL, 200, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_5);
 	ZEPHIR_CONCAT_SVS(&_5, ">", &_4, "</a>");
@@ -2052,7 +2052,7 @@ PHP_METHOD(Phalcon_Tag, renderAttributes)
 				zephir_gettype(&_19$$11, &value);
 				ZEPHIR_INIT_NVAR(&_20$$11);
 				ZEPHIR_CONCAT_SVSVS(&_20$$11, "Value at index: '", &key, "' type: '", &_19$$11, "' cannot be rendered");
-				ZEPHIR_CALL_METHOD(NULL, &_18$$11, "__construct", &_21, 9, &_20$$11);
+				ZEPHIR_CALL_METHOD(NULL, &_18$$11, "__construct", &_21, 7, &_20$$11);
 				zephir_check_call_status();
 				zephir_throw_exception_debug(&_18$$11, "phalcon/Tag.zep", 1006);
 				ZEPHIR_MM_RESTORE();
@@ -2068,7 +2068,7 @@ PHP_METHOD(Phalcon_Tag, renderAttributes)
 			ZVAL_STRING(&_23$$10, "~[\\s/=<>\"']~");
 			ZEPHIR_INIT_NVAR(&_24$$10);
 			ZVAL_STRING(&_24$$10, "");
-			ZEPHIR_CALL_FUNCTION(&_25$$10, "preg_replace", &_26, 6, &_23$$10, &_24$$10, &key);
+			ZEPHIR_CALL_FUNCTION(&_25$$10, "preg_replace", &_26, 4, &_23$$10, &_24$$10, &key);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&key, &_25$$10);
 			ZEPHIR_INIT_NVAR(&_27$$10);
@@ -2663,7 +2663,7 @@ PHP_METHOD(Phalcon_Tag, tagHtml)
 	ZVAL_STRING(&_0, "~[\\s/=<>\"']~");
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "");
-	ZEPHIR_CALL_FUNCTION(&_2, "preg_replace", NULL, 6, &_0, &_1, &tagName);
+	ZEPHIR_CALL_FUNCTION(&_2, "preg_replace", NULL, 4, &_0, &_1, &tagName);
 	zephir_check_call_status();
 	zephir_cast_to_string(&_3, &_2);
 	ZEPHIR_CPY_WRT(&tagName, &_3);
@@ -2736,7 +2736,7 @@ PHP_METHOD(Phalcon_Tag, tagHtmlClose)
 	ZVAL_STRING(&_0, "~[\\s/=<>\"']~");
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "");
-	ZEPHIR_CALL_FUNCTION(&_2, "preg_replace", NULL, 6, &_0, &_1, &tagName);
+	ZEPHIR_CALL_FUNCTION(&_2, "preg_replace", NULL, 4, &_0, &_1, &tagName);
 	zephir_check_call_status();
 	zephir_cast_to_string(&_3, &_2);
 	ZEPHIR_CPY_WRT(&tagName, &_3);
@@ -2862,7 +2862,7 @@ PHP_METHOD(Phalcon_Tag, textArea)
 	ZVAL_STRING(&_1, "<textarea");
 	ZEPHIR_CALL_SELF(&code, "renderAttributes", NULL, 0, &_1, &params);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_2, "htmlspecialchars", NULL, 199, &content);
+	ZEPHIR_CALL_FUNCTION(&_2, "htmlspecialchars", NULL, 200, &content);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_SVS(&_3, ">", &_2, "</textarea>");

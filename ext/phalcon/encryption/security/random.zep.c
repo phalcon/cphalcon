@@ -309,13 +309,13 @@ PHP_METHOD(Phalcon_Encryption_Security_Random, base64Safe)
 	ZVAL_STRING(&_3, "+/");
 	ZEPHIR_INIT_VAR(&_4);
 	ZVAL_STRING(&_4, "-_");
-	ZEPHIR_CALL_FUNCTION(&s, "strtr", NULL, 4, &_0, &_3, &_4);
+	ZEPHIR_CALL_FUNCTION(&s, "strtr", NULL, 2, &_0, &_3, &_4);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "#[^a-z0-9_=-]+#i");
 	ZEPHIR_INIT_NVAR(&_4);
 	ZVAL_STRING(&_4, "");
-	ZEPHIR_CALL_FUNCTION(&_5, "preg_replace", NULL, 6, &_3, &_4, &s);
+	ZEPHIR_CALL_FUNCTION(&_5, "preg_replace", NULL, 4, &_3, &_4, &s);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&s, &_5);
 	if (!(padding)) {
@@ -368,7 +368,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Random, bytes)
 		len = 16;
 	}
 	ZVAL_LONG(&_0, len);
-	ZEPHIR_RETURN_CALL_FUNCTION("random_bytes", NULL, 223, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("random_bytes", NULL, 224, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -676,7 +676,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Random, doDecodeUrl)
 		zephir_sub_function(&_2$$3, &_1$$3, &remainder);
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZVAL_STRING(&_3$$3, "=");
-		ZEPHIR_CALL_FUNCTION(&_4$$3, "str_repeat", NULL, 7, &_3$$3, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&_4$$3, "str_repeat", NULL, 5, &_3$$3, &_2$$3);
 		zephir_check_call_status();
 		zephir_concat_self(&input, &_4$$3);
 	}
@@ -684,7 +684,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Random, doDecodeUrl)
 	ZVAL_STRING(&_5, "-_");
 	ZEPHIR_INIT_VAR(&_6);
 	ZVAL_STRING(&_6, "+/");
-	ZEPHIR_CALL_FUNCTION(&_0, "strtr", NULL, 4, &input, &_5, &_6);
+	ZEPHIR_CALL_FUNCTION(&_0, "strtr", NULL, 2, &input, &_5, &_6);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&data, "base64_decode", NULL, 0, &_0);
 	zephir_check_call_status();
@@ -728,7 +728,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Random, doEncodeUrl)
 	ZVAL_STRING(&_1, "+/");
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "-_");
-	ZEPHIR_CALL_FUNCTION(&_3, "strtr", NULL, 4, &_0, &_1, &_2);
+	ZEPHIR_CALL_FUNCTION(&_3, "strtr", NULL, 2, &_0, &_1, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "=");

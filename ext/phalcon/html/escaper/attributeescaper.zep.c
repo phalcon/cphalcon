@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Html_Escaper_AttributeEscaper, escape)
 			ZVAL_STRING(&_7$$5, "~[\\s/=]~");
 			ZEPHIR_INIT_NVAR(&_8$$5);
 			ZVAL_STRING(&_8$$5, "");
-			ZEPHIR_CALL_FUNCTION(&_9$$5, "preg_replace", &_10, 6, &_7$$5, &_8$$5, &key);
+			ZEPHIR_CALL_FUNCTION(&_9$$5, "preg_replace", &_10, 4, &_7$$5, &_8$$5, &key);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&key, &_9$$5);
 			if (Z_TYPE_P(&value) == IS_ARRAY) {
@@ -226,7 +226,7 @@ PHP_METHOD(Phalcon_Html_Escaper_AttributeEscaper, escape)
 				ZVAL_STRING(&_19$$9, "~[\\s/=]~");
 				ZEPHIR_INIT_NVAR(&_20$$9);
 				ZVAL_STRING(&_20$$9, "");
-				ZEPHIR_CALL_FUNCTION(&_21$$9, "preg_replace", &_10, 6, &_19$$9, &_20$$9, &key);
+				ZEPHIR_CALL_FUNCTION(&_21$$9, "preg_replace", &_10, 4, &_19$$9, &_20$$9, &key);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(&key, &_21$$9);
 				if (Z_TYPE_P(&value) == IS_ARRAY) {
@@ -290,10 +290,10 @@ PHP_METHOD(Phalcon_Html_Escaper_AttributeEscaper, escapeValue)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 827, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 828, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 829, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("htmlspecialchars", NULL, 199, &input_zv, &_0, &_1, &_2);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 828, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 829, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 830, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_RETURN_CALL_FUNCTION("htmlspecialchars", NULL, 200, &input_zv, &_0, &_1, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }

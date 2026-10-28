@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Traits_Php_Base64Trait, doDecodeUrl)
 		zephir_sub_function(&_2$$3, &_1$$3, &remainder);
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZVAL_STRING(&_3$$3, "=");
-		ZEPHIR_CALL_FUNCTION(&_4$$3, "str_repeat", NULL, 7, &_3$$3, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&_4$$3, "str_repeat", NULL, 5, &_3$$3, &_2$$3);
 		zephir_check_call_status();
 		zephir_concat_self(&input, &_4$$3);
 	}
@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Traits_Php_Base64Trait, doDecodeUrl)
 	ZVAL_STRING(&_5, "-_");
 	ZEPHIR_INIT_VAR(&_6);
 	ZVAL_STRING(&_6, "+/");
-	ZEPHIR_CALL_FUNCTION(&_0, "strtr", NULL, 4, &input, &_5, &_6);
+	ZEPHIR_CALL_FUNCTION(&_0, "strtr", NULL, 2, &input, &_5, &_6);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&data, "base64_decode", NULL, 0, &_0);
 	zephir_check_call_status();
@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Traits_Php_Base64Trait, doEncodeUrl)
 	ZVAL_STRING(&_1, "+/");
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "-_");
-	ZEPHIR_CALL_FUNCTION(&_3, "strtr", NULL, 4, &_0, &_1, &_2);
+	ZEPHIR_CALL_FUNCTION(&_3, "strtr", NULL, 2, &_0, &_1, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "=");

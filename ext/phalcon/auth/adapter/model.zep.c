@@ -112,9 +112,9 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, fromOptions)
 		ZEPHIR_INIT_NVAR(&_4);
 		ZVAL_STRING(&_4, "id");
 	}
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 404, &_1, &_4);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 403, &_1, &_4);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 405, hasher, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 404, hasher, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -152,9 +152,9 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, createRememberToken)
 	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_auth_exceptions_doesnotimplement_ce, "assert", NULL, 0, user, &_0, &_1, &_2);
 	zephir_check_call_status();
 	ZVAL_LONG(&_3, 30);
-	ZEPHIR_CALL_FUNCTION(&_4, "random_bytes", NULL, 223, &_3);
+	ZEPHIR_CALL_FUNCTION(&_4, "random_bytes", NULL, 224, &_3);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_5, "bin2hex", NULL, 224, &_4);
+	ZEPHIR_CALL_FUNCTION(&_5, "bin2hex", NULL, 225, &_4);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(user, "createRememberToken", NULL, 0, &_5);
 	zephir_check_call_status();
@@ -235,7 +235,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveByCredentials)
 			if (UNEXPECTED(!zephir_is_true(&_5$$3))) {
 				ZEPHIR_INIT_NVAR(&_7$$5);
 				object_init_ex(&_7$$5, phalcon_auth_exceptions_invalidcredentialkey_ce);
-				ZEPHIR_CALL_METHOD(NULL, &_7$$5, "__construct", &_8, 406, &key);
+				ZEPHIR_CALL_METHOD(NULL, &_7$$5, "__construct", &_8, 405, &key);
 				zephir_check_call_status();
 				zephir_throw_exception_debug(&_7$$5, "phalcon/Auth/Adapter/Model.zep", 99);
 				ZEPHIR_MM_RESTORE();
@@ -279,7 +279,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveByCredentials)
 				if (UNEXPECTED(!zephir_is_true(&_14$$6))) {
 					ZEPHIR_INIT_NVAR(&_16$$8);
 					object_init_ex(&_16$$8, phalcon_auth_exceptions_invalidcredentialkey_ce);
-					ZEPHIR_CALL_METHOD(NULL, &_16$$8, "__construct", &_8, 406, &key);
+					ZEPHIR_CALL_METHOD(NULL, &_16$$8, "__construct", &_8, 405, &key);
 					zephir_check_call_status();
 					zephir_throw_exception_debug(&_16$$8, "phalcon/Auth/Adapter/Model.zep", 99);
 					ZEPHIR_MM_RESTORE();
@@ -302,7 +302,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveByCredentials)
 	zephir_fast_join_str(&_19, SL(" AND "), &conditions);
 	zephir_array_update_string(&_18, SL("conditions"), &_19, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_18, SL("bind"), &bind, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(&found, this_ptr, "findFirstAsAuthUser", NULL, 407, &_18);
+	ZEPHIR_CALL_METHOD(&found, this_ptr, "findFirstAsAuthUser", NULL, 406, &_18);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&found) == IS_NULL) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "burnHash", NULL, 0);
@@ -341,7 +341,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveById)
 	zephir_fetch_params(1, 1, 0, &id);
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 2, 0);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 453, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 454, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_2, &_1, "getIdColumn", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_3);
@@ -351,7 +351,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveById)
 	zephir_create_array(&_4, 1, 0);
 	zephir_array_update_string(&_4, SL("id"), id, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("bind"), &_4, PH_COPY | PH_SEPARATE);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "findFirstAsAuthUser", NULL, 407, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "findFirstAsAuthUser", NULL, 406, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -457,7 +457,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, findFirstAsAuthUser)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &parameters_param);
 	zephir_get_arrval(&parameters, parameters_param);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 453, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 454, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&modelClass, &_0, "getModel", NULL, 0);
 	zephir_check_call_status();
 	_1 = zephir_fetch_class(&modelClass);

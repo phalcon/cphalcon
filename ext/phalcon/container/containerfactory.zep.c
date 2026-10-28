@@ -108,9 +108,9 @@ PHP_METHOD(Phalcon_Container_ContainerFactory, newContainer)
 
 	ZEPHIR_INIT_VAR(&container);
 	object_init_ex(&container, phalcon_container_container_ce);
-	ZEPHIR_CALL_METHOD(NULL, &container, "__construct", NULL, 226);
+	ZEPHIR_CALL_METHOD(NULL, &container, "__construct", NULL, 227);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 547, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 548, PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_2);
 		zephir_string_to_char_array(&_2, &_0);

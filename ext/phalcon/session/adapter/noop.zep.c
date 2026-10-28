@@ -77,9 +77,9 @@ PHP_METHOD(Phalcon_Session_Adapter_Noop, create_sid)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZVAL_LONG(&_0, 16);
-	ZEPHIR_CALL_FUNCTION(&_1, "random_bytes", NULL, 223, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "random_bytes", NULL, 224, &_0);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("bin2hex", NULL, 224, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("bin2hex", NULL, 225, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }

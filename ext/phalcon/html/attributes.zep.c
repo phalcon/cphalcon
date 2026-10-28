@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Html_Attributes, renderAttributes)
 	zephir_array_update_string(&order, SL("name"), &__$null, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&order, SL("value"), &__$null, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&order, SL("class"), &__$null, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_FUNCTION(&intersect, "array_intersect_key", NULL, 8, &order, &attributes);
+	ZEPHIR_CALL_FUNCTION(&intersect, "array_intersect_key", NULL, 6, &order, &attributes);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&results);
 	zephir_fast_array_merge(&results, &intersect, &attributes);
@@ -198,7 +198,7 @@ PHP_METHOD(Phalcon_Html_Attributes, renderAttributes)
 			ZVAL_STRING(&_11$$4, "~[\\s/=]~");
 			ZEPHIR_INIT_NVAR(&_12$$4);
 			ZVAL_STRING(&_12$$4, "");
-			ZEPHIR_CALL_FUNCTION(&_13$$4, "preg_replace", &_14, 6, &_11$$4, &_12$$4, &key);
+			ZEPHIR_CALL_FUNCTION(&_13$$4, "preg_replace", &_14, 4, &_11$$4, &_12$$4, &key);
 			zephir_check_call_status();
 			zephir_cast_to_string(&_15$$4, &_13$$4);
 			ZEPHIR_CALL_METHOD(&key, &escaper, "escape", &_16, 0, &_15$$4);

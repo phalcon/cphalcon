@@ -60,6 +60,6 @@ PHP_METHOD(Phalcon_Annotations_Models_MetaData_Source, __construct)
 		Z_PARAM_STR(table)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&table_zv, table);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 416, &table_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 417, &table_zv);
 }
 

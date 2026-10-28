@@ -181,12 +181,12 @@ PHP_METHOD(Phalcon_Annotations_Router_Route, __construct)
 		beforeMatch = &beforeMatch_sub;
 		beforeMatch = &__$null;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 39, &route_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 40, methods);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 41, &name_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 42, &paths);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 43, &converters);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 44, beforeMatch);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 40, &route_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 41, methods);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 42, &name_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 43, &paths);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 44, &converters);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 45, beforeMatch);
 	ZEPHIR_MM_RESTORE();
 }
 

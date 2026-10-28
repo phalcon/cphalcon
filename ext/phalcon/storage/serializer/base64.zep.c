@@ -56,7 +56,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Base64, serialize)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_memory_observe(&_0);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1353, PH_NOISY_CC);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1354, PH_NOISY_CC);
 	if (Z_TYPE_P(&_0) != IS_STRING) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_storage_serializer_exceptions_invalidserializationinput_ce);
@@ -66,7 +66,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Base64, serialize)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 1353, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 1354, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "phpBase64Encode", NULL, 0, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -121,20 +121,20 @@ PHP_METHOD(Phalcon_Storage_Serializer_Base64, unserialize)
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&result))) {
 		if (0) {
-			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1354, &__$true);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1355, &__$true);
 		} else {
-			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1354, &__$false);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1355, &__$false);
 		}
 		ZEPHIR_INIT_NVAR(&result);
 		ZVAL_STRING(&result, "");
 	} else {
 		if (1) {
-			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1354, &__$true);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1355, &__$true);
 		} else {
-			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1354, &__$false);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1355, &__$false);
 		}
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1353, &result);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1354, &result);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -180,7 +180,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Base64, doDecodeUrl)
 		zephir_sub_function(&_2$$3, &_1$$3, &remainder);
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZVAL_STRING(&_3$$3, "=");
-		ZEPHIR_CALL_FUNCTION(&_4$$3, "str_repeat", NULL, 7, &_3$$3, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&_4$$3, "str_repeat", NULL, 5, &_3$$3, &_2$$3);
 		zephir_check_call_status();
 		zephir_concat_self(&input, &_4$$3);
 	}
@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Base64, doDecodeUrl)
 	ZVAL_STRING(&_5, "-_");
 	ZEPHIR_INIT_VAR(&_6);
 	ZVAL_STRING(&_6, "+/");
-	ZEPHIR_CALL_FUNCTION(&_0, "strtr", NULL, 4, &input, &_5, &_6);
+	ZEPHIR_CALL_FUNCTION(&_0, "strtr", NULL, 2, &input, &_5, &_6);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&data, "base64_decode", NULL, 0, &_0);
 	zephir_check_call_status();
@@ -232,7 +232,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Base64, doEncodeUrl)
 	ZVAL_STRING(&_1, "+/");
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "-_");
-	ZEPHIR_CALL_FUNCTION(&_3, "strtr", NULL, 4, &_0, &_1, &_2);
+	ZEPHIR_CALL_FUNCTION(&_3, "strtr", NULL, 2, &_0, &_1, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "=");

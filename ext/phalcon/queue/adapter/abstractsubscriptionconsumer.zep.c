@@ -117,11 +117,11 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractSubscriptionConsumer, consume)
 		timeout = 0;
 	} else {
 		}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 95, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 96, PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_IS_EMPTY(&_0)) {
 		RETURN_MM_NULL();
 	}
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 96, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 97, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_LONG(&_2, 1000);
 	ZEPHIR_INIT_VAR(&_3);
@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractSubscriptionConsumer, consume)
 	startTime = zephir_get_intval(&_5);
 	while (1) {
 		ZEPHIR_OBS_NVAR(&_6$$4);
-		zephir_read_property_cached(&_6$$4, this_ptr, _zephir_prop_0, 95, PH_NOISY_CC);
+		zephir_read_property_cached(&_6$$4, this_ptr, _zephir_prop_0, 96, PH_NOISY_CC);
 		zephir_get_arrval(&_7$$4, &_6$$4);
 		zephir_is_iterable(&_7$$4, 0, "phalcon/Queue/Adapter/Traits/SubscriptionConsumerTrait.zep", 78);
 		if (Z_TYPE_P(&_7$$4) == IS_ARRAY) {
@@ -286,7 +286,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractSubscriptionConsumer, unsubscribeAll)
 
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 95, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 96, &_0);
 	ZEPHIR_MM_RESTORE();
 }
 
