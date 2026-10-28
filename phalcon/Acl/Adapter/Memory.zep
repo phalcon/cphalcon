@@ -242,7 +242,9 @@ class Memory extends AbstractAdapter
         var accessKey, accessName;
         bool exists;
 
-        this->checkExists(this->componentsNames, componentName, "Component");
+        if unlikely !isset this->componentsNames[componentName] {
+            this->checkExists(this->componentsNames, componentName, "Component");
+        }
 
         if unlikely (typeof accessList !== "array" && typeof accessList !== "string") {
             throw new InvalidAccessList();
@@ -295,7 +297,9 @@ class Memory extends AbstractAdapter
         array checkRoleToInherits, usedRoleToInherits;
         int pendingIndex;
 
-        this->checkExists(this->roles, roleName, "Role", "role list");
+        if unlikely !isset this->roles[roleName] {
+            this->checkExists(this->roles, roleName, "Role", "role list");
+        }
 
         if !isset this->roleInherits[roleName] {
             let this->roleInherits[roleName] = [];
@@ -807,8 +811,13 @@ class Memory extends AbstractAdapter
     ) -> void {
         var accessList, accessName, accessKey;
 
-        this->checkExists(this->roles, roleName, "Role");
-        this->checkExists(this->componentsNames, componentName, "Component");
+        if unlikely !isset this->roles[roleName] {
+            this->checkExists(this->roles, roleName, "Role");
+        }
+
+        if unlikely !isset this->componentsNames[componentName] {
+            this->checkExists(this->componentsNames, componentName, "Component");
+        }
 
         let accessList = this->accessList;
 
