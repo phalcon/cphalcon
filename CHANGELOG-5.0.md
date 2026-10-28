@@ -17,6 +17,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - Faster item storage, lookup, removal and JSON serialization in `Phalcon\Support\Collection`. [#17683](https://github.com/phalcon/cphalcon/issues/17683)
 - Faster route index build in `Phalcon\Mvc\Router` for routes with no host name. [#17693](https://github.com/phalcon/cphalcon/issues/17693)
 - Faster service registration in `Phalcon\Factory\AbstractFactory` and the factories that extend it. [#17696](https://github.com/phalcon/cphalcon/issues/17696)
+- Faster construction of the validators in `Phalcon\Filter\Validation`. [#17697](https://github.com/phalcon/cphalcon/issues/17697)
 
 ### Added
 

@@ -74,6 +74,55 @@ final class ConstructTest extends AbstractUnitTestCase
         ];
     }
 
+    public static function getTemplateCases(): array
+    {
+        $default = 'Field :field is required';
+
+        // options, expected options, expected template, template changed, expected templates
+        return [
+            'no options'         => [[], [], $default, false, []],
+            'other option'       => [['allowEmpty' => true], ['allowEmpty' => true], $default, false, []],
+            'template'           => [
+                ['template' => 'Tpl', 'allowEmpty' => true],
+                ['allowEmpty' => true, 'message' => 'Tpl'],
+                'Tpl',
+                true,
+                [],
+            ],
+            'integer key'        => [
+                ['Msg0', 'allowEmpty' => true],
+                ['allowEmpty' => true, 'message' => 'Msg0'],
+                'Msg0',
+                true,
+                [],
+            ],
+            'message first'      => [['message' => 'Msg', 'template' => 'Tpl'], ['message' => 'Msg'], 'Msg', true, []],
+            'template first'     => [['template' => 'Tpl', 'message' => 'Msg'], ['message' => 'Tpl'], 'Tpl', true, []],
+            'empty string first' => [
+                ['template' => '', 'message' => 'Msg'],
+                ['template' => '', 'message' => 'Msg'],
+                '',
+                true,
+                [],
+            ],
+            'null first'         => [
+                ['message' => null, 'template' => 'Tpl'],
+                ['message' => null, 'template' => 'Tpl'],
+                $default,
+                false,
+                [],
+            ],
+            'array templates'    => [
+                ['message' => ['name' => 'Name msg']],
+                ['message' => ['name' => 'Name msg']],
+                $default,
+                false,
+                ['name' => 'Name msg'],
+            ],
+            'other integer key'  => [[1 => 'One'], [1 => 'One'], $default, false, []],
+        ];
+    }
+
     /**
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13
@@ -117,6 +166,56 @@ final class ConstructTest extends AbstractUnitTestCase
         $custom   = new PresenceOf([$message]); // custom message
         $expected = $message;
         $actual   = $custom->getOption('message');
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-27
+     */
+    #[DataProvider('getTemplateCases')]
+    public function testFilterValidationValidatorConstructTemplate(
+        array $options,
+        array $expectedOptions,
+        string $expectedTemplate,
+        bool $expectedChanged,
+        array $expectedTemplates
+    ): void {
+        $validator = new PresenceOf($options);
+
+        $actual = $this->getProtectedProperty($validator, 'options');
+        $this->assertSame($expectedOptions, $actual);
+
+        $actual = $this->getProtectedProperty($validator, 'template');
+        $this->assertSame($expectedTemplate, $actual);
+
+        $actual = $this->getProtectedProperty($validator, 'templateChanged');
+        $this->assertSame($expectedChanged, $actual);
+
+        $actual = $validator->getTemplates();
+        $this->assertSame($expectedTemplates, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-27
+     */
+    public function testFilterValidationValidatorConstructTemplateReference(): void
+    {
+        $message   = 'Msg';
+        $validator = new PresenceOf(['message' => &$message]);
+
+        $actual = $this->getProtectedProperty($validator, 'template');
+        $this->assertSame('Msg', $actual);
+
+        $actual = $this->getProtectedProperty($validator, 'templateChanged');
+        $this->assertTrue($actual);
+
+        $templates = ['name' => 'Name msg'];
+        $validator = new PresenceOf(['message' => &$templates]);
+
+        $expected = ['name' => 'Name msg'];
+        $actual   = $validator->getTemplates();
         $this->assertSame($expected, $actual);
     }
 
