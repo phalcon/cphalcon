@@ -19,6 +19,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - Faster service registration in `Phalcon\Factory\AbstractFactory` and the factories that extend it. [#17696](https://github.com/phalcon/cphalcon/issues/17696)
 - Faster construction of the validators in `Phalcon\Filter\Validation`. [#17697](https://github.com/phalcon/cphalcon/issues/17697)
 - Faster ACL build in `Phalcon\Acl\Adapter\Memory`. [#17701](https://github.com/phalcon/cphalcon/issues/17701)
+- Faster construction of `Phalcon\Config\Config` and its adapters when the config has no type. [#17702](https://github.com/phalcon/cphalcon/issues/17702)
 
 ### Added
 
