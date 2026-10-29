@@ -63,7 +63,7 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, __construct)
 		Z_PARAM_OBJECT_OF_CLASS(factory, phalcon_cache_adapterfactory_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &factory);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 504, factory);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 505, factory);
 }
 
 /**
@@ -204,7 +204,7 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, newInstance)
 	} else {
 		zephir_get_arrval(&options, options_param);
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 504, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 505, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&adapter, &_0, "newInstance", NULL, 0, &name_zv, &options);
 	zephir_check_call_status();
 	object_init_ex(return_value, phalcon_cache_cache_ce);
