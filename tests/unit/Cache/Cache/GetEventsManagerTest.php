@@ -90,6 +90,96 @@ final class GetEventsManagerTest extends AbstractUnitTestCase
     }
 
     /**
+     * With an events manager, each operation calls fireManagerEvent().
+     *
+     * @issue https://github.com/phalcon/cphalcon/issues/17703
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-28
+     */
+    public function testCacheCacheFireManagerEventWithEventsManager(): void
+    {
+        $serializer = new SerializerFactory();
+        $factory    = new AdapterFactory($serializer);
+        $instance   = $factory->newInstance('memory');
+
+        $cache = new class ($instance) extends Cache {
+            public int $fireCalls = 0;
+
+            protected function fireManagerEvent(
+                string $eventName,
+                mixed $data = null,
+                bool $cancellable = true,
+                bool $stopOnFalse = false
+            ): mixed {
+                $this->fireCalls++;
+
+                return parent::fireManagerEvent(
+                    $eventName,
+                    $data,
+                    $cancellable,
+                    $stopOnFalse
+                );
+            }
+        };
+
+        $cache->setEventsManager(new Manager());
+
+        $cache->set('a', 1);
+        $cache->get('a');
+        $cache->has('a');
+        $cache->delete('a');
+        $cache->setMultiple(['b' => 2]);
+        $cache->getMultiple(['b']);
+        $cache->deleteMultiple(['b']);
+
+        $this->assertSame(18, $cache->fireCalls);
+    }
+
+    /**
+     * With no events manager, the operations do not call fireManagerEvent().
+     *
+     * @issue https://github.com/phalcon/cphalcon/issues/17703
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-28
+     */
+    public function testCacheCacheFireManagerEventWithoutEventsManager(): void
+    {
+        $serializer = new SerializerFactory();
+        $factory    = new AdapterFactory($serializer);
+        $instance   = $factory->newInstance('memory');
+
+        $cache = new class ($instance) extends Cache {
+            public int $fireCalls = 0;
+
+            protected function fireManagerEvent(
+                string $eventName,
+                mixed $data = null,
+                bool $cancellable = true,
+                bool $stopOnFalse = false
+            ): mixed {
+                $this->fireCalls++;
+
+                return parent::fireManagerEvent(
+                    $eventName,
+                    $data,
+                    $cancellable,
+                    $stopOnFalse
+                );
+            }
+        };
+
+        $cache->set('a', 1);
+        $cache->get('a');
+        $cache->has('a');
+        $cache->delete('a');
+        $cache->setMultiple(['b' => 2]);
+        $cache->getMultiple(['b']);
+        $cache->deleteMultiple(['b']);
+
+        $this->assertSame(0, $cache->fireCalls);
+    }
+
+    /**
      * @author n[oO]ne <lominum@protonmail.com>
      * @since  2024-06-07
      */
