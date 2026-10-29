@@ -684,4 +684,86 @@ final class EventsTest extends AbstractUnitTestCase
         $expected = 2;
         $this->assertEquals($expected, $counter);
     }
+
+    /**
+     * With an events manager, each operation calls fireManagerEvent().
+     *
+     * @issue https://github.com/phalcon/cphalcon/issues/17703
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-28
+     */
+    public function testStorageAdapterEventsFireManagerEventWithEventsManager(): void
+    {
+        $adapter = new class (new SerializerFactory()) extends Memory {
+            public int $fireCalls = 0;
+
+            protected function fireManagerEvent(
+                string $eventName,
+                mixed $data = null,
+                bool $cancellable = true,
+                bool $stopOnFalse = false
+            ): mixed {
+                $this->fireCalls++;
+
+                return parent::fireManagerEvent(
+                    $eventName,
+                    $data,
+                    $cancellable,
+                    $stopOnFalse
+                );
+            }
+        };
+
+        $adapter->setEventsManager(new Manager());
+
+        $adapter->set('a', 1);
+        $adapter->get('a');
+        $adapter->has('a');
+        $adapter->increment('a');
+        $adapter->decrement('a');
+        $adapter->delete('a');
+        $adapter->deleteMultiple(['a']);
+
+        $this->assertSame(14, $adapter->fireCalls);
+    }
+
+    /**
+     * With no events manager, the operations do not call fireManagerEvent().
+     *
+     * @issue https://github.com/phalcon/cphalcon/issues/17703
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-28
+     */
+    public function testStorageAdapterEventsFireManagerEventWithoutEventsManager(): void
+    {
+        $adapter = new class (new SerializerFactory()) extends Memory {
+            public int $fireCalls = 0;
+
+            protected function fireManagerEvent(
+                string $eventName,
+                mixed $data = null,
+                bool $cancellable = true,
+                bool $stopOnFalse = false
+            ): mixed {
+                $this->fireCalls++;
+
+                return parent::fireManagerEvent(
+                    $eventName,
+                    $data,
+                    $cancellable,
+                    $stopOnFalse
+                );
+            }
+        };
+
+        $adapter->set('a', 1);
+        $adapter->get('a');
+        $adapter->has('a');
+        $adapter->increment('a');
+        $adapter->decrement('a');
+        $adapter->delete('a');
+        $adapter->deleteMultiple(['a']);
+
+        $this->assertSame(0, $adapter->fireCalls);
+    }
 }

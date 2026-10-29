@@ -245,22 +245,22 @@ PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, __construct)
 		fragment = &fragment_sub;
 		fragment = &__$null;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1377, &functionName_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1378, &type_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1379, &className_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 1380, &classLink_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 1381, &functionLink_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1378, &functionName_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1379, &type_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1380, &className_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 1381, &classLink_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 1382, &functionLink_zv);
 	if (hasArgs) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 1382, &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 1383, &__$true);
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 1382, &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 1383, &__$false);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_6, 1383, &args);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_7, 1384, &file_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_6, 1384, &args);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_7, 1385, &file_zv);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, line);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_8, 1385, &_0);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_9, 1386, fragment);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_8, 1386, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_9, 1387, fragment);
 	ZEPHIR_MM_RESTORE();
 }
 

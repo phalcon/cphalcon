@@ -301,6 +301,86 @@ final class IsAllowedTest extends AbstractUnitTestCase
     }
 
     /**
+     * With an events manager, isAllowed() fires the two events in order.
+     *
+     * @issue https://github.com/phalcon/cphalcon/issues/17703
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-29
+     */
+    public function testAclAdapterMemoryIsAllowedFireManagerEventWithEventsManager(): void
+    {
+        $acl = new class () extends Memory {
+            public array $fired = [];
+
+            protected function fireManagerEvent(
+                string $eventName,
+                mixed $data = null,
+                bool $cancellable = true,
+                bool $stopOnFalse = false
+            ): mixed {
+                $this->fired[] = $eventName;
+
+                return parent::fireManagerEvent(
+                    $eventName,
+                    $data,
+                    $cancellable,
+                    $stopOnFalse
+                );
+            }
+        };
+
+        $acl->setEventsManager(new EventsManager());
+        $acl->addRole('Member');
+        $acl->addComponent('Post', ['update']);
+        $acl->allow('Member', 'Post', 'update');
+
+        $this->assertTrue($acl->isAllowed('Member', 'Post', 'update'));
+
+        $expected = ['acl:beforeCheckAccess', 'acl:afterCheckAccess'];
+        $this->assertSame($expected, $acl->fired);
+    }
+
+    /**
+     * With no events manager, isAllowed() fires only the beforeCheckAccess
+     * event, because an override of fireManagerEvent() can deny access there.
+     *
+     * @issue https://github.com/phalcon/cphalcon/issues/17703
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-29
+     */
+    public function testAclAdapterMemoryIsAllowedFireManagerEventWithoutEventsManager(): void
+    {
+        $acl = new class () extends Memory {
+            public array $fired = [];
+
+            protected function fireManagerEvent(
+                string $eventName,
+                mixed $data = null,
+                bool $cancellable = true,
+                bool $stopOnFalse = false
+            ): mixed {
+                $this->fired[] = $eventName;
+
+                return parent::fireManagerEvent(
+                    $eventName,
+                    $data,
+                    $cancellable,
+                    $stopOnFalse
+                );
+            }
+        };
+
+        $acl->addRole('Member');
+        $acl->addComponent('Post', ['update']);
+        $acl->allow('Member', 'Post', 'update');
+
+        $this->assertTrue($acl->isAllowed('Member', 'Post', 'update'));
+
+        $expected = ['acl:beforeCheckAccess'];
+        $this->assertSame($expected, $acl->fired);
+    }
+
+    /**
      * Every callable form is accepted as a rule: array callables, static
      * method strings and closures.
      *

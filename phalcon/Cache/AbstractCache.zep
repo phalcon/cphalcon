@@ -120,11 +120,19 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
 
         this->checkKey(key);
 
-        this->fireManagerEvent("cache:beforeDelete", key);
+        /**
+         * Fire the events only when an events manager is set. With no events
+         * manager, fireManagerEvent() does nothing.
+         */
+        if null !== this->eventsManager {
+            this->fireManagerEvent("cache:beforeDelete", key);
+        }
 
         let result = this->adapter->delete(key);
 
-        this->fireManagerEvent("cache:afterDelete", key);
+        if null !== this->eventsManager {
+            this->fireManagerEvent("cache:afterDelete", key);
+        }
 
         return result;
     }
@@ -140,7 +148,9 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
 
         this->checkKeys(keys);
 
-        this->fireManagerEvent("cache:beforeDeleteMultiple", keys);
+        if null !== this->eventsManager {
+            this->fireManagerEvent("cache:beforeDeleteMultiple", keys);
+        }
 
         let keysArray = [];
         for key in keys {
@@ -150,7 +160,9 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
 
         let result = this->adapter->deleteMultiple(keysArray);
 
-        this->fireManagerEvent("cache:afterDeleteMultiple", keys);
+        if null !== this->eventsManager {
+            this->fireManagerEvent("cache:afterDeleteMultiple", keys);
+        }
 
         return result;
     }
@@ -164,11 +176,15 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
 
         this->checkKey(key);
 
-        this->fireManagerEvent("cache:beforeGet", key);
+        if null !== this->eventsManager {
+            this->fireManagerEvent("cache:beforeGet", key);
+        }
 
         let result = this->adapter->get(key, defaultValue);
 
-        this->fireManagerEvent("cache:afterGet", key);
+        if null !== this->eventsManager {
+            this->fireManagerEvent("cache:afterGet", key);
+        }
 
         return result;
     }
@@ -186,7 +202,9 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
 
         this->checkKeys(keys);
 
-        this->fireManagerEvent("cache:beforeGetMultiple", keys);
+        if null !== this->eventsManager {
+            this->fireManagerEvent("cache:beforeGetMultiple", keys);
+        }
 
         let results = [];
         let adapterClass = this->adapter;
@@ -246,7 +264,9 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
             }
         }
 
-        this->fireManagerEvent("cache:afterGetMultiple", keys);
+        if null !== this->eventsManager {
+            this->fireManagerEvent("cache:afterGetMultiple", keys);
+        }
 
         return results;
     }
@@ -260,11 +280,15 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
 
         this->checkKey(key);
 
-        this->fireManagerEvent("cache:beforeHas", key);
+        if null !== this->eventsManager {
+            this->fireManagerEvent("cache:beforeHas", key);
+        }
 
         let result = this->adapter->has(key);
 
-        this->fireManagerEvent("cache:afterHas", key);
+        if null !== this->eventsManager {
+            this->fireManagerEvent("cache:afterHas", key);
+        }
 
         return result;
     }
@@ -281,11 +305,15 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
 
         this->checkKey(key);
 
-        this->fireManagerEvent("cache:beforeSet", key);
+        if null !== this->eventsManager {
+            this->fireManagerEvent("cache:beforeSet", key);
+        }
 
         let result = this->adapter->set(key, value, ttl);
 
-        this->fireManagerEvent("cache:afterSet", key);
+        if null !== this->eventsManager {
+            this->fireManagerEvent("cache:afterSet", key);
+        }
 
         return result;
     }
@@ -307,7 +335,9 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
             this->checkKey(key);
         }
 
-        this->fireManagerEvent("cache:beforeSetMultiple", keys);
+        if null !== this->eventsManager {
+            this->fireManagerEvent("cache:beforeSetMultiple", keys);
+        }
 
         let result = true;
         for key, value in values {
@@ -316,7 +346,9 @@ abstract class AbstractCache implements CacheInterface, EventsAwareInterface
             }
         }
 
-        this->fireManagerEvent("cache:afterSetMultiple", keys);
+        if null !== this->eventsManager {
+            this->fireManagerEvent("cache:afterSetMultiple", keys);
+        }
 
         return result;
     }

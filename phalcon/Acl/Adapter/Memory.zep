@@ -756,15 +756,23 @@ class Memory extends AbstractAdapter
          */
         let this->accessGranted = allowed ? Enum::ALLOW : Enum::DENY;
 
-        this->fireManagerEvent(
-            "acl:afterCheckAccess",
-            [
-                "role":      roleName,
-                "component": componentName,
-                "access":    access,
-                "granted":   this->accessGranted
-            ]
-        );
+        /**
+         * Fire the event only when an events manager is set. With no events
+         * manager, fireManagerEvent() does nothing. The beforeCheckAccess
+         * call above has no such check, because an override of
+         * fireManagerEvent() can deny access there.
+         */
+        if null !== this->eventsManager {
+            this->fireManagerEvent(
+                "acl:afterCheckAccess",
+                [
+                    "role":      roleName,
+                    "component": componentName,
+                    "access":    access,
+                    "granted":   this->accessGranted
+                ]
+            );
+        }
 
         return allowed;
     }
