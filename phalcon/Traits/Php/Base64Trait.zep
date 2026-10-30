@@ -24,13 +24,12 @@ trait Base64Trait
      */
     protected static function doDecodeUrl(string input) -> string
     {
-        var data, remainder;
+        var data;
 
-        let remainder = mb_strlen(input) % 4;
-        if remainder {
-            let input .= str_repeat("=", 4 - remainder);
-        }
-
+        /**
+         * No "=" padding: base64_decode() that is not strict accepts a string
+         * with no padding, and it skips each "=".
+         */
         let data = base64_decode(strtr(input, "-_", "+/"));
         if (false === data) {
             let data = "";
