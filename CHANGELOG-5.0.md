@@ -8,6 +8,18 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 > **Upgrade note:** `Phalcon\Session\Adapter\AbstractAdapter` and `Phalcon\Session\Adapter\Noop` now implement `SessionIdInterface` with `create_sid(): string`. Subclasses that override `create_sid()` must declare the `string` return type. New session IDs now come from the adapter as 32 hex characters, so `session.sid_length` and `session.sid_bits_per_character` no longer apply to these adapters. Custom handlers that implement `SessionHandlerInterface` directly must add `create_sid()` and `validateId()` to avoid the PHP 8.6 deprecation. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
 
+> **Upgrade note:** `Phalcon\Support\Collection::setData()` now calls `validateType()` only when the collection has a type. A subclass that overrides the protected `validateType()` method no longer gets this call (also from the constructor, `init()`, `set()`, `offsetSet()` and `__set()`) when the collection has no type. With a type, nothing changes. [#17683](https://github.com/phalcon/cphalcon/issues/17683)
+
+> **Upgrade note:** `Phalcon\Support\Collection::remove()` no longer calls `has()`, and it calls the protected `processKey()` method one time instead of two. A subclass that overrides `has()` no longer controls what `remove()`, `__unset()` and `offsetUnset()` do. [#17683](https://github.com/phalcon/cphalcon/issues/17683)
+
+> **Upgrade note:** `Phalcon\Mvc\Router\Route::getIndexData()` now calls `getCompiledHostName()` only when the route has a host name. For a route with no host name, `getIndexData()[3]` is now `null`, also when a subclass overrides `getCompiledHostName()`. Routing does not change. [#17693](https://github.com/phalcon/cphalcon/issues/17693)
+
+> **Upgrade note:** `Phalcon\Config\Config::setData()` now calls `validateType()` only when the config has a type. A subclass of `Config` or of its adapters that overrides the protected `validateType()` method no longer gets this call when the config has no type. With a type, nothing changes. [#17702](https://github.com/phalcon/cphalcon/issues/17702)
+
+> **Upgrade note:** `Phalcon\Cache\AbstractCache` and `Phalcon\Storage\Adapter\AbstractAdapter` now call `fireManagerEvent()` only when an events manager is set. `Phalcon\Acl\Adapter\Memory::isAllowed()` does the same for the `acl:afterCheckAccess` event; the `acl:beforeCheckAccess` event does not change. A subclass that overrides the protected `fireManagerEvent()` method no longer gets these calls when no events manager is set. With an events manager, nothing changes. [#17703](https://github.com/phalcon/cphalcon/issues/17703)
+
+> **Upgrade note:** `Phalcon\Flash\AbstractFlash` now returns the default message template as a constant and no longer calls `toInterpolate()` for it. A subclass of `Phalcon\Flash\Direct` or `Phalcon\Flash\Session` that overrides the protected static `toInterpolate()` method gets one call for each message with automatic HTML instead of two. The output does not change. [#17704](https://github.com/phalcon/cphalcon/issues/17704)
+
 ### Tools
 
 - Zephir 1.6.1
@@ -22,6 +34,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - Faster construction of `Phalcon\Config\Config` and its adapters when the config has no type. [#17702](https://github.com/phalcon/cphalcon/issues/17702)
 - Faster `Phalcon\Cache\Cache`, the `Phalcon\Storage` adapters and `Phalcon\Acl\Adapter\Memory::isAllowed()` when no events manager is set. [#17703](https://github.com/phalcon/cphalcon/issues/17703)
 - Faster HTML output of the `Phalcon\Flash` messages. [#17704](https://github.com/phalcon/cphalcon/issues/17704)
+- Faster base64url decode in the JWT parser and `Phalcon\Encryption\Crypt::decryptBase64()`. [#17705](https://github.com/phalcon/cphalcon/issues/17705)
 
 ### Added
 
