@@ -665,16 +665,25 @@ class Memory extends AbstractAdapter
             roleObject = null, ruleResult;
         bool allowed;
 
-        if typeof roleName === "object" && roleName instanceof RoleAwareInterface {
-            let roleObject = roleName;
+        /**
+         * toRoleName() and toComponentName() give back a value that is not an
+         * object with no change. Call them only for objects.
+         */
+        if typeof roleName === "object" {
+            if roleName instanceof RoleAwareInterface {
+                let roleObject = roleName;
+            }
+
+            let roleName = this->toRoleName(roleName);
         }
 
-        if typeof componentName === "object" && componentName instanceof ComponentAwareInterface {
-            let componentObject = componentName;
-        }
+        if typeof componentName === "object" {
+            if componentName instanceof ComponentAwareInterface {
+                let componentObject = componentName;
+            }
 
-        let roleName      = this->toRoleName(roleName),
-            componentName = this->toComponentName(componentName);
+            let componentName = this->toComponentName(componentName);
+        }
 
         let this->activeRole      = roleName,
             this->activeComponent = componentName,
@@ -945,7 +954,7 @@ class Memory extends AbstractAdapter
             let checkRoleToInherits = [];
 
             for usedRoleToInherit in this->roleInherits[roleName] {
-                array_push(checkRoleToInherits, usedRoleToInherit);
+                let checkRoleToInherits[] = usedRoleToInherit;
             }
 
             let usedRoleToInherits = [];
@@ -1001,7 +1010,7 @@ class Memory extends AbstractAdapter
                  */
                 if isset this->roleInherits[checkRoleToInherit] {
                     for usedRoleToInherit in this->roleInherits[checkRoleToInherit] {
-                        array_push(checkRoleToInherits, usedRoleToInherit);
+                        let checkRoleToInherits[] = usedRoleToInherit;
                     }
                 }
             }
