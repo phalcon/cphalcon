@@ -35,6 +35,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - Faster `Phalcon\Cache\Cache`, the `Phalcon\Storage` adapters and `Phalcon\Acl\Adapter\Memory::isAllowed()` when no events manager is set. [#17703](https://github.com/phalcon/cphalcon/issues/17703)
 - Faster HTML output of the `Phalcon\Flash` messages. [#17704](https://github.com/phalcon/cphalcon/issues/17704)
 - Faster base64url decode in the JWT parser and `Phalcon\Encryption\Crypt::decryptBase64()`. [#17705](https://github.com/phalcon/cphalcon/issues/17705)
+- Faster `Phalcon\Acl\Adapter\Memory::isAllowed()`. [#17711](https://github.com/phalcon/cphalcon/issues/17711)
 
 ### Added
 
