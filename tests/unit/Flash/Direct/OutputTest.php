@@ -638,6 +638,44 @@ final class OutputTest extends AbstractUnitTestCase
     }
 
     /**
+     * With a custom template and no CSS icon classes, the icon class is empty.
+     *
+     * @issue https://github.com/phalcon/cphalcon/issues/17712
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-31
+     */
+    public function testFlashDirectOutputCustomTemplateWithoutIconClasses(): void
+    {
+        $flash = new Direct(new Escaper());
+        $flash
+            ->setCustomTemplate('<div class="%cssClass%"><i class="%cssIconClass%"></i> %message%</div>')
+            ->setImplicitFlush(false)
+        ;
+
+        $expected = '<div class="successMessage"><i class=""></i> hello</div>';
+        $this->assertSame($expected, $flash->success('hello'));
+    }
+
+    /**
+     * With CSS icon classes only for other types, the message has no icon.
+     *
+     * @issue https://github.com/phalcon/cphalcon/issues/17712
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-31
+     */
+    public function testFlashDirectOutputIconClassesOtherTypeOnly(): void
+    {
+        $flash = new Direct(new Escaper());
+        $flash
+            ->setCssIconClasses(['error' => 'errorIcon'])
+            ->setImplicitFlush(false)
+        ;
+
+        $expected = '<div class="successMessage">hello</div>' . PHP_EOL;
+        $this->assertSame($expected, $flash->success('hello'));
+    }
+
+    /**
      * With CSS icon classes and no CSS classes, the message has no icon.
      *
      * @issue https://github.com/phalcon/cphalcon/issues/17704
