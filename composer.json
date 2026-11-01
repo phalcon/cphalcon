@@ -80,7 +80,8 @@
       "Phalcon\\Tests\\Database\\": "tests/database/"
     },
     "exclude-from-classmap": [
-      "tests/support/assets/"
+      "tests/support/assets/",
+      "tests/_output/"
     ]
   },
   "support": {
