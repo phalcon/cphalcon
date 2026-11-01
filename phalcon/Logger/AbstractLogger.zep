@@ -367,7 +367,9 @@ abstract class AbstractLogger
          * regardless of the level filter so a filtered-out message cannot
          * leave the exclusion armed for the next call.
          */
-        let this->excluded = [];
+        if !empty this->excluded {
+            let this->excluded = [];
+        }
 
         return true;
     }
