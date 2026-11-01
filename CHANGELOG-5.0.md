@@ -37,6 +37,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - Faster base64url decode in the JWT parser and `Phalcon\Encryption\Crypt::decryptBase64()`. [#17705](https://github.com/phalcon/cphalcon/issues/17705)
 - Faster `Phalcon\Acl\Adapter\Memory::isAllowed()`. [#17711](https://github.com/phalcon/cphalcon/issues/17711)
 - Faster HTML output of the `Phalcon\Flash` messages with no icon classes. [#17712](https://github.com/phalcon/cphalcon/issues/17712)
+- Faster `Phalcon\Logger` calls with no excluded adapters. [#17713](https://github.com/phalcon/cphalcon/issues/17713)
 
 ### Added
 
