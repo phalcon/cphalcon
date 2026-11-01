@@ -412,7 +412,15 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
          * class cannot break out of the attribute.
          */
         let cssClasses     = htmlspecialchars(this->checkClasses(this->cssClasses, type), ENT_QUOTES, "utf-8"),
-            cssIconClasses = htmlspecialchars(this->checkClasses(this->cssIconClasses, type), ENT_QUOTES, "utf-8");
+            cssIconClasses = "";
+
+        /**
+         * With no icon classes, checkClasses() and htmlspecialchars() give an
+         * empty string. Call them only when there are icon classes.
+         */
+        if !empty this->cssIconClasses {
+            let cssIconClasses = htmlspecialchars(this->checkClasses(this->cssIconClasses, type), ENT_QUOTES, "utf-8");
+        }
 
         return this->toInterpolate(
             this->getTemplate(cssClasses, cssIconClasses),
