@@ -301,14 +301,23 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
              */
             if container->has("router") && container->getService("router")->getDefinition() === Router::class {
                 let this->router = container->getShared("router", [false]);
+
+                /**
+                 * A new router has no routes, and clear() does not change it.
+                 * Clear only a router with routes, for example a router that
+                 * was resolved before.
+                 */
+                if !empty this->router->getRoutes() {
+                    this->router->clear();
+                }
             } else {
                 let this->router = this->getSharedService("router");
-            }
 
-            /**
-             * Clear the set routes if any
-             */
-            this->router->clear();
+                /**
+                 * Clear the set routes if any
+                 */
+                this->router->clear();
+            }
 
             /**
              * Automatically remove extra slashes
