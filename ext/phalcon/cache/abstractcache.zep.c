@@ -613,10 +613,10 @@ PHP_METHOD(Phalcon_Cache_AbstractCache, doGetMultiple)
 		ZEPHIR_INIT_VAR(&_9$$4);
 		ZEPHIR_INIT_NVAR(&_9$$4);
 		zephir_create_closure_bound(&_9$$4, &_8$$4, NULL, phalcon_0__closure_ce, SL("__invoke"));
-		ZEPHIR_CALL_FUNCTION(&_10$$4, "array_map", NULL, 193, &_9$$4, &results);
+		ZEPHIR_CALL_FUNCTION(&_10$$4, "array_map", NULL, 192, &_9$$4, &results);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&results, &_10$$4);
-		ZEPHIR_CALL_FUNCTION(&_10$$4, "array_combine", NULL, 259, &keysArray, &results);
+		ZEPHIR_CALL_FUNCTION(&_10$$4, "array_combine", NULL, 258, &keysArray, &results);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&results, &_10$$4);
 	} else {

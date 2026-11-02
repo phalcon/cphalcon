@@ -120,7 +120,8 @@ class Config extends Collection implements ConfigInterface
         var defaultValue = null,
         string delimiter = null
     ) -> var {
-        var config, key, keys, pathDelimiter;
+        var config, key, keys, pathDelimiter, value;
+        int index = 0, last;
 
         if (true === this->has(path)) {
             return this->get(path);
@@ -132,27 +133,35 @@ class Config extends Collection implements ConfigInterface
         }
 
         let config = clone this,
-            keys   = explode(pathDelimiter, path);
+            keys   = explode(pathDelimiter, path),
+            last   = count(keys) - 1;
 
-        while (true !== empty(keys)) {
-            let key = array_shift(keys);
-
-            if (true !== config->has(key)) {
-                break;
-            }
-
-            if (true === empty(keys)) {
-                return config->get(key);
-            }
-
-            let config = config->get(key);
+        /**
+         * get() gives null for a missing key. Before the last key, a
+         * missing key or an empty value gives the default value.
+         */
+        while (index < last) {
+            let config = config->get(keys[index]);
 
             if (true === empty(config)) {
-                break;
+                return defaultValue;
             }
+
+            let index++;
         }
 
-        return defaultValue;
+        let key   = keys[last],
+            value = config->get(key);
+
+        /**
+         * get() gives null for a missing key and for a null value. Only a
+         * missing key gives the default value.
+         */
+        if (null === value && null !== defaultValue && true !== config->has(key)) {
+            return defaultValue;
+        }
+
+        return value;
     }
 
     /**

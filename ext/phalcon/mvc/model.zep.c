@@ -1826,7 +1826,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap)
 				zephir_switch_0_clause_2: ;
 				zephir_switch_0_clause_3: ;
 					ZVAL_LONG(&_30$$38, 10);
-					ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_31, 96, &value, &_30$$38);
+					ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_31, 95, &value, &_30$$38);
 					zephir_check_call_status();
 					goto zephir_switch_0_end;
 				zephir_switch_0_clause_4: ;
@@ -2182,7 +2182,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap)
 					zephir_switch_2_clause_2: ;
 					zephir_switch_2_clause_3: ;
 						ZVAL_LONG(&_63$$90, 10);
-						ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_31, 96, &value, &_63$$90);
+						ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_31, 95, &value, &_63$$90);
 						zephir_check_call_status();
 						goto zephir_switch_2_end;
 					zephir_switch_2_clause_4: ;
@@ -3336,7 +3336,7 @@ PHP_METHOD(Phalcon_Mvc_Model, invokeFinder)
 	if (zephir_array_isset_value(&attributes, &extraMethod)) {
 		ZEPHIR_CPY_WRT(&field, &extraMethod);
 	} else {
-		ZEPHIR_CALL_FUNCTION(&extraMethodFirst, "lcfirst", NULL, 181, &extraMethod);
+		ZEPHIR_CALL_FUNCTION(&extraMethodFirst, "lcfirst", NULL, 180, &extraMethod);
 		zephir_check_call_status();
 		if (zephir_array_isset_value(&attributes, &extraMethodFirst)) {
 			ZEPHIR_CPY_WRT(&field, &extraMethodFirst);
@@ -4693,7 +4693,7 @@ PHP_METHOD(Phalcon_Mvc_Model, doSave)
 	array_init(&savedSnapshot);
 	ZEPHIR_INIT_VAR(&savedOldSnapshot);
 	array_init(&savedOldSnapshot);
-	ZEPHIR_CALL_FUNCTION(&objId, "spl_object_id", NULL, 52, this_ptr);
+	ZEPHIR_CALL_FUNCTION(&objId, "spl_object_id", NULL, 51, this_ptr);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_0, visited, "has", NULL, 0, &objId);
 	zephir_check_call_status();
@@ -6323,7 +6323,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save)
 
 	ZEPHIR_INIT_VAR(&visited);
 	object_init_ex(&visited, phalcon_support_collection_ce);
-	ZEPHIR_CALL_METHOD(NULL, &visited, "__construct", NULL, 41);
+	ZEPHIR_CALL_METHOD(NULL, &visited, "__construct", NULL, 40);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "doSave", NULL, 0, &visited);
 	zephir_check_call_status();
@@ -9573,7 +9573,7 @@ PHP_METHOD(Phalcon_Mvc_Model, doLowInsert)
 		zephir_check_call_status();
 		if (UNEXPECTED(zephir_is_true(&_57$$53))) {
 			ZVAL_LONG(&_62$$61, 10);
-			ZEPHIR_CALL_FUNCTION(&_63$$61, "intval", NULL, 96, &lastInsertedId, &_62$$61);
+			ZEPHIR_CALL_FUNCTION(&_63$$61, "intval", NULL, 95, &lastInsertedId, &_62$$61);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&lastInsertedId, &_63$$61);
 		}

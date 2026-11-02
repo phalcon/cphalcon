@@ -1266,7 +1266,7 @@ PHP_METHOD(Phalcon_Container_Container, setTag)
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 546, PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&_3);
 	zephir_array_fetch(&_3, &_2, &tag_zv, PH_NOISY, "phalcon/Container/Container.zep", 496);
-	ZEPHIR_CALL_FUNCTION(&_4, "in_array", NULL, 88, &serviceName_zv, &_3, &__$true);
+	ZEPHIR_CALL_FUNCTION(&_4, "in_array", NULL, 87, &serviceName_zv, &_3, &__$true);
 	zephir_check_call_status();
 	if (!zephir_is_true(&_4)) {
 		zephir_update_property_array_multi(this_ptr, SL("tags"), &serviceName_zv, SL("za"), 2, &tag_zv);
