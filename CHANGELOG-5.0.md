@@ -38,6 +38,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - Faster `Phalcon\Acl\Adapter\Memory::isAllowed()`. [#17711](https://github.com/phalcon/cphalcon/issues/17711)
 - Faster HTML output of the `Phalcon\Flash` messages with no icon classes. [#17712](https://github.com/phalcon/cphalcon/issues/17712)
 - Faster `Phalcon\Logger` calls with no excluded adapters. [#17713](https://github.com/phalcon/cphalcon/issues/17713)
+- Faster `Phalcon\Mvc\Micro` requests with the default router service. [#17715](https://github.com/phalcon/cphalcon/issues/17715)
 
 ### Added
 
