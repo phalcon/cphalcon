@@ -245,14 +245,14 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, getAdapter)
 			ZEPHIR_CALL_FUNCTION(&_9$$4, "array_replace", NULL, 8, &failover, &client);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&client, &_9$$4);
-			ZEPHIR_CALL_METHOD(&_9$$4, this_ptr, "setOptions", NULL, 291, &connection, &client);
+			ZEPHIR_CALL_METHOD(&_9$$4, this_ptr, "setOptions", NULL, 290, &connection, &client);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_10$$4, &_9$$4, "setServers", NULL, 292, &connection, &servers);
+			ZEPHIR_CALL_METHOD(&_10$$4, &_9$$4, "setServers", NULL, 291, &connection, &servers);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &_10$$4, "setSasl", NULL, 293, &connection, &saslUser, &saslPass);
+			ZEPHIR_CALL_METHOD(NULL, &_10$$4, "setSasl", NULL, 292, &connection, &saslUser, &saslPass);
 			zephir_check_call_status();
 		}
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setSerializer", NULL, 294, &connection);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setSerializer", NULL, 293, &connection);
 		zephir_check_call_status();
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 324, &connection);
 	}

@@ -273,7 +273,7 @@ PHP_METHOD(Phalcon_Events_Manager, addSubscriber)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &subscriber);
-	ZEPHIR_CALL_FUNCTION(&_0, "spl_object_id", NULL, 52, subscriber);
+	ZEPHIR_CALL_FUNCTION(&_0, "spl_object_id", NULL, 51, subscriber);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("subscribers"), &_0, subscriber);
 	ZEPHIR_INIT_VAR(&className);
@@ -1960,7 +1960,7 @@ PHP_METHOD(Phalcon_Events_Manager, removeSubscriber)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &subscriber);
-	ZEPHIR_CALL_FUNCTION(&key, "spl_object_id", NULL, 52, subscriber);
+	ZEPHIR_CALL_FUNCTION(&key, "spl_object_id", NULL, 51, subscriber);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 752, PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset_value(&_0, &key))) {
@@ -2724,7 +2724,7 @@ PHP_METHOD(Phalcon_Events_Manager, runObjectQueue)
 				ZEPHIR_CALL_METHOD_ZVAL(&ret, &handlerObject, &handlerCallable, NULL, 0, event);
 				zephir_check_call_status();
 			} else if (ZEPHIR_IS_LONG(&type, 3)) {
-				ZEPHIR_CALL_FUNCTION(&ret, "call_user_func", &_2, 81, &handler, event);
+				ZEPHIR_CALL_FUNCTION(&ret, "call_user_func", &_2, 80, &handler, event);
 				zephir_check_call_status();
 			} else {
 				_3$$7 = Z_TYPE_P(methodName) != IS_NULL;
@@ -2788,7 +2788,7 @@ PHP_METHOD(Phalcon_Events_Manager, runObjectQueue)
 					ZEPHIR_CALL_METHOD_ZVAL(&ret, &handlerObject, &handlerCallable, NULL, 0, event);
 					zephir_check_call_status();
 				} else if (ZEPHIR_IS_LONG(&type, 3)) {
-					ZEPHIR_CALL_FUNCTION(&ret, "call_user_func", &_2, 81, &handler, event);
+					ZEPHIR_CALL_FUNCTION(&ret, "call_user_func", &_2, 80, &handler, event);
 					zephir_check_call_status();
 				} else {
 					_8$$17 = Z_TYPE_P(methodName) != IS_NULL;

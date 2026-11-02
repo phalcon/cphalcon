@@ -271,7 +271,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, addTag)
 		zephir_check_call_status();
 	}
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 554, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_FUNCTION(&_2, "in_array", NULL, 88, &tag_zv, &_1, &__$true);
+	ZEPHIR_CALL_FUNCTION(&_2, "in_array", NULL, 87, &tag_zv, &_1, &__$true);
 	zephir_check_call_status();
 	if (!zephir_is_true(&_2)) {
 		zephir_update_property_array_append(this_ptr, SL("tags"), &tag_zv);
@@ -371,7 +371,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, buildService)
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&reflection);
 		object_init_ex(&reflection, zephir_get_internal_ce(SL("reflectionclass")));
-		ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 254, &className);
+		ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 253, &className);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&instance, &reflection, "newInstanceArgs", NULL, 494, &args);
 		zephir_check_call_status();
@@ -511,7 +511,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, freeze)
 		ZEPHIR_CPY_WRT(&className, &_8$$4);
 		ZEPHIR_INIT_VAR(&reflection);
 		object_init_ex(&reflection, zephir_get_internal_ce(SL("reflectionclass")));
-		ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 254, &className);
+		ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 253, &className);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&constructor, &reflection, "getConstructor", NULL, 495);
 		zephir_check_call_status();
