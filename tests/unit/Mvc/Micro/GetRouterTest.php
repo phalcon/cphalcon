@@ -16,6 +16,8 @@ namespace Phalcon\Tests\Unit\Mvc\Micro;
 use Phalcon\Di\Di;
 use Phalcon\Di\Exception;
 use Phalcon\Di\FactoryDefault;
+use Phalcon\Events\Event;
+use Phalcon\Events\Manager;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Router\Route;
@@ -74,6 +76,60 @@ class GetRouterTest extends AbstractUnitTestCase
         $micro = new Micro($container);
 
         $this->assertSame($router, $micro->getRouter());
+        $this->assertCount(0, $router->getRoutes());
+    }
+
+    /**
+     * A router service that is set again after its router was resolved
+     * gives the old router, and Micro clears its routes.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17715
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-01
+     */
+    public function testMvcMicroGetRouterClearsRouterOfReplacedService(): void
+    {
+        $container = new FactoryDefault();
+        $router    = $container->getShared('router');
+        $router->add('/before');
+
+        $container->setShared('router', Router::class);
+
+        $micro = new Micro($container);
+
+        $this->assertSame($router, $micro->getRouter());
+        $this->assertCount(0, $router->getRoutes());
+    }
+
+    /**
+     * A di:afterServiceResolve listener adds a route to the new router,
+     * and Micro clears its routes.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17715
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-01
+     */
+    public function testMvcMicroGetRouterClearsRoutesOfResolveEvent(): void
+    {
+        $added   = false;
+        $manager = new Manager();
+        $manager->attach(
+            'di:afterServiceResolve',
+            function (Event $event, Di $source, array $data) use (&$added): void {
+                if ('router' === $data['name']) {
+                    $data['instance']->add('/event');
+                    $added = true;
+                }
+            }
+        );
+
+        $container = new FactoryDefault();
+        $container->setInternalEventsManager($manager);
+
+        $micro  = new Micro($container);
+        $router = $micro->getRouter();
+
+        $this->assertTrue($added);
         $this->assertCount(0, $router->getRoutes());
     }
 
