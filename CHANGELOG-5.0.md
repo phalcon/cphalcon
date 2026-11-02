@@ -20,6 +20,8 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 > **Upgrade note:** `Phalcon\Flash\AbstractFlash` now returns the default message template as a constant and no longer calls `toInterpolate()` for it. A subclass of `Phalcon\Flash\Direct` or `Phalcon\Flash\Session` that overrides the protected static `toInterpolate()` method gets one call for each message with automatic HTML instead of two. The output does not change. [#17704](https://github.com/phalcon/cphalcon/issues/17704)
 
+> **Upgrade note:** `Phalcon\Config\Config::path()` no longer calls `has()` for each key of the path. It calls `has()` for the full path and, for the last key, only when `get()` returns `null` and the default value is not `null`. A subclass of `Config` or of its adapters that overrides `has()` no longer controls the key walk. The result of `path()` does not change. A path through a value that is not a collection still throws an `Error`; its message now names `get()` instead of `has()`. [#17714](https://github.com/phalcon/cphalcon/issues/17714)
+
 ### Tools
 
 - Zephir 1.6.1
@@ -39,6 +41,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - Faster HTML output of the `Phalcon\Flash` messages with no icon classes. [#17712](https://github.com/phalcon/cphalcon/issues/17712)
 - Faster `Phalcon\Logger` calls with no excluded adapters. [#17713](https://github.com/phalcon/cphalcon/issues/17713)
 - Faster `Phalcon\Mvc\Micro` requests with the default router service. [#17715](https://github.com/phalcon/cphalcon/issues/17715)
+- Faster `Phalcon\Config\Config::path()`. [#17714](https://github.com/phalcon/cphalcon/issues/17714)
 
 ### Added
 
