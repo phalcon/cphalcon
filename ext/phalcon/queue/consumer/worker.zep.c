@@ -109,27 +109,38 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, __construct)
 }
 
 /**
- * Signal handler: requests a graceful stop.
+ * Signal handler: requests a graceful stop. PHP sends the signal
+ * information as the second argument. This method does not use it.
  */
 PHP_METHOD(Phalcon_Queue_Consumer_Worker, handleSignal)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *signal_param = NULL, _0;
+	zval info;
+	zval *signal_param = NULL, *info_param = NULL, _0;
 	zend_long signal, ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&info);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("consumer", 8, 1);
 	}
 
-	ZEND_PARSE_PARAMETERS_START(1, 1)
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_LONG(signal)
+		Z_PARAM_OPTIONAL
+		ZEPHIR_Z_PARAM_ARRAY_OR_NULL(info, info_param)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 1, 0, &signal_param);
+	zephir_fetch_params(1, 1, 1, &signal_param, &info_param);
+	if (!info_param) {
+		ZEPHIR_INIT_VAR(&info);
+	} else {
+		zephir_get_arrval(&info, info_param);
+	}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1326, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "stop", NULL, 0);
 	zephir_check_call_status();
