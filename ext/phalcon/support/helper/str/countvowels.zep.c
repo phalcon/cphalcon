@@ -64,6 +64,10 @@ PHP_METHOD(Phalcon_Support_Helper_Str_CountVowels, __invoke)
 	zephir_preg_match(&_1, &_2, &text_zv, &matches, 1, 0 , 0 );
 	zephir_memory_observe(&_3);
 	zephir_array_fetch_long(&_3, &matches, 0, PH_NOISY, "phalcon/Support/Helper/Str/CountVowels.zep", 25);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_MM_LONG(zephir_fast_count_int(&_3));
 }
 

@@ -65,6 +65,10 @@ PHP_METHOD(Phalcon_ADR_Exceptions_NotAnAction, __construct)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "Class '", &className_zv, "' is not an ADR Action.");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_adr_exceptions_notanaction_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

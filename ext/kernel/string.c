@@ -790,33 +790,154 @@ static void zephir_explode_into(zval *return_value, zend_string *delimiter, zend
 }
 
 /**
- * Fast call to explode php function
+ * The TypeError PHP's parameter parsing throws for explode(). It is spelled out
+ * here rather than raised through zend_wrong_parameter_type_error(), which
+ * would name the Zephir method that inlined the call. A failed __toString()
+ * already left its own exception, which wins.
  */
-void zephir_fast_explode(zval *return_value, zval *delimiter, zval *str, zend_long limit)
+static ZEND_COLD void zephir_explode_type_error(uint32_t num, const char *name, const char *type, const zval *arg)
 {
-	if (UNEXPECTED(Z_TYPE_P(str) != IS_STRING || Z_TYPE_P(delimiter) != IS_STRING)) {
-		zend_error(E_WARNING, "Invalid arguments supplied for explode()");
-		RETURN_EMPTY_STRING();
+	if (EG(exception)) {
+		return;
 	}
 
-	zephir_explode_into(return_value, Z_STR_P(delimiter), Z_STR_P(str), limit);
+	zend_type_error("explode(): Argument #%" PRIu32 " ($%s) must be of type %s, %s given", num, name, type,
+#if PHP_VERSION_ID >= 80300
+		zend_zval_value_name(arg)
+#else
+		zend_zval_type_name(arg)
+#endif
+	);
+}
+
+/**
+ * Null coerces silently on PHP 8.0 and with a deprecation from 8.1. Returns
+ * false when an error handler turned the deprecation into an exception.
+ */
+static bool zephir_explode_null_arg(uint32_t num, const char *name, const char *type)
+{
+#if PHP_VERSION_ID >= 80100
+	zend_error(E_DEPRECATED, "explode(): Passing null to parameter #%" PRIu32 " ($%s) of type %s is deprecated", num, name, type);
+	return !EG(exception);
+#else
+	return 1;
+#endif
+}
+
+/**
+ * Z_PARAM_STR in weak mode: Zephir code is never a strict_types file.
+ * zend_parse_arg_str_weak() converts its argument in place, so it works on a
+ * copy and the caller's variable keeps its type. Returns a string the caller
+ * releases, or NULL with an exception pending.
+ */
+static zend_string *zephir_explode_arg_str(zval *arg, uint32_t num, const char *name)
+{
+	zend_string *dest;
+	zval tmp;
+
+	ZVAL_DEREF(arg);
+
+	if (EXPECTED(Z_TYPE_P(arg) == IS_STRING)) {
+		return zend_string_copy(Z_STR_P(arg));
+	}
+
+	if (Z_TYPE_P(arg) == IS_NULL) {
+		return zephir_explode_null_arg(num, name, "string") ? ZSTR_EMPTY_ALLOC() : NULL;
+	}
+
+	ZVAL_COPY(&tmp, arg);
+#if PHP_VERSION_ID >= 80100
+	if (zend_parse_arg_str_weak(&tmp, &dest, num)) {
+#else
+	if (zend_parse_arg_str_weak(&tmp, &dest)) {
+#endif
+		return dest;
+	}
+
+	zval_ptr_dtor(&tmp);
+	zephir_explode_type_error(num, name, "string", arg);
+
+	return NULL;
+}
+
+/**
+ * Z_PARAM_LONG in weak mode for the limit. Returns false with an exception
+ * pending.
+ */
+static bool zephir_explode_arg_limit(zval *arg, zend_long *dest)
+{
+	ZVAL_DEREF(arg);
+
+	if (EXPECTED(Z_TYPE_P(arg) == IS_LONG)) {
+		*dest = Z_LVAL_P(arg);
+		return 1;
+	}
+
+	if (Z_TYPE_P(arg) == IS_NULL) {
+		*dest = 0;
+		return zephir_explode_null_arg(3, "limit", "int");
+	}
+
+#if PHP_VERSION_ID >= 80100
+	if (zend_parse_arg_long_weak(arg, dest, 3)) {
+#else
+	if (zend_parse_arg_long_weak(arg, dest)) {
+#endif
+		return 1;
+	}
+
+	zephir_explode_type_error(3, "limit", "int", arg);
+
+	return 0;
+}
+
+/**
+ * Parses the subject and the limit after the separator, stopping at the first
+ * argument PHP would reject, then explodes. A NULL limit means none was given.
+ * On failure return_value is left untouched with the exception pending.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2684
+ */
+static void zephir_explode_args(zval *return_value, zend_string *delimiter, zval *str, zval *limit)
+{
+	zend_string *subject = zephir_explode_arg_str(str, 2, "string");
+	zend_long    lim     = ZEND_LONG_MAX;
+
+	if (UNEXPECTED(subject == NULL)) {
+		return;
+	}
+
+	if (limit == NULL || zephir_explode_arg_limit(limit, &lim)) {
+		zephir_explode_into(return_value, delimiter, subject, lim);
+	}
+
+	zend_string_release(subject);
 }
 
 /**
  * Fast call to explode php function
  */
-void zephir_fast_explode_str(zval *return_value, const char *delim, int delim_length, zval *str, zend_long limit)
+void zephir_fast_explode(zval *return_value, zval *delimiter, zval *str, zval *limit)
 {
-	zend_string *delimiter;
+	zend_string *delimiter_str = zephir_explode_arg_str(delimiter, 1, "separator");
 
-	if (UNEXPECTED(Z_TYPE_P(str) != IS_STRING)) {
-		zend_error(E_WARNING, "Invalid arguments supplied for explode()");
-		RETURN_EMPTY_STRING();
+	if (UNEXPECTED(delimiter_str == NULL)) {
+		return;
 	}
 
-	delimiter = zend_string_init(delim, delim_length, 0);
-	zephir_explode_into(return_value, delimiter, Z_STR_P(str), limit);
-	zend_string_free(delimiter);
+	zephir_explode_args(return_value, delimiter_str, str, limit);
+	zend_string_release(delimiter_str);
+}
+
+/**
+ * Fast call to explode php function with a literal separator
+ */
+void zephir_fast_explode_str(zval *return_value, const char *delim, int delim_length, zval *str, zval *limit)
+{
+	zend_string *delimiter = zend_string_init(delim, delim_length, 0);
+
+	zephir_explode_args(return_value, delimiter, str, limit);
+	zend_string_release(delimiter);
 }
 
 /**
@@ -1841,6 +1962,22 @@ void zephir_string_offset_write_zval(zval *str, zval *dim, zval *value)
 	}
 
 	zephir_string_offset_write(str, offset, value);
+}
+
+/**
+ * Raises what PHP's `zend_check_string_offset()` raises for `dim` on a string,
+ * and nothing else. A write that must then fail anyway, such as
+ * `s[i] .= v`, reports the offset first, exactly as PHP does.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2747
+ */
+void zephir_string_offset_check(zval *str, zval *dim)
+{
+	zend_long offset;
+
+	if (EXPECTED(Z_TYPE_P(str) == IS_STRING)) {
+		zephir_string_offset_normalize(&offset, str, dim, PH_NOISY);
+	}
 }
 
 /**

@@ -56,6 +56,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Exceptions_ColumnNotInTableColumns, __construct)
 	ZVAL_STR_COPY(&className_zv, className);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVSVS(&_0, "Column '", &column_zv, "' isn't part of the table columns in '", &className_zv, "'");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_exceptions_columnnotintablecolumns_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

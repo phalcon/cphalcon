@@ -161,20 +161,21 @@ PHP_METHOD(Phalcon_Forms_Loader_ArrayLoader, load)
  */
 PHP_METHOD(Phalcon_Forms_Loader_ArrayLoader, validateDefinition)
 {
-	zend_bool _2, _6;
+	zend_bool _2, _3, _4, _9, _10, _11;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zephir_fcall_cache_entry *_8 = NULL, *_15 = NULL;
 	zend_long index, ZEPHIR_LAST_CALL_STATUS;
-	zval *definition, definition_sub, *index_param = NULL, _0$$3, _1$$3, _3$$4, _4$$4, _5$$4, _7$$5, _8$$5, _9$$5;
+	zval *definition, definition_sub, *index_param = NULL, _0$$3, _1$$3, _5$$4, _6$$4, _7$$4, _12$$5, _13$$5, _14$$5;
 
 	ZVAL_UNDEF(&definition_sub);
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$4);
-	ZVAL_UNDEF(&_4$$4);
 	ZVAL_UNDEF(&_5$$4);
-	ZVAL_UNDEF(&_7$$5);
-	ZVAL_UNDEF(&_8$$5);
-	ZVAL_UNDEF(&_9$$5);
+	ZVAL_UNDEF(&_6$$4);
+	ZVAL_UNDEF(&_7$$4);
+	ZVAL_UNDEF(&_12$$5);
+	ZVAL_UNDEF(&_13$$5);
+	ZVAL_UNDEF(&_14$$5);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_ZVAL(definition)
 		Z_PARAM_LONG(index)
@@ -192,35 +193,55 @@ PHP_METHOD(Phalcon_Forms_Loader_ArrayLoader, validateDefinition)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	_2 = !(zephir_array_isset_value_string(definition, SL("type")));
-	if (!(_2)) {
-		_2 = zephir_isempty_dim_string(definition, SL("type"));
-	}
-	if (_2) {
-		ZEPHIR_INIT_VAR(&_3$$4);
-		object_init_ex(&_3$$4, phalcon_forms_exceptions_schemaentrymissingkey_ce);
-		ZVAL_LONG(&_4$$4, index);
-		ZEPHIR_INIT_VAR(&_5$$4);
-		ZVAL_STRING(&_5$$4, "type");
-		ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 0, &_4$$4, &_5$$4);
-		zephir_check_call_status();
-		zephir_throw_exception_debug(&_3$$4, "phalcon/Forms/Loader/ArrayLoader.zep", 58);
+	_2 = zephir_array_isset_value_string(definition, SL("type"));
+	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	_6 = !(zephir_array_isset_value_string(definition, SL("name")));
-	if (!(_6)) {
-		_6 = zephir_isempty_dim_string(definition, SL("name"));
+	_3 = !(_2);
+	if (!(_3)) {
+		_4 = zephir_isempty_dim_string(definition, SL("type"));
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		_3 = _4;
 	}
-	if (_6) {
-		ZEPHIR_INIT_VAR(&_7$$5);
-		object_init_ex(&_7$$5, phalcon_forms_exceptions_schemaentrymissingkey_ce);
-		ZVAL_LONG(&_8$$5, index);
-		ZEPHIR_INIT_VAR(&_9$$5);
-		ZVAL_STRING(&_9$$5, "name");
-		ZEPHIR_CALL_METHOD(NULL, &_7$$5, "__construct", NULL, 0, &_8$$5, &_9$$5);
+	if (_3) {
+		ZEPHIR_INIT_VAR(&_5$$4);
+		object_init_ex(&_5$$4, phalcon_forms_exceptions_schemaentrymissingkey_ce);
+		ZVAL_LONG(&_6$$4, index);
+		ZEPHIR_INIT_VAR(&_7$$4);
+		ZVAL_STRING(&_7$$4, "type");
+		ZEPHIR_CALL_METHOD(NULL, &_5$$4, "__construct", &_8, 0, &_6$$4, &_7$$4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_7$$5, "phalcon/Forms/Loader/ArrayLoader.zep", 62);
+		zephir_throw_exception_debug(&_5$$4, "phalcon/Forms/Loader/ArrayLoader.zep", 58);
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	_9 = zephir_array_isset_value_string(definition, SL("name"));
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	_10 = !(_9);
+	if (!(_10)) {
+		_11 = zephir_isempty_dim_string(definition, SL("name"));
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		_10 = _11;
+	}
+	if (_10) {
+		ZEPHIR_INIT_VAR(&_12$$5);
+		object_init_ex(&_12$$5, phalcon_forms_exceptions_schemaentrymissingkey_ce);
+		ZVAL_LONG(&_13$$5, index);
+		ZEPHIR_INIT_VAR(&_14$$5);
+		ZVAL_STRING(&_14$$5, "name");
+		ZEPHIR_CALL_METHOD(NULL, &_12$$5, "__construct", &_15, 0, &_13$$5, &_14$$5);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_12$$5, "phalcon/Forms/Loader/ArrayLoader.zep", 62);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

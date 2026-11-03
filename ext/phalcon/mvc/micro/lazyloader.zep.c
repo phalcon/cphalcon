@@ -148,6 +148,10 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
 	if (Z_TYPE_P(modelBinder) != IS_NULL) {
 		ZEPHIR_INIT_VAR(&bindCacheKey);
 		ZEPHIR_CONCAT_SVSV(&bindCacheKey, "_PHMB_", &definition, "_", &method_zv);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_CALL_METHOD(&_2$$5, modelBinder, "bindToHandler", NULL, 0, &handler, arguments, &bindCacheKey, &method_zv);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(arguments, &_2$$5);

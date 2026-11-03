@@ -112,6 +112,10 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, __construct)
 				ZEPHIR_CALL_METHOD(&_6$$4, this_ptr, "getKey", &_7, 0, &link);
 				zephir_check_call_status();
 				zephir_update_property_array(this_ptr, SL("links"), &_6$$4, &link);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
@@ -148,6 +152,10 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, __construct)
 					ZEPHIR_CALL_METHOD(&_14$$6, this_ptr, "getKey", &_7, 0, &link);
 					zephir_check_call_status();
 					zephir_update_property_array(this_ptr, SL("links"), &_14$$6, &link);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 				}
 		}
 	}
@@ -181,11 +189,11 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doGetLinks)
  */
 PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doGetLinksByRel)
 {
-	zend_bool _5;
+	zend_bool _6, _4$$3, _7$$5;
 	zval filtered;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval rel_zv, link, rels, _0, *_1, _2, *_3, _4;
+	zval rel_zv, link, rels, _0, *_1, _2, *_3, _5;
 	zend_string *rel = NULL;
 	zval *this_ptr = getThis();
 
@@ -194,7 +202,7 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doGetLinksByRel)
 	ZVAL_UNDEF(&rels);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&filtered);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -226,32 +234,50 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doGetLinksByRel)
 			ZVAL_COPY(&link, _3);
 			ZEPHIR_CALL_METHOD(&rels, &link, "getRels", NULL, 0);
 			zephir_check_call_status();
-			if (1 == zephir_fast_in_array(&rel_zv, &rels)) {
+			_4$$3 = zephir_fast_in_array(&rel_zv, &rels);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			if (1 == _4$$3) {
 				zephir_array_append(&filtered, &link, PH_SEPARATE, "phalcon/Html/Link/AbstractLinkProvider.zep", 81);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, _1, "rewind", NULL, 0);
 		zephir_check_call_status();
-		_5 = 1;
+		_6 = 1;
 		while (1) {
-			if (_5) {
-				_5 = 0;
+			if (_6) {
+				_6 = 0;
 			} else {
 				ZEPHIR_CALL_METHOD(NULL, _1, "next", NULL, 0);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_4, _1, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_5, _1, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_4)) {
+			if (!zend_is_true(&_5)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&link, _1, "current", NULL, 0);
 			zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(&rels, &link, "getRels", NULL, 0);
 				zephir_check_call_status();
-				if (1 == zephir_fast_in_array(&rel_zv, &rels)) {
+				_7$$5 = zephir_fast_in_array(&rel_zv, &rels);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				if (1 == _7$$5) {
 					zephir_array_append(&filtered, &link, PH_SEPARATE, "phalcon/Html/Link/AbstractLinkProvider.zep", 81);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 				}
 		}
 	}
@@ -288,9 +314,14 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doWithLink)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&newInstance);
 	if (zephir_clone(&newInstance, this_ptr) == FAILURE) {
-		RETURN_MM();
+		ZEPHIR_MM_RESTORE();
+		return;
 	}
 	zephir_update_property_array(&newInstance, SL("links"), &key, link);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_CCTOR(&newInstance);
 }
 
@@ -323,9 +354,14 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doWithoutLink)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&newInstance);
 	if (zephir_clone(&newInstance, this_ptr) == FAILURE) {
-		RETURN_MM();
+		ZEPHIR_MM_RESTORE();
+		return;
 	}
 	zephir_unset_property_array(&newInstance, ZEND_STRL("links"), &key);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_CCTOR(&newInstance);
 }
 

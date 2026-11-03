@@ -56,6 +56,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Exceptions_BelongsToRequiresObject, __construct)
 	ZVAL_STR_COPY(&relationName_zv, relationName);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVSV(&_0, "Only objects can be stored as part of belongs-to relations in '", &className_zv, "' Relation ", &relationName_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_exceptions_belongstorequiresobject_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

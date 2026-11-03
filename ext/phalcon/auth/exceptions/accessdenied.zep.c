@@ -62,6 +62,10 @@ PHP_METHOD(Phalcon_Auth_Exceptions_AccessDenied, __construct)
 	ZVAL_STR_COPY(&name_zv, name);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVSVS(&_0, "Access denied for ", &type_zv, " '", &name_zv, "'");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_auth_exceptions_accessdenied_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

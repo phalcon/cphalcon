@@ -176,8 +176,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, getCorrelationId)
  */
 PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, getHeader)
 {
+	zend_bool _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval name_zv, *defaultValue = NULL, defaultValue_sub, __$null, _0, _1$$3, _2$$3;
+	zval name_zv, *defaultValue = NULL, defaultValue_sub, __$null, _0, _2$$3, _3$$3;
 	zend_string *name = NULL;
 	zval *this_ptr = getThis();
 
@@ -185,8 +186,8 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, getHeader)
 	ZVAL_UNDEF(&defaultValue_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_3$$3);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("headers", 7, 1);
@@ -210,11 +211,20 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, getHeader)
 		defaultValue = &__$null;
 	}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 94, PH_NOISY_CC | PH_READONLY);
-	if (zephir_array_key_exists(&_0, &name_zv)) {
-		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_0, 94, PH_NOISY_CC | PH_READONLY);
-		zephir_memory_observe(&_2$$3);
-		zephir_array_fetch(&_2$$3, &_1$$3, &name_zv, PH_NOISY, "phalcon/Queue/Adapter/Traits/MessageTrait.zep", 83);
-		RETURN_CCTOR(&_2$$3);
+	_1 = zephir_array_key_exists(&_0, &name_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_1) {
+		zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_0, 94, PH_NOISY_CC | PH_READONLY);
+		zephir_memory_observe(&_3$$3);
+		zephir_array_fetch(&_3$$3, &_2$$3, &name_zv, PH_NOISY, "phalcon/Queue/Adapter/Traits/MessageTrait.zep", 83);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		RETURN_CCTOR(&_3$$3);
 	}
 	RETVAL_ZVAL(defaultValue, 1, 0);
 	RETURN_MM();
@@ -268,8 +278,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, getProperties)
  */
 PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, getProperty)
 {
+	zend_bool _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval name_zv, *defaultValue = NULL, defaultValue_sub, __$null, _0, _1$$3, _2$$3;
+	zval name_zv, *defaultValue = NULL, defaultValue_sub, __$null, _0, _2$$3, _3$$3;
 	zend_string *name = NULL;
 	zval *this_ptr = getThis();
 
@@ -277,8 +288,8 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, getProperty)
 	ZVAL_UNDEF(&defaultValue_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_3$$3);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("properties", 10, 1);
@@ -302,11 +313,20 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, getProperty)
 		defaultValue = &__$null;
 	}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 93, PH_NOISY_CC | PH_READONLY);
-	if (zephir_array_key_exists(&_0, &name_zv)) {
-		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_0, 93, PH_NOISY_CC | PH_READONLY);
-		zephir_memory_observe(&_2$$3);
-		zephir_array_fetch(&_2$$3, &_1$$3, &name_zv, PH_NOISY, "phalcon/Queue/Adapter/Traits/MessageTrait.zep", 123);
-		RETURN_CCTOR(&_2$$3);
+	_1 = zephir_array_key_exists(&_0, &name_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_1) {
+		zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_0, 93, PH_NOISY_CC | PH_READONLY);
+		zephir_memory_observe(&_3$$3);
+		zephir_array_fetch(&_3$$3, &_2$$3, &name_zv, PH_NOISY, "phalcon/Queue/Adapter/Traits/MessageTrait.zep", 123);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		RETURN_CCTOR(&_3$$3);
 	}
 	RETVAL_ZVAL(defaultValue, 1, 0);
 	RETURN_MM();
@@ -434,6 +454,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, setHeader)
 	value = ZEND_CALL_ARG(execute_data, 2);
 	ZVAL_STR(&name_zv, name);
 	zephir_update_property_array(this_ptr, SL("headers"), &name_zv, value);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**
@@ -539,6 +562,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, setProperty)
 	value = ZEND_CALL_ARG(execute_data, 2);
 	ZVAL_STR(&name_zv, name);
 	zephir_update_property_array(this_ptr, SL("properties"), &name_zv, value);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**
@@ -651,6 +677,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, getHeaderAsString)
 		RETURN_MM_NULL();
 	}
 	zephir_cast_to_string(&_0, &value);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_CTOR(&_0);
 }
 

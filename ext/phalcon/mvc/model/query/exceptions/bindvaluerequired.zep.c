@@ -52,6 +52,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Exceptions_BindValueRequired, __construct)
 	ZVAL_STR_COPY(&name_zv, name);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SV(&_0, "Bind value is required for array type placeholder: ", &name_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_query_exceptions_bindvaluerequired_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

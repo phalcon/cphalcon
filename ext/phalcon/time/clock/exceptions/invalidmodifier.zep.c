@@ -70,6 +70,10 @@ PHP_METHOD(Phalcon_Time_Clock_Exceptions_InvalidModifier, __construct)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "Invalid modifier: \"", &modifier_zv, "\"");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZVAL_LONG(&_1, 0);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_time_clock_exceptions_invalidmodifier_ce, getThis(), "__construct", NULL, 0, &_0, &_1, ex);
 	zephir_check_call_status();

@@ -193,8 +193,16 @@ PHP_METHOD(Phalcon_Html_Helper_Style, getAttributes)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 281, PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
 		zephir_array_unset_string(&required, SL("rel"), PH_SEPARATE);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	zephir_array_unset_string(&attributes, SL("href"), PH_SEPARATE);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_fast_array_merge(return_value, &required, &attributes);
 	RETURN_MM();
 }

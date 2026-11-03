@@ -297,15 +297,36 @@ static inline void zephir_throw_return_type_error(uint32_t expected_type, zval *
 }
 
 /**
+ * Throws the TypeError for a value that a typed local cannot hold, worded as
+ * PHP words it for a typed property. PHP never coerces into `array`, so a
+ * local declared `array` rejects every other value, null included.
+ *
+ * See https://github.com/zephir-lang/zephir/issues/2689
+ */
+static inline void zephir_throw_variable_type_error(zval *value, const char *name, const char *type)
+{
+	zend_type_error("Cannot assign %s to variable $%s of type %s",
+#if PHP_VERSION_ID >= 80300
+		zend_zval_value_name(value),
+#else
+		zend_zval_type_name(value),
+#endif
+		name, type);
+}
+
+/**
  * Same as RETURN_MEMBER but verifies that the property's runtime type matches
  * the method's declared return type. Throws TypeError on mismatch.
  * Used when the method body is `return this->prop` and the method declares
  * a strict scalar return type like `-> string`.
+ *
+ * A read that already threw (an uninitialized typed property) is returned as
+ * is, so the engine's Error is not replaced by a return-type TypeError.
  */
 #define RETURN_MEMBER_TYPED(object, member_name, expected_type) \
   do { \
     zephir_return_property(return_value, object, SL(member_name)); \
-    if (UNEXPECTED(Z_TYPE_P(return_value) != (expected_type))) { \
+    if (UNEXPECTED(!EG(exception) && Z_TYPE_P(return_value) != (expected_type))) { \
       zephir_throw_return_type_error((expected_type), return_value); \
       return; \
     } \
@@ -316,7 +337,7 @@ static inline void zephir_throw_return_type_error(uint32_t expected_type, zval *
 #define RETURN_MM_MEMBER_TYPED(object, member_name, expected_type) \
   do { \
     zephir_return_property(return_value, object, SL(member_name)); \
-    if (UNEXPECTED(Z_TYPE_P(return_value) != (expected_type))) { \
+    if (UNEXPECTED(!EG(exception) && Z_TYPE_P(return_value) != (expected_type))) { \
       zephir_throw_return_type_error((expected_type), return_value); \
       ZEPHIR_MM_RESTORE(); \
       return; \
@@ -514,6 +535,11 @@ zend_property_info *zephir_declare_typed_property(zend_class_entry *ce, const ch
  * `num_classes` class names (0, 1 or many) form the object part of the union. */
 zend_property_info *zephir_declare_typed_property_union(zend_class_entry *ce, const char *name, size_t name_length, zval *value, int access_type, uint32_t type_mask, const char **class_names, uint32_t num_classes);
 
+/* Checks a union-typed argument against the method's own arg-info and coerces
+ * it in place the way the engine checks a PHP parameter. Throws the argument
+ * TypeError and returns 0 when it does not fit. */
+int zephir_verify_union_arg(zval *arg, uint32_t arg_num);
+
 /* Four of PHP's own attributes get their behaviour from a compile-time
  * validator in Zend/zend_attributes.c, which only runs while the engine
  * compiles userland code. A Zephir class is registered at MINIT, so the
@@ -634,6 +660,67 @@ ZEND_INI_MH(zephir_OnUpdateChar);
  * @see https://github.com/zephir-lang/zephir/issues/2449
  */
 void zephir_ini_activate_globals(const char *const *names);
+
+/**
+ * globals_set() for an extension global declared as `string`.
+ *
+ * The member is a `char *` that OnUpdateString points into its ini entry, and
+ * that value belongs to the engine. So the converted value is copied into
+ * `*owned`, which is the extension's own, and the member is pointed at the
+ * copy. The previous copy is freed here, the last one by
+ * zephir_globals_release_string().
+ *
+ * The copy is persistent because a `module` global keeps it across requests,
+ * and a request global must never point at request memory once ZendMM has
+ * reclaimed it. A plain buffer rather than a zend_string: refcounting a
+ * persistent string during a request trips zend.rc_debug.
+ *
+ * The value is converted as `(string)` does in PHP. When that throws (an
+ * object without __toString(), or a warning an error handler turned into an
+ * exception) nothing is written, and the caller checks EG(exception).
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2725
+ */
+void zephir_globals_set_string(char **member, char **owned, zval *value);
+
+/**
+ * Frees the copy zephir_globals_set_string() keeps for a `string` global.
+ * Called for every such global when the module globals are destroyed.
+ */
+void zephir_globals_release_string(char **owned);
+
+/**
+ * globals_set() for an extension global declared as `hash`.
+ *
+ * The member is NULL or holds one reference to a request array, which may be
+ * shared with PHP variables: C code writing to the table must separate it
+ * first when GC_REFCOUNT() > 1, release it with zend_array_release(), and put
+ * NULL back when it frees it itself.
+ *
+ * null puts the member back to NULL, its only valid default. Any other value
+ * is converted as `(array)` does in PHP. An immutable table (`[]`, an opcache
+ * literal) is copied, so C never receives one it cannot write to.
+ *
+ * The new table is stored before the old one is released, as PHP assigns
+ * before freeing the old value, so a destructor that runs then reads the new
+ * one. The caller checks EG(exception): the conversion and that destructor
+ * can both throw.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2726
+ */
+void zephir_globals_set_hash(HashTable **member, zval *value);
+
+/**
+ * globals_get() for an extension global declared as `hash`: null while the
+ * member is NULL, otherwise the table itself, shared copy-on-write.
+ */
+void zephir_globals_get_hash(zval *result, HashTable *member);
+
+/**
+ * Releases the table a `hash` global holds and puts it back to NULL. Called
+ * for every request `hash` global at the end of the request.
+ */
+void zephir_globals_release_hash(HashTable **member);
 
 /**
  * Z_PARAM_ARRAY(dest) expands to a call to zend_parse_arg_array(_arg, &dest, ...).

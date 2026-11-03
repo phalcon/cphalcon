@@ -48,8 +48,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Ip)
 PHP_METHOD(Phalcon_Filter_Sanitize_Ip, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long filter, ZEPHIR_LAST_CALL_STATUS;
-	zval input_zv, *filter_param = NULL, parts, ip, mask, maxMask, filtered, ipInput, _5, _6, _0$$3, _1$$3, _2$$3, _3$$3, _4$$3;
+	zval input_zv, *filter_param = NULL, parts, ip, mask, maxMask, filtered, ipInput, _7, _8, _0$$3, _1$$3, _2$$3, _4$$3, _5$$3, _6$$3;
 	zend_string *input = NULL;
 
 	ZVAL_UNDEF(&input_zv);
@@ -59,13 +60,14 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Ip, __invoke)
 	ZVAL_UNDEF(&maxMask);
 	ZVAL_UNDEF(&filtered);
 	ZVAL_UNDEF(&ipInput);
-	ZVAL_UNDEF(&_5);
-	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_7);
+	ZVAL_UNDEF(&_8);
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
-	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_4$$3);
+	ZVAL_UNDEF(&_5$$3);
+	ZVAL_UNDEF(&_6$$3);
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(input)
 		Z_PARAM_OPTIONAL
@@ -85,29 +87,42 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Ip, __invoke)
 	ZEPHIR_INIT_VAR(&ipInput);
 	zephir_fast_trim(&ipInput, &input_zv, NULL , ZEPHIR_TRIM_BOTH);
 	if (zephir_memnstr_str(&ipInput, SL("/"), "phalcon/Filter/Sanitize/Ip.zep", 32)) {
+		ZVAL_LONG(&_0$$3, 2);
 		ZEPHIR_INIT_VAR(&parts);
-		zephir_fast_explode_str(&parts, SL("/"), &ipInput, 2 );
+		zephir_fast_explode_str(&parts, SL("/"), &ipInput, &_0$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		zephir_memory_observe(&ip);
 		zephir_array_fetch_long(&ip, &parts, 0, PH_NOISY, "phalcon/Filter/Sanitize/Ip.zep", 34);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		zephir_memory_observe(&mask);
 		zephir_array_fetch_long(&mask, &parts, 1, PH_NOISY, "phalcon/Filter/Sanitize/Ip.zep", 35);
-		ZVAL_LONG(&_0$$3, 275);
-		ZVAL_LONG(&_1$$3, filter);
-		ZEPHIR_CALL_FUNCTION(&filtered, "filter_var", NULL, 0, &ip, &_0$$3, &_1$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		ZVAL_LONG(&_1$$3, 275);
+		ZVAL_LONG(&_2$$3, filter);
+		ZEPHIR_CALL_FUNCTION(&filtered, "filter_var", &_3, 0, &ip, &_1$$3, &_2$$3);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_FALSE_IDENTICAL(&filtered)) {
 			RETURN_MM_BOOL(0);
 		}
-		ZEPHIR_CALL_FUNCTION(&_2$$3, "ctype_digit", NULL, 0, &mask);
+		ZEPHIR_CALL_FUNCTION(&_4$$3, "ctype_digit", NULL, 0, &mask);
 		zephir_check_call_status();
-		if (!zephir_is_true(&_2$$3)) {
+		if (!zephir_is_true(&_4$$3)) {
 			RETURN_MM_BOOL(0);
 		}
-		ZEPHIR_INIT_VAR(&_3$$3);
-		ZVAL_STRING(&_3$$3, ":");
-		ZEPHIR_INIT_VAR(&_4$$3);
-		zephir_fast_strpos(&_4$$3, &filtered, &_3$$3, 0 );
-		if (!ZEPHIR_IS_FALSE_IDENTICAL(&_4$$3)) {
+		ZEPHIR_INIT_VAR(&_5$$3);
+		ZVAL_STRING(&_5$$3, ":");
+		ZEPHIR_INIT_VAR(&_6$$3);
+		zephir_fast_strpos(&_6$$3, &filtered, &_5$$3, 0 );
+		if (!ZEPHIR_IS_FALSE_IDENTICAL(&_6$$3)) {
 			ZEPHIR_INIT_VAR(&maxMask);
 			ZVAL_LONG(&maxMask, 128);
 		} else {
@@ -116,13 +131,17 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Ip, __invoke)
 		}
 		if (ZEPHIR_GE_LONG(&maxMask, zephir_get_intval(&mask))) {
 			ZEPHIR_CONCAT_VSV(return_value, &filtered, "/", &mask);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 			RETURN_MM();
 		}
 		RETURN_MM_BOOL(0);
 	}
-	ZVAL_LONG(&_5, 275);
-	ZVAL_LONG(&_6, filter);
-	ZEPHIR_RETURN_CALL_FUNCTION("filter_var", NULL, 0, &ipInput, &_5, &_6);
+	ZVAL_LONG(&_7, 275);
+	ZVAL_LONG(&_8, filter);
+	ZEPHIR_RETURN_CALL_FUNCTION("filter_var", &_3, 0, &ipInput, &_7, &_8);
 	zephir_check_call_status();
 	RETURN_MM();
 }

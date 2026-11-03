@@ -41,10 +41,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_FirstBetween)
 
 PHP_METHOD(Phalcon_Support_Helper_Str_FirstBetween, __invoke)
 {
-	zval _2;
+	zval _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval text_zv, start_zv, end_zv, __$true, result, _0, _1;
+	zephir_fcall_cache_entry *_0 = NULL;
+	zval text_zv, start_zv, end_zv, __$true, result, _1, _2;
 	zend_string *text = NULL, *start = NULL, *end = NULL;
 
 	ZVAL_UNDEF(&text_zv);
@@ -52,9 +53,9 @@ PHP_METHOD(Phalcon_Support_Helper_Str_FirstBetween, __invoke)
 	ZVAL_UNDEF(&end_zv);
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_UNDEF(&result);
-	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_STR(text)
 		Z_PARAM_STR(start)
@@ -68,30 +69,34 @@ PHP_METHOD(Phalcon_Support_Helper_Str_FirstBetween, __invoke)
 	ZVAL_STR_COPY(&start_zv, start);
 	zephir_memory_observe(&end_zv);
 	ZVAL_STR_COPY(&end_zv, end);
-	ZEPHIR_CALL_FUNCTION(&result, "mb_strstr", NULL, 0, &text_zv, &start_zv);
+	ZEPHIR_CALL_FUNCTION(&result, "mb_strstr", &_0, 0, &text_zv, &start_zv);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_0);
+	ZEPHIR_INIT_VAR(&_1);
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&result)) {
-		ZEPHIR_INIT_NVAR(&_0);
-		ZVAL_STRING(&_0, "");
+		ZEPHIR_INIT_NVAR(&_1);
+		ZVAL_STRING(&_1, "");
 	} else {
-		ZEPHIR_CPY_WRT(&_0, &result);
+		ZEPHIR_CPY_WRT(&_1, &result);
 	}
-	ZEPHIR_CPY_WRT(&result, &_0);
-	ZEPHIR_CALL_FUNCTION(&_1, "mb_strstr", NULL, 0, &result, &end_zv, &__$true);
-	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&result, &_1);
-	ZEPHIR_INIT_NVAR(&_0);
+	ZEPHIR_CALL_FUNCTION(&_2, "mb_strstr", &_0, 0, &result, &end_zv, &__$true);
+	zephir_check_call_status();
+	ZEPHIR_CPY_WRT(&result, &_2);
+	ZEPHIR_INIT_NVAR(&_1);
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&result)) {
-		ZEPHIR_INIT_NVAR(&_0);
-		ZVAL_STRING(&_0, "");
+		ZEPHIR_INIT_NVAR(&_1);
+		ZVAL_STRING(&_1, "");
 	} else {
-		ZEPHIR_CPY_WRT(&_0, &result);
+		ZEPHIR_CPY_WRT(&_1, &result);
 	}
-	ZEPHIR_CPY_WRT(&result, &_0);
-	ZEPHIR_INIT_VAR(&_2);
-	ZEPHIR_CONCAT_VV(&_2, &start_zv, &end_zv);
-	zephir_fast_trim(return_value, &result, &_2, ZEPHIR_TRIM_BOTH);
+	ZEPHIR_CPY_WRT(&result, &_1);
+	ZEPHIR_INIT_VAR(&_3);
+	ZEPHIR_CONCAT_VV(&_3, &start_zv, &end_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_fast_trim(return_value, &result, &_3, ZEPHIR_TRIM_BOTH);
 	RETURN_MM();
 }
 

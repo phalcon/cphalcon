@@ -78,14 +78,15 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Settings)
  */
 PHP_METHOD(Phalcon_Support_Settings, get)
 {
+	zend_bool _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval key_zv, localOverrides, _0$$3, _1$$23;
+	zval key_zv, localOverrides, _1$$3, _2$$23;
 	zend_string *key = NULL;
 
 	ZVAL_UNDEF(&key_zv);
 	ZVAL_UNDEF(&localOverrides);
-	ZVAL_UNDEF(&_0$$3);
-	ZVAL_UNDEF(&_1$$23);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2$$23);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(key)
 	ZEND_PARSE_PARAMETERS_END();
@@ -95,10 +96,19 @@ PHP_METHOD(Phalcon_Support_Settings, get)
 	ZVAL_STR_COPY(&key_zv, key);
 	zephir_memory_observe(&localOverrides);
 	zephir_read_static_property_ce(&localOverrides, phalcon_support_settings_ce, SL("overrides"), PH_NOISY_CC);
-	if (zephir_array_isset_value(&localOverrides, &key_zv)) {
-		zephir_memory_observe(&_0$$3);
-		zephir_array_fetch(&_0$$3, &localOverrides, &key_zv, PH_NOISY, "phalcon/Support/Settings.zep", 61);
-		RETURN_CCTOR(&_0$$3);
+	_0 = zephir_array_isset_value(&localOverrides, &key_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_0) {
+		zephir_memory_observe(&_1$$3);
+		zephir_array_fetch(&_1$$3, &localOverrides, &key_zv, PH_NOISY, "phalcon/Support/Settings.zep", 61);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		RETURN_CCTOR(&_1$$3);
 	}
 	if (ZEPHIR_IS_STRING(&key_zv, "db.escape_identifiers")) { goto zephir_switch_0_clause_0; }
 	if (ZEPHIR_IS_STRING(&key_zv, "db.force_casting")) { goto zephir_switch_0_clause_1; }
@@ -162,9 +172,9 @@ PHP_METHOD(Phalcon_Support_Settings, get)
 	zephir_switch_0_clause_18: ;
 		RETURN_MM_BOOL(ZEPHIR_GLOBAL(orm).resultset_empty_left_join_model);
 	zephir_switch_0_clause_19: ;
-		ZEPHIR_INIT_VAR(&_1$$23);
-		ZVAL_STRING(&_1$$23, "ZEPHIR_GLOBAL(orm).resultset_prefetch_records");
-		RETURN_MM_LONG(zephir_get_intval(&_1$$23));
+		ZEPHIR_INIT_VAR(&_2$$23);
+		ZVAL_STRING(&_2$$23, ZEPHIR_GLOBAL(orm).resultset_prefetch_records);
+		RETURN_MM_LONG(zephir_get_intval(&_2$$23));
 	zephir_switch_0_clause_20: ;
 		RETURN_MM_BOOL(ZEPHIR_GLOBAL(orm).update_snapshot_on_save);
 	zephir_switch_0_clause_21: ;
@@ -210,6 +220,10 @@ PHP_METHOD(Phalcon_Support_Settings, set)
 	zephir_memory_observe(&localOverrides);
 	zephir_read_static_property_ce(&localOverrides, phalcon_support_settings_ce, SL("overrides"), PH_NOISY_CC);
 	zephir_array_update_zval(&localOverrides, &key_zv, value, PH_COPY | PH_SEPARATE);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_static_property_ce(phalcon_support_settings_ce, ZEND_STRL("overrides"), &localOverrides);
 	ZEPHIR_MM_RESTORE();
 }

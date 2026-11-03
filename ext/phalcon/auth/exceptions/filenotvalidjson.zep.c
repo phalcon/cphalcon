@@ -62,6 +62,10 @@ PHP_METHOD(Phalcon_Auth_Exceptions_FileNotValidJson, __construct)
 	ZVAL_STR_COPY(&path_zv, path);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SV(&_0, "Stream adapter file is not valid JSON: ", &path_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZVAL_LONG(&_1, 0);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_auth_exceptions_filenotvalidjson_ce, getThis(), "__construct", NULL, 0, &_0, &_1, ex);
 	zephir_check_call_status();

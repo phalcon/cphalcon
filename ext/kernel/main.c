@@ -612,6 +612,188 @@ zend_property_info *zephir_declare_typed_property(zend_class_entry *ce, const ch
 	return zend_declare_typed_property(ce, key, &persisted, access_type, NULL, type);
 }
 
+/**
+ * Whether the object is an instance of one class named by the type. On PHP
+ * 8.0 an internal `A|B` class list stays a single name, so it is split here;
+ * 8.1+ splits it into a type list at registration.
+ */
+static int zephir_union_arg_is_instance(zend_type type, zend_object *object)
+{
+	/* const: PHP 8.5's ZEND_TYPE_LIST_FOREACH iterates a const zend_type list. */
+	const zend_type *list_type;
+
+	if (ZEND_TYPE_HAS_LIST(type)) {
+		ZEND_TYPE_LIST_FOREACH(ZEND_TYPE_LIST(type), list_type) {
+			if (zephir_union_arg_is_instance(*list_type, object)) {
+				return 1;
+			}
+		} ZEND_TYPE_LIST_FOREACH_END();
+
+		return 0;
+	}
+
+	if (!ZEND_TYPE_HAS_NAME(type)) {
+		return 0;
+	}
+
+	zend_string *names = ZEND_TYPE_NAME(type);
+	const char *start  = ZSTR_VAL(names);
+	const char *end    = start + ZSTR_LEN(names);
+
+	while (start < end) {
+		const char *separator = memchr(start, '|', end - start);
+		size_t length         = (separator ? separator : end) - start;
+		zend_string *name     = zend_string_init(start, length, 0);
+		zend_class_entry *ce  = zend_lookup_class_ex(name, NULL, ZEND_FETCH_CLASS_NO_AUTOLOAD);
+
+		zend_string_release(name);
+		if (ce && instanceof_function(object->ce, ce)) {
+			return 1;
+		}
+		if (!separator) {
+			break;
+		}
+		start = separator + 1;
+	}
+
+	return 0;
+}
+
+/**
+ * The engine's weak-mode scalar coercion (`zend_verify_weak_scalar_type_hint`),
+ * which is not exported. The argument number makes a null argument raise the
+ * same deprecation an internal function's own parameter parsing raises.
+ */
+static int zephir_union_arg_coerce_weak(uint32_t type_mask, zval *arg, uint32_t arg_num)
+{
+	zend_long lval;
+	double dval;
+	zend_string *str;
+	zend_bool bval;
+
+#if PHP_VERSION_ID >= 80100
+# define ZEPHIR_WEAK_ARG_NUM , arg_num
+#else
+# define ZEPHIR_WEAK_ARG_NUM
+	(void) arg_num;
+#endif
+
+	/* Type preference order: int -> float -> string -> bool */
+	if (type_mask & MAY_BE_LONG) {
+		if ((type_mask & MAY_BE_DOUBLE) && Z_TYPE_P(arg) == IS_STRING) {
+			uint8_t type = is_numeric_str_function(Z_STR_P(arg), &lval, &dval);
+			if (type == IS_LONG) {
+				zend_string_release(Z_STR_P(arg));
+				ZVAL_LONG(arg, lval);
+				return 1;
+			}
+			if (type == IS_DOUBLE) {
+				zend_string_release(Z_STR_P(arg));
+				ZVAL_DOUBLE(arg, dval);
+				return 1;
+			}
+		} else if (zend_parse_arg_long_weak(arg, &lval ZEPHIR_WEAK_ARG_NUM)) {
+			zval_ptr_dtor(arg);
+			ZVAL_LONG(arg, lval);
+			return 1;
+		} else if (UNEXPECTED(EG(exception))) {
+			return 0;
+		}
+	}
+	if ((type_mask & MAY_BE_DOUBLE) && zend_parse_arg_double_weak(arg, &dval ZEPHIR_WEAK_ARG_NUM)) {
+		zval_ptr_dtor(arg);
+		ZVAL_DOUBLE(arg, dval);
+		return 1;
+	}
+	if ((type_mask & MAY_BE_STRING) && zend_parse_arg_str_weak(arg, &str ZEPHIR_WEAK_ARG_NUM)) {
+		/* on success "arg" is converted to IS_STRING */
+		return 1;
+	}
+	if ((type_mask & MAY_BE_BOOL) == MAY_BE_BOOL && zend_parse_arg_bool_weak(arg, &bval ZEPHIR_WEAK_ARG_NUM)) {
+		zval_ptr_dtor(arg);
+		ZVAL_BOOL(arg, bval);
+		return 1;
+	}
+
+#undef ZEPHIR_WEAK_ARG_NUM
+
+	return 0;
+}
+
+/**
+ * Mirrors the engine's `zend_check_type()` for a parameter: the type mask,
+ * then the class members, then a strict or weak scalar coercion chosen by the
+ * caller's `strict_types`. Coercion happens in place, so the method reads the
+ * converted value. A weak-mode null reaching a scalar union is coerced as an
+ * internal function's parameter parsing does.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2761
+ */
+int zephir_verify_union_arg(zval *arg, uint32_t arg_num)
+{
+	zend_function *func = EG(current_execute_data)->func;
+	zend_arg_info *arg_info;
+	zend_reference *ref = NULL;
+	uint32_t type_mask;
+
+	if (arg_num > func->common.num_args) {
+		return 1;
+	}
+
+	arg_info = &func->common.arg_info[arg_num - 1];
+	if (!ZEND_TYPE_IS_SET(arg_info->type)) {
+		return 1;
+	}
+
+	if (UNEXPECTED(Z_ISREF_P(arg))) {
+		ref = Z_REF_P(arg);
+		arg = Z_REFVAL_P(arg);
+	}
+
+	if (EXPECTED(ZEND_TYPE_CONTAINS_CODE(arg_info->type, Z_TYPE_P(arg)))) {
+		return 1;
+	}
+
+	if (Z_TYPE_P(arg) == IS_OBJECT && zephir_union_arg_is_instance(arg_info->type, Z_OBJ_P(arg))) {
+		return 1;
+	}
+
+	type_mask = ZEND_TYPE_FULL_MASK(arg_info->type);
+	if ((type_mask & MAY_BE_CALLABLE) && zend_is_callable(arg, 0, NULL)) {
+		return 1;
+	}
+
+	/* A typed reference cannot be converted. */
+	if (!ref || !ZEND_REF_HAS_TYPE_SOURCES(ref)) {
+		if (ZEND_ARG_USES_STRICT_TYPES()) {
+			/* An int may still widen to float. */
+			if ((type_mask & MAY_BE_DOUBLE) && Z_TYPE_P(arg) == IS_LONG) {
+				ZVAL_DOUBLE(arg, (double) Z_LVAL_P(arg));
+				return 1;
+			}
+		} else if (zephir_union_arg_coerce_weak(type_mask, arg, arg_num)) {
+			return 1;
+		}
+	}
+
+	if (EG(exception)) {
+		return 0;
+	}
+
+	zend_string *type_str = zend_type_to_string(arg_info->type);
+	zend_argument_type_error(arg_num, "must be of type %s, %s given",
+		ZSTR_VAL(type_str),
+#if PHP_VERSION_ID >= 80300
+		zend_zval_value_name(arg)
+#else
+		zend_zval_type_name(arg)
+#endif
+	);
+	zend_string_release(type_str);
+
+	return 0;
+}
+
 zend_property_info *zephir_declare_typed_property_union(zend_class_entry *ce, const char *name, size_t name_length, zval *value, int access_type, uint32_t type_mask, const char **class_names, uint32_t num_classes)
 {
 	zend_string *key = zend_string_init_interned(name, name_length, 1);
@@ -1229,5 +1411,94 @@ void zephir_ini_activate_globals(const char *const *names)
 				ZEND_INI_STAGE_ACTIVATE
 			);
 		}
+	}
+}
+
+void zephir_globals_set_string(char **member, char **owned, zval *value)
+{
+	zend_string *str = zval_get_string(value);
+	char *copy;
+
+	if (UNEXPECTED(EG(exception))) {
+		zend_string_release(str);
+		return;
+	}
+
+	/* pemalloc() fails with a fatal error rather than returning NULL, which
+	 * zend_strndup() would, and the member must never be NULL. */
+	copy = pemalloc(ZSTR_LEN(str) + 1, 1);
+	memcpy(copy, ZSTR_VAL(str), ZSTR_LEN(str) + 1);
+	zend_string_release(str);
+
+	zephir_globals_release_string(owned);
+	*owned  = copy;
+	*member = copy;
+}
+
+void zephir_globals_release_string(char **owned)
+{
+	if (*owned) {
+		pefree(*owned, 1);
+		*owned = NULL;
+	}
+}
+
+void zephir_globals_set_hash(HashTable **member, zval *value)
+{
+	HashTable *previous = *member;
+	zval array;
+
+	ZVAL_DEREF(value);
+
+	if (Z_TYPE_P(value) == IS_NULL) {
+		*member = NULL;
+	} else {
+		ZVAL_COPY(&array, value);
+		convert_to_array(&array);
+
+		if (UNEXPECTED(EG(exception))) {
+			zval_ptr_dtor(&array);
+			return;
+		}
+
+		/* Never refcounted, so ZVAL_COPY() took no reference to it. */
+		if (GC_FLAGS(Z_ARR(array)) & IS_ARRAY_IMMUTABLE) {
+			ZVAL_ARR(&array, zend_array_dup(Z_ARR(array)));
+		}
+
+		*member = Z_ARR(array);
+	}
+
+	if (previous) {
+		zend_array_release(previous);
+	}
+}
+
+void zephir_globals_get_hash(zval *result, HashTable *member)
+{
+	if (!member) {
+		ZVAL_NULL(result);
+		return;
+	}
+
+	/* One C put there itself: a zval holding it must not count references. */
+	if (GC_FLAGS(member) & IS_ARRAY_IMMUTABLE) {
+		ZVAL_ARR(result, member);
+		Z_TYPE_FLAGS_P(result) = 0;
+		return;
+	}
+
+	GC_ADDREF(member);
+	ZVAL_ARR(result, member);
+}
+
+void zephir_globals_release_hash(HashTable **member)
+{
+	HashTable *previous = *member;
+
+	*member = NULL;
+
+	if (previous) {
+		zend_array_release(previous);
 	}
 }

@@ -125,16 +125,16 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Pluck, __invoke)
  */
 PHP_METHOD(Phalcon_Support_Helper_Arr_Pluck, checkArray)
 {
-	zend_bool _0;
+	zend_bool _0, _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_string *element = NULL;
-	zval *filtered_param = NULL, element_zv, *item, item_sub, _1$$3;
+	zval *filtered_param = NULL, element_zv, *item, item_sub, _2$$3;
 	zval filtered;
 
 	ZVAL_UNDEF(&filtered);
 	ZVAL_UNDEF(&element_zv);
 	ZVAL_UNDEF(&item_sub);
-	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2$$3);
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		ZEPHIR_Z_PARAM_ARRAY(filtered, filtered_param)
 		Z_PARAM_STR(element)
@@ -149,12 +149,25 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Pluck, checkArray)
 	ZVAL_STR_COPY(&element_zv, element);
 	_0 = Z_TYPE_P(item) == IS_ARRAY;
 	if (_0) {
-		_0 = zephir_array_isset_value(item, &element_zv);
+		_1 = zephir_array_isset_value(item, &element_zv);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		_0 = _1;
 	}
 	if (_0) {
-		zephir_memory_observe(&_1$$3);
-		zephir_array_fetch(&_1$$3, item, &element_zv, PH_NOISY, "phalcon/Support/Helper/Arr/Pluck.zep", 47);
-		zephir_array_append(&filtered, &_1$$3, PH_SEPARATE, "phalcon/Support/Helper/Arr/Pluck.zep", 47);
+		zephir_memory_observe(&_2$$3);
+		zephir_array_fetch(&_2$$3, item, &element_zv, PH_NOISY, "phalcon/Support/Helper/Arr/Pluck.zep", 47);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		zephir_array_append(&filtered, &_2$$3, PH_SEPARATE, "phalcon/Support/Helper/Arr/Pluck.zep", 47);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	RETURN_CTOR(&filtered);
 }
@@ -168,16 +181,16 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Pluck, checkArray)
  */
 PHP_METHOD(Phalcon_Support_Helper_Arr_Pluck, checkObject)
 {
-	zend_bool _0;
+	zend_bool _0, _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_string *element = NULL;
-	zval *filtered_param = NULL, element_zv, *item, item_sub, _1$$3;
+	zval *filtered_param = NULL, element_zv, *item, item_sub, _2$$3;
 	zval filtered;
 
 	ZVAL_UNDEF(&filtered);
 	ZVAL_UNDEF(&element_zv);
 	ZVAL_UNDEF(&item_sub);
-	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2$$3);
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		ZEPHIR_Z_PARAM_ARRAY(filtered, filtered_param)
 		Z_PARAM_STR(element)
@@ -192,12 +205,21 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Pluck, checkObject)
 	ZVAL_STR_COPY(&element_zv, element);
 	_0 = Z_TYPE_P(item) == IS_OBJECT;
 	if (_0) {
-		_0 = zephir_isset_property_value_zval(item, &element_zv);
+		_1 = zephir_isset_property_value_zval(item, &element_zv);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		_0 = _1;
 	}
 	if (_0) {
-		zephir_memory_observe(&_1$$3);
-		zephir_read_property_zval(&_1$$3, item, &element_zv, PH_NOISY_CC);
-		zephir_array_append(&filtered, &_1$$3, PH_SEPARATE, "phalcon/Support/Helper/Arr/Pluck.zep", 63);
+		zephir_memory_observe(&_2$$3);
+		zephir_read_property_zval(&_2$$3, item, &element_zv, PH_NOISY_CC);
+		zephir_array_append(&filtered, &_2$$3, PH_SEPARATE, "phalcon/Support/Helper/Arr/Pluck.zep", 63);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	RETURN_CTOR(&filtered);
 }

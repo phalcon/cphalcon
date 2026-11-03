@@ -52,6 +52,10 @@ PHP_METHOD(Phalcon_Http_Request_Exceptions_InvalidHttpMethod, __construct)
 	ZVAL_STR_COPY(&method_zv, method);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SV(&_0, "Invalid HTTP method: ", &method_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_http_request_exceptions_invalidhttpmethod_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

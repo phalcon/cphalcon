@@ -52,6 +52,10 @@ PHP_METHOD(Phalcon_Events_Exceptions_InvalidSubscriberConfiguration, __construct
 	ZVAL_STR_COPY(&eventName_zv, eventName);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SV(&_0, "Invalid event subscriber configuration for ", &eventName_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_events_exceptions_invalidsubscriberconfiguration_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

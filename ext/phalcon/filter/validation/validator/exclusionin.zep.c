@@ -123,9 +123,10 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_ExclusionIn, __construct)
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_ExclusionIn, validate)
 {
+	zend_bool _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validation, validation_sub, *field, field_sub, value, domain, replacePairs, strict, fieldDomain, _0, _1, _3, _7, _2$$6, _4$$7, _5$$8, _6$$9, _8$$10, _9$$10;
+	zval *validation, validation_sub, *field, field_sub, value, domain, replacePairs, strict, fieldDomain, _0, _1, _4, _8, _3$$6, _5$$7, _6$$8, _7$$9, _9$$10, _10$$10;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
@@ -137,14 +138,14 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_ExclusionIn, validate)
 	ZVAL_UNDEF(&fieldDomain);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_7);
-	ZVAL_UNDEF(&_2$$6);
-	ZVAL_UNDEF(&_4$$7);
-	ZVAL_UNDEF(&_5$$8);
-	ZVAL_UNDEF(&_6$$9);
-	ZVAL_UNDEF(&_8$$10);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_8);
+	ZVAL_UNDEF(&_3$$6);
+	ZVAL_UNDEF(&_5$$7);
+	ZVAL_UNDEF(&_6$$8);
+	ZVAL_UNDEF(&_7$$9);
 	ZVAL_UNDEF(&_9$$10);
+	ZVAL_UNDEF(&_10$$10);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
 		Z_PARAM_ZVAL(field)
@@ -164,17 +165,22 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_ExclusionIn, validate)
 	ZEPHIR_CALL_METHOD(&domain, this_ptr, "getOption", NULL, 0, &_1);
 	zephir_check_call_status();
 	zephir_memory_observe(&fieldDomain);
-	if (zephir_array_isset_fetch(&fieldDomain, &domain, field, 0)) {
+	_2 = zephir_array_isset_fetch(&fieldDomain, &domain, field, 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_2) {
 		if (Z_TYPE_P(&fieldDomain) == IS_ARRAY) {
 			ZEPHIR_CPY_WRT(&domain, &fieldDomain);
 		}
 	}
 	if (UNEXPECTED(Z_TYPE_P(&domain) != IS_ARRAY)) {
-		ZEPHIR_INIT_VAR(&_2$$6);
-		object_init_ex(&_2$$6, phalcon_filter_validation_exceptions_invaliddomainoption_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_2$$6, "__construct", NULL, 0);
+		ZEPHIR_INIT_VAR(&_3$$6);
+		object_init_ex(&_3$$6, phalcon_filter_validation_exceptions_invaliddomainoption_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$6, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$6, "phalcon/Filter/Validation/Validator/ExclusionIn.zep", 108);
+		zephir_throw_exception_debug(&_3$$6, "phalcon/Filter/Validation/Validator/ExclusionIn.zep", 108);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -182,39 +188,43 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_ExclusionIn, validate)
 	ZVAL_BOOL(&strict, 0);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "strict");
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "hasOption", NULL, 0, &_1);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "hasOption", NULL, 0, &_1);
 	zephir_check_call_status();
-	if (zephir_is_true(&_3)) {
-		ZEPHIR_INIT_VAR(&_4$$7);
-		ZVAL_STRING(&_4$$7, "strict");
-		ZEPHIR_CALL_METHOD(&strict, this_ptr, "getOption", NULL, 0, &_4$$7);
+	if (zephir_is_true(&_4)) {
+		ZEPHIR_INIT_VAR(&_5$$7);
+		ZVAL_STRING(&_5$$7, "strict");
+		ZEPHIR_CALL_METHOD(&strict, this_ptr, "getOption", NULL, 0, &_5$$7);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&strict) == IS_ARRAY) {
-			zephir_memory_observe(&_5$$8);
-			zephir_array_fetch(&_5$$8, &strict, field, PH_NOISY, "phalcon/Filter/Validation/Validator/ExclusionIn.zep", 117);
-			ZEPHIR_CPY_WRT(&strict, &_5$$8);
+			zephir_memory_observe(&_6$$8);
+			zephir_array_fetch(&_6$$8, &strict, field, PH_NOISY, "phalcon/Filter/Validation/Validator/ExclusionIn.zep", 117);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			ZEPHIR_CPY_WRT(&strict, &_6$$8);
 		}
 		if (UNEXPECTED(((Z_TYPE_P(&strict) == IS_TRUE || Z_TYPE_P(&strict) == IS_FALSE) != 1))) {
-			ZEPHIR_INIT_VAR(&_6$$9);
-			object_init_ex(&_6$$9, phalcon_filter_validation_exceptions_invalidstrictoption_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_6$$9, "__construct", NULL, 0);
+			ZEPHIR_INIT_VAR(&_7$$9);
+			object_init_ex(&_7$$9, phalcon_filter_validation_exceptions_invalidstrictoption_ce);
+			ZEPHIR_CALL_METHOD(NULL, &_7$$9, "__construct", NULL, 0);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_6$$9, "phalcon/Filter/Validation/Validator/ExclusionIn.zep", 121);
+			zephir_throw_exception_debug(&_7$$9, "phalcon/Filter/Validation/Validator/ExclusionIn.zep", 121);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
 	}
-	ZEPHIR_CALL_FUNCTION(&_7, "in_array", NULL, 87, &value, &domain, &strict);
+	ZEPHIR_CALL_FUNCTION(&_8, "in_array", NULL, 87, &value, &domain, &strict);
 	zephir_check_call_status();
-	if (zephir_is_true(&_7)) {
+	if (zephir_is_true(&_8)) {
 		ZEPHIR_INIT_VAR(&replacePairs);
 		zephir_create_array(&replacePairs, 1, 0);
-		ZEPHIR_INIT_VAR(&_8$$10);
-		zephir_fast_join_str(&_8$$10, SL(", "), &domain);
-		zephir_array_update_string(&replacePairs, SL(":domain"), &_8$$10, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_METHOD(&_9$$10, this_ptr, "messageFactory", NULL, 0, validation, field, &replacePairs);
+		ZEPHIR_INIT_VAR(&_9$$10);
+		zephir_fast_join_str(&_9$$10, SL(", "), &domain);
+		zephir_array_update_string(&replacePairs, SL(":domain"), &_9$$10, PH_COPY | PH_SEPARATE);
+		ZEPHIR_CALL_METHOD(&_10$$10, this_ptr, "messageFactory", NULL, 0, validation, field, &replacePairs);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendMessage", NULL, 0, &_9$$10);
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendMessage", NULL, 0, &_10$$10);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}

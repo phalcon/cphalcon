@@ -108,6 +108,8 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, accepted)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, zend_get_called_scope(execute_data));
+	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
+	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
 		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 		zephir_check_call_status();
@@ -150,6 +152,8 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, authenticated)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, zend_get_called_scope(execute_data));
+	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
+	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
 		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 		zephir_check_call_status();
@@ -192,6 +196,8 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, authorized)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, zend_get_called_scope(execute_data));
+	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
+	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
 		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 		zephir_check_call_status();
@@ -234,6 +240,8 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, created)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, zend_get_called_scope(execute_data));
+	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
+	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
 		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 		zephir_check_call_status();
@@ -276,6 +284,8 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, deleted)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, zend_get_called_scope(execute_data));
+	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
+	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
 		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 		zephir_check_call_status();
@@ -318,6 +328,8 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, error)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, zend_get_called_scope(execute_data));
+	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
+	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
 		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 		zephir_check_call_status();
@@ -361,6 +373,8 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, forbidden)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, zend_get_called_scope(execute_data));
+	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
+	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
 		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 		zephir_check_call_status();
@@ -403,6 +417,8 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, found)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, zend_get_called_scope(execute_data));
+	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
+	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
 		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 		zephir_check_call_status();
@@ -445,6 +461,8 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, invalid)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, zend_get_called_scope(execute_data));
+	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
+	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
 		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 		zephir_check_call_status();
@@ -487,6 +505,8 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, notAccepted)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, zend_get_called_scope(execute_data));
+	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
+	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
 		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 		zephir_check_call_status();
@@ -529,6 +549,8 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, notCreated)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, zend_get_called_scope(execute_data));
+	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
+	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
 		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 		zephir_check_call_status();
@@ -571,6 +593,8 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, notDeleted)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, zend_get_called_scope(execute_data));
+	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
+	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
 		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 		zephir_check_call_status();
@@ -613,6 +637,8 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, notFound)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, zend_get_called_scope(execute_data));
+	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
+	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
 		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 		zephir_check_call_status();
@@ -655,6 +681,8 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, notUpdated)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, zend_get_called_scope(execute_data));
+	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
+	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
 		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 		zephir_check_call_status();
@@ -697,6 +725,8 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, processing)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, zend_get_called_scope(execute_data));
+	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
+	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
 		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 		zephir_check_call_status();
@@ -739,6 +769,8 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, success)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, zend_get_called_scope(execute_data));
+	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
+	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
 		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 		zephir_check_call_status();
@@ -782,6 +814,8 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, unauthenticated)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, zend_get_called_scope(execute_data));
+	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
+	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
 		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 		zephir_check_call_status();
@@ -824,6 +858,8 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, updated)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, zend_get_called_scope(execute_data));
+	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
+	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
 		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 		zephir_check_call_status();
@@ -866,6 +902,8 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, valid)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, zend_get_called_scope(execute_data));
+	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
+	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
 		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 		zephir_check_call_status();
@@ -958,7 +996,8 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, withException)
 	zephir_fetch_params(1, 1, 0, &exception);
 	ZEPHIR_INIT_VAR(&cloned);
 	if (zephir_clone(&cloned, this_ptr) == FAILURE) {
-		RETURN_MM();
+		ZEPHIR_MM_RESTORE();
+		return;
 	}
 	zephir_update_property_zval_cached(&cloned, _zephir_prop_0, 0, exception);
 	RETURN_CCTOR(&cloned);
@@ -988,7 +1027,8 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, withExtras)
 	zephir_fetch_params(1, 1, 0, &extras);
 	ZEPHIR_INIT_VAR(&cloned);
 	if (zephir_clone(&cloned, this_ptr) == FAILURE) {
-		RETURN_MM();
+		ZEPHIR_MM_RESTORE();
+		return;
 	}
 	zephir_update_property_zval_cached(&cloned, _zephir_prop_0, 0, extras);
 	RETURN_CCTOR(&cloned);
@@ -1018,7 +1058,8 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, withInput)
 	zephir_fetch_params(1, 1, 0, &input);
 	ZEPHIR_INIT_VAR(&cloned);
 	if (zephir_clone(&cloned, this_ptr) == FAILURE) {
-		RETURN_MM();
+		ZEPHIR_MM_RESTORE();
+		return;
 	}
 	zephir_update_property_zval_cached(&cloned, _zephir_prop_0, 0, input);
 	RETURN_CCTOR(&cloned);
@@ -1048,7 +1089,8 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, withMessages)
 	zephir_fetch_params(1, 1, 0, &messages);
 	ZEPHIR_INIT_VAR(&cloned);
 	if (zephir_clone(&cloned, this_ptr) == FAILURE) {
-		RETURN_MM();
+		ZEPHIR_MM_RESTORE();
+		return;
 	}
 	zephir_update_property_zval_cached(&cloned, _zephir_prop_0, 0, messages);
 	RETURN_CCTOR(&cloned);
@@ -1078,7 +1120,8 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, withResult)
 	zephir_fetch_params(1, 1, 0, &result);
 	ZEPHIR_INIT_VAR(&cloned);
 	if (zephir_clone(&cloned, this_ptr) == FAILURE) {
-		RETURN_MM();
+		ZEPHIR_MM_RESTORE();
+		return;
 	}
 	zephir_update_property_zval_cached(&cloned, _zephir_prop_0, 0, result);
 	RETURN_CCTOR(&cloned);
@@ -1108,7 +1151,8 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, withStatus)
 	zephir_fetch_params(1, 1, 0, &status);
 	ZEPHIR_INIT_VAR(&cloned);
 	if (zephir_clone(&cloned, this_ptr) == FAILURE) {
-		RETURN_MM();
+		ZEPHIR_MM_RESTORE();
+		return;
 	}
 	zephir_update_property_zval_cached(&cloned, _zephir_prop_0, 0, status);
 	RETURN_CCTOR(&cloned);

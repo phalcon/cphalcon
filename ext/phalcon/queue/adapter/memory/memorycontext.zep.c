@@ -204,6 +204,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, createSubscriptionConsume
  */
 PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, popMessage)
 {
+	zend_bool _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval queueName_zv, messages, message, _0;
@@ -228,7 +229,12 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, popMessage)
 	ZVAL_STR_COPY(&queueName_zv, queueName);
 	zephir_memory_observe(&messages);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1291, PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset_fetch(&messages, &_0, &queueName_zv, 0))) {
+	_1 = zephir_array_isset_fetch(&messages, &_0, &queueName_zv, 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (!(_1)) {
 		RETURN_MM_NULL();
 	}
 	if (ZEPHIR_IS_EMPTY(&messages)) {
@@ -239,6 +245,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, popMessage)
 	ZEPHIR_UNREF(&messages);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("queues"), &queueName_zv, &messages);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_CCTOR(&message);
 }
 
@@ -266,6 +276,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, purgeQueue)
 	ZEPHIR_CALL_METHOD(&_1, queue, "getQueueName", NULL, 0);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("queues"), &_1, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -275,6 +289,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, purgeQueue)
  */
 PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, pushMessage)
 {
+	zend_bool _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval queueName_zv, *message, message_sub, messages, _0;
 	zend_string *queueName = NULL;
@@ -300,12 +315,25 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, pushMessage)
 	ZVAL_STR_COPY(&queueName_zv, queueName);
 	zephir_memory_observe(&messages);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1291, PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset_fetch(&messages, &_0, &queueName_zv, 0))) {
+	_1 = zephir_array_isset_fetch(&messages, &_0, &queueName_zv, 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (!(_1)) {
 		ZEPHIR_INIT_NVAR(&messages);
 		array_init(&messages);
 	}
 	zephir_array_append(&messages, message, PH_SEPARATE, "phalcon/Queue/Adapter/Memory/MemoryContext.zep", 129);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_array(this_ptr, SL("queues"), &queueName_zv, &messages);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

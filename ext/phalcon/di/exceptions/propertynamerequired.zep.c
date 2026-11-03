@@ -53,6 +53,10 @@ PHP_METHOD(Phalcon_Di_Exceptions_PropertyNameRequired, __construct)
 	ZVAL_LONG(&_0, position);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_SV(&_1, "The property name is required on position ", &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_di_exceptions_propertynamerequired_ce, getThis(), "__construct", NULL, 0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

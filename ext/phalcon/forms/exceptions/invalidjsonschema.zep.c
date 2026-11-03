@@ -52,6 +52,10 @@ PHP_METHOD(Phalcon_Forms_Exceptions_InvalidJsonSchema, __construct)
 	ZVAL_STR_COPY(&detail_zv, detail);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SV(&_0, "JSON form schema is invalid: ", &detail_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_forms_exceptions_invalidjsonschema_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

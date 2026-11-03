@@ -106,6 +106,10 @@ PHP_METHOD(Phalcon_ADR_Middleware_MethodOverrideMiddleware, __invoke)
 		ZEPHIR_CALL_METHOD(&_2$$3, request, "getPost", NULL, 0, &_3$$3);
 		zephir_check_call_status();
 		zephir_cast_to_string(&_4$$3, &_2$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_INIT_VAR(&spoofed);
 		zephir_fast_strtoupper(&spoofed, &_4$$3);
 		zephir_read_property_cached(&_5$$3, this_ptr, _zephir_prop_0, 365, PH_NOISY_CC | PH_READONLY);

@@ -136,6 +136,9 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_EnvDefault, resolve)
 			zend_clear_exception();
 			ZEPHIR_CPY_WRT(&_1, &_0);
 			RETURN_MM_MEMBER(getThis(), "defaultValue");
+		} else {
+			ZEPHIR_MM_RESTORE();
+			return;
 		}
 	}
 }

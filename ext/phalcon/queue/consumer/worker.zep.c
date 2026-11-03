@@ -212,6 +212,10 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, run)
 		ZVAL_LONG(&_7$$4, maxSeconds);
 		ZEPHIR_INIT_VAR(&_8$$4);
 		zephir_add_function(&_8$$4, &_6$$4, &_7$$4);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		deadline = zephir_get_intval(&_8$$4);
 		if (jitter > 0) {
 			ZVAL_LONG(&_9$$5, 0);
@@ -222,6 +226,10 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, run)
 			ZVAL_LONG(&_12$$5, deadline);
 			ZEPHIR_INIT_VAR(&_13$$5);
 			zephir_add_function(&_13$$5, &_12$$5, &_11$$5);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 			deadline = zephir_get_intval(&_13$$5);
 		}
 	}
@@ -276,8 +284,9 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, run)
  */
 PHP_METHOD(Phalcon_Queue_Consumer_Worker, installSignalHandlers)
 {
-	zval _2, _4, _5;
+	zval _2, _5, _6;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zephir_fcall_cache_entry *_4 = NULL;
 	zval __$true, _0, _1, _3;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -287,8 +296,8 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, installSignalHandlers)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_6);
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
@@ -308,16 +317,7 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, installSignalHandlers)
 	ZVAL_STRING(&_1, "handleSignal");
 	zephir_array_fast_append(&_2, &_1);
 	ZVAL_LONG(&_3, 15);
-	ZEPHIR_CALL_FUNCTION(NULL, "pcntl_signal", NULL, 0, &_3, &_2);
-	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_4);
-	zephir_create_array(&_4, 2, 0);
-	zephir_array_fast_append(&_4, this_ptr);
-	ZEPHIR_INIT_NVAR(&_1);
-	ZVAL_STRING(&_1, "handleSignal");
-	zephir_array_fast_append(&_4, &_1);
-	ZVAL_LONG(&_3, 2);
-	ZEPHIR_CALL_FUNCTION(NULL, "pcntl_signal", NULL, 0, &_3, &_4);
+	ZEPHIR_CALL_FUNCTION(NULL, "pcntl_signal", &_4, 0, &_3, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_5);
 	zephir_create_array(&_5, 2, 0);
@@ -325,8 +325,17 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, installSignalHandlers)
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "handleSignal");
 	zephir_array_fast_append(&_5, &_1);
+	ZVAL_LONG(&_3, 2);
+	ZEPHIR_CALL_FUNCTION(NULL, "pcntl_signal", &_4, 0, &_3, &_5);
+	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(&_6);
+	zephir_create_array(&_6, 2, 0);
+	zephir_array_fast_append(&_6, this_ptr);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_STRING(&_1, "handleSignal");
+	zephir_array_fast_append(&_6, &_1);
 	ZVAL_LONG(&_3, 3);
-	ZEPHIR_CALL_FUNCTION(NULL, "pcntl_signal", NULL, 0, &_3, &_5);
+	ZEPHIR_CALL_FUNCTION(NULL, "pcntl_signal", &_4, 0, &_3, &_6);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

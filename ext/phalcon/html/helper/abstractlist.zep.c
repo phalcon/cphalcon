@@ -194,6 +194,10 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractList, __toString)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&contents);
 	ZEPHIR_CONCAT_VV(&contents, &_1, &_2);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_METHOD(&_5, this_ptr, "getTag", NULL, 0);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_6, this_ptr, _zephir_prop_2, 123, PH_NOISY_CC | PH_READONLY);

@@ -165,6 +165,9 @@ PHP_METHOD(Phalcon_ADR_Front_AbstractHttpFront, run)
 			ZEPHIR_RETURN_CALL_METHOD(this_ptr, "handleBootError", NULL, 0, &exception);
 			zephir_check_call_status();
 			RETURN_MM();
+		} else {
+			ZEPHIR_MM_RESTORE();
+			return;
 		}
 	}
 	RETURN_MM_LONG(0);
@@ -226,6 +229,10 @@ PHP_METHOD(Phalcon_ADR_Front_AbstractHttpFront, handleBootError)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &exception);
 	zephir_cast_to_string(&_0, exception);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_FUNCTION(NULL, "error_log", NULL, 228, &_0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&_1, "headers_sent", NULL, 229);

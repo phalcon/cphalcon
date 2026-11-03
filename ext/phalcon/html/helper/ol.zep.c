@@ -178,6 +178,10 @@ PHP_METHOD(Phalcon_Html_Helper_Ol, add)
 	zephir_check_call_status();
 	zephir_array_fast_append(&_0, &_5);
 	zephir_update_property_array_append(this_ptr, SL("store"), &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 

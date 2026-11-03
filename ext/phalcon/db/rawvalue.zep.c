@@ -96,6 +96,10 @@ PHP_METHOD(Phalcon_Db_RawValue, __construct)
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 672, &_1$$4);
 	} else {
 		zephir_cast_to_string(&_2$$5, value);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 672, &_2$$5);
 	}
 	ZEPHIR_MM_RESTORE();

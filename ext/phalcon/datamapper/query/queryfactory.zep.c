@@ -185,6 +185,10 @@ PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, newSelect)
 	zephir_fetch_params(1, 1, 0, &connection);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 602, PH_NOISY_CC | PH_READONLY);
 	zephir_get_strval(&selectClass, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_fetch_safe_class(&_1, &selectClass);
 	_2 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_1), Z_STRLEN_P(&_1), ZEND_FETCH_CLASS_AUTO);
 	if(!_2) {

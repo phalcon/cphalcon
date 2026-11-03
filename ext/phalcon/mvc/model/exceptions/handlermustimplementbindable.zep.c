@@ -45,6 +45,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Exceptions_HandlerMustImplementBindable, __construc
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SS(&_0, "Handler must implement Phalcon\\Mvc\\Model\\Binder\\BindableInterface ", "in order to use Phalcon\\Mvc\\Model as parameter");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_exceptions_handlermustimplementbindable_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

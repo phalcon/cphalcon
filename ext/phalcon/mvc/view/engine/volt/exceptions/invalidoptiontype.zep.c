@@ -56,6 +56,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exceptions_InvalidOptionType, __construc
 	ZVAL_STR_COPY(&type_zv, type);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVSV(&_0, "'", &option_zv, "' must be a ", &type_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_view_engine_volt_exceptions_invalidoptiontype_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

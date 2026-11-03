@@ -168,7 +168,15 @@ PHP_METHOD(Phalcon_Translate_Interpolator_AssociativeArray, toInterpolate)
 			ZVAL_COPY(&value, _1);
 			ZEPHIR_INIT_NVAR(&_4$$5);
 			ZEPHIR_CONCAT_VVV(&_4$$5, &left_zv, &key, &right_zv);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 			zephir_array_update_zval(&replace, &_4$$5, &value, PH_COPY | PH_SEPARATE);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &context, "rewind", NULL, 0);
@@ -192,7 +200,15 @@ PHP_METHOD(Phalcon_Translate_Interpolator_AssociativeArray, toInterpolate)
 			zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_7$$6);
 				ZEPHIR_CONCAT_VVV(&_7$$6, &left_zv, &key, &right_zv);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				zephir_array_update_zval(&replace, &_7$$6, &value, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 		}
 	}
 	ZEPHIR_INIT_NVAR(&value);

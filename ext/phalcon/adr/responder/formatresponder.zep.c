@@ -137,6 +137,10 @@ PHP_METHOD(Phalcon_ADR_Responder_FormatResponder, __invoke)
 	ZEPHIR_CALL_METHOD(&_1, request, "getHeader", NULL, 0, &_2);
 	zephir_check_call_status();
 	zephir_cast_to_string(&_3, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CPY_WRT(&accept, &_3);
 	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 369, PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_4) == IS_STRING) {
@@ -190,6 +194,10 @@ PHP_METHOD(Phalcon_ADR_Responder_FormatResponder, __invoke)
 		zephir_read_property_cached(&_11$$8, this_ptr, _zephir_prop_0, 369, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_NVAR(&chosen);
 		zephir_array_fetch_long(&chosen, &_11$$8, 0, PH_NOISY, "phalcon/ADR/Responder/FormatResponder.zep", 62);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	ZEPHIR_CALL_METHOD(&_13, &chosen, "contentType", NULL, 0);
 	zephir_check_call_status();

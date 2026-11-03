@@ -79,16 +79,17 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_AbstractAdapter)
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, __construct)
 {
+	zend_bool _0, _2, _4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *config_param = NULL, _0, _1$$4, _2$$5;
+	zval *config_param = NULL, _1, _3$$4, _5$$5;
 	zval config;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&config);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$4);
-	ZVAL_UNDEF(&_2$$5);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_3$$4);
+	ZVAL_UNDEF(&_5$$5);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("config", 6, 1);
@@ -102,21 +103,48 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, __construct)
 	zephir_fetch_params(1, 1, 0, &config_param);
 	zephir_get_arrval(&config, config_param);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 87, &config);
-	if (UNEXPECTED(!(zephir_array_isset_value_string(&config, SL("limit"))))) {
+	_0 = zephir_array_isset_value_string(&config, SL("limit"));
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (UNEXPECTED(!(_0))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exceptions_missingrequiredparameter_ce, "limit", "phalcon/Paginator/Adapter/AbstractAdapter.zep", 62);
 		return;
 	}
-	zephir_array_fetch_string(&_0, &config, SL("limit"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/AbstractAdapter.zep", 67);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setLimit", NULL, 0, &_0);
+	zephir_array_fetch_string(&_1, &config, SL("limit"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/AbstractAdapter.zep", 67);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setLimit", NULL, 0, &_1);
 	zephir_check_call_status();
-	if (zephir_array_isset_value_string(&config, SL("page"))) {
-		zephir_array_fetch_string(&_1$$4, &config, SL("page"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/AbstractAdapter.zep", 72);
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setCurrentPage", NULL, 0, &_1$$4);
+	_2 = zephir_array_isset_value_string(&config, SL("page"));
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_2) {
+		zephir_array_fetch_string(&_3$$4, &config, SL("page"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/AbstractAdapter.zep", 72);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setCurrentPage", NULL, 0, &_3$$4);
 		zephir_check_call_status();
 	}
-	if (zephir_array_isset_value_string(&config, SL("repository"))) {
-		zephir_array_fetch_string(&_2$$5, &config, SL("repository"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/AbstractAdapter.zep", 78);
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setRepository", NULL, 0, &_2$$5);
+	_4 = zephir_array_isset_value_string(&config, SL("repository"));
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_4) {
+		zephir_array_fetch_string(&_5$$5, &config, SL("repository"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/AbstractAdapter.zep", 78);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setRepository", NULL, 0, &_5$$5);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();

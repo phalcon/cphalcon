@@ -150,6 +150,10 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Date, validate)
 	if (Z_TYPE_P(&format) == IS_ARRAY) {
 		zephir_memory_observe(&_2$$4);
 		zephir_array_fetch(&_2$$4, &format, field, PH_NOISY, "phalcon/Filter/Validation/Validator/Date.zep", 90);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_CPY_WRT(&format, &_2$$4);
 	}
 	if (ZEPHIR_IS_EMPTY(&format)) {
@@ -192,7 +196,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Date, checkDate)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &value, &format);
-	if (!(Z_TYPE_P(value) == IS_STRING)) {
+	if (!((Z_TYPE_P(value) == IS_STRING))) {
 		RETURN_MM_BOOL(0);
 	}
 	_0 = zephir_fetch_class_str_ex(SL("DateTime"), ZEND_FETCH_CLASS_AUTO);
@@ -205,10 +209,18 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Date, checkDate)
 	if (!(_2)) {
 		zephir_memory_observe(&_3);
 		zephir_array_fetch_string(&_3, &errors, SL("warning_count"), PH_NOISY, "phalcon/Filter/Validation/Validator/Date.zep", 122);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		_4 = ZEPHIR_IS_LONG(&_3, 0);
 		if (_4) {
 			zephir_memory_observe(&_5);
 			zephir_array_fetch_string(&_5, &errors, SL("error_count"), PH_NOISY, "phalcon/Filter/Validation/Validator/Date.zep", 122);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 			_4 = ZEPHIR_IS_LONG(&_5, 0);
 		}
 		_2 = _4;

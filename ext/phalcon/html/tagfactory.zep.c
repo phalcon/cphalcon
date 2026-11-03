@@ -333,6 +333,7 @@ PHP_METHOD(Phalcon_Html_TagFactory, __call)
  */
 PHP_METHOD(Phalcon_Html_TagFactory, has)
 {
+	zend_bool _1;
 	zval name_zv, _0;
 	zend_string *name = NULL;
 	zval *this_ptr = getThis();
@@ -349,7 +350,11 @@ PHP_METHOD(Phalcon_Html_TagFactory, has)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&name_zv, name);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 884, PH_NOISY_CC | PH_READONLY);
-	RETURN_BOOL(zephir_array_isset_value(&_0, &name_zv));
+	_1 = zephir_array_isset_value(&_0, &name_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
+	RETURN_BOOL(_1);
 }
 
 /**
@@ -361,21 +366,22 @@ PHP_METHOD(Phalcon_Html_TagFactory, has)
  */
 PHP_METHOD(Phalcon_Html_TagFactory, newInstance)
 {
+	zend_bool _1, _4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval name_zv, factory, _0, _2, _5, _6, _1$$3, _3$$4, _4$$4;
+	zval name_zv, factory, _0, _3, _7, _8, _2$$3, _5$$4, _6$$4;
 	zend_string *name = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name_zv);
 	ZVAL_UNDEF(&factory);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_5);
-	ZVAL_UNDEF(&_6);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$4);
-	ZVAL_UNDEF(&_4$$4);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_7);
+	ZVAL_UNDEF(&_8);
+	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_5$$4);
+	ZVAL_UNDEF(&_6$$4);
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -393,29 +399,51 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance)
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 884, PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset_value(&_0, &name_zv))) {
-		ZEPHIR_INIT_VAR(&_1$$3);
-		object_init_ex(&_1$$3, phalcon_html_exceptions_servicenotregistered_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0, &name_zv);
-		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Html/TagFactory.zep", 203);
+	_1 = zephir_array_isset_value(&_0, &name_zv);
+	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 885, PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset_value(&_2, &name_zv))) {
-		zephir_read_property_cached(&_3$$4, this_ptr, _zephir_prop_0, 884, PH_NOISY_CC | PH_READONLY);
-		zephir_memory_observe(&factory);
-		zephir_array_fetch(&factory, &_3$$4, &name_zv, PH_NOISY, "phalcon/Html/TagFactory.zep", 207);
-		ZEPHIR_INIT_VAR(&_4$$4);
-		ZEPHIR_CALL_USER_FUNC(&_4$$4, &factory);
+	if (!(_1)) {
+		ZEPHIR_INIT_VAR(&_2$$3);
+		object_init_ex(&_2$$3, phalcon_html_exceptions_servicenotregistered_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 0, &name_zv);
 		zephir_check_call_status();
-		zephir_update_property_array(this_ptr, SL("instances"), &name_zv, &_4$$4);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/Html/TagFactory.zep", 203);
+		ZEPHIR_MM_RESTORE();
+		return;
 	}
-	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_1, 885, PH_NOISY_CC | PH_READONLY);
-	zephir_memory_observe(&_6);
-	zephir_array_fetch(&_6, &_5, &name_zv, PH_NOISY, "phalcon/Html/TagFactory.zep", 211);
-	RETURN_CCTOR(&_6);
+	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_1, 885, PH_NOISY_CC | PH_READONLY);
+	_4 = zephir_array_isset_value(&_3, &name_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (!(_4)) {
+		zephir_read_property_cached(&_5$$4, this_ptr, _zephir_prop_0, 884, PH_NOISY_CC | PH_READONLY);
+		zephir_memory_observe(&factory);
+		zephir_array_fetch(&factory, &_5$$4, &name_zv, PH_NOISY, "phalcon/Html/TagFactory.zep", 207);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		ZEPHIR_INIT_VAR(&_6$$4);
+		ZEPHIR_CALL_USER_FUNC(&_6$$4, &factory);
+		zephir_check_call_status();
+		zephir_update_property_array(this_ptr, SL("instances"), &name_zv, &_6$$4);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+	}
+	zephir_read_property_cached(&_7, this_ptr, _zephir_prop_1, 885, PH_NOISY_CC | PH_READONLY);
+	zephir_memory_observe(&_8);
+	zephir_array_fetch(&_8, &_7, &name_zv, PH_NOISY, "phalcon/Html/TagFactory.zep", 211);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	RETURN_CCTOR(&_8);
 }
 
 /**
@@ -439,7 +467,13 @@ PHP_METHOD(Phalcon_Html_TagFactory, set)
 	definition = ZEND_CALL_ARG(execute_data, 2);
 	ZVAL_STR(&name_zv, name);
 	zephir_update_property_array(this_ptr, SL("factories"), &name_zv, definition);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	zephir_unset_property_array(this_ptr, ZEND_STRL("instances"), &name_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**

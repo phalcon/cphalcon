@@ -77,7 +77,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Auth_Access_Acl)
  */
 PHP_METHOD(Phalcon_Auth_Access_Acl, __construct)
 {
-	zval _0$$3, _1$$4;
+	zval _1$$3, _3$$4;
+	zend_bool _0, _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval options;
 	zval *acl, acl_sub, *options_param = NULL, value;
@@ -86,8 +87,8 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, __construct)
 	ZVAL_UNDEF(&acl_sub);
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&options);
-	ZVAL_UNDEF(&_0$$3);
-	ZVAL_UNDEF(&_1$$4);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_3$$4);
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	static zend_string *_zephir_prop_2 = NULL;
@@ -117,14 +118,32 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, __construct)
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 445, acl);
 	zephir_memory_observe(&value);
-	if (zephir_array_isset_string_fetch(&value, &options, SL("guestRole"), 0)) {
-		zephir_cast_to_string(&_0$$3, &value);
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 446, &_0$$3);
+	_0 = zephir_array_isset_string_fetch(&value, &options, SL("guestRole"), 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_0) {
+		zephir_cast_to_string(&_1$$3, &value);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 446, &_1$$3);
 	}
 	ZEPHIR_OBS_NVAR(&value);
-	if (zephir_array_isset_string_fetch(&value, &options, SL("moduleSeparator"), 0)) {
-		zephir_cast_to_string(&_1$$4, &value);
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 447, &_1$$4);
+	_2 = zephir_array_isset_string_fetch(&value, &options, SL("moduleSeparator"), 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_2) {
+		zephir_cast_to_string(&_3$$4, &value);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 447, &_3$$4);
 	}
 	ZEPHIR_MM_RESTORE();
 }
@@ -136,12 +155,13 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, __construct)
  */
 PHP_METHOD(Phalcon_Auth_Access_Acl, isAllowed)
 {
-	zend_bool _3, _6, _8;
+	zend_bool _4, _7, _8, _10, _11, _13;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zephir_fcall_cache_entry *_2 = NULL;
 	zval context;
 	zend_string *actionName = NULL;
-	zval *guard, guard_sub, actionName_zv, *context_param = NULL, __$true, component, handler, module, params, _0, _1, _2, _4, _5, _10, _11, _7$$5, _9$$6;
+	zval *guard, guard_sub, actionName_zv, *context_param = NULL, __$true, component, handler, module, params, _0, _1, _3, _5, _6, _14, _15, _9$$5, _12$$6;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&guard_sub);
@@ -153,13 +173,13 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, isAllowed)
 	ZVAL_UNDEF(&params);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_5);
-	ZVAL_UNDEF(&_10);
-	ZVAL_UNDEF(&_11);
-	ZVAL_UNDEF(&_7$$5);
-	ZVAL_UNDEF(&_9$$6);
+	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_14);
+	ZVAL_UNDEF(&_15);
+	ZVAL_UNDEF(&_9$$5);
+	ZVAL_UNDEF(&_12$$6);
 	ZVAL_UNDEF(&context);
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
@@ -199,62 +219,81 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, isAllowed)
 		zephir_get_arrval(&context, context_param);
 	}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 448, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_FUNCTION(&_1, "in_array", NULL, 87, &actionName_zv, &_0, &__$true);
+	ZEPHIR_CALL_FUNCTION(&_1, "in_array", &_2, 87, &actionName_zv, &_0, &__$true);
 	zephir_check_call_status();
 	if (zephir_is_true(&_1)) {
 		RETURN_MM_BOOL(1);
 	}
-	zephir_memory_observe(&_2);
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 449, PH_NOISY_CC);
-	_3 = !(ZEPHIR_IS_EMPTY(&_2));
-	if (_3) {
-		zephir_read_property_cached(&_4, this_ptr, _zephir_prop_1, 449, PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_FUNCTION(&_5, "in_array", NULL, 87, &actionName_zv, &_4, &__$true);
+	zephir_memory_observe(&_3);
+	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_1, 449, PH_NOISY_CC);
+	_4 = !(ZEPHIR_IS_EMPTY(&_3));
+	if (_4) {
+		zephir_read_property_cached(&_5, this_ptr, _zephir_prop_1, 449, PH_NOISY_CC | PH_READONLY);
+		ZEPHIR_CALL_FUNCTION(&_6, "in_array", &_2, 87, &actionName_zv, &_5, &__$true);
 		zephir_check_call_status();
-		_3 = !zephir_is_true(&_5);
+		_4 = !zephir_is_true(&_6);
 	}
-	if (_3) {
+	if (_4) {
 		RETURN_MM_BOOL(1);
 	}
 	zephir_memory_observe(&handler);
-	zephir_array_isset_string_fetch(&handler, &context, SL("handler"), 0);
-	_6 = Z_TYPE_P(&handler) != IS_STRING;
-	if (!(_6)) {
-		_6 = ZEPHIR_IS_STRING_IDENTICAL(&handler, "");
+	_7 = zephir_array_isset_string_fetch(&handler, &context, SL("handler"), 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
 	}
-	if (_6) {
-		ZEPHIR_INIT_VAR(&_7$$5);
-		object_init_ex(&_7$$5, phalcon_auth_exceptions_missinghandlercontext_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_7$$5, "__construct", NULL, 399);
+	_7;
+	_8 = Z_TYPE_P(&handler) != IS_STRING;
+	if (!(_8)) {
+		_8 = ZEPHIR_IS_STRING_IDENTICAL(&handler, "");
+	}
+	if (_8) {
+		ZEPHIR_INIT_VAR(&_9$$5);
+		object_init_ex(&_9$$5, phalcon_auth_exceptions_missinghandlercontext_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_9$$5, "__construct", NULL, 399);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_7$$5, "phalcon/Auth/Access/Acl.zep", 84);
+		zephir_throw_exception_debug(&_9$$5, "phalcon/Auth/Access/Acl.zep", 84);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_CPY_WRT(&component, &handler);
 	zephir_memory_observe(&module);
-	zephir_array_isset_string_fetch(&module, &context, SL("module"), 0);
-	_8 = Z_TYPE_P(&module) == IS_STRING;
-	if (_8) {
-		_8 = !ZEPHIR_IS_STRING_IDENTICAL(&module, "");
+	_10 = zephir_array_isset_string_fetch(&module, &context, SL("module"), 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
 	}
-	if (_8) {
-		zephir_read_property_cached(&_9$$6, this_ptr, _zephir_prop_2, 447, PH_NOISY_CC | PH_READONLY);
+	_10;
+	_11 = Z_TYPE_P(&module) == IS_STRING;
+	if (_11) {
+		_11 = !ZEPHIR_IS_STRING_IDENTICAL(&module, "");
+	}
+	if (_11) {
+		zephir_read_property_cached(&_12$$6, this_ptr, _zephir_prop_2, 447, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_INIT_NVAR(&component);
-		ZEPHIR_CONCAT_VVV(&component, &module, &_9$$6, &handler);
+		ZEPHIR_CONCAT_VVV(&component, &module, &_12$$6, &handler);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	ZEPHIR_INIT_VAR(&params);
 	ZVAL_NULL(&params);
 	ZEPHIR_OBS_NVAR(&params);
-	zephir_array_isset_string_fetch(&params, &context, SL("params"), 0);
+	_13 = zephir_array_isset_string_fetch(&params, &context, SL("params"), 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	_13;
 	if (Z_TYPE_P(&params) != IS_ARRAY) {
 		ZEPHIR_INIT_NVAR(&params);
 		ZVAL_NULL(&params);
 	}
-	zephir_read_property_cached(&_10, this_ptr, _zephir_prop_3, 445, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_11, this_ptr, "resolveRole", NULL, 0, guard);
+	zephir_read_property_cached(&_14, this_ptr, _zephir_prop_3, 445, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(&_15, this_ptr, "resolveRole", NULL, 0, guard);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(&_10, "isAllowed", NULL, 0, &_11, &component, &actionName_zv, &params);
+	ZEPHIR_RETURN_CALL_METHOD(&_14, "isAllowed", NULL, 0, &_15, &component, &actionName_zv, &params);
 	zephir_check_call_status();
 	RETURN_MM();
 }

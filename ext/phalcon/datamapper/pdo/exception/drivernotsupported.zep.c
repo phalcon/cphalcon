@@ -53,6 +53,10 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Exception_DriverNotSupported, __construct)
 	ZVAL_STR_COPY(&driver_zv, driver);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "Driver not supported [", &driver_zv, "]");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_datamapper_pdo_exception_drivernotsupported_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

@@ -52,6 +52,10 @@ PHP_METHOD(Phalcon_Db_Exceptions_InvalidSqlExpressionType, __construct)
 	ZVAL_STR_COPY(&type_zv, type);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "Invalid SQL expression type '", &type_zv, "'");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_db_exceptions_invalidsqlexpressiontype_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

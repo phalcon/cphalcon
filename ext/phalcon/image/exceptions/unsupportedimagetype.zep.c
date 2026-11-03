@@ -65,6 +65,10 @@ PHP_METHOD(Phalcon_Image_Exceptions_UnsupportedImageType, __construct)
 	} else {
 		ZEPHIR_INIT_VAR(&_0$$4);
 		ZEPHIR_CONCAT_SVS(&_0$$4, "Installed GD does not support ", &format_zv, " images");
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_CPY_WRT(&message, &_0$$4);
 	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_image_exceptions_unsupportedimagetype_ce, getThis(), "__construct", NULL, 0, &message);

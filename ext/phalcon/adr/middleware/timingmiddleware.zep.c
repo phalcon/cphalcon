@@ -73,10 +73,18 @@ PHP_METHOD(Phalcon_ADR_Middleware_TimingMiddleware, __invoke)
 	zephir_microtime(&_0, &__$true);
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_sub_function(&_1, &_0, &start);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_DOUBLE(&_2, 1000.0);
 	ZEPHIR_INIT_VAR(&elapsed);
 	mul_function(&elapsed, &_1, &_2);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "%.2fms");
 	ZEPHIR_CALL_FUNCTION(&_3, "sprintf", NULL, 145, &_0, &elapsed);

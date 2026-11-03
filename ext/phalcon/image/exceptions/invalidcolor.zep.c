@@ -52,6 +52,10 @@ PHP_METHOD(Phalcon_Image_Exceptions_InvalidColor, __construct)
 	ZVAL_STR_COPY(&color_zv, color);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "The color '", &color_zv, "' is not a valid hex color");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_image_exceptions_invalidcolor_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

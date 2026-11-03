@@ -148,8 +148,20 @@ PHP_METHOD(Phalcon_Html_Helper_Preload, __invoke)
 	zephir_array_update_string(&overrides, SL("href"), &href_zv, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&overrides, SL("as"), &type_zv, PH_COPY | PH_SEPARATE);
 	zephir_array_unset_string(&attributes, SL("rel"), PH_SEPARATE);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_array_unset_string(&attributes, SL("href"), PH_SEPARATE);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_array_unset_string(&attributes, SL("as"), PH_SEPARATE);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_fast_array_merge(&_0, &overrides, &attributes);
 	ZEPHIR_CPY_WRT(&overrides, &_0);
@@ -178,6 +190,10 @@ PHP_METHOD(Phalcon_Html_Helper_Preload, __invoke)
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&header);
 		ZEPHIR_CONCAT_SV(&header, "Link: ", &_4$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		zephir_read_property_cached(&_6$$3, this_ptr, _zephir_prop_0, 871, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(NULL, &_6$$3, "setRawHeader", NULL, 0, &header);
 		zephir_check_call_status();

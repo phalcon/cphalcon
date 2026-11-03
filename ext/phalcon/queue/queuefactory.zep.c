@@ -107,6 +107,7 @@ PHP_METHOD(Phalcon_Queue_QueueFactory, __construct)
  */
 PHP_METHOD(Phalcon_Queue_QueueFactory, load)
 {
+	zend_bool _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *config = NULL, config_sub, name, options, _0, _1;
@@ -134,8 +135,17 @@ PHP_METHOD(Phalcon_Queue_QueueFactory, load)
 	ZEPHIR_CPY_WRT(config, &_0);
 	zephir_memory_observe(&name);
 	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Queue/QueueFactory.zep", 65);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_memory_observe(&options);
-	if (!(zephir_array_isset_string_fetch(&options, config, SL("options"), 0))) {
+	_2 = zephir_array_isset_string_fetch(&options, config, SL("options"), 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (!(_2)) {
 		ZEPHIR_INIT_NVAR(&options);
 		array_init(&options);
 	}

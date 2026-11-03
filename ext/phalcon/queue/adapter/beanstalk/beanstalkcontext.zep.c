@@ -416,6 +416,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, purgeQueue)
 		}
 		ZEPHIR_OBS_NVAR(&_3$$4);
 		zephir_array_fetch_long(&_3$$4, &job, 0, PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkContext.zep", 161);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_CALL_METHOD(NULL, &connection, "deleteJob", &_4, 0, &_3$$4);
 		zephir_check_call_status();
 	}

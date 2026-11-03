@@ -359,6 +359,10 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile)
 		zephir_check_call_status();
 		if (Z_TYPE_P(&firstKey) != IS_NULL) {
 			zephir_unset_property_array(this_ptr, ZEND_STRL("allProfiles"), &firstKey);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 		}
 	}
 	zephir_read_property_cached(&_6, this_ptr, _zephir_prop_3, 666, PH_NOISY_CC | PH_READONLY);
@@ -366,8 +370,16 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_8);
 	zephir_add_function(&_8, &_6, &_7);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 666, &_8);
 	zephir_update_property_array_append(this_ptr, SL("allProfiles"), &activeProfile);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if ((zephir_method_exists_ex(this_ptr, ZEND_STRL("afterendprofile")) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "afterEndProfile", NULL, 0, &activeProfile);
 		zephir_check_call_status();
@@ -392,6 +404,10 @@ PHP_METHOD(Phalcon_Db_Profiler, getTotalElapsedMilliseconds)
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getTotalElapsedNanoseconds", NULL, 0);
 	zephir_check_call_status();
 	zephir_div_zval_long(return_value, &_0, 1000000);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_MM();
 }
 
@@ -412,6 +428,10 @@ PHP_METHOD(Phalcon_Db_Profiler, getTotalElapsedSeconds)
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getTotalElapsedMilliseconds", NULL, 0);
 	zephir_check_call_status();
 	zephir_div_zval_long(return_value, &_0, 1000);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_MM();
 }
 

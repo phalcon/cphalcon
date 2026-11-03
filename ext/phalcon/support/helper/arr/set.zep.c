@@ -102,6 +102,10 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Set, checkNotNull)
 	zephir_get_arrval(&collection, collection_param);
 	if (Z_TYPE_P(index) != IS_NULL) {
 		zephir_array_update_zval(&collection, index, value, PH_COPY | PH_SEPARATE);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	RETURN_CTOR(&collection);
 }
@@ -131,6 +135,10 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Set, checkNull)
 	zephir_get_arrval(&collection, collection_param);
 	if (Z_TYPE_P(index) == IS_NULL) {
 		zephir_array_append(&collection, value, PH_SEPARATE, "phalcon/Support/Helper/Arr/Set.zep", 57);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	RETURN_CTOR(&collection);
 }

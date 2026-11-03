@@ -31,8 +31,8 @@ void zephir_fast_strtolower(zval *return_value, zval *str);
 void zephir_fast_strtoupper(zval *return_value, zval *str);
 void zephir_fast_join(zval *result, zval *glue, zval *pieces);
 void zephir_fast_join_str(zval *result, char *glue, unsigned int glue_length, zval *pieces);
-void zephir_fast_explode(zval *result, zval *delimiter, zval *str, zend_long limit);
-void zephir_fast_explode_str(zval *result, const char *delimiter, int delimiter_length, zval *str, zend_long limit);
+void zephir_fast_explode(zval *result, zval *delimiter, zval *str, zval *limit);
+void zephir_fast_explode_str(zval *result, const char *delimiter, int delimiter_length, zval *str, zval *limit);
 void zephir_fast_strpos(zval *return_value, const zval *haystack, const zval *needle, unsigned int offset);
 void zephir_fast_strpos_str(zval *return_value, const zval *haystack, char *needle, unsigned int needle_length);
 void zephir_fast_trim(zval *return_value, zval *str, zval *charlist, int where);
@@ -88,6 +88,7 @@ int zephir_string_offset_isset(const zval *str, zend_long offset);
 int zephir_string_offset_isset_zval(const zval *str, zval *dim);
 void zephir_string_offset_write(zval *str, zend_long offset, zval *value);
 void zephir_string_offset_write_zval(zval *str, zval *dim, zval *value);
+void zephir_string_offset_check(zval *str, zval *dim);
 void zephir_string_to_char_array(zval *return_value, zval *str);
 
 #endif /* ZEPHIR_KERNEL_STRING_H */

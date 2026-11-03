@@ -90,6 +90,10 @@ PHP_METHOD(Phalcon_Paginator_Repository, __get)
 	zephir_camelize(&_0, &_1, NULL );
 	ZEPHIR_INIT_VAR(&method);
 	ZEPHIR_CONCAT_SV(&method, "get", &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if ((zephir_method_exists(this_ptr, &method)  == SUCCESS)) {
 		ZEPHIR_RETURN_CALL_METHOD_ZVAL(this_ptr, &method, NULL, 0);
 		zephir_check_call_status();
@@ -99,6 +103,10 @@ PHP_METHOD(Phalcon_Paginator_Repository, __get)
 	zephir_get_class(&_2, this_ptr, 0);
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_SVSV(&_3, "Access to undefined property ", &_2, "::", &property_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 11, &_3);
 	zephir_check_call_status();
 	RETURN_MM_NULL();
@@ -347,6 +355,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, setProperties)
  */
 PHP_METHOD(Phalcon_Paginator_Repository, getProperty)
 {
+	zend_bool _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval property_zv, *defaultValue = NULL, defaultValue_sub, __$null, value, _0;
 	zend_string *property = NULL;
@@ -381,7 +390,12 @@ PHP_METHOD(Phalcon_Paginator_Repository, getProperty)
 	}
 	zephir_memory_observe(&value);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1264, PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset_fetch(&value, &_0, &property_zv, 0))) {
+	_1 = zephir_array_isset_fetch(&value, &_0, &property_zv, 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (!(_1)) {
 		ZEPHIR_CPY_WRT(&value, defaultValue);
 	}
 	RETURN_CCTOR(&value);
@@ -392,6 +406,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, getProperty)
  */
 PHP_METHOD(Phalcon_Paginator_Repository, getRealNameProperty)
 {
+	zend_bool _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval property_zv, name, _0;
 	zend_string *property = NULL;
@@ -414,7 +429,12 @@ PHP_METHOD(Phalcon_Paginator_Repository, getRealNameProperty)
 	ZVAL_STR_COPY(&property_zv, property);
 	zephir_memory_observe(&name);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1263, PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset_fetch(&name, &_0, &property_zv, 0))) {
+	_1 = zephir_array_isset_fetch(&name, &_0, &property_zv, 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (!(_1)) {
 		RETURN_MM_STR(zend_string_copy(property));
 	}
 	RETURN_CCTOR(&name);

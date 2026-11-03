@@ -56,6 +56,10 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Exception_UnsupportedAlgorithm, __construct)
 	ZVAL_STR_COPY(&cipher_zv, cipher);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVSVS(&_0, "The ", &type_zv, " algorithm '", &cipher_zv, "' is not supported on this system.");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_encryption_crypt_exception_unsupportedalgorithm_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

@@ -52,6 +52,10 @@ PHP_METHOD(Phalcon_Db_Exceptions_InvalidWkb, __construct)
 	ZVAL_STR_COPY(&reason_zv, reason);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SV(&_0, "Invalid WKB: ", &reason_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_db_exceptions_invalidwkb_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

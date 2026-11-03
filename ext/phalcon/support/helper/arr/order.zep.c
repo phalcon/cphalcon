@@ -185,7 +185,15 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Order, checkNonObject)
 	if (Z_TYPE_P(item) != IS_OBJECT) {
 		zephir_memory_observe(&key);
 		zephir_array_fetch(&key, item, &attribute_zv, PH_NOISY, "phalcon/Support/Helper/Arr/Order.zep", 72);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		zephir_array_update_zval(&sorted, &key, item, PH_COPY | PH_SEPARATE);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	RETURN_CTOR(&sorted);
 }
@@ -224,6 +232,10 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Order, checkObject)
 		zephir_memory_observe(&key);
 		zephir_read_property_zval(&key, item, &attribute_zv, PH_NOISY_CC);
 		zephir_array_update_zval(&sorted, &key, item, PH_COPY | PH_SEPARATE);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	RETURN_CTOR(&sorted);
 }

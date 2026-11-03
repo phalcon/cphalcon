@@ -63,6 +63,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Exceptions_EagerRowLimitExceeded, __construct)
 	ZVAL_LONG(&_1, limit);
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_CONCAT_SVSVSV(&_2, "Eager loading '", &modelName_zv, "' returned ", &_0, " rows which exceeds the limit of ", &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_exceptions_eagerrowlimitexceeded_ce, getThis(), "__construct", NULL, 0, &_2);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

@@ -143,6 +143,10 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Alnum, validate)
 		RETURN_MM_BOOL(0);
 	}
 	zephir_cast_to_string(&_2, &value);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_FUNCTION(&_3, "ctype_alnum", NULL, 0, &_2);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_3))) {

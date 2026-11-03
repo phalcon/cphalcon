@@ -17,6 +17,7 @@
 #include "kernel/operators.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
+#include "kernel/main.h"
 
 
 /**
@@ -183,6 +184,11 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, processArray)
 		ZEPHIR_CALL_FUNCTION(&_2$$3, "array_values", NULL, 27, item);
 		zephir_check_call_status();
 		zephir_fast_array_merge(&_1$$3, &data, &_2$$3);
+		if (UNEXPECTED(Z_TYPE_P(&_1$$3) != IS_ARRAY)) {
+			zephir_throw_variable_type_error(&_1$$3, "data", "array");
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_CPY_WRT(&data, &_1$$3);
 	}
 	RETURN_CTOR(&data);
@@ -226,6 +232,11 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, processArrayDeep)
 		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "__invoke", NULL, 0, item, &_3$$3);
 		zephir_check_call_status();
 		zephir_fast_array_merge(&_1$$3, &data, &_2$$3);
+		if (UNEXPECTED(Z_TYPE_P(&_1$$3) != IS_ARRAY)) {
+			zephir_throw_variable_type_error(&_1$$3, "data", "array");
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_CPY_WRT(&data, &_1$$3);
 	}
 	RETURN_CTOR(&data);
@@ -254,6 +265,10 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, processNotArray)
 	zephir_get_arrval(&data, data_param);
 	if (Z_TYPE_P(item) != IS_ARRAY) {
 		zephir_array_append(&data, item, PH_SEPARATE, "phalcon/Support/Helper/Arr/Flatten.zep", 76);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	RETURN_CTOR(&data);
 }

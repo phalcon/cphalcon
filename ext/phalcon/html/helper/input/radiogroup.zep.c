@@ -82,6 +82,10 @@ PHP_METHOD(Phalcon_Html_Helper_Input_RadioGroup, isChecked)
 	zephir_memory_observe(&_1);
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 855, PH_NOISY_CC);
 	zephir_cast_to_string(&_2, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_MM_BOOL(ZEPHIR_IS_IDENTICAL(&_2, &value_zv));
 }
 

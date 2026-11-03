@@ -60,6 +60,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Exceptions_ColumnNotInSelectedModels, __const
 	ZVAL_STR_COPY(&phql_zv, phql);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVSVSV(&_0, "Column '", &name_zv, "' does not belong to any of the selected models (", &tag_zv, "), when preparing: ", &phql_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_query_exceptions_columnnotinselectedmodels_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

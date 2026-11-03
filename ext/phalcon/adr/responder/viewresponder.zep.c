@@ -166,6 +166,10 @@ PHP_METHOD(Phalcon_ADR_Responder_ViewResponder, __invoke)
 	ZEPHIR_CALL_METHOD(&_6, payload, "getStatus", NULL, 0);
 	zephir_check_call_status();
 	zephir_cast_to_string(&_7, &_6);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_METHOD(&_5, &_4, "toHttpCode", NULL, 0, &_7);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_3, response, "setStatusCode", NULL, 0, &_5);
@@ -207,7 +211,8 @@ PHP_METHOD(Phalcon_ADR_Responder_ViewResponder, withTemplate)
 	ZVAL_STR_COPY(&template_zv, template);
 	ZEPHIR_INIT_VAR(&cloned);
 	if (zephir_clone(&cloned, this_ptr) == FAILURE) {
-		RETURN_MM();
+		ZEPHIR_MM_RESTORE();
+		return;
 	}
 	zephir_update_property_zval_cached(&cloned, _zephir_prop_0, 0, &template_zv);
 	RETURN_CCTOR(&cloned);

@@ -72,12 +72,28 @@ PHP_METHOD(Phalcon_Mvc_Application_Exceptions_InvalidModuleDefinition, __constru
 	if (!ZEPHIR_IS_NULL(&name_zv)) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZEPHIR_CONCAT_SVS(&_0$$3, " for module '", &name_zv, "'");
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		zephir_concat_self(&message, &_0$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	if (!ZEPHIR_IS_NULL(&reason_zv)) {
 		ZEPHIR_INIT_VAR(&_1$$4);
 		ZEPHIR_CONCAT_SV(&_1$$4, ": ", &reason_zv);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		zephir_concat_self(&message, &_1$$4);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_application_exceptions_invalidmoduledefinition_ce, getThis(), "__construct", NULL, 0, &message);
 	zephir_check_call_status();

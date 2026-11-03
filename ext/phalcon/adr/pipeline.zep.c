@@ -164,6 +164,10 @@ PHP_METHOD(Phalcon_ADR_Pipeline, __invoke)
 	zephir_memory_observe(&_4);
 	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 368, PH_NOISY_CC);
 	zephir_array_fetch(&mw, &_3, &_4, PH_NOISY, "phalcon/ADR/Pipeline.zep", 52);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&next);
 	object_init_ex(&next, phalcon_adr_pipeline_ce);
 	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_1, 366, PH_NOISY_CC | PH_READONLY);
@@ -173,6 +177,10 @@ PHP_METHOD(Phalcon_ADR_Pipeline, __invoke)
 	ZVAL_LONG(&_8, 1);
 	ZEPHIR_INIT_VAR(&_9);
 	zephir_add_function(&_9, &_7, &_8);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_METHOD(NULL, &next, "__construct", NULL, 321, &_5, &_6, &_9);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&mw, "__invoke", NULL, 0, request, &next);

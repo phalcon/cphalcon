@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, adjust)
 	zend_bool failed = 0, _9;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval modifier_zv, __$false, ex, modified, priorWarning, _0, _1, _2, _3, _4$$4, _5$$3, _6$$5, _7$$6, _8$$6, _10$$7;
+	zval modifier_zv, __$false, ex, modified, priorWarning, _0, _1, _2, _3, _4$$4, _5$$3, _6$$5, _7$$7, _8$$7, _10$$8;
 	zend_string *modifier = NULL;
 	zval *this_ptr = getThis();
 
@@ -158,9 +158,9 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, adjust)
 	ZVAL_UNDEF(&_4$$4);
 	ZVAL_UNDEF(&_5$$3);
 	ZVAL_UNDEF(&_6$$5);
-	ZVAL_UNDEF(&_7$$6);
-	ZVAL_UNDEF(&_8$$6);
-	ZVAL_UNDEF(&_10$$7);
+	ZVAL_UNDEF(&_7$$7);
+	ZVAL_UNDEF(&_8$$7);
+	ZVAL_UNDEF(&_10$$8);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("now", 3, 1);
@@ -206,20 +206,23 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, adjust)
 				zephir_throw_exception_debug(&_6$$5, "phalcon/Time/Clock/FrozenClock.zep", 71);
 				ZEPHIR_MM_RESTORE();
 				return;
+			} else {
+				ZEPHIR_MM_RESTORE();
+				return;
 			}
 		}
 	} else {
 		ZEPHIR_INIT_VAR(&priorWarning);
 		ZVAL_BOOL(&priorWarning, ZEPHIR_GLOBAL(warning).enable);
 		ZEPHIR_GLOBAL(warning).enable = zend_is_true(&__$false);
-		ZEPHIR_INIT_VAR(&_7$$6);
-		ZEPHIR_INIT_NVAR(&_7$$6);
-		zephir_create_closure_ex(&_7$$6, NULL, phalcon_102__closure_ce, SL("__invoke"));
-		ZVAL_LONG(&_8$$6, 2);
-		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 305, &_7$$6, &_8$$6);
+		ZEPHIR_INIT_VAR(&_7$$7);
+		ZEPHIR_INIT_NVAR(&_7$$7);
+		zephir_create_closure_ex(&_7$$7, NULL, phalcon_102__closure_ce, SL("__invoke"));
+		ZVAL_LONG(&_8$$7, 2);
+		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 305, &_7$$7, &_8$$7);
 		zephir_check_call_status();
-		zephir_read_property_cached(&_8$$6, this_ptr, _zephir_prop_0, 1403, PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_METHOD(&modified, &_8$$6, "modify", NULL, 0, &modifier_zv);
+		zephir_read_property_cached(&_8$$7, this_ptr, _zephir_prop_0, 1403, PH_NOISY_CC | PH_READONLY);
+		ZEPHIR_CALL_METHOD(&modified, &_8$$7, "modify", NULL, 0, &modifier_zv);
 		zephir_check_call_status();
 		ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 306);
 		zephir_check_call_status();
@@ -231,11 +234,11 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, adjust)
 		_9 = ZEPHIR_IS_FALSE_IDENTICAL(&modified);
 	}
 	if (UNEXPECTED(_9)) {
-		ZEPHIR_INIT_VAR(&_10$$7);
-		object_init_ex(&_10$$7, phalcon_time_clock_exceptions_invalidmodifier_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_10$$7, "__construct", NULL, 0, &modifier_zv);
+		ZEPHIR_INIT_VAR(&_10$$8);
+		object_init_ex(&_10$$8, phalcon_time_clock_exceptions_invalidmodifier_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_10$$8, "__construct", NULL, 0, &modifier_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_10$$7, "phalcon/Time/Clock/FrozenClock.zep", 100);
+		zephir_throw_exception_debug(&_10$$8, "phalcon/Time/Clock/FrozenClock.zep", 100);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

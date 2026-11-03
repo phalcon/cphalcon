@@ -110,9 +110,11 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Url, __construct)
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_Url, validate)
 {
+	zend_bool _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zephir_fcall_cache_entry *_4 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validation, validation_sub, *field, field_sub, options, result, value, _0, _1, _2$$4, _3$$5, _4$$6;
+	zval *validation, validation_sub, *field, field_sub, options, result, value, _0, _1, _3$$4, _5$$5, _6$$6;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
@@ -122,9 +124,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Url, validate)
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2$$4);
-	ZVAL_UNDEF(&_3$$5);
-	ZVAL_UNDEF(&_4$$6);
+	ZVAL_UNDEF(&_3$$4);
+	ZVAL_UNDEF(&_5$$5);
+	ZVAL_UNDEF(&_6$$6);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("options", 7, 1);
@@ -146,19 +148,24 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Url, validate)
 	}
 	zephir_memory_observe(&options);
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 784, PH_NOISY_CC | PH_READONLY);
-	if (zephir_array_isset_string_fetch(&options, &_1, SL("options"), 0)) {
-		ZVAL_LONG(&_2$$4, 273);
-		ZEPHIR_CALL_FUNCTION(&result, "filter_var", NULL, 0, &value, &_2$$4, &options);
+	_2 = zephir_array_isset_string_fetch(&options, &_1, SL("options"), 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_2) {
+		ZVAL_LONG(&_3$$4, 273);
+		ZEPHIR_CALL_FUNCTION(&result, "filter_var", &_4, 0, &value, &_3$$4, &options);
 		zephir_check_call_status();
 	} else {
-		ZVAL_LONG(&_3$$5, 273);
-		ZEPHIR_CALL_FUNCTION(&result, "filter_var", NULL, 0, &value, &_3$$5);
+		ZVAL_LONG(&_5$$5, 273);
+		ZEPHIR_CALL_FUNCTION(&result, "filter_var", &_4, 0, &value, &_5$$5);
 		zephir_check_call_status();
 	}
 	if (!(zephir_is_true(&result))) {
-		ZEPHIR_CALL_METHOD(&_4$$6, this_ptr, "messageFactory", NULL, 0, validation, field);
+		ZEPHIR_CALL_METHOD(&_6$$6, this_ptr, "messageFactory", NULL, 0, validation, field);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendMessage", NULL, 0, &_4$$6);
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendMessage", NULL, 0, &_6$$6);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}

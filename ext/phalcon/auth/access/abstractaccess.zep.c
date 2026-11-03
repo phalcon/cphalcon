@@ -82,12 +82,13 @@ PHP_METHOD(Phalcon_Auth_Access_AbstractAccess, getOnlyActions)
  */
 PHP_METHOD(Phalcon_Auth_Access_AbstractAccess, isAllowed)
 {
-	zend_bool _1$$3, _5$$4;
+	zend_bool _1$$3, _6$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zephir_fcall_cache_entry *_4 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval context;
 	zend_string *actionName = NULL;
-	zval *guard, guard_sub, actionName_zv, *context_param = NULL, __$true, allowed, _0, _4, _2$$3, _3$$3, _6$$4, _7$$4;
+	zval *guard, guard_sub, actionName_zv, *context_param = NULL, __$true, allowed, _0, _5, _2$$3, _3$$3, _7$$4, _8$$4;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&guard_sub);
@@ -95,11 +96,11 @@ PHP_METHOD(Phalcon_Auth_Access_AbstractAccess, isAllowed)
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_UNDEF(&allowed);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$3);
-	ZVAL_UNDEF(&_6$$4);
 	ZVAL_UNDEF(&_7$$4);
+	ZVAL_UNDEF(&_8$$4);
 	ZVAL_UNDEF(&context);
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
@@ -138,23 +139,23 @@ PHP_METHOD(Phalcon_Auth_Access_AbstractAccess, isAllowed)
 		_1$$3 = zephir_is_true(&allowed);
 		if (!(_1$$3)) {
 			zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_0, 103, PH_NOISY_CC | PH_READONLY);
-			ZEPHIR_CALL_FUNCTION(&_3$$3, "in_array", NULL, 87, &actionName_zv, &_2$$3, &__$true);
+			ZEPHIR_CALL_FUNCTION(&_3$$3, "in_array", &_4, 87, &actionName_zv, &_2$$3, &__$true);
 			zephir_check_call_status();
 			_1$$3 = zephir_is_true(&_3$$3);
 		}
 		RETURN_MM_BOOL(_1$$3);
 	}
-	zephir_memory_observe(&_4);
-	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_1, 104, PH_NOISY_CC);
-	if (!(ZEPHIR_IS_EMPTY(&_4))) {
-		_5$$4 = zephir_is_true(&allowed);
-		if (_5$$4) {
-			zephir_read_property_cached(&_6$$4, this_ptr, _zephir_prop_1, 104, PH_NOISY_CC | PH_READONLY);
-			ZEPHIR_CALL_FUNCTION(&_7$$4, "in_array", NULL, 87, &actionName_zv, &_6$$4, &__$true);
+	zephir_memory_observe(&_5);
+	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_1, 104, PH_NOISY_CC);
+	if (!(ZEPHIR_IS_EMPTY(&_5))) {
+		_6$$4 = zephir_is_true(&allowed);
+		if (_6$$4) {
+			zephir_read_property_cached(&_7$$4, this_ptr, _zephir_prop_1, 104, PH_NOISY_CC | PH_READONLY);
+			ZEPHIR_CALL_FUNCTION(&_8$$4, "in_array", &_4, 87, &actionName_zv, &_7$$4, &__$true);
 			zephir_check_call_status();
-			_5$$4 = zephir_is_true(&_7$$4);
+			_6$$4 = zephir_is_true(&_8$$4);
 		}
-		RETURN_MM_BOOL(_5$$4);
+		RETURN_MM_BOOL(_6$$4);
 	}
 	RETURN_CCTOR(&allowed);
 }

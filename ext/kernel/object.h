@@ -88,6 +88,8 @@ int zephir_fetch_property_zval(zval *result, zval *object, zval *property, int s
 zval *zephir_fetch_property_write(zval *object, zend_string *name, zval *fallback);
 zval *zephir_fetch_property_write_zval(zval *object, zval *property, zval *fallback);
 zval *zephir_fetch_static_property_write_ce(zend_class_entry *ce, const char *property, uint32_t property_length, zval *fallback);
+zval *zephir_fetch_property_rw(zval *object, zend_string *name, zval *fallback);
+zval *zephir_fetch_static_property_rw_ce(zend_class_entry *ce, const char *property, uint32_t property_length, zval *fallback);
 
 /** Updating properties */
 int zephir_update_property_zval_ex(zval *obj, const char *property_name, unsigned int property_length, zval *value);

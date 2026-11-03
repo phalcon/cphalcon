@@ -77,6 +77,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_Syslog)
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct)
 {
+	zend_bool _0, _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval options;
 	zval name_zv, *options_param = NULL, facility, option;
@@ -119,12 +120,22 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct)
 		zephir_get_arrval(&options, options_param);
 	}
 	zephir_memory_observe(&facility);
-	if (!(zephir_array_isset_string_fetch(&facility, &options, SL("facility"), 0))) {
+	_0 = zephir_array_isset_string_fetch(&facility, &options, SL("facility"), 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (!(_0)) {
 		ZEPHIR_INIT_NVAR(&facility);
 		ZVAL_LONG(&facility, 8);
 	}
 	zephir_memory_observe(&option);
-	if (!(zephir_array_isset_string_fetch(&option, &options, SL("option"), 0))) {
+	_1 = zephir_array_isset_string_fetch(&option, &options, SL("option"), 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (!(_1)) {
 		ZEPHIR_INIT_NVAR(&option);
 		ZVAL_LONG(&option, 4);
 	}
@@ -277,6 +288,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, openlog)
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logLevelToSyslog)
 {
+	zend_bool _0;
 	zval levels;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *level_param = NULL, result;
@@ -303,7 +315,12 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logLevelToSyslog)
 	add_index_long(&levels, 9, 7);
 	add_index_long(&levels, 4, 4);
 	zephir_memory_observe(&result);
-	if (!(zephir_array_isset_long_fetch(&result, &levels, level, 0))) {
+	_0 = zephir_array_isset_long_fetch(&result, &levels, level, 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (!(_0)) {
 		ZEPHIR_INIT_NVAR(&result);
 		ZVAL_LONG(&result, 3);
 	}

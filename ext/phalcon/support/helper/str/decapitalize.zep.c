@@ -43,8 +43,9 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Decapitalize, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zephir_fcall_cache_entry *_1 = NULL;
 	zend_bool upperRest;
-	zval text_zv, *upperRest_param = NULL, encoding_zv, substr, suffix, _0, _1, _2, _3;
+	zval text_zv, *upperRest_param = NULL, encoding_zv, substr, suffix, _0, _2, _3, _4;
 	zend_string *text = NULL, *encoding = NULL;
 	zval *this_ptr = getThis();
 
@@ -53,9 +54,9 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Decapitalize, __invoke)
 	ZVAL_UNDEF(&substr);
 	ZVAL_UNDEF(&suffix);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(text)
 		Z_PARAM_OPTIONAL
@@ -82,7 +83,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Decapitalize, __invoke)
 	ZVAL_STR_COPY(&encoding_zv, encoding);
 	}
 	ZVAL_LONG(&_0, 1);
-	ZEPHIR_CALL_FUNCTION(&substr, "mb_substr", NULL, 309, &text_zv, &_0);
+	ZEPHIR_CALL_FUNCTION(&substr, "mb_substr", &_1, 309, &text_zv, &_0);
 	zephir_check_call_status();
 	if (upperRest) {
 		ZEPHIR_CALL_METHOD(&suffix, this_ptr, "toUpper", NULL, 0, &substr, &encoding_zv);
@@ -91,12 +92,16 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Decapitalize, __invoke)
 		ZEPHIR_CPY_WRT(&suffix, &substr);
 	}
 	ZVAL_LONG(&_0, 0);
-	ZVAL_LONG(&_2, 1);
-	ZEPHIR_CALL_FUNCTION(&_3, "mb_substr", NULL, 309, &text_zv, &_0, &_2);
+	ZVAL_LONG(&_3, 1);
+	ZEPHIR_CALL_FUNCTION(&_4, "mb_substr", &_1, 309, &text_zv, &_0, &_3);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "toLower", NULL, 0, &_3, &encoding_zv);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "toLower", NULL, 0, &_4, &encoding_zv);
 	zephir_check_call_status();
-	ZEPHIR_CONCAT_VV(return_value, &_1, &suffix);
+	ZEPHIR_CONCAT_VV(return_value, &_2, &suffix);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_MM();
 }
 

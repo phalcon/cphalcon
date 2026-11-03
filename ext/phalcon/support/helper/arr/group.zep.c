@@ -202,6 +202,10 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, processCallable)
 		ZEPHIR_CALL_FUNCTION(&key, "call_user_func", NULL, 80, method, element);
 		zephir_check_call_status();
 		zephir_array_update_multi(&output, element, SL("za"), 2, &key);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	RETURN_CCTOR(&output);
 }
@@ -252,6 +256,10 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, processObject)
 		zephir_read_property_zval(&key$$3, element, method, PH_NOISY_CC);
 		ZEPHIR_CPY_WRT(&key$$3, &key$$3);
 		zephir_array_update_multi(&output, element, SL("za"), 2, &key$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	RETURN_CCTOR(&output);
 }
@@ -265,7 +273,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, processObject)
  */
 PHP_METHOD(Phalcon_Support_Helper_Arr_Group, processOther)
 {
-	zend_bool _1, _3;
+	zend_bool _1, _3, _4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *filtered_param = NULL, *method, method_sub, *element, element_sub, output, _0, _2, key$$3;
@@ -299,13 +307,26 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, processOther)
 	}
 	_3 = _1;
 	if (_3) {
-		_3 = 1 == zephir_array_isset_value(element, method);
+		_4 = zephir_array_isset_value(element, method);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		_3 = 1 == _4;
 	}
 	if (_3) {
 		zephir_memory_observe(&key$$3);
 		zephir_array_fetch(&key$$3, element, method, PH_NOISY, "phalcon/Support/Helper/Arr/Group.zep", 125);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_CPY_WRT(&key$$3, &key$$3);
 		zephir_array_update_multi(&output, element, SL("za"), 2, &key$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	RETURN_CCTOR(&output);
 }

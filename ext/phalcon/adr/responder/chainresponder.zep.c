@@ -17,6 +17,7 @@
 #include "kernel/operators.h"
 #include "kernel/string.h"
 #include "kernel/fcall.h"
+#include "kernel/main.h"
 #include "kernel/array.h"
 
 
@@ -179,8 +180,17 @@ PHP_METHOD(Phalcon_ADR_Responder_ChainResponder, with)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &link);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 98, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(Z_TYPE_P(&_0) != IS_ARRAY)) {
+		zephir_throw_variable_type_error(&_0, "links", "array");
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CPY_WRT(&links, &_0);
 	zephir_array_append(&links, link, PH_SEPARATE, "phalcon/ADR/Responder/ChainResponder.zep", 56);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	object_init_ex(return_value, phalcon_adr_responder_chainresponder_ce);
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 82, &links);
 	zephir_check_call_status();

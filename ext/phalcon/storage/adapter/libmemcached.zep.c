@@ -68,16 +68,17 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Adapter_Libmemcached)
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, __construct)
 {
+	zend_bool _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval options, _0$$3, _1$$3;
+	zval options, _1$$3, _2$$3;
 	zval *factory, factory_sub, *options_param = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&factory_sub);
 	ZVAL_UNDEF(&options);
-	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2$$3);
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_OBJECT_OF_CLASS(factory, phalcon_storage_serializerfactory_ce)
 		Z_PARAM_OPTIONAL
@@ -92,16 +93,25 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, __construct)
 	} else {
 		zephir_get_arrval(&options, options_param);
 	}
-	if (!(zephir_array_isset_value_string(&options, SL("servers")))) {
-		ZEPHIR_INIT_VAR(&_0$$3);
-		zephir_create_array(&_0$$3, 1, 0);
+	_0 = zephir_array_isset_value_string(&options, SL("servers"));
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (!(_0)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
-		zephir_create_array(&_1$$3, 3, 0);
-		add_assoc_stringl_ex(&_1$$3, SL("host"), SL("127.0.0.1"));
-		add_assoc_long_ex(&_1$$3, SL("port"), 11211);
-		add_assoc_long_ex(&_1$$3, SL("weight"), 1);
-		zephir_array_update_long(&_0$$3, 0, &_1$$3, PH_COPY ZEPHIR_DEBUG_PARAMS_DUMMY);
-		zephir_array_update_string(&options, SL("servers"), &_0$$3, PH_COPY | PH_SEPARATE);
+		zephir_create_array(&_1$$3, 1, 0);
+		ZEPHIR_INIT_VAR(&_2$$3);
+		zephir_create_array(&_2$$3, 3, 0);
+		add_assoc_stringl_ex(&_2$$3, SL("host"), SL("127.0.0.1"));
+		add_assoc_long_ex(&_2$$3, SL("port"), 11211);
+		add_assoc_long_ex(&_2$$3, SL("weight"), 1);
+		zephir_array_update_long(&_1$$3, 0, &_2$$3, PH_COPY ZEPHIR_DEBUG_PARAMS_DUMMY);
+		zephir_array_update_string(&options, SL("servers"), &_1$$3, PH_COPY | PH_SEPARATE);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_storage_adapter_libmemcached_ce, getThis(), "__construct", NULL, 0, factory, &options);
 	zephir_check_call_status();
@@ -331,6 +341,10 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, setForever)
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getKeyWithoutPrefix", NULL, 0, &key);
 	zephir_check_call_status();
 	zephir_get_strval(&key, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getAdapter", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getSerializedData", NULL, 0, data);
@@ -708,18 +722,19 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, setSasl)
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, setSerializer)
 {
+	zend_bool _1;
 	zval map;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *connection, connection_sub, serializer, _0, _1$$3, _2$$3, _3$$3;
+	zval *connection, connection_sub, serializer, _0, _2$$3, _3$$3, _4$$3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&connection_sub);
 	ZVAL_UNDEF(&serializer);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$3);
+	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&map);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -740,14 +755,23 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, setSerializer)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 327, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&serializer);
 	zephir_fast_strtolower(&serializer, &_0);
-	if (zephir_array_isset_value(&map, &serializer)) {
-		ZEPHIR_INIT_VAR(&_1$$3);
-		ZEPHIR_INIT_NVAR(&_1$$3);
-		ZVAL_STRING(&_1$$3, "");
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 327, &_1$$3);
-		zephir_array_fetch(&_2$$3, &map, &serializer, PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/Libmemcached.zep", 315);
-		ZVAL_LONG(&_3$$3, -1003);
-		ZEPHIR_CALL_METHOD(NULL, connection, "setOption", NULL, 0, &_3$$3, &_2$$3);
+	_1 = zephir_array_isset_value(&map, &serializer);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_1) {
+		ZEPHIR_INIT_VAR(&_2$$3);
+		ZEPHIR_INIT_NVAR(&_2$$3);
+		ZVAL_STRING(&_2$$3, "");
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 327, &_2$$3);
+		zephir_array_fetch(&_3$$3, &map, &serializer, PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/Libmemcached.zep", 315);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		ZVAL_LONG(&_4$$3, -1003);
+		ZEPHIR_CALL_METHOD(NULL, connection, "setOption", NULL, 0, &_4$$3, &_3$$3);
 		zephir_check_call_status();
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "initSerializer", NULL, 0);

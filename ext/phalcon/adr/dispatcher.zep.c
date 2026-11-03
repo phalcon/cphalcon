@@ -268,6 +268,10 @@ PHP_METHOD(Phalcon_ADR_Dispatcher, resolveAll)
 			ZEPHIR_CALL_METHOD(&_2$$3, &_1$$3, "getService", NULL, 0, &className);
 			zephir_check_call_status();
 			zephir_array_append(&result, &_2$$3, PH_SEPARATE, "phalcon/ADR/Dispatcher.zep", 99);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &classes, "rewind", NULL, 0);
@@ -291,6 +295,10 @@ PHP_METHOD(Phalcon_ADR_Dispatcher, resolveAll)
 				ZEPHIR_CALL_METHOD(&_6$$4, &_5$$4, "getService", NULL, 0, &className);
 				zephir_check_call_status();
 				zephir_array_append(&result, &_6$$4, PH_SEPARATE, "phalcon/ADR/Dispatcher.zep", 99);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 		}
 	}
 	ZEPHIR_INIT_NVAR(&className);

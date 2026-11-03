@@ -41,10 +41,18 @@ PHP_METHOD(phalcon_18__closure, __invoke)
 	zephir_fetch_params(1, 1, 0, &element);
 	zephir_memory_observe(&_0);
 	zephir_array_fetch_long(&_0, element, 0, PH_NOISY, "phalcon/Filter/Validation.zep", 128);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	_1 = Z_TYPE_P(&_0) == IS_ARRAY;
 	if (_1) {
 		zephir_memory_observe(&_2);
 		zephir_array_fetch_long(&_2, element, 1, PH_NOISY, "phalcon/Filter/Validation.zep", 128);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		_1 = zephir_instance_of_ev(&_2, phalcon_filter_validation_abstractcombinedfieldsvalidator_ce);
 	}
 	RETURN_MM_BOOL(_1);

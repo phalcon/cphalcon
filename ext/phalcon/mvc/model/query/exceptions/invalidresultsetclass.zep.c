@@ -52,6 +52,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Exceptions_InvalidResultsetClass, __construct
 	ZVAL_STR_COPY(&className_zv, className);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "Resultset class '", &className_zv, "' must be an implementation of Phalcon\\Mvc\\Model\\ResultsetInterface");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_query_exceptions_invalidresultsetclass_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

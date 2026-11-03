@@ -87,6 +87,7 @@ int zephir_isempty_dim_string(zval *container, char *offset, uint32_t offset_len
 int ZEPHIR_FASTCALL zephir_array_unset(zval *arr, zval *index, int flags);
 int ZEPHIR_FASTCALL zephir_array_unset_long(zval *arr, zend_long index, int flags);
 int ZEPHIR_FASTCALL zephir_array_unset_string(zval *arr, const char *index, uint32_t index_length, int flags);
+void zephir_array_unset_path(zval *container, uint32_t count, zval **keys);
 
 /**
  * Fetch items from arrays.
@@ -130,6 +131,22 @@ int zephir_array_key_exists(zval *arr, zval *key);
 /* Update array using multiple keys */
 void zephir_array_update_multi_ex(zval *arr, zval *value, const char *types, int types_length, int types_count, va_list ap);
 int zephir_array_update_multi(zval *arr, zval *value, const char *types, int types_length, int types_count, ...);
+
+/**
+ * `container[o1]...[oN] OP= value`, PHP's ZEND_ASSIGN_DIM_OP. `types` uses the
+ * zephir_array_update_multi() encoding, a trailing 'a' being `[]`, and `op` is
+ * one of the engine's binary operator functions, such as add_function().
+ */
+void zephir_array_assign_op(zval *container, zval *value, binary_op_type op, const char *types, int types_length, int types_count, ...);
+
+/** Stores `value` in a variable slot, as zend_assign_to_variable() does */
+void zephir_array_assign_value(zval *slot, zval *value);
+
+/** Applies a binary operator to a variable slot in place, as ZEND_ASSIGN_OP does */
+void zephir_array_apply_op(zval *var_ptr, zval *value, binary_op_type op);
+
+/** `container[dim] = value` (`[]` for a NULL dim) on a container slot the caller resolved */
+int zephir_array_assign_dim(zval *container, zval *dim, zval *value);
 
 /** Fast Array Merge */
 void zephir_fast_array_merge(zval *return_value, zval *array1, zval *array2);

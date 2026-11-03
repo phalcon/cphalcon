@@ -52,6 +52,10 @@ PHP_METHOD(Phalcon_Image_Exceptions_ImageLoadFailed, __construct)
 	ZVAL_STR_COPY(&file_zv, file);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SV(&_0, "Failed to create image from file ", &file_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_image_exceptions_imageloadfailed_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

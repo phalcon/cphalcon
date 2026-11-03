@@ -138,6 +138,10 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Concat, __invoke)
 			ZEPHIR_INIT_NVAR(&_7$$6);
 			zephir_fast_trim(&_7$$6, &item, &delimiter_zv, ZEPHIR_TRIM_BOTH);
 			zephir_array_append(&data, &_7$$6, PH_SEPARATE, "phalcon/Support/Helper/Str/Concat.zep", 51);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, _4, "rewind", NULL, 0);
@@ -160,12 +164,20 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Concat, __invoke)
 				ZEPHIR_INIT_NVAR(&_10$$7);
 				zephir_fast_trim(&_10$$7, &item, &delimiter_zv, ZEPHIR_TRIM_BOTH);
 				zephir_array_append(&data, &_10$$7, PH_SEPARATE, "phalcon/Support/Helper/Str/Concat.zep", 51);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 		}
 	}
 	ZEPHIR_INIT_NVAR(&item);
 	ZEPHIR_INIT_VAR(&_11);
 	zephir_fast_join(&_11, &delimiter_zv, &data);
 	ZEPHIR_CONCAT_VVV(return_value, &prefix, &_11, &suffix);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_MM();
 }
 

@@ -67,7 +67,15 @@ PHP_METHOD(Phalcon_Autoload_Exceptions_LoaderDirectoriesNotArray, __construct)
 	if (!ZEPHIR_IS_IDENTICAL(&_0, &name_zv)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZEPHIR_CONCAT_SVS(&_1$$3, " for the '", &name_zv, "' namespace");
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		zephir_concat_self(&message, &_1$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_autoload_exceptions_loaderdirectoriesnotarray_ce, getThis(), "__construct", NULL, 0, &message);
 	zephir_check_call_status();

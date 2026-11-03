@@ -109,7 +109,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render)
 				ZEPHIR_INIT_NVAR(&value);
 				ZVAL_COPY(&value, _2$$4);
 				ZEPHIR_CPY_WRT(&_5$$5, &value);
-				if (zephir_set_symbol(&key, &_5$$5) == FAILURE) {
+				zephir_set_symbol(&key, &_5$$5);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
 					return;
 				}
 			} ZEND_HASH_FOREACH_END();
@@ -134,7 +136,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render)
 				ZEPHIR_CALL_METHOD(&value, _0$$4, "current", NULL, 0);
 				zephir_check_call_status();
 					ZEPHIR_CPY_WRT(&_8$$6, &value);
-					if (zephir_set_symbol(&key, &_8$$6) == FAILURE) {
+					zephir_set_symbol(&key, &_8$$6);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
 						return;
 					}
 			}

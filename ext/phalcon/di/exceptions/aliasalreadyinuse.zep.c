@@ -52,6 +52,10 @@ PHP_METHOD(Phalcon_Di_Exceptions_AliasAlreadyInUse, __construct)
 	ZVAL_STR_COPY(&alias_zv, alias);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "Alias '", &alias_zv, "' is already in use by an existing service");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_di_exceptions_aliasalreadyinuse_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

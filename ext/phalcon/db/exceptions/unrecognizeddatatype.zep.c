@@ -56,6 +56,10 @@ PHP_METHOD(Phalcon_Db_Exceptions_UnrecognizedDataType, __construct)
 	ZVAL_STR_COPY(&column_zv, column);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVSV(&_0, "Unrecognized ", &dialect_zv, " data type at column ", &column_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_db_exceptions_unrecognizeddatatype_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

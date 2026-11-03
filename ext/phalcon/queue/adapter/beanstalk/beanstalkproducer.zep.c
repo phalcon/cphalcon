@@ -179,6 +179,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkProducer, send)
 		zephir_read_property_cached(&_6, this_ptr, _zephir_prop_1, 1283, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_INIT_VAR(&_7);
 		zephir_div_zval_long(&_7, &_6, 1000);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_INIT_NVAR(&_4);
 		ZVAL_LONG(&_4, zephir_get_intval(&_7));
 	}

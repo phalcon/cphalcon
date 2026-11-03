@@ -62,6 +62,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exceptions_InvalidUserFunctionDefinition
 	ZVAL_LONG(&_0, line);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_SVSVSV(&_1, "Invalid definition for user function '", &name_zv, "' in ", &file_zv, " on line ", &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_view_engine_volt_exceptions_invaliduserfunctiondefinition_ce, getThis(), "__construct", NULL, 0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

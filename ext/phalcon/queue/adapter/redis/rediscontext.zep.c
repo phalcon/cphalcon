@@ -181,6 +181,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, blockingPop)
 	if (_4) {
 		zephir_memory_observe(&_5$$3);
 		zephir_array_fetch_long(&_5$$3, &result, 1, PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 70);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "buildMessage", NULL, 0, &_5$$3);
 		zephir_check_call_status();
 		RETURN_MM();
@@ -452,6 +456,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, pushMessage)
 		ZVAL_LONG(&_1$$3, delay);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		zephir_add_function(&_2$$3, &_0$$3, &_1$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		score = zephir_get_intval(&_2$$3);
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZVAL_STRING(&_3$$3, "");
@@ -459,6 +467,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, pushMessage)
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&member);
 		ZEPHIR_CONCAT_VSV(&member, &_0$$3, "|", &payload);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		zephir_read_property_cached(&_4$$3, this_ptr, _zephir_prop_0, 1297, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&_5$$3, this_ptr, "delayedKey", NULL, 0, &queueName_zv);
 		zephir_check_call_status();
@@ -502,10 +514,22 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, buildMessage)
 	object_init_ex(return_value, phalcon_queue_adapter_redis_redismessage_ce);
 	zephir_memory_observe(&_0);
 	zephir_array_fetch_string(&_0, &data, SL("body"), PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 166);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_memory_observe(&_1);
 	zephir_array_fetch_string(&_1, &data, SL("properties"), PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 166);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_memory_observe(&_2);
 	zephir_array_fetch_string(&_2, &data, SL("headers"), PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisContext.zep", 166);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &_0, &_1, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -530,6 +554,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, delayedKey)
 	ZVAL_STR(&queueName_zv, queueName);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1298, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CONCAT_VVS(return_value, &_0, &queueName_zv, ":delayed");
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	return;
 }
 
@@ -552,6 +579,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, listKey)
 	ZVAL_STR(&queueName_zv, queueName);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1298, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CONCAT_VV(return_value, &_0, &queueName_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	return;
 }
 
@@ -573,6 +603,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, now)
 	ZVAL_LONG(&_1, 1000);
 	ZEPHIR_INIT_VAR(&_2);
 	mul_function(&_2, &_0, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_MM_LONG(zephir_get_intval(&_2));
 }
 
@@ -664,6 +698,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, promote)
 				ZVAL_LONG(&_9$$5, 1);
 				ZEPHIR_INIT_NVAR(&_10$$5);
 				zephir_add_function(&_10$$5, &position, &_9$$5);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&payload);
 				zephir_substr(&payload, &member, zephir_get_intval(&_10$$5), 0, ZEPHIR_SUBSTR_NO_LENGTH);
 				zephir_read_property_cached(&_11$$5, this_ptr, _zephir_prop_0, 1297, PH_NOISY_CC | PH_READONLY);
@@ -701,6 +739,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, promote)
 					ZVAL_LONG(&_17$$7, 1);
 					ZEPHIR_INIT_NVAR(&_18$$7);
 					zephir_add_function(&_18$$7, &position, &_17$$7);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_INIT_NVAR(&payload);
 					zephir_substr(&payload, &member, zephir_get_intval(&_18$$7), 0, ZEPHIR_SUBSTR_NO_LENGTH);
 					zephir_read_property_cached(&_19$$7, this_ptr, _zephir_prop_0, 1297, PH_NOISY_CC | PH_READONLY);

@@ -149,6 +149,10 @@ PHP_METHOD(Phalcon_Di_Injectable, __get)
 	}
 	ZEPHIR_INIT_VAR(&_6);
 	ZEPHIR_CONCAT_SV(&_6, "Access to undefined property ", &propertyName_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 11, &_6);
 	zephir_check_call_status();
 	RETURN_MM_NULL();

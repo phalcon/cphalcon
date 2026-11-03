@@ -108,6 +108,10 @@ PHP_METHOD(Phalcon_Traits_Support_Helper_Json_EncodeTrait, toEncode)
 		return;
 	}
 	zephir_cast_to_string(&_4, &encoded);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_CTOR(&_4);
 }
 

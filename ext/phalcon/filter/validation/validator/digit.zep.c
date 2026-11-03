@@ -143,9 +143,13 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Digit, validate)
 	if (zephir_is_true(&_1)) {
 		RETURN_MM_BOOL(0);
 	}
-	_2 = Z_TYPE_P(&value) == IS_LONG;
+	_2 = (Z_TYPE_P(&value) == IS_LONG);
 	if (!(_2)) {
 		zephir_cast_to_string(&_3, &value);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_CALL_FUNCTION(&_4, "ctype_digit", NULL, 0, &_3);
 		zephir_check_call_status();
 		_2 = zephir_is_true(&_4);

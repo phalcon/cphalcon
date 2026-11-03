@@ -67,6 +67,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Apcu)
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, __construct)
 {
+	zend_bool _0, _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *options_param = NULL, prefix, ttl;
 	zval options;
@@ -98,11 +99,21 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, __construct)
 		zephir_get_arrval(&options, options_param);
 	}
 	zephir_memory_observe(&prefix);
-	if (zephir_array_isset_string_fetch(&prefix, &options, SL("prefix"), 0)) {
+	_0 = zephir_array_isset_string_fetch(&prefix, &options, SL("prefix"), 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_0) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 401, &prefix);
 	}
 	zephir_memory_observe(&ttl);
-	if (zephir_array_isset_string_fetch(&ttl, &options, SL("lifetime"), 0)) {
+	_1 = zephir_array_isset_string_fetch(&ttl, &options, SL("lifetime"), 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_1) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 402, &ttl);
 	}
 	ZEPHIR_MM_RESTORE();
@@ -139,6 +150,10 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, read)
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 401, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_CONCAT_SVV(&_2, "_PHAN", &_1, &key_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_fast_strtolower(&_0, &_2);
 	ZEPHIR_RETURN_CALL_FUNCTION("apcu_fetch", NULL, 287, &_0);
 	zephir_check_call_status();
@@ -184,6 +199,10 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, write)
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 401, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_CONCAT_SVV(&_2, "_PHAN", &_1, &key_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_fast_strtolower(&_0, &_2);
 	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_1, 402, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_FUNCTION("apcu_store", NULL, 289, &_0, data, &_3);

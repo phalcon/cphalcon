@@ -52,6 +52,10 @@ PHP_METHOD(Phalcon_Mvc_View_Exceptions_SimpleViewNotFound, __construct)
 	ZVAL_STR_COPY(&viewsDirPath_zv, viewsDirPath);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "View '", &viewsDirPath_zv, "' was not found in the views directory");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_view_exceptions_simpleviewnotfound_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

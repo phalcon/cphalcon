@@ -52,6 +52,10 @@ PHP_METHOD(Phalcon_Mvc_Router_Exceptions_WrongPathsKey, __construct)
 	ZVAL_STR_COPY(&part_zv, part);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SV(&_0, "Wrong key in paths: ", &part_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_router_exceptions_wrongpathskey_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

@@ -154,6 +154,10 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, validate)
 	if (Z_TYPE_P(&fieldWith) == IS_ARRAY) {
 		zephir_memory_observe(&_1$$3);
 		zephir_array_fetch(&_1$$3, &fieldWith, field, PH_NOISY, "phalcon/Filter/Validation/Validator/Confirmation.zep", 90);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_CPY_WRT(&fieldWith, &_1$$3);
 	}
 	ZEPHIR_CALL_METHOD(&value, validation, "getValue", NULL, 0, field);
@@ -172,7 +176,15 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, validate)
 		RETURN_MM_BOOL(0);
 	}
 	zephir_cast_to_string(&_6, &value);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_cast_to_string(&_7, &valueWith);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_METHOD(&_5, this_ptr, "compare", NULL, 0, &_6, &_7);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_5))) {
@@ -183,6 +195,10 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, validate)
 		if (Z_TYPE_P(&labelWith) == IS_ARRAY) {
 			zephir_memory_observe(&_9$$6);
 			zephir_array_fetch(&_9$$6, &labelWith, &fieldWith, PH_NOISY, "phalcon/Filter/Validation/Validator/Confirmation.zep", 104);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 			ZEPHIR_CPY_WRT(&labelWith, &_9$$6);
 		}
 		if (ZEPHIR_IS_EMPTY(&labelWith)) {
@@ -207,8 +223,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, validate)
 PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, compare)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zephir_fcall_cache_entry *_7 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *a_param = NULL, *b_param = NULL, _0, _1, _2, _8, _3$$3, _4$$3, _6$$3, _7$$3, _5$$4;
+	zval *a_param = NULL, *b_param = NULL, _0, _1, _2, _9, _3$$3, _4$$3, _6$$3, _8$$3, _5$$4;
 	zval a, b;
 	zval *this_ptr = getThis();
 
@@ -217,11 +234,11 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, compare)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_8);
+	ZVAL_UNDEF(&_9);
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&_6$$3);
-	ZVAL_UNDEF(&_7$$3);
+	ZVAL_UNDEF(&_8$$3);
 	ZVAL_UNDEF(&_5$$4);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_ZVAL(a_param)
@@ -253,18 +270,26 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, compare)
 		}
 		ZEPHIR_INIT_NVAR(&_4$$3);
 		ZVAL_STRING(&_4$$3, "utf-8");
-		ZEPHIR_CALL_FUNCTION(&_6$$3, "mb_strtolower", NULL, 16, &a, &_4$$3);
+		ZEPHIR_CALL_FUNCTION(&_6$$3, "mb_strtolower", &_7, 16, &a, &_4$$3);
 		zephir_check_call_status();
 		zephir_get_strval(&a, &_6$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_INIT_NVAR(&_4$$3);
 		ZVAL_STRING(&_4$$3, "utf-8");
-		ZEPHIR_CALL_FUNCTION(&_7$$3, "mb_strtolower", NULL, 16, &b, &_4$$3);
+		ZEPHIR_CALL_FUNCTION(&_8$$3, "mb_strtolower", &_7, 16, &b, &_4$$3);
 		zephir_check_call_status();
-		zephir_get_strval(&b, &_7$$3);
+		zephir_get_strval(&b, &_8$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
-	ZEPHIR_CALL_FUNCTION(&_8, "strcmp", NULL, 0, &a, &b);
+	ZEPHIR_CALL_FUNCTION(&_9, "strcmp", NULL, 0, &a, &b);
 	zephir_check_call_status();
-	RETURN_MM_BOOL(ZEPHIR_IS_LONG_IDENTICAL(&_8, 0));
+	RETURN_MM_BOOL(ZEPHIR_IS_LONG_IDENTICAL(&_9, 0));
 }
 
 /**

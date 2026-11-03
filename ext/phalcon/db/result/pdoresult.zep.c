@@ -611,6 +611,10 @@ PHP_METHOD(Phalcon_Db_Result_PdoResult, numRows)
 	ZEPHIR_CPY_WRT(&sqlStatement, &_0);
 	ZEPHIR_INIT_VAR(&_4);
 	ZEPHIR_CONCAT_SVS(&_4, "SELECT COUNT(*) \"numrows\" FROM (", &sqlStatement, ")");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_4, 684, PH_NOISY_CC | PH_READONLY);
 	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_5, 685, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&result, &connection, "query", NULL, 0, &_4, &_0, &_5);
@@ -619,6 +623,10 @@ PHP_METHOD(Phalcon_Db_Result_PdoResult, numRows)
 	zephir_check_call_status();
 	zephir_memory_observe(&_6);
 	zephir_array_fetch_string(&_6, &row, SL("numrows"), PH_NOISY, "phalcon/Db/Result/PdoResult.zep", 338);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_NVAR(&rowCount);
 	ZVAL_LONG(&rowCount, zephir_get_intval(&_6));
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 687, &rowCount);

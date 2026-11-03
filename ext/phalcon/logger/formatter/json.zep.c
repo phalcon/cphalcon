@@ -216,6 +216,10 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, toEncode)
 		return;
 	}
 	zephir_cast_to_string(&_4, &encoded);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_CTOR(&_4);
 }
 

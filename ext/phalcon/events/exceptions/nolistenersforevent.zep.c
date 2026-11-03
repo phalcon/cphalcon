@@ -52,6 +52,10 @@ PHP_METHOD(Phalcon_Events_Exceptions_NoListenersForEvent, __construct)
 	ZVAL_STR_COPY(&eventType_zv, eventType);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SV(&_0, "No listeners attached for event ", &eventType_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_events_exceptions_nolistenersforevent_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

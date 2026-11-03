@@ -81,6 +81,10 @@ PHP_METHOD(Phalcon_Support_Helper_Json_Exceptions_JsonEncodeError, __construct)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SV(&_0, "json_encode error: ", &message_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZVAL_LONG(&_1, code);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_support_helper_json_exceptions_jsonencodeerror_ce, getThis(), "__construct", NULL, 0, &_0, &_1, previous);
 	zephir_check_call_status();

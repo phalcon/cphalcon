@@ -132,6 +132,7 @@ PHP_METHOD(Phalcon_Mvc_View_Traits_ViewParamsTrait, getRegisteredEngines)
  */
 PHP_METHOD(Phalcon_Mvc_View_Traits_ViewParamsTrait, getVar)
 {
+	zend_bool _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval key_zv, value, _0;
 	zend_string *key = NULL;
@@ -154,7 +155,12 @@ PHP_METHOD(Phalcon_Mvc_View_Traits_ViewParamsTrait, getVar)
 	ZVAL_STR_COPY(&key_zv, key);
 	zephir_memory_observe(&value);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1245, PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset_fetch(&value, &_0, &key_zv, 0))) {
+	_1 = zephir_array_isset_fetch(&value, &_0, &key_zv, 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (!(_1)) {
 		RETURN_MM_NULL();
 	}
 	RETURN_CCTOR(&value);
@@ -213,6 +219,9 @@ PHP_METHOD(Phalcon_Mvc_View_Traits_ViewParamsTrait, setVar)
 	value = ZEND_CALL_ARG(execute_data, 2);
 	ZVAL_STR(&key_zv, key);
 	zephir_update_property_array(this_ptr, SL("viewParams"), &key_zv, value);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 

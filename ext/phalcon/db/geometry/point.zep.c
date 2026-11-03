@@ -117,6 +117,10 @@ PHP_METHOD(Phalcon_Db_Geometry_Point, toWkt)
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "coordsWkt", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_SVS(return_value, "POINT(", &_0, ")");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_MM();
 }
 
@@ -138,6 +142,9 @@ PHP_METHOD(Phalcon_Db_Geometry_Point, coordsWkt)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 648, PH_NOISY_CC | PH_READONLY);
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 649, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CONCAT_VSV(return_value, &_0, " ", &_1);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	return;
 }
 

@@ -52,6 +52,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Exceptions_BindParameterNotInPlaceholders, __
 	ZVAL_STR_COPY(&wildcard_zv, wildcard);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "Bound parameter '", &wildcard_zv, "' cannot be replaced because it is not in the placeholders list");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_query_exceptions_bindparameternotinplaceholders_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

@@ -13,6 +13,7 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
+#include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
@@ -51,8 +52,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Textarea)
  */
 PHP_METHOD(Phalcon_Html_Helper_Input_Textarea, __toString)
 {
+	zend_bool _2;
 	zval attributes;
-	zval value, _0, _1, _2;
+	zval value, _0, _1, _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -60,7 +62,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Textarea, __toString)
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&attributes);
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
@@ -74,19 +76,37 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Textarea, __toString)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 868, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(Z_TYPE_P(&_0) != IS_ARRAY)) {
+		zephir_throw_variable_type_error(&_0, "attributes", "array");
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CPY_WRT(&attributes, &_0);
 	ZEPHIR_INIT_VAR(&_1);
 	array_init(&_1);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 868, &_1);
 	zephir_memory_observe(&value);
-	if (!(zephir_array_isset_string_fetch(&value, &attributes, SL("value"), 0))) {
+	_2 = zephir_array_isset_string_fetch(&value, &attributes, SL("value"), 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (!(_2)) {
 		ZEPHIR_INIT_NVAR(&value);
 		ZVAL_STRING(&value, "");
 	}
 	zephir_array_unset_string(&attributes, SL("type"), PH_SEPARATE);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_array_unset_string(&attributes, SL("value"), PH_SEPARATE);
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 869, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderFullElement", NULL, 0, &_2, &value, &attributes);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_1, 869, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderFullElement", NULL, 0, &_3, &value, &attributes);
 	zephir_check_call_status();
 	RETURN_MM();
 }

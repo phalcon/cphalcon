@@ -52,6 +52,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Auth_Internal_Options)
  */
 PHP_METHOD(Phalcon_Auth_Internal_Options, arrayOption)
 {
+	zend_bool _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_string *key = NULL;
@@ -75,13 +76,22 @@ PHP_METHOD(Phalcon_Auth_Internal_Options, arrayOption)
 	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
 	zephir_get_arrval(&defaultValue, defaultValue_param);
-	if (zephir_array_isset_value(&options, &key_zv)) {
+	_0 = zephir_array_isset_value(&options, &key_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_0) {
 		zephir_memory_observe(&value);
 		zephir_array_fetch(&value, &options, &key_zv, PH_NOISY, "phalcon/Auth/Internal/Options.zep", 39);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
 		ZEPHIR_CPY_WRT(&value, &defaultValue);
 	}
-	if (!(Z_TYPE_P(&value) == IS_ARRAY)) {
+	if (!((Z_TYPE_P(&value) == IS_ARRAY))) {
 		RETURN_CTOR(&defaultValue);
 	}
 	ZEPHIR_RETURN_CALL_FUNCTION("array_values", NULL, 27, &value);
@@ -97,18 +107,18 @@ PHP_METHOD(Phalcon_Auth_Internal_Options, arrayOption)
  */
 PHP_METHOD(Phalcon_Auth_Internal_Options, requireArray)
 {
-	zend_bool _0;
+	zend_bool _0, _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_string *key = NULL, *context = NULL;
-	zval *options_param = NULL, key_zv, context_zv, value, _1$$3;
+	zval *options_param = NULL, key_zv, context_zv, value, _2$$3;
 	zval options;
 
 	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&key_zv);
 	ZVAL_UNDEF(&context_zv);
 	ZVAL_UNDEF(&value);
-	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2$$3);
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		ZEPHIR_Z_PARAM_ARRAY(options, options_param)
 		Z_PARAM_STR(key)
@@ -123,17 +133,22 @@ PHP_METHOD(Phalcon_Auth_Internal_Options, requireArray)
 	zephir_memory_observe(&context_zv);
 	ZVAL_STR_COPY(&context_zv, context);
 	zephir_memory_observe(&value);
-	zephir_array_isset_fetch(&value, &options, &key_zv, 0);
-	_0 = Z_TYPE_P(&value) != IS_ARRAY;
-	if (!(_0)) {
-		_0 = ZEPHIR_IS_EMPTY(&value);
+	_0 = zephir_array_isset_fetch(&value, &options, &key_zv, 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
 	}
-	if (_0) {
-		ZEPHIR_INIT_VAR(&_1$$3);
-		object_init_ex(&_1$$3, phalcon_auth_exceptions_optionrequiresarray_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 428, &context_zv, &key_zv);
+	_0;
+	_1 = Z_TYPE_P(&value) != IS_ARRAY;
+	if (!(_1)) {
+		_1 = ZEPHIR_IS_EMPTY(&value);
+	}
+	if (_1) {
+		ZEPHIR_INIT_VAR(&_2$$3);
+		object_init_ex(&_2$$3, phalcon_auth_exceptions_optionrequiresarray_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 428, &context_zv, &key_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Auth/Internal/Options.zep", 62);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/Auth/Internal/Options.zep", 62);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -147,18 +162,18 @@ PHP_METHOD(Phalcon_Auth_Internal_Options, requireArray)
  */
 PHP_METHOD(Phalcon_Auth_Internal_Options, requireString)
 {
-	zend_bool _0;
+	zend_bool _0, _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_string *key = NULL, *context = NULL;
-	zval *options_param = NULL, key_zv, context_zv, value, _1$$3;
+	zval *options_param = NULL, key_zv, context_zv, value, _2$$3;
 	zval options;
 
 	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&key_zv);
 	ZVAL_UNDEF(&context_zv);
 	ZVAL_UNDEF(&value);
-	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2$$3);
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		ZEPHIR_Z_PARAM_ARRAY(options, options_param)
 		Z_PARAM_STR(key)
@@ -173,17 +188,22 @@ PHP_METHOD(Phalcon_Auth_Internal_Options, requireString)
 	zephir_memory_observe(&context_zv);
 	ZVAL_STR_COPY(&context_zv, context);
 	zephir_memory_observe(&value);
-	zephir_array_isset_fetch(&value, &options, &key_zv, 0);
-	_0 = Z_TYPE_P(&value) != IS_STRING;
-	if (!(_0)) {
-		_0 = ZEPHIR_IS_STRING_IDENTICAL(&value, "");
+	_0 = zephir_array_isset_fetch(&value, &options, &key_zv, 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
 	}
-	if (_0) {
-		ZEPHIR_INIT_VAR(&_1$$3);
-		object_init_ex(&_1$$3, phalcon_auth_exceptions_optionrequiresstring_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 429, &context_zv, &key_zv);
+	_0;
+	_1 = Z_TYPE_P(&value) != IS_STRING;
+	if (!(_1)) {
+		_1 = ZEPHIR_IS_STRING_IDENTICAL(&value, "");
+	}
+	if (_1) {
+		ZEPHIR_INIT_VAR(&_2$$3);
+		object_init_ex(&_2$$3, phalcon_auth_exceptions_optionrequiresstring_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 429, &context_zv, &key_zv);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Auth/Internal/Options.zep", 80);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/Auth/Internal/Options.zep", 80);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -195,15 +215,16 @@ PHP_METHOD(Phalcon_Auth_Internal_Options, requireString)
  */
 PHP_METHOD(Phalcon_Auth_Internal_Options, stringOrNull)
 {
+	zend_bool _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_string *key = NULL;
-	zval *options_param = NULL, key_zv, value, _0;
+	zval *options_param = NULL, key_zv, value, _1;
 	zval options;
 
 	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&key_zv);
 	ZVAL_UNDEF(&value);
-	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		ZEPHIR_Z_PARAM_ARRAY(options, options_param)
 		Z_PARAM_STR(key)
@@ -215,14 +236,19 @@ PHP_METHOD(Phalcon_Auth_Internal_Options, stringOrNull)
 	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
 	zephir_memory_observe(&value);
-	zephir_array_isset_fetch(&value, &options, &key_zv, 0);
-	ZEPHIR_INIT_VAR(&_0);
-	if (Z_TYPE_P(&value) == IS_STRING) {
-		ZEPHIR_CPY_WRT(&_0, &value);
-	} else {
-		ZEPHIR_INIT_NVAR(&_0);
-		ZVAL_NULL(&_0);
+	_0 = zephir_array_isset_fetch(&value, &options, &key_zv, 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
 	}
-	RETURN_CCTOR(&_0);
+	_0;
+	ZEPHIR_INIT_VAR(&_1);
+	if (Z_TYPE_P(&value) == IS_STRING) {
+		ZEPHIR_CPY_WRT(&_1, &value);
+	} else {
+		ZEPHIR_INIT_NVAR(&_1);
+		ZVAL_NULL(&_1);
+	}
+	RETURN_CCTOR(&_1);
 }
 

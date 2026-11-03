@@ -64,6 +64,10 @@ PHP_METHOD(Phalcon_Assets_Exceptions_CollectionNotFound, __construct)
 	if (!ZEPHIR_IS_STRING_IDENTICAL(&name_zv, "")) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZEPHIR_CONCAT_SVS(&_0$$3, "The collection '", &name_zv, "' does not exist in the manager");
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_CPY_WRT(&message, &_0$$3);
 	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_assets_exceptions_collectionnotfound_ce, getThis(), "__construct", NULL, 0, &message);

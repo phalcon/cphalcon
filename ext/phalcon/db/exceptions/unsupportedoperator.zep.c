@@ -52,6 +52,10 @@ PHP_METHOD(Phalcon_Db_Exceptions_UnsupportedOperator, __construct)
 	ZVAL_STR_COPY(&operator_zv, operator);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "Operator '", &operator_zv, "' is not supported by this SQL dialect");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_db_exceptions_unsupportedoperator_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

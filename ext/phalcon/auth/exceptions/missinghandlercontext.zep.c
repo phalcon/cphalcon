@@ -51,6 +51,10 @@ PHP_METHOD(Phalcon_Auth_Exceptions_MissingHandlerContext, __construct)
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SS(&_0, "The Acl access gate requires the 'handler' context key to ", "determine the ACL component");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_auth_exceptions_missinghandlercontext_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

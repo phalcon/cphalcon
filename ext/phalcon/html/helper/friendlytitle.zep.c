@@ -171,6 +171,9 @@ PHP_METHOD(Phalcon_Html_Helper_FriendlyTitle, __invoke)
 			zephir_throw_exception_debug(&_3$$4, "phalcon/Html/Helper/FriendlyTitle.zep", 50);
 			ZEPHIR_MM_RESTORE();
 			return;
+		} else {
+			ZEPHIR_MM_RESTORE();
+			return;
 		}
 	}
 }

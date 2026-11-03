@@ -181,9 +181,10 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, getLastTask)
  */
 PHP_METHOD(Phalcon_Cli_Dispatcher, getOption)
 {
+	zend_bool _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *option, option_sub, *filters = NULL, filters_sub, *defaultValue = NULL, defaultValue_sub, __$null, options, filter, optionValue, container, _0, _3, _4, _1$$5, _2$$5;
+	zval *option, option_sub, *filters = NULL, filters_sub, *defaultValue = NULL, defaultValue_sub, __$null, options, filter, optionValue, container, _0, _4, _5, _2$$5, _3$$5;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&option_sub);
@@ -195,10 +196,10 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, getOption)
 	ZVAL_UNDEF(&optionValue);
 	ZVAL_UNDEF(&container);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_1$$5);
+	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_2$$5);
+	ZVAL_UNDEF(&_3$$5);
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -229,7 +230,12 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, getOption)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 511, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&options, &_0);
 	zephir_memory_observe(&optionValue);
-	if (!(zephir_array_isset_fetch(&optionValue, &options, option, 0))) {
+	_1 = zephir_array_isset_fetch(&optionValue, &options, option, 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (!(_1)) {
 		RETVAL_ZVAL(defaultValue, 1, 0);
 		RETURN_MM();
 	}
@@ -239,17 +245,17 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, getOption)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 512, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&container, &_0);
 	if (Z_TYPE_P(&container) == IS_NULL) {
-		ZEPHIR_INIT_VAR(&_1$$5);
-		ZVAL_STRING(&_1$$5, "A dependency injection container is required to access the 'filter' service");
-		ZVAL_LONG(&_2$$5, 0);
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwDispatchException", NULL, 0, &_1$$5, &_2$$5);
+		ZEPHIR_INIT_VAR(&_2$$5);
+		ZVAL_STRING(&_2$$5, "A dependency injection container is required to access the 'filter' service");
+		ZVAL_LONG(&_3$$5, 0);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwDispatchException", NULL, 0, &_2$$5, &_3$$5);
 		zephir_check_call_status();
 	}
-	ZEPHIR_INIT_VAR(&_4);
-	ZVAL_STRING(&_4, "filter");
-	ZEPHIR_CALL_METHOD(&_3, &container, "getShared", NULL, 0, &_4);
+	ZEPHIR_INIT_VAR(&_5);
+	ZVAL_STRING(&_5, "filter");
+	ZEPHIR_CALL_METHOD(&_4, &container, "getShared", NULL, 0, &_5);
 	zephir_check_call_status();
-	ZEPHIR_CPY_WRT(&filter, &_3);
+	ZEPHIR_CPY_WRT(&filter, &_4);
 	ZEPHIR_RETURN_CALL_METHOD(&filter, "sanitize", NULL, 0, &optionValue, filters);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -291,6 +297,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, getTaskSuffix)
  */
 PHP_METHOD(Phalcon_Cli_Dispatcher, hasOption)
 {
+	zend_bool _1;
 	zval *option, option_sub, _0;
 	zval *this_ptr = getThis();
 
@@ -306,7 +313,11 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, hasOption)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &option);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 511, PH_NOISY_CC | PH_READONLY);
-	RETURN_BOOL(zephir_array_isset_value(&_0, option));
+	_1 = zephir_array_isset_value(&_0, option);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
+	RETURN_BOOL(_1);
 }
 
 /**

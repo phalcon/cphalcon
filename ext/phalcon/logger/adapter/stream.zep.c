@@ -91,18 +91,19 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_Stream)
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct)
 {
+	zend_bool _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval options;
-	zval name_zv, *options_param = NULL, mode, _0, _1, _2$$3;
+	zval name_zv, *options_param = NULL, mode, _1, _2, _3$$3;
 	zend_string *name = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name_zv);
 	ZVAL_UNDEF(&mode);
-	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&options);
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
@@ -131,23 +132,32 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct)
 	} else {
 		zephir_get_arrval(&options, options_param);
 	}
-	if (1 == zephir_array_isset_value_string(&options, SL("mode"))) {
+	_0 = zephir_array_isset_value_string(&options, SL("mode"));
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (1 == _0) {
 		zephir_memory_observe(&mode);
 		zephir_array_fetch_string(&mode, &options, SL("mode"), PH_NOISY, "phalcon/Logger/Adapter/Stream.zep", 76);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
 		ZEPHIR_INIT_NVAR(&mode);
 		ZVAL_STRING(&mode, "ab");
 	}
-	ZEPHIR_INIT_VAR(&_0);
-	ZVAL_STRING(&_0, "r");
-	ZEPHIR_CALL_FUNCTION(&_1, "mb_strpos", NULL, 202, &mode, &_0);
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "r");
+	ZEPHIR_CALL_FUNCTION(&_2, "mb_strpos", NULL, 202, &mode, &_1);
 	zephir_check_call_status();
-	if (!ZEPHIR_IS_FALSE_IDENTICAL(&_1)) {
-		ZEPHIR_INIT_VAR(&_2$$3);
-		object_init_ex(&_2$$3, phalcon_logger_adapter_exceptions_invalidstreammode_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 0);
+	if (!ZEPHIR_IS_FALSE_IDENTICAL(&_2)) {
+		ZEPHIR_INIT_VAR(&_3$$3);
+		object_init_ex(&_3$$3, phalcon_logger_adapter_exceptions_invalidstreammode_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$3, "phalcon/Logger/Adapter/Stream.zep", 78);
+		zephir_throw_exception_debug(&_3$$3, "phalcon/Logger/Adapter/Stream.zep", 78);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -241,12 +251,12 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, process)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &item);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 954, PH_NOISY_CC | PH_READONLY);
-	if (!(Z_TYPE_P(&_0) == IS_RESOURCE)) {
+	if (!((Z_TYPE_P(&_0) == IS_RESOURCE))) {
 		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_1, 952, PH_NOISY_CC | PH_READONLY);
 		zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_2, 953, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&fileHandler, this_ptr, "phpFopen", NULL, 0, &_1$$3, &_2$$3);
 		zephir_check_call_status();
-		if (!(Z_TYPE_P(&fileHandler) == IS_RESOURCE)) {
+		if (!((Z_TYPE_P(&fileHandler) == IS_RESOURCE))) {
 			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 954, &__$null);
 			ZEPHIR_INIT_VAR(&_3$$4);
 			object_init_ex(&_3$$4, phalcon_logger_adapter_exceptions_fileopenfailed_ce);
@@ -266,6 +276,10 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, process)
 	ZEPHIR_GET_CONSTANT(&_7, "PHP_EOL");
 	ZEPHIR_INIT_VAR(&message);
 	ZEPHIR_CONCAT_VV(&message, &_6, &_7);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_read_property_cached(&_8, this_ptr, _zephir_prop_0, 954, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "phpFwrite", NULL, 0, &_8, &message);
 	zephir_check_call_status();
@@ -412,9 +426,10 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, phpFileExists)
 PHP_METHOD(Phalcon_Logger_Adapter_Stream, phpFileGetContents)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zephir_fcall_cache_entry *_2 = NULL;
 	zend_long offset, length, ZEPHIR_LAST_CALL_STATUS;
 	zend_bool useIncludePath;
-	zval filename_zv, *useIncludePath_param = NULL, *context = NULL, context_sub, *offset_param = NULL, *length_param = NULL, __$null, _0$$3, _1$$3, _2, _3, _4;
+	zval filename_zv, *useIncludePath_param = NULL, *context = NULL, context_sub, *offset_param = NULL, *length_param = NULL, __$null, _0$$3, _1$$3, _3, _4, _5;
 	zend_string *filename = NULL;
 
 	ZVAL_UNDEF(&filename_zv);
@@ -422,9 +437,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, phpFileGetContents)
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 5)
 		Z_PARAM_STR(filename)
@@ -469,14 +484,14 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, phpFileGetContents)
 	if (0 == length) {
 		ZVAL_BOOL(&_0$$3, (useIncludePath ? 1 : 0));
 		ZVAL_LONG(&_1$$3, offset);
-		ZEPHIR_RETURN_CALL_FUNCTION("file_get_contents", NULL, 161, &filename_zv, &_0$$3, context, &_1$$3);
+		ZEPHIR_RETURN_CALL_FUNCTION("file_get_contents", &_2, 161, &filename_zv, &_0$$3, context, &_1$$3);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZVAL_BOOL(&_2, (useIncludePath ? 1 : 0));
-	ZVAL_LONG(&_3, offset);
-	ZVAL_LONG(&_4, length);
-	ZEPHIR_RETURN_CALL_FUNCTION("file_get_contents", NULL, 161, &filename_zv, &_2, context, &_3, &_4);
+	ZVAL_BOOL(&_3, (useIncludePath ? 1 : 0));
+	ZVAL_LONG(&_4, offset);
+	ZVAL_LONG(&_5, length);
+	ZEPHIR_RETURN_CALL_FUNCTION("file_get_contents", &_2, 161, &filename_zv, &_3, context, &_4, &_5);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -607,6 +622,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, phpFopen)
 PHP_METHOD(Phalcon_Logger_Adapter_Stream, phpFwrite)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zephir_fcall_cache_entry *_1 = NULL;
 	zend_long length, ZEPHIR_LAST_CALL_STATUS;
 	zend_string *data = NULL;
 	zval *handle, handle_sub, data_zv, *length_param = NULL, _0;
@@ -638,7 +654,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, phpFwrite)
 		RETURN_MM();
 	}
 	ZVAL_LONG(&_0, length);
-	ZEPHIR_RETURN_CALL_FUNCTION("fwrite", NULL, 164, handle, &data_zv, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("fwrite", &_1, 164, handle, &data_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

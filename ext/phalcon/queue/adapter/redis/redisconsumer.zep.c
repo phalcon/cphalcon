@@ -144,6 +144,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConsumer, receive)
 		ZVAL_LONG(&_2$$3, 1000);
 		ZEPHIR_INIT_VAR(&_3$$3);
 		mul_function(&_3$$3, &_1$$3, &_2$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		deadline = (zephir_get_intval(&_3$$3) + timeout);
 	}
 	while (1) {
@@ -162,6 +166,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConsumer, receive)
 			ZVAL_LONG(&_8$$4, 1000);
 			ZEPHIR_INIT_NVAR(&_9$$4);
 			mul_function(&_9$$4, &_7$$4, &_8$$4);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 			_6$$4 = zephir_get_intval(&_9$$4) >= deadline;
 		}
 		if (_6$$4) {

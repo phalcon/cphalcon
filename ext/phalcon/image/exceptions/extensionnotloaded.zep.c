@@ -52,6 +52,10 @@ PHP_METHOD(Phalcon_Image_Exceptions_ExtensionNotLoaded, __construct)
 	ZVAL_STR_COPY(&extension_zv, extension);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_VS(&_0, &extension_zv, " is not installed, or the extension is not loaded");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_image_exceptions_extensionnotloaded_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

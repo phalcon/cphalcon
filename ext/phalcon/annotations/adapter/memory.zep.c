@@ -80,6 +80,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, __construct)
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read)
 {
+	zend_bool _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval key_zv, data, _0, _1;
 	zend_string *key = NULL;
@@ -105,7 +106,12 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 403, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_fast_strtolower(&_1, &key_zv);
-	if (!(zephir_array_isset_fetch(&data, &_0, &_1, 0))) {
+	_2 = zephir_array_isset_fetch(&data, &_0, &_1, 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (!(_2)) {
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_CCTOR(&data);
@@ -136,6 +142,10 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write)
 	ZEPHIR_INIT_VAR(&lowercasedKey);
 	zephir_fast_strtolower(&lowercasedKey, &key_zv);
 	zephir_update_property_array(this_ptr, SL("data"), &lowercasedKey, data);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

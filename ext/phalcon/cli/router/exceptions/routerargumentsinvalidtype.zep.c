@@ -64,7 +64,15 @@ PHP_METHOD(Phalcon_Cli_Router_Exceptions_RouterArgumentsInvalidType, __construct
 	if (!ZEPHIR_IS_STRING_IDENTICAL(&type_zv, "")) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZEPHIR_CONCAT_SVS(&_0$$3, ", ", &type_zv, " given");
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		zephir_concat_self(&message, &_0$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_cli_router_exceptions_routerargumentsinvalidtype_ce, getThis(), "__construct", NULL, 0, &message);
 	zephir_check_call_status();

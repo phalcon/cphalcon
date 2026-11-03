@@ -136,6 +136,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Traits_SubscriptionConsumerTrait, consume)
 	ZVAL_LONG(&_2, 1000);
 	ZEPHIR_INIT_VAR(&_3);
 	mul_function(&_3, &_1, &_2);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	sleep = zephir_get_intval(&_3);
 	ZEPHIR_INIT_VAR(&_4);
 	zephir_microtime(&_4, &__$true);
@@ -143,6 +147,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Traits_SubscriptionConsumerTrait, consume)
 	ZVAL_LONG(&_2, 1000);
 	ZEPHIR_INIT_VAR(&_5);
 	mul_function(&_5, &_4, &_2);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	startTime = zephir_get_intval(&_5);
 	while (1) {
 		ZEPHIR_OBS_NVAR(&_6$$4);
@@ -156,8 +164,16 @@ PHP_METHOD(Phalcon_Queue_Adapter_Traits_SubscriptionConsumerTrait, consume)
 				ZVAL_COPY(&subscription, _8$$4);
 				ZEPHIR_OBS_NVAR(&consumer);
 				zephir_array_fetch_long(&consumer, &subscription, 0, PH_NOISY, "phalcon/Queue/Adapter/Traits/SubscriptionConsumerTrait.zep", 65);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_OBS_NVAR(&callback);
 				zephir_array_fetch_long(&callback, &subscription, 1, PH_NOISY, "phalcon/Queue/Adapter/Traits/SubscriptionConsumerTrait.zep", 66);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_CALL_METHOD(&message, &consumer, "receiveNoWait", NULL, 0);
 				zephir_check_call_status();
 				if (Z_TYPE_P(&message) != IS_NULL) {
@@ -188,8 +204,16 @@ PHP_METHOD(Phalcon_Queue_Adapter_Traits_SubscriptionConsumerTrait, consume)
 				zephir_check_call_status();
 					ZEPHIR_OBS_NVAR(&consumer);
 					zephir_array_fetch_long(&consumer, &subscription, 0, PH_NOISY, "phalcon/Queue/Adapter/Traits/SubscriptionConsumerTrait.zep", 65);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_OBS_NVAR(&callback);
 					zephir_array_fetch_long(&callback, &subscription, 1, PH_NOISY, "phalcon/Queue/Adapter/Traits/SubscriptionConsumerTrait.zep", 66);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_CALL_METHOD(&message, &consumer, "receiveNoWait", NULL, 0);
 					zephir_check_call_status();
 					if (Z_TYPE_P(&message) != IS_NULL) {
@@ -210,7 +234,11 @@ PHP_METHOD(Phalcon_Queue_Adapter_Traits_SubscriptionConsumerTrait, consume)
 			ZVAL_LONG(&_14$$4, 1000);
 			ZEPHIR_INIT_NVAR(&_15$$4);
 			mul_function(&_15$$4, &_13$$4, &_14$$4);
-			_12$$4 = (zephir_get_intval(&_15$$4) - startTime) >= timeout;
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			_12$$4 = ((zephir_get_intval(&_15$$4) - startTime)) >= timeout;
 		}
 		if (_12$$4) {
 			RETURN_MM_NULL();
@@ -226,16 +254,16 @@ PHP_METHOD(Phalcon_Queue_Adapter_Traits_SubscriptionConsumerTrait, consume)
  */
 PHP_METHOD(Phalcon_Queue_Adapter_Traits_SubscriptionConsumerTrait, subscribe)
 {
-	zval _0;
+	zval _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *consumer, consumer_sub, *callback, callback_sub, _1;
+	zval *consumer, consumer_sub, *callback, callback_sub, _0;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&consumer_sub);
 	ZVAL_UNDEF(&callback_sub);
-	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(consumer, phalcon_contracts_queue_consumer_ce)
 		Z_PARAM_ZVAL(callback)
@@ -243,13 +271,17 @@ PHP_METHOD(Phalcon_Queue_Adapter_Traits_SubscriptionConsumerTrait, subscribe)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &consumer, &callback);
-	ZEPHIR_INIT_VAR(&_0);
-	zephir_create_array(&_0, 2, 0);
-	zephir_array_fast_append(&_0, consumer);
-	zephir_array_fast_append(&_0, callback);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "resolveQueueName", NULL, 0, consumer);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "resolveQueueName", NULL, 0, consumer);
 	zephir_check_call_status();
-	zephir_update_property_array(this_ptr, SL("subscriptions"), &_1, &_0);
+	ZEPHIR_INIT_VAR(&_1);
+	zephir_create_array(&_1, 2, 0);
+	zephir_array_fast_append(&_1, consumer);
+	zephir_array_fast_append(&_1, callback);
+	zephir_update_property_array(this_ptr, SL("subscriptions"), &_0, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -274,6 +306,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Traits_SubscriptionConsumerTrait, unsubscribe)
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "resolveQueueName", NULL, 0, consumer);
 	zephir_check_call_status();
 	zephir_unset_property_array(this_ptr, ZEND_STRL("subscriptions"), &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

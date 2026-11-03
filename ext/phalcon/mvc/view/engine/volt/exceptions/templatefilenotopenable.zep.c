@@ -52,6 +52,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exceptions_TemplateFileNotOpenable, __co
 	ZVAL_STR_COPY(&path_zv, path);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "Template file ", &path_zv, " could not be opened");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_view_engine_volt_exceptions_templatefilenotopenable_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

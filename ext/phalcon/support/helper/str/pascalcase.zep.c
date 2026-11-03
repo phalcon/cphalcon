@@ -101,6 +101,10 @@ PHP_METHOD(Phalcon_Support_Helper_Str_PascalCase, __invoke)
 			zephir_ucfirst(&_3$$3, &_4$$3);
 			ZEPHIR_INIT_NVAR(&_6$$3);
 			ZEPHIR_CONCAT_VV(&_6$$3, &output, &_3$$3);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 			ZEPHIR_CPY_WRT(&output, &_6$$3);
 		} ZEND_HASH_FOREACH_END();
 	} else {
@@ -127,6 +131,10 @@ PHP_METHOD(Phalcon_Support_Helper_Str_PascalCase, __invoke)
 				zephir_ucfirst(&_9$$4, &_10$$4);
 				ZEPHIR_INIT_NVAR(&_11$$4);
 				ZEPHIR_CONCAT_VV(&_11$$4, &output, &_9$$4);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_CPY_WRT(&output, &_11$$4);
 		}
 	}
@@ -217,12 +225,24 @@ PHP_METHOD(Phalcon_Support_Helper_Str_PascalCase, processArray)
 		zephir_array_fast_append(&_8$$4, &_7$$4);
 		zephir_fast_str_replace(&_5$$4, &_6$$4, &_8$$4, &delimiters);
 		zephir_get_strval(&delimiters, &_5$$4);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_INIT_VAR(&_9$$4);
 		ZEPHIR_CONCAT_SV(&_9$$4, "-", &delimiters);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_CPY_WRT(&delimiters, &_9$$4);
 	}
 	ZEPHIR_INIT_VAR(&_10);
 	ZEPHIR_CONCAT_SVS(&_10, "/[", &delimiters, "]+/");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZVAL_LONG(&_11, -1);
 	ZVAL_LONG(&_12, (2 | 1));
 	ZEPHIR_CALL_FUNCTION(&result, "preg_split", NULL, 191, &_10, &text_zv, &_11, &_12);

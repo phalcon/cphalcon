@@ -109,6 +109,10 @@ PHP_METHOD(Phalcon_Forms_Element_CheckGroup, __construct)
 	if (!(zephir_memnstr_str(&name, SL("["), "phalcon/Forms/Element/CheckGroup.zep", 50))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZEPHIR_CONCAT_VS(&_0$$3, &name, "[]");
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_CPY_WRT(&name, &_0$$3);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 792, &options);
@@ -195,6 +199,10 @@ PHP_METHOD(Phalcon_Forms_Element_CheckGroup, render)
 	ZEPHIR_CALL_METHOD(&_3, &helper, "__invoke", NULL, 0, &_4, &_5, &value, &merged);
 	zephir_check_call_status();
 	zephir_cast_to_string(&_6, &_3);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_CTOR(&_6);
 }
 

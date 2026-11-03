@@ -104,18 +104,19 @@ PHP_METHOD(Phalcon_Factory_AbstractConfigFactory, checkConfig)
  */
 PHP_METHOD(Phalcon_Factory_AbstractConfigFactory, checkConfigElement)
 {
-	zval _1$$3;
+	zval _2$$3;
+	zend_bool _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_string *element = NULL;
-	zval *config_param = NULL, element_zv, _0$$3;
+	zval *config_param = NULL, element_zv, _1$$3;
 	zval config;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&config);
 	ZVAL_UNDEF(&element_zv);
-	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2$$3);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		ZEPHIR_Z_PARAM_ARRAY(config, config_param)
 		Z_PARAM_STR(element)
@@ -126,12 +127,21 @@ PHP_METHOD(Phalcon_Factory_AbstractConfigFactory, checkConfigElement)
 	zephir_get_arrval(&config, config_param);
 	zephir_memory_observe(&element_zv);
 	ZVAL_STR_COPY(&element_zv, element);
-	if (UNEXPECTED(!(zephir_array_isset_value(&config, &element_zv)))) {
-		ZEPHIR_INIT_VAR(&_1$$3);
-		ZEPHIR_CONCAT_SVS(&_1$$3, "You must provide the '", &element_zv, "' option in the factory config parameter.");
-		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "getException", NULL, 0, &_1$$3);
+	_0 = zephir_array_isset_value(&config, &element_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (UNEXPECTED(!(_0))) {
+		ZEPHIR_INIT_VAR(&_2$$3);
+		ZEPHIR_CONCAT_SVS(&_2$$3, "You must provide the '", &element_zv, "' option in the factory config parameter.");
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "getException", NULL, 0, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Factory/AbstractConfigFactory.zep", 65);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Factory/AbstractConfigFactory.zep", 65);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

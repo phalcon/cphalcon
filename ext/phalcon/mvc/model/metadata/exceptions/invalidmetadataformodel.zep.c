@@ -52,6 +52,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Exceptions_InvalidMetaDataForModel, __cons
 	ZVAL_STR_COPY(&modelName_zv, modelName);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SV(&_0, "Invalid meta-data for model ", &modelName_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_metadata_exceptions_invalidmetadataformodel_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

@@ -60,6 +60,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Exceptions_ReferencedFieldsMismatch, __construct)
 	ZVAL_STR_COPY(&referencedEntity_zv, referencedEntity);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVSVSVS(&_0, "Number of referenced fields are not the same in the ", &relationType_zv, " relation of model '", &entityName_zv, "' with Reference Model '", &referencedEntity_zv, "'");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_exceptions_referencedfieldsmismatch_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

@@ -56,6 +56,10 @@ PHP_METHOD(Phalcon_Html_Exceptions_AttributeNotRenderable, __construct)
 	ZVAL_STR_COPY(&type_zv, type);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVSVS(&_0, "Value at index: \"", &key_zv, "\" type: \"", &type_zv, "\" cannot be rendered");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_html_exceptions_attributenotrenderable_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

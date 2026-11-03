@@ -52,6 +52,10 @@ PHP_METHOD(Phalcon_Image_Exceptions_VersionMismatch, __construct)
 	ZVAL_STR_COPY(&version_zv, version);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SV(&_0, "Phalcon\\Image\\Adapter\\GD requires GD version '2.0.1' or greater, you have ", &version_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_image_exceptions_versionmismatch_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

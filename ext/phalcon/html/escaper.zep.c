@@ -382,6 +382,10 @@ PHP_METHOD(Phalcon_Html_Escaper, escapeHtml)
 	ZVAL_STR_COPY(&input_zv, input);
 	}
 	zephir_cast_to_string(&_0, &input_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "html", NULL, 0, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -415,6 +419,10 @@ PHP_METHOD(Phalcon_Html_Escaper, escapeHtmlAttr)
 	ZVAL_STR_COPY(&input_zv, input);
 	}
 	zephir_cast_to_string(&_0, &input_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "attributes", NULL, 0, &_0);
 	zephir_check_call_status();
 	RETURN_MM();

@@ -144,7 +144,15 @@ PHP_METHOD(Phalcon_Db_Geometry_MultiLineString, toWkt)
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_5$$3);
 			ZEPHIR_CONCAT_SVS(&_5$$3, "(", &_4$$3, ")");
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 			zephir_array_append(&parts, &_5$$3, PH_SEPARATE, "phalcon/Db/Geometry/MultiLineString.zep", 51);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, _1, "rewind", NULL, 0);
@@ -168,13 +176,25 @@ PHP_METHOD(Phalcon_Db_Geometry_MultiLineString, toWkt)
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_9$$4);
 				ZEPHIR_CONCAT_SVS(&_9$$4, "(", &_8$$4, ")");
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				zephir_array_append(&parts, &_9$$4, PH_SEPARATE, "phalcon/Db/Geometry/MultiLineString.zep", 51);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 		}
 	}
 	ZEPHIR_INIT_NVAR(&line);
 	ZEPHIR_INIT_VAR(&_10);
 	zephir_fast_join_str(&_10, SL(", "), &parts);
 	ZEPHIR_CONCAT_SVS(return_value, "MULTILINESTRING(", &_10, ")");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_MM();
 }
 

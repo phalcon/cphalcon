@@ -92,6 +92,8 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, fromOptions)
 	zephir_fetch_params(1, 2, 0, &hasher, &options_param);
 	zephir_get_arrval(&options, options_param);
 	object_init_ex(return_value, zend_get_called_scope(execute_data));
+	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(return_value);
+	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_auth_adapter_config_streamadapterconfig_ce);
 	ZEPHIR_INIT_VAR(&_2);
@@ -121,7 +123,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, fromOptions)
  */
 PHP_METHOD(Phalcon_Auth_Adapter_Stream, loadUsers)
 {
-	zval contents, data, ex, path, rows, _0, _1, _6, _2$$3, _3$$4, _4$$5, _5$$5, _7$$6, _8$$7;
+	zval contents, data, ex, path, rows, _0, _1, _6, _2$$3, _3$$4, _4$$5, _5$$5, _7$$6, _8$$8;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -139,7 +141,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, loadUsers)
 	ZVAL_UNDEF(&_4$$5);
 	ZVAL_UNDEF(&_5$$5);
 	ZVAL_UNDEF(&_7$$6);
-	ZVAL_UNDEF(&_8$$7);
+	ZVAL_UNDEF(&_8$$8);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("config", 6, 1);
@@ -202,14 +204,17 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, loadUsers)
 			zephir_throw_exception_debug(&_7$$6, "phalcon/Auth/Adapter/Stream.zep", 86);
 			ZEPHIR_MM_RESTORE();
 			return;
+		} else {
+			ZEPHIR_MM_RESTORE();
+			return;
 		}
 	}
 	if (Z_TYPE_P(&data) != IS_ARRAY) {
-		ZEPHIR_INIT_VAR(&_8$$7);
-		object_init_ex(&_8$$7, phalcon_auth_exceptions_filedoesnotcontainjson_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_8$$7, "__construct", NULL, 413, &path);
+		ZEPHIR_INIT_VAR(&_8$$8);
+		object_init_ex(&_8$$8, phalcon_auth_exceptions_filedoesnotcontainjson_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_8$$8, "__construct", NULL, 413, &path);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_8$$7, "phalcon/Auth/Adapter/Stream.zep", 90);
+		zephir_throw_exception_debug(&_8$$8, "phalcon/Auth/Adapter/Stream.zep", 90);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -358,9 +363,10 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, phpFileExists)
 PHP_METHOD(Phalcon_Auth_Adapter_Stream, phpFileGetContents)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zephir_fcall_cache_entry *_2 = NULL;
 	zend_long offset, length, ZEPHIR_LAST_CALL_STATUS;
 	zend_bool useIncludePath;
-	zval filename_zv, *useIncludePath_param = NULL, *context = NULL, context_sub, *offset_param = NULL, *length_param = NULL, __$null, _0$$3, _1$$3, _2, _3, _4;
+	zval filename_zv, *useIncludePath_param = NULL, *context = NULL, context_sub, *offset_param = NULL, *length_param = NULL, __$null, _0$$3, _1$$3, _3, _4, _5;
 	zend_string *filename = NULL;
 
 	ZVAL_UNDEF(&filename_zv);
@@ -368,9 +374,9 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, phpFileGetContents)
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 5)
 		Z_PARAM_STR(filename)
@@ -415,14 +421,14 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, phpFileGetContents)
 	if (0 == length) {
 		ZVAL_BOOL(&_0$$3, (useIncludePath ? 1 : 0));
 		ZVAL_LONG(&_1$$3, offset);
-		ZEPHIR_RETURN_CALL_FUNCTION("file_get_contents", NULL, 161, &filename_zv, &_0$$3, context, &_1$$3);
+		ZEPHIR_RETURN_CALL_FUNCTION("file_get_contents", &_2, 161, &filename_zv, &_0$$3, context, &_1$$3);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZVAL_BOOL(&_2, (useIncludePath ? 1 : 0));
-	ZVAL_LONG(&_3, offset);
-	ZVAL_LONG(&_4, length);
-	ZEPHIR_RETURN_CALL_FUNCTION("file_get_contents", NULL, 161, &filename_zv, &_2, context, &_3, &_4);
+	ZVAL_BOOL(&_3, (useIncludePath ? 1 : 0));
+	ZVAL_LONG(&_4, offset);
+	ZVAL_LONG(&_5, length);
+	ZEPHIR_RETURN_CALL_FUNCTION("file_get_contents", &_2, 161, &filename_zv, &_3, context, &_4, &_5);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -553,6 +559,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, phpFopen)
 PHP_METHOD(Phalcon_Auth_Adapter_Stream, phpFwrite)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zephir_fcall_cache_entry *_1 = NULL;
 	zend_long length, ZEPHIR_LAST_CALL_STATUS;
 	zend_string *data = NULL;
 	zval *handle, handle_sub, data_zv, *length_param = NULL, _0;
@@ -584,7 +591,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Stream, phpFwrite)
 		RETURN_MM();
 	}
 	ZVAL_LONG(&_0, length);
-	ZEPHIR_RETURN_CALL_FUNCTION("fwrite", NULL, 164, handle, &data_zv, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("fwrite", &_1, 164, handle, &data_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -56,6 +56,10 @@ PHP_METHOD(Phalcon_Acl_Exceptions_AccessRuleNotFound, __construct)
 	ZVAL_STR_COPY(&componentName_zv, componentName);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVSVS(&_0, "Access '", &accessName_zv, "' does not exist in component '", &componentName_zv, "'");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_acl_exceptions_accessrulenotfound_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

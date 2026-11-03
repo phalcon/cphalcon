@@ -246,22 +246,46 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, finish)
 		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_1, 595, PH_NOISY_CC | PH_READONLY);
 		zephir_memory_observe(&start);
 		zephir_array_fetch_string(&start, &_1$$3, SL("start"), PH_NOISY, "phalcon/DataMapper/Pdo/Profiler/Profiler.zep", 96);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_CALL_METHOD(&_2$$3, &ex, "getTraceAsString", NULL, 0);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZVAL_STRING(&_3$$3, "backtrace");
 		zephir_update_property_array(this_ptr, SL("context"), &_3$$3, &_2$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_INIT_VAR(&_4$$3);
 		zephir_sub_function(&_4$$3, &finish, &start);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_INIT_VAR(&_5$$3);
 		ZVAL_STRING(&_5$$3, "duration");
 		zephir_update_property_array(this_ptr, SL("context"), &_5$$3, &_4$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_INIT_VAR(&_6$$3);
 		ZVAL_STRING(&_6$$3, "finish");
 		zephir_update_property_array(this_ptr, SL("context"), &_6$$3, &finish);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_INIT_VAR(&_7$$3);
 		ZVAL_STRING(&_7$$3, "statement");
 		zephir_update_property_array(this_ptr, SL("context"), &_7$$3, &statement_zv);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_INIT_NVAR(&_4$$3);
 		if (ZEPHIR_IS_EMPTY(&values)) {
 			ZEPHIR_INIT_NVAR(&_4$$3);
@@ -274,6 +298,10 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, finish)
 		ZEPHIR_INIT_VAR(&_9$$3);
 		ZVAL_STRING(&_9$$3, "values");
 		zephir_update_property_array(this_ptr, SL("context"), &_9$$3, &_4$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		zephir_read_property_cached(&_10$$3, this_ptr, _zephir_prop_3, 592, PH_NOISY_CC | PH_READONLY);
 		zephir_read_property_cached(&_11$$3, this_ptr, _zephir_prop_4, 591, PH_NOISY_CC | PH_READONLY);
 		zephir_read_property_cached(&_12$$3, this_ptr, _zephir_prop_5, 590, PH_NOISY_CC | PH_READONLY);
@@ -333,6 +361,10 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, getLogLevel)
 	zephir_memory_observe(&_0);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 591, PH_NOISY_CC);
 	zephir_cast_to_string(&_1, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_CTOR(&_1);
 }
 

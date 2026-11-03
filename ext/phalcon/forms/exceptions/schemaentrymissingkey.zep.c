@@ -58,6 +58,10 @@ PHP_METHOD(Phalcon_Forms_Exceptions_SchemaEntryMissingKey, __construct)
 	ZVAL_LONG(&_0, index);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_SVSVS(&_1, "Form schema definition at index ", &_0, " is missing required key \"", &key_zv, "\"");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_forms_exceptions_schemaentrymissingkey_ce, getThis(), "__construct", NULL, 0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

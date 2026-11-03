@@ -121,10 +121,10 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Between, __construct)
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_Between, validate)
 {
-	zend_bool _4;
+	zend_bool _4, _5, _6;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validation, validation_sub, *field, field_sub, value, minimum, maximum, replacePairs, _0, _1, _2$$4, _3$$5, _5$$6;
+	zval *validation, validation_sub, *field, field_sub, value, minimum, maximum, replacePairs, _0, _1, _2$$4, _3$$5, _7$$6;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Between, validate)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&_3$$5);
-	ZVAL_UNDEF(&_5$$6);
+	ZVAL_UNDEF(&_7$$6);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
 		Z_PARAM_ZVAL(field)
@@ -163,25 +163,43 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Between, validate)
 	if (Z_TYPE_P(&minimum) == IS_ARRAY) {
 		zephir_memory_observe(&_2$$4);
 		zephir_array_fetch(&_2$$4, &minimum, field, PH_NOISY, "phalcon/Filter/Validation/Validator/Between.zep", 97);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_CPY_WRT(&minimum, &_2$$4);
 	}
 	if (Z_TYPE_P(&maximum) == IS_ARRAY) {
 		zephir_memory_observe(&_3$$5);
 		zephir_array_fetch(&_3$$5, &maximum, field, PH_NOISY, "phalcon/Filter/Validation/Validator/Between.zep", 101);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_CPY_WRT(&maximum, &_3$$5);
 	}
 	_4 = ZEPHIR_LT(&value, &minimum);
-	if (!(_4)) {
-		_4 = ZEPHIR_GT(&value, &maximum);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
 	}
-	if (_4) {
+	_5 = _4;
+	if (!(_5)) {
+		_6 = ZEPHIR_GT(&value, &maximum);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		_5 = _6;
+	}
+	if (_5) {
 		ZEPHIR_INIT_VAR(&replacePairs);
 		zephir_create_array(&replacePairs, 2, 0);
 		zephir_array_update_string(&replacePairs, SL(":min"), &minimum, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&replacePairs, SL(":max"), &maximum, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_METHOD(&_5$$6, this_ptr, "messageFactory", NULL, 0, validation, field, &replacePairs);
+		ZEPHIR_CALL_METHOD(&_7$$6, this_ptr, "messageFactory", NULL, 0, validation, field, &replacePairs);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendMessage", NULL, 0, &_5$$6);
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendMessage", NULL, 0, &_7$$6);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}

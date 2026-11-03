@@ -3366,7 +3366,7 @@ static void php_zephir_init_globals(zend_phalcon_globals *phalcon_globals)
  */
 static void php_zephir_init_module_globals(zend_phalcon_globals *phalcon_globals)
 {
-	
+	phalcon_globals->orm.zephir_owned_resultset_prefetch_records = NULL;
 }
 
 void zephir_init_static_properties_Phalcon_Filter_Validation();
@@ -3389,6 +3389,8 @@ static PHP_RINIT_FUNCTION(phalcon)
 static PHP_RSHUTDOWN_FUNCTION(phalcon)
 {
 	phalcon_orm_destroy_cache();
+	zephir_globals_release_hash(&ZEPHIR_GLOBAL(orm).ast_cache);
+	zephir_globals_release_hash(&ZEPHIR_GLOBAL(orm).parser_cache);
 	zephir_deinitialize_memory();
 	return SUCCESS;
 }
@@ -3424,7 +3426,7 @@ static PHP_GINIT_FUNCTION(phalcon)
 
 static PHP_GSHUTDOWN_FUNCTION(phalcon)
 {
-	
+	zephir_globals_release_string(&phalcon_globals->orm.zephir_owned_resultset_prefetch_records);
 }
 
 

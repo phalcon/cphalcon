@@ -64,7 +64,15 @@ PHP_METHOD(Phalcon_Cli_Router_Exceptions_BeforeMatchNotCallable, __construct)
 	if (!ZEPHIR_IS_STRING_IDENTICAL(&route_zv, "")) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZEPHIR_CONCAT_SVS(&_0$$3, " '", &route_zv, "'");
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		zephir_concat_self(&message, &_0$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_cli_router_exceptions_beforematchnotcallable_ce, getThis(), "__construct", NULL, 0, &message);
 	zephir_check_call_status();

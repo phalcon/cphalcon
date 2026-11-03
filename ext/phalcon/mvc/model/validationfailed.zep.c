@@ -92,6 +92,10 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct)
 	if (!(ZEPHIR_IS_EMPTY(&validationMessages))) {
 		zephir_memory_observe(&message);
 		zephir_array_fetch_long(&message, &validationMessages, 0, PH_NOISY, "phalcon/Mvc/Model/ValidationFailed.zep", 45);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_CALL_METHOD(&messageStr, &message, "getMessage", NULL, 0);
 		zephir_check_call_status();
 	} else {

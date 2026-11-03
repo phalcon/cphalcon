@@ -183,9 +183,10 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, __construct)
  */
 PHP_METHOD(Phalcon_Forms_FormsLocator, get)
 {
+	zend_bool _4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval name_zv, *entity = NULL, entity_sub, __$null, factory, instance, _0, _2, _3, _1$$3, _4$$5;
+	zval name_zv, *entity = NULL, entity_sub, __$null, factory, instance, _0, _2, _3, _1$$3, _5$$5;
 	zend_string *name = NULL;
 	zval *this_ptr = getThis();
 
@@ -198,7 +199,7 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, get)
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_4$$5);
+	ZVAL_UNDEF(&_5$$5);
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -239,6 +240,10 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, get)
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 814, PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&factory);
 	zephir_array_fetch(&factory, &_2, &name_zv, PH_NOISY, "phalcon/Forms/FormsLocator.zep", 105);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (Z_TYPE_P(entity) != IS_NULL) {
 		ZEPHIR_RETURN_CALL_ZVAL_FUNCTION(&factory, NULL, 0, entity);
 		zephir_check_call_status();
@@ -246,11 +251,20 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, get)
 	}
 	zephir_memory_observe(&instance);
 	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_1, 815, PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset_fetch(&instance, &_3, &name_zv, 0))) {
-		ZVAL_NULL(&_4$$5);
-		ZEPHIR_CALL_ZVAL_FUNCTION(&instance, &factory, NULL, 0, &_4$$5);
+	_4 = zephir_array_isset_fetch(&instance, &_3, &name_zv, 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (!(_4)) {
+		ZVAL_NULL(&_5$$5);
+		ZEPHIR_CALL_ZVAL_FUNCTION(&instance, &factory, NULL, 0, &_5$$5);
 		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("instances"), &name_zv, &instance);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	RETURN_CCTOR(&instance);
 }
@@ -262,17 +276,18 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, get)
  */
 PHP_METHOD(Phalcon_Forms_FormsLocator, getElement)
 {
+	zend_bool _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval type_zv, _0, _2, _3, _1$$3;
+	zval type_zv, _0, _3, _4, _2$$3;
 	zend_string *type = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&type_zv);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_2$$3);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("elements", 8, 1);
@@ -286,19 +301,28 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, getElement)
 	zephir_memory_observe(&type_zv);
 	ZVAL_STR_COPY(&type_zv, type);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 813, PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset_value(&_0, &type_zv))) {
-		ZEPHIR_INIT_VAR(&_1$$3);
-		object_init_ex(&_1$$3, phalcon_forms_exceptions_unknownformelementtype_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0, &type_zv);
-		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Forms/FormsLocator.zep", 127);
+	_1 = zephir_array_isset_value(&_0, &type_zv);
+	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 813, PH_NOISY_CC | PH_READONLY);
-	zephir_memory_observe(&_3);
-	zephir_array_fetch(&_3, &_2, &type_zv, PH_NOISY, "phalcon/Forms/FormsLocator.zep", 130);
-	RETURN_CCTOR(&_3);
+	if (!(_1)) {
+		ZEPHIR_INIT_VAR(&_2$$3);
+		object_init_ex(&_2$$3, phalcon_forms_exceptions_unknownformelementtype_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 0, &type_zv);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_2$$3, "phalcon/Forms/FormsLocator.zep", 127);
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 813, PH_NOISY_CC | PH_READONLY);
+	zephir_memory_observe(&_4);
+	zephir_array_fetch(&_4, &_3, &type_zv, PH_NOISY, "phalcon/Forms/FormsLocator.zep", 130);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	RETURN_CCTOR(&_4);
 }
 
 /**
@@ -306,6 +330,7 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, getElement)
  */
 PHP_METHOD(Phalcon_Forms_FormsLocator, has)
 {
+	zend_bool _1;
 	zval name_zv, _0;
 	zend_string *name = NULL;
 	zval *this_ptr = getThis();
@@ -322,7 +347,11 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, has)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&name_zv, name);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 814, PH_NOISY_CC | PH_READONLY);
-	RETURN_BOOL(zephir_array_isset_value(&_0, &name_zv));
+	_1 = zephir_array_isset_value(&_0, &name_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
+	RETURN_BOOL(_1);
 }
 
 /**
@@ -330,6 +359,7 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, has)
  */
 PHP_METHOD(Phalcon_Forms_FormsLocator, hasElement)
 {
+	zend_bool _1;
 	zval type_zv, _0;
 	zend_string *type = NULL;
 	zval *this_ptr = getThis();
@@ -346,7 +376,11 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, hasElement)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&type_zv, type);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 813, PH_NOISY_CC | PH_READONLY);
-	RETURN_BOOL(zephir_array_isset_value(&_0, &type_zv));
+	_1 = zephir_array_isset_value(&_0, &type_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
+	RETURN_BOOL(_1);
 }
 
 /**
@@ -373,7 +407,13 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, set)
 	factory = ZEND_CALL_ARG(execute_data, 2);
 	ZVAL_STR(&name_zv, name);
 	zephir_unset_property_array(this_ptr, ZEND_STRL("instances"), &name_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	zephir_update_property_array(this_ptr, SL("factories"), &name_zv, factory);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**
@@ -399,6 +439,9 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, setElement)
 	factory = ZEND_CALL_ARG(execute_data, 2);
 	ZVAL_STR(&type_zv, type);
 	zephir_update_property_array(this_ptr, SL("elements"), &type_zv, factory);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**

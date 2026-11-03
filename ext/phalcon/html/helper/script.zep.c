@@ -181,6 +181,10 @@ PHP_METHOD(Phalcon_Html_Helper_Script, endInternal)
 	ZEPHIR_CALL_FUNCTION(&_0, "ob_get_clean", NULL, 0);
 	zephir_check_call_status();
 	zephir_cast_to_string(&_1, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CPY_WRT(&content, &_1);
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_create_array(&_2, 3, 0);
@@ -237,6 +241,10 @@ PHP_METHOD(Phalcon_Html_Helper_Script, getAttributes)
 	zephir_array_update_string(&required, SL("src"), &url_zv, PH_COPY | PH_SEPARATE);
 	add_assoc_stringl_ex(&required, SL("type"), SL("application/javascript"));
 	zephir_array_unset_string(&attributes, SL("src"), PH_SEPARATE);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_fast_array_merge(return_value, &required, &attributes);
 	RETURN_MM();
 }

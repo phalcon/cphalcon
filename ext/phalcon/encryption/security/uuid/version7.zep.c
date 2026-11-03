@@ -49,8 +49,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_Uuid_Version7)
 PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version7, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zephir_fcall_cache_entry *_6 = NULL, *_8 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, msInt = 0;
-	zval __$true, ms, timeHigh32, timeLow16, verRandA, varRandB, randBytes, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17;
+	zval __$true, ms, timeHigh32, timeLow16, verRandA, varRandB, randBytes, _0, _1, _2, _3, _4, _5, _7, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18;
 	zval *this_ptr = getThis();
 
 	ZVAL_BOOL(&__$true, 1);
@@ -66,9 +67,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version7, __construct)
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
-	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_7);
-	ZVAL_UNDEF(&_8);
 	ZVAL_UNDEF(&_9);
 	ZVAL_UNDEF(&_10);
 	ZVAL_UNDEF(&_11);
@@ -78,6 +77,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version7, __construct)
 	ZVAL_UNDEF(&_15);
 	ZVAL_UNDEF(&_16);
 	ZVAL_UNDEF(&_17);
+	ZVAL_UNDEF(&_18);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("uid", 3, 1);
@@ -91,6 +91,10 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version7, __construct)
 	ZVAL_LONG(&_1, 1000);
 	ZEPHIR_INIT_VAR(&_2);
 	mul_function(&_2, &_0, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&ms);
 	ZVAL_LONG(&ms, zephir_get_intval(&_2));
 	msInt = zephir_get_intval(&ms);
@@ -105,33 +109,61 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version7, __construct)
 	ZVAL_LONG(&_4, 2);
 	ZEPHIR_INIT_NVAR(&_0);
 	zephir_substr(&_0, &randBytes, 0 , 2 , 0);
-	ZEPHIR_CALL_FUNCTION(&_5, "bin2hex", NULL, 224, &_0);
+	ZEPHIR_CALL_FUNCTION(&_5, "bin2hex", &_6, 224, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_6, "hexdec", NULL, 0, &_5);
+	ZEPHIR_CALL_FUNCTION(&_7, "hexdec", &_8, 0, &_5);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&verRandA);
-	ZVAL_LONG(&verRandA, (0x7000 | (zephir_get_intval(&_6) & 0x0fff)));
-	ZVAL_LONG(&_7, 2);
-	ZVAL_LONG(&_8, 2);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_LONG(&_1, 0x0fff);
 	ZEPHIR_INIT_VAR(&_9);
-	zephir_substr(&_9, &randBytes, 2 , 2 , 0);
-	ZEPHIR_CALL_FUNCTION(&_10, "bin2hex", NULL, 224, &_9);
+	zephir_bitwise_and_function(&_9, &_7, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_LONG(&_1, 0x7000);
+	ZEPHIR_INIT_VAR(&verRandA);
+	zephir_bitwise_or_function(&verRandA, &_9, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZVAL_LONG(&_10, 2);
+	ZVAL_LONG(&_11, 2);
+	ZEPHIR_INIT_VAR(&_12);
+	zephir_substr(&_12, &randBytes, 2 , 2 , 0);
+	ZEPHIR_CALL_FUNCTION(&_7, "bin2hex", &_6, 224, &_12);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_11, "hexdec", NULL, 0, &_10);
+	ZEPHIR_CALL_FUNCTION(&_13, "hexdec", &_8, 0, &_7);
 	zephir_check_call_status();
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_LONG(&_1, 0x3fff);
+	ZEPHIR_INIT_NVAR(&_9);
+	zephir_bitwise_and_function(&_9, &_13, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_LONG(&_1, 0x8000);
 	ZEPHIR_INIT_VAR(&varRandB);
-	ZVAL_LONG(&varRandB, (0x8000 | (zephir_get_intval(&_11) & 0x3fff)));
-	ZVAL_LONG(&_12, 4);
-	ZVAL_LONG(&_13, 6);
-	ZEPHIR_INIT_VAR(&_14);
-	zephir_substr(&_14, &randBytes, 4 , 6 , 0);
-	ZEPHIR_CALL_FUNCTION(&_15, "bin2hex", NULL, 224, &_14);
-	zephir_check_call_status();
+	zephir_bitwise_or_function(&varRandB, &_9, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZVAL_LONG(&_14, 4);
+	ZVAL_LONG(&_15, 6);
 	ZEPHIR_INIT_VAR(&_16);
-	ZVAL_STRING(&_16, "%08x-%04x-%04x-%04x-%s");
-	ZEPHIR_CALL_FUNCTION(&_17, "sprintf", NULL, 145, &_16, &timeHigh32, &timeLow16, &verRandA, &varRandB, &_15);
+	zephir_substr(&_16, &randBytes, 4 , 6 , 0);
+	ZEPHIR_CALL_FUNCTION(&_13, "bin2hex", &_6, 224, &_16);
 	zephir_check_call_status();
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 745, &_17);
+	ZEPHIR_INIT_VAR(&_17);
+	ZVAL_STRING(&_17, "%08x-%04x-%04x-%04x-%s");
+	ZEPHIR_CALL_FUNCTION(&_18, "sprintf", NULL, 145, &_17, &timeHigh32, &timeLow16, &verRandA, &varRandB, &_13);
+	zephir_check_call_status();
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 745, &_18);
 	ZEPHIR_MM_RESTORE();
 }
 

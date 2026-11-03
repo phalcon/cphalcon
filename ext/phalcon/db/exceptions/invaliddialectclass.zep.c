@@ -52,6 +52,10 @@ PHP_METHOD(Phalcon_Db_Exceptions_InvalidDialectClass, __construct)
 	ZVAL_STR_COPY(&className_zv, className);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "The 'dialectClass' '", &className_zv, "' must implement Phalcon\\Db\\DialectInterface");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_db_exceptions_invaliddialectclass_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

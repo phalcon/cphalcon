@@ -58,6 +58,10 @@ PHP_METHOD(Phalcon_Logger_Adapter_Exceptions_SyslogOpenFailed, __construct)
 	ZVAL_LONG(&_0, facility);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_SVSVS(&_1, "Cannot open syslog for name [", &name_zv, "] and facility [", &_0, "]");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_logger_adapter_exceptions_syslogopenfailed_ce, getThis(), "__construct", NULL, 0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

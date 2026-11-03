@@ -95,7 +95,7 @@ int zephir_compare_strict_long(zval *op1, zend_long op2);
 /** Operator functions */
 int zephir_add_function_ex(zval *result, zval *op1, zval *op2);
 int zephir_and_function(zval *result, zval *left, zval *right);
-void zephir_negate(zval *z);
+int zephir_negate(zval *result, zval *op);
 
 /** Bitwise functions */
 int zephir_bitwise_and_function(zval *result, zval *op1, zval *op2);
@@ -151,8 +151,7 @@ void zephir_div_double_zval(zval *result, double op1, zval *op2);
  * `/` for a C double result: a double operand, or two integers whose consumer
  * is a C double. A zero divisor throws DivisionByZeroError, as PHP 8 does; the
  * helper still returns 0 because it has no way to abort its caller, so the
- * rest of the generated method body runs with the exception pending and the
- * engine discards the return value on the way out.
+ * generated code checks for the exception right after the call.
  */
 double zephir_safe_div_long_long(zend_long op1, zend_long op2);
 double zephir_safe_div_long_double(zend_long op1, double op2);
@@ -168,6 +167,14 @@ zend_long zephir_safe_mod_long_long(zend_long op1, zend_long op2);
 zend_long zephir_safe_mod_long_double(zend_long op1, double op2);
 zend_long zephir_safe_mod_double_long(double op1, zend_long op2);
 zend_long zephir_safe_mod_double_double(double op1, double op2);
+
+/*
+ * PHP's `<<` and `>>` on native integers: a count of the integer width or more
+ * yields 0 (or -1 for a negative `>>`) and a negative count throws
+ * ArithmeticError, where a C shift is undefined.
+ */
+zend_long zephir_safe_shift_left_long(zend_long op1, zend_long op2);
+zend_long zephir_safe_shift_right_long(zend_long op1, zend_long op2);
 
 /*
  * `%` with a zval operand goes through mod_function(), so a TypeError or a

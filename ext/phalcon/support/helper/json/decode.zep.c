@@ -137,6 +137,9 @@ PHP_METHOD(Phalcon_Support_Helper_Json_Decode, __invoke)
 			zephir_throw_exception_debug(&_4$$4, "phalcon/Support/Helper/Json/Decode.zep", 51);
 			ZEPHIR_MM_RESTORE();
 			return;
+		} else {
+			ZEPHIR_MM_RESTORE();
+			return;
 		}
 	}
 }

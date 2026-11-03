@@ -184,6 +184,10 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Ip, validate)
 	if (Z_TYPE_P(&version) == IS_ARRAY) {
 		zephir_memory_observe(&_3$$4);
 		zephir_array_fetch(&_3$$4, &version, field, PH_NOISY, "phalcon/Filter/Validation/Validator/Ip.zep", 111);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_CPY_WRT(&version, &_3$$4);
 	}
 	ZEPHIR_INIT_NVAR(&_1);
@@ -194,6 +198,10 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Ip, validate)
 	if (Z_TYPE_P(&allowPrivate) == IS_ARRAY) {
 		zephir_memory_observe(&_4$$5);
 		zephir_array_fetch(&_4$$5, &allowPrivate, field, PH_NOISY, "phalcon/Filter/Validation/Validator/Ip.zep", 116);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_CPY_WRT(&allowPrivate, &_4$$5);
 	}
 	ZEPHIR_INIT_VAR(&_5);
@@ -213,6 +221,10 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Ip, validate)
 	if (Z_TYPE_P(&allowReserved) == IS_ARRAY) {
 		zephir_memory_observe(&_6$$6);
 		zephir_array_fetch(&_6$$6, &allowReserved, field, PH_NOISY, "phalcon/Filter/Validation/Validator/Ip.zep", 122);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_CPY_WRT(&allowReserved, &_6$$6);
 	}
 	ZEPHIR_INIT_NVAR(&_5);
@@ -232,8 +244,16 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Ip, validate)
 	zephir_array_update_string(&options, SL("options"), &_7, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_VAR(&_8);
 	zephir_bitwise_or_function(&_8, &version, &allowPrivate);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_NVAR(&_5);
-	zephir_bitwise_or_function(&_5, &_8, &allowReserved);
+	zephir_bitwise_or_function(&_5, &allowReserved, &_8);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_array_update_string(&options, SL("flags"), &_5, PH_COPY | PH_SEPARATE);
 	ZVAL_LONG(&_2, 275);
 	ZEPHIR_CALL_FUNCTION(&_9, "filter_var", NULL, 0, &value, &_2, &options);

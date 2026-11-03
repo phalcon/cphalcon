@@ -102,6 +102,10 @@ PHP_METHOD(Phalcon_ADR_Responder_Formatter_TextFormatter, format)
 		ZEPHIR_INIT_VAR(&_0$$4);
 		zephir_json_encode(&_0$$4, &content, 0 );
 		zephir_cast_to_string(&_1$$4, &_0$$4);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		RETURN_CTOR(&_1$$4);
 	}
 	_2 = !(zephir_is_scalar(&content));
@@ -112,6 +116,10 @@ PHP_METHOD(Phalcon_ADR_Responder_Formatter_TextFormatter, format)
 		RETURN_MM_STRING("");
 	}
 	zephir_cast_to_string(&_3, &content);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_CTOR(&_3);
 }
 

@@ -149,6 +149,10 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, format)
 	ZEPHIR_INIT_VAR(&_14);
 	zephir_substr(&_14, &hex_zv, 20 , 12 , 0);
 	ZEPHIR_CONCAT_VSVSVSVSV(return_value, &_2, "-", &_5, "-", &_8, "-", &_11, "-", &_14);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_MM();
 }
 
@@ -224,20 +228,21 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, namespaceToBytes)
  */
 PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, uuidTimestampToDateTime)
 {
-	zend_class_entry *_3;
+	zend_class_entry *_4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *timestamp, timestamp_sub, sec, usec, _0, _1, _2, _4, _5, _6;
+	zephir_fcall_cache_entry *_2 = NULL;
+	zval *timestamp, timestamp_sub, sec, usec, _0, _1, _3, _5, _6, _7;
 
 	ZVAL_UNDEF(&timestamp_sub);
 	ZVAL_UNDEF(&sec);
 	ZVAL_UNDEF(&usec);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_7);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(timestamp)
 	ZEND_PARSE_PARAMETERS_END();
@@ -245,29 +250,41 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, uuidTimestampToDateTim
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &timestamp);
 	ZVAL_LONG(&_0, 10000000);
-	ZEPHIR_CALL_FUNCTION(&_1, "intdiv", NULL, 36, timestamp, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "intdiv", &_2, 36, timestamp, &_0);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_2);
-	ZVAL_LONG(&_2, 12219292800);
+	ZEPHIR_INIT_VAR(&_3);
+	ZVAL_LONG(&_3, 12219292800);
 	ZEPHIR_INIT_VAR(&sec);
-	zephir_sub_function(&sec, &_1, &_2);
-	ZEPHIR_INIT_NVAR(&_2);
-	zephir_mod_zval_long(&_2, timestamp, 10000000);
+	zephir_sub_function(&sec, &_1, &_3);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_INIT_NVAR(&_3);
+	zephir_mod_zval_long(&_3, timestamp, 10000000);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZVAL_LONG(&_0, 10);
-	ZEPHIR_CALL_FUNCTION(&usec, "intdiv", NULL, 36, &_2, &_0);
+	ZEPHIR_CALL_FUNCTION(&usec, "intdiv", &_2, 36, &_3, &_0);
 	zephir_check_call_status();
-	_3 = zephir_fetch_class_str_ex(SL("DateTimeImmutable"), ZEND_FETCH_CLASS_AUTO);
+	_4 = zephir_fetch_class_str_ex(SL("DateTimeImmutable"), ZEND_FETCH_CLASS_AUTO);
 	ZVAL_LONG(&_0, 6);
-	ZEPHIR_INIT_VAR(&_4);
-	ZVAL_STRING(&_4, "0");
-	ZVAL_LONG(&_5, 0);
-	ZEPHIR_CALL_FUNCTION(&_1, "str_pad", NULL, 37, &usec, &_0, &_4, &_5);
+	ZEPHIR_INIT_VAR(&_5);
+	ZVAL_STRING(&_5, "0");
+	ZVAL_LONG(&_6, 0);
+	ZEPHIR_CALL_FUNCTION(&_1, "str_pad", NULL, 37, &usec, &_0, &_5, &_6);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_6);
-	ZEPHIR_CONCAT_VSV(&_6, &sec, " ", &_1);
-	ZEPHIR_INIT_NVAR(&_4);
-	ZVAL_STRING(&_4, "U u");
-	ZEPHIR_RETURN_CALL_CE_STATIC(_3, "createFromFormat", NULL, 0, &_4, &_6);
+	ZEPHIR_INIT_VAR(&_7);
+	ZEPHIR_CONCAT_VSV(&_7, &sec, " ", &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_INIT_NVAR(&_5);
+	ZVAL_STRING(&_5, "U u");
+	ZEPHIR_RETURN_CALL_CE_STATIC(_4, "createFromFormat", NULL, 0, &_5, &_7);
 	zephir_check_call_status();
 	RETURN_MM();
 }

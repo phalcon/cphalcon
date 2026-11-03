@@ -75,9 +75,17 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Signature, __construct)
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "encoded");
 	zephir_update_property_array(this_ptr, SL("data"), &_0, &encoded_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "hash");
 	zephir_update_property_array(this_ptr, SL("data"), &_1, &hash_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -99,6 +107,10 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Signature, getHash)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 732, PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&_1);
 	zephir_array_fetch_string(&_1, &_0, SL("hash"), PH_NOISY, "phalcon/Encryption/Security/JWT/Token/Signature.zep", 29);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_CCTOR(&_1);
 }
 

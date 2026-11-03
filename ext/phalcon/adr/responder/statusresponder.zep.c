@@ -121,6 +121,10 @@ PHP_METHOD(Phalcon_ADR_Responder_StatusResponder, __invoke)
 	if (Z_TYPE_P(&status) != IS_NULL) {
 		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 374, PH_NOISY_CC | PH_READONLY);
 		zephir_cast_to_string(&_2$$3, &status);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_CALL_METHOD(&_1$$3, &_0$$3, "toHttpCode", NULL, 0, &_2$$3);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, response, "setStatusCode", NULL, 0, &_1$$3);

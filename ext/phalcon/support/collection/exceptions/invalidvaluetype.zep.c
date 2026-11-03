@@ -58,6 +58,10 @@ PHP_METHOD(Phalcon_Support_Collection_Exceptions_InvalidValueType, __construct)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_SVSVS(&_1, "Value must be of type '", &type_zv, "', '", &_0, "' given");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_support_collection_exceptions_invalidvaluetype_ce, getThis(), "__construct", NULL, 0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

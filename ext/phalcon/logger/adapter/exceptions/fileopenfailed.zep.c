@@ -56,6 +56,10 @@ PHP_METHOD(Phalcon_Logger_Adapter_Exceptions_FileOpenFailed, __construct)
 	ZVAL_STR_COPY(&mode_zv, mode);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVSVS(&_0, "The file '", &name_zv, "' cannot be opened with mode '", &mode_zv, "'");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_logger_adapter_exceptions_fileopenfailed_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

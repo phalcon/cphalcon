@@ -96,10 +96,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_File_MimeType)
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_File_MimeType, validate)
 {
-	zend_bool allowWildcards = 0, _16$$9, _11$$10, _17$$12;
+	zend_bool allowWildcards = 0, _2, _17$$9, _12$$10, _18$$12, _22$$14;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validation, validation_sub, *field, field_sub, fieldTypes, replacePairs, tmp, type, types, value, matched, mime, _0, _1, _3, _6, _7, _2$$5, _4$$6, _5$$7, *_8$$9, _9$$9, *_10$$9, _15$$9, _12$$10, _13$$10, _14$$10, _18$$12, _19$$12, _20$$12, _21$$15, _22$$15;
+	zval *validation, validation_sub, *field, field_sub, fieldTypes, replacePairs, tmp, type, types, value, matched, mime, _0, _1, _4, _7, _8, _3$$5, _5$$6, _6$$7, *_9$$9, _10$$9, *_11$$9, _16$$9, _13$$10, _14$$10, _15$$10, _19$$12, _20$$12, _21$$12, _23$$15, _24$$15;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
@@ -114,22 +114,22 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_MimeType, validate)
 	ZVAL_UNDEF(&mime);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_7);
-	ZVAL_UNDEF(&_2$$5);
-	ZVAL_UNDEF(&_4$$6);
-	ZVAL_UNDEF(&_5$$7);
-	ZVAL_UNDEF(&_9$$9);
-	ZVAL_UNDEF(&_15$$9);
-	ZVAL_UNDEF(&_12$$10);
+	ZVAL_UNDEF(&_8);
+	ZVAL_UNDEF(&_3$$5);
+	ZVAL_UNDEF(&_5$$6);
+	ZVAL_UNDEF(&_6$$7);
+	ZVAL_UNDEF(&_10$$9);
+	ZVAL_UNDEF(&_16$$9);
 	ZVAL_UNDEF(&_13$$10);
 	ZVAL_UNDEF(&_14$$10);
-	ZVAL_UNDEF(&_18$$12);
+	ZVAL_UNDEF(&_15$$10);
 	ZVAL_UNDEF(&_19$$12);
 	ZVAL_UNDEF(&_20$$12);
-	ZVAL_UNDEF(&_21$$15);
-	ZVAL_UNDEF(&_22$$15);
+	ZVAL_UNDEF(&_21$$12);
+	ZVAL_UNDEF(&_23$$15);
+	ZVAL_UNDEF(&_24$$15);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
 		Z_PARAM_ZVAL(field)
@@ -153,100 +153,121 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_MimeType, validate)
 	ZEPHIR_CALL_METHOD(&types, this_ptr, "getOption", NULL, 0, &_1);
 	zephir_check_call_status();
 	zephir_memory_observe(&fieldTypes);
-	if (zephir_array_isset_fetch(&fieldTypes, &types, field, 0)) {
+	_2 = zephir_array_isset_fetch(&fieldTypes, &types, field, 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_2) {
 		ZEPHIR_CPY_WRT(&types, &fieldTypes);
 	}
 	if (UNEXPECTED(Z_TYPE_P(&types) != IS_ARRAY)) {
-		ZEPHIR_INIT_VAR(&_2$$5);
-		object_init_ex(&_2$$5, phalcon_filter_validation_exceptions_invalidallowedtypes_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_2$$5, "__construct", NULL, 0);
+		ZEPHIR_INIT_VAR(&_3$$5);
+		object_init_ex(&_3$$5, phalcon_filter_validation_exceptions_invalidallowedtypes_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$5, "phalcon/Filter/Validation/Validator/File/MimeType.zep", 100);
+		zephir_throw_exception_debug(&_3$$5, "phalcon/Filter/Validation/Validator/File/MimeType.zep", 100);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "finfo_open");
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "phpFunctionExists", NULL, 0, &_1);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "phpFunctionExists", NULL, 0, &_1);
 	zephir_check_call_status();
-	if (zephir_is_true(&_3)) {
-		ZVAL_LONG(&_4$$6, 16);
-		ZEPHIR_CALL_FUNCTION(&tmp, "finfo_open", NULL, 0, &_4$$6);
+	if (zephir_is_true(&_4)) {
+		ZVAL_LONG(&_5$$6, 16);
+		ZEPHIR_CALL_FUNCTION(&tmp, "finfo_open", NULL, 0, &_5$$6);
 		zephir_check_call_status();
 		if (zephir_is_true(&tmp)) {
-			zephir_memory_observe(&_5$$7);
-			zephir_array_fetch_string(&_5$$7, &value, SL("tmp_name"), PH_NOISY, "phalcon/Filter/Validation/Validator/File/MimeType.zep", 106);
-			ZEPHIR_CALL_FUNCTION(&mime, "finfo_file", NULL, 0, &tmp, &_5$$7);
+			zephir_memory_observe(&_6$$7);
+			zephir_array_fetch_string(&_6$$7, &value, SL("tmp_name"), PH_NOISY, "phalcon/Filter/Validation/Validator/File/MimeType.zep", 106);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			ZEPHIR_CALL_FUNCTION(&mime, "finfo_file", NULL, 0, &tmp, &_6$$7);
 			zephir_check_call_status();
 		}
 	}
 	if (!zephir_is_true(&mime)) {
 		ZEPHIR_OBS_NVAR(&mime);
 		zephir_array_fetch_string(&mime, &value, SL("type"), PH_NOISY, "phalcon/Filter/Validation/Validator/File/MimeType.zep", 111);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "allowWildcards");
-	ZVAL_BOOL(&_7, 0);
-	ZEPHIR_CALL_METHOD(&_6, this_ptr, "getOption", NULL, 0, &_1, &_7);
+	ZVAL_BOOL(&_8, 0);
+	ZEPHIR_CALL_METHOD(&_7, this_ptr, "getOption", NULL, 0, &_1, &_8);
 	zephir_check_call_status();
-	allowWildcards = zephir_get_boolval(&_6);
+	allowWildcards = zephir_get_boolval(&_7);
 	if (allowWildcards) {
 		if (Z_TYPE_P(&types) == IS_STRING) {
-			ZEPHIR_INIT_VAR(&_9$$9);
-			zephir_string_to_char_array(&_9$$9, &types);
-			_8$$9 = &_9$$9;
+			ZEPHIR_INIT_VAR(&_10$$9);
+			zephir_string_to_char_array(&_10$$9, &types);
+			_9$$9 = &_10$$9;
 		} else {
-			_8$$9 = &types;
+			_9$$9 = &types;
 		}
-		zephir_is_iterable(_8$$9, 0, "phalcon/Filter/Validation/Validator/File/MimeType.zep", 124);
-		if (Z_TYPE_P(_8$$9) == IS_ARRAY) {
-			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_8$$9), _10$$9)
+		zephir_is_iterable(_9$$9, 0, "phalcon/Filter/Validation/Validator/File/MimeType.zep", 124);
+		if (Z_TYPE_P(_9$$9) == IS_ARRAY) {
+			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_9$$9), _11$$9)
 			{
 				ZEPHIR_INIT_NVAR(&type);
-				ZVAL_COPY(&type, _10$$9);
-				_11$$10 = ZEPHIR_IS_IDENTICAL(&mime, &type);
-				if (!(_11$$10)) {
-					ZEPHIR_INIT_NVAR(&_12$$10);
+				ZVAL_COPY(&type, _11$$9);
+				_12$$10 = ZEPHIR_IS_IDENTICAL(&mime, &type);
+				if (!(_12$$10)) {
 					ZEPHIR_INIT_NVAR(&_13$$10);
-					ZEPHIR_CONCAT_SVS(&_13$$10, "#^", &type, "$#");
 					ZEPHIR_INIT_NVAR(&_14$$10);
-					zephir_preg_match(&_14$$10, &_13$$10, &mime, &_12$$10, 0, 0 , 0 );
-					_11$$10 = zephir_is_true(&_14$$10);
+					ZEPHIR_CONCAT_SVS(&_14$$10, "#^", &type, "$#");
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+					ZEPHIR_INIT_NVAR(&_15$$10);
+					zephir_preg_match(&_15$$10, &_14$$10, &mime, &_13$$10, 0, 0 , 0 );
+					_12$$10 = zephir_is_true(&_15$$10);
 				}
-				if (_11$$10) {
+				if (_12$$10) {
 					ZEPHIR_INIT_NVAR(&matched);
 					ZVAL_BOOL(&matched, 1);
 					break;
 				}
 			} ZEND_HASH_FOREACH_END();
 		} else {
-			ZEPHIR_CALL_METHOD(NULL, _8$$9, "rewind", NULL, 0);
+			ZEPHIR_CALL_METHOD(NULL, _9$$9, "rewind", NULL, 0);
 			zephir_check_call_status();
-			_16$$9 = 1;
+			_17$$9 = 1;
 			while (1) {
-				if (_16$$9) {
-					_16$$9 = 0;
+				if (_17$$9) {
+					_17$$9 = 0;
 				} else {
-					ZEPHIR_CALL_METHOD(NULL, _8$$9, "next", NULL, 0);
+					ZEPHIR_CALL_METHOD(NULL, _9$$9, "next", NULL, 0);
 					zephir_check_call_status();
 				}
-				ZEPHIR_CALL_METHOD(&_15$$9, _8$$9, "valid", NULL, 0);
+				ZEPHIR_CALL_METHOD(&_16$$9, _9$$9, "valid", NULL, 0);
 				zephir_check_call_status();
-				if (!zend_is_true(&_15$$9)) {
+				if (!zend_is_true(&_16$$9)) {
 					break;
 				}
-				ZEPHIR_CALL_METHOD(&type, _8$$9, "current", NULL, 0);
+				ZEPHIR_CALL_METHOD(&type, _9$$9, "current", NULL, 0);
 				zephir_check_call_status();
-					_17$$12 = ZEPHIR_IS_IDENTICAL(&mime, &type);
-					if (!(_17$$12)) {
-						ZEPHIR_INIT_NVAR(&_18$$12);
+					_18$$12 = ZEPHIR_IS_IDENTICAL(&mime, &type);
+					if (!(_18$$12)) {
 						ZEPHIR_INIT_NVAR(&_19$$12);
-						ZEPHIR_CONCAT_SVS(&_19$$12, "#^", &type, "$#");
 						ZEPHIR_INIT_NVAR(&_20$$12);
-						zephir_preg_match(&_20$$12, &_19$$12, &mime, &_18$$12, 0, 0 , 0 );
-						_17$$12 = zephir_is_true(&_20$$12);
+						ZEPHIR_CONCAT_SVS(&_20$$12, "#^", &type, "$#");
+						if (UNEXPECTED(EG(exception))) {
+							ZEPHIR_MM_RESTORE();
+							return;
+						}
+						ZEPHIR_INIT_NVAR(&_21$$12);
+						zephir_preg_match(&_21$$12, &_20$$12, &mime, &_19$$12, 0, 0 , 0 );
+						_18$$12 = zephir_is_true(&_21$$12);
 					}
-					if (_17$$12) {
+					if (_18$$12) {
 						ZEPHIR_INIT_NVAR(&matched);
 						ZVAL_BOOL(&matched, 1);
 						break;
@@ -255,18 +276,23 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_MimeType, validate)
 		}
 		ZEPHIR_INIT_NVAR(&type);
 	} else {
+		_22$$14 = zephir_fast_in_array(&mime, &types);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_INIT_NVAR(&matched);
-		ZVAL_BOOL(&matched, zephir_fast_in_array(&mime, &types));
+		ZVAL_BOOL(&matched, _22$$14);
 	}
 	if (!(zephir_is_true(&matched))) {
 		ZEPHIR_INIT_VAR(&replacePairs);
 		zephir_create_array(&replacePairs, 1, 0);
-		ZEPHIR_INIT_VAR(&_21$$15);
-		zephir_fast_join_str(&_21$$15, SL(", "), &types);
-		zephir_array_update_string(&replacePairs, SL(":types"), &_21$$15, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_METHOD(&_22$$15, this_ptr, "messageFactory", NULL, 0, validation, field, &replacePairs);
+		ZEPHIR_INIT_VAR(&_23$$15);
+		zephir_fast_join_str(&_23$$15, SL(", "), &types);
+		zephir_array_update_string(&replacePairs, SL(":types"), &_23$$15, PH_COPY | PH_SEPARATE);
+		ZEPHIR_CALL_METHOD(&_24$$15, this_ptr, "messageFactory", NULL, 0, validation, field, &replacePairs);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendMessage", NULL, 0, &_22$$15);
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendMessage", NULL, 0, &_24$$15);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}

@@ -359,6 +359,10 @@ PHP_METHOD(Phalcon_Logger_Logger, log)
 	ZEPHIR_CALL_METHOD(&intLevel, this_ptr, "getLevelNumber", NULL, 0, level);
 	zephir_check_call_status();
 	zephir_cast_to_string(&_0, &message_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addMessage", NULL, 0, &intLevel, &_0, &context);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

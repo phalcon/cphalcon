@@ -57,6 +57,10 @@ PHP_METHOD(Phalcon_Image_Exceptions_ImageTooLarge, __construct)
 	ZVAL_LONG(&_1, maxPixels);
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_CONCAT_SVSVS(&_2, "Image size ", &_0, " pixels exceeds the maximum allowed ", &_1, " pixels");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_image_exceptions_imagetoolarge_ce, getThis(), "__construct", NULL, 0, &_2);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

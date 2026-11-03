@@ -65,6 +65,10 @@ PHP_METHOD(Phalcon_Paginator_Exceptions_MissingRequiredParameter, __construct)
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1262, &parameter_zv);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "Parameter '", &parameter_zv, "' is required");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_paginator_exceptions_missingrequiredparameter_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

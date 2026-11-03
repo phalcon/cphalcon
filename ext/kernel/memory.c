@@ -12,6 +12,7 @@
 #include "php.h"
 #include "php_ext.h"
 #include "kernel/memory.h"
+#include "kernel/array.h"
 
 #include <Zend/zend_alloc.h>
 
@@ -254,54 +255,149 @@ void zephir_create_symbol_table(zephir_method_globals *gptr)
 }
 
 /**
- * Exports symbols to the active symbol table
+ * Resolves the slot `${name}` names in the active symbol table, as
+ * zend_fetch_var_address_helper() does for BP_VAR_W and BP_VAR_RW.
+ *
+ * Without create_symbol_table() the table is the calling function's own, whose
+ * compiled variables are IS_INDIRECT slots, so the variable itself is returned
+ * rather than the table entry pointing at it. A missing `this` throws, and a
+ * read-write of an undefined variable warns and starts from null.
+ *
+ * Returns NULL, with an exception pending or a warning raised, on failure.
  */
-int zephir_set_symbol(zval *key_name, zval *value)
+static zval *zephir_symbol_slot(zend_string *name, int type)
 {
 	zend_array *symbol_table;
+	zval *slot;
 
 	symbol_table = zend_rebuild_symbol_table();
 	if (!symbol_table) {
 		php_error_docref(NULL, E_WARNING, "Cannot find a valid symbol_table");
-		return FAILURE;
+		return NULL;
 	}
 
-	if (Z_TYPE_P(key_name) == IS_STRING) {
-		Z_TRY_ADDREF_P(value);
-		zend_hash_update(symbol_table, Z_STR_P(key_name), value);
+	slot = zend_hash_find(symbol_table, name);
+	if (slot != NULL && Z_TYPE_P(slot) == IS_INDIRECT) {
+		slot = Z_INDIRECT_P(slot);
+		if (Z_TYPE_P(slot) != IS_UNDEF) {
+			return slot;
+		}
+	} else if (slot != NULL) {
+		return slot;
 	}
 
-	return SUCCESS;
+	if (UNEXPECTED(zend_string_equals_literal(name, "this"))) {
+		zend_throw_error(NULL, "Cannot re-assign $this");
+		return NULL;
+	}
+
+	if (type == BP_VAR_RW) {
+		zend_error(E_WARNING, "Undefined variable $%s", ZSTR_VAL(name));
+		if (UNEXPECTED(EG(exception))) {
+			return NULL;
+		}
+	}
+
+	/* An undefined compiled variable keeps its slot. */
+	if (slot != NULL) {
+		ZVAL_NULL(slot);
+		return slot;
+	}
+
+	return zend_hash_update(symbol_table, name, &EG(uninitialized_zval));
 }
 
 /**
- * Exports a symbol named by a C string literal to the active symbol table.
- *
- * Emitted for `let {"name"} = value`, the literal-name half of the dynamic
- * variable export. Deleted in 0cfdd9040 as unused, because its only caller is
- * a PHP string in the compiler rather than any C in this tree, and restored
- * once that made `let {"name"} = value` emit C that does not link.
- *
- * `zend_hash_str_update()`, not `zend_symtable_str_update()`: a variable name
- * is never folded to an integer key, which is why the zval-keyed twin above
- * uses plain `zend_hash_update()` as well.
- *
- * @see https://github.com/zephir-lang/zephir/issues/2710
+ * `${name} = value`, or `${name} op= value` for a non-NULL `op`.
  */
-int zephir_set_symbol_str(const char *key_name, size_t key_length, zval *value)
+static int zephir_symbol_assign(zend_string *name, zval *value, binary_op_type op)
 {
-	zend_array *symbol_table;
+	zval *slot = zephir_symbol_slot(name, op == NULL ? BP_VAR_W : BP_VAR_RW);
 
-	symbol_table = zend_rebuild_symbol_table();
-	if (!symbol_table) {
-		php_error_docref(NULL, E_WARNING, "Cannot find a valid symbol_table");
+	if (UNEXPECTED(slot == NULL)) {
 		return FAILURE;
 	}
 
-	Z_TRY_ADDREF_P(value);
-	zend_hash_str_update(symbol_table, key_name, key_length, value);
+	if (op == NULL) {
+		zephir_array_assign_value(slot, value);
+	} else {
+		zephir_array_apply_op(slot, value, op);
+	}
 
-	return SUCCESS;
+	return EG(exception) ? FAILURE : SUCCESS;
+}
+
+/**
+ * `${key_name} = value` (op NULL) or `${key_name} op= value`, with the name
+ * converted to a string as PHP does: "Array" with a warning for an array, an
+ * Error for an object that cannot be converted.
+ *
+ * A variable name is never folded to an integer key, so `${'3'}` is the
+ * string key '3', unlike an array subscript.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2710
+ */
+static int zephir_symbol_assign_zval(zval *key_name, zval *value, binary_op_type op)
+{
+	zend_string *tmp_name, *name;
+	int status;
+
+	ZVAL_DEREF(key_name);
+	name = zval_try_get_tmp_string(key_name, &tmp_name);
+	if (UNEXPECTED(!name)) {
+		return FAILURE;
+	}
+
+	status = zephir_symbol_assign(name, value, op);
+	zend_tmp_string_release(tmp_name);
+
+	return status;
+}
+
+static int zephir_symbol_assign_str(const char *key_name, size_t key_length, zval *value, binary_op_type op)
+{
+	zend_string *name = zend_string_init(key_name, key_length, 0);
+	int status        = zephir_symbol_assign(name, value, op);
+
+	zend_string_release(name);
+
+	return status;
+}
+
+/**
+ * Exports `let {name} = value` to the active symbol table.
+ */
+int zephir_set_symbol(zval *key_name, zval *value)
+{
+	return zephir_symbol_assign_zval(key_name, value, NULL);
+}
+
+/**
+ * Exports `let {"name"} = value` to the active symbol table.
+ *
+ * Deleted in 0cfdd9040 as unused, because its only caller is a PHP string in
+ * the compiler rather than any C in this tree, and restored once that made
+ * `let {"name"} = value` emit C that does not compile.
+ */
+int zephir_set_symbol_str(const char *key_name, size_t key_length, zval *value)
+{
+	return zephir_symbol_assign_str(key_name, key_length, value, NULL);
+}
+
+/**
+ * `let {name} op= value`, one of the engine's binary operator functions.
+ */
+int zephir_set_symbol_op(zval *key_name, zval *value, binary_op_type op)
+{
+	return zephir_symbol_assign_zval(key_name, value, op);
+}
+
+/**
+ * `let {"name"} op= value`, one of the engine's binary operator functions.
+ */
+int zephir_set_symbol_str_op(const char *key_name, size_t key_length, zval *value, binary_op_type op)
+{
+	return zephir_symbol_assign_str(key_name, key_length, value, op);
 }
 
 void ZEPHIR_FASTCALL zephir_do_memory_observe(zval *var, const zephir_method_globals *g)

@@ -52,6 +52,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Exceptions_UnsupportedEagerResultset, __construct)
 	ZVAL_STR_COPY(&className_zv, className);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SSVS(&_0, "Eager loading requires a Phalcon\\Mvc\\Model\\Resultset\\Simple ", "resultset, '", &className_zv, "' given");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_exceptions_unsupportedeagerresultset_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

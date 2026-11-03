@@ -52,6 +52,10 @@ PHP_METHOD(Phalcon_Http_Request_Exceptions_SanitizerNotFound, __construct)
 	ZVAL_STR_COPY(&sanitizer_zv, sanitizer);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "Sanitizer '", &sanitizer_zv, "' does not exist in the filter locator");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_http_request_exceptions_sanitizernotfound_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

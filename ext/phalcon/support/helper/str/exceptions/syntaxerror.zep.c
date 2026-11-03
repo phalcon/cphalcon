@@ -53,6 +53,10 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Exceptions_SyntaxError, __construct)
 	ZVAL_STR_COPY(&text_zv, text);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "Syntax error in string '", &text_zv, "'");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_support_helper_str_exceptions_syntaxerror_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

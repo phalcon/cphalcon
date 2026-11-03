@@ -80,11 +80,19 @@ PHP_METHOD(Phalcon_DataMapper_Query_Update, __construct)
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "");
 	zephir_update_property_array(this_ptr, SL("store"), &_0, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_2);
 	array_init(&_2);
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "RETURNING");
 	zephir_update_property_array(this_ptr, SL("store"), &_3, &_2);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -138,7 +146,15 @@ PHP_METHOD(Phalcon_DataMapper_Query_Update, column)
 		}
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SV(&_0, ":", &column_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_array_multi(this_ptr, SL("store"), &_0, SL("sz"), 3, SL("COLUMNS"), &column_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (Z_TYPE_P(value) != IS_NULL) {
 		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_0, 608, PH_NOISY_CC | PH_READONLY);
 		ZVAL_LONG(&_2$$3, type);
@@ -252,6 +268,10 @@ PHP_METHOD(Phalcon_DataMapper_Query_Update, from)
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "FROM");
 	zephir_update_property_array(this_ptr, SL("store"), &_0, &table_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 
@@ -281,6 +301,10 @@ PHP_METHOD(Phalcon_DataMapper_Query_Update, getStatement)
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 609, PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&_2);
 	zephir_array_fetch_string(&_2, &_1, SL("FROM"), PH_NOISY, "phalcon/DataMapper/Query/Update.zep", 92);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_METHOD(&_3, this_ptr, "buildColumns", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_5);
@@ -290,6 +314,10 @@ PHP_METHOD(Phalcon_DataMapper_Query_Update, getStatement)
 	ZEPHIR_CALL_METHOD(&_6, this_ptr, "buildReturning", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_SVSVVVV(return_value, "UPDATE", &_0, " ", &_2, &_3, &_4, &_6);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_MM();
 }
 
@@ -298,6 +326,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Update, getStatement)
  */
 PHP_METHOD(Phalcon_DataMapper_Query_Update, hasColumns)
 {
+	zend_bool _1;
 	zval _0;
 	zval *this_ptr = getThis();
 
@@ -307,7 +336,11 @@ PHP_METHOD(Phalcon_DataMapper_Query_Update, hasColumns)
 		_zephir_prop_0 = zend_string_init("store", 5, 1);
 	}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 609, PH_NOISY_CC | PH_READONLY);
-	RETURN_BOOL(!(zephir_isempty_dim_string(&_0, SL("COLUMNS"))));
+	_1 = zephir_isempty_dim_string(&_0, SL("COLUMNS"));
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
+	RETURN_BOOL(!(_1));
 }
 
 /**
@@ -334,11 +367,19 @@ PHP_METHOD(Phalcon_DataMapper_Query_Update, reset)
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "");
 	zephir_update_property_array(this_ptr, SL("store"), &_0, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_2);
 	array_init(&_2);
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "RETURNING");
 	zephir_update_property_array(this_ptr, SL("store"), &_3, &_2);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -375,10 +416,18 @@ PHP_METHOD(Phalcon_DataMapper_Query_Update, returning)
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 609, PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&_2);
 	zephir_array_fetch_string(&_2, &_1, SL("RETURNING"), PH_NOISY, "phalcon/DataMapper/Query/Update.zep", 124);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_fast_array_merge(&_0, &_2, &columns);
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "RETURNING");
 	zephir_update_property_array(this_ptr, SL("store"), &_3, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 
@@ -428,6 +477,10 @@ PHP_METHOD(Phalcon_DataMapper_Query_Update, set)
 		ZVAL_STRING(value, "NULL");
 	}
 	zephir_update_property_array_multi(this_ptr, SL("store"), value, SL("sz"), 3, SL("COLUMNS"), &column_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 608, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "remove", NULL, 0, &column_zv);
 	zephir_check_call_status();
@@ -474,6 +527,10 @@ PHP_METHOD(Phalcon_DataMapper_Query_Update, buildColumns)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 609, PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&_1);
 	zephir_array_fetch_string(&_1, &_0, SL("COLUMNS"), PH_NOISY, "phalcon/DataMapper/Query/Update.zep", 157);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (Z_TYPE_P(&_1) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_3);
 		zephir_string_to_char_array(&_3, &_1);
@@ -497,7 +554,15 @@ PHP_METHOD(Phalcon_DataMapper_Query_Update, buildColumns)
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_9$$3);
 			ZEPHIR_CONCAT_VSV(&_9$$3, &_7$$3, " = ", &value);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 			zephir_array_append(&assignments, &_9$$3, PH_SEPARATE, "phalcon/DataMapper/Query/Update.zep", 158);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, _2, "rewind", NULL, 0);
@@ -523,7 +588,15 @@ PHP_METHOD(Phalcon_DataMapper_Query_Update, buildColumns)
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_13$$4);
 				ZEPHIR_CONCAT_VSV(&_13$$4, &_12$$4, " = ", &value);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				zephir_array_append(&assignments, &_13$$4, PH_SEPARATE, "phalcon/DataMapper/Query/Update.zep", 158);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 		}
 	}
 	ZEPHIR_INIT_NVAR(&value);
@@ -533,6 +606,10 @@ PHP_METHOD(Phalcon_DataMapper_Query_Update, buildColumns)
 	ZEPHIR_CALL_METHOD(&_14, this_ptr, "indent", NULL, 0, &assignments, &_15);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_SV(return_value, " SET", &_14);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_MM();
 }
 

@@ -62,6 +62,10 @@ PHP_METHOD(Phalcon_Db_Traits_ElapsedTimeTrait, getTotalElapsedMilliseconds)
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getTotalElapsedNanoseconds", NULL, 0);
 	zephir_check_call_status();
 	zephir_div_zval_long(return_value, &_0, 1000000);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_MM();
 }
 
@@ -82,6 +86,10 @@ PHP_METHOD(Phalcon_Db_Traits_ElapsedTimeTrait, getTotalElapsedSeconds)
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getTotalElapsedMilliseconds", NULL, 0);
 	zephir_check_call_status();
 	zephir_div_zval_long(return_value, &_0, 1000);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_MM();
 }
 

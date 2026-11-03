@@ -53,16 +53,17 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Debug_Traits_TemplateAwareTrait)
 
 PHP_METHOD(Phalcon_Support_Debug_Traits_TemplateAwareTrait, getTemplate)
 {
+	zend_bool _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval name_zv, _0, _1, _2;
+	zval name_zv, _0, _1, _3;
 	zend_string *name = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name_zv);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("templates", 9, 1);
@@ -77,10 +78,19 @@ PHP_METHOD(Phalcon_Support_Debug_Traits_TemplateAwareTrait, getTemplate)
 	ZVAL_STR_COPY(&name_zv, name);
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1401, PH_NOISY_CC | PH_READONLY);
-	if (zephir_array_isset_value(&_1, &name_zv)) {
-		zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 1401, PH_NOISY_CC | PH_READONLY);
+	_2 = zephir_array_isset_value(&_1, &name_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_2) {
+		zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 1401, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_NVAR(&_0);
-		zephir_array_fetch(&_0, &_2, &name_zv, PH_NOISY, "phalcon/Support/Debug/Traits/TemplateAwareTrait.zep", 33);
+		zephir_array_fetch(&_0, &_3, &name_zv, PH_NOISY, "phalcon/Support/Debug/Traits/TemplateAwareTrait.zep", 33);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
 		ZEPHIR_CALL_METHOD(&_0, this_ptr, "defaultTemplate", NULL, 0, &name_zv);
 		zephir_check_call_status();
@@ -103,6 +113,9 @@ PHP_METHOD(Phalcon_Support_Debug_Traits_TemplateAwareTrait, setTemplate)
 	ZVAL_STR(&name_zv, name);
 	ZVAL_STR(&template_zv, template);
 	zephir_update_property_array(this_ptr, SL("templates"), &name_zv, &template_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 

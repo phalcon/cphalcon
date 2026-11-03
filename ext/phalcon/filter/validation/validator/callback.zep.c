@@ -191,6 +191,10 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Callback, validate)
 			zephir_check_call_status();
 			if (ZEPHIR_GT_LONG(&_1$$5, 1)) {
 				zephir_array_append(&arguments, this_ptr, PH_SEPARATE, "phalcon/Filter/Validation/Validator/Callback.zep", 123);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			}
 		}
 		ZEPHIR_INIT_VAR(&returnedValue);

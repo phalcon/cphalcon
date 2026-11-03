@@ -62,6 +62,10 @@ PHP_METHOD(Phalcon_Auth_Exceptions_OptionRequiresString, __construct)
 	ZVAL_STR_COPY(&key_zv, key);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVSVS(&_0, "Auth ", &context_zv, " requires '", &key_zv, "' to be a non-empty string");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_auth_exceptions_optionrequiresstring_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

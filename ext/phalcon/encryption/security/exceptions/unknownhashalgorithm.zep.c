@@ -52,6 +52,10 @@ PHP_METHOD(Phalcon_Encryption_Security_Exceptions_UnknownHashAlgorithm, __constr
 	ZVAL_STR_COPY(&algo_zv, algo);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SV(&_0, "Unknown hashing algorithm: ", &algo_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_encryption_security_exceptions_unknownhashalgorithm_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

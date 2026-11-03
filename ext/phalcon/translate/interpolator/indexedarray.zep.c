@@ -88,6 +88,9 @@ PHP_METHOD(Phalcon_Translate_Interpolator_IndexedArray, replacePlaceholders)
 				zend_clear_exception();
 				ZEPHIR_CPY_WRT(&_1$$3, &_0$$3);
 				RETURN_MM_STR(zend_string_copy(translation));
+			} else {
+				ZEPHIR_MM_RESTORE();
+				return;
 			}
 		}
 	}

@@ -152,6 +152,10 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getPayload)
 	ZEPHIR_CALL_METHOD(&_3, &_2, "getEncoded", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_VSV(return_value, &_1, ".", &_3);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_MM();
 }
 
@@ -190,6 +194,10 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getToken)
 	ZEPHIR_CALL_METHOD(&_2, &_1, "getEncoded", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_VSV(return_value, &_0, ".", &_2);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_MM();
 }
 

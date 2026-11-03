@@ -52,6 +52,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Exceptions_MissingRequiredOption, __constr
 	ZVAL_STR_COPY(&option_zv, option);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "The option '", &option_zv, "' is required");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_behavior_exceptions_missingrequiredoption_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

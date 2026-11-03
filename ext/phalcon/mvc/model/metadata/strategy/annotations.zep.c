@@ -49,11 +49,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps)
 {
 	zend_string *_7;
 	zend_ulong _6;
-	zend_bool hasReversedColumn = 0, _12, _10$$6, _15$$10;
+	zend_bool hasReversedColumn = 0, _13, _10$$6, _11$$6, _16$$10, _17$$10;
 	zval orderedColumnMap, reversedColumnMap;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *model, model_sub, *container, container_sub, __$null, annotations, className, reflection, propertiesAnnotations, property, propAnnotations, columnAnnotation, columnName, _1, *_4, *_5, _11, _0$$3, _2$$4, _3$$5, _8$$6, _9$$6, _13$$10, _14$$10;
+	zval *model, model_sub, *container, container_sub, __$null, annotations, className, reflection, propertiesAnnotations, property, propAnnotations, columnAnnotation, columnName, _1, *_4, *_5, _12, _0$$3, _2$$4, _3$$5, _8$$6, _9$$6, _14$$10, _15$$10;
 
 	ZVAL_UNDEF(&model_sub);
 	ZVAL_UNDEF(&container_sub);
@@ -67,14 +67,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps)
 	ZVAL_UNDEF(&columnAnnotation);
 	ZVAL_UNDEF(&columnName);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_11);
+	ZVAL_UNDEF(&_12);
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&_3$$5);
 	ZVAL_UNDEF(&_8$$6);
 	ZVAL_UNDEF(&_9$$6);
-	ZVAL_UNDEF(&_13$$10);
 	ZVAL_UNDEF(&_14$$10);
+	ZVAL_UNDEF(&_15$$10);
 	ZVAL_UNDEF(&orderedColumnMap);
 	ZVAL_UNDEF(&reversedColumnMap);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
@@ -164,10 +164,23 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps)
 				ZEPHIR_CPY_WRT(&columnName, &property);
 			}
 			zephir_array_update_zval(&orderedColumnMap, &columnName, &property, PH_COPY | PH_SEPARATE);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 			zephir_array_update_zval(&reversedColumnMap, &property, &columnName, PH_COPY | PH_SEPARATE);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 			_10$$6 = !hasReversedColumn;
 			if (_10$$6) {
-				_10$$6 = !ZEPHIR_IS_EQUAL(&columnName, &property);
+				_11$$6 = !ZEPHIR_IS_EQUAL(&columnName, &property);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				_10$$6 = _11$$6;
 			}
 			if (_10$$6) {
 				hasReversedColumn = 1;
@@ -176,48 +189,61 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps)
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, _4, "rewind", NULL, 0);
 		zephir_check_call_status();
-		_12 = 1;
+		_13 = 1;
 		while (1) {
-			if (_12) {
-				_12 = 0;
+			if (_13) {
+				_13 = 0;
 			} else {
 				ZEPHIR_CALL_METHOD(NULL, _4, "next", NULL, 0);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_11, _4, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_12, _4, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_11)) {
+			if (!zend_is_true(&_12)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&property, _4, "key", NULL, 0);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&propAnnotations, _4, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_INIT_NVAR(&_14$$10);
-				ZVAL_STRING(&_14$$10, "Column");
-				ZEPHIR_CALL_METHOD(&_13$$10, &propAnnotations, "has", NULL, 0, &_14$$10);
+				ZEPHIR_INIT_NVAR(&_15$$10);
+				ZVAL_STRING(&_15$$10, "Column");
+				ZEPHIR_CALL_METHOD(&_14$$10, &propAnnotations, "has", NULL, 0, &_15$$10);
 				zephir_check_call_status();
-				if (!(zephir_is_true(&_13$$10))) {
+				if (!(zephir_is_true(&_14$$10))) {
 					continue;
 				}
-				ZEPHIR_INIT_NVAR(&_14$$10);
-				ZVAL_STRING(&_14$$10, "Column");
-				ZEPHIR_CALL_METHOD(&columnAnnotation, &propAnnotations, "get", NULL, 0, &_14$$10);
+				ZEPHIR_INIT_NVAR(&_15$$10);
+				ZVAL_STRING(&_15$$10, "Column");
+				ZEPHIR_CALL_METHOD(&columnAnnotation, &propAnnotations, "get", NULL, 0, &_15$$10);
 				zephir_check_call_status();
-				ZEPHIR_INIT_NVAR(&_14$$10);
-				ZVAL_STRING(&_14$$10, "column");
-				ZEPHIR_CALL_METHOD(&columnName, &columnAnnotation, "getNamedParameter", NULL, 0, &_14$$10);
+				ZEPHIR_INIT_NVAR(&_15$$10);
+				ZVAL_STRING(&_15$$10, "column");
+				ZEPHIR_CALL_METHOD(&columnName, &columnAnnotation, "getNamedParameter", NULL, 0, &_15$$10);
 				zephir_check_call_status();
 				if (ZEPHIR_IS_EMPTY(&columnName)) {
 					ZEPHIR_CPY_WRT(&columnName, &property);
 				}
 				zephir_array_update_zval(&orderedColumnMap, &columnName, &property, PH_COPY | PH_SEPARATE);
-				zephir_array_update_zval(&reversedColumnMap, &property, &columnName, PH_COPY | PH_SEPARATE);
-				_15$$10 = !hasReversedColumn;
-				if (_15$$10) {
-					_15$$10 = !ZEPHIR_IS_EQUAL(&columnName, &property);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
 				}
-				if (_15$$10) {
+				zephir_array_update_zval(&reversedColumnMap, &property, &columnName, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				_16$$10 = !hasReversedColumn;
+				if (_16$$10) {
+					_17$$10 = !ZEPHIR_IS_EQUAL(&columnName, &property);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+					_16$$10 = _17$$10;
+				}
+				if (_16$$10) {
 					hasReversedColumn = 1;
 				}
 		}
@@ -554,227 +580,483 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 				ZEPHIR_INIT_NVAR(&_10$$9);
 				ZVAL_LONG(&_10$$9, 14);
 				zephir_array_update_zval(&fieldTypes, &columnName, &_10$$9, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&_11$$9);
 				ZVAL_LONG(&_11$$9, 2);
 				zephir_array_update_zval(&fieldBindTypes, &columnName, &_11$$9, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				goto zephir_switch_0_end;
 			zephir_switch_0_clause_1: ;
 				ZEPHIR_INIT_NVAR(&_12$$10);
 				ZVAL_LONG(&_12$$10, 19);
 				zephir_array_update_zval(&fieldTypes, &columnName, &_12$$10, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&_13$$10);
 				ZVAL_LONG(&_13$$10, 1);
 				zephir_array_update_zval(&fieldBindTypes, &columnName, &_13$$10, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				goto zephir_switch_0_end;
 			zephir_switch_0_clause_2: ;
 				ZEPHIR_INIT_NVAR(&_14$$11);
 				ZVAL_LONG(&_14$$11, 11);
 				zephir_array_update_zval(&fieldTypes, &columnName, &_14$$11, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&_15$$11);
 				ZVAL_LONG(&_15$$11, 3);
 				zephir_array_update_zval(&fieldBindTypes, &columnName, &_15$$11, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				goto zephir_switch_0_end;
 			zephir_switch_0_clause_3: ;
 				ZEPHIR_INIT_NVAR(&_16$$12);
 				ZVAL_LONG(&_16$$12, 8);
 				zephir_array_update_zval(&fieldTypes, &columnName, &_16$$12, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&_17$$12);
 				ZVAL_LONG(&_17$$12, 5);
 				zephir_array_update_zval(&fieldBindTypes, &columnName, &_17$$12, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				goto zephir_switch_0_end;
 			zephir_switch_0_clause_4: ;
 				ZEPHIR_INIT_NVAR(&_18$$13);
 				ZVAL_LONG(&_18$$13, 5);
 				zephir_array_update_zval(&fieldTypes, &columnName, &_18$$13, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&_19$$13);
 				ZVAL_LONG(&_19$$13, 2);
 				zephir_array_update_zval(&fieldBindTypes, &columnName, &_19$$13, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				goto zephir_switch_0_end;
 			zephir_switch_0_clause_5: ;
 				ZEPHIR_INIT_NVAR(&_20$$14);
 				ZVAL_LONG(&_20$$14, 1);
 				zephir_array_update_zval(&fieldTypes, &columnName, &_20$$14, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&_21$$14);
 				ZVAL_LONG(&_21$$14, 2);
 				zephir_array_update_zval(&fieldBindTypes, &columnName, &_21$$14, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				goto zephir_switch_0_end;
 			zephir_switch_0_clause_6: ;
 				ZEPHIR_INIT_NVAR(&_22$$15);
 				ZVAL_LONG(&_22$$15, 4);
 				zephir_array_update_zval(&fieldTypes, &columnName, &_22$$15, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&_23$$15);
 				ZVAL_LONG(&_23$$15, 2);
 				zephir_array_update_zval(&fieldBindTypes, &columnName, &_23$$15, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				goto zephir_switch_0_end;
 			zephir_switch_0_clause_7: ;
 				ZEPHIR_INIT_NVAR(&_24$$16);
 				ZVAL_LONG(&_24$$16, 3);
 				zephir_array_update_zval(&fieldTypes, &columnName, &_24$$16, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&_25$$16);
 				ZVAL_LONG(&_25$$16, 32);
 				zephir_array_update_zval(&fieldBindTypes, &columnName, &_25$$16, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				goto zephir_switch_0_end;
 			zephir_switch_0_clause_8: ;
 				ZEPHIR_INIT_NVAR(&_26$$17);
 				ZVAL_LONG(&_26$$17, 9);
 				zephir_array_update_zval(&fieldTypes, &columnName, &_26$$17, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&_27$$17);
 				ZVAL_LONG(&_27$$17, 32);
 				zephir_array_update_zval(&fieldBindTypes, &columnName, &_27$$17, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				goto zephir_switch_0_end;
 			zephir_switch_0_clause_9: ;
 				ZEPHIR_INIT_NVAR(&_28$$18);
 				ZVAL_LONG(&_28$$18, 18);
 				zephir_array_update_zval(&fieldTypes, &columnName, &_28$$18, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&_29$$18);
 				ZVAL_LONG(&_29$$18, 2);
 				zephir_array_update_zval(&fieldBindTypes, &columnName, &_29$$18, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				goto zephir_switch_0_end;
 			zephir_switch_0_clause_10: ;
 				ZEPHIR_INIT_NVAR(&_30$$19);
 				ZVAL_LONG(&_30$$19, 7);
 				zephir_array_update_zval(&fieldTypes, &columnName, &_30$$19, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&_31$$19);
 				ZVAL_LONG(&_31$$19, 32);
 				zephir_array_update_zval(&fieldBindTypes, &columnName, &_31$$19, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				goto zephir_switch_0_end;
 			zephir_switch_0_clause_11: ;
 				ZEPHIR_INIT_NVAR(&_32$$20);
 				ZVAL_LONG(&_32$$20, 0);
 				zephir_array_update_zval(&fieldTypes, &columnName, &_32$$20, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&_33$$20);
 				ZVAL_LONG(&_33$$20, 1);
 				zephir_array_update_zval(&fieldBindTypes, &columnName, &_33$$20, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				goto zephir_switch_0_end;
 			zephir_switch_0_clause_12: ;
 				ZEPHIR_INIT_NVAR(&_34$$21);
 				ZVAL_LONG(&_34$$21, 15);
 				zephir_array_update_zval(&fieldTypes, &columnName, &_34$$21, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&_35$$21);
 				ZVAL_LONG(&_35$$21, 2);
 				zephir_array_update_zval(&fieldBindTypes, &columnName, &_35$$21, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				goto zephir_switch_0_end;
 			zephir_switch_0_clause_13: ;
 				ZEPHIR_INIT_NVAR(&_36$$22);
 				ZVAL_LONG(&_36$$22, 16);
 				zephir_array_update_zval(&fieldTypes, &columnName, &_36$$22, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&_37$$22);
 				ZVAL_LONG(&_37$$22, 2);
 				zephir_array_update_zval(&fieldBindTypes, &columnName, &_37$$22, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				goto zephir_switch_0_end;
 			zephir_switch_0_clause_14: ;
 				ZEPHIR_INIT_NVAR(&_38$$23);
 				ZVAL_LONG(&_38$$23, 13);
 				zephir_array_update_zval(&fieldTypes, &columnName, &_38$$23, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&_39$$23);
 				ZVAL_LONG(&_39$$23, 3);
 				zephir_array_update_zval(&fieldBindTypes, &columnName, &_39$$23, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				goto zephir_switch_0_end;
 			zephir_switch_0_clause_15: ;
 				ZEPHIR_INIT_NVAR(&_40$$24);
 				ZVAL_LONG(&_40$$24, 24);
 				zephir_array_update_zval(&fieldTypes, &columnName, &_40$$24, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&_41$$24);
 				ZVAL_LONG(&_41$$24, 2);
 				zephir_array_update_zval(&fieldBindTypes, &columnName, &_41$$24, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				goto zephir_switch_0_end;
 			zephir_switch_0_clause_16: ;
 				ZEPHIR_INIT_NVAR(&_42$$25);
 				ZVAL_LONG(&_42$$25, 12);
 				zephir_array_update_zval(&fieldTypes, &columnName, &_42$$25, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&_43$$25);
 				ZVAL_LONG(&_43$$25, 3);
 				zephir_array_update_zval(&fieldBindTypes, &columnName, &_43$$25, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				goto zephir_switch_0_end;
 			zephir_switch_0_clause_17: ;
 				ZEPHIR_INIT_NVAR(&_44$$26);
 				ZVAL_LONG(&_44$$26, 21);
 				zephir_array_update_zval(&fieldTypes, &columnName, &_44$$26, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&_45$$26);
 				ZVAL_LONG(&_45$$26, 1);
 				zephir_array_update_zval(&fieldBindTypes, &columnName, &_45$$26, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				goto zephir_switch_0_end;
 			zephir_switch_0_clause_18: ;
 				ZEPHIR_INIT_NVAR(&_46$$27);
 				ZVAL_LONG(&_46$$27, 23);
 				zephir_array_update_zval(&fieldTypes, &columnName, &_46$$27, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&_47$$27);
 				ZVAL_LONG(&_47$$27, 2);
 				zephir_array_update_zval(&fieldBindTypes, &columnName, &_47$$27, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				goto zephir_switch_0_end;
 			zephir_switch_0_clause_19: ;
 				ZEPHIR_INIT_NVAR(&_48$$28);
 				ZVAL_LONG(&_48$$28, 22);
 				zephir_array_update_zval(&fieldTypes, &columnName, &_48$$28, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&_49$$28);
 				ZVAL_LONG(&_49$$28, 1);
 				zephir_array_update_zval(&fieldBindTypes, &columnName, &_49$$28, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				goto zephir_switch_0_end;
 			zephir_switch_0_clause_20: ;
 				ZEPHIR_INIT_NVAR(&_50$$29);
 				ZVAL_LONG(&_50$$29, 6);
 				zephir_array_update_zval(&fieldTypes, &columnName, &_50$$29, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&_51$$29);
 				ZVAL_LONG(&_51$$29, 2);
 				zephir_array_update_zval(&fieldBindTypes, &columnName, &_51$$29, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				goto zephir_switch_0_end;
 			zephir_switch_0_clause_21: ;
 				ZEPHIR_INIT_NVAR(&_52$$30);
 				ZVAL_LONG(&_52$$30, 20);
 				zephir_array_update_zval(&fieldTypes, &columnName, &_52$$30, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&_53$$30);
 				ZVAL_LONG(&_53$$30, 2);
 				zephir_array_update_zval(&fieldBindTypes, &columnName, &_53$$30, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				goto zephir_switch_0_end;
 			zephir_switch_0_clause_22: ;
 				ZEPHIR_INIT_NVAR(&_54$$31);
 				ZVAL_LONG(&_54$$31, 17);
 				zephir_array_update_zval(&fieldTypes, &columnName, &_54$$31, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&_55$$31);
 				ZVAL_LONG(&_55$$31, 2);
 				zephir_array_update_zval(&fieldBindTypes, &columnName, &_55$$31, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				goto zephir_switch_0_end;
 			zephir_switch_0_clause_23: ;
 				ZEPHIR_INIT_NVAR(&_56$$32);
 				ZVAL_LONG(&_56$$32, 10);
 				zephir_array_update_zval(&fieldTypes, &columnName, &_56$$32, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&_57$$32);
 				ZVAL_LONG(&_57$$32, 3);
 				zephir_array_update_zval(&fieldBindTypes, &columnName, &_57$$32, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				goto zephir_switch_0_end;
 			zephir_switch_0_clause_24: ;
 				ZEPHIR_INIT_NVAR(&_58$$33);
 				ZVAL_LONG(&_58$$33, 26);
 				zephir_array_update_zval(&fieldTypes, &columnName, &_58$$33, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&_59$$33);
 				ZVAL_LONG(&_59$$33, 1);
 				zephir_array_update_zval(&fieldBindTypes, &columnName, &_59$$33, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				goto zephir_switch_0_end;
 			zephir_switch_0_clause_25: ;
 				ZEPHIR_INIT_NVAR(&_60$$34);
 				ZVAL_LONG(&_60$$34, 25);
 				zephir_array_update_zval(&fieldTypes, &columnName, &_60$$34, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&_61$$34);
 				ZVAL_LONG(&_61$$34, 2);
 				zephir_array_update_zval(&fieldBindTypes, &columnName, &_61$$34, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				goto zephir_switch_0_end;
 			zephir_switch_0_clause_26: ;
 				ZEPHIR_INIT_NVAR(&_62$$35);
 				ZVAL_LONG(&_62$$35, 2);
 				zephir_array_update_zval(&fieldTypes, &columnName, &_62$$35, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&_63$$35);
 				ZVAL_LONG(&_63$$35, 2);
 				zephir_array_update_zval(&fieldBindTypes, &columnName, &_63$$35, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			zephir_switch_0_end: ;
 
 			ZEPHIR_INIT_NVAR(&_9$$6);
@@ -783,8 +1065,16 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 			zephir_check_call_status();
 			if (zephir_is_true(&_64$$6)) {
 				zephir_array_append(&primaryKeys, &columnName, PH_SEPARATE, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 338);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			} else {
 				zephir_array_append(&nonPrimaryKeys, &columnName, PH_SEPARATE, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 340);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			}
 			ZEPHIR_INIT_NVAR(&_9$$6);
 			ZVAL_STRING(&_9$$6, "Identity");
@@ -807,6 +1097,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 			}
 			if (_67$$6) {
 				zephir_array_update_zval(&skipOnInsert, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			}
 			ZEPHIR_INIT_NVAR(&_9$$6);
 			ZVAL_STRING(&_9$$6, "skip_on_update");
@@ -822,6 +1116,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 			}
 			if (_70$$6) {
 				zephir_array_update_zval(&skipOnUpdate, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			}
 			ZEPHIR_INIT_NVAR(&_9$$6);
 			ZVAL_STRING(&_9$$6, "allow_empty_string");
@@ -837,6 +1135,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 			}
 			if (_73$$6) {
 				zephir_array_update_zval(&emptyStringValues, &columnName, &columnName, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			}
 			ZEPHIR_INIT_NVAR(&_9$$6);
 			ZVAL_STRING(&_9$$6, "nullable");
@@ -844,6 +1146,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 			zephir_check_call_status();
 			if (!(zephir_is_true(&_75$$6))) {
 				zephir_array_append(&notNull, &columnName, PH_SEPARATE, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 382);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			}
 			ZEPHIR_INIT_NVAR(&_9$$6);
 			ZVAL_STRING(&_9$$6, "default");
@@ -865,8 +1171,16 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 			}
 			if (_77$$6) {
 				zephir_array_update_zval(&defaultValues, &columnName, &defaultValue, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			}
 			zephir_array_append(&attributes, &columnName, PH_SEPARATE, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 403);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, _4, "rewind", NULL, 0);
@@ -941,227 +1255,483 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 					ZEPHIR_INIT_NVAR(&_83$$48);
 					ZVAL_LONG(&_83$$48, 14);
 					zephir_array_update_zval(&fieldTypes, &columnName, &_83$$48, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_INIT_NVAR(&_84$$48);
 					ZVAL_LONG(&_84$$48, 2);
 					zephir_array_update_zval(&fieldBindTypes, &columnName, &_84$$48, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					goto zephir_switch_1_end;
 				zephir_switch_1_clause_1: ;
 					ZEPHIR_INIT_NVAR(&_85$$49);
 					ZVAL_LONG(&_85$$49, 19);
 					zephir_array_update_zval(&fieldTypes, &columnName, &_85$$49, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_INIT_NVAR(&_86$$49);
 					ZVAL_LONG(&_86$$49, 1);
 					zephir_array_update_zval(&fieldBindTypes, &columnName, &_86$$49, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					goto zephir_switch_1_end;
 				zephir_switch_1_clause_2: ;
 					ZEPHIR_INIT_NVAR(&_87$$50);
 					ZVAL_LONG(&_87$$50, 11);
 					zephir_array_update_zval(&fieldTypes, &columnName, &_87$$50, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_INIT_NVAR(&_88$$50);
 					ZVAL_LONG(&_88$$50, 3);
 					zephir_array_update_zval(&fieldBindTypes, &columnName, &_88$$50, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					goto zephir_switch_1_end;
 				zephir_switch_1_clause_3: ;
 					ZEPHIR_INIT_NVAR(&_89$$51);
 					ZVAL_LONG(&_89$$51, 8);
 					zephir_array_update_zval(&fieldTypes, &columnName, &_89$$51, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_INIT_NVAR(&_90$$51);
 					ZVAL_LONG(&_90$$51, 5);
 					zephir_array_update_zval(&fieldBindTypes, &columnName, &_90$$51, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					goto zephir_switch_1_end;
 				zephir_switch_1_clause_4: ;
 					ZEPHIR_INIT_NVAR(&_91$$52);
 					ZVAL_LONG(&_91$$52, 5);
 					zephir_array_update_zval(&fieldTypes, &columnName, &_91$$52, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_INIT_NVAR(&_92$$52);
 					ZVAL_LONG(&_92$$52, 2);
 					zephir_array_update_zval(&fieldBindTypes, &columnName, &_92$$52, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					goto zephir_switch_1_end;
 				zephir_switch_1_clause_5: ;
 					ZEPHIR_INIT_NVAR(&_93$$53);
 					ZVAL_LONG(&_93$$53, 1);
 					zephir_array_update_zval(&fieldTypes, &columnName, &_93$$53, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_INIT_NVAR(&_94$$53);
 					ZVAL_LONG(&_94$$53, 2);
 					zephir_array_update_zval(&fieldBindTypes, &columnName, &_94$$53, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					goto zephir_switch_1_end;
 				zephir_switch_1_clause_6: ;
 					ZEPHIR_INIT_NVAR(&_95$$54);
 					ZVAL_LONG(&_95$$54, 4);
 					zephir_array_update_zval(&fieldTypes, &columnName, &_95$$54, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_INIT_NVAR(&_96$$54);
 					ZVAL_LONG(&_96$$54, 2);
 					zephir_array_update_zval(&fieldBindTypes, &columnName, &_96$$54, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					goto zephir_switch_1_end;
 				zephir_switch_1_clause_7: ;
 					ZEPHIR_INIT_NVAR(&_97$$55);
 					ZVAL_LONG(&_97$$55, 3);
 					zephir_array_update_zval(&fieldTypes, &columnName, &_97$$55, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_INIT_NVAR(&_98$$55);
 					ZVAL_LONG(&_98$$55, 32);
 					zephir_array_update_zval(&fieldBindTypes, &columnName, &_98$$55, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					goto zephir_switch_1_end;
 				zephir_switch_1_clause_8: ;
 					ZEPHIR_INIT_NVAR(&_99$$56);
 					ZVAL_LONG(&_99$$56, 9);
 					zephir_array_update_zval(&fieldTypes, &columnName, &_99$$56, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_INIT_NVAR(&_100$$56);
 					ZVAL_LONG(&_100$$56, 32);
 					zephir_array_update_zval(&fieldBindTypes, &columnName, &_100$$56, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					goto zephir_switch_1_end;
 				zephir_switch_1_clause_9: ;
 					ZEPHIR_INIT_NVAR(&_101$$57);
 					ZVAL_LONG(&_101$$57, 18);
 					zephir_array_update_zval(&fieldTypes, &columnName, &_101$$57, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_INIT_NVAR(&_102$$57);
 					ZVAL_LONG(&_102$$57, 2);
 					zephir_array_update_zval(&fieldBindTypes, &columnName, &_102$$57, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					goto zephir_switch_1_end;
 				zephir_switch_1_clause_10: ;
 					ZEPHIR_INIT_NVAR(&_103$$58);
 					ZVAL_LONG(&_103$$58, 7);
 					zephir_array_update_zval(&fieldTypes, &columnName, &_103$$58, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_INIT_NVAR(&_104$$58);
 					ZVAL_LONG(&_104$$58, 32);
 					zephir_array_update_zval(&fieldBindTypes, &columnName, &_104$$58, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					goto zephir_switch_1_end;
 				zephir_switch_1_clause_11: ;
 					ZEPHIR_INIT_NVAR(&_105$$59);
 					ZVAL_LONG(&_105$$59, 0);
 					zephir_array_update_zval(&fieldTypes, &columnName, &_105$$59, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_INIT_NVAR(&_106$$59);
 					ZVAL_LONG(&_106$$59, 1);
 					zephir_array_update_zval(&fieldBindTypes, &columnName, &_106$$59, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					goto zephir_switch_1_end;
 				zephir_switch_1_clause_12: ;
 					ZEPHIR_INIT_NVAR(&_107$$60);
 					ZVAL_LONG(&_107$$60, 15);
 					zephir_array_update_zval(&fieldTypes, &columnName, &_107$$60, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_INIT_NVAR(&_108$$60);
 					ZVAL_LONG(&_108$$60, 2);
 					zephir_array_update_zval(&fieldBindTypes, &columnName, &_108$$60, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					goto zephir_switch_1_end;
 				zephir_switch_1_clause_13: ;
 					ZEPHIR_INIT_NVAR(&_109$$61);
 					ZVAL_LONG(&_109$$61, 16);
 					zephir_array_update_zval(&fieldTypes, &columnName, &_109$$61, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_INIT_NVAR(&_110$$61);
 					ZVAL_LONG(&_110$$61, 2);
 					zephir_array_update_zval(&fieldBindTypes, &columnName, &_110$$61, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					goto zephir_switch_1_end;
 				zephir_switch_1_clause_14: ;
 					ZEPHIR_INIT_NVAR(&_111$$62);
 					ZVAL_LONG(&_111$$62, 13);
 					zephir_array_update_zval(&fieldTypes, &columnName, &_111$$62, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_INIT_NVAR(&_112$$62);
 					ZVAL_LONG(&_112$$62, 3);
 					zephir_array_update_zval(&fieldBindTypes, &columnName, &_112$$62, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					goto zephir_switch_1_end;
 				zephir_switch_1_clause_15: ;
 					ZEPHIR_INIT_NVAR(&_113$$63);
 					ZVAL_LONG(&_113$$63, 24);
 					zephir_array_update_zval(&fieldTypes, &columnName, &_113$$63, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_INIT_NVAR(&_114$$63);
 					ZVAL_LONG(&_114$$63, 2);
 					zephir_array_update_zval(&fieldBindTypes, &columnName, &_114$$63, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					goto zephir_switch_1_end;
 				zephir_switch_1_clause_16: ;
 					ZEPHIR_INIT_NVAR(&_115$$64);
 					ZVAL_LONG(&_115$$64, 12);
 					zephir_array_update_zval(&fieldTypes, &columnName, &_115$$64, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_INIT_NVAR(&_116$$64);
 					ZVAL_LONG(&_116$$64, 3);
 					zephir_array_update_zval(&fieldBindTypes, &columnName, &_116$$64, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					goto zephir_switch_1_end;
 				zephir_switch_1_clause_17: ;
 					ZEPHIR_INIT_NVAR(&_117$$65);
 					ZVAL_LONG(&_117$$65, 21);
 					zephir_array_update_zval(&fieldTypes, &columnName, &_117$$65, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_INIT_NVAR(&_118$$65);
 					ZVAL_LONG(&_118$$65, 1);
 					zephir_array_update_zval(&fieldBindTypes, &columnName, &_118$$65, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					goto zephir_switch_1_end;
 				zephir_switch_1_clause_18: ;
 					ZEPHIR_INIT_NVAR(&_119$$66);
 					ZVAL_LONG(&_119$$66, 23);
 					zephir_array_update_zval(&fieldTypes, &columnName, &_119$$66, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_INIT_NVAR(&_120$$66);
 					ZVAL_LONG(&_120$$66, 2);
 					zephir_array_update_zval(&fieldBindTypes, &columnName, &_120$$66, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					goto zephir_switch_1_end;
 				zephir_switch_1_clause_19: ;
 					ZEPHIR_INIT_NVAR(&_121$$67);
 					ZVAL_LONG(&_121$$67, 22);
 					zephir_array_update_zval(&fieldTypes, &columnName, &_121$$67, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_INIT_NVAR(&_122$$67);
 					ZVAL_LONG(&_122$$67, 1);
 					zephir_array_update_zval(&fieldBindTypes, &columnName, &_122$$67, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					goto zephir_switch_1_end;
 				zephir_switch_1_clause_20: ;
 					ZEPHIR_INIT_NVAR(&_123$$68);
 					ZVAL_LONG(&_123$$68, 6);
 					zephir_array_update_zval(&fieldTypes, &columnName, &_123$$68, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_INIT_NVAR(&_124$$68);
 					ZVAL_LONG(&_124$$68, 2);
 					zephir_array_update_zval(&fieldBindTypes, &columnName, &_124$$68, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					goto zephir_switch_1_end;
 				zephir_switch_1_clause_21: ;
 					ZEPHIR_INIT_NVAR(&_125$$69);
 					ZVAL_LONG(&_125$$69, 20);
 					zephir_array_update_zval(&fieldTypes, &columnName, &_125$$69, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_INIT_NVAR(&_126$$69);
 					ZVAL_LONG(&_126$$69, 2);
 					zephir_array_update_zval(&fieldBindTypes, &columnName, &_126$$69, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					goto zephir_switch_1_end;
 				zephir_switch_1_clause_22: ;
 					ZEPHIR_INIT_NVAR(&_127$$70);
 					ZVAL_LONG(&_127$$70, 17);
 					zephir_array_update_zval(&fieldTypes, &columnName, &_127$$70, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_INIT_NVAR(&_128$$70);
 					ZVAL_LONG(&_128$$70, 2);
 					zephir_array_update_zval(&fieldBindTypes, &columnName, &_128$$70, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					goto zephir_switch_1_end;
 				zephir_switch_1_clause_23: ;
 					ZEPHIR_INIT_NVAR(&_129$$71);
 					ZVAL_LONG(&_129$$71, 10);
 					zephir_array_update_zval(&fieldTypes, &columnName, &_129$$71, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_INIT_NVAR(&_130$$71);
 					ZVAL_LONG(&_130$$71, 3);
 					zephir_array_update_zval(&fieldBindTypes, &columnName, &_130$$71, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					goto zephir_switch_1_end;
 				zephir_switch_1_clause_24: ;
 					ZEPHIR_INIT_NVAR(&_131$$72);
 					ZVAL_LONG(&_131$$72, 26);
 					zephir_array_update_zval(&fieldTypes, &columnName, &_131$$72, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_INIT_NVAR(&_132$$72);
 					ZVAL_LONG(&_132$$72, 1);
 					zephir_array_update_zval(&fieldBindTypes, &columnName, &_132$$72, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					zephir_array_update_zval(&numericTyped, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					goto zephir_switch_1_end;
 				zephir_switch_1_clause_25: ;
 					ZEPHIR_INIT_NVAR(&_133$$73);
 					ZVAL_LONG(&_133$$73, 25);
 					zephir_array_update_zval(&fieldTypes, &columnName, &_133$$73, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_INIT_NVAR(&_134$$73);
 					ZVAL_LONG(&_134$$73, 2);
 					zephir_array_update_zval(&fieldBindTypes, &columnName, &_134$$73, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					goto zephir_switch_1_end;
 				zephir_switch_1_clause_26: ;
 					ZEPHIR_INIT_NVAR(&_135$$74);
 					ZVAL_LONG(&_135$$74, 2);
 					zephir_array_update_zval(&fieldTypes, &columnName, &_135$$74, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_INIT_NVAR(&_136$$74);
 					ZVAL_LONG(&_136$$74, 2);
 					zephir_array_update_zval(&fieldBindTypes, &columnName, &_136$$74, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 				zephir_switch_1_end: ;
 
 				ZEPHIR_INIT_NVAR(&_82$$45);
@@ -1170,8 +1740,16 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 				zephir_check_call_status();
 				if (zephir_is_true(&_137$$45)) {
 					zephir_array_append(&primaryKeys, &columnName, PH_SEPARATE, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 338);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 				} else {
 					zephir_array_append(&nonPrimaryKeys, &columnName, PH_SEPARATE, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 340);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 				}
 				ZEPHIR_INIT_NVAR(&_82$$45);
 				ZVAL_STRING(&_82$$45, "Identity");
@@ -1194,6 +1772,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 				}
 				if (_140$$45) {
 					zephir_array_update_zval(&skipOnInsert, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 				}
 				ZEPHIR_INIT_NVAR(&_82$$45);
 				ZVAL_STRING(&_82$$45, "skip_on_update");
@@ -1209,6 +1791,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 				}
 				if (_143$$45) {
 					zephir_array_update_zval(&skipOnUpdate, &columnName, &__$true, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 				}
 				ZEPHIR_INIT_NVAR(&_82$$45);
 				ZVAL_STRING(&_82$$45, "allow_empty_string");
@@ -1224,6 +1810,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 				}
 				if (_146$$45) {
 					zephir_array_update_zval(&emptyStringValues, &columnName, &columnName, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 				}
 				ZEPHIR_INIT_NVAR(&_82$$45);
 				ZVAL_STRING(&_82$$45, "nullable");
@@ -1231,6 +1821,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 				zephir_check_call_status();
 				if (!(zephir_is_true(&_148$$45))) {
 					zephir_array_append(&notNull, &columnName, PH_SEPARATE, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 382);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 				}
 				ZEPHIR_INIT_NVAR(&_82$$45);
 				ZVAL_STRING(&_82$$45, "default");
@@ -1252,8 +1846,16 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData)
 				}
 				if (_150$$45) {
 					zephir_array_update_zval(&defaultValues, &columnName, &defaultValue, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 				}
 				zephir_array_append(&attributes, &columnName, PH_SEPARATE, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 403);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 		}
 	}
 	ZEPHIR_INIT_NVAR(&propAnnotations);

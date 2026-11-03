@@ -198,15 +198,16 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, getTag)
  */
 PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, pushOrPlace)
 {
+	zend_bool _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long position, key = 0;
-	zval *entry_param = NULL, *position_param = NULL, _0, _1;
+	zval *entry_param = NULL, *position_param = NULL, _0, _2;
 	zval entry;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&entry);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("store", 5, 1);
@@ -227,19 +228,32 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, pushOrPlace)
 		}
 	if (position < 0) {
 		zephir_update_property_array_append(this_ptr, SL("store"), &entry);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		RETURN_MM_NULL();
 	}
 	key = position;
 	while (1) {
 		zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 86, PH_NOISY_CC | PH_READONLY);
-		if (!(zephir_array_isset_value_long(&_0, key))) {
+		_1 = zephir_array_isset_value_long(&_0, key);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		if (!(_1)) {
 			break;
 		}
 		key += 1;
 	}
-	ZEPHIR_INIT_VAR(&_1);
-	ZVAL_LONG(&_1, key);
-	zephir_update_property_array(this_ptr, SL("store"), &_1, &entry);
+	ZEPHIR_INIT_VAR(&_2);
+	ZVAL_LONG(&_2, key);
+	zephir_update_property_array(this_ptr, SL("store"), &_2, &entry);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

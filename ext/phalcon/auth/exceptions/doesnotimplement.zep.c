@@ -63,6 +63,10 @@ PHP_METHOD(Phalcon_Auth_Exceptions_DoesNotImplement, __construct)
 	ZVAL_STR_COPY(&name_zv, name);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_VSVS(&_0, &type_zv, " does not implement '", &name_zv, "'");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_auth_exceptions_doesnotimplement_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -102,7 +106,7 @@ PHP_METHOD(Phalcon_Auth_Exceptions_DoesNotImplement, assert)
 	ZVAL_STR_COPY(&type_zv, type);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	_0 = !(Z_TYPE_P(value) == IS_OBJECT);
+	_0 = !((Z_TYPE_P(value) == IS_OBJECT));
 	if (!(_0)) {
 		_0 = !((zephir_is_instance_of(value, Z_STRVAL_P(&interfaceName_zv), Z_STRLEN_P(&interfaceName_zv))));
 	}

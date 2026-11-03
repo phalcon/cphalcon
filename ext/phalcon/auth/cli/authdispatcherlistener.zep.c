@@ -65,6 +65,10 @@ PHP_METHOD(Phalcon_Auth_Cli_AuthDispatcherListener, beforeExecuteRoute)
 	ZEPHIR_CALL_METHOD(&_0, dispatcher, "getActionName", NULL, 0);
 	zephir_check_call_status();
 	zephir_cast_to_string(&_1, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_create_array(&_2, 2, 0);
 	ZEPHIR_CALL_METHOD(&_3, dispatcher, "getTaskName", NULL, 0);

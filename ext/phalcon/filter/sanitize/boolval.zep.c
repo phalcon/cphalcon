@@ -46,7 +46,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_BoolVal)
  */
 PHP_METHOD(Phalcon_Filter_Sanitize_BoolVal, __invoke)
 {
-	zend_bool _1, _2, _4, _5;
+	zend_bool _1, _2, _4, _5, _6, _7;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *input = NULL, input_sub, falseArray, trueArray, _0, _3;
@@ -97,9 +97,9 @@ PHP_METHOD(Phalcon_Filter_Sanitize_BoolVal, __invoke)
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "0");
 	zephir_array_fast_append(&falseArray, &_0);
-	_1 = Z_TYPE_P(input) == IS_STRING;
+	_1 = (Z_TYPE_P(input) == IS_STRING);
 	if (!(_1)) {
-		_1 = Z_TYPE_P(input) == IS_LONG;
+		_1 = (Z_TYPE_P(input) == IS_LONG);
 	}
 	_2 = _1;
 	if (!(_2)) {
@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_BoolVal, __invoke)
 		RETURN_MM_BOOL(0);
 	}
 	ZEPHIR_INIT_VAR(&_3);
-	if (Z_TYPE_P(input) == IS_STRING) {
+	if ((Z_TYPE_P(input) == IS_STRING)) {
 		ZEPHIR_INIT_NVAR(&_0);
 		zephir_fast_trim(&_0, input, NULL , ZEPHIR_TRIM_BOTH);
 		ZEPHIR_CALL_FUNCTION(&_3, "mb_strtolower", NULL, 16, &_0);
@@ -120,16 +120,26 @@ PHP_METHOD(Phalcon_Filter_Sanitize_BoolVal, __invoke)
 	ZEPHIR_CPY_WRT(input, &_3);
 	_4 = ZEPHIR_IS_TRUE_IDENTICAL(input);
 	if (!(_4)) {
-		_4 = 1 == zephir_fast_in_array(input, &trueArray);
+		_5 = zephir_fast_in_array(input, &trueArray);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		_4 = 1 == _5;
 	}
 	if (_4) {
 		RETURN_MM_BOOL(1);
 	}
-	_5 = ZEPHIR_IS_FALSE_IDENTICAL(input);
-	if (!(_5)) {
-		_5 = 1 == zephir_fast_in_array(input, &falseArray);
+	_6 = ZEPHIR_IS_FALSE_IDENTICAL(input);
+	if (!(_6)) {
+		_7 = zephir_fast_in_array(input, &falseArray);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		_6 = 1 == _7;
 	}
-	if (_5) {
+	if (_6) {
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(zephir_get_boolval(input));

@@ -57,6 +57,10 @@ PHP_METHOD(Phalcon_Acl_Exceptions_ForbiddenDelimiter, __construct)
 	ZVAL_STR_COPY(&elementType_zv, elementType);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "The ", &elementType_zv, " name cannot contain '!'");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_acl_exceptions_forbiddendelimiter_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

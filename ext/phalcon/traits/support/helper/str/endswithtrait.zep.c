@@ -48,6 +48,7 @@ PHP_METHOD(Phalcon_Traits_Support_Helper_Str_EndsWithTrait, toEndsWith)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zephir_fcall_cache_entry *_1 = NULL;
 	zend_bool ignoreCase;
 	zval haystack_zv, needle_zv, *ignoreCase_param = NULL, child, parent, _0;
 	zend_string *haystack = NULL, *needle = NULL;
@@ -82,9 +83,9 @@ PHP_METHOD(Phalcon_Traits_Support_Helper_Str_EndsWithTrait, toEndsWith)
 		RETURN_MM_BOOL(0);
 	}
 	if (EXPECTED(ignoreCase)) {
-		ZEPHIR_CALL_FUNCTION(&child, "mb_strtolower", NULL, 16, &needle_zv);
+		ZEPHIR_CALL_FUNCTION(&child, "mb_strtolower", &_1, 16, &needle_zv);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&parent, "mb_strtolower", NULL, 16, &haystack_zv);
+		ZEPHIR_CALL_FUNCTION(&parent, "mb_strtolower", &_1, 16, &haystack_zv);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_CPY_WRT(&child, &needle_zv);

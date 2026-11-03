@@ -169,6 +169,10 @@ PHP_METHOD(Phalcon_Forms_Element_Select, addOption)
 					ZEPHIR_INIT_NVAR(&value);
 					ZVAL_COPY(&value, _5$$5);
 					zephir_update_property_array(this_ptr, SL("optionsValues"), &key, &value);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 				} ZEND_HASH_FOREACH_END();
 			} else {
 				ZEPHIR_CALL_METHOD(NULL, _3$$5, "rewind", NULL, 0);
@@ -191,12 +195,20 @@ PHP_METHOD(Phalcon_Forms_Element_Select, addOption)
 					ZEPHIR_CALL_METHOD(&value, _3$$5, "current", NULL, 0);
 					zephir_check_call_status();
 						zephir_update_property_array(this_ptr, SL("optionsValues"), &key, &value);
+						if (UNEXPECTED(EG(exception))) {
+							ZEPHIR_MM_RESTORE();
+							return;
+						}
 				}
 			}
 			ZEPHIR_INIT_NVAR(&value);
 			ZEPHIR_INIT_NVAR(&key);
 		} else {
 			zephir_update_property_array_append(this_ptr, SL("optionsValues"), option);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 		}
 	}
 	RETURN_THIS();
@@ -325,6 +337,10 @@ PHP_METHOD(Phalcon_Forms_Element_Select, prepareAttributes)
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 799, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&name, &_0);
 	zephir_array_update_long(&attributes, 0, &name, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_memory_observe(&defaultAttributes);
 	zephir_read_property_cached(&defaultAttributes, this_ptr, _zephir_prop_1, 800, PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(&mergedAttributes);
@@ -333,6 +349,10 @@ PHP_METHOD(Phalcon_Forms_Element_Select, prepareAttributes)
 	zephir_check_call_status();
 	if (Z_TYPE_P(&value) != IS_NULL) {
 		zephir_array_update_string(&mergedAttributes, SL("value"), &value, PH_COPY | PH_SEPARATE);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	RETURN_CCTOR(&mergedAttributes);
 }

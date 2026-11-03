@@ -52,6 +52,10 @@ PHP_METHOD(Phalcon_Mvc_Micro_Exceptions_LazyHandlerNotFound, __construct)
 	ZVAL_STR_COPY(&definition_zv, definition);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "Handler '", &definition_zv, "' does not exist");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_micro_exceptions_lazyhandlernotfound_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

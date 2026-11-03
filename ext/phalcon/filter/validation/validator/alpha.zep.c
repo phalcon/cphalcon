@@ -151,6 +151,10 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Alpha, validate)
 		RETURN_MM_BOOL(0);
 	}
 	zephir_cast_to_string(&_2, &value);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	_3 = ZEPHIR_IS_STRING_IDENTICAL(&_2, "");
 	if (_3) {
 		ZEPHIR_INIT_VAR(&_5);
@@ -168,6 +172,10 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Alpha, validate)
 	}
 	ZEPHIR_INIT_VAR(&_7);
 	zephir_cast_to_string(&_8, &value);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_NVAR(&_5);
 	ZVAL_STRING(&_5, "/[^[:alpha:]]/imu");
 	ZEPHIR_INIT_VAR(&_9);

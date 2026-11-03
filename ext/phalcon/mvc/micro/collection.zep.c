@@ -645,6 +645,10 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, addMap)
 	zephir_array_fast_append(&_0, handler);
 	zephir_array_fast_append(&_0, &name_zv);
 	zephir_update_property_array_append(this_ptr, SL("handlers"), &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

@@ -56,6 +56,10 @@ PHP_METHOD(Phalcon_Events_Exceptions_InvalidEventSource, __construct)
 	ZVAL_STR_COPY(&sourceType_zv, sourceType);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVSV(&_0, "The source of ", &type_zv, " event must be an object, got ", &sourceType_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_events_exceptions_invalideventsource_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

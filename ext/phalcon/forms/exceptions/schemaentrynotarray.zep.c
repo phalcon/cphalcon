@@ -53,6 +53,10 @@ PHP_METHOD(Phalcon_Forms_Exceptions_SchemaEntryNotArray, __construct)
 	ZVAL_LONG(&_0, index);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_SVS(&_1, "Form schema definition at index ", &_0, " must be an array");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_forms_exceptions_schemaentrynotarray_ce, getThis(), "__construct", NULL, 0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

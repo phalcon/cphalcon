@@ -116,6 +116,9 @@ PHP_METHOD(Phalcon_Support_Helper_Json_Encode, __invoke)
 			zephir_throw_exception_debug(&_3$$4, "phalcon/Support/Helper/Json/Encode.zep", 52);
 			ZEPHIR_MM_RESTORE();
 			return;
+		} else {
+			ZEPHIR_MM_RESTORE();
+			return;
 		}
 	}
 }
@@ -188,6 +191,10 @@ PHP_METHOD(Phalcon_Support_Helper_Json_Encode, toEncode)
 		return;
 	}
 	zephir_cast_to_string(&_4, &encoded);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_CTOR(&_4);
 }
 

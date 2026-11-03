@@ -47,15 +47,16 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_JWT_Signer_Hmac)
  */
 PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_Hmac, __construct)
 {
+	zend_bool _0;
 	zval supported;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval algo_zv, _0$$3;
+	zval algo_zv, _1$$3;
 	zend_string *algo = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&algo_zv);
-	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&supported);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -81,12 +82,17 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_Hmac, __construct)
 	add_assoc_long_ex(&supported, SL("sha512"), 1);
 	add_assoc_long_ex(&supported, SL("sha384"), 1);
 	add_assoc_long_ex(&supported, SL("sha256"), 1);
-	if (!(zephir_array_isset_value(&supported, &algo_zv))) {
-		ZEPHIR_INIT_VAR(&_0$$3);
-		object_init_ex(&_0$$3, phalcon_encryption_security_jwt_exceptions_unsupportedhmacalgorithm_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 0);
+	_0 = zephir_array_isset_value(&supported, &algo_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (!(_0)) {
+		ZEPHIR_INIT_VAR(&_1$$3);
+		object_init_ex(&_1$$3, phalcon_encryption_security_jwt_exceptions_unsupportedhmacalgorithm_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Encryption/Security/JWT/Signer/Hmac.zep", 40);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Encryption/Security/JWT/Signer/Hmac.zep", 40);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -122,6 +128,10 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Signer_Hmac, getAlgHeader)
 	ZVAL_STRING(&_3, "");
 	zephir_fast_str_replace(&_0, &_2, &_3, &_1);
 	ZEPHIR_CONCAT_SV(return_value, "HS", &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_MM();
 }
 

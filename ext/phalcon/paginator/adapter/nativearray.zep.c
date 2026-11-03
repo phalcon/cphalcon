@@ -99,6 +99,10 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate)
 	ZEPHIR_CPY_WRT(&config, &_0);
 	zephir_memory_observe(&items);
 	zephir_array_fetch_string(&items, &config, SL("data"), PH_NOISY, "phalcon/Paginator/Adapter/NativeArray.zep", 49);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (UNEXPECTED(Z_TYPE_P(&items) != IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_paginator_exceptions_paginatordatanotarray_ce);
@@ -123,6 +127,10 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_5);
 	zephir_div_long_zval(&_5, number, &_4);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	roundedTotal = zephir_get_numberval(&_5);
 	totalPages = (int) roundedTotal;
 	if (totalPages != roundedTotal) {

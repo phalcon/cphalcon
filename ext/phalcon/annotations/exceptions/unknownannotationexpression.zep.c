@@ -52,6 +52,10 @@ PHP_METHOD(Phalcon_Annotations_Exceptions_UnknownAnnotationExpression, __constru
 	ZVAL_STR_COPY(&type_zv, type);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "The expression ", &type_zv, " is unknown");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_annotations_exceptions_unknownannotationexpression_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

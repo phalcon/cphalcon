@@ -52,6 +52,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Exceptions_UnsupportedEagerOption, __construct)
 	ZVAL_STR_COPY(&option_zv, option);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVSSS(&_0, "Eager loading does not support the '", &option_zv, "' option: a ", "per-parent limit requires a window function, which PHQL cannot ", "express");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_exceptions_unsupportedeageroption_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

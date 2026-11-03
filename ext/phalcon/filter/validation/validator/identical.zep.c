@@ -115,10 +115,10 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Identical, __construct)
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_Identical, validate)
 {
-	zend_bool valid;
+	zend_bool valid, _7$$6;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validation, validation_sub, *field, field_sub, value, accepted, _0, _1, _2, _3, _4$$4, _5$$5, _6$$7, _7$$8;
+	zval *validation, validation_sub, *field, field_sub, value, accepted, _0, _1, _2, _3, _4$$4, _5$$5, _6$$7, _8$$8;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Identical, validate)
 	ZVAL_UNDEF(&_4$$4);
 	ZVAL_UNDEF(&_5$$5);
 	ZVAL_UNDEF(&_6$$7);
-	ZVAL_UNDEF(&_7$$8);
+	ZVAL_UNDEF(&_8$$8);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
 		Z_PARAM_ZVAL(field)
@@ -175,14 +175,23 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Identical, validate)
 		if (Z_TYPE_P(&accepted) == IS_ARRAY) {
 			zephir_memory_observe(&_6$$7);
 			zephir_array_fetch(&_6$$7, &accepted, field, PH_NOISY, "phalcon/Filter/Validation/Validator/Identical.zep", 97);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 			ZEPHIR_CPY_WRT(&accepted, &_6$$7);
 		}
-		valid = ZEPHIR_IS_EQUAL(&value, &accepted);
+		_7$$6 = ZEPHIR_IS_EQUAL(&value, &accepted);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		valid = _7$$6;
 	}
 	if (!(valid)) {
-		ZEPHIR_CALL_METHOD(&_7$$8, this_ptr, "messageFactory", NULL, 0, validation, field);
+		ZEPHIR_CALL_METHOD(&_8$$8, this_ptr, "messageFactory", NULL, 0, validation, field);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendMessage", NULL, 0, &_7$$8);
+		ZEPHIR_CALL_METHOD(NULL, validation, "appendMessage", NULL, 0, &_8$$8);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}

@@ -148,6 +148,10 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Numericality, validate)
 		RETURN_MM_BOOL(0);
 	}
 	zephir_cast_to_string(&_2, &value);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CPY_WRT(&value, &_2);
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_INIT_VAR(&_4);

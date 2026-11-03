@@ -141,6 +141,10 @@ PHP_METHOD(Phalcon_Db_Geometry_MultiPoint, toWkt)
 			ZEPHIR_CALL_METHOD(&_4$$3, &point, "coordsWkt", NULL, 0);
 			zephir_check_call_status();
 			zephir_array_append(&parts, &_4$$3, PH_SEPARATE, "phalcon/Db/Geometry/MultiPoint.zep", 51);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, _1, "rewind", NULL, 0);
@@ -163,12 +167,20 @@ PHP_METHOD(Phalcon_Db_Geometry_MultiPoint, toWkt)
 				ZEPHIR_CALL_METHOD(&_7$$4, &point, "coordsWkt", NULL, 0);
 				zephir_check_call_status();
 				zephir_array_append(&parts, &_7$$4, PH_SEPARATE, "phalcon/Db/Geometry/MultiPoint.zep", 51);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 		}
 	}
 	ZEPHIR_INIT_NVAR(&point);
 	ZEPHIR_INIT_VAR(&_8);
 	zephir_fast_join_str(&_8, SL(", "), &parts);
 	ZEPHIR_CONCAT_SVS(return_value, "MULTIPOINT(", &_8, ")");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_MM();
 }
 

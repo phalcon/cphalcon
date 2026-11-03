@@ -228,51 +228,81 @@ PHP_METHOD(Phalcon_Html_Helper_Doctype, __toString)
 	zephir_switch_0_clause_0: ;
 		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_1, 850, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CONCAT_SV(return_value, "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">", &_1$$3);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 		return;
 	zephir_switch_0_clause_1: ;
 		zephir_read_property_cached(&_2$$4, this_ptr, _zephir_prop_1, 850, PH_NOISY_CC | PH_READONLY);
 		zephir_read_property_cached(&_3$$4, this_ptr, _zephir_prop_1, 850, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CONCAT_SVSV(return_value, "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\"", &_2$$4, "\t\"http://www.w3.org/TR/html4/strict.dtd\">", &_3$$4);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 		return;
 	zephir_switch_0_clause_2: ;
 		zephir_read_property_cached(&_4$$5, this_ptr, _zephir_prop_1, 850, PH_NOISY_CC | PH_READONLY);
 		zephir_read_property_cached(&_5$$5, this_ptr, _zephir_prop_1, 850, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CONCAT_SVSV(return_value, "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"", &_4$$5, "\t\"http://www.w3.org/TR/html4/loose.dtd\">", &_5$$5);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 		return;
 	zephir_switch_0_clause_3: ;
 		zephir_read_property_cached(&_6$$6, this_ptr, _zephir_prop_1, 850, PH_NOISY_CC | PH_READONLY);
 		zephir_read_property_cached(&_7$$6, this_ptr, _zephir_prop_1, 850, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CONCAT_SVSV(return_value, "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\"", &_6$$6, "\t\"http://www.w3.org/TR/html4/frameset.dtd\">", &_7$$6);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 		return;
 	zephir_switch_0_clause_4: ;
 		zephir_read_property_cached(&_8$$7, this_ptr, _zephir_prop_1, 850, PH_NOISY_CC | PH_READONLY);
 		zephir_read_property_cached(&_9$$7, this_ptr, _zephir_prop_1, 850, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CONCAT_SVSV(return_value, "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"", &_8$$7, "\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">", &_9$$7);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 		return;
 	zephir_switch_0_clause_5: ;
 		zephir_read_property_cached(&_10$$8, this_ptr, _zephir_prop_1, 850, PH_NOISY_CC | PH_READONLY);
 		zephir_read_property_cached(&_11$$8, this_ptr, _zephir_prop_1, 850, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CONCAT_SVSV(return_value, "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"", &_10$$8, "\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">", &_11$$8);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 		return;
 	zephir_switch_0_clause_6: ;
 		zephir_read_property_cached(&_12$$9, this_ptr, _zephir_prop_1, 850, PH_NOISY_CC | PH_READONLY);
 		zephir_read_property_cached(&_13$$9, this_ptr, _zephir_prop_1, 850, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CONCAT_SVSV(return_value, "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Frameset//EN\"", &_12$$9, "\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\">", &_13$$9);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 		return;
 	zephir_switch_0_clause_7: ;
 		zephir_read_property_cached(&_14$$10, this_ptr, _zephir_prop_1, 850, PH_NOISY_CC | PH_READONLY);
 		zephir_read_property_cached(&_15$$10, this_ptr, _zephir_prop_1, 850, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CONCAT_SVSV(return_value, "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\"", &_14$$10, "\t\"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">", &_15$$10);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 		return;
 	zephir_switch_0_clause_8: ;
 		zephir_read_property_cached(&_16$$11, this_ptr, _zephir_prop_1, 850, PH_NOISY_CC | PH_READONLY);
 		zephir_read_property_cached(&_17$$11, this_ptr, _zephir_prop_1, 850, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CONCAT_SVSV(return_value, "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 2.0//EN\"", &_16$$11, "\t\"http://www.w3.org/MarkUp/DTD/xhtml2.dtd\">", &_17$$11);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 		return;
 	zephir_switch_0_end: ;
 
 	zephir_read_property_cached(&_18, this_ptr, _zephir_prop_1, 850, PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CONCAT_SV(return_value, "<!DOCTYPE html>", &_18);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	return;
 }
 

@@ -52,6 +52,10 @@ PHP_METHOD(Phalcon_Acl_Exceptions_RoleNotFoundException, __construct)
 	ZVAL_STR_COPY(&roleName_zv, roleName);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "Role '", &roleName_zv, "' (to inherit) does not exist in the role list");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_acl_exceptions_rolenotfoundexception_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

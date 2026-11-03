@@ -53,6 +53,10 @@ PHP_METHOD(Phalcon_Http_Cookie_Exceptions_CookieKeyTooShort, __construct)
 	ZVAL_LONG(&_0, length);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_SVS(&_1, "The cookie's key should be at least 32 characters long. Current length is ", &_0, ".");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_http_cookie_exceptions_cookiekeytooshort_ce, getThis(), "__construct", NULL, 0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

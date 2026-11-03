@@ -190,6 +190,10 @@ PHP_METHOD(Phalcon_Forms_Element_RadioGroup, render)
 	ZEPHIR_CALL_METHOD(&_3, &helper, "__invoke", NULL, 0, &_4, &_5, &value, &merged);
 	zephir_check_call_status();
 	zephir_cast_to_string(&_6, &_3);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_CTOR(&_6);
 }
 

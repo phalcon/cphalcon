@@ -57,6 +57,10 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Exception_OperationCancelled, __construct)
 	ZVAL_STR_COPY(&eventName_zv, eventName);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "Operation cancelled by a listener of '", &eventName_zv, "'");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_datamapper_pdo_exception_operationcancelled_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

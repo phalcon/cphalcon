@@ -47,7 +47,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Url)
 PHP_METHOD(Phalcon_Filter_Sanitize_Url, __invoke)
 {
 	zval _7;
-	zend_bool _5;
+	zend_bool _5, _9;
 	zval _2, _4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -75,6 +75,10 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Url, __invoke)
 	ZEPHIR_CALL_FUNCTION(&_1, "filter_var", NULL, 0, input, &_0);
 	zephir_check_call_status();
 	zephir_cast_to_string(&_2, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CPY_WRT(&sanitized, &_2);
 	ZVAL_LONG(&_0, (3 | 48));
 	ZEPHIR_CALL_FUNCTION(&_3, "html_entity_decode", NULL, 0, &sanitized, &_0);
@@ -86,6 +90,10 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Url, __invoke)
 		RETURN_MM_STRING("");
 	}
 	zephir_cast_to_string(&_4, &parsed);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CPY_WRT(&scheme, &_4);
 	_5 = !ZEPHIR_IS_STRING_IDENTICAL(&scheme, "");
 	if (_5) {
@@ -111,7 +119,12 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Url, __invoke)
 		ZEPHIR_INIT_NVAR(&_8);
 		ZVAL_STRING(&_8, "tel");
 		zephir_array_fast_append(&_7, &_8);
-		_5 = !(zephir_fast_in_array(&_6, &_7));
+		_9 = zephir_fast_in_array(&_6, &_7);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		_5 = !(_9);
 	}
 	if (_5) {
 		RETURN_MM_STRING("");

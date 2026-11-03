@@ -52,6 +52,10 @@ PHP_METHOD(Phalcon_Assets_Exceptions_InvalidAssetSourcePath, __construct)
 	ZVAL_STR_COPY(&path_zv, path);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "Asset '", &path_zv, "' does not have a valid source path");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_assets_exceptions_invalidassetsourcepath_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

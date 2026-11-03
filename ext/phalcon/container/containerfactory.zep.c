@@ -80,6 +80,9 @@ PHP_METHOD(Phalcon_Container_ContainerFactory, addProvider)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &provider);
 	zephir_update_property_array_append(this_ptr, SL("providers"), provider);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 

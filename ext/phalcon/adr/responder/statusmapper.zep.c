@@ -110,6 +110,10 @@ PHP_METHOD(Phalcon_ADR_Responder_StatusMapper, __construct)
 	add_assoc_long_ex(&_0, SL("VALID"), 200);
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_add_function(&_1, &overrides, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 373, &_1);
 	ZEPHIR_MM_RESTORE();
 }
@@ -121,15 +125,16 @@ PHP_METHOD(Phalcon_ADR_Responder_StatusMapper, __construct)
  */
 PHP_METHOD(Phalcon_ADR_Responder_StatusMapper, toHttpCode)
 {
+	zend_bool _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval status_zv, _0, _1, _2;
+	zval status_zv, _0, _1, _3;
 	zend_string *status = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&status_zv);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("map", 3, 1);
@@ -144,10 +149,19 @@ PHP_METHOD(Phalcon_ADR_Responder_StatusMapper, toHttpCode)
 	ZVAL_STR_COPY(&status_zv, status);
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 373, PH_NOISY_CC | PH_READONLY);
-	if (zephir_array_isset_value(&_1, &status_zv)) {
-		zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 373, PH_NOISY_CC | PH_READONLY);
+	_2 = zephir_array_isset_value(&_1, &status_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_2) {
+		zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 373, PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_NVAR(&_0);
-		zephir_array_fetch(&_0, &_2, &status_zv, PH_NOISY, "phalcon/ADR/Responder/StatusMapper.zep", 72);
+		zephir_array_fetch(&_0, &_3, &status_zv, PH_NOISY, "phalcon/ADR/Responder/StatusMapper.zep", 72);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
 		ZEPHIR_INIT_NVAR(&_0);
 		ZVAL_LONG(&_0, 500);

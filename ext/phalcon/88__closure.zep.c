@@ -43,6 +43,10 @@ PHP_METHOD(phalcon_88__closure, __invoke)
 	zephir_fetch_params(1, 1, 0, &matches);
 	zephir_memory_observe(&_0);
 	zephir_array_fetch_long(&_0, matches, 0, PH_NOISY, "phalcon/Logger/Formatter/Line.zep", 70);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_FUNCTION(&_1, "ord", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);

@@ -57,12 +57,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Debug_ReportBuilder)
 PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, build)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_11 = NULL;
+	zephir_fcall_cache_entry *_11 = NULL, *_21 = NULL, *_22 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_string *uri = NULL;
 	zend_bool showBackTrace, showFiles, showFileFragment, _13;
 	zval blacklist, data;
-	zval *exception, exception_sub, *blacklist_param = NULL, *showBackTrace_param = NULL, *showFiles_param = NULL, *showFileFragment_param = NULL, uri_zv, *data_param = NULL, _REQUEST, _SERVER, __$true, report, items, trace, item, _0, _1, _2, _3, _4, *_5, _6, *_7, _12, _17, _18, _19, _20, _21, _22, _23, _24, _25, _26, _8$$4, _9$$4, _10$$4, _14$$5, _15$$5, _16$$5;
+	zval *exception, exception_sub, *blacklist_param = NULL, *showBackTrace_param = NULL, *showFiles_param = NULL, *showFileFragment_param = NULL, uri_zv, *data_param = NULL, _REQUEST, _SERVER, __$true, report, items, trace, item, _0, _1, _2, _3, _4, *_5, _6, *_7, _12, _17, _18, _19, _20, _23, _24, _25, _26, _27, _28, _8$$4, _9$$4, _10$$4, _14$$5, _15$$5, _16$$5;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&exception_sub);
@@ -85,12 +85,12 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, build)
 	ZVAL_UNDEF(&_18);
 	ZVAL_UNDEF(&_19);
 	ZVAL_UNDEF(&_20);
-	ZVAL_UNDEF(&_21);
-	ZVAL_UNDEF(&_22);
 	ZVAL_UNDEF(&_23);
 	ZVAL_UNDEF(&_24);
 	ZVAL_UNDEF(&_25);
 	ZVAL_UNDEF(&_26);
+	ZVAL_UNDEF(&_27);
+	ZVAL_UNDEF(&_28);
 	ZVAL_UNDEF(&_8$$4);
 	ZVAL_UNDEF(&_9$$4);
 	ZVAL_UNDEF(&_10$$4);
@@ -172,6 +172,10 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, build)
 			ZEPHIR_CALL_METHOD(&_8$$4, this_ptr, "buildItem", &_11, 0, &item, &_9$$4, &_10$$4);
 			zephir_check_call_status();
 			zephir_array_append(&items, &_8$$4, PH_SEPARATE, "phalcon/Support/Debug/ReportBuilder.zep", 74);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, _5, "rewind", NULL, 0);
@@ -204,6 +208,10 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, build)
 				ZEPHIR_CALL_METHOD(&_14$$5, this_ptr, "buildItem", &_11, 0, &item, &_15$$5, &_16$$5);
 				zephir_check_call_status();
 				zephir_array_append(&items, &_14$$5, PH_SEPARATE, "phalcon/Support/Debug/ReportBuilder.zep", 74);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 		}
 	}
 	ZEPHIR_INIT_NVAR(&item);
@@ -213,33 +221,33 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, build)
 	array_init(&_19);
 	ZEPHIR_INIT_VAR(&_20);
 	ZVAL_STRING(&_20, "request");
-	ZEPHIR_CALL_METHOD(&_18, this_ptr, "getArrVal", NULL, 0, &blacklist, &_20, &_19);
+	ZEPHIR_CALL_METHOD(&_18, this_ptr, "getArrVal", &_21, 0, &blacklist, &_20, &_19);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_17, this_ptr, "filter", NULL, 0, &_REQUEST, &_18);
+	ZEPHIR_CALL_METHOD(&_17, this_ptr, "filter", &_22, 0, &_REQUEST, &_18);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &report, "setRequest", NULL, 0, &_17);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_20);
 	array_init(&_20);
-	ZEPHIR_INIT_VAR(&_23);
-	ZVAL_STRING(&_23, "server");
-	ZEPHIR_CALL_METHOD(&_22, this_ptr, "getArrVal", NULL, 0, &blacklist, &_23, &_20);
+	ZEPHIR_INIT_VAR(&_25);
+	ZVAL_STRING(&_25, "server");
+	ZEPHIR_CALL_METHOD(&_24, this_ptr, "getArrVal", &_21, 0, &blacklist, &_25, &_20);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_21, this_ptr, "filter", NULL, 0, &_SERVER, &_22);
+	ZEPHIR_CALL_METHOD(&_23, this_ptr, "filter", &_22, 0, &_SERVER, &_24);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &report, "setServer", NULL, 0, &_21);
+	ZEPHIR_CALL_METHOD(NULL, &report, "setServer", NULL, 0, &_23);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_24, "get_included_files", NULL, 0);
+	ZEPHIR_CALL_FUNCTION(&_26, "get_included_files", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &report, "setIncludedFiles", NULL, 0, &_24);
+	ZEPHIR_CALL_METHOD(NULL, &report, "setIncludedFiles", NULL, 0, &_26);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_25, "memory_get_usage", NULL, 0, &__$true);
+	ZEPHIR_CALL_FUNCTION(&_27, "memory_get_usage", NULL, 0, &__$true);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &report, "setMemoryUsage", NULL, 0, &_25);
+	ZEPHIR_CALL_METHOD(NULL, &report, "setMemoryUsage", NULL, 0, &_27);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_26, "memory_get_peak_usage", NULL, 0, &__$true);
+	ZEPHIR_CALL_FUNCTION(&_28, "memory_get_peak_usage", NULL, 0, &__$true);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &report, "setPeakMemoryUsage", NULL, 0, &_26);
+	ZEPHIR_CALL_METHOD(NULL, &report, "setPeakMemoryUsage", NULL, 0, &_28);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &report, "setVariables", NULL, 0, &data);
 	zephir_check_call_status();
@@ -252,9 +260,9 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, build)
 PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, buildFragment)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_bool showFileFragment;
+	zend_bool showFileFragment, _0$$4;
 	zend_long line, ZEPHIR_LAST_CALL_STATUS;
-	zval file_zv, *line_param = NULL, *showFileFragment_param = NULL, lines, numberLines, firstLine, lastLine, mode, beforeLine, afterLine, _0;
+	zval file_zv, *line_param = NULL, *showFileFragment_param = NULL, lines, numberLines, firstLine, lastLine, mode, beforeLine, afterLine, _1;
 	zend_string *file = NULL;
 
 	ZVAL_UNDEF(&file_zv);
@@ -265,7 +273,7 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, buildFragment)
 	ZVAL_UNDEF(&mode);
 	ZVAL_UNDEF(&beforeLine);
 	ZVAL_UNDEF(&afterLine);
-	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_STR(file)
 		Z_PARAM_LONG(line)
@@ -297,7 +305,12 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, buildFragment)
 		}
 		ZEPHIR_INIT_VAR(&afterLine);
 		ZVAL_LONG(&afterLine, (line + 5));
-		if (ZEPHIR_GT(&afterLine, &numberLines)) {
+		_0$$4 = ZEPHIR_GT(&afterLine, &numberLines);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		if (_0$$4) {
 			ZEPHIR_CPY_WRT(&lastLine, &numberLines);
 		} else {
 			ZEPHIR_CPY_WRT(&lastLine, &afterLine);
@@ -311,9 +324,9 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, buildFragment)
 	zephir_create_array(return_value, 5, 0);
 	zephir_array_update_string(return_value, SL("mode"), &mode, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(return_value, SL("firstLine"), &firstLine, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_VAR(&_0);
-	ZVAL_LONG(&_0, line);
-	zephir_array_update_string(return_value, SL("line"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_LONG(&_1, line);
+	zephir_array_update_string(return_value, SL("line"), &_1, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(return_value, SL("lastLine"), &lastLine, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(return_value, SL("lines"), &lines, PH_COPY | PH_SEPARATE);
 	RETURN_MM();
@@ -333,8 +346,8 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, buildItem)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool showFiles, showFileFragment, hasArgs = 0;
-	zval *trace_param = NULL, *showFiles_param = NULL, *showFileFragment_param = NULL, className, classLink, type, functionLink, functionName, args, file, line, fragment, _1, _0$$8;
+	zend_bool showFiles, showFileFragment, hasArgs = 0, _0, _2, _3, _4, _1$$3;
+	zval *trace_param = NULL, *showFiles_param = NULL, *showFileFragment_param = NULL, className, classLink, type, functionLink, functionName, args, file, line, fragment, _6, _5$$8;
 	zval trace;
 	zval *this_ptr = getThis();
 
@@ -348,8 +361,8 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, buildItem)
 	ZVAL_UNDEF(&file);
 	ZVAL_UNDEF(&line);
 	ZVAL_UNDEF(&fragment);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_0$$8);
+	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_5$$8);
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		ZEPHIR_Z_PARAM_ARRAY(trace, trace_param)
 		Z_PARAM_BOOL(showFiles)
@@ -375,49 +388,98 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, buildItem)
 	ZVAL_NULL(&fragment);
 	ZEPHIR_INIT_VAR(&args);
 	array_init(&args);
-	if (zephir_array_isset_value_string(&trace, SL("class"))) {
+	_0 = zephir_array_isset_value_string(&trace, SL("class"));
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_0) {
 		ZEPHIR_OBS_NVAR(&className);
 		zephir_array_fetch_string(&className, &trace, SL("class"), PH_NOISY, "phalcon/Support/Debug/ReportBuilder.zep", 152);
-		if (zephir_array_isset_value_string(&trace, SL("type"))) {
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		_1$$3 = zephir_array_isset_value_string(&trace, SL("type"));
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		if (_1$$3) {
 			ZEPHIR_OBS_NVAR(&type);
 			zephir_array_fetch_string(&type, &trace, SL("type"), PH_NOISY, "phalcon/Support/Debug/ReportBuilder.zep", 155);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 		}
 		ZEPHIR_CALL_METHOD(&classLink, this_ptr, "resolveClassLink", NULL, 0, &className);
 		zephir_check_call_status();
 	}
 	zephir_memory_observe(&functionName);
 	zephir_array_fetch_string(&functionName, &trace, SL("function"), PH_NOISY, "phalcon/Support/Debug/ReportBuilder.zep", 161);
-	if (!(zephir_array_isset_value_string(&trace, SL("class")))) {
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	_2 = zephir_array_isset_value_string(&trace, SL("class"));
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (!(_2)) {
 		ZEPHIR_CALL_METHOD(&functionLink, this_ptr, "resolveFunctionLink", NULL, 0, &functionName);
 		zephir_check_call_status();
 	}
-	hasArgs = zephir_array_isset_value_string(&trace, SL("args"));
+	_3 = zephir_array_isset_value_string(&trace, SL("args"));
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	hasArgs = _3;
 	if (hasArgs) {
 		ZEPHIR_OBS_NVAR(&args);
 		zephir_array_fetch_string(&args, &trace, SL("args"), PH_NOISY, "phalcon/Support/Debug/ReportBuilder.zep", 169);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
-	if (zephir_array_isset_value_string(&trace, SL("file"))) {
+	_4 = zephir_array_isset_value_string(&trace, SL("file"));
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_4) {
 		ZEPHIR_OBS_NVAR(&file);
 		zephir_array_fetch_string(&file, &trace, SL("file"), PH_NOISY, "phalcon/Support/Debug/ReportBuilder.zep", 173);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_OBS_NVAR(&line);
 		zephir_array_fetch_string(&line, &trace, SL("line"), PH_NOISY, "phalcon/Support/Debug/ReportBuilder.zep", 174);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		if (showFiles == 1) {
 			if (showFileFragment) {
-				ZVAL_BOOL(&_0$$8, 1);
+				ZVAL_BOOL(&_5$$8, 1);
 			} else {
-				ZVAL_BOOL(&_0$$8, 0);
+				ZVAL_BOOL(&_5$$8, 0);
 			}
-			ZEPHIR_CALL_METHOD(&fragment, this_ptr, "buildFragment", NULL, 0, &file, &line, &_0$$8);
+			ZEPHIR_CALL_METHOD(&fragment, this_ptr, "buildFragment", NULL, 0, &file, &line, &_5$$8);
 			zephir_check_call_status();
 		}
 	}
 	object_init_ex(return_value, phalcon_support_debug_report_backtraceitem_ce);
 	if (hasArgs) {
-		ZVAL_BOOL(&_1, 1);
+		ZVAL_BOOL(&_6, 1);
 	} else {
-		ZVAL_BOOL(&_1, 0);
+		ZVAL_BOOL(&_6, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &functionName, &type, &className, &classLink, &functionLink, &_1, &args, &file, &line, &fragment);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &functionName, &type, &className, &classLink, &functionLink, &_6, &args, &file, &line, &fragment);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -429,13 +491,13 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, buildItem)
  */
 PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, filter)
 {
-	zend_bool _6;
+	zend_bool _7, _5$$3, _9$$5;
 	zend_string *_2;
 	zend_ulong _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_4 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *source_param = NULL, *blacklist_param = NULL, result, key, value, *_0, _5, _3$$3, _7$$5;
+	zval *source_param = NULL, *blacklist_param = NULL, result, key, value, *_0, _6, _3$$3, _8$$5;
 	zval source, blacklist;
 
 	ZVAL_UNDEF(&source);
@@ -443,9 +505,9 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, filter)
 	ZVAL_UNDEF(&result);
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&value);
-	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_3$$3);
-	ZVAL_UNDEF(&_7$$5);
+	ZVAL_UNDEF(&_8$$5);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		ZEPHIR_Z_PARAM_ARRAY(source, source_param)
 		ZEPHIR_Z_PARAM_ARRAY(blacklist, blacklist_param)
@@ -471,34 +533,52 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, filter)
 			ZVAL_COPY(&value, _0);
 			ZEPHIR_CALL_FUNCTION(&_3$$3, "mb_strtolower", &_4, 16, &key);
 			zephir_check_call_status();
-			if (!(zephir_array_isset_value(&blacklist, &_3$$3))) {
+			_5$$3 = zephir_array_isset_value(&blacklist, &_3$$3);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			if (!(_5$$3)) {
 				zephir_array_update_zval(&result, &key, &value, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &source, "rewind", NULL, 0);
 		zephir_check_call_status();
-		_6 = 1;
+		_7 = 1;
 		while (1) {
-			if (_6) {
-				_6 = 0;
+			if (_7) {
+				_7 = 0;
 			} else {
 				ZEPHIR_CALL_METHOD(NULL, &source, "next", NULL, 0);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_5, &source, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_6, &source, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_5)) {
+			if (!zend_is_true(&_6)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&key, &source, "key", NULL, 0);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&value, &source, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_FUNCTION(&_7$$5, "mb_strtolower", &_4, 16, &key);
+				ZEPHIR_CALL_FUNCTION(&_8$$5, "mb_strtolower", &_4, 16, &key);
 				zephir_check_call_status();
-				if (!(zephir_array_isset_value(&blacklist, &_7$$5))) {
+				_9$$5 = zephir_array_isset_value(&blacklist, &_8$$5);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				if (!(_9$$5)) {
 					zephir_array_update_zval(&result, &key, &value, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 				}
 		}
 	}
@@ -544,12 +624,28 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, resolveClassLink)
 	zephir_check_call_status();
 	if (zephir_is_true(&_1)) {
 		ZEPHIR_INIT_VAR(&parts);
-		zephir_fast_explode_str(&parts, SL("\\"), &className_zv, ZEND_LONG_MAX);
+		zephir_fast_explode_str(&parts, SL("\\"), &className_zv, NULL);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		zephir_memory_observe(&_2$$3);
 		zephir_array_fetch_long(&_2$$3, &parts, 0, PH_NOISY, "phalcon/Support/Debug/ReportBuilder.zep", 227);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		zephir_memory_observe(&_3$$3);
 		zephir_array_fetch_long(&_3$$3, &parts, 1, PH_NOISY, "phalcon/Support/Debug/ReportBuilder.zep", 227);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_CONCAT_SVSV(return_value, "https://docs.phalcon.io/5.0/en/api/", &_2$$3, "_", &_3$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		RETURN_MM();
 	}
 	ZEPHIR_INIT_VAR(&reflection);
@@ -568,6 +664,10 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, resolveClassLink)
 		ZEPHIR_INIT_VAR(&prepared);
 		zephir_fast_str_replace(&prepared, &_6$$4, &_7$$4, &_5$$4);
 		ZEPHIR_CONCAT_SVS(return_value, "https://secure.php.net/manual/en/class.", &prepared, ".php");
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		RETURN_MM();
 	}
 	RETURN_MM_NULL();
@@ -619,6 +719,10 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, resolveFunctionLink)
 	ZEPHIR_INIT_VAR(&prepared);
 	zephir_fast_str_replace(&prepared, &_2, &_3, &functionName_zv);
 	ZEPHIR_CONCAT_SVS(return_value, "https://secure.php.net/manual/en/function.", &prepared, ".php");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_MM();
 }
 
@@ -632,6 +736,7 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, resolveFunctionLink)
  */
 PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, getArrVal)
 {
+	zend_bool _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_string *cast = NULL;
@@ -671,9 +776,18 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, getArrVal)
 	ZVAL_STR_COPY(&cast_zv, cast);
 	}
 	ZEPHIR_CPY_WRT(&value, defaultValue);
-	if (1 == zephir_array_isset_value(&collection, index)) {
+	_0 = zephir_array_isset_value(&collection, index);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (1 == _0) {
 		ZEPHIR_OBS_NVAR(&value);
 		zephir_array_fetch(&value, &collection, index, PH_NOISY, "phalcon/Traits/Support/Helper/Arr/GetTrait.zep", 38);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	if (!(ZEPHIR_IS_EMPTY(&cast_zv))) {
 		ZEPHIR_MAKE_REF(&value);

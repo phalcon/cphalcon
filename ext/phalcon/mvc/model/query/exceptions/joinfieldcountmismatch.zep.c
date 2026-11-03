@@ -60,6 +60,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Exceptions_JoinFieldCountMismatch, __construc
 	ZVAL_STR_COPY(&phql_zv, phql);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SSVSVSV(&_0, "The number of fields must be equal to the number of ", "referenced fields in join ", &model_zv, "-", &join_zv, ", when preparing: ", &phql_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_query_exceptions_joinfieldcountmismatch_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

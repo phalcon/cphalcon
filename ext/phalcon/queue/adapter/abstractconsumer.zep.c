@@ -132,6 +132,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractConsumer, receive)
 	ZVAL_LONG(&_1, 1000);
 	ZEPHIR_INIT_VAR(&_2);
 	mul_function(&_2, &_0, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	sleep = zephir_get_intval(&_2);
 	ZEPHIR_INIT_VAR(&_3);
 	zephir_microtime(&_3, &__$true);
@@ -139,6 +143,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractConsumer, receive)
 	ZVAL_LONG(&_1, 1000);
 	ZEPHIR_INIT_VAR(&_4);
 	mul_function(&_4, &_3, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	startTime = zephir_get_intval(&_4);
 	while (1) {
 		ZEPHIR_CALL_METHOD(&message, this_ptr, "receiveNoWait", &_5, 0);
@@ -154,7 +162,11 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractConsumer, receive)
 			ZVAL_LONG(&_8$$3, 1000);
 			ZEPHIR_INIT_NVAR(&_9$$3);
 			mul_function(&_9$$3, &_7$$3, &_8$$3);
-			_6$$3 = (zephir_get_intval(&_9$$3) - startTime) >= timeout;
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			_6$$3 = ((zephir_get_intval(&_9$$3) - startTime)) >= timeout;
 		}
 		if (_6$$3) {
 			RETURN_MM_NULL();

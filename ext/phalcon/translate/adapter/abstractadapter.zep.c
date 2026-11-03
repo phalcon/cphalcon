@@ -74,6 +74,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_AbstractAdapter)
  */
 PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, __construct)
 {
+	zend_bool _0, _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval options;
 	zval *interpolatorFactory, interpolatorFactory_sub, *options_param = NULL, __$true, __$false, error, value;
@@ -113,14 +114,24 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, __construct)
 		zephir_get_arrval(&options, options_param);
 	}
 	zephir_memory_observe(&value);
-	if (!(zephir_array_isset_string_fetch(&value, &options, SL("defaultInterpolator"), 0))) {
+	_0 = zephir_array_isset_string_fetch(&value, &options, SL("defaultInterpolator"), 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (!(_0)) {
 		ZEPHIR_INIT_NVAR(&value);
 		ZVAL_STRING(&value, "associativeArray");
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 138, &value);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 139, interpolatorFactory);
 	zephir_memory_observe(&error);
-	if (zephir_array_isset_string_fetch(&error, &options, SL("triggerError"), 0)) {
+	_1 = zephir_array_isset_string_fetch(&error, &options, SL("triggerError"), 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_1) {
 		if (zephir_get_boolval(&error)) {
 			zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 140, &__$true);
 		} else {

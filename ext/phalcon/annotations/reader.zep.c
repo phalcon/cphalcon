@@ -131,6 +131,10 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse)
 		zephir_check_call_status();
 		if (Z_TYPE_P(&classAnnotations) == IS_ARRAY) {
 			zephir_array_update_string(&annotations, SL("class"), &classAnnotations, PH_COPY | PH_SEPARATE);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 		}
 	}
 	ZEPHIR_CALL_METHOD(&constants, &reflection, "getConstants", NULL, 373);
@@ -166,12 +170,20 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse)
 				zephir_check_call_status();
 				if (Z_TYPE_P(&constantAnnotations) == IS_ARRAY) {
 					zephir_array_update_zval(&anotationsConstants, &constant, &constantAnnotations, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 				}
 			}
 		} ZEND_HASH_FOREACH_END();
 		ZEPHIR_INIT_NVAR(&constant);
 		if (!(ZEPHIR_IS_EMPTY(&anotationsConstants))) {
 			zephir_array_update_string(&annotations, SL("constants"), &anotationsConstants, PH_COPY | PH_SEPARATE);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 		}
 	}
 	ZEPHIR_CALL_METHOD(&properties, &reflection, "getProperties", NULL, 369);
@@ -206,6 +218,10 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse)
 						ZEPHIR_OBS_NVAR(&_13$$13);
 						zephir_read_property_cached(&_13$$13, &property, _zephir_prop_0, 0, PH_NOISY_CC);
 						zephir_array_update_zval(&annotationsProperties, &_13$$13, &propertyAnnotations, PH_COPY | PH_SEPARATE);
+						if (UNEXPECTED(EG(exception))) {
+							ZEPHIR_MM_RESTORE();
+							return;
+						}
 					}
 				}
 			} ZEND_HASH_FOREACH_END();
@@ -240,6 +256,10 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse)
 							ZEPHIR_OBS_NVAR(&_18$$16);
 							zephir_read_property_cached(&_18$$16, &property, _zephir_prop_0, 0, PH_NOISY_CC);
 							zephir_array_update_zval(&annotationsProperties, &_18$$16, &propertyAnnotations, PH_COPY | PH_SEPARATE);
+							if (UNEXPECTED(EG(exception))) {
+								ZEPHIR_MM_RESTORE();
+								return;
+							}
 						}
 					}
 			}
@@ -247,6 +267,10 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse)
 		ZEPHIR_INIT_NVAR(&property);
 		if (!(ZEPHIR_IS_EMPTY(&annotationsProperties))) {
 			zephir_array_update_string(&annotations, SL("properties"), &annotationsProperties, PH_COPY | PH_SEPARATE);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 		}
 	}
 	ZEPHIR_CALL_METHOD(&methods, &reflection, "getMethods", NULL, 370);
@@ -281,6 +305,10 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse)
 						ZEPHIR_OBS_NVAR(&_24$$21);
 						zephir_read_property_cached(&_24$$21, &method, _zephir_prop_0, 0, PH_NOISY_CC);
 						zephir_array_update_zval(&annotationsMethods, &_24$$21, &methodAnnotations, PH_COPY | PH_SEPARATE);
+						if (UNEXPECTED(EG(exception))) {
+							ZEPHIR_MM_RESTORE();
+							return;
+						}
 					}
 				}
 			} ZEND_HASH_FOREACH_END();
@@ -316,6 +344,10 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse)
 							ZEPHIR_OBS_NVAR(&_29$$24);
 							zephir_read_property_cached(&_29$$24, &method, _zephir_prop_0, 0, PH_NOISY_CC);
 							zephir_array_update_zval(&annotationsMethods, &_29$$24, &methodAnnotations, PH_COPY | PH_SEPARATE);
+							if (UNEXPECTED(EG(exception))) {
+								ZEPHIR_MM_RESTORE();
+								return;
+							}
 						}
 					}
 			}
@@ -323,6 +355,10 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse)
 		ZEPHIR_INIT_NVAR(&method);
 		if (!(ZEPHIR_IS_EMPTY(&annotationsMethods))) {
 			zephir_array_update_string(&annotations, SL("methods"), &annotationsMethods, PH_COPY | PH_SEPARATE);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 		}
 	}
 	RETURN_CTOR(&annotations);

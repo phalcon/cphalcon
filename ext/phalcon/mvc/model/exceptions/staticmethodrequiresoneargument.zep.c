@@ -56,6 +56,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Exceptions_StaticMethodRequiresOneArgument, __const
 	ZVAL_STR_COPY(&className_zv, className);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVSVS(&_0, "The static method '", &method_zv, "' in '", &className_zv, "' requires one argument");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_exceptions_staticmethodrequiresoneargument_ce, getThis(), "__construct", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
