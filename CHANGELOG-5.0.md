@@ -22,6 +22,8 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 > **Upgrade note:** `Phalcon\Config\Config::path()` no longer calls `has()` for each key of the path. It calls `has()` for the full path and, for the last key, only when `get()` returns `null` and the default value is not `null`. A subclass of `Config` or of its adapters that overrides `has()` no longer controls the key walk. The result of `path()` does not change. A path through a value that is not a collection still throws an `Error`; its message now names `get()` instead of `has()`. [#17714](https://github.com/phalcon/cphalcon/issues/17714)
 
+> **Upgrade note:** `Phalcon\Queue\Consumer\Worker::handleSignal()` now has a second optional parameter. A subclass that overrides this method must declare `handleSignal(int $signal, ?array $info = null): void`, or PHP raises a fatal error when it loads the class. [#17719](https://github.com/phalcon/cphalcon/issues/17719)
+
 ### Tools
 
 - Zephir 1.7.0
@@ -53,6 +55,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - `Phalcon\Mvc\Model::doLowInsert()` not reading back the generated id on MySQL when the identity property is `0`. [#17689](https://github.com/phalcon/cphalcon/issues/17689)
 - `Phalcon\Mvc\View\Engine\Volt\Compiler::compile()` rendering serialized blocks for the second child of a layout when `stat` is `false`. [#17674](https://github.com/phalcon/cphalcon/issues/17674)
 - `Phalcon\Mvc\View\Engine\Volt\Compiler::compileCall()` silently dropping `{% call %}` blocks instead of throwing an exception. [#17676](https://github.com/phalcon/cphalcon/issues/17676)
+- `Phalcon\Queue\Consumer\Worker::handleSignal()` throwing an `ArgumentCountError` when the worker receives a signal. [#17719](https://github.com/phalcon/cphalcon/issues/17719)
 - PHP 8.6 deprecation for session handlers without `create_sid()`: `Phalcon\Session\Adapter\AbstractAdapter` and `Phalcon\Session\Adapter\Noop` now implement `SessionIdInterface` and `create_sid()`. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
 - PHP 8.6 deprecation of `spl_object_hash()`: `Phalcon\Dispatcher\AbstractDispatcher` and `Phalcon\Html\Link\AbstractLinkProvider` now use `spl_object_id()`; the keys returned by `getLinks()` are now integers. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
 - PHP 8.6 deprecation of `doubleval()`: `Phalcon\Encryption\Security\Uuid\Version1`, `Phalcon\Encryption\Security\Uuid\Version6` and `Phalcon\Mvc\Model` now use `floatval()`. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
