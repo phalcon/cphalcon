@@ -142,6 +142,13 @@ class Sqlite extends PdoAdapter
                 let definition["type"] = Column::TYPE_BIGINTEGER,
                     definition["isNumeric"] = true,
                     definition["bindType"] = Column::BIND_PARAM_STR;
+            } elseif memstr(columnType, "tinyint(1)") {
+                /**
+                 * Tinyint(1) is boolean
+                 */
+                let definition["type"] = Column::TYPE_BOOLEAN,
+                    definition["bindType"] = Column::BIND_PARAM_BOOL,
+                    columnType = "boolean"; // Change column type to skip size check
             } elseif memstr(columnType, "int") {
                 /**
                  * Smallint/Integers/Int are int
@@ -153,13 +160,6 @@ class Sqlite extends PdoAdapter
                 if field[5] {
                     let definition["autoIncrement"] = true;
                 }
-            } elseif memstr(columnType, "tinyint(1)") {
-                /**
-                 * Tinyint(1) is boolean
-                 */
-                let definition["type"] = Column::TYPE_BOOLEAN,
-                    definition["bindType"] = Column::BIND_PARAM_BOOL,
-                    columnType = "boolean"; // Change column type to skip size check
 
             /**
              * ENUM
@@ -200,7 +200,7 @@ class Sqlite extends PdoAdapter
                  */
                 let definition["type"] = Column::TYPE_FLOAT,
                     definition["isNumeric"] = true,
-                    definition["bindType"] = Column::TYPE_DECIMAL;
+                    definition["bindType"] = Column::BIND_PARAM_DECIMAL;
             } elseif memstr(columnType, "real") {
                 /**
                  * Real are float
@@ -236,6 +236,20 @@ class Sqlite extends PdoAdapter
                  * Text are varchars
                  */
                 let definition["type"] = Column::TYPE_TEXT;
+
+            /**
+             * TINYBLOB/MEDIUMBLOB/LONGBLOB/BLOB
+             *
+             * The `blob` check must be last because the other names contain it.
+             */
+            } elseif memstr(columnType, "tinyblob") {
+                let definition["type"] = Column::TYPE_TINYBLOB;
+            } elseif memstr(columnType, "mediumblob") {
+                let definition["type"] = Column::TYPE_MEDIUMBLOB;
+            } elseif memstr(columnType, "longblob") {
+                let definition["type"] = Column::TYPE_LONGBLOB;
+            } elseif memstr(columnType, "blob") {
+                let definition["type"] = Column::TYPE_BLOB;
 
             } else {
                 /**

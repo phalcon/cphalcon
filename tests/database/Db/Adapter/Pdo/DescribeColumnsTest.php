@@ -13,8 +13,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 
+use Phalcon\Db\Adapter\Pdo\AbstractPdo;
 use Phalcon\Db\Adapter\Pdo\Mysql;
+use Phalcon\Db\Adapter\Pdo\Postgresql;
+use Phalcon\Db\Adapter\Pdo\Sqlite;
 use Phalcon\Db\Column;
+use Phalcon\Db\ColumnInterface;
+use Phalcon\Db\Enum;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\ComplexDefaultMigration;
 use Phalcon\Tests\Support\Migrations\DefaultEscapesMigration;
@@ -213,6 +218,235 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * Tests Phalcon\Db\Adapter\Pdo :: describeColumns() - PostgreSQL blob types
+     *
+     * PostgreSQL has no blob types and `information_schema` reports a domain by
+     * its base type. A real column cannot get to these branches. Thus, this test
+     * gives the rows to the adapter.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17724
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-03
+     */
+    #[Group('pgsql')]
+    public function testDbAdapterPdoDescribeColumnsPostgresqlBlobTypes(): void
+    {
+        $descriptor = $this->container->get('db')->getDescriptor();
+
+        $db = new class ($descriptor) extends Postgresql {
+            public function fetchAll(
+                string $sqlQuery,
+                int $fetchMode = Enum::FETCH_ASSOC,
+                array $bindParams = [],
+                array $bindTypes = []
+            ): array {
+                $rows = [];
+                foreach (['blob', 'longblob', 'mediumblob', 'tinyblob'] as $type) {
+                    $rows[] = [$type, $type, null, null, null, 'YES', '', '', 1, null, null, 'NEVER', null];
+                }
+
+                return $rows;
+            }
+        };
+
+        $expected = [
+            'blob'       => Column::TYPE_BLOB,
+            'longblob'   => Column::TYPE_LONGBLOB,
+            'mediumblob' => Column::TYPE_MEDIUMBLOB,
+            'tinyblob'   => Column::TYPE_TINYBLOB,
+        ];
+
+        $actual = array_map(
+            static fn (ColumnInterface $column) => $column->getType(),
+            $this->getColumnsByName($db, 'co_blob')
+        );
+
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Db\Adapter\Pdo :: describeColumns() - SQLite blob round trip
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17724
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-03
+     */
+    #[Group('sqlite')]
+    public function testDbAdapterPdoDescribeColumnsSqliteBlobRoundTrip(): void
+    {
+        $db = new Sqlite(['dbname' => ':memory:']);
+
+        $expected = [
+            'field_blob'       => Column::TYPE_BLOB,
+            'field_longblob'   => Column::TYPE_LONGBLOB,
+            'field_mediumblob' => Column::TYPE_MEDIUMBLOB,
+            'field_tinyblob'   => Column::TYPE_TINYBLOB,
+        ];
+
+        $columns = [];
+        foreach ($expected as $name => $type) {
+            $columns[] = new Column($name, ['type' => $type]);
+        }
+
+        $db->createTable('co_blob', '', ['columns' => $columns]);
+
+        $actual = array_map(
+            static fn (ColumnInterface $column) => $column->getType(),
+            $this->getColumnsByName($db, 'co_blob')
+        );
+
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Db\Adapter\Pdo :: describeColumns() - SQLite blob types
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17724
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-03
+     */
+    #[Group('sqlite')]
+    public function testDbAdapterPdoDescribeColumnsSqliteBlobTypes(): void
+    {
+        $db = new Sqlite(['dbname' => ':memory:']);
+        $db->execute(
+            'CREATE TABLE co_blob (
+                field_id         INTEGER PRIMARY KEY,
+                field_blob       BLOB,
+                field_tinyblob   TINYBLOB,
+                field_mediumblob MEDIUMBLOB,
+                field_longblob   LONGBLOB,
+                field_lower      blob,
+                field_sized      BLOB(100),
+                field_text       TEXT,
+                field_other      OTHER
+            )'
+        );
+
+        $columns = $this->getColumnsByName($db, 'co_blob');
+
+        $expected = [
+            'field_blob'       => Column::TYPE_BLOB,
+            'field_tinyblob'   => Column::TYPE_TINYBLOB,
+            'field_mediumblob' => Column::TYPE_MEDIUMBLOB,
+            'field_longblob'   => Column::TYPE_LONGBLOB,
+            'field_lower'      => Column::TYPE_BLOB,
+            'field_sized'      => Column::TYPE_BLOB,
+        ];
+
+        foreach ($expected as $name => $type) {
+            $this->assertSame($type, $columns[$name]->getType(), $name);
+            $this->assertSame(Column::BIND_PARAM_STR, $columns[$name]->getBindType(), $name);
+            $this->assertFalse($columns[$name]->isNumeric(), $name);
+        }
+
+        $this->assertSame(100, $columns['field_sized']->getSize());
+
+        /**
+         * The types that are not blob types do not change.
+         */
+        $this->assertSame(Column::TYPE_INTEGER, $columns['field_id']->getType());
+        $this->assertSame(Column::TYPE_TEXT, $columns['field_text']->getType());
+        $this->assertSame(Column::TYPE_VARCHAR, $columns['field_other']->getType());
+    }
+
+    /**
+     * Tests Phalcon\Db\Adapter\Pdo :: describeColumns() - SQLite float bind type
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17724
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-03
+     */
+    #[Group('sqlite')]
+    public function testDbAdapterPdoDescribeColumnsSqliteFloatBindType(): void
+    {
+        $db = new Sqlite(['dbname' => ':memory:']);
+        $db->execute(
+            'CREATE TABLE co_float (
+                field_id    INTEGER PRIMARY KEY,
+                field_float FLOAT,
+                field_lower float,
+                field_sized FLOAT(10, 2),
+                field_real  REAL
+            )'
+        );
+
+        $columns = $this->getColumnsByName($db, 'co_float');
+
+        foreach (['field_float', 'field_lower', 'field_sized', 'field_real'] as $name) {
+            $this->assertSame(Column::TYPE_FLOAT, $columns[$name]->getType(), $name);
+            $this->assertSame(Column::BIND_PARAM_DECIMAL, $columns[$name]->getBindType(), $name);
+            $this->assertTrue($columns[$name]->isNumeric(), $name);
+        }
+
+        $this->assertSame(10, $columns['field_sized']->getSize());
+        $this->assertSame(2, $columns['field_sized']->getScale());
+
+        /**
+         * With the bind type from the column, SQLite must keep the value as a
+         * number and not as a blob.
+         */
+        $db->execute(
+            'INSERT INTO co_float (field_float) VALUES (?)',
+            [1.5],
+            [$columns['field_float']->getBindType()]
+        );
+
+        $row = $db->fetchOne(
+            'SELECT field_float, typeof(field_float) AS field_storage FROM co_float',
+            Enum::FETCH_ASSOC
+        );
+
+        $this->assertSame('real', $row['field_storage']);
+        $this->assertSame(1.5, (float) $row['field_float']);
+    }
+
+    /**
+     * Tests Phalcon\Db\Adapter\Pdo :: describeColumns() - SQLite tinyint(1)
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17724
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-03
+     */
+    #[Group('sqlite')]
+    public function testDbAdapterPdoDescribeColumnsSqliteTinyintOne(): void
+    {
+        $db = new Sqlite(['dbname' => ':memory:']);
+        $db->execute(
+            'CREATE TABLE co_tinyint (
+                field_id      INTEGER PRIMARY KEY,
+                field_upper   TINYINT(1),
+                field_lower   tinyint(1),
+                field_tinyint TINYINT,
+                field_sized   TINYINT(10),
+                field_bigint  BIGINT
+            )'
+        );
+
+        $columns = $this->getColumnsByName($db, 'co_tinyint');
+
+        foreach (['field_upper', 'field_lower'] as $name) {
+            $this->assertSame(Column::TYPE_BOOLEAN, $columns[$name]->getType(), $name);
+            $this->assertSame(Column::BIND_PARAM_BOOL, $columns[$name]->getBindType(), $name);
+            $this->assertFalse($columns[$name]->isNumeric(), $name);
+            $this->assertSame(0, $columns[$name]->getSize(), $name);
+        }
+
+        /**
+         * The other integer types do not change.
+         */
+        foreach (['field_id' => 0, 'field_tinyint' => 0, 'field_sized' => 10] as $name => $size) {
+            $this->assertSame(Column::TYPE_INTEGER, $columns[$name]->getType(), $name);
+            $this->assertSame(Column::BIND_PARAM_INT, $columns[$name]->getBindType(), $name);
+            $this->assertTrue($columns[$name]->isNumeric(), $name);
+            $this->assertSame($size, $columns[$name]->getSize(), $name);
+        }
+
+        $this->assertTrue($columns['field_id']->isAutoIncrement());
+        $this->assertSame(Column::TYPE_BIGINTEGER, $columns['field_bigint']->getType());
+    }
+
+    /**
      * Tests Phalcon\Db\Adapter\Pdo :: describeColumns() - supported
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -267,6 +501,19 @@ final class DescribeColumnsTest extends AbstractDatabaseTestCase
             'isPrimary'        => $column->isPrimary(),
             'isUnsigned'       => $column->isUnsigned(),
         ];
+    }
+
+    /**
+     * @return array<string, ColumnInterface>
+     */
+    private function getColumnsByName(AbstractPdo $db, string $table): array
+    {
+        $columns = [];
+        foreach ($db->describeColumns($table) as $column) {
+            $columns[$column->getName()] = $column;
+        }
+
+        return $columns;
     }
 
     private function getExpected(int $index): array
