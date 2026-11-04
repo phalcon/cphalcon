@@ -920,7 +920,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 				goto zephir_switch_0_end;
 			zephir_switch_0_clause_15: ;
 				ZEPHIR_INIT_NVAR(&_31$$17);
-				ZVAL_LONG(&_31$$17, 6);
+				ZVAL_LONG(&_31$$17, 12);
 				zephir_array_update_string(&definition, SL("type"), &_31$$17, PH_COPY | PH_SEPARATE);
 				if (UNEXPECTED(EG(exception))) {
 					ZEPHIR_MM_RESTORE();
@@ -1706,7 +1706,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 					goto zephir_switch_1_end;
 				zephir_switch_1_clause_15: ;
 					ZEPHIR_INIT_NVAR(&_107$$71);
-					ZVAL_LONG(&_107$$71, 6);
+					ZVAL_LONG(&_107$$71, 12);
 					zephir_array_update_string(&definition, SL("type"), &_107$$71, PH_COPY | PH_SEPARATE);
 					if (UNEXPECTED(EG(exception))) {
 						ZEPHIR_MM_RESTORE();

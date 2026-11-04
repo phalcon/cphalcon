@@ -344,7 +344,7 @@ class Postgresql extends PdoAdapter
                  * MEDIUMBLOB
                  */
                 case memstr(columnType, "mediumblob"):
-                    let definition["type"] = Column::TYPE_TEXT;
+                    let definition["type"] = Column::TYPE_MEDIUMBLOB;
 
                     break;
 
