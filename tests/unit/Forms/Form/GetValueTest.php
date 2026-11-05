@@ -15,14 +15,29 @@ namespace Phalcon\Tests\Unit\Forms\Form;
 
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Form;
+use Phalcon\Html\Escaper;
+use Phalcon\Html\TagFactory;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Forms\Fake\FakeFormCustomValue;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Class GetValueTest extends AbstractUnitTestCase
  */
 final class GetValueTest extends AbstractUnitTestCase
 {
+    /**
+     * @return array<int, array<int, string>>
+     */
+    public static function getTagFactoryNames(): array
+    {
+        return [
+            ['tagFactory'],
+            ['tagfactory'],
+            ['TAGFACTORY'],
+        ];
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2024-01-01
@@ -46,6 +61,21 @@ final class GetValueTest extends AbstractUnitTestCase
         $form->add(new Text('action'));
 
         $actual = $form->getValue('action');
+        $this->assertNull($actual);
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/17727
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-04
+     */
+    #[DataProvider('getTagFactoryNames')]
+    public function testFormsFormGetValueForbiddenTagFactoryReturnsNull(string $name): void
+    {
+        $form = new Form();
+        $form->setTagFactory(new TagFactory(new Escaper()));
+
+        $actual = $form->getValue($name);
         $this->assertNull($actual);
     }
 }

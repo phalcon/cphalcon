@@ -624,7 +624,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             "label":         true,
             "messages":      true,
             "messagesfor":   true,
-            "tagFactory":    true,
+            "tagfactory":    true,
             "useroption":    true,
             "useroptions":   true,
             "validation":    true,
