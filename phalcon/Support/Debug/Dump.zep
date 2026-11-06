@@ -352,7 +352,7 @@ class Dump implements TemplateAware
                     let message = this->getTemplate("objectProperty");
                     let context = [
                         "style" : this->getStyle("obj"),
-                        "key"   : key,
+                        "key"   : htmlspecialchars((string) key, ENT_QUOTES, "utf-8"),
                         "type"  : "public"
                     ];
 

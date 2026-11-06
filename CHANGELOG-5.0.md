@@ -61,6 +61,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - `Phalcon\Mvc\View\Engine\Volt\Compiler::compile()` rendering serialized blocks for the second child of a layout when `stat` is `false`. [#17674](https://github.com/phalcon/cphalcon/issues/17674)
 - `Phalcon\Mvc\View\Engine\Volt\Compiler::compileCall()` silently dropping `{% call %}` blocks instead of throwing an exception. [#17676](https://github.com/phalcon/cphalcon/issues/17676)
 - `Phalcon\Queue\Consumer\Worker::handleSignal()` throwing an `ArgumentCountError` when the worker receives a signal. [#17719](https://github.com/phalcon/cphalcon/issues/17719)
+- `Phalcon\Support\Debug\Dump::variable()` not escaping public property names in the HTML output. [#17729](https://github.com/phalcon/cphalcon/issues/17729)
 - PHP 8.6 deprecation for session handlers without `create_sid()`: `Phalcon\Session\Adapter\AbstractAdapter` and `Phalcon\Session\Adapter\Noop` now implement `SessionIdInterface` and `create_sid()`. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
 - PHP 8.6 deprecation of `spl_object_hash()`: `Phalcon\Dispatcher\AbstractDispatcher` and `Phalcon\Html\Link\AbstractLinkProvider` now use `spl_object_id()`; the keys returned by `getLinks()` are now integers. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
 - PHP 8.6 deprecation of `doubleval()`: `Phalcon\Encryption\Security\Uuid\Version1`, `Phalcon\Encryption\Security\Uuid\Version6` and `Phalcon\Mvc\Model` now use `floatval()`. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
