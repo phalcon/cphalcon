@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Annotations\Adapter\AdapterInterface as AnnotationsAdapterInterface;
 use Phalcon\Contracts\Mvc\Model\Relation\CacheKeyProvider;
 use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Db\Adapter\AdapterInterface;
@@ -1346,21 +1347,40 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     }
 
     /**
-     * Returns the mapped source for a model
+     * Returns the mapped source for a model. An explicit source takes
+     * precedence over a class-level Source annotation from the configured
+     * annotations service, followed by the uncamelized class name.
      */
     public function getModelSource(<ModelInterface> model) -> string
     {
-        var entityName;
+        var entityName, source, container, annotations, classAnnotations,
+            sourceAnnotation;
 
         let entityName = get_class_lower(model);
 
         if !isset this->sources[entityName] {
-            this->setModelSource(
-                model,
-                uncamelize(
-                    get_class_ns(model)
-                )
-            );
+            let source = null,
+                container = this->container;
+
+            if typeof container === "object" && container->has("annotations") {
+                let annotations = <AnnotationsAdapterInterface> container->getShared("annotations"),
+                    classAnnotations = annotations->get(get_class(model))->getClassAnnotations();
+
+                if typeof classAnnotations === "object" && classAnnotations->has("Source") {
+                    let sourceAnnotation = classAnnotations->get("Source"),
+                        source = sourceAnnotation->getNamedArgument("table");
+
+                    if source === null {
+                        let source = sourceAnnotation->getArgument(0);
+                    }
+                }
+            }
+
+            if typeof source !== "string" {
+                let source = uncamelize(get_class_ns(model));
+            }
+
+            this->setModelSource(model, source);
         }
 
         return this->prefix . this->sources[entityName];

@@ -11,7 +11,19 @@
 namespace Phalcon\Annotations\Models\MetaData;
 
 /**
- * Names the table of a model. No framework code reads it today.
+ * Names the table of a model when the annotations service uses AttributesReader.
+ * An explicit setSource() takes precedence. The model manager applies its
+ * table prefix to the source.
+ *
+ * ```php
+ * use Phalcon\Annotations\Models\MetaData\Source;
+ * use Phalcon\Mvc\Model;
+ *
+ * #[Source(table: "customers")]
+ * class Customers extends Model
+ * {
+ * }
+ * ```
  */
 #[\Attribute(\Attribute::TARGET_CLASS)]
 class Source
