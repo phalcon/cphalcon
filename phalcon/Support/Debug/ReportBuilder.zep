@@ -213,6 +213,10 @@ class ReportBuilder
 
         for key, value in source {
             if !isset blacklist[mb_strtolower(key)] {
+                if typeof value == "array" {
+                    let value = this->filter(value, blacklist);
+                }
+
                 let result[key] = value;
             }
         }

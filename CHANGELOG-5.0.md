@@ -62,6 +62,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - `Phalcon\Mvc\View\Engine\Volt\Compiler::compileCall()` silently dropping `{% call %}` blocks instead of throwing an exception. [#17676](https://github.com/phalcon/cphalcon/issues/17676)
 - `Phalcon\Queue\Consumer\Worker::handleSignal()` throwing an `ArgumentCountError` when the worker receives a signal. [#17719](https://github.com/phalcon/cphalcon/issues/17719)
 - `Phalcon\Support\Debug::onUncaughtException()` turning a warning raised while rendering into a fatal error and echoing later exception messages without escaping. [#17733](https://github.com/phalcon/cphalcon/issues/17733)
+- `Phalcon\Support\Debug::setBlacklist()` filtering only the top-level keys of the request and server data. [#17736](https://github.com/phalcon/cphalcon/issues/17736)
 - `Phalcon\Support\Debug\Dump::variable()` not escaping public property names in the HTML output. [#17729](https://github.com/phalcon/cphalcon/issues/17729)
 - `Phalcon\Support\Debug\Dump::variable()` throwing an `Error` in detailed mode for typed properties that have no value. [#17735](https://github.com/phalcon/cphalcon/issues/17735)
 - `Phalcon\Support\Debug\Renderer\HtmlRenderer::render()` dropping invalid UTF-8 text and not escaping quotes, class names and file paths. [#17731](https://github.com/phalcon/cphalcon/issues/17731)
