@@ -207,7 +207,7 @@ PHP_METHOD(Phalcon_Support_HelperFactory, newInstance)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1402, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1403, PH_NOISY_CC | PH_READONLY);
 	_1 = zephir_array_isset_value(&_0, &name_zv);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
@@ -225,7 +225,7 @@ PHP_METHOD(Phalcon_Support_HelperFactory, newInstance)
 			return;
 		}
 	}
-	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 1402, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 1403, PH_NOISY_CC | PH_READONLY);
 	zephir_memory_observe(&_5);
 	zephir_array_fetch(&_5, &_4, &name_zv, PH_NOISY, "phalcon/Support/HelperFactory.zep", 179);
 	if (UNEXPECTED(EG(exception))) {
