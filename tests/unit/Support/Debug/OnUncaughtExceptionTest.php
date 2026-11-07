@@ -29,23 +29,72 @@ final class OnUncaughtExceptionTest extends AbstractUnitTestCase
      */
     public function testSupportDebugOnUncaughtException(): void
     {
-        $message = uniqid('var-');
-        $debug   = new Debug();
-        $debug->setShowBackTrace(false);
+        $message   = uniqid('var-');
         $exception = new Exception($message, 1234);
 
         /**
-         * The handler clears one active output-buffer level and echoes the
-         * rendered HTML, so wrap the call in two levels and read the outer one.
+         * The handler discards only the buffers that start after the object
+         * is created. Create the object inside the buffer that the test reads.
          */
         ob_start();
-        ob_start();
+        $debug = new Debug();
+        $debug->setShowBackTrace(false);
         $result = $debug->onUncaughtException($exception);
         $actual = ob_get_clean();
 
         $this->assertTrue($result);
         $this->assertStringContainsString('<!DOCTYPE html>', $actual);
         $this->assertStringContainsString($message, $actual);
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/17739
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-06
+     */
+    public function testSupportDebugOnUncaughtExceptionDiscardsNestedBuffers(): void
+    {
+        $exception = new Exception('boom', 1234);
+
+        ob_start();
+        $debug = new Debug();
+        $debug->setShowBackTrace(false);
+
+        ob_start();
+        echo 'layout-content';
+        ob_start();
+        echo 'partial-content';
+        $result = $debug->onUncaughtException($exception);
+        $actual = ob_get_clean();
+
+        $this->assertTrue($result);
+        $this->assertStringStartsWith('<!DOCTYPE html>', $actual);
+        $this->assertStringNotContainsString('layout-content', $actual);
+        $this->assertStringNotContainsString('partial-content', $actual);
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/17739
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-06
+     */
+    public function testSupportDebugOnUncaughtExceptionKeepsBufferStartedBeforeDebug(): void
+    {
+        $exception = new Exception('boom', 1234);
+
+        ob_start();
+        echo 'before-debug';
+        $debug = new Debug();
+        $debug->setShowBackTrace(false);
+
+        ob_start();
+        echo 'after-debug';
+        $result = $debug->onUncaughtException($exception);
+        $actual = ob_get_clean();
+
+        $this->assertTrue($result);
+        $this->assertStringStartsWith('before-debug<!DOCTYPE html>', $actual);
+        $this->assertStringNotContainsString('after-debug', $actual);
     }
 
     /**
@@ -62,17 +111,13 @@ final class OnUncaughtExceptionTest extends AbstractUnitTestCase
             }
         };
 
+        $thrown = null;
+
+        ob_start();
         $debug = new Debug();
         $debug->setRenderer($renderer);
         $debug->setShowBackTrace(false);
 
-        $thrown = null;
-
-        /**
-         * The handler clears one output-buffer level. Clear the other one here.
-         */
-        ob_start();
-        ob_start();
         try {
             $debug->onUncaughtException(new Exception('boom', 1234));
         } catch (RuntimeException $ex) {
@@ -96,14 +141,13 @@ final class OnUncaughtExceptionTest extends AbstractUnitTestCase
     public function testSupportDebugOnUncaughtExceptionWhenAlreadyActive(): void
     {
         $message   = uniqid('var-');
-        $debug     = new Debug();
         $exception = new Exception($message, 1234);
 
         $isActive = new ReflectionProperty(Debug::class, 'isActive');
         $isActive->setValue(null, true);
 
         ob_start();
-        ob_start();
+        $debug  = new Debug();
         $result = $debug->onUncaughtException($exception);
         $actual = ob_get_clean();
 
@@ -120,14 +164,13 @@ final class OnUncaughtExceptionTest extends AbstractUnitTestCase
      */
     public function testSupportDebugOnUncaughtExceptionWhenAlreadyActiveEscapesMessage(): void
     {
-        $debug     = new Debug();
         $exception = new Exception('<script>alert("x")</script>', 1234);
 
         $isActive = new ReflectionProperty(Debug::class, 'isActive');
         $isActive->setValue(null, true);
 
         ob_start();
-        ob_start();
+        $debug  = new Debug();
         $result = $debug->onUncaughtException($exception);
         $actual = ob_get_clean();
 
