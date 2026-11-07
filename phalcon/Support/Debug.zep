@@ -42,6 +42,7 @@ class Debug
      */
     protected array data = [];
     protected bool hideDocumentRoot = false;
+    protected int outputLevel = 0;
     protected <Renderer> renderer;
     protected <ReportBuilder> reportBuilder;
     protected bool showBackTrace = true;
@@ -51,6 +52,7 @@ class Debug
 
     public function __construct()
     {
+        let this->outputLevel   = ob_get_level();
         let this->renderer      = new HtmlRenderer();
         let this->reportBuilder = new ReportBuilder();
     }
@@ -174,15 +176,16 @@ class Debug
      */
     public function onUncaughtException(<\Throwable> exception) -> bool
     {
-        var ex, obLevel;
-
-        let obLevel = ob_get_level();
+        var discarded, ex;
 
         /**
-         * Cancel the output buffer if active
+         * Discard the output buffers that started after this object was
+         * created. Stop if a buffer cannot be discarded.
          */
-        if obLevel > 0 {
-            ob_end_clean();
+        let discarded = true;
+
+        while discarded && ob_get_level() > this->outputLevel {
+            let discarded = ob_end_clean();
         }
 
         /**
