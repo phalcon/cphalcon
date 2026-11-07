@@ -24,6 +24,8 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 > **Upgrade note:** `Phalcon\Queue\Consumer\Worker::handleSignal()` now has a second optional parameter. A subclass that overrides this method must declare `handleSignal(int $signal, ?array $info = null): void`, or PHP raises a fatal error when it loads the class. [#17719](https://github.com/phalcon/cphalcon/issues/17719)
 
+> **Upgrade note:** `Phalcon\Support\Debug` now records the output buffer level when it is created. `onUncaughtException()` discards all the output buffers that start after that point and keeps the buffers that started before it, for example from `output_buffering` or `zlib.output_compression` in php.ini. Before, it discarded only the top buffer, also when that buffer started before `Debug` was created. To discard the output of your own buffers, create `Debug` before you start them. [#17739](https://github.com/phalcon/cphalcon/issues/17739)
+
 ### Tools
 
 - Zephir 1.7.0
@@ -61,10 +63,12 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - `Phalcon\Mvc\View\Engine\Volt\Compiler::compile()` rendering serialized blocks for the second child of a layout when `stat` is `false`. [#17674](https://github.com/phalcon/cphalcon/issues/17674)
 - `Phalcon\Mvc\View\Engine\Volt\Compiler::compileCall()` silently dropping `{% call %}` blocks instead of throwing an exception. [#17676](https://github.com/phalcon/cphalcon/issues/17676)
 - `Phalcon\Queue\Consumer\Worker::handleSignal()` throwing an `ArgumentCountError` when the worker receives a signal. [#17719](https://github.com/phalcon/cphalcon/issues/17719)
+- `Phalcon\Support\Debug::onUncaughtException()` discarding only one output buffer level. [#17739](https://github.com/phalcon/cphalcon/issues/17739)
 - `Phalcon\Support\Debug::onUncaughtException()` turning a warning raised while rendering into a fatal error and echoing later exception messages without escaping. [#17733](https://github.com/phalcon/cphalcon/issues/17733)
 - `Phalcon\Support\Debug::setBlacklist()` filtering only the top-level keys of the request and server data. [#17736](https://github.com/phalcon/cphalcon/issues/17736)
 - `Phalcon\Support\Debug\Dump::variable()` not escaping public property names in the HTML output. [#17729](https://github.com/phalcon/cphalcon/issues/17729)
 - `Phalcon\Support\Debug\Dump::variable()` throwing an `Error` in detailed mode for typed properties that have no value. [#17735](https://github.com/phalcon/cphalcon/issues/17735)
+- `Phalcon\Support\Debug\Renderer\HtmlRenderer::getVarDump()` to call reflection on private methods and only on objects. [#17743](https://github.com/phalcon/cphalcon/issues/17743)
 - `Phalcon\Support\Debug\Renderer\HtmlRenderer::render()` dropping invalid UTF-8 text and not escaping quotes, class names and file paths. [#17731](https://github.com/phalcon/cphalcon/issues/17731)
 - `Phalcon\Support\Debug\Renderer\HtmlRenderer::render()` stopping the debug page for objects with a `dump()` method that is not public, is static, has required parameters or does not return an array. [#17735](https://github.com/phalcon/cphalcon/issues/17735)
 - PHP 8.6 deprecation for session handlers without `create_sid()`: `Phalcon\Session\Adapter\AbstractAdapter` and `Phalcon\Session\Adapter\Noop` now implement `SessionIdInterface` and `create_sid()`. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
