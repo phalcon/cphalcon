@@ -51,7 +51,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 ### Fixed
 
-- `Phalcon\Mvc\Model\Manager::getModelSource()` ignoring class-level `Source` attributes and annotations. Explicit sources take precedence, and both positional and named `table` arguments are supported.
+- `Phalcon\Mvc\Model\Manager::getModelSource()` ignoring class-level `Source` attributes and annotations. Explicit sources take precedence, and both positional and named `table` arguments are supported. [#17741](https://github.com/phalcon/cphalcon/issues/17741)
 - `Phalcon\Db\Adapter\Pdo\Postgresql::describeColumns()` reporting `mediumblob` columns as `Column::TYPE_TEXT`. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
 - `Phalcon\Db\Adapter\Pdo\Postgresql::describeReferences()` returning wrong column pairs for composite foreign keys. [#17680](https://github.com/phalcon/cphalcon/issues/17680)
 - `Phalcon\Db\Adapter\Pdo\Sqlite::describeColumns()` reporting blob columns as `Column::TYPE_VARCHAR`. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
