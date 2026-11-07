@@ -72,7 +72,7 @@ class HtmlRenderer implements Renderer
     {
         var className, escapedMessage, html;
 
-        let className      = report->getClassName();
+        let className      = this->escapeString(report->getClassName());
         let escapedMessage = this->escapeString(report->getMessage());
 
         let html = this->toInterpolate(
@@ -94,7 +94,7 @@ class HtmlRenderer implements Renderer
             [
                 "className":      className,
                 "escapedMessage": escapedMessage,
-                "file":           report->getFile(),
+                "file":           this->escapeString(report->getFile()),
                 "line":           (string) report->getLine(),
                 "phpVersion":     PHP_VERSION
             ]
@@ -232,7 +232,7 @@ class HtmlRenderer implements Renderer
     {
         return htmlentities(
             str_replace("\n", "\\n", value),
-            ENT_COMPAT,
+            ENT_QUOTES | ENT_SUBSTITUTE,
             "utf-8"
         );
     }
@@ -266,7 +266,7 @@ class HtmlRenderer implements Renderer
             } elseif typeof value == "array" {
                 let varDump = "Array(" . this->getArrayDump(value, number + 1) . ")";
             } elseif typeof value == "object" {
-                let varDump = "Object(" . get_class(value) . ")";
+                let varDump = "Object(" . this->escapeString(get_class(value)) . ")";
             } elseif value === null {
                 let varDump = "null";
             } else {
@@ -303,7 +303,7 @@ class HtmlRenderer implements Renderer
         }
 
         if typeof variable == "object" {
-            let className = get_class(variable);
+            let className = this->escapeString(get_class(variable));
 
             if method_exists(variable, "dump") {
                 let dumpedObject = variable->dump();
@@ -387,7 +387,7 @@ class HtmlRenderer implements Renderer
                     "num"     : (string)counter,
                     "src"     : htmlentities(
                         str_replace("\t", "  ", currentLine),
-                        ENT_COMPAT,
+                        ENT_QUOTES | ENT_SUBSTITUTE,
                         "UTF-8"
                     )
                 ]
@@ -570,7 +570,7 @@ class HtmlRenderer implements Renderer
             let html .= this->toInterpolate(
                 this->getTemplate("frameFile"),
                 [
-                    "file": item->getFile(),
+                    "file": this->escapeString(item->getFile()),
                     "line": (string) item->getLine()
                 ]
             );
