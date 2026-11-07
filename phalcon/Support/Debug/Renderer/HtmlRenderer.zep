@@ -285,8 +285,6 @@ class HtmlRenderer implements Renderer
      */
     protected function getVarDump(var variable) -> string
     {
-        var className, dumpedObject, method;
-
         if variable === true {
             return "true";
         }
@@ -304,29 +302,7 @@ class HtmlRenderer implements Renderer
         }
 
         if typeof variable == "object" {
-            let className = this->escapeString(get_class(variable));
-
-            /**
-             * Call dump() only if it is public, not static and has no
-             * required parameters. Use its result only if it is an array.
-             */
-            if method_exists(variable, "dump") {
-                let method = new ReflectionMethod(variable, "dump");
-
-                if (
-                    true === method->isPublic() &&
-                    true !== method->isStatic() &&
-                    0 === method->getNumberOfRequiredParameters()
-                ) {
-                    let dumpedObject = variable->dump();
-
-                    if typeof dumpedObject == "array" {
-                        return "Object(" . className . ": " . this->getArrayDump(dumpedObject) . ")";
-                    }
-                }
-            }
-
-            return "Object(" . className . ")";
+            return this->dumpObject(variable);
         }
 
         if typeof variable == "array" {
@@ -338,6 +314,41 @@ class HtmlRenderer implements Renderer
         }
 
         return gettype(variable);
+    }
+
+    /**
+     * Returns true when the dump() method of the object is public, is not
+     * static, and has no required parameters
+     */
+    private function canCallDump(object variable) -> bool
+    {
+        var method;
+
+        let method = new ReflectionMethod(variable, "dump");
+
+        return true === method->isPublic() &&
+            true !== method->isStatic() &&
+            0 === method->getNumberOfRequiredParameters();
+    }
+
+    /**
+     * Uses the result of dump() only if it is an array
+     */
+    private function dumpObject(object variable) -> string
+    {
+        var className, dumpedObject;
+
+        let className = this->escapeString(get_class(variable));
+
+        if method_exists(variable, "dump") && this->canCallDump(variable) {
+            let dumpedObject = variable->dump();
+
+            if typeof dumpedObject == "array" {
+                return "Object(" . className . ": " . this->getArrayDump(dumpedObject) . ")";
+            }
+        }
+
+        return "Object(" . className . ")";
     }
 
     private function formatBytes(int bytes) -> string
