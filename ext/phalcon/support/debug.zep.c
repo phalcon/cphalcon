@@ -444,16 +444,21 @@ PHP_METHOD(Phalcon_Support_Debug, onUncaughtException)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *exception, exception_sub, __$true, __$false, obLevel, _0, _2, _1$$4;
+	zval *exception, exception_sub, __$true, __$false, ex, obLevel, _0, _3, _4, _5, _6, _1$$5, _2$$4;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&exception_sub);
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
+	ZVAL_UNDEF(&ex);
 	ZVAL_UNDEF(&obLevel);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_1$$4);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_1$$5);
+	ZVAL_UNDEF(&_2$$4);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(exception, zend_ce_throwable)
 	ZEND_PARSE_PARAMETERS_END();
@@ -469,15 +474,42 @@ PHP_METHOD(Phalcon_Support_Debug, onUncaughtException)
 	zephir_read_static_property_ce(&_0, phalcon_support_debug_ce, SL("isActive"), PH_NOISY_CC | PH_READONLY);
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
 		zephir_update_static_property_ce(phalcon_support_debug_ce, ZEND_STRL("isActive"), &__$true);
-		ZEPHIR_CALL_METHOD(&_1$$4, this_ptr, "renderHtml", NULL, 0, exception);
-		zephir_check_call_status();
-		zend_print_zval(&_1$$4, 0);
+
+		/* try_start_1: */
+
+			ZEPHIR_CALL_METHOD(&_1$$5, this_ptr, "renderHtml", NULL, 0, exception);
+			zephir_check_call_status_or_jump(try_end_1);
+			zend_print_zval(&_1$$5, 0);
+
+		try_end_1:
+
+		if (EG(exception)) {
+			ZEPHIR_INIT_VAR(&_2$$4);
+			ZVAL_OBJ(&_2$$4, EG(exception));
+			Z_ADDREF_P(&_2$$4);
+			if (zephir_is_instance_of(&_2$$4, SL("Throwable"))) {
+				zend_clear_exception();
+				ZEPHIR_CPY_WRT(&ex, &_2$$4);
+				zephir_update_static_property_ce(phalcon_support_debug_ce, ZEND_STRL("isActive"), &__$false);
+				zephir_throw_exception_debug(&ex, "phalcon/Support/Debug.zep", 208);
+				ZEPHIR_MM_RESTORE();
+				return;
+			} else {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+		}
 		zephir_update_static_property_ce(phalcon_support_debug_ce, ZEND_STRL("isActive"), &__$false);
 		RETURN_MM_BOOL(1);
 	}
-	ZEPHIR_CALL_METHOD(&_2, exception, "getMessage", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_3, exception, "getMessage", NULL, 0);
 	zephir_check_call_status();
-	zend_print_zval(&_2, 0);
+	ZVAL_LONG(&_4, (3 | 8));
+	ZEPHIR_INIT_VAR(&_5);
+	ZVAL_STRING(&_5, "UTF-8");
+	ZEPHIR_CALL_FUNCTION(&_6, "htmlspecialchars", NULL, 199, &_3, &_4, &_5);
+	zephir_check_call_status();
+	zend_print_zval(&_6, 0);
 	RETURN_MM_BOOL(0);
 }
 
@@ -534,7 +566,7 @@ PHP_METHOD(Phalcon_Support_Debug, onUncaughtLowSeverity)
 		ZVAL_LONG(&_6$$3, line);
 		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 0, &message_zv, &_4$$3, &_5$$3, &file_zv, &_6$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_3$$3, "phalcon/Support/Debug.zep", 227);
+		zephir_throw_exception_debug(&_3$$3, "phalcon/Support/Debug.zep", 240);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -680,7 +712,7 @@ PHP_METHOD(Phalcon_Support_Debug, setBlacklist)
 	} else {
 		_3 = &area;
 	}
-	zephir_is_iterable(_3, 0, "phalcon/Support/Debug.zep", 269);
+	zephir_is_iterable(_3, 0, "phalcon/Support/Debug.zep", 282);
 	if (Z_TYPE_P(_3) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_3), _4)
 		{
@@ -748,7 +780,7 @@ PHP_METHOD(Phalcon_Support_Debug, setBlacklist)
 	} else {
 		_14 = &area;
 	}
-	zephir_is_iterable(_14, 0, "phalcon/Support/Debug.zep", 278);
+	zephir_is_iterable(_14, 0, "phalcon/Support/Debug.zep", 291);
 	if (Z_TYPE_P(_14) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_14), _15)
 		{
