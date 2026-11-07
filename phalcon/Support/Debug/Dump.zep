@@ -384,9 +384,17 @@ class Dump implements TemplateAware
                         "type"  : type
                     ];
 
+                    /**
+                     * A typed property without a value cannot be read
+                     */
+                    let value = "[uninitialized]";
+                    if (true === property->isInitialized(variable)) {
+                        let value = this->output(property->getValue(variable), "", tab + 1);
+                    }
+
                     let output .= str_repeat(space, tab)
                         . this->toInterpolate(message, context)
-                        . this->output(property->getValue(variable), "", tab + 1)
+                        . value
                         . "\n";
                 }
             }

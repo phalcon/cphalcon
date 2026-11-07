@@ -162,6 +162,46 @@ final class ReportBuilderTest extends AbstractUnitTestCase
         $this->assertSame([], $report->getBacktrace());
     }
 
+    public function testNestedBlacklistIsApplied(): void
+    {
+        $_REQUEST['user'] = [
+            'name'    => 'john',
+            'profile' => [
+                'city'     => 'athens',
+                'PassWord' => 'secret',
+            ],
+            'Token'   => 'abc',
+        ];
+        $_SERVER['DATA_SERVER_TEST'] = [
+            'API_KEY' => 'hidden',
+            'host'    => 'keepme',
+        ];
+
+        $report = (new ReportBuilder())->build(
+            new Exception('boom', 7),
+            [
+                'request' => ['password' => 1, 'token' => 1],
+                'server'  => ['api_key' => 1],
+            ],
+            true,
+            true,
+            false,
+            'https://cdn/',
+            []
+        );
+
+        $expected = [
+            'name'    => 'john',
+            'profile' => [
+                'city' => 'athens',
+            ],
+        ];
+        $this->assertSame($expected, $report->getRequest()['user']);
+
+        $expected = ['host' => 'keepme'];
+        $this->assertSame($expected, $report->getServer()['DATA_SERVER_TEST']);
+    }
+
     public function testRequestBlacklistIsApplied(): void
     {
         $_REQUEST['DATA_REQUEST_TEST'] = 'secret';
