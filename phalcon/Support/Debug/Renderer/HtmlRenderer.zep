@@ -17,6 +17,7 @@ use Phalcon\Support\Debug\Report\ExceptionReport;
 use Phalcon\Support\Debug\Traits\TemplateAwareTrait;
 use Phalcon\Support\Version;
 use Phalcon\Traits\Support\Helper\Str\InterpolateTrait;
+use ReflectionMethod;
 
 /**
  * Renders an ExceptionReport as the HTML debug page using embedded, overridable
@@ -284,7 +285,7 @@ class HtmlRenderer implements Renderer
      */
     protected function getVarDump(var variable) -> string
     {
-        var className, dumpedObject;
+        var className, dumpedObject, method;
 
         if variable === true {
             return "true";
@@ -305,10 +306,24 @@ class HtmlRenderer implements Renderer
         if typeof variable == "object" {
             let className = this->escapeString(get_class(variable));
 
+            /**
+             * Call dump() only if it is public, not static and has no
+             * required parameters. Use its result only if it is an array.
+             */
             if method_exists(variable, "dump") {
-                let dumpedObject = variable->dump();
+                let method = new ReflectionMethod(variable, "dump");
 
-                return "Object(" . className . ": " . this->getArrayDump(dumpedObject) . ")";
+                if (
+                    true === method->isPublic() &&
+                    true !== method->isStatic() &&
+                    0 === method->getNumberOfRequiredParameters()
+                ) {
+                    let dumpedObject = variable->dump();
+
+                    if typeof dumpedObject == "array" {
+                        return "Object(" . className . ": " . this->getArrayDump(dumpedObject) . ")";
+                    }
+                }
             }
 
             return "Object(" . className . ")";

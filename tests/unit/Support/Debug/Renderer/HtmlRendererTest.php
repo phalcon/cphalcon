@@ -20,10 +20,83 @@ use Phalcon\Support\Debug\ReportBuilder;
 use Phalcon\Support\Exception;
 use Phalcon\Support\Version;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class HtmlRendererTest extends AbstractUnitTestCase
 {
     private const URI = 'https://assets.phalcon.io/debug/6.0.x/';
+
+    /**
+     * @return array<string, array{0: object, 1: string}>
+     */
+    public static function getVarDumpDumpMethodProvider(): array
+    {
+        return [
+            'public'             => [
+                new class () {
+                    public function dump(): array
+                    {
+                        return ['k' => 'v'];
+                    }
+                },
+                ': [k] =&gt; v',
+            ],
+            'optional parameter' => [
+                new class () {
+                    public function dump(int $depth = 1): array
+                    {
+                        return ['k' => 'v'];
+                    }
+                },
+                ': [k] =&gt; v',
+            ],
+            'private'            => [
+                new class () {
+                    private function dump(): array
+                    {
+                        return ['k' => 'v'];
+                    }
+                },
+                '',
+            ],
+            'protected'          => [
+                new class () {
+                    protected function dump(): array
+                    {
+                        return ['k' => 'v'];
+                    }
+                },
+                '',
+            ],
+            'static'             => [
+                new class () {
+                    public static function dump(): array
+                    {
+                        return ['k' => 'v'];
+                    }
+                },
+                '',
+            ],
+            'required parameter' => [
+                new class () {
+                    public function dump(int $depth): array
+                    {
+                        return ['k' => 'v'];
+                    }
+                },
+                '',
+            ],
+            'not an array'       => [
+                new class () {
+                    public function dump(): string
+                    {
+                        return 'k';
+                    }
+                },
+                '',
+            ],
+        ];
+    }
 
     public function testGetCssSources(): void
     {
@@ -204,5 +277,28 @@ final class HtmlRendererTest extends AbstractUnitTestCase
         $this->assertStringContainsString('Array(', (string)$renderer->dumpVar([[[['deep']]]]));
 
         fclose($resource);
+    }
+
+    /**
+     * @issue https://github.com/phalcon/cphalcon/issues/17735
+     */
+    #[DataProvider('getVarDumpDumpMethodProvider')]
+    public function testVarDumpDumpMethod(object $object, string $suffix): void
+    {
+        $renderer = new class () extends HtmlRenderer {
+            public function dumpVar(mixed $value): string
+            {
+                return $this->getVarDump($value);
+            }
+
+            public function escape(string $value): string
+            {
+                return $this->escapeString($value);
+            }
+        };
+
+        $expected = 'Object(' . $renderer->escape(get_class($object)) . $suffix . ')';
+        $actual   = $renderer->dumpVar($object);
+        $this->assertSame($expected, $actual);
     }
 }
