@@ -505,23 +505,26 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, buildItem)
  */
 PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, filter)
 {
-	zend_bool _7, _5$$3, _9$$5;
+	zend_bool _9, _5$$3, _11$$6;
 	zend_string *_2;
 	zend_ulong _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_4 = NULL;
+	zephir_fcall_cache_entry *_4 = NULL, *_7 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *source_param = NULL, *blacklist_param = NULL, result, key, value, *_0, _6, _3$$3, _8$$5;
+	zval *source_param = NULL, *blacklist_param = NULL, result, key, value, *_0, _8, _3$$3, _6$$5, _10$$6, _12$$8;
 	zval source, blacklist;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&source);
 	ZVAL_UNDEF(&blacklist);
 	ZVAL_UNDEF(&result);
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&value);
-	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_8);
 	ZVAL_UNDEF(&_3$$3);
-	ZVAL_UNDEF(&_8$$5);
+	ZVAL_UNDEF(&_6$$5);
+	ZVAL_UNDEF(&_10$$6);
+	ZVAL_UNDEF(&_12$$8);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		ZEPHIR_Z_PARAM_ARRAY(source, source_param)
 		ZEPHIR_Z_PARAM_ARRAY(blacklist, blacklist_param)
@@ -533,7 +536,7 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, filter)
 	zephir_get_arrval(&blacklist, blacklist_param);
 	ZEPHIR_INIT_VAR(&result);
 	array_init(&result);
-	zephir_is_iterable(&source, 0, "phalcon/Support/Debug/ReportBuilder.zep", 220);
+	zephir_is_iterable(&source, 0, "phalcon/Support/Debug/ReportBuilder.zep", 224);
 	if (Z_TYPE_P(&source) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&source), _1, _2, _0)
 		{
@@ -553,6 +556,11 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, filter)
 				return;
 			}
 			if (!(_5$$3)) {
+				if (Z_TYPE_P(&value) == IS_ARRAY) {
+					ZEPHIR_CALL_METHOD(&_6$$5, this_ptr, "filter", &_7, 0, &value, &blacklist);
+					zephir_check_call_status();
+					ZEPHIR_CPY_WRT(&value, &_6$$5);
+				}
 				zephir_array_update_zval(&result, &key, &value, PH_COPY | PH_SEPARATE);
 				if (UNEXPECTED(EG(exception))) {
 					ZEPHIR_MM_RESTORE();
@@ -563,31 +571,36 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, filter)
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &source, "rewind", NULL, 0);
 		zephir_check_call_status();
-		_7 = 1;
+		_9 = 1;
 		while (1) {
-			if (_7) {
-				_7 = 0;
+			if (_9) {
+				_9 = 0;
 			} else {
 				ZEPHIR_CALL_METHOD(NULL, &source, "next", NULL, 0);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_6, &source, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_8, &source, "valid", NULL, 0);
 			zephir_check_call_status();
-			if (!zend_is_true(&_6)) {
+			if (!zend_is_true(&_8)) {
 				break;
 			}
 			ZEPHIR_CALL_METHOD(&key, &source, "key", NULL, 0);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&value, &source, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_FUNCTION(&_8$$5, "mb_strtolower", &_4, 16, &key);
+				ZEPHIR_CALL_FUNCTION(&_10$$6, "mb_strtolower", &_4, 16, &key);
 				zephir_check_call_status();
-				_9$$5 = zephir_array_isset_value(&blacklist, &_8$$5);
+				_11$$6 = zephir_array_isset_value(&blacklist, &_10$$6);
 				if (UNEXPECTED(EG(exception))) {
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
-				if (!(_9$$5)) {
+				if (!(_11$$6)) {
+					if (Z_TYPE_P(&value) == IS_ARRAY) {
+						ZEPHIR_CALL_METHOD(&_12$$8, this_ptr, "filter", &_7, 0, &value, &blacklist);
+						zephir_check_call_status();
+						ZEPHIR_CPY_WRT(&value, &_12$$8);
+					}
 					zephir_array_update_zval(&result, &key, &value, PH_COPY | PH_SEPARATE);
 					if (UNEXPECTED(EG(exception))) {
 						ZEPHIR_MM_RESTORE();
@@ -644,13 +657,13 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, resolveClassLink)
 			return;
 		}
 		zephir_memory_observe(&_2$$3);
-		zephir_array_fetch_long(&_2$$3, &parts, 0, PH_NOISY, "phalcon/Support/Debug/ReportBuilder.zep", 235);
+		zephir_array_fetch_long(&_2$$3, &parts, 0, PH_NOISY, "phalcon/Support/Debug/ReportBuilder.zep", 239);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
 		zephir_memory_observe(&_3$$3);
-		zephir_array_fetch_long(&_3$$3, &parts, 1, PH_NOISY, "phalcon/Support/Debug/ReportBuilder.zep", 235);
+		zephir_array_fetch_long(&_3$$3, &parts, 1, PH_NOISY, "phalcon/Support/Debug/ReportBuilder.zep", 239);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
