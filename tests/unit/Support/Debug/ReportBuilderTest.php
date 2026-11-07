@@ -27,9 +27,40 @@ final class ReportBuilderTest extends AbstractUnitTestCase
 
         $method = new \ReflectionMethod(ReportBuilder::class, 'buildFragment');
 
-        $fragment = @$method->invoke($builder, '/phalcon/no/such/file.php', 5, false);
+        $fragment = $method->invoke($builder, '/phalcon/no/such/file.php', 5, false);
 
         $this->assertSame([], $fragment['lines']);
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/17733
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-06
+     */
+    public function testBuildFragmentRaisesNoWarning(): void
+    {
+        $builder = new ReportBuilder();
+        $method  = new \ReflectionMethod(ReportBuilder::class, 'buildFragment');
+
+        $warnings = [];
+        set_error_handler(
+            static function (int $severity, string $message) use (&$warnings): bool {
+                $warnings[] = $message;
+
+                return true;
+            }
+        );
+
+        try {
+            $missing  = $method->invoke($builder, '/phalcon/no/such/file.php', 5, false);
+            $evalCode = $method->invoke($builder, __FILE__ . "(10) : eval()'d code", 1, false);
+        } finally {
+            restore_error_handler();
+        }
+
+        $this->assertSame([], $warnings);
+        $this->assertSame([], $missing['lines']);
+        $this->assertSame([], $evalCode['lines']);
     }
 
     public function testInternalFunctionLinkIsResolved(): void
@@ -93,6 +124,23 @@ final class ReportBuilderTest extends AbstractUnitTestCase
         );
         $this->assertNull($functionLink->invoke($builder, 'phalcon_undefined_function_xyz'));
         $this->assertNull($functionLink->invoke($builder, 'supportDir'));
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/17733
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-06
+     */
+    public function testLinkResolutionForGlobalClassWithPhalconPrefix(): void
+    {
+        if (!class_exists('PhalconHelper', false)) {
+            class_alias(self::class, 'PhalconHelper');
+        }
+
+        $builder   = new ReportBuilder();
+        $classLink = new \ReflectionMethod(ReportBuilder::class, 'resolveClassLink');
+
+        $this->assertNull($classLink->invoke($builder, 'PhalconHelper'));
     }
 
     public function testMetaWithoutBacktrace(): void

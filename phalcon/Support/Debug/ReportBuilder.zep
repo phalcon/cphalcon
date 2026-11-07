@@ -96,7 +96,15 @@ class ReportBuilder
     {
         var lines, numberLines, firstLine, lastLine, mode, beforeLine, afterLine;
 
-        let lines = file(file);
+        /**
+         * Read the file only if it exists and is readable. This prevents a
+         * warning for eval()'d code.
+         */
+        let lines = false;
+        if is_file(file) && is_readable(file) {
+            let lines = file(file);
+        }
+
         if false === lines {
             let lines = [];
         }
@@ -221,7 +229,7 @@ class ReportBuilder
     {
         var parts, reflection, prepared;
 
-        if str_starts_with(className, "Phalcon") {
+        if str_starts_with(className, "Phalcon\\") {
             let parts = explode("\\", className);
 
             return "https://docs.phalcon.io/5.0/en/api/" . parts[0] . "_" . parts[1];
