@@ -13,6 +13,7 @@ namespace Phalcon\Support\Debug;
 use Phalcon\Contracts\Support\SupportTypes;
 use Phalcon\Support\Debug\Report\BacktraceItem;
 use Phalcon\Support\Debug\Report\ExceptionReport;
+use Phalcon\Support\Version;
 use Phalcon\Traits\Php\InfoTrait;
 use Phalcon\Traits\Support\Helper\Arr\GetTrait;
 use ReflectionClass;
@@ -37,6 +38,13 @@ class ReportBuilder
     use InfoTrait;
 
     /**
+     * The lines of each file that the current report read
+     *
+     * @var array<string, array<int, string>>
+     */
+    private array fileLines = [];
+
+    /**
      * @phpstan-param support_debug_blacklist $blacklist
      * @phpstan-param support_debug_variables $data
      *
@@ -52,7 +60,9 @@ class ReportBuilder
         string uri,
         array data
     ) -> <ExceptionReport> {
-        var report, items, trace, item;
+        var report, items, trace, item, previous, previousExceptions;
+
+        let this->fileLines = [];
 
         let report = new ExceptionReport(
             get_class(exception),
@@ -62,6 +72,20 @@ class ReportBuilder
             showBackTrace,
             uri
         );
+
+        let previousExceptions = [];
+        let previous           = exception->getPrevious();
+        while null !== previous {
+            let previousExceptions[] = [
+                "className": get_class(previous),
+                "message":   previous->getMessage(),
+                "file":      previous->getFile(),
+                "line":      previous->getLine()
+            ];
+            let previous = previous->getPrevious();
+        }
+
+        report->setPreviousExceptions(previousExceptions);
 
         if showBackTrace !== true {
             return report;
@@ -96,19 +120,7 @@ class ReportBuilder
     {
         var lines, numberLines, firstLine, lastLine, mode, beforeLine, afterLine;
 
-        /**
-         * Read the file only if it exists and is readable. This prevents a
-         * warning for eval()'d code.
-         */
-        let lines = false;
-        if is_file(file) && is_readable(file) {
-            let lines = file(file);
-        }
-
-        if false === lines {
-            let lines = [];
-        }
-
+        let lines       = this->readLines(file);
         let numberLines = count(lines);
 
         if showFileFragment === true {
@@ -225,18 +237,51 @@ class ReportBuilder
     }
 
     /**
+     * Reads each file one time for each report. It reads the file only if it
+     * exists and is readable. This prevents a warning for eval()'d code.
+     *
+     * @return array<int, string>
+     */
+    private function readLines(string file) -> array
+    {
+        var lines;
+
+        if !isset this->fileLines[file] {
+            let lines = false;
+            if is_file(file) && is_readable(file) {
+                let lines = file(file);
+            }
+
+            if false === lines {
+                let lines = [];
+            }
+
+            let this->fileLines[file] = lines;
+        }
+
+        return this->fileLines[file];
+    }
+
+    /**
      * @phpstan-param class-string $className
      *
      * @throws ReflectionException
      */
     private function resolveClassLink(string className) -> string | null
     {
-        var parts, reflection, prepared;
+        var parts, reflection, prepared, version;
 
         if str_starts_with(className, "Phalcon\\") {
-            let parts = explode("\\", className);
+            let parts   = explode("\\", className);
+            let version = new Version();
 
-            return "https://docs.phalcon.io/5.0/en/api/" . parts[0] . "_" . parts[1];
+            return "https://docs.phalcon.io/"
+                . version->getPart(Version::VERSION_MAJOR)
+                . "."
+                . version->getPart(Version::VERSION_MEDIUM)
+                . "/api/"
+                . mb_strtolower(parts[0] . "_" . parts[1])
+                . "/";
         }
 
         let reflection = new ReflectionClass(className);

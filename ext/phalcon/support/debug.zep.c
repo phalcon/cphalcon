@@ -201,12 +201,13 @@ PHP_METHOD(Phalcon_Support_Debug, debugVar)
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *variable, variable_sub, _1, _2;
+	zval *variable, variable_sub, _1, _2, _3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&variable_sub);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_0);
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(variable)
@@ -217,12 +218,13 @@ PHP_METHOD(Phalcon_Support_Debug, debugVar)
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 3, 0);
 	zephir_array_fast_append(&_0, variable);
-	ZEPHIR_CALL_FUNCTION(&_1, "debug_backtrace", NULL, 0);
+	ZVAL_LONG(&_1, 2);
+	ZEPHIR_CALL_FUNCTION(&_2, "debug_backtrace", NULL, 0, &_1);
 	zephir_check_call_status();
-	zephir_array_fast_append(&_0, &_1);
-	ZEPHIR_INIT_VAR(&_2);
-	zephir_time(&_2);
 	zephir_array_fast_append(&_0, &_2);
+	ZEPHIR_INIT_VAR(&_3);
+	zephir_time(&_3);
+	zephir_array_fast_append(&_0, &_3);
 	zephir_update_property_array_append(this_ptr, SL("data"), &_0);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();

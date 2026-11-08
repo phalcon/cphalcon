@@ -41,6 +41,12 @@ namespace Phalcon\Contracts\Support;
  *     lastLine: int,
  *     lines: array<int, string>,
  * }
+ * @phpstan-type support_debug_previous array{
+ *     className: string,
+ *     message: string,
+ *     file: string,
+ *     line: int,
+ * }
  * @phpstan-type support_debug_trace array{
  *     function: string,
  *     line?: int,

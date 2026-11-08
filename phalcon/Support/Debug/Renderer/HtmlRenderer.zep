@@ -28,6 +28,7 @@ use ReflectionMethod;
  * @phpstan-import-type support_debug_args from SupportTypes
  * @phpstan-import-type support_debug_fragment from SupportTypes
  * @phpstan-import-type support_debug_included_files from SupportTypes
+ * @phpstan-import-type support_debug_previous from SupportTypes
  * @phpstan-import-type support_debug_superglobal from SupportTypes
  * @phpstan-import-type support_debug_variables from SupportTypes
  */
@@ -97,7 +98,8 @@ class HtmlRenderer implements Renderer
                 "escapedMessage": escapedMessage,
                 "file":           this->escapeString(report->getFile()),
                 "line":           (string) report->getLine(),
-                "phpVersion":     PHP_VERSION
+                "phpVersion":     PHP_VERSION,
+                "previous":       this->renderPreviousExceptions(report->getPreviousExceptions())
             ]
         );
 
@@ -159,8 +161,13 @@ class HtmlRenderer implements Renderer
         <div class='meta'>
             <span class='item'><code>%file%</code> : <code>%line%</code></span>
             <span class='sep'>|</span><span class='item'>PHP <code>%phpVersion%</code></span>
-        </div>
+        </div>%previous%
     </div>",
+            "previousException": "
+        <div class='meta'>
+            <span class='item'>Previous: <code>%className%</code> %escapedMessage%</span>
+            <span class='sep'>|</span><span class='item'><code>%file%</code> : <code>%line%</code></span>
+        </div>",
             "tabs": "
     <div class='tabs' role='tablist'>
         <button class='tab is-active' data-tab='backtrace'>Backtrace "
@@ -362,6 +369,7 @@ class HtmlRenderer implements Renderer
 
     /**
      * Frames whose file lives outside a vendor directory are application code.
+     * The check also finds the Windows form, `\vendor\`.
      */
     private function isApp(string file = null) -> bool
     {
@@ -369,7 +377,8 @@ class HtmlRenderer implements Renderer
             return false;
         }
 
-        return false === strpos(file, "/vendor/");
+        return false === strpos(file, "/vendor/")
+            && false === strpos(file, "\\vendor\\");
     }
 
     /**
@@ -462,6 +471,29 @@ class HtmlRenderer implements Renderer
                 ]
             )
             . this->getTemplate("panelClose");
+    }
+
+    /**
+     * @phpstan-param list<support_debug_previous> $previousExceptions
+     */
+    private function renderPreviousExceptions(array previousExceptions) -> string
+    {
+        var html, previous;
+
+        let html = "";
+        for previous in previousExceptions {
+            let html .= this->toInterpolate(
+                this->getTemplate("previousException"),
+                [
+                    "className":      this->escapeString(previous["className"]),
+                    "escapedMessage": this->escapeString(previous["message"]),
+                    "file":           this->escapeString(previous["file"]),
+                    "line":           (string) previous["line"]
+                ]
+            );
+        }
+
+        return html;
     }
 
     private function renderSignature(<BacktraceItem> item) -> string

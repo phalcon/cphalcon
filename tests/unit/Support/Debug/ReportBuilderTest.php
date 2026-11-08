@@ -13,14 +13,61 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Support\Debug;
 
+use LogicException;
 use Phalcon\Support\Debug\ReportBuilder;
 use Phalcon\Support\Exception;
+use Phalcon\Support\Version;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\BackupGlobals;
+use RuntimeException;
+
+use function bin2hex;
+use function dirname;
+use function file_put_contents;
+use function random_bytes;
+use function unlink;
 
 #[BackupGlobals(true)]
 final class ReportBuilderTest extends AbstractUnitTestCase
 {
+    /**
+     * @issue https://github.com/phalcon/cphalcon/issues/17746
+     */
+    public function testBuildCollectsThePreviousExceptions(): void
+    {
+        $first  = new RuntimeException('first');
+        $second = new LogicException('second', 0, $first);
+        $main   = new Exception('main', 0, $second);
+
+        $report = (new ReportBuilder())->build(
+            $main,
+            ['request' => [], 'server' => []],
+            false,
+            false,
+            false,
+            'https://cdn/',
+            []
+        );
+
+        $this->assertSame(
+            [
+                [
+                    'className' => LogicException::class,
+                    'message'   => 'second',
+                    'file'      => __FILE__,
+                    'line'      => $second->getLine(),
+                ],
+                [
+                    'className' => RuntimeException::class,
+                    'message'   => 'first',
+                    'file'      => __FILE__,
+                    'line'      => $first->getLine(),
+                ],
+            ],
+            $report->getPreviousExceptions()
+        );
+    }
+
     public function testBuildFragmentForUnreadableFile(): void
     {
         $builder = new ReportBuilder();
@@ -61,6 +108,41 @@ final class ReportBuilderTest extends AbstractUnitTestCase
         $this->assertSame([], $warnings);
         $this->assertSame([], $missing['lines']);
         $this->assertSame([], $evalCode['lines']);
+    }
+
+    /**
+     * @issue https://github.com/phalcon/cphalcon/issues/17746
+     */
+    public function testEachFileIsReadOnceForEachReport(): void
+    {
+        $file    = dirname(__DIR__, 3) . '/_output/report-builder-' . bin2hex(random_bytes(4)) . '.php';
+        $builder = new ReportBuilder();
+        $method  = new \ReflectionMethod(ReportBuilder::class, 'buildFragment');
+
+        file_put_contents($file, "first\n");
+        /** @var array{lines: list<string>} $before */
+        $before = $method->invoke($builder, $file, 1, false);
+
+        file_put_contents($file, "second\n");
+        /** @var array{lines: list<string>} $cached */
+        $cached = $method->invoke($builder, $file, 1, false);
+
+        $builder->build(
+            new Exception('next report'),
+            ['request' => [], 'server' => []],
+            false,
+            false,
+            false,
+            'https://cdn/',
+            []
+        );
+        /** @var array{lines: list<string>} $after */
+        $after = $method->invoke($builder, $file, 1, false);
+        unlink($file);
+
+        $this->assertSame(["first\n"], $before['lines']);
+        $this->assertSame(["first\n"], $cached['lines']);
+        $this->assertSame(["second\n"], $after['lines']);
     }
 
     public function testInternalFunctionLinkIsResolved(): void
@@ -105,9 +187,13 @@ final class ReportBuilderTest extends AbstractUnitTestCase
         $builder = new ReportBuilder();
 
         $classLink = new \ReflectionMethod(ReportBuilder::class, 'resolveClassLink');
+        $version   = new Version();
 
-        $this->assertStringContainsString(
-            'docs.phalcon.io',
+        $this->assertSame(
+            'https://docs.phalcon.io/'
+            . $version->getPart(Version::VERSION_MAJOR) . '.'
+            . $version->getPart(Version::VERSION_MEDIUM)
+            . '/api/phalcon_mvc/',
             $classLink->invoke($builder, 'Phalcon\\Mvc\\Model')
         );
         $this->assertStringContainsString(

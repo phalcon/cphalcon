@@ -12,6 +12,7 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getLine);
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getMemoryUsage);
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getMessage);
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getPeakMemoryUsage);
+PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getPreviousExceptions);
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getRequest);
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getServer);
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getUri);
@@ -22,6 +23,7 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setBacktrace);
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setIncludedFiles);
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setMemoryUsage);
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setPeakMemoryUsage);
+PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setPreviousExceptions);
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setRequest);
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setServer);
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setVariables);
@@ -59,6 +61,9 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_report_exceptionreport_getpeakmemoryusage, 0, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_report_exceptionreport_getpreviousexceptions, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_report_exceptionreport_getrequest, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
@@ -93,6 +98,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_debug_report_exc
 	ZEND_ARG_TYPE_INFO(0, peakMemoryUsage, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_debug_report_exceptionreport_setpreviousexceptions, 0, 1, MAY_BE_STATIC)
+	ZEND_ARG_ARRAY_INFO(0, previousExceptions, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_support_debug_report_exceptionreport_setrequest, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_ARRAY_INFO(0, request, 0)
 ZEND_END_ARG_INFO()
@@ -115,6 +124,7 @@ ZEPHIR_INIT_FUNCS(phalcon_support_debug_report_exceptionreport_method_entry) {
 	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, getMemoryUsage, arginfo_phalcon_support_debug_report_exceptionreport_getmemoryusage, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, getMessage, arginfo_phalcon_support_debug_report_exceptionreport_getmessage, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, getPeakMemoryUsage, arginfo_phalcon_support_debug_report_exceptionreport_getpeakmemoryusage, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, getPreviousExceptions, arginfo_phalcon_support_debug_report_exceptionreport_getpreviousexceptions, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, getRequest, arginfo_phalcon_support_debug_report_exceptionreport_getrequest, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, getServer, arginfo_phalcon_support_debug_report_exceptionreport_getserver, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, getUri, arginfo_phalcon_support_debug_report_exceptionreport_geturi, ZEND_ACC_PUBLIC)
@@ -125,6 +135,7 @@ ZEPHIR_INIT_FUNCS(phalcon_support_debug_report_exceptionreport_method_entry) {
 	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, setIncludedFiles, arginfo_phalcon_support_debug_report_exceptionreport_setincludedfiles, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, setMemoryUsage, arginfo_phalcon_support_debug_report_exceptionreport_setmemoryusage, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, setPeakMemoryUsage, arginfo_phalcon_support_debug_report_exceptionreport_setpeakmemoryusage, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, setPreviousExceptions, arginfo_phalcon_support_debug_report_exceptionreport_setpreviousexceptions, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, setRequest, arginfo_phalcon_support_debug_report_exceptionreport_setrequest, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, setServer, arginfo_phalcon_support_debug_report_exceptionreport_setserver, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Support_Debug_Report_ExceptionReport, setVariables, arginfo_phalcon_support_debug_report_exceptionreport_setvariables, ZEND_ACC_PUBLIC)

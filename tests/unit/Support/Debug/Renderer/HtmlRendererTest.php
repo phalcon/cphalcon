@@ -158,6 +158,26 @@ final class HtmlRendererTest extends AbstractUnitTestCase
         $this->assertStringEndsWith('</html>', $actual);
     }
 
+    /**
+     * @issue https://github.com/phalcon/cphalcon/issues/17746
+     */
+    public function testRenderShowsThePreviousExceptions(): void
+    {
+        $report = new ExceptionReport('My\\Ex', 'boom', '/app/x.php', 5, false, self::URI);
+        $report->setPreviousExceptions([
+            ['className' => 'My\\Inner<', 'message' => 'inner <b>', 'file' => '/app/y.php', 'line' => 9],
+        ]);
+
+        $expected = "\n        <div class='meta'>"
+            . "\n            <span class='item'>Previous: <code>My\\Inner&lt;</code> inner &lt;b&gt;</span>"
+            . "\n            <span class='sep'>|</span>"
+            . "<span class='item'><code>/app/y.php</code> : <code>9</code></span>"
+            . "\n        </div>"
+            . "\n    </div>";
+
+        $this->assertStringContainsString($expected, (new HtmlRenderer())->render($report));
+    }
+
     public function testRenderSignatureLinksAndArgs(): void
     {
         $arg    = uniqid('var-');
@@ -199,6 +219,22 @@ final class HtmlRendererTest extends AbstractUnitTestCase
             $actual
         );
         $this->assertStringContainsString($arg, $actual);
+    }
+
+    /**
+     * @issue https://github.com/phalcon/cphalcon/issues/17746
+     */
+    public function testRenderTreatsAWindowsVendorPathAsVendorCode(): void
+    {
+        $report = new ExceptionReport('My\\Ex', 'boom', '/app/x.php', 5, true, self::URI);
+        $report->setBacktrace([
+            new BacktraceItem('run', '->', 'My\\Lib', null, null, false, [], 'C:\\project\\vendor\\lib\\Lib.php', 7),
+        ]);
+
+        $actual = (new HtmlRenderer())->render($report);
+
+        $this->assertStringContainsString("<details class='frame vendor'", $actual);
+        $this->assertStringNotContainsString("<details class='frame app'", $actual);
     }
 
     public function testRenderWithBacktraceContainsTabs(): void
