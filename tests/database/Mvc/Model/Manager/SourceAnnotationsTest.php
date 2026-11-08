@@ -20,6 +20,8 @@ use Phalcon\Di\Di;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Mvc\Model\MetaData\Strategy\Annotations;
+use Phalcon\Mvc\Model\MetaData\Strategy\Introspection;
+use Phalcon\Mvc\Model\MetaData\Strategy\StrategyInterface;
 use Phalcon\Mvc\Model\Query;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Models\Annotations\SourceChild;
@@ -52,19 +54,32 @@ final class SourceAnnotationsTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @return array<string, array{class-string<Model>, string, string}>
+     * @return array<string, array{class-string<Model>, string, string, class-string<StrategyInterface>}>
      */
     public static function getExamples(): array
     {
         return [
-            'attribute'       => [SourceModel::class, 'attribute_records', ''],
+            'attribute'       => [SourceModel::class, 'attribute_records', '', Annotations::class],
             'named attribute' => [
                 SourceNamedArgument::class,
                 'named_attribute_records',
                 'app_',
+                Annotations::class,
             ],
-            'child without Source' => [SourceChild::class, 'source_child', 'app_'],
-            'inherited initialize' => [SourceInitializedChild::class, 'initialized_records', 'app_'],
+            'child without Source' => [SourceChild::class, 'source_child', 'app_', Annotations::class],
+            'inherited initialize' => [
+                SourceInitializedChild::class,
+                'initialized_records',
+                'app_',
+                Annotations::class,
+            ],
+            'introspection attribute'       => [SourceModel::class, 'attribute_records', '', Introspection::class],
+            'introspection named attribute' => [
+                SourceNamedArgument::class,
+                'named_attribute_records',
+                'app_',
+                Introspection::class,
+            ],
         ];
     }
 
@@ -95,10 +110,11 @@ final class SourceAnnotationsTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * Source must be resolved before the first insert or PHQL query. The
-     * property annotations still supply the columns, primary key and identity.
+     * Source must be resolved before the first insert or PHQL query, with
+     * either metadata strategy. Table resolution must retain that strategy.
      *
-     * @param class-string<Model> $modelClass
+     * @param class-string<Model>             $modelClass
+     * @param class-string<StrategyInterface> $strategyClass
      *
      * @author QUAD69 <quad69@yandex.ru>
      * @since  2026-11-08
@@ -107,14 +123,16 @@ final class SourceAnnotationsTest extends AbstractDatabaseTestCase
     public function testMvcModelManagerGetModelSourcePersistence(
         string $modelClass,
         string $table,
-        string $prefix
+        string $prefix,
+        string $strategyClass
     ): void {
         $annotations = new AnnotationsMemory();
         $annotations->setReader(new AttributesReader());
         $this->container->setShared('annotations', $annotations);
 
         $metadata = new Memory();
-        $metadata->setStrategy(new Annotations());
+        $strategy = new $strategyClass();
+        $metadata->setStrategy($strategy);
         $this->container->setShared('modelsMetadata', $metadata);
 
         $connection = new Sqlite(['dbname' => ':memory:']);
@@ -141,5 +159,6 @@ final class SourceAnnotationsTest extends AbstractDatabaseTestCase
 
         $this->assertInstanceOf($modelClass, $found);
         $this->assertSame('Source test', $found->name);
+        $this->assertSame($strategy, $metadata->getStrategy());
     }
 }

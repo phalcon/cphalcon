@@ -271,6 +271,24 @@ final class GetModelSourceTest extends AbstractUnitTestCase
     }
 
     /**
+     * A reader derived from AttributesReader keeps the explicit opt-in.
+     *
+     * @author QUAD69 <quad69@yandex.ru>
+     * @since  2026-11-08
+     */
+    public function testMvcModelManagerGetModelSourceReaderSubclass(): void
+    {
+        $adapter = new Memory();
+        $adapter->setReader(new class () extends AttributesReader {
+        });
+        $this->container->setShared('annotations', $adapter);
+
+        $model = new SourceModel();
+
+        $this->assertSame('attribute_records', $model->getSource());
+    }
+
+    /**
      * @author QUAD69 <quad69@yandex.ru>
      * @since  2026-11-08
      */
