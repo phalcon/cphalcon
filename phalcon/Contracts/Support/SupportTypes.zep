@@ -35,7 +35,6 @@ namespace Phalcon\Contracts\Support;
  * }
  * @phpstan-type support_debug_variables array<array-key, support_debug_variable>
  * @phpstan-type support_debug_fragment array{
- *     mode: string,
  *     firstLine: int,
  *     line: int,
  *     lastLine: int,
