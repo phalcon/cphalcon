@@ -171,7 +171,7 @@ PHP_METHOD(Phalcon_Support_Debug, __construct)
 }
 
 /**
- * Clears are variables added previously
+ * Clears the variables added previously
  */
 PHP_METHOD(Phalcon_Support_Debug, clearVars)
 {
@@ -690,7 +690,9 @@ PHP_METHOD(Phalcon_Support_Debug, renderHtml)
 }
 
 /**
- * Sets if files the exception's backtrace must be showed
+ * Sets the keys to remove from the request and the server data. The
+ * array has a request and a server list of keys. A key matches at every
+ * depth.
  *
  * @phpstan-param support_debug_blacklist_input $blacklist
  */
@@ -752,7 +754,7 @@ PHP_METHOD(Phalcon_Support_Debug, setBlacklist)
 	} else {
 		_3 = &area;
 	}
-	zephir_is_iterable(_3, 0, "phalcon/Support/Debug.zep", 285);
+	zephir_is_iterable(_3, 0, "phalcon/Support/Debug.zep", 287);
 	if (Z_TYPE_P(_3) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_3), _4)
 		{
@@ -820,7 +822,7 @@ PHP_METHOD(Phalcon_Support_Debug, setBlacklist)
 	} else {
 		_14 = &area;
 	}
-	zephir_is_iterable(_14, 0, "phalcon/Support/Debug.zep", 294);
+	zephir_is_iterable(_14, 0, "phalcon/Support/Debug.zep", 296);
 	if (Z_TYPE_P(_14) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_14), _15)
 		{

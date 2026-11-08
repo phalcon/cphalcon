@@ -118,7 +118,7 @@ class ReportBuilder
      */
     private function buildFragment(string file, int line, bool showFileFragment) -> array
     {
-        var lines, numberLines, firstLine, lastLine, mode, beforeLine, afterLine;
+        var lines, numberLines, firstLine, lastLine, beforeLine, afterLine;
 
         let lines       = this->readLines(file);
         let numberLines = count(lines);
@@ -127,16 +127,13 @@ class ReportBuilder
             let beforeLine = line - 7,
                 firstLine  = (beforeLine < 1) ? 1 : beforeLine,
                 afterLine  = line + 5,
-                lastLine   = (afterLine > numberLines) ? numberLines : afterLine,
-                mode       = "fragment";
+                lastLine   = (afterLine > numberLines) ? numberLines : afterLine;
         } else {
             let firstLine = 1,
-                lastLine  = numberLines,
-                mode      = "full";
+                lastLine  = numberLines;
         }
 
         return [
-            "mode":      mode,
             "firstLine": firstLine,
             "line":      line,
             "lastLine":  lastLine,

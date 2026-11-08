@@ -32,7 +32,6 @@ final class BacktraceItemTest extends AbstractUnitTestCase
     public function testGettersReturnConstructorValues(): void
     {
         $fragment = [
-            'mode'      => 'full',
             'firstLine' => 1,
             'line'      => 4,
             'lastLine'  => 9,
