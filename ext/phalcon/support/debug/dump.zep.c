@@ -881,7 +881,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 		} else {
 			_7$$4 = variable;
 		}
-		zephir_is_iterable(_7$$4, 0, "phalcon/Support/Debug/Dump.zep", 320);
+		zephir_is_iterable(_7$$4, 0, "phalcon/Support/Debug/Dump.zep", 322);
 		if (Z_TYPE_P(_7$$4) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_7$$4), _9$$4, _10$$4, _8$$4)
 			{
@@ -944,6 +944,11 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 					_21$$5 = ZEPHIR_IS_IDENTICAL(&name_zv, &key);
 				}
 				if (_21$$5) {
+					zephir_concat_self_str(&output, SL("\n"));
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					continue;
 				}
 				ZEPHIR_INIT_NVAR(&_14$$5);
@@ -1034,6 +1039,11 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 						_35$$7 = ZEPHIR_IS_IDENTICAL(&name_zv, &key);
 					}
 					if (_35$$7) {
+						zephir_concat_self_str(&output, SL("\n"));
+						if (UNEXPECTED(EG(exception))) {
+							ZEPHIR_MM_RESTORE();
+							return;
+						}
 						continue;
 					}
 					ZEPHIR_INIT_NVAR(&_29$$7);
@@ -1159,7 +1169,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 				} else {
 					_55$$12 = &vars;
 				}
-				zephir_is_iterable(_55$$12, 0, "phalcon/Support/Debug/Dump.zep", 364);
+				zephir_is_iterable(_55$$12, 0, "phalcon/Support/Debug/Dump.zep", 366);
 				if (Z_TYPE_P(_55$$12) == IS_ARRAY) {
 					ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_55$$12), _58$$12, _59$$12, _57$$12)
 					{
@@ -1301,7 +1311,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 				} else {
 					_79$$15 = &props;
 				}
-				zephir_is_iterable(_79$$15, 0, "phalcon/Support/Debug/Dump.zep", 400);
+				zephir_is_iterable(_79$$15, 0, "phalcon/Support/Debug/Dump.zep", 402);
 				if (Z_TYPE_P(_79$$15) == IS_ARRAY) {
 					ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_79$$15), _81$$15)
 					{
@@ -1500,7 +1510,7 @@ PHP_METHOD(Phalcon_Support_Debug_Dump, output)
 			} else {
 				_120$$21 = &attr;
 			}
-			zephir_is_iterable(_120$$21, 0, "phalcon/Support/Debug/Dump.zep", 433);
+			zephir_is_iterable(_120$$21, 0, "phalcon/Support/Debug/Dump.zep", 435);
 			if (Z_TYPE_P(_120$$21) == IS_ARRAY) {
 				ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_120$$21), _122$$21)
 				{

@@ -30,6 +30,7 @@
  * presentation logic.
  *
  * @phpstan-import-type support_debug_included_files from SupportTypes
+ * @phpstan-import-type support_debug_previous from SupportTypes
  * @phpstan-import-type support_debug_superglobal from SupportTypes
  * @phpstan-import-type support_debug_variables from SupportTypes
  */
@@ -89,6 +90,15 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Debug_Report_ExceptionReport)
 		zval _zc0;
 		ZVAL_LONG(&_zc0, 0);
 		zephir_declare_typed_property(phalcon_support_debug_report_exceptionreport_ce, SL("peakMemoryUsage"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_LONG, NULL, 0);
+	}
+
+	/**
+	 * @phpstan-var list<support_debug_previous>
+	 */
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_typed_property(phalcon_support_debug_report_exceptionreport_ce, SL("previousExceptions"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_ARRAY, NULL, 0);
 	}
 
 	/**
@@ -256,6 +266,17 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getPeakMemoryUsage)
 }
 
 /**
+ * The previous exceptions of the exception, from the nearest to the first.
+ *
+ * @phpstan-return list<support_debug_previous>
+ */
+PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getPreviousExceptions)
+{
+
+	RETURN_MEMBER_TYPED(getThis(), "previousExceptions", IS_ARRAY);
+}
+
+/**
  * @phpstan-return support_debug_superglobal
  */
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, getRequest)
@@ -412,6 +433,33 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setPeakMemoryUsage)
 }
 
 /**
+ * @phpstan-param list<support_debug_previous> $previousExceptions
+ */
+PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setPreviousExceptions)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *previousExceptions_param = NULL;
+	zval previousExceptions;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&previousExceptions);
+	static zend_string *_zephir_prop_0 = NULL;
+	if (UNEXPECTED(!_zephir_prop_0)) {
+		_zephir_prop_0 = zend_string_init("previousExceptions", 18, 1);
+	}
+
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		ZEPHIR_Z_PARAM_ARRAY(previousExceptions, previousExceptions_param)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &previousExceptions_param);
+	zephir_get_arrval(&previousExceptions, previousExceptions_param);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1400, &previousExceptions);
+	RETURN_THIS();
+}
+
+/**
  * @phpstan-param support_debug_superglobal $request
  */
 PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setRequest)
@@ -434,7 +482,7 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setRequest)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &request_param);
 	zephir_get_arrval(&request, request_param);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1400, &request);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1401, &request);
 	RETURN_THIS();
 }
 
@@ -461,7 +509,7 @@ PHP_METHOD(Phalcon_Support_Debug_Report_ExceptionReport, setServer)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &server_param);
 	zephir_get_arrval(&server, server_param);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1401, &server);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1402, &server);
 	RETURN_THIS();
 }
 

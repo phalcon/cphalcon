@@ -7,6 +7,7 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, build);
 PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, buildFragment);
 PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, buildItem);
 PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, filter);
+PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, readLines);
 PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, resolveClassLink);
 PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, resolveFunctionLink);
 PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, getArrVal);
@@ -40,6 +41,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_reportbuil
 	ZEND_ARG_ARRAY_INFO(0, blacklist, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_reportbuilder_readlines, 0, 1, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, file, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_reportbuilder_resolveclasslink, 0, 1, IS_STRING, 1)
 	ZEND_ARG_TYPE_INFO(0, className, IS_STRING, 0)
 ZEND_END_ARG_INFO()
@@ -68,6 +73,7 @@ ZEPHIR_INIT_FUNCS(phalcon_support_debug_reportbuilder_method_entry) {
 	PHP_ME(Phalcon_Support_Debug_ReportBuilder, buildFragment, arginfo_phalcon_support_debug_reportbuilder_buildfragment, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Support_Debug_ReportBuilder, buildItem, arginfo_phalcon_support_debug_reportbuilder_builditem, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Support_Debug_ReportBuilder, filter, arginfo_phalcon_support_debug_reportbuilder_filter, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Support_Debug_ReportBuilder, readLines, arginfo_phalcon_support_debug_reportbuilder_readlines, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Support_Debug_ReportBuilder, resolveClassLink, arginfo_phalcon_support_debug_reportbuilder_resolveclasslink, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Support_Debug_ReportBuilder, resolveFunctionLink, arginfo_phalcon_support_debug_reportbuilder_resolvefunctionlink, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Support_Debug_ReportBuilder, getArrVal, arginfo_phalcon_support_debug_reportbuilder_getarrval, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
