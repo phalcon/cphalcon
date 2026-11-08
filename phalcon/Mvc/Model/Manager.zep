@@ -11,6 +11,7 @@
 namespace Phalcon\Mvc\Model;
 
 use Phalcon\Annotations\Adapter\AdapterInterface as AnnotationsAdapterInterface;
+use Phalcon\Annotations\AttributesReader;
 use Phalcon\Contracts\Mvc\Model\Relation\CacheKeyProvider;
 use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Db\Adapter\AdapterInterface;
@@ -1348,39 +1349,17 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
     /**
      * Returns the mapped source for a model. An explicit source takes
-     * precedence over a class-level Source annotation from the configured
-     * annotations service, followed by the uncamelized class name.
+     * precedence over a class-level Source attribute when AttributesReader
+     * is configured, followed by the uncamelized class name.
      */
     public function getModelSource(<ModelInterface> model) -> string
     {
-        var entityName, source, container, annotations, classAnnotations,
-            sourceAnnotation;
+        var entityName;
 
         let entityName = get_class_lower(model);
 
         if !isset this->sources[entityName] {
-            let source = null,
-                container = this->container;
-
-            if typeof container === "object" && container->has("annotations") {
-                let annotations = <AnnotationsAdapterInterface> container->getShared("annotations"),
-                    classAnnotations = annotations->get(get_class(model))->getClassAnnotations();
-
-                if typeof classAnnotations === "object" && classAnnotations->has("Source") {
-                    let sourceAnnotation = classAnnotations->get("Source"),
-                        source = sourceAnnotation->getNamedArgument("table");
-
-                    if source === null {
-                        let source = sourceAnnotation->getArgument(0);
-                    }
-                }
-            }
-
-            if typeof source !== "string" {
-                let source = uncamelize(get_class_ns(model));
-            }
-
-            this->setModelSource(model, source);
+            this->setModelSource(model, this->getDefaultModelSource(model));
         }
 
         return this->prefix . this->sources[entityName];
@@ -2410,6 +2389,46 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         }
 
         return connection;
+    }
+
+    /**
+     * Resolves an unset source. Reading attributes is opt-in so the default
+     * docblock reader never parses a model just to determine its table name.
+     */
+    private function getDefaultModelSource(<ModelInterface> model) -> string
+    {
+        var source, container, annotations, classAnnotations, sourceAnnotation,
+            table;
+
+        let source = uncamelize(get_class_ns(model)),
+            container = this->container;
+
+        if typeof container !== "object" || !container->has("annotations") {
+            return source;
+        }
+
+        let annotations = <AnnotationsAdapterInterface> container->getShared("annotations");
+
+        if !(annotations->getReader() instanceof AttributesReader) {
+            return source;
+        }
+
+        let classAnnotations = annotations->get(get_class(model))->getClassAnnotations();
+
+        if typeof classAnnotations === "object" && classAnnotations->has("Source") {
+            let sourceAnnotation = classAnnotations->get("Source"),
+                table = sourceAnnotation->getNamedArgument("table");
+
+            if table === null {
+                let table = sourceAnnotation->getArgument(0);
+            }
+
+            if typeof table === "string" {
+                return table;
+            }
+        }
+
+        return source;
     }
 
     private function checkHasRelationship(

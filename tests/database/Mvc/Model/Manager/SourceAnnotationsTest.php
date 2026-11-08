@@ -15,8 +15,6 @@ namespace Phalcon\Tests\Database\Mvc\Model\Manager;
 
 use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
 use Phalcon\Annotations\AttributesReader;
-use Phalcon\Annotations\Reader;
-use Phalcon\Annotations\ReaderInterface;
 use Phalcon\Db\Adapter\Pdo\Sqlite;
 use Phalcon\Di\Di;
 use Phalcon\Mvc\Model;
@@ -24,6 +22,9 @@ use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Mvc\Model\MetaData\Strategy\Annotations;
 use Phalcon\Mvc\Model\Query;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Models\Annotations\SourceChild;
+use Phalcon\Tests\Support\Models\Annotations\SourceInitializedChild;
+use Phalcon\Tests\Support\Models\Annotations\SourceInvalidDocblocks;
 use Phalcon\Tests\Support\Models\Annotations\SourceModel;
 use Phalcon\Tests\Support\Models\Annotations\SourceNamedArgument;
 use Phalcon\Tests\Support\Traits\DiTrait;
@@ -37,7 +38,7 @@ final class SourceAnnotationsTest extends AbstractDatabaseTestCase
 
     public function setUp(): void
     {
-        // Each reader maps the same model classes to different tables.
+        // Each case has its own database and model manager.
         Query::clean();
         $this->setNewFactoryDefault();
     }
@@ -51,39 +52,65 @@ final class SourceAnnotationsTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @return array<string, array{class-string<ReaderInterface>, class-string<Model>, string, string}>
+     * @return array<string, array{class-string<Model>, string, string}>
      */
     public static function getExamples(): array
     {
         return [
-            'attribute'       => [AttributesReader::class, SourceModel::class, 'attribute_records', ''],
+            'attribute'       => [SourceModel::class, 'attribute_records', ''],
             'named attribute' => [
-                AttributesReader::class,
                 SourceNamedArgument::class,
                 'named_attribute_records',
                 'app_',
             ],
-            'docblock'        => [Reader::class, SourceModel::class, 'docblock_records', ''],
-            'named docblock'  => [Reader::class, SourceNamedArgument::class, 'named_docblock_records', 'app_'],
+            'child without Source' => [SourceChild::class, 'source_child', 'app_'],
+            'inherited initialize' => [SourceInitializedChild::class, 'initialized_records', 'app_'],
         ];
+    }
+
+    /**
+     * The default Introspection strategy must not parse unrelated PHPDoc
+     * annotations when saving or querying a model.
+     *
+     * @author QUAD69 <quad69@yandex.ru>
+     * @since  2026-11-08
+     */
+    public function testMvcModelManagerGetModelSourceIntrospectionWithInvalidDocblocks(): void
+    {
+        $connection = new Sqlite(['dbname' => ':memory:']);
+        $this->container->setShared('db', $connection);
+        $connection->execute(
+            'CREATE TABLE source_invalid_docblocks (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(70) NOT NULL)'
+        );
+
+        $model       = new SourceInvalidDocblocks();
+        $model->name = 'Introspection test';
+
+        $this->assertTrue($model->save());
+        $this->assertGreaterThan(0, $model->id);
+
+        $found = SourceInvalidDocblocks::findFirst();
+        $this->assertInstanceOf(SourceInvalidDocblocks::class, $found);
+        $this->assertSame('Introspection test', $found->name);
     }
 
     /**
      * Source must be resolved before the first insert or PHQL query. The
      * property annotations still supply the columns, primary key and identity.
      *
-     * @param class-string<ReaderInterface> $readerClass
-     * @param class-string<Model>           $modelClass
+     * @param class-string<Model> $modelClass
+     *
+     * @author QUAD69 <quad69@yandex.ru>
+     * @since  2026-11-08
      */
     #[DataProvider('getExamples')]
-    public function testPersistsAndQueriesTheAnnotatedTable(
-        string $readerClass,
+    public function testMvcModelManagerGetModelSourcePersistence(
         string $modelClass,
         string $table,
         string $prefix
     ): void {
         $annotations = new AnnotationsMemory();
-        $annotations->setReader(new $readerClass());
+        $annotations->setReader(new AttributesReader());
         $this->container->setShared('annotations', $annotations);
 
         $metadata = new Memory();

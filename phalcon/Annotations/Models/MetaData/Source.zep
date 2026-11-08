@@ -14,6 +14,8 @@ namespace Phalcon\Annotations\Models\MetaData;
  * Names the table of a model when the annotations service uses AttributesReader.
  * An explicit setSource() takes precedence. The model manager applies its
  * table prefix to the source.
+ * The attribute applies only to the class declaring it; it is not inherited.
+ * PHPDoc @Source annotations do not change the model's table.
  *
  * ```php
  * use Phalcon\Annotations\Models\MetaData\Source;
