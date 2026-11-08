@@ -311,6 +311,8 @@ class Dump implements TemplateAware
                     typeof key !== "int" &&
                     name === key
                 ) {
+                    let output .= "\n";
+
                     continue;
                 }
 

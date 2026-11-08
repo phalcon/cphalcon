@@ -74,7 +74,7 @@ class Debug
     {
         let this->data[] = [
             variable,
-            debug_backtrace(),
+            debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
             time()
         ];
 
