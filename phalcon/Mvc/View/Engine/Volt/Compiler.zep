@@ -2721,7 +2721,7 @@ class Compiler implements InjectionAwareInterface
     final protected function statementList(array statements, bool extendsMode = false) -> string
     {
         var extended, blockMode, compilation, extensions, statement,
-            tempCompilation, type, blockName, blockStatements, blocks, path,
+            tempCompilation, type, blockName, blockStatements, blocks, path, pathValue,
             finalPath, subCompiler, level;
 
         /**
@@ -2886,9 +2886,14 @@ class Compiler implements InjectionAwareInterface
                      */
                     let path = statement["path"];
 
-                    let finalPath = this->getFinalPath(
-                        path["value"]
-                    );
+                    /**
+                     * An expression path has no "value". Use an empty path.
+                     */
+                    if !fetch pathValue, path["value"] {
+                        let pathValue = "";
+                    }
+
+                    let finalPath = this->getFinalPath(pathValue);
 
                     let extended = true;
 
