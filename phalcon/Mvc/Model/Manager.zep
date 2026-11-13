@@ -12,6 +12,7 @@ namespace Phalcon\Mvc\Model;
 
 use Phalcon\Annotations\Adapter\AdapterInterface as AnnotationsAdapterInterface;
 use Phalcon\Annotations\AttributesReader;
+use Phalcon\Annotations\Models\MetaData\Source;
 use Phalcon\Contracts\Mvc\Model\Relation\CacheKeyProvider;
 use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Db\Adapter\AdapterInterface;
@@ -20,6 +21,7 @@ use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\Exception as EventsException;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
+use Phalcon\Mvc\Model\Exceptions\InvalidAnnotationsService;
 use Phalcon\Mvc\Model\Exceptions\InvalidConnectionService;
 use Phalcon\Mvc\Model\Exceptions\ManagerOrmServicesUnavailable;
 use Phalcon\Mvc\Model\Exceptions\ModelCouldNotLoad;
@@ -2391,46 +2393,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         return connection;
     }
 
-    /**
-     * Resolves an unset source. Reading attributes is opt-in so the default
-     * docblock reader never parses a model just to determine its table name.
-     */
-    private function getDefaultModelSource(<ModelInterface> model) -> string
-    {
-        var source, container, annotations, classAnnotations, sourceAnnotation,
-            table;
-
-        let source = uncamelize(get_class_ns(model)),
-            container = this->container;
-
-        if typeof container !== "object" || !container->has("annotations") {
-            return source;
-        }
-
-        let annotations = <AnnotationsAdapterInterface> container->getShared("annotations");
-
-        if !(annotations->getReader() instanceof AttributesReader) {
-            return source;
-        }
-
-        let classAnnotations = annotations->get(get_class(model))->getClassAnnotations();
-
-        if typeof classAnnotations === "object" && classAnnotations->has("Source") {
-            let sourceAnnotation = classAnnotations->get("Source"),
-                table = sourceAnnotation->getNamedArgument("table");
-
-            if table === null {
-                let table = sourceAnnotation->getArgument(0);
-            }
-
-            if typeof table === "string" {
-                return table;
-            }
-        }
-
-        return source;
-    }
-
     private function checkHasRelationship(
         string collection,
          string modelName,
@@ -2455,6 +2417,47 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
         return isset this->{collection}[keyRelation];
     }
+
+    /**
+     * Resolves an unset source. Reading attributes is opt-in so the default
+     * docblock reader never parses a model just to determine its table name.
+     *
+     * @throws InvalidAnnotationsService
+     */
+    private function getDefaultModelSource(<ModelInterface> model) -> string
+    {
+        var source, container, annotations, classAnnotations, table;
+
+        let source = uncamelize(get_class_ns(model)),
+            container = this->container;
+
+        if typeof container !== "object" || !container->has("annotations") {
+            return source;
+        }
+
+        let annotations = <AnnotationsAdapterInterface> container->getShared("annotations");
+
+        if typeof annotations !== "object" || !(annotations instanceof AnnotationsAdapterInterface) {
+            throw new InvalidAnnotationsService();
+        }
+
+        if !(annotations->getReader() instanceof AttributesReader) {
+            return source;
+        }
+
+        let classAnnotations = annotations->get(get_class(model))->getClassAnnotations();
+
+        if typeof classAnnotations === "object" {
+            let table = Source::getTable(classAnnotations);
+
+            if table !== null {
+                return table;
+            }
+        }
+
+        return source;
+    }
+
     /**
      * Counts the fields of a relation leg. A leg with one field is a string,
      * so it counts as one field.
