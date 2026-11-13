@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Url, __invoke)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &input);
 	ZVAL_LONG(&_0, 518);
-	ZEPHIR_CALL_FUNCTION(&_1, "filter_var", NULL, 0, input, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "filter_var", NULL, 148, input, &_0);
 	zephir_check_call_status();
 	zephir_cast_to_string(&_2, &_1);
 	if (UNEXPECTED(EG(exception))) {
@@ -81,10 +81,10 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Url, __invoke)
 	}
 	ZEPHIR_CPY_WRT(&sanitized, &_2);
 	ZVAL_LONG(&_0, (3 | 48));
-	ZEPHIR_CALL_FUNCTION(&_3, "html_entity_decode", NULL, 0, &sanitized, &_0);
+	ZEPHIR_CALL_FUNCTION(&_3, "html_entity_decode", NULL, 152, &sanitized, &_0);
 	zephir_check_call_status();
 	ZVAL_LONG(&_0, 0);
-	ZEPHIR_CALL_FUNCTION(&parsed, "parse_url", NULL, 0, &_3, &_0);
+	ZEPHIR_CALL_FUNCTION(&parsed, "parse_url", NULL, 153, &_3, &_0);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&parsed)) {
 		RETURN_MM_STRING("");

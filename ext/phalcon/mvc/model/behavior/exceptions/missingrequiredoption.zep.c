@@ -43,6 +43,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Exceptions_MissingRequiredOption, __constr
 
 	ZVAL_UNDEF(&option_zv);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(option)
 	ZEND_PARSE_PARAMETERS_END();
@@ -56,7 +57,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Exceptions_MissingRequiredOption, __constr
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_behavior_exceptions_missingrequiredoption_ce, getThis(), "__construct", NULL, 0, &_0);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_mvc_model_behavior_exceptions_missingrequiredoption_ce, getThis(), "__construct", &_zephir_call_cache[0], &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

@@ -37,6 +37,7 @@ PHP_METHOD(phalcon_16__closure, __invoke)
 	ZVAL_UNDEF(&__$zephir_this);
 	ZVAL_UNDEF(&id);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("id", 2, 1);
@@ -49,9 +50,13 @@ PHP_METHOD(phalcon_16__closure, __invoke)
 	this_ptr = &__$zephir_this;
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1419, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&id, this_ptr, "resolveArgument", NULL, 0, &ioc, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_METHOD_CACHED(&id, this_ptr, "resolveArgument", &_zephir_call_cache[0], &ioc, &_0);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(&ioc, "new", NULL, 0, &id);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(&ioc, "new", &_zephir_call_cache[1], &id);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -134,6 +134,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getPayload)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -146,10 +147,18 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getPayload)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 733, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_1, &_0, "getEncoded", NULL, 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_METHOD_CACHED(&_1, &_0, "getEncoded", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 734, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_3, &_2, "getEncoded", NULL, 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_METHOD_CACHED(&_3, &_2, "getEncoded", &_zephir_call_cache[1]);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_VSV(return_value, &_1, ".", &_3);
 	if (UNEXPECTED(EG(exception))) {
@@ -181,6 +190,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getToken)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("signature", 9, 1);
@@ -188,10 +198,14 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, getToken)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getPayload", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "getPayload", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 735, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_2, &_1, "getEncoded", NULL, 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_METHOD_CACHED(&_2, &_1, "getEncoded", &_zephir_call_cache[1]);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_VSV(return_value, &_0, ".", &_2);
 	if (UNEXPECTED(EG(exception))) {
@@ -230,6 +244,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, validate)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&methods);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[8];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(validator, phalcon_encryption_security_jwt_validator_ce)
 	ZEND_PARSE_PARAMETERS_END();
@@ -240,37 +255,37 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, validate)
 	zephir_create_array(&methods, 7, 0);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "aud");
-	ZEPHIR_CALL_METHOD(&_0, validator, "get", NULL, 0, &_1);
+	ZEPHIR_CALL_METHOD_CACHED(&_0, validator, "get", &_zephir_call_cache[0], &_1);
 	zephir_check_call_status();
 	zephir_array_update_string(&methods, SL("validateAudience"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "exp");
-	ZEPHIR_CALL_METHOD(&_0, validator, "get", NULL, 0, &_1);
+	ZEPHIR_CALL_METHOD_CACHED(&_0, validator, "get", &_zephir_call_cache[1], &_1);
 	zephir_check_call_status();
 	zephir_array_update_string(&methods, SL("validateExpiration"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "jti");
-	ZEPHIR_CALL_METHOD(&_0, validator, "get", NULL, 0, &_1);
+	ZEPHIR_CALL_METHOD_CACHED(&_0, validator, "get", &_zephir_call_cache[2], &_1);
 	zephir_check_call_status();
 	zephir_array_update_string(&methods, SL("validateId"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "iat");
-	ZEPHIR_CALL_METHOD(&_0, validator, "get", NULL, 0, &_1);
+	ZEPHIR_CALL_METHOD_CACHED(&_0, validator, "get", &_zephir_call_cache[3], &_1);
 	zephir_check_call_status();
 	zephir_array_update_string(&methods, SL("validateIssuedAt"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "iss");
-	ZEPHIR_CALL_METHOD(&_0, validator, "get", NULL, 0, &_1);
+	ZEPHIR_CALL_METHOD_CACHED(&_0, validator, "get", &_zephir_call_cache[4], &_1);
 	zephir_check_call_status();
 	zephir_array_update_string(&methods, SL("validateIssuer"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "nbf");
-	ZEPHIR_CALL_METHOD(&_0, validator, "get", NULL, 0, &_1);
+	ZEPHIR_CALL_METHOD_CACHED(&_0, validator, "get", &_zephir_call_cache[5], &_1);
 	zephir_check_call_status();
 	zephir_array_update_string(&methods, SL("validateNotBefore"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "sub");
-	ZEPHIR_CALL_METHOD(&_0, validator, "get", NULL, 0, &_1);
+	ZEPHIR_CALL_METHOD_CACHED(&_0, validator, "get", &_zephir_call_cache[6], &_1);
 	zephir_check_call_status();
 	zephir_array_update_string(&methods, SL("validateSubject"), &_0, PH_COPY | PH_SEPARATE);
 	zephir_is_iterable(&methods, 0, "phalcon/Encryption/Security/JWT/Token/Token.zep", 127);
@@ -291,7 +306,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, validate)
 	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&claimValue);
 	ZEPHIR_INIT_NVAR(&method);
-	ZEPHIR_RETURN_CALL_METHOD(validator, "getErrors", NULL, 0);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(validator, "getErrors", &_zephir_call_cache[7]);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -316,6 +331,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, verify)
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_6);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[6];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("signature", 9, 1);
@@ -330,23 +346,27 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, verify)
 	signer = ZEND_CALL_ARG(execute_data, 1);
 	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
-	ZEPHIR_CALL_METHOD(&_0, signer, "getAlgHeader", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_0, signer, "getAlgHeader", &_zephir_call_cache[0]);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getHeaders", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_1, this_ptr, "getHeaders", &_zephir_call_cache[1]);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "alg");
-	ZEPHIR_CALL_METHOD(&_2, &_1, "get", NULL, 0, &_3);
+	ZEPHIR_CALL_METHOD_CACHED(&_2, &_1, "get", &_zephir_call_cache[2], &_3);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_IDENTICAL(&_0, &_2)) {
 		RETURN_MM_BOOL(0);
 	}
 	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 735, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_5, &_4, "getHash", NULL, 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_METHOD_CACHED(&_5, &_4, "getHash", &_zephir_call_cache[3]);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_6, this_ptr, "getPayload", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_6, this_ptr, "getPayload", &_zephir_call_cache[4]);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(signer, "verify", NULL, 0, &_5, &_6, &key_zv);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(signer, "verify", &_zephir_call_cache[5], &_5, &_6, &key_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

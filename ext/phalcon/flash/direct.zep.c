@@ -54,6 +54,7 @@ PHP_METHOD(Phalcon_Flash_Direct, message)
 
 	ZVAL_UNDEF(&type_zv);
 	ZVAL_UNDEF(&message_sub);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(type)
 		Z_PARAM_ZVAL(message)
@@ -63,7 +64,7 @@ PHP_METHOD(Phalcon_Flash_Direct, message)
 	message = ZEND_CALL_ARG(execute_data, 2);
 	zephir_memory_observe(&type_zv);
 	ZVAL_STR_COPY(&type_zv, type);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "outputMessage", NULL, 0, &type_zv, message);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "outputMessage", &_zephir_call_cache[0], &type_zv, message);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -83,6 +84,7 @@ PHP_METHOD(Phalcon_Flash_Direct, output)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_4);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[5];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("messages", 8, 1);
@@ -100,6 +102,10 @@ PHP_METHOD(Phalcon_Flash_Direct, output)
 	} else {
 		}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 785, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (Z_TYPE_P(&_0) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_2);
 		zephir_string_to_char_array(&_2, &_0);
@@ -116,29 +122,29 @@ PHP_METHOD(Phalcon_Flash_Direct, output)
 			zend_print_zval(&message, 0);
 		} ZEND_HASH_FOREACH_END();
 	} else {
-		ZEPHIR_CALL_METHOD(NULL, _1, "rewind", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, _1, "rewind", &_zephir_call_cache[0]);
 		zephir_check_call_status();
 		_5 = 1;
 		while (1) {
 			if (_5) {
 				_5 = 0;
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, _1, "next", NULL, 0);
+				ZEPHIR_CALL_METHOD_CACHED(NULL, _1, "next", &_zephir_call_cache[1]);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_4, _1, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&_4, _1, "valid", &_zephir_call_cache[2]);
 			zephir_check_call_status();
 			if (!zend_is_true(&_4)) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&message, _1, "current", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&message, _1, "current", &_zephir_call_cache[3]);
 			zephir_check_call_status();
 				zend_print_zval(&message, 0);
 		}
 	}
 	ZEPHIR_INIT_NVAR(&message);
 	if (remove) {
-		ZEPHIR_CALL_PARENT(NULL, phalcon_flash_direct_ce, getThis(), "clear", NULL, 0);
+		ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_flash_direct_ce, getThis(), "clear", &_zephir_call_cache[4]);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();

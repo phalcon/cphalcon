@@ -48,6 +48,7 @@ PHP_METHOD(Phalcon_Config_Exceptions_MissingConfigOption, __construct)
 
 	ZVAL_UNDEF(&option_zv);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("option", 6, 1);
@@ -67,7 +68,7 @@ PHP_METHOD(Phalcon_Config_Exceptions_MissingConfigOption, __construct)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_config_exceptions_missingconfigoption_ce, getThis(), "__construct", NULL, 0, &_0);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_config_exceptions_missingconfigoption_ce, getThis(), "__construct", &_zephir_call_cache[0], &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

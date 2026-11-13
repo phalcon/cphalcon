@@ -140,7 +140,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             element->{"setTagFactory"}(this->tagFactory);
         }
 
-        if position == null || empty this->elements {
+        if position === null || empty this->elements {
             /**
              * Append the element by its name
              */

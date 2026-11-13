@@ -48,6 +48,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Exception_OperationCancelled, __construct)
 
 	ZVAL_UNDEF(&eventName_zv);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(eventName)
 	ZEND_PARSE_PARAMETERS_END();
@@ -61,7 +62,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Exception_OperationCancelled, __construct)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_datamapper_pdo_exception_operationcancelled_ce, getThis(), "__construct", NULL, 0, &_0);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_datamapper_pdo_exception_operationcancelled_ce, getThis(), "__construct", &_zephir_call_cache[0], &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

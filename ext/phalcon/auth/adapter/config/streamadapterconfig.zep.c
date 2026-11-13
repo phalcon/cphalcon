@@ -57,6 +57,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Config_StreamAdapterConfig, __construct)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("file", 4, 1);
@@ -84,10 +85,10 @@ PHP_METHOD(Phalcon_Auth_Adapter_Config_StreamAdapterConfig, __construct)
 	ZVAL_STRING(&_1, "file");
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, " path");
-	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_auth_exceptions_configrequiresnonemptyvalue_ce, "assert", NULL, 0, &file_zv, &_0, &_1, &_2);
+	ZEPHIR_CALL_CE_STATIC_CACHED(NULL, phalcon_auth_exceptions_configrequiresnonemptyvalue_ce, "assert", &_zephir_call_cache[0], &file_zv, &_0, &_1, &_2);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 452, &file_zv);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_auth_adapter_config_streamadapterconfig_ce, getThis(), "__construct", NULL, 0, &model_zv);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_auth_adapter_config_streamadapterconfig_ce, getThis(), "__construct", &_zephir_call_cache[1], &model_zv);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

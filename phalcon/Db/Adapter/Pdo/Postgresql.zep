@@ -552,7 +552,7 @@ class Postgresql extends PdoAdapter
             /**
              * Positions
              */
-            if oldColumn == null {
+            if oldColumn === null {
                 let definition["first"] = true;
             } else {
                 let definition["after"] = oldColumn;

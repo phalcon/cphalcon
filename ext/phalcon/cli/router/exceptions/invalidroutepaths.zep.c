@@ -45,6 +45,7 @@ PHP_METHOD(Phalcon_Cli_Router_Exceptions_InvalidRoutePaths, __construct)
 	ZVAL_UNDEF(&route_zv);
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&_0$$3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR(route)
@@ -74,7 +75,7 @@ PHP_METHOD(Phalcon_Cli_Router_Exceptions_InvalidRoutePaths, __construct)
 			return;
 		}
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_cli_router_exceptions_invalidroutepaths_ce, getThis(), "__construct", NULL, 0, &message);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_cli_router_exceptions_invalidroutepaths_ce, getThis(), "__construct", &_zephir_call_cache[0], &message);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

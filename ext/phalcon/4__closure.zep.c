@@ -33,6 +33,7 @@ PHP_METHOD(phalcon_4__closure, __invoke)
 	ZVAL_UNDEF(&container_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(container)
 	ZEND_PARSE_PARAMETERS_END();
@@ -42,9 +43,9 @@ PHP_METHOD(phalcon_4__closure, __invoke)
 	object_init_ex(return_value, phalcon_adr_dispatcher_ce);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "Phalcon\\Contracts\\Events\\Manager");
-	ZEPHIR_CALL_METHOD(&_0, container, "get", NULL, 0, &_1);
+	ZEPHIR_CALL_METHOD_CACHED(&_0, container, "get", &_zephir_call_cache[0], &_1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, container, &_0);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[1], container, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

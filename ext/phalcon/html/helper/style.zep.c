@@ -70,6 +70,7 @@ PHP_METHOD(Phalcon_Html_Helper_Style, add)
 	ZVAL_UNDEF(&attributes);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[4];
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(url)
 		Z_PARAM_OPTIONAL
@@ -103,21 +104,21 @@ PHP_METHOD(Phalcon_Html_Helper_Style, add)
 	zephir_array_fast_append(&_0, &_1);
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_create_array(&_2, 3, 0);
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getTag", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_3, this_ptr, "getTag", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	zephir_array_fast_append(&_2, &_3);
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getAttributes", NULL, 0, &url_zv, &attributes);
+	ZEPHIR_CALL_METHOD_CACHED(&_3, this_ptr, "getAttributes", &_zephir_call_cache[1], &url_zv, &attributes);
 	zephir_check_call_status();
 	zephir_array_fast_append(&_2, &_3);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "/");
 	zephir_array_fast_append(&_2, &_1);
 	zephir_array_fast_append(&_0, &_2);
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "indent", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_3, this_ptr, "indent", &_zephir_call_cache[2]);
 	zephir_check_call_status();
 	zephir_array_fast_append(&_0, &_3);
 	ZVAL_LONG(&_4, position);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "pushOrPlace", NULL, 0, &_0, &_4);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "pushOrPlace", &_zephir_call_cache[3], &_0, &_4);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -191,6 +192,10 @@ PHP_METHOD(Phalcon_Html_Helper_Style, getAttributes)
 	add_assoc_stringl_ex(&required, SL("type"), SL("text/css"));
 	add_assoc_stringl_ex(&required, SL("media"), SL("screen"));
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 281, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
 		zephir_array_unset_string(&required, SL("rel"), PH_SEPARATE);
 		if (UNEXPECTED(EG(exception))) {
@@ -224,6 +229,10 @@ PHP_METHOD(Phalcon_Html_Helper_Style, getTag)
 
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 281, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_1)) {
 		ZEPHIR_INIT_NVAR(&_0);
 		ZVAL_STRING(&_0, "style");

@@ -63,6 +63,7 @@ PHP_METHOD(Phalcon_Html_Helper_VoidTag, __invoke)
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&attributes);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("doctype", 7, 1);
@@ -89,10 +90,18 @@ PHP_METHOD(Phalcon_Html_Helper_VoidTag, __invoke)
 	ZEPHIR_INIT_VAR(&closeTag);
 	ZVAL_STRING(&closeTag, "");
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 879, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	_1 = Z_TYPE_P(&_0) != IS_NULL;
 	if (_1) {
 		zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 879, PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_METHOD(&_3, &_2, "getType", NULL, 0);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		ZEPHIR_CALL_METHOD_CACHED(&_3, &_2, "getType", &_zephir_call_cache[0]);
 		zephir_check_call_status();
 		_1 = ZEPHIR_GT_LONG(&_3, 5);
 	}
@@ -100,7 +109,7 @@ PHP_METHOD(Phalcon_Html_Helper_VoidTag, __invoke)
 		ZEPHIR_INIT_NVAR(&closeTag);
 		ZVAL_STRING(&closeTag, "/");
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderTag", NULL, 0, &name_zv, &attributes, &closeTag);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "renderTag", &_zephir_call_cache[1], &name_zv, &attributes, &closeTag);
 	zephir_check_call_status();
 	RETURN_MM();
 }

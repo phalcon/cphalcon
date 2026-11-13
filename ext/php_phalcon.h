@@ -14,7 +14,7 @@
 #define PHP_PHALCON_VERSION     "5.23.0"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
-#define PHP_PHALCON_ZEPVERSION  "1.7.0-$Id$"
+#define PHP_PHALCON_ZEPVERSION  "1.8.0-$Id$"
 #define PHP_PHALCON_DESCRIPTION "Phalcon is a full stack PHP framework, delivered as a PHP extension, offering lower resource consumption and high performance."
 
 
@@ -77,6 +77,9 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 
 	/* Cache enabled */
 	unsigned int cache_enabled;
+
+	/* The request this thread is serving: a call site's inline cache filled in an earlier one is stale (#2790) */
+	uint64_t request_number;
 
 	/* Max recursion control */
 	unsigned int recursive_lock;

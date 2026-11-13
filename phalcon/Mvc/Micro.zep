@@ -239,7 +239,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
 
         let modelBinder = this->modelBinder;
 
-        if modelBinder == null {
+        if modelBinder === null {
             return [];
         }
 
@@ -479,7 +479,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
                     if modelBinder !== null {
                         let routeName = matchedRoute->getName();
 
-                        if routeName != null {
+                        if routeName !== null {
                             let bindCacheKey = "_PHMB_" . routeName;
                         } else {
                             let bindCacheKey = "_PHMB_" . matchedRoute->getPattern();
@@ -516,7 +516,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
                  * Instead of double call_user_func_array when lazy loading we
                  * will just call method
                  */
-                if realHandler != null && realHandler instanceof LazyLoader {
+                if realHandler !== null && realHandler instanceof LazyLoader {
                     let methodName = handler[1];
 
                     let lazyReturned = realHandler->callMethod(

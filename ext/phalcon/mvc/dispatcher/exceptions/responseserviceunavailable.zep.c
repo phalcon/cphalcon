@@ -40,13 +40,14 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher_Exceptions_ResponseServiceUnavailable, __const
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "A dependency injection container is required to access the 'response' service");
 	ZVAL_LONG(&_1, 0);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_dispatcher_exceptions_responseserviceunavailable_ce, getThis(), "__construct", NULL, 0, &_0, &_1);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_mvc_dispatcher_exceptions_responseserviceunavailable_ce, getThis(), "__construct", &_zephir_call_cache[0], &_0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

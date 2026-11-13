@@ -90,6 +90,7 @@ PHP_METHOD(Phalcon_Auth_Guard_UserRemember, __construct)
 	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&_11);
 	ZVAL_UNDEF(&_15);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	static zend_string *_zephir_prop_2 = NULL;
@@ -124,12 +125,12 @@ PHP_METHOD(Phalcon_Auth_Guard_UserRemember, __construct)
 			ZEPHIR_INIT_VAR(&_1$$4);
 			object_init_ex(&_1$$4, phalcon_support_helper_json_decode_ce);
 			if (zephir_has_constructor(&_1$$4)) {
-				ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 0);
+				ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$4, "__construct", &_zephir_call_cache[0]);
 				zephir_check_call_status_or_jump(try_end_1);
 			}
 
 			ZVAL_BOOL(&_2$$4, 1);
-			ZEPHIR_CALL_METHOD(&data, &_1$$4, "__invoke", NULL, 411, payload, &_2$$4);
+			ZEPHIR_CALL_METHOD_CACHED(&data, &_1$$4, "__invoke", &_zephir_call_cache[1], payload, &_2$$4);
 			zephir_check_call_status_or_jump(try_end_1);
 		} else {
 			ZEPHIR_CPY_WRT(&data, payload);

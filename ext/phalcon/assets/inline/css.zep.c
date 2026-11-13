@@ -58,6 +58,7 @@ PHP_METHOD(Phalcon_Assets_Inline_Css, __construct)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&attributes);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(content)
 		Z_PARAM_OPTIONAL
@@ -97,7 +98,7 @@ PHP_METHOD(Phalcon_Assets_Inline_Css, __construct)
 	} else {
 		ZVAL_BOOL(&_2, 0);
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_assets_inline_css_ce, getThis(), "__construct", NULL, 0, &_1, &content_zv, &_2, &attributes);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_assets_inline_css_ce, getThis(), "__construct", &_zephir_call_cache[0], &_1, &content_zv, &_2, &attributes);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

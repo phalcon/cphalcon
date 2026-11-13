@@ -5,7 +5,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_RouterInterface);
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_routerinterface_add, 0, 1, Phalcon\\Cli\\Router\\RouteInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
-	ZEND_ARG_INFO(0, paths)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, paths, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_getactionname, 0, 0, IS_STRING, 0)
@@ -41,7 +41,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_routerinterface_gett
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_routerinterface_handle, 0, 0, 0)
-	ZEND_ARG_INFO(0, arguments)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, arguments, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_routerinterface_setdefaultaction, 0, 1, Phalcon\\Cli\\RouterInterface, 0)

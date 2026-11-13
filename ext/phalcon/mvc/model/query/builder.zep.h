@@ -60,7 +60,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, conditionNotIn);
 zend_object *zephir_init_properties_Phalcon_Mvc_Model_Query_Builder(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder___construct, 0, 0, 0)
-	ZEND_ARG_INFO(0, params)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, params, "null")
 	ZEND_ARG_OBJ_TYPE_MASK(0, container, Phalcon\\Di\\DiInterface, MAY_BE_NULL, "null")
 ZEND_END_ARG_INFO()
 
@@ -209,7 +209,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_limit, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, limit, IS_LONG, 0)
-	ZEND_ARG_INFO(0, offset)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, offset, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_notbetweenhaving, 0, 3, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)

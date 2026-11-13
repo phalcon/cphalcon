@@ -45,6 +45,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exceptions_CorruptedStatementWithData, _
 
 	ZVAL_UNDEF(&statement);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		ZEPHIR_Z_PARAM_ARRAY(statement, statement_param)
 	ZEND_PARSE_PARAMETERS_END();
@@ -54,7 +55,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exceptions_CorruptedStatementWithData, _
 	zephir_get_arrval(&statement, statement_param);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "Corrupt statement");
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_view_engine_volt_exceptions_corruptedstatementwithdata_ce, getThis(), "__construct", NULL, 0, &_0, &statement);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_mvc_view_engine_volt_exceptions_corruptedstatementwithdata_ce, getThis(), "__construct", &_zephir_call_cache[0], &_0, &statement);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

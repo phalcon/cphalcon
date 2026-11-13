@@ -5,7 +5,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_ValidatorInterface);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_validatorinterface_getoption, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
-	ZEND_ARG_INFO(0, defaultValue)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, defaultValue, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validatorinterface_gettemplate, 0, 1, IS_STRING, 0)

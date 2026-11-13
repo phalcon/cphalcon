@@ -53,6 +53,7 @@ PHP_METHOD(Phalcon_Logger_AdapterFactory, __construct)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&services);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(services, services_param)
@@ -66,7 +67,7 @@ PHP_METHOD(Phalcon_Logger_AdapterFactory, __construct)
 	} else {
 		zephir_get_arrval(&services, services_param);
 	}
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &services);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "init", &_zephir_call_cache[0], &services);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -92,6 +93,7 @@ PHP_METHOD(Phalcon_Logger_AdapterFactory, newInstance)
 	ZVAL_UNDEF(&definition);
 	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_STR(name)
 		Z_PARAM_STR(fileName)
@@ -113,7 +115,7 @@ PHP_METHOD(Phalcon_Logger_AdapterFactory, newInstance)
 	} else {
 		zephir_get_arrval(&options, options_param);
 	}
-	ZEPHIR_CALL_METHOD(&definition, this_ptr, "getService", NULL, 0, &name_zv);
+	ZEPHIR_CALL_METHOD_CACHED(&definition, this_ptr, "getService", &_zephir_call_cache[0], &name_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 2, 0);

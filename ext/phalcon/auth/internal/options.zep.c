@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Auth_Internal_Options, arrayOption)
 	if (!((Z_TYPE_P(&value) == IS_ARRAY))) {
 		RETURN_CTOR(&defaultValue);
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("array_values", NULL, 27, &value);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_values", NULL, 18, &value);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -119,6 +119,7 @@ PHP_METHOD(Phalcon_Auth_Internal_Options, requireArray)
 	ZVAL_UNDEF(&context_zv);
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_2$$3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		ZEPHIR_Z_PARAM_ARRAY(options, options_param)
 		Z_PARAM_STR(key)
@@ -146,7 +147,7 @@ PHP_METHOD(Phalcon_Auth_Internal_Options, requireArray)
 	if (_1) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		object_init_ex(&_2$$3, phalcon_auth_exceptions_optionrequiresarray_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 428, &context_zv, &key_zv);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_2$$3, "__construct", &_zephir_call_cache[0], &context_zv, &key_zv);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_2$$3, "phalcon/Auth/Internal/Options.zep", 62);
 		ZEPHIR_MM_RESTORE();
@@ -174,6 +175,7 @@ PHP_METHOD(Phalcon_Auth_Internal_Options, requireString)
 	ZVAL_UNDEF(&context_zv);
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_2$$3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		ZEPHIR_Z_PARAM_ARRAY(options, options_param)
 		Z_PARAM_STR(key)
@@ -201,7 +203,7 @@ PHP_METHOD(Phalcon_Auth_Internal_Options, requireString)
 	if (_1) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		object_init_ex(&_2$$3, phalcon_auth_exceptions_optionrequiresstring_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 429, &context_zv, &key_zv);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_2$$3, "__construct", &_zephir_call_cache[0], &context_zv, &key_zv);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_2$$3, "phalcon/Auth/Internal/Options.zep", 80);
 		ZEPHIR_MM_RESTORE();

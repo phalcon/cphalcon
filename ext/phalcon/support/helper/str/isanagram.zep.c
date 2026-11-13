@@ -61,10 +61,10 @@ PHP_METHOD(Phalcon_Support_Helper_Str_IsAnagram, __invoke)
 	zephir_memory_observe(&second_zv);
 	ZVAL_STR_COPY(&second_zv, second);
 	ZVAL_LONG(&_0, 1);
-	ZEPHIR_CALL_FUNCTION(&_1, "count_chars", &_2, 0, &first_zv, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "count_chars", &_2, 279, &first_zv, &_0);
 	zephir_check_call_status();
 	ZVAL_LONG(&_0, 1);
-	ZEPHIR_CALL_FUNCTION(&_3, "count_chars", &_2, 0, &second_zv, &_0);
+	ZEPHIR_CALL_FUNCTION(&_3, "count_chars", &_2, 279, &second_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(ZEPHIR_IS_IDENTICAL(&_1, &_3));
 }

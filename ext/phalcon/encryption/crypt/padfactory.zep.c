@@ -53,6 +53,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, __construct)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&services);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(services, services_param)
@@ -66,7 +67,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, __construct)
 	} else {
 		zephir_get_arrval(&services, services_param);
 	}
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &services);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "init", &_zephir_call_cache[0], &services);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -86,6 +87,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, newInstance)
 
 	ZVAL_UNDEF(&name_zv);
 	ZVAL_UNDEF(&definition);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
@@ -93,7 +95,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, newInstance)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_CALL_METHOD(&definition, this_ptr, "getService", NULL, 0, &name_zv);
+	ZEPHIR_CALL_METHOD_CACHED(&definition, this_ptr, "getService", &_zephir_call_cache[0], &name_zv);
 	zephir_check_call_status();
 	ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(return_value, &definition);
 	zephir_check_call_status();
@@ -119,6 +121,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, padNumberToService)
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&map);
 	ZVAL_UNDEF(&_3$$3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(number)
 	ZEND_PARSE_PARAMETERS_END();
@@ -148,7 +151,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, padNumberToService)
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "getException", NULL, 0, &_3$$3);
+		ZEPHIR_CALL_METHOD_CACHED(&_1$$3, this_ptr, "getException", &_zephir_call_cache[0], &_3$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Encryption/Crypt/PadFactory.zep", 76);
 		ZEPHIR_MM_RESTORE();

@@ -74,17 +74,18 @@ PHP_METHOD(Phalcon_Time_Clock_SystemClock, fromSystemTimezone)
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	object_init_ex(return_value, phalcon_time_clock_systemclock_ce);
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, php_date_get_timezone_ce());
-	ZEPHIR_CALL_FUNCTION(&_1, "date_default_timezone_get", NULL, 260);
+	ZEPHIR_CALL_FUNCTION(&_1, "date_default_timezone_get", NULL, 76);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0, &_1);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0], &_1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 261, &_0);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[1], &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -100,6 +101,7 @@ PHP_METHOD(Phalcon_Time_Clock_SystemClock, fromUTC)
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
@@ -108,9 +110,9 @@ PHP_METHOD(Phalcon_Time_Clock_SystemClock, fromUTC)
 	object_init_ex(&_0, php_date_get_timezone_ce());
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "UTC");
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0, &_1);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0], &_1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 261, &_0);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[1], &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -127,6 +129,7 @@ PHP_METHOD(Phalcon_Time_Clock_SystemClock, now)
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("timezone", 8, 1);
@@ -136,9 +139,13 @@ PHP_METHOD(Phalcon_Time_Clock_SystemClock, now)
 
 	object_init_ex(return_value, php_date_get_immutable_ce());
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1407, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "now");
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &_1, &_0);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &_1, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

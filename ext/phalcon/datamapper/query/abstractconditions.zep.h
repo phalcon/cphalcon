@@ -23,13 +23,13 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, processValue);
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_abstractconditions_andwhere, 0, 1, Phalcon\\DataMapper\\Query\\AbstractConditions, 0)
 	ZEND_ARG_TYPE_INFO(0, condition, IS_STRING, 0)
-	ZEND_ARG_INFO(0, value)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, value, "null")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, type, IS_LONG, 0, "-1")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_abstractconditions_appendwhere, 0, 1, Phalcon\\DataMapper\\Query\\AbstractConditions, 0)
 	ZEND_ARG_TYPE_INFO(0, condition, IS_STRING, 0)
-	ZEND_ARG_INFO(0, value)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, value, "null")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, type, IS_LONG, 0, "-1")
 ZEND_END_ARG_INFO()
 
@@ -47,13 +47,13 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_abstractconditions_orwhere, 0, 1, Phalcon\\DataMapper\\Query\\AbstractConditions, 0)
 	ZEND_ARG_TYPE_INFO(0, condition, IS_STRING, 0)
-	ZEND_ARG_INFO(0, value)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, value, "null")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, type, IS_LONG, 0, "-1")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_abstractconditions_where, 0, 1, Phalcon\\DataMapper\\Query\\AbstractConditions, 0)
 	ZEND_ARG_TYPE_INFO(0, condition, IS_STRING, 0)
-	ZEND_ARG_INFO(0, value)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, value, "null")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, type, IS_LONG, 0, "-1")
 ZEND_END_ARG_INFO()
 
@@ -66,7 +66,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstrac
 	ZEND_ARG_TYPE_INFO(0, store, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, andor, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, condition, IS_STRING, 0)
-	ZEND_ARG_INFO(0, value)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, value, "null")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, type, IS_LONG, 0, "-1")
 ZEND_END_ARG_INFO()
 
@@ -74,7 +74,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_abstrac
 
 	ZEND_ARG_TYPE_INFO(0, store, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, condition, IS_STRING, 0)
-	ZEND_ARG_INFO(0, value)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, value, "null")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, type, IS_LONG, 0, "-1")
 ZEND_END_ARG_INFO()
 

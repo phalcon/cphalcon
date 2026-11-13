@@ -45,6 +45,7 @@ PHP_METHOD(Phalcon_Di_Exceptions_MissingParameterKey, __construct)
 	ZVAL_UNDEF(&key_zv);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(key)
 		Z_PARAM_LONG(position)
@@ -62,7 +63,7 @@ PHP_METHOD(Phalcon_Di_Exceptions_MissingParameterKey, __construct)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_di_exceptions_missingparameterkey_ce, getThis(), "__construct", NULL, 0, &_1);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_di_exceptions_missingparameterkey_ce, getThis(), "__construct", &_zephir_call_cache[0], &_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

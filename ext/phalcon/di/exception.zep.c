@@ -47,6 +47,7 @@ PHP_METHOD(Phalcon_Di_Exception, serviceCannotBeResolved)
 
 	ZVAL_UNDEF(&name_zv);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
@@ -61,7 +62,7 @@ PHP_METHOD(Phalcon_Di_Exception, serviceCannotBeResolved)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 7, &_0);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -76,6 +77,7 @@ PHP_METHOD(Phalcon_Di_Exception, serviceNotFound)
 
 	ZVAL_UNDEF(&name_zv);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
@@ -90,7 +92,7 @@ PHP_METHOD(Phalcon_Di_Exception, serviceNotFound)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 7, &_0);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -105,6 +107,7 @@ PHP_METHOD(Phalcon_Di_Exception, undefinedMethod)
 
 	ZVAL_UNDEF(&method_zv);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(method)
 	ZEND_PARSE_PARAMETERS_END();
@@ -119,7 +122,7 @@ PHP_METHOD(Phalcon_Di_Exception, undefinedMethod)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 7, &_0);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -133,6 +136,7 @@ PHP_METHOD(Phalcon_Di_Exception, unknownServiceInParameter)
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(position)
 	ZEND_PARSE_PARAMETERS_END();
@@ -148,7 +152,7 @@ PHP_METHOD(Phalcon_Di_Exception, unknownServiceInParameter)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 7, &_1);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -47,6 +47,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_SnakeCase, __invoke)
 	ZVAL_UNDEF(&text_zv);
 	ZVAL_UNDEF(&delimiters_zv);
 	ZVAL_UNDEF(&output);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(text)
@@ -63,7 +64,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_SnakeCase, __invoke)
 		zephir_memory_observe(&delimiters_zv);
 	ZVAL_STR_COPY(&delimiters_zv, delimiters);
 	}
-	ZEPHIR_CALL_METHOD(&output, this_ptr, "processArray", NULL, 0, &text_zv, &delimiters_zv);
+	ZEPHIR_CALL_METHOD_CACHED(&output, this_ptr, "processArray", &_zephir_call_cache[0], &text_zv, &delimiters_zv);
 	zephir_check_call_status();
 	zephir_fast_join_str(return_value, SL("_"), &output);
 	RETURN_MM();

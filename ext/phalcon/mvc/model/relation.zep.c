@@ -241,6 +241,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getForeignKey)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1119, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CPY_WRT(&options, &_0);
 	zephir_memory_observe(&foreignKey);
 	_1 = zephir_array_isset_string_fetch(&foreignKey, &options, SL("foreignKey"), 0);
@@ -319,7 +323,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getOption)
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	zephir_memory_observe(&option);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1119, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1119, PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	_1 = zephir_array_isset_fetch(&option, &_0, &name_zv, 0);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
@@ -368,6 +376,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getParams)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1119, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CPY_WRT(&options, &_0);
 	zephir_memory_observe(&params);
 	_1 = zephir_array_isset_string_fetch(&params, &options, SL("params"), 0);
@@ -439,7 +451,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, isForeignKey)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_memory_observe(&foreignKey);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1119, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1119, PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	_1 = zephir_array_isset_string_fetch(&foreignKey, &_0, SL("foreignKey"), 0);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
@@ -472,6 +488,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, isReusable)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1119, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CPY_WRT(&options, &_0);
 	zephir_memory_observe(&reusable);
 	_1 = zephir_array_isset_string_fetch(&reusable, &options, SL("reusable"), 0);
@@ -505,6 +525,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, isThrough)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1115, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CPY_WRT(&type, &_0);
 	_1 = ZEPHIR_IS_LONG(&type, 3);
 	if (!(_1)) {

@@ -68,6 +68,38 @@ final class ConstructTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * Empty "bind" and "bindTypes" arrays in the parameters must not be
+     * changed by the constructor.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17725
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-13
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelQueryBuilderConstructEmptyBindKeepsSource(): void
+    {
+        $params = [
+            'models'    => Invoices::class,
+            'bind'      => [],
+            'bindTypes' => [],
+        ];
+
+        ob_start();
+        debug_zval_dump($params);
+        $expected = ob_get_clean();
+
+        new Builder($params);
+
+        ob_start();
+        debug_zval_dump($params);
+        $actual = ob_get_clean();
+
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */

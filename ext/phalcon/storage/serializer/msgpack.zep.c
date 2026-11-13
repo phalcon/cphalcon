@@ -43,13 +43,14 @@ PHP_METHOD(Phalcon_Storage_Serializer_Msgpack, doSerialize)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&value_sub);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(value)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &value);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "phpMsgpackPack", NULL, 0, value);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "phpMsgpackPack", &_zephir_call_cache[0], value);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -65,13 +66,14 @@ PHP_METHOD(Phalcon_Storage_Serializer_Msgpack, doUnserialize)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&value_sub);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(value)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &value);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "phpMsgpackUnpack", NULL, 0, value);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "phpMsgpackUnpack", &_zephir_call_cache[0], value);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -96,7 +98,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Msgpack, phpMsgpackPack)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &value);
-	ZEPHIR_RETURN_CALL_FUNCTION("msgpack_pack", NULL, 0, value);
+	ZEPHIR_RETURN_CALL_FUNCTION("msgpack_pack", NULL, 261, value);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -121,7 +123,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Msgpack, phpMsgpackUnpack)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &value);
-	ZEPHIR_RETURN_CALL_FUNCTION("msgpack_unpack", NULL, 0, value);
+	ZEPHIR_RETURN_CALL_FUNCTION("msgpack_unpack", NULL, 262, value);
 	zephir_check_call_status();
 	RETURN_MM();
 }

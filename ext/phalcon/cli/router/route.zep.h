@@ -26,7 +26,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, setName);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_router_route___construct, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
-	ZEND_ARG_INFO(0, paths)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, paths, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_route_delimiter, 0, 0, IS_VOID, 0)
@@ -87,7 +87,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_route_reconfigure, 0, 1, IS_VOID, 0)
 
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
-	ZEND_ARG_INFO(0, paths)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, paths, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_router_route_setdescription, 0, 1, Phalcon\\Cli\\Router\\RouteInterface, 0)

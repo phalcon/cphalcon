@@ -2044,7 +2044,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             get_called_class()
         );
 
-        if limit != null {
+        if limit !== null {
             builder->limit(limit);
         }
 
@@ -3565,7 +3565,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             dirtyState = this->dirtyState,
             manager = <ManagerInterface> this->getModelsManager();
 
-        if manager->isKeepingSnapshots(this) && this->snapshot != null && attributes != this->snapshot {
+        if manager->isKeepingSnapshots(this) && this->snapshot !== null && attributes != this->snapshot {
             let snapshot = this->snapshot;
         }
 

@@ -48,6 +48,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_DirFromFile, __invoke)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&file_zv);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(file)
 	ZEND_PARSE_PARAMETERS_END();
@@ -55,7 +56,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_DirFromFile, __invoke)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&file_zv);
 	ZVAL_STR_COPY(&file_zv, file);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "toDirFromFile", NULL, 0, &file_zv);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "toDirFromFile", &_zephir_call_cache[0], &file_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -104,11 +105,11 @@ PHP_METHOD(Phalcon_Support_Helper_Str_DirFromFile, toDirFromFile)
 	} else {
 		}
 	ZVAL_LONG(&_0, 8);
-	ZEPHIR_CALL_FUNCTION(&name, "pathinfo", NULL, 205, &file_zv, &_0);
+	ZEPHIR_CALL_FUNCTION(&name, "pathinfo", NULL, 64, &file_zv, &_0);
 	zephir_check_call_status();
 	ZVAL_LONG(&_0, 0);
 	ZVAL_LONG(&_1, -2);
-	ZEPHIR_CALL_FUNCTION(&start, "mb_substr", &_2, 309, &name, &_0, &_1);
+	ZEPHIR_CALL_FUNCTION(&start, "mb_substr", &_2, 94, &name, &_0, &_1);
 	zephir_check_call_status();
 	_3 = filesystemSafe == 1;
 	if (_3) {
@@ -126,12 +127,12 @@ PHP_METHOD(Phalcon_Support_Helper_Str_DirFromFile, toDirFromFile)
 	if (!zephir_is_true(&start)) {
 		ZVAL_LONG(&_7$$4, 0);
 		ZVAL_LONG(&_8$$4, 1);
-		ZEPHIR_CALL_FUNCTION(&start, "mb_substr", &_2, 309, &name, &_7$$4, &_8$$4);
+		ZEPHIR_CALL_FUNCTION(&start, "mb_substr", &_2, 94, &name, &_7$$4, &_8$$4);
 		zephir_check_call_status();
 	}
 	ZEPHIR_INIT_VAR(&_9);
 	ZVAL_LONG(&_0, 2);
-	ZEPHIR_CALL_FUNCTION(&_10, "mb_str_split", NULL, 310, &start, &_0);
+	ZEPHIR_CALL_FUNCTION(&_10, "mb_str_split", NULL, 95, &start, &_0);
 	zephir_check_call_status();
 	zephir_fast_join_str(&_9, SL("/"), &_10);
 	ZEPHIR_CONCAT_VS(return_value, &_9, "/");

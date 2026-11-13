@@ -46,6 +46,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Uncamelize, __invoke)
 
 	ZVAL_UNDEF(&text_zv);
 	ZVAL_UNDEF(&delimiter_zv);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(text)
 		Z_PARAM_OPTIONAL
@@ -63,7 +64,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Uncamelize, __invoke)
 		zephir_memory_observe(&delimiter_zv);
 	ZVAL_STR_COPY(&delimiter_zv, delimiter);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "toUncamelize", NULL, 0, &text_zv, &delimiter_zv);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "toUncamelize", &_zephir_call_cache[0], &text_zv, &delimiter_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
