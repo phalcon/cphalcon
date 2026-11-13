@@ -39,21 +39,16 @@ if test "$PHP_PHALCON" = "yes"; then
 		[[#include "php_config.h"]]
 	)
 
-	AC_CHECK_DECL(
-		[HAVE_JSON],
+	dnl PHP 8.4 no longer declares HAVE_JSON in php_config.h, and ext/json is
+	dnl always built since PHP 8.0, so probe for the header the code includes.
+	AC_CHECK_HEADERS(
+		[ext/json/php_json.h],
 		[
-			AC_CHECK_HEADERS(
-				[ext/json/php_json.h],
-				[
-					PHP_ADD_EXTENSION_DEP([phalcon], [json])
-					AC_DEFINE([ZEPHIR_USE_PHP_JSON], [1], [Whether PHP json extension is present at compile time])
-				],
-				,
-				[[#include "main/php.h"]]
-			)
+			PHP_ADD_EXTENSION_DEP([phalcon], [json])
+			AC_DEFINE([ZEPHIR_USE_PHP_JSON], [1], [Whether PHP json extension is present at compile time])
 		],
 		,
-		[[#include "php_config.h"]]
+		[[#include "main/php.h"]]
 	)
 
 	CPPFLAGS=$old_CPPFLAGS
