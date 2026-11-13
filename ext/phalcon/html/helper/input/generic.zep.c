@@ -55,6 +55,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Generic, __construct)
 	ZVAL_UNDEF(&doctype_sub);
 	ZVAL_UNDEF(&type_zv);
 	ZVAL_NULL(&__$null);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("type", 4, 1);
@@ -85,7 +86,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Generic, __construct)
 		zephir_memory_observe(&type_zv);
 	ZVAL_STR_COPY(&type_zv, type);
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_html_helper_input_generic_ce, getThis(), "__construct", NULL, 0, escaper, doctype);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_html_helper_input_generic_ce, getThis(), "__construct", &_zephir_call_cache[0], escaper, doctype);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 854, &type_zv);
 	ZEPHIR_MM_RESTORE();

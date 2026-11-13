@@ -63,6 +63,7 @@ PHP_METHOD(Phalcon_ADR_Responder_RedirectResponder, __invoke)
 	ZVAL_UNDEF(&_7$$3);
 	ZVAL_UNDEF(&_8$$3);
 	ZVAL_UNDEF(&_9$$3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[6];
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_OBJECT_OF_CLASS(request, phalcon_http_requestinterface_ce)
 		Z_PARAM_OBJECT_OF_CLASS(response, phalcon_http_responseinterface_ce)
@@ -71,16 +72,16 @@ PHP_METHOD(Phalcon_ADR_Responder_RedirectResponder, __invoke)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 3, 0, &request, &response, &payload);
-	ZEPHIR_CALL_METHOD(&result, payload, "getResult", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&result, payload, "getResult", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	_0 = Z_TYPE_P(&result) == IS_OBJECT;
 	if (_0) {
 		_0 = zephir_instance_of_ev(&result, phalcon_adr_responder_redirect_ce);
 	}
 	if (_0) {
-		ZEPHIR_CALL_METHOD(&url, &result, "url", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(&url, &result, "url", &_zephir_call_cache[1]);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&_1$$3, &result, "external", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(&_1$$3, &result, "external", &_zephir_call_cache[2]);
 		zephir_check_call_status();
 		_2$$3 = !zephir_is_true(&_1$$3);
 		if (_2$$3) {
@@ -97,13 +98,13 @@ PHP_METHOD(Phalcon_ADR_Responder_RedirectResponder, __invoke)
 			ZEPHIR_INIT_NVAR(&url);
 			ZVAL_STRING(&url, "/");
 		}
-		ZEPHIR_CALL_METHOD(&_8$$3, &result, "status", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(&_8$$3, &result, "status", &_zephir_call_cache[3]);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&_7$$3, response, "setStatusCode", NULL, 0, &_8$$3);
+		ZEPHIR_CALL_METHOD_CACHED(&_7$$3, response, "setStatusCode", &_zephir_call_cache[4], &_8$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_9$$3);
 		ZVAL_STRING(&_9$$3, "Location");
-		ZEPHIR_CALL_METHOD(NULL, &_7$$3, "setHeader", NULL, 0, &_9$$3, &url);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_7$$3, "setHeader", &_zephir_call_cache[5], &_9$$3, &url);
 		zephir_check_call_status();
 	}
 	RETVAL_ZVAL(response, 1, 0);

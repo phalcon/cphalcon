@@ -141,7 +141,13 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getTotalElapsedNanoseconds)
 		_zephir_prop_1 = zend_string_init("initialTime", 11, 1);
 	}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 667, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 668, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	zephir_sub_function(return_value, &_0, &_1);
 	if (UNEXPECTED(EG(exception))) {
 		return;
@@ -291,10 +297,11 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getTotalElapsedMilliseconds)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getTotalElapsedNanoseconds", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "getTotalElapsedNanoseconds", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	zephir_div_zval_long(return_value, &_0, 1000000);
 	if (UNEXPECTED(EG(exception))) {
@@ -315,10 +322,11 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getTotalElapsedSeconds)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getTotalElapsedMilliseconds", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "getTotalElapsedMilliseconds", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	zephir_div_zval_long(return_value, &_0, 1000);
 	if (UNEXPECTED(EG(exception))) {

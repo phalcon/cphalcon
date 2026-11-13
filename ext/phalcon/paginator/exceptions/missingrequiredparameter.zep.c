@@ -50,6 +50,7 @@ PHP_METHOD(Phalcon_Paginator_Exceptions_MissingRequiredParameter, __construct)
 
 	ZVAL_UNDEF(&parameter_zv);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("parameter", 9, 1);
@@ -69,7 +70,7 @@ PHP_METHOD(Phalcon_Paginator_Exceptions_MissingRequiredParameter, __construct)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_paginator_exceptions_missingrequiredparameter_ce, getThis(), "__construct", NULL, 0, &_0);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_paginator_exceptions_missingrequiredparameter_ce, getThis(), "__construct", &_zephir_call_cache[0], &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

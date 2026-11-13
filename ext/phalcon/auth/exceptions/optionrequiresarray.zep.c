@@ -50,6 +50,7 @@ PHP_METHOD(Phalcon_Auth_Exceptions_OptionRequiresArray, __construct)
 	ZVAL_UNDEF(&context_zv);
 	ZVAL_UNDEF(&key_zv);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(context)
 		Z_PARAM_STR(key)
@@ -66,7 +67,7 @@ PHP_METHOD(Phalcon_Auth_Exceptions_OptionRequiresArray, __construct)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_auth_exceptions_optionrequiresarray_ce, getThis(), "__construct", NULL, 0, &_0);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_auth_exceptions_optionrequiresarray_ce, getThis(), "__construct", &_zephir_call_cache[0], &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

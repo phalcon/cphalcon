@@ -65,6 +65,7 @@ PHP_METHOD(Phalcon_Auth_Mvc_AuthDispatcherListener, beforeExecuteRoute)
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[5];
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(event, phalcon_events_event_ce)
 		Z_PARAM_OBJECT_OF_CLASS(dispatcher, phalcon_mvc_dispatcher_ce)
@@ -72,7 +73,7 @@ PHP_METHOD(Phalcon_Auth_Mvc_AuthDispatcherListener, beforeExecuteRoute)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &event, &dispatcher);
-	ZEPHIR_CALL_METHOD(&_0, dispatcher, "getActionName", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_0, dispatcher, "getActionName", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	zephir_cast_to_string(&_1, &_0);
 	if (UNEXPECTED(EG(exception))) {
@@ -81,13 +82,13 @@ PHP_METHOD(Phalcon_Auth_Mvc_AuthDispatcherListener, beforeExecuteRoute)
 	}
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_create_array(&_2, 3, 0);
-	ZEPHIR_CALL_METHOD(&_3, dispatcher, "getControllerName", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_3, dispatcher, "getControllerName", &_zephir_call_cache[1]);
 	zephir_check_call_status();
 	zephir_array_update_string(&_2, SL("handler"), &_3, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(&_3, dispatcher, "getModuleName", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_3, dispatcher, "getModuleName", &_zephir_call_cache[2]);
 	zephir_check_call_status();
 	zephir_array_update_string(&_2, SL("module"), &_3, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(&_3, dispatcher, "getParams", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_3, dispatcher, "getParams", &_zephir_call_cache[3]);
 	zephir_check_call_status();
 	zephir_array_update_string(&_2, SL("params"), &_3, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_VAR(&_4);
@@ -96,7 +97,7 @@ PHP_METHOD(Phalcon_Auth_Mvc_AuthDispatcherListener, beforeExecuteRoute)
 	ZEPHIR_INIT_VAR(&_5);
 	ZEPHIR_INIT_NVAR(&_5);
 	zephir_create_closure_bound(&_5, &_4, NULL, phalcon_6__closure_ce, SL("__invoke"));
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "enforce", NULL, 0, &_1, &_2, &_5);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "enforce", &_zephir_call_cache[4], &_1, &_2, &_5);
 	zephir_check_call_status();
 	RETURN_MM();
 }

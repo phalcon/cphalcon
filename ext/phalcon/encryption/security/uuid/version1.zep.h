@@ -9,7 +9,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version1, getNode);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_encryption_security_uuid_version1___construct, 0, 0, 0)
 	ZEND_ARG_OBJ_TYPE_MASK(0, dateTime, DateTimeInterface, MAY_BE_NULL, "null")
-	ZEND_ARG_INFO(0, node)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, node, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_encryption_security_uuid_version1_getdatetime, 0, 0, DateTimeImmutable, 0)

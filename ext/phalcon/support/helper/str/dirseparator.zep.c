@@ -47,6 +47,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_DirSeparator, __invoke)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&directory_zv);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(directory)
 	ZEND_PARSE_PARAMETERS_END();
@@ -54,7 +55,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_DirSeparator, __invoke)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&directory_zv);
 	ZVAL_STR_COPY(&directory_zv, directory);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "toDirSeparator", NULL, 0, &directory_zv);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "toDirSeparator", &_zephir_call_cache[0], &directory_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

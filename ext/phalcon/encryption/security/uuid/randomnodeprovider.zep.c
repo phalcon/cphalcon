@@ -69,13 +69,13 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_RandomNodeProvider, getNode)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZVAL_LONG(&_0, 6);
-	ZEPHIR_CALL_FUNCTION(&nodeBytes, "random_bytes", NULL, 223, &_0);
+	ZEPHIR_CALL_FUNCTION(&nodeBytes, "random_bytes", NULL, 68, &_0);
 	zephir_check_call_status();
 	ZVAL_LONG(&_0, 0);
 	ZVAL_LONG(&_1, 1);
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_substr(&_2, &nodeBytes, 0 , 1 , 0);
-	ZEPHIR_CALL_FUNCTION(&_3, "ord", NULL, 0, &_2);
+	ZEPHIR_CALL_FUNCTION(&_3, "ord", NULL, 133, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_4);
 	ZVAL_LONG(&_4, 0x01);
@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_RandomNodeProvider, getNode)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&_3, "chr", NULL, 0, &_5);
+	ZEPHIR_CALL_FUNCTION(&_3, "chr", NULL, 121, &_5);
 	zephir_check_call_status();
 	ZVAL_LONG(&_6, 1);
 	ZEPHIR_INIT_VAR(&_7);
@@ -97,7 +97,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_RandomNodeProvider, getNode)
 		return;
 	}
 	ZEPHIR_CPY_WRT(&nodeBytes, &_8);
-	ZEPHIR_RETURN_CALL_FUNCTION("bin2hex", NULL, 224, &nodeBytes);
+	ZEPHIR_RETURN_CALL_FUNCTION("bin2hex", NULL, 69, &nodeBytes);
 	zephir_check_call_status();
 	RETURN_MM();
 }

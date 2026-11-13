@@ -58,6 +58,7 @@ PHP_METHOD(Phalcon_ADR_Middleware_TimingMiddleware, __invoke)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(request, phalcon_contracts_http_attributerequest_ce)
 		Z_PARAM_OBJECT_OF_CLASS(next, phalcon_contracts_adr_handler_ce)
@@ -67,7 +68,7 @@ PHP_METHOD(Phalcon_ADR_Middleware_TimingMiddleware, __invoke)
 	zephir_fetch_params(1, 2, 0, &request, &next);
 	ZEPHIR_INIT_VAR(&start);
 	zephir_microtime(&start, &__$true);
-	ZEPHIR_CALL_METHOD(&response, next, "__invoke", NULL, 0, request);
+	ZEPHIR_CALL_METHOD_CACHED(&response, next, "__invoke", &_zephir_call_cache[0], request);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_microtime(&_0, &__$true);
@@ -87,11 +88,11 @@ PHP_METHOD(Phalcon_ADR_Middleware_TimingMiddleware, __invoke)
 	}
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "%.2fms");
-	ZEPHIR_CALL_FUNCTION(&_3, "sprintf", NULL, 145, &_0, &elapsed);
+	ZEPHIR_CALL_FUNCTION(&_3, "sprintf", NULL, 38, &_0, &elapsed);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "X-Response-Time");
-	ZEPHIR_CALL_METHOD(NULL, &response, "setHeader", NULL, 0, &_0, &_3);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &response, "setHeader", &_zephir_call_cache[1], &_0, &_3);
 	zephir_check_call_status();
 	RETURN_CCTOR(&response);
 }

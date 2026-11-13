@@ -97,6 +97,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
 	ZVAL_UNDEF(&_1$$4);
 	ZVAL_UNDEF(&_2$$5);
 	ZVAL_UNDEF(&_3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -127,14 +128,22 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
 		modelBinder = &__$null;
 	}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1012, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CPY_WRT(&handler, &_0);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 1011, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CPY_WRT(&definition, &_0);
 	if (Z_TYPE_P(&handler) != IS_OBJECT) {
 		if (!(zephir_class_exists(&definition, 1))) {
 			ZEPHIR_INIT_VAR(&_1$$4);
 			object_init_ex(&_1$$4, phalcon_mvc_micro_exceptions_lazyhandlernotfound_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 0, &definition);
+			ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$4, "__construct", &_zephir_call_cache[0], &definition);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_1$$4, "phalcon/Mvc/Micro/LazyLoader.zep", 49);
 			ZEPHIR_MM_RESTORE();
@@ -152,7 +161,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZEPHIR_CALL_METHOD(&_2$$5, modelBinder, "bindToHandler", NULL, 0, &handler, arguments, &bindCacheKey, &method_zv);
+		ZEPHIR_CALL_METHOD_CACHED(&_2$$5, modelBinder, "bindToHandler", &_zephir_call_cache[1], &handler, arguments, &bindCacheKey, &method_zv);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(arguments, &_2$$5);
 	}
@@ -160,7 +169,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
 	zephir_create_array(&_3, 2, 0);
 	zephir_array_fast_append(&_3, &handler);
 	zephir_array_fast_append(&_3, &method_zv);
-	ZEPHIR_CALL_FUNCTION(&_4, "array_values", NULL, 27, arguments);
+	ZEPHIR_CALL_FUNCTION(&_4, "array_values", NULL, 18, arguments);
 	zephir_check_call_status();
 	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_3, &_4);
 	zephir_check_call_status();

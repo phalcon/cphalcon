@@ -3366,6 +3366,8 @@ static void php_zephir_init_globals(zend_phalcon_globals *phalcon_globals)
  */
 static void php_zephir_init_module_globals(zend_phalcon_globals *phalcon_globals)
 {
+	/* No request yet: a call site's inline cache starts zeroed, so it never matches */
+	phalcon_globals->request_number = 0;
 	phalcon_globals->orm.zephir_owned_resultset_prefetch_records = NULL;
 }
 
@@ -3377,6 +3379,7 @@ static PHP_RINIT_FUNCTION(phalcon)
 	phalcon_globals_ptr = ZEPHIR_VGLOBAL;
 
 	php_zephir_init_globals(phalcon_globals_ptr);
+	phalcon_globals_ptr->request_number++;
 	zephir_ini_activate_globals(zephir_request_ini_entries);
 	zephir_initialize_memory(phalcon_globals_ptr);
 

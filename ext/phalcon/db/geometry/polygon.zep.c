@@ -107,10 +107,11 @@ PHP_METHOD(Phalcon_Db_Geometry_Polygon, toWkt)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "ringsWkt", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "ringsWkt", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_SVS(return_value, "POLYGON(", &_0, ")");
 	if (UNEXPECTED(EG(exception))) {
@@ -147,6 +148,7 @@ PHP_METHOD(Phalcon_Db_Geometry_Polygon, ringsWkt)
 	ZVAL_UNDEF(&_23$$6);
 	ZVAL_UNDEF(&_18$$7);
 	ZVAL_UNDEF(&_21$$8);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[16];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("rings", 5, 1);
@@ -157,6 +159,10 @@ PHP_METHOD(Phalcon_Db_Geometry_Polygon, ringsWkt)
 	ZEPHIR_INIT_VAR(&parts);
 	array_init(&parts);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 651, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (Z_TYPE_P(&_0) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_2);
 		zephir_string_to_char_array(&_2, &_0);
@@ -185,7 +191,7 @@ PHP_METHOD(Phalcon_Db_Geometry_Polygon, ringsWkt)
 				{
 					ZEPHIR_INIT_NVAR(&point);
 					ZVAL_COPY(&point, _6$$3);
-					ZEPHIR_CALL_METHOD(&_7$$4, &point, "coordsWkt", NULL, 0);
+					ZEPHIR_CALL_METHOD_CACHED(&_7$$4, &point, "coordsWkt", &_zephir_call_cache[0]);
 					zephir_check_call_status();
 					zephir_array_append(&ringParts, &_7$$4, PH_SEPARATE, "phalcon/Db/Geometry/Polygon.zep", 59);
 					if (UNEXPECTED(EG(exception))) {
@@ -194,24 +200,24 @@ PHP_METHOD(Phalcon_Db_Geometry_Polygon, ringsWkt)
 					}
 				} ZEND_HASH_FOREACH_END();
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, _4$$3, "rewind", NULL, 0);
+				ZEPHIR_CALL_METHOD_CACHED(NULL, _4$$3, "rewind", &_zephir_call_cache[1]);
 				zephir_check_call_status();
 				_9$$3 = 1;
 				while (1) {
 					if (_9$$3) {
 						_9$$3 = 0;
 					} else {
-						ZEPHIR_CALL_METHOD(NULL, _4$$3, "next", NULL, 0);
+						ZEPHIR_CALL_METHOD_CACHED(NULL, _4$$3, "next", &_zephir_call_cache[2]);
 						zephir_check_call_status();
 					}
-					ZEPHIR_CALL_METHOD(&_8$$3, _4$$3, "valid", NULL, 0);
+					ZEPHIR_CALL_METHOD_CACHED(&_8$$3, _4$$3, "valid", &_zephir_call_cache[3]);
 					zephir_check_call_status();
 					if (!zend_is_true(&_8$$3)) {
 						break;
 					}
-					ZEPHIR_CALL_METHOD(&point, _4$$3, "current", NULL, 0);
+					ZEPHIR_CALL_METHOD_CACHED(&point, _4$$3, "current", &_zephir_call_cache[4]);
 					zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(&_10$$5, &point, "coordsWkt", NULL, 0);
+						ZEPHIR_CALL_METHOD_CACHED(&_10$$5, &point, "coordsWkt", &_zephir_call_cache[5]);
 						zephir_check_call_status();
 						zephir_array_append(&ringParts, &_10$$5, PH_SEPARATE, "phalcon/Db/Geometry/Polygon.zep", 59);
 						if (UNEXPECTED(EG(exception))) {
@@ -236,22 +242,22 @@ PHP_METHOD(Phalcon_Db_Geometry_Polygon, ringsWkt)
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
-		ZEPHIR_CALL_METHOD(NULL, _1, "rewind", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, _1, "rewind", &_zephir_call_cache[6]);
 		zephir_check_call_status();
 		_14 = 1;
 		while (1) {
 			if (_14) {
 				_14 = 0;
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, _1, "next", NULL, 0);
+				ZEPHIR_CALL_METHOD_CACHED(NULL, _1, "next", &_zephir_call_cache[7]);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_13, _1, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&_13, _1, "valid", &_zephir_call_cache[8]);
 			zephir_check_call_status();
 			if (!zend_is_true(&_13)) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&ring, _1, "current", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&ring, _1, "current", &_zephir_call_cache[9]);
 			zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&ringParts);
 				array_init(&ringParts);
@@ -268,7 +274,7 @@ PHP_METHOD(Phalcon_Db_Geometry_Polygon, ringsWkt)
 					{
 						ZEPHIR_INIT_NVAR(&point);
 						ZVAL_COPY(&point, _17$$6);
-						ZEPHIR_CALL_METHOD(&_18$$7, &point, "coordsWkt", NULL, 0);
+						ZEPHIR_CALL_METHOD_CACHED(&_18$$7, &point, "coordsWkt", &_zephir_call_cache[10]);
 						zephir_check_call_status();
 						zephir_array_append(&ringParts, &_18$$7, PH_SEPARATE, "phalcon/Db/Geometry/Polygon.zep", 59);
 						if (UNEXPECTED(EG(exception))) {
@@ -277,24 +283,24 @@ PHP_METHOD(Phalcon_Db_Geometry_Polygon, ringsWkt)
 						}
 					} ZEND_HASH_FOREACH_END();
 				} else {
-					ZEPHIR_CALL_METHOD(NULL, _15$$6, "rewind", NULL, 0);
+					ZEPHIR_CALL_METHOD_CACHED(NULL, _15$$6, "rewind", &_zephir_call_cache[11]);
 					zephir_check_call_status();
 					_20$$6 = 1;
 					while (1) {
 						if (_20$$6) {
 							_20$$6 = 0;
 						} else {
-							ZEPHIR_CALL_METHOD(NULL, _15$$6, "next", NULL, 0);
+							ZEPHIR_CALL_METHOD_CACHED(NULL, _15$$6, "next", &_zephir_call_cache[12]);
 							zephir_check_call_status();
 						}
-						ZEPHIR_CALL_METHOD(&_19$$6, _15$$6, "valid", NULL, 0);
+						ZEPHIR_CALL_METHOD_CACHED(&_19$$6, _15$$6, "valid", &_zephir_call_cache[13]);
 						zephir_check_call_status();
 						if (!zend_is_true(&_19$$6)) {
 							break;
 						}
-						ZEPHIR_CALL_METHOD(&point, _15$$6, "current", NULL, 0);
+						ZEPHIR_CALL_METHOD_CACHED(&point, _15$$6, "current", &_zephir_call_cache[14]);
 						zephir_check_call_status();
-							ZEPHIR_CALL_METHOD(&_21$$8, &point, "coordsWkt", NULL, 0);
+							ZEPHIR_CALL_METHOD_CACHED(&_21$$8, &point, "coordsWkt", &_zephir_call_cache[15]);
 							zephir_check_call_status();
 							zephir_array_append(&ringParts, &_21$$8, PH_SEPARATE, "phalcon/Db/Geometry/Polygon.zep", 59);
 							if (UNEXPECTED(EG(exception))) {

@@ -33,7 +33,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, valid);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, result)
-	ZEND_ARG_INFO(0, cache)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, cache, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultset_count, 0, 0, IS_LONG, 0)

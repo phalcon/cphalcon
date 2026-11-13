@@ -55,6 +55,7 @@ PHP_METHOD(Phalcon_ADR_Middleware_RequestIdMiddleware, __invoke)
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[5];
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(request, phalcon_contracts_http_attributerequest_ce)
 		Z_PARAM_OBJECT_OF_CLASS(next, phalcon_contracts_adr_handler_ce)
@@ -64,26 +65,26 @@ PHP_METHOD(Phalcon_ADR_Middleware_RequestIdMiddleware, __invoke)
 	zephir_fetch_params(1, 2, 0, &request, &next);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "X-Request-Id");
-	ZEPHIR_CALL_METHOD(&id, request, "getHeader", NULL, 0, &_0);
+	ZEPHIR_CALL_METHOD_CACHED(&id, request, "getHeader", &_zephir_call_cache[0], &_0);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(&id)) {
 		ZVAL_LONG(&_1$$3, 16);
-		ZEPHIR_CALL_FUNCTION(&_2$$3, "random_bytes", NULL, 223, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "random_bytes", NULL, 68, &_1$$3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&id, "bin2hex", NULL, 224, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&id, "bin2hex", NULL, 69, &_2$$3);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(&_3, request, "getAttributes", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_3, request, "getAttributes", &_zephir_call_cache[1]);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "requestId");
-	ZEPHIR_CALL_METHOD(NULL, &_3, "set", NULL, 0, &_0, &id);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &_3, "set", &_zephir_call_cache[2], &_0, &id);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&response, next, "__invoke", NULL, 0, request);
+	ZEPHIR_CALL_METHOD_CACHED(&response, next, "__invoke", &_zephir_call_cache[3], request);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "X-Request-Id");
-	ZEPHIR_CALL_METHOD(NULL, &response, "setHeader", NULL, 0, &_0, &id);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &response, "setHeader", &_zephir_call_cache[4], &_0, &id);
 	zephir_check_call_status();
 	RETURN_CCTOR(&response);
 }

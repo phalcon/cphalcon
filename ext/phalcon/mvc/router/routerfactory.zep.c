@@ -65,20 +65,20 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_RouterFactory)
  */
 PHP_METHOD(Phalcon_Mvc_Router_RouterFactory, load)
 {
-	zend_bool defaultRoutes = 0, _5;
+	zend_bool defaultRoutes = 0, _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_1 = NULL, *_4 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *config = NULL, config_sub, router, _7, _0$$4, _2$$3, _3$$5, _6$$6;
+	zval *config = NULL, config_sub, router, _5, _0$$4, _1$$3, _2$$5, _4$$6;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&config_sub);
 	ZVAL_UNDEF(&router);
-	ZVAL_UNDEF(&_7);
+	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_0$$4);
-	ZVAL_UNDEF(&_2$$3);
-	ZVAL_UNDEF(&_3$$5);
-	ZVAL_UNDEF(&_6$$6);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2$$5);
+	ZVAL_UNDEF(&_4$$6);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[5];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(config)
 	ZEND_PARSE_PARAMETERS_END();
@@ -90,48 +90,48 @@ PHP_METHOD(Phalcon_Mvc_Router_RouterFactory, load)
 		if (!(zephir_instance_of_ev(config, phalcon_config_configinterface_ce))) {
 			ZEPHIR_INIT_VAR(&_0$$4);
 			object_init_ex(&_0$$4, phalcon_mvc_router_exceptions_invalidrouterfactoryconfig_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_0$$4, "__construct", &_1, 0);
+			ZEPHIR_CALL_METHOD_CACHED(NULL, &_0$$4, "__construct", &_zephir_call_cache[0]);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_0$$4, "phalcon/Mvc/Router/RouterFactory.zep", 54);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZEPHIR_CALL_METHOD(&_2$$3, config, "toArray", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(&_1$$3, config, "toArray", &_zephir_call_cache[1]);
 		zephir_check_call_status();
-		ZEPHIR_CPY_WRT(config, &_2$$3);
+		ZEPHIR_CPY_WRT(config, &_1$$3);
 	}
 	if (Z_TYPE_P(config) != IS_ARRAY) {
-		ZEPHIR_INIT_VAR(&_3$$5);
-		object_init_ex(&_3$$5, phalcon_mvc_router_exceptions_invalidrouterfactoryconfig_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", &_4, 0);
+		ZEPHIR_INIT_VAR(&_2$$5);
+		object_init_ex(&_2$$5, phalcon_mvc_router_exceptions_invalidrouterfactoryconfig_ce);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_2$$5, "__construct", &_zephir_call_cache[2]);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_3$$5, "phalcon/Mvc/Router/RouterFactory.zep", 60);
+		zephir_throw_exception_debug(&_2$$5, "phalcon/Mvc/Router/RouterFactory.zep", 60);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	defaultRoutes = 1;
-	_5 = zephir_array_isset_value_string(config, SL("defaultRoutes"));
+	_3 = zephir_array_isset_value_string(config, SL("defaultRoutes"));
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	if (_5) {
-		zephir_memory_observe(&_6$$6);
-		zephir_array_fetch_string(&_6$$6, config, SL("defaultRoutes"), PH_NOISY, "phalcon/Mvc/Router/RouterFactory.zep", 65);
+	if (_3) {
+		zephir_memory_observe(&_4$$6);
+		zephir_array_fetch_string(&_4$$6, config, SL("defaultRoutes"), PH_NOISY, "phalcon/Mvc/Router/RouterFactory.zep", 65);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		defaultRoutes = zephir_get_boolval(&_6$$6);
+		defaultRoutes = zephir_get_boolval(&_4$$6);
 	}
 	if (defaultRoutes) {
-		ZVAL_BOOL(&_7, 1);
+		ZVAL_BOOL(&_5, 1);
 	} else {
-		ZVAL_BOOL(&_7, 0);
+		ZVAL_BOOL(&_5, 0);
 	}
-	ZEPHIR_CALL_METHOD(&router, this_ptr, "newInstance", NULL, 0, &_7);
+	ZEPHIR_CALL_METHOD_CACHED(&router, this_ptr, "newInstance", &_zephir_call_cache[3], &_5);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &router, "loadFromConfig", NULL, 0, config);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &router, "loadFromConfig", &_zephir_call_cache[4], config);
 	zephir_check_call_status();
 	RETURN_CCTOR(&router);
 }
@@ -151,6 +151,7 @@ PHP_METHOD(Phalcon_Mvc_Router_RouterFactory, newInstance)
 	zend_bool defaultRoutes;
 
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_BOOL(defaultRoutes)
@@ -168,7 +169,7 @@ PHP_METHOD(Phalcon_Mvc_Router_RouterFactory, newInstance)
 	} else {
 		ZVAL_BOOL(&_0, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &_0);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -17,7 +17,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_simple___construct, 0
 	ZEND_ARG_INFO(0, columnMap)
 	ZEND_ARG_INFO(0, model)
 	ZEND_ARG_INFO(0, result)
-	ZEND_ARG_INFO(0, cache)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, cache, "null")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, keepSnapshots, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 

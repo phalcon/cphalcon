@@ -63,6 +63,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_QueueDestinationGuard, assertQueue)
 	ZVAL_UNDEF(&destination_sub);
 	ZVAL_UNDEF(&action_zv);
 	ZVAL_UNDEF(&_0$$3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(destination, phalcon_contracts_queue_destination_ce)
 		Z_PARAM_STR(action)
@@ -75,7 +76,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_QueueDestinationGuard, assertQueue)
 	if (UNEXPECTED(!((zephir_instance_of_ev(destination, phalcon_contracts_queue_queue_ce))))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_queue_exceptions_invaliddestinationexception_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 0, &action_zv);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0$$3, "__construct", &_zephir_call_cache[0], &action_zv);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_0$$3, "phalcon/Queue/Adapter/QueueDestinationGuard.zep", 42);
 		ZEPHIR_MM_RESTORE();

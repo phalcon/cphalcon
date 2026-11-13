@@ -84,6 +84,7 @@ PHP_METHOD(Phalcon_ADR_Middleware_MethodOverrideMiddleware, __invoke)
 	ZVAL_UNDEF(&_6$$3);
 	ZVAL_UNDEF(&_7$$4);
 	ZVAL_UNDEF(&_4$$3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[4];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("allowed", 7, 1);
@@ -96,14 +97,14 @@ PHP_METHOD(Phalcon_ADR_Middleware_MethodOverrideMiddleware, __invoke)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &request, &next);
-	ZEPHIR_CALL_METHOD(&_0, request, "getMethod", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_0, request, "getMethod", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "POST");
 	if (ZEPHIR_IS_IDENTICAL(&_1, &_0)) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZVAL_STRING(&_3$$3, "_method");
-		ZEPHIR_CALL_METHOD(&_2$$3, request, "getPost", NULL, 0, &_3$$3);
+		ZEPHIR_CALL_METHOD_CACHED(&_2$$3, request, "getPost", &_zephir_call_cache[1], &_3$$3);
 		zephir_check_call_status();
 		zephir_cast_to_string(&_4$$3, &_2$$3);
 		if (UNEXPECTED(EG(exception))) {
@@ -113,15 +114,19 @@ PHP_METHOD(Phalcon_ADR_Middleware_MethodOverrideMiddleware, __invoke)
 		ZEPHIR_INIT_VAR(&spoofed);
 		zephir_fast_strtoupper(&spoofed, &_4$$3);
 		zephir_read_property_cached(&_5$$3, this_ptr, _zephir_prop_0, 365, PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_FUNCTION(&_6$$3, "in_array", NULL, 87, &spoofed, &_5$$3, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		ZEPHIR_CALL_FUNCTION(&_6$$3, "in_array", NULL, 36, &spoofed, &_5$$3, &__$true);
 		zephir_check_call_status();
 		if (zephir_is_true(&_6$$3)) {
 			ZVAL_BOOL(&_7$$4, 1);
-			ZEPHIR_CALL_METHOD(NULL, request, "setHttpMethodParameterOverride", NULL, 0, &_7$$4);
+			ZEPHIR_CALL_METHOD_CACHED(NULL, request, "setHttpMethodParameterOverride", &_zephir_call_cache[2], &_7$$4);
 			zephir_check_call_status();
 		}
 	}
-	ZEPHIR_RETURN_CALL_METHOD(next, "__invoke", NULL, 0, request);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(next, "__invoke", &_zephir_call_cache[3], request);
 	zephir_check_call_status();
 	RETURN_MM();
 }

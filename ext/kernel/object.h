@@ -66,11 +66,18 @@ int zephir_isset_property_value_zval(zval *object, const zval *property);
  */
 int zephir_isset_property_value_fast(zval *object, zend_string *property_name);
 
+/**
+ * empty() of a property, PHP's ZEND_ISSET_ISEMPTY_PROP_OBJ: true for a
+ * non-object, a property that is not set, and an empty value.
+ */
+int zephir_isempty_property_fast(zval *object, zend_string *property_name);
+int zephir_isempty_property_zval(zval *object, const zval *property);
+
 /** Reading properties */
-int zephir_read_property_ex(zval *result, zval *object, const char *property_name, uint32_t property_length, int silent);
-int zephir_read_property(zval *result, zval *object, const char *property_name, uint32_t property_length, int silent);
+int zephir_read_property_ex(zval *result, zval *object, const char *property_name, uint32_t property_length, int flags);
+int zephir_read_property(zval *result, zval *object, const char *property_name, uint32_t property_length, int flags);
 int zephir_read_property_cached(zval *result, zval *object, zend_string *name, zend_ulong cache_slot, int flags);
-int zephir_read_property_zval(zval *result, zval *object, zval *property, int silent);
+int zephir_read_property_zval(zval *result, zval *object, zval *property, int flags);
 int zephir_return_property(zval *return_value, zval *object, char *property_name, unsigned int property_length);
 int zephir_fetch_property(zval *result, zval *object, const char *property_name, uint32_t property_length, int silent);
 int zephir_fetch_property_zval(zval *result, zval *object, zval *property, int silent);
@@ -108,7 +115,23 @@ int zephir_unset_property(zval* object, const char* name);
 int zephir_unset_property_zval(zval *object, const zval *name);
 int zephir_unset_property_array(zval *object, char *property, unsigned int property_length, zval *index);
 
-/** Static properties */
+/**
+ * Static properties.
+ *
+ * The `_cached` forms take the class the code is written in, which
+ * visibility is checked against, and the cache record of the access.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2805
+ */
+int zephir_read_static_property_cached(zval *result, zend_class_entry *ce, zend_class_entry *scope, const char *property, uint32_t property_length, zephir_static_property_cache *site, int flags);
+int zephir_isset_static_property_cached(zend_class_entry *ce, zend_class_entry *scope, const char *property, uint32_t property_length, zephir_static_property_cache *site);
+int zephir_update_static_property_cached(zend_class_entry *ce, zend_class_entry *scope, const char *property, uint32_t property_length, zephir_static_property_cache *site, zval *value);
+int zephir_add_static_property_cached(zend_class_entry *ce, zend_class_entry *scope, const char *property, uint32_t property_length, zephir_static_property_cache *site, zval *value);
+int zephir_sub_static_property_cached(zend_class_entry *ce, zend_class_entry *scope, const char *property, uint32_t property_length, zephir_static_property_cache *site, zval *value);
+zval *zephir_fetch_static_property_write_cached(zend_class_entry *ce, zend_class_entry *scope, const char *property, uint32_t property_length, zephir_static_property_cache *site, zval *fallback);
+zval *zephir_fetch_static_property_rw_cached(zend_class_entry *ce, zend_class_entry *scope, const char *property, uint32_t property_length, zephir_static_property_cache *site, zval *fallback);
+int zephir_update_static_property_array_multi_cached(zend_class_entry *ce, zend_class_entry *scope, const char *property, uint32_t property_length, zephir_static_property_cache *site, zval *value, const char *types, int types_length, int types_count, ...);
+
 int zephir_read_static_property_ce(zval *result, zend_class_entry *ce, const char *property, int len, int flags);
 int zephir_update_static_property_ce(zend_class_entry *ce, const char *property, uint32_t len, zval *value);
 int zephir_add_static_property_ce(zend_class_entry *ce, const char *property, uint32_t len, zval *value);
@@ -117,6 +140,7 @@ int zephir_update_static_property_array_multi_ce(zend_class_entry *ce, const cha
 
 /** Create closures */
 int zephir_create_closure_ex(zval *return_value, zval *this_ptr, zend_class_entry *ce, const char *method_name, uint32_t method_length);
+void zephir_closure_name(zval *return_value, const char *legacy, size_t legacy_length, const char *modern, size_t modern_length);
 int zephir_create_closure_bound(zval *return_value, zval *bound_this, zval *scope_this, zend_class_entry *ce, const char *method_name, uint32_t method_length);
 int zephir_update_property_reference(zval *object, const char *property_name, uint32_t property_length, zval *value);
 void zephir_make_local_reference(zval *var);

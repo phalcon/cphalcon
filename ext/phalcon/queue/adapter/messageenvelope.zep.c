@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_MessageEnvelope, decode)
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 1, 0);
 	zephir_array_update_string(&_0, SL("allowed_classes"), &__$false, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_FUNCTION(&data, "unserialize", NULL, 26, &payload_zv, &_0);
+	ZEPHIR_CALL_FUNCTION(&data, "unserialize", NULL, 17, &payload_zv, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&data) != IS_ARRAY) {
 		RETURN_MM_NULL();
@@ -155,6 +155,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_MessageEnvelope, encode)
 	ZVAL_UNDEF(&message_sub);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[3];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(message, phalcon_contracts_queue_message_ce)
 	ZEND_PARSE_PARAMETERS_END();
@@ -163,16 +164,16 @@ PHP_METHOD(Phalcon_Queue_Adapter_MessageEnvelope, encode)
 	zephir_fetch_params(1, 1, 0, &message);
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 3, 0);
-	ZEPHIR_CALL_METHOD(&_1, message, "getBody", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_1, message, "getBody", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	zephir_array_update_string(&_0, SL("body"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(&_1, message, "getProperties", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_1, message, "getProperties", &_zephir_call_cache[1]);
 	zephir_check_call_status();
 	zephir_array_update_string(&_0, SL("properties"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(&_1, message, "getHeaders", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_1, message, "getHeaders", &_zephir_call_cache[2]);
 	zephir_check_call_status();
 	zephir_array_update_string(&_0, SL("headers"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 21, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 13, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

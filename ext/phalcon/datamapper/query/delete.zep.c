@@ -64,6 +64,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Delete, __construct)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(connection, phalcon_datamapper_pdo_connection_ce)
 		Z_PARAM_OBJECT_OF_CLASS(bind, phalcon_datamapper_query_bind_ce)
@@ -71,7 +72,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Delete, __construct)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &connection, &bind);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_datamapper_query_delete_ce, getThis(), "__construct", NULL, 0, connection, bind);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_datamapper_query_delete_ce, getThis(), "__construct", &_zephir_call_cache[0], connection, bind);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "FROM");
@@ -136,6 +137,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Delete, getStatement)
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[3];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("store", 5, 1);
@@ -143,9 +145,13 @@ PHP_METHOD(Phalcon_DataMapper_Query_Delete, getStatement)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "buildFlags", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "buildFlags", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 598, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_memory_observe(&_2);
 	zephir_array_fetch_string(&_2, &_1, SL("FROM"), PH_NOISY, "phalcon/DataMapper/Query/Delete.zep", 57);
 	if (UNEXPECTED(EG(exception))) {
@@ -154,9 +160,9 @@ PHP_METHOD(Phalcon_DataMapper_Query_Delete, getStatement)
 	}
 	ZEPHIR_INIT_VAR(&_4);
 	ZVAL_STRING(&_4, "WHERE");
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "buildCondition", NULL, 0, &_4);
+	ZEPHIR_CALL_METHOD_CACHED(&_3, this_ptr, "buildCondition", &_zephir_call_cache[1], &_4);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_5, this_ptr, "buildReturning", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_5, this_ptr, "buildReturning", &_zephir_call_cache[2]);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_SVSVVV(return_value, "DELETE", &_0, " FROM ", &_2, &_3, &_5);
 	if (UNEXPECTED(EG(exception))) {
@@ -180,10 +186,11 @@ PHP_METHOD(Phalcon_DataMapper_Query_Delete, reset)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_PARENT(NULL, phalcon_datamapper_query_delete_ce, getThis(), "reset", NULL, 0);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_datamapper_query_delete_ce, getThis(), "reset", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "FROM");
@@ -237,6 +244,10 @@ PHP_METHOD(Phalcon_DataMapper_Query_Delete, returning)
 	zephir_get_arrval(&columns, columns_param);
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 598, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_memory_observe(&_2);
 	zephir_array_fetch_string(&_2, &_1, SL("RETURNING"), PH_NOISY, "phalcon/DataMapper/Query/Delete.zep", 80);
 	if (UNEXPECTED(EG(exception))) {

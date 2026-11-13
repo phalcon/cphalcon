@@ -96,6 +96,7 @@ PHP_METHOD(Phalcon_Container_Definition_Processor_ParameterProcessor, process)
 	ZVAL_UNDEF(&def);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_STR(name)
 		Z_PARAM_ZVAL(definition)
@@ -111,7 +112,7 @@ PHP_METHOD(Phalcon_Container_Definition_Processor_ParameterProcessor, process)
 	object_init_ex(&def, phalcon_container_definition_servicedefinition_ce);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "parameter");
-	ZEPHIR_CALL_METHOD(NULL, &def, "__construct", NULL, 485, &name_zv, &_0, definition);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &def, "__construct", &_zephir_call_cache[0], &name_zv, &_0, definition);
 	zephir_check_call_status();
 	_1 = !((zephir_is_instance_of(definition, SL("Closure"))));
 	if (_1) {
@@ -123,7 +124,7 @@ PHP_METHOD(Phalcon_Container_Definition_Processor_ParameterProcessor, process)
 	} else {
 		ZVAL_BOOL(&_2, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, &def, "setIsCacheable", NULL, 491, &_2);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &def, "setIsCacheable", &_zephir_call_cache[1], &_2);
 	zephir_check_call_status();
 	RETURN_CCTOR(&def);
 }

@@ -55,6 +55,7 @@ PHP_METHOD(Phalcon_Assets_Asset_Js, __construct)
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&attributes);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 6)
 		Z_PARAM_STR(path)
@@ -122,7 +123,7 @@ PHP_METHOD(Phalcon_Assets_Asset_Js, __construct)
 	} else {
 		ZVAL_BOOL(&_3, 0);
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_assets_asset_js_ce, getThis(), "__construct", NULL, 0, &_0, &path_zv, &_1, &_2, &attributes, &version_zv, &_3);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_assets_asset_js_ce, getThis(), "__construct", &_zephir_call_cache[0], &_0, &path_zv, &_1, &_2, &attributes, &version_zv, &_3);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

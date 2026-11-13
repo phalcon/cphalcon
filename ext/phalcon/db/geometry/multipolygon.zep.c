@@ -117,6 +117,7 @@ PHP_METHOD(Phalcon_Db_Geometry_MultiPolygon, toWkt)
 	ZVAL_UNDEF(&_5$$3);
 	ZVAL_UNDEF(&_8$$4);
 	ZVAL_UNDEF(&_9$$4);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[6];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("polygons", 8, 1);
@@ -127,6 +128,10 @@ PHP_METHOD(Phalcon_Db_Geometry_MultiPolygon, toWkt)
 	ZEPHIR_INIT_VAR(&parts);
 	array_init(&parts);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 646, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (Z_TYPE_P(&_0) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_2);
 		zephir_string_to_char_array(&_2, &_0);
@@ -140,7 +145,7 @@ PHP_METHOD(Phalcon_Db_Geometry_MultiPolygon, toWkt)
 		{
 			ZEPHIR_INIT_NVAR(&polygon);
 			ZVAL_COPY(&polygon, _3);
-			ZEPHIR_CALL_METHOD(&_4$$3, &polygon, "ringsWkt", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&_4$$3, &polygon, "ringsWkt", &_zephir_call_cache[0]);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_5$$3);
 			ZEPHIR_CONCAT_SVS(&_5$$3, "(", &_4$$3, ")");
@@ -155,24 +160,24 @@ PHP_METHOD(Phalcon_Db_Geometry_MultiPolygon, toWkt)
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
-		ZEPHIR_CALL_METHOD(NULL, _1, "rewind", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, _1, "rewind", &_zephir_call_cache[1]);
 		zephir_check_call_status();
 		_7 = 1;
 		while (1) {
 			if (_7) {
 				_7 = 0;
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, _1, "next", NULL, 0);
+				ZEPHIR_CALL_METHOD_CACHED(NULL, _1, "next", &_zephir_call_cache[2]);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_6, _1, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&_6, _1, "valid", &_zephir_call_cache[3]);
 			zephir_check_call_status();
 			if (!zend_is_true(&_6)) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&polygon, _1, "current", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&polygon, _1, "current", &_zephir_call_cache[4]);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_8$$4, &polygon, "ringsWkt", NULL, 0);
+				ZEPHIR_CALL_METHOD_CACHED(&_8$$4, &polygon, "ringsWkt", &_zephir_call_cache[5]);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_9$$4);
 				ZEPHIR_CONCAT_SVS(&_9$$4, "(", &_8$$4, ")");

@@ -181,6 +181,7 @@ PHP_METHOD(Phalcon_Db_Index, __construct)
 	ZVAL_UNDEF(&_10$$10);
 	ZVAL_UNDEF(&columnsOrDefinition);
 	ZVAL_UNDEF(&_5$$5);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[3];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	static zend_string *_zephir_prop_2 = NULL;
@@ -246,7 +247,7 @@ PHP_METHOD(Phalcon_Db_Index, __construct)
 		if (UNEXPECTED(Z_TYPE_P(&_1$$3) != IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(&_2$$4);
 			object_init_ex(&_2$$4, phalcon_db_exceptions_invalidindexcolumns_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(NULL, &_2$$4, "__construct", &_zephir_call_cache[0]);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_2$$4, "phalcon/Db/Index.zep", 151);
 			ZEPHIR_MM_RESTORE();
@@ -295,7 +296,7 @@ PHP_METHOD(Phalcon_Db_Index, __construct)
 			if (UNEXPECTED(Z_TYPE_P(&directions) != IS_ARRAY)) {
 				ZEPHIR_INIT_VAR(&_8$$8);
 				object_init_ex(&_8$$8, phalcon_db_exceptions_invalidindexdirections_ce);
-				ZEPHIR_CALL_METHOD(NULL, &_8$$8, "__construct", NULL, 0);
+				ZEPHIR_CALL_METHOD_CACHED(NULL, &_8$$8, "__construct", &_zephir_call_cache[1]);
 				zephir_check_call_status();
 				zephir_throw_exception_debug(&_8$$8, "phalcon/Db/Index.zep", 166);
 				ZEPHIR_MM_RESTORE();
@@ -313,7 +314,7 @@ PHP_METHOD(Phalcon_Db_Index, __construct)
 			if (UNEXPECTED(Z_TYPE_P(&where) != IS_STRING)) {
 				ZEPHIR_INIT_VAR(&_10$$10);
 				object_init_ex(&_10$$10, phalcon_db_exceptions_invalidindexwhere_ce);
-				ZEPHIR_CALL_METHOD(NULL, &_10$$10, "__construct", NULL, 0);
+				ZEPHIR_CALL_METHOD_CACHED(NULL, &_10$$10, "__construct", &_zephir_call_cache[2]);
 				zephir_check_call_status();
 				zephir_throw_exception_debug(&_10$$10, "phalcon/Db/Index.zep", 174);
 				ZEPHIR_MM_RESTORE();

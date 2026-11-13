@@ -122,6 +122,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_FunctionCall, resolve)
 	ZVAL_UNDEF(&arguments);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -138,9 +139,17 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_FunctionCall, resolve)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &ioc);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 570, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&arguments, this_ptr, "resolveArguments", NULL, 0, ioc, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_METHOD_CACHED(&arguments, this_ptr, "resolveArguments", &_zephir_call_cache[0], ioc, &_0);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 569, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_1, &arguments);
 	zephir_check_call_status();
 	RETURN_MM();

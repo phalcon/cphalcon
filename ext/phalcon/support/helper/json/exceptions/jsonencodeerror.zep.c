@@ -48,6 +48,7 @@ PHP_METHOD(Phalcon_Support_Helper_Json_Exceptions_JsonEncodeError, __construct)
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 3)
 		Z_PARAM_OPTIONAL
@@ -86,7 +87,7 @@ PHP_METHOD(Phalcon_Support_Helper_Json_Exceptions_JsonEncodeError, __construct)
 		return;
 	}
 	ZVAL_LONG(&_1, code);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_support_helper_json_exceptions_jsonencodeerror_ce, getThis(), "__construct", NULL, 0, &_0, &_1, previous);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_support_helper_json_exceptions_jsonencodeerror_ce, getThis(), "__construct", &_zephir_call_cache[0], &_0, &_1, previous);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

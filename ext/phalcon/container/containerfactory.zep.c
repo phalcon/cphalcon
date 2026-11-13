@@ -102,6 +102,7 @@ PHP_METHOD(Phalcon_Container_ContainerFactory, newContainer)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_4);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[7];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("providers", 9, 1);
@@ -111,9 +112,13 @@ PHP_METHOD(Phalcon_Container_ContainerFactory, newContainer)
 
 	ZEPHIR_INIT_VAR(&container);
 	object_init_ex(&container, phalcon_container_container_ce);
-	ZEPHIR_CALL_METHOD(NULL, &container, "__construct", NULL, 226);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &container, "__construct", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 549, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (Z_TYPE_P(&_0) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_2);
 		zephir_string_to_char_array(&_2, &_0);
@@ -127,28 +132,28 @@ PHP_METHOD(Phalcon_Container_ContainerFactory, newContainer)
 		{
 			ZEPHIR_INIT_NVAR(&provider);
 			ZVAL_COPY(&provider, _3);
-			ZEPHIR_CALL_METHOD(NULL, &provider, "provide", NULL, 0, &container);
+			ZEPHIR_CALL_METHOD_CACHED(NULL, &provider, "provide", &_zephir_call_cache[1], &container);
 			zephir_check_call_status();
 		} ZEND_HASH_FOREACH_END();
 	} else {
-		ZEPHIR_CALL_METHOD(NULL, _1, "rewind", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, _1, "rewind", &_zephir_call_cache[2]);
 		zephir_check_call_status();
 		_5 = 1;
 		while (1) {
 			if (_5) {
 				_5 = 0;
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, _1, "next", NULL, 0);
+				ZEPHIR_CALL_METHOD_CACHED(NULL, _1, "next", &_zephir_call_cache[3]);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_4, _1, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&_4, _1, "valid", &_zephir_call_cache[4]);
 			zephir_check_call_status();
 			if (!zend_is_true(&_4)) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&provider, _1, "current", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&provider, _1, "current", &_zephir_call_cache[5]);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(NULL, &provider, "provide", NULL, 0, &container);
+				ZEPHIR_CALL_METHOD_CACHED(NULL, &provider, "provide", &_zephir_call_cache[6], &container);
 				zephir_check_call_status();
 		}
 	}

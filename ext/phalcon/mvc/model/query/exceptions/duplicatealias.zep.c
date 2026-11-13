@@ -44,6 +44,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Exceptions_DuplicateAlias, __construct)
 	ZVAL_UNDEF(&name_zv);
 	ZVAL_UNDEF(&phql_zv);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(name)
 		Z_PARAM_STR(phql)
@@ -60,7 +61,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Exceptions_DuplicateAlias, __construct)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_query_exceptions_duplicatealias_ce, getThis(), "__construct", NULL, 0, &_0);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_mvc_model_query_exceptions_duplicatealias_ce, getThis(), "__construct", &_zephir_call_cache[0], &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

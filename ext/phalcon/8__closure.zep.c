@@ -35,6 +35,7 @@ PHP_METHOD(phalcon_8__closure, __invoke)
 
 	ZVAL_UNDEF(&serviceName);
 	ZVAL_UNDEF(&__$zephir_this);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_read_property(&__$zephir_this, this_ptr, SL("__$zephir_this"), PH_NOISY_CC | PH_READONLY);
@@ -42,7 +43,7 @@ PHP_METHOD(phalcon_8__closure, __invoke)
 	zephir_read_property(&serviceName, this_ptr, SL("serviceName"), PH_NOISY_CC);
 	this_ptr = &__$zephir_this;
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "get", NULL, 0, &serviceName);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "get", &_zephir_call_cache[0], &serviceName);
 	zephir_check_call_status();
 	RETURN_MM();
 }

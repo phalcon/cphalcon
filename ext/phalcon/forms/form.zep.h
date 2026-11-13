@@ -45,7 +45,7 @@ PHP_METHOD(Phalcon_Forms_Form, setWhitelist);
 PHP_METHOD(Phalcon_Forms_Form, valid);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form___construct, 0, 0, 0)
-	ZEND_ARG_INFO(0, entity)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, entity, "null")
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, userOptions, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
@@ -57,12 +57,12 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_forms_form_bind, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_ARRAY_INFO(0, data, 0)
-	ZEND_ARG_INFO(0, entity)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, entity, "null")
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, whitelist, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_forms_form_clear, 0, 0, MAY_BE_STATIC)
-	ZEND_ARG_INFO(0, fields)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, fields, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_count, 0, 0, IS_LONG, 0)
@@ -107,7 +107,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_getuseroption, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, option, IS_STRING, 0)
-	ZEND_ARG_INFO(0, defaultValue)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, defaultValue, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_getuseroptions, 0, 0, IS_ARRAY, 0)
@@ -132,8 +132,8 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_hasmessagesfo
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_isvalid, 0, 0, _IS_BOOL, 0)
-	ZEND_ARG_INFO(0, data)
-	ZEND_ARG_INFO(0, entity)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, data, "null")
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, entity, "null")
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, whitelist, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 

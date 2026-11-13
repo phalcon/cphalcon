@@ -114,6 +114,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Ip, __construct)
 	zval options;
 
 	ZVAL_UNDEF(&options);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(options, options_param)
@@ -127,7 +128,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Ip, __construct)
 	} else {
 		zephir_get_arrval(&options, options_param);
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_filter_validation_validator_ip_ce, getThis(), "__construct", NULL, 0, &options);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_filter_validation_validator_ip_ce, getThis(), "__construct", &_zephir_call_cache[0], &options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -162,6 +163,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Ip, validate)
 	ZVAL_UNDEF(&_6$$6);
 	ZVAL_UNDEF(&_10$$7);
 	ZVAL_UNDEF(&_7);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[7];
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
 		Z_PARAM_ZVAL(field)
@@ -169,9 +171,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Ip, validate)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &validation, &field);
-	ZEPHIR_CALL_METHOD(&value, validation, "getValue", NULL, 0, field);
+	ZEPHIR_CALL_METHOD_CACHED(&value, validation, "getValue", &_zephir_call_cache[0], field);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "allowEmpty", NULL, 0, field, &value);
+	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "allowEmpty", &_zephir_call_cache[1], field, &value);
 	zephir_check_call_status();
 	if (zephir_is_true(&_0)) {
 		RETURN_MM_BOOL(1);
@@ -179,7 +181,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Ip, validate)
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "version");
 	ZVAL_LONG(&_2, (1048576 | 2097152));
-	ZEPHIR_CALL_METHOD(&version, this_ptr, "getOption", NULL, 0, &_1, &_2);
+	ZEPHIR_CALL_METHOD_CACHED(&version, this_ptr, "getOption", &_zephir_call_cache[2], &_1, &_2);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&version) == IS_ARRAY) {
 		zephir_memory_observe(&_3$$4);
@@ -193,7 +195,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Ip, validate)
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "allowPrivate");
 	ZVAL_BOOL(&_2, 0);
-	ZEPHIR_CALL_METHOD(&allowPrivate, this_ptr, "getOption", NULL, 0, &_1, &_2);
+	ZEPHIR_CALL_METHOD_CACHED(&allowPrivate, this_ptr, "getOption", &_zephir_call_cache[3], &_1, &_2);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&allowPrivate) == IS_ARRAY) {
 		zephir_memory_observe(&_4$$5);
@@ -216,7 +218,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Ip, validate)
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "allowReserved");
 	ZVAL_BOOL(&_2, 0);
-	ZEPHIR_CALL_METHOD(&allowReserved, this_ptr, "getOption", NULL, 0, &_1, &_2);
+	ZEPHIR_CALL_METHOD_CACHED(&allowReserved, this_ptr, "getOption", &_zephir_call_cache[4], &_1, &_2);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&allowReserved) == IS_ARRAY) {
 		zephir_memory_observe(&_6$$6);
@@ -256,12 +258,12 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Ip, validate)
 	}
 	zephir_array_update_string(&options, SL("flags"), &_5, PH_COPY | PH_SEPARATE);
 	ZVAL_LONG(&_2, 275);
-	ZEPHIR_CALL_FUNCTION(&_9, "filter_var", NULL, 0, &value, &_2, &options);
+	ZEPHIR_CALL_FUNCTION(&_9, "filter_var", NULL, 148, &value, &_2, &options);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_9))) {
-		ZEPHIR_CALL_METHOD(&_10$$7, this_ptr, "messageFactory", NULL, 0, validation, field);
+		ZEPHIR_CALL_METHOD_CACHED(&_10$$7, this_ptr, "messageFactory", &_zephir_call_cache[5], validation, field);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendMessage", NULL, 0, &_10$$7);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, validation, "appendMessage", &_zephir_call_cache[6], &_10$$7);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}
