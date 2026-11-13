@@ -26,9 +26,11 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 > **Upgrade note:** `Phalcon\Support\Debug` now records the output buffer level when it is created. `onUncaughtException()` discards all the output buffers that start after that point and keeps the buffers that started before it, for example from `output_buffering` or `zlib.output_compression` in php.ini. Before, it discarded only the top buffer, also when that buffer started before `Debug` was created. To discard the output of your own buffers, create `Debug` before you start them. [#17739](https://github.com/phalcon/cphalcon/issues/17739)
 
+> **Upgrade note:** `Phalcon\Paginator\Adapter\AbstractAdapter` now creates the repository in its constructor. A custom adapter that overrides `__construct()` must call `parent::__construct()`, or `getRepository()` throws an `Error`. [#17750](https://github.com/phalcon/cphalcon/issues/17750)
+
 ### Tools
 
-- Zephir 1.7.0
+- Zephir 1.8.0
 
 ### Changed
 
@@ -60,6 +62,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - `Phalcon\Db\Adapter\Pdo\Sqlite::describeColumns()` using `Column::TYPE_DECIMAL` as the bind type of `float` columns, which stored their values as blobs. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
 - `Phalcon\Forms\Form::getValue()` returning the tag factory for the name `tagFactory`. [#17727](https://github.com/phalcon/cphalcon/issues/17727)
 - `Phalcon\Mvc\Model::doLowInsert()` not reading back the generated id on MySQL when the identity property is `0`. [#17689](https://github.com/phalcon/cphalcon/issues/17689)
+- `Phalcon\Mvc\Model\Query\Builder::__construct()` crashing with OPcache when the parameters have empty `bind` or `bindTypes` arrays. [#17725](https://github.com/phalcon/cphalcon/issues/17725)
 - `Phalcon\Mvc\View\Engine\Volt\Compiler::compile()` rendering serialized blocks for the second child of a layout when `stat` is `false`. [#17674](https://github.com/phalcon/cphalcon/issues/17674)
 - `Phalcon\Mvc\View\Engine\Volt\Compiler::compileCall()` silently dropping `{% call %}` blocks instead of throwing an exception. [#17676](https://github.com/phalcon/cphalcon/issues/17676)
 - `Phalcon\Queue\Consumer\Worker::handleSignal()` throwing an `ArgumentCountError` when the worker receives a signal. [#17719](https://github.com/phalcon/cphalcon/issues/17719)
