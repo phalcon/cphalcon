@@ -319,7 +319,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
          */
         let content = this->content;
 
-        if content != null {
+        if content !== null {
             echo content;
         } else {
             let file = this->file;

@@ -1167,7 +1167,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
             let cache = container->get(cache);
         }
 
-        if cache != null {
+        if cache !== null {
             modelBinder->setCache(cache);
         }
 
