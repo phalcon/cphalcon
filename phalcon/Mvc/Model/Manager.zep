@@ -10,6 +10,9 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Annotations\Adapter\AdapterInterface as AnnotationsAdapterInterface;
+use Phalcon\Annotations\AttributesReader;
+use Phalcon\Annotations\Models\MetaData\Source;
 use Phalcon\Contracts\Mvc\Model\Relation\CacheKeyProvider;
 use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Db\Adapter\AdapterInterface;
@@ -18,6 +21,7 @@ use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\Exception as EventsException;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
+use Phalcon\Mvc\Model\Exceptions\InvalidAnnotationsService;
 use Phalcon\Mvc\Model\Exceptions\InvalidConnectionService;
 use Phalcon\Mvc\Model\Exceptions\ManagerOrmServicesUnavailable;
 use Phalcon\Mvc\Model\Exceptions\ModelCouldNotLoad;
@@ -1346,7 +1350,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     }
 
     /**
-     * Returns the mapped source for a model
+     * Returns the mapped source for a model. An explicit source takes
+     * precedence over a class-level Source attribute when AttributesReader
+     * is configured, followed by the uncamelized class name.
      */
     public function getModelSource(<ModelInterface> model) -> string
     {
@@ -1355,12 +1361,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         let entityName = get_class_lower(model);
 
         if !isset this->sources[entityName] {
-            this->setModelSource(
-                model,
-                uncamelize(
-                    get_class_ns(model)
-                )
-            );
+            this->setModelSource(model, this->getDefaultModelSource(model));
         }
 
         return this->prefix . this->sources[entityName];
@@ -2416,6 +2417,47 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
         return isset this->{collection}[keyRelation];
     }
+
+    /**
+     * Resolves an unset source. Reading attributes is opt-in so the default
+     * docblock reader never parses a model just to determine its table name.
+     *
+     * @throws InvalidAnnotationsService
+     */
+    private function getDefaultModelSource(<ModelInterface> model) -> string
+    {
+        var source, container, annotations, classAnnotations, table;
+
+        let source = uncamelize(get_class_ns(model)),
+            container = this->container;
+
+        if typeof container !== "object" || !container->has("annotations") {
+            return source;
+        }
+
+        let annotations = <AnnotationsAdapterInterface> container->getShared("annotations");
+
+        if typeof annotations !== "object" || !(annotations instanceof AnnotationsAdapterInterface) {
+            throw new InvalidAnnotationsService();
+        }
+
+        if !(annotations->getReader() instanceof AttributesReader) {
+            return source;
+        }
+
+        let classAnnotations = annotations->get(get_class(model))->getClassAnnotations();
+
+        if typeof classAnnotations === "object" {
+            let table = Source::getTable(classAnnotations);
+
+            if table !== null {
+                return table;
+            }
+        }
+
+        return source;
+    }
+
     /**
      * Counts the fields of a relation leg. A leg with one field is a string,
      * so it counts as one field.
