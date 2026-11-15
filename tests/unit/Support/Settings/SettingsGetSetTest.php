@@ -129,6 +129,10 @@ final class SettingsGetSetTest extends AbstractUnitTestCase
     {
         $previous = ini_get('phalcon.orm.events');
 
+        if (false === $previous) {
+            $this->markTestSkipped('The phalcon.* ini settings need the Phalcon C extension');
+        }
+
         try {
             $this->assertTrue(Settings::get('orm.events'));
 
@@ -165,6 +169,35 @@ final class SettingsGetSetTest extends AbstractUnitTestCase
         $expected = true;
         $actual   = Settings::get('db.force_casting');
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * cphalcon's phalcon.orm.cache_level and phalcon.orm.unique_cache_id
+     * (both "3" by default) drive Lang::parsePHQL()'s AST cache.
+     *
+     * In cphalcon, orm.unique_cache_id is also the live id counter, thus its
+     * value changes after each new parsed statement. The test checks only
+     * its type.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-07
+     */
+    public function testSupportSettingsOrmCacheDefaults(): void
+    {
+        $this->assertSame(3, Settings::get('orm.cache_level'));
+        $this->assertIsInt(Settings::get('orm.unique_cache_id'));
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-07
+     */
+    public function testSupportSettingsOrmCacheSetGet(): void
+    {
+        Settings::set('orm.cache_level', -1);
+        Settings::set('orm.unique_cache_id', 100);
+
+        $this->assertSame([-1, 100], [Settings::get('orm.cache_level'), Settings::get('orm.unique_cache_id')]);
     }
 
     /**
@@ -231,6 +264,10 @@ final class SettingsGetSetTest extends AbstractUnitTestCase
      */
     public function testSupportSettingsSetNullOverrideUsesGlobal(): void
     {
+        if (!extension_loaded('phalcon')) {
+            $this->markTestSkipped('Settings::set() accepts bool|int only in the PHP version');
+        }
+
         Settings::set('orm.events', null);
         $this->assertTrue(Settings::get('orm.events'));
 
