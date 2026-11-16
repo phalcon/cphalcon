@@ -187,4 +187,49 @@ final class GetTest extends AbstractUnitTestCase
         $this->assertNull($container->get('nullService'));
         $this->assertSame(2, $count);
     }
+
+    /**
+     * The container cannot bind a static closure. Then the closure cannot be
+     * called: there is a warning and null, the same as cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/815
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    public function testDiGetStaticClosure(): void
+    {
+        $container = new Di();
+        $container->set('static', static fn () => 1);
+
+        [$actual, $messages] = $this->collectErrors(
+            static fn () => $container->get('static')
+        );
+
+        $this->assertNull($actual);
+        $this->assertSame(
+            ['Cannot bind an instance to a static closure', 'no array or string given'],
+            $messages
+        );
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/phalcon/issues/815
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    public function testDiGetStaticClosureParameters(): void
+    {
+        $container = new Di();
+        $container->set('static', static fn ($value) => $value);
+
+        [$actual, $messages] = $this->collectErrors(
+            static fn () => $container->get('static', ['one'])
+        );
+
+        $this->assertNull($actual);
+        $this->assertSame(
+            ['Cannot bind an instance to a static closure', 'no array or string given'],
+            $messages
+        );
+    }
 }

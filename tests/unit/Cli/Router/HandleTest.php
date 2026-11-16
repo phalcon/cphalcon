@@ -17,10 +17,14 @@ use Phalcon\Cli\Router;
 use Phalcon\Cli\Router\Exception;
 use Phalcon\Cli\Router\Route;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
+use stdClass;
 
 final class HandleTest extends AbstractUnitTestCase
 {
+    use ErrorHandlerTrait;
+
     /**
      * @return array[]
      */
@@ -549,6 +553,60 @@ final class HandleTest extends AbstractUnitTestCase
             $action,
             $params
         );
+    }
+
+    /**
+     * A converter that cannot be called gives a warning and handle() stops
+     * at once, the same as cphalcon. The route is not matched.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/815
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    public function testCliRouterHandleConverterNotCallable(): void
+    {
+        $router = new Router(false);
+        $router->add('hello ([a-z]+)', ['task' => 1])
+               ->convert('task', 'unknownConverterFunction')
+        ;
+
+        [$actual, $messages] = $this->collectErrors(
+            static fn () => $router->handle('hello world')
+        );
+
+        $this->assertNull($actual);
+        $this->assertSame(
+            ['function "unknownConverterFunction" not found or invalid function name'],
+            $messages
+        );
+        $this->assertFalse($router->wasMatched());
+    }
+
+    /**
+     * A converter of a path that is not in the matches gives the same
+     * warning.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/815
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    public function testCliRouterHandleConverterNotCallableNotMatched(): void
+    {
+        $router = new Router(false);
+        $router->add('hello ([a-z]+)', ['task' => 1, 'action' => 5])
+               ->convert('action', [new stdClass(), 'unknownMethod'])
+        ;
+
+        [$actual, $messages] = $this->collectErrors(
+            static fn () => $router->handle('hello world')
+        );
+
+        $this->assertNull($actual);
+        $this->assertSame(
+            ['class stdClass does not have a method "unknownMethod"'],
+            $messages
+        );
+        $this->assertFalse($router->wasMatched());
     }
 
     /**

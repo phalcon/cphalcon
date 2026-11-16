@@ -19,4 +19,12 @@ class PdoFixture
     {
         return $name;
     }
+
+    /**
+     * The connection finds this method, but it cannot call it.
+     */
+    private function secret(): string
+    {
+        return 'secret';
+    }
 }

@@ -17,6 +17,8 @@ use BadMethodCallException;
 use Phalcon\DataMapper\Pdo\Connection;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Database\DataMapper\Fake\FakeConnection;
+use Phalcon\Tests\Database\DataMapper\Fake\PdoFixture;
+use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 use PHPUnit\Framework\Attributes\Group;
 
 #[Group('mysql')]
@@ -24,6 +26,8 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('sqlite')]
 final class UnderscoreCallTest extends AbstractDatabaseTestCase
 {
+    use ErrorHandlerTrait;
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-25
@@ -56,5 +60,33 @@ final class UnderscoreCallTest extends AbstractDatabaseTestCase
         $connection = self::getDataMapperConnection();
 
         $connection->unknown();
+    }
+
+    /**
+     * A PDO method that cannot be called (private) gives a warning and null,
+     * the same as cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/815
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    public function testDMPdoConnectionUnderscoreCallNotCallable(): void
+    {
+        /** @var Connection $connection */
+        $connection = new FakeConnection(
+            self::getDatabaseDsn(),
+            self::getDatabaseUsername(),
+            self::getDatabasePassword()
+        );
+
+        [$actual, $messages] = $this->collectErrors(
+            static fn () => $connection->secret()
+        );
+
+        $this->assertNull($actual);
+        $this->assertSame(
+            ['cannot access private method ' . PdoFixture::class . '::secret()'],
+            $messages
+        );
     }
 }

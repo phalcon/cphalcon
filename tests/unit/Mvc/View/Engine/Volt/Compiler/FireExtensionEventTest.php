@@ -15,9 +15,13 @@ namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt\Compiler;
 
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Mvc\View\VoltPrivateExtension;
+use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 
 class FireExtensionEventTest extends AbstractUnitTestCase
 {
+    use ErrorHandlerTrait;
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -161,5 +165,30 @@ class FireExtensionEventTest extends AbstractUnitTestCase
             ['compileFilter', 'compileFunction', 'compileStatement', 'resolveExpression'],
             $events
         );
+    }
+
+    /**
+     * An event method that cannot be called (private) gives a warning and
+     * null, the same as cphalcon. This is true with and without arguments.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/815
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    public function testMvcViewEngineVoltCompilerFireExtensionEventNotCallable(): void
+    {
+        $compiler = new Compiler();
+        $compiler->addExtension(new VoltPrivateExtension());
+
+        [$actual, $messages] = $this->collectErrors(
+            static fn () => [
+                $compiler->fireExtensionEvent('compileFunction'),
+                $compiler->fireExtensionEvent('compileFunction', [['name' => ['value' => 'dummy']], false]),
+            ]
+        );
+
+        $message = 'cannot access private method ' . VoltPrivateExtension::class . '::compileFunction()';
+        $this->assertSame([null, null], $actual);
+        $this->assertSame([$message, $message], $messages);
     }
 }

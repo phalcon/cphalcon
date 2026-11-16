@@ -16,10 +16,14 @@ namespace Phalcon\Tests\Unit\ADR\Router;
 use Phalcon\ADR\Exceptions\RouteNotFound;
 use Phalcon\ADR\Router\AttributeFilter;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\ADR\Hidden\GetHidden;
+use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 use RuntimeException;
 
 final class FilterTest extends AbstractUnitTestCase
 {
+    use ErrorHandlerTrait;
+
     /**
      * Unit Tests Phalcon\ADR\Router\AttributeFilter :: filter() anchors the regex to the whole segment
      */
@@ -123,6 +127,30 @@ final class FilterTest extends AbstractUnitTestCase
         $result = (new AttributeFilter())->filter($action::class, ['2026', 'hello']);
 
         $this->assertSame(['year' => 2026, 'slug' => 'hello'], $result);
+    }
+
+    /**
+     * Unit Tests Phalcon\ADR\Router\AttributeFilter :: filter() with a
+     * params() method that cannot be called gives a warning and null, the
+     * same as cphalcon
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/815
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    public function testAdrAttributeFilterFilterParamsNotCallable(): void
+    {
+        $filter = new AttributeFilter();
+
+        [$actual, $messages] = $this->collectErrors(
+            static fn () => $filter->filter(GetHidden::class, ['5'])
+        );
+
+        $this->assertNull($actual);
+        $this->assertSame(
+            ['cannot access private method ' . GetHidden::class . '::params()'],
+            $messages
+        );
     }
 
     /**

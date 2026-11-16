@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Unit\Mvc\Micro;
 use Exception;
 use Phalcon\Http\Response;
 use Phalcon\Mvc\Micro;
+use Phalcon\Mvc\Micro\Exceptions\ErrorHandlerNotCallable;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 class ErrorTest extends AbstractUnitTestCase
@@ -68,5 +69,32 @@ class ErrorTest extends AbstractUnitTestCase
             'ERROR: Not a human name.',
             $app->handle('/say/hello/123')
         );
+    }
+
+    /**
+     * An error handler that cannot be called throws ErrorHandlerNotCallable,
+     * the same as cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/815
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    public function testMvcMicroErrorNotCallable(): void
+    {
+        $app = new Micro();
+
+        $app->map(
+            '/fail',
+            function () {
+                throw new Exception('Fail');
+            }
+        );
+
+        $app->error('unknownErrorHandlerFunction');
+
+        $this->expectException(ErrorHandlerNotCallable::class);
+        $this->expectExceptionMessage('Error handler is not callable');
+
+        $app->handle('/fail');
     }
 }

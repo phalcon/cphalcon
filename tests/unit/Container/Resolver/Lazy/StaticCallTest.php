@@ -16,10 +16,13 @@ namespace Phalcon\Tests\Unit\Container\Resolver\Lazy;
 use DateTime;
 use Phalcon\Container\Resolver\Lazy\StaticCall;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 use Phalcon\Tests\Unit\Container\Resolver\Fake\FakeNameContainer;
 
 final class StaticCallTest extends AbstractUnitTestCase
 {
+    use ErrorHandlerTrait;
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-18
@@ -42,6 +45,30 @@ final class StaticCallTest extends AbstractUnitTestCase
         $lazy      = new StaticCall('DateTime', 'createFromFormat', ['Y-m-d', '2024-01-15']);
         $result    = $lazy->resolve($container);
         $this->assertInstanceOf(DateTime::class, $result);
+    }
+
+    /**
+     * A method that cannot be called gives a warning and null, the same as
+     * cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/815
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    public function testContainerResolverLazyStaticCallResolveNotCallable(): void
+    {
+        $container = new FakeNameContainer();
+        $lazy      = new StaticCall(DateTime::class, 'unknownMethod', []);
+
+        [$actual, $messages] = $this->collectErrors(
+            static fn () => $lazy->resolve($container)
+        );
+
+        $this->assertNull($actual);
+        $this->assertSame(
+            ['class DateTime does not have a method "unknownMethod"'],
+            $messages
+        );
     }
 
     /**

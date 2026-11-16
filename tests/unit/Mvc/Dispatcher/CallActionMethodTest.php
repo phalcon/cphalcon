@@ -13,11 +13,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Dispatcher;
 
+use Phalcon\Mvc\Dispatcher;
+use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 use Phalcon\Tests\Unit\Mvc\Dispatcher\Helper\BaseDispatcher;
 use Phalcon\Tests\Unit\Mvc\Dispatcher\Helper\DispatcherTestDefaultController;
 
 class CallActionMethodTest extends BaseDispatcher
 {
+    use ErrorHandlerTrait;
+
     /**
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
@@ -43,6 +47,31 @@ class CallActionMethodTest extends BaseDispatcher
         $this->assertEquals(
             ['multiplyAction'],
             $this->getDispatcherListener()->getTrace()
+        );
+    }
+
+    /**
+     * An action that cannot be called gives a warning and null, the same as
+     * cphalcon. With no events manager, nothing checks the action before
+     * the call.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/815
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    public function testMvcDispatcherCallActionMethodNotCallable(): void
+    {
+        $dispatcher = new Dispatcher();
+        $controller = new DispatcherTestDefaultController();
+
+        [$actual, $messages] = $this->collectErrors(
+            static fn () => $dispatcher->callActionMethod($controller, 'unknownAction', [])
+        );
+
+        $this->assertNull($actual);
+        $this->assertSame(
+            ['class ' . DispatcherTestDefaultController::class . ' does not have a method "unknownAction"'],
+            $messages
         );
     }
 }

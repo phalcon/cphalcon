@@ -15,10 +15,13 @@ namespace Phalcon\Tests\Unit\Container\Resolver\Lazy;
 
 use Phalcon\Container\Resolver\Lazy\FunctionCall;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 use Phalcon\Tests\Unit\Container\Resolver\Fake\FakeNameContainer;
 
 final class FunctionCallTest extends AbstractUnitTestCase
 {
+    use ErrorHandlerTrait;
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-18
@@ -41,6 +44,30 @@ final class FunctionCallTest extends AbstractUnitTestCase
         $lazy      = new FunctionCall('strtoupper', ['hello']);
         $result    = $lazy->resolve($container);
         $this->assertSame('HELLO', $result);
+    }
+
+    /**
+     * A function that cannot be called gives a warning and null, the same as
+     * cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/815
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    public function testContainerResolverLazyFunctionCallResolveNotCallable(): void
+    {
+        $container = new FakeNameContainer();
+        $lazy      = new FunctionCall('unknownFunction', []);
+
+        [$actual, $messages] = $this->collectErrors(
+            static fn () => $lazy->resolve($container)
+        );
+
+        $this->assertNull($actual);
+        $this->assertSame(
+            ['function "unknownFunction" not found or invalid function name'],
+            $messages
+        );
     }
 
     /**

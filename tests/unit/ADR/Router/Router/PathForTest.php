@@ -13,12 +13,19 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\ADR\Router\Router;
 
+use Exception;
 use Phalcon\ADR\Router\Router;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\ADR\Hidden\GetHidden;
+use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
+
+use function get_class;
 
 final class PathForTest extends AbstractUnitTestCase
 {
+    use ErrorHandlerTrait;
+
     private const BASE      = 'Phalcon\\Tests\\Support\\ADR\\Action';
 
     private const DIRECTORY = PATH_SUPPORT . 'ADR/Action';
@@ -112,6 +119,38 @@ final class PathForTest extends AbstractUnitTestCase
         $this->assertSame(
             '/company/all',
             $router->pathFor(self::BASE . '\\Company\\All\\GetCompanyAll')
+        );
+    }
+
+    /**
+     * Unit Tests Phalcon\ADR\Router\Router :: pathFor() with a params()
+     * method that cannot be called gives a warning, then the exception of
+     * cphalcon for a value that it cannot iterate
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/815
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    public function testAdrRouterRouterPathForParamsNotCallable(): void
+    {
+        $router = (new Router())->setBaseNamespace('Phalcon\\Tests\\Support\\ADR');
+
+        [$actual, $messages] = $this->collectErrors(
+            static function () use ($router): string {
+                try {
+                    $router->pathFor(GetHidden::class);
+                } catch (Exception $ex) {
+                    return get_class($ex) . ': ' . $ex->getMessage();
+                }
+
+                return 'no exception';
+            }
+        );
+
+        $this->assertSame('Exception: The argument is not initialized or iterable()', $actual);
+        $this->assertSame(
+            ['cannot access private method ' . GetHidden::class . '::params()'],
+            $messages
         );
     }
 

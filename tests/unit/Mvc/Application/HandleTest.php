@@ -24,10 +24,12 @@ use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Talon\Talon;
 use Phalcon\Tests\Support\Modules\Frontend\Module as FrontendModule;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 
 final class HandleTest extends AbstractUnitTestCase
 {
     use DiTrait;
+    use ErrorHandlerTrait;
 
     private int $obLevel = 0;
 
@@ -165,6 +167,35 @@ final class HandleTest extends AbstractUnitTestCase
         $this->expectExceptionMessage('Initialize called');
 
         $application->handle('/not-found');
+    }
+
+    /**
+     * A match callback that cannot be called gives a warning and handle()
+     * returns null, the same as cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/815
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    public function testMvcApplicationHandleMatchNotCallable(): void
+    {
+        $this->setNewFactoryDefault();
+
+        /** @var Router $router */
+        $router = $this->container->getShared('router');
+        $router->add('/match')->match('unknownMatchFunction');
+
+        $application = new Application($this->container);
+
+        [$actual, $messages] = $this->collectErrors(
+            static fn () => $application->handle('/match')
+        );
+
+        $this->assertNull($actual);
+        $this->assertSame(
+            ['function "unknownMatchFunction" not found or invalid function name'],
+            $messages
+        );
     }
 
     /**

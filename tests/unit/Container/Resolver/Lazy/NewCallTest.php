@@ -15,11 +15,14 @@ namespace Phalcon\Tests\Unit\Container\Resolver\Lazy;
 
 use Phalcon\Container\Resolver\Lazy\NewCall;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 use Phalcon\Tests\Unit\Container\Resolver\Fake\FakeContainerWithService;
 use Phalcon\Tests\Unit\Container\Resolver\Fake\FakeServiceWithMethod;
 
 final class NewCallTest extends AbstractUnitTestCase
 {
+    use ErrorHandlerTrait;
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-18
@@ -44,6 +47,30 @@ final class NewCallTest extends AbstractUnitTestCase
         $lazy      = new NewCall('SomeService', 'greet', ['Alice']);
         $result    = $lazy->resolve($container);
         $this->assertSame('Hello, Alice', $result);
+    }
+
+    /**
+     * A method that cannot be called gives a warning and null, the same as
+     * cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/815
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    public function testContainerResolverLazyNewCallResolveNotCallable(): void
+    {
+        $container = new FakeContainerWithService(new FakeServiceWithMethod());
+        $lazy      = new NewCall('SomeService', 'unknownMethod', []);
+
+        [$actual, $messages] = $this->collectErrors(
+            static fn () => $lazy->resolve($container)
+        );
+
+        $this->assertNull($actual);
+        $this->assertSame(
+            ['class ' . FakeServiceWithMethod::class . ' does not have a method "unknownMethod"'],
+            $messages
+        );
     }
 
     /**

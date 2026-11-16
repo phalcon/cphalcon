@@ -168,6 +168,30 @@ final class WeakModeTypesTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * @issue  https://github.com/phalcon/phalcon/issues/805
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-14
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getWeakValues')]
+    public function testMvcModelWeakModeCloneResult(
+        string $property,
+        mixed $input,
+        mixed $expected
+    ): void {
+        $model = Model::cloneResult(
+            new InvoicesWeakTypesPublic(),
+            [
+                $property => $input,
+            ]
+        );
+
+        $this->assertSame($expected, $model->readAttribute($property));
+    }
+
+    /**
      * The setter takes a float. A numeric string from the database goes to
      * the setter, and the setter doubles it.
      *
@@ -250,6 +274,29 @@ final class WeakModeTypesTest extends AbstractDatabaseTestCase
         $this->assertSame(1, $invoice->inv_id);
         $this->assertTrue($invoice->inv_status_flag);
         $this->assertSame('42', $invoice->inv_title);
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/phalcon/issues/805
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-14
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getRefusedValues')]
+    public function testMvcModelWeakModeCloneResultRefused(
+        string $property,
+        mixed $input
+    ): void {
+        $this->expectException(TypeError::class);
+
+        Model::cloneResult(
+            new InvoicesWeakTypesPublic(),
+            [
+                $property => $input,
+            ]
+        );
     }
 
     /**
