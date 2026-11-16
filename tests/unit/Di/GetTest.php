@@ -24,6 +24,8 @@ use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 
 use function spl_object_id;
 
+use const PHP_VERSION_ID;
+
 final class GetTest extends AbstractUnitTestCase
 {
     use ErrorHandlerTrait;
@@ -207,7 +209,7 @@ final class GetTest extends AbstractUnitTestCase
 
         $this->assertNull($actual);
         $this->assertSame(
-            ['Cannot bind an instance to a static closure', 'no array or string given'],
+            [$this->getStaticClosureBindMessage(), 'no array or string given'],
             $messages
         );
     }
@@ -228,8 +230,23 @@ final class GetTest extends AbstractUnitTestCase
 
         $this->assertNull($actual);
         $this->assertSame(
-            ['Cannot bind an instance to a static closure', 'no array or string given'],
+            [$this->getStaticClosureBindMessage(), 'no array or string given'],
             $messages
         );
+    }
+
+    /**
+     * The warning of Closure::bind() for a static closure. PHP 8.6 adds the
+     * PHP 9 notice to the message.
+     */
+    private function getStaticClosureBindMessage(): string
+    {
+        $message = 'Cannot bind an instance to a static closure';
+
+        if (PHP_VERSION_ID >= 80600) {
+            $message .= ', this will be an error in PHP 9';
+        }
+
+        return $message;
     }
 }
