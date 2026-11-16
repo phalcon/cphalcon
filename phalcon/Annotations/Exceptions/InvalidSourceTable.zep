@@ -16,8 +16,17 @@ class InvalidSourceTable extends Exception
 {
     public function __construct(var table)
     {
+        var value;
+
+        // Do not traverse arrays or objects: invalid values may contain cycles.
+        if is_scalar(table) || table === null {
+            let value = var_export(table, true);
+        } else {
+            let value = get_debug_type(table);
+        }
+
         parent::__construct(
-            "Source table name must be a non-empty string; received: " . var_export(table, true)
+            "Source table name must be a non-empty string; received: " . value
         );
     }
 }

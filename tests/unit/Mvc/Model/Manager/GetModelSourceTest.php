@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Model\Manager;
 
+use ErrorException;
 use Phalcon\Annotations\Adapter\AdapterInterface;
 use Phalcon\Annotations\Adapter\Memory;
 use Phalcon\Annotations\AttributesReader;
@@ -30,6 +31,7 @@ use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Mvc\Model\MetaData\Strategy\Annotations;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Models\Annotations\SourceChild;
+use Phalcon\Tests\Support\Models\Annotations\SourceCyclicArgument;
 use Phalcon\Tests\Support\Models\Annotations\SourceEmpty;
 use Phalcon\Tests\Support\Models\Annotations\SourceEmptyNamedArgument;
 use Phalcon\Tests\Support\Models\Annotations\SourceInitialized;
@@ -102,6 +104,7 @@ final class GetModelSourceTest extends AbstractUnitTestCase
             'empty positional table' => [SourceEmpty::class],
             'empty named table'      => [SourceEmptyNamedArgument::class],
             'array table'            => [SourceInvalidTable::class],
+            'cyclic object table'    => [SourceCyclicArgument::class],
             'whitespace table'       => [SourceWhitespace::class],
         ];
     }
@@ -382,6 +385,10 @@ final class GetModelSourceTest extends AbstractUnitTestCase
         $this->setReader(AttributesReader::class);
         $model = new $modelClass();
 
+        set_error_handler(static function (int $severity, string $message): never {
+            throw new ErrorException($message, 0, $severity);
+        });
+
         try {
             $model->getSource();
             $this->fail('Invalid Source table must be rejected');
@@ -393,6 +400,8 @@ final class GetModelSourceTest extends AbstractUnitTestCase
                 'Source table name must be a non-empty string; received: ',
                 $exception->getMessage()
             );
+        } finally {
+            restore_error_handler();
         }
     }
 

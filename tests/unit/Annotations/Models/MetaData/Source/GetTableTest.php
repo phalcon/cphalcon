@@ -13,11 +13,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Annotations\Models\MetaData\Source;
 
+use ErrorException;
 use Phalcon\Annotations\Annotation;
 use Phalcon\Annotations\Collection;
 use Phalcon\Annotations\Exceptions\InvalidSourceTable;
 use Phalcon\Annotations\Models\MetaData\Source;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Attributes\CyclicArgument;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 final class GetTableTest extends AbstractUnitTestCase
@@ -27,6 +29,9 @@ final class GetTableTest extends AbstractUnitTestCase
      */
     public static function getInvalidTables(): array
     {
+        $recursiveArray         = [];
+        $recursiveArray['self'] = &$recursiveArray;
+
         return [
             'missing argument'                              => [[], 'NULL'],
             'empty positional argument'                     => [[''], "''"],
@@ -35,8 +40,11 @@ final class GetTableTest extends AbstractUnitTestCase
             'spaces argument'                               => [['   '], "'   '"],
             'whitespace named argument'                     => [['table' => "\t\r\n\v"], "'\t\r\n\v'"],
             'null argument'                                 => [[null], 'NULL'],
-            'empty array argument'                          => [[[]], "array (\n)"],
-            'array argument'                                => [[['invoices']], "array (\n  0 => 'invoices',\n)"],
+            'empty array argument'                          => [[[]], 'array'],
+            'array argument'                                => [[['invoices']], 'array'],
+            'recursive array argument'                      => [[$recursiveArray], 'array'],
+            'cyclic object argument'                        => [[new CyclicArgument()], CyclicArgument::class],
+            'array containing cyclic object'                => [[[new CyclicArgument()]], 'array'],
             'integer argument'                              => [[123], '123'],
             'boolean argument'                              => [[false], 'false'],
         ];
@@ -81,7 +89,15 @@ final class GetTableTest extends AbstractUnitTestCase
         $this->expectException(InvalidSourceTable::class);
         $this->expectExceptionMessage('Source table name must be a non-empty string; received: ' . $value);
 
-        Source::getTable($this->createCollection($arguments));
+        set_error_handler(static function (int $severity, string $message): never {
+            throw new ErrorException($message, 0, $severity);
+        });
+
+        try {
+            Source::getTable($this->createCollection($arguments));
+        } finally {
+            restore_error_handler();
+        }
     }
 
     /**
