@@ -32,6 +32,7 @@ use Phalcon\Tests\Support\Models\Annotations\SourceNamedArgument;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
+use stdClass;
 
 #[Group('sqlite')]
 final class SourceAnnotationsTest extends AbstractDatabaseTestCase
@@ -81,6 +82,34 @@ final class SourceAnnotationsTest extends AbstractDatabaseTestCase
                 Introspection::class,
             ],
         ];
+    }
+
+    /**
+     * A foreign annotations service must not break the default ORM strategy.
+     *
+     * @author QUAD69 <quad69@yandex.ru>
+     * @since  2026-11-16
+     */
+    public function testMvcModelManagerGetModelSourceIntrospectionWithForeignAnnotationsService(): void
+    {
+        $this->container->setShared('annotations', new stdClass());
+        $this->container->getShared('modelsManager')->setModelPrefix('app_');
+        $connection = new Sqlite(['dbname' => ':memory:']);
+        $this->container->setShared('db', $connection);
+        $connection->execute(
+            'CREATE TABLE app_source_model (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(70) NOT NULL)'
+        );
+
+        $model       = new SourceModel();
+        $model->name = 'Foreign annotations service';
+
+        $this->assertTrue($model->save());
+        $this->assertSame('app_source_model', $model->getSource());
+
+        $found = SourceModel::findFirst();
+        $this->assertInstanceOf(SourceModel::class, $found);
+        $this->assertSame('Foreign annotations service', $found->name);
+        $this->assertInstanceOf(Introspection::class, $this->container->getShared('modelsMetadata')->getStrategy());
     }
 
     /**

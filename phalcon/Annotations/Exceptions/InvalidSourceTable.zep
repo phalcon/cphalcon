@@ -14,8 +14,10 @@ use Phalcon\Annotations\Exception;
 
 class InvalidSourceTable extends Exception
 {
-    public function __construct()
+    public function __construct(var table)
     {
-        parent::__construct("Source table name must be a non-empty string");
+        parent::__construct(
+            "Source table name must be a non-empty string; received: " . var_export(table, true)
+        );
     }
 }

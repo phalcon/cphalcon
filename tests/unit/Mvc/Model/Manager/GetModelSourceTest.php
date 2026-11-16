@@ -17,6 +17,7 @@ use Phalcon\Annotations\Adapter\AdapterInterface;
 use Phalcon\Annotations\Adapter\Memory;
 use Phalcon\Annotations\AttributesReader;
 use Phalcon\Annotations\Exception;
+use Phalcon\Annotations\Exceptions\InvalidSourceTable;
 use Phalcon\Annotations\Reader;
 use Phalcon\Annotations\ReaderInterface;
 use Phalcon\Annotations\Reflection;
@@ -38,9 +39,11 @@ use Phalcon\Tests\Support\Models\Annotations\SourceInvalidTable;
 use Phalcon\Tests\Support\Models\Annotations\SourceModel;
 use Phalcon\Tests\Support\Models\Annotations\SourceNamedArgument;
 use Phalcon\Tests\Support\Models\Annotations\SourceUnrelated;
+use Phalcon\Tests\Support\Models\Annotations\SourceWhitespace;
 use Phalcon\Tests\Support\Models\Annotations\SourceWithoutAnnotations;
 use Phalcon\Tests\Support\Models\Annotations\SourceWithoutTable;
 use PHPUnit\Framework\Attributes\DataProvider;
+use RuntimeException;
 use stdClass;
 
 final class GetModelSourceTest extends AbstractUnitTestCase
@@ -99,6 +102,7 @@ final class GetModelSourceTest extends AbstractUnitTestCase
             'empty positional table' => [SourceEmpty::class],
             'empty named table'      => [SourceEmptyNamedArgument::class],
             'array table'            => [SourceInvalidTable::class],
+            'whitespace table'       => [SourceWhitespace::class],
         ];
     }
 
@@ -200,6 +204,28 @@ final class GetModelSourceTest extends AbstractUnitTestCase
     }
 
     /**
+     * A fallback source is cached like any other successfully resolved source.
+     *
+     * @author QUAD69 <quad69@yandex.ru>
+     * @since  2026-11-13
+     */
+    public function testMvcModelManagerGetModelSourceCachesFallbackForForeignAnnotationsService(): void
+    {
+        $this->container->setShared('annotations', new stdClass());
+        $model = new SourceModel();
+
+        $this->assertSame('source_model', $model->getSource());
+
+        // Clear the DI's resolved shared instance before registering its replacement.
+        $this->container->remove('annotations');
+        $this->setReader(AttributesReader::class);
+
+        $this->assertSame('source_model', $model->getSource());
+        $this->container->getShared('modelsManager')->setModelSource($model, 'explicit_records');
+        $this->assertSame('explicit_records', $model->getSource());
+    }
+
+    /**
      * @param class-string<ReaderInterface> $readerClass
      *
      * @author QUAD69 <quad69@yandex.ru>
@@ -208,7 +234,16 @@ final class GetModelSourceTest extends AbstractUnitTestCase
     #[DataProvider('getReaders')]
     public function testMvcModelManagerGetModelSourceColumnMetadata(string $readerClass): void
     {
-        $this->setReader($readerClass);
+        // Source resolution and column metadata share the adapter's parsed data.
+        $reader = $this->createMock($readerClass);
+        $reader->expects($this->once())
+               ->method('parse')
+               ->with(SourceModel::class)
+               ->willReturn((new $readerClass())->parse(SourceModel::class))
+        ;
+        $adapter = new Memory();
+        $adapter->setReader($reader);
+        $this->container->setShared('annotations', $adapter);
         $model = new SourceModel();
         $model->getSource();
 
@@ -312,12 +347,9 @@ final class GetModelSourceTest extends AbstractUnitTestCase
         $this->container->setShared('annotations', fn () => $service);
         $model = new SourceModel();
 
-        $this->expectException(ModelException::class);
-        $this->expectExceptionMessage(
-            "The 'annotations' service must implement Phalcon\\Annotations\\Adapter\\AdapterInterface"
-        );
-
-        $model->getSource();
+        $this->assertSame('source_model', $model->getSource());
+        $this->container->getShared('modelsManager')->setModelPrefix('app_');
+        $this->assertSame('app_source_model', $model->getSource());
     }
 
     /**
@@ -350,10 +382,18 @@ final class GetModelSourceTest extends AbstractUnitTestCase
         $this->setReader(AttributesReader::class);
         $model = new $modelClass();
 
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Source table name must be a non-empty string');
-
-        $model->getSource();
+        try {
+            $model->getSource();
+            $this->fail('Invalid Source table must be rejected');
+        } catch (ModelException $exception) {
+            $previous = $exception->getPrevious();
+            $this->assertInstanceOf(InvalidSourceTable::class, $previous);
+            $this->assertSame($previous->getMessage(), $exception->getMessage());
+            $this->assertStringStartsWith(
+                'Source table name must be a non-empty string; received: ',
+                $exception->getMessage()
+            );
+        }
     }
 
     /**
@@ -401,6 +441,25 @@ final class GetModelSourceTest extends AbstractUnitTestCase
     }
 
     /**
+     * Wrapping Source validation must not hide unrelated adapter failures.
+     *
+     * @author QUAD69 <quad69@yandex.ru>
+     * @since  2026-11-16
+     */
+    public function testMvcModelManagerGetModelSourcePreservesAdapterException(): void
+    {
+        $exception = new RuntimeException('Cache unavailable');
+        $adapter   = $this->createMock(AdapterInterface::class);
+        $adapter->method('getReader')->willReturn(new AttributesReader());
+        $adapter->method('get')->willThrowException($exception);
+        $this->container->setShared('annotations', $adapter);
+
+        $this->expectExceptionObject($exception);
+
+        (new SourceModel())->getSource();
+    }
+
+    /**
      * A reader derived from AttributesReader keeps the explicit opt-in.
      *
      * @author QUAD69 <quad69@yandex.ru>
@@ -419,29 +478,33 @@ final class GetModelSourceTest extends AbstractUnitTestCase
     }
 
     /**
-     * Failed source resolution must not cache the inferred fallback.
+     * A validation failure must not cache a fallback source.
      *
      * @author QUAD69 <quad69@yandex.ru>
-     * @since  2026-11-13
+     * @since  2026-11-16
      */
-    public function testMvcModelManagerGetModelSourceRetryAfterInvalidAnnotationsService(): void
+    public function testMvcModelManagerGetModelSourceRetryAfterInvalidTable(): void
     {
-        $this->container->setShared('annotations', new stdClass());
+        $reader  = new AttributesReader();
+        $adapter = $this->createMock(AdapterInterface::class);
+        $adapter->method('getReader')->willReturn($reader);
+        $adapter->expects($this->exactly(2))
+                ->method('get')
+                ->with(SourceModel::class)
+                ->willReturn(
+                    new Reflection($reader->parse(SourceEmpty::class)),
+                    new Reflection($reader->parse(SourceModel::class))
+                )
+        ;
+        $this->container->setShared('annotations', $adapter);
         $model = new SourceModel();
 
         try {
             $model->getSource();
-            $this->fail('Invalid annotations service must be rejected');
+            $this->fail('Invalid Source table must be rejected');
         } catch (ModelException $exception) {
-            $this->assertSame(
-                "The 'annotations' service must implement Phalcon\\Annotations\\Adapter\\AdapterInterface",
-                $exception->getMessage()
-            );
+            $this->assertInstanceOf(InvalidSourceTable::class, $exception->getPrevious());
         }
-
-        // Clear the DI's resolved shared instance before registering its replacement.
-        $this->container->remove('annotations');
-        $this->setReader(AttributesReader::class);
 
         $this->assertSame('attribute_records', $model->getSource());
     }

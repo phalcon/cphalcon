@@ -10,6 +10,8 @@
 
 namespace Phalcon\Annotations\Models\MetaData;
 
+use Phalcon\Annotations\Adapter\AdapterInterface;
+use Phalcon\Annotations\AttributesReader;
 use Phalcon\Annotations\Collection;
 use Phalcon\Annotations\Exceptions\InvalidSourceTable;
 
@@ -65,10 +67,33 @@ class Source
             let table = sourceAnnotation->getArgument(0);
         }
 
-        if typeof table !== "string" || table === "" {
-            throw new InvalidSourceTable();
+        if typeof table !== "string" || trim(table) === "" {
+            throw new InvalidSourceTable(table);
         }
 
         return table;
+    }
+
+    /**
+     * Returns the model's table when the adapter uses AttributesReader.
+     * Other readers do not opt in and are not asked to parse the class.
+     *
+     * @throws InvalidSourceTable
+     */
+    public static function getTableFromAdapter(<AdapterInterface> adapter, string className) -> string | null
+    {
+        var annotations;
+
+        if !(adapter->getReader() instanceof AttributesReader) {
+            return null;
+        }
+
+        let annotations = adapter->get(className)->getClassAnnotations();
+
+        if annotations === null {
+            return null;
+        }
+
+        return self::getTable(annotations);
     }
 }

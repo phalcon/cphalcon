@@ -11,7 +11,7 @@
 namespace Phalcon\Mvc\Model;
 
 use Phalcon\Annotations\Adapter\AdapterInterface as AnnotationsAdapterInterface;
-use Phalcon\Annotations\AttributesReader;
+use Phalcon\Annotations\Exceptions\InvalidSourceTable;
 use Phalcon\Annotations\Models\MetaData\Source;
 use Phalcon\Contracts\Mvc\Model\Relation\CacheKeyProvider;
 use Phalcon\Contracts\Mvc\MvcTypes;
@@ -21,7 +21,6 @@ use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\Exception as EventsException;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
-use Phalcon\Mvc\Model\Exceptions\InvalidAnnotationsService;
 use Phalcon\Mvc\Model\Exceptions\InvalidConnectionService;
 use Phalcon\Mvc\Model\Exceptions\ManagerOrmServicesUnavailable;
 use Phalcon\Mvc\Model\Exceptions\ModelCouldNotLoad;
@@ -2422,11 +2421,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * Resolves an unset source. Reading attributes is opt-in so the default
      * docblock reader never parses a model just to determine its table name.
      *
-     * @throws InvalidAnnotationsService
+     * @throws Exception
      */
     private function getDefaultModelSource(<ModelInterface> model) -> string
     {
-        var source, container, annotations, classAnnotations, table;
+        var source, container, annotations, table, exception;
 
         let source = uncamelize(get_class_ns(model)),
             container = this->container;
@@ -2438,21 +2437,17 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         let annotations = <AnnotationsAdapterInterface> container->getShared("annotations");
 
         if typeof annotations !== "object" || !(annotations instanceof AnnotationsAdapterInterface) {
-            throw new InvalidAnnotationsService();
-        }
-
-        if !(annotations->getReader() instanceof AttributesReader) {
             return source;
         }
 
-        let classAnnotations = annotations->get(get_class(model))->getClassAnnotations();
+        try {
+            let table = Source::getTableFromAdapter(annotations, get_class(model));
+        } catch InvalidSourceTable, exception {
+            throw new Exception(exception->getMessage(), 0, exception);
+        }
 
-        if typeof classAnnotations === "object" {
-            let table = Source::getTable(classAnnotations);
-
-            if table !== null {
-                return table;
-            }
+        if table !== null {
+            return table;
         }
 
         return source;

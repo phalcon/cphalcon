@@ -15,7 +15,7 @@ namespace Phalcon\Tests\Unit\Annotations\Models\MetaData\Source;
 
 use Phalcon\Annotations\Annotation;
 use Phalcon\Annotations\Collection;
-use Phalcon\Annotations\Exception;
+use Phalcon\Annotations\Exceptions\InvalidSourceTable;
 use Phalcon\Annotations\Models\MetaData\Source;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -23,20 +23,22 @@ use PHPUnit\Framework\Attributes\DataProvider;
 final class GetTableTest extends AbstractUnitTestCase
 {
     /**
-     * @return array<string, array{array<int|string, mixed>}>
+     * @return array<string, array{array<int|string, mixed>, string}>
      */
     public static function getInvalidTables(): array
     {
         return [
-            'missing argument'                              => [[]],
-            'empty positional argument'                     => [['']],
-            'empty named argument'                          => [['table' => '']],
-            'empty named argument with positional fallback' => [[0 => 'invoices', 'table' => '']],
-            'null argument'                                 => [[null]],
-            'empty array argument'                          => [[[]]],
-            'array argument'                                => [[['invoices']]],
-            'integer argument'                              => [[123]],
-            'boolean argument'                              => [[false]],
+            'missing argument'                              => [[], 'NULL'],
+            'empty positional argument'                     => [[''], "''"],
+            'empty named argument'                          => [['table' => ''], "''"],
+            'empty named argument with positional fallback' => [[0 => 'invoices', 'table' => ''], "''"],
+            'spaces argument'                               => [['   '], "'   '"],
+            'whitespace named argument'                     => [['table' => "\t\r\n\v"], "'\t\r\n\v'"],
+            'null argument'                                 => [[null], 'NULL'],
+            'empty array argument'                          => [[[]], "array (\n)"],
+            'array argument'                                => [[['invoices']], "array (\n  0 => 'invoices',\n)"],
+            'integer argument'                              => [[123], '123'],
+            'boolean argument'                              => [[false], 'false'],
         ];
     }
 
@@ -46,11 +48,12 @@ final class GetTableTest extends AbstractUnitTestCase
     public static function getTables(): array
     {
         return [
-            'positional argument'                          => [['invoices'], 'invoices'],
-            'named argument'                               => [['table' => 'invoices'], 'invoices'],
-            'named argument takes precedence'              => [[0 => 'other', 'table' => 'invoices'], 'invoices'],
-            'null named argument uses positional fallback' => [[0 => 'invoices', 'table' => null], 'invoices'],
-            'zero string is not empty'                     => [['0'], '0'],
+            'positional argument'                           => [['invoices'], 'invoices'],
+            'named argument'                                => [['table' => 'invoices'], 'invoices'],
+            'named argument takes precedence'               => [[0 => 'other', 'table' => 'invoices'], 'invoices'],
+            'null named argument uses positional fallback'  => [[0 => 'invoices', 'table' => null], 'invoices'],
+            'zero string is not empty'                      => [['0'], '0'],
+            'valid table is not trimmed'                    => [[' invoices '], ' invoices '],
         ];
     }
 
@@ -73,10 +76,10 @@ final class GetTableTest extends AbstractUnitTestCase
      * @since  2026-11-13
      */
     #[DataProvider('getInvalidTables')]
-    public function testAnnotationsModelsMetaDataSourceGetTableInvalid(array $arguments): void
+    public function testAnnotationsModelsMetaDataSourceGetTableInvalid(array $arguments, string $value): void
     {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Source table name must be a non-empty string');
+        $this->expectException(InvalidSourceTable::class);
+        $this->expectExceptionMessage('Source table name must be a non-empty string; received: ' . $value);
 
         Source::getTable($this->createCollection($arguments));
     }
