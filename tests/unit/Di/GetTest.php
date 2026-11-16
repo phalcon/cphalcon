@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Di;
 
+use Closure;
 use Phalcon\Di\Di;
 use Phalcon\Di\Exception;
 use Phalcon\Di\Service;
@@ -23,8 +24,6 @@ use Phalcon\Tests\Support\Di\CallsComponent;
 use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 
 use function spl_object_id;
-
-use const PHP_VERSION_ID;
 
 final class GetTest extends AbstractUnitTestCase
 {
@@ -236,17 +235,15 @@ final class GetTest extends AbstractUnitTestCase
     }
 
     /**
-     * The warning of Closure::bind() for a static closure. PHP 8.6 adds the
-     * PHP 9 notice to the message.
+     * The warning of Closure::bind() for a static closure. The text changes
+     * with the PHP version (a PHP 9 notice from 8.5.x), thus get it from PHP.
      */
     private function getStaticClosureBindMessage(): string
     {
-        $message = 'Cannot bind an instance to a static closure';
+        [, $messages] = $this->collectErrors(
+            static fn () => Closure::bind(static fn () => 1, new Di())
+        );
 
-        if (PHP_VERSION_ID >= 80600) {
-            $message .= ', this will be an error in PHP 9';
-        }
-
-        return $message;
+        return $messages[0];
     }
 }

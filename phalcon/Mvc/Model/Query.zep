@@ -2866,9 +2866,13 @@ class Query implements QueryInterface, InjectionAwareInterface
          */
         if !this->enableImplicitJoins {
             for joinAliasName, _ in joinPrepared {
+                /**
+                 * A join with no ON condition has no pre-condition (null)
+                 */
+                fetch preCondition, joinPreCondition[joinAliasName];
+
                 let joinType = joinTypes[joinAliasName],
                     joinSource = joinSources[joinAliasName],
-                    preCondition = joinPreCondition[joinAliasName],
                     sqlJoins[] = [
                         "type":        joinType,
                         "source":     joinSource,

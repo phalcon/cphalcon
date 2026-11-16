@@ -21,10 +21,9 @@ use Phalcon\Tests\Support\Models\Customers;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Models\InvoicesBelongsToCustomers;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 use PHPUnit\Framework\Attributes\Group;
 
-use function restore_error_handler;
-use function set_error_handler;
 use function sprintf;
 
 #[Group('mysql')]
@@ -33,6 +32,7 @@ use function sprintf;
 final class ParseTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
+    use ErrorHandlerTrait;
 
     public function setUp(): void
     {
@@ -107,22 +107,52 @@ final class ParseTest extends AbstractDatabaseTestCase
 
         Query::clean();
 
-        /**
-         * The join with no condition also gives an "Undefined array key"
-         * warning. The handler stops the warning.
-         */
-        set_error_handler(static fn (): bool => true);
         try {
             (new Query($phql, $this->container, ['enable_implicit_joins' => false]))->getSql();
             $this->fail('The query with implicit joins disabled must fail');
         } catch (InvalidSqlExpression) {
             // The join has no condition.
-        } finally {
-            restore_error_handler();
         }
 
         $actual = (new Query($phql, $this->container))->getSql();
 
         $this->assertStringContainsString(' ON ', $actual['sql']);
+    }
+
+    /**
+     * With implicit joins disabled, a join with no ON condition throws
+     * InvalidSqlExpression. There is no "Undefined array key" warning.
+     *
+     * Tests Phalcon\Mvc\Model\Query :: parse() - join with no condition
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/816
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    public function testMvcModelQueryParseJoinNoCondition(): void
+    {
+        $phql      = sprintf(
+            'SELECT i.inv_id, c.cst_id FROM [%s] AS i JOIN [%s] AS c',
+            Invoices::class,
+            Customers::class
+        );
+        $container = $this->container;
+
+        Query::clean();
+
+        [$actual, $messages] = $this->collectErrors(
+            static function () use ($phql, $container): string {
+                try {
+                    (new Query($phql, $container, ['enable_implicit_joins' => false]))->getSql();
+                } catch (InvalidSqlExpression $ex) {
+                    return $ex::class;
+                }
+
+                return 'no exception';
+            }
+        );
+
+        $this->assertSame(InvalidSqlExpression::class, $actual);
+        $this->assertSame([], $messages);
     }
 }
