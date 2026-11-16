@@ -16,9 +16,13 @@ namespace Phalcon\Tests\Unit\Html\TagFactory;
 use Phalcon\Html\Escaper;
 use Phalcon\Html\TagFactory;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
+use stdClass;
 
 final class UnderscoreCallTest extends AbstractUnitTestCase
 {
+    use ErrorHandlerTrait;
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
@@ -31,5 +35,30 @@ final class UnderscoreCallTest extends AbstractUnitTestCase
         $expected = '<body>';
         $actual   = $factory->body();
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * A helper with no __invoke() gives a warning and null, the same as
+     * cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/808
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-15
+     */
+    public function testHtmlTagFactoryUnderscoreCallNotCallable(): void
+    {
+        $factory = new TagFactory(
+            new Escaper(),
+            [
+                'custom' => static fn () => new stdClass(),
+            ]
+        );
+
+        [$actual, $messages] = $this->collectErrors(
+            static fn () => $factory->custom('5')
+        );
+
+        $this->assertNull($actual);
+        $this->assertSame(['class stdClass does not have a method "__invoke"'], $messages);
     }
 }

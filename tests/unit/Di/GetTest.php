@@ -19,11 +19,15 @@ use Phalcon\Di\Service;
 use Phalcon\Di\ServiceInterface;
 use Phalcon\Html\Escaper;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Di\CallsComponent;
+use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 
 use function spl_object_id;
 
 final class GetTest extends AbstractUnitTestCase
 {
+    use ErrorHandlerTrait;
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
@@ -128,6 +132,37 @@ final class GetTest extends AbstractUnitTestCase
         $expected = spl_object_id($escaper);
         $actual   = spl_object_id($actual);
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * A shared service with a `calls` method that cannot be called gives a
+     * warning and null, the same as cphalcon. Null is not kept, thus each
+     * get() builds the service again.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/808
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-15
+     */
+    public function testDiGetSharedCallsNotCallable(): void
+    {
+        $container = new Di();
+        $container->setShared(
+            'calls',
+            [
+                'className' => CallsComponent::class,
+                'calls'     => [
+                    ['method' => 'missing'],
+                ],
+            ]
+        );
+
+        [$actual, $messages] = $this->collectErrors(
+            static fn () => [$container->get('calls'), $container->get('calls')]
+        );
+
+        $message = 'class ' . CallsComponent::class . ' does not have a method "missing"';
+        $this->assertSame([null, null], $actual);
+        $this->assertSame([$message, $message], $messages);
     }
 
     /**

@@ -18,11 +18,52 @@ use Phalcon\Di\Exception;
 use Phalcon\Di\Service\Builder;
 use Phalcon\Html\Escaper;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Di\CallsComponent;
 use Phalcon\Tests\Support\Di\PropertiesComponent;
 use Phalcon\Tests\Support\Di\ServiceComponent;
+use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class BuildTest extends AbstractUnitTestCase
 {
+    use ErrorHandlerTrait;
+
+    /**
+     * @return array<string, array{0: array<string, mixed>, 1: string}>
+     */
+    public static function getNotCallableCalls(): array
+    {
+        $missing   = 'class ' . CallsComponent::class . ' does not have a method "missing"';
+        $parameter = [['type' => 'parameter', 'value' => 5]];
+
+        return [
+            'missing, arguments'       => [
+                ['method' => 'missing', 'arguments' => $parameter],
+                $missing,
+            ],
+            'missing, no arguments'    => [
+                ['method' => 'missing'],
+                $missing,
+            ],
+            'missing, empty arguments' => [
+                ['method' => 'missing', 'arguments' => []],
+                $missing,
+            ],
+            'private, arguments'       => [
+                ['method' => 'hidden', 'arguments' => $parameter],
+                'cannot access private method ' . CallsComponent::class . '::hidden()',
+            ],
+            'protected, no arguments'  => [
+                ['method' => 'guarded'],
+                'cannot access protected method ' . CallsComponent::class . '::guarded()',
+            ],
+            'not a string'             => [
+                ['method' => 5],
+                'second array member is not a valid method',
+            ],
+        ];
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
@@ -316,6 +357,38 @@ final class BuildTest extends AbstractUnitTestCase
         ];
 
         $builder->build($container, $definition);
+    }
+
+    /**
+     * A `calls` method that cannot be called gives a warning, the same as
+     * cphalcon. The build stops and returns null.
+     *
+     * @param array<string, mixed> $call
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/808
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-15
+     */
+    #[DataProvider('getNotCallableCalls')]
+    public function testDiServiceBuilderBuildInstanceWithCallsNotCallable(
+        array $call,
+        string $expected
+    ): void {
+        $definition = [
+            'className' => CallsComponent::class,
+            'calls'     => [
+                ['method' => 'first'],
+                $call,
+                ['method' => 'first'],
+            ],
+        ];
+
+        [$actual, $messages] = $this->collectErrors(
+            static fn () => (new Builder())->build(new Di(), $definition)
+        );
+
+        $this->assertNull($actual);
+        $this->assertSame([$expected], $messages);
     }
 
     /**
