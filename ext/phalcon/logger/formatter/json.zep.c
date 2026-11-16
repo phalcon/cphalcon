@@ -122,28 +122,29 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, format)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[5];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(item, phalcon_logger_item_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &item);
-	ZEPHIR_CALL_METHOD(&_0, item, "getMessage", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_0, item, "getMessage", &_zephir_call_cache[0]);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&message, this_ptr, "getInterpolatedMessage", NULL, 0, item, &_0);
+	ZEPHIR_CALL_METHOD_CACHED(&message, this_ptr, "getInterpolatedMessage", &_zephir_call_cache[1], item, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&options);
 	ZVAL_LONG(&options, (((((1 + 4) + 2) + 8) + 64) + 4194304));
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_create_array(&_1, 3, 0);
-	ZEPHIR_CALL_METHOD(&_2, item, "getLevelName", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_2, item, "getLevelName", &_zephir_call_cache[2]);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("level"), &_2, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_1, SL("message"), &message, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getFormattedDate", NULL, 0, item);
+	ZEPHIR_CALL_METHOD_CACHED(&_2, this_ptr, "getFormattedDate", &_zephir_call_cache[3], item);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("timestamp"), &_2, PH_COPY | PH_SEPARATE);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "toEncode", NULL, 0, &_1, &options);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "toEncode", &_zephir_call_cache[4], &_1, &options);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -177,6 +178,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, toEncode)
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_4);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_ZVAL(data)
 		Z_PARAM_OPTIONAL
@@ -200,16 +202,16 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, toEncode)
 	ZVAL_LONG(&_1, depth);
 	ZEPHIR_INIT_NVAR(&encoded);
 	zephir_json_encode(&encoded, data, zephir_get_intval(&_0) );
-	ZEPHIR_CALL_FUNCTION(&error, "json_last_error", NULL, 0);
+	ZEPHIR_CALL_FUNCTION(&error, "json_last_error", NULL, 225);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&message, "json_last_error_msg", NULL, 0);
+	ZEPHIR_CALL_FUNCTION(&message, "json_last_error_msg", NULL, 226);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_LONG_IDENTICAL(&error, 0)) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		zephir_json_encode(&_2$$3, &__$null, 0 );
 		ZEPHIR_INIT_VAR(&_3$$3);
 		object_init_ex(&_3$$3, zephir_get_internal_ce(SL("jsonexception")));
-		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 0, &message, &error);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_3$$3, "__construct", &_zephir_call_cache[0], &message, &error);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_3$$3, "phalcon/Traits/Support/Helper/Json/EncodeTrait.zep", 55);
 		ZEPHIR_MM_RESTORE();

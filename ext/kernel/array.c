@@ -396,38 +396,6 @@ void ZEPHIR_FASTCALL zephir_create_array(zval *return_value, uint32_t size, int 
 }
 
 /**
- * Simple convenience function which ensures that you are dealing with an array and you can
- * eliminate noise from your code.
- *
- * It's a bit strange but the refcount for an empty array is always zero somehow.
- * There is another strange phenomenon: these zvals does not have any type_flag value.
- * Thus we should recreate a new empty array so that it has correct refcount
- * value and type_flag. This magic behavior was introduced since PHP 7.3.
- *
- * Steps to reproduce:
- *
- * Userland:
- *    $object->method([10 => []]);
- *
- * Zephir:
- *    public function method(array p)
- *    {
- *        let p[10]["str"] = "foo";
- *    }
- */
-void
-ZEPHIR_FASTCALL zephir_ensure_array(zval *zv)
-{
-	if (
-		Z_TYPE_P(zv) == IS_ARRAY &&
-		zend_hash_num_elements(Z_ARRVAL_P(zv)) == 0 &&
-		(!Z_REFCOUNTED_P(zv) || Z_REFCOUNT_P(zv) < 1)
-	) {
-		zephir_create_array(zv, 0, 0);
-	}
-}
-
-/**
  * The element `isset`, empty() and `fetch` look for, `zend_isset_dim_slow()`:
  * the offset is converted as for any read, with the same deprecations and
  * warnings, and an illegal one throws the TypeError worded for isset.
@@ -579,9 +547,14 @@ int zephir_array_isset_fetch(zval *fetched, const zval *arr, zval *index, int re
 		 * exactly as PHP does, and every read of it dereferences, as
 		 * `ZEND_FETCH_DIM_R`'s ZVAL_COPY_DEREF() does. Without this the caller
 		 * is handed the reference and its copy is not a copy.
-		 * @see https://github.com/zephir-lang/zephir/issues/2691 */
+		 * @see https://github.com/zephir-lang/zephir/issues/2691
+		 *
+		 * The element itself is never written, not even an empty array that is
+		 * not reference counted: it may be in OPcache shared memory or in a
+		 * Zephir array constant, which outlive the request. A write into the
+		 * fetched value separates it first.
+		 * @see https://github.com/zephir-lang/zephir/issues/2826 */
 		ZVAL_DEREF(result);
-		zephir_ensure_array(result);
 
 		if (!readonly) {
 			ZVAL_COPY(fetched, result);
@@ -636,7 +609,6 @@ int zephir_array_isset_string_fetch(zval *fetched, const zval *arr, char *index,
 		if ((zv = zend_symtable_str_find(Z_ARRVAL_P(arr), index, index_length)) != NULL) {
 			/* Dereferences for the same reason as zephir_array_isset_fetch(). */
 			ZVAL_DEREF(zv);
-			zephir_ensure_array(zv);
 
 			if (!readonly) {
 				ZVAL_COPY(fetched, zv);
@@ -707,7 +679,6 @@ int zephir_array_isset_long_fetch(zval *fetched, const zval *arr, zend_long inde
 		if ((zv = zend_hash_index_find(Z_ARRVAL_P(arr), (zend_ulong) index)) != NULL) {
 			/* Dereferences for the same reason as zephir_array_isset_fetch(). */
 			ZVAL_DEREF(zv);
-			zephir_ensure_array(zv);
 
 			if (!readonly) {
 				ZVAL_COPY(fetched, zv);

@@ -63,6 +63,7 @@ PHP_METHOD(Phalcon_Html_Helper_Base, __invoke)
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&attributes);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 2)
 		Z_PARAM_OPTIONAL
@@ -89,7 +90,7 @@ PHP_METHOD(Phalcon_Html_Helper_Base, __invoke)
 	if (!(ZEPHIR_IS_EMPTY(&href_zv))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "href");
-		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "injectAttribute", NULL, 0, &_1$$3, &href_zv, &attributes);
+		ZEPHIR_CALL_METHOD_CACHED(&_0$$3, this_ptr, "injectAttribute", &_zephir_call_cache[0], &_1$$3, &href_zv, &attributes);
 		zephir_check_call_status();
 		if (UNEXPECTED(Z_TYPE_P(&_0$$3) != IS_ARRAY)) {
 			zephir_throw_variable_type_error(&_0$$3, "attributes", "array");
@@ -106,7 +107,7 @@ PHP_METHOD(Phalcon_Html_Helper_Base, __invoke)
 	}
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "base");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderElement", NULL, 0, &_2, &attributes);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "renderElement", &_zephir_call_cache[1], &_2, &attributes);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -39,6 +39,7 @@ PHP_METHOD(phalcon_0__closure, __invoke)
 	ZVAL_UNDEF(&defaultValue);
 	ZVAL_UNDEF(&element_sub);
 	ZVAL_UNDEF(&_1);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[3];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(element)
 	ZEND_PARSE_PARAMETERS_END();
@@ -57,11 +58,11 @@ PHP_METHOD(phalcon_0__closure, __invoke)
 		RETVAL_ZVAL(element, 1, 0);
 		RETURN_MM();
 	}
-	ZEPHIR_CALL_METHOD(NULL, &serializer, "unserialize", NULL, 0, element);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &serializer, "unserialize", &_zephir_call_cache[0], element);
 	zephir_check_call_status();
 	_0 = 1 == (zephir_method_exists_ex(&serializer, ZEND_STRL("issuccess")) == SUCCESS);
 	if (_0) {
-		ZEPHIR_CALL_METHOD(&_1, &serializer, "isSuccess", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(&_1, &serializer, "isSuccess", &_zephir_call_cache[1]);
 		zephir_check_call_status();
 		_0 = !ZEPHIR_IS_TRUE_IDENTICAL(&_1);
 	}
@@ -69,7 +70,7 @@ PHP_METHOD(phalcon_0__closure, __invoke)
 		RETVAL_ZVAL(&defaultValue, 1, 0);
 		RETURN_MM();
 	}
-	ZEPHIR_RETURN_CALL_METHOD(&serializer, "getData", NULL, 0);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(&serializer, "getData", &_zephir_call_cache[2]);
 	zephir_check_call_status();
 	RETURN_MM();
 }

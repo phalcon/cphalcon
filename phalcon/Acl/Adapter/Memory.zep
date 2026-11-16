@@ -730,7 +730,7 @@ class Memory extends AbstractAdapter
         let this->activeKey      = (accessKey === false) ? null : accessKey,
             this->activeFunction = funcAccess;
 
-        if haveAccess == null {
+        if haveAccess === null {
             /**
              * Change activeKey to most narrow if there was no access for any
              * patterns found
@@ -851,7 +851,7 @@ class Memory extends AbstractAdapter
                 let accessKey = this->buildKey(roleName, componentName, accessName);
                 let this->access[accessKey] = action;
 
-                if func != null {
+                if func !== null {
                     let this->functions[accessKey] = func;
                 }
             }
@@ -870,7 +870,7 @@ class Memory extends AbstractAdapter
              * Define the access action for the specified accessKey
              */
             let this->access[accessKey] = action;
-            if func != null {
+            if func !== null {
                 let this->functions[accessKey] = func;
             }
         }

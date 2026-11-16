@@ -57,6 +57,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Get, __invoke)
 	ZVAL_UNDEF(&defaultValue_sub);
 	ZVAL_UNDEF(&cast_zv);
 	ZVAL_NULL(&__$null);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 4)
 		ZEPHIR_Z_PARAM_ARRAY(collection, collection_param)
@@ -83,7 +84,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Get, __invoke)
 		zephir_memory_observe(&cast_zv);
 	ZVAL_STR_COPY(&cast_zv, cast);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getArrVal", NULL, 0, &collection, index, defaultValue, &cast_zv);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "getArrVal", &_zephir_call_cache[0], &collection, index, defaultValue, &cast_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -153,7 +154,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Get, getArrVal)
 	}
 	if (!(ZEPHIR_IS_EMPTY(&cast_zv))) {
 		ZEPHIR_MAKE_REF(&value);
-		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 17, &value, &cast_zv);
+		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 10, &value, &cast_zv);
 		ZEPHIR_UNREF(&value);
 		zephir_check_call_status();
 	}

@@ -66,13 +66,14 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_Lazy, __invoke)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&ioc_sub);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT(ioc)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &ioc);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "resolve", NULL, 0, ioc);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "resolve", &_zephir_call_cache[0], ioc);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -90,6 +91,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_Lazy, resolveArgument)
 
 	ZVAL_UNDEF(&ioc_sub);
 	ZVAL_UNDEF(&argument_sub);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT(ioc)
 		Z_PARAM_ZVAL(argument)
@@ -102,7 +104,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_Lazy, resolveArgument)
 		_0 = zephir_instance_of_ev(argument, phalcon_container_resolver_lazy_lazy_ce);
 	}
 	if (_0) {
-		ZEPHIR_RETURN_CALL_METHOD(argument, "resolve", NULL, 0, ioc);
+		ZEPHIR_RETURN_CALL_METHOD_CACHED(argument, "resolve", &_zephir_call_cache[0], ioc);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -116,24 +118,24 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_Lazy, resolveArgument)
  */
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_Lazy, resolveArguments)
 {
-	zend_bool _6;
+	zend_bool _5;
 	zend_string *_2;
 	zend_ulong _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_4 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval arguments;
-	zval *ioc, ioc_sub, *arguments_param = NULL, resolved, key, argument, *_0, _5, _3$$3, _7$$4;
+	zval *ioc, ioc_sub, *arguments_param = NULL, resolved, key, argument, *_0, _4, _3$$3, _6$$4;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&ioc_sub);
 	ZVAL_UNDEF(&resolved);
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&argument);
-	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_3$$3);
-	ZVAL_UNDEF(&_7$$4);
+	ZVAL_UNDEF(&_6$$4);
 	ZVAL_UNDEF(&arguments);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[7];
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT(ioc)
 		ZEPHIR_Z_PARAM_ARRAY(arguments, arguments_param)
@@ -156,7 +158,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_Lazy, resolveArguments)
 			}
 			ZEPHIR_INIT_NVAR(&argument);
 			ZVAL_COPY(&argument, _0);
-			ZEPHIR_CALL_METHOD(&_3$$3, this_ptr, "resolveArgument", &_4, 0, ioc, &argument);
+			ZEPHIR_CALL_METHOD_CACHED(&_3$$3, this_ptr, "resolveArgument", &_zephir_call_cache[0], ioc, &argument);
 			zephir_check_call_status();
 			zephir_array_update_zval(&resolved, &key, &_3$$3, PH_COPY | PH_SEPARATE);
 			if (UNEXPECTED(EG(exception))) {
@@ -165,28 +167,28 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_Lazy, resolveArguments)
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
-		ZEPHIR_CALL_METHOD(NULL, &arguments, "rewind", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &arguments, "rewind", &_zephir_call_cache[1]);
 		zephir_check_call_status();
-		_6 = 1;
+		_5 = 1;
 		while (1) {
-			if (_6) {
-				_6 = 0;
+			if (_5) {
+				_5 = 0;
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, &arguments, "next", NULL, 0);
+				ZEPHIR_CALL_METHOD_CACHED(NULL, &arguments, "next", &_zephir_call_cache[2]);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_5, &arguments, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&_4, &arguments, "valid", &_zephir_call_cache[3]);
 			zephir_check_call_status();
-			if (!zend_is_true(&_5)) {
+			if (!zend_is_true(&_4)) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&key, &arguments, "key", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&key, &arguments, "key", &_zephir_call_cache[4]);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&argument, &arguments, "current", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&argument, &arguments, "current", &_zephir_call_cache[5]);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_7$$4, this_ptr, "resolveArgument", &_4, 0, ioc, &argument);
+				ZEPHIR_CALL_METHOD_CACHED(&_6$$4, this_ptr, "resolveArgument", &_zephir_call_cache[6], ioc, &argument);
 				zephir_check_call_status();
-				zephir_array_update_zval(&resolved, &key, &_7$$4, PH_COPY | PH_SEPARATE);
+				zephir_array_update_zval(&resolved, &key, &_6$$4, PH_COPY | PH_SEPARATE);
 				if (UNEXPECTED(EG(exception))) {
 					ZEPHIR_MM_RESTORE();
 					return;

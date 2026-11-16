@@ -186,6 +186,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, __construct)
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&defaultTimezone);
 	ZVAL_UNDEF(&adapters);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[3];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	static zend_string *_zephir_prop_2 = NULL;
@@ -239,7 +240,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, __construct)
 		ZEPHIR_SEPARATE_PARAM(clock);
 	}
 	if (Z_TYPE_P(timezone) == IS_NULL) {
-		ZEPHIR_CALL_FUNCTION(&defaultTimezone, "date_default_timezone_get", NULL, 260);
+		ZEPHIR_CALL_FUNCTION(&defaultTimezone, "date_default_timezone_get", NULL, 76);
 		zephir_check_call_status();
 		if (UNEXPECTED(1 == ZEPHIR_IS_EMPTY(&defaultTimezone))) {
 			ZEPHIR_INIT_NVAR(&defaultTimezone);
@@ -247,7 +248,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, __construct)
 		}
 		ZEPHIR_INIT_NVAR(timezone);
 		object_init_ex(timezone, php_date_get_timezone_ce());
-		ZEPHIR_CALL_METHOD(NULL, timezone, "__construct", NULL, 0, &defaultTimezone);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, timezone, "__construct", &_zephir_call_cache[0], &defaultTimezone);
 		zephir_check_call_status();
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 283, &name_zv);
@@ -255,11 +256,11 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, __construct)
 	if (Z_TYPE_P(clock) == IS_NULL) {
 		ZEPHIR_INIT_NVAR(clock);
 		object_init_ex(clock, phalcon_time_clock_systemclock_ce);
-		ZEPHIR_CALL_METHOD(NULL, clock, "__construct", NULL, 261, timezone);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, clock, "__construct", &_zephir_call_cache[1], timezone);
 		zephir_check_call_status();
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 285, clock);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setAdapters", NULL, 0, &adapters);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "setAdapters", &_zephir_call_cache[2], &adapters);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -305,6 +306,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, begin)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_5);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[6];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -317,8 +319,16 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, begin)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 286, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 287, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_FUNCTION(&collection, "array_diff_key", NULL, 9, &_0, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_FUNCTION(&collection, "array_diff_key", NULL, 6, &_0, &_1);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&collection) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_3);
@@ -333,28 +343,28 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, begin)
 		{
 			ZEPHIR_INIT_NVAR(&adapter);
 			ZVAL_COPY(&adapter, _4);
-			ZEPHIR_CALL_METHOD(NULL, &adapter, "begin", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(NULL, &adapter, "begin", &_zephir_call_cache[0]);
 			zephir_check_call_status();
 		} ZEND_HASH_FOREACH_END();
 	} else {
-		ZEPHIR_CALL_METHOD(NULL, _2, "rewind", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, _2, "rewind", &_zephir_call_cache[1]);
 		zephir_check_call_status();
 		_6 = 1;
 		while (1) {
 			if (_6) {
 				_6 = 0;
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, _2, "next", NULL, 0);
+				ZEPHIR_CALL_METHOD_CACHED(NULL, _2, "next", &_zephir_call_cache[2]);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_5, _2, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&_5, _2, "valid", &_zephir_call_cache[3]);
 			zephir_check_call_status();
 			if (!zend_is_true(&_5)) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&adapter, _2, "current", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&adapter, _2, "current", &_zephir_call_cache[4]);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(NULL, &adapter, "begin", NULL, 0);
+				ZEPHIR_CALL_METHOD_CACHED(NULL, &adapter, "begin", &_zephir_call_cache[5]);
 				zephir_check_call_status();
 		}
 	}
@@ -379,6 +389,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, commit)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_5);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[6];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -391,8 +402,16 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, commit)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 286, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 287, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_FUNCTION(&collection, "array_diff_key", NULL, 9, &_0, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_FUNCTION(&collection, "array_diff_key", NULL, 6, &_0, &_1);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&collection) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_3);
@@ -407,28 +426,28 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, commit)
 		{
 			ZEPHIR_INIT_NVAR(&adapter);
 			ZVAL_COPY(&adapter, _4);
-			ZEPHIR_CALL_METHOD(NULL, &adapter, "commit", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(NULL, &adapter, "commit", &_zephir_call_cache[0]);
 			zephir_check_call_status();
 		} ZEND_HASH_FOREACH_END();
 	} else {
-		ZEPHIR_CALL_METHOD(NULL, _2, "rewind", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, _2, "rewind", &_zephir_call_cache[1]);
 		zephir_check_call_status();
 		_6 = 1;
 		while (1) {
 			if (_6) {
 				_6 = 0;
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, _2, "next", NULL, 0);
+				ZEPHIR_CALL_METHOD_CACHED(NULL, _2, "next", &_zephir_call_cache[2]);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_5, _2, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&_5, _2, "valid", &_zephir_call_cache[3]);
 			zephir_check_call_status();
 			if (!zend_is_true(&_5)) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&adapter, _2, "current", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&adapter, _2, "current", &_zephir_call_cache[4]);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(NULL, &adapter, "commit", NULL, 0);
+				ZEPHIR_CALL_METHOD_CACHED(NULL, &adapter, "commit", &_zephir_call_cache[5]);
 				zephir_check_call_status();
 		}
 	}
@@ -455,6 +474,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, excludeAdapters)
 	ZVAL_UNDEF(&adapter);
 	ZVAL_UNDEF(&registered);
 	ZVAL_UNDEF(&_2);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[4];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("adapters", 8, 1);
@@ -475,6 +495,10 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, excludeAdapters)
 	}
 	zephir_memory_observe(&registered);
 	zephir_read_property_cached(&registered, this_ptr, _zephir_prop_0, 286, PH_NOISY_CC);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_is_iterable(&adapters, 0, "phalcon/Logger/AbstractLogger.zep", 217);
 	if (Z_TYPE_P(&adapters) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&adapters), _0)
@@ -495,22 +519,22 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, excludeAdapters)
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
-		ZEPHIR_CALL_METHOD(NULL, &adapters, "rewind", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &adapters, "rewind", &_zephir_call_cache[0]);
 		zephir_check_call_status();
 		_3 = 1;
 		while (1) {
 			if (_3) {
 				_3 = 0;
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, &adapters, "next", NULL, 0);
+				ZEPHIR_CALL_METHOD_CACHED(NULL, &adapters, "next", &_zephir_call_cache[1]);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_2, &adapters, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&_2, &adapters, "valid", &_zephir_call_cache[2]);
 			zephir_check_call_status();
 			if (!zend_is_true(&_2)) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&adapter, &adapters, "current", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&adapter, &adapters, "current", &_zephir_call_cache[3]);
 			zephir_check_call_status();
 				_4$$5 = zephir_array_isset_value(&registered, &adapter);
 				if (UNEXPECTED(EG(exception))) {
@@ -549,6 +573,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, getAdapter)
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_2$$3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("adapters", 8, 1);
@@ -561,7 +586,11 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, getAdapter)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 286, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 286, PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	_1 = zephir_array_isset_value(&_0, &name_zv);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
@@ -570,13 +599,17 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, getAdapter)
 	if (1 != _1) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		object_init_ex(&_2$$3, phalcon_logger_exceptions_adapternotfound_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 262, &name_zv);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_2$$3, "__construct", &_zephir_call_cache[0], &name_zv);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_2$$3, "phalcon/Logger/AbstractLogger.zep", 228);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 286, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_memory_observe(&_4);
 	zephir_array_fetch(&_4, &_3, &name_zv, PH_NOISY, "phalcon/Logger/AbstractLogger.zep", 231);
 	if (UNEXPECTED(EG(exception))) {
@@ -634,6 +667,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, removeAdapter)
 	ZVAL_UNDEF(&name_zv);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2$$3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("adapters", 8, 1);
@@ -646,7 +680,11 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, removeAdapter)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 286, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 286, PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	_1 = zephir_array_isset_value(&_0, &name_zv);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
@@ -655,7 +693,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, removeAdapter)
 	if (1 != _1) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		object_init_ex(&_2$$3, phalcon_logger_exceptions_adapternotfound_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 262, &name_zv);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_2$$3, "__construct", &_zephir_call_cache[0], &name_zv);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_2$$3, "phalcon/Logger/AbstractLogger.zep", 270);
 		ZEPHIR_MM_RESTORE();
@@ -686,6 +724,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, rollback)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_5);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[6];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -698,8 +737,16 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, rollback)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 286, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 287, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_FUNCTION(&collection, "array_diff_key", NULL, 9, &_0, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_FUNCTION(&collection, "array_diff_key", NULL, 6, &_0, &_1);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&collection) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_3);
@@ -714,28 +761,28 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, rollback)
 		{
 			ZEPHIR_INIT_NVAR(&adapter);
 			ZVAL_COPY(&adapter, _4);
-			ZEPHIR_CALL_METHOD(NULL, &adapter, "rollback", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(NULL, &adapter, "rollback", &_zephir_call_cache[0]);
 			zephir_check_call_status();
 		} ZEND_HASH_FOREACH_END();
 	} else {
-		ZEPHIR_CALL_METHOD(NULL, _2, "rewind", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, _2, "rewind", &_zephir_call_cache[1]);
 		zephir_check_call_status();
 		_6 = 1;
 		while (1) {
 			if (_6) {
 				_6 = 0;
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, _2, "next", NULL, 0);
+				ZEPHIR_CALL_METHOD_CACHED(NULL, _2, "next", &_zephir_call_cache[2]);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_5, _2, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&_5, _2, "valid", &_zephir_call_cache[3]);
 			zephir_check_call_status();
 			if (!zend_is_true(&_5)) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&adapter, _2, "current", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&adapter, _2, "current", &_zephir_call_cache[4]);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(NULL, &adapter, "rollback", NULL, 0);
+				ZEPHIR_CALL_METHOD_CACHED(NULL, &adapter, "rollback", &_zephir_call_cache[5]);
 				zephir_check_call_status();
 		}
 	}
@@ -789,6 +836,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, setLogLevel)
 
 	ZVAL_UNDEF(&levels);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("logLevel", 8, 1);
@@ -800,7 +848,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, setLogLevel)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &level_param);
-	ZEPHIR_CALL_METHOD(&levels, this_ptr, "getLevels", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&levels, this_ptr, "getLevels", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	_1 = zephir_array_isset_value_long(&levels, level);
@@ -829,11 +877,11 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, setLogLevel)
  */
 PHP_METHOD(Phalcon_Logger_AbstractLogger, addMessage)
 {
-	zend_bool _3$$3, _13$$3;
+	zend_bool _15, _1$$3, _3$$3, _13$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval context;
 	zend_string *message = NULL;
-	zval *level_param = NULL, message_zv, *context_param = NULL, adapter, collection, item, levelName, levels, _0, _15, _1$$3, _4$$3, _5$$3, _6$$3, _7$$3, *_8$$3, _9$$3, *_10$$3, _12$$3, _2$$4, _11$$5, _14$$8, _16$$11;
+	zval *level_param = NULL, message_zv, *context_param = NULL, adapter, collection, item, levelName, levels, _0, _4$$3, _5$$3, _6$$3, _7$$3, *_8$$3, _9$$3, *_10$$3, _12$$3, _2$$4, _11$$5, _14$$8, _16$$11;
 	zend_long level, ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -844,8 +892,6 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, addMessage)
 	ZVAL_UNDEF(&levelName);
 	ZVAL_UNDEF(&levels);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_15);
-	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&_5$$3);
 	ZVAL_UNDEF(&_6$$3);
@@ -857,6 +903,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, addMessage)
 	ZVAL_UNDEF(&_14$$8);
 	ZVAL_UNDEF(&_16$$11);
 	ZVAL_UNDEF(&context);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[14];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	static zend_string *_zephir_prop_2 = NULL;
@@ -895,18 +942,26 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, addMessage)
 		zephir_get_arrval(&context, context_param);
 	}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 288, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (ZEPHIR_GE_LONG(&_0, level)) {
-		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_1, 286, PH_NOISY_CC | PH_READONLY);
-		if (ZEPHIR_IS_EMPTY(&_1$$3)) {
+		_1$$3 = zephir_isempty_property_fast(this_ptr, _zephir_prop_1);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		if (_1$$3) {
 			ZEPHIR_INIT_VAR(&_2$$4);
 			object_init_ex(&_2$$4, phalcon_logger_exceptions_noadaptersconfigured_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 263);
+			ZEPHIR_CALL_METHOD_CACHED(NULL, &_2$$4, "__construct", &_zephir_call_cache[0]);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_2$$4, "phalcon/Logger/AbstractLogger.zep", 338);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZEPHIR_CALL_METHOD(&levels, this_ptr, "getLevels", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(&levels, this_ptr, "getLevels", &_zephir_call_cache[1]);
 		zephir_check_call_status();
 		_3$$3 = zephir_array_isset_value_long(&levels, level);
 		if (UNEXPECTED(EG(exception))) {
@@ -931,14 +986,26 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, addMessage)
 		ZEPHIR_INIT_VAR(&item);
 		object_init_ex(&item, phalcon_logger_item_ce);
 		zephir_read_property_cached(&_4$$3, this_ptr, _zephir_prop_2, 285, PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_METHOD(&_5$$3, &_4$$3, "now", NULL, 0);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		ZEPHIR_CALL_METHOD_CACHED(&_5$$3, &_4$$3, "now", &_zephir_call_cache[2]);
 		zephir_check_call_status();
 		ZVAL_LONG(&_6$$3, level);
-		ZEPHIR_CALL_METHOD(NULL, &item, "__construct", NULL, 264, &message_zv, &levelName, &_6$$3, &_5$$3, &context);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &item, "__construct", &_zephir_call_cache[3], &message_zv, &levelName, &_6$$3, &_5$$3, &context);
 		zephir_check_call_status();
 		zephir_read_property_cached(&_6$$3, this_ptr, _zephir_prop_1, 286, PH_NOISY_CC | PH_READONLY);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		zephir_read_property_cached(&_7$$3, this_ptr, _zephir_prop_3, 287, PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_FUNCTION(&collection, "array_diff_key", NULL, 9, &_6$$3, &_7$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		ZEPHIR_CALL_FUNCTION(&collection, "array_diff_key", NULL, 6, &_6$$3, &_7$$3);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&collection) == IS_STRING) {
 			ZEPHIR_INIT_VAR(&_9$$3);
@@ -953,49 +1020,53 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, addMessage)
 			{
 				ZEPHIR_INIT_NVAR(&adapter);
 				ZVAL_COPY(&adapter, _10$$3);
-				ZEPHIR_CALL_METHOD(&_11$$5, &adapter, "inTransaction", NULL, 0);
+				ZEPHIR_CALL_METHOD_CACHED(&_11$$5, &adapter, "inTransaction", &_zephir_call_cache[4]);
 				zephir_check_call_status();
 				if (ZEPHIR_IS_TRUE_IDENTICAL(&_11$$5)) {
-					ZEPHIR_CALL_METHOD(NULL, &adapter, "add", NULL, 0, &item);
+					ZEPHIR_CALL_METHOD_CACHED(NULL, &adapter, "add", &_zephir_call_cache[5], &item);
 					zephir_check_call_status();
 				} else {
-					ZEPHIR_CALL_METHOD(NULL, &adapter, "process", NULL, 0, &item);
+					ZEPHIR_CALL_METHOD_CACHED(NULL, &adapter, "process", &_zephir_call_cache[6], &item);
 					zephir_check_call_status();
 				}
 			} ZEND_HASH_FOREACH_END();
 		} else {
-			ZEPHIR_CALL_METHOD(NULL, _8$$3, "rewind", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(NULL, _8$$3, "rewind", &_zephir_call_cache[7]);
 			zephir_check_call_status();
 			_13$$3 = 1;
 			while (1) {
 				if (_13$$3) {
 					_13$$3 = 0;
 				} else {
-					ZEPHIR_CALL_METHOD(NULL, _8$$3, "next", NULL, 0);
+					ZEPHIR_CALL_METHOD_CACHED(NULL, _8$$3, "next", &_zephir_call_cache[8]);
 					zephir_check_call_status();
 				}
-				ZEPHIR_CALL_METHOD(&_12$$3, _8$$3, "valid", NULL, 0);
+				ZEPHIR_CALL_METHOD_CACHED(&_12$$3, _8$$3, "valid", &_zephir_call_cache[9]);
 				zephir_check_call_status();
 				if (!zend_is_true(&_12$$3)) {
 					break;
 				}
-				ZEPHIR_CALL_METHOD(&adapter, _8$$3, "current", NULL, 0);
+				ZEPHIR_CALL_METHOD_CACHED(&adapter, _8$$3, "current", &_zephir_call_cache[10]);
 				zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_14$$8, &adapter, "inTransaction", NULL, 0);
+					ZEPHIR_CALL_METHOD_CACHED(&_14$$8, &adapter, "inTransaction", &_zephir_call_cache[11]);
 					zephir_check_call_status();
 					if (ZEPHIR_IS_TRUE_IDENTICAL(&_14$$8)) {
-						ZEPHIR_CALL_METHOD(NULL, &adapter, "add", NULL, 0, &item);
+						ZEPHIR_CALL_METHOD_CACHED(NULL, &adapter, "add", &_zephir_call_cache[12], &item);
 						zephir_check_call_status();
 					} else {
-						ZEPHIR_CALL_METHOD(NULL, &adapter, "process", NULL, 0, &item);
+						ZEPHIR_CALL_METHOD_CACHED(NULL, &adapter, "process", &_zephir_call_cache[13], &item);
 						zephir_check_call_status();
 					}
 			}
 		}
 		ZEPHIR_INIT_NVAR(&adapter);
 	}
-	zephir_read_property_cached(&_15, this_ptr, _zephir_prop_3, 287, PH_NOISY_CC | PH_READONLY);
-	if (!(ZEPHIR_IS_EMPTY(&_15))) {
+	_15 = zephir_isempty_property_fast(this_ptr, _zephir_prop_3);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (!(_15)) {
 		ZEPHIR_INIT_VAR(&_16$$11);
 		array_init(&_16$$11);
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 287, &_16$$11);
@@ -1019,6 +1090,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, getLevelNumber)
 	ZVAL_UNDEF(&levels);
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_2$$4);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(level)
 	ZEND_PARSE_PARAMETERS_END();
@@ -1028,9 +1100,9 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, getLevelNumber)
 	if (Z_TYPE_P(level) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&levelName);
 		zephir_fast_strtolower(&levelName, level);
-		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "getLevels", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(&_0$$3, this_ptr, "getLevels", &_zephir_call_cache[0]);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&levels, "array_flip", NULL, 265, &_0$$3);
+		ZEPHIR_CALL_FUNCTION(&levels, "array_flip", NULL, 77, &_0$$3);
 		zephir_check_call_status();
 		_1$$3 = zephir_array_isset_value(&levels, &levelName);
 		if (UNEXPECTED(EG(exception))) {
@@ -1047,7 +1119,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, getLevelNumber)
 			RETURN_CCTOR(&_2$$4);
 		}
 	} else if (1 == zephir_is_numeric(level)) {
-		ZEPHIR_CALL_METHOD(&levels, this_ptr, "getLevels", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(&levels, this_ptr, "getLevels", &_zephir_call_cache[1]);
 		zephir_check_call_status();
 		_3$$5 = zephir_array_isset_value(&levels, level);
 		if (UNEXPECTED(EG(exception))) {

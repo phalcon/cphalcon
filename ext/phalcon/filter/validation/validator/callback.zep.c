@@ -99,6 +99,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Callback, __construct)
 	zval options;
 
 	ZVAL_UNDEF(&options);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(options, options_param)
@@ -112,7 +113,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Callback, __construct)
 	} else {
 		zephir_get_arrval(&options, options_param);
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_filter_validation_validator_callback_ce, getThis(), "__construct", NULL, 0, &options);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_filter_validation_validator_callback_ce, getThis(), "__construct", &_zephir_call_cache[0], &options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -142,6 +143,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Callback, validate)
 	ZVAL_UNDEF(&_1$$5);
 	ZVAL_UNDEF(&_5$$3);
 	ZVAL_UNDEF(&_3$$7);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[9];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	static zend_string *_zephir_prop_2 = NULL;
@@ -164,30 +166,42 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Callback, validate)
 	zephir_fetch_params(1, 2, 0, &validation, &field);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "callback");
-	ZEPHIR_CALL_METHOD(&callback, this_ptr, "getOption", NULL, 0, &_0);
+	ZEPHIR_CALL_METHOD_CACHED(&callback, this_ptr, "getOption", &_zephir_call_cache[0], &_0);
 	zephir_check_call_status();
 	if (zephir_is_callable(&callback)) {
-		ZEPHIR_CALL_METHOD(&data, validation, "getEntity", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(&data, validation, "getEntity", &_zephir_call_cache[1]);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_EMPTY(&data)) {
-			ZEPHIR_CALL_METHOD(&data, validation, "getData", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&data, validation, "getData", &_zephir_call_cache[2]);
 			zephir_check_call_status();
 		}
 		zephir_memory_observe(&savedTemplate);
 		zephir_read_property_cached(&savedTemplate, this_ptr, _zephir_prop_0, 779, PH_NOISY_CC);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		zephir_memory_observe(&savedChanged);
 		zephir_read_property_cached(&savedChanged, this_ptr, _zephir_prop_1, 780, PH_NOISY_CC);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		zephir_memory_observe(&savedTemplates);
 		zephir_read_property_cached(&savedTemplates, this_ptr, _zephir_prop_2, 781, PH_NOISY_CC);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_INIT_VAR(&arguments);
 		zephir_create_array(&arguments, 1, 0);
 		zephir_array_fast_append(&arguments, &data);
 		if (zephir_is_instance_of(&callback, SL("Closure"))) {
 			ZEPHIR_INIT_VAR(&reflection);
 			object_init_ex(&reflection, zephir_get_internal_ce(SL("reflectionfunction")));
-			ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 250, &callback);
+			ZEPHIR_CALL_METHOD_CACHED(NULL, &reflection, "__construct", &_zephir_call_cache[3], &callback);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_1$$5, &reflection, "getNumberOfParameters", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&_1$$5, &reflection, "getNumberOfParameters", &_zephir_call_cache[4]);
 			zephir_check_call_status();
 			if (ZEPHIR_GT_LONG(&_1$$5, 1)) {
 				zephir_array_append(&arguments, this_ptr, PH_SEPARATE, "phalcon/Filter/Validation/Validator/Callback.zep", 123);
@@ -205,9 +219,9 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Callback, validate)
 			_2$$3 = !zephir_is_true(&returnedValue);
 		}
 		if (_2$$3) {
-			ZEPHIR_CALL_METHOD(&_3$$7, this_ptr, "messageFactory", NULL, 0, validation, field);
+			ZEPHIR_CALL_METHOD_CACHED(&_3$$7, this_ptr, "messageFactory", &_zephir_call_cache[5], validation, field);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, validation, "appendMessage", NULL, 0, &_3$$7);
+			ZEPHIR_CALL_METHOD_CACHED(NULL, validation, "appendMessage", &_zephir_call_cache[6], &_3$$7);
 			zephir_check_call_status();
 		}
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 779, &savedTemplate);
@@ -221,13 +235,13 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Callback, validate)
 			_4$$3 = zephir_instance_of_ev(&returnedValue, phalcon_filter_validation_validatorinterface_ce);
 		}
 		if (_4$$3) {
-			ZEPHIR_RETURN_CALL_METHOD(&returnedValue, "validate", NULL, 0, validation, field);
+			ZEPHIR_RETURN_CALL_METHOD_CACHED(&returnedValue, "validate", &_zephir_call_cache[7], validation, field);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
 		ZEPHIR_INIT_VAR(&_5$$3);
 		object_init_ex(&_5$$3, phalcon_filter_validation_exceptions_invalidcallbackreturn_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_5$$3, "__construct", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_5$$3, "__construct", &_zephir_call_cache[8]);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_5$$3, "phalcon/Filter/Validation/Validator/Callback.zep", 147);
 		ZEPHIR_MM_RESTORE();

@@ -131,6 +131,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, __toString)
 
 	ZVAL_UNDEF(&sorted);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -144,12 +145,20 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, __toString)
 
 	zephir_memory_observe(&sorted);
 	zephir_read_property_cached(&sorted, this_ptr, _zephir_prop_0, 86, PH_NOISY_CC);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MAKE_REF(&sorted);
-	ZEPHIR_CALL_FUNCTION(NULL, "ksort", NULL, 70, &sorted);
+	ZEPHIR_CALL_FUNCTION(NULL, "ksort", NULL, 31, &sorted);
 	ZEPHIR_UNREF(&sorted);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 84, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderArrayElements", NULL, 0, &sorted, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "renderArrayElements", &_zephir_call_cache[0], &sorted, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -236,7 +245,11 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, pushOrPlace)
 	}
 	key = position;
 	while (1) {
-		zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 86, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 86, PH_READONLY);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		_1 = zephir_array_isset_value_long(&_0, key);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();

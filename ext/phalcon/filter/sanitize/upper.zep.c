@@ -52,6 +52,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Upper, __invoke)
 
 	ZVAL_UNDEF(&input_zv);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(input)
 	ZEND_PARSE_PARAMETERS_END();
@@ -60,7 +61,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Upper, __invoke)
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
 	ZVAL_LONG(&_0, 0);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "phpMbConvertCase", NULL, 0, &input_zv, &_0);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "phpMbConvertCase", &_zephir_call_cache[0], &input_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -97,7 +98,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Upper, phpMbConvertCase)
 	ZVAL_LONG(&_0, mode);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "UTF-8");
-	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 31, &input_zv, &_0, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 21, &input_zv, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -11,12 +11,15 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, defaultTemplate);
 PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, escapeString);
 PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, getArrayDump);
 PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, getVarDump);
+PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, canCallDump);
+PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, dumpObject);
 PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, formatBytes);
 PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, isApp);
 PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, renderBacktrace);
 PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, renderFragment);
 PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, renderIncludedFiles);
 PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, renderMemory);
+PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, renderPreviousExceptions);
 PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, renderSignature);
 PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, renderSuperglobal);
 PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, renderTabs);
@@ -58,6 +61,14 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_renderer_h
 	ZEND_ARG_INFO(0, variable)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_renderer_htmlrenderer_cancalldump, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_INFO(0, variable)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_renderer_htmlrenderer_dumpobject, 0, 1, IS_STRING, 0)
+	ZEND_ARG_INFO(0, variable)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_renderer_htmlrenderer_formatbytes, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, bytes, IS_LONG, 0)
 ZEND_END_ARG_INFO()
@@ -80,6 +91,10 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_renderer_htmlrenderer_rendermemory, 0, 1, IS_STRING, 0)
 	ZEND_ARG_OBJ_INFO(0, report, Phalcon\\Support\\Debug\\Report\\ExceptionReport, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_renderer_htmlrenderer_renderpreviousexceptions, 0, 1, IS_STRING, 0)
+	ZEND_ARG_ARRAY_INFO(0, previousExceptions, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_debug_renderer_htmlrenderer_rendersignature, 0, 1, IS_STRING, 0)
@@ -129,12 +144,15 @@ ZEPHIR_INIT_FUNCS(phalcon_support_debug_renderer_htmlrenderer_method_entry) {
 	PHP_ME(Phalcon_Support_Debug_Renderer_HtmlRenderer, escapeString, arginfo_phalcon_support_debug_renderer_htmlrenderer_escapestring, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Support_Debug_Renderer_HtmlRenderer, getArrayDump, arginfo_phalcon_support_debug_renderer_htmlrenderer_getarraydump, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Support_Debug_Renderer_HtmlRenderer, getVarDump, arginfo_phalcon_support_debug_renderer_htmlrenderer_getvardump, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Support_Debug_Renderer_HtmlRenderer, canCallDump, arginfo_phalcon_support_debug_renderer_htmlrenderer_cancalldump, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Support_Debug_Renderer_HtmlRenderer, dumpObject, arginfo_phalcon_support_debug_renderer_htmlrenderer_dumpobject, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Support_Debug_Renderer_HtmlRenderer, formatBytes, arginfo_phalcon_support_debug_renderer_htmlrenderer_formatbytes, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Support_Debug_Renderer_HtmlRenderer, isApp, arginfo_phalcon_support_debug_renderer_htmlrenderer_isapp, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Support_Debug_Renderer_HtmlRenderer, renderBacktrace, arginfo_phalcon_support_debug_renderer_htmlrenderer_renderbacktrace, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Support_Debug_Renderer_HtmlRenderer, renderFragment, arginfo_phalcon_support_debug_renderer_htmlrenderer_renderfragment, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Support_Debug_Renderer_HtmlRenderer, renderIncludedFiles, arginfo_phalcon_support_debug_renderer_htmlrenderer_renderincludedfiles, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Support_Debug_Renderer_HtmlRenderer, renderMemory, arginfo_phalcon_support_debug_renderer_htmlrenderer_rendermemory, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Support_Debug_Renderer_HtmlRenderer, renderPreviousExceptions, arginfo_phalcon_support_debug_renderer_htmlrenderer_renderpreviousexceptions, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Support_Debug_Renderer_HtmlRenderer, renderSignature, arginfo_phalcon_support_debug_renderer_htmlrenderer_rendersignature, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Support_Debug_Renderer_HtmlRenderer, renderSuperglobal, arginfo_phalcon_support_debug_renderer_htmlrenderer_rendersuperglobal, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Support_Debug_Renderer_HtmlRenderer, renderTabs, arginfo_phalcon_support_debug_renderer_htmlrenderer_rendertabs, ZEND_ACC_PRIVATE)

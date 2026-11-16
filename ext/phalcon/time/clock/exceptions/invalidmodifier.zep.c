@@ -51,6 +51,7 @@ PHP_METHOD(Phalcon_Time_Clock_Exceptions_InvalidModifier, __construct)
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(modifier)
@@ -75,7 +76,7 @@ PHP_METHOD(Phalcon_Time_Clock_Exceptions_InvalidModifier, __construct)
 		return;
 	}
 	ZVAL_LONG(&_1, 0);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_time_clock_exceptions_invalidmodifier_ce, getThis(), "__construct", NULL, 0, &_0, &_1, ex);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_time_clock_exceptions_invalidmodifier_ce, getThis(), "__construct", &_zephir_call_cache[0], &_0, &_1, ex);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

@@ -59,6 +59,7 @@ PHP_METHOD(Phalcon_Html_Helper_Tag, __invoke)
 
 	ZVAL_UNDEF(&name_zv);
 	ZVAL_UNDEF(&attributes);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(name)
 		Z_PARAM_OPTIONAL
@@ -77,7 +78,7 @@ PHP_METHOD(Phalcon_Html_Helper_Tag, __invoke)
 	} else {
 		zephir_get_arrval(&attributes, attributes_param);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderTag", NULL, 0, &name_zv, &attributes);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "renderTag", &_zephir_call_cache[0], &name_zv, &attributes);
 	zephir_check_call_status();
 	RETURN_MM();
 }

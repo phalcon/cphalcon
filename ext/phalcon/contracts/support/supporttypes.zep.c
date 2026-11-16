@@ -45,11 +45,16 @@
  * }
  * @phpstan-type support_debug_variables array<array-key, support_debug_variable>
  * @phpstan-type support_debug_fragment array{
- *     mode: string,
  *     firstLine: int,
  *     line: int,
  *     lastLine: int,
  *     lines: array<int, string>,
+ * }
+ * @phpstan-type support_debug_previous array{
+ *     className: string,
+ *     message: string,
+ *     file: string,
+ *     line: int,
  * }
  * @phpstan-type support_debug_trace array{
  *     function: string,

@@ -4,10 +4,10 @@ extern zend_class_entry *phalcon_mvc_url_urlinterface_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Url_UrlInterface);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_url_urlinterface_get, 0, 0, IS_STRING, 0)
-	ZEND_ARG_INFO(0, uri)
-	ZEND_ARG_INFO(0, arguments)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, uri, "null")
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, arguments, "null")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, local, _IS_BOOL, 1, "null")
-	ZEND_ARG_INFO(0, baseUri)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, baseUri, "null")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, replaceArgs, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 

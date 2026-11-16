@@ -58,6 +58,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct)
 	ZVAL_UNDEF(&message_zv);
 	ZVAL_UNDEF(&record_sub);
 	ZVAL_NULL(&__$null);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("record", 6, 1);
@@ -81,7 +82,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct)
 		record = &__$null;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1148, record);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_transaction_failed_ce, getThis(), "__construct", NULL, 0, &message_zv);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_mvc_model_transaction_failed_ce, getThis(), "__construct", &_zephir_call_cache[0], &message_zv);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -109,6 +110,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages)
 
 	ZVAL_UNDEF(&record);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("record", 6, 1);
@@ -117,13 +119,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1148, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CPY_WRT(&record, &_0);
 	if (Z_TYPE_P(&record) != IS_NULL) {
-		ZEPHIR_RETURN_CALL_METHOD(&record, "getMessages", NULL, 0);
+		ZEPHIR_RETURN_CALL_METHOD_CACHED(&record, "getMessages", &_zephir_call_cache[0]);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getMessage", NULL, 0);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "getMessage", &_zephir_call_cache[1]);
 	zephir_check_call_status();
 	RETURN_MM();
 }

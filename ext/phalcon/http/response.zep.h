@@ -47,8 +47,8 @@ PHP_METHOD(Phalcon_Http_Response, phpRawUrlEncode);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response___construct, 0, 0, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, content, IS_STRING, 1, "null")
-	ZEND_ARG_INFO(0, code)
-	ZEND_ARG_INFO(0, status)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, code, "null")
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, status, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_response_appendcontent, 0, 1, Phalcon\\Http\\ResponseInterface, 0)
@@ -81,7 +81,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_response_issent, 0,
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_response_redirect, 0, 0, Phalcon\\Http\\ResponseInterface, 0)
-	ZEND_ARG_INFO(0, location)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, location, "null")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, externalRedirect, _IS_BOOL, 0, "false")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, statusCode, IS_LONG, 0, "302")
 ZEND_END_ARG_INFO()
@@ -138,7 +138,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_response_setfiletosend, 0, 1, Phalcon\\Http\\ResponseInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, filePath, IS_STRING, 0)
-	ZEND_ARG_INFO(0, attachmentName)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, attachmentName, "null")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attachment, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
@@ -183,7 +183,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_response_firemanagerevent, 0, 1, IS_MIXED, 0)
 	ZEND_ARG_TYPE_INFO(0, eventName, IS_STRING, 0)
-	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, data, "null")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, cancellable, _IS_BOOL, 0, "true")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, stopOnFalse, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()

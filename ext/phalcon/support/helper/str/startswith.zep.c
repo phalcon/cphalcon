@@ -48,6 +48,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_StartsWith, __invoke)
 	ZVAL_UNDEF(&haystack_zv);
 	ZVAL_UNDEF(&needle_zv);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_STR(haystack)
 		Z_PARAM_STR(needle)
@@ -72,7 +73,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_StartsWith, __invoke)
 	} else {
 		ZVAL_BOOL(&_0, 0);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "toStartsWith", NULL, 0, &haystack_zv, &needle_zv, &_0);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "toStartsWith", &_zephir_call_cache[0], &haystack_zv, &needle_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

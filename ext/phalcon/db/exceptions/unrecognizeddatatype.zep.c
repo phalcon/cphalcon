@@ -44,6 +44,7 @@ PHP_METHOD(Phalcon_Db_Exceptions_UnrecognizedDataType, __construct)
 	ZVAL_UNDEF(&dialect_zv);
 	ZVAL_UNDEF(&column_zv);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(dialect)
 		Z_PARAM_STR(column)
@@ -60,7 +61,7 @@ PHP_METHOD(Phalcon_Db_Exceptions_UnrecognizedDataType, __construct)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_db_exceptions_unrecognizeddatatype_ce, getThis(), "__construct", NULL, 0, &_0);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_db_exceptions_unrecognizeddatatype_ce, getThis(), "__construct", &_zephir_call_cache[0], &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

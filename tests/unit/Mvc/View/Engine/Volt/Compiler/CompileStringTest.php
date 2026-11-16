@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt\Compiler;
 
 use Phalcon\Html\TagFactory;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\TemplateFileNotFound;
 use Phalcon\Mvc\View\Exception;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Talon\Talon;
@@ -864,6 +865,23 @@ class CompileStringTest extends AbstractUnitTestCase
         eval($code);
         $actual = ob_get_clean();
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * An extends path that is an expression (not a string) has no file
+     * name. The compiler throws TemplateFileNotFound with an empty path.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-09
+     */
+    public function testMvcViewEngineVoltCompilerCompileStringExtendsExpression(): void
+    {
+        $volt = new Compiler();
+
+        $this->expectException(TemplateFileNotFound::class);
+        $this->expectExceptionMessage('Template file  does not exist');
+
+        $volt->compileString('{% extends a ~ "b" %}');
     }
 
     /**

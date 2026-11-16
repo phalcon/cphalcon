@@ -90,4 +90,32 @@ class RenderTest extends AbstractUnitTestCase
             $listener->getAfter()
         );
     }
+
+    /**
+     * A view parameter named after an engine local (`compiledTemplatePath`)
+     * must not replace the compiled file that is included.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-08-26
+     */
+    public function testMvcViewEngineVoltRenderIgnoresCompiledTemplatePathParameter(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDiService('viewSimple');
+
+        $view = $this->getService('viewSimple');
+        $volt = new Volt($view, $this->container);
+
+        $templatePath = Talon::settings()->supportPath('assets/views/compiler/partial.volt');
+
+        ob_start();
+        $volt->render(
+            $templatePath,
+            ['some_var' => 'Label', 'compiledTemplatePath' => '/etc/hostname']
+        );
+        $output = ob_get_clean();
+
+        $this->assertSame('Some label: Label', $output);
+        $this->safeDeleteFile($templatePath . '.php');
+    }
 }

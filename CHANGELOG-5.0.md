@@ -24,9 +24,13 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 > **Upgrade note:** `Phalcon\Queue\Consumer\Worker::handleSignal()` now has a second optional parameter. A subclass that overrides this method must declare `handleSignal(int $signal, ?array $info = null): void`, or PHP raises a fatal error when it loads the class. [#17719](https://github.com/phalcon/cphalcon/issues/17719)
 
+> **Upgrade note:** `Phalcon\Support\Debug` now records the output buffer level when it is created. `onUncaughtException()` discards all the output buffers that start after that point and keeps the buffers that started before it, for example from `output_buffering` or `zlib.output_compression` in php.ini. Before, it discarded only the top buffer, also when that buffer started before `Debug` was created. To discard the output of your own buffers, create `Debug` before you start them. [#17739](https://github.com/phalcon/cphalcon/issues/17739)
+
+> **Upgrade note:** `Phalcon\Paginator\Adapter\AbstractAdapter` now creates the repository in its constructor. A custom adapter that overrides `__construct()` must call `parent::__construct()`, or `getRepository()` throws an `Error`. [#17750](https://github.com/phalcon/cphalcon/issues/17750)
+
 ### Tools
 
-- Zephir 1.7.0
+- Zephir 1.8.0
 
 ### Changed
 
@@ -44,10 +48,12 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - Faster `Phalcon\Logger` calls with no excluded adapters. [#17713](https://github.com/phalcon/cphalcon/issues/17713)
 - Faster `Phalcon\Mvc\Micro` requests with the default router service. [#17715](https://github.com/phalcon/cphalcon/issues/17715)
 - Faster `Phalcon\Config\Config::path()`. [#17714](https://github.com/phalcon/cphalcon/issues/17714)
+- `Phalcon\Mvc\Model\Query::clean()` now also empties the cache of parsed PHQL statements, the same as `Phalcon\Mvc\Model\Manager::__destruct()`. [#800](https://github.com/phalcon/phalcon/issues/800)
 
 ### Added
 
 - Benchmark subjects for Acl, Cache, Config, Flash, Forms, Jwt, Logger, Security, Session and Validation in `tests/benchmarks`. [#17695](https://github.com/phalcon/cphalcon/issues/17695)
+- `Phalcon\Support\Settings` support for `orm.cache_level` and `orm.unique_cache_id`. [#800](https://github.com/phalcon/phalcon/issues/800)
 
 ### Fixed
 
@@ -59,12 +65,25 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - `Phalcon\Db\Adapter\Pdo\Sqlite::describeColumns()` using `Column::TYPE_DECIMAL` as the bind type of `float` columns, which stored their values as blobs. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
 - `Phalcon\Forms\Form::getValue()` returning the tag factory for the name `tagFactory`. [#17727](https://github.com/phalcon/cphalcon/issues/17727)
 - `Phalcon\Mvc\Model::doLowInsert()` not reading back the generated id on MySQL when the identity property is `0`. [#17689](https://github.com/phalcon/cphalcon/issues/17689)
+- `Phalcon\Mvc\Model\Query::getIntermediate()` throwing a `TypeError` after `parse()` got the intermediate representation from the cache. [#800](https://github.com/phalcon/phalcon/issues/800)
+- `Phalcon\Mvc\Model\Query\Builder::__construct()` crashing with OPcache when the parameters have empty `bind` or `bindTypes` arrays. [#17725](https://github.com/phalcon/cphalcon/issues/17725)
+- `Phalcon\Mvc\Model\Query` reusing a cached intermediate representation that was built with the other value of the `enable_implicit_joins` option. [#800](https://github.com/phalcon/phalcon/issues/800)
 - `Phalcon\Mvc\View\Engine\Volt\Compiler::compile()` rendering serialized blocks for the second child of a layout when `stat` is `false`. [#17674](https://github.com/phalcon/cphalcon/issues/17674)
 - `Phalcon\Mvc\View\Engine\Volt\Compiler::compileCall()` silently dropping `{% call %}` blocks instead of throwing an exception. [#17676](https://github.com/phalcon/cphalcon/issues/17676)
 - `Phalcon\Queue\Consumer\Worker::handleSignal()` throwing an `ArgumentCountError` when the worker receives a signal. [#17719](https://github.com/phalcon/cphalcon/issues/17719)
+- `Phalcon\Support\Debug::debugVar()` storing the arguments and objects of each backtrace frame. [#17746](https://github.com/phalcon/cphalcon/issues/17746)
+- `Phalcon\Support\Debug::onUncaughtException()` discarding only one output buffer level. [#17739](https://github.com/phalcon/cphalcon/issues/17739)
 - `Phalcon\Support\Debug::onUncaughtException()` turning a warning raised while rendering into a fatal error and echoing later exception messages without escaping. [#17733](https://github.com/phalcon/cphalcon/issues/17733)
+- `Phalcon\Support\Debug::setBlacklist()` filtering only the top-level keys of the request and server data. [#17736](https://github.com/phalcon/cphalcon/issues/17736)
 - `Phalcon\Support\Debug\Dump::variable()` not escaping public property names in the HTML output. [#17729](https://github.com/phalcon/cphalcon/issues/17729)
+- `Phalcon\Support\Debug\Dump::variable()` printing the key after a skipped key on the same line. [#17746](https://github.com/phalcon/cphalcon/issues/17746)
+- `Phalcon\Support\Debug\Dump::variable()` throwing an `Error` in detailed mode for typed properties that have no value. [#17735](https://github.com/phalcon/cphalcon/issues/17735)
+- `Phalcon\Support\Debug\Renderer\HtmlRenderer::getVarDump()` to call reflection on private methods and only on objects. [#17743](https://github.com/phalcon/cphalcon/issues/17743)
 - `Phalcon\Support\Debug\Renderer\HtmlRenderer::render()` dropping invalid UTF-8 text and not escaping quotes, class names and file paths. [#17731](https://github.com/phalcon/cphalcon/issues/17731)
+- `Phalcon\Support\Debug\Renderer\HtmlRenderer::render()` not showing the previous exceptions, and showing files in a Windows `\vendor\` folder as application code. [#17746](https://github.com/phalcon/cphalcon/issues/17746)
+- `Phalcon\Support\Debug\Renderer\HtmlRenderer::render()` stopping the debug page for objects with a `dump()` method that is not public, is static, has required parameters or does not return an array. [#17735](https://github.com/phalcon/cphalcon/issues/17735)
+- `Phalcon\Support\Debug\ReportBuilder::build()` reading a file again for each frame, and linking Phalcon classes to API pages that do not exist. [#17746](https://github.com/phalcon/cphalcon/issues/17746)
+- PHP 8.4+ builds from `build/phalcon` (PECL, PIE, `build/install`) calling the userland `json_encode()` and `json_decode()`, because `config.m4` checked for `HAVE_JSON`, which PHP 8.4 removed. [#16523](https://github.com/phalcon/cphalcon/issues/16523)
 - PHP 8.6 deprecation for session handlers without `create_sid()`: `Phalcon\Session\Adapter\AbstractAdapter` and `Phalcon\Session\Adapter\Noop` now implement `SessionIdInterface` and `create_sid()`. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
 - PHP 8.6 deprecation of `spl_object_hash()`: `Phalcon\Dispatcher\AbstractDispatcher` and `Phalcon\Html\Link\AbstractLinkProvider` now use `spl_object_id()`; the keys returned by `getLinks()` are now integers. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
 - PHP 8.6 deprecation of `doubleval()`: `Phalcon\Encryption\Security\Uuid\Version1`, `Phalcon\Encryption\Security\Uuid\Version6` and `Phalcon\Mvc\Model` now use `floatval()`. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
@@ -72,6 +91,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 ### Removed
 
 - Removed the `{% cache %}`/`{% endcache %}` Volt tag from the parser; it now raises a syntax error. [#17677](https://github.com/phalcon/cphalcon/issues/17677)
+- Removed the unused `mode` key from the code fragment of `Phalcon\Support\Debug\Report\BacktraceItem::getFragment()`. [#17748](https://github.com/phalcon/cphalcon/issues/17748)
 
 ## [5.23.0](https://github.com/phalcon/cphalcon/releases/tag/v5.23.0) (2026-10-15)
 
@@ -402,7 +422,6 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 - Fixed `Phalcon\Mvc\View::partial()` and `render()` throwing `ViewNotFound` for absolute paths [#17426](https://github.com/phalcon/cphalcon/issues/17426)
 - Removed a stray "!" in `Phalcon\Db\Adapter\Pdo\Mysql::unquoteDefault()` to remove the compilation warning [#17427](https://github.com/phalcon/cphalcon/issues/17427)
-17469
 
 ### Removed
 

@@ -181,6 +181,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, close)
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("connection", 10, 1);
@@ -189,9 +190,17 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, close)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1279, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (Z_TYPE_P(&_0) != IS_NULL) {
 		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_0, 1279, PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "disconnect", NULL, 0);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "disconnect", &_zephir_call_cache[0]);
 		zephir_check_call_status();
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1279, &__$null);
 	}
@@ -208,6 +217,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, createConsumer)
 	ZVAL_UNDEF(&destination_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[3];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(destination, phalcon_contracts_queue_destination_ce)
 	ZEND_PARSE_PARAMETERS_END();
@@ -216,12 +226,12 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, createConsumer)
 	zephir_fetch_params(1, 1, 0, &destination);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "consume from");
-	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_queue_adapter_queuedestinationguard_ce, "assertQueue", NULL, 0, destination, &_0);
+	ZEPHIR_CALL_CE_STATIC_CACHED(NULL, phalcon_queue_adapter_queuedestinationguard_ce, "assertQueue", &_zephir_call_cache[0], destination, &_0);
 	zephir_check_call_status();
 	object_init_ex(return_value, phalcon_queue_adapter_beanstalk_beanstalkconsumer_ce);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "newConnection", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_1, this_ptr, "newConnection", &_zephir_call_cache[1]);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &_1, destination);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[2], &_1, destination);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -237,6 +247,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, createMessage)
 	ZVAL_UNDEF(&body_zv);
 	ZVAL_UNDEF(&properties);
 	ZVAL_UNDEF(&headers);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(0, 3)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR(body)
@@ -272,7 +283,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, createMessage)
 		zephir_get_arrval(&headers, headers_param);
 	}
 	object_init_ex(return_value, phalcon_queue_adapter_beanstalk_beanstalkmessage_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &body_zv, &properties, &headers);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &body_zv, &properties, &headers);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -282,11 +293,13 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, createProducer)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
+
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	object_init_ex(return_value, phalcon_queue_adapter_beanstalk_beanstalkproducer_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, this_ptr);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], this_ptr);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -299,6 +312,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, createSubscriptionC
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("pollInterval", 12, 1);
@@ -308,7 +322,11 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, createSubscriptionC
 
 	object_init_ex(return_value, phalcon_queue_adapter_beanstalk_beanstalksubscriptionconsumer_ce);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1278, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, this_ptr, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], this_ptr, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -339,19 +357,20 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, getStats)
 	ZVAL_UNDEF(&connection);
 	ZVAL_UNDEF(&stats);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[4];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(queue, phalcon_contracts_queue_queue_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &queue);
-	ZEPHIR_CALL_METHOD(&connection, this_ptr, "newConnection", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&connection, this_ptr, "newConnection", &_zephir_call_cache[0]);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_0, queue, "getQueueName", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_0, queue, "getQueueName", &_zephir_call_cache[1]);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&stats, &connection, "statsTube", NULL, 0, &_0);
+	ZEPHIR_CALL_METHOD_CACHED(&stats, &connection, "statsTube", &_zephir_call_cache[2], &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &connection, "disconnect", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &connection, "disconnect", &_zephir_call_cache[3]);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&stats)) {
 		zephir_create_array(return_value, 5, 0);
@@ -377,9 +396,8 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, getTtr)
 PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, purgeQueue)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_2 = NULL, *_4 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *queue, queue_sub, connection, tube, job, _0$$3, _1$$4, _3$$4;
+	zval *queue, queue_sub, connection, tube, job, _0$$3, _1$$4, _2$$4;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&queue_sub);
@@ -388,42 +406,43 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, purgeQueue)
 	ZVAL_UNDEF(&job);
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$4);
-	ZVAL_UNDEF(&_3$$4);
+	ZVAL_UNDEF(&_2$$4);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[7];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(queue, phalcon_contracts_queue_queue_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &queue);
-	ZEPHIR_CALL_METHOD(&tube, queue, "getQueueName", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&tube, queue, "getQueueName", &_zephir_call_cache[0]);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&connection, this_ptr, "newConnection", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&connection, this_ptr, "newConnection", &_zephir_call_cache[1]);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &connection, "watchTube", NULL, 0, &tube);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &connection, "watchTube", &_zephir_call_cache[2], &tube);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_STRING(&tube, "default")) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZVAL_STRING(&_0$$3, "default");
-		ZEPHIR_CALL_METHOD(NULL, &connection, "ignoreTube", NULL, 0, &_0$$3);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &connection, "ignoreTube", &_zephir_call_cache[3], &_0$$3);
 		zephir_check_call_status();
 	}
 	while (1) {
 		ZVAL_LONG(&_1$$4, 0);
-		ZEPHIR_CALL_METHOD(&job, &connection, "reserve", &_2, 0, &_1$$4);
+		ZEPHIR_CALL_METHOD_CACHED(&job, &connection, "reserve", &_zephir_call_cache[4], &_1$$4);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&job) == IS_NULL) {
 			break;
 		}
-		ZEPHIR_OBS_NVAR(&_3$$4);
-		zephir_array_fetch_long(&_3$$4, &job, 0, PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkContext.zep", 161);
+		ZEPHIR_OBS_NVAR(&_2$$4);
+		zephir_array_fetch_long(&_2$$4, &job, 0, PH_NOISY, "phalcon/Queue/Adapter/Beanstalk/BeanstalkContext.zep", 161);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZEPHIR_CALL_METHOD(NULL, &connection, "deleteJob", &_4, 0, &_3$$4);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &connection, "deleteJob", &_zephir_call_cache[5], &_2$$4);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(NULL, &connection, "disconnect", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &connection, "disconnect", &_zephir_call_cache[6]);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -446,6 +465,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, putMessage)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[3];
 	ZEND_PARSE_PARAMETERS_START(5, 5)
 		Z_PARAM_STR(tube)
 		Z_PARAM_STR(payload)
@@ -462,14 +482,14 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, putMessage)
 	ZVAL_STR_COPY(&tube_zv, tube);
 	zephir_memory_observe(&payload_zv);
 	ZVAL_STR_COPY(&payload_zv, payload);
-	ZEPHIR_CALL_METHOD(&connection, this_ptr, "getConnection", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&connection, this_ptr, "getConnection", &_zephir_call_cache[0]);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &connection, "useTube", NULL, 0, &tube_zv);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &connection, "useTube", &_zephir_call_cache[1], &tube_zv);
 	zephir_check_call_status();
 	ZVAL_LONG(&_0, priority);
 	ZVAL_LONG(&_1, delay);
 	ZVAL_LONG(&_2, ttr);
-	ZEPHIR_CALL_METHOD(NULL, &connection, "put", NULL, 0, &payload_zv, &_0, &_1, &_2);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &connection, "put", &_zephir_call_cache[2], &payload_zv, &_0, &_1, &_2);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -486,6 +506,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, getConnection)
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("connection", 10, 1);
@@ -494,8 +515,12 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, getConnection)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1279, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (Z_TYPE_P(&_0) == IS_NULL) {
-		ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "newConnection", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(&_1$$3, this_ptr, "newConnection", &_zephir_call_cache[0]);
 		zephir_check_call_status();
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1279, &_1$$3);
 	}
@@ -516,6 +541,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, newConnection)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	static zend_string *_zephir_prop_2 = NULL;
@@ -534,11 +560,23 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkContext, newConnection)
 	ZEPHIR_INIT_VAR(&connection);
 	object_init_ex(&connection, phalcon_queue_adapter_beanstalk_beanstalkconnection_ce);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1274, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 1275, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 1276, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(NULL, &connection, "__construct", NULL, 0, &_0, &_1, &_2);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &connection, "__construct", &_zephir_call_cache[0], &_0, &_1, &_2);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &connection, "connect", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &connection, "connect", &_zephir_call_cache[1]);
 	zephir_check_call_status();
 	RETURN_CCTOR(&connection);
 }

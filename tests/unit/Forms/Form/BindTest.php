@@ -18,16 +18,29 @@ use Phalcon\Forms\Element\Radio;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Exception;
 use Phalcon\Forms\Form;
+use Phalcon\Support\Settings;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Forms\ContactFormTypedProperties;
+use Phalcon\Tests\Support\Traits\DiTrait;
 use Phalcon\Tests\Unit\Forms\Fake\FakeFormAfterBind;
 use Phalcon\Tests\Unit\Forms\Fake\FakeFormBeforeBind;
 use stdClass;
+use TypeError;
 
 /**
  * Class BindTest extends AbstractUnitTestCase
  */
 final class BindTest extends AbstractUnitTestCase
 {
+    use DiTrait;
+
+    public function tearDown(): void
+    {
+        Settings::reset();
+
+        parent::tearDown();
+    }
+
     public function testBindWhitelist(): void
     {
         $form = new Form();
@@ -180,5 +193,88 @@ final class BindTest extends AbstractUnitTestCase
         $form->bind(['banned' => 'yes'], $entity);
 
         $this->assertEquals('yes', $entity->banned);
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/phalcon/issues/804
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-14
+     */
+    public function testFormsFormBindWeakModeFilteredValue(): void
+    {
+        $this->setNewFactoryDefault();
+
+        $form = new Form();
+        $form->add((new Text('code'))->setFilters(['int']));
+
+        $entity = new ContactFormTypedProperties();
+        $form->bind(['code' => '42'], $entity);
+
+        $this->assertSame('42', $entity->code);
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/phalcon/issues/804
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-14
+     */
+    public function testFormsFormBindWeakModeProperty(): void
+    {
+        $form = new Form();
+        $form->add(new Text('age'));
+
+        $entity = new ContactFormTypedProperties();
+        $form->bind(['age' => ' 42 '], $entity);
+
+        $this->assertSame(42, $entity->age);
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/phalcon/issues/804
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-14
+     */
+    public function testFormsFormBindWeakModePropertyStrictCheck(): void
+    {
+        Settings::set('form.strict_entity_property_check', true);
+
+        $form = new Form();
+        $form->add(new Text('age'));
+
+        $entity = new ContactFormTypedProperties();
+        $form->bind(['age' => ' 42 '], $entity);
+
+        $this->assertSame(42, $entity->age);
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/phalcon/issues/804
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-14
+     */
+    public function testFormsFormBindWeakModeRefused(): void
+    {
+        $this->expectException(TypeError::class);
+
+        $form = new Form();
+        $form->add(new Text('age'));
+
+        $form->bind(['age' => 'abc'], new ContactFormTypedProperties());
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/phalcon/issues/804
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-14
+     */
+    public function testFormsFormBindWeakModeSetter(): void
+    {
+        $form = new Form();
+        $form->add(new Text('total'));
+
+        $entity = new ContactFormTypedProperties();
+        $form->bind(['total' => '4.5'], $entity);
+
+        $this->assertSame(4.5, $entity->getTotal());
     }
 }

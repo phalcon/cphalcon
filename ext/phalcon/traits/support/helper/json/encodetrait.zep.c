@@ -69,6 +69,7 @@ PHP_METHOD(Phalcon_Traits_Support_Helper_Json_EncodeTrait, toEncode)
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_4);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_ZVAL(data)
 		Z_PARAM_OPTIONAL
@@ -92,16 +93,16 @@ PHP_METHOD(Phalcon_Traits_Support_Helper_Json_EncodeTrait, toEncode)
 	ZVAL_LONG(&_1, depth);
 	ZEPHIR_INIT_NVAR(&encoded);
 	zephir_json_encode(&encoded, data, zephir_get_intval(&_0) );
-	ZEPHIR_CALL_FUNCTION(&error, "json_last_error", NULL, 0);
+	ZEPHIR_CALL_FUNCTION(&error, "json_last_error", NULL, 225);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&message, "json_last_error_msg", NULL, 0);
+	ZEPHIR_CALL_FUNCTION(&message, "json_last_error_msg", NULL, 226);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_LONG_IDENTICAL(&error, 0)) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		zephir_json_encode(&_2$$3, &__$null, 0 );
 		ZEPHIR_INIT_VAR(&_3$$3);
 		object_init_ex(&_3$$3, zephir_get_internal_ce(SL("jsonexception")));
-		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 0, &message, &error);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_3$$3, "__construct", &_zephir_call_cache[0], &message, &error);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_3$$3, "phalcon/Traits/Support/Helper/Json/EncodeTrait.zep", 55);
 		ZEPHIR_MM_RESTORE();

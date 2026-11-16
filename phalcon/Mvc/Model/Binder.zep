@@ -194,7 +194,7 @@ class Binder implements BinderInterface
 
         let paramsCache = [];
 
-        if methodName != null {
+        if methodName !== null {
             let reflection = new ReflectionMethod(handler, methodName);
         } else {
             let reflection = new ReflectionFunction(handler);
@@ -222,7 +222,7 @@ class Binder implements BinderInterface
             let paramValue = params[paramKey];
 
             if className == Model::class {
-                if realClasses == null {
+                if realClasses === null {
                     if handler instanceof BindModelInterface {
                         let handlerClass = get_class(handler);
                         let realClasses = {handlerClass}::getModelName();
@@ -249,7 +249,7 @@ class Binder implements BinderInterface
                 let boundModel = this->findBoundModel(paramValue, className);
             }
 
-            if boundModel != null {
+            if boundModel !== null {
                 let this->originalValues[paramKey] = paramValue;
                 let params[paramKey] = boundModel;
                 let this->boundModels[paramKey] = boundModel;
@@ -257,7 +257,7 @@ class Binder implements BinderInterface
             }
         }
 
-        if cache != null {
+        if cache !== null {
             cache->set(cacheKey, paramsCache);
         }
 

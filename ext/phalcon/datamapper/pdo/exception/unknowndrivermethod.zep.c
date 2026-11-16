@@ -41,6 +41,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Exception_UnknownDriverMethod, __construct)
 	zend_string *message = NULL;
 
 	ZVAL_UNDEF(&message_zv);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(message)
 	ZEND_PARSE_PARAMETERS_END();
@@ -48,7 +49,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Exception_UnknownDriverMethod, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&message_zv);
 	ZVAL_STR_COPY(&message_zv, message);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_datamapper_pdo_exception_unknowndrivermethod_ce, getThis(), "__construct", NULL, 0, &message_zv);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_datamapper_pdo_exception_unknowndrivermethod_ce, getThis(), "__construct", &_zephir_call_cache[0], &message_zv);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

@@ -18,12 +18,6 @@
 
 void ZEPHIR_FASTCALL zephir_create_array(zval *return_value, uint32_t size, int initialize);
 
-/**
- * Simple convenience function which ensures that you are dealing with an array and you can
- * eliminate noise from your code.
- */
-void ZEPHIR_FASTCALL zephir_ensure_array(zval *probable_array);
-
 /*
  * The `*_long` helpers take a signed `zend_long`, the same width PHP uses for
  * an array key or a string offset. They used to take `unsigned long`, which is

@@ -45,6 +45,7 @@ PHP_METHOD(Phalcon_Image_Exceptions_UnsupportedImageType, __construct)
 	ZVAL_UNDEF(&format_zv);
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&_0$$4);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR(format)
@@ -71,7 +72,7 @@ PHP_METHOD(Phalcon_Image_Exceptions_UnsupportedImageType, __construct)
 		}
 		ZEPHIR_CPY_WRT(&message, &_0$$4);
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_image_exceptions_unsupportedimagetype_ce, getThis(), "__construct", NULL, 0, &message);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_image_exceptions_unsupportedimagetype_ce, getThis(), "__construct", &_zephir_call_cache[0], &message);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

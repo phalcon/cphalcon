@@ -102,6 +102,10 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_Call, resolve)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &ioc);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 564, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CPY_WRT(&callableObject, &_0);
 	ZEPHIR_RETURN_CALL_ZVAL_FUNCTION(&callableObject, NULL, 0, ioc);
 	zephir_check_call_status();

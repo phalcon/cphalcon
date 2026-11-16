@@ -64,6 +64,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __construct)
 
 	ZVAL_UNDEF(&data_sub);
 	ZVAL_NULL(&__$null);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -76,7 +77,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __construct)
 		data = &data_sub;
 		data = &__$null;
 	}
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setData", NULL, 0, data);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "setData", &_zephir_call_cache[0], data);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -104,6 +105,10 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __serialize)
 
 	zephir_memory_observe(&_0);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 39, PH_NOISY_CC);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		RETURN_MM_MEMBER_TYPED(getThis(), "data", IS_ARRAY);
 	}

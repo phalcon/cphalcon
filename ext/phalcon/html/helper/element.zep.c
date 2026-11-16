@@ -61,6 +61,7 @@ PHP_METHOD(Phalcon_Html_Helper_Element, __construct)
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 	ZVAL_NULL(&__$null);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("forceRaw", 8, 1);
@@ -84,7 +85,7 @@ PHP_METHOD(Phalcon_Html_Helper_Element, __construct)
 		forceRaw = 0;
 	} else {
 		}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_html_helper_element_ce, getThis(), "__construct", NULL, 0, escaper, doctype);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_html_helper_element_ce, getThis(), "__construct", &_zephir_call_cache[0], escaper, doctype);
 	zephir_check_call_status();
 	if (forceRaw) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 851, &__$true);
@@ -114,6 +115,7 @@ PHP_METHOD(Phalcon_Html_Helper_Element, __invoke)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&attributes);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("forceRaw", 8, 1);
@@ -152,10 +154,14 @@ PHP_METHOD(Phalcon_Html_Helper_Element, __invoke)
 	if (!(_0)) {
 		zephir_memory_observe(&_1);
 		zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 851, PH_NOISY_CC);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		_0 = zephir_is_true(&_1);
 	}
 	ZVAL_BOOL(&_2, _0);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderFullElement", NULL, 0, &tag_zv, &text_zv, &attributes, &_2);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "renderFullElement", &_zephir_call_cache[0], &tag_zv, &text_zv, &attributes, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }

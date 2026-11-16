@@ -61,6 +61,7 @@ PHP_METHOD(Phalcon_Html_Helper_Anchor, __construct)
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 	ZVAL_NULL(&__$null);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("forceRaw", 8, 1);
@@ -84,7 +85,7 @@ PHP_METHOD(Phalcon_Html_Helper_Anchor, __construct)
 		forceRaw = 0;
 	} else {
 		}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_html_helper_anchor_ce, getThis(), "__construct", NULL, 0, escaper, doctype);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_html_helper_anchor_ce, getThis(), "__construct", &_zephir_call_cache[0], escaper, doctype);
 	zephir_check_call_status();
 	if (forceRaw) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 838, &__$true);
@@ -116,6 +117,7 @@ PHP_METHOD(Phalcon_Html_Helper_Anchor, __invoke)
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&attributes);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("forceRaw", 8, 1);
@@ -152,18 +154,22 @@ PHP_METHOD(Phalcon_Html_Helper_Anchor, __invoke)
 		}
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "href");
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "injectAttribute", NULL, 0, &_1, &href_zv, &attributes);
+	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "injectAttribute", &_zephir_call_cache[0], &_1, &href_zv, &attributes);
 	zephir_check_call_status();
 	_2 = raw;
 	if (!(_2)) {
 		zephir_memory_observe(&_3);
 		zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 838, PH_NOISY_CC);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		_2 = zephir_is_true(&_3);
 	}
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "a");
 	ZVAL_BOOL(&_4, _2);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderFullElement", NULL, 0, &_1, &text_zv, &_0, &_4);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "renderFullElement", &_zephir_call_cache[1], &_1, &text_zv, &_0, &_4);
 	zephir_check_call_status();
 	RETURN_MM();
 }

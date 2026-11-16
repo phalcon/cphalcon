@@ -17,6 +17,7 @@ use Phalcon\Di\Di;
 use Phalcon\Support\Debug\Dump;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Support\Dump\ClassProperties;
+use Phalcon\Tests\Support\Support\Dump\ClassUninitialized;
 use Phalcon\Tests\Support\Support\Dump\SampleMethods;
 
 final class OutputBranchesTest extends AbstractUnitTestCase
@@ -46,6 +47,32 @@ final class OutputBranchesTest extends AbstractUnitTestCase
 
         $this->assertStringContainsString('TRUE', $dump->variable(true));
         $this->assertStringContainsString('FALSE', $dump->variable(false));
+    }
+
+    /**
+     * @issue https://github.com/phalcon/cphalcon/issues/17735
+     */
+    public function testDetailedObjectUninitializedProperties(): void
+    {
+        $dump   = new Dump([], true);
+        $actual = $dump->variable(new ClassUninitialized());
+
+        $expected = '-><span style="color:purple">count</span> '
+            . '(<span style="color:purple">public</span>) = [uninitialized]';
+        $this->assertStringContainsString($expected, $actual);
+
+        $expected = '-><span style="color:purple">name</span> '
+            . '(<span style="color:purple">protected</span>) = [uninitialized]';
+        $this->assertStringContainsString($expected, $actual);
+
+        $expected = '-><span style="color:purple">data</span> '
+            . '(<span style="color:purple">private</span>) = [uninitialized]';
+        $this->assertStringContainsString($expected, $actual);
+
+        $expected = '-><span style="color:purple">total</span> '
+            . '(<span style="color:purple">public</span>) = '
+            . '<b style="color:blue">Integer</b> (<span style="color:blue">5</span>)';
+        $this->assertStringContainsString($expected, $actual);
     }
 
     public function testDetailedObjectUsesReflection(): void
@@ -90,6 +117,16 @@ final class OutputBranchesTest extends AbstractUnitTestCase
         fclose($resource);
 
         $this->assertStringContainsString('Resource', $actual);
+    }
+
+    /**
+     * @issue https://github.com/phalcon/cphalcon/issues/17746
+     */
+    public function testSkippedKeyEndsItsLine(): void
+    {
+        $actual = (new Dump())->variable(['config' => 1, 'other' => 2], 'config');
+
+        $this->assertStringContainsString("=> \n  [", $actual);
     }
 
     public function testSkipsDiInterface(): void

@@ -72,6 +72,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_EnvDefault, __construct)
 	ZVAL_UNDEF(&varname_zv);
 	ZVAL_UNDEF(&defaultValue_sub);
 	ZVAL_UNDEF(&vartype_zv);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("defaultValue", 12, 1);
@@ -96,7 +97,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_EnvDefault, __construct)
 	ZVAL_STR_COPY(&vartype_zv, vartype);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 568, defaultValue);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_container_resolver_lazy_envdefault_ce, getThis(), "__construct", NULL, 0, &varname_zv, &vartype_zv);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_container_resolver_lazy_envdefault_ce, getThis(), "__construct", &_zephir_call_cache[0], &varname_zv, &vartype_zv);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -113,6 +114,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_EnvDefault, resolve)
 	ZVAL_UNDEF(&ioc_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT(ioc)
 	ZEND_PARSE_PARAMETERS_END();
@@ -121,7 +123,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_EnvDefault, resolve)
 	zephir_fetch_params(1, 1, 0, &ioc);
 	/* try_start_1: */
 
-		ZEPHIR_RETURN_CALL_PARENT(phalcon_container_resolver_lazy_envdefault_ce, getThis(), "resolve", NULL, 0, ioc);
+		ZEPHIR_RETURN_CALL_PARENT_CACHED(phalcon_container_resolver_lazy_envdefault_ce, getThis(), "resolve", &_zephir_call_cache[0], ioc);
 		zephir_check_call_status_or_jump(try_end_1);
 		RETURN_MM();
 

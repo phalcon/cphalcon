@@ -14,7 +14,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, unserialize);
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_complex___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, columnTypes)
 	ZEND_ARG_OBJ_TYPE_MASK(0, result, Phalcon\\Db\\ResultInterface, MAY_BE_NULL, "null")
-	ZEND_ARG_INFO(0, cache)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, cache, "null")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, resultsetRowClass, IS_STRING, 0, "''")
 ZEND_END_ARG_INFO()
 

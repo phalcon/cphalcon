@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Translate_Interpolator_IndexedArray, replacePlaceholders)
 
 		/* try_start_1: */
 
-			ZEPHIR_RETURN_CALL_FUNCTION("vsprintf", NULL, 0, &translation_zv, &placeholders);
+			ZEPHIR_RETURN_CALL_FUNCTION("vsprintf", NULL, 290, &translation_zv, &placeholders);
 			zephir_check_call_status_or_jump(try_end_1);
 			RETURN_MM();
 

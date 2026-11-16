@@ -55,6 +55,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_LastKey, __invoke)
 	ZVAL_UNDEF(&method_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&filtered);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		ZEPHIR_Z_PARAM_ARRAY(collection, collection_param)
@@ -69,9 +70,9 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_LastKey, __invoke)
 		method = &method_sub;
 		method = &__$null;
 	}
-	ZEPHIR_CALL_METHOD(&filtered, this_ptr, "toFilter", NULL, 0, &collection, method);
+	ZEPHIR_CALL_METHOD_CACHED(&filtered, this_ptr, "toFilter", &_zephir_call_cache[0], &collection, method);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("array_key_last", NULL, 20, &filtered);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_key_last", NULL, 12, &filtered);
 	zephir_check_call_status();
 	RETURN_MM();
 }

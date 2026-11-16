@@ -86,16 +86,17 @@ PHP_METHOD(Phalcon_ADR_Responder_Formatter_TextFormatter, format)
 	ZVAL_UNDEF(&_0$$4);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_1$$4);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(payload, phalcon_contracts_adr_payload_payload_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &payload);
-	ZEPHIR_CALL_METHOD(&content, payload, "getResult", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&content, payload, "getResult", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&content) == IS_NULL) {
-		ZEPHIR_CALL_METHOD(&content, payload, "getMessages", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(&content, payload, "getMessages", &_zephir_call_cache[1]);
 		zephir_check_call_status();
 	}
 	if (Z_TYPE_P(&content) == IS_ARRAY) {

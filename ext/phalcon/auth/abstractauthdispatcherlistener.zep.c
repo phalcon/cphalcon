@@ -109,6 +109,7 @@ PHP_METHOD(Phalcon_Auth_AbstractAuthDispatcherListener, enforce)
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&context);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[6];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("manager", 7, 1);
@@ -142,21 +143,29 @@ PHP_METHOD(Phalcon_Auth_AbstractAuthDispatcherListener, enforce)
 		forwardHandler = &__$null;
 	}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 102, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&access, &_0, "getAccess", NULL, 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_METHOD_CACHED(&access, &_0, "getAccess", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&access) == IS_NULL) {
 		RETURN_MM_BOOL(1);
 	}
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 102, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_3, &_2, "guard", NULL, 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_METHOD_CACHED(&_3, &_2, "guard", &_zephir_call_cache[1]);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, &access, "isAllowed", NULL, 0, &_3, &actionName_zv, &context);
+	ZEPHIR_CALL_METHOD_CACHED(&_1, &access, "isAllowed", &_zephir_call_cache[2], &_3, &actionName_zv, &context);
 	zephir_check_call_status();
 	if (zephir_is_true(&_1)) {
 		RETURN_MM_BOOL(1);
 	}
 	if (Z_TYPE_P(forwardHandler) != IS_NULL) {
-		ZEPHIR_CALL_METHOD(&target, &access, "redirectTo", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(&target, &access, "redirectTo", &_zephir_call_cache[3]);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&target) != IS_NULL) {
 			ZEPHIR_CALL_ZVAL_FUNCTION(NULL, forwardHandler, NULL, 0, &target);
@@ -166,9 +175,9 @@ PHP_METHOD(Phalcon_Auth_AbstractAuthDispatcherListener, enforce)
 	}
 	ZEPHIR_INIT_VAR(&_4);
 	object_init_ex(&_4, phalcon_auth_exceptions_accessdenied_ce);
-	ZEPHIR_CALL_METHOD(&_5, this_ptr, "getActionType", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_5, this_ptr, "getActionType", &_zephir_call_cache[4]);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &_4, "__construct", NULL, 86, &_5, &actionName_zv);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &_4, "__construct", &_zephir_call_cache[5], &_5, &actionName_zv);
 	zephir_check_call_status();
 	zephir_throw_exception_debug(&_4, "phalcon/Auth/AbstractAuthDispatcherListener.zep", 82);
 	ZEPHIR_MM_RESTORE();

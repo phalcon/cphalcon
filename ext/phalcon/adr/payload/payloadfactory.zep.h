@@ -24,79 +24,79 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, updated);
 PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, valid);
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_payload_payloadfactory_accepted, 0, 0, Phalcon\\Contracts\\ADR\\Payload\\Payload, 0)
-	ZEND_ARG_INFO(0, result)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, result, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_payload_payloadfactory_authenticated, 0, 0, Phalcon\\Contracts\\ADR\\Payload\\Payload, 0)
-	ZEND_ARG_INFO(0, result)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, result, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_payload_payloadfactory_authorized, 0, 0, Phalcon\\Contracts\\ADR\\Payload\\Payload, 0)
-	ZEND_ARG_INFO(0, result)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, result, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_payload_payloadfactory_created, 0, 0, Phalcon\\Contracts\\ADR\\Payload\\Payload, 0)
-	ZEND_ARG_INFO(0, result)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, result, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_payload_payloadfactory_deleted, 0, 0, Phalcon\\Contracts\\ADR\\Payload\\Payload, 0)
-	ZEND_ARG_INFO(0, result)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, result, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_payload_payloadfactory_error, 0, 0, Phalcon\\Contracts\\ADR\\Payload\\Payload, 0)
-	ZEND_ARG_INFO(0, messages)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, messages, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_payload_payloadfactory_forbidden, 0, 0, Phalcon\\Contracts\\ADR\\Payload\\Payload, 0)
-	ZEND_ARG_INFO(0, messages)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, messages, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_payload_payloadfactory_found, 0, 0, Phalcon\\Contracts\\ADR\\Payload\\Payload, 0)
-	ZEND_ARG_INFO(0, result)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, result, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_payload_payloadfactory_invalid, 0, 0, Phalcon\\Contracts\\ADR\\Payload\\Payload, 0)
-	ZEND_ARG_INFO(0, messages)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, messages, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_payload_payloadfactory_notaccepted, 0, 0, Phalcon\\Contracts\\ADR\\Payload\\Payload, 0)
-	ZEND_ARG_INFO(0, messages)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, messages, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_payload_payloadfactory_notcreated, 0, 0, Phalcon\\Contracts\\ADR\\Payload\\Payload, 0)
-	ZEND_ARG_INFO(0, messages)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, messages, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_payload_payloadfactory_notdeleted, 0, 0, Phalcon\\Contracts\\ADR\\Payload\\Payload, 0)
-	ZEND_ARG_INFO(0, messages)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, messages, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_payload_payloadfactory_notfound, 0, 0, Phalcon\\Contracts\\ADR\\Payload\\Payload, 0)
-	ZEND_ARG_INFO(0, messages)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, messages, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_payload_payloadfactory_notupdated, 0, 0, Phalcon\\Contracts\\ADR\\Payload\\Payload, 0)
-	ZEND_ARG_INFO(0, messages)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, messages, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_payload_payloadfactory_processing, 0, 0, Phalcon\\Contracts\\ADR\\Payload\\Payload, 0)
-	ZEND_ARG_INFO(0, result)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, result, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_payload_payloadfactory_success, 0, 0, Phalcon\\Contracts\\ADR\\Payload\\Payload, 0)
-	ZEND_ARG_INFO(0, result)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, result, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_payload_payloadfactory_unauthenticated, 0, 0, Phalcon\\Contracts\\ADR\\Payload\\Payload, 0)
-	ZEND_ARG_INFO(0, messages)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, messages, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_payload_payloadfactory_updated, 0, 0, Phalcon\\Contracts\\ADR\\Payload\\Payload, 0)
-	ZEND_ARG_INFO(0, result)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, result, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_adr_payload_payloadfactory_valid, 0, 0, Phalcon\\Contracts\\ADR\\Payload\\Payload, 0)
-	ZEND_ARG_INFO(0, result)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, result, "null")
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_adr_payload_payloadfactory_method_entry) {

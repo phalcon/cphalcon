@@ -257,11 +257,8 @@ int zephir_compare_strict_long(zval *op1, zend_long op2)
 			return 0 == op2;
 		case IS_TRUE:
 		case IS_FALSE:
-			if (Z_TYPE_P(op1) == IS_TRUE) {
-				return 1 == op2;
-			} else {
-				return 0 == op2;
-			}
+			/* PHP compares a bool with a number as two bools: true == 5 */
+			return (Z_TYPE_P(op1) == IS_TRUE) == (op2 != 0);
 		default:
 			{
 				zval result, op2_tmp;
@@ -272,6 +269,18 @@ int zephir_compare_strict_long(zval *op1, zend_long op2)
 	}
 
 	return 0;
+}
+
+/**
+ * Natural compare with double operandus on right
+ */
+int zephir_compare_strict_double(zval *op1, double op2)
+{
+	zval result, op2_zval;
+	ZVAL_DOUBLE(&op2_zval, op2);
+
+	is_equal_function(&result, op1, &op2_zval);
+	return Z_TYPE(result) == IS_TRUE;
 }
 
 /**
@@ -456,6 +465,25 @@ int zephir_is_equal(zval *op1, zval *op2)
 }
 
 /**
+ * Whether op == null, as PHP's zend_compare() decides it: a string equals
+ * null only when it is empty and an object never does, any other value
+ * when it is falsy.
+ */
+int zephir_is_equal_null(zval *op)
+{
+	ZVAL_DEREF(op);
+
+	switch (Z_TYPE_P(op)) {
+		case IS_STRING:
+			return Z_STRLEN_P(op) == 0;
+		case IS_OBJECT:
+			return 0;
+		default:
+			return !zend_is_true(op);
+	}
+}
+
+/**
  * Check if a zval is less than other
  */
 int zephir_less(zval *op1, zval *op2)
@@ -467,12 +495,15 @@ int zephir_less(zval *op1, zval *op2)
 
 /**
  * Check if a zval is greater than other
+ *
+ * PHP evaluates `a > b` as `b < a` and `a >= b` as `b <= a`, which is not
+ * `!(a <= b)` when the operands do not compare, such as NAN or an enum.
  */
 int zephir_greater(zval *op1, zval *op2)
 {
 	zval result;
-	is_smaller_or_equal_function(&result, op1, op2);
-	return Z_TYPE(result) == IS_FALSE;
+	is_smaller_function(&result, op2, op1);
+	return Z_TYPE(result) == IS_TRUE;
 }
 
 /**
@@ -571,6 +602,15 @@ int zephir_less_equal_long(zval *op1, zend_long op2)
 	return Z_TYPE(result) == IS_TRUE;
 }
 
+int zephir_less_equal_double(zval *op1, double op2)
+{
+	zval result, op2_zval;
+	ZVAL_DOUBLE(&op2_zval, op2);
+
+	is_smaller_or_equal_function(&result, op1, &op2_zval);
+	return Z_TYPE(result) == IS_TRUE;
+}
+
 /**
  * Check if a zval is greater than a long value
  */
@@ -579,8 +619,8 @@ int zephir_greater_long(zval *op1, zend_long op2)
 	zval result, op2_zval;
 	ZVAL_LONG(&op2_zval, op2);
 
-	is_smaller_or_equal_function(&result, op1, &op2_zval);
-	return Z_TYPE(result) == IS_FALSE;
+	is_smaller_function(&result, &op2_zval, op1);
+	return Z_TYPE(result) == IS_TRUE;
 }
 
 int zephir_greater_double(zval *op1, double op2)
@@ -588,8 +628,8 @@ int zephir_greater_double(zval *op1, double op2)
 	zval result, op2_zval;
 	ZVAL_DOUBLE(&op2_zval, op2);
 
-	is_smaller_or_equal_function(&result, op1, &op2_zval);
-	return Z_TYPE(result) == IS_FALSE;
+	is_smaller_function(&result, &op2_zval, op1);
+	return Z_TYPE(result) == IS_TRUE;
 }
 
 /**
@@ -598,8 +638,8 @@ int zephir_greater_double(zval *op1, double op2)
 int zephir_greater_equal(zval *op1, zval *op2)
 {
 	zval result;
-	is_smaller_function(&result, op1, op2);
-	return Z_TYPE(result) == IS_FALSE;
+	is_smaller_or_equal_function(&result, op2, op1);
+	return Z_TYPE(result) == IS_TRUE;
 }
 
 /**
@@ -609,8 +649,16 @@ int zephir_greater_equal_long(zval *op1, zend_long op2)
 {
 	zval result, op2_zval;
 	ZVAL_LONG(&op2_zval, op2);
-	is_smaller_function(&result, op1, &op2_zval);
-	return Z_TYPE(result) == IS_FALSE;
+	is_smaller_or_equal_function(&result, &op2_zval, op1);
+	return Z_TYPE(result) == IS_TRUE;
+}
+
+int zephir_greater_equal_double(zval *op1, double op2)
+{
+	zval result, op2_zval;
+	ZVAL_DOUBLE(&op2_zval, op2);
+	is_smaller_or_equal_function(&result, &op2_zval, op1);
+	return Z_TYPE(result) == IS_TRUE;
 }
 
 /**

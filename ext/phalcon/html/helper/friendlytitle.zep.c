@@ -56,6 +56,7 @@ PHP_METHOD(Phalcon_Html_Helper_FriendlyTitle, __construct)
 
 	ZVAL_UNDEF(&escaper_sub);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("friendly", 8, 1);
@@ -67,12 +68,12 @@ PHP_METHOD(Phalcon_Html_Helper_FriendlyTitle, __construct)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &escaper);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_html_helper_friendlytitle_ce, getThis(), "__construct", NULL, 0, escaper);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_html_helper_friendlytitle_ce, getThis(), "__construct", &_zephir_call_cache[0], escaper);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_support_helper_str_friendly_ce);
 	if (zephir_has_constructor(&_0)) {
-		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[1]);
 		zephir_check_call_status();
 	}
 
@@ -102,6 +103,7 @@ PHP_METHOD(Phalcon_Html_Helper_FriendlyTitle, __invoke)
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$4);
 	ZVAL_UNDEF(&_4$$4);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[3];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("friendly", 8, 1);
@@ -144,12 +146,15 @@ PHP_METHOD(Phalcon_Html_Helper_FriendlyTitle, __invoke)
 	/* try_start_1: */
 
 		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 852, PH_NOISY_CC | PH_READONLY);
+		if (UNEXPECTED(EG(exception))) {
+			goto try_end_1;
+		}
 		if (lowercase) {
 			ZVAL_BOOL(&_1$$3, 1);
 		} else {
 			ZVAL_BOOL(&_1$$3, 0);
 		}
-		ZEPHIR_RETURN_CALL_METHOD(&_0$$3, "__invoke", NULL, 0, &text_zv, &separator_zv, &_1$$3, replace);
+		ZEPHIR_RETURN_CALL_METHOD_CACHED(&_0$$3, "__invoke", &_zephir_call_cache[0], &text_zv, &separator_zv, &_1$$3, replace);
 		zephir_check_call_status_or_jump(try_end_1);
 		RETURN_MM();
 
@@ -164,9 +169,9 @@ PHP_METHOD(Phalcon_Html_Helper_FriendlyTitle, __invoke)
 			ZEPHIR_CPY_WRT(&ex, &_2);
 			ZEPHIR_INIT_VAR(&_3$$4);
 			object_init_ex(&_3$$4, phalcon_html_exceptions_friendlytitleconversionfailed_ce);
-			ZEPHIR_CALL_METHOD(&_4$$4, &ex, "getMessage", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&_4$$4, &ex, "getMessage", &_zephir_call_cache[1]);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &_3$$4, "__construct", NULL, 0, &_4$$4);
+			ZEPHIR_CALL_METHOD_CACHED(NULL, &_3$$4, "__construct", &_zephir_call_cache[2], &_4$$4);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_3$$4, "phalcon/Html/Helper/FriendlyTitle.zep", 50);
 			ZEPHIR_MM_RESTORE();

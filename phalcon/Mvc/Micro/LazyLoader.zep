@@ -54,7 +54,7 @@ class LazyLoader
             let this->handler = handler;
         }
 
-        if modelBinder != null {
+        if modelBinder !== null {
             let bindCacheKey = "_PHMB_" . definition . "_" . method;
 
             let arguments = modelBinder->bindToHandler(

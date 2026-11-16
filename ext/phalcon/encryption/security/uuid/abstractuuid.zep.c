@@ -170,21 +170,35 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, getNodeProvider)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);
+	ZEND_TLS zephir_static_property_cache _zephir_sprop_cache[3];
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_static_property_ce(&_0, phalcon_encryption_security_uuid_abstractuuid_ce, SL("nodeProvider"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_static_property_cached(&_0, phalcon_encryption_security_uuid_abstractuuid_ce, phalcon_encryption_security_uuid_abstractuuid_ce, SL("nodeProvider"), &_zephir_sprop_cache[0], PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (Z_TYPE_P(&_0) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_encryption_security_uuid_sysnodeprovider_ce);
 		if (zephir_has_constructor(&_1$$3)) {
-			ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[0]);
 			zephir_check_call_status();
 		}
 
-		zephir_update_static_property_ce(phalcon_encryption_security_uuid_abstractuuid_ce, ZEND_STRL("nodeProvider"), &_1$$3);
+		zephir_update_static_property_cached(phalcon_encryption_security_uuid_abstractuuid_ce, phalcon_encryption_security_uuid_abstractuuid_ce, SL("nodeProvider"), &_zephir_sprop_cache[1], &_1$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
-	zephir_read_static_property_ce(&_2, phalcon_encryption_security_uuid_abstractuuid_ce, SL("nodeProvider"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_static_property_cached(&_2, phalcon_encryption_security_uuid_abstractuuid_ce, phalcon_encryption_security_uuid_abstractuuid_ce, SL("nodeProvider"), &_zephir_sprop_cache[2], PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_CTOR(&_2);
 }
 
@@ -215,7 +229,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, namespaceToBytes)
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "");
 	zephir_fast_str_replace(&_0, &_1, &_2, &uuid_zv);
-	ZEPHIR_RETURN_CALL_FUNCTION("hex2bin", NULL, 35, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("hex2bin", NULL, 25, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -243,6 +257,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, uuidTimestampToDateTim
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_7);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(timestamp)
 	ZEND_PARSE_PARAMETERS_END();
@@ -250,7 +265,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, uuidTimestampToDateTim
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &timestamp);
 	ZVAL_LONG(&_0, 10000000);
-	ZEPHIR_CALL_FUNCTION(&_1, "intdiv", &_2, 36, timestamp, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "intdiv", &_2, 26, timestamp, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_LONG(&_3, 12219292800);
@@ -267,14 +282,14 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, uuidTimestampToDateTim
 		return;
 	}
 	ZVAL_LONG(&_0, 10);
-	ZEPHIR_CALL_FUNCTION(&usec, "intdiv", &_2, 36, &_3, &_0);
+	ZEPHIR_CALL_FUNCTION(&usec, "intdiv", &_2, 26, &_3, &_0);
 	zephir_check_call_status();
 	_4 = zephir_fetch_class_str_ex(SL("DateTimeImmutable"), ZEND_FETCH_CLASS_AUTO);
 	ZVAL_LONG(&_0, 6);
 	ZEPHIR_INIT_VAR(&_5);
 	ZVAL_STRING(&_5, "0");
 	ZVAL_LONG(&_6, 0);
-	ZEPHIR_CALL_FUNCTION(&_1, "str_pad", NULL, 37, &usec, &_0, &_5, &_6);
+	ZEPHIR_CALL_FUNCTION(&_1, "str_pad", NULL, 27, &usec, &_0, &_5, &_6);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_7);
 	ZEPHIR_CONCAT_VSV(&_7, &sec, " ", &_1);
@@ -284,7 +299,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, uuidTimestampToDateTim
 	}
 	ZEPHIR_INIT_NVAR(&_5);
 	ZVAL_STRING(&_5, "U u");
-	ZEPHIR_RETURN_CALL_CE_STATIC(_4, "createFromFormat", NULL, 0, &_5, &_7);
+	ZEPHIR_RETURN_CALL_CE_STATIC_CACHED(_4, "createFromFormat", &_zephir_call_cache[0], &_5, &_7);
 	zephir_check_call_status();
 	RETURN_MM();
 }

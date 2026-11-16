@@ -46,6 +46,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exceptions_UnknownVoltStatement, __const
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_LONG(type)
 		Z_PARAM_STR(file)
@@ -67,7 +68,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exceptions_UnknownVoltStatement, __const
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_view_engine_volt_exceptions_unknownvoltstatement_ce, getThis(), "__construct", NULL, 0, &_2);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_mvc_view_engine_volt_exceptions_unknownvoltstatement_ce, getThis(), "__construct", &_zephir_call_cache[0], &_2);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

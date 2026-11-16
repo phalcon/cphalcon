@@ -205,7 +205,7 @@ class Uniqueness extends AbstractCombinedFieldsValidator
             let values[singleField] = validation->getValue(singleField);
         }
 
-        if convert != null {
+        if convert !== null {
             let values = {convert}(values);
 
             if unlikely !is_array(values) {
@@ -267,7 +267,7 @@ class Uniqueness extends AbstractCombinedFieldsValidator
             let attribute = this->getOption("attribute", singleField);
             let attribute = this->getColumnNameReal(record, attribute);
 
-            if value != null {
+            if value !== null {
                 let params["conditions"][] = attribute . " = ?" . index;
                 let params["bind"][] = value;
                 let index++;

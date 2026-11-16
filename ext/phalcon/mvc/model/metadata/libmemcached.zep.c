@@ -63,6 +63,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, __construct)
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&options);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[4];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("adapter", 7, 1);
@@ -86,7 +87,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, __construct)
 	ZVAL_STRING(&_1, "persistentId");
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "ph-mm-mcid-");
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getArrVal", NULL, 0, &options, &_1, &_2);
+	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "getArrVal", &_zephir_call_cache[0], &options, &_1, &_2);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("persistentId"), &_0, PH_COPY | PH_SEPARATE);
 	if (UNEXPECTED(EG(exception))) {
@@ -97,7 +98,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, __construct)
 	ZVAL_STRING(&_1, "prefix");
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "ph-mm-memc-");
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getArrVal", NULL, 0, &options, &_1, &_2);
+	ZEPHIR_CALL_METHOD_CACHED(&_3, this_ptr, "getArrVal", &_zephir_call_cache[1], &options, &_1, &_2);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("prefix"), &_3, PH_COPY | PH_SEPARATE);
 	if (UNEXPECTED(EG(exception))) {
@@ -107,7 +108,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, __construct)
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "lifetime");
 	ZVAL_LONG(&_5, 172800);
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "getArrVal", NULL, 0, &options, &_1, &_5);
+	ZEPHIR_CALL_METHOD_CACHED(&_4, this_ptr, "getArrVal", &_zephir_call_cache[2], &options, &_1, &_5);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("lifetime"), &_4, PH_COPY | PH_SEPARATE);
 	if (UNEXPECTED(EG(exception))) {
@@ -116,7 +117,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, __construct)
 	}
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "libmemcached");
-	ZEPHIR_CALL_METHOD(&_6, factory, "newInstance", NULL, 0, &_1, &options);
+	ZEPHIR_CALL_METHOD_CACHED(&_6, factory, "newInstance", &_zephir_call_cache[3], &_1, &options);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1069, &_6);
 	ZEPHIR_MM_RESTORE();
@@ -133,6 +134,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, reset)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("adapter", 7, 1);
@@ -141,9 +143,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, reset)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1069, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "clear", NULL, 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "clear", &_zephir_call_cache[0]);
 	zephir_check_call_status();
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_metadata_libmemcached_ce, getThis(), "reset", NULL, 0);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_mvc_model_metadata_libmemcached_ce, getThis(), "reset", &_zephir_call_cache[1]);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

@@ -190,6 +190,38 @@ final class RenderHtmlTest extends AbstractUnitTestCase
 
     /**
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-06
+     */
+    public function testSupportDebugRenderHtmlWithNestedRequestBlacklist(): void
+    {
+        $hidden           = uniqid('hidden-');
+        $shown            = uniqid('shown-');
+        $exception        = new Exception('exception message', 1234);
+        $debug            = new Debug();
+        $request          = $_REQUEST;
+        $_REQUEST['user'] = [
+            'name'    => $shown,
+            'profile' => [
+                'PassWord' => $hidden,
+            ],
+        ];
+
+        $debug->setShowBackTrace(true);
+        $debug->setBlacklist(
+            [
+                'request' => ['passWORD'],
+            ],
+        );
+
+        $actual   = $debug->renderHtml($exception);
+        $_REQUEST = $request;
+
+        $this->assertStringContainsString($shown, $actual);
+        $this->assertStringNotContainsString($hidden, $actual);
+    }
+
+    /**
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-11
      */
     public function testSupportDebugRenderHtmlWithRequestBlacklist(): void

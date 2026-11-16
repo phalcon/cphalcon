@@ -84,7 +84,6 @@ final class HtmlRendererEscapeTest extends AbstractUnitTestCase
                     '/app/x.php',
                     2,
                     [
-                        'mode'      => 'php',
                         'firstLine' => 1,
                         'line'      => 2,
                         'lastLine'  => 2,

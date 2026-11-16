@@ -36,6 +36,7 @@ PHP_METHOD(phalcon_19__closure, __invoke)
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&attributes);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_ZVAL(name_param)
 		ZEPHIR_Z_PARAM_ARRAY(options, options_param)
@@ -48,7 +49,7 @@ PHP_METHOD(phalcon_19__closure, __invoke)
 	zephir_get_arrval(&options, options_param);
 	zephir_get_arrval(&attributes, attributes_param);
 	object_init_ex(return_value, phalcon_forms_element_check_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &name, &attributes);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &name, &attributes);
 	zephir_check_call_status();
 	RETURN_MM();
 }

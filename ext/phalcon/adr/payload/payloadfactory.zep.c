@@ -61,6 +61,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, accepted)
 
 	ZVAL_UNDEF(&result_sub);
 	ZVAL_NULL(&__$null);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -73,7 +74,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, accepted)
 		result = &result_sub;
 		result = &__$null;
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_adr_payload_payload_ce, "accepted", NULL, 0, result);
+	ZEPHIR_RETURN_CALL_CE_STATIC_CACHED(phalcon_adr_payload_payload_ce, "accepted", &_zephir_call_cache[0], result);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -89,6 +90,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, authenticated)
 
 	ZVAL_UNDEF(&result_sub);
 	ZVAL_NULL(&__$null);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -101,7 +103,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, authenticated)
 		result = &result_sub;
 		result = &__$null;
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_adr_payload_payload_ce, "authenticated", NULL, 0, result);
+	ZEPHIR_RETURN_CALL_CE_STATIC_CACHED(phalcon_adr_payload_payload_ce, "authenticated", &_zephir_call_cache[0], result);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -117,6 +119,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, authorized)
 
 	ZVAL_UNDEF(&result_sub);
 	ZVAL_NULL(&__$null);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -129,7 +132,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, authorized)
 		result = &result_sub;
 		result = &__$null;
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_adr_payload_payload_ce, "authorized", NULL, 0, result);
+	ZEPHIR_RETURN_CALL_CE_STATIC_CACHED(phalcon_adr_payload_payload_ce, "authorized", &_zephir_call_cache[0], result);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -145,6 +148,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, created)
 
 	ZVAL_UNDEF(&result_sub);
 	ZVAL_NULL(&__$null);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -157,7 +161,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, created)
 		result = &result_sub;
 		result = &__$null;
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_adr_payload_payload_ce, "created", NULL, 0, result);
+	ZEPHIR_RETURN_CALL_CE_STATIC_CACHED(phalcon_adr_payload_payload_ce, "created", &_zephir_call_cache[0], result);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -173,6 +177,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, deleted)
 
 	ZVAL_UNDEF(&result_sub);
 	ZVAL_NULL(&__$null);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -185,7 +190,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, deleted)
 		result = &result_sub;
 		result = &__$null;
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_adr_payload_payload_ce, "deleted", NULL, 0, result);
+	ZEPHIR_RETURN_CALL_CE_STATIC_CACHED(phalcon_adr_payload_payload_ce, "deleted", &_zephir_call_cache[0], result);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -201,6 +206,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, error)
 
 	ZVAL_UNDEF(&messages_sub);
 	ZVAL_NULL(&__$null);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -213,7 +219,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, error)
 		messages = &messages_sub;
 		messages = &__$null;
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_adr_payload_payload_ce, "error", NULL, 0, messages);
+	ZEPHIR_RETURN_CALL_CE_STATIC_CACHED(phalcon_adr_payload_payload_ce, "error", &_zephir_call_cache[0], messages);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -229,6 +235,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, forbidden)
 
 	ZVAL_UNDEF(&messages_sub);
 	ZVAL_NULL(&__$null);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -241,7 +248,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, forbidden)
 		messages = &messages_sub;
 		messages = &__$null;
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_adr_payload_payload_ce, "forbidden", NULL, 0, messages);
+	ZEPHIR_RETURN_CALL_CE_STATIC_CACHED(phalcon_adr_payload_payload_ce, "forbidden", &_zephir_call_cache[0], messages);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -257,6 +264,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, found)
 
 	ZVAL_UNDEF(&result_sub);
 	ZVAL_NULL(&__$null);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -269,7 +277,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, found)
 		result = &result_sub;
 		result = &__$null;
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_adr_payload_payload_ce, "found", NULL, 0, result);
+	ZEPHIR_RETURN_CALL_CE_STATIC_CACHED(phalcon_adr_payload_payload_ce, "found", &_zephir_call_cache[0], result);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -285,6 +293,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, invalid)
 
 	ZVAL_UNDEF(&messages_sub);
 	ZVAL_NULL(&__$null);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -297,7 +306,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, invalid)
 		messages = &messages_sub;
 		messages = &__$null;
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_adr_payload_payload_ce, "invalid", NULL, 0, messages);
+	ZEPHIR_RETURN_CALL_CE_STATIC_CACHED(phalcon_adr_payload_payload_ce, "invalid", &_zephir_call_cache[0], messages);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -313,6 +322,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, notAccepted)
 
 	ZVAL_UNDEF(&messages_sub);
 	ZVAL_NULL(&__$null);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -325,7 +335,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, notAccepted)
 		messages = &messages_sub;
 		messages = &__$null;
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_adr_payload_payload_ce, "notAccepted", NULL, 0, messages);
+	ZEPHIR_RETURN_CALL_CE_STATIC_CACHED(phalcon_adr_payload_payload_ce, "notAccepted", &_zephir_call_cache[0], messages);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -341,6 +351,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, notCreated)
 
 	ZVAL_UNDEF(&messages_sub);
 	ZVAL_NULL(&__$null);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -353,7 +364,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, notCreated)
 		messages = &messages_sub;
 		messages = &__$null;
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_adr_payload_payload_ce, "notCreated", NULL, 0, messages);
+	ZEPHIR_RETURN_CALL_CE_STATIC_CACHED(phalcon_adr_payload_payload_ce, "notCreated", &_zephir_call_cache[0], messages);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -369,6 +380,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, notDeleted)
 
 	ZVAL_UNDEF(&messages_sub);
 	ZVAL_NULL(&__$null);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -381,7 +393,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, notDeleted)
 		messages = &messages_sub;
 		messages = &__$null;
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_adr_payload_payload_ce, "notDeleted", NULL, 0, messages);
+	ZEPHIR_RETURN_CALL_CE_STATIC_CACHED(phalcon_adr_payload_payload_ce, "notDeleted", &_zephir_call_cache[0], messages);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -397,6 +409,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, notFound)
 
 	ZVAL_UNDEF(&messages_sub);
 	ZVAL_NULL(&__$null);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -409,7 +422,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, notFound)
 		messages = &messages_sub;
 		messages = &__$null;
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_adr_payload_payload_ce, "notFound", NULL, 0, messages);
+	ZEPHIR_RETURN_CALL_CE_STATIC_CACHED(phalcon_adr_payload_payload_ce, "notFound", &_zephir_call_cache[0], messages);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -425,6 +438,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, notUpdated)
 
 	ZVAL_UNDEF(&messages_sub);
 	ZVAL_NULL(&__$null);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -437,7 +451,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, notUpdated)
 		messages = &messages_sub;
 		messages = &__$null;
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_adr_payload_payload_ce, "notUpdated", NULL, 0, messages);
+	ZEPHIR_RETURN_CALL_CE_STATIC_CACHED(phalcon_adr_payload_payload_ce, "notUpdated", &_zephir_call_cache[0], messages);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -453,6 +467,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, processing)
 
 	ZVAL_UNDEF(&result_sub);
 	ZVAL_NULL(&__$null);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -465,7 +480,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, processing)
 		result = &result_sub;
 		result = &__$null;
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_adr_payload_payload_ce, "processing", NULL, 0, result);
+	ZEPHIR_RETURN_CALL_CE_STATIC_CACHED(phalcon_adr_payload_payload_ce, "processing", &_zephir_call_cache[0], result);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -481,6 +496,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, success)
 
 	ZVAL_UNDEF(&result_sub);
 	ZVAL_NULL(&__$null);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -493,7 +509,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, success)
 		result = &result_sub;
 		result = &__$null;
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_adr_payload_payload_ce, "success", NULL, 0, result);
+	ZEPHIR_RETURN_CALL_CE_STATIC_CACHED(phalcon_adr_payload_payload_ce, "success", &_zephir_call_cache[0], result);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -509,6 +525,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, unauthenticated)
 
 	ZVAL_UNDEF(&messages_sub);
 	ZVAL_NULL(&__$null);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -521,7 +538,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, unauthenticated)
 		messages = &messages_sub;
 		messages = &__$null;
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_adr_payload_payload_ce, "unauthenticated", NULL, 0, messages);
+	ZEPHIR_RETURN_CALL_CE_STATIC_CACHED(phalcon_adr_payload_payload_ce, "unauthenticated", &_zephir_call_cache[0], messages);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -537,6 +554,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, updated)
 
 	ZVAL_UNDEF(&result_sub);
 	ZVAL_NULL(&__$null);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -549,7 +567,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, updated)
 		result = &result_sub;
 		result = &__$null;
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_adr_payload_payload_ce, "updated", NULL, 0, result);
+	ZEPHIR_RETURN_CALL_CE_STATIC_CACHED(phalcon_adr_payload_payload_ce, "updated", &_zephir_call_cache[0], result);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -565,6 +583,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, valid)
 
 	ZVAL_UNDEF(&result_sub);
 	ZVAL_NULL(&__$null);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -577,7 +596,7 @@ PHP_METHOD(Phalcon_ADR_Payload_PayloadFactory, valid)
 		result = &result_sub;
 		result = &__$null;
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_adr_payload_payload_ce, "valid", NULL, 0, result);
+	ZEPHIR_RETURN_CALL_CE_STATIC_CACHED(phalcon_adr_payload_payload_ce, "valid", &_zephir_call_cache[0], result);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -35,6 +35,7 @@ PHP_METHOD(phalcon_3__closure, __invoke)
 	ZVAL_UNDEF(&adapters);
 	ZVAL_UNDEF(&noop);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(container)
 	ZEND_PARSE_PARAMETERS_END();
@@ -44,7 +45,7 @@ PHP_METHOD(phalcon_3__closure, __invoke)
 	ZEPHIR_INIT_VAR(&noop);
 	object_init_ex(&noop, phalcon_logger_adapter_noop_ce);
 	if (zephir_has_constructor(&noop)) {
-		ZEPHIR_CALL_METHOD(NULL, &noop, "__construct", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &noop, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
 	}
 
@@ -54,7 +55,7 @@ PHP_METHOD(phalcon_3__closure, __invoke)
 	object_init_ex(return_value, phalcon_logger_logger_ce);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "adr");
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &_0, &adapters);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[1], &_0, &adapters);
 	zephir_check_call_status();
 	RETURN_MM();
 }

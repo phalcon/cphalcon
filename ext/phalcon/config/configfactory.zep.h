@@ -24,7 +24,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_config_configfactory_newinstance, 0, 2, Phalcon\\Config\\ConfigInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, fileName, IS_STRING, 0)
-	ZEND_ARG_INFO(0, params)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, params, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_config_configfactory_getadapteraliases, 0, 0, IS_ARRAY, 0)

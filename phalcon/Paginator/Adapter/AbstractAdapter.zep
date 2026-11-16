@@ -56,6 +56,8 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function __construct(array config)
     {
+        let this->repository = new Repository();
+
         let this->config = config;
 
         if unlikely !isset config["limit"] {
@@ -127,10 +129,6 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     protected function getRepository(array properties = null) -> <RepositoryInterface>
     {
-        if typeof this->repository != "object" {
-            let this->repository = new Repository();
-        }
-
         if properties !== null {
             this->repository->setProperties(properties);
         }

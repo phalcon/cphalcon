@@ -64,6 +64,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Textarea, __toString)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&attributes);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -76,6 +77,10 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Textarea, __toString)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 868, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (UNEXPECTED(Z_TYPE_P(&_0) != IS_ARRAY)) {
 		zephir_throw_variable_type_error(&_0, "attributes", "array");
 		ZEPHIR_MM_RESTORE();
@@ -106,7 +111,11 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Textarea, __toString)
 		return;
 	}
 	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_1, 869, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderFullElement", NULL, 0, &_3, &value, &attributes);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "renderFullElement", &_zephir_call_cache[0], &_3, &value, &attributes);
 	zephir_check_call_status();
 	RETURN_MM();
 }

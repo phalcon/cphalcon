@@ -45,6 +45,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Exceptions_RelationAliasMustBeString, __construct)
 	ZVAL_UNDEF(&entityName_zv);
 	ZVAL_UNDEF(&referencedEntity_zv);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_STR(relationType)
 		Z_PARAM_STR(entityName)
@@ -64,7 +65,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Exceptions_RelationAliasMustBeString, __construct)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_exceptions_relationaliasmustbestring_ce, getThis(), "__construct", NULL, 0, &_0);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_mvc_model_exceptions_relationaliasmustbestring_ce, getThis(), "__construct", &_zephir_call_cache[0], &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

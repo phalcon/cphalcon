@@ -281,7 +281,7 @@ static void populate_fcic(zend_fcall_info_cache* fcic, zephir_call_type type, ze
 	}
 
 	fcic->called_scope = called_scope;
-	calling_scope = zend_get_called_scope(EG(current_execute_data));
+	calling_scope = zephir_get_called_scope(EG(current_execute_data));
 	fcic->object = this_ptr ? Z_OBJ_P(this_ptr) : NULL;
 	switch (type) {
 		case zephir_fcall_parent:
@@ -639,9 +639,85 @@ int zephir_check_clone_access(const zval *object)
 }
 
 /**
- * Calls a function/method in the PHP userland
+ * Copies the arguments into the array zend_call_function() reads, and makes
+ * the call.
  */
-int zephir_call_user_function(
+static int zephir_invoke(zend_fcall_info *fci, zend_fcall_info_cache *fcic, uint32_t param_count, zval **params)
+{
+	int status;
+	uint32_t i;
+
+#ifdef _MSC_VER
+	zval *p = emalloc(sizeof(zval) * (param_count + 1));
+#else
+	zval p[param_count];
+#endif
+
+	/**
+	 * zend_call_function() leaves this check to zend_is_callable(), which a
+	 * resolved handler skips, and would run a non-static method without an
+	 * object. PHP throws instead, e.g. for `self::m()` in a static method.
+	 *
+	 * @see https://github.com/zephir-lang/zephir/issues/2825
+	 */
+	if (
+		fcic->function_handler
+		&& !fcic->object
+		&& fcic->function_handler->common.scope
+		&& !(fcic->function_handler->common.fn_flags & (ZEND_ACC_STATIC | ZEND_ACC_CLOSURE))
+	) {
+		zend_throw_error(
+			NULL,
+			"Non-static method %s::%s() cannot be called statically",
+			ZSTR_VAL(fcic->function_handler->common.scope->name),
+			ZSTR_VAL(fcic->function_handler->common.function_name)
+		);
+
+#ifdef _MSC_VER
+		efree(p);
+#endif
+
+		return FAILURE;
+	}
+
+	for (i = 0; i < param_count; ++i) {
+		ZVAL_COPY_VALUE(&p[i], params[i]);
+	}
+
+	fci->param_count = param_count;
+	fci->params      = p;
+
+	status = zend_call_function(fci, fcic);
+
+#ifdef _MSC_VER
+	efree(p);
+#endif
+
+	return status;
+}
+
+/**
+ * Leaves the return value of a call the way every Zephir call leaves it:
+ * NULL after a failure or an exception, and an array separated.
+ */
+static void zephir_finish_call(zval *retval_ptr, zval *local_retval_ptr, int status)
+{
+	if (!retval_ptr) {
+		zval_ptr_dtor(local_retval_ptr);
+	} else if (FAILURE == status || EG(exception)) {
+		ZVAL_NULL(retval_ptr);
+	} else if (Z_TYPE_P(retval_ptr) == IS_ARRAY) {
+		SEPARATE_ARRAY(retval_ptr);
+	}
+}
+
+/**
+ * Calls a function/method in the PHP userland
+ *
+ * `site`, when given, is the inline cache of the call site, filled once the
+ * method is resolved (#2790).
+ */
+static int zephir_call_user_function(
     zval *object_pp,
     zend_class_entry *obj_ce,
     zephir_call_type type,
@@ -649,6 +725,7 @@ int zephir_call_user_function(
 	zval *retval_ptr,
 	zephir_fcall_cache_entry **cache_entry,
 	int cache_slot,
+	zephir_method_cache *site,
 	uint32_t param_count,
 	zval *params[]
 ) {
@@ -664,7 +741,7 @@ int zephir_call_user_function(
 	zend_function *raw_handler;
 	bool raw_is_trampoline;
 	zval callable;
-	zend_class_entry* called_scope = zend_get_called_scope(EG(current_execute_data));
+	zend_class_entry* called_scope = zephir_get_called_scope(EG(current_execute_data));
 
 	assert(obj_ce || !object_pp);
 	ZVAL_UNDEF(&callable);
@@ -810,28 +887,30 @@ int zephir_call_user_function(
 		fcic.function_handler = resolved;
 	}
 
-#ifdef _MSC_VER
-	zval *p = emalloc(sizeof(zval) * (fci.param_count + 1));
-#else
-	zval p[fci.param_count];
-#endif
-
-	uint32_t i;
-	for (i = 0; i < fci.param_count; ++i) {
-		ZVAL_COPY_VALUE(&p[i], params[i]);
+	/**
+	 * The method found in the class, settled for the calling class, is all a
+	 * call site's cache keeps. A trampoline is never kept: the engine frees
+	 * it once it has run, and which one a call gets depends on more than the
+	 * two classes (#2790).
+	 */
+	if (
+		site
+		&& obj_ce
+		&& raw_handler
+		&& !raw_is_trampoline
+		&& !(fcic.function_handler->common.fn_flags & ZEND_ACC_CALL_VIA_TRAMPOLINE)
+	) {
+		site->ce      = obj_ce;
+		site->scope   = zephir_get_calling_scope();
+		site->func    = fcic.function_handler;
+		site->request = zephir_globals_ptr->request_number;
 	}
 
-	fci.params = p;
 	if (!fcic.function_handler) {
 		ZVAL_COPY_VALUE(&fci.function_name, &callable);
 	}
 
-	status = zend_call_function(&fci, &fcic);
-
-
-#ifdef _MSC_VER
-	efree(p);
-#endif
+	status = zephir_invoke(&fci, &fcic, param_count, params);
 
 	if (Z_TYPE(callable) != IS_UNDEF) {
 		zval_ptr_dtor(&callable);
@@ -865,13 +944,61 @@ int zephir_call_user_function(
 		}
 	}
 
-	if (!retval_ptr) {
-		zval_ptr_dtor(&local_retval_ptr);
-	} else if (FAILURE == status || EG(exception)) {
-		ZVAL_NULL(retval_ptr);
-	} else if (Z_TYPE_P(retval_ptr) == IS_ARRAY) {
-		SEPARATE_ARRAY(retval_ptr);
+	zephir_finish_call(retval_ptr, &local_retval_ptr, status);
+
+	return status;
+}
+
+/**
+ * The call a call site makes when its cache holds the method: the object and
+ * scopes populate_fcic() gives the same call, with no name to copy, no key to
+ * build, no lookup and no visibility check (#2790).
+ */
+static int zephir_call_cached_method(
+	zval *retval_ptr,
+	zend_class_entry *ce,
+	zephir_call_type type,
+	zval *object,
+	zend_function *func,
+	uint32_t param_count,
+	zval **params
+) {
+	zval local_retval_ptr;
+	zend_fcall_info fci;
+	zend_fcall_info_cache fcic;
+	int status;
+
+	ZVAL_UNDEF(&local_retval_ptr);
+
+	fcic.function_handler = func;
+	fcic.object           = object ? Z_OBJ_P(object) : NULL;
+
+	switch (type) {
+		case zephir_fcall_parent:
+			fcic.calling_scope = ce->parent;
+			fcic.called_scope  = zephir_get_called_scope(EG(current_execute_data));
+			break;
+
+		case zephir_fcall_self:
+		case zephir_fcall_static:
+			fcic.calling_scope = ce;
+			fcic.called_scope  = zephir_get_called_scope(EG(current_execute_data));
+			break;
+
+		default:
+			fcic.calling_scope = ce;
+			fcic.called_scope  = ce;
+			break;
 	}
+
+	fci.size         = sizeof(fci);
+	fci.object       = fcic.object;
+	fci.retval       = retval_ptr ? retval_ptr : &local_retval_ptr;
+	fci.named_params = NULL;
+	ZVAL_UNDEF(&fci.function_name);
+
+	status = zephir_invoke(&fci, &fcic, param_count, params);
+	zephir_finish_call(retval_ptr, &local_retval_ptr, status);
 
 	return status;
 }
@@ -900,7 +1027,7 @@ int zephir_call_func_aparams(
 
 	zval f;
 	ZVAL_STRINGL(&f, func_name, func_length);
-	status = zephir_call_user_function(NULL, NULL, zephir_fcall_function, &f, rvp, cache_entry, cache_slot, param_count, params);
+	status = zephir_call_user_function(NULL, NULL, zephir_fcall_function, &f, rvp, cache_entry, cache_slot, NULL, param_count, params);
 	zval_ptr_dtor(&f);
 
 	if (status == FAILURE && !EG(exception)) {
@@ -1013,7 +1140,7 @@ int zephir_call_zval_func_aparams(
 	}
 #endif
 
-	status = zephir_call_user_function(NULL, NULL, zephir_fcall_function, func_name, rvp, cache_entry, cache_slot, param_count, params);
+	status = zephir_call_user_function(NULL, NULL, zephir_fcall_function, func_name, rvp, cache_entry, cache_slot, NULL, param_count, params);
 
 	if (status == FAILURE && !EG(exception) && Z_TYPE_P(func_name) == IS_ARRAY) {
 		zephir_throw_array_callback_error(func_name);
@@ -1031,15 +1158,31 @@ int zephir_call_zval_func_aparams(
 	return status;
 }
 
-int zephir_call_class_method_aparams(
-    zval *return_value,
-    zend_class_entry *ce,
-    zephir_call_type type,
-    zval *object,
+/**
+ * Whether a call site's cache was filled in this request, for code of the
+ * class that is calling now.
+ */
+static zend_always_inline bool zephir_method_cache_is_current(const zephir_method_cache *site)
+{
+	zend_zephir_globals_def *zephir_globals_ptr = ZEPHIR_VGLOBAL;
+
+	return site->request == zephir_globals_ptr->request_number && site->scope == zephir_get_calling_scope();
+}
+
+/**
+ * Calls a method by a name known at compile time, through the call site's
+ * inline cache when it has one (#2790).
+ */
+static int zephir_call_class_method_site(
+	zval *return_value,
+	zend_class_entry *ce,
+	zephir_call_type type,
+	zval *object,
 	const char *method_name,
 	uint32_t method_len,
 	zephir_fcall_cache_entry **cache_entry,
 	int cache_slot,
+	zephir_method_cache *site,
 	uint32_t param_count,
 	zval **params
 ) {
@@ -1075,10 +1218,14 @@ int zephir_call_class_method_aparams(
 		return FAILURE;
 	}
 
-	zval method;
-	ZVAL_STRINGL(&method, method_name, method_len);
-	status = zephir_call_user_function(object, ce, type, &method, return_value, cache_entry, cache_slot, param_count, params);
-	zval_ptr_dtor(&method);
+	if (site && ce && site->ce == ce && zephir_method_cache_is_current(site)) {
+		status = zephir_call_cached_method(return_value, ce, type, object, site->func, param_count, params);
+	} else {
+		zval method;
+		ZVAL_STRINGL(&method, method_name, method_len);
+		status = zephir_call_user_function(object, ce, type, &method, return_value, cache_entry, cache_slot, site, param_count, params);
+		zval_ptr_dtor(&method);
+	}
 
 	if (status == FAILURE && !EG(exception)) {
 		/**
@@ -1095,7 +1242,7 @@ int zephir_call_class_method_aparams(
 				break;
 
 			case zephir_fcall_static:
-				scope = zend_get_called_scope(EG(current_execute_data));
+				scope = zephir_get_called_scope(EG(current_execute_data));
 				if (!scope) {
 					scope = ce;
 				}
@@ -1116,6 +1263,35 @@ int zephir_call_class_method_aparams(
 	}
 
 	return status;
+}
+
+int zephir_call_class_method_aparams(
+	zval *return_value,
+	zend_class_entry *ce,
+	zephir_call_type type,
+	zval *object,
+	const char *method_name,
+	uint32_t method_len,
+	zephir_fcall_cache_entry **cache_entry,
+	int cache_slot,
+	uint32_t param_count,
+	zval **params
+) {
+	return zephir_call_class_method_site(return_value, ce, type, object, method_name, method_len, cache_entry, cache_slot, NULL, param_count, params);
+}
+
+int zephir_call_class_method_cached(
+	zval *return_value,
+	zend_class_entry *ce,
+	zephir_call_type type,
+	zval *object,
+	const char *method_name,
+	uint32_t method_len,
+	zephir_method_cache *cache,
+	uint32_t param_count,
+	zval **params
+) {
+	return zephir_call_class_method_site(return_value, ce, type, object, method_name, method_len, NULL, 0, cache, param_count, params);
 }
 
 /**

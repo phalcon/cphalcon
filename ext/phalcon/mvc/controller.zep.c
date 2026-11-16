@@ -81,11 +81,13 @@ PHP_METHOD(Phalcon_Mvc_Controller, __construct)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
+
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	if ((zephir_method_exists_ex(this_ptr, ZEND_STRL("onconstruct")) == SUCCESS)) {
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "onConstruct", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "onConstruct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
@@ -112,6 +114,10 @@ PHP_METHOD(Phalcon_Mvc_Controller, getEventsManager)
 
 	zephir_memory_observe(&_0);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 987, PH_NOISY_CC);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_CCTOR(&_0);
 }
 
@@ -161,6 +167,7 @@ PHP_METHOD(Phalcon_Mvc_Controller, fireManagerEvent)
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&eventsManager);
 	ZVAL_UNDEF(&_0$$3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("eventsManager", 13, 1);
@@ -193,13 +200,17 @@ PHP_METHOD(Phalcon_Mvc_Controller, fireManagerEvent)
 		}
 	zephir_memory_observe(&eventsManager);
 	zephir_read_property_cached(&eventsManager, this_ptr, _zephir_prop_0, 987, PH_NOISY_CC);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (Z_TYPE_P(&eventsManager) != IS_NULL) {
 		if (cancellable) {
 			ZVAL_BOOL(&_0$$3, 1);
 		} else {
 			ZVAL_BOOL(&_0$$3, 0);
 		}
-		ZEPHIR_RETURN_CALL_METHOD(&eventsManager, "fire", NULL, 0, &eventName_zv, this_ptr, data, &_0$$3);
+		ZEPHIR_RETURN_CALL_METHOD_CACHED(&eventsManager, "fire", &_zephir_call_cache[0], &eventName_zv, this_ptr, data, &_0$$3);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

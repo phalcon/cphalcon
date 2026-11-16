@@ -40,7 +40,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_escaper___construct, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_escaper_attributes, 0, 0, IS_STRING, 0)
-	ZEND_ARG_INFO(0, input)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, input, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_escaper_css, 0, 1, IS_STRING, 0)

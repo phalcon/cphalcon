@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Mvc_Model, validate);
 zend_object *zephir_init_properties_Phalcon_Mvc_Model(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model___construct, 0, 0, 0)
-	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, data, "null")
 	ZEND_ARG_OBJ_TYPE_MASK(0, container, Phalcon\\Di\\DiInterface, MAY_BE_NULL, "null")
 	ZEND_ARG_OBJ_TYPE_MASK(0, modelsManager, Phalcon\\Mvc\\Model\\ManagerInterface, MAY_BE_NULL, "null")
 ZEND_END_ARG_INFO()
@@ -177,23 +177,23 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_cloneresultmaphydrate, 0, 0, 3)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_phalcon_mvc_model_count, 0, 0, Phalcon\\Mvc\\Model\\ResultsetInterface, MAY_BE_LONG)
-	ZEND_ARG_INFO(0, parameters)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, parameters, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_find, 0, 0, Phalcon\\Mvc\\Model\\ResultsetInterface, 0)
-	ZEND_ARG_INFO(0, parameters)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, parameters, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_findfirst, 0, 0, 0)
-	ZEND_ARG_INFO(0, parameters)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, parameters, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_maximum, 0, 0, 0)
-	ZEND_ARG_INFO(0, parameters)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, parameters, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_minimum, 0, 0, 0)
-	ZEND_ARG_INFO(0, parameters)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, parameters, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query, 0, 0, Phalcon\\Mvc\\Model\\CriteriaInterface, 0)
@@ -201,13 +201,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query, 0, 0, Ph
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_phalcon_mvc_model_sum, 0, 0, Phalcon\\Mvc\\Model\\ResultsetInterface, MAY_BE_DOUBLE)
-	ZEND_ARG_INFO(0, parameters)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, parameters, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_groupresult, 0, 0, 2)
 	ZEND_ARG_TYPE_INFO(0, functionName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, alias, IS_STRING, 0)
-	ZEND_ARG_INFO(0, parameters)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, parameters, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_invokefinder, 0, 0, 2)
@@ -217,7 +217,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_getpreparedquery, 0, 1, Phalcon\\Mvc\\Model\\QueryInterface, 0)
 	ZEND_ARG_INFO(0, params)
-	ZEND_ARG_INFO(0, limit)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, limit, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_loadeager, 0, 3, IS_VOID, 0)
@@ -243,8 +243,8 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_assign, 0, 1, Phalcon\\Mvc\\ModelInterface, 0)
 	ZEND_ARG_ARRAY_INFO(0, data, 0)
-	ZEND_ARG_INFO(0, whiteList)
-	ZEND_ARG_INFO(0, dataColumnMap)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, whiteList, "null")
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, dataColumnMap, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_create, 0, 0, _IS_BOOL, 0)
@@ -278,7 +278,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_geteventsmanage
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_getmessages, 0, 0, IS_ARRAY, 0)
-	ZEND_ARG_INFO(0, filter)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, filter, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_getmodelsmanager, 0, 0, Phalcon\\Mvc\\Model\\ManagerInterface, 0)
@@ -301,7 +301,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_getrelated, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, alias, IS_STRING, 0)
-	ZEND_ARG_INFO(0, arguments)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, arguments, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_getschema, 0, 0, IS_STRING, 1)
@@ -326,7 +326,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_getwriteconnec
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_haschanged, 0, 0, _IS_BOOL, 0)
-	ZEND_ARG_INFO(0, fieldName)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, fieldName, "null")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, allFields, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
@@ -334,7 +334,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_hassnapshotdat
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_hasupdated, 0, 0, _IS_BOOL, 0)
-	ZEND_ARG_INFO(0, fieldName)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, fieldName, "null")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, allFields, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
@@ -373,7 +373,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_setoldsnapshotdata, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, data, 0)
-	ZEND_ARG_INFO(0, columnMap)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, columnMap, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_setreadconnectionservice, 0, 1, IS_VOID, 0)
@@ -389,11 +389,11 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_setsnapshotdata, 0, 1, IS_VOID, 0)
 
 	ZEND_ARG_ARRAY_INFO(0, data, 0)
-	ZEND_ARG_INFO(0, columnMap)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, columnMap, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_setsync, 0, 0, Phalcon\\Mvc\\ModelInterface, 0)
-	ZEND_ARG_INFO(0, elements)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, elements, "null")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, enabled, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 
@@ -412,8 +412,8 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_skipoperation,
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_toarray, 0, 0, IS_ARRAY, 0)
-	ZEND_ARG_INFO(0, columns)
-	ZEND_ARG_INFO(0, useGetter)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, columns, "null")
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, useGetter, "true")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_unserialize, 0, 1, IS_VOID, 0)

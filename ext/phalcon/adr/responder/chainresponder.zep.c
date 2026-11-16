@@ -97,6 +97,7 @@ PHP_METHOD(Phalcon_ADR_Responder_ChainResponder, __invoke)
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&_7$$4);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[6];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("links", 5, 1);
@@ -112,6 +113,10 @@ PHP_METHOD(Phalcon_ADR_Responder_ChainResponder, __invoke)
 	zephir_fetch_params(1, 3, 0, &request, &response, &payload);
 	ZEPHIR_SEPARATE_PARAM(response);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 98, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (Z_TYPE_P(&_0) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_2);
 		zephir_string_to_char_array(&_2, &_0);
@@ -125,29 +130,29 @@ PHP_METHOD(Phalcon_ADR_Responder_ChainResponder, __invoke)
 		{
 			ZEPHIR_INIT_NVAR(&link);
 			ZVAL_COPY(&link, _3);
-			ZEPHIR_CALL_METHOD(&_4$$3, &link, "__invoke", NULL, 0, request, response, payload);
+			ZEPHIR_CALL_METHOD_CACHED(&_4$$3, &link, "__invoke", &_zephir_call_cache[0], request, response, payload);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(response, &_4$$3);
 		} ZEND_HASH_FOREACH_END();
 	} else {
-		ZEPHIR_CALL_METHOD(NULL, _1, "rewind", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, _1, "rewind", &_zephir_call_cache[1]);
 		zephir_check_call_status();
 		_6 = 1;
 		while (1) {
 			if (_6) {
 				_6 = 0;
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, _1, "next", NULL, 0);
+				ZEPHIR_CALL_METHOD_CACHED(NULL, _1, "next", &_zephir_call_cache[2]);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_5, _1, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&_5, _1, "valid", &_zephir_call_cache[3]);
 			zephir_check_call_status();
 			if (!zend_is_true(&_5)) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&link, _1, "current", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&link, _1, "current", &_zephir_call_cache[4]);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_7$$4, &link, "__invoke", NULL, 0, request, response, payload);
+				ZEPHIR_CALL_METHOD_CACHED(&_7$$4, &link, "__invoke", &_zephir_call_cache[5], request, response, payload);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(response, &_7$$4);
 		}
@@ -168,6 +173,7 @@ PHP_METHOD(Phalcon_ADR_Responder_ChainResponder, with)
 	ZVAL_UNDEF(&link_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&links);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("links", 5, 1);
@@ -180,6 +186,10 @@ PHP_METHOD(Phalcon_ADR_Responder_ChainResponder, with)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &link);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 98, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (UNEXPECTED(Z_TYPE_P(&_0) != IS_ARRAY)) {
 		zephir_throw_variable_type_error(&_0, "links", "array");
 		ZEPHIR_MM_RESTORE();
@@ -192,7 +202,7 @@ PHP_METHOD(Phalcon_ADR_Responder_ChainResponder, with)
 		return;
 	}
 	object_init_ex(return_value, phalcon_adr_responder_chainresponder_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 82, &links);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &links);
 	zephir_check_call_status();
 	RETURN_MM();
 }

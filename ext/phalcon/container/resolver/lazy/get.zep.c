@@ -90,6 +90,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_Get, resolve)
 	ZVAL_UNDEF(&ioc_sub);
 	ZVAL_UNDEF(&id);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("id", 2, 1);
@@ -102,9 +103,13 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_Get, resolve)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &ioc);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 571, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&id, this_ptr, "resolveArgument", NULL, 0, ioc, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_METHOD_CACHED(&id, this_ptr, "resolveArgument", &_zephir_call_cache[0], ioc, &_0);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(ioc, "get", NULL, 0, &id);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(ioc, "get", &_zephir_call_cache[1], &id);
 	zephir_check_call_status();
 	RETURN_MM();
 }

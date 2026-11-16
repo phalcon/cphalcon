@@ -125,7 +125,7 @@ abstract class AbstractLogger
     ) {
         var defaultTimezone;
 
-        if (null == timezone) {
+        if (null === timezone) {
             let defaultTimezone = date_default_timezone_get();
 
             if unlikely true === empty(defaultTimezone) {

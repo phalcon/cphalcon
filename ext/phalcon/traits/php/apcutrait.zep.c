@@ -65,7 +65,7 @@ PHP_METHOD(Phalcon_Traits_Php_ApcuTrait, phpApcuDec)
 	} else {
 		}
 	ZVAL_LONG(&_0, step);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_dec", NULL, 284, key, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_dec", NULL, 82, key, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_Traits_Php_ApcuTrait, phpApcuDelete)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &key);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_delete", NULL, 285, key);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_delete", NULL, 83, key);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Traits_Php_ApcuTrait, phpApcuExists)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &key);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_exists", NULL, 286, key);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_exists", NULL, 84, key);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Traits_Php_ApcuTrait, phpApcuFetch)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &key);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_fetch", NULL, 287, key);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_fetch", NULL, 85, key);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_Traits_Php_ApcuTrait, phpApcuInc)
 	} else {
 		}
 	ZVAL_LONG(&_0, step);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_inc", NULL, 288, key, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_inc", NULL, 86, key, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -194,6 +194,7 @@ PHP_METHOD(Phalcon_Traits_Php_ApcuTrait, phpApcuIterator)
 	zend_string *pattern = NULL;
 
 	ZVAL_UNDEF(&pattern_zv);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(pattern)
 	ZEND_PARSE_PARAMETERS_END();
@@ -202,7 +203,7 @@ PHP_METHOD(Phalcon_Traits_Php_ApcuTrait, phpApcuIterator)
 	zephir_memory_observe(&pattern_zv);
 	ZVAL_STR_COPY(&pattern_zv, pattern);
 	object_init_ex(return_value, zephir_get_internal_ce(SL("apcuiterator")));
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &pattern_zv);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &pattern_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -239,7 +240,7 @@ PHP_METHOD(Phalcon_Traits_Php_ApcuTrait, phpApcuStore)
 	} else {
 		}
 	ZVAL_LONG(&_0, ttl);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_store", NULL, 289, key, payload, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_store", NULL, 87, key, payload, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

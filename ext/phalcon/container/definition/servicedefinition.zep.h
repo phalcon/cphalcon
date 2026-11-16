@@ -39,7 +39,7 @@ zend_object *zephir_init_properties_Phalcon_Container_Definition_ServiceDefiniti
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_container_definition_servicedefinition___construct, 0, 0, 2)
 	ZEND_ARG_TYPE_INFO(0, serviceName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, type, IS_STRING, 0)
-	ZEND_ARG_INFO(0, raw)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, raw, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_container_definition_servicedefinition_addextender, 0, 1, MAY_BE_STATIC)

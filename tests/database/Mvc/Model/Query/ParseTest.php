@@ -13,11 +13,19 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Query;
 
+use Phalcon\Db\Exceptions\InvalidSqlExpression;
+use Phalcon\Mvc\Model\Query;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
+use Phalcon\Tests\Support\Models\Customers;
 use Phalcon\Tests\Support\Models\Invoices;
+use Phalcon\Tests\Support\Models\InvoicesBelongsToCustomers;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
+
+use function restore_error_handler;
+use function set_error_handler;
+use function sprintf;
 
 #[Group('mysql')]
 #[Group('pgsql')]
@@ -49,5 +57,72 @@ final class ParseTest extends AbstractDatabaseTestCase
 
         $this->assertIsArray($intermediate);
         $this->assertArrayHasKey('models', $intermediate);
+    }
+
+    /**
+     * A second query with the same PHQL gets the intermediate representation
+     * from the cache. getIntermediate() must return it.
+     *
+     * Tests Phalcon\Mvc\Model\Query :: parse() - cache hit
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-14
+     */
+    public function testMvcModelQueryParseCacheHitSetsIntermediate(): void
+    {
+        $phql = sprintf('SELECT inv_id FROM [%s] WHERE inv_id = 1', Invoices::class);
+
+        Query::clean();
+
+        $first = new Query($phql, $this->container);
+        $first->parse();
+
+        $second = new Query($phql, $this->container);
+        $second->parse();
+
+        $this->assertSame($first->getIntermediate(), $second->getIntermediate());
+    }
+
+    /**
+     * The enable_implicit_joins option changes the intermediate
+     * representation. A query must not get a cached representation that was
+     * built with the other value of the option.
+     *
+     * With implicit joins disabled, a join with no ON condition is not valid
+     * and the query fails. The next query, with implicit joins enabled, must
+     * get the condition from the relation.
+     *
+     * Tests Phalcon\Mvc\Model\Query :: parse() - cache and implicit joins
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-14
+     */
+    public function testMvcModelQueryParseCacheKeepsImplicitJoins(): void
+    {
+        $phql = sprintf(
+            'SELECT i.inv_id, c.cst_id FROM [%s] AS i JOIN [%s] AS c',
+            InvoicesBelongsToCustomers::class,
+            Customers::class
+        );
+
+        Query::clean();
+
+        /**
+         * The join with no condition also gives an "Undefined array key"
+         * warning. The handler stops the warning.
+         */
+        set_error_handler(static fn (): bool => true);
+        try {
+            (new Query($phql, $this->container, ['enable_implicit_joins' => false]))->getSql();
+            $this->fail('The query with implicit joins disabled must fail');
+        } catch (InvalidSqlExpression) {
+            // The join has no condition.
+        } finally {
+            restore_error_handler();
+        }
+
+        $actual = (new Query($phql, $this->container))->getSql();
+
+        $this->assertStringContainsString(' ON ', $actual['sql']);
     }
 }

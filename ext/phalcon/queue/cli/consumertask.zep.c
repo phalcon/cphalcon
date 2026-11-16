@@ -60,9 +60,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Cli_ConsumerTask)
 
 PHP_METHOD(Phalcon_Queue_Cli_ConsumerTask, mainAction)
 {
-	zval config, context, consumer, di, dispatcher, queueConfig, queueName, queueFactory, options, params, processor, processorService, _0, _1, _3, _4, _6, _7, _8;
+	zval config, context, consumer, di, dispatcher, queueConfig, queueName, queueFactory, options, params, processor, processorService, _0, _1, _2, _3, _4, _5, _6;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_2 = NULL, *_5 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -80,77 +79,78 @@ PHP_METHOD(Phalcon_Queue_Cli_ConsumerTask, mainAction)
 	ZVAL_UNDEF(&processorService);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_6);
-	ZVAL_UNDEF(&_7);
-	ZVAL_UNDEF(&_8);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[20];
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_METHOD(&di, this_ptr, "getDI", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&di, this_ptr, "getDI", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "dispatcher");
-	ZEPHIR_CALL_METHOD(&dispatcher, &di, "get", NULL, 0, &_0);
+	ZEPHIR_CALL_METHOD_CACHED(&dispatcher, &di, "get", &_zephir_call_cache[1], &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "queueFactory");
-	ZEPHIR_CALL_METHOD(&queueFactory, &di, "get", NULL, 0, &_0);
+	ZEPHIR_CALL_METHOD_CACHED(&queueFactory, &di, "get", &_zephir_call_cache[2], &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "config");
-	ZEPHIR_CALL_METHOD(&config, &di, "get", NULL, 0, &_0);
+	ZEPHIR_CALL_METHOD_CACHED(&config, &di, "get", &_zephir_call_cache[3], &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&params, &dispatcher, "getParams", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&params, &dispatcher, "getParams", &_zephir_call_cache[4]);
 	zephir_check_call_status();
 	ZVAL_LONG(&_1, 0);
-	ZEPHIR_CALL_METHOD(&queueName, this_ptr, "stringParam", &_2, 0, &params, &_1);
+	ZEPHIR_CALL_METHOD_CACHED(&queueName, this_ptr, "stringParam", &_zephir_call_cache[5], &params, &_1);
 	zephir_check_call_status();
 	ZVAL_LONG(&_1, 1);
-	ZEPHIR_CALL_METHOD(&processor, this_ptr, "stringParam", &_2, 0, &params, &_1);
+	ZEPHIR_CALL_METHOD_CACHED(&processor, this_ptr, "stringParam", &_zephir_call_cache[6], &params, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "queue");
-	ZEPHIR_CALL_METHOD(&queueConfig, &config, "get", NULL, 0, &_0);
+	ZEPHIR_CALL_METHOD_CACHED(&queueConfig, &config, "get", &_zephir_call_cache[7], &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&context, &queueFactory, "load", NULL, 0, &queueConfig);
+	ZEPHIR_CALL_METHOD_CACHED(&context, &queueFactory, "load", &_zephir_call_cache[8], &queueConfig);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&consumer);
 	object_init_ex(&consumer, phalcon_queue_consumer_queueconsumer_ce);
-	ZEPHIR_CALL_METHOD(NULL, &consumer, "__construct", NULL, 0, &context);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &consumer, "__construct", &_zephir_call_cache[9], &context);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&processorService, &di, "get", NULL, 0, &processor);
+	ZEPHIR_CALL_METHOD_CACHED(&processorService, &di, "get", &_zephir_call_cache[10], &processor);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_3, &context, "createQueue", NULL, 0, &queueName);
+	ZEPHIR_CALL_METHOD_CACHED(&_2, &context, "createQueue", &_zephir_call_cache[11], &queueName);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &consumer, "bind", NULL, 0, &_3, &processorService);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &consumer, "bind", &_zephir_call_cache[12], &_2, &processorService);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&options);
 	object_init_ex(&options, phalcon_queue_consumer_workeroptions_ce);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "max-messages");
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "intOption", &_5, 0, &dispatcher, &_0);
+	ZEPHIR_CALL_METHOD_CACHED(&_3, this_ptr, "intOption", &_zephir_call_cache[13], &dispatcher, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "max-time");
-	ZEPHIR_CALL_METHOD(&_6, this_ptr, "intOption", &_5, 0, &dispatcher, &_0);
+	ZEPHIR_CALL_METHOD_CACHED(&_4, this_ptr, "intOption", &_zephir_call_cache[14], &dispatcher, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "max-memory");
-	ZEPHIR_CALL_METHOD(&_7, this_ptr, "intOption", &_5, 0, &dispatcher, &_0);
+	ZEPHIR_CALL_METHOD_CACHED(&_5, this_ptr, "intOption", &_zephir_call_cache[15], &dispatcher, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "jitter");
-	ZEPHIR_CALL_METHOD(&_8, this_ptr, "intOption", &_5, 0, &dispatcher, &_0);
+	ZEPHIR_CALL_METHOD_CACHED(&_6, this_ptr, "intOption", &_zephir_call_cache[16], &dispatcher, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &options, "__construct", NULL, 0, &_4, &_6, &_7, &_8);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &options, "__construct", &_zephir_call_cache[17], &_3, &_4, &_5, &_6);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	object_init_ex(&_0, phalcon_queue_consumer_worker_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0, &consumer, &options);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[18], &consumer, &options);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &_0, "run", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "run", &_zephir_call_cache[19]);
 	zephir_check_call_status();
 	RETURN_MM_LONG(0);
 }
@@ -172,6 +172,7 @@ PHP_METHOD(Phalcon_Queue_Cli_ConsumerTask, intOption)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(dispatcher, phalcon_cli_dispatcher_ce)
 		Z_PARAM_STR(name)
@@ -183,7 +184,7 @@ PHP_METHOD(Phalcon_Queue_Cli_ConsumerTask, intOption)
 	ZVAL_STR_COPY(&name_zv, name);
 	ZVAL_NULL(&_0);
 	ZVAL_LONG(&_1, 0);
-	ZEPHIR_CALL_METHOD(&value, dispatcher, "getOption", NULL, 0, &name_zv, &_0, &_1);
+	ZEPHIR_CALL_METHOD_CACHED(&value, dispatcher, "getOption", &_zephir_call_cache[0], &name_zv, &_0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	if (zephir_is_scalar(&value)) {

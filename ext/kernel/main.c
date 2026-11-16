@@ -413,10 +413,29 @@ int zephir_declare_class_constant(zend_class_entry *ce, const char *name, size_t
 {
 	zend_string *key;
 
+	zend_class_constant *inherited;
+
 	if (ce->type == ZEND_INTERNAL_CLASS) {
 		key = zend_string_init_interned(name, name_length, 1);
 	} else {
 		key = zend_string_init(name, name_length, 0);
+	}
+
+	/**
+	 * A class registered with a parent already holds the parent's constants,
+	 * and the engine refuses to declare one of them again, while PHP lets a
+	 * class redefine an inherited constant. The inherited entry of an internal
+	 * class is a bare copy whose value the parent owns, so only the copy is
+	 * freed, as destroy_zend_class() would.
+	 *
+	 * @see https://github.com/zephir-lang/zephir/issues/2825
+	 */
+	inherited = zend_hash_find_ptr(&ce->constants_table, key);
+	if (inherited && inherited->ce != ce) {
+		zend_hash_del(&ce->constants_table, key);
+		if (ce->type == ZEND_INTERNAL_CLASS) {
+			pefree(inherited, 1);
+		}
 	}
 
 	zend_declare_class_constant_ex(ce, key, value, ZEND_ACC_PUBLIC, NULL);

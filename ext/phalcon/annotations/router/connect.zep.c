@@ -67,6 +67,7 @@ PHP_METHOD(Phalcon_Annotations_Router_Connect, __construct)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&paths);
 	ZVAL_UNDEF(&converters);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 5)
 		Z_PARAM_STR(route)
@@ -113,7 +114,7 @@ PHP_METHOD(Phalcon_Annotations_Router_Connect, __construct)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "CONNECT");
-	ZEPHIR_CALL_PARENT(NULL, phalcon_annotations_router_connect_ce, getThis(), "__construct", NULL, 0, &route_zv, &_0, &name_zv, &paths, &converters, beforeMatch);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_annotations_router_connect_ce, getThis(), "__construct", &_zephir_call_cache[0], &route_zv, &_0, &name_zv, &paths, &converters, beforeMatch);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

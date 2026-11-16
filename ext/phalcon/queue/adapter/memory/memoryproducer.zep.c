@@ -82,6 +82,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryProducer, send)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[3];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("context", 7, 1);
@@ -96,12 +97,16 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryProducer, send)
 	zephir_fetch_params(1, 2, 0, &destination, &message);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "send to");
-	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_queue_adapter_queuedestinationguard_ce, "assertQueue", NULL, 0, destination, &_0);
+	ZEPHIR_CALL_CE_STATIC_CACHED(NULL, phalcon_queue_adapter_queuedestinationguard_ce, "assertQueue", &_zephir_call_cache[0], destination, &_0);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1292, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_2, destination, "getQueueName", NULL, 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_METHOD_CACHED(&_2, destination, "getQueueName", &_zephir_call_cache[1]);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &_1, "pushMessage", NULL, 0, &_2, message);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &_1, "pushMessage", &_zephir_call_cache[2], &_2, message);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

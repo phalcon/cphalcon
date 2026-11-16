@@ -56,6 +56,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Whitelist, __invoke)
 	ZVAL_UNDEF(&filtered);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		ZEPHIR_Z_PARAM_ARRAY(collection, collection_param)
 		ZEPHIR_Z_PARAM_ARRAY(whiteList, whiteList_param)
@@ -68,11 +69,11 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Whitelist, __invoke)
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
 	zephir_create_closure_ex(&_0, NULL, phalcon_101__closure_ce, SL("__invoke"));
-	ZEPHIR_CALL_METHOD(&filtered, this_ptr, "toFilter", NULL, 0, &whiteList, &_0);
+	ZEPHIR_CALL_METHOD_CACHED(&filtered, this_ptr, "toFilter", &_zephir_call_cache[0], &whiteList, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_1, "array_flip", NULL, 265, &filtered);
+	ZEPHIR_CALL_FUNCTION(&_1, "array_flip", NULL, 77, &filtered);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("array_intersect_key", NULL, 6, &collection, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_intersect_key", NULL, 4, &collection, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }

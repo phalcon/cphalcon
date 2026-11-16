@@ -54,6 +54,7 @@ PHP_METHOD(Phalcon_ADR_Responder_AbstractFormattedResponder, __construct)
 	ZVAL_UNDEF(&formatters);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[4];
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(formatters, formatters_param)
@@ -71,23 +72,23 @@ PHP_METHOD(Phalcon_ADR_Responder_AbstractFormattedResponder, __construct)
 	zephir_create_array(&_0, 3, 0);
 	ZEPHIR_INIT_VAR(&_1);
 	object_init_ex(&_1, phalcon_adr_responder_statusresponder_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 152);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &_1, "__construct", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	zephir_array_fast_append(&_0, &_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	object_init_ex(&_1, phalcon_adr_responder_redirectresponder_ce);
 	if (zephir_has_constructor(&_1)) {
-		ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1, "__construct", &_zephir_call_cache[1]);
 		zephir_check_call_status();
 	}
 
 	zephir_array_fast_append(&_0, &_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	object_init_ex(&_1, phalcon_adr_responder_formatresponder_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 153, &formatters);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &_1, "__construct", &_zephir_call_cache[2], &formatters);
 	zephir_check_call_status();
 	zephir_array_fast_append(&_0, &_1);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_adr_responder_abstractformattedresponder_ce, getThis(), "__construct", NULL, 0, &_0);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_adr_responder_abstractformattedresponder_ce, getThis(), "__construct", &_zephir_call_cache[3], &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

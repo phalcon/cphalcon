@@ -72,6 +72,7 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct)
 	ZVAL_UNDEF(&messageStr);
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&validationMessages);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -96,7 +97,7 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct)
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZEPHIR_CALL_METHOD(&messageStr, &message, "getMessage", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(&messageStr, &message, "getMessage", &_zephir_call_cache[0]);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_INIT_NVAR(&messageStr);
@@ -104,7 +105,7 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct)
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1155, model);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1156, &validationMessages);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_validationfailed_ce, getThis(), "__construct", NULL, 0, &messageStr);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_mvc_model_validationfailed_ce, getThis(), "__construct", &_zephir_call_cache[1], &messageStr);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

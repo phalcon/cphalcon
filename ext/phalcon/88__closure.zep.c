@@ -47,11 +47,11 @@ PHP_METHOD(phalcon_88__closure, __invoke)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&_1, "ord", NULL, 0, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "ord", NULL, 133, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "\\x%02X");
-	ZEPHIR_RETURN_CALL_FUNCTION("sprintf", NULL, 145, &_2, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("sprintf", NULL, 38, &_2, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }

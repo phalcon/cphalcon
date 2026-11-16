@@ -53,6 +53,7 @@ PHP_METHOD(Phalcon_Auth_Exceptions_ConfigRequiresNonEmptyValue, __construct)
 	ZVAL_UNDEF(&configKey_zv);
 	ZVAL_UNDEF(&suffix_zv);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_STR(configName)
 		Z_PARAM_STR(configKey)
@@ -79,7 +80,7 @@ PHP_METHOD(Phalcon_Auth_Exceptions_ConfigRequiresNonEmptyValue, __construct)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_auth_exceptions_configrequiresnonemptyvalue_ce, getThis(), "__construct", NULL, 0, &_0);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_auth_exceptions_configrequiresnonemptyvalue_ce, getThis(), "__construct", &_zephir_call_cache[0], &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -104,6 +105,7 @@ PHP_METHOD(Phalcon_Auth_Exceptions_ConfigRequiresNonEmptyValue, assert)
 	ZVAL_UNDEF(&configKey_zv);
 	ZVAL_UNDEF(&suffix_zv);
 	ZVAL_UNDEF(&_0$$3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(3, 4)
 		Z_PARAM_ZVAL(value)
 		Z_PARAM_STR(configName)
@@ -129,7 +131,7 @@ PHP_METHOD(Phalcon_Auth_Exceptions_ConfigRequiresNonEmptyValue, assert)
 	if (ZEPHIR_IS_STRING_IDENTICAL(value, "")) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_auth_exceptions_configrequiresnonemptyvalue_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 415, &configName_zv, &configKey_zv, &suffix_zv);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0$$3, "__construct", &_zephir_call_cache[0], &configName_zv, &configKey_zv, &suffix_zv);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_0$$3, "phalcon/Auth/Exceptions/ConfigRequiresNonEmptyValue.zep", 49);
 		ZEPHIR_MM_RESTORE();

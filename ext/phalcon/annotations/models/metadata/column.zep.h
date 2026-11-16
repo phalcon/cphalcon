@@ -13,7 +13,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_models_metadata_column___cons
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, skipOnInsert, _IS_BOOL, 0, "false")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, skipOnUpdate, _IS_BOOL, 0, "false")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, allowEmptyString, _IS_BOOL, 0, "false")
-	ZEND_ARG_INFO(0, defaultValue)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, defaultValue, "null")
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_annotations_models_metadata_column_method_entry) {
