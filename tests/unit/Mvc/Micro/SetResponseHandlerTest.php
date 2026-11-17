@@ -44,4 +44,31 @@ class SetResponseHandlerTest extends AbstractUnitTestCase
 
         $this->assertCount(2, $trace);
     }
+
+    /**
+     * A response handler that is false: handle() uses the default response,
+     * the same as cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/820
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-17
+     */
+    public function testMicroResponseHandlerFalse(): void
+    {
+        $app = new Micro();
+
+        $app->setResponseHandler(false);
+
+        $app->map(
+            '/blog',
+            function () {
+                return 'hello';
+            }
+        );
+
+        $this->expectOutputString('hello');
+
+        $actual = $app->handle('/blog');
+        $this->assertSame('hello', $actual);
+    }
 }

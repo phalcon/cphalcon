@@ -97,4 +97,36 @@ class ErrorTest extends AbstractUnitTestCase
 
         $app->handle('/fail');
     }
+
+    /**
+     * An error handler that returns a response: handle() uses that response,
+     * the same as cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/820
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-17
+     */
+    public function testMvcMicroErrorReturnsResponse(): void
+    {
+        $app      = new Micro();
+        $response = new Response();
+
+        $app->map(
+            '/fail',
+            function () {
+                throw new Exception('Fail');
+            }
+        );
+
+        $app->error(
+            function () use ($response) {
+                return $response->setContent('handled');
+            }
+        );
+
+        $this->expectOutputString('handled');
+
+        $actual = $app->handle('/fail');
+        $this->assertSame($response, $actual);
+    }
 }
