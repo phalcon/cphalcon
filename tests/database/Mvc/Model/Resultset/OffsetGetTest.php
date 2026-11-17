@@ -14,11 +14,15 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Mvc\Model\Resultset;
 
 use Phalcon\Mvc\Model\Exceptions\IndexNotInCursor;
+use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\Row;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Models\Invoices;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
+use stdClass;
+
+use function get_debug_type;
 
 #[Group('phql')]
 final class OffsetGetTest extends AbstractDatabaseTestCase
@@ -49,6 +53,19 @@ final class OffsetGetTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * The hydration mode and the type of the row.
+     *
+     * @return array<string, array{0: int, 1: string}>
+     */
+    public static function getHydrateModeExamples(): array
+    {
+        return [
+            'arrays'  => [Resultset::HYDRATE_ARRAYS, 'array'],
+            'objects' => [Resultset::HYDRATE_OBJECTS, stdClass::class],
+        ];
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-06-22
      */
@@ -73,5 +90,28 @@ final class OffsetGetTest extends AbstractDatabaseTestCase
         }
 
         $this->assertInstanceOf($expected, $resultset->offsetGet($index));
+    }
+
+    /**
+     * With the hydration mode arrays or objects, offsetGet() on a simple
+     * resultset gives the row as an array or a stdClass.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/819
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getHydrateModeExamples')]
+    public function testMvcModelResultsetOffsetGetHydrateMode(int $mode, string $expected): void
+    {
+        $resultset = Invoices::find(['order' => 'inv_id']);
+        $resultset->setHydrateMode($mode);
+
+        $row = $resultset->offsetGet(1);
+
+        $this->assertSame($expected, get_debug_type($row));
+        $this->assertSame('inv-title-2', ((array) $row)['inv_title']);
     }
 }
