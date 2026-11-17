@@ -19,6 +19,7 @@ use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\ADR\Hidden\GetHidden;
 use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 use RuntimeException;
+use TypeError;
 
 final class FilterTest extends AbstractUnitTestCase
 {
@@ -88,6 +89,32 @@ final class FilterTest extends AbstractUnitTestCase
         };
 
         $this->expectException(RuntimeException::class);
+
+        (new AttributeFilter())->filter($action::class, ['1']);
+    }
+
+    /**
+     * A converter that cannot be called throws the TypeError of
+     * call_user_func(), the same as cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/821
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-17
+     */
+    public function testAdrAttributeFilterFilterConverterNotCallable(): void
+    {
+        $action = new class () {
+            public static function params(): array
+            {
+                return ['id' => ['convert' => 'nope']];
+            }
+        };
+
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage(
+            'call_user_func(): Argument #1 ($callback) must be a valid '
+            . 'callback, function "nope" not found or invalid function name'
+        );
 
         (new AttributeFilter())->filter($action::class, ['1']);
     }

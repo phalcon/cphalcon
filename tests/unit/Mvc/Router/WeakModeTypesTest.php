@@ -50,6 +50,7 @@ final class WeakModeTypesTest extends AbstractUnitTestCase
             'array'  => [[new stdClass(), 'missing'], 'Call to undefined method stdClass::missing()'],
             'object' => [new stdClass(), 'Call to undefined function undefined()'],
             'int'    => [5, 'Call to undefined function undefined()'],
+            'null'   => [null, 'Call to undefined function undefined()'],
         ];
 
         $examples = [];
@@ -88,6 +89,7 @@ final class WeakModeTypesTest extends AbstractUnitTestCase
      * message.
      *
      * @issue  https://github.com/phalcon/phalcon/issues/817
+     * @issue  https://github.com/phalcon/phalcon/issues/821
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-11-16
      */

@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt\Compiler;
 
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\InvalidUserFunctionDefinition;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -95,5 +96,27 @@ class AddFunctionTest extends AbstractUnitTestCase
             $expected,
             $volt->compileString($voltName)
         );
+    }
+
+    /**
+     * A null definition throws InvalidUserFunctionDefinition, the same as
+     * cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/821
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-17
+     */
+    public function testMvcViewEngineVoltCompilerAddFunctionNull(): void
+    {
+        $volt = new Compiler();
+
+        $volt->addFunction('foo', null);
+
+        $this->expectException(InvalidUserFunctionDefinition::class);
+        $this->expectExceptionMessage(
+            "Invalid definition for user function 'foo' in eval code on line 1"
+        );
+
+        $volt->compileString('{{ foo() }}');
     }
 }

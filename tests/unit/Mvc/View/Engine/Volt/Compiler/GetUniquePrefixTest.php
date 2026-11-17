@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt\Compiler;
 
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\InvalidCompilationPrefix;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 class GetUniquePrefixTest extends AbstractUnitTestCase
@@ -28,5 +29,23 @@ class GetUniquePrefixTest extends AbstractUnitTestCase
         $compiler->setUniquePrefix('myprefix');
 
         $this->assertSame('myprefix', $compiler->getUniquePrefix());
+    }
+
+    /**
+     * Before a compile there is no path, so there is no prefix: it throws,
+     * the same as cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/821
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-17
+     */
+    public function testMvcViewEngineVoltCompilerGetUniquePrefixBeforeCompile(): void
+    {
+        $compiler = new Compiler();
+
+        $this->expectException(InvalidCompilationPrefix::class);
+        $this->expectExceptionMessage('The unique compilation prefix is invalid');
+
+        $compiler->getUniquePrefix();
     }
 }

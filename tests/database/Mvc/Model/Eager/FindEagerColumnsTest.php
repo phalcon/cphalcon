@@ -98,6 +98,29 @@ final class FindEagerColumnsTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * A null column list is used as an empty list, so it throws, the same as
+     * cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/821
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-17
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelFindEagerRejectsNullColumns(): void
+    {
+        $this->expectException(MissingEagerKeyColumn::class);
+        $this->expectExceptionMessage("'cst_id'");
+
+        InvoicesBelongsToCustomers::find(
+            [
+                'eager' => ['customer' => ['columns' => null]],
+            ]
+        );
+    }
+
+    /**
      * Columns are per-node, so one find can produce both shapes: model parents
      * with Row children.
      *

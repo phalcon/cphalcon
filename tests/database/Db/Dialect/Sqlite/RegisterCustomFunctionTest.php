@@ -67,6 +67,49 @@ final class RegisterCustomFunctionTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * With no escape character, the custom function gets null, also for a
+     * function call in an expression, the same as cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/821
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-17
+     */
+    public function testDbDialectSqliteRegisterCustomFunctionNoEscapeChar(): void
+    {
+        $dialect = new Sqlite();
+        $dialect->registerCustomFunction(
+            'FOO',
+            function ($dialect, $expression, $escapeChar) {
+                return 'FOO(' . var_export($escapeChar, true) . ')';
+            }
+        );
+
+        $actual = $dialect->getSqlExpression(
+            [
+                'type' => 'functionCall',
+                'name' => 'FOO',
+            ]
+        );
+        $this->assertSame('FOO(NULL)', $actual);
+
+        $actual = $dialect->getSqlExpression(
+            [
+                'type'  => 'binary-op',
+                'op'    => '=',
+                'left'  => [
+                    'type' => 'qualified',
+                    'name' => 'a',
+                ],
+                'right' => [
+                    'type' => 'functionCall',
+                    'name' => 'FOO',
+                ],
+            ]
+        );
+        $this->assertSame('"a" = FOO(NULL)', $actual);
+    }
+
+    /**
      * A custom function that cannot be called is registered. The SQL of the
      * function call throws Error with the cphalcon message.
      *
