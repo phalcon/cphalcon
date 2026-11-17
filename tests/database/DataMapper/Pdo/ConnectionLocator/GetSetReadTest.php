@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\DataMapper\Pdo\ConnectionLocator;
 use Phalcon\DataMapper\Pdo\ConnectionLocator;
 use Phalcon\DataMapper\Pdo\Exception\ConnectionNotFound;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 use PHPUnit\Framework\Attributes\Group;
 
 use function in_array;
@@ -26,6 +27,8 @@ use function spl_object_id;
 #[Group('sqlite')]
 final class GetSetReadTest extends AbstractDatabaseTestCase
 {
+    use ErrorHandlerTrait;
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-25
@@ -60,6 +63,31 @@ final class GetSetReadTest extends AbstractDatabaseTestCase
         );
 
         $locator->getRead("unknown");
+    }
+
+    /**
+     * A read factory that cannot be called gives a warning and null, the
+     * same as cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/818
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    public function testDMPdoConnectionLocatorGetReadNotCallable(): void
+    {
+        $locator = new ConnectionLocator(
+            self::getDataMapperConnection(),
+            [
+                'read1' => 'nope',
+            ]
+        );
+
+        $actual = $this->collectErrors(static fn () => $locator->getRead('read1'));
+
+        $this->assertSame(
+            [null, ['function "nope" not found or invalid function name']],
+            $actual
+        );
     }
 
     /**

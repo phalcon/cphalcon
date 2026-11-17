@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Mvc\Model\Manager;
 use Phalcon\Mvc\Model\Exceptions\ModelCouldNotLoad;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Models\Invoices;
+use Phalcon\Tests\Support\Models\NotAModel;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -47,5 +48,19 @@ final class LoadTest extends AbstractDatabaseTestCase
         $this->expectException(ModelCouldNotLoad::class);
 
         $manager->load('NonExistentModelXyz');
+    }
+
+    /**
+     * A class that is not a model is loaded, the same as cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/818
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    public function testMvcModelManagerLoadNotModel(): void
+    {
+        $manager = $this->container->get('modelsManager');
+
+        $this->assertInstanceOf(NotAModel::class, $manager->load(NotAModel::class));
     }
 }

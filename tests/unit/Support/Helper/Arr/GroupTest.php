@@ -84,6 +84,26 @@ final class GroupTest extends AbstractUnitTestCase
     }
 
     /**
+     * A method that is an int is a key of the rows, the same as cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/818
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    public function testSupportHelperArrGroupIntKey(): void
+    {
+        $object     = new Group();
+        $collection = [[1, 'a'], [2, 'b'], [1, 'c']];
+
+        $expected = [
+            1 => [[1, 'a'], [1, 'c']],
+            2 => [[2, 'b']],
+        ];
+
+        $this->assertSame($expected, $object($collection, 0));
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */

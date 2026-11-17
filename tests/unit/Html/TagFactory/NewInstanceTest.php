@@ -37,6 +37,7 @@ use Phalcon\Html\Helper\Title;
 use Phalcon\Html\Helper\Ul;
 use Phalcon\Html\TagFactory;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 use function uniqid;
@@ -48,6 +49,8 @@ use function uniqid;
  */
 final class NewInstanceTest extends AbstractUnitTestCase
 {
+    use ErrorHandlerTrait;
+
     /**
      * Returns the example data
      */
@@ -124,6 +127,29 @@ final class NewInstanceTest extends AbstractUnitTestCase
         $escaper = new Escaper();
         $factory = new TagFactory($escaper);
         $factory->$name();
+    }
+
+    /**
+     * A factory that does not return an object: newInstance() returns the
+     * value, and the helper call gives a warning and null, the same as
+     * cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/818
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    public function testFilterTagFactoryNewInstanceNotObject(): void
+    {
+        $factory = new TagFactory(new Escaper(), ['five' => static fn () => 5]);
+
+        $this->assertSame(5, $factory->newInstance('five'));
+
+        $actual = $this->collectErrors(static fn () => $factory->five());
+
+        $this->assertSame(
+            [null, ['first array member is not a valid class name or object']],
+            $actual
+        );
     }
 
     /**

@@ -19,22 +19,42 @@ use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\AlbumsMigration;
 use Phalcon\Tests\Support\Migrations\ArtistsMigration;
+use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Migrations\SongsMigration;
 use Phalcon\Tests\Support\Models\AlbumORama\Albums;
 use Phalcon\Tests\Support\Models\AlbumORama\Artists;
 use Phalcon\Tests\Support\Models\AlbumORama\Songs;
+use Phalcon\Tests\Support\Models\InvoicesNotAModelRelation;
+use Phalcon\Tests\Support\Models\NotAModel;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 
 #[Group('phql')]
 final class GetRelationRecordsTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
+    use ErrorHandlerTrait;
 
     public function setUp(): void
     {
         $this->setNewFactoryDefault();
         $this->setDatabase();
+    }
+
+    /**
+     * The alias of a relation to a class that is not a model, and the method
+     * that the relation calls.
+     *
+     * @return array<string, array{0: string, 1: string}>
+     */
+    public static function getNotModelRelations(): array
+    {
+        return [
+            'belongsTo' => ['notAModel', 'findFirst'],
+            'hasMany'   => ['notModels', 'find'],
+        ];
     }
 
     /**
@@ -152,5 +172,32 @@ final class GetRelationRecordsTest extends AbstractDatabaseTestCase
         ];
         $actual   = $singlesRelationRecords->getFirst()->toArray();
         $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * A relation to a class that is not a model gives a warning and null,
+     * the same as cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/818
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getNotModelRelations')]
+    public function testMvcModelManagerGetRelationRecordsNotModel(string $alias, string $method): void
+    {
+        $migration = new InvoicesMigration(self::getPdoConnection());
+        $migration->insert(1, 1, 0, 'inv-title-1');
+
+        $invoice = InvoicesNotAModelRelation::findFirst();
+
+        $actual = $this->collectErrors(static fn () => $invoice->getRelated($alias));
+
+        $this->assertSame(
+            [null, ['class ' . NotAModel::class . ' does not have a method "' . $method . '"']],
+            $actual
+        );
     }
 }

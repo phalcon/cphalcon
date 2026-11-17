@@ -13,10 +13,33 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Support\Collection;
 
+use Error;
 use Phalcon\Support\Collection;
+use Throwable;
 
 final class ReduceTest extends AbstractCollectionTestCase
 {
+    /**
+     * A callback that cannot be called throws Error with the cphalcon message.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/818
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    public function testSupportCollectionReduceNotCallable(): void
+    {
+        $collection = new Collection(['a' => 1]);
+
+        $actual = null;
+        try {
+            $collection->reduce('nope');
+        } catch (Throwable $ex) {
+            $actual = [$ex::class, $ex->getMessage()];
+        }
+
+        $this->assertSame([Error::class, 'Call to undefined function nope()'], $actual);
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-12

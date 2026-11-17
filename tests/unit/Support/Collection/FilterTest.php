@@ -13,12 +13,35 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Support\Collection;
 
+use Error;
 use Phalcon\Support\Collection;
+use Throwable;
 
 use function strlen;
 
 final class FilterTest extends AbstractCollectionTestCase
 {
+    /**
+     * A callback that cannot be called throws Error with the cphalcon message.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/818
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    public function testSupportCollectionFilterNotCallable(): void
+    {
+        $collection = new Collection(['a' => 1]);
+
+        $actual = null;
+        try {
+            $collection->filter('nope');
+        } catch (Throwable $ex) {
+            $actual = [$ex::class, $ex->getMessage()];
+        }
+
+        $this->assertSame([Error::class, 'Call to undefined function nope()'], $actual);
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-05-12
