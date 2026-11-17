@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Filter\Validation\Validator;
 
+use Error;
 use PDO;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\Validator\Uniqueness;
@@ -21,7 +22,10 @@ use Phalcon\Tests\Support\Migrations\ObjectsMigration;
 use Phalcon\Tests\Support\Models\Objects;
 use Phalcon\Tests\Support\Models\ObjectsWithColumnMap;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
+use stdClass;
+use Throwable;
 
 #[Group('phql')]
 final class UniquenessTest extends AbstractDatabaseTestCase
@@ -37,6 +41,53 @@ final class UniquenessTest extends AbstractDatabaseTestCase
         $connection = self::getPdoConnection();
         $migration  = new ObjectsMigration($connection);
         $migration->clear();
+    }
+
+    /**
+     * A value that cannot be called and the cphalcon message.
+     *
+     * @return array<string, array{0: mixed, 1: string}>
+     */
+    public static function getNotCallableValues(): array
+    {
+        return [
+            'string' => ['nope', 'Call to undefined function nope()'],
+            'array'  => [[new stdClass(), 'missing'], 'Call to undefined method stdClass::missing()'],
+            'object' => [new stdClass(), 'Call to undefined function undefined()'],
+            'int'    => [5, 'Call to undefined function undefined()'],
+        ];
+    }
+
+    /**
+     * A convert option that cannot be called throws Error with the cphalcon
+     * message.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/817
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getNotCallableValues')]
+    public function testFilterValidationValidatorUniquenessConvertNotCallable(
+        mixed $value,
+        string $expected
+    ): void {
+        $validation = new Validation();
+        $validation->add('obj_name', new Uniqueness(['convert' => $value]));
+
+        $entity           = new Objects();
+        $entity->obj_name = 'Phalcon';
+
+        $actual = null;
+        try {
+            $validation->validate(null, $entity);
+        } catch (Throwable $ex) {
+            $actual = [$ex::class, $ex->getMessage()];
+        }
+
+        $this->assertSame([Error::class, $expected], $actual);
     }
 
     /**

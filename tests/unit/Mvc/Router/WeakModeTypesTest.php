@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Router;
 
+use Error;
 use Phalcon\Di\Di;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Events\Manager;
@@ -20,6 +21,8 @@ use Phalcon\Mvc\Router;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\WeakTypes\IntTarget;
 use PHPUnit\Framework\Attributes\DataProvider;
+use stdClass;
+use Throwable;
 use TypeError;
 
 /**
@@ -35,6 +38,38 @@ final class WeakModeTypesTest extends AbstractUnitTestCase
     }
 
     /**
+     * A converter that cannot be called, on both paths, for a matched part
+     * (id) and a part that is not matched (action), and the cphalcon message.
+     *
+     * @return array<string, array{0: bool, 1: string, 2: mixed, 3: string}>
+     */
+    public static function getNotCallableConverters(): array
+    {
+        $values = [
+            'string' => ['nope', 'Call to undefined function nope()'],
+            'array'  => [[new stdClass(), 'missing'], 'Call to undefined method stdClass::missing()'],
+            'object' => [new stdClass(), 'Call to undefined function undefined()'],
+            'int'    => [5, 'Call to undefined function undefined()'],
+        ];
+
+        $examples = [];
+        foreach (self::getRouterPaths() as $pathName => [$withEvents]) {
+            foreach (['matched' => 'id', 'not matched' => 'action'] as $partName => $part) {
+                foreach ($values as $valueName => [$converter, $message]) {
+                    $examples[$pathName . ', ' . $partName . ', ' . $valueName] = [
+                        $withEvents,
+                        $part,
+                        $converter,
+                        $message,
+                    ];
+                }
+            }
+        }
+
+        return $examples;
+    }
+
+    /**
      * Without an events manager, the router uses the combined regex. With an
      * events manager, it checks each route.
      *
@@ -46,6 +81,33 @@ final class WeakModeTypesTest extends AbstractUnitTestCase
             'combined'  => [false],
             'per route' => [true],
         ];
+    }
+
+    /**
+     * A converter that cannot be called throws Error with the cphalcon
+     * message.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/817
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    #[DataProvider('getNotCallableConverters')]
+    public function testMvcRouterConvertNotCallable(
+        bool $withEvents,
+        string $part,
+        mixed $converter,
+        string $expected
+    ): void {
+        $router = $this->getRouter($withEvents, $part, $converter);
+
+        $actual = null;
+        try {
+            $router->handle('/x/5');
+        } catch (Throwable $ex) {
+            $actual = [$ex::class, $ex->getMessage()];
+        }
+
+        $this->assertSame([Error::class, $expected], $actual);
     }
 
     /**
@@ -75,8 +137,11 @@ final class WeakModeTypesTest extends AbstractUnitTestCase
         $this->getRouter($withEvents)->handle('/x/abc');
     }
 
-    private function getRouter(bool $withEvents): Router
-    {
+    private function getRouter(
+        bool $withEvents,
+        string $part = 'id',
+        mixed $converter = [IntTarget::class, 'double']
+    ): Router {
         $router = new Router(false);
         $router->setDI(new FactoryDefault());
 
@@ -92,7 +157,7 @@ final class WeakModeTypesTest extends AbstractUnitTestCase
                     'action'     => 'a',
                 ]
             )
-            ->convert('id', [IntTarget::class, 'double'])
+            ->convert($part, $converter)
         ;
 
         return $router;
