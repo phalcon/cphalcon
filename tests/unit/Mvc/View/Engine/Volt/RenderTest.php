@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt;
 
+use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt;
+use Phalcon\Mvc\View\Simple;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Talon\Talon;
 use Phalcon\Tests\Support\Listener\ViewCompileListener;
@@ -117,5 +119,57 @@ class RenderTest extends AbstractUnitTestCase
 
         $this->assertSame('Some label: Label', $output);
         $this->safeDeleteFile($templatePath . '.php');
+    }
+
+    /**
+     * A variable that a template sets is visible in the templates that
+     * render after it.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/810
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-17
+     */
+    public function testMvcViewEngineVoltRenderKeepsVariablesForLaterRenders(): void
+    {
+        $this->newDi();
+        $this->setDiService('viewSimple');
+
+        /** @var Simple $view */
+        $view = $this->container->get('viewSimple');
+        $view->registerEngines(['.volt' => Volt::class]);
+
+        $view->render('scope/set');
+
+        $actual = $view->render('scope/child');
+        $this->assertSame('upper', $actual);
+
+        $this->safeDeleteFile(Talon::settings()->supportPath('assets/views/scope/set.volt.php'));
+        $this->safeDeleteFile(Talon::settings()->supportPath('assets/views/scope/child.volt.php'));
+    }
+
+    /**
+     * A variable that the action view sets is visible in the layout.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/810
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-17
+     */
+    public function testMvcViewEngineVoltRenderSharesVariablesWithLayout(): void
+    {
+        $this->newDi();
+        $this->setDiService('view');
+
+        /** @var View $view */
+        $view = $this->container->get('view');
+        $view->registerEngines(['.volt' => Volt::class]);
+
+        $view->start();
+        $view->render('scope', 'set');
+        $view->finish();
+
+        $this->assertSame('upper', $view->getContent());
+
+        $this->safeDeleteFile(Talon::settings()->supportPath('assets/views/scope/set.volt.php'));
+        $this->safeDeleteFile(Talon::settings()->supportPath('assets/views/layouts/scope.volt.php'));
     }
 }
