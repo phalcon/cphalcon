@@ -1,1 +1,0 @@
-<?php $class_upper = 'upper'; ?><?php $this->partial('scope/child', ['other' => 1]); ?>

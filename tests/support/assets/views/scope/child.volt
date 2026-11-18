@@ -1,1 +1,1 @@
-{{ class_upper }}
+{{ class_upper is defined ? class_upper : 'none' }}

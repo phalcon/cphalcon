@@ -122,32 +122,6 @@ class RenderTest extends AbstractUnitTestCase
     }
 
     /**
-     * A variable that a template sets is visible in the templates that
-     * render after it.
-     *
-     * @issue  https://github.com/phalcon/phalcon/issues/810
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-11-17
-     */
-    public function testMvcViewEngineVoltRenderKeepsVariablesForLaterRenders(): void
-    {
-        $this->newDi();
-        $this->setDiService('viewSimple');
-
-        /** @var Simple $view */
-        $view = $this->container->get('viewSimple');
-        $view->registerEngines(['.volt' => Volt::class]);
-
-        $view->render('scope/set');
-
-        $actual = $view->render('scope/child');
-        $this->assertSame('upper', $actual);
-
-        $this->safeDeleteFile(Talon::settings()->supportPath('assets/views/scope/set.volt.php'));
-        $this->safeDeleteFile(Talon::settings()->supportPath('assets/views/scope/child.volt.php'));
-    }
-
-    /**
      * A variable that the action view sets is visible in the layout.
      *
      * @issue  https://github.com/phalcon/phalcon/issues/810
@@ -171,5 +145,31 @@ class RenderTest extends AbstractUnitTestCase
 
         $this->safeDeleteFile(Talon::settings()->supportPath('assets/views/scope/set.volt.php'));
         $this->safeDeleteFile(Talon::settings()->supportPath('assets/views/layouts/scope.volt.php'));
+    }
+
+    /**
+     * Each render starts with a new scope, the same as cphalcon. A variable
+     * that a template sets in one render is not visible in the next render.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/810
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-17
+     */
+    public function testMvcViewEngineVoltRenderStartsWithNewScope(): void
+    {
+        $this->newDi();
+        $this->setDiService('viewSimple');
+
+        /** @var Simple $view */
+        $view = $this->container->get('viewSimple');
+        $view->registerEngines(['.volt' => Volt::class]);
+
+        $view->render('scope/set');
+
+        $actual = $view->render('scope/child');
+        $this->assertSame('none', $actual);
+
+        $this->safeDeleteFile(Talon::settings()->supportPath('assets/views/scope/set.volt.php'));
+        $this->safeDeleteFile(Talon::settings()->supportPath('assets/views/scope/child.volt.php'));
     }
 }

@@ -33,9 +33,9 @@ class PartialTest extends AbstractUnitTestCase
     public static function getScopeExamples(): array
     {
         return [
-            'partial' => ['scope/partial', 'upper'],
-            'include' => ['scope/include', 'upper'],
-            'params'  => ['scope/params', 'param'],
+            'partial'             => ['scope/partial', 'upper'],
+            'include with params' => ['scope/include', 'none'],
+            'params'              => ['scope/params', 'param'],
         ];
     }
 
@@ -60,15 +60,16 @@ class PartialTest extends AbstractUnitTestCase
     }
 
     /**
-     * A variable that a template sets is visible in the partials that the
-     * template calls. Parameters of the partial win over the variable.
+     * A variable that a template sets is visible in a partial with no
+     * parameters. A partial with parameters gets a new scope with the view
+     * variables and its parameters only, the same as cphalcon.
      *
      * @issue  https://github.com/phalcon/phalcon/issues/810
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-11-17
      */
     #[DataProvider('getScopeExamples')]
-    public function testMvcViewEngineVoltPartialInheritsTemplateVariables(
+    public function testMvcViewEngineVoltPartialTemplateVariables(
         string $template,
         string $expected
     ): void {
