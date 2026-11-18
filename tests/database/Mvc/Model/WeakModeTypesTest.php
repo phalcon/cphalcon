@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Mvc\Model;
 
 use PDO;
+use Phalcon\Db\Adapter\Pdo\AbstractPdo;
 use Phalcon\Db\Column;
 use Phalcon\Mvc\Model;
 use Phalcon\Support\Settings;
@@ -358,6 +359,61 @@ final class WeakModeTypesTest extends AbstractDatabaseTestCase
 
         $this->assertTrue($invoice->save());
         $this->assertSame((int) $customer->cst_id, $invoice->inv_cst_id);
+    }
+
+    /**
+     * The relation copies a text column of the customer to the int key of
+     * the invoice. The copy throws a TypeError inside the save. The save
+     * must not leave the transaction of the related records open.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/804
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-17
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelWeakModeSaveBelongsToRefusedClosesTransaction(): void
+    {
+        $customer                 = new Customers();
+        $customer->cst_name_first = 'first';
+
+        $invoice            = new InvoicesWeakTypesPublic();
+        $invoice->inv_title = 'x';
+        $invoice->getModelsManager()->addBelongsTo(
+            $invoice,
+            'inv_cst_id',
+            Customers::class,
+            'cst_name_first',
+            [
+                'alias' => 'customerName',
+            ]
+        );
+        $invoice->customerName = $customer;
+
+        /** @var AbstractPdo $connection */
+        $connection = $invoice->getWriteConnection();
+
+        $thrown = false;
+        try {
+            $invoice->save();
+        } catch (TypeError) {
+            $thrown = true;
+        }
+
+        $underTransaction = $connection->isUnderTransaction();
+
+        /**
+         * Close an open transaction before the asserts. With MySQL and
+         * PostgreSQL, an open transaction locks the tables, and the next
+         * setUp() waits.
+         */
+        if ($underTransaction) {
+            $connection->rollback();
+        }
+
+        $this->assertTrue($thrown);
+        $this->assertFalse($underTransaction);
     }
 
     /**
