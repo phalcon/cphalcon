@@ -64,6 +64,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - `Phalcon\Db\Adapter\Pdo\Sqlite::describeColumns()` using `Column::TYPE_DECIMAL` as the bind type of `float` columns, which stored their values as blobs. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
 - `Phalcon\Forms\Form::getValue()` returning the tag factory for the name `tagFactory`. [#17727](https://github.com/phalcon/cphalcon/issues/17727)
 - `Phalcon\Mvc\Model::doLowInsert()` not reading back the generated id on MySQL when the identity property is `0`. [#17689](https://github.com/phalcon/cphalcon/issues/17689)
+- `Phalcon\Mvc\Model::save()` leaving the transaction of the related records open when an exception is thrown during the save; the transaction is now rolled back before the exception is thrown again. [#17756](https://github.com/phalcon/cphalcon/issues/17756)
 - `Phalcon\Mvc\Model\Query::getIntermediate()` throwing a `TypeError` after `parse()` got the intermediate representation from the cache. [#800](https://github.com/phalcon/phalcon/issues/800)
 - `Phalcon\Mvc\Model\Query\Builder::__construct()` crashing with OPcache when the parameters have empty `bind` or `bindTypes` arrays. [#17725](https://github.com/phalcon/cphalcon/issues/17725)
 - `Phalcon\Mvc\Model\Query` giving an "Undefined array key" warning for a join with no `ON` condition when `enable_implicit_joins` is disabled; the query still throws `Phalcon\Db\Exceptions\InvalidSqlExpression`. [#816](https://github.com/phalcon/phalcon/issues/816)
