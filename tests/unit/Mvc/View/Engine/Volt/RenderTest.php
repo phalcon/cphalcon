@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt;
 
 use Phalcon\Mvc\View;
+use Phalcon\Mvc\View\Engine\Php;
 use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Mvc\View\Simple;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
@@ -119,6 +120,37 @@ class RenderTest extends AbstractUnitTestCase
 
         $this->assertSame('Some label: Label', $output);
         $this->safeDeleteFile($templatePath . '.php');
+    }
+
+    /**
+     * A variable that a Php action view sets is visible in a Volt layout.
+     * All the engines of a view share the variables, the same as cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/810
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-17
+     */
+    public function testMvcViewEngineVoltRenderSharesVariablesAcrossEngines(): void
+    {
+        $this->newDi();
+        $this->setDiService('view');
+
+        /** @var View $view */
+        $view = $this->container->get('view');
+        $view->registerEngines(
+            [
+                '.volt'  => Volt::class,
+                '.phtml' => Php::class,
+            ]
+        );
+
+        $view->start();
+        $view->render('scope', 'php-set');
+        $view->finish();
+
+        $this->assertSame('upper', $view->getContent());
+
+        $this->safeDeleteFile(Talon::settings()->supportPath('assets/views/layouts/scope.volt.php'));
     }
 
     /**

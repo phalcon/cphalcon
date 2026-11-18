@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt;
 
+use Phalcon\Mvc\View\Engine\Php;
 use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Mvc\View\Simple;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
@@ -36,6 +37,7 @@ class PartialTest extends AbstractUnitTestCase
             'partial'             => ['scope/partial', 'upper'],
             'include with params' => ['scope/include', 'none'],
             'params'              => ['scope/params', 'param'],
+            'set in partial'      => ['scope/caller', 'upper'],
         ];
     }
 
@@ -57,6 +59,35 @@ class PartialTest extends AbstractUnitTestCase
         ob_end_clean();
 
         $this->assertSame('Hey, this is a partial, also FooBar', $view->getContent());
+    }
+
+    /**
+     * A variable that a Volt template sets is visible in a partial that the
+     * Php engine renders. All the engines of a view share the variables, the
+     * same as cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/810
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-17
+     */
+    public function testMvcViewEngineVoltPartialSharesVariablesWithPhpEngine(): void
+    {
+        $this->newDi();
+        $this->setDiService('viewSimple');
+
+        /** @var Simple $view */
+        $view = $this->container->get('viewSimple');
+        $view->registerEngines(
+            [
+                '.volt'  => Volt::class,
+                '.phtml' => Php::class,
+            ]
+        );
+
+        $actual = $view->render('scope/volt-to-php');
+        $this->assertSame('upper', $actual);
+
+        $this->safeDeleteFile(Talon::settings()->supportPath('assets/views/scope/volt-to-php.volt.php'));
     }
 
     /**
@@ -85,5 +116,6 @@ class PartialTest extends AbstractUnitTestCase
 
         $this->safeDeleteFile(Talon::settings()->supportPath('assets/views/' . $template . '.volt.php'));
         $this->safeDeleteFile(Talon::settings()->supportPath('assets/views/scope/child.volt.php'));
+        $this->safeDeleteFile(Talon::settings()->supportPath('assets/views/scope/set.volt.php'));
     }
 }
