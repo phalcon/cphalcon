@@ -155,6 +155,23 @@ final class ConstructTest extends AbstractUnitTestCase
     }
 
     /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/17762
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-19
+     */
+    #[RequiresPhpExtension('redis')]
+    public function testStorageAdapterRedisClusterConstructDefaultHosts(): void
+    {
+        $serializer = new SerializerFactory();
+        $adapter    = new RedisCluster($serializer);
+
+        $options  = $this->getProtectedProperty($adapter, 'options');
+        $expected = ['127.0.0.1:6379'];
+        $actual   = $options['hosts'];
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
