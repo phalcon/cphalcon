@@ -204,7 +204,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_CreditCard, verifyByLuhnAlgorithm
 	ZVAL_STR_COPY(&number_zv, number);
 	ZEPHIR_INIT_VAR(&hash);
 	ZVAL_STRING(&hash, "");
-	ZEPHIR_CALL_FUNCTION(&_0, "ctype_digit", NULL, 150, &number_zv);
+	ZEPHIR_CALL_FUNCTION(&_0, "ctype_digit", NULL, 151, &number_zv);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_0)) {
 		RETURN_MM_BOOL(0);
@@ -307,7 +307,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_CreditCard, verifyByLuhnAlgorithm
 	ZEPHIR_INIT_NVAR(&position);
 	ZEPHIR_CALL_FUNCTION(&_16, "str_split", &_2, 67, &hash);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&result, "array_sum", NULL, 156, &_16);
+	ZEPHIR_CALL_FUNCTION(&result, "array_sum", NULL, 157, &_16);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_17);
 	zephir_mod_zval_long(&_17, &result, 10);

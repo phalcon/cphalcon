@@ -326,7 +326,7 @@ PHP_METHOD(Phalcon_Messages_Traits_MessagesHelperTrait, offsetUnset)
 		_3$$3 = zephir_fetch_property_write(this_ptr, _zephir_prop_0, &_2$$3);
 		ZVAL_LONG(&_4$$3, 1);
 		ZEPHIR_MAKE_WRITE_REF(_3$$3);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_splice", NULL, 147, _3$$3, offset, &_4$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_splice", NULL, 148, _3$$3, offset, &_4$$3);
 		ZEPHIR_UNREF_WRITE(_3$$3);
 		zephir_check_call_status();
 	}

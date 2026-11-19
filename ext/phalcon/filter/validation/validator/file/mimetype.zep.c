@@ -177,7 +177,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_MimeType, validate)
 	zephir_check_call_status();
 	if (zephir_is_true(&_4)) {
 		ZVAL_LONG(&_5$$6, 16);
-		ZEPHIR_CALL_FUNCTION(&tmp, "finfo_open", NULL, 157, &_5$$6);
+		ZEPHIR_CALL_FUNCTION(&tmp, "finfo_open", NULL, 158, &_5$$6);
 		zephir_check_call_status();
 		if (zephir_is_true(&tmp)) {
 			zephir_memory_observe(&_6$$7);
@@ -186,7 +186,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_MimeType, validate)
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			ZEPHIR_CALL_FUNCTION(&mime, "finfo_file", NULL, 158, &tmp, &_6$$7);
+			ZEPHIR_CALL_FUNCTION(&mime, "finfo_file", NULL, 159, &tmp, &_6$$7);
 			zephir_check_call_status();
 		}
 	}
@@ -324,7 +324,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_MimeType, phpExtensionLoaded
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 114, &name_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 115, &name_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

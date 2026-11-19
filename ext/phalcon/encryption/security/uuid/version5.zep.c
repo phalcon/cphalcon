@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version5, __construct)
 	ZVAL_LONG(&_6, 1);
 	ZEPHIR_INIT_VAR(&_7);
 	zephir_substr(&_7, &hash, 6 , 1 , 0);
-	ZEPHIR_CALL_FUNCTION(&_8, "ord", &_9, 133, &_7);
+	ZEPHIR_CALL_FUNCTION(&_8, "ord", &_9, 134, &_7);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_10);
 	ZVAL_LONG(&_10, 0x0f);
@@ -133,18 +133,18 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version5, __construct)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&_8, "chr", &_13, 121, &_12);
+	ZEPHIR_CALL_FUNCTION(&_8, "chr", &_13, 122, &_12);
 	zephir_check_call_status();
 	ZVAL_LONG(&_14, 6);
 	ZVAL_LONG(&_15, 1);
-	ZEPHIR_CALL_FUNCTION(&_16, "substr_replace", &_17, 145, &hash, &_8, &_14, &_15);
+	ZEPHIR_CALL_FUNCTION(&_16, "substr_replace", &_17, 146, &hash, &_8, &_14, &_15);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&hash, &_16);
 	ZVAL_LONG(&_14, 8);
 	ZVAL_LONG(&_15, 1);
 	ZEPHIR_INIT_VAR(&_18);
 	zephir_substr(&_18, &hash, 8 , 1 , 0);
-	ZEPHIR_CALL_FUNCTION(&_16, "ord", &_9, 133, &_18);
+	ZEPHIR_CALL_FUNCTION(&_16, "ord", &_9, 134, &_18);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_10);
 	ZVAL_LONG(&_10, 0x3f);
@@ -162,11 +162,11 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version5, __construct)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&_16, "chr", &_13, 121, &_19);
+	ZEPHIR_CALL_FUNCTION(&_16, "chr", &_13, 122, &_19);
 	zephir_check_call_status();
 	ZVAL_LONG(&_20, 8);
 	ZVAL_LONG(&_21, 1);
-	ZEPHIR_CALL_FUNCTION(&_22, "substr_replace", &_17, 145, &hash, &_16, &_20, &_21);
+	ZEPHIR_CALL_FUNCTION(&_22, "substr_replace", &_17, 146, &hash, &_16, &_20, &_21);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&hash, &_22);
 	ZEPHIR_CALL_FUNCTION(&_23, "bin2hex", NULL, 69, &hash);

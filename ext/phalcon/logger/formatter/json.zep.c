@@ -202,9 +202,9 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, toEncode)
 	ZVAL_LONG(&_1, depth);
 	ZEPHIR_INIT_NVAR(&encoded);
 	zephir_json_encode(&encoded, data, zephir_get_intval(&_0) );
-	ZEPHIR_CALL_FUNCTION(&error, "json_last_error", NULL, 225);
+	ZEPHIR_CALL_FUNCTION(&error, "json_last_error", NULL, 226);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&message, "json_last_error_msg", NULL, 226);
+	ZEPHIR_CALL_FUNCTION(&message, "json_last_error_msg", NULL, 227);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_LONG_IDENTICAL(&error, 0)) {
 		ZEPHIR_INIT_VAR(&_2$$3);

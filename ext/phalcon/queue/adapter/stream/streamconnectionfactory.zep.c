@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamConnectionFactory, createContext)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_FUNCTION(&storageDir, "sys_get_temp_dir", NULL, 245);
+	ZEPHIR_CALL_FUNCTION(&storageDir, "sys_get_temp_dir", NULL, 246);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1304, PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {

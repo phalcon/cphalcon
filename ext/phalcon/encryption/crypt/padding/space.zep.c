@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Space, unpad)
 				return;
 			}
 			ZVAL_LONG(&_4, 32);
-			ZEPHIR_CALL_FUNCTION(&_5, "chr", &_6, 121, &_4);
+			ZEPHIR_CALL_FUNCTION(&_5, "chr", &_6, 122, &_4);
 			zephir_check_call_status();
 			_2 = ZEPHIR_IS_IDENTICAL(&_3, &_5);
 		}

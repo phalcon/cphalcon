@@ -3575,7 +3575,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression)
 						zephir_create_closure_ex(&_8$$8, NULL, phalcon_95__closure_ce, SL("__invoke"));
 						ZEPHIR_INIT_NVAR(&_9$$8);
 						ZVAL_STRING(&_9$$8, "/\\\\.|'/s");
-						ZEPHIR_CALL_FUNCTION(&_10$$8, "preg_replace_callback", &_11, 227, &_9$$8, &_8$$8, &name);
+						ZEPHIR_CALL_FUNCTION(&_10$$8, "preg_replace_callback", &_11, 228, &_9$$8, &_8$$8, &name);
 						zephir_check_call_status();
 						ZEPHIR_INIT_NVAR(&_12$$8);
 						ZEPHIR_CONCAT_SVSV(&_12$$8, "'", &_10$$8, "' => ", &singleExprCode);
@@ -3639,7 +3639,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression)
 							zephir_create_closure_ex(&_18$$11, NULL, phalcon_96__closure_ce, SL("__invoke"));
 							ZEPHIR_INIT_NVAR(&_19$$11);
 							ZVAL_STRING(&_19$$11, "/\\\\.|'/s");
-							ZEPHIR_CALL_FUNCTION(&_20$$11, "preg_replace_callback", &_11, 227, &_19$$11, &_18$$11, &name);
+							ZEPHIR_CALL_FUNCTION(&_20$$11, "preg_replace_callback", &_11, 228, &_19$$11, &_18$$11, &name);
 							zephir_check_call_status();
 							ZEPHIR_INIT_NVAR(&_21$$11);
 							ZEPHIR_CONCAT_SVSV(&_21$$11, "'", &_20$$11, "' => ", &singleExprCode);
@@ -3913,7 +3913,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression)
 				}
 				ZEPHIR_INIT_NVAR(&_31$$35);
 				ZVAL_STRING(&_31$$35, "/\\\\.|'/s");
-				ZEPHIR_CALL_FUNCTION(&_32$$35, "preg_replace_callback", &_11, 227, &_31$$35, &_29$$35, &_30$$35);
+				ZEPHIR_CALL_FUNCTION(&_32$$35, "preg_replace_callback", &_11, 228, &_31$$35, &_29$$35, &_30$$35);
 				zephir_check_call_status();
 				ZEPHIR_CONCAT_SVS(&exprCode, "'", &_32$$35, "'");
 				if (UNEXPECTED(EG(exception))) {
@@ -3932,7 +3932,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression)
 				}
 				ZEPHIR_INIT_NVAR(&_35$$36);
 				ZVAL_STRING(&_35$$36, "/\\\\.|[\"$]/s");
-				ZEPHIR_CALL_FUNCTION(&_36$$36, "preg_replace_callback", &_11, 227, &_35$$36, &_33$$36, &_34$$36);
+				ZEPHIR_CALL_FUNCTION(&_36$$36, "preg_replace_callback", &_11, 228, &_35$$36, &_33$$36, &_34$$36);
 				zephir_check_call_status();
 				ZEPHIR_CONCAT_SVS(&exprCode, "\"", &_36$$36, "\"");
 				if (UNEXPECTED(EG(exception))) {
@@ -5935,7 +5935,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getFinalPath)
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZEPHIR_CALL_FUNCTION(&_3$$4, "dirname", NULL, 238, &_2$$4);
+		ZEPHIR_CALL_FUNCTION(&_3$$4, "dirname", NULL, 239, &_2$$4);
 		zephir_check_call_status();
 		ZEPHIR_CONCAT_VSV(return_value, &_3$$4, "/", &path_zv);
 		if (UNEXPECTED(EG(exception))) {
@@ -6222,7 +6222,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter)
 			zephir_array_update_string(&_6$$7, SL("file"), &file, PH_COPY | PH_SEPARATE);
 			zephir_array_update_string(&_6$$7, SL("line"), &line, PH_COPY | PH_SEPARATE);
 			ZEPHIR_MAKE_REF(&funcArguments);
-			ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 146, &funcArguments, &_6$$7);
+			ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 147, &funcArguments, &_6$$7);
 			ZEPHIR_UNREF(&funcArguments);
 			zephir_check_call_status();
 		}
@@ -7848,7 +7848,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, isAbsolutePath)
 		ZVAL_LONG(&_3, 1);
 		ZEPHIR_INIT_VAR(&_4);
 		zephir_substr(&_4, &path_zv, 0 , 1 , 0);
-		ZEPHIR_CALL_FUNCTION(&_5, "ctype_alpha", NULL, 239, &_4);
+		ZEPHIR_CALL_FUNCTION(&_5, "ctype_alpha", NULL, 240, &_4);
 		zephir_check_call_status();
 		_1 = zephir_is_true(&_5);
 	}

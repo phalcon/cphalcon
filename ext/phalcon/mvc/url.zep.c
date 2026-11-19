@@ -448,7 +448,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get)
 				return;
 			}
 			ZEPHIR_MAKE_REF(&existing);
-			ZEPHIR_CALL_FUNCTION(NULL, "parse_str", NULL, 174, &_33$$20, &existing);
+			ZEPHIR_CALL_FUNCTION(NULL, "parse_str", NULL, 175, &_33$$20, &existing);
 			ZEPHIR_UNREF(&existing);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&_34$$20, arguments);
@@ -467,7 +467,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get)
 			ZEPHIR_INIT_NVAR(&queryPos);
 			ZVAL_BOOL(&queryPos, 0);
 		}
-		ZEPHIR_CALL_FUNCTION(&queryString, "http_build_query", NULL, 234, arguments);
+		ZEPHIR_CALL_FUNCTION(&queryString, "http_build_query", NULL, 235, arguments);
 		zephir_check_call_status();
 		_39$$19 = Z_TYPE_P(&queryString) == IS_STRING;
 		if (_39$$19) {

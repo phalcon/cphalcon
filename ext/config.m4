@@ -105,6 +105,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/model/metadata.zep.c
 	phalcon/paginator/adapter/adapterinterface.zep.c
 	phalcon/annotations/adapter/adapterinterface.zep.c
+	phalcon/annotations/exception.zep.c
 	phalcon/auth/adapter/abstractadapter.zep.c
 	phalcon/container/definition/processor/processor.zep.c
 	phalcon/contracts/adr/middleware.zep.c
@@ -138,7 +139,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/adr/responder/chainresponder.zep.c
 	phalcon/acl/adapter/adapterinterface.zep.c
 	phalcon/annotations/adapter/abstractadapter.zep.c
-	phalcon/annotations/exception.zep.c
 	phalcon/assets/filterinterface.zep.c
 	phalcon/auth/abstractauthdispatcherlistener.zep.c
 	phalcon/auth/access/abstractaccess.zep.c
@@ -427,6 +427,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/annotations/exceptions/annotationnotfound.zep.c
 	phalcon/annotations/exceptions/annotationsdirectorynotwritable.zep.c
 	phalcon/annotations/exceptions/cannotreadannotationdata.zep.c
+	phalcon/annotations/exceptions/invalidsourcetable.zep.c
 	phalcon/annotations/exceptions/unknownannotationexpression.zep.c
 	phalcon/annotations/models/metadata/column.zep.c
 	phalcon/annotations/models/metadata/identity.zep.c

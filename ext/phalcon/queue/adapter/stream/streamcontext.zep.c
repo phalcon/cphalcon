@@ -326,7 +326,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, popMessage)
 		zephir_check_call_status();
 		RETURN_MM_NULL();
 	}
-	ZEPHIR_CALL_FUNCTION(&contents, "stream_get_contents", NULL, 246, &pointer);
+	ZEPHIR_CALL_FUNCTION(&contents, "stream_get_contents", NULL, 247, &pointer);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_VAR(&_5);
@@ -367,9 +367,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, popMessage)
 		ZVAL_STRING(&remaining, "");
 	}
 	ZVAL_LONG(&_2, 0);
-	ZEPHIR_CALL_FUNCTION(NULL, "ftruncate", NULL, 247, &pointer, &_2);
+	ZEPHIR_CALL_FUNCTION(NULL, "ftruncate", NULL, 248, &pointer, &_2);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(NULL, "rewind", NULL, 248, &pointer);
+	ZEPHIR_CALL_FUNCTION(NULL, "rewind", NULL, 249, &pointer);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "phpFwrite", &_zephir_call_cache[5], &pointer, &remaining);
 	zephir_check_call_status();
@@ -378,7 +378,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, popMessage)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "phpFclose", &_zephir_call_cache[6], &pointer);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_10, "base64_decode", NULL, 122, &line);
+	ZEPHIR_CALL_FUNCTION(&_10, "base64_decode", NULL, 123, &line);
 	zephir_check_call_status();
 	ZEPHIR_CALL_CE_STATIC_CACHED(&data, phalcon_queue_adapter_messageenvelope_ce, "decode", &_zephir_call_cache[7], &_10);
 	zephir_check_call_status();
@@ -476,7 +476,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamContext, pushMessage)
 	zephir_check_call_status();
 	ZEPHIR_CALL_CE_STATIC_CACHED(&_0, phalcon_queue_adapter_messageenvelope_ce, "encode", &_zephir_call_cache[2], message);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_1, "base64_encode", NULL, 123, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "base64_encode", NULL, 124, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_GET_CONSTANT(&_2, "PHP_EOL");

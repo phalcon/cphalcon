@@ -281,7 +281,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, getConnection)
 		return;
 	}
 	if (zephir_is_true(&_0)) {
-		ZEPHIR_CALL_FUNCTION(&_1$$3, "connection_aborted", NULL, 232);
+		ZEPHIR_CALL_FUNCTION(&_1$$3, "connection_aborted", NULL, 233);
 		zephir_check_call_status();
 		if (zephir_is_true(&_1$$3)) {
 			ZEPHIR_INIT_VAR(&_2$$4);

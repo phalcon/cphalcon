@@ -260,7 +260,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format)
 	zephir_create_closure_ex(&_12, NULL, phalcon_88__closure_ce, SL("__invoke"));
 	ZEPHIR_INIT_VAR(&_13);
 	ZVAL_STRING(&_13, "/[\\x00-\\x08\\x0A-\\x1F\\x7F]/");
-	ZEPHIR_RETURN_CALL_FUNCTION("preg_replace_callback", NULL, 227, &_13, &_12, &message);
+	ZEPHIR_RETURN_CALL_FUNCTION("preg_replace_callback", NULL, 228, &_13, &_12, &message);
 	zephir_check_call_status();
 	RETURN_MM();
 }

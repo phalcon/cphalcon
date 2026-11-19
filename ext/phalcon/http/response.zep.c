@@ -754,7 +754,7 @@ PHP_METHOD(Phalcon_Http_Response, send)
 			_4$$5 = ((zephir_fast_strlen_ev(&file)) ? 1 : 0);
 		}
 		if (_4$$5) {
-			ZEPHIR_CALL_FUNCTION(NULL, "readfile", NULL, 176, &file);
+			ZEPHIR_CALL_FUNCTION(NULL, "readfile", NULL, 177, &file);
 			zephir_check_call_status();
 		}
 	}
@@ -1260,7 +1260,7 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend)
 		ZEPHIR_CALL_METHOD_CACHED(&_1$$5, this_ptr, "phpFunctionExists", &_zephir_call_cache[2], &_2$$5);
 		zephir_check_call_status();
 		if (zephir_is_true(&_1$$5)) {
-			ZEPHIR_CALL_FUNCTION(&_3$$6, "mb_detect_order", NULL, 177);
+			ZEPHIR_CALL_FUNCTION(&_3$$6, "mb_detect_order", NULL, 178);
 			zephir_check_call_status();
 			ZEPHIR_CALL_FUNCTION(&basePathEncoding, "mb_detect_encoding", NULL, 28, &basePath, &_3$$6, &__$true);
 			zephir_check_call_status();
@@ -1294,7 +1294,7 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend)
 		} else {
 			ZEPHIR_INIT_VAR(&_7$$8);
 			ZVAL_STRING(&_7$$8, "\15\17\\\"");
-			ZEPHIR_CALL_FUNCTION(&_8$$8, "addcslashes", NULL, 178, &basePath, &_7$$8);
+			ZEPHIR_CALL_FUNCTION(&_8$$8, "addcslashes", NULL, 179, &basePath, &_7$$8);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&basePath, &_8$$8);
 			ZEPHIR_INIT_VAR(&_9$$8);
@@ -1745,7 +1745,7 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode)
 			if (_7$$3) {
 				ZEPHIR_INIT_NVAR(&_8$$3);
 				ZVAL_STRING(&_8$$3, "HTTP/");
-				ZEPHIR_CALL_FUNCTION(&_9$$3, "strstr", &_10, 179, &key, &_8$$3);
+				ZEPHIR_CALL_FUNCTION(&_9$$3, "strstr", &_10, 180, &key, &_8$$3);
 				zephir_check_call_status();
 				_7$$3 = zephir_is_true(&_9$$3);
 			}
@@ -1783,7 +1783,7 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode)
 				if (_14$$5) {
 					ZEPHIR_INIT_NVAR(&_15$$5);
 					ZVAL_STRING(&_15$$5, "HTTP/");
-					ZEPHIR_CALL_FUNCTION(&_16$$5, "strstr", &_10, 179, &key, &_15$$5);
+					ZEPHIR_CALL_FUNCTION(&_16$$5, "strstr", &_10, 180, &key, &_15$$5);
 					zephir_check_call_status();
 					_14$$5 = zephir_is_true(&_16$$5);
 				}
@@ -2074,7 +2074,7 @@ PHP_METHOD(Phalcon_Http_Response, phpExtensionLoaded)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 114, &name_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 115, &name_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -2235,7 +2235,7 @@ PHP_METHOD(Phalcon_Http_Response, phpParseUrl)
 	} else {
 		}
 	ZVAL_LONG(&_0, component);
-	ZEPHIR_RETURN_CALL_FUNCTION("parse_url", NULL, 153, &url_zv, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("parse_url", NULL, 154, &url_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -2262,7 +2262,7 @@ PHP_METHOD(Phalcon_Http_Response, phpRawUrlDecode)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
-	ZEPHIR_RETURN_CALL_FUNCTION("rawurldecode", NULL, 166, &input_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("rawurldecode", NULL, 167, &input_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -2289,7 +2289,7 @@ PHP_METHOD(Phalcon_Http_Response, phpRawUrlEncode)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
-	ZEPHIR_RETURN_CALL_FUNCTION("rawurlencode", NULL, 167, &input_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("rawurlencode", NULL, 168, &input_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
