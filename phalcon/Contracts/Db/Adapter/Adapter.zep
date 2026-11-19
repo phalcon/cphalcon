@@ -224,6 +224,9 @@ interface Adapter
     /**
      * Returns the n'th field of first row in a SQL query result
      *
+     * Returns false if the query returns no rows. The type of the value
+     * comes from the database driver.
+     *
      *```php
      * // Getting count of invoices
      * $invoicesCount = $connection->fetchColumn("SELECT COUNT(*) FROM co_invoices");
@@ -241,7 +244,7 @@ interface Adapter
      *
      * @phpstan-param int|string $column
      */
-    public function fetchColumn(string sqlQuery, array placeholders = [], var column = 0) -> string | bool;
+    public function fetchColumn(string sqlQuery, array placeholders = [], var column = 0) -> mixed;
 
     /**
      * Returns the first row in a SQL query result

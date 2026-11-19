@@ -28,6 +28,8 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 > **Upgrade note:** `Phalcon\Paginator\Adapter\AbstractAdapter` now creates the repository in its constructor. A custom adapter that overrides `__construct()` must call `parent::__construct()`, or `getRepository()` throws an `Error`. [#17750](https://github.com/phalcon/cphalcon/issues/17750)
 
+> **Upgrade note:** `Phalcon\Contracts\Db\Adapter\Adapter::fetchColumn()` and `Phalcon\Db\Adapter\AbstractAdapter::fetchColumn()` now declare `mixed` as the return type instead of `string|bool`. The returned values do not change: the method returns the value from the database driver, for example `int`, `float`, `string` or `null`, or `false` when the query returns no rows. A class that overrides `fetchColumn()` can keep the `string|bool` return type. [#17755](https://github.com/phalcon/cphalcon/issues/17755)
+
 > **Upgrade note:** `Phalcon\Mvc\Model\Manager::getModelSource()` now reads the `Phalcon\Annotations\Models\MetaData\Source` attribute of a model class when the `annotations` service uses `Phalcon\Annotations\AttributesReader`. A model with `#[Source('x')]` and no `setSource()` now uses the table `x`, with the model prefix, instead of the name from its class. A `Source` attribute with a missing, empty or non-string table now throws `Phalcon\Mvc\Model\Exception`. With the default docblock reader, nothing changes. [#17741](https://github.com/phalcon/cphalcon/issues/17741)
 
 ### Tools
@@ -63,6 +65,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - PHP 8.6 deprecation for session handlers without `create_sid()`: `Phalcon\Session\Adapter\AbstractAdapter` and `Phalcon\Session\Adapter\Noop` now implement `SessionIdInterface` and `create_sid()`. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
 - PHP 8.6 deprecation of `doubleval()`: `Phalcon\Encryption\Security\Uuid\Version1`, `Phalcon\Encryption\Security\Uuid\Version6` and `Phalcon\Mvc\Model` now use `floatval()`. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
 - PHP 8.6 deprecation of `spl_object_hash()`: `Phalcon\Dispatcher\AbstractDispatcher` and `Phalcon\Html\Link\AbstractLinkProvider` now use `spl_object_id()`; the keys returned by `getLinks()` are now integers. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
+- `Phalcon\Contracts\Db\Adapter\Adapter::fetchColumn()` and `Phalcon\Db\Adapter\AbstractAdapter::fetchColumn()` declaring `string|bool` as the return type instead of `mixed`. [#17755](https://github.com/phalcon/cphalcon/issues/17755)
 - `Phalcon\Db\Adapter\Pdo\Postgresql::describeColumns()` reporting `mediumblob` columns as `Column::TYPE_TEXT`. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
 - `Phalcon\Db\Adapter\Pdo\Postgresql::describeReferences()` returning wrong column pairs for composite foreign keys. [#17680](https://github.com/phalcon/cphalcon/issues/17680)
 - `Phalcon\Db\Adapter\Pdo\Sqlite::describeColumns()` reporting `tinyint(1)` columns as `Column::TYPE_INTEGER`. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
