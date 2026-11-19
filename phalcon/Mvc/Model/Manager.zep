@@ -10,7 +10,6 @@
 
 namespace Phalcon\Mvc\Model;
 
-use Phalcon\Annotations\Adapter\AdapterInterface as AnnotationsAdapterInterface;
 use Phalcon\Annotations\Exceptions\InvalidSourceTable;
 use Phalcon\Annotations\Models\MetaData\Source;
 use Phalcon\Contracts\Mvc\Model\Relation\CacheKeyProvider;
@@ -2434,11 +2433,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
             return source;
         }
 
-        let annotations = <AnnotationsAdapterInterface> container->getShared("annotations");
-
-        if typeof annotations !== "object" || !(annotations instanceof AnnotationsAdapterInterface) {
-            return source;
-        }
+        let annotations = container->getShared("annotations");
 
         try {
             let table = Source::getTableFromAdapter(annotations, get_class(model));

@@ -77,12 +77,17 @@ class Source
     /**
      * Returns the model's table when the adapter uses AttributesReader.
      * Other readers do not opt in and are not asked to parse the class.
+     * A value that is not an annotations adapter does not opt in.
      *
      * @throws InvalidSourceTable
      */
-    public static function getTableFromAdapter(<AdapterInterface> adapter, string className) -> string | null
+    public static function getTableFromAdapter(var adapter, string className) -> string | null
     {
         var annotations;
+
+        if typeof adapter !== "object" || !(adapter instanceof AdapterInterface) {
+            return null;
+        }
 
         if !(adapter->getReader() instanceof AttributesReader) {
             return null;
