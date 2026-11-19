@@ -28,26 +28,28 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 > **Upgrade note:** `Phalcon\Paginator\Adapter\AbstractAdapter` now creates the repository in its constructor. A custom adapter that overrides `__construct()` must call `parent::__construct()`, or `getRepository()` throws an `Error`. [#17750](https://github.com/phalcon/cphalcon/issues/17750)
 
+> **Upgrade note:** `Phalcon\Mvc\Model\Manager::getModelSource()` now reads the `Phalcon\Annotations\Models\MetaData\Source` attribute of a model class when the `annotations` service uses `Phalcon\Annotations\AttributesReader`. A model with `#[Source('x')]` and no `setSource()` now uses the table `x`, with the model prefix, instead of the name from its class. A `Source` attribute with a missing, empty or non-string table now throws `Phalcon\Mvc\Model\Exception`. With the default docblock reader, nothing changes. [#17741](https://github.com/phalcon/cphalcon/issues/17741)
+
 ### Tools
 
 - Zephir 1.8.0
 
 ### Changed
 
+- Faster ACL build in `Phalcon\Acl\Adapter\Memory`. [#17701](https://github.com/phalcon/cphalcon/issues/17701)
+- Faster HTML output of the `Phalcon\Flash` messages with no icon classes. [#17712](https://github.com/phalcon/cphalcon/issues/17712)
+- Faster HTML output of the `Phalcon\Flash` messages. [#17704](https://github.com/phalcon/cphalcon/issues/17704)
+- Faster `Phalcon\Acl\Adapter\Memory::isAllowed()`. [#17711](https://github.com/phalcon/cphalcon/issues/17711)
+- Faster `Phalcon\Cache\Cache`, the `Phalcon\Storage` adapters and `Phalcon\Acl\Adapter\Memory::isAllowed()` when no events manager is set. [#17703](https://github.com/phalcon/cphalcon/issues/17703)
+- Faster `Phalcon\Config\Config::path()`. [#17714](https://github.com/phalcon/cphalcon/issues/17714)
+- Faster `Phalcon\Logger` calls with no excluded adapters. [#17713](https://github.com/phalcon/cphalcon/issues/17713)
+- Faster `Phalcon\Mvc\Micro` requests with the default router service. [#17715](https://github.com/phalcon/cphalcon/issues/17715)
+- Faster base64url decode in the JWT parser and `Phalcon\Encryption\Crypt::decryptBase64()`. [#17705](https://github.com/phalcon/cphalcon/issues/17705)
+- Faster construction of `Phalcon\Config\Config` and its adapters when the config has no type. [#17702](https://github.com/phalcon/cphalcon/issues/17702)
+- Faster construction of the validators in `Phalcon\Filter\Validation`. [#17697](https://github.com/phalcon/cphalcon/issues/17697)
 - Faster item storage, lookup, removal and JSON serialization in `Phalcon\Support\Collection`. [#17683](https://github.com/phalcon/cphalcon/issues/17683)
 - Faster route index build in `Phalcon\Mvc\Router` for routes with no host name. [#17693](https://github.com/phalcon/cphalcon/issues/17693)
 - Faster service registration in `Phalcon\Factory\AbstractFactory` and the factories that extend it. [#17696](https://github.com/phalcon/cphalcon/issues/17696)
-- Faster construction of the validators in `Phalcon\Filter\Validation`. [#17697](https://github.com/phalcon/cphalcon/issues/17697)
-- Faster ACL build in `Phalcon\Acl\Adapter\Memory`. [#17701](https://github.com/phalcon/cphalcon/issues/17701)
-- Faster construction of `Phalcon\Config\Config` and its adapters when the config has no type. [#17702](https://github.com/phalcon/cphalcon/issues/17702)
-- Faster `Phalcon\Cache\Cache`, the `Phalcon\Storage` adapters and `Phalcon\Acl\Adapter\Memory::isAllowed()` when no events manager is set. [#17703](https://github.com/phalcon/cphalcon/issues/17703)
-- Faster HTML output of the `Phalcon\Flash` messages. [#17704](https://github.com/phalcon/cphalcon/issues/17704)
-- Faster base64url decode in the JWT parser and `Phalcon\Encryption\Crypt::decryptBase64()`. [#17705](https://github.com/phalcon/cphalcon/issues/17705)
-- Faster `Phalcon\Acl\Adapter\Memory::isAllowed()`. [#17711](https://github.com/phalcon/cphalcon/issues/17711)
-- Faster HTML output of the `Phalcon\Flash` messages with no icon classes. [#17712](https://github.com/phalcon/cphalcon/issues/17712)
-- Faster `Phalcon\Logger` calls with no excluded adapters. [#17713](https://github.com/phalcon/cphalcon/issues/17713)
-- Faster `Phalcon\Mvc\Micro` requests with the default router service. [#17715](https://github.com/phalcon/cphalcon/issues/17715)
-- Faster `Phalcon\Config\Config::path()`. [#17714](https://github.com/phalcon/cphalcon/issues/17714)
 - `Phalcon\Mvc\Model\Query::clean()` now also empties the cache of parsed PHQL statements, the same as `Phalcon\Mvc\Model\Manager::__destruct()`. [#800](https://github.com/phalcon/phalcon/issues/800)
 
 ### Added
@@ -57,15 +59,19 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 ### Fixed
 
-- `Phalcon\Mvc\Model\Manager::getModelSource()` ignoring `Source` attributes when `AttributesReader` is configured. [#17741](https://github.com/phalcon/cphalcon/issues/17741)
+- PHP 8.4+ builds from `build/phalcon` (PECL, PIE, `build/install`) calling the userland `json_encode()` and `json_decode()`, because `config.m4` checked for `HAVE_JSON`, which PHP 8.4 removed. [#16523](https://github.com/phalcon/cphalcon/issues/16523)
+- PHP 8.6 deprecation for session handlers without `create_sid()`: `Phalcon\Session\Adapter\AbstractAdapter` and `Phalcon\Session\Adapter\Noop` now implement `SessionIdInterface` and `create_sid()`. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
+- PHP 8.6 deprecation of `doubleval()`: `Phalcon\Encryption\Security\Uuid\Version1`, `Phalcon\Encryption\Security\Uuid\Version6` and `Phalcon\Mvc\Model` now use `floatval()`. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
+- PHP 8.6 deprecation of `spl_object_hash()`: `Phalcon\Dispatcher\AbstractDispatcher` and `Phalcon\Html\Link\AbstractLinkProvider` now use `spl_object_id()`; the keys returned by `getLinks()` are now integers. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
 - `Phalcon\Db\Adapter\Pdo\Postgresql::describeColumns()` reporting `mediumblob` columns as `Column::TYPE_TEXT`. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
 - `Phalcon\Db\Adapter\Pdo\Postgresql::describeReferences()` returning wrong column pairs for composite foreign keys. [#17680](https://github.com/phalcon/cphalcon/issues/17680)
-- `Phalcon\Db\Adapter\Pdo\Sqlite::describeColumns()` reporting blob columns as `Column::TYPE_VARCHAR`. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
 - `Phalcon\Db\Adapter\Pdo\Sqlite::describeColumns()` reporting `tinyint(1)` columns as `Column::TYPE_INTEGER`. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
+- `Phalcon\Db\Adapter\Pdo\Sqlite::describeColumns()` reporting blob columns as `Column::TYPE_VARCHAR`. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
 - `Phalcon\Db\Adapter\Pdo\Sqlite::describeColumns()` using `Column::TYPE_DECIMAL` as the bind type of `float` columns, which stored their values as blobs. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
 - `Phalcon\Forms\Form::getValue()` returning the tag factory for the name `tagFactory`. [#17727](https://github.com/phalcon/cphalcon/issues/17727)
 - `Phalcon\Mvc\Model::doLowInsert()` not reading back the generated id on MySQL when the identity property is `0`. [#17689](https://github.com/phalcon/cphalcon/issues/17689)
 - `Phalcon\Mvc\Model::save()` leaving the transaction of the related records open when an exception is thrown during the save; the transaction is now rolled back before the exception is thrown again. [#17756](https://github.com/phalcon/cphalcon/issues/17756)
+- `Phalcon\Mvc\Model\Manager::getModelSource()` ignoring `Source` attributes when `AttributesReader` is configured. [#17741](https://github.com/phalcon/cphalcon/issues/17741)
 - `Phalcon\Mvc\Model\Query::getIntermediate()` throwing a `TypeError` after `parse()` got the intermediate representation from the cache. [#800](https://github.com/phalcon/phalcon/issues/800)
 - `Phalcon\Mvc\Model\Query\Builder::__construct()` crashing with OPcache when the parameters have empty `bind` or `bindTypes` arrays. [#17725](https://github.com/phalcon/cphalcon/issues/17725)
 - `Phalcon\Mvc\Model\Query` giving an "Undefined array key" warning for a join with no `ON` condition when `enable_implicit_joins` is disabled; the query still throws `Phalcon\Db\Exceptions\InvalidSqlExpression`. [#816](https://github.com/phalcon/phalcon/issues/816)
@@ -85,10 +91,6 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - `Phalcon\Support\Debug\Renderer\HtmlRenderer::render()` not showing the previous exceptions, and showing files in a Windows `\vendor\` folder as application code. [#17746](https://github.com/phalcon/cphalcon/issues/17746)
 - `Phalcon\Support\Debug\Renderer\HtmlRenderer::render()` stopping the debug page for objects with a `dump()` method that is not public, is static, has required parameters or does not return an array. [#17735](https://github.com/phalcon/cphalcon/issues/17735)
 - `Phalcon\Support\Debug\ReportBuilder::build()` reading a file again for each frame, and linking Phalcon classes to API pages that do not exist. [#17746](https://github.com/phalcon/cphalcon/issues/17746)
-- PHP 8.4+ builds from `build/phalcon` (PECL, PIE, `build/install`) calling the userland `json_encode()` and `json_decode()`, because `config.m4` checked for `HAVE_JSON`, which PHP 8.4 removed. [#16523](https://github.com/phalcon/cphalcon/issues/16523)
-- PHP 8.6 deprecation for session handlers without `create_sid()`: `Phalcon\Session\Adapter\AbstractAdapter` and `Phalcon\Session\Adapter\Noop` now implement `SessionIdInterface` and `create_sid()`. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
-- PHP 8.6 deprecation of `spl_object_hash()`: `Phalcon\Dispatcher\AbstractDispatcher` and `Phalcon\Html\Link\AbstractLinkProvider` now use `spl_object_id()`; the keys returned by `getLinks()` are now integers. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
-- PHP 8.6 deprecation of `doubleval()`: `Phalcon\Encryption\Security\Uuid\Version1`, `Phalcon\Encryption\Security\Uuid\Version6` and `Phalcon\Mvc\Model` now use `floatval()`. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
 
 ### Removed
 
