@@ -47,12 +47,12 @@ final class FetchColumnTest extends AbstractDatabaseTestCase
         $migration->insert(2, 1, 1, 'title 2', 200);
         $migration->insert(3, 1, 1, 'title 3', 300);
 
-        $this->assertEquals(
+        $this->assertSame(
             3,
             $db->fetchColumn('SELECT COUNT(*) FROM co_invoices')
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'title 2',
             $db->fetchColumn(
                 'SELECT inv_title FROM co_invoices WHERE inv_id = ?',
@@ -60,7 +60,7 @@ final class FetchColumnTest extends AbstractDatabaseTestCase
             )
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'title 2',
             $db->fetchColumn(
                 'SELECT inv_id, inv_title FROM co_invoices WHERE inv_id = ?',
@@ -69,12 +69,32 @@ final class FetchColumnTest extends AbstractDatabaseTestCase
             )
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'title 2',
             $db->fetchColumn(
                 'SELECT inv_id, inv_title FROM co_invoices WHERE inv_id = ?',
                 [2],
                 1
+            )
+        );
+
+        $this->assertSame(
+            2,
+            $db->fetchColumn(
+                'SELECT inv_id FROM co_invoices WHERE inv_id = ?',
+                [2]
+            )
+        );
+
+        $this->assertNull(
+            $db->fetchColumn('SELECT NULL')
+        );
+
+        $this->assertSame(
+            false,
+            $db->fetchColumn(
+                'SELECT inv_id FROM co_invoices WHERE inv_id = ?',
+                [99]
             )
         );
     }
