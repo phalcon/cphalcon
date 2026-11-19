@@ -48,7 +48,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use RuntimeException;
 use stdClass;
 
-final class GetModelSourceTest extends AbstractUnitTestCase
+final class GetModelSourceAttributesTest extends AbstractUnitTestCase
 {
     private FactoryDefault $container;
 

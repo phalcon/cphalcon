@@ -35,7 +35,7 @@ use PHPUnit\Framework\Attributes\Group;
 use stdClass;
 
 #[Group('sqlite')]
-final class SourceAnnotationsTest extends AbstractDatabaseTestCase
+final class GetModelSourcePersistenceTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
 
