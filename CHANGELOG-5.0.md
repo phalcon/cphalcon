@@ -28,6 +28,8 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 > **Upgrade note:** `Phalcon\Paginator\Adapter\AbstractAdapter` now creates the repository in its constructor. A custom adapter that overrides `__construct()` must call `parent::__construct()`, or `getRepository()` throws an `Error`. [#17750](https://github.com/phalcon/cphalcon/issues/17750)
 
+> **Upgrade note:** `Phalcon\Contracts\Db\Adapter\Adapter::fetchColumn()` and `Phalcon\Db\Adapter\AbstractAdapter::fetchColumn()` now declare `mixed` as the return type instead of `string|bool`. The returned values do not change: the method returns the value from the database driver, for example `int`, `float`, `string` or `null`, or `false` when the query returns no rows. A class that overrides `fetchColumn()` can keep the `string|bool` return type. [#17755](https://github.com/phalcon/cphalcon/issues/17755)
+
 ### Tools
 
 - Zephir 1.8.0
@@ -57,6 +59,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 ### Fixed
 
+- `Phalcon\Contracts\Db\Adapter\Adapter::fetchColumn()` and `Phalcon\Db\Adapter\AbstractAdapter::fetchColumn()` declaring `string|bool` as the return type instead of `mixed`. [#17755](https://github.com/phalcon/cphalcon/issues/17755)
 - `Phalcon\Db\Adapter\Pdo\Postgresql::describeColumns()` reporting `mediumblob` columns as `Column::TYPE_TEXT`. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
 - `Phalcon\Db\Adapter\Pdo\Postgresql::describeReferences()` returning wrong column pairs for composite foreign keys. [#17680](https://github.com/phalcon/cphalcon/issues/17680)
 - `Phalcon\Db\Adapter\Pdo\Sqlite::describeColumns()` reporting blob columns as `Column::TYPE_VARCHAR`. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
