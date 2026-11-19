@@ -299,7 +299,7 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, build)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &report, "setIncludedFiles", &_zephir_call_cache[24], &_27);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_28, "memory_get_usage", NULL, 249, &__$true);
+	ZEPHIR_CALL_FUNCTION(&_28, "memory_get_usage", NULL, 250, &__$true);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &report, "setMemoryUsage", &_zephir_call_cache[25], &_28);
 	zephir_check_call_status();
@@ -700,11 +700,11 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, readLines)
 	if (!(_1)) {
 		ZEPHIR_INIT_VAR(&lines);
 		ZVAL_BOOL(&lines, 0);
-		ZEPHIR_CALL_FUNCTION(&_2$$3, "is_file", NULL, 113, &file_zv);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "is_file", NULL, 114, &file_zv);
 		zephir_check_call_status();
 		_3$$3 = zephir_is_true(&_2$$3);
 		if (_3$$3) {
-			ZEPHIR_CALL_FUNCTION(&_4$$3, "is_readable", NULL, 162, &file_zv);
+			ZEPHIR_CALL_FUNCTION(&_4$$3, "is_readable", NULL, 163, &file_zv);
 			zephir_check_call_status();
 			_3$$3 = zephir_is_true(&_4$$3);
 		}
@@ -777,7 +777,7 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, resolveClassLink)
 	ZVAL_STR_COPY(&className_zv, className);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "Phalcon\\");
-	ZEPHIR_CALL_FUNCTION(&_1, "str_starts_with", NULL, 171, &className_zv, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "str_starts_with", NULL, 172, &className_zv, &_0);
 	zephir_check_call_status();
 	if (zephir_is_true(&_1)) {
 		ZEPHIR_INIT_VAR(&parts);
@@ -1001,7 +1001,7 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, phpExtensionLoaded)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 114, &name_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 115, &name_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

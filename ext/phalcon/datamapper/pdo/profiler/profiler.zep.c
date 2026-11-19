@@ -247,7 +247,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, finish)
 		object_init_ex(&ex, phalcon_datamapper_pdo_exception_exception_ce);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &ex, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&finish, "hrtime", NULL, 118, &__$true);
+		ZEPHIR_CALL_FUNCTION(&finish, "hrtime", NULL, 119, &__$true);
 		zephir_check_call_status();
 		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_1, 595, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
@@ -543,7 +543,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, start)
 		ZEPHIR_INIT_VAR(&_1$$3);
 		zephir_create_array(&_1$$3, 2, 0);
 		zephir_array_update_string(&_1$$3, SL("method"), &method_zv, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_FUNCTION(&_2$$3, "hrtime", NULL, 118, &__$true);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "hrtime", NULL, 119, &__$true);
 		zephir_check_call_status();
 		zephir_array_update_string(&_1$$3, SL("start"), &_2$$3, PH_COPY | PH_SEPARATE);
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 595, &_1$$3);

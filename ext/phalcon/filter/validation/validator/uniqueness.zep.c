@@ -812,7 +812,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 					zephir_array_keys(&_8$$6, &except);
 					ZVAL_LONG(&_9$$6, 0);
 					ZVAL_LONG(&_10$$6, (zephir_fast_count_int(&except) - 1));
-					ZEPHIR_CALL_FUNCTION(&_11$$6, "range", &_12, 161, &_9$$6, &_10$$6);
+					ZEPHIR_CALL_FUNCTION(&_11$$6, "range", &_12, 162, &_9$$6, &_10$$6);
 					zephir_check_call_status();
 					_7$$6 = !ZEPHIR_IS_IDENTICAL(&_8$$6, &_11$$6);
 				}
@@ -1549,7 +1549,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 						zephir_array_keys(&_107$$37, &except);
 						ZVAL_LONG(&_108$$37, 0);
 						ZVAL_LONG(&_109$$37, (zephir_fast_count_int(&except) - 1));
-						ZEPHIR_CALL_FUNCTION(&_110$$37, "range", &_12, 161, &_108$$37, &_109$$37);
+						ZEPHIR_CALL_FUNCTION(&_110$$37, "range", &_12, 162, &_108$$37, &_109$$37);
 						zephir_check_call_status();
 						_106$$37 = !ZEPHIR_IS_IDENTICAL(&_107$$37, &_110$$37);
 					}

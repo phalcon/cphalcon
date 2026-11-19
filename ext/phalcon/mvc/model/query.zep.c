@@ -3452,7 +3452,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeSelect)
 		ZEPHIR_INIT_NVAR(&_111$$86);
 		zephir_create_closure_ex(&_111$$86, NULL, phalcon_89__closure_ce, SL("__invoke"));
 		ZEPHIR_MAKE_REF(&rawWildcards);
-		ZEPHIR_CALL_FUNCTION(NULL, "usort", NULL, 230, &rawWildcards, &_111$$86);
+		ZEPHIR_CALL_FUNCTION(NULL, "usort", NULL, 231, &rawWildcards, &_111$$86);
 		ZEPHIR_UNREF(&rawWildcards);
 		zephir_check_call_status();
 	}
@@ -3494,7 +3494,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeSelect)
 			}
 			ZEPHIR_INIT_NVAR(&_121$$87);
 			ZVAL_STRING(&_121$$87, "/");
-			ZEPHIR_CALL_FUNCTION(&_122$$87, "preg_quote", &_123, 173, &placeholder, &_121$$87);
+			ZEPHIR_CALL_FUNCTION(&_122$$87, "preg_quote", &_123, 174, &placeholder, &_121$$87);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_124$$87);
 			ZEPHIR_CONCAT_SVS(&_124$$87, "/:", &_122$$87, "\\b/");
@@ -3508,7 +3508,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeSelect)
 			ZEPHIR_INIT_NVAR(&_125$$87);
 			ZEPHIR_INIT_NVAR(&_125$$87);
 			zephir_create_closure_bound(&_125$$87, &_121$$87, NULL, phalcon_90__closure_ce, SL("__invoke"));
-			ZEPHIR_CALL_FUNCTION(&_126$$87, "preg_replace_callback", &_127, 227, &_124$$87, &_125$$87, &sqlSelect);
+			ZEPHIR_CALL_FUNCTION(&_126$$87, "preg_replace_callback", &_127, 228, &_124$$87, &_125$$87, &sqlSelect);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&sqlSelect, &_126$$87);
 			zephir_array_unset(&processed, &wildcard, PH_SEPARATE);
@@ -3565,7 +3565,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeSelect)
 				}
 				ZEPHIR_INIT_NVAR(&_136$$88);
 				ZVAL_STRING(&_136$$88, "/");
-				ZEPHIR_CALL_FUNCTION(&_137$$88, "preg_quote", &_123, 173, &placeholder, &_136$$88);
+				ZEPHIR_CALL_FUNCTION(&_137$$88, "preg_quote", &_123, 174, &placeholder, &_136$$88);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_138$$88);
 				ZEPHIR_CONCAT_SVS(&_138$$88, "/:", &_137$$88, "\\b/");
@@ -3579,7 +3579,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeSelect)
 				ZEPHIR_INIT_NVAR(&_139$$88);
 				ZEPHIR_INIT_NVAR(&_139$$88);
 				zephir_create_closure_bound(&_139$$88, &_136$$88, NULL, phalcon_91__closure_ce, SL("__invoke"));
-				ZEPHIR_CALL_FUNCTION(&_140$$88, "preg_replace_callback", &_127, 227, &_138$$88, &_139$$88, &sqlSelect);
+				ZEPHIR_CALL_FUNCTION(&_140$$88, "preg_replace_callback", &_127, 228, &_138$$88, &_139$$88, &sqlSelect);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(&sqlSelect, &_140$$88);
 				zephir_array_unset(&processed, &wildcard, PH_SEPARATE);
@@ -4222,13 +4222,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeUpdate)
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
-					ZEPHIR_CALL_FUNCTION(&paramKeys, "array_unique", &_21, 108, &_20$$13);
+					ZEPHIR_CALL_FUNCTION(&paramKeys, "array_unique", &_21, 109, &_20$$13);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_22$$13);
 					ZEPHIR_INIT_NVAR(&_22$$13);
 					zephir_create_closure_ex(&_22$$13, NULL, phalcon_92__closure_ce, SL("__invoke"));
 					ZEPHIR_MAKE_REF(&paramKeys);
-					ZEPHIR_CALL_FUNCTION(NULL, "usort", &_23, 230, &paramKeys, &_22$$13);
+					ZEPHIR_CALL_FUNCTION(NULL, "usort", &_23, 231, &paramKeys, &_22$$13);
 					ZEPHIR_UNREF(&paramKeys);
 					zephir_check_call_status();
 					if (Z_TYPE_P(&paramKeys) == IS_STRING) {
@@ -4258,7 +4258,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeUpdate)
 								if (_28$$15) {
 									ZEPHIR_INIT_NVAR(&_29$$16);
 									ZVAL_STRING(&_29$$16, "/");
-									ZEPHIR_CALL_FUNCTION(&_30$$16, "preg_quote", &_31, 173, &paramKey, &_29$$16);
+									ZEPHIR_CALL_FUNCTION(&_30$$16, "preg_quote", &_31, 174, &paramKey, &_29$$16);
 									zephir_check_call_status();
 									ZEPHIR_INIT_NVAR(&_32$$16);
 									ZEPHIR_CONCAT_SVS(&_32$$16, "/:", &_30$$16, "\\b/");
@@ -4277,7 +4277,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeUpdate)
 								} else {
 									ZEPHIR_INIT_NVAR(&_36$$17);
 									ZVAL_STRING(&_36$$17, "/");
-									ZEPHIR_CALL_FUNCTION(&_37$$17, "preg_quote", &_31, 173, &paramKey, &_36$$17);
+									ZEPHIR_CALL_FUNCTION(&_37$$17, "preg_quote", &_31, 174, &paramKey, &_36$$17);
 									zephir_check_call_status();
 									ZEPHIR_INIT_NVAR(&_38$$17);
 									ZEPHIR_CONCAT_SVS(&_38$$17, "/:", &_37$$17, "\\b/");
@@ -4340,7 +4340,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeUpdate)
 									if (_45$$19) {
 										ZEPHIR_INIT_NVAR(&_46$$20);
 										ZVAL_STRING(&_46$$20, "/");
-										ZEPHIR_CALL_FUNCTION(&_47$$20, "preg_quote", &_31, 173, &paramKey, &_46$$20);
+										ZEPHIR_CALL_FUNCTION(&_47$$20, "preg_quote", &_31, 174, &paramKey, &_46$$20);
 										zephir_check_call_status();
 										ZEPHIR_INIT_NVAR(&_48$$20);
 										ZEPHIR_CONCAT_SVS(&_48$$20, "/:", &_47$$20, "\\b/");
@@ -4359,7 +4359,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeUpdate)
 									} else {
 										ZEPHIR_INIT_NVAR(&_51$$21);
 										ZVAL_STRING(&_51$$21, "/");
-										ZEPHIR_CALL_FUNCTION(&_52$$21, "preg_quote", &_31, 173, &paramKey, &_51$$21);
+										ZEPHIR_CALL_FUNCTION(&_52$$21, "preg_quote", &_31, 174, &paramKey, &_51$$21);
 										zephir_check_call_status();
 										ZEPHIR_INIT_NVAR(&_53$$21);
 										ZEPHIR_CONCAT_SVS(&_53$$21, "/:", &_52$$21, "\\b/");
@@ -4537,13 +4537,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeUpdate)
 							ZEPHIR_MM_RESTORE();
 							return;
 						}
-						ZEPHIR_CALL_FUNCTION(&paramKeys, "array_unique", &_21, 108, &_69$$30);
+						ZEPHIR_CALL_FUNCTION(&paramKeys, "array_unique", &_21, 109, &_69$$30);
 						zephir_check_call_status();
 						ZEPHIR_INIT_NVAR(&_70$$30);
 						ZEPHIR_INIT_NVAR(&_70$$30);
 						zephir_create_closure_ex(&_70$$30, NULL, phalcon_93__closure_ce, SL("__invoke"));
 						ZEPHIR_MAKE_REF(&paramKeys);
-						ZEPHIR_CALL_FUNCTION(NULL, "usort", &_23, 230, &paramKeys, &_70$$30);
+						ZEPHIR_CALL_FUNCTION(NULL, "usort", &_23, 231, &paramKeys, &_70$$30);
 						ZEPHIR_UNREF(&paramKeys);
 						zephir_check_call_status();
 						if (Z_TYPE_P(&paramKeys) == IS_STRING) {
@@ -4573,7 +4573,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeUpdate)
 									if (_75$$32) {
 										ZEPHIR_INIT_NVAR(&_76$$33);
 										ZVAL_STRING(&_76$$33, "/");
-										ZEPHIR_CALL_FUNCTION(&_77$$33, "preg_quote", &_31, 173, &paramKey, &_76$$33);
+										ZEPHIR_CALL_FUNCTION(&_77$$33, "preg_quote", &_31, 174, &paramKey, &_76$$33);
 										zephir_check_call_status();
 										ZEPHIR_INIT_NVAR(&_78$$33);
 										ZEPHIR_CONCAT_SVS(&_78$$33, "/:", &_77$$33, "\\b/");
@@ -4592,7 +4592,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeUpdate)
 									} else {
 										ZEPHIR_INIT_NVAR(&_81$$34);
 										ZVAL_STRING(&_81$$34, "/");
-										ZEPHIR_CALL_FUNCTION(&_82$$34, "preg_quote", &_31, 173, &paramKey, &_81$$34);
+										ZEPHIR_CALL_FUNCTION(&_82$$34, "preg_quote", &_31, 174, &paramKey, &_81$$34);
 										zephir_check_call_status();
 										ZEPHIR_INIT_NVAR(&_83$$34);
 										ZEPHIR_CONCAT_SVS(&_83$$34, "/:", &_82$$34, "\\b/");
@@ -4655,7 +4655,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeUpdate)
 										if (_90$$36) {
 											ZEPHIR_INIT_NVAR(&_91$$37);
 											ZVAL_STRING(&_91$$37, "/");
-											ZEPHIR_CALL_FUNCTION(&_92$$37, "preg_quote", &_31, 173, &paramKey, &_91$$37);
+											ZEPHIR_CALL_FUNCTION(&_92$$37, "preg_quote", &_31, 174, &paramKey, &_91$$37);
 											zephir_check_call_status();
 											ZEPHIR_INIT_NVAR(&_93$$37);
 											ZEPHIR_CONCAT_SVS(&_93$$37, "/:", &_92$$37, "\\b/");
@@ -4674,7 +4674,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, executeUpdate)
 										} else {
 											ZEPHIR_INIT_NVAR(&_96$$38);
 											ZVAL_STRING(&_96$$38, "/");
-											ZEPHIR_CALL_FUNCTION(&_97$$38, "preg_quote", &_31, 173, &paramKey, &_96$$38);
+											ZEPHIR_CALL_FUNCTION(&_97$$38, "preg_quote", &_31, 174, &paramKey, &_96$$38);
 											zephir_check_call_status();
 											ZEPHIR_INIT_NVAR(&_98$$38);
 											ZEPHIR_CONCAT_SVS(&_98$$38, "/:", &_97$$38, "\\b/");

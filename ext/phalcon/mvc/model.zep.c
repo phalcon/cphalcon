@@ -7005,7 +7005,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasChanged)
 		RETURN_MM_BOOL(_0$$3);
 	}
 	if (Z_TYPE_P(fieldName) == IS_ARRAY) {
-		ZEPHIR_CALL_FUNCTION(&intersect, "array_intersect", NULL, 228, fieldName, &changedFields);
+		ZEPHIR_CALL_FUNCTION(&intersect, "array_intersect", NULL, 229, fieldName, &changedFields);
 		zephir_check_call_status();
 		if (allFields) {
 			_1$$5 = ZEPHIR_IS_EQUAL(&intersect, fieldName);
@@ -7086,7 +7086,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasUpdated)
 		RETURN_MM_BOOL(_0$$3);
 	}
 	if (Z_TYPE_P(fieldName) == IS_ARRAY) {
-		ZEPHIR_CALL_FUNCTION(&intersect, "array_intersect", NULL, 228, fieldName, &updatedFields);
+		ZEPHIR_CALL_FUNCTION(&intersect, "array_intersect", NULL, 229, fieldName, &updatedFields);
 		zephir_check_call_status();
 		if (allFields) {
 			_1$$5 = ZEPHIR_IS_EQUAL(&intersect, fieldName);

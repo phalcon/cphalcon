@@ -1356,7 +1356,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getModels)
 	}
 	if (_1) {
 		ZEPHIR_MAKE_REF(&models);
-		ZEPHIR_RETURN_CALL_FUNCTION("reset", NULL, 231, &models);
+		ZEPHIR_RETURN_CALL_FUNCTION("reset", NULL, 232, &models);
 		ZEPHIR_UNREF(&models);
 		zephir_check_call_status();
 		RETURN_MM();
@@ -2458,7 +2458,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 					ZEPHIR_CPY_WRT(&itemTrimmed$$70, &itemTrimmed$$70);
 					ZEPHIR_INIT_NVAR(&_88$$70);
 					ZVAL_STRING(&_88$$70, " ");
-					ZEPHIR_CALL_FUNCTION(&lastSpacePosition$$70, "strrpos", &_89, 131, &itemTrimmed$$70, &_88$$70);
+					ZEPHIR_CALL_FUNCTION(&lastSpacePosition$$70, "strrpos", &_89, 132, &itemTrimmed$$70, &_88$$70);
 					zephir_check_call_status();
 					ZEPHIR_CPY_WRT(&lastSpacePosition$$70, &lastSpacePosition$$70);
 					if (!ZEPHIR_IS_FALSE_IDENTICAL(&lastSpacePosition$$70)) {
@@ -2558,7 +2558,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 						ZEPHIR_CPY_WRT(&itemTrimmed$$76, &itemTrimmed$$76);
 						ZEPHIR_INIT_NVAR(&_105$$76);
 						ZVAL_STRING(&_105$$76, " ");
-						ZEPHIR_CALL_FUNCTION(&lastSpacePosition$$76, "strrpos", &_89, 131, &itemTrimmed$$76, &_105$$76);
+						ZEPHIR_CALL_FUNCTION(&lastSpacePosition$$76, "strrpos", &_89, 132, &itemTrimmed$$76, &_105$$76);
 						zephir_check_call_status();
 						ZEPHIR_CPY_WRT(&lastSpacePosition$$76, &lastSpacePosition$$76);
 						if (!ZEPHIR_IS_FALSE_IDENTICAL(&lastSpacePosition$$76)) {
@@ -3484,7 +3484,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit)
 		offset = &__$null;
 	}
 	ZVAL_LONG(&_0, limit);
-	ZEPHIR_CALL_FUNCTION(&_1, "abs", &_2, 149, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "abs", &_2, 150, &_0);
 	zephir_check_call_status();
 	limit = zephir_get_intval(&_1);
 	if (UNEXPECTED(limit == 0)) {
@@ -3495,7 +3495,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit)
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1105, &_0);
 	if (zephir_is_numeric(offset)) {
 		ZVAL_LONG(&_3$$4, zephir_get_intval(offset));
-		ZEPHIR_CALL_FUNCTION(&_4$$4, "abs", &_2, 149, &_3$$4);
+		ZEPHIR_CALL_FUNCTION(&_4$$4, "abs", &_2, 150, &_3$$4);
 		zephir_check_call_status();
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1106, &_4$$4);
 	}

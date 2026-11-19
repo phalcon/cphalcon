@@ -540,7 +540,7 @@ PHP_METHOD(Phalcon_Support_Debug, onUncaughtException)
 		if (!(_0)) {
 			break;
 		}
-		ZEPHIR_CALL_FUNCTION(&discarded, "ob_end_clean", &_5, 235);
+		ZEPHIR_CALL_FUNCTION(&discarded, "ob_end_clean", &_5, 236);
 		zephir_check_call_status();
 	}
 	zephir_read_static_property_cached(&_6, phalcon_support_debug_ce, phalcon_support_debug_ce, SL("isActive"), &_zephir_sprop_cache[0], PH_NOISY_CC | PH_READONLY);

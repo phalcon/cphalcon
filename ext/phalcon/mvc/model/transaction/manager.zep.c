@@ -399,7 +399,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get)
 			ZEPHIR_INIT_VAR(&_3$$4);
 			ZVAL_STRING(&_3$$4, "rollbackPendent");
 			zephir_array_fast_append(&_2$$4, &_3$$4);
-			ZEPHIR_CALL_FUNCTION(NULL, "register_shutdown_function", NULL, 233, &_2$$4);
+			ZEPHIR_CALL_FUNCTION(NULL, "register_shutdown_function", NULL, 234, &_2$$4);
 			zephir_check_call_status();
 		}
 		if (1) {

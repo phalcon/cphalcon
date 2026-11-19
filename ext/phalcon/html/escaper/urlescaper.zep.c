@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Html_Escaper_UrlEscaper, phpParseUrl)
 	} else {
 		}
 	ZVAL_LONG(&_0, component);
-	ZEPHIR_RETURN_CALL_FUNCTION("parse_url", NULL, 153, &url_zv, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("parse_url", NULL, 154, &url_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Html_Escaper_UrlEscaper, phpRawUrlDecode)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
-	ZEPHIR_RETURN_CALL_FUNCTION("rawurldecode", NULL, 166, &input_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("rawurldecode", NULL, 167, &input_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -172,7 +172,7 @@ PHP_METHOD(Phalcon_Html_Escaper_UrlEscaper, phpRawUrlEncode)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
-	ZEPHIR_RETURN_CALL_FUNCTION("rawurlencode", NULL, 167, &input_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("rawurlencode", NULL, 168, &input_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

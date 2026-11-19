@@ -571,7 +571,7 @@ PHP_METHOD(Phalcon_Mvc_View, finish)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_FUNCTION(NULL, "ob_end_clean", NULL, 235);
+	ZEPHIR_CALL_FUNCTION(NULL, "ob_end_clean", NULL, 236);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -742,11 +742,11 @@ PHP_METHOD(Phalcon_Mvc_View, getPartial)
 		params = &params_sub;
 		params = &__$null;
 	}
-	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 140);
+	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 141);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "partial", &_zephir_call_cache[0], &partialPath_zv, params);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("ob_get_clean", NULL, 142);
+	ZEPHIR_RETURN_CALL_FUNCTION("ob_get_clean", NULL, 143);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -1535,7 +1535,7 @@ PHP_METHOD(Phalcon_Mvc_View, processRender)
 		return;
 	}
 	if (!ZEPHIR_IS_FALSE_IDENTICAL(&_0)) {
-		ZEPHIR_CALL_FUNCTION(&_1$$3, "ob_get_contents", &_2, 236);
+		ZEPHIR_CALL_FUNCTION(&_1$$3, "ob_get_contents", &_2, 237);
 		zephir_check_call_status();
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1196, &_1$$3);
 		RETURN_MM_BOOL(0);
@@ -1622,7 +1622,7 @@ PHP_METHOD(Phalcon_Mvc_View, processRender)
 			RETURN_MM_BOOL(0);
 		}
 	}
-	ZEPHIR_CALL_FUNCTION(&_10, "ob_get_contents", &_2, 236);
+	ZEPHIR_CALL_FUNCTION(&_10, "ob_get_contents", &_2, 237);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1196, &_10);
 	silence = 1;
@@ -2554,7 +2554,7 @@ PHP_METHOD(Phalcon_Mvc_View, start)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 140);
+	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 141);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);

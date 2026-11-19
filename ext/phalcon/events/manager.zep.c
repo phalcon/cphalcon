@@ -2881,7 +2881,7 @@ PHP_METHOD(Phalcon_Events_Manager, insertHandlerEntry)
 	ZVAL_LONG(&_17, insertAt);
 	ZVAL_LONG(&_18, 0);
 	ZEPHIR_MAKE_REF(&queue);
-	ZEPHIR_CALL_FUNCTION(NULL, "array_splice", NULL, 147, &queue, &_17, &_18, &_16);
+	ZEPHIR_CALL_FUNCTION(NULL, "array_splice", NULL, 148, &queue, &_17, &_18, &_16);
 	ZEPHIR_UNREF(&queue);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("events"), &eventType_zv, &queue);

@@ -171,7 +171,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Resolution_Max, validate)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&tmp, "getimagesize", NULL, 159, &_1);
+	ZEPHIR_CALL_FUNCTION(&tmp, "getimagesize", NULL, 160, &_1);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&tmp)) {
 		ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "appendMessageValid", &_zephir_call_cache[2], validation, field);

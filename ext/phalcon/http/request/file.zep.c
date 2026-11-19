@@ -287,7 +287,7 @@ PHP_METHOD(Phalcon_Http_Request_File, getRealType)
 	}
 	if (_0) {
 		ZVAL_LONG(&_1$$3, 16);
-		ZEPHIR_CALL_FUNCTION(&finfo, "finfo_open", NULL, 157, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(&finfo, "finfo_open", NULL, 158, &_1$$3);
 		zephir_check_call_status();
 		if (!ZEPHIR_IS_FALSE_IDENTICAL(&finfo)) {
 			zephir_read_property_cached(&_2$$4, this_ptr, _zephir_prop_1, 913, PH_NOISY_CC | PH_READONLY);
@@ -295,7 +295,7 @@ PHP_METHOD(Phalcon_Http_Request_File, getRealType)
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			ZEPHIR_CALL_FUNCTION(&mime, "finfo_file", NULL, 158, &finfo, &_2$$4);
+			ZEPHIR_CALL_FUNCTION(&mime, "finfo_file", NULL, 159, &finfo, &_2$$4);
 			zephir_check_call_status();
 			if (!ZEPHIR_IS_FALSE_IDENTICAL(&mime)) {
 				zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 918, &mime);
@@ -398,7 +398,7 @@ PHP_METHOD(Phalcon_Http_Request_File, moveTo)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("move_uploaded_file", NULL, 175, &_0, &destination_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("move_uploaded_file", NULL, 176, &_0, &destination_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

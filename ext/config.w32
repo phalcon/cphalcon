@@ -83,6 +83,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/http/request", "exception.zep.c fileinterface.zep.c file.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/paginator/adapter", "adapterinterface.zep.c abstractadapter.zep.c model.zep.c nativearray.zep.c querybuilder.zep.c querybuildercursor.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/annotations/adapter", "adapterinterface.zep.c abstractadapter.zep.c apcu.zep.c memory.zep.c stream.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/annotations", "exception.zep.c readerinterface.zep.c annotation.zep.c annotationsfactory.zep.c attributesreader.zep.c collection.zep.c reader.zep.c reflection.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/auth/adapter", "abstractadapter.zep.c abstractarrayadapter.zep.c adapterlocator.zep.c memory.zep.c model.zep.c stream.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/container/definition/processor", "processor.zep.c closureprocessor.zep.c objectprocessor.zep.c parameterprocessor.zep.c stringprocessor.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/contracts/adr", "middleware.zep.c handler.zep.c application.zep.c dispatcher.zep.c adrtypes.zep.c action.zep.c", "phalcon");
@@ -101,7 +102,6 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/translate/adapter", "adapterinterface.zep.c abstractadapter.zep.c csv.zep.c gettext.zep.c nativearray.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/adr/responder", "chainresponder.zep.c abstractformattedresponder.zep.c formatresponder.zep.c jsonresponder.zep.c redirect.zep.c redirectresponder.zep.c statusmapper.zep.c statusresponder.zep.c textresponder.zep.c viewresponder.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/acl/adapter", "adapterinterface.zep.c abstractadapter.zep.c memory.zep.c storage.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/annotations", "exception.zep.c readerinterface.zep.c annotation.zep.c annotationsfactory.zep.c attributesreader.zep.c collection.zep.c reader.zep.c reflection.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/auth/access", "abstractaccess.zep.c accesslocator.zep.c acl.zep.c auth.zep.c guest.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/auth/adapter/config", "abstractadapterconfig.zep.c memoryadapterconfig.zep.c modeladapterconfig.zep.c streamadapterconfig.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/cli/console", "exception.zep.c", "phalcon");
@@ -178,7 +178,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/adr/router", "attributefilter.zep.c router.zep.c routermatch.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/acl/exceptions", "accessrulenotfound.zep.c circularinheritanceerror.zep.c elementnotfound.zep.c forbiddendelimiter.zep.c forbiddenwildcard.zep.c invalidaccesslist.zep.c invalidcomponentimplementation.zep.c invalidroleimplementation.zep.c invalidroletype.zep.c invalidsnapshot.zep.c missingfunctionparameters.zep.c parametertypemismatch.zep.c rolenotfoundexception.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/acl/traits", "itemtrait.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/annotations/exceptions", "annotationnotfound.zep.c annotationsdirectorynotwritable.zep.c cannotreadannotationdata.zep.c unknownannotationexpression.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/annotations/exceptions", "annotationnotfound.zep.c annotationsdirectorynotwritable.zep.c cannotreadannotationdata.zep.c invalidsourcetable.zep.c unknownannotationexpression.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/annotations/models/metadata", "column.zep.c identity.zep.c primary.zep.c source.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/application/exceptions", "modulenotregistered.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/assets/asset", "css.zep.c js.zep.c", "phalcon");

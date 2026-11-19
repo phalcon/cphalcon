@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version7, __construct)
 	zephir_substr(&_0, &randBytes, 0 , 2 , 0);
 	ZEPHIR_CALL_FUNCTION(&_5, "bin2hex", &_6, 69, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_7, "hexdec", &_8, 143, &_5);
+	ZEPHIR_CALL_FUNCTION(&_7, "hexdec", &_8, 144, &_5);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_LONG(&_1, 0x0fff);
@@ -135,7 +135,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version7, __construct)
 	zephir_substr(&_12, &randBytes, 2 , 2 , 0);
 	ZEPHIR_CALL_FUNCTION(&_7, "bin2hex", &_6, 69, &_12);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_13, "hexdec", &_8, 143, &_7);
+	ZEPHIR_CALL_FUNCTION(&_13, "hexdec", &_8, 144, &_7);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_LONG(&_1, 0x3fff);

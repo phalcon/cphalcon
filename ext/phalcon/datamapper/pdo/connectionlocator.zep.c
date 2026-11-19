@@ -508,7 +508,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, getConnection)
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "");
 	if (ZEPHIR_IS_IDENTICAL(&_1, &requested)) {
-		ZEPHIR_CALL_FUNCTION(&requested, "array_rand", NULL, 117, &collection);
+		ZEPHIR_CALL_FUNCTION(&requested, "array_rand", NULL, 118, &collection);
 		zephir_check_call_status();
 	}
 	_2 = zephir_array_isset_value(&collection, &requested);
