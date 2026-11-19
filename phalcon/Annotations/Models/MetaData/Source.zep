@@ -11,6 +11,7 @@
 namespace Phalcon\Annotations\Models\MetaData;
 
 use Phalcon\Annotations\Adapter\AdapterInterface;
+use Phalcon\Annotations\Annotation;
 use Phalcon\Annotations\AttributesReader;
 use Phalcon\Annotations\Collection;
 use Phalcon\Annotations\Exceptions\InvalidSourceTable;

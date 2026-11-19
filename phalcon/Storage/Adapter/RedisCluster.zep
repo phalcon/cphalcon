@@ -181,7 +181,7 @@ class RedisCluster extends Redis
          * Lets set some defaults and options here
          */
         let options["name"]        = this->getArrVal(options, "name", null),
-            options["hosts"]       = this->getArrVal(options, "hosts", "127.0.0.1:6379"),
+            options["hosts"]       = this->getArrVal(options, "hosts", ["127.0.0.1:6379"]),
             options["timeout"]     = this->getArrVal(options, "timeout", 0),
             options["readTimeout"] = this->getArrVal(options, "readTimeout", 0),
             options["persistent"]  = this->getArrVal(options, "persistent", false, "bool"),
