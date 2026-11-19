@@ -94,6 +94,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - `Phalcon\Support\Debug\Renderer\HtmlRenderer::render()` not showing the previous exceptions, and showing files in a Windows `\vendor\` folder as application code. [#17746](https://github.com/phalcon/cphalcon/issues/17746)
 - `Phalcon\Support\Debug\Renderer\HtmlRenderer::render()` stopping the debug page for objects with a `dump()` method that is not public, is static, has required parameters or does not return an array. [#17735](https://github.com/phalcon/cphalcon/issues/17735)
 - `Phalcon\Support\Debug\ReportBuilder::build()` reading a file again for each frame, and linking Phalcon classes to API pages that do not exist. [#17746](https://github.com/phalcon/cphalcon/issues/17746)
+- `Phalcon\Storage\Adapter\RedisCluster` and `Phalcon\Cache\Adapter\RedisCluster` using a string instead of an array as the default `hosts` option. [#17762](https://github.com/phalcon/cphalcon/issues/17762)
 
 ### Removed
 
