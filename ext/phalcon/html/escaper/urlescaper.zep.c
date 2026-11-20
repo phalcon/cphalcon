@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Html_Escaper_UrlEscaper, phpParseUrl)
 	} else {
 		}
 	ZVAL_LONG(&_0, component);
-	ZEPHIR_RETURN_CALL_FUNCTION("parse_url", NULL, 154, &url_zv, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("parse_url", NULL, 156, &url_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

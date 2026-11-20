@@ -736,7 +736,7 @@ PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, render)
 			return;
 		}
 		ZVAL_LONG(&_1$$3, 4);
-		ZEPHIR_CALL_FUNCTION(&_2$$3, "pathinfo", NULL, 64, &_0$$3, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "pathinfo", NULL, 67, &_0$$3, &_1$$3);
 		zephir_check_call_status();
 		zephir_cast_to_string(&_3$$3, &_2$$3);
 		if (UNEXPECTED(EG(exception))) {
@@ -1036,14 +1036,14 @@ PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, resize)
 	ZVAL_LONG(&_0, width);
 	zephir_round(&_29, &_0, NULL, NULL);
 	ZVAL_LONG(&_1, 1);
-	ZEPHIR_CALL_FUNCTION(&_30, "max", &_31, 65, &_29, &_1);
+	ZEPHIR_CALL_FUNCTION(&_30, "max", &_31, 68, &_29, &_1);
 	zephir_check_call_status();
 	width = zephir_get_intval(&_30);
 	ZEPHIR_INIT_VAR(&_32);
 	ZVAL_LONG(&_1, height);
 	zephir_round(&_32, &_1, NULL, NULL);
 	ZVAL_LONG(&_2, 1);
-	ZEPHIR_CALL_FUNCTION(&_33, "max", &_31, 65, &_32, &_2);
+	ZEPHIR_CALL_FUNCTION(&_33, "max", &_31, 68, &_32, &_2);
 	zephir_check_call_status();
 	height = zephir_get_intval(&_33);
 	ZVAL_LONG(&_2, width);
@@ -1495,10 +1495,10 @@ PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, checkHighLow)
 		}
 	ZVAL_LONG(&_0, value);
 	ZVAL_LONG(&_1, min);
-	ZEPHIR_CALL_FUNCTION(&_2, "max", NULL, 65, &_0, &_1);
+	ZEPHIR_CALL_FUNCTION(&_2, "max", NULL, 68, &_0, &_1);
 	zephir_check_call_status();
 	ZVAL_LONG(&_0, max);
-	ZEPHIR_RETURN_CALL_FUNCTION("min", NULL, 66, &_0, &_2);
+	ZEPHIR_RETURN_CALL_FUNCTION("min", NULL, 69, &_0, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -1939,11 +1939,11 @@ PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, parseColor)
 		return;
 	}
 	ZVAL_LONG(&_15, 2);
-	ZEPHIR_CALL_FUNCTION(&_16, "str_split", NULL, 67, &color, &_15);
+	ZEPHIR_CALL_FUNCTION(&_16, "str_split", NULL, 70, &color, &_15);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_17);
 	ZVAL_STRING(&_17, "hexdec");
-	ZEPHIR_CALL_FUNCTION(&channels, "array_map", NULL, 59, &_17, &_16);
+	ZEPHIR_CALL_FUNCTION(&channels, "array_map", NULL, 60, &_17, &_16);
 	zephir_check_call_status();
 	RETURN_CCTOR(&channels);
 }

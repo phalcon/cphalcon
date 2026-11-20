@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, unserialize)
 	ZEPHIR_INIT_NVAR(&_3);
 	zephir_create_closure_ex(&_3, NULL, phalcon_99__closure_ce, SL("__invoke"));
 	ZVAL_LONG(&_4, (8 | 2));
-	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 90, &_3, &_4);
+	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 93, &_3, &_4);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_5);
 	zephir_create_array(&_5, 1, 0);
@@ -200,7 +200,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, unserialize)
 	zephir_array_update_string(&_5, SL("allowed_classes"), &_6, PH_COPY | PH_SEPARATE);
 	ZEPHIR_CALL_METHOD_CACHED(&result, this_ptr, "phpUnserialize", &_zephir_call_cache[2], data, &_5);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 91);
+	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 94);
 	zephir_check_call_status();
 	_7 = ZEPHIR_GLOBAL(warning).enable;
 	if (!(_7)) {

@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, read)
 		return;
 	}
 	zephir_fast_strtolower(&_0, &_2);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_fetch", NULL, 85, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_fetch", NULL, 88, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -217,7 +217,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, write)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_store", NULL, 87, &_0, data, &_3);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_store", NULL, 90, &_0, data, &_3);
 	zephir_check_call_status();
 	RETURN_MM();
 }

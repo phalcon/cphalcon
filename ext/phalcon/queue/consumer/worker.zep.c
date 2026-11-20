@@ -246,7 +246,7 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, run)
 		if (jitter > 0) {
 			ZVAL_LONG(&_9$$5, 0);
 			ZVAL_LONG(&_10$$5, jitter);
-			ZEPHIR_CALL_FUNCTION(&_11$$5, "random_int", NULL, 139, &_9$$5, &_10$$5);
+			ZEPHIR_CALL_FUNCTION(&_11$$5, "random_int", NULL, 141, &_9$$5, &_10$$5);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&_12$$5);
 			ZVAL_LONG(&_12$$5, deadline);
@@ -403,7 +403,7 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, phpExtensionLoaded)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 115, &name_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 62, &name_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

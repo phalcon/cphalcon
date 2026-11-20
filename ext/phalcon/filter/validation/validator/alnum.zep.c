@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Alnum, validate)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&_3, "ctype_alnum", NULL, 155, &_2);
+	ZEPHIR_CALL_FUNCTION(&_3, "ctype_alnum", NULL, 157, &_2);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_3))) {
 		ZEPHIR_CALL_METHOD_CACHED(&_4$$5, this_ptr, "messageFactory", &_zephir_call_cache[3], validation, field);

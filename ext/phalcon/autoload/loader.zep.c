@@ -397,7 +397,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, addNamespace)
 	}
 	ZEPHIR_INIT_VAR(&_8);
 	zephir_fast_array_merge(&_8, &source, &target);
-	ZEPHIR_CALL_FUNCTION(&_2, "array_unique", NULL, 109, &_8);
+	ZEPHIR_CALL_FUNCTION(&_2, "array_unique", NULL, 112, &_8);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("namespaces"), &nsName, &_2);
 	if (UNEXPECTED(EG(exception))) {
@@ -1256,7 +1256,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, unregister)
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "autoload");
 		zephir_array_fast_append(&_1$$3, &_2$$3);
-		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_unregister", NULL, 110, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_unregister", NULL, 113, &_1$$3);
 		zephir_check_call_status();
 		if (0) {
 			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 496, &__$true);
@@ -1309,7 +1309,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, requireFile)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&_1, "call_user_func", NULL, 34, &_0, &file_zv);
+	ZEPHIR_CALL_FUNCTION(&_1, "call_user_func", NULL, 35, &_0, &file_zv);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_FALSE_IDENTICAL(&_1)) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 500, &file_zv);
@@ -2162,7 +2162,7 @@ PHP_METHOD(Phalcon_Autoload_Loader, registerAutoload)
 	ZVAL_STRING(&_1, "autoload");
 	zephir_array_fast_append(&_0, &_1);
 	ZVAL_BOOL(&_2, (prepend ? 1 : 0));
-	ZEPHIR_RETURN_CALL_FUNCTION("spl_autoload_register", NULL, 111, &_0, &__$true, &_2);
+	ZEPHIR_RETURN_CALL_FUNCTION("spl_autoload_register", NULL, 114, &_0, &__$true, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }

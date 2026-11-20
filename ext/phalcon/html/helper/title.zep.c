@@ -202,7 +202,7 @@ PHP_METHOD(Phalcon_Html_Helper_Title, __toString)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&items, "array_merge", NULL, 61, &_0, &_1, &_3);
+	ZEPHIR_CALL_FUNCTION(&items, "array_merge", NULL, 64, &_0, &_1, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_4);
 	array_init(&_4);
@@ -378,7 +378,7 @@ PHP_METHOD(Phalcon_Html_Helper_Title, prepend)
 	}
 	ZEPHIR_CPY_WRT(&prepend, &_2);
 	ZEPHIR_MAKE_REF(&prepend);
-	ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 147, &prepend, &text);
+	ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 149, &prepend, &text);
 	ZEPHIR_UNREF(&prepend);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 874, &prepend);

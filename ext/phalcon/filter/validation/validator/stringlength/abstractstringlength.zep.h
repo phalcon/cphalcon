@@ -1,0 +1,36 @@
+
+extern zend_class_entry *phalcon_filter_validation_validator_stringlength_abstractstringlength_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_StringLength_AbstractStringLength);
+
+PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength_AbstractStringLength, validate);
+PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength_AbstractStringLength, validateLength);
+PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength_AbstractStringLength, phpExtensionLoaded);
+PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength_AbstractStringLength, phpFunctionExists);
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validator_stringlength_abstractstringlength_validate, 0, 2, _IS_BOOL, 0)
+	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Filter\\Validation, 0)
+	ZEND_ARG_INFO(0, field)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validator_stringlength_abstractstringlength_validatelength, 0, 3, _IS_BOOL, 0)
+	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Filter\\Validation, 0)
+	ZEND_ARG_INFO(0, field)
+	ZEND_ARG_TYPE_INFO(0, length, IS_LONG, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validator_stringlength_abstractstringlength_phpextensionloaded, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_validator_stringlength_abstractstringlength_phpfunctionexists, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, functionName, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_filter_validation_validator_stringlength_abstractstringlength_method_entry) {
+	PHP_ME(Phalcon_Filter_Validation_Validator_StringLength_AbstractStringLength, validate, arginfo_phalcon_filter_validation_validator_stringlength_abstractstringlength_validate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Filter_Validation_Validator_StringLength_AbstractStringLength, validateLength, arginfo_phalcon_filter_validation_validator_stringlength_abstractstringlength_validatelength, ZEND_ACC_ABSTRACT|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Filter_Validation_Validator_StringLength_AbstractStringLength, phpExtensionLoaded, arginfo_phalcon_filter_validation_validator_stringlength_abstractstringlength_phpextensionloaded, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Filter_Validation_Validator_StringLength_AbstractStringLength, phpFunctionExists, arginfo_phalcon_filter_validation_validator_stringlength_abstractstringlength_phpfunctionexists, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_FE_END
+};

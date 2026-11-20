@@ -667,7 +667,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection)
 			} else {
 				ZEPHIR_INIT_NVAR(&_9$$5);
 				ZVAL_STRING(&_9$$5, "Phalcon\\Mvc\\Model");
-				ZEPHIR_CALL_FUNCTION(&_10$$5, "is_subclass_of", &_11, 41, &className, &_9$$5);
+				ZEPHIR_CALL_FUNCTION(&_10$$5, "is_subclass_of", &_11, 42, &className, &_9$$5);
 				zephir_check_call_status();
 				if (zephir_is_true(&_10$$5)) {
 					ZEPHIR_CALL_METHOD_CACHED(&boundModel, this_ptr, "findBoundModel", &_zephir_call_cache[12], &paramValue, &className);
@@ -809,7 +809,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection)
 				} else {
 					ZEPHIR_INIT_NVAR(&_22$$19);
 					ZVAL_STRING(&_22$$19, "Phalcon\\Mvc\\Model");
-					ZEPHIR_CALL_FUNCTION(&_23$$19, "is_subclass_of", &_11, 41, &className, &_22$$19);
+					ZEPHIR_CALL_FUNCTION(&_23$$19, "is_subclass_of", &_11, 42, &className, &_22$$19);
 					zephir_check_call_status();
 					if (zephir_is_true(&_23$$19)) {
 						ZEPHIR_CALL_METHOD_CACHED(&boundModel, this_ptr, "findBoundModel", &_zephir_call_cache[27], &paramValue, &className);

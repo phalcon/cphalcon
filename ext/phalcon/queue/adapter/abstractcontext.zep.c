@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractContext, createTemporaryQueue)
 	object_init_ex(return_value, phalcon_queue_adapter_genericqueue_ce);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "phalcon_queue_");
-	ZEPHIR_CALL_FUNCTION(&_1, "uniqid", NULL, 33, &_0, &__$true);
+	ZEPHIR_CALL_FUNCTION(&_1, "uniqid", NULL, 34, &_0, &__$true);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &_1);
 	zephir_check_call_status();

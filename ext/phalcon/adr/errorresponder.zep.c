@@ -213,7 +213,7 @@ PHP_METHOD(Phalcon_ADR_ErrorResponder, handle)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_5);
 	ZVAL_STRING(&_5, "%s: %s in %s:%d");
-	ZEPHIR_CALL_FUNCTION(&_6, "sprintf", NULL, 38, &_5, &_1, &_2, &_3, &_4);
+	ZEPHIR_CALL_FUNCTION(&_6, "sprintf", NULL, 39, &_5, &_1, &_2, &_3, &_4);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_7);
 	zephir_create_array(&_7, 2, 0);
@@ -272,9 +272,9 @@ PHP_METHOD(Phalcon_ADR_ErrorResponder, correlationId)
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(&id)) {
 		ZVAL_LONG(&_1$$3, 8);
-		ZEPHIR_CALL_FUNCTION(&_2$$3, "random_bytes", NULL, 68, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "random_bytes", NULL, 71, &_1$$3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&id, "bin2hex", NULL, 69, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&id, "bin2hex", NULL, 72, &_2$$3);
 		zephir_check_call_status();
 	}
 	zephir_cast_to_string(&_3, &id);
@@ -480,11 +480,11 @@ PHP_METHOD(Phalcon_ADR_ErrorResponder, resolveStatus)
 		}
 		RETURN_CCTOR(&_3$$3);
 	}
-	ZEPHIR_CALL_FUNCTION(&_4, "class_parents", NULL, 98, exception);
+	ZEPHIR_CALL_FUNCTION(&_4, "class_parents", NULL, 101, exception);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&_5, "array_values", &_6, 18, &_4);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_7, "class_implements", NULL, 99, exception);
+	ZEPHIR_CALL_FUNCTION(&_7, "class_implements", NULL, 102, exception);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&_8, "array_values", &_6, 18, &_7);
 	zephir_check_call_status();

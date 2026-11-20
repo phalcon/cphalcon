@@ -101,13 +101,13 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version3, __construct)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&hash, "md5", NULL, 145, &_1, &__$true);
+	ZEPHIR_CALL_FUNCTION(&hash, "md5", NULL, 147, &_1, &__$true);
 	zephir_check_call_status();
 	ZVAL_LONG(&_2, 6);
 	ZVAL_LONG(&_3, 1);
 	ZEPHIR_INIT_VAR(&_4);
 	zephir_substr(&_4, &hash, 6 , 1 , 0);
-	ZEPHIR_CALL_FUNCTION(&_5, "ord", &_6, 134, &_4);
+	ZEPHIR_CALL_FUNCTION(&_5, "ord", &_6, 136, &_4);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_7);
 	ZVAL_LONG(&_7, 0x0f);
@@ -125,18 +125,18 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version3, __construct)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&_5, "chr", &_10, 122, &_9);
+	ZEPHIR_CALL_FUNCTION(&_5, "chr", &_10, 124, &_9);
 	zephir_check_call_status();
 	ZVAL_LONG(&_11, 6);
 	ZVAL_LONG(&_12, 1);
-	ZEPHIR_CALL_FUNCTION(&_13, "substr_replace", &_14, 146, &hash, &_5, &_11, &_12);
+	ZEPHIR_CALL_FUNCTION(&_13, "substr_replace", &_14, 148, &hash, &_5, &_11, &_12);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&hash, &_13);
 	ZVAL_LONG(&_11, 8);
 	ZVAL_LONG(&_12, 1);
 	ZEPHIR_INIT_VAR(&_15);
 	zephir_substr(&_15, &hash, 8 , 1 , 0);
-	ZEPHIR_CALL_FUNCTION(&_13, "ord", &_6, 134, &_15);
+	ZEPHIR_CALL_FUNCTION(&_13, "ord", &_6, 136, &_15);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_7);
 	ZVAL_LONG(&_7, 0x3f);
@@ -154,14 +154,14 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version3, __construct)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&_13, "chr", &_10, 122, &_16);
+	ZEPHIR_CALL_FUNCTION(&_13, "chr", &_10, 124, &_16);
 	zephir_check_call_status();
 	ZVAL_LONG(&_17, 8);
 	ZVAL_LONG(&_18, 1);
-	ZEPHIR_CALL_FUNCTION(&_19, "substr_replace", &_14, 146, &hash, &_13, &_17, &_18);
+	ZEPHIR_CALL_FUNCTION(&_19, "substr_replace", &_14, 148, &hash, &_13, &_17, &_18);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&hash, &_19);
-	ZEPHIR_CALL_FUNCTION(&_20, "bin2hex", NULL, 69, &hash);
+	ZEPHIR_CALL_FUNCTION(&_20, "bin2hex", NULL, 72, &hash);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD_CACHED(&_19, this_ptr, "format", &_zephir_call_cache[1], &_20);
 	zephir_check_call_status();

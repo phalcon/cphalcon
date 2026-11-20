@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Dynamic, __invoke)
 				return;
 			}
 			ZEPHIR_OBS_NVAR(&word);
-			ZEPHIR_CALL_FUNCTION(&_14$$6, "array_rand", &_15, 118, &words);
+			ZEPHIR_CALL_FUNCTION(&_14$$6, "array_rand", &_15, 120, &words);
 			zephir_check_call_status();
 			zephir_array_fetch(&word, &words, &_14$$6, PH_NOISY, "phalcon/Support/Helper/Str/Dynamic.zep", 55);
 			if (UNEXPECTED(EG(exception))) {

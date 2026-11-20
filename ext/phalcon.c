@@ -428,6 +428,7 @@ zend_class_entry *phalcon_encryption_security_exception_ce;
 zend_class_entry *phalcon_encryption_security_jwt_token_abstractitem_ce;
 zend_class_entry *phalcon_filter_validation_abstractvalidatorcomposite_ce;
 zend_class_entry *phalcon_filter_validation_validator_file_size_equal_ce;
+zend_class_entry *phalcon_filter_validation_validator_stringlength_abstractstringlength_ce;
 zend_class_entry *phalcon_flash_abstractflash_ce;
 zend_class_entry *phalcon_html_helper_input_abstractchecked_ce;
 zend_class_entry *phalcon_html_helper_input_abstractgroup_ce;
@@ -2109,6 +2110,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Encryption_Security_JWT_Token_AbstractItem);
 	ZEPHIR_INIT(Phalcon_Filter_Validation_AbstractValidatorComposite);
 	ZEPHIR_INIT(Phalcon_Filter_Validation_Validator_File_Size_Equal);
+	ZEPHIR_INIT(Phalcon_Filter_Validation_Validator_StringLength_AbstractStringLength);
 	ZEPHIR_INIT(Phalcon_Flash_AbstractFlash);
 	ZEPHIR_INIT(Phalcon_Html_Helper_Input_AbstractChecked);
 	ZEPHIR_INIT(Phalcon_Html_Helper_Input_AbstractGroup);

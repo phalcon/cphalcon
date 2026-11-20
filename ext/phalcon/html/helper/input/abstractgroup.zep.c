@@ -490,7 +490,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractGroup, renderItem)
 	}
 	zephir_array_update_string(&_11, SL("name"), &_14, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_11, SL("value"), &value_zv, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_FUNCTION(&inputAttrs, "array_merge", &_15, 61, &_10, &itemExtras, &_11);
+	ZEPHIR_CALL_FUNCTION(&inputAttrs, "array_merge", &_15, 64, &_10, &itemExtras, &_11);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD_CACHED(&_16, this_ptr, "isChecked", &_zephir_call_cache[0], &value_zv);
 	zephir_check_call_status();

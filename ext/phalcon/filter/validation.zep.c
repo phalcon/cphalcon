@@ -2290,7 +2290,7 @@ PHP_METHOD(Phalcon_Filter_Validation, preChecking)
 			ZEPHIR_CALL_METHOD_CACHED(&value, this_ptr, "getValue", &_zephir_call_cache[8], field);
 			zephir_check_call_status();
 			if (Z_TYPE_P(&allowEmpty) == IS_ARRAY) {
-				ZEPHIR_RETURN_CALL_FUNCTION("in_array", &_11, 36, &value, &allowEmpty, &__$true);
+				ZEPHIR_RETURN_CALL_FUNCTION("in_array", &_11, 37, &value, &allowEmpty, &__$true);
 				zephir_check_call_status();
 				RETURN_MM();
 			}

@@ -16,6 +16,8 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, setTemplates);
 PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, validate);
 PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, allowEmpty);
 PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, checkArray);
+PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, getDomainOption);
+PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, getStrictOption);
 PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, prepareCode);
 PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, prepareLabel);
 PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, rejectNonStringable);
@@ -80,6 +82,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator_check
 	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator_getdomainoption, 0, 1, IS_ARRAY, 0)
+	ZEND_ARG_INFO(0, field)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator_getstrictoption, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_INFO(0, field)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_filter_validation_abstractvalidator_preparecode, 0, 1, IS_LONG, 0)
 	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 0)
 ZEND_END_ARG_INFO()
@@ -109,6 +119,8 @@ ZEPHIR_INIT_FUNCS(phalcon_filter_validation_abstractvalidator_method_entry) {
 	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, validate, arginfo_phalcon_filter_validation_abstractvalidator_validate, ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, allowEmpty, arginfo_phalcon_filter_validation_abstractvalidator_allowempty, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, checkArray, arginfo_phalcon_filter_validation_abstractvalidator_checkarray, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, getDomainOption, arginfo_phalcon_filter_validation_abstractvalidator_getdomainoption, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, getStrictOption, arginfo_phalcon_filter_validation_abstractvalidator_getstrictoption, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, prepareCode, arginfo_phalcon_filter_validation_abstractvalidator_preparecode, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, prepareLabel, arginfo_phalcon_filter_validation_abstractvalidator_preparelabel, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Filter_Validation_AbstractValidator, rejectNonStringable, arginfo_phalcon_filter_validation_abstractvalidator_rejectnonstringable, ZEND_ACC_PROTECTED)

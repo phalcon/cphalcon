@@ -223,6 +223,7 @@
 #include "phalcon/encryption/security/uuid/timebaseduuidinterface.zep.h"
 #include "phalcon/filter/validation/abstractvalidatorcomposite.zep.h"
 #include "phalcon/filter/validation/validator/file/size/equal.zep.h"
+#include "phalcon/filter/validation/validator/stringlength/abstractstringlength.zep.h"
 #include "phalcon/flash/abstractflash.zep.h"
 #include "phalcon/html/helper/input/abstractchecked.zep.h"
 #include "phalcon/html/helper/input/abstractgroup.zep.h"

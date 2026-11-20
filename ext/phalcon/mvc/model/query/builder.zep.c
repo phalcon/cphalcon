@@ -2458,7 +2458,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 					ZEPHIR_CPY_WRT(&itemTrimmed$$70, &itemTrimmed$$70);
 					ZEPHIR_INIT_NVAR(&_88$$70);
 					ZVAL_STRING(&_88$$70, " ");
-					ZEPHIR_CALL_FUNCTION(&lastSpacePosition$$70, "strrpos", &_89, 132, &itemTrimmed$$70, &_88$$70);
+					ZEPHIR_CALL_FUNCTION(&lastSpacePosition$$70, "strrpos", &_89, 134, &itemTrimmed$$70, &_88$$70);
 					zephir_check_call_status();
 					ZEPHIR_CPY_WRT(&lastSpacePosition$$70, &lastSpacePosition$$70);
 					if (!ZEPHIR_IS_FALSE_IDENTICAL(&lastSpacePosition$$70)) {
@@ -2483,13 +2483,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 						ZEPHIR_CPY_WRT(&perhapsDirection$$72, &perhapsDirection$$72);
 						ZEPHIR_INIT_NVAR(&_95$$72);
 						ZVAL_STRING(&_95$$72, "desc");
-						ZEPHIR_CALL_FUNCTION(&_96$$72, "strcasecmp", &_97, 35, &perhapsDirection$$72, &_95$$72);
+						ZEPHIR_CALL_FUNCTION(&_96$$72, "strcasecmp", &_97, 36, &perhapsDirection$$72, &_95$$72);
 						zephir_check_call_status();
 						_98$$72 = ZEPHIR_IS_LONG(&_96$$72, 0);
 						if (!(_98$$72)) {
 							ZEPHIR_INIT_NVAR(&_95$$72);
 							ZVAL_STRING(&_95$$72, "asc");
-							ZEPHIR_CALL_FUNCTION(&_99$$72, "strcasecmp", &_97, 35, &perhapsDirection$$72, &_95$$72);
+							ZEPHIR_CALL_FUNCTION(&_99$$72, "strcasecmp", &_97, 36, &perhapsDirection$$72, &_95$$72);
 							zephir_check_call_status();
 							_98$$72 = ZEPHIR_IS_LONG(&_99$$72, 0);
 						}
@@ -2558,7 +2558,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 						ZEPHIR_CPY_WRT(&itemTrimmed$$76, &itemTrimmed$$76);
 						ZEPHIR_INIT_NVAR(&_105$$76);
 						ZVAL_STRING(&_105$$76, " ");
-						ZEPHIR_CALL_FUNCTION(&lastSpacePosition$$76, "strrpos", &_89, 132, &itemTrimmed$$76, &_105$$76);
+						ZEPHIR_CALL_FUNCTION(&lastSpacePosition$$76, "strrpos", &_89, 134, &itemTrimmed$$76, &_105$$76);
 						zephir_check_call_status();
 						ZEPHIR_CPY_WRT(&lastSpacePosition$$76, &lastSpacePosition$$76);
 						if (!ZEPHIR_IS_FALSE_IDENTICAL(&lastSpacePosition$$76)) {
@@ -2583,13 +2583,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 							ZEPHIR_CPY_WRT(&perhapsDirection$$78, &perhapsDirection$$78);
 							ZEPHIR_INIT_NVAR(&_111$$78);
 							ZVAL_STRING(&_111$$78, "desc");
-							ZEPHIR_CALL_FUNCTION(&_112$$78, "strcasecmp", &_97, 35, &perhapsDirection$$78, &_111$$78);
+							ZEPHIR_CALL_FUNCTION(&_112$$78, "strcasecmp", &_97, 36, &perhapsDirection$$78, &_111$$78);
 							zephir_check_call_status();
 							_113$$78 = ZEPHIR_IS_LONG(&_112$$78, 0);
 							if (!(_113$$78)) {
 								ZEPHIR_INIT_NVAR(&_111$$78);
 								ZVAL_STRING(&_111$$78, "asc");
-								ZEPHIR_CALL_FUNCTION(&_114$$78, "strcasecmp", &_97, 35, &perhapsDirection$$78, &_111$$78);
+								ZEPHIR_CALL_FUNCTION(&_114$$78, "strcasecmp", &_97, 36, &perhapsDirection$$78, &_111$$78);
 								zephir_check_call_status();
 								_113$$78 = ZEPHIR_IS_LONG(&_114$$78, 0);
 							}
@@ -2708,7 +2708,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 				return;
 			}
 			ZVAL_LONG(&_123$$91, 10);
-			ZEPHIR_CALL_FUNCTION(&_124$$91, "intval", &_125, 37, &number, &_123$$91);
+			ZEPHIR_CALL_FUNCTION(&_124$$91, "intval", &_125, 38, &number, &_123$$91);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&_126$$91);
 			ZVAL_STRING(&_126$$91, "APL0");
@@ -2737,7 +2737,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 					return;
 				}
 				ZVAL_LONG(&_130$$92, 10);
-				ZEPHIR_CALL_FUNCTION(&_131$$92, "intval", &_125, 37, &offset, &_130$$92);
+				ZEPHIR_CALL_FUNCTION(&_131$$92, "intval", &_125, 38, &offset, &_130$$92);
 				zephir_check_call_status();
 				ZEPHIR_INIT_VAR(&_132$$92);
 				ZVAL_STRING(&_132$$92, "APL1");
@@ -3484,7 +3484,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit)
 		offset = &__$null;
 	}
 	ZVAL_LONG(&_0, limit);
-	ZEPHIR_CALL_FUNCTION(&_1, "abs", &_2, 150, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "abs", &_2, 152, &_0);
 	zephir_check_call_status();
 	limit = zephir_get_intval(&_1);
 	if (UNEXPECTED(limit == 0)) {
@@ -3495,7 +3495,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit)
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1105, &_0);
 	if (zephir_is_numeric(offset)) {
 		ZVAL_LONG(&_3$$4, zephir_get_intval(offset));
-		ZEPHIR_CALL_FUNCTION(&_4$$4, "abs", &_2, 150, &_3$$4);
+		ZEPHIR_CALL_FUNCTION(&_4$$4, "abs", &_2, 152, &_3$$4);
 		zephir_check_call_status();
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1106, &_4$$4);
 	}

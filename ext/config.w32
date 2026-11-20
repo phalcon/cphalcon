@@ -140,6 +140,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/encryption/security", "exception.zep.c random.zep.c uuid.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/encryption/security/jwt/token", "abstractitem.zep.c enum.zep.c item.zep.c parser.zep.c signature.zep.c token.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/filter/validation/validator/file/size", "equal.zep.c max.zep.c min.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/filter/validation/validator/stringlength", "abstractstringlength.zep.c max.zep.c min.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/html/link", "abstractlink.zep.c abstractlinkprovider.zep.c link.zep.c linkprovider.zep.c evolvablelink.zep.c evolvablelinkprovider.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/messages", "exception.zep.c messageinterface.zep.c message.zep.c messages.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/model/metadata/strategy", "strategyinterface.zep.c annotations.zep.c introspection.zep.c", "phalcon");
@@ -240,7 +241,6 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/filter/validation/traits", "validatorcompositetrait.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/filter/validation/validator", "alnum.zep.c alpha.zep.c between.zep.c callback.zep.c confirmation.zep.c creditcard.zep.c date.zep.c digit.zep.c email.zep.c exception.zep.c exclusionin.zep.c file.zep.c files.zep.c identical.zep.c inclusionin.zep.c ip.zep.c numericality.zep.c presenceof.zep.c regex.zep.c stringlength.zep.c uniqueness.zep.c url.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/filter/validation/validator/file/resolution", "aspectratio.zep.c equal.zep.c max.zep.c min.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/filter/validation/validator/stringlength", "max.zep.c min.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/flash/exceptions", "escaperserviceunavailable.zep.c flashmessagenotstringorarray.zep.c sessionserviceunavailable.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/forms/exceptions", "elementnotinform.zep.c formelementnamerequired.zep.c formnotinlocator.zep.c formnotregistered.zep.c invalidentity.zep.c invalidfiltertype.zep.c invalidjsonschema.zep.c jsonschemanotarray.zep.c noformelements.zep.c schemaentrymissingkey.zep.c schemaentrynotarray.zep.c unknownformelementtype.zep.c yamlextensionrequired.zep.c yamlschemanotarray.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/forms/loader", "arrayloader.zep.c jsonloader.zep.c yamlloader.zep.c", "phalcon");

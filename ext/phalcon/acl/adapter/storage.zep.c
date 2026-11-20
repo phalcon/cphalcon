@@ -1104,7 +1104,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Storage, normalizeToArray)
 		return;
 	}
 	if (Z_TYPE_P(value) == IS_OBJECT) {
-		ZEPHIR_CALL_FUNCTION(&_0$$4, "get_object_vars", NULL, 107, value);
+		ZEPHIR_CALL_FUNCTION(&_0$$4, "get_object_vars", NULL, 110, value);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(value, &_0$$4);
 	}

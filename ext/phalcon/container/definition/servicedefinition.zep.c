@@ -289,7 +289,7 @@ PHP_METHOD(Phalcon_Container_Definition_ServiceDefinition, addTag)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&_2, "in_array", NULL, 36, &tag_zv, &_1, &__$true);
+	ZEPHIR_CALL_FUNCTION(&_2, "in_array", NULL, 37, &tag_zv, &_1, &__$true);
 	zephir_check_call_status();
 	if (!zephir_is_true(&_2)) {
 		zephir_update_property_array_append(this_ptr, SL("tags"), &tag_zv);

@@ -177,7 +177,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractConsumer, receive)
 			RETURN_MM_NULL();
 		}
 		ZVAL_LONG(&_9$$3, sleep);
-		ZEPHIR_CALL_FUNCTION(NULL, "usleep", &_10, 32, &_9$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "usleep", &_10, 33, &_9$$3);
 		zephir_check_call_status();
 	}
 	RETURN_MM_NULL();

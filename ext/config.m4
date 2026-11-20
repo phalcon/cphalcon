@@ -228,6 +228,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/encryption/security/uuid/timebaseduuidinterface.zep.c
 	phalcon/filter/validation/abstractvalidatorcomposite.zep.c
 	phalcon/filter/validation/validator/file/size/equal.zep.c
+	phalcon/filter/validation/validator/stringlength/abstractstringlength.zep.c
 	phalcon/flash/abstractflash.zep.c
 	phalcon/html/helper/input/abstractchecked.zep.c
 	phalcon/html/helper/input/abstractgroup.zep.c

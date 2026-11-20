@@ -250,17 +250,17 @@ PHP_METHOD(Phalcon_ADR_Front_AbstractHttpFront, handleBootError)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(NULL, "error_log", NULL, 70, &_0);
+	ZEPHIR_CALL_FUNCTION(NULL, "error_log", NULL, 73, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_1, "headers_sent", NULL, 71);
+	ZEPHIR_CALL_FUNCTION(&_1, "headers_sent", NULL, 74);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_1))) {
 		ZVAL_LONG(&_2$$3, 500);
-		ZEPHIR_CALL_FUNCTION(NULL, "http_response_code", NULL, 72, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "http_response_code", NULL, 75, &_2$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZVAL_STRING(&_3$$3, "Content-Type: text/plain; charset=utf-8");
-		ZEPHIR_CALL_FUNCTION(NULL, "header", NULL, 73, &_3$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "header", NULL, 76, &_3$$3);
 		zephir_check_call_status();
 		php_printf("%s", "Internal Server Error\n");
 	}

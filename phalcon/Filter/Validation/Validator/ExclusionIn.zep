@@ -13,8 +13,6 @@ namespace Phalcon\Filter\Validation\Validator;
 use Phalcon\Contracts\Filter\FilterTypes;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\AbstractValidator;
-use Phalcon\Filter\Validation\Exceptions\InvalidDomainOption;
-use Phalcon\Filter\Validation\Exceptions\InvalidStrictOption;
 use Phalcon\Messages\Message;
 
 /**
@@ -86,7 +84,7 @@ class ExclusionIn extends AbstractValidator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, domain, replacePairs, strict, fieldDomain;
+        var value, domain, replacePairs;
 
         let value = validation->getValue(field);
         if this->allowEmpty(field, value) {
@@ -96,36 +94,12 @@ class ExclusionIn extends AbstractValidator
         /**
          * A domain is an array with a list of valid values
          */
-        let domain = this->getOption("domain");
-
-        if fetch fieldDomain, domain[field] {
-            if typeof fieldDomain == "array" {
-                let domain = fieldDomain;
-            }
-        }
-
-        if unlikely typeof domain != "array" {
-            throw new InvalidDomainOption();
-        }
-
-        let strict = false;
-
-        if this->hasOption("strict") {
-            let strict = this->getOption("strict");
-
-            if typeof strict == "array" {
-                let strict = strict[field];
-            }
-
-            if unlikely typeof strict != "boolean" {
-                throw new InvalidStrictOption();
-            }
-        }
+        let domain = this->getDomainOption(field);
 
         /**
          * Check if the value is contained by the array
          */
-        if in_array(value, domain, strict) {
+        if in_array(value, domain, this->getStrictOption(field)) {
             let replacePairs = [
                 ":domain": join(", ", domain)
             ];

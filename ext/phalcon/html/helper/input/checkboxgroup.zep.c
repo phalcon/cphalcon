@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_CheckboxGroup, isChecked)
 		zephir_array_fast_append(&_2$$5, &_3$$5);
 		ZEPHIR_CPY_WRT(&selected, &_2$$5);
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("in_array", NULL, 36, &value_zv, &selected, &__$false);
+	ZEPHIR_RETURN_CALL_FUNCTION("in_array", NULL, 37, &value_zv, &selected, &__$false);
 	zephir_check_call_status();
 	RETURN_MM();
 }

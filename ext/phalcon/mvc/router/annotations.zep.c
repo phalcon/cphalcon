@@ -1082,7 +1082,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation)
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZEPHIR_CALL_FUNCTION(&_4$$6, "call_user_func", NULL, 34, &_3$$6, &proxyActionName);
+		ZEPHIR_CALL_FUNCTION(&_4$$6, "call_user_func", NULL, 35, &_3$$6, &proxyActionName);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&proxyActionName, &_4$$6);
 	}

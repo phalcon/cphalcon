@@ -486,9 +486,9 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, acquireLock)
 	ZEPHIR_CALL_METHOD_CACHED(&client, &_4, "getAdapter", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	ZVAL_LONG(&_5, 16);
-	ZEPHIR_CALL_FUNCTION(&_6, "random_bytes", NULL, 68, &_5);
+	ZEPHIR_CALL_FUNCTION(&_6, "random_bytes", NULL, 71, &_5);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&token, "bin2hex", NULL, 69, &_6);
+	ZEPHIR_CALL_FUNCTION(&token, "bin2hex", NULL, 72, &_6);
 	zephir_check_call_status();
 	attempt = 0;
 	while (1) {
@@ -532,7 +532,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, acquireLock)
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZEPHIR_CALL_FUNCTION(NULL, "usleep", &_13, 32, &_12$$4);
+		ZEPHIR_CALL_FUNCTION(NULL, "usleep", &_13, 33, &_12$$4);
 		zephir_check_call_status();
 		attempt++;
 	}

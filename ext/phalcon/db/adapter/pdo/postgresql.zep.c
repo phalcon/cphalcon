@@ -1327,7 +1327,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 					}
 					ZEPHIR_INIT_NVAR(&_68$$54);
 					ZVAL_STRING(&_68$$54, "null");
-					ZEPHIR_CALL_FUNCTION(&_73$$54, "strcasecmp", &_74, 35, &_72$$54, &_68$$54);
+					ZEPHIR_CALL_FUNCTION(&_73$$54, "strcasecmp", &_74, 36, &_72$$54, &_68$$54);
 					zephir_check_call_status();
 					if (ZEPHIR_IS_LONG(&_73$$54, 0)) {
 						zephir_array_update_string(&definition, SL("default"), &__$null, PH_COPY | PH_SEPARATE);
@@ -2113,7 +2113,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns)
 						}
 						ZEPHIR_INIT_NVAR(&_143$$108);
 						ZVAL_STRING(&_143$$108, "null");
-						ZEPHIR_CALL_FUNCTION(&_147$$108, "strcasecmp", &_74, 35, &_146$$108, &_143$$108);
+						ZEPHIR_CALL_FUNCTION(&_147$$108, "strcasecmp", &_74, 36, &_146$$108, &_143$$108);
 						zephir_check_call_status();
 						if (ZEPHIR_IS_LONG(&_147$$108, 0)) {
 							zephir_array_update_string(&definition, SL("default"), &__$null, PH_COPY | PH_SEPARATE);

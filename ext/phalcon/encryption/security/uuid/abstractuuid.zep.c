@@ -229,7 +229,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, namespaceToBytes)
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "");
 	zephir_fast_str_replace(&_0, &_1, &_2, &uuid_zv);
-	ZEPHIR_RETURN_CALL_FUNCTION("hex2bin", NULL, 25, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("hex2bin", NULL, 26, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -265,7 +265,7 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, uuidTimestampToDateTim
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &timestamp);
 	ZVAL_LONG(&_0, 10000000);
-	ZEPHIR_CALL_FUNCTION(&_1, "intdiv", &_2, 26, timestamp, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "intdiv", &_2, 27, timestamp, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_LONG(&_3, 12219292800);
@@ -282,14 +282,14 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, uuidTimestampToDateTim
 		return;
 	}
 	ZVAL_LONG(&_0, 10);
-	ZEPHIR_CALL_FUNCTION(&usec, "intdiv", &_2, 26, &_3, &_0);
+	ZEPHIR_CALL_FUNCTION(&usec, "intdiv", &_2, 27, &_3, &_0);
 	zephir_check_call_status();
 	_4 = zephir_fetch_class_str_ex(SL("DateTimeImmutable"), ZEND_FETCH_CLASS_AUTO);
 	ZVAL_LONG(&_0, 6);
 	ZEPHIR_INIT_VAR(&_5);
 	ZVAL_STRING(&_5, "0");
 	ZVAL_LONG(&_6, 0);
-	ZEPHIR_CALL_FUNCTION(&_1, "str_pad", NULL, 27, &usec, &_0, &_5, &_6);
+	ZEPHIR_CALL_FUNCTION(&_1, "str_pad", NULL, 28, &usec, &_0, &_5, &_6);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_7);
 	ZEPHIR_CONCAT_VSV(&_7, &sec, " ", &_1);

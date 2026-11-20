@@ -1338,7 +1338,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, executePrepared)
 							goto zephir_switch_0_clause_4;
 							zephir_switch_0_clause_0: ;
 								ZVAL_LONG(&_9$$12, 10);
-								ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_10, 37, &value, &_9$$12);
+								ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_10, 38, &value, &_9$$12);
 								zephir_check_call_status();
 								goto zephir_switch_0_end;
 							zephir_switch_0_clause_1: ;
@@ -1599,7 +1599,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, executePrepared)
 								goto zephir_switch_1_clause_4;
 								zephir_switch_1_clause_0: ;
 									ZVAL_LONG(&_40$$43, 10);
-									ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_10, 37, &value, &_40$$43);
+									ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_10, 38, &value, &_40$$43);
 									zephir_check_call_status();
 									goto zephir_switch_1_end;
 								zephir_switch_1_clause_1: ;

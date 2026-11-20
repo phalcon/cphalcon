@@ -1450,7 +1450,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, buildFrom)
 			ZEPHIR_INIT_NVAR(&table);
 			ZVAL_COPY(&table, _6);
 			ZEPHIR_MAKE_REF(&table);
-			ZEPHIR_CALL_FUNCTION(&_7$$4, "array_shift", &_8, 105, &table);
+			ZEPHIR_CALL_FUNCTION(&_7$$4, "array_shift", &_8, 108, &table);
 			ZEPHIR_UNREF(&table);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD_CACHED(&_9$$4, this_ptr, "indent", &_zephir_call_cache[0], &table);
@@ -1486,7 +1486,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, buildFrom)
 			ZEPHIR_CALL_METHOD_CACHED(&table, _4, "current", &_zephir_call_cache[4]);
 			zephir_check_call_status();
 				ZEPHIR_MAKE_REF(&table);
-				ZEPHIR_CALL_FUNCTION(&_13$$5, "array_shift", &_8, 105, &table);
+				ZEPHIR_CALL_FUNCTION(&_13$$5, "array_shift", &_8, 108, &table);
 				ZEPHIR_UNREF(&table);
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD_CACHED(&_14$$5, this_ptr, "indent", &_zephir_call_cache[5], &table);

@@ -16,7 +16,6 @@
 #include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/object.h"
-#include "kernel/string.h"
 #include "kernel/array.h"
 
 
@@ -83,7 +82,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Validation_Validator_StringLength_Min)
 {
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Filter\\Validation\\Validator\\StringLength, Min, phalcon, filter_validation_validator_stringlength_min, phalcon_filter_validation_abstractvalidator_ce, phalcon_filter_validation_validator_stringlength_min_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Filter\\Validation\\Validator\\StringLength, Min, phalcon, filter_validation_validator_stringlength_min, phalcon_filter_validation_validator_stringlength_abstractstringlength_ce, phalcon_filter_validation_validator_stringlength_min_method_entry, 0);
 
 	/**
 	 * @var string|null
@@ -125,206 +124,105 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength_Min, __construct)
 }
 
 /**
- * Executes the validation
+ * Compares the length of the value with the minimum
  */
-PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength_Min, validate)
+PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength_Min, validateLength)
 {
-	double _12$$10, _13$$11;
-	zval _4$$5, _5$$6;
-	zend_bool failed = 0, _14$$12, _15$$13;
+	double _7$$6, _8$$7;
+	zend_bool failed = 0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validation, validation_sub, *field, field_sub, included, length, minimum, replacePairs, value, _0, _1, _2, _3, _7, _8, _6$$7, _9$$8, _10$$9, _11$$10, _16$$14;
+	zend_long length, ZEPHIR_LAST_CALL_STATUS;
+	zval *validation, validation_sub, *field, field_sub, *length_param = NULL, included, minimum, replacePairs, _0, _2, _3, _1$$3, _4$$4, _5$$5, _6$$6, _9$$10;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
 	ZVAL_UNDEF(&field_sub);
 	ZVAL_UNDEF(&included);
-	ZVAL_UNDEF(&length);
 	ZVAL_UNDEF(&minimum);
 	ZVAL_UNDEF(&replacePairs);
-	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_7);
-	ZVAL_UNDEF(&_8);
-	ZVAL_UNDEF(&_6$$7);
-	ZVAL_UNDEF(&_9$$8);
-	ZVAL_UNDEF(&_10$$9);
-	ZVAL_UNDEF(&_11$$10);
-	ZVAL_UNDEF(&_16$$14);
-	ZVAL_UNDEF(&_4$$5);
-	ZVAL_UNDEF(&_5$$6);
-	ZEND_TLS zephir_method_cache _zephir_call_cache[11];
-	ZEND_PARSE_PARAMETERS_START(2, 2)
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_4$$4);
+	ZVAL_UNDEF(&_5$$5);
+	ZVAL_UNDEF(&_6$$6);
+	ZVAL_UNDEF(&_9$$10);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[7];
+	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
 		Z_PARAM_ZVAL(field)
+		Z_PARAM_LONG(length)
 	ZEND_PARSE_PARAMETERS_END();
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_fetch_params(1, 2, 0, &validation, &field);
-	ZEPHIR_CALL_METHOD_CACHED(&value, validation, "getValue", &_zephir_call_cache[0], field);
-	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "allowEmpty", &_zephir_call_cache[1], field, &value);
-	zephir_check_call_status();
-	if (zephir_is_true(&_0)) {
-		RETURN_MM_BOOL(1);
-	}
-	ZEPHIR_CALL_METHOD_CACHED(&_1, this_ptr, "rejectNonStringable", &_zephir_call_cache[2], validation, field, &value);
-	zephir_check_call_status();
-	if (zephir_is_true(&_1)) {
-		RETURN_MM_BOOL(0);
-	}
-	ZEPHIR_INIT_VAR(&_3);
-	ZVAL_STRING(&_3, "mb_strlen");
-	ZEPHIR_CALL_METHOD_CACHED(&_2, this_ptr, "phpFunctionExists", &_zephir_call_cache[3], &_3);
-	zephir_check_call_status();
-	if (zephir_is_true(&_2)) {
-		zephir_cast_to_string(&_4$$5, &value);
-		if (UNEXPECTED(EG(exception))) {
-			ZEPHIR_MM_RESTORE();
-			return;
-		}
-		ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 161, &_4$$5);
-		zephir_check_call_status();
-	} else {
-		zephir_cast_to_string(&_5$$6, &value);
-		if (UNEXPECTED(EG(exception))) {
-			ZEPHIR_MM_RESTORE();
-			return;
-		}
-		ZEPHIR_INIT_NVAR(&length);
-		ZVAL_LONG(&length, zephir_fast_strlen_ev(&_5$$6));
-	}
-	ZEPHIR_INIT_NVAR(&_3);
-	ZVAL_STRING(&_3, "min");
-	ZEPHIR_CALL_METHOD_CACHED(&minimum, this_ptr, "getOption", &_zephir_call_cache[4], &_3);
+	zephir_fetch_params(1, 3, 0, &validation, &field, &length_param);
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "min");
+	ZEPHIR_CALL_METHOD_CACHED(&minimum, this_ptr, "getOption", &_zephir_call_cache[0], &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&minimum) == IS_ARRAY) {
-		zephir_memory_observe(&_6$$7);
-		zephir_array_fetch(&_6$$7, &minimum, field, PH_NOISY, "phalcon/Filter/Validation/Validator/StringLength/Min.zep", 117);
+		zephir_memory_observe(&_1$$3);
+		zephir_array_fetch(&_1$$3, &minimum, field, PH_NOISY, "phalcon/Filter/Validation/Validator/StringLength/Min.zep", 100);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZEPHIR_CPY_WRT(&minimum, &_6$$7);
+		ZEPHIR_CPY_WRT(&minimum, &_1$$3);
 	}
 	ZEPHIR_INIT_VAR(&included);
 	ZVAL_BOOL(&included, 1);
-	ZEPHIR_INIT_NVAR(&_3);
-	ZVAL_STRING(&_3, "included");
-	ZEPHIR_CALL_METHOD_CACHED(&_7, this_ptr, "hasOption", &_zephir_call_cache[5], &_3);
+	ZEPHIR_INIT_NVAR(&_0);
+	ZVAL_STRING(&_0, "included");
+	ZEPHIR_CALL_METHOD_CACHED(&_2, this_ptr, "hasOption", &_zephir_call_cache[1], &_0);
 	zephir_check_call_status();
-	if (zephir_is_true(&_7)) {
-		ZEPHIR_INIT_VAR(&_9$$8);
-		ZVAL_STRING(&_9$$8, "included");
-		ZEPHIR_CALL_METHOD_CACHED(&included, this_ptr, "getOption", &_zephir_call_cache[7], &_9$$8);
+	if (zephir_is_true(&_2)) {
+		ZEPHIR_INIT_VAR(&_4$$4);
+		ZVAL_STRING(&_4$$4, "included");
+		ZEPHIR_CALL_METHOD_CACHED(&included, this_ptr, "getOption", &_zephir_call_cache[3], &_4$$4);
 		zephir_check_call_status();
 	} else {
-		ZEPHIR_INIT_NVAR(&_3);
-		ZVAL_STRING(&_3, "includedMinimum");
-		ZEPHIR_CALL_METHOD_CACHED(&_8, this_ptr, "hasOption", &_zephir_call_cache[6], &_3);
+		ZEPHIR_INIT_NVAR(&_0);
+		ZVAL_STRING(&_0, "includedMinimum");
+		ZEPHIR_CALL_METHOD_CACHED(&_3, this_ptr, "hasOption", &_zephir_call_cache[2], &_0);
 		zephir_check_call_status();
-		if (zephir_is_true(&_8)) {
-			ZEPHIR_INIT_VAR(&_10$$9);
-			ZVAL_STRING(&_10$$9, "includedMinimum");
-			ZEPHIR_CALL_METHOD_CACHED(&included, this_ptr, "getOption", &_zephir_call_cache[8], &_10$$9);
+		if (zephir_is_true(&_3)) {
+			ZEPHIR_INIT_VAR(&_5$$5);
+			ZVAL_STRING(&_5$$5, "includedMinimum");
+			ZEPHIR_CALL_METHOD_CACHED(&included, this_ptr, "getOption", &_zephir_call_cache[4], &_5$$5);
 			zephir_check_call_status();
 		}
 	}
 	if (Z_TYPE_P(&included) == IS_ARRAY) {
-		zephir_memory_observe(&_11$$10);
-		zephir_array_fetch(&_11$$10, &included, field, PH_NOISY, "phalcon/Filter/Validation/Validator/StringLength/Min.zep", 132);
+		zephir_memory_observe(&_6$$6);
+		zephir_array_fetch(&_6$$6, &included, field, PH_NOISY, "phalcon/Filter/Validation/Validator/StringLength/Min.zep", 115);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		_12$$10 = zephir_get_boolval(&_11$$10);
+		_7$$6 = zephir_get_boolval(&_6$$6);
 		ZEPHIR_INIT_NVAR(&included);
-		ZVAL_BOOL(&included, _12$$10);
+		ZVAL_BOOL(&included, _7$$6);
 	} else {
-		_13$$11 = zephir_get_boolval(&included);
+		_8$$7 = zephir_get_boolval(&included);
 		ZEPHIR_INIT_NVAR(&included);
-		ZVAL_BOOL(&included, _13$$11);
+		ZVAL_BOOL(&included, _8$$7);
 	}
 	if (zephir_is_true(&included)) {
-		_14$$12 = ZEPHIR_LT(&length, &minimum);
-		if (UNEXPECTED(EG(exception))) {
-			ZEPHIR_MM_RESTORE();
-			return;
-		}
-		failed = _14$$12;
+		failed = ZEPHIR_GT_LONG(&minimum, length);
 	} else {
-		_15$$13 = ZEPHIR_LE(&length, &minimum);
-		if (UNEXPECTED(EG(exception))) {
-			ZEPHIR_MM_RESTORE();
-			return;
-		}
-		failed = _15$$13;
+		failed = ZEPHIR_GE_LONG(&minimum, length);
 	}
 	if (failed) {
 		ZEPHIR_INIT_VAR(&replacePairs);
 		zephir_create_array(&replacePairs, 1, 0);
 		zephir_array_update_string(&replacePairs, SL(":min"), &minimum, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_METHOD_CACHED(&_16$$14, this_ptr, "messageFactory", &_zephir_call_cache[9], validation, field, &replacePairs);
+		ZEPHIR_CALL_METHOD_CACHED(&_9$$10, this_ptr, "messageFactory", &_zephir_call_cache[5], validation, field, &replacePairs);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD_CACHED(NULL, validation, "appendMessage", &_zephir_call_cache[10], &_16$$14);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, validation, "appendMessage", &_zephir_call_cache[6], &_9$$10);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);
-}
-
-/**
- * Find out whether an extension is loaded
- *
- * @param string $name
- *
- * @return bool
- *
- * @link https://php.net/manual/en/function.extension-loaded.php
- */
-PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength_Min, phpExtensionLoaded)
-{
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval name_zv;
-	zend_string *name = NULL;
-
-	ZVAL_UNDEF(&name_zv);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(name)
-	ZEND_PARSE_PARAMETERS_END();
-	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	zephir_memory_observe(&name_zv);
-	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 115, &name_zv);
-	zephir_check_call_status();
-	RETURN_MM();
-}
-
-/**
- * Return true if the given function has been defined
- *
- * @param string $functionName
- *
- * @return bool
- *
- * @link https://php.net/manual/en/function.function-exists.php
- */
-PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength_Min, phpFunctionExists)
-{
-	zval functionName_zv;
-	zend_string *functionName = NULL;
-
-	ZVAL_UNDEF(&functionName_zv);
-	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_STR(functionName)
-	ZEND_PARSE_PARAMETERS_END();
-	ZVAL_STR(&functionName_zv, functionName);
-	RETURN_BOOL((zephir_function_exists(&functionName_zv) == SUCCESS));
 }
 

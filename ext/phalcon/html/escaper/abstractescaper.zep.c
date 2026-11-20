@@ -124,14 +124,14 @@ PHP_METHOD(Phalcon_Html_Escaper_AbstractEscaper, detectEncoding)
 	{
 		ZEPHIR_INIT_NVAR(&charset);
 		ZVAL_COPY(&charset, _2);
-		ZEPHIR_CALL_FUNCTION(&_3$$5, "mb_detect_encoding", &_4, 28, &input_zv, &charset, &__$true);
+		ZEPHIR_CALL_FUNCTION(&_3$$5, "mb_detect_encoding", &_4, 29, &input_zv, &charset, &__$true);
 		zephir_check_call_status();
 		if (!ZEPHIR_IS_FALSE_IDENTICAL(&_3$$5)) {
 			RETURN_CCTOR(&charset);
 		}
 	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&charset);
-	ZEPHIR_RETURN_CALL_FUNCTION("mb_detect_encoding", &_4, 28, &input_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("mb_detect_encoding", &_4, 29, &input_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -181,7 +181,7 @@ PHP_METHOD(Phalcon_Html_Escaper_AbstractEscaper, normalizeEncoding)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "UTF-32");
-	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_encoding", NULL, 29, &input_zv, &_1, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_encoding", NULL, 30, &input_zv, &_1, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

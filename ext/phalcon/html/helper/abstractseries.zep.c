@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, __toString)
 		return;
 	}
 	ZEPHIR_MAKE_REF(&sorted);
-	ZEPHIR_CALL_FUNCTION(NULL, "ksort", NULL, 31, &sorted);
+	ZEPHIR_CALL_FUNCTION(NULL, "ksort", NULL, 32, &sorted);
 	ZEPHIR_UNREF(&sorted);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 84, PH_NOISY_CC | PH_READONLY);

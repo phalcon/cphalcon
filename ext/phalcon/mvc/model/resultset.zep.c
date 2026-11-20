@@ -256,13 +256,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, __construct)
 	if (Z_TYPE_P(cache) != IS_NULL) {
 		ZEPHIR_INIT_VAR(&_2$$4);
 		ZVAL_STRING(&_2$$4, "Phalcon\\Cache\\CacheInterface");
-		ZEPHIR_CALL_FUNCTION(&_3$$4, "is_a", &_4, 63, cache, &_2$$4);
+		ZEPHIR_CALL_FUNCTION(&_3$$4, "is_a", &_4, 66, cache, &_2$$4);
 		zephir_check_call_status();
 		_5$$4 = !ZEPHIR_IS_TRUE_IDENTICAL(&_3$$4);
 		if (_5$$4) {
 			ZEPHIR_INIT_NVAR(&_2$$4);
 			ZVAL_STRING(&_2$$4, "Psr\\SimpleCache\\CacheInterface");
-			ZEPHIR_CALL_FUNCTION(&_6$$4, "is_a", &_4, 63, cache, &_2$$4);
+			ZEPHIR_CALL_FUNCTION(&_6$$4, "is_a", &_4, 66, cache, &_2$$4);
 			zephir_check_call_status();
 			_5$$4 = !ZEPHIR_IS_TRUE_IDENTICAL(&_6$$4);
 		}

@@ -273,7 +273,7 @@ PHP_METHOD(Phalcon_Events_Manager, addSubscriber)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &subscriber);
-	ZEPHIR_CALL_FUNCTION(&_0, "spl_object_id", NULL, 30, subscriber);
+	ZEPHIR_CALL_FUNCTION(&_0, "spl_object_id", NULL, 31, subscriber);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("subscribers"), &_0, subscriber);
 	if (UNEXPECTED(EG(exception))) {
@@ -2343,7 +2343,7 @@ PHP_METHOD(Phalcon_Events_Manager, removeSubscriber)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &subscriber);
-	ZEPHIR_CALL_FUNCTION(&key, "spl_object_id", NULL, 30, subscriber);
+	ZEPHIR_CALL_FUNCTION(&key, "spl_object_id", NULL, 31, subscriber);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 752, PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
@@ -2881,7 +2881,7 @@ PHP_METHOD(Phalcon_Events_Manager, insertHandlerEntry)
 	ZVAL_LONG(&_17, insertAt);
 	ZVAL_LONG(&_18, 0);
 	ZEPHIR_MAKE_REF(&queue);
-	ZEPHIR_CALL_FUNCTION(NULL, "array_splice", NULL, 148, &queue, &_17, &_18, &_16);
+	ZEPHIR_CALL_FUNCTION(NULL, "array_splice", NULL, 150, &queue, &_17, &_18, &_16);
 	ZEPHIR_UNREF(&queue);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("events"), &eventType_zv, &queue);
@@ -3245,7 +3245,7 @@ PHP_METHOD(Phalcon_Events_Manager, runObjectQueue)
 				ZEPHIR_CALL_METHOD_ZVAL(&ret, &handlerObject, &handlerCallable, NULL, 0, event);
 				zephir_check_call_status();
 			} else if (ZEPHIR_IS_LONG(&type, 3)) {
-				ZEPHIR_CALL_FUNCTION(&ret, "call_user_func", &_2, 34, &handler, event);
+				ZEPHIR_CALL_FUNCTION(&ret, "call_user_func", &_2, 35, &handler, event);
 				zephir_check_call_status();
 			} else {
 				_3$$7 = Z_TYPE_P(methodName) != IS_NULL;
@@ -3329,7 +3329,7 @@ PHP_METHOD(Phalcon_Events_Manager, runObjectQueue)
 					ZEPHIR_CALL_METHOD_ZVAL(&ret, &handlerObject, &handlerCallable, NULL, 0, event);
 					zephir_check_call_status();
 				} else if (ZEPHIR_IS_LONG(&type, 3)) {
-					ZEPHIR_CALL_FUNCTION(&ret, "call_user_func", &_2, 34, &handler, event);
+					ZEPHIR_CALL_FUNCTION(&ret, "call_user_func", &_2, 35, &handler, event);
 					zephir_check_call_status();
 				} else {
 					_8$$17 = Z_TYPE_P(methodName) != IS_NULL;

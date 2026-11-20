@@ -240,7 +240,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, __construct)
 		ZEPHIR_SEPARATE_PARAM(clock);
 	}
 	if (Z_TYPE_P(timezone) == IS_NULL) {
-		ZEPHIR_CALL_FUNCTION(&defaultTimezone, "date_default_timezone_get", NULL, 76);
+		ZEPHIR_CALL_FUNCTION(&defaultTimezone, "date_default_timezone_get", NULL, 79);
 		zephir_check_call_status();
 		if (UNEXPECTED(1 == ZEPHIR_IS_EMPTY(&defaultTimezone))) {
 			ZEPHIR_INIT_NVAR(&defaultTimezone);
@@ -1102,7 +1102,7 @@ PHP_METHOD(Phalcon_Logger_AbstractLogger, getLevelNumber)
 		zephir_fast_strtolower(&levelName, level);
 		ZEPHIR_CALL_METHOD_CACHED(&_0$$3, this_ptr, "getLevels", &_zephir_call_cache[0]);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&levels, "array_flip", NULL, 77, &_0$$3);
+		ZEPHIR_CALL_FUNCTION(&levels, "array_flip", NULL, 80, &_0$$3);
 		zephir_check_call_status();
 		_1$$3 = zephir_array_isset_value(&levels, &levelName);
 		if (UNEXPECTED(EG(exception))) {

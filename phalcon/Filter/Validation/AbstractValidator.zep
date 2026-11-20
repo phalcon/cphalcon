@@ -13,6 +13,8 @@ namespace Phalcon\Filter\Validation;
 use Phalcon\Contracts\Filter\FilterTypes;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\Exceptions\FieldNotPrintable;
+use Phalcon\Filter\Validation\Exceptions\InvalidDomainOption;
+use Phalcon\Filter\Validation\Exceptions\InvalidStrictOption;
 use Phalcon\Messages\Message;
 
 /**
@@ -300,6 +302,50 @@ abstract class AbstractValidator implements ValidatorInterface
         }
 
         return value;
+    }
+
+    /**
+     * Returns the list of values of the "domain" option for the field
+     */
+    protected function getDomainOption(var field) -> array
+    {
+        var domain, fieldDomain;
+
+        let domain = this->getOption("domain");
+
+        if fetch fieldDomain, domain[field] {
+            if typeof fieldDomain == "array" {
+                let domain = fieldDomain;
+            }
+        }
+
+        if unlikely typeof domain != "array" {
+            throw new InvalidDomainOption();
+        }
+
+        return domain;
+    }
+
+    /**
+     * Returns the "strict" option for the field. The default is false.
+     */
+    protected function getStrictOption(var field) -> bool
+    {
+        var strict = false;
+
+        if this->hasOption("strict") {
+            let strict = this->getOption("strict");
+
+            if typeof strict == "array" {
+                let strict = strict[field];
+            }
+
+            if unlikely typeof strict != "boolean" {
+                throw new InvalidStrictOption();
+            }
+        }
+
+        return strict;
     }
 
     /**

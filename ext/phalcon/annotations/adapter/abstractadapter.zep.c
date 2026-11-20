@@ -413,7 +413,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getMethod)
 				}
 				ZEPHIR_INIT_NVAR(&method);
 				ZVAL_COPY(&method, _3$$3);
-				ZEPHIR_CALL_FUNCTION(&_6$$5, "strcasecmp", &_7, 35, &methodKey, &methodName_zv);
+				ZEPHIR_CALL_FUNCTION(&_6$$5, "strcasecmp", &_7, 36, &methodKey, &methodName_zv);
 				zephir_check_call_status();
 				if (!(zephir_is_true(&_6$$5))) {
 					RETURN_CCTOR(&method);
@@ -439,7 +439,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getMethod)
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD_CACHED(&method, _1$$3, "current", &_zephir_call_cache[6]);
 				zephir_check_call_status();
-					ZEPHIR_CALL_FUNCTION(&_10$$7, "strcasecmp", &_7, 35, &methodKey, &methodName_zv);
+					ZEPHIR_CALL_FUNCTION(&_10$$7, "strcasecmp", &_7, 36, &methodKey, &methodName_zv);
 					zephir_check_call_status();
 					if (!(zephir_is_true(&_10$$7))) {
 						RETURN_CCTOR(&method);

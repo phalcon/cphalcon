@@ -217,7 +217,7 @@ PHP_METHOD(Phalcon_ADR_Router_AttributeFilter, filter)
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
-				ZEPHIR_CALL_FUNCTION(&_14$$9, "call_user_func", &_15, 34, &convert, &value);
+				ZEPHIR_CALL_FUNCTION(&_14$$9, "call_user_func", &_15, 35, &convert, &value);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(&value, &_14$$9);
 			}
@@ -314,7 +314,7 @@ PHP_METHOD(Phalcon_ADR_Router_AttributeFilter, cast)
 		zephir_check_call_status();
 		RETURN_MM();
 	zephir_switch_0_clause_2: ;
-		ZEPHIR_RETURN_CALL_FUNCTION("strval", NULL, 101, &value_zv);
+		ZEPHIR_RETURN_CALL_FUNCTION("strval", NULL, 104, &value_zv);
 		zephir_check_call_status();
 		RETURN_MM();
 

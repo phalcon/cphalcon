@@ -1043,7 +1043,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, prepareHtmlMessage)
 	ZVAL_LONG(&_3, 3);
 	ZEPHIR_INIT_VAR(&_4);
 	ZVAL_STRING(&_4, "utf-8");
-	ZEPHIR_CALL_FUNCTION(&cssClasses, "htmlspecialchars", &_5, 60, &_1, &_3, &_4);
+	ZEPHIR_CALL_FUNCTION(&cssClasses, "htmlspecialchars", &_5, 63, &_1, &_3, &_4);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&cssIconClasses);
 	ZVAL_STRING(&cssIconClasses, "");
@@ -1063,7 +1063,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, prepareHtmlMessage)
 		ZVAL_LONG(&_9$$4, 3);
 		ZEPHIR_INIT_VAR(&_10$$4);
 		ZVAL_STRING(&_10$$4, "utf-8");
-		ZEPHIR_CALL_FUNCTION(&cssIconClasses, "htmlspecialchars", &_5, 60, &_7$$4, &_9$$4, &_10$$4);
+		ZEPHIR_CALL_FUNCTION(&cssIconClasses, "htmlspecialchars", &_5, 63, &_7$$4, &_9$$4, &_10$$4);
 		zephir_check_call_status();
 	}
 	ZEPHIR_CALL_METHOD_CACHED(&_11, this_ptr, "getTemplate", &_zephir_call_cache[2], &cssClasses, &cssIconClasses);

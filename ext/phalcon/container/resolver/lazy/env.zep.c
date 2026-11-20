@@ -208,7 +208,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_Env, getEnv)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_get_global(&_ENV, SL("_ENV"));
 
-	ZEPHIR_CALL_FUNCTION(&_0, "getenv", NULL, 55);
+	ZEPHIR_CALL_FUNCTION(&_0, "getenv", NULL, 56);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&envs);
 	zephir_fast_array_merge(&envs, &_ENV, &_0);

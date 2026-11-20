@@ -12,9 +12,7 @@ namespace Phalcon\Filter\Validation\Validator\StringLength;
 
 use Phalcon\Contracts\Filter\FilterTypes;
 use Phalcon\Filter\Validation;
-use Phalcon\Filter\Validation\AbstractValidator;
 use Phalcon\Messages\Message;
-use Phalcon\Traits\Php\InfoTrait;
 
 /**
  * Validates that a string has the specified minimum constraints
@@ -69,10 +67,8 @@ use Phalcon\Traits\Php\InfoTrait;
  *
  * @phpstan-import-type filter_validator_options from FilterTypes
  */
-class Min extends AbstractValidator
+class Min extends AbstractStringLength
 {
-    use InfoTrait;
-
     /**
      * @var string|null
      */
@@ -89,27 +85,14 @@ class Min extends AbstractValidator
     }
 
     /**
-     * Executes the validation
+     * Compares the length of the value with the minimum
      */
-    public function validate(<Validation> validation, var field) -> bool
-    {
-        var failed, included, length, minimum, replacePairs, value;
-
-        let value = validation->getValue(field);
-        if this->allowEmpty(field, value) {
-            return true;
-        }
-
-        if this->rejectNonStringable(validation, field, value) {
-            return false;
-        }
-
-        // Check if mbstring is available to calculate the correct length
-        if this->phpFunctionExists("mb_strlen") {
-            let length = mb_strlen((string) value);
-        } else {
-            let length = strlen((string) value);
-        }
+    protected function validateLength(
+        <Validation> validation,
+        var field,
+        int length
+    ) -> bool {
+        var failed, included, minimum, replacePairs;
 
         let minimum = this->getOption("min");
 

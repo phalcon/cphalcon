@@ -1195,7 +1195,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getReversedPaths)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("array_flip", NULL, 77, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_flip", NULL, 80, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

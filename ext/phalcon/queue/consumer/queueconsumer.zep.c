@@ -400,7 +400,7 @@ PHP_METHOD(Phalcon_Queue_Consumer_QueueConsumer, consumeOnce)
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZEPHIR_CALL_FUNCTION(NULL, "usleep", NULL, 32, &_14$$11);
+		ZEPHIR_CALL_FUNCTION(NULL, "usleep", NULL, 33, &_14$$11);
 		zephir_check_call_status();
 	}
 	RETURN_MM_LONG(processed);

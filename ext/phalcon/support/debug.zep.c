@@ -464,7 +464,7 @@ PHP_METHOD(Phalcon_Support_Debug, listenLowSeverity)
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "onUncaughtLowSeverity");
 	zephir_array_fast_append(&_0, &_1);
-	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 90, &_0);
+	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 93, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_create_array(&_2, 2, 0);
@@ -595,7 +595,7 @@ PHP_METHOD(Phalcon_Support_Debug, onUncaughtException)
 	ZVAL_LONG(&_10, (3 | 8));
 	ZEPHIR_INIT_VAR(&_11);
 	ZVAL_STRING(&_11, "UTF-8");
-	ZEPHIR_CALL_FUNCTION(&_12, "htmlspecialchars", NULL, 60, &_9, &_10, &_11);
+	ZEPHIR_CALL_FUNCTION(&_12, "htmlspecialchars", NULL, 63, &_9, &_10, &_11);
 	zephir_check_call_status();
 	zend_print_zval(&_12, 0);
 	RETURN_MM_BOOL(0);
@@ -637,7 +637,7 @@ PHP_METHOD(Phalcon_Support_Debug, onUncaughtLowSeverity)
 	ZVAL_STR_COPY(&message_zv, message);
 	zephir_memory_observe(&file_zv);
 	ZVAL_STR_COPY(&file_zv, file);
-	ZEPHIR_CALL_FUNCTION(&_0, "error_reporting", NULL, 92);
+	ZEPHIR_CALL_FUNCTION(&_0, "error_reporting", NULL, 95);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_LONG(&_1, severity);

@@ -801,3 +801,115 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, checkIsUploade
 	RETURN_MM();
 }
 
+/**
+ * Returns the option value ("WIDTHxHEIGHT") of the field, the width and
+ * the height
+ */
+PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, getDimensionsOption)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zend_string *name = NULL;
+	zval *field, field_sub, name_zv, option, parts, _1, _0$$3;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&field_sub);
+	ZVAL_UNDEF(&name_zv);
+	ZVAL_UNDEF(&option);
+	ZVAL_UNDEF(&parts);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_0$$3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_ZVAL(field)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	field = ZEND_CALL_ARG(execute_data, 1);
+	zephir_memory_observe(&name_zv);
+	ZVAL_STR_COPY(&name_zv, name);
+	ZEPHIR_CALL_METHOD_CACHED(&option, this_ptr, "getOption", &_zephir_call_cache[0], &name_zv);
+	zephir_check_call_status();
+	if (Z_TYPE_P(&option) == IS_ARRAY) {
+		zephir_memory_observe(&_0$$3);
+		zephir_array_fetch(&_0$$3, &option, field, PH_NOISY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 367);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		ZEPHIR_CPY_WRT(&option, &_0$$3);
+	}
+	ZEPHIR_INIT_VAR(&parts);
+	zephir_fast_explode_str(&parts, SL("x"), &option, NULL);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_create_array(return_value, 3, 0);
+	zephir_array_fast_append(return_value, &option);
+	zephir_memory_observe(&_1);
+	zephir_array_fetch_long(&_1, &parts, 0, PH_NOISY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 372);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_array_fast_append(return_value, &_1);
+	ZEPHIR_OBS_NVAR(&_1);
+	zephir_array_fetch_long(&_1, &parts, 1, PH_NOISY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 372);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_array_fast_append(return_value, &_1);
+	RETURN_MM();
+}
+
+/**
+ * Returns the size of the uploaded image, or false if the upload is not
+ * valid or the file is not an image. If the file is not an image, appends
+ * the "file is not valid" message.
+ */
+PHP_METHOD(Phalcon_Filter_Validation_Validator_File_AbstractFile, getUploadedImageSize)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *validation, validation_sub, *field, field_sub, size, value, _0, _1;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&validation_sub);
+	ZVAL_UNDEF(&field_sub);
+	ZVAL_UNDEF(&size);
+	ZVAL_UNDEF(&value);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[3];
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
+		Z_PARAM_ZVAL(field)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 2, 0, &validation, &field);
+	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "checkUpload", &_zephir_call_cache[0], validation, field);
+	zephir_check_call_status();
+	if (ZEPHIR_IS_FALSE_IDENTICAL(&_0)) {
+		RETURN_MM_BOOL(0);
+	}
+	ZEPHIR_CALL_METHOD_CACHED(&value, validation, "getValue", &_zephir_call_cache[1], field);
+	zephir_check_call_status();
+	zephir_memory_observe(&_1);
+	zephir_array_fetch_string(&_1, &value, SL("tmp_name"), PH_NOISY, "phalcon/Filter/Validation/Validator/File/AbstractFile.zep", 391);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_FUNCTION(&size, "getimagesize", NULL, 25, &_1);
+	zephir_check_call_status();
+	if (ZEPHIR_IS_FALSE_IDENTICAL(&size)) {
+		ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "appendMessageValid", &_zephir_call_cache[2], validation, field);
+		zephir_check_call_status();
+	}
+	RETURN_CCTOR(&size);
+}
+

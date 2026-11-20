@@ -84,36 +84,22 @@ class Min extends AbstractFile
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var height, minHeight, minWidth, resolution, resolutionArray,
-            tmp, value, width, replacePairs, included = false, result;
+        var height, minHeight, minWidth, dimensions, resolution,
+            size, width, replacePairs, included = false, result;
 
-        // Check file upload
-        if this->checkUpload(validation, field) === false {
+        let size = this->getUploadedImageSize(validation, field);
+
+        if size === false {
             return false;
         }
 
-        let value = validation->getValue(field),
-            tmp   = getimagesize(value["tmp_name"]);
+        let width  = size[0],
+            height = size[1];
 
-        // The file cannot be read as an image
-        if (false === tmp) {
-            this->appendMessageValid(validation, field);
-
-            return false;
-        }
-
-        let width  = tmp[0],
-            height = tmp[1];
-
-        let resolution = this->getOption("resolution");
-
-        if typeof resolution == "array" {
-            let resolution = resolution[field];
-        }
-
-        let resolutionArray = explode("x", resolution),
-            minWidth = resolutionArray[0],
-            minHeight = resolutionArray[1];
+        let dimensions = this->getDimensionsOption(field, "resolution"),
+            resolution = dimensions[0],
+            minWidth   = dimensions[1],
+            minHeight  = dimensions[2];
 
         let included = this->getOption("included");
 

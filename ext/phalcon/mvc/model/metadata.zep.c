@@ -1276,9 +1276,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, modelEquals)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &first, &other);
-	ZEPHIR_CALL_FUNCTION(&_0, "spl_object_id", &_1, 30, first);
+	ZEPHIR_CALL_FUNCTION(&_0, "spl_object_id", &_1, 31, first);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_2, "spl_object_id", &_1, 30, other);
+	ZEPHIR_CALL_FUNCTION(&_2, "spl_object_id", &_1, 31, other);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(ZEPHIR_IS_IDENTICAL(&_0, &_2));
 }

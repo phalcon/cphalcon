@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, __construct)
 	}
 	ZEPHIR_INIT_VAR(&template);
 	ZVAL_BOOL(&template, 0);
-	zephir_is_iterable(&options, 0, "phalcon/Filter/Validation/AbstractValidator.zep", 74);
+	zephir_is_iterable(&options, 0, "phalcon/Filter/Validation/AbstractValidator.zep", 76);
 	if (Z_TYPE_P(&options) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&options), _1, _2, _0)
 		{
@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, __construct)
 			}
 			if (_4$$3) {
 				ZEPHIR_OBS_NVAR(&template);
-				zephir_array_fetch(&template, &options, &key, PH_NOISY, "phalcon/Filter/Validation/AbstractValidator.zep", 68);
+				zephir_array_fetch(&template, &options, &key, PH_NOISY, "phalcon/Filter/Validation/AbstractValidator.zep", 70);
 				if (UNEXPECTED(EG(exception))) {
 					ZEPHIR_MM_RESTORE();
 					return;
@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, __construct)
 				}
 				if (_8$$5) {
 					ZEPHIR_OBS_NVAR(&template);
-					zephir_array_fetch(&template, &options, &key, PH_NOISY, "phalcon/Filter/Validation/AbstractValidator.zep", 68);
+					zephir_array_fetch(&template, &options, &key, PH_NOISY, "phalcon/Filter/Validation/AbstractValidator.zep", 70);
 					if (UNEXPECTED(EG(exception))) {
 						ZEPHIR_MM_RESTORE();
 						return;
@@ -354,7 +354,7 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, getTemplate)
 			return;
 		}
 		zephir_memory_observe(&_4$$3);
-		zephir_array_fetch(&_4$$3, &_3$$3, &field_zv, PH_NOISY, "phalcon/Filter/Validation/AbstractValidator.zep", 115);
+		zephir_array_fetch(&_4$$3, &_3$$3, &field_zv, PH_NOISY, "phalcon/Filter/Validation/AbstractValidator.zep", 117);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -534,7 +534,7 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, messageFactory)
 		object_init_ex(&_0$$5, phalcon_filter_validation_exceptions_fieldnotprintable_ce);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0$$5, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$5, "phalcon/Filter/Validation/AbstractValidator.zep", 191);
+		zephir_throw_exception_debug(&_0$$5, "phalcon/Filter/Validation/AbstractValidator.zep", 193);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -664,7 +664,7 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, setTemplates)
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 2, &_0);
-	zephir_is_iterable(&templates, 0, "phalcon/Filter/Validation/AbstractValidator.zep", 245);
+	zephir_is_iterable(&templates, 0, "phalcon/Filter/Validation/AbstractValidator.zep", 247);
 	if (Z_TYPE_P(&templates) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&templates), _2, _3, _1)
 		{
@@ -798,7 +798,7 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, allowEmpty)
 		} else {
 			_4$$3 = &allowEmpty;
 		}
-		zephir_is_iterable(_4$$3, 0, "phalcon/Filter/Validation/AbstractValidator.zep", 284);
+		zephir_is_iterable(_4$$3, 0, "phalcon/Filter/Validation/AbstractValidator.zep", 286);
 		if (Z_TYPE_P(_4$$3) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_4$$3), _6$$3)
 			{
@@ -876,7 +876,7 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, checkArray)
 	}
 	if (_0) {
 		zephir_memory_observe(&_2$$3);
-		zephir_array_fetch(&_2$$3, value, &field_zv, PH_NOISY, "phalcon/Filter/Validation/AbstractValidator.zep", 299);
+		zephir_array_fetch(&_2$$3, value, &field_zv, PH_NOISY, "phalcon/Filter/Validation/AbstractValidator.zep", 301);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -885,6 +885,113 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, checkArray)
 	}
 	RETVAL_ZVAL(value, 1, 0);
 	RETURN_MM();
+}
+
+/**
+ * Returns the list of values of the "domain" option for the field
+ */
+PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, getDomainOption)
+{
+	zend_bool _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *field, field_sub, domain, fieldDomain, _0, _2$$5;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&field_sub);
+	ZVAL_UNDEF(&domain);
+	ZVAL_UNDEF(&fieldDomain);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_2$$5);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(field)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &field);
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "domain");
+	ZEPHIR_CALL_METHOD_CACHED(&domain, this_ptr, "getOption", &_zephir_call_cache[0], &_0);
+	zephir_check_call_status();
+	zephir_memory_observe(&fieldDomain);
+	_1 = zephir_array_isset_fetch(&fieldDomain, &domain, field, 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_1) {
+		if (Z_TYPE_P(&fieldDomain) == IS_ARRAY) {
+			ZEPHIR_CPY_WRT(&domain, &fieldDomain);
+		}
+	}
+	if (UNEXPECTED(Z_TYPE_P(&domain) != IS_ARRAY)) {
+		ZEPHIR_INIT_VAR(&_2$$5);
+		object_init_ex(&_2$$5, phalcon_filter_validation_exceptions_invaliddomainoption_ce);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_2$$5, "__construct", &_zephir_call_cache[1]);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_2$$5, "phalcon/Filter/Validation/AbstractValidator.zep", 323);
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	RETURN_CCTOR(&domain);
+}
+
+/**
+ * Returns the "strict" option for the field. The default is false.
+ */
+PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, getStrictOption)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *field, field_sub, strict, _0, _1, _2$$3, _3$$4, _4$$5;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&field_sub);
+	ZVAL_UNDEF(&strict);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_3$$4);
+	ZVAL_UNDEF(&_4$$5);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[3];
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(field)
+	ZEND_PARSE_PARAMETERS_END();
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+	zephir_fetch_params(1, 1, 0, &field);
+	ZEPHIR_INIT_VAR(&strict);
+	ZVAL_BOOL(&strict, 0);
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "strict");
+	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "hasOption", &_zephir_call_cache[0], &_1);
+	zephir_check_call_status();
+	if (zephir_is_true(&_0)) {
+		ZEPHIR_INIT_VAR(&_2$$3);
+		ZVAL_STRING(&_2$$3, "strict");
+		ZEPHIR_CALL_METHOD_CACHED(&strict, this_ptr, "getOption", &_zephir_call_cache[1], &_2$$3);
+		zephir_check_call_status();
+		if (Z_TYPE_P(&strict) == IS_ARRAY) {
+			zephir_memory_observe(&_3$$4);
+			zephir_array_fetch(&_3$$4, &strict, field, PH_NOISY, "phalcon/Filter/Validation/AbstractValidator.zep", 340);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			ZEPHIR_CPY_WRT(&strict, &_3$$4);
+		}
+		if (UNEXPECTED(((Z_TYPE_P(&strict) == IS_TRUE || Z_TYPE_P(&strict) == IS_FALSE) != 1))) {
+			ZEPHIR_INIT_VAR(&_4$$5);
+			object_init_ex(&_4$$5, phalcon_filter_validation_exceptions_invalidstrictoption_ce);
+			ZEPHIR_CALL_METHOD_CACHED(NULL, &_4$$5, "__construct", &_zephir_call_cache[2]);
+			zephir_check_call_status();
+			zephir_throw_exception_debug(&_4$$5, "phalcon/Filter/Validation/AbstractValidator.zep", 344);
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+	}
+	RETURN_CCTOR(&strict);
 }
 
 /**
@@ -918,7 +1025,7 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, prepareCode)
 	zephir_check_call_status();
 	if (Z_TYPE_P(&code) == IS_ARRAY) {
 		zephir_memory_observe(&_2$$3);
-		zephir_array_fetch(&_2$$3, &code, &field_zv, PH_NOISY, "phalcon/Filter/Validation/AbstractValidator.zep", 315);
+		zephir_array_fetch(&_2$$3, &code, &field_zv, PH_NOISY, "phalcon/Filter/Validation/AbstractValidator.zep", 361);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -960,7 +1067,7 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, prepareLabel)
 	zephir_check_call_status();
 	if (Z_TYPE_P(&label) == IS_ARRAY) {
 		zephir_memory_observe(&_1$$3);
-		zephir_array_fetch(&_1$$3, &label, &field_zv, PH_NOISY, "phalcon/Filter/Validation/AbstractValidator.zep", 331);
+		zephir_array_fetch(&_1$$3, &label, &field_zv, PH_NOISY, "phalcon/Filter/Validation/AbstractValidator.zep", 377);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;

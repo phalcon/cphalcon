@@ -426,7 +426,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, resolve)
 						ZEPHIR_INIT_NVAR(&attrSpec);
 						ZVAL_COPY(&attrSpec, _12$$5);
 						if (zephir_is_callable(&attrSpec)) {
-							ZEPHIR_CALL_FUNCTION(&attrValue, "call_user_func", &_15, 34, &attrSpec, &option);
+							ZEPHIR_CALL_FUNCTION(&attrValue, "call_user_func", &_15, 35, &attrSpec, &option);
 							zephir_check_call_status();
 						} else {
 							ZEPHIR_CPY_WRT(&attrValue, &attrSpec);
@@ -469,7 +469,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, resolve)
 						ZEPHIR_CALL_METHOD_CACHED(&attrSpec, _10$$5, "current", &_zephir_call_cache[7]);
 						zephir_check_call_status();
 							if (zephir_is_callable(&attrSpec)) {
-								ZEPHIR_CALL_FUNCTION(&attrValue, "call_user_func", &_15, 34, &attrSpec, &option);
+								ZEPHIR_CALL_FUNCTION(&attrValue, "call_user_func", &_15, 35, &attrSpec, &option);
 								zephir_check_call_status();
 							} else {
 								ZEPHIR_CPY_WRT(&attrValue, &attrSpec);
@@ -576,7 +576,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, resolve)
 							ZEPHIR_INIT_NVAR(&attrSpec);
 							ZVAL_COPY(&attrSpec, _30$$17);
 							if (zephir_is_callable(&attrSpec)) {
-								ZEPHIR_CALL_FUNCTION(&attrValue, "call_user_func", &_15, 34, &attrSpec, &option);
+								ZEPHIR_CALL_FUNCTION(&attrValue, "call_user_func", &_15, 35, &attrSpec, &option);
 								zephir_check_call_status();
 							} else {
 								ZEPHIR_CPY_WRT(&attrValue, &attrSpec);
@@ -619,7 +619,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, resolve)
 							ZEPHIR_CALL_METHOD_CACHED(&attrSpec, _28$$17, "current", &_zephir_call_cache[19]);
 							zephir_check_call_status();
 								if (zephir_is_callable(&attrSpec)) {
-									ZEPHIR_CALL_FUNCTION(&attrValue, "call_user_func", &_15, 34, &attrSpec, &option);
+									ZEPHIR_CALL_FUNCTION(&attrValue, "call_user_func", &_15, 35, &attrSpec, &option);
 									zephir_check_call_status();
 								} else {
 									ZEPHIR_CPY_WRT(&attrValue, &attrSpec);

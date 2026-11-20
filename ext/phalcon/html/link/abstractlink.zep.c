@@ -501,13 +501,13 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLink, hrefIsTemplated)
 	ZVAL_STR_COPY(&href_zv, href);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "{");
-	ZEPHIR_CALL_FUNCTION(&_1, "mb_strpos", &_2, 62, &href_zv, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "mb_strpos", &_2, 65, &href_zv, &_0);
 	zephir_check_call_status();
 	_3 = !ZEPHIR_IS_FALSE_IDENTICAL(&_1);
 	if (_3) {
 		ZEPHIR_INIT_NVAR(&_0);
 		ZVAL_STRING(&_0, "}");
-		ZEPHIR_CALL_FUNCTION(&_4, "mb_strpos", &_2, 62, &href_zv, &_0);
+		ZEPHIR_CALL_FUNCTION(&_4, "mb_strpos", &_2, 65, &href_zv, &_0);
 		zephir_check_call_status();
 		_3 = !ZEPHIR_IS_FALSE_IDENTICAL(&_4);
 	}

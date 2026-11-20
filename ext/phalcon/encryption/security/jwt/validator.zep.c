@@ -356,7 +356,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateAudience)
 		{
 			ZEPHIR_INIT_NVAR(&item);
 			ZVAL_COPY(&item, _8);
-			ZEPHIR_CALL_FUNCTION(&_9$$5, "in_array", &_10, 36, &item, &tokenAudience, &__$true);
+			ZEPHIR_CALL_FUNCTION(&_9$$5, "in_array", &_10, 37, &item, &tokenAudience, &__$true);
 			zephir_check_call_status();
 			if (!ZEPHIR_IS_TRUE_IDENTICAL(&_9$$5)) {
 				ZVAL_UNDEF(&_11$$6);
@@ -387,7 +387,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateAudience)
 			}
 			ZEPHIR_CALL_METHOD_CACHED(&item, _7, "current", &_zephir_call_cache[6]);
 			zephir_check_call_status();
-				ZEPHIR_CALL_FUNCTION(&_14$$7, "in_array", &_10, 36, &item, &tokenAudience, &__$true);
+				ZEPHIR_CALL_FUNCTION(&_14$$7, "in_array", &_10, 37, &item, &tokenAudience, &__$true);
 				zephir_check_call_status();
 				if (!ZEPHIR_IS_TRUE_IDENTICAL(&_14$$7)) {
 					ZVAL_UNDEF(&_15$$8);

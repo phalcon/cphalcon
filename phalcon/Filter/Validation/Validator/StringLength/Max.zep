@@ -12,9 +12,7 @@ namespace Phalcon\Filter\Validation\Validator\StringLength;
 
 use Phalcon\Contracts\Filter\FilterTypes;
 use Phalcon\Filter\Validation;
-use Phalcon\Filter\Validation\AbstractValidator;
 use Phalcon\Messages\Message;
-use Phalcon\Traits\Php\InfoTrait;
 
 /**
  * Validates that a string has the specified maximum constraints
@@ -69,10 +67,8 @@ use Phalcon\Traits\Php\InfoTrait;
  *
  * @phpstan-import-type filter_validator_options from FilterTypes
  */
-class Max extends AbstractValidator
+class Max extends AbstractStringLength
 {
-    use InfoTrait;
-
     /**
      * @var string|null
      */
@@ -89,27 +85,14 @@ class Max extends AbstractValidator
     }
 
     /**
-     * Executes the validation
+     * Compares the length of the value with the maximum
      */
-    public function validate(<Validation> validation, var field) -> bool
-    {
-        var failed, included, length, maximum, replacePairs, value;
-
-        let value = validation->getValue(field);
-        if this->allowEmpty(field, value) {
-            return true;
-        }
-
-        if this->rejectNonStringable(validation, field, value) {
-            return false;
-        }
-
-        // Check if mbstring is available to calculate the correct length
-        if this->phpFunctionExists("mb_strlen") {
-            let length = mb_strlen((string) value);
-        } else {
-            let length = strlen((string) value);
-        }
+    protected function validateLength(
+        <Validation> validation,
+        var field,
+        int length
+    ) -> bool {
+        var failed, included, maximum, replacePairs;
 
         let maximum = this->getOption("max");
 

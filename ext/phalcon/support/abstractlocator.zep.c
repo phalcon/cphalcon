@@ -377,7 +377,7 @@ PHP_METHOD(Phalcon_Support_AbstractLocator, register)
 	ZVAL_STR_COPY(&definition_zv, definition);
 	ZEPHIR_CALL_METHOD_CACHED(&interfaceClass, this_ptr, "getInterfaceClass", &_zephir_call_cache[0]);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_0, "is_subclass_of", NULL, 41, &definition_zv, &interfaceClass);
+	ZEPHIR_CALL_FUNCTION(&_0, "is_subclass_of", NULL, 42, &definition_zv, &interfaceClass);
 	zephir_check_call_status();
 	if (!zephir_is_true(&_0)) {
 		ZEPHIR_CALL_METHOD_CACHED(&exceptionClass, this_ptr, "getExceptionClass", &_zephir_call_cache[1]);
