@@ -19,7 +19,6 @@ use Phalcon\Db\Exception;
 use Phalcon\Db\Exceptions\MissingForeignKeyChecks;
 use Phalcon\Db\Index;
 use Phalcon\Db\IndexInterface;
-use Phalcon\Db\Reference;
 use Phalcon\Db\ReferenceInterface;
 
 /**
@@ -710,60 +709,9 @@ class Mysql extends PdoAdapter
      */
     public function describeReferences(string table,  string schema = null) -> <ReferenceInterface[]>
     {
-        var arrayReference, columns, constraintName, name, reference,
-            referenceDelete, referenceUpdate,
-            referencedColumns, referencedSchema, referencedTable;
-        array references       = [],
-              referenceObjects = [];
-
-        for reference in this->fetchAll(this->dialect->describeReferences(table, schema), Enum::FETCH_NUM) {
-
-            let constraintName = reference[2];
-
-            if !isset references[constraintName] {
-                let referencedSchema  = reference[3];
-                let referencedTable   = reference[4];
-                let referenceUpdate   = reference[6];
-                let referenceDelete   = reference[7];
-                let columns           = [];
-                let referencedColumns = [];
-            } else {
-                let referencedSchema  = references[constraintName]["referencedSchema"];
-                let referencedTable   = references[constraintName]["referencedTable"];
-                let columns           = references[constraintName]["columns"];
-                let referencedColumns = references[constraintName]["referencedColumns"];
-                let referenceUpdate   = references[constraintName]["onUpdate"];
-                let referenceDelete   = references[constraintName]["onDelete"];
-            }
-
-            let columns[] = reference[1],
-                referencedColumns[] = reference[5];
-
-            let references[constraintName] = [
-                "referencedSchema"  : referencedSchema,
-                "referencedTable"   : referencedTable,
-                "columns"           : columns,
-                "referencedColumns" : referencedColumns,
-                "onUpdate"          : referenceUpdate,
-                "onDelete"          : referenceDelete
-            ];
-        }
-
-        for name, arrayReference in references {
-            let referenceObjects[name] = new Reference(
-                name,
-                [
-                    "referencedSchema"  : arrayReference["referencedSchema"],
-                    "referencedTable"   : arrayReference["referencedTable"],
-                    "columns"           : arrayReference["columns"],
-                    "referencedColumns" : arrayReference["referencedColumns"],
-                    "onUpdate"          : arrayReference["onUpdate"],
-                    "onDelete"          : arrayReference["onDelete"]
-                ]
-            );
-        }
-
-        return referenceObjects;
+        return this->buildReferences(
+            this->fetchAll(this->dialect->describeReferences(table, schema), Enum::FETCH_NUM)
+        );
     }
 
     /**

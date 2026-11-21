@@ -18,6 +18,8 @@ use Phalcon\Db\Exceptions\CannotPrepareStatement;
 use Phalcon\Db\Exceptions\InvalidBindParameter;
 use Phalcon\Db\Exceptions\MatchedParameterNotFound;
 use Phalcon\Db\Exceptions\NoActiveTransaction;
+use Phalcon\Db\Reference;
+use Phalcon\Db\ReferenceInterface;
 use Phalcon\Db\Result\PdoResult;
 use Phalcon\Db\ResultInterface;
 use Phalcon\Events\ManagerInterface;
@@ -939,6 +941,71 @@ abstract class AbstractPdo extends AbstractAdapter
         let this->autoReconnect = autoReconnect;
 
         return this;
+    }
+
+    /**
+     * Builds the Phalcon\Db\Reference objects from the rows of the
+     * describeReferences() SQL statement (MySQL and PostgreSQL)
+     *
+     * @param array<array-key, mixed> $records
+     *
+     * @return array<array-key, ReferenceInterface>
+     */
+    protected function buildReferences(array records) -> <ReferenceInterface[]>
+    {
+        var arrayReference, columns, constraintName, name, reference,
+            referenceDelete, referenceUpdate,
+            referencedColumns, referencedSchema, referencedTable;
+        array references       = [],
+              referenceObjects = [];
+
+        for reference in records {
+            let constraintName = reference[2];
+
+            if !isset references[constraintName] {
+                let referencedSchema  = reference[3];
+                let referencedTable   = reference[4];
+                let referenceUpdate   = reference[6];
+                let referenceDelete   = reference[7];
+                let columns           = [];
+                let referencedColumns = [];
+            } else {
+                let referencedSchema  = references[constraintName]["referencedSchema"];
+                let referencedTable   = references[constraintName]["referencedTable"];
+                let columns           = references[constraintName]["columns"];
+                let referencedColumns = references[constraintName]["referencedColumns"];
+                let referenceUpdate   = references[constraintName]["onUpdate"];
+                let referenceDelete   = references[constraintName]["onDelete"];
+            }
+
+            let columns[] = reference[1],
+                referencedColumns[] = reference[5];
+
+            let references[constraintName] = [
+                "referencedSchema"  : referencedSchema,
+                "referencedTable"   : referencedTable,
+                "columns"           : columns,
+                "referencedColumns" : referencedColumns,
+                "onUpdate"          : referenceUpdate,
+                "onDelete"          : referenceDelete
+            ];
+        }
+
+        for name, arrayReference in references {
+            let referenceObjects[name] = new Reference(
+                name,
+                [
+                    "referencedSchema"  : arrayReference["referencedSchema"],
+                    "referencedTable"   : arrayReference["referencedTable"],
+                    "columns"           : arrayReference["columns"],
+                    "referencedColumns" : arrayReference["referencedColumns"],
+                    "onUpdate"          : arrayReference["onUpdate"],
+                    "onDelete"          : arrayReference["onDelete"]
+                ]
+            );
+        }
+
+        return referenceObjects;
     }
 
     /**
