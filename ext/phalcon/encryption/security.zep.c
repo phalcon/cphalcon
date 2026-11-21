@@ -1631,6 +1631,10 @@ PHP_METHOD(Phalcon_Encryption_Security, processCost)
 		return;
 	}
 	if (!(_0)) {
+		ZEPHIR_INIT_NVAR(&cost);
+		ZVAL_NULL(&cost);
+	}
+	if (!(zephir_is_true(&cost))) {
 		ZEPHIR_OBS_NVAR(&cost);
 		zephir_read_property_cached(&cost, this_ptr, _zephir_prop_0, 722, PH_NOISY_CC);
 		if (UNEXPECTED(EG(exception))) {
