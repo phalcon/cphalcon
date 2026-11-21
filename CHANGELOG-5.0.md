@@ -32,6 +32,8 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 > **Upgrade note:** `Phalcon\Mvc\Model\Manager::getModelSource()` now reads the `Phalcon\Annotations\Models\MetaData\Source` attribute of a model class when the `annotations` service uses `Phalcon\Annotations\AttributesReader`. A model with `#[Source('x')]` and no `setSource()` now uses the table `x`, with the model prefix, instead of the name from its class. A `Source` attribute with a missing, empty or non-string table now throws `Phalcon\Mvc\Model\Exception`. With the default docblock reader, nothing changes. [#17741](https://github.com/phalcon/cphalcon/issues/17741)
 
+> **Upgrade note:** `Phalcon\Encryption\Security::hash()` now uses the work factor (`getWorkFactor()`, default `10`) when the `cost` option is empty (`null`, `0`, `'0'`, `false` or `''`), the same as when the option is missing. Before, it used the cost `4`. New hashes for these values take longer to make. `checkHash()` still verifies the older hashes, because each hash keeps its own cost. [#17764](https://github.com/phalcon/cphalcon/issues/17764)
+
 ### Tools
 
 - Zephir 1.8.0
@@ -71,6 +73,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - `Phalcon\Db\Adapter\Pdo\Sqlite::describeColumns()` reporting `tinyint(1)` columns as `Column::TYPE_INTEGER`. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
 - `Phalcon\Db\Adapter\Pdo\Sqlite::describeColumns()` reporting blob columns as `Column::TYPE_VARCHAR`. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
 - `Phalcon\Db\Adapter\Pdo\Sqlite::describeColumns()` using `Column::TYPE_DECIMAL` as the bind type of `float` columns, which stored their values as blobs. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
+- `Phalcon\Encryption\Security::hash()` using the cost `4` instead of the work factor when the `cost` option is empty. [#17764](https://github.com/phalcon/cphalcon/issues/17764)
 - `Phalcon\Forms\Form::getValue()` returning the tag factory for the name `tagFactory`. [#17727](https://github.com/phalcon/cphalcon/issues/17727)
 - `Phalcon\Mvc\Model::doLowInsert()` not reading back the generated id on MySQL when the identity property is `0`. [#17689](https://github.com/phalcon/cphalcon/issues/17689)
 - `Phalcon\Mvc\Model::save()` leaving the transaction of the related records open when an exception is thrown during the save; the transaction is now rolled back before the exception is thrown again. [#17756](https://github.com/phalcon/cphalcon/issues/17756)
