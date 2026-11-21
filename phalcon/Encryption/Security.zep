@@ -665,6 +665,10 @@ class Security extends AbstractInjectionAware implements SecurityContract
         var cost;
 
         if !fetch cost, options["cost"] {
+            let cost = null;
+        }
+
+        if !cost {
             let cost = this->workFactor;
         }
 
