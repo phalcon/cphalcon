@@ -194,6 +194,10 @@ PHP_METHOD(Phalcon_Db_Profiler, reset)
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 663, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 
@@ -220,6 +224,9 @@ PHP_METHOD(Phalcon_Db_Profiler, setMaxProfiles)
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, maxProfiles);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 664, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 
@@ -291,7 +298,7 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &activeProfile, "setSqlBindTypes", &_zephir_call_cache[3], &sqlBindTypes);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_0, "hrtime", NULL, 121, &__$true);
+	ZEPHIR_CALL_FUNCTION(&_0, "hrtime", NULL, 120, &__$true);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &activeProfile, "setInitialTime", &_zephir_call_cache[4], &_0);
 	zephir_check_call_status();
@@ -300,6 +307,10 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile)
 		zephir_check_call_status();
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 665, &activeProfile);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 
@@ -351,7 +362,7 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile)
 		return;
 	}
 	ZEPHIR_CPY_WRT(&activeProfile, &_0);
-	ZEPHIR_CALL_FUNCTION(&_1, "hrtime", NULL, 121, &__$true);
+	ZEPHIR_CALL_FUNCTION(&_1, "hrtime", NULL, 120, &__$true);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &activeProfile, "setFinalTime", &_zephir_call_cache[0], &_1);
 	zephir_check_call_status();
@@ -404,6 +415,10 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile)
 		return;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 666, &_8);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_array_append(this_ptr, SL("allProfiles"), &activeProfile);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();

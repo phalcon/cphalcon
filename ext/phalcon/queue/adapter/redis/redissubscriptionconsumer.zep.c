@@ -83,8 +83,14 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisSubscriptionConsumer, __construct)
 	} else {
 		}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1302, context);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, pollInterval);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1303, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 

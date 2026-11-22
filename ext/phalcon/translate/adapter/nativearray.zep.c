@@ -114,6 +114,10 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct)
 		return;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1415, &data);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

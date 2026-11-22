@@ -1992,6 +1992,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, clearReusableObjects)
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1049, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -2062,6 +2066,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder)
 	ZEPHIR_CALL_METHOD_CACHED(&_2, &container, "get", &_zephir_call_cache[1], &_4, &_3);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1051, &_2);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_MM_MEMBER(getThis(), "builder");
 }
 
@@ -2129,6 +2137,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery)
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&query, &_2);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1052, &query);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_CCTOR(&query);
 }
 
@@ -4824,6 +4836,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize)
 		zephir_check_call_status();
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1063, model);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 1064, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
@@ -4837,6 +4853,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize)
 		zephir_check_call_status();
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1063, &__$null);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_MM_BOOL(1);
 }
 
@@ -5753,6 +5773,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, resetConnectionState)
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1059, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -5834,6 +5858,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setDI)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &container);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1050, container);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**
@@ -5859,6 +5886,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setEventsManager)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &eventsManager);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1064, eventsManager);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**
@@ -5900,6 +5930,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelPrefix)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&prefix_zv, prefix);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1056, &prefix_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**
@@ -6054,8 +6087,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setSticky)
 	zephir_fetch_params_without_memory_grow(1, 0, &sticky_param);
 	if (sticky) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1057, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1057, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	}
 }
 

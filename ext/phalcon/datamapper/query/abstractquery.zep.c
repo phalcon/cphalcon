@@ -108,7 +108,15 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &connection, &bind);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 59, bind);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 60, connection);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
 	ZEPHIR_INIT_VAR(&_1);

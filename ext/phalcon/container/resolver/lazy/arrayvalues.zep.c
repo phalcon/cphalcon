@@ -104,6 +104,10 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, __construct)
 		zephir_get_arrval(&values, values_param);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 563, &values);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

@@ -193,6 +193,10 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, init)
 	ZEPHIR_CALL_FUNCTION(&_2, "array_replace", NULL, 5, &_1, &adapters);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 12, &_2);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	_3 = zephir_isempty_property_fast(this_ptr, _zephir_prop_1);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
@@ -207,6 +211,10 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, init)
 		ZEPHIR_CALL_FUNCTION(&_5$$3, "array_diff_key", NULL, 6, &_4$$3, &adapters);
 		zephir_check_call_status();
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 13, &_5$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	ZEPHIR_MM_RESTORE();
 }

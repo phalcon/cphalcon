@@ -68,9 +68,9 @@ PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, create_sid)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZVAL_LONG(&_0, 16);
-	ZEPHIR_CALL_FUNCTION(&_1, "random_bytes", NULL, 71, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "random_bytes", NULL, 70, &_0);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("bin2hex", NULL, 72, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("bin2hex", NULL, 71, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -379,6 +379,7 @@ PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, getArrVal)
 		}
 	}
 	if (!(ZEPHIR_IS_EMPTY(&cast_zv))) {
+		ZEPHIR_OBSERVE_IF_UNDEF(&value);
 		ZEPHIR_MAKE_REF(&value);
 		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 10, &value, &cast_zv);
 		ZEPHIR_UNREF(&value);

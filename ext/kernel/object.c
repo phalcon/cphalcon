@@ -415,48 +415,6 @@ int zephir_clone(zval *destination, zval *obj)
 }
 
 /**
- * Checks if property exists on object
- */
-int zephir_isset_property(zval *object, const char *property_name, unsigned int property_length)
-{
-	if (Z_TYPE_P(object) == IS_OBJECT) {
-		if (EXPECTED(zend_hash_str_exists(&Z_OBJCE_P(object)->properties_info, property_name, property_length))) {
-			return 1;
-		}
-
-		return zend_hash_str_exists(
-			Z_OBJ_HT_P(object)->get_properties(Z_OBJ_P(object)),
-			property_name,
-			property_length
-		);
-	}
-
-	return 0;
-}
-
-/**
- * Checks if string property exists on object
- */
-int zephir_isset_property_zval(zval *object, const zval *property)
-{
-	if (Z_TYPE_P(object) == IS_OBJECT) {
-		if (Z_TYPE_P(property) == IS_STRING) {
-			if (EXPECTED(zend_hash_str_exists(&Z_OBJCE_P(object)->properties_info, Z_STRVAL_P(property), Z_STRLEN_P(property)))) {
-				return 1;
-			} else {
-				return zend_hash_str_exists(
-					Z_OBJ_HT_P(object)->get_properties(Z_OBJ_P(object)),
-					Z_STRVAL_P(property),
-					Z_STRLEN_P(property)
-				);
-			}
-		}
-	}
-
-	return 0;
-}
-
-/**
  * PHP's `ZEND_ISSET_ISEMPTY_PROP_OBJ`: `check` is ZEND_PROPERTY_ISSET for
  * isset(), which is true when the property exists and is not null, and
  * ZEND_PROPERTY_NOT_EMPTY for empty(), which answers the negation. The
@@ -608,6 +566,43 @@ static void zephir_wrong_property_read(const zval *object, const char *name)
 }
 
 /**
+ * PHP's `zend_throw_non_object_error()`, a property written on a non-object:
+ * `verb` is "assign" for an assignment or a compound one,
+ * "increment/decrement" for `++` and `--`, and "modify" for a write context.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2808
+ */
+static void zephir_throw_non_object_error(const zval *object, const char *name, const char *verb)
+{
+#if PHP_VERSION_ID >= 80300
+	zend_throw_error(NULL, "Attempt to %s property \"%s\" on %s", verb, name, zend_zval_value_name(object));
+#else
+	zend_throw_error(NULL, "Attempt to %s property \"%s\" on %s", verb, name, zend_zval_type_name(object));
+#endif
+}
+
+/**
+ * The inline cache record of a property access site, from the per-request
+ * zeroed module globals. Site 0 is uncached: NULL makes the engine resolve
+ * the property every time. A zeroed record is a safe miss, the engine's
+ * `ce == slot[0]` check fails against NULL and it fills the record.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/1884
+ */
+static void **zephir_property_cache(zend_ulong cache_slot)
+{
+	zend_zephir_globals_def *zephir_globals_ptr;
+
+	if (!cache_slot) {
+		return NULL;
+	}
+
+	zephir_globals_ptr = ZEPHIR_VGLOBAL;
+
+	return &zephir_globals_ptr->pcache[cache_slot * ZEPHIR_PROPERTY_CACHE_SLOT_SIZE];
+}
+
+/**
  * Hands a property read to the caller. A value the handler built in `rv`,
  * such as what __get() returned, becomes the caller's. With `deref`, as
  * ZEND_FETCH_OBJ_R does, a property PHP code holds by reference is read as
@@ -742,18 +737,7 @@ int zephir_read_property_cached(
 ) {
 	zval tmp;
 	zval *res;
-	void **slot = NULL;
-
-	/*
-	 * Resolve the per-site inline cache slot from the per-request-zeroed
-	 * module globals. Index 0 = uncached -> NULL (engine re-resolves every
-	 * time, as before). A zeroed slot is a safe miss: the engine's
-	 * `ce == slot[0]` check fails against NULL and it fills the slot.
-	 */
-	if (cache_slot) {
-		zend_zephir_globals_def *zephir_globals_ptr = ZEPHIR_VGLOBAL;
-		slot = &zephir_globals_ptr->pcache[cache_slot * ZEPHIR_PROPERTY_CACHE_SLOT_SIZE];
-	}
+	void **slot = zephir_property_cache(cache_slot);
 
 	ZVAL_UNDEF(&tmp);
 
@@ -814,12 +798,8 @@ static zval *zephir_fetch_property_slot(zval *object, zend_string *name, zval *f
 	ZVAL_NULL(fallback);
 
 	if (UNEXPECTED(Z_TYPE_P(object) != IS_OBJECT)) {
-		/* `zend_throw_non_object_error()`, the same for both contexts. */
-#if PHP_VERSION_ID >= 80300
-		zend_throw_error(NULL, "Attempt to modify property \"%s\" on %s", ZSTR_VAL(name), zend_zval_value_name(object));
-#else
-		zend_throw_error(NULL, "Attempt to modify property \"%s\" on %s", ZSTR_VAL(name), zend_zval_type_name(object));
-#endif
+		/* The same for both contexts. */
+		zephir_throw_non_object_error(object, ZSTR_VAL(name), "modify");
 
 		return fallback;
 	}
@@ -892,8 +872,8 @@ static int zephir_property_dim_assignable(const zend_property_info *prop_info, z
 
 	type = zend_type_to_string(prop_info->type);
 	zend_type_error(
-		"Cannot auto-initialize an array inside property %s::$%s of type %s",
-		ZSTR_VAL(prop_info->ce->name), zend_get_unmangled_property_name(prop_info->name), ZSTR_VAL(type)
+		"Cannot auto-initialize an array inside property " ZEPHIR_ZSTR_FMT "::$%s of type " ZEPHIR_ZSTR_FMT,
+		ZEPHIR_ZSTR_ARG(prop_info->ce->name), zend_get_unmangled_property_name(prop_info->name), ZEPHIR_ZSTR_ARG(type)
 	);
 	zend_string_release(type);
 
@@ -919,7 +899,12 @@ static zend_property_info *zephir_property_info_for_slot(zend_object *obj, zval 
  * (`type` BP_VAR_W) or `x->p[k] OP= v` (BP_VAR_RW). NULL once an error is
  * pending.
  *
+ * Only the write checks that a typed property may become an array: PHP flags
+ * ZEND_FETCH_DIM_WRITE on FETCH_OBJ_W alone, so FETCH_OBJ_RW auto-initializes
+ * an array even into a property whose type does not allow one.
+ *
  * @see https://github.com/zephir-lang/zephir/issues/2747
+ * @see https://github.com/zephir-lang/zephir/issues/2808
  */
 static zval *zephir_fetch_property_dim(zval *object, zend_string *name, zval *fallback, int type)
 {
@@ -929,7 +914,8 @@ static zval *zephir_fetch_property_dim(zval *object, zend_string *name, zval *fa
 		return NULL;
 	}
 
-	if (slot != fallback
+	if (type == BP_VAR_W
+		&& slot != fallback
 		&& zephir_property_dim_assignable(zephir_property_info_for_slot(Z_OBJ_P(object), slot), slot) == FAILURE) {
 		return NULL;
 	}
@@ -981,36 +967,81 @@ static int zephir_read_property_value(zval *result, zval *object, const char *pr
 }
 
 /**
- * Fetches a property using a const char
+ * `fetch value, o->x` is PHP's `isset($o->x)` followed by a read of `$o->x`,
+ * except that a property which exists and holds null is found, as `fetch` of
+ * an array key holding null is. has_property is asked ZEND_PROPERTY_ISSET
+ * first, so whenever isset() is true the same handlers run in the same order
+ * as in PHP. Only when it is false, and nothing threw, is it asked
+ * ZEND_PROPERTY_EXISTS, which never calls `__isset()`. The read is PHP's
+ * BP_VAR_R one. `result` may be the object or the name itself, so it is
+ * written last.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2832
  */
-int zephir_fetch_property(zval *result, zval *object, const char *property_name, uint32_t property_length, int silent)
+static int zephir_fetch_property_named(zval *result, zval *object, zend_string *name)
 {
-	if (zephir_isset_property(object, property_name, property_length)) {
-		zephir_read_property_value(result, object, property_name, property_length, PH_NOISY);
-		return 1;
-	}
+	zend_object *zobj = Z_OBJ_P(object);
 
-	ZVAL_NULL(result);
-	return 0;
-}
-
-/**
- * Fetches a property using a zval property
- */
-int zephir_fetch_property_zval(zval *result, zval *object, zval *property, int silent)
-{
-	if (UNEXPECTED(Z_TYPE_P(property) != IS_STRING)) {
+	if (!zobj->handlers->has_property(zobj, name, ZEND_PROPERTY_ISSET, NULL)
+		&& (EG(exception) || !zobj->handlers->has_property(zobj, name, ZEND_PROPERTY_EXISTS, NULL))
+	) {
 		ZVAL_NULL(result);
 		return 0;
 	}
 
-	if (zephir_isset_property(object, Z_STRVAL_P(property), Z_STRLEN_P(property))) {
-		zephir_read_property_cached(result, object, Z_STR_P(property), 0, PH_NOISY);
-		return 1;
+	zephir_read_property_cached(result, object, name, 0, PH_NOISY);
+
+	return 1;
+}
+
+/**
+ * Fetches a property named in the code, `fetch value, o->x`. A non-object
+ * has no property.
+ */
+int zephir_fetch_property(zval *result, zval *object, const char *property_name, uint32_t property_length, int silent)
+{
+	zend_string *name;
+	int found;
+
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+		ZVAL_NULL(result);
+		return 0;
 	}
 
-	ZVAL_NULL(result);
-	return 0;
+	name  = zend_string_init(property_name, property_length, 0);
+	found = zephir_fetch_property_named(result, object, name);
+	zend_string_release(name);
+
+	return found;
+}
+
+/**
+ * Fetches a property named at runtime, `fetch value, o->{name}`. As in PHP's
+ * isset(), a non-object has no property before the name is looked at, and
+ * the name is then turned into a string, which may warn or throw. A name
+ * that does not convert is not found, with the Error pending.
+ */
+int zephir_fetch_property_zval(zval *result, zval *object, zval *property, int silent)
+{
+	zend_string *tmp_name;
+	zend_string *name;
+	int found;
+
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+		ZVAL_NULL(result);
+		return 0;
+	}
+
+	name = zval_try_get_tmp_string(property, &tmp_name);
+	if (UNEXPECTED(name == NULL)) {
+		ZVAL_NULL(result);
+		return 0;
+	}
+
+	found = zephir_fetch_property_named(result, object, name);
+	zend_tmp_string_release(tmp_name);
+
+	return found;
 }
 
 int zephir_return_property(zval *return_value, zval *object, char *property_name, unsigned int property_length)
@@ -1109,7 +1140,7 @@ int zephir_update_property_zval(
 	zval property, sep_value;
 
 	if (Z_TYPE_P(object) != IS_OBJECT) {
-		php_error_docref(NULL, E_WARNING, "Attempt to assign property '%s' of non-object", property_name);
+		zephir_throw_non_object_error(object, property_name, "assign");
 		return FAILURE;
 	}
 
@@ -1156,16 +1187,10 @@ int zephir_update_property_zval_cached(
 	zval *value
 ) {
 	zval sep_value;
-	void **slot = NULL;
-
-	/* See zephir_read_property_cached: resolve the per-request cache slot. */
-	if (cache_slot) {
-		zend_zephir_globals_def *zephir_globals_ptr = ZEPHIR_VGLOBAL;
-		slot = &zephir_globals_ptr->pcache[cache_slot * ZEPHIR_PROPERTY_CACHE_SLOT_SIZE];
-	}
+	void **slot = zephir_property_cache(cache_slot);
 
 	if (Z_TYPE_P(object) != IS_OBJECT) {
-		php_error_docref(NULL, E_WARNING, "Attempt to assign property '%s' of non-object", ZSTR_VAL(name));
+		zephir_throw_non_object_error(object, ZSTR_VAL(name), "assign");
 		return FAILURE;
 	}
 
@@ -1195,16 +1220,34 @@ int zephir_update_property_zval_cached(
 }
 
 /**
- * Checks whether obj is an object and updates zval property with another zval
+ * `object->{property} = value`, PHP's ZEND_ASSIGN_OBJ with a runtime name: a
+ * non-object throws first, then the name is converted as PHP converts it.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2808
  */
 int zephir_update_property_zval_zval(zval *object, zval *property, zval *value)
 {
-	if (Z_TYPE_P(property) != IS_STRING) {
-		php_error_docref(NULL, E_WARNING, "Property should be string");
+	zend_string *tmp_name;
+	zend_string *name;
+	int status;
+
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+		name = zval_get_tmp_string(property, &tmp_name);
+		zephir_throw_non_object_error(object, ZSTR_VAL(name), "assign");
+		zend_tmp_string_release(tmp_name);
+
 		return FAILURE;
 	}
 
-	return zephir_update_property_zval(object, Z_STRVAL_P(property), Z_STRLEN_P(property), value);
+	name = zval_try_get_tmp_string(property, &tmp_name);
+	if (UNEXPECTED(name == NULL)) {
+		return FAILURE;
+	}
+
+	status = zephir_update_property_zval(object, ZSTR_VAL(name), ZSTR_LEN(name), value);
+	zend_tmp_string_release(tmp_name);
+
+	return status;
 }
 
 /**
@@ -1495,10 +1538,11 @@ static zval *zephir_static_property_slot(
 
 /**
  * The static property slot an offset is about to be written into, with the
- * typed-property check zephir_fetch_property_dim() makes. NULL once an error
- * is pending.
+ * typed-property check zephir_fetch_property_dim() makes for a write, and as
+ * there not for a read-write fetch. NULL once an error is pending.
  *
  * @see https://github.com/zephir-lang/zephir/issues/2747
+ * @see https://github.com/zephir-lang/zephir/issues/2808
  */
 static zval *zephir_static_property_dim(
 	zend_class_entry *ce,
@@ -1515,7 +1559,7 @@ static zval *zephir_static_property_dim(
 		return NULL;
 	}
 
-	if (!ZEND_TYPE_IS_SET(prop_info->type)) {
+	if (type != BP_VAR_W || !ZEND_TYPE_IS_SET(prop_info->type)) {
 		prop_info = NULL;
 	}
 
@@ -1837,62 +1881,354 @@ int zephir_update_static_property_array_multi_ce(
 }
 
 /**
- * Increments an object property
+ * `zend_binary_assign_op_typed_prop()`: the result replaces a typed property's
+ * value only if the type accepts it. A string is concatenated in place, as in
+ * PHP. Like PHP, the result is checked whatever the operator returned.
  */
-int zephir_property_incr_decr(zval *object, char *property_name, unsigned int property_length, unsigned int increment)
+static void zephir_property_apply_op(zend_property_info *prop_info, zval *zptr, zval *value, binary_op_type op)
 {
-	zval tmp;
-	zend_class_entry *ce;
-	int separated = 0;
+	zval result;
 
-	ZVAL_UNDEF(&tmp);
-
-	if (Z_TYPE_P(object) != IS_OBJECT) {
-		php_error_docref(NULL, E_WARNING, "Attempt to assign property of non-object");
-		return FAILURE;
+	if (prop_info == NULL) {
+		op(zptr, zptr, value);
+		return;
 	}
 
-	ce = Z_OBJCE_P(object);
-	if (ce->parent) {
-		ce = zephir_lookup_class_ce(ce, property_name, property_length);
+	if (op == concat_function && Z_TYPE_P(zptr) == IS_STRING) {
+		concat_function(zptr, zptr, value);
+		return;
 	}
 
-	/* `o->x++` reads as PHP's PRE_INC_OBJ does: __get(), then __set(). */
-	zephir_read_property(&tmp, object, property_name, property_length, PH_NOISY);
-	if (Z_TYPE(tmp) > IS_UNDEF) {
-		Z_TRY_DELREF(tmp);
+	ZVAL_UNDEF(&result);
+	op(&result, zptr, value);
 
-		/** Separation only when refcount > 1 */
-		if (Z_REFCOUNTED(tmp)) {
-			if (Z_REFCOUNT(tmp) > 1) {
-				if (!Z_ISREF(tmp)) {
-					zval new_zv;
-					ZVAL_DUP(&new_zv, &tmp);
-					ZVAL_COPY_VALUE(&tmp, &new_zv);
-					Z_TRY_DELREF(new_zv);
-					separated = 1;
-				}
-			}
-		} else {
-			zval new_zv;
-			ZVAL_DUP(&new_zv, &tmp);
-			ZVAL_COPY_VALUE(&tmp, &new_zv);
-			Z_TRY_DELREF(new_zv);
-			separated = 1;
+	if (EXPECTED(zend_verify_property_type(prop_info, &result, 0))) {
+		zval_ptr_dtor(zptr);
+		ZVAL_COPY_VALUE(zptr, &result);
+	} else {
+		zval_ptr_dtor(&result);
+	}
+}
+
+/**
+ * `zend_assign_op_overloaded_property()`: an object with no slot to give, for
+ * a magic `__get()`, a readonly or a hooked property, is read, operated on
+ * and written back.
+ */
+static void zephir_property_assign_op_overloaded(zend_object *zobj, zend_string *name, void **slot, zval *value, binary_op_type op)
+{
+	zval rv, result;
+	zval *z;
+
+	GC_ADDREF(zobj);
+	z = zobj->handlers->read_property(zobj, name, BP_VAR_R, slot, &rv);
+	if (UNEXPECTED(EG(exception))) {
+		OBJ_RELEASE(zobj);
+		return;
+	}
+
+	ZVAL_UNDEF(&result);
+	if (op(&result, z, value) == SUCCESS) {
+		zobj->handlers->write_property(zobj, name, &result, slot);
+	}
+
+	if (z == &rv) {
+		zval_ptr_dtor(z);
+	}
+
+	zval_ptr_dtor(&result);
+	OBJ_RELEASE(zobj);
+}
+
+/**
+ * `o->x op= v`, PHP's ZEND_ASSIGN_OBJ_OP (Zend/zend_vm_def.h).
+ *
+ * The property is fetched once, read-write, and the operator applies to it in
+ * place. That fetch creates an undefined property before it warns (after PHP
+ * 8.2's dynamic property deprecation), so a throwing error handler still
+ * leaves the property behind with the operator applied, and a class with only
+ * `__set()` never sees the write. A reference is operated on through, with
+ * the types it is bound to checked as in `zend_binary_assign_op_typed_ref()`.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2808
+ */
+void zephir_property_assign_op(zval *object, zend_string *name, zend_ulong cache_slot, zval *value, binary_op_type op)
+{
+	void **slot = zephir_property_cache(cache_slot);
+	zend_object *zobj;
+	zval *zptr;
+
+	if (UNEXPECTED(Z_TYPE_P(object) != IS_OBJECT)) {
+		zephir_throw_non_object_error(object, ZSTR_VAL(name), "assign");
+		return;
+	}
+
+	zobj = Z_OBJ_P(object);
+	zptr = zobj->handlers->get_property_ptr_ptr(zobj, name, BP_VAR_RW, slot);
+
+	if (UNEXPECTED(zptr == NULL)) {
+		zephir_property_assign_op_overloaded(zobj, name, slot, value, op);
+		return;
+	}
+
+	if (UNEXPECTED(Z_ISERROR_P(zptr))) {
+		return;
+	}
+
+	if (UNEXPECTED(Z_ISREF_P(zptr))) {
+		zephir_array_apply_op(zptr, value, op);
+		return;
+	}
+
+	zephir_property_apply_op(zephir_property_info_for_slot(zobj, zptr), zptr, value, op);
+}
+
+/**
+ * The same for a property named at runtime, `o->{n} op= v`. A non-object
+ * throws before the name is used, which is then converted as PHP converts it.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2808
+ */
+void zephir_property_assign_op_zval(zval *object, zval *property, zval *value, binary_op_type op)
+{
+	zend_string *tmp_name;
+	zend_string *name;
+
+	if (UNEXPECTED(Z_TYPE_P(object) != IS_OBJECT)) {
+		name = zval_get_tmp_string(property, &tmp_name);
+		zephir_throw_non_object_error(object, ZSTR_VAL(name), "assign");
+		zend_tmp_string_release(tmp_name);
+
+		return;
+	}
+
+	name = zval_try_get_tmp_string(property, &tmp_name);
+	if (UNEXPECTED(name == NULL)) {
+		return;
+	}
+
+	zephir_property_assign_op(object, name, 0, value, op);
+	zend_tmp_string_release(tmp_name);
+}
+
+/**
+ * `zend_throw_incdec_prop_error()`, an integer property past the range of its
+ * type, and the value it is left with.
+ */
+static zend_long zephir_throw_incdec_prop_error(const zend_property_info *prop_info, int increment)
+{
+	zend_string *type = zend_type_to_string(prop_info->type);
+
+	zend_type_error(
+		increment
+			? "Cannot increment property " ZEPHIR_ZSTR_FMT "::$%s of type " ZEPHIR_ZSTR_FMT " past its maximal value"
+			: "Cannot decrement property " ZEPHIR_ZSTR_FMT "::$%s of type " ZEPHIR_ZSTR_FMT " past its minimal value",
+		ZEPHIR_ZSTR_ARG(prop_info->ce->name),
+		zend_get_unmangled_property_name(prop_info->name),
+		ZEPHIR_ZSTR_ARG(type)
+	);
+	zend_string_release(type);
+
+	return increment ? ZEND_LONG_MAX : ZEND_LONG_MIN;
+}
+
+/**
+ * `zend_get_prop_not_accepting_double()`: the first typed property a
+ * reference is bound to that a float cannot be assigned to.
+ */
+static zend_property_info *zephir_prop_not_accepting_double(zend_reference *ref)
+{
+	zend_property_info *prop_info;
+
+	ZEND_REF_FOREACH_TYPE_SOURCES(ref, prop_info) {
+		if (!(ZEND_TYPE_FULL_MASK(prop_info->type) & MAY_BE_DOUBLE)) {
+			return prop_info;
 		}
+	} ZEND_REF_FOREACH_TYPE_SOURCES_END();
 
+	return NULL;
+}
+
+/**
+ * `zend_throw_incdec_ref_error()`, the same past the range of a reference.
+ */
+static zend_long zephir_throw_incdec_ref_error(const zend_property_info *prop_info, int increment)
+{
+	zend_string *type = zend_type_to_string(prop_info->type);
+
+	zend_type_error(
+		increment
+			? "Cannot increment a reference held by property " ZEPHIR_ZSTR_FMT "::$%s of type " ZEPHIR_ZSTR_FMT " past its maximal value"
+			: "Cannot decrement a reference held by property " ZEPHIR_ZSTR_FMT "::$%s of type " ZEPHIR_ZSTR_FMT " past its minimal value",
+		ZEPHIR_ZSTR_ARG(prop_info->ce->name),
+		zend_get_unmangled_property_name(prop_info->name),
+		ZEPHIR_ZSTR_ARG(type)
+	);
+	zend_string_release(type);
+
+	return increment ? ZEND_LONG_MAX : ZEND_LONG_MIN;
+}
+
+/**
+ * `zend_incdec_typed_ref()`: a reference bound to typed properties keeps
+ * their types, and an integer one that cannot become a float stops at the
+ * range limit.
+ */
+static void zephir_incdec_typed_ref(zend_reference *ref, int increment)
+{
+	zval *var_ptr = &ref->val;
+	zval copy;
+
+	ZVAL_COPY(&copy, var_ptr);
+
+	if (increment) {
+		increment_function(var_ptr);
+	} else {
+		decrement_function(var_ptr);
+	}
+
+	if (UNEXPECTED(Z_TYPE_P(var_ptr) == IS_DOUBLE) && Z_TYPE(copy) == IS_LONG) {
+		zend_property_info *error_prop = zephir_prop_not_accepting_double(ref);
+
+		if (UNEXPECTED(error_prop)) {
+			ZVAL_LONG(var_ptr, zephir_throw_incdec_ref_error(error_prop, increment));
+		}
+	} else if (UNEXPECTED(!zend_verify_ref_assignable_zval(ref, var_ptr, 0))) {
+		zval_ptr_dtor(var_ptr);
+		ZVAL_COPY_VALUE(var_ptr, &copy);
+	} else {
+		zval_ptr_dtor(&copy);
+	}
+}
+
+/**
+ * `zend_incdec_typed_prop()`, the same for a declared typed property.
+ */
+static void zephir_incdec_typed_prop(zend_property_info *prop_info, zval *var_ptr, int increment)
+{
+	zval copy;
+
+	ZVAL_COPY(&copy, var_ptr);
+
+	if (increment) {
+		increment_function(var_ptr);
+	} else {
+		decrement_function(var_ptr);
+	}
+
+	if (UNEXPECTED(Z_TYPE_P(var_ptr) == IS_DOUBLE) && Z_TYPE(copy) == IS_LONG) {
+		if (!(ZEND_TYPE_FULL_MASK(prop_info->type) & MAY_BE_DOUBLE)) {
+			ZVAL_LONG(var_ptr, zephir_throw_incdec_prop_error(prop_info, increment));
+		}
+	} else if (UNEXPECTED(!zend_verify_property_type(prop_info, var_ptr, 0))) {
+		zval_ptr_dtor(var_ptr);
+		ZVAL_COPY_VALUE(var_ptr, &copy);
+	} else {
+		zval_ptr_dtor(&copy);
+	}
+}
+
+/**
+ * `zend_pre_incdec_property_zval()`: the property slot itself is incremented.
+ */
+static void zephir_property_incdec_slot(zval *prop, zend_property_info *prop_info, int increment)
+{
+	if (EXPECTED(Z_TYPE_P(prop) == IS_LONG)) {
 		if (increment) {
-			zephir_increment(&tmp);
+			fast_long_increment_function(prop);
 		} else {
-			zephir_decrement(&tmp);
+			fast_long_decrement_function(prop);
 		}
 
-		if (separated) {
-			zephir_update_property_zval(object, property_name, property_length, &tmp);
+		if (UNEXPECTED(Z_TYPE_P(prop) != IS_LONG) && prop_info
+			&& !(ZEND_TYPE_FULL_MASK(prop_info->type) & MAY_BE_DOUBLE)) {
+			ZVAL_LONG(prop, zephir_throw_incdec_prop_error(prop_info, increment));
+		}
+
+		return;
+	}
+
+	if (Z_ISREF_P(prop)) {
+		zend_reference *ref = Z_REF_P(prop);
+
+		prop = Z_REFVAL_P(prop);
+		if (UNEXPECTED(ZEND_REF_HAS_TYPE_SOURCES(ref))) {
+			zephir_incdec_typed_ref(ref, increment);
+			return;
 		}
 	}
 
-	return SUCCESS;
+	if (prop_info) {
+		zephir_incdec_typed_prop(prop_info, prop, increment);
+	} else if (increment) {
+		increment_function(prop);
+	} else {
+		decrement_function(prop);
+	}
+}
+
+/**
+ * `zend_pre_incdec_overloaded_property()`: read, increment, write back.
+ */
+static void zephir_property_incdec_overloaded(zend_object *zobj, zend_string *name, void **slot, int increment)
+{
+	zval rv, copy;
+	zval *z;
+
+	GC_ADDREF(zobj);
+	z = zobj->handlers->read_property(zobj, name, BP_VAR_R, slot, &rv);
+	if (UNEXPECTED(EG(exception))) {
+		OBJ_RELEASE(zobj);
+		return;
+	}
+
+	ZVAL_COPY_DEREF(&copy, z);
+	if (increment) {
+		increment_function(&copy);
+	} else {
+		decrement_function(&copy);
+	}
+
+	zobj->handlers->write_property(zobj, name, &copy, slot);
+	OBJ_RELEASE(zobj);
+	zval_ptr_dtor(&copy);
+
+	if (z == &rv) {
+		zval_ptr_dtor(z);
+	}
+}
+
+/**
+ * `o->x++` and `o->x--`, PHP's ZEND_PRE_INC_OBJ and ZEND_PRE_DEC_OBJ: the
+ * read-write fetch of a compound assignment, then PHP's increment, with its
+ * range limit for an integer typed property.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2808
+ */
+void zephir_property_incdec(zval *object, zend_string *name, zend_ulong cache_slot, int increment)
+{
+	void **slot = zephir_property_cache(cache_slot);
+	zend_object *zobj;
+	zval *zptr;
+
+	if (UNEXPECTED(Z_TYPE_P(object) != IS_OBJECT)) {
+		zephir_throw_non_object_error(object, ZSTR_VAL(name), "increment/decrement");
+		return;
+	}
+
+	zobj = Z_OBJ_P(object);
+	zptr = zobj->handlers->get_property_ptr_ptr(zobj, name, BP_VAR_RW, slot);
+
+	if (UNEXPECTED(zptr == NULL)) {
+		zephir_property_incdec_overloaded(zobj, name, slot, increment);
+		return;
+	}
+
+	if (UNEXPECTED(Z_ISERROR_P(zptr))) {
+		return;
+	}
+
+	zephir_property_incdec_slot(zptr, zephir_property_info_for_slot(zobj, zptr), increment);
 }
 
 /**
@@ -1970,7 +2306,6 @@ void zephir_make_local_reference(zval *var)
  *
  * @see https://github.com/zephir-lang/zephir/issues/2667
  */
-#if PHP_VERSION_ID < 80600
 
 /** Carries the enclosing `$this` on a carrier whose body reads it. */
 #define ZEPHIR_CLOSURE_BOUND_THIS "__$zephir_this"
@@ -1988,6 +2323,21 @@ static zend_function *zephir_closure_bind_to_fn = NULL;
 static zif_handler zephir_closure_std_bind_to = NULL;
 static zif_handler zephir_closure_std_bind    = NULL;
 static zif_handler zephir_closure_std_call    = NULL;
+
+/**
+ * The object a closure is bound to, or NULL. zend_get_closure_this_ptr()
+ * returns the `$this` slot before PHP 8.6 and the object from 8.6 on.
+ */
+static zend_object *zephir_closure_bound_object(zval *closure)
+{
+#if PHP_VERSION_ID >= 80600
+	return zend_get_closure_this_ptr(closure);
+#else
+	zval *bound = zend_get_closure_this_ptr(closure);
+
+	return bound != NULL && Z_TYPE_P(bound) == IS_OBJECT ? Z_OBJ_P(bound) : NULL;
+#endif
+}
 
 static int zephir_closure_is_ours(zval *closure)
 {
@@ -2044,10 +2394,10 @@ static HashTable *zephir_closure_get_debug_info(zend_object *object, int *is_tem
 {
 	const zend_function *func;
 	zend_object *carrier = NULL;
+	zend_object *bound;
 	zend_string *name;
 	zend_property_info *info;
 	zval closure_zv, captures, value;
-	zval *bound;
 	HashTable *debug_info;
 
 	*is_temp   = 1;
@@ -2058,13 +2408,13 @@ static HashTable *zephir_closure_get_debug_info(zend_object *object, int *is_tem
 	zend_hash_str_update(debug_info, ZEND_STRL("name"), &value);
 
 	ZVAL_OBJ(&closure_zv, object);
-	bound = zend_get_closure_this_ptr(&closure_zv);
+	bound = zephir_closure_bound_object(&closure_zv);
 
-	if (bound != NULL && Z_TYPE_P(bound) == IS_OBJECT) {
+	if (bound != NULL) {
 		if (object->handlers == &zephir_closure_carrier_handlers) {
-			carrier = Z_OBJ_P(bound);
+			carrier = bound;
 		} else {
-			ZVAL_COPY(&value, bound);
+			ZVAL_OBJ_COPY(&value, bound);
 			zend_hash_str_update(debug_info, ZEND_STRL("this"), &value);
 		}
 	}
@@ -2168,10 +2518,44 @@ static zend_object *zephir_closure_copy_carrier(zend_object *carrier, zval *new_
  */
 static void zephir_closure_adopt_carrier(zval *rebound, zval *source, zval *new_this)
 {
-	zval *bound = zend_get_closure_this_ptr(source);
+	zend_object *carrier = zephir_closure_bound_object(source);
+#if PHP_VERSION_ID >= 80600
+	zend_class_entry *called_scope;
+	zend_function *rebound_func;
+	zend_function *invoke;
+	zend_object *rebound_this;
+	zend_object *copy;
+	zval fresh;
+
+	if (carrier == NULL) {
+		return;
+	}
+
+	/**
+	 * PHP 8.6 no longer hands out the `$this` slot, so the closure is built
+	 * again around the copy, with the scope and called scope the engine just
+	 * resolved. It is built from the carrier class's own `__invoke`, as at
+	 * creation: the engine drops `$this` from a closure over a function that
+	 * has no scope, and an unbound scope is exactly what the rebound
+	 * function may now carry.
+	 */
+	invoke = zend_hash_str_find_ptr(&carrier->ce->function_table, ZEND_STRL(ZEND_INVOKE_FUNC_NAME));
+
+	if (invoke == NULL
+		|| Z_OBJ_HT_P(rebound)->get_closure(Z_OBJ_P(rebound), &called_scope, &rebound_func, &rebound_this, 1) == FAILURE) {
+		return;
+	}
+
+	copy = zephir_closure_copy_carrier(carrier, new_this);
+	zend_create_closure(&fresh, invoke, rebound_func->common.scope, called_scope, copy);
+	OBJ_RELEASE(copy);
+
+	zval_ptr_dtor(rebound);
+	ZVAL_COPY_VALUE(rebound, &fresh);
+#else
 	zval *slot;
 
-	if (bound == NULL || Z_TYPE_P(bound) != IS_OBJECT) {
+	if (carrier == NULL) {
 		return;
 	}
 
@@ -2183,7 +2567,8 @@ static void zephir_closure_adopt_carrier(zval *rebound, zval *source, zval *new_
 
 	/* Releases the `$this` the engine bound; safe on the IS_UNDEF an unbind leaves. */
 	zval_ptr_dtor(slot);
-	ZVAL_OBJ(slot, zephir_closure_copy_carrier(Z_OBJ_P(bound), new_this));
+	ZVAL_OBJ(slot, zephir_closure_copy_carrier(carrier, new_this));
+#endif
 
 	Z_OBJ_P(rebound)->handlers = &zephir_closure_carrier_handlers;
 }
@@ -2197,17 +2582,16 @@ static void zephir_closure_adopt_carrier(zval *rebound, zval *source, zval *new_
  */
 static int zephir_closure_refuse_unbind(zval *closure, zval *new_this)
 {
-	zval *bound;
+	zend_object *bound;
 
 	if (new_this != NULL && Z_TYPE_P(new_this) == IS_OBJECT) {
 		return 0;
 	}
 
-	bound = zend_get_closure_this_ptr(closure);
+	bound = zephir_closure_bound_object(closure);
 
 	if (bound == NULL
-		|| Z_TYPE_P(bound) != IS_OBJECT
-		|| !zend_hash_str_exists(&Z_OBJCE_P(bound)->properties_info, ZEND_STRL(ZEPHIR_CLOSURE_BOUND_THIS))) {
+		|| !zend_hash_str_exists(&bound->ce->properties_info, ZEND_STRL(ZEPHIR_CLOSURE_BOUND_THIS))) {
 		return 0;
 	}
 
@@ -2443,13 +2827,6 @@ void zephir_closure_module_shutdown(void)
 	zephir_closure_bind_to_fn  = NULL;
 }
 
-#else
-
-void zephir_closure_module_init(void) {}
-void zephir_closure_module_shutdown(void) {}
-
-#endif /* PHP_VERSION_ID < 80600 */
-
 /**
  * Creates a closure bound to `bound_this`, scoped by `scope_this`.
  *
@@ -2501,12 +2878,20 @@ static int zephir_create_closure_impl(zval *return_value, zval *bound_this, zval
 	 * invocation leaked one reference and the closure - with everything it
 	 * held - was never freed.
 	 */
+#if PHP_VERSION_ID >= 80600
+	zend_create_closure(
+		return_value,
+		function_ptr,
+		scope_ce,
+		called_ce,
+		bound_this && Z_TYPE_P(bound_this) == IS_OBJECT ? Z_OBJ_P(bound_this) : NULL
+	);
+#else
 	zend_create_closure(return_value, function_ptr, scope_ce, called_ce, bound_this);
+#endif
 
-#if PHP_VERSION_ID < 80600
 	/* Marks the closure as ours, so a rebind can find its carrier. */
 	zephir_closure_tag(return_value, has_carrier);
-#endif
 
 	return SUCCESS;
 }
@@ -2548,7 +2933,8 @@ int zephir_create_closure_ex(zval *return_value, zval *this_ptr, zend_class_entr
 }
 
 /**
- * Copied from php-src source tree for PHP 8.4
+ * Copied from php-src source tree for PHP 8.4, with its fix for positional
+ * parameters in named_params (6d7cc61e048)
  */
 #if PHP_VERSION_ID < 80400
 static zend_result object_init_with_constructor(zval *arg, zend_class_entry *class_type, uint32_t param_count, zval *params, HashTable *named_params)
@@ -2578,19 +2964,22 @@ static zend_result object_init_with_constructor(zval *arg, zend_class_entry *cla
 		 * However, if there are named arguments (and it is not empty),
 		 * an Error must be thrown to be consistent with new ClassName() */
 		if (UNEXPECTED(named_params != NULL && zend_hash_num_elements(named_params) != 0)) {
-			/* Throw standard Error */
-			zend_string *arg_name = NULL;
-			zend_hash_get_current_key(named_params, &arg_name, /* num_index */ NULL);
-			ZEND_ASSERT(arg_name != NULL);
-			zend_throw_error(NULL, "Unknown named parameter $%s", ZSTR_VAL(arg_name));
-			/* Do not call destructor, free object, and set arg to IS_UNDEF */
-			zend_object_store_ctor_failed(obj);
-			zval_ptr_dtor(arg);
-			ZVAL_UNDEF(arg);
-			return FAILURE;
-		} else {
-			return SUCCESS;
+			/* As named_arguments may contain positional args we need to check there is actually a string key */
+			zend_string *arg_name;
+			ZEND_HASH_FOREACH_STR_KEY(named_params, arg_name) {
+				if (arg_name == NULL) {
+					continue;
+				}
+				/* Throw standard Error */
+				zend_throw_error(NULL, "Unknown named parameter $%s", ZSTR_VAL(arg_name));
+				/* Do not call destructor, free object, and set arg to IS_UNDEF */
+				zend_object_store_ctor_failed(obj);
+				zval_ptr_dtor(arg);
+				ZVAL_UNDEF(arg);
+				return FAILURE;
+			} ZEND_HASH_FOREACH_END();
 		}
+		return SUCCESS;
 	}
 	/* A constructor should not return a value, however if an exception is thrown
 	 * zend_call_known_function() will set the retval to IS_UNDEF */
@@ -2645,6 +3034,11 @@ int zephir_create_instance(zval *return_value, const zval *class_name)
 int zephir_create_instance_params(zval *return_value, const zval *class_name, zval *params)
 {
 	zend_class_entry *ce;
+	HashTable *named_params = NULL;
+	zend_string *key;
+	zval *args = NULL, *value;
+	uint32_t param_count = 0, size;
+	int status;
 
 	if (Z_TYPE_P(class_name) != IS_STRING) {
 		zephir_throw_exception_string(spl_ce_RuntimeException, SL("Invalid class name"));
@@ -2662,5 +3056,48 @@ int zephir_create_instance_params(zval *return_value, const zval *class_name, zv
 		return FAILURE;
 	}
 
-	return object_init_with_constructor(return_value, ce, 0, NULL, Z_ARRVAL_P(params));
+	/**
+	 * Send the integer keys before the first string key as positional
+	 * parameters and all other keys as named parameters, as
+	 * new ClassName(...params) does. The first named key is then always a
+	 * string, which object_init_with_constructor() needs to report an unknown
+	 * named parameter for a class without a constructor (before php-src
+	 * 6d7cc61e048 it read a NULL name).
+	 */
+	size = zend_hash_num_elements(Z_ARRVAL_P(params));
+	if (size > 0) {
+		args = safe_emalloc(size, sizeof(zval), 0);
+	}
+
+	ZEND_HASH_FOREACH_STR_KEY_VAL(Z_ARRVAL_P(params), key, value) {
+		if (key == NULL && named_params == NULL) {
+			/* Borrowed: the call copies its arguments before running */
+			ZVAL_COPY_VALUE(&args[param_count++], value);
+			continue;
+		}
+
+		if (named_params == NULL) {
+			named_params = zend_new_array(size - param_count);
+		}
+
+		Z_TRY_ADDREF_P(value);
+		if (key != NULL) {
+			zend_hash_add_new(named_params, key, value);
+		} else {
+			/* A positional argument after a named one: the call rejects it */
+			zend_hash_next_index_insert_new(named_params, value);
+		}
+	} ZEND_HASH_FOREACH_END();
+
+	status = object_init_with_constructor(return_value, ce, param_count, args, named_params);
+
+	if (named_params != NULL) {
+		zend_array_destroy(named_params);
+	}
+
+	if (args != NULL) {
+		efree(args);
+	}
+
+	return status;
 }

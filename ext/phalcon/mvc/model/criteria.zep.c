@@ -561,6 +561,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, betweenWhere)
 		return;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1035, &nextHiddenParam);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 
@@ -1655,6 +1659,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere)
 	ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "andWhere", &_zephir_call_cache[5], &_7, &bindParams);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1035, &hiddenParam);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 
@@ -1836,11 +1844,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit)
 	} else {
 		}
 	ZVAL_LONG(&_0, limit);
-	ZEPHIR_CALL_FUNCTION(&_1, "abs", &_2, 152, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "abs", &_2, 151, &_0);
 	zephir_check_call_status();
 	limit = zephir_get_intval(&_1);
 	ZVAL_LONG(&_0, offset);
-	ZEPHIR_CALL_FUNCTION(&_3, "abs", &_2, 152, &_0);
+	ZEPHIR_CALL_FUNCTION(&_3, "abs", &_2, 151, &_0);
 	zephir_check_call_status();
 	offset = zephir_get_intval(&_3);
 	if (UNEXPECTED(limit == 0)) {
@@ -1977,6 +1985,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notBetweenWhere)
 		return;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1035, &nextHiddenParam);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 
@@ -2145,6 +2157,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere)
 	ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "andWhere", &_zephir_call_cache[4], &_8, &bindParams);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1035, &hiddenParam);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 
@@ -2356,6 +2372,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, setModelName)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&modelName_zv, modelName);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1036, &modelName_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 

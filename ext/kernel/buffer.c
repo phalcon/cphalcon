@@ -893,7 +893,7 @@ void zephir_buffer_module_init(void)
 	zend_declare_class_constant_long(zephir_buffer_ce, ZEND_STRL("TYPE_LONG"), ZEPHIR_BUFFER_LONG);
 
 	memcpy(&zephir_buffer_object_handlers, &std_object_handlers, sizeof(zend_object_handlers));
-	zephir_buffer_object_handlers.offset           = XtOffsetOf(zephir_buffer_object, std);
+	zephir_buffer_object_handlers.offset           = offsetof(zephir_buffer_object, std);
 	zephir_buffer_object_handlers.free_obj         = zephir_buffer_free_object;
 	zephir_buffer_object_handlers.clone_obj        = zephir_buffer_clone_object;
 	zephir_buffer_object_handlers.get_debug_info   = zephir_buffer_get_debug_info;

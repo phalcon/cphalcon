@@ -139,7 +139,6 @@ PHP_METHOD(Phalcon_Auth_Internal_Options, requireArray)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	_0;
 	_1 = Z_TYPE_P(&value) != IS_ARRAY;
 	if (!(_1)) {
 		_1 = ZEPHIR_IS_EMPTY(&value);
@@ -195,7 +194,6 @@ PHP_METHOD(Phalcon_Auth_Internal_Options, requireString)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	_0;
 	_1 = Z_TYPE_P(&value) != IS_STRING;
 	if (!(_1)) {
 		_1 = ZEPHIR_IS_STRING_IDENTICAL(&value, "");
@@ -243,7 +241,6 @@ PHP_METHOD(Phalcon_Auth_Internal_Options, stringOrNull)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	_0;
 	ZEPHIR_INIT_VAR(&_1);
 	if (Z_TYPE_P(&value) == IS_STRING) {
 		ZEPHIR_CPY_WRT(&_1, &value);

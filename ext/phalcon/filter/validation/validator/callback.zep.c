@@ -225,8 +225,20 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Callback, validate)
 			zephir_check_call_status();
 		}
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 779, &savedTemplate);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 780, &savedChanged);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 781, &savedTemplates);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		if (((Z_TYPE_P(&returnedValue) == IS_TRUE || Z_TYPE_P(&returnedValue) == IS_FALSE) == 1)) {
 			RETURN_CCTOR(&returnedValue);
 		}

@@ -219,5 +219,8 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractConsumer, setPollInterval)
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, pollInterval);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 91, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 

@@ -89,6 +89,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryConnectionFactory, __construct)
 		zephir_get_arrval(&options, options_param);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1288, &options);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

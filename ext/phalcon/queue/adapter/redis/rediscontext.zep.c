@@ -120,10 +120,22 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisContext, __construct)
 	} else {
 		}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1297, redis);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1298, &prefix_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, pollInterval);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1299, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

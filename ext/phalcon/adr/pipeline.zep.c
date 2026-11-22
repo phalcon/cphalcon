@@ -105,10 +105,22 @@ PHP_METHOD(Phalcon_ADR_Pipeline, __construct)
 	} else {
 		}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 366, &middleware);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 367, terminal);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, index);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 368, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

@@ -60,7 +60,7 @@ void zephir_filter_alphanum(zval *return_value, zval *param)
 	}
 
 	if (use_copy) {
-		zval_dtor(param);
+		zval_ptr_dtor_nogc(param);
 	}
 
 	smart_str_0(&filtered_str);
@@ -268,7 +268,7 @@ void zephir_escape_multi(zval *return_value, zval *param, const char *escape_cha
 	}
 
 	if (use_copy) {
-		zval_dtor(param);
+		zval_ptr_dtor_nogc(param);
 	}
 
 	smart_str_0(&escaped_str);

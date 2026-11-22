@@ -52,7 +52,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Enum)
 	/**
 	 * @var int
 	 */
-	zephir_declare_class_constant_long(phalcon_db_enum_ce, SL("FETCH_CLASSTYPE"), 262144);
+	zephir_declare_class_constant_long(phalcon_db_enum_ce, SL("FETCH_CLASSTYPE"), 128);
 
 	/**
 	 * @var int
@@ -67,7 +67,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Enum)
 	/**
 	 * @var int
 	 */
-	zephir_declare_class_constant_long(phalcon_db_enum_ce, SL("FETCH_GROUP"), 65536);
+	zephir_declare_class_constant_long(phalcon_db_enum_ce, SL("FETCH_GROUP"), 32);
 
 	/**
 	 * @var int
@@ -107,17 +107,17 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Enum)
 	/**
 	 * @var int
 	 */
-	zephir_declare_class_constant_long(phalcon_db_enum_ce, SL("FETCH_PROPS_LATE"), 1048576);
+	zephir_declare_class_constant_long(phalcon_db_enum_ce, SL("FETCH_PROPS_LATE"), 256);
 
 	/**
 	 * @var int
 	 */
-	zephir_declare_class_constant_long(phalcon_db_enum_ce, SL("FETCH_SERIALIZE"), 524288);
+	zephir_declare_class_constant_long(phalcon_db_enum_ce, SL("FETCH_SERIALIZE"), 512);
 
 	/**
 	 * @var int
 	 */
-	zephir_declare_class_constant_long(phalcon_db_enum_ce, SL("FETCH_UNIQUE"), 196608);
+	zephir_declare_class_constant_long(phalcon_db_enum_ce, SL("FETCH_UNIQUE"), 64);
 
 	/**
 	 * @var int

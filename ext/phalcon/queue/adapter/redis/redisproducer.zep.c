@@ -78,6 +78,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisProducer, __construct)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &context);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1300, context);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisProducer, getDeliveryDelay)
@@ -191,6 +194,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisProducer, setDeliveryDelay)
 		ZVAL_LONG(&_0, zephir_get_intval(deliveryDelay));
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1301, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 

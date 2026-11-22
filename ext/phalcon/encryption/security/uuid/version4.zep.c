@@ -71,11 +71,11 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version4, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZVAL_LONG(&_0, 16);
-	ZEPHIR_CALL_FUNCTION(&_1, "random_bytes", NULL, 71, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "random_bytes", NULL, 70, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "N1a/n1b/n1c/n1d/n1e/N1f");
-	ZEPHIR_CALL_FUNCTION(&_3, "unpack", NULL, 123, &_2, &_1);
+	ZEPHIR_CALL_FUNCTION(&_3, "unpack", NULL, 122, &_2, &_1);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&ary, "array_values", NULL, 18, &_3);
 	zephir_check_call_status();
@@ -135,8 +135,9 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version4, __construct)
 	}
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "%08x-%04x-%04x-%04x-%04x%08x");
+	ZEPHIR_OBSERVE_IF_UNDEF(&ary);
 	ZEPHIR_MAKE_REF(&ary);
-	ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 149, &ary, &_2);
+	ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 148, &ary, &_2);
 	ZEPHIR_UNREF(&ary);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_2);
@@ -145,6 +146,10 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version4, __construct)
 	ZEPHIR_CALL_USER_FUNC_ARRAY(&_2, &_9, &ary);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 742, &_2);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

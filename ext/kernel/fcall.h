@@ -508,10 +508,14 @@ extern zend_internal_function zephir_internal_call_frame_func;
 	} while (0)
 
 /** Use these functions to call functions in the PHP userland using an arbitrary zval as callable */
-#define ZEPHIR_CALL_USER_FUNC(return_value, handler) ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, handler, NULL)
+#define ZEPHIR_CALL_USER_FUNC(return_value, handler) ZEPHIR_CALL_USER_FUNC_ARGS(return_value, handler, NULL)
+#define ZEPHIR_CALL_USER_FUNC_ARGS(return_value, handler, args) \
+	do { \
+		ZEPHIR_LAST_CALL_STATUS = zephir_call_user_func_checked(return_value, "call_user_func", handler, args); \
+	} while (0)
 #define ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, handler, params) \
 	do { \
-		ZEPHIR_LAST_CALL_STATUS = zephir_call_user_func_array(return_value, handler, params); \
+		ZEPHIR_LAST_CALL_STATUS = zephir_call_user_func_checked(return_value, "call_user_func_array", handler, params); \
 	} while (0)
 
 #define ZEPHIR_CALL_USER_FUNC_ARRAY_NOEX(return_value, handler, params) \
@@ -522,6 +526,123 @@ extern zend_internal_function zephir_internal_call_frame_func;
 int zephir_call_func_aparams(zval *return_value_ptr, const char *func_name, uint32_t func_length,
 	zephir_fcall_cache_entry **cache_entry, int cache_slot,
 	uint32_t param_count, zval **params);
+
+/**
+ * The calls with named arguments: `params` are the positional ones and
+ * `named_params` the rest by name. The engine binds them as PHP does, by the
+ * parameter names of the function or method actually called, with the declared
+ * default for one skipped. A method call passes no class entry, and the class
+ * of its object is used.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2824
+ */
+int zephir_call_func_named(zval *return_value_ptr, const char *func_name, uint32_t func_length,
+	HashTable *named_params, uint32_t param_count, zval **params) ZEPHIR_ATTR_WARN_UNUSED_RESULT;
+
+int zephir_call_zval_func_named(zval *return_value_ptr, zval *func_name,
+	HashTable *named_params, uint32_t param_count, zval **params) ZEPHIR_ATTR_WARN_UNUSED_RESULT;
+
+int zephir_call_class_method_named(
+	zval *return_value_ptr,
+	zend_class_entry *ce,
+	zephir_call_type type,
+	zval *object,
+	const char *method_name,
+	uint32_t method_len,
+	HashTable *named_params,
+	uint32_t param_count,
+	zval **params) ZEPHIR_ATTR_WARN_UNUSED_RESULT;
+
+int zephir_call_class_method_zval_named(
+	zval *return_value_ptr,
+	zend_class_entry *ce,
+	zephir_call_type type,
+	zval *object,
+	zval *method,
+	HashTable *named_params,
+	uint32_t param_count,
+	zval **params) ZEPHIR_ATTR_WARN_UNUSED_RESULT;
+
+/**
+ * Bracket a call that writes `return_value`, as the zephir_return_call_*()
+ * functions do: release what it held, and leave NULL when the call throws.
+ */
+static zend_always_inline void zephir_return_call_begin(zval *return_value)
+{
+	zval_ptr_dtor(return_value);
+	ZVAL_UNDEF(return_value);
+}
+
+static zend_always_inline int zephir_return_call_end(zval *return_value, int status)
+{
+	if (status == FAILURE && EG(exception)) {
+		ZVAL_NULL(return_value);
+	}
+
+	return status;
+}
+
+#define ZEPHIR_CALL_FUNCTION_NAMED(return_value_ptr, func_name, named, ...) \
+	do { \
+		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
+		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
+		ZEPHIR_LAST_CALL_STATUS = zephir_call_func_named(return_value_ptr, func_name, strlen(func_name), named, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
+	} while (0)
+
+#define ZEPHIR_RETURN_CALL_FUNCTION_NAMED(func_name, named, ...) \
+	do { \
+		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
+		zephir_return_call_begin(return_value); \
+		ZEPHIR_LAST_CALL_STATUS = zephir_return_call_end(return_value, zephir_call_func_named(return_value, func_name, strlen(func_name), named, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_))); \
+	} while (0)
+
+#define ZEPHIR_CALL_ZVAL_FUNCTION_NAMED(return_value_ptr, func_name, named, ...) \
+	do { \
+		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
+		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
+		ZEPHIR_LAST_CALL_STATUS = zephir_call_zval_func_named(return_value_ptr, func_name, named, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
+	} while (0)
+
+#define ZEPHIR_RETURN_CALL_ZVAL_FUNCTION_NAMED(func_name, named, ...) \
+	do { \
+		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
+		zephir_return_call_begin(return_value); \
+		ZEPHIR_LAST_CALL_STATUS = zephir_return_call_end(return_value, zephir_call_zval_func_named(return_value, func_name, named, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_))); \
+	} while (0)
+
+#define ZEPHIR_CALL_CLASS_METHOD_NAMED(return_value_ptr, type, class_entry, object, method, named, ...) \
+	do { \
+		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
+		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
+		ZEPHIR_LAST_CALL_STATUS = zephir_call_class_method_named(return_value_ptr, class_entry, type, object, method, strlen(method), named, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
+	} while (0)
+
+#define ZEPHIR_RETURN_CALL_CLASS_METHOD_NAMED(type, class_entry, object, method, named, ...) \
+	do { \
+		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
+		zephir_return_call_begin(return_value); \
+		ZEPHIR_LAST_CALL_STATUS = zephir_return_call_end(return_value, zephir_call_class_method_named(return_value, class_entry, type, object, method, strlen(method), named, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_))); \
+	} while (0)
+
+#define ZEPHIR_CALL_CLASS_METHOD_ZVAL_NAMED(return_value_ptr, type, class_entry, object, method, named, ...) \
+	do { \
+		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
+		zval method_name_; \
+		ZVAL_COPY(&method_name_, method); \
+		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
+		ZEPHIR_LAST_CALL_STATUS = zephir_call_class_method_zval_named(return_value_ptr, class_entry, type, object, &method_name_, named, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
+		zval_ptr_dtor(&method_name_); \
+	} while (0)
+
+#define ZEPHIR_RETURN_CALL_CLASS_METHOD_ZVAL_NAMED(type, class_entry, object, method, named, ...) \
+	do { \
+		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
+		zval method_name_; \
+		ZVAL_COPY(&method_name_, method); \
+		zephir_return_call_begin(return_value); \
+		ZEPHIR_LAST_CALL_STATUS = zephir_return_call_end(return_value, zephir_call_class_method_zval_named(return_value, class_entry, type, object, &method_name_, named, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_))); \
+		zval_ptr_dtor(&method_name_); \
+	} while (0)
 
 int zephir_call_zval_func_aparams(zval *return_value_ptr, zval *func_name,
 	zephir_fcall_cache_entry **cache_entry, int cache_slot,
@@ -763,15 +884,21 @@ ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_return_call_class_method
 }
 
 /** Fast call_user_func_array/call_user_func */
+int zephir_call_user_func(zval *return_value, const char *caller, zval *handler, zval *params) ZEPHIR_ATTR_WARN_UNUSED_RESULT;
 int zephir_call_user_func_array_noex(zval *return_value, zval *handler, zval *params) ZEPHIR_ATTR_WARN_UNUSED_RESULT;
 
 /**
  * Replaces call_user_func_array avoiding function lookup
  */
+ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_call_user_func_checked(zval *return_value, const char *caller, zval *handler, zval *params)
+{
+	int status = zephir_call_user_func(return_value, caller, handler, params);
+	return (EG(exception)) ? FAILURE : status;
+}
+
 ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_call_user_func_array(zval *return_value, zval *handler, zval *params)
 {
-	int status = zephir_call_user_func_array_noex(return_value, handler, params);
-	return (EG(exception)) ? FAILURE : status;
+	return zephir_call_user_func_checked(return_value, "call_user_func_array", handler, params);
 }
 
 int zephir_has_constructor_ce(const zend_class_entry *ce) ZEPHIR_ATTR_PURE ZEPHIR_ATTR_NONNULL;

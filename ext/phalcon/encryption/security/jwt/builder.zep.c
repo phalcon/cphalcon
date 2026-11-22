@@ -122,6 +122,10 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, __construct)
 	ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "init", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 724, signer);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_support_helper_json_encode_ce);
 	if (zephir_has_constructor(&_0)) {
@@ -130,6 +134,10 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, __construct)
 	}
 
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 725, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_2, 726, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
@@ -719,11 +727,19 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, init)
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "");
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 728, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_NVAR(&_0);
 	object_init_ex(&_0, phalcon_support_collection_ce);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 727, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_1);
 	object_init_ex(&_1, phalcon_support_collection_ce);
 	ZEPHIR_INIT_VAR(&_2);
@@ -733,6 +749,10 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, init)
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &_1, "__construct", &_zephir_call_cache[1], &_2);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 726, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 
@@ -1078,6 +1098,10 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, setPassphrase)
 		return;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 728, &passphrase_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 
@@ -1186,7 +1210,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, doDecodeUrl)
 	ZVAL_STRING(&_1, "+/");
 	ZEPHIR_CALL_FUNCTION(&_2, "strtr", NULL, 1, &input_zv, &_0, &_1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&data, "base64_decode", NULL, 125, &_2);
+	ZEPHIR_CALL_FUNCTION(&data, "base64_decode", NULL, 124, &_2);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&data)) {
 		ZEPHIR_INIT_NVAR(&data);
@@ -1222,7 +1246,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, doEncodeUrl)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
-	ZEPHIR_CALL_FUNCTION(&_0, "base64_encode", NULL, 126, &input_zv);
+	ZEPHIR_CALL_FUNCTION(&_0, "base64_encode", NULL, 125, &input_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "+/");
@@ -1274,7 +1298,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, phpBase64Decode)
 	} else {
 		}
 	ZVAL_BOOL(&_0, (strict ? 1 : 0));
-	ZEPHIR_RETURN_CALL_FUNCTION("base64_decode", NULL, 125, &input_zv, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("base64_decode", NULL, 124, &input_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -1301,7 +1325,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Builder, phpBase64Encode)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
-	ZEPHIR_RETURN_CALL_FUNCTION("base64_encode", NULL, 126, &input_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("base64_encode", NULL, 125, &input_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

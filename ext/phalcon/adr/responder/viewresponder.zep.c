@@ -108,8 +108,20 @@ PHP_METHOD(Phalcon_ADR_Responder_ViewResponder, __construct)
 	ZVAL_STR_COPY(&template_zv, template);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 375, renderer);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 376, statusMapper);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 377, &template_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -228,6 +240,10 @@ PHP_METHOD(Phalcon_ADR_Responder_ViewResponder, withTemplate)
 		return;
 	}
 	zephir_update_property_zval_cached(&cloned, _zephir_prop_0, 0, &template_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_CCTOR(&cloned);
 }
 

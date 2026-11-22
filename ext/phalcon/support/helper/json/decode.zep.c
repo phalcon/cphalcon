@@ -216,9 +216,9 @@ PHP_METHOD(Phalcon_Support_Helper_Json_Decode, toDecode)
 	ZVAL_LONG(&_2, options);
 	ZEPHIR_INIT_NVAR(&decoded);
 	zephir_json_decode(&decoded, &data_zv, zephir_get_intval(&_0) );
-	ZEPHIR_CALL_FUNCTION(&error, "json_last_error", NULL, 226);
+	ZEPHIR_CALL_FUNCTION(&error, "json_last_error", NULL, 225);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&message, "json_last_error_msg", NULL, 227);
+	ZEPHIR_CALL_FUNCTION(&message, "json_last_error_msg", NULL, 226);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_LONG_IDENTICAL(&error, 0)) {
 		ZEPHIR_INIT_VAR(&_3$$3);

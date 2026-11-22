@@ -224,17 +224,37 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, __construct)
 	ZEPHIR_CALL_METHOD_CACHED(&serializer, this_ptr, "getArrVal", &_zephir_call_cache[2], &options, &_0, &_2);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 28, serializerFactory);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "allowedClasses");
 	ZVAL_BOOL(&_2, 1);
 	ZEPHIR_CALL_METHOD_CACHED(&_3, this_ptr, "getArrVal", &_zephir_call_cache[3], &options, &_0, &_2);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 29, &_3);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_FUNCTION(&_4, "mb_strtolower", NULL, 9, &defaultSerializer);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 30, &_4);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 31, &lifetime);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 32, &serializer);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "stripPrefix");
 	ZVAL_BOOL(&_2, 1);
@@ -242,8 +262,16 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, __construct)
 	zephir_check_call_status();
 	if (zephir_get_boolval(&_5)) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 33, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 33, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	_6 = zephir_array_isset_value_string(&options, SL("prefix"));
 	if (UNEXPECTED(EG(exception))) {
@@ -258,6 +286,10 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, __construct)
 			return;
 		}
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_6, 34, &prefix);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	zephir_array_unset_string(&options, SL("defaultSerializer"), PH_SEPARATE);
 	if (UNEXPECTED(EG(exception))) {
@@ -285,6 +317,10 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, __construct)
 		return;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_7, 35, &options);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -1085,6 +1121,10 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, setDefaultSerializer)
 	ZEPHIR_CALL_FUNCTION(&_0, "mb_strtolower", NULL, 9, &serializer_zv);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 30, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -1760,6 +1800,10 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, initSerializer)
 		ZEPHIR_CALL_METHOD_CACHED(&_4$$3, &_3$$3, "newInstance", &_zephir_call_cache[0], &className);
 		zephir_check_call_status();
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 32, &_4$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		zephir_read_property_cached(&_5$$3, this_ptr, _zephir_prop_1, 32, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
@@ -1854,6 +1898,10 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, setEventsManager)
 		zephir_check_call_status();
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 36, eventsManager);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -2033,6 +2081,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getArrVal)
 		}
 	}
 	if (!(ZEPHIR_IS_EMPTY(&cast_zv))) {
+		ZEPHIR_OBSERVE_IF_UNDEF(&value);
 		ZEPHIR_MAKE_REF(&value);
 		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 10, &value, &cast_zv);
 		ZEPHIR_UNREF(&value);

@@ -89,7 +89,13 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractAdapter, __construct)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(2, 0, &hasher, &config);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 74, hasher);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 75, config);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**

@@ -84,7 +84,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_AbstractEngine, __construct)
 		container = &__$null;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 251, view);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 252, container);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**
@@ -212,6 +218,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_AbstractEngine, setEventsManager)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &eventsManager);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 253, eventsManager);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**

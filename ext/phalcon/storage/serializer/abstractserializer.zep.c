@@ -142,6 +142,10 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __unserialize)
 	zephir_fetch_params(1, 1, 0, &data_param);
 	zephir_get_arrval(&data, data_param);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 39, &data);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -180,6 +184,9 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, setData)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &data);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 39, data);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**

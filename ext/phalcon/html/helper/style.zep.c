@@ -145,8 +145,14 @@ PHP_METHOD(Phalcon_Html_Helper_Style, setStyle)
 	zephir_fetch_params_without_memory_grow(1, 0, &flag_param);
 	if (flag) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 281, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 281, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	}
 	RETURN_THISW();
 }

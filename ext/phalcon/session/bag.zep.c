@@ -112,11 +112,23 @@ PHP_METHOD(Phalcon_Session_Bag, __construct)
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1346, session);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1347, &name_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if ((zephir_method_exists_ex(session, ZEND_STRL("getdi")) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD_CACHED(&_0$$3, session, "getDI", &_zephir_call_cache[0]);
 		zephir_check_call_status();
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1348, &_0$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 1347, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
@@ -378,5 +390,8 @@ PHP_METHOD(Phalcon_Session_Bag, setDI)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &container);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1348, container);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 

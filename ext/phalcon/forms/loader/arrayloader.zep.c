@@ -70,6 +70,10 @@ PHP_METHOD(Phalcon_Forms_Loader_ArrayLoader, __construct)
 	zephir_fetch_params(1, 1, 0, &definitions_param);
 	zephir_get_arrval(&definitions, definitions_param);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 816, &definitions);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

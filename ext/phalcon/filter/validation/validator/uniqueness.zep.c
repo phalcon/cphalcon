@@ -321,6 +321,10 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, getColumnNameReal)
 		ZEPHIR_CALL_METHOD_CACHED(&_7$$3, &_5$$3, "getColumnMap", &_zephir_call_cache[3], record);
 		zephir_check_call_status();
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 783, &_7$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	zephir_memory_observe(&_8);
 	zephir_read_property_cached(&_8, this_ptr, _zephir_prop_0, 783, PH_NOISY_CC);
@@ -812,7 +816,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 					zephir_array_keys(&_8$$6, &except);
 					ZVAL_LONG(&_9$$6, 0);
 					ZVAL_LONG(&_10$$6, (zephir_fast_count_int(&except) - 1));
-					ZEPHIR_CALL_FUNCTION(&_11$$6, "range", &_12, 162, &_9$$6, &_10$$6);
+					ZEPHIR_CALL_FUNCTION(&_11$$6, "range", &_12, 161, &_9$$6, &_10$$6);
 					zephir_check_call_status();
 					_7$$6 = !ZEPHIR_IS_IDENTICAL(&_8$$6, &_11$$6);
 				}
@@ -1549,7 +1553,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 						zephir_array_keys(&_107$$37, &except);
 						ZVAL_LONG(&_108$$37, 0);
 						ZVAL_LONG(&_109$$37, (zephir_fast_count_int(&except) - 1));
-						ZEPHIR_CALL_FUNCTION(&_110$$37, "range", &_12, 162, &_108$$37, &_109$$37);
+						ZEPHIR_CALL_FUNCTION(&_110$$37, "range", &_12, 161, &_108$$37, &_109$$37);
 						zephir_check_call_status();
 						_106$$37 = !ZEPHIR_IS_IDENTICAL(&_107$$37, &_110$$37);
 					}

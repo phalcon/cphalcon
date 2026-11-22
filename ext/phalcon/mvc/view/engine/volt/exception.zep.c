@@ -117,6 +117,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exception, __construct)
 		previous = &__$null;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 10, &statement);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZVAL_LONG(&_0, code);
 	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_mvc_view_engine_volt_exception_ce, getThis(), "__construct", &_zephir_call_cache[0], &message_zv, &_0, previous);
 	zephir_check_call_status();

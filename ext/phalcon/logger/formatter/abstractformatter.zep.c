@@ -86,6 +86,9 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, setDateFormat)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&format_zv, format);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 237, &format_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**

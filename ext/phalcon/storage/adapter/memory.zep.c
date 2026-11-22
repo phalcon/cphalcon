@@ -135,6 +135,10 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, clear)
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 328, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_MM_BOOL(1);
 }
 
@@ -253,6 +257,9 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, setMaxItems)
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, maxItems);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 329, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 

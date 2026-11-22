@@ -304,6 +304,7 @@ PHP_METHOD(Phalcon_Image_ImageFactory, getArrVal)
 		}
 	}
 	if (!(ZEPHIR_IS_EMPTY(&cast_zv))) {
+		ZEPHIR_OBSERVE_IF_UNDEF(&value);
 		ZEPHIR_MAKE_REF(&value);
 		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 10, &value, &cast_zv);
 		ZEPHIR_UNREF(&value);

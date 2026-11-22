@@ -97,6 +97,10 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_EnvDefault, __construct)
 	ZVAL_STR_COPY(&vartype_zv, vartype);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 568, defaultValue);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_container_resolver_lazy_envdefault_ce, getThis(), "__construct", &_zephir_call_cache[0], &varname_zv, &vartype_zv);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

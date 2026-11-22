@@ -1164,6 +1164,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getStrategy)
 		}
 
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 71, &_1$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	RETURN_MM_MEMBER(getThis(), "strategy");
 }
@@ -1609,12 +1613,24 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, reset)
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 70, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_1);
 	array_init(&_1);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 68, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_2);
 	array_init(&_2);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 73, &_2);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -1717,6 +1733,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setDI)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &container);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 69, container);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**
@@ -1780,6 +1799,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setStrategy)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &strategy);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 71, strategy);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**
@@ -2382,6 +2404,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getArrVal)
 		}
 	}
 	if (!(ZEPHIR_IS_EMPTY(&cast_zv))) {
+		ZEPHIR_OBSERVE_IF_UNDEF(&value);
 		ZEPHIR_MAKE_REF(&value);
 		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 10, &value, &cast_zv);
 		ZEPHIR_UNREF(&value);

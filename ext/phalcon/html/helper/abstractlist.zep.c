@@ -134,6 +134,10 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractList, __invoke)
 		zephir_get_arrval(&attributes, attributes_param);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 123, &attributes);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_0);
 	if (ZEPHIR_IS_EMPTY(&delimiter_zv)) {
 		ZEPHIR_INIT_NVAR(&_0);
@@ -142,10 +146,22 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractList, __invoke)
 		ZEPHIR_CPY_WRT(&_0, &delimiter_zv);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 124, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 125, &indent_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_1);
 	array_init(&_1);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 126, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 

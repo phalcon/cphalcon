@@ -130,16 +130,32 @@ PHP_METHOD(Phalcon_Storage_Adapter_Weak, __construct)
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "none");
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 336, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "lifetime");
 	ZVAL_LONG(&_2, 3600);
 	ZEPHIR_CALL_METHOD_CACHED(&_1, this_ptr, "getArrVal", &_zephir_call_cache[0], &options, &_0, &_2);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 337, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "");
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 338, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 339, &options);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -163,6 +179,10 @@ PHP_METHOD(Phalcon_Storage_Adapter_Weak, clear)
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 340, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_MM_BOOL(1);
 }
 
@@ -414,6 +434,10 @@ PHP_METHOD(Phalcon_Storage_Adapter_Weak, doGet)
 		defaultValue = &__$null;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 341, &key_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 340, PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
@@ -426,6 +450,10 @@ PHP_METHOD(Phalcon_Storage_Adapter_Weak, doGet)
 	}
 	if (0 == _1) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 341, &__$null);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		RETVAL_ZVAL(defaultValue, 1, 0);
 		RETURN_MM();
 	}
@@ -443,6 +471,10 @@ PHP_METHOD(Phalcon_Storage_Adapter_Weak, doGet)
 	ZEPHIR_CALL_METHOD_CACHED(&value, &wr, "get", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 341, &__$null);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (Z_TYPE_P(&value) == IS_NULL) {
 		ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "delete", &_zephir_call_cache[1], &key_zv);
 		zephir_check_call_status();

@@ -82,6 +82,10 @@ PHP_METHOD(Phalcon_ADR_Responder_FormatResponder, __construct)
 		zephir_get_arrval(&formatters, formatters_param);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 369, &formatters);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

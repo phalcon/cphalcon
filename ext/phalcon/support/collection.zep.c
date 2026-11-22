@@ -176,15 +176,35 @@ PHP_METHOD(Phalcon_Support_Collection, __construct)
 	}
 	if (insensitive) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 46, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 46, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	if (strictNull) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 47, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 47, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 48, &type_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "init", &_zephir_call_cache[0], &data);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -411,8 +431,16 @@ PHP_METHOD(Phalcon_Support_Collection, __unserialize)
 		}
 		if (zephir_get_boolval(&_3$$3)) {
 			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 46, &__$true);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 		} else {
 			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 46, &__$false);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 		}
 		ZEPHIR_INIT_NVAR(&_3$$3);
 		_5$$3 = zephir_array_isset_value_string(&data, SL("strictNull"));
@@ -433,8 +461,16 @@ PHP_METHOD(Phalcon_Support_Collection, __unserialize)
 		}
 		if (zephir_get_boolval(&_3$$3)) {
 			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 47, &__$true);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 		} else {
 			zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 47, &__$false);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 		}
 		ZEPHIR_INIT_NVAR(&_3$$3);
 		_6$$3 = zephir_array_isset_value_string(&data, SL("type"));
@@ -454,6 +490,10 @@ PHP_METHOD(Phalcon_Support_Collection, __unserialize)
 			ZVAL_NULL(&_3$$3);
 		}
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 48, &_3$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		zephir_memory_observe(&_7$$3);
 		zephir_array_fetch_string(&_7$$3, &data, SL("data"), PH_NOISY, "phalcon/Support/Collection.zep", 134);
 		if (UNEXPECTED(EG(exception))) {
@@ -519,9 +559,17 @@ PHP_METHOD(Phalcon_Support_Collection, clear)
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 49, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_1);
 	array_init(&_1);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 50, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -1030,6 +1078,7 @@ PHP_METHOD(Phalcon_Support_Collection, get)
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&value, &_8$$6);
 		} else {
+			ZEPHIR_OBSERVE_IF_UNDEF(&value);
 			ZEPHIR_MAKE_REF(&value);
 			ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 10, &value, &cast_zv);
 			ZEPHIR_UNREF(&value);
@@ -2048,16 +2097,19 @@ PHP_METHOD(Phalcon_Support_Collection, sort)
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "The sort callback must be callable or null", "phalcon/Support/Collection.zep", 559);
 			return;
 		}
+		ZEPHIR_OBSERVE_IF_UNDEF(&result);
 		ZEPHIR_MAKE_REF(&result);
 		ZEPHIR_CALL_FUNCTION(NULL, "uasort", NULL, 14, &result, callback);
 		ZEPHIR_UNREF(&result);
 		zephir_check_call_status();
 	} else if (order == 3) {
+		ZEPHIR_OBSERVE_IF_UNDEF(&result);
 		ZEPHIR_MAKE_REF(&result);
 		ZEPHIR_CALL_FUNCTION(NULL, "arsort", NULL, 15, &result);
 		ZEPHIR_UNREF(&result);
 		zephir_check_call_status();
 	} else {
+		ZEPHIR_OBSERVE_IF_UNDEF(&result);
 		ZEPHIR_MAKE_REF(&result);
 		ZEPHIR_CALL_FUNCTION(NULL, "asort", NULL, 16, &result);
 		ZEPHIR_UNREF(&result);

@@ -119,6 +119,10 @@ PHP_METHOD(Phalcon_Flash_Session, __construct)
 		ZVAL_STRING(&_0, "_flashMessages");
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 786, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -266,6 +270,10 @@ PHP_METHOD(Phalcon_Flash_Session, getSessionService)
 		ZEPHIR_CALL_METHOD_CACHED(&_7$$4, &_6$$4, "getShared", &_zephir_call_cache[1], &_8$$4);
 		zephir_check_call_status();
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 787, &_7$$4);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		RETURN_MM_MEMBER(getThis(), "sessionService");
 	}
 	ZEPHIR_INIT_NVAR(&_5);

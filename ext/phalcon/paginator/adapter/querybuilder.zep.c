@@ -158,6 +158,10 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct)
 	}
 	if (_3) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1254, &columns);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_paginator_adapter_querybuilder_ce, getThis(), "__construct", &_zephir_call_cache[1], &config);
 	zephir_check_call_status();
@@ -387,7 +391,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, paginate)
 			zephir_fast_trim(&_8$$10, &builderColumns, NULL , ZEPHIR_TRIM_BOTH);
 			ZEPHIR_INIT_VAR(&_9$$10);
 			ZVAL_STRING(&_9$$10, "DISTINCT ");
-			ZEPHIR_CALL_FUNCTION(&_10$$10, "stripos", NULL, 171, &_8$$10, &_9$$10);
+			ZEPHIR_CALL_FUNCTION(&_10$$10, "stripos", NULL, 170, &_8$$10, &_9$$10);
 			zephir_check_call_status();
 			_7$$10 = ZEPHIR_IS_LONG_IDENTICAL(&_10$$10, 0);
 		}
@@ -655,6 +659,9 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setQueryBuilder)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &builder);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1255, builder);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 

@@ -212,6 +212,10 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, __construct)
 	ZVAL_UNDEF(&_4);
 	ZVAL_LONG(&_4, zephir_get_intval(&_5));
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1334, &_4);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "lockingEnabled");
 	ZVAL_BOOL(&_4, 0);
@@ -219,8 +223,16 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, __construct)
 	zephir_check_call_status();
 	if (zephir_get_boolval(&_6)) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1335, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1335, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "lockRetries");
@@ -230,6 +242,10 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, __construct)
 	ZVAL_UNDEF(&_4);
 	ZVAL_LONG(&_4, zephir_get_intval(&_6));
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1336, &_4);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "lockWaitTime");
 	ZVAL_LONG(&_4, 50000);
@@ -238,6 +254,10 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, __construct)
 	ZVAL_UNDEF(&_4);
 	ZVAL_LONG(&_4, zephir_get_intval(&_7));
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 1337, &_4);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_memory_observe(&_8);
 	zephir_array_fetch_string(&_8, &options, SL("prefix"), PH_NOISY, "phalcon/Session/Adapter/Redis.zep", 77);
 	if (UNEXPECTED(EG(exception))) {
@@ -250,11 +270,19 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, __construct)
 		return;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 1338, &_9);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "redis");
 	ZEPHIR_CALL_METHOD_CACHED(&_10, factory, "newInstance", &_zephir_call_cache[6], &_1, &options);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 1339, &_10);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -478,6 +506,10 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, acquireLock)
 		RETURN_MM_BOOL(1);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1340, &lockKey);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_3, 1339, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
@@ -486,9 +518,9 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, acquireLock)
 	ZEPHIR_CALL_METHOD_CACHED(&client, &_4, "getAdapter", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	ZVAL_LONG(&_5, 16);
-	ZEPHIR_CALL_FUNCTION(&_6, "random_bytes", NULL, 71, &_5);
+	ZEPHIR_CALL_FUNCTION(&_6, "random_bytes", NULL, 70, &_5);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&token, "bin2hex", NULL, 72, &_6);
+	ZEPHIR_CALL_FUNCTION(&token, "bin2hex", NULL, 71, &_6);
 	zephir_check_call_status();
 	attempt = 0;
 	while (1) {
@@ -521,10 +553,22 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, acquireLock)
 		if (!ZEPHIR_IS_FALSE_IDENTICAL(&result)) {
 			if (1) {
 				zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1341, &__$true);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			} else {
 				zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1341, &__$false);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			}
 			zephir_update_property_zval_cached(this_ptr, _zephir_prop_6, 1342, &token);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 			RETURN_MM_BOOL(1);
 		}
 		zephir_read_property_cached(&_12$$4, this_ptr, _zephir_prop_7, 1337, PH_NOISY_CC | PH_READONLY);
@@ -614,12 +658,24 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, releaseLock)
 	zephir_check_call_status();
 	if (0) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1341, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1341, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	ZEPHIR_INIT_NVAR(&_4);
 	ZVAL_STRING(&_4, "");
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 1342, &_4);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

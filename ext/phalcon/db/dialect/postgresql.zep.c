@@ -705,14 +705,12 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable)
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		_2$$4;
 		ZEPHIR_OBS_NVAR(&tableComment);
 		_3$$4 = zephir_array_isset_string_fetch(&tableComment, &options, SL("TABLE_COMMENT"), 0);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		_3$$4;
 	}
 	if (zephir_is_true(&temporary)) {
 		ZEPHIR_INIT_VAR(&_4$$5);

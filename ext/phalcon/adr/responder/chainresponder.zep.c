@@ -77,6 +77,10 @@ PHP_METHOD(Phalcon_ADR_Responder_ChainResponder, __construct)
 		zephir_get_arrval(&links, links_param);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 98, &links);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

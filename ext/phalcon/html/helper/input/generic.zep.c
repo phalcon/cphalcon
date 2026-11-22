@@ -89,6 +89,10 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Generic, __construct)
 	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_html_helper_input_generic_ce, getThis(), "__construct", &_zephir_call_cache[0], escaper, doctype);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 854, &type_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -112,6 +116,9 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Generic, setType)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&type_zv, type);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 854, &type_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 

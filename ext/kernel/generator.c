@@ -553,7 +553,7 @@ void zephir_generator_module_init(void)
 	zephir_generator_ce->get_iterator  = zephir_generator_get_iterator;
 
 	memcpy(&zephir_generator_object_handlers, &std_object_handlers, sizeof(zend_object_handlers));
-	zephir_generator_object_handlers.offset    = XtOffsetOf(zephir_generator_object, std);
+	zephir_generator_object_handlers.offset    = offsetof(zephir_generator_object, std);
 	zephir_generator_object_handlers.free_obj  = zephir_generator_free_object;
 	zephir_generator_object_handlers.get_gc    = zephir_generator_get_gc;
 	zephir_generator_object_handlers.clone_obj = NULL;

@@ -233,11 +233,15 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, beginTransactio
 	ZEND_TLS zephir_method_cache _zephir_call_cache[6];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
+	static zend_string *_zephir_prop_2 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("profiler", 8, 1);
 	}
 	if (UNEXPECTED(!_zephir_prop_1)) {
 		_zephir_prop_1 = zend_string_init("pdo", 3, 1);
+	}
+	if (UNEXPECTED(!_zephir_prop_2)) {
+		_zephir_prop_2 = zend_string_init("transactionLevel", 16, 1);
 	}
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
@@ -271,7 +275,11 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, beginTransactio
 	}
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &_3, "finish", &_zephir_call_cache[4]);
 	zephir_check_call_status();
-	RETURN_ON_FAILURE(zephir_property_incr(this_ptr, SL("transactionLevel")));
+	zephir_property_incdec(this_ptr, _zephir_prop_2, 171, 1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "dm:afterBeginTransaction");
 	ZVAL_NULL(&_4);
@@ -351,7 +359,11 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, commit)
 		return;
 	}
 	if (ZEPHIR_GT_LONG(&_4, 0)) {
-		RETURN_ON_FAILURE(zephir_property_decr(this_ptr, SL("transactionLevel")));
+		zephir_property_incdec(this_ptr, _zephir_prop_2, 171, 0);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "dm:afterCommit");
@@ -748,7 +760,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, fetchAssoc)
 		if (!(zephir_is_true(&row))) {
 			break;
 		}
-		ZEPHIR_CALL_FUNCTION(&key, "current", &_1, 57, &row);
+		ZEPHIR_CALL_FUNCTION(&key, "current", &_1, 56, &row);
 		zephir_check_call_status();
 		zephir_array_update_zval(&data, &key, &row, PH_COPY | PH_SEPARATE);
 		if (UNEXPECTED(EG(exception))) {
@@ -877,7 +889,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, fetchGroup)
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 1, 0);
 	ZEPHIR_INIT_VAR(&_1);
-	ZVAL_LONG(&_1, (flags | 65536));
+	ZVAL_LONG(&_1, (flags | 32));
 	zephir_array_fast_append(&_0, &_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "fetchAll");
@@ -2312,7 +2324,11 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, rollBack)
 		return;
 	}
 	if (ZEPHIR_GT_LONG(&_4, 0)) {
-		RETURN_ON_FAILURE(zephir_property_decr(this_ptr, SL("transactionLevel")));
+		zephir_property_incdec(this_ptr, _zephir_prop_2, 171, 0);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "dm:afterRollBack");
@@ -2386,8 +2402,14 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, setAutoReconnec
 	zephir_fetch_params_without_memory_grow(1, 0, &autoReconnect_param);
 	if (autoReconnect) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 172, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 172, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	}
 	RETURN_THISW();
 }
@@ -2411,6 +2433,9 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, setProfiler)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &profiler);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 170, profiler);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 
@@ -3021,6 +3046,10 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, setEventsManage
 		zephir_check_call_status();
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 174, eventsManager);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

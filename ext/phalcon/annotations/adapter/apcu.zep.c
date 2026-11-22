@@ -106,6 +106,10 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, __construct)
 	}
 	if (_0) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 401, &prefix);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	zephir_memory_observe(&ttl);
 	_1 = zephir_array_isset_string_fetch(&ttl, &options, SL("lifetime"), 0);
@@ -115,6 +119,10 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, __construct)
 	}
 	if (_1) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 402, &ttl);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	ZEPHIR_MM_RESTORE();
 }
@@ -159,7 +167,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, read)
 		return;
 	}
 	zephir_fast_strtolower(&_0, &_2);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_fetch", NULL, 88, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_fetch", NULL, 87, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -217,7 +225,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, write)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_store", NULL, 90, &_0, data, &_3);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_store", NULL, 89, &_0, data, &_3);
 	zephir_check_call_status();
 	RETURN_MM();
 }

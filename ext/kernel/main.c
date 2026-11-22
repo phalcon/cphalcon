@@ -688,14 +688,7 @@ static int zephir_union_arg_coerce_weak(uint32_t type_mask, zval *arg, uint32_t 
 	zend_long lval;
 	double dval;
 	zend_string *str;
-	zend_bool bval;
-
-#if PHP_VERSION_ID >= 80100
-# define ZEPHIR_WEAK_ARG_NUM , arg_num
-#else
-# define ZEPHIR_WEAK_ARG_NUM
-	(void) arg_num;
-#endif
+	bool bval;
 
 	/* Type preference order: int -> float -> string -> bool */
 	if (type_mask & MAY_BE_LONG) {
@@ -711,7 +704,7 @@ static int zephir_union_arg_coerce_weak(uint32_t type_mask, zval *arg, uint32_t 
 				ZVAL_DOUBLE(arg, dval);
 				return 1;
 			}
-		} else if (zend_parse_arg_long_weak(arg, &lval ZEPHIR_WEAK_ARG_NUM)) {
+		} else if (zephir_parse_arg_long_weak(arg, &lval, arg_num)) {
 			zval_ptr_dtor(arg);
 			ZVAL_LONG(arg, lval);
 			return 1;
@@ -719,22 +712,20 @@ static int zephir_union_arg_coerce_weak(uint32_t type_mask, zval *arg, uint32_t 
 			return 0;
 		}
 	}
-	if ((type_mask & MAY_BE_DOUBLE) && zend_parse_arg_double_weak(arg, &dval ZEPHIR_WEAK_ARG_NUM)) {
+	if ((type_mask & MAY_BE_DOUBLE) && zephir_parse_arg_double_weak(arg, &dval, arg_num)) {
 		zval_ptr_dtor(arg);
 		ZVAL_DOUBLE(arg, dval);
 		return 1;
 	}
-	if ((type_mask & MAY_BE_STRING) && zend_parse_arg_str_weak(arg, &str ZEPHIR_WEAK_ARG_NUM)) {
+	if ((type_mask & MAY_BE_STRING) && zephir_parse_arg_str_weak(arg, &str, arg_num)) {
 		/* on success "arg" is converted to IS_STRING */
 		return 1;
 	}
-	if ((type_mask & MAY_BE_BOOL) == MAY_BE_BOOL && zend_parse_arg_bool_weak(arg, &bval ZEPHIR_WEAK_ARG_NUM)) {
+	if ((type_mask & MAY_BE_BOOL) == MAY_BE_BOOL && zephir_parse_arg_bool_weak(arg, &bval, arg_num)) {
 		zval_ptr_dtor(arg);
 		ZVAL_BOOL(arg, bval);
 		return 1;
 	}
-
-#undef ZEPHIR_WEAK_ARG_NUM
 
 	return 0;
 }
@@ -1336,6 +1327,23 @@ void zephir_get_args_from(zval *return_value, uint32_t skip)
 			++i;
 		}
 	}
+
+	/**
+	 * Named arguments the method has no parameter for are collected by its
+	 * variadic parameter, under their names, as `...$args` collects them.
+	 *
+	 * @see https://github.com/zephir-lang/zephir/issues/2824
+	 */
+	if (ZEND_CALL_INFO(ex) & ZEND_CALL_HAS_EXTRA_NAMED_PARAMS) {
+		zend_string *name;
+		zval *value;
+
+		ZEND_HASH_FOREACH_STR_KEY_VAL(ex->extra_named_params, name, value) {
+			ZVAL_DEREF(value);
+			Z_TRY_ADDREF_P(value);
+			zend_hash_add_new(Z_ARRVAL_P(return_value), name, value);
+		} ZEND_HASH_FOREACH_END();
+	}
 }
 
 void zephir_get_arg(zval *return_value, zend_long idx)
@@ -1349,16 +1357,13 @@ void zephir_get_arg(zval *return_value, zend_long idx)
 		RETURN_FALSE;
 	}
 
+	/**
+	 * No zend_forbid_dynamic_call() here: `ex` is the frame of the method
+	 * that reads its arguments, and a method called through a callable is a
+	 * dynamic call PHP allows. The func_get_arg() Zephir compiles is never
+	 * itself called dynamically.
+	 */
 	arg_count = ZEND_CALL_NUM_ARGS(ex);
-#if PHP_VERSION_ID >= 80200
-	if (zend_forbid_dynamic_call() == FAILURE) {
-		RETURN_FALSE;
-	}
-#else
-	if (zend_forbid_dynamic_call("func_get_arg()") == FAILURE) {
-		RETURN_FALSE;
-	}
-#endif
 
 	if (UNEXPECTED((zend_ulong)idx >= arg_count)) {
 		zend_error(E_WARNING, "func_get_arg():  Argument " ZEND_LONG_FMT " not passed to function", idx);

@@ -278,6 +278,10 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct)
 	zephir_check_call_status();
 	zephir_array_update_string(&_0, SL("url"), &_1, PH_COPY | PH_SEPARATE);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 278, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

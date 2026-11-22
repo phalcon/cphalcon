@@ -204,7 +204,7 @@ PHP_METHOD(Phalcon_Di_Di, __call)
 		ZVAL_LONG(&_0$$3, 3);
 		ZEPHIR_INIT_VAR(&_1$$3);
 		zephir_substr(&_1$$3, &method_zv, 3 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
-		ZEPHIR_CALL_FUNCTION(&possibleService, "lcfirst", &_2, 58, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(&possibleService, "lcfirst", &_2, 57, &_1$$3);
 		zephir_check_call_status();
 		zephir_read_property_cached(&_3$$3, this_ptr, _zephir_prop_0, 175, PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
@@ -233,7 +233,7 @@ PHP_METHOD(Phalcon_Di_Di, __call)
 			ZVAL_LONG(&_6$$6, 3);
 			ZEPHIR_INIT_VAR(&_7$$6);
 			zephir_substr(&_7$$6, &method_zv, 3 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
-			ZEPHIR_CALL_FUNCTION(&_8$$6, "lcfirst", &_2, 58, &_7$$6);
+			ZEPHIR_CALL_FUNCTION(&_8$$6, "lcfirst", &_2, 57, &_7$$6);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "set", &_zephir_call_cache[1], &_8$$6, &definition);
 			zephir_check_call_status();
@@ -1431,8 +1431,20 @@ PHP_METHOD(Phalcon_Di_Di, remove)
 	ZEPHIR_INIT_NVAR(&target);
 	ZEPHIR_INIT_NVAR(&alias);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 176, &aliases);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 175, &services);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 177, &sharedInstances);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -1492,6 +1504,10 @@ PHP_METHOD(Phalcon_Di_Di, removeShared)
 		return;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 177, &sharedInstances);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 175, PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
@@ -1788,6 +1804,10 @@ PHP_METHOD(Phalcon_Di_Di, setAlias)
 	}
 	ZEPHIR_INIT_NVAR(&alias);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 176, &currentAliases);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 
@@ -1810,6 +1830,9 @@ PHP_METHOD(Phalcon_Di_Di, setInternalEventsManager)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &eventsManager);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 178, eventsManager);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**

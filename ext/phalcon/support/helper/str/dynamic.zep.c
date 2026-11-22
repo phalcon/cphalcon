@@ -115,9 +115,9 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Dynamic, __invoke)
 		zephir_memory_observe(&separator_zv);
 	ZVAL_STR_COPY(&separator_zv, separator);
 	}
-	ZEPHIR_CALL_FUNCTION(&_0, "mb_substr_count", &_1, 277, &text, &leftDelimiter_zv);
+	ZEPHIR_CALL_FUNCTION(&_0, "mb_substr_count", &_1, 276, &text, &leftDelimiter_zv);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_2, "mb_substr_count", &_1, 277, &text, &rightDelimiter_zv);
+	ZEPHIR_CALL_FUNCTION(&_2, "mb_substr_count", &_1, 276, &text, &rightDelimiter_zv);
 	zephir_check_call_status();
 	if (UNEXPECTED(!ZEPHIR_IS_IDENTICAL(&_0, &_2))) {
 		ZEPHIR_INIT_VAR(&_3$$3);
@@ -128,9 +128,9 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Dynamic, __invoke)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&ldS, "preg_quote", &_4, 174, &leftDelimiter_zv);
+	ZEPHIR_CALL_FUNCTION(&ldS, "preg_quote", &_4, 173, &leftDelimiter_zv);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&rdS, "preg_quote", &_4, 174, &rightDelimiter_zv);
+	ZEPHIR_CALL_FUNCTION(&rdS, "preg_quote", &_4, 173, &rightDelimiter_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_5);
 	ZEPHIR_CONCAT_SVSVVSVS(&_5, "/", &ldS, "([^", &ldS, &rdS, "]+)", &rdS, "/");
@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Dynamic, __invoke)
 				return;
 			}
 			ZEPHIR_OBS_NVAR(&word);
-			ZEPHIR_CALL_FUNCTION(&_14$$6, "array_rand", &_15, 120, &words);
+			ZEPHIR_CALL_FUNCTION(&_14$$6, "array_rand", &_15, 119, &words);
 			zephir_check_call_status();
 			zephir_array_fetch(&word, &words, &_14$$6, PH_NOISY, "phalcon/Support/Helper/Str/Dynamic.zep", 55);
 			if (UNEXPECTED(EG(exception))) {
@@ -206,7 +206,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Dynamic, __invoke)
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			ZEPHIR_CALL_FUNCTION(&sub, "preg_quote", &_4, 174, &_16$$6, &separator_zv);
+			ZEPHIR_CALL_FUNCTION(&sub, "preg_quote", &_4, 173, &_16$$6, &separator_zv);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_17$$6);
 			ZEPHIR_CONCAT_SVS(&_17$$6, "/", &sub, "/");

@@ -131,13 +131,33 @@ PHP_METHOD(Phalcon_Assets_Inline, __construct)
 		zephir_get_arrval(&attributes, attributes_param);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 157, &type_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 158, &content_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (filter) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 159, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 159, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 160, &attributes);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -235,6 +255,10 @@ PHP_METHOD(Phalcon_Assets_Inline, setAttributes)
 	zephir_fetch_params(1, 1, 0, &attributes_param);
 	zephir_get_arrval(&attributes, attributes_param);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 160, &attributes);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 
@@ -260,8 +284,14 @@ PHP_METHOD(Phalcon_Assets_Inline, setFilter)
 	zephir_fetch_params_without_memory_grow(1, 0, &filter_param);
 	if (filter) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 159, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 159, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	}
 	RETURN_THISW();
 }
@@ -286,6 +316,9 @@ PHP_METHOD(Phalcon_Assets_Inline, setType)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&type_zv, type);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 157, &type_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 
@@ -360,7 +393,7 @@ PHP_METHOD(Phalcon_Assets_Inline, phpHash)
 	} else {
 		}
 	ZVAL_BOOL(&_0, (binary ? 1 : 0));
-	ZEPHIR_RETURN_CALL_FUNCTION("hash", NULL, 54, &algorithm_zv, &data_zv, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("hash", NULL, 53, &algorithm_zv, &data_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -434,7 +467,7 @@ PHP_METHOD(Phalcon_Assets_Inline, phpHashHmac)
 	} else {
 		}
 	ZVAL_BOOL(&_0, (binary ? 1 : 0));
-	ZEPHIR_RETURN_CALL_FUNCTION("hash_hmac", NULL, 55, &algorithm_zv, &data_zv, &key_zv, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("hash_hmac", NULL, 54, &algorithm_zv, &data_zv, &key_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

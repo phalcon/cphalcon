@@ -81,6 +81,9 @@ PHP_METHOD(Phalcon_Annotations_Models_MetaData_Source, __construct)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&table_zv, table);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 418, &table_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**

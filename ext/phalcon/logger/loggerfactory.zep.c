@@ -68,6 +68,9 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, __construct)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &factory);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 971, factory);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**
@@ -399,6 +402,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, getArrVal)
 		}
 	}
 	if (!(ZEPHIR_IS_EMPTY(&cast_zv))) {
+		ZEPHIR_OBSERVE_IF_UNDEF(&value);
 		ZEPHIR_MAKE_REF(&value);
 		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 10, &value, &cast_zv);
 		ZEPHIR_UNREF(&value);

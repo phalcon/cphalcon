@@ -81,6 +81,10 @@ PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, __construct)
 		ZVAL_STRING(&selectClass, "Phalcon\\DataMapper\\Query\\Select");
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 602, &selectClass);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

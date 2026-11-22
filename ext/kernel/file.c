@@ -276,7 +276,7 @@ void zephir_file_put_contents(zval *return_value, zval *filename, zval *data)
 	php_stream_close(stream);
 
 	if (use_copy) {
-		zval_dtor(data);
+		zval_ptr_dtor_nogc(data);
 	}
 
 	if (numbytes < 0) {

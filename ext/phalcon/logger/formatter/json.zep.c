@@ -98,8 +98,20 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, __construct)
 	ZVAL_STR_COPY(&interpolatorRight_zv, interpolatorRight);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 959, &dateFormat_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 960, &interpolatorLeft_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 961, &interpolatorRight_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -202,9 +214,9 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, toEncode)
 	ZVAL_LONG(&_1, depth);
 	ZEPHIR_INIT_NVAR(&encoded);
 	zephir_json_encode(&encoded, data, zephir_get_intval(&_0) );
-	ZEPHIR_CALL_FUNCTION(&error, "json_last_error", NULL, 226);
+	ZEPHIR_CALL_FUNCTION(&error, "json_last_error", NULL, 225);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&message, "json_last_error_msg", NULL, 227);
+	ZEPHIR_CALL_FUNCTION(&message, "json_last_error_msg", NULL, 226);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_LONG_IDENTICAL(&error, 0)) {
 		ZEPHIR_INIT_VAR(&_2$$3);

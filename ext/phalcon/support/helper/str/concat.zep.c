@@ -103,12 +103,14 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Concat, __invoke)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
+	ZEPHIR_OBSERVE_IF_UNDEF(&many);
 	ZEPHIR_MAKE_REF(&many);
-	ZEPHIR_CALL_FUNCTION(&first, "reset", NULL, 232, &many);
+	ZEPHIR_CALL_FUNCTION(&first, "reset", NULL, 231, &many);
 	ZEPHIR_UNREF(&many);
 	zephir_check_call_status();
+	ZEPHIR_OBSERVE_IF_UNDEF(&many);
 	ZEPHIR_MAKE_REF(&many);
-	ZEPHIR_CALL_FUNCTION(&last, "end", NULL, 166, &many);
+	ZEPHIR_CALL_FUNCTION(&last, "end", NULL, 165, &many);
 	ZEPHIR_UNREF(&many);
 	zephir_check_call_status();
 	ZVAL_BOOL(&_2, 0);

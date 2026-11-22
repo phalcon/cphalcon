@@ -117,6 +117,10 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, __construct)
 		zephir_get_arrval(&options, options_param);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 445, acl);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_memory_observe(&value);
 	_0 = zephir_array_isset_string_fetch(&value, &options, SL("guestRole"), 0);
 	if (UNEXPECTED(EG(exception))) {
@@ -130,6 +134,10 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, __construct)
 			return;
 		}
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 446, &_1$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	ZEPHIR_OBS_NVAR(&value);
 	_2 = zephir_array_isset_string_fetch(&value, &options, SL("moduleSeparator"), 0);
@@ -144,6 +152,10 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, __construct)
 			return;
 		}
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 447, &_3$$4);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	ZEPHIR_MM_RESTORE();
 }
@@ -223,7 +235,7 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, isAllowed)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&_1, "in_array", &_2, 37, &actionName_zv, &_0, &__$true);
+	ZEPHIR_CALL_FUNCTION(&_1, "in_array", &_2, 36, &actionName_zv, &_0, &__$true);
 	zephir_check_call_status();
 	if (zephir_is_true(&_1)) {
 		RETURN_MM_BOOL(1);
@@ -240,7 +252,7 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, isAllowed)
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZEPHIR_CALL_FUNCTION(&_6, "in_array", &_2, 37, &actionName_zv, &_5, &__$true);
+		ZEPHIR_CALL_FUNCTION(&_6, "in_array", &_2, 36, &actionName_zv, &_5, &__$true);
 		zephir_check_call_status();
 		_4 = !zephir_is_true(&_6);
 	}
@@ -253,7 +265,6 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, isAllowed)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	_7;
 	_8 = Z_TYPE_P(&handler) != IS_STRING;
 	if (!(_8)) {
 		_8 = ZEPHIR_IS_STRING_IDENTICAL(&handler, "");
@@ -274,7 +285,6 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, isAllowed)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	_10;
 	_11 = Z_TYPE_P(&module) == IS_STRING;
 	if (_11) {
 		_11 = !ZEPHIR_IS_STRING_IDENTICAL(&module, "");
@@ -300,7 +310,6 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, isAllowed)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	_13;
 	if (Z_TYPE_P(&params) != IS_ARRAY) {
 		ZEPHIR_INIT_NVAR(&params);
 		ZVAL_NULL(&params);

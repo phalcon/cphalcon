@@ -224,6 +224,10 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, __construct)
 		}
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1, &options);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -614,10 +618,19 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, setTemplate)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&template_zv, template);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 4, &template_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	if (1) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 3, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 3, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	}
 	RETURN_THISW();
 }
@@ -664,6 +677,10 @@ PHP_METHOD(Phalcon_Filter_Validation_AbstractValidator, setTemplates)
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 2, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_is_iterable(&templates, 0, "phalcon/Filter/Validation/AbstractValidator.zep", 247);
 	if (Z_TYPE_P(&templates) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&templates), _2, _3, _1)

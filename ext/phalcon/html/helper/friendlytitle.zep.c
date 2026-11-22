@@ -78,6 +78,10 @@ PHP_METHOD(Phalcon_Html_Helper_FriendlyTitle, __construct)
 	}
 
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 852, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

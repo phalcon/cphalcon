@@ -145,6 +145,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Hydration_CloneResult, cloneResult)
 				zephir_check_call_status();
 			} else {
 				zephir_update_property_zval_zval(&instance, &key, &value);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
@@ -194,6 +198,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Hydration_CloneResult, cloneResult)
 					zephir_check_call_status();
 				} else {
 					zephir_update_property_zval_zval(&instance, &key, &value);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 				}
 		}
 	}

@@ -112,7 +112,15 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, __invoke)
 		ZEPHIR_CPY_WRT(&_0, &delimiter_zv);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 84, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 85, &indent_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 
@@ -149,6 +157,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, __toString)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
+	ZEPHIR_OBSERVE_IF_UNDEF(&sorted);
 	ZEPHIR_MAKE_REF(&sorted);
 	ZEPHIR_CALL_FUNCTION(NULL, "ksort", NULL, 32, &sorted);
 	ZEPHIR_UNREF(&sorted);
@@ -183,6 +192,10 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, reset)
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 86, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 

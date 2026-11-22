@@ -154,9 +154,25 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractGroup, __invoke)
 		zephir_get_arrval(&attributes, attributes_param);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 222, &name_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 223, &options);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 224, checked);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 225, &attributes);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 
@@ -297,10 +313,22 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractGroup, __toString)
 	ZEPHIR_INIT_VAR(&_14);
 	array_init(&_14);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 223, &_14);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 224, &__$null);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_15);
 	array_init(&_15);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 225, &_15);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_16);
 	ZEPHIR_GET_CONSTANT(&_16, "PHP_EOL");
 	zephir_fast_join(return_value, &_16, &lines);
@@ -490,7 +518,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractGroup, renderItem)
 	}
 	zephir_array_update_string(&_11, SL("name"), &_14, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_11, SL("value"), &value_zv, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_FUNCTION(&inputAttrs, "array_merge", &_15, 64, &_10, &itemExtras, &_11);
+	ZEPHIR_CALL_FUNCTION(&inputAttrs, "array_merge", &_15, 63, &_10, &itemExtras, &_11);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD_CACHED(&_16, this_ptr, "isChecked", &_zephir_call_cache[0], &value_zv);
 	zephir_check_call_status();

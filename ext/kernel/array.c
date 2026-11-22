@@ -1227,11 +1227,11 @@ static zval *zephir_array_unset_fetch(zval *container, zval *index, zval *holder
 		retval = obj->handlers->read_dimension(obj, index, BP_VAR_UNSET, &rv);
 
 		if (UNEXPECTED(retval == &EG(uninitialized_zval))) {
-			zend_error(E_NOTICE, "Indirect modification of overloaded element of %s has no effect", ZSTR_VAL(obj->ce->name));
+			zend_error(E_NOTICE, "Indirect modification of overloaded element of " ZEPHIR_ZSTR_FMT " has no effect", ZEPHIR_ZSTR_ARG(obj->ce->name));
 			retval = NULL;
 		} else if (EXPECTED(retval != NULL && Z_TYPE_P(retval) != IS_UNDEF)) {
 			if (!Z_ISREF_P(retval) && Z_TYPE_P(retval) != IS_OBJECT) {
-				zend_error(E_NOTICE, "Indirect modification of overloaded element of %s has no effect", ZSTR_VAL(obj->ce->name));
+				zend_error(E_NOTICE, "Indirect modification of overloaded element of " ZEPHIR_ZSTR_FMT " has no effect", ZEPHIR_ZSTR_ARG(obj->ce->name));
 			}
 
 			zval_ptr_dtor(holder);
@@ -2095,7 +2095,7 @@ static zval *zephir_array_fetch_dim_w(zval *container, zval *dim, zval *holder, 
 		if (UNEXPECTED(retval == &EG(uninitialized_zval))) {
 			ZVAL_NULL(holder);
 			retval = holder;
-			zend_error(E_NOTICE, "Indirect modification of overloaded element of %s has no effect", ZSTR_VAL(obj->ce->name));
+			zend_error(E_NOTICE, "Indirect modification of overloaded element of " ZEPHIR_ZSTR_FMT " has no effect", ZEPHIR_ZSTR_ARG(obj->ce->name));
 		} else if (EXPECTED(retval != NULL && Z_TYPE_P(retval) != IS_UNDEF)) {
 			if (!Z_ISREF_P(retval)) {
 				if (retval != holder) {
@@ -2104,7 +2104,7 @@ static zval *zephir_array_fetch_dim_w(zval *container, zval *dim, zval *holder, 
 				}
 
 				if (Z_TYPE_P(retval) != IS_OBJECT) {
-					zend_error(E_NOTICE, "Indirect modification of overloaded element of %s has no effect", ZSTR_VAL(obj->ce->name));
+					zend_error(E_NOTICE, "Indirect modification of overloaded element of " ZEPHIR_ZSTR_FMT " has no effect", ZEPHIR_ZSTR_ARG(obj->ce->name));
 				}
 			}
 		} else {
@@ -2141,7 +2141,9 @@ static zval *zephir_array_fetch_dim_w(zval *container, zval *dim, zval *holder, 
  *
  * An element that is a reference to a typed property keeps that type, so the
  * result is computed aside and checked before it replaces the value, as in
- * `zend_binary_assign_op_typed_ref()`. Zephir code is never `strict_types`.
+ * `zend_binary_assign_op_typed_ref()`: a string is concatenated in place, and
+ * the result is checked whatever the operator returned. Zephir code is never
+ * `strict_types`.
  */
 void zephir_array_apply_op(zval *var_ptr, zval *value, binary_op_type op)
 {
@@ -2153,8 +2155,15 @@ void zephir_array_apply_op(zval *var_ptr, zval *value, binary_op_type op)
 		if (UNEXPECTED(ZEND_REF_HAS_TYPE_SOURCES(ref))) {
 			zval result;
 
-			if (op(&result, var_ptr, value) == SUCCESS
-				&& zend_verify_ref_assignable_zval(ref, &result, 0)) {
+			if (op == concat_function && Z_TYPE_P(var_ptr) == IS_STRING) {
+				concat_function(var_ptr, var_ptr, value);
+				return;
+			}
+
+			ZVAL_UNDEF(&result);
+			op(&result, var_ptr, value);
+
+			if (EXPECTED(zend_verify_ref_assignable_zval(ref, &result, 0))) {
 				zval_ptr_dtor(var_ptr);
 				ZVAL_COPY_VALUE(var_ptr, &result);
 			} else {
@@ -2214,7 +2223,7 @@ static void zephir_array_dim_op(zval *container, zval *dim, zval *value, binary_
 			zval_ptr_dtor(&result);
 		} else {
 #if PHP_VERSION_ID >= 80200
-			zend_throw_error(NULL, "Cannot use object of type %s as array", ZSTR_VAL(obj->ce->name));
+			zend_throw_error(NULL, "Cannot use object of type " ZEPHIR_ZSTR_FMT " as array", ZEPHIR_ZSTR_ARG(obj->ce->name));
 #else
 			zend_throw_error(NULL, "Cannot use object as array");
 #endif

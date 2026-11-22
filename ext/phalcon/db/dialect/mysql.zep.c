@@ -752,7 +752,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable)
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		_2$$4;
 	}
 	if (zephir_is_true(&temporary)) {
 		ZEPHIR_INIT_VAR(&_3$$5);

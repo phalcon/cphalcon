@@ -438,6 +438,9 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, asAlias)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&asAlias_zv, asAlias);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 606, &asAlias_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 
@@ -643,8 +646,14 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, forUpdate)
 		}
 	if (enable) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 607, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 607, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	}
 	RETURN_THISW();
 }
@@ -1089,10 +1098,22 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, reset)
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "");
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 606, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (0) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 607, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 607, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	ZEPHIR_MM_RESTORE();
 }
@@ -1449,8 +1470,9 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, buildFrom)
 		{
 			ZEPHIR_INIT_NVAR(&table);
 			ZVAL_COPY(&table, _6);
+			ZEPHIR_OBSERVE_IF_UNDEF(&table);
 			ZEPHIR_MAKE_REF(&table);
-			ZEPHIR_CALL_FUNCTION(&_7$$4, "array_shift", &_8, 108, &table);
+			ZEPHIR_CALL_FUNCTION(&_7$$4, "array_shift", &_8, 107, &table);
 			ZEPHIR_UNREF(&table);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD_CACHED(&_9$$4, this_ptr, "indent", &_zephir_call_cache[0], &table);
@@ -1485,8 +1507,9 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, buildFrom)
 			}
 			ZEPHIR_CALL_METHOD_CACHED(&table, _4, "current", &_zephir_call_cache[4]);
 			zephir_check_call_status();
+				ZEPHIR_OBSERVE_IF_UNDEF(&table);
 				ZEPHIR_MAKE_REF(&table);
-				ZEPHIR_CALL_FUNCTION(&_13$$5, "array_shift", &_8, 108, &table);
+				ZEPHIR_CALL_FUNCTION(&_13$$5, "array_shift", &_8, 107, &table);
 				ZEPHIR_UNREF(&table);
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD_CACHED(&_14$$5, this_ptr, "indent", &_zephir_call_cache[5], &table);

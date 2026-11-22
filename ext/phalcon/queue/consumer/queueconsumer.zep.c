@@ -101,6 +101,9 @@ PHP_METHOD(Phalcon_Queue_Consumer_QueueConsumer, __construct)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &context);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1322, context);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**
@@ -327,8 +330,16 @@ PHP_METHOD(Phalcon_Queue_Consumer_QueueConsumer, consumeOnce)
 			if (ZEPHIR_IS_FALSE_IDENTICAL(&_6$$3)) {
 				if (1) {
 					zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1323, &__$true);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 				} else {
 					zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1323, &__$false);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 				}
 				RETURN_MM_LONG(processed);
 			}
@@ -375,8 +386,16 @@ PHP_METHOD(Phalcon_Queue_Consumer_QueueConsumer, consumeOnce)
 				if (ZEPHIR_IS_FALSE_IDENTICAL(&_11$$7)) {
 					if (1) {
 						zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1323, &__$true);
+						if (UNEXPECTED(EG(exception))) {
+							ZEPHIR_MM_RESTORE();
+							return;
+						}
 					} else {
 						zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1323, &__$false);
+						if (UNEXPECTED(EG(exception))) {
+							ZEPHIR_MM_RESTORE();
+							return;
+						}
 					}
 					RETURN_MM_LONG(processed);
 				}
@@ -464,6 +483,9 @@ PHP_METHOD(Phalcon_Queue_Consumer_QueueConsumer, setPollInterval)
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, pollInterval);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1325, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**
@@ -491,8 +513,16 @@ PHP_METHOD(Phalcon_Queue_Consumer_QueueConsumer, start)
 
 	if (0) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1323, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1323, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "queue:beforeStart");
@@ -517,8 +547,14 @@ PHP_METHOD(Phalcon_Queue_Consumer_QueueConsumer, stop)
 	}
 	if (1) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1323, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1323, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	}
 }
 

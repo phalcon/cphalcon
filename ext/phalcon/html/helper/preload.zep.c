@@ -83,6 +83,10 @@ PHP_METHOD(Phalcon_Html_Helper_Preload, __construct)
 	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_html_helper_preload_ce, getThis(), "__construct", &_zephir_call_cache[0], escaper);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 871, response);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

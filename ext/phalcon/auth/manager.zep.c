@@ -91,6 +91,9 @@ PHP_METHOD(Phalcon_Auth_Manager, __construct)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &accessFactory);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 480, accessFactory);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**
@@ -155,6 +158,10 @@ PHP_METHOD(Phalcon_Auth_Manager, access)
 	ZEPHIR_CALL_METHOD_CACHED(&_4, &_3, "newInstance", &_zephir_call_cache[2], &accessName_zv);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 481, &_4);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_1, 481, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
@@ -298,6 +305,9 @@ PHP_METHOD(Phalcon_Auth_Manager, addGuard)
 	}
 	if (isDefault) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 482, guard);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	}
 	RETURN_THISW();
 }
@@ -623,6 +633,9 @@ PHP_METHOD(Phalcon_Auth_Manager, setAccess)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &access);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 481, access);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 
@@ -642,6 +655,9 @@ PHP_METHOD(Phalcon_Auth_Manager, setDefaultGuard)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &guard);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 482, guard);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 

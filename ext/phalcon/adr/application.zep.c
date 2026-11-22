@@ -139,6 +139,10 @@ PHP_METHOD(Phalcon_ADR_Application, __construct)
 		zephir_check_call_status();
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 344, container);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -827,6 +831,9 @@ PHP_METHOD(Phalcon_ADR_Application, setActionDirectory)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&actionDirectory_zv, actionDirectory);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 347, &actionDirectory_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 
@@ -850,6 +857,9 @@ PHP_METHOD(Phalcon_ADR_Application, setBaseNamespace)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&baseNamespace_zv, baseNamespace);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 345, &baseNamespace_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 
@@ -873,6 +883,9 @@ PHP_METHOD(Phalcon_ADR_Application, setWordSeparator)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&wordSeparator_zv, wordSeparator);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 348, &wordSeparator_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 

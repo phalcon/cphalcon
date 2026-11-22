@@ -1019,6 +1019,10 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, withException)
 		return;
 	}
 	zephir_update_property_zval_cached(&cloned, _zephir_prop_0, 0, exception);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_CCTOR(&cloned);
 }
 
@@ -1050,6 +1054,10 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, withExtras)
 		return;
 	}
 	zephir_update_property_zval_cached(&cloned, _zephir_prop_0, 0, extras);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_CCTOR(&cloned);
 }
 
@@ -1081,6 +1089,10 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, withInput)
 		return;
 	}
 	zephir_update_property_zval_cached(&cloned, _zephir_prop_0, 0, input);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_CCTOR(&cloned);
 }
 
@@ -1112,6 +1124,10 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, withMessages)
 		return;
 	}
 	zephir_update_property_zval_cached(&cloned, _zephir_prop_0, 0, messages);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_CCTOR(&cloned);
 }
 
@@ -1143,6 +1159,10 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, withResult)
 		return;
 	}
 	zephir_update_property_zval_cached(&cloned, _zephir_prop_0, 0, result);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_CCTOR(&cloned);
 }
 
@@ -1174,6 +1194,10 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, withStatus)
 		return;
 	}
 	zephir_update_property_zval_cached(&cloned, _zephir_prop_0, 0, status);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_CCTOR(&cloned);
 }
 

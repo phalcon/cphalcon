@@ -296,8 +296,16 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, begin)
 	}
 	if (1) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 127, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 127, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	RETURN_THIS();
 }
@@ -426,6 +434,10 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, getFormatter)
 		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(&_1$$3, &_2$$3);
 		zephir_check_call_status();
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 130, &_1$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	RETURN_MM_MEMBER(getThis(), "formatter");
 }
@@ -497,6 +509,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, setFormatter)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &formatter);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 130, formatter);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 
@@ -524,6 +539,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, setQueueLimit)
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, queueLimit);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 128, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 
@@ -618,10 +636,22 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, resetTransaction)
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 129, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (0) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 127, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 127, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	ZEPHIR_MM_RESTORE();
 }

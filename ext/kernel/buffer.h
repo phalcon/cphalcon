@@ -51,7 +51,7 @@ typedef struct _zephir_buffer_object {
 	zend_long len;
 	uint8_t   kind;
 
-	/* MUST stay last: handlers.offset is XtOffsetOf(..., std). */
+	/* MUST stay last: handlers.offset is offsetof(..., std). */
 	zend_object std;
 } zephir_buffer_object;
 
@@ -66,7 +66,7 @@ void zephir_buffer_module_init(void);
 
 static inline zephir_buffer_object *zephir_buffer_fetch(zend_object *obj)
 {
-	return (zephir_buffer_object *) ((char *) obj - XtOffsetOf(zephir_buffer_object, std));
+	return (zephir_buffer_object *) ((char *) obj - offsetof(zephir_buffer_object, std));
 }
 
 #define ZEPHIR_BUFFER_P(zv) zephir_buffer_fetch(Z_OBJ_P(zv))

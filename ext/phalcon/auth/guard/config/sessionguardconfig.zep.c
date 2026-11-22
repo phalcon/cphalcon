@@ -183,6 +183,10 @@ PHP_METHOD(Phalcon_Auth_Guard_Config_SessionGuardConfig, __construct)
 		zephir_check_call_status();
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 458, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_2);
 	if (Z_TYPE_P(&rememberName_zv) != IS_NULL) {
 		ZEPHIR_CPY_WRT(&_2, &rememberName_zv);
@@ -193,6 +197,10 @@ PHP_METHOD(Phalcon_Auth_Guard_Config_SessionGuardConfig, __construct)
 		zephir_check_call_status();
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 459, &_2);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_3);
 	if (0 != (rememberTtl != 0)) {
 		ZEPHIR_INIT_NVAR(&_3);
@@ -202,10 +210,22 @@ PHP_METHOD(Phalcon_Auth_Guard_Config_SessionGuardConfig, __construct)
 		ZVAL_LONG(&_3, 31536000);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 460, &_3);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (rememberSecure) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 461, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 461, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 458, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {

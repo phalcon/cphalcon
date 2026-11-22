@@ -588,7 +588,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable)
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		_1$$3;
 	}
 	zephir_memory_observe(&columns);
 	_2 = zephir_array_isset_string_fetch(&columns, &definition, SL("columns"), 0);

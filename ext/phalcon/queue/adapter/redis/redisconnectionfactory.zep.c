@@ -103,6 +103,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConnectionFactory, __construct)
 		zephir_get_arrval(&options, options_param);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1294, &options);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

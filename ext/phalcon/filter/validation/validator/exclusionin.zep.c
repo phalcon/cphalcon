@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_ExclusionIn, validate)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD_CACHED(&_1, this_ptr, "getStrictOption", &_zephir_call_cache[3], field);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_2, "in_array", NULL, 37, &value, &domain, &_1);
+	ZEPHIR_CALL_FUNCTION(&_2, "in_array", NULL, 36, &value, &domain, &_1);
 	zephir_check_call_status();
 	if (zephir_is_true(&_2)) {
 		ZEPHIR_INIT_VAR(&replacePairs);

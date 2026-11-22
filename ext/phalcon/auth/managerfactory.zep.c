@@ -181,7 +181,15 @@ PHP_METHOD(Phalcon_Auth_ManagerFactory, __construct)
 		accessLocator = &__$null;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 484, container);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 485, hasher);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_0);
 	if (Z_TYPE_P(adapterLocator) != IS_NULL) {
 		ZEPHIR_CPY_WRT(&_0, adapterLocator);
@@ -192,6 +200,10 @@ PHP_METHOD(Phalcon_Auth_ManagerFactory, __construct)
 		zephir_check_call_status();
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 486, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_1);
 	if (Z_TYPE_P(guardLocator) != IS_NULL) {
 		ZEPHIR_CPY_WRT(&_1, guardLocator);
@@ -202,6 +214,10 @@ PHP_METHOD(Phalcon_Auth_ManagerFactory, __construct)
 		zephir_check_call_status();
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 487, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_2);
 	if (Z_TYPE_P(accessLocator) != IS_NULL) {
 		ZEPHIR_CPY_WRT(&_2, accessLocator);
@@ -212,6 +228,10 @@ PHP_METHOD(Phalcon_Auth_ManagerFactory, __construct)
 		zephir_check_call_status();
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 488, &_2);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

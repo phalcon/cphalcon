@@ -119,6 +119,10 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, __toString)
 	add_assoc_stringl_ex(&_1, SL("text"), SL(""));
 	add_assoc_stringl_ex(&_1, SL("end"), SL(""));
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 218, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_memory_observe(&_2);
 	zephir_array_fetch_string(&_2, &label, SL("start"), PH_NOISY, "phalcon/Html/Helper/Input/AbstractChecked.zep", 66);
 	if (UNEXPECTED(EG(exception))) {
@@ -256,6 +260,10 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, label)
 	zephir_array_update_string(&_7, SL("text"), &text, PH_COPY | PH_SEPARATE);
 	add_assoc_stringl_ex(&_7, SL("end"), SL("</label>"));
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 218, &_7);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 
@@ -290,8 +298,14 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, strict)
 		}
 	if (flag) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 221, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 221, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	}
 	RETURN_THISW();
 }
@@ -407,6 +421,10 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, processChecked)
 		}
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 220, &attributes);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -486,6 +504,10 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, processUnchecked)
 		zephir_check_call_status();
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 220, &attributes);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_CCTOR(&unchecked);
 }
 

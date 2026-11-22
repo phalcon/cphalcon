@@ -102,6 +102,10 @@ PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, __construct)
 	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "normalizeItems", &_zephir_call_cache[0], &items);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 282, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -136,6 +140,10 @@ PHP_METHOD(Phalcon_Http_Request_Bag_AbstractBag, clear)
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 282, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

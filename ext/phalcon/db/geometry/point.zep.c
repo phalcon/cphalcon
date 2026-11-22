@@ -77,12 +77,21 @@ PHP_METHOD(Phalcon_Db_Geometry_Point, __construct)
 	ZVAL_UNDEF(&_0);
 	ZVAL_DOUBLE(&_0, x);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 648, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	ZVAL_UNDEF(&_0);
 	ZVAL_DOUBLE(&_0, y);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 649, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, srid);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 650, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 PHP_METHOD(Phalcon_Db_Geometry_Point, getType)

@@ -661,7 +661,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlColumn)
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			_4$$7;
 			if (ZEPHIR_IS_STRING_IDENTICAL(&columnDomain, "")) {
 				ZEPHIR_INIT_NVAR(&columnDomain);
 				ZVAL_NULL(&columnDomain);
@@ -1095,14 +1094,12 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable)
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		_0$$3;
 		zephir_memory_observe(&aliasName);
 		_1$$3 = zephir_array_isset_long_fetch(&aliasName, table, 2, 0);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		_1$$3;
 		ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "prepareTable", &_zephir_call_cache[0], &tableName, &schemaName, &aliasName, &escapeChar_zv);
 		zephir_check_call_status();
 		RETURN_MM();
@@ -1795,7 +1792,6 @@ PHP_METHOD(Phalcon_Db_Dialect, select)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	_3;
 	if (Z_TYPE_P(&bindCounts) != IS_ARRAY) {
 		ZEPHIR_INIT_NVAR(&bindCounts);
 		array_init(&bindCounts);
@@ -2629,7 +2625,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionAll)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	_0;
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "*");
 	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "prepareQualified", &_zephir_call_cache[0], &_1, &domain, &escapeChar_zv);

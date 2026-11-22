@@ -109,8 +109,14 @@ PHP_METHOD(Phalcon_Assets_Traits_SourceTargetTrait, setIsLocal)
 	zephir_fetch_params_without_memory_grow(1, 0, &flag_param);
 	if (flag) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 440, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 440, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	}
 	RETURN_THISW();
 }
@@ -135,6 +141,9 @@ PHP_METHOD(Phalcon_Assets_Traits_SourceTargetTrait, setSourcePath)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&sourcePath_zv, sourcePath);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 441, &sourcePath_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 
@@ -158,6 +167,9 @@ PHP_METHOD(Phalcon_Assets_Traits_SourceTargetTrait, setTargetPath)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&targetPath_zv, targetPath);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 442, &targetPath_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 
@@ -181,6 +193,9 @@ PHP_METHOD(Phalcon_Assets_Traits_SourceTargetTrait, setTargetUri)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&targetUri_zv, targetUri);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 443, &targetUri_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 

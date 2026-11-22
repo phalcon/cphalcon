@@ -78,9 +78,17 @@ PHP_METHOD(Phalcon_Db_Geometry_LineString, __construct)
 	} else {
 		}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 640, &points);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, srid);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 641, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

@@ -356,6 +356,9 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, setDefaultTask)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&taskName_zv, taskName);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 513, &taskName_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**
@@ -384,6 +387,10 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, setOptions)
 	zephir_fetch_params(1, 1, 0, &options_param);
 	zephir_get_arrval(&options, options_param);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 511, &options);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -407,6 +414,9 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, setTaskName)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&taskName_zv, taskName);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 514, &taskName_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**
@@ -429,6 +439,9 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, setTaskSuffix)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&taskSuffix_zv, taskSuffix);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 515, &taskSuffix_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**

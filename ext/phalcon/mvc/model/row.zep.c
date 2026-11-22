@@ -217,6 +217,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset)
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, readAttribute)
 {
+	zend_bool _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval attribute_zv, value;
 	zend_string *attribute = NULL;
@@ -232,7 +233,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, readAttribute)
 	zephir_memory_observe(&attribute_zv);
 	ZVAL_STR_COPY(&attribute_zv, attribute);
 	zephir_memory_observe(&value);
-	if (!(zephir_fetch_property_zval(&value, this_ptr, &attribute_zv, PH_SILENT_CC))) {
+	_0 = zephir_fetch_property_zval(&value, this_ptr, &attribute_zv, PH_SILENT_CC);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (!(_0)) {
 		RETURN_MM_NULL();
 	}
 	RETURN_CCTOR(&value);
@@ -266,7 +272,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, toArray)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 110, this_ptr);
+	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 109, this_ptr);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -295,5 +301,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, writeAttribute)
 	value = ZEND_CALL_ARG(execute_data, 2);
 	ZVAL_STR(&attribute_zv, attribute);
 	zephir_update_property_zval_zval(this_ptr, &attribute_zv, value);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 

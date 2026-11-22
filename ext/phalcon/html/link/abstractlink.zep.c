@@ -146,15 +146,31 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLink, __construct)
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0], &attributes);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 227, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_1);
 	object_init_ex(&_1, phalcon_support_collection_ce);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &_1, "__construct", &_zephir_call_cache[1]);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 228, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 229, &href_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_METHOD_CACHED(&_2, this_ptr, "hrefIsTemplated", &_zephir_call_cache[2], &href_zv);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 230, &_2);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (1 != ZEPHIR_IS_EMPTY(&rel_zv)) {
 		zephir_read_property_cached(&_3$$3, this_ptr, _zephir_prop_1, 228, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
@@ -346,9 +362,17 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLink, doWithHref)
 		return;
 	}
 	zephir_update_property_zval_cached(&newInstance, _zephir_prop_0, 0, &href_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "hrefIsTemplated", &_zephir_call_cache[0], &href_zv);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(&newInstance, _zephir_prop_1, 0, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_CCTOR(&newInstance);
 }
 
@@ -501,13 +525,13 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLink, hrefIsTemplated)
 	ZVAL_STR_COPY(&href_zv, href);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "{");
-	ZEPHIR_CALL_FUNCTION(&_1, "mb_strpos", &_2, 65, &href_zv, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "mb_strpos", &_2, 64, &href_zv, &_0);
 	zephir_check_call_status();
 	_3 = !ZEPHIR_IS_FALSE_IDENTICAL(&_1);
 	if (_3) {
 		ZEPHIR_INIT_NVAR(&_0);
 		ZVAL_STRING(&_0, "}");
-		ZEPHIR_CALL_FUNCTION(&_4, "mb_strpos", &_2, 65, &href_zv, &_0);
+		ZEPHIR_CALL_FUNCTION(&_4, "mb_strpos", &_2, 64, &href_zv, &_0);
 		zephir_check_call_status();
 		_3 = !ZEPHIR_IS_FALSE_IDENTICAL(&_4);
 	}

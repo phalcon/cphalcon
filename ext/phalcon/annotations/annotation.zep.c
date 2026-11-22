@@ -140,6 +140,10 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct)
 			return;
 		}
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 405, &_1$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	zephir_memory_observe(&exprArguments);
 	_2 = zephir_array_isset_string_fetch(&exprArguments, &reflectionData, SL("arguments"), 0);
@@ -240,7 +244,15 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct)
 		}
 		ZEPHIR_INIT_NVAR(&argument);
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 406, &arguments);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 407, &exprArguments);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	ZEPHIR_MM_RESTORE();
 }

@@ -204,6 +204,9 @@ PHP_METHOD(Phalcon_Mvc_View_Traits_ViewParamsTrait, setContent)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&content_zv, content);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1247, &content_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 

@@ -532,7 +532,6 @@ PHP_METHOD(Phalcon_Tag, formLegacy)
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		_1$$5;
 	}
 	_2 = zephir_array_isset_value_string(&params, SL("method"));
 	if (UNEXPECTED(EG(exception))) {
@@ -1071,7 +1070,7 @@ PHP_METHOD(Phalcon_Tag, getTitle)
 		}
 		ZEPHIR_CPY_WRT(&documentPrependTitle, &_4$$3);
 		if (!(ZEPHIR_IS_EMPTY(&documentPrependTitle))) {
-			ZEPHIR_CALL_FUNCTION(&tmp$$4, "array_reverse", NULL, 83, &documentPrependTitle);
+			ZEPHIR_CALL_FUNCTION(&tmp$$4, "array_reverse", NULL, 82, &documentPrependTitle);
 			zephir_check_call_status();
 			if (Z_TYPE_P(&tmp$$4) == IS_STRING) {
 				ZEPHIR_INIT_VAR(&_6$$4);
@@ -1954,7 +1953,7 @@ PHP_METHOD(Phalcon_Tag, linkTo)
 	zephir_check_call_status();
 	ZEPHIR_CALL_SELF_CACHED(&_9, "toStringValue", &_zephir_call_cache[3], text);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_10, "htmlspecialchars", NULL, 63, &_9);
+	ZEPHIR_CALL_FUNCTION(&_10, "htmlspecialchars", NULL, 62, &_9);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_11);
 	ZEPHIR_CONCAT_SVS(&_11, ">", &_10, "</a>");
@@ -2130,7 +2129,6 @@ PHP_METHOD(Phalcon_Tag, preload)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	_1;
 	ZEPHIR_CALL_SELF_CACHED(&container, "getDI", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	_2 = zephir_is_true(&container);
@@ -3622,7 +3620,7 @@ PHP_METHOD(Phalcon_Tag, textArea)
 	ZVAL_STRING(&_6, "<textarea");
 	ZEPHIR_CALL_SELF_CACHED(&code, "renderAttributes", &_zephir_call_cache[1], &_6, &params);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_7, "htmlspecialchars", NULL, 63, &content);
+	ZEPHIR_CALL_FUNCTION(&_7, "htmlspecialchars", NULL, 62, &content);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_8);
 	ZEPHIR_CONCAT_SVS(&_8, ">", &_7, "</textarea>");

@@ -178,6 +178,10 @@ PHP_METHOD(Phalcon_Cli_Router_Route, __construct)
 		return;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 529, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "reConfigure", &_zephir_call_cache[0], &pattern_zv, paths);
 	zephir_check_call_status();
 	zephir_memory_observe(&_1);
@@ -194,6 +198,10 @@ PHP_METHOD(Phalcon_Cli_Router_Route, __construct)
 		return;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 530, &_2);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_LONG(&_3, 1);
 	ZEPHIR_INIT_VAR(&_4);
@@ -333,6 +341,10 @@ PHP_METHOD(Phalcon_Cli_Router_Route, beforeMatch)
 		return;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 532, callback);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 
@@ -964,7 +976,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, getReversedPaths)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("array_flip", NULL, 80, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_flip", NULL, 79, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -1222,8 +1234,20 @@ PHP_METHOD(Phalcon_Cli_Router_Route, reConfigure)
 		ZEPHIR_CPY_WRT(&compiledPattern, &pattern);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 531, &pattern);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 534, &compiledPattern);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 533, &routePaths);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -1247,6 +1271,9 @@ PHP_METHOD(Phalcon_Cli_Router_Route, setDescription)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&description_zv, description);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 535, &description_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 
@@ -1279,6 +1306,9 @@ PHP_METHOD(Phalcon_Cli_Router_Route, setName)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&name_zv, name);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 536, &name_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 

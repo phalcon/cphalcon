@@ -175,6 +175,10 @@ PHP_METHOD(Phalcon_Container_Container, __construct)
 	}
 
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 540, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_create_array(&_1, 3, 0);
 	ZEPHIR_INIT_VAR(&_2);
@@ -202,6 +206,10 @@ PHP_METHOD(Phalcon_Container_Container, __construct)
 
 	zephir_array_fast_append(&_1, &_2);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 541, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -1431,8 +1439,14 @@ PHP_METHOD(Phalcon_Container_Container, setAutowire)
 	zephir_fetch_params_without_memory_grow(1, 0, &enabled_param);
 	if (enabled) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 547, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 547, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	}
 	RETURN_THISW();
 }
@@ -1581,7 +1595,7 @@ PHP_METHOD(Phalcon_Container_Container, setTag)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&_5, "in_array", NULL, 37, &serviceName_zv, &_4, &__$true);
+	ZEPHIR_CALL_FUNCTION(&_5, "in_array", NULL, 36, &serviceName_zv, &_4, &__$true);
 	zephir_check_call_status();
 	if (!zephir_is_true(&_5)) {
 		zephir_update_property_array_multi(this_ptr, SL("tags"), &serviceName_zv, SL("za"), 2, &tag_zv);

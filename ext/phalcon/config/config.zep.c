@@ -321,6 +321,10 @@ PHP_METHOD(Phalcon_Config_Config, setPathDelimiter)
 	ZVAL_STR_COPY(&delimiter_zv, delimiter);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 55, &delimiter_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 

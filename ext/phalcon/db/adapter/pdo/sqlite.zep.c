@@ -735,7 +735,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns)
 					}
 					ZEPHIR_INIT_NVAR(&_47$$34);
 					ZVAL_STRING(&_47$$34, "null");
-					ZEPHIR_CALL_FUNCTION(&_48$$34, "strcasecmp", &_49, 36, &_46$$34, &_47$$34);
+					ZEPHIR_CALL_FUNCTION(&_48$$34, "strcasecmp", &_49, 35, &_46$$34, &_47$$34);
 					zephir_check_call_status();
 					_45$$34 = !ZEPHIR_IS_LONG_IDENTICAL(&_48$$34, 0);
 				}
@@ -1168,7 +1168,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns)
 						}
 						ZEPHIR_INIT_NVAR(&_99$$67);
 						ZVAL_STRING(&_99$$67, "null");
-						ZEPHIR_CALL_FUNCTION(&_100$$67, "strcasecmp", &_49, 36, &_98$$67, &_99$$67);
+						ZEPHIR_CALL_FUNCTION(&_100$$67, "strcasecmp", &_49, 35, &_98$$67, &_99$$67);
 						zephir_check_call_status();
 						_97$$67 = !ZEPHIR_IS_LONG_IDENTICAL(&_100$$67, 0);
 					}

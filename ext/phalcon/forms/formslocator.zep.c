@@ -127,6 +127,10 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, __construct)
 	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "getDefaultServices", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 813, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_is_iterable(&definitions, 0, "phalcon/Forms/FormsLocator.zep", 85);
 	if (Z_TYPE_P(&definitions) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&definitions), _2, _3, _1)

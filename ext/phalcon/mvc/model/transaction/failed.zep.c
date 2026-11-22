@@ -82,6 +82,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct)
 		record = &__$null;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1148, record);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_mvc_model_transaction_failed_ce, getThis(), "__construct", &_zephir_call_cache[0], &message_zv);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

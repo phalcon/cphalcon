@@ -79,6 +79,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, close)
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1291, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -250,8 +254,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, popMessage)
 	if (ZEPHIR_IS_EMPTY(&messages)) {
 		RETURN_MM_NULL();
 	}
+	ZEPHIR_OBSERVE_IF_UNDEF(&messages);
 	ZEPHIR_MAKE_REF(&messages);
-	ZEPHIR_CALL_FUNCTION(&message, "array_shift", NULL, 108, &messages);
+	ZEPHIR_CALL_FUNCTION(&message, "array_shift", NULL, 107, &messages);
 	ZEPHIR_UNREF(&messages);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("queues"), &queueName_zv, &messages);

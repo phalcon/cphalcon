@@ -105,13 +105,25 @@ PHP_METHOD(Phalcon_ADR_Responder_Redirect, __construct)
 	} else {
 		}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 370, &url_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, status);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 371, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	if (external) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 372, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 372, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	}
 }
 

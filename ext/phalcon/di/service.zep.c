@@ -105,10 +105,19 @@ PHP_METHOD(Phalcon_Di_Service, __construct)
 	} else {
 		}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 689, definition);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	if (shared) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 690, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 690, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	}
 }
 
@@ -368,11 +377,23 @@ PHP_METHOD(Phalcon_Di_Service, resolve)
 	}
 	if (zephir_is_true(&_3)) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 691, &instance);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	if (1) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 692, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 692, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	RETURN_CCTOR(&instance);
 }
@@ -396,6 +417,9 @@ PHP_METHOD(Phalcon_Di_Service, setDefinition)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &definition);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 689, definition);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**
@@ -503,8 +527,14 @@ PHP_METHOD(Phalcon_Di_Service, setShared)
 	zephir_fetch_params_without_memory_grow(1, 0, &shared_param);
 	if (shared) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 690, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 690, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	}
 }
 
@@ -527,5 +557,8 @@ PHP_METHOD(Phalcon_Di_Service, setSharedInstance)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &sharedInstance);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 691, sharedInstance);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 

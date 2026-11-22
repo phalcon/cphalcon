@@ -609,6 +609,10 @@ PHP_METHOD(Phalcon_Filter_Filter, init)
 	ZEPHIR_CALL_FUNCTION(&_1, "array_replace", NULL, 5, &_0, &mapper);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 767, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	_2 = zephir_isempty_property_fast(this_ptr, _zephir_prop_1);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
@@ -623,6 +627,10 @@ PHP_METHOD(Phalcon_Filter_Filter, init)
 		ZEPHIR_CALL_FUNCTION(&_4$$3, "array_diff_key", NULL, 6, &_3$$3, &mapper);
 		zephir_check_call_status();
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 768, &_4$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	ZEPHIR_MM_RESTORE();
 }

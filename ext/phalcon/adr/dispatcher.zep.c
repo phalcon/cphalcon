@@ -122,8 +122,20 @@ PHP_METHOD(Phalcon_ADR_Dispatcher, __construct)
 		zephir_get_arrval(&globalMiddleware, globalMiddleware_param);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 349, container);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 350, events);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 351, &globalMiddleware);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -367,6 +379,10 @@ PHP_METHOD(Phalcon_ADR_Dispatcher, resolveGlobal)
 		ZEPHIR_CALL_METHOD_CACHED(&_1$$3, this_ptr, "resolveAll", &_zephir_call_cache[0], &_2$$3);
 		zephir_check_call_status();
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 352, &_1$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	RETURN_MM_MEMBER_TYPED(getThis(), "resolvedGlobal", IS_ARRAY);
 }

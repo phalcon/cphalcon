@@ -177,6 +177,9 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setFinalTime)
 	ZVAL_UNDEF(&_0);
 	ZVAL_DOUBLE(&_0, finalTime);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 667, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 
@@ -202,6 +205,9 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setInitialTime)
 	ZVAL_UNDEF(&_0);
 	ZVAL_DOUBLE(&_0, initialTime);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 668, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 
@@ -231,6 +237,10 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlBindTypes)
 	zephir_fetch_params(1, 1, 0, &sqlBindTypes_param);
 	zephir_get_arrval(&sqlBindTypes, sqlBindTypes_param);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 669, &sqlBindTypes);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 
@@ -254,6 +264,9 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlStatement)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&sqlStatement_zv, sqlStatement);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 670, &sqlStatement_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 
@@ -283,6 +296,10 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlVariables)
 	zephir_fetch_params(1, 1, 0, &sqlVariables_param);
 	zephir_get_arrval(&sqlVariables, sqlVariables_param);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 671, &sqlVariables);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 

@@ -444,6 +444,10 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build)
 				ZEPHIR_CALL_METHOD_CACHED(&_46$$28, this_ptr, "buildParameter", &_zephir_call_cache[22], container, &propertyPosition, &propertyValue);
 				zephir_check_call_status();
 				zephir_update_property_zval_zval(&instance, &propertyName, &_46$$28);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			} ZEND_HASH_FOREACH_END();
 		} else {
 			ZEPHIR_CALL_METHOD_CACHED(NULL, _36$$25, "rewind", &_zephir_call_cache[23]);
@@ -507,6 +511,10 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build)
 					ZEPHIR_CALL_METHOD_CACHED(&_54$$32, this_ptr, "buildParameter", &_zephir_call_cache[31], container, &propertyPosition, &propertyValue);
 					zephir_check_call_status();
 					zephir_update_property_zval_zval(&instance, &propertyName, &_54$$32);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 			}
 		}
 		ZEPHIR_INIT_NVAR(&property);

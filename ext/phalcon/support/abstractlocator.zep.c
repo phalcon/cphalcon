@@ -113,9 +113,17 @@ PHP_METHOD(Phalcon_Support_AbstractLocator, __construct)
 		return;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 136, container);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_METHOD_CACHED(&_1, this_ptr, "getServices", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 137, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_is_iterable(&services, 0, "phalcon/Support/AbstractLocator.zep", 59);
 	if (Z_TYPE_P(&services) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&services), _3, _4, _2)
@@ -377,7 +385,7 @@ PHP_METHOD(Phalcon_Support_AbstractLocator, register)
 	ZVAL_STR_COPY(&definition_zv, definition);
 	ZEPHIR_CALL_METHOD_CACHED(&interfaceClass, this_ptr, "getInterfaceClass", &_zephir_call_cache[0]);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_0, "is_subclass_of", NULL, 42, &definition_zv, &interfaceClass);
+	ZEPHIR_CALL_FUNCTION(&_0, "is_subclass_of", NULL, 41, &definition_zv, &interfaceClass);
 	zephir_check_call_status();
 	if (!zephir_is_true(&_0)) {
 		ZEPHIR_CALL_METHOD_CACHED(&exceptionClass, this_ptr, "getExceptionClass", &_zephir_call_cache[1]);

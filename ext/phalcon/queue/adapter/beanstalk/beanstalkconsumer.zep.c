@@ -93,7 +93,15 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &connection, &queue);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1272, connection);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1273, queue);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_METHOD_CACHED(&tube, queue, "getQueueName", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD_CACHED(NULL, connection, "watchTube", &_zephir_call_cache[1], &tube);

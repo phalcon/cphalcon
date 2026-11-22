@@ -254,6 +254,9 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&controllerName_zv, controllerName);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 989, &controllerName_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 
@@ -277,6 +280,9 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerSuffix)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&controllerSuffix_zv, controllerSuffix);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 990, &controllerSuffix_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 
@@ -300,6 +306,9 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&controllerName_zv, controllerName);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 991, &controllerName_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 

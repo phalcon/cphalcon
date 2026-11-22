@@ -295,6 +295,10 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, __construct)
 		return;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 76, &connectionId);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_LONG(&_0, 1);
 	ZEPHIR_INIT_VAR(&_1);
@@ -332,6 +336,10 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, __construct)
 		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(&_4$$4, &dialectClass);
 		zephir_check_call_status();
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 78, &_4$$4);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else if (Z_TYPE_P(&dialectClass) == IS_OBJECT) {
 		if (UNEXPECTED(!((zephir_instance_of_ev(&dialectClass, phalcon_db_dialectinterface_ce))))) {
 			ZEPHIR_INIT_VAR(&_5$$6);
@@ -345,8 +353,16 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, __construct)
 			return;
 		}
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 78, &dialectClass);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 79, &descriptor);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	_7 = zephir_array_isset_value_string(&descriptor, SL("options"));
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
@@ -3864,6 +3880,9 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, setEventsManager)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &eventsManager);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 81, eventsManager);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**
@@ -3885,6 +3904,9 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, setDialect)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &dialect);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 78, dialect);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**
@@ -3957,8 +3979,16 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, setNestedTransactionsWithSavepoin
 	}
 	if (nestedTransactionsWithSavepoints) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 82, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 82, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	RETURN_THIS();
 }

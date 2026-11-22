@@ -279,6 +279,10 @@ PHP_METHOD(Phalcon_Traits_Factory_FactoryTrait, init)
 	zephir_check_call_status();
 	zephir_fast_array_merge(&_0, &_1, &services);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1409, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

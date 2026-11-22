@@ -89,11 +89,19 @@ PHP_METHOD(Phalcon_Db_RawValue, __construct)
 		ZEPHIR_INIT_NVAR(&_0$$3);
 		ZVAL_STRING(&_0$$3, "''");
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 672, &_0$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else if (Z_TYPE_P(value) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_1$$4);
 		ZEPHIR_INIT_NVAR(&_1$$4);
 		ZVAL_STRING(&_1$$4, "NULL");
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 672, &_1$$4);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
 		zephir_cast_to_string(&_2$$5, value);
 		if (UNEXPECTED(EG(exception))) {
@@ -101,6 +109,10 @@ PHP_METHOD(Phalcon_Db_RawValue, __construct)
 			return;
 		}
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 672, &_2$$5);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	ZEPHIR_MM_RESTORE();
 }

@@ -74,7 +74,13 @@ PHP_METHOD(Phalcon_ADR_EventfulHandler, __construct)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(2, 0, &action, &events);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 357, action);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 358, events);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 PHP_METHOD(Phalcon_ADR_EventfulHandler, __invoke)

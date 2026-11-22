@@ -86,10 +86,19 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamConsumer, __construct)
 	} else {
 		}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1305, context);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1306, queue);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, pollInterval);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1307, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**

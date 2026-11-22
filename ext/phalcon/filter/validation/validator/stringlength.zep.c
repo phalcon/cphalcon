@@ -205,7 +205,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength, __construct)
 			ZVAL_COPY(&value, _2);
 			ZEPHIR_INIT_NVAR(&_5$$5);
 			ZVAL_STRING(&_5$$5, "min");
-			ZEPHIR_CALL_FUNCTION(&_6$$5, "strcasecmp", &_7, 36, &key, &_5$$5);
+			ZEPHIR_CALL_FUNCTION(&_6$$5, "strcasecmp", &_7, 35, &key, &_5$$5);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_LONG_IDENTICAL(&_6$$5, 0)) {
 				ZEPHIR_CPY_WRT(&messageMinimum, &message);
@@ -281,7 +281,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength, __construct)
 			} else {
 				ZEPHIR_INIT_NVAR(&_5$$5);
 				ZVAL_STRING(&_5$$5, "max");
-				ZEPHIR_CALL_FUNCTION(&_8$$5, "strcasecmp", &_7, 36, &key, &_5$$5);
+				ZEPHIR_CALL_FUNCTION(&_8$$5, "strcasecmp", &_7, 35, &key, &_5$$5);
 				zephir_check_call_status();
 				if (ZEPHIR_IS_LONG_IDENTICAL(&_8$$5, 0)) {
 					ZEPHIR_CPY_WRT(&messageMaximum, &message);
@@ -386,7 +386,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength, __construct)
 			zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_21$$13);
 				ZVAL_STRING(&_21$$13, "min");
-				ZEPHIR_CALL_FUNCTION(&_22$$13, "strcasecmp", &_7, 36, &key, &_21$$13);
+				ZEPHIR_CALL_FUNCTION(&_22$$13, "strcasecmp", &_7, 35, &key, &_21$$13);
 				zephir_check_call_status();
 				if (ZEPHIR_IS_LONG_IDENTICAL(&_22$$13, 0)) {
 					ZEPHIR_CPY_WRT(&messageMinimum, &message);
@@ -462,7 +462,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_StringLength, __construct)
 				} else {
 					ZEPHIR_INIT_NVAR(&_21$$13);
 					ZVAL_STRING(&_21$$13, "max");
-					ZEPHIR_CALL_FUNCTION(&_23$$13, "strcasecmp", &_7, 36, &key, &_21$$13);
+					ZEPHIR_CALL_FUNCTION(&_23$$13, "strcasecmp", &_7, 35, &key, &_21$$13);
 					zephir_check_call_status();
 					if (ZEPHIR_IS_LONG_IDENTICAL(&_23$$13, 0)) {
 						ZEPHIR_CPY_WRT(&messageMaximum, &message);

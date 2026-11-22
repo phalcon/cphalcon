@@ -116,6 +116,10 @@ PHP_METHOD(Phalcon_Annotations_Reflection, __construct)
 		zephir_get_arrval(&reflectionData, reflectionData_param);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 419, &reflectionData);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -171,6 +175,10 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getClassAnnotations)
 			ZEPHIR_CALL_METHOD_CACHED(NULL, &_3$$4, "__construct", &_zephir_call_cache[0], &reflectionClass);
 			zephir_check_call_status();
 			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 420, &_3$$4);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 		}
 	}
 	RETURN_MM_MEMBER(getThis(), "classAnnotations");

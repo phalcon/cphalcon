@@ -110,10 +110,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct)
 	}
 	if (success) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1113, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1113, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1114, model);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**

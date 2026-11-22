@@ -89,8 +89,16 @@ PHP_METHOD(Phalcon_Html_Helper_Label, __construct)
 	zephir_check_call_status();
 	if (forceRaw) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 870, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 870, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	ZEPHIR_MM_RESTORE();
 }

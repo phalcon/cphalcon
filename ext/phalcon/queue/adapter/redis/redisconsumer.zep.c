@@ -76,7 +76,13 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConsumer, __construct)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(2, 0, &context, &queue);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1295, context);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1296, queue);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**

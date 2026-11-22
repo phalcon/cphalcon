@@ -116,8 +116,20 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_StaticCall, __construct)
 	ZVAL_STR(&method_zv, method);
 	zephir_get_arrval(&arguments, arguments_param);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 579, className);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 580, &method_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 581, &arguments);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
