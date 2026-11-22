@@ -34,11 +34,17 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 > **Upgrade note:** `Phalcon\Encryption\Security::hash()` now uses the work factor (`getWorkFactor()`, default `10`) when the `cost` option is empty (`null`, `0`, `'0'`, `false` or `''`), the same as when the option is missing. Before, it used the cost `4`. New hashes for these values take longer to make. `checkHash()` still verifies the older hashes, because each hash keeps its own cost. [#17764](https://github.com/phalcon/cphalcon/issues/17764)
 
+> **Upgrade note:** A callback that cannot be called (an unknown function or method, a method that is not public, or an object with no `__invoke()`) now throws the PHP `TypeError` of `call_user_func()` or `call_user_func_array()`. Before, Phalcon gave a warning and returned `null`. This comes from Zephir 1.9.0. It applies, for example, to the `Phalcon\Di` service definitions and `calls`, the `Phalcon\Filter\Filter` sanitizers, the `Phalcon\Html\TagFactory` and `Phalcon\Support\HelperFactory` helpers, the dispatcher actions, the `Phalcon\Mvc\Micro` handlers, the router converters and the `Phalcon\Mvc\Model\Resultset::filter()` callback. Code that checks for the warning or for `null` must catch `TypeError`. [#17766](https://github.com/phalcon/cphalcon/issues/17766)
+
+> **Upgrade note:** `Phalcon\Mvc\Model\Resultset\Simple` and `Phalcon\Mvc\Model\Resultset\Complex` no longer put their cache in the serialized data (`serialize()` and `__serialize()`). A resultset that comes from the models cache, or from `unserialize()`, now returns `null` from `getCache()`. Before, it returned a copy of the cache with no connection. Code that needs the cache must get the `modelsCache` service from the container. In data that an older version serialized, the cache entry is ignored. [#17766](https://github.com/phalcon/cphalcon/issues/17766)
+
 ### Tools
 
-- Zephir 1.8.0
+- Zephir 1.9.0
 
 ### Changed
+
+- A callback that cannot be called throws `TypeError` instead of a warning and `null`. [#17766](https://github.com/phalcon/cphalcon/issues/17766)
 
 - Faster ACL build in `Phalcon\Acl\Adapter\Memory`. [#17701](https://github.com/phalcon/cphalcon/issues/17701)
 - Faster HTML output of the `Phalcon\Flash` messages with no icon classes. [#17712](https://github.com/phalcon/cphalcon/issues/17712)
@@ -64,6 +70,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 ### Fixed
 
 - PHP 8.4+ builds from `build/phalcon` (PECL, PIE, `build/install`) calling the userland `json_encode()` and `json_decode()`, because `config.m4` checked for `HAVE_JSON`, which PHP 8.4 removed. [#16523](https://github.com/phalcon/cphalcon/issues/16523)
+- PHP 8.6 builds failing because PHP 8.6 removed `zval_dtor()`: the PHQL parser, the Volt parser and `Phalcon\Mvc\Url` now use `zval_ptr_dtor_nogc()`. [#17766](https://github.com/phalcon/cphalcon/issues/17766)
 - PHP 8.6 deprecation for session handlers without `create_sid()`: `Phalcon\Session\Adapter\AbstractAdapter` and `Phalcon\Session\Adapter\Noop` now implement `SessionIdInterface` and `create_sid()`. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
 - PHP 8.6 deprecation of `doubleval()`: `Phalcon\Encryption\Security\Uuid\Version1`, `Phalcon\Encryption\Security\Uuid\Version6` and `Phalcon\Mvc\Model` now use `floatval()`. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
 - PHP 8.6 deprecation of `spl_object_hash()`: `Phalcon\Dispatcher\AbstractDispatcher` and `Phalcon\Html\Link\AbstractLinkProvider` now use `spl_object_id()`; the keys returned by `getLinks()` are now integers. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
@@ -82,6 +89,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - `Phalcon\Mvc\Model\Query\Builder::__construct()` crashing with OPcache when the parameters have empty `bind` or `bindTypes` arrays. [#17725](https://github.com/phalcon/cphalcon/issues/17725)
 - `Phalcon\Mvc\Model\Query` giving an "Undefined array key" warning for a join with no `ON` condition when `enable_implicit_joins` is disabled; the query still throws `Phalcon\Db\Exceptions\InvalidSqlExpression`. [#816](https://github.com/phalcon/phalcon/issues/816)
 - `Phalcon\Mvc\Model\Query` reusing a cached intermediate representation that was built with the other value of the `enable_implicit_joins` option. [#800](https://github.com/phalcon/phalcon/issues/800)
+- `Phalcon\Mvc\Model\Resultset\Complex` and `Phalcon\Mvc\Model\Resultset\Simple` putting their cache in the serialized data, which failed for a cache that cannot be serialized, such as a Redis connection. A resultset from the cache now has no cache (`getCache()` returns `null`). [#17766](https://github.com/phalcon/cphalcon/issues/17766)
 - `Phalcon\Mvc\View\Engine\Volt\Compiler::compile()` rendering serialized blocks for the second child of a layout when `stat` is `false`. [#17674](https://github.com/phalcon/cphalcon/issues/17674)
 - `Phalcon\Mvc\View\Engine\Volt\Compiler::compileCall()` silently dropping `{% call %}` blocks instead of throwing an exception. [#17676](https://github.com/phalcon/cphalcon/issues/17676)
 - `Phalcon\Queue\Consumer\Worker::handleSignal()` throwing an `ArgumentCountError` when the worker receives a signal. [#17719](https://github.com/phalcon/cphalcon/issues/17719)
