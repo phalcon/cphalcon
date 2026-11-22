@@ -14,14 +14,13 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Mvc\Model\Resultset;
 
 use Phalcon\Tests\AbstractDatabaseTestCase;
-use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
+use TypeError;
 
 #[Group('phql')]
 final class FilterTest extends AbstractDatabaseTestCase
 {
-    use ErrorHandlerTrait;
     use ResultsetFixtureTrait;
 
     public function setUp(): void
@@ -67,8 +66,8 @@ final class FilterTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * A filter that cannot be called gives a warning and null, the same as
-     * cphalcon. An empty resultset does not call the filter.
+     * A filter that cannot be called throws the TypeError of
+     * call_user_func_array(). An empty resultset does not call the filter.
      *
      * @issue  https://github.com/phalcon/phalcon/issues/815
      * @author Phalcon Team <team@phalcon.io>
@@ -82,17 +81,14 @@ final class FilterTest extends AbstractDatabaseTestCase
         $simple = $this->getResultset('simple');
         $empty  = $this->getResultset('empty');
 
-        [$actual, $messages] = $this->collectErrors(
-            static fn () => [
-                $simple->filter('unknownFilterFunction'),
-                $empty->filter('unknownFilterFunction'),
-            ]
+        $this->assertSame([], $empty->filter('unknownFilterFunction'));
+
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage(
+            'call_user_func_array(): Argument #1 ($callback) must be a valid callback, '
+            . 'function "unknownFilterFunction" not found or invalid function name'
         );
 
-        $this->assertSame([null, []], $actual);
-        $this->assertSame(
-            ['function "unknownFilterFunction" not found or invalid function name'],
-            $messages
-        );
+        $simple->filter('unknownFilterFunction');
     }
 }

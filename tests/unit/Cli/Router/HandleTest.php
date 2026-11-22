@@ -17,14 +17,12 @@ use Phalcon\Cli\Router;
 use Phalcon\Cli\Router\Exception;
 use Phalcon\Cli\Router\Route;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
-use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
+use TypeError;
 
 final class HandleTest extends AbstractUnitTestCase
 {
-    use ErrorHandlerTrait;
-
     /**
      * @return array[]
      */
@@ -556,8 +554,9 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
-     * A converter that cannot be called gives a warning and handle() stops
-     * at once, the same as cphalcon. The route is not matched.
+     * A converter that cannot be called throws the TypeError of
+     * call_user_func_array() and handle() stops at once. The route is not
+     * matched.
      *
      * @issue  https://github.com/phalcon/phalcon/issues/815
      * @author Phalcon Team <team@phalcon.io>
@@ -570,21 +569,23 @@ final class HandleTest extends AbstractUnitTestCase
                ->convert('task', 'unknownConverterFunction')
         ;
 
-        [$actual, $messages] = $this->collectErrors(
-            static fn () => $router->handle('hello world')
-        );
+        try {
+            $router->handle('hello world');
+            $this->fail('No TypeError');
+        } catch (TypeError $ex) {
+            $this->assertSame(
+                'call_user_func_array(): Argument #1 ($callback) must be a valid callback, '
+                . 'function "unknownConverterFunction" not found or invalid function name',
+                $ex->getMessage()
+            );
+        }
 
-        $this->assertNull($actual);
-        $this->assertSame(
-            ['function "unknownConverterFunction" not found or invalid function name'],
-            $messages
-        );
         $this->assertFalse($router->wasMatched());
     }
 
     /**
-     * A converter of a path that is not in the matches gives the same
-     * warning.
+     * A converter of a path that is not in the matches throws the same
+     * TypeError.
      *
      * @issue  https://github.com/phalcon/phalcon/issues/815
      * @author Phalcon Team <team@phalcon.io>
@@ -597,15 +598,17 @@ final class HandleTest extends AbstractUnitTestCase
                ->convert('action', [new stdClass(), 'unknownMethod'])
         ;
 
-        [$actual, $messages] = $this->collectErrors(
-            static fn () => $router->handle('hello world')
-        );
+        try {
+            $router->handle('hello world');
+            $this->fail('No TypeError');
+        } catch (TypeError $ex) {
+            $this->assertSame(
+                'call_user_func_array(): Argument #1 ($callback) must be a valid callback, '
+                . 'class stdClass does not have a method "unknownMethod"',
+                $ex->getMessage()
+            );
+        }
 
-        $this->assertNull($actual);
-        $this->assertSame(
-            ['class stdClass does not have a method "unknownMethod"'],
-            $messages
-        );
         $this->assertFalse($router->wasMatched());
     }
 

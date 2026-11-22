@@ -15,14 +15,12 @@ namespace Phalcon\Tests\Unit\Container\Resolver\Lazy;
 
 use Phalcon\Container\Resolver\Lazy\NewCall;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
-use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 use Phalcon\Tests\Unit\Container\Resolver\Fake\FakeContainerWithService;
 use Phalcon\Tests\Unit\Container\Resolver\Fake\FakeServiceWithMethod;
+use TypeError;
 
 final class NewCallTest extends AbstractUnitTestCase
 {
-    use ErrorHandlerTrait;
-
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-18
@@ -50,8 +48,8 @@ final class NewCallTest extends AbstractUnitTestCase
     }
 
     /**
-     * A method that cannot be called gives a warning and null, the same as
-     * cphalcon.
+     * A method that cannot be called throws the TypeError of
+     * call_user_func_array().
      *
      * @issue  https://github.com/phalcon/phalcon/issues/815
      * @author Phalcon Team <team@phalcon.io>
@@ -62,15 +60,13 @@ final class NewCallTest extends AbstractUnitTestCase
         $container = new FakeContainerWithService(new FakeServiceWithMethod());
         $lazy      = new NewCall('SomeService', 'unknownMethod', []);
 
-        [$actual, $messages] = $this->collectErrors(
-            static fn () => $lazy->resolve($container)
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage(
+            'call_user_func_array(): Argument #1 ($callback) must be a valid callback, '
+            . 'class ' . FakeServiceWithMethod::class . ' does not have a method "unknownMethod"'
         );
 
-        $this->assertNull($actual);
-        $this->assertSame(
-            ['class ' . FakeServiceWithMethod::class . ' does not have a method "unknownMethod"'],
-            $messages
-        );
+        $lazy->resolve($container);
     }
 
     /**

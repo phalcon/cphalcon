@@ -21,45 +21,48 @@ use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Di\CallsComponent;
 use Phalcon\Tests\Support\Di\PropertiesComponent;
 use Phalcon\Tests\Support\Di\ServiceComponent;
-use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
+use TypeError;
 
 final class BuildTest extends AbstractUnitTestCase
 {
-    use ErrorHandlerTrait;
-
     /**
+     * With arguments, the builder calls call_user_func_array(). Without
+     * arguments, it calls call_user_func().
+     *
      * @return array<string, array{0: array<string, mixed>, 1: string}>
      */
     public static function getNotCallableCalls(): array
     {
-        $missing   = 'class ' . CallsComponent::class . ' does not have a method "missing"';
-        $parameter = [['type' => 'parameter', 'value' => 5]];
+        $function      = 'call_user_func(): Argument #1 ($callback) must be a valid callback, ';
+        $functionArray = 'call_user_func_array(): Argument #1 ($callback) must be a valid callback, ';
+        $missing       = 'class ' . CallsComponent::class . ' does not have a method "missing"';
+        $parameter     = [['type' => 'parameter', 'value' => 5]];
 
         return [
             'missing, arguments'       => [
                 ['method' => 'missing', 'arguments' => $parameter],
-                $missing,
+                $functionArray . $missing,
             ],
             'missing, no arguments'    => [
                 ['method' => 'missing'],
-                $missing,
+                $function . $missing,
             ],
             'missing, empty arguments' => [
                 ['method' => 'missing', 'arguments' => []],
-                $missing,
+                $function . $missing,
             ],
             'private, arguments'       => [
                 ['method' => 'hidden', 'arguments' => $parameter],
-                'cannot access private method ' . CallsComponent::class . '::hidden()',
+                $functionArray . 'cannot access private method ' . CallsComponent::class . '::hidden()',
             ],
             'protected, no arguments'  => [
                 ['method' => 'guarded'],
-                'cannot access protected method ' . CallsComponent::class . '::guarded()',
+                $function . 'cannot access protected method ' . CallsComponent::class . '::guarded()',
             ],
             'not a string'             => [
                 ['method' => 5],
-                'second array member is not a valid method',
+                $function . 'second array member is not a valid method',
             ],
         ];
     }
@@ -360,8 +363,8 @@ final class BuildTest extends AbstractUnitTestCase
     }
 
     /**
-     * A `calls` method that cannot be called gives a warning, the same as
-     * cphalcon. The build stops and returns null.
+     * A `calls` method that cannot be called throws the TypeError of
+     * call_user_func() or call_user_func_array(). The build stops.
      *
      * @param array<string, mixed> $call
      *
@@ -383,12 +386,10 @@ final class BuildTest extends AbstractUnitTestCase
             ],
         ];
 
-        [$actual, $messages] = $this->collectErrors(
-            static fn () => (new Builder())->build(new Di(), $definition)
-        );
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage($expected);
 
-        $this->assertNull($actual);
-        $this->assertSame([$expected], $messages);
+        (new Builder())->build(new Di(), $definition);
     }
 
     /**

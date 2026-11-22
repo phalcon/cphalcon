@@ -15,13 +15,11 @@ namespace Phalcon\Tests\Unit\Container\Resolver\Lazy;
 
 use Phalcon\Container\Resolver\Lazy\FunctionCall;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
-use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 use Phalcon\Tests\Unit\Container\Resolver\Fake\FakeNameContainer;
+use TypeError;
 
 final class FunctionCallTest extends AbstractUnitTestCase
 {
-    use ErrorHandlerTrait;
-
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-04-18
@@ -47,8 +45,8 @@ final class FunctionCallTest extends AbstractUnitTestCase
     }
 
     /**
-     * A function that cannot be called gives a warning and null, the same as
-     * cphalcon.
+     * A function that cannot be called throws the TypeError of
+     * call_user_func_array().
      *
      * @issue  https://github.com/phalcon/phalcon/issues/815
      * @author Phalcon Team <team@phalcon.io>
@@ -59,15 +57,13 @@ final class FunctionCallTest extends AbstractUnitTestCase
         $container = new FakeNameContainer();
         $lazy      = new FunctionCall('unknownFunction', []);
 
-        [$actual, $messages] = $this->collectErrors(
-            static fn () => $lazy->resolve($container)
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage(
+            'call_user_func_array(): Argument #1 ($callback) must be a valid callback, '
+            . 'function "unknownFunction" not found or invalid function name'
         );
 
-        $this->assertNull($actual);
-        $this->assertSame(
-            ['function "unknownFunction" not found or invalid function name'],
-            $messages
-        );
+        $lazy->resolve($container);
     }
 
     /**

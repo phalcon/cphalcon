@@ -16,13 +16,11 @@ namespace Phalcon\Tests\Unit\Filter\Filter;
 use Phalcon\Filter\Filter;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Filter\Sanitize\IPv4;
-use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 use stdClass;
+use TypeError;
 
 final class CustomTest extends AbstractUnitTestCase
 {
-    use ErrorHandlerTrait;
-
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
@@ -34,8 +32,8 @@ final class CustomTest extends AbstractUnitTestCase
     }
 
     /**
-     * A sanitizer with no __invoke() gives a warning and null, the same as
-     * cphalcon.
+     * A sanitizer with no __invoke() throws the TypeError of
+     * call_user_func_array().
      *
      * @issue  https://github.com/phalcon/phalcon/issues/808
      * @author Phalcon Team <team@phalcon.io>
@@ -45,12 +43,13 @@ final class CustomTest extends AbstractUnitTestCase
     {
         $filter = new Filter(['custom' => stdClass::class]);
 
-        [$actual, $messages] = $this->collectErrors(
-            static fn () => $filter->custom('5')
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage(
+            'call_user_func_array(): Argument #1 ($callback) must be a valid callback, '
+            . 'class stdClass does not have a method "__invoke"'
         );
 
-        $this->assertNull($actual);
-        $this->assertSame(['class stdClass does not have a method "__invoke"'], $messages);
+        $filter->custom('5');
     }
 
     /**
@@ -62,16 +61,17 @@ final class CustomTest extends AbstractUnitTestCase
     {
         $filter = new Filter(['custom' => stdClass::class]);
 
-        [$actual, $messages] = $this->collectErrors(
-            static fn () => $filter->sanitize('5', 'custom')
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage(
+            'call_user_func_array(): Argument #1 ($callback) must be a valid callback, '
+            . 'no array or string given'
         );
 
-        $this->assertNull($actual);
-        $this->assertSame(['no array or string given'], $messages);
+        $filter->sanitize('5', 'custom');
     }
 
     /**
-     * Each element of an array value gives a warning and null.
+     * An array value throws the TypeError at its first element.
      *
      * @issue  https://github.com/phalcon/phalcon/issues/808
      * @author Phalcon Team <team@phalcon.io>
@@ -81,12 +81,13 @@ final class CustomTest extends AbstractUnitTestCase
     {
         $filter = new Filter(['custom' => stdClass::class]);
 
-        [$actual, $messages] = $this->collectErrors(
-            static fn () => $filter->sanitize(['5', '6'], 'custom')
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage(
+            'call_user_func_array(): Argument #1 ($callback) must be a valid callback, '
+            . 'no array or string given'
         );
 
-        $this->assertSame([null, null], $actual);
-        $this->assertSame(['no array or string given', 'no array or string given'], $messages);
+        $filter->sanitize(['5', '6'], 'custom');
     }
 
     /**

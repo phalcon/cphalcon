@@ -16,12 +16,10 @@ namespace Phalcon\Tests\Unit\Mvc\Micro\LazyLoader;
 use Phalcon\Mvc\Micro\LazyLoader;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Micro\LazyLoaderHandler;
-use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
+use TypeError;
 
 class CallMethodTest extends AbstractUnitTestCase
 {
-    use ErrorHandlerTrait;
-
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -34,8 +32,8 @@ class CallMethodTest extends AbstractUnitTestCase
     }
 
     /**
-     * A method that cannot be called gives a warning and null, the same as
-     * cphalcon.
+     * A method that cannot be called throws the TypeError of
+     * call_user_func_array().
      *
      * @issue  https://github.com/phalcon/phalcon/issues/815
      * @author Phalcon Team <team@phalcon.io>
@@ -45,14 +43,12 @@ class CallMethodTest extends AbstractUnitTestCase
     {
         $loader = new LazyLoader(LazyLoaderHandler::class);
 
-        [$actual, $messages] = $this->collectErrors(
-            static fn () => $loader->callMethod('unknownMethod', [])
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage(
+            'call_user_func_array(): Argument #1 ($callback) must be a valid callback, '
+            . 'class ' . LazyLoaderHandler::class . ' does not have a method "unknownMethod"'
         );
 
-        $this->assertNull($actual);
-        $this->assertSame(
-            ['class ' . LazyLoaderHandler::class . ' does not have a method "unknownMethod"'],
-            $messages
-        );
+        $loader->callMethod('unknownMethod', []);
     }
 }

@@ -37,8 +37,8 @@ use Phalcon\Html\Helper\Title;
 use Phalcon\Html\Helper\Ul;
 use Phalcon\Html\TagFactory;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
-use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
+use TypeError;
 
 use function uniqid;
 
@@ -49,8 +49,6 @@ use function uniqid;
  */
 final class NewInstanceTest extends AbstractUnitTestCase
 {
-    use ErrorHandlerTrait;
-
     /**
      * Returns the example data
      */
@@ -131,8 +129,8 @@ final class NewInstanceTest extends AbstractUnitTestCase
 
     /**
      * A factory that does not return an object: newInstance() returns the
-     * value, and the helper call gives a warning and null, the same as
-     * cphalcon.
+     * value, and the helper call throws the TypeError of
+     * call_user_func_array().
      *
      * @issue  https://github.com/phalcon/phalcon/issues/818
      * @author Phalcon Team <team@phalcon.io>
@@ -144,12 +142,13 @@ final class NewInstanceTest extends AbstractUnitTestCase
 
         $this->assertSame(5, $factory->newInstance('five'));
 
-        $actual = $this->collectErrors(static fn () => $factory->five());
-
-        $this->assertSame(
-            [null, ['first array member is not a valid class name or object']],
-            $actual
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage(
+            'call_user_func_array(): Argument #1 ($callback) must be a valid callback, '
+            . 'first array member is not a valid class name or object'
         );
+
+        $factory->five();
     }
 
     /**
