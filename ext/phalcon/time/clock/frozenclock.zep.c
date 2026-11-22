@@ -62,7 +62,7 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, __construct)
 		Z_PARAM_OBJECT_OF_CLASS(now, php_date_get_immutable_ce())
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &now);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1406, now);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1404, now);
 	if (UNEXPECTED(EG(exception))) {
 		return;
 	}
@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, adjust)
 
 		/* try_start_1: */
 
-			zephir_read_property_cached(&_4$$4, this_ptr, _zephir_prop_0, 1406, PH_NOISY_CC | PH_READONLY);
+			zephir_read_property_cached(&_4$$4, this_ptr, _zephir_prop_0, 1404, PH_NOISY_CC | PH_READONLY);
 			if (UNEXPECTED(EG(exception))) {
 				goto try_end_1;
 			}
@@ -230,7 +230,7 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, adjust)
 		ZVAL_LONG(&_8$$7, 2);
 		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 92, &_7$$7, &_8$$7);
 		zephir_check_call_status();
-		zephir_read_property_cached(&_8$$7, this_ptr, _zephir_prop_0, 1406, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_8$$7, this_ptr, _zephir_prop_0, 1404, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -255,7 +255,7 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, adjust)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1406, &modified);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1404, &modified);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -290,7 +290,7 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, set)
 		Z_PARAM_OBJECT_OF_CLASS(now, php_date_get_immutable_ce())
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &now);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1406, now);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1404, now);
 	if (UNEXPECTED(EG(exception))) {
 		return;
 	}

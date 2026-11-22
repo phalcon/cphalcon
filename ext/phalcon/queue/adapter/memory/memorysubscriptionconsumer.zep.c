@@ -69,7 +69,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemorySubscriptionConsumer, __construct)
 		Z_PARAM_OBJECT_OF_CLASS(context, phalcon_queue_adapter_memory_memorycontext_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &context);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1293, context);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1291, context);
 	if (UNEXPECTED(EG(exception))) {
 		return;
 	}

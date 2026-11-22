@@ -889,7 +889,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, fetchGroup)
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 1, 0);
 	ZEPHIR_INIT_VAR(&_1);
-	ZVAL_LONG(&_1, (flags | 32));
+	ZVAL_LONG(&_1, (flags | 65536));
 	zephir_array_fast_append(&_0, &_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "fetchAll");

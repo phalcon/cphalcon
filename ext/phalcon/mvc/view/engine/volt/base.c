@@ -198,7 +198,7 @@ int phvolt_parse_view(zval *result, zval *view_code, zval *template_path)
 
 	if (phvolt_internal_parse_view(&result, view_code, template_path, &error_msg) == FAILURE) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, Z_STRVAL_P(error_msg));
-		zval_dtor(error_msg);
+		zval_ptr_dtor_nogc(error_msg);
 		return FAILURE;
 	}
 

@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Queue_QueueFactory, __construct)
 		ZEPHIR_CALL_METHOD_CACHED(NULL, factory, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1332, factory);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1330, factory);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -202,7 +202,7 @@ PHP_METHOD(Phalcon_Queue_QueueFactory, newInstance)
 	} else {
 		zephir_get_arrval(&options, options_param);
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1332, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1330, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;

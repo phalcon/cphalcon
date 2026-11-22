@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render)
 		RETURN_MM_NULL();
 	}
 	if (mustClean) {
-		zephir_read_property_cached(&_9$$7, this_ptr, _zephir_prop_0, 1207, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_9$$7, this_ptr, _zephir_prop_0, 1205, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;

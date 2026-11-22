@@ -37,7 +37,7 @@ env:
   # Windows specific
   TOOLS_DIR: 'C:\tools'
   CACHE_DIR: 'C:\Downloads'
-  PHP_VERSION_LIST: '8.1, 8.2, 8.3, 8.4, 8.5'
+  PHP_VERSION_LIST: '8.1, 8.2, 8.3, 8.4, 8.5, 8.6'
   ARCH_LIST: 'x64, x86'
   TS_LIST: 'nts, ts'
 
@@ -246,6 +246,7 @@ jobs:
           - '8.3'
           - '8.4'
           - '8.5'
+          - '8.6'
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -329,6 +330,7 @@ jobs:
           - '8.3'
           - '8.4'
           - '8.5'
+          - '8.6'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -384,6 +386,7 @@ jobs:
           - '8.3'
           - '8.4'
           - '8.5'
+          - '8.6'
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -435,6 +438,7 @@ jobs:
           - '8.3'
           - '8.4'
           - '8.5'
+          - '8.6'
         ts:
           - 'nts'
           - 'ts'
@@ -574,6 +578,7 @@ jobs:
           - '8.3'
           - '8.4'
           - '8.5'
+          - '8.6'
         ts:
           - 'nts'
           - 'ts'
@@ -623,6 +628,7 @@ jobs:
           - '8.3'
           - '8.4'
           - '8.5'
+          - '8.6'
         ts:
           - 'nts'
           - 'ts'
@@ -753,6 +759,7 @@ jobs:
           - '8.3'
           - '8.4'
           - '8.5'
+          - '8.6'
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -859,6 +866,7 @@ jobs:
           - '8.3'
           - '8.4'
           - '8.5'
+          - '8.6'
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -951,6 +959,7 @@ jobs:
           - '8.3'
           - '8.4'
           - '8.5'
+          - '8.6'
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -1054,6 +1063,7 @@ jobs:
           - '8.3'
           - '8.4'
           - '8.5'
+          - '8.6'
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1

@@ -49,7 +49,7 @@ PHP_METHOD(phalcon_15__closure, __invoke)
 	zephir_read_property(&ioc, this_ptr, SL("ioc"), PH_NOISY_CC);
 	this_ptr = &__$zephir_this;
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1418, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1416, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;

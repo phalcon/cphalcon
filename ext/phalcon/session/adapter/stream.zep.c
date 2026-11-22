@@ -153,12 +153,12 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, __construct)
 	ZVAL_STRING(&_2, "");
 	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "getArrVal", &_zephir_call_cache[0], &options, &_1, &_2);
 	zephir_check_call_status();
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1343, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1341, &_0);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1344, &options);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1342, &options);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, __construct)
 	}
 	ZEPHIR_CALL_METHOD_CACHED(&_7, this_ptr, "toDirSeparator", &_zephir_call_cache[6], &path);
 	zephir_check_call_status();
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1345, &_7);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1343, &_7);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -229,7 +229,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, destroy)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&id_zv);
 	ZVAL_STR_COPY(&id_zv, id);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1345, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1343, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -309,12 +309,12 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &max_lifetime_param);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1345, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1343, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 1343, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 1341, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -504,7 +504,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, read)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&id_zv);
 	ZVAL_STR_COPY(&id_zv, id);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1345, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1343, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -574,7 +574,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, updateTimestamp)
 	ZVAL_STR_COPY(&id_zv, id);
 	zephir_memory_observe(&data_zv);
 	ZVAL_STR_COPY(&data_zv, data);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1345, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1343, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -620,7 +620,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, validateId)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&id_zv);
 	ZVAL_STR_COPY(&id_zv, id);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1345, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1343, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -669,7 +669,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, write)
 	ZVAL_STR_COPY(&id_zv, id);
 	zephir_memory_observe(&data_zv);
 	ZVAL_STR_COPY(&data_zv, data);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1345, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1343, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -765,7 +765,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, getPrefixedName)
 		return;
 	}
 	ZEPHIR_CPY_WRT(name, &_0);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1343, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1341, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;

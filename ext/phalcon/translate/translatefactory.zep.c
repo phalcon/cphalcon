@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, __construct)
 	} else {
 		zephir_get_arrval(&services, services_param);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1417, interpolator);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1415, interpolator);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, newInstance)
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 2, 0);
 	zephir_memory_observe(&_1);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1417, PH_NOISY_CC);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1415, PH_NOISY_CC);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;

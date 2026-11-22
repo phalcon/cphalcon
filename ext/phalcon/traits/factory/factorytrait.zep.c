@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Traits_Factory_FactoryTrait, getCachedInstance)
 	ZVAL_STR_COPY(&name_zv, name);
 	ZEPHIR_INIT_VAR(&arguments);
 	zephir_get_args_from(&arguments, 1);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1408, PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1406, PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Traits_Factory_FactoryTrait, getCachedInstance)
 			return;
 		}
 	}
-	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 1408, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 1406, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -179,7 +179,7 @@ PHP_METHOD(Phalcon_Traits_Factory_FactoryTrait, getService)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1409, PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1407, PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -216,7 +216,7 @@ PHP_METHOD(Phalcon_Traits_Factory_FactoryTrait, getService)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_read_property_cached(&_6, this_ptr, _zephir_prop_0, 1409, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_6, this_ptr, _zephir_prop_0, 1407, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -278,7 +278,7 @@ PHP_METHOD(Phalcon_Traits_Factory_FactoryTrait, init)
 	ZEPHIR_CALL_METHOD_CACHED(&_1, this_ptr, "getServices", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	zephir_fast_array_merge(&_0, &_1, &services);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1409, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1407, &_0);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;

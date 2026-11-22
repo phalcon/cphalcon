@@ -92,12 +92,12 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, __construct)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &connection, &queue);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1272, connection);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1270, connection);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1273, queue);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1271, queue);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, acknowledge)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &message);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1272, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1270, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -189,7 +189,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, receive)
 		}
 		ZVAL_LONG(&seconds, zephir_get_intval(&_0$$4));
 	}
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1272, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1270, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -219,7 +219,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, receiveNoWait)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1272, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1270, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -268,7 +268,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, reject)
 	ZEPHIR_CALL_METHOD_CACHED(&id, this_ptr, "resolveJobId", &_zephir_call_cache[0], message);
 	zephir_check_call_status();
 	if (requeue) {
-		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 1272, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 1270, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -278,7 +278,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, reject)
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0$$3, "releaseJob", &_zephir_call_cache[1], &id, &_1$$3, &_2$$3);
 		zephir_check_call_status();
 	} else {
-		zephir_read_property_cached(&_3$$4, this_ptr, _zephir_prop_0, 1272, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_3$$4, this_ptr, _zephir_prop_0, 1270, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -315,7 +315,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConsumer, touch)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &message);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1272, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1270, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;

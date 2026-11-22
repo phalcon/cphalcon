@@ -82,13 +82,13 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamSubscriptionConsumer, __construct)
 		pollInterval = 200;
 	} else {
 		}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1311, context);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1309, context);
 	if (UNEXPECTED(EG(exception))) {
 		return;
 	}
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, pollInterval);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1312, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1310, &_0);
 	if (UNEXPECTED(EG(exception))) {
 		return;
 	}

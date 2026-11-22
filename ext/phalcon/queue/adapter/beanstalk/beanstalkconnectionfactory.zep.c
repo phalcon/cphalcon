@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnectionFactory, __constru
 	} else {
 		zephir_get_arrval(&options, options_param);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1271, &options);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1269, &options);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnectionFactory, createCon
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1271, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1269, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;

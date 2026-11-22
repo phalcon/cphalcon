@@ -75,11 +75,11 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConsumer, __construct)
 		Z_PARAM_OBJECT_OF_CLASS(queue, phalcon_contracts_queue_queue_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(2, 0, &context, &queue);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1295, context);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1293, context);
 	if (UNEXPECTED(EG(exception))) {
 		return;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1296, queue);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1294, queue);
 	if (UNEXPECTED(EG(exception))) {
 		return;
 	}
@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConsumer, receive)
 		timeout = 0;
 	} else {
 		}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1296, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1294, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -162,7 +162,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConsumer, receive)
 		deadline = (zephir_get_intval(&_3$$3) + timeout);
 	}
 	while (1) {
-		zephir_read_property_cached(&_4$$4, this_ptr, _zephir_prop_1, 1295, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_4$$4, this_ptr, _zephir_prop_1, 1293, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -216,12 +216,12 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConsumer, receiveNoWait)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1295, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1293, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 1296, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 1294, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -268,12 +268,12 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConsumer, reject)
 	} else {
 		}
 	if (requeue) {
-		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 1295, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 1293, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_1, 1296, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_1, 1294, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;

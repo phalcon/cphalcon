@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Storage_AdapterFactory, __construct)
 	} else {
 		zephir_get_arrval(&services, services_param);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1354, factory);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1352, factory);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Storage_AdapterFactory, newInstance)
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 2, 0);
 	zephir_memory_observe(&_1);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1354, PH_NOISY_CC);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1352, PH_NOISY_CC);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;

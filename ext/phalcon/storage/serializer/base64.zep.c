@@ -57,7 +57,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Base64, serialize)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_memory_observe(&_0);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1355, PH_NOISY_CC);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1353, PH_NOISY_CC);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -71,7 +71,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Base64, serialize)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 1355, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 1353, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -131,13 +131,13 @@ PHP_METHOD(Phalcon_Storage_Serializer_Base64, unserialize)
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&result))) {
 		if (0) {
-			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1356, &__$true);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1354, &__$true);
 			if (UNEXPECTED(EG(exception))) {
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
 		} else {
-			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1356, &__$false);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1354, &__$false);
 			if (UNEXPECTED(EG(exception))) {
 				ZEPHIR_MM_RESTORE();
 				return;
@@ -147,20 +147,20 @@ PHP_METHOD(Phalcon_Storage_Serializer_Base64, unserialize)
 		ZVAL_STRING(&result, "");
 	} else {
 		if (1) {
-			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1356, &__$true);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1354, &__$true);
 			if (UNEXPECTED(EG(exception))) {
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
 		} else {
-			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1356, &__$false);
+			zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1354, &__$false);
 			if (UNEXPECTED(EG(exception))) {
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
 		}
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1355, &result);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1353, &result);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;

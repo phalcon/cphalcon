@@ -100,7 +100,7 @@ PHP_METHOD(Phalcon_Queue_Consumer_QueueConsumer, __construct)
 		Z_PARAM_OBJECT_OF_CLASS(context, phalcon_contracts_queue_context_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &context);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1322, context);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1320, context);
 	if (UNEXPECTED(EG(exception))) {
 		return;
 	}
@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Queue_Consumer_QueueConsumer, bind)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	object_init_ex(&_1, phalcon_queue_consumer_boundprocessor_ce);
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 1322, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 1320, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -213,7 +213,7 @@ PHP_METHOD(Phalcon_Queue_Consumer_QueueConsumer, consume)
 	while (1) {
 		ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "consumeOnce", &_zephir_call_cache[1]);
 		zephir_check_call_status();
-		zephir_read_property_cached(&_4$$4, this_ptr, _zephir_prop_0, 1323, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_4$$4, this_ptr, _zephir_prop_0, 1321, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -291,7 +291,7 @@ PHP_METHOD(Phalcon_Queue_Consumer_QueueConsumer, consumeOnce)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	processed = 0;
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1324, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1322, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -329,13 +329,13 @@ PHP_METHOD(Phalcon_Queue_Consumer_QueueConsumer, consumeOnce)
 			zephir_check_call_status();
 			if (ZEPHIR_IS_FALSE_IDENTICAL(&_6$$3)) {
 				if (1) {
-					zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1323, &__$true);
+					zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1321, &__$true);
 					if (UNEXPECTED(EG(exception))) {
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
 				} else {
-					zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1323, &__$false);
+					zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1321, &__$false);
 					if (UNEXPECTED(EG(exception))) {
 						ZEPHIR_MM_RESTORE();
 						return;
@@ -385,13 +385,13 @@ PHP_METHOD(Phalcon_Queue_Consumer_QueueConsumer, consumeOnce)
 				zephir_check_call_status();
 				if (ZEPHIR_IS_FALSE_IDENTICAL(&_11$$7)) {
 					if (1) {
-						zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1323, &__$true);
+						zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1321, &__$true);
 						if (UNEXPECTED(EG(exception))) {
 							ZEPHIR_MM_RESTORE();
 							return;
 						}
 					} else {
-						zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1323, &__$false);
+						zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1321, &__$false);
 						if (UNEXPECTED(EG(exception))) {
 							ZEPHIR_MM_RESTORE();
 							return;
@@ -406,7 +406,7 @@ PHP_METHOD(Phalcon_Queue_Consumer_QueueConsumer, consumeOnce)
 	}
 	ZEPHIR_INIT_NVAR(&binding);
 	if (processed == 0) {
-		zephir_read_property_cached(&_12$$11, this_ptr, _zephir_prop_2, 1325, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_12$$11, this_ptr, _zephir_prop_2, 1323, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -482,7 +482,7 @@ PHP_METHOD(Phalcon_Queue_Consumer_QueueConsumer, setPollInterval)
 	zephir_fetch_params_without_memory_grow(1, 0, &pollInterval_param);
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, pollInterval);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1325, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1323, &_0);
 	if (UNEXPECTED(EG(exception))) {
 		return;
 	}
@@ -512,13 +512,13 @@ PHP_METHOD(Phalcon_Queue_Consumer_QueueConsumer, start)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	if (0) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1323, &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1321, &__$true);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1323, &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1321, &__$false);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -546,12 +546,12 @@ PHP_METHOD(Phalcon_Queue_Consumer_QueueConsumer, stop)
 		_zephir_prop_0 = zend_string_init("shouldStop", 10, 1);
 	}
 	if (1) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1323, &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1321, &__$true);
 		if (UNEXPECTED(EG(exception))) {
 			return;
 		}
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1323, &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1321, &__$false);
 		if (UNEXPECTED(EG(exception))) {
 			return;
 		}
@@ -657,7 +657,7 @@ PHP_METHOD(Phalcon_Queue_Consumer_QueueConsumer, process)
 
 	/* try_start_1: */
 
-		zephir_read_property_cached(&_2$$4, this_ptr, _zephir_prop_0, 1322, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_2$$4, this_ptr, _zephir_prop_0, 1320, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
 			goto try_end_1;
 		}

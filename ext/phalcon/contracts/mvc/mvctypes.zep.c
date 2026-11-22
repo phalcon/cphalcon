@@ -233,13 +233,11 @@
  *     sqlAlias?: string,
  * }
  * @phpstan-type mvc_resultset_complex_state array{
- *     cache: mixed,
  *     columnTypes: array<array-key, mixed>|null,
  *     hydrateMode: int,
  *     rows: array<array-key, mixed>,
  * }
  * @phpstan-type mvc_resultset_simple_state array{
- *     cache: mixed,
  *     columnMap: mvc_hydration_column_map|string|null,
  *     hydrateMode: int,
  *     keepSnapshots?: bool,

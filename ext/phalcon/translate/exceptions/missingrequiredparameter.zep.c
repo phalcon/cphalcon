@@ -63,7 +63,7 @@ PHP_METHOD(Phalcon_Translate_Exceptions_MissingRequiredParameter, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&parameter_zv);
 	ZVAL_STR_COPY(&parameter_zv, parameter);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1416, &parameter_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1414, &parameter_zv);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;

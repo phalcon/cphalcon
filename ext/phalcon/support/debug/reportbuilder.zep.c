@@ -146,7 +146,7 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, build)
 	zephir_get_arrval(&data, data_param);
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1403, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1401, &_0);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -691,7 +691,7 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, readLines)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&file_zv);
 	ZVAL_STR_COPY(&file_zv, file);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1403, PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1401, PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -726,7 +726,7 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, readLines)
 			return;
 		}
 	}
-	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_0, 1403, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_0, 1401, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
