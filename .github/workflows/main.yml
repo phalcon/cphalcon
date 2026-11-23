@@ -705,20 +705,7 @@ jobs:
           vendor/bin/talon schema
 
       - name: Run Unit Tests
-        if: matrix.php != '8.6'
         run: composer test-unit
-
-      # Temporary: run the 8.6 unit suite under gdb to get a backtrace of the segfault.
-      - name: Run Unit Tests (gdb)
-        if: matrix.php == '8.6'
-        run: |
-          command -v gdb || { sudo apt-get update -q && sudo apt-get install -yq gdb; }
-          gdb -q -batch \
-            -ex "handle SIGPIPE SIGUSR1 SIGUSR2 SIGALRM SIGCHLD SIGTERM SIGINT SIGQUIT nostop noprint pass" \
-            -ex run -ex bt \
-            --args php -d extension=ext/modules/phalcon.so vendor/bin/phpunit -c resources/phpunit.xml.dist \
-            2>&1 | tee gdb-unit.log
-          grep -q "exited normally" gdb-unit.log
 
       - name: Run Segfault Smoke Test
         # The test suites do not contain this file, thus CI runs it by path.
