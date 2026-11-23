@@ -669,6 +669,8 @@ jobs:
         env:
           PHPTS: ${{ matrix.ts }}
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Temporary: debug symbols for the 8.6 gdb backtrace.
+          debug: ${{ matrix.php == '8.6' }}
 
       - name: Download compiled Phalcon extension
         uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
@@ -713,9 +715,11 @@ jobs:
         if: matrix.php == '8.6'
         run: |
           command -v gdb || { sudo apt-get update -q && sudo apt-get install -yq gdb; }
+          curl -fsSL https://raw.githubusercontent.com/php/php-src/PHP-8.6/.gdbinit -o php-src.gdbinit
           gdb -q -batch \
+            -x php-src.gdbinit \
             -ex "handle SIGPIPE SIGUSR1 SIGUSR2 SIGALRM SIGCHLD SIGTERM SIGINT SIGQUIT nostop noprint pass" \
-            -ex run -ex bt \
+            -ex run -ex bt -ex zbacktrace \
             --args php -d extension=ext/modules/phalcon.so vendor/bin/phpunit -c resources/phpunit.xml.dist \
             2>&1 | tee gdb-unit.log
           grep -q "exited normally" gdb-unit.log
