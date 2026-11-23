@@ -26,11 +26,6 @@ use const PHP_EOL;
 
 final class OutputTest extends AbstractUnitTestCase
 {
-    public function setUp(): void
-    {
-        $this->markTestSkipped('Temporary skip to find the PHP 8.6 segfault');
-    }
-
     /**
      * @return array[]
      */
