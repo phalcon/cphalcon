@@ -98,7 +98,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Msgpack, phpMsgpackPack)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &value);
-	ZEPHIR_RETURN_CALL_FUNCTION("msgpack_pack", NULL, 261, value);
+	ZEPHIR_RETURN_CALL_FUNCTION("msgpack_pack", NULL, 262, value);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Msgpack, phpMsgpackUnpack)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &value);
-	ZEPHIR_RETURN_CALL_FUNCTION("msgpack_unpack", NULL, 262, value);
+	ZEPHIR_RETURN_CALL_FUNCTION("msgpack_unpack", NULL, 263, value);
 	zephir_check_call_status();
 	RETURN_MM();
 }

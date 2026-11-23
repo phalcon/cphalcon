@@ -115,9 +115,9 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Dynamic, __invoke)
 		zephir_memory_observe(&separator_zv);
 	ZVAL_STR_COPY(&separator_zv, separator);
 	}
-	ZEPHIR_CALL_FUNCTION(&_0, "mb_substr_count", &_1, 276, &text, &leftDelimiter_zv);
+	ZEPHIR_CALL_FUNCTION(&_0, "mb_substr_count", &_1, 277, &text, &leftDelimiter_zv);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_2, "mb_substr_count", &_1, 276, &text, &rightDelimiter_zv);
+	ZEPHIR_CALL_FUNCTION(&_2, "mb_substr_count", &_1, 277, &text, &rightDelimiter_zv);
 	zephir_check_call_status();
 	if (UNEXPECTED(!ZEPHIR_IS_IDENTICAL(&_0, &_2))) {
 		ZEPHIR_INIT_VAR(&_3$$3);

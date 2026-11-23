@@ -299,7 +299,7 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, build)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &report, "setServer", &_zephir_call_cache[23], &_24);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_27, "get_included_files", NULL, 271);
+	ZEPHIR_CALL_FUNCTION(&_27, "get_included_files", NULL, 272);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &report, "setIncludedFiles", &_zephir_call_cache[24], &_27);
 	zephir_check_call_status();
@@ -307,7 +307,7 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, build)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &report, "setMemoryUsage", &_zephir_call_cache[25], &_28);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_29, "memory_get_peak_usage", NULL, 272, &__$true);
+	ZEPHIR_CALL_FUNCTION(&_29, "memory_get_peak_usage", NULL, 273, &__$true);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &report, "setPeakMemoryUsage", &_zephir_call_cache[26], &_29);
 	zephir_check_call_status();
@@ -713,7 +713,7 @@ PHP_METHOD(Phalcon_Support_Debug_ReportBuilder, readLines)
 			_3$$3 = zephir_is_true(&_4$$3);
 		}
 		if (_3$$3) {
-			ZEPHIR_CALL_FUNCTION(&lines, "file", NULL, 273, &file_zv);
+			ZEPHIR_CALL_FUNCTION(&lines, "file", NULL, 274, &file_zv);
 			zephir_check_call_status();
 		}
 		if (ZEPHIR_IS_FALSE_IDENTICAL(&lines)) {

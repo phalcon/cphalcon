@@ -516,7 +516,7 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, escapeString)
 	ZVAL_LONG(&_3, (3 | 8));
 	ZEPHIR_INIT_VAR(&_4);
 	ZVAL_STRING(&_4, "utf-8");
-	ZEPHIR_RETURN_CALL_FUNCTION("htmlentities", NULL, 268, &_0, &_3, &_4);
+	ZEPHIR_RETURN_CALL_FUNCTION("htmlentities", NULL, 269, &_0, &_3, &_4);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -922,7 +922,7 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, formatBytes)
 		return;
 	}
 	ZVAL_LONG(&_0, 1);
-	ZEPHIR_RETURN_CALL_FUNCTION("number_format", NULL, 270, &amount, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("number_format", NULL, 271, &amount, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -1225,7 +1225,7 @@ PHP_METHOD(Phalcon_Support_Debug_Renderer_HtmlRenderer, renderFragment)
 		ZVAL_LONG(&_16$$3, (3 | 8));
 		ZEPHIR_INIT_NVAR(&_17$$3);
 		ZVAL_STRING(&_17$$3, "UTF-8");
-		ZEPHIR_CALL_FUNCTION(&_18$$3, "htmlentities", &_19, 268, &_10$$3, &_16$$3, &_17$$3);
+		ZEPHIR_CALL_FUNCTION(&_18$$3, "htmlentities", &_19, 269, &_10$$3, &_16$$3, &_17$$3);
 		zephir_check_call_status();
 		zephir_array_update_string(&_11$$3, SL("src"), &_18$$3, PH_COPY | PH_SEPARATE);
 		ZEPHIR_CALL_METHOD_CACHED(&_8$$3, this_ptr, "toInterpolate", &_zephir_call_cache[2], &_9$$3, &_11$$3);

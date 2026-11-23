@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Support_Debug, __construct)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_FUNCTION(&_0, "ob_get_level", NULL, 263);
+	ZEPHIR_CALL_FUNCTION(&_0, "ob_get_level", NULL, 264);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1362, &_0);
 	if (UNEXPECTED(EG(exception))) {
@@ -236,7 +236,7 @@ PHP_METHOD(Phalcon_Support_Debug, debugVar)
 	zephir_create_array(&_0, 3, 0);
 	zephir_array_fast_append(&_0, variable);
 	ZVAL_LONG(&_1, 2);
-	ZEPHIR_CALL_FUNCTION(&_2, "debug_backtrace", NULL, 264, &_1);
+	ZEPHIR_CALL_FUNCTION(&_2, "debug_backtrace", NULL, 265, &_1);
 	zephir_check_call_status();
 	zephir_array_fast_append(&_0, &_2);
 	ZEPHIR_INIT_VAR(&_3);
@@ -452,7 +452,7 @@ PHP_METHOD(Phalcon_Support_Debug, listenExceptions)
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "onUncaughtException");
 	zephir_array_fast_append(&_0, &_1);
-	ZEPHIR_CALL_FUNCTION(NULL, "set_exception_handler", NULL, 265, &_0);
+	ZEPHIR_CALL_FUNCTION(NULL, "set_exception_handler", NULL, 266, &_0);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -488,7 +488,7 @@ PHP_METHOD(Phalcon_Support_Debug, listenLowSeverity)
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "onUncaughtException");
 	zephir_array_fast_append(&_2, &_1);
-	ZEPHIR_CALL_FUNCTION(NULL, "set_exception_handler", NULL, 265, &_2);
+	ZEPHIR_CALL_FUNCTION(NULL, "set_exception_handler", NULL, 266, &_2);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -539,7 +539,7 @@ PHP_METHOD(Phalcon_Support_Debug, onUncaughtException)
 	while (1) {
 		_0 = zephir_is_true(&discarded);
 		if (_0) {
-			ZEPHIR_CALL_FUNCTION(&_1, "ob_get_level", &_2, 263);
+			ZEPHIR_CALL_FUNCTION(&_1, "ob_get_level", &_2, 264);
 			zephir_check_call_status();
 			zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 1362, PH_NOISY_CC | PH_READONLY);
 			if (UNEXPECTED(EG(exception))) {

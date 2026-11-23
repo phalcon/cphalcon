@@ -180,7 +180,7 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, adjust)
 	zephir_memory_observe(&modifier_zv);
 	ZVAL_STR_COPY(&modifier_zv, modifier);
 	failed = 0;
-	ZEPHIR_CALL_FUNCTION(&_0, "phpversion", NULL, 281);
+	ZEPHIR_CALL_FUNCTION(&_0, "phpversion", NULL, 282);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "8.3");

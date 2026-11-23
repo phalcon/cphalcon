@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Order, __invoke)
 		ZVAL_LONG(&_6$$6, flags);
 		ZEPHIR_OBSERVE_IF_UNDEF(&sorted);
 		ZEPHIR_MAKE_REF(&sorted);
-		ZEPHIR_CALL_FUNCTION(NULL, "krsort", NULL, 275, &sorted, &_6$$6);
+		ZEPHIR_CALL_FUNCTION(NULL, "krsort", NULL, 276, &sorted, &_6$$6);
 		ZEPHIR_UNREF(&sorted);
 		zephir_check_call_status();
 	}

@@ -225,7 +225,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Random, __invoke)
 		}
 		ZEPHIR_OBS_NVAR(&_19$$3);
 		ZVAL_LONG(&_20$$3, 0);
-		ZEPHIR_CALL_FUNCTION(&_21$$3, "mt_rand", &_22, 280, &_20$$3, &end);
+		ZEPHIR_CALL_FUNCTION(&_21$$3, "mt_rand", &_22, 281, &_20$$3, &end);
 		zephir_check_call_status();
 		zephir_array_fetch(&_19$$3, &_18$$3, &_21$$3, PH_NOISY, "phalcon/Support/Helper/Str/Random.zep", 87);
 		if (UNEXPECTED(EG(exception))) {
