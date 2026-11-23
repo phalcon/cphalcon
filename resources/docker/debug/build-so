@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+#
+# This file is part of the Phalcon Framework.
+#
+# (c) Phalcon Team <team@phalcon.io>
+#
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+
+# Compiles the extension for the debug image (resources/docker/debug/Dockerfile).
+# Run this script in a container of the debug image. Instructions:
+# resources/docker/debug/README.md
+#
+# Usage: resources/docker/debug/build-so [debug|release|asan]
+#
+#   debug    -O0 -g, no LTO (default). Use it for gdb and valgrind.
+#   release  the release flags with -g, the same as tests/benchmarks/bin/build-so.
+#   asan     debug at -O1 with -fsanitize=address. Use it only with a PHP_ASAN=1 image.
+#
+# The script does the same steps as "cpl": zephir fullclean, zephir generate and ext/install.
+# It runs a copy of ext/install with different CFLAGS. The tracked ext/install does not change.
+
+set -euo pipefail
+
+cd "$(dirname "$0")/../../.."
+
+readonly WORK="${PWD}/.local/debug"
+readonly COPY="${WORK}/install-debug"
+readonly MODE="${1:-debug}"
+readonly DEBUG_FLAGS="-O0 -g -fno-omit-frame-pointer -fvisibility=hidden -DZEPHIR_RELEASE=1"
+
+if [[ $# -gt 1 ]]; then
+    echo "Usage: $0 [debug|release|asan]" >&2
+    exit 2
+fi
+
+# .bashrc sets MAKEFLAGS only for interactive shells
+export MAKEFLAGS="${MAKEFLAGS:--j$(nproc)}"
+
+vendor/bin/zephir fullclean
+vendor/bin/zephir generate
+
+release_flags="$(sed -n 's/^export CFLAGS="\(.*\)"$/\1/p' ext/install)"
+if [[ -z "${release_flags}" ]]; then
+    echo "Error: the CFLAGS line in ext/install was not found. Check the Zephir install template." >&2
+    exit 1
+fi
+
+case "${MODE}" in
+    debug)
+        flags="${DEBUG_FLAGS}"
+        ;;
+    release)
+        flags="${release_flags} -g"
+        ;;
+    asan)
+        # -O1: at -O0 each file keeps the arginfo of all classes (ext.h includes
+        # phalcon.h). With the ASan red zones the .so data is larger than 2 GB.
+        flags="${DEBUG_FLAGS/-O0/-O1} -fsanitize=address"
+        export LDFLAGS="-fsanitize=address"
+        ;;
+    *)
+        echo "Usage: $0 [debug|release|asan]" >&2
+        exit 2
+        ;;
+esac
+
+mkdir -p "${WORK}"
+trap 'rm -f "${COPY}"' EXIT
+
+sed "s|^export CFLAGS=\".*\"$|export CFLAGS=\"${flags}\"|" ext/install > "${COPY}"
+
+# Exactly one line must be different
+changed="$(diff ext/install "${COPY}" | grep -c '^>' || true)"
+if [[ "${changed}" -ne 1 ]]; then
+    echo "Error: the CFLAGS line in ext/install did not change. Check the Zephir install template." >&2
+    exit 1
+fi
+
+grep '^export CFLAGS=' "${COPY}"
+
+(cd ext && bash "${COPY}")
+
+echo "Build flags: $(sed -n 's/^CFLAGS = //p' ext/Makefile)"
