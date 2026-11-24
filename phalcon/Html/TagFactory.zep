@@ -195,7 +195,7 @@ class TagFactory
      *
      * @phpstan-return ($name is 'doctype' ? Doctype : object)
      */
-    public function newInstance(string name) -> object
+    public function newInstance(string name) -> mixed
     {
         var factory;
 

@@ -38,6 +38,7 @@ use Phalcon\Html\Helper\Ul;
 use Phalcon\Html\TagFactory;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
+use ReflectionMethod;
 use TypeError;
 
 use function uniqid;
@@ -149,6 +150,18 @@ final class NewInstanceTest extends AbstractUnitTestCase
         );
 
         $factory->five();
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/17785
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-24
+     */
+    public function testFilterTagFactoryNewInstanceReturnType(): void
+    {
+        $method = new ReflectionMethod(TagFactory::class, 'newInstance');
+
+        $this->assertSame('mixed', (string) $method->getReturnType());
     }
 
     /**
