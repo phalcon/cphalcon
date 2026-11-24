@@ -40,6 +40,8 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 > **Upgrade note:** `Phalcon\Http\Request\Bag\AbstractBag::normalizeKey()` now declares `int|string` as the return type instead of `string`. The returned values do not change: an `int` key is still returned as an `int`. A class that overrides `normalizeKey()` can keep the `string` return type. [#17771](https://github.com/phalcon/cphalcon/issues/17771)
 
+> **Upgrade note:** `Phalcon\Annotations\Adapter\Stream::read()` now returns `false` when the cache file does not hold a `Phalcon\Annotations\Reflection` object, for example an object of a class that is not allowed, an array, a string, an integer or `null`. Before, it returned that value. `get()` now parses the class again and writes a new cache file, the same as for a missing cache file. [#17773](https://github.com/phalcon/cphalcon/issues/17773)
+
 ### Tools
 
 - Zephir 1.9.0
@@ -76,6 +78,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - PHP 8.6 deprecation for session handlers without `create_sid()`: `Phalcon\Session\Adapter\AbstractAdapter` and `Phalcon\Session\Adapter\Noop` now implement `SessionIdInterface` and `create_sid()`. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
 - PHP 8.6 deprecation of `doubleval()`: `Phalcon\Encryption\Security\Uuid\Version1`, `Phalcon\Encryption\Security\Uuid\Version6` and `Phalcon\Mvc\Model` now use `floatval()`. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
 - PHP 8.6 deprecation of `spl_object_hash()`: `Phalcon\Dispatcher\AbstractDispatcher` and `Phalcon\Html\Link\AbstractLinkProvider` now use `spl_object_id()`; the keys returned by `getLinks()` are now integers. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
+- `Phalcon\Annotations\Adapter\Stream::read()` returning the content of a cache file that does not hold a `Reflection` object. [#17773](https://github.com/phalcon/cphalcon/issues/17773)
 - `Phalcon\Contracts\Db\Adapter\Adapter::fetchColumn()` and `Phalcon\Db\Adapter\AbstractAdapter::fetchColumn()` declaring `string|bool` as the return type instead of `mixed`. [#17755](https://github.com/phalcon/cphalcon/issues/17755)
 - `Phalcon\Db\Adapter\Pdo\Postgresql::describeColumns()` reporting `mediumblob` columns as `Column::TYPE_TEXT`. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
 - `Phalcon\Db\Adapter\Pdo\Postgresql::describeReferences()` returning wrong column pairs for composite foreign keys. [#17680](https://github.com/phalcon/cphalcon/issues/17680)

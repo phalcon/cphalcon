@@ -115,6 +115,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, __construct)
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Stream, read)
 {
+	zend_bool _8;
 	zval _3, _4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -191,6 +192,13 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, read)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
+	_8 = Z_TYPE_P(&contents) != IS_OBJECT;
+	if (!(_8)) {
+		_8 = !((zephir_instance_of_ev(&contents, phalcon_annotations_reflection_ce)));
+	}
+	if (_8) {
+		RETURN_MM_BOOL(0);
+	}
 	RETURN_CCTOR(&contents);
 }
 
@@ -234,7 +242,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, write)
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[2]);
 		zephir_check_call_status();
 		zephir_constructor_finish(&_1$$3);
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Annotations/Adapter/Stream.zep", 134);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Annotations/Adapter/Stream.zep", 141);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -276,7 +284,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, getFilePath)
 	ZVAL_STRING(&_0, "_");
 	ZEPHIR_INIT_VAR(&name);
 	zephir_prepare_virtual_path(&name, &key_zv, &_0);
-	if (zephir_memnstr_str(&key_zv, SL("_"), "phalcon/Annotations/Adapter/Stream.zep", 149)) {
+	if (zephir_memnstr_str(&key_zv, SL("_"), "phalcon/Annotations/Adapter/Stream.zep", 156)) {
 		ZEPHIR_CALL_FUNCTION(&_1$$3, "sha1", NULL, 90, &key_zv);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_2$$3);
