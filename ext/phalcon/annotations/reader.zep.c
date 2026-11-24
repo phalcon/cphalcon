@@ -388,7 +388,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse)
  * @phpstan-param string|null $file
  * @phpstan-param int|null    $line
  *
- * @phpstan-return annotations_node_list
+ * @phpstan-return annotations_node_list|false
  */
 PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock)
 {
