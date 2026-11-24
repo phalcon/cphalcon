@@ -44,6 +44,8 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 > **Upgrade note:** `Phalcon\Annotations\Reader::parseDocBlock()` now declares `array|false` as the return type instead of `array`. The returned values do not change: a docblock with no annotations still returns `false`. A class that overrides `parseDocBlock()` can keep the `array` return type. [#17775](https://github.com/phalcon/cphalcon/issues/17775)
 
+> **Upgrade note:** The factory closure that `Phalcon\Container\Definition\Processor\ObjectProcessor::process()` sets now declares one optional parameter, the container. `Phalcon\Container\Definition\ServiceDefinition::buildService()` already calls the factory with the container. A call with no arguments still works, and the returned object does not change. [#17777](https://github.com/phalcon/cphalcon/issues/17777)
+
 ### Tools
 
 - Zephir 1.9.0
@@ -82,6 +84,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - PHP 8.6 deprecation of `spl_object_hash()`: `Phalcon\Dispatcher\AbstractDispatcher` and `Phalcon\Html\Link\AbstractLinkProvider` now use `spl_object_id()`; the keys returned by `getLinks()` are now integers. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
 - `Phalcon\Annotations\Adapter\Stream::read()` returning the content of a cache file that does not hold a `Reflection` object. [#17773](https://github.com/phalcon/cphalcon/issues/17773)
 - `Phalcon\Annotations\Reader::parseDocBlock()` declaring `array` as the return type instead of `array|false`. [#17775](https://github.com/phalcon/cphalcon/issues/17775)
+- `Phalcon\Container\Definition\Processor\ObjectProcessor::process()` setting a factory closure with no parameters, although the factory is called with the container. [#17777](https://github.com/phalcon/cphalcon/issues/17777)
 - `Phalcon\Contracts\Db\Adapter\Adapter::fetchColumn()` and `Phalcon\Db\Adapter\AbstractAdapter::fetchColumn()` declaring `string|bool` as the return type instead of `mixed`. [#17755](https://github.com/phalcon/cphalcon/issues/17755)
 - `Phalcon\Db\Adapter\Pdo\Postgresql::describeColumns()` reporting `mediumblob` columns as `Column::TYPE_TEXT`. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
 - `Phalcon\Db\Adapter\Pdo\Postgresql::describeReferences()` returning wrong column pairs for composite foreign keys. [#17680](https://github.com/phalcon/cphalcon/issues/17680)

@@ -66,7 +66,7 @@ class ObjectProcessor implements Processor
 
         let def = new ServiceDefinition(name, DefinitionType::OBJECT_TYPE, definition);
         def->setFactory(
-            function () use (definition) {
+            function (container = null) use (definition) {
                 return definition;
             }
         );
