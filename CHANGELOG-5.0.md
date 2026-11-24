@@ -99,6 +99,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - `Phalcon\Encryption\Security::hash()` using the cost `4` instead of the work factor when the `cost` option is empty. [#17764](https://github.com/phalcon/cphalcon/issues/17764)
 - `Phalcon\Forms\Element\AbstractElement::getForm()` and `Phalcon\Forms\Element\ElementInterface::getForm()` declaring `Form` as the return type instead of `?Form`. [#17781](https://github.com/phalcon/cphalcon/issues/17781)
 - `Phalcon\Forms\Form::getValue()` returning the tag factory for the name `tagFactory`. [#17727](https://github.com/phalcon/cphalcon/issues/17727)
+- `Phalcon\Html\Escaper\CssEscaper` and `Phalcon\Html\Escaper\JsEscaper` declaring `string` as the return type of their private escape methods, which return `false` for the code point U+0000. [#17783](https://github.com/phalcon/cphalcon/issues/17783)
 - `Phalcon\Http\Request\Bag\AbstractBag::normalizeKey()` declaring `string` as the return type instead of `int|string`. [#17771](https://github.com/phalcon/cphalcon/issues/17771)
 - `Phalcon\Mvc\Model::doLowInsert()` not reading back the generated id on MySQL when the identity property is `0`. [#17689](https://github.com/phalcon/cphalcon/issues/17689)
 - `Phalcon\Mvc\Model::save()` leaving the transaction of the related records open when an exception is thrown during the save; the transaction is now rolled back before the exception is thrown again. [#17756](https://github.com/phalcon/cphalcon/issues/17756)

@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Html_Escaper_JsEscaper, escape)
 /**
  * @param string $input
  *
- * @return string
+ * @return string|false
  */
 PHP_METHOD(Phalcon_Html_Escaper_JsEscaper, doEscapeJs)
 {
