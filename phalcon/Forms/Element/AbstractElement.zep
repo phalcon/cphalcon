@@ -208,7 +208,7 @@ abstract class AbstractElement implements ElementInterface
     /**
      * Returns the parent form to the element
      */
-    public function getForm() -> <Form>
+    public function getForm() -> <Form> | null
     {
         return this->form;
     }
