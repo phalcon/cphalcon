@@ -48,6 +48,8 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 > **Upgrade note:** `Phalcon\Encryption\Security::hash()` now converts a numeric string `cost` option to an integer. A fractional value such as `'5.7'` becomes `5`. Before, the `CRYPT_BLOWFISH_A` and `CRYPT_BLOWFISH_X` algorithms put the string in the salt (`$2a$5.7$`), and `crypt()` returned the failure string `*0`. Integer costs and integer strings such as `'5'` give the same hashes as before. [#17779](https://github.com/phalcon/cphalcon/issues/17779)
 
+> **Upgrade note:** `Phalcon\Forms\Element\AbstractElement::getForm()` and `Phalcon\Forms\Element\ElementInterface::getForm()` now declare `?Phalcon\Forms\Form` as the return type instead of `Phalcon\Forms\Form`. The returned values do not change: an element with no form still returns `null`. A class that implements `ElementInterface` or extends `AbstractElement` can keep the `Form` return type. [#17781](https://github.com/phalcon/cphalcon/issues/17781)
+
 ### Tools
 
 - Zephir 1.9.0
@@ -95,6 +97,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - `Phalcon\Db\Adapter\Pdo\Sqlite::describeColumns()` using `Column::TYPE_DECIMAL` as the bind type of `float` columns, which stored their values as blobs. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
 - `Phalcon\Encryption\Security::hash()` passing a numeric string `cost` option on as a string, which gave an invalid Blowfish salt for a fractional value. [#17779](https://github.com/phalcon/cphalcon/issues/17779)
 - `Phalcon\Encryption\Security::hash()` using the cost `4` instead of the work factor when the `cost` option is empty. [#17764](https://github.com/phalcon/cphalcon/issues/17764)
+- `Phalcon\Forms\Element\AbstractElement::getForm()` and `Phalcon\Forms\Element\ElementInterface::getForm()` declaring `Form` as the return type instead of `?Form`. [#17781](https://github.com/phalcon/cphalcon/issues/17781)
 - `Phalcon\Forms\Form::getValue()` returning the tag factory for the name `tagFactory`. [#17727](https://github.com/phalcon/cphalcon/issues/17727)
 - `Phalcon\Http\Request\Bag\AbstractBag::normalizeKey()` declaring `string` as the return type instead of `int|string`. [#17771](https://github.com/phalcon/cphalcon/issues/17771)
 - `Phalcon\Mvc\Model::doLowInsert()` not reading back the generated id on MySQL when the identity property is `0`. [#17689](https://github.com/phalcon/cphalcon/issues/17689)
