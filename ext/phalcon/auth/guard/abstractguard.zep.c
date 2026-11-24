@@ -97,7 +97,13 @@ PHP_METHOD(Phalcon_Auth_Guard_AbstractGuard, __construct)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(2, 0, &adapter, &config);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 162, adapter);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 163, config);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 PHP_METHOD(Phalcon_Auth_Guard_AbstractGuard, check)
@@ -212,6 +218,9 @@ PHP_METHOD(Phalcon_Auth_Guard_AbstractGuard, setAdapter)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &adapter);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 162, adapter);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 
@@ -231,6 +240,9 @@ PHP_METHOD(Phalcon_Auth_Guard_AbstractGuard, setUser)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &user);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 164, user);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 
@@ -350,6 +362,10 @@ PHP_METHOD(Phalcon_Auth_Guard_AbstractGuard, setEventsManager)
 		zephir_check_call_status();
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 166, eventsManager);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -362,7 +378,7 @@ PHP_METHOD(Phalcon_Auth_Guard_AbstractGuard, fireManagerEvent)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool cancellable, stopOnFalse, _1$$3;
+	zend_bool cancellable = 1, stopOnFalse = 0, _1$$3;
 	zval eventName_zv, *data = NULL, data_sub, *cancellable_param = NULL, *stopOnFalse_param = NULL, __$null, _0, _2$$3, _6$$3, _7$$3, _3$$4, _4$$4, _5$$4;
 	zend_string *eventName = NULL;
 	zval *this_ptr = getThis();
@@ -408,14 +424,6 @@ PHP_METHOD(Phalcon_Auth_Guard_AbstractGuard, fireManagerEvent)
 		data = &data_sub;
 		data = &__$null;
 	}
-	if (!cancellable_param) {
-		cancellable = 1;
-	} else {
-		}
-	if (!stopOnFalse_param) {
-		stopOnFalse = 0;
-	} else {
-		}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 166, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();

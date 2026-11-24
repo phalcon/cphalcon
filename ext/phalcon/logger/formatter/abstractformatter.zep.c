@@ -86,6 +86,9 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, setDateFormat)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&format_zv, format);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 237, &format_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**
@@ -315,8 +318,6 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, stringifyContext)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&value);
-	ZEPHIR_INIT_NVAR(&key);
 	RETURN_CTOR(&result);
 }
 
@@ -453,8 +454,6 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, toInterpolate)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&value);
-	ZEPHIR_INIT_NVAR(&key);
 	ZEPHIR_RETURN_CALL_FUNCTION("strtr", NULL, 1, &input_zv, &replace);
 	zephir_check_call_status();
 	RETURN_MM();

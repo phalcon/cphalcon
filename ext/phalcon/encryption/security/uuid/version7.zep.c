@@ -103,15 +103,15 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version7, __construct)
 	ZEPHIR_INIT_VAR(&timeLow16);
 	ZVAL_LONG(&timeLow16, (msInt & 0xffff));
 	ZVAL_LONG(&_3, 10);
-	ZEPHIR_CALL_FUNCTION(&randBytes, "random_bytes", NULL, 71, &_3);
+	ZEPHIR_CALL_FUNCTION(&randBytes, "random_bytes", NULL, 70, &_3);
 	zephir_check_call_status();
 	ZVAL_LONG(&_3, 0);
 	ZVAL_LONG(&_4, 2);
 	ZEPHIR_INIT_NVAR(&_0);
 	zephir_substr(&_0, &randBytes, 0 , 2 , 0);
-	ZEPHIR_CALL_FUNCTION(&_5, "bin2hex", &_6, 72, &_0);
+	ZEPHIR_CALL_FUNCTION(&_5, "bin2hex", &_6, 71, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_7, "hexdec", &_8, 146, &_5);
+	ZEPHIR_CALL_FUNCTION(&_7, "hexdec", &_8, 145, &_5);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_LONG(&_1, 0x0fff);
@@ -133,9 +133,9 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version7, __construct)
 	ZVAL_LONG(&_11, 2);
 	ZEPHIR_INIT_VAR(&_12);
 	zephir_substr(&_12, &randBytes, 2 , 2 , 0);
-	ZEPHIR_CALL_FUNCTION(&_7, "bin2hex", &_6, 72, &_12);
+	ZEPHIR_CALL_FUNCTION(&_7, "bin2hex", &_6, 71, &_12);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_13, "hexdec", &_8, 146, &_7);
+	ZEPHIR_CALL_FUNCTION(&_13, "hexdec", &_8, 145, &_7);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_LONG(&_1, 0x3fff);
@@ -157,13 +157,17 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_Version7, __construct)
 	ZVAL_LONG(&_15, 6);
 	ZEPHIR_INIT_VAR(&_16);
 	zephir_substr(&_16, &randBytes, 4 , 6 , 0);
-	ZEPHIR_CALL_FUNCTION(&_13, "bin2hex", &_6, 72, &_16);
+	ZEPHIR_CALL_FUNCTION(&_13, "bin2hex", &_6, 71, &_16);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_17);
 	ZVAL_STRING(&_17, "%08x-%04x-%04x-%04x-%s");
-	ZEPHIR_CALL_FUNCTION(&_18, "sprintf", NULL, 39, &_17, &timeHigh32, &timeLow16, &verRandA, &varRandB, &_13);
+	ZEPHIR_CALL_FUNCTION(&_18, "sprintf", NULL, 38, &_17, &timeHigh32, &timeLow16, &verRandA, &varRandB, &_13);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 745, &_18);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

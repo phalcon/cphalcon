@@ -49,8 +49,10 @@ PHP_METHOD(phalcon_22__closure, __invoke)
 	zephir_get_arrval(&options, options_param);
 	zephir_get_arrval(&attributes, attributes_param);
 	object_init_ex(return_value, phalcon_forms_element_email_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &name, &attributes);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 

@@ -19,6 +19,7 @@
 #if PHP_VERSION_ID < 80500
 #include <ext/standard/php_smart_string.h>
 #endif
+#include <zend_smart_str.h>
 #include "ext/standard/php_var.h"
 
 static zend_always_inline void zephir_smart_str_0(smart_str *str)
@@ -51,7 +52,16 @@ void zephir_var_export_ex(zval *return_value, zval *var)
 {
     smart_str buf = { 0 };
 
+#if PHP_VERSION_ID >= 80400
+    /* An export stopped by an exception, such as from a get hook, gives no string, as in PHP */
+    if (php_var_export_ex(var, 1, &buf) == FAILURE) {
+        smart_str_free(&buf);
+        ZVAL_NULL(return_value);
+        return;
+    }
+#else
     php_var_export_ex(var, 1, &buf);
+#endif
     zephir_smart_str_0(&buf);
     ZVAL_STR(return_value, buf.s);
 }

@@ -216,7 +216,6 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, clear)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&key);
 	ZEPHIR_CALL_METHOD_CACHED(&adapter, this_ptr, "getAdapter", &_zephir_call_cache[5]);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD_CACHED(&_10, &adapter, "del", &_zephir_call_cache[6], &strippedKeys);
@@ -237,7 +236,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, clear)
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, getAdapter)
 {
-	zval connection, _0, _1$$3, _2$$3, _3$$3, _4$$3;
+	zval connection, _0, _1$$3, _2$$3, _3$$3, _4$$3, _5$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -248,6 +247,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, getAdapter)
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_4$$3);
+	ZVAL_UNDEF(&_5$$3);
 	ZEND_TLS zephir_method_cache _zephir_call_cache[6];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
@@ -266,27 +266,35 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, getAdapter)
 		return;
 	}
 	if (Z_TYPE_P(&_0) == IS_NULL) {
-		ZEPHIR_INIT_VAR(&connection);
-		object_init_ex(&connection, zephir_get_internal_ce(SL("redis")));
-		ZEPHIR_CALL_METHOD_CACHED(NULL, &connection, "__construct", &_zephir_call_cache[0]);
+		ZEPHIR_INIT_VAR(&_1$$3);
+		object_init_ex(&_1$$3, zephir_get_internal_ce(SL("redis")));
+		zephir_constructor_start(&_1$$3);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD_CACHED(&_1$$3, this_ptr, "checkConnect", &_zephir_call_cache[1], &connection);
+		zephir_constructor_finish(&_1$$3);
+		ZEPHIR_CPY_WRT(&connection, &_1$$3);
+		ZEPHIR_INIT_NVAR(&_1$$3);
+		ZEPHIR_CALL_METHOD_CACHED(&_2$$3, this_ptr, "checkConnect", &_zephir_call_cache[1], &connection);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD_CACHED(&_2$$3, &_1$$3, "checkAuth", &_zephir_call_cache[2], &connection);
+		ZEPHIR_CALL_METHOD_CACHED(&_3$$3, &_2$$3, "checkAuth", &_zephir_call_cache[2], &connection);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD_CACHED(NULL, &_2$$3, "checkIndex", &_zephir_call_cache[3], &connection);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_3$$3, "checkIndex", &_zephir_call_cache[3], &connection);
 		zephir_check_call_status();
-		zephir_read_property_cached(&_3$$3, this_ptr, _zephir_prop_1, 132, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_4$$3, this_ptr, _zephir_prop_1, 132, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZVAL_LONG(&_4$$3, 2);
-		ZEPHIR_CALL_METHOD_CACHED(NULL, &connection, "setOption", &_zephir_call_cache[4], &_4$$3, &_3$$3);
+		ZVAL_LONG(&_5$$3, 2);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &connection, "setOption", &_zephir_call_cache[4], &_5$$3, &_4$$3);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "setSerializer", &_zephir_call_cache[5], &connection);
 		zephir_check_call_status();
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 133, &connection);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	RETURN_MM_MEMBER(getThis(), "adapter");
 }
@@ -475,7 +483,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, setForever)
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, doDecrement)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long value, ZEPHIR_LAST_CALL_STATUS;
+	zend_long value = 1, ZEPHIR_LAST_CALL_STATUS;
 	zval key_zv, *value_param = NULL, adapter, _0;
 	zend_string *key = NULL;
 	zval *this_ptr = getThis();
@@ -496,10 +504,6 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, doDecrement)
 	}
 	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
-	if (!value_param) {
-		value = 1;
-	} else {
-		}
 	ZEPHIR_CALL_METHOD_CACHED(&adapter, this_ptr, "getAdapter", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	ZVAL_LONG(&_0, value);
@@ -620,7 +624,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, doHas)
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, doIncrement)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long value, ZEPHIR_LAST_CALL_STATUS;
+	zend_long value = 1, ZEPHIR_LAST_CALL_STATUS;
 	zval key_zv, *value_param = NULL, adapter, _0;
 	zend_string *key = NULL;
 	zval *this_ptr = getThis();
@@ -641,10 +645,6 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, doIncrement)
 	}
 	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
-	if (!value_param) {
-		value = 1;
-	} else {
-		}
 	ZEPHIR_CALL_METHOD_CACHED(&adapter, this_ptr, "getAdapter", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	ZVAL_LONG(&_0, value);
@@ -973,8 +973,10 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, checkAuth)
 	if (error) {
 		ZEPHIR_INIT_VAR(&_5$$6);
 		object_init_ex(&_5$$6, phalcon_storage_exceptions_authenticationfailed_ce);
+		zephir_constructor_start(&_5$$6);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_5$$6, "__construct", &_zephir_call_cache[1]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_5$$6);
 		zephir_throw_exception_debug(&_5$$6, "phalcon/Storage/Adapter/Redis.zep", 390);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -1150,10 +1152,12 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, checkConnect)
 			ZEPHIR_CPY_WRT(&ex, &_4);
 			ZEPHIR_INIT_VAR(&_5$$8);
 			object_init_ex(&_5$$8, phalcon_storage_exceptions_connectionfailed_ce);
+			zephir_constructor_start(&_5$$8);
 			ZEPHIR_CALL_METHOD_CACHED(&_6$$8, &ex, "getMessage", &_zephir_call_cache[0]);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD_CACHED(NULL, &_5$$8, "__construct", &_zephir_call_cache[1], &_6$$8);
 			zephir_check_call_status();
+			zephir_constructor_finish(&_5$$8);
 			zephir_throw_exception_debug(&_5$$8, "phalcon/Storage/Adapter/Redis.zep", 442);
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -1165,12 +1169,14 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, checkConnect)
 	if (!(zephir_is_true(&result))) {
 		ZEPHIR_INIT_VAR(&_7$$10);
 		object_init_ex(&_7$$10, phalcon_storage_exceptions_connectionfailed_ce);
+		zephir_constructor_start(&_7$$10);
 		ZEPHIR_INIT_VAR(&_8$$10);
 		ZVAL_STRING(&_8$$10, "Could not connect to the Redis server [%s:%s]");
-		ZEPHIR_CALL_FUNCTION(&_9$$10, "sprintf", NULL, 39, &_8$$10, &host, &port);
+		ZEPHIR_CALL_FUNCTION(&_9$$10, "sprintf", NULL, 38, &_8$$10, &host, &port);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_7$$10, "__construct", &_zephir_call_cache[2], &_9$$10);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_7$$10);
 		zephir_throw_exception_debug(&_7$$10, "phalcon/Storage/Adapter/Redis.zep", 452);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -1226,8 +1232,10 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, checkIndex)
 	if (_1) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		object_init_ex(&_3$$3, phalcon_storage_exceptions_databaseselectionfailed_ce);
+		zephir_constructor_start(&_3$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_3$$3, "__construct", &_zephir_call_cache[1]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_3$$3);
 		zephir_throw_exception_debug(&_3$$3, "phalcon/Storage/Adapter/Redis.zep", 468);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -1286,12 +1294,12 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, setSerializer)
 	add_assoc_long_ex(&map, SL("redis_php"), 1);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "\\Redis::SERIALIZER_IGBINARY");
-	ZEPHIR_CALL_FUNCTION(&_1, "defined", &_2, 40, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "defined", &_2, 39, &_0);
 	zephir_check_call_status();
 	if (zephir_is_true(&_1)) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZVAL_STRING(&_3$$3, "\\Redis::SERIALIZER_IGBINARY");
-		ZEPHIR_CALL_FUNCTION(&_4$$3, "constant", &_5, 41, &_3$$3);
+		ZEPHIR_CALL_FUNCTION(&_4$$3, "constant", &_5, 40, &_3$$3);
 		zephir_check_call_status();
 		zephir_array_update_string(&map, SL("redis_igbinary"), &_4$$3, PH_COPY | PH_SEPARATE);
 		if (UNEXPECTED(EG(exception))) {
@@ -1301,12 +1309,12 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, setSerializer)
 	}
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "\\Redis::SERIALIZER_MSGPACK");
-	ZEPHIR_CALL_FUNCTION(&_6, "defined", &_2, 40, &_0);
+	ZEPHIR_CALL_FUNCTION(&_6, "defined", &_2, 39, &_0);
 	zephir_check_call_status();
 	if (zephir_is_true(&_6)) {
 		ZEPHIR_INIT_VAR(&_7$$4);
 		ZVAL_STRING(&_7$$4, "\\Redis::SERIALIZER_MSGPACK");
-		ZEPHIR_CALL_FUNCTION(&_8$$4, "constant", &_5, 41, &_7$$4);
+		ZEPHIR_CALL_FUNCTION(&_8$$4, "constant", &_5, 40, &_7$$4);
 		zephir_check_call_status();
 		zephir_array_update_string(&map, SL("redis_msgpack"), &_8$$4, PH_COPY | PH_SEPARATE);
 		if (UNEXPECTED(EG(exception))) {
@@ -1316,12 +1324,12 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, setSerializer)
 	}
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "\\Redis::SERIALIZER_JSON");
-	ZEPHIR_CALL_FUNCTION(&_9, "defined", &_2, 40, &_0);
+	ZEPHIR_CALL_FUNCTION(&_9, "defined", &_2, 39, &_0);
 	zephir_check_call_status();
 	if (zephir_is_true(&_9)) {
 		ZEPHIR_INIT_VAR(&_10$$5);
 		ZVAL_STRING(&_10$$5, "\\Redis::SERIALIZER_JSON");
-		ZEPHIR_CALL_FUNCTION(&_11$$5, "constant", &_5, 41, &_10$$5);
+		ZEPHIR_CALL_FUNCTION(&_11$$5, "constant", &_5, 40, &_10$$5);
 		zephir_check_call_status();
 		zephir_array_update_string(&map, SL("redis_json"), &_11$$5, PH_COPY | PH_SEPARATE);
 		if (UNEXPECTED(EG(exception))) {
@@ -1346,6 +1354,10 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, setSerializer)
 		ZEPHIR_INIT_NVAR(&_14$$6);
 		ZVAL_STRING(&_14$$6, "");
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 135, &_14$$6);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		zephir_array_fetch(&_15$$6, &map, &serializer, PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/Redis.zep", 510);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();

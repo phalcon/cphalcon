@@ -321,6 +321,10 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, getColumnNameReal)
 		ZEPHIR_CALL_METHOD_CACHED(&_7$$3, &_5$$3, "getColumnMap", &_zephir_call_cache[3], record);
 		zephir_check_call_status();
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 783, &_7$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	zephir_memory_observe(&_8);
 	zephir_read_property_cached(&_8, this_ptr, _zephir_prop_0, 783, PH_NOISY_CC);
@@ -461,7 +465,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniqueness)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&singleField);
 	if (Z_TYPE_P(&convert) != IS_NULL) {
 		ZEPHIR_CALL_ZVAL_FUNCTION(&_7$$6, &convert, NULL, 0, &values);
 		zephir_check_call_status();
@@ -469,8 +472,10 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniqueness)
 		if (UNEXPECTED(!((Z_TYPE_P(&values) == IS_ARRAY)))) {
 			ZEPHIR_INIT_VAR(&_8$$7);
 			object_init_ex(&_8$$7, phalcon_filter_validation_exceptions_uniquenessconversionmustbearray_ce);
+			zephir_constructor_start(&_8$$7);
 			ZEPHIR_CALL_METHOD_CACHED(NULL, &_8$$7, "__construct", &_zephir_call_cache[7]);
 			zephir_check_call_status();
+			zephir_constructor_finish(&_8$$7);
 			zephir_throw_exception_debug(&_8$$7, "phalcon/Filter/Validation/Validator/Uniqueness.zep", 212);
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -490,8 +495,10 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniqueness)
 		if (UNEXPECTED(ZEPHIR_IS_EMPTY(&record))) {
 			ZEPHIR_INIT_VAR(&_11$$9);
 			object_init_ex(&_11$$9, phalcon_filter_validation_exceptions_uniquenessmodelrequired_ce);
+			zephir_constructor_start(&_11$$9);
 			ZEPHIR_CALL_METHOD_CACHED(NULL, &_11$$9, "__construct", &_zephir_call_cache[10]);
 			zephir_check_call_status();
+			zephir_constructor_finish(&_11$$9);
 			zephir_throw_exception_debug(&_11$$9, "phalcon/Filter/Validation/Validator/Uniqueness.zep", 223);
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -504,8 +511,10 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniqueness)
 	} else {
 		ZEPHIR_INIT_VAR(&_12$$11);
 		object_init_ex(&_12$$11, phalcon_filter_validation_exceptions_uniquenessonlyforphalconmodel_ce);
+		zephir_constructor_start(&_12$$11);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_12$$11, "__construct", &_zephir_call_cache[12]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_12$$11);
 		zephir_throw_exception_debug(&_12$$11, "phalcon/Filter/Validation/Validator/Uniqueness.zep", 232);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -812,7 +821,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 					zephir_array_keys(&_8$$6, &except);
 					ZVAL_LONG(&_9$$6, 0);
 					ZVAL_LONG(&_10$$6, (zephir_fast_count_int(&except) - 1));
-					ZEPHIR_CALL_FUNCTION(&_11$$6, "range", &_12, 162, &_9$$6, &_10$$6);
+					ZEPHIR_CALL_FUNCTION(&_11$$6, "range", &_12, 161, &_9$$6, &_10$$6);
 					zephir_check_call_status();
 					_7$$6 = !ZEPHIR_IS_IDENTICAL(&_8$$6, &_11$$6);
 				}
@@ -917,7 +926,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 											index++;
 									}
 								}
-								ZEPHIR_INIT_NVAR(&singleExcept);
 								ZEPHIR_INIT_NVAR(&_29$$9);
 								zephir_fast_join_str(&_29$$9, SL(","), &notInValues);
 								ZEPHIR_INIT_NVAR(&_30$$9);
@@ -1054,7 +1062,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 												index++;
 										}
 									}
-									ZEPHIR_INIT_NVAR(&singleExcept);
 									ZEPHIR_INIT_NVAR(&_46$$14);
 									zephir_fast_join_str(&_46$$14, SL(","), &notInValues);
 									ZEPHIR_INIT_NVAR(&_47$$14);
@@ -1091,8 +1098,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 								}
 						}
 					}
-					ZEPHIR_INIT_NVAR(&fieldExcept);
-					ZEPHIR_INIT_NVAR(&singleField);
 				} else if (zephir_fast_count_int(&field) == 1) {
 					ZEPHIR_OBS_NVAR(&_51$$18);
 					zephir_array_fetch_long(&_51$$18, &field, 0, PH_NOISY, "phalcon/Filter/Validation/Validator/Uniqueness.zep", 304);
@@ -1179,7 +1184,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 									index++;
 							}
 						}
-						ZEPHIR_INIT_NVAR(&singleExcept);
 						ZEPHIR_INIT_NVAR(&_62$$19);
 						zephir_fast_join_str(&_62$$19, SL(","), &notInValues);
 						ZEPHIR_INIT_NVAR(&_63$$19);
@@ -1300,7 +1304,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 											index++;
 									}
 								}
-								ZEPHIR_INIT_NVAR(&singleExcept);
 								ZEPHIR_INIT_NVAR(&_78$$25);
 								zephir_fast_join_str(&_78$$25, SL(","), &notInValues);
 								ZEPHIR_INIT_NVAR(&_79$$25);
@@ -1433,7 +1436,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 												index++;
 										}
 									}
-									ZEPHIR_INIT_NVAR(&singleExcept);
 									ZEPHIR_INIT_NVAR(&_95$$30);
 									zephir_fast_join_str(&_95$$30, SL(","), &notInValues);
 									ZEPHIR_INIT_NVAR(&_96$$30);
@@ -1470,7 +1472,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 								}
 						}
 					}
-					ZEPHIR_INIT_NVAR(&singleField);
 				}
 			}
 		} ZEND_HASH_FOREACH_END();
@@ -1549,7 +1550,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 						zephir_array_keys(&_107$$37, &except);
 						ZVAL_LONG(&_108$$37, 0);
 						ZVAL_LONG(&_109$$37, (zephir_fast_count_int(&except) - 1));
-						ZEPHIR_CALL_FUNCTION(&_110$$37, "range", &_12, 162, &_108$$37, &_109$$37);
+						ZEPHIR_CALL_FUNCTION(&_110$$37, "range", &_12, 161, &_108$$37, &_109$$37);
 						zephir_check_call_status();
 						_106$$37 = !ZEPHIR_IS_IDENTICAL(&_107$$37, &_110$$37);
 					}
@@ -1654,7 +1655,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 												index++;
 										}
 									}
-									ZEPHIR_INIT_NVAR(&singleExcept);
 									ZEPHIR_INIT_NVAR(&_127$$40);
 									zephir_fast_join_str(&_127$$40, SL(","), &notInValues);
 									ZEPHIR_INIT_NVAR(&_128$$40);
@@ -1791,7 +1791,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 													index++;
 											}
 										}
-										ZEPHIR_INIT_NVAR(&singleExcept);
 										ZEPHIR_INIT_NVAR(&_144$$45);
 										zephir_fast_join_str(&_144$$45, SL(","), &notInValues);
 										ZEPHIR_INIT_NVAR(&_145$$45);
@@ -1828,8 +1827,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 									}
 							}
 						}
-						ZEPHIR_INIT_NVAR(&fieldExcept);
-						ZEPHIR_INIT_NVAR(&singleField);
 					} else if (zephir_fast_count_int(&field) == 1) {
 						ZEPHIR_OBS_NVAR(&_149$$49);
 						zephir_array_fetch_long(&_149$$49, &field, 0, PH_NOISY, "phalcon/Filter/Validation/Validator/Uniqueness.zep", 304);
@@ -1916,7 +1913,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 										index++;
 								}
 							}
-							ZEPHIR_INIT_NVAR(&singleExcept);
 							ZEPHIR_INIT_NVAR(&_160$$50);
 							zephir_fast_join_str(&_160$$50, SL(","), &notInValues);
 							ZEPHIR_INIT_NVAR(&_161$$50);
@@ -2037,7 +2033,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 												index++;
 										}
 									}
-									ZEPHIR_INIT_NVAR(&singleExcept);
 									ZEPHIR_INIT_NVAR(&_176$$56);
 									zephir_fast_join_str(&_176$$56, SL(","), &notInValues);
 									ZEPHIR_INIT_NVAR(&_177$$56);
@@ -2170,7 +2165,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 													index++;
 											}
 										}
-										ZEPHIR_INIT_NVAR(&singleExcept);
 										ZEPHIR_INIT_NVAR(&_193$$61);
 										zephir_fast_join_str(&_193$$61, SL(","), &notInValues);
 										ZEPHIR_INIT_NVAR(&_194$$61);
@@ -2207,12 +2201,10 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 									}
 							}
 						}
-						ZEPHIR_INIT_NVAR(&singleField);
 					}
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&singleField);
 	ZEPHIR_CALL_METHOD_CACHED(&_197, record, "getDirtyState", &_zephir_call_cache[87]);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_LONG(&_197, 0)) {
@@ -2308,7 +2300,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniquenessModel)
 					index++;
 			}
 		}
-		ZEPHIR_INIT_NVAR(&primaryField);
 	}
 	if (!(ZEPHIR_IS_EMPTY(&exceptConditions))) {
 		ZEPHIR_INIT_VAR(&_215$$68);

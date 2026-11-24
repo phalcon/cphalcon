@@ -101,8 +101,10 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, fromOptions)
 	object_init_ex(return_value, zephir_get_called_scope(execute_data));
 	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(return_value);
 	zephir_check_call_status();
+	zephir_constructor_start(return_value);
 	ZEPHIR_INIT_NVAR(&_0);
 	object_init_ex(&_0, phalcon_auth_adapter_config_modeladapterconfig_ce);
+	zephir_constructor_start(&_0);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "model");
 	ZEPHIR_INIT_VAR(&_3);
@@ -118,8 +120,10 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, fromOptions)
 	}
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[2], &_1, &_4);
 	zephir_check_call_status();
+	zephir_constructor_finish(&_0);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[3], hasher, &_0);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -157,9 +161,9 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, createRememberToken)
 	ZEPHIR_CALL_CE_STATIC_CACHED(NULL, phalcon_auth_exceptions_doesnotimplement_ce, "assert", &_zephir_call_cache[0], user, &_0, &_1, &_2);
 	zephir_check_call_status();
 	ZVAL_LONG(&_3, 30);
-	ZEPHIR_CALL_FUNCTION(&_4, "random_bytes", NULL, 71, &_3);
+	ZEPHIR_CALL_FUNCTION(&_4, "random_bytes", NULL, 70, &_3);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_5, "bin2hex", NULL, 72, &_4);
+	ZEPHIR_CALL_FUNCTION(&_5, "bin2hex", NULL, 71, &_4);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD_CACHED(user, "createRememberToken", &_zephir_call_cache[1], &_5);
 	zephir_check_call_status();
@@ -240,8 +244,10 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveByCredentials)
 			if (UNEXPECTED(!zephir_is_true(&_5$$3))) {
 				ZEPHIR_INIT_NVAR(&_7$$5);
 				object_init_ex(&_7$$5, phalcon_auth_exceptions_invalidcredentialkey_ce);
+				zephir_constructor_start(&_7$$5);
 				ZEPHIR_CALL_METHOD_CACHED(NULL, &_7$$5, "__construct", &_zephir_call_cache[0], &key);
 				zephir_check_call_status();
+				zephir_constructor_finish(&_7$$5);
 				zephir_throw_exception_debug(&_7$$5, "phalcon/Auth/Adapter/Model.zep", 99);
 				ZEPHIR_MM_RESTORE();
 				return;
@@ -296,8 +302,10 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveByCredentials)
 				if (UNEXPECTED(!zephir_is_true(&_13$$6))) {
 					ZEPHIR_INIT_NVAR(&_15$$8);
 					object_init_ex(&_15$$8, phalcon_auth_exceptions_invalidcredentialkey_ce);
+					zephir_constructor_start(&_15$$8);
 					ZEPHIR_CALL_METHOD_CACHED(NULL, &_15$$8, "__construct", &_zephir_call_cache[6], &key);
 					zephir_check_call_status();
+					zephir_constructor_finish(&_15$$8);
 					zephir_throw_exception_debug(&_15$$8, "phalcon/Auth/Adapter/Model.zep", 99);
 					ZEPHIR_MM_RESTORE();
 					return;
@@ -320,8 +328,6 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveByCredentials)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&value);
-	ZEPHIR_INIT_NVAR(&key);
 	if (ZEPHIR_IS_EMPTY(&conditions)) {
 		RETURN_MM_NULL();
 	}

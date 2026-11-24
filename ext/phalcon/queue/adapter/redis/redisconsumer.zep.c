@@ -75,8 +75,14 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConsumer, __construct)
 		Z_PARAM_OBJECT_OF_CLASS(queue, phalcon_contracts_queue_queue_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(2, 0, &context, &queue);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1295, context);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1296, queue);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1293, context);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1294, queue);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**
@@ -98,7 +104,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConsumer, receive)
 	zend_bool _6$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *timeout_param = NULL, __$true, message, queueName, _0, _1$$3, _2$$3, _3$$3, _4$$4, _5$$4, _7$$4, _8$$4, _9$$4;
-	zend_long timeout, ZEPHIR_LAST_CALL_STATUS, deadline = 0;
+	zend_long timeout = 0, ZEPHIR_LAST_CALL_STATUS, deadline = 0;
 	zval *this_ptr = getThis();
 
 	ZVAL_BOOL(&__$true, 1);
@@ -130,11 +136,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConsumer, receive)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 0, 1, &timeout_param);
-	if (!timeout_param) {
-		timeout = 0;
-	} else {
-		}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1296, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1294, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -156,7 +158,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConsumer, receive)
 		deadline = (zephir_get_intval(&_3$$3) + timeout);
 	}
 	while (1) {
-		zephir_read_property_cached(&_4$$4, this_ptr, _zephir_prop_1, 1295, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_4$$4, this_ptr, _zephir_prop_1, 1293, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -210,12 +212,12 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConsumer, receiveNoWait)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1295, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1293, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 1296, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 1294, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -231,7 +233,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConsumer, reject)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool requeue;
+	zend_bool requeue = 0;
 	zval *message, message_sub, *requeue_param = NULL, _0$$3, _1$$3, _2$$3;
 	zval *this_ptr = getThis();
 
@@ -257,17 +259,13 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConsumer, reject)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &message, &requeue_param);
-	if (!requeue_param) {
-		requeue = 0;
-	} else {
-		}
 	if (requeue) {
-		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 1295, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 1293, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_1, 1296, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_1, 1294, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;

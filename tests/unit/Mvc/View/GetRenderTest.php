@@ -17,13 +17,11 @@ use Phalcon\Di\Di;
 use Phalcon\Mvc\View;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Talon\Talon;
-use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 use stdClass;
+use TypeError;
 
 class GetRenderTest extends AbstractUnitTestCase
 {
-    use ErrorHandlerTrait;
-
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -54,8 +52,8 @@ class GetRenderTest extends AbstractUnitTestCase
     }
 
     /**
-     * A config callback object that cannot be called gives a warning and
-     * null, the same as cphalcon.
+     * A config callback object that cannot be called throws the TypeError of
+     * call_user_func_array().
      *
      * @issue  https://github.com/phalcon/phalcon/issues/815
      * @author Phalcon Team <team@phalcon.io>
@@ -66,11 +64,12 @@ class GetRenderTest extends AbstractUnitTestCase
         $view = new View();
         $view->setDI(new Di());
 
-        [$actual, $messages] = $this->collectErrors(
-            static fn () => $view->getRender('partials', 'partial', [], new stdClass())
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage(
+            'call_user_func_array(): Argument #1 ($callback) must be a valid callback, '
+            . 'no array or string given'
         );
 
-        $this->assertNull($actual);
-        $this->assertSame(['no array or string given'], $messages);
+        $view->getRender('partials', 'partial', [], new stdClass());
     }
 }

@@ -169,7 +169,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify)
 					zephir_check_call_status();
 			}
 		}
-		ZEPHIR_INIT_NVAR(&message);
 		RETURN_MM_BOOL(0);
 	}
 	ZEPHIR_CALL_METHOD_CACHED(NULL, model, "writeAttribute", &_zephir_call_cache[13], &field, &value);

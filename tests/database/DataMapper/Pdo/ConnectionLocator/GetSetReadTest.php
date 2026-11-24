@@ -16,8 +16,8 @@ namespace Phalcon\Tests\Database\DataMapper\Pdo\ConnectionLocator;
 use Phalcon\DataMapper\Pdo\ConnectionLocator;
 use Phalcon\DataMapper\Pdo\Exception\ConnectionNotFound;
 use Phalcon\Tests\AbstractDatabaseTestCase;
-use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 use PHPUnit\Framework\Attributes\Group;
+use TypeError;
 
 use function in_array;
 use function spl_object_id;
@@ -27,8 +27,6 @@ use function spl_object_id;
 #[Group('sqlite')]
 final class GetSetReadTest extends AbstractDatabaseTestCase
 {
-    use ErrorHandlerTrait;
-
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-25
@@ -66,8 +64,8 @@ final class GetSetReadTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * A read factory that cannot be called gives a warning and null, the
-     * same as cphalcon.
+     * A read factory that cannot be called throws the TypeError of
+     * call_user_func().
      *
      * @issue  https://github.com/phalcon/phalcon/issues/818
      * @author Phalcon Team <team@phalcon.io>
@@ -82,12 +80,13 @@ final class GetSetReadTest extends AbstractDatabaseTestCase
             ]
         );
 
-        $actual = $this->collectErrors(static fn () => $locator->getRead('read1'));
-
-        $this->assertSame(
-            [null, ['function "nope" not found or invalid function name']],
-            $actual
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage(
+            'call_user_func(): Argument #1 ($callback) must be a valid callback, '
+            . 'function "nope" not found or invalid function name'
         );
+
+        $locator->getRead('read1');
     }
 
     /**

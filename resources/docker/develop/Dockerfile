@@ -36,6 +36,7 @@ apt-get install -yq --no-install-recommends \
     libicu-dev \
     libjpeg-dev \
     libmagickwand-dev \
+    libonig-dev \
     libpng-dev \
     libpq-dev \
     libtool \
@@ -47,12 +48,22 @@ apt-get install -yq --no-install-recommends \
     unzip
 # Install runtime extensions
 # (PIE also enables each extension)
-# Packagist has only a release candidate of igbinary for PIE
-pie install --no-cache "igbinary/igbinary:^3.2@RC"
-pie install --no-cache apcu/apcu
-pie install --no-cache imagick/imagick
-pie install --no-cache phpredis/phpredis --enable-redis-igbinary
-pie install --no-cache pecl/yaml
+if php -r 'exit(PHP_VERSION_ID < 80600 ? 0 : 1);'; then
+    # Packagist has only a release candidate of igbinary for PIE
+    pie install --no-cache "igbinary/igbinary:^3.2@RC"
+    pie install --no-cache apcu/apcu
+    pie install --no-cache imagick/imagick
+    pie install --no-cache phpredis/phpredis --enable-redis-igbinary
+    pie install --no-cache pecl/yaml
+else
+    # The releases do not compile on PHP 8.6 yet. Use the development
+    # branches until there are releases that support PHP 8.6.
+    pie install --no-cache igbinary/igbinary:dev-master
+    pie install --no-cache apcu/apcu:dev-master
+    pie install --no-cache imagick/imagick:dev-master
+    pie install --no-cache phpredis/phpredis:dev-develop --enable-redis-igbinary
+    pie install --no-cache pecl/yaml:dev-php7
+fi
 # Configure GD
 docker-php-ext-configure gd --with-freetype \
     --with-jpeg=/usr/include/ \
@@ -70,6 +81,10 @@ docker-php-ext-install \
     pgsql \
     xsl \
     zip
+# The PHP 8.6 image does not have mbstring (the older images have it for PECL)
+if ! php -m | grep -qx mbstring; then
+    docker-php-ext-install mbstring
+fi
 # PHP 8.5 and later have OPcache built in
 if ! php -m | grep -qx 'Zend OPcache'; then
     docker-php-ext-install opcache
@@ -102,7 +117,8 @@ curl -fsSL -o /usr/local/bin/php-fpm-healthcheck \
     https://raw.githubusercontent.com/renatomefi/php-fpm-healthcheck/master/php-fpm-healthcheck
 chown "${USER}:${GROUP}" /usr/local/bin/php-fpm-healthcheck
 chmod 0770 /usr/local/bin/php-fpm-healthcheck
-echo "pm.status_path = /status" >> /usr/local/etc/php-fpm.d/zz-docker.conf
+# The status page is a pool setting. From PHP 8.6, zz-docker.conf has no [www] section.
+sed -i -e "s/^;pm.status_path = \/status$/pm.status_path = \/status/" /usr/local/etc/php-fpm.d/www.conf
 # Pid dir
 install -d -m 0770 -o "${USER}" -g "${GROUP}" /run/php
 # Cleanup
@@ -165,9 +181,18 @@ apt-get install -yq --no-install-recommends \
 # Dev/test extensions
 # (PIE also enables each extension)
 docker-php-ext-install gmp
-pie install --no-cache msgpack/msgpack-php
-pie install --no-cache php-memcached/php-memcached
-pie install --no-cache xdebug/xdebug
+if php -r 'exit(PHP_VERSION_ID < 80600 ? 0 : 1);'; then
+    pie install --no-cache msgpack/msgpack-php
+    pie install --no-cache php-memcached/php-memcached
+    pie install --no-cache xdebug/xdebug
+else
+    # The releases do not compile on PHP 8.6 yet. Use the development
+    # branches until there are releases that support PHP 8.6.
+    pie install --no-cache msgpack/msgpack-php:dev-master
+    pie install --no-cache php-memcached/php-memcached:dev-master
+    # Only an alpha of Xdebug supports PHP 8.6
+    pie install --no-cache "xdebug/xdebug:^3.6@alpha"
+fi
 #    zephir_parser
 # Locales for gettext/Translate tests
 sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen

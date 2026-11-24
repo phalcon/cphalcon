@@ -138,5 +138,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, setDefaultAction)
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, defaultAccess);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 142, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 

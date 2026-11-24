@@ -60,7 +60,7 @@ PHP_METHOD(Phalcon_Annotations_Exceptions_InvalidSourceTable, __construct)
 		ZEPHIR_INIT_VAR(&value);
 		zephir_var_export_ex(&value, table);
 	} else {
-		ZEPHIR_CALL_FUNCTION(&value, "get_debug_type", NULL, 111, table);
+		ZEPHIR_CALL_FUNCTION(&value, "get_debug_type", NULL, 110, table);
 		zephir_check_call_status();
 	}
 	ZEPHIR_INIT_VAR(&_1);

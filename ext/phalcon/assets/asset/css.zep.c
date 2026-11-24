@@ -44,7 +44,7 @@ PHP_METHOD(Phalcon_Assets_Asset_Css, __construct)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval attributes;
-	zend_bool local, filter, autoVersion;
+	zend_bool local = 1, filter = 1, autoVersion = 0;
 	zval path_zv, *local_param = NULL, *filter_param = NULL, *attributes_param = NULL, version_zv, *autoVersion_param = NULL, _0, _1, _2, _3;
 	zend_string *path = NULL, *version = NULL;
 
@@ -82,14 +82,6 @@ PHP_METHOD(Phalcon_Assets_Asset_Css, __construct)
 	}
 	zephir_memory_observe(&path_zv);
 	ZVAL_STR_COPY(&path_zv, path);
-	if (!local_param) {
-		local = 1;
-	} else {
-		}
-	if (!filter_param) {
-		filter = 1;
-	} else {
-		}
 	if (!attributes_param) {
 		ZEPHIR_INIT_VAR(&attributes);
 		array_init(&attributes);
@@ -102,10 +94,6 @@ PHP_METHOD(Phalcon_Assets_Asset_Css, __construct)
 		zephir_memory_observe(&version_zv);
 	ZVAL_STR_COPY(&version_zv, version);
 	}
-	if (!autoVersion_param) {
-		autoVersion = 0;
-	} else {
-		}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "css");
 	if (local) {

@@ -78,7 +78,11 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, close)
 
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1291, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1289, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -106,8 +110,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, createConsumer)
 	ZEPHIR_CALL_CE_STATIC_CACHED(NULL, phalcon_queue_adapter_queuedestinationguard_ce, "assertQueue", &_zephir_call_cache[0], destination, &_0);
 	zephir_check_call_status();
 	object_init_ex(return_value, phalcon_queue_adapter_memory_memoryconsumer_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[1], this_ptr, destination);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -161,8 +167,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, createMessage)
 		zephir_get_arrval(&headers, headers_param);
 	}
 	object_init_ex(return_value, phalcon_queue_adapter_memory_memorymessage_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &body_zv, &properties, &headers);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -180,8 +188,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, createProducer)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	object_init_ex(return_value, phalcon_queue_adapter_memory_memoryproducer_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], this_ptr);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -199,8 +209,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, createSubscriptionConsume
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	object_init_ex(return_value, phalcon_queue_adapter_memory_memorysubscriptionconsumer_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], this_ptr);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -234,7 +246,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, popMessage)
 	zephir_memory_observe(&queueName_zv);
 	ZVAL_STR_COPY(&queueName_zv, queueName);
 	zephir_memory_observe(&messages);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1291, PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1289, PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -250,8 +262,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, popMessage)
 	if (ZEPHIR_IS_EMPTY(&messages)) {
 		RETURN_MM_NULL();
 	}
+	ZEPHIR_OBSERVE_IF_UNDEF(&messages);
 	ZEPHIR_MAKE_REF(&messages);
-	ZEPHIR_CALL_FUNCTION(&message, "array_shift", NULL, 108, &messages);
+	ZEPHIR_CALL_FUNCTION(&message, "array_shift", NULL, 107, &messages);
 	ZEPHIR_UNREF(&messages);
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("queues"), &queueName_zv, &messages);
@@ -325,7 +338,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryContext, pushMessage)
 	zephir_memory_observe(&queueName_zv);
 	ZVAL_STR_COPY(&queueName_zv, queueName);
 	zephir_memory_observe(&messages);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1291, PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1289, PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;

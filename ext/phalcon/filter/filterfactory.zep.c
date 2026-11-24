@@ -58,10 +58,12 @@ PHP_METHOD(Phalcon_Filter_FilterFactory, newInstance)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	object_init_ex(return_value, phalcon_filter_filter_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "getServices", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[1], &_0);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 

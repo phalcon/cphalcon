@@ -22,6 +22,7 @@
 #include <ext/spl/spl_exceptions.h>
 
 #include "kernel/main.h"
+#include "kernel/array.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
@@ -114,47 +115,76 @@ int zephir_fetch_parameters_variadic(int num_args, int required_args, int option
 }
 
 /**
- * Gets the global zval into PG macro
+ * The slot of a superglobal in the global symbol table, added as null when
+ * missing. An auto global created on first use (`_SERVER`, `_ENV`,
+ * `_REQUEST`) is created first, so it cannot later overwrite the slot.
+ */
+static zval *zephir_global_slot(zend_string *name)
+{
+	zval *slot;
+
+	if (PG(auto_globals_jit)) {
+		zend_is_auto_global(name);
+	}
+
+	slot = zend_hash_find_ind(&EG(symbol_table), name);
+	if (slot == NULL) {
+		slot = zend_hash_update(&EG(symbol_table), name, &EG(uninitialized_zval));
+	}
+
+	return slot;
+}
+
+/**
+ * Points `arr` at the value of a superglobal, which it borrows: `arr` owns no
+ * reference, so it must never be released or overwritten by anything but this
+ * function. A write to an element of `arr` changes the global itself.
+ *
+ * The slot is changed in place, so a reference to the global, such as the one
+ * the session keeps to `$_SESSION`, stays bound to it: a missing or null
+ * global becomes an empty array, as Zephir never leaves a superglobal null,
+ * and an array other variables share is separated first, as PHP separates it
+ * before a write. Any other value is borrowed as it is.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2856
  */
 int zephir_get_global(zval *arr, const char *global, unsigned int global_length)
 {
-	zend_array *symbol_table;
-	zend_string *str = zend_string_init(global, global_length, 0);
+	zend_string *name = zend_string_init(global, global_length, 0);
+	zval *slot        = zephir_global_slot(name);
+	int status        = SUCCESS;
 
-	if (PG(auto_globals_jit)) {
-		zend_is_auto_global(str);
+	zend_string_release(name);
+	ZVAL_DEREF(slot);
+
+	if (Z_TYPE_P(slot) == IS_NULL) {
+		array_init(slot);
+		status = FAILURE;
+	} else if (Z_TYPE_P(slot) == IS_ARRAY) {
+		SEPARATE_ARRAY(slot);
 	}
 
-	if (&EG(symbol_table)) {
-		zval *gv;
+	ZVAL_COPY_VALUE(arr, slot);
 
-		if ((gv = zend_hash_find_ind(&EG(symbol_table), str)) != NULL) {
-			ZVAL_DEREF(gv);
-			if (Z_TYPE_P(gv) == IS_ARRAY) {
-				if (Z_REFCOUNTED_P(gv) && Z_REFCOUNT_P(gv) <= 1) {
-					ZVAL_COPY_VALUE(arr, gv);
-				} else {
-					ZVAL_DUP(arr, gv);
-					zend_hash_update(&EG(symbol_table), str, arr);
-				}
+	return status;
+}
 
-				zend_string_release(str);
-				return SUCCESS;
-			}
-		}
-	}
+/**
+ * `let <superglobal> = value`: assigns `value` to the global the way PHP's
+ * ASSIGN does. A global bound to a reference is written through it, a typed
+ * one checked against its type, and the old value is released only after the
+ * slot holds the new one. `value` keeps its own reference.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2856
+ */
+int zephir_set_global(const char *global, unsigned int global_length, zval *value)
+{
+	zend_string *name = zend_string_init(global, global_length, 0);
 
-	array_init(arr);
-	if (!(&EG(symbol_table))) {
-		symbol_table = zend_rebuild_symbol_table();
-	} else {
-		symbol_table = &EG(symbol_table);
-	}
+	zephir_array_assign_value(zephir_global_slot(name), value);
+	zend_string_release(name);
 
-	zend_hash_update(symbol_table, str, arr);
-	zend_string_release(str);
-
-	return FAILURE;
+	return EG(exception) ? FAILURE : SUCCESS;
 }
 
 /**
@@ -688,14 +718,7 @@ static int zephir_union_arg_coerce_weak(uint32_t type_mask, zval *arg, uint32_t 
 	zend_long lval;
 	double dval;
 	zend_string *str;
-	zend_bool bval;
-
-#if PHP_VERSION_ID >= 80100
-# define ZEPHIR_WEAK_ARG_NUM , arg_num
-#else
-# define ZEPHIR_WEAK_ARG_NUM
-	(void) arg_num;
-#endif
+	bool bval;
 
 	/* Type preference order: int -> float -> string -> bool */
 	if (type_mask & MAY_BE_LONG) {
@@ -711,7 +734,7 @@ static int zephir_union_arg_coerce_weak(uint32_t type_mask, zval *arg, uint32_t 
 				ZVAL_DOUBLE(arg, dval);
 				return 1;
 			}
-		} else if (zend_parse_arg_long_weak(arg, &lval ZEPHIR_WEAK_ARG_NUM)) {
+		} else if (zephir_parse_arg_long_weak(arg, &lval, arg_num)) {
 			zval_ptr_dtor(arg);
 			ZVAL_LONG(arg, lval);
 			return 1;
@@ -719,22 +742,20 @@ static int zephir_union_arg_coerce_weak(uint32_t type_mask, zval *arg, uint32_t 
 			return 0;
 		}
 	}
-	if ((type_mask & MAY_BE_DOUBLE) && zend_parse_arg_double_weak(arg, &dval ZEPHIR_WEAK_ARG_NUM)) {
+	if ((type_mask & MAY_BE_DOUBLE) && zephir_parse_arg_double_weak(arg, &dval, arg_num)) {
 		zval_ptr_dtor(arg);
 		ZVAL_DOUBLE(arg, dval);
 		return 1;
 	}
-	if ((type_mask & MAY_BE_STRING) && zend_parse_arg_str_weak(arg, &str ZEPHIR_WEAK_ARG_NUM)) {
+	if ((type_mask & MAY_BE_STRING) && zephir_parse_arg_str_weak(arg, &str, arg_num)) {
 		/* on success "arg" is converted to IS_STRING */
 		return 1;
 	}
-	if ((type_mask & MAY_BE_BOOL) == MAY_BE_BOOL && zend_parse_arg_bool_weak(arg, &bval ZEPHIR_WEAK_ARG_NUM)) {
+	if ((type_mask & MAY_BE_BOOL) == MAY_BE_BOOL && zephir_parse_arg_bool_weak(arg, &bval, arg_num)) {
 		zval_ptr_dtor(arg);
 		ZVAL_BOOL(arg, bval);
 		return 1;
 	}
-
-#undef ZEPHIR_WEAK_ARG_NUM
 
 	return 0;
 }
@@ -1336,6 +1357,23 @@ void zephir_get_args_from(zval *return_value, uint32_t skip)
 			++i;
 		}
 	}
+
+	/**
+	 * Named arguments the method has no parameter for are collected by its
+	 * variadic parameter, under their names, as `...$args` collects them.
+	 *
+	 * @see https://github.com/zephir-lang/zephir/issues/2824
+	 */
+	if (ZEND_CALL_INFO(ex) & ZEND_CALL_HAS_EXTRA_NAMED_PARAMS) {
+		zend_string *name;
+		zval *value;
+
+		ZEND_HASH_FOREACH_STR_KEY_VAL(ex->extra_named_params, name, value) {
+			ZVAL_DEREF(value);
+			Z_TRY_ADDREF_P(value);
+			zend_hash_add_new(Z_ARRVAL_P(return_value), name, value);
+		} ZEND_HASH_FOREACH_END();
+	}
 }
 
 void zephir_get_arg(zval *return_value, zend_long idx)
@@ -1349,16 +1387,13 @@ void zephir_get_arg(zval *return_value, zend_long idx)
 		RETURN_FALSE;
 	}
 
+	/**
+	 * No zend_forbid_dynamic_call() here: `ex` is the frame of the method
+	 * that reads its arguments, and a method called through a callable is a
+	 * dynamic call PHP allows. The func_get_arg() Zephir compiles is never
+	 * itself called dynamically.
+	 */
 	arg_count = ZEND_CALL_NUM_ARGS(ex);
-#if PHP_VERSION_ID >= 80200
-	if (zend_forbid_dynamic_call() == FAILURE) {
-		RETURN_FALSE;
-	}
-#else
-	if (zend_forbid_dynamic_call("func_get_arg()") == FAILURE) {
-		RETURN_FALSE;
-	}
-#endif
 
 	if (UNEXPECTED((zend_ulong)idx >= arg_count)) {
 		zend_error(E_WARNING, "func_get_arg():  Argument " ZEND_LONG_FMT " not passed to function", idx);

@@ -23,7 +23,6 @@ use Phalcon\Container\Resolver\Lazy\NewCall;
 use Phalcon\Container\Resolver\Lazy\StaticCall;
 use Phalcon\Container\Resolver\Resolver;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
-use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
 use Throwable;
@@ -35,8 +34,6 @@ use TypeError;
  */
 final class ParameterTypesTest extends AbstractUnitTestCase
 {
-    use ErrorHandlerTrait;
-
     /**
      * A value that cannot be called and the cphalcon message.
      *
@@ -167,8 +164,8 @@ final class ParameterTypesTest extends AbstractUnitTestCase
     }
 
     /**
-     * A class name that is not a string gives a warning and null, the same as
-     * cphalcon.
+     * A class name that is not a string throws the TypeError of
+     * call_user_func_array().
      *
      * @issue  https://github.com/phalcon/phalcon/issues/818
      * @author Phalcon Team <team@phalcon.io>
@@ -179,12 +176,13 @@ final class ParameterTypesTest extends AbstractUnitTestCase
         $lazy      = new StaticCall(5, 'm', []);
         $container = $this->getNumberContainer();
 
-        $actual = $this->collectErrors(static fn () => $lazy->resolve($container));
-
-        $this->assertSame(
-            [null, ['first array member is not a valid class name or object']],
-            $actual
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage(
+            'call_user_func_array(): Argument #1 ($callback) must be a valid callback, '
+            . 'first array member is not a valid class name or object'
         );
+
+        $lazy->resolve($container);
     }
 
     /**

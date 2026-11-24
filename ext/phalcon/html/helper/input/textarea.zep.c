@@ -90,6 +90,10 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Textarea, __toString)
 	ZEPHIR_INIT_VAR(&_1);
 	array_init(&_1);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 868, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_memory_observe(&value);
 	_2 = zephir_array_isset_string_fetch(&value, &attributes, SL("value"), 0);
 	if (UNEXPECTED(EG(exception))) {

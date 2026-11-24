@@ -115,8 +115,10 @@ PHP_METHOD(Phalcon_Auth_Exceptions_DoesNotImplement, assert)
 	if (_0) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_auth_exceptions_doesnotimplement_ce);
+		zephir_constructor_start(&_1$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[0], &type_zv, &name_zv);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1$$3);
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Auth/Exceptions/DoesNotImplement.zep", 43);
 		ZEPHIR_MM_RESTORE();
 		return;

@@ -16,13 +16,11 @@ namespace Phalcon\Tests\Unit\Html\TagFactory;
 use Phalcon\Html\Escaper;
 use Phalcon\Html\TagFactory;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
-use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 use stdClass;
+use TypeError;
 
 final class UnderscoreCallTest extends AbstractUnitTestCase
 {
-    use ErrorHandlerTrait;
-
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
@@ -38,8 +36,8 @@ final class UnderscoreCallTest extends AbstractUnitTestCase
     }
 
     /**
-     * A helper with no __invoke() gives a warning and null, the same as
-     * cphalcon.
+     * A helper with no __invoke() throws the TypeError of
+     * call_user_func_array().
      *
      * @issue  https://github.com/phalcon/phalcon/issues/808
      * @author Phalcon Team <team@phalcon.io>
@@ -54,11 +52,12 @@ final class UnderscoreCallTest extends AbstractUnitTestCase
             ]
         );
 
-        [$actual, $messages] = $this->collectErrors(
-            static fn () => $factory->custom('5')
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage(
+            'call_user_func_array(): Argument #1 ($callback) must be a valid callback, '
+            . 'class stdClass does not have a method "__invoke"'
         );
 
-        $this->assertNull($actual);
-        $this->assertSame(['class stdClass does not have a method "__invoke"'], $messages);
+        $factory->custom('5');
     }
 }

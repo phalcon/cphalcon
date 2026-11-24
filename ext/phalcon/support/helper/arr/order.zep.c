@@ -58,7 +58,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Order, __invoke)
 {
 	zend_bool _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long order, flags, ZEPHIR_LAST_CALL_STATUS;
+	zend_long order = 1, flags = 0, ZEPHIR_LAST_CALL_STATUS;
 	zval *collection_param = NULL, *attribute, attribute_sub, *order_param = NULL, *flags_param = NULL, item, sorted, *_0, _2, _1$$3, _4$$4, _5$$5, _6$$6;
 	zval collection;
 	zval *this_ptr = getThis();
@@ -84,14 +84,6 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Order, __invoke)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 2, &collection_param, &attribute, &order_param, &flags_param);
 	zephir_get_arrval(&collection, collection_param);
-	if (!order_param) {
-		order = 1;
-	} else {
-		}
-	if (!flags_param) {
-		flags = 0;
-	} else {
-		}
 	ZEPHIR_INIT_VAR(&sorted);
 	array_init(&sorted);
 	zephir_is_iterable(&collection, 0, "phalcon/Support/Helper/Arr/Order.zep", 48);
@@ -133,15 +125,16 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Order, __invoke)
 				ZEPHIR_CPY_WRT(&sorted, &_4$$4);
 		}
 	}
-	ZEPHIR_INIT_NVAR(&item);
 	if (1 == order) {
 		ZVAL_LONG(&_5$$5, flags);
+		ZEPHIR_OBSERVE_IF_UNDEF(&sorted);
 		ZEPHIR_MAKE_REF(&sorted);
 		ZEPHIR_CALL_FUNCTION(NULL, "ksort", NULL, 32, &sorted, &_5$$5);
 		ZEPHIR_UNREF(&sorted);
 		zephir_check_call_status();
 	} else {
 		ZVAL_LONG(&_6$$6, flags);
+		ZEPHIR_OBSERVE_IF_UNDEF(&sorted);
 		ZEPHIR_MAKE_REF(&sorted);
 		ZEPHIR_CALL_FUNCTION(NULL, "krsort", NULL, 276, &sorted, &_6$$6);
 		ZEPHIR_UNREF(&sorted);

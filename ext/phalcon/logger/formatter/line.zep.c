@@ -119,9 +119,25 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, __construct)
 	ZVAL_STR_COPY(&interpolatorRight_zv, interpolatorRight);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 962, &format_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 963, &dateFormat_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 964, &interpolatorLeft_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 965, &interpolatorRight_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -260,7 +276,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format)
 	zephir_create_closure_ex(&_12, NULL, phalcon_88__closure_ce, SL("__invoke"));
 	ZEPHIR_INIT_VAR(&_13);
 	ZVAL_STRING(&_13, "/[\\x00-\\x08\\x0A-\\x1F\\x7F]/");
-	ZEPHIR_RETURN_CALL_FUNCTION("preg_replace_callback", NULL, 228, &_13, &_12, &message);
+	ZEPHIR_RETURN_CALL_FUNCTION("preg_replace_callback", NULL, 227, &_13, &_12, &message);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -294,6 +310,9 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, setFormat)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&format_zv, format);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 962, &format_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 

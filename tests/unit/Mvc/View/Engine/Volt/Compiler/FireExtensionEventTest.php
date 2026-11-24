@@ -16,12 +16,10 @@ namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Mvc\View\VoltPrivateExtension;
-use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
+use TypeError;
 
 class FireExtensionEventTest extends AbstractUnitTestCase
 {
-    use ErrorHandlerTrait;
-
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -168,8 +166,9 @@ class FireExtensionEventTest extends AbstractUnitTestCase
     }
 
     /**
-     * An event method that cannot be called (private) gives a warning and
-     * null, the same as cphalcon. This is true with and without arguments.
+     * An event method that cannot be called (private) throws a TypeError:
+     * the one of call_user_func() with no arguments, and the one of
+     * call_user_func_array() with arguments.
      *
      * @issue  https://github.com/phalcon/phalcon/issues/815
      * @author Phalcon Team <team@phalcon.io>
@@ -180,15 +179,26 @@ class FireExtensionEventTest extends AbstractUnitTestCase
         $compiler = new Compiler();
         $compiler->addExtension(new VoltPrivateExtension());
 
-        [$actual, $messages] = $this->collectErrors(
-            static fn () => [
-                $compiler->fireExtensionEvent('compileFunction'),
-                $compiler->fireExtensionEvent('compileFunction', [['name' => ['value' => 'dummy']], false]),
-            ]
-        );
+        $calls = [
+            static fn () => $compiler->fireExtensionEvent('compileFunction'),
+            static fn () => $compiler->fireExtensionEvent('compileFunction', [['name' => ['value' => 'dummy']], false]),
+        ];
 
-        $message = 'cannot access private method ' . VoltPrivateExtension::class . '::compileFunction()';
-        $this->assertSame([null, null], $actual);
-        $this->assertSame([$message, $message], $messages);
+        $actual = [];
+        foreach ($calls as $call) {
+            try {
+                $call();
+                $actual[] = 'no exception';
+            } catch (TypeError $ex) {
+                $actual[] = $ex->getMessage();
+            }
+        }
+
+        $reason = 'Argument #1 ($callback) must be a valid callback, '
+            . 'cannot access private method ' . VoltPrivateExtension::class . '::compileFunction()';
+        $this->assertSame(
+            ['call_user_func(): ' . $reason, 'call_user_func_array(): ' . $reason],
+            $actual
+        );
     }
 }

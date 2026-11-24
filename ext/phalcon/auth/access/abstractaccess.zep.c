@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Auth_Access_AbstractAccess, isAllowed)
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			ZEPHIR_CALL_FUNCTION(&_3$$3, "in_array", &_4, 37, &actionName_zv, &_2$$3, &__$true);
+			ZEPHIR_CALL_FUNCTION(&_3$$3, "in_array", &_4, 36, &actionName_zv, &_2$$3, &__$true);
 			zephir_check_call_status();
 			_1$$3 = zephir_is_true(&_3$$3);
 		}
@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Auth_Access_AbstractAccess, isAllowed)
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			ZEPHIR_CALL_FUNCTION(&_8$$4, "in_array", &_4, 37, &actionName_zv, &_7$$4, &__$true);
+			ZEPHIR_CALL_FUNCTION(&_8$$4, "in_array", &_4, 36, &actionName_zv, &_7$$4, &__$true);
 			zephir_check_call_status();
 			_6$$4 = zephir_is_true(&_8$$4);
 		}
@@ -212,6 +212,10 @@ PHP_METHOD(Phalcon_Auth_Access_AbstractAccess, setExceptActions)
 		zephir_get_arrval(&exceptActions, exceptActions_param);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 103, &exceptActions);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -245,6 +249,10 @@ PHP_METHOD(Phalcon_Auth_Access_AbstractAccess, setOnlyActions)
 		zephir_get_arrval(&onlyActions, onlyActions_param);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 104, &onlyActions);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

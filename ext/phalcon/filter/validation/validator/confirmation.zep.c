@@ -265,8 +265,10 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, compare)
 		if (UNEXPECTED(!zephir_is_true(&_3$$3))) {
 			ZEPHIR_INIT_VAR(&_5$$4);
 			object_init_ex(&_5$$4, phalcon_filter_validation_exceptions_missingmbstring_ce);
+			zephir_constructor_start(&_5$$4);
 			ZEPHIR_CALL_METHOD_CACHED(NULL, &_5$$4, "__construct", &_zephir_call_cache[2]);
 			zephir_check_call_status();
+			zephir_constructor_finish(&_5$$4);
 			zephir_throw_exception_debug(&_5$$4, "phalcon/Filter/Validation/Validator/Confirmation.zep", 135);
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -290,7 +292,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, compare)
 			return;
 		}
 	}
-	ZEPHIR_CALL_FUNCTION(&_9, "strcmp", NULL, 158, &a, &b);
+	ZEPHIR_CALL_FUNCTION(&_9, "strcmp", NULL, 157, &a, &b);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(ZEPHIR_IS_LONG_IDENTICAL(&_9, 0));
 }
@@ -319,7 +321,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, phpExtensionLoaded)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 62, &name_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 61, &name_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

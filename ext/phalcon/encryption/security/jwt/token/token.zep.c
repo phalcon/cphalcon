@@ -98,8 +98,17 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, __construct)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(3, 0, &headers, &claims, &signature);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 733, headers);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 734, claims);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 735, signature);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**
@@ -304,8 +313,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, validate)
 			zephir_check_call_status();
 		}
 	} ZEND_HASH_FOREACH_END();
-	ZEPHIR_INIT_NVAR(&claimValue);
-	ZEPHIR_INIT_NVAR(&method);
 	ZEPHIR_RETURN_CALL_METHOD_CACHED(validator, "getErrors", &_zephir_call_cache[7]);
 	zephir_check_call_status();
 	RETURN_MM();

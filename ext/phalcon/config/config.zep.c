@@ -140,8 +140,10 @@ PHP_METHOD(Phalcon_Config_Config, merge)
 		} else {
 			ZEPHIR_INIT_VAR(&_1$$5);
 			object_init_ex(&_1$$5, phalcon_config_exceptions_invalidmergedata_ce);
+			zephir_constructor_start(&_1$$5);
 			ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$5, "__construct", &_zephir_call_cache[1]);
 			zephir_check_call_status();
+			zephir_constructor_finish(&_1$$5);
 			zephir_throw_exception_debug(&_1$$5, "phalcon/Config/Config.zep", 97);
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -321,6 +323,10 @@ PHP_METHOD(Phalcon_Config_Config, setPathDelimiter)
 	ZVAL_STR_COPY(&delimiter_zv, delimiter);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 55, &delimiter_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 
@@ -431,8 +437,6 @@ PHP_METHOD(Phalcon_Config_Config, toArray)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&value);
-	ZEPHIR_INIT_NVAR(&key);
 	RETURN_CTOR(&results);
 }
 
@@ -633,8 +637,6 @@ PHP_METHOD(Phalcon_Config_Config, internalMerge)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&value);
-	ZEPHIR_INIT_NVAR(&key);
 	RETURN_CTOR(&source);
 }
 
@@ -725,6 +727,7 @@ PHP_METHOD(Phalcon_Config_Config, setData)
 	if (Z_TYPE_P(value) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(&_4$$4);
 		object_init_ex(&_4$$4, phalcon_config_config_ce);
+		zephir_constructor_start(&_4$$4);
 		zephir_read_property_cached(&_5$$4, this_ptr, _zephir_prop_1, 57, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
@@ -742,6 +745,7 @@ PHP_METHOD(Phalcon_Config_Config, setData)
 		}
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_4$$4, "__construct", &_zephir_call_cache[1], value, &_5$$4, &_6$$4, &_7$$4);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_4$$4);
 		zephir_update_property_array(this_ptr, SL("data"), element, &_4$$4);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();

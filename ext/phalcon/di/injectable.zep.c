@@ -118,6 +118,10 @@ PHP_METHOD(Phalcon_Di_Injectable, __get)
 	ZEPHIR_CPY_WRT(&container, &_0);
 	if (ZEPHIR_IS_STRING_IDENTICAL(&propertyName_zv, "di")) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 14, &container);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		RETURN_CCTOR(&container);
 	}
 	if (ZEPHIR_IS_STRING_IDENTICAL(&propertyName_zv, "persistent")) {
@@ -132,6 +136,10 @@ PHP_METHOD(Phalcon_Di_Injectable, __get)
 		ZEPHIR_CALL_METHOD_CACHED(&_1$$4, &container, "get", &_zephir_call_cache[1], &_3$$4, &_2$$4);
 		zephir_check_call_status();
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 15, &_1$$4);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		zephir_memory_observe(&_4$$4);
 		zephir_read_property_cached(&_4$$4, this_ptr, _zephir_prop_1, 15, PH_NOISY_CC);
 		if (UNEXPECTED(EG(exception))) {
@@ -149,6 +157,10 @@ PHP_METHOD(Phalcon_Di_Injectable, __get)
 		zephir_check_call_status();
 		if (zephir_is_true(&_5$$5)) {
 			zephir_update_property_zval_zval(this_ptr, &propertyName_zv, &service);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 		}
 		RETURN_CCTOR(&service);
 	}
@@ -224,8 +236,10 @@ PHP_METHOD(Phalcon_Di_Injectable, getDI)
 		if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {
 			ZEPHIR_INIT_VAR(&_1$$4);
 			object_init_ex(&_1$$4, phalcon_di_exceptions_containerrequired_ce);
+			zephir_constructor_start(&_1$$4);
 			ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$4, "__construct", &_zephir_call_cache[1]);
 			zephir_check_call_status();
+			zephir_constructor_finish(&_1$$4);
 			zephir_throw_exception_debug(&_1$$4, "phalcon/Di/Injectable.zep", 133);
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -255,5 +269,8 @@ PHP_METHOD(Phalcon_Di_Injectable, setDI)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &container);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 16, container);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 

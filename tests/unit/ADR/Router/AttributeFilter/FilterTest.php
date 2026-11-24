@@ -17,14 +17,11 @@ use Phalcon\ADR\Exceptions\RouteNotFound;
 use Phalcon\ADR\Router\AttributeFilter;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\ADR\Hidden\GetHidden;
-use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 use RuntimeException;
 use TypeError;
 
 final class FilterTest extends AbstractUnitTestCase
 {
-    use ErrorHandlerTrait;
-
     /**
      * Unit Tests Phalcon\ADR\Router\AttributeFilter :: filter() anchors the regex to the whole segment
      */
@@ -158,8 +155,8 @@ final class FilterTest extends AbstractUnitTestCase
 
     /**
      * Unit Tests Phalcon\ADR\Router\AttributeFilter :: filter() with a
-     * params() method that cannot be called gives a warning and null, the
-     * same as cphalcon
+     * params() method that cannot be called throws the TypeError of
+     * call_user_func()
      *
      * @issue  https://github.com/phalcon/phalcon/issues/815
      * @author Phalcon Team <team@phalcon.io>
@@ -169,15 +166,13 @@ final class FilterTest extends AbstractUnitTestCase
     {
         $filter = new AttributeFilter();
 
-        [$actual, $messages] = $this->collectErrors(
-            static fn () => $filter->filter(GetHidden::class, ['5'])
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage(
+            'call_user_func(): Argument #1 ($callback) must be a valid callback, '
+            . 'cannot access private method ' . GetHidden::class . '::params()'
         );
 
-        $this->assertNull($actual);
-        $this->assertSame(
-            ['cannot access private method ' . GetHidden::class . '::params()'],
-            $messages
-        );
+        $filter->filter(GetHidden::class, ['5']);
     }
 
     /**

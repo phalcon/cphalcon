@@ -15,12 +15,10 @@ namespace Phalcon\Tests\Unit\Mvc\Micro;
 
 use Phalcon\Mvc\Micro;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
-use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
+use TypeError;
 
 class HandleTest extends AbstractUnitTestCase
 {
-    use ErrorHandlerTrait;
-
     /**
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
@@ -67,8 +65,8 @@ class HandleTest extends AbstractUnitTestCase
     }
 
     /**
-     * A handler that cannot be called gives a warning and handle() returns
-     * null at once, the same as cphalcon. The finish handlers do not run.
+     * A handler that cannot be called throws the TypeError of
+     * call_user_func_array(). The finish handlers do not run.
      *
      * @issue  https://github.com/phalcon/phalcon/issues/815
      * @author Phalcon Team <team@phalcon.io>
@@ -86,15 +84,17 @@ class HandleTest extends AbstractUnitTestCase
             }
         );
 
-        [$actual, $messages] = $this->collectErrors(
-            static fn () => $micro->handle('/fail')
-        );
+        try {
+            $micro->handle('/fail');
+            $this->fail('No TypeError');
+        } catch (TypeError $ex) {
+            $this->assertSame(
+                'call_user_func_array(): Argument #1 ($callback) must be a valid callback, '
+                . 'function "unknownHandlerFunction" not found or invalid function name',
+                $ex->getMessage()
+            );
+        }
 
-        $this->assertNull($actual);
-        $this->assertSame(
-            ['function "unknownHandlerFunction" not found or invalid function name'],
-            $messages
-        );
         $this->assertFalse($finished);
     }
 }

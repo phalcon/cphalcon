@@ -124,6 +124,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, __construct)
 	ZEPHIR_CALL_METHOD_CACHED(&_5, factory, "newInstance", &_zephir_call_cache[2], &_1, &options);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1070, &_5);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Random, __invoke)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_6 = NULL, *_16 = NULL, *_22 = NULL;
 	zval *type_param = NULL, *length_param = NULL, end, pools, text, _0, _2, _3, _4, _5, _7, _8, _9, _10, _11, _12, _13, _14, _15, _17, _18$$3, _19$$3, _20$$3, _21$$3;
-	zend_long type, length, ZEPHIR_LAST_CALL_STATUS;
+	zend_long type = 0, length = 8, ZEPHIR_LAST_CALL_STATUS;
 
 	ZVAL_UNDEF(&end);
 	ZVAL_UNDEF(&pools);
@@ -120,14 +120,6 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Random, __invoke)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 0, 2, &type_param, &length_param);
-	if (!type_param) {
-		type = 0;
-	} else {
-		}
-	if (!length_param) {
-		length = 8;
-	} else {
-		}
 	ZEPHIR_INIT_VAR(&text);
 	ZVAL_STRING(&text, "");
 	ZEPHIR_INIT_VAR(&_0);
@@ -150,61 +142,61 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Random, __invoke)
 	ZVAL_STRING(&_3, "a");
 	ZEPHIR_INIT_VAR(&_4);
 	ZVAL_STRING(&_4, "z");
-	ZEPHIR_CALL_FUNCTION(&_5, "range", &_6, 162, &_3, &_4);
+	ZEPHIR_CALL_FUNCTION(&_5, "range", &_6, 161, &_3, &_4);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "A");
 	ZEPHIR_INIT_NVAR(&_4);
 	ZVAL_STRING(&_4, "Z");
-	ZEPHIR_CALL_FUNCTION(&_7, "range", &_6, 162, &_3, &_4);
+	ZEPHIR_CALL_FUNCTION(&_7, "range", &_6, 161, &_3, &_4);
 	zephir_check_call_status();
 	zephir_fast_array_merge(&_2, &_5, &_7);
 	zephir_array_update_long(&pools, 1, &_2, PH_COPY ZEPHIR_DEBUG_PARAMS_DUMMY);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_LONG(&_8, 0);
 	ZVAL_LONG(&_9, 9);
-	ZEPHIR_CALL_FUNCTION(&_10, "range", &_6, 162, &_8, &_9);
+	ZEPHIR_CALL_FUNCTION(&_10, "range", &_6, 161, &_8, &_9);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "a");
 	ZEPHIR_INIT_NVAR(&_4);
 	ZVAL_STRING(&_4, "f");
-	ZEPHIR_CALL_FUNCTION(&_11, "range", &_6, 162, &_3, &_4);
+	ZEPHIR_CALL_FUNCTION(&_11, "range", &_6, 161, &_3, &_4);
 	zephir_check_call_status();
 	zephir_fast_array_merge(&_2, &_10, &_11);
 	zephir_array_update_long(&pools, 2, &_2, PH_COPY ZEPHIR_DEBUG_PARAMS_DUMMY);
 	ZVAL_LONG(&_8, 0);
 	ZVAL_LONG(&_9, 9);
-	ZEPHIR_CALL_FUNCTION(&_12, "range", &_6, 162, &_8, &_9);
+	ZEPHIR_CALL_FUNCTION(&_12, "range", &_6, 161, &_8, &_9);
 	zephir_check_call_status();
 	zephir_array_update_long(&pools, 3, &_12, PH_COPY ZEPHIR_DEBUG_PARAMS_DUMMY);
 	ZVAL_LONG(&_8, 1);
 	ZVAL_LONG(&_9, 9);
-	ZEPHIR_CALL_FUNCTION(&_12, "range", &_6, 162, &_8, &_9);
+	ZEPHIR_CALL_FUNCTION(&_12, "range", &_6, 161, &_8, &_9);
 	zephir_check_call_status();
 	zephir_array_update_long(&pools, 4, &_12, PH_COPY ZEPHIR_DEBUG_PARAMS_DUMMY);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "2345679ACDEFHJKLMNPRSTUVWXYZ");
-	ZEPHIR_CALL_FUNCTION(&_12, "str_split", NULL, 70, &_2);
+	ZEPHIR_CALL_FUNCTION(&_12, "str_split", NULL, 69, &_2);
 	zephir_check_call_status();
 	zephir_array_update_long(&pools, 5, &_12, PH_COPY ZEPHIR_DEBUG_PARAMS_DUMMY);
 	ZVAL_LONG(&_8, 0);
 	ZVAL_LONG(&_9, 9);
-	ZEPHIR_CALL_FUNCTION(&_12, "range", &_6, 162, &_8, &_9);
+	ZEPHIR_CALL_FUNCTION(&_12, "range", &_6, 161, &_8, &_9);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "a");
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "z");
-	ZEPHIR_CALL_FUNCTION(&_13, "range", &_6, 162, &_2, &_3);
+	ZEPHIR_CALL_FUNCTION(&_13, "range", &_6, 161, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "A");
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "Z");
-	ZEPHIR_CALL_FUNCTION(&_14, "range", &_6, 162, &_2, &_3);
+	ZEPHIR_CALL_FUNCTION(&_14, "range", &_6, 161, &_2, &_3);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_15, "array_merge", &_16, 64, &_12, &_13, &_14);
+	ZEPHIR_CALL_FUNCTION(&_15, "array_merge", &_16, 63, &_12, &_13, &_14);
 	zephir_check_call_status();
 	zephir_array_update_long(&pools, 0, &_15, PH_COPY ZEPHIR_DEBUG_PARAMS_DUMMY);
 	zephir_array_fetch_long(&_17, &pools, type, PH_NOISY | PH_READONLY, "phalcon/Support/Helper/Str/Random.zep", 84);

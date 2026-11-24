@@ -111,12 +111,22 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, __construct)
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_paginator_repository_ce);
 	if (zephir_has_constructor(&_0)) {
+		zephir_constructor_start(&_0);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0);
 	}
 
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 87, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 88, &config);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	_1 = zephir_array_isset_value_string(&config, SL("limit"));
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
@@ -195,6 +205,9 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, setCurrentPage)
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, page);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 89, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 
@@ -225,8 +238,10 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, setLimit)
 	if (limit <= 0) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_paginator_exceptions_invalidlimit_ce);
+		zephir_constructor_start(&_0$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0$$3);
 		zephir_throw_exception_debug(&_0$$3, "phalcon/Paginator/Adapter/AbstractAdapter.zep", 108);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -234,6 +249,10 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, setLimit)
 	ZVAL_UNDEF(&_1);
 	ZVAL_LONG(&_1, limit);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 90, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 
@@ -256,6 +275,9 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, setRepository)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &repository);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 87, repository);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 

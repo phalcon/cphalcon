@@ -15,7 +15,6 @@
 #include "kernel/memory.h"
 #include "kernel/string.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/object.h"
 
 
@@ -48,7 +47,7 @@ PHP_METHOD(Phalcon_Traits_Support_Helper_Str_CamelizeTrait, toCamelize)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool lowerFirst;
+	zend_bool lowerFirst = 0;
 	zval text_zv, delimiters_zv, *lowerFirst_param = NULL, result, _0$$3;
 	zend_string *text = NULL, *delimiters = NULL;
 
@@ -77,14 +76,10 @@ PHP_METHOD(Phalcon_Traits_Support_Helper_Str_CamelizeTrait, toCamelize)
 		zephir_memory_observe(&delimiters_zv);
 	ZVAL_STR_COPY(&delimiters_zv, delimiters);
 	}
-	if (!lowerFirst_param) {
-		lowerFirst = 0;
-	} else {
-		}
 	ZEPHIR_INIT_VAR(&result);
 	zephir_camelize(&result, &text_zv, &delimiters_zv);
 	if (lowerFirst == 1) {
-		ZEPHIR_CALL_FUNCTION(&_0$$3, "lcfirst", NULL, 58, &result);
+		ZEPHIR_CALL_FUNCTION(&_0$$3, "lcfirst", NULL, 57, &result);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&result, &_0$$3);
 	}

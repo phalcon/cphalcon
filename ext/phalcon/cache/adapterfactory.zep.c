@@ -81,6 +81,10 @@ PHP_METHOD(Phalcon_Cache_AdapterFactory, __construct)
 		zephir_get_arrval(&services, services_param);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 504, serializerFactory);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "init", &_zephir_call_cache[0], &services);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

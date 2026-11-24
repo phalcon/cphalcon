@@ -46,12 +46,14 @@ PHP_METHOD(phalcon_37__closure, __invoke)
 	this_ptr = &__$zephir_this;
 
 	object_init_ex(return_value, phalcon_html_helper_body_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "doctype");
 	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "newInstance", &_zephir_call_cache[0], &_1);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[1], &escaper, &_0);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 

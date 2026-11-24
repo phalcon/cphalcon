@@ -13,7 +13,6 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 
@@ -57,7 +56,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Redis_RedisSubscriptionConsumer)
  */
 PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisSubscriptionConsumer, __construct)
 {
-	zend_long pollInterval;
+	zend_long pollInterval = 200;
 	zval *context, context_sub, *pollInterval_param = NULL, _0;
 	zval *this_ptr = getThis();
 
@@ -78,13 +77,15 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisSubscriptionConsumer, __construct)
 		Z_PARAM_LONG(pollInterval)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 1, &context, &pollInterval_param);
-	if (!pollInterval_param) {
-		pollInterval = 200;
-	} else {
-		}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1302, context);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1300, context);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, pollInterval);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1303, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1301, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 

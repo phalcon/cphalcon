@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_CsEnv, resolve)
 	ZVAL_STRING(&_2, "\"");
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "\\");
-	ZEPHIR_CALL_FUNCTION(&values, "str_getcsv", NULL, 119, &_0, &_1, &_2, &_3);
+	ZEPHIR_CALL_FUNCTION(&values, "str_getcsv", NULL, 118, &_0, &_1, &_2, &_3);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 567, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
@@ -143,6 +143,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_CsEnv, resolve)
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
+				ZEPHIR_OBSERVE_IF_UNDEF(&value);
 				ZEPHIR_MAKE_REF(&value);
 				ZEPHIR_CALL_FUNCTION(NULL, "settype", &_11, 10, &value, &_10$$4);
 				ZEPHIR_UNREF(&value);
@@ -178,6 +179,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_CsEnv, resolve)
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
+					ZEPHIR_OBSERVE_IF_UNDEF(&value);
 					ZEPHIR_MAKE_REF(&value);
 					ZEPHIR_CALL_FUNCTION(NULL, "settype", &_11, 10, &value, &_14$$5);
 					ZEPHIR_UNREF(&value);
@@ -189,8 +191,6 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_CsEnv, resolve)
 					}
 			}
 		}
-		ZEPHIR_INIT_NVAR(&value);
-		ZEPHIR_INIT_NVAR(&key);
 		ZEPHIR_CPY_WRT(&values, &result);
 	}
 	RETURN_CCTOR(&values);

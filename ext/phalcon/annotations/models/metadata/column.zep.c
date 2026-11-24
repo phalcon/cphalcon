@@ -14,7 +14,6 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
 
 
 /**
@@ -82,8 +81,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Models_MetaData_Column)
 PHP_METHOD(Phalcon_Annotations_Models_MetaData_Column, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_bool nullable, skipOnInsert, skipOnUpdate, allowEmptyString;
-	zend_long length;
+	zend_bool nullable = 0, skipOnInsert = 0, skipOnUpdate = 0, allowEmptyString = 0;
+	zend_long length = 0;
 	zval column_zv, type_zv, *length_param = NULL, *nullable_param = NULL, *skipOnInsert_param = NULL, *skipOnUpdate_param = NULL, *allowEmptyString_param = NULL, *defaultValue = NULL, defaultValue_sub, __$true, __$false, __$null, _0;
 	zend_string *column = NULL, *type = NULL;
 	zval *this_ptr = getThis();
@@ -174,56 +173,84 @@ PHP_METHOD(Phalcon_Annotations_Models_MetaData_Column, __construct)
 		zephir_memory_observe(&type_zv);
 	ZVAL_STR_COPY(&type_zv, type);
 	}
-	if (!length_param) {
-		length = 0;
-	} else {
-		}
-	if (!nullable_param) {
-		nullable = 0;
-	} else {
-		}
-	if (!skipOnInsert_param) {
-		skipOnInsert = 0;
-	} else {
-		}
-	if (!skipOnUpdate_param) {
-		skipOnUpdate = 0;
-	} else {
-		}
-	if (!allowEmptyString_param) {
-		allowEmptyString = 0;
-	} else {
-		}
 	if (!defaultValue) {
 		defaultValue = &defaultValue_sub;
 		defaultValue = &__$null;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 410, &column_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 411, &type_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, length);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 412, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (nullable) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 413, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 413, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	if (skipOnInsert) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 414, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 414, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	if (skipOnUpdate) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 415, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 415, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	if (allowEmptyString) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_6, 416, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_6, 416, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_7, 417, defaultValue);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

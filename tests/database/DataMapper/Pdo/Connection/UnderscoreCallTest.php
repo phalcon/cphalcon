@@ -18,16 +18,14 @@ use Phalcon\DataMapper\Pdo\Connection;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Database\DataMapper\Fake\FakeConnection;
 use Phalcon\Tests\Database\DataMapper\Fake\PdoFixture;
-use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 use PHPUnit\Framework\Attributes\Group;
+use TypeError;
 
 #[Group('mysql')]
 #[Group('pgsql')]
 #[Group('sqlite')]
 final class UnderscoreCallTest extends AbstractDatabaseTestCase
 {
-    use ErrorHandlerTrait;
-
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-25
@@ -63,8 +61,8 @@ final class UnderscoreCallTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * A PDO method that cannot be called (private) gives a warning and null,
-     * the same as cphalcon.
+     * A PDO method that cannot be called (private) throws the TypeError of
+     * call_user_func_array().
      *
      * @issue  https://github.com/phalcon/phalcon/issues/815
      * @author Phalcon Team <team@phalcon.io>
@@ -79,14 +77,12 @@ final class UnderscoreCallTest extends AbstractDatabaseTestCase
             self::getDatabasePassword()
         );
 
-        [$actual, $messages] = $this->collectErrors(
-            static fn () => $connection->secret()
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage(
+            'call_user_func_array(): Argument #1 ($callback) must be a valid callback, '
+            . 'cannot access private method ' . PdoFixture::class . '::secret()'
         );
 
-        $this->assertNull($actual);
-        $this->assertSame(
-            ['cannot access private method ' . PdoFixture::class . '::secret()'],
-            $messages
-        );
+        $connection->secret();
     }
 }

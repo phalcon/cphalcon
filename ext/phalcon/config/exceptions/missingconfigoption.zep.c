@@ -62,6 +62,10 @@ PHP_METHOD(Phalcon_Config_Exceptions_MissingConfigOption, __construct)
 	zephir_memory_observe(&option_zv);
 	ZVAL_STR_COPY(&option_zv, option);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 539, &option_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "You must provide '", &option_zv, "' option in factory config parameter.");
 	if (UNEXPECTED(EG(exception))) {

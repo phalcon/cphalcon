@@ -14,14 +14,12 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc\Dispatcher;
 
 use Phalcon\Mvc\Dispatcher;
-use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 use Phalcon\Tests\Unit\Mvc\Dispatcher\Helper\BaseDispatcher;
 use Phalcon\Tests\Unit\Mvc\Dispatcher\Helper\DispatcherTestDefaultController;
+use TypeError;
 
 class CallActionMethodTest extends BaseDispatcher
 {
-    use ErrorHandlerTrait;
-
     /**
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
@@ -51,9 +49,9 @@ class CallActionMethodTest extends BaseDispatcher
     }
 
     /**
-     * An action that cannot be called gives a warning and null, the same as
-     * cphalcon. With no events manager, nothing checks the action before
-     * the call.
+     * An action that cannot be called throws the TypeError of
+     * call_user_func_array(). With no events manager, nothing checks the
+     * action before the call.
      *
      * @issue  https://github.com/phalcon/phalcon/issues/815
      * @author Phalcon Team <team@phalcon.io>
@@ -64,14 +62,12 @@ class CallActionMethodTest extends BaseDispatcher
         $dispatcher = new Dispatcher();
         $controller = new DispatcherTestDefaultController();
 
-        [$actual, $messages] = $this->collectErrors(
-            static fn () => $dispatcher->callActionMethod($controller, 'unknownAction', [])
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage(
+            'call_user_func_array(): Argument #1 ($callback) must be a valid callback, '
+            . 'class ' . DispatcherTestDefaultController::class . ' does not have a method "unknownAction"'
         );
 
-        $this->assertNull($actual);
-        $this->assertSame(
-            ['class ' . DispatcherTestDefaultController::class . ' does not have a method "unknownAction"'],
-            $messages
-        );
+        $dispatcher->callActionMethod($controller, 'unknownAction', []);
     }
 }

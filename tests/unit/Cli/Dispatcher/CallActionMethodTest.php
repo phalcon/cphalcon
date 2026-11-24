@@ -16,12 +16,10 @@ namespace Phalcon\Tests\Unit\Cli\Dispatcher;
 use Phalcon\Cli\Dispatcher;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Tasks\MainTask;
-use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
+use TypeError;
 
 final class CallActionMethodTest extends AbstractUnitTestCase
 {
-    use ErrorHandlerTrait;
-
     /**
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-24
@@ -47,8 +45,8 @@ final class CallActionMethodTest extends AbstractUnitTestCase
     }
 
     /**
-     * An action that cannot be called gives a warning and null, the same as
-     * cphalcon.
+     * An action that cannot be called throws the TypeError of
+     * call_user_func_array().
      *
      * @issue  https://github.com/phalcon/phalcon/issues/815
      * @author Phalcon Team <team@phalcon.io>
@@ -59,14 +57,12 @@ final class CallActionMethodTest extends AbstractUnitTestCase
         $dispatcher = new Dispatcher();
         $task       = new MainTask();
 
-        [$actual, $messages] = $this->collectErrors(
-            static fn () => $dispatcher->callActionMethod($task, 'unknownAction', [])
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage(
+            'call_user_func_array(): Argument #1 ($callback) must be a valid callback, '
+            . 'class ' . MainTask::class . ' does not have a method "unknownAction"'
         );
 
-        $this->assertNull($actual);
-        $this->assertSame(
-            ['class ' . MainTask::class . ' does not have a method "unknownAction"'],
-            $messages
-        );
+        $dispatcher->callActionMethod($task, 'unknownAction', []);
     }
 }

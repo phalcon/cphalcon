@@ -45,8 +45,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_None, serialize)
  */
 PHP_METHOD(Phalcon_Storage_Serializer_None, unserialize)
 {
-	zval data_sub;
-	zval *data;
+	zval *data, data_sub;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data_sub);
@@ -60,5 +59,8 @@ PHP_METHOD(Phalcon_Storage_Serializer_None, unserialize)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &data);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 54, data);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 

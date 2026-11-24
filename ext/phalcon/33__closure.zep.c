@@ -50,8 +50,10 @@ PHP_METHOD(phalcon_33__closure, __invoke)
 	zephir_fetch_params(1, 1, 0, &e);
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_forms_form_ce);
+	zephir_constructor_start(&_0);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0], e);
 	zephir_check_call_status();
+	zephir_constructor_finish(&_0);
 	ZEPHIR_RETURN_CALL_METHOD_CACHED(&_0, "load", &_zephir_call_cache[1], &schema, &locator);
 	zephir_check_call_status();
 	RETURN_MM();

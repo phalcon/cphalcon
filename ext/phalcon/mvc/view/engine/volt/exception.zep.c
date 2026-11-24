@@ -58,7 +58,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt_Exception)
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exception, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long code, ZEPHIR_LAST_CALL_STATUS;
+	zend_long code = 0, ZEPHIR_LAST_CALL_STATUS;
 	zval statement;
 	zval message_zv, *statement_param = NULL, *code_param = NULL, *previous = NULL, previous_sub, __$null, _0;
 	zend_string *message = NULL;
@@ -108,15 +108,15 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exception, __construct)
 	} else {
 		zephir_get_arrval(&statement, statement_param);
 	}
-	if (!code_param) {
-		code = 0;
-	} else {
-		}
 	if (!previous) {
 		previous = &previous_sub;
 		previous = &__$null;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 10, &statement);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZVAL_LONG(&_0, code);
 	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_mvc_view_engine_volt_exception_ce, getThis(), "__construct", &_zephir_call_cache[0], &message_zv, &_0, previous);
 	zephir_check_call_status();

@@ -152,8 +152,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Hydration_CloneResultMapHydrate, cloneResultMapHydr
 					if (UNEXPECTED(!zephir_is_true(&_9$$9))) {
 						ZEPHIR_INIT_NVAR(&_11$$10);
 						object_init_ex(&_11$$10, phalcon_mvc_model_exceptions_columnnotinmap_ce);
+						zephir_constructor_start(&_11$$10);
 						ZEPHIR_CALL_METHOD_CACHED(NULL, &_11$$10, "__construct", &_zephir_call_cache[3], &key, &calledClass_zv);
 						zephir_check_call_status();
+						zephir_constructor_finish(&_11$$10);
 						zephir_throw_exception_debug(&_11$$10, "phalcon/Mvc/Model/Hydration/CloneResultMapHydrate.zep", 69);
 						ZEPHIR_MM_RESTORE();
 						return;
@@ -239,8 +241,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Hydration_CloneResultMapHydrate, cloneResultMapHydr
 						if (UNEXPECTED(!zephir_is_true(&_20$$18))) {
 							ZEPHIR_INIT_NVAR(&_22$$19);
 							object_init_ex(&_22$$19, phalcon_mvc_model_exceptions_columnnotinmap_ce);
+							zephir_constructor_start(&_22$$19);
 							ZEPHIR_CALL_METHOD_CACHED(NULL, &_22$$19, "__construct", &_zephir_call_cache[12], &key, &calledClass_zv);
 							zephir_check_call_status();
+							zephir_constructor_finish(&_22$$19);
 							zephir_throw_exception_debug(&_22$$19, "phalcon/Mvc/Model/Hydration/CloneResultMapHydrate.zep", 69);
 							ZEPHIR_MM_RESTORE();
 							return;
@@ -271,8 +275,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Hydration_CloneResultMapHydrate, cloneResultMapHydr
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&value);
-	ZEPHIR_INIT_NVAR(&key);
 	if (hydrationMode != 1) {
 		ZEPHIR_CPY_WRT(&_23$$23, &hydrateArray);
 		zephir_convert_to_object(&_23$$23);

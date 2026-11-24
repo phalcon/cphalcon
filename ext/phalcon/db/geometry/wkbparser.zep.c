@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Db_Geometry_WkbParser, parse)
 	}
 	_0 = zephir_safe_mod_long_long(zephir_fast_strlen_ev(&raw_zv), 2) == 0;
 	if (_0) {
-		ZEPHIR_CALL_FUNCTION(&_1, "ctype_xdigit", NULL, 122, &raw_zv);
+		ZEPHIR_CALL_FUNCTION(&_1, "ctype_xdigit", NULL, 121, &raw_zv);
 		zephir_check_call_status();
 		_0 = zephir_is_true(&_1);
 	}
@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Db_Geometry_WkbParser, parse)
 		zephir_substr(&_4$$5, &raw_zv, 0 , 4 , 0);
 		ZEPHIR_INIT_VAR(&_5$$5);
 		ZVAL_STRING(&_5$$5, "V");
-		ZEPHIR_CALL_FUNCTION(&arr, "unpack", NULL, 123, &_5$$5, &_4$$5);
+		ZEPHIR_CALL_FUNCTION(&arr, "unpack", NULL, 122, &_5$$5, &_4$$5);
 		zephir_check_call_status();
 		zephir_memory_observe(&_6$$5);
 		zephir_array_fetch_long(&_6$$5, &arr, 1, PH_NOISY, "phalcon/Db/Geometry/WkbParser.zep", 59);
@@ -136,12 +136,24 @@ PHP_METHOD(Phalcon_Db_Geometry_WkbParser, parse)
 		zephir_substr(&body, &raw_zv, 4 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 653, &body);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZVAL_UNDEF(&_8);
 	ZVAL_LONG(&_8, zephir_fast_strlen_ev(&body));
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 654, &_8);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZVAL_UNDEF(&_8);
 	ZVAL_LONG(&_8, 0);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 655, &_8);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZVAL_LONG(&_8, srid);
 	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "readGeometry", &_zephir_call_cache[0], &_8);
 	zephir_check_call_status();
@@ -153,7 +165,7 @@ PHP_METHOD(Phalcon_Db_Geometry_WkbParser, readGeometry)
 	zend_bool little = 0, hasZ = 0, hasM = 0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *outerSrid_param = NULL, *depth_param = NULL, byteOrder, typeWord, geomCode, baseType, srid, count, items, _0, _1, _2, _3, _4, _5$$4, _6$$5, _7$$6, _8$$7, _9$$9, _10$$9, _11$$9, _12$$10, _13$$10, _14$$10, _15$$10, _16$$11, _17$$11, _18$$11, _19$$11, _20$$12, _21$$13, _22$$13, _23$$17, _24$$17;
-	zend_long outerSrid, depth, ZEPHIR_LAST_CALL_STATUS, i = 0;
+	zend_long outerSrid, depth = 0, ZEPHIR_LAST_CALL_STATUS, i = 0;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&byteOrder);
@@ -197,10 +209,6 @@ PHP_METHOD(Phalcon_Db_Geometry_WkbParser, readGeometry)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &outerSrid_param, &depth_param);
-	if (!depth_param) {
-		depth = 0;
-	} else {
-		}
 	if (depth > 32) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exceptions_invalidwkb_ce, "geometry nesting exceeds the maximum supported depth", "phalcon/Db/Geometry/WkbParser.zep", 83);
 		return;
@@ -323,6 +331,7 @@ PHP_METHOD(Phalcon_Db_Geometry_WkbParser, readGeometry)
 		RETURN_MM();
 	zephir_switch_0_clause_1: ;
 		object_init_ex(return_value, phalcon_db_geometry_linestring_ce);
+		zephir_constructor_start(return_value);
 		if (little) {
 			ZVAL_BOOL(&_13$$10, 1);
 		} else {
@@ -342,9 +351,11 @@ PHP_METHOD(Phalcon_Db_Geometry_WkbParser, readGeometry)
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[5], &_12$$10, &srid);
 		zephir_check_call_status();
+		zephir_constructor_finish(return_value);
 		RETURN_MM();
 	zephir_switch_0_clause_2: ;
 		object_init_ex(return_value, phalcon_db_geometry_polygon_ce);
+		zephir_constructor_start(return_value);
 		if (little) {
 			ZVAL_BOOL(&_17$$11, 1);
 		} else {
@@ -364,6 +375,7 @@ PHP_METHOD(Phalcon_Db_Geometry_WkbParser, readGeometry)
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[7], &_16$$11, &srid);
 		zephir_check_call_status();
+		zephir_constructor_finish(return_value);
 		RETURN_MM();
 	zephir_switch_0_clause_3: ;
 	zephir_switch_0_clause_4: ;
@@ -395,29 +407,38 @@ PHP_METHOD(Phalcon_Db_Geometry_WkbParser, readGeometry)
 		}
 		if (ZEPHIR_IS_LONG_IDENTICAL(&baseType, 4)) {
 			object_init_ex(return_value, phalcon_db_geometry_multipoint_ce);
+			zephir_constructor_start(return_value);
 			ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[10], &items, &srid);
 			zephir_check_call_status();
+			zephir_constructor_finish(return_value);
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_LONG_IDENTICAL(&baseType, 5)) {
 			object_init_ex(return_value, phalcon_db_geometry_multilinestring_ce);
+			zephir_constructor_start(return_value);
 			ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[11], &items, &srid);
 			zephir_check_call_status();
+			zephir_constructor_finish(return_value);
 			RETURN_MM();
 		}
 		if (ZEPHIR_IS_LONG_IDENTICAL(&baseType, 6)) {
 			object_init_ex(return_value, phalcon_db_geometry_multipolygon_ce);
+			zephir_constructor_start(return_value);
 			ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[12], &items, &srid);
 			zephir_check_call_status();
+			zephir_constructor_finish(return_value);
 			RETURN_MM();
 		}
 		object_init_ex(return_value, phalcon_db_geometry_geometrycollection_ce);
+		zephir_constructor_start(return_value);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[13], &items, &srid);
 		zephir_check_call_status();
+		zephir_constructor_finish(return_value);
 		RETURN_MM();
 	zephir_switch_0_clause_7: ;
 		ZEPHIR_INIT_VAR(&_23$$17);
 		object_init_ex(&_23$$17, phalcon_db_exceptions_invalidwkb_ce);
+		zephir_constructor_start(&_23$$17);
 		ZEPHIR_INIT_VAR(&_24$$17);
 		ZEPHIR_CONCAT_SV(&_24$$17, "unknown geometry type ", &baseType);
 		if (UNEXPECTED(EG(exception))) {
@@ -426,6 +447,7 @@ PHP_METHOD(Phalcon_Db_Geometry_WkbParser, readGeometry)
 		}
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_23$$17, "__construct", &_zephir_call_cache[14], &_24$$17);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_23$$17);
 		zephir_throw_exception_debug(&_23$$17, "phalcon/Db/Geometry/WkbParser.zep", 148);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -490,9 +512,11 @@ PHP_METHOD(Phalcon_Db_Geometry_WkbParser, readPoint)
 	ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "skipExtraOrdinates", &_zephir_call_cache[2], &_2, &_3, &_4);
 	zephir_check_call_status();
 	object_init_ex(return_value, phalcon_db_geometry_point_ce);
+	zephir_constructor_start(return_value);
 	ZVAL_LONG(&_5, srid);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[3], &x, &y, &_5);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -574,8 +598,10 @@ PHP_METHOD(Phalcon_Db_Geometry_WkbParser, readPointList)
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&_6$$3);
 		object_init_ex(&_6$$3, phalcon_db_geometry_point_ce);
+		zephir_constructor_start(&_6$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_6$$3, "__construct", &_zephir_call_cache[4], &x, &y);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_6$$3);
 		zephir_array_append(&points, &_6$$3, PH_SEPARATE, "phalcon/Db/Geometry/WkbParser.zep", 180);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
@@ -771,7 +797,7 @@ PHP_METHOD(Phalcon_Db_Geometry_WkbParser, readByte)
 	zephir_substr(&_7, &_4, zephir_get_intval(&_5), 1 , 0);
 	ZEPHIR_INIT_VAR(&_8);
 	ZVAL_STRING(&_8, "C");
-	ZEPHIR_CALL_FUNCTION(&arr, "unpack", NULL, 123, &_8, &_7);
+	ZEPHIR_CALL_FUNCTION(&arr, "unpack", NULL, 122, &_8, &_7);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_9, this_ptr, _zephir_prop_0, 655, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
@@ -787,6 +813,10 @@ PHP_METHOD(Phalcon_Db_Geometry_WkbParser, readByte)
 		return;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 655, &_10);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_memory_observe(&_11);
 	zephir_array_fetch_long(&_11, &arr, 1, PH_NOISY, "phalcon/Db/Geometry/WkbParser.zep", 227);
 	if (UNEXPECTED(EG(exception))) {
@@ -882,7 +912,7 @@ PHP_METHOD(Phalcon_Db_Geometry_WkbParser, readUint32)
 	ZVAL_LONG(&_6, 4);
 	ZEPHIR_INIT_VAR(&_7);
 	zephir_substr(&_7, &_4, zephir_get_intval(&_5), 4 , 0);
-	ZEPHIR_CALL_FUNCTION(&arr, "unpack", NULL, 123, &fmt, &_7);
+	ZEPHIR_CALL_FUNCTION(&arr, "unpack", NULL, 122, &fmt, &_7);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_8, this_ptr, _zephir_prop_0, 655, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
@@ -898,6 +928,10 @@ PHP_METHOD(Phalcon_Db_Geometry_WkbParser, readUint32)
 		return;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 655, &_9);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_memory_observe(&_10);
 	zephir_array_fetch_long(&_10, &arr, 1, PH_NOISY, "phalcon/Db/Geometry/WkbParser.zep", 242);
 	if (UNEXPECTED(EG(exception))) {
@@ -993,7 +1027,7 @@ PHP_METHOD(Phalcon_Db_Geometry_WkbParser, readDouble)
 	ZVAL_LONG(&_6, 8);
 	ZEPHIR_INIT_VAR(&_7);
 	zephir_substr(&_7, &_4, zephir_get_intval(&_5), 8 , 0);
-	ZEPHIR_CALL_FUNCTION(&arr, "unpack", NULL, 123, &fmt, &_7);
+	ZEPHIR_CALL_FUNCTION(&arr, "unpack", NULL, 122, &fmt, &_7);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_8, this_ptr, _zephir_prop_0, 655, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
@@ -1009,6 +1043,10 @@ PHP_METHOD(Phalcon_Db_Geometry_WkbParser, readDouble)
 		return;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 655, &_9);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_memory_observe(&_10);
 	zephir_array_fetch_long(&_10, &arr, 1, PH_NOISY, "phalcon/Db/Geometry/WkbParser.zep", 257);
 	if (UNEXPECTED(EG(exception))) {

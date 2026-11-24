@@ -139,7 +139,6 @@ PHP_METHOD(Phalcon_Support_Helper_Str_PascalCase, __invoke)
 				ZEPHIR_CPY_WRT(&output, &_11$$4);
 		}
 	}
-	ZEPHIR_INIT_NVAR(&element);
 	RETURN_CCTOR(&output);
 }
 
@@ -246,7 +245,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_PascalCase, processArray)
 	}
 	ZVAL_LONG(&_11, -1);
 	ZVAL_LONG(&_12, (2 | 1));
-	ZEPHIR_CALL_FUNCTION(&result, "preg_split", NULL, 59, &_10, &text_zv, &_11, &_12);
+	ZEPHIR_CALL_FUNCTION(&result, "preg_split", NULL, 58, &_10, &text_zv, &_11, &_12);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_13);
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&result)) {

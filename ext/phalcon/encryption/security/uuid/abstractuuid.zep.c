@@ -184,8 +184,10 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_AbstractUuid, getNodeProvider)
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_encryption_security_uuid_sysnodeprovider_ce);
 		if (zephir_has_constructor(&_1$$3)) {
+			zephir_constructor_start(&_1$$3);
 			ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[0]);
 			zephir_check_call_status();
+			zephir_constructor_finish(&_1$$3);
 		}
 
 		zephir_update_static_property_cached(phalcon_encryption_security_uuid_abstractuuid_ce, phalcon_encryption_security_uuid_abstractuuid_ce, SL("nodeProvider"), &_zephir_sprop_cache[1], &_1$$3);

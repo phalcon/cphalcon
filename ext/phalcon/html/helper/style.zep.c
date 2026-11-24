@@ -57,7 +57,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Style)
 PHP_METHOD(Phalcon_Html_Helper_Style, add)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long position, ZEPHIR_LAST_CALL_STATUS;
+	zend_long position = -1, ZEPHIR_LAST_CALL_STATUS;
 	zval attributes, _0, _2;
 	zval url_zv, *attributes_param = NULL, *position_param = NULL, _1, _3, _4;
 	zend_string *url = NULL;
@@ -93,10 +93,6 @@ PHP_METHOD(Phalcon_Html_Helper_Style, add)
 	} else {
 		zephir_get_arrval(&attributes, attributes_param);
 	}
-	if (!position_param) {
-		position = -1;
-	} else {
-		}
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 3, 0);
 	ZEPHIR_INIT_VAR(&_1);
@@ -145,8 +141,14 @@ PHP_METHOD(Phalcon_Html_Helper_Style, setStyle)
 	zephir_fetch_params_without_memory_grow(1, 0, &flag_param);
 	if (flag) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 281, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 281, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	}
 	RETURN_THISW();
 }

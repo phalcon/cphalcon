@@ -276,8 +276,10 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, getAdapter)
 	ZVAL_STR_COPY(&name_zv, name);
 	object_init_ex(return_value, phalcon_logger_adapter_noop_ce);
 	if (zephir_has_constructor(return_value)) {
+		zephir_constructor_start(return_value);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(return_value);
 	}
 
 	RETURN_MM();
@@ -472,8 +474,6 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, log)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&value);
-	ZEPHIR_INIT_NVAR(&key);
 	ZEPHIR_CALL_FUNCTION(&_7, "strtr", NULL, 1, &message_zv, &replace);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("messages"), &_7);

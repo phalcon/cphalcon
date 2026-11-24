@@ -104,9 +104,8 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
     public function destroy() -> void
     {
         if (true === this->exists()) {
+            session_unset();
             session_destroy();
-
-            let _SESSION = [];
         }
     }
 

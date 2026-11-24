@@ -322,7 +322,11 @@ PHP_METHOD(Phalcon_Paginator_Repository, setAliases)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &aliases_param);
 	zephir_get_arrval(&aliases, aliases_param);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1263, &aliases);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1261, &aliases);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 
@@ -349,7 +353,11 @@ PHP_METHOD(Phalcon_Paginator_Repository, setProperties)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &properties_param);
 	zephir_get_arrval(&properties, properties_param);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1264, &properties);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1262, &properties);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 
@@ -398,7 +406,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, getProperty)
 		defaultValue = &__$null;
 	}
 	zephir_memory_observe(&value);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1264, PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1262, PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -441,7 +449,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, getRealNameProperty)
 	zephir_memory_observe(&property_zv);
 	ZVAL_STR_COPY(&property_zv, property);
 	zephir_memory_observe(&name);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1263, PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1261, PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;

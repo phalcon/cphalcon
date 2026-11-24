@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1251, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1249, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -111,21 +111,23 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate)
 	if (UNEXPECTED(Z_TYPE_P(&items) != IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_paginator_exceptions_paginatordatanotarray_ce);
+		zephir_constructor_start(&_1$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1$$3);
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Paginator/Adapter/NativeArray.zep", 52);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_memory_observe(&_2);
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 1252, PH_NOISY_CC);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 1250, PH_NOISY_CC);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	show = zephir_get_intval(&_2);
 	zephir_memory_observe(&_3);
-	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_2, 1253, PH_NOISY_CC);
+	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_2, 1251, PH_NOISY_CC);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -151,7 +153,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate)
 	}
 	ZVAL_LONG(&_0, (show * ((pageNumber - 1))));
 	ZVAL_LONG(&_6, show);
-	ZEPHIR_CALL_FUNCTION(&_4, "array_slice", NULL, 84, &items, &_0, &_6);
+	ZEPHIR_CALL_FUNCTION(&_4, "array_slice", NULL, 83, &items, &_0, &_6);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&items, &_4);
 	if (pageNumber < totalPages) {
@@ -171,7 +173,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate)
 	ZVAL_LONG(&_8, number);
 	zephir_array_update_string(&_7, SL("total_items"), &_8, PH_COPY | PH_SEPARATE);
 	zephir_memory_observe(&_9);
-	zephir_read_property_cached(&_9, this_ptr, _zephir_prop_1, 1252, PH_NOISY_CC);
+	zephir_read_property_cached(&_9, this_ptr, _zephir_prop_1, 1250, PH_NOISY_CC);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;

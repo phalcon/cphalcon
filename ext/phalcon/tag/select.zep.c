@@ -369,7 +369,7 @@ PHP_METHOD(Phalcon_Tag_Select, echoOption)
 {
 	zval extra;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_bool selected;
+	zend_bool selected = 0;
 	zval value_zv, *selected_param = NULL, _0;
 	zend_string *value = NULL;
 
@@ -388,10 +388,6 @@ PHP_METHOD(Phalcon_Tag_Select, echoOption)
 	}
 	zephir_memory_observe(&value_zv);
 	ZVAL_STR_COPY(&value_zv, value);
-	if (!selected_param) {
-		selected = 0;
-	} else {
-		}
 	ZEPHIR_INIT_VAR(&_0);
 	if (selected) {
 		ZEPHIR_INIT_NVAR(&_0);
@@ -772,8 +768,6 @@ PHP_METHOD(Phalcon_Tag_Select, optionsFromArray)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&optionText);
-	ZEPHIR_INIT_NVAR(&optionValue);
 	RETURN_CCTOR(&code);
 }
 

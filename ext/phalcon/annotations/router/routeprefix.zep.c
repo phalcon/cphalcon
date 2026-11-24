@@ -62,5 +62,8 @@ PHP_METHOD(Phalcon_Annotations_Router_RoutePrefix, __construct)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&prefix_zv, prefix);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 421, &prefix_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 

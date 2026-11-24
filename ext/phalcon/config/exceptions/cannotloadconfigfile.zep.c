@@ -62,6 +62,10 @@ PHP_METHOD(Phalcon_Config_Exceptions_CannotLoadConfigFile, __construct)
 	zephir_memory_observe(&fileName_zv);
 	ZVAL_STR_COPY(&fileName_zv, fileName);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 538, &fileName_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "Configuration file ", &fileName_zv, " cannot be loaded");
 	if (UNEXPECTED(EG(exception))) {

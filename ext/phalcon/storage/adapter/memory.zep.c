@@ -135,6 +135,10 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, clear)
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 328, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_MM_BOOL(1);
 }
 
@@ -253,6 +257,9 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, setMaxItems)
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, maxItems);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 329, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 
@@ -263,7 +270,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, doDecrement)
 {
 	zend_bool _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long value, ZEPHIR_LAST_CALL_STATUS;
+	zend_long value = 1, ZEPHIR_LAST_CALL_STATUS;
 	zval key_zv, *value_param = NULL, current, newValue, prefixedKey, result, _0, _2$$3;
 	zend_string *key = NULL;
 	zval *this_ptr = getThis();
@@ -293,10 +300,6 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, doDecrement)
 	}
 	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
-	if (!value_param) {
-		value = 1;
-	} else {
-		}
 	ZEPHIR_CALL_METHOD_CACHED(&prefixedKey, this_ptr, "getPrefixedKey", &_zephir_call_cache[0], &key_zv);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 328, PH_NOISY_CC | PH_READONLY);
@@ -477,7 +480,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, doIncrement)
 {
 	zend_bool _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long value, ZEPHIR_LAST_CALL_STATUS;
+	zend_long value = 1, ZEPHIR_LAST_CALL_STATUS;
 	zval key_zv, *value_param = NULL, current, newValue, prefixedKey, result, _0, _2$$3;
 	zend_string *key = NULL;
 	zval *this_ptr = getThis();
@@ -507,10 +510,6 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, doIncrement)
 	}
 	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
-	if (!value_param) {
-		value = 1;
-	} else {
-		}
 	ZEPHIR_CALL_METHOD_CACHED(&prefixedKey, this_ptr, "getPrefixedKey", &_zephir_call_cache[0], &key_zv);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 328, PH_NOISY_CC | PH_READONLY);

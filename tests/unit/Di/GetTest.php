@@ -22,6 +22,7 @@ use Phalcon\Html\Escaper;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Di\CallsComponent;
 use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
+use TypeError;
 
 use function spl_object_id;
 
@@ -136,9 +137,9 @@ final class GetTest extends AbstractUnitTestCase
     }
 
     /**
-     * A shared service with a `calls` method that cannot be called gives a
-     * warning and null, the same as cphalcon. Null is not kept, thus each
-     * get() builds the service again.
+     * A shared service with a `calls` method that cannot be called throws
+     * the TypeError of call_user_func(). The service is not kept, thus each
+     * get() builds the service again and throws again.
      *
      * @issue  https://github.com/phalcon/phalcon/issues/808
      * @author Phalcon Team <team@phalcon.io>
@@ -157,13 +158,19 @@ final class GetTest extends AbstractUnitTestCase
             ]
         );
 
-        [$actual, $messages] = $this->collectErrors(
-            static fn () => [$container->get('calls'), $container->get('calls')]
-        );
+        $actual = [];
+        for ($counter = 0; $counter < 2; $counter++) {
+            try {
+                $container->get('calls');
+                $actual[] = 'no exception';
+            } catch (TypeError $ex) {
+                $actual[] = $ex->getMessage();
+            }
+        }
 
-        $message = 'class ' . CallsComponent::class . ' does not have a method "missing"';
-        $this->assertSame([null, null], $actual);
-        $this->assertSame([$message, $message], $messages);
+        $message = 'call_user_func(): Argument #1 ($callback) must be a valid callback, '
+            . 'class ' . CallsComponent::class . ' does not have a method "missing"';
+        $this->assertSame([$message, $message], $actual);
     }
 
     /**
@@ -190,8 +197,8 @@ final class GetTest extends AbstractUnitTestCase
     }
 
     /**
-     * The container cannot bind a static closure. Then the closure cannot be
-     * called: there is a warning and null, the same as cphalcon.
+     * The container cannot bind a static closure: there is a warning. Then
+     * the closure cannot be called: call_user_func() throws its TypeError.
      *
      * @issue  https://github.com/phalcon/phalcon/issues/815
      * @author Phalcon Team <team@phalcon.io>
@@ -203,17 +210,28 @@ final class GetTest extends AbstractUnitTestCase
         $container->set('static', static fn () => 1);
 
         [$actual, $messages] = $this->collectErrors(
-            static fn () => $container->get('static')
+            static function () use ($container): string {
+                try {
+                    $container->get('static');
+                } catch (TypeError $ex) {
+                    return $ex->getMessage();
+                }
+
+                return 'no exception';
+            }
         );
 
-        $this->assertNull($actual);
         $this->assertSame(
-            [$this->getStaticClosureBindMessage(), 'no array or string given'],
-            $messages
+            'call_user_func(): Argument #1 ($callback) must be a valid callback, '
+            . 'no array or string given',
+            $actual
         );
+        $this->assertSame([$this->getStaticClosureBindMessage()], $messages);
     }
 
     /**
+     * The same with parameters: call_user_func_array() throws its TypeError.
+     *
      * @issue  https://github.com/phalcon/phalcon/issues/815
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-11-16
@@ -224,14 +242,23 @@ final class GetTest extends AbstractUnitTestCase
         $container->set('static', static fn ($value) => $value);
 
         [$actual, $messages] = $this->collectErrors(
-            static fn () => $container->get('static', ['one'])
+            static function () use ($container): string {
+                try {
+                    $container->get('static', ['one']);
+                } catch (TypeError $ex) {
+                    return $ex->getMessage();
+                }
+
+                return 'no exception';
+            }
         );
 
-        $this->assertNull($actual);
         $this->assertSame(
-            [$this->getStaticClosureBindMessage(), 'no array or string given'],
-            $messages
+            'call_user_func_array(): Argument #1 ($callback) must be a valid callback, '
+            . 'no array or string given',
+            $actual
         );
+        $this->assertSame([$this->getStaticClosureBindMessage()], $messages);
     }
 
     /**

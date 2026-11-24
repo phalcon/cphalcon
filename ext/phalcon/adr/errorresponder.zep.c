@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_ADR_ErrorResponder, __construct)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval exceptionMap;
-	zend_bool debug;
+	zend_bool debug = 0;
 	zval *chain, chain_sub, *logger, logger_sub, *debug_param = NULL, *exceptionMap_param = NULL, __$true, __$false, _0, _1;
 	zval *this_ptr = getThis();
 
@@ -124,10 +124,6 @@ PHP_METHOD(Phalcon_ADR_ErrorResponder, __construct)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 2, &chain, &logger, &debug_param, &exceptionMap_param);
-	if (!debug_param) {
-		debug = 0;
-	} else {
-		}
 	if (!exceptionMap_param) {
 		ZEPHIR_INIT_VAR(&exceptionMap);
 		array_init(&exceptionMap);
@@ -135,11 +131,27 @@ PHP_METHOD(Phalcon_ADR_ErrorResponder, __construct)
 		zephir_get_arrval(&exceptionMap, exceptionMap_param);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 353, chain);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 354, logger);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (debug) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 355, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 355, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "defaultMap", &_zephir_call_cache[0]);
 	zephir_check_call_status();
@@ -150,6 +162,10 @@ PHP_METHOD(Phalcon_ADR_ErrorResponder, __construct)
 		return;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 356, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -213,7 +229,7 @@ PHP_METHOD(Phalcon_ADR_ErrorResponder, handle)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_5);
 	ZVAL_STRING(&_5, "%s: %s in %s:%d");
-	ZEPHIR_CALL_FUNCTION(&_6, "sprintf", NULL, 39, &_5, &_1, &_2, &_3, &_4);
+	ZEPHIR_CALL_FUNCTION(&_6, "sprintf", NULL, 38, &_5, &_1, &_2, &_3, &_4);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_7);
 	zephir_create_array(&_7, 2, 0);
@@ -226,8 +242,10 @@ PHP_METHOD(Phalcon_ADR_ErrorResponder, handle)
 	ZEPHIR_INIT_NVAR(&_5);
 	object_init_ex(&_5, phalcon_adr_payload_payload_ce);
 	if (zephir_has_constructor(&_5)) {
+		zephir_constructor_start(&_5);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_5, "__construct", &_zephir_call_cache[6]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_5);
 	}
 
 	ZEPHIR_CALL_METHOD_CACHED(&_8, &_5, "withStatus", &_zephir_call_cache[7], &status);
@@ -272,9 +290,9 @@ PHP_METHOD(Phalcon_ADR_ErrorResponder, correlationId)
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(&id)) {
 		ZVAL_LONG(&_1$$3, 8);
-		ZEPHIR_CALL_FUNCTION(&_2$$3, "random_bytes", NULL, 71, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "random_bytes", NULL, 70, &_1$$3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&id, "bin2hex", NULL, 72, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&id, "bin2hex", NULL, 71, &_2$$3);
 		zephir_check_call_status();
 	}
 	zephir_cast_to_string(&_3, &id);
@@ -480,11 +498,11 @@ PHP_METHOD(Phalcon_ADR_ErrorResponder, resolveStatus)
 		}
 		RETURN_CCTOR(&_3$$3);
 	}
-	ZEPHIR_CALL_FUNCTION(&_4, "class_parents", NULL, 101, exception);
+	ZEPHIR_CALL_FUNCTION(&_4, "class_parents", NULL, 100, exception);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&_5, "array_values", &_6, 18, &_4);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_7, "class_implements", NULL, 102, exception);
+	ZEPHIR_CALL_FUNCTION(&_7, "class_implements", NULL, 101, exception);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&_8, "array_values", &_6, 18, &_7);
 	zephir_check_call_status();
@@ -527,7 +545,6 @@ PHP_METHOD(Phalcon_ADR_ErrorResponder, resolveStatus)
 			RETURN_CCTOR(&_15$$5);
 		}
 	} ZEND_HASH_FOREACH_END();
-	ZEPHIR_INIT_NVAR(&ancestor);
 	RETURN_MM_STRING("ERROR");
 }
 

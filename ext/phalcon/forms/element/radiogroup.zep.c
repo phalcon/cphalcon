@@ -108,6 +108,10 @@ PHP_METHOD(Phalcon_Forms_Element_RadioGroup, __construct)
 		zephir_get_arrval(&attributes, attributes_param);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 795, &options);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_forms_element_radiogroup_ce, getThis(), "__construct", &_zephir_call_cache[0], &name_zv, &attributes);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -237,6 +241,10 @@ PHP_METHOD(Phalcon_Forms_Element_RadioGroup, setOptions)
 	zephir_fetch_params(1, 1, 0, &options_param);
 	zephir_get_arrval(&options, options_param);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 795, &options);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 

@@ -303,8 +303,6 @@ PHP_METHOD(Phalcon_Html_Escaper_AttributeEscaper, escape)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&value);
-	ZEPHIR_INIT_NVAR(&key);
 	zephir_fast_trim(return_value, &result, NULL , ZEPHIR_TRIM_RIGHT);
 	RETURN_MM();
 }
@@ -359,7 +357,7 @@ PHP_METHOD(Phalcon_Html_Escaper_AttributeEscaper, escapeValue)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("htmlspecialchars", NULL, 63, &input_zv, &_0, &_1, &_2);
+	ZEPHIR_RETURN_CALL_FUNCTION("htmlspecialchars", NULL, 62, &input_zv, &_0, &_1, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }

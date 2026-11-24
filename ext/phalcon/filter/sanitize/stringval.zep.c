@@ -13,7 +13,6 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
 
@@ -46,7 +45,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_StringVal)
 PHP_METHOD(Phalcon_Filter_Sanitize_StringVal, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long flags, ZEPHIR_LAST_CALL_STATUS;
+	zend_long flags = 11, ZEPHIR_LAST_CALL_STATUS;
 	zval input_zv, *flags_param = NULL, _0;
 	zend_string *input = NULL;
 
@@ -64,12 +63,8 @@ PHP_METHOD(Phalcon_Filter_Sanitize_StringVal, __invoke)
 	}
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
-	if (!flags_param) {
-		flags = 11;
-	} else {
-		}
 	ZVAL_LONG(&_0, flags);
-	ZEPHIR_RETURN_CALL_FUNCTION("htmlspecialchars", NULL, 63, &input_zv, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("htmlspecialchars", NULL, 62, &input_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

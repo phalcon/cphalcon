@@ -69,7 +69,7 @@ PHP_METHOD(Phalcon_Traits_Php_Base64Trait, doDecodeUrl)
 	ZVAL_STRING(&_1, "+/");
 	ZEPHIR_CALL_FUNCTION(&_2, "strtr", NULL, 1, &input_zv, &_0, &_1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&data, "base64_decode", NULL, 125, &_2);
+	ZEPHIR_CALL_FUNCTION(&data, "base64_decode", NULL, 124, &_2);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&data)) {
 		ZEPHIR_INIT_NVAR(&data);
@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Traits_Php_Base64Trait, doEncodeUrl)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
-	ZEPHIR_CALL_FUNCTION(&_0, "base64_encode", NULL, 126, &input_zv);
+	ZEPHIR_CALL_FUNCTION(&_0, "base64_encode", NULL, 125, &input_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "+/");
@@ -134,7 +134,7 @@ PHP_METHOD(Phalcon_Traits_Php_Base64Trait, phpBase64Decode)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool strict;
+	zend_bool strict = 0;
 	zval input_zv, *strict_param = NULL, _0;
 	zend_string *input = NULL;
 
@@ -152,12 +152,8 @@ PHP_METHOD(Phalcon_Traits_Php_Base64Trait, phpBase64Decode)
 	}
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
-	if (!strict_param) {
-		strict = 0;
-	} else {
-		}
 	ZVAL_BOOL(&_0, (strict ? 1 : 0));
-	ZEPHIR_RETURN_CALL_FUNCTION("base64_decode", NULL, 125, &input_zv, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("base64_decode", NULL, 124, &input_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -184,7 +180,7 @@ PHP_METHOD(Phalcon_Traits_Php_Base64Trait, phpBase64Encode)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
-	ZEPHIR_RETURN_CALL_FUNCTION("base64_encode", NULL, 126, &input_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("base64_encode", NULL, 125, &input_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

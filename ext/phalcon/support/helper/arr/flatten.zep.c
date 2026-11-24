@@ -49,7 +49,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool deep, _5;
+	zend_bool deep = 0, _5;
 	zval *collection_param = NULL, *deep_param = NULL, data, item, *_0, _4, _1$$3, _2$$3, _3$$3, _6$$4, _7$$4, _8$$4;
 	zval collection;
 	zval *this_ptr = getThis();
@@ -74,10 +74,6 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, __invoke)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &collection_param, &deep_param);
 	zephir_get_arrval(&collection, collection_param);
-	if (!deep_param) {
-		deep = 0;
-	} else {
-		}
 	ZEPHIR_INIT_VAR(&data);
 	array_init(&data);
 	zephir_is_iterable(&collection, 0, "phalcon/Support/Helper/Arr/Flatten.zep", 37);
@@ -145,7 +141,6 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Flatten, __invoke)
 				ZEPHIR_CPY_WRT(&data, &_6$$4);
 		}
 	}
-	ZEPHIR_INIT_NVAR(&item);
 	RETURN_CCTOR(&data);
 }
 

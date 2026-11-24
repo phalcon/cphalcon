@@ -42,8 +42,10 @@ PHP_METHOD(phalcon_11__closure, __invoke)
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_filter_filterfactory_ce);
 	if (zephir_has_constructor(&_0)) {
+		zephir_constructor_start(&_0);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0);
 	}
 
 	ZEPHIR_RETURN_CALL_METHOD_CACHED(&_0, "newInstance", &_zephir_call_cache[1]);

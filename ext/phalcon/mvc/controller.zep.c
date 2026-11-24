@@ -142,6 +142,9 @@ PHP_METHOD(Phalcon_Mvc_Controller, setEventsManager)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &eventsManager);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 987, eventsManager);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**
@@ -157,7 +160,7 @@ PHP_METHOD(Phalcon_Mvc_Controller, fireManagerEvent)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool cancellable;
+	zend_bool cancellable = 1;
 	zval eventName_zv, *data = NULL, data_sub, *cancellable_param = NULL, __$null, eventsManager, _0$$3;
 	zend_string *eventName = NULL;
 	zval *this_ptr = getThis();
@@ -194,10 +197,6 @@ PHP_METHOD(Phalcon_Mvc_Controller, fireManagerEvent)
 		data = &data_sub;
 		data = &__$null;
 	}
-	if (!cancellable_param) {
-		cancellable = 1;
-	} else {
-		}
 	zephir_memory_observe(&eventsManager);
 	zephir_read_property_cached(&eventsManager, this_ptr, _zephir_prop_0, 987, PH_NOISY_CC);
 	if (UNEXPECTED(EG(exception))) {

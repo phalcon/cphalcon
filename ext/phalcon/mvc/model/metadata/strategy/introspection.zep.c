@@ -81,8 +81,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps)
 		if (UNEXPECTED(Z_TYPE_P(&userColumnMap) != IS_ARRAY)) {
 			ZEPHIR_INIT_VAR(&_0$$4);
 			object_init_ex(&_0$$4, phalcon_mvc_model_metadata_exceptions_columnmapnotarray_ce);
+			zephir_constructor_start(&_0$$4);
 			ZEPHIR_CALL_METHOD_CACHED(NULL, &_0$$4, "__construct", &_zephir_call_cache[1]);
 			zephir_check_call_status();
+			zephir_constructor_finish(&_0$$4);
 			zephir_throw_exception_debug(&_0$$4, "phalcon/Mvc/Model/MetaData/Strategy/Introspection.zep", 43);
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -142,8 +144,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps)
 					}
 			}
 		}
-		ZEPHIR_INIT_NVAR(&userName);
-		ZEPHIR_INIT_NVAR(&name);
 	}
 	zephir_create_array(return_value, 2, 0);
 	zephir_array_fast_append(return_value, &orderedColumnMap);
@@ -247,10 +247,12 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData)
 		}
 		ZEPHIR_INIT_VAR(&_2$$3);
 		object_init_ex(&_2$$3, phalcon_mvc_model_metadata_exceptions_tablenotindatabase_ce);
+		zephir_constructor_start(&_2$$3);
 		ZEPHIR_INIT_VAR(&_3$$3);
 		zephir_get_class(&_3$$3, model, 0);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_2$$3, "__construct", &_zephir_call_cache[4], &completeTable, &_3$$3);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_2$$3);
 		zephir_throw_exception_debug(&_2$$3, "phalcon/Mvc/Model/MetaData/Strategy/Introspection.zep", 89);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -279,10 +281,12 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData)
 		}
 		ZEPHIR_INIT_VAR(&_5$$6);
 		object_init_ex(&_5$$6, phalcon_mvc_model_metadata_exceptions_cannotobtaintablecolumns_ce);
+		zephir_constructor_start(&_5$$6);
 		ZEPHIR_INIT_VAR(&_6$$6);
 		zephir_get_class(&_6$$6, model, 0);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_5$$6, "__construct", &_zephir_call_cache[6], &completeTable, &_6$$6);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_5$$6);
 		zephir_throw_exception_debug(&_5$$6, "phalcon/Mvc/Model/MetaData/Strategy/Introspection.zep", 107);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -499,7 +503,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&column);
 	zephir_create_array(return_value, 12, 0);
 	zephir_array_update_long(return_value, 0, &attributes, PH_COPY ZEPHIR_DEBUG_PARAMS_DUMMY);
 	zephir_array_update_long(return_value, 1, &primaryKeys, PH_COPY ZEPHIR_DEBUG_PARAMS_DUMMY);

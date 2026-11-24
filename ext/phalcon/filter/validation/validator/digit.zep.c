@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Digit, validate)
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZEPHIR_CALL_FUNCTION(&_4, "ctype_digit", NULL, 153, &_3);
+		ZEPHIR_CALL_FUNCTION(&_4, "ctype_digit", NULL, 152, &_3);
 		zephir_check_call_status();
 		_2 = zephir_is_true(&_4);
 	}

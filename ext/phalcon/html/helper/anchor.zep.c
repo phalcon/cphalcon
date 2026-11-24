@@ -14,8 +14,8 @@
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/operators.h"
 
 
 /**
@@ -52,7 +52,7 @@ PHP_METHOD(Phalcon_Html_Helper_Anchor, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool forceRaw;
+	zend_bool forceRaw = 0;
 	zval *escaper, escaper_sub, *doctype = NULL, doctype_sub, *forceRaw_param = NULL, __$true, __$false, __$null;
 	zval *this_ptr = getThis();
 
@@ -81,16 +81,20 @@ PHP_METHOD(Phalcon_Html_Helper_Anchor, __construct)
 		doctype = &doctype_sub;
 		doctype = &__$null;
 	}
-	if (!forceRaw_param) {
-		forceRaw = 0;
-	} else {
-		}
 	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_html_helper_anchor_ce, getThis(), "__construct", &_zephir_call_cache[0], escaper, doctype);
 	zephir_check_call_status();
 	if (forceRaw) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 838, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 838, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	ZEPHIR_MM_RESTORE();
 }
@@ -104,7 +108,7 @@ PHP_METHOD(Phalcon_Html_Helper_Anchor, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool raw, _2;
+	zend_bool raw = 0, _2;
 	zval attributes;
 	zval href_zv, text_zv, *attributes_param = NULL, *raw_param = NULL, _0, _1, _3, _4;
 	zend_string *href = NULL, *text = NULL;
@@ -148,10 +152,6 @@ PHP_METHOD(Phalcon_Html_Helper_Anchor, __invoke)
 	} else {
 		zephir_get_arrval(&attributes, attributes_param);
 	}
-	if (!raw_param) {
-		raw = 0;
-	} else {
-		}
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "href");
 	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "injectAttribute", &_zephir_call_cache[0], &_1, &href_zv, &attributes);

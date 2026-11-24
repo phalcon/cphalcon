@@ -24,12 +24,11 @@ use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Talon\Talon;
 use Phalcon\Tests\Support\Modules\Frontend\Module as FrontendModule;
 use Phalcon\Tests\Support\Traits\DiTrait;
-use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
+use TypeError;
 
 final class HandleTest extends AbstractUnitTestCase
 {
     use DiTrait;
-    use ErrorHandlerTrait;
 
     private int $obLevel = 0;
 
@@ -170,8 +169,8 @@ final class HandleTest extends AbstractUnitTestCase
     }
 
     /**
-     * A match callback that cannot be called gives a warning and handle()
-     * returns null, the same as cphalcon.
+     * A match callback that cannot be called throws the TypeError of
+     * call_user_func_array().
      *
      * @issue  https://github.com/phalcon/phalcon/issues/815
      * @author Phalcon Team <team@phalcon.io>
@@ -187,15 +186,13 @@ final class HandleTest extends AbstractUnitTestCase
 
         $application = new Application($this->container);
 
-        [$actual, $messages] = $this->collectErrors(
-            static fn () => $application->handle('/match')
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage(
+            'call_user_func_array(): Argument #1 ($callback) must be a valid callback, '
+            . 'function "unknownMatchFunction" not found or invalid function name'
         );
 
-        $this->assertNull($actual);
-        $this->assertSame(
-            ['function "unknownMatchFunction" not found or invalid function name'],
-            $messages
-        );
+        $application->handle('/match');
     }
 
     /**

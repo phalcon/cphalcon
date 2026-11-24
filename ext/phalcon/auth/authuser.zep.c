@@ -111,13 +111,19 @@ PHP_METHOD(Phalcon_Auth_AuthUser, __construct)
 	if (_1) {
 		ZEPHIR_INIT_VAR(&_5$$3);
 		object_init_ex(&_5$$3, phalcon_auth_exceptions_datamustcontainidkey_ce);
+		zephir_constructor_start(&_5$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_5$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_5$$3);
 		zephir_throw_exception_debug(&_5$$3, "phalcon/Auth/AuthUser.zep", 38);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 457, &data);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -178,7 +184,6 @@ PHP_METHOD(Phalcon_Auth_AuthUser, getAuthPassword)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	_1;
 	ZEPHIR_INIT_VAR(&_2);
 	if (Z_TYPE_P(&password) == IS_STRING) {
 		ZEPHIR_CPY_WRT(&_2, &password);

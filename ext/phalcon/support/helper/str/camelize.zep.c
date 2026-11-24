@@ -48,7 +48,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Camelize, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool lowerFirst;
+	zend_bool lowerFirst = 0;
 	zval delimiters;
 	zval text_zv, *delimiters_param = NULL, *lowerFirst_param = NULL, _0;
 	zend_string *text = NULL;
@@ -80,10 +80,6 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Camelize, __invoke)
 	} else {
 		zephir_get_strval(&delimiters, delimiters_param);
 	}
-	if (!lowerFirst_param) {
-		lowerFirst = 0;
-	} else {
-		}
 	if (Z_TYPE_P(&delimiters) == IS_NULL) {
 		ZEPHIR_INIT_NVAR(&delimiters);
 		ZVAL_STRING(&delimiters, "-_");
@@ -109,7 +105,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Camelize, toCamelize)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool lowerFirst;
+	zend_bool lowerFirst = 0;
 	zval text_zv, delimiters_zv, *lowerFirst_param = NULL, result, _0$$3;
 	zend_string *text = NULL, *delimiters = NULL;
 
@@ -138,14 +134,10 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Camelize, toCamelize)
 		zephir_memory_observe(&delimiters_zv);
 	ZVAL_STR_COPY(&delimiters_zv, delimiters);
 	}
-	if (!lowerFirst_param) {
-		lowerFirst = 0;
-	} else {
-		}
 	ZEPHIR_INIT_VAR(&result);
 	zephir_camelize(&result, &text_zv, &delimiters_zv);
 	if (lowerFirst == 1) {
-		ZEPHIR_CALL_FUNCTION(&_0$$3, "lcfirst", NULL, 58, &result);
+		ZEPHIR_CALL_FUNCTION(&_0$$3, "lcfirst", NULL, 57, &result);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&result, &_0$$3);
 	}

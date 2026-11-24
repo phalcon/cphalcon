@@ -154,6 +154,10 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, clear)
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 821, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -210,6 +214,10 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, remove)
 		return;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 821, &elements);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -305,8 +313,9 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, render)
 	ZEPHIR_CPY_WRT(&template, &_0);
 	ZEPHIR_INIT_VAR(&urls);
 	zephir_array_keys(&urls, &elements);
+	ZEPHIR_OBSERVE_IF_UNDEF(&urls);
 	ZEPHIR_MAKE_REF(&urls);
-	ZEPHIR_CALL_FUNCTION(&lastUrl, "end", NULL, 166, &urls);
+	ZEPHIR_CALL_FUNCTION(&lastUrl, "end", NULL, 165, &urls);
 	ZEPHIR_UNREF(&urls);
 	zephir_check_call_status();
 	zephir_memory_observe(&lastLabel);
@@ -355,7 +364,7 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, render)
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			ZEPHIR_CALL_FUNCTION(&_11$$4, "htmlspecialchars", &_12, 63, &_10$$4);
+			ZEPHIR_CALL_FUNCTION(&_11$$4, "htmlspecialchars", &_12, 62, &_10$$4);
 			zephir_check_call_status();
 			zephir_array_fast_append(&_9$$4, &_11$$4);
 			zephir_cast_to_string(&_13$$4, &url);
@@ -363,7 +372,7 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, render)
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			ZEPHIR_CALL_FUNCTION(&_11$$4, "htmlspecialchars", &_12, 63, &_13$$4);
+			ZEPHIR_CALL_FUNCTION(&_11$$4, "htmlspecialchars", &_12, 62, &_13$$4);
 			zephir_check_call_status();
 			zephir_array_fast_append(&_9$$4, &_11$$4);
 			zephir_fast_str_replace(&_6$$4, &_7$$4, &_9$$4, &template);
@@ -409,7 +418,7 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, render)
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
-				ZEPHIR_CALL_FUNCTION(&_21$$5, "htmlspecialchars", &_12, 63, &_20$$5);
+				ZEPHIR_CALL_FUNCTION(&_21$$5, "htmlspecialchars", &_12, 62, &_20$$5);
 				zephir_check_call_status();
 				zephir_array_fast_append(&_19$$5, &_21$$5);
 				zephir_cast_to_string(&_22$$5, &url);
@@ -417,7 +426,7 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, render)
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
-				ZEPHIR_CALL_FUNCTION(&_21$$5, "htmlspecialchars", &_12, 63, &_22$$5);
+				ZEPHIR_CALL_FUNCTION(&_21$$5, "htmlspecialchars", &_12, 62, &_22$$5);
 				zephir_check_call_status();
 				zephir_array_fast_append(&_19$$5, &_21$$5);
 				zephir_fast_str_replace(&_16$$5, &_17$$5, &_19$$5, &template);
@@ -428,15 +437,13 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, render)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&element);
-	ZEPHIR_INIT_NVAR(&url);
 	if (!(ZEPHIR_IS_EMPTY(&elements))) {
 		zephir_cast_to_string(&_23$$6, &lastLabel);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZEPHIR_CALL_FUNCTION(&_24$$6, "htmlspecialchars", &_12, 63, &_23$$6);
+		ZEPHIR_CALL_FUNCTION(&_24$$6, "htmlspecialchars", &_12, 62, &_23$$6);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_25$$6);
 		ZEPHIR_CONCAT_SVS(&_25$$6, "<dt>", &_24$$6, "</dt>");
@@ -466,7 +473,7 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, render)
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZEPHIR_CALL_FUNCTION(&_31$$7, "htmlspecialchars", &_12, 63, &_30$$7);
+		ZEPHIR_CALL_FUNCTION(&_31$$7, "htmlspecialchars", &_12, 62, &_30$$7);
 		zephir_check_call_status();
 		zephir_array_fast_append(&_29$$7, &_31$$7);
 		zephir_cast_to_string(&_32$$7, &lastUrl);
@@ -474,7 +481,7 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, render)
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZEPHIR_CALL_FUNCTION(&_31$$7, "htmlspecialchars", &_12, 63, &_32$$7);
+		ZEPHIR_CALL_FUNCTION(&_31$$7, "htmlspecialchars", &_12, 62, &_32$$7);
 		zephir_check_call_status();
 		zephir_array_fast_append(&_29$$7, &_31$$7);
 		zephir_fast_str_replace(&_26$$7, &_27$$7, &_29$$7, &template);
@@ -525,6 +532,9 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, setSeparator)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&separator_zv, separator);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 823, &separator_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 

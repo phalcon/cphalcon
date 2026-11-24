@@ -74,7 +74,7 @@ void zephir_generator_module_init(void);
 
 static inline zephir_generator_object *zephir_generator_fetch(zend_object *obj)
 {
-	return (zephir_generator_object *) ((char *) obj - XtOffsetOf(zephir_generator_object, std));
+	return (zephir_generator_object *) ((char *) obj - offsetof(zephir_generator_object, std));
 }
 
 #define ZEPHIR_GENERATOR_P(zv) zephir_generator_fetch(Z_OBJ_P(zv))

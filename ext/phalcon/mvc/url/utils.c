@@ -206,7 +206,7 @@ void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval 
 								}
 								smart_str_appendl(&route_str, Z_STRVAL_P(replace), Z_STRLEN_P(replace));
 								if (use_copy) {
-									zval_dtor(&replace_copy);
+									zval_ptr_dtor_nogc(&replace_copy);
 								}
 							}
 							cursor++;
@@ -240,7 +240,7 @@ void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval 
 								}
 								smart_str_appendl(&route_str, Z_STRVAL_P(replace), Z_STRLEN_P(replace));
 								if (use_copy) {
-									zval_dtor(&replace_copy);
+									zval_ptr_dtor_nogc(&replace_copy);
 								}
 							}
 							cursor++;
@@ -266,7 +266,7 @@ void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval 
 							}
 							smart_str_appendl(&route_str, Z_STRVAL_P(replace), Z_STRLEN_P(replace));
 							if (use_copy) {
-								zval_dtor(&replace_copy);
+								zval_ptr_dtor_nogc(&replace_copy);
 							}
 						}
 						looking_placeholder = 0;

@@ -67,7 +67,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryProducer, __construct)
 		Z_PARAM_OBJECT_OF_CLASS(context, phalcon_queue_adapter_memory_memorycontext_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &context);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1292, context);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1290, context);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryProducer, send)
@@ -99,7 +102,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryProducer, send)
 	ZVAL_STRING(&_0, "send to");
 	ZEPHIR_CALL_CE_STATIC_CACHED(NULL, phalcon_queue_adapter_queuedestinationguard_ce, "assertQueue", &_zephir_call_cache[0], destination, &_0);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1292, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 1290, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;

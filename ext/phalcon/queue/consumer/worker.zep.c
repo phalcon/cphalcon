@@ -67,12 +67,13 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *consumer, consumer_sub, *options = NULL, options_sub, __$null;
+	zval *consumer, consumer_sub, *options = NULL, options_sub, __$null, _0$$3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&consumer_sub);
 	ZVAL_UNDEF(&options_sub);
 	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&_0$$3);
 	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
@@ -99,13 +100,25 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, __construct)
 		ZEPHIR_SEPARATE_PARAM(options);
 	}
 	if (Z_TYPE_P(options) == IS_NULL) {
-		ZEPHIR_INIT_NVAR(options);
-		object_init_ex(options, phalcon_queue_consumer_workeroptions_ce);
-		ZEPHIR_CALL_METHOD_CACHED(NULL, options, "__construct", &_zephir_call_cache[0]);
+		ZEPHIR_INIT_VAR(&_0$$3);
+		object_init_ex(&_0$$3, phalcon_queue_consumer_workeroptions_ce);
+		zephir_constructor_start(&_0$$3);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0$$3);
+		ZEPHIR_CPY_WRT(options, &_0$$3);
+		ZEPHIR_INIT_NVAR(&_0$$3);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1326, consumer);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1327, options);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1324, consumer);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1325, options);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -143,7 +156,7 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, handleSignal)
 	} else {
 		zephir_get_arrval(&info, info_param);
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1326, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1324, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -201,7 +214,7 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, run)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1327, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1325, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -220,7 +233,7 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, run)
 	ZEPHIR_CALL_METHOD_CACHED(&_4, &options, "getJitter", &_zephir_call_cache[3]);
 	zephir_check_call_status();
 	jitter = zephir_get_intval(&_4);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 1326, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_1, 1324, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -246,7 +259,7 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, run)
 		if (jitter > 0) {
 			ZVAL_LONG(&_9$$5, 0);
 			ZVAL_LONG(&_10$$5, jitter);
-			ZEPHIR_CALL_FUNCTION(&_11$$5, "random_int", NULL, 141, &_9$$5, &_10$$5);
+			ZEPHIR_CALL_FUNCTION(&_11$$5, "random_int", NULL, 140, &_9$$5, &_10$$5);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&_12$$5);
 			ZVAL_LONG(&_12$$5, deadline);
@@ -262,7 +275,7 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, run)
 	ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "installSignalHandlers", &_zephir_call_cache[5]);
 	zephir_check_call_status();
 	while (1) {
-		zephir_read_property_cached(&_14$$6, this_ptr, _zephir_prop_1, 1326, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_14$$6, this_ptr, _zephir_prop_1, 1324, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -272,7 +285,7 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, run)
 		if (zephir_is_true(&_15$$6)) {
 			break;
 		}
-		zephir_read_property_cached(&_16$$6, this_ptr, _zephir_prop_1, 1326, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_16$$6, this_ptr, _zephir_prop_1, 1324, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -298,7 +311,7 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, run)
 		}
 		_21$$6 = maxMemory > 0;
 		if (_21$$6) {
-			ZEPHIR_CALL_FUNCTION(&_22$$6, "memory_get_usage", &_23, 250, &__$true);
+			ZEPHIR_CALL_FUNCTION(&_22$$6, "memory_get_usage", &_23, 249, &__$true);
 			zephir_check_call_status();
 			_21$$6 = ZEPHIR_GE_LONG(&_22$$6, (maxMemory * 1048576));
 		}
@@ -306,7 +319,7 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, run)
 			break;
 		}
 	}
-	zephir_read_property_cached(&_24, this_ptr, _zephir_prop_1, 1326, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_24, this_ptr, _zephir_prop_1, 1324, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -347,7 +360,7 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, installSignalHandlers)
 	if (!(zephir_is_true(&_0))) {
 		RETURN_MM_NULL();
 	}
-	ZEPHIR_CALL_FUNCTION(NULL, "pcntl_async_signals", NULL, 251, &__$true);
+	ZEPHIR_CALL_FUNCTION(NULL, "pcntl_async_signals", NULL, 250, &__$true);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_create_array(&_2, 2, 0);
@@ -356,7 +369,7 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, installSignalHandlers)
 	ZVAL_STRING(&_1, "handleSignal");
 	zephir_array_fast_append(&_2, &_1);
 	ZVAL_LONG(&_3, 15);
-	ZEPHIR_CALL_FUNCTION(NULL, "pcntl_signal", &_4, 252, &_3, &_2);
+	ZEPHIR_CALL_FUNCTION(NULL, "pcntl_signal", &_4, 251, &_3, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_5);
 	zephir_create_array(&_5, 2, 0);
@@ -365,7 +378,7 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, installSignalHandlers)
 	ZVAL_STRING(&_1, "handleSignal");
 	zephir_array_fast_append(&_5, &_1);
 	ZVAL_LONG(&_3, 2);
-	ZEPHIR_CALL_FUNCTION(NULL, "pcntl_signal", &_4, 252, &_3, &_5);
+	ZEPHIR_CALL_FUNCTION(NULL, "pcntl_signal", &_4, 251, &_3, &_5);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_6);
 	zephir_create_array(&_6, 2, 0);
@@ -374,7 +387,7 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, installSignalHandlers)
 	ZVAL_STRING(&_1, "handleSignal");
 	zephir_array_fast_append(&_6, &_1);
 	ZVAL_LONG(&_3, 3);
-	ZEPHIR_CALL_FUNCTION(NULL, "pcntl_signal", &_4, 252, &_3, &_6);
+	ZEPHIR_CALL_FUNCTION(NULL, "pcntl_signal", &_4, 251, &_3, &_6);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -403,7 +416,7 @@ PHP_METHOD(Phalcon_Queue_Consumer_Worker, phpExtensionLoaded)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 62, &name_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 61, &name_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

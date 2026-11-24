@@ -165,8 +165,10 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_MimeType, validate)
 	if (UNEXPECTED(Z_TYPE_P(&types) != IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(&_3$$5);
 		object_init_ex(&_3$$5, phalcon_filter_validation_exceptions_invalidallowedtypes_ce);
+		zephir_constructor_start(&_3$$5);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_3$$5, "__construct", &_zephir_call_cache[3]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_3$$5);
 		zephir_throw_exception_debug(&_3$$5, "phalcon/Filter/Validation/Validator/File/MimeType.zep", 100);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -177,7 +179,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_MimeType, validate)
 	zephir_check_call_status();
 	if (zephir_is_true(&_4)) {
 		ZVAL_LONG(&_5$$6, 16);
-		ZEPHIR_CALL_FUNCTION(&tmp, "finfo_open", NULL, 160, &_5$$6);
+		ZEPHIR_CALL_FUNCTION(&tmp, "finfo_open", NULL, 159, &_5$$6);
 		zephir_check_call_status();
 		if (zephir_is_true(&tmp)) {
 			zephir_memory_observe(&_6$$7);
@@ -186,7 +188,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_MimeType, validate)
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			ZEPHIR_CALL_FUNCTION(&mime, "finfo_file", NULL, 161, &tmp, &_6$$7);
+			ZEPHIR_CALL_FUNCTION(&mime, "finfo_file", NULL, 160, &tmp, &_6$$7);
 			zephir_check_call_status();
 		}
 	}
@@ -275,7 +277,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_MimeType, validate)
 					}
 			}
 		}
-		ZEPHIR_INIT_NVAR(&type);
 	} else {
 		_22$$14 = zephir_fast_in_array(&mime, &types);
 		if (UNEXPECTED(EG(exception))) {
@@ -324,7 +325,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_MimeType, phpExtensionLoaded
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 62, &name_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 61, &name_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

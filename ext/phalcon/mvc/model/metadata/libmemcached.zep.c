@@ -120,6 +120,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, __construct)
 	ZEPHIR_CALL_METHOD_CACHED(&_6, factory, "newInstance", &_zephir_call_cache[3], &_1, &options);
 	zephir_check_call_status();
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1069, &_6);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

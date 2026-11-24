@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_Container_Definition_Processor_StringProcessor, process)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval name_zv, *definition, definition_sub, *container, container_sub, def, _0, _1;
+	zval name_zv, *definition, definition_sub, *container, container_sub, def, _0, _1, _2;
 	zend_string *name = NULL;
 
 	ZVAL_UNDEF(&name_zv);
@@ -99,6 +99,7 @@ PHP_METHOD(Phalcon_Container_Definition_Processor_StringProcessor, process)
 	ZVAL_UNDEF(&def);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
 	ZEND_TLS zephir_method_cache _zephir_call_cache[3];
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_STR(name)
@@ -111,16 +112,20 @@ PHP_METHOD(Phalcon_Container_Definition_Processor_StringProcessor, process)
 	container = ZEND_CALL_ARG(execute_data, 3);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_INIT_VAR(&def);
-	object_init_ex(&def, phalcon_container_definition_servicedefinition_ce);
 	ZEPHIR_INIT_VAR(&_0);
-	ZVAL_STRING(&_0, "string");
-	ZEPHIR_CALL_METHOD_CACHED(NULL, &def, "__construct", &_zephir_call_cache[0], &name_zv, &_0, definition);
+	object_init_ex(&_0, phalcon_container_definition_servicedefinition_ce);
+	zephir_constructor_start(&_0);
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "string");
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0], &name_zv, &_1, definition);
 	zephir_check_call_status();
+	zephir_constructor_finish(&_0);
+	ZEPHIR_CPY_WRT(&def, &_0);
+	ZEPHIR_INIT_NVAR(&_0);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &def, "setClass", &_zephir_call_cache[1], definition);
 	zephir_check_call_status();
-	ZVAL_BOOL(&_1, 1);
-	ZEPHIR_CALL_METHOD_CACHED(NULL, &def, "setIsCacheable", &_zephir_call_cache[2], &_1);
+	ZVAL_BOOL(&_2, 1);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &def, "setIsCacheable", &_zephir_call_cache[2], &_2);
 	zephir_check_call_status();
 	RETURN_CCTOR(&def);
 }

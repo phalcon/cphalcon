@@ -48,7 +48,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Geometry_MultiLineString)
 PHP_METHOD(Phalcon_Db_Geometry_MultiLineString, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long srid;
+	zend_long srid = 0;
 	zval *lineStrings_param = NULL, *srid_param = NULL, _0;
 	zval lineStrings;
 	zval *this_ptr = getThis();
@@ -73,14 +73,18 @@ PHP_METHOD(Phalcon_Db_Geometry_MultiLineString, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &lineStrings_param, &srid_param);
 	zephir_get_arrval(&lineStrings, lineStrings_param);
-	if (!srid_param) {
-		srid = 0;
-	} else {
-		}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 642, &lineStrings);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, srid);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 643, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -192,7 +196,6 @@ PHP_METHOD(Phalcon_Db_Geometry_MultiLineString, toWkt)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&line);
 	ZEPHIR_INIT_VAR(&_10);
 	zephir_fast_join_str(&_10, SL(", "), &parts);
 	ZEPHIR_CONCAT_SVS(return_value, "MULTILINESTRING(", &_10, ")");

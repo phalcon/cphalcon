@@ -72,21 +72,27 @@ PHP_METHOD(Phalcon_ADR_Responder_AbstractFormattedResponder, __construct)
 	zephir_create_array(&_0, 3, 0);
 	ZEPHIR_INIT_VAR(&_1);
 	object_init_ex(&_1, phalcon_adr_responder_statusresponder_ce);
+	zephir_constructor_start(&_1);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &_1, "__construct", &_zephir_call_cache[0]);
 	zephir_check_call_status();
+	zephir_constructor_finish(&_1);
 	zephir_array_fast_append(&_0, &_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	object_init_ex(&_1, phalcon_adr_responder_redirectresponder_ce);
 	if (zephir_has_constructor(&_1)) {
+		zephir_constructor_start(&_1);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1, "__construct", &_zephir_call_cache[1]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1);
 	}
 
 	zephir_array_fast_append(&_0, &_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	object_init_ex(&_1, phalcon_adr_responder_formatresponder_ce);
+	zephir_constructor_start(&_1);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &_1, "__construct", &_zephir_call_cache[2], &formatters);
 	zephir_check_call_status();
+	zephir_constructor_finish(&_1);
 	zephir_array_fast_append(&_0, &_1);
 	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_adr_responder_abstractformattedresponder_ce, getThis(), "__construct", &_zephir_call_cache[3], &_0);
 	zephir_check_call_status();

@@ -92,6 +92,76 @@ extern zend_string* i_self;
 #include <Zend/zend_constants.h>
 #include "kernel/exception.h"
 
+/**
+ * The zend_string * a method's C copy (`internal-call-transformation`) borrows
+ * for a native string parameter. Its call sites pass a string, or null where
+ * the parameter allows it, or leave the argument out; the last two give NULL,
+ * as PHP's parameter parsing does.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2791
+ */
+static zend_always_inline zend_string *zephir_internal_str_arg(zval *arg)
+{
+	return arg != NULL && Z_TYPE_P(arg) == IS_STRING ? Z_STR_P(arg) : NULL;
+}
+
+/**
+ * The engine's weak-mode scalar parsers under one signature: true with the
+ * value in `dest`, false when the value does not convert (an exception may be
+ * pending). PHP 8.1 added `arg_num`, the argument a null deprecation names,
+ * and PHP 8.6 returns the value instead of writing it through `dest`.
+ */
+static zend_always_inline bool zephir_parse_arg_long_weak(zval *arg, zend_long *dest, uint32_t arg_num)
+{
+#if PHP_VERSION_ID >= 80100
+	return zend_parse_arg_long_weak(arg, dest, arg_num);
+#else
+	(void) arg_num;
+	return zend_parse_arg_long_weak(arg, dest);
+#endif
+}
+
+static zend_always_inline bool zephir_parse_arg_double_weak(zval *arg, double *dest, uint32_t arg_num)
+{
+#if PHP_VERSION_ID >= 80600
+	*dest = zend_parse_arg_double_weak(arg, arg_num);
+	return !zend_isnan(*dest);
+#elif PHP_VERSION_ID >= 80100
+	return zend_parse_arg_double_weak(arg, dest, arg_num);
+#else
+	(void) arg_num;
+	return zend_parse_arg_double_weak(arg, dest);
+#endif
+}
+
+static zend_always_inline bool zephir_parse_arg_str_weak(zval *arg, zend_string **dest, uint32_t arg_num)
+{
+#if PHP_VERSION_ID >= 80600
+	*dest = zend_parse_arg_str_weak(arg, arg_num);
+	return *dest != NULL;
+#elif PHP_VERSION_ID >= 80100
+	return zend_parse_arg_str_weak(arg, dest, arg_num);
+#else
+	(void) arg_num;
+	return zend_parse_arg_str_weak(arg, dest);
+#endif
+}
+
+static zend_always_inline bool zephir_parse_arg_bool_weak(zval *arg, bool *dest, uint32_t arg_num)
+{
+#if PHP_VERSION_ID >= 80600
+	zpp_parse_bool_status status = zend_parse_arg_bool_weak(arg, arg_num);
+
+	*dest = status == ZPP_PARSE_BOOL_STATUS_TRUE;
+	return status != ZPP_PARSE_BOOL_STATUS_ERROR;
+#elif PHP_VERSION_ID >= 80100
+	return zend_parse_arg_bool_weak(arg, dest, arg_num);
+#else
+	(void) arg_num;
+	return zend_parse_arg_bool_weak(arg, dest);
+#endif
+}
+
 /* class/interface registering */
 #define ZEPHIR_REGISTER_CLASS(ns, class_name, lower_ns, name, methods, flags)		\
 	{																				\
@@ -345,6 +415,21 @@ static inline void zephir_throw_variable_type_error(zval *value, const char *nam
     RETURN_MM(); \
   } while (0)
 
+/**
+ * A class or type name in a message, as PHP formats it. PHP 8.6 prints it by
+ * its length (GH-25352), so an anonymous class keeps the part of its name
+ * after the NUL byte, which earlier versions cut off.
+ *
+ *   zend_error(E_NOTICE, "... of " ZEPHIR_ZSTR_FMT " ...", ZEPHIR_ZSTR_ARG(ce->name));
+ */
+#if PHP_VERSION_ID >= 80600
+# define ZEPHIR_ZSTR_FMT "%pS"
+# define ZEPHIR_ZSTR_ARG(str) (str)
+#else
+# define ZEPHIR_ZSTR_FMT "%s"
+# define ZEPHIR_ZSTR_ARG(str) ZSTR_VAL(str)
+#endif
+
 #define RETURN_ON_FAILURE(what) \
 	do { \
 		if (what == FAILURE) { \
@@ -364,6 +449,7 @@ static inline void zephir_throw_variable_type_error(zval *value, const char *nam
 
 /* Globals functions */
 int zephir_get_global(zval *arr, const char *global, unsigned int global_length);
+int zephir_set_global(const char *global, unsigned int global_length, zval *value);
 
 /* Count */
 void zephir_fast_count(zval *result, zval *array);
@@ -385,7 +471,7 @@ void zephir_gettype(zval *return_value, zval *arg);
 static inline int zephir_maybe_separate_zval(zval* z)
 {
 	if (!Z_REFCOUNTED_P(z) || (Z_REFCOUNT_P(z) > 1 && !Z_ISREF_P(z))) {
-		if (!(Z_COPYABLE_P(z) && !Z_REFCOUNTED_P(z))) {
+		if (!(Z_TYPE_P(z) == IS_ARRAY && !Z_REFCOUNTED_P(z))) {
 			Z_DELREF_P(z);
 		}
 		zval_copy_ctor_func(z);

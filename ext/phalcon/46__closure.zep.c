@@ -40,8 +40,10 @@ PHP_METHOD(phalcon_46__closure, __invoke)
 	zephir_read_property(&escaper, this_ptr, SL("escaper"), PH_NOISY_CC);
 
 	object_init_ex(return_value, phalcon_html_helper_friendlytitle_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &escaper);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 

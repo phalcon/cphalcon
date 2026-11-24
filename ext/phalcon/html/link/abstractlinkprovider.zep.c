@@ -99,13 +99,13 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, __construct)
 			ZVAL_COPY(&link, _0);
 			ZEPHIR_INIT_NVAR(&_1$$3);
 			ZVAL_STRING(&_1$$3, "Phalcon\\Html\\Link\\Interfaces\\LinkInterface");
-			ZEPHIR_CALL_FUNCTION(&_2$$3, "is_a", &_3, 66, &link, &_1$$3);
+			ZEPHIR_CALL_FUNCTION(&_2$$3, "is_a", &_3, 65, &link, &_1$$3);
 			zephir_check_call_status();
 			_4$$3 = ZEPHIR_IS_TRUE_IDENTICAL(&_2$$3);
 			if (!(_4$$3)) {
 				ZEPHIR_INIT_NVAR(&_1$$3);
 				ZVAL_STRING(&_1$$3, "Psr\\Link\\LinkInterface");
-				ZEPHIR_CALL_FUNCTION(&_5$$3, "is_a", &_3, 66, &link, &_1$$3);
+				ZEPHIR_CALL_FUNCTION(&_5$$3, "is_a", &_3, 65, &link, &_1$$3);
 				zephir_check_call_status();
 				_4$$3 = ZEPHIR_IS_TRUE_IDENTICAL(&_5$$3);
 			}
@@ -139,13 +139,13 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, __construct)
 			zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_9$$5);
 				ZVAL_STRING(&_9$$5, "Phalcon\\Html\\Link\\Interfaces\\LinkInterface");
-				ZEPHIR_CALL_FUNCTION(&_10$$5, "is_a", &_3, 66, &link, &_9$$5);
+				ZEPHIR_CALL_FUNCTION(&_10$$5, "is_a", &_3, 65, &link, &_9$$5);
 				zephir_check_call_status();
 				_11$$5 = ZEPHIR_IS_TRUE_IDENTICAL(&_10$$5);
 				if (!(_11$$5)) {
 					ZEPHIR_INIT_NVAR(&_9$$5);
 					ZVAL_STRING(&_9$$5, "Psr\\Link\\LinkInterface");
-					ZEPHIR_CALL_FUNCTION(&_12$$5, "is_a", &_3, 66, &link, &_9$$5);
+					ZEPHIR_CALL_FUNCTION(&_12$$5, "is_a", &_3, 65, &link, &_9$$5);
 					zephir_check_call_status();
 					_11$$5 = ZEPHIR_IS_TRUE_IDENTICAL(&_12$$5);
 				}
@@ -160,7 +160,6 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, __construct)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&link);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -287,7 +286,6 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doGetLinksByRel)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&link);
 	RETURN_CTOR(&filtered);
 }
 

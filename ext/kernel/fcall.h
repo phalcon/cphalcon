@@ -87,6 +87,90 @@ static zend_always_inline zend_class_entry *zephir_get_called_scope(zend_execute
 }
 
 /**
+ * Whether a C-to-C call of a method's copy (`internal-call-transformation`)
+ * may run here instead of PHP's call. From PHP 8.6 zend_call_function() throws
+ * once the stack limit is reached; the copy then leaves the call to it.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2791
+ */
+static zend_always_inline bool zephir_has_stack_for_direct_call(void)
+{
+#if PHP_VERSION_ID >= 80600 && defined(ZEND_CHECK_STACK_LIMIT)
+	return !zend_call_stack_overflowed(EG(stack_limit));
+#else
+	return 1;
+#endif
+}
+
+/**
+ * Whether the method PHP calls on `object` at this call site is the Zephir
+ * method whose handler is `handler`, declared in `scope`, so that its C copy
+ * can run instead (`internal-call-transformation`).
+ *
+ * The site's inline cache holds the method resolved for the object's class
+ * from the calling class, visibility and private methods of the calling class
+ * included, and is only ever filled by PHP's call. Comparing the handler tells
+ * an override apart, in Zephir or in PHP, and comparing the class tells apart
+ * a PHP class that copied the method from a Zephir trait.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2791
+ */
+static zend_always_inline bool zephir_cached_method_is(const zephir_method_cache *site, const zval *object, zif_handler handler, const zend_class_entry *scope)
+{
+	const zend_function *func;
+
+	if (Z_TYPE_P(object) != IS_OBJECT || site->ce != Z_OBJCE_P(object)) {
+		return 0;
+	}
+
+	if (site->request != ZEPHIR_GLOBAL(request_number) || site->scope != zephir_get_calling_scope()) {
+		return 0;
+	}
+
+	func = site->func;
+
+	return func->type == ZEND_INTERNAL_FUNCTION
+		&& func->internal_function.handler == handler
+		&& func->common.scope == scope
+		&& zephir_has_stack_for_direct_call();
+}
+
+/**
+ * An argument left out of a call to a method's C copy. The copy then takes the
+ * parameter's default, as the method does when PHP's call leaves it out.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2791
+ */
+#define ZEPHIR_NO_ARG ((zval *) NULL)
+
+/**
+ * The argument slots of a call to a method's C copy (the generated
+ * ZEPHIR_*CALL_INTERNAL_METHOD_P* macros). Like the slots of PHP's call frame,
+ * a slot holds its own reference to the dereferenced argument and is released
+ * after the call, so the copy may separate or overwrite its parameter. The
+ * copy gets NULL for an argument left out.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2791
+ */
+static zend_always_inline zval *zephir_internal_arg(zval *slot, zval *arg)
+{
+	if (arg == NULL) {
+		return NULL;
+	}
+
+	ZVAL_COPY_DEREF(slot, arg);
+
+	return slot;
+}
+
+static zend_always_inline void zephir_internal_arg_release(zval *slot)
+{
+	if (slot != NULL) {
+		zval_ptr_dtor(slot);
+	}
+}
+
+/**
  * @addtogroup callfuncs Calling Functions
  * @{
  */
@@ -126,28 +210,23 @@ static zend_always_inline zend_class_entry *zephir_get_called_scope(zend_execute
 	else { ZEPHIR_SET_THIS_EXPLICIT_NULL(); } \
 
 /**
- * `func` of the synthetic frame that ZEPHIR_BACKUP_SCOPE() installs for an
- * internal (C-to-C) method call.
+ * Sets up `func` of the frame ZEPHIR_BACKUP_SCOPE() installs for a C-to-C call
+ * to an internal method, or to the C copy `internal-call-transformation` makes
+ * of a method. Each such method has its own, `zephir_frame_<C function>`, set
+ * up once when its class registers and read-only afterwards, so safe under ZTS.
  *
- * To the engine, a frame with `func == NULL` means exactly one thing: a
- * generator placeholder frame. zend_fetch_debug_backtrace() hands such a frame
- * to zend_generator_check_placeholder_frame(), which only rewrites it when
- * `This` holds a Generator, then dereferences `call->func` unconditionally
- * (the ZEND_ASSERT that guards it is compiled out of a release build). So any
- * backtrace capture taken while an internal method ran crashed the process --
- * including the implicit capture in every Exception constructor, which made a
- * plain `throw` out of an internal method a segfault (issue #2639).
- *
- * `function_name` stays NULL on purpose: zend_fetch_debug_backtrace() then
- * drops the frame entirely instead of reporting it as "unknown". An internal
- * method is a C-level inlining of a Zephir method, so it must not show up as a
- * stack frame of its own.
- *
- * Read-only after load, so no MINIT plumbing and safe under ZTS.
+ * To the engine, a frame with `func == NULL` is a generator placeholder frame,
+ * and zend_fetch_debug_backtrace() dereferences what it resolves to, so any
+ * backtrace taken while the method ran crashed (#2639). An internal function
+ * without a name crashed as well: a warning raised in the method's own code is
+ * prefixed with get_active_function_name(), which reads the name unchecked
+ * (#2791). Named after the method and scoped to its class, the frame gives the
+ * warning the prefix the method's own call gives it, and shows in a backtrace
+ * as that call does, without the arguments: it has no slots for them.
  */
-extern zend_internal_function zephir_internal_call_frame_func;
+void zephir_init_internal_frame(zend_internal_function *frame, zend_class_entry *scope, const char *name, size_t name_length);
 
-#define ZEPHIR_BACKUP_SCOPE() \
+#define ZEPHIR_BACKUP_SCOPE(frame) \
 	const zend_class_entry *old_scope = EG(fake_scope); \
 	zend_execute_data *old_call = execute_data; \
 	zend_execute_data *old_execute_data = EG(current_execute_data), new_execute_data; \
@@ -159,7 +238,7 @@ extern zend_internal_function zephir_internal_call_frame_func;
 		new_execute_data.call = NULL; \
 		new_execute_data.opline = NULL; \
 	} \
-	new_execute_data.func = (zend_function *) &zephir_internal_call_frame_func; \
+	new_execute_data.func = (zend_function *) (frame); \
 	/* Drop the copied frame's call flags and argument count. ZEND_CALL_INFO() \
 	 * is Z_TYPE_INFO(This) and ZEND_CALL_NUM_ARGS() is This.u2.num_args, so a \
 	 * frame copied from the caller would claim the caller's arguments -- and \
@@ -176,9 +255,15 @@ extern zend_internal_function zephir_internal_call_frame_func;
 	execute_data = old_call; \
 	EG(current_execute_data) = old_execute_data;
 
+/* Runs right after ZEPHIR_BACKUP_SCOPE() and ZEPHIR_SET_THIS*(), so the
+ * current frame is the one they installed. With `This` an object the called
+ * class is its class; a static call keeps the called class in `This`, as the
+ * engine's frame of a static method does. */
 #define ZEPHIR_SET_SCOPE(_scope, _scope_called) \
 	EG(fake_scope) = _scope; \
-	zephir_set_called_scope(EG(current_execute_data), _scope_called); \
+	if (Z_TYPE(EG(current_execute_data)->This) != IS_OBJECT) { \
+		Z_CE(EG(current_execute_data)->This) = _scope_called; \
+	}
 
 /* End internal calls */
 
@@ -508,10 +593,14 @@ extern zend_internal_function zephir_internal_call_frame_func;
 	} while (0)
 
 /** Use these functions to call functions in the PHP userland using an arbitrary zval as callable */
-#define ZEPHIR_CALL_USER_FUNC(return_value, handler) ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, handler, NULL)
+#define ZEPHIR_CALL_USER_FUNC(return_value, handler) ZEPHIR_CALL_USER_FUNC_ARGS(return_value, handler, NULL)
+#define ZEPHIR_CALL_USER_FUNC_ARGS(return_value, handler, args) \
+	do { \
+		ZEPHIR_LAST_CALL_STATUS = zephir_call_user_func_checked(return_value, "call_user_func", handler, args); \
+	} while (0)
 #define ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, handler, params) \
 	do { \
-		ZEPHIR_LAST_CALL_STATUS = zephir_call_user_func_array(return_value, handler, params); \
+		ZEPHIR_LAST_CALL_STATUS = zephir_call_user_func_checked(return_value, "call_user_func_array", handler, params); \
 	} while (0)
 
 #define ZEPHIR_CALL_USER_FUNC_ARRAY_NOEX(return_value, handler, params) \
@@ -522,6 +611,123 @@ extern zend_internal_function zephir_internal_call_frame_func;
 int zephir_call_func_aparams(zval *return_value_ptr, const char *func_name, uint32_t func_length,
 	zephir_fcall_cache_entry **cache_entry, int cache_slot,
 	uint32_t param_count, zval **params);
+
+/**
+ * The calls with named arguments: `params` are the positional ones and
+ * `named_params` the rest by name. The engine binds them as PHP does, by the
+ * parameter names of the function or method actually called, with the declared
+ * default for one skipped. A method call passes no class entry, and the class
+ * of its object is used.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2824
+ */
+int zephir_call_func_named(zval *return_value_ptr, const char *func_name, uint32_t func_length,
+	HashTable *named_params, uint32_t param_count, zval **params) ZEPHIR_ATTR_WARN_UNUSED_RESULT;
+
+int zephir_call_zval_func_named(zval *return_value_ptr, zval *func_name,
+	HashTable *named_params, uint32_t param_count, zval **params) ZEPHIR_ATTR_WARN_UNUSED_RESULT;
+
+int zephir_call_class_method_named(
+	zval *return_value_ptr,
+	zend_class_entry *ce,
+	zephir_call_type type,
+	zval *object,
+	const char *method_name,
+	uint32_t method_len,
+	HashTable *named_params,
+	uint32_t param_count,
+	zval **params) ZEPHIR_ATTR_WARN_UNUSED_RESULT;
+
+int zephir_call_class_method_zval_named(
+	zval *return_value_ptr,
+	zend_class_entry *ce,
+	zephir_call_type type,
+	zval *object,
+	zval *method,
+	HashTable *named_params,
+	uint32_t param_count,
+	zval **params) ZEPHIR_ATTR_WARN_UNUSED_RESULT;
+
+/**
+ * Bracket a call that writes `return_value`, as the zephir_return_call_*()
+ * functions do: release what it held, and leave NULL when the call throws.
+ */
+static zend_always_inline void zephir_return_call_begin(zval *return_value)
+{
+	zval_ptr_dtor(return_value);
+	ZVAL_UNDEF(return_value);
+}
+
+static zend_always_inline int zephir_return_call_end(zval *return_value, int status)
+{
+	if (status == FAILURE && EG(exception)) {
+		ZVAL_NULL(return_value);
+	}
+
+	return status;
+}
+
+#define ZEPHIR_CALL_FUNCTION_NAMED(return_value_ptr, func_name, named, ...) \
+	do { \
+		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
+		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
+		ZEPHIR_LAST_CALL_STATUS = zephir_call_func_named(return_value_ptr, func_name, strlen(func_name), named, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
+	} while (0)
+
+#define ZEPHIR_RETURN_CALL_FUNCTION_NAMED(func_name, named, ...) \
+	do { \
+		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
+		zephir_return_call_begin(return_value); \
+		ZEPHIR_LAST_CALL_STATUS = zephir_return_call_end(return_value, zephir_call_func_named(return_value, func_name, strlen(func_name), named, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_))); \
+	} while (0)
+
+#define ZEPHIR_CALL_ZVAL_FUNCTION_NAMED(return_value_ptr, func_name, named, ...) \
+	do { \
+		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
+		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
+		ZEPHIR_LAST_CALL_STATUS = zephir_call_zval_func_named(return_value_ptr, func_name, named, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
+	} while (0)
+
+#define ZEPHIR_RETURN_CALL_ZVAL_FUNCTION_NAMED(func_name, named, ...) \
+	do { \
+		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
+		zephir_return_call_begin(return_value); \
+		ZEPHIR_LAST_CALL_STATUS = zephir_return_call_end(return_value, zephir_call_zval_func_named(return_value, func_name, named, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_))); \
+	} while (0)
+
+#define ZEPHIR_CALL_CLASS_METHOD_NAMED(return_value_ptr, type, class_entry, object, method, named, ...) \
+	do { \
+		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
+		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
+		ZEPHIR_LAST_CALL_STATUS = zephir_call_class_method_named(return_value_ptr, class_entry, type, object, method, strlen(method), named, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
+	} while (0)
+
+#define ZEPHIR_RETURN_CALL_CLASS_METHOD_NAMED(type, class_entry, object, method, named, ...) \
+	do { \
+		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
+		zephir_return_call_begin(return_value); \
+		ZEPHIR_LAST_CALL_STATUS = zephir_return_call_end(return_value, zephir_call_class_method_named(return_value, class_entry, type, object, method, strlen(method), named, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_))); \
+	} while (0)
+
+#define ZEPHIR_CALL_CLASS_METHOD_ZVAL_NAMED(return_value_ptr, type, class_entry, object, method, named, ...) \
+	do { \
+		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
+		zval method_name_; \
+		ZVAL_COPY(&method_name_, method); \
+		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
+		ZEPHIR_LAST_CALL_STATUS = zephir_call_class_method_zval_named(return_value_ptr, class_entry, type, object, &method_name_, named, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
+		zval_ptr_dtor(&method_name_); \
+	} while (0)
+
+#define ZEPHIR_RETURN_CALL_CLASS_METHOD_ZVAL_NAMED(type, class_entry, object, method, named, ...) \
+	do { \
+		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
+		zval method_name_; \
+		ZVAL_COPY(&method_name_, method); \
+		zephir_return_call_begin(return_value); \
+		ZEPHIR_LAST_CALL_STATUS = zephir_return_call_end(return_value, zephir_call_class_method_zval_named(return_value, class_entry, type, object, &method_name_, named, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_))); \
+		zval_ptr_dtor(&method_name_); \
+	} while (0)
 
 int zephir_call_zval_func_aparams(zval *return_value_ptr, zval *func_name,
 	zephir_fcall_cache_entry **cache_entry, int cache_slot,
@@ -763,26 +969,56 @@ ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_return_call_class_method
 }
 
 /** Fast call_user_func_array/call_user_func */
+int zephir_call_user_func(zval *return_value, const char *caller, zval *handler, zval *params) ZEPHIR_ATTR_WARN_UNUSED_RESULT;
 int zephir_call_user_func_array_noex(zval *return_value, zval *handler, zval *params) ZEPHIR_ATTR_WARN_UNUSED_RESULT;
 
 /**
  * Replaces call_user_func_array avoiding function lookup
  */
+ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_call_user_func_checked(zval *return_value, const char *caller, zval *handler, zval *params)
+{
+	int status = zephir_call_user_func(return_value, caller, handler, params);
+	return (EG(exception)) ? FAILURE : status;
+}
+
 ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_call_user_func_array(zval *return_value, zval *handler, zval *params)
 {
-	int status = zephir_call_user_func_array_noex(return_value, handler, params);
-	return (EG(exception)) ? FAILURE : status;
+	return zephir_call_user_func_checked(return_value, "call_user_func_array", handler, params);
 }
 
 int zephir_has_constructor_ce(const zend_class_entry *ce) ZEPHIR_ATTR_PURE ZEPHIR_ATTR_NONNULL;
 
 /**
- * Throws an Error and returns FAILURE when the object's constructor is not
- * accessible from the current scope, mirroring PHP's "new" operator.
+ * Throws an Error, releases the object and returns FAILURE when `new` may not
+ * construct it from the calling scope, mirroring PHP's "new" operator.
  *
  * @see https://github.com/zephir-lang/zephir/issues/882
+ * @see https://github.com/zephir-lang/zephir/issues/2802
  */
-int zephir_check_constructor_access(const zval *object) ZEPHIR_ATTR_NONNULL;
+int zephir_check_constructor_access(zval *object) ZEPHIR_ATTR_NONNULL;
+
+/**
+ * `new` evaluates the arguments and runs the constructor with the object
+ * marked as destructed, and lifts the mark once they return. An exception
+ * leaves the mark, so an object that was never constructed is freed without
+ * its destructor, as PHP's cleanup of an unfinished `new` marks it. A
+ * non-object is one object_init_ex() refused, and has nothing to mark.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2802
+ */
+static zend_always_inline void zephir_constructor_start(zval *object)
+{
+	if (EXPECTED(Z_TYPE_P(object) == IS_OBJECT)) {
+		GC_ADD_FLAGS(Z_OBJ_P(object), IS_OBJ_DESTRUCTOR_CALLED);
+	}
+}
+
+static zend_always_inline void zephir_constructor_finish(zval *object)
+{
+	if (EXPECTED(Z_TYPE_P(object) == IS_OBJECT)) {
+		GC_DEL_FLAGS(Z_OBJ_P(object), IS_OBJ_DESTRUCTOR_CALLED);
+	}
+}
 
 /**
  * Throws an Error and returns FAILURE when the object's __clone() is not
@@ -826,32 +1062,5 @@ ZEPHIR_ATTR_WARN_UNUSED_RESULT ZEPHIR_ATTR_NONNULL static inline int zephir_has_
 #endif
 
 void zephir_eval_php(zval *str, zval *retval_ptr, char *context);
-
-static inline void zephir_set_called_scope(zend_execute_data *ex, zend_class_entry *called_scope)
-{
-	while (ex) {
-		if (Z_TYPE(ex->This) == IS_OBJECT) {
-			Z_OBJCE(ex->This) = called_scope;
-			return;
-		}else if (ex->func && ex->func != (zend_function *) &zephir_internal_call_frame_func) {
-			if (ex->func->type != ZEND_INTERNAL_FUNCTION || ex->func->common.scope) {
-				return;
-			}
-		} else {
-			/**
-			 * Either a frame with no function at all, or the synthetic frame
-			 * ZEPHIR_BACKUP_SCOPE() installs for a static internal call --
-			 * which is the frame the called scope belongs on. Walking past it
-			 * would land on the caller, whose `This` is a live object, and the
-			 * branch above would then write `called_scope` into that object's
-			 * class entry (#2639). Before that frame carried a function, the
-			 * `ex->func` test alone stopped here.
-			 */
-			Z_CE(ex->This) = called_scope;
-			return;
-		}
-		ex = ex->prev_execute_data;
-	}
-}
 
 #endif /* ZEPHIR_KERNEL_FCALL_H */

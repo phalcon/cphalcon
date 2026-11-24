@@ -119,8 +119,10 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, __construct)
 	if (UNEXPECTED(!zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		object_init_ex(&_2$$3, phalcon_translate_exceptions_missinggettextextension_ce);
+		zephir_constructor_start(&_2$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_2$$3, "__construct", &_zephir_call_cache[1]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_2$$3);
 		zephir_throw_exception_debug(&_2$$3, "phalcon/Translate/Adapter/Gettext.zep", 74);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -373,7 +375,10 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDefaultDomain)
 		Z_PARAM_STR(domain)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&domain_zv, domain);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1411, &domain_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1409, &domain_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**
@@ -426,7 +431,11 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDirectory)
 	if (ZEPHIR_IS_EMPTY(directory)) {
 		RETURN_MM_NULL();
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1412, directory);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1410, directory);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (Z_TYPE_P(directory) == IS_ARRAY) {
 		if (Z_TYPE_P(directory) == IS_STRING) {
 			ZEPHIR_INIT_VAR(&_1$$4);
@@ -474,8 +483,6 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDirectory)
 					zephir_check_call_status();
 			}
 		}
-		ZEPHIR_INIT_NVAR(&value);
-		ZEPHIR_INIT_NVAR(&key);
 	} else {
 		ZEPHIR_CALL_METHOD_CACHED(&_8$$7, this_ptr, "getDefaultDomain", &_zephir_call_cache[5]);
 		zephir_check_call_status();
@@ -580,17 +587,25 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setLocale)
 	ZVAL_LONG(&_0, category);
 	ZEPHIR_CALL_FUNCTION(&_1, "setlocale", &_2, 288, &_0, &localeArray);
 	zephir_check_call_status();
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1413, &_1);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1411, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, category);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1414, &_0);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1413, PH_NOISY_CC | PH_READONLY);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1412, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1411, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	if (!ZEPHIR_IS_FALSE_IDENTICAL(&_0)) {
-		zephir_read_property_cached(&_3$$3, this_ptr, _zephir_prop_0, 1413, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_3$$3, this_ptr, _zephir_prop_0, 1411, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -603,7 +618,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setLocale)
 		}
 		ZEPHIR_CALL_FUNCTION(NULL, "putenv", &_5, 289, &_4$$3);
 		zephir_check_call_status();
-		zephir_read_property_cached(&_6$$3, this_ptr, _zephir_prop_0, 1413, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_6$$3, this_ptr, _zephir_prop_0, 1411, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -616,7 +631,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setLocale)
 		}
 		ZEPHIR_CALL_FUNCTION(NULL, "putenv", &_5, 289, &_7$$3);
 		zephir_check_call_status();
-		zephir_read_property_cached(&_8$$3, this_ptr, _zephir_prop_0, 1413, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_8$$3, this_ptr, _zephir_prop_0, 1411, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -629,7 +644,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setLocale)
 		}
 		ZEPHIR_CALL_FUNCTION(NULL, "putenv", &_5, 289, &_9$$3);
 		zephir_check_call_status();
-		zephir_read_property_cached(&_10$$3, this_ptr, _zephir_prop_0, 1413, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_10$$3, this_ptr, _zephir_prop_0, 1411, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -778,7 +793,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, phpExtensionLoaded)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 62, &name_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("extension_loaded", NULL, 61, &name_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

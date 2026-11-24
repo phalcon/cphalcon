@@ -15,7 +15,6 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 
 
 /**
@@ -76,8 +75,14 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryConsumer, __construct)
 		Z_PARAM_OBJECT_OF_CLASS(queue, phalcon_contracts_queue_queue_ce)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(2, 0, &context, &queue);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1289, context);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1290, queue);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1287, context);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1288, queue);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**
@@ -119,12 +124,12 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryConsumer, receiveNoWait)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1289, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1287, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 1290, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 1288, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -143,7 +148,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryConsumer, reject)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool requeue;
+	zend_bool requeue = 0;
 	zval *message, message_sub, *requeue_param = NULL, _0$$3, _1$$3, _2$$3;
 	zval *this_ptr = getThis();
 
@@ -169,17 +174,13 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryConsumer, reject)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &message, &requeue_param);
-	if (!requeue_param) {
-		requeue = 0;
-	} else {
-		}
 	if (requeue) {
-		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 1289, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 1287, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_1, 1290, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_1, 1288, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;

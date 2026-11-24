@@ -70,6 +70,10 @@ PHP_METHOD(Phalcon_Forms_Loader_ArrayLoader, __construct)
 	zephir_fetch_params(1, 1, 0, &definitions_param);
 	zephir_get_arrval(&definitions, definitions_param);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 816, &definitions);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -155,8 +159,6 @@ PHP_METHOD(Phalcon_Forms_Loader_ArrayLoader, load)
 				zephir_check_call_status();
 		}
 	}
-	ZEPHIR_INIT_NVAR(&definition);
-	ZEPHIR_INIT_NVAR(&index);
 	RETURN_MM_MEMBER_TYPED(getThis(), "definitions", IS_ARRAY);
 }
 
@@ -190,9 +192,11 @@ PHP_METHOD(Phalcon_Forms_Loader_ArrayLoader, validateDefinition)
 	if (Z_TYPE_P(definition) != IS_ARRAY) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_forms_exceptions_schemaentrynotarray_ce);
+		zephir_constructor_start(&_0$$3);
 		ZVAL_LONG(&_1$$3, index);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0$$3, "__construct", &_zephir_call_cache[0], &_1$$3);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0$$3);
 		zephir_throw_exception_debug(&_0$$3, "phalcon/Forms/Loader/ArrayLoader.zep", 54);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -214,11 +218,13 @@ PHP_METHOD(Phalcon_Forms_Loader_ArrayLoader, validateDefinition)
 	if (_3) {
 		ZEPHIR_INIT_VAR(&_5$$4);
 		object_init_ex(&_5$$4, phalcon_forms_exceptions_schemaentrymissingkey_ce);
+		zephir_constructor_start(&_5$$4);
 		ZVAL_LONG(&_6$$4, index);
 		ZEPHIR_INIT_VAR(&_7$$4);
 		ZVAL_STRING(&_7$$4, "type");
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_5$$4, "__construct", &_zephir_call_cache[1], &_6$$4, &_7$$4);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_5$$4);
 		zephir_throw_exception_debug(&_5$$4, "phalcon/Forms/Loader/ArrayLoader.zep", 58);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -240,11 +246,13 @@ PHP_METHOD(Phalcon_Forms_Loader_ArrayLoader, validateDefinition)
 	if (_9) {
 		ZEPHIR_INIT_VAR(&_11$$5);
 		object_init_ex(&_11$$5, phalcon_forms_exceptions_schemaentrymissingkey_ce);
+		zephir_constructor_start(&_11$$5);
 		ZVAL_LONG(&_12$$5, index);
 		ZEPHIR_INIT_VAR(&_13$$5);
 		ZVAL_STRING(&_13$$5, "name");
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_11$$5, "__construct", &_zephir_call_cache[2], &_12$$5, &_13$$5);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_11$$5);
 		zephir_throw_exception_debug(&_11$$5, "phalcon/Forms/Loader/ArrayLoader.zep", 62);
 		ZEPHIR_MM_RESTORE();
 		return;

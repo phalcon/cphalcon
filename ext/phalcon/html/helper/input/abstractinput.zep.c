@@ -127,6 +127,10 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractInput, __invoke)
 	zephir_array_update_string(&_0, SL("type"), &_1, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("name"), &name_zv, PH_COPY | PH_SEPARATE);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 66, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	_2 = zephir_array_isset_value_string(&attributes, SL("id"));
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
@@ -155,6 +159,10 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractInput, __invoke)
 	}
 	zephir_fast_array_merge(&_5, &_6, &attributes);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 66, &_5);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 
@@ -222,6 +230,10 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractInput, __toString)
 	ZEPHIR_INIT_NVAR(&_5);
 	array_init(&_5);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 66, &_5);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_CCTOR(&output);
 }
 

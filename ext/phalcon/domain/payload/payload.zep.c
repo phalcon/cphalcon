@@ -159,6 +159,9 @@ PHP_METHOD(Phalcon_Domain_Payload_Payload, setException)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &exception);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 693, exception);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 
@@ -181,6 +184,9 @@ PHP_METHOD(Phalcon_Domain_Payload_Payload, setExtras)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &extras);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 694, extras);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 
@@ -203,6 +209,9 @@ PHP_METHOD(Phalcon_Domain_Payload_Payload, setInput)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &input);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 695, input);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 
@@ -225,6 +234,9 @@ PHP_METHOD(Phalcon_Domain_Payload_Payload, setMessages)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &messages);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 696, messages);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 
@@ -247,6 +259,9 @@ PHP_METHOD(Phalcon_Domain_Payload_Payload, setOutput)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &output);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 697, output);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 
@@ -273,6 +288,9 @@ PHP_METHOD(Phalcon_Domain_Payload_Payload, setStatus)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &status);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 698, status);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 

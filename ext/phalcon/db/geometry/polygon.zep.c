@@ -48,7 +48,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Geometry_Polygon)
 PHP_METHOD(Phalcon_Db_Geometry_Polygon, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long srid;
+	zend_long srid = 0;
 	zval *rings_param = NULL, *srid_param = NULL, _0;
 	zval rings;
 	zval *this_ptr = getThis();
@@ -73,14 +73,18 @@ PHP_METHOD(Phalcon_Db_Geometry_Polygon, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &rings_param, &srid_param);
 	zephir_get_arrval(&rings, rings_param);
-	if (!srid_param) {
-		srid = 0;
-	} else {
-		}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 651, &rings);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, srid);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 652, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -226,7 +230,6 @@ PHP_METHOD(Phalcon_Db_Geometry_Polygon, ringsWkt)
 						}
 				}
 			}
-			ZEPHIR_INIT_NVAR(&point);
 			ZEPHIR_INIT_NVAR(&_11$$3);
 			zephir_fast_join_str(&_11$$3, SL(", "), &ringParts);
 			ZEPHIR_INIT_NVAR(&_12$$3);
@@ -309,7 +312,6 @@ PHP_METHOD(Phalcon_Db_Geometry_Polygon, ringsWkt)
 							}
 					}
 				}
-				ZEPHIR_INIT_NVAR(&point);
 				ZEPHIR_INIT_NVAR(&_22$$6);
 				zephir_fast_join_str(&_22$$6, SL(", "), &ringParts);
 				ZEPHIR_INIT_NVAR(&_23$$6);
@@ -325,7 +327,6 @@ PHP_METHOD(Phalcon_Db_Geometry_Polygon, ringsWkt)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&ring);
 	zephir_fast_join_str(return_value, SL(", "), &parts);
 	RETURN_MM();
 }

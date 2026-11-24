@@ -124,7 +124,15 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, __construct)
 		ZVAL_STRING(&value, "associativeArray");
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 138, &value);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 139, interpolatorFactory);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_memory_observe(&error);
 	_1 = zephir_array_isset_string_fetch(&error, &options, SL("triggerError"), 0);
 	if (UNEXPECTED(EG(exception))) {
@@ -134,8 +142,16 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, __construct)
 	if (_1) {
 		if (zephir_get_boolval(&error)) {
 			zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 140, &__$true);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 		} else {
 			zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 140, &__$false);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 		}
 	}
 	ZEPHIR_MM_RESTORE();
@@ -218,8 +234,10 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, notFound)
 	if (UNEXPECTED(ZEPHIR_IS_TRUE_IDENTICAL(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_translate_exceptions_keynotfound_ce);
+		zephir_constructor_start(&_1$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[0], &index_zv);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1$$3);
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Translate/Adapter/AbstractAdapter.zep", 75);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -261,8 +279,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetGet)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval offset_sub;
-	zval *offset;
+	zval *offset, offset_sub;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&offset_sub);
@@ -302,8 +319,10 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetSet)
 	zephir_fetch_params(1, 2, 0, &offset, &value);
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_translate_exceptions_immutableobject_ce);
+	zephir_constructor_start(&_0);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 	zephir_check_call_status();
+	zephir_constructor_finish(&_0);
 	zephir_throw_exception_debug(&_0, "phalcon/Translate/Adapter/AbstractAdapter.zep", 108);
 	ZEPHIR_MM_RESTORE();
 	return;
@@ -331,8 +350,10 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetUnset)
 	zephir_fetch_params(1, 1, 0, &offset);
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_translate_exceptions_immutableobject_ce);
+	zephir_constructor_start(&_0);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 	zephir_check_call_status();
+	zephir_constructor_finish(&_0);
 	zephir_throw_exception_debug(&_0, "phalcon/Translate/Adapter/AbstractAdapter.zep", 118);
 	ZEPHIR_MM_RESTORE();
 	return;
@@ -452,6 +473,10 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, replacePlaceholders)
 		ZEPHIR_CALL_METHOD_CACHED(&_2$$3, &_1$$3, "newInstance", &_zephir_call_cache[0], &_3$$3);
 		zephir_check_call_status();
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 141, &_2$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 141, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {

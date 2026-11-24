@@ -108,7 +108,15 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &connection, &bind);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 59, bind);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 60, connection);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
 	ZEPHIR_INIT_VAR(&_1);
@@ -129,7 +137,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, __construct)
 PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, bindInline)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long type, ZEPHIR_LAST_CALL_STATUS;
+	zend_long type = -1, ZEPHIR_LAST_CALL_STATUS;
 	zval *value, value_sub, *type_param = NULL, _0, _1;
 	zval *this_ptr = getThis();
 
@@ -150,10 +158,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, bindInline)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &value, &type_param);
-	if (!type_param) {
-		type = -1;
-	} else {
-		}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 59, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
@@ -177,7 +181,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, bindInline)
 PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, bindValue)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long type, ZEPHIR_LAST_CALL_STATUS;
+	zend_long type = -1, ZEPHIR_LAST_CALL_STATUS;
 	zval key_zv, *value, value_sub, *type_param = NULL, _0, _1;
 	zend_string *key = NULL;
 	zval *this_ptr = getThis();
@@ -206,10 +210,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, bindValue)
 	}
 	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
-	if (!type_param) {
-		type = -1;
-	} else {
-		}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 59, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
@@ -344,7 +344,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, perform)
 PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, quoteIdentifier)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long type, ZEPHIR_LAST_CALL_STATUS;
+	zend_long type = 2, ZEPHIR_LAST_CALL_STATUS;
 	zval name_zv, *type_param = NULL, _0, _1;
 	zend_string *name = NULL;
 	zval *this_ptr = getThis();
@@ -370,10 +370,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, quoteIdentifier)
 	}
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	if (!type_param) {
-		type = 2;
-	} else {
-		}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 60, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
@@ -724,7 +720,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, resetWhere)
 PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, setFlag)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_bool enable;
+	zend_bool enable = 1;
 	zval flag_zv, *enable_param = NULL, __$true, flags, _0$$4, _1$$4;
 	zend_string *flag = NULL;
 	zval *this_ptr = getThis();
@@ -751,10 +747,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractQuery, setFlag)
 	}
 	zephir_memory_observe(&flag_zv);
 	ZVAL_STR_COPY(&flag_zv, flag);
-	if (!enable_param) {
-		enable = 1;
-	} else {
-		}
 	if (enable) {
 		zephir_update_property_array_multi(this_ptr, SL("store"), &__$true, SL("sz"), 3, SL("FLAGS"), &flag_zv);
 		if (UNEXPECTED(EG(exception))) {

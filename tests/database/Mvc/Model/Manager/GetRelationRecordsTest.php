@@ -27,15 +27,14 @@ use Phalcon\Tests\Support\Models\AlbumORama\Songs;
 use Phalcon\Tests\Support\Models\InvoicesNotAModelRelation;
 use Phalcon\Tests\Support\Models\NotAModel;
 use Phalcon\Tests\Support\Traits\DiTrait;
-use Phalcon\Tests\Support\Traits\ErrorHandlerTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
+use TypeError;
 
 #[Group('phql')]
 final class GetRelationRecordsTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
-    use ErrorHandlerTrait;
 
     public function setUp(): void
     {
@@ -175,8 +174,8 @@ final class GetRelationRecordsTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * A relation to a class that is not a model gives a warning and null,
-     * the same as cphalcon.
+     * A relation to a class that is not a model throws the TypeError of
+     * call_user_func_array().
      *
      * @issue  https://github.com/phalcon/phalcon/issues/818
      * @author Phalcon Team <team@phalcon.io>
@@ -193,11 +192,12 @@ final class GetRelationRecordsTest extends AbstractDatabaseTestCase
 
         $invoice = InvoicesNotAModelRelation::findFirst();
 
-        $actual = $this->collectErrors(static fn () => $invoice->getRelated($alias));
-
-        $this->assertSame(
-            [null, ['class ' . NotAModel::class . ' does not have a method "' . $method . '"']],
-            $actual
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage(
+            'call_user_func_array(): Argument #1 ($callback) must be a valid callback, '
+            . 'class ' . NotAModel::class . ' does not have a method "' . $method . '"'
         );
+
+        $invoice->getRelated($alias);
     }
 }

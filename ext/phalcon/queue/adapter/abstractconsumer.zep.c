@@ -97,7 +97,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractConsumer, receive)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_10 = NULL;
 	zval *timeout_param = NULL, __$true, message, _0, _1, _2, _3, _4, _6$$3, _7$$3, _8$$3, _9$$3;
-	zend_long timeout, ZEPHIR_LAST_CALL_STATUS, startTime = 0, sleep = 0;
+	zend_long timeout = 0, ZEPHIR_LAST_CALL_STATUS, startTime = 0, sleep = 0;
 	zval *this_ptr = getThis();
 
 	ZVAL_BOOL(&__$true, 1);
@@ -124,10 +124,6 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractConsumer, receive)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 0, 1, &timeout_param);
-	if (!timeout_param) {
-		timeout = 0;
-	} else {
-		}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 91, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
@@ -219,5 +215,8 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractConsumer, setPollInterval)
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, pollInterval);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 91, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 

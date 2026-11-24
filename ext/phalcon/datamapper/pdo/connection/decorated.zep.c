@@ -58,12 +58,13 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_Decorated, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *pdo, pdo_sub, *profiler = NULL, profiler_sub, __$null;
+	zval *pdo, pdo_sub, *profiler = NULL, profiler_sub, __$null, _0$$3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&pdo_sub);
 	ZVAL_UNDEF(&profiler_sub);
 	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&_0$$3);
 	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -86,11 +87,19 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_Decorated, __construct)
 		ZEPHIR_SEPARATE_PARAM(profiler);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 585, pdo);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (Z_TYPE_P(profiler) == IS_NULL) {
-		ZEPHIR_INIT_NVAR(profiler);
-		object_init_ex(profiler, phalcon_datamapper_pdo_profiler_profiler_ce);
-		ZEPHIR_CALL_METHOD_CACHED(NULL, profiler, "__construct", &_zephir_call_cache[0]);
+		ZEPHIR_INIT_VAR(&_0$$3);
+		object_init_ex(&_0$$3, phalcon_datamapper_pdo_profiler_profiler_ce);
+		zephir_constructor_start(&_0$$3);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0$$3);
+		ZEPHIR_CPY_WRT(profiler, &_0$$3);
+		ZEPHIR_INIT_NVAR(&_0$$3);
 	}
 	ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "setProfiler", &_zephir_call_cache[1], profiler);
 	zephir_check_call_status();

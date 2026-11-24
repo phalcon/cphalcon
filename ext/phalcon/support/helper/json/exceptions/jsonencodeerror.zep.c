@@ -16,7 +16,6 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
-#include "kernel/operators.h"
 #include "kernel/object.h"
 
 
@@ -39,7 +38,7 @@ PHP_METHOD(Phalcon_Support_Helper_Json_Exceptions_JsonEncodeError, __construct)
 {
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long code, ZEPHIR_LAST_CALL_STATUS;
+	zend_long code = 0, ZEPHIR_LAST_CALL_STATUS;
 	zval message_zv, *code_param = NULL, *previous = NULL, previous_sub, __$null, _1;
 	zend_string *message = NULL;
 
@@ -72,10 +71,6 @@ PHP_METHOD(Phalcon_Support_Helper_Json_Exceptions_JsonEncodeError, __construct)
 		zephir_memory_observe(&message_zv);
 	ZVAL_STR_COPY(&message_zv, message);
 	}
-	if (!code_param) {
-		code = 0;
-	} else {
-		}
 	if (!previous) {
 		previous = &previous_sub;
 		previous = &__$null;

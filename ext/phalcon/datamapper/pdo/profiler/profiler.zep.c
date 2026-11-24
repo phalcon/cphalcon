@@ -83,13 +83,14 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *logger = NULL, logger_sub, __$null, _0, _1;
+	zval *logger = NULL, logger_sub, __$null, _0$$3, _1, _2;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&logger_sub);
 	ZVAL_NULL(&__$null);
-	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
 	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
@@ -123,30 +124,52 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, __construct)
 		ZEPHIR_SEPARATE_PARAM(logger);
 	}
 	if (Z_TYPE_P(logger) == IS_NULL) {
-		ZEPHIR_INIT_NVAR(logger);
-		object_init_ex(logger, phalcon_datamapper_pdo_profiler_memorylogger_ce);
-		if (zephir_has_constructor(logger)) {
-			ZEPHIR_CALL_METHOD_CACHED(NULL, logger, "__construct", &_zephir_call_cache[0]);
+		ZEPHIR_INIT_VAR(&_0$$3);
+		object_init_ex(&_0$$3, phalcon_datamapper_pdo_profiler_memorylogger_ce);
+		if (zephir_has_constructor(&_0$$3)) {
+			zephir_constructor_start(&_0$$3);
+			ZEPHIR_CALL_METHOD_CACHED(NULL, &_0$$3, "__construct", &_zephir_call_cache[0]);
 			zephir_check_call_status();
+			zephir_constructor_finish(&_0$$3);
 		}
 
+		ZEPHIR_CPY_WRT(logger, &_0$$3);
+		ZEPHIR_INIT_NVAR(&_0$$3);
 	}
-	ZEPHIR_INIT_VAR(&_0);
-	ZEPHIR_INIT_NVAR(&_0);
-	ZVAL_STRING(&_0, "{method} ({duration}s): {statement} {backtrace}");
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 590, &_0);
-	ZVAL_UNDEF(&_1);
-	ZVAL_LONG(&_1, 7);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 591, &_1);
+	ZEPHIR_INIT_VAR(&_1);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_STRING(&_1, "{method} ({duration}s): {statement} {backtrace}");
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 590, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZVAL_UNDEF(&_2);
+	ZVAL_LONG(&_2, 7);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 591, &_2);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 592, logger);
-	ZEPHIR_INIT_NVAR(&_0);
-	object_init_ex(&_0, phalcon_support_helper_json_encode_ce);
-	if (zephir_has_constructor(&_0)) {
-		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[1]);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_INIT_NVAR(&_1);
+	object_init_ex(&_1, phalcon_support_helper_json_encode_ce);
+	if (zephir_has_constructor(&_1)) {
+		zephir_constructor_start(&_1);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1, "__construct", &_zephir_call_cache[1]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1);
 	}
 
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 593, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 593, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -243,28 +266,32 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, finish)
 		return;
 	}
 	if (UNEXPECTED(zephir_is_true(&_0))) {
-		ZEPHIR_INIT_VAR(&ex);
-		object_init_ex(&ex, phalcon_datamapper_pdo_exception_exception_ce);
-		ZEPHIR_CALL_METHOD_CACHED(NULL, &ex, "__construct", &_zephir_call_cache[0]);
+		ZEPHIR_INIT_VAR(&_1$$3);
+		object_init_ex(&_1$$3, phalcon_datamapper_pdo_exception_exception_ce);
+		zephir_constructor_start(&_1$$3);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&finish, "hrtime", NULL, 121, &__$true);
+		zephir_constructor_finish(&_1$$3);
+		ZEPHIR_CPY_WRT(&ex, &_1$$3);
+		ZEPHIR_INIT_NVAR(&_1$$3);
+		ZEPHIR_CALL_FUNCTION(&finish, "hrtime", NULL, 120, &__$true);
 		zephir_check_call_status();
-		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_1, 595, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_1, 595, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
 		zephir_memory_observe(&start);
-		zephir_array_fetch_string(&start, &_1$$3, SL("start"), PH_NOISY, "phalcon/DataMapper/Pdo/Profiler/Profiler.zep", 96);
+		zephir_array_fetch_string(&start, &_2$$3, SL("start"), PH_NOISY, "phalcon/DataMapper/Pdo/Profiler/Profiler.zep", 96);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZEPHIR_CALL_METHOD_CACHED(&_2$$3, &ex, "getTraceAsString", &_zephir_call_cache[1]);
+		ZEPHIR_CALL_METHOD_CACHED(&_3$$3, &ex, "getTraceAsString", &_zephir_call_cache[1]);
 		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(&_3$$3);
-		ZVAL_STRING(&_3$$3, "backtrace");
-		zephir_update_property_array(this_ptr, SL("context"), &_3$$3, &_2$$3);
+		ZEPHIR_INIT_NVAR(&_1$$3);
+		ZVAL_STRING(&_1$$3, "backtrace");
+		zephir_update_property_array(this_ptr, SL("context"), &_1$$3, &_3$$3);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -341,6 +368,10 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, finish)
 		ZEPHIR_INIT_VAR(&_14$$3);
 		array_init(&_14$$3);
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 595, &_14$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	ZEPHIR_MM_RESTORE();
 }
@@ -439,8 +470,14 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, setActive)
 	zephir_fetch_params_without_memory_grow(1, 0, &active_param);
 	if (active) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 594, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 594, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	}
 	RETURN_THISW();
 }
@@ -469,6 +506,9 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, setLogFormat)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&logFormat_zv, logFormat);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 590, &logFormat_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 
@@ -496,6 +536,9 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, setLogLevel)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&logLevel_zv, logLevel);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 591, &logLevel_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 
@@ -543,10 +586,14 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, start)
 		ZEPHIR_INIT_VAR(&_1$$3);
 		zephir_create_array(&_1$$3, 2, 0);
 		zephir_array_update_string(&_1$$3, SL("method"), &method_zv, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_FUNCTION(&_2$$3, "hrtime", NULL, 121, &__$true);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "hrtime", NULL, 120, &__$true);
 		zephir_check_call_status();
 		zephir_array_update_string(&_1$$3, SL("start"), &_2$$3, PH_COPY | PH_SEPARATE);
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 595, &_1$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	ZEPHIR_MM_RESTORE();
 }

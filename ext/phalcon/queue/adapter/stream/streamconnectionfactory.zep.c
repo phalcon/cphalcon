@@ -92,7 +92,11 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamConnectionFactory, __construct)
 	} else {
 		zephir_get_arrval(&options, options_param);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1304, &options);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1302, &options);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -119,9 +123,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamConnectionFactory, createContext)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_FUNCTION(&storageDir, "sys_get_temp_dir", NULL, 246);
+	ZEPHIR_CALL_FUNCTION(&storageDir, "sys_get_temp_dir", NULL, 245);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1304, PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1302, PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -132,7 +136,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamConnectionFactory, createContext)
 		return;
 	}
 	if (_1) {
-		zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_0, 1304, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_0, 1302, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -145,7 +149,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamConnectionFactory, createContext)
 		}
 	}
 	pollInterval = 200;
-	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 1304, PH_READONLY);
+	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 1302, PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -156,7 +160,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamConnectionFactory, createContext)
 		return;
 	}
 	if (_4) {
-		zephir_read_property_cached(&_5$$4, this_ptr, _zephir_prop_0, 1304, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_5$$4, this_ptr, _zephir_prop_0, 1302, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -170,9 +174,11 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamConnectionFactory, createContext)
 		pollInterval = zephir_get_intval(&_6$$4);
 	}
 	object_init_ex(return_value, phalcon_queue_adapter_stream_streamcontext_ce);
+	zephir_constructor_start(return_value);
 	ZVAL_LONG(&_7, pollInterval);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &storageDir, &_7);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 

@@ -72,8 +72,9 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Last, __invoke)
 	}
 	ZEPHIR_CALL_METHOD_CACHED(&filtered, this_ptr, "toFilter", &_zephir_call_cache[0], &collection, method);
 	zephir_check_call_status();
+	ZEPHIR_OBSERVE_IF_UNDEF(&filtered);
 	ZEPHIR_MAKE_REF(&filtered);
-	ZEPHIR_RETURN_CALL_FUNCTION("end", NULL, 166, &filtered);
+	ZEPHIR_RETURN_CALL_FUNCTION("end", NULL, 165, &filtered);
 	ZEPHIR_UNREF(&filtered);
 	zephir_check_call_status();
 	RETURN_MM();

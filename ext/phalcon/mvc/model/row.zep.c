@@ -77,8 +77,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval index_sub;
-	zval *index;
+	zval *index, index_sub;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&index_sub);
@@ -106,8 +105,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval index_sub, _0, _2, _1$$3;
-	zval *index;
+	zval *index, index_sub, _0, _2, _1$$3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&index_sub);
@@ -126,8 +124,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet)
 	if (!(zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_mvc_model_exceptions_indexnotinrow_ce);
+		zephir_constructor_start(&_1$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1$$3);
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Row.zep", 62);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -152,8 +152,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval offset_sub, value_sub, _0;
-	zval *offset, *value;
+	zval *offset, offset_sub, *value, value_sub, _0;
 
 	ZVAL_UNDEF(&offset_sub);
 	ZVAL_UNDEF(&value_sub);
@@ -168,8 +167,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet)
 	zephir_fetch_params(1, 2, 0, &offset, &value);
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_mvc_model_exceptions_rowisimmutable_ce);
+	zephir_constructor_start(&_0);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 	zephir_check_call_status();
+	zephir_constructor_finish(&_0);
 	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Row.zep", 77);
 	ZEPHIR_MM_RESTORE();
 	return;
@@ -185,8 +186,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval offset_sub, _0;
-	zval *offset;
+	zval *offset, offset_sub, _0;
 
 	ZVAL_UNDEF(&offset_sub);
 	ZVAL_UNDEF(&_0);
@@ -199,8 +199,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset)
 	zephir_fetch_params(1, 1, 0, &offset);
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_mvc_model_exceptions_rowisimmutable_ce);
+	zephir_constructor_start(&_0);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 	zephir_check_call_status();
+	zephir_constructor_finish(&_0);
 	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Row.zep", 88);
 	ZEPHIR_MM_RESTORE();
 	return;
@@ -217,6 +219,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset)
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, readAttribute)
 {
+	zend_bool _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval attribute_zv, value;
 	zend_string *attribute = NULL;
@@ -232,7 +235,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, readAttribute)
 	zephir_memory_observe(&attribute_zv);
 	ZVAL_STR_COPY(&attribute_zv, attribute);
 	zephir_memory_observe(&value);
-	if (!(zephir_fetch_property_zval(&value, this_ptr, &attribute_zv, PH_SILENT_CC))) {
+	_0 = zephir_fetch_property_zval(&value, this_ptr, &attribute_zv, PH_SILENT_CC);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (!(_0)) {
 		RETURN_MM_NULL();
 	}
 	RETURN_CCTOR(&value);
@@ -266,7 +274,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, toArray)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 110, this_ptr);
+	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 109, this_ptr);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -295,5 +303,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, writeAttribute)
 	value = ZEND_CALL_ARG(execute_data, 2);
 	ZVAL_STR(&attribute_zv, attribute);
 	zephir_update_property_zval_zval(this_ptr, &attribute_zv, value);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 

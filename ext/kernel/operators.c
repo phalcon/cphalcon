@@ -47,7 +47,7 @@ void zephir_concat_self(zval *left, zval *right)
 		ZVAL_STRINGL(left, Z_STRVAL_P(right), Z_STRLEN_P(right));
 
 		if (use_copy_right) {
-			zval_dtor(&right_copy);
+			zval_ptr_dtor_nogc(&right_copy);
 		}
 
 		return;
@@ -69,11 +69,11 @@ void zephir_concat_self(zval *left, zval *right)
 		zend_throw_error(NULL, "String size overflow");
 
 		if (use_copy_left) {
-			zval_dtor(&left_copy);
+			zval_ptr_dtor_nogc(&left_copy);
 		}
 
 		if (use_copy_right) {
-			zval_dtor(&right_copy);
+			zval_ptr_dtor_nogc(&right_copy);
 		}
 
 		return;
@@ -87,11 +87,11 @@ void zephir_concat_self(zval *left, zval *right)
 	ZSTR_VAL(target)[length] = '\0';
 
 	if (use_copy_left) {
-		zval_dtor(&left_copy);
+		zval_ptr_dtor_nogc(&left_copy);
 	}
 
 	if (use_copy_right) {
-		zval_dtor(&right_copy);
+		zval_ptr_dtor_nogc(&right_copy);
 	}
 }
 
@@ -126,7 +126,7 @@ void zephir_concat_self_char(zval *left, unsigned char right)
 		zend_throw_error(NULL, "String size overflow");
 
 		if (use_copy) {
-			zval_dtor(&left_copy);
+			zval_ptr_dtor_nogc(&left_copy);
 		}
 
 		return;
@@ -139,7 +139,7 @@ void zephir_concat_self_char(zval *left, unsigned char right)
 	ZSTR_VAL(target)[length] = 0;
 
 	if (use_copy) {
-		zval_dtor(&left_copy);
+		zval_ptr_dtor_nogc(&left_copy);
 	}
 }
 
@@ -172,7 +172,7 @@ void zephir_concat_self_str(zval *left, const char *right, int right_length)
 		zend_throw_error(NULL, "String size overflow");
 
 		if (use_copy) {
-			zval_dtor(&left_copy);
+			zval_ptr_dtor_nogc(&left_copy);
 		}
 
 		return;
@@ -185,7 +185,7 @@ void zephir_concat_self_str(zval *left, const char *right, int right_length)
 	ZSTR_VAL(target)[length] = '\0';
 
 	if (use_copy) {
-		zval_dtor(&left_copy);
+		zval_ptr_dtor_nogc(&left_copy);
 	}
 }
 

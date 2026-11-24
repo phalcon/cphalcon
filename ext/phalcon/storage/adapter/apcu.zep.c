@@ -299,7 +299,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, setForever)
 PHP_METHOD(Phalcon_Storage_Adapter_Apcu, doDecrement)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long value, ZEPHIR_LAST_CALL_STATUS;
+	zend_long value = 1, ZEPHIR_LAST_CALL_STATUS;
 	zval key_zv, *value_param = NULL, result, _0, _1, _2;
 	zend_string *key = NULL;
 	zval *this_ptr = getThis();
@@ -322,10 +322,6 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, doDecrement)
 	}
 	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
-	if (!value_param) {
-		value = 1;
-	} else {
-		}
 	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "getPrefixedKey", &_zephir_call_cache[0], &key_zv);
 	zephir_check_call_status();
 	ZVAL_LONG(&_1, value);
@@ -442,7 +438,6 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, doDeleteMultiple)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&key);
 	ZEPHIR_CALL_METHOD_CACHED(&result, this_ptr, "phpApcuDelete", &_zephir_call_cache[6], &prefixedKeys);
 	zephir_check_call_status();
 	_5 = Z_TYPE_P(&result) == IS_ARRAY;
@@ -520,7 +515,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, doHas)
 PHP_METHOD(Phalcon_Storage_Adapter_Apcu, doIncrement)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long value, ZEPHIR_LAST_CALL_STATUS;
+	zend_long value = 1, ZEPHIR_LAST_CALL_STATUS;
 	zval key_zv, *value_param = NULL, result, _0, _1, _2;
 	zend_string *key = NULL;
 	zval *this_ptr = getThis();
@@ -543,10 +538,6 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, doIncrement)
 	}
 	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
-	if (!value_param) {
-		value = 1;
-	} else {
-		}
 	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "getPrefixedKey", &_zephir_call_cache[0], &key_zv);
 	zephir_check_call_status();
 	ZVAL_LONG(&_1, value);
@@ -647,7 +638,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, doSet)
 PHP_METHOD(Phalcon_Storage_Adapter_Apcu, phpApcuDec)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long step, ZEPHIR_LAST_CALL_STATUS;
+	zend_long step = 1, ZEPHIR_LAST_CALL_STATUS;
 	zval *key, key_sub, *step_param = NULL, _0;
 
 	ZVAL_UNDEF(&key_sub);
@@ -660,12 +651,8 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, phpApcuDec)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &key, &step_param);
-	if (!step_param) {
-		step = 1;
-	} else {
-		}
 	ZVAL_LONG(&_0, step);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_dec", NULL, 85, key, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_dec", NULL, 84, key, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -690,7 +677,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, phpApcuDelete)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &key);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_delete", NULL, 86, key);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_delete", NULL, 85, key);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -715,7 +702,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, phpApcuExists)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &key);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_exists", NULL, 87, key);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_exists", NULL, 86, key);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -740,7 +727,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, phpApcuFetch)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &key);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_fetch", NULL, 88, key);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_fetch", NULL, 87, key);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -756,7 +743,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, phpApcuFetch)
 PHP_METHOD(Phalcon_Storage_Adapter_Apcu, phpApcuInc)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long step, ZEPHIR_LAST_CALL_STATUS;
+	zend_long step = 1, ZEPHIR_LAST_CALL_STATUS;
 	zval *key, key_sub, *step_param = NULL, _0;
 
 	ZVAL_UNDEF(&key_sub);
@@ -769,12 +756,8 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, phpApcuInc)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &key, &step_param);
-	if (!step_param) {
-		step = 1;
-	} else {
-		}
 	ZVAL_LONG(&_0, step);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_inc", NULL, 89, key, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_inc", NULL, 88, key, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -803,8 +786,10 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, phpApcuIterator)
 	zephir_memory_observe(&pattern_zv);
 	ZVAL_STR_COPY(&pattern_zv, pattern);
 	object_init_ex(return_value, zephir_get_internal_ce(SL("apcuiterator")));
+	zephir_constructor_start(return_value);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &pattern_zv);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -820,7 +805,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, phpApcuIterator)
 PHP_METHOD(Phalcon_Storage_Adapter_Apcu, phpApcuStore)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ttl, ZEPHIR_LAST_CALL_STATUS;
+	zend_long ttl = 0, ZEPHIR_LAST_CALL_STATUS;
 	zval *key, key_sub, *payload, payload_sub, *ttl_param = NULL, _0;
 
 	ZVAL_UNDEF(&key_sub);
@@ -835,12 +820,8 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, phpApcuStore)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 1, &key, &payload, &ttl_param);
-	if (!ttl_param) {
-		ttl = 0;
-	} else {
-		}
 	ZVAL_LONG(&_0, ttl);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_store", NULL, 90, key, payload, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_store", NULL, 89, key, payload, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

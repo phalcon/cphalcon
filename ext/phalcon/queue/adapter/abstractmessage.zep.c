@@ -136,8 +136,20 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, __construct)
 		zephir_get_arrval(&headers, headers_param);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 92, &body_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 93, &properties);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 94, &headers);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -427,6 +439,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, setBody)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&body_zv, body);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 92, &body_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**
@@ -506,6 +521,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, setHeaders)
 	zephir_fetch_params(1, 1, 0, &headers_param);
 	zephir_get_arrval(&headers, headers_param);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 94, &headers);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -563,6 +582,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, setProperties)
 	zephir_fetch_params(1, 1, 0, &properties_param);
 	zephir_get_arrval(&properties, properties_param);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 93, &properties);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -611,8 +634,14 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractMessage, setRedelivered)
 	zephir_fetch_params_without_memory_grow(1, 0, &redelivered_param);
 	if (redelivered) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 95, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	} else {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 95, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	}
 }
 

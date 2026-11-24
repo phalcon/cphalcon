@@ -13,7 +13,6 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
 
@@ -47,7 +46,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Traits_Php_ApcuTrait)
 PHP_METHOD(Phalcon_Traits_Php_ApcuTrait, phpApcuDec)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long step, ZEPHIR_LAST_CALL_STATUS;
+	zend_long step = 1, ZEPHIR_LAST_CALL_STATUS;
 	zval *key, key_sub, *step_param = NULL, _0;
 
 	ZVAL_UNDEF(&key_sub);
@@ -60,12 +59,8 @@ PHP_METHOD(Phalcon_Traits_Php_ApcuTrait, phpApcuDec)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &key, &step_param);
-	if (!step_param) {
-		step = 1;
-	} else {
-		}
 	ZVAL_LONG(&_0, step);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_dec", NULL, 85, key, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_dec", NULL, 84, key, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -90,7 +85,7 @@ PHP_METHOD(Phalcon_Traits_Php_ApcuTrait, phpApcuDelete)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &key);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_delete", NULL, 86, key);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_delete", NULL, 85, key);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -115,7 +110,7 @@ PHP_METHOD(Phalcon_Traits_Php_ApcuTrait, phpApcuExists)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &key);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_exists", NULL, 87, key);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_exists", NULL, 86, key);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -140,7 +135,7 @@ PHP_METHOD(Phalcon_Traits_Php_ApcuTrait, phpApcuFetch)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &key);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_fetch", NULL, 88, key);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_fetch", NULL, 87, key);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -156,7 +151,7 @@ PHP_METHOD(Phalcon_Traits_Php_ApcuTrait, phpApcuFetch)
 PHP_METHOD(Phalcon_Traits_Php_ApcuTrait, phpApcuInc)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long step, ZEPHIR_LAST_CALL_STATUS;
+	zend_long step = 1, ZEPHIR_LAST_CALL_STATUS;
 	zval *key, key_sub, *step_param = NULL, _0;
 
 	ZVAL_UNDEF(&key_sub);
@@ -169,12 +164,8 @@ PHP_METHOD(Phalcon_Traits_Php_ApcuTrait, phpApcuInc)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &key, &step_param);
-	if (!step_param) {
-		step = 1;
-	} else {
-		}
 	ZVAL_LONG(&_0, step);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_inc", NULL, 89, key, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_inc", NULL, 88, key, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -203,8 +194,10 @@ PHP_METHOD(Phalcon_Traits_Php_ApcuTrait, phpApcuIterator)
 	zephir_memory_observe(&pattern_zv);
 	ZVAL_STR_COPY(&pattern_zv, pattern);
 	object_init_ex(return_value, zephir_get_internal_ce(SL("apcuiterator")));
+	zephir_constructor_start(return_value);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &pattern_zv);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -220,7 +213,7 @@ PHP_METHOD(Phalcon_Traits_Php_ApcuTrait, phpApcuIterator)
 PHP_METHOD(Phalcon_Traits_Php_ApcuTrait, phpApcuStore)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ttl, ZEPHIR_LAST_CALL_STATUS;
+	zend_long ttl = 0, ZEPHIR_LAST_CALL_STATUS;
 	zval *key, key_sub, *payload, payload_sub, *ttl_param = NULL, _0;
 
 	ZVAL_UNDEF(&key_sub);
@@ -235,12 +228,8 @@ PHP_METHOD(Phalcon_Traits_Php_ApcuTrait, phpApcuStore)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 1, &key, &payload, &ttl_param);
-	if (!ttl_param) {
-		ttl = 0;
-	} else {
-		}
 	ZVAL_LONG(&_0, ttl);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_store", NULL, 90, key, payload, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_store", NULL, 89, key, payload, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
