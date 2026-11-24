@@ -61,9 +61,9 @@ class JsEscaper extends AbstractEscaper
     /**
      * @param string $input
      *
-     * @return string
+     * @return string|false
      */
-    private function doEscapeJs(string input) -> string
+    private function doEscapeJs(string input) -> string | false
     {
         return phalcon_escape_js(input);
     }

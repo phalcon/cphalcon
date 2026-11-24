@@ -55,9 +55,9 @@ class CssEscaper extends AbstractEscaper
     /**
      * @param string $input
      *
-     * @return string
+     * @return string|false
      */
-    private function doEscapeCss(string input) -> string
+    private function doEscapeCss(string input) -> string | false
     {
         return phalcon_escape_css(input);
     }

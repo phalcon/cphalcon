@@ -73,4 +73,18 @@ final class JsTest extends AbstractUnitTestCase
             $escaper->js($bs . "';alert(1)//")
         );
     }
+
+    /**
+     * The code point U+0000 stops the escape, and the result is empty.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17783
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-24
+     */
+    public function testEscaperJsNullCodepointReturnsEmpty(): void
+    {
+        $escaper = new Escaper();
+
+        $this->assertSame('', $escaper->js("\x00"));
+    }
 }
