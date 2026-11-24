@@ -16,9 +16,25 @@ namespace Phalcon\Tests\Unit\Annotations\Reader;
 use Phalcon\Annotations\Exception;
 use Phalcon\Annotations\Reader;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use ReflectionMethod;
 
 final class ParseDocBlockTest extends AbstractUnitTestCase
 {
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function getNoAnnotationExamples(): array
+    {
+        return [
+            'at sign'        => ['@'],
+            'at sign, bang'  => ['@!'],
+            'empty'          => [''],
+            'no annotations' => ['/** no annotations here */'],
+            'open name'      => ['/** @'],
+        ];
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-21
@@ -146,6 +162,19 @@ EOF;
     }
 
     /**
+     * A docblock with no annotations returns false.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17775
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-24
+     */
+    #[DataProvider('getNoAnnotationExamples')]
+    public function testAnnotationsReaderParseDocBlockNoAnnotations(string $docBlock): void
+    {
+        $this->assertFalse(Reader::parseDocBlock($docBlock));
+    }
+
+    /**
      * An annotation argument that is a string containing a parenthesis must be
      * parsed correctly - the parenthesis inside the string is not a structural
      * one and must not break the docblock scanning.
@@ -179,6 +208,18 @@ EOF;
 
         $this->assertSame('DoubleQuoteParens', $parsed[2]['name']);
         $this->assertSame('value()', $parsed[2]['arguments'][0]['expr']['value']);
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/17775
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-24
+     */
+    public function testAnnotationsReaderParseDocBlockReturnType(): void
+    {
+        $method = new ReflectionMethod(Reader::class, 'parseDocBlock');
+
+        $this->assertSame('array|false', (string) $method->getReturnType());
     }
 
     /**
