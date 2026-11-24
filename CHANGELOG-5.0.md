@@ -46,6 +46,8 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 > **Upgrade note:** The factory closure that `Phalcon\Container\Definition\Processor\ObjectProcessor::process()` sets now declares one optional parameter, the container. `Phalcon\Container\Definition\ServiceDefinition::buildService()` already calls the factory with the container. A call with no arguments still works, and the returned object does not change. [#17777](https://github.com/phalcon/cphalcon/issues/17777)
 
+> **Upgrade note:** `Phalcon\Encryption\Security::hash()` now converts a numeric string `cost` option to an integer. A fractional value such as `'5.7'` becomes `5`. Before, the `CRYPT_BLOWFISH_A` and `CRYPT_BLOWFISH_X` algorithms put the string in the salt (`$2a$5.7$`), and `crypt()` returned the failure string `*0`. Integer costs and integer strings such as `'5'` give the same hashes as before. [#17779](https://github.com/phalcon/cphalcon/issues/17779)
+
 ### Tools
 
 - Zephir 1.9.0
@@ -91,6 +93,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - `Phalcon\Db\Adapter\Pdo\Sqlite::describeColumns()` reporting `tinyint(1)` columns as `Column::TYPE_INTEGER`. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
 - `Phalcon\Db\Adapter\Pdo\Sqlite::describeColumns()` reporting blob columns as `Column::TYPE_VARCHAR`. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
 - `Phalcon\Db\Adapter\Pdo\Sqlite::describeColumns()` using `Column::TYPE_DECIMAL` as the bind type of `float` columns, which stored their values as blobs. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
+- `Phalcon\Encryption\Security::hash()` passing a numeric string `cost` option on as a string, which gave an invalid Blowfish salt for a fractional value. [#17779](https://github.com/phalcon/cphalcon/issues/17779)
 - `Phalcon\Encryption\Security::hash()` using the cost `4` instead of the work factor when the `cost` option is empty. [#17764](https://github.com/phalcon/cphalcon/issues/17764)
 - `Phalcon\Forms\Form::getValue()` returning the tag factory for the name `tagFactory`. [#17727](https://github.com/phalcon/cphalcon/issues/17727)
 - `Phalcon\Http\Request\Bag\AbstractBag::normalizeKey()` declaring `string` as the return type instead of `int|string`. [#17771](https://github.com/phalcon/cphalcon/issues/17771)

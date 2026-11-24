@@ -1719,7 +1719,7 @@ PHP_METHOD(Phalcon_Encryption_Security, processCost)
 		ZEPHIR_INIT_NVAR(&cost);
 		ZVAL_LONG(&cost, 31);
 	}
-	RETURN_CCTOR(&cost);
+	RETURN_MM_LONG(zephir_get_intval(&cost));
 }
 
 PHP_METHOD(Phalcon_Encryption_Security, processTokenKey)
