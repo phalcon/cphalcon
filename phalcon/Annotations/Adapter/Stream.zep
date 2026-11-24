@@ -113,6 +113,13 @@ class Stream extends AbstractAdapter
             throw new CannotReadAnnotationData();
         }
 
+        /**
+         * A file that does not hold a Reflection object is a miss
+         */
+        if typeof contents !== "object" || !(contents instanceof Reflection) {
+            return false;
+        }
+
         return contents;
     }
 
