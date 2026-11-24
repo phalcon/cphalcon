@@ -183,9 +183,9 @@ class Reader implements ReaderInterface
      * @phpstan-param string|null $file
      * @phpstan-param int|null    $line
      *
-     * @phpstan-return annotations_node_list
+     * @phpstan-return annotations_node_list|false
      */
-    public static function parseDocBlock(string docBlock, file = null, line = null) -> array
+    public static function parseDocBlock(string docBlock, file = null, line = null) -> array | false
     {
         if typeof file !== "string" {
             let file = "eval code";
