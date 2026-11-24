@@ -680,7 +680,7 @@ class Security extends AbstractInjectionAware implements SecurityContract
             let cost = 31;
         }
 
-        return cost;
+        return (int) cost;
     }
 
     private function processTokenKey(string tokenKey = null) -> string | null

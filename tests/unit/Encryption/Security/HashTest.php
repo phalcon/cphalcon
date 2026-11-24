@@ -83,6 +83,25 @@ final class HashTest extends AbstractUnitTestCase
     }
 
     /**
+     * A fractional numeric string cost becomes an integer, so the Blowfish
+     * salt has a valid two digit cost.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17779
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-24
+     */
+    public function testEncryptionSecurityHashCostFractionalStringLegacy(): void
+    {
+        $security = new Security();
+        $security->setDefaultHash(Security::CRYPT_BLOWFISH_A);
+
+        $hash = $security->hash('secret', ['cost' => '5.7']);
+
+        $this->assertStringStartsWith('$2a$05$', $hash);
+        $this->assertTrue($security->checkHash('secret', $hash));
+    }
+
+    /**
      * @issue  https://github.com/phalcon/cphalcon/issues/17764
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-11-21
@@ -132,5 +151,18 @@ final class HashTest extends AbstractUnitTestCase
 
         $this->assertSame(5, $security->getHashInformation($hash)['options']['cost']);
         $this->assertTrue($security->checkHash('secret', $hash));
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/17779
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-24
+     */
+    public function testEncryptionSecurityHashCostNumericStringReturnsInt(): void
+    {
+        $security = new Security();
+        $method   = new ReflectionMethod(Security::class, 'processCost');
+
+        $this->assertSame(5, $method->invoke($security, ['cost' => '5']));
     }
 }
