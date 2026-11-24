@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Image_ImageFactory, newInstance)
 {
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long width, height, ZEPHIR_LAST_CALL_STATUS;
+	zend_long width = 0, height = 0, ZEPHIR_LAST_CALL_STATUS;
 	zval name_zv, file_zv, *width_param = NULL, *height_param = NULL, definition, _1;
 	zend_string *name = NULL, *file = NULL;
 	zval *this_ptr = getThis();
@@ -191,14 +191,6 @@ PHP_METHOD(Phalcon_Image_ImageFactory, newInstance)
 	ZVAL_STR_COPY(&name_zv, name);
 	zephir_memory_observe(&file_zv);
 	ZVAL_STR_COPY(&file_zv, file);
-	if (!width_param) {
-		width = 0;
-	} else {
-		}
-	if (!height_param) {
-		height = 0;
-	} else {
-		}
 	ZEPHIR_CALL_METHOD_CACHED(&definition, this_ptr, "getService", &_zephir_call_cache[0], &name_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);

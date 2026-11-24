@@ -13,9 +13,9 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
+#include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/array.h"
 #include "kernel/string.h"
@@ -59,7 +59,7 @@ ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Query_AbstractConditions)
 PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, andWhere)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long type, ZEPHIR_LAST_CALL_STATUS;
+	zend_long type = -1, ZEPHIR_LAST_CALL_STATUS;
 	zval condition_zv, *value = NULL, value_sub, *type_param = NULL, __$null, _0;
 	zend_string *condition = NULL;
 	zval *this_ptr = getThis();
@@ -90,10 +90,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, andWhere)
 		value = &value_sub;
 		value = &__$null;
 	}
-	if (!type_param) {
-		type = -1;
-	} else {
-		}
 	ZVAL_LONG(&_0, type);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "where", &_zephir_call_cache[0], &condition_zv, value, &_0);
 	zephir_check_call_status();
@@ -112,7 +108,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, andWhere)
 PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, appendWhere)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long type, ZEPHIR_LAST_CALL_STATUS;
+	zend_long type = -1, ZEPHIR_LAST_CALL_STATUS;
 	zval condition_zv, *value = NULL, value_sub, *type_param = NULL, __$null, _0, _1;
 	zend_string *condition = NULL;
 	zval *this_ptr = getThis();
@@ -144,10 +140,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, appendWhere)
 		value = &value_sub;
 		value = &__$null;
 	}
-	if (!type_param) {
-		type = -1;
-	} else {
-		}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "WHERE");
 	ZVAL_LONG(&_1, type);
@@ -254,7 +246,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, orderBy)
 PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, orWhere)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long type, ZEPHIR_LAST_CALL_STATUS;
+	zend_long type = -1, ZEPHIR_LAST_CALL_STATUS;
 	zval condition_zv, *value = NULL, value_sub, *type_param = NULL, __$null, _0, _1, _2;
 	zend_string *condition = NULL;
 	zval *this_ptr = getThis();
@@ -287,10 +279,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, orWhere)
 		value = &value_sub;
 		value = &__$null;
 	}
-	if (!type_param) {
-		type = -1;
-	} else {
-		}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "WHERE");
 	ZEPHIR_INIT_VAR(&_1);
@@ -307,7 +295,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, orWhere)
 PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, where)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long type, ZEPHIR_LAST_CALL_STATUS;
+	zend_long type = -1, ZEPHIR_LAST_CALL_STATUS;
 	zval condition_zv, *value = NULL, value_sub, *type_param = NULL, __$null, _0, _1, _2;
 	zend_string *condition = NULL;
 	zval *this_ptr = getThis();
@@ -340,10 +328,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, where)
 		value = &value_sub;
 		value = &__$null;
 	}
-	if (!type_param) {
-		type = -1;
-	} else {
-		}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "WHERE");
 	ZEPHIR_INIT_VAR(&_1);
@@ -483,8 +467,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, whereEquals)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&value);
-	ZEPHIR_INIT_NVAR(&key);
 	RETURN_THIS();
 }
 
@@ -497,7 +479,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, addCondition)
 {
 	zend_bool _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long type, ZEPHIR_LAST_CALL_STATUS;
+	zend_long type = -1, ZEPHIR_LAST_CALL_STATUS;
 	zval andor, condition, _4;
 	zval store_zv, *andor_param = NULL, *condition_param = NULL, *value = NULL, value_sub, *type_param = NULL, __$null, _0$$3, _1$$3, _2;
 	zend_string *store = NULL;
@@ -545,10 +527,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, addCondition)
 		value = &value_sub;
 		value = &__$null;
 	}
-	if (!type_param) {
-		type = -1;
-	} else {
-		}
 	if (!(ZEPHIR_IS_EMPTY(value))) {
 		ZVAL_LONG(&_1$$3, type);
 		ZEPHIR_CALL_METHOD_CACHED(&_0$$3, this_ptr, "bindInline", &_zephir_call_cache[0], value, &_1$$3);
@@ -596,7 +574,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, appendCondition)
 {
 	zend_bool _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long type, ZEPHIR_LAST_CALL_STATUS;
+	zend_long type = -1, ZEPHIR_LAST_CALL_STATUS;
 	zval condition;
 	zval store_zv, *condition_param = NULL, *value = NULL, value_sub, *type_param = NULL, __$null, key, _2, _5, _6, _7, _8, _9, _10, _0$$3, _1$$3, _4$$4;
 	zend_string *store = NULL;
@@ -647,10 +625,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_AbstractConditions, appendCondition)
 		value = &value_sub;
 		value = &__$null;
 	}
-	if (!type_param) {
-		type = -1;
-	} else {
-		}
 	if (!(ZEPHIR_IS_EMPTY(value))) {
 		ZVAL_LONG(&_1$$3, type);
 		ZEPHIR_CALL_METHOD_CACHED(&_0$$3, this_ptr, "bindInline", &_zephir_call_cache[0], value, &_1$$3);

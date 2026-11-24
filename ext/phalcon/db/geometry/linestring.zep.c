@@ -48,7 +48,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Geometry_LineString)
 PHP_METHOD(Phalcon_Db_Geometry_LineString, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long srid;
+	zend_long srid = 0;
 	zval *points_param = NULL, *srid_param = NULL, _0;
 	zval points;
 	zval *this_ptr = getThis();
@@ -73,10 +73,6 @@ PHP_METHOD(Phalcon_Db_Geometry_LineString, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &points_param, &srid_param);
 	zephir_get_arrval(&points, points_param);
-	if (!srid_param) {
-		srid = 0;
-	} else {
-		}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 640, &points);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
@@ -207,7 +203,6 @@ PHP_METHOD(Phalcon_Db_Geometry_LineString, pointsWkt)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&point);
 	zephir_fast_join_str(return_value, SL(", "), &parts);
 	RETURN_MM();
 }

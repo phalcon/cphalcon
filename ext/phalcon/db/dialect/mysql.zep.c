@@ -1116,7 +1116,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&column);
 	zephir_memory_observe(&indexes);
 	_57 = zephir_array_isset_string_fetch(&indexes, &definition, SL("indexes"), 0);
 	if (UNEXPECTED(EG(exception))) {
@@ -1284,7 +1283,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable)
 					}
 			}
 		}
-		ZEPHIR_INIT_NVAR(&index);
 	}
 	zephir_memory_observe(&references);
 	_77 = zephir_array_isset_string_fetch(&references, &definition, SL("references"), 0);
@@ -1451,7 +1449,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable)
 					}
 			}
 		}
-		ZEPHIR_INIT_NVAR(&reference);
 	}
 	zephir_memory_observe(&checks);
 	_105 = zephir_array_isset_string_fetch(&checks, &definition, SL("checks"), 0);
@@ -1512,7 +1509,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable)
 					}
 			}
 		}
-		ZEPHIR_INIT_NVAR(&check);
 	}
 	ZEPHIR_INIT_VAR(&_115);
 	zephir_fast_join_str(&_115, SL(",\n\t"), &createLines);
@@ -1997,7 +1993,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropTable)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool ifExists;
+	zend_bool ifExists = 1;
 	zval tableName_zv, schemaName_zv, *ifExists_param = NULL, table;
 	zend_string *tableName = NULL, *schemaName = NULL;
 	zval *this_ptr = getThis();
@@ -2026,10 +2022,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropTable)
 		zephir_memory_observe(&schemaName_zv);
 	ZVAL_STR_COPY(&schemaName_zv, schemaName);
 	}
-	if (!ifExists_param) {
-		ifExists = 1;
-	} else {
-		}
 	ZEPHIR_CALL_METHOD_CACHED(&table, this_ptr, "prepareTable", &_zephir_call_cache[0], &tableName_zv, &schemaName_zv);
 	zephir_check_call_status();
 	if (ifExists) {
@@ -2055,7 +2047,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropView)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool ifExists;
+	zend_bool ifExists = 1;
 	zval viewName_zv, schemaName_zv, *ifExists_param = NULL, view;
 	zend_string *viewName = NULL, *schemaName = NULL;
 	zval *this_ptr = getThis();
@@ -2084,10 +2076,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropView)
 		zephir_memory_observe(&schemaName_zv);
 	ZVAL_STR_COPY(&schemaName_zv, schemaName);
 	}
-	if (!ifExists_param) {
-		ifExists = 1;
-	} else {
-		}
 	ZEPHIR_CALL_METHOD_CACHED(&view, this_ptr, "prepareTable", &_zephir_call_cache[0], &viewName_zv, &schemaName_zv);
 	zephir_check_call_status();
 	if (ifExists) {
@@ -2709,12 +2697,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition)
 		if (UNEXPECTED(ZEPHIR_IS_EMPTY(&columnSql))) {
 			ZEPHIR_INIT_VAR(&_34$$75);
 			object_init_ex(&_34$$75, phalcon_db_exceptions_unrecognizeddatatype_ce);
+			zephir_constructor_start(&_34$$75);
 			ZEPHIR_CALL_METHOD_CACHED(&_35$$75, column, "getName", &_zephir_call_cache[28]);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&_36$$75);
 			ZVAL_STRING(&_36$$75, "MySQL");
 			ZEPHIR_CALL_METHOD_CACHED(NULL, &_34$$75, "__construct", &_zephir_call_cache[29], &_36$$75, &_35$$75);
 			zephir_check_call_status();
+			zephir_constructor_finish(&_34$$75);
 			zephir_throw_exception_debug(&_34$$75, "phalcon/Db/Dialect/Mysql.zep", 793);
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -2785,7 +2775,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition)
 							}
 					}
 				}
-				ZEPHIR_INIT_NVAR(&value$$77);
 				ZVAL_LONG(&_46$$77, 0);
 				ZVAL_LONG(&_47$$77, -2);
 				ZEPHIR_INIT_VAR(&_48$$77);
@@ -3242,8 +3231,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, onConflictUpdate)
 	zephir_get_arrval(&updateColumns, updateColumns_param);
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_db_exceptions_mysqlonconflictnotsupported_ce);
+	zephir_constructor_start(&_0);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 	zephir_check_call_status();
+	zephir_constructor_finish(&_0);
 	zephir_throw_exception_debug(&_0, "phalcon/Db/Dialect/Mysql.zep", 941);
 	ZEPHIR_MM_RESTORE();
 	return;

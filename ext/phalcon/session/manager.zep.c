@@ -281,7 +281,7 @@ PHP_METHOD(Phalcon_Session_Manager, get)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool remove;
+	zend_bool remove = 0;
 	zval key_zv, *defaultValue = NULL, defaultValue_sub, *remove_param = NULL, _SESSION, __$null, value, uniqueKey, _0;
 	zend_string *key = NULL;
 	zval *this_ptr = getThis();
@@ -316,10 +316,6 @@ PHP_METHOD(Phalcon_Session_Manager, get)
 		defaultValue = &defaultValue_sub;
 		defaultValue = &__$null;
 	}
-	if (!remove_param) {
-		remove = 0;
-	} else {
-		}
 	ZEPHIR_INIT_VAR(&value);
 	ZVAL_NULL(&value);
 	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "exists", &_zephir_call_cache[0]);
@@ -465,7 +461,7 @@ PHP_METHOD(Phalcon_Session_Manager, regenerateId)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *deleteOldSession_param = NULL, _0, _1$$3;
-	zend_bool deleteOldSession;
+	zend_bool deleteOldSession = 1;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
@@ -478,10 +474,6 @@ PHP_METHOD(Phalcon_Session_Manager, regenerateId)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 0, 1, &deleteOldSession_param);
-	if (!deleteOldSession_param) {
-		deleteOldSession = 1;
-	} else {
-		}
 	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "exists", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
@@ -632,8 +624,10 @@ PHP_METHOD(Phalcon_Session_Manager, setId)
 	if (UNEXPECTED(ZEPHIR_IS_TRUE_IDENTICAL(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_session_exceptions_sessionalreadystarted_ce);
+		zephir_constructor_start(&_1$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[1]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1$$3);
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Session/Manager.zep", 274);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -648,8 +642,10 @@ PHP_METHOD(Phalcon_Session_Manager, setId)
 	if (UNEXPECTED(!zephir_is_true(&_4))) {
 		ZEPHIR_INIT_VAR(&_6$$4);
 		object_init_ex(&_6$$4, phalcon_session_exceptions_invalidsessionid_ce);
+		zephir_constructor_start(&_6$$4);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_6$$4, "__construct", &_zephir_call_cache[2]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_6$$4);
 		zephir_throw_exception_debug(&_6$$4, "phalcon/Session/Manager.zep", 278);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -708,8 +704,10 @@ PHP_METHOD(Phalcon_Session_Manager, setName)
 	if (UNEXPECTED(ZEPHIR_IS_TRUE_IDENTICAL(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_session_exceptions_sessionmodificationdenied_ce);
+		zephir_constructor_start(&_1$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[1]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1$$3);
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Session/Manager.zep", 299);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -735,8 +733,10 @@ PHP_METHOD(Phalcon_Session_Manager, setName)
 	if (UNEXPECTED(_6)) {
 		ZEPHIR_INIT_VAR(&_11$$4);
 		object_init_ex(&_11$$4, phalcon_session_exceptions_invalidsessionname_ce);
+		zephir_constructor_start(&_11$$4);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_11$$4, "__construct", &_zephir_call_cache[2]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_11$$4);
 		zephir_throw_exception_debug(&_11$$4, "phalcon/Session/Manager.zep", 306);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -880,8 +880,10 @@ PHP_METHOD(Phalcon_Session_Manager, start)
 	if (UNEXPECTED(!((zephir_is_instance_of(&_7, SL("SessionHandlerInterface")))))) {
 		ZEPHIR_INIT_VAR(&_8$$7);
 		object_init_ex(&_8$$7, phalcon_session_exceptions_invalidsessionadapter_ce);
+		zephir_constructor_start(&_8$$7);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_8$$7, "__construct", &_zephir_call_cache[3]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_8$$7);
 		zephir_throw_exception_debug(&_8$$7, "phalcon/Session/Manager.zep", 364);
 		ZEPHIR_MM_RESTORE();
 		return;

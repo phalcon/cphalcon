@@ -51,7 +51,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, __invoke)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_6 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool lowercase;
+	zend_bool lowercase = 1;
 	zend_string *separator = NULL;
 	zval *text_param = NULL, separator_zv, *lowercase_param = NULL, *replace = NULL, replace_sub, __$null, friendly, matrix, _1, _2, _3, _4, _5, _8, _0$$3, _7$$5;
 	zval text;
@@ -98,10 +98,6 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, __invoke)
 		zephir_memory_observe(&separator_zv);
 	ZVAL_STR_COPY(&separator_zv, separator);
 	}
-	if (!lowercase_param) {
-		lowercase = 1;
-	} else {
-		}
 	if (!replace) {
 		replace = &replace_sub;
 		ZEPHIR_CPY_WRT(replace, &__$null);
@@ -336,7 +332,6 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Friendly, getMatrix)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&item);
 	RETURN_CTOR(&matrix);
 }
 

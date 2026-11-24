@@ -115,7 +115,6 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Group, __invoke)
 				ZEPHIR_CPY_WRT(&filtered, &_4$$4);
 		}
 	}
-	ZEPHIR_INIT_NVAR(&element);
 	RETURN_CCTOR(&filtered);
 }
 

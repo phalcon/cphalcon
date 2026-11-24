@@ -131,8 +131,10 @@ PHP_METHOD(Phalcon_Db_Check, __construct)
 	if (UNEXPECTED(!(_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_db_exceptions_checkexpressionrequired_ce);
+		zephir_constructor_start(&_1$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1$$3);
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Db/Check.zep", 77);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -144,8 +146,10 @@ PHP_METHOD(Phalcon_Db_Check, __construct)
 	if (UNEXPECTED(_2)) {
 		ZEPHIR_INIT_VAR(&_3$$4);
 		object_init_ex(&_3$$4, phalcon_db_exceptions_invalidcheckexpression_ce);
+		zephir_constructor_start(&_3$$4);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_3$$4, "__construct", &_zephir_call_cache[1]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_3$$4);
 		zephir_throw_exception_debug(&_3$$4, "phalcon/Db/Check.zep", 81);
 		ZEPHIR_MM_RESTORE();
 		return;

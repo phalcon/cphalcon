@@ -223,8 +223,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkConnectionFactory, createCon
 		ZVAL_LONG(&pollInterval, 200);
 	}
 	object_init_ex(return_value, phalcon_queue_adapter_beanstalk_beanstalkcontext_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &host, &port, &persistent, &ttr, &pollInterval);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 

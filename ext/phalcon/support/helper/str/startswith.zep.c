@@ -13,7 +13,6 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
 
@@ -40,7 +39,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_StartsWith, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool ignoreCase;
+	zend_bool ignoreCase = 1;
 	zval haystack_zv, needle_zv, *ignoreCase_param = NULL, _0;
 	zend_string *haystack = NULL, *needle = NULL;
 	zval *this_ptr = getThis();
@@ -64,10 +63,6 @@ PHP_METHOD(Phalcon_Support_Helper_Str_StartsWith, __invoke)
 	ZVAL_STR_COPY(&haystack_zv, haystack);
 	zephir_memory_observe(&needle_zv);
 	ZVAL_STR_COPY(&needle_zv, needle);
-	if (!ignoreCase_param) {
-		ignoreCase = 1;
-	} else {
-		}
 	if (ignoreCase) {
 		ZVAL_BOOL(&_0, 1);
 	} else {

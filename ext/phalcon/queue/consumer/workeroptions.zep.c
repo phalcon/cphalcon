@@ -13,7 +13,6 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 
@@ -85,7 +84,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Consumer_WorkerOptions)
 PHP_METHOD(Phalcon_Queue_Consumer_WorkerOptions, __construct)
 {
 	zval *maxMessages_param = NULL, *maxSeconds_param = NULL, *maxMemory_param = NULL, *jitter_param = NULL, _0;
-	zend_long maxMessages, maxSeconds, maxMemory, jitter;
+	zend_long maxMessages = 0, maxSeconds = 0, maxMemory = 0, jitter = 0;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
@@ -114,22 +113,6 @@ PHP_METHOD(Phalcon_Queue_Consumer_WorkerOptions, __construct)
 		Z_PARAM_LONG(jitter)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(0, 4, &maxMessages_param, &maxSeconds_param, &maxMemory_param, &jitter_param);
-	if (!maxMessages_param) {
-		maxMessages = 0;
-	} else {
-		}
-	if (!maxSeconds_param) {
-		maxSeconds = 0;
-	} else {
-		}
-	if (!maxMemory_param) {
-		maxMemory = 0;
-	} else {
-		}
-	if (!jitter_param) {
-		jitter = 0;
-	} else {
-		}
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, maxMessages);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1326, &_0);

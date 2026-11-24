@@ -122,15 +122,19 @@ PHP_METHOD(Phalcon_ADR_Application, __construct)
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_container_containerfactory_ce);
 		if (zephir_has_constructor(&_0$$3)) {
+			zephir_constructor_start(&_0$$3);
 			ZEPHIR_CALL_METHOD_CACHED(NULL, &_0$$3, "__construct", &_zephir_call_cache[0]);
 			zephir_check_call_status();
+			zephir_constructor_finish(&_0$$3);
 		}
 
 		ZEPHIR_INIT_VAR(&_2$$3);
 		object_init_ex(&_2$$3, phalcon_adr_container_adrprovider_ce);
 		if (zephir_has_constructor(&_2$$3)) {
+			zephir_constructor_start(&_2$$3);
 			ZEPHIR_CALL_METHOD_CACHED(NULL, &_2$$3, "__construct", &_zephir_call_cache[1]);
 			zephir_check_call_status();
+			zephir_constructor_finish(&_2$$3);
 		}
 
 		ZEPHIR_CALL_METHOD_CACHED(&_1$$3, &_0$$3, "addProvider", &_zephir_call_cache[2], &_2$$3);
@@ -282,8 +286,6 @@ PHP_METHOD(Phalcon_ADR_Application, define)
 				zephir_check_call_status();
 		}
 	}
-	ZEPHIR_INIT_NVAR(&value);
-	ZEPHIR_INIT_NVAR(&param);
 	RETURN_THIS();
 }
 
@@ -559,8 +561,10 @@ PHP_METHOD(Phalcon_ADR_Application, handle)
 		if (Z_TYPE_P(&match) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_13$$8);
 			object_init_ex(&_13$$8, phalcon_adr_exceptions_routenotfound_ce);
+			zephir_constructor_start(&_13$$8);
 			ZEPHIR_CALL_METHOD_CACHED(NULL, &_13$$8, "__construct", &_zephir_call_cache[11]);
 			zephir_check_call_status_or_jump(try_end_1);
+			zephir_constructor_finish(&_13$$8);
 			zephir_throw_exception_debug(&_13$$8, "phalcon/ADR/Application.zep", 169);
 			goto try_end_1;
 
@@ -629,8 +633,6 @@ PHP_METHOD(Phalcon_ADR_Application, handle)
 					zephir_check_call_status_or_jump(try_end_1);
 			}
 		}
-		ZEPHIR_INIT_NVAR(&value);
-		ZEPHIR_INIT_NVAR(&key);
 		ZEPHIR_CALL_METHOD_CACHED(&_27$$7, &match, "getAction", &_zephir_call_cache[25]);
 		zephir_check_call_status_or_jump(try_end_1);
 		ZEPHIR_CALL_METHOD_CACHED(&_28$$7, &match, "getMiddleware", &_zephir_call_cache[26]);
@@ -660,8 +662,10 @@ PHP_METHOD(Phalcon_ADR_Application, handle)
 				zephir_check_call_status_or_jump(try_end_2);
 				ZEPHIR_INIT_NVAR(&_31$$12);
 				object_init_ex(&_31$$12, phalcon_http_response_ce);
+				zephir_constructor_start(&_31$$12);
 				ZEPHIR_CALL_METHOD_CACHED(NULL, &_31$$12, "__construct", &_zephir_call_cache[29]);
 				zephir_check_call_status_or_jump(try_end_2);
+				zephir_constructor_finish(&_31$$12);
 				ZEPHIR_CALL_METHOD_CACHED(&response, &_30$$12, "handle", &_zephir_call_cache[30], request, &_31$$12, &exception);
 				zephir_check_call_status_or_jump(try_end_2);
 
@@ -675,16 +679,20 @@ PHP_METHOD(Phalcon_ADR_Application, handle)
 				if (zephir_is_instance_of(&_32$$11, SL("Throwable"))) {
 					zend_clear_exception();
 					ZEPHIR_CPY_WRT(&_33$$11, &_32$$11);
-					ZEPHIR_INIT_NVAR(&response);
-					object_init_ex(&response, phalcon_http_response_ce);
-					ZEPHIR_CALL_METHOD_CACHED(NULL, &response, "__construct", &_zephir_call_cache[31]);
+					ZEPHIR_INIT_VAR(&_34$$13);
+					object_init_ex(&_34$$13, phalcon_http_response_ce);
+					zephir_constructor_start(&_34$$13);
+					ZEPHIR_CALL_METHOD_CACHED(NULL, &_34$$13, "__construct", &_zephir_call_cache[31]);
 					zephir_check_call_status();
-					ZVAL_LONG(&_35$$13, 500);
-					ZEPHIR_CALL_METHOD_CACHED(&_34$$13, &response, "setStatusCode", &_zephir_call_cache[32], &_35$$13);
+					zephir_constructor_finish(&_34$$13);
+					ZEPHIR_CPY_WRT(&response, &_34$$13);
+					ZEPHIR_INIT_NVAR(&_34$$13);
+					ZVAL_LONG(&_36$$13, 500);
+					ZEPHIR_CALL_METHOD_CACHED(&_35$$13, &response, "setStatusCode", &_zephir_call_cache[32], &_36$$13);
 					zephir_check_call_status();
-					ZEPHIR_INIT_VAR(&_36$$13);
-					ZVAL_STRING(&_36$$13, "Internal Server Error");
-					ZEPHIR_CALL_METHOD_CACHED(NULL, &_34$$13, "setContent", &_zephir_call_cache[33], &_36$$13);
+					ZEPHIR_INIT_NVAR(&_34$$13);
+					ZVAL_STRING(&_34$$13, "Internal Server Error");
+					ZEPHIR_CALL_METHOD_CACHED(NULL, &_35$$13, "setContent", &_zephir_call_cache[33], &_34$$13);
 					zephir_check_call_status();
 				} else {
 					ZEPHIR_MM_RESTORE();

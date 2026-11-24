@@ -398,8 +398,7 @@ PHP_METHOD(Phalcon_Support_Registry, offsetGet)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval element_sub;
-	zval *element;
+	zval *element, element_sub;
 
 	ZVAL_UNDEF(&element_sub);
 	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
@@ -557,7 +556,7 @@ PHP_METHOD(Phalcon_Support_Registry, toJson)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *options_param = NULL, _0;
-	zend_long options, ZEPHIR_LAST_CALL_STATUS;
+	zend_long options = 4194383, ZEPHIR_LAST_CALL_STATUS;
 
 	ZVAL_UNDEF(&_0);
 	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
@@ -568,10 +567,6 @@ PHP_METHOD(Phalcon_Support_Registry, toJson)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 0, 1, &options_param);
-	if (!options_param) {
-		options = 4194383;
-	} else {
-		}
 	ZVAL_LONG(&_0, options);
 	ZEPHIR_RETURN_CALL_PARENT_CACHED(phalcon_support_registry_ce, getThis(), "toJson", &_zephir_call_cache[0], &_0);
 	zephir_check_call_status();

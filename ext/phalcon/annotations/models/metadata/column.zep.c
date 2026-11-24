@@ -14,7 +14,6 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
 
 
 /**
@@ -82,8 +81,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Models_MetaData_Column)
 PHP_METHOD(Phalcon_Annotations_Models_MetaData_Column, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_bool nullable, skipOnInsert, skipOnUpdate, allowEmptyString;
-	zend_long length;
+	zend_bool nullable = 0, skipOnInsert = 0, skipOnUpdate = 0, allowEmptyString = 0;
+	zend_long length = 0;
 	zval column_zv, type_zv, *length_param = NULL, *nullable_param = NULL, *skipOnInsert_param = NULL, *skipOnUpdate_param = NULL, *allowEmptyString_param = NULL, *defaultValue = NULL, defaultValue_sub, __$true, __$false, __$null, _0;
 	zend_string *column = NULL, *type = NULL;
 	zval *this_ptr = getThis();
@@ -174,26 +173,6 @@ PHP_METHOD(Phalcon_Annotations_Models_MetaData_Column, __construct)
 		zephir_memory_observe(&type_zv);
 	ZVAL_STR_COPY(&type_zv, type);
 	}
-	if (!length_param) {
-		length = 0;
-	} else {
-		}
-	if (!nullable_param) {
-		nullable = 0;
-	} else {
-		}
-	if (!skipOnInsert_param) {
-		skipOnInsert = 0;
-	} else {
-		}
-	if (!skipOnUpdate_param) {
-		skipOnUpdate = 0;
-	} else {
-		}
-	if (!allowEmptyString_param) {
-		allowEmptyString = 0;
-	} else {
-		}
 	if (!defaultValue) {
 		defaultValue = &defaultValue_sub;
 		defaultValue = &__$null;

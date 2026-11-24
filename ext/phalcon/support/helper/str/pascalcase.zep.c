@@ -139,7 +139,6 @@ PHP_METHOD(Phalcon_Support_Helper_Str_PascalCase, __invoke)
 				ZEPHIR_CPY_WRT(&output, &_11$$4);
 		}
 	}
-	ZEPHIR_INIT_NVAR(&element);
 	RETURN_CCTOR(&output);
 }
 

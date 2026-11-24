@@ -99,8 +99,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractProducer, setDeliveryDelay)
 	if (UNEXPECTED(Z_TYPE_P(deliveryDelay) != IS_NULL)) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_queue_exceptions_deliverydelaynotsupportedexception_ce);
+		zephir_constructor_start(&_0$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0$$3);
 		zephir_throw_exception_debug(&_0$$3, "phalcon/Queue/Adapter/AbstractProducer.zep", 58);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -134,8 +136,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractProducer, setPriority)
 	if (UNEXPECTED(Z_TYPE_P(priority) != IS_NULL)) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_queue_exceptions_prioritynotsupportedexception_ce);
+		zephir_constructor_start(&_0$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0$$3);
 		zephir_throw_exception_debug(&_0$$3, "phalcon/Queue/Adapter/AbstractProducer.zep", 67);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -169,8 +173,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractProducer, setTimeToLive)
 	if (UNEXPECTED(Z_TYPE_P(timeToLive) != IS_NULL)) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_queue_exceptions_timetolivenotsupportedexception_ce);
+		zephir_constructor_start(&_0$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0$$3);
 		zephir_throw_exception_debug(&_0$$3, "phalcon/Queue/Adapter/AbstractProducer.zep", 76);
 		ZEPHIR_MM_RESTORE();
 		return;

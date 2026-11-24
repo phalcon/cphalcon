@@ -51,7 +51,7 @@ PHP_METHOD(Phalcon_Traits_Php_YamlTrait, phpYamlParseFile)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval callbacks;
-	zend_long pos, ZEPHIR_LAST_CALL_STATUS;
+	zend_long pos = 0, ZEPHIR_LAST_CALL_STATUS;
 	zval filename_zv, *pos_param = NULL, *callbacks_param = NULL, ndocs, _0;
 	zend_string *filename = NULL;
 
@@ -75,10 +75,6 @@ PHP_METHOD(Phalcon_Traits_Php_YamlTrait, phpYamlParseFile)
 	}
 	zephir_memory_observe(&filename_zv);
 	ZVAL_STR_COPY(&filename_zv, filename);
-	if (!pos_param) {
-		pos = 0;
-	} else {
-		}
 	if (!callbacks_param) {
 		ZEPHIR_INIT_VAR(&callbacks);
 		array_init(&callbacks);

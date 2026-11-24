@@ -13,7 +13,6 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 
@@ -57,7 +56,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Stream_StreamSubscriptionConsumer)
  */
 PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamSubscriptionConsumer, __construct)
 {
-	zend_long pollInterval;
+	zend_long pollInterval = 200;
 	zval *context, context_sub, *pollInterval_param = NULL, _0;
 	zval *this_ptr = getThis();
 
@@ -78,10 +77,6 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamSubscriptionConsumer, __construct)
 		Z_PARAM_LONG(pollInterval)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 1, &context, &pollInterval_param);
-	if (!pollInterval_param) {
-		pollInterval = 200;
-	} else {
-		}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1309, context);
 	if (UNEXPECTED(EG(exception))) {
 		return;

@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *adapter, adapter_sub, *request, request_sub, *cookies, cookies_sub, *session, session_sub, *config = NULL, config_sub, *clock = NULL, clock_sub, __$null;
+	zval *adapter, adapter_sub, *request, request_sub, *cookies, cookies_sub, *session, session_sub, *config = NULL, config_sub, *clock = NULL, clock_sub, __$null, _0$$3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&adapter_sub);
@@ -88,6 +88,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, __construct)
 	ZVAL_UNDEF(&config_sub);
 	ZVAL_UNDEF(&clock_sub);
 	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&_0$$3);
 	ZEND_TLS zephir_method_cache _zephir_call_cache[3];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
@@ -147,10 +148,14 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, __construct)
 		return;
 	}
 	if (Z_TYPE_P(config) == IS_NULL) {
-		ZEPHIR_INIT_NVAR(config);
-		object_init_ex(config, phalcon_auth_guard_config_sessionguardconfig_ce);
-		ZEPHIR_CALL_METHOD_CACHED(NULL, config, "__construct", &_zephir_call_cache[0]);
+		ZEPHIR_INIT_VAR(&_0$$3);
+		object_init_ex(&_0$$3, phalcon_auth_guard_config_sessionguardconfig_ce);
+		zephir_constructor_start(&_0$$3);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0$$3);
+		ZEPHIR_CPY_WRT(config, &_0$$3);
+		ZEPHIR_INIT_NVAR(&_0$$3);
 	}
 	if (Z_TYPE_P(clock) == IS_NULL) {
 		ZEPHIR_CALL_CE_STATIC_CACHED(clock, phalcon_time_clock_systemclock_ce, "fromUTC", &_zephir_call_cache[1]);
@@ -171,11 +176,11 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, __construct)
  */
 PHP_METHOD(Phalcon_Auth_Guard_Session, fromOptions)
 {
-	zend_bool _5, _8;
+	zend_bool _6, _9;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval options;
-	zval *adapter, adapter_sub, *container, container_sub, *options_param = NULL, config, _0, _1, _2, _3, _4, _6, _7, _9, _10, _11, _12, _13, _14, _15;
+	zval *adapter, adapter_sub, *container, container_sub, *options_param = NULL, config, _0, _1, _2, _3, _4, _5, _7, _8, _10, _11, _12, _13, _14, _15;
 
 	ZVAL_UNDEF(&adapter_sub);
 	ZVAL_UNDEF(&container_sub);
@@ -185,9 +190,9 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, fromOptions)
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_7);
-	ZVAL_UNDEF(&_9);
+	ZVAL_UNDEF(&_8);
 	ZVAL_UNDEF(&_10);
 	ZVAL_UNDEF(&_11);
 	ZVAL_UNDEF(&_12);
@@ -205,95 +210,101 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, fromOptions)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 3, 0, &adapter, &container, &options_param);
 	zephir_get_arrval(&options, options_param);
-	ZEPHIR_INIT_VAR(&config);
-	object_init_ex(&config, phalcon_auth_guard_config_sessionguardconfig_ce);
-	ZEPHIR_INIT_VAR(&_1);
-	ZVAL_STRING(&_1, "suffix");
-	ZEPHIR_CALL_CE_STATIC_CACHED(&_0, phalcon_auth_internal_options_ce, "stringOrNull", &_zephir_call_cache[0], &options, &_1);
+	ZEPHIR_INIT_VAR(&_0);
+	object_init_ex(&_0, phalcon_auth_guard_config_sessionguardconfig_ce);
+	zephir_constructor_start(&_0);
+	ZEPHIR_INIT_VAR(&_2);
+	ZVAL_STRING(&_2, "suffix");
+	ZEPHIR_CALL_CE_STATIC_CACHED(&_1, phalcon_auth_internal_options_ce, "stringOrNull", &_zephir_call_cache[0], &options, &_2);
 	zephir_check_call_status();
-	ZEPHIR_INIT_NVAR(&_1);
-	ZVAL_STRING(&_1, "name");
-	ZEPHIR_CALL_CE_STATIC_CACHED(&_2, phalcon_auth_internal_options_ce, "stringOrNull", &_zephir_call_cache[1], &options, &_1);
+	ZEPHIR_INIT_NVAR(&_2);
+	ZVAL_STRING(&_2, "name");
+	ZEPHIR_CALL_CE_STATIC_CACHED(&_3, phalcon_auth_internal_options_ce, "stringOrNull", &_zephir_call_cache[1], &options, &_2);
 	zephir_check_call_status();
-	ZEPHIR_INIT_NVAR(&_1);
-	ZVAL_STRING(&_1, "rememberName");
-	ZEPHIR_CALL_CE_STATIC_CACHED(&_3, phalcon_auth_internal_options_ce, "stringOrNull", &_zephir_call_cache[2], &options, &_1);
+	ZEPHIR_INIT_NVAR(&_2);
+	ZVAL_STRING(&_2, "rememberName");
+	ZEPHIR_CALL_CE_STATIC_CACHED(&_4, phalcon_auth_internal_options_ce, "stringOrNull", &_zephir_call_cache[2], &options, &_2);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_4);
-	_5 = zephir_array_isset_value_string(&options, SL("rememberTtl"));
+	ZEPHIR_INIT_VAR(&_5);
+	_6 = zephir_array_isset_value_string(&options, SL("rememberTtl"));
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	if (_5) {
-		zephir_memory_observe(&_6);
-		zephir_array_fetch_string(&_6, &options, SL("rememberTtl"), PH_NOISY, "phalcon/Auth/Guard/Session.zep", 88);
+	if (_6) {
+		zephir_memory_observe(&_7);
+		zephir_array_fetch_string(&_7, &options, SL("rememberTtl"), PH_NOISY, "phalcon/Auth/Guard/Session.zep", 88);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZEPHIR_INIT_NVAR(&_4);
-		ZVAL_LONG(&_4, zephir_get_intval(&_6));
+		ZEPHIR_INIT_NVAR(&_5);
+		ZVAL_LONG(&_5, zephir_get_intval(&_7));
 	} else {
-		ZEPHIR_INIT_NVAR(&_4);
-		ZVAL_NULL(&_4);
+		ZEPHIR_INIT_NVAR(&_5);
+		ZVAL_NULL(&_5);
 	}
-	ZEPHIR_INIT_VAR(&_7);
-	_8 = zephir_array_isset_value_string(&options, SL("rememberSecure"));
+	ZEPHIR_INIT_VAR(&_8);
+	_9 = zephir_array_isset_value_string(&options, SL("rememberSecure"));
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	if (_8) {
-		zephir_memory_observe(&_9);
-		zephir_array_fetch_string(&_9, &options, SL("rememberSecure"), PH_NOISY, "phalcon/Auth/Guard/Session.zep", 89);
+	if (_9) {
+		zephir_memory_observe(&_10);
+		zephir_array_fetch_string(&_10, &options, SL("rememberSecure"), PH_NOISY, "phalcon/Auth/Guard/Session.zep", 89);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZEPHIR_INIT_NVAR(&_7);
-		ZVAL_BOOL(&_7, zephir_get_boolval(&_9));
+		ZEPHIR_INIT_NVAR(&_8);
+		ZVAL_BOOL(&_8, zephir_get_boolval(&_10));
 	} else {
-		ZEPHIR_INIT_NVAR(&_7);
-		ZVAL_BOOL(&_7, 1);
+		ZEPHIR_INIT_NVAR(&_8);
+		ZVAL_BOOL(&_8, 1);
 	}
-	ZEPHIR_CALL_METHOD_CACHED(NULL, &config, "__construct", &_zephir_call_cache[3], &_0, &_2, &_3, &_4, &_7);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[3], &_1, &_3, &_4, &_5, &_8);
 	zephir_check_call_status();
+	zephir_constructor_finish(&_0);
+	ZEPHIR_CPY_WRT(&config, &_0);
+	ZEPHIR_INIT_NVAR(&_0);
 	object_init_ex(return_value, zephir_get_called_scope(execute_data));
 	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(return_value);
 	zephir_check_call_status();
-	ZEPHIR_INIT_NVAR(&_1);
-	ZVAL_STRING(&_1, "request");
-	ZEPHIR_INIT_VAR(&_11);
-	ZVAL_STRING(&_11, "Phalcon\\Http\\RequestInterface");
+	zephir_constructor_start(return_value);
+	ZEPHIR_INIT_NVAR(&_0);
+	ZVAL_STRING(&_0, "request");
+	ZEPHIR_INIT_NVAR(&_2);
+	ZVAL_STRING(&_2, "Phalcon\\Http\\RequestInterface");
 	ZEPHIR_INIT_VAR(&_12);
 	ZVAL_STRING(&_12, "request");
 	ZEPHIR_INIT_VAR(&_13);
 	ZVAL_STRING(&_13, "Session guard");
-	ZEPHIR_CALL_CE_STATIC_CACHED(&_10, phalcon_auth_internal_containerresolver_ce, "resolveCandidate", &_zephir_call_cache[4], container, &options, &_1, &_11, &_12, &_13);
+	ZEPHIR_CALL_CE_STATIC_CACHED(&_11, phalcon_auth_internal_containerresolver_ce, "resolveCandidate", &_zephir_call_cache[4], container, &options, &_0, &_2, &_12, &_13);
 	zephir_check_call_status();
-	ZEPHIR_INIT_NVAR(&_1);
-	ZVAL_STRING(&_1, "cookies");
-	ZEPHIR_INIT_NVAR(&_11);
-	ZVAL_STRING(&_11, "Phalcon\\Http\\Response\\CookiesInterface");
+	ZEPHIR_INIT_NVAR(&_0);
+	ZVAL_STRING(&_0, "cookies");
+	ZEPHIR_INIT_NVAR(&_2);
+	ZVAL_STRING(&_2, "Phalcon\\Http\\Response\\CookiesInterface");
 	ZEPHIR_INIT_NVAR(&_12);
 	ZVAL_STRING(&_12, "cookies");
 	ZEPHIR_INIT_NVAR(&_13);
 	ZVAL_STRING(&_13, "Session guard");
-	ZEPHIR_CALL_CE_STATIC_CACHED(&_14, phalcon_auth_internal_containerresolver_ce, "resolveCandidate", &_zephir_call_cache[5], container, &options, &_1, &_11, &_12, &_13);
+	ZEPHIR_CALL_CE_STATIC_CACHED(&_14, phalcon_auth_internal_containerresolver_ce, "resolveCandidate", &_zephir_call_cache[5], container, &options, &_0, &_2, &_12, &_13);
 	zephir_check_call_status();
-	ZEPHIR_INIT_NVAR(&_1);
-	ZVAL_STRING(&_1, "session");
-	ZEPHIR_INIT_NVAR(&_11);
-	ZVAL_STRING(&_11, "Phalcon\\Session\\ManagerInterface");
+	ZEPHIR_INIT_NVAR(&_0);
+	ZVAL_STRING(&_0, "session");
+	ZEPHIR_INIT_NVAR(&_2);
+	ZVAL_STRING(&_2, "Phalcon\\Session\\ManagerInterface");
 	ZEPHIR_INIT_NVAR(&_12);
 	ZVAL_STRING(&_12, "session");
 	ZEPHIR_INIT_NVAR(&_13);
 	ZVAL_STRING(&_13, "Session guard");
-	ZEPHIR_CALL_CE_STATIC_CACHED(&_15, phalcon_auth_internal_containerresolver_ce, "resolveCandidate", &_zephir_call_cache[6], container, &options, &_1, &_11, &_12, &_13);
+	ZEPHIR_CALL_CE_STATIC_CACHED(&_15, phalcon_auth_internal_containerresolver_ce, "resolveCandidate", &_zephir_call_cache[6], container, &options, &_0, &_2, &_12, &_13);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[7], adapter, &_10, &_14, &_15, &config);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[7], adapter, &_11, &_14, &_15, &config);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -306,7 +317,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, attempt)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool remember;
+	zend_bool remember = 0;
 	zval *credentials_param = NULL, *remember_param = NULL, _0, _1, _2;
 	zval credentials;
 	zval *this_ptr = getThis();
@@ -335,10 +346,6 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, attempt)
 	} else {
 		zephir_get_arrval(&credentials, credentials_param);
 	}
-	if (!remember_param) {
-		remember = 0;
-	} else {
-		}
 	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "validate", &_zephir_call_cache[0], &credentials);
 	zephir_check_call_status();
 	if (!zephir_is_true(&_0)) {
@@ -470,7 +477,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, login)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool remember;
+	zend_bool remember = 0;
 	zval *user, user_sub, *remember_param = NULL, _0, _1, _2, _3, _4, _9, _10, _5$$3, _6$$3, _7$$3, _8$$3;
 	zval *this_ptr = getThis();
 
@@ -504,10 +511,6 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, login)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &user, &remember_param);
-	if (!remember_param) {
-		remember = 0;
-	} else {
-		}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "auth:beforeLogin");
 	ZVAL_NULL(&_1);
@@ -567,7 +570,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, loginById)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool remember;
+	zend_bool remember = 0;
 	zval *id, id_sub, *remember_param = NULL, resolved, _0, _1;
 	zval *this_ptr = getThis();
 
@@ -592,10 +595,6 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, loginById)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &id, &remember_param);
-	if (!remember_param) {
-		remember = 0;
-	} else {
-		}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 470, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
@@ -1234,16 +1233,20 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, recaller)
 	}
 	if (Z_TYPE_P(&raw) == IS_STRING) {
 		object_init_ex(return_value, phalcon_auth_guard_userremember_ce);
+		zephir_constructor_start(return_value);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[5], &raw);
 		zephir_check_call_status();
+		zephir_constructor_finish(return_value);
 		RETURN_MM();
 	}
 	if (Z_TYPE_P(&raw) != IS_ARRAY) {
 		RETURN_MM_NULL();
 	}
 	object_init_ex(return_value, phalcon_auth_guard_userremember_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[6], &raw);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -1319,8 +1322,10 @@ PHP_METHOD(Phalcon_Auth_Guard_Session, rememberUser)
 	ZEPHIR_INIT_VAR(&_3);
 	object_init_ex(&_3, phalcon_support_helper_json_encode_ce);
 	if (zephir_has_constructor(&_3)) {
+		zephir_constructor_start(&_3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_3, "__construct", &_zephir_call_cache[2]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_3);
 	}
 
 	ZEPHIR_INIT_VAR(&_4);

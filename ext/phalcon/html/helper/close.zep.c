@@ -13,7 +13,6 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
 
@@ -52,7 +51,7 @@ PHP_METHOD(Phalcon_Html_Helper_Close, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool raw;
+	zend_bool raw = 0;
 	zval tag_zv, *raw_param = NULL, _0;
 	zend_string *tag = NULL;
 	zval *this_ptr = getThis();
@@ -72,10 +71,6 @@ PHP_METHOD(Phalcon_Html_Helper_Close, __invoke)
 	}
 	zephir_memory_observe(&tag_zv);
 	ZVAL_STR_COPY(&tag_zv, tag);
-	if (!raw_param) {
-		raw = 0;
-	} else {
-		}
 	if (raw) {
 		ZVAL_BOOL(&_0, 1);
 	} else {

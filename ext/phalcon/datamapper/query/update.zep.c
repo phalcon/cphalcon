@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Update, column)
 {
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long type, ZEPHIR_LAST_CALL_STATUS;
+	zend_long type = -1, ZEPHIR_LAST_CALL_STATUS;
 	zval column_zv, *value = NULL, value_sub, *type_param = NULL, __$null, _1$$3, _2$$3;
 	zend_string *column = NULL;
 	zval *this_ptr = getThis();
@@ -142,10 +142,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_Update, column)
 		value = &value_sub;
 		value = &__$null;
 	}
-	if (!type_param) {
-		type = -1;
-	} else {
-		}
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SV(&_0, ":", &column_zv);
 	if (UNEXPECTED(EG(exception))) {
@@ -247,8 +243,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_Update, columns)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&value);
-	ZEPHIR_INIT_NVAR(&column);
 	RETURN_THIS();
 }
 
@@ -627,8 +621,6 @@ PHP_METHOD(Phalcon_DataMapper_Query_Update, buildColumns)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&value);
-	ZEPHIR_INIT_NVAR(&column);
 	ZEPHIR_INIT_VAR(&_14);
 	ZVAL_STRING(&_14, ",");
 	ZEPHIR_CALL_METHOD_CACHED(&_13, this_ptr, "indent", &_zephir_call_cache[7], &assignments, &_14);

@@ -308,8 +308,6 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractGroup, __toString)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&definition);
-	ZEPHIR_INIT_NVAR(&value);
 	ZEPHIR_INIT_VAR(&_14);
 	array_init(&_14);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 223, &_14);

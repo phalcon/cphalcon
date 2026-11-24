@@ -277,7 +277,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, label)
 PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, strict)
 {
 	zval *flag_param = NULL, __$true, __$false;
-	zend_bool flag;
+	zend_bool flag = 1;
 	zval *this_ptr = getThis();
 
 	ZVAL_BOOL(&__$true, 1);
@@ -292,10 +292,6 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractChecked, strict)
 		Z_PARAM_BOOL(flag)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(0, 1, &flag_param);
-	if (!flag_param) {
-		flag = 1;
-	} else {
-		}
 	if (flag) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 221, &__$true);
 		if (UNEXPECTED(EG(exception))) {

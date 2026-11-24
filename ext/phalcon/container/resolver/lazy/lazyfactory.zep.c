@@ -79,8 +79,10 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_LazyFactory, arrayValues)
 	zephir_fetch_params(1, 1, 0, &values_param);
 	zephir_get_arrval(&values, values_param);
 	object_init_ex(return_value, phalcon_container_resolver_lazy_arrayvalues_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &values);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -99,8 +101,10 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_LazyFactory, call)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &callableObject);
 	object_init_ex(return_value, phalcon_container_resolver_lazy_call_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], callableObject);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -121,8 +125,10 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_LazyFactory, callableGet)
 	zephir_memory_observe(&id_zv);
 	ZVAL_STR_COPY(&id_zv, id);
 	object_init_ex(return_value, phalcon_container_resolver_lazy_callableget_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &id_zv);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -143,8 +149,10 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_LazyFactory, callableNew)
 	zephir_memory_observe(&id_zv);
 	ZVAL_STR_COPY(&id_zv, id);
 	object_init_ex(return_value, phalcon_container_resolver_lazy_callablenew_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &id_zv);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -175,8 +183,10 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_LazyFactory, csEnv)
 	ZVAL_STR_COPY(&type_zv, type);
 	}
 	object_init_ex(return_value, phalcon_container_resolver_lazy_csenv_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &name_zv, &type_zv);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -207,8 +217,10 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_LazyFactory, env)
 	ZVAL_STR_COPY(&type_zv, type);
 	}
 	object_init_ex(return_value, phalcon_container_resolver_lazy_env_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &name_zv, &type_zv);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -216,8 +228,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_LazyFactory, envDefault)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *defaultValue;
-	zval name_zv, defaultValue_sub, type_zv;
+	zval name_zv, *defaultValue, defaultValue_sub, type_zv;
 	zend_string *name = NULL, *type = NULL;
 
 	ZVAL_UNDEF(&name_zv);
@@ -243,8 +254,10 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_LazyFactory, envDefault)
 	ZVAL_STR_COPY(&type_zv, type);
 	}
 	object_init_ex(return_value, phalcon_container_resolver_lazy_envdefault_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &name_zv, defaultValue, &type_zv);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -276,8 +289,10 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_LazyFactory, functionCall)
 	ZVAL_STR_COPY(&functionName_zv, functionName);
 	zephir_get_arrval(&args, args_param);
 	object_init_ex(return_value, phalcon_container_resolver_lazy_functioncall_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &functionName_zv, &args);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -298,8 +313,10 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_LazyFactory, get)
 	zephir_memory_observe(&id_zv);
 	ZVAL_STR_COPY(&id_zv, id);
 	object_init_ex(return_value, phalcon_container_resolver_lazy_get_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &id_zv);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -334,8 +351,10 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_LazyFactory, getCall)
 	ZVAL_STR_COPY(&method_zv, method);
 	zephir_get_arrval(&args, args_param);
 	object_init_ex(return_value, phalcon_container_resolver_lazy_getcall_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &id_zv, &method_zv, &args);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -370,8 +389,10 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_LazyFactory, newCall)
 	ZVAL_STR_COPY(&method_zv, method);
 	zephir_get_arrval(&args, args_param);
 	object_init_ex(return_value, phalcon_container_resolver_lazy_newcall_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &id_zv, &method_zv, &args);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -392,8 +413,10 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_LazyFactory, newInstance)
 	zephir_memory_observe(&id_zv);
 	ZVAL_STR_COPY(&id_zv, id);
 	object_init_ex(return_value, phalcon_container_resolver_lazy_newinstance_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &id_zv);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -428,8 +451,10 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_LazyFactory, staticCall)
 	ZVAL_STR_COPY(&method_zv, method);
 	zephir_get_arrval(&args, args_param);
 	object_init_ex(return_value, phalcon_container_resolver_lazy_staticcall_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &className_zv, &method_zv, &args);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 

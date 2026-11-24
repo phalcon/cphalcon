@@ -180,8 +180,10 @@ PHP_METHOD(Phalcon_ADR_Router_AttributeFilter, filter)
 				if (!(zephir_is_true(&_10$$7))) {
 					ZEPHIR_INIT_NVAR(&_11$$8);
 					object_init_ex(&_11$$8, phalcon_adr_exceptions_routenotfound_ce);
+					zephir_constructor_start(&_11$$8);
 					ZEPHIR_CALL_METHOD_CACHED(NULL, &_11$$8, "__construct", &_zephir_call_cache[0]);
 					zephir_check_call_status();
+					zephir_constructor_finish(&_11$$8);
 					zephir_throw_exception_debug(&_11$$8, "phalcon/ADR/Router/AttributeFilter.zep", 68);
 					ZEPHIR_MM_RESTORE();
 					return;
@@ -233,8 +235,6 @@ PHP_METHOD(Phalcon_ADR_Router_AttributeFilter, filter)
 		}
 		index++;
 	} ZEND_HASH_FOREACH_END();
-	ZEPHIR_INIT_NVAR(&rule);
-	ZEPHIR_INIT_NVAR(&name);
 	zephir_is_iterable(&attributes, 0, "phalcon/ADR/Router/AttributeFilter.zep", 92);
 	if (Z_TYPE_P(&attributes) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&attributes), _17, _18, _16)
@@ -284,8 +284,6 @@ PHP_METHOD(Phalcon_ADR_Router_AttributeFilter, filter)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&item);
-	ZEPHIR_INIT_NVAR(&key);
 	RETURN_CTOR(&result);
 }
 

@@ -242,7 +242,6 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct)
 					}
 			}
 		}
-		ZEPHIR_INIT_NVAR(&argument);
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 406, &arguments);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
@@ -503,18 +502,21 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression)
 					}
 			}
 		}
-		ZEPHIR_INIT_NVAR(&item);
 		RETURN_CCTOR(&arrayValue);
 	zephir_switch_0_clause_9: ;
 		object_init_ex(return_value, phalcon_annotations_annotation_ce);
+		zephir_constructor_start(return_value);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[6], &expr);
 		zephir_check_call_status();
+		zephir_constructor_finish(return_value);
 		RETURN_MM();
 	zephir_switch_0_clause_10: ;
 		ZEPHIR_INIT_VAR(&_10$$16);
 		object_init_ex(&_10$$16, phalcon_annotations_exceptions_unknownannotationexpression_ce);
+		zephir_constructor_start(&_10$$16);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_10$$16, "__construct", &_zephir_call_cache[7], &type);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_10$$16);
 		zephir_throw_exception_debug(&_10$$16, "phalcon/Annotations/Annotation.zep", 199);
 		ZEPHIR_MM_RESTORE();
 		return;

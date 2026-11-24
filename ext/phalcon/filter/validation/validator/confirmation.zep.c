@@ -265,8 +265,10 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Confirmation, compare)
 		if (UNEXPECTED(!zephir_is_true(&_3$$3))) {
 			ZEPHIR_INIT_VAR(&_5$$4);
 			object_init_ex(&_5$$4, phalcon_filter_validation_exceptions_missingmbstring_ce);
+			zephir_constructor_start(&_5$$4);
 			ZEPHIR_CALL_METHOD_CACHED(NULL, &_5$$4, "__construct", &_zephir_call_cache[2]);
 			zephir_check_call_status();
+			zephir_constructor_finish(&_5$$4);
 			zephir_throw_exception_debug(&_5$$4, "phalcon/Filter/Validation/Validator/Confirmation.zep", 135);
 			ZEPHIR_MM_RESTORE();
 			return;

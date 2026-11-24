@@ -56,7 +56,7 @@ PHP_METHOD(Phalcon_Traits_Support_Helper_Json_EncodeTrait, toEncode)
 {
 	zval _4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long options, depth, ZEPHIR_LAST_CALL_STATUS;
+	zend_long options = 79, depth = 512, ZEPHIR_LAST_CALL_STATUS;
 	zval *data, data_sub, *options_param = NULL, *depth_param = NULL, __$null, encoded, error, message, _0, _1, _2$$3, _3$$3;
 
 	ZVAL_UNDEF(&data_sub);
@@ -79,14 +79,6 @@ PHP_METHOD(Phalcon_Traits_Support_Helper_Json_EncodeTrait, toEncode)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 2, &data, &options_param, &depth_param);
-	if (!options_param) {
-		options = 79;
-	} else {
-		}
-	if (!depth_param) {
-		depth = 512;
-	} else {
-		}
 	ZEPHIR_INIT_VAR(&encoded);
 	zephir_json_encode(&encoded, &__$null, 0 );
 	ZVAL_LONG(&_0, options);
@@ -102,8 +94,10 @@ PHP_METHOD(Phalcon_Traits_Support_Helper_Json_EncodeTrait, toEncode)
 		zephir_json_encode(&_2$$3, &__$null, 0 );
 		ZEPHIR_INIT_VAR(&_3$$3);
 		object_init_ex(&_3$$3, zephir_get_internal_ce(SL("jsonexception")));
+		zephir_constructor_start(&_3$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_3$$3, "__construct", &_zephir_call_cache[0], &message, &error);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_3$$3);
 		zephir_throw_exception_debug(&_3$$3, "phalcon/Traits/Support/Helper/Json/EncodeTrait.zep", 55);
 		ZEPHIR_MM_RESTORE();
 		return;

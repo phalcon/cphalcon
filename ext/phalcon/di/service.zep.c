@@ -13,11 +13,11 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "Zend/zend_closures.h"
 
 
@@ -78,7 +78,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_Service)
  */
 PHP_METHOD(Phalcon_Di_Service, __construct)
 {
-	zend_bool shared;
+	zend_bool shared = 0;
 	zval *definition, definition_sub, *shared_param = NULL, __$true, __$false;
 	zval *this_ptr = getThis();
 
@@ -100,10 +100,6 @@ PHP_METHOD(Phalcon_Di_Service, __construct)
 		Z_PARAM_BOOL(shared)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 1, &definition, &shared_param);
-	if (!shared_param) {
-		shared = 0;
-	} else {
-		}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 689, definition);
 	if (UNEXPECTED(EG(exception))) {
 		return;
@@ -169,8 +165,10 @@ PHP_METHOD(Phalcon_Di_Service, getParameter)
 	if (UNEXPECTED(Z_TYPE_P(&_0) != IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_di_exceptions_definitionmustbearrayforread_ce);
+		zephir_constructor_start(&_1$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1$$3);
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Di/Service.zep", 79);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -229,7 +227,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve)
 	zend_bool found = 0, _1, _4$$5;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *parameters = NULL, parameters_sub, *container = NULL, container_sub, __$true, __$false, __$null, definition, instance, builder, _0, _2, _3, _5$$12, _7$$19;
+	zval *parameters = NULL, parameters_sub, *container = NULL, container_sub, __$true, __$false, __$null, definition, instance, builder, _0, _2, _3, _5$$12, _7$$17, _8$$19;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&parameters_sub);
@@ -244,7 +242,8 @@ PHP_METHOD(Phalcon_Di_Service, resolve)
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_5$$12);
-	ZVAL_UNDEF(&_7$$19);
+	ZVAL_UNDEF(&_7$$17);
+	ZVAL_UNDEF(&_8$$19);
 	ZEND_TLS zephir_method_cache _zephir_call_cache[4];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
@@ -347,13 +346,17 @@ PHP_METHOD(Phalcon_Di_Service, resolve)
 			}
 		} else {
 			if (Z_TYPE_P(&definition) == IS_ARRAY) {
-				ZEPHIR_INIT_VAR(&builder);
-				object_init_ex(&builder, phalcon_di_service_builder_ce);
-				if (zephir_has_constructor(&builder)) {
-					ZEPHIR_CALL_METHOD_CACHED(NULL, &builder, "__construct", &_zephir_call_cache[1]);
+				ZEPHIR_INIT_VAR(&_7$$17);
+				object_init_ex(&_7$$17, phalcon_di_service_builder_ce);
+				if (zephir_has_constructor(&_7$$17)) {
+					zephir_constructor_start(&_7$$17);
+					ZEPHIR_CALL_METHOD_CACHED(NULL, &_7$$17, "__construct", &_zephir_call_cache[1]);
 					zephir_check_call_status();
+					zephir_constructor_finish(&_7$$17);
 				}
 
+				ZEPHIR_CPY_WRT(&builder, &_7$$17);
+				ZEPHIR_INIT_NVAR(&_7$$17);
 				ZEPHIR_CALL_METHOD_CACHED(&instance, &builder, "build", &_zephir_call_cache[2], container, &definition, parameters);
 				zephir_check_call_status();
 			} else {
@@ -362,11 +365,13 @@ PHP_METHOD(Phalcon_Di_Service, resolve)
 		}
 	}
 	if (UNEXPECTED(found == 0)) {
-		ZEPHIR_INIT_VAR(&_7$$19);
-		object_init_ex(&_7$$19, phalcon_di_exception_serviceresolutionexception_ce);
-		ZEPHIR_CALL_METHOD_CACHED(NULL, &_7$$19, "__construct", &_zephir_call_cache[3]);
+		ZEPHIR_INIT_VAR(&_8$$19);
+		object_init_ex(&_8$$19, phalcon_di_exception_serviceresolutionexception_ce);
+		zephir_constructor_start(&_8$$19);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_8$$19, "__construct", &_zephir_call_cache[3]);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_7$$19, "phalcon/Di/Service.zep", 194);
+		zephir_constructor_finish(&_8$$19);
+		zephir_throw_exception_debug(&_8$$19, "phalcon/Di/Service.zep", 194);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -466,8 +471,10 @@ PHP_METHOD(Phalcon_Di_Service, setParameter)
 	if (UNEXPECTED(Z_TYPE_P(&_0) != IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_di_exceptions_definitionmustbearrayforupdate_ce);
+		zephir_constructor_start(&_1$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1$$3);
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Di/Service.zep", 227);
 		ZEPHIR_MM_RESTORE();
 		return;

@@ -198,8 +198,10 @@ PHP_METHOD(Phalcon_Db_Reference, __construct)
 	if (UNEXPECTED(!(_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_db_exceptions_referencedtablerequired_ce);
+		zephir_constructor_start(&_1$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1$$3);
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Db/Reference.zep", 118);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -218,8 +220,10 @@ PHP_METHOD(Phalcon_Db_Reference, __construct)
 	if (UNEXPECTED(!(_2))) {
 		ZEPHIR_INIT_VAR(&_3$$4);
 		object_init_ex(&_3$$4, phalcon_db_exceptions_foreignkeycolumnsrequired_ce);
+		zephir_constructor_start(&_3$$4);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_3$$4, "__construct", &_zephir_call_cache[1]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_3$$4);
 		zephir_throw_exception_debug(&_3$$4, "phalcon/Db/Reference.zep", 124);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -238,8 +242,10 @@ PHP_METHOD(Phalcon_Db_Reference, __construct)
 	if (UNEXPECTED(!(_4))) {
 		ZEPHIR_INIT_VAR(&_5$$5);
 		object_init_ex(&_5$$5, phalcon_db_exceptions_referencedcolumnsrequired_ce);
+		zephir_constructor_start(&_5$$5);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_5$$5, "__construct", &_zephir_call_cache[2]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_5$$5);
 		zephir_throw_exception_debug(&_5$$5, "phalcon/Db/Reference.zep", 130);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -304,8 +310,10 @@ PHP_METHOD(Phalcon_Db_Reference, __construct)
 	if (UNEXPECTED(zephir_fast_count_int(&columns) != zephir_fast_count_int(&referencedColumns))) {
 		ZEPHIR_INIT_VAR(&_10$$10);
 		object_init_ex(&_10$$10, phalcon_db_exceptions_referencedcolumncountmismatch_ce);
+		zephir_constructor_start(&_10$$10);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_10$$10, "__construct", &_zephir_call_cache[3]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_10$$10);
 		zephir_throw_exception_debug(&_10$$10, "phalcon/Db/Reference.zep", 152);
 		ZEPHIR_MM_RESTORE();
 		return;

@@ -42,21 +42,27 @@ PHP_METHOD(phalcon_3__closure, __invoke)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &container);
-	ZEPHIR_INIT_VAR(&noop);
-	object_init_ex(&noop, phalcon_logger_adapter_noop_ce);
-	if (zephir_has_constructor(&noop)) {
-		ZEPHIR_CALL_METHOD_CACHED(NULL, &noop, "__construct", &_zephir_call_cache[0]);
+	ZEPHIR_INIT_VAR(&_0);
+	object_init_ex(&_0, phalcon_logger_adapter_noop_ce);
+	if (zephir_has_constructor(&_0)) {
+		zephir_constructor_start(&_0);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0);
 	}
 
+	ZEPHIR_CPY_WRT(&noop, &_0);
+	ZEPHIR_INIT_NVAR(&_0);
 	ZEPHIR_INIT_VAR(&adapters);
 	zephir_create_array(&adapters, 1, 0);
 	zephir_array_update_string(&adapters, SL("main"), &noop, PH_COPY | PH_SEPARATE);
 	object_init_ex(return_value, phalcon_logger_logger_ce);
-	ZEPHIR_INIT_VAR(&_0);
+	zephir_constructor_start(return_value);
+	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "adr");
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[1], &_0, &adapters);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 

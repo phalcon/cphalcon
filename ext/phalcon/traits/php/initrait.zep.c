@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Traits_Php_IniTrait, phpIniGetBool)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool defaultValue, result;
+	zend_bool defaultValue = 0, result;
 	zval input_zv, *defaultValue_param = NULL, value, _0;
 	zend_string *input = NULL;
 
@@ -114,10 +114,6 @@ PHP_METHOD(Phalcon_Traits_Php_IniTrait, phpIniGetBool)
 	}
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
-	if (!defaultValue_param) {
-		defaultValue = 0;
-	} else {
-		}
 	result = 0;
 	ZEPHIR_CALL_FUNCTION(&value, "ini_get", NULL, 114, &input_zv);
 	zephir_check_call_status();
@@ -157,7 +153,7 @@ PHP_METHOD(Phalcon_Traits_Php_IniTrait, phpIniGetBool)
 PHP_METHOD(Phalcon_Traits_Php_IniTrait, phpIniGetInt)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long defaultValue, ZEPHIR_LAST_CALL_STATUS;
+	zend_long defaultValue = 0, ZEPHIR_LAST_CALL_STATUS;
 	zval input_zv, *defaultValue_param = NULL, value;
 	zend_string *input = NULL;
 
@@ -175,10 +171,6 @@ PHP_METHOD(Phalcon_Traits_Php_IniTrait, phpIniGetInt)
 	}
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
-	if (!defaultValue_param) {
-		defaultValue = 0;
-	} else {
-		}
 	ZEPHIR_CALL_FUNCTION(&value, "ini_get", NULL, 114, &input_zv);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&value)) {
@@ -201,8 +193,8 @@ PHP_METHOD(Phalcon_Traits_Php_IniTrait, phpIniGetInt)
 PHP_METHOD(Phalcon_Traits_Php_IniTrait, phpParseIniFile)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long scannerMode, ZEPHIR_LAST_CALL_STATUS;
-	zend_bool processSections;
+	zend_long scannerMode = 0, ZEPHIR_LAST_CALL_STATUS;
+	zend_bool processSections = 0;
 	zval filename_zv, *processSections_param = NULL, *scannerMode_param = NULL, _0, _1;
 	zend_string *filename = NULL;
 
@@ -225,14 +217,6 @@ PHP_METHOD(Phalcon_Traits_Php_IniTrait, phpParseIniFile)
 	}
 	zephir_memory_observe(&filename_zv);
 	ZVAL_STR_COPY(&filename_zv, filename);
-	if (!processSections_param) {
-		processSections = 0;
-	} else {
-		}
-	if (!scannerMode_param) {
-		scannerMode = 0;
-	} else {
-		}
 	ZVAL_BOOL(&_0, (processSections ? 1 : 0));
 	ZVAL_LONG(&_1, scannerMode);
 	ZEPHIR_RETURN_CALL_FUNCTION("parse_ini_file", NULL, 115, &filename_zv, &_0, &_1);

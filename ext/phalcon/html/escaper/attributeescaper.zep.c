@@ -303,8 +303,6 @@ PHP_METHOD(Phalcon_Html_Escaper_AttributeEscaper, escape)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&value);
-	ZEPHIR_INIT_NVAR(&key);
 	zephir_fast_trim(return_value, &result, NULL , ZEPHIR_TRIM_RIGHT);
 	RETURN_MM();
 }

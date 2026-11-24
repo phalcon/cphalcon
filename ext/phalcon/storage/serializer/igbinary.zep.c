@@ -120,8 +120,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, unserialize)
 	zend_bool _3$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval data_sub, __$false, __$true, result, _0, _1$$4, _2$$4;
-	zval *data;
+	zval *data, data_sub, __$false, __$true, result, _0, _1$$4, _2$$4;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data_sub);

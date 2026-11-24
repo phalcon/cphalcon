@@ -65,8 +65,10 @@ PHP_METHOD(Phalcon_Storage_Serializer_Base64, serialize)
 	if (Z_TYPE_P(&_0) != IS_STRING) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_storage_serializer_exceptions_invalidserializationinput_ce);
+		zephir_constructor_start(&_1$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1$$3);
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Storage/Serializer/Base64.zep", 27);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -88,17 +90,15 @@ PHP_METHOD(Phalcon_Storage_Serializer_Base64, unserialize)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval data_sub, __$true, __$false, result, _0, _2, _1$$3;
-	zval *data;
+	zval *data, data_sub, __$true, __$false, result, _1, _0$$3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data_sub);
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 	ZVAL_UNDEF(&result);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_0$$3);
 	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
@@ -115,19 +115,19 @@ PHP_METHOD(Phalcon_Storage_Serializer_Base64, unserialize)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &data);
-	ZEPHIR_INIT_VAR(&_0);
-	zephir_gettype(&_0, data);
-	if (!ZEPHIR_IS_STRING_IDENTICAL(&_0, "string")) {
-		ZEPHIR_INIT_VAR(&_1$$3);
-		object_init_ex(&_1$$3, phalcon_storage_serializer_exceptions_invalidunserializationinput_ce);
-		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[0]);
+	if (Z_TYPE_P(data) != IS_STRING) {
+		ZEPHIR_INIT_VAR(&_0$$3);
+		object_init_ex(&_0$$3, phalcon_storage_serializer_exceptions_invalidunserializationinput_ce);
+		zephir_constructor_start(&_0$$3);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Storage/Serializer/Base64.zep", 41);
+		zephir_constructor_finish(&_0$$3);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Storage/Serializer/Base64.zep", 41);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZVAL_BOOL(&_2, 1);
-	ZEPHIR_CALL_METHOD_CACHED(&result, this_ptr, "phpBase64Decode", &_zephir_call_cache[1], data, &_2);
+	ZVAL_BOOL(&_1, 1);
+	ZEPHIR_CALL_METHOD_CACHED(&result, this_ptr, "phpBase64Decode", &_zephir_call_cache[1], data, &_1);
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&result))) {
 		if (0) {
@@ -265,7 +265,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Base64, phpBase64Decode)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool strict;
+	zend_bool strict = 0;
 	zval input_zv, *strict_param = NULL, _0;
 	zend_string *input = NULL;
 
@@ -283,10 +283,6 @@ PHP_METHOD(Phalcon_Storage_Serializer_Base64, phpBase64Decode)
 	}
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
-	if (!strict_param) {
-		strict = 0;
-	} else {
-		}
 	ZVAL_BOOL(&_0, (strict ? 1 : 0));
 	ZEPHIR_RETURN_CALL_FUNCTION("base64_decode", NULL, 124, &input_zv, &_0);
 	zephir_check_call_status();

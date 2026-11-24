@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConsumer, receive)
 	zend_bool _6$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *timeout_param = NULL, __$true, message, queueName, _0, _1$$3, _2$$3, _3$$3, _4$$4, _5$$4, _7$$4, _8$$4, _9$$4;
-	zend_long timeout, ZEPHIR_LAST_CALL_STATUS, deadline = 0;
+	zend_long timeout = 0, ZEPHIR_LAST_CALL_STATUS, deadline = 0;
 	zval *this_ptr = getThis();
 
 	ZVAL_BOOL(&__$true, 1);
@@ -136,10 +136,6 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConsumer, receive)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 0, 1, &timeout_param);
-	if (!timeout_param) {
-		timeout = 0;
-	} else {
-		}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1294, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
@@ -237,7 +233,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConsumer, reject)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool requeue;
+	zend_bool requeue = 0;
 	zval *message, message_sub, *requeue_param = NULL, _0$$3, _1$$3, _2$$3;
 	zval *this_ptr = getThis();
 
@@ -263,10 +259,6 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConsumer, reject)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &message, &requeue_param);
-	if (!requeue_param) {
-		requeue = 0;
-	} else {
-		}
 	if (requeue) {
 		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 1293, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {

@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, __construct)
 {
 	zval _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long timeShift, ZEPHIR_LAST_CALL_STATUS;
+	zend_long timeShift = 0, ZEPHIR_LAST_CALL_STATUS;
 	zval *token, token_sub, *timeShift_param = NULL, *clock = NULL, clock_sub, __$null, now, _1, _0$$3;
 	zval *this_ptr = getThis();
 
@@ -125,10 +125,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, __construct)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 2, &token, &timeShift_param, &clock);
-	if (!timeShift_param) {
-		timeShift = 0;
-	} else {
-		}
 	if (!clock) {
 		clock = &clock_sub;
 		clock = &__$null;
@@ -333,8 +329,10 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateAudience)
 	if (_0) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_encryption_security_jwt_exceptions_invalidaudiencetype_ce);
+		zephir_constructor_start(&_1$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1$$3);
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Encryption/Security/JWT/Validator.zep", 133);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -416,7 +414,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Validator, validateAudience)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&item);
 	RETURN_THIS();
 }
 

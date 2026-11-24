@@ -219,8 +219,6 @@ PHP_METHOD(Phalcon_Forms_Element_Select, addOption)
 						}
 				}
 			}
-			ZEPHIR_INIT_NVAR(&value);
-			ZEPHIR_INIT_NVAR(&key);
 		} else {
 			zephir_update_property_array_append(this_ptr, SL("optionsValues"), option);
 			if (UNEXPECTED(EG(exception))) {

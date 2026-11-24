@@ -16,7 +16,6 @@
 #include "kernel/memory.h"
 #include "kernel/object.h"
 #include "kernel/exception.h"
-#include "kernel/operators.h"
 
 
 /**
@@ -73,8 +72,10 @@ PHP_METHOD(Phalcon_Html_Helper_FriendlyTitle, __construct)
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_support_helper_str_friendly_ce);
 	if (zephir_has_constructor(&_0)) {
+		zephir_constructor_start(&_0);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[1]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0);
 	}
 
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 852, &_0);
@@ -92,7 +93,7 @@ PHP_METHOD(Phalcon_Html_Helper_FriendlyTitle, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool lowercase;
+	zend_bool lowercase = 1;
 	zval text_zv, separator_zv, *lowercase_param = NULL, *replace = NULL, replace_sub, __$null, ex, _2, _0$$3, _1$$3, _3$$4, _4$$4;
 	zend_string *text = NULL, *separator = NULL;
 	zval *this_ptr = getThis();
@@ -139,10 +140,6 @@ PHP_METHOD(Phalcon_Html_Helper_FriendlyTitle, __invoke)
 		zephir_memory_observe(&separator_zv);
 	ZVAL_STR_COPY(&separator_zv, separator);
 	}
-	if (!lowercase_param) {
-		lowercase = 1;
-	} else {
-		}
 	if (!replace) {
 		replace = &replace_sub;
 		replace = &__$null;
@@ -173,10 +170,12 @@ PHP_METHOD(Phalcon_Html_Helper_FriendlyTitle, __invoke)
 			ZEPHIR_CPY_WRT(&ex, &_2);
 			ZEPHIR_INIT_VAR(&_3$$4);
 			object_init_ex(&_3$$4, phalcon_html_exceptions_friendlytitleconversionfailed_ce);
+			zephir_constructor_start(&_3$$4);
 			ZEPHIR_CALL_METHOD_CACHED(&_4$$4, &ex, "getMessage", &_zephir_call_cache[1]);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD_CACHED(NULL, &_3$$4, "__construct", &_zephir_call_cache[2], &_4$$4);
 			zephir_check_call_status();
+			zephir_constructor_finish(&_3$$4);
 			zephir_throw_exception_debug(&_3$$4, "phalcon/Html/Helper/FriendlyTitle.zep", 50);
 			ZEPHIR_MM_RESTORE();
 			return;

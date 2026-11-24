@@ -195,8 +195,6 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_Lazy, resolveArguments)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&argument);
-	ZEPHIR_INIT_NVAR(&key);
 	RETURN_CCTOR(&resolved);
 }
 

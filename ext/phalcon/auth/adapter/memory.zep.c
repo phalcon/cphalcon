@@ -154,7 +154,6 @@ PHP_METHOD(Phalcon_Auth_Adapter_Memory, __construct)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&row);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -184,8 +183,10 @@ PHP_METHOD(Phalcon_Auth_Adapter_Memory, fromOptions)
 	object_init_ex(return_value, zephir_get_called_scope(execute_data));
 	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(return_value);
 	zephir_check_call_status();
+	zephir_constructor_start(return_value);
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_auth_adapter_config_memoryadapterconfig_ce);
+	zephir_constructor_start(&_0);
 	ZEPHIR_INIT_VAR(&_2);
 	array_init(&_2);
 	ZEPHIR_INIT_VAR(&_3);
@@ -198,8 +199,10 @@ PHP_METHOD(Phalcon_Auth_Adapter_Memory, fromOptions)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[2], &_1, &_4);
 	zephir_check_call_status();
+	zephir_constructor_finish(&_0);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[3], hasher, &_0);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 

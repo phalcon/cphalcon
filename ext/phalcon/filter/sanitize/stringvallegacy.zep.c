@@ -50,8 +50,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_StringValLegacy, __invoke)
 	zend_bool _0, _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval input_sub, major, minor, _2$$3;
-	zval *input;
+	zval *input, input_sub, major, minor, _2$$3;
 
 	ZVAL_UNDEF(&input_sub);
 	ZVAL_UNDEF(&major);

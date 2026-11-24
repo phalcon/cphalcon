@@ -363,7 +363,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, handleException)
 PHP_METHOD(Phalcon_Mvc_Dispatcher, throwDispatchException)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long exceptionCode, ZEPHIR_LAST_CALL_STATUS;
+	zend_long exceptionCode = 0, ZEPHIR_LAST_CALL_STATUS;
 	zval message_zv, *exceptionCode_param = NULL, container, response, exception, _0, _2, _3, _1$$3;
 	zend_string *message = NULL;
 	zval *this_ptr = getThis();
@@ -394,10 +394,6 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, throwDispatchException)
 	}
 	zephir_memory_observe(&message_zv);
 	ZVAL_STR_COPY(&message_zv, message);
-	if (!exceptionCode_param) {
-		exceptionCode = 0;
-	} else {
-		}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 992, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
@@ -407,8 +403,10 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, throwDispatchException)
 	if (Z_TYPE_P(&container) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_mvc_dispatcher_exceptions_responseserviceunavailable_ce);
+		zephir_constructor_start(&_1$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1$$3);
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Dispatcher.zep", 222);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -423,11 +421,15 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, throwDispatchException)
 	ZVAL_STRING(&_3, "Not Found");
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &response, "setStatusCode", &_zephir_call_cache[2], &_0, &_3);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&exception);
-	object_init_ex(&exception, phalcon_mvc_dispatcher_exception_ce);
+	ZEPHIR_INIT_NVAR(&_3);
+	object_init_ex(&_3, phalcon_mvc_dispatcher_exception_ce);
+	zephir_constructor_start(&_3);
 	ZVAL_LONG(&_0, exceptionCode);
-	ZEPHIR_CALL_METHOD_CACHED(NULL, &exception, "__construct", &_zephir_call_cache[3], &message_zv, &_0);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &_3, "__construct", &_zephir_call_cache[3], &message_zv, &_0);
 	zephir_check_call_status();
+	zephir_constructor_finish(&_3);
+	ZEPHIR_CPY_WRT(&exception, &_3);
+	ZEPHIR_INIT_NVAR(&_3);
 	ZEPHIR_CALL_METHOD_CACHED(&_2, this_ptr, "handleException", &_zephir_call_cache[4], &exception);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_2)) {

@@ -125,8 +125,10 @@ PHP_METHOD(Phalcon_Auth_Guard_UserRemember, __construct)
 			ZEPHIR_INIT_VAR(&_1$$4);
 			object_init_ex(&_1$$4, phalcon_support_helper_json_decode_ce);
 			if (zephir_has_constructor(&_1$$4)) {
+				zephir_constructor_start(&_1$$4);
 				ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$4, "__construct", &_zephir_call_cache[0]);
 				zephir_check_call_status_or_jump(try_end_1);
+				zephir_constructor_finish(&_1$$4);
 			}
 
 			ZVAL_BOOL(&_2$$4, 1);

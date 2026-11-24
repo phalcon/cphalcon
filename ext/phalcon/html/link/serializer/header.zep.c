@@ -260,7 +260,6 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 									}
 							}
 						}
-						ZEPHIR_INIT_NVAR(&subValue);
 						continue;
 					}
 					if (((Z_TYPE_P(&value) == IS_TRUE || Z_TYPE_P(&value) == IS_FALSE) != 1)) {
@@ -384,7 +383,6 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 										}
 								}
 							}
-							ZEPHIR_INIT_NVAR(&subValue);
 							continue;
 						}
 						if (((Z_TYPE_P(&value) == IS_TRUE || Z_TYPE_P(&value) == IS_FALSE) != 1)) {
@@ -418,8 +416,6 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 						}
 				}
 			}
-			ZEPHIR_INIT_NVAR(&value);
-			ZEPHIR_INIT_NVAR(&key);
 			ZEPHIR_CALL_METHOD_CACHED(&_39$$3, &link, "getHref", &_zephir_call_cache[22]);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_40$$3);
@@ -568,7 +564,6 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 										}
 								}
 							}
-							ZEPHIR_INIT_NVAR(&subValue);
 							continue;
 						}
 						if (((Z_TYPE_P(&value) == IS_TRUE || Z_TYPE_P(&value) == IS_FALSE) != 1)) {
@@ -692,7 +687,6 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 											}
 									}
 								}
-								ZEPHIR_INIT_NVAR(&subValue);
 								continue;
 							}
 							if (((Z_TYPE_P(&value) == IS_TRUE || Z_TYPE_P(&value) == IS_FALSE) != 1)) {
@@ -726,8 +720,6 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 							}
 					}
 				}
-				ZEPHIR_INIT_NVAR(&value);
-				ZEPHIR_INIT_NVAR(&key);
 				ZEPHIR_CALL_METHOD_CACHED(&_82$$17, &link, "getHref", &_zephir_call_cache[49]);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_83$$17);
@@ -745,7 +737,6 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&link);
 	if (!(ZEPHIR_IS_EMPTY(&elements))) {
 		ZEPHIR_INIT_NVAR(&result);
 		zephir_fast_join_str(&result, SL(","), &elements);

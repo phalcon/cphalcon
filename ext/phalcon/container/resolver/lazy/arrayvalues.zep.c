@@ -148,6 +148,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, getIterator)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	object_init_ex(return_value, spl_ce_ArrayIterator);
+	zephir_constructor_start(return_value);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 563, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
@@ -155,6 +156,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, getIterator)
 	}
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &_0);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -251,8 +253,6 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, merge)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&value);
-	ZEPHIR_INIT_NVAR(&key);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -262,8 +262,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, merge)
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, offsetExists)
 {
 	zend_bool _1;
-	zval offset_sub, _0;
-	zval *offset;
+	zval *offset, offset_sub, _0;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&offset_sub);
@@ -294,8 +293,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, offsetExists)
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, offsetGet)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval offset_sub, _0, _1;
-	zval *offset;
+	zval *offset, offset_sub, _0, _1;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&offset_sub);
@@ -331,8 +329,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, offsetGet)
  */
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, offsetSet)
 {
-	zval offset_sub, value_sub;
-	zval *offset, *value;
+	zval *offset, offset_sub, *value, value_sub;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&offset_sub);
@@ -360,8 +357,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, offsetSet)
  */
 PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, offsetUnset)
 {
-	zval offset_sub;
-	zval *offset;
+	zval *offset, offset_sub;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&offset_sub);
@@ -530,8 +526,6 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_ArrayValues, resolveValues)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&value);
-	ZEPHIR_INIT_NVAR(&key);
 	RETURN_CCTOR(&result);
 }
 

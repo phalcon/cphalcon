@@ -437,8 +437,6 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, render)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&element);
-	ZEPHIR_INIT_NVAR(&url);
 	if (!(ZEPHIR_IS_EMPTY(&elements))) {
 		zephir_cast_to_string(&_23$$6, &lastLabel);
 		if (UNEXPECTED(EG(exception))) {

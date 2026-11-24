@@ -144,8 +144,10 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct)
 	if (UNEXPECTED(!((zephir_instance_of_ev(&builder, phalcon_mvc_model_query_builder_ce))))) {
 		ZEPHIR_INIT_VAR(&_2$$5);
 		object_init_ex(&_2$$5, phalcon_paginator_exceptions_invalidbuilderinstance_ce);
+		zephir_constructor_start(&_2$$5);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_2$$5, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_2$$5);
 		zephir_throw_exception_debug(&_2$$5, "phalcon/Paginator/Adapter/QueryBuilder.zep", 93);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -373,8 +375,10 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, paginate)
 		if (UNEXPECTED(ZEPHIR_IS_EMPTY(&columns))) {
 			ZEPHIR_INIT_VAR(&_6$$9);
 			object_init_ex(&_6$$9, phalcon_paginator_exceptions_missingcolumnsforhaving_ce);
+			zephir_constructor_start(&_6$$9);
 			ZEPHIR_CALL_METHOD_CACHED(NULL, &_6$$9, "__construct", &_zephir_call_cache[6]);
 			zephir_check_call_status();
+			zephir_constructor_finish(&_6$$9);
 			zephir_throw_exception_debug(&_6$$9, "phalcon/Paginator/Adapter/QueryBuilder.zep", 189);
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -514,8 +518,10 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, paginate)
 		if (UNEXPECTED(Z_TYPE_P(&modelClass) == IS_NULL)) {
 			ZEPHIR_INIT_VAR(&_32$$22);
 			object_init_ex(&_32$$22, phalcon_paginator_exceptions_buildermodelnotdefined_ce);
+			zephir_constructor_start(&_32$$22);
 			ZEPHIR_CALL_METHOD_CACHED(NULL, &_32$$22, "__construct", &_zephir_call_cache[21]);
 			zephir_check_call_status();
+			zephir_constructor_finish(&_32$$22);
 			zephir_throw_exception_debug(&_32$$22, "phalcon/Paginator/Adapter/QueryBuilder.zep", 275);
 			ZEPHIR_MM_RESTORE();
 			return;

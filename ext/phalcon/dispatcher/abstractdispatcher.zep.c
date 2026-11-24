@@ -245,9 +245,9 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, callActionMethod)
 	zend_bool _1, _16;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval params, _13, _3$$3, _8$$3;
+	zval params, _13, _4$$3, _8$$3;
 	zend_string *actionMethod = NULL;
-	zval *handler, handler_sub, actionMethod_zv, *params_param = NULL, altAction, altHandler, altParams, result, observer, _0, _2, _14, _15, _17, _4$$3, _5$$3, _6$$3, _7$$3, _9$$4, _10$$4, _11$$4, _12$$4, _18$$5, _19$$5;
+	zval *handler, handler_sub, actionMethod_zv, *params_param = NULL, altAction, altHandler, altParams, result, observer, _0, _2, _14, _15, _17, _3$$3, _5$$3, _6$$3, _7$$3, _9$$4, _10$$4, _11$$4, _12$$4, _18$$5, _19$$5;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&handler_sub);
@@ -262,7 +262,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, callActionMethod)
 	ZVAL_UNDEF(&_14);
 	ZVAL_UNDEF(&_15);
 	ZVAL_UNDEF(&_17);
-	ZVAL_UNDEF(&_4$$3);
+	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_5$$3);
 	ZVAL_UNDEF(&_6$$3);
 	ZVAL_UNDEF(&_7$$3);
@@ -274,7 +274,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, callActionMethod)
 	ZVAL_UNDEF(&_19$$5);
 	ZVAL_UNDEF(&params);
 	ZVAL_UNDEF(&_13);
-	ZVAL_UNDEF(&_3$$3);
+	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&_8$$3);
 	ZEND_TLS zephir_method_cache _zephir_call_cache[7];
 	static zend_string *_zephir_prop_0 = NULL;
@@ -331,39 +331,43 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, callActionMethod)
 		_1 = zephir_instance_of_ev(&_2, phalcon_events_managerinterface_ce);
 	}
 	if (_1) {
-		ZEPHIR_INIT_NVAR(&observer);
-		object_init_ex(&observer, phalcon_support_collection_ce);
 		ZEPHIR_INIT_VAR(&_3$$3);
-		zephir_create_array(&_3$$3, 3, 0);
-		zephir_array_update_string(&_3$$3, SL("handler"), handler, PH_COPY | PH_SEPARATE);
-		zephir_array_update_string(&_3$$3, SL("action"), &actionMethod_zv, PH_COPY | PH_SEPARATE);
-		zephir_array_update_string(&_3$$3, SL("params"), &params, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_METHOD_CACHED(NULL, &observer, "__construct", &_zephir_call_cache[0], &_3$$3);
+		object_init_ex(&_3$$3, phalcon_support_collection_ce);
+		zephir_constructor_start(&_3$$3);
+		ZEPHIR_INIT_VAR(&_4$$3);
+		zephir_create_array(&_4$$3, 3, 0);
+		zephir_array_update_string(&_4$$3, SL("handler"), handler, PH_COPY | PH_SEPARATE);
+		zephir_array_update_string(&_4$$3, SL("action"), &actionMethod_zv, PH_COPY | PH_SEPARATE);
+		zephir_array_update_string(&_4$$3, SL("params"), &params, PH_COPY | PH_SEPARATE);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_3$$3, "__construct", &_zephir_call_cache[0], &_4$$3);
 		zephir_check_call_status();
-		zephir_read_property_cached(&_4$$3, this_ptr, _zephir_prop_0, 179, PH_NOISY_CC | PH_READONLY);
+		zephir_constructor_finish(&_3$$3);
+		ZEPHIR_CPY_WRT(&observer, &_3$$3);
+		ZEPHIR_INIT_NVAR(&_3$$3);
+		zephir_read_property_cached(&_5$$3, this_ptr, _zephir_prop_0, 179, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZEPHIR_INIT_VAR(&_5$$3);
-		ZVAL_STRING(&_5$$3, "dispatch:beforeCallAction");
-		ZEPHIR_CALL_METHOD_CACHED(NULL, &_4$$3, "fire", &_zephir_call_cache[1], &_5$$3, this_ptr, &observer);
+		ZEPHIR_INIT_NVAR(&_3$$3);
+		ZVAL_STRING(&_3$$3, "dispatch:beforeCallAction");
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_5$$3, "fire", &_zephir_call_cache[1], &_3$$3, this_ptr, &observer);
 		zephir_check_call_status();
-		ZEPHIR_INIT_NVAR(&_5$$3);
-		ZVAL_STRING(&_5$$3, "handler");
-		ZEPHIR_CALL_METHOD_CACHED(&altHandler, &observer, "get", &_zephir_call_cache[2], &_5$$3);
+		ZEPHIR_INIT_NVAR(&_3$$3);
+		ZVAL_STRING(&_3$$3, "handler");
+		ZEPHIR_CALL_METHOD_CACHED(&altHandler, &observer, "get", &_zephir_call_cache[2], &_3$$3);
 		zephir_check_call_status();
-		ZEPHIR_INIT_NVAR(&_5$$3);
-		ZVAL_STRING(&_5$$3, "action");
-		ZEPHIR_CALL_METHOD_CACHED(&altAction, &observer, "get", &_zephir_call_cache[3], &_5$$3);
+		ZEPHIR_INIT_NVAR(&_3$$3);
+		ZVAL_STRING(&_3$$3, "action");
+		ZEPHIR_CALL_METHOD_CACHED(&altAction, &observer, "get", &_zephir_call_cache[3], &_3$$3);
 		zephir_check_call_status();
-		ZEPHIR_INIT_NVAR(&_5$$3);
-		array_init(&_5$$3);
+		ZEPHIR_INIT_NVAR(&_3$$3);
+		array_init(&_3$$3);
 		ZEPHIR_INIT_VAR(&_6$$3);
 		ZVAL_STRING(&_6$$3, "params");
 		ZEPHIR_INIT_VAR(&_7$$3);
 		ZVAL_STRING(&_7$$3, "array");
-		ZEPHIR_CALL_METHOD_CACHED(&altParams, &observer, "get", &_zephir_call_cache[4], &_6$$3, &_5$$3, &_7$$3);
+		ZEPHIR_CALL_METHOD_CACHED(&altParams, &observer, "get", &_zephir_call_cache[4], &_6$$3, &_3$$3, &_7$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_8$$3);
 		zephir_create_array(&_8$$3, 2, 0);
@@ -1723,8 +1727,10 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, forward)
 	if (UNEXPECTED(ZEPHIR_IS_TRUE_IDENTICAL(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_dispatcher_exceptions_forwardininitializeforbidden_ce);
+		zephir_constructor_start(&_1$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1$$3);
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Dispatcher/AbstractDispatcher.zep", 782);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -3120,7 +3126,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, fireManagerEvent)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool cancellable, stopOnFalse, _1$$3;
+	zend_bool cancellable = 1, stopOnFalse = 0, _1$$3;
 	zval eventName_zv, *data = NULL, data_sub, *cancellable_param = NULL, *stopOnFalse_param = NULL, __$null, _0, _2$$3, _6$$3, _7$$3, _3$$4, _4$$4, _5$$4;
 	zend_string *eventName = NULL;
 	zval *this_ptr = getThis();
@@ -3166,14 +3172,6 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, fireManagerEvent)
 		data = &data_sub;
 		data = &__$null;
 	}
-	if (!cancellable_param) {
-		cancellable = 1;
-	} else {
-		}
-	if (!stopOnFalse_param) {
-		stopOnFalse = 0;
-	} else {
-		}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 179, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();

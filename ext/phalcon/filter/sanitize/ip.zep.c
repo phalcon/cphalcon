@@ -49,7 +49,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Ip, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_3 = NULL;
-	zend_long filter, ZEPHIR_LAST_CALL_STATUS;
+	zend_long filter = 0, ZEPHIR_LAST_CALL_STATUS;
 	zval input_zv, *filter_param = NULL, parts, ip, mask, maxMask, filtered, ipInput, _7, _8, _0$$3, _1$$3, _2$$3, _4$$3, _5$$3, _6$$3;
 	zend_string *input = NULL;
 
@@ -80,10 +80,6 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Ip, __invoke)
 	}
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
-	if (!filter_param) {
-		filter = 0;
-	} else {
-		}
 	ZEPHIR_INIT_VAR(&ipInput);
 	zephir_fast_trim(&ipInput, &input_zv, NULL , ZEPHIR_TRIM_BOTH);
 	if (zephir_memnstr_str(&ipInput, SL("/"), "phalcon/Filter/Sanitize/Ip.zep", 32)) {

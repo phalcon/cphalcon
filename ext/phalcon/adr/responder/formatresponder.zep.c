@@ -201,7 +201,6 @@ PHP_METHOD(Phalcon_ADR_Responder_FormatResponder, __invoke)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&formatter);
 	if (Z_TYPE_P(&chosen) == IS_NULL) {
 		zephir_read_property_cached(&_11$$8, this_ptr, _zephir_prop_0, 369, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {

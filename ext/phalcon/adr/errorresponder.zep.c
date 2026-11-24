@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_ADR_ErrorResponder, __construct)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval exceptionMap;
-	zend_bool debug;
+	zend_bool debug = 0;
 	zval *chain, chain_sub, *logger, logger_sub, *debug_param = NULL, *exceptionMap_param = NULL, __$true, __$false, _0, _1;
 	zval *this_ptr = getThis();
 
@@ -124,10 +124,6 @@ PHP_METHOD(Phalcon_ADR_ErrorResponder, __construct)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 2, &chain, &logger, &debug_param, &exceptionMap_param);
-	if (!debug_param) {
-		debug = 0;
-	} else {
-		}
 	if (!exceptionMap_param) {
 		ZEPHIR_INIT_VAR(&exceptionMap);
 		array_init(&exceptionMap);
@@ -246,8 +242,10 @@ PHP_METHOD(Phalcon_ADR_ErrorResponder, handle)
 	ZEPHIR_INIT_NVAR(&_5);
 	object_init_ex(&_5, phalcon_adr_payload_payload_ce);
 	if (zephir_has_constructor(&_5)) {
+		zephir_constructor_start(&_5);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_5, "__construct", &_zephir_call_cache[6]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_5);
 	}
 
 	ZEPHIR_CALL_METHOD_CACHED(&_8, &_5, "withStatus", &_zephir_call_cache[7], &status);
@@ -547,7 +545,6 @@ PHP_METHOD(Phalcon_ADR_ErrorResponder, resolveStatus)
 			RETURN_CCTOR(&_15$$5);
 		}
 	} ZEND_HASH_FOREACH_END();
-	ZEPHIR_INIT_NVAR(&ancestor);
 	RETURN_MM_STRING("ERROR");
 }
 

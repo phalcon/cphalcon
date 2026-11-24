@@ -281,8 +281,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, __construct)
 		if (UNEXPECTED(_5$$4)) {
 			ZEPHIR_INIT_VAR(&_7$$5);
 			object_init_ex(&_7$$5, phalcon_mvc_model_exceptions_invalidresultsetcacheservice_ce);
+			zephir_constructor_start(&_7$$5);
 			ZEPHIR_CALL_METHOD_CACHED(NULL, &_7$$5, "__construct", &_zephir_call_cache[0]);
 			zephir_check_call_status();
+			zephir_constructor_finish(&_7$$5);
 			zephir_throw_exception_debug(&_7$$5, "phalcon/Mvc/Model/Resultset.zep", 185);
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -493,8 +495,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete)
 			if (UNEXPECTED(!((zephir_method_exists_ex(&record, ZEND_STRL("getwriteconnection")) == SUCCESS)))) {
 				ZEPHIR_INIT_NVAR(&_1$$5);
 				object_init_ex(&_1$$5, phalcon_mvc_model_exceptions_invalidreturnedrecord_ce);
+				zephir_constructor_start(&_1$$5);
 				ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$5, "__construct", &_zephir_call_cache[3]);
 				zephir_check_call_status();
+				zephir_constructor_finish(&_1$$5);
 				zephir_throw_exception_debug(&_1$$5, "phalcon/Mvc/Model/Resultset.zep", 273);
 				ZEPHIR_MM_RESTORE();
 				return;
@@ -1091,8 +1095,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet)
 	zend_bool _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval index_sub, _0, _2$$3;
-	zval *index;
+	zval *index, index_sub, _0, _2$$3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&index_sub);
@@ -1115,8 +1118,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet)
 	if (UNEXPECTED(_1)) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		object_init_ex(&_2$$3, phalcon_mvc_model_exceptions_indexnotincursor_ce);
+		zephir_constructor_start(&_2$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_2$$3, "__construct", &_zephir_call_cache[1]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_2$$3);
 		zephir_throw_exception_debug(&_2$$3, "phalcon/Mvc/Model/Resultset.zep", 614);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -1153,8 +1158,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetSet)
 	zephir_fetch_params(1, 2, 0, &offset, &value);
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_mvc_model_exceptions_cursorisimmutable_ce);
+	zephir_constructor_start(&_0);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 	zephir_check_call_status();
+	zephir_constructor_finish(&_0);
 	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Resultset.zep", 633);
 	ZEPHIR_MM_RESTORE();
 	return;
@@ -1180,8 +1187,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetUnset)
 	zephir_fetch_params(1, 1, 0, &offset);
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_mvc_model_exceptions_cursorisimmutable_ce);
+	zephir_constructor_start(&_0);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 	zephir_check_call_status();
+	zephir_constructor_finish(&_0);
 	zephir_throw_exception_debug(&_0, "phalcon/Mvc/Model/Resultset.zep", 641);
 	ZEPHIR_MM_RESTORE();
 	return;
@@ -1737,8 +1746,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, update)
 			if (UNEXPECTED(!((zephir_method_exists_ex(&record, ZEND_STRL("getwriteconnection")) == SUCCESS)))) {
 				ZEPHIR_INIT_NVAR(&_1$$5);
 				object_init_ex(&_1$$5, phalcon_mvc_model_exceptions_invalidreturnedrecord_ce);
+				zephir_constructor_start(&_1$$5);
 				ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$5, "__construct", &_zephir_call_cache[3]);
 				zephir_check_call_status();
+				zephir_constructor_finish(&_1$$5);
 				zephir_throw_exception_debug(&_1$$5, "phalcon/Mvc/Model/Resultset.zep", 826);
 				ZEPHIR_MM_RESTORE();
 				return;

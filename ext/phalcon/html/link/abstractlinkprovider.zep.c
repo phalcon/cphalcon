@@ -160,7 +160,6 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, __construct)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&link);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -287,7 +286,6 @@ PHP_METHOD(Phalcon_Html_Link_AbstractLinkProvider, doGetLinksByRel)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&link);
 	RETURN_CTOR(&filtered);
 }
 

@@ -204,8 +204,10 @@ PHP_METHOD(Phalcon_ADR_Front_AbstractHttpFront, buildContainer)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	object_init_ex(return_value, phalcon_container_container_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0]);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -229,8 +231,10 @@ PHP_METHOD(Phalcon_ADR_Front_AbstractHttpFront, getApplication)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &container);
 	object_init_ex(return_value, phalcon_adr_application_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], container);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -303,8 +307,10 @@ PHP_METHOD(Phalcon_ADR_Front_AbstractHttpFront, registerProviders)
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_adr_container_adrprovider_ce);
 	if (zephir_has_constructor(&_0)) {
+		zephir_constructor_start(&_0);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0);
 	}
 
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "provide", &_zephir_call_cache[1], container);

@@ -271,8 +271,6 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, load)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&adapter);
-	ZEPHIR_INIT_NVAR(&adapterName);
 	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "newInstance", &_zephir_call_cache[18], &name, &data, &timezone);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -324,8 +322,10 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, newInstance)
 		timezone = &__$null;
 	}
 	object_init_ex(return_value, phalcon_logger_logger_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &name_zv, &adapters, timezone);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 

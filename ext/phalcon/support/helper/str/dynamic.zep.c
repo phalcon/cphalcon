@@ -122,8 +122,10 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Dynamic, __invoke)
 	if (UNEXPECTED(!ZEPHIR_IS_IDENTICAL(&_0, &_2))) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		object_init_ex(&_3$$3, phalcon_support_helper_str_exceptions_syntaxerror_ce);
+		zephir_constructor_start(&_3$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_3$$3, "__construct", &_zephir_call_cache[0], &text);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_3$$3);
 		zephir_throw_exception_debug(&_3$$3, "phalcon/Support/Helper/Str/Dynamic.zep", 36);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -223,7 +225,6 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Dynamic, __invoke)
 				return;
 			}
 		} ZEND_HASH_FOREACH_END();
-		ZEPHIR_INIT_NVAR(&match);
 	}
 	RETURN_CTOR(&text);
 }

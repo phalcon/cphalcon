@@ -107,9 +107,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Debug_Report_BacktraceItem)
 PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long line;
+	zend_long line = 0;
 	zval args;
-	zend_bool hasArgs;
+	zend_bool hasArgs = 0;
 	zval functionName_zv, type_zv, className_zv, classLink_zv, functionLink_zv, *hasArgs_param = NULL, *args_param = NULL, file_zv, *line_param = NULL, *fragment = NULL, fragment_sub, __$true, __$false, __$null, _0;
 	zend_string *functionName = NULL, *type = NULL, *className = NULL, *classLink = NULL, *functionLink = NULL, *file = NULL;
 	zval *this_ptr = getThis();
@@ -221,10 +221,6 @@ PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, __construct)
 		zephir_memory_observe(&functionLink_zv);
 	ZVAL_STR_COPY(&functionLink_zv, functionLink);
 	}
-	if (!hasArgs_param) {
-		hasArgs = 0;
-	} else {
-		}
 	if (!args_param) {
 		ZEPHIR_INIT_VAR(&args);
 		array_init(&args);
@@ -237,10 +233,6 @@ PHP_METHOD(Phalcon_Support_Debug_Report_BacktraceItem, __construct)
 		zephir_memory_observe(&file_zv);
 	ZVAL_STR_COPY(&file_zv, file);
 	}
-	if (!line_param) {
-		line = 0;
-	} else {
-		}
 	if (!fragment) {
 		fragment = &fragment_sub;
 		fragment = &__$null;

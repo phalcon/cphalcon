@@ -83,7 +83,7 @@ PHP_METHOD(Phalcon_Messages_Message, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval metaData;
-	zend_long code;
+	zend_long code = 0;
 	zval message_zv, field_zv, type_zv, *code_param = NULL, *metaData_param = NULL, _0;
 	zend_string *message = NULL, *field = NULL, *type = NULL;
 	zval *this_ptr = getThis();
@@ -148,10 +148,6 @@ PHP_METHOD(Phalcon_Messages_Message, __construct)
 		zephir_memory_observe(&type_zv);
 	ZVAL_STR_COPY(&type_zv, type);
 	}
-	if (!code_param) {
-		code = 0;
-	} else {
-		}
 	if (!metaData_param) {
 		ZEPHIR_INIT_VAR(&metaData);
 		array_init(&metaData);

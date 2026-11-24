@@ -112,11 +112,6 @@ int zephir_set_symbol_str_op(const char *key_name, size_t key_length, zval *valu
 	} \
 	ZVAL_COPY(z, v);
 
-#define ZEPHIR_HASH_COPY(z, v) \
-	if (Z_TYPE_P(z) == IS_ARRAY && Z_TYPE_P(v) == IS_ARRAY) { \
-		zend_hash_copy(Z_ARRVAL_P(z), Z_ARRVAL_P(v), (copy_ctor_func_t) zval_add_ref); \
-	}
-
 #define ZEPHIR_OBS_NVAR(z) \
 	if (Z_TYPE_P(z) != IS_UNDEF) { \
 		if (Z_REFCOUNTED_P(z) && Z_REFCOUNT_P(z) > 1) { \

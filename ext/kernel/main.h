@@ -93,6 +93,19 @@ extern zend_string* i_self;
 #include "kernel/exception.h"
 
 /**
+ * The zend_string * a method's C copy (`internal-call-transformation`) borrows
+ * for a native string parameter. Its call sites pass a string, or null where
+ * the parameter allows it, or leave the argument out; the last two give NULL,
+ * as PHP's parameter parsing does.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2791
+ */
+static zend_always_inline zend_string *zephir_internal_str_arg(zval *arg)
+{
+	return arg != NULL && Z_TYPE_P(arg) == IS_STRING ? Z_STR_P(arg) : NULL;
+}
+
+/**
  * The engine's weak-mode scalar parsers under one signature: true with the
  * value in `dest`, false when the value does not convert (an exception may be
  * pending). PHP 8.1 added `arg_num`, the argument a null deprecation names,
@@ -436,6 +449,7 @@ static inline void zephir_throw_variable_type_error(zval *value, const char *nam
 
 /* Globals functions */
 int zephir_get_global(zval *arr, const char *global, unsigned int global_length);
+int zephir_set_global(const char *global, unsigned int global_length, zval *value);
 
 /* Count */
 void zephir_fast_count(zval *result, zval *array);

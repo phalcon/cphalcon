@@ -386,8 +386,10 @@ PHP_METHOD(Phalcon_Filter_Filter, get)
 	if (1 != _1) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		object_init_ex(&_2$$3, phalcon_filter_exceptions_filternotregistered_ce);
+		zephir_constructor_start(&_2$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_2$$3, "__construct", &_zephir_call_cache[0], &name_zv);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_2$$3);
 		zephir_throw_exception_debug(&_2$$3, "phalcon/Filter/Filter.zep", 265);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -492,7 +494,7 @@ PHP_METHOD(Phalcon_Filter_Filter, sanitize)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool noRecursive, _1;
+	zend_bool noRecursive = 0, _1;
 	zval *value, value_sub, *sanitizers, sanitizers_sub, *noRecursive_param = NULL, _0$$3;
 	zval *this_ptr = getThis();
 
@@ -509,10 +511,6 @@ PHP_METHOD(Phalcon_Filter_Filter, sanitize)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 1, &value, &sanitizers, &noRecursive_param);
-	if (!noRecursive_param) {
-		noRecursive = 0;
-	} else {
-		}
 	if (Z_TYPE_P(sanitizers) == IS_ARRAY) {
 		if (noRecursive) {
 			ZVAL_BOOL(&_0$$3, 1);
@@ -800,8 +798,6 @@ PHP_METHOD(Phalcon_Filter_Filter, processArraySanitizers)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&sanitizer);
-	ZEPHIR_INIT_NVAR(&sanitizerKey);
 	RETVAL_ZVAL(value, 1, 0);
 	RETURN_MM();
 }
@@ -908,8 +904,6 @@ PHP_METHOD(Phalcon_Filter_Filter, processArrayValues)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&itemValue);
-	ZEPHIR_INIT_NVAR(&itemKey);
 	RETURN_CTOR(&arrayValues);
 }
 

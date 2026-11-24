@@ -15,7 +15,6 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 
 
 /**
@@ -149,7 +148,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryConsumer, reject)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool requeue;
+	zend_bool requeue = 0;
 	zval *message, message_sub, *requeue_param = NULL, _0$$3, _1$$3, _2$$3;
 	zval *this_ptr = getThis();
 
@@ -175,10 +174,6 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryConsumer, reject)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &message, &requeue_param);
-	if (!requeue_param) {
-		requeue = 0;
-	} else {
-		}
 	if (requeue) {
 		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 1287, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {

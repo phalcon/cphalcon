@@ -138,7 +138,6 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, retrieveByCredentials)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&row);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "burnHash", &_zephir_call_cache[10]);
 	zephir_check_call_status();
 	RETURN_MM_NULL();
@@ -249,7 +248,6 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, retrieveById)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&row);
 	RETURN_MM_NULL();
 }
 
@@ -323,8 +321,6 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, hasIdentifyingField)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&value);
-	ZEPHIR_INIT_NVAR(&key);
 	RETURN_MM_BOOL(0);
 }
 
@@ -338,10 +334,10 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, hasIdentifyingField)
  */
 PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, hydrate)
 {
-	zend_class_entry *_2$$3;
+	zend_class_entry *_3$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *row_param = NULL, instance, modelClass, _0, _1$$3, _3$$3, _4$$3, _5$$3;
+	zval *row_param = NULL, instance, modelClass, _0, _1$$3, _2$$3, _4$$3, _5$$3;
 	zval row;
 	zval *this_ptr = getThis();
 
@@ -350,7 +346,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, hydrate)
 	ZVAL_UNDEF(&modelClass);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$3);
+	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&_5$$3);
 	ZEND_TLS zephir_method_cache _zephir_call_cache[5];
@@ -374,27 +370,32 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, hydrate)
 	ZEPHIR_CALL_METHOD_CACHED(&modelClass, &_0, "getModel", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&modelClass) != IS_NULL) {
-		ZEPHIR_INIT_VAR(&instance);
-		zephir_fetch_safe_class(&_1$$3, &modelClass);
-		_2$$3 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_1$$3), Z_STRLEN_P(&_1$$3), ZEND_FETCH_CLASS_AUTO);
-		if(!_2$$3) {
-			RETURN_MM_NULL();
+		ZEPHIR_INIT_VAR(&_1$$3);
+		zephir_fetch_safe_class(&_2$$3, &modelClass);
+		_3$$3 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_2$$3), Z_STRLEN_P(&_2$$3), ZEND_FETCH_CLASS_AUTO | ZEND_FETCH_CLASS_EXCEPTION);
+		if (!_3$$3) {
+			ZEPHIR_MM_RESTORE();
+			return;
 		}
-		object_init_ex(&instance, _2$$3);
-		ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&instance);
+		object_init_ex(&_1$$3, _3$$3);
+		ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_1$$3);
 		zephir_check_call_status();
-		if (zephir_has_constructor(&instance)) {
-			ZEPHIR_CALL_METHOD_CACHED(NULL, &instance, "__construct", &_zephir_call_cache[1]);
+		if (zephir_has_constructor(&_1$$3)) {
+			zephir_constructor_start(&_1$$3);
+			ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[1]);
 			zephir_check_call_status();
+			zephir_constructor_finish(&_1$$3);
 		}
 
-		ZEPHIR_INIT_VAR(&_3$$3);
-		ZVAL_STRING(&_3$$3, "Phalcon\\Contracts\\Auth\\AuthUser");
+		ZEPHIR_CPY_WRT(&instance, &_1$$3);
+		ZEPHIR_INIT_NVAR(&_1$$3);
+		ZEPHIR_INIT_NVAR(&_1$$3);
+		ZVAL_STRING(&_1$$3, "Phalcon\\Contracts\\Auth\\AuthUser");
 		ZEPHIR_INIT_VAR(&_4$$3);
 		ZVAL_STRING(&_4$$3, "User model");
 		ZEPHIR_INIT_VAR(&_5$$3);
 		ZVAL_STRING(&_5$$3, "AuthUser");
-		ZEPHIR_CALL_CE_STATIC_CACHED(NULL, phalcon_auth_exceptions_doesnotimplement_ce, "assert", &_zephir_call_cache[2], &instance, &_3$$3, &_4$$3, &_5$$3);
+		ZEPHIR_CALL_CE_STATIC_CACHED(NULL, phalcon_auth_exceptions_doesnotimplement_ce, "assert", &_zephir_call_cache[2], &instance, &_1$$3, &_4$$3, &_5$$3);
 		zephir_check_call_status();
 		if ((zephir_method_exists_ex(&instance, ZEND_STRL("assign")) == SUCCESS)) {
 			ZEPHIR_CALL_METHOD_CACHED(NULL, &instance, "assign", &_zephir_call_cache[3], &row);
@@ -403,8 +404,10 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, hydrate)
 		RETURN_CCTOR(&instance);
 	}
 	object_init_ex(return_value, phalcon_auth_authuser_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[4], &row);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -559,8 +562,6 @@ PHP_METHOD(Phalcon_Auth_Adapter_AbstractArrayAdapter, matchesRow)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&value);
-	ZEPHIR_INIT_NVAR(&key);
 	RETURN_MM_BOOL(1);
 }
 

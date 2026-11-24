@@ -80,8 +80,10 @@ PHP_METHOD(Phalcon_ADR_Responder_StatusResponder, __construct)
 	if (Z_TYPE_P(mapper) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_adr_responder_statusmapper_ce);
+		zephir_constructor_start(&_0$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0$$3);
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 374, &_0$$3);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();

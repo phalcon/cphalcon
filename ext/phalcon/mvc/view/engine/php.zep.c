@@ -17,7 +17,6 @@
 #include "kernel/memory.h"
 #include "kernel/require.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
 
 
 /**
@@ -46,7 +45,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render)
 	zend_ulong _3$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool mustClean, _7$$4;
+	zend_bool mustClean = 0, _7$$4;
 	zval path_zv, *params, params_sub, *mustClean_param = NULL, key, value, *_0$$4, _1$$4, *_2$$4, _6$$4, _5$$5, _8$$6, _9$$7, _10$$7;
 	zend_string *path = NULL, *_4$$4;
 	zval *this_ptr = getThis();
@@ -81,10 +80,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render)
 	}
 	zephir_memory_observe(&path_zv);
 	ZVAL_STR_COPY(&path_zv, path);
-	if (!mustClean_param) {
-		mustClean = 0;
-	} else {
-		}
 	if (mustClean) {
 		ZEPHIR_CALL_FUNCTION(NULL, "ob_clean", NULL, 237);
 		zephir_check_call_status();
@@ -144,8 +139,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render)
 					}
 			}
 		}
-		ZEPHIR_INIT_NVAR(&value);
-		ZEPHIR_INIT_NVAR(&key);
 	}
 	if (zephir_require_zval(&path_zv) == FAILURE) {
 		RETURN_MM_NULL();

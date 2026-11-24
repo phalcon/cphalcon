@@ -131,8 +131,10 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, __construct)
 	if (UNEXPECTED(zephir_fast_count_int(&using) != 2)) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_html_exceptions_usingrequirestwovalues_ce);
+		zephir_constructor_start(&_0$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0$$3);
 		zephir_throw_exception_debug(&_0$$3, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 66);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -393,8 +395,10 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, resolve)
 			if (_6$$3) {
 				ZEPHIR_INIT_NVAR(&_7$$4);
 				object_init_ex(&_7$$4, phalcon_html_exceptions_invalidresultsetvalue_ce);
+				zephir_constructor_start(&_7$$4);
 				ZEPHIR_CALL_METHOD_CACHED(NULL, &_7$$4, "__construct", &_zephir_call_cache[0]);
 				zephir_check_call_status();
+				zephir_constructor_finish(&_7$$4);
 				zephir_throw_exception_debug(&_7$$4, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 137);
 				ZEPHIR_MM_RESTORE();
 				return;
@@ -515,8 +519,6 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, resolve)
 							}
 					}
 				}
-				ZEPHIR_INIT_NVAR(&attrSpec);
-				ZEPHIR_INIT_NVAR(&attrName);
 				if (!(ZEPHIR_IS_EMPTY(&optionAttrs))) {
 					zephir_array_update_zval(&attrs, &optionValue, &optionAttrs, PH_COPY | PH_SEPARATE);
 					if (UNEXPECTED(EG(exception))) {
@@ -551,8 +553,10 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, resolve)
 				if (_25$$15) {
 					ZEPHIR_INIT_NVAR(&_26$$16);
 					object_init_ex(&_26$$16, phalcon_html_exceptions_invalidresultsetvalue_ce);
+					zephir_constructor_start(&_26$$16);
 					ZEPHIR_CALL_METHOD_CACHED(NULL, &_26$$16, "__construct", &_zephir_call_cache[12]);
 					zephir_check_call_status();
+					zephir_constructor_finish(&_26$$16);
 					zephir_throw_exception_debug(&_26$$16, "phalcon/Html/Helper/Input/Select/ResultsetData.zep", 137);
 					ZEPHIR_MM_RESTORE();
 					return;
@@ -673,8 +677,6 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, resolve)
 								}
 						}
 					}
-					ZEPHIR_INIT_NVAR(&attrSpec);
-					ZEPHIR_INIT_NVAR(&attrName);
 					if (!(ZEPHIR_IS_EMPTY(&optionAttrs))) {
 						zephir_array_update_zval(&attrs, &optionValue, &optionAttrs, PH_COPY | PH_SEPARATE);
 						if (UNEXPECTED(EG(exception))) {
@@ -685,7 +687,6 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select_ResultsetData, resolve)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&option);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 867, &options);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();

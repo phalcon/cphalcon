@@ -22,6 +22,7 @@
 #include <ext/spl/spl_exceptions.h>
 
 #include "kernel/main.h"
+#include "kernel/array.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
@@ -114,47 +115,76 @@ int zephir_fetch_parameters_variadic(int num_args, int required_args, int option
 }
 
 /**
- * Gets the global zval into PG macro
+ * The slot of a superglobal in the global symbol table, added as null when
+ * missing. An auto global created on first use (`_SERVER`, `_ENV`,
+ * `_REQUEST`) is created first, so it cannot later overwrite the slot.
+ */
+static zval *zephir_global_slot(zend_string *name)
+{
+	zval *slot;
+
+	if (PG(auto_globals_jit)) {
+		zend_is_auto_global(name);
+	}
+
+	slot = zend_hash_find_ind(&EG(symbol_table), name);
+	if (slot == NULL) {
+		slot = zend_hash_update(&EG(symbol_table), name, &EG(uninitialized_zval));
+	}
+
+	return slot;
+}
+
+/**
+ * Points `arr` at the value of a superglobal, which it borrows: `arr` owns no
+ * reference, so it must never be released or overwritten by anything but this
+ * function. A write to an element of `arr` changes the global itself.
+ *
+ * The slot is changed in place, so a reference to the global, such as the one
+ * the session keeps to `$_SESSION`, stays bound to it: a missing or null
+ * global becomes an empty array, as Zephir never leaves a superglobal null,
+ * and an array other variables share is separated first, as PHP separates it
+ * before a write. Any other value is borrowed as it is.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2856
  */
 int zephir_get_global(zval *arr, const char *global, unsigned int global_length)
 {
-	zend_array *symbol_table;
-	zend_string *str = zend_string_init(global, global_length, 0);
+	zend_string *name = zend_string_init(global, global_length, 0);
+	zval *slot        = zephir_global_slot(name);
+	int status        = SUCCESS;
 
-	if (PG(auto_globals_jit)) {
-		zend_is_auto_global(str);
+	zend_string_release(name);
+	ZVAL_DEREF(slot);
+
+	if (Z_TYPE_P(slot) == IS_NULL) {
+		array_init(slot);
+		status = FAILURE;
+	} else if (Z_TYPE_P(slot) == IS_ARRAY) {
+		SEPARATE_ARRAY(slot);
 	}
 
-	if (&EG(symbol_table)) {
-		zval *gv;
+	ZVAL_COPY_VALUE(arr, slot);
 
-		if ((gv = zend_hash_find_ind(&EG(symbol_table), str)) != NULL) {
-			ZVAL_DEREF(gv);
-			if (Z_TYPE_P(gv) == IS_ARRAY) {
-				if (Z_REFCOUNTED_P(gv) && Z_REFCOUNT_P(gv) <= 1) {
-					ZVAL_COPY_VALUE(arr, gv);
-				} else {
-					ZVAL_DUP(arr, gv);
-					zend_hash_update(&EG(symbol_table), str, arr);
-				}
+	return status;
+}
 
-				zend_string_release(str);
-				return SUCCESS;
-			}
-		}
-	}
+/**
+ * `let <superglobal> = value`: assigns `value` to the global the way PHP's
+ * ASSIGN does. A global bound to a reference is written through it, a typed
+ * one checked against its type, and the old value is released only after the
+ * slot holds the new one. `value` keeps its own reference.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2856
+ */
+int zephir_set_global(const char *global, unsigned int global_length, zval *value)
+{
+	zend_string *name = zend_string_init(global, global_length, 0);
 
-	array_init(arr);
-	if (!(&EG(symbol_table))) {
-		symbol_table = zend_rebuild_symbol_table();
-	} else {
-		symbol_table = &EG(symbol_table);
-	}
+	zephir_array_assign_value(zephir_global_slot(name), value);
+	zend_string_release(name);
 
-	zend_hash_update(symbol_table, str, arr);
-	zend_string_release(str);
-
-	return FAILURE;
+	return EG(exception) ? FAILURE : SUCCESS;
 }
 
 /**

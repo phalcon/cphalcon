@@ -134,7 +134,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_string *service = NULL;
-	zend_bool autoBegin;
+	zend_bool autoBegin = 0;
 	zval *container, container_sub, *autoBegin_param = NULL, service_zv, connection;
 	zval *this_ptr = getThis();
 
@@ -159,10 +159,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct)
 	if (ZEND_NUM_ARGS() > 1) {
 		autoBegin_param = ZEND_CALL_ARG(execute_data, 2);
 	}
-	if (!autoBegin_param) {
-		autoBegin = 0;
-	} else {
-		}
 	if (!service) {
 		service = zend_string_init(ZEND_STRL("db"), 0);
 		zephir_memory_observe(&service_zv);
@@ -458,6 +454,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback)
 		if (zephir_is_true(&_2$$4)) {
 			ZEPHIR_INIT_VAR(&_3$$7);
 			object_init_ex(&_3$$7, phalcon_mvc_model_transaction_failed_ce);
+			zephir_constructor_start(&_3$$7);
 			zephir_read_property_cached(&_4$$7, this_ptr, _zephir_prop_2, 1143, PH_NOISY_CC | PH_READONLY);
 			if (UNEXPECTED(EG(exception))) {
 				ZEPHIR_MM_RESTORE();
@@ -465,6 +462,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback)
 			}
 			ZEPHIR_CALL_METHOD_CACHED(NULL, &_3$$7, "__construct", &_zephir_call_cache[2], &rollbackMessage, &_4$$7);
 			zephir_check_call_status();
+			zephir_constructor_finish(&_3$$7);
 			zephir_throw_exception_debug(&_3$$7, "phalcon/Mvc/Model/Transaction.zep", 192);
 			ZEPHIR_MM_RESTORE();
 			return;

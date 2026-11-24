@@ -126,6 +126,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, getIterator)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	object_init_ex(return_value, spl_ce_ArrayIterator);
+	zephir_constructor_start(return_value);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 933, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
@@ -133,6 +134,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, getIterator)
 	}
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &_0);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -418,8 +420,6 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&value);
-	ZEPHIR_INIT_NVAR(&header);
 	if (1) {
 		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 934, &__$true);
 		if (UNEXPECTED(EG(exception))) {

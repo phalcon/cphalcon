@@ -356,8 +356,10 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getRoutePaths)
 	if (UNEXPECTED(Z_TYPE_P(&routePaths) != IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(&_1$$15);
 		object_init_ex(&_1$$15, phalcon_mvc_router_exceptions_invalidroutepaths_ce);
+		zephir_constructor_start(&_1$$15);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$15, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1$$15);
 		zephir_throw_exception_debug(&_1$$15, "phalcon/Mvc/Router/Route.zep", 208);
 		ZEPHIR_MM_RESTORE();
 		return;

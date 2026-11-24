@@ -116,6 +116,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Token, fromOptions)
 	object_init_ex(return_value, zephir_get_called_scope(execute_data));
 	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(return_value);
 	zephir_check_call_status();
+	zephir_constructor_start(return_value);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "request");
 	ZEPHIR_INIT_VAR(&_2);
@@ -128,6 +129,7 @@ PHP_METHOD(Phalcon_Auth_Guard_Token, fromOptions)
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_1);
 	object_init_ex(&_1, phalcon_auth_guard_config_tokenguardconfig_ce);
+	zephir_constructor_start(&_1);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "inputKey");
 	ZEPHIR_INIT_NVAR(&_3);
@@ -142,8 +144,10 @@ PHP_METHOD(Phalcon_Auth_Guard_Token, fromOptions)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &_1, "__construct", &_zephir_call_cache[3], &_5, &_6);
 	zephir_check_call_status();
+	zephir_constructor_finish(&_1);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[4], adapter, &_0, &_1);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 

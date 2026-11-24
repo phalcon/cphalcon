@@ -180,8 +180,10 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, __construct)
 	if (UNEXPECTED(ZEPHIR_IS_EMPTY(&name))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_forms_exceptions_formelementnamerequired_ce);
+		zephir_constructor_start(&_1$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1$$3);
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Forms/Element/AbstractElement.zep", 77);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -198,8 +200,10 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, __construct)
 	}
 	ZEPHIR_INIT_VAR(&_2);
 	object_init_ex(&_2, phalcon_messages_messages_ce);
+	zephir_constructor_start(&_2);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &_2, "__construct", &_zephir_call_cache[1]);
 	zephir_check_call_status();
+	zephir_constructor_finish(&_2);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 19, &_2);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
@@ -276,7 +280,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, addValidators)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool merge, _3;
+	zend_bool merge = 1, _3;
 	zval *validators_param = NULL, *merge_param = NULL, validator, *_1, _2, _0$$3;
 	zval validators;
 	zval *this_ptr = getThis();
@@ -300,10 +304,6 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, addValidators)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &validators_param, &merge_param);
 	zephir_get_arrval(&validators, validators_param);
-	if (!merge_param) {
-		merge = 1;
-	} else {
-		}
 	if (UNEXPECTED(!merge)) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		array_init(&_0$$3);
@@ -348,7 +348,6 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, addValidators)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&validator);
 	RETURN_THIS();
 }
 
@@ -1075,8 +1074,10 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setFilters)
 	if (UNEXPECTED(_0)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_forms_exceptions_invalidfiltertype_ce);
+		zephir_constructor_start(&_1$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1$$3);
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Forms/Element/AbstractElement.zep", 425);
 		ZEPHIR_MM_RESTORE();
 		return;

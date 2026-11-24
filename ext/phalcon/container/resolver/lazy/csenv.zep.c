@@ -191,8 +191,6 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_CsEnv, resolve)
 					}
 			}
 		}
-		ZEPHIR_INIT_NVAR(&value);
-		ZEPHIR_INIT_NVAR(&key);
 		ZEPHIR_CPY_WRT(&values, &result);
 	}
 	RETURN_CCTOR(&values);

@@ -111,10 +111,12 @@ PHP_METHOD(Phalcon_Filter_Validation_Traits_ValidatorCompositeTrait, validate)
 	if (UNEXPECTED(ZEPHIR_IS_EMPTY(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_filter_validation_exceptions_novalidatorsincomposite_ce);
+		zephir_constructor_start(&_1$$3);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		zephir_get_class(&_2$$3, this_ptr, 0);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[1], &_2$$3);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1$$3);
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Filter/Validation/Traits/ValidatorCompositeTrait.zep", 48);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -165,7 +167,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Traits_ValidatorCompositeTrait, validate)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&validator);
 	RETURN_MM_BOOL(1);
 }
 

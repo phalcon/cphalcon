@@ -51,7 +51,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Link)
 PHP_METHOD(Phalcon_Html_Helper_Link, add)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long position, ZEPHIR_LAST_CALL_STATUS;
+	zend_long position = -1, ZEPHIR_LAST_CALL_STATUS;
 	zval attributes, _0, _2;
 	zval url_zv, *attributes_param = NULL, *position_param = NULL, _1, _3, _4;
 	zend_string *url = NULL;
@@ -87,10 +87,6 @@ PHP_METHOD(Phalcon_Html_Helper_Link, add)
 	} else {
 		zephir_get_arrval(&attributes, attributes_param);
 	}
-	if (!position_param) {
-		position = -1;
-	} else {
-		}
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 3, 0);
 	ZEPHIR_INIT_VAR(&_1);

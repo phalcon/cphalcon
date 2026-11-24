@@ -170,8 +170,6 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, __construct)
 				zephir_check_call_status();
 		}
 	}
-	ZEPHIR_INIT_NVAR(&definition);
-	ZEPHIR_INIT_NVAR(&name);
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -236,8 +234,10 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, get)
 	if (!(zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_forms_exceptions_formnotinlocator_ce);
+		zephir_constructor_start(&_1$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[1], &name_zv);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1$$3);
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Forms/FormsLocator.zep", 102);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -327,8 +327,10 @@ PHP_METHOD(Phalcon_Forms_FormsLocator, getElement)
 	if (!(_1)) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		object_init_ex(&_2$$3, phalcon_forms_exceptions_unknownformelementtype_ce);
+		zephir_constructor_start(&_2$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_2$$3, "__construct", &_zephir_call_cache[0], &type_zv);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_2$$3);
 		zephir_throw_exception_debug(&_2$$3, "phalcon/Forms/FormsLocator.zep", 127);
 		ZEPHIR_MM_RESTORE();
 		return;

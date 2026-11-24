@@ -370,8 +370,10 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, getEscaperService)
 	}
 	ZEPHIR_INIT_NVAR(&_5);
 	object_init_ex(&_5, phalcon_flash_exceptions_escaperserviceunavailable_ce);
+	zephir_constructor_start(&_5);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &_5, "__construct", &_zephir_call_cache[2]);
 	zephir_check_call_status();
+	zephir_constructor_finish(&_5);
 	zephir_throw_exception_debug(&_5, "phalcon/Flash/AbstractFlash.zep", 163);
 	ZEPHIR_MM_RESTORE();
 	return;
@@ -473,8 +475,10 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, outputMessage)
 	if (_0) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_flash_exceptions_flashmessagenotstringorarray_ce);
+		zephir_constructor_start(&_1$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1$$3);
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Flash/AbstractFlash.zep", 201);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -565,7 +569,6 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, outputMessage)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&item);
 	RETURN_CCTOR(&content);
 }
 
@@ -1263,8 +1266,6 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, toInterpolate)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&value);
-	ZEPHIR_INIT_NVAR(&key);
 	ZEPHIR_RETURN_CALL_FUNCTION("strtr", NULL, 1, &input_zv, &replace);
 	zephir_check_call_status();
 	RETURN_MM();

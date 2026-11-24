@@ -86,20 +86,26 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, fromSystemTimezone)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	object_init_ex(return_value, phalcon_time_clock_frozenclock_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, php_date_get_immutable_ce());
+	zephir_constructor_start(&_0);
 	ZEPHIR_INIT_VAR(&_1);
 	object_init_ex(&_1, php_date_get_timezone_ce());
+	zephir_constructor_start(&_1);
 	ZEPHIR_CALL_FUNCTION(&_2, "date_default_timezone_get", NULL, 78);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &_1, "__construct", &_zephir_call_cache[0], &_2);
 	zephir_check_call_status();
+	zephir_constructor_finish(&_1);
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "now");
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[1], &_3, &_1);
 	zephir_check_call_status();
+	zephir_constructor_finish(&_0);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[2], &_0);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -120,20 +126,26 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, fromUTC)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	object_init_ex(return_value, phalcon_time_clock_frozenclock_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, php_date_get_immutable_ce());
+	zephir_constructor_start(&_0);
 	ZEPHIR_INIT_VAR(&_1);
 	object_init_ex(&_1, php_date_get_timezone_ce());
+	zephir_constructor_start(&_1);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "UTC");
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &_1, "__construct", &_zephir_call_cache[0], &_2);
 	zephir_check_call_status();
+	zephir_constructor_finish(&_1);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "now");
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[1], &_2, &_1);
 	zephir_check_call_status();
+	zephir_constructor_finish(&_0);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[2], &_0);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -210,8 +222,10 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, adjust)
 				ZEPHIR_CPY_WRT(&ex, &_5$$3);
 				ZEPHIR_INIT_VAR(&_6$$5);
 				object_init_ex(&_6$$5, phalcon_time_clock_exceptions_invalidmodifier_ce);
+				zephir_constructor_start(&_6$$5);
 				ZEPHIR_CALL_METHOD_CACHED(NULL, &_6$$5, "__construct", &_zephir_call_cache[1], &modifier_zv, &ex);
 				zephir_check_call_status();
+				zephir_constructor_finish(&_6$$5);
 				zephir_throw_exception_debug(&_6$$5, "phalcon/Time/Clock/FrozenClock.zep", 71);
 				ZEPHIR_MM_RESTORE();
 				return;
@@ -249,8 +263,10 @@ PHP_METHOD(Phalcon_Time_Clock_FrozenClock, adjust)
 	if (UNEXPECTED(_9)) {
 		ZEPHIR_INIT_VAR(&_10$$8);
 		object_init_ex(&_10$$8, phalcon_time_clock_exceptions_invalidmodifier_ce);
+		zephir_constructor_start(&_10$$8);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_10$$8, "__construct", &_zephir_call_cache[3], &modifier_zv);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_10$$8);
 		zephir_throw_exception_debug(&_10$$8, "phalcon/Time/Clock/FrozenClock.zep", 100);
 		ZEPHIR_MM_RESTORE();
 		return;

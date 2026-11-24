@@ -46,6 +46,7 @@ PHP_METHOD(phalcon_68__closure, __invoke)
 	this_ptr = &__$zephir_this;
 
 	object_init_ex(return_value, phalcon_html_helper_input_generic_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "doctype");
 	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "newInstance", &_zephir_call_cache[0], &_1);
@@ -54,6 +55,7 @@ PHP_METHOD(phalcon_68__closure, __invoke)
 	ZVAL_STRING(&_1, "tel");
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[1], &escaper, &_0, &_1);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 

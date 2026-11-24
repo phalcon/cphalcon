@@ -41,12 +41,14 @@ PHP_METHOD(phalcon_4__closure, __invoke)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &container);
 	object_init_ex(return_value, phalcon_adr_dispatcher_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "Phalcon\\Contracts\\Events\\Manager");
 	ZEPHIR_CALL_METHOD_CACHED(&_0, container, "get", &_zephir_call_cache[0], &_1);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[1], container, &_0);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 

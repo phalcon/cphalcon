@@ -45,8 +45,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_None, serialize)
  */
 PHP_METHOD(Phalcon_Storage_Serializer_None, unserialize)
 {
-	zval data_sub;
-	zval *data;
+	zval *data, data_sub;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data_sub);

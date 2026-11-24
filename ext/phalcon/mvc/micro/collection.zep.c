@@ -522,7 +522,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, put)
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler)
 {
-	zend_bool isLazy;
+	zend_bool isLazy = 0;
 	zval *handler, handler_sub, *isLazy_param = NULL, __$true, __$false;
 	zval *this_ptr = getThis();
 
@@ -544,10 +544,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler)
 		Z_PARAM_BOOL(isLazy)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 1, &handler, &isLazy_param);
-	if (!isLazy_param) {
-		isLazy = 0;
-	} else {
-		}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1008, handler);
 	if (UNEXPECTED(EG(exception))) {
 		return;

@@ -63,11 +63,12 @@ PHP_METHOD(Phalcon_Queue_QueueFactory, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *factory = NULL, factory_sub, __$null;
+	zval *factory = NULL, factory_sub, __$null, _0$$3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&factory_sub);
 	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&_0$$3);
 	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -89,10 +90,14 @@ PHP_METHOD(Phalcon_Queue_QueueFactory, __construct)
 		ZEPHIR_SEPARATE_PARAM(factory);
 	}
 	if (Z_TYPE_P(factory) == IS_NULL) {
-		ZEPHIR_INIT_NVAR(factory);
-		object_init_ex(factory, phalcon_queue_adapterfactory_ce);
-		ZEPHIR_CALL_METHOD_CACHED(NULL, factory, "__construct", &_zephir_call_cache[0]);
+		ZEPHIR_INIT_VAR(&_0$$3);
+		object_init_ex(&_0$$3, phalcon_queue_adapterfactory_ce);
+		zephir_constructor_start(&_0$$3);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0$$3);
+		ZEPHIR_CPY_WRT(factory, &_0$$3);
+		ZEPHIR_INIT_NVAR(&_0$$3);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1330, factory);
 	if (UNEXPECTED(EG(exception))) {

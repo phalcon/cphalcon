@@ -15,7 +15,6 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
-#include "kernel/operators.h"
 #include "kernel/object.h"
 
 
@@ -44,7 +43,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Decapitalize, __invoke)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_1 = NULL;
-	zend_bool upperRest;
+	zend_bool upperRest = 0;
 	zval text_zv, *upperRest_param = NULL, encoding_zv, substr, suffix, _0, _2, _3, _4;
 	zend_string *text = NULL, *encoding = NULL;
 	zval *this_ptr = getThis();
@@ -71,10 +70,6 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Decapitalize, __invoke)
 	}
 	zephir_memory_observe(&text_zv);
 	ZVAL_STR_COPY(&text_zv, text);
-	if (!upperRest_param) {
-		upperRest = 0;
-	} else {
-		}
 	if (!encoding) {
 		encoding = zend_string_init(ZEND_STRL("UTF-8"), 0);
 		zephir_memory_observe(&encoding_zv);

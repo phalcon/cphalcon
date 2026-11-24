@@ -119,8 +119,10 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, __construct)
 	if (UNEXPECTED(!zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		object_init_ex(&_2$$3, phalcon_translate_exceptions_missinggettextextension_ce);
+		zephir_constructor_start(&_2$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_2$$3, "__construct", &_zephir_call_cache[1]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_2$$3);
 		zephir_throw_exception_debug(&_2$$3, "phalcon/Translate/Adapter/Gettext.zep", 74);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -481,8 +483,6 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDirectory)
 					zephir_check_call_status();
 			}
 		}
-		ZEPHIR_INIT_NVAR(&value);
-		ZEPHIR_INIT_NVAR(&key);
 	} else {
 		ZEPHIR_CALL_METHOD_CACHED(&_8$$7, this_ptr, "getDefaultDomain", &_zephir_call_cache[5]);
 		zephir_check_call_status();

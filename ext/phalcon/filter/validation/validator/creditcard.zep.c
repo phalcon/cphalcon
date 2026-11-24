@@ -303,8 +303,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_CreditCard, verifyByLuhnAlgorithm
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&digit);
-	ZEPHIR_INIT_NVAR(&position);
 	ZEPHIR_CALL_FUNCTION(&_16, "str_split", &_2, 69, &hash);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&result, "array_sum", NULL, 158, &_16);

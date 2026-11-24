@@ -147,7 +147,7 @@ PHP_METHOD(Phalcon_Html_Helper_Doctype, __invoke)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_string *delimiter = NULL;
 	zval *type_param = NULL, delimiter_zv, _0;
-	zend_long type;
+	zend_long type = 5;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&delimiter_zv);
@@ -171,10 +171,6 @@ PHP_METHOD(Phalcon_Html_Helper_Doctype, __invoke)
 	if (ZEND_NUM_ARGS() > 0) {
 		type_param = ZEND_CALL_ARG(execute_data, 1);
 	}
-	if (!type_param) {
-		type = 5;
-	} else {
-		}
 	if (!delimiter) {
 		delimiter = zend_string_init(ZEND_STRL("\n"), 0);
 		zephir_memory_observe(&delimiter_zv);

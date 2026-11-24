@@ -16,7 +16,6 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/string.h"
-#include "kernel/operators.h"
 
 
 /**
@@ -77,7 +76,7 @@ PHP_METHOD(Phalcon_Flash_Direct, output)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *remove_param = NULL, message, _0, *_1, _2, *_3, _4;
-	zend_bool remove, _5;
+	zend_bool remove = 1, _5;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&message);
@@ -97,10 +96,6 @@ PHP_METHOD(Phalcon_Flash_Direct, output)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 0, 1, &remove_param);
-	if (!remove_param) {
-		remove = 1;
-	} else {
-		}
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 785, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
@@ -142,7 +137,6 @@ PHP_METHOD(Phalcon_Flash_Direct, output)
 				zend_print_zval(&message, 0);
 		}
 	}
-	ZEPHIR_INIT_NVAR(&message);
 	if (remove) {
 		ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_flash_direct_ce, getThis(), "clear", &_zephir_call_cache[4]);
 		zephir_check_call_status();

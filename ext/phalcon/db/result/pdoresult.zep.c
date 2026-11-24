@@ -376,7 +376,7 @@ PHP_METHOD(Phalcon_Db_Result_PdoResult, fetch)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *fetchStyle_param = NULL, *cursorOrientation_param = NULL, *cursorOffset_param = NULL, mode, _0, _1, _2;
-	zend_long fetchStyle, cursorOrientation, cursorOffset, ZEPHIR_LAST_CALL_STATUS;
+	zend_long fetchStyle = 0, cursorOrientation = 0, cursorOffset = 0, ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&mode);
@@ -403,18 +403,6 @@ PHP_METHOD(Phalcon_Db_Result_PdoResult, fetch)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 0, 3, &fetchStyle_param, &cursorOrientation_param, &cursorOffset_param);
-	if (!fetchStyle_param) {
-		fetchStyle = 0;
-	} else {
-		}
-	if (!cursorOrientation_param) {
-		cursorOrientation = 0;
-	} else {
-		}
-	if (!cursorOffset_param) {
-		cursorOffset = 0;
-	} else {
-		}
 	if (1 == 1) {
 		ZEPHIR_INIT_VAR(&mode);
 		ZVAL_LONG(&mode, fetchStyle);
@@ -464,7 +452,7 @@ PHP_METHOD(Phalcon_Db_Result_PdoResult, fetchAll)
 	zend_bool _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *mode_param = NULL, *fetchArgument = NULL, fetchArgument_sub, *constructorArgs = NULL, constructorArgs_sub, __$null, _0$$3, _1$$3, _5, _6, _3$$4, _4$$4;
-	zend_long mode, ZEPHIR_LAST_CALL_STATUS;
+	zend_long mode = 0, ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&fetchArgument_sub);
@@ -492,10 +480,6 @@ PHP_METHOD(Phalcon_Db_Result_PdoResult, fetchAll)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 0, 3, &mode_param, &fetchArgument, &constructorArgs);
-	if (!mode_param) {
-		mode = 0;
-	} else {
-		}
 	if (!fetchArgument) {
 		fetchArgument = &fetchArgument_sub;
 		ZEPHIR_INIT_VAR(fetchArgument);

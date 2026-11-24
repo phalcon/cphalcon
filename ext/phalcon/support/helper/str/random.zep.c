@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Random, __invoke)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_6 = NULL, *_16 = NULL, *_22 = NULL;
 	zval *type_param = NULL, *length_param = NULL, end, pools, text, _0, _2, _3, _4, _5, _7, _8, _9, _10, _11, _12, _13, _14, _15, _17, _18$$3, _19$$3, _20$$3, _21$$3;
-	zend_long type, length, ZEPHIR_LAST_CALL_STATUS;
+	zend_long type = 0, length = 8, ZEPHIR_LAST_CALL_STATUS;
 
 	ZVAL_UNDEF(&end);
 	ZVAL_UNDEF(&pools);
@@ -120,14 +120,6 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Random, __invoke)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 0, 2, &type_param, &length_param);
-	if (!type_param) {
-		type = 0;
-	} else {
-		}
-	if (!length_param) {
-		length = 8;
-	} else {
-		}
 	ZEPHIR_INIT_VAR(&text);
 	ZVAL_STRING(&text, "");
 	ZEPHIR_INIT_VAR(&_0);

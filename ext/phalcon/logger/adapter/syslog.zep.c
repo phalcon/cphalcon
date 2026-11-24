@@ -259,6 +259,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process)
 	if (!zephir_is_true(&result)) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		object_init_ex(&_3$$3, phalcon_logger_adapter_exceptions_syslogopenfailed_ce);
+		zephir_constructor_start(&_3$$3);
 		zephir_read_property_cached(&_4$$3, this_ptr, _zephir_prop_0, 955, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
@@ -271,6 +272,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process)
 		}
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_3$$3, "__construct", &_zephir_call_cache[2], &_4$$3, &_5$$3);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_3$$3);
 		zephir_throw_exception_debug(&_3$$3, "phalcon/Logger/Adapter/Syslog.zep", 85);
 		ZEPHIR_MM_RESTORE();
 		return;

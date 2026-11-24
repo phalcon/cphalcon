@@ -161,7 +161,6 @@ PHP_METHOD(Phalcon_ADR_Responder_ChainResponder, __invoke)
 				ZEPHIR_CPY_WRT(response, &_7$$4);
 		}
 	}
-	ZEPHIR_INIT_NVAR(&link);
 	RETVAL_ZVAL(response, 1, 0);
 	RETURN_MM();
 }
@@ -206,8 +205,10 @@ PHP_METHOD(Phalcon_ADR_Responder_ChainResponder, with)
 		return;
 	}
 	object_init_ex(return_value, phalcon_adr_responder_chainresponder_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &links);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 

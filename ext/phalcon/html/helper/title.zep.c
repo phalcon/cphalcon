@@ -273,7 +273,7 @@ PHP_METHOD(Phalcon_Html_Helper_Title, append)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool raw;
+	zend_bool raw = 0;
 	zval *text_param = NULL, *raw_param = NULL, _0, _1;
 	zval text;
 	zval *this_ptr = getThis();
@@ -296,10 +296,6 @@ PHP_METHOD(Phalcon_Html_Helper_Title, append)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &text_param, &raw_param);
 	zephir_get_strval(&text, text_param);
-	if (!raw_param) {
-		raw = 0;
-	} else {
-		}
 	ZEPHIR_INIT_VAR(&_0);
 	if (raw) {
 		ZEPHIR_CPY_WRT(&_0, &text);
@@ -341,7 +337,7 @@ PHP_METHOD(Phalcon_Html_Helper_Title, prepend)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool raw;
+	zend_bool raw = 0;
 	zval *text_param = NULL, *raw_param = NULL, prepend, _0, _1, _2;
 	zval text;
 	zval *this_ptr = getThis();
@@ -370,10 +366,6 @@ PHP_METHOD(Phalcon_Html_Helper_Title, prepend)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &text_param, &raw_param);
 	zephir_get_strval(&text, text_param);
-	if (!raw_param) {
-		raw = 0;
-	} else {
-		}
 	ZEPHIR_INIT_VAR(&_0);
 	if (raw) {
 		ZEPHIR_CPY_WRT(&_0, &text);
@@ -417,7 +409,7 @@ PHP_METHOD(Phalcon_Html_Helper_Title, set)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool raw;
+	zend_bool raw = 0;
 	zval *text_param = NULL, *raw_param = NULL, _0, _1;
 	zval text;
 	zval *this_ptr = getThis();
@@ -444,10 +436,6 @@ PHP_METHOD(Phalcon_Html_Helper_Title, set)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &text_param, &raw_param);
 	zephir_get_strval(&text, text_param);
-	if (!raw_param) {
-		raw = 0;
-	} else {
-		}
 	ZEPHIR_INIT_VAR(&_0);
 	if (raw) {
 		ZEPHIR_CPY_WRT(&_0, &text);
@@ -480,7 +468,7 @@ PHP_METHOD(Phalcon_Html_Helper_Title, setSeparator)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool raw;
+	zend_bool raw = 0;
 	zval separator_zv, *raw_param = NULL, _0, _1;
 	zend_string *separator = NULL;
 	zval *this_ptr = getThis();
@@ -510,10 +498,6 @@ PHP_METHOD(Phalcon_Html_Helper_Title, setSeparator)
 	}
 	zephir_memory_observe(&separator_zv);
 	ZVAL_STR_COPY(&separator_zv, separator);
-	if (!raw_param) {
-		raw = 0;
-	} else {
-		}
 	ZEPHIR_INIT_VAR(&_0);
 	if (raw) {
 		ZEPHIR_CPY_WRT(&_0, &separator_zv);

@@ -115,8 +115,10 @@ PHP_METHOD(Phalcon_ADR_Input_Input, fromArray)
 	object_init_ex(return_value, zephir_get_called_scope(execute_data));
 	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(return_value);
 	zephir_check_call_status();
+	zephir_constructor_start(return_value);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &data);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -171,6 +173,7 @@ PHP_METHOD(Phalcon_ADR_Input_Input, fromRequest)
 	object_init_ex(return_value, zephir_get_called_scope(execute_data));
 	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(return_value);
 	zephir_check_call_status();
+	zephir_constructor_start(return_value);
 	ZEPHIR_CALL_METHOD_CACHED(&_5, request, "getQuery", &_zephir_call_cache[2]);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD_CACHED(&_6, request, "getPost", &_zephir_call_cache[3]);
@@ -183,6 +186,7 @@ PHP_METHOD(Phalcon_ADR_Input_Input, fromRequest)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[6], &_9);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 

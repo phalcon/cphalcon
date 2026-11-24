@@ -272,8 +272,10 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, isAllowed)
 	if (_8) {
 		ZEPHIR_INIT_VAR(&_9$$5);
 		object_init_ex(&_9$$5, phalcon_auth_exceptions_missinghandlercontext_ce);
+		zephir_constructor_start(&_9$$5);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_9$$5, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_9$$5);
 		zephir_throw_exception_debug(&_9$$5, "phalcon/Auth/Access/Acl.zep", 84);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -375,12 +377,14 @@ PHP_METHOD(Phalcon_Auth_Access_Acl, resolveRole)
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_auth_exceptions_doesnotimplement_ce);
+	zephir_constructor_start(&_0);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "Authenticated user");
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "Phalcon\\Acl\\RoleAwareInterface");
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[2], &_1, &_2);
 	zephir_check_call_status();
+	zephir_constructor_finish(&_0);
 	zephir_throw_exception_debug(&_0, "phalcon/Auth/Access/Acl.zep", 138);
 	ZEPHIR_MM_RESTORE();
 	return;

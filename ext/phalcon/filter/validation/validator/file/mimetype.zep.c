@@ -165,8 +165,10 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_MimeType, validate)
 	if (UNEXPECTED(Z_TYPE_P(&types) != IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(&_3$$5);
 		object_init_ex(&_3$$5, phalcon_filter_validation_exceptions_invalidallowedtypes_ce);
+		zephir_constructor_start(&_3$$5);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_3$$5, "__construct", &_zephir_call_cache[3]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_3$$5);
 		zephir_throw_exception_debug(&_3$$5, "phalcon/Filter/Validation/Validator/File/MimeType.zep", 100);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -275,7 +277,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_MimeType, validate)
 					}
 			}
 		}
-		ZEPHIR_INIT_NVAR(&type);
 	} else {
 		_22$$14 = zephir_fast_in_array(&mime, &types);
 		if (UNEXPECTED(EG(exception))) {

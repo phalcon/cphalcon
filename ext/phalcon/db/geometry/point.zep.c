@@ -44,7 +44,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Geometry_Point)
 
 PHP_METHOD(Phalcon_Db_Geometry_Point, __construct)
 {
-	zend_long srid;
+	zend_long srid = 0;
 	zval *x_param = NULL, *y_param = NULL, *srid_param = NULL, _0;
 	double x, y;
 	zval *this_ptr = getThis();
@@ -70,10 +70,6 @@ PHP_METHOD(Phalcon_Db_Geometry_Point, __construct)
 		Z_PARAM_LONG(srid)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(2, 1, &x_param, &y_param, &srid_param);
-	if (!srid_param) {
-		srid = 0;
-	} else {
-		}
 	ZVAL_UNDEF(&_0);
 	ZVAL_DOUBLE(&_0, x);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 648, &_0);

@@ -174,9 +174,11 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamConnectionFactory, createContext)
 		pollInterval = zephir_get_intval(&_6$$4);
 	}
 	object_init_ex(return_value, phalcon_queue_adapter_stream_streamcontext_ce);
+	zephir_constructor_start(return_value);
 	ZVAL_LONG(&_7, pollInterval);
 	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &storageDir, &_7);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 

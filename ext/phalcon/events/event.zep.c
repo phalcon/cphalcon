@@ -97,7 +97,7 @@ PHP_METHOD(Phalcon_Events_Event, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool cancelable, _0;
+	zend_bool cancelable = 1, _0;
 	zval type_zv, *source = NULL, source_sub, *data = NULL, data_sub, *cancelable_param = NULL, __$true, __$false, __$null, _1$$3, _2$$3;
 	zend_string *type = NULL;
 	zval *this_ptr = getThis();
@@ -157,10 +157,6 @@ PHP_METHOD(Phalcon_Events_Event, __construct)
 		data = &data_sub;
 		data = &__$null;
 	}
-	if (!cancelable_param) {
-		cancelable = 1;
-	} else {
-		}
 	_0 = Z_TYPE_P(source) != IS_NULL;
 	if (_0) {
 		_0 = Z_TYPE_P(source) != IS_OBJECT;
@@ -168,10 +164,12 @@ PHP_METHOD(Phalcon_Events_Event, __construct)
 	if (UNEXPECTED(_0)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_events_exceptions_invalideventsource_ce);
+		zephir_constructor_start(&_1$$3);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		zephir_gettype(&_2$$3, source);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[0], &type_zv, &_2$$3);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1$$3);
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Events/Event.zep", 73);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -359,8 +357,10 @@ PHP_METHOD(Phalcon_Events_Event, stop)
 	if (UNEXPECTED(!zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_events_exceptions_eventnotcancelable_ce);
+		zephir_constructor_start(&_1$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1$$3);
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Events/Event.zep", 162);
 		ZEPHIR_MM_RESTORE();
 		return;

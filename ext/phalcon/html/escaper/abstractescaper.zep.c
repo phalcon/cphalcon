@@ -130,7 +130,6 @@ PHP_METHOD(Phalcon_Html_Escaper_AbstractEscaper, detectEncoding)
 			RETURN_CCTOR(&charset);
 		}
 	} ZEND_HASH_FOREACH_END();
-	ZEPHIR_INIT_NVAR(&charset);
 	ZEPHIR_RETURN_CALL_FUNCTION("mb_detect_encoding", &_4, 29, &input_zv);
 	zephir_check_call_status();
 	RETURN_MM();

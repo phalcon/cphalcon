@@ -134,7 +134,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify)
 					zephir_check_call_status();
 			}
 		}
-		ZEPHIR_INIT_NVAR(&singleField);
 	} else {
 		ZEPHIR_CALL_METHOD_CACHED(NULL, model, "writeAttribute", &_zephir_call_cache[9], &field, &timestamp);
 		zephir_check_call_status();

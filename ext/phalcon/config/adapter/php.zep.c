@@ -103,10 +103,12 @@ PHP_METHOD(Phalcon_Config_Adapter_Php, __construct)
 	if (UNEXPECTED(!ZEPHIR_IS_TRUE_IDENTICAL(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_config_exceptions_cannotloadconfigfile_ce);
+		zephir_constructor_start(&_1$$3);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		zephir_basename(&_2$$3, &filePath_zv);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[0], &_2$$3);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1$$3);
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Config/Adapter/Php.zep", 64);
 		ZEPHIR_MM_RESTORE();
 		return;

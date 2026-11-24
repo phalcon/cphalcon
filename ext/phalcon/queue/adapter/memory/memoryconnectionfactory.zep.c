@@ -110,8 +110,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Memory_MemoryConnectionFactory, createContext)
 
 	object_init_ex(return_value, phalcon_queue_adapter_memory_memorycontext_ce);
 	if (zephir_has_constructor(return_value)) {
+		zephir_constructor_start(return_value);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(return_value);
 	}
 
 	RETURN_MM();

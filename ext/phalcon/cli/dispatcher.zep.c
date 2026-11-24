@@ -495,8 +495,8 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, handleException)
 PHP_METHOD(Phalcon_Cli_Dispatcher, throwDispatchException)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long exceptionCode, ZEPHIR_LAST_CALL_STATUS;
-	zval message_zv, *exceptionCode_param = NULL, exception, _0, _1;
+	zend_long exceptionCode = 0, ZEPHIR_LAST_CALL_STATUS;
+	zval message_zv, *exceptionCode_param = NULL, exception, _0, _1, _2;
 	zend_string *message = NULL;
 	zval *this_ptr = getThis();
 
@@ -504,6 +504,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, throwDispatchException)
 	ZVAL_UNDEF(&exception);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
 	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(message)
@@ -517,18 +518,18 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, throwDispatchException)
 	}
 	zephir_memory_observe(&message_zv);
 	ZVAL_STR_COPY(&message_zv, message);
-	if (!exceptionCode_param) {
-		exceptionCode = 0;
-	} else {
-		}
-	ZEPHIR_INIT_VAR(&exception);
-	object_init_ex(&exception, phalcon_cli_dispatcher_exception_ce);
-	ZVAL_LONG(&_0, exceptionCode);
-	ZEPHIR_CALL_METHOD_CACHED(NULL, &exception, "__construct", &_zephir_call_cache[0], &message_zv, &_0);
+	ZEPHIR_INIT_VAR(&_0);
+	object_init_ex(&_0, phalcon_cli_dispatcher_exception_ce);
+	zephir_constructor_start(&_0);
+	ZVAL_LONG(&_1, exceptionCode);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0], &message_zv, &_1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD_CACHED(&_1, this_ptr, "handleException", &_zephir_call_cache[1], &exception);
+	zephir_constructor_finish(&_0);
+	ZEPHIR_CPY_WRT(&exception, &_0);
+	ZEPHIR_INIT_NVAR(&_0);
+	ZEPHIR_CALL_METHOD_CACHED(&_2, this_ptr, "handleException", &_zephir_call_cache[1], &exception);
 	zephir_check_call_status();
-	if (ZEPHIR_IS_FALSE_IDENTICAL(&_1)) {
+	if (ZEPHIR_IS_FALSE_IDENTICAL(&_2)) {
 		RETURN_MM_BOOL(0);
 	}
 	zephir_throw_exception_debug(&exception, "phalcon/Cli/Dispatcher.zep", 235);

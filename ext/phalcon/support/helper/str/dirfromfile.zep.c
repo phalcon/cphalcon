@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_DirFromFile, toDirFromFile)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_2 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool filesystemSafe, _3;
+	zend_bool filesystemSafe = 0, _3;
 	zval file_zv, *filesystemSafe_param = NULL, name, start, _0, _1, _9, _10, _4$$3, _5$$3, _6$$3, _7$$4, _8$$4;
 	zend_string *file = NULL;
 
@@ -100,10 +100,6 @@ PHP_METHOD(Phalcon_Support_Helper_Str_DirFromFile, toDirFromFile)
 	}
 	zephir_memory_observe(&file_zv);
 	ZVAL_STR_COPY(&file_zv, file);
-	if (!filesystemSafe_param) {
-		filesystemSafe = 0;
-	} else {
-		}
 	ZVAL_LONG(&_0, 8);
 	ZEPHIR_CALL_FUNCTION(&name, "pathinfo", NULL, 66, &file_zv, &_0);
 	zephir_check_call_status();

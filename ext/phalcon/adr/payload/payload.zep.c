@@ -112,8 +112,10 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, accepted)
 	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
 	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
+		zephir_constructor_start(&_0);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0);
 	}
 
 	ZEPHIR_INIT_VAR(&_2);
@@ -157,8 +159,10 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, authenticated)
 	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
 	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
+		zephir_constructor_start(&_0);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0);
 	}
 
 	ZEPHIR_INIT_VAR(&_2);
@@ -202,8 +206,10 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, authorized)
 	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
 	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
+		zephir_constructor_start(&_0);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0);
 	}
 
 	ZEPHIR_INIT_VAR(&_2);
@@ -247,8 +253,10 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, created)
 	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
 	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
+		zephir_constructor_start(&_0);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0);
 	}
 
 	ZEPHIR_INIT_VAR(&_2);
@@ -292,8 +300,10 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, deleted)
 	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
 	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
+		zephir_constructor_start(&_0);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0);
 	}
 
 	ZEPHIR_INIT_VAR(&_2);
@@ -337,8 +347,10 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, error)
 	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
 	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
+		zephir_constructor_start(&_0);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0);
 	}
 
 	ZEPHIR_INIT_VAR(&_2);
@@ -383,8 +395,10 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, forbidden)
 	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
 	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
+		zephir_constructor_start(&_0);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0);
 	}
 
 	ZEPHIR_INIT_VAR(&_2);
@@ -428,8 +442,10 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, found)
 	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
 	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
+		zephir_constructor_start(&_0);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0);
 	}
 
 	ZEPHIR_INIT_VAR(&_2);
@@ -473,8 +489,10 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, invalid)
 	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
 	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
+		zephir_constructor_start(&_0);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0);
 	}
 
 	ZEPHIR_INIT_VAR(&_2);
@@ -518,8 +536,10 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, notAccepted)
 	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
 	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
+		zephir_constructor_start(&_0);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0);
 	}
 
 	ZEPHIR_INIT_VAR(&_2);
@@ -563,8 +583,10 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, notCreated)
 	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
 	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
+		zephir_constructor_start(&_0);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0);
 	}
 
 	ZEPHIR_INIT_VAR(&_2);
@@ -608,8 +630,10 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, notDeleted)
 	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
 	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
+		zephir_constructor_start(&_0);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0);
 	}
 
 	ZEPHIR_INIT_VAR(&_2);
@@ -653,8 +677,10 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, notFound)
 	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
 	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
+		zephir_constructor_start(&_0);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0);
 	}
 
 	ZEPHIR_INIT_VAR(&_2);
@@ -698,8 +724,10 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, notUpdated)
 	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
 	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
+		zephir_constructor_start(&_0);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0);
 	}
 
 	ZEPHIR_INIT_VAR(&_2);
@@ -743,8 +771,10 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, processing)
 	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
 	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
+		zephir_constructor_start(&_0);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0);
 	}
 
 	ZEPHIR_INIT_VAR(&_2);
@@ -788,8 +818,10 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, success)
 	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
 	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
+		zephir_constructor_start(&_0);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0);
 	}
 
 	ZEPHIR_INIT_VAR(&_2);
@@ -834,8 +866,10 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, unauthenticated)
 	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
 	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
+		zephir_constructor_start(&_0);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0);
 	}
 
 	ZEPHIR_INIT_VAR(&_2);
@@ -879,8 +913,10 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, updated)
 	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
 	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
+		zephir_constructor_start(&_0);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0);
 	}
 
 	ZEPHIR_INIT_VAR(&_2);
@@ -924,8 +960,10 @@ PHP_METHOD(Phalcon_ADR_Payload_Payload, valid)
 	ZEPHIR_LAST_CALL_STATUS = zephir_check_constructor_access(&_0);
 	zephir_check_call_status();
 	if (zephir_has_constructor(&_0)) {
+		zephir_constructor_start(&_0);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0);
 	}
 
 	ZEPHIR_INIT_VAR(&_2);

@@ -313,8 +313,6 @@ PHP_METHOD(Phalcon_Encryption_Security_JWT_Token_Token, validate)
 			zephir_check_call_status();
 		}
 	} ZEND_HASH_FOREACH_END();
-	ZEPHIR_INIT_NVAR(&claimValue);
-	ZEPHIR_INIT_NVAR(&method);
 	ZEPHIR_RETURN_CALL_METHOD_CACHED(validator, "getErrors", &_zephir_call_cache[7]);
 	zephir_check_call_status();
 	RETURN_MM();

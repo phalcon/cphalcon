@@ -16,8 +16,8 @@
 #include "kernel/memory.h"
 #include "kernel/object.h"
 #include "kernel/exception.h"
-#include "kernel/operators.h"
 #include "kernel/string.h"
+#include "kernel/operators.h"
 
 
 /**
@@ -57,8 +57,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Json_Decode)
 PHP_METHOD(Phalcon_Support_Helper_Json_Decode, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long depth, options, ZEPHIR_LAST_CALL_STATUS;
-	zend_bool associative;
+	zend_long depth = 512, options = 79, ZEPHIR_LAST_CALL_STATUS;
+	zend_bool associative = 0;
 	zval data_zv, *associative_param = NULL, *depth_param = NULL, *options_param = NULL, ex, _3, _0$$3, _1$$3, _2$$3, _4$$4, _5$$4, _6$$4;
 	zend_string *data = NULL;
 	zval *this_ptr = getThis();
@@ -93,18 +93,6 @@ PHP_METHOD(Phalcon_Support_Helper_Json_Decode, __invoke)
 	}
 	zephir_memory_observe(&data_zv);
 	ZVAL_STR_COPY(&data_zv, data);
-	if (!associative_param) {
-		associative = 0;
-	} else {
-		}
-	if (!depth_param) {
-		depth = 512;
-	} else {
-		}
-	if (!options_param) {
-		options = 79;
-	} else {
-		}
 	/* try_start_1: */
 
 		if (associative) {
@@ -129,12 +117,14 @@ PHP_METHOD(Phalcon_Support_Helper_Json_Decode, __invoke)
 			ZEPHIR_CPY_WRT(&ex, &_3);
 			ZEPHIR_INIT_VAR(&_4$$4);
 			object_init_ex(&_4$$4, phalcon_support_helper_json_exceptions_jsondecodeerror_ce);
+			zephir_constructor_start(&_4$$4);
 			ZEPHIR_CALL_METHOD_CACHED(&_5$$4, &ex, "getMessage", &_zephir_call_cache[1]);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD_CACHED(&_6$$4, &ex, "getCode", &_zephir_call_cache[2]);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD_CACHED(NULL, &_4$$4, "__construct", &_zephir_call_cache[3], &_5$$4, &_6$$4, &ex);
 			zephir_check_call_status();
+			zephir_constructor_finish(&_4$$4);
 			zephir_throw_exception_debug(&_4$$4, "phalcon/Support/Helper/Json/Decode.zep", 51);
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -161,8 +151,8 @@ PHP_METHOD(Phalcon_Support_Helper_Json_Decode, __invoke)
 PHP_METHOD(Phalcon_Support_Helper_Json_Decode, toDecode)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long depth, options, ZEPHIR_LAST_CALL_STATUS;
-	zend_bool associative;
+	zend_long depth = 512, options = 79, ZEPHIR_LAST_CALL_STATUS;
+	zend_bool associative = 0;
 	zval data_zv, *associative_param = NULL, *depth_param = NULL, *options_param = NULL, __$null, decoded, error, message, _0, _1, _2, _3$$3, _4$$3;
 	zend_string *data = NULL;
 
@@ -197,18 +187,6 @@ PHP_METHOD(Phalcon_Support_Helper_Json_Decode, toDecode)
 	}
 	zephir_memory_observe(&data_zv);
 	ZVAL_STR_COPY(&data_zv, data);
-	if (!associative_param) {
-		associative = 0;
-	} else {
-		}
-	if (!depth_param) {
-		depth = 512;
-	} else {
-		}
-	if (!options_param) {
-		options = 79;
-	} else {
-		}
 	ZEPHIR_INIT_VAR(&decoded);
 	zephir_json_encode(&decoded, &__$null, 0 );
 	ZVAL_BOOL(&_0, (associative ? 1 : 0));
@@ -225,8 +203,10 @@ PHP_METHOD(Phalcon_Support_Helper_Json_Decode, toDecode)
 		zephir_json_encode(&_3$$3, &__$null, 0 );
 		ZEPHIR_INIT_VAR(&_4$$3);
 		object_init_ex(&_4$$3, zephir_get_internal_ce(SL("jsonexception")));
+		zephir_constructor_start(&_4$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_4$$3, "__construct", &_zephir_call_cache[0], &message, &error);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_4$$3);
 		zephir_throw_exception_debug(&_4$$3, "phalcon/Traits/Support/Helper/Json/DecodeTrait.zep", 57);
 		ZEPHIR_MM_RESTORE();
 		return;

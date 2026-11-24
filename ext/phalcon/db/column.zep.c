@@ -731,8 +731,10 @@ PHP_METHOD(Phalcon_Db_Column, __construct)
 	if (UNEXPECTED(!(_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_db_exceptions_columntyperequired_ce);
+		zephir_constructor_start(&_1$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1$$3);
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Db/Column.zep", 602);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -840,8 +842,10 @@ PHP_METHOD(Phalcon_Db_Column, __construct)
 		zephir_switch_0_clause_8: ;
 			ZEPHIR_INIT_VAR(&_8$$11);
 			object_init_ex(&_8$$11, phalcon_db_exceptions_columntyperejectsscale_ce);
+			zephir_constructor_start(&_8$$11);
 			ZEPHIR_CALL_METHOD_CACHED(NULL, &_8$$11, "__construct", &_zephir_call_cache[1]);
 			zephir_check_call_status();
+			zephir_constructor_finish(&_8$$11);
 			zephir_throw_exception_debug(&_8$$11, "phalcon/Db/Column.zep", 650);
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -937,8 +941,10 @@ PHP_METHOD(Phalcon_Db_Column, __construct)
 			zephir_switch_1_clause_5: ;
 				ZEPHIR_INIT_VAR(&_13$$19);
 				object_init_ex(&_13$$19, phalcon_db_exceptions_columntyperejectsautoincrement_ce);
+				zephir_constructor_start(&_13$$19);
 				ZEPHIR_CALL_METHOD_CACHED(NULL, &_13$$19, "__construct", &_zephir_call_cache[2]);
 				zephir_check_call_status();
+				zephir_constructor_finish(&_13$$19);
 				zephir_throw_exception_debug(&_13$$19, "phalcon/Db/Column.zep", 692);
 				ZEPHIR_MM_RESTORE();
 				return;
@@ -1009,8 +1015,10 @@ PHP_METHOD(Phalcon_Db_Column, __construct)
 			if (UNEXPECTED(Z_TYPE_P(&generated) != IS_STRING)) {
 				ZEPHIR_INIT_VAR(&_19$$26);
 				object_init_ex(&_19$$26, phalcon_db_exceptions_invalidgenerationexpression_ce);
+				zephir_constructor_start(&_19$$26);
 				ZEPHIR_CALL_METHOD_CACHED(NULL, &_19$$26, "__construct", &_zephir_call_cache[3]);
 				zephir_check_call_status();
+				zephir_constructor_finish(&_19$$26);
 				zephir_throw_exception_debug(&_19$$26, "phalcon/Db/Column.zep", 733);
 				ZEPHIR_MM_RESTORE();
 				return;
@@ -1023,8 +1031,10 @@ PHP_METHOD(Phalcon_Db_Column, __construct)
 			if (UNEXPECTED(zephir_is_true(&_20$$25))) {
 				ZEPHIR_INIT_VAR(&_21$$27);
 				object_init_ex(&_21$$27, phalcon_db_exceptions_generatedautoincrementconflict_ce);
+				zephir_constructor_start(&_21$$27);
 				ZEPHIR_CALL_METHOD_CACHED(NULL, &_21$$27, "__construct", &_zephir_call_cache[4]);
 				zephir_check_call_status();
+				zephir_constructor_finish(&_21$$27);
 				zephir_throw_exception_debug(&_21$$27, "phalcon/Db/Column.zep", 737);
 				ZEPHIR_MM_RESTORE();
 				return;
@@ -1037,8 +1047,10 @@ PHP_METHOD(Phalcon_Db_Column, __construct)
 			if (UNEXPECTED(Z_TYPE_P(&_22$$25) != IS_NULL)) {
 				ZEPHIR_INIT_VAR(&_23$$28);
 				object_init_ex(&_23$$28, phalcon_db_exceptions_generateddefaultconflict_ce);
+				zephir_constructor_start(&_23$$28);
 				ZEPHIR_CALL_METHOD_CACHED(NULL, &_23$$28, "__construct", &_zephir_call_cache[5]);
 				zephir_check_call_status();
+				zephir_constructor_finish(&_23$$28);
 				zephir_throw_exception_debug(&_23$$28, "phalcon/Db/Column.zep", 741);
 				ZEPHIR_MM_RESTORE();
 				return;

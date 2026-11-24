@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, close)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool raw;
+	zend_bool raw = 0;
 	zval *tag_param = NULL, *raw_param = NULL, _0;
 	zval tag;
 	zval *this_ptr = getThis();
@@ -157,10 +157,6 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, close)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &tag_param, &raw_param);
 	zephir_get_strval(&tag, tag_param);
-	if (!raw_param) {
-		raw = 0;
-	} else {
-		}
 	ZEPHIR_INIT_VAR(&_0);
 	if (raw) {
 		ZEPHIR_CPY_WRT(&_0, &tag);
@@ -521,7 +517,6 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderArrayElements)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&item);
 	RETURN_CCTOR(&result);
 }
 
@@ -688,8 +683,6 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderAttributes)
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&value);
-	ZEPHIR_INIT_NVAR(&key);
 	RETURN_CCTOR(&result);
 }
 
@@ -742,7 +735,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderFullElement)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool raw;
+	zend_bool raw = 0;
 	zval attributes;
 	zval tag_zv, text_zv, *attributes_param = NULL, *raw_param = NULL, content, _0, _1, _2, _3;
 	zend_string *tag = NULL, *text = NULL;
@@ -787,10 +780,6 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderFullElement)
 	} else {
 		zephir_get_arrval(&attributes, attributes_param);
 	}
-	if (!raw_param) {
-		raw = 0;
-	} else {
-		}
 	if (raw) {
 		ZEPHIR_CPY_WRT(&content, &text_zv);
 	} else {

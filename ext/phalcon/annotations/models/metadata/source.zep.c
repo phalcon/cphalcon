@@ -142,8 +142,10 @@ PHP_METHOD(Phalcon_Annotations_Models_MetaData_Source, getTable)
 	if (_3) {
 		ZEPHIR_INIT_VAR(&_4$$5);
 		object_init_ex(&_4$$5, phalcon_annotations_exceptions_invalidsourcetable_ce);
+		zephir_constructor_start(&_4$$5);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_4$$5, "__construct", &_zephir_call_cache[4], &table);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_4$$5);
 		zephir_throw_exception_debug(&_4$$5, "phalcon/Annotations/Models/MetaData/Source.zep", 72);
 		ZEPHIR_MM_RESTORE();
 		return;

@@ -258,7 +258,6 @@ PHP_METHOD(Phalcon_Storage_Adapter_Weak, getKeys)
 				}
 			}
 		} ZEND_HASH_FOREACH_END();
-		ZEPHIR_INIT_NVAR(&key);
 		RETURN_CTOR(&results);
 	}
 	RETURN_CCTOR(&keys);
@@ -317,7 +316,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Weak, setForever)
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Weak, doDecrement)
 {
-	zend_long value;
+	zend_long value = 1;
 	zval key_zv, *value_param = NULL;
 	zend_string *key = NULL;
 
@@ -331,10 +330,6 @@ PHP_METHOD(Phalcon_Storage_Adapter_Weak, doDecrement)
 		value_param = ZEND_CALL_ARG(execute_data, 2);
 	}
 	ZVAL_STR(&key_zv, key);
-	if (!value_param) {
-		value = 1;
-	} else {
-		}
 	RETURN_BOOL(0);
 }
 
@@ -519,7 +514,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Weak, doHas)
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Weak, doIncrement)
 {
-	zend_long value;
+	zend_long value = 1;
 	zval key_zv, *value_param = NULL;
 	zend_string *key = NULL;
 
@@ -533,10 +528,6 @@ PHP_METHOD(Phalcon_Storage_Adapter_Weak, doIncrement)
 		value_param = ZEND_CALL_ARG(execute_data, 2);
 	}
 	ZVAL_STR(&key_zv, key);
-	if (!value_param) {
-		value = 1;
-	} else {
-		}
 	RETURN_BOOL(0);
 }
 

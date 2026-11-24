@@ -111,8 +111,10 @@ PHP_METHOD(Phalcon_Auth_AuthUser, __construct)
 	if (_1) {
 		ZEPHIR_INIT_VAR(&_5$$3);
 		object_init_ex(&_5$$3, phalcon_auth_exceptions_datamustcontainidkey_ce);
+		zephir_constructor_start(&_5$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_5$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_5$$3);
 		zephir_throw_exception_debug(&_5$$3, "phalcon/Auth/AuthUser.zep", 38);
 		ZEPHIR_MM_RESTORE();
 		return;

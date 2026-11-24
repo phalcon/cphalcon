@@ -49,7 +49,7 @@ PHP_METHOD(Phalcon_Assets_Inline_Css, __construct)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval attributes;
-	zend_bool filter;
+	zend_bool filter = 1;
 	zval content_zv, *filter_param = NULL, *attributes_param = NULL, _0$$3, _1, _2;
 	zend_string *content = NULL;
 
@@ -75,10 +75,6 @@ PHP_METHOD(Phalcon_Assets_Inline_Css, __construct)
 	}
 	zephir_memory_observe(&content_zv);
 	ZVAL_STR_COPY(&content_zv, content);
-	if (!filter_param) {
-		filter = 1;
-	} else {
-		}
 	if (!attributes_param) {
 		ZEPHIR_INIT_VAR(&attributes);
 		array_init(&attributes);

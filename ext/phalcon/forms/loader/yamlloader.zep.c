@@ -111,8 +111,10 @@ PHP_METHOD(Phalcon_Forms_Loader_YamlLoader, load)
 	if (!(zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		object_init_ex(&_2$$3, phalcon_forms_exceptions_yamlextensionrequired_ce);
+		zephir_constructor_start(&_2$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_2$$3, "__construct", &_zephir_call_cache[1]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_2$$3);
 		zephir_throw_exception_debug(&_2$$3, "phalcon/Forms/Loader/YamlLoader.zep", 50);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -141,16 +143,22 @@ PHP_METHOD(Phalcon_Forms_Loader_YamlLoader, load)
 	if (Z_TYPE_P(&definitions) != IS_ARRAY) {
 		ZEPHIR_INIT_VAR(&_7$$6);
 		object_init_ex(&_7$$6, phalcon_forms_exceptions_yamlschemanotarray_ce);
+		zephir_constructor_start(&_7$$6);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_7$$6, "__construct", &_zephir_call_cache[2]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_7$$6);
 		zephir_throw_exception_debug(&_7$$6, "phalcon/Forms/Loader/YamlLoader.zep", 62);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_INIT_VAR(&loader);
-	object_init_ex(&loader, phalcon_forms_loader_arrayloader_ce);
-	ZEPHIR_CALL_METHOD_CACHED(NULL, &loader, "__construct", &_zephir_call_cache[3], &definitions);
+	ZEPHIR_INIT_NVAR(&_1);
+	object_init_ex(&_1, phalcon_forms_loader_arrayloader_ce);
+	zephir_constructor_start(&_1);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &_1, "__construct", &_zephir_call_cache[3], &definitions);
 	zephir_check_call_status();
+	zephir_constructor_finish(&_1);
+	ZEPHIR_CPY_WRT(&loader, &_1);
+	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_RETURN_CALL_METHOD_CACHED(&loader, "load", &_zephir_call_cache[4]);
 	zephir_check_call_status();
 	RETURN_MM();

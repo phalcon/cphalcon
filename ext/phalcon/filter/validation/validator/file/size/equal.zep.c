@@ -197,7 +197,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Size_Equal, validate)
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Size_Equal, getConditional)
 {
-	zend_bool included, _0;
+	zend_bool included = 0, _0;
 	zval *source_param = NULL, *target_param = NULL, *included_param = NULL;
 	double source, target;
 
@@ -208,10 +208,6 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Size_Equal, getConditional)
 		Z_PARAM_BOOL(included)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(2, 1, &source_param, &target_param, &included_param);
-	if (!included_param) {
-		included = 0;
-	} else {
-		}
 	_0 = included == 0;
 	if (_0) {
 		_0 = source != target;

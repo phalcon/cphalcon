@@ -146,8 +146,10 @@ PHP_METHOD(Phalcon_Auth_Internal_Options, requireArray)
 	if (_1) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		object_init_ex(&_2$$3, phalcon_auth_exceptions_optionrequiresarray_ce);
+		zephir_constructor_start(&_2$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_2$$3, "__construct", &_zephir_call_cache[0], &context_zv, &key_zv);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_2$$3);
 		zephir_throw_exception_debug(&_2$$3, "phalcon/Auth/Internal/Options.zep", 62);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -201,8 +203,10 @@ PHP_METHOD(Phalcon_Auth_Internal_Options, requireString)
 	if (_1) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		object_init_ex(&_2$$3, phalcon_auth_exceptions_optionrequiresstring_ce);
+		zephir_constructor_start(&_2$$3);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_2$$3, "__construct", &_zephir_call_cache[0], &context_zv, &key_zv);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_2$$3);
 		zephir_throw_exception_debug(&_2$$3, "phalcon/Auth/Internal/Options.zep", 80);
 		ZEPHIR_MM_RESTORE();
 		return;

@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, load)
 {
 	zval _4$$3;
 	zend_bool _1, _12;
-	zval ex, definitions, json, loader, _0, _2, _9, _13, _3$$3, _5$$4, _6$$4, _7$$4, _8$$4, _10$$5, _11$$5, _14$$7;
+	zval ex, definitions, json, loader, _0, _2, _9, _13, _15, _3$$3, _5$$4, _6$$4, _7$$4, _8$$4, _10$$5, _11$$5, _14$$7;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -95,6 +95,7 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, load)
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_9);
 	ZVAL_UNDEF(&_13);
+	ZVAL_UNDEF(&_15);
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_5$$4);
 	ZVAL_UNDEF(&_6$$4);
@@ -142,8 +143,10 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, load)
 		ZEPHIR_INIT_VAR(&_5$$4);
 		object_init_ex(&_5$$4, phalcon_support_helper_json_decode_ce);
 		if (zephir_has_constructor(&_5$$4)) {
+			zephir_constructor_start(&_5$$4);
 			ZEPHIR_CALL_METHOD_CACHED(NULL, &_5$$4, "__construct", &_zephir_call_cache[1]);
 			zephir_check_call_status_or_jump(try_end_1);
+			zephir_constructor_finish(&_5$$4);
 		}
 
 		ZVAL_BOOL(&_6$$4, 1);
@@ -163,10 +166,12 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, load)
 			ZEPHIR_CPY_WRT(&ex, &_9);
 			ZEPHIR_INIT_VAR(&_10$$5);
 			object_init_ex(&_10$$5, phalcon_forms_exceptions_invalidjsonschema_ce);
+			zephir_constructor_start(&_10$$5);
 			ZEPHIR_CALL_METHOD_CACHED(&_11$$5, &ex, "getMessage", &_zephir_call_cache[3]);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD_CACHED(NULL, &_10$$5, "__construct", &_zephir_call_cache[4], &_11$$5);
 			zephir_check_call_status();
+			zephir_constructor_finish(&_10$$5);
 			zephir_throw_exception_debug(&_10$$5, "phalcon/Forms/Loader/JsonLoader.zep", 58);
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -184,16 +189,22 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, load)
 	if (_12) {
 		ZEPHIR_INIT_VAR(&_14$$7);
 		object_init_ex(&_14$$7, phalcon_forms_exceptions_jsonschemanotarray_ce);
+		zephir_constructor_start(&_14$$7);
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_14$$7, "__construct", &_zephir_call_cache[5]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_14$$7);
 		zephir_throw_exception_debug(&_14$$7, "phalcon/Forms/Loader/JsonLoader.zep", 62);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_INIT_VAR(&loader);
-	object_init_ex(&loader, phalcon_forms_loader_arrayloader_ce);
-	ZEPHIR_CALL_METHOD_CACHED(NULL, &loader, "__construct", &_zephir_call_cache[6], &definitions);
+	ZEPHIR_INIT_VAR(&_15);
+	object_init_ex(&_15, phalcon_forms_loader_arrayloader_ce);
+	zephir_constructor_start(&_15);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &_15, "__construct", &_zephir_call_cache[6], &definitions);
 	zephir_check_call_status();
+	zephir_constructor_finish(&_15);
+	ZEPHIR_CPY_WRT(&loader, &_15);
+	ZEPHIR_INIT_NVAR(&_15);
 	ZEPHIR_RETURN_CALL_METHOD_CACHED(&loader, "load", &_zephir_call_cache[7]);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -237,7 +248,7 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, phpFgetCsv)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_string *separator = NULL;
-	zend_long length, ZEPHIR_LAST_CALL_STATUS;
+	zend_long length = 0, ZEPHIR_LAST_CALL_STATUS;
 	zval *stream, stream_sub, *length_param = NULL, separator_zv, *enclosure = NULL, enclosure_sub, *escape = NULL, escape_sub, __$null, _0;
 
 	ZVAL_UNDEF(&stream_sub);
@@ -267,10 +278,6 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, phpFgetCsv)
 	if (ZEND_NUM_ARGS() > 4) {
 		escape = ZEND_CALL_ARG(execute_data, 5);
 	}
-	if (!length_param) {
-		length = 0;
-	} else {
-		}
 	if (!separator) {
 		separator = zend_string_init(ZEND_STRL(","), 0);
 		zephir_memory_observe(&separator_zv);
@@ -340,8 +347,8 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, phpFileGetContents)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_2 = NULL;
-	zend_long offset, length, ZEPHIR_LAST_CALL_STATUS;
-	zend_bool useIncludePath;
+	zend_long offset = 0, length = 0, ZEPHIR_LAST_CALL_STATUS;
+	zend_bool useIncludePath = 0;
 	zval filename_zv, *useIncludePath_param = NULL, *context = NULL, context_sub, *offset_param = NULL, *length_param = NULL, __$null, _0$$3, _1$$3, _3, _4, _5;
 	zend_string *filename = NULL;
 
@@ -378,22 +385,10 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, phpFileGetContents)
 	}
 	zephir_memory_observe(&filename_zv);
 	ZVAL_STR_COPY(&filename_zv, filename);
-	if (!useIncludePath_param) {
-		useIncludePath = 0;
-	} else {
-		}
 	if (!context) {
 		context = &context_sub;
 		context = &__$null;
 	}
-	if (!offset_param) {
-		offset = 0;
-	} else {
-		}
-	if (!length_param) {
-		length = 0;
-	} else {
-		}
 	if (0 == (length != 0)) {
 		ZVAL_BOOL(&_0$$3, (useIncludePath ? 1 : 0));
 		ZVAL_LONG(&_1$$3, offset);
@@ -422,7 +417,7 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, phpFileGetContents)
 PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, phpFilePutContents)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long flags, ZEPHIR_LAST_CALL_STATUS;
+	zend_long flags = 0, ZEPHIR_LAST_CALL_STATUS;
 	zval filename_zv, *data, data_sub, *flags_param = NULL, *context = NULL, context_sub, __$null, _0;
 	zend_string *filename = NULL;
 
@@ -450,10 +445,6 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, phpFilePutContents)
 	}
 	zephir_memory_observe(&filename_zv);
 	ZVAL_STR_COPY(&filename_zv, filename);
-	if (!flags_param) {
-		flags = 0;
-	} else {
-		}
 	if (!context) {
 		context = &context_sub;
 		context = &__$null;
@@ -478,7 +469,7 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, phpFopen)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool useIncludePath;
+	zend_bool useIncludePath = 0;
 	zval filename_zv, mode_zv, *useIncludePath_param = NULL, *context = NULL, context_sub, __$null, _0;
 	zend_string *filename = NULL, *mode = NULL;
 
@@ -507,10 +498,6 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, phpFopen)
 	ZVAL_STR_COPY(&filename_zv, filename);
 	zephir_memory_observe(&mode_zv);
 	ZVAL_STR_COPY(&mode_zv, mode);
-	if (!useIncludePath_param) {
-		useIncludePath = 0;
-	} else {
-		}
 	if (!context) {
 		context = &context_sub;
 		context = &__$null;
@@ -536,7 +523,7 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, phpFwrite)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_1 = NULL;
-	zend_long length, ZEPHIR_LAST_CALL_STATUS;
+	zend_long length = 0, ZEPHIR_LAST_CALL_STATUS;
 	zend_string *data = NULL;
 	zval *handle, handle_sub, data_zv, *length_param = NULL, _0;
 
@@ -558,10 +545,6 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, phpFwrite)
 	}
 	zephir_memory_observe(&data_zv);
 	ZVAL_STR_COPY(&data_zv, data);
-	if (!length_param) {
-		length = 0;
-	} else {
-		}
 	if (0 == (length != 0)) {
 		zephir_fwrite(return_value, handle, &data_zv);
 		RETURN_MM();
@@ -645,8 +628,8 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, phpIsWritable)
 PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, phpMkdir)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_bool recursive;
-	zend_long permissions, ZEPHIR_LAST_CALL_STATUS;
+	zend_bool recursive = 0;
+	zend_long permissions = 0777, ZEPHIR_LAST_CALL_STATUS;
 	zval directory_zv, *permissions_param = NULL, *recursive_param = NULL, *context = NULL, context_sub, __$null, _0, _1;
 	zend_string *directory = NULL;
 
@@ -676,14 +659,6 @@ PHP_METHOD(Phalcon_Forms_Loader_JsonLoader, phpMkdir)
 	}
 	zephir_memory_observe(&directory_zv);
 	ZVAL_STR_COPY(&directory_zv, directory);
-	if (!permissions_param) {
-		permissions = 0777;
-	} else {
-		}
-	if (!recursive_param) {
-		recursive = 0;
-	} else {
-		}
 	if (!context) {
 		context = &context_sub;
 		context = &__$null;
