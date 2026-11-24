@@ -108,7 +108,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_bag_abstrac
 	ZEND_ARG_ARRAY_INFO(0, items, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_bag_abstractbag_normalizekey, 0, 1, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_http_request_bag_abstractbag_normalizekey, 0, 1, MAY_BE_LONG|MAY_BE_STRING)
 	ZEND_ARG_INFO(0, key)
 ZEND_END_ARG_INFO()
 

@@ -17,6 +17,7 @@ use Phalcon\Http\Request\Bag\AbstractBag;
 use Phalcon\Http\Request\Bag\AttributeBag;
 use Phalcon\Http\Request\Exceptions\NullKeyException;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use ReflectionMethod;
 
 final class AttributeBagTest extends AbstractUnitTestCase
 {
@@ -100,6 +101,27 @@ final class AttributeBagTest extends AbstractUnitTestCase
     }
 
     /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/17771
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-24
+     */
+    public function testHttpRequestBagIntKeys(): void
+    {
+        $bag = new AttributeBag();
+
+        $bag->set(0, 'world');
+
+        $this->assertTrue($bag->has(0));
+        $this->assertSame('world', $bag->get(0));
+        $this->assertSame([0 => 'world'], $bag->all());
+
+        $bag->remove(0);
+
+        $this->assertFalse($bag->has(0));
+        $this->assertSame([], $bag->all());
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-07-16
      */
@@ -126,6 +148,18 @@ final class AttributeBagTest extends AbstractUnitTestCase
             ],
             $seen
         );
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/17771
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-24
+     */
+    public function testHttpRequestBagNormalizeKeyReturnType(): void
+    {
+        $method = new ReflectionMethod(AbstractBag::class, 'normalizeKey');
+
+        $this->assertSame('string|int', (string) $method->getReturnType());
     }
 
     /**
