@@ -50,6 +50,8 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 > **Upgrade note:** `Phalcon\Forms\Element\AbstractElement::getForm()` and `Phalcon\Forms\Element\ElementInterface::getForm()` now declare `?Phalcon\Forms\Form` as the return type instead of `Phalcon\Forms\Form`. The returned values do not change: an element with no form still returns `null`. A class that implements `ElementInterface` or extends `AbstractElement` can keep the `Form` return type. [#17781](https://github.com/phalcon/cphalcon/issues/17781)
 
+> **Upgrade note:** `Phalcon\Html\TagFactory::newInstance()` now declares `mixed` as the return type instead of `object`. The returned values do not change: the method returns the value of the factory, also when it is not an object. A class that overrides `newInstance()` can keep the `object` return type. [#17785](https://github.com/phalcon/cphalcon/issues/17785)
+
 ### Tools
 
 - Zephir 1.9.0
@@ -100,6 +102,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - `Phalcon\Forms\Element\AbstractElement::getForm()` and `Phalcon\Forms\Element\ElementInterface::getForm()` declaring `Form` as the return type instead of `?Form`. [#17781](https://github.com/phalcon/cphalcon/issues/17781)
 - `Phalcon\Forms\Form::getValue()` returning the tag factory for the name `tagFactory`. [#17727](https://github.com/phalcon/cphalcon/issues/17727)
 - `Phalcon\Html\Escaper\CssEscaper` and `Phalcon\Html\Escaper\JsEscaper` declaring `string` as the return type of their private escape methods, which return `false` for the code point U+0000. [#17783](https://github.com/phalcon/cphalcon/issues/17783)
+- `Phalcon\Html\TagFactory::newInstance()` declaring `object` as the return type instead of `mixed`. [#17785](https://github.com/phalcon/cphalcon/issues/17785)
 - `Phalcon\Http\Request\Bag\AbstractBag::normalizeKey()` declaring `string` as the return type instead of `int|string`. [#17771](https://github.com/phalcon/cphalcon/issues/17771)
 - `Phalcon\Mvc\Model::doLowInsert()` not reading back the generated id on MySQL when the identity property is `0`. [#17689](https://github.com/phalcon/cphalcon/issues/17689)
 - `Phalcon\Mvc\Model::save()` leaving the transaction of the related records open when an exception is thrown during the save; the transaction is now rolled back before the exception is thrown again. [#17756](https://github.com/phalcon/cphalcon/issues/17756)
