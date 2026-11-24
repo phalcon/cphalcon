@@ -38,6 +38,8 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 > **Upgrade note:** `Phalcon\Mvc\Model\Resultset\Simple` and `Phalcon\Mvc\Model\Resultset\Complex` no longer put their cache in the serialized data (`serialize()` and `__serialize()`). A resultset that comes from the models cache, or from `unserialize()`, now returns `null` from `getCache()`. Before, it returned a copy of the cache with no connection. Code that needs the cache must get the `modelsCache` service from the container. In data that an older version serialized, the cache entry is ignored. [#17766](https://github.com/phalcon/cphalcon/issues/17766)
 
+> **Upgrade note:** `Phalcon\Http\Request\Bag\AbstractBag::normalizeKey()` now declares `int|string` as the return type instead of `string`. The returned values do not change: an `int` key is still returned as an `int`. A class that overrides `normalizeKey()` can keep the `string` return type. [#17771](https://github.com/phalcon/cphalcon/issues/17771)
+
 ### Tools
 
 - Zephir 1.9.0
@@ -82,6 +84,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - `Phalcon\Db\Adapter\Pdo\Sqlite::describeColumns()` using `Column::TYPE_DECIMAL` as the bind type of `float` columns, which stored their values as blobs. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
 - `Phalcon\Encryption\Security::hash()` using the cost `4` instead of the work factor when the `cost` option is empty. [#17764](https://github.com/phalcon/cphalcon/issues/17764)
 - `Phalcon\Forms\Form::getValue()` returning the tag factory for the name `tagFactory`. [#17727](https://github.com/phalcon/cphalcon/issues/17727)
+- `Phalcon\Http\Request\Bag\AbstractBag::normalizeKey()` declaring `string` as the return type instead of `int|string`. [#17771](https://github.com/phalcon/cphalcon/issues/17771)
 - `Phalcon\Mvc\Model::doLowInsert()` not reading back the generated id on MySQL when the identity property is `0`. [#17689](https://github.com/phalcon/cphalcon/issues/17689)
 - `Phalcon\Mvc\Model::save()` leaving the transaction of the related records open when an exception is thrown during the save; the transaction is now rolled back before the exception is thrown again. [#17756](https://github.com/phalcon/cphalcon/issues/17756)
 - `Phalcon\Mvc\Model\Manager::getModelSource()` ignoring `Source` attributes when `AttributesReader` is configured. [#17741](https://github.com/phalcon/cphalcon/issues/17741)
