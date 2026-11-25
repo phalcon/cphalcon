@@ -2755,7 +2755,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, listTables)
 	}
 	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "escapeStringLiteral", &_zephir_call_cache[0], &schemaName);
 	zephir_check_call_status();
-	ZEPHIR_CONCAT_SVS(return_value, "SELECT table_name FROM information_schema.tables WHERE table_schema = '", &_0, "' ORDER BY table_name");
+	ZEPHIR_CONCAT_SVS(return_value, "SELECT t.table_name FROM information_schema.tables t JOIN pg_namespace n ON n.nspname = t.table_schema JOIN pg_class c ON c.relnamespace = n.oid AND c.relname = t.table_name WHERE t.table_schema = '", &_0, "' AND NOT c.relispartition ORDER BY t.table_name");
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -3100,13 +3100,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, returning)
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
 		zephir_constructor_finish(&_0$$3);
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Db/Dialect/Postgresql.zep", 952);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Db/Dialect/Postgresql.zep", 955);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	if (zephir_fast_count_int(&columns) == 1) {
 		zephir_memory_observe(&_1$$4);
-		zephir_array_fetch_long(&_1$$4, &columns, 0, PH_NOISY, "phalcon/Db/Dialect/Postgresql.zep", 956);
+		zephir_array_fetch_long(&_1$$4, &columns, 0, PH_NOISY, "phalcon/Db/Dialect/Postgresql.zep", 959);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -3472,7 +3472,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, castDefault)
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_fast_strtoupper(&_1, &columnDefinition);
-	if (zephir_memnstr_str(&_1, SL("BOOLEAN"), "phalcon/Db/Dialect/Postgresql.zep", 1089)) {
+	if (zephir_memnstr_str(&_1, SL("BOOLEAN"), "phalcon/Db/Dialect/Postgresql.zep", 1092)) {
 		zephir_cast_to_string(&_2$$4, &defaultValue);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
@@ -3501,7 +3501,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, castDefault)
 	}
 	ZEPHIR_INIT_VAR(&_6);
 	zephir_fast_strtoupper(&_6, &defaultValue);
-	if (zephir_memnstr_str(&_6, SL("CURRENT_TIMESTAMP"), "phalcon/Db/Dialect/Postgresql.zep", 1095)) {
+	if (zephir_memnstr_str(&_6, SL("CURRENT_TIMESTAMP"), "phalcon/Db/Dialect/Postgresql.zep", 1098)) {
 		RETURN_MM_STRING("CURRENT_TIMESTAMP");
 	}
 	_7 = ZEPHIR_IS_LONG_IDENTICAL(&columnType, 0);

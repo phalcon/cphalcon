@@ -2856,14 +2856,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, listTables)
 	if (!(ZEPHIR_IS_EMPTY(&schemaName_zv))) {
 		ZEPHIR_CALL_METHOD_CACHED(&_0$$3, this_ptr, "escape", &_zephir_call_cache[0], &schemaName_zv);
 		zephir_check_call_status();
-		ZEPHIR_CONCAT_SV(return_value, "SHOW TABLES FROM ", &_0$$3);
+		ZEPHIR_CONCAT_SVS(return_value, "SHOW FULL TABLES FROM ", &_0$$3, " WHERE Table_type <> 'SEQUENCE'");
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
 		RETURN_MM();
 	}
-	RETURN_MM_STRING("SHOW TABLES");
+	RETURN_MM_STRING("SHOW FULL TABLES WHERE Table_type <> 'SEQUENCE'");
 }
 
 /**
@@ -3096,9 +3096,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, modifyColumn)
 			} else {
 				ZEPHIR_INIT_VAR(&upperDefaultValue);
 				zephir_fast_strtoupper(&upperDefaultValue, &defaultValue);
-				_18$$12 = zephir_memnstr_str(&upperDefaultValue, SL("CURRENT_TIMESTAMP"), "phalcon/Db/Dialect/Mysql.zep", 899);
+				_18$$12 = zephir_memnstr_str(&upperDefaultValue, SL("CURRENT_TIMESTAMP"), "phalcon/Db/Dialect/Mysql.zep", 902);
 				if (!(_18$$12)) {
-					_18$$12 = zephir_memnstr_str(&upperDefaultValue, SL("NULL"), "phalcon/Db/Dialect/Mysql.zep", 899);
+					_18$$12 = zephir_memnstr_str(&upperDefaultValue, SL("NULL"), "phalcon/Db/Dialect/Mysql.zep", 902);
 				}
 				_19$$12 = _18$$12;
 				if (!(_19$$12)) {
@@ -3235,7 +3235,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, onConflictUpdate)
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	zephir_constructor_finish(&_0);
-	zephir_throw_exception_debug(&_0, "phalcon/Db/Dialect/Mysql.zep", 941);
+	zephir_throw_exception_debug(&_0, "phalcon/Db/Dialect/Mysql.zep", 944);
 	ZEPHIR_MM_RESTORE();
 	return;
 }
@@ -3628,7 +3628,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getTableOptions)
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			zephir_array_append(&tableOptions, &_2$$5, PH_SEPARATE, "phalcon/Db/Dialect/Mysql.zep", 1076);
+			zephir_array_append(&tableOptions, &_2$$5, PH_SEPARATE, "phalcon/Db/Dialect/Mysql.zep", 1079);
 			if (UNEXPECTED(EG(exception))) {
 				ZEPHIR_MM_RESTORE();
 				return;
@@ -3649,7 +3649,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getTableOptions)
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			zephir_array_append(&tableOptions, &_4$$7, PH_SEPARATE, "phalcon/Db/Dialect/Mysql.zep", 1085);
+			zephir_array_append(&tableOptions, &_4$$7, PH_SEPARATE, "phalcon/Db/Dialect/Mysql.zep", 1088);
 			if (UNEXPECTED(EG(exception))) {
 				ZEPHIR_MM_RESTORE();
 				return;
@@ -3671,7 +3671,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getTableOptions)
 				return;
 			}
 			zephir_memory_observe(&_6$$9);
-			zephir_array_fetch_long(&_6$$9, &collationParts, 0, PH_NOISY, "phalcon/Db/Dialect/Mysql.zep", 1095);
+			zephir_array_fetch_long(&_6$$9, &collationParts, 0, PH_NOISY, "phalcon/Db/Dialect/Mysql.zep", 1098);
 			if (UNEXPECTED(EG(exception))) {
 				ZEPHIR_MM_RESTORE();
 				return;
@@ -3682,7 +3682,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getTableOptions)
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			zephir_array_append(&tableOptions, &_7$$9, PH_SEPARATE, "phalcon/Db/Dialect/Mysql.zep", 1095);
+			zephir_array_append(&tableOptions, &_7$$9, PH_SEPARATE, "phalcon/Db/Dialect/Mysql.zep", 1098);
 			if (UNEXPECTED(EG(exception))) {
 				ZEPHIR_MM_RESTORE();
 				return;
@@ -3693,7 +3693,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getTableOptions)
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			zephir_array_append(&tableOptions, &_8$$9, PH_SEPARATE, "phalcon/Db/Dialect/Mysql.zep", 1096);
+			zephir_array_append(&tableOptions, &_8$$9, PH_SEPARATE, "phalcon/Db/Dialect/Mysql.zep", 1099);
 			if (UNEXPECTED(EG(exception))) {
 				ZEPHIR_MM_RESTORE();
 				return;
@@ -3720,7 +3720,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getTableOptions)
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			zephir_array_append(&tableOptions, &_13$$11, PH_SEPARATE, "phalcon/Db/Dialect/Mysql.zep", 1105);
+			zephir_array_append(&tableOptions, &_13$$11, PH_SEPARATE, "phalcon/Db/Dialect/Mysql.zep", 1108);
 			if (UNEXPECTED(EG(exception))) {
 				ZEPHIR_MM_RESTORE();
 				return;
