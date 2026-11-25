@@ -209,7 +209,7 @@ final class EscapeIntrospectionTest extends AbstractDatabaseTestCase
         $dialect = new Mysql();
 
         $this->assertSame(
-            'SHOW TABLES FROM `sch``ema`',
+            "SHOW FULL TABLES FROM `sch``ema` WHERE Table_type <> 'SEQUENCE'",
             $dialect->listTables('sch`ema')
         );
     }

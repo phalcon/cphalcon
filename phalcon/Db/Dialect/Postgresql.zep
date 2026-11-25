@@ -869,7 +869,10 @@ class Postgresql extends Dialect
             let schemaName = "public";
         }
 
-        return "SELECT table_name FROM information_schema.tables WHERE table_schema = '" . this->escapeStringLiteral(schemaName) . "' ORDER BY table_name";
+        /**
+         * information_schema.tables lists partitions. Remove them.
+         */
+        return "SELECT t.table_name FROM information_schema.tables t JOIN pg_namespace n ON n.nspname = t.table_schema JOIN pg_class c ON c.relnamespace = n.oid AND c.relname = t.table_name WHERE t.table_schema = '" . this->escapeStringLiteral(schemaName) . "' AND NOT c.relispartition ORDER BY t.table_name";
     }
 
     /**
