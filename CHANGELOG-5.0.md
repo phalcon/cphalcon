@@ -42,13 +42,9 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 > **Upgrade note:** `Phalcon\Annotations\Adapter\Stream::read()` now returns `false` when the cache file does not hold a `Phalcon\Annotations\Reflection` object, for example an object of a class that is not allowed, an array, a string, an integer or `null`. Before, it returned that value. `get()` now parses the class again and writes a new cache file, the same as for a missing cache file. [#17773](https://github.com/phalcon/cphalcon/issues/17773)
 
-> **Upgrade note:** `Phalcon\Annotations\Reader::parseDocBlock()` now declares `array|false` as the return type instead of `array`. The returned values do not change: a docblock with no annotations still returns `false`. A class that overrides `parseDocBlock()` can keep the `array` return type. [#17775](https://github.com/phalcon/cphalcon/issues/17775)
-
 > **Upgrade note:** The factory closure that `Phalcon\Container\Definition\Processor\ObjectProcessor::process()` sets now declares one optional parameter, the container. `Phalcon\Container\Definition\ServiceDefinition::buildService()` already calls the factory with the container. A call with no arguments still works, and the returned object does not change. [#17777](https://github.com/phalcon/cphalcon/issues/17777)
 
 > **Upgrade note:** `Phalcon\Encryption\Security::hash()` now converts a numeric string `cost` option to an integer. A fractional value such as `'5.7'` becomes `5`. Before, the `CRYPT_BLOWFISH_A` and `CRYPT_BLOWFISH_X` algorithms put the string in the salt (`$2a$5.7$`), and `crypt()` returned the failure string `*0`. Integer costs and integer strings such as `'5'` give the same hashes as before. [#17779](https://github.com/phalcon/cphalcon/issues/17779)
-
-> **Upgrade note:** `Phalcon\Forms\Element\AbstractElement::getForm()` and `Phalcon\Forms\Element\ElementInterface::getForm()` now declare `?Phalcon\Forms\Form` as the return type instead of `Phalcon\Forms\Form`. The returned values do not change: an element with no form still returns `null`. A class that implements `ElementInterface` or extends `AbstractElement` can keep the `Form` return type. [#17781](https://github.com/phalcon/cphalcon/issues/17781)
 
 ### Tools
 
@@ -87,7 +83,6 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - PHP 8.6 deprecation of `doubleval()`: `Phalcon\Encryption\Security\Uuid\Version1`, `Phalcon\Encryption\Security\Uuid\Version6` and `Phalcon\Mvc\Model` now use `floatval()`. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
 - PHP 8.6 deprecation of `spl_object_hash()`: `Phalcon\Dispatcher\AbstractDispatcher` and `Phalcon\Html\Link\AbstractLinkProvider` now use `spl_object_id()`; the keys returned by `getLinks()` are now integers. [#17687](https://github.com/phalcon/cphalcon/issues/17687)
 - `Phalcon\Annotations\Adapter\Stream::read()` returning the content of a cache file that does not hold a `Reflection` object. [#17773](https://github.com/phalcon/cphalcon/issues/17773)
-- `Phalcon\Annotations\Reader::parseDocBlock()` declaring `array` as the return type instead of `array|false`. [#17775](https://github.com/phalcon/cphalcon/issues/17775)
 - `Phalcon\Container\Definition\Processor\ObjectProcessor::process()` setting a factory closure with no parameters, although the factory is called with the container. [#17777](https://github.com/phalcon/cphalcon/issues/17777)
 - `Phalcon\Contracts\Db\Adapter\Adapter::fetchColumn()` and `Phalcon\Db\Adapter\AbstractAdapter::fetchColumn()` declaring `string|bool` as the return type instead of `mixed`. [#17755](https://github.com/phalcon/cphalcon/issues/17755)
 - `Phalcon\Db\Adapter\Pdo\Postgresql::describeColumns()` reporting `mediumblob` columns as `Column::TYPE_TEXT`. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
@@ -97,10 +92,10 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - `Phalcon\Db\Adapter\Pdo\Sqlite::describeColumns()` using `Column::TYPE_DECIMAL` as the bind type of `float` columns, which stored their values as blobs. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
 - `Phalcon\Encryption\Security::hash()` passing a numeric string `cost` option on as a string, which gave an invalid Blowfish salt for a fractional value. [#17779](https://github.com/phalcon/cphalcon/issues/17779)
 - `Phalcon\Encryption\Security::hash()` using the cost `4` instead of the work factor when the `cost` option is empty. [#17764](https://github.com/phalcon/cphalcon/issues/17764)
-- `Phalcon\Forms\Element\AbstractElement::getForm()` and `Phalcon\Forms\Element\ElementInterface::getForm()` declaring `Form` as the return type instead of `?Form`. [#17781](https://github.com/phalcon/cphalcon/issues/17781)
 - `Phalcon\Forms\Form::getValue()` returning the tag factory for the name `tagFactory`. [#17727](https://github.com/phalcon/cphalcon/issues/17727)
 - `Phalcon\Html\Escaper\CssEscaper` and `Phalcon\Html\Escaper\JsEscaper` declaring `string` as the return type of their private escape methods, which return `false` for the code point U+0000. [#17783](https://github.com/phalcon/cphalcon/issues/17783)
 - `Phalcon\Http\Request\Bag\AbstractBag::normalizeKey()` declaring `string` as the return type instead of `int|string`. [#17771](https://github.com/phalcon/cphalcon/issues/17771)
+- `Phalcon\Image\Adapter\Imagick::processSave()` returning `null` instead of `true` for a GIF file. [#17788](https://github.com/phalcon/cphalcon/issues/17788)
 - `Phalcon\Mvc\Model::doLowInsert()` not reading back the generated id on MySQL when the identity property is `0`. [#17689](https://github.com/phalcon/cphalcon/issues/17689)
 - `Phalcon\Mvc\Model::save()` leaving the transaction of the related records open when an exception is thrown during the save; the transaction is now rolled back before the exception is thrown again. [#17756](https://github.com/phalcon/cphalcon/issues/17756)
 - `Phalcon\Mvc\Model\Manager::getModelSource()` ignoring `Source` attributes when `AttributesReader` is configured. [#17741](https://github.com/phalcon/cphalcon/issues/17741)

@@ -2048,7 +2048,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processSave)
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "phpFclose", &_zephir_call_cache[8], &fp);
 		zephir_check_call_status();
-		RETURN_MM_NULL();
+		RETURN_MM_BOOL(1);
 	zephir_switch_0_clause_1: ;
 	zephir_switch_0_clause_2: ;
 		ZEPHIR_INIT_VAR(&_6$$4);
