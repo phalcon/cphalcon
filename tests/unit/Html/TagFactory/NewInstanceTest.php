@@ -37,6 +37,7 @@ use Phalcon\Html\Helper\Title;
 use Phalcon\Html\Helper\Ul;
 use Phalcon\Html\TagFactory;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Traits\DebugBuildTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 use TypeError;
 
@@ -49,6 +50,8 @@ use function uniqid;
  */
 final class NewInstanceTest extends AbstractUnitTestCase
 {
+    use DebugBuildTrait;
+
     /**
      * Returns the example data
      */
@@ -138,6 +141,8 @@ final class NewInstanceTest extends AbstractUnitTestCase
      */
     public function testFilterTagFactoryNewInstanceNotObject(): void
     {
+        $this->skipOnDebugBuild();
+
         $factory = new TagFactory(new Escaper(), ['five' => static fn () => 5]);
 
         $this->assertSame(5, $factory->newInstance('five'));

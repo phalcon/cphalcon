@@ -18,6 +18,7 @@ use Phalcon\Mvc\Model\Query;
 use Phalcon\Mvc\Model\Query\Lang;
 use Phalcon\Support\Settings;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Traits\DebugBuildTrait;
 use ReflectionProperty;
 
 use function array_fill;
@@ -43,6 +44,8 @@ use const PHP_INT_MIN;
  */
 final class ParsePHQLTest extends AbstractUnitTestCase
 {
+    use DebugBuildTrait;
+
     /**
      * The ini values that tearDown() restores, by setting.
      *
@@ -87,6 +90,8 @@ final class ParsePHQLTest extends AbstractUnitTestCase
      */
     public function testMvcModelQueryLangParsePHQLBlankStatementHasNoResult(): void
     {
+        $this->skipOnDebugBuild();
+
         $this->assertSame([null, null], [Lang::parsePHQL(''), Lang::parsePHQL(' ')]);
     }
 

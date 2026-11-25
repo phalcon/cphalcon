@@ -761,7 +761,7 @@ class Imagick extends AbstractAdapter
 
                 this->phpFclose(fp);
 
-                return;
+                return true;
             case "jpg":
             case "jpeg":
                 image->setImageCompression(

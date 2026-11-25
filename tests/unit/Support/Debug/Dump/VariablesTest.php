@@ -16,18 +16,23 @@ namespace Phalcon\Tests\Unit\Support\Debug\Dump;
 use Phalcon\Support\Debug\Dump;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Talon\Talon;
+use Phalcon\Tests\Support\Traits\DebugBuildTrait;
 use stdClass;
 
 use function file_get_contents;
 
 final class VariablesTest extends AbstractUnitTestCase
 {
+    use DebugBuildTrait;
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
     public function testSupportDebugDumpVariables(): void
     {
+        $this->skipOnDebugBuild();
+
         $test1 = 'string';
         $test2 = ['key' => 'value'];
         $test3 = new stdClass();

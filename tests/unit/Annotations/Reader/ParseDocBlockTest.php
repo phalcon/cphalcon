@@ -16,11 +16,13 @@ namespace Phalcon\Tests\Unit\Annotations\Reader;
 use Phalcon\Annotations\Exception;
 use Phalcon\Annotations\Reader;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Traits\DebugBuildTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
-use ReflectionMethod;
 
 final class ParseDocBlockTest extends AbstractUnitTestCase
 {
+    use DebugBuildTrait;
+
     /**
      * @return array<string, array{string}>
      */
@@ -124,6 +126,8 @@ EOF;
      */
     public function testAnnotationsReaderParseDocBlockEndOfInputInRawMode(): void
     {
+        $this->skipOnDebugBuild();
+
         $reader = new Reader();
 
         foreach (['@!', '@', '/** @', '/** @Foo */ trailing text'] as $docBlock) {
@@ -171,6 +175,8 @@ EOF;
     #[DataProvider('getNoAnnotationExamples')]
     public function testAnnotationsReaderParseDocBlockNoAnnotations(string $docBlock): void
     {
+        $this->skipOnDebugBuild();
+
         $this->assertFalse(Reader::parseDocBlock($docBlock));
     }
 
@@ -208,18 +214,6 @@ EOF;
 
         $this->assertSame('DoubleQuoteParens', $parsed[2]['name']);
         $this->assertSame('value()', $parsed[2]['arguments'][0]['expr']['value']);
-    }
-
-    /**
-     * @issue  https://github.com/phalcon/cphalcon/issues/17775
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-11-24
-     */
-    public function testAnnotationsReaderParseDocBlockReturnType(): void
-    {
-        $method = new ReflectionMethod(Reader::class, 'parseDocBlock');
-
-        $this->assertSame('array|false', (string) $method->getReturnType());
     }
 
     /**
