@@ -46,6 +46,7 @@ Please report bugs when you've exhausted all of the above options.
 * Phalcon is written in [Zephir](https://zephir-lang.com/), please do not submit commits that modify C generated files directly or those whose functionality/fixes are implemented in the C programming language
 * Remove any change to `ext/kernel`, `*.zep.c` and `*.zep.h` files before submitting the pull request
 * Consult the [Contributions](https://docs.phalcon.io/latest/contributions/) section of our documentation and please ensure you read the [AI development](https://docs.phalcon.io/latest/ai-development/) document also
+* Set up the development environment with the [Testing Environment](https://docs.phalcon.io/latest/testing-environment/) guide. For branch names and commit messages, see [New Pull Request](https://docs.phalcon.io/latest/new-pull-request/)
 
 ## Requesting Features
 
