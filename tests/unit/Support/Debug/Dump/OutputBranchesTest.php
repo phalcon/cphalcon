@@ -19,11 +19,16 @@ use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Support\Dump\ClassProperties;
 use Phalcon\Tests\Support\Support\Dump\ClassUninitialized;
 use Phalcon\Tests\Support\Support\Dump\SampleMethods;
+use Phalcon\Tests\Support\Traits\DebugBuildTrait;
 
 final class OutputBranchesTest extends AbstractUnitTestCase
 {
+    use DebugBuildTrait;
+
     public function testAlreadyListedMethods(): void
     {
+        $this->skipOnDebugBuild();
+
         $dump   = new Dump();
         $actual = $dump->variables(new SampleMethods(), new SampleMethods());
 

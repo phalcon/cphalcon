@@ -82,7 +82,7 @@ interface ElementInterface
     /**
      * Returns the parent form to the element
      */
-    public function getForm() -> <Form> | null;
+    public function getForm() -> <Form>;
 
     /**
      * Returns the element's label

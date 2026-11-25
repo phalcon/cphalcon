@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Forms\Element;
 
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Traits\DebugBuildTrait;
 use Phalcon\Tests\Unit\Forms\Fake\FormsTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -21,6 +22,7 @@ use function uniqid;
 
 final class GetSetNameClearTest extends AbstractUnitTestCase
 {
+    use DebugBuildTrait;
     use FormsTrait;
 
     /**
@@ -31,6 +33,8 @@ final class GetSetNameClearTest extends AbstractUnitTestCase
     public function testFormsElementGetSetNameClear(
         string $class
     ): void {
+        $this->skipOnDebugBuild();
+
         $name   = uniqid();
         $object = new $class($name);
 

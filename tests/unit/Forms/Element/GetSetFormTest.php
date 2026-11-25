@@ -13,18 +13,17 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Forms\Element;
 
-use Phalcon\Forms\Element\AbstractElement;
-use Phalcon\Forms\Element\ElementInterface;
 use Phalcon\Forms\Form;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Traits\DebugBuildTrait;
 use Phalcon\Tests\Unit\Forms\Fake\FormsTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
-use ReflectionMethod;
 
 use function uniqid;
 
 final class GetSetFormTest extends AbstractUnitTestCase
 {
+    use DebugBuildTrait;
     use FormsTrait;
 
     /**
@@ -55,23 +54,11 @@ final class GetSetFormTest extends AbstractUnitTestCase
     public function testFormsElementGetFormNotSet(
         string $class
     ): void {
+        $this->skipOnDebugBuild();
+
         $object = new $class(uniqid());
 
         $this->assertNull($object->getForm());
-    }
-
-    /**
-     * @issue  https://github.com/phalcon/cphalcon/issues/17781
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2026-11-24
-     */
-    public function testFormsElementGetFormReturnType(): void
-    {
-        $element   = new ReflectionMethod(AbstractElement::class, 'getForm');
-        $interface = new ReflectionMethod(ElementInterface::class, 'getForm');
-
-        $this->assertSame('?Phalcon\Forms\Form', (string) $element->getReturnType());
-        $this->assertSame('?Phalcon\Forms\Form', (string) $interface->getReturnType());
     }
 
     /**

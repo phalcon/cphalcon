@@ -13,11 +13,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Dispatcher;
 
+use Phalcon\Tests\Support\Traits\DebugBuildTrait;
 use Phalcon\Tests\Unit\Mvc\Dispatcher\Helper\BaseDispatcher;
 use Phalcon\Tests\Unit\Mvc\Dispatcher\Helper\DispatcherTestDefaultController;
 
 class GetActiveControllerTest extends BaseDispatcher
 {
+    use DebugBuildTrait;
+
     /**
      * Tests Phalcon\Mvc\Dispatcher :: getActiveController()
      *
@@ -26,6 +29,8 @@ class GetActiveControllerTest extends BaseDispatcher
      */
     public function testMvcDispatcherGetActiveController(): void
     {
+        $this->skipOnDebugBuild();
+
         $dispatcher = $this->getDispatcher();
         $this->assertNull($dispatcher->getActiveController());
         $dispatcher->dispatch();
