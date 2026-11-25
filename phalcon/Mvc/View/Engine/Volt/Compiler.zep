@@ -641,7 +641,7 @@ class Compiler implements InjectionAwareInterface
      */
     public function compileEcho(array statement) -> string
     {
-        var expr, exprCode, name;
+        var escapers, expr, exprCode, filter, name, prefix;
 
         /**
          * A valid expression is required
@@ -676,6 +676,36 @@ class Compiler implements InjectionAwareInterface
          * Echo statement
          */
         if this->autoescape {
+            /**
+             * A built-in escape filter as the outermost node escapes the
+             * output already. A user filter or an extension can use the same
+             * name, thus the code must also start with the built-in code.
+             */
+            if expr["type"] == 124 {
+                let filter = expr["right"];
+
+                if filter["type"] == PHVOLT_T_FCALL {
+                    let name = filter["name"]["value"];
+                } else {
+                    let name = filter["value"];
+                }
+
+                let escapers = [
+                    "e":           "$this->escaper->html(",
+                    "escape":      "$this->escaper->html(",
+                    "escape_attr": "$this->escaper->attributes(",
+                    "escape_css":  "$this->escaper->css(",
+                    "escape_js":   "$this->escaper->js(",
+                    "url_encode":  "urlencode("
+                ];
+
+                if fetch prefix, escapers[name] {
+                    if starts_with(exprCode, prefix) {
+                        return "<?= " . exprCode . " ?>";
+                    }
+                }
+            }
+
             return "<?= $this->escaper->html(" . exprCode . ") ?>";
         }
 
