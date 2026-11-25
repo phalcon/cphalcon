@@ -33,12 +33,12 @@ final class ListTablesTest extends AbstractDatabaseTestCase
         $dialect = new Mysql();
 
         $this->assertSame(
-            'SHOW TABLES',
+            "SHOW FULL TABLES WHERE Table_type <> 'SEQUENCE'",
             $dialect->listTables()
         );
 
         $this->assertSame(
-            'SHOW TABLES FROM `schema`',
+            "SHOW FULL TABLES FROM `schema` WHERE Table_type <> 'SEQUENCE'",
             $dialect->listTables('schema')
         );
     }

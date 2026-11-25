@@ -833,11 +833,14 @@ class Mysql extends Dialect
      */
     public function listTables(string schemaName = null) -> string
     {
+        /**
+         * MariaDB lists sequences in SHOW TABLES. Remove them.
+         */
         if schemaName {
-            return "SHOW TABLES FROM " . this->escape(schemaName);
+            return "SHOW FULL TABLES FROM " . this->escape(schemaName) . " WHERE Table_type <> 'SEQUENCE'";
         }
 
-        return "SHOW TABLES";
+        return "SHOW FULL TABLES WHERE Table_type <> 'SEQUENCE'";
     }
 
     /**
