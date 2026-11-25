@@ -107,6 +107,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - `Phalcon\Mvc\Model\Resultset\Complex` and `Phalcon\Mvc\Model\Resultset\Simple` putting their cache in the serialized data, which failed for a cache that cannot be serialized, such as a Redis connection. A resultset from the cache now has no cache (`getCache()` returns `null`). [#17766](https://github.com/phalcon/cphalcon/issues/17766)
 - `Phalcon\Mvc\View\Engine\Volt\Compiler::compile()` rendering serialized blocks for the second child of a layout when `stat` is `false`. [#17674](https://github.com/phalcon/cphalcon/issues/17674)
 - `Phalcon\Mvc\View\Engine\Volt\Compiler::compileCall()` silently dropping `{% call %}` blocks instead of throwing an exception. [#17676](https://github.com/phalcon/cphalcon/issues/17676)
+- `Phalcon\Mvc\View\Engine\Volt\Compiler::compileEcho()` escaping the output of the escape filters (`e`, `escape`, `escape_attr` and others) a second time when `autoescape` is on. [#17678](https://github.com/phalcon/cphalcon/issues/17678)
 - `Phalcon\Queue\Consumer\Worker::handleSignal()` throwing an `ArgumentCountError` when the worker receives a signal. [#17719](https://github.com/phalcon/cphalcon/issues/17719)
 - `Phalcon\Support\Debug::debugVar()` storing the arguments and objects of each backtrace frame. [#17746](https://github.com/phalcon/cphalcon/issues/17746)
 - `Phalcon\Support\Debug::onUncaughtException()` discarding only one output buffer level. [#17739](https://github.com/phalcon/cphalcon/issues/17739)
