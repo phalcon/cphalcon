@@ -85,6 +85,27 @@ final class ContainerResolverTest extends AbstractUnitTestCase
         ContainerResolver::resolveFresh(new Di(), 'NoSuch\\Class\\AtAll');
     }
 
+    /**
+     * A non-shared service whose definition is a built object gives back the
+     * same object each time, thus it cannot be fresh.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17806
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-26
+     */
+    public function testResolveFreshThrowsForInstanceDefinitionOnDi(): void
+    {
+        $di = new Di();
+        $di->set('gate', new AuthGate());
+
+        $this->expectException(ContainerException::class);
+        $this->expectExceptionMessage(
+            "Cannot resolve a fresh 'gate': it is registered in the Di as an instance"
+        );
+
+        ContainerResolver::resolveFresh($di, 'gate');
+    }
+
     public function testResolveFreshThrowsForSharedInstanceDefinitionOnDi(): void
     {
         $di = new Di();
