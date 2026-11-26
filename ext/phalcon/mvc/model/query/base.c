@@ -171,13 +171,13 @@ static void phql_scanner_error_msg(phql_parser_status *parser_status, zval **err
 /**
  * Executes the internal PHQL parser/tokenizer
  */
-int phql_parse_phql(zval *result, zval *phql)
+int phql_parse_phql(zval *result, zval *phql, zval *enable_literals, zval *cache_level)
 {
 	zval err_msg, *error_msg = &err_msg;
 	ZVAL_UNDEF(error_msg);
 	ZVAL_NULL(result);
 
-	if (phql_internal_parse_phql(&result, Z_STRVAL_P(phql), Z_STRLEN_P(phql), &error_msg) == FAILURE) {
+	if (phql_internal_parse_phql(&result, Z_STRVAL_P(phql), Z_STRLEN_P(phql), zend_is_true(enable_literals), zval_get_long(cache_level), &error_msg) == FAILURE) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_model_exception_ce, Z_STRVAL_P(error_msg));
 		/* The exception holds its own copy; release the message string. */
 		zval_ptr_dtor_nogc(error_msg);
@@ -190,11 +190,11 @@ int phql_parse_phql(zval *result, zval *phql)
 /**
  * Executes a PHQL parser/tokenizer
  */
-int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length, zval **error_msg)
+int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length, zend_bool enable_literals, zend_long cache_level, zval **error_msg)
 {
 	zend_phalcon_globals *phalcon_globals_ptr = ZEPHIR_VGLOBAL;
 	phql_parser_status *parser_status = NULL;
-	int scanner_status, status = SUCCESS, error_length, cache_level;
+	int scanner_status, status = SUCCESS, error_length;
 	phql_scanner_state *state;
 	phql_scanner_token token;
 	void* phql_parser;
@@ -206,7 +206,6 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 		return FAILURE;
 	}
 
-	cache_level = phalcon_globals_ptr->orm.cache_level;
 	if (cache_level >= 0) {
 		if (phalcon_globals_ptr->orm.parser_cache != NULL) {
 			if ((temp_ast = zend_hash_str_find(phalcon_globals_ptr->orm.parser_cache, phql, phql_length)) != NULL) {
@@ -227,7 +226,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 
 	parser_status->syntax_error = NULL;
 	parser_status->token = &token;
-	parser_status->enable_literals = phalcon_globals_ptr->orm.enable_literals;
+	parser_status->enable_literals = enable_literals;
 	parser_status->phql = phql;
 	parser_status->phql_length = phql_length;
 
@@ -617,7 +616,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				/**
 				 * Set a unique id for the parsed ast
 				 */
-				if (phalcon_globals_ptr->orm.cache_level >= 1) {
+				if (cache_level >= 1) {
 					if (Z_TYPE_P(&parser_status->ret) == IS_ARRAY) {
 						add_assoc_long(&parser_status->ret, "id", phalcon_globals_ptr->orm.unique_cache_id++);
 					}

@@ -48,6 +48,8 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 > **Upgrade note:** `Phalcon\Db\Dialect::checkColumnType()` now declares `int` as the return type instead of `string`, and `Phalcon\Mvc\Model\Query::getCache()` now declares `?Phalcon\Cache\CacheInterface` instead of `Phalcon\Db\Adapter\AdapterInterface`. The returned values do not change: `checkColumnType()` returns the column type, which is an `int`, and `getCache()` returns the cache, or `null` before `execute()` runs with the `cache` option. A class that overrides one of these methods must declare a compatible return type (`int` for `checkColumnType()`, `?Phalcon\Cache\CacheInterface` or `Phalcon\Cache\CacheInterface` for `getCache()`), or PHP raises a fatal error when it loads the class. [#17796](https://github.com/phalcon/cphalcon/issues/17796)
 
+> **Upgrade note:** The PHQL parser now reads `orm.enable_literals` and `orm.cache_level` from `Phalcon\Support\Settings`. A value set with `Phalcon\Mvc\Model::setup()` (`phqlLiterals`) or `Settings::set()` now takes priority over the ini value. Before, the parser used only the ini value. With `phqlLiterals` set to `false`, a PHQL statement with a literal now throws `Phalcon\Mvc\Model\Exception`. [#17797](https://github.com/phalcon/cphalcon/issues/17797)
+
 ### Tools
 
 - Zephir 1.10.0
@@ -107,6 +109,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - `Phalcon\Mvc\Model\Query::getCache()` declaring `Phalcon\Db\Adapter\AdapterInterface` as the return type instead of `?Phalcon\Cache\CacheInterface`. [#17796](https://github.com/phalcon/cphalcon/issues/17796)
 - `Phalcon\Mvc\Model\Query::getIntermediate()` throwing a `TypeError` after `parse()` got the intermediate representation from the cache. [#800](https://github.com/phalcon/phalcon/issues/800)
 - `Phalcon\Mvc\Model\Query\Builder::__construct()` crashing with OPcache when the parameters have empty `bind` or `bindTypes` arrays. [#17725](https://github.com/phalcon/cphalcon/issues/17725)
+- `Phalcon\Mvc\Model\Query\Lang::parsePHQL()` ignoring the `orm.enable_literals` and `orm.cache_level` values set with `Phalcon\Mvc\Model::setup()` or `Phalcon\Support\Settings::set()`. [#17797](https://github.com/phalcon/cphalcon/issues/17797)
 - `Phalcon\Mvc\Model\Query` giving an "Undefined array key" warning for a join with no `ON` condition when `enable_implicit_joins` is disabled; the query still throws `Phalcon\Db\Exceptions\InvalidSqlExpression`. [#816](https://github.com/phalcon/phalcon/issues/816)
 - `Phalcon\Mvc\Model\Query` reusing a cached intermediate representation that was built with the other value of the `enable_implicit_joins` option. [#800](https://github.com/phalcon/phalcon/issues/800)
 - `Phalcon\Mvc\Model\Resultset\Complex` and `Phalcon\Mvc\Model\Resultset\Simple` putting their cache in the serialized data, which failed for a cache that cannot be serialized, such as a Redis connection. A resultset from the cache now has no cache (`getCache()` returns `null`). [#17766](https://github.com/phalcon/cphalcon/issues/17766)

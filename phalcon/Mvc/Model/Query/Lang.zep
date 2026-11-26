@@ -10,6 +10,8 @@
 
 namespace Phalcon\Mvc\Model\Query;
 
+use Phalcon\Support\Settings;
+
 /**
  * Phalcon\Mvc\Model\Query\Lang
  *
@@ -38,6 +40,10 @@ abstract class Lang
      */
     public static function parsePHQL(string phql) -> array
     {
-        return phql_parse_phql(phql);
+        return phql_parse_phql(
+            phql,
+            Settings::get("orm.enable_literals"),
+            Settings::get("orm.cache_level")
+        );
     }
 }

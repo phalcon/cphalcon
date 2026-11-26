@@ -36,9 +36,9 @@ class PhqlParsePhqlOptimizer extends OptimizerAbstract
             return false;
         }
 
-        if (count($expression['parameters']) != 1) {
+        if (count($expression['parameters']) != 3) {
             throw new CompilerException(
-                "'phql_parse_phql' only accepts one parameter",
+                "'phql_parse_phql' only accepts three parameters",
                 $expression
             );
         }
@@ -84,7 +84,7 @@ class PhqlParsePhqlOptimizer extends OptimizerAbstract
         $symbol = $context->backend->getVariableCode($symbolVariable);
 
         $context->codePrinter->output(
-            'ZEPHIR_LAST_CALL_STATUS = phql_parse_phql(' . $symbol . ', ' . $resolvedParams[0] . ');'
+            'ZEPHIR_LAST_CALL_STATUS = phql_parse_phql(' . $symbol . ', ' . $resolvedParams[0] . ', ' . $resolvedParams[1] . ', ' . $resolvedParams[2] . ');'
         );
 
         $call->checkTempParameters($context);
