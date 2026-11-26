@@ -65,6 +65,39 @@ final class TruncateTableTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * @return array[]
+     */
+    public static function getDialectsQuoteCharacter(): array
+    {
+        return [
+            [
+                Mysql::class,
+                'co_inv`oices',
+                'acc`ounts',
+                "TRUNCATE TABLE `acc``ounts`.`co_inv``oices`",
+            ],
+            [
+                Mysql::class,
+                'co_inv`oices',
+                '',
+                "TRUNCATE TABLE `co_inv``oices`",
+            ],
+            [
+                Sqlite::class,
+                'co_inv"oices',
+                'ma"in',
+                'DELETE FROM "ma""in"."co_inv""oices"',
+            ],
+            [
+                Sqlite::class,
+                'co_inv"oices',
+                '',
+                'DELETE FROM "co_inv""oices"',
+            ],
+        ];
+    }
+
+    /**
      * Tests Phalcon\Db\Dialect :: truncateTable
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -103,6 +136,31 @@ final class TruncateTableTest extends AbstractDatabaseTestCase
         $dialect = new $dialectClass();
 
         $actual = $dialect->truncateTable('table', '');
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Db\Dialect :: truncateTable - the quote character in a
+     * name is doubled
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17808
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-26
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getDialectsQuoteCharacter')]
+    public function testDbDialectTruncateTableQuoteCharacter(
+        string $dialectClass,
+        string $table,
+        string $schema,
+        string $expected
+    ): void {
+        /** @var Mysql $dialect */
+        $dialect = new $dialectClass();
+
+        $actual = $dialect->truncateTable($table, $schema);
         $this->assertSame($expected, $actual);
     }
 }

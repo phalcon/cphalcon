@@ -738,10 +738,14 @@ class Sqlite extends Dialect
     {
         string table;
 
+        /**
+         * Double the double quote in the names, so that a name cannot end
+         * the identifier
+         */
+        let table = "\"" . str_replace("\"", "\"\"", tableName) . "\"";
+
         if schemaName {
-            let table = "\"" . schemaName . "\".\"" . tableName . "\"";
-        } else {
-            let table = "\"" . tableName . "\"";
+            let table = "\"" . str_replace("\"", "\"\"", schemaName) . "\"." . table;
         }
 
         return "DELETE FROM " . table;
