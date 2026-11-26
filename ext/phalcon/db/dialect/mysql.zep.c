@@ -3427,11 +3427,19 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, truncateTable)
 {
 	zval table;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval tableName_zv, schemaName_zv;
+	zval tableName_zv, schemaName_zv, _0, _1, _2, _3, _4$$3, _5$$3, _6$$3, _7$$3;
 	zend_string *tableName = NULL, *schemaName = NULL;
 
 	ZVAL_UNDEF(&tableName_zv);
 	ZVAL_UNDEF(&schemaName_zv);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4$$3);
+	ZVAL_UNDEF(&_5$$3);
+	ZVAL_UNDEF(&_6$$3);
+	ZVAL_UNDEF(&_7$$3);
 	ZVAL_UNDEF(&table);
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(tableName)
@@ -3443,16 +3451,37 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, truncateTable)
 	ZVAL_STR_COPY(&tableName_zv, tableName);
 	zephir_memory_observe(&schemaName_zv);
 	ZVAL_STR_COPY(&schemaName_zv, schemaName);
+	ZEPHIR_INIT_VAR(&_0);
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "`");
+	ZEPHIR_INIT_VAR(&_2);
+	ZVAL_STRING(&_2, "``");
+	zephir_fast_str_replace(&_0, &_1, &_2, &tableName_zv);
+	ZEPHIR_INIT_VAR(&_3);
+	ZEPHIR_CONCAT_SVS(&_3, "`", &_0, "`");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_get_strval(&table, &_3);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (!(ZEPHIR_IS_EMPTY(&schemaName_zv))) {
-		ZEPHIR_INIT_VAR(&table);
-		ZEPHIR_CONCAT_SVSVS(&table, "`", &schemaName_zv, "`.`", &tableName_zv, "`");
+		ZEPHIR_INIT_VAR(&_4$$3);
+		ZEPHIR_INIT_VAR(&_5$$3);
+		ZVAL_STRING(&_5$$3, "`");
+		ZEPHIR_INIT_VAR(&_6$$3);
+		ZVAL_STRING(&_6$$3, "``");
+		zephir_fast_str_replace(&_4$$3, &_5$$3, &_6$$3, &schemaName_zv);
+		ZEPHIR_INIT_VAR(&_7$$3);
+		ZEPHIR_CONCAT_SVSV(&_7$$3, "`", &_4$$3, "`.", &table);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-	} else {
-		ZEPHIR_INIT_NVAR(&table);
-		ZEPHIR_CONCAT_SVS(&table, "`", &tableName_zv, "`");
+		zephir_get_strval(&table, &_7$$3);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
@@ -3628,7 +3657,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getTableOptions)
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			zephir_array_append(&tableOptions, &_2$$5, PH_SEPARATE, "phalcon/Db/Dialect/Mysql.zep", 1079);
+			zephir_array_append(&tableOptions, &_2$$5, PH_SEPARATE, "phalcon/Db/Dialect/Mysql.zep", 1083);
 			if (UNEXPECTED(EG(exception))) {
 				ZEPHIR_MM_RESTORE();
 				return;
@@ -3649,7 +3678,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getTableOptions)
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			zephir_array_append(&tableOptions, &_4$$7, PH_SEPARATE, "phalcon/Db/Dialect/Mysql.zep", 1088);
+			zephir_array_append(&tableOptions, &_4$$7, PH_SEPARATE, "phalcon/Db/Dialect/Mysql.zep", 1092);
 			if (UNEXPECTED(EG(exception))) {
 				ZEPHIR_MM_RESTORE();
 				return;
@@ -3671,7 +3700,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getTableOptions)
 				return;
 			}
 			zephir_memory_observe(&_6$$9);
-			zephir_array_fetch_long(&_6$$9, &collationParts, 0, PH_NOISY, "phalcon/Db/Dialect/Mysql.zep", 1098);
+			zephir_array_fetch_long(&_6$$9, &collationParts, 0, PH_NOISY, "phalcon/Db/Dialect/Mysql.zep", 1102);
 			if (UNEXPECTED(EG(exception))) {
 				ZEPHIR_MM_RESTORE();
 				return;
@@ -3682,7 +3711,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getTableOptions)
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			zephir_array_append(&tableOptions, &_7$$9, PH_SEPARATE, "phalcon/Db/Dialect/Mysql.zep", 1098);
+			zephir_array_append(&tableOptions, &_7$$9, PH_SEPARATE, "phalcon/Db/Dialect/Mysql.zep", 1102);
 			if (UNEXPECTED(EG(exception))) {
 				ZEPHIR_MM_RESTORE();
 				return;
@@ -3693,7 +3722,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getTableOptions)
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			zephir_array_append(&tableOptions, &_8$$9, PH_SEPARATE, "phalcon/Db/Dialect/Mysql.zep", 1099);
+			zephir_array_append(&tableOptions, &_8$$9, PH_SEPARATE, "phalcon/Db/Dialect/Mysql.zep", 1103);
 			if (UNEXPECTED(EG(exception))) {
 				ZEPHIR_MM_RESTORE();
 				return;
@@ -3720,7 +3749,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getTableOptions)
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			zephir_array_append(&tableOptions, &_13$$11, PH_SEPARATE, "phalcon/Db/Dialect/Mysql.zep", 1108);
+			zephir_array_append(&tableOptions, &_13$$11, PH_SEPARATE, "phalcon/Db/Dialect/Mysql.zep", 1112);
 			if (UNEXPECTED(EG(exception))) {
 				ZEPHIR_MM_RESTORE();
 				return;
