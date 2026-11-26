@@ -32,7 +32,7 @@ typedef struct _phql_parser_status {
 #define PHQL_PARSING_OK 1
 #define PHQL_PARSING_FAILED 0
 
-extern int phql_parse_phql(zval *result, zval *phql);
-extern int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length, zval **error_msg);
+extern int phql_parse_phql(zval *result, zval *phql, zval *enable_literals, zval *cache_level);
+extern int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length, zend_bool enable_literals, zend_long cache_level, zval **error_msg);
 
 #endif /* PHALCON_MVC_MODEL_QUERY_PHQL_H */
