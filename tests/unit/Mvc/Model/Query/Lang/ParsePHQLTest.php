@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\Model\Query\Lang;
 
+use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Query;
 use Phalcon\Mvc\Model\Query\Lang;
@@ -353,6 +354,36 @@ final class ParsePHQLTest extends AbstractUnitTestCase
     }
 
     /**
+     * Model::setup() keeps `phqlLiterals` in Settings only. The parser must
+     * read it from Settings, not from the ini value.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-26
+     * @issue  https://github.com/phalcon/cphalcon/issues/17797
+     */
+    public function testMvcModelQueryLangParsePHQLModelSetupLiterals(): void
+    {
+        $phql = 'SELECT * FROM SetupLiterals WHERE id = 1';
+
+        Model::setup(['phqlLiterals' => false]);
+
+        $caught = null;
+
+        try {
+            Lang::parsePHQL($phql);
+        } catch (Exception $ex) {
+            $caught = $ex;
+        }
+
+        $this->assertNotNull($caught);
+        $this->assertSame('Literals are disabled in PHQL statements', $caught->getMessage());
+
+        Model::setup(['phqlLiterals' => true]);
+
+        $this->assertIsArray(Lang::parsePHQL($phql));
+    }
+
+    /**
      * With literals disabled the scanner still allocates the literal token;
      * the parser must release it when it rejects the statement.
      *
@@ -382,6 +413,21 @@ final class ParsePHQLTest extends AbstractUnitTestCase
 
         // 5,000 x 1 KB literals leaked ~5.5 MB before the fix.
         $this->assertLessThan(1048576, $delta);
+    }
+
+    /**
+     * The parser must read `orm.cache_level` from Settings, not from the ini
+     * value. With -1, the AST has no id.
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-26
+     * @issue  https://github.com/phalcon/cphalcon/issues/17797
+     */
+    public function testMvcModelQueryLangParsePHQLSettingsCacheLevel(): void
+    {
+        Settings::set('orm.cache_level', -1);
+
+        $this->assertArrayNotHasKey('id', Lang::parsePHQL('SELECT * FROM SettingsCacheLevel') ?? []);
     }
 
     /**
