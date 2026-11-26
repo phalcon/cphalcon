@@ -399,7 +399,7 @@ PHP_METHOD(Phalcon_Support_Version, getVersion)
 	ZVAL_LONG(&_0, 5);
 	zephir_array_fast_append(return_value, &_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	ZVAL_LONG(&_0, 23);
+	ZVAL_LONG(&_0, 24);
 	zephir_array_fast_append(return_value, &_0);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_LONG(&_0, 0);

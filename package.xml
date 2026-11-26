@@ -22,11 +22,11 @@
     <email>nikos@phalcon.io</email>
     <active>yes</active>
   </lead>
-  <date>2026-10-15</date>
+  <date>2026-11-26</date>
   <time>17:00:00</time>
   <version>
-    <release>5.23.0</release>
-    <api>5.23.0</api>
+    <release>5.24.0</release>
+    <api>5.24.0</api>
   </version>
   <stability>
     <release>stable</release>
