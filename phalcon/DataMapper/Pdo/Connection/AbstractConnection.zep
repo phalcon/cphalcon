@@ -95,7 +95,7 @@ abstract class AbstractConnection implements ConnectionInterface, EventsAware
 
         this->connect();
 
-        if !method_exists(this->pdo, name) {
+        if !method_exists(this->pdo, (string) name) {
             let className = get_class(this),
                 message   = "Class '" . className
                           . "' does not have a method '" . name . "'";

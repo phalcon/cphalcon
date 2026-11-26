@@ -885,7 +885,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Checks the column type and if not string it returns the type reference
      */
-    protected function checkColumnType(<ColumnInterface> column) -> string
+    protected function checkColumnType(<ColumnInterface> column) -> int
     {
         if typeof column->getType() == "string" {
             return column->getTypeReference();

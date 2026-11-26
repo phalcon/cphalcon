@@ -46,6 +46,8 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 
 > **Upgrade note:** `Phalcon\Encryption\Security::hash()` now converts a numeric string `cost` option to an integer. A fractional value such as `'5.7'` becomes `5`. Before, the `CRYPT_BLOWFISH_A` and `CRYPT_BLOWFISH_X` algorithms put the string in the salt (`$2a$5.7$`), and `crypt()` returned the failure string `*0`. Integer costs and integer strings such as `'5'` give the same hashes as before. [#17779](https://github.com/phalcon/cphalcon/issues/17779)
 
+> **Upgrade note:** `Phalcon\Db\Dialect::checkColumnType()` now declares `int` as the return type instead of `string`, and `Phalcon\Mvc\Model\Query::getCache()` now declares `?Phalcon\Cache\CacheInterface` instead of `Phalcon\Db\Adapter\AdapterInterface`. The returned values do not change: `checkColumnType()` returns the column type, which is an `int`, and `getCache()` returns the cache, or `null` before `execute()` runs with the `cache` option. A class that overrides one of these methods must declare a compatible return type (`int` for `checkColumnType()`, `?Phalcon\Cache\CacheInterface` or `Phalcon\Cache\CacheInterface` for `getCache()`), or PHP raises a fatal error when it loads the class. [#17796](https://github.com/phalcon/cphalcon/issues/17796)
+
 ### Tools
 
 - Zephir 1.10.0
@@ -85,11 +87,13 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - `Phalcon\Annotations\Adapter\Stream::read()` returning the content of a cache file that does not hold a `Reflection` object. [#17773](https://github.com/phalcon/cphalcon/issues/17773)
 - `Phalcon\Container\Definition\Processor\ObjectProcessor::process()` setting a factory closure with no parameters, although the factory is called with the container. [#17777](https://github.com/phalcon/cphalcon/issues/17777)
 - `Phalcon\Contracts\Db\Adapter\Adapter::fetchColumn()` and `Phalcon\Db\Adapter\AbstractAdapter::fetchColumn()` declaring `string|bool` as the return type instead of `mixed`. [#17755](https://github.com/phalcon/cphalcon/issues/17755)
+- `Phalcon\DataMapper\Pdo\Connection\AbstractConnection::__call()` giving a warning and a `TypeError` instead of `UnknownDriverMethod` for a method name that is not a string. [#17796](https://github.com/phalcon/cphalcon/issues/17796)
 - `Phalcon\Db\Adapter\Pdo\Postgresql::describeColumns()` reporting `mediumblob` columns as `Column::TYPE_TEXT`. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
 - `Phalcon\Db\Adapter\Pdo\Postgresql::describeReferences()` returning wrong column pairs for composite foreign keys. [#17680](https://github.com/phalcon/cphalcon/issues/17680)
 - `Phalcon\Db\Adapter\Pdo\Sqlite::describeColumns()` reporting `tinyint(1)` columns as `Column::TYPE_INTEGER`. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
 - `Phalcon\Db\Adapter\Pdo\Sqlite::describeColumns()` reporting blob columns as `Column::TYPE_VARCHAR`. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
 - `Phalcon\Db\Adapter\Pdo\Sqlite::describeColumns()` using `Column::TYPE_DECIMAL` as the bind type of `float` columns, which stored their values as blobs. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
+- `Phalcon\Db\Dialect::checkColumnType()` declaring `string` as the return type instead of `int`. [#17796](https://github.com/phalcon/cphalcon/issues/17796)
 - `Phalcon\Db\Dialect\Mysql::listTables()` returning MariaDB sequences and `Phalcon\Db\Dialect\Postgresql::listTables()` returning partitions. [#17769](https://github.com/phalcon/cphalcon/issues/17769)
 - `Phalcon\Encryption\Security::hash()` passing a numeric string `cost` option on as a string, which gave an invalid Blowfish salt for a fractional value. [#17779](https://github.com/phalcon/cphalcon/issues/17779)
 - `Phalcon\Encryption\Security::hash()` using the cost `4` instead of the work factor when the `cost` option is empty. [#17764](https://github.com/phalcon/cphalcon/issues/17764)
@@ -100,6 +104,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - `Phalcon\Mvc\Model::doLowInsert()` not reading back the generated id on MySQL when the identity property is `0`. [#17689](https://github.com/phalcon/cphalcon/issues/17689)
 - `Phalcon\Mvc\Model::save()` leaving the transaction of the related records open when an exception is thrown during the save; the transaction is now rolled back before the exception is thrown again. [#17756](https://github.com/phalcon/cphalcon/issues/17756)
 - `Phalcon\Mvc\Model\Manager::getModelSource()` ignoring `Source` attributes when `AttributesReader` is configured. [#17741](https://github.com/phalcon/cphalcon/issues/17741)
+- `Phalcon\Mvc\Model\Query::getCache()` declaring `Phalcon\Db\Adapter\AdapterInterface` as the return type instead of `?Phalcon\Cache\CacheInterface`. [#17796](https://github.com/phalcon/cphalcon/issues/17796)
 - `Phalcon\Mvc\Model\Query::getIntermediate()` throwing a `TypeError` after `parse()` got the intermediate representation from the cache. [#800](https://github.com/phalcon/phalcon/issues/800)
 - `Phalcon\Mvc\Model\Query\Builder::__construct()` crashing with OPcache when the parameters have empty `bind` or `bindTypes` arrays. [#17725](https://github.com/phalcon/cphalcon/issues/17725)
 - `Phalcon\Mvc\Model\Query` giving an "Undefined array key" warning for a join with no `ON` condition when `enable_implicit_joins` is disabled; the query still throws `Phalcon\Db\Exceptions\InvalidSqlExpression`. [#816](https://github.com/phalcon/phalcon/issues/816)

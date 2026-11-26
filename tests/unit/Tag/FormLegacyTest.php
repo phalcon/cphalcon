@@ -76,4 +76,19 @@ final class FormLegacyTest extends AbstractTagTestCase
             Tag::formLegacy('save')
         );
     }
+
+    /**
+     * The first parameter comes before the "action" parameter, as in cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/843
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-21
+     */
+    public function testFormWithPositionalActionBeforeTheActionKey(): void
+    {
+        $this->assertSame(
+            '<form action="https://phalcon.io/save" method="post">',
+            Tag::formLegacy(['save', 'action' => 'other'])
+        );
+    }
 }
