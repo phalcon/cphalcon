@@ -52,6 +52,19 @@ final class FormLegacyTest extends AbstractTagTestCase
         $this->assertSame('<form method="post">', Tag::formLegacy([]));
     }
 
+    /**
+     * A "parameters" key with a null value is a value, as in cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/837
+     */
+    public function testFormWithNullParameters(): void
+    {
+        $this->assertSame(
+            '<form action="https://phalcon.io/save?" method="post">',
+            Tag::formLegacy(['save', 'parameters' => null])
+        );
+    }
+
     public function testFormWithParameters(): void
     {
         $this->assertSame(
