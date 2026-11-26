@@ -15,10 +15,44 @@ namespace Phalcon\Tests\Unit\Acl\Adapter\Memory;
 
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Component;
+use Phalcon\Acl\ComponentInterface;
+use Phalcon\Acl\Exceptions\ForbiddenDelimiter;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class AddComponentTest extends AbstractUnitTestCase
 {
+    /**
+     * A custom ComponentInterface cannot give a name with the "!" delimiter.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17800
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-26
+     */
+    public function testAclAdapterMemoryAddComponentCustomNameWithDelimiter(): void
+    {
+        $component = new class () implements ComponentInterface {
+            public function __toString(): string
+            {
+                return 'Invoices!Reports';
+            }
+
+            public function getDescription(): string | null
+            {
+                return null;
+            }
+
+            public function getName(): string
+            {
+                return 'Invoices!Reports';
+            }
+        };
+
+        $this->expectException(ForbiddenDelimiter::class);
+        $this->expectExceptionMessage("The component name cannot contain '!'");
+
+        (new Memory())->addComponent($component, ['list']);
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13

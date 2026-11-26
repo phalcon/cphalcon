@@ -221,6 +221,14 @@ class Memory extends AbstractAdapter
 
         let componentName = componentObject->getName();
 
+        /**
+         * A custom ComponentInterface can return any name. The "!" separates
+         * the parts of the access keys, as in the Component class.
+         */
+        if unlikely memstr(componentName, "!") {
+            throw new ForbiddenDelimiter("component");
+        }
+
         if !isset this->componentsNames[componentName] {
             let this->components[componentName]      = componentObject;
             let this->componentsNames[componentName] = true;
@@ -428,6 +436,14 @@ class Memory extends AbstractAdapter
         }
 
         let roleName = roleObject->getName();
+
+        /**
+         * A custom RoleInterface can return any name. The "!" separates the
+         * parts of the access keys, as in the Role class.
+         */
+        if unlikely memstr(roleName, "!") {
+            throw new ForbiddenDelimiter("role");
+        }
 
         if isset this->roles[roleName] {
             return false;
@@ -713,7 +729,12 @@ class Memory extends AbstractAdapter
          * Check if the role exists
          */
         if !isset this->roles[roleName] {
-            return (this->defaultAccess == Enum::ALLOW);
+            return this->reportAccess(
+                roleName,
+                componentName,
+                access,
+                this->defaultAccess == Enum::ALLOW
+            );
         }
 
         /**
@@ -754,36 +775,17 @@ class Memory extends AbstractAdapter
             );
 
             let allowed = ruleResult;
+        } elseif null !== funcAccess {
+            /**
+             * The rule has a callback that cannot be called. Deny the access,
+             * so that the rule does not grant it without its condition.
+             */
+            let allowed = false;
         } else {
             let allowed = haveAccess == Enum::ALLOW;
         }
 
-        /**
-         * Report the final decision - after the default action and the rule
-         * callback are applied - so listeners see the same result as the
-         * caller.
-         */
-        let this->accessGranted = allowed ? Enum::ALLOW : Enum::DENY;
-
-        /**
-         * Fire the event only when an events manager is set. With no events
-         * manager, fireManagerEvent() does nothing. The beforeCheckAccess
-         * call above has no such check, because an override of
-         * fireManagerEvent() can deny access there.
-         */
-        if null !== this->eventsManager {
-            this->fireManagerEvent(
-                "acl:afterCheckAccess",
-                [
-                    "role":      roleName,
-                    "component": componentName,
-                    "access":    access,
-                    "granted":   this->accessGranted
-                ]
-            );
-        }
-
-        return allowed;
+        return this->reportAccess(roleName, componentName, access, allowed);
     }
 
     /**
@@ -1088,7 +1090,14 @@ class Memory extends AbstractAdapter
             let parameterToCheck = reflectionParameter->getName();
 
 
-            if null !== reflectionType && (reflectionType instanceof ReflectionNamedType) && !reflectionType->isBuiltin() {
+            /**
+             * A type that is not a class or an interface that exists is
+             * handled as a parameter with no class.
+             */
+            if null !== reflectionType &&
+                (reflectionType instanceof ReflectionNamedType) &&
+                !reflectionType->isBuiltin() &&
+                (class_exists(reflectionType->getName()) || interface_exists(reflectionType->getName())) {
                 let className       = reflectionType->getName();
                 let reflectionClass = new ReflectionClass(className);
                 // roleObject is this class
@@ -1187,6 +1196,43 @@ class Memory extends AbstractAdapter
             "defined function when checking if '" . roleName . "' can '" .
             access . "' for '" . componentName . "'."
         );
+    }
+
+    /**
+     * Keeps the final decision - after the default action and the rule
+     * callback are applied - and reports it to the listeners, so that they
+     * see the same result as the caller.
+     *
+     * @phpstan-param acl_role_name      $roleName
+     * @phpstan-param acl_component_name $componentName
+     */
+    private function reportAccess(
+        var roleName,
+        var componentName,
+        string access,
+        bool allowed
+    ) -> bool {
+        let this->accessGranted = allowed ? Enum::ALLOW : Enum::DENY;
+
+        /**
+         * Fire the event only when an events manager is set. With no events
+         * manager, fireManagerEvent() does nothing. The beforeCheckAccess
+         * call in isAllowed() has no such check, because an override of
+         * fireManagerEvent() can deny access there.
+         */
+        if null !== this->eventsManager {
+            this->fireManagerEvent(
+                "acl:afterCheckAccess",
+                [
+                    "role":      roleName,
+                    "component": componentName,
+                    "access":    access,
+                    "granted":   this->accessGranted
+                ]
+            );
+        }
+
+        return allowed;
     }
 
     /**
