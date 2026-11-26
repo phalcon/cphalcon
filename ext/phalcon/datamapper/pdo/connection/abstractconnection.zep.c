@@ -14,11 +14,11 @@
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/concat.h"
 #include "kernel/exception.h"
 #include "kernel/array.h"
-#include "kernel/operators.h"
 #include "ext/pdo/php_pdo_driver.h"
 #include "kernel/main.h"
 #include "kernel/string.h"
@@ -122,20 +122,22 @@ ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Connection_AbstractConnection)
  */
 PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, __call)
 {
+	zval _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval arguments, _2;
-	zval *name, name_sub, *arguments_param = NULL, className, message, _0, _3, _1$$3;
+	zval arguments, _3;
+	zval *name, name_sub, *arguments_param = NULL, className, message, _0, _4, _2$$3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name_sub);
 	ZVAL_UNDEF(&className);
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&arguments);
-	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_1);
 	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -157,7 +159,12 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, __call)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	if (!((zephir_method_exists(&_0, name)  == SUCCESS))) {
+	zephir_cast_to_string(&_1, name);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (!((zephir_method_exists(&_0, &_1)  == SUCCESS))) {
 		ZEPHIR_INIT_VAR(&className);
 		zephir_get_class(&className, this_ptr, 0);
 		ZEPHIR_INIT_VAR(&message);
@@ -166,27 +173,27 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, __call)
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZEPHIR_INIT_VAR(&_1$$3);
-		object_init_ex(&_1$$3, phalcon_datamapper_pdo_exception_unknowndrivermethod_ce);
-		zephir_constructor_start(&_1$$3);
-		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[1], &message);
+		ZEPHIR_INIT_VAR(&_2$$3);
+		object_init_ex(&_2$$3, phalcon_datamapper_pdo_exception_unknowndrivermethod_ce);
+		zephir_constructor_start(&_2$$3);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_2$$3, "__construct", &_zephir_call_cache[1], &message);
 		zephir_check_call_status();
-		zephir_constructor_finish(&_1$$3);
-		zephir_throw_exception_debug(&_1$$3, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 103);
+		zephir_constructor_finish(&_2$$3);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/DataMapper/Pdo/Connection/AbstractConnection.zep", 103);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_INIT_VAR(&_2);
-	zephir_create_array(&_2, 2, 0);
-	zephir_memory_observe(&_3);
-	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 169, PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(&_3);
+	zephir_create_array(&_3, 2, 0);
+	zephir_memory_observe(&_4);
+	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 169, PH_NOISY_CC);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_array_fast_append(&_2, &_3);
-	zephir_array_fast_append(&_2, name);
-	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_2, &arguments);
+	zephir_array_fast_append(&_3, &_4);
+	zephir_array_fast_append(&_3, name);
+	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_3, &arguments);
 	zephir_check_call_status();
 	RETURN_MM();
 }
