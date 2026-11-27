@@ -22,8 +22,11 @@ final class ListTablesTest extends AbstractDatabaseTestCase
     use DiTrait;
 
     private const PARTITION   = 'co_scratch_listtables_2026';
+
     private const PARTITIONED = 'co_scratch_listtables_parted';
+
     private const SEQUENCE    = 'co_scratch_listtables_seq';
+
     private const TABLE       = 'co_scratch_listtables';
 
     public function setUp(): void

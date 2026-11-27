@@ -28,7 +28,7 @@ final class EscapePublicPropertyNameTest extends AbstractUnitTestCase
      */
     public function testDumpEscapesPublicPropertyName(): void
     {
-        $object = new stdClass();
+        $object                                   = new stdClass();
         $object->{'<img src=x onerror=alert(1)>'} = 'value';
 
         $html = (new Dump())->variable($object);
@@ -52,7 +52,7 @@ final class EscapePublicPropertyNameTest extends AbstractUnitTestCase
      */
     public function testDumpEscapesPublicPropertyNameDetailed(): void
     {
-        $object = new stdClass();
+        $object                                   = new stdClass();
         $object->{'<img src=x onerror=alert(1)>'} = 'value';
 
         $html = (new Dump([], true))->variable($object);

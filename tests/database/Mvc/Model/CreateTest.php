@@ -223,7 +223,7 @@ final class CreateTest extends AbstractDatabaseTestCase
      */
     #[DataProvider('zeroIdentityProvider')]
     #[Group('mysql')]
-    public function testMvcModelCreateWithZeroIdentityMysql(int|string $zero): void
+    public function testMvcModelCreateWithZeroIdentityMysql(int | string $zero): void
     {
         $invoice                  = new Invoices();
         $invoice->inv_id          = $zero;
@@ -253,7 +253,7 @@ final class CreateTest extends AbstractDatabaseTestCase
      */
     #[DataProvider('zeroIdentityProvider')]
     #[Group('sqlite')]
-    public function testMvcModelCreateWithZeroIdentitySqlite(int|string $zero): void
+    public function testMvcModelCreateWithZeroIdentitySqlite(int | string $zero): void
     {
         $invoice                  = new Invoices();
         $invoice->inv_id          = $zero;

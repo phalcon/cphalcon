@@ -58,6 +58,7 @@ final class FormsLocatorTest extends AbstractUnitTestCase
             'textarea'   => ['textarea'],
         ];
     }
+
     /**
      * A value that cannot be called and the cphalcon message.
      *

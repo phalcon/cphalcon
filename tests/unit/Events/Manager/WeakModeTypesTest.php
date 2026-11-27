@@ -44,7 +44,7 @@ final class WeakModeTypesTest extends AbstractUnitTestCase
                 'Call to undefined method stdClass::missing()',
             ],
             'private method' => [
-                new class {
+                new class () {
                     private function b(): void
                     {
                     }

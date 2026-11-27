@@ -40,7 +40,7 @@ final class WeakModeTypesTest extends AbstractUnitTestCase
      */
     public function testFilterValidationWeakModeBindProperty(): void
     {
-        $entity = new class {
+        $entity = new class () {
             public ?int $age = null;
         };
 
@@ -79,7 +79,7 @@ final class WeakModeTypesTest extends AbstractUnitTestCase
      */
     public function testFilterValidationWeakModeGetValueWrite(): void
     {
-        $entity = new class {
+        $entity = new class () {
             public ?int $age = 5;
         };
 
