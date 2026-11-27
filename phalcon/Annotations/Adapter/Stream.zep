@@ -145,7 +145,9 @@ class Stream extends AbstractAdapter
     /**
      * Builds the cache file path. Namespace separators become "_", so a
      * name that itself contains "_" gets a hash suffix; otherwise "A\\B"
-     * and "A_B" would share one file.
+     * and "A_B" would share one file. The name also stops at a NUL byte,
+     * which is in the name of each anonymous class, so a shorter name gets
+     * the hash suffix too.
      */
     private function getFilePath(string key) -> string
     {
@@ -153,7 +155,7 @@ class Stream extends AbstractAdapter
 
         let name = prepare_virtual_path(key, "_");
 
-        if memstr(key, "_") {
+        if memstr(key, "_") || strlen(name) !== strlen(key) {
             let name = name . "_" . sha1(key);
         }
 
