@@ -57,6 +57,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - `Phalcon\Db\Adapter\Pdo\Sqlite::describeColumns()` reporting blob columns as `Column::TYPE_VARCHAR`. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
 - `Phalcon\Db\Adapter\Pdo\Sqlite::describeColumns()` using `Column::TYPE_DECIMAL` as the bind type of `float` columns, which stored their values as blobs. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
 - `Phalcon\Db\Dialect::checkColumnType()` declaring `string` as the return type instead of `int`. [#17796](https://github.com/phalcon/cphalcon/issues/17796)
+- `Phalcon\Db\Dialect::escapeSchema()` not escaping the quote character in the schema name, which all the dialects use for the schema of a table, for example in `Phalcon\Db\Dialect\Postgresql::truncateTable()`. [#17808](https://github.com/phalcon/cphalcon/issues/17808)
 - `Phalcon\Db\Dialect\Mysql::listTables()` returning MariaDB sequences and `Phalcon\Db\Dialect\Postgresql::listTables()` returning partitions. [#17769](https://github.com/phalcon/cphalcon/issues/17769)
 - `Phalcon\Db\Dialect\Mysql::truncateTable()` and `Phalcon\Db\Dialect\Sqlite::truncateTable()` not escaping the quote character in the table and schema names. [#17808](https://github.com/phalcon/cphalcon/issues/17808)
 - `Phalcon\Encryption\Security::hash()` passing a numeric string `cost` option on as a string, which gave an invalid Blowfish salt for a fractional value. [#17779](https://github.com/phalcon/cphalcon/issues/17779)

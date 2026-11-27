@@ -83,6 +83,18 @@ final class TruncateTableTest extends AbstractDatabaseTestCase
                 "TRUNCATE TABLE `co_inv``oices`",
             ],
             [
+                Postgresql::class,
+                'co_inv"oices',
+                'acc"ounts',
+                'TRUNCATE TABLE "acc""ounts"."co_inv""oices"',
+            ],
+            [
+                Postgresql::class,
+                'co_inv"oices',
+                '',
+                'TRUNCATE TABLE "co_inv""oices"',
+            ],
+            [
                 Sqlite::class,
                 'co_inv"oices',
                 'ma"in',

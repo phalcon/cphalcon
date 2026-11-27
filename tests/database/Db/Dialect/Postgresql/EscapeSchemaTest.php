@@ -42,4 +42,25 @@ final class EscapeSchemaTest extends AbstractDatabaseTestCase
             $dialect->escapeSchema('"schema"')
         );
     }
+
+    /**
+     * Tests Phalcon\Db\Dialect\Postgresql :: escapeSchema() - quote character
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-26
+     */
+    public function testDbDialectPostgresqlEscapeSchemaQuoteCharacter(): void
+    {
+        $dialect = new Postgresql();
+
+        $this->assertSame(
+            '"acc""ounts"',
+            $dialect->escapeSchema('acc"ounts')
+        );
+
+        $this->assertSame(
+            '"acc""ounts"',
+            $dialect->escapeSchema('"acc"ounts"')
+        );
+    }
 }

@@ -152,7 +152,13 @@ abstract class Dialect implements DialectInterface
             let escapeChar = (string) this->escapeChar;
         }
 
-        return escapeChar . trim(str, escapeChar) . escapeChar;
+        /**
+         * Double the escape character in the name, so that a name cannot end
+         * the identifier
+         */
+        return escapeChar
+            . str_replace(escapeChar, escapeChar . escapeChar, trim(str, escapeChar))
+            . escapeChar;
     }
 
     /**
