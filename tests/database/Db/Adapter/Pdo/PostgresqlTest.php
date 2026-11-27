@@ -135,7 +135,7 @@ final class PostgresqlTest extends AbstractDatabaseTestCase
             'test_describereferences',
             [
                 'referencedTable'   => 'foreign_key_parent',
-                'referencedSchema'  => Talon::settings()->getDatabaseOptions('pgsql')['dbname'],
+                'referencedSchema'  => 'public',
                 'columns'           => ['child_int'],
                 'referencedColumns' => ['refer_int'],
                 'onUpdate'          => 'CASCADE',
