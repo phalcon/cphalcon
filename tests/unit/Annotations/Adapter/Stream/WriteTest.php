@@ -76,6 +76,39 @@ final class WriteTest extends AbstractUnitTestCase
     }
 
     /**
+     * A cache file starts with a header that stops PHP, so a web request to
+     * the file shows nothing.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17812
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-26
+     */
+    public function testAnnotationsAdapterStreamWriteFileHeader(): void
+    {
+        require_once Talon::settings()->supportPath('assets/Annotations/TestClass.php');
+
+        $dir     = Talon::settings()->outputPath('tests/annotations/');
+        $adapter = new Stream(['annotationsDir' => $dir]);
+
+        $adapter->get(TestClass::class);
+
+        $path     = $dir . 'testclass.php';
+        $contents = (string) file_get_contents($path);
+
+        ob_start();
+        try {
+            include $path;
+        } finally {
+            $output = ob_get_clean();
+            $this->safeDeleteFile($path);
+        }
+
+        $this->assertSame('<?php __halt_compiler();', Stream::FILE_HEADER);
+        $this->assertStringStartsWith(Stream::FILE_HEADER, $contents);
+        $this->assertSame('', $output);
+    }
+
+    /**
      * "Test\\Write" and "Test_Write" both normalize to "test_write"; the
      * second gets a hash suffix so the two never share a cache file.
      *

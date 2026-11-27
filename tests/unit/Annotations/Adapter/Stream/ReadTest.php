@@ -47,4 +47,32 @@ final class ReadTest extends AbstractUnitTestCase
         $this->safeDeleteFile(Talon::settings()->outputPath('tests/annotations/testwrite.php'));
         $this->safeDeleteFile(Talon::settings()->outputPath('tests/annotations/testclass.php'));
     }
+
+    /**
+     * A cache file with no header, from an earlier version, is read as it is
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17812
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-26
+     */
+    public function testAnnotationsAdapterStreamReadNoHeader(): void
+    {
+        require_once Talon::settings()->supportPath('assets/Annotations/TestClass.php');
+
+        $dir     = Talon::settings()->outputPath('tests/annotations/');
+        $adapter = new Stream(['annotationsDir' => $dir]);
+
+        $classAnnotations = $adapter->get(TestClass::class);
+
+        $path = $dir . 'noheader.php';
+        file_put_contents($path, serialize($classAnnotations));
+
+        $actual = $adapter->read('noheader');
+
+        $this->safeDeleteFile($path);
+        $this->safeDeleteFile($dir . 'testclass.php');
+
+        $this->assertInstanceOf(Reflection::class, $actual);
+        $this->assertEquals($classAnnotations, $actual);
+    }
 }

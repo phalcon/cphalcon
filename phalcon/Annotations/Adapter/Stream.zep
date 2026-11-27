@@ -38,6 +38,14 @@ class Stream extends AbstractAdapter
     use FileTrait;
 
     /**
+     * The start of each cache file. PHP stops at __halt_compiler(), so a web
+     * request to a cache file shows nothing.
+     *
+     * @var string
+     */
+    const FILE_HEADER = "<?php __halt_compiler();";
+
+    /**
      * @var string
      */
     protected annotationsDir = "./";
@@ -81,6 +89,13 @@ class Stream extends AbstractAdapter
 
         if unlikely empty contents {
             return false;
+        }
+
+        /**
+         * A file with no header, from an earlier version, is read as it is
+         */
+        if starts_with(contents, self::FILE_HEADER) {
+            let contents = substr(contents, strlen(self::FILE_HEADER));
         }
 
         globals_set("warning.enable", false);
@@ -135,7 +150,7 @@ class Stream extends AbstractAdapter
          * Paths must be normalized before be used as keys
          */
         let path = this->getFilePath(key),
-            code = serialize(data);
+            code = self::FILE_HEADER . serialize(data);
 
         if unlikely this->phpFilePutContents(path, code) === false {
             throw new AnnotationsDirectoryNotWritable();
