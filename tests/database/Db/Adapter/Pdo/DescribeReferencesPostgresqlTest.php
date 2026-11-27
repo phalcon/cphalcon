@@ -26,17 +26,17 @@ final class DescribeReferencesPostgresqlTest extends AbstractDatabaseTestCase
 
     private const CODE_FK    = 'co_scratch_refs_code_fk';
 
-    private const INVOICES   = 'co_scratch_refs_invoices';
-
     private const INVOICE_FK = 'co_scratch_refs_invoice_fk';
+
+    private const INVOICES   = 'co_scratch_refs_invoices';
 
     private const LINES      = 'co_scratch_refs_lines';
 
     private const ORDERS     = 'co_scratch_refs_orders';
 
-    private const PAYMENTS   = 'co_scratch_refs_payments';
-
     private const PAYMENT_FK = 'co_scratch_refs_payment_fk';
+
+    private const PAYMENTS   = 'co_scratch_refs_payments';
 
     private const PRODUCTS   = 'co_scratch_refs_products';
 
