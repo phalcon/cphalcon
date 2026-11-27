@@ -514,6 +514,33 @@ final class IsAllowedTest extends AbstractUnitTestCase
     }
 
     /**
+     * A rule with a callback that cannot be called denies the access.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17800
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-26
+     */
+    public function testAclAdapterMemoryIsAllowedFunctionNotCallable(): void
+    {
+        $rules = new class () {
+            private function deny(): bool
+            {
+                return false;
+            }
+        };
+
+        $acl = new Memory();
+        $acl->setDefaultAction(Enum::ALLOW);
+        $acl->addRole('Guests');
+        $acl->addComponent('Invoices', ['list', 'view']);
+        $acl->allow('Guests', 'Invoices', 'list', 'no_such_acl_rule_function');
+        $acl->allow('Guests', 'Invoices', 'view', [$rules, 'deny']);
+
+        $this->assertFalse($acl->isAllowed('Guests', 'Invoices', 'list'));
+        $this->assertFalse($acl->isAllowed('Guests', 'Invoices', 'view'));
+    }
+
+    /**
      * @author  Phalcon Team <team@phalcon.io>
      * @since   2019-06-16
      */
@@ -605,6 +632,32 @@ final class IsAllowedTest extends AbstractUnitTestCase
 
         $this->assertTrue($acl->isAllowed('Member', 'Post', 'update', ['id' => 5]));
         $this->assertFalse($acl->isAllowed('Member', 'Post', 'update', ['id' => 0]));
+    }
+
+    /**
+     * A rule parameter whose class does not exist is handled as a parameter
+     * with no class.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17800
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-26
+     */
+    public function testAclAdapterMemoryIsAllowedFunctionUnknownClassParameter(): void
+    {
+        $acl = new Memory();
+        $acl->setDefaultAction(Enum::DENY);
+        $acl->addRole('Guests');
+        $acl->addComponent('Invoices', ['list']);
+        $acl->allow(
+            'Guests',
+            'Invoices',
+            'list',
+            function (?\Phalcon\Tests\NoSuchAclRuleClass $user = null) {
+                return null === $user;
+            }
+        );
+
+        $this->assertTrue($acl->isAllowed('Guests', 'Invoices', 'list'));
     }
 
     /**
@@ -701,5 +754,36 @@ final class IsAllowedTest extends AbstractUnitTestCase
 
         $actual = $acl->isAllowed($component, $component, 'update');
         $this->assertTrue($actual);
+    }
+
+    /**
+     * The afterCheckAccess event also reports the decision for a role that
+     * does not exist.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17800
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-26
+     */
+    public function testAclAdapterMemoryIsAllowedUnknownRoleFiresAfterCheckAccess(): void
+    {
+        $seen    = [];
+        $manager = new EventsManager();
+        $manager->attach(
+            'acl:afterCheckAccess',
+            function ($event, $source, $data) use (&$seen) {
+                $seen[] = [$data['role'], $data['granted']];
+            }
+        );
+
+        $acl = new Memory();
+        $acl->setEventsManager($manager);
+
+        $acl->setDefaultAction(Enum::ALLOW);
+        $this->assertTrue($acl->isAllowed('Nobody', 'Invoices', 'list'));
+
+        $acl->setDefaultAction(Enum::DENY);
+        $this->assertFalse($acl->isAllowed('Nobody', 'Invoices', 'list'));
+
+        $this->assertSame([['Nobody', Enum::ALLOW], ['Nobody', Enum::DENY]], $seen);
     }
 }

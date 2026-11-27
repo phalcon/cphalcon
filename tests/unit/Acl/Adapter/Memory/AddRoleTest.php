@@ -15,11 +15,45 @@ namespace Phalcon\Tests\Unit\Acl\Adapter\Memory;
 
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Exception;
+use Phalcon\Acl\Exceptions\ForbiddenDelimiter;
 use Phalcon\Acl\Role;
+use Phalcon\Acl\RoleInterface;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 final class AddRoleTest extends AbstractUnitTestCase
 {
+    /**
+     * A custom RoleInterface cannot give a name with the "!" delimiter.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17800
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-26
+     */
+    public function testAclAdapterMemoryAddRoleCustomNameWithDelimiter(): void
+    {
+        $role = new class () implements RoleInterface {
+            public function __toString(): string
+            {
+                return 'Admins!Guests';
+            }
+
+            public function getDescription(): string | null
+            {
+                return null;
+            }
+
+            public function getName(): string
+            {
+                return 'Admins!Guests';
+            }
+        };
+
+        $this->expectException(ForbiddenDelimiter::class);
+        $this->expectExceptionMessage("The role name cannot contain '!'");
+
+        (new Memory())->addRole($role);
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13

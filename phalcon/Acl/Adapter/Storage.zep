@@ -85,6 +85,16 @@ class Storage extends Memory implements Persistable
         /** @var int|string $version */
         let version = data["version"];
 
+        /**
+         * Only an integer or a string can go in the message below
+         */
+        if unlikely (typeof version !== "integer" && typeof version !== "string") {
+            throw new InvalidSnapshot(
+                "Incompatible ACL snapshot version of type '" . gettype(version) .
+                "'; expected '" . self::SNAPSHOT_VERSION . "'"
+            );
+        }
+
         if version != self::SNAPSHOT_VERSION {
             throw new InvalidSnapshot(
                 "Incompatible ACL snapshot version '" . version .
