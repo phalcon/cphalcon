@@ -252,22 +252,25 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, write)
 /**
  * Builds the cache file path. Namespace separators become "_", so a
  * name that itself contains "_" gets a hash suffix; otherwise "A\\B"
- * and "A_B" would share one file.
+ * and "A_B" would share one file. The name also stops at a NUL byte,
+ * which is in the name of each anonymous class, so a shorter name gets
+ * the hash suffix too.
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Stream, getFilePath)
 {
+	zend_bool _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval key_zv, name, _0, _3, _1$$3, _2$$3;
+	zval key_zv, name, _0, _4, _2$$3, _3$$3;
 	zend_string *key = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&key_zv);
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_3$$3);
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("annotationsDir", 14, 1);
@@ -284,23 +287,27 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, getFilePath)
 	ZVAL_STRING(&_0, "_");
 	ZEPHIR_INIT_VAR(&name);
 	zephir_prepare_virtual_path(&name, &key_zv, &_0);
-	if (zephir_memnstr_str(&key_zv, SL("_"), "phalcon/Annotations/Adapter/Stream.zep", 156)) {
-		ZEPHIR_CALL_FUNCTION(&_1$$3, "sha1", NULL, 90, &key_zv);
+	_1 = zephir_memnstr_str(&key_zv, SL("_"), "phalcon/Annotations/Adapter/Stream.zep", 158);
+	if (!(_1)) {
+		_1 = zephir_fast_strlen_ev(&name) != zephir_fast_strlen_ev(&key_zv);
+	}
+	if (_1) {
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "sha1", NULL, 90, &key_zv);
 		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(&_2$$3);
-		ZEPHIR_CONCAT_VSV(&_2$$3, &name, "_", &_1$$3);
+		ZEPHIR_INIT_VAR(&_3$$3);
+		ZEPHIR_CONCAT_VSV(&_3$$3, &name, "_", &_2$$3);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZEPHIR_CPY_WRT(&name, &_2$$3);
+		ZEPHIR_CPY_WRT(&name, &_3$$3);
 	}
-	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 404, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 404, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CONCAT_VVS(return_value, &_3, &name, ".php");
+	ZEPHIR_CONCAT_VVS(return_value, &_4, &name, ".php");
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;

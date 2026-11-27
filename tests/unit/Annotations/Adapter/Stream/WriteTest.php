@@ -45,6 +45,37 @@ final class WriteTest extends AbstractUnitTestCase
     }
 
     /**
+     * The name of an anonymous class has a NUL byte, and the file name stops
+     * there. Two anonymous classes must not share a cache file.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17810
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-26
+     */
+    public function testAnnotationsAdapterStreamWriteAnonymousClassNoCollision(): void
+    {
+        require_once Talon::settings()->supportPath('assets/Annotations/TestClass.php');
+
+        $dir     = Talon::settings()->outputPath('tests/annotations/');
+        $adapter = new Stream(['annotationsDir' => $dir]);
+
+        $classAnnotations = $adapter->get(TestClass::class);
+
+        $adapter->write("class@anonymous\0/app/Invoices.php:10\$0", $classAnnotations);
+        $adapter->write("class@anonymous\0/app/Invoices.php:20\$1", $classAnnotations);
+
+        $files = glob($dir . 'class@anonymous*.php');
+
+        $this->safeDeleteFile($dir . 'testclass.php');
+        foreach ($files as $file) {
+            $this->safeDeleteFile($file);
+        }
+
+        $this->assertCount(2, $files);
+        $this->assertNotContains($dir . 'class@anonymous.php', $files);
+    }
+
+    /**
      * "Test\\Write" and "Test_Write" both normalize to "test_write"; the
      * second gets a hash suffix so the two never share a cache file.
      *
