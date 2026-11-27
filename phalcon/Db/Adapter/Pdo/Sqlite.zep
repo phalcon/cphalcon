@@ -420,12 +420,17 @@ class Sqlite extends PdoAdapter
     {
         var references, reference, arrayReference, constraintName,
             referenceObjects, name, referencedSchema, referencedTable, columns,
-            referencedColumns, number;
+            referencedColumns;
 
         let references = [];
 
-        for number, reference in this->fetchAll(this->dialect->describeReferences(table, schema), Enum::FETCH_NUM) {
-            let constraintName = "foreign_key_" . number;
+        /**
+         * PRAGMA foreign_key_list gives one row for each column of a key. The
+         * rows of one key have the same id (column 0), in the order of the
+         * key columns (column 1).
+         */
+        for reference in this->fetchAll(this->dialect->describeReferences(table, schema), Enum::FETCH_NUM) {
+            let constraintName = "foreign_key_" . reference[0];
 
             if !isset references[constraintName] {
                 let referencedSchema = null;
