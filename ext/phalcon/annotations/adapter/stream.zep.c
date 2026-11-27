@@ -57,6 +57,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Stream)
 	/**
 	 * The start of each cache file. PHP stops at __halt_compiler(), so a web
 	 * request to a cache file shows nothing.
+	 *
+	 * @var string
 	 */
 	zephir_declare_class_constant_string(phalcon_annotations_adapter_stream_ce, SL("FILE_HEADER"), "<?php __halt_compiler();");
 
@@ -208,7 +210,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, read)
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_11$$6, "__construct", &_zephir_call_cache[3]);
 		zephir_check_call_status();
 		zephir_constructor_finish(&_11$$6);
-		zephir_throw_exception_debug(&_11$$6, "phalcon/Annotations/Adapter/Stream.zep", 126);
+		zephir_throw_exception_debug(&_11$$6, "phalcon/Annotations/Adapter/Stream.zep", 128);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -269,7 +271,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, write)
 		ZEPHIR_CALL_METHOD_CACHED(NULL, &_2$$3, "__construct", &_zephir_call_cache[2]);
 		zephir_check_call_status();
 		zephir_constructor_finish(&_2$$3);
-		zephir_throw_exception_debug(&_2$$3, "phalcon/Annotations/Adapter/Stream.zep", 154);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/Annotations/Adapter/Stream.zep", 156);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -314,7 +316,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, getFilePath)
 	ZVAL_STRING(&_0, "_");
 	ZEPHIR_INIT_VAR(&name);
 	zephir_prepare_virtual_path(&name, &key_zv, &_0);
-	_1 = zephir_memnstr_str(&key_zv, SL("_"), "phalcon/Annotations/Adapter/Stream.zep", 171);
+	_1 = zephir_memnstr_str(&key_zv, SL("_"), "phalcon/Annotations/Adapter/Stream.zep", 173);
 	if (!(_1)) {
 		_1 = zephir_fast_strlen_ev(&name) != zephir_fast_strlen_ev(&key_zv);
 	}

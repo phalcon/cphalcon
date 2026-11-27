@@ -40,6 +40,8 @@ class Stream extends AbstractAdapter
     /**
      * The start of each cache file. PHP stops at __halt_compiler(), so a web
      * request to a cache file shows nothing.
+     *
+     * @var string
      */
     const FILE_HEADER = "<?php __halt_compiler();";
 
