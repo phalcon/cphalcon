@@ -420,9 +420,11 @@ class Sqlite extends PdoAdapter
     {
         var references, reference, arrayReference, constraintName,
             referenceObjects, name, referencedSchema, referencedTable, columns,
-            referencedColumns;
+            referencedColumns, referencedColumn, primaryKeys, primaryKey, column;
+        int position;
 
-        let references = [];
+        let references = [],
+            primaryKeys = [];
 
         /**
          * PRAGMA foreign_key_list gives one row for each column of a key. The
@@ -444,8 +446,38 @@ class Sqlite extends PdoAdapter
                 let referencedColumns = references[constraintName]["referencedColumns"];
             }
 
+            let referencedColumn = reference[4];
+
+            /**
+             * A key with no referenced columns references the primary key of
+             * the referenced table, and its rows have null in column 4. The
+             * primary key columns come in the order of pk (column 5 of
+             * PRAGMA table_xinfo), and match the key columns by position.
+             */
+            if referencedColumn === null {
+                if !fetch primaryKey, primaryKeys[referencedTable] {
+                    let primaryKey = [];
+
+                    for column in this->fetchAll(this->dialect->describeColumns(referencedTable), Enum::FETCH_NUM) {
+                        let position = (int) column[5];
+
+                        if position > 0 {
+                            let primaryKey[position - 1] = column[1];
+                        }
+                    }
+
+                    let primaryKeys[referencedTable] = primaryKey;
+                }
+
+                let position = (int) reference[1];
+
+                if !fetch referencedColumn, primaryKey[position] {
+                    let referencedColumn = null;
+                }
+            }
+
             let columns[] = reference[3],
-                referencedColumns[] = reference[4];
+                referencedColumns[] = referencedColumn;
 
             let references[constraintName] = [
                 "referencedSchema"  : referencedSchema,
