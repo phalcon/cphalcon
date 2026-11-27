@@ -93,9 +93,10 @@ class Model extends AbstractAdapter implements RememberAdapter
 
             /**
              * The key becomes a PHQL column and a placeholder name, so it
-             * must be a plain identifier.
+             * must be a plain identifier. The "D" modifier stops "$" from
+             * matching before a newline at the end.
              */
-            if unlikely !preg_match("/^[a-zA-Z_][a-zA-Z0-9_]*$/", key) {
+            if unlikely !preg_match("/^[a-zA-Z_][a-zA-Z0-9_]*$/D", key) {
                 throw new InvalidCredentialKey(key);
             }
 

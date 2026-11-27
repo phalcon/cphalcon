@@ -219,7 +219,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveByCredentials)
 	array_init(&conditions);
 	ZEPHIR_INIT_VAR(&bind);
 	array_init(&bind);
-	zephir_is_iterable(&credentials, 0, "phalcon/Auth/Adapter/Model.zep", 106);
+	zephir_is_iterable(&credentials, 0, "phalcon/Auth/Adapter/Model.zep", 107);
 	if (Z_TYPE_P(&credentials) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&credentials), _1, _2, _0)
 		{
@@ -236,10 +236,10 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveByCredentials)
 			}
 			ZEPHIR_INIT_NVAR(&_3$$3);
 			ZEPHIR_INIT_NVAR(&_4$$3);
-			ZVAL_STRING(&_4$$3, "/^[a-zA-Z_][a-zA-Z0-9_]*$/");
+			ZVAL_STRING(&_4$$3, "/^[a-zA-Z_][a-zA-Z0-9_]*$/D");
 			ZEPHIR_INIT_NVAR(&_5$$3);
 			ZEPHIR_INIT_NVAR(&_6$$3);
-			ZVAL_STRING(&_6$$3, "/^[a-zA-Z_][a-zA-Z0-9_]*$/");
+			ZVAL_STRING(&_6$$3, "/^[a-zA-Z_][a-zA-Z0-9_]*$/D");
 			zephir_preg_match(&_5$$3, &_6$$3, &key, &_3$$3, 0, 0 , 0 );
 			if (UNEXPECTED(!zephir_is_true(&_5$$3))) {
 				ZEPHIR_INIT_NVAR(&_7$$5);
@@ -248,7 +248,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveByCredentials)
 				ZEPHIR_CALL_METHOD_CACHED(NULL, &_7$$5, "__construct", &_zephir_call_cache[0], &key);
 				zephir_check_call_status();
 				zephir_constructor_finish(&_7$$5);
-				zephir_throw_exception_debug(&_7$$5, "phalcon/Auth/Adapter/Model.zep", 99);
+				zephir_throw_exception_debug(&_7$$5, "phalcon/Auth/Adapter/Model.zep", 100);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -258,7 +258,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveByCredentials)
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			zephir_array_append(&conditions, &_8$$3, PH_SEPARATE, "phalcon/Auth/Adapter/Model.zep", 102);
+			zephir_array_append(&conditions, &_8$$3, PH_SEPARATE, "phalcon/Auth/Adapter/Model.zep", 103);
 			if (UNEXPECTED(EG(exception))) {
 				ZEPHIR_MM_RESTORE();
 				return;
@@ -294,10 +294,10 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveByCredentials)
 				}
 				ZEPHIR_INIT_NVAR(&_11$$6);
 				ZEPHIR_INIT_NVAR(&_12$$6);
-				ZVAL_STRING(&_12$$6, "/^[a-zA-Z_][a-zA-Z0-9_]*$/");
+				ZVAL_STRING(&_12$$6, "/^[a-zA-Z_][a-zA-Z0-9_]*$/D");
 				ZEPHIR_INIT_NVAR(&_13$$6);
 				ZEPHIR_INIT_NVAR(&_14$$6);
-				ZVAL_STRING(&_14$$6, "/^[a-zA-Z_][a-zA-Z0-9_]*$/");
+				ZVAL_STRING(&_14$$6, "/^[a-zA-Z_][a-zA-Z0-9_]*$/D");
 				zephir_preg_match(&_13$$6, &_14$$6, &key, &_11$$6, 0, 0 , 0 );
 				if (UNEXPECTED(!zephir_is_true(&_13$$6))) {
 					ZEPHIR_INIT_NVAR(&_15$$8);
@@ -306,7 +306,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveByCredentials)
 					ZEPHIR_CALL_METHOD_CACHED(NULL, &_15$$8, "__construct", &_zephir_call_cache[6], &key);
 					zephir_check_call_status();
 					zephir_constructor_finish(&_15$$8);
-					zephir_throw_exception_debug(&_15$$8, "phalcon/Auth/Adapter/Model.zep", 99);
+					zephir_throw_exception_debug(&_15$$8, "phalcon/Auth/Adapter/Model.zep", 100);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
@@ -316,7 +316,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, retrieveByCredentials)
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
-				zephir_array_append(&conditions, &_16$$6, PH_SEPARATE, "phalcon/Auth/Adapter/Model.zep", 102);
+				zephir_array_append(&conditions, &_16$$6, PH_SEPARATE, "phalcon/Auth/Adapter/Model.zep", 103);
 				if (UNEXPECTED(EG(exception))) {
 					ZEPHIR_MM_RESTORE();
 					return;
