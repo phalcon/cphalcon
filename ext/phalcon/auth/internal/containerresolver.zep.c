@@ -247,12 +247,12 @@ PHP_METHOD(Phalcon_Auth_Internal_ContainerResolver, resolveCandidate)
  */
 PHP_METHOD(Phalcon_Auth_Internal_ContainerResolver, resolveFresh)
 {
-	zval _2$$4, _6$$5, _11$$9, _16$$10;
-	zend_bool _4, _9$$8;
+	zval _2$$4, _6$$5, _13$$8, _11$$9, _19$$11;
+	zend_bool _4, _8$$7;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_string *name = NULL;
-	zval *container, container_sub, name_zv, definition, e, fresh, service, _3, _14, _0$$3, _1$$4, _5$$5, _7$$6, _8$$7, _12$$8, _13$$8, _10$$9, _15$$10, _17$$10;
+	zval *container, container_sub, name_zv, definition, e, fresh, service, _3, _17, _0$$3, _1$$4, _5$$5, _7$$6, _14$$7, _9$$8, _12$$8, _10$$9, _15$$10, _16$$10, _18$$11, _20$$11;
 
 	ZVAL_UNDEF(&container_sub);
 	ZVAL_UNDEF(&name_zv);
@@ -261,22 +261,25 @@ PHP_METHOD(Phalcon_Auth_Internal_ContainerResolver, resolveFresh)
 	ZVAL_UNDEF(&fresh);
 	ZVAL_UNDEF(&service);
 	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_14);
+	ZVAL_UNDEF(&_17);
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$4);
 	ZVAL_UNDEF(&_5$$5);
 	ZVAL_UNDEF(&_7$$6);
-	ZVAL_UNDEF(&_8$$7);
+	ZVAL_UNDEF(&_14$$7);
+	ZVAL_UNDEF(&_9$$8);
 	ZVAL_UNDEF(&_12$$8);
-	ZVAL_UNDEF(&_13$$8);
 	ZVAL_UNDEF(&_10$$9);
 	ZVAL_UNDEF(&_15$$10);
-	ZVAL_UNDEF(&_17$$10);
+	ZVAL_UNDEF(&_16$$10);
+	ZVAL_UNDEF(&_18$$11);
+	ZVAL_UNDEF(&_20$$11);
 	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&_6$$5);
+	ZVAL_UNDEF(&_13$$8);
 	ZVAL_UNDEF(&_11$$9);
-	ZVAL_UNDEF(&_16$$10);
-	ZEND_TLS zephir_method_cache _zephir_call_cache[15];
+	ZVAL_UNDEF(&_19$$11);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[17];
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_ZVAL(container)
 		Z_PARAM_STR(name)
@@ -343,16 +346,16 @@ PHP_METHOD(Phalcon_Auth_Internal_ContainerResolver, resolveFresh)
 		if (ZEPHIR_IS_TRUE_IDENTICAL(&_7$$6)) {
 			ZEPHIR_CALL_METHOD_CACHED(&service, container, "getService", &_zephir_call_cache[7], &name_zv);
 			zephir_check_call_status_or_jump(try_end_1);
-			ZEPHIR_CALL_METHOD_CACHED(&_8$$7, &service, "isShared", &_zephir_call_cache[8]);
+			ZEPHIR_CALL_METHOD_CACHED(&definition, &service, "getDefinition", &_zephir_call_cache[8]);
 			zephir_check_call_status_or_jump(try_end_1);
-			if (ZEPHIR_IS_TRUE_IDENTICAL(&_8$$7)) {
-				ZEPHIR_CALL_METHOD_CACHED(&definition, &service, "getDefinition", &_zephir_call_cache[9]);
+			_8$$7 = Z_TYPE_P(&definition) == IS_OBJECT;
+			if (_8$$7) {
+				_8$$7 = !((zephir_is_instance_of(&definition, SL("Closure"))));
+			}
+			if (_8$$7) {
+				ZEPHIR_CALL_METHOD_CACHED(&_9$$8, &service, "isShared", &_zephir_call_cache[9]);
 				zephir_check_call_status_or_jump(try_end_1);
-				_9$$8 = Z_TYPE_P(&definition) == IS_OBJECT;
-				if (_9$$8) {
-					_9$$8 = !((zephir_is_instance_of(&definition, SL("Closure"))));
-				}
-				if (_9$$8) {
+				if (ZEPHIR_IS_TRUE_IDENTICAL(&_9$$8)) {
 					ZEPHIR_INIT_VAR(&_10$$9);
 					object_init_ex(&_10$$9, phalcon_container_exceptions_exception_ce);
 					zephir_constructor_start(&_10$$9);
@@ -364,52 +367,70 @@ PHP_METHOD(Phalcon_Auth_Internal_ContainerResolver, resolveFresh)
 					ZEPHIR_CALL_METHOD_CACHED(NULL, &_10$$9, "__construct", &_zephir_call_cache[10], &_11$$9);
 					zephir_check_call_status_or_jump(try_end_1);
 					zephir_constructor_finish(&_10$$9);
-					zephir_throw_exception_debug(&_10$$9, "phalcon/Auth/Internal/ContainerResolver.zep", 155);
+					zephir_throw_exception_debug(&_10$$9, "phalcon/Auth/Internal/ContainerResolver.zep", 153);
 					goto try_end_1;
 
 				}
 				ZEPHIR_INIT_VAR(&_12$$8);
-				object_init_ex(&_12$$8, phalcon_di_service_ce);
+				object_init_ex(&_12$$8, phalcon_container_exceptions_exception_ce);
 				zephir_constructor_start(&_12$$8);
-				ZVAL_BOOL(&_13$$8, 0);
-				ZEPHIR_CALL_METHOD_CACHED(NULL, &_12$$8, "__construct", &_zephir_call_cache[11], &definition, &_13$$8);
+				ZEPHIR_INIT_VAR(&_13$$8);
+				ZEPHIR_CONCAT_SVS(&_13$$8, "Cannot resolve a fresh '", &name_zv, "': it is registered in the Di as an instance");
+				if (UNEXPECTED(EG(exception))) {
+					goto try_end_1;
+				}
+				ZEPHIR_CALL_METHOD_CACHED(NULL, &_12$$8, "__construct", &_zephir_call_cache[11], &_13$$8);
 				zephir_check_call_status_or_jump(try_end_1);
 				zephir_constructor_finish(&_12$$8);
-				ZEPHIR_CPY_WRT(&fresh, &_12$$8);
-				ZEPHIR_INIT_NVAR(&_12$$8);
-				ZVAL_NULL(&_13$$8);
-				ZEPHIR_RETURN_CALL_METHOD_CACHED(&fresh, "resolve", &_zephir_call_cache[12], &_13$$8, container);
+				zephir_throw_exception_debug(&_12$$8, "phalcon/Auth/Internal/ContainerResolver.zep", 159);
+				goto try_end_1;
+
+			}
+			ZEPHIR_CALL_METHOD_CACHED(&_14$$7, &service, "isShared", &_zephir_call_cache[12]);
+			zephir_check_call_status_or_jump(try_end_1);
+			if (ZEPHIR_IS_TRUE_IDENTICAL(&_14$$7)) {
+				ZEPHIR_INIT_VAR(&_15$$10);
+				object_init_ex(&_15$$10, phalcon_di_service_ce);
+				zephir_constructor_start(&_15$$10);
+				ZVAL_BOOL(&_16$$10, 0);
+				ZEPHIR_CALL_METHOD_CACHED(NULL, &_15$$10, "__construct", &_zephir_call_cache[13], &definition, &_16$$10);
+				zephir_check_call_status_or_jump(try_end_1);
+				zephir_constructor_finish(&_15$$10);
+				ZEPHIR_CPY_WRT(&fresh, &_15$$10);
+				ZEPHIR_INIT_NVAR(&_15$$10);
+				ZVAL_NULL(&_16$$10);
+				ZEPHIR_RETURN_CALL_METHOD_CACHED(&fresh, "resolve", &_zephir_call_cache[14], &_16$$10, container);
 				zephir_check_call_status_or_jump(try_end_1);
 				RETURN_MM();
 			}
 		}
-		ZEPHIR_RETURN_CALL_METHOD_CACHED(container, "get", &_zephir_call_cache[13], &name_zv);
+		ZEPHIR_RETURN_CALL_METHOD_CACHED(container, "get", &_zephir_call_cache[15], &name_zv);
 		zephir_check_call_status_or_jump(try_end_1);
 		RETURN_MM();
 
 	try_end_1:
 
 	if (EG(exception)) {
-		ZEPHIR_INIT_VAR(&_14);
-		ZVAL_OBJ(&_14, EG(exception));
-		Z_ADDREF_P(&_14);
-		if (zephir_instance_of_ev(&_14, phalcon_di_exception_ce)) {
+		ZEPHIR_INIT_VAR(&_17);
+		ZVAL_OBJ(&_17, EG(exception));
+		Z_ADDREF_P(&_17);
+		if (zephir_instance_of_ev(&_17, phalcon_di_exception_ce)) {
 			zend_clear_exception();
-			ZEPHIR_CPY_WRT(&e, &_14);
-			ZEPHIR_INIT_VAR(&_15$$10);
-			object_init_ex(&_15$$10, phalcon_container_exceptions_exception_ce);
-			zephir_constructor_start(&_15$$10);
-			ZEPHIR_INIT_VAR(&_16$$10);
-			ZEPHIR_CONCAT_SVS(&_16$$10, "Failed to resolve '", &name_zv, "' from the Di container");
+			ZEPHIR_CPY_WRT(&e, &_17);
+			ZEPHIR_INIT_VAR(&_18$$11);
+			object_init_ex(&_18$$11, phalcon_container_exceptions_exception_ce);
+			zephir_constructor_start(&_18$$11);
+			ZEPHIR_INIT_VAR(&_19$$11);
+			ZEPHIR_CONCAT_SVS(&_19$$11, "Failed to resolve '", &name_zv, "' from the Di container");
 			if (UNEXPECTED(EG(exception))) {
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			ZVAL_LONG(&_17$$10, 0);
-			ZEPHIR_CALL_METHOD_CACHED(NULL, &_15$$10, "__construct", &_zephir_call_cache[14], &_16$$10, &_17$$10, &e);
+			ZVAL_LONG(&_20$$11, 0);
+			ZEPHIR_CALL_METHOD_CACHED(NULL, &_18$$11, "__construct", &_zephir_call_cache[16], &_19$$11, &_20$$11, &e);
 			zephir_check_call_status();
-			zephir_constructor_finish(&_15$$10);
-			zephir_throw_exception_debug(&_15$$10, "phalcon/Auth/Internal/ContainerResolver.zep", 170);
+			zephir_constructor_finish(&_18$$11);
+			zephir_throw_exception_debug(&_18$$11, "phalcon/Auth/Internal/ContainerResolver.zep", 180);
 			ZEPHIR_MM_RESTORE();
 			return;
 		} else {
@@ -559,7 +580,7 @@ PHP_METHOD(Phalcon_Auth_Internal_ContainerResolver, resolveShared)
 			ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$5, "__construct", &_zephir_call_cache[2], &_2$$5, &_3$$5, &e);
 			zephir_check_call_status();
 			zephir_constructor_finish(&_1$$5);
-			zephir_throw_exception_debug(&_1$$5, "phalcon/Auth/Internal/ContainerResolver.zep", 224);
+			zephir_throw_exception_debug(&_1$$5, "phalcon/Auth/Internal/ContainerResolver.zep", 234);
 			ZEPHIR_MM_RESTORE();
 			return;
 		} else {
