@@ -78,6 +78,24 @@ final class EscapeIntrospectionTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * The dialects have no getExistsSql() helper, which did not escape the
+     * view name. viewExists() and tableExists() escape the names, as in
+     * cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/919
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-26
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getDialects')]
+    public function testDbDialectGetExistsSqlDoesNotExist(string $dialectClass): void
+    {
+        $this->assertFalse(method_exists($dialectClass, 'getExistsSql'));
+    }
+
+    /**
      * The schema-introspection helpers concatenate the table/schema name into a
      * single-quoted SQL literal, so a quote in the name has to be escaped
      * (doubled) or it breaks out of the literal (CWE-89).

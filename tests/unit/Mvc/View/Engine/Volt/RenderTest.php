@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt;
 
+use Error;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php;
 use Phalcon\Mvc\View\Engine\Volt;
@@ -203,5 +204,34 @@ class RenderTest extends AbstractUnitTestCase
 
         $this->safeDeleteFile(Talon::settings()->supportPath('assets/views/scope/set.volt.php'));
         $this->safeDeleteFile(Talon::settings()->supportPath('assets/views/scope/child.volt.php'));
+    }
+
+    /**
+     * A parameter named "this" throws, as in cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/921
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-26
+     */
+    public function testMvcViewEngineVoltRenderThisParameter(): void
+    {
+        $this->setNewFactoryDefault();
+        $this->setDiService('viewSimple');
+
+        $view = $this->getService('viewSimple');
+        $volt = new Volt($view, $this->container);
+
+        $templatePath = Talon::settings()->supportPath('assets/views/compiler/partial.volt');
+
+        $this->expectException(Error::class);
+        $this->expectExceptionMessage('Cannot re-assign $this');
+
+        ob_start();
+        try {
+            $volt->render($templatePath, ['some_var' => 'Label', 'this' => 'x']);
+        } finally {
+            ob_end_clean();
+            $this->safeDeleteFile($templatePath . '.php');
+        }
     }
 }
