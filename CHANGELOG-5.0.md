@@ -58,6 +58,7 @@ All notable changes are documented here. The format is based on [Keep a Changelo
 - `Phalcon\Db\Adapter\Pdo\Sqlite::describeColumns()` using `Column::TYPE_DECIMAL` as the bind type of `float` columns, which stored their values as blobs. [#17724](https://github.com/phalcon/cphalcon/issues/17724)
 - `Phalcon\Db\Dialect::checkColumnType()` declaring `string` as the return type instead of `int`. [#17796](https://github.com/phalcon/cphalcon/issues/17796)
 - `Phalcon\Db\Dialect\Mysql::listTables()` returning MariaDB sequences and `Phalcon\Db\Dialect\Postgresql::listTables()` returning partitions. [#17769](https://github.com/phalcon/cphalcon/issues/17769)
+- `Phalcon\Db\Dialect\Mysql::truncateTable()` and `Phalcon\Db\Dialect\Sqlite::truncateTable()` not escaping the quote character in the table and schema names. [#17808](https://github.com/phalcon/cphalcon/issues/17808)
 - `Phalcon\Encryption\Security::hash()` passing a numeric string `cost` option on as a string, which gave an invalid Blowfish salt for a fractional value. [#17779](https://github.com/phalcon/cphalcon/issues/17779)
 - `Phalcon\Encryption\Security::hash()` using the cost `4` instead of the work factor when the `cost` option is empty. [#17764](https://github.com/phalcon/cphalcon/issues/17764)
 - `Phalcon\Forms\Form::getValue()` returning the tag factory for the name `tagFactory`. [#17727](https://github.com/phalcon/cphalcon/issues/17727)

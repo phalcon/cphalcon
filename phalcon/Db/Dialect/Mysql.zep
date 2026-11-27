@@ -1016,10 +1016,14 @@ class Mysql extends Dialect
     {
         string table;
 
+        /**
+         * Double the backtick in the names, so that a name cannot end the
+         * identifier
+         */
+        let table = "`" . str_replace("`", "``", tableName) . "`";
+
         if schemaName {
-            let table = "`" . schemaName . "`.`" . tableName . "`";
-        } else {
-            let table = "`" . tableName . "`";
+            let table = "`" . str_replace("`", "``", schemaName) . "`." . table;
         }
 
         return "TRUNCATE TABLE " . table;
