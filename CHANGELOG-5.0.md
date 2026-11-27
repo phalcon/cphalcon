@@ -2,7 +2,7 @@
 
 All notable changes are documented here. The format is based on [Keep a Changelog][keep_a_changelog] and this project adheres to [Semantic Versioning][semantic_versioning].
 
-## [5.24.0](https://github.com/phalcon/cphalcon/releases/tag/v5.24.0) (2026-11-26)
+## [5.24.0](https://github.com/phalcon/cphalcon/releases/tag/v5.24.0) (2026-11-27)
 
 ### Tools
 
