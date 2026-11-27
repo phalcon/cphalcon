@@ -69,6 +69,37 @@ final class GetRealTargetPathTest extends AbstractUnitTestCase
     }
 
     /**
+     * A symbolic link to a file that does not exist is also refused, and the
+     * file that it points to is not created.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17802
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-26
+     */
+    public function testAssetsAssetGetRealTargetPathRejectsDanglingSymlink(): void
+    {
+        $dir    = Talon::settings()->outputPath('tests/assets/');
+        $target = $dir . 'symlink-missing-target.css';
+        $link   = $dir . 'symlink-dangling.css';
+
+        // safeDeleteFile() does not see a link to a file that does not exist
+        if (is_link($link)) {
+            unlink($link);
+        }
+
+        $this->safeDeleteFile($target);
+        symlink($target, $link);
+
+        $asset  = new Asset('css', 'symlink-dangling.css');
+        $actual = $asset->getRealTargetPath($dir);
+
+        unlink($link);
+
+        $this->assertSame('', $actual);
+        $this->assertFileDoesNotExist($target);
+    }
+
+    /**
      * A symbolic link at the target file would send the write outside the
      * assets directory, so it is refused (empty path).
      *
