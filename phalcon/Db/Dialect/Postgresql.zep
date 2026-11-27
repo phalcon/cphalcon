@@ -427,13 +427,15 @@ class Postgresql extends Dialect
          * schema identifies a constraint only by schema and name, but
          * PostgreSQL makes foreign key names unique only per table. The
          * columns of the key and the referenced columns are paired by their
-         * position in conkey and confkey (cphalcon issue [#17680]).
+         * position in conkey and confkey (cphalcon issue [#17680]). The
+         * referenced schema is the namespace of the referenced table
+         * (cphalcon issue [#17816]).
          */
 
         return "SELECT c.relname AS TABLE_NAME, "
             . "a.attname AS COLUMN_NAME, "
             . "con.conname AS CONSTRAINT_NAME, "
-            . "current_database() AS REFERENCED_TABLE_SCHEMA, "
+            . "fn.nspname AS REFERENCED_TABLE_SCHEMA, "
             . "fc.relname AS REFERENCED_TABLE_NAME, "
             . "fa.attname AS REFERENCED_COLUMN_NAME, "
             . "CASE con.confupdtype WHEN 'c' THEN 'CASCADE' "
@@ -448,6 +450,7 @@ class Postgresql extends Dialect
             . "JOIN pg_catalog.pg_class AS c ON c.oid = con.conrelid "
             . "JOIN pg_catalog.pg_namespace AS n ON n.oid = c.relnamespace "
             . "JOIN pg_catalog.pg_class AS fc ON fc.oid = con.confrelid "
+            . "JOIN pg_catalog.pg_namespace AS fn ON fn.oid = fc.relnamespace "
             . "CROSS JOIN LATERAL unnest(con.conkey, con.confkey) "
             . "WITH ORDINALITY AS k(colnum, refcolnum, colpos) "
             . "JOIN pg_catalog.pg_attribute AS a "

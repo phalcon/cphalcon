@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Database\Db\Adapter\Pdo;
 
 use Phalcon\Db\Reference;
-use Phalcon\Talon\Talon;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
@@ -23,11 +22,21 @@ final class DescribeReferencesPostgresqlTest extends AbstractDatabaseTestCase
 {
     use DiTrait;
 
+    private const BILLING    = 'co_scratch_refs_billing';
+
     private const CODE_FK    = 'co_scratch_refs_code_fk';
+
+    private const INVOICES   = 'co_scratch_refs_invoices';
+
+    private const INVOICE_FK = 'co_scratch_refs_invoice_fk';
 
     private const LINES      = 'co_scratch_refs_lines';
 
     private const ORDERS     = 'co_scratch_refs_orders';
+
+    private const PAYMENTS   = 'co_scratch_refs_payments';
+
+    private const PAYMENT_FK = 'co_scratch_refs_payment_fk';
 
     private const PRODUCTS   = 'co_scratch_refs_products';
 
@@ -97,6 +106,25 @@ final class DescribeReferencesPostgresqlTest extends AbstractDatabaseTestCase
             . 'FOREIGN KEY (order_id) '
             . 'REFERENCES ' . self::ORDERS . ' (id))'
         );
+
+        // Keys from another schema
+        $db->execute('CREATE SCHEMA ' . self::BILLING);
+        $db->execute(
+            'CREATE TABLE ' . self::BILLING . '.' . self::INVOICES . ' ('
+            . 'id integer PRIMARY KEY, '
+            . 'order_id integer, '
+            . 'CONSTRAINT ' . self::INVOICE_FK . ' '
+            . 'FOREIGN KEY (order_id) '
+            . 'REFERENCES public.' . self::ORDERS . ' (id))'
+        );
+        $db->execute(
+            'CREATE TABLE ' . self::BILLING . '.' . self::PAYMENTS . ' ('
+            . 'id integer PRIMARY KEY, '
+            . 'invoice_id integer, '
+            . 'CONSTRAINT ' . self::PAYMENT_FK . ' '
+            . 'FOREIGN KEY (invoice_id) '
+            . 'REFERENCES ' . self::BILLING . '.' . self::INVOICES . ' (id))'
+        );
     }
 
     public function tearDown(): void
@@ -121,7 +149,7 @@ final class DescribeReferencesPostgresqlTest extends AbstractDatabaseTestCase
             self::SHARED_FK,
             [
                 'referencedTable'   => self::LINES,
-                'referencedSchema'  => Talon::settings()->getDatabaseOptions('pgsql')['dbname'],
+                'referencedSchema'  => 'public',
                 'columns'           => ['order_id', 'line_no'],
                 'referencedColumns' => ['order_id', 'number'],
                 'onUpdate'          => 'NO ACTION',
@@ -154,7 +182,7 @@ final class DescribeReferencesPostgresqlTest extends AbstractDatabaseTestCase
             self::REVERSE_FK,
             [
                 'referencedTable'   => self::LINES,
-                'referencedSchema'  => Talon::settings()->getDatabaseOptions('pgsql')['dbname'],
+                'referencedSchema'  => 'public',
                 'columns'           => ['line_no', 'order_id'],
                 'referencedColumns' => ['number', 'order_id'],
                 'onUpdate'          => 'CASCADE',
@@ -166,6 +194,58 @@ final class DescribeReferencesPostgresqlTest extends AbstractDatabaseTestCase
 
         $this->assertArrayHasKey(self::REVERSE_FK, $references);
         $this->assertEquals($expected, $references[self::REVERSE_FK]);
+    }
+
+    /**
+     * Tests Phalcon\Db\Adapter\Pdo\Postgresql :: describeReferences() -
+     * the referenced schema is the schema of the referenced table
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-27
+     * @issue  https://github.com/phalcon/cphalcon/issues/17816
+     */
+    #[Group('pgsql')]
+    public function testDbAdapterPdoPostgresqlDescribeReferencesOtherSchema(): void
+    {
+        $db = $this->container->get('db');
+
+        $expected = [
+            self::INVOICE_FK => new Reference(
+                self::INVOICE_FK,
+                [
+                    'referencedTable'   => self::ORDERS,
+                    'referencedSchema'  => 'public',
+                    'columns'           => ['order_id'],
+                    'referencedColumns' => ['id'],
+                    'onUpdate'          => 'NO ACTION',
+                    'onDelete'          => 'NO ACTION',
+                ]
+            ),
+        ];
+
+        $this->assertEquals(
+            $expected,
+            $db->describeReferences(self::INVOICES, self::BILLING)
+        );
+
+        $expected = [
+            self::PAYMENT_FK => new Reference(
+                self::PAYMENT_FK,
+                [
+                    'referencedTable'   => self::INVOICES,
+                    'referencedSchema'  => self::BILLING,
+                    'columns'           => ['invoice_id'],
+                    'referencedColumns' => ['id'],
+                    'onUpdate'          => 'NO ACTION',
+                    'onDelete'          => 'NO ACTION',
+                ]
+            ),
+        ];
+
+        $this->assertEquals(
+            $expected,
+            $db->describeReferences(self::PAYMENTS, self::BILLING)
+        );
     }
 
     /**
@@ -186,7 +266,7 @@ final class DescribeReferencesPostgresqlTest extends AbstractDatabaseTestCase
                 self::SHARED_FK,
                 [
                     'referencedTable'   => self::ORDERS,
-                    'referencedSchema'  => Talon::settings()->getDatabaseOptions('pgsql')['dbname'],
+                    'referencedSchema'  => 'public',
                     'columns'           => ['order_id'],
                     'referencedColumns' => ['id'],
                     'onUpdate'          => 'NO ACTION',
@@ -215,7 +295,7 @@ final class DescribeReferencesPostgresqlTest extends AbstractDatabaseTestCase
             self::CODE_FK,
             [
                 'referencedTable'   => self::PRODUCTS,
-                'referencedSchema'  => Talon::settings()->getDatabaseOptions('pgsql')['dbname'],
+                'referencedSchema'  => 'public',
                 'columns'           => ['product_code'],
                 'referencedColumns' => ['code'],
                 'onUpdate'          => 'RESTRICT',
@@ -233,6 +313,7 @@ final class DescribeReferencesPostgresqlTest extends AbstractDatabaseTestCase
     {
         $db = $this->container->get('db');
 
+        $db->execute('DROP SCHEMA IF EXISTS ' . self::BILLING . ' CASCADE');
         $db->execute('DROP TABLE IF EXISTS ' . self::RETURNS);
         $db->execute('DROP TABLE IF EXISTS ' . self::SHIPMENTS);
         $db->execute('DROP TABLE IF EXISTS ' . self::PRODUCTS);
