@@ -12,6 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "ext/pdo/php_pdo_driver.h"
 
 
 /**
@@ -52,7 +53,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Enum)
 	/**
 	 * @var int
 	 */
-	zephir_declare_class_constant_long(phalcon_db_enum_ce, SL("FETCH_CLASSTYPE"), 262144);
+	zephir_declare_class_constant_long(phalcon_db_enum_ce, SL("FETCH_CLASSTYPE"), ((zend_long) PDO_FETCH_CLASSTYPE));
 
 	/**
 	 * @var int
@@ -67,7 +68,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Enum)
 	/**
 	 * @var int
 	 */
-	zephir_declare_class_constant_long(phalcon_db_enum_ce, SL("FETCH_GROUP"), 65536);
+	zephir_declare_class_constant_long(phalcon_db_enum_ce, SL("FETCH_GROUP"), ((zend_long) PDO_FETCH_GROUP));
 
 	/**
 	 * @var int
@@ -107,17 +108,17 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Enum)
 	/**
 	 * @var int
 	 */
-	zephir_declare_class_constant_long(phalcon_db_enum_ce, SL("FETCH_PROPS_LATE"), 1048576);
+	zephir_declare_class_constant_long(phalcon_db_enum_ce, SL("FETCH_PROPS_LATE"), ((zend_long) PDO_FETCH_PROPS_LATE));
 
 	/**
 	 * @var int
 	 */
-	zephir_declare_class_constant_long(phalcon_db_enum_ce, SL("FETCH_SERIALIZE"), 524288);
+	zephir_declare_class_constant_long(phalcon_db_enum_ce, SL("FETCH_SERIALIZE"), ((zend_long) PDO_FETCH_SERIALIZE));
 
 	/**
 	 * @var int
 	 */
-	zephir_declare_class_constant_long(phalcon_db_enum_ce, SL("FETCH_UNIQUE"), 196608);
+	zephir_declare_class_constant_long(phalcon_db_enum_ce, SL("FETCH_UNIQUE"), ((zend_long) PDO_FETCH_UNIQUE));
 
 	/**
 	 * @var int

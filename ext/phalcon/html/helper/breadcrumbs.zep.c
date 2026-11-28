@@ -91,7 +91,15 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Breadcrumbs)
 	 *
 	 * @phpstan-var html_breadcrumb_template
 	 */
-	zend_declare_property_null(phalcon_html_helper_breadcrumbs_ce, SL("template"), ZEND_ACC_PRIVATE);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 4);
+		add_assoc_stringl_ex(&_zc0, SL("main"), SL("\n<nav%attributes%>\n    <ol>\n%items%\n    </ol>\n</nav>"));
+		add_assoc_stringl_ex(&_zc0, SL("line"), SL("<li%attributes%><a href=\"%link%\">%icon%%text%</a></li>"));
+		add_assoc_stringl_ex(&_zc0, SL("last"), SL("<li><span%attributes%>%text%</span></li>"));
+		zephir_declare_property_array(phalcon_html_helper_breadcrumbs_ce, SL("template"), &_zc0, ZEND_ACC_PRIVATE);
+	}
+
 	/**
 	 * Optional Url service used to resolve links via get().
 	 * When set, takes priority over the string prefix.
@@ -101,8 +109,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Breadcrumbs)
 		ZVAL_NULL(&_zc0);
 		zephir_declare_typed_property(phalcon_html_helper_breadcrumbs_ce, SL("url"), &_zc0, ZEND_ACC_PRIVATE, MAY_BE_NULL, SL("Phalcon\\Mvc\\Url\\UrlInterface"));
 	}
-
-	phalcon_html_helper_breadcrumbs_ce->create_object = zephir_init_properties_Phalcon_Html_Helper_Breadcrumbs;
 
 	return SUCCESS;
 }
@@ -1221,34 +1227,5 @@ PHP_METHOD(Phalcon_Html_Helper_Breadcrumbs, toInterpolate)
 	ZEPHIR_RETURN_CALL_FUNCTION("strtr", NULL, 1, &input_zv, &replace);
 	zephir_check_call_status();
 	RETURN_MM();
-}
-
-zend_object *zephir_init_properties_Phalcon_Html_Helper_Breadcrumbs(zend_class_entry *class_type)
-{
-		zval _1$$3;
-	zval _0;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("template"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			zephir_create_array(&_1$$3, 3, 0);
-			add_assoc_stringl_ex(&_1$$3, SL("main"), SL("\n<nav%attributes%>\n    <ol>\n%items%\n    </ol>\n</nav>"));
-			add_assoc_stringl_ex(&_1$$3, SL("line"), SL("<li%attributes%><a href=\"%link%\">%icon%%text%</a></li>"));
-			add_assoc_stringl_ex(&_1$$3, SL("last"), SL("<li><span%attributes%>%text%</span></li>"));
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("template"), &_1$$3);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

@@ -363,7 +363,12 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZVAL_LONG(&_4, 4);
+	ZEPHIR_INIT_VAR(&_4);
+	zephir_get_class_constant(&_4, zephir_fetch_class_str_ex(SL("PDO"), ZEND_FETCH_CLASS_DEFAULT | ZEND_FETCH_CLASS_EXCEPTION), SL("ATTR_SERVER_VERSION"));
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_METHOD_CACHED(&_3, &_2, "getAttribute", &_zephir_call_cache[2], &_4);
 	zephir_check_call_status();
 	zephir_cast_to_string(&_5, &_3);

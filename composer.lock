@@ -2021,21 +2021,21 @@
         },
         {
             "name": "league/uri",
-            "version": "7.10.0",
+            "version": "7.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/uri.git",
-                "reference": "be89e2382e37acdef232259071ade5180821397b"
+                "reference": "c376d3a2e99e6dee74708116fa8424dbec77021b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/uri/zipball/be89e2382e37acdef232259071ade5180821397b",
-                "reference": "be89e2382e37acdef232259071ade5180821397b",
+                "url": "https://api.github.com/repos/thephpleague/uri/zipball/c376d3a2e99e6dee74708116fa8424dbec77021b",
+                "reference": "c376d3a2e99e6dee74708116fa8424dbec77021b",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
-                "league/uri-interfaces": "^7.10.0",
+                "league/uri-interfaces": "^7.10.1",
                 "php": "^8.1",
                 "psr/http-factory": "^1"
             },
@@ -2108,7 +2108,7 @@
                 "docs": "https://uri.thephpleague.com",
                 "forum": "https://thephpleague.slack.com",
                 "issues": "https://github.com/thephpleague/uri-src/issues",
-                "source": "https://github.com/thephpleague/uri/tree/7.10.0"
+                "source": "https://github.com/thephpleague/uri/tree/7.10.1"
             },
             "funding": [
                 {
@@ -2116,21 +2116,21 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-04T12:45:07+00:00",
-            "published-time": "2026-11-04T13:02:21+00:00"
+            "time": "2026-11-28T14:19:41+00:00",
+            "published-time": "2026-11-28T14:27:14+00:00"
         },
         {
             "name": "league/uri-interfaces",
-            "version": "7.10.0",
+            "version": "7.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/uri-interfaces.git",
-                "reference": "ea66240cff4ae9a56ce85d577a04d038b771e51c"
+                "reference": "fc6586f439980add067357477e4f6d7be4209ab0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/uri-interfaces/zipball/ea66240cff4ae9a56ce85d577a04d038b771e51c",
-                "reference": "ea66240cff4ae9a56ce85d577a04d038b771e51c",
+                "url": "https://api.github.com/repos/thephpleague/uri-interfaces/zipball/fc6586f439980add067357477e4f6d7be4209ab0",
+                "reference": "fc6586f439980add067357477e4f6d7be4209ab0",
                 "shasum": ""
             },
             "require": {
@@ -2193,7 +2193,7 @@
                 "docs": "https://uri.thephpleague.com",
                 "forum": "https://thephpleague.slack.com",
                 "issues": "https://github.com/thephpleague/uri-src/issues",
-                "source": "https://github.com/thephpleague/uri-interfaces/tree/7.10.0"
+                "source": "https://github.com/thephpleague/uri-interfaces/tree/7.10.1"
             },
             "funding": [
                 {
@@ -2201,8 +2201,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-04T12:45:07+00:00",
-            "published-time": "2026-11-04T13:02:27+00:00"
+            "time": "2026-11-28T14:18:10+00:00",
+            "published-time": "2026-11-28T14:27:18+00:00"
         },
         {
             "name": "masterminds/html5",
@@ -3027,16 +3027,16 @@
         },
         {
             "name": "phalcon/zephir",
-            "version": "1.10.0",
+            "version": "1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zephir-lang/zephir.git",
-                "reference": "69a959ade97ed6ccc26b4e9b4d61e48718a5a459"
+                "reference": "9695bd8e4cbb9f24c8a7352053b91e4cf4d66108"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/69a959ade97ed6ccc26b4e9b4d61e48718a5a459",
-                "reference": "69a959ade97ed6ccc26b4e9b4d61e48718a5a459",
+                "url": "https://api.github.com/repos/zephir-lang/zephir/zipball/9695bd8e4cbb9f24c8a7352053b91e4cf4d66108",
+                "reference": "9695bd8e4cbb9f24c8a7352053b91e4cf4d66108",
                 "shasum": ""
             },
             "require": {
@@ -3112,8 +3112,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-24T19:16:55+00:00",
-            "published-time": "2026-11-24T19:18:02+00:00"
+            "time": "2026-11-28T16:23:06+00:00",
+            "published-time": "2026-11-28T16:33:33+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -3648,16 +3648,16 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "2.4.2",
+            "version": "2.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "f80e753caa465ab4f93cb265ae32e2e8cb02c3f3"
+                "reference": "839c252522bb9d2be16ce89d99487d2a75eadc8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/f80e753caa465ab4f93cb265ae32e2e8cb02c3f3",
-                "reference": "f80e753caa465ab4f93cb265ae32e2e8cb02c3f3",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/839c252522bb9d2be16ce89d99487d2a75eadc8e",
+                "reference": "839c252522bb9d2be16ce89d99487d2a75eadc8e",
                 "shasum": ""
             },
             "require": {
@@ -3689,10 +3689,10 @@
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
             "support": {
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/2.4.2"
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/2.5.1"
             },
-            "time": "2026-11-25T13:45:51+00:00",
-            "published-time": "2026-11-25T13:46:33+00:00"
+            "time": "2026-11-28T13:46:42+00:00",
+            "published-time": "2026-11-28T13:47:37+00:00"
         },
         {
             "name": "phpstan/phpstan",

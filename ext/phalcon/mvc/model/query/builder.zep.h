@@ -57,7 +57,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, conditionBetween);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, conditionIn);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, conditionNotBetween);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, conditionNotIn);
-zend_object *zephir_init_properties_Phalcon_Mvc_Model_Query_Builder(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder___construct, 0, 0, 0)
 	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, params, "null")
@@ -317,9 +316,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_c
 	ZEND_ARG_TYPE_INFO(0, operator, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, expr, IS_STRING, 0)
 	ZEND_ARG_ARRAY_INFO(0, values, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder_zephir_init_properties_phalcon_mvc_model_query_builder, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_query_builder_method_entry) {

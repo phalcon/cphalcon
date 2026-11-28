@@ -90,6 +90,7 @@ extern zend_string* i_self;
 #define ISS(str) (zephir_interned_##str), (sizeof(#str))
 
 #include <Zend/zend_constants.h>
+#include <Zend/zend_closures.h>
 #include "kernel/exception.h"
 
 /**
@@ -832,5 +833,28 @@ void zephir_globals_release_hash(HashTable **member);
  */
 #define ZEPHIR_Z_PARAM_ARRAY(dest, dest_ptr)              Z_PARAM_ARRAY(dest_ptr)
 #define ZEPHIR_Z_PARAM_ARRAY_OR_NULL(dest, dest_ptr)      Z_PARAM_ARRAY_OR_NULL(dest_ptr)
+
+/**
+ * Runs the body of a Zephir function the way PHP runs a function: in no class.
+ *
+ * The engine takes the scope of a frame without a class from the frame that
+ * called it (zend_get_executed_scope() steps over it), so a function called
+ * from a method reached that class's protected and private properties.
+ * EG(fake_scope) cannot say "no class" with NULL, which means "not set", so the
+ * body runs in the Closure class, the stand-in scope PHP itself gives a closure
+ * bound to an object without a class: final, with no parent and no properties,
+ * it reaches only what code in no class reaches. zephir_get_calling_scope()
+ * reads it back as no class. A call the body makes from here gets a clean
+ * EG(fake_scope) from zend_call_function().
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2784
+ */
+#define ZEPHIR_RUN_FUNCTION_BODY(body) \
+	do { \
+		const zend_class_entry *zephir_outer_scope = EG(fake_scope); \
+		EG(fake_scope) = zend_ce_closure; \
+		body(INTERNAL_FUNCTION_PARAM_PASSTHRU); \
+		EG(fake_scope) = (zend_class_entry *) zephir_outer_scope; \
+	} while (0)
 
 #endif /* ZEPHIR_KERNEL_MAIN_H */

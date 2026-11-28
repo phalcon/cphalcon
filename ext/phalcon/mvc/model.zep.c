@@ -215,7 +215,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model)
 	 *
 	 * @phpstan-var mvc_model_bind_params
 	 */
-	zend_declare_property_null(phalcon_mvc_model_ce, SL("uniqueParams"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_property_array(phalcon_mvc_model_ce, SL("uniqueParams"), &_zc0, ZEND_ACC_PROTECTED);
+	}
+
 	/**
 	 * @phpstan-var mvc_model_bind_types
 	 */
@@ -225,7 +230,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model)
 		zephir_declare_typed_property(phalcon_mvc_model_ce, SL("uniqueTypes"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_ARRAY, NULL, 0);
 	}
 
-	phalcon_mvc_model_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model;
 	/**
 	 * @var int
 	 */
@@ -19142,30 +19146,5 @@ PHP_METHOD(Phalcon_Mvc_Model, validate)
 	zend_iterator_dtor(_1);
 	}
 	RETURN_MM_BOOL(!(zephir_fast_count_int(&messages)));
-}
-
-zend_object *zephir_init_properties_Phalcon_Mvc_Model(zend_class_entry *class_type)
-{
-		zval _0, _1$$3;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("uniqueParams"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("uniqueParams"), &_1$$3);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

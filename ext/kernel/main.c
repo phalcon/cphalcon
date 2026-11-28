@@ -558,6 +558,13 @@ static void zephir_persist_constant_zval(zval *dst, zval *src)
 			zend_string *key;
 			zval *val;
 
+			/* An empty one is PHP's own shared empty array, which already has
+			 * this shape, as php-src's generated arginfo declares `= []`. #2799 */
+			if (zend_hash_num_elements(Z_ARRVAL_P(src)) == 0) {
+				ZVAL_EMPTY_ARRAY(dst);
+				break;
+			}
+
 			ht = (zend_array *) pemalloc(sizeof(zend_array), 1);
 			zend_hash_init(ht, zend_hash_num_elements(Z_ARRVAL_P(src)), NULL, NULL, 1);
 
@@ -606,15 +613,16 @@ int zephir_declare_class_constant_array(zend_class_entry *ce, const char *name, 
 /**
  * Declares a class property whose default value is an array.
  *
- * Unlike a regular class, a trait cannot rely on the runtime create_object
- * initializer to build an array default: PHP's zend_do_bind_traits() copies a
- * trait's property_info and default zvals into a using class but not its object
- * handlers, so the initializer never runs for a userland class that `use`s the
- * trait. Storing the array as a persistent, immutable (non-refcounted) zval in
- * the ce's default_properties_table makes the engine carry it natively, exactly
- * like a hand-written PHP trait property default.
+ * The array is stored as a persistent, immutable (non-refcounted) zval in the
+ * ce's default_properties_table, which is how PHP holds a literal array default:
+ * object_properties_init() hands it to every new object, and the first write
+ * separates the object's copy. Nothing runs per object, and the engine carries
+ * the default wherever it carries defaults: into a subclass, through
+ * Reflection, and through zend_do_bind_traits(), which copies a trait's default
+ * zvals into a using class but never its object handlers.
  *
  * @see https://github.com/zephir-lang/zephir/issues/2607
+ * @see https://github.com/zephir-lang/zephir/issues/2799
  */
 int zephir_declare_property_array(zend_class_entry *ce, const char *name, size_t name_length, zval *value, int access_type)
 {

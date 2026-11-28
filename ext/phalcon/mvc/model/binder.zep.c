@@ -393,7 +393,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, findBoundModel)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC_CACHED(_0, "findFirst", &_zephir_call_cache[0], paramValue);
+	ZEPHIR_RETURN_CALL_CE_STATIC_THIS_CACHED(_0, getThis(), "findFirst", &_zephir_call_cache[0], paramValue);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -644,7 +644,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection)
 							ZEPHIR_MM_RESTORE();
 							return;
 						}
-						ZEPHIR_CALL_CE_STATIC_CACHED(&realClasses, _14$$10, "getModelName", &_zephir_call_cache[5]);
+						ZEPHIR_CALL_CE_STATIC_THIS_CACHED(&realClasses, _14$$10, getThis(), "getModelName", &_zephir_call_cache[5]);
 						zephir_check_call_status();
 					} else if (zephir_instance_of_ev(handler, phalcon_mvc_model_binder_bindableinterface_ce)) {
 						ZEPHIR_CALL_METHOD_CACHED(&realClasses, handler, "getModelName", &_zephir_call_cache[6]);
@@ -792,7 +792,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection)
 								ZEPHIR_MM_RESTORE();
 								return;
 							}
-							ZEPHIR_CALL_CE_STATIC_CACHED(&realClasses, _26$$24, "getModelName", &_zephir_call_cache[20]);
+							ZEPHIR_CALL_CE_STATIC_THIS_CACHED(&realClasses, _26$$24, getThis(), "getModelName", &_zephir_call_cache[20]);
 							zephir_check_call_status();
 						} else if (zephir_instance_of_ev(handler, phalcon_mvc_model_binder_bindableinterface_ce)) {
 							ZEPHIR_CALL_METHOD_CACHED(&realClasses, handler, "getModelName", &_zephir_call_cache[21]);

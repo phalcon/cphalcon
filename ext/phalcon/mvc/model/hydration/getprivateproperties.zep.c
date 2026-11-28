@@ -117,7 +117,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Hydration_GetPrivateProperties, getPrivatePropertie
 			if (!(Z_TYPE_P(&reflection) == IS_OBJECT)) {
 				break;
 			}
-			ZVAL_LONG(&_2$$4, 4);
+			ZEPHIR_INIT_NVAR(&_2$$4);
+			zephir_get_class_constant(&_2$$4, zephir_fetch_class_str_ex(SL("ReflectionProperty"), ZEND_FETCH_CLASS_DEFAULT | ZEND_FETCH_CLASS_EXCEPTION), SL("IS_PRIVATE"));
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 			ZEPHIR_CALL_METHOD_CACHED(&reflectionProperties, &reflection, "getProperties", &_zephir_call_cache[1], &_2$$4);
 			zephir_check_call_status();
 			if (Z_TYPE_P(&reflectionProperties) == IS_STRING) {

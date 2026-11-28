@@ -155,7 +155,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, clear)
 PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, getAdapter)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval __$true, client, connection, failover, options, persistentId, sasl, saslUser, saslPass, serverList, servers, _0, _1$$3, _2$$3, _3$$3, _4$$3, _5$$4, _6$$4, _7$$4, _8$$4, _9$$4, _10$$4;
+	zval __$true, client, connection, failover, options, persistentId, sasl, saslUser, saslPass, serverList, servers, _0, _1$$3, _2$$3, _3$$3, _4$$4, _5$$4, _6$$4, _7$$4, _8$$4, _9$$4, _10$$4, _11$$4, _12$$4, _13$$4;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -174,13 +174,16 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, getAdapter)
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$3);
-	ZVAL_UNDEF(&_4$$3);
+	ZVAL_UNDEF(&_4$$4);
 	ZVAL_UNDEF(&_5$$4);
 	ZVAL_UNDEF(&_6$$4);
 	ZVAL_UNDEF(&_7$$4);
 	ZVAL_UNDEF(&_8$$4);
 	ZVAL_UNDEF(&_9$$4);
 	ZVAL_UNDEF(&_10$$4);
+	ZVAL_UNDEF(&_11$$4);
+	ZVAL_UNDEF(&_12$$4);
+	ZVAL_UNDEF(&_13$$4);
 	ZEND_TLS zephir_method_cache _zephir_call_cache[13];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
@@ -231,54 +234,121 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, getAdapter)
 		ZEPHIR_INIT_NVAR(&_3$$3);
 		ZEPHIR_CALL_METHOD_CACHED(&serverList, &connection, "getServerList", &_zephir_call_cache[3]);
 		zephir_check_call_status();
+		ZEPHIR_INIT_NVAR(&_3$$3);
+		zephir_get_class_constant(&_3$$3, zephir_fetch_class_str_ex(SL("Memcached"), ZEND_FETCH_CLASS_DEFAULT | ZEND_FETCH_CLASS_EXCEPTION), SL("OPT_PREFIX_KEY"));
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_2, 326, PH_NOISY_CC | PH_READONLY);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZVAL_LONG(&_4$$3, -1002);
-		ZEPHIR_CALL_METHOD_CACHED(NULL, &connection, "setOption", &_zephir_call_cache[4], &_4$$3, &_1$$3);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &connection, "setOption", &_zephir_call_cache[4], &_3$$3, &_1$$3);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_EMPTY(&serverList)) {
+			ZEPHIR_INIT_VAR(&_4$$4);
+			array_init(&_4$$4);
 			ZEPHIR_INIT_VAR(&_5$$4);
+			ZVAL_STRING(&_5$$4, "servers");
+			ZEPHIR_CALL_METHOD_CACHED(&servers, this_ptr, "getArrVal", &_zephir_call_cache[5], &options, &_5$$4, &_4$$4);
+			zephir_check_call_status();
+			ZEPHIR_INIT_NVAR(&_5$$4);
 			array_init(&_5$$4);
 			ZEPHIR_INIT_VAR(&_6$$4);
-			ZVAL_STRING(&_6$$4, "servers");
-			ZEPHIR_CALL_METHOD_CACHED(&servers, this_ptr, "getArrVal", &_zephir_call_cache[5], &options, &_6$$4, &_5$$4);
+			ZVAL_STRING(&_6$$4, "client");
+			ZEPHIR_CALL_METHOD_CACHED(&client, this_ptr, "getArrVal", &_zephir_call_cache[6], &options, &_6$$4, &_5$$4);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_6$$4);
-			array_init(&_6$$4);
+			ZVAL_STRING(&_6$$4, "user");
 			ZEPHIR_INIT_VAR(&_7$$4);
-			ZVAL_STRING(&_7$$4, "client");
-			ZEPHIR_CALL_METHOD_CACHED(&client, this_ptr, "getArrVal", &_zephir_call_cache[6], &options, &_7$$4, &_6$$4);
+			ZVAL_STRING(&_7$$4, "");
+			ZEPHIR_CALL_METHOD_CACHED(&saslUser, this_ptr, "getArrVal", &_zephir_call_cache[7], &sasl, &_6$$4, &_7$$4);
 			zephir_check_call_status();
+			ZEPHIR_INIT_NVAR(&_6$$4);
+			ZVAL_STRING(&_6$$4, "pass");
 			ZEPHIR_INIT_NVAR(&_7$$4);
-			ZVAL_STRING(&_7$$4, "user");
-			ZEPHIR_INIT_VAR(&_8$$4);
-			ZVAL_STRING(&_8$$4, "");
-			ZEPHIR_CALL_METHOD_CACHED(&saslUser, this_ptr, "getArrVal", &_zephir_call_cache[7], &sasl, &_7$$4, &_8$$4);
-			zephir_check_call_status();
-			ZEPHIR_INIT_NVAR(&_7$$4);
-			ZVAL_STRING(&_7$$4, "pass");
-			ZEPHIR_INIT_NVAR(&_8$$4);
-			ZVAL_STRING(&_8$$4, "");
-			ZEPHIR_CALL_METHOD_CACHED(&saslPass, this_ptr, "getArrVal", &_zephir_call_cache[8], &sasl, &_7$$4, &_8$$4);
+			ZVAL_STRING(&_7$$4, "");
+			ZEPHIR_CALL_METHOD_CACHED(&saslPass, this_ptr, "getArrVal", &_zephir_call_cache[8], &sasl, &_6$$4, &_7$$4);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&failover);
 			zephir_create_array(&failover, 5, 0);
-			add_index_long(&failover, 14, 50);
-			add_index_long(&failover, 9, 1);
-			add_index_long(&failover, 21, 2);
-			zephir_array_update_long(&failover, 35, &__$true, PH_COPY ZEPHIR_DEBUG_PARAMS_DUMMY);
-			add_index_long(&failover, 15, 1);
-			ZEPHIR_CALL_FUNCTION(&_9$$4, "array_replace", NULL, 5, &failover, &client);
+			ZEPHIR_INIT_NVAR(&_6$$4);
+			zephir_get_class_constant(&_6$$4, zephir_fetch_class_str_ex(SL("Memcached"), ZEND_FETCH_CLASS_DEFAULT | ZEND_FETCH_CLASS_EXCEPTION), SL("OPT_CONNECT_TIMEOUT"));
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			ZEPHIR_INIT_NVAR(&_7$$4);
+			ZVAL_LONG(&_7$$4, 50);
+			zephir_array_update_zval(&failover, &_6$$4, &_7$$4, PH_COPY);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			ZEPHIR_INIT_NVAR(&_7$$4);
+			zephir_get_class_constant(&_7$$4, zephir_fetch_class_str_ex(SL("Memcached"), ZEND_FETCH_CLASS_DEFAULT | ZEND_FETCH_CLASS_EXCEPTION), SL("OPT_DISTRIBUTION"));
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			ZEPHIR_INIT_VAR(&_8$$4);
+			zephir_get_class_constant(&_8$$4, zephir_fetch_class_str_ex(SL("Memcached"), ZEND_FETCH_CLASS_DEFAULT | ZEND_FETCH_CLASS_EXCEPTION), SL("DISTRIBUTION_CONSISTENT"));
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			zephir_array_update_zval(&failover, &_7$$4, &_8$$4, PH_COPY);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			ZEPHIR_INIT_NVAR(&_8$$4);
+			zephir_get_class_constant(&_8$$4, zephir_fetch_class_str_ex(SL("Memcached"), ZEND_FETCH_CLASS_DEFAULT | ZEND_FETCH_CLASS_EXCEPTION), SL("OPT_SERVER_FAILURE_LIMIT"));
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			ZEPHIR_INIT_VAR(&_9$$4);
+			ZVAL_LONG(&_9$$4, 2);
+			zephir_array_update_zval(&failover, &_8$$4, &_9$$4, PH_COPY);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			ZEPHIR_INIT_NVAR(&_9$$4);
+			zephir_get_class_constant(&_9$$4, zephir_fetch_class_str_ex(SL("Memcached"), ZEND_FETCH_CLASS_DEFAULT | ZEND_FETCH_CLASS_EXCEPTION), SL("OPT_REMOVE_FAILED_SERVERS"));
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			zephir_array_update_zval(&failover, &_9$$4, &__$true, PH_COPY);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			ZEPHIR_INIT_VAR(&_10$$4);
+			zephir_get_class_constant(&_10$$4, zephir_fetch_class_str_ex(SL("Memcached"), ZEND_FETCH_CLASS_DEFAULT | ZEND_FETCH_CLASS_EXCEPTION), SL("OPT_RETRY_TIMEOUT"));
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			ZEPHIR_INIT_VAR(&_11$$4);
+			ZVAL_LONG(&_11$$4, 1);
+			zephir_array_update_zval(&failover, &_10$$4, &_11$$4, PH_COPY);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			ZEPHIR_CALL_FUNCTION(&_12$$4, "array_replace", NULL, 5, &failover, &client);
 			zephir_check_call_status();
-			ZEPHIR_CPY_WRT(&client, &_9$$4);
-			ZEPHIR_CALL_METHOD_CACHED(&_9$$4, this_ptr, "setOptions", &_zephir_call_cache[9], &connection, &client);
+			ZEPHIR_CPY_WRT(&client, &_12$$4);
+			ZEPHIR_CALL_METHOD_CACHED(&_12$$4, this_ptr, "setOptions", &_zephir_call_cache[9], &connection, &client);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD_CACHED(&_10$$4, &_9$$4, "setServers", &_zephir_call_cache[10], &connection, &servers);
+			ZEPHIR_CALL_METHOD_CACHED(&_13$$4, &_12$$4, "setServers", &_zephir_call_cache[10], &connection, &servers);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD_CACHED(NULL, &_10$$4, "setSasl", &_zephir_call_cache[11], &connection, &saslUser, &saslPass);
+			ZEPHIR_CALL_METHOD_CACHED(NULL, &_13$$4, "setSasl", &_zephir_call_cache[11], &connection, &saslUser, &saslPass);
 			zephir_check_call_status();
 		}
 		ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "setSerializer", &_zephir_call_cache[12], &connection);
@@ -541,13 +611,14 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, doHas)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval key_zv, connection, code;
+	zval key_zv, connection, code, _0;
 	zend_string *key = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&key_zv);
 	ZVAL_UNDEF(&connection);
 	ZVAL_UNDEF(&code);
+	ZVAL_UNDEF(&_0);
 	ZEND_TLS zephir_method_cache _zephir_call_cache[3];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(key)
@@ -562,7 +633,13 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, doHas)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD_CACHED(&code, &connection, "getResultCode", &_zephir_call_cache[2]);
 	zephir_check_call_status();
-	RETURN_MM_BOOL(!ZEPHIR_IS_LONG_IDENTICAL(&code, 16));
+	ZEPHIR_INIT_VAR(&_0);
+	zephir_get_class_constant(&_0, zephir_fetch_class_str_ex(SL("Memcached"), ZEND_FETCH_CLASS_DEFAULT | ZEND_FETCH_CLASS_EXCEPTION), SL("RES_NOTFOUND"));
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	RETURN_MM_BOOL(!ZEPHIR_IS_IDENTICAL(&_0, &code));
 }
 
 /**
@@ -746,17 +823,17 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, setSasl)
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, setSerializer)
 {
-	zend_bool _1;
+	zend_bool _2;
 	zval map;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *connection, connection_sub, serializer, _0, _2$$3, _3$$3, _4$$3;
+	zval *connection, connection_sub, serializer, _0, _1, _3$$3, _4$$3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&connection_sub);
 	ZVAL_UNDEF(&serializer);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&map);
@@ -774,37 +851,60 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, setSerializer)
 	zephir_fetch_params(1, 1, 0, &connection);
 	ZEPHIR_INIT_VAR(&map);
 	zephir_create_array(&map, 3, 0);
-	add_assoc_long_ex(&map, SL("memcached_igbinary"), 2);
-	add_assoc_long_ex(&map, SL("memcached_json"), 3);
-	add_assoc_long_ex(&map, SL("memcached_php"), 1);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 327, PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_INIT_VAR(&_0);
+	zephir_get_class_constant(&_0, zephir_fetch_class_str_ex(SL("Memcached"), ZEND_FETCH_CLASS_DEFAULT | ZEND_FETCH_CLASS_EXCEPTION), SL("SERIALIZER_IGBINARY"));
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_array_update_string(&map, SL("memcached_igbinary"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_0);
+	zephir_get_class_constant(&_0, zephir_fetch_class_str_ex(SL("Memcached"), ZEND_FETCH_CLASS_DEFAULT | ZEND_FETCH_CLASS_EXCEPTION), SL("SERIALIZER_JSON"));
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_array_update_string(&map, SL("memcached_json"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_0);
+	zephir_get_class_constant(&_0, zephir_fetch_class_str_ex(SL("Memcached"), ZEND_FETCH_CLASS_DEFAULT | ZEND_FETCH_CLASS_EXCEPTION), SL("SERIALIZER_PHP"));
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_array_update_string(&map, SL("memcached_php"), &_0, PH_COPY | PH_SEPARATE);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 327, PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_INIT_VAR(&serializer);
-	zephir_fast_strtolower(&serializer, &_0);
-	_1 = zephir_array_isset_value(&map, &serializer);
+	zephir_fast_strtolower(&serializer, &_1);
+	_2 = zephir_array_isset_value(&map, &serializer);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	if (_1) {
-		ZEPHIR_INIT_VAR(&_2$$3);
-		ZEPHIR_INIT_NVAR(&_2$$3);
-		ZVAL_STRING(&_2$$3, "");
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 327, &_2$$3);
+	if (_2) {
+		ZEPHIR_INIT_VAR(&_3$$3);
+		ZEPHIR_INIT_NVAR(&_3$$3);
+		ZVAL_STRING(&_3$$3, "");
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 327, &_3$$3);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		zephir_array_fetch(&_3$$3, &map, &serializer, PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/Libmemcached.zep", 315);
+		ZEPHIR_INIT_NVAR(&_3$$3);
+		zephir_get_class_constant(&_3$$3, zephir_fetch_class_str_ex(SL("Memcached"), ZEND_FETCH_CLASS_DEFAULT | ZEND_FETCH_CLASS_EXCEPTION), SL("OPT_SERIALIZER"));
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZVAL_LONG(&_4$$3, -1003);
-		ZEPHIR_CALL_METHOD_CACHED(NULL, connection, "setOption", &_zephir_call_cache[0], &_4$$3, &_3$$3);
+		zephir_array_fetch(&_4$$3, &map, &serializer, PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/Libmemcached.zep", 315);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		ZEPHIR_CALL_METHOD_CACHED(NULL, connection, "setOption", &_zephir_call_cache[0], &_3$$3, &_4$$3);
 		zephir_check_call_status();
 	}
 	ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "initSerializer", &_zephir_call_cache[1]);

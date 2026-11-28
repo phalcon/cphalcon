@@ -526,7 +526,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_Uniqueness, isUniqueness)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_CE_STATIC_CACHED(&_13, _14, "count", &_zephir_call_cache[13], &params);
+	ZEPHIR_CALL_CE_STATIC_THIS_CACHED(&_13, _14, getThis(), "count", &_zephir_call_cache[13], &params);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(ZEPHIR_IS_LONG(&_13, 0));
 }

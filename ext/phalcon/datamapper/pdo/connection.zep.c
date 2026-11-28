@@ -53,8 +53,11 @@ ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Connection)
 	 * @phpstan-var datamapper_connection_arguments
 	 * @psalm-suppress InvalidPropertyAssignmentValue
 	 */
-	zend_declare_property_null(phalcon_datamapper_pdo_connection_ce, SL("arguments"), ZEND_ACC_PROTECTED);
-	phalcon_datamapper_pdo_connection_ce->create_object = zephir_init_properties_Phalcon_DataMapper_Pdo_Connection;
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_property_array(phalcon_datamapper_pdo_connection_ce, SL("arguments"), &_zc0, ZEND_ACC_PROTECTED);
+	}
 
 	return SUCCESS;
 }
@@ -77,11 +80,11 @@ ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Connection)
  */
 PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __construct)
 {
-	zend_bool _1, _4;
+	zend_bool _1, _5;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval options, queries, available, _6;
-	zval dsn_zv, username_zv, password_zv, *options_param = NULL, *queries_param = NULL, *profiler = NULL, profiler_sub, __$true, __$null, parts, _0, _2$$3, _3$$3, _5$$4, _7$$5;
+	zval options, queries, available, _8;
+	zval dsn_zv, username_zv, password_zv, *options_param = NULL, *queries_param = NULL, *profiler = NULL, profiler_sub, __$true, __$null, parts, _0, _4, _2$$3, _3$$3, _6$$4, _7$$4, _9$$5;
 	zend_string *dsn = NULL, *username = NULL, *password = NULL;
 	zval *this_ptr = getThis();
 
@@ -93,14 +96,16 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __construct)
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&parts);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$3);
-	ZVAL_UNDEF(&_5$$4);
-	ZVAL_UNDEF(&_7$$5);
+	ZVAL_UNDEF(&_6$$4);
+	ZVAL_UNDEF(&_7$$4);
+	ZVAL_UNDEF(&_9$$5);
 	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&queries);
 	ZVAL_UNDEF(&available);
-	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_8);
 	ZEND_TLS zephir_method_cache _zephir_call_cache[3];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -200,41 +205,57 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __construct)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	_4 = zephir_array_isset_value_long(&options, 3);
+	ZEPHIR_INIT_VAR(&_4);
+	zephir_get_class_constant(&_4, zephir_fetch_class_str_ex(SL("PDO"), ZEND_FETCH_CLASS_DEFAULT | ZEND_FETCH_CLASS_EXCEPTION), SL("ATTR_ERRMODE"));
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	if (!(_4)) {
-		ZEPHIR_INIT_VAR(&_5$$4);
-		ZVAL_LONG(&_5$$4, 2);
-		zephir_array_update_long(&options, 3, &_5$$4, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
+	_5 = zephir_array_isset_value(&options, &_4);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (!(_5)) {
+		ZEPHIR_INIT_VAR(&_6$$4);
+		zephir_get_class_constant(&_6$$4, zephir_fetch_class_str_ex(SL("PDO"), ZEND_FETCH_CLASS_DEFAULT | ZEND_FETCH_CLASS_EXCEPTION), SL("ERRMODE_EXCEPTION"));
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		ZEPHIR_INIT_VAR(&_7$$4);
+		zephir_get_class_constant(&_7$$4, zephir_fetch_class_str_ex(SL("PDO"), ZEND_FETCH_CLASS_DEFAULT | ZEND_FETCH_CLASS_EXCEPTION), SL("ATTR_ERRMODE"));
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		zephir_array_update_zval(&options, &_7$$4, &_6$$4, PH_COPY | PH_SEPARATE);
 		if (UNEXPECTED(EG(exception))) {
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
 	}
-	ZEPHIR_INIT_VAR(&_6);
-	zephir_create_array(&_6, 5, 0);
-	zephir_array_fast_append(&_6, &dsn_zv);
-	zephir_array_fast_append(&_6, &username_zv);
-	zephir_array_fast_append(&_6, &password_zv);
-	zephir_array_fast_append(&_6, &options);
-	zephir_array_fast_append(&_6, &queries);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 582, &_6);
+	ZEPHIR_INIT_VAR(&_8);
+	zephir_create_array(&_8, 5, 0);
+	zephir_array_fast_append(&_8, &dsn_zv);
+	zephir_array_fast_append(&_8, &username_zv);
+	zephir_array_fast_append(&_8, &password_zv);
+	zephir_array_fast_append(&_8, &options);
+	zephir_array_fast_append(&_8, &queries);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 582, &_8);
 	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	if (Z_TYPE_P(profiler) == IS_NULL) {
-		ZEPHIR_INIT_VAR(&_7$$5);
-		object_init_ex(&_7$$5, phalcon_datamapper_pdo_profiler_profiler_ce);
-		zephir_constructor_start(&_7$$5);
-		ZEPHIR_CALL_METHOD_CACHED(NULL, &_7$$5, "__construct", &_zephir_call_cache[1]);
+		ZEPHIR_INIT_VAR(&_9$$5);
+		object_init_ex(&_9$$5, phalcon_datamapper_pdo_profiler_profiler_ce);
+		zephir_constructor_start(&_9$$5);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_9$$5, "__construct", &_zephir_call_cache[1]);
 		zephir_check_call_status();
-		zephir_constructor_finish(&_7$$5);
-		ZEPHIR_CPY_WRT(profiler, &_7$$5);
-		ZEPHIR_INIT_NVAR(&_7$$5);
+		zephir_constructor_finish(&_9$$5);
+		ZEPHIR_CPY_WRT(profiler, &_9$$5);
+		ZEPHIR_INIT_NVAR(&_9$$5);
 	}
 	ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "setProfiler", &_zephir_call_cache[2], profiler);
 	zephir_check_call_status();
@@ -563,30 +584,5 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, disconnect)
 	ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "fireManagerEvent", &_zephir_call_cache[3], &_0, &_3, &_4);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
-}
-
-zend_object *zephir_init_properties_Phalcon_DataMapper_Pdo_Connection(zend_class_entry *class_type)
-{
-		zval _0, _1$$3;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("arguments"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("arguments"), &_1$$3);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

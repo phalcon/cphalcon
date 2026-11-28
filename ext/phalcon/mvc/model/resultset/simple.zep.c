@@ -496,7 +496,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, current)
 				return;
 			}
 			ZVAL_LONG(&_9$$6, 0);
-			ZEPHIR_CALL_CE_STATIC_CACHED(&activeRow, _6$$6, "cloneResultMap", &_zephir_call_cache[1], &_7$$6, &row, &columnMap, &_9$$6, &_8$$6);
+			ZEPHIR_CALL_CE_STATIC_THIS_CACHED(&activeRow, _6$$6, getThis(), "cloneResultMap", &_zephir_call_cache[1], &_7$$6, &row, &columnMap, &_9$$6, &_8$$6);
 			zephir_check_call_status();
 		} else {
 			zephir_read_property_cached(&_10$$9, this_ptr, _zephir_prop_4, 1131, PH_NOISY_CC | PH_READONLY);

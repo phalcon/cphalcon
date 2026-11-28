@@ -10831,13 +10831,10 @@ PHP_METHOD(Phalcon_Mvc_Router, rebuildMethodIndex)
 		zephir_array_keys(&_153$$64, &combinedMark);
 		ZEPHIR_CALL_FUNCTION(&reversedMarkIds$$64, "array_reverse", &_152, 82, &_153$$64);
 		zephir_check_call_status();
-		ZEPHIR_CPY_WRT(&reversedMarkIds$$64, &reversedMarkIds$$64);
 		ZEPHIR_INIT_NVAR(&chunkedPatterns$$64);
 		array_init(&chunkedPatterns$$64);
-		ZEPHIR_CPY_WRT(&chunkedPatterns$$64, &chunkedPatterns$$64);
 		ZEPHIR_INIT_NVAR(&chunkedMarkMaps$$64);
 		array_init(&chunkedMarkMaps$$64);
-		ZEPHIR_CPY_WRT(&chunkedMarkMaps$$64, &chunkedMarkMaps$$64);
 		ZEPHIR_INIT_NVAR(&chunkOffset$$64);
 		ZVAL_LONG(&chunkOffset$$64, 0);
 		while (1) {
@@ -10847,14 +10844,11 @@ PHP_METHOD(Phalcon_Mvc_Router, rebuildMethodIndex)
 			ZVAL_LONG(&_154$$78, 10);
 			ZEPHIR_CALL_FUNCTION(&chunkSlice$$64, "array_slice", &_155, 83, &combinedAlternatives, &chunkOffset$$64, &_154$$78);
 			zephir_check_call_status();
-			ZEPHIR_CPY_WRT(&chunkSlice$$64, &chunkSlice$$64);
 			ZVAL_LONG(&_154$$78, 10);
 			ZEPHIR_CALL_FUNCTION(&chunkMarkSubset$$64, "array_slice", &_155, 83, &reversedMarkIds$$64, &chunkOffset$$64, &_154$$78);
 			zephir_check_call_status();
-			ZEPHIR_CPY_WRT(&chunkMarkSubset$$64, &chunkMarkSubset$$64);
 			ZEPHIR_INIT_NVAR(&chunkSliceMap$$64);
 			array_init(&chunkSliceMap$$64);
-			ZEPHIR_CPY_WRT(&chunkSliceMap$$64, &chunkSliceMap$$64);
 			if (Z_TYPE_P(&chunkMarkSubset$$64) == IS_STRING) {
 				ZEPHIR_INIT_NVAR(&_157$$78);
 				zephir_string_to_char_array(&_157$$78, &chunkMarkSubset$$64);
@@ -10919,7 +10913,6 @@ PHP_METHOD(Phalcon_Mvc_Router, rebuildMethodIndex)
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			ZEPHIR_CPY_WRT(&chunkPattern$$64, &chunkPattern$$64);
 			ZEPHIR_INIT_NVAR(&_164$$78);
 			ZEPHIR_INIT_NVAR(&_165$$78);
 			ZVAL_STRING(&_165$$78, "");

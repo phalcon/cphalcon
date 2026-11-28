@@ -58,7 +58,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionWhere);
 PHP_METHOD(Phalcon_Db_Dialect, prepareColumnAlias);
 PHP_METHOD(Phalcon_Db_Dialect, prepareTable);
 PHP_METHOD(Phalcon_Db_Dialect, prepareQualified);
-zend_object *zephir_init_properties_Phalcon_Db_Dialect(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_createsavepoint, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
@@ -335,9 +334,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_dialect_preparequalif
 	ZEND_ARG_TYPE_INFO(0, column, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, domain, IS_STRING, 1, "null")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, escapeChar, IS_STRING, 1, "null")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_zephir_init_properties_phalcon_db_dialect, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_db_dialect_method_entry) {

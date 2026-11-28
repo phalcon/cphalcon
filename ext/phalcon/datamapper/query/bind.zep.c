@@ -352,15 +352,31 @@ PHP_METHOD(Phalcon_DataMapper_Query_Bind, getType)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &value);
 	if (Z_TYPE_P(value) == IS_NULL) {
-		RETURN_LONG(0);
+		zephir_get_class_constant(return_value, zephir_fetch_class_str_ex(SL("PDO"), ZEND_FETCH_CLASS_DEFAULT | ZEND_FETCH_CLASS_EXCEPTION), SL("PARAM_NULL"));
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
+		return;
 	}
 	if (((Z_TYPE_P(value) == IS_TRUE || Z_TYPE_P(value) == IS_FALSE) == 1)) {
-		RETURN_LONG(5);
+		zephir_get_class_constant(return_value, zephir_fetch_class_str_ex(SL("PDO"), ZEND_FETCH_CLASS_DEFAULT | ZEND_FETCH_CLASS_EXCEPTION), SL("PARAM_BOOL"));
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
+		return;
 	}
 	if (Z_TYPE_P(value) == IS_LONG) {
-		RETURN_LONG(1);
+		zephir_get_class_constant(return_value, zephir_fetch_class_str_ex(SL("PDO"), ZEND_FETCH_CLASS_DEFAULT | ZEND_FETCH_CLASS_EXCEPTION), SL("PARAM_INT"));
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
+		return;
 	}
-	RETURN_LONG(2);
+	zephir_get_class_constant(return_value, zephir_fetch_class_str_ex(SL("PDO"), ZEND_FETCH_CLASS_DEFAULT | ZEND_FETCH_CLASS_EXCEPTION), SL("PARAM_STR"));
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
+	return;
 }
 
 /**

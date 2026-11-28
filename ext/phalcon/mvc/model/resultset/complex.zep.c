@@ -711,7 +711,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, current)
 								return;
 							}
 							ZVAL_LONG(&_31$$23, dirtyState);
-							ZEPHIR_CALL_CE_STATIC_CACHED(&value, _29$$23, "cloneResultMap", &_zephir_call_cache[8], &_30$$23, &rowModel, &columnMap, &_31$$23, &keepSnapshots);
+							ZEPHIR_CALL_CE_STATIC_THIS_CACHED(&value, _29$$23, getThis(), "cloneResultMap", &_zephir_call_cache[8], &_30$$23, &rowModel, &columnMap, &_31$$23, &keepSnapshots);
 							zephir_check_call_status();
 						} else {
 							ZEPHIR_OBS_NVAR(&_32$$26);
@@ -1010,7 +1010,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, current)
 									return;
 								}
 								ZVAL_LONG(&_62$$48, dirtyState);
-								ZEPHIR_CALL_CE_STATIC_CACHED(&value, _60$$48, "cloneResultMap", &_zephir_call_cache[23], &_61$$48, &rowModel, &columnMap, &_62$$48, &keepSnapshots);
+								ZEPHIR_CALL_CE_STATIC_THIS_CACHED(&value, _60$$48, getThis(), "cloneResultMap", &_zephir_call_cache[23], &_61$$48, &rowModel, &columnMap, &_62$$48, &keepSnapshots);
 								zephir_check_call_status();
 							} else {
 								ZEPHIR_OBS_NVAR(&_63$$51);

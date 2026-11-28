@@ -883,12 +883,13 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getIterator)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval dir_zv, _0, _1;
+	zval dir_zv, _0, _1, _2;
 	zend_string *dir = NULL;
 
 	ZVAL_UNDEF(&dir_zv);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
 	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(dir)
@@ -902,12 +903,22 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getIterator)
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, spl_ce_RecursiveDirectoryIterator);
 	zephir_constructor_start(&_0);
-	ZVAL_LONG(&_1, 4096);
+	ZEPHIR_INIT_VAR(&_1);
+	zephir_get_class_constant(&_1, zephir_fetch_class_str_ex(SL("FilesystemIterator"), ZEND_FETCH_CLASS_DEFAULT | ZEND_FETCH_CLASS_EXCEPTION), SL("SKIP_DOTS"));
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0], &dir_zv, &_1);
 	zephir_check_call_status();
 	zephir_constructor_finish(&_0);
-	ZVAL_LONG(&_1, 2);
-	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[1], &_0, &_1);
+	ZEPHIR_INIT_VAR(&_2);
+	zephir_get_class_constant(&_2, zephir_fetch_class_str_ex(SL("RecursiveIteratorIterator"), ZEND_FETCH_CLASS_DEFAULT | ZEND_FETCH_CLASS_EXCEPTION), SL("CHILD_FIRST"));
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[1], &_0, &_2);
 	zephir_check_call_status();
 	zephir_constructor_finish(return_value);
 	RETURN_MM();

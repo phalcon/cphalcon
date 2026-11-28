@@ -48,7 +48,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Annotation)
 	 *
 	 * @phpstan-var annotations_resolved_arguments
 	 */
-	zend_declare_property_null(phalcon_annotations_annotation_ce, SL("arguments"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_property_array(phalcon_annotations_annotation_ce, SL("arguments"), &_zc0, ZEND_ACC_PROTECTED);
+	}
+
 	/**
 	 * Annotation ExprArguments
 	 *
@@ -56,14 +61,18 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Annotation)
 	 *
 	 * @phpstan-var annotations_arguments
 	 */
-	zend_declare_property_null(phalcon_annotations_annotation_ce, SL("exprArguments"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_property_array(phalcon_annotations_annotation_ce, SL("exprArguments"), &_zc0, ZEND_ACC_PROTECTED);
+	}
+
 	/**
 	 * Annotation Name
 	 *
 	 * @var string|null
 	 */
 	zend_declare_property_null(phalcon_annotations_annotation_ce, SL("name"), ZEND_ACC_PROTECTED);
-	phalcon_annotations_annotation_ce->create_object = zephir_init_properties_Phalcon_Annotations_Annotation;
 	/**
 	 * Type of an expression node that holds a value that PHP resolved
 	 * already. The attributes reader makes these nodes, because
@@ -653,38 +662,5 @@ PHP_METHOD(Phalcon_Annotations_Annotation, numberArguments)
 		return;
 	}
 	RETURN_LONG(zephir_fast_count_int(&_0));
-}
-
-zend_object *zephir_init_properties_Phalcon_Annotations_Annotation(zend_class_entry *class_type)
-{
-		zval _0, _2, _1$$3, _3$$4;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$4);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("exprArguments"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("exprArguments"), &_1$$3);
-		}
-		zephir_read_property_ex(&_2, this_ptr, ZEND_STRL("arguments"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_2) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_3$$4);
-			array_init(&_3$$4);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("arguments"), &_3$$4);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

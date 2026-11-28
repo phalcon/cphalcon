@@ -299,7 +299,7 @@ PHP_METHOD(Phalcon_Events_Manager, addSubscriber)
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZEPHIR_CALL_CE_STATIC_CACHED(&events, _3$$3, "getSubscribedEvents", &_zephir_call_cache[0]);
+		ZEPHIR_CALL_CE_STATIC_THIS_CACHED(&events, _3$$3, getThis(), "getSubscribedEvents", &_zephir_call_cache[0]);
 		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("subscriberEventsCache"), &className, &events);
 		if (UNEXPECTED(EG(exception))) {
@@ -2464,7 +2464,7 @@ PHP_METHOD(Phalcon_Events_Manager, removeSubscriber)
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZEPHIR_CALL_CE_STATIC_CACHED(&events, _4$$4, "getSubscribedEvents", &_zephir_call_cache[0]);
+		ZEPHIR_CALL_CE_STATIC_THIS_CACHED(&events, _4$$4, getThis(), "getSubscribedEvents", &_zephir_call_cache[0]);
 		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("subscriberEventsCache"), &className, &events);
 		if (UNEXPECTED(EG(exception))) {

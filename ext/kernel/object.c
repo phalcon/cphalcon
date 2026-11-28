@@ -124,7 +124,16 @@ void zephir_get_called_class(zval *return_value)
  */
 void zephir_get_class_constant(zval *return_value, zend_class_entry *ce, const char *constant_name, size_t constant_length)
 {
-	zend_string *name = zend_string_init(constant_name, constant_length, 0);
+	zend_string *name;
+
+	/* The class fetch threw `Class "X" not found`, as ZEND_FETCH_CLASS_CONSTANT
+	 * does; the caller's exception check hands it on (#2869). */
+	if (UNEXPECTED(ce == NULL)) {
+		ZVAL_NULL(return_value);
+		return;
+	}
+
+	name = zend_string_init(constant_name, constant_length, 0);
 
 #if PHP_VERSION_ID >= 80100
 	zval *value = zend_get_class_constant_ex(ce->name, name, ce, 0);
@@ -785,10 +794,12 @@ int zephir_read_property_cached(
  * `type` is BP_VAR_W for a write context and BP_VAR_RW for a compound
  * assignment, which reads before it writes: PHP's `ZEND_FETCH_OBJ_RW` warns
  * for an undefined property and throws for an uninitialized typed one where a
- * plain write would create or initialize it.
+ * plain write would create or initialize it. BP_VAR_UNSET is the fetch of
+ * `unset($o->x[k])`, whose caller leaves a non-object alone first.
  *
  * @see https://github.com/zephir-lang/zephir/issues/2691
  * @see https://github.com/zephir-lang/zephir/issues/2747
+ * @see https://github.com/zephir-lang/zephir/issues/2784
  */
 static zval *zephir_fetch_property_slot(zval *object, zend_string *name, zval *fallback, int type)
 {
@@ -811,9 +822,11 @@ static zval *zephir_fetch_property_slot(zval *object, zend_string *name, zval *f
 			return res;
 		}
 
-		/* The getter already threw, an uninitialized typed property in a
-		 * read-write context; read_property() would only report it twice. */
-		if (UNEXPECTED(type == BP_VAR_RW && res == &EG(error_zval))) {
+		/* The getter already threw: an inaccessible property, an
+		 * uninitialized typed one in a read-write context, a dynamic one
+		 * the class forbids. PHP stops there (zend_fetch_property_address()),
+		 * where read_property() would only throw the same Error again. */
+		if (UNEXPECTED(res == &EG(error_zval))) {
 			return fallback;
 		}
 	}
@@ -1311,100 +1324,79 @@ int zephir_update_property_array_multi(zval *object, const char *property, uint3
 	return EG(exception) ? FAILURE : SUCCESS;
 }
 
+/**
+ * PHP's `unset($o->x)` (ZEND_UNSET_OBJ). The class of the code running decides
+ * what it reaches, never the class of the object: an inaccessible property
+ * throws, or goes to __unset() when the class has it. A non-object is left
+ * alone.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2784
+ */
 int zephir_unset_property(zval* object, const char* name)
 {
+	zend_string *member;
+
 	if (Z_TYPE_P(object) != IS_OBJECT) {
 		return FAILURE;
 	}
 
-	zval member;
-	const zend_class_entry *scope;
-
-	ZVAL_STRING(&member, name);
-
-	/* Backup current scope */
-	scope = zephir_get_scope(0);
-
-	/* Use caller's scope */
-	zephir_set_scope(Z_OBJCE_P(object));
-	Z_OBJ_HT_P(object)->unset_property(Z_OBJ_P(object), Z_STR(member), 0);
-	/* Restore original scope */
-	zephir_set_scope(scope);
-
-	zval_ptr_dtor(&member);
+	member = zend_string_init(name, strlen(name), 0);
+	Z_OBJ_HT_P(object)->unset_property(Z_OBJ_P(object), member, NULL);
+	zend_string_release(member);
 
 	return SUCCESS;
 }
 
 /**
- * Unsets an object property whose name is given as a zval string.
- * Mirrors zephir_unset_property() but accepts a dynamic zval name,
- * enabling unset(obj->{variable}) compiled via zephir_unset_property_zval().
+ * `unset(obj->{name})`: zephir_unset_property() with a name of any type,
+ * converted as PHP converts it once it knows the container is an object.
  */
 int zephir_unset_property_zval(zval *object, const zval *name)
 {
-	const zend_class_entry *scope;
+	zend_string *member, *tmp_member;
 
-	if (Z_TYPE_P(object) != IS_OBJECT || Z_TYPE_P(name) != IS_STRING) {
+	if (Z_TYPE_P(object) != IS_OBJECT) {
 		return FAILURE;
 	}
 
-	scope = zephir_get_scope(0);
-	zephir_set_scope(Z_OBJCE_P(object));
-	Z_OBJ_HT_P(object)->unset_property(Z_OBJ_P(object), Z_STR_P(name), 0);
-	zephir_set_scope(scope);
+	member = zval_try_get_tmp_string((zval *) name, &tmp_member);
+	if (UNEXPECTED(member == NULL)) {
+		return FAILURE;
+	}
+
+	Z_OBJ_HT_P(object)->unset_property(Z_OBJ_P(object), member, NULL);
+	zend_tmp_string_release(tmp_member);
 
 	return SUCCESS;
 }
 
 /**
- * Unsets an index in an array property
+ * PHP's `unset($o->x[k])`: the property is fetched for unset
+ * (ZEND_FETCH_OBJ_UNSET), which hands out its slot, or else what __get()
+ * returns with the engine's "Indirect modification" notice, and the offset is
+ * unset in that (ZEND_UNSET_DIM). A non-object is left alone.
  *
- * TODO: This only works with zephir_read_property() + zephir_array_unset_string(), which might be incorrect
+ * @see https://github.com/zephir-lang/zephir/issues/2784
  */
 int zephir_unset_property_array(zval *object, char *property, unsigned int property_length, zval *index)
 {
-	zval tmp;
-	int separated = 0;
+	zend_string *name;
+	zval fallback;
+	zval *slot;
 
-	if (Z_TYPE_P(object) == IS_OBJECT) {
-		/* The silent fetch this has always made: PHP's unset() reports nothing. */
-		zephir_read_property(&tmp, object, property, property_length, 0);
-		Z_TRY_DELREF(tmp);
-
-		/** Separation only when refcount > 1 */
-		if (Z_REFCOUNTED(tmp)) {
-			if (Z_REFCOUNT(tmp) > 1) {
-				if (!Z_ISREF(tmp)) {
-					/* Unlike zephir_update_property_array(), this branch never
-					 * put the reference back with Z_ADDREF(), so it leaked the
-					 * separated array on a shared property too. #2698 */
-					zval new_zv;
-					ZVAL_DUP(&new_zv, &tmp);
-					ZVAL_COPY_VALUE(&tmp, &new_zv);
-					separated = 1;
-				}
-			}
-		} else {
-			/* ZVAL_DUP() hands back a fresh array at refcount 1: the single
-			 * reference tmp now holds, and the one the zval_ptr_dtor(&tmp)
-			 * below releases. Do not drop it here.
-			 * See https://github.com/zephir-lang/zephir/issues/2698 */
-			zval new_zv;
-			ZVAL_DUP(&new_zv, &tmp);
-			ZVAL_COPY_VALUE(&tmp, &new_zv);
-			separated = 1;
-		}
-
-		zephir_array_unset(&tmp, index, PH_SEPARATE);
-
-		if (separated) {
-			zephir_update_property_zval(object, property, property_length, &tmp);
-			/* Only a separated tmp is ours. An unseparated one still aliases
-			 * the property's own array, which this function must not release. */
-			zval_ptr_dtor(&tmp);
-		}
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+		return SUCCESS;
 	}
+
+	name = zend_string_init(property, property_length, 0);
+	slot = zephir_fetch_property_slot(object, name, &fallback, BP_VAR_UNSET);
+	zend_string_release(name);
+
+	if (!EG(exception)) {
+		zephir_array_unset(slot, index, PH_SEPARATE);
+	}
+
+	zval_ptr_dtor(&fallback);
 
 	return SUCCESS;
 }

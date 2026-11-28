@@ -121,7 +121,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_Builder)
 	/**
 	 * @phpstan-var array<array-key, string>|null
 	 */
-	zend_declare_property_null(phalcon_mvc_model_query_builder_ce, SL("group"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_property_array(phalcon_mvc_model_query_builder_ce, SL("group"), &_zc0, ZEND_ACC_PROTECTED);
+	}
+
 	/**
 	 * @var string|null
 	 */
@@ -176,8 +181,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_Builder)
 		ZVAL_BOOL(&_zc0, 0);
 		zephir_declare_typed_property(phalcon_mvc_model_query_builder_ce, SL("sharedLock"), &_zc0, ZEND_ACC_PROTECTED, MAY_BE_BOOL, NULL, 0);
 	}
-
-	phalcon_mvc_model_query_builder_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_Query_Builder;
 
 	zend_class_implements(phalcon_mvc_model_query_builder_ce, 1, phalcon_mvc_model_query_builderinterface_ce);
 	zend_class_implements(phalcon_mvc_model_query_builder_ce, 1, phalcon_di_injectionawareinterface_ce);
@@ -2562,19 +2565,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 					}
 					ZEPHIR_INIT_NVAR(&itemTrimmed$$70);
 					zephir_fast_trim(&itemTrimmed$$70, &orderItem, NULL , ZEPHIR_TRIM_BOTH);
-					ZEPHIR_CPY_WRT(&itemTrimmed$$70, &itemTrimmed$$70);
 					ZEPHIR_INIT_NVAR(&_88$$70);
 					ZVAL_STRING(&_88$$70, " ");
 					ZEPHIR_CALL_FUNCTION(&lastSpacePosition$$70, "strrpos", &_89, 133, &itemTrimmed$$70, &_88$$70);
 					zephir_check_call_status();
-					ZEPHIR_CPY_WRT(&lastSpacePosition$$70, &lastSpacePosition$$70);
 					if (!ZEPHIR_IS_FALSE_IDENTICAL(&lastSpacePosition$$70)) {
 						ZVAL_LONG(&_90$$72, 0);
 						ZEPHIR_INIT_NVAR(&_91$$72);
 						zephir_substr(&_91$$72, &itemTrimmed$$70, 0 , zephir_get_intval(&lastSpacePosition$$70), 0);
 						ZEPHIR_INIT_NVAR(&perhapsExpression$$72);
 						zephir_fast_trim(&perhapsExpression$$72, &_91$$72, NULL , ZEPHIR_TRIM_BOTH);
-						ZEPHIR_CPY_WRT(&perhapsExpression$$72, &perhapsExpression$$72);
 						ZEPHIR_INIT_NVAR(&_92$$72);
 						ZVAL_LONG(&_92$$72, 1);
 						ZEPHIR_INIT_NVAR(&_93$$72);
@@ -2587,7 +2587,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 						zephir_substr(&_94$$72, &itemTrimmed$$70, zephir_get_intval(&_93$$72), 0, ZEPHIR_SUBSTR_NO_LENGTH);
 						ZEPHIR_INIT_NVAR(&perhapsDirection$$72);
 						zephir_fast_trim(&perhapsDirection$$72, &_94$$72, NULL , ZEPHIR_TRIM_RIGHT);
-						ZEPHIR_CPY_WRT(&perhapsDirection$$72, &perhapsDirection$$72);
 						ZEPHIR_INIT_NVAR(&_95$$72);
 						ZVAL_STRING(&_95$$72, "desc");
 						ZEPHIR_CALL_FUNCTION(&_96$$72, "strcasecmp", &_97, 35, &perhapsDirection$$72, &_95$$72);
@@ -2662,19 +2661,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 						}
 						ZEPHIR_INIT_NVAR(&itemTrimmed$$76);
 						zephir_fast_trim(&itemTrimmed$$76, &orderItem, NULL , ZEPHIR_TRIM_BOTH);
-						ZEPHIR_CPY_WRT(&itemTrimmed$$76, &itemTrimmed$$76);
 						ZEPHIR_INIT_NVAR(&_105$$76);
 						ZVAL_STRING(&_105$$76, " ");
 						ZEPHIR_CALL_FUNCTION(&lastSpacePosition$$76, "strrpos", &_89, 133, &itemTrimmed$$76, &_105$$76);
 						zephir_check_call_status();
-						ZEPHIR_CPY_WRT(&lastSpacePosition$$76, &lastSpacePosition$$76);
 						if (!ZEPHIR_IS_FALSE_IDENTICAL(&lastSpacePosition$$76)) {
 							ZVAL_LONG(&_106$$78, 0);
 							ZEPHIR_INIT_NVAR(&_107$$78);
 							zephir_substr(&_107$$78, &itemTrimmed$$76, 0 , zephir_get_intval(&lastSpacePosition$$76), 0);
 							ZEPHIR_INIT_NVAR(&perhapsExpression$$78);
 							zephir_fast_trim(&perhapsExpression$$78, &_107$$78, NULL , ZEPHIR_TRIM_BOTH);
-							ZEPHIR_CPY_WRT(&perhapsExpression$$78, &perhapsExpression$$78);
 							ZEPHIR_INIT_NVAR(&_108$$78);
 							ZVAL_LONG(&_108$$78, 1);
 							ZEPHIR_INIT_NVAR(&_109$$78);
@@ -2687,7 +2683,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql)
 							zephir_substr(&_110$$78, &itemTrimmed$$76, zephir_get_intval(&_109$$78), 0, ZEPHIR_SUBSTR_NO_LENGTH);
 							ZEPHIR_INIT_NVAR(&perhapsDirection$$78);
 							zephir_fast_trim(&perhapsDirection$$78, &_110$$78, NULL , ZEPHIR_TRIM_RIGHT);
-							ZEPHIR_CPY_WRT(&perhapsDirection$$78, &perhapsDirection$$78);
 							ZEPHIR_INIT_NVAR(&_111$$78);
 							ZVAL_STRING(&_111$$78, "desc");
 							ZEPHIR_CALL_FUNCTION(&_112$$78, "strcasecmp", &_97, 35, &perhapsDirection$$78, &_111$$78);
@@ -5130,30 +5125,5 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, conditionNotIn)
 		return;
 	}
 	RETURN_THIS();
-}
-
-zend_object *zephir_init_properties_Phalcon_Mvc_Model_Query_Builder(zend_class_entry *class_type)
-{
-		zval _0, _1$$3;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("group"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("group"), &_1$$3);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

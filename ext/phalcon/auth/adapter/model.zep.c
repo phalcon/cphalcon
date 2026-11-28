@@ -515,7 +515,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Model, findFirstAsAuthUser)
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_CE_STATIC_CACHED(&found, _1, "findFirst", &_zephir_call_cache[1], &parameters);
+	ZEPHIR_CALL_CE_STATIC_THIS_CACHED(&found, _1, getThis(), "findFirst", &_zephir_call_cache[1], &parameters);
 	zephir_check_call_status();
 	_2 = ZEPHIR_IS_FALSE_IDENTICAL(&found);
 	if (!(_2)) {

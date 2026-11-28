@@ -59,7 +59,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect)
 	 *
 	 * @phpstan-var db_custom_functions
 	 */
-	zend_declare_property_null(phalcon_db_dialect_ce, SL("customFunctions"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_property_array(phalcon_db_dialect_ce, SL("customFunctions"), &_zc0, ZEND_ACC_PROTECTED);
+	}
+
 	/**
 	 * Dialect-specific operators that a concrete dialect must opt into
 	 * via supportedOperators; using one elsewhere throws.
@@ -68,7 +73,21 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect)
 	 *
 	 * @phpstan-var list<string>
 	 */
-	zend_declare_property_null(phalcon_db_dialect_ce, SL("guardedOperators"), ZEND_ACC_PROTECTED);
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 10);
+		add_next_index_stringl(&_zc0, SL("@@"));
+		add_next_index_stringl(&_zc0, SL("@>"));
+		add_next_index_stringl(&_zc0, SL("<@"));
+		add_next_index_stringl(&_zc0, SL("&&"));
+		add_next_index_stringl(&_zc0, SL("||"));
+		add_next_index_stringl(&_zc0, SL("->"));
+		add_next_index_stringl(&_zc0, SL("->>"));
+		add_next_index_stringl(&_zc0, SL("#>"));
+		add_next_index_stringl(&_zc0, SL("#>>"));
+		zephir_declare_property_array(phalcon_db_dialect_ce, SL("guardedOperators"), &_zc0, ZEND_ACC_PROTECTED);
+	}
+
 	/**
 	 * Subset of guardedOperators that this dialect emits. Overridden per
 	 * dialect.
@@ -77,8 +96,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect)
 	 *
 	 * @phpstan-var list<string>
 	 */
-	zend_declare_property_null(phalcon_db_dialect_ce, SL("supportedOperators"), ZEND_ACC_PROTECTED);
-	phalcon_db_dialect_ce->create_object = zephir_init_properties_Phalcon_Db_Dialect;
+	{
+		zval _zc0;
+		array_init_size(&_zc0, 1);
+		zephir_declare_property_array(phalcon_db_dialect_ce, SL("supportedOperators"), &_zc0, ZEND_ACC_PROTECTED);
+	}
 
 	zend_class_implements(phalcon_db_dialect_ce, 1, phalcon_db_dialectinterface_ce);
 	return SUCCESS;
@@ -5125,75 +5147,5 @@ PHP_METHOD(Phalcon_Db_Dialect, prepareQualified)
 	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "escape", &_zephir_call_cache[1], &column_zv, &escapeChar_zv);
 	zephir_check_call_status();
 	RETURN_MM();
-}
-
-zend_object *zephir_init_properties_Phalcon_Db_Dialect(zend_class_entry *class_type)
-{
-		zval _3$$4;
-	zval _0, _2, _5, _1$$3, _4$$4, _6$$5;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_5);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_4$$4);
-	ZVAL_UNDEF(&_6$$5);
-	ZVAL_UNDEF(&_3$$4);
-	
-
-		ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
-		zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("supportedOperators"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("supportedOperators"), &_1$$3);
-		}
-		zephir_read_property_ex(&_2, this_ptr, ZEND_STRL("guardedOperators"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_2) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_3$$4);
-			zephir_create_array(&_3$$4, 9, 0);
-			ZEPHIR_INIT_VAR(&_4$$4);
-			ZVAL_STRING(&_4$$4, "@@");
-			zephir_array_fast_append(&_3$$4, &_4$$4);
-			ZEPHIR_INIT_NVAR(&_4$$4);
-			ZVAL_STRING(&_4$$4, "@>");
-			zephir_array_fast_append(&_3$$4, &_4$$4);
-			ZEPHIR_INIT_NVAR(&_4$$4);
-			ZVAL_STRING(&_4$$4, "<@");
-			zephir_array_fast_append(&_3$$4, &_4$$4);
-			ZEPHIR_INIT_NVAR(&_4$$4);
-			ZVAL_STRING(&_4$$4, "&&");
-			zephir_array_fast_append(&_3$$4, &_4$$4);
-			ZEPHIR_INIT_NVAR(&_4$$4);
-			ZVAL_STRING(&_4$$4, "||");
-			zephir_array_fast_append(&_3$$4, &_4$$4);
-			ZEPHIR_INIT_NVAR(&_4$$4);
-			ZVAL_STRING(&_4$$4, "->");
-			zephir_array_fast_append(&_3$$4, &_4$$4);
-			ZEPHIR_INIT_NVAR(&_4$$4);
-			ZVAL_STRING(&_4$$4, "->>");
-			zephir_array_fast_append(&_3$$4, &_4$$4);
-			ZEPHIR_INIT_NVAR(&_4$$4);
-			ZVAL_STRING(&_4$$4, "#>");
-			zephir_array_fast_append(&_3$$4, &_4$$4);
-			ZEPHIR_INIT_NVAR(&_4$$4);
-			ZVAL_STRING(&_4$$4, "#>>");
-			zephir_array_fast_append(&_3$$4, &_4$$4);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("guardedOperators"), &_3$$4);
-		}
-		zephir_read_property_ex(&_5, this_ptr, ZEND_STRL("customFunctions"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_5) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_6$$5);
-			array_init(&_6$$5);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("customFunctions"), &_6$$5);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 }
 

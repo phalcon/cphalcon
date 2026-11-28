@@ -432,13 +432,16 @@ static void zephir_abstract_method_call(const zend_function *fbc)
 }
 
 /**
- * Whether a call written as `X::__construct()` names the constructor. PHP
- * calls the class's constructor for it without looking the method up, so
- * neither the lookup's abstract check nor its fallbacks apply.
+ * Whether a call written as `X::__construct()` names the constructor, with `X`
+ * a class or `parent`, `self` or `static`. PHP calls the class's constructor
+ * for it without looking the method up (see zephir_call_constructor()); a name
+ * held in a variable is looked up like any other method.
  */
-static zend_always_inline bool zephir_is_constructor_call(zephir_call_type type, const zend_string *method_name)
+static zend_always_inline bool zephir_is_constructor_call(zephir_call_type type, const char *method_name, uint32_t method_len)
 {
-	return type != zephir_fcall_method && zend_string_equals_literal_ci(method_name, "__construct");
+	return type != zephir_fcall_method
+		&& method_len == sizeof("__construct") - 1
+		&& zend_binary_strcasecmp(method_name, method_len, "__construct", sizeof("__construct") - 1) == 0;
 }
 
 /* From PHP 8.6 on, zend_get_call_trampoline_func() takes the magic method. */
@@ -942,16 +945,10 @@ static int zephir_call_user_function(
 		/**
 		 * PHP refuses an abstract method once visibility is settled, before it
 		 * checks whether the method is static, and before the handler, an empty
-		 * body or none at all for an interface, could run. `parent::__construct()`
-		 * is the exception (see zephir_is_constructor_call()); a name held in a
-		 * variable is looked up, and zephir_call_class_method_zval_ex() refuses
-		 * that one (#2789).
+		 * body or none at all for an interface, could run (#2789). A constructor
+		 * named literally never gets here: zephir_call_constructor() takes it.
 		 */
-		if (
-			resolved
-			&& UNEXPECTED(resolved->common.fn_flags & ZEND_ACC_ABSTRACT)
-			&& !zephir_is_constructor_call(type, Z_STR_P(function_name))
-		) {
+		if (resolved && UNEXPECTED(resolved->common.fn_flags & ZEND_ACC_ABSTRACT)) {
 			zephir_abstract_method_call(resolved);
 			resolved = NULL;
 		}
@@ -1378,6 +1375,16 @@ static int zephir_call_class_method_site(
 	}
 #endif
 
+	/**
+	 * A method named through a class runs on `$this` when `$this` is an
+	 * instance of that class, and without an object otherwise, which
+	 * zephir_invoke() refuses for a non-static method, as
+	 * ZEND_INIT_STATIC_METHOD_CALL does (#2854).
+	 */
+	if (type == zephir_fcall_ce && object && (Z_TYPE_P(object) != IS_OBJECT || !ce || !instanceof_function(Z_OBJCE_P(object), ce))) {
+		object = NULL;
+	}
+
 	if (object && Z_TYPE_P(object) != IS_OBJECT) {
 		/**
 		 * Same sentence and same throwable as zend_invalid_method_call(). The
@@ -1447,6 +1454,95 @@ static int zephir_call_class_method_site(
 	return status;
 }
 
+/**
+ * `X::__construct()` with the name written out, for `X` a class or `parent`,
+ * `self` or `static`. PHP compiles that call without the method's name
+ * (ZEND_INIT_STATIC_METHOD_CALL with no method operand): when it runs, it takes
+ * the constructor of the class the call names, with no visibility check, no
+ * abstract check and no __call() fallback, and throws
+ *
+ * - "Cannot call constructor" when the class has none (#2852);
+ * - "Cannot call private X::__construct()", naming the class the call names,
+ *   when the constructor is private and `$this` is an object of another class
+ *   than the one declaring it (#2853);
+ * - "Non-static method X::__construct() cannot be called statically" when
+ *   `$this` is not an instance of the class the call names (#2854), which
+ *   zephir_invoke() does for a call without an object.
+ */
+static int zephir_call_constructor(
+	zval *return_value,
+	zend_class_entry *ce,
+	zephir_call_type type,
+	zval *object,
+	uint32_t param_count,
+	zval **params,
+	HashTable *named_params
+) {
+	zend_class_entry *scope = type == zephir_fcall_parent ? (ce ? ce->parent : NULL) : ce;
+	zend_function *constructor = scope ? scope->constructor : NULL;
+	zval local_retval_ptr;
+	zend_fcall_info fci;
+	zend_fcall_info_cache fcic;
+	int status;
+
+	if (object && Z_TYPE_P(object) != IS_OBJECT) {
+		object = NULL;
+	}
+
+	if (!constructor) {
+		zend_throw_error(NULL, "Cannot call constructor");
+	} else if (
+		object
+		&& Z_OBJCE_P(object) != constructor->common.scope
+		&& (constructor->common.fn_flags & ZEND_ACC_PRIVATE)
+	) {
+		zend_throw_error(NULL, "Cannot call private %s::__construct()", ZSTR_VAL(scope->name));
+	}
+
+	if (EG(exception)) {
+		if (return_value) {
+			ZVAL_NULL(return_value);
+		}
+
+		return FAILURE;
+	}
+
+	if (object && !instanceof_function(Z_OBJCE_P(object), scope)) {
+		object = NULL;
+	}
+
+	/**
+	 * An interface registers its methods without a body, where the abstract
+	 * method PHP runs here has an empty one (#2789). Without an object,
+	 * zephir_invoke() throws before it would reach the body.
+	 */
+	if (object && constructor->type == ZEND_INTERNAL_FUNCTION && !constructor->internal_function.handler) {
+		if (return_value) {
+			ZVAL_NULL(return_value);
+		}
+
+		return SUCCESS;
+	}
+
+	ZVAL_UNDEF(&local_retval_ptr);
+
+	fcic.function_handler = constructor;
+	fcic.object           = object ? Z_OBJ_P(object) : NULL;
+	fcic.calling_scope    = scope;
+	fcic.called_scope     = object ? Z_OBJCE_P(object) : scope;
+
+	fci.size         = sizeof(fci);
+	fci.object       = fcic.object;
+	fci.retval       = return_value ? return_value : &local_retval_ptr;
+	fci.named_params = named_params;
+	ZVAL_UNDEF(&fci.function_name);
+
+	status = zephir_invoke(&fci, &fcic, param_count, params);
+	zephir_finish_call(return_value, &local_retval_ptr, status);
+
+	return EG(exception) ? FAILURE : status;
+}
+
 int zephir_call_class_method_aparams(
 	zval *return_value,
 	zend_class_entry *ce,
@@ -1459,6 +1555,10 @@ int zephir_call_class_method_aparams(
 	uint32_t param_count,
 	zval **params
 ) {
+	if (zephir_is_constructor_call(type, method_name, method_len)) {
+		return zephir_call_constructor(return_value, ce, type, object, param_count, params, NULL);
+	}
+
 	return zephir_call_class_method_site(return_value, ce, type, object, method_name, method_len, cache_entry, cache_slot, NULL, param_count, params, NULL);
 }
 
@@ -1473,6 +1573,10 @@ int zephir_call_class_method_cached(
 	uint32_t param_count,
 	zval **params
 ) {
+	if (zephir_is_constructor_call(type, method_name, method_len)) {
+		return zephir_call_constructor(return_value, ce, type, object, param_count, params, NULL);
+	}
+
 	return zephir_call_class_method_site(return_value, ce, type, object, method_name, method_len, NULL, 0, cache, param_count, params, NULL);
 }
 
@@ -1500,6 +1604,10 @@ int zephir_call_class_method_named(
 	uint32_t param_count,
 	zval **params
 ) {
+	if (zephir_is_constructor_call(type, method_name, method_len)) {
+		return zephir_call_constructor(return_value, ce, type, object, param_count, params, named_params);
+	}
+
 	return zephir_call_class_method_site(
 		return_value,
 		zephir_named_call_ce(ce, type, object),

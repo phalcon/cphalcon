@@ -1028,7 +1028,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute)
 	}
 	ZEPHIR_CALL_METHOD_CACHED(&_2, this_ptr, "getParams", &_zephir_call_cache[2]);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_CE_STATIC_CACHED(_1, "find", &_zephir_call_cache[3], &_2);
+	ZEPHIR_RETURN_CALL_CE_STATIC_THIS_CACHED(_1, getThis(), "find", &_zephir_call_cache[3], &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }
