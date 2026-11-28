@@ -96,6 +96,7 @@ These sponsors and backers support Phalcon and Zephir. To join them, become a sp
 <a href="https://www.ultimater.net"><img src="https://images.opencollective.com/ultimater/19fc150/avatar.png" alt="Kevin Yarmak" title="Kevin Yarmak" width="60" height="60"></a>
 <a href="https://opencollective.com/info23"><img src="https://images.opencollective.com/info23/eebb146/avatar.png" alt="maGus Informática" title="maGus Informática" width="60" height="60"></a>
 <a href="https://github.com/niden"><img src="https://avatars.githubusercontent.com/u/1073784?v=4" alt="Nikolaos Dimopoulos" title="Nikolaos Dimopoulos" width="60" height="60"></a>
+<a href="https://github.com/sitchi"><img src="https://avatars.githubusercontent.com/u/11546683?u=ada2861fb6407b4fc1ea2257120512c27a0cb337&amp;v=4" alt="Nikoloz Sitchinava" title="Nikoloz Sitchinava" width="60" height="60"></a>
 <a href="https://github.com/rayanlevert"><img src="https://avatars.githubusercontent.com/u/78140431?u=e9757b8d038f97b4e81c104378657275cc24d150&amp;v=4" alt="Rayan Levert" title="Rayan Levert" width="60" height="60"></a>
 
 ### Backers
