@@ -148,10 +148,10 @@ typedef struct _zephir_static_property_cache {
 
 
 #define PHP_PHALCON_NAME        "phalcon"
-#define PHP_PHALCON_VERSION     "5.24.0"
+#define PHP_PHALCON_VERSION     "5.24.1"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
-#define PHP_PHALCON_ZEPVERSION  "1.10.0-$Id$"
+#define PHP_PHALCON_ZEPVERSION  "1.11.0-$Id$"
 #define PHP_PHALCON_DESCRIPTION "Phalcon is a full stack PHP framework, delivered as a PHP extension, offering lower resource consumption and high performance."
 
 
