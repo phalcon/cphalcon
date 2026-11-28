@@ -23,7 +23,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
@@ -94,6 +94,10 @@ PHP_METHOD(Phalcon_Mvc_View_Traits_ViewParamsTrait, getParamsToView)
 
 	zephir_memory_observe(&_0);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1243, PH_NOISY_CC);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_get_arrval(&_1, &_0);
 	RETURN_CTOR(&_1);
 }
@@ -121,6 +125,10 @@ PHP_METHOD(Phalcon_Mvc_View_Traits_ViewParamsTrait, getRegisteredEngines)
 
 	zephir_memory_observe(&_0);
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1244, PH_NOISY_CC);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_get_arrval(&_1, &_0);
 	RETURN_CTOR(&_1);
 }
@@ -132,6 +140,7 @@ PHP_METHOD(Phalcon_Mvc_View_Traits_ViewParamsTrait, getRegisteredEngines)
  */
 PHP_METHOD(Phalcon_Mvc_View_Traits_ViewParamsTrait, getVar)
 {
+	zend_bool _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval key_zv, value, _0;
 	zend_string *key = NULL;
@@ -153,8 +162,17 @@ PHP_METHOD(Phalcon_Mvc_View_Traits_ViewParamsTrait, getVar)
 	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
 	zephir_memory_observe(&value);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1243, PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset_fetch(&value, &_0, &key_zv, 0))) {
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1243, PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	_1 = zephir_array_isset_fetch(&value, &_0, &key_zv, 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (!(_1)) {
 		RETURN_MM_NULL();
 	}
 	RETURN_CCTOR(&value);
@@ -186,6 +204,9 @@ PHP_METHOD(Phalcon_Mvc_View_Traits_ViewParamsTrait, setContent)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&content_zv, content);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1245, &content_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 
@@ -213,6 +234,9 @@ PHP_METHOD(Phalcon_Mvc_View_Traits_ViewParamsTrait, setVar)
 	value = ZEND_CALL_ARG(execute_data, 2);
 	ZVAL_STR(&key_zv, key);
 	zephir_update_property_array(this_ptr, SL("viewParams"), &key_zv, value);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 

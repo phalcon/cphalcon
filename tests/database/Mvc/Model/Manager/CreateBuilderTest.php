@@ -5,8 +5,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -18,7 +18,7 @@ use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
 
-use function spl_object_hash;
+use function spl_object_id;
 
 final class CreateBuilderTest extends AbstractDatabaseTestCase
 {
@@ -41,11 +41,11 @@ final class CreateBuilderTest extends AbstractDatabaseTestCase
         $this->assertNull($actual);
         $builder    = $manager->createBuilder();
         $getBuilder = $manager->getBuilder();
-        $expected   = spl_object_hash($builder);
-        $actual     = spl_object_hash($getBuilder);
+        $expected   = spl_object_id($builder);
+        $actual     = spl_object_id($getBuilder);
         $this->assertSame($expected, $actual);
         $builder  = $manager->createBuilder();
-        $expected = spl_object_hash($builder);
+        $expected = spl_object_id($builder);
         $this->assertNotSame($expected, $actual);
     }
 }

@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -37,7 +37,9 @@ use Phalcon\Html\Helper\Title;
 use Phalcon\Html\Helper\Ul;
 use Phalcon\Html\TagFactory;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Traits\DebugBuildTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
+use TypeError;
 
 use function uniqid;
 
@@ -48,6 +50,8 @@ use function uniqid;
  */
 final class NewInstanceTest extends AbstractUnitTestCase
 {
+    use DebugBuildTrait;
+
     /**
      * Returns the example data
      */
@@ -124,6 +128,32 @@ final class NewInstanceTest extends AbstractUnitTestCase
         $escaper = new Escaper();
         $factory = new TagFactory($escaper);
         $factory->$name();
+    }
+
+    /**
+     * A factory that does not return an object: newInstance() returns the
+     * value, and the helper call throws the TypeError of
+     * call_user_func_array().
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/818
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    public function testFilterTagFactoryNewInstanceNotObject(): void
+    {
+        $this->skipOnDebugBuild();
+
+        $factory = new TagFactory(new Escaper(), ['five' => static fn () => 5]);
+
+        $this->assertSame(5, $factory->newInstance('five'));
+
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage(
+            'call_user_func_array(): Argument #1 ($callback) must be a valid callback, '
+            . 'first array member is not a valid class name or object'
+        );
+
+        $factory->five();
     }
 
     /**

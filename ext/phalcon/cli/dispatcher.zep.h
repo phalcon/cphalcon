@@ -32,8 +32,8 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_dispatcher_getoption, 0, 0, 1)
 	ZEND_ARG_INFO(0, option)
-	ZEND_ARG_INFO(0, filters)
-	ZEND_ARG_INFO(0, defaultValue)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, filters, "null")
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, defaultValue, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_dispatcher_getoptions, 0, 0, IS_ARRAY, 0)

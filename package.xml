@@ -22,11 +22,11 @@
     <email>nikos@phalcon.io</email>
     <active>yes</active>
   </lead>
-  <date>2026-10-15</date>
+  <date>2026-11-28</date>
   <time>17:00:00</time>
   <version>
-    <release>5.23.0</release>
-    <api>5.23.0</api>
+    <release>5.24.0</release>
+    <api>5.24.0</api>
   </version>
   <stability>
     <release>stable</release>
@@ -45,7 +45,7 @@
       <file name="phalcon.zep.c" role="src"/>
       <file name="phalcon.zep.h" role="src"/>
       <file name="php_phalcon.h" role="src"/>
-      <file name="LICENSE.txt" role="doc"/>
+      <file name="LICENSE" role="doc"/>
       <file name="CHANGELOG-5.0.md" role="doc"/>
       <file name="CODE_OF_CONDUCT.md" role="doc"/>
       <file name="CODE_OWNERS.TXT" role="doc"/>

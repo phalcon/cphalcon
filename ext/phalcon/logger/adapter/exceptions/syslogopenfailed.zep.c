@@ -24,7 +24,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_Exceptions_SyslogOpenFailed)
@@ -45,6 +45,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Exceptions_SyslogOpenFailed, __construct)
 	ZVAL_UNDEF(&name_zv);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(name)
 		Z_PARAM_LONG(facility)
@@ -58,7 +59,11 @@ PHP_METHOD(Phalcon_Logger_Adapter_Exceptions_SyslogOpenFailed, __construct)
 	ZVAL_LONG(&_0, facility);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_SVSVS(&_1, "Cannot open syslog for name [", &name_zv, "] and facility [", &_0, "]");
-	ZEPHIR_CALL_PARENT(NULL, phalcon_logger_adapter_exceptions_syslogopenfailed_ce, getThis(), "__construct", NULL, 0, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_logger_adapter_exceptions_syslogopenfailed_ce, getThis(), "__construct", &_zephir_call_cache[0], &_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

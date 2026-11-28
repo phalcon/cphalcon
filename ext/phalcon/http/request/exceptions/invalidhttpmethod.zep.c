@@ -23,7 +23,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Request_Exceptions_InvalidHttpMethod)
@@ -43,6 +43,7 @@ PHP_METHOD(Phalcon_Http_Request_Exceptions_InvalidHttpMethod, __construct)
 
 	ZVAL_UNDEF(&method_zv);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(method)
 	ZEND_PARSE_PARAMETERS_END();
@@ -52,7 +53,11 @@ PHP_METHOD(Phalcon_Http_Request_Exceptions_InvalidHttpMethod, __construct)
 	ZVAL_STR_COPY(&method_zv, method);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SV(&_0, "Invalid HTTP method: ", &method_zv);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_http_request_exceptions_invalidhttpmethod_ce, getThis(), "__construct", NULL, 0, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_http_request_exceptions_invalidhttpmethod_ce, getThis(), "__construct", &_zephir_call_cache[0], &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

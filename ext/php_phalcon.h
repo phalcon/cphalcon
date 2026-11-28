@@ -11,10 +11,10 @@
 #include "kernel/globals.h"
 
 #define PHP_PHALCON_NAME        "phalcon"
-#define PHP_PHALCON_VERSION     "5.23.0"
+#define PHP_PHALCON_VERSION     "5.24.0"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
-#define PHP_PHALCON_ZEPVERSION  "1.6.1-$Id$"
+#define PHP_PHALCON_ZEPVERSION  "1.11.0-$Id$"
 #define PHP_PHALCON_DESCRIPTION "Phalcon is a full stack PHP framework, delivered as a PHP extension, offering lower resource consumption and high performance."
 
 
@@ -50,6 +50,7 @@ typedef struct _zephir_struct_orm {
 	HashTable * parser_cache;
 	zend_bool resultset_empty_left_join_model;
 	char * resultset_prefetch_records;
+	char * zephir_owned_resultset_prefetch_records;
 	zend_long unique_cache_id;
 	zend_bool update_snapshot_on_save;
 	zend_bool virtual_foreign_keys;
@@ -76,6 +77,9 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 
 	/* Cache enabled */
 	unsigned int cache_enabled;
+
+	/* The request this thread is serving: a call site's inline cache filled in an earlier one is stale (#2790) */
+	uint64_t request_number;
 
 	/* Max recursion control */
 	unsigned int recursive_lock;

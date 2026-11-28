@@ -84,6 +84,22 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
+  cphalcon-dev-8.6:
+    container_name: ${PROJECT_PREFIX:-cphalcon}-dev-8.6
+    hostname: ${PROJECT_PREFIX:-cphalcon}-dev-86
+    build:
+      dockerfile: resources/docker/develop/Dockerfile
+      target: dev
+      args:
+        PHP_VERSION: 8.6
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    working_dir: /srv
+    volumes:
+      - .:/srv
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
   cphalcon-bench-8.4:
     container_name: ${PROJECT_PREFIX:-cphalcon}-bench-8.4
     hostname: ${PROJECT_PREFIX:-cphalcon}-bench-84

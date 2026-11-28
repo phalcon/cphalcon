@@ -16,7 +16,6 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
-#include "kernel/operators.h"
 #include "kernel/object.h"
 
 
@@ -25,7 +24,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Json_Exceptions_JsonEncodeError)
@@ -39,7 +38,7 @@ PHP_METHOD(Phalcon_Support_Helper_Json_Exceptions_JsonEncodeError, __construct)
 {
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long code, ZEPHIR_LAST_CALL_STATUS;
+	zend_long code = 0, ZEPHIR_LAST_CALL_STATUS;
 	zval message_zv, *code_param = NULL, *previous = NULL, previous_sub, __$null, _1;
 	zend_string *message = NULL;
 
@@ -48,6 +47,7 @@ PHP_METHOD(Phalcon_Support_Helper_Json_Exceptions_JsonEncodeError, __construct)
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 3)
 		Z_PARAM_OPTIONAL
@@ -71,18 +71,18 @@ PHP_METHOD(Phalcon_Support_Helper_Json_Exceptions_JsonEncodeError, __construct)
 		zephir_memory_observe(&message_zv);
 	ZVAL_STR_COPY(&message_zv, message);
 	}
-	if (!code_param) {
-		code = 0;
-	} else {
-		}
 	if (!previous) {
 		previous = &previous_sub;
 		previous = &__$null;
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SV(&_0, "json_encode error: ", &message_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZVAL_LONG(&_1, code);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_support_helper_json_exceptions_jsonencodeerror_ce, getThis(), "__construct", NULL, 0, &_0, &_1, previous);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_support_helper_json_exceptions_jsonencodeerror_ce, getThis(), "__construct", &_zephir_call_cache[0], &_0, &_1, previous);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

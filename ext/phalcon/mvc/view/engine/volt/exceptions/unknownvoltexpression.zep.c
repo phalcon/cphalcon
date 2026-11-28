@@ -24,7 +24,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt_Exceptions_UnknownVoltExpression)
@@ -46,6 +46,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exceptions_UnknownVoltExpression, __cons
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_LONG(type)
 		Z_PARAM_STR(file)
@@ -63,7 +64,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exceptions_UnknownVoltExpression, __cons
 	ZVAL_LONG(&_1, line);
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_CONCAT_SVSVSV(&_2, "Unknown expression ", &_0, " in ", &file_zv, " on line ", &_1);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_view_engine_volt_exceptions_unknownvoltexpression_ce, getThis(), "__construct", NULL, 0, &_2);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_mvc_view_engine_volt_exceptions_unknownvoltexpression_ce, getThis(), "__construct", &_zephir_call_cache[0], &_2);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

@@ -13,7 +13,6 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 
@@ -23,7 +22,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Implementation of this component has been inspired by the queue-interop and
@@ -54,7 +53,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_Stream_StreamConsumer)
 
 PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamConsumer, __construct)
 {
-	zend_long pollInterval;
+	zend_long pollInterval = 200;
 	zval *context, context_sub, *queue, queue_sub, *pollInterval_param = NULL, _0;
 	zval *this_ptr = getThis();
 
@@ -81,15 +80,20 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamConsumer, __construct)
 		Z_PARAM_LONG(pollInterval)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(2, 1, &context, &queue, &pollInterval_param);
-	if (!pollInterval_param) {
-		pollInterval = 200;
-	} else {
-		}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1303, context);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1304, queue);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, pollInterval);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1305, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**
@@ -116,6 +120,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamConsumer, receiveNoWait)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -128,10 +133,18 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamConsumer, receiveNoWait)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1303, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 1304, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_2, &_1, "getQueueName", NULL, 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_METHOD_CACHED(&_2, &_1, "getQueueName", &_zephir_call_cache[0]);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "popMessage", NULL, 0, &_2);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(&_0, "popMessage", &_zephir_call_cache[1], &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -140,7 +153,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamConsumer, reject)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool requeue;
+	zend_bool requeue = 0;
 	zval *message, message_sub, *requeue_param = NULL, _0$$3, _1$$3, _2$$3;
 	zval *this_ptr = getThis();
 
@@ -148,6 +161,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamConsumer, reject)
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -165,16 +179,20 @@ PHP_METHOD(Phalcon_Queue_Adapter_Stream_StreamConsumer, reject)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &message, &requeue_param);
-	if (!requeue_param) {
-		requeue = 0;
-	} else {
-		}
 	if (requeue) {
 		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 1303, PH_NOISY_CC | PH_READONLY);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		zephir_read_property_cached(&_1$$3, this_ptr, _zephir_prop_1, 1304, PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_METHOD(&_2$$3, &_1$$3, "getQueueName", NULL, 0);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		ZEPHIR_CALL_METHOD_CACHED(&_2$$3, &_1$$3, "getQueueName", &_zephir_call_cache[0]);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "pushMessage", NULL, 0, &_2$$3, message);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0$$3, "pushMessage", &_zephir_call_cache[1], &_2$$3, message);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();

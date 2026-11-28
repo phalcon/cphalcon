@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -17,9 +17,10 @@ use Phalcon\DataMapper\Pdo\ConnectionLocator;
 use Phalcon\DataMapper\Pdo\Exception\ConnectionNotFound;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\Group;
+use TypeError;
 
 use function in_array;
-use function spl_object_hash;
+use function spl_object_id;
 
 #[Group('mysql')]
 #[Group('pgsql')]
@@ -49,10 +50,10 @@ final class GetSetWriteTest extends AbstractDatabaseTestCase
         );
 
         $actual = $locator->getWrite("write1");
-        $this->assertEquals(spl_object_hash($write1), spl_object_hash($actual));
+        $this->assertEquals(spl_object_id($write1), spl_object_id($actual));
 
         $actual = $locator->getWrite("write2");
-        $this->assertEquals(spl_object_hash($write2), spl_object_hash($actual));
+        $this->assertEquals(spl_object_id($write2), spl_object_id($actual));
     }
 
     /**
@@ -65,7 +66,7 @@ final class GetSetWriteTest extends AbstractDatabaseTestCase
         $locator = new ConnectionLocator($master);
 
         $actual = $locator->getWrite("write1");
-        $this->assertEquals(spl_object_hash($master), spl_object_hash($actual));
+        $this->assertEquals(spl_object_id($master), spl_object_id($actual));
     }
 
     /**
@@ -93,6 +94,33 @@ final class GetSetWriteTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * A write factory that cannot be called throws the TypeError of
+     * call_user_func().
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/818
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    public function testDMPdoConnectionLocatorGetWriteNotCallable(): void
+    {
+        $locator = new ConnectionLocator(
+            self::getDataMapperConnection(),
+            [],
+            [
+                'write1' => 'nope',
+            ]
+        );
+
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage(
+            'call_user_func(): Argument #1 ($callback) must be a valid callback, '
+            . 'function "nope" not found or invalid function name'
+        );
+
+        $locator->getWrite('write1');
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-25
      */
@@ -115,11 +143,11 @@ final class GetSetWriteTest extends AbstractDatabaseTestCase
         );
 
         $hashes = [
-            spl_object_hash($write1),
-            spl_object_hash($write2),
+            spl_object_id($write1),
+            spl_object_id($write2),
         ];
 
         $actual = $locator->getWrite();
-        $this->assertTrue(in_array(spl_object_hash($actual), $hashes));
+        $this->assertTrue(in_array(spl_object_id($actual), $hashes));
     }
 }

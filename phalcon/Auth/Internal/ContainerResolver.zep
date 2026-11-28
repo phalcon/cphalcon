@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -137,24 +137,34 @@ final class ContainerResolver
 
         try {
             if (true === container->has(name)) {
-                let service = container->getService(name);
+                let service    = container->getService(name),
+                    definition = service->getDefinition();
 
                 /**
-                 * A shared service is cached by the Di. Gates carry
-                 * per-activation state, so build a new instance from the same
-                 * definition. A definition that is an already built object
-                 * can never be fresh.
+                 * A definition that is an already built object can never be
+                 * fresh: the Di gives back the same object each time, also
+                 * when the service is not shared.
                  */
-                if (true === service->isShared()) {
-                    let definition = service->getDefinition();
-
-                    if (typeof definition === "object" && !(definition instanceof Closure)) {
+                if (typeof definition === "object" && !(definition instanceof Closure)) {
+                    if (true === service->isShared()) {
                         throw new ContainerException(
                             "Cannot resolve a fresh '" . name
                             . "': it is registered in the Di as a shared instance"
                         );
                     }
 
+                    throw new ContainerException(
+                        "Cannot resolve a fresh '" . name
+                        . "': it is registered in the Di as an instance"
+                    );
+                }
+
+                /**
+                 * A shared service is cached by the Di. Gates carry
+                 * per-activation state, so build a new instance from the same
+                 * definition.
+                 */
+                if (true === service->isShared()) {
                     let fresh = new Service(definition, false);
 
                     return fresh->resolve(null, container);

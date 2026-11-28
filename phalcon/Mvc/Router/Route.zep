@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -584,15 +584,22 @@ class Route implements RouteInterface
      * Returns the data that the router needs for its method index, with
      * one call: the HTTP methods, the compiled pattern, the host name, the
      * compiled host name, the beforeMatch callback and the route id, in
-     * this order.
+     * this order. A route with no host name has no compiled host name, so
+     * there is no getCompiledHostName() call for it.
      */
     public function getIndexData() -> array
     {
+        var compiledHostName = null;
+
+        if this->hostname !== null {
+            let compiledHostName = this->getCompiledHostName();
+        }
+
         return [
             this->methods,
             this->compiledPattern,
             this->hostname,
-            this->getCompiledHostName(),
+            compiledHostName,
             this->beforeMatch,
             this->routeId
         ];

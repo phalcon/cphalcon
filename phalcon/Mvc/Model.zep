@@ -4,8 +4,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Mvc;
@@ -1138,7 +1138,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                     case Column::TYPE_DECIMAL:
                     case Column::TYPE_DOUBLE:
                     case Column::TYPE_FLOAT:
-                        let castValue = doubleval(value);
+                        let castValue = floatval(value);
                         break;
 
                     case Column::TYPE_BOOLEAN:
@@ -2044,7 +2044,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             get_called_class()
         );
 
-        if limit != null {
+        if limit !== null {
             builder->limit(limit);
         }
 
@@ -2595,7 +2595,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public function doSave(<CollectionInterface> visited) -> bool
     {
-        var exists, identityField, manager, metaData, objId, relatedToSave,
+        var e, exists, identityField, manager, metaData, objId, relatedToSave,
             schema, source, success, table, writeConnection,
             savedSnapshot    = [],
             savedOldSnapshot = [];
@@ -2633,123 +2633,141 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          */
         let hasRelatedToSave = !empty relatedToSave;
 
-        if hasRelatedToSave {
-            if this->preSaveRelatedRecords(writeConnection, relatedToSave, visited) === false {
+        /**
+         * preSaveRelatedRecords() begins the implicit transaction and
+         * postSaveRelatedRecords() commits it. An exception between the two
+         * must not leave the transaction open.
+         */
+        try {
+            if hasRelatedToSave {
+                if this->preSaveRelatedRecords(writeConnection, relatedToSave, visited) === false {
+                    let this->syncRelated = [];
+
+                    return false;
+                }
+            }
+
+            let schema = this->getSchema(),
+                source = this->getSource();
+
+            if schema {
+                let table = [schema, source];
+            } else {
+                let table = source;
+            }
+
+            /**
+             * We need to check if the record exists. Use the write connection
+             * to prevent replica lag
+             */
+            let exists = this->has(metaData, writeConnection);
+
+            if exists {
+                let this->operationMade = self::OP_UPDATE;
+            } else {
+                let this->operationMade = self::OP_CREATE;
+            }
+
+            /**
+             * Clean the messages
+             */
+            let this->errorMessages = [];
+
+            /**
+             * Query the identity field
+             */
+            let identityField = metaData->getIdentityField(this);
+
+            /**
+             * preSave() makes all the validations
+             */
+            if this->preSave(metaData, exists, identityField) === false {
                 let this->syncRelated = [];
+
+                /**
+                 * Throw exceptions on failed saves? The catch below rolls back
+                 * the current transaction
+                 */
+                if unlikely Settings::get("orm.exception_on_failed_save") {
+                    /**
+                     * Launch a Phalcon\Mvc\Model\ValidationFailed to notify that
+                     * the save failed
+                     */
+                    throw new ValidationFailed(
+                        this,
+                        this->getMessages()
+                    );
+                }
+
+                /**
+                 * Rollback the current transaction if there was validation errors
+                 */
+                if hasRelatedToSave {
+                    writeConnection->rollback(false);
+                }
 
                 return false;
             }
-        }
 
-        let schema = this->getSchema(),
-            source = this->getSource();
-
-        if schema {
-            let table = [schema, source];
-        } else {
-            let table = source;
-        }
-
-        /**
-         * We need to check if the record exists. Use the write connection
-         * to prevent replica lag
-         */
-        let exists = this->has(metaData, writeConnection);
-
-        if exists {
-            let this->operationMade = self::OP_UPDATE;
-        } else {
-            let this->operationMade = self::OP_CREATE;
-        }
-
-        /**
-         * Clean the messages
-         */
-        let this->errorMessages = [];
-
-        /**
-         * Query the identity field
-         */
-        let identityField = metaData->getIdentityField(this);
-
-        /**
-         * preSave() makes all the validations
-         */
-        if this->preSave(metaData, exists, identityField) === false {
             /**
-             * Rollback the current transaction if there was validation errors
+             * Capture the current snapshot before the write so it can be restored
+             * if postSaveRelatedRecords later rolls back the transaction
              */
-            if hasRelatedToSave {
-                writeConnection->rollback(false);
+            let manager = this->getModelsManager();
+
+            if manager->isKeepingSnapshots(this) && Settings::get("orm.update_snapshot_on_save") {
+                let savedSnapshot    = this->snapshot,
+                    savedOldSnapshot = this->oldSnapshot;
             }
 
-            let this->syncRelated = [];
-
             /**
-             * Throw exceptions on failed saves?
+             * Depending if the record exists we do an update or an insert operation
              */
-            if unlikely Settings::get("orm.exception_on_failed_save") {
-                /**
-                 * Launch a Phalcon\Mvc\Model\ValidationFailed to notify that
-                 * the save failed
-                 */
-                throw new ValidationFailed(
-                    this,
-                    this->getMessages()
-                );
-            }
-
-            return false;
-        }
-
-        /**
-         * Capture the current snapshot before the write so it can be restored
-         * if postSaveRelatedRecords later rolls back the transaction
-         */
-        let manager = this->getModelsManager();
-
-        if manager->isKeepingSnapshots(this) && Settings::get("orm.update_snapshot_on_save") {
-            let savedSnapshot    = this->snapshot,
-                savedOldSnapshot = this->oldSnapshot;
-        }
-
-        /**
-         * Depending if the record exists we do an update or an insert operation
-         */
-        if exists {
-            let success = this->doLowUpdate(metaData, writeConnection, table);
-        } else {
-            let success = this->doLowInsert(
-                metaData,
-                writeConnection,
-                table,
-                identityField
-            );
-        }
-
-        /**
-         * Change the dirty state to persistent
-         */
-        if true === success {
-            let this->dirtyState = self::DIRTY_STATE_PERSISTENT;
-        }
-
-        if hasRelatedToSave {
-            /**
-             * Rollbacks the implicit transaction if the master save has failed
-             */
-            if success === false {
-                writeConnection->rollback(false);
+            if exists {
+                let success = this->doLowUpdate(metaData, writeConnection, table);
             } else {
-                /**
-                 * Save the post-related records
-                 */
-                let success = this->postSaveRelatedRecords(
+                let success = this->doLowInsert(
+                    metaData,
                     writeConnection,
-                    relatedToSave,
-                    visited
+                    table,
+                    identityField
                 );
             }
+
+            /**
+             * Change the dirty state to persistent
+             */
+            if true === success {
+                let this->dirtyState = self::DIRTY_STATE_PERSISTENT;
+            }
+
+            if hasRelatedToSave {
+                /**
+                 * Rollbacks the implicit transaction if the master save has failed
+                 */
+                if success === false {
+                    writeConnection->rollback(false);
+                } else {
+                    /**
+                     * Save the post-related records
+                     */
+                    let success = this->postSaveRelatedRecords(
+                        writeConnection,
+                        relatedToSave,
+                        visited
+                    );
+                }
+            }
+        } catch \Throwable, e {
+            /**
+             * Rollback the implicit transaction if it is still open. The
+             * paths that throw do not roll back before the throw.
+             */
+            if hasRelatedToSave && writeConnection->isUnderTransaction() {
+                writeConnection->rollback(false);
+            }
+
+            throw e;
         }
 
         /**
@@ -3565,7 +3583,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             dirtyState = this->dirtyState,
             manager = <ManagerInterface> this->getModelsManager();
 
-        if manager->isKeepingSnapshots(this) && this->snapshot != null && attributes != this->snapshot {
+        if manager->isKeepingSnapshots(this) && this->snapshot !== null && attributes != this->snapshot {
             let snapshot = this->snapshot;
         }
 
@@ -4690,7 +4708,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             unsetDefaultValues = [],
             value              = null,
             values             = [];
-        bool useExplicitIdentity;
+        bool useExplicitIdentity, useSequences;
 
         let bindSkip            = Column::BIND_SKIP,
             manager             = <ManagerInterface> this->modelsManager,
@@ -4880,9 +4898,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             /**
              * We check if the model have sequences
              */
-            let sequenceName = null;
+            let sequenceName = null,
+                useSequences = (bool) connection->supportSequences();
 
-            if connection->supportSequences() {
+            if useSequences {
                 if method_exists(this, "getSequenceName") {
                     let sequenceName = this->{"getSequenceName"}();
                 } else {
@@ -4903,10 +4922,12 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
              * used, so calling lastInsertId() would fail on PostgreSQL because
              * currval() requires nextval() to have been called in the session.
              * Reuse the value already present on the model in that case.
+             * Without sequences, lastInsertId() returns the stored id. MySQL
+             * can replace 0 with a generated id.
              */
             fetch value, this->{attributeField};
 
-            if value !== null && value !== "" {
+            if value !== null && value !== "" && (useSequences || value != 0) {
                 let lastInsertedId = value;
             } else {
                 let lastInsertedId = connection->lastInsertId(sequenceName);
@@ -5857,9 +5878,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                     continue;
                 }
 
+                /**
+                 * doSave() rolls back the implicit transaction
+                 */
                 if unlikely (typeof record !== "object" && typeof record !== "array") {
-                    connection->rollback(nesting);
-
                     throw new RelationRequiresObjectOrArray(className, name);
                 }
 
@@ -6129,9 +6151,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                     }
                 }
             } else {
+                /**
+                 * doSave() rolls back the implicit transaction
+                 */
                 if unlikely typeof record !== "array" {
-                    connection->rollback(nesting);
-
                     throw new RelationNotDefined(className, name);
                 }
             }
@@ -6431,9 +6454,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                  * Only belongsTo are stored before save the master record
                  */
                 if type == Relation::BELONGS_TO {
+                    /**
+                     * doSave() rolls back the implicit transaction
+                     */
                     if unlikely typeof record !== "object" {
-                        connection->rollback(nesting);
-
                         throw new BelongsToRequiresObject(get_class(this), name);
                     }
 

@@ -8,7 +8,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Json, serialize);
 PHP_METHOD(Phalcon_Storage_Serializer_Json, unserialize);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_serializer_json___construct, 0, 0, 0)
-	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, data, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_serializer_json_serialize, 0, 0, IS_MIXED, 0)

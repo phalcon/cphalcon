@@ -23,7 +23,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_Exceptions_BindTypeRequiresArray)
@@ -43,6 +43,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Exceptions_BindTypeRequiresArray, __construct
 
 	ZVAL_UNDEF(&name_zv);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
@@ -52,7 +53,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Exceptions_BindTypeRequiresArray, __construct
 	ZVAL_STR_COPY(&name_zv, name);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SV(&_0, "Bind type requires an array in placeholder: ", &name_zv);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_query_exceptions_bindtyperequiresarray_ce, getThis(), "__construct", NULL, 0, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_mvc_model_query_exceptions_bindtyperequiresarray_ce, getThis(), "__construct", &_zephir_call_cache[0], &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

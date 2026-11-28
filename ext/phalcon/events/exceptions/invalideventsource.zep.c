@@ -23,7 +23,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Events_Exceptions_InvalidEventSource)
@@ -44,6 +44,7 @@ PHP_METHOD(Phalcon_Events_Exceptions_InvalidEventSource, __construct)
 	ZVAL_UNDEF(&type_zv);
 	ZVAL_UNDEF(&sourceType_zv);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(type)
 		Z_PARAM_STR(sourceType)
@@ -56,7 +57,11 @@ PHP_METHOD(Phalcon_Events_Exceptions_InvalidEventSource, __construct)
 	ZVAL_STR_COPY(&sourceType_zv, sourceType);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVSV(&_0, "The source of ", &type_zv, " event must be an object, got ", &sourceType_zv);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_events_exceptions_invalideventsource_ce, getThis(), "__construct", NULL, 0, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_events_exceptions_invalideventsource_ce, getThis(), "__construct", &_zephir_call_cache[0], &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

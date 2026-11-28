@@ -47,7 +47,7 @@ void zephir_concat_self(zval *left, zval *right)
 		ZVAL_STRINGL(left, Z_STRVAL_P(right), Z_STRLEN_P(right));
 
 		if (use_copy_right) {
-			zval_dtor(&right_copy);
+			zval_ptr_dtor_nogc(&right_copy);
 		}
 
 		return;
@@ -69,11 +69,11 @@ void zephir_concat_self(zval *left, zval *right)
 		zend_throw_error(NULL, "String size overflow");
 
 		if (use_copy_left) {
-			zval_dtor(&left_copy);
+			zval_ptr_dtor_nogc(&left_copy);
 		}
 
 		if (use_copy_right) {
-			zval_dtor(&right_copy);
+			zval_ptr_dtor_nogc(&right_copy);
 		}
 
 		return;
@@ -87,11 +87,11 @@ void zephir_concat_self(zval *left, zval *right)
 	ZSTR_VAL(target)[length] = '\0';
 
 	if (use_copy_left) {
-		zval_dtor(&left_copy);
+		zval_ptr_dtor_nogc(&left_copy);
 	}
 
 	if (use_copy_right) {
-		zval_dtor(&right_copy);
+		zval_ptr_dtor_nogc(&right_copy);
 	}
 }
 
@@ -126,7 +126,7 @@ void zephir_concat_self_char(zval *left, unsigned char right)
 		zend_throw_error(NULL, "String size overflow");
 
 		if (use_copy) {
-			zval_dtor(&left_copy);
+			zval_ptr_dtor_nogc(&left_copy);
 		}
 
 		return;
@@ -139,7 +139,7 @@ void zephir_concat_self_char(zval *left, unsigned char right)
 	ZSTR_VAL(target)[length] = 0;
 
 	if (use_copy) {
-		zval_dtor(&left_copy);
+		zval_ptr_dtor_nogc(&left_copy);
 	}
 }
 
@@ -172,7 +172,7 @@ void zephir_concat_self_str(zval *left, const char *right, int right_length)
 		zend_throw_error(NULL, "String size overflow");
 
 		if (use_copy) {
-			zval_dtor(&left_copy);
+			zval_ptr_dtor_nogc(&left_copy);
 		}
 
 		return;
@@ -185,7 +185,7 @@ void zephir_concat_self_str(zval *left, const char *right, int right_length)
 	ZSTR_VAL(target)[length] = '\0';
 
 	if (use_copy) {
-		zval_dtor(&left_copy);
+		zval_ptr_dtor_nogc(&left_copy);
 	}
 }
 
@@ -257,11 +257,8 @@ int zephir_compare_strict_long(zval *op1, zend_long op2)
 			return 0 == op2;
 		case IS_TRUE:
 		case IS_FALSE:
-			if (Z_TYPE_P(op1) == IS_TRUE) {
-				return 1 == op2;
-			} else {
-				return 0 == op2;
-			}
+			/* PHP compares a bool with a number as two bools: true == 5 */
+			return (Z_TYPE_P(op1) == IS_TRUE) == (op2 != 0);
 		default:
 			{
 				zval result, op2_tmp;
@@ -272,6 +269,18 @@ int zephir_compare_strict_long(zval *op1, zend_long op2)
 	}
 
 	return 0;
+}
+
+/**
+ * Natural compare with double operandus on right
+ */
+int zephir_compare_strict_double(zval *op1, double op2)
+{
+	zval result, op2_zval;
+	ZVAL_DOUBLE(&op2_zval, op2);
+
+	is_equal_function(&result, op1, &op2_zval);
+	return Z_TYPE(result) == IS_TRUE;
 }
 
 /**
@@ -331,32 +340,18 @@ int zephir_compare_strict_string(zval *op1, const char *op2, int op2_length)
 	return 0;
 }
 
-void zephir_negate(zval *z)
+/**
+ * PHP's `-$x`, which the engine compiles to `$x * -1` (zend_compile_unary_pm()
+ * in Zend/zend_compile.c), so every operand type, warning, TypeError, integer
+ * overflow and operator overload behaves the same. The operand is untouched.
+ */
+int zephir_negate(zval *result, zval *op)
 {
-	while (1) {
-		switch (Z_TYPE_P(z)) {
-			case IS_LONG:
-				ZVAL_LONG(z, -Z_LVAL_P(z));
-				return;
+	zval minus_one;
 
-			case IS_TRUE:
-				ZVAL_LONG(z, -1);
-				return;
+	ZVAL_LONG(&minus_one, -1);
 
-			case IS_DOUBLE:
-				ZVAL_DOUBLE(z, -Z_DVAL_P(z));
-				return;
-
-			case IS_NULL:
-			case IS_FALSE:
-				ZVAL_LONG(z, 0);
-				return;
-
-			default:
-				convert_scalar_to_number(z);
-				assert(Z_TYPE_P(z) == IS_LONG || Z_TYPE_P(z) == IS_DOUBLE);
-		}
-	}
+	return mul_function(result, op, &minus_one);
 }
 
 void zephir_convert_to_object(zval *op)
@@ -470,6 +465,25 @@ int zephir_is_equal(zval *op1, zval *op2)
 }
 
 /**
+ * Whether op == null, as PHP's zend_compare() decides it: a string equals
+ * null only when it is empty and an object never does, any other value
+ * when it is falsy.
+ */
+int zephir_is_equal_null(zval *op)
+{
+	ZVAL_DEREF(op);
+
+	switch (Z_TYPE_P(op)) {
+		case IS_STRING:
+			return Z_STRLEN_P(op) == 0;
+		case IS_OBJECT:
+			return 0;
+		default:
+			return !zend_is_true(op);
+	}
+}
+
+/**
  * Check if a zval is less than other
  */
 int zephir_less(zval *op1, zval *op2)
@@ -481,12 +495,15 @@ int zephir_less(zval *op1, zval *op2)
 
 /**
  * Check if a zval is greater than other
+ *
+ * PHP evaluates `a > b` as `b < a` and `a >= b` as `b <= a`, which is not
+ * `!(a <= b)` when the operands do not compare, such as NAN or an enum.
  */
 int zephir_greater(zval *op1, zval *op2)
 {
 	zval result;
-	is_smaller_or_equal_function(&result, op1, op2);
-	return Z_TYPE(result) == IS_FALSE;
+	is_smaller_function(&result, op2, op1);
+	return Z_TYPE(result) == IS_TRUE;
 }
 
 /**
@@ -517,6 +534,22 @@ int zephir_bitwise_or_function(zval *result, zval *op1, zval *op2)
 	int status;
 	status = bitwise_or_function(result, op1, op2);
 	return status;
+}
+
+/**
+ * Do shift_left function
+ */
+int zephir_shift_left_function(zval *result, zval *op1, zval *op2)
+{
+	return shift_left_function(result, op1, op2);
+}
+
+/**
+ * Do shift_right function
+ */
+int zephir_shift_right_function(zval *result, zval *op1, zval *op2)
+{
+	return shift_right_function(result, op1, op2);
 }
 
 /**
@@ -569,6 +602,15 @@ int zephir_less_equal_long(zval *op1, zend_long op2)
 	return Z_TYPE(result) == IS_TRUE;
 }
 
+int zephir_less_equal_double(zval *op1, double op2)
+{
+	zval result, op2_zval;
+	ZVAL_DOUBLE(&op2_zval, op2);
+
+	is_smaller_or_equal_function(&result, op1, &op2_zval);
+	return Z_TYPE(result) == IS_TRUE;
+}
+
 /**
  * Check if a zval is greater than a long value
  */
@@ -577,8 +619,8 @@ int zephir_greater_long(zval *op1, zend_long op2)
 	zval result, op2_zval;
 	ZVAL_LONG(&op2_zval, op2);
 
-	is_smaller_or_equal_function(&result, op1, &op2_zval);
-	return Z_TYPE(result) == IS_FALSE;
+	is_smaller_function(&result, &op2_zval, op1);
+	return Z_TYPE(result) == IS_TRUE;
 }
 
 int zephir_greater_double(zval *op1, double op2)
@@ -586,8 +628,8 @@ int zephir_greater_double(zval *op1, double op2)
 	zval result, op2_zval;
 	ZVAL_DOUBLE(&op2_zval, op2);
 
-	is_smaller_or_equal_function(&result, op1, &op2_zval);
-	return Z_TYPE(result) == IS_FALSE;
+	is_smaller_function(&result, &op2_zval, op1);
+	return Z_TYPE(result) == IS_TRUE;
 }
 
 /**
@@ -596,8 +638,8 @@ int zephir_greater_double(zval *op1, double op2)
 int zephir_greater_equal(zval *op1, zval *op2)
 {
 	zval result;
-	is_smaller_function(&result, op1, op2);
-	return Z_TYPE(result) == IS_FALSE;
+	is_smaller_or_equal_function(&result, op2, op1);
+	return Z_TYPE(result) == IS_TRUE;
 }
 
 /**
@@ -607,8 +649,16 @@ int zephir_greater_equal_long(zval *op1, zend_long op2)
 {
 	zval result, op2_zval;
 	ZVAL_LONG(&op2_zval, op2);
-	is_smaller_function(&result, op1, &op2_zval);
-	return Z_TYPE(result) == IS_FALSE;
+	is_smaller_or_equal_function(&result, &op2_zval, op1);
+	return Z_TYPE(result) == IS_TRUE;
+}
+
+int zephir_greater_equal_double(zval *op1, double op2)
+{
+	zval result, op2_zval;
+	ZVAL_DOUBLE(&op2_zval, op2);
+	is_smaller_or_equal_function(&result, &op2_zval, op1);
+	return Z_TYPE(result) == IS_TRUE;
 }
 
 /**
@@ -616,10 +666,8 @@ int zephir_greater_equal_long(zval *op1, zend_long op2)
  * div_function_base()/mod_function() in Zend/zend_operators.c.
  *
  * These helpers return a value and have no way to abort their caller, so the
- * rest of the generated method body runs with the exception pending and the
- * engine discards the return value on the way out. That is the convention the
- * kernel already uses for the concat overflow guards above and the
- * string-offset guards in kernel/array.c.
+ * generated code checks EG(exception) right after the call and leaves the
+ * method, or jumps to the enclosing try, as PHP stops at the operator.
  *
  * @see https://github.com/zephir-lang/zephir/issues/2666
  */
@@ -770,6 +818,40 @@ double zephir_safe_div_double_double(double op1, double op2)
  * divisor short-circuits to 0 because PHP_INT_MIN % -1 overflows and raises
  * SIGFPE on x86.
  */
+/**
+ * `op1 << op2` and `op1 >> op2` on native integers, as shift_left_function()
+ * and shift_right_function() in Zend/zend_operators.c: a count of the integer
+ * width or more yields 0 (or -1 for a negative `>>`), and a negative count
+ * throws ArithmeticError. A C shift is undefined for both.
+ */
+zend_long zephir_safe_shift_left_long(zend_long op1, zend_long op2)
+{
+	if (UNEXPECTED((zend_ulong) op2 >= SIZEOF_ZEND_LONG * 8)) {
+		if (EXPECTED(op2 > 0)) {
+			return 0;
+		}
+
+		zend_throw_exception_ex(zend_ce_arithmetic_error, 0, "Bit shift by negative number");
+		return 0;
+	}
+
+	return (zend_long) ((zend_ulong) op1 << op2);
+}
+
+zend_long zephir_safe_shift_right_long(zend_long op1, zend_long op2)
+{
+	if (UNEXPECTED((zend_ulong) op2 >= SIZEOF_ZEND_LONG * 8)) {
+		if (EXPECTED(op2 > 0)) {
+			return (op1 < 0) ? -1 : 0;
+		}
+
+		zend_throw_exception_ex(zend_ce_arithmetic_error, 0, "Bit shift by negative number");
+		return 0;
+	}
+
+	return op1 >> op2;
+}
+
 zend_long zephir_safe_mod_long_long(zend_long op1, zend_long op2)
 {
 	if (!op2) {

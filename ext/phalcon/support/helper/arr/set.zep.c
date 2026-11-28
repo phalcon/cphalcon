@@ -55,6 +55,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Set, __invoke)
 	ZVAL_UNDEF(&index_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&source);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		ZEPHIR_Z_PARAM_ARRAY(collection, collection_param)
@@ -70,9 +71,9 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Set, __invoke)
 		index = &index_sub;
 		index = &__$null;
 	}
-	ZEPHIR_CALL_METHOD(&source, this_ptr, "checkNull", NULL, 0, &collection, value, index);
+	ZEPHIR_CALL_METHOD_CACHED(&source, this_ptr, "checkNull", &_zephir_call_cache[0], &collection, value, index);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "checkNotNull", NULL, 0, &source, value, index);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "checkNotNull", &_zephir_call_cache[1], &source, value, index);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -102,6 +103,10 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Set, checkNotNull)
 	zephir_get_arrval(&collection, collection_param);
 	if (Z_TYPE_P(index) != IS_NULL) {
 		zephir_array_update_zval(&collection, index, value, PH_COPY | PH_SEPARATE);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	RETURN_CTOR(&collection);
 }
@@ -131,6 +136,10 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Set, checkNull)
 	zephir_get_arrval(&collection, collection_param);
 	if (Z_TYPE_P(index) == IS_NULL) {
 		zephir_array_append(&collection, value, PH_SEPARATE, "phalcon/Support/Helper/Arr/Set.zep", 57);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	RETURN_CTOR(&collection);
 }

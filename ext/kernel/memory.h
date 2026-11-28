@@ -66,6 +66,8 @@ void zephir_create_symbol_table(zephir_method_globals *g);
 
 int zephir_set_symbol(zval *key_name, zval *value);
 int zephir_set_symbol_str(const char *key_name, size_t key_length, zval *value);
+int zephir_set_symbol_op(zval *key_name, zval *value, binary_op_type op);
+int zephir_set_symbol_str_op(const char *key_name, size_t key_length, zval *value, binary_op_type op);
 
 #define ZEPHIR_INIT_VAR(z) \
 	zephir_memory_observe(z); \
@@ -79,7 +81,7 @@ int zephir_set_symbol_str(const char *key_name, size_t key_length, zval *value);
 			if (Z_REFCOUNT_P(z) > 1) { \
 				Z_DELREF_P(z); \
 			} else { \
-				zval_dtor(z); \
+				zval_ptr_dtor_nogc(z); \
 			} \
 		} \
 		ZVAL_NULL(z); \
@@ -110,11 +112,6 @@ int zephir_set_symbol_str(const char *key_name, size_t key_length, zval *value);
 	} \
 	ZVAL_COPY(z, v);
 
-#define ZEPHIR_HASH_COPY(z, v) \
-	if (Z_TYPE_P(z) == IS_ARRAY && Z_TYPE_P(v) == IS_ARRAY) { \
-		zend_hash_copy(Z_ARRVAL_P(z), Z_ARRVAL_P(v), (copy_ctor_func_t) zval_add_ref); \
-	}
-
 #define ZEPHIR_OBS_NVAR(z) \
 	if (Z_TYPE_P(z) != IS_UNDEF) { \
 		if (Z_REFCOUNTED_P(z) && Z_REFCOUNT_P(z) > 1) { \
@@ -126,6 +123,23 @@ int zephir_set_symbol_str(const char *key_name, size_t key_length, zval *value);
 	} else { \
 		zephir_memory_observe(z); \
 	}
+
+/**
+ * Makes a never assigned local null and registers it with the memory frame,
+ * as PHP makes an undefined variable null before passing it by reference. A
+ * local handed to a by-reference parameter needs it, since only the callee
+ * assigns it, and the method must release what it stored there. Being null
+ * afterwards, even when the callee assigned nothing, it is registered once.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2824
+ */
+#define ZEPHIR_OBSERVE_IF_UNDEF(z) \
+	do { \
+		if (Z_TYPE_P(z) == IS_UNDEF) { \
+			zephir_memory_observe(z); \
+			ZVAL_NULL(z); \
+		} \
+	} while (0)
 
 /* TODO: this might causes troubles, since we cannot observe here, since we aren't using double pointers
  * figure out away to fix this (if it's an issue, which it isn't if observing isn't necessary)

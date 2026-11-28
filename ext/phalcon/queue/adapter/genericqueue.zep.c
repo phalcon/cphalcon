@@ -20,7 +20,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Implementation of this component has been inspired by the queue-interop and
@@ -71,6 +71,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_GenericQueue, __construct)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&queueName_zv, queueName);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1284, &queueName_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**

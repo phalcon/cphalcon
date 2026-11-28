@@ -24,7 +24,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Support_Collection_Exceptions_InvalidValueType)
@@ -45,6 +45,7 @@ PHP_METHOD(Phalcon_Support_Collection_Exceptions_InvalidValueType, __construct)
 	ZVAL_UNDEF(&value_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(type)
 		Z_PARAM_ZVAL(value)
@@ -54,11 +55,15 @@ PHP_METHOD(Phalcon_Support_Collection_Exceptions_InvalidValueType, __construct)
 	value = ZEND_CALL_ARG(execute_data, 2);
 	zephir_memory_observe(&type_zv);
 	ZVAL_STR_COPY(&type_zv, type);
-	ZEPHIR_CALL_FUNCTION(&_0, "get_debug_type", NULL, 0, value);
+	ZEPHIR_CALL_FUNCTION(&_0, "get_debug_type", NULL, 110, value);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_SVSVS(&_1, "Value must be of type '", &type_zv, "', '", &_0, "' given");
-	ZEPHIR_CALL_PARENT(NULL, phalcon_support_collection_exceptions_invalidvaluetype_ce, getThis(), "__construct", NULL, 0, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_support_collection_exceptions_invalidvaluetype_ce, getThis(), "__construct", &_zephir_call_cache[0], &_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

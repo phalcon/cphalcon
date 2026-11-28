@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -15,6 +15,7 @@ namespace Phalcon\Tests\Unit\Mvc\Micro;
 
 use Phalcon\Mvc\Micro;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use TypeError;
 
 class HandleTest extends AbstractUnitTestCase
 {
@@ -61,5 +62,39 @@ class HandleTest extends AbstractUnitTestCase
             'Hi Sid!',
             $helloSidResult
         );
+    }
+
+    /**
+     * A handler that cannot be called throws the TypeError of
+     * call_user_func_array(). The finish handlers do not run.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/815
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    public function testMvcMicroHandleNotCallable(): void
+    {
+        $micro    = new Micro();
+        $finished = false;
+
+        $micro->map('/fail', 'unknownHandlerFunction');
+        $micro->finish(
+            function () use (&$finished) {
+                $finished = true;
+            }
+        );
+
+        try {
+            $micro->handle('/fail');
+            $this->fail('No TypeError');
+        } catch (TypeError $ex) {
+            $this->assertSame(
+                'call_user_func_array(): Argument #1 ($callback) must be a valid callback, '
+                . 'function "unknownHandlerFunction" not found or invalid function name',
+                $ex->getMessage()
+            );
+        }
+
+        $this->assertFalse($finished);
     }
 }

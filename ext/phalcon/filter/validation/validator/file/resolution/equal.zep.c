@@ -17,7 +17,6 @@
 #include "kernel/operators.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
-#include "kernel/string.h"
 
 
 /**
@@ -25,7 +24,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
@@ -94,6 +93,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Resolution_Equal, __construc
 	zval options;
 
 	ZVAL_UNDEF(&options);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(options, options_param)
@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Resolution_Equal, __construc
 	} else {
 		zephir_get_arrval(&options, options_param);
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_filter_validation_validator_file_resolution_equal_ce, getThis(), "__construct", NULL, 0, &options);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_filter_validation_validator_file_resolution_equal_ce, getThis(), "__construct", &_zephir_call_cache[0], &options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -117,10 +117,10 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Resolution_Equal, __construc
  */
 PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Resolution_Equal, validate)
 {
-	zend_bool _4;
+	zend_bool _1, _2, _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validation, validation_sub, *field, field_sub, height, equalHeight, equalWidth, resolution, resolutionArray, tmp, value, width, replacePairs, _0, _1, _2, _3$$5, _5$$6;
+	zval *validation, validation_sub, *field, field_sub, height, equalHeight, equalWidth, dimensions, resolution, size, width, replacePairs, _0, _4$$4;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
@@ -128,17 +128,14 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Resolution_Equal, validate)
 	ZVAL_UNDEF(&height);
 	ZVAL_UNDEF(&equalHeight);
 	ZVAL_UNDEF(&equalWidth);
+	ZVAL_UNDEF(&dimensions);
 	ZVAL_UNDEF(&resolution);
-	ZVAL_UNDEF(&resolutionArray);
-	ZVAL_UNDEF(&tmp);
-	ZVAL_UNDEF(&value);
+	ZVAL_UNDEF(&size);
 	ZVAL_UNDEF(&width);
 	ZVAL_UNDEF(&replacePairs);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_3$$5);
-	ZVAL_UNDEF(&_5$$6);
+	ZVAL_UNDEF(&_4$$4);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[4];
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_filter_validation_ce)
 		Z_PARAM_ZVAL(field)
@@ -146,52 +143,66 @@ PHP_METHOD(Phalcon_Filter_Validation_Validator_File_Resolution_Equal, validate)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &validation, &field);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkUpload", NULL, 0, validation, field);
+	ZEPHIR_CALL_METHOD_CACHED(&size, this_ptr, "getUploadedImageSize", &_zephir_call_cache[0], validation, field);
 	zephir_check_call_status();
-	if (ZEPHIR_IS_FALSE_IDENTICAL(&_0)) {
-		RETURN_MM_BOOL(0);
-	}
-	ZEPHIR_CALL_METHOD(&value, validation, "getValue", NULL, 0, field);
-	zephir_check_call_status();
-	zephir_memory_observe(&_1);
-	zephir_array_fetch_string(&_1, &value, SL("tmp_name"), PH_NOISY, "phalcon/Filter/Validation/Validator/File/Resolution/Equal.zep", 91);
-	ZEPHIR_CALL_FUNCTION(&tmp, "getimagesize", NULL, 0, &_1);
-	zephir_check_call_status();
-	if (ZEPHIR_IS_FALSE_IDENTICAL(&tmp)) {
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendMessageValid", NULL, 0, validation, field);
-		zephir_check_call_status();
+	if (ZEPHIR_IS_FALSE_IDENTICAL(&size)) {
 		RETURN_MM_BOOL(0);
 	}
 	zephir_memory_observe(&width);
-	zephir_array_fetch_long(&width, &tmp, 0, PH_NOISY, "phalcon/Filter/Validation/Validator/File/Resolution/Equal.zep", 100);
+	zephir_array_fetch_long(&width, &size, 0, PH_NOISY, "phalcon/Filter/Validation/Validator/File/Resolution/Equal.zep", 91);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_memory_observe(&height);
-	zephir_array_fetch_long(&height, &tmp, 1, PH_NOISY, "phalcon/Filter/Validation/Validator/File/Resolution/Equal.zep", 101);
-	ZEPHIR_INIT_VAR(&_2);
-	ZVAL_STRING(&_2, "resolution");
-	ZEPHIR_CALL_METHOD(&resolution, this_ptr, "getOption", NULL, 0, &_2);
+	zephir_array_fetch_long(&height, &size, 1, PH_NOISY, "phalcon/Filter/Validation/Validator/File/Resolution/Equal.zep", 92);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_INIT_VAR(&_0);
+	ZVAL_STRING(&_0, "resolution");
+	ZEPHIR_CALL_METHOD_CACHED(&dimensions, this_ptr, "getDimensionsOption", &_zephir_call_cache[1], field, &_0);
 	zephir_check_call_status();
-	if (Z_TYPE_P(&resolution) == IS_ARRAY) {
-		zephir_memory_observe(&_3$$5);
-		zephir_array_fetch(&_3$$5, &resolution, field, PH_NOISY, "phalcon/Filter/Validation/Validator/File/Resolution/Equal.zep", 106);
-		ZEPHIR_CPY_WRT(&resolution, &_3$$5);
+	zephir_memory_observe(&resolution);
+	zephir_array_fetch_long(&resolution, &dimensions, 0, PH_NOISY, "phalcon/Filter/Validation/Validator/File/Resolution/Equal.zep", 95);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
 	}
-	ZEPHIR_INIT_VAR(&resolutionArray);
-	zephir_fast_explode_str(&resolutionArray, SL("x"), &resolution, ZEND_LONG_MAX);
 	zephir_memory_observe(&equalWidth);
-	zephir_array_fetch_long(&equalWidth, &resolutionArray, 0, PH_NOISY, "phalcon/Filter/Validation/Validator/File/Resolution/Equal.zep", 110);
-	zephir_memory_observe(&equalHeight);
-	zephir_array_fetch_long(&equalHeight, &resolutionArray, 1, PH_NOISY, "phalcon/Filter/Validation/Validator/File/Resolution/Equal.zep", 111);
-	_4 = !ZEPHIR_IS_EQUAL(&width, &equalWidth);
-	if (!(_4)) {
-		_4 = !ZEPHIR_IS_EQUAL(&height, &equalHeight);
+	zephir_array_fetch_long(&equalWidth, &dimensions, 1, PH_NOISY, "phalcon/Filter/Validation/Validator/File/Resolution/Equal.zep", 96);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
 	}
-	if (_4) {
+	zephir_memory_observe(&equalHeight);
+	zephir_array_fetch_long(&equalHeight, &dimensions, 2, PH_NOISY, "phalcon/Filter/Validation/Validator/File/Resolution/Equal.zep", 97);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	_1 = !ZEPHIR_IS_EQUAL(&width, &equalWidth);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	_2 = _1;
+	if (!(_2)) {
+		_3 = !ZEPHIR_IS_EQUAL(&height, &equalHeight);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		_2 = _3;
+	}
+	if (_2) {
 		ZEPHIR_INIT_VAR(&replacePairs);
 		zephir_create_array(&replacePairs, 1, 0);
 		zephir_array_update_string(&replacePairs, SL(":resolution"), &resolution, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_METHOD(&_5$$6, this_ptr, "messageFactory", NULL, 0, validation, field, &replacePairs);
+		ZEPHIR_CALL_METHOD_CACHED(&_4$$4, this_ptr, "messageFactory", &_zephir_call_cache[2], validation, field, &replacePairs);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, validation, "appendMessage", NULL, 0, &_5$$6);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, validation, "appendMessage", &_zephir_call_cache[3], &_4$$4);
 		zephir_check_call_status();
 		RETURN_MM_BOOL(0);
 	}

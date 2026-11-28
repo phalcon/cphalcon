@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -17,7 +17,7 @@ use Phalcon\Html\Link\EvolvableLinkProvider;
 use Phalcon\Html\Link\Link;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
-use function spl_object_hash;
+use function spl_object_id;
 
 final class GetLinksTest extends AbstractUnitTestCase
 {
@@ -34,8 +34,8 @@ final class GetLinksTest extends AbstractUnitTestCase
         $link  = new EvolvableLinkProvider($links);
 
         $expected = [
-            spl_object_hash($links[0]) => $links[0],
-            spl_object_hash($links[1]) => $links[1],
+            spl_object_id($links[0]) => $links[0],
+            spl_object_id($links[1]) => $links[1],
         ];
 
         $this->assertSame($expected, $link->getLinks());

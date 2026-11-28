@@ -24,7 +24,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
@@ -97,7 +97,7 @@ PHP_METHOD(Phalcon_Events_Event, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool cancelable, _0;
+	zend_bool cancelable = 1, _0;
 	zval type_zv, *source = NULL, source_sub, *data = NULL, data_sub, *cancelable_param = NULL, __$true, __$false, __$null, _1$$3, _2$$3;
 	zend_string *type = NULL;
 	zval *this_ptr = getThis();
@@ -110,6 +110,7 @@ PHP_METHOD(Phalcon_Events_Event, __construct)
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	static zend_string *_zephir_prop_2 = NULL;
@@ -156,10 +157,6 @@ PHP_METHOD(Phalcon_Events_Event, __construct)
 		data = &data_sub;
 		data = &__$null;
 	}
-	if (!cancelable_param) {
-		cancelable = 1;
-	} else {
-		}
 	_0 = Z_TYPE_P(source) != IS_NULL;
 	if (_0) {
 		_0 = Z_TYPE_P(source) != IS_OBJECT;
@@ -167,21 +164,43 @@ PHP_METHOD(Phalcon_Events_Event, __construct)
 	if (UNEXPECTED(_0)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_events_exceptions_invalideventsource_ce);
+		zephir_constructor_start(&_1$$3);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		zephir_gettype(&_2$$3, source);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0, &type_zv, &_2$$3);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[0], &type_zv, &_2$$3);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1$$3);
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Events/Event.zep", 73);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 744, &type_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 745, source);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 746, data);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 746, &type_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 747, source);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 748, data);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (cancelable) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 747, &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 749, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 747, &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 749, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	ZEPHIR_MM_RESTORE();
 }
@@ -263,7 +282,10 @@ PHP_METHOD(Phalcon_Events_Event, setData)
 		data = &data_sub;
 		data = &__$null;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 746, data);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 748, data);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 
@@ -286,7 +308,10 @@ PHP_METHOD(Phalcon_Events_Event, setType)
 		Z_PARAM_STR(type)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&type_zv, type);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 744, &type_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 746, &type_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	RETURN_THISW();
 }
 
@@ -312,6 +337,7 @@ PHP_METHOD(Phalcon_Events_Event, stop)
 	ZVAL_BOOL(&__$false, 0);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -323,20 +349,34 @@ PHP_METHOD(Phalcon_Events_Event, stop)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 747, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 749, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (UNEXPECTED(!zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_events_exceptions_eventnotcancelable_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
+		zephir_constructor_start(&_1$$3);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1$$3);
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Events/Event.zep", 162);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	if (1) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 748, &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 750, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 748, &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 750, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	RETURN_THIS();
 }

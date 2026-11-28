@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -51,5 +51,37 @@ final class VersionTest extends AbstractUnitTestCase
 
         $this->assertSame([], $adapter->getRoles());
         $this->assertSame([], $adapter->getComponents());
+    }
+
+    /**
+     * A version that is not an integer or a string gives InvalidSnapshot with
+     * its type, and no "Array to string conversion" warning.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17800
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-26
+     */
+    public function testVersionNotScalarThrows(): void
+    {
+        $backend = new StorageMemory(new SerializerFactory());
+        $backend->set(
+            'acl-ver',
+            [
+                'version'         => [1],
+                'access'          => [],
+                'accessList'      => [],
+                'components'      => [],
+                'componentsNames' => [],
+                'roles'           => [],
+                'roleInherits'    => [],
+            ]
+        );
+
+        $this->expectException(InvalidSnapshot::class);
+        $this->expectExceptionMessage(
+            "Incompatible ACL snapshot version of type 'array'; expected '1'"
+        );
+
+        new Storage($backend, 'acl-ver');
     }
 }

@@ -25,6 +25,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, prepare);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, query);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, rollback);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, setAutoReconnect);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, buildReferences);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, getDsnDefaults);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, isConnectionError);
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, prepareRealSql);
@@ -121,6 +122,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_db_adapter_pdo_abstractp
 	ZEND_ARG_TYPE_INFO(0, autoReconnect, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_buildreferences, 0, 1, IS_ARRAY, 0)
+	ZEND_ARG_ARRAY_INFO(0, records, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_getdsndefaults, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
@@ -179,6 +184,7 @@ PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, getInternalHandler, arginfo_phalcon_d
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, query, arginfo_phalcon_db_adapter_pdo_abstractpdo_query, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, rollback, arginfo_phalcon_db_adapter_pdo_abstractpdo_rollback, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, setAutoReconnect, arginfo_phalcon_db_adapter_pdo_abstractpdo_setautoreconnect, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, buildReferences, arginfo_phalcon_db_adapter_pdo_abstractpdo_buildreferences, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, getDsnDefaults, arginfo_phalcon_db_adapter_pdo_abstractpdo_getdsndefaults, ZEND_ACC_ABSTRACT|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, isConnectionError, arginfo_phalcon_db_adapter_pdo_abstractpdo_isconnectionerror, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Db_Adapter_Pdo_AbstractPdo, prepareRealSql, arginfo_phalcon_db_adapter_pdo_abstractpdo_preparerealsql, ZEND_ACC_PROTECTED)

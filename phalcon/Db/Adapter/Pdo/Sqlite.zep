@@ -142,6 +142,13 @@ class Sqlite extends PdoAdapter
                 let definition["type"] = Column::TYPE_BIGINTEGER,
                     definition["isNumeric"] = true,
                     definition["bindType"] = Column::BIND_PARAM_STR;
+            } elseif memstr(columnType, "tinyint(1)") {
+                /**
+                 * Tinyint(1) is boolean
+                 */
+                let definition["type"] = Column::TYPE_BOOLEAN,
+                    definition["bindType"] = Column::BIND_PARAM_BOOL,
+                    columnType = "boolean"; // Change column type to skip size check
             } elseif memstr(columnType, "int") {
                 /**
                  * Smallint/Integers/Int are int
@@ -153,13 +160,6 @@ class Sqlite extends PdoAdapter
                 if field[5] {
                     let definition["autoIncrement"] = true;
                 }
-            } elseif memstr(columnType, "tinyint(1)") {
-                /**
-                 * Tinyint(1) is boolean
-                 */
-                let definition["type"] = Column::TYPE_BOOLEAN,
-                    definition["bindType"] = Column::BIND_PARAM_BOOL,
-                    columnType = "boolean"; // Change column type to skip size check
 
             /**
              * ENUM
@@ -200,7 +200,7 @@ class Sqlite extends PdoAdapter
                  */
                 let definition["type"] = Column::TYPE_FLOAT,
                     definition["isNumeric"] = true,
-                    definition["bindType"] = Column::TYPE_DECIMAL;
+                    definition["bindType"] = Column::BIND_PARAM_DECIMAL;
             } elseif memstr(columnType, "real") {
                 /**
                  * Real are float
@@ -237,6 +237,20 @@ class Sqlite extends PdoAdapter
                  */
                 let definition["type"] = Column::TYPE_TEXT;
 
+            /**
+             * TINYBLOB/MEDIUMBLOB/LONGBLOB/BLOB
+             *
+             * The `blob` check must be last because the other names contain it.
+             */
+            } elseif memstr(columnType, "tinyblob") {
+                let definition["type"] = Column::TYPE_TINYBLOB;
+            } elseif memstr(columnType, "mediumblob") {
+                let definition["type"] = Column::TYPE_MEDIUMBLOB;
+            } elseif memstr(columnType, "longblob") {
+                let definition["type"] = Column::TYPE_LONGBLOB;
+            } elseif memstr(columnType, "blob") {
+                let definition["type"] = Column::TYPE_BLOB;
+
             } else {
                 /**
                  * By default is string
@@ -271,7 +285,7 @@ class Sqlite extends PdoAdapter
             /**
              * Positions
              */
-            if oldColumn == null {
+            if oldColumn === null {
                 let definition["first"] = true;
             } else {
                 let definition["after"] = oldColumn;
@@ -406,12 +420,19 @@ class Sqlite extends PdoAdapter
     {
         var references, reference, arrayReference, constraintName,
             referenceObjects, name, referencedSchema, referencedTable, columns,
-            referencedColumns, number;
+            referencedColumns, referencedColumn, primaryKeys, primaryKey, column;
+        int position;
 
-        let references = [];
+        let references = [],
+            primaryKeys = [];
 
-        for number, reference in this->fetchAll(this->dialect->describeReferences(table, schema), Enum::FETCH_NUM) {
-            let constraintName = "foreign_key_" . number;
+        /**
+         * PRAGMA foreign_key_list gives one row for each column of a key. The
+         * rows of one key have the same id (column 0), in the order of the
+         * key columns (column 1).
+         */
+        for reference in this->fetchAll(this->dialect->describeReferences(table, schema), Enum::FETCH_NUM) {
+            let constraintName = "foreign_key_" . reference[0];
 
             if !isset references[constraintName] {
                 let referencedSchema = null;
@@ -425,8 +446,38 @@ class Sqlite extends PdoAdapter
                 let referencedColumns = references[constraintName]["referencedColumns"];
             }
 
+            let referencedColumn = reference[4];
+
+            /**
+             * A key with no referenced columns references the primary key of
+             * the referenced table, and its rows have null in column 4. The
+             * primary key columns come in the order of pk (column 5 of
+             * PRAGMA table_xinfo), and match the key columns by position.
+             */
+            if referencedColumn === null {
+                if !fetch primaryKey, primaryKeys[referencedTable] {
+                    let primaryKey = [];
+
+                    for column in this->fetchAll(this->dialect->describeColumns(referencedTable), Enum::FETCH_NUM) {
+                        let position = (int) column[5];
+
+                        if position > 0 {
+                            let primaryKey[position - 1] = column[1];
+                        }
+                    }
+
+                    let primaryKeys[referencedTable] = primaryKey;
+                }
+
+                let position = (int) reference[1];
+
+                if !fetch referencedColumn, primaryKey[position] {
+                    let referencedColumn = null;
+                }
+            }
+
             let columns[] = reference[3],
-                referencedColumns[] = reference[4];
+                referencedColumns[] = referencedColumn;
 
             let references[constraintName] = [
                 "referencedSchema"  : referencedSchema,

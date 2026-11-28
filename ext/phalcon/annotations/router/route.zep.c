@@ -22,7 +22,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
@@ -181,12 +181,36 @@ PHP_METHOD(Phalcon_Annotations_Router_Route, __construct)
 		beforeMatch = &beforeMatch_sub;
 		beforeMatch = &__$null;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 39, &route_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 40, methods);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 41, &name_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 42, &paths);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 43, &converters);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 44, beforeMatch);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 40, &route_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 41, methods);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 42, &name_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 43, &paths);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 44, &converters);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_5, 45, beforeMatch);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

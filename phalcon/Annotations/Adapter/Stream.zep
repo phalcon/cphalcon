@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -36,6 +36,14 @@ use RuntimeException;
 class Stream extends AbstractAdapter
 {
     use FileTrait;
+
+    /**
+     * The start of each cache file. PHP stops at __halt_compiler(), so a web
+     * request to a cache file shows nothing.
+     *
+     * @var string
+     */
+    const FILE_HEADER = "<?php __halt_compiler();";
 
     /**
      * @var string
@@ -83,6 +91,13 @@ class Stream extends AbstractAdapter
             return false;
         }
 
+        /**
+         * A file with no header, from an earlier version, is read as it is
+         */
+        if starts_with(contents, self::FILE_HEADER) {
+            let contents = substr(contents, strlen(self::FILE_HEADER));
+        }
+
         globals_set("warning.enable", false);
         set_error_handler(
             function (number, message, file, line) {
@@ -113,6 +128,13 @@ class Stream extends AbstractAdapter
             throw new CannotReadAnnotationData();
         }
 
+        /**
+         * A file that does not hold a Reflection object is a miss
+         */
+        if typeof contents !== "object" || !(contents instanceof Reflection) {
+            return false;
+        }
+
         return contents;
     }
 
@@ -128,7 +150,7 @@ class Stream extends AbstractAdapter
          * Paths must be normalized before be used as keys
          */
         let path = this->getFilePath(key),
-            code = serialize(data);
+            code = self::FILE_HEADER . serialize(data);
 
         if unlikely this->phpFilePutContents(path, code) === false {
             throw new AnnotationsDirectoryNotWritable();
@@ -138,7 +160,9 @@ class Stream extends AbstractAdapter
     /**
      * Builds the cache file path. Namespace separators become "_", so a
      * name that itself contains "_" gets a hash suffix; otherwise "A\\B"
-     * and "A_B" would share one file.
+     * and "A_B" would share one file. The name also stops at a NUL byte,
+     * which is in the name of each anonymous class, so a shorter name gets
+     * the hash suffix too.
      */
     private function getFilePath(string key) -> string
     {
@@ -146,7 +170,7 @@ class Stream extends AbstractAdapter
 
         let name = prepare_virtual_path(key, "_");
 
-        if memstr(key, "_") {
+        if memstr(key, "_") || strlen(name) !== strlen(key) {
             let name = name . "_" . sha1(key);
         }
 

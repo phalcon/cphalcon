@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Implementation of this file has been influenced by sinbadxiii/cphalcon-auth
@@ -105,6 +105,23 @@ final class ModelTest extends AbstractUnitTestCase
 
         $this->assertInstanceOf(FakeAuthUserModel::class, $user);
         $this->assertSame(1, $user->getAuthIdentifier());
+    }
+
+    /**
+     * A key with a newline at the end is not a plain identifier.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17804
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-26
+     */
+    public function testRetrieveByCredentialsRejectsKeyWithTrailingNewline(): void
+    {
+        $this->expectException(InvalidCredentialKey::class);
+        $this->expectExceptionMessage("Credential key 'email\n' is not a valid identifier");
+
+        $this->adapter->retrieveByCredentials([
+            "email\n" => 'alice@example.com',
+        ]);
     }
 
     public function testRetrieveByCredentialsRejectsUnsafeKey(): void

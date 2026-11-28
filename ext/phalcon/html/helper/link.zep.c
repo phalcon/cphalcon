@@ -22,7 +22,9 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * For the full copyright and license information, please view the LICENSE.md
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Implementation of this file has been influenced by AuraPHP
@@ -49,7 +51,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Link)
 PHP_METHOD(Phalcon_Html_Helper_Link, add)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long position, ZEPHIR_LAST_CALL_STATUS;
+	zend_long position = -1, ZEPHIR_LAST_CALL_STATUS;
 	zval attributes, _0, _2;
 	zval url_zv, *attributes_param = NULL, *position_param = NULL, _1, _3, _4;
 	zend_string *url = NULL;
@@ -62,6 +64,7 @@ PHP_METHOD(Phalcon_Html_Helper_Link, add)
 	ZVAL_UNDEF(&attributes);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[4];
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(url)
 		Z_PARAM_OPTIONAL
@@ -84,10 +87,6 @@ PHP_METHOD(Phalcon_Html_Helper_Link, add)
 	} else {
 		zephir_get_arrval(&attributes, attributes_param);
 	}
-	if (!position_param) {
-		position = -1;
-	} else {
-		}
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 3, 0);
 	ZEPHIR_INIT_VAR(&_1);
@@ -95,21 +94,21 @@ PHP_METHOD(Phalcon_Html_Helper_Link, add)
 	zephir_array_fast_append(&_0, &_1);
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_create_array(&_2, 3, 0);
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getTag", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_3, this_ptr, "getTag", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	zephir_array_fast_append(&_2, &_3);
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getAttributes", NULL, 0, &url_zv, &attributes);
+	ZEPHIR_CALL_METHOD_CACHED(&_3, this_ptr, "getAttributes", &_zephir_call_cache[1], &url_zv, &attributes);
 	zephir_check_call_status();
 	zephir_array_fast_append(&_2, &_3);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "/");
 	zephir_array_fast_append(&_2, &_1);
 	zephir_array_fast_append(&_0, &_2);
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "indent", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_3, this_ptr, "indent", &_zephir_call_cache[2]);
 	zephir_check_call_status();
 	zephir_array_fast_append(&_0, &_3);
 	ZVAL_LONG(&_4, position);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "pushOrPlace", NULL, 0, &_0, &_4);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "pushOrPlace", &_zephir_call_cache[3], &_0, &_4);
 	zephir_check_call_status();
 	RETURN_THIS();
 }
@@ -145,6 +144,10 @@ PHP_METHOD(Phalcon_Html_Helper_Link, getAttributes)
 	zephir_create_array(&required, 1, 0);
 	zephir_array_update_string(&required, SL("href"), &url_zv, PH_COPY | PH_SEPARATE);
 	zephir_array_unset_string(&attributes, SL("href"), PH_SEPARATE);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_fast_array_merge(return_value, &required, &attributes);
 	RETURN_MM();
 }

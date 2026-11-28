@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -125,7 +125,7 @@ abstract class AbstractLogger
     ) {
         var defaultTimezone;
 
-        if (null == timezone) {
+        if (null === timezone) {
             let defaultTimezone = date_default_timezone_get();
 
             if unlikely true === empty(defaultTimezone) {
@@ -367,7 +367,9 @@ abstract class AbstractLogger
          * regardless of the level filter so a filtered-out message cannot
          * leave the exclusion armed for the next call.
          */
-        let this->excluded = [];
+        if !empty this->excluded {
+            let this->excluded = [];
+        }
 
         return true;
     }

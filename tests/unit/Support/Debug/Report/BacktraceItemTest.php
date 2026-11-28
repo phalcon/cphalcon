@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -32,7 +32,6 @@ final class BacktraceItemTest extends AbstractUnitTestCase
     public function testGettersReturnConstructorValues(): void
     {
         $fragment = [
-            'mode'      => 'full',
             'firstLine' => 1,
             'line'      => 4,
             'lastLine'  => 9,

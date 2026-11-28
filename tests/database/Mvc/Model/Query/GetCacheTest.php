@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -16,12 +16,14 @@ namespace Phalcon\Tests\Database\Mvc\Model\Query;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cache\Cache;
 use Phalcon\Cache\CacheInterface;
+use Phalcon\Mvc\Model\Query;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Models\Invoices;
 use Phalcon\Tests\Support\Traits\DiTrait;
 use PHPUnit\Framework\Attributes\Group;
+use ReflectionMethod;
 
 #[Group('mysql')]
 #[Group('pgsql')]
@@ -63,5 +65,21 @@ final class GetCacheTest extends AbstractDatabaseTestCase
         $query->execute();
 
         $this->assertInstanceOf(CacheInterface::class, $query->getCache());
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/17796
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-25
+     */
+    public function testMvcModelQueryGetCacheBeforeExecute(): void
+    {
+        $this->assertNull((new Query())->getCache());
+
+        $method = new ReflectionMethod(Query::class, 'getCache');
+        $this->assertSame(
+            '?' . CacheInterface::class,
+            (string) $method->getReturnType()
+        );
     }
 }

@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -15,7 +15,9 @@ namespace Phalcon\Tests\Unit\ADR\Router\Router;
 
 use Phalcon\ADR\Router\Router;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\ADR\Hidden\GetHidden;
 use PHPUnit\Framework\Attributes\DataProvider;
+use TypeError;
 
 final class PathForTest extends AbstractUnitTestCase
 {
@@ -113,6 +115,27 @@ final class PathForTest extends AbstractUnitTestCase
             '/company/all',
             $router->pathFor(self::BASE . '\\Company\\All\\GetCompanyAll')
         );
+    }
+
+    /**
+     * Unit Tests Phalcon\ADR\Router\Router :: pathFor() with a params()
+     * method that cannot be called throws the TypeError of call_user_func()
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/815
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    public function testAdrRouterRouterPathForParamsNotCallable(): void
+    {
+        $router = (new Router())->setBaseNamespace('Phalcon\\Tests\\Support\\ADR');
+
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage(
+            'call_user_func(): Argument #1 ($callback) must be a valid callback, '
+            . 'cannot access private method ' . GetHidden::class . '::params()'
+        );
+
+        $router->pathFor(GetHidden::class);
     }
 
     /**

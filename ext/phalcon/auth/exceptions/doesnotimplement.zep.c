@@ -24,7 +24,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Implementation of this file has been influenced by sinbadxiii/cphalcon-auth
@@ -51,6 +51,7 @@ PHP_METHOD(Phalcon_Auth_Exceptions_DoesNotImplement, __construct)
 	ZVAL_UNDEF(&type_zv);
 	ZVAL_UNDEF(&name_zv);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(type)
 		Z_PARAM_STR(name)
@@ -63,7 +64,11 @@ PHP_METHOD(Phalcon_Auth_Exceptions_DoesNotImplement, __construct)
 	ZVAL_STR_COPY(&name_zv, name);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_VSVS(&_0, &type_zv, " does not implement '", &name_zv, "'");
-	ZEPHIR_CALL_PARENT(NULL, phalcon_auth_exceptions_doesnotimplement_ce, getThis(), "__construct", NULL, 0, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_auth_exceptions_doesnotimplement_ce, getThis(), "__construct", &_zephir_call_cache[0], &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -87,6 +92,7 @@ PHP_METHOD(Phalcon_Auth_Exceptions_DoesNotImplement, assert)
 	ZVAL_UNDEF(&type_zv);
 	ZVAL_UNDEF(&name_zv);
 	ZVAL_UNDEF(&_1$$3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(4, 4)
 		Z_PARAM_ZVAL(value)
 		Z_PARAM_STR(interfaceName)
@@ -102,15 +108,17 @@ PHP_METHOD(Phalcon_Auth_Exceptions_DoesNotImplement, assert)
 	ZVAL_STR_COPY(&type_zv, type);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	_0 = !(Z_TYPE_P(value) == IS_OBJECT);
+	_0 = !((Z_TYPE_P(value) == IS_OBJECT));
 	if (!(_0)) {
 		_0 = !((zephir_is_instance_of(value, Z_STRVAL_P(&interfaceName_zv), Z_STRLEN_P(&interfaceName_zv))));
 	}
 	if (_0) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_auth_exceptions_doesnotimplement_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 402, &type_zv, &name_zv);
+		zephir_constructor_start(&_1$$3);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[0], &type_zv, &name_zv);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1$$3);
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Auth/Exceptions/DoesNotImplement.zep", 43);
 		ZEPHIR_MM_RESTORE();
 		return;

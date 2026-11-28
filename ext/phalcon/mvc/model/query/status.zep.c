@@ -23,7 +23,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
@@ -109,11 +109,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct)
 		model = &__$null;
 	}
 	if (success) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1111, &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1113, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1111, &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1113, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1112, model);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1114, model);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**
@@ -128,6 +137,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages)
 
 	ZVAL_UNDEF(&model);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("model", 5, 1);
@@ -135,13 +145,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1112, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1114, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CPY_WRT(&model, &_0);
 	if (Z_TYPE_P(&model) != IS_OBJECT) {
 		array_init(return_value);
 		RETURN_MM();
 	}
-	ZEPHIR_RETURN_CALL_METHOD(&model, "getMessages", NULL, 0);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(&model, "getMessages", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	RETURN_MM();
 }

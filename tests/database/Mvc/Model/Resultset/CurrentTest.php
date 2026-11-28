@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -13,11 +13,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Mvc\Model\Resultset;
 
+use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\Row;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Models\Invoices;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
+use stdClass;
+
+use function get_debug_type;
 
 #[Group('phql')]
 final class CurrentTest extends AbstractDatabaseTestCase
@@ -47,6 +51,19 @@ final class CurrentTest extends AbstractDatabaseTestCase
     }
 
     /**
+     * The hydration mode and the type of each row.
+     *
+     * @return array<string, array{0: int, 1: string}>
+     */
+    public static function getHydrateModeExamples(): array
+    {
+        return [
+            'arrays'  => [Resultset::HYDRATE_ARRAYS, 'array'],
+            'objects' => [Resultset::HYDRATE_OBJECTS, stdClass::class],
+        ];
+    }
+
+    /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2026-06-22
      */
@@ -69,6 +86,38 @@ final class CurrentTest extends AbstractDatabaseTestCase
         }
 
         $this->assertInstanceOf($expected, $current);
+    }
+
+    /**
+     * With the hydration mode arrays or objects, a foreach on a simple
+     * resultset gives each row as an array or a stdClass.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/819
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getHydrateModeExamples')]
+    public function testMvcModelResultsetCurrentHydrateMode(int $mode, string $expected): void
+    {
+        $resultset = Invoices::find(['order' => 'inv_id']);
+        $resultset->setHydrateMode($mode);
+
+        $actual = [];
+        foreach ($resultset as $row) {
+            $actual[] = [get_debug_type($row), ((array) $row)['inv_title']];
+        }
+
+        $this->assertSame(
+            [
+                [$expected, 'inv-title-1'],
+                [$expected, 'inv-title-2'],
+                [$expected, 'inv-title-3'],
+            ],
+            $actual
+        );
     }
 
     /**

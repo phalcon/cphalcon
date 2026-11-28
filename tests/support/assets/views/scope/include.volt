@@ -1,0 +1,1 @@
+{% set class_upper = 'upper' %}{% include 'scope/child' with ['other': 1] %}

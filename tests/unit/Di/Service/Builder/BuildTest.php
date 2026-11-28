@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -18,11 +18,55 @@ use Phalcon\Di\Exception;
 use Phalcon\Di\Service\Builder;
 use Phalcon\Html\Escaper;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Di\CallsComponent;
 use Phalcon\Tests\Support\Di\PropertiesComponent;
 use Phalcon\Tests\Support\Di\ServiceComponent;
+use PHPUnit\Framework\Attributes\DataProvider;
+use TypeError;
 
 final class BuildTest extends AbstractUnitTestCase
 {
+    /**
+     * With arguments, the builder calls call_user_func_array(). Without
+     * arguments, it calls call_user_func().
+     *
+     * @return array<string, array{0: array<string, mixed>, 1: string}>
+     */
+    public static function getNotCallableCalls(): array
+    {
+        $function      = 'call_user_func(): Argument #1 ($callback) must be a valid callback, ';
+        $functionArray = 'call_user_func_array(): Argument #1 ($callback) must be a valid callback, ';
+        $missing       = 'class ' . CallsComponent::class . ' does not have a method "missing"';
+        $parameter     = [['type' => 'parameter', 'value' => 5]];
+
+        return [
+            'missing, arguments'       => [
+                ['method' => 'missing', 'arguments' => $parameter],
+                $functionArray . $missing,
+            ],
+            'missing, no arguments'    => [
+                ['method' => 'missing'],
+                $function . $missing,
+            ],
+            'missing, empty arguments' => [
+                ['method' => 'missing', 'arguments' => []],
+                $function . $missing,
+            ],
+            'private, arguments'       => [
+                ['method' => 'hidden', 'arguments' => $parameter],
+                $functionArray . 'cannot access private method ' . CallsComponent::class . '::hidden()',
+            ],
+            'protected, no arguments'  => [
+                ['method' => 'guarded'],
+                $function . 'cannot access protected method ' . CallsComponent::class . '::guarded()',
+            ],
+            'not a string'             => [
+                ['method' => 5],
+                $function . 'second array member is not a valid method',
+            ],
+        ];
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-09
@@ -316,6 +360,36 @@ final class BuildTest extends AbstractUnitTestCase
         ];
 
         $builder->build($container, $definition);
+    }
+
+    /**
+     * A `calls` method that cannot be called throws the TypeError of
+     * call_user_func() or call_user_func_array(). The build stops.
+     *
+     * @param array<string, mixed> $call
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/808
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-15
+     */
+    #[DataProvider('getNotCallableCalls')]
+    public function testDiServiceBuilderBuildInstanceWithCallsNotCallable(
+        array $call,
+        string $expected
+    ): void {
+        $definition = [
+            'className' => CallsComponent::class,
+            'calls'     => [
+                ['method' => 'first'],
+                $call,
+                ['method' => 'first'],
+            ],
+        ];
+
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage($expected);
+
+        (new Builder())->build(new Di(), $definition);
     }
 
     /**

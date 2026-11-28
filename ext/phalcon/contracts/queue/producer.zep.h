@@ -19,15 +19,15 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_queue_producer
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_queue_producer_setdeliverydelay, 0, 0, Phalcon\\Contracts\\Queue\\Producer, 0)
-	ZEND_ARG_INFO(0, deliveryDelay)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, deliveryDelay, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_queue_producer_setpriority, 0, 0, Phalcon\\Contracts\\Queue\\Producer, 0)
-	ZEND_ARG_INFO(0, priority)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, priority, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_contracts_queue_producer_settimetolive, 0, 0, Phalcon\\Contracts\\Queue\\Producer, 0)
-	ZEND_ARG_INFO(0, timeToLive)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, timeToLive, "null")
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_contracts_queue_producer_method_entry) {

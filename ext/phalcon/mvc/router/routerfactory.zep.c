@@ -25,7 +25,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
@@ -65,19 +65,20 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_RouterFactory)
  */
 PHP_METHOD(Phalcon_Mvc_Router_RouterFactory, load)
 {
-	zend_bool defaultRoutes = 0;
+	zend_bool defaultRoutes = 0, _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *config = NULL, config_sub, router, _4, _0$$4, _1$$3, _2$$5, _3$$6;
+	zval *config = NULL, config_sub, router, _5, _0$$4, _1$$3, _2$$5, _4$$6;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&config_sub);
 	ZVAL_UNDEF(&router);
-	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_0$$4);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$5);
-	ZVAL_UNDEF(&_3$$6);
+	ZVAL_UNDEF(&_4$$6);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[5];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(config)
 	ZEND_PARSE_PARAMETERS_END();
@@ -89,39 +90,52 @@ PHP_METHOD(Phalcon_Mvc_Router_RouterFactory, load)
 		if (!(zephir_instance_of_ev(config, phalcon_config_configinterface_ce))) {
 			ZEPHIR_INIT_VAR(&_0$$4);
 			object_init_ex(&_0$$4, phalcon_mvc_router_exceptions_invalidrouterfactoryconfig_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_0$$4, "__construct", NULL, 0);
+			zephir_constructor_start(&_0$$4);
+			ZEPHIR_CALL_METHOD_CACHED(NULL, &_0$$4, "__construct", &_zephir_call_cache[0]);
 			zephir_check_call_status();
+			zephir_constructor_finish(&_0$$4);
 			zephir_throw_exception_debug(&_0$$4, "phalcon/Mvc/Router/RouterFactory.zep", 54);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZEPHIR_CALL_METHOD(&_1$$3, config, "toArray", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(&_1$$3, config, "toArray", &_zephir_call_cache[1]);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(config, &_1$$3);
 	}
 	if (Z_TYPE_P(config) != IS_ARRAY) {
 		ZEPHIR_INIT_VAR(&_2$$5);
 		object_init_ex(&_2$$5, phalcon_mvc_router_exceptions_invalidrouterfactoryconfig_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_2$$5, "__construct", NULL, 0);
+		zephir_constructor_start(&_2$$5);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_2$$5, "__construct", &_zephir_call_cache[2]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_2$$5);
 		zephir_throw_exception_debug(&_2$$5, "phalcon/Mvc/Router/RouterFactory.zep", 60);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	defaultRoutes = 1;
-	if (zephir_array_isset_value_string(config, SL("defaultRoutes"))) {
-		zephir_memory_observe(&_3$$6);
-		zephir_array_fetch_string(&_3$$6, config, SL("defaultRoutes"), PH_NOISY, "phalcon/Mvc/Router/RouterFactory.zep", 65);
-		defaultRoutes = zephir_get_boolval(&_3$$6);
+	_3 = zephir_array_isset_value_string(config, SL("defaultRoutes"));
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_3) {
+		zephir_memory_observe(&_4$$6);
+		zephir_array_fetch_string(&_4$$6, config, SL("defaultRoutes"), PH_NOISY, "phalcon/Mvc/Router/RouterFactory.zep", 65);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		defaultRoutes = zephir_get_boolval(&_4$$6);
 	}
 	if (defaultRoutes) {
-		ZVAL_BOOL(&_4, 1);
+		ZVAL_BOOL(&_5, 1);
 	} else {
-		ZVAL_BOOL(&_4, 0);
+		ZVAL_BOOL(&_5, 0);
 	}
-	ZEPHIR_CALL_METHOD(&router, this_ptr, "newInstance", NULL, 0, &_4);
+	ZEPHIR_CALL_METHOD_CACHED(&router, this_ptr, "newInstance", &_zephir_call_cache[3], &_5);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &router, "loadFromConfig", NULL, 0, config);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &router, "loadFromConfig", &_zephir_call_cache[4], config);
 	zephir_check_call_status();
 	RETURN_CCTOR(&router);
 }
@@ -138,9 +152,10 @@ PHP_METHOD(Phalcon_Mvc_Router_RouterFactory, newInstance)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *defaultRoutes_param = NULL, _0;
-	zend_bool defaultRoutes;
+	zend_bool defaultRoutes = 1;
 
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_BOOL(defaultRoutes)
@@ -148,18 +163,16 @@ PHP_METHOD(Phalcon_Mvc_Router_RouterFactory, newInstance)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 0, 1, &defaultRoutes_param);
-	if (!defaultRoutes_param) {
-		defaultRoutes = 1;
-	} else {
-		}
 	object_init_ex(return_value, phalcon_mvc_router_ce);
+	zephir_constructor_start(return_value);
 	if (defaultRoutes) {
 		ZVAL_BOOL(&_0, 1);
 	} else {
 		ZVAL_BOOL(&_0, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &_0);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &_0);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 

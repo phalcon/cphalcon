@@ -24,7 +24,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Geometry_Point)
@@ -44,7 +44,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Geometry_Point)
 
 PHP_METHOD(Phalcon_Db_Geometry_Point, __construct)
 {
-	zend_long srid;
+	zend_long srid = 0;
 	zval *x_param = NULL, *y_param = NULL, *srid_param = NULL, _0;
 	double x, y;
 	zval *this_ptr = getThis();
@@ -70,19 +70,24 @@ PHP_METHOD(Phalcon_Db_Geometry_Point, __construct)
 		Z_PARAM_LONG(srid)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(2, 1, &x_param, &y_param, &srid_param);
-	if (!srid_param) {
-		srid = 0;
-	} else {
-		}
 	ZVAL_UNDEF(&_0);
 	ZVAL_DOUBLE(&_0, x);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 646, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 648, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	ZVAL_UNDEF(&_0);
 	ZVAL_DOUBLE(&_0, y);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 647, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 649, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, srid);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 648, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 650, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 PHP_METHOD(Phalcon_Db_Geometry_Point, getType)
@@ -111,12 +116,17 @@ PHP_METHOD(Phalcon_Db_Geometry_Point, toWkt)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "coordsWkt", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "coordsWkt", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_SVS(return_value, "POINT(", &_0, ")");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_MM();
 }
 
@@ -135,9 +145,18 @@ PHP_METHOD(Phalcon_Db_Geometry_Point, coordsWkt)
 	if (UNEXPECTED(!_zephir_prop_1)) {
 		_zephir_prop_1 = zend_string_init("y", 1, 1);
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 646, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 647, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 648, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 649, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	ZEPHIR_CONCAT_VSV(return_value, &_0, " ", &_1);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	return;
 }
 

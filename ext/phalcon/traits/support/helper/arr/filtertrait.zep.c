@@ -23,7 +23,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Traits_Support_Helper_Arr_FilterTrait, toFilter)
 	if (_0) {
 		RETURN_CTOR(&collection);
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("array_filter", NULL, 31, &collection, method);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_filter", NULL, 20, &collection, method);
 	zephir_check_call_status();
 	RETURN_MM();
 }

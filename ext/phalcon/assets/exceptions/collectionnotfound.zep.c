@@ -24,7 +24,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Exceptions_CollectionNotFound)
@@ -45,6 +45,7 @@ PHP_METHOD(Phalcon_Assets_Exceptions_CollectionNotFound, __construct)
 	ZVAL_UNDEF(&name_zv);
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&_0$$3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR(name)
@@ -64,9 +65,13 @@ PHP_METHOD(Phalcon_Assets_Exceptions_CollectionNotFound, __construct)
 	if (!ZEPHIR_IS_STRING_IDENTICAL(&name_zv, "")) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZEPHIR_CONCAT_SVS(&_0$$3, "The collection '", &name_zv, "' does not exist in the manager");
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_CPY_WRT(&message, &_0$$3);
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_assets_exceptions_collectionnotfound_ce, getThis(), "__construct", NULL, 0, &message);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_assets_exceptions_collectionnotfound_ce, getThis(), "__construct", &_zephir_call_cache[0], &message);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

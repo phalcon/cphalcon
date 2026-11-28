@@ -10,7 +10,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, buildParameters);
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_service_builder_build, 0, 0, 2)
 	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 0)
 	ZEND_ARG_ARRAY_INFO(0, definition, 0)
-	ZEND_ARG_INFO(0, parameters)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, parameters, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_service_builder_buildparameter, 0, 0, 3)

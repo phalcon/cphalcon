@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -52,6 +52,19 @@ final class FormLegacyTest extends AbstractTagTestCase
         $this->assertSame('<form method="post">', Tag::formLegacy([]));
     }
 
+    /**
+     * A "parameters" key with a null value is a value, as in cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/837
+     */
+    public function testFormWithNullParameters(): void
+    {
+        $this->assertSame(
+            '<form action="https://phalcon.io/save?" method="post">',
+            Tag::formLegacy(['save', 'parameters' => null])
+        );
+    }
+
     public function testFormWithParameters(): void
     {
         $this->assertSame(
@@ -74,6 +87,21 @@ final class FormLegacyTest extends AbstractTagTestCase
         $this->assertSame(
             '<form action="https://phalcon.io/save" method="post">',
             Tag::formLegacy('save')
+        );
+    }
+
+    /**
+     * The first parameter comes before the "action" parameter, as in cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/843
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-21
+     */
+    public function testFormWithPositionalActionBeforeTheActionKey(): void
+    {
+        $this->assertSame(
+            '<form action="https://phalcon.io/save" method="post">',
+            Tag::formLegacy(['save', 'action' => 'other'])
         );
     }
 }

@@ -25,7 +25,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
@@ -80,6 +80,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate)
 	ZVAL_UNDEF(&_9);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_7);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	static zend_string *_zephir_prop_2 = NULL;
@@ -96,33 +97,55 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1249, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CPY_WRT(&config, &_0);
 	zephir_memory_observe(&items);
 	zephir_array_fetch_string(&items, &config, SL("data"), PH_NOISY, "phalcon/Paginator/Adapter/NativeArray.zep", 49);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (UNEXPECTED(Z_TYPE_P(&items) != IS_ARRAY)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_paginator_exceptions_paginatordatanotarray_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
+		zephir_constructor_start(&_1$$3);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1$$3);
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Paginator/Adapter/NativeArray.zep", 52);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_memory_observe(&_2);
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_1, 1250, PH_NOISY_CC);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	show = zephir_get_intval(&_2);
 	zephir_memory_observe(&_3);
 	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_2, 1251, PH_NOISY_CC);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	pageNumber = zephir_get_intval(&_3);
 	if (pageNumber <= 0) {
 		pageNumber = 1;
 	}
 	number = zephir_fast_count_int(&items);
 	ZVAL_LONG(&_0, show);
-	ZEPHIR_CALL_FUNCTION(&_4, "floatval", NULL, 33, &_0);
+	ZEPHIR_CALL_FUNCTION(&_4, "floatval", NULL, 22, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_5);
 	zephir_div_long_zval(&_5, number, &_4);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	roundedTotal = zephir_get_numberval(&_5);
 	totalPages = (int) roundedTotal;
 	if (totalPages != roundedTotal) {
@@ -130,7 +153,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate)
 	}
 	ZVAL_LONG(&_0, (show * ((pageNumber - 1))));
 	ZVAL_LONG(&_6, show);
-	ZEPHIR_CALL_FUNCTION(&_4, "array_slice", NULL, 283, &items, &_0, &_6);
+	ZEPHIR_CALL_FUNCTION(&_4, "array_slice", NULL, 83, &items, &_0, &_6);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&items, &_4);
 	if (pageNumber < totalPages) {
@@ -151,6 +174,10 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate)
 	zephir_array_update_string(&_7, SL("total_items"), &_8, PH_COPY | PH_SEPARATE);
 	zephir_memory_observe(&_9);
 	zephir_read_property_cached(&_9, this_ptr, _zephir_prop_1, 1250, PH_NOISY_CC);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_array_update_string(&_7, SL("limit"), &_9, PH_COPY | PH_SEPARATE);
 	add_assoc_long_ex(&_7, SL("first"), 1);
 	ZEPHIR_INIT_NVAR(&_8);
@@ -165,7 +192,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate)
 	ZEPHIR_INIT_NVAR(&_8);
 	ZVAL_LONG(&_8, totalPages);
 	zephir_array_update_string(&_7, SL("last"), &_8, PH_COPY | PH_SEPARATE);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getRepository", NULL, 0, &_7);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "getRepository", &_zephir_call_cache[1], &_7);
 	zephir_check_call_status();
 	RETURN_MM();
 }

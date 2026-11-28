@@ -23,7 +23,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
@@ -50,8 +50,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_StringValLegacy, __invoke)
 	zend_bool _0, _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval input_sub, major, minor, _2$$3;
-	zval *input;
+	zval *input, input_sub, major, minor, _2$$3;
 
 	ZVAL_UNDEF(&input_sub);
 	ZVAL_UNDEF(&major);
@@ -77,7 +76,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_StringValLegacy, __invoke)
 	}
 	if (_0) {
 		ZVAL_LONG(&_2$$3, 513);
-		ZEPHIR_RETURN_CALL_FUNCTION("filter_var", NULL, 0, input, &_2$$3);
+		ZEPHIR_RETURN_CALL_FUNCTION("filter_var", NULL, 150, input, &_2$$3);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

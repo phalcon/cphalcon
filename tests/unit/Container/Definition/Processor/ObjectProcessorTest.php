@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Implementation of this file has been heavily influenced by CapsulePHP.
@@ -37,6 +37,7 @@ use Phalcon\Container\Definition\DefinitionType;
 use Phalcon\Container\Definition\Processor\ObjectProcessor;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Container\Fake\FakeContainer;
+use ReflectionFunction;
 use stdClass;
 
 final class ObjectProcessorTest extends AbstractUnitTestCase
@@ -78,6 +79,41 @@ final class ObjectProcessorTest extends AbstractUnitTestCase
         $processor = new ObjectProcessor();
 
         $this->assertTrue($processor->canProcess(new stdClass()));
+    }
+
+    /**
+     * The service definition calls the factory with the container, so the
+     * factory declares it as an optional parameter.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17777
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-24
+     */
+    public function testContainerDefinitionProcessorObjectProcessorProcessFactoryAcceptsContainer(): void
+    {
+        $processor = new ObjectProcessor();
+
+        $def        = $processor->process('myService', new stdClass(), new FakeContainer());
+        $reflection = new ReflectionFunction($def->getFactory());
+
+        $this->assertSame(1, $reflection->getNumberOfParameters());
+        $this->assertSame(0, $reflection->getNumberOfRequiredParameters());
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/17777
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-24
+     */
+    public function testContainerDefinitionProcessorObjectProcessorProcessFactoryWithoutArguments(): void
+    {
+        $processor = new ObjectProcessor();
+        $instance  = new stdClass();
+
+        $def     = $processor->process('myService', $instance, new FakeContainer());
+        $factory = $def->getFactory();
+
+        $this->assertSame($instance, $factory());
     }
 
     /**

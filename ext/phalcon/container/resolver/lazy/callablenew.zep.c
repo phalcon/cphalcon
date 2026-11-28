@@ -21,7 +21,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Implementation of this file has been heavily influenced by CapsulePHP.
@@ -73,7 +73,10 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_CallableNew, __construct)
 		Z_PARAM_ZVAL(id)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &id);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 564, id);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 566, id);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**
@@ -95,11 +98,11 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_CallableNew, resolve)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &ioc);
 	ZEPHIR_INIT_VAR(&_0);
-	object_init_ex(&_0, phalcon_17__closure_ce);
+	object_init_ex(&_0, phalcon_16__closure_ce);
 	zephir_update_property_zval(&_0, SL("ioc"), ioc);
 	zephir_update_property_zval(&_0, SL("__$zephir_this"), this_ptr);
 	ZEPHIR_INIT_VAR(&instance);
-	zephir_create_closure_bound(&instance, &_0, this_ptr, phalcon_17__closure_ce, SL("__invoke"));
+	zephir_create_closure_bound(&instance, &_0, this_ptr, phalcon_16__closure_ce, SL("__invoke"));
 	RETURN_CCTOR(&instance);
 }
 

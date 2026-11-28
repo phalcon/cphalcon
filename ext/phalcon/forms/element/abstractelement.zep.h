@@ -69,7 +69,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_abstractelement_getattribute, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, attribute, IS_STRING, 0)
-	ZEND_ARG_INFO(0, defaultValue)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, defaultValue, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_element_abstractelement_getattributes, 0, 0, IS_ARRAY, 0)
@@ -98,7 +98,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_abstractelement_getuseroption, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, option, IS_STRING, 0)
-	ZEND_ARG_INFO(0, defaultValue)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, defaultValue, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_element_abstractelement_getuseroptions, 0, 0, IS_ARRAY, 0)

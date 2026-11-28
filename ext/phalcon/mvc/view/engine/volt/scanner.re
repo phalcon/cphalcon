@@ -1,11 +1,10 @@
-/* scanner.re
- *
+/**
  * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 #include "php_phalcon.h"
@@ -506,17 +505,6 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 		'iterable' {
 			s->statement_position++;
 			token->opcode = PHVOLT_T_ITERABLE;
-			return 0;
-		}
-
-		'cache' {
-			s->statement_position++;
-			token->opcode = PHVOLT_T_CACHE;
-			return 0;
-		}
-
-		'endcache' {
-			token->opcode = PHVOLT_T_ENDCACHE;
 			return 0;
 		}
 

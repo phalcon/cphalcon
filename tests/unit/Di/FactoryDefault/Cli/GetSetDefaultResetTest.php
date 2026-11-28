@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -16,7 +16,7 @@ namespace Phalcon\Tests\Unit\Di\FactoryDefault\Cli;
 use Phalcon\Di\FactoryDefault\Cli as Di;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
-use function spl_object_hash;
+use function spl_object_id;
 
 final class GetSetDefaultResetTest extends AbstractUnitTestCase
 {
@@ -50,8 +50,8 @@ final class GetSetDefaultResetTest extends AbstractUnitTestCase
         $actual = Di::getDefault();
         $this->assertInstanceOf($class, $actual);
 
-        $containerHash = spl_object_hash($container);
-        $currentHash   = spl_object_hash($actual);
+        $containerHash = spl_object_id($container);
+        $currentHash   = spl_object_id($actual);
         $this->assertSame($containerHash, $currentHash);
     }
 }

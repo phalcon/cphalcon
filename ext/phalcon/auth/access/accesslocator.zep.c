@@ -23,7 +23,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Implementation of this file has been influenced by sinbadxiii/cphalcon-auth
@@ -69,6 +69,7 @@ PHP_METHOD(Phalcon_Auth_Access_AccessLocator, newInstance)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("container", 9, 1);
@@ -81,10 +82,14 @@ PHP_METHOD(Phalcon_Auth_Access_AccessLocator, newInstance)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 442, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getService", NULL, 0, &name_zv);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 444, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_METHOD_CACHED(&_2, this_ptr, "getService", &_zephir_call_cache[0], &name_zv);
 	zephir_check_call_status();
-	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_auth_internal_containerresolver_ce, "resolveFresh", NULL, 0, &_1, &_2);
+	ZEPHIR_CALL_CE_STATIC_CACHED(&_0, phalcon_auth_internal_containerresolver_ce, "resolveFresh", &_zephir_call_cache[1], &_1, &_2);
 	zephir_check_call_status();
 	RETURN_CCTOR(&_0);
 }

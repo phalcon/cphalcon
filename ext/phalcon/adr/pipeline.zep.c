@@ -24,7 +24,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Based on the Action Domain Responder pattern
@@ -69,7 +69,7 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Pipeline)
 PHP_METHOD(Phalcon_ADR_Pipeline, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long index;
+	zend_long index = 0;
 	zval *middleware_param = NULL, *terminal, terminal_sub, *index_param = NULL, _0;
 	zval middleware;
 	zval *this_ptr = getThis();
@@ -100,15 +100,23 @@ PHP_METHOD(Phalcon_ADR_Pipeline, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 1, &middleware_param, &terminal, &index_param);
 	zephir_get_arrval(&middleware, middleware_param);
-	if (!index_param) {
-		index = 0;
-	} else {
-		}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 364, &middleware);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 365, terminal);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 366, &middleware);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 367, terminal);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, index);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 366, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 368, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -116,7 +124,7 @@ PHP_METHOD(Phalcon_ADR_Pipeline, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *request, request_sub, mw, next, _0, _1, _3, _4, _5, _6, _7, _8, _9, _2$$3;
+	zval *request, request_sub, mw, next, _0, _1, _3, _4, _5, _6, _7, _8, _9, _10, _2$$3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&request_sub);
@@ -131,7 +139,9 @@ PHP_METHOD(Phalcon_ADR_Pipeline, __invoke)
 	ZVAL_UNDEF(&_7);
 	ZVAL_UNDEF(&_8);
 	ZVAL_UNDEF(&_9);
+	ZVAL_UNDEF(&_10);
 	ZVAL_UNDEF(&_2$$3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[3];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	static zend_string *_zephir_prop_2 = NULL;
@@ -151,31 +161,75 @@ PHP_METHOD(Phalcon_ADR_Pipeline, __invoke)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &request);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 366, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 364, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 368, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 366, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (ZEPHIR_GE_LONG(&_0, zephir_fast_count_int(&_1))) {
-		zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_2, 365, PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_RETURN_CALL_METHOD(&_2$$3, "__invoke", NULL, 0, request);
+		zephir_read_property_cached(&_2$$3, this_ptr, _zephir_prop_2, 367, PH_NOISY_CC | PH_READONLY);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		ZEPHIR_RETURN_CALL_METHOD_CACHED(&_2$$3, "__invoke", &_zephir_call_cache[0], request);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_1, 364, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_1, 366, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_memory_observe(&mw);
 	zephir_memory_observe(&_4);
-	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 366, PH_NOISY_CC);
+	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 368, PH_NOISY_CC);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_array_fetch(&mw, &_3, &_4, PH_NOISY, "phalcon/ADR/Pipeline.zep", 52);
-	ZEPHIR_INIT_VAR(&next);
-	object_init_ex(&next, phalcon_adr_pipeline_ce);
-	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_1, 364, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_6, this_ptr, _zephir_prop_2, 365, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_7, this_ptr, _zephir_prop_0, 366, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_INIT_VAR(&_8);
-	ZVAL_LONG(&_8, 1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_INIT_VAR(&_5);
+	object_init_ex(&_5, phalcon_adr_pipeline_ce);
+	zephir_constructor_start(&_5);
+	zephir_read_property_cached(&_6, this_ptr, _zephir_prop_1, 366, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_read_property_cached(&_7, this_ptr, _zephir_prop_2, 367, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_read_property_cached(&_8, this_ptr, _zephir_prop_0, 368, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_9);
-	zephir_add_function(&_9, &_7, &_8);
-	ZEPHIR_CALL_METHOD(NULL, &next, "__construct", NULL, 322, &_5, &_6, &_9);
+	ZVAL_LONG(&_9, 1);
+	ZEPHIR_INIT_VAR(&_10);
+	zephir_add_function(&_10, &_8, &_9);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &_5, "__construct", &_zephir_call_cache[1], &_6, &_7, &_10);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(&mw, "__invoke", NULL, 0, request, &next);
+	zephir_constructor_finish(&_5);
+	ZEPHIR_CPY_WRT(&next, &_5);
+	ZEPHIR_INIT_NVAR(&_5);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(&mw, "__invoke", &_zephir_call_cache[2], request, &next);
 	zephir_check_call_status();
 	RETURN_MM();
 }

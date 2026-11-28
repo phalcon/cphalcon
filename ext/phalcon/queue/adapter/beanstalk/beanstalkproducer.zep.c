@@ -23,7 +23,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Implementation of this component has been inspired by the queue-interop and
@@ -95,6 +95,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkProducer, __construct)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &context);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1279, context);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkProducer, getDeliveryDelay)
@@ -132,6 +135,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkProducer, send)
 	ZVAL_UNDEF(&_10);
 	ZVAL_UNDEF(&_11);
 	ZVAL_UNDEF(&_12);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[5];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	static zend_string *_zephir_prop_2 = NULL;
@@ -154,44 +158,72 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkProducer, send)
 	zephir_fetch_params(1, 2, 0, &destination, &message);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "send to");
-	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_queue_adapter_queuedestinationguard_ce, "assertQueue", NULL, 0, destination, &_0);
+	ZEPHIR_CALL_CE_STATIC_CACHED(NULL, phalcon_queue_adapter_queuedestinationguard_ce, "assertQueue", &_zephir_call_cache[0], destination, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_CE_STATIC(&payload, phalcon_queue_adapter_messageenvelope_ce, "encode", NULL, 0, message);
+	ZEPHIR_CALL_CE_STATIC_CACHED(&payload, phalcon_queue_adapter_messageenvelope_ce, "encode", &_zephir_call_cache[1], message);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 1280, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (Z_TYPE_P(&_2) == IS_NULL) {
 		ZEPHIR_INIT_NVAR(&_1);
 		ZVAL_LONG(&_1, 100);
 	} else {
 		zephir_memory_observe(&_3);
 		zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 1280, PH_NOISY_CC);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_INIT_NVAR(&_1);
 		ZVAL_LONG(&_1, zephir_get_intval(&_3));
 	}
 	priority = zephir_get_intval(&_1);
 	ZEPHIR_INIT_VAR(&_4);
 	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_1, 1281, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (Z_TYPE_P(&_5) == IS_NULL) {
 		ZEPHIR_INIT_NVAR(&_4);
 		ZVAL_LONG(&_4, 0);
 	} else {
 		zephir_read_property_cached(&_6, this_ptr, _zephir_prop_1, 1281, PH_NOISY_CC | PH_READONLY);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_INIT_VAR(&_7);
 		zephir_div_zval_long(&_7, &_6, 1000);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_INIT_NVAR(&_4);
 		ZVAL_LONG(&_4, zephir_get_intval(&_7));
 	}
 	delay = zephir_get_intval(&_4);
 	zephir_read_property_cached(&_6, this_ptr, _zephir_prop_2, 1279, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_8, destination, "getQueueName", NULL, 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_METHOD_CACHED(&_8, destination, "getQueueName", &_zephir_call_cache[2]);
 	zephir_check_call_status();
 	zephir_read_property_cached(&_9, this_ptr, _zephir_prop_2, 1279, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_10, &_9, "getTtr", NULL, 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_METHOD_CACHED(&_10, &_9, "getTtr", &_zephir_call_cache[3]);
 	zephir_check_call_status();
 	ZVAL_LONG(&_11, priority);
 	ZVAL_LONG(&_12, delay);
-	ZEPHIR_CALL_METHOD(NULL, &_6, "putMessage", NULL, 0, &_8, &payload, &_11, &_12, &_10);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &_6, "putMessage", &_zephir_call_cache[4], &_8, &payload, &_11, &_12, &_10);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -231,6 +263,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkProducer, setDeliveryDelay)
 		ZVAL_LONG(&_0, zephir_get_intval(deliveryDelay));
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1281, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 
@@ -269,6 +305,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Beanstalk_BeanstalkProducer, setPriority)
 		ZVAL_LONG(&_0, zephir_get_intval(priority));
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1280, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 

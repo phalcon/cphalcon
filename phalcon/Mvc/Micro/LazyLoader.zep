@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -54,7 +54,7 @@ class LazyLoader
             let this->handler = handler;
         }
 
-        if modelBinder != null {
+        if modelBinder !== null {
             let bindCacheKey = "_PHMB_" . definition . "_" . method;
 
             let arguments = modelBinder->bindToHandler(

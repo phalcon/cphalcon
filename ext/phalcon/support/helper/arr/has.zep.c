@@ -45,6 +45,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Arr_Has)
  */
 PHP_METHOD(Phalcon_Support_Helper_Arr_Has, __invoke)
 {
+	zend_bool _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *collection_param = NULL, *index, index_sub;
 	zval collection;
@@ -59,6 +60,11 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Has, __invoke)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &collection_param, &index);
 	zephir_get_arrval(&collection, collection_param);
-	RETURN_MM_BOOL(zephir_array_key_exists(&collection, index));
+	_0 = zephir_array_key_exists(&collection, index);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	RETURN_MM_BOOL(_0);
 }
 

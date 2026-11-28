@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -16,6 +16,7 @@ namespace Phalcon\Tests\Database\Mvc\Model\Resultset;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
+use TypeError;
 
 #[Group('phql')]
 final class FilterTest extends AbstractDatabaseTestCase
@@ -62,5 +63,32 @@ final class FilterTest extends AbstractDatabaseTestCase
 
         $this->assertIsArray($filtered);
         $this->assertCount($expected, $filtered);
+    }
+
+    /**
+     * A filter that cannot be called throws the TypeError of
+     * call_user_func_array(). An empty resultset does not call the filter.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/815
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelResultsetFilterNotCallable(): void
+    {
+        $simple = $this->getResultset('simple');
+        $empty  = $this->getResultset('empty');
+
+        $this->assertSame([], $empty->filter('unknownFilterFunction'));
+
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage(
+            'call_user_func_array(): Argument #1 ($callback) must be a valid callback, '
+            . 'function "unknownFilterFunction" not found or invalid function name'
+        );
+
+        $simple->filter('unknownFilterFunction');
     }
 }

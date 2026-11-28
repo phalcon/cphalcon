@@ -23,7 +23,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Implementation of this file has been heavily influenced by CapsulePHP.
@@ -86,7 +86,7 @@ PHP_METHOD(Phalcon_Container_Definition_Processor_ClosureProcessor, process)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval name_zv, *definition, definition_sub, *container, container_sub, def, _0;
+	zval name_zv, *definition, definition_sub, *container, container_sub, def, _0, _1;
 	zend_string *name = NULL;
 
 	ZVAL_UNDEF(&name_zv);
@@ -94,6 +94,8 @@ PHP_METHOD(Phalcon_Container_Definition_Processor_ClosureProcessor, process)
 	ZVAL_UNDEF(&container_sub);
 	ZVAL_UNDEF(&def);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_STR(name)
 		Z_PARAM_ZVAL(definition)
@@ -105,13 +107,17 @@ PHP_METHOD(Phalcon_Container_Definition_Processor_ClosureProcessor, process)
 	container = ZEND_CALL_ARG(execute_data, 3);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_INIT_VAR(&def);
-	object_init_ex(&def, phalcon_container_definition_servicedefinition_ce);
 	ZEPHIR_INIT_VAR(&_0);
-	ZVAL_STRING(&_0, "closure");
-	ZEPHIR_CALL_METHOD(NULL, &def, "__construct", NULL, 487, &name_zv, &_0, definition);
+	object_init_ex(&_0, phalcon_container_definition_servicedefinition_ce);
+	zephir_constructor_start(&_0);
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "closure");
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0], &name_zv, &_1, definition);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &def, "setFactory", NULL, 492, definition);
+	zephir_constructor_finish(&_0);
+	ZEPHIR_CPY_WRT(&def, &_0);
+	ZEPHIR_INIT_NVAR(&_0);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &def, "setFactory", &_zephir_call_cache[1], definition);
 	zephir_check_call_status();
 	RETURN_CCTOR(&def);
 }

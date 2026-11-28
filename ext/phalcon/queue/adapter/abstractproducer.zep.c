@@ -24,7 +24,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Implementation of this component has been inspired by the queue-interop and
@@ -83,6 +83,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractProducer, setDeliveryDelay)
 	ZVAL_UNDEF(&deliveryDelay_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0$$3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -98,8 +99,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractProducer, setDeliveryDelay)
 	if (UNEXPECTED(Z_TYPE_P(deliveryDelay) != IS_NULL)) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_queue_exceptions_deliverydelaynotsupportedexception_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 79);
+		zephir_constructor_start(&_0$$3);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0$$3);
 		zephir_throw_exception_debug(&_0$$3, "phalcon/Queue/Adapter/AbstractProducer.zep", 58);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -117,6 +120,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractProducer, setPriority)
 	ZVAL_UNDEF(&priority_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0$$3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -132,8 +136,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractProducer, setPriority)
 	if (UNEXPECTED(Z_TYPE_P(priority) != IS_NULL)) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_queue_exceptions_prioritynotsupportedexception_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 80);
+		zephir_constructor_start(&_0$$3);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0$$3);
 		zephir_throw_exception_debug(&_0$$3, "phalcon/Queue/Adapter/AbstractProducer.zep", 67);
 		ZEPHIR_MM_RESTORE();
 		return;
@@ -151,6 +157,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractProducer, setTimeToLive)
 	ZVAL_UNDEF(&timeToLive_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0$$3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -166,8 +173,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_AbstractProducer, setTimeToLive)
 	if (UNEXPECTED(Z_TYPE_P(timeToLive) != IS_NULL)) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_queue_exceptions_timetolivenotsupportedexception_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 81);
+		zephir_constructor_start(&_0$$3);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_0$$3);
 		zephir_throw_exception_debug(&_0$$3, "phalcon/Queue/Adapter/AbstractProducer.zep", 76);
 		ZEPHIR_MM_RESTORE();
 		return;

@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -24,6 +24,7 @@ use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Talon\Talon;
 use Phalcon\Tests\Support\Modules\Frontend\Module as FrontendModule;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use TypeError;
 
 final class HandleTest extends AbstractUnitTestCase
 {
@@ -165,6 +166,33 @@ final class HandleTest extends AbstractUnitTestCase
         $this->expectExceptionMessage('Initialize called');
 
         $application->handle('/not-found');
+    }
+
+    /**
+     * A match callback that cannot be called throws the TypeError of
+     * call_user_func_array().
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/815
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    public function testMvcApplicationHandleMatchNotCallable(): void
+    {
+        $this->setNewFactoryDefault();
+
+        /** @var Router $router */
+        $router = $this->container->getShared('router');
+        $router->add('/match')->match('unknownMatchFunction');
+
+        $application = new Application($this->container);
+
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage(
+            'call_user_func_array(): Argument #1 ($callback) must be a valid callback, '
+            . 'function "unknownMatchFunction" not found or invalid function name'
+        );
+
+        $application->handle('/match');
     }
 
     /**

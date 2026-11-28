@@ -47,6 +47,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_IsUpper, __invoke)
 	ZVAL_UNDEF(&text_zv);
 	ZVAL_UNDEF(&encoding_zv);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(text)
 		Z_PARAM_OPTIONAL
@@ -64,7 +65,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_IsUpper, __invoke)
 		zephir_memory_observe(&encoding_zv);
 	ZVAL_STR_COPY(&encoding_zv, encoding);
 	}
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "toUpper", NULL, 0, &text_zv, &encoding_zv);
+	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "toUpper", &_zephir_call_cache[0], &text_zv, &encoding_zv);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(ZEPHIR_IS_IDENTICAL(&text_zv, &_0));
 }

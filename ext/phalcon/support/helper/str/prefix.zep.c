@@ -60,7 +60,15 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Prefix, __invoke)
 	zephir_memory_observe(&prefix_zv);
 	ZVAL_STR_COPY(&prefix_zv, prefix);
 	zephir_cast_to_string(&_0, text);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CONCAT_VV(return_value, &prefix_zv, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_MM();
 }
 

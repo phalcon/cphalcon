@@ -23,7 +23,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Implementation of this file has been influenced by sinbadxiii/cphalcon-auth
@@ -59,6 +59,7 @@ PHP_METHOD(Phalcon_Auth_Adapter_Config_MemoryAdapterConfig, __construct)
 
 	ZVAL_UNDEF(&users);
 	ZVAL_UNDEF(&model_zv);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("users", 5, 1);
@@ -87,8 +88,12 @@ PHP_METHOD(Phalcon_Auth_Adapter_Config_MemoryAdapterConfig, __construct)
 		zephir_memory_observe(&model_zv);
 	ZVAL_STR_COPY(&model_zv, model);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 448, &users);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_auth_adapter_config_memoryadapterconfig_ce, getThis(), "__construct", NULL, 0, &model_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 450, &users);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_auth_adapter_config_memoryadapterconfig_ce, getThis(), "__construct", &_zephir_call_cache[0], &model_zv);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

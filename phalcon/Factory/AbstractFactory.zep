@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -56,14 +56,15 @@ abstract class AbstractFactory extends AbstractConfigFactory
      */
     protected function init(array services = []) -> void
     {
-        var adapters, name, service;
+        var adapters;
 
         let adapters = this->getServices(),
             adapters = array_merge(adapters, services);
 
-        for name, service in adapters {
-            let this->mapper[name] = service;
-            unset(this->services[name]);
+        let this->mapper = array_replace(this->mapper, adapters);
+
+        if !empty this->services {
+            let this->services = array_diff_key(this->services, adapters);
         }
     }
 }

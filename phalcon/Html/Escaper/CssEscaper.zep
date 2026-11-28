@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Implementation of this file has been influenced by AuraPHP
@@ -55,9 +55,9 @@ class CssEscaper extends AbstractEscaper
     /**
      * @param string $input
      *
-     * @return string
+     * @return string|false
      */
-    private function doEscapeCss(string input) -> string
+    private function doEscapeCss(string input) -> string | false
     {
         return phalcon_escape_css(input);
     }

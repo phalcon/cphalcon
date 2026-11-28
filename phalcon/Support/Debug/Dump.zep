@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -311,6 +311,8 @@ class Dump implements TemplateAware
                     typeof key !== "int" &&
                     name === key
                 ) {
+                    let output .= "\n";
+
                     continue;
                 }
 
@@ -352,7 +354,7 @@ class Dump implements TemplateAware
                     let message = this->getTemplate("objectProperty");
                     let context = [
                         "style" : this->getStyle("obj"),
-                        "key"   : key,
+                        "key"   : htmlspecialchars((string) key, ENT_QUOTES, "utf-8"),
                         "type"  : "public"
                     ];
 
@@ -384,9 +386,17 @@ class Dump implements TemplateAware
                         "type"  : type
                     ];
 
+                    /**
+                     * A typed property without a value cannot be read
+                     */
+                    let value = "[uninitialized]";
+                    if (true === property->isInitialized(variable)) {
+                        let value = this->output(property->getValue(variable), "", tab + 1);
+                    }
+
                     let output .= str_repeat(space, tab)
                         . this->toInterpolate(message, context)
-                        . this->output(property->getValue(variable), "", tab + 1)
+                        . value
                         . "\n";
                 }
             }

@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Container\Resolver\Lazy;
@@ -7,6 +16,7 @@ namespace Phalcon\Tests\Unit\Container\Resolver\Lazy;
 use Phalcon\Container\Resolver\Lazy\FunctionCall;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Unit\Container\Resolver\Fake\FakeNameContainer;
+use TypeError;
 
 final class FunctionCallTest extends AbstractUnitTestCase
 {
@@ -32,6 +42,28 @@ final class FunctionCallTest extends AbstractUnitTestCase
         $lazy      = new FunctionCall('strtoupper', ['hello']);
         $result    = $lazy->resolve($container);
         $this->assertSame('HELLO', $result);
+    }
+
+    /**
+     * A function that cannot be called throws the TypeError of
+     * call_user_func_array().
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/815
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    public function testContainerResolverLazyFunctionCallResolveNotCallable(): void
+    {
+        $container = new FakeNameContainer();
+        $lazy      = new FunctionCall('unknownFunction', []);
+
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage(
+            'call_user_func_array(): Argument #1 ($callback) must be a valid callback, '
+            . 'function "unknownFunction" not found or invalid function name'
+        );
+
+        $lazy->resolve($container);
     }
 
     /**

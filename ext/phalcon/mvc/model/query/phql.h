@@ -1,10 +1,10 @@
-/* phql.h
+/**
  * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 #ifndef PHALCON_MVC_MODEL_QUERY_PHQL_H
@@ -32,7 +32,7 @@ typedef struct _phql_parser_status {
 #define PHQL_PARSING_OK 1
 #define PHQL_PARSING_FAILED 0
 
-extern int phql_parse_phql(zval *result, zval *phql);
-extern int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length, zval **error_msg);
+extern int phql_parse_phql(zval *result, zval *phql, zval *enable_literals, zval *cache_level);
+extern int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length, zend_bool enable_literals, zend_long cache_level, zval **error_msg);
 
 #endif /* PHALCON_MVC_MODEL_QUERY_PHQL_H */

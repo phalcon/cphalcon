@@ -188,7 +188,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_micro_setmodelbinder, 0, 1, MAY_BE_STATIC)
 	ZEND_ARG_OBJ_INFO(0, modelBinder, Phalcon\\Mvc\\Model\\BinderInterface, 0)
-	ZEND_ARG_INFO(0, cache)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, cache, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_mvc_micro_setresponsehandler, 0, 1, MAY_BE_STATIC)

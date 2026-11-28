@@ -1,11 +1,10 @@
-/* scanner.h
- *
+/**
  * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 #ifndef PHALCON_MVC_VIEW_ENGINE_VOLT_SCANNER_H
@@ -93,8 +92,6 @@
 #define PHVOLT_T_IS 311
 #define PHVOLT_T_DEFINED 312
 #define PHVOLT_T_INCLUDE 313
-#define PHVOLT_T_CACHE 314
-#define PHVOLT_T_ENDCACHE 315
 #define PHVOLT_T_DO 316
 #define PHVOLT_T_AUTOESCAPE 317
 #define PHVOLT_T_ENDAUTOESCAPE 318

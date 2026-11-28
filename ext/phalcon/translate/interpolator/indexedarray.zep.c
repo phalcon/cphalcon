@@ -23,7 +23,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Translate_Interpolator_IndexedArray)
@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Translate_Interpolator_IndexedArray, replacePlaceholders)
 
 		/* try_start_1: */
 
-			ZEPHIR_RETURN_CALL_FUNCTION("vsprintf", NULL, 0, &translation_zv, &placeholders);
+			ZEPHIR_RETURN_CALL_FUNCTION("vsprintf", NULL, 290, &translation_zv, &placeholders);
 			zephir_check_call_status_or_jump(try_end_1);
 			RETURN_MM();
 
@@ -88,6 +88,9 @@ PHP_METHOD(Phalcon_Translate_Interpolator_IndexedArray, replacePlaceholders)
 				zend_clear_exception();
 				ZEPHIR_CPY_WRT(&_1$$3, &_0$$3);
 				RETURN_MM_STR(zend_string_copy(translation));
+			} else {
+				ZEPHIR_MM_RESTORE();
+				return;
 			}
 		}
 	}

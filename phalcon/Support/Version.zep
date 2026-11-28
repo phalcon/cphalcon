@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -207,6 +207,6 @@ class Version
      */
     protected function getVersion() -> array
     {
-        return [5, 23, 0, 4, 0];
+        return [5, 24, 0, 4, 0];
     }
 }

@@ -25,8 +25,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 /**
  * Allows to define `CHECK` constraints on tables. CHECK constraints enforce
@@ -89,19 +89,20 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Check)
  */
 PHP_METHOD(Phalcon_Db_Check, __construct)
 {
-	zend_bool _1;
+	zend_bool _0, _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval definition;
-	zval name_zv, *definition_param = NULL, expression, _0$$3, _2$$4;
+	zval name_zv, *definition_param = NULL, expression, _1$$3, _3$$4;
 	zend_string *name = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name_zv);
 	ZVAL_UNDEF(&expression);
-	ZVAL_UNDEF(&_0$$3);
-	ZVAL_UNDEF(&_2$$4);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_3$$4);
 	ZVAL_UNDEF(&definition);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -122,30 +123,47 @@ PHP_METHOD(Phalcon_Db_Check, __construct)
 	ZVAL_STR_COPY(&name_zv, name);
 	zephir_get_arrval(&definition, definition_param);
 	zephir_memory_observe(&expression);
-	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&expression, &definition, SL("expression"), 0)))) {
-		ZEPHIR_INIT_VAR(&_0$$3);
-		object_init_ex(&_0$$3, phalcon_db_exceptions_checkexpressionrequired_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 0);
-		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Db/Check.zep", 77);
+	_0 = zephir_array_isset_string_fetch(&expression, &definition, SL("expression"), 0);
+	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	_1 = Z_TYPE_P(&expression) != IS_STRING;
-	if (!(_1)) {
-		_1 = ZEPHIR_IS_STRING_IDENTICAL(&expression, "");
-	}
-	if (UNEXPECTED(_1)) {
-		ZEPHIR_INIT_VAR(&_2$$4);
-		object_init_ex(&_2$$4, phalcon_db_exceptions_invalidcheckexpression_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 0);
+	if (UNEXPECTED(!(_0))) {
+		ZEPHIR_INIT_VAR(&_1$$3);
+		object_init_ex(&_1$$3, phalcon_db_exceptions_checkexpressionrequired_ce);
+		zephir_constructor_start(&_1$$3);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$4, "phalcon/Db/Check.zep", 81);
+		zephir_constructor_finish(&_1$$3);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Db/Check.zep", 77);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 614, &name_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 615, &expression);
+	_2 = Z_TYPE_P(&expression) != IS_STRING;
+	if (!(_2)) {
+		_2 = ZEPHIR_IS_STRING_IDENTICAL(&expression, "");
+	}
+	if (UNEXPECTED(_2)) {
+		ZEPHIR_INIT_VAR(&_3$$4);
+		object_init_ex(&_3$$4, phalcon_db_exceptions_invalidcheckexpression_ce);
+		zephir_constructor_start(&_3$$4);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_3$$4, "__construct", &_zephir_call_cache[1]);
+		zephir_check_call_status();
+		zephir_constructor_finish(&_3$$4);
+		zephir_throw_exception_debug(&_3$$4, "phalcon/Db/Check.zep", 81);
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 616, &name_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 617, &expression);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

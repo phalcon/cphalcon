@@ -23,7 +23,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
@@ -48,6 +48,7 @@ PHP_METHOD(Phalcon_Acl_Exceptions_ForbiddenDelimiter, __construct)
 
 	ZVAL_UNDEF(&elementType_zv);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(elementType)
 	ZEND_PARSE_PARAMETERS_END();
@@ -57,7 +58,11 @@ PHP_METHOD(Phalcon_Acl_Exceptions_ForbiddenDelimiter, __construct)
 	ZVAL_STR_COPY(&elementType_zv, elementType);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "The ", &elementType_zv, " name cannot contain '!'");
-	ZEPHIR_CALL_PARENT(NULL, phalcon_acl_exceptions_forbiddendelimiter_ce, getThis(), "__construct", NULL, 0, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_acl_exceptions_forbiddendelimiter_ce, getThis(), "__construct", &_zephir_call_cache[0], &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

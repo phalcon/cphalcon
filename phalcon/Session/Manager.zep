@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -104,9 +104,8 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
     public function destroy() -> void
     {
         if (true === this->exists()) {
+            session_unset();
             session_destroy();
-
-            let _SESSION = [];
         }
     }
 

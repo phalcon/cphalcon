@@ -25,7 +25,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Implementation of this component has been inspired by the queue-interop and
@@ -103,13 +103,18 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConnectionFactory, __construct)
 		zephir_get_arrval(&options, options_param);
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1292, &options);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
 PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConnectionFactory, createContext)
 {
-	zval _4;
-	zval options, adapter, redis, prefix, pollInterval, e, _0, _1, _2, _3, _5, _6$$4, _7$$4, _8$$4, _9$$4;
+	zval _7;
+	zend_bool _1, _2;
+	zval options, adapter, redis, prefix, pollInterval, e, _0, _3, _4, _5, _6, _8$$4, _9$$4, _10$$4, _11$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -121,15 +126,16 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConnectionFactory, createContext)
 	ZVAL_UNDEF(&pollInterval);
 	ZVAL_UNDEF(&e);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
-	ZVAL_UNDEF(&_6$$4);
-	ZVAL_UNDEF(&_7$$4);
+	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_8$$4);
 	ZVAL_UNDEF(&_9$$4);
-	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_10$$4);
+	ZVAL_UNDEF(&_11$$4);
+	ZVAL_UNDEF(&_7);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[7];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("options", 7, 1);
@@ -138,69 +144,104 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisConnectionFactory, createContext)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1292, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CPY_WRT(&options, &_0);
-	if (zephir_array_isset_value_string(&options, SL("prefix"))) {
+	_1 = zephir_array_isset_value_string(&options, SL("prefix"));
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_1) {
 		zephir_memory_observe(&prefix);
 		zephir_array_fetch_string(&prefix, &options, SL("prefix"), PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 69);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
 		ZEPHIR_INIT_NVAR(&prefix);
 		ZVAL_STRING(&prefix, "phalcon_queue:");
 	}
-	if (zephir_array_isset_value_string(&options, SL("pollInterval"))) {
-		zephir_memory_observe(&_1);
-		zephir_array_fetch_string(&_1, &options, SL("pollInterval"), PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 70);
+	_2 = zephir_array_isset_value_string(&options, SL("pollInterval"));
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_2) {
+		zephir_memory_observe(&_3);
+		zephir_array_fetch_string(&_3, &options, SL("pollInterval"), PH_NOISY, "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 70);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_INIT_VAR(&pollInterval);
-		ZVAL_LONG(&pollInterval, zephir_get_intval(&_1));
+		ZVAL_LONG(&pollInterval, zephir_get_intval(&_3));
 	} else {
 		ZEPHIR_INIT_NVAR(&pollInterval);
 		ZVAL_LONG(&pollInterval, 200);
 	}
-	ZEPHIR_INIT_VAR(&adapter);
-	object_init_ex(&adapter, phalcon_storage_adapter_redis_ce);
-	ZEPHIR_INIT_VAR(&_2);
-	object_init_ex(&_2, phalcon_storage_serializerfactory_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 0);
-	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_INIT_VAR(&_4);
-	zephir_create_array(&_4, 2, 0);
-	add_assoc_stringl_ex(&_4, SL("prefix"), SL(""));
-	add_assoc_stringl_ex(&_4, SL("defaultSerializer"), SL("none"));
-	zephir_fast_array_merge(&_3, &options, &_4);
-	ZEPHIR_CALL_METHOD(NULL, &adapter, "__construct", NULL, 0, &_2, &_3);
+	object_init_ex(&_4, phalcon_storage_adapter_redis_ce);
+	zephir_constructor_start(&_4);
+	ZEPHIR_INIT_VAR(&_5);
+	object_init_ex(&_5, phalcon_storage_serializerfactory_ce);
+	zephir_constructor_start(&_5);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &_5, "__construct", &_zephir_call_cache[0]);
 	zephir_check_call_status();
+	zephir_constructor_finish(&_5);
+	ZEPHIR_INIT_VAR(&_6);
+	ZEPHIR_INIT_VAR(&_7);
+	zephir_create_array(&_7, 2, 0);
+	add_assoc_stringl_ex(&_7, SL("prefix"), SL(""));
+	add_assoc_stringl_ex(&_7, SL("defaultSerializer"), SL("none"));
+	zephir_fast_array_merge(&_6, &options, &_7);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &_4, "__construct", &_zephir_call_cache[1], &_5, &_6);
+	zephir_check_call_status();
+	zephir_constructor_finish(&_4);
+	ZEPHIR_CPY_WRT(&adapter, &_4);
+	ZEPHIR_INIT_NVAR(&_4);
 
 	/* try_start_1: */
 
-		ZEPHIR_CALL_METHOD(&redis, &adapter, "getAdapter", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(&redis, &adapter, "getAdapter", &_zephir_call_cache[2]);
 		zephir_check_call_status_or_jump(try_end_1);
 
 	try_end_1:
 
 	if (EG(exception)) {
-		ZEPHIR_INIT_VAR(&_5);
-		ZVAL_OBJ(&_5, EG(exception));
-		Z_ADDREF_P(&_5);
-		if (zephir_instance_of_ev(&_5, phalcon_storage_exception_ce)) {
+		ZEPHIR_INIT_NVAR(&_4);
+		ZVAL_OBJ(&_4, EG(exception));
+		Z_ADDREF_P(&_4);
+		if (zephir_instance_of_ev(&_4, phalcon_storage_exception_ce)) {
 			zend_clear_exception();
-			ZEPHIR_CPY_WRT(&e, &_5);
-			ZEPHIR_INIT_VAR(&_6$$4);
-			object_init_ex(&_6$$4, phalcon_queue_exceptions_exception_ce);
-			ZEPHIR_CALL_METHOD(&_7$$4, &e, "getMessage", NULL, 0);
+			ZEPHIR_CPY_WRT(&e, &_4);
+			ZEPHIR_INIT_VAR(&_8$$4);
+			object_init_ex(&_8$$4, phalcon_queue_exceptions_exception_ce);
+			zephir_constructor_start(&_8$$4);
+			ZEPHIR_CALL_METHOD_CACHED(&_9$$4, &e, "getMessage", &_zephir_call_cache[3]);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_8$$4, &e, "getCode", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&_10$$4, &e, "getCode", &_zephir_call_cache[4]);
 			zephir_check_call_status();
-			ZVAL_LONG(&_9$$4, zephir_get_intval(&_8$$4));
-			ZEPHIR_CALL_METHOD(NULL, &_6$$4, "__construct", NULL, 9, &_7$$4, &_9$$4, &e);
+			ZVAL_LONG(&_11$$4, zephir_get_intval(&_10$$4));
+			ZEPHIR_CALL_METHOD_CACHED(NULL, &_8$$4, "__construct", &_zephir_call_cache[5], &_9$$4, &_11$$4, &e);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_6$$4, "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 97);
+			zephir_constructor_finish(&_8$$4);
+			zephir_throw_exception_debug(&_8$$4, "phalcon/Queue/Adapter/Redis/RedisConnectionFactory.zep", 97);
+			ZEPHIR_MM_RESTORE();
+			return;
+		} else {
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
 	}
 	object_init_ex(return_value, phalcon_queue_adapter_redis_rediscontext_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &redis, &prefix, &pollInterval);
+	zephir_constructor_start(return_value);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[6], &redis, &prefix, &pollInterval);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 

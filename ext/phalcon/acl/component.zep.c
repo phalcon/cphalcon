@@ -24,7 +24,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
@@ -83,8 +83,16 @@ PHP_METHOD(Phalcon_Acl_Component, __construct)
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exceptions_forbiddendelimiter_ce, "component", "phalcon/Acl/Component.zep", 31);
 		return;
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 395, &name_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 396, &description_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 397, &name_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 398, &description_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

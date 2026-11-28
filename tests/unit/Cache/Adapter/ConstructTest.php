@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -151,6 +151,23 @@ final class ConstructTest extends AbstractUnitTestCase
         $time     = new DateInterval('PT5S');
         $expected = 5;
         $actual   = $adapter->getTtl($time);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @issue  https://github.com/phalcon/cphalcon/issues/17762
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-19
+     */
+    #[RequiresPhpExtension('redis')]
+    public function testCacheAdapterRedisClusterConstructDefaultHosts(): void
+    {
+        $serializer = new SerializerFactory();
+        $adapter    = new RedisCluster($serializer);
+
+        $options  = $this->getProtectedProperty($adapter, 'options');
+        $expected = ['127.0.0.1:6379'];
+        $actual   = $options['hosts'];
         $this->assertSame($expected, $actual);
     }
 

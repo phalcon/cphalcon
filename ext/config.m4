@@ -105,6 +105,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/model/metadata.zep.c
 	phalcon/paginator/adapter/adapterinterface.zep.c
 	phalcon/annotations/adapter/adapterinterface.zep.c
+	phalcon/annotations/exception.zep.c
 	phalcon/auth/adapter/abstractadapter.zep.c
 	phalcon/container/definition/processor/processor.zep.c
 	phalcon/contracts/adr/middleware.zep.c
@@ -138,7 +139,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/adr/responder/chainresponder.zep.c
 	phalcon/acl/adapter/adapterinterface.zep.c
 	phalcon/annotations/adapter/abstractadapter.zep.c
-	phalcon/annotations/exception.zep.c
 	phalcon/assets/filterinterface.zep.c
 	phalcon/auth/abstractauthdispatcherlistener.zep.c
 	phalcon/auth/access/abstractaccess.zep.c
@@ -228,6 +228,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/encryption/security/uuid/timebaseduuidinterface.zep.c
 	phalcon/filter/validation/abstractvalidatorcomposite.zep.c
 	phalcon/filter/validation/validator/file/size/equal.zep.c
+	phalcon/filter/validation/validator/stringlength/abstractstringlength.zep.c
 	phalcon/flash/abstractflash.zep.c
 	phalcon/html/helper/input/abstractchecked.zep.c
 	phalcon/html/helper/input/abstractgroup.zep.c
@@ -427,6 +428,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/annotations/exceptions/annotationnotfound.zep.c
 	phalcon/annotations/exceptions/annotationsdirectorynotwritable.zep.c
 	phalcon/annotations/exceptions/cannotreadannotationdata.zep.c
+	phalcon/annotations/exceptions/invalidsourcetable.zep.c
 	phalcon/annotations/exceptions/unknownannotationexpression.zep.c
 	phalcon/annotations/models/metadata/column.zep.c
 	phalcon/annotations/models/metadata/identity.zep.c
@@ -1256,6 +1258,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/view/engine/php.zep.c
 	phalcon/mvc/view/engine/volt.zep.c
 	phalcon/mvc/view/engine/volt/compiler.zep.c
+	phalcon/mvc/view/engine/volt/exceptions/callnotsupported.zep.c
 	phalcon/mvc/view/engine/volt/exceptions/cannotopencompiledfile.zep.c
 	phalcon/mvc/view/engine/volt/exceptions/corruptedstatement.zep.c
 	phalcon/mvc/view/engine/volt/exceptions/corruptedstatementwithdata.zep.c
@@ -1616,8 +1619,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/99__closure.zep.c
 	phalcon/100__closure.zep.c
 	phalcon/101__closure.zep.c
-	phalcon/102__closure.zep.c
-	phalcon/103__closure.zep.c phalcon/annotations/scanner.c
+	phalcon/102__closure.zep.c phalcon/annotations/scanner.c
 	phalcon/annotations/parser.c
 	phalcon/mvc/model/orm.c
 	phalcon/mvc/model/query/scanner.c

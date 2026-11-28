@@ -23,7 +23,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Implementation of this component has been inspired by the queue-interop and
@@ -78,6 +78,9 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisProducer, __construct)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &context);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1298, context);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisProducer, getDeliveryDelay)
@@ -102,6 +105,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisProducer, send)
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_6);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[3];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
@@ -120,25 +124,37 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisProducer, send)
 	zephir_fetch_params(1, 2, 0, &destination, &message);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "send to");
-	ZEPHIR_CALL_CE_STATIC(NULL, phalcon_queue_adapter_queuedestinationguard_ce, "assertQueue", NULL, 0, destination, &_0);
+	ZEPHIR_CALL_CE_STATIC_CACHED(NULL, phalcon_queue_adapter_queuedestinationguard_ce, "assertQueue", &_zephir_call_cache[0], destination, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_0, 1299, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (Z_TYPE_P(&_2) == IS_NULL) {
 		ZEPHIR_INIT_NVAR(&_1);
 		ZVAL_LONG(&_1, 0);
 	} else {
 		zephir_memory_observe(&_3);
 		zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 1299, PH_NOISY_CC);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_INIT_NVAR(&_1);
 		ZVAL_LONG(&_1, zephir_get_intval(&_3));
 	}
 	delay = zephir_get_intval(&_1);
 	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_1, 1298, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_5, destination, "getQueueName", NULL, 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_METHOD_CACHED(&_5, destination, "getQueueName", &_zephir_call_cache[1]);
 	zephir_check_call_status();
 	ZVAL_LONG(&_6, delay);
-	ZEPHIR_CALL_METHOD(NULL, &_4, "pushMessage", NULL, 0, &_5, message, &_6);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &_4, "pushMessage", &_zephir_call_cache[2], &_5, message, &_6);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -178,6 +194,10 @@ PHP_METHOD(Phalcon_Queue_Adapter_Redis_RedisProducer, setDeliveryDelay)
 		ZVAL_LONG(&_0, zephir_get_intval(deliveryDelay));
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1299, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 

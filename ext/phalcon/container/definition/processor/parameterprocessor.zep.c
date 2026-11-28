@@ -23,7 +23,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Implementation of this file has been heavily influenced by CapsulePHP.
@@ -84,10 +84,10 @@ PHP_METHOD(Phalcon_Container_Definition_Processor_ParameterProcessor, canProcess
  */
 PHP_METHOD(Phalcon_Container_Definition_Processor_ParameterProcessor, process)
 {
-	zend_bool cacheable = 0, _1;
+	zend_bool cacheable = 0, _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval name_zv, *definition, definition_sub, *container, container_sub, def, _0, _2;
+	zval name_zv, *definition, definition_sub, *container, container_sub, def, _0, _1, _3;
 	zend_string *name = NULL;
 
 	ZVAL_UNDEF(&name_zv);
@@ -95,7 +95,9 @@ PHP_METHOD(Phalcon_Container_Definition_Processor_ParameterProcessor, process)
 	ZVAL_UNDEF(&container_sub);
 	ZVAL_UNDEF(&def);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	ZEND_PARSE_PARAMETERS_START(3, 3)
 		Z_PARAM_STR(name)
 		Z_PARAM_ZVAL(definition)
@@ -107,23 +109,27 @@ PHP_METHOD(Phalcon_Container_Definition_Processor_ParameterProcessor, process)
 	container = ZEND_CALL_ARG(execute_data, 3);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_INIT_VAR(&def);
-	object_init_ex(&def, phalcon_container_definition_servicedefinition_ce);
 	ZEPHIR_INIT_VAR(&_0);
-	ZVAL_STRING(&_0, "parameter");
-	ZEPHIR_CALL_METHOD(NULL, &def, "__construct", NULL, 487, &name_zv, &_0, definition);
+	object_init_ex(&_0, phalcon_container_definition_servicedefinition_ce);
+	zephir_constructor_start(&_0);
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, "parameter");
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0], &name_zv, &_1, definition);
 	zephir_check_call_status();
-	_1 = !((zephir_is_instance_of(definition, SL("Closure"))));
-	if (_1) {
-		_1 = Z_TYPE_P(definition) != IS_OBJECT;
+	zephir_constructor_finish(&_0);
+	ZEPHIR_CPY_WRT(&def, &_0);
+	ZEPHIR_INIT_NVAR(&_0);
+	_2 = !((zephir_is_instance_of(definition, SL("Closure"))));
+	if (_2) {
+		_2 = Z_TYPE_P(definition) != IS_OBJECT;
 	}
-	cacheable = _1;
+	cacheable = _2;
 	if (cacheable) {
-		ZVAL_BOOL(&_2, 1);
+		ZVAL_BOOL(&_3, 1);
 	} else {
-		ZVAL_BOOL(&_2, 0);
+		ZVAL_BOOL(&_3, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, &def, "setIsCacheable", NULL, 493, &_2);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &def, "setIsCacheable", &_zephir_call_cache[1], &_3);
 	zephir_check_call_status();
 	RETURN_CCTOR(&def);
 }

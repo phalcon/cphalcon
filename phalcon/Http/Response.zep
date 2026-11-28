@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -319,7 +319,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
          */
         let content = this->content;
 
-        if content != null {
+        if content !== null {
             echo content;
         } else {
             let file = this->file;

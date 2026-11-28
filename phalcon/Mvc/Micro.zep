@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -239,7 +239,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
 
         let modelBinder = this->modelBinder;
 
-        if modelBinder == null {
+        if modelBinder === null {
             return [];
         }
 
@@ -301,14 +301,23 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
              */
             if container->has("router") && container->getService("router")->getDefinition() === Router::class {
                 let this->router = container->getShared("router", [false]);
+
+                /**
+                 * A new router has no routes, and clear() does not change it.
+                 * Clear only a router with routes, for example a router that
+                 * was resolved before.
+                 */
+                if !empty this->router->getRoutes() {
+                    this->router->clear();
+                }
             } else {
                 let this->router = this->getSharedService("router");
-            }
 
-            /**
-             * Clear the set routes if any
-             */
-            this->router->clear();
+                /**
+                 * Clear the set routes if any
+                 */
+                this->router->clear();
+            }
 
             /**
              * Automatically remove extra slashes
@@ -470,7 +479,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
                     if modelBinder !== null {
                         let routeName = matchedRoute->getName();
 
-                        if routeName != null {
+                        if routeName !== null {
                             let bindCacheKey = "_PHMB_" . routeName;
                         } else {
                             let bindCacheKey = "_PHMB_" . matchedRoute->getPattern();
@@ -507,7 +516,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
                  * Instead of double call_user_func_array when lazy loading we
                  * will just call method
                  */
-                if realHandler != null && realHandler instanceof LazyLoader {
+                if realHandler !== null && realHandler instanceof LazyLoader {
                     let methodName = handler[1];
 
                     let lazyReturned = realHandler->callMethod(

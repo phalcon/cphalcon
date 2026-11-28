@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -635,5 +635,94 @@ final class OutputTest extends AbstractUnitTestCase
         }
 
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * With a custom template and no CSS icon classes, the icon class is empty.
+     *
+     * @issue https://github.com/phalcon/cphalcon/issues/17712
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-31
+     */
+    public function testFlashDirectOutputCustomTemplateWithoutIconClasses(): void
+    {
+        $flash = new Direct(new Escaper());
+        $flash
+            ->setCustomTemplate('<div class="%cssClass%"><i class="%cssIconClass%"></i> %message%</div>')
+            ->setImplicitFlush(false)
+        ;
+
+        $expected = '<div class="successMessage"><i class=""></i> hello</div>';
+        $this->assertSame($expected, $flash->success('hello'));
+    }
+
+    /**
+     * With CSS icon classes only for other types, the message has no icon.
+     *
+     * @issue https://github.com/phalcon/cphalcon/issues/17712
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-31
+     */
+    public function testFlashDirectOutputIconClassesOtherTypeOnly(): void
+    {
+        $flash = new Direct(new Escaper());
+        $flash
+            ->setCssIconClasses(['error' => 'errorIcon'])
+            ->setImplicitFlush(false)
+        ;
+
+        $expected = '<div class="successMessage">hello</div>' . PHP_EOL;
+        $this->assertSame($expected, $flash->success('hello'));
+    }
+
+    /**
+     * With CSS icon classes and no CSS classes, the message has no icon.
+     *
+     * @issue https://github.com/phalcon/cphalcon/issues/17704
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-29
+     */
+    public function testFlashDirectOutputIconClassesWithoutCssClasses(): void
+    {
+        $flash = new Direct(new Escaper());
+        $flash
+            ->setCssClasses([])
+            ->setCssIconClasses(['success' => 'successIcon'])
+            ->setImplicitFlush(false)
+        ;
+
+        $expected = '<div>hello</div>' . PHP_EOL;
+        $this->assertSame($expected, $flash->success('hello'));
+    }
+
+    /**
+     * With automatic HTML, a message calls toInterpolate() one time.
+     *
+     * @issue https://github.com/phalcon/cphalcon/issues/17704
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-29
+     */
+    public function testFlashDirectOutputToInterpolateOnce(): void
+    {
+        $flash = new class (new Escaper()) extends Direct {
+            public static int $interpolateCalls = 0;
+
+            protected static function toInterpolate(
+                string $input,
+                array $context = [],
+                string $left = '%',
+                string $right = '%'
+            ): string {
+                self::$interpolateCalls++;
+
+                return parent::toInterpolate($input, $context, $left, $right);
+            }
+        };
+        $flash->setImplicitFlush(false);
+
+        $expected = '<div class="successMessage">hello</div>' . PHP_EOL;
+        $this->assertSame($expected, $flash->success('hello'));
+
+        $this->assertSame(1, $flash::$interpolateCalls);
     }
 }

@@ -27,6 +27,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, buildKey);
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, canAccess);
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, checkExists);
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, invokeRule);
+PHP_METHOD(Phalcon_Acl_Adapter_Memory, reportAccess);
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, toComponentName);
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, toRoleName);
 
@@ -47,7 +48,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_memory_addrole, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_INFO(0, role)
-	ZEND_ARG_INFO(0, accessInherits)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, accessInherits, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_memory_allow, 0, 3, IS_VOID, 0)
@@ -55,7 +56,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_memory_allow
 	ZEND_ARG_TYPE_INFO(0, roleName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, componentName, IS_STRING, 0)
 	ZEND_ARG_INFO(0, access)
-	ZEND_ARG_INFO(0, func)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, func, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_memory_deny, 0, 3, IS_VOID, 0)
@@ -63,7 +64,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_memory_deny,
 	ZEND_ARG_TYPE_INFO(0, roleName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, componentName, IS_STRING, 0)
 	ZEND_ARG_INFO(0, access)
-	ZEND_ARG_INFO(0, func)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, func, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_memory_dropcomponentaccess, 0, 2, IS_VOID, 0)
@@ -98,7 +99,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_memory_isall
 	ZEND_ARG_INFO(0, roleName)
 	ZEND_ARG_INFO(0, componentName)
 	ZEND_ARG_TYPE_INFO(0, access, IS_STRING, 0)
-ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, parameters, IS_ARRAY, 1, "[]")
+ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, parameters, IS_ARRAY, 1, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_memory_iscomponent, 0, 1, _IS_BOOL, 0)
@@ -120,7 +121,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_memory_allow
 	ZEND_ARG_TYPE_INFO(0, componentName, IS_STRING, 0)
 	ZEND_ARG_INFO(0, access)
 	ZEND_ARG_INFO(0, action)
-	ZEND_ARG_INFO(0, func)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, func, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_memory_buildaccesskey, 0, 2, IS_STRING, 0)
@@ -159,6 +160,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_memory_invok
 	ZEND_ARG_TYPE_INFO(0, access, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_memory_reportaccess, 0, 4, _IS_BOOL, 0)
+	ZEND_ARG_INFO(0, roleName)
+	ZEND_ARG_INFO(0, componentName)
+	ZEND_ARG_TYPE_INFO(0, access, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, allowed, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_memory_tocomponentname, 0, 0, 1)
 	ZEND_ARG_INFO(0, component)
 ZEND_END_ARG_INFO()
@@ -192,6 +200,7 @@ PHP_ME(Phalcon_Acl_Adapter_Memory, getActiveFunction, arginfo_phalcon_acl_adapte
 	PHP_ME(Phalcon_Acl_Adapter_Memory, canAccess, arginfo_phalcon_acl_adapter_memory_canaccess, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Acl_Adapter_Memory, checkExists, arginfo_phalcon_acl_adapter_memory_checkexists, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Acl_Adapter_Memory, invokeRule, arginfo_phalcon_acl_adapter_memory_invokerule, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Acl_Adapter_Memory, reportAccess, arginfo_phalcon_acl_adapter_memory_reportaccess, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Acl_Adapter_Memory, toComponentName, arginfo_phalcon_acl_adapter_memory_tocomponentname, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Acl_Adapter_Memory, toRoleName, arginfo_phalcon_acl_adapter_memory_torolename, ZEND_ACC_PRIVATE)
 	PHP_FE_END

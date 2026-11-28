@@ -24,7 +24,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
@@ -78,6 +78,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, __construct)
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&options);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[3];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("adapter", 7, 1);
@@ -101,20 +102,32 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, __construct)
 	ZVAL_STRING(&_1, "prefix");
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "ph-mm-reds-");
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getArrVal", NULL, 0, &options, &_1, &_2);
+	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "getArrVal", &_zephir_call_cache[0], &options, &_1, &_2);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("prefix"), &_0, PH_COPY | PH_SEPARATE);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "lifetime");
 	ZVAL_LONG(&_4, 172800);
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getArrVal", NULL, 0, &options, &_1, &_4);
+	ZEPHIR_CALL_METHOD_CACHED(&_3, this_ptr, "getArrVal", &_zephir_call_cache[1], &options, &_1, &_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("lifetime"), &_3, PH_COPY | PH_SEPARATE);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "redis");
-	ZEPHIR_CALL_METHOD(&_5, factory, "newInstance", NULL, 0, &_1, &options);
+	ZEPHIR_CALL_METHOD_CACHED(&_5, factory, "newInstance", &_zephir_call_cache[2], &_1, &options);
 	zephir_check_call_status();
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1068, &_5);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1070, &_5);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -129,6 +142,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, reset)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("adapter", 7, 1);
@@ -136,10 +150,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, reset)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1068, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "clear", NULL, 0);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1070, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "clear", &_zephir_call_cache[0]);
 	zephir_check_call_status();
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_metadata_redis_ce, getThis(), "reset", NULL, 0);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_mvc_model_metadata_redis_ce, getThis(), "reset", &_zephir_call_cache[1]);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

@@ -22,7 +22,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Translate_Exceptions_MissingGettextExtension)
@@ -39,12 +39,13 @@ PHP_METHOD(Phalcon_Translate_Exceptions_MissingGettextExtension, __construct)
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "This class requires the gettext extension for PHP");
-	ZEPHIR_CALL_PARENT(NULL, phalcon_translate_exceptions_missinggettextextension_ce, getThis(), "__construct", NULL, 0, &_0);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_translate_exceptions_missinggettextextension_ce, getThis(), "__construct", &_zephir_call_cache[0], &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

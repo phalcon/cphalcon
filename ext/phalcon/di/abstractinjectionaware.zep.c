@@ -21,7 +21,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
@@ -69,5 +69,8 @@ PHP_METHOD(Phalcon_Di_AbstractInjectionAware, setDI)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &container);
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 11, container);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 

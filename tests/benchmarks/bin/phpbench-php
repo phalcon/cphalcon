@@ -4,8 +4,8 @@
 #
 # (c) Phalcon Team <team@phalcon.io>
 #
-# For the full copyright and license information, please view
-# the LICENSE.txt file that was distributed with this source code.
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
 
 # PHPBench runs this script as its PHP binary (see resources/phpbench.json).
 # It runs PHP through php-bench. The build name comes from PHP_BENCH_BUILD. If PHP_BENCH_CPU is set,

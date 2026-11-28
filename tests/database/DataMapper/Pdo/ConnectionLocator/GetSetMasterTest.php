@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -17,7 +17,7 @@ use Phalcon\DataMapper\Pdo\ConnectionLocator;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use PHPUnit\Framework\Attributes\Group;
 
-use function spl_object_hash;
+use function spl_object_id;
 
 #[Group('mysql')]
 #[Group('pgsql')]
@@ -35,10 +35,10 @@ final class GetSetMasterTest extends AbstractDatabaseTestCase
         $locator     = new ConnectionLocator($connection1);
 
         $actual = $locator->getMaster();
-        $this->assertEquals(spl_object_hash($connection1), spl_object_hash($actual));
+        $this->assertEquals(spl_object_id($connection1), spl_object_id($actual));
 
         $locator->setMaster($connection2);
         $actual = $locator->getMaster();
-        $this->assertEquals(spl_object_hash($connection2), spl_object_hash($actual));
+        $this->assertEquals(spl_object_id($connection2), spl_object_id($actual));
     }
 }

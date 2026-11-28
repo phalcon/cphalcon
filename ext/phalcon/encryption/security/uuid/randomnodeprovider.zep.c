@@ -25,7 +25,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Implementation of this file has been influenced by sinbadxiii/cphalcon-uuid
@@ -51,7 +51,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Encryption_Security_Uuid_RandomNodeProvider)
  */
 PHP_METHOD(Phalcon_Encryption_Security_Uuid_RandomNodeProvider, getNode)
 {
-	zval nodeBytes, _0, _1, _2, _3, _4, _5, _6, _7;
+	zval nodeBytes, _0, _1, _2, _3, _4, _5, _6, _7, _8;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 
@@ -64,28 +64,40 @@ PHP_METHOD(Phalcon_Encryption_Security_Uuid_RandomNodeProvider, getNode)
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_7);
+	ZVAL_UNDEF(&_8);
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	ZVAL_LONG(&_0, 6);
-	ZEPHIR_CALL_FUNCTION(&nodeBytes, "random_bytes", NULL, 330, &_0);
+	ZEPHIR_CALL_FUNCTION(&nodeBytes, "random_bytes", NULL, 70, &_0);
 	zephir_check_call_status();
 	ZVAL_LONG(&_0, 0);
 	ZVAL_LONG(&_1, 1);
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_substr(&_2, &nodeBytes, 0 , 1 , 0);
-	ZEPHIR_CALL_FUNCTION(&_3, "ord", NULL, 0, &_2);
+	ZEPHIR_CALL_FUNCTION(&_3, "ord", NULL, 135, &_2);
 	zephir_check_call_status();
-	ZVAL_LONG(&_4, (zephir_get_intval(&_3) | 0x01));
-	ZEPHIR_CALL_FUNCTION(&_5, "chr", NULL, 0, &_4);
+	ZEPHIR_INIT_VAR(&_4);
+	ZVAL_LONG(&_4, 0x01);
+	ZEPHIR_INIT_VAR(&_5);
+	zephir_bitwise_or_function(&_5, &_3, &_4);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_FUNCTION(&_3, "chr", NULL, 123, &_5);
 	zephir_check_call_status();
-	ZVAL_LONG(&_4, 1);
-	ZEPHIR_INIT_VAR(&_6);
-	zephir_substr(&_6, &nodeBytes, 1 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
+	ZVAL_LONG(&_6, 1);
 	ZEPHIR_INIT_VAR(&_7);
-	ZEPHIR_CONCAT_VV(&_7, &_5, &_6);
-	ZEPHIR_CPY_WRT(&nodeBytes, &_7);
-	ZEPHIR_RETURN_CALL_FUNCTION("bin2hex", NULL, 331, &nodeBytes);
+	zephir_substr(&_7, &nodeBytes, 1 , 0, ZEPHIR_SUBSTR_NO_LENGTH);
+	ZEPHIR_INIT_VAR(&_8);
+	ZEPHIR_CONCAT_VV(&_8, &_3, &_7);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CPY_WRT(&nodeBytes, &_8);
+	ZEPHIR_RETURN_CALL_FUNCTION("bin2hex", NULL, 71, &nodeBytes);
 	zephir_check_call_status();
 	RETURN_MM();
 }

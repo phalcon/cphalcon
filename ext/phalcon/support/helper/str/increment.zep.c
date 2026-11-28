@@ -44,17 +44,18 @@ ZEPHIR_INIT_CLASS(Phalcon_Support_Helper_Str_Increment)
  */
 PHP_METHOD(Phalcon_Support_Helper_Str_Increment, __invoke)
 {
+	zend_bool _0;
 	zend_long number = 0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval text_zv, separator_zv, parts, _1, _2, _0$$3;
+	zval text_zv, separator_zv, parts, _2, _3, _1$$3;
 	zend_string *text = NULL, *separator = NULL;
 
 	ZVAL_UNDEF(&text_zv);
 	ZVAL_UNDEF(&separator_zv);
 	ZVAL_UNDEF(&parts);
-	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_1$$3);
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(text)
 		Z_PARAM_OPTIONAL
@@ -73,18 +74,39 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Increment, __invoke)
 	ZVAL_STR_COPY(&separator_zv, separator);
 	}
 	ZEPHIR_INIT_VAR(&parts);
-	zephir_fast_explode(&parts, &separator_zv, &text_zv, ZEND_LONG_MAX);
-	number = 1;
-	if (1 == zephir_array_isset_value_long(&parts, 1)) {
-		zephir_memory_observe(&_0$$3);
-		zephir_array_fetch_long(&_0$$3, &parts, 1, PH_NOISY, "phalcon/Support/Helper/Str/Increment.zep", 32);
-		number = (zephir_get_intval(&_0$$3) + 1);
+	zephir_fast_explode(&parts, &separator_zv, &text_zv, NULL);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
 	}
-	zephir_memory_observe(&_1);
-	zephir_array_fetch_long(&_1, &parts, 0, PH_NOISY, "phalcon/Support/Helper/Str/Increment.zep", 35);
-	ZEPHIR_INIT_VAR(&_2);
-	ZVAL_LONG(&_2, number);
-	ZEPHIR_CONCAT_VVV(return_value, &_1, &separator_zv, &_2);
+	number = 1;
+	_0 = zephir_array_isset_value_long(&parts, 1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (1 == _0) {
+		zephir_memory_observe(&_1$$3);
+		zephir_array_fetch_long(&_1$$3, &parts, 1, PH_NOISY, "phalcon/Support/Helper/Str/Increment.zep", 32);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		number = (zephir_get_intval(&_1$$3) + 1);
+	}
+	zephir_memory_observe(&_2);
+	zephir_array_fetch_long(&_2, &parts, 0, PH_NOISY, "phalcon/Support/Helper/Str/Increment.zep", 35);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_INIT_VAR(&_3);
+	ZVAL_LONG(&_3, number);
+	ZEPHIR_CONCAT_VVV(return_value, &_2, &separator_zv, &_3);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_MM();
 }
 

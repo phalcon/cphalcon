@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -14,10 +14,13 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Http\Request;
 
 use Phalcon\Http\Request;
+use Phalcon\Tests\Support\Traits\DebugBuildTrait;
 use Phalcon\Tests\Unit\Http\Helper\AbstractHttpBase;
 
 final class GetHeadersTest extends AbstractHttpBase
 {
+    use DebugBuildTrait;
+
     /**
      * @issue  https://github.com/phalcon/cphalcon/issues/2294
      * @author Phalcon Team <team@phalcon.io>
@@ -25,6 +28,8 @@ final class GetHeadersTest extends AbstractHttpBase
      */
     public function testHttpRequestGetHeaders(): void
     {
+        $this->skipOnDebugBuild();
+
         $_SERVER['HTTP_FOO']     = 'Bar';
         $_SERVER['HTTP_BLA_BLA'] = 'boo';
         $_SERVER['HTTP_AUTH']    = true;

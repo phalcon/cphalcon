@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Implementation of this file has been heavily influenced by CapsulePHP.
@@ -66,7 +66,7 @@ class ObjectProcessor implements Processor
 
         let def = new ServiceDefinition(name, DefinitionType::OBJECT_TYPE, definition);
         def->setFactory(
-            function () use (definition) {
+            function (container = null) use (definition) {
                 return definition;
             }
         );

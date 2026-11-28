@@ -23,7 +23,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Translate_Exceptions_MissingRequiredParameter)
@@ -50,6 +50,7 @@ PHP_METHOD(Phalcon_Translate_Exceptions_MissingRequiredParameter, __construct)
 
 	ZVAL_UNDEF(&parameter_zv);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("parameter", 9, 1);
@@ -62,10 +63,18 @@ PHP_METHOD(Phalcon_Translate_Exceptions_MissingRequiredParameter, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&parameter_zv);
 	ZVAL_STR_COPY(&parameter_zv, parameter);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1411, &parameter_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1414, &parameter_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVS(&_0, "Parameter '", &parameter_zv, "' is required");
-	ZEPHIR_CALL_PARENT(NULL, phalcon_translate_exceptions_missingrequiredparameter_ce, getThis(), "__construct", NULL, 0, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_translate_exceptions_missingrequiredparameter_ce, getThis(), "__construct", &_zephir_call_cache[0], &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -65,6 +65,35 @@ final class InputFieldCheckedTest extends AbstractTagTestCase
             '<input type="checkbox" id="name" name="name" '
             . 'value="yes" checked="checked">',
             Tag::checkField('name')
+        );
+    }
+
+    /**
+     * The POST value is a string. cphalcon compares it with a loose
+     * comparison.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/843
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-21
+     */
+    #[DataProvider('getFields')]
+    public function testFieldIsCheckedWhenThePostValueMatchesLoosely(
+        string $method,
+        string $type
+    ): void {
+        $_POST['name'] = '1';
+
+        $this->assertSame(
+            '<input type="' . $type . '" id="name" name="name" '
+            . 'value="1" checked="checked">',
+            Tag::$method(['name', 'value' => 1])
+        );
+
+        $_POST['name'] = '2';
+
+        $this->assertSame(
+            '<input type="' . $type . '" id="name" name="name" value="1">',
+            Tag::$method(['name', 'value' => 1])
         );
     }
 

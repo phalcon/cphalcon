@@ -11,7 +11,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractGroup, renderItem);
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_phalcon_html_helper_input_abstractgroup___invoke, 0, 2, MAY_BE_STATIC)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 	ZEND_ARG_ARRAY_INFO(0, options, 0)
-	ZEND_ARG_INFO(0, checked)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, checked, "null")
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
 ZEND_END_ARG_INFO()
 

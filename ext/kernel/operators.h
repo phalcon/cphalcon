@@ -29,6 +29,7 @@
 #define ZEPHIR_IS_BOOL_IDENTICAL(op1, op2) ((Z_TYPE_P(op1) == IS_FALSE || Z_TYPE_P(op1) == IS_TRUE) && zephir_compare_strict_bool(op1, op2))
 
 #define ZEPHIR_IS_NULL(var) (Z_TYPE_P(var) == IS_NULL)
+#define ZEPHIR_IS_EQUAL_NULL(var) (Z_TYPE_P(var) <= IS_FALSE || zephir_is_equal_null(var))
 
 /** strict boolean comparison */
 #define ZEPHIR_IS_FALSE(var)       ((Z_TYPE_P(var) == IS_FALSE) || zephir_compare_strict_bool(var, 0))
@@ -59,6 +60,7 @@
 #define ZEPHIR_LE_DOUBLE(op1, op2)  ((Z_TYPE_P(op1) == IS_DOUBLE && Z_DVAL_P(op1) <= op2) || zephir_less_equal_double(op1, op2))
 #define ZEPHIR_GE(op1, op2)       zephir_greater_equal(op1, op2)
 #define ZEPHIR_GE_LONG(op1, op2)  zephir_greater_equal_long(op1, op2)
+#define ZEPHIR_GE_DOUBLE(op1, op2)  zephir_greater_equal_double(op1, op2)
 #define ZEPHIR_LT(op1, op2)       ((Z_TYPE_P(op1) == IS_LONG && Z_TYPE_P(op2) == IS_LONG) ? Z_LVAL_P(op1) < Z_LVAL_P(op2) : zephir_less(op1, op2))
 #define ZEPHIR_LT_LONG(op1, op2)  ((Z_TYPE_P(op1) == IS_LONG && Z_LVAL_P(op1) < op2) || zephir_less_long(op1, op2))
 #define ZEPHIR_LT_DOUBLE(op1, op2)  ((Z_TYPE_P(op1) == IS_DOUBLE && Z_DVAL_P(op1) < op2) || zephir_less_double(op1, op2))
@@ -95,7 +97,7 @@ int zephir_compare_strict_long(zval *op1, zend_long op2);
 /** Operator functions */
 int zephir_add_function_ex(zval *result, zval *op1, zval *op2);
 int zephir_and_function(zval *result, zval *left, zval *right);
-void zephir_negate(zval *z);
+int zephir_negate(zval *result, zval *op);
 
 /** Bitwise functions */
 int zephir_bitwise_and_function(zval *result, zval *op1, zval *op2);
@@ -120,6 +122,7 @@ zend_bool zephir_get_boolval_ex(zval *op);
 int zephir_is_numeric_ex(const zval *op);
 
 int zephir_is_equal(zval *op1, zval *op2);
+int zephir_is_equal_null(zval *op);
 int zephir_is_identical(zval *op1, zval *op2);
 
 int zephir_less(zval *op1, zval *op2);
@@ -132,9 +135,11 @@ int zephir_greater_double(zval *op1, double op2);
 
 int zephir_less_equal(zval *op1, zval *op2);
 int zephir_less_equal_long(zval *op1, zend_long op2);
+int zephir_less_equal_double(zval *op1, double op2);
 
 int zephir_greater_equal(zval *op1, zval *op2);
 int zephir_greater_equal_long(zval *op1, zend_long op2);
+int zephir_greater_equal_double(zval *op1, double op2);
 
 /*
  * PHP's `/`: an exact integer quotient is an int, anything else a float. The
@@ -151,8 +156,7 @@ void zephir_div_double_zval(zval *result, double op1, zval *op2);
  * `/` for a C double result: a double operand, or two integers whose consumer
  * is a C double. A zero divisor throws DivisionByZeroError, as PHP 8 does; the
  * helper still returns 0 because it has no way to abort its caller, so the
- * rest of the generated method body runs with the exception pending and the
- * engine discards the return value on the way out.
+ * generated code checks for the exception right after the call.
  */
 double zephir_safe_div_long_long(zend_long op1, zend_long op2);
 double zephir_safe_div_long_double(zend_long op1, double op2);
@@ -168,6 +172,14 @@ zend_long zephir_safe_mod_long_long(zend_long op1, zend_long op2);
 zend_long zephir_safe_mod_long_double(zend_long op1, double op2);
 zend_long zephir_safe_mod_double_long(double op1, zend_long op2);
 zend_long zephir_safe_mod_double_double(double op1, double op2);
+
+/*
+ * PHP's `<<` and `>>` on native integers: a count of the integer width or more
+ * yields 0 (or -1 for a negative `>>`) and a negative count throws
+ * ArithmeticError, where a C shift is undefined.
+ */
+zend_long zephir_safe_shift_left_long(zend_long op1, zend_long op2);
+zend_long zephir_safe_shift_right_long(zend_long op1, zend_long op2);
 
 /*
  * `%` with a zval operand goes through mod_function(), so a TypeError or a

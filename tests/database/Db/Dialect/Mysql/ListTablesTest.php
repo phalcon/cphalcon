@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -33,12 +33,12 @@ final class ListTablesTest extends AbstractDatabaseTestCase
         $dialect = new Mysql();
 
         $this->assertSame(
-            'SHOW TABLES',
+            "SHOW FULL TABLES WHERE Table_type <> 'SEQUENCE'",
             $dialect->listTables()
         );
 
         $this->assertSame(
-            'SHOW TABLES FROM `schema`',
+            "SHOW FULL TABLES FROM `schema` WHERE Table_type <> 'SEQUENCE'",
             $dialect->listTables('schema')
         );
     }

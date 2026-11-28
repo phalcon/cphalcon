@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -166,19 +166,21 @@ class Asset implements AssetInterface
             let completePath = basePath . target;
 
             /**
+             * A symbolic link at the target file sends the write to a file
+             * outside the assets directory. Refuse it, also when the link
+             * points to a file that does not exist (file_exists() follows the
+             * link). Directories in the path may still be links (deploy
+             * layouts).
+             */
+            if (true === is_link(completePath)) {
+                return "";
+            }
+
+            /**
              * Get the real template path, the target path can optionally don't
              * exist
              */
             if (true === this->phpFileExists(completePath)) {
-                /**
-                 * A symbolic link at the target file sends the write to a
-                 * file outside the assets directory. Refuse it. Directories
-                 * in the path may still be links (deploy layouts).
-                 */
-                if (true === is_link(completePath)) {
-                    return "";
-                }
-
                 let completePath = realpath(completePath);
 
                 if (false === completePath) {

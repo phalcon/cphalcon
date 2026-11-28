@@ -1,11 +1,10 @@
-/* parser.php.inc.h
- *
+/**
  * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 #ifdef HAVE_CONFIG_H
@@ -154,26 +153,6 @@ static void phvolt_ret_for_statement(zval *ret, phvolt_parser_token *variable, p
 		add_assoc_zval(ret, "if_expr", if_expr);
 	}
 
-	add_assoc_zval(ret, "block_statements", block_statements);
-
-	Z_TRY_ADDREF_P(state->active_file);
-	add_assoc_zval(ret, "file", state->active_file);
-	add_assoc_long(ret, "line", state->active_line);
-}
-/* }}} */
-
-/* {{{ phvolt_ret_cache_statement */
-static void phvolt_ret_cache_statement(zval *ret, zval *expr, zval *lifetime, zval *block_statements,
-	phvolt_scanner_state *state)
-{
-	array_init(ret);
-
-	add_assoc_long(ret, "type", PHVOLT_T_CACHE);
-	add_assoc_zval(ret, "expr", expr);
-
-	if (lifetime) {
-		add_assoc_zval(ret, "lifetime", lifetime);
-	}
 	add_assoc_zval(ret, "block_statements", block_statements);
 
 	Z_TRY_ADDREF_P(state->active_file);

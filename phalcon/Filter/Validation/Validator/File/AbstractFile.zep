@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -351,5 +351,50 @@ abstract class AbstractFile extends AbstractValidator
     protected function checkIsUploadedFile(string name) -> bool
     {
         return is_uploaded_file(name);
+    }
+
+    /**
+     * Returns the option value ("WIDTHxHEIGHT") of the field, the width and
+     * the height
+     */
+    protected function getDimensionsOption(var field, string name) -> array
+    {
+        var option, parts;
+
+        let option = this->getOption(name);
+
+        if typeof option == "array" {
+            let option = option[field];
+        }
+
+        let parts = explode("x", option);
+
+        return [option, parts[0], parts[1]];
+    }
+
+    /**
+     * Returns the size of the uploaded image, or false if the upload is not
+     * valid or the file is not an image. If the file is not an image, appends
+     * the "file is not valid" message.
+     */
+    protected function getUploadedImageSize(
+        <Validation> validation,
+        var field
+    ) -> array | bool {
+        var size, value;
+
+        if this->checkUpload(validation, field) === false {
+            return false;
+        }
+
+        let value = validation->getValue(field),
+            size  = getimagesize(value["tmp_name"]);
+
+        // The file cannot be read as an image
+        if (false === size) {
+            this->appendMessageValid(validation, field);
+        }
+
+        return size;
     }
 }

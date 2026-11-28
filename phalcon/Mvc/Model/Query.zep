@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -307,11 +307,14 @@ class Query implements QueryInterface, InjectionAwareInterface
     }
 
     /**
-     * Destroys the internal PHQL cache
+     * Destroys the internal PHQL cache, and the parsed statements it is keyed
+     * by
      */
     public static function clean() -> void
     {
         let self::internalPhqlCache = [];
+
+        phalcon_orm_destroy_cache();
     }
 
     /**
@@ -522,7 +525,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Returns the current cache backend instance
      */
-    public function getCache() -> <AdapterInterface>
+    public function getCache() -> <CacheInterface> | null
     {
         return this->cache;
     }
@@ -655,7 +658,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      */
     public function parse() -> array
     {
-        var intermediate, phql, ast, irPhql, uniqueId, type;
+        var intermediate, phql, ast, irPhql, uniqueId, type, cacheKey;
 
         let intermediate = this->intermediate;
 
@@ -670,15 +673,20 @@ class Query implements QueryInterface, InjectionAwareInterface
             ast = Lang::parsePHQL(phql);
 
         let irPhql = null,
-            uniqueId = null;
+            uniqueId = null,
+            cacheKey = null;
 
         if typeof ast == "array" {
             /**
              * Check if the prepared PHQL is already cached
-             * Parsed ASTs have a unique id
+             * Parsed ASTs have a unique id. The implicit joins option
+             * changes the intermediate representation, thus it is part of
+             * the key.
              */
             if fetch uniqueId, ast["id"] {
-                if fetch irPhql, self::internalPhqlCache[uniqueId] {
+                let cacheKey = uniqueId . ":" . (int) this->enableImplicitJoins;
+
+                if fetch irPhql, self::internalPhqlCache[cacheKey] {
                     if typeof irPhql == "array" {
                         // Assign the type to the query
                         let this->type = ast["type"];
@@ -691,7 +699,9 @@ class Query implements QueryInterface, InjectionAwareInterface
                          * otherwise keep producing SQL with the stale value
                          * baked in at first parse. See issue #17020.
                          */
-                        return this->refreshSchemasInIntermediate(irPhql);
+                        let this->intermediate = this->refreshSchemasInIntermediate(irPhql);
+
+                        return this->intermediate;
                     }
                 }
             }
@@ -733,8 +743,8 @@ class Query implements QueryInterface, InjectionAwareInterface
         /**
          * Store the prepared AST in the cache
          */
-        if typeof uniqueId == "int" {
-            let self::internalPhqlCache[uniqueId] = irPhql;
+        if typeof cacheKey == "string" {
+            let self::internalPhqlCache[cacheKey] = irPhql;
         }
 
         let this->intermediate = irPhql;
@@ -2856,9 +2866,13 @@ class Query implements QueryInterface, InjectionAwareInterface
          */
         if !this->enableImplicitJoins {
             for joinAliasName, _ in joinPrepared {
+                /**
+                 * A join with no ON condition has no pre-condition (null)
+                 */
+                fetch preCondition, joinPreCondition[joinAliasName];
+
                 let joinType = joinTypes[joinAliasName],
                     joinSource = joinSources[joinAliasName],
-                    preCondition = joinPreCondition[joinAliasName],
                     sqlJoins[] = [
                         "type":        joinType,
                         "source":     joinSource,

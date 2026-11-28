@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -75,6 +75,24 @@ final class EscapeIntrospectionTest extends AbstractDatabaseTestCase
             "SET('rob''ots')",
             $dialect->getColumnDefinition($scalarColumn)
         );
+    }
+
+    /**
+     * The dialects have no getExistsSql() helper, which did not escape the
+     * view name. viewExists() and tableExists() escape the names, as in
+     * cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/919
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-26
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getDialects')]
+    public function testDbDialectGetExistsSqlDoesNotExist(string $dialectClass): void
+    {
+        $this->assertFalse(method_exists($dialectClass, 'getExistsSql'));
     }
 
     /**
@@ -209,7 +227,7 @@ final class EscapeIntrospectionTest extends AbstractDatabaseTestCase
         $dialect = new Mysql();
 
         $this->assertSame(
-            'SHOW TABLES FROM `sch``ema`',
+            "SHOW FULL TABLES FROM `sch``ema` WHERE Table_type <> 'SEQUENCE'",
             $dialect->listTables('sch`ema')
         );
     }

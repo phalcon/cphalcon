@@ -23,7 +23,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
@@ -58,7 +58,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt_Exception)
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exception, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long code, ZEPHIR_LAST_CALL_STATUS;
+	zend_long code = 0, ZEPHIR_LAST_CALL_STATUS;
 	zval statement;
 	zval message_zv, *statement_param = NULL, *code_param = NULL, *previous = NULL, previous_sub, __$null, _0;
 	zend_string *message = NULL;
@@ -69,6 +69,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exception, __construct)
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&statement);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("statement", 9, 1);
@@ -107,17 +108,17 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exception, __construct)
 	} else {
 		zephir_get_arrval(&statement, statement_param);
 	}
-	if (!code_param) {
-		code = 0;
-	} else {
-		}
 	if (!previous) {
 		previous = &previous_sub;
 		previous = &__$null;
 	}
 	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 10, &statement);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZVAL_LONG(&_0, code);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_view_engine_volt_exception_ce, getThis(), "__construct", NULL, 0, &message_zv, &_0, previous);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_mvc_view_engine_volt_exception_ce, getThis(), "__construct", &_zephir_call_cache[0], &message_zv, &_0, previous);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -143,6 +144,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exception, getStatement)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 10, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CPY_WRT(&statement, &_0);
 	if (Z_TYPE_P(&statement) != IS_ARRAY) {
 		ZEPHIR_INIT_NVAR(&statement);

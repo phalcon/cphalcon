@@ -23,7 +23,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Implementation of this file has been heavily influenced by CapsulePHP.
@@ -72,6 +72,7 @@ PHP_METHOD(Phalcon_Container_Exceptions_CannotResolveParameter, __construct)
 	ZVAL_UNDEF(&param_zv);
 	ZVAL_UNDEF(&className_zv);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(param)
 		Z_PARAM_STR(className)
@@ -84,7 +85,11 @@ PHP_METHOD(Phalcon_Container_Exceptions_CannotResolveParameter, __construct)
 	ZVAL_STR_COPY(&className_zv, className);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SVSVS(&_0, "Cannot resolve parameter '$", &param_zv, "' for '", &className_zv, "'");
-	ZEPHIR_CALL_PARENT(NULL, phalcon_container_exceptions_cannotresolveparameter_ce, getThis(), "__construct", NULL, 0, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_container_exceptions_cannotresolveparameter_ce, getThis(), "__construct", &_zephir_call_cache[0], &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

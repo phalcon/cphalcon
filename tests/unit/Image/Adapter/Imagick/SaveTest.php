@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -18,6 +18,7 @@ use Phalcon\Image\Adapter\Imagick;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Talon\Talon;
 use Phalcon\Tests\Unit\Image\Fake\ImagickTrait;
+use ReflectionMethod;
 
 final class SaveTest extends AbstractUnitTestCase
 {
@@ -64,5 +65,25 @@ final class SaveTest extends AbstractUnitTestCase
         $this->assertSame(15, $saved->getNumberImages());
 
         $this->safeDeleteFile('animated.gif');
+    }
+
+    /**
+     * The save of a GIF reports success, the same as the other formats.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17788
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-24
+     */
+    public function testImageAdapterImagickSaveAnimatedGifReturnsTrue(): void
+    {
+        $image  = new Imagick(
+            Talon::settings()->supportPath('assets/images/example-gif-animated-horse.gif')
+        );
+        $target = Talon::settings()->outputPath('tests/image/imagick/processsave.gif');
+        $method = new ReflectionMethod(Imagick::class, 'processSave');
+
+        $this->assertTrue($method->invoke($image, $target, -1));
+
+        $this->safeDeleteFile($target);
     }
 }

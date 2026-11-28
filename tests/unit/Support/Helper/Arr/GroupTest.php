@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -81,6 +81,26 @@ final class GroupTest extends AbstractUnitTestCase
         ];
         $actual = $object($collection, 'strlen');
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * A method that is an int is a key of the rows, the same as cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/818
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    public function testSupportHelperArrGroupIntKey(): void
+    {
+        $object     = new Group();
+        $collection = [[1, 'a'], [2, 'b'], [1, 'c']];
+
+        $expected = [
+            1 => [[1, 'a'], [1, 'c']],
+            2 => [[2, 'b']],
+        ];
+
+        $this->assertSame($expected, $object($collection, 0));
     }
 
     /**

@@ -26,7 +26,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
@@ -53,6 +53,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, __construct)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&services);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(services, services_param)
@@ -66,7 +67,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, __construct)
 	} else {
 		zephir_get_arrval(&services, services_param);
 	}
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &services);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "init", &_zephir_call_cache[0], &services);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -86,6 +87,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, newInstance)
 
 	ZVAL_UNDEF(&name_zv);
 	ZVAL_UNDEF(&definition);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
@@ -93,7 +95,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, newInstance)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	ZEPHIR_CALL_METHOD(&definition, this_ptr, "getService", NULL, 0, &name_zv);
+	ZEPHIR_CALL_METHOD_CACHED(&definition, this_ptr, "getService", &_zephir_call_cache[0], &name_zv);
 	zephir_check_call_status();
 	ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(return_value, &definition);
 	zephir_check_call_status();
@@ -106,18 +108,20 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, newInstance)
  */
 PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, padNumberToService)
 {
-	zval _2$$3;
+	zval _3$$3;
+	zend_bool _0;
 	zval map;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *number_param = NULL, _3, _0$$3, _1$$3;
+	zval *number_param = NULL, _4, _1$$3, _2$$3;
 	zend_long number, ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&map);
 	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&map);
+	ZVAL_UNDEF(&_3$$3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(number)
 	ZEND_PARSE_PARAMETERS_END();
@@ -133,19 +137,32 @@ PHP_METHOD(Phalcon_Encryption_Crypt_PadFactory, padNumberToService)
 	add_index_stringl(&map, 2, SL("pjcs7"));
 	add_index_stringl(&map, 6, SL("space"));
 	add_index_stringl(&map, 5, SL("zero"));
-	if (UNEXPECTED(!(zephir_array_isset_value_long(&map, number)))) {
-		ZEPHIR_INIT_VAR(&_1$$3);
-		ZVAL_LONG(&_1$$3, number);
-		ZEPHIR_INIT_VAR(&_2$$3);
-		ZEPHIR_CONCAT_SV(&_2$$3, "Unknown padding constant ", &_1$$3);
-		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "getException", NULL, 0, &_2$$3);
-		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Encryption/Crypt/PadFactory.zep", 76);
+	_0 = zephir_array_isset_value_long(&map, number);
+	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_array_fetch_long(&_3, &map, number, PH_NOISY | PH_READONLY, "phalcon/Encryption/Crypt/PadFactory.zep", 79);
-	RETURN_CTOR(&_3);
+	if (UNEXPECTED(!(_0))) {
+		ZEPHIR_INIT_VAR(&_2$$3);
+		ZVAL_LONG(&_2$$3, number);
+		ZEPHIR_INIT_VAR(&_3$$3);
+		ZEPHIR_CONCAT_SV(&_3$$3, "Unknown padding constant ", &_2$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		ZEPHIR_CALL_METHOD_CACHED(&_1$$3, this_ptr, "getException", &_zephir_call_cache[0], &_3$$3);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Encryption/Crypt/PadFactory.zep", 76);
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_array_fetch_long(&_4, &map, number, PH_NOISY | PH_READONLY, "phalcon/Encryption/Crypt/PadFactory.zep", 79);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	RETURN_CTOR(&_4);
 }
 
 /**

@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -19,12 +19,17 @@ use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Tests\AbstractDatabaseTestCase;
 use Phalcon\Tests\Support\Migrations\AlbumsMigration;
 use Phalcon\Tests\Support\Migrations\ArtistsMigration;
+use Phalcon\Tests\Support\Migrations\InvoicesMigration;
 use Phalcon\Tests\Support\Migrations\SongsMigration;
 use Phalcon\Tests\Support\Models\AlbumORama\Albums;
 use Phalcon\Tests\Support\Models\AlbumORama\Artists;
 use Phalcon\Tests\Support\Models\AlbumORama\Songs;
+use Phalcon\Tests\Support\Models\InvoicesNotAModelRelation;
+use Phalcon\Tests\Support\Models\NotAModel;
 use Phalcon\Tests\Support\Traits\DiTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
+use TypeError;
 
 #[Group('phql')]
 final class GetRelationRecordsTest extends AbstractDatabaseTestCase
@@ -35,6 +40,20 @@ final class GetRelationRecordsTest extends AbstractDatabaseTestCase
     {
         $this->setNewFactoryDefault();
         $this->setDatabase();
+    }
+
+    /**
+     * The alias of a relation to a class that is not a model, and the method
+     * that the relation calls.
+     *
+     * @return array<string, array{0: string, 1: string}>
+     */
+    public static function getNotModelRelations(): array
+    {
+        return [
+            'belongsTo' => ['notAModel', 'findFirst'],
+            'hasMany'   => ['notModels', 'find'],
+        ];
     }
 
     /**
@@ -152,5 +171,33 @@ final class GetRelationRecordsTest extends AbstractDatabaseTestCase
         ];
         $actual   = $singlesRelationRecords->getFirst()->toArray();
         $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * A relation to a class that is not a model throws the TypeError of
+     * call_user_func_array().
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/818
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    #[DataProvider('getNotModelRelations')]
+    public function testMvcModelManagerGetRelationRecordsNotModel(string $alias, string $method): void
+    {
+        $migration = new InvoicesMigration(self::getPdoConnection());
+        $migration->insert(1, 1, 0, 'inv-title-1');
+
+        $invoice = InvoicesNotAModelRelation::findFirst();
+
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage(
+            'call_user_func_array(): Argument #1 ($callback) must be a valid callback, '
+            . 'class ' . NotAModel::class . ' does not have a method "' . $method . '"'
+        );
+
+        $invoice->getRelated($alias);
     }
 }

@@ -22,7 +22,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
@@ -58,7 +58,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Email, __invoke)
 	zephir_fetch_params(1, 1, 0, &input);
 	ZVAL_LONG(&_0, 517);
 	ZVAL_LONG(&_1, 1048576);
-	ZEPHIR_RETURN_CALL_FUNCTION("filter_var", NULL, 0, input, &_0, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("filter_var", NULL, 150, input, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }

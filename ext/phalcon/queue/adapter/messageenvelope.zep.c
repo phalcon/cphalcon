@@ -23,7 +23,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Implementation of this component has been inspired by the queue-interop and
@@ -61,6 +61,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Queue_Adapter_MessageEnvelope)
  */
 PHP_METHOD(Phalcon_Queue_Adapter_MessageEnvelope, decode)
 {
+	zend_bool _1, _2, _3;
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -84,7 +85,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_MessageEnvelope, decode)
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 1, 0);
 	zephir_array_update_string(&_0, SL("allowed_classes"), &__$false, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_FUNCTION(&data, "unserialize", NULL, 27, &payload_zv, &_0);
+	ZEPHIR_CALL_FUNCTION(&data, "unserialize", NULL, 17, &payload_zv, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&data) != IS_ARRAY) {
 		RETURN_MM_NULL();
@@ -95,17 +96,44 @@ PHP_METHOD(Phalcon_Queue_Adapter_MessageEnvelope, decode)
 	array_init(&properties);
 	ZEPHIR_INIT_VAR(&headers);
 	array_init(&headers);
-	if (zephir_array_isset_value_string(&data, SL("body"))) {
+	_1 = zephir_array_isset_value_string(&data, SL("body"));
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_1) {
 		ZEPHIR_OBS_NVAR(&body);
 		zephir_array_fetch_string(&body, &data, SL("body"), PH_NOISY, "phalcon/Queue/Adapter/MessageEnvelope.zep", 59);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
-	if (zephir_array_isset_value_string(&data, SL("properties"))) {
+	_2 = zephir_array_isset_value_string(&data, SL("properties"));
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_2) {
 		ZEPHIR_OBS_NVAR(&properties);
 		zephir_array_fetch_string(&properties, &data, SL("properties"), PH_NOISY, "phalcon/Queue/Adapter/MessageEnvelope.zep", 63);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
-	if (zephir_array_isset_value_string(&data, SL("headers"))) {
+	_3 = zephir_array_isset_value_string(&data, SL("headers"));
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_3) {
 		ZEPHIR_OBS_NVAR(&headers);
 		zephir_array_fetch_string(&headers, &data, SL("headers"), PH_NOISY, "phalcon/Queue/Adapter/MessageEnvelope.zep", 67);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	zephir_create_array(return_value, 3, 0);
 	zephir_array_update_string(return_value, SL("body"), &body, PH_COPY | PH_SEPARATE);
@@ -127,6 +155,7 @@ PHP_METHOD(Phalcon_Queue_Adapter_MessageEnvelope, encode)
 	ZVAL_UNDEF(&message_sub);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[3];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(message, phalcon_contracts_queue_message_ce)
 	ZEND_PARSE_PARAMETERS_END();
@@ -135,16 +164,16 @@ PHP_METHOD(Phalcon_Queue_Adapter_MessageEnvelope, encode)
 	zephir_fetch_params(1, 1, 0, &message);
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 3, 0);
-	ZEPHIR_CALL_METHOD(&_1, message, "getBody", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_1, message, "getBody", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	zephir_array_update_string(&_0, SL("body"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(&_1, message, "getProperties", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_1, message, "getProperties", &_zephir_call_cache[1]);
 	zephir_check_call_status();
 	zephir_array_update_string(&_0, SL("properties"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(&_1, message, "getHeaders", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_1, message, "getHeaders", &_zephir_call_cache[2]);
 	zephir_check_call_status();
 	zephir_array_update_string(&_0, SL("headers"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 22, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 13, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

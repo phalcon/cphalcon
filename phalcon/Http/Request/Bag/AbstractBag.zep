@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -303,7 +303,7 @@ abstract class AbstractBag implements ArrayAccess, Countable, IteratorAggregate
      * Normalizes a key for lookups and writes. Identity in the base;
      * subclasses can override it to change key handling
      */
-    protected function normalizeKey(var key) -> string
+    protected function normalizeKey(var key) -> int | string
     {
         if typeof key === "int" || typeof key === "string" {
             return key;

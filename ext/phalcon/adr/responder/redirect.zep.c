@@ -13,7 +13,6 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 
@@ -23,7 +22,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Based on the Action Domain Responder pattern
@@ -60,8 +59,8 @@ ZEPHIR_INIT_CLASS(Phalcon_ADR_Responder_Redirect)
 
 PHP_METHOD(Phalcon_ADR_Responder_Redirect, __construct)
 {
-	zend_bool external;
-	zend_long status;
+	zend_bool external = 0;
+	zend_long status = 302;
 	zval url_zv, *status_param = NULL, *external_param = NULL, __$true, __$false, _0;
 	zend_string *url = NULL;
 	zval *this_ptr = getThis();
@@ -96,22 +95,26 @@ PHP_METHOD(Phalcon_ADR_Responder_Redirect, __construct)
 		external_param = ZEND_CALL_ARG(execute_data, 3);
 	}
 	ZVAL_STR(&url_zv, url);
-	if (!status_param) {
-		status = 302;
-	} else {
-		}
-	if (!external_param) {
-		external = 0;
-	} else {
-		}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 368, &url_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 370, &url_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, status);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 369, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 371, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 	if (external) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 370, &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 372, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 370, &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 372, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			return;
+		}
 	}
 }
 
@@ -135,6 +138,7 @@ PHP_METHOD(Phalcon_ADR_Responder_Redirect, permanent)
 
 	ZVAL_UNDEF(&url_zv);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(url)
 	ZEND_PARSE_PARAMETERS_END();
@@ -143,9 +147,11 @@ PHP_METHOD(Phalcon_ADR_Responder_Redirect, permanent)
 	zephir_memory_observe(&url_zv);
 	ZVAL_STR_COPY(&url_zv, url);
 	object_init_ex(return_value, phalcon_adr_responder_redirect_ce);
+	zephir_constructor_start(return_value);
 	ZVAL_LONG(&_0, 301);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 338, &url_zv, &_0);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &url_zv, &_0);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -158,6 +164,7 @@ PHP_METHOD(Phalcon_ADR_Responder_Redirect, seeOther)
 
 	ZVAL_UNDEF(&url_zv);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(url)
 	ZEND_PARSE_PARAMETERS_END();
@@ -166,9 +173,11 @@ PHP_METHOD(Phalcon_ADR_Responder_Redirect, seeOther)
 	zephir_memory_observe(&url_zv);
 	ZVAL_STR_COPY(&url_zv, url);
 	object_init_ex(return_value, phalcon_adr_responder_redirect_ce);
+	zephir_constructor_start(return_value);
 	ZVAL_LONG(&_0, 303);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 338, &url_zv, &_0);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &url_zv, &_0);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -181,6 +190,7 @@ PHP_METHOD(Phalcon_ADR_Responder_Redirect, temporary)
 
 	ZVAL_UNDEF(&url_zv);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(url)
 	ZEND_PARSE_PARAMETERS_END();
@@ -189,9 +199,11 @@ PHP_METHOD(Phalcon_ADR_Responder_Redirect, temporary)
 	zephir_memory_observe(&url_zv);
 	ZVAL_STR_COPY(&url_zv, url);
 	object_init_ex(return_value, phalcon_adr_responder_redirect_ce);
+	zephir_constructor_start(return_value);
 	ZVAL_LONG(&_0, 302);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 338, &url_zv, &_0);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &url_zv, &_0);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 

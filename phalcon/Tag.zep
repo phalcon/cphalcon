@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -1632,7 +1632,7 @@ class Tag
 
             let value = self::getValue(id, params);
 
-            if value != null && currentValue == value {
+            if value !== null && currentValue == value {
                 let params["checked"] = "checked";
             }
 
@@ -1643,7 +1643,7 @@ class Tag
             /**
              * Evaluate the value in POST
              */
-            if value != null {
+            if value !== null {
                 let params["checked"] = "checked";
             }
 

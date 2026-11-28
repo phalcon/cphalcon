@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Implementation of this file has been influenced by sinbadxiii/cphalcon-uuid
@@ -31,7 +31,7 @@ class Version6 extends AbstractUuid implements TimeBasedUuidInterface
 
         let nowSec  = time();
         let sec     = nowSec;
-        let nowUsec = intval(round((microtime(true) - doubleval(nowSec)) * 10000000.0));
+        let nowUsec = intval(round((microtime(true) - floatval(nowSec)) * 10000000.0));
         let usec    = nowUsec;
 
         let timestamp = (sec + 12219292800) * 10000000 + usec;

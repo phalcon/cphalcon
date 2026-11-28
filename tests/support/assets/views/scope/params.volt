@@ -1,0 +1,1 @@
+{% set class_upper = 'upper' %}{{ partial('scope/child', ['class_upper': 'param']) }}

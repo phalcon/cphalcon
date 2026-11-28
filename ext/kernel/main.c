@@ -22,6 +22,7 @@
 #include <ext/spl/spl_exceptions.h>
 
 #include "kernel/main.h"
+#include "kernel/array.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
@@ -114,47 +115,76 @@ int zephir_fetch_parameters_variadic(int num_args, int required_args, int option
 }
 
 /**
- * Gets the global zval into PG macro
+ * The slot of a superglobal in the global symbol table, added as null when
+ * missing. An auto global created on first use (`_SERVER`, `_ENV`,
+ * `_REQUEST`) is created first, so it cannot later overwrite the slot.
+ */
+static zval *zephir_global_slot(zend_string *name)
+{
+	zval *slot;
+
+	if (PG(auto_globals_jit)) {
+		zend_is_auto_global(name);
+	}
+
+	slot = zend_hash_find_ind(&EG(symbol_table), name);
+	if (slot == NULL) {
+		slot = zend_hash_update(&EG(symbol_table), name, &EG(uninitialized_zval));
+	}
+
+	return slot;
+}
+
+/**
+ * Points `arr` at the value of a superglobal, which it borrows: `arr` owns no
+ * reference, so it must never be released or overwritten by anything but this
+ * function. A write to an element of `arr` changes the global itself.
+ *
+ * The slot is changed in place, so a reference to the global, such as the one
+ * the session keeps to `$_SESSION`, stays bound to it: a missing or null
+ * global becomes an empty array, as Zephir never leaves a superglobal null,
+ * and an array other variables share is separated first, as PHP separates it
+ * before a write. Any other value is borrowed as it is.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2856
  */
 int zephir_get_global(zval *arr, const char *global, unsigned int global_length)
 {
-	zend_array *symbol_table;
-	zend_string *str = zend_string_init(global, global_length, 0);
+	zend_string *name = zend_string_init(global, global_length, 0);
+	zval *slot        = zephir_global_slot(name);
+	int status        = SUCCESS;
 
-	if (PG(auto_globals_jit)) {
-		zend_is_auto_global(str);
+	zend_string_release(name);
+	ZVAL_DEREF(slot);
+
+	if (Z_TYPE_P(slot) == IS_NULL) {
+		array_init(slot);
+		status = FAILURE;
+	} else if (Z_TYPE_P(slot) == IS_ARRAY) {
+		SEPARATE_ARRAY(slot);
 	}
 
-	if (&EG(symbol_table)) {
-		zval *gv;
+	ZVAL_COPY_VALUE(arr, slot);
 
-		if ((gv = zend_hash_find_ind(&EG(symbol_table), str)) != NULL) {
-			ZVAL_DEREF(gv);
-			if (Z_TYPE_P(gv) == IS_ARRAY) {
-				if (Z_REFCOUNTED_P(gv) && Z_REFCOUNT_P(gv) <= 1) {
-					ZVAL_COPY_VALUE(arr, gv);
-				} else {
-					ZVAL_DUP(arr, gv);
-					zend_hash_update(&EG(symbol_table), str, arr);
-				}
+	return status;
+}
 
-				zend_string_release(str);
-				return SUCCESS;
-			}
-		}
-	}
+/**
+ * `let <superglobal> = value`: assigns `value` to the global the way PHP's
+ * ASSIGN does. A global bound to a reference is written through it, a typed
+ * one checked against its type, and the old value is released only after the
+ * slot holds the new one. `value` keeps its own reference.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2856
+ */
+int zephir_set_global(const char *global, unsigned int global_length, zval *value)
+{
+	zend_string *name = zend_string_init(global, global_length, 0);
 
-	array_init(arr);
-	if (!(&EG(symbol_table))) {
-		symbol_table = zend_rebuild_symbol_table();
-	} else {
-		symbol_table = &EG(symbol_table);
-	}
+	zephir_array_assign_value(zephir_global_slot(name), value);
+	zend_string_release(name);
 
-	zend_hash_update(symbol_table, str, arr);
-	zend_string_release(str);
-
-	return FAILURE;
+	return EG(exception) ? FAILURE : SUCCESS;
 }
 
 /**
@@ -413,10 +443,29 @@ int zephir_declare_class_constant(zend_class_entry *ce, const char *name, size_t
 {
 	zend_string *key;
 
+	zend_class_constant *inherited;
+
 	if (ce->type == ZEND_INTERNAL_CLASS) {
 		key = zend_string_init_interned(name, name_length, 1);
 	} else {
 		key = zend_string_init(name, name_length, 0);
+	}
+
+	/**
+	 * A class registered with a parent already holds the parent's constants,
+	 * and the engine refuses to declare one of them again, while PHP lets a
+	 * class redefine an inherited constant. The inherited entry of an internal
+	 * class is a bare copy whose value the parent owns, so only the copy is
+	 * freed, as destroy_zend_class() would.
+	 *
+	 * @see https://github.com/zephir-lang/zephir/issues/2825
+	 */
+	inherited = zend_hash_find_ptr(&ce->constants_table, key);
+	if (inherited && inherited->ce != ce) {
+		zend_hash_del(&ce->constants_table, key);
+		if (ce->type == ZEND_INTERNAL_CLASS) {
+			pefree(inherited, 1);
+		}
 	}
 
 	zend_declare_class_constant_ex(ce, key, value, ZEND_ACC_PUBLIC, NULL);
@@ -509,6 +558,13 @@ static void zephir_persist_constant_zval(zval *dst, zval *src)
 			zend_string *key;
 			zval *val;
 
+			/* An empty one is PHP's own shared empty array, which already has
+			 * this shape, as php-src's generated arginfo declares `= []`. #2799 */
+			if (zend_hash_num_elements(Z_ARRVAL_P(src)) == 0) {
+				ZVAL_EMPTY_ARRAY(dst);
+				break;
+			}
+
 			ht = (zend_array *) pemalloc(sizeof(zend_array), 1);
 			zend_hash_init(ht, zend_hash_num_elements(Z_ARRVAL_P(src)), NULL, NULL, 1);
 
@@ -557,15 +613,16 @@ int zephir_declare_class_constant_array(zend_class_entry *ce, const char *name, 
 /**
  * Declares a class property whose default value is an array.
  *
- * Unlike a regular class, a trait cannot rely on the runtime create_object
- * initializer to build an array default: PHP's zend_do_bind_traits() copies a
- * trait's property_info and default zvals into a using class but not its object
- * handlers, so the initializer never runs for a userland class that `use`s the
- * trait. Storing the array as a persistent, immutable (non-refcounted) zval in
- * the ce's default_properties_table makes the engine carry it natively, exactly
- * like a hand-written PHP trait property default.
+ * The array is stored as a persistent, immutable (non-refcounted) zval in the
+ * ce's default_properties_table, which is how PHP holds a literal array default:
+ * object_properties_init() hands it to every new object, and the first write
+ * separates the object's copy. Nothing runs per object, and the engine carries
+ * the default wherever it carries defaults: into a subclass, through
+ * Reflection, and through zend_do_bind_traits(), which copies a trait's default
+ * zvals into a using class but never its object handlers.
  *
  * @see https://github.com/zephir-lang/zephir/issues/2607
+ * @see https://github.com/zephir-lang/zephir/issues/2799
  */
 int zephir_declare_property_array(zend_class_entry *ce, const char *name, size_t name_length, zval *value, int access_type)
 {
@@ -610,6 +667,179 @@ zend_property_info *zephir_declare_typed_property(zend_class_entry *ce, const ch
 	zval_ptr_dtor(value);
 
 	return zend_declare_typed_property(ce, key, &persisted, access_type, NULL, type);
+}
+
+/**
+ * Whether the object is an instance of one class named by the type. On PHP
+ * 8.0 an internal `A|B` class list stays a single name, so it is split here;
+ * 8.1+ splits it into a type list at registration.
+ */
+static int zephir_union_arg_is_instance(zend_type type, zend_object *object)
+{
+	/* const: PHP 8.5's ZEND_TYPE_LIST_FOREACH iterates a const zend_type list. */
+	const zend_type *list_type;
+
+	if (ZEND_TYPE_HAS_LIST(type)) {
+		ZEND_TYPE_LIST_FOREACH(ZEND_TYPE_LIST(type), list_type) {
+			if (zephir_union_arg_is_instance(*list_type, object)) {
+				return 1;
+			}
+		} ZEND_TYPE_LIST_FOREACH_END();
+
+		return 0;
+	}
+
+	if (!ZEND_TYPE_HAS_NAME(type)) {
+		return 0;
+	}
+
+	zend_string *names = ZEND_TYPE_NAME(type);
+	const char *start  = ZSTR_VAL(names);
+	const char *end    = start + ZSTR_LEN(names);
+
+	while (start < end) {
+		const char *separator = memchr(start, '|', end - start);
+		size_t length         = (separator ? separator : end) - start;
+		zend_string *name     = zend_string_init(start, length, 0);
+		zend_class_entry *ce  = zend_lookup_class_ex(name, NULL, ZEND_FETCH_CLASS_NO_AUTOLOAD);
+
+		zend_string_release(name);
+		if (ce && instanceof_function(object->ce, ce)) {
+			return 1;
+		}
+		if (!separator) {
+			break;
+		}
+		start = separator + 1;
+	}
+
+	return 0;
+}
+
+/**
+ * The engine's weak-mode scalar coercion (`zend_verify_weak_scalar_type_hint`),
+ * which is not exported. The argument number makes a null argument raise the
+ * same deprecation an internal function's own parameter parsing raises.
+ */
+static int zephir_union_arg_coerce_weak(uint32_t type_mask, zval *arg, uint32_t arg_num)
+{
+	zend_long lval;
+	double dval;
+	zend_string *str;
+	bool bval;
+
+	/* Type preference order: int -> float -> string -> bool */
+	if (type_mask & MAY_BE_LONG) {
+		if ((type_mask & MAY_BE_DOUBLE) && Z_TYPE_P(arg) == IS_STRING) {
+			uint8_t type = is_numeric_str_function(Z_STR_P(arg), &lval, &dval);
+			if (type == IS_LONG) {
+				zend_string_release(Z_STR_P(arg));
+				ZVAL_LONG(arg, lval);
+				return 1;
+			}
+			if (type == IS_DOUBLE) {
+				zend_string_release(Z_STR_P(arg));
+				ZVAL_DOUBLE(arg, dval);
+				return 1;
+			}
+		} else if (zephir_parse_arg_long_weak(arg, &lval, arg_num)) {
+			zval_ptr_dtor(arg);
+			ZVAL_LONG(arg, lval);
+			return 1;
+		} else if (UNEXPECTED(EG(exception))) {
+			return 0;
+		}
+	}
+	if ((type_mask & MAY_BE_DOUBLE) && zephir_parse_arg_double_weak(arg, &dval, arg_num)) {
+		zval_ptr_dtor(arg);
+		ZVAL_DOUBLE(arg, dval);
+		return 1;
+	}
+	if ((type_mask & MAY_BE_STRING) && zephir_parse_arg_str_weak(arg, &str, arg_num)) {
+		/* on success "arg" is converted to IS_STRING */
+		return 1;
+	}
+	if ((type_mask & MAY_BE_BOOL) == MAY_BE_BOOL && zephir_parse_arg_bool_weak(arg, &bval, arg_num)) {
+		zval_ptr_dtor(arg);
+		ZVAL_BOOL(arg, bval);
+		return 1;
+	}
+
+	return 0;
+}
+
+/**
+ * Mirrors the engine's `zend_check_type()` for a parameter: the type mask,
+ * then the class members, then a strict or weak scalar coercion chosen by the
+ * caller's `strict_types`. Coercion happens in place, so the method reads the
+ * converted value. A weak-mode null reaching a scalar union is coerced as an
+ * internal function's parameter parsing does.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2761
+ */
+int zephir_verify_union_arg(zval *arg, uint32_t arg_num)
+{
+	zend_function *func = EG(current_execute_data)->func;
+	zend_arg_info *arg_info;
+	zend_reference *ref = NULL;
+	uint32_t type_mask;
+
+	if (arg_num > func->common.num_args) {
+		return 1;
+	}
+
+	arg_info = &func->common.arg_info[arg_num - 1];
+	if (!ZEND_TYPE_IS_SET(arg_info->type)) {
+		return 1;
+	}
+
+	if (UNEXPECTED(Z_ISREF_P(arg))) {
+		ref = Z_REF_P(arg);
+		arg = Z_REFVAL_P(arg);
+	}
+
+	if (EXPECTED(ZEND_TYPE_CONTAINS_CODE(arg_info->type, Z_TYPE_P(arg)))) {
+		return 1;
+	}
+
+	if (Z_TYPE_P(arg) == IS_OBJECT && zephir_union_arg_is_instance(arg_info->type, Z_OBJ_P(arg))) {
+		return 1;
+	}
+
+	type_mask = ZEND_TYPE_FULL_MASK(arg_info->type);
+	if ((type_mask & MAY_BE_CALLABLE) && zend_is_callable(arg, 0, NULL)) {
+		return 1;
+	}
+
+	/* A typed reference cannot be converted. */
+	if (!ref || !ZEND_REF_HAS_TYPE_SOURCES(ref)) {
+		if (ZEND_ARG_USES_STRICT_TYPES()) {
+			/* An int may still widen to float. */
+			if ((type_mask & MAY_BE_DOUBLE) && Z_TYPE_P(arg) == IS_LONG) {
+				ZVAL_DOUBLE(arg, (double) Z_LVAL_P(arg));
+				return 1;
+			}
+		} else if (zephir_union_arg_coerce_weak(type_mask, arg, arg_num)) {
+			return 1;
+		}
+	}
+
+	if (EG(exception)) {
+		return 0;
+	}
+
+	zend_string *type_str = zend_type_to_string(arg_info->type);
+	zend_argument_type_error(arg_num, "must be of type %s, %s given",
+		ZSTR_VAL(type_str),
+#if PHP_VERSION_ID >= 80300
+		zend_zval_value_name(arg)
+#else
+		zend_zval_type_name(arg)
+#endif
+	);
+	zend_string_release(type_str);
+
+	return 0;
 }
 
 zend_property_info *zephir_declare_typed_property_union(zend_class_entry *ce, const char *name, size_t name_length, zval *value, int access_type, uint32_t type_mask, const char **class_names, uint32_t num_classes)
@@ -1135,6 +1365,23 @@ void zephir_get_args_from(zval *return_value, uint32_t skip)
 			++i;
 		}
 	}
+
+	/**
+	 * Named arguments the method has no parameter for are collected by its
+	 * variadic parameter, under their names, as `...$args` collects them.
+	 *
+	 * @see https://github.com/zephir-lang/zephir/issues/2824
+	 */
+	if (ZEND_CALL_INFO(ex) & ZEND_CALL_HAS_EXTRA_NAMED_PARAMS) {
+		zend_string *name;
+		zval *value;
+
+		ZEND_HASH_FOREACH_STR_KEY_VAL(ex->extra_named_params, name, value) {
+			ZVAL_DEREF(value);
+			Z_TRY_ADDREF_P(value);
+			zend_hash_add_new(Z_ARRVAL_P(return_value), name, value);
+		} ZEND_HASH_FOREACH_END();
+	}
 }
 
 void zephir_get_arg(zval *return_value, zend_long idx)
@@ -1148,16 +1395,13 @@ void zephir_get_arg(zval *return_value, zend_long idx)
 		RETURN_FALSE;
 	}
 
+	/**
+	 * No zend_forbid_dynamic_call() here: `ex` is the frame of the method
+	 * that reads its arguments, and a method called through a callable is a
+	 * dynamic call PHP allows. The func_get_arg() Zephir compiles is never
+	 * itself called dynamically.
+	 */
 	arg_count = ZEND_CALL_NUM_ARGS(ex);
-#if PHP_VERSION_ID >= 80200
-	if (zend_forbid_dynamic_call() == FAILURE) {
-		RETURN_FALSE;
-	}
-#else
-	if (zend_forbid_dynamic_call("func_get_arg()") == FAILURE) {
-		RETURN_FALSE;
-	}
-#endif
 
 	if (UNEXPECTED((zend_ulong)idx >= arg_count)) {
 		zend_error(E_WARNING, "func_get_arg():  Argument " ZEND_LONG_FMT " not passed to function", idx);
@@ -1229,5 +1473,94 @@ void zephir_ini_activate_globals(const char *const *names)
 				ZEND_INI_STAGE_ACTIVATE
 			);
 		}
+	}
+}
+
+void zephir_globals_set_string(char **member, char **owned, zval *value)
+{
+	zend_string *str = zval_get_string(value);
+	char *copy;
+
+	if (UNEXPECTED(EG(exception))) {
+		zend_string_release(str);
+		return;
+	}
+
+	/* pemalloc() fails with a fatal error rather than returning NULL, which
+	 * zend_strndup() would, and the member must never be NULL. */
+	copy = pemalloc(ZSTR_LEN(str) + 1, 1);
+	memcpy(copy, ZSTR_VAL(str), ZSTR_LEN(str) + 1);
+	zend_string_release(str);
+
+	zephir_globals_release_string(owned);
+	*owned  = copy;
+	*member = copy;
+}
+
+void zephir_globals_release_string(char **owned)
+{
+	if (*owned) {
+		pefree(*owned, 1);
+		*owned = NULL;
+	}
+}
+
+void zephir_globals_set_hash(HashTable **member, zval *value)
+{
+	HashTable *previous = *member;
+	zval array;
+
+	ZVAL_DEREF(value);
+
+	if (Z_TYPE_P(value) == IS_NULL) {
+		*member = NULL;
+	} else {
+		ZVAL_COPY(&array, value);
+		convert_to_array(&array);
+
+		if (UNEXPECTED(EG(exception))) {
+			zval_ptr_dtor(&array);
+			return;
+		}
+
+		/* Never refcounted, so ZVAL_COPY() took no reference to it. */
+		if (GC_FLAGS(Z_ARR(array)) & IS_ARRAY_IMMUTABLE) {
+			ZVAL_ARR(&array, zend_array_dup(Z_ARR(array)));
+		}
+
+		*member = Z_ARR(array);
+	}
+
+	if (previous) {
+		zend_array_release(previous);
+	}
+}
+
+void zephir_globals_get_hash(zval *result, HashTable *member)
+{
+	if (!member) {
+		ZVAL_NULL(result);
+		return;
+	}
+
+	/* One C put there itself: a zval holding it must not count references. */
+	if (GC_FLAGS(member) & IS_ARRAY_IMMUTABLE) {
+		ZVAL_ARR(result, member);
+		Z_TYPE_FLAGS_P(result) = 0;
+		return;
+	}
+
+	GC_ADDREF(member);
+	ZVAL_ARR(result, member);
+}
+
+void zephir_globals_release_hash(HashTable **member)
+{
+	HashTable *previous = *member;
+
+	*member = NULL;
+
+	if (previous) {
+		zend_array_release(previous);
 	}
 }

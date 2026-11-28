@@ -115,6 +115,7 @@ PHP_METHOD(Phalcon_Support_HelperFactory, __construct)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&services);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		ZEPHIR_Z_PARAM_ARRAY(services, services_param)
@@ -128,7 +129,7 @@ PHP_METHOD(Phalcon_Support_HelperFactory, __construct)
 	} else {
 		zephir_get_arrval(&services, services_param);
 	}
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &services);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "init", &_zephir_call_cache[0], &services);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -152,6 +153,7 @@ PHP_METHOD(Phalcon_Support_HelperFactory, __call)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&arguments);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(name)
 		ZEPHIR_Z_PARAM_ARRAY(arguments, arguments_param)
@@ -162,7 +164,7 @@ PHP_METHOD(Phalcon_Support_HelperFactory, __call)
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	zephir_get_arrval(&arguments, arguments_param);
-	ZEPHIR_CALL_METHOD(&helper, this_ptr, "newInstance", NULL, 0, &name_zv);
+	ZEPHIR_CALL_METHOD_CACHED(&helper, this_ptr, "newInstance", &_zephir_call_cache[0], &name_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 2, 0);
@@ -182,18 +184,20 @@ PHP_METHOD(Phalcon_Support_HelperFactory, __call)
  */
 PHP_METHOD(Phalcon_Support_HelperFactory, newInstance)
 {
+	zend_bool _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval name_zv, _0, _3, _4, _1$$3, _2$$3;
+	zval name_zv, _0, _4, _5, _2$$3, _3$$3;
 	zend_string *name = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name_zv);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_3$$3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("services", 8, 1);
@@ -206,19 +210,40 @@ PHP_METHOD(Phalcon_Support_HelperFactory, newInstance)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1400, PH_NOISY_CC | PH_READONLY);
-	if (1 != zephir_array_isset_value(&_0, &name_zv)) {
-		ZEPHIR_INIT_VAR(&_1$$3);
-		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "getService", NULL, 0, &name_zv);
-		zephir_check_call_status();
-		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(&_1$$3, &_2$$3);
-		zephir_check_call_status();
-		zephir_update_property_array(this_ptr, SL("services"), &name_zv, &_1$$3);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1403, PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
 	}
-	zephir_read_property_cached(&_3, this_ptr, _zephir_prop_0, 1400, PH_NOISY_CC | PH_READONLY);
-	zephir_memory_observe(&_4);
-	zephir_array_fetch(&_4, &_3, &name_zv, PH_NOISY, "phalcon/Support/HelperFactory.zep", 179);
-	RETURN_CCTOR(&_4);
+	_1 = zephir_array_isset_value(&_0, &name_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (1 != _1) {
+		ZEPHIR_INIT_VAR(&_2$$3);
+		ZEPHIR_CALL_METHOD_CACHED(&_3$$3, this_ptr, "getService", &_zephir_call_cache[0], &name_zv);
+		zephir_check_call_status();
+		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(&_2$$3, &_3$$3);
+		zephir_check_call_status();
+		zephir_update_property_array(this_ptr, SL("services"), &name_zv, &_2$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+	}
+	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_0, 1403, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_memory_observe(&_5);
+	zephir_array_fetch(&_5, &_4, &name_zv, PH_NOISY, "phalcon/Support/HelperFactory.zep", 179);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	RETURN_CCTOR(&_5);
 }
 
 /**

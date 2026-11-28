@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -13,15 +13,34 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Database\Db\Dialect\Sqlite;
 
+use Error;
 use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Tests\AbstractDatabaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
+use stdClass;
+use Throwable;
 
 #[Group('mysql')]
 #[Group('pgsql')]
 #[Group('sqlite')]
 final class RegisterCustomFunctionTest extends AbstractDatabaseTestCase
 {
+    /**
+     * A value that cannot be called and the cphalcon message.
+     *
+     * @return array<string, array{0: mixed, 1: string}>
+     */
+    public static function getNotCallableValues(): array
+    {
+        return [
+            'string' => ['nope', 'Call to undefined function nope()'],
+            'array'  => [[new stdClass(), 'missing'], 'Call to undefined method stdClass::missing()'],
+            'object' => [new stdClass(), 'Call to undefined function undefined()'],
+            'int'    => [5, 'Call to undefined function undefined()'],
+        ];
+    }
+
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: registerCustomFunction()
      *
@@ -45,5 +64,74 @@ final class RegisterCustomFunctionTest extends AbstractDatabaseTestCase
 
         $this->assertArrayHasKey('MYFUNC', $functions);
         $this->assertIsCallable($functions['MYFUNC']);
+    }
+
+    /**
+     * With no escape character, the custom function gets null, also for a
+     * function call in an expression, the same as cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/821
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-17
+     */
+    public function testDbDialectSqliteRegisterCustomFunctionNoEscapeChar(): void
+    {
+        $dialect = new Sqlite();
+        $dialect->registerCustomFunction(
+            'FOO',
+            function ($dialect, $expression, $escapeChar) {
+                return 'FOO(' . var_export($escapeChar, true) . ')';
+            }
+        );
+
+        $actual = $dialect->getSqlExpression(
+            [
+                'type' => 'functionCall',
+                'name' => 'FOO',
+            ]
+        );
+        $this->assertSame('FOO(NULL)', $actual);
+
+        $actual = $dialect->getSqlExpression(
+            [
+                'type'  => 'binary-op',
+                'op'    => '=',
+                'left'  => [
+                    'type' => 'qualified',
+                    'name' => 'a',
+                ],
+                'right' => [
+                    'type' => 'functionCall',
+                    'name' => 'FOO',
+                ],
+            ]
+        );
+        $this->assertSame('"a" = FOO(NULL)', $actual);
+    }
+
+    /**
+     * A custom function that cannot be called is registered. The SQL of the
+     * function call throws Error with the cphalcon message.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/818
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    #[DataProvider('getNotCallableValues')]
+    public function testDbDialectSqliteRegisterCustomFunctionNotCallable(
+        mixed $value,
+        string $expected
+    ): void {
+        $dialect = new Sqlite();
+        $dialect->registerCustomFunction('FOO', $value);
+
+        $actual = null;
+        try {
+            $dialect->getSqlExpression(['type' => 'functionCall', 'name' => 'FOO']);
+        } catch (Throwable $ex) {
+            $actual = [$ex::class, $ex->getMessage()];
+        }
+
+        $this->assertSame([Error::class, $expected], $actual);
     }
 }

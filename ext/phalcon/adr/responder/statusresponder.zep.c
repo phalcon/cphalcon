@@ -23,7 +23,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Based on the Action Domain Responder pattern
@@ -59,6 +59,7 @@ PHP_METHOD(Phalcon_ADR_Responder_StatusResponder, __construct)
 	ZVAL_UNDEF(&mapper_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0$$3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("mapper", 6, 1);
@@ -79,11 +80,21 @@ PHP_METHOD(Phalcon_ADR_Responder_StatusResponder, __construct)
 	if (Z_TYPE_P(mapper) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_adr_responder_statusmapper_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 339);
+		zephir_constructor_start(&_0$$3);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_0$$3, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 372, &_0$$3);
+		zephir_constructor_finish(&_0$$3);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 374, &_0$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 372, mapper);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 374, mapper);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	ZEPHIR_MM_RESTORE();
 }
@@ -103,6 +114,7 @@ PHP_METHOD(Phalcon_ADR_Responder_StatusResponder, __invoke)
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[3];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("mapper", 6, 1);
@@ -116,14 +128,22 @@ PHP_METHOD(Phalcon_ADR_Responder_StatusResponder, __invoke)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 3, 0, &request, &response, &payload);
-	ZEPHIR_CALL_METHOD(&status, payload, "getStatus", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&status, payload, "getStatus", &_zephir_call_cache[0]);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&status) != IS_NULL) {
-		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 372, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 374, PH_NOISY_CC | PH_READONLY);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		zephir_cast_to_string(&_2$$3, &status);
-		ZEPHIR_CALL_METHOD(&_1$$3, &_0$$3, "toHttpCode", NULL, 0, &_2$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		ZEPHIR_CALL_METHOD_CACHED(&_1$$3, &_0$$3, "toHttpCode", &_zephir_call_cache[1], &_2$$3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, response, "setStatusCode", NULL, 0, &_1$$3);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, response, "setStatusCode", &_zephir_call_cache[2], &_1$$3);
 		zephir_check_call_status();
 	}
 	RETVAL_ZVAL(response, 1, 0);

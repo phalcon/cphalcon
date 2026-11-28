@@ -4,8 +4,8 @@
 #
 # (c) Phalcon Team <team@phalcon.io>
 #
-# For the full copyright and license information, please view
-# the LICENSE.txt file that was distributed with this source code.
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
 
 # Measures the memory of one benchmark subject: the peak of one call, the memory that stays after k calls
 # (before and after a garbage collection) and the reference cycles. No valgrind.

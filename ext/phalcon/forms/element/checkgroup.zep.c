@@ -26,7 +26,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
@@ -79,6 +79,7 @@ PHP_METHOD(Phalcon_Forms_Element_CheckGroup, __construct)
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&attributes);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("optionsValues", 13, 1);
@@ -109,10 +110,18 @@ PHP_METHOD(Phalcon_Forms_Element_CheckGroup, __construct)
 	if (!(zephir_memnstr_str(&name, SL("["), "phalcon/Forms/Element/CheckGroup.zep", 50))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZEPHIR_CONCAT_VS(&_0$$3, &name, "[]");
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_CPY_WRT(&name, &_0$$3);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 790, &options);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_forms_element_checkgroup_ce, getThis(), "__construct", NULL, 0, &name, &attributes);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 792, &options);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_forms_element_checkgroup_ce, getThis(), "__construct", &_zephir_call_cache[0], &name, &attributes);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -153,6 +162,7 @@ PHP_METHOD(Phalcon_Forms_Element_CheckGroup, render)
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_6);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[4];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	static zend_string *_zephir_prop_2 = NULL;
@@ -179,22 +189,38 @@ PHP_METHOD(Phalcon_Forms_Element_CheckGroup, render)
 	} else {
 		zephir_get_arrval(&attributes, attributes_param);
 	}
-	ZEPHIR_CALL_METHOD(&value, this_ptr, "getValue", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&value, this_ptr, "getValue", &_zephir_call_cache[0]);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 791, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 793, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&merged);
 	zephir_fast_array_merge(&merged, &_0, &attributes);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getLocalTagFactory", NULL, 0);
+	ZEPHIR_CALL_METHOD_CACHED(&_1, this_ptr, "getLocalTagFactory", &_zephir_call_cache[1]);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "inputCheckboxGroup");
-	ZEPHIR_CALL_METHOD(&helper, &_1, "newInstance", NULL, 0, &_2);
+	ZEPHIR_CALL_METHOD_CACHED(&helper, &_1, "newInstance", &_zephir_call_cache[2], &_2);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_1, 792, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_2, 790, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_3, &helper, "__invoke", NULL, 0, &_4, &_5, &value, &merged);
+	zephir_read_property_cached(&_4, this_ptr, _zephir_prop_1, 794, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_read_property_cached(&_5, this_ptr, _zephir_prop_2, 792, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_METHOD_CACHED(&_3, &helper, "__invoke", &_zephir_call_cache[3], &_4, &_5, &value, &merged);
 	zephir_check_call_status();
 	zephir_cast_to_string(&_6, &_3);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_CTOR(&_6);
 }
 
@@ -223,7 +249,11 @@ PHP_METHOD(Phalcon_Forms_Element_CheckGroup, setOptions)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &options_param);
 	zephir_get_arrval(&options, options_param);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 790, &options);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 792, &options);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_THIS();
 }
 

@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -58,6 +58,39 @@ final class ValuesTest extends AbstractTagTestCase
         Tag::setDefault('name', 'Stored');
 
         $this->assertSame('Stored', Tag::getValue('name'));
+    }
+
+    /**
+     * A "value" parameter that is null is a value, as in cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/843
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-21
+     */
+    public function testGetValueWithANullValueParameter(): void
+    {
+        $_POST['name'] = 'Posted';
+
+        Tag::setDefault('name', 'Stored');
+
+        $this->assertNull(Tag::getValue('name', ['value' => null]));
+        $this->assertSame(
+            '<input type="text" id="name" name="name">',
+            Tag::textField(['name', 'value' => null])
+        );
+    }
+
+    /**
+     * The parameters have the cphalcon names.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/832
+     */
+    public function testGetValueWithNamedArguments(): void
+    {
+        $this->assertSame(
+            'Given',
+            Tag::getValue(name: 'name', params: ['value' => 'Given'])
+        );
     }
 
     public function testGetValueWithNothingStoredIsNull(): void

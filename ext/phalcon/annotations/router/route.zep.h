@@ -7,11 +7,11 @@ PHP_METHOD(Phalcon_Annotations_Router_Route, __construct);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_router_route___construct, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, route, IS_STRING, 0)
-	ZEND_ARG_INFO(0, methods)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, methods, "null")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, name, IS_STRING, 1, "null")
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, paths, IS_ARRAY, 0, "[]")
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, converters, IS_ARRAY, 0, "[]")
-	ZEND_ARG_INFO(0, beforeMatch)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, beforeMatch, "null")
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_annotations_router_route_method_entry) {

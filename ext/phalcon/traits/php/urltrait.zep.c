@@ -13,7 +13,6 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
 
@@ -23,7 +22,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
@@ -58,7 +57,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Traits_Php_UrlTrait)
 PHP_METHOD(Phalcon_Traits_Php_UrlTrait, phpParseUrl)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long component, ZEPHIR_LAST_CALL_STATUS;
+	zend_long component = -1, ZEPHIR_LAST_CALL_STATUS;
 	zval url_zv, *component_param = NULL, _0;
 	zend_string *url = NULL;
 
@@ -76,12 +75,8 @@ PHP_METHOD(Phalcon_Traits_Php_UrlTrait, phpParseUrl)
 	}
 	zephir_memory_observe(&url_zv);
 	ZVAL_STR_COPY(&url_zv, url);
-	if (!component_param) {
-		component = -1;
-	} else {
-		}
 	ZVAL_LONG(&_0, component);
-	ZEPHIR_RETURN_CALL_FUNCTION("parse_url", NULL, 0, &url_zv, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("parse_url", NULL, 155, &url_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -108,7 +103,7 @@ PHP_METHOD(Phalcon_Traits_Php_UrlTrait, phpRawUrlDecode)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
-	ZEPHIR_RETURN_CALL_FUNCTION("rawurldecode", NULL, 0, &input_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("rawurldecode", NULL, 166, &input_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -135,7 +130,7 @@ PHP_METHOD(Phalcon_Traits_Php_UrlTrait, phpRawUrlEncode)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
-	ZEPHIR_RETURN_CALL_FUNCTION("rawurlencode", NULL, 0, &input_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("rawurlencode", NULL, 167, &input_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }

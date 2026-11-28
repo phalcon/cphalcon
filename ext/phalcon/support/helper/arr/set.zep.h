@@ -10,7 +10,7 @@ PHP_METHOD(Phalcon_Support_Helper_Arr_Set, checkNull);
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_helper_arr_set___invoke, 0, 2, IS_ARRAY, 0)
 	ZEND_ARG_ARRAY_INFO(0, collection, 0)
 	ZEND_ARG_INFO(0, value)
-	ZEND_ARG_INFO(0, index)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, index, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_support_helper_arr_set_checknotnull, 0, 3, IS_ARRAY, 0)

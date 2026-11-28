@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -17,7 +17,7 @@ use Phalcon\Di\Di;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Tests\Support\Di\InjectionAwareComponent;
 
-use function spl_object_hash;
+use function spl_object_id;
 
 final class InjectionAwareTest extends AbstractUnitTestCase
 {
@@ -33,8 +33,8 @@ final class InjectionAwareTest extends AbstractUnitTestCase
         $component->setDI($container);
         $actual = $component->getDI();
 
-        $expected = spl_object_hash($container);
-        $actual   = spl_object_hash($actual);
+        $expected = spl_object_id($container);
+        $actual   = spl_object_id($actual);
         $this->assertSame($expected, $actual);
     }
 }

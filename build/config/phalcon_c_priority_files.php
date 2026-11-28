@@ -1,4 +1,14 @@
 <?php
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 // These are priority files, their contents must be put into phalcon.c before any other source files
 
 return [

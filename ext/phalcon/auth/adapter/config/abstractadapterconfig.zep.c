@@ -21,7 +21,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Implementation of this file has been influenced by sinbadxiii/cphalcon-auth
@@ -72,7 +72,11 @@ PHP_METHOD(Phalcon_Auth_Adapter_Config_AbstractAdapterConfig, __construct)
 		zephir_memory_observe(&model_zv);
 	ZVAL_STR_COPY(&model_zv, model);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 104, &model_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 105, &model_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 

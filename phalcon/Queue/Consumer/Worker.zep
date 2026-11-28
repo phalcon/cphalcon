@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Implementation of this component has been inspired by the queue-interop and
@@ -46,9 +46,10 @@ class Worker
     }
 
     /**
-     * Signal handler: requests a graceful stop.
+     * Signal handler: requests a graceful stop. PHP sends the signal
+     * information as the second argument. This method does not use it.
      */
-    public function handleSignal(int signal) -> void
+    public function handleSignal(int signal, array info = null) -> void
     {
         this->consumer->stop();
     }

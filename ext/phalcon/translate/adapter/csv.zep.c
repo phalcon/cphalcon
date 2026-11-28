@@ -27,7 +27,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
@@ -60,19 +60,21 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_Csv)
  */
 PHP_METHOD(Phalcon_Translate_Adapter_Csv, __construct)
 {
+	zend_bool _0, _1, _2, _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval options;
-	zval *interpolator, interpolator_sub, *options_param = NULL, delimiter, enclosure, escape, _0, _1;
+	zval *interpolator, interpolator_sub, *options_param = NULL, delimiter, enclosure, escape, _4, _5;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&interpolator_sub);
 	ZVAL_UNDEF(&delimiter);
 	ZVAL_UNDEF(&enclosure);
 	ZVAL_UNDEF(&escape);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&options);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_OBJECT_OF_CLASS(interpolator, phalcon_translate_interpolatorfactory_ce)
 		ZEPHIR_Z_PARAM_ARRAY(options, options_param)
@@ -81,37 +83,73 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 2, 0, &interpolator, &options_param);
 	zephir_get_arrval(&options, options_param);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_translate_adapter_csv_ce, getThis(), "__construct", NULL, 0, interpolator, &options);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_translate_adapter_csv_ce, getThis(), "__construct", &_zephir_call_cache[0], interpolator, &options);
 	zephir_check_call_status();
-	if (UNEXPECTED(!(zephir_array_isset_value_string(&options, SL("content"))))) {
+	_0 = zephir_array_isset_value_string(&options, SL("content"));
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (UNEXPECTED(!(_0))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_translate_exceptions_missingrequiredparameter_ce, "content", "phalcon/Translate/Adapter/Csv.zep", 50);
 		return;
 	}
-	if (zephir_array_isset_value_string(&options, SL("delimiter"))) {
+	_1 = zephir_array_isset_value_string(&options, SL("delimiter"));
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_1) {
 		zephir_memory_observe(&delimiter);
 		zephir_array_fetch_string(&delimiter, &options, SL("delimiter"), PH_NOISY, "phalcon/Translate/Adapter/Csv.zep", 54);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
 		ZEPHIR_INIT_NVAR(&delimiter);
 		ZVAL_STRING(&delimiter, ";");
 	}
-	if (zephir_array_isset_value_string(&options, SL("enclosure"))) {
+	_2 = zephir_array_isset_value_string(&options, SL("enclosure"));
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_2) {
 		zephir_memory_observe(&enclosure);
 		zephir_array_fetch_string(&enclosure, &options, SL("enclosure"), PH_NOISY, "phalcon/Translate/Adapter/Csv.zep", 60);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
 		ZEPHIR_INIT_NVAR(&enclosure);
 		ZVAL_STRING(&enclosure, "\"");
 	}
-	if (zephir_array_isset_value_string(&options, SL("escape"))) {
+	_3 = zephir_array_isset_value_string(&options, SL("escape"));
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_3) {
 		zephir_memory_observe(&escape);
 		zephir_array_fetch_string(&escape, &options, SL("escape"), PH_NOISY, "phalcon/Translate/Adapter/Csv.zep", 66);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
 		ZEPHIR_INIT_NVAR(&escape);
 		ZVAL_STRING(&escape, "\\");
 	}
-	zephir_memory_observe(&_0);
-	zephir_array_fetch_string(&_0, &options, SL("content"), PH_NOISY, "phalcon/Translate/Adapter/Csv.zep", 71);
-	ZVAL_LONG(&_1, 0);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "load", NULL, 0, &_0, &_1, &delimiter, &enclosure, &escape);
+	zephir_memory_observe(&_4);
+	zephir_array_fetch_string(&_4, &options, SL("content"), PH_NOISY, "phalcon/Translate/Adapter/Csv.zep", 71);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZVAL_LONG(&_5, 0);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "load", &_zephir_call_cache[1], &_4, &_5, &delimiter, &enclosure, &escape);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -130,6 +168,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, exists)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&index_zv);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(index)
 	ZEND_PARSE_PARAMETERS_END();
@@ -137,7 +176,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, exists)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&index_zv);
 	ZVAL_STR_COPY(&index_zv, index);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "has", NULL, 0, &index_zv);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "has", &_zephir_call_cache[0], &index_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -147,6 +186,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, exists)
  */
 PHP_METHOD(Phalcon_Translate_Adapter_Csv, has)
 {
+	zend_bool _1;
 	zval index_zv, _0;
 	zend_string *index = NULL;
 	zval *this_ptr = getThis();
@@ -162,8 +202,15 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, has)
 		Z_PARAM_STR(index)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&index_zv, index);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1405, PH_NOISY_CC | PH_READONLY);
-	RETURN_BOOL(zephir_array_isset_value(&_0, &index_zv));
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1408, PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
+	_1 = zephir_array_isset_value(&_0, &index_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
+	RETURN_BOOL(_1);
 }
 
 /**
@@ -173,6 +220,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, has)
  */
 PHP_METHOD(Phalcon_Translate_Adapter_Csv, query)
 {
+	zend_bool _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval placeholders;
@@ -184,6 +232,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, query)
 	ZVAL_UNDEF(&translation);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&placeholders);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("translate", 9, 1);
@@ -208,12 +257,21 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, query)
 		zephir_get_arrval(&placeholders, placeholders_param);
 	}
 	zephir_memory_observe(&translation);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1405, PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset_fetch(&translation, &_0, &translateKey_zv, 0))) {
-		ZEPHIR_CALL_METHOD(&translation, this_ptr, "notFound", NULL, 0, &translateKey_zv);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1408, PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	_1 = zephir_array_isset_fetch(&translation, &_0, &translateKey_zv, 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (!(_1)) {
+		ZEPHIR_CALL_METHOD_CACHED(&translation, this_ptr, "notFound", &_zephir_call_cache[0], &translateKey_zv);
 		zephir_check_call_status();
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "replacePlaceholders", NULL, 0, &translation, &placeholders);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "replacePlaceholders", &_zephir_call_cache[1], &translation, &placeholders);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -241,11 +299,10 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, toArray)
  */
 PHP_METHOD(Phalcon_Translate_Adapter_Csv, load)
 {
-	zend_bool _7$$4;
+	zend_bool _6$$4, _7$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long length, ZEPHIR_LAST_CALL_STATUS;
-	zval file_zv, *length_param = NULL, delimiter_zv, enclosure_zv, escape_zv, data, fileHandler, _0, _1$$3, _2$$4, _4$$4, _5$$4, _6$$4, _8$$4, _9$$4;
+	zval file_zv, *length_param = NULL, delimiter_zv, enclosure_zv, escape_zv, data, fileHandler, _0, _1$$3, _2$$4, _3$$4, _4$$4, _5$$4, _8$$4, _9$$4;
 	zend_string *file = NULL, *delimiter = NULL, *enclosure = NULL, *escape = NULL;
 	zval *this_ptr = getThis();
 
@@ -258,11 +315,12 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, load)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$4);
+	ZVAL_UNDEF(&_3$$4);
 	ZVAL_UNDEF(&_4$$4);
 	ZVAL_UNDEF(&_5$$4);
-	ZVAL_UNDEF(&_6$$4);
 	ZVAL_UNDEF(&_8$$4);
 	ZVAL_UNDEF(&_9$$4);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[4];
 	ZEND_PARSE_PARAMETERS_START(5, 5)
 		Z_PARAM_STR(file)
 		Z_PARAM_LONG(length)
@@ -283,44 +341,67 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, load)
 	ZVAL_STR_COPY(&escape_zv, escape);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "rb");
-	ZEPHIR_CALL_METHOD(&fileHandler, this_ptr, "phpFopen", NULL, 0, &file_zv, &_0);
+	ZEPHIR_CALL_METHOD_CACHED(&fileHandler, this_ptr, "phpFopen", &_zephir_call_cache[0], &file_zv, &_0);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(&fileHandler) != IS_RESOURCE)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_translate_exceptions_fileopenerror_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0, &file_zv);
+		zephir_constructor_start(&_1$$3);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1$$3, "__construct", &_zephir_call_cache[1], &file_zv);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1$$3);
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Translate/Adapter/Csv.zep", 140);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	while (1) {
 		ZVAL_LONG(&_2$$4, length);
-		ZEPHIR_CALL_METHOD(&data, this_ptr, "phpFgetCsv", &_3, 0, &fileHandler, &_2$$4, &delimiter_zv, &enclosure_zv, &escape_zv);
+		ZEPHIR_CALL_METHOD_CACHED(&data, this_ptr, "phpFgetCsv", &_zephir_call_cache[2], &fileHandler, &_2$$4, &delimiter_zv, &enclosure_zv, &escape_zv);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_FALSE_IDENTICAL(&data)) {
 			break;
 		}
-		ZEPHIR_OBS_NVAR(&_4$$4);
-		zephir_array_fetch_long(&_4$$4, &data, 0, PH_NOISY, "phalcon/Translate/Adapter/Csv.zep", 150);
-		ZVAL_LONG(&_2$$4, 0);
-		ZVAL_LONG(&_5$$4, 1);
-		ZEPHIR_INIT_NVAR(&_6$$4);
-		zephir_substr(&_6$$4, &_4$$4, 0 , 1 , 0);
-		_7$$4 = ZEPHIR_IS_STRING_IDENTICAL(&_6$$4, "#");
-		if (!(_7$$4)) {
-			_7$$4 = !(zephir_array_isset_value_long(&data, 1));
+		ZEPHIR_OBS_NVAR(&_3$$4);
+		zephir_array_fetch_long(&_3$$4, &data, 0, PH_NOISY, "phalcon/Translate/Adapter/Csv.zep", 150);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
 		}
-		if (_7$$4) {
+		ZVAL_LONG(&_2$$4, 0);
+		ZVAL_LONG(&_4$$4, 1);
+		ZEPHIR_INIT_NVAR(&_5$$4);
+		zephir_substr(&_5$$4, &_3$$4, 0 , 1 , 0);
+		_6$$4 = ZEPHIR_IS_STRING_IDENTICAL(&_5$$4, "#");
+		if (!(_6$$4)) {
+			_7$$4 = zephir_array_isset_value_long(&data, 1);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			_6$$4 = !(_7$$4);
+		}
+		if (_6$$4) {
 			continue;
 		}
 		ZEPHIR_OBS_NVAR(&_8$$4);
-		zephir_array_fetch_long(&_8$$4, &data, 1, PH_NOISY, "phalcon/Translate/Adapter/Csv.zep", 154);
+		zephir_array_fetch_long(&_8$$4, &data, 0, PH_NOISY, "phalcon/Translate/Adapter/Csv.zep", 154);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_OBS_NVAR(&_9$$4);
-		zephir_array_fetch_long(&_9$$4, &data, 0, PH_NOISY, "phalcon/Translate/Adapter/Csv.zep", 154);
-		zephir_update_property_array(this_ptr, SL("translate"), &_9$$4, &_8$$4);
+		zephir_array_fetch_long(&_9$$4, &data, 1, PH_NOISY, "phalcon/Translate/Adapter/Csv.zep", 154);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		zephir_update_property_array(this_ptr, SL("translate"), &_8$$4, &_9$$4);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "phpFclose", NULL, 0, &fileHandler);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, this_ptr, "phpFclose", &_zephir_call_cache[3], &fileHandler);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -363,7 +444,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpFgetCsv)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_string *separator = NULL;
-	zend_long length, ZEPHIR_LAST_CALL_STATUS;
+	zend_long length = 0, ZEPHIR_LAST_CALL_STATUS;
 	zval *stream, stream_sub, *length_param = NULL, separator_zv, *enclosure = NULL, enclosure_sub, *escape = NULL, escape_sub, __$null, _0;
 
 	ZVAL_UNDEF(&stream_sub);
@@ -393,10 +474,6 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpFgetCsv)
 	if (ZEND_NUM_ARGS() > 4) {
 		escape = ZEND_CALL_ARG(execute_data, 5);
 	}
-	if (!length_param) {
-		length = 0;
-	} else {
-		}
 	if (!separator) {
 		separator = zend_string_init(ZEND_STRL(","), 0);
 		zephir_memory_observe(&separator_zv);
@@ -426,7 +503,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpFgetCsv)
 		ZVAL_STRING(escape, "\\");
 	}
 	ZVAL_LONG(&_0, length);
-	ZEPHIR_RETURN_CALL_FUNCTION("fgetcsv", NULL, 162, stream, &_0, &separator_zv, enclosure, escape);
+	ZEPHIR_RETURN_CALL_FUNCTION("fgetcsv", NULL, 44, stream, &_0, &separator_zv, enclosure, escape);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -465,9 +542,10 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpFileExists)
 PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpFileGetContents)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long offset, length, ZEPHIR_LAST_CALL_STATUS;
-	zend_bool useIncludePath;
-	zval filename_zv, *useIncludePath_param = NULL, *context = NULL, context_sub, *offset_param = NULL, *length_param = NULL, __$null, _0$$3, _1$$3, _2, _3, _4;
+	zephir_fcall_cache_entry *_2 = NULL;
+	zend_long offset = 0, length = 0, ZEPHIR_LAST_CALL_STATUS;
+	zend_bool useIncludePath = 0;
+	zval filename_zv, *useIncludePath_param = NULL, *context = NULL, context_sub, *offset_param = NULL, *length_param = NULL, __$null, _0$$3, _1$$3, _3, _4, _5;
 	zend_string *filename = NULL;
 
 	ZVAL_UNDEF(&filename_zv);
@@ -475,9 +553,9 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpFileGetContents)
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 5)
 		Z_PARAM_STR(filename)
@@ -503,33 +581,21 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpFileGetContents)
 	}
 	zephir_memory_observe(&filename_zv);
 	ZVAL_STR_COPY(&filename_zv, filename);
-	if (!useIncludePath_param) {
-		useIncludePath = 0;
-	} else {
-		}
 	if (!context) {
 		context = &context_sub;
 		context = &__$null;
 	}
-	if (!offset_param) {
-		offset = 0;
-	} else {
-		}
-	if (!length_param) {
-		length = 0;
-	} else {
-		}
-	if (0 == length) {
+	if (0 == (length != 0)) {
 		ZVAL_BOOL(&_0$$3, (useIncludePath ? 1 : 0));
 		ZVAL_LONG(&_1$$3, offset);
-		ZEPHIR_RETURN_CALL_FUNCTION("file_get_contents", NULL, 163, &filename_zv, &_0$$3, context, &_1$$3);
+		ZEPHIR_RETURN_CALL_FUNCTION("file_get_contents", &_2, 45, &filename_zv, &_0$$3, context, &_1$$3);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZVAL_BOOL(&_2, (useIncludePath ? 1 : 0));
-	ZVAL_LONG(&_3, offset);
-	ZVAL_LONG(&_4, length);
-	ZEPHIR_RETURN_CALL_FUNCTION("file_get_contents", NULL, 163, &filename_zv, &_2, context, &_3, &_4);
+	ZVAL_BOOL(&_3, (useIncludePath ? 1 : 0));
+	ZVAL_LONG(&_4, offset);
+	ZVAL_LONG(&_5, length);
+	ZEPHIR_RETURN_CALL_FUNCTION("file_get_contents", &_2, 45, &filename_zv, &_3, context, &_4, &_5);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -547,7 +613,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpFileGetContents)
 PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpFilePutContents)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long flags, ZEPHIR_LAST_CALL_STATUS;
+	zend_long flags = 0, ZEPHIR_LAST_CALL_STATUS;
 	zval filename_zv, *data, data_sub, *flags_param = NULL, *context = NULL, context_sub, __$null, _0;
 	zend_string *filename = NULL;
 
@@ -575,16 +641,12 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpFilePutContents)
 	}
 	zephir_memory_observe(&filename_zv);
 	ZVAL_STR_COPY(&filename_zv, filename);
-	if (!flags_param) {
-		flags = 0;
-	} else {
-		}
 	if (!context) {
 		context = &context_sub;
 		context = &__$null;
 	}
 	ZVAL_LONG(&_0, flags);
-	ZEPHIR_RETURN_CALL_FUNCTION("file_put_contents", NULL, 164, &filename_zv, data, &_0, context);
+	ZEPHIR_RETURN_CALL_FUNCTION("file_put_contents", NULL, 46, &filename_zv, data, &_0, context);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -603,7 +665,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpFopen)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool useIncludePath;
+	zend_bool useIncludePath = 0;
 	zval filename_zv, mode_zv, *useIncludePath_param = NULL, *context = NULL, context_sub, __$null, _0;
 	zend_string *filename = NULL, *mode = NULL;
 
@@ -632,16 +694,12 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpFopen)
 	ZVAL_STR_COPY(&filename_zv, filename);
 	zephir_memory_observe(&mode_zv);
 	ZVAL_STR_COPY(&mode_zv, mode);
-	if (!useIncludePath_param) {
-		useIncludePath = 0;
-	} else {
-		}
 	if (!context) {
 		context = &context_sub;
 		context = &__$null;
 	}
 	ZVAL_BOOL(&_0, (useIncludePath ? 1 : 0));
-	ZEPHIR_RETURN_CALL_FUNCTION("fopen", NULL, 165, &filename_zv, &mode_zv, &_0, context);
+	ZEPHIR_RETURN_CALL_FUNCTION("fopen", NULL, 47, &filename_zv, &mode_zv, &_0, context);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -660,7 +718,8 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpFopen)
 PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpFwrite)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long length, ZEPHIR_LAST_CALL_STATUS;
+	zephir_fcall_cache_entry *_1 = NULL;
+	zend_long length = 0, ZEPHIR_LAST_CALL_STATUS;
 	zend_string *data = NULL;
 	zval *handle, handle_sub, data_zv, *length_param = NULL, _0;
 
@@ -682,16 +741,12 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpFwrite)
 	}
 	zephir_memory_observe(&data_zv);
 	ZVAL_STR_COPY(&data_zv, data);
-	if (!length_param) {
-		length = 0;
-	} else {
-		}
-	if (0 == length) {
+	if (0 == (length != 0)) {
 		zephir_fwrite(return_value, handle, &data_zv);
 		RETURN_MM();
 	}
 	ZVAL_LONG(&_0, length);
-	ZEPHIR_RETURN_CALL_FUNCTION("fwrite", NULL, 166, handle, &data_zv, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("fwrite", &_1, 48, handle, &data_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -720,7 +775,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpIsDir)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&filename_zv);
 	ZVAL_STR_COPY(&filename_zv, filename);
-	ZEPHIR_RETURN_CALL_FUNCTION("is_dir", NULL, 167, &filename_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("is_dir", NULL, 49, &filename_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -749,7 +804,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpIsWritable)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_memory_observe(&filename_zv);
 	ZVAL_STR_COPY(&filename_zv, filename);
-	ZEPHIR_RETURN_CALL_FUNCTION("is_writable", NULL, 168, &filename_zv);
+	ZEPHIR_RETURN_CALL_FUNCTION("is_writable", NULL, 50, &filename_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -769,8 +824,8 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpIsWritable)
 PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpMkdir)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_bool recursive;
-	zend_long permissions, ZEPHIR_LAST_CALL_STATUS;
+	zend_bool recursive = 0;
+	zend_long permissions = 0777, ZEPHIR_LAST_CALL_STATUS;
 	zval directory_zv, *permissions_param = NULL, *recursive_param = NULL, *context = NULL, context_sub, __$null, _0, _1;
 	zend_string *directory = NULL;
 
@@ -800,21 +855,13 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpMkdir)
 	}
 	zephir_memory_observe(&directory_zv);
 	ZVAL_STR_COPY(&directory_zv, directory);
-	if (!permissions_param) {
-		permissions = 0777;
-	} else {
-		}
-	if (!recursive_param) {
-		recursive = 0;
-	} else {
-		}
 	if (!context) {
 		context = &context_sub;
 		context = &__$null;
 	}
 	ZVAL_LONG(&_0, permissions);
 	ZVAL_BOOL(&_1, (recursive ? 1 : 0));
-	ZEPHIR_RETURN_CALL_FUNCTION("mkdir", NULL, 169, &directory_zv, &_0, &_1, context);
+	ZEPHIR_RETURN_CALL_FUNCTION("mkdir", NULL, 51, &directory_zv, &_0, &_1, context);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -854,7 +901,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, phpUnlink)
 		context = &context_sub;
 		context = &__$null;
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("unlink", NULL, 170, &filename_zv, context);
+	ZEPHIR_RETURN_CALL_FUNCTION("unlink", NULL, 52, &filename_zv, context);
 	zephir_check_call_status();
 	RETURN_MM();
 }

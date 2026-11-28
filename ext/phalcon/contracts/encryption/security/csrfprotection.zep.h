@@ -5,7 +5,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Contracts_Encryption_Security_CsrfProtection);
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_contracts_encryption_security_csrfprotection_checktoken, 0, 0, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, tokenKey, IS_STRING, 1, "null")
-	ZEND_ARG_INFO(0, tokenValue)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, tokenValue, "null")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, destroyIfValid, _IS_BOOL, 0, "true")
 ZEND_END_ARG_INFO()
 

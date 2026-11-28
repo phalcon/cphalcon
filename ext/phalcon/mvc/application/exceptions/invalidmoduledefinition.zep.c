@@ -24,7 +24,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Application_Exceptions_InvalidModuleDefinition)
@@ -47,6 +47,7 @@ PHP_METHOD(Phalcon_Mvc_Application_Exceptions_InvalidModuleDefinition, __constru
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$4);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 2)
 		Z_PARAM_OPTIONAL
@@ -69,17 +70,33 @@ PHP_METHOD(Phalcon_Mvc_Application_Exceptions_InvalidModuleDefinition, __constru
 	}
 	ZEPHIR_INIT_VAR(&message);
 	ZVAL_STRING(&message, "Invalid module definition");
-	if (!ZEPHIR_IS_NULL(&name_zv)) {
+	if (Z_TYPE_P(&name_zv) != IS_NULL) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZEPHIR_CONCAT_SVS(&_0$$3, " for module '", &name_zv, "'");
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		zephir_concat_self(&message, &_0$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
-	if (!ZEPHIR_IS_NULL(&reason_zv)) {
+	if (Z_TYPE_P(&reason_zv) != IS_NULL) {
 		ZEPHIR_INIT_VAR(&_1$$4);
 		ZEPHIR_CONCAT_SV(&_1$$4, ": ", &reason_zv);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		zephir_concat_self(&message, &_1$$4);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_application_exceptions_invalidmoduledefinition_ce, getThis(), "__construct", NULL, 0, &message);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_mvc_application_exceptions_invalidmoduledefinition_ce, getThis(), "__construct", &_zephir_call_cache[0], &message);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

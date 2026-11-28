@@ -23,7 +23,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Implementation of this file has been influenced by lcobucci/clock
@@ -60,7 +60,10 @@ PHP_METHOD(Phalcon_Time_Clock_SystemClock, __construct)
 		Z_PARAM_OBJECT_OF_CLASS(timezone, php_date_get_timezone_ce())
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &timezone);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1402, timezone);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1405, timezone);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**
@@ -74,18 +77,23 @@ PHP_METHOD(Phalcon_Time_Clock_SystemClock, fromSystemTimezone)
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	object_init_ex(return_value, phalcon_time_clock_systemclock_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, php_date_get_timezone_ce());
-	ZEPHIR_CALL_FUNCTION(&_1, "date_default_timezone_get", NULL, 259);
+	zephir_constructor_start(&_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "date_default_timezone_get", NULL, 78);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0, &_1);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0], &_1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 260, &_0);
+	zephir_constructor_finish(&_0);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[1], &_0);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -100,18 +108,23 @@ PHP_METHOD(Phalcon_Time_Clock_SystemClock, fromUTC)
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	object_init_ex(return_value, phalcon_time_clock_systemclock_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, php_date_get_timezone_ce());
+	zephir_constructor_start(&_0);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "UTC");
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0, &_1);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, &_0, "__construct", &_zephir_call_cache[0], &_1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 260, &_0);
+	zephir_constructor_finish(&_0);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[1], &_0);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 
@@ -127,6 +140,7 @@ PHP_METHOD(Phalcon_Time_Clock_SystemClock, now)
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("timezone", 8, 1);
@@ -135,11 +149,17 @@ PHP_METHOD(Phalcon_Time_Clock_SystemClock, now)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	object_init_ex(return_value, php_date_get_immutable_ce());
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1402, PH_NOISY_CC | PH_READONLY);
+	zephir_constructor_start(return_value);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1405, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "now");
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, &_1, &_0);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &_1, &_0);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 

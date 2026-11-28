@@ -4,12 +4,14 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Annotations\Exceptions\InvalidSourceTable;
+use Phalcon\Annotations\Models\MetaData\Source;
 use Phalcon\Contracts\Mvc\Model\Relation\CacheKeyProvider;
 use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Db\Adapter\AdapterInterface;
@@ -1346,7 +1348,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     }
 
     /**
-     * Returns the mapped source for a model
+     * Returns the mapped source for a model. An explicit source takes
+     * precedence over a class-level Source attribute when AttributesReader
+     * is configured, followed by the uncamelized class name.
      */
     public function getModelSource(<ModelInterface> model) -> string
     {
@@ -1355,12 +1359,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         let entityName = get_class_lower(model);
 
         if !isset this->sources[entityName] {
-            this->setModelSource(
-                model,
-                uncamelize(
-                    get_class_ns(model)
-                )
-            );
+            this->setModelSource(model, this->getDefaultModelSource(model));
         }
 
         return this->prefix . this->sources[entityName];
@@ -2416,6 +2415,39 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
         return isset this->{collection}[keyRelation];
     }
+
+    /**
+     * Resolves an unset source. Reading attributes is opt-in so the default
+     * docblock reader never parses a model just to determine its table name.
+     *
+     * @throws Exception
+     */
+    private function getDefaultModelSource(<ModelInterface> model) -> string
+    {
+        var source, container, annotations, table, exception;
+
+        let source = uncamelize(get_class_ns(model)),
+            container = this->container;
+
+        if typeof container !== "object" || !container->has("annotations") {
+            return source;
+        }
+
+        let annotations = container->getShared("annotations");
+
+        try {
+            let table = Source::getTableFromAdapter(annotations, get_class(model));
+        } catch InvalidSourceTable, exception {
+            throw new Exception(exception->getMessage(), 0, exception);
+        }
+
+        if table !== null {
+            return table;
+        }
+
+        return source;
+    }
+
     /**
      * Counts the fields of a relation leg. A leg with one field is a string,
      * so it counts as one field.

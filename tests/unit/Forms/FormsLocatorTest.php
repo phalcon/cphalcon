@@ -3,7 +3,9 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * For the full copyright and license information, please view the LICENSE.md
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -11,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Tests\Unit\Forms;
 
+use Error;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Exception;
 use Phalcon\Forms\Form;
@@ -25,6 +28,7 @@ use Phalcon\Tests\Unit\Forms\Fake\FakeTextElementFactory;
 use Phalcon\Tests\Unit\Forms\Fake\FakeUsernameFormFactory;
 use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
+use Throwable;
 
 final class FormsLocatorTest extends AbstractUnitTestCase
 {
@@ -54,6 +58,22 @@ final class FormsLocatorTest extends AbstractUnitTestCase
             'textarea'   => ['textarea'],
         ];
     }
+
+    /**
+     * A value that cannot be called and the cphalcon message.
+     *
+     * @return array<string, array{0: mixed, 1: string}>
+     */
+    public static function getNotCallableValues(): array
+    {
+        return [
+            'string' => ['nope', 'Call to undefined function nope()'],
+            'array'  => [[new stdClass(), 'missing'], 'Call to undefined method stdClass::missing()'],
+            'object' => [new stdClass(), 'Call to undefined function undefined()'],
+            'int'    => [5, 'Call to undefined function undefined()'],
+        ];
+    }
+
     // -----------------------------------------------------------------------
     // Constructor
     // -----------------------------------------------------------------------
@@ -72,6 +92,32 @@ final class FormsLocatorTest extends AbstractUnitTestCase
         $locator = new FormsLocator();
 
         $this->assertFalse($locator->has('login'));
+    }
+
+    /**
+     * An element factory that cannot be called throws Error with the cphalcon
+     * message when the form is loaded.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/818
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    #[DataProvider('getNotCallableValues')]
+    public function testFormLoadElementNotCallable(mixed $value, string $expected): void
+    {
+        $locator = new FormsLocator();
+        $locator->setElement('bad', $value);
+
+        $form = new Form();
+
+        $actual = null;
+        try {
+            $form->load(new ArrayLoader([['type' => 'bad', 'name' => 'x']]), $locator);
+        } catch (Throwable $ex) {
+            $actual = [$ex::class, $ex->getMessage()];
+        }
+
+        $this->assertSame([Error::class, $expected], $actual);
     }
 
     public function testFormLoadUsesLocatorElementType(): void
@@ -97,6 +143,22 @@ final class FormsLocatorTest extends AbstractUnitTestCase
         $this->assertIsCallable($factory);
     }
 
+    /**
+     * An element factory that cannot be called is returned as it is, the same
+     * as cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/818
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    public function testGetElementReturnsValueNotCallable(): void
+    {
+        $locator = new FormsLocator();
+        $locator->setElement('bad', 5);
+
+        $this->assertSame(5, $locator->getElement('bad'));
+    }
+
     public function testGetElementThrowsForUnknownType(): void
     {
         $locator = new FormsLocator();
@@ -110,6 +172,29 @@ final class FormsLocatorTest extends AbstractUnitTestCase
     // -----------------------------------------------------------------------
     // get() - no entity (cached)
     // -----------------------------------------------------------------------
+
+    /**
+     * A form factory that cannot be called throws Error with the cphalcon
+     * message.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/818
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    #[DataProvider('getNotCallableValues')]
+    public function testGetNotCallable(mixed $value, string $expected): void
+    {
+        $locator = new FormsLocator(['f' => $value]);
+
+        $actual = null;
+        try {
+            $locator->get('f');
+        } catch (Throwable $ex) {
+            $actual = [$ex::class, $ex->getMessage()];
+        }
+
+        $this->assertSame([Error::class, $expected], $actual);
+    }
 
     public function testGetReturnsFormInstance(): void
     {
@@ -154,6 +239,22 @@ final class FormsLocatorTest extends AbstractUnitTestCase
     // -----------------------------------------------------------------------
     // get() - with entity (never cached)
     // -----------------------------------------------------------------------
+
+    /**
+     * An entity that is not an object goes to the factory, the same as
+     * cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/818
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    public function testGetWithEntityNotObject(): void
+    {
+        $locator = new FormsLocator();
+        $locator->set('f', static fn ($entity) => new Form());
+
+        $this->assertInstanceOf(Form::class, $locator->get('f', 5));
+    }
 
     public function testGetWithEntityReturnsFreshFormEachTime(): void
     {

@@ -60,7 +60,15 @@ PHP_METHOD(Phalcon_Support_Helper_Str_Suffix, __invoke)
 	zephir_memory_observe(&suffix_zv);
 	ZVAL_STR_COPY(&suffix_zv, suffix);
 	zephir_cast_to_string(&_0, text);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CONCAT_VV(return_value, &_0, &suffix_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_MM();
 }
 

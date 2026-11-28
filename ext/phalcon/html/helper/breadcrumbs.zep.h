@@ -22,7 +22,6 @@ PHP_METHOD(Phalcon_Html_Helper_Breadcrumbs, toArray);
 PHP_METHOD(Phalcon_Html_Helper_Breadcrumbs, getLink);
 PHP_METHOD(Phalcon_Html_Helper_Breadcrumbs, processAttributes);
 PHP_METHOD(Phalcon_Html_Helper_Breadcrumbs, toInterpolate);
-zend_object *zephir_init_properties_Phalcon_Html_Helper_Breadcrumbs(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_breadcrumbs___construct, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, escaper, Phalcon\\Html\\Escaper\\EscaperInterface, 0)
@@ -102,9 +101,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_breadcrumbs_
 ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, context, IS_ARRAY, 0, "[]")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, left, IS_STRING, 0, "'%'")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, right, IS_STRING, 0, "'%'")
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_breadcrumbs_zephir_init_properties_phalcon_html_helper_breadcrumbs, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_html_helper_breadcrumbs_method_entry) {

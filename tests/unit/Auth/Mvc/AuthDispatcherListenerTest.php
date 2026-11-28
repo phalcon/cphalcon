@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Implementation of this file has been influenced by sinbadxiii/cphalcon-auth
@@ -78,6 +78,42 @@ final class AuthDispatcherListenerTest extends AbstractUnitTestCase
         $this->assertSame('invoices', $context['handler']);
         $this->assertSame('admin', $context['module']);
         $this->assertSame(['id' => 5], $context['params']);
+    }
+
+    /**
+     * A dispatcher that returns a null module gives a null module to the
+     * gate, the same as cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/821
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-17
+     */
+    public function testPassesNullModuleToTheGate(): void
+    {
+        $dispatcher = new class () extends Dispatcher {
+            public function getModuleName(): ?string
+            {
+                return null;
+            }
+        };
+        $dispatcher->setActionName('index');
+        $dispatcher->setControllerName('invoices');
+
+        $manager = $this->buildManager();
+        $access  = new FakeAccess();
+        $access->setAllowed(true);
+        $manager->setAccess($access);
+
+        $listener = new AuthDispatcherListener($manager);
+        $listener->beforeExecuteRoute(
+            new Event('beforeExecuteRoute', $dispatcher, null, true),
+            $dispatcher
+        );
+
+        $context = $access->getLastContext();
+
+        $this->assertArrayHasKey('module', $context);
+        $this->assertNull($context['module']);
     }
 
     public function testReturnsTrueWhenAllowed(): void

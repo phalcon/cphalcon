@@ -23,7 +23,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Implementation of this file has been influenced by sinbadxiii/cphalcon-auth
@@ -51,6 +51,7 @@ PHP_METHOD(Phalcon_Auth_Exceptions_FileNotValidJson, __construct)
 	ZVAL_UNDEF(&ex_sub);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(path)
 		Z_PARAM_OBJECT_OF_CLASS(ex, zend_ce_throwable)
@@ -62,8 +63,12 @@ PHP_METHOD(Phalcon_Auth_Exceptions_FileNotValidJson, __construct)
 	ZVAL_STR_COPY(&path_zv, path);
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_SV(&_0, "Stream adapter file is not valid JSON: ", &path_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZVAL_LONG(&_1, 0);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_auth_exceptions_filenotvalidjson_ce, getThis(), "__construct", NULL, 0, &_0, &_1, ex);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_auth_exceptions_filenotvalidjson_ce, getThis(), "__construct", &_zephir_call_cache[0], &_0, &_1, ex);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

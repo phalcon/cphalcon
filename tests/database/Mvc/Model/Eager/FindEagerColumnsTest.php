@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -93,6 +93,29 @@ final class FindEagerColumnsTest extends AbstractDatabaseTestCase
         InvoicesBelongsToCustomers::find(
             [
                 'eager' => ['customer' => ['columns' => 'cst_name_last']],
+            ]
+        );
+    }
+
+    /**
+     * A null column list is used as an empty list, so it throws, the same as
+     * cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/821
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-17
+     */
+    #[Group('mysql')]
+    #[Group('pgsql')]
+    #[Group('sqlite')]
+    public function testMvcModelFindEagerRejectsNullColumns(): void
+    {
+        $this->expectException(MissingEagerKeyColumn::class);
+        $this->expectExceptionMessage("'cst_id'");
+
+        InvoicesBelongsToCustomers::find(
+            [
+                'eager' => ['customer' => ['columns' => null]],
             ]
         );
     }

@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -42,6 +42,7 @@ class Debug
      */
     protected array data = [];
     protected bool hideDocumentRoot = false;
+    protected int outputLevel = 0;
     protected <Renderer> renderer;
     protected <ReportBuilder> reportBuilder;
     protected bool showBackTrace = true;
@@ -51,12 +52,13 @@ class Debug
 
     public function __construct()
     {
+        let this->outputLevel   = ob_get_level();
         let this->renderer      = new HtmlRenderer();
         let this->reportBuilder = new ReportBuilder();
     }
 
     /**
-     * Clears are variables added previously
+     * Clears the variables added previously
      */
     public function clearVars() -> <static>
     {
@@ -72,7 +74,7 @@ class Debug
     {
         let this->data[] = [
             variable,
-            debug_backtrace(),
+            debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
             time()
         ];
 
@@ -174,15 +176,16 @@ class Debug
      */
     public function onUncaughtException(<\Throwable> exception) -> bool
     {
-        var obLevel;
-
-        let obLevel = ob_get_level();
+        var discarded, ex;
 
         /**
-         * Cancel the output buffer if active
+         * Discard the output buffers that started after this object was
+         * created. Stop if a buffer cannot be discarded.
          */
-        if obLevel > 0 {
-            ob_end_clean();
+        let discarded = true;
+
+        while discarded && ob_get_level() > this->outputLevel {
+            let discarded = ob_end_clean();
         }
 
         /**
@@ -197,7 +200,16 @@ class Debug
             /**
              * Print the HTML, @TODO, add an option to store the HTML
              */
-            echo this->renderHtml(exception);
+            try {
+                echo this->renderHtml(exception);
+            } catch Throwable, ex {
+                /**
+                 * Unlock the exception renderer if the render fails
+                 */
+                let self::isActive = false;
+
+                throw ex;
+            }
 
             /**
              * Unlock the exception renderer
@@ -207,7 +219,11 @@ class Debug
             return true;
         }
 
-        echo exception->getMessage();
+        echo htmlspecialchars(
+            exception->getMessage(),
+            ENT_QUOTES | ENT_SUBSTITUTE,
+            "UTF-8"
+        );
 
         return false;
     }
@@ -249,7 +265,9 @@ class Debug
     }
 
     /**
-     * Sets if files the exception's backtrace must be showed
+     * Sets the keys to remove from the request and the server data. The
+     * array has a request and a server list of keys. A key matches at every
+     * depth.
      *
      * @phpstan-param support_debug_blacklist_input $blacklist
      */

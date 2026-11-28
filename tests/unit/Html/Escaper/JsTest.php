@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -72,5 +72,19 @@ final class JsTest extends AbstractUnitTestCase
             $bs . $bs . '\x27;alert(1)//',
             $escaper->js($bs . "';alert(1)//")
         );
+    }
+
+    /**
+     * The code point U+0000 stops the escape, and the result is empty.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17783
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-24
+     */
+    public function testEscaperJsNullCodepointReturnsEmpty(): void
+    {
+        $escaper = new Escaper();
+
+        $this->assertSame('', $escaper->js("\x00"));
     }
 }

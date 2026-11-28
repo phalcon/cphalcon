@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -17,6 +17,7 @@ use Phalcon\Support\Debug\Report\ExceptionReport;
 use Phalcon\Support\Debug\Traits\TemplateAwareTrait;
 use Phalcon\Support\Version;
 use Phalcon\Traits\Support\Helper\Str\InterpolateTrait;
+use ReflectionMethod;
 
 /**
  * Renders an ExceptionReport as the HTML debug page using embedded, overridable
@@ -27,6 +28,7 @@ use Phalcon\Traits\Support\Helper\Str\InterpolateTrait;
  * @phpstan-import-type support_debug_args from SupportTypes
  * @phpstan-import-type support_debug_fragment from SupportTypes
  * @phpstan-import-type support_debug_included_files from SupportTypes
+ * @phpstan-import-type support_debug_previous from SupportTypes
  * @phpstan-import-type support_debug_superglobal from SupportTypes
  * @phpstan-import-type support_debug_variables from SupportTypes
  */
@@ -72,7 +74,7 @@ class HtmlRenderer implements Renderer
     {
         var className, escapedMessage, html;
 
-        let className      = report->getClassName();
+        let className      = this->escapeString(report->getClassName());
         let escapedMessage = this->escapeString(report->getMessage());
 
         let html = this->toInterpolate(
@@ -94,9 +96,10 @@ class HtmlRenderer implements Renderer
             [
                 "className":      className,
                 "escapedMessage": escapedMessage,
-                "file":           report->getFile(),
+                "file":           this->escapeString(report->getFile()),
                 "line":           (string) report->getLine(),
-                "phpVersion":     PHP_VERSION
+                "phpVersion":     PHP_VERSION,
+                "previous":       this->renderPreviousExceptions(report->getPreviousExceptions())
             ]
         );
 
@@ -158,8 +161,13 @@ class HtmlRenderer implements Renderer
         <div class='meta'>
             <span class='item'><code>%file%</code> : <code>%line%</code></span>
             <span class='sep'>|</span><span class='item'>PHP <code>%phpVersion%</code></span>
-        </div>
+        </div>%previous%
     </div>",
+            "previousException": "
+        <div class='meta'>
+            <span class='item'>Previous: <code>%className%</code> %escapedMessage%</span>
+            <span class='sep'>|</span><span class='item'><code>%file%</code> : <code>%line%</code></span>
+        </div>",
             "tabs": "
     <div class='tabs' role='tablist'>
         <button class='tab is-active' data-tab='backtrace'>Backtrace "
@@ -232,7 +240,7 @@ class HtmlRenderer implements Renderer
     {
         return htmlentities(
             str_replace("\n", "\\n", value),
-            ENT_COMPAT,
+            ENT_QUOTES | ENT_SUBSTITUTE,
             "utf-8"
         );
     }
@@ -266,7 +274,7 @@ class HtmlRenderer implements Renderer
             } elseif typeof value == "array" {
                 let varDump = "Array(" . this->getArrayDump(value, number + 1) . ")";
             } elseif typeof value == "object" {
-                let varDump = "Object(" . get_class(value) . ")";
+                let varDump = "Object(" . this->escapeString(get_class(value)) . ")";
             } elseif value === null {
                 let varDump = "null";
             } else {
@@ -284,8 +292,6 @@ class HtmlRenderer implements Renderer
      */
     protected function getVarDump(var variable) -> string
     {
-        var className, dumpedObject;
-
         if variable === true {
             return "true";
         }
@@ -303,15 +309,7 @@ class HtmlRenderer implements Renderer
         }
 
         if typeof variable == "object" {
-            let className = get_class(variable);
-
-            if method_exists(variable, "dump") {
-                let dumpedObject = variable->dump();
-
-                return "Object(" . className . ": " . this->getArrayDump(dumpedObject) . ")";
-            }
-
-            return "Object(" . className . ")";
+            return this->dumpObject(variable);
         }
 
         if typeof variable == "array" {
@@ -325,6 +323,41 @@ class HtmlRenderer implements Renderer
         return gettype(variable);
     }
 
+    /**
+     * Returns true when the dump() method of the object is public, is not
+     * static, and has no required parameters
+     */
+    private function canCallDump(object variable) -> bool
+    {
+        var method;
+
+        let method = new ReflectionMethod(variable, "dump");
+
+        return true === method->isPublic() &&
+            true !== method->isStatic() &&
+            0 === method->getNumberOfRequiredParameters();
+    }
+
+    /**
+     * Uses the result of dump() only if it is an array
+     */
+    private function dumpObject(object variable) -> string
+    {
+        var className, dumpedObject;
+
+        let className = this->escapeString(get_class(variable));
+
+        if method_exists(variable, "dump") && this->canCallDump(variable) {
+            let dumpedObject = variable->dump();
+
+            if typeof dumpedObject == "array" {
+                return "Object(" . className . ": " . this->getArrayDump(dumpedObject) . ")";
+            }
+        }
+
+        return "Object(" . className . ")";
+    }
+
     private function formatBytes(int bytes) -> string
     {
         var amount;
@@ -336,6 +369,7 @@ class HtmlRenderer implements Renderer
 
     /**
      * Frames whose file lives outside a vendor directory are application code.
+     * The check also finds the Windows form, `\vendor\`.
      */
     private function isApp(string file = null) -> bool
     {
@@ -343,7 +377,8 @@ class HtmlRenderer implements Renderer
             return false;
         }
 
-        return false === strpos(file, "/vendor/");
+        return false === strpos(file, "/vendor/")
+            && false === strpos(file, "\\vendor\\");
     }
 
     /**
@@ -387,7 +422,7 @@ class HtmlRenderer implements Renderer
                     "num"     : (string)counter,
                     "src"     : htmlentities(
                         str_replace("\t", "  ", currentLine),
-                        ENT_COMPAT,
+                        ENT_QUOTES | ENT_SUBSTITUTE,
                         "UTF-8"
                     )
                 ]
@@ -436,6 +471,29 @@ class HtmlRenderer implements Renderer
                 ]
             )
             . this->getTemplate("panelClose");
+    }
+
+    /**
+     * @phpstan-param list<support_debug_previous> $previousExceptions
+     */
+    private function renderPreviousExceptions(array previousExceptions) -> string
+    {
+        var html, previous;
+
+        let html = "";
+        for previous in previousExceptions {
+            let html .= this->toInterpolate(
+                this->getTemplate("previousException"),
+                [
+                    "className":      this->escapeString(previous["className"]),
+                    "escapedMessage": this->escapeString(previous["message"]),
+                    "file":           this->escapeString(previous["file"]),
+                    "line":           (string) previous["line"]
+                ]
+            );
+        }
+
+        return html;
     }
 
     private function renderSignature(<BacktraceItem> item) -> string
@@ -570,7 +628,7 @@ class HtmlRenderer implements Renderer
             let html .= this->toInterpolate(
                 this->getTemplate("frameFile"),
                 [
-                    "file": item->getFile(),
+                    "file": this->escapeString(item->getFile()),
                     "line": (string) item->getLine()
                 ]
             );

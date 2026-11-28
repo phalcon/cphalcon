@@ -19,10 +19,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_url___construct, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_url_get, 0, 0, IS_STRING, 0)
-	ZEND_ARG_INFO(0, uri)
-	ZEND_ARG_INFO(0, arguments)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, uri, "null")
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, arguments, "null")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, local, _IS_BOOL, 1, "null")
-	ZEND_ARG_INFO(0, baseUri)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, baseUri, "null")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, replaceArgs, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
@@ -33,7 +33,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_url_getbaseuri, 0, 0
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_url_getstatic, 0, 0, IS_STRING, 0)
-	ZEND_ARG_INFO(0, uri)
+	ZEND_ARG_INFO_WITH_DEFAULT_VALUE(0, uri, "null")
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_url_getstaticbaseuri, 0, 0, IS_STRING, 0)

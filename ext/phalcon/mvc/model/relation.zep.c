@@ -24,7 +24,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
@@ -195,11 +195,31 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, __construct)
 	}
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, type);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1113, &_0);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1114, &referencedModel_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1115, fields);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 1116, referencedFields);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 1117, &options);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1115, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1116, &referencedModel_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1117, fields);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_3, 1118, referencedFields);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_4, 1119, &options);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -225,6 +245,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getFields)
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getForeignKey)
 {
+	zend_bool _1;
 	zval options, foreignKey, _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
@@ -239,10 +260,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getForeignKey)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1117, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1119, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CPY_WRT(&options, &_0);
 	zephir_memory_observe(&foreignKey);
-	if (zephir_array_isset_string_fetch(&foreignKey, &options, SL("foreignKey"), 0)) {
+	_1 = zephir_array_isset_string_fetch(&foreignKey, &options, SL("foreignKey"), 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_1) {
 		if (zephir_is_true(&foreignKey)) {
 			RETURN_CCTOR(&foreignKey);
 		}
@@ -291,6 +321,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateReferencedFields)
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getOption)
 {
+	zend_bool _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval name_zv, option, _0;
 	zend_string *name = NULL;
@@ -312,8 +343,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getOption)
 	zephir_memory_observe(&name_zv);
 	ZVAL_STR_COPY(&name_zv, name);
 	zephir_memory_observe(&option);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1117, PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset_fetch(&option, &_0, &name_zv, 0))) {
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1119, PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	_1 = zephir_array_isset_fetch(&option, &_0, &name_zv, 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (!(_1)) {
 		RETURN_MM_NULL();
 	}
 	RETURN_CCTOR(&option);
@@ -339,6 +379,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getOptions)
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getParams)
 {
+	zend_bool _1;
 	zval options, params, _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -354,10 +395,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getParams)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1117, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1119, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CPY_WRT(&options, &_0);
 	zephir_memory_observe(&params);
-	if (zephir_array_isset_string_fetch(&params, &options, SL("params"), 0)) {
+	_1 = zephir_array_isset_string_fetch(&params, &options, SL("params"), 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_1) {
 		if (zephir_is_true(&params)) {
 			if (zephir_is_callable(&params)) {
 				ZEPHIR_CALL_USER_FUNC(return_value, &params);
@@ -406,6 +456,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getType)
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, isForeignKey)
 {
+	zend_bool _1;
 	zval foreignKey, _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
@@ -420,8 +471,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, isForeignKey)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	zephir_memory_observe(&foreignKey);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1117, PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset_string_fetch(&foreignKey, &_0, SL("foreignKey"), 0))) {
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1119, PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	_1 = zephir_array_isset_string_fetch(&foreignKey, &_0, SL("foreignKey"), 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (!(_1)) {
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(zephir_get_boolval(&foreignKey));
@@ -432,6 +492,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, isForeignKey)
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, isReusable)
 {
+	zend_bool _1;
 	zval options, reusable, _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
@@ -446,10 +507,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, isReusable)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1117, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1119, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CPY_WRT(&options, &_0);
 	zephir_memory_observe(&reusable);
-	if (!(zephir_array_isset_string_fetch(&reusable, &options, SL("reusable"), 0))) {
+	_1 = zephir_array_isset_string_fetch(&reusable, &options, SL("reusable"), 0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (!(_1)) {
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_CCTOR(&reusable);
@@ -474,7 +544,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, isThrough)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1113, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 1115, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CPY_WRT(&type, &_0);
 	_1 = ZEPHIR_IS_LONG(&type, 3);
 	if (!(_1)) {
@@ -520,8 +594,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, setIntermediateRelation)
 	intermediateFields = ZEND_CALL_ARG(execute_data, 1);
 	intermediateReferencedFields = ZEND_CALL_ARG(execute_data, 3);
 	ZVAL_STR(&intermediateModel_zv, intermediateModel);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1118, intermediateFields);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1119, &intermediateModel_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1120, intermediateReferencedFields);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 1120, intermediateFields);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 1121, &intermediateModel_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 1122, intermediateReferencedFields);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 

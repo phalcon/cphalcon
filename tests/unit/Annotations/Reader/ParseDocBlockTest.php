@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -16,9 +16,27 @@ namespace Phalcon\Tests\Unit\Annotations\Reader;
 use Phalcon\Annotations\Exception;
 use Phalcon\Annotations\Reader;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Traits\DebugBuildTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class ParseDocBlockTest extends AbstractUnitTestCase
 {
+    use DebugBuildTrait;
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function getNoAnnotationExamples(): array
+    {
+        return [
+            'at sign'        => ['@'],
+            'at sign, bang'  => ['@!'],
+            'empty'          => [''],
+            'no annotations' => ['/** no annotations here */'],
+            'open name'      => ['/** @'],
+        ];
+    }
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-21
@@ -108,6 +126,8 @@ EOF;
      */
     public function testAnnotationsReaderParseDocBlockEndOfInputInRawMode(): void
     {
+        $this->skipOnDebugBuild();
+
         $reader = new Reader();
 
         foreach (['@!', '@', '/** @', '/** @Foo */ trailing text'] as $docBlock) {
@@ -143,6 +163,21 @@ EOF;
         $this->assertCount($count, $actual[0]['arguments']);
         $this->assertSame('1', $actual[0]['arguments'][$count - 1]['expr']['value']);
         $this->assertLessThan(3.0, $spent);
+    }
+
+    /**
+     * A docblock with no annotations returns false.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17775
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-24
+     */
+    #[DataProvider('getNoAnnotationExamples')]
+    public function testAnnotationsReaderParseDocBlockNoAnnotations(string $docBlock): void
+    {
+        $this->skipOnDebugBuild();
+
+        $this->assertFalse(Reader::parseDocBlock($docBlock));
     }
 
     /**

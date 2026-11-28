@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -19,7 +19,7 @@ use Phalcon\Tests\Support\Di\InjectableComponent;
 use Phalcon\Tests\Support\Di\InjectableComponentProtected;
 use stdClass;
 
-use function spl_object_hash;
+use function spl_object_id;
 
 final class UnderscoreGetTest extends AbstractUnitTestCase
 {
@@ -75,8 +75,8 @@ final class UnderscoreGetTest extends AbstractUnitTestCase
         $actual = $component->std;
         $this->assertInstanceOf($class, $actual);
 
-        $expected = spl_object_hash($container);
-        $actual   = spl_object_hash($component->di);
+        $expected = spl_object_id($container);
+        $actual   = spl_object_id($component->di);
         $this->assertSame($expected, $actual);
 
         $actual = isset($component->di);

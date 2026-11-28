@@ -5,8 +5,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -16,7 +16,9 @@ namespace Phalcon\Tests\Unit\Filter\Filter;
 use Closure;
 use Phalcon\Filter\Filter;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Filter\CallableFilter;
 use Phalcon\Tests\Support\Service\HelloService;
+use TypeError;
 
 final class GetSetHasTest extends AbstractUnitTestCase
 {
@@ -34,6 +36,31 @@ final class GetSetHasTest extends AbstractUnitTestCase
 
         $actual = $locator->trim('  hello world  ');
         $this->assertSame('hello world', $actual);
+    }
+
+    /**
+     * The magic call uses the __invoke() method of the sanitizer, the same
+     * as cphalcon. An array callable throws the TypeError of
+     * call_user_func_array(). Use sanitize() for an array callable.
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/17610
+     * @issue  https://github.com/phalcon/phalcon/issues/808
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-09-28
+     */
+    public function testFilterFilterCallCallable(): void
+    {
+        $locator = new Filter();
+        $locator->set('prefix', [new CallableFilter(), 'prefix']);
+
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage(
+            'call_user_func_array(): Argument #1 ($callback) must be a valid callback, '
+            . 'first array member is not a valid class name or object'
+        );
+
+        $locator->prefix('admin');
     }
 
     /**

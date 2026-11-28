@@ -13,7 +13,6 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/string.h"
@@ -24,7 +23,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
@@ -50,7 +49,7 @@ PHP_METHOD(Phalcon_Traits_Php_HashTrait, phpHash)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool binary;
+	zend_bool binary = 0;
 	zval algorithm_zv, data_zv, *binary_param = NULL, _0;
 	zend_string *algorithm = NULL, *data = NULL;
 
@@ -72,12 +71,8 @@ PHP_METHOD(Phalcon_Traits_Php_HashTrait, phpHash)
 	ZVAL_STR_COPY(&algorithm_zv, algorithm);
 	zephir_memory_observe(&data_zv);
 	ZVAL_STR_COPY(&data_zv, data);
-	if (!binary_param) {
-		binary = 0;
-	} else {
-		}
 	ZVAL_BOOL(&_0, (binary ? 1 : 0));
-	ZEPHIR_RETURN_CALL_FUNCTION("hash", NULL, 171, &algorithm_zv, &data_zv, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("hash", NULL, 53, &algorithm_zv, &data_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -120,7 +115,7 @@ PHP_METHOD(Phalcon_Traits_Php_HashTrait, phpHashHmac)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool binary;
+	zend_bool binary = 0;
 	zval algorithm_zv, data_zv, key_zv, *binary_param = NULL, _0;
 	zend_string *algorithm = NULL, *data = NULL, *key = NULL;
 
@@ -146,12 +141,8 @@ PHP_METHOD(Phalcon_Traits_Php_HashTrait, phpHashHmac)
 	ZVAL_STR_COPY(&data_zv, data);
 	zephir_memory_observe(&key_zv);
 	ZVAL_STR_COPY(&key_zv, key);
-	if (!binary_param) {
-		binary = 0;
-	} else {
-		}
 	ZVAL_BOOL(&_0, (binary ? 1 : 0));
-	ZEPHIR_RETURN_CALL_FUNCTION("hash_hmac", NULL, 172, &algorithm_zv, &data_zv, &key_zv, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("hash_hmac", NULL, 54, &algorithm_zv, &data_zv, &key_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

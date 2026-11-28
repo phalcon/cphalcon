@@ -13,7 +13,6 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
 
@@ -47,7 +46,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_EndsWith, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool ignoreCase;
+	zend_bool ignoreCase = 1;
 	zval haystack_zv, needle_zv, *ignoreCase_param = NULL, _0;
 	zend_string *haystack = NULL, *needle = NULL;
 	zval *this_ptr = getThis();
@@ -55,6 +54,7 @@ PHP_METHOD(Phalcon_Support_Helper_Str_EndsWith, __invoke)
 	ZVAL_UNDEF(&haystack_zv);
 	ZVAL_UNDEF(&needle_zv);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_STR(haystack)
 		Z_PARAM_STR(needle)
@@ -70,16 +70,12 @@ PHP_METHOD(Phalcon_Support_Helper_Str_EndsWith, __invoke)
 	ZVAL_STR_COPY(&haystack_zv, haystack);
 	zephir_memory_observe(&needle_zv);
 	ZVAL_STR_COPY(&needle_zv, needle);
-	if (!ignoreCase_param) {
-		ignoreCase = 1;
-	} else {
-		}
 	if (ignoreCase) {
 		ZVAL_BOOL(&_0, 1);
 	} else {
 		ZVAL_BOOL(&_0, 0);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "toEndsWith", NULL, 0, &haystack_zv, &needle_zv, &_0);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "toEndsWith", &_zephir_call_cache[0], &haystack_zv, &needle_zv, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -665,6 +665,10 @@ class Security extends AbstractInjectionAware implements SecurityContract
         var cost;
 
         if !fetch cost, options["cost"] {
+            let cost = null;
+        }
+
+        if !cost {
             let cost = this->workFactor;
         }
 
@@ -676,7 +680,7 @@ class Security extends AbstractInjectionAware implements SecurityContract
             let cost = 31;
         }
 
-        return cost;
+        return (int) cost;
     }
 
     private function processTokenKey(string tokenKey = null) -> string | null

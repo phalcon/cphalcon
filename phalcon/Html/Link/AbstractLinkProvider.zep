@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -128,12 +128,12 @@ abstract class AbstractLinkProvider
     }
 
     /**
-     * Returns the object hash key
+     * Returns the object id key
      *
      * @phpstan-param object $link
      */
-    protected function getKey(link) -> string
+    protected function getKey(link) -> int
     {
-        return spl_object_hash(link);
+        return spl_object_id(link);
     }
 }

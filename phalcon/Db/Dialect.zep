@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -152,7 +152,13 @@ abstract class Dialect implements DialectInterface
             let escapeChar = (string) this->escapeChar;
         }
 
-        return escapeChar . trim(str, escapeChar) . escapeChar;
+        /**
+         * Double the escape character in the name, so that a name cannot end
+         * the identifier
+         */
+        return escapeChar
+            . str_replace(escapeChar, escapeChar . escapeChar, trim(str, escapeChar))
+            . escapeChar;
     }
 
     /**
@@ -885,7 +891,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Checks the column type and if not string it returns the type reference
      */
-    protected function checkColumnType(<ColumnInterface> column) -> string
+    protected function checkColumnType(<ColumnInterface> column) -> int
     {
         if typeof column->getType() == "string" {
             return column->getTypeReference();

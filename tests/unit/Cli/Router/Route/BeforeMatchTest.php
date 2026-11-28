@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -77,5 +77,35 @@ final class BeforeMatchTest extends AbstractUnitTestCase
         $expected = $callback;
         $actual   = $route1->getBeforeMatch();
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * A beforeMatch callback that returns a truthy value that is not true:
+     * the route matches, the same as cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/820
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-17
+     */
+    public function testCliRouterRouteBeforeMatchTruthy(): void
+    {
+        $this->setNewCliFactoryDefault();
+
+        Route::reset();
+
+        $router = new Router(false);
+        $router
+            ->add('static route')
+            ->beforeMatch(
+                function () {
+                    return 1;
+                }
+            )
+        ;
+
+        $router->handle('static route');
+
+        $actual = $router->wasMatched();
+        $this->assertTrue($actual);
     }
 }

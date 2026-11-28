@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -185,6 +185,9 @@ final class AddInheritTest extends AbstractUnitTestCase
     public function testAclAdapterMemoryAddInheritUnknownRoleName(): void
     {
         $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            "Role 'unknown' does not exist in the role list"
+        );
 
         $acl = new Memory();
         $acl->addRole(new Role('administrator'));

@@ -14,8 +14,8 @@
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/operators.h"
 
 
 /**
@@ -52,7 +52,7 @@ PHP_METHOD(Phalcon_Html_Helper_Label, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool forceRaw;
+	zend_bool forceRaw = 0;
 	zval *escaper, escaper_sub, *doctype = NULL, doctype_sub, *forceRaw_param = NULL, __$true, __$false, __$null;
 	zval *this_ptr = getThis();
 
@@ -61,6 +61,7 @@ PHP_METHOD(Phalcon_Html_Helper_Label, __construct)
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 	ZVAL_NULL(&__$null);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("forceRaw", 8, 1);
@@ -80,16 +81,20 @@ PHP_METHOD(Phalcon_Html_Helper_Label, __construct)
 		doctype = &doctype_sub;
 		doctype = &__$null;
 	}
-	if (!forceRaw_param) {
-		forceRaw = 0;
-	} else {
-		}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_html_helper_label_ce, getThis(), "__construct", NULL, 0, escaper, doctype);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_html_helper_label_ce, getThis(), "__construct", &_zephir_call_cache[0], escaper, doctype);
 	zephir_check_call_status();
 	if (forceRaw) {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 868, &__$true);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 870, &__$true);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} else {
-		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 868, &__$false);
+		zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 870, &__$false);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
 	ZEPHIR_MM_RESTORE();
 }
@@ -103,7 +108,7 @@ PHP_METHOD(Phalcon_Html_Helper_Label, __invoke)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool raw, _0;
+	zend_bool raw = 0, _0;
 	zval attributes;
 	zval label_zv, *attributes_param = NULL, *raw_param = NULL, _1, _2, _3;
 	zend_string *label = NULL;
@@ -114,6 +119,7 @@ PHP_METHOD(Phalcon_Html_Helper_Label, __invoke)
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&attributes);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("forceRaw", 8, 1);
@@ -141,20 +147,20 @@ PHP_METHOD(Phalcon_Html_Helper_Label, __invoke)
 	} else {
 		zephir_get_arrval(&attributes, attributes_param);
 	}
-	if (!raw_param) {
-		raw = 0;
-	} else {
-		}
 	_0 = raw;
 	if (!(_0)) {
 		zephir_memory_observe(&_1);
-		zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 868, PH_NOISY_CC);
+		zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 870, PH_NOISY_CC);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		_0 = zephir_is_true(&_1);
 	}
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "label");
 	ZVAL_BOOL(&_3, _0);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderFullElement", NULL, 0, &_2, &label_zv, &attributes, &_3);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "renderFullElement", &_zephir_call_cache[0], &_2, &label_zv, &attributes, &_3);
 	zephir_check_call_status();
 	RETURN_MM();
 }

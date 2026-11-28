@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -221,6 +221,14 @@ class Memory extends AbstractAdapter
 
         let componentName = componentObject->getName();
 
+        /**
+         * A custom ComponentInterface can return any name. The "!" separates
+         * the parts of the access keys, as in the Component class.
+         */
+        if unlikely memstr(componentName, "!") {
+            throw new ForbiddenDelimiter("component");
+        }
+
         if !isset this->componentsNames[componentName] {
             let this->components[componentName]      = componentObject;
             let this->componentsNames[componentName] = true;
@@ -242,7 +250,9 @@ class Memory extends AbstractAdapter
         var accessKey, accessName;
         bool exists;
 
-        this->checkExists(this->componentsNames, componentName, "Component");
+        if unlikely !isset this->componentsNames[componentName] {
+            this->checkExists(this->componentsNames, componentName, "Component");
+        }
 
         if unlikely (typeof accessList !== "array" && typeof accessList !== "string") {
             throw new InvalidAccessList();
@@ -295,7 +305,9 @@ class Memory extends AbstractAdapter
         array checkRoleToInherits, usedRoleToInherits;
         int pendingIndex;
 
-        this->checkExists(this->roles, roleName, "Role", "role list");
+        if unlikely !isset this->roles[roleName] {
+            this->checkExists(this->roles, roleName, "Role", "role list");
+        }
 
         if !isset this->roleInherits[roleName] {
             let this->roleInherits[roleName] = [];
@@ -424,6 +436,14 @@ class Memory extends AbstractAdapter
         }
 
         let roleName = roleObject->getName();
+
+        /**
+         * A custom RoleInterface can return any name. The "!" separates the
+         * parts of the access keys, as in the Role class.
+         */
+        if unlikely memstr(roleName, "!") {
+            throw new ForbiddenDelimiter("role");
+        }
 
         if isset this->roles[roleName] {
             return false;
@@ -661,16 +681,25 @@ class Memory extends AbstractAdapter
             roleObject = null, ruleResult;
         bool allowed;
 
-        if typeof roleName === "object" && roleName instanceof RoleAwareInterface {
-            let roleObject = roleName;
+        /**
+         * toRoleName() and toComponentName() give back a value that is not an
+         * object with no change. Call them only for objects.
+         */
+        if typeof roleName === "object" {
+            if roleName instanceof RoleAwareInterface {
+                let roleObject = roleName;
+            }
+
+            let roleName = this->toRoleName(roleName);
         }
 
-        if typeof componentName === "object" && componentName instanceof ComponentAwareInterface {
-            let componentObject = componentName;
-        }
+        if typeof componentName === "object" {
+            if componentName instanceof ComponentAwareInterface {
+                let componentObject = componentName;
+            }
 
-        let roleName      = this->toRoleName(roleName),
-            componentName = this->toComponentName(componentName);
+            let componentName = this->toComponentName(componentName);
+        }
 
         let this->activeRole      = roleName,
             this->activeComponent = componentName,
@@ -700,7 +729,12 @@ class Memory extends AbstractAdapter
          * Check if the role exists
          */
         if !isset this->roles[roleName] {
-            return (this->defaultAccess == Enum::ALLOW);
+            return this->reportAccess(
+                roleName,
+                componentName,
+                access,
+                this->defaultAccess == Enum::ALLOW
+            );
         }
 
         /**
@@ -717,7 +751,7 @@ class Memory extends AbstractAdapter
         let this->activeKey      = (accessKey === false) ? null : accessKey,
             this->activeFunction = funcAccess;
 
-        if haveAccess == null {
+        if haveAccess === null {
             /**
              * Change activeKey to most narrow if there was no access for any
              * patterns found
@@ -741,28 +775,17 @@ class Memory extends AbstractAdapter
             );
 
             let allowed = ruleResult;
+        } elseif null !== funcAccess {
+            /**
+             * The rule has a callback that cannot be called. Deny the access,
+             * so that the rule does not grant it without its condition.
+             */
+            let allowed = false;
         } else {
             let allowed = haveAccess == Enum::ALLOW;
         }
 
-        /**
-         * Report the final decision - after the default action and the rule
-         * callback are applied - so listeners see the same result as the
-         * caller.
-         */
-        let this->accessGranted = allowed ? Enum::ALLOW : Enum::DENY;
-
-        this->fireManagerEvent(
-            "acl:afterCheckAccess",
-            [
-                "role":      roleName,
-                "component": componentName,
-                "access":    access,
-                "granted":   this->accessGranted
-            ]
-        );
-
-        return allowed;
+        return this->reportAccess(roleName, componentName, access, allowed);
     }
 
     /**
@@ -807,8 +830,13 @@ class Memory extends AbstractAdapter
     ) -> void {
         var accessList, accessName, accessKey;
 
-        this->checkExists(this->roles, roleName, "Role");
-        this->checkExists(this->componentsNames, componentName, "Component");
+        if unlikely !isset this->roles[roleName] {
+            this->checkExists(this->roles, roleName, "Role");
+        }
+
+        if unlikely !isset this->componentsNames[componentName] {
+            this->checkExists(this->componentsNames, componentName, "Component");
+        }
 
         let accessList = this->accessList;
 
@@ -825,7 +853,7 @@ class Memory extends AbstractAdapter
                 let accessKey = this->buildKey(roleName, componentName, accessName);
                 let this->access[accessKey] = action;
 
-                if func != null {
+                if func !== null {
                     let this->functions[accessKey] = func;
                 }
             }
@@ -844,7 +872,7 @@ class Memory extends AbstractAdapter
              * Define the access action for the specified accessKey
              */
             let this->access[accessKey] = action;
-            if func != null {
+            if func !== null {
                 let this->functions[accessKey] = func;
             }
         }
@@ -928,7 +956,7 @@ class Memory extends AbstractAdapter
             let checkRoleToInherits = [];
 
             for usedRoleToInherit in this->roleInherits[roleName] {
-                array_push(checkRoleToInherits, usedRoleToInherit);
+                let checkRoleToInherits[] = usedRoleToInherit;
             }
 
             let usedRoleToInherits = [];
@@ -984,7 +1012,7 @@ class Memory extends AbstractAdapter
                  */
                 if isset this->roleInherits[checkRoleToInherit] {
                     for usedRoleToInherit in this->roleInherits[checkRoleToInherit] {
-                        array_push(checkRoleToInherits, usedRoleToInherit);
+                        let checkRoleToInherits[] = usedRoleToInherit;
                     }
                 }
             }
@@ -1062,7 +1090,14 @@ class Memory extends AbstractAdapter
             let parameterToCheck = reflectionParameter->getName();
 
 
-            if null !== reflectionType && (reflectionType instanceof ReflectionNamedType) && !reflectionType->isBuiltin() {
+            /**
+             * A type that is not a class or an interface that exists is
+             * handled as a parameter with no class.
+             */
+            if null !== reflectionType &&
+                (reflectionType instanceof ReflectionNamedType) &&
+                !reflectionType->isBuiltin() &&
+                (class_exists(reflectionType->getName()) || interface_exists(reflectionType->getName())) {
                 let className       = reflectionType->getName();
                 let reflectionClass = new ReflectionClass(className);
                 // roleObject is this class
@@ -1161,6 +1196,43 @@ class Memory extends AbstractAdapter
             "defined function when checking if '" . roleName . "' can '" .
             access . "' for '" . componentName . "'."
         );
+    }
+
+    /**
+     * Keeps the final decision - after the default action and the rule
+     * callback are applied - and reports it to the listeners, so that they
+     * see the same result as the caller.
+     *
+     * @phpstan-param acl_role_name      $roleName
+     * @phpstan-param acl_component_name $componentName
+     */
+    private function reportAccess(
+        var roleName,
+        var componentName,
+        string access,
+        bool allowed
+    ) -> bool {
+        let this->accessGranted = allowed ? Enum::ALLOW : Enum::DENY;
+
+        /**
+         * Fire the event only when an events manager is set. With no events
+         * manager, fireManagerEvent() does nothing. The beforeCheckAccess
+         * call in isAllowed() has no such check, because an override of
+         * fireManagerEvent() can deny access there.
+         */
+        if null !== this->eventsManager {
+            this->fireManagerEvent(
+                "acl:afterCheckAccess",
+                [
+                    "role":      roleName,
+                    "component": componentName,
+                    "access":    access,
+                    "granted":   this->accessGranted
+                ]
+            );
+        }
+
+        return allowed;
     }
 
     /**

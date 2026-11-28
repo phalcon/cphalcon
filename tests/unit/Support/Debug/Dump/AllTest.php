@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -16,16 +16,21 @@ namespace Phalcon\Tests\Unit\Support\Debug\Dump;
 use Phalcon\Support\Debug\Dump;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use Phalcon\Talon\Talon;
+use Phalcon\Tests\Support\Traits\DebugBuildTrait;
 use stdClass;
 
 final class AllTest extends AbstractUnitTestCase
 {
+    use DebugBuildTrait;
+
     /**
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-09-09
      */
     public function testSupportDebugDumpAll(): void
     {
+        $this->skipOnDebugBuild();
+
         $test1 = 'string';
         $test2 = ['key' => 'value'];
         $test3 = new stdClass();

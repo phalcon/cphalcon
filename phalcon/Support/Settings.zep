@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -77,6 +77,9 @@ class Settings
             case "form.strict_entity_property_check":
                 return (bool) globals_get("form.strict_entity_property_check");
 
+            case "orm.cache_level":
+                return (int) globals_get("orm.cache_level");
+
             case "orm.call_setters_on_hydration":
                 return (bool) globals_get("orm.call_setters_on_hydration");
 
@@ -127,6 +130,9 @@ class Settings
 
             case "orm.resultset_prefetch_records":
                 return (int) globals_get("orm.resultset_prefetch_records");
+
+            case "orm.unique_cache_id":
+                return (int) globals_get("orm.unique_cache_id");
 
             case "orm.update_snapshot_on_save":
                 return (bool) globals_get("orm.update_snapshot_on_save");

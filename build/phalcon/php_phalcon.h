@@ -42,6 +42,42 @@ typedef struct _zephir_function_cache {
 
 typedef zend_function zephir_fcall_cache_entry;
 
+/**
+ * The inline cache of one method or static call site: the method a call
+ * resolved to, for the class it looked the method up in and the class the
+ * calling code belongs to. The method PHP runs depends on nothing else, so a
+ * later call with both classes unchanged runs it without looking it up.
+ *
+ * Each record is declared in the C function holding its call site. `request`
+ * is the request that filled it: a class declared by a request is freed when
+ * that request ends, and another class can take its address in the next.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2790
+ */
+typedef struct _zephir_method_cache {
+	zend_class_entry *ce;
+	const zend_class_entry *scope;
+	zend_function *func;
+	uint64_t request;
+} zephir_method_cache;
+
+/**
+ * The cache record of one static property access: the zval the property of
+ * a class lives in, as ZEND_FETCH_STATIC_PROP_* keeps it in a run-time cache
+ * slot. Each record is declared in the C function holding the access.
+ *
+ * The static members of a class are allocated again in every request, so a
+ * record is only good for the request that filled it.
+ *
+ * @see https://github.com/zephir-lang/zephir/issues/2805
+ */
+typedef struct _zephir_static_property_cache {
+	zend_class_entry *ce;
+	zval *slot;
+	zend_property_info *info;
+	uint64_t request;
+} zephir_static_property_cache;
+
 #define ZEPHIR_INIT_FUNCS(class_functions) static const zend_function_entry class_functions[] =
 
 /** Define FASTCALL */
@@ -112,10 +148,10 @@ typedef zend_function zephir_fcall_cache_entry;
 
 
 #define PHP_PHALCON_NAME        "phalcon"
-#define PHP_PHALCON_VERSION     "5.23.0"
+#define PHP_PHALCON_VERSION     "5.24.0"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
-#define PHP_PHALCON_ZEPVERSION  "1.6.1-$Id$"
+#define PHP_PHALCON_ZEPVERSION  "1.10.0-$Id$"
 #define PHP_PHALCON_DESCRIPTION "Phalcon is a full stack PHP framework, delivered as a PHP extension, offering lower resource consumption and high performance."
 
 
@@ -151,6 +187,7 @@ typedef struct _zephir_struct_orm {
 	HashTable * parser_cache;
 	zend_bool resultset_empty_left_join_model;
 	char * resultset_prefetch_records;
+	char * zephir_owned_resultset_prefetch_records;
 	zend_long unique_cache_id;
 	zend_bool update_snapshot_on_save;
 	zend_bool virtual_foreign_keys;
@@ -177,6 +214,9 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 
 	/* Cache enabled */
 	unsigned int cache_enabled;
+
+	/* The request this thread is serving: a call site's inline cache filled in an earlier one is stale (#2790) */
+	uint64_t request_number;
 
 	/* Max recursion control */
 	unsigned int recursive_lock;

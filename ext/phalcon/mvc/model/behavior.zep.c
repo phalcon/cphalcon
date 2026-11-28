@@ -23,7 +23,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
@@ -74,7 +74,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, __construct)
 	} else {
 		zephir_get_arrval(&options, options_param);
 	}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 239, &options);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 240, &options);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -145,6 +149,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, notify)
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions)
 {
+	zend_bool _1$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval eventName_zv, options, eventOptions, _0;
 	zend_string *eventName = NULL;
@@ -172,11 +177,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions)
 		zephir_memory_observe(&eventName_zv);
 	ZVAL_STR_COPY(&eventName_zv, eventName);
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 239, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 240, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_CPY_WRT(&options, &_0);
-	if (!ZEPHIR_IS_NULL(&eventName_zv)) {
+	if (Z_TYPE_P(&eventName_zv) != IS_NULL) {
 		zephir_memory_observe(&eventOptions);
-		if (!(zephir_array_isset_fetch(&eventOptions, &options, &eventName_zv, 0))) {
+		_1$$3 = zephir_array_isset_fetch(&eventOptions, &options, &eventName_zv, 0);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		if (!(_1$$3)) {
 			RETURN_MM_NULL();
 		}
 		RETURN_CCTOR(&eventOptions);
@@ -189,6 +203,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions)
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction)
 {
+	zend_bool _1;
 	zval eventName_zv, _0;
 	zend_string *eventName = NULL;
 	zval *this_ptr = getThis();
@@ -204,7 +219,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction)
 		Z_PARAM_STR(eventName)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&eventName_zv, eventName);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 239, PH_NOISY_CC | PH_READONLY);
-	RETURN_BOOL(zephir_array_isset_value(&_0, &eventName_zv));
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 240, PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
+	_1 = zephir_array_isset_value(&_0, &eventName_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
+	RETURN_BOOL(_1);
 }
 

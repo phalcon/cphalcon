@@ -24,7 +24,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
@@ -49,7 +49,7 @@ PHP_METHOD(Phalcon_Assets_Inline_Js, __construct)
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval attributes;
-	zend_bool filter;
+	zend_bool filter = 1;
 	zval content_zv, *filter_param = NULL, *attributes_param = NULL, _0$$3, _1, _2;
 	zend_string *content = NULL;
 
@@ -58,6 +58,7 @@ PHP_METHOD(Phalcon_Assets_Inline_Js, __construct)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&attributes);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(content)
 		Z_PARAM_OPTIONAL
@@ -74,10 +75,6 @@ PHP_METHOD(Phalcon_Assets_Inline_Js, __construct)
 	}
 	zephir_memory_observe(&content_zv);
 	ZVAL_STR_COPY(&content_zv, content);
-	if (!filter_param) {
-		filter = 1;
-	} else {
-		}
 	if (!attributes_param) {
 		ZEPHIR_INIT_VAR(&attributes);
 		array_init(&attributes);
@@ -97,7 +94,7 @@ PHP_METHOD(Phalcon_Assets_Inline_Js, __construct)
 	} else {
 		ZVAL_BOOL(&_2, 0);
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_assets_inline_js_ce, getThis(), "__construct", NULL, 0, &_1, &content_zv, &_2, &attributes);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_assets_inline_js_ce, getThis(), "__construct", &_zephir_call_cache[0], &_1, &content_zv, &_2, &attributes);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

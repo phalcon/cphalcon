@@ -20,7 +20,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
@@ -61,6 +61,9 @@ PHP_METHOD(Phalcon_Annotations_Router_RoutePrefix, __construct)
 		Z_PARAM_STR(prefix)
 	ZEND_PARSE_PARAMETERS_END();
 	ZVAL_STR(&prefix_zv, prefix);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 419, &prefix_zv);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 421, &prefix_zv);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 

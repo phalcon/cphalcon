@@ -13,12 +13,12 @@ ARG GID=1000
 ARG USER=phalcon
 ARG GROUP=phalcon
 
-# hadolint ignore=DL3022
-COPY --from=ghcr.io/mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
-
 SHELL [ "/bin/bash", "-o", "pipefail", "-c" ]
 
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+# PIE installs the PECL extensions. It is only available during this step.
+# hadolint ignore=DL3008
+RUN --mount=type=bind,from=ghcr.io/php/pie:1-bin,source=/pie,target=/usr/local/bin/pie \
+    --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt/lists,sharing=locked <<EOT
 set -eux
 # Add user and group
@@ -28,24 +28,79 @@ usermod -s /bin/bash "${USER}"
 install -d -m 0770 -o "${USER}" -g "${GROUP}" /app
 apt-get update
 apt-get install -yq --no-install-recommends libfcgi-bin=2.*
+# Keep the list of the installed packages. The build packages that
+# follow are removed at the end of the extension install.
+savedAptMark="$(apt-mark showmanual)"
+apt-get install -yq --no-install-recommends \
+    libfreetype-dev \
+    libicu-dev \
+    libjpeg-dev \
+    libmagickwand-dev \
+    libonig-dev \
+    libpng-dev \
+    libpq-dev \
+    libtool \
+    libwebp-dev \
+    libxpm-dev \
+    libxslt1-dev \
+    libyaml-dev \
+    libzip-dev \
+    unzip
 # Install runtime extensions
-install-php-extensions \
-    apcu \
-    gettext \
+# (PIE also enables each extension)
+if php -r 'exit(PHP_VERSION_ID < 80600 ? 0 : 1);'; then
+    # Packagist has only a release candidate of igbinary for PIE
+    pie install --no-cache "igbinary/igbinary:^3.2@RC"
+    pie install --no-cache apcu/apcu
+    pie install --no-cache imagick/imagick
+    pie install --no-cache phpredis/phpredis --enable-redis-igbinary
+    pie install --no-cache pecl/yaml
+else
+    # The releases do not compile on PHP 8.6 yet. Use the development
+    # branches until there are releases that support PHP 8.6.
+    pie install --no-cache igbinary/igbinary:dev-master
+    pie install --no-cache apcu/apcu:dev-master
+    pie install --no-cache imagick/imagick:dev-master
+    pie install --no-cache phpredis/phpredis:dev-develop --enable-redis-igbinary
+    pie install --no-cache pecl/yaml:dev-php7
+fi
+# Configure GD
+docker-php-ext-configure gd --with-freetype \
+    --with-jpeg=/usr/include/ \
+    --with-xpm \
+    --with-webp \
+    --enable-gd
+docker-php-ext-install \
     gd \
-    igbinary \
-    imagick \
+    gettext \
     intl \
     mysqli \
-    opcache \
     pcntl \
     pdo_mysql \
     pdo_pgsql \
     pgsql \
-    redis \
     xsl \
-    yaml \
     zip
+# The PHP 8.6 image does not have mbstring (the older images have it for PECL)
+if ! php -m | grep -qx mbstring; then
+    docker-php-ext-install mbstring
+fi
+# PHP 8.5 and later have OPcache built in
+if ! php -m | grep -qx 'Zend OPcache'; then
+    docker-php-ext-install opcache
+fi
+# Remove the build packages. Keep the libraries that the extensions use.
+# The second awk ignores the diversion lines from dpkg-query.
+apt-mark auto '.*' > /dev/null
+[ -z "${savedAptMark}" ] || apt-mark manual ${savedAptMark}
+find /usr/local -type f -executable -exec ldd '{}' ';' \
+    | awk '/=>/ { so = $(NF-1); if (index(so, "/usr/local/") == 1) { next }; gsub("^/(usr/)?", "", so); printf "*%s\n", so }' \
+    | sort -u \
+    | xargs -r dpkg-query --search \
+    | awk 'sub(":$", "", $1) { print $1 }' \
+    | sort -u \
+    | xargs -r apt-mark manual
+apt-get purge -yq --auto-remove -o APT::AutoRemove::RecommendsImportant=false
 # Production php.ini
 cp -p /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
 sed -i -e "s/;error_log = syslog/error_log = \/proc\/self\/fd\/2/" /usr/local/etc/php/php.ini
@@ -62,7 +117,8 @@ curl -fsSL -o /usr/local/bin/php-fpm-healthcheck \
     https://raw.githubusercontent.com/renatomefi/php-fpm-healthcheck/master/php-fpm-healthcheck
 chown "${USER}:${GROUP}" /usr/local/bin/php-fpm-healthcheck
 chmod 0770 /usr/local/bin/php-fpm-healthcheck
-echo "pm.status_path = /status" >> /usr/local/etc/php-fpm.d/zz-docker.conf
+# The status page is a pool setting. From PHP 8.6, zz-docker.conf has no [www] section.
+sed -i -e "s/^;pm.status_path = \/status$/pm.status_path = \/status/" /usr/local/etc/php-fpm.d/www.conf
 # Pid dir
 install -d -m 0770 -o "${USER}" -g "${GROUP}" /run/php
 # Cleanup
@@ -93,8 +149,10 @@ COPY resources/docker/develop/extra.ini /usr/local/etc/php/conf.d/extra.ini
 
 SHELL [ "/bin/bash", "-o", "pipefail", "-c" ]
 
+# PIE installs the PECL extensions. It is only available during this step.
 # hadolint ignore=DL3008
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+RUN --mount=type=bind,from=ghcr.io/php/pie:1-bin,source=/pie,target=/usr/local/bin/pie \
+    --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt/lists,sharing=locked <<EOT
 set -eux
 # Toolchain (zephir build) + dev utilities
@@ -107,6 +165,9 @@ apt-get install -yq --no-install-recommends \
     gcc \
     git \
     libc-dev \
+    libgmp-dev \
+    libmemcached-dev \
+    libtool \
     locales \
     make \
     nano \
@@ -115,13 +176,23 @@ apt-get install -yq --no-install-recommends \
     sudo \
     unzip \
     wget \
-    zip
+    zip \
+    zlib1g-dev
 # Dev/test extensions
-install-php-extensions \
-    gmp \
-    memcached \
-    msgpack \
-    xdebug
+# (PIE also enables each extension)
+docker-php-ext-install gmp
+if php -r 'exit(PHP_VERSION_ID < 80600 ? 0 : 1);'; then
+    pie install --no-cache msgpack/msgpack-php
+    pie install --no-cache php-memcached/php-memcached
+    pie install --no-cache xdebug/xdebug
+else
+    # The releases do not compile on PHP 8.6 yet. Use the development
+    # branches until there are releases that support PHP 8.6.
+    pie install --no-cache msgpack/msgpack-php:dev-master
+    pie install --no-cache php-memcached/php-memcached:dev-master
+    # Only an alpha of Xdebug supports PHP 8.6
+    pie install --no-cache "xdebug/xdebug:^3.6@alpha"
+fi
 #    zephir_parser
 # Locales for gettext/Translate tests
 sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen
@@ -213,7 +284,7 @@ EOT
 FROM base AS prod
 
 ARG PHP_VERSION=8.4
-ARG PHALCON_VERSION="v5.23.0"
+ARG PHALCON_VERSION="v5.24.0"
 ARG USER=phalcon
 
 ENV PATH=/app/bin:/app:${PATH} \

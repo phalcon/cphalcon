@@ -4,8 +4,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Phalcon\Dispatcher;
@@ -369,7 +369,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
             }
 
             // Check if the handler is new (hasn't been initialized).
-            let handlerHash = spl_object_hash(handler);
+            let handlerHash = spl_object_id(handler);
             let isNewHandler = !(isset this->handlerHashes[handlerHash]);
 
             if isNewHandler {
@@ -1167,7 +1167,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
             let cache = container->get(cache);
         }
 
-        if cache != null {
+        if cache !== null {
             modelBinder->setCache(cache);
         }
 

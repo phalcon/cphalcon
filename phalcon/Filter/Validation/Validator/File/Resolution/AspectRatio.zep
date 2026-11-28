@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -82,36 +82,22 @@ class AspectRatio extends AbstractFile
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var height, ratio, ratioArray, ratioHeight, ratioWidth, replacePairs,
-            tmp, value, width;
+        var dimensions, height, ratio, ratioHeight, ratioWidth, replacePairs,
+            size, width;
 
-        // Check file upload
-        if this->checkUpload(validation, field) === false {
+        let size = this->getUploadedImageSize(validation, field);
+
+        if size === false {
             return false;
         }
 
-        let value = validation->getValue(field),
-            tmp   = getimagesize(value["tmp_name"]);
+        let width  = size[0],
+            height = size[1];
 
-        // The file cannot be read as an image
-        if (false === tmp) {
-            this->appendMessageValid(validation, field);
-
-            return false;
-        }
-
-        let width  = tmp[0],
-            height = tmp[1];
-
-        let ratio = this->getOption("ratio");
-
-        if typeof ratio == "array" {
-            let ratio = ratio[field];
-        }
-
-        let ratioArray  = explode("x", ratio),
-            ratioWidth  = (int) ratioArray[0],
-            ratioHeight = (int) ratioArray[1];
+        let dimensions  = this->getDimensionsOption(field, "ratio"),
+            ratio       = dimensions[0],
+            ratioWidth  = (int) dimensions[1],
+            ratioHeight = (int) dimensions[2];
 
         if width * ratioHeight != height * ratioWidth {
             let replacePairs = [

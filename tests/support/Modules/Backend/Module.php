@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Phalcon\Tests\Support\Modules\Backend;
 
 use Phalcon\Di\DiInterface;
@@ -16,13 +25,6 @@ use Phalcon\Talon\Talon;
  * @link          https://www.phalcon.io
  * @author        Andres Gutierrez <andres@phalcon.io>
  * @author        Nikolaos Dimopoulos <nikos@phalcon.io>
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalcon.io
- * so that we can send you a copy immediately.
  */
 class Module implements ModuleDefinitionInterface
 {

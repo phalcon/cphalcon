@@ -24,7 +24,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Forms_Exceptions_SchemaEntryMissingKey)
@@ -45,6 +45,7 @@ PHP_METHOD(Phalcon_Forms_Exceptions_SchemaEntryMissingKey, __construct)
 	ZVAL_UNDEF(&key_zv);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_LONG(index)
 		Z_PARAM_STR(key)
@@ -58,7 +59,11 @@ PHP_METHOD(Phalcon_Forms_Exceptions_SchemaEntryMissingKey, __construct)
 	ZVAL_LONG(&_0, index);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_SVSVS(&_1, "Form schema definition at index ", &_0, " is missing required key \"", &key_zv, "\"");
-	ZEPHIR_CALL_PARENT(NULL, phalcon_forms_exceptions_schemaentrymissingkey_ce, getThis(), "__construct", NULL, 0, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_forms_exceptions_schemaentrymissingkey_ce, getThis(), "__construct", &_zephir_call_cache[0], &_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

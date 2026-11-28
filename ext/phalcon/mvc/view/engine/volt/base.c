@@ -1,11 +1,10 @@
-/* base.c
- *
+/**
  * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 const phvolt_token_names phvolt_tokens[] =
@@ -70,8 +69,6 @@ const phvolt_token_names phvolt_tokens[] =
   { SL("--"),            PHVOLT_T_DECR },
   { SL("BLOCK"),         PHVOLT_T_BLOCK },
   { SL("ENDBLOCK"),      PHVOLT_T_ENDBLOCK },
-  { SL("CACHE"),         PHVOLT_T_CACHE },
-  { SL("ENDCACHE"),      PHVOLT_T_ENDCACHE },
   { SL("EXTENDS"),       PHVOLT_T_EXTENDS },
   { SL("IS"),            PHVOLT_T_IS },
   { SL("DEFINED"),       PHVOLT_T_DEFINED },
@@ -201,7 +198,7 @@ int phvolt_parse_view(zval *result, zval *view_code, zval *template_path)
 
 	if (phvolt_internal_parse_view(&result, view_code, template_path, &error_msg) == FAILURE) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, Z_STRVAL_P(error_msg));
-		zval_dtor(error_msg);
+		zval_ptr_dtor_nogc(error_msg);
 		return FAILURE;
 	}
 
@@ -687,13 +684,6 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				break;
 			case PHVOLT_T_ENDCALL:
 				phvolt_(phvolt_parser, PHVOLT_ENDCALL, NULL, parser_status);
-				break;
-
-			case PHVOLT_T_CACHE:
-				phvolt_(phvolt_parser, PHVOLT_CACHE, NULL, parser_status);
-				break;
-			case PHVOLT_T_ENDCACHE:
-				phvolt_(phvolt_parser, PHVOLT_ENDCACHE, NULL, parser_status);
 				break;
 
 			case PHVOLT_T_VERBATIM:

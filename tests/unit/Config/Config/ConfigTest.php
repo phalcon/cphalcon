@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -123,6 +123,57 @@ final class ConfigTest extends AbstractUnitTestCase
         $this->expectException(InvalidValueType::class);
 
         $config->set('other', ['host' => 'localhost']);
+    }
+
+    /**
+     * With a type, setData() calls validateType() for each value that is
+     * not an array.
+     *
+     * @issue https://github.com/phalcon/cphalcon/issues/17702
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-28
+     */
+    public function testConfigSetDataCallsValidateTypeWithType(): void
+    {
+        $config = new class (['a' => 1, 'b' => ['c' => 2]], true, false, 'int') extends Config {
+            public int $validateTypeCalls = 0;
+
+            protected function validateType(mixed $value): void
+            {
+                $this->validateTypeCalls++;
+
+                parent::validateType($value);
+            }
+        };
+
+        $config->set('d', 3);
+
+        $this->assertSame(2, $config->validateTypeCalls);
+    }
+
+    /**
+     * With no type, setData() does not call validateType().
+     *
+     * @issue https://github.com/phalcon/cphalcon/issues/17702
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-10-28
+     */
+    public function testConfigSetDataSkipsValidateTypeWithoutType(): void
+    {
+        $config = new class (['a' => 1, 'b' => ['c' => 2]]) extends Config {
+            public int $validateTypeCalls = 0;
+
+            protected function validateType(mixed $value): void
+            {
+                $this->validateTypeCalls++;
+
+                parent::validateType($value);
+            }
+        };
+
+        $config->set('d', 3);
+
+        $this->assertSame(0, $config->validateTypeCalls);
     }
 
     /**

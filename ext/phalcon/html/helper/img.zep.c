@@ -60,6 +60,7 @@ PHP_METHOD(Phalcon_Html_Helper_Img, __invoke)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&attributes);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(src)
 		Z_PARAM_OPTIONAL
@@ -80,11 +81,11 @@ PHP_METHOD(Phalcon_Html_Helper_Img, __invoke)
 	}
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "src");
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "injectAttribute", NULL, 0, &_1, &src_zv, &attributes);
+	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "injectAttribute", &_zephir_call_cache[0], &_1, &src_zv, &attributes);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "img");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "selfClose", NULL, 0, &_1, &_0);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "selfClose", &_zephir_call_cache[1], &_1, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 }

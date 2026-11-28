@@ -26,7 +26,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Geometry_GeometryCollection)
@@ -48,7 +48,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Geometry_GeometryCollection)
 PHP_METHOD(Phalcon_Db_Geometry_GeometryCollection, __construct)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long srid;
+	zend_long srid = 0;
 	zval *geometries_param = NULL, *srid_param = NULL, _0;
 	zval geometries;
 	zval *this_ptr = getThis();
@@ -73,14 +73,18 @@ PHP_METHOD(Phalcon_Db_Geometry_GeometryCollection, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 1, &geometries_param, &srid_param);
 	zephir_get_arrval(&geometries, geometries_param);
-	if (!srid_param) {
-		srid = 0;
-	} else {
-		}
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 636, &geometries);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 638, &geometries);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZVAL_UNDEF(&_0);
 	ZVAL_LONG(&_0, srid);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 637, &_0);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 639, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -115,6 +119,7 @@ PHP_METHOD(Phalcon_Db_Geometry_GeometryCollection, toWkt)
 	ZVAL_UNDEF(&_8);
 	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&_7$$4);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[6];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("geometries", 10, 1);
@@ -124,7 +129,11 @@ PHP_METHOD(Phalcon_Db_Geometry_GeometryCollection, toWkt)
 
 	ZEPHIR_INIT_VAR(&parts);
 	array_init(&parts);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 636, PH_NOISY_CC | PH_READONLY);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 638, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	if (Z_TYPE_P(&_0) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_2);
 		zephir_string_to_char_array(&_2, &_0);
@@ -138,37 +147,48 @@ PHP_METHOD(Phalcon_Db_Geometry_GeometryCollection, toWkt)
 		{
 			ZEPHIR_INIT_NVAR(&geometry);
 			ZVAL_COPY(&geometry, _3);
-			ZEPHIR_CALL_METHOD(&_4$$3, &geometry, "toWkt", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&_4$$3, &geometry, "toWkt", &_zephir_call_cache[0]);
 			zephir_check_call_status();
 			zephir_array_append(&parts, &_4$$3, PH_SEPARATE, "phalcon/Db/Geometry/GeometryCollection.zep", 51);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
-		ZEPHIR_CALL_METHOD(NULL, _1, "rewind", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, _1, "rewind", &_zephir_call_cache[1]);
 		zephir_check_call_status();
 		_6 = 1;
 		while (1) {
 			if (_6) {
 				_6 = 0;
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, _1, "next", NULL, 0);
+				ZEPHIR_CALL_METHOD_CACHED(NULL, _1, "next", &_zephir_call_cache[2]);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_5, _1, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&_5, _1, "valid", &_zephir_call_cache[3]);
 			zephir_check_call_status();
 			if (!zend_is_true(&_5)) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&geometry, _1, "current", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&geometry, _1, "current", &_zephir_call_cache[4]);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_7$$4, &geometry, "toWkt", NULL, 0);
+				ZEPHIR_CALL_METHOD_CACHED(&_7$$4, &geometry, "toWkt", &_zephir_call_cache[5]);
 				zephir_check_call_status();
 				zephir_array_append(&parts, &_7$$4, PH_SEPARATE, "phalcon/Db/Geometry/GeometryCollection.zep", 51);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&geometry);
 	ZEPHIR_INIT_VAR(&_8);
 	zephir_fast_join_str(&_8, SL(", "), &parts);
 	ZEPHIR_CONCAT_SVS(return_value, "GEOMETRYCOLLECTION(", &_8, ")");
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	RETURN_MM();
 }
 

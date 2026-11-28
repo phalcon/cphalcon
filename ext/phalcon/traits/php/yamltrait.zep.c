@@ -23,7 +23,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
@@ -51,7 +51,7 @@ PHP_METHOD(Phalcon_Traits_Php_YamlTrait, phpYamlParseFile)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval callbacks;
-	zend_long pos, ZEPHIR_LAST_CALL_STATUS;
+	zend_long pos = 0, ZEPHIR_LAST_CALL_STATUS;
 	zval filename_zv, *pos_param = NULL, *callbacks_param = NULL, ndocs, _0;
 	zend_string *filename = NULL;
 
@@ -75,10 +75,6 @@ PHP_METHOD(Phalcon_Traits_Php_YamlTrait, phpYamlParseFile)
 	}
 	zephir_memory_observe(&filename_zv);
 	ZVAL_STR_COPY(&filename_zv, filename);
-	if (!pos_param) {
-		pos = 0;
-	} else {
-		}
 	if (!callbacks_param) {
 		ZEPHIR_INIT_VAR(&callbacks);
 		array_init(&callbacks);
@@ -88,8 +84,9 @@ PHP_METHOD(Phalcon_Traits_Php_YamlTrait, phpYamlParseFile)
 	ZEPHIR_INIT_VAR(&ndocs);
 	ZVAL_NULL(&ndocs);
 	ZVAL_LONG(&_0, pos);
+	ZEPHIR_OBSERVE_IF_UNDEF(&ndocs);
 	ZEPHIR_MAKE_REF(&ndocs);
-	ZEPHIR_RETURN_CALL_FUNCTION("yaml_parse_file", NULL, 475, &filename_zv, &_0, &ndocs, &callbacks);
+	ZEPHIR_RETURN_CALL_FUNCTION("yaml_parse_file", NULL, 117, &filename_zv, &_0, &ndocs, &callbacks);
 	ZEPHIR_UNREF(&ndocs);
 	zephir_check_call_status();
 	RETURN_MM();

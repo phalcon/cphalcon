@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Zephir\Optimizers\FunctionCall;
 
@@ -36,9 +36,9 @@ class PhqlParsePhqlOptimizer extends OptimizerAbstract
             return false;
         }
 
-        if (count($expression['parameters']) != 1) {
+        if (count($expression['parameters']) != 3) {
             throw new CompilerException(
-                "'phql_parse_phql' only accepts one parameter",
+                "'phql_parse_phql' only accepts three parameters",
                 $expression
             );
         }
@@ -84,7 +84,7 @@ class PhqlParsePhqlOptimizer extends OptimizerAbstract
         $symbol = $context->backend->getVariableCode($symbolVariable);
 
         $context->codePrinter->output(
-            'ZEPHIR_LAST_CALL_STATUS = phql_parse_phql(' . $symbol . ', ' . $resolvedParams[0] . ');'
+            'ZEPHIR_LAST_CALL_STATUS = phql_parse_phql(' . $symbol . ', ' . $resolvedParams[0] . ', ' . $resolvedParams[1] . ', ' . $resolvedParams[2] . ');'
         );
 
         $call->checkTempParameters($context);

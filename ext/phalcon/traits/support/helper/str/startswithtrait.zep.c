@@ -24,7 +24,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
@@ -48,7 +48,8 @@ PHP_METHOD(Phalcon_Traits_Support_Helper_Str_StartsWithTrait, toStartsWith)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool ignoreCase;
+	zephir_fcall_cache_entry *_1 = NULL;
+	zend_bool ignoreCase = 1;
 	zval haystack_zv, needle_zv, *ignoreCase_param = NULL, child, parent, _0;
 	zend_string *haystack = NULL, *needle = NULL;
 
@@ -72,19 +73,15 @@ PHP_METHOD(Phalcon_Traits_Support_Helper_Str_StartsWithTrait, toStartsWith)
 	ZVAL_STR_COPY(&haystack_zv, haystack);
 	zephir_memory_observe(&needle_zv);
 	ZVAL_STR_COPY(&needle_zv, needle);
-	if (!ignoreCase_param) {
-		ignoreCase = 1;
-	} else {
-		}
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "");
 	if (ZEPHIR_IS_IDENTICAL(&_0, &haystack_zv)) {
 		RETURN_MM_BOOL(0);
 	}
 	if (EXPECTED(ignoreCase)) {
-		ZEPHIR_CALL_FUNCTION(&child, "mb_strtolower", NULL, 16, &needle_zv);
+		ZEPHIR_CALL_FUNCTION(&child, "mb_strtolower", &_1, 9, &needle_zv);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&parent, "mb_strtolower", NULL, 16, &haystack_zv);
+		ZEPHIR_CALL_FUNCTION(&parent, "mb_strtolower", &_1, 9, &haystack_zv);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_CPY_WRT(&child, &needle_zv);

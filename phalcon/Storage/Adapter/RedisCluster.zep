@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -181,7 +181,7 @@ class RedisCluster extends Redis
          * Lets set some defaults and options here
          */
         let options["name"]        = this->getArrVal(options, "name", null),
-            options["hosts"]       = this->getArrVal(options, "hosts", "127.0.0.1:6379"),
+            options["hosts"]       = this->getArrVal(options, "hosts", ["127.0.0.1:6379"]),
             options["timeout"]     = this->getArrVal(options, "timeout", 0),
             options["readTimeout"] = this->getArrVal(options, "readTimeout", 0),
             options["persistent"]  = this->getArrVal(options, "persistent", false, "bool"),

@@ -23,7 +23,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Implementation of this file has been influenced by AuraPHP
@@ -49,6 +49,7 @@ PHP_METHOD(Phalcon_Html_Escaper_HtmlEscaper, __invoke)
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&input_zv);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
@@ -62,7 +63,7 @@ PHP_METHOD(Phalcon_Html_Escaper_HtmlEscaper, __invoke)
 		zephir_memory_observe(&input_zv);
 	ZVAL_STR_COPY(&input_zv, input);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "escape", NULL, 0, &input_zv);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(this_ptr, "escape", &_zephir_call_cache[0], &input_zv);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -108,10 +109,22 @@ PHP_METHOD(Phalcon_Html_Escaper_HtmlEscaper, escape)
 	if (Z_TYPE_P(&input_zv) == IS_NULL) {
 		RETURN_MM_STRING("");
 	}
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 830, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 831, PH_NOISY_CC | PH_READONLY);
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 832, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("htmlspecialchars", NULL, 200, &input_zv, &_0, &_1, &_2);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 832, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 833, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 834, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_RETURN_CALL_FUNCTION("htmlspecialchars", NULL, 62, &input_zv, &_0, &_1, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 }

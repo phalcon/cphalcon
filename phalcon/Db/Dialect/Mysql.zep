@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -833,11 +833,14 @@ class Mysql extends Dialect
      */
     public function listTables(string schemaName = null) -> string
     {
+        /**
+         * MariaDB lists sequences in SHOW TABLES. Remove them.
+         */
         if schemaName {
-            return "SHOW TABLES FROM " . this->escape(schemaName);
+            return "SHOW FULL TABLES FROM " . this->escape(schemaName) . " WHERE Table_type <> 'SEQUENCE'";
         }
 
-        return "SHOW TABLES";
+        return "SHOW FULL TABLES WHERE Table_type <> 'SEQUENCE'";
     }
 
     /**
@@ -1013,10 +1016,14 @@ class Mysql extends Dialect
     {
         string table;
 
+        /**
+         * Double the backtick in the names, so that a name cannot end the
+         * identifier
+         */
+        let table = "`" . str_replace("`", "``", tableName) . "`";
+
         if schemaName {
-            let table = "`" . schemaName . "`.`" . tableName . "`";
-        } else {
-            let table = "`" . tableName . "`";
+            let table = "`" . str_replace("`", "``", schemaName) . "`." . table;
         }
 
         return "TRUNCATE TABLE " . table;

@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt\Compiler;
 
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\InvalidUserFilterDefinition;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -87,5 +88,27 @@ class AddFilterTest extends AbstractUnitTestCase
             $expected,
             $volt->compileString($voltName)
         );
+    }
+
+    /**
+     * A null definition throws InvalidUserFilterDefinition, the same as
+     * cphalcon.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/821
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-17
+     */
+    public function testMvcViewEngineVoltCompilerAddFilterNull(): void
+    {
+        $volt = new Compiler();
+
+        $volt->addFilter('bar', null);
+
+        $this->expectException(InvalidUserFilterDefinition::class);
+        $this->expectExceptionMessage(
+            "Invalid definition for user filter 'bar' in eval code on line 1"
+        );
+
+        $volt->compileString("{{ 'a'|bar }}");
     }
 }

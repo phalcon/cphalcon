@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -14,6 +14,7 @@ use Closure;
 use Phalcon\Contracts\Mvc\MvcTypes;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Mvc\View\Engine\Volt\Exceptions\CallNotSupported;
 use Phalcon\Mvc\View\Engine\Volt\Exceptions\CannotOpenCompiledFile;
 use Phalcon\Mvc\View\Engine\Volt\Exceptions\CorruptedStatement;
 use Phalcon\Mvc\View\Engine\Volt\Exceptions\CorruptedStatementWithData;
@@ -467,49 +468,47 @@ class Compiler implements InjectionAwareInterface
                 extendsMode
             );
         } else {
-            if stat === true {
-                /**
-                 * Compare modification timestamps to check if the file
-                 * needs to be recompiled
-                 */
-                if compare_mtime(templatePath, compiledTemplatePath) {
-                    let compilation = this->compileFile(
-                        templatePath,
-                        compiledTemplatePath,
-                        extendsMode
-                    );
-                } else {
-                    if extendsMode {
+            /**
+             * Compare modification timestamps to check if the file
+             * needs to be recompiled
+             */
+            if stat === true && compare_mtime(templatePath, compiledTemplatePath) {
+                let compilation = this->compileFile(
+                    templatePath,
+                    compiledTemplatePath,
+                    extendsMode
+                );
+            } else {
+                if extendsMode {
+                    /**
+                     * In extends mode we read the file that must
+                     * contains a serialized array of blocks
+                     */
+                    let blocksCode = this->phpFileGetContents(compiledTemplatePath);
+
+                    if unlikely blocksCode === false {
+                        throw new CannotOpenCompiledFile(compiledTemplatePath);
+                    }
+
+                    /**
+                     * Unserialize the array blocks code
+                     */
+                    if blocksCode {
+                        let compilation = unserialize(blocksCode, ["allowed_classes": false]);
+
                         /**
-                         * In extends mode we read the file that must
-                         * contains a serialized array of blocks
+                         * The cache holds nested arrays only. Anything
+                         * else is a damaged or planted file: recompile.
                          */
-                        let blocksCode = this->phpFileGetContents(compiledTemplatePath);
-
-                        if unlikely blocksCode === false {
-                            throw new CannotOpenCompiledFile(compiledTemplatePath);
+                        if typeof compilation !== "array" {
+                            let compilation = this->compileFile(
+                                templatePath,
+                                compiledTemplatePath,
+                                extendsMode
+                            );
                         }
-
-                        /**
-                         * Unserialize the array blocks code
-                         */
-                        if blocksCode {
-                            let compilation = unserialize(blocksCode, ["allowed_classes": false]);
-
-                            /**
-                             * The cache holds nested arrays only. Anything
-                             * else is a damaged or planted file: recompile.
-                             */
-                            if typeof compilation !== "array" {
-                                let compilation = this->compileFile(
-                                    templatePath,
-                                    compiledTemplatePath,
-                                    extendsMode
-                                );
-                            }
-                        } else {
-                            let compilation = [];
-                        }
+                    } else {
+                        let compilation = [];
                     }
                 }
             }
@@ -564,11 +563,15 @@ class Compiler implements InjectionAwareInterface
      * @param bool extendsMode
      *
      * @phpstan-param mvc_volt_node $statement
+     *
+     * @throws Exception
      */
     public function compileCall(array statement, bool extendsMode) -> string
     {
-        // Not implemented?
-        return "";
+        throw new CallNotSupported(
+            (string) statement["file"],
+            (int) statement["line"]
+        );
     }
 
     /**
@@ -638,7 +641,7 @@ class Compiler implements InjectionAwareInterface
      */
     public function compileEcho(array statement) -> string
     {
-        var expr, exprCode, name;
+        var escapers, expr, exprCode, filter, name, prefix;
 
         /**
          * A valid expression is required
@@ -673,6 +676,36 @@ class Compiler implements InjectionAwareInterface
          * Echo statement
          */
         if this->autoescape {
+            /**
+             * A built-in escape filter as the outermost node escapes the
+             * output already. A user filter or an extension can use the same
+             * name, thus the code must also start with the built-in code.
+             */
+            if expr["type"] == 124 {
+                let filter = expr["right"];
+
+                if filter["type"] == PHVOLT_T_FCALL {
+                    let name = filter["name"]["value"];
+                } else {
+                    let name = filter["value"];
+                }
+
+                let escapers = [
+                    "e":           "$this->escaper->html(",
+                    "escape":      "$this->escaper->html(",
+                    "escape_attr": "$this->escaper->attributes(",
+                    "escape_css":  "$this->escaper->css(",
+                    "escape_js":   "$this->escaper->js(",
+                    "url_encode":  "urlencode("
+                ];
+
+                if fetch prefix, escapers[name] {
+                    if starts_with(exprCode, prefix) {
+                        return "<?= " . exprCode . " ?>";
+                    }
+                }
+            }
+
             return "<?= $this->escaper->html(" . exprCode . ") ?>";
         }
 
@@ -2718,7 +2751,7 @@ class Compiler implements InjectionAwareInterface
     final protected function statementList(array statements, bool extendsMode = false) -> string
     {
         var extended, blockMode, compilation, extensions, statement,
-            tempCompilation, type, blockName, blockStatements, blocks, path,
+            tempCompilation, type, blockName, blockStatements, blocks, path, pathValue,
             finalPath, subCompiler, level;
 
         /**
@@ -2883,9 +2916,14 @@ class Compiler implements InjectionAwareInterface
                      */
                     let path = statement["path"];
 
-                    let finalPath = this->getFinalPath(
-                        path["value"]
-                    );
+                    /**
+                     * An expression path has no "value". Use an empty path.
+                     */
+                    if !fetch pathValue, path["value"] {
+                        let pathValue = "";
+                    }
+
+                    let finalPath = this->getFinalPath(pathValue);
 
                     let extended = true;
 

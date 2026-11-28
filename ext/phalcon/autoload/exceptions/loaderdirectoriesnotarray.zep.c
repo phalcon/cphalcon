@@ -24,7 +24,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Autoload_Exceptions_LoaderDirectoriesNotArray)
@@ -46,6 +46,7 @@ PHP_METHOD(Phalcon_Autoload_Exceptions_LoaderDirectoriesNotArray, __construct)
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR(name)
@@ -67,9 +68,17 @@ PHP_METHOD(Phalcon_Autoload_Exceptions_LoaderDirectoriesNotArray, __construct)
 	if (!ZEPHIR_IS_IDENTICAL(&_0, &name_zv)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZEPHIR_CONCAT_SVS(&_1$$3, " for the '", &name_zv, "' namespace");
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		zephir_concat_self(&message, &_1$$3);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_autoload_exceptions_loaderdirectoriesnotarray_ce, getThis(), "__construct", NULL, 0, &message);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_autoload_exceptions_loaderdirectoriesnotarray_ce, getThis(), "__construct", &_zephir_call_cache[0], &message);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

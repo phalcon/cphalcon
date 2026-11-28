@@ -22,7 +22,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Implementation of this file has been heavily influenced by CapsulePHP.
@@ -74,7 +74,10 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_NewInstance, __construct)
 		Z_PARAM_ZVAL(id)
 	ZEND_PARSE_PARAMETERS_END();
 	zephir_fetch_params_without_memory_grow(1, 0, &id);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 576, id);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 578, id);
+	if (UNEXPECTED(EG(exception))) {
+		return;
+	}
 }
 
 /**
@@ -90,6 +93,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_NewInstance, resolve)
 	ZVAL_UNDEF(&ioc_sub);
 	ZVAL_UNDEF(&id);
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("id", 2, 1);
@@ -101,10 +105,14 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_NewInstance, resolve)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &ioc);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 576, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&id, this_ptr, "resolveArgument", NULL, 0, ioc, &_0);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 578, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_METHOD_CACHED(&id, this_ptr, "resolveArgument", &_zephir_call_cache[0], ioc, &_0);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(ioc, "new", NULL, 0, &id);
+	ZEPHIR_RETURN_CALL_METHOD_CACHED(ioc, "new", &_zephir_call_cache[1], &id);
 	zephir_check_call_status();
 	RETURN_MM();
 }

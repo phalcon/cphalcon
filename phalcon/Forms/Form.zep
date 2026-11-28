@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -140,7 +140,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             element->{"setTagFactory"}(this->tagFactory);
         }
 
-        if position == null || empty this->elements {
+        if position === null || empty this->elements {
             /**
              * Append the element by its name
              */
@@ -624,7 +624,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             "label":         true,
             "messages":      true,
             "messagesfor":   true,
-            "tagFactory":    true,
+            "tagfactory":    true,
             "useroption":    true,
             "useroptions":   true,
             "validation":    true,

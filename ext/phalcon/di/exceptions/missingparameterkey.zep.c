@@ -24,7 +24,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Di_Exceptions_MissingParameterKey)
@@ -45,6 +45,7 @@ PHP_METHOD(Phalcon_Di_Exceptions_MissingParameterKey, __construct)
 	ZVAL_UNDEF(&key_zv);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(key)
 		Z_PARAM_LONG(position)
@@ -58,7 +59,11 @@ PHP_METHOD(Phalcon_Di_Exceptions_MissingParameterKey, __construct)
 	ZVAL_LONG(&_0, position);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_SVSV(&_1, "Service '", &key_zv, "' is required in parameter on position ", &_0);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_di_exceptions_missingparameterkey_ce, getThis(), "__construct", NULL, 0, &_1);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_di_exceptions_missingparameterkey_ce, getThis(), "__construct", &_zephir_call_cache[0], &_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

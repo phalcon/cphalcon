@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -33,14 +33,20 @@ final class ListTablesTest extends AbstractDatabaseTestCase
         $dialect = new Postgresql();
 
         $this->assertSame(
-            "SELECT table_name FROM information_schema.tables "
-            . "WHERE table_schema = 'public' ORDER BY table_name",
+            "SELECT t.table_name FROM information_schema.tables t "
+            . "JOIN pg_namespace n ON n.nspname = t.table_schema "
+            . "JOIN pg_class c ON c.relnamespace = n.oid AND c.relname = t.table_name "
+            . "WHERE t.table_schema = 'public' AND NOT c.relispartition "
+            . "ORDER BY t.table_name",
             $dialect->listTables()
         );
 
         $this->assertSame(
-            "SELECT table_name FROM information_schema.tables "
-            . "WHERE table_schema = 'myschema' ORDER BY table_name",
+            "SELECT t.table_name FROM information_schema.tables t "
+            . "JOIN pg_namespace n ON n.nspname = t.table_schema "
+            . "JOIN pg_class c ON c.relnamespace = n.oid AND c.relname = t.table_name "
+            . "WHERE t.table_schema = 'myschema' AND NOT c.relispartition "
+            . "ORDER BY t.table_name",
             $dialect->listTables('myschema')
         );
     }

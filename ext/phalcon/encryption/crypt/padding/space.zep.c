@@ -25,7 +25,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
@@ -56,7 +56,7 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Space, pad)
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, " ");
 	ZVAL_LONG(&_1, paddingSize);
-	ZEPHIR_RETURN_CALL_FUNCTION("str_repeat", NULL, 7, &_0, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("str_repeat", NULL, 3, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -89,12 +89,16 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Space, unpad)
 	ZVAL_STR_COPY(&input_zv, input);
 	ZEPHIR_INIT_VAR(&length);
 	ZVAL_LONG(&length, zephir_fast_strlen_ev(&input_zv));
-	ZEPHIR_CALL_FUNCTION(&inputArray, "str_split", NULL, 216, &input_zv);
+	ZEPHIR_CALL_FUNCTION(&inputArray, "str_split", NULL, 69, &input_zv);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_LONG(&_0, 1);
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_sub_function(&_1, &length, &_0);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	counter = zephir_get_intval(&_1);
 	paddingSize = 0;
 	while (1) {
@@ -102,8 +106,12 @@ PHP_METHOD(Phalcon_Encryption_Crypt_Padding_Space, unpad)
 		if (_2) {
 			ZEPHIR_OBS_NVAR(&_3);
 			zephir_array_fetch_long(&_3, &inputArray, counter, PH_NOISY, "phalcon/Encryption/Crypt/Padding/Space.zep", 35);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 			ZVAL_LONG(&_4, 32);
-			ZEPHIR_CALL_FUNCTION(&_5, "chr", &_6, 0, &_4);
+			ZEPHIR_CALL_FUNCTION(&_5, "chr", &_6, 123, &_4);
 			zephir_check_call_status();
 			_2 = ZEPHIR_IS_IDENTICAL(&_3, &_5);
 		}

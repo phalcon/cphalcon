@@ -17,6 +17,7 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/object.h"
+#include "kernel/main.h"
 #include "kernel/exception.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
@@ -69,13 +70,15 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_Pdo_Sqlite)
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, __construct)
 {
+	zend_bool _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *descriptor_param = NULL, _0$$3;
+	zval *descriptor_param = NULL, _1$$3;
 	zval descriptor;
 
 	ZVAL_UNDEF(&descriptor);
-	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_1$$3);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		ZEPHIR_Z_PARAM_ARRAY(descriptor, descriptor_param)
 	ZEND_PARSE_PARAMETERS_END();
@@ -83,13 +86,18 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, __construct)
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &descriptor_param);
 	zephir_get_arrval(&descriptor, descriptor_param);
-	if (zephir_array_isset_value_string(&descriptor, SL("charset"))) {
-		ZEPHIR_INIT_VAR(&_0$$3);
-		ZVAL_STRING(&_0$$3, "SQLite does not allow the charset to be changed in the DSN.");
-		ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 11, &_0$$3);
+	_0 = zephir_array_isset_value_string(&descriptor, SL("charset"));
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	if (_0) {
+		ZEPHIR_INIT_VAR(&_1$$3);
+		ZVAL_STRING(&_1$$3, "SQLite does not allow the charset to be changed in the DSN.");
+		ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 8, &_1$$3);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_db_adapter_pdo_sqlite_ce, getThis(), "__construct", NULL, 0, &descriptor);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_db_adapter_pdo_sqlite_ce, getThis(), "__construct", &_zephir_call_cache[0], &descriptor);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -100,16 +108,18 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, __construct)
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, connect)
 {
+	zend_bool _1, _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *descriptor_param = NULL, dbname, _0$$3, _1$$5;
+	zval *descriptor_param = NULL, dbname, _0$$3, _3$$5;
 	zval descriptor;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&descriptor);
 	ZVAL_UNDEF(&dbname);
 	ZVAL_UNDEF(&_0$$3);
-	ZVAL_UNDEF(&_1$$5);
+	ZVAL_UNDEF(&_3$$5);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("descriptor", 10, 1);
@@ -129,23 +139,54 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, connect)
 		zephir_get_arrval(&descriptor, descriptor_param);
 	}
 	if (ZEPHIR_IS_EMPTY(&descriptor)) {
-		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 612, PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_cached(&_0$$3, this_ptr, _zephir_prop_0, 614, PH_NOISY_CC | PH_READONLY);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		if (UNEXPECTED(Z_TYPE_P(&_0$$3) != IS_ARRAY)) {
+			zephir_throw_variable_type_error(&_0$$3, "descriptor", "array");
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 		ZEPHIR_CPY_WRT(&descriptor, &_0$$3);
 	}
 	zephir_memory_observe(&dbname);
-	if (zephir_array_isset_string_fetch(&dbname, &descriptor, SL("dbname"), 0)) {
-		zephir_array_update_string(&descriptor, SL("dsn"), &dbname, PH_COPY | PH_SEPARATE);
-		zephir_array_unset_string(&descriptor, SL("dbname"), PH_SEPARATE);
-	} else if (UNEXPECTED(!(zephir_array_isset_value_string(&descriptor, SL("dsn"))))) {
-		ZEPHIR_INIT_VAR(&_1$$5);
-		object_init_ex(&_1$$5, phalcon_db_exceptions_missingsqlitedatabase_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$5, "__construct", NULL, 0);
-		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$5, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 77);
+	_1 = zephir_array_isset_string_fetch(&dbname, &descriptor, SL("dbname"), 0);
+	if (UNEXPECTED(EG(exception))) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_db_adapter_pdo_sqlite_ce, getThis(), "connect", NULL, 0, &descriptor);
+	if (_1) {
+		zephir_array_update_string(&descriptor, SL("dsn"), &dbname, PH_COPY | PH_SEPARATE);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		zephir_array_unset_string(&descriptor, SL("dbname"), PH_SEPARATE);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+	} else {
+		_2 = zephir_array_isset_value_string(&descriptor, SL("dsn"));
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		if (UNEXPECTED(!(_2))) {
+			ZEPHIR_INIT_VAR(&_3$$5);
+			object_init_ex(&_3$$5, phalcon_db_exceptions_missingsqlitedatabase_ce);
+			zephir_constructor_start(&_3$$5);
+			ZEPHIR_CALL_METHOD_CACHED(NULL, &_3$$5, "__construct", &_zephir_call_cache[0]);
+			zephir_check_call_status();
+			zephir_constructor_finish(&_3$$5);
+			zephir_throw_exception_debug(&_3$$5, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 77);
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+	}
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_db_adapter_pdo_sqlite_ce, getThis(), "connect", &_zephir_call_cache[1], &descriptor);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }
@@ -161,11 +202,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, connect)
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns)
 {
-	zend_bool _50, _34$$3, _38$$30, _80$$32, _84$$59;
+	zend_bool _56, _39$$3, _41$$3, _33$$24, _35$$24, _44$$34, _45$$34, _91$$36, _93$$36, _85$$57, _87$$57, _96$$67, _97$$67;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_42 = NULL, *_47 = NULL, *_48 = NULL;
+	zephir_fcall_cache_entry *_49 = NULL, *_54 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, hiddenFlag = 0;
-	zval table_zv, schema_zv, __$true, __$false, columns, columnType, fields, field, definition, oldColumn, sizePattern, matches, matchOne, matchTwo, columnName, _0, _1, _2, *_3, _4, *_5, _49, _6$$3, _31$$3, _32$$3, _7$$4, _8$$4, _9$$5, _10$$5, _11$$5, _12$$7, _13$$7, _14$$8, _15$$9, _16$$10, _17$$11, _18$$11, _19$$12, _20$$12, _21$$13, _22$$13, _23$$14, _24$$15, _25$$16, _26$$17, _27$$18, _28$$19, _29$$21, _30$$22, _33$$28, _35$$29, _36$$29, _37$$30, _39$$30, _40$$30, _41$$30, _43$$31, _44$$31, _45$$31, _46$$31, _51$$32, _52$$32, _77$$32, _78$$32, _53$$33, _54$$33, _55$$34, _56$$34, _57$$34, _58$$36, _59$$36, _60$$37, _61$$38, _62$$39, _63$$40, _64$$40, _65$$41, _66$$41, _67$$42, _68$$42, _69$$43, _70$$44, _71$$45, _72$$46, _73$$47, _74$$48, _75$$50, _76$$51, _79$$57, _81$$58, _82$$58, _83$$59, _85$$59, _86$$59, _87$$59, _88$$60, _89$$60, _90$$60, _91$$60;
+	zval table_zv, schema_zv, __$true, __$false, columns, columnType, fields, field, definition, oldColumn, sizePattern, matches, matchOne, matchTwo, columnName, _0, _1, _2, *_3, _4, *_5, _55, _6$$3, _37$$3, _38$$3, _7$$4, _8$$4, _9$$5, _10$$5, _11$$6, _12$$6, _13$$6, _14$$8, _15$$9, _16$$10, _17$$11, _18$$11, _19$$12, _20$$12, _21$$13, _22$$13, _23$$14, _24$$15, _25$$16, _26$$17, _27$$18, _28$$19, _29$$20, _30$$21, _31$$22, _32$$23, _34$$25, _36$$26, _40$$32, _42$$33, _43$$33, _46$$34, _47$$34, _48$$34, _50$$35, _51$$35, _52$$35, _53$$35, _57$$36, _58$$36, _89$$36, _90$$36, _59$$37, _60$$37, _61$$38, _62$$38, _63$$39, _64$$39, _65$$39, _66$$41, _67$$42, _68$$43, _69$$44, _70$$44, _71$$45, _72$$45, _73$$46, _74$$46, _75$$47, _76$$48, _77$$49, _78$$50, _79$$51, _80$$52, _81$$53, _82$$54, _83$$55, _84$$56, _86$$58, _88$$59, _92$$65, _94$$66, _95$$66, _98$$67, _99$$67, _100$$67, _101$$68, _102$$68, _103$$68, _104$$68;
 	zend_string *table = NULL, *schema = NULL;
 	zval *this_ptr = getThis();
 
@@ -188,17 +229,17 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns)
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_49);
+	ZVAL_UNDEF(&_55);
 	ZVAL_UNDEF(&_6$$3);
-	ZVAL_UNDEF(&_31$$3);
-	ZVAL_UNDEF(&_32$$3);
+	ZVAL_UNDEF(&_37$$3);
+	ZVAL_UNDEF(&_38$$3);
 	ZVAL_UNDEF(&_7$$4);
 	ZVAL_UNDEF(&_8$$4);
 	ZVAL_UNDEF(&_9$$5);
 	ZVAL_UNDEF(&_10$$5);
-	ZVAL_UNDEF(&_11$$5);
-	ZVAL_UNDEF(&_12$$7);
-	ZVAL_UNDEF(&_13$$7);
+	ZVAL_UNDEF(&_11$$6);
+	ZVAL_UNDEF(&_12$$6);
+	ZVAL_UNDEF(&_13$$6);
 	ZVAL_UNDEF(&_14$$8);
 	ZVAL_UNDEF(&_15$$9);
 	ZVAL_UNDEF(&_16$$10);
@@ -214,58 +255,65 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns)
 	ZVAL_UNDEF(&_26$$17);
 	ZVAL_UNDEF(&_27$$18);
 	ZVAL_UNDEF(&_28$$19);
-	ZVAL_UNDEF(&_29$$21);
-	ZVAL_UNDEF(&_30$$22);
-	ZVAL_UNDEF(&_33$$28);
-	ZVAL_UNDEF(&_35$$29);
-	ZVAL_UNDEF(&_36$$29);
-	ZVAL_UNDEF(&_37$$30);
-	ZVAL_UNDEF(&_39$$30);
-	ZVAL_UNDEF(&_40$$30);
-	ZVAL_UNDEF(&_41$$30);
-	ZVAL_UNDEF(&_43$$31);
-	ZVAL_UNDEF(&_44$$31);
-	ZVAL_UNDEF(&_45$$31);
-	ZVAL_UNDEF(&_46$$31);
-	ZVAL_UNDEF(&_51$$32);
-	ZVAL_UNDEF(&_52$$32);
-	ZVAL_UNDEF(&_77$$32);
-	ZVAL_UNDEF(&_78$$32);
-	ZVAL_UNDEF(&_53$$33);
-	ZVAL_UNDEF(&_54$$33);
-	ZVAL_UNDEF(&_55$$34);
-	ZVAL_UNDEF(&_56$$34);
-	ZVAL_UNDEF(&_57$$34);
+	ZVAL_UNDEF(&_29$$20);
+	ZVAL_UNDEF(&_30$$21);
+	ZVAL_UNDEF(&_31$$22);
+	ZVAL_UNDEF(&_32$$23);
+	ZVAL_UNDEF(&_34$$25);
+	ZVAL_UNDEF(&_36$$26);
+	ZVAL_UNDEF(&_40$$32);
+	ZVAL_UNDEF(&_42$$33);
+	ZVAL_UNDEF(&_43$$33);
+	ZVAL_UNDEF(&_46$$34);
+	ZVAL_UNDEF(&_47$$34);
+	ZVAL_UNDEF(&_48$$34);
+	ZVAL_UNDEF(&_50$$35);
+	ZVAL_UNDEF(&_51$$35);
+	ZVAL_UNDEF(&_52$$35);
+	ZVAL_UNDEF(&_53$$35);
+	ZVAL_UNDEF(&_57$$36);
 	ZVAL_UNDEF(&_58$$36);
-	ZVAL_UNDEF(&_59$$36);
+	ZVAL_UNDEF(&_89$$36);
+	ZVAL_UNDEF(&_90$$36);
+	ZVAL_UNDEF(&_59$$37);
 	ZVAL_UNDEF(&_60$$37);
 	ZVAL_UNDEF(&_61$$38);
-	ZVAL_UNDEF(&_62$$39);
-	ZVAL_UNDEF(&_63$$40);
-	ZVAL_UNDEF(&_64$$40);
-	ZVAL_UNDEF(&_65$$41);
+	ZVAL_UNDEF(&_62$$38);
+	ZVAL_UNDEF(&_63$$39);
+	ZVAL_UNDEF(&_64$$39);
+	ZVAL_UNDEF(&_65$$39);
 	ZVAL_UNDEF(&_66$$41);
 	ZVAL_UNDEF(&_67$$42);
-	ZVAL_UNDEF(&_68$$42);
-	ZVAL_UNDEF(&_69$$43);
+	ZVAL_UNDEF(&_68$$43);
+	ZVAL_UNDEF(&_69$$44);
 	ZVAL_UNDEF(&_70$$44);
 	ZVAL_UNDEF(&_71$$45);
-	ZVAL_UNDEF(&_72$$46);
-	ZVAL_UNDEF(&_73$$47);
-	ZVAL_UNDEF(&_74$$48);
-	ZVAL_UNDEF(&_75$$50);
-	ZVAL_UNDEF(&_76$$51);
-	ZVAL_UNDEF(&_79$$57);
-	ZVAL_UNDEF(&_81$$58);
-	ZVAL_UNDEF(&_82$$58);
-	ZVAL_UNDEF(&_83$$59);
-	ZVAL_UNDEF(&_85$$59);
-	ZVAL_UNDEF(&_86$$59);
-	ZVAL_UNDEF(&_87$$59);
-	ZVAL_UNDEF(&_88$$60);
-	ZVAL_UNDEF(&_89$$60);
-	ZVAL_UNDEF(&_90$$60);
-	ZVAL_UNDEF(&_91$$60);
+	ZVAL_UNDEF(&_72$$45);
+	ZVAL_UNDEF(&_73$$46);
+	ZVAL_UNDEF(&_74$$46);
+	ZVAL_UNDEF(&_75$$47);
+	ZVAL_UNDEF(&_76$$48);
+	ZVAL_UNDEF(&_77$$49);
+	ZVAL_UNDEF(&_78$$50);
+	ZVAL_UNDEF(&_79$$51);
+	ZVAL_UNDEF(&_80$$52);
+	ZVAL_UNDEF(&_81$$53);
+	ZVAL_UNDEF(&_82$$54);
+	ZVAL_UNDEF(&_83$$55);
+	ZVAL_UNDEF(&_84$$56);
+	ZVAL_UNDEF(&_86$$58);
+	ZVAL_UNDEF(&_88$$59);
+	ZVAL_UNDEF(&_92$$65);
+	ZVAL_UNDEF(&_94$$66);
+	ZVAL_UNDEF(&_95$$66);
+	ZVAL_UNDEF(&_98$$67);
+	ZVAL_UNDEF(&_99$$67);
+	ZVAL_UNDEF(&_100$$67);
+	ZVAL_UNDEF(&_101$$68);
+	ZVAL_UNDEF(&_102$$68);
+	ZVAL_UNDEF(&_103$$68);
+	ZVAL_UNDEF(&_104$$68);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[8];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("dialect", 7, 1);
@@ -293,11 +341,15 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns)
 	ZVAL_STRING(&sizePattern, "#\\(([0-9]+)(?:,\\s*([0-9]+))*\\)#");
 	ZEPHIR_INIT_VAR(&columns);
 	array_init(&columns);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 613, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_1, &_0, "describeColumns", NULL, 0, &table_zv, &schema_zv);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 615, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_METHOD_CACHED(&_1, &_0, "describeColumns", &_zephir_call_cache[0], &table_zv, &schema_zv);
 	zephir_check_call_status();
 	ZVAL_LONG(&_2, 3);
-	ZEPHIR_CALL_METHOD(&fields, this_ptr, "fetchAll", NULL, 0, &_1, &_2);
+	ZEPHIR_CALL_METHOD_CACHED(&fields, this_ptr, "fetchAll", &_zephir_call_cache[1], &_1, &_2);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&fields) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_4);
@@ -306,7 +358,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns)
 	} else {
 		_3 = &fields;
 	}
-	zephir_is_iterable(_3, 0, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 331);
+	zephir_is_iterable(_3, 0, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 345);
 	if (Z_TYPE_P(_3) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_3), _5)
 		{
@@ -317,6 +369,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns)
 			add_assoc_long_ex(&definition, SL("bindType"), 2);
 			ZEPHIR_OBS_NVAR(&columnType);
 			zephir_array_fetch_long(&columnType, &field, 2, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 122);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 			ZEPHIR_INIT_NVAR(&_6$$3);
 			zephir_fast_strtolower(&_6$$3, &columnType);
 			ZEPHIR_CPY_WRT(&columnType, &_6$$3);
@@ -324,383 +380,842 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns)
 				ZEPHIR_INIT_NVAR(&_7$$4);
 				ZVAL_LONG(&_7$$4, 14);
 				zephir_array_update_string(&definition, SL("type"), &_7$$4, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&_8$$4);
 				ZVAL_LONG(&_8$$4, 2);
 				zephir_array_update_string(&definition, SL("bindType"), &_8$$4, PH_COPY | PH_SEPARATE);
-			} else if (zephir_memnstr_str(&columnType, SL("int"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 145)) {
-				ZEPHIR_INIT_NVAR(&_9$$5);
-				ZVAL_LONG(&_9$$5, 0);
-				zephir_array_update_string(&definition, SL("type"), &_9$$5, PH_COPY | PH_SEPARATE);
-				zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
-				ZEPHIR_INIT_NVAR(&_10$$5);
-				ZVAL_LONG(&_10$$5, 1);
-				zephir_array_update_string(&definition, SL("bindType"), &_10$$5, PH_COPY | PH_SEPARATE);
-				ZEPHIR_OBS_NVAR(&_11$$5);
-				zephir_array_fetch_long(&_11$$5, &field, 5, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 153);
-				if (zephir_is_true(&_11$$5)) {
-					zephir_array_update_string(&definition, SL("autoIncrement"), &__$true, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
 				}
-			} else if (zephir_memnstr_str(&columnType, SL("tinyint(1)"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 156)) {
-				ZEPHIR_INIT_NVAR(&_12$$7);
-				ZVAL_LONG(&_12$$7, 8);
-				zephir_array_update_string(&definition, SL("type"), &_12$$7, PH_COPY | PH_SEPARATE);
-				ZEPHIR_INIT_NVAR(&_13$$7);
-				ZVAL_LONG(&_13$$7, 5);
-				zephir_array_update_string(&definition, SL("bindType"), &_13$$7, PH_COPY | PH_SEPARATE);
+			} else if (zephir_memnstr_str(&columnType, SL("tinyint(1)"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 145)) {
+				ZEPHIR_INIT_NVAR(&_9$$5);
+				ZVAL_LONG(&_9$$5, 8);
+				zephir_array_update_string(&definition, SL("type"), &_9$$5, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				ZEPHIR_INIT_NVAR(&_10$$5);
+				ZVAL_LONG(&_10$$5, 5);
+				zephir_array_update_string(&definition, SL("bindType"), &_10$$5, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&columnType);
 				ZVAL_STRING(&columnType, "boolean");
+			} else if (zephir_memnstr_str(&columnType, SL("int"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 152)) {
+				ZEPHIR_INIT_NVAR(&_11$$6);
+				ZVAL_LONG(&_11$$6, 0);
+				zephir_array_update_string(&definition, SL("type"), &_11$$6, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				ZEPHIR_INIT_NVAR(&_12$$6);
+				ZVAL_LONG(&_12$$6, 1);
+				zephir_array_update_string(&definition, SL("bindType"), &_12$$6, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				ZEPHIR_OBS_NVAR(&_13$$6);
+				zephir_array_fetch_long(&_13$$6, &field, 5, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 160);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				if (zephir_is_true(&_13$$6)) {
+					zephir_array_update_string(&definition, SL("autoIncrement"), &__$true, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+				}
 			} else if (zephir_memnstr_str(&columnType, SL("enum"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 167)) {
 				ZEPHIR_INIT_NVAR(&_14$$8);
 				ZVAL_LONG(&_14$$8, 5);
 				zephir_array_update_string(&definition, SL("type"), &_14$$8, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			} else if (zephir_memnstr_str(&columnType, SL("datetime"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 176)) {
 				ZEPHIR_INIT_NVAR(&_15$$9);
 				ZVAL_LONG(&_15$$9, 4);
 				zephir_array_update_string(&definition, SL("type"), &_15$$9, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			} else if (zephir_memnstr_str(&columnType, SL("date"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 181)) {
 				ZEPHIR_INIT_NVAR(&_16$$10);
 				ZVAL_LONG(&_16$$10, 1);
 				zephir_array_update_string(&definition, SL("type"), &_16$$10, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			} else if (zephir_memnstr_str(&columnType, SL("decimal"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 190)) {
 				ZEPHIR_INIT_NVAR(&_17$$11);
 				ZVAL_LONG(&_17$$11, 3);
 				zephir_array_update_string(&definition, SL("type"), &_17$$11, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&_18$$11);
 				ZVAL_LONG(&_18$$11, 32);
 				zephir_array_update_string(&definition, SL("bindType"), &_18$$11, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			} else if (zephir_memnstr_str(&columnType, SL("float"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 197)) {
 				ZEPHIR_INIT_NVAR(&_19$$12);
 				ZVAL_LONG(&_19$$12, 7);
 				zephir_array_update_string(&definition, SL("type"), &_19$$12, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&_20$$12);
-				ZVAL_LONG(&_20$$12, 3);
+				ZVAL_LONG(&_20$$12, 32);
 				zephir_array_update_string(&definition, SL("bindType"), &_20$$12, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			} else if (zephir_memnstr_str(&columnType, SL("real"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 204)) {
 				ZEPHIR_INIT_NVAR(&_21$$13);
 				ZVAL_LONG(&_21$$13, 7);
 				zephir_array_update_string(&definition, SL("type"), &_21$$13, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&_22$$13);
 				ZVAL_LONG(&_22$$13, 32);
 				zephir_array_update_string(&definition, SL("bindType"), &_22$$13, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			} else if (zephir_memnstr_str(&columnType, SL("timestamp"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 215)) {
 				ZEPHIR_INIT_NVAR(&_23$$14);
 				ZVAL_LONG(&_23$$14, 17);
 				zephir_array_update_string(&definition, SL("type"), &_23$$14, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			} else if (zephir_memnstr_str(&columnType, SL("varchar"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 224)) {
 				ZEPHIR_INIT_NVAR(&_24$$15);
 				ZVAL_LONG(&_24$$15, 2);
 				zephir_array_update_string(&definition, SL("type"), &_24$$15, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			} else if (zephir_memnstr_str(&columnType, SL("char"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 229)) {
 				ZEPHIR_INIT_NVAR(&_25$$16);
 				ZVAL_LONG(&_25$$16, 5);
 				zephir_array_update_string(&definition, SL("type"), &_25$$16, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			} else if (zephir_memnstr_str(&columnType, SL("text"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 234)) {
 				ZEPHIR_INIT_NVAR(&_26$$17);
 				ZVAL_LONG(&_26$$17, 6);
 				zephir_array_update_string(&definition, SL("type"), &_26$$17, PH_COPY | PH_SEPARATE);
-			} else {
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+			} else if (zephir_memnstr_str(&columnType, SL("tinyblob"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 245)) {
 				ZEPHIR_INIT_NVAR(&_27$$18);
-				ZVAL_LONG(&_27$$18, 2);
+				ZVAL_LONG(&_27$$18, 10);
 				zephir_array_update_string(&definition, SL("type"), &_27$$18, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+			} else if (zephir_memnstr_str(&columnType, SL("mediumblob"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 247)) {
+				ZEPHIR_INIT_NVAR(&_28$$19);
+				ZVAL_LONG(&_28$$19, 12);
+				zephir_array_update_string(&definition, SL("type"), &_28$$19, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+			} else if (zephir_memnstr_str(&columnType, SL("longblob"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 249)) {
+				ZEPHIR_INIT_NVAR(&_29$$20);
+				ZVAL_LONG(&_29$$20, 13);
+				zephir_array_update_string(&definition, SL("type"), &_29$$20, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+			} else if (zephir_memnstr_str(&columnType, SL("blob"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 251)) {
+				ZEPHIR_INIT_NVAR(&_30$$21);
+				ZVAL_LONG(&_30$$21, 11);
+				zephir_array_update_string(&definition, SL("type"), &_30$$21, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+			} else {
+				ZEPHIR_INIT_NVAR(&_31$$22);
+				ZVAL_LONG(&_31$$22, 2);
+				zephir_array_update_string(&definition, SL("type"), &_31$$22, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			}
-			if (zephir_memnstr_str(&columnType, SL("("), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 251)) {
+			if (zephir_memnstr_str(&columnType, SL("("), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 265)) {
 				ZEPHIR_INIT_NVAR(&matches);
 				ZVAL_NULL(&matches);
-				ZEPHIR_INIT_NVAR(&_28$$19);
-				zephir_preg_match(&_28$$19, &sizePattern, &columnType, &matches, 0, 0 , 0 );
-				if (zephir_is_true(&_28$$19)) {
+				ZEPHIR_INIT_NVAR(&_32$$23);
+				zephir_preg_match(&_32$$23, &sizePattern, &columnType, &matches, 0, 0 , 0 );
+				if (zephir_is_true(&_32$$23)) {
 					ZEPHIR_OBS_NVAR(&matchOne);
-					if (zephir_array_isset_long_fetch(&matchOne, &matches, 1, 0)) {
-						ZEPHIR_INIT_NVAR(&_29$$21);
-						ZVAL_LONG(&_29$$21, zephir_get_intval(&matchOne));
-						zephir_array_update_string(&definition, SL("size"), &_29$$21, PH_COPY | PH_SEPARATE);
+					_33$$24 = zephir_array_isset_long_fetch(&matchOne, &matches, 1, 0);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+					if (_33$$24) {
+						ZEPHIR_INIT_NVAR(&_34$$25);
+						ZVAL_LONG(&_34$$25, zephir_get_intval(&matchOne));
+						zephir_array_update_string(&definition, SL("size"), &_34$$25, PH_COPY | PH_SEPARATE);
+						if (UNEXPECTED(EG(exception))) {
+							ZEPHIR_MM_RESTORE();
+							return;
+						}
 					}
 					ZEPHIR_OBS_NVAR(&matchTwo);
-					if (zephir_array_isset_long_fetch(&matchTwo, &matches, 2, 0)) {
-						ZEPHIR_INIT_NVAR(&_30$$22);
-						ZVAL_LONG(&_30$$22, zephir_get_intval(&matchTwo));
-						zephir_array_update_string(&definition, SL("scale"), &_30$$22, PH_COPY | PH_SEPARATE);
+					_35$$24 = zephir_array_isset_long_fetch(&matchTwo, &matches, 2, 0);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+					if (_35$$24) {
+						ZEPHIR_INIT_NVAR(&_36$$26);
+						ZVAL_LONG(&_36$$26, zephir_get_intval(&matchTwo));
+						zephir_array_update_string(&definition, SL("scale"), &_36$$26, PH_COPY | PH_SEPARATE);
+						if (UNEXPECTED(EG(exception))) {
+							ZEPHIR_MM_RESTORE();
+							return;
+						}
 					}
 				}
 			}
-			if (zephir_memnstr_str(&columnType, SL("unsigned"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 267)) {
+			if (zephir_memnstr_str(&columnType, SL("unsigned"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 281)) {
 				zephir_array_update_string(&definition, SL("unsigned"), &__$true, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			}
 			if (Z_TYPE_P(&oldColumn) == IS_NULL) {
 				zephir_array_update_string(&definition, SL("first"), &__$true, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			} else {
 				zephir_array_update_string(&definition, SL("after"), &oldColumn, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			}
-			ZEPHIR_OBS_NVAR(&_31$$3);
-			zephir_array_fetch_long(&_31$$3, &field, 5, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 283);
-			if (zephir_is_true(&_31$$3)) {
+			ZEPHIR_OBS_NVAR(&_37$$3);
+			zephir_array_fetch_long(&_37$$3, &field, 5, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 297);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			if (zephir_is_true(&_37$$3)) {
 				zephir_array_update_string(&definition, SL("primary"), &__$true, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			}
-			ZEPHIR_OBS_NVAR(&_32$$3);
-			zephir_array_fetch_long(&_32$$3, &field, 3, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 290);
-			if (ZEPHIR_IS_LONG(&_32$$3, 0)) {
+			ZEPHIR_OBS_NVAR(&_38$$3);
+			zephir_array_fetch_long(&_38$$3, &field, 3, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 304);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			if (ZEPHIR_IS_LONG(&_38$$3, 0)) {
 				zephir_array_update_string(&definition, SL("notNull"), &__$false, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			}
 			hiddenFlag = 0;
-			if (zephir_array_isset_value_long(&field, 6)) {
-				ZEPHIR_OBS_NVAR(&_33$$28);
-				zephir_array_fetch_long(&_33$$28, &field, 6, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 303);
-				hiddenFlag = zephir_get_intval(&_33$$28);
+			_39$$3 = zephir_array_isset_value_long(&field, 6);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
 			}
-			_34$$3 = hiddenFlag == 2;
-			if (!(_34$$3)) {
-				_34$$3 = hiddenFlag == 3;
-			}
-			if (_34$$3) {
-				ZEPHIR_INIT_NVAR(&_35$$29);
-				ZVAL_STRING(&_35$$29, "");
-				zephir_array_update_string(&definition, SL("generated"), &_35$$29, PH_COPY | PH_SEPARATE);
-				ZEPHIR_INIT_NVAR(&_36$$29);
-				ZVAL_BOOL(&_36$$29, (hiddenFlag == 3));
-				zephir_array_update_string(&definition, SL("generationStored"), &_36$$29, PH_COPY | PH_SEPARATE);
-			} else {
-				ZEPHIR_OBS_NVAR(&_37$$30);
-				zephir_array_fetch_long(&_37$$30, &field, 4, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 314);
-				_38$$30 = !(ZEPHIR_IS_EMPTY(&_37$$30));
-				if (_38$$30) {
-					ZEPHIR_OBS_NVAR(&_39$$30);
-					zephir_array_fetch_long(&_39$$30, &field, 4, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 314);
-					ZEPHIR_INIT_NVAR(&_40$$30);
-					ZVAL_STRING(&_40$$30, "null");
-					ZEPHIR_CALL_FUNCTION(&_41$$30, "strcasecmp", &_42, 87, &_39$$30, &_40$$30);
-					zephir_check_call_status();
-					_38$$30 = !ZEPHIR_IS_LONG_IDENTICAL(&_41$$30, 0);
+			if (_39$$3) {
+				ZEPHIR_OBS_NVAR(&_40$$32);
+				zephir_array_fetch_long(&_40$$32, &field, 6, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 317);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
 				}
-				if (_38$$30) {
-					ZEPHIR_OBS_NVAR(&_43$$31);
-					zephir_array_fetch_long(&_43$$31, &field, 4, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 319);
-					ZEPHIR_INIT_NVAR(&_44$$31);
-					ZVAL_STRING(&_44$$31, "/(?:^')|(?:'$)/");
-					ZEPHIR_INIT_NVAR(&_45$$31);
-					ZVAL_STRING(&_45$$31, "");
-					ZEPHIR_CALL_FUNCTION(&_46$$31, "preg_replace", &_47, 6, &_44$$31, &_45$$31, &_43$$31);
+				hiddenFlag = zephir_get_intval(&_40$$32);
+			}
+			_41$$3 = hiddenFlag == 2;
+			if (!(_41$$3)) {
+				_41$$3 = hiddenFlag == 3;
+			}
+			if (_41$$3) {
+				ZEPHIR_INIT_NVAR(&_42$$33);
+				ZVAL_STRING(&_42$$33, "");
+				zephir_array_update_string(&definition, SL("generated"), &_42$$33, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				ZEPHIR_INIT_NVAR(&_43$$33);
+				ZVAL_BOOL(&_43$$33, (hiddenFlag == 3));
+				zephir_array_update_string(&definition, SL("generationStored"), &_43$$33, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+			} else {
+				_44$$34 = zephir_isempty_dim_long(&field, 4);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				_45$$34 = !(_44$$34);
+				if (_45$$34) {
+					ZEPHIR_OBS_NVAR(&_46$$34);
+					zephir_array_fetch_long(&_46$$34, &field, 4, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 328);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+					ZEPHIR_INIT_NVAR(&_47$$34);
+					ZVAL_STRING(&_47$$34, "null");
+					ZEPHIR_CALL_FUNCTION(&_48$$34, "strcasecmp", &_49, 35, &_46$$34, &_47$$34);
 					zephir_check_call_status();
-					zephir_array_update_string(&definition, SL("default"), &_46$$31, PH_COPY | PH_SEPARATE);
+					_45$$34 = !ZEPHIR_IS_LONG_IDENTICAL(&_48$$34, 0);
+				}
+				if (_45$$34) {
+					ZEPHIR_OBS_NVAR(&_50$$35);
+					zephir_array_fetch_long(&_50$$35, &field, 4, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 333);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+					ZEPHIR_INIT_NVAR(&_51$$35);
+					ZVAL_STRING(&_51$$35, "/(?:^')|(?:'$)/");
+					ZEPHIR_INIT_NVAR(&_52$$35);
+					ZVAL_STRING(&_52$$35, "");
+					ZEPHIR_CALL_FUNCTION(&_53$$35, "preg_replace", &_54, 2, &_51$$35, &_52$$35, &_50$$35);
+					zephir_check_call_status();
+					zephir_array_update_string(&definition, SL("default"), &_53$$35, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 				}
 			}
 			ZEPHIR_OBS_NVAR(&columnName);
-			zephir_array_fetch_long(&columnName, &field, 1, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 326);
+			zephir_array_fetch_long(&columnName, &field, 1, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 340);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 			ZEPHIR_INIT_NVAR(&_6$$3);
 			object_init_ex(&_6$$3, phalcon_db_column_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_6$$3, "__construct", &_48, 0, &columnName, &definition);
+			zephir_constructor_start(&_6$$3);
+			ZEPHIR_CALL_METHOD_CACHED(NULL, &_6$$3, "__construct", &_zephir_call_cache[2], &columnName, &definition);
 			zephir_check_call_status();
-			zephir_array_append(&columns, &_6$$3, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 327);
+			zephir_constructor_finish(&_6$$3);
+			zephir_array_append(&columns, &_6$$3, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 341);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 			ZEPHIR_CPY_WRT(&oldColumn, &columnName);
 		} ZEND_HASH_FOREACH_END();
 	} else {
-		ZEPHIR_CALL_METHOD(NULL, _3, "rewind", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, _3, "rewind", &_zephir_call_cache[3]);
 		zephir_check_call_status();
-		_50 = 1;
+		_56 = 1;
 		while (1) {
-			if (_50) {
-				_50 = 0;
+			if (_56) {
+				_56 = 0;
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, _3, "next", NULL, 0);
+				ZEPHIR_CALL_METHOD_CACHED(NULL, _3, "next", &_zephir_call_cache[4]);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_49, _3, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&_55, _3, "valid", &_zephir_call_cache[5]);
 			zephir_check_call_status();
-			if (!zend_is_true(&_49)) {
+			if (!zend_is_true(&_55)) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&field, _3, "current", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&field, _3, "current", &_zephir_call_cache[6]);
 			zephir_check_call_status();
-				ZEPHIR_INIT_NVAR(&_51$$32);
-				zephir_create_array(&_51$$32, 1, 0);
-				add_assoc_long_ex(&_51$$32, SL("bindType"), 2);
-				ZEPHIR_CPY_WRT(&definition, &_51$$32);
+				ZEPHIR_INIT_NVAR(&_57$$36);
+				zephir_create_array(&_57$$36, 1, 0);
+				add_assoc_long_ex(&_57$$36, SL("bindType"), 2);
+				ZEPHIR_CPY_WRT(&definition, &_57$$36);
 				ZEPHIR_OBS_NVAR(&columnType);
 				zephir_array_fetch_long(&columnType, &field, 2, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 122);
-				ZEPHIR_INIT_NVAR(&_52$$32);
-				zephir_fast_strtolower(&_52$$32, &columnType);
-				ZEPHIR_CPY_WRT(&columnType, &_52$$32);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				ZEPHIR_INIT_NVAR(&_58$$36);
+				zephir_fast_strtolower(&_58$$36, &columnType);
+				ZEPHIR_CPY_WRT(&columnType, &_58$$36);
 				if (zephir_memnstr_str(&columnType, SL("bigint"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 138)) {
-					ZEPHIR_INIT_NVAR(&_53$$33);
-					ZVAL_LONG(&_53$$33, 14);
-					zephir_array_update_string(&definition, SL("type"), &_53$$33, PH_COPY | PH_SEPARATE);
-					zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_54$$33);
-					ZVAL_LONG(&_54$$33, 2);
-					zephir_array_update_string(&definition, SL("bindType"), &_54$$33, PH_COPY | PH_SEPARATE);
-				} else if (zephir_memnstr_str(&columnType, SL("int"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 145)) {
-					ZEPHIR_INIT_NVAR(&_55$$34);
-					ZVAL_LONG(&_55$$34, 0);
-					zephir_array_update_string(&definition, SL("type"), &_55$$34, PH_COPY | PH_SEPARATE);
-					zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_56$$34);
-					ZVAL_LONG(&_56$$34, 1);
-					zephir_array_update_string(&definition, SL("bindType"), &_56$$34, PH_COPY | PH_SEPARATE);
-					ZEPHIR_OBS_NVAR(&_57$$34);
-					zephir_array_fetch_long(&_57$$34, &field, 5, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 153);
-					if (zephir_is_true(&_57$$34)) {
-						zephir_array_update_string(&definition, SL("autoIncrement"), &__$true, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_59$$37);
+					ZVAL_LONG(&_59$$37, 14);
+					zephir_array_update_string(&definition, SL("type"), &_59$$37, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
 					}
-				} else if (zephir_memnstr_str(&columnType, SL("tinyint(1)"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 156)) {
-					ZEPHIR_INIT_NVAR(&_58$$36);
-					ZVAL_LONG(&_58$$36, 8);
-					zephir_array_update_string(&definition, SL("type"), &_58$$36, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_59$$36);
-					ZVAL_LONG(&_59$$36, 5);
-					zephir_array_update_string(&definition, SL("bindType"), &_59$$36, PH_COPY | PH_SEPARATE);
+					zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+					ZEPHIR_INIT_NVAR(&_60$$37);
+					ZVAL_LONG(&_60$$37, 2);
+					zephir_array_update_string(&definition, SL("bindType"), &_60$$37, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+				} else if (zephir_memnstr_str(&columnType, SL("tinyint(1)"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 145)) {
+					ZEPHIR_INIT_NVAR(&_61$$38);
+					ZVAL_LONG(&_61$$38, 8);
+					zephir_array_update_string(&definition, SL("type"), &_61$$38, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+					ZEPHIR_INIT_NVAR(&_62$$38);
+					ZVAL_LONG(&_62$$38, 5);
+					zephir_array_update_string(&definition, SL("bindType"), &_62$$38, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_INIT_NVAR(&columnType);
 					ZVAL_STRING(&columnType, "boolean");
+				} else if (zephir_memnstr_str(&columnType, SL("int"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 152)) {
+					ZEPHIR_INIT_NVAR(&_63$$39);
+					ZVAL_LONG(&_63$$39, 0);
+					zephir_array_update_string(&definition, SL("type"), &_63$$39, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+					zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+					ZEPHIR_INIT_NVAR(&_64$$39);
+					ZVAL_LONG(&_64$$39, 1);
+					zephir_array_update_string(&definition, SL("bindType"), &_64$$39, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+					ZEPHIR_OBS_NVAR(&_65$$39);
+					zephir_array_fetch_long(&_65$$39, &field, 5, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 160);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+					if (zephir_is_true(&_65$$39)) {
+						zephir_array_update_string(&definition, SL("autoIncrement"), &__$true, PH_COPY | PH_SEPARATE);
+						if (UNEXPECTED(EG(exception))) {
+							ZEPHIR_MM_RESTORE();
+							return;
+						}
+					}
 				} else if (zephir_memnstr_str(&columnType, SL("enum"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 167)) {
-					ZEPHIR_INIT_NVAR(&_60$$37);
-					ZVAL_LONG(&_60$$37, 5);
-					zephir_array_update_string(&definition, SL("type"), &_60$$37, PH_COPY | PH_SEPARATE);
-				} else if (zephir_memnstr_str(&columnType, SL("datetime"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 176)) {
-					ZEPHIR_INIT_NVAR(&_61$$38);
-					ZVAL_LONG(&_61$$38, 4);
-					zephir_array_update_string(&definition, SL("type"), &_61$$38, PH_COPY | PH_SEPARATE);
-				} else if (zephir_memnstr_str(&columnType, SL("date"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 181)) {
-					ZEPHIR_INIT_NVAR(&_62$$39);
-					ZVAL_LONG(&_62$$39, 1);
-					zephir_array_update_string(&definition, SL("type"), &_62$$39, PH_COPY | PH_SEPARATE);
-				} else if (zephir_memnstr_str(&columnType, SL("decimal"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 190)) {
-					ZEPHIR_INIT_NVAR(&_63$$40);
-					ZVAL_LONG(&_63$$40, 3);
-					zephir_array_update_string(&definition, SL("type"), &_63$$40, PH_COPY | PH_SEPARATE);
-					zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_64$$40);
-					ZVAL_LONG(&_64$$40, 32);
-					zephir_array_update_string(&definition, SL("bindType"), &_64$$40, PH_COPY | PH_SEPARATE);
-				} else if (zephir_memnstr_str(&columnType, SL("float"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 197)) {
-					ZEPHIR_INIT_NVAR(&_65$$41);
-					ZVAL_LONG(&_65$$41, 7);
-					zephir_array_update_string(&definition, SL("type"), &_65$$41, PH_COPY | PH_SEPARATE);
-					zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
 					ZEPHIR_INIT_NVAR(&_66$$41);
-					ZVAL_LONG(&_66$$41, 3);
-					zephir_array_update_string(&definition, SL("bindType"), &_66$$41, PH_COPY | PH_SEPARATE);
-				} else if (zephir_memnstr_str(&columnType, SL("real"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 204)) {
+					ZVAL_LONG(&_66$$41, 5);
+					zephir_array_update_string(&definition, SL("type"), &_66$$41, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+				} else if (zephir_memnstr_str(&columnType, SL("datetime"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 176)) {
 					ZEPHIR_INIT_NVAR(&_67$$42);
-					ZVAL_LONG(&_67$$42, 7);
+					ZVAL_LONG(&_67$$42, 4);
 					zephir_array_update_string(&definition, SL("type"), &_67$$42, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+				} else if (zephir_memnstr_str(&columnType, SL("date"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 181)) {
+					ZEPHIR_INIT_NVAR(&_68$$43);
+					ZVAL_LONG(&_68$$43, 1);
+					zephir_array_update_string(&definition, SL("type"), &_68$$43, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+				} else if (zephir_memnstr_str(&columnType, SL("decimal"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 190)) {
+					ZEPHIR_INIT_NVAR(&_69$$44);
+					ZVAL_LONG(&_69$$44, 3);
+					zephir_array_update_string(&definition, SL("type"), &_69$$44, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_68$$42);
-					ZVAL_LONG(&_68$$42, 32);
-					zephir_array_update_string(&definition, SL("bindType"), &_68$$42, PH_COPY | PH_SEPARATE);
-				} else if (zephir_memnstr_str(&columnType, SL("timestamp"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 215)) {
-					ZEPHIR_INIT_NVAR(&_69$$43);
-					ZVAL_LONG(&_69$$43, 17);
-					zephir_array_update_string(&definition, SL("type"), &_69$$43, PH_COPY | PH_SEPARATE);
-				} else if (zephir_memnstr_str(&columnType, SL("varchar"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 224)) {
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_INIT_NVAR(&_70$$44);
-					ZVAL_LONG(&_70$$44, 2);
-					zephir_array_update_string(&definition, SL("type"), &_70$$44, PH_COPY | PH_SEPARATE);
-				} else if (zephir_memnstr_str(&columnType, SL("char"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 229)) {
+					ZVAL_LONG(&_70$$44, 32);
+					zephir_array_update_string(&definition, SL("bindType"), &_70$$44, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+				} else if (zephir_memnstr_str(&columnType, SL("float"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 197)) {
 					ZEPHIR_INIT_NVAR(&_71$$45);
-					ZVAL_LONG(&_71$$45, 5);
+					ZVAL_LONG(&_71$$45, 7);
 					zephir_array_update_string(&definition, SL("type"), &_71$$45, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+					zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+					ZEPHIR_INIT_NVAR(&_72$$45);
+					ZVAL_LONG(&_72$$45, 32);
+					zephir_array_update_string(&definition, SL("bindType"), &_72$$45, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+				} else if (zephir_memnstr_str(&columnType, SL("real"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 204)) {
+					ZEPHIR_INIT_NVAR(&_73$$46);
+					ZVAL_LONG(&_73$$46, 7);
+					zephir_array_update_string(&definition, SL("type"), &_73$$46, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+					zephir_array_update_string(&definition, SL("isNumeric"), &__$true, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+					ZEPHIR_INIT_NVAR(&_74$$46);
+					ZVAL_LONG(&_74$$46, 32);
+					zephir_array_update_string(&definition, SL("bindType"), &_74$$46, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+				} else if (zephir_memnstr_str(&columnType, SL("timestamp"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 215)) {
+					ZEPHIR_INIT_NVAR(&_75$$47);
+					ZVAL_LONG(&_75$$47, 17);
+					zephir_array_update_string(&definition, SL("type"), &_75$$47, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+				} else if (zephir_memnstr_str(&columnType, SL("varchar"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 224)) {
+					ZEPHIR_INIT_NVAR(&_76$$48);
+					ZVAL_LONG(&_76$$48, 2);
+					zephir_array_update_string(&definition, SL("type"), &_76$$48, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+				} else if (zephir_memnstr_str(&columnType, SL("char"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 229)) {
+					ZEPHIR_INIT_NVAR(&_77$$49);
+					ZVAL_LONG(&_77$$49, 5);
+					zephir_array_update_string(&definition, SL("type"), &_77$$49, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 				} else if (zephir_memnstr_str(&columnType, SL("text"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 234)) {
-					ZEPHIR_INIT_NVAR(&_72$$46);
-					ZVAL_LONG(&_72$$46, 6);
-					zephir_array_update_string(&definition, SL("type"), &_72$$46, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_78$$50);
+					ZVAL_LONG(&_78$$50, 6);
+					zephir_array_update_string(&definition, SL("type"), &_78$$50, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+				} else if (zephir_memnstr_str(&columnType, SL("tinyblob"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 245)) {
+					ZEPHIR_INIT_NVAR(&_79$$51);
+					ZVAL_LONG(&_79$$51, 10);
+					zephir_array_update_string(&definition, SL("type"), &_79$$51, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+				} else if (zephir_memnstr_str(&columnType, SL("mediumblob"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 247)) {
+					ZEPHIR_INIT_NVAR(&_80$$52);
+					ZVAL_LONG(&_80$$52, 12);
+					zephir_array_update_string(&definition, SL("type"), &_80$$52, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+				} else if (zephir_memnstr_str(&columnType, SL("longblob"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 249)) {
+					ZEPHIR_INIT_NVAR(&_81$$53);
+					ZVAL_LONG(&_81$$53, 13);
+					zephir_array_update_string(&definition, SL("type"), &_81$$53, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+				} else if (zephir_memnstr_str(&columnType, SL("blob"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 251)) {
+					ZEPHIR_INIT_NVAR(&_82$$54);
+					ZVAL_LONG(&_82$$54, 11);
+					zephir_array_update_string(&definition, SL("type"), &_82$$54, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 				} else {
-					ZEPHIR_INIT_NVAR(&_73$$47);
-					ZVAL_LONG(&_73$$47, 2);
-					zephir_array_update_string(&definition, SL("type"), &_73$$47, PH_COPY | PH_SEPARATE);
+					ZEPHIR_INIT_NVAR(&_83$$55);
+					ZVAL_LONG(&_83$$55, 2);
+					zephir_array_update_string(&definition, SL("type"), &_83$$55, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 				}
-				if (zephir_memnstr_str(&columnType, SL("("), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 251)) {
+				if (zephir_memnstr_str(&columnType, SL("("), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 265)) {
 					ZEPHIR_INIT_NVAR(&matches);
 					ZVAL_NULL(&matches);
-					ZEPHIR_INIT_NVAR(&_74$$48);
-					zephir_preg_match(&_74$$48, &sizePattern, &columnType, &matches, 0, 0 , 0 );
-					if (zephir_is_true(&_74$$48)) {
+					ZEPHIR_INIT_NVAR(&_84$$56);
+					zephir_preg_match(&_84$$56, &sizePattern, &columnType, &matches, 0, 0 , 0 );
+					if (zephir_is_true(&_84$$56)) {
 						ZEPHIR_OBS_NVAR(&matchOne);
-						if (zephir_array_isset_long_fetch(&matchOne, &matches, 1, 0)) {
-							ZEPHIR_INIT_NVAR(&_75$$50);
-							ZVAL_LONG(&_75$$50, zephir_get_intval(&matchOne));
-							zephir_array_update_string(&definition, SL("size"), &_75$$50, PH_COPY | PH_SEPARATE);
+						_85$$57 = zephir_array_isset_long_fetch(&matchOne, &matches, 1, 0);
+						if (UNEXPECTED(EG(exception))) {
+							ZEPHIR_MM_RESTORE();
+							return;
+						}
+						if (_85$$57) {
+							ZEPHIR_INIT_NVAR(&_86$$58);
+							ZVAL_LONG(&_86$$58, zephir_get_intval(&matchOne));
+							zephir_array_update_string(&definition, SL("size"), &_86$$58, PH_COPY | PH_SEPARATE);
+							if (UNEXPECTED(EG(exception))) {
+								ZEPHIR_MM_RESTORE();
+								return;
+							}
 						}
 						ZEPHIR_OBS_NVAR(&matchTwo);
-						if (zephir_array_isset_long_fetch(&matchTwo, &matches, 2, 0)) {
-							ZEPHIR_INIT_NVAR(&_76$$51);
-							ZVAL_LONG(&_76$$51, zephir_get_intval(&matchTwo));
-							zephir_array_update_string(&definition, SL("scale"), &_76$$51, PH_COPY | PH_SEPARATE);
+						_87$$57 = zephir_array_isset_long_fetch(&matchTwo, &matches, 2, 0);
+						if (UNEXPECTED(EG(exception))) {
+							ZEPHIR_MM_RESTORE();
+							return;
+						}
+						if (_87$$57) {
+							ZEPHIR_INIT_NVAR(&_88$$59);
+							ZVAL_LONG(&_88$$59, zephir_get_intval(&matchTwo));
+							zephir_array_update_string(&definition, SL("scale"), &_88$$59, PH_COPY | PH_SEPARATE);
+							if (UNEXPECTED(EG(exception))) {
+								ZEPHIR_MM_RESTORE();
+								return;
+							}
 						}
 					}
 				}
-				if (zephir_memnstr_str(&columnType, SL("unsigned"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 267)) {
+				if (zephir_memnstr_str(&columnType, SL("unsigned"), "phalcon/Db/Adapter/Pdo/Sqlite.zep", 281)) {
 					zephir_array_update_string(&definition, SL("unsigned"), &__$true, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 				}
 				if (Z_TYPE_P(&oldColumn) == IS_NULL) {
 					zephir_array_update_string(&definition, SL("first"), &__$true, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 				} else {
 					zephir_array_update_string(&definition, SL("after"), &oldColumn, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 				}
-				ZEPHIR_OBS_NVAR(&_77$$32);
-				zephir_array_fetch_long(&_77$$32, &field, 5, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 283);
-				if (zephir_is_true(&_77$$32)) {
+				ZEPHIR_OBS_NVAR(&_89$$36);
+				zephir_array_fetch_long(&_89$$36, &field, 5, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 297);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				if (zephir_is_true(&_89$$36)) {
 					zephir_array_update_string(&definition, SL("primary"), &__$true, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 				}
-				ZEPHIR_OBS_NVAR(&_78$$32);
-				zephir_array_fetch_long(&_78$$32, &field, 3, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 290);
-				if (ZEPHIR_IS_LONG(&_78$$32, 0)) {
+				ZEPHIR_OBS_NVAR(&_90$$36);
+				zephir_array_fetch_long(&_90$$36, &field, 3, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 304);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				if (ZEPHIR_IS_LONG(&_90$$36, 0)) {
 					zephir_array_update_string(&definition, SL("notNull"), &__$false, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 				}
 				hiddenFlag = 0;
-				if (zephir_array_isset_value_long(&field, 6)) {
-					ZEPHIR_OBS_NVAR(&_79$$57);
-					zephir_array_fetch_long(&_79$$57, &field, 6, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 303);
-					hiddenFlag = zephir_get_intval(&_79$$57);
+				_91$$36 = zephir_array_isset_value_long(&field, 6);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
 				}
-				_80$$32 = hiddenFlag == 2;
-				if (!(_80$$32)) {
-					_80$$32 = hiddenFlag == 3;
-				}
-				if (_80$$32) {
-					ZEPHIR_INIT_NVAR(&_81$$58);
-					ZVAL_STRING(&_81$$58, "");
-					zephir_array_update_string(&definition, SL("generated"), &_81$$58, PH_COPY | PH_SEPARATE);
-					ZEPHIR_INIT_NVAR(&_82$$58);
-					ZVAL_BOOL(&_82$$58, (hiddenFlag == 3));
-					zephir_array_update_string(&definition, SL("generationStored"), &_82$$58, PH_COPY | PH_SEPARATE);
-				} else {
-					ZEPHIR_OBS_NVAR(&_83$$59);
-					zephir_array_fetch_long(&_83$$59, &field, 4, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 314);
-					_84$$59 = !(ZEPHIR_IS_EMPTY(&_83$$59));
-					if (_84$$59) {
-						ZEPHIR_OBS_NVAR(&_85$$59);
-						zephir_array_fetch_long(&_85$$59, &field, 4, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 314);
-						ZEPHIR_INIT_NVAR(&_86$$59);
-						ZVAL_STRING(&_86$$59, "null");
-						ZEPHIR_CALL_FUNCTION(&_87$$59, "strcasecmp", &_42, 87, &_85$$59, &_86$$59);
-						zephir_check_call_status();
-						_84$$59 = !ZEPHIR_IS_LONG_IDENTICAL(&_87$$59, 0);
+				if (_91$$36) {
+					ZEPHIR_OBS_NVAR(&_92$$65);
+					zephir_array_fetch_long(&_92$$65, &field, 6, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 317);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
 					}
-					if (_84$$59) {
-						ZEPHIR_OBS_NVAR(&_88$$60);
-						zephir_array_fetch_long(&_88$$60, &field, 4, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 319);
-						ZEPHIR_INIT_NVAR(&_89$$60);
-						ZVAL_STRING(&_89$$60, "/(?:^')|(?:'$)/");
-						ZEPHIR_INIT_NVAR(&_90$$60);
-						ZVAL_STRING(&_90$$60, "");
-						ZEPHIR_CALL_FUNCTION(&_91$$60, "preg_replace", &_47, 6, &_89$$60, &_90$$60, &_88$$60);
+					hiddenFlag = zephir_get_intval(&_92$$65);
+				}
+				_93$$36 = hiddenFlag == 2;
+				if (!(_93$$36)) {
+					_93$$36 = hiddenFlag == 3;
+				}
+				if (_93$$36) {
+					ZEPHIR_INIT_NVAR(&_94$$66);
+					ZVAL_STRING(&_94$$66, "");
+					zephir_array_update_string(&definition, SL("generated"), &_94$$66, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+					ZEPHIR_INIT_NVAR(&_95$$66);
+					ZVAL_BOOL(&_95$$66, (hiddenFlag == 3));
+					zephir_array_update_string(&definition, SL("generationStored"), &_95$$66, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+				} else {
+					_96$$67 = zephir_isempty_dim_long(&field, 4);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+					_97$$67 = !(_96$$67);
+					if (_97$$67) {
+						ZEPHIR_OBS_NVAR(&_98$$67);
+						zephir_array_fetch_long(&_98$$67, &field, 4, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 328);
+						if (UNEXPECTED(EG(exception))) {
+							ZEPHIR_MM_RESTORE();
+							return;
+						}
+						ZEPHIR_INIT_NVAR(&_99$$67);
+						ZVAL_STRING(&_99$$67, "null");
+						ZEPHIR_CALL_FUNCTION(&_100$$67, "strcasecmp", &_49, 35, &_98$$67, &_99$$67);
 						zephir_check_call_status();
-						zephir_array_update_string(&definition, SL("default"), &_91$$60, PH_COPY | PH_SEPARATE);
+						_97$$67 = !ZEPHIR_IS_LONG_IDENTICAL(&_100$$67, 0);
+					}
+					if (_97$$67) {
+						ZEPHIR_OBS_NVAR(&_101$$68);
+						zephir_array_fetch_long(&_101$$68, &field, 4, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 333);
+						if (UNEXPECTED(EG(exception))) {
+							ZEPHIR_MM_RESTORE();
+							return;
+						}
+						ZEPHIR_INIT_NVAR(&_102$$68);
+						ZVAL_STRING(&_102$$68, "/(?:^')|(?:'$)/");
+						ZEPHIR_INIT_NVAR(&_103$$68);
+						ZVAL_STRING(&_103$$68, "");
+						ZEPHIR_CALL_FUNCTION(&_104$$68, "preg_replace", &_54, 2, &_102$$68, &_103$$68, &_101$$68);
+						zephir_check_call_status();
+						zephir_array_update_string(&definition, SL("default"), &_104$$68, PH_COPY | PH_SEPARATE);
+						if (UNEXPECTED(EG(exception))) {
+							ZEPHIR_MM_RESTORE();
+							return;
+						}
 					}
 				}
 				ZEPHIR_OBS_NVAR(&columnName);
-				zephir_array_fetch_long(&columnName, &field, 1, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 326);
-				ZEPHIR_INIT_NVAR(&_52$$32);
-				object_init_ex(&_52$$32, phalcon_db_column_ce);
-				ZEPHIR_CALL_METHOD(NULL, &_52$$32, "__construct", &_48, 0, &columnName, &definition);
+				zephir_array_fetch_long(&columnName, &field, 1, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 340);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				ZEPHIR_INIT_NVAR(&_58$$36);
+				object_init_ex(&_58$$36, phalcon_db_column_ce);
+				zephir_constructor_start(&_58$$36);
+				ZEPHIR_CALL_METHOD_CACHED(NULL, &_58$$36, "__construct", &_zephir_call_cache[7], &columnName, &definition);
 				zephir_check_call_status();
-				zephir_array_append(&columns, &_52$$32, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 327);
+				zephir_constructor_finish(&_58$$36);
+				zephir_array_append(&columns, &_58$$36, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 341);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_CPY_WRT(&oldColumn, &columnName);
 		}
 	}
-	ZEPHIR_INIT_NVAR(&field);
 	RETURN_CCTOR(&columns);
 }
 
@@ -715,13 +1230,12 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns)
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes)
 {
-	zend_ulong _57;
-	zend_bool _31, _18$$3, _43$$13;
+	zend_ulong _60;
+	zend_bool _32, _7$$3, _10$$3, _20$$3, _33$$13, _36$$13, _46$$13;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_21 = NULL, *_62 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval table_zv, schema_zv, indexes, index, keyName, indexObjects, name, columns, describeIndexes, describeIndex, indexSql, _0, _1, _2, _3, *_4, _5, *_6, _30, *_54, _55, *_56, _7$$4, _8$$3, _10$$3, _11$$3, _12$$3, *_13$$3, _14$$3, *_15$$3, _17$$3, _20$$3, _22$$3, _9$$6, _16$$7, _19$$8, _23$$9, _24$$9, _25$$9, _26$$9, _27$$10, _28$$11, _29$$12, _32$$14, _33$$13, _35$$13, _36$$13, _37$$13, *_38$$13, _39$$13, *_40$$13, _42$$13, _45$$13, _46$$13, _34$$16, _41$$17, _44$$18, _47$$19, _48$$19, _49$$19, _50$$19, _51$$20, _52$$21, _53$$22, _59$$23, _60$$23, _61$$23;
-	zend_string *table = NULL, *schema = NULL, *_58;
+	zval table_zv, schema_zv, indexes, index, keyName, indexObjects, name, columns, describeIndexes, describeIndex, indexSql, _0, _1, _2, _3, *_4, _5, *_6, _31, *_57, _58, *_59, _9$$3, _12$$3, _13$$3, _14$$3, *_15$$3, _16$$3, *_17$$3, _19$$3, _22$$3, _23$$3, _8$$4, _11$$6, _18$$7, _21$$8, _24$$9, _25$$9, _26$$9, _27$$9, _28$$10, _29$$11, _30$$12, _35$$13, _38$$13, _39$$13, _40$$13, *_41$$13, _42$$13, *_43$$13, _45$$13, _48$$13, _49$$13, _34$$14, _37$$16, _44$$17, _47$$18, _50$$19, _51$$19, _52$$19, _53$$19, _54$$20, _55$$21, _56$$22, _62$$23, _63$$23, _64$$23;
+	zend_string *table = NULL, *schema = NULL, *_61;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&table_zv);
@@ -740,49 +1254,50 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes)
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_5);
-	ZVAL_UNDEF(&_30);
-	ZVAL_UNDEF(&_55);
-	ZVAL_UNDEF(&_7$$4);
-	ZVAL_UNDEF(&_8$$3);
-	ZVAL_UNDEF(&_10$$3);
-	ZVAL_UNDEF(&_11$$3);
+	ZVAL_UNDEF(&_31);
+	ZVAL_UNDEF(&_58);
+	ZVAL_UNDEF(&_9$$3);
 	ZVAL_UNDEF(&_12$$3);
+	ZVAL_UNDEF(&_13$$3);
 	ZVAL_UNDEF(&_14$$3);
-	ZVAL_UNDEF(&_17$$3);
-	ZVAL_UNDEF(&_20$$3);
+	ZVAL_UNDEF(&_16$$3);
+	ZVAL_UNDEF(&_19$$3);
 	ZVAL_UNDEF(&_22$$3);
-	ZVAL_UNDEF(&_9$$6);
-	ZVAL_UNDEF(&_16$$7);
-	ZVAL_UNDEF(&_19$$8);
-	ZVAL_UNDEF(&_23$$9);
+	ZVAL_UNDEF(&_23$$3);
+	ZVAL_UNDEF(&_8$$4);
+	ZVAL_UNDEF(&_11$$6);
+	ZVAL_UNDEF(&_18$$7);
+	ZVAL_UNDEF(&_21$$8);
 	ZVAL_UNDEF(&_24$$9);
 	ZVAL_UNDEF(&_25$$9);
 	ZVAL_UNDEF(&_26$$9);
-	ZVAL_UNDEF(&_27$$10);
-	ZVAL_UNDEF(&_28$$11);
-	ZVAL_UNDEF(&_29$$12);
-	ZVAL_UNDEF(&_32$$14);
-	ZVAL_UNDEF(&_33$$13);
+	ZVAL_UNDEF(&_27$$9);
+	ZVAL_UNDEF(&_28$$10);
+	ZVAL_UNDEF(&_29$$11);
+	ZVAL_UNDEF(&_30$$12);
 	ZVAL_UNDEF(&_35$$13);
-	ZVAL_UNDEF(&_36$$13);
-	ZVAL_UNDEF(&_37$$13);
+	ZVAL_UNDEF(&_38$$13);
 	ZVAL_UNDEF(&_39$$13);
+	ZVAL_UNDEF(&_40$$13);
 	ZVAL_UNDEF(&_42$$13);
 	ZVAL_UNDEF(&_45$$13);
-	ZVAL_UNDEF(&_46$$13);
-	ZVAL_UNDEF(&_34$$16);
-	ZVAL_UNDEF(&_41$$17);
-	ZVAL_UNDEF(&_44$$18);
-	ZVAL_UNDEF(&_47$$19);
-	ZVAL_UNDEF(&_48$$19);
-	ZVAL_UNDEF(&_49$$19);
+	ZVAL_UNDEF(&_48$$13);
+	ZVAL_UNDEF(&_49$$13);
+	ZVAL_UNDEF(&_34$$14);
+	ZVAL_UNDEF(&_37$$16);
+	ZVAL_UNDEF(&_44$$17);
+	ZVAL_UNDEF(&_47$$18);
 	ZVAL_UNDEF(&_50$$19);
-	ZVAL_UNDEF(&_51$$20);
-	ZVAL_UNDEF(&_52$$21);
-	ZVAL_UNDEF(&_53$$22);
-	ZVAL_UNDEF(&_59$$23);
-	ZVAL_UNDEF(&_60$$23);
-	ZVAL_UNDEF(&_61$$23);
+	ZVAL_UNDEF(&_51$$19);
+	ZVAL_UNDEF(&_52$$19);
+	ZVAL_UNDEF(&_53$$19);
+	ZVAL_UNDEF(&_54$$20);
+	ZVAL_UNDEF(&_55$$21);
+	ZVAL_UNDEF(&_56$$22);
+	ZVAL_UNDEF(&_62$$23);
+	ZVAL_UNDEF(&_63$$23);
+	ZVAL_UNDEF(&_64$$23);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[23];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("dialect", 7, 1);
@@ -806,11 +1321,15 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes)
 	}
 	ZEPHIR_INIT_VAR(&indexes);
 	array_init(&indexes);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 613, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_2, &_1, "describeIndexes", NULL, 0, &table_zv, &schema_zv);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 615, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_METHOD_CACHED(&_2, &_1, "describeIndexes", &_zephir_call_cache[0], &table_zv, &schema_zv);
 	zephir_check_call_status();
 	ZVAL_LONG(&_3, 2);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "fetchAll", NULL, 0, &_2, &_3);
+	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "fetchAll", &_zephir_call_cache[1], &_2, &_3);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&_0) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_5);
@@ -819,252 +1338,409 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes)
 	} else {
 		_4 = &_0;
 	}
-	zephir_is_iterable(_4, 0, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 389);
+	zephir_is_iterable(_4, 0, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 403);
 	if (Z_TYPE_P(_4) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_4), _6)
 		{
 			ZEPHIR_INIT_NVAR(&index);
 			ZVAL_COPY(&index, _6);
 			ZEPHIR_OBS_NVAR(&keyName);
-			zephir_array_fetch_string(&keyName, &index, SL("name"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 351);
-			if (!(zephir_array_isset_value(&indexes, &keyName))) {
-				ZEPHIR_INIT_NVAR(&_7$$4);
-				array_init(&_7$$4);
-				zephir_array_update_zval(&indexes, &keyName, &_7$$4, PH_COPY | PH_SEPARATE);
+			zephir_array_fetch_string(&keyName, &index, SL("name"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 365);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
 			}
-			zephir_array_fetch(&_8$$3, &indexes, &keyName, PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 357);
-			if (!(zephir_array_isset_value_string(&_8$$3, SL("columns")))) {
+			_7$$3 = zephir_array_isset_value(&indexes, &keyName);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			if (!(_7$$3)) {
+				ZEPHIR_INIT_NVAR(&_8$$4);
+				array_init(&_8$$4);
+				zephir_array_update_zval(&indexes, &keyName, &_8$$4, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+			}
+			zephir_array_fetch(&_9$$3, &indexes, &keyName, PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 371);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			_10$$3 = zephir_array_isset_value_string(&_9$$3, SL("columns"));
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			if (!(_10$$3)) {
 				ZEPHIR_INIT_NVAR(&columns);
 				array_init(&columns);
 			} else {
-				zephir_array_fetch(&_9$$6, &indexes, &keyName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 360);
+				zephir_array_fetch(&_11$$6, &indexes, &keyName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 374);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_OBS_NVAR(&columns);
-				zephir_array_fetch_string(&columns, &_9$$6, SL("columns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 360);
+				zephir_array_fetch_string(&columns, &_11$$6, SL("columns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 374);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			}
-			zephir_read_property_cached(&_10$$3, this_ptr, _zephir_prop_0, 613, PH_NOISY_CC | PH_READONLY);
-			ZEPHIR_CALL_METHOD(&_11$$3, &_10$$3, "describeIndex", NULL, 0, &keyName);
+			zephir_read_property_cached(&_12$$3, this_ptr, _zephir_prop_0, 615, PH_NOISY_CC | PH_READONLY);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			ZEPHIR_CALL_METHOD_CACHED(&_13$$3, &_12$$3, "describeIndex", &_zephir_call_cache[2], &keyName);
 			zephir_check_call_status();
-			ZVAL_LONG(&_12$$3, 2);
-			ZEPHIR_CALL_METHOD(&describeIndexes, this_ptr, "fetchAll", NULL, 0, &_11$$3, &_12$$3);
+			ZVAL_LONG(&_14$$3, 2);
+			ZEPHIR_CALL_METHOD_CACHED(&describeIndexes, this_ptr, "fetchAll", &_zephir_call_cache[3], &_13$$3, &_14$$3);
 			zephir_check_call_status();
 			if (Z_TYPE_P(&describeIndexes) == IS_STRING) {
-				ZEPHIR_INIT_NVAR(&_14$$3);
-				zephir_string_to_char_array(&_14$$3, &describeIndexes);
-				_13$$3 = &_14$$3;
+				ZEPHIR_INIT_NVAR(&_16$$3);
+				zephir_string_to_char_array(&_16$$3, &describeIndexes);
+				_15$$3 = &_16$$3;
 			} else {
-				_13$$3 = &describeIndexes;
+				_15$$3 = &describeIndexes;
 			}
-			zephir_is_iterable(_13$$3, 0, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 372);
-			if (Z_TYPE_P(_13$$3) == IS_ARRAY) {
-				ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_13$$3), _15$$3)
+			zephir_is_iterable(_15$$3, 0, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 386);
+			if (Z_TYPE_P(_15$$3) == IS_ARRAY) {
+				ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_15$$3), _17$$3)
 				{
 					ZEPHIR_INIT_NVAR(&describeIndex);
-					ZVAL_COPY(&describeIndex, _15$$3);
-					ZEPHIR_OBS_NVAR(&_16$$7);
-					zephir_array_fetch_string(&_16$$7, &describeIndex, SL("name"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 369);
-					zephir_array_append(&columns, &_16$$7, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 369);
+					ZVAL_COPY(&describeIndex, _17$$3);
+					ZEPHIR_OBS_NVAR(&_18$$7);
+					zephir_array_fetch_string(&_18$$7, &describeIndex, SL("name"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 383);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+					zephir_array_append(&columns, &_18$$7, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 383);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 				} ZEND_HASH_FOREACH_END();
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, _13$$3, "rewind", NULL, 0);
+				ZEPHIR_CALL_METHOD_CACHED(NULL, _15$$3, "rewind", &_zephir_call_cache[4]);
 				zephir_check_call_status();
-				_18$$3 = 1;
+				_20$$3 = 1;
 				while (1) {
-					if (_18$$3) {
-						_18$$3 = 0;
+					if (_20$$3) {
+						_20$$3 = 0;
 					} else {
-						ZEPHIR_CALL_METHOD(NULL, _13$$3, "next", NULL, 0);
+						ZEPHIR_CALL_METHOD_CACHED(NULL, _15$$3, "next", &_zephir_call_cache[5]);
 						zephir_check_call_status();
 					}
-					ZEPHIR_CALL_METHOD(&_17$$3, _13$$3, "valid", NULL, 0);
+					ZEPHIR_CALL_METHOD_CACHED(&_19$$3, _15$$3, "valid", &_zephir_call_cache[6]);
 					zephir_check_call_status();
-					if (!zend_is_true(&_17$$3)) {
+					if (!zend_is_true(&_19$$3)) {
 						break;
 					}
-					ZEPHIR_CALL_METHOD(&describeIndex, _13$$3, "current", NULL, 0);
+					ZEPHIR_CALL_METHOD_CACHED(&describeIndex, _15$$3, "current", &_zephir_call_cache[7]);
 					zephir_check_call_status();
-						ZEPHIR_OBS_NVAR(&_19$$8);
-						zephir_array_fetch_string(&_19$$8, &describeIndex, SL("name"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 369);
-						zephir_array_append(&columns, &_19$$8, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 369);
+						ZEPHIR_OBS_NVAR(&_21$$8);
+						zephir_array_fetch_string(&_21$$8, &describeIndex, SL("name"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 383);
+						if (UNEXPECTED(EG(exception))) {
+							ZEPHIR_MM_RESTORE();
+							return;
+						}
+						zephir_array_append(&columns, &_21$$8, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 383);
+						if (UNEXPECTED(EG(exception))) {
+							ZEPHIR_MM_RESTORE();
+							return;
+						}
 				}
 			}
-			ZEPHIR_INIT_NVAR(&describeIndex);
 			zephir_array_update_multi(&indexes, &columns, SL("zs"), 3, &keyName, SL("columns"));
-			zephir_read_property_cached(&_12$$3, this_ptr, _zephir_prop_0, 613, PH_NOISY_CC | PH_READONLY);
-			ZEPHIR_CALL_METHOD(&_20$$3, &_12$$3, "listIndexesSql", NULL, 0, &table_zv, &schema_zv, &keyName);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			zephir_read_property_cached(&_14$$3, this_ptr, _zephir_prop_0, 615, PH_NOISY_CC | PH_READONLY);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			ZEPHIR_CALL_METHOD_CACHED(&_22$$3, &_14$$3, "listIndexesSql", &_zephir_call_cache[8], &table_zv, &schema_zv, &keyName);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&indexSql, this_ptr, "fetchColumn", &_21, 0, &_20$$3);
+			ZEPHIR_CALL_METHOD_CACHED(&indexSql, this_ptr, "fetchColumn", &_zephir_call_cache[9], &_22$$3);
 			zephir_check_call_status();
-			ZEPHIR_OBS_NVAR(&_22$$3);
-			zephir_array_fetch_string(&_22$$3, &index, SL("unique"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 378);
-			if (zephir_is_true(&_22$$3)) {
-				ZEPHIR_INIT_NVAR(&_23$$9);
+			ZEPHIR_OBS_NVAR(&_23$$3);
+			zephir_array_fetch_string(&_23$$3, &index, SL("unique"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 392);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			if (zephir_is_true(&_23$$3)) {
 				ZEPHIR_INIT_NVAR(&_24$$9);
-				ZVAL_STRING(&_24$$9, "# UNIQUE #i");
 				ZEPHIR_INIT_NVAR(&_25$$9);
+				ZVAL_STRING(&_25$$9, "# UNIQUE #i");
 				ZEPHIR_INIT_NVAR(&_26$$9);
-				ZVAL_STRING(&_26$$9, "# UNIQUE #i");
-				zephir_preg_match(&_25$$9, &_26$$9, &indexSql, &_23$$9, 0, 0 , 0 );
-				if (zephir_is_true(&_25$$9)) {
-					ZEPHIR_INIT_NVAR(&_27$$10);
-					ZVAL_STRING(&_27$$10, "UNIQUE");
-					zephir_array_update_multi(&indexes, &_27$$10, SL("zs"), 3, &keyName, SL("type"));
+				ZEPHIR_INIT_NVAR(&_27$$9);
+				ZVAL_STRING(&_27$$9, "# UNIQUE #i");
+				zephir_preg_match(&_26$$9, &_27$$9, &indexSql, &_24$$9, 0, 0 , 0 );
+				if (zephir_is_true(&_26$$9)) {
+					ZEPHIR_INIT_NVAR(&_28$$10);
+					ZVAL_STRING(&_28$$10, "UNIQUE");
+					zephir_array_update_multi(&indexes, &_28$$10, SL("zs"), 3, &keyName, SL("type"));
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 				} else {
-					ZEPHIR_INIT_NVAR(&_28$$11);
-					ZVAL_STRING(&_28$$11, "PRIMARY");
-					zephir_array_update_multi(&indexes, &_28$$11, SL("zs"), 3, &keyName, SL("type"));
+					ZEPHIR_INIT_NVAR(&_29$$11);
+					ZVAL_STRING(&_29$$11, "PRIMARY");
+					zephir_array_update_multi(&indexes, &_29$$11, SL("zs"), 3, &keyName, SL("type"));
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 				}
 			} else {
-				ZEPHIR_INIT_NVAR(&_29$$12);
-				ZVAL_STRING(&_29$$12, "");
-				zephir_array_update_multi(&indexes, &_29$$12, SL("zs"), 3, &keyName, SL("type"));
+				ZEPHIR_INIT_NVAR(&_30$$12);
+				ZVAL_STRING(&_30$$12, "");
+				zephir_array_update_multi(&indexes, &_30$$12, SL("zs"), 3, &keyName, SL("type"));
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
-		ZEPHIR_CALL_METHOD(NULL, _4, "rewind", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, _4, "rewind", &_zephir_call_cache[10]);
 		zephir_check_call_status();
-		_31 = 1;
+		_32 = 1;
 		while (1) {
-			if (_31) {
-				_31 = 0;
+			if (_32) {
+				_32 = 0;
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, _4, "next", NULL, 0);
+				ZEPHIR_CALL_METHOD_CACHED(NULL, _4, "next", &_zephir_call_cache[11]);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_30, _4, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&_31, _4, "valid", &_zephir_call_cache[12]);
 			zephir_check_call_status();
-			if (!zend_is_true(&_30)) {
+			if (!zend_is_true(&_31)) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&index, _4, "current", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&index, _4, "current", &_zephir_call_cache[13]);
 			zephir_check_call_status();
 				ZEPHIR_OBS_NVAR(&keyName);
-				zephir_array_fetch_string(&keyName, &index, SL("name"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 351);
-				if (!(zephir_array_isset_value(&indexes, &keyName))) {
-					ZEPHIR_INIT_NVAR(&_32$$14);
-					array_init(&_32$$14);
-					zephir_array_update_zval(&indexes, &keyName, &_32$$14, PH_COPY | PH_SEPARATE);
+				zephir_array_fetch_string(&keyName, &index, SL("name"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 365);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
 				}
-				zephir_array_fetch(&_33$$13, &indexes, &keyName, PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 357);
-				if (!(zephir_array_isset_value_string(&_33$$13, SL("columns")))) {
+				_33$$13 = zephir_array_isset_value(&indexes, &keyName);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				if (!(_33$$13)) {
+					ZEPHIR_INIT_NVAR(&_34$$14);
+					array_init(&_34$$14);
+					zephir_array_update_zval(&indexes, &keyName, &_34$$14, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+				}
+				zephir_array_fetch(&_35$$13, &indexes, &keyName, PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 371);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				_36$$13 = zephir_array_isset_value_string(&_35$$13, SL("columns"));
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				if (!(_36$$13)) {
 					ZEPHIR_INIT_NVAR(&columns);
 					array_init(&columns);
 				} else {
-					zephir_array_fetch(&_34$$16, &indexes, &keyName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 360);
+					zephir_array_fetch(&_37$$16, &indexes, &keyName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 374);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_OBS_NVAR(&columns);
-					zephir_array_fetch_string(&columns, &_34$$16, SL("columns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 360);
+					zephir_array_fetch_string(&columns, &_37$$16, SL("columns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 374);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 				}
-				zephir_read_property_cached(&_35$$13, this_ptr, _zephir_prop_0, 613, PH_NOISY_CC | PH_READONLY);
-				ZEPHIR_CALL_METHOD(&_36$$13, &_35$$13, "describeIndex", NULL, 0, &keyName);
+				zephir_read_property_cached(&_38$$13, this_ptr, _zephir_prop_0, 615, PH_NOISY_CC | PH_READONLY);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				ZEPHIR_CALL_METHOD_CACHED(&_39$$13, &_38$$13, "describeIndex", &_zephir_call_cache[14], &keyName);
 				zephir_check_call_status();
-				ZVAL_LONG(&_37$$13, 2);
-				ZEPHIR_CALL_METHOD(&describeIndexes, this_ptr, "fetchAll", NULL, 0, &_36$$13, &_37$$13);
+				ZVAL_LONG(&_40$$13, 2);
+				ZEPHIR_CALL_METHOD_CACHED(&describeIndexes, this_ptr, "fetchAll", &_zephir_call_cache[15], &_39$$13, &_40$$13);
 				zephir_check_call_status();
 				if (Z_TYPE_P(&describeIndexes) == IS_STRING) {
-					ZEPHIR_INIT_NVAR(&_39$$13);
-					zephir_string_to_char_array(&_39$$13, &describeIndexes);
-					_38$$13 = &_39$$13;
+					ZEPHIR_INIT_NVAR(&_42$$13);
+					zephir_string_to_char_array(&_42$$13, &describeIndexes);
+					_41$$13 = &_42$$13;
 				} else {
-					_38$$13 = &describeIndexes;
+					_41$$13 = &describeIndexes;
 				}
-				zephir_is_iterable(_38$$13, 0, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 372);
-				if (Z_TYPE_P(_38$$13) == IS_ARRAY) {
-					ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_38$$13), _40$$13)
+				zephir_is_iterable(_41$$13, 0, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 386);
+				if (Z_TYPE_P(_41$$13) == IS_ARRAY) {
+					ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_41$$13), _43$$13)
 					{
 						ZEPHIR_INIT_NVAR(&describeIndex);
-						ZVAL_COPY(&describeIndex, _40$$13);
-						ZEPHIR_OBS_NVAR(&_41$$17);
-						zephir_array_fetch_string(&_41$$17, &describeIndex, SL("name"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 369);
-						zephir_array_append(&columns, &_41$$17, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 369);
+						ZVAL_COPY(&describeIndex, _43$$13);
+						ZEPHIR_OBS_NVAR(&_44$$17);
+						zephir_array_fetch_string(&_44$$17, &describeIndex, SL("name"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 383);
+						if (UNEXPECTED(EG(exception))) {
+							ZEPHIR_MM_RESTORE();
+							return;
+						}
+						zephir_array_append(&columns, &_44$$17, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 383);
+						if (UNEXPECTED(EG(exception))) {
+							ZEPHIR_MM_RESTORE();
+							return;
+						}
 					} ZEND_HASH_FOREACH_END();
 				} else {
-					ZEPHIR_CALL_METHOD(NULL, _38$$13, "rewind", NULL, 0);
+					ZEPHIR_CALL_METHOD_CACHED(NULL, _41$$13, "rewind", &_zephir_call_cache[16]);
 					zephir_check_call_status();
-					_43$$13 = 1;
+					_46$$13 = 1;
 					while (1) {
-						if (_43$$13) {
-							_43$$13 = 0;
+						if (_46$$13) {
+							_46$$13 = 0;
 						} else {
-							ZEPHIR_CALL_METHOD(NULL, _38$$13, "next", NULL, 0);
+							ZEPHIR_CALL_METHOD_CACHED(NULL, _41$$13, "next", &_zephir_call_cache[17]);
 							zephir_check_call_status();
 						}
-						ZEPHIR_CALL_METHOD(&_42$$13, _38$$13, "valid", NULL, 0);
+						ZEPHIR_CALL_METHOD_CACHED(&_45$$13, _41$$13, "valid", &_zephir_call_cache[18]);
 						zephir_check_call_status();
-						if (!zend_is_true(&_42$$13)) {
+						if (!zend_is_true(&_45$$13)) {
 							break;
 						}
-						ZEPHIR_CALL_METHOD(&describeIndex, _38$$13, "current", NULL, 0);
+						ZEPHIR_CALL_METHOD_CACHED(&describeIndex, _41$$13, "current", &_zephir_call_cache[19]);
 						zephir_check_call_status();
-							ZEPHIR_OBS_NVAR(&_44$$18);
-							zephir_array_fetch_string(&_44$$18, &describeIndex, SL("name"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 369);
-							zephir_array_append(&columns, &_44$$18, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 369);
+							ZEPHIR_OBS_NVAR(&_47$$18);
+							zephir_array_fetch_string(&_47$$18, &describeIndex, SL("name"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 383);
+							if (UNEXPECTED(EG(exception))) {
+								ZEPHIR_MM_RESTORE();
+								return;
+							}
+							zephir_array_append(&columns, &_47$$18, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 383);
+							if (UNEXPECTED(EG(exception))) {
+								ZEPHIR_MM_RESTORE();
+								return;
+							}
 					}
 				}
-				ZEPHIR_INIT_NVAR(&describeIndex);
 				zephir_array_update_multi(&indexes, &columns, SL("zs"), 3, &keyName, SL("columns"));
-				zephir_read_property_cached(&_37$$13, this_ptr, _zephir_prop_0, 613, PH_NOISY_CC | PH_READONLY);
-				ZEPHIR_CALL_METHOD(&_45$$13, &_37$$13, "listIndexesSql", NULL, 0, &table_zv, &schema_zv, &keyName);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				zephir_read_property_cached(&_40$$13, this_ptr, _zephir_prop_0, 615, PH_NOISY_CC | PH_READONLY);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				ZEPHIR_CALL_METHOD_CACHED(&_48$$13, &_40$$13, "listIndexesSql", &_zephir_call_cache[20], &table_zv, &schema_zv, &keyName);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&indexSql, this_ptr, "fetchColumn", &_21, 0, &_45$$13);
+				ZEPHIR_CALL_METHOD_CACHED(&indexSql, this_ptr, "fetchColumn", &_zephir_call_cache[21], &_48$$13);
 				zephir_check_call_status();
-				ZEPHIR_OBS_NVAR(&_46$$13);
-				zephir_array_fetch_string(&_46$$13, &index, SL("unique"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 378);
-				if (zephir_is_true(&_46$$13)) {
-					ZEPHIR_INIT_NVAR(&_47$$19);
-					ZEPHIR_INIT_NVAR(&_48$$19);
-					ZVAL_STRING(&_48$$19, "# UNIQUE #i");
-					ZEPHIR_INIT_NVAR(&_49$$19);
+				ZEPHIR_OBS_NVAR(&_49$$13);
+				zephir_array_fetch_string(&_49$$13, &index, SL("unique"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 392);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				if (zephir_is_true(&_49$$13)) {
 					ZEPHIR_INIT_NVAR(&_50$$19);
-					ZVAL_STRING(&_50$$19, "# UNIQUE #i");
-					zephir_preg_match(&_49$$19, &_50$$19, &indexSql, &_47$$19, 0, 0 , 0 );
-					if (zephir_is_true(&_49$$19)) {
-						ZEPHIR_INIT_NVAR(&_51$$20);
-						ZVAL_STRING(&_51$$20, "UNIQUE");
-						zephir_array_update_multi(&indexes, &_51$$20, SL("zs"), 3, &keyName, SL("type"));
+					ZEPHIR_INIT_NVAR(&_51$$19);
+					ZVAL_STRING(&_51$$19, "# UNIQUE #i");
+					ZEPHIR_INIT_NVAR(&_52$$19);
+					ZEPHIR_INIT_NVAR(&_53$$19);
+					ZVAL_STRING(&_53$$19, "# UNIQUE #i");
+					zephir_preg_match(&_52$$19, &_53$$19, &indexSql, &_50$$19, 0, 0 , 0 );
+					if (zephir_is_true(&_52$$19)) {
+						ZEPHIR_INIT_NVAR(&_54$$20);
+						ZVAL_STRING(&_54$$20, "UNIQUE");
+						zephir_array_update_multi(&indexes, &_54$$20, SL("zs"), 3, &keyName, SL("type"));
+						if (UNEXPECTED(EG(exception))) {
+							ZEPHIR_MM_RESTORE();
+							return;
+						}
 					} else {
-						ZEPHIR_INIT_NVAR(&_52$$21);
-						ZVAL_STRING(&_52$$21, "PRIMARY");
-						zephir_array_update_multi(&indexes, &_52$$21, SL("zs"), 3, &keyName, SL("type"));
+						ZEPHIR_INIT_NVAR(&_55$$21);
+						ZVAL_STRING(&_55$$21, "PRIMARY");
+						zephir_array_update_multi(&indexes, &_55$$21, SL("zs"), 3, &keyName, SL("type"));
+						if (UNEXPECTED(EG(exception))) {
+							ZEPHIR_MM_RESTORE();
+							return;
+						}
 					}
 				} else {
-					ZEPHIR_INIT_NVAR(&_53$$22);
-					ZVAL_STRING(&_53$$22, "");
-					zephir_array_update_multi(&indexes, &_53$$22, SL("zs"), 3, &keyName, SL("type"));
+					ZEPHIR_INIT_NVAR(&_56$$22);
+					ZVAL_STRING(&_56$$22, "");
+					zephir_array_update_multi(&indexes, &_56$$22, SL("zs"), 3, &keyName, SL("type"));
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&index);
 	ZEPHIR_INIT_VAR(&indexObjects);
 	array_init(&indexObjects);
 	if (Z_TYPE_P(&indexes) == IS_STRING) {
-		ZEPHIR_INIT_VAR(&_55);
-		zephir_string_to_char_array(&_55, &indexes);
-		_54 = &_55;
+		ZEPHIR_INIT_VAR(&_58);
+		zephir_string_to_char_array(&_58, &indexes);
+		_57 = &_58;
 	} else {
-		_54 = &indexes;
+		_57 = &indexes;
 	}
-	zephir_is_iterable(_54, 0, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 399);
-	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_54), _57, _58, _56)
+	zephir_is_iterable(_57, 0, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 413);
+	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_57), _60, _61, _59)
 	{
 		ZEPHIR_INIT_NVAR(&name);
-		if (_58 != NULL) { 
-			ZVAL_STR_COPY(&name, _58);
+		if (_61 != NULL) { 
+			ZVAL_STR_COPY(&name, _61);
 		} else {
-			ZVAL_LONG(&name, _57);
+			ZVAL_LONG(&name, _60);
 		}
 		ZEPHIR_INIT_NVAR(&index);
-		ZVAL_COPY(&index, _56);
-		ZEPHIR_INIT_NVAR(&_59$$23);
-		object_init_ex(&_59$$23, phalcon_db_index_ce);
-		ZEPHIR_OBS_NVAR(&_60$$23);
-		zephir_array_fetch_string(&_60$$23, &index, SL("columns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 394);
-		ZEPHIR_OBS_NVAR(&_61$$23);
-		zephir_array_fetch_string(&_61$$23, &index, SL("type"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 396);
-		ZEPHIR_CALL_METHOD(NULL, &_59$$23, "__construct", &_62, 62, &name, &_60$$23, &_61$$23);
+		ZVAL_COPY(&index, _59);
+		ZEPHIR_INIT_NVAR(&_62$$23);
+		object_init_ex(&_62$$23, phalcon_db_index_ce);
+		zephir_constructor_start(&_62$$23);
+		ZEPHIR_OBS_NVAR(&_63$$23);
+		zephir_array_fetch_string(&_63$$23, &index, SL("columns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 408);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		ZEPHIR_OBS_NVAR(&_64$$23);
+		zephir_array_fetch_string(&_64$$23, &index, SL("type"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 410);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_62$$23, "__construct", &_zephir_call_cache[22], &name, &_63$$23, &_64$$23);
 		zephir_check_call_status();
-		zephir_array_update_zval(&indexObjects, &name, &_59$$23, PH_COPY | PH_SEPARATE);
+		zephir_constructor_finish(&_62$$23);
+		zephir_array_update_zval(&indexObjects, &name, &_62$$23, PH_COPY | PH_SEPARATE);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} ZEND_HASH_FOREACH_END();
-	ZEPHIR_INIT_NVAR(&index);
-	ZEPHIR_INIT_NVAR(&name);
 	RETURN_CCTOR(&indexObjects);
 }
 
@@ -1073,14 +1749,13 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes)
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences)
 {
-	zval _15$$3, _24$$6, _31$$9;
-	zend_bool _17;
-	zend_ulong _7, _28;
+	zval _32$$3, _60$$13, _67$$23;
+	zend_ulong _64;
+	zend_bool _34, _8$$3, _13$$6, _30$$6, _25$$7, _36$$13, _41$$16, _58$$16, _53$$17;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_33 = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval table_zv, schema_zv, references, reference, arrayReference, constraintName, referenceObjects, name, referencedSchema, referencedTable, columns, referencedColumns, number, _0, _1, _2, _3, *_4, _5, *_6, _16, *_25, _26, *_27, _9$$5, _10$$5, _11$$5, _12$$5, _13$$3, _14$$3, _18$$8, _19$$8, _20$$8, _21$$8, _22$$6, _23$$6, _30$$9, _32$$9;
-	zend_string *table = NULL, *schema = NULL, *_8, *_29;
+	zend_long ZEPHIR_LAST_CALL_STATUS, position = 0, _22$$9, _27$$11, _50$$19, _55$$21;
+	zval table_zv, schema_zv, references, reference, arrayReference, constraintName, referenceObjects, name, referencedSchema, referencedTable, columns, referencedColumns, referencedColumn, primaryKeys, primaryKey, column, _0, _1, _2, _3, *_4, _5, *_6, _33, *_61, _62, *_63, _7$$3, _31$$3, _9$$5, _10$$5, _11$$5, _12$$5, _29$$6, _14$$7, _15$$7, _16$$7, _17$$7, *_18$$7, _19$$7, *_20$$7, _24$$7, _21$$8, _23$$9, _26$$10, _28$$11, _35$$13, _59$$13, _37$$15, _38$$15, _39$$15, _40$$15, _57$$16, _42$$17, _43$$17, _44$$17, _45$$17, *_46$$17, _47$$17, *_48$$17, _52$$17, _49$$18, _51$$19, _54$$20, _56$$21, _66$$23, _68$$23;
+	zend_string *table = NULL, *schema = NULL, *_65;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&table_zv);
@@ -1095,31 +1770,57 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences)
 	ZVAL_UNDEF(&referencedTable);
 	ZVAL_UNDEF(&columns);
 	ZVAL_UNDEF(&referencedColumns);
-	ZVAL_UNDEF(&number);
+	ZVAL_UNDEF(&referencedColumn);
+	ZVAL_UNDEF(&primaryKeys);
+	ZVAL_UNDEF(&primaryKey);
+	ZVAL_UNDEF(&column);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_5);
-	ZVAL_UNDEF(&_16);
-	ZVAL_UNDEF(&_26);
+	ZVAL_UNDEF(&_33);
+	ZVAL_UNDEF(&_62);
+	ZVAL_UNDEF(&_7$$3);
+	ZVAL_UNDEF(&_31$$3);
 	ZVAL_UNDEF(&_9$$5);
 	ZVAL_UNDEF(&_10$$5);
 	ZVAL_UNDEF(&_11$$5);
 	ZVAL_UNDEF(&_12$$5);
-	ZVAL_UNDEF(&_13$$3);
-	ZVAL_UNDEF(&_14$$3);
-	ZVAL_UNDEF(&_18$$8);
-	ZVAL_UNDEF(&_19$$8);
-	ZVAL_UNDEF(&_20$$8);
+	ZVAL_UNDEF(&_29$$6);
+	ZVAL_UNDEF(&_14$$7);
+	ZVAL_UNDEF(&_15$$7);
+	ZVAL_UNDEF(&_16$$7);
+	ZVAL_UNDEF(&_17$$7);
+	ZVAL_UNDEF(&_19$$7);
+	ZVAL_UNDEF(&_24$$7);
 	ZVAL_UNDEF(&_21$$8);
-	ZVAL_UNDEF(&_22$$6);
-	ZVAL_UNDEF(&_23$$6);
-	ZVAL_UNDEF(&_30$$9);
-	ZVAL_UNDEF(&_32$$9);
-	ZVAL_UNDEF(&_15$$3);
-	ZVAL_UNDEF(&_24$$6);
-	ZVAL_UNDEF(&_31$$9);
+	ZVAL_UNDEF(&_23$$9);
+	ZVAL_UNDEF(&_26$$10);
+	ZVAL_UNDEF(&_28$$11);
+	ZVAL_UNDEF(&_35$$13);
+	ZVAL_UNDEF(&_59$$13);
+	ZVAL_UNDEF(&_37$$15);
+	ZVAL_UNDEF(&_38$$15);
+	ZVAL_UNDEF(&_39$$15);
+	ZVAL_UNDEF(&_40$$15);
+	ZVAL_UNDEF(&_57$$16);
+	ZVAL_UNDEF(&_42$$17);
+	ZVAL_UNDEF(&_43$$17);
+	ZVAL_UNDEF(&_44$$17);
+	ZVAL_UNDEF(&_45$$17);
+	ZVAL_UNDEF(&_47$$17);
+	ZVAL_UNDEF(&_52$$17);
+	ZVAL_UNDEF(&_49$$18);
+	ZVAL_UNDEF(&_51$$19);
+	ZVAL_UNDEF(&_54$$20);
+	ZVAL_UNDEF(&_56$$21);
+	ZVAL_UNDEF(&_66$$23);
+	ZVAL_UNDEF(&_68$$23);
+	ZVAL_UNDEF(&_32$$3);
+	ZVAL_UNDEF(&_60$$13);
+	ZVAL_UNDEF(&_67$$23);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[19];
 	static zend_string *_zephir_prop_0 = NULL;
 	if (UNEXPECTED(!_zephir_prop_0)) {
 		_zephir_prop_0 = zend_string_init("dialect", 7, 1);
@@ -1143,11 +1844,17 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences)
 	}
 	ZEPHIR_INIT_VAR(&references);
 	array_init(&references);
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 613, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_2, &_1, "describeReferences", NULL, 0, &table_zv, &schema_zv);
+	ZEPHIR_INIT_VAR(&primaryKeys);
+	array_init(&primaryKeys);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_0, 615, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_METHOD_CACHED(&_2, &_1, "describeReferences", &_zephir_call_cache[0], &table_zv, &schema_zv);
 	zephir_check_call_status();
 	ZVAL_LONG(&_3, 3);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "fetchAll", NULL, 0, &_2, &_3);
+	ZEPHIR_CALL_METHOD_CACHED(&_0, this_ptr, "fetchAll", &_zephir_call_cache[1], &_2, &_3);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&_0) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_5);
@@ -1156,161 +1863,553 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences)
 	} else {
 		_4 = &_0;
 	}
-	zephir_is_iterable(_4, 0, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 439);
+	zephir_is_iterable(_4, 0, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 490);
 	if (Z_TYPE_P(_4) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_4), _7, _8, _6)
+		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_4), _6)
 		{
-			ZEPHIR_INIT_NVAR(&number);
-			if (_8 != NULL) { 
-				ZVAL_STR_COPY(&number, _8);
-			} else {
-				ZVAL_LONG(&number, _7);
-			}
 			ZEPHIR_INIT_NVAR(&reference);
 			ZVAL_COPY(&reference, _6);
+			ZEPHIR_OBS_NVAR(&_7$$3);
+			zephir_array_fetch_long(&_7$$3, &reference, 0, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 435);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 			ZEPHIR_INIT_NVAR(&constraintName);
-			ZEPHIR_CONCAT_SV(&constraintName, "foreign_key_", &number);
-			if (!(zephir_array_isset_value(&references, &constraintName))) {
+			ZEPHIR_CONCAT_SV(&constraintName, "foreign_key_", &_7$$3);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			_8$$3 = zephir_array_isset_value(&references, &constraintName);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			if (!(_8$$3)) {
 				ZEPHIR_INIT_NVAR(&referencedSchema);
 				ZVAL_NULL(&referencedSchema);
 				ZEPHIR_OBS_NVAR(&referencedTable);
-				zephir_array_fetch_long(&referencedTable, &reference, 2, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 418);
+				zephir_array_fetch_long(&referencedTable, &reference, 2, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 439);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&columns);
 				array_init(&columns);
 				ZEPHIR_INIT_NVAR(&referencedColumns);
 				array_init(&referencedColumns);
 			} else {
-				zephir_array_fetch(&_9$$5, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 422);
+				zephir_array_fetch(&_9$$5, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 443);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_OBS_NVAR(&referencedSchema);
-				zephir_array_fetch_string(&referencedSchema, &_9$$5, SL("referencedSchema"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 422);
-				zephir_array_fetch(&_10$$5, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 423);
+				zephir_array_fetch_string(&referencedSchema, &_9$$5, SL("referencedSchema"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 443);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				zephir_array_fetch(&_10$$5, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 444);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_OBS_NVAR(&referencedTable);
-				zephir_array_fetch_string(&referencedTable, &_10$$5, SL("referencedTable"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 423);
-				zephir_array_fetch(&_11$$5, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 424);
+				zephir_array_fetch_string(&referencedTable, &_10$$5, SL("referencedTable"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 444);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				zephir_array_fetch(&_11$$5, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 445);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_OBS_NVAR(&columns);
-				zephir_array_fetch_string(&columns, &_11$$5, SL("columns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 424);
-				zephir_array_fetch(&_12$$5, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 425);
+				zephir_array_fetch_string(&columns, &_11$$5, SL("columns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 445);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				zephir_array_fetch(&_12$$5, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 446);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_OBS_NVAR(&referencedColumns);
-				zephir_array_fetch_string(&referencedColumns, &_12$$5, SL("referencedColumns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 425);
+				zephir_array_fetch_string(&referencedColumns, &_12$$5, SL("referencedColumns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 446);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 			}
-			ZEPHIR_OBS_NVAR(&_13$$3);
-			zephir_array_fetch_long(&_13$$3, &reference, 3, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 428);
-			zephir_array_append(&columns, &_13$$3, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 428);
-			ZEPHIR_OBS_NVAR(&_14$$3);
-			zephir_array_fetch_long(&_14$$3, &reference, 4, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 429);
-			zephir_array_append(&referencedColumns, &_14$$3, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 429);
-			ZEPHIR_INIT_NVAR(&_15$$3);
-			zephir_create_array(&_15$$3, 4, 0);
-			zephir_array_update_string(&_15$$3, SL("referencedSchema"), &referencedSchema, PH_COPY | PH_SEPARATE);
-			zephir_array_update_string(&_15$$3, SL("referencedTable"), &referencedTable, PH_COPY | PH_SEPARATE);
-			zephir_array_update_string(&_15$$3, SL("columns"), &columns, PH_COPY | PH_SEPARATE);
-			zephir_array_update_string(&_15$$3, SL("referencedColumns"), &referencedColumns, PH_COPY | PH_SEPARATE);
-			zephir_array_update_zval(&references, &constraintName, &_15$$3, PH_COPY | PH_SEPARATE);
+			ZEPHIR_OBS_NVAR(&referencedColumn);
+			zephir_array_fetch_long(&referencedColumn, &reference, 4, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 449);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			if (Z_TYPE_P(&referencedColumn) == IS_NULL) {
+				ZEPHIR_OBS_NVAR(&primaryKey);
+				_13$$6 = zephir_array_isset_fetch(&primaryKey, &primaryKeys, &referencedTable, 0);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				if (!(_13$$6)) {
+					ZEPHIR_INIT_NVAR(&primaryKey);
+					array_init(&primaryKey);
+					zephir_read_property_cached(&_15$$7, this_ptr, _zephir_prop_0, 615, PH_NOISY_CC | PH_READONLY);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+					ZEPHIR_CALL_METHOD_CACHED(&_16$$7, &_15$$7, "describeColumns", &_zephir_call_cache[2], &referencedTable);
+					zephir_check_call_status();
+					ZVAL_LONG(&_17$$7, 3);
+					ZEPHIR_CALL_METHOD_CACHED(&_14$$7, this_ptr, "fetchAll", &_zephir_call_cache[3], &_16$$7, &_17$$7);
+					zephir_check_call_status();
+					if (Z_TYPE_P(&_14$$7) == IS_STRING) {
+						ZEPHIR_INIT_NVAR(&_19$$7);
+						zephir_string_to_char_array(&_19$$7, &_14$$7);
+						_18$$7 = &_19$$7;
+					} else {
+						_18$$7 = &_14$$7;
+					}
+					zephir_is_iterable(_18$$7, 0, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 469);
+					if (Z_TYPE_P(_18$$7) == IS_ARRAY) {
+						ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_18$$7), _20$$7)
+						{
+							ZEPHIR_INIT_NVAR(&column);
+							ZVAL_COPY(&column, _20$$7);
+							ZEPHIR_OBS_NVAR(&_21$$8);
+							zephir_array_fetch_long(&_21$$8, &column, 5, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 462);
+							if (UNEXPECTED(EG(exception))) {
+								ZEPHIR_MM_RESTORE();
+								return;
+							}
+							position = zephir_get_intval(&_21$$8);
+							if (position > 0) {
+								_22$$9 = (position - 1);
+								ZEPHIR_OBS_NVAR(&_23$$9);
+								zephir_array_fetch_long(&_23$$9, &column, 1, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 465);
+								if (UNEXPECTED(EG(exception))) {
+									ZEPHIR_MM_RESTORE();
+									return;
+								}
+								zephir_array_update_long(&primaryKey, _22$$9, &_23$$9, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
+								if (UNEXPECTED(EG(exception))) {
+									ZEPHIR_MM_RESTORE();
+									return;
+								}
+							}
+						} ZEND_HASH_FOREACH_END();
+					} else {
+						ZEPHIR_CALL_METHOD_CACHED(NULL, _18$$7, "rewind", &_zephir_call_cache[4]);
+						zephir_check_call_status();
+						_25$$7 = 1;
+						while (1) {
+							if (_25$$7) {
+								_25$$7 = 0;
+							} else {
+								ZEPHIR_CALL_METHOD_CACHED(NULL, _18$$7, "next", &_zephir_call_cache[5]);
+								zephir_check_call_status();
+							}
+							ZEPHIR_CALL_METHOD_CACHED(&_24$$7, _18$$7, "valid", &_zephir_call_cache[6]);
+							zephir_check_call_status();
+							if (!zend_is_true(&_24$$7)) {
+								break;
+							}
+							ZEPHIR_CALL_METHOD_CACHED(&column, _18$$7, "current", &_zephir_call_cache[7]);
+							zephir_check_call_status();
+								ZEPHIR_OBS_NVAR(&_26$$10);
+								zephir_array_fetch_long(&_26$$10, &column, 5, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 462);
+								if (UNEXPECTED(EG(exception))) {
+									ZEPHIR_MM_RESTORE();
+									return;
+								}
+								position = zephir_get_intval(&_26$$10);
+								if (position > 0) {
+									_27$$11 = (position - 1);
+									ZEPHIR_OBS_NVAR(&_28$$11);
+									zephir_array_fetch_long(&_28$$11, &column, 1, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 465);
+									if (UNEXPECTED(EG(exception))) {
+										ZEPHIR_MM_RESTORE();
+										return;
+									}
+									zephir_array_update_long(&primaryKey, _27$$11, &_28$$11, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
+									if (UNEXPECTED(EG(exception))) {
+										ZEPHIR_MM_RESTORE();
+										return;
+									}
+								}
+						}
+					}
+					zephir_array_update_zval(&primaryKeys, &referencedTable, &primaryKey, PH_COPY | PH_SEPARATE);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+				}
+				ZEPHIR_OBS_NVAR(&_29$$6);
+				zephir_array_fetch_long(&_29$$6, &reference, 1, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 472);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				position = zephir_get_intval(&_29$$6);
+				ZEPHIR_OBS_NVAR(&referencedColumn);
+				_30$$6 = zephir_array_isset_long_fetch(&referencedColumn, &primaryKey, position, 0);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				if (!(_30$$6)) {
+					ZEPHIR_INIT_NVAR(&referencedColumn);
+					ZVAL_NULL(&referencedColumn);
+				}
+			}
+			ZEPHIR_OBS_NVAR(&_31$$3);
+			zephir_array_fetch_long(&_31$$3, &reference, 3, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 479);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			zephir_array_append(&columns, &_31$$3, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 479);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			zephir_array_append(&referencedColumns, &referencedColumn, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 480);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			ZEPHIR_INIT_NVAR(&_32$$3);
+			zephir_create_array(&_32$$3, 4, 0);
+			zephir_array_update_string(&_32$$3, SL("referencedSchema"), &referencedSchema, PH_COPY | PH_SEPARATE);
+			zephir_array_update_string(&_32$$3, SL("referencedTable"), &referencedTable, PH_COPY | PH_SEPARATE);
+			zephir_array_update_string(&_32$$3, SL("columns"), &columns, PH_COPY | PH_SEPARATE);
+			zephir_array_update_string(&_32$$3, SL("referencedColumns"), &referencedColumns, PH_COPY | PH_SEPARATE);
+			zephir_array_update_zval(&references, &constraintName, &_32$$3, PH_COPY | PH_SEPARATE);
+			if (UNEXPECTED(EG(exception))) {
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
-		ZEPHIR_CALL_METHOD(NULL, _4, "rewind", NULL, 0);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, _4, "rewind", &_zephir_call_cache[8]);
 		zephir_check_call_status();
-		_17 = 1;
+		_34 = 1;
 		while (1) {
-			if (_17) {
-				_17 = 0;
+			if (_34) {
+				_34 = 0;
 			} else {
-				ZEPHIR_CALL_METHOD(NULL, _4, "next", NULL, 0);
+				ZEPHIR_CALL_METHOD_CACHED(NULL, _4, "next", &_zephir_call_cache[9]);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_16, _4, "valid", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&_33, _4, "valid", &_zephir_call_cache[10]);
 			zephir_check_call_status();
-			if (!zend_is_true(&_16)) {
+			if (!zend_is_true(&_33)) {
 				break;
 			}
-			ZEPHIR_CALL_METHOD(&number, _4, "key", NULL, 0);
+			ZEPHIR_CALL_METHOD_CACHED(&reference, _4, "current", &_zephir_call_cache[11]);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&reference, _4, "current", NULL, 0);
-			zephir_check_call_status();
+				ZEPHIR_OBS_NVAR(&_35$$13);
+				zephir_array_fetch_long(&_35$$13, &reference, 0, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 435);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				ZEPHIR_INIT_NVAR(&constraintName);
-				ZEPHIR_CONCAT_SV(&constraintName, "foreign_key_", &number);
-				if (!(zephir_array_isset_value(&references, &constraintName))) {
+				ZEPHIR_CONCAT_SV(&constraintName, "foreign_key_", &_35$$13);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				_36$$13 = zephir_array_isset_value(&references, &constraintName);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				if (!(_36$$13)) {
 					ZEPHIR_INIT_NVAR(&referencedSchema);
 					ZVAL_NULL(&referencedSchema);
 					ZEPHIR_OBS_NVAR(&referencedTable);
-					zephir_array_fetch_long(&referencedTable, &reference, 2, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 418);
+					zephir_array_fetch_long(&referencedTable, &reference, 2, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 439);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_INIT_NVAR(&columns);
 					array_init(&columns);
 					ZEPHIR_INIT_NVAR(&referencedColumns);
 					array_init(&referencedColumns);
 				} else {
-					zephir_array_fetch(&_18$$8, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 422);
+					zephir_array_fetch(&_37$$15, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 443);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_OBS_NVAR(&referencedSchema);
-					zephir_array_fetch_string(&referencedSchema, &_18$$8, SL("referencedSchema"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 422);
-					zephir_array_fetch(&_19$$8, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 423);
+					zephir_array_fetch_string(&referencedSchema, &_37$$15, SL("referencedSchema"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 443);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+					zephir_array_fetch(&_38$$15, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 444);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_OBS_NVAR(&referencedTable);
-					zephir_array_fetch_string(&referencedTable, &_19$$8, SL("referencedTable"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 423);
-					zephir_array_fetch(&_20$$8, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 424);
+					zephir_array_fetch_string(&referencedTable, &_38$$15, SL("referencedTable"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 444);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+					zephir_array_fetch(&_39$$15, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 445);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_OBS_NVAR(&columns);
-					zephir_array_fetch_string(&columns, &_20$$8, SL("columns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 424);
-					zephir_array_fetch(&_21$$8, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 425);
+					zephir_array_fetch_string(&columns, &_39$$15, SL("columns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 445);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+					zephir_array_fetch(&_40$$15, &references, &constraintName, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 446);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 					ZEPHIR_OBS_NVAR(&referencedColumns);
-					zephir_array_fetch_string(&referencedColumns, &_21$$8, SL("referencedColumns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 425);
+					zephir_array_fetch_string(&referencedColumns, &_40$$15, SL("referencedColumns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 446);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
 				}
-				ZEPHIR_OBS_NVAR(&_22$$6);
-				zephir_array_fetch_long(&_22$$6, &reference, 3, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 428);
-				zephir_array_append(&columns, &_22$$6, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 428);
-				ZEPHIR_OBS_NVAR(&_23$$6);
-				zephir_array_fetch_long(&_23$$6, &reference, 4, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 429);
-				zephir_array_append(&referencedColumns, &_23$$6, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 429);
-				ZEPHIR_INIT_NVAR(&_24$$6);
-				zephir_create_array(&_24$$6, 4, 0);
-				zephir_array_update_string(&_24$$6, SL("referencedSchema"), &referencedSchema, PH_COPY | PH_SEPARATE);
-				zephir_array_update_string(&_24$$6, SL("referencedTable"), &referencedTable, PH_COPY | PH_SEPARATE);
-				zephir_array_update_string(&_24$$6, SL("columns"), &columns, PH_COPY | PH_SEPARATE);
-				zephir_array_update_string(&_24$$6, SL("referencedColumns"), &referencedColumns, PH_COPY | PH_SEPARATE);
-				zephir_array_update_zval(&references, &constraintName, &_24$$6, PH_COPY | PH_SEPARATE);
+				ZEPHIR_OBS_NVAR(&referencedColumn);
+				zephir_array_fetch_long(&referencedColumn, &reference, 4, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 449);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				if (Z_TYPE_P(&referencedColumn) == IS_NULL) {
+					ZEPHIR_OBS_NVAR(&primaryKey);
+					_41$$16 = zephir_array_isset_fetch(&primaryKey, &primaryKeys, &referencedTable, 0);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+					if (!(_41$$16)) {
+						ZEPHIR_INIT_NVAR(&primaryKey);
+						array_init(&primaryKey);
+						zephir_read_property_cached(&_43$$17, this_ptr, _zephir_prop_0, 615, PH_NOISY_CC | PH_READONLY);
+						if (UNEXPECTED(EG(exception))) {
+							ZEPHIR_MM_RESTORE();
+							return;
+						}
+						ZEPHIR_CALL_METHOD_CACHED(&_44$$17, &_43$$17, "describeColumns", &_zephir_call_cache[12], &referencedTable);
+						zephir_check_call_status();
+						ZVAL_LONG(&_45$$17, 3);
+						ZEPHIR_CALL_METHOD_CACHED(&_42$$17, this_ptr, "fetchAll", &_zephir_call_cache[13], &_44$$17, &_45$$17);
+						zephir_check_call_status();
+						if (Z_TYPE_P(&_42$$17) == IS_STRING) {
+							ZEPHIR_INIT_NVAR(&_47$$17);
+							zephir_string_to_char_array(&_47$$17, &_42$$17);
+							_46$$17 = &_47$$17;
+						} else {
+							_46$$17 = &_42$$17;
+						}
+						zephir_is_iterable(_46$$17, 0, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 469);
+						if (Z_TYPE_P(_46$$17) == IS_ARRAY) {
+							ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(_46$$17), _48$$17)
+							{
+								ZEPHIR_INIT_NVAR(&column);
+								ZVAL_COPY(&column, _48$$17);
+								ZEPHIR_OBS_NVAR(&_49$$18);
+								zephir_array_fetch_long(&_49$$18, &column, 5, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 462);
+								if (UNEXPECTED(EG(exception))) {
+									ZEPHIR_MM_RESTORE();
+									return;
+								}
+								position = zephir_get_intval(&_49$$18);
+								if (position > 0) {
+									_50$$19 = (position - 1);
+									ZEPHIR_OBS_NVAR(&_51$$19);
+									zephir_array_fetch_long(&_51$$19, &column, 1, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 465);
+									if (UNEXPECTED(EG(exception))) {
+										ZEPHIR_MM_RESTORE();
+										return;
+									}
+									zephir_array_update_long(&primaryKey, _50$$19, &_51$$19, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
+									if (UNEXPECTED(EG(exception))) {
+										ZEPHIR_MM_RESTORE();
+										return;
+									}
+								}
+							} ZEND_HASH_FOREACH_END();
+						} else {
+							ZEPHIR_CALL_METHOD_CACHED(NULL, _46$$17, "rewind", &_zephir_call_cache[14]);
+							zephir_check_call_status();
+							_53$$17 = 1;
+							while (1) {
+								if (_53$$17) {
+									_53$$17 = 0;
+								} else {
+									ZEPHIR_CALL_METHOD_CACHED(NULL, _46$$17, "next", &_zephir_call_cache[15]);
+									zephir_check_call_status();
+								}
+								ZEPHIR_CALL_METHOD_CACHED(&_52$$17, _46$$17, "valid", &_zephir_call_cache[16]);
+								zephir_check_call_status();
+								if (!zend_is_true(&_52$$17)) {
+									break;
+								}
+								ZEPHIR_CALL_METHOD_CACHED(&column, _46$$17, "current", &_zephir_call_cache[17]);
+								zephir_check_call_status();
+									ZEPHIR_OBS_NVAR(&_54$$20);
+									zephir_array_fetch_long(&_54$$20, &column, 5, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 462);
+									if (UNEXPECTED(EG(exception))) {
+										ZEPHIR_MM_RESTORE();
+										return;
+									}
+									position = zephir_get_intval(&_54$$20);
+									if (position > 0) {
+										_55$$21 = (position - 1);
+										ZEPHIR_OBS_NVAR(&_56$$21);
+										zephir_array_fetch_long(&_56$$21, &column, 1, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 465);
+										if (UNEXPECTED(EG(exception))) {
+											ZEPHIR_MM_RESTORE();
+											return;
+										}
+										zephir_array_update_long(&primaryKey, _55$$21, &_56$$21, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
+										if (UNEXPECTED(EG(exception))) {
+											ZEPHIR_MM_RESTORE();
+											return;
+										}
+									}
+							}
+						}
+						zephir_array_update_zval(&primaryKeys, &referencedTable, &primaryKey, PH_COPY | PH_SEPARATE);
+						if (UNEXPECTED(EG(exception))) {
+							ZEPHIR_MM_RESTORE();
+							return;
+						}
+					}
+					ZEPHIR_OBS_NVAR(&_57$$16);
+					zephir_array_fetch_long(&_57$$16, &reference, 1, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 472);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+					position = zephir_get_intval(&_57$$16);
+					ZEPHIR_OBS_NVAR(&referencedColumn);
+					_58$$16 = zephir_array_isset_long_fetch(&referencedColumn, &primaryKey, position, 0);
+					if (UNEXPECTED(EG(exception))) {
+						ZEPHIR_MM_RESTORE();
+						return;
+					}
+					if (!(_58$$16)) {
+						ZEPHIR_INIT_NVAR(&referencedColumn);
+						ZVAL_NULL(&referencedColumn);
+					}
+				}
+				ZEPHIR_OBS_NVAR(&_59$$13);
+				zephir_array_fetch_long(&_59$$13, &reference, 3, PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 479);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				zephir_array_append(&columns, &_59$$13, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 479);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				zephir_array_append(&referencedColumns, &referencedColumn, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 480);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
+				ZEPHIR_INIT_NVAR(&_60$$13);
+				zephir_create_array(&_60$$13, 4, 0);
+				zephir_array_update_string(&_60$$13, SL("referencedSchema"), &referencedSchema, PH_COPY | PH_SEPARATE);
+				zephir_array_update_string(&_60$$13, SL("referencedTable"), &referencedTable, PH_COPY | PH_SEPARATE);
+				zephir_array_update_string(&_60$$13, SL("columns"), &columns, PH_COPY | PH_SEPARATE);
+				zephir_array_update_string(&_60$$13, SL("referencedColumns"), &referencedColumns, PH_COPY | PH_SEPARATE);
+				zephir_array_update_zval(&references, &constraintName, &_60$$13, PH_COPY | PH_SEPARATE);
+				if (UNEXPECTED(EG(exception))) {
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 		}
 	}
-	ZEPHIR_INIT_NVAR(&reference);
-	ZEPHIR_INIT_NVAR(&number);
 	ZEPHIR_INIT_VAR(&referenceObjects);
 	array_init(&referenceObjects);
 	if (Z_TYPE_P(&references) == IS_STRING) {
-		ZEPHIR_INIT_VAR(&_26);
-		zephir_string_to_char_array(&_26, &references);
-		_25 = &_26;
+		ZEPHIR_INIT_VAR(&_62);
+		zephir_string_to_char_array(&_62, &references);
+		_61 = &_62;
 	} else {
-		_25 = &references;
+		_61 = &references;
 	}
-	zephir_is_iterable(_25, 0, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 453);
-	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_25), _28, _29, _27)
+	zephir_is_iterable(_61, 0, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 504);
+	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(_61), _64, _65, _63)
 	{
 		ZEPHIR_INIT_NVAR(&name);
-		if (_29 != NULL) { 
-			ZVAL_STR_COPY(&name, _29);
+		if (_65 != NULL) { 
+			ZVAL_STR_COPY(&name, _65);
 		} else {
-			ZVAL_LONG(&name, _28);
+			ZVAL_LONG(&name, _64);
 		}
 		ZEPHIR_INIT_NVAR(&arrayReference);
-		ZVAL_COPY(&arrayReference, _27);
-		ZEPHIR_INIT_NVAR(&_30$$9);
-		object_init_ex(&_30$$9, phalcon_db_reference_ce);
-		ZEPHIR_INIT_NVAR(&_31$$9);
-		zephir_create_array(&_31$$9, 4, 0);
-		ZEPHIR_OBS_NVAR(&_32$$9);
-		zephir_array_fetch_string(&_32$$9, &arrayReference, SL("referencedSchema"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 445);
-		zephir_array_update_string(&_31$$9, SL("referencedSchema"), &_32$$9, PH_COPY | PH_SEPARATE);
-		ZEPHIR_OBS_NVAR(&_32$$9);
-		zephir_array_fetch_string(&_32$$9, &arrayReference, SL("referencedTable"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 446);
-		zephir_array_update_string(&_31$$9, SL("referencedTable"), &_32$$9, PH_COPY | PH_SEPARATE);
-		ZEPHIR_OBS_NVAR(&_32$$9);
-		zephir_array_fetch_string(&_32$$9, &arrayReference, SL("columns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 447);
-		zephir_array_update_string(&_31$$9, SL("columns"), &_32$$9, PH_COPY | PH_SEPARATE);
-		ZEPHIR_OBS_NVAR(&_32$$9);
-		zephir_array_fetch_string(&_32$$9, &arrayReference, SL("referencedColumns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 449);
-		zephir_array_update_string(&_31$$9, SL("referencedColumns"), &_32$$9, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_METHOD(NULL, &_30$$9, "__construct", &_33, 63, &name, &_31$$9);
+		ZVAL_COPY(&arrayReference, _63);
+		ZEPHIR_INIT_NVAR(&_66$$23);
+		object_init_ex(&_66$$23, phalcon_db_reference_ce);
+		zephir_constructor_start(&_66$$23);
+		ZEPHIR_INIT_NVAR(&_67$$23);
+		zephir_create_array(&_67$$23, 4, 0);
+		ZEPHIR_OBS_NVAR(&_68$$23);
+		zephir_array_fetch_string(&_68$$23, &arrayReference, SL("referencedSchema"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 496);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		zephir_array_update_string(&_67$$23, SL("referencedSchema"), &_68$$23, PH_COPY | PH_SEPARATE);
+		ZEPHIR_OBS_NVAR(&_68$$23);
+		zephir_array_fetch_string(&_68$$23, &arrayReference, SL("referencedTable"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 497);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		zephir_array_update_string(&_67$$23, SL("referencedTable"), &_68$$23, PH_COPY | PH_SEPARATE);
+		ZEPHIR_OBS_NVAR(&_68$$23);
+		zephir_array_fetch_string(&_68$$23, &arrayReference, SL("columns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 498);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		zephir_array_update_string(&_67$$23, SL("columns"), &_68$$23, PH_COPY | PH_SEPARATE);
+		ZEPHIR_OBS_NVAR(&_68$$23);
+		zephir_array_fetch_string(&_68$$23, &arrayReference, SL("referencedColumns"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 500);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		zephir_array_update_string(&_67$$23, SL("referencedColumns"), &_68$$23, PH_COPY | PH_SEPARATE);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_66$$23, "__construct", &_zephir_call_cache[18], &name, &_67$$23);
 		zephir_check_call_status();
-		zephir_array_update_zval(&referenceObjects, &name, &_30$$9, PH_COPY | PH_SEPARATE);
+		zephir_constructor_finish(&_66$$23);
+		zephir_array_update_zval(&referenceObjects, &name, &_66$$23, PH_COPY | PH_SEPARATE);
+		if (UNEXPECTED(EG(exception))) {
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
 	} ZEND_HASH_FOREACH_END();
-	ZEPHIR_INIT_NVAR(&arrayReference);
-	ZEPHIR_INIT_NVAR(&name);
 	RETURN_CCTOR(&referenceObjects);
 }
 
@@ -1340,14 +2439,17 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, getDefaultValue)
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 
 	ZVAL_UNDEF(&_0);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[1];
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
 	object_init_ex(return_value, phalcon_db_rawvalue_ce);
+	zephir_constructor_start(return_value);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "NULL");
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 64, &_0);
+	ZEPHIR_CALL_METHOD_CACHED(NULL, return_value, "__construct", &_zephir_call_cache[0], &_0);
 	zephir_check_call_status();
+	zephir_constructor_finish(return_value);
 	RETURN_MM();
 }
 

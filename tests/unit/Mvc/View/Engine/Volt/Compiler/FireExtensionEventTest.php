@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -15,6 +15,8 @@ namespace Phalcon\Tests\Unit\Mvc\View\Engine\Volt\Compiler;
 
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
+use Phalcon\Tests\Support\Mvc\View\VoltPrivateExtension;
+use TypeError;
 
 class FireExtensionEventTest extends AbstractUnitTestCase
 {
@@ -160,6 +162,43 @@ class FireExtensionEventTest extends AbstractUnitTestCase
         $this->assertSame(
             ['compileFilter', 'compileFunction', 'compileStatement', 'resolveExpression'],
             $events
+        );
+    }
+
+    /**
+     * An event method that cannot be called (private) throws a TypeError:
+     * the one of call_user_func() with no arguments, and the one of
+     * call_user_func_array() with arguments.
+     *
+     * @issue  https://github.com/phalcon/phalcon/issues/815
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2026-11-16
+     */
+    public function testMvcViewEngineVoltCompilerFireExtensionEventNotCallable(): void
+    {
+        $compiler = new Compiler();
+        $compiler->addExtension(new VoltPrivateExtension());
+
+        $calls = [
+            static fn () => $compiler->fireExtensionEvent('compileFunction'),
+            static fn () => $compiler->fireExtensionEvent('compileFunction', [['name' => ['value' => 'dummy']], false]),
+        ];
+
+        $actual = [];
+        foreach ($calls as $call) {
+            try {
+                $call();
+                $actual[] = 'no exception';
+            } catch (TypeError $ex) {
+                $actual[] = $ex->getMessage();
+            }
+        }
+
+        $reason = 'Argument #1 ($callback) must be a valid callback, '
+            . 'cannot access private method ' . VoltPrivateExtension::class . '::compileFunction()';
+        $this->assertSame(
+            ['call_user_func(): ' . $reason, 'call_user_func_array(): ' . $reason],
+            $actual
         );
     }
 }

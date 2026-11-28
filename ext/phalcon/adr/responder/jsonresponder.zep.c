@@ -23,7 +23,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Based on the Action Domain Responder pattern
@@ -48,6 +48,7 @@ PHP_METHOD(Phalcon_ADR_Responder_JsonResponder, __construct)
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[2];
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 
@@ -56,12 +57,14 @@ PHP_METHOD(Phalcon_ADR_Responder_JsonResponder, __construct)
 	ZEPHIR_INIT_VAR(&_1);
 	object_init_ex(&_1, phalcon_adr_responder_formatter_jsonformatter_ce);
 	if (zephir_has_constructor(&_1)) {
-		ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 0);
+		zephir_constructor_start(&_1);
+		ZEPHIR_CALL_METHOD_CACHED(NULL, &_1, "__construct", &_zephir_call_cache[0]);
 		zephir_check_call_status();
+		zephir_constructor_finish(&_1);
 	}
 
 	zephir_array_fast_append(&_0, &_1);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_adr_responder_jsonresponder_ce, getThis(), "__construct", NULL, 0, &_0);
+	ZEPHIR_CALL_PARENT_CACHED(NULL, phalcon_adr_responder_jsonresponder_ce, getThis(), "__construct", &_zephir_call_cache[1], &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 }

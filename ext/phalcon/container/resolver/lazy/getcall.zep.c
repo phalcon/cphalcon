@@ -24,7 +24,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * Implementation of this file has been heavily influenced by CapsulePHP.
@@ -115,9 +115,21 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_GetCall, __construct)
 	arguments_param = ZEND_CALL_ARG(execute_data, 3);
 	ZVAL_STR(&method_zv, method);
 	zephir_get_arrval(&arguments, arguments_param);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 570, id);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 571, &method_zv);
-	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 572, &arguments);
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_0, 572, id);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_1, 573, &method_zv);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_update_property_zval_cached(this_ptr, _zephir_prop_2, 574, &arguments);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	ZEPHIR_MM_RESTORE();
 }
 
@@ -139,6 +151,7 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_GetCall, resolve)
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+	ZEND_TLS zephir_method_cache _zephir_call_cache[3];
 	static zend_string *_zephir_prop_0 = NULL;
 	static zend_string *_zephir_prop_1 = NULL;
 	static zend_string *_zephir_prop_2 = NULL;
@@ -158,19 +171,31 @@ PHP_METHOD(Phalcon_Container_Resolver_Lazy_GetCall, resolve)
 	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0);
 	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
 	zephir_fetch_params(1, 1, 0, &ioc);
-	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 570, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&id, this_ptr, "resolveArgument", NULL, 0, ioc, &_0);
+	zephir_read_property_cached(&_0, this_ptr, _zephir_prop_0, 572, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_METHOD_CACHED(&id, this_ptr, "resolveArgument", &_zephir_call_cache[0], ioc, &_0);
 	zephir_check_call_status();
-	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 572, PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&arguments, this_ptr, "resolveArguments", NULL, 0, ioc, &_1);
+	zephir_read_property_cached(&_1, this_ptr, _zephir_prop_1, 574, PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_CALL_METHOD_CACHED(&arguments, this_ptr, "resolveArguments", &_zephir_call_cache[1], ioc, &_1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&service, ioc, "get", NULL, 0, &id);
+	ZEPHIR_CALL_METHOD_CACHED(&service, ioc, "get", &_zephir_call_cache[2], &id);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&callback);
 	zephir_create_array(&callback, 2, 0);
 	zephir_array_fast_append(&callback, &service);
 	zephir_memory_observe(&_2);
-	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 571, PH_NOISY_CC);
+	zephir_read_property_cached(&_2, this_ptr, _zephir_prop_2, 573, PH_NOISY_CC);
+	if (UNEXPECTED(EG(exception))) {
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_array_fast_append(&callback, &_2);
 	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &callback, &arguments);
 	zephir_check_call_status();
